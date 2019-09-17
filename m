@@ -2,81 +2,150 @@ Return-Path: <SRS0=+Bhr=XM=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70750C4CEC9
-	for <workflows@archiver.kernel.org>; Tue, 17 Sep 2019 18:48:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1919C4CEC9
+	for <workflows@archiver.kernel.org>; Tue, 17 Sep 2019 21:58:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 52132206C2
-	for <workflows@archiver.kernel.org>; Tue, 17 Sep 2019 18:48:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AA032216C8
+	for <workflows@archiver.kernel.org>; Tue, 17 Sep 2019 21:58:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726081AbfIQSsE (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 17 Sep 2019 14:48:04 -0400
-Received: from proxima.lasnet.de ([78.47.171.185]:41895 "EHLO
-        proxima.lasnet.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725865AbfIQSsE (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 17 Sep 2019 14:48:04 -0400
-X-Greylist: delayed 433 seconds by postgrey-1.27 at vger.kernel.org; Tue, 17 Sep 2019 14:48:03 EDT
-Received: from localhost.localdomain (p200300E9D7197E6749D60627680F4137.dip0.t-ipconnect.de [IPv6:2003:e9:d719:7e67:49d6:627:680f:4137])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: stefan@datenfreihafen.org)
-        by proxima.lasnet.de (Postfix) with ESMTPSA id F0D26C06D2;
-        Tue, 17 Sep 2019 20:40:48 +0200 (CEST)
-Subject: Re: Kernel development collaboration platform wish list
-To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>, workflows@vger.kernel.org
-Cc:     Shuah Khan <skhan@linuxfoundation.org>,
+        id S1726916AbfIQV6e (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 17 Sep 2019 17:58:34 -0400
+Received: from cloudserver094114.home.pl ([79.96.170.134]:51236 "EHLO
+        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726548AbfIQV6e (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 17 Sep 2019 17:58:34 -0400
+Received: from 79.184.255.25.ipv4.supernova.orange.pl (79.184.255.25) (HELO kreacher.localnet)
+ by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.292)
+ id 6f86e16ca8b7f566; Tue, 17 Sep 2019 23:58:31 +0200
+From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To:     Jani Nikula <jani.nikula@intel.com>
+Cc:     workflows@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Bjorn Helgaas <helgaas@kernel.org>,
         Jiri Kosina <jikos@kernel.org>,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-References: <1811089.yxvLMk49Ug@kreacher>
-From:   Stefan Schmidt <stefan@datenfreihafen.org>
-Message-ID: <2664c41b-e97c-4667-fb90-2eb37affea14@datenfreihafen.org>
-Date:   Tue, 17 Sep 2019 20:40:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Subject: Re: Kernel development collaboration platform wish list
+Date:   Tue, 17 Sep 2019 23:58:30 +0200
+Message-ID: <2608348.dCUkSTB59S@kreacher>
+In-Reply-To: <875zlwzbxv.fsf@intel.com>
+References: <1811089.yxvLMk49Ug@kreacher> <875zlwzbxv.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <1811089.yxvLMk49Ug@kreacher>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Hello.
-
-Here is my Requirement For Comments (RFC).
-
-On 13.09.19 10:22, Rafael J. Wysocki wrote:
+On Friday, September 13, 2019 1:13:16 PM CEST Jani Nikula wrote:
+> On Fri, 13 Sep 2019, "Rafael J. Wysocki" <rjw@rjwysocki.net> wrote:
+> > Hi All,
+> >
+> > During the Maintainers Summit session yesterday I started to create a wish list
+> > for the new kernel development collaboration platform to be created (and to
+> > replace the multiple pieces of tooling in use today).  I also asked Bjorn,
+> > Jiri, Greg and Shuah for input and here's the reslut:
+> >
+> > 1. Compatible with e-mail
+> >
+> >   (a) E-mail send to it stored and included automatically; appears as part of
+> >       the normal flow.
+> >
+> >   (b) Automatic e-mail responses
+> >       If e-mail is sent to it, the sender will get all responses to it in the
+> >       given thread by e-mail.
+> >
+> > 2. History tracking
+> >
+> >   (a) Should be able to track revisions of a given patch series (or patch) down
+> >       to the initial submission.
+> >
+> > 3. Integration with git
+> >
+> >   (a) Should be able to create git commits from patches (or patch series)
+> >       tracked by it if pointed to a git branch (either locally or remotely).
 > 
-> 3. Integration with git
+> As I wrote in [1], I think git send-email and am are a lossy method of
+> transmission, and reliably regenerating commits from patches, with the
+> right baselines, as well as tracking various patch and patch series
+> versions, is very difficult.
+
+Assuming that git is used to generate patches in the first place.
+
+Some people use different methods, like quilt, however.
+
+> I think we should have a git push based mechanism to contribute, which
+> would in turn send the patches to the right lists and maintainers for
+> review.
+
+Alternatively, one could point the change submission mechanism to a
+git branch exposed from somewhere and a tree to merge it on top of.
+
+> Maintainers could, at their choosing, still use the emailed
+> patches (which would all be sent using the same pipeline, without the
+> typical issues) and their exact existing workflows, or switch to using
+> the commits from a branch directly.
 > 
->   (a) Should be able to create git commits from patches (or patch series)
->       tracked by it if pointed to a git branch (either locally or remotely).
+> There are more contributors than maintainers by several orders of
+> magnitude. It would make the maintainers' lives so much easier if the
+> patches came in the same way, every time.
+
+I guess you mean a consistent view of all patches regardless of the source.
+
+If so, then I agree, that should be one of the goals.
+
+> When we have technical issues
+> with patches, as maintainers, the problems rarely are in the receiving
+> end. IMO solving *all* the other items in this email would become much
+> easier if had this first.
 > 
->   (b) Link tags pointing back to it should be added automatically to git
->       commits created from patches tracked by it.
+> BR,
+> Jani.
+> 
+> 
+> [1] http://lore.kernel.org/r/87lfv3w3v6.fsf@intel.com
+> 
+> 
+> >
+> >   (b) Link tags pointing back to it should be added automatically to git
+> >       commits created from patches tracked by it.
+> >
+> > 4. Distributed
+> >
+> >   (a) Support for running offline.
+> >
+> >   (b) Support for batch updates.
+> >
+> >   (c) CL-frendly.
+> >
+> > 5. Patchwork-like features
+> >
+> >   (a) Delegation support.
+> >
+> >   (b) Support for bundles and patch series manipulation.
+> >
+> >   (c) Smart mbox (download all selected patches).
+> >
+> > 6. Easy to set up (especially for local installations)
+> >
+> > 7. Bug tracking support
+> >
+> > I guess there are more items to be added to this list, so please extend it if
+> > you have any ideas and we'll see where this goes. :-)
+> >
+> > Cheers,
+> > Rafael
+> >
+> >
+> >
+> >
+> 
+> 
 
-(c) Git tag sanity checking
-    Some maintainers have scripts for these, but not all. I still see
-quite some mails about this coming from linux-next checking.
-    1) ensure SOB by the actual author
-    2) verify correct SOB/ACK/Reviewed tag usage (funny to see how often
-things are manually added and gotten slightly wrong)
-    3) verify Fixes: tag usage (min shasum length, one line without
-break, etc)
 
-There are likely more.
 
-Where and how this is to be done I would leave open as this is only
-requirements collection right now. I just feel that this kind of sanity
-checking could be easily automated, hopefully without getting into the
-way of maintainers.
 
-regards
-Stefan Schmidt
