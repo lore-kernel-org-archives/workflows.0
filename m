@@ -6,34 +6,33 @@ X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68C35C4CECD
-	for <workflows@archiver.kernel.org>; Tue, 17 Sep 2019 22:00:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3275C4CECD
+	for <workflows@archiver.kernel.org>; Tue, 17 Sep 2019 22:12:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 413EF21852
-	for <workflows@archiver.kernel.org>; Tue, 17 Sep 2019 22:00:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B43BC2189D
+	for <workflows@archiver.kernel.org>; Tue, 17 Sep 2019 22:12:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727718AbfIQWAK (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 17 Sep 2019 18:00:10 -0400
-Received: from cloudserver094114.home.pl ([79.96.170.134]:49636 "EHLO
+        id S1727392AbfIQWMu (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 17 Sep 2019 18:12:50 -0400
+Received: from cloudserver094114.home.pl ([79.96.170.134]:58054 "EHLO
         cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726548AbfIQWAK (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 17 Sep 2019 18:00:10 -0400
+        with ESMTP id S1726982AbfIQWMu (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 17 Sep 2019 18:12:50 -0400
 Received: from 79.184.255.25.ipv4.supernova.orange.pl (79.184.255.25) (HELO kreacher.localnet)
  by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.292)
- id 217bef4c40db3bf6; Wed, 18 Sep 2019 00:00:08 +0200
+ id 67717c2e3d696450; Wed, 18 Sep 2019 00:12:48 +0200
 From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        workflows@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>,
+To:     workflows@vger.kernel.org
+Cc:     Shuah Khan <skhan@linuxfoundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Bjorn Helgaas <helgaas@kernel.org>,
         Jiri Kosina <jikos@kernel.org>,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>
 Subject: Re: Kernel development collaboration platform wish list
-Date:   Wed, 18 Sep 2019 00:00:08 +0200
-Message-ID: <6061838.UtofRmrRYF@kreacher>
-In-Reply-To: <CAMuHMdW3Nca8S1OcJPPPbxZPOKvoN-5SYE_QR3Kh-ukWFFTuAg@mail.gmail.com>
-References: <1811089.yxvLMk49Ug@kreacher> <20190913121516.GI29992@pendragon.ideasonboard.com> <CAMuHMdW3Nca8S1OcJPPPbxZPOKvoN-5SYE_QR3Kh-ukWFFTuAg@mail.gmail.com>
+Date:   Wed, 18 Sep 2019 00:12:47 +0200
+Message-ID: <5072394.GngetUhsyG@kreacher>
+In-Reply-To: <1811089.yxvLMk49Ug@kreacher>
+References: <1811089.yxvLMk49Ug@kreacher>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -42,39 +41,72 @@ Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Friday, September 13, 2019 2:23:59 PM CEST Geert Uytterhoeven wrote:
-> Hi Laurent,
+On Friday, September 13, 2019 10:22:20 AM CEST Rafael J. Wysocki wrote:
+> Hi All,
 > 
-> On Fri, Sep 13, 2019 at 2:15 PM Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
-> > On Fri, Sep 13, 2019 at 02:02:18PM +0200, Geert Uytterhoeven wrote:
-> > > On Fri, Sep 13, 2019 at 1:38 PM Laurent Pinchart wrote:
-> > > > On Fri, Sep 13, 2019 at 10:22:20AM +0200, Rafael J. Wysocki wrote:
-> > > > > 3. Integration with git
-> > > > >
-> > > > >   (b) Link tags pointing back to it should be added automatically to git
-> > > > >       commits created from patches tracked by it.
-> > > >
-> > > > In addition to a link, should the tag message contain a copy of the
-> > > > cover letter for the patch series ?
-> > >
-> > > When the patch has a (lore) link tag pointing to its email submission, the
-> > > cover letter is one more click away, isn't it?
-> >
-> > It is, but it's nice to save that click if it has no cost :-) Storing
-> > cover letters in tags makes it easy to reuse them when submitting new
-> > versions, that's my main personal use case. Being able to read cover
-> > letters offline is another interesting benefit of storing them in tags.
+> During the Maintainers Summit session yesterday I started to create a wish list
+> for the new kernel development collaboration platform to be created (and to
+> replace the multiple pieces of tooling in use today).  I also asked Bjorn,
+> Jiri, Greg and Shuah for input and here's the reslut:
 > 
-> Oh, you mean git tags?
-> I think Rafael was talking about "Link" tags at the end of patch/commit
-> descriptions.
+> 1. Compatible with e-mail
 > 
-> If a series is merged using a pull request, the cover letter could indeed
-> be stored in the git tag description, and included in the merge commit
-> description.
+>   (a) E-mail send to it stored and included automatically; appears as part of
+>       the normal flow.
+> 
+>   (b) Automatic e-mail responses
+>       If e-mail is sent to it, the sender will get all responses to it in the
+>       given thread by e-mail.
+> 
+> 2. History tracking
+> 
+>   (a) Should be able to track revisions of a given patch series (or patch) down
+>       to the initial submission.
+> 
+> 3. Integration with git
+> 
+>   (a) Should be able to create git commits from patches (or patch series)
+>       tracked by it if pointed to a git branch (either locally or remotely).
+> 
+>   (b) Link tags pointing back to it should be added automatically to git
+>       commits created from patches tracked by it.
+> 
+> 4. Distributed
+> 
+>   (a) Support for running offline.
+> 
+>   (b) Support for batch updates.
+> 
+>   (c) CL-frendly.
+> 
+> 5. Patchwork-like features
+> 
+>   (a) Delegation support.
+> 
+>   (b) Support for bundles and patch series manipulation.
+> 
+>   (c) Smart mbox (download all selected patches).
 
-Agreed.
+And one more item from myself:
+
+(d) Support for "maintainer views"
+
+    That is, by default subsystem maintainers should see patches, bug reports
+    etc against the code maintained by them, with the possibility to extend the
+    view to also see the other submissions.
+
+    [That kind of is the case in Patchwork today when patches sent to different
+     mailing lists show up under different "projects", but the problem in there
+     is that copies of one patch appear under multiple "projects" as different
+     entities if sent to multiple lists.]
+
+> 
+> 6. Easy to set up (especially for local installations)
+> 
+> 7. Bug tracking support
+> 
+> I guess there are more items to be added to this list, so please extend it if
+> you have any ideas and we'll see where this goes. :-)
 
 
 
