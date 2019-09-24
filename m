@@ -2,74 +2,123 @@ Return-Path: <SRS0=lZea=XT=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00DCAC432C1
-	for <workflows@archiver.kernel.org>; Tue, 24 Sep 2019 05:06:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28125C432C1
+	for <workflows@archiver.kernel.org>; Tue, 24 Sep 2019 09:26:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BE33A214D9
-	for <workflows@archiver.kernel.org>; Tue, 24 Sep 2019 05:06:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1569301607;
-	bh=sPFTk0Kf7pAzFjKxtbHYzW14o4qMQPJ+u/W1PUECQoA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=axfIfazA2zF+g5wB/GOROf5kYZbMrwj4T9J0iwb5FiTMzKxa/ed9KFH5qVQK43kGS
-	 02slR4cZXUWScwp3aH4KumQowoBP5xNtQNvsF8ttOT052Yc1WDTT8F2ZIUcQ9nYwMI
-	 RX1JQci7rItBlxk8PLKWmezNQ5l7Uems94LTnP7Q=
+	by mail.kernel.org (Postfix) with ESMTP id EC161214AF
+	for <workflows@archiver.kernel.org>; Tue, 24 Sep 2019 09:26:10 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Zmd7IIqI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405028AbfIXFGr (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 24 Sep 2019 01:06:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36852 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2405014AbfIXFGr (ORCPT <rfc822;workflows@vger.kernel.org>);
-        Tue, 24 Sep 2019 01:06:47 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 24C4C20872;
-        Tue, 24 Sep 2019 05:06:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569301606;
-        bh=sPFTk0Kf7pAzFjKxtbHYzW14o4qMQPJ+u/W1PUECQoA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=sr5Hi8uT0nhebmSXGbBSs1/bQqDl9l7FdYK2DJgB83BSNn/i6IO0GWBhuNzCF+4YY
-         erJk3C0afkoK2o7jhJFl5EoFcuWbUdEFG7OqeKBXflKiAQcsH7WHzPz4t2DUEnV+kq
-         Nbs6Sl1R8cvOsFlUsixmI/1uNANc/jtvNpDKtZTo=
-Date:   Tue, 24 Sep 2019 07:06:44 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Eric Wong <e@80x24.org>
-Cc:     "Theodore Y. Ts'o" <tytso@mit.edu>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>, workflows@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Bjorn Helgaas <helgaas@kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Subject: Re: Kernel development collaboration platform wish list
-Message-ID: <20190924050644.GB3705@kroah.com>
-References: <1811089.yxvLMk49Ug@kreacher>
- <20190923162001.GD6005@mit.edu>
- <20190924013920.GA22698@dcvr>
+        id S1729865AbfIXJ0K (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 24 Sep 2019 05:26:10 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:29729 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729613AbfIXJ0K (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 24 Sep 2019 05:26:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1569317169;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=4AuNR0PDrbWyM4NQ9Qwo7rkJ1/WerTicVk8+EFoKItk=;
+        b=Zmd7IIqI+Jj4bM70Sca0nrsF/T4x/oLMRinXbkDzHo3j2M70YTPGBmtRDBeCcx/QRoMcj1
+        8C3bhqGWgGS3RAog/QrwQMAjiYnbt+3mV600fQf1Kpl15nQYq84uv5TyVPTOaxaoBRZ6/D
+        ZaRjo9I+dxFwPujqKxZxozypfEhqz7w=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-41-OHu-4DQGOFqiigxiEU4l_g-1; Tue, 24 Sep 2019 05:26:07 -0400
+Received: by mail-wr1-f71.google.com with SMTP id c1so339201wrb.12
+        for <workflows@vger.kernel.org>; Tue, 24 Sep 2019 02:26:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Ef6xoRmbLOhAorD7Of1U2O8vq97rY80eOJlS/MX8Kzw=;
+        b=exHhcuRg6rx2ZaiSiq4QgbmF65wC/XWAfs6W2d25MuMWQJyeW6ICMXKI8Meb+rtr3/
+         rlEE4/Yx1BWiphBldqdAEOLATLFK/lCZvmckWB+RIIx1ZDYRQnK4moiDB3dBvgXGa9xK
+         gIDpwmy2f50+z7f5Xbdyz7gWQkSLe+brNKM+Zb0o1qUVqE4YQcTv7awyG5Ag9bgk/z8Q
+         2ySB9oGUOiZFnhu87gBus5IpLUvtVIFnTj4ed6Pm92jERlzu47agVwGub5F7ou4+lpwn
+         bwPfSbs+qMqw0bGfFNNo3RvVF94DVof7LCIa4qWIbcsGjLS0BRoX4XM4iljTWzUkrlU/
+         4epA==
+X-Gm-Message-State: APjAAAWCqBpUWzog0DYJzW9VPvDKGXTxyQHu6FYWxRnX+GQMKJshHsFd
+        Cjxd3qY6K5g41pCmOuYa6OFkU+ungmkgJ1vXCbYY47ucFXT4mraRVifEIIZpzFbp7eNCtaCOsvd
+        uzwW79dVep+Q0hWmJcprx
+X-Received: by 2002:adf:f151:: with SMTP id y17mr1473925wro.244.1569317165098;
+        Tue, 24 Sep 2019 02:26:05 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyNbvCwXpq95ph/f3xSt+hR3wX4S5bSzNb6DME8SHH7DhYp3iZFiFsXWKa4mTOTNDvu+QzR4g==
+X-Received: by 2002:adf:f151:: with SMTP id y17mr1473911wro.244.1569317164787;
+        Tue, 24 Sep 2019 02:26:04 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:9520:22e6:6416:5c36? ([2001:b07:6468:f312:9520:22e6:6416:5c36])
+        by smtp.gmail.com with ESMTPSA id d4sm859571wrq.22.2019.09.24.02.26.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Sep 2019 02:26:04 -0700 (PDT)
+Subject: Re: New list for people to share maintainer workflows
+To:     Drew DeVault <sir@cmpwn.com>, workflows@vger.kernel.org
+References: <BWZVL56NCQCT.37ZPAQOP2BDSN@homura>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <044aea5a-91a9-06a5-8503-38bcf9085be1@redhat.com>
+Date:   Tue, 24 Sep 2019 11:26:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190924013920.GA22698@dcvr>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <BWZVL56NCQCT.37ZPAQOP2BDSN@homura>
+Content-Language: en-US
+X-MC-Unique: OHu-4DQGOFqiigxiEU4l_g-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Tue, Sep 24, 2019 at 01:39:20AM +0000, Eric Wong wrote:
-> I can't prove it, but it seems like public-inbox has been
-> successful at promoting the use of Message-IDs in URLs and
-> git-send-email :)
+On 14/09/19 18:45, Drew DeVault wrote:
+> # Identifying different versions of the same patchset.
+>=20
+> Like you mentioned, no one likes Change Ids, including me. So far the
+> best option I've considered is checking the date - it gets perserved
+> even through rebases and is /basically/ unique. Enough rebasing and it
+> *will* get lost, though, and then manual intervention is required.
+>=20
+> I've considered a few ways to address this. One route might be to make
+> git send-email smarter, and utilize heuristics on the reflog to try and
+> identify that a patch is a -v2. Then we can add an email header like
+> `Superceeds: <commit or message id or something new>`.
 
-I can prove it, I'm using them in "Link:" tags to point to
-lore.kernel.org for all patches I apply to the kernel tree now.  So
-that's a few extra hundred links ever release that is happening :)
+The date however is lost across git-send-email.  However, you can match
+series, rather than patches; a Superseeds header would be nice for that,
+but often times it is enough to match on the subject to get a decent result=
+.
 
-thanks,
+It's then possible to run a minimal matching algorithm to identify a
+patch that "moves" across revisions of the series.  This is how "git
+range-diff" works.
 
-greg k-h
+By the way, let me introduce Patchew! [1] Patchew was started when
+patchwork seemed to be mostly dead, so it is somewhat similar to
+Patchwork 2.0. But it has some nice functionality such as "git
+range-diff"-like version comparison, and especially the patch importer
+pushes each submitted series to git, complete with Reviewed-by tags and
+the like.  The result is then used to run test scripts.  It also has a
+REST API and a simple plugin API, so it should also be quite easy to
+write new plugins to automatically parse syzbot or 0day emails and turn
+them into test failures.
+
+Paolo
+
+[1] I have mentioned Patchew before on the kernel.org users mailing
+list.  The largest project using Patchew is QEMU, whose "patch list"
+page on patchew.org is at https://patchew.org/QEMU/.
+
+> Less desirable options would affect people's workflows, which is
+> something I'd like to avoid. One example is adding new commands which
+> explicitly track the evolution of a feature in your local git
+> repository.
+
