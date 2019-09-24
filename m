@@ -2,105 +2,74 @@ Return-Path: <SRS0=lZea=XT=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39E42C432C1
-	for <workflows@archiver.kernel.org>; Tue, 24 Sep 2019 01:39:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00DCAC432C1
+	for <workflows@archiver.kernel.org>; Tue, 24 Sep 2019 05:06:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 14F1F20820
-	for <workflows@archiver.kernel.org>; Tue, 24 Sep 2019 01:39:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE33A214D9
+	for <workflows@archiver.kernel.org>; Tue, 24 Sep 2019 05:06:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1569301607;
+	bh=sPFTk0Kf7pAzFjKxtbHYzW14o4qMQPJ+u/W1PUECQoA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=axfIfazA2zF+g5wB/GOROf5kYZbMrwj4T9J0iwb5FiTMzKxa/ed9KFH5qVQK43kGS
+	 02slR4cZXUWScwp3aH4KumQowoBP5xNtQNvsF8ttOT052Yc1WDTT8F2ZIUcQ9nYwMI
+	 RX1JQci7rItBlxk8PLKWmezNQ5l7Uems94LTnP7Q=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392121AbfIXBjV (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 23 Sep 2019 21:39:21 -0400
-Received: from dcvr.yhbt.net ([64.71.152.64]:38442 "EHLO dcvr.yhbt.net"
+        id S2405028AbfIXFGr (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 24 Sep 2019 01:06:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36852 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729129AbfIXBjV (ORCPT <rfc822;workflows@vger.kernel.org>);
-        Mon, 23 Sep 2019 21:39:21 -0400
-Received: from localhost (dcvr.yhbt.net [127.0.0.1])
-        by dcvr.yhbt.net (Postfix) with ESMTP id CA5791F463;
-        Tue, 24 Sep 2019 01:39:20 +0000 (UTC)
-Date:   Tue, 24 Sep 2019 01:39:20 +0000
-From:   Eric Wong <e@80x24.org>
-To:     "Theodore Y. Ts'o" <tytso@mit.edu>
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>, workflows@vger.kernel.org,
+        id S2405014AbfIXFGr (ORCPT <rfc822;workflows@vger.kernel.org>);
+        Tue, 24 Sep 2019 01:06:47 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 24C4C20872;
+        Tue, 24 Sep 2019 05:06:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1569301606;
+        bh=sPFTk0Kf7pAzFjKxtbHYzW14o4qMQPJ+u/W1PUECQoA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=sr5Hi8uT0nhebmSXGbBSs1/bQqDl9l7FdYK2DJgB83BSNn/i6IO0GWBhuNzCF+4YY
+         erJk3C0afkoK2o7jhJFl5EoFcuWbUdEFG7OqeKBXflKiAQcsH7WHzPz4t2DUEnV+kq
+         Nbs6Sl1R8cvOsFlUsixmI/1uNANc/jtvNpDKtZTo=
+Date:   Tue, 24 Sep 2019 07:06:44 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Eric Wong <e@80x24.org>
+Cc:     "Theodore Y. Ts'o" <tytso@mit.edu>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>, workflows@vger.kernel.org,
         Shuah Khan <skhan@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Bjorn Helgaas <helgaas@kernel.org>,
         Jiri Kosina <jikos@kernel.org>,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>
 Subject: Re: Kernel development collaboration platform wish list
-Message-ID: <20190924013920.GA22698@dcvr>
+Message-ID: <20190924050644.GB3705@kroah.com>
 References: <1811089.yxvLMk49Ug@kreacher>
  <20190923162001.GD6005@mit.edu>
+ <20190924013920.GA22698@dcvr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190923162001.GD6005@mit.edu>
+In-Reply-To: <20190924013920.GA22698@dcvr>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-"Theodore Y. Ts'o" <tytso@mit.edu> wrote:
-> One of the things I'd like to add as a strong desire is the ability to
-> review patches via web if that's what users would like to do.  There
-> are some real benefits for web-based review.  It means that if you
-> need to see greater context, it's relatively easy to do this.  It also
-> is convenient to be able to see the conversation for a particular hunk
-> of code right alongside the code.
+On Tue, Sep 24, 2019 at 01:39:20AM +0000, Eric Wong wrote:
+> I can't prove it, but it seems like public-inbox has been
+> successful at promoting the use of Message-IDs in URLs and
+> git-send-email :)
 
-I've already started on that with public-inbox; it's not enabled
-on lore, yet(*); but public-inbox.org/git can use "git apply"
-and dfpre:/dfpost: search prefixes to reconstruct git blobs out
-of emailed patches.
+I can prove it, I'm using them in "Link:" tags to point to
+lore.kernel.org for all patches I apply to the kernel tree now.  So
+that's a few extra hundred links ever release that is happening :)
 
-For example, a self-rejected patch I posted in 2016:
+thanks,
 
-  https://public-inbox.org/git/20160711210243.GA1604@whir/
-
-If you follow the link at the hunk header offset "+3,7",
-it'll bring you to:
-
-  https://public-inbox.org/git/8d27707/s/?b=http-walker.c#n4
-
-  The bottom of that page has a a "debug log:" which tells
-  how the blob is reconstructed using the email and pre-existing
-  blob.
-
-Since it can recreate blobs using patches, the next step is to
-support showing "git diff" against reconstructed blobs with for
-arbitrary contexts; but I got side-tracked from that earlier
-this year...
-
-(*) lore could configure coderepo associations, but that's a
-    bear with the amount of repos kernel.org has...
-
-> It's clear that whatever we do, it needs to be compatible with e-mail.
-> That's very clear.  But it would be useful if we can support both the
-> e-mail and web-based review.  There have some prototypes that have
-> been floated which shows that it is at least possible; perhaps
-> imperfectly, but something which provides a bidrectional gateway
-> between those who perfer to use e-mail and those that prefer to use a
-> web-based UI would be able to do it.
-
-A hacker-oriented a webmail UI could be derived from
-public-inbox and completely interoperable with other mail
-servers (it would also support SMTP/IMAP, of course).
-
-> There will be many potential kernel contributors who will be used to
-> web-based UI's such as those that are available on github.  So while
-> remaining e-mail compatible, having some way of allow as many
-> operations to be done via web interfaces might help us get some newer
-> developers who are more comfortable to living on the web than some of
-> us more senior developers who remember when "gopher" was a text-based
-> search engine, and not a mascot for the Go programming langauge.  :-)
-
-Unfortunate, but yeah.  Any web-based UIs ought to include some
-subtle (or maybe not-so-subtle) hints/pointers towards
-cheaper-to-run-and-likely-more-powerful tools and practices.
-
-I can't prove it, but it seems like public-inbox has been
-successful at promoting the use of Message-IDs in URLs and
-git-send-email :)
+greg k-h
