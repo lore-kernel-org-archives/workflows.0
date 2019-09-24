@@ -2,85 +2,68 @@ Return-Path: <SRS0=lZea=XT=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2892C432C2
-	for <workflows@archiver.kernel.org>; Tue, 24 Sep 2019 12:20:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44B01C432C1
+	for <workflows@archiver.kernel.org>; Tue, 24 Sep 2019 18:25:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A56DE214AF
-	for <workflows@archiver.kernel.org>; Tue, 24 Sep 2019 12:20:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 27C1420872
+	for <workflows@archiver.kernel.org>; Tue, 24 Sep 2019 18:25:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730220AbfIXMUX (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 24 Sep 2019 08:20:23 -0400
-Received: from proxima.lasnet.de ([78.47.171.185]:44124 "EHLO
-        proxima.lasnet.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726851AbfIXMUX (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 24 Sep 2019 08:20:23 -0400
-Received: from localhost.localdomain (p200300E9D742D21B26FCBF88D1F65952.dip0.t-ipconnect.de [IPv6:2003:e9:d742:d21b:26fc:bf88:d1f6:5952])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: stefan@datenfreihafen.org)
-        by proxima.lasnet.de (Postfix) with ESMTPSA id 65A05C1AF4;
-        Tue, 24 Sep 2019 14:20:20 +0200 (CEST)
-Subject: Re: Kernel development collaboration platform wish list
-To:     Paolo Bonzini <pbonzini@redhat.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>, workflows@vger.kernel.org
-Cc:     Shuah Khan <skhan@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bjorn Helgaas <helgaas@kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-References: <1811089.yxvLMk49Ug@kreacher>
- <2664c41b-e97c-4667-fb90-2eb37affea14@datenfreihafen.org>
- <8d1c457e-1661-5a5c-69d7-c17d4633b978@redhat.com>
-From:   Stefan Schmidt <stefan@datenfreihafen.org>
-Message-ID: <46bd4373-b7e1-6ea6-148c-cc15d881bbfd@datenfreihafen.org>
-Date:   Tue, 24 Sep 2019 14:20:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+        id S1729299AbfIXSZo (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 24 Sep 2019 14:25:44 -0400
+Received: from charlotte.tuxdriver.com ([70.61.120.58]:48961 "EHLO
+        smtp.tuxdriver.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726339AbfIXSZo (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 24 Sep 2019 14:25:44 -0400
+Received: from cpe-2606-a000-111b-43ee-0-0-0-162e.dyn6.twc.com ([2606:a000:111b:43ee::162e] helo=localhost)
+        by smtp.tuxdriver.com with esmtpsa (TLSv1:AES256-SHA:256)
+        (Exim 4.63)
+        (envelope-from <nhorman@tuxdriver.com>)
+        id 1iCpVN-0007N3-Ko
+        for workflows@vger.kernel.org; Tue, 24 Sep 2019 14:25:43 -0400
+Date:   Tue, 24 Sep 2019 14:25:36 -0400
+From:   Neil Horman <nhorman@tuxdriver.com>
+To:     workflows@vger.kernel.org
+Subject: thoughts on a Merge Request based development workflow
+Message-ID: <20190924182536.GC6041@hmswarspite.think-freely.org>
 MIME-Version: 1.0
-In-Reply-To: <8d1c457e-1661-5a5c-69d7-c17d4633b978@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Hello Paolo.
+Hey all-
+	After hearing at LPC that that there was a group investigating moving
+some upstream development to a less email-centric workfow, I wanted to share
+this with the group:
 
-On 24.09.19 11:43, Paolo Bonzini wrote:
-> On 17/09/19 20:40, Stefan Schmidt wrote:
->> (c) Git tag sanity checking
->>      Some maintainers have scripts for these, but not all. I still see
->> quite some mails about this coming from linux-next checking.
->>      1) ensure SOB by the actual author
->>      2) verify correct SOB/ACK/Reviewed tag usage (funny to see how often
->> things are manually added and gotten slightly wrong)
->>      3) verify Fixes: tag usage (min shasum length, one line without
->> break, etc)
->>
->> There are likely more.
->>
->> Where and how this is to be done I would leave open as this is only
->> requirements collection right now. I just feel that this kind of sanity
->> checking could be easily automated, hopefully without getting into the
->> way of maintainers.
-> 
-> This can be done by a "checkpatch"-like test.  If a full-blown
-> checkpatch is undesirable (not sure why it would be, though), a special
-> mode that only checks headers can be added to the script.
+https://gitlab.com/nhorman/git-lab-porcelain
 
-Sure, I do not really mind where this would sit. It is only a tiny piece 
-and also quite easy to do compared to the more complex building blocks 
-this will have.
+Its still very rough, and is focused on working with RH based workflows
+currently, but it can pretty easily be adapted to generic projects, if theres
+interest, as well as to other services besides gitlab (github/etc).
 
-Just brought it up as I have seen it here on there on netdev where a 
-missing SOB or a wrongly formatted Fixes tag needed some manual labor to 
-explain it.
+The principle is pretty straightforward (at least currently), its a git
+porcelain that wraps up the notion of creating a merge request with sending
+patch emails.  It uses the gitlab rest api to fork projects, and manipulate MR's
+in sync with email patch posting.  It also contains an email listener daemon to
+monitor reqisite lists for ACK/NACK responses which can then be translated into
+MR metadata for true MR approvals/notifications to the maintainer that a branch
+is good to merge.
 
-regards
-Stefan Schmidt
+Ostensibly, if this has any sort of legs, the idea in the long term is to add
+the ability to use the porcelain to do reviews on the command line, and
+eventually phase out email entirely, but I think thats a significant way off
+here.
+
+Anywho, food for thought.
+
+Best
+Neil
+
