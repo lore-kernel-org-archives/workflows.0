@@ -2,101 +2,113 @@ Return-Path: <SRS0=xtfX=XU=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B9E9C432C1
-	for <workflows@archiver.kernel.org>; Wed, 25 Sep 2019 06:35:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE58FC432C1
+	for <workflows@archiver.kernel.org>; Wed, 25 Sep 2019 10:49:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C80F221D7E
-	for <workflows@archiver.kernel.org>; Wed, 25 Sep 2019 06:35:20 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hRZ3ubDn"
+	by mail.kernel.org (Postfix) with ESMTP id BA01220872
+	for <workflows@archiver.kernel.org>; Wed, 25 Sep 2019 10:49:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392948AbfIYGfU (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 25 Sep 2019 02:35:20 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58151 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2392834AbfIYGfT (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 25 Sep 2019 02:35:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1569393318;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=e+VkFgnyDVkXA9Qcy4MjP28uPElqJAluLjDL9CAN5+8=;
-        b=hRZ3ubDnZMi138D2LeHfGGk3uH1jCERU9THpmr7WAstFijlpjw11DbRIKVKTnPUmu9XBsX
-        aRkHxoq7xL6+iFlCpMHU7+lW+w77cQ+oHkKvcnLDLDmAkBtOk+NpITNA4Ysm60IbM+QRb6
-        0e1KnczCr0DWPqF2Xq8Ho0C904WymiA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-118-Ol3ufolRP2iDa0_GKwaUkw-1; Wed, 25 Sep 2019 02:35:16 -0400
-Received: by mail-wr1-f69.google.com with SMTP id n18so1784359wro.11
-        for <workflows@vger.kernel.org>; Tue, 24 Sep 2019 23:35:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version;
-        bh=c+myMqA9576STDKMh0qsoz9AlBog9tlvexdprx3MgKE=;
-        b=MtXk5iYwibYmErKC28D3lEBOXu5LRqkgB6zC1MuGRlWdXL5z47z/j9W65jShwrqohJ
-         zzStWwhWJi+xIeQlaWkvZsFls53aYYfhE3t/kJ9uq5NWX1+YKECDI6EM5JJupxQgaP1E
-         Zmik/LStifFU4IJxQmJlUZ6MWUq3f3VRcxWnFCPMyNXUktepOisbXdrzl65gy2EaNQrk
-         Q7dn0cvNvMpNx6xIl9ytyJU4r8k9+nvnXN4HSSfqT3gkuq2wvzWgr7cj9f77mSEMlFPi
-         X37hc8lixroKnnhj6p1DGWErIXmdoJFdf/Xzv8nUL8poeYMgaGNx+2mQWiWtvG4v7tV5
-         gs3A==
-X-Gm-Message-State: APjAAAUyrQrcjRxD+KozpmnclKq4kThnR2bAm1fJn82AAPgVh/OBrj3B
-        Wzmia/VBfcPHcI6k1ShrljhemhkzENEr0GqCK3aDyc6awyXX6VcxKWSrlM3UbDAKjoecsl2fVq3
-        V+Xyn64GKBkuofMElsXCN
-X-Received: by 2002:a5d:51d2:: with SMTP id n18mr7212828wrv.10.1569393315005;
-        Tue, 24 Sep 2019 23:35:15 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwRB/Pwu2+pGBo2xcmdj+ilZhh4/x3jMAyYHF9XaBQ1jdmRuxMT0kiH37ac4Ax1Btw/FmbGyA==
-X-Received: by 2002:a5d:51d2:: with SMTP id n18mr7212796wrv.10.1569393314797;
-        Tue, 24 Sep 2019 23:35:14 -0700 (PDT)
-Received: from alrua-x1.borgediget.toke.dk (borgediget.toke.dk. [85.204.121.218])
-        by smtp.gmail.com with ESMTPSA id 30sm812704edr.78.2019.09.24.23.35.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Sep 2019 23:35:14 -0700 (PDT)
-Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
-        id 83BDF18063D; Wed, 25 Sep 2019 08:35:13 +0200 (CEST)
-From:   Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
-To:     David Rientjes <rientjes@google.com>,
-        Neil Horman <nhorman@tuxdriver.com>
+        id S1729400AbfIYKtv (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 25 Sep 2019 06:49:51 -0400
+Received: from charlotte.tuxdriver.com ([70.61.120.58]:53519 "EHLO
+        smtp.tuxdriver.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728168AbfIYKtv (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 25 Sep 2019 06:49:51 -0400
+Received: from cpe-2606-a000-111b-43ee-0-0-0-162e.dyn6.twc.com ([2606:a000:111b:43ee::162e] helo=localhost)
+        by smtp.tuxdriver.com with esmtpsa (TLSv1:AES256-SHA:256)
+        (Exim 4.63)
+        (envelope-from <nhorman@tuxdriver.com>)
+        id 1iD4re-00066R-OC; Wed, 25 Sep 2019 06:49:49 -0400
+Date:   Wed, 25 Sep 2019 06:49:37 -0400
+From:   Neil Horman <nhorman@tuxdriver.com>
+To:     David Rientjes <rientjes@google.com>
 Cc:     workflows@vger.kernel.org
 Subject: Re: thoughts on a Merge Request based development workflow
-In-Reply-To: <alpine.DEB.2.21.1909241609540.78294@chino.kir.corp.google.com>
-References: <20190924182536.GC6041@hmswarspite.think-freely.org> <alpine.DEB.2.21.1909241609540.78294@chino.kir.corp.google.com>
-X-Clacks-Overhead: GNU Terry Pratchett
-Date:   Wed, 25 Sep 2019 08:35:13 +0200
-Message-ID: <877e5w51em.fsf@toke.dk>
+Message-ID: <20190925104937.GA31002@hmswarspite.think-freely.org>
+References: <20190924182536.GC6041@hmswarspite.think-freely.org>
+ <alpine.DEB.2.21.1909241609540.78294@chino.kir.corp.google.com>
 MIME-Version: 1.0
-X-MC-Unique: Ol3ufolRP2iDa0_GKwaUkw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.21.1909241609540.78294@chino.kir.corp.google.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-David Rientjes <rientjes@google.com> writes:
+On Tue, Sep 24, 2019 at 04:15:18PM -0700, David Rientjes wrote:
+> On Tue, 24 Sep 2019, Neil Horman wrote:
+> 
+> > Hey all-
+> > 	After hearing at LPC that that there was a group investigating moving
+> > some upstream development to a less email-centric workfow, I wanted to share
+> > this with the group:
+> > 
+> > https://gitlab.com/nhorman/git-lab-porcelain
+> > 
+> > Its still very rough, and is focused on working with RH based workflows
+> > currently, but it can pretty easily be adapted to generic projects, if theres
+> > interest, as well as to other services besides gitlab (github/etc).
+> > 
+> > The principle is pretty straightforward (at least currently), its a git
+> > porcelain that wraps up the notion of creating a merge request with sending
+> > patch emails.  It uses the gitlab rest api to fork projects, and manipulate MR's
+> > in sync with email patch posting.  It also contains an email listener daemon to
+> > monitor reqisite lists for ACK/NACK responses which can then be translated into
+> > MR metadata for true MR approvals/notifications to the maintainer that a branch
+> > is good to merge.
+> > 
+> > Ostensibly, if this has any sort of legs, the idea in the long term is to add
+> > the ability to use the porcelain to do reviews on the command line, and
+> > eventually phase out email entirely, but I think thats a significant way off
+> > here.
+> > 
+> > Anywho, food for thought.
+> > 
+> 
+> This is very interesting.
+> 
+> It may be off-topic but this email raised my curiosity about how features 
+> are maintained internally before they are ready to propose to upstream, 
+> especially when those features are developed over multiple upstream base 
+> releases.
+> 
+> We have features that we maintain in-house until they are ready to push 
+> upstream and while they are still under active development or we are 
+> collecting data to use as motivation for asking that feature to be merged.
+> 
+> For this, we have historically always rebased these features on top of new 
+> kernel releases (unfortunately not 4.20 -> 5.0 -> 5.1, but somewhere in 
+> between like 4.20 -> 5.2) and that creates a lot of churn, developer 
+> resources, and rewrites the git history.
+> 
+> Exploring options for maintaining these features by merging rather than 
+> rebasing has been done: instead of rebasing from 4.20 to 5.2, for example, 
+> as a clean series on top of 5.2, we fork the feature branch based on 4.20 
+> off and merge it with 5.2, fix it up, run tests, and publish.  The thought 
+> process here was that we can always git rebase --onto linus to create a 
+> nice clean patch series for posting upstream or asking for a git pull from 
+> upstream.
+> 
+> I'd be very interested to know how others maintain patch series across 
+> multiple base kernel version especially when they need to maintain the 
+> feature for those kernel versions separately, how RH handles their patches 
+> before they are ready to be officially posted, etc.
+> 
+As far as kernel features are concerned, RH follows an upstream first policy
+(and does so generally speaking for all of our products).  If a new feature is
+to be developed, we do so against the latest upstream, always, and then the
+effort becomes one of adapting those features to the RHEL stabilized kernels.
+That shifts the effort from constantly needing to adapt an existing feature to a
+newer kernel, to needing to do take a newly developed feature and backport it to
+an older stabilized kernel.  Its not necessecarily any less work per-se, but we
+find it accelerates the development of the actual feature.
 
-> I'd be very interested to know how others maintain patch series across
-> multiple base kernel version especially when they need to maintain the
-> feature for those kernel versions separately, how RH handles their
-> patches before they are ready to be officially posted, etc.
-
-The short answer is "we don't". Features are developed upstream and not
-shipped in RHEL until they've landed upstream. The internal branches
-contains plenty of backports and bug fixes, but the flow of patches is
-one way: from upstream to internal.
-
-There's a long-ish blog post here describing this in the context of
-openstack, but really speaking quite generally:
-
-https://community.redhat.com/blog/2015/03/upstream-first-turning-openstack-=
-into-an-nfv-platform/
-
--Toke
+HTH
+Neil
 
