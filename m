@@ -6,45 +6,45 @@ X-Spam-Status: No, score=-0.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4501DC4360C
-	for <workflows@archiver.kernel.org>; Thu, 26 Sep 2019 13:40:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB184C4360C
+	for <workflows@archiver.kernel.org>; Thu, 26 Sep 2019 13:41:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 21440222C0
-	for <workflows@archiver.kernel.org>; Thu, 26 Sep 2019 13:40:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9E652222C0
+	for <workflows@archiver.kernel.org>; Thu, 26 Sep 2019 13:41:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726676AbfIZNkG (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 26 Sep 2019 09:40:06 -0400
-Received: from mail-ot1-f51.google.com ([209.85.210.51]:33570 "EHLO
-        mail-ot1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726500AbfIZNkG (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 26 Sep 2019 09:40:06 -0400
-Received: by mail-ot1-f51.google.com with SMTP id g25so2046763otl.0
-        for <workflows@vger.kernel.org>; Thu, 26 Sep 2019 06:40:06 -0700 (PDT)
+        id S1726767AbfIZNlk (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 26 Sep 2019 09:41:40 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:33027 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726476AbfIZNlk (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 26 Sep 2019 09:41:40 -0400
+Received: by mail-ot1-f68.google.com with SMTP id g25so2051403otl.0
+        for <workflows@vger.kernel.org>; Thu, 26 Sep 2019 06:41:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=cTsMlgsp6r3bK4lu+HDM/LWa8pDVFQHXWfQ8nP+vUe4=;
-        b=HnnwsTENZhyaT2BBuub/e//f5Ix2fRdrWa+x8hYYr5hKe8d0dEt3yuVmQJNYuTZPm6
-         fwGhAVhc5qo8epuobTmtd24hlJS0Zq7LdGmSNpWRxUvzphGkuSdbQR9Q5PHFy+Y/rgLa
-         T1Dgm1oGygu0zjow1SjMzX1lejVYTw1W1IBBNslRomCUFXNBE7nYSHPUzwVG+YEw13wH
-         RqG4rGYRYyh4EkjPuVbxCdTzSMdj+A0ozhRR0NVvBz3VQaj8OQTYwfjgT4ymflgi4i+L
-         zuPuetHz4iUbja8zwOyEyx+04XKwDiiBplTWJBz+2l+4tzqbALqSRRUYkQB0AZqFYi8d
-         vtqQ==
-X-Gm-Message-State: APjAAAUxVP6X+CuuzOrfQAICI3rrdQnMcyRaIvdOdRqOlg5QmVInrM3v
-        NPFe/ErkeArQ4IE8SUnrwSGPkNYnpwYykz2KHWBjh3EM2x8=
-X-Google-Smtp-Source: APXvYqwGAW6K87D15rl5N212a653ig42vhEro3PXYXT2l9qH2uzlHwzIpWkNDVyA/1glkqo30NAEGWRwoDMVtxiSX/o=
-X-Received: by 2002:a9d:404d:: with SMTP id o13mr2700494oti.39.1569505205633;
- Thu, 26 Sep 2019 06:40:05 -0700 (PDT)
+        bh=n8Qvb7aMErAXf8Y4LUdi6kCf542ANHmi1SPZDo6kqEA=;
+        b=im18LrLYeqL0egCGsojM8F7cxcAygE0eFg2mBCRtP7LA5l6K46yNqMVqEVamj7UYWE
+         6KMepVUZuVNs0yEyGC4mqs/DWir+Xtjc7oDWdN2o82ubaSpAgOGrF0zaeCTlvNF0ih74
+         cPqF532kX805q8QfQtiipWsxIcw0r+qsz7nEyRVL/PpbnwV0qsfsM/ZmM8Vg9bEqPR63
+         loxfmNo6cTNGv3q1/swd5eu5VAlo0TzkcUbXw2onZWpAZ/Uv8PSSEUc2V3szPvqf3hXu
+         eLIDRZjmyATlLXU5FIIbLC+AJ04aHzny88LvTaAHihPtHGQw/Oiip+gvFEItNMZDS7aK
+         Qcrg==
+X-Gm-Message-State: APjAAAWmGCN8IaNAKQTiSr/E5JbYZ0jsUtMfiWSRxoQxKEhk1sBKnMdZ
+        yijGea1aIY6gu1BEqFHhpZHGDSSNnXc+jcTH0Mw=
+X-Google-Smtp-Source: APXvYqyNYpqT2pH+26r9Rk3qUl6C7X0mbfPMgP5u9Cv/sH1p2ncC3QyjzK/EA37+kKirxXaqazxDLapZs0C46U5KK/w=
+X-Received: by 2002:a9d:5a06:: with SMTP id v6mr447666oth.250.1569505297821;
+ Thu, 26 Sep 2019 06:41:37 -0700 (PDT)
 MIME-Version: 1.0
 References: <1811089.yxvLMk49Ug@kreacher> <20190923162001.GD6005@mit.edu>
- <CAMuHMdX31h-VEf0bCjdTTLSO8xwMdE1cR9GsQ2tEk4PSHOPctA@mail.gmail.com> <575CE8BF-4C3A-4AEB-8749-9D2B92FCD4D3@goodmis.org>
-In-Reply-To: <575CE8BF-4C3A-4AEB-8749-9D2B92FCD4D3@goodmis.org>
+ <CAMuHMdX31h-VEf0bCjdTTLSO8xwMdE1cR9GsQ2tEk4PSHOPctA@mail.gmail.com> <87muergq3m.fsf@intel.com>
+In-Reply-To: <87muergq3m.fsf@intel.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 26 Sep 2019 15:39:54 +0200
-Message-ID: <CAMuHMdUySTyRmuCrCbW61LYbsF_5Jvd7P=mhjGSB0oR2Ec+b3Q@mail.gmail.com>
+Date:   Thu, 26 Sep 2019 15:41:26 +0200
+Message-ID: <CAMuHMdU73rjaxTwxNaUY9t2LrGsSEJpX4Hz=3AJ2kwbgMYOPoA@mail.gmail.com>
 Subject: Re: Kernel development collaboration platform wish list
-To:     Steven Rostedt <rostedt@goodmis.org>
+To:     Jani Nikula <jani.nikula@intel.com>
 Cc:     "Theodore Y. Ts'o" <tytso@mit.edu>,
         "Rafael J. Wysocki" <rjw@rjwysocki.net>, workflows@vger.kernel.org,
         Shuah Khan <skhan@linuxfoundation.org>,
@@ -58,22 +58,17 @@ Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Thu, Sep 26, 2019 at 3:02 PM Steven Rostedt <rostedt@goodmis.org> wrote:
-> That would be wonderful.
+Hi Jani,
 
-Oh, the irony ;-)
-
-> -- Steve
+On Thu, Sep 26, 2019 at 3:10 PM Jani Nikula <jani.nikula@intel.com> wrote:
+> On Thu, 26 Sep 2019, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> >   - Quoting a 2000-line patch when commenting on a single line deep down.
 >
-> On September 26, 2019 12:18:18 PM GMT+02:00, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> I've actually become almost completely immune to that because my mail
+> client collapses long quotes by default, thus highlighting the replies.
 
-[...]
-
-> >And if it's done right, it may solve (or make it harder to show) other
-> >bad review
-> >behavior, like:
-> >  - Top posting review comments,
-> >- Quoting a 2000-line patch when commenting on a single line deep down.
+The Gmail web interface is indeed good at that... Until you want to rebuke
+a review comment, and have to go digging...
 
 Gr{oetje,eeting}s,
 
