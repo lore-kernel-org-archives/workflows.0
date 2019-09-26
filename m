@@ -1,4 +1,4 @@
-Return-Path: <SRS0=xtfX=XU=vger.kernel.org=workflows-owner@kernel.org>
+Return-Path: <SRS0=FCe/=XV=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
@@ -6,29 +6,29 @@ X-Spam-Status: No, score=-7.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAB1DC4360D
-	for <workflows@archiver.kernel.org>; Wed, 25 Sep 2019 22:02:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59F80C432C2
+	for <workflows@archiver.kernel.org>; Thu, 26 Sep 2019 00:41:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8196121D80
-	for <workflows@archiver.kernel.org>; Wed, 25 Sep 2019 22:02:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2C71521D6C
+	for <workflows@archiver.kernel.org>; Thu, 26 Sep 2019 00:41:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726258AbfIYWBs (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 25 Sep 2019 18:01:48 -0400
-Received: from charlotte.tuxdriver.com ([70.61.120.58]:57640 "EHLO
+        id S1725790AbfIZAlA (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 25 Sep 2019 20:41:00 -0400
+Received: from charlotte.tuxdriver.com ([70.61.120.58]:58602 "EHLO
         smtp.tuxdriver.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726173AbfIYVyR (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 25 Sep 2019 17:54:17 -0400
-Received: from cpe-2606-a000-111b-43ee-0-0-0-162e.dyn6.twc.com ([2606:a000:111b:43ee::162e] helo=localhost)
+        with ESMTP id S1725768AbfIZAlA (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 25 Sep 2019 20:41:00 -0400
+Received: from cpe-2606-a000-111b-43ee-0-0-0-1ff7.dyn6.twc.com ([2606:a000:111b:43ee::1ff7] helo=localhost)
         by smtp.tuxdriver.com with esmtpsa (TLSv1:AES256-SHA:256)
         (Exim 4.63)
         (envelope-from <nhorman@tuxdriver.com>)
-        id 1iDFEa-0002co-V9; Wed, 25 Sep 2019 17:54:12 -0400
-Date:   Wed, 25 Sep 2019 17:54:00 -0400
+        id 1iDHpy-0003cA-QT; Wed, 25 Sep 2019 20:40:54 -0400
+Date:   Wed, 25 Sep 2019 20:40:45 -0400
 From:   Neil Horman <nhorman@tuxdriver.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Drew DeVault <sir@cmpwn.com>, workflows@vger.kernel.org
 Subject: Re: thoughts on a Merge Request based development workflow
-Message-ID: <20190925215400.GD31002@hmswarspite.think-freely.org>
+Message-ID: <20190926004045.GA20302@localhost.localdomain>
 References: <20190924182536.GC6041@hmswarspite.think-freely.org>
  <BX8G8FACJ68D.3RNYA1J9VP98Z@homura>
  <20190924185312.GD6041@hmswarspite.think-freely.org>
@@ -111,16 +111,6 @@ On Wed, Sep 25, 2019 at 11:50:36PM +0300, Laurent Pinchart wrote:
 > Then let's create such a tool that also supports e-mail workflows, to
 > really offer a choice.
 > 
-
-Well, this tool does that, by wrapping up merge creation with git-send-email, so
-that you get both a traditional patch posting, as well as a merge request.  It
-also has a email monitor daemon that listens for responses and formatted text to
-take action against responses to those postings in gitlab.  I'm not sure what
-more you're looking for.
-
-Though if the concern is choice....I'm not sure how the choice to continue just
-using email isn't still available.  Just keep using it for your project.
-
 > > 2) Regarding decentrallization, the advantage of the decentrailzation of git
 > > lies in its ability for users to house their own local copies of a git tree, not
 > > so much in the ability to have multiple git servers (though the latter is
@@ -134,19 +124,6 @@ using email isn't still available.  Just keep using it for your project.
 > single git hosting provider, but that creates a vendor lock in issue
 > that few people would be comfortable with (including myself).
 > 
-
-Well, yes, but thats not the fault of the tooling, thats a choice on the part of
-the project leadership.  I'm just suggesting that, if you want to use a merge
-request based workflow, this tool can make the transition to that workflow
-easier.  Thats orthogonoal though to the access requirements for any given
-service.  I can't imagine a Merge request based workflow (short of simple pull
-requests via git) that wouldn't require some additional authentication.  Even
-with a tool like git-appraise (which stores review metadata in git notes), you
-need to write your notes to a publically accessible server, and having write
-access comes with some level of authentication and permission (i.e. git+ssh or
-some such).  I don't think anyone is going to go for a solution which is world
-writeable to the SCM.
-
 > > The thing to consider outside of that is the exportability of the data that
 > > resides outside of git - that is to say, if you want to move from gitlab to
 > > github, or from either to some 3rd service, or to a home built service, is there
@@ -164,14 +141,56 @@ writeable to the SCM.
 > that could be improved instead of picking which vendor we'll get our
 > handcuffs from, as it would then benefit everybody.
 > 
-check the emaillistener.py utility in the project I shared, it does exactly
-this, and I suppose it could be extended to detect new patch sets and open merge
-requests on behalf of users running git-send-email, though that seems like alot
-of effort just to avoid participants creating accounts on services.
-
 > > > How this could be achieved remains to be discussed, and should be an
 > > > interesting exercise.
 > 
+I'm sorry for responding to this again, but I've been thinking about it,
+and the more I think about it the more I think an email-to-forge type of
+service, while an interesting idea, and probably a tool that might be
+generally useful, I don't think its going to have real long term legs.
+And the problem isn't technical, its social.
+
+By way of example, lets assume we have such an email-to-forge gateway,
+and it works well.
+
+DaveM (using him here as an exemple as he's been socializing the idea of
+moving net and net-next to github lately, but substitue the name of any
+maintainer or project here).
+
+If there is a desire to move to a forge based solution, eventually the
+maintainer(s) will do so based on the best interest of the project,
+possibly with input from the general community, but mostly based what
+makes the project more effiicent.  In the case of Dave, its my
+understanding that he wants to make the move because it will let him
+track and merge patches more easily, and is less likely to lose them.
+It also aliviates the pressure of having to maintain such a high volume
+mailling list as netdev.
+
+Eventually, barring any really significant objection, hes going to make
+the switch, and users will either have to get github accounts, or stop
+participating in netdev development.  The use of an email gateway here
+would smooth the transition arguably, but the cost tradeoff of doing so
+isn't really in Daves favor.  In order to use such a gateway, he would
+have to stand up an additional server, run the gateway, and create an
+account to interact with the forge in response to received emails.  All
+in pursuit of having contributors not use the tool that he as maintainer
+felt would improve the projects development process.  It doesn't seem
+like a reasonable tradeoff to me.
+
+I wrote parts of such an email gateway for my porcelain project above
+because internally to RH, there is a value in smoothing that transition
+for the rest of our business processes, but I don't think thats
+particularly applicable to many upstream projects.
+
+Thats not to say its a worthwhile tool to try write.  Some projects may
+find it useful.  But its going to be an opt in solution, and not one
+liekly to be adopted unilaterally.  What we need is a method to work
+with newer forge like workflows, not something to make those workflows
+look like our existing email workflow.
+
+Best
+Neil
+
 > -- 
 > Regards,
 > 
