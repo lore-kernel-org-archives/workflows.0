@@ -1,117 +1,97 @@
-Return-Path: <SRS0=FCe/=XV=vger.kernel.org=workflows-owner@kernel.org>
+Return-Path: <SRS0=JBIR=XW=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EBA6C4360C
-	for <workflows@archiver.kernel.org>; Thu, 26 Sep 2019 19:54:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2893C4360C
+	for <workflows@archiver.kernel.org>; Fri, 27 Sep 2019 07:08:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0C84D222C3
-	for <workflows@archiver.kernel.org>; Thu, 26 Sep 2019 19:54:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6FA8E217F4
+	for <workflows@archiver.kernel.org>; Fri, 27 Sep 2019 07:08:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1569527665;
-	bh=pBTo1XXW5/zOcktgRzxZirbXHt38yMBD710HGumOyek=;
-	h=Date:From:To:Subject:List-ID:From;
-	b=JXpD21INT8zhcdK7LpQlFRfF2JpPTubc3jNGcapl/NMyFjVrXt7sBZ6jP9xxflkaO
-	 R0JQaUUaWlEwKF9D06yz8zVNF+3ko81+0XBu/F71ZwBRLGzQB3fEmnqAaXHuo3nd4K
-	 RELTgF6vdITPuPTLK9BzgaUpLbPfVua9DkvbzJrc=
+	s=default; t=1569568112;
+	bh=6r0PgJgGGPun4a/HlDiHnh/Lfh9w8ieLAuSPiq/sG1I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=dbSBRJ2uHHW40y9EwM8JSZYjunl+RQAe9VYOegeeVICcG8QH8GkHcs707Qh4+YHhZ
+	 CPpMCcfrQ3u30B9WECWAApYTpNQJ/qTwu+ir4I4IEOTrbwxGZp+AQnNo90cDAjC5E4
+	 GDqYzcH8Z0aKaRfq6PaVLH8EkOttNMkD1CTF2+jc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727821AbfIZTyY (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 26 Sep 2019 15:54:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46828 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727794AbfIZTyY (ORCPT <rfc822;workflows@vger.kernel.org>);
-        Thu, 26 Sep 2019 15:54:24 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8AFE3222C3;
-        Thu, 26 Sep 2019 19:54:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569527663;
-        bh=pBTo1XXW5/zOcktgRzxZirbXHt38yMBD710HGumOyek=;
-        h=Date:From:To:Subject:From;
-        b=zpBE7Y9cUKDFwNT1QH1CX1cFe0B/vXOgVibwuRd+T0jBr7UghXWyuLy7Ip+VMIRjx
-         sTM8h71Ghr+adZUvSk0Ub6OPK0sDe7Hncf2dlRtvP5szlaltN99D1vghu7s9jfpRiK
-         FmXdH3EsfmNdP6nSoH0PFiunV86pcDy4wKoHhfxk=
-Date:   Thu, 26 Sep 2019 21:54:20 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     workflows@vger.kernel.org
-Subject: script to check "Signed-off-by:" tags
-Message-ID: <20190926195420.GB1742392@kroah.com>
+        id S1725812AbfI0HIc (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 27 Sep 2019 03:08:32 -0400
+Received: from mail-wr1-f54.google.com ([209.85.221.54]:33021 "EHLO
+        mail-wr1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725804AbfI0HIb (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Fri, 27 Sep 2019 03:08:31 -0400
+Received: by mail-wr1-f54.google.com with SMTP id b9so1450822wrs.0
+        for <workflows@vger.kernel.org>; Fri, 27 Sep 2019 00:08:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=L19txjiLjr5FuINLGJS4Kwj6HNEJKjCCoi7KXkGOi+Y=;
+        b=Jq5Lk40fWSMLqXxQnXerQjJ+QhGHeAxImgkhhMj6d1fIYswNuCpHwfO4q4USiRLPAG
+         /MMRZiHu2U8LeOhss8GvWiWgwBFtQajkzL0kyginw73A3o3XFUfbq9WJZ8BXUDUtZotL
+         UDu6/zsgi9tbG99jKHOmXQu0p1dn/aIbmNn21NHfyowIukEIYeSzZ4/uXTRbNjy+RtX0
+         ActJFXp0ybArSLwssIm+9++9yUcCjRoSxA0ncFYqnRQGj4Fk+OhH0cPeEY0Ye0hA90XT
+         bEHwO3gxLgl4B4AOZYAA63tQjOTYUb1pfntrzqaJsxp746K80fddYycLy/qoi++3tNh1
+         8zmQ==
+X-Gm-Message-State: APjAAAVoWm2UfIDxCmLlyIQnmPWoYxqyHACiKSdaEM87hflE9bFtQ3dk
+        MyvUmRX16rhM3RiYK7nXI7iId6uv
+X-Google-Smtp-Source: APXvYqyIn2u2aG0QpyWEjAUWxMx11hJc61dIYb8JFrE2bYUQVM4UciTD1ioXYHrvp07IVN4U6HAOYg==
+X-Received: by 2002:adf:f2cd:: with SMTP id d13mr1788918wrp.143.1569568109517;
+        Fri, 27 Sep 2019 00:08:29 -0700 (PDT)
+Received: from pi3 ([194.230.155.145])
+        by smtp.googlemail.com with ESMTPSA id i73sm9578173wmg.33.2019.09.27.00.08.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Sep 2019 00:08:27 -0700 (PDT)
+Date:   Fri, 27 Sep 2019 09:08:25 +0200
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     workflows@vger.kernel.org
+Subject: Re: script to check "Fixes:" tags
+Message-ID: <20190927070825.GA18955@pi3>
+References: <20190926195143.GA1742392@kroah.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="jq0ap7NbKX2Kqbes"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <20190926195143.GA1742392@kroah.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
+On Thu, Sep 26, 2019 at 09:51:43PM +0200, Greg KH wrote:
+> Since this list was created to share scripts, here's one that I
+> currently use to test that the "Fixes:" tags are correct on a commit.  I
+> run it on all patches that I accept into my trees, after getting emails
+> from Stephen one too many times :)
+> 
+> It's almost entirely based on Stephen's original script, but has been
+> changed a bit in formatting and usage to be a stand-alone script that
+> anyone can use.
+> 
+> To use:
+> 	verify_fixes.sh GIT_RANGE
+> 
+> if all is good, script will print nothing out and exit with success.  If
+> there is a problem it will be printed out and the script will exit with
+> an error that you can check from any other program.
+> 
+> It it 'shellcheck' clean, but I'm sure that there are other things wrong
+> with it, so feel free to point out problems.
+> 
+> And should stuff like this be in the kernel tree itself?
 
---jq0ap7NbKX2Kqbes
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
++1
 
-Like the previous script, I use this one to check the validity of s-o-b
-tags.
+Also a kernel.org repo for maintainer scripts would be useful. Extending
+own scripts for generic usage it's a lot of boring and not needed (for
+the owner) task. But if someone else does the job...
 
-It too is mostly entirely Stephen's work, I've only changed a few minor
-things and made it stand-alone.
+Best regards,
+Krzysztof
 
-To use:
-	verify_signedoff.sh GIT_RANGE
-
-if all is good, script will print nothing out and exit with success.  If
-there is a problem it will be printed out and the script will exit with
-an error that you can check from any other program.
-
-It too is 'shellcheck' clean, but I'm sure that there are other things
-wrong with it, so feel free to point out problems.
-
-thanks,
-
-greg k-h
-
---jq0ap7NbKX2Kqbes
-Content-Type: application/x-sh
-Content-Disposition: attachment; filename="verify_signedoff.sh"
-Content-Transfer-Encoding: quoted-printable
-
-#!/bin/bash=0A# SPDX-License-Identifier: GPL-2.0=0A#=0A# Copyright (C) 2019=
- Stephen Rothwell <sfr@canb.auug.org.au>=0A# Copyright (C) 2019 Greg Kroah-=
-Hartman <gregkh@linuxfoundation.org>=0A#=0A# Verify that the signed-off-by =
-chain looks correct for a range of git commits.=0A#=0A# usage:=0A#	verify_s=
-ignedoff.sh GIT_RANGE=0A#=0A# To test just the HEAD commit do:=0A#	verify_s=
-ignedoff.sh HEAD^..HEAD=0A#=0A#=0A# Thanks to Stephen Rothwell <sfr@canb.au=
-ug.org.au> for the majority of this code=0A#=0A=0Ahelp()=0A{=0A	echo "error=
-, git range not found"=0A	echo "usage:"=0A	echo "	$0 GIT_RANGE"=0A	exit 1=
-=0A}=0A=0Averify_signedoff()=0A{=0A	git_range=3D$1=0A	error=3Dfalse=0A	for =
-c in $(git rev-list --no-merges "${git_range}"); do=0A		ae=3D$(git log -1 -=
--format=3D'%ae' "$c")=0A		aE=3D$(git log -1 --format=3D'%aE' "$c")=0A		an=
-=3D$(git log -1 --format=3D'%an' "$c")=0A		aN=3D$(git log -1 --format=3D'%a=
-N' "$c")=0A		ce=3D$(git log -1 --format=3D'%ce' "$c")=0A		cE=3D$(git log -1=
- --format=3D'%cE' "$c")=0A		cn=3D$(git log -1 --format=3D'%cn' "$c")=0A		cN=
-=3D$(git log -1 --format=3D'%cN' "$c")=0A		sob=3D$(git log -1 --format=3D'%=
-b' "$c" | grep -i '^[[:space:]]*Signed-off-by:')=0A=0A		am=3Dfalse=0A		cm=
-=3Dfalse=0A		grep -i -q "<$ae>" <<<"$sob" ||=0A			grep -i -q "<$aE>" <<<"$s=
-ob" ||=0A			grep -i -q ":[[:space:]]*${an}[[:space:]]*<" <<<"$sob" ||=0A			=
-grep -i -q ":[[:space:]]*${aN}[[:space:]]*<" <<<"$sob" ||=0A			am=3Dtrue=0A=
-		grep -i -q "<$ce>" <<<"$sob" ||=0A			grep -i -q "<$cE>" <<<"$sob" ||=0A		=
-	grep -i -q ":[[:space:]]*${cn}[[:space:]]*<" <<<"$sob" ||=0A			grep -i -q =
-":[[:space:]]*${cN}[[:space:]]*<" <<<"$sob" ||=0A			cm=3Dtrue=0A=0A		if "$a=
-m" || "$cm"; then=0A			printf "Commit %s\n" "$(git show -s --abbrev-commit =
---abbrev=3D12 --pretty=3Dformat:"%h (\"%s\")%n" "${c}")"=0A			"$am" && prin=
-tf "\tauthor Signed-off-by missing\n"=0A			"$cm" && printf "\tcommitter Sig=
-ned-off-by missing\n"=0A			printf "\tauthor email:    %s\n" "$ae"=0A			prin=
-tf "\tcommitter email: %s\n"  "$ce"=0A			readarray -t s <<< "${sob}"=0A			p=
-rintf "\t%s\n" "${s[@]}"=0A			printf "\n"=0A			error=3Dtrue=0A		fi=0A	done=
-=0A	if "$error"; then=0A		echo "Errors in tree with Signed-off-by, please f=
-ix!"=0A		exit 1=0A	fi=0A}=0A=0Agit_range=3D$1=0A=0Aif [ "${git_range}" =3D=
-=3D "" ] ; then=0A	help=0Afi=0A=0Averify_signedoff "${git_range}"=0Aexit 0=
-=0A
---jq0ap7NbKX2Kqbes--
