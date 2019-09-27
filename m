@@ -4,93 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0E60C4360C
-	for <workflows@archiver.kernel.org>; Fri, 27 Sep 2019 18:01:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19A74C4360C
+	for <workflows@archiver.kernel.org>; Fri, 27 Sep 2019 18:03:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BC2E5217D7
-	for <workflows@archiver.kernel.org>; Fri, 27 Sep 2019 18:01:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E29B5217D7
+	for <workflows@archiver.kernel.org>; Fri, 27 Sep 2019 18:03:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1569607302;
-	bh=xxbooi4NkxcBUHGCSeVAKCPAjS5gqbK5oUZrhjsnk0E=;
+	s=default; t=1569607407;
+	bh=ls5vZV+8wD3w07QUfqIaZDaT+I1rKrmJBIK4BlCnL0U=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=D5SfGtVBkoAHXnZV8PtxRAjUwEwCX/KAzKrTEkeJhWDK7/sIu97UlNrOqQiQAqki9
-	 Mn3zgWg8s7KGvXoRv9H8KNXmOk92NkzcumTIJ2cyQoHh+E+uoU+OXrB94iJsVNWHfn
-	 BVinFMqeIZUK0q4gJcmI0ez2MBI8QYEapY7rvkt0=
+	b=2Tc6070wX3hac3R3RhVgWpKvY2q8h0zaYyKHtmAH1fQe0KuT78C/zzZX5ngei94Ie
+	 QTyoDFOlsN+6XZs/kQvtv+go9raChNJx+qHWpKoc6Vca37lui0Hh1D16TFPgdMQwRy
+	 OAfWPb0OJKjXbx8JNYjk3p1KfpF2j0hXnC10z6jM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726988AbfI0SBm (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 27 Sep 2019 14:01:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49810 "EHLO mail.kernel.org"
+        id S1727072AbfI0SD0 (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 27 Sep 2019 14:03:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50374 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726676AbfI0SBm (ORCPT <rfc822;workflows@vger.kernel.org>);
-        Fri, 27 Sep 2019 14:01:42 -0400
+        id S1726321AbfI0SD0 (ORCPT <rfc822;workflows@vger.kernel.org>);
+        Fri, 27 Sep 2019 14:03:26 -0400
 Received: from localhost (unknown [62.119.166.9])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D689E20872;
-        Fri, 27 Sep 2019 18:01:39 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2548820872;
+        Fri, 27 Sep 2019 18:03:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569607301;
-        bh=xxbooi4NkxcBUHGCSeVAKCPAjS5gqbK5oUZrhjsnk0E=;
+        s=default; t=1569607405;
+        bh=ls5vZV+8wD3w07QUfqIaZDaT+I1rKrmJBIK4BlCnL0U=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ijXvPomxcX73w5u7vNbgfn/hMydSR+Mlf9sAdRHwzyu5YDVKgpEsgeZJdl7C7BvbL
-         B8J8dHj4My3E6BX0Cr8w4u/wWPyeyYP3fDgCnHbMFLdjX59HZpn46iSRLnnSG/5T59
-         CTDCJ3DmOyeEo1056mgBfiU9WJRb5zEc0pI4dTvw=
-Date:   Fri, 27 Sep 2019 20:01:33 +0200
+        b=qtgeIMMv152GmGb3mC7iiv4tvNVP+5osL8q48emp926VegGkO7E5vhs2zrOVc8mWI
+         hVzr3qMgyomZpOuSzhmafSvbIFYWrsgpE3408JsdpA8g/HBZjuSjdKPlsA4jQ17BFq
+         bqnhYGuTV63eB5/1w351fGaTqN3X9DMG+2UX0pCc=
+Date:   Fri, 27 Sep 2019 20:03:15 +0200
 From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     workflows@vger.kernel.org
+To:     Rob Herring <robh@kernel.org>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        workflows@vger.kernel.org
 Subject: Re: script to check "Fixes:" tags
-Message-ID: <20190927180133.GD1802011@kroah.com>
+Message-ID: <20190927180315.GE1802011@kroah.com>
 References: <20190926195143.GA1742392@kroah.com>
  <CAMuHMdUq3if8bF0KatS+gWSa4mBvGk0Z8oyoOpeUj=AMTYbMkA@mail.gmail.com>
+ <CAL_Jsq+emonMWUdz9jxnc3pnvpijK6CMLq-0dOStQWuHiEw3zA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdUq3if8bF0KatS+gWSa4mBvGk0Z8oyoOpeUj=AMTYbMkA@mail.gmail.com>
+In-Reply-To: <CAL_Jsq+emonMWUdz9jxnc3pnvpijK6CMLq-0dOStQWuHiEw3zA@mail.gmail.com>
 User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Fri, Sep 27, 2019 at 09:49:55AM +0200, Geert Uytterhoeven wrote:
-> Hi Greg,
-> 
-> On Thu, Sep 26, 2019 at 9:51 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> > Since this list was created to share scripts, here's one that I
-> > currently use to test that the "Fixes:" tags are correct on a commit.  I
-> > run it on all patches that I accept into my trees, after getting emails
-> > from Stephen one too many times :)
-> >
-> > It's almost entirely based on Stephen's original script, but has been
-> > changed a bit in formatting and usage to be a stand-alone script that
-> > anyone can use.
-> >
-> > To use:
-> >         verify_fixes.sh GIT_RANGE
-> >
-> > if all is good, script will print nothing out and exit with success.  If
-> > there is a problem it will be printed out and the script will exit with
-> > an error that you can check from any other program.
-> >
-> > It it 'shellcheck' clean, but I'm sure that there are other things wrong
-> > with it, so feel free to point out problems.
-> 
-> Thanks!
-> 
-> > And should stuff like this be in the kernel tree itself?
-> 
-> Probably this should be integrated into checkpatch.pl?
+On Fri, Sep 27, 2019 at 07:01:17AM -0500, Rob Herring wrote:
+> I think we're looking at the problem the wrong way around. Stephen
+> shouldn't have to be checking this, and neither should maintainers. It
+> could be easily automated. We could have a checkpatch bot that runs
+> some subset of checkpatch checks we agree are always errors like the
+> ones here and replies to patches with the errors.
 
-I can't run checkpatch.pl on everything as sometimes I need to take
-patches that do not pass it :)
+Sure, it would be nice to have that, but until someone sets that up to
+run on all patches sent to mailing lists, we need something locally to
+run to catch these things.
 
-checkpatch.pl is supposed to check for s-o-b but for some reason I don't
-think it does all of the checking that my other script does.  Or at
-least I haven't noticed it.
+Also, many maintainers mess this up, I run these checks on trees I pull
+from and I have caught errors that checkpatch wouldn't have caught due
+to maintainers forgetting to sign off on things they are committing
+somehow.  email tests wouldn't have caught that.
 
 thanks,
 
