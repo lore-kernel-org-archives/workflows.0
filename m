@@ -2,90 +2,100 @@ Return-Path: <SRS0=JBIR=XW=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB415C4360C
-	for <workflows@archiver.kernel.org>; Fri, 27 Sep 2019 07:50:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85F68C4360C
+	for <workflows@archiver.kernel.org>; Fri, 27 Sep 2019 12:01:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AE8D52075D
-	for <workflows@archiver.kernel.org>; Fri, 27 Sep 2019 07:50:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 58FC9217D7
+	for <workflows@archiver.kernel.org>; Fri, 27 Sep 2019 12:01:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1569585690;
+	bh=yRgcyK85uA2XNFZZGosgJ4r8nXXwrXYfPoqnIcDPKgg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=kA1NAZnpaJCdUzEmvaMwIa4hJuzaxOjAJkgbot7XKPS0VL1xTIgDBa/FqF8TQ+0Ee
+	 Dop5KhRKjBrz9j2VlNNBU48HqOLuvMpowfK1VcIYKpLnDKxRF/PHDv+j9STEc5E+UX
+	 Jg3V0UOCCkoJlkLbvkgHhy08Sf7nEY4aVVEpJo1I=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726628AbfI0HuH (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 27 Sep 2019 03:50:07 -0400
-Received: from mail-oi1-f179.google.com ([209.85.167.179]:37862 "EHLO
-        mail-oi1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726027AbfI0HuH (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Fri, 27 Sep 2019 03:50:07 -0400
-Received: by mail-oi1-f179.google.com with SMTP id i16so4436440oie.4
-        for <workflows@vger.kernel.org>; Fri, 27 Sep 2019 00:50:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DVstcPugeHbeSjlhu9Qk7kmbfTIJsb4e+WdFqF5hSWI=;
-        b=XSISUpES25wo7oHs/fMijtN1EywFWty+U2sT7oZcC583Gw1FX0pahBmo1HgSk2o1Z1
-         /t/GnPC5Ox5XGgvSYDGej3pHjTvtH/+2aI6cRlNaFIFpyz+aanqtq/VG6+HIVOW2Loa2
-         hjULprNarPa9iLY6w9WJP7DiNyAbIljUFeRmHXN4bIQtVcailD/T6ejN+8GDZZS0JEx0
-         iKPYh0P/y/a6rkdewgOQY7ibyhocdNhIepxM9TbhogZcUmmGuhRxxeddtKIcZSP151d5
-         6/OYPPaSn2X+J9cZRFr1drVZ1Xy6nnS1dOrJD+5/LbmvsXD/8jFd24G3ge3bt1MUe5UN
-         fyHw==
-X-Gm-Message-State: APjAAAWowmiC4EnD4bePGI5UR+e8KLEUsbgY1fORCjwg8DIg8KLdOq0e
-        hiCHTFpEu4iQTIu5jOf92c2jEgyDRWewJ+TnIECXiEv/
-X-Google-Smtp-Source: APXvYqyBLZGRLLsDLviitrX3FIcArwXHt91TpUdIgydliNI5EaEi8O9v2VAxvV+AGKi8Oi/PZ4qRHNQ/+BPg6d2bFJ8=
-X-Received: by 2002:aca:dad4:: with SMTP id r203mr6120945oig.102.1569570606122;
- Fri, 27 Sep 2019 00:50:06 -0700 (PDT)
+        id S1726295AbfI0MBa (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 27 Sep 2019 08:01:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58648 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726251AbfI0MB3 (ORCPT <rfc822;workflows@vger.kernel.org>);
+        Fri, 27 Sep 2019 08:01:29 -0400
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1898821848
+        for <workflows@vger.kernel.org>; Fri, 27 Sep 2019 12:01:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1569585689;
+        bh=yRgcyK85uA2XNFZZGosgJ4r8nXXwrXYfPoqnIcDPKgg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=zPAhnr37emADsFY+ffpLp3BAsu9T2dHyDY9knW+useCteT5cpxelMsV274/xw1Ntf
+         zp/mGKnAz54wZ03bH5GBqG/r64oiDRC6xcONvhRG5ZAacE64wZRLO976+FQwoRvHuY
+         WgWpHZOaryLmYj6cahdaEi1EfL+utwI5BI2/kglQ=
+Received: by mail-qt1-f172.google.com with SMTP id u22so6851022qtq.13
+        for <workflows@vger.kernel.org>; Fri, 27 Sep 2019 05:01:29 -0700 (PDT)
+X-Gm-Message-State: APjAAAUtU/ty0v4KynB7y9ctNYLcIzNd4Xi1i2+wWAqrjWR+I3r0Mi5j
+        EARKkW6elagxzDczDa36wgpL0CWVpsM9VjG+tA==
+X-Google-Smtp-Source: APXvYqxuZawtZ73q44qksTal2yX22UT3k8M7I2F/tJfHqzGA6/z6X7DvLnY5CUuuLWQt/Z8NlCXg4iKm1JME1gZuxik=
+X-Received: by 2002:a0c:fa49:: with SMTP id k9mr7456412qvo.72.1569585688227;
+ Fri, 27 Sep 2019 05:01:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190926195143.GA1742392@kroah.com>
-In-Reply-To: <20190926195143.GA1742392@kroah.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 27 Sep 2019 09:49:55 +0200
-Message-ID: <CAMuHMdUq3if8bF0KatS+gWSa4mBvGk0Z8oyoOpeUj=AMTYbMkA@mail.gmail.com>
+References: <20190926195143.GA1742392@kroah.com> <CAMuHMdUq3if8bF0KatS+gWSa4mBvGk0Z8oyoOpeUj=AMTYbMkA@mail.gmail.com>
+In-Reply-To: <CAMuHMdUq3if8bF0KatS+gWSa4mBvGk0Z8oyoOpeUj=AMTYbMkA@mail.gmail.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Fri, 27 Sep 2019 07:01:17 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+emonMWUdz9jxnc3pnvpijK6CMLq-0dOStQWuHiEw3zA@mail.gmail.com>
+Message-ID: <CAL_Jsq+emonMWUdz9jxnc3pnvpijK6CMLq-0dOStQWuHiEw3zA@mail.gmail.com>
 Subject: Re: script to check "Fixes:" tags
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     workflows@vger.kernel.org
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Greg KH <gregkh@linuxfoundation.org>, workflows@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Hi Greg,
-
-On Thu, Sep 26, 2019 at 9:51 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> Since this list was created to share scripts, here's one that I
-> currently use to test that the "Fixes:" tags are correct on a commit.  I
-> run it on all patches that I accept into my trees, after getting emails
-> from Stephen one too many times :)
+On Fri, Sep 27, 2019 at 2:50 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
-> It's almost entirely based on Stephen's original script, but has been
-> changed a bit in formatting and usage to be a stand-alone script that
-> anyone can use.
+> Hi Greg,
 >
-> To use:
->         verify_fixes.sh GIT_RANGE
+> On Thu, Sep 26, 2019 at 9:51 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+> > Since this list was created to share scripts, here's one that I
+> > currently use to test that the "Fixes:" tags are correct on a commit.  I
+> > run it on all patches that I accept into my trees, after getting emails
+> > from Stephen one too many times :)
+> >
+> > It's almost entirely based on Stephen's original script, but has been
+> > changed a bit in formatting and usage to be a stand-alone script that
+> > anyone can use.
+> >
+> > To use:
+> >         verify_fixes.sh GIT_RANGE
+> >
+> > if all is good, script will print nothing out and exit with success.  If
+> > there is a problem it will be printed out and the script will exit with
+> > an error that you can check from any other program.
+> >
+> > It it 'shellcheck' clean, but I'm sure that there are other things wrong
+> > with it, so feel free to point out problems.
 >
-> if all is good, script will print nothing out and exit with success.  If
-> there is a problem it will be printed out and the script will exit with
-> an error that you can check from any other program.
+> Thanks!
 >
-> It it 'shellcheck' clean, but I'm sure that there are other things wrong
-> with it, so feel free to point out problems.
+> > And should stuff like this be in the kernel tree itself?
+>
+> Probably this should be integrated into checkpatch.pl?
 
-Thanks!
+I believe both checks already are.
 
-> And should stuff like this be in the kernel tree itself?
+I think we're looking at the problem the wrong way around. Stephen
+shouldn't have to be checking this, and neither should maintainers. It
+could be easily automated. We could have a checkpatch bot that runs
+some subset of checkpatch checks we agree are always errors like the
+ones here and replies to patches with the errors.
 
-Probably this should be integrated into checkpatch.pl?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Rob
