@@ -7,100 +7,109 @@ X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13EC2C32792
-	for <workflows@archiver.kernel.org>; Mon, 30 Sep 2019 21:02:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6B06C32792
+	for <workflows@archiver.kernel.org>; Mon, 30 Sep 2019 21:24:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D83CC224FE
-	for <workflows@archiver.kernel.org>; Mon, 30 Sep 2019 21:02:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A6A2321A4C
+	for <workflows@archiver.kernel.org>; Mon, 30 Sep 2019 21:24:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1569877328;
-	bh=bVvA2qNYw9P4j4XgAkU9YjGNdMHAqTCc0l+35taFt+c=;
+	s=default; t=1569878654;
+	bh=2a8sEC0KmLOofOR/KmXczBckB9a5kqxAqx9TpHSiZfc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=PrlGMBvlp5AoOh0mWBbYecyWlmJ/XUsHmCdipI/VK6sIk+CxGDnqdYnS9wIOFPN6K
-	 bfAs5n6SHvUjm8hc0jheI0F1Avi1qHYMmd77Hjwc3WLcxyDN+QI+zFX2rueDX/H+op
-	 VWfu4aebbfd6nTVRXVExThzer4RbSygGSNlQB/L4=
+	b=UMv5QG0oABOvyq8C5XNUIZLPxCPa1V+vDsiwMguQWun17MGh0FgJl1Tt/PT8j9uoc
+	 8D0nMWFLOBEIFRtvOtrG5uj5nj6WZ0cGjw7OYUcgJxWK8vCquCrk7mrzfVIPycZMde
+	 eJjeF8A8Z0hauGHDI4DP2B8WbUIwuyQrQwq+1FI8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731025AbfI3VCI (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 30 Sep 2019 17:02:08 -0400
-Received: from mail-qk1-f181.google.com ([209.85.222.181]:41994 "EHLO
-        mail-qk1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730455AbfI3VCI (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 30 Sep 2019 17:02:08 -0400
-Received: by mail-qk1-f181.google.com with SMTP id f16so9131534qkl.9
-        for <workflows@vger.kernel.org>; Mon, 30 Sep 2019 14:02:07 -0700 (PDT)
+        id S1731949AbfI3VYO (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 30 Sep 2019 17:24:14 -0400
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:39934 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731703AbfI3VYO (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 30 Sep 2019 17:24:14 -0400
+Received: by mail-qt1-f196.google.com with SMTP id n7so18947725qtb.6
+        for <workflows@vger.kernel.org>; Mon, 30 Sep 2019 14:24:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=xAP+Xbl8oQ+t+H5XsJFzcZEyrglryh7+9b0QNtlpmmo=;
-        b=OcjzWLNotJzEbFFdYtCDoPwMSKKgmQtvF7j316OVwWkFVXvFGSek5zM09O5IeMR+ea
-         QtbkbU5aALdSb5EfC4ibLvRaQ6L45MUGOxvaznDKEROQu8Me1d1nw23oLCwYr0ivBuKg
-         i7YDwTDstiD8YqjxziThK/a0Bb4d0UDuoFeRY=
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=2a8sEC0KmLOofOR/KmXczBckB9a5kqxAqx9TpHSiZfc=;
+        b=XlKzxVNU06r0BbfUWYYjDxmLyDoAzPgulcpGcjH1fkd5eyGkhsQ6FpuDGWs+O7O49T
+         NmfC/uKEsn5soFcOfnijm//i+TiQ8XPKy6MNYp4wwDfrarx9NNHqQvMnv2OByCynYf3u
+         DecexrvOgamwHRcWYKkfRPmr2Tf109lJhmoKY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=xAP+Xbl8oQ+t+H5XsJFzcZEyrglryh7+9b0QNtlpmmo=;
-        b=KZRnyBBjHURPSTYtDJpV1xFPJgf2fETFu7o2606/0dg6tZqhaMVj9mQNGQUYv1JuoW
-         rwb9uJh2So/g6FhVnplCUvGPyzBAK9xaPVl2s3EK2DORfa+E+5cfiw0e3hvU1EWdrEcO
-         WbNGhk0//xHxKQ2ouK2BOl0GRzHnK/BlyItfRfXnFdvWWtK17HecqJ8BRUTVM20wgol1
-         da0yFZsyFiCgmc9WeQ8GqHtncKsO4VRIbpk5Ugkhlur2lgU2y9uxWj2+Zvi74kDOtlZi
-         i/9kjZkbYVtVV2n8m5O+FGjDDHVRE0NE9iXKrnaLdrJYdmxMsD0E5dCvHBmM+G8cQ0vr
-         NVvw==
-X-Gm-Message-State: APjAAAV+2xX7ay8Fs6ASkiJeQiB1Cv22NKI3jz8SrOGX+oqhH+dOFQdP
-        4U0Moiz2XPAe+xIARrmp1V4Te9KcyGzz9g==
-X-Google-Smtp-Source: APXvYqxdgQc+kd0ZeqAyVZY164Qu1TqSuhPWX93wXlpUfEY9+rBaNIsC4KWcfC4qhebZHLXgNzOHPw==
-X-Received: by 2002:ae9:eb8c:: with SMTP id b134mr2197950qkg.377.1569877327228;
-        Mon, 30 Sep 2019 14:02:07 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to:user-agent;
+        bh=2a8sEC0KmLOofOR/KmXczBckB9a5kqxAqx9TpHSiZfc=;
+        b=axmJ0qfzKQgIPw2QxEYRrqQnbikZbz/ujRh+cnqLqG5Vmym2lqpk450unsdIneHSTS
+         l0pBERH7U2Gea1exxHNVBY4iQkPh+Yt4bpWUSF6HshKHjfILTWmPg/pzR9WaSMz1ni8p
+         A1Gp+lXFJkYi+gwH+ZblaKWOL4btz2Ldra7qWEhFlfQOiXjXARG7+t4+xdmS76BPlEBr
+         JpytBp/e5YmQcE4Uae2t56EI047TnL738S+SNv2sWt4m3DWgNh/NfPyRjkJ1kBNgnxyP
+         Ro6Tuc5flQz5KzhID012SLzKhslSjWj2K0Zp7JiiceCVcnU2byoCKJ9BFuXvgygpaQrh
+         pYbg==
+X-Gm-Message-State: APjAAAXuuzF5mSjR88oHbVO2NL7nERDUdwkc+IBIm7vZkNkZpwpa57bZ
+        8xEwCYCq5Tm1Aie5y/rvK64YZQSfqxtvPwkQ
+X-Google-Smtp-Source: APXvYqyN2glVmWaNCl4qwwFv62ADu1gIzNjsiyCxBYRncN93yfHISTBV3jwCPgE577G9BZ4FEURzFg==
+X-Received: by 2002:ac8:5344:: with SMTP id d4mr27128383qto.258.1569878653021;
+        Mon, 30 Sep 2019 14:24:13 -0700 (PDT)
 Received: from pure.paranoia.local ([87.101.92.157])
-        by smtp.gmail.com with ESMTPSA id u123sm6145057qkh.120.2019.09.30.14.02.06
+        by smtp.gmail.com with ESMTPSA id x19sm6065914qkf.26.2019.09.30.14.24.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2019 14:02:06 -0700 (PDT)
-Date:   Mon, 30 Sep 2019 17:02:04 -0400
+        Mon, 30 Sep 2019 14:24:12 -0700 (PDT)
+Date:   Mon, 30 Sep 2019 17:24:10 -0400
 From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To:     Neil Horman <nhorman@tuxdriver.com>
-Cc:     Dmitry Vyukov <dvyukov@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Drew DeVault <sir@cmpwn.com>, workflows@vger.kernel.org
-Subject: Re: thoughts on a Merge Request based development workflow
-Message-ID: <20190930210204.GD14403@pure.paranoia.local>
-References: <BX8G8FACJ68D.3RNYA1J9VP98Z@homura>
- <20190924185312.GD6041@hmswarspite.think-freely.org>
- <20190924202423.GA14425@pendragon.ideasonboard.com>
- <20190924222502.GA11633@hmswarspite.think-freely.org>
- <20190925205036.GA7763@pendragon.ideasonboard.com>
- <20190926004045.GA20302@localhost.localdomain>
- <20190928185848.76c85a9d@oasis.local.home>
- <20190929115722.GA26820@hmswarspite.think-freely.org>
- <CACT4Y+Z8_fABZSXahiGaOxKiPa+K3hxhvH8EVenuuqOs3aCwZg@mail.gmail.com>
- <20190930010054.GA2973@localhost.localdomain>
+To:     Daniel Borkmann <daniel@iogearbox.net>
+Cc:     Dmitry Vyukov <dvyukov@gmail.com>,
+        ksummit-discuss@lists.linuxfoundation.org, tytso@mit.edu,
+        robh@kernel.org, laurent.pinchart@ideasonboard.com,
+        rjw@rjwysocki.net, workflows@vger.kernel.org,
+        skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
+        helgaas@kernel.org, jikos@kernel.org, jani.nikula@intel.com,
+        geert@linux-m68k.org, stefan@datenfreihafen.org, sashal@kernel.org,
+        hch@lst.de, Dmitry Vyukov <dvyukov@google.com>
+Subject: Re: [Ksummit-discuss] [MAINTAINERS SUMMIT] Reflections on kernel
+ development processes
+Message-ID: <20190930212410.GE14403@pure.paranoia.local>
+Mail-Followup-To: Daniel Borkmann <daniel@iogearbox.net>,
+        Dmitry Vyukov <dvyukov@gmail.com>,
+        ksummit-discuss@lists.linuxfoundation.org, tytso@mit.edu,
+        robh@kernel.org, laurent.pinchart@ideasonboard.com,
+        rjw@rjwysocki.net, workflows@vger.kernel.org,
+        skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
+        helgaas@kernel.org, jikos@kernel.org, jani.nikula@intel.com,
+        geert@linux-m68k.org, stefan@datenfreihafen.org, sashal@kernel.org,
+        hch@lst.de, Dmitry Vyukov <dvyukov@google.com>
+References: <20190912120602.GC29277@pure.paranoia.local>
+ <d6e8f49e93ece6f208e806ece2aa85b4971f3d17.1569152718.git.dvyukov@google.com>
+ <610c62f2-f2e4-2eb1-3051-53c573194f52@iogearbox.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190930010054.GA2973@localhost.localdomain>
+In-Reply-To: <610c62f2-f2e4-2eb1-3051-53c573194f52@iogearbox.net>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Sun, Sep 29, 2019 at 09:00:54PM -0400, Neil Horman wrote:
-> I agree that newer review solutions (of the type you ennummerated) rely
-> on centralization of information, which is undesireable in many cases,
-> but I'm not sure how to avoid that.  
-> 
-> Just thinking off the top of my head, I wonder if a tool that converted
-> all forge type conversations to git notes would be useful here.  Those
-> could then be pulled by individuals for review and update?
+On Mon, Sep 23, 2019 at 02:52:01PM +0200, Daniel Borkmann wrote:
+> > Most (all) of the "kit" functionality should be separated from the UI
+> > and be available for scripting/automation/other UIs. Whether it's
+> > done as "libgit" or as "shell out" is discussable.
+> [...]
+> On that note, such a tool would also need to co-exist with the current
+> email based process for some (long?) time in order to allow a smooth
+> transition period. Last week I spent a few of nights hacking a small tool
+> which is regularly pulling the lore git trees I'm interested in and checking
+> out all [new] mails into maildir format so they can be read naturally by
+> UIs like mutt et al [0]. As an experiment, in case of bpf vger mailing list,
+> it extracts all current ~8k mails in under a second:
 
-Git notes have important scaling problems -- they create a file per each
-note, so git performance will degrade linearly. With only a few notes
-this isn't such a big deal, but if we imagine scaling this up to kernel
-workflows, this will quickly start to cause problems. Git notes also
-cannot be cryptographically signed (in a way that's supported natively
-by git), so it's another reason not to consider them for anything
-important.
-
+Thanks for working on this -- I've started on a similar tool in the
+past, but got distracted and never completed it. In my implementation,
+it was piping messages to procmail, which allowed writing complex rules
+for folders/pre-processing, etc. May I suggest that your tool also
+offers a stdout that can be piped to procmail?
 
 -K
