@@ -2,141 +2,114 @@ Return-Path: <SRS0=W/h6=X2=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CF22C388F3
-	for <workflows@archiver.kernel.org>; Tue,  1 Oct 2019 03:58:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DD3BECE589
+	for <workflows@archiver.kernel.org>; Tue,  1 Oct 2019 04:50:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2098B20815
-	for <workflows@archiver.kernel.org>; Tue,  1 Oct 2019 03:58:46 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=axtens.net header.i=@axtens.net header.b="fFLPzfgo"
+	by mail.kernel.org (Postfix) with ESMTP id E935421872
+	for <workflows@archiver.kernel.org>; Tue,  1 Oct 2019 04:50:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726784AbfJAD6p (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 30 Sep 2019 23:58:45 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:39841 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726590AbfJAD6p (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 30 Sep 2019 23:58:45 -0400
-Received: by mail-pf1-f194.google.com with SMTP id v4so6951850pff.6
-        for <workflows@vger.kernel.org>; Mon, 30 Sep 2019 20:58:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=axtens.net; s=google;
-        h=from:to:cc:subject:in-reply-to:references:date:message-id
-         :mime-version;
-        bh=akg6b685IGsieFNDUb4MAb44/1ayQrh3jWaYqq1k8j4=;
-        b=fFLPzfgoyyPx6AntvMuJ8o846aBpu67v5WYwyP++WbSqMD6SbgaNGWAASZGlW5QAnm
-         dnJCXIw5i4EUD8gyk9Ny/hbJRWcHmr4YGbMWRKhiJM+hgWzBj+gbTAR/aftZqcgnnhnb
-         jdviBMg/Yf/eEVllye0A7x00efQCj/iWAvRPA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version;
-        bh=akg6b685IGsieFNDUb4MAb44/1ayQrh3jWaYqq1k8j4=;
-        b=BxFU+Okl4wFWh2Q0iiyJIlo/uT9wAECbY3ieALI82e8OmNlUHSK98eKCEnxkQ6DujJ
-         UC4X3vEJVC6umu/HQpWwSJyjrQG485nbEfPHGlGm9EHWmSM10S3bI7rQfaYehs278YWH
-         mqGOAZrXV2y6LSRD0H5f1t2q7hTCWFrR/W8DCfj5ooGDsUiYeYY7UNLmbY9PLfuo+qR6
-         lnkpkTs//03m47rVFu8pP0lRDW2kBIbH4tNH0DqleW7Mf1LxoyVBULAvAe7lxJ0bzaUL
-         yJsqQNKrLQj7ym8RZQU+JW/lC5v4fblsbGu/UckEatOox+YbY4AMfwbSml6LBQfEQxtu
-         3V7Q==
-X-Gm-Message-State: APjAAAV1T0tFpaM564QJTPevFsqqyO6fAxJldQ0wqJqfcjCs0U6yxhO6
-        VNIuznKpAxJVjspCIYyFVu+Elg==
-X-Google-Smtp-Source: APXvYqzN5BMwPi/s51HBnc90gGR27lcbFbj2rKt2F+2croDjVsfqxqjMt8Dy9Lp7dNT5v9R8iWU6Hg==
-X-Received: by 2002:a17:90a:3b01:: with SMTP id d1mr2992338pjc.81.1569902323274;
-        Mon, 30 Sep 2019 20:58:43 -0700 (PDT)
-Received: from localhost (ppp167-251-205.static.internode.on.net. [59.167.251.205])
-        by smtp.gmail.com with ESMTPSA id 74sm15653433pfy.78.2019.09.30.20.58.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2019 20:58:42 -0700 (PDT)
-From:   Daniel Axtens <dja@axtens.net>
-To:     Eric Wong <e@80x24.org>, "Theodore Y. Ts'o" <tytso@mit.edu>
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>, workflows@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>,
+        id S1725817AbfJAEur (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 1 Oct 2019 00:50:47 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54502 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725535AbfJAEur (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 1 Oct 2019 00:50:47 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x914lZm1074828
+        for <workflows@vger.kernel.org>; Tue, 1 Oct 2019 00:50:46 -0400
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2vbyjersym-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <workflows@vger.kernel.org>; Tue, 01 Oct 2019 00:50:46 -0400
+Received: from localhost
+        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <workflows@vger.kernel.org> from <ajd@linux.ibm.com>;
+        Tue, 1 Oct 2019 05:50:44 +0100
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Tue, 1 Oct 2019 05:50:40 +0100
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x914odR856623200
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 1 Oct 2019 04:50:39 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id AE908A405B;
+        Tue,  1 Oct 2019 04:50:39 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 5B1BCA4060;
+        Tue,  1 Oct 2019 04:50:39 +0000 (GMT)
+Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
+        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Tue,  1 Oct 2019 04:50:39 +0000 (GMT)
+Received: from [10.61.2.125] (haven.au.ibm.com [9.192.254.114])
+        (using TLSv1.2 with cipher AES128-SHA (128/128 bits))
+        (No client certificate requested)
+        by ozlabs.au.ibm.com (Postfix) with ESMTPSA id 87620A00F8;
+        Tue,  1 Oct 2019 14:50:35 +1000 (AEST)
+Subject: Re: Kernel development collaboration platform wish list
+To:     Daniel Axtens <dja@axtens.net>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>, workflows@vger.kernel.org
+Cc:     Shuah Khan <skhan@linuxfoundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Bjorn Helgaas <helgaas@kernel.org>,
         Jiri Kosina <jikos@kernel.org>,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Subject: Re: Kernel development collaboration platform wish list
-In-Reply-To: <20190924013920.GA22698@dcvr>
-References: <1811089.yxvLMk49Ug@kreacher> <20190923162001.GD6005@mit.edu> <20190924013920.GA22698@dcvr>
-Date:   Tue, 01 Oct 2019 13:58:35 +1000
-Message-ID: <878sq53yms.fsf@dja-thinkpad.axtens.net>
+References: <1811089.yxvLMk49Ug@kreacher> <5072394.GngetUhsyG@kreacher>
+ <87blv13yxc.fsf@dja-thinkpad.axtens.net>
+From:   Andrew Donnellan <ajd@linux.ibm.com>
+Date:   Tue, 1 Oct 2019 14:50:35 +1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <87blv13yxc.fsf@dja-thinkpad.axtens.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-AU
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19100104-0008-0000-0000-0000031C9EFA
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19100104-0009-0000-0000-00004A3B4779
+Message-Id: <522b803e-027e-e809-5dfa-826861344bd1@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-10-01_03:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1910010047
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Eric Wong <e@80x24.org> writes:
+On 1/10/19 5:52 am, Daniel Axtens wrote:
+>> (d) Support for "maintainer views"
+>>
+>>      That is, by default subsystem maintainers should see patches, bug reports
+>>      etc against the code maintained by them, with the possibility to extend the
+>>      view to also see the other submissions.
+>>
+>>      [That kind of is the case in Patchwork today when patches sent to different
+>>       mailing lists show up under different "projects", but the problem in there
+>>       is that copies of one patch appear under multiple "projects" as different
+>>       entities if sent to multiple lists.]
+> 
+> /me puts on pw maintainer hat
+> 
+> This is true, they are each individual database entries. This is largely
+> because projects will often change the state of patches differently. (An
+> example is a patch sent to multiple lists to collect ACKs before being
+> merged.)
 
-> "Theodore Y. Ts'o" <tytso@mit.edu> wrote:
->> One of the things I'd like to add as a strong desire is the ability to
->> review patches via web if that's what users would like to do.  There
->> are some real benefits for web-based review.  It means that if you
->> need to see greater context, it's relatively easy to do this.  It also
->> is convenient to be able to see the conversation for a particular hunk
->> of code right alongside the code.
->
-> I've already started on that with public-inbox; it's not enabled
-> on lore, yet(*); but public-inbox.org/git can use "git apply"
-> and dfpre:/dfpost: search prefixes to reconstruct git blobs out
-> of emailed patches.
->
-> For example, a self-rejected patch I posted in 2016:
->
->   https://public-inbox.org/git/20160711210243.GA1604@whir/
->
-> If you follow the link at the hunk header offset "+3,7",
-> it'll bring you to:
->
->   https://public-inbox.org/git/8d27707/s/?b=http-walker.c#n4
->
->   The bottom of that page has a a "debug log:" which tells
->   how the blob is reconstructed using the email and pre-existing
->   blob.
->
-> Since it can recreate blobs using patches, the next step is to
-> support showing "git diff" against reconstructed blobs with for
-> arbitrary contexts; but I got side-tracked from that earlier
-> this year...
->
-> (*) lore could configure coderepo associations, but that's a
->     bear with the amount of repos kernel.org has...
->
->> It's clear that whatever we do, it needs to be compatible with e-mail.
->> That's very clear.  But it would be useful if we can support both the
->> e-mail and web-based review.  There have some prototypes that have
->> been floated which shows that it is at least possible; perhaps
->> imperfectly, but something which provides a bidrectional gateway
->> between those who perfer to use e-mail and those that prefer to use a
->> web-based UI would be able to do it.
->
-> A hacker-oriented a webmail UI could be derived from
-> public-inbox and completely interoperable with other mail
-> servers (it would also support SMTP/IMAP, of course).
->
->> There will be many potential kernel contributors who will be used to
->> web-based UI's such as those that are available on github.  So while
->> remaining e-mail compatible, having some way of allow as many
->> operations to be done via web interfaces might help us get some newer
->> developers who are more comfortable to living on the web than some of
->> us more senior developers who remember when "gopher" was a text-based
->> search engine, and not a mascot for the Go programming langauge.  :-)
->
-> Unfortunate, but yeah.  Any web-based UIs ought to include some
-> subtle (or maybe not-so-subtle) hints/pointers towards
-> cheaper-to-run-and-likely-more-powerful tools and practices.
->
-> I can't prove it, but it seems like public-inbox has been
-> successful at promoting the use of Message-IDs in URLs and
-> git-send-email :)
+We really should get around to adding inter-project links for matching 
+message-IDs.
 
-FYI, the next release of Patchwork will move to message-id based URLs
-rather than numeric IDs. (Old URLs will still work of course! They will
-redirect to new URLs.)
+-- 
+Andrew Donnellan              OzLabs, ADL Canberra
+ajd@linux.ibm.com             IBM Australia Limited
 
-Regards,
-Daniel
