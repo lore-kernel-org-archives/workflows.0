@@ -2,58 +2,77 @@ Return-Path: <SRS0=J16y=YA=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D21EC47404
-	for <workflows@archiver.kernel.org>; Mon,  7 Oct 2019 18:45:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAD68ECE58C
+	for <workflows@archiver.kernel.org>; Mon,  7 Oct 2019 19:21:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4AAF02070B
-	for <workflows@archiver.kernel.org>; Mon,  7 Oct 2019 18:45:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C4C6A2084D
+	for <workflows@archiver.kernel.org>; Mon,  7 Oct 2019 19:21:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728081AbfJGSpO (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 7 Oct 2019 14:45:14 -0400
-Received: from shards.monkeyblade.net ([23.128.96.9]:56268 "EHLO
-        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728079AbfJGSpO (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 7 Oct 2019 14:45:14 -0400
-Received: from localhost (unknown [50.237.170.134])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id D038114735CF0;
-        Mon,  7 Oct 2019 11:45:13 -0700 (PDT)
-Date:   Mon, 07 Oct 2019 20:45:12 +0200 (CEST)
-Message-Id: <20191007.204512.1827066230578138833.davem@davemloft.net>
-To:     rostedt@goodmis.org
+        id S1728753AbfJGTVd (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 7 Oct 2019 15:21:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43584 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728187AbfJGTVd (ORCPT <rfc822;workflows@vger.kernel.org>);
+        Mon, 7 Oct 2019 15:21:33 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7108E20684;
+        Mon,  7 Oct 2019 19:21:32 +0000 (UTC)
+Date:   Mon, 7 Oct 2019 15:21:30 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     David Miller <davem@davemloft.net>
 Cc:     sir@cmpwn.com, nhorman@tuxdriver.com, workflows@vger.kernel.org
 Subject: Re: thoughts on a Merge Request based development workflow
-From:   David Miller <davem@davemloft.net>
-In-Reply-To: <20191007114752.0ac7f041@gandalf.local.home>
+Message-ID: <20191007152130.619f81ac@gandalf.local.home>
+In-Reply-To: <20191007.204512.1827066230578138833.davem@davemloft.net>
 References: <BX8G8FACJ68D.3RNYA1J9VP98Z@homura>
         <20191007.173329.2182256975398971437.davem@davemloft.net>
         <20191007114752.0ac7f041@gandalf.local.home>
-X-Mailer: Mew version 6.8 on Emacs 26.2
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
+        <20191007.204512.1827066230578138833.davem@davemloft.net>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Mon, 07 Oct 2019 11:45:14 -0700 (PDT)
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-From: Steven Rostedt <rostedt@goodmis.org>
-Date: Mon, 7 Oct 2019 11:47:52 -0400
+On Mon, 07 Oct 2019 20:45:12 +0200 (CEST)
+David Miller <davem@davemloft.net> wrote:
 
-> I want tools that work, and are versatile. If you have a replacement
-> that's not a "one size fits all", where you can build any client
-> against it (like we have with email), then I will be very happy. But
-> forcing everyone to a single workflow is going to be a huge step
-> backwards.
+> From: Steven Rostedt <rostedt@goodmis.org>
+> Date: Mon, 7 Oct 2019 11:47:52 -0400
+> 
+> > I want tools that work, and are versatile. If you have a replacement
+> > that's not a "one size fits all", where you can build any client
+> > against it (like we have with email), then I will be very happy. But
+> > forcing everyone to a single workflow is going to be a huge step
+> > backwards.  
+> 
+> I want good infrastructure upon which arbitrary tooling can be built on
+> top too, so I'm glad that our goals align :-)
+> 
+> But building it on top of email is very unwise in my opinion.
 
-I want good infrastructure upon which arbitrary tooling can be built on
-top too, so I'm glad that our goals align :-)
+I agree that it should not be built on top of email. I believe that the
+requirement people are asking for, is that email is integrated in it.
 
-But building it on top of email is very unwise in my opinion.
+For example, I love bugzilla's that are set up where I can be emailed
+when someone submits a report. And I can reply via email to that email
+I received, and my reply goes into bugzilla.
+
+The one that submitted the report doesn't need to have email for it.
+They can submit via the bugzilla interface, and even see my reply. But
+bugzilla is not built on top of email in this regard, but it can nicely
+interact with it.
+
+I believe that's what people are asking about. That email is one of the
+interfaces to whatever tool we come up with.
+
+-- Steve
