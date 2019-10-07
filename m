@@ -1,4 +1,4 @@
-Return-Path: <SRS0=71d8=X4=vger.kernel.org=workflows-owner@kernel.org>
+Return-Path: <SRS0=J16y=YA=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
@@ -6,94 +6,72 @@ X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB8FAC32792
-	for <workflows@archiver.kernel.org>; Thu,  3 Oct 2019 09:23:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95431ECE58C
+	for <workflows@archiver.kernel.org>; Mon,  7 Oct 2019 15:33:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8E62C21848
-	for <workflows@archiver.kernel.org>; Thu,  3 Oct 2019 09:23:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 74ED1206C2
+	for <workflows@archiver.kernel.org>; Mon,  7 Oct 2019 15:33:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727995AbfJCJXb (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 3 Oct 2019 05:23:31 -0400
-Received: from cloudserver094114.home.pl ([79.96.170.134]:59572 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727611AbfJCJXb (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 3 Oct 2019 05:23:31 -0400
-Received: from 79.184.253.225.ipv4.supernova.orange.pl (79.184.253.225) (HELO kreacher.localnet)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.292)
- id de9c46493afe9a6d; Thu, 3 Oct 2019 11:23:28 +0200
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Daniel Axtens <dja@axtens.net>
-Cc:     "Theodore Y. Ts'o" <tytso@mit.edu>, workflows@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bjorn Helgaas <helgaas@kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Subject: Re: Kernel development collaboration platform wish list
-Date:   Thu, 03 Oct 2019 11:23:28 +0200
-Message-ID: <1881738.6USjZhhSkN@kreacher>
-In-Reply-To: <87pnjf2pnw.fsf@dja-thinkpad.axtens.net>
-References: <1811089.yxvLMk49Ug@kreacher> <2432650.iS68q0zTR2@kreacher> <87pnjf2pnw.fsf@dja-thinkpad.axtens.net>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+        id S1728440AbfJGPde (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 7 Oct 2019 11:33:34 -0400
+Received: from shards.monkeyblade.net ([23.128.96.9]:53936 "EHLO
+        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728263AbfJGPdd (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 7 Oct 2019 11:33:33 -0400
+Received: from localhost (unknown [144.121.20.163])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id 1C6D6142C0140;
+        Mon,  7 Oct 2019 08:33:33 -0700 (PDT)
+Date:   Mon, 07 Oct 2019 17:33:29 +0200 (CEST)
+Message-Id: <20191007.173329.2182256975398971437.davem@davemloft.net>
+To:     sir@cmpwn.com
+Cc:     nhorman@tuxdriver.com, workflows@vger.kernel.org
+Subject: Re: thoughts on a Merge Request based development workflow
+From:   David Miller <davem@davemloft.net>
+In-Reply-To: <BX8G8FACJ68D.3RNYA1J9VP98Z@homura>
+References: <20190924182536.GC6041@hmswarspite.think-freely.org>
+        <BX8G8FACJ68D.3RNYA1J9VP98Z@homura>
+X-Mailer: Mew version 6.8 on Emacs 26.2
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Mon, 07 Oct 2019 08:33:33 -0700 (PDT)
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Wednesday, October 2, 2019 4:22:11 PM CEST Daniel Axtens wrote:
-> "Rafael J. Wysocki" <rjw@rjwysocki.net> writes:
-> 
-> > On Monday, September 23, 2019 6:20:01 PM CEST Theodore Y. Ts'o wrote:
-> >> One of the things I'd like to add as a strong desire is the ability to
-> >> review patches via web if that's what users would like to do.  There
-> >> are some real benefits for web-based review.  It means that if you
-> >> need to see greater context, it's relatively easy to do this.  It also
-> >> is convenient to be able to see the conversation for a particular hunk
-> >> of code right alongside the code.
-> >
-> > I totally agree.
-> >
-> > That may not be clear from my original posting (sorry about that), but it
-> > was my basic assumption that the web-based functionality would be there.
-> >
-> >> It's clear that whatever we do, it needs to be compatible with e-mail.
-> >> That's very clear.  But it would be useful if we can support both the
-> >> e-mail and web-based review.
-> >
-> > Right.
-> 
-> A long time ago now (before I was involved) there was talk of extending
-> patchwork to allow logged in users to comment on a patch in the web UI
-> and have patchwork send the comment as an email on your behalf.
+From: "Drew DeVault" <sir@cmpwn.com>
+Date: Tue, 24 Sep 2019 14:37:28 -0400
 
-I actually would appreciate something like that. :-)
+> Until this part. Phasing out email in favor of a centralized
+> solution like Gitlab would be a stark regression.
 
-Today, if I look at a patch in Patchwork and want to make comments on it, I
-need to find it in an email client and do that from there which at least is
-somewhat cumbersome.
+I have to make a statement about this because it's really the elephant
+in the room.
 
-> This was in the happier(?) days before we had SPF and DMARC, so I don't know
-> how feasible it would be today. (Maybe the emails would just have to come
-> from 'Patchwork on behalf of J. R. Developer'.)
+Email is on the slow and steady decline to an almost certain death.
 
-That would work for me.
+And I say this as someone who is maintaining email lists for more than
+25 years, and has to sift through several hundred emails every day.
 
-> But could web-based review be as simple as a web form that sends an email?
+Somewhere down the road, in the not too distant future, email will
+simply not be an option.  You can "use" it, but I can guarantee it
+will not be in a state where you will want to.
 
-That might work too I suppose, but I would like it to open up with the body of
-the message I'm replaying to quoted with "> " (so things don't need to be
-copied from there by hand).
+So we can stay in denial about this, or we can do something proactive
+to prepare ourselve for this inevitable result.
 
-> (I'm not advocating that this be put in patchwork straight away or
-> necessarily at all, but I think a proof of concept that lives off to the
-> side of patchwork could be an excellent use of the patchwork API!)
+And when we have these conversations about how important it is to
+retain email based workflows, is that really to make sure we have a
+backup plan in case new infrastructure fails, or is it to appease
+"senior" maintainers like myself and others who simply don't want to
+change and move on?
 
-Sure.
+Personally, I seriously want to change and move on from email, it's
+terrible.
 
-Cheers,
-Rafael
-
-
-
+I just want tools and pretty web pages, in fact I'll use just about
+anything in order to move on from email based workflows entirely.
