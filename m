@@ -2,195 +2,99 @@ Return-Path: <SRS0=yuFl=YD=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62931C4360C
-	for <workflows@archiver.kernel.org>; Thu, 10 Oct 2019 20:43:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 714B6C4360C
+	for <workflows@archiver.kernel.org>; Thu, 10 Oct 2019 20:59:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 261FB21D7A
-	for <workflows@archiver.kernel.org>; Thu, 10 Oct 2019 20:43:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4079620B7C
+	for <workflows@archiver.kernel.org>; Thu, 10 Oct 2019 20:59:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726076AbfJJUng (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 10 Oct 2019 16:43:36 -0400
-Received: from dcvr.yhbt.net ([64.71.152.64]:36558 "EHLO dcvr.yhbt.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725951AbfJJUng (ORCPT <rfc822;workflows@vger.kernel.org>);
-        Thu, 10 Oct 2019 16:43:36 -0400
-Received: from localhost (dcvr.yhbt.net [127.0.0.1])
-        by dcvr.yhbt.net (Postfix) with ESMTP id 702471F4C0;
-        Thu, 10 Oct 2019 20:43:35 +0000 (UTC)
-Date:   Thu, 10 Oct 2019 20:43:35 +0000
-From:   Eric Wong <e@80x24.org>
+        id S1726752AbfJJU70 (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 10 Oct 2019 16:59:26 -0400
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:39579 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726733AbfJJU70 (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 10 Oct 2019 16:59:26 -0400
+Received: from callcc.thunk.org (guestnat-104-132-34-105.corp.google.com [104.132.34.105] (may be forged))
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x9AKvYsn027358
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 10 Oct 2019 16:57:34 -0400
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id CF5DC42045A; Thu, 10 Oct 2019 16:57:33 -0400 (EDT)
+Date:   Thu, 10 Oct 2019 16:57:33 -0400
+From:   "Theodore Y. Ts'o" <tytso@mit.edu>
 To:     Dmitry Vyukov <dvyukov@google.com>
-Cc:     workflows@vger.kernel.org,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+Cc:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Don Zickus <dzickus@redhat.com>,
         Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Theodore Ts'o <tytso@mit.edu>,
-        David Miller <davem@davemloft.net>
-Subject: Re: Fwd: SSB protocol thoughts
-Message-ID: <20191010204335.GB5440@dcvr>
-References: <CACT4Y+Y0_2rCnt3p69V2U2_F=t4nMOmAOL-RGwxSS-ufk41NAg@mail.gmail.com>
- <CACT4Y+ZVbTk1esf9sDvDbXMCRDvFZwE1SbjxMAFbYjzK7AKoYA@mail.gmail.com>
+        Daniel Axtens <dja@axtens.net>,
+        David Miller <davem@davemloft.net>,
+        Drew DeVault <sir@cmpwn.com>,
+        Neil Horman <nhorman@tuxdriver.com>, workflows@vger.kernel.org
+Subject: Re: thoughts on a Merge Request based development workflow
+Message-ID: <20191010205733.GA16225@mit.edu>
+References: <20191007.173329.2182256975398971437.davem@davemloft.net>
+ <87zhicqhzg.fsf@dja-thinkpad.axtens.net>
+ <20191007211704.6b555bb1@oasis.local.home>
+ <20191008164309.mddbouqmbqipx2sx@redhat.com>
+ <20191008131730.4da4c9c5@gandalf.local.home>
+ <20191008173902.jbkzrqrwg43szgyz@redhat.com>
+ <20191008190527.hprv53vhzvrvdnhm@chatter.i7.local>
+ <bbf9d038-2238-b97f-7cae-97804ee1624c@redhat.com>
+ <20191009215416.o2cw6cns3xx3ampl@chatter.i7.local>
+ <CACT4Y+ZJd+3m8zh6m1LtGS0nXQpZbeo3xk=qRjj96wq7gTWwDw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CACT4Y+ZVbTk1esf9sDvDbXMCRDvFZwE1SbjxMAFbYjzK7AKoYA@mail.gmail.com>
+In-Reply-To: <CACT4Y+ZJd+3m8zh6m1LtGS0nXQpZbeo3xk=qRjj96wq7gTWwDw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Dmitry Vyukov <dvyukov@google.com> wrote:
-> Hi,
-> 
-> I've spent some time reading about SSB protocol, wrote a toy prototype
-> and played with it. I've tried to do a binary protocol and simpler
-> connection auth/encryption scheme. Here are some thoughts on the
-> protocol, how we can adopt it and associated problems. Some of the
-> problems we don't need to solve right now, but resolving others seem
-> to be required to get anything working. I am probably also
-> overthinking some aspects, I will appreciate if you can stop me from
-> doing this :)
+On Thu, Oct 10, 2019 at 07:52:50PM +0200, Dmitry Vyukov wrote:
+> I know you all love Gerrit but just to clarify :)
+> Gerrit stores all metadata in a git repo, all users can have a replica
+> and you can always have, say, a "backup" replica on a side done
+> automatically. Patches and versions of the patches are committed into
+> git into special branches (e.g. change/XXX/version/YYY), comments and
+> metadata are in a pretty straightforward json (this is comment text
+> for line X, etc) also committed into git, so one can always read that
+> in and transform into any other format. And you can also run Gerrit
+> locally over your replica.
 
-<snip>
+Konstantin has spoken about some his concerns about git's scalability,
+and it's important to remember that just because Gerrit has shown to
+work well on some very large repositories, it doesn't necessarily mean
+that it will work well on git repositories using the open source C
+implementation of git.
 
-> 4. DoS protection.
-> Taking into account this completely distributed and p2p nature of
-> everything, it becomes very easy to DoS the system with new users (one
-> just needs to generate a key pair), with lots of messages from a
-> single user, or both. And then these messages will be synced to
-> everybody. Eventually we will need some protection from DoS. Not that
-> it's not a problem for email, but it's harder to create trusted email
-> accounts and email servers have some DoS/spam protections. If we move
-> from email, it will become our responsibility.
+That's because Gerrit as used by Google (and made available in various
+public-facing Gerrit servers) uses a Git-on-Borg implementation[1],
+where the storage is done using Google's internal storage
+infrastructure.  This is implemented on top of Jgit (which is git
+implemented in Java)[2].
 
-Right, every p2p or federated messaging system will have the
-same problems email has with spam, flooding and/or eventual
-centralization if it becomes popular.
+[1] https://groups.google.com/a/chromium.org/forum/#!topic/chromium-dev/xM9THFr55L8
+[2] https://groups.google.com/a/chromium.org/d/msg/blink-dev/GZOeMUPE7Bc/LmxSj_ezcQ8J
 
-There can't be a forced migration on anybody.  Using git isn't
-even a requirement for kernel development, after all.
+That doesn't necessarily mean that git can't be made to work well
+enough as a transport layer.  I'm just pointing out this may be the
+explanation for why some say, "See, Gerrit works really well on
+super-large repos storing huge numbers of review comments" and others
+are saying, "it would be really scary to run git as a transport layer
+on kernel.org servers because git won't scale well to that kind of
+load."
 
-Instead of introducing a new system with the same problems as
-the old one, I still believe we can improve on the old one...
+Both may be correct.
 
-> 5. Corrupted feeds.
-> Some feeds may become corrupted (intentionally or not). Intentionally
-> it's actually trivial to do -- if you are at message sequence 10, you
-> push 2 different but correctly signed message sequence 11 into
-> different parts of the p2p system. Then there is no way the whole
-> system will agree and recover on its own from this. Different parts
-> will continue pushing to each other message 11 and 11', concluding
-> that the other one is invalid and rejecting it.
-> Konstantin also mentioned the possibility of injecting some illegal
-> content into the system, and then it will become "poisoned".
-> The system needs to continue functioning in the presence of corrupted feeds.
-> A potential solution: periodically scan major pubs, detect
-> inconsistencies and corrupted feeds and publish list of such feeds.
-> E.g. "feed X is bad after message 42: drop all messages after that,
-> don't accept new and don't spread them". This may also help recovering
-> after a potential DoS.
-> However this may have implications on application-level. Consider you
-> reply to a comment X on a patch review, and later message with comment
-> X is dropped from the system.
+Cheers,
 
-Yup.
-
-> If we get to this point, then it seems to me we already have an email
-> replacement that is easier to setup, does not depend on any
-> centralized providers, properly authenticated and with strong user
-> identities.
-
-I'm not sure we can get past points 4., 5. or 8. and 14., easily
-
-> Some additional points related to the transport layer:
-> 
-> 6. I would consider compressing everything on the wire and on disk
-> with gzip/brotli.
-> I don't see any mention of compression in SSB layers, but it looks
-> very reasonable to me. Why not? At least something like brotli level 3
-> sounds like a pure win, we will have lots of text.
-
-Not sure about brotli, aside from the fact that it's less
-popular and available than zlib, adding to installation
-overhead.
-
-Does SSB hold persistent connections?
-
-Per-connection zlib contexts has a huge memory overhead.
-
-I got around it for NNTP COMPRESS by sharing the zlib context,
-saving a lot of RAM (at the cost of less-efficient compression):
-  https://public-inbox.org/meta/20190705225339.5698-5-e@80x24.org/#Z30lib:PublicInbox:NNTPdeflate.pm
-
-<snip>
-
-> 8. Somebody mentioned a possibility of partial syncs (if the total
-> amount of data becomes too large, one may want to not download
-> everything for a new replica).
-> I hope we can postpone this problem until we actually have it.
-> Hopefully it's solvable retrospectively. For now I would say:
-> everybody fetches everything, in the end everybody fetches multiple
-> git repos in its entirety (shallow checkouts are not too useful).
-
-Right, this is a problem with git transports, too.
-
-Client tools for NNTP->(Maildir|POP3) and HTTP search->mboxrd.gz
-results can get around that for email so users can only download
-what they want.
-
-NNTP->POP3 would be an excellent way for kernel.org to get
-around delivery problems to big mail services since
-they all offer POP3 importers :)
-
-<snip>
-
-> 14. Consistency.
-> Consider there is a bug/issue and 2 users post conflicting status
-> updates concurrently. As these updates propagate through the system,
-> it's hard to achieve consistent final state. At least I fail to see
-> how it's possible in a reasonable manner. As a result some peers may
-> permanently disagree on the status of the bug.
-> May also affect patch reviews, if one user marks a patch as "abandon"
-> and another sets some "active" state. Then a "local patchwork" may
-> show it as open/pending for one user and closed/inactive for another.
-> May be even worse for some global configuration/settings data,
-> disagreement/inconsistency on these may be problematic.
-> There is a related problem related to permission revocations. Consider
-> a malicious pub that does not propagate a particular "permission
-> revocation" message. For the rest of participants everything looks
-> legit, they still sync with the pub, get other messages, etc, it's
-> just as if the peer did not publish the revocation message at all. As
-> the result the revocation message will not take effect arbitrary long.
-> These problems seem to be semi-inherent to the fully distributed system.
-
-Yep.  Email has this problem with lost/blocked/bounced messages, too.
-
-> The only practical solution that I see is to ignore the problem and
-> rely that everybody gets all messages eventually, messages take effect
-> when you receive them and in that order, and that some inconsistencies
-> are possible but we just live with that. However, it's a bit scary to
-> commit to theoretical impossibility of any 100% consistent state in
-> the system...
-> I see another potential solution, but it's actually half-centralized
-> and suffers from SPOF. When a user issues "bug update" message that is
-> just a request to update state, it's not yet committed. Then there is
-> a centralizer server that acknowledges all such requests and assigns
-> them totally ordered sequence numbers (i.e. "I've received message X
-> first, so I assign it number 1", "then I received message Y and it
-> becomes number 2"). This ordering dictates the final globally
-> consistent state. This scheme can be used for any other state that
-> needs consistency, but it's a centralized server and SPOF, if it's
-> down the requests are still in the system but they are not committed
-> and don't have sequence numbers assigned.
-> Obviously, all of this become infinitely simpler if we have a "forge"
-> solution...
-> 
-> Kudos if you are still with me :)
-
-:>
-
-Anything about bridging with email?
+					- Ted
