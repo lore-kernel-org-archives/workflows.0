@@ -2,97 +2,75 @@ Return-Path: <SRS0=yuFl=YD=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C11BEC10F14
-	for <workflows@archiver.kernel.org>; Thu, 10 Oct 2019 12:48:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFCE0C4360C
+	for <workflows@archiver.kernel.org>; Thu, 10 Oct 2019 12:53:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A0D872067B
-	for <workflows@archiver.kernel.org>; Thu, 10 Oct 2019 12:48:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BC0DA208C3
+	for <workflows@archiver.kernel.org>; Thu, 10 Oct 2019 12:53:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733301AbfJJMsH (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 10 Oct 2019 08:48:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60354 "EHLO mx1.redhat.com"
+        id S2387472AbfJJMxD (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 10 Oct 2019 08:53:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51084 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1733288AbfJJMsH (ORCPT <rfc822;workflows@vger.kernel.org>);
-        Thu, 10 Oct 2019 08:48:07 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S2387435AbfJJMxD (ORCPT <rfc822;workflows@vger.kernel.org>);
+        Thu, 10 Oct 2019 08:53:03 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 1E583190C021;
-        Thu, 10 Oct 2019 12:48:06 +0000 (UTC)
-Received: from hmswarspite.think-freely.org (ovpn-121-108.rdu2.redhat.com [10.10.121.108])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id B262C194BB;
-        Thu, 10 Oct 2019 12:48:04 +0000 (UTC)
-Date:   Thu, 10 Oct 2019 08:48:03 -0400
-From:   Neil Horman <nhorman@redhat.com>
-To:     Laura Abbott <labbott@redhat.com>
+        by mail.kernel.org (Postfix) with ESMTPSA id 016E32067B;
+        Thu, 10 Oct 2019 12:53:01 +0000 (UTC)
+Date:   Thu, 10 Oct 2019 08:53:00 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Nicolas Belouin <nicolas.belouin@gandi.net>
 Cc:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Eric Wong <e@80x24.org>, Laura Abbott <labbott@redhat.com>,
         Don Zickus <dzickus@redhat.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
         Daniel Axtens <dja@axtens.net>,
         David Miller <davem@davemloft.net>, sir@cmpwn.com,
         nhorman@tuxdriver.com, workflows@vger.kernel.org
 Subject: Re: thoughts on a Merge Request based development workflow
-Message-ID: <20191010124803.GA32022@hmswarspite.think-freely.org>
+Message-ID: <20191010085300.7d84b499@gandalf.local.home>
+In-Reply-To: <cf24af7f-6094-5b96-8e65-58b74bbee247@gandi.net>
 References: <20191007.173329.2182256975398971437.davem@davemloft.net>
- <87zhicqhzg.fsf@dja-thinkpad.axtens.net>
- <20191007211704.6b555bb1@oasis.local.home>
- <20191008164309.mddbouqmbqipx2sx@redhat.com>
- <20191008131730.4da4c9c5@gandalf.local.home>
- <20191008173902.jbkzrqrwg43szgyz@redhat.com>
- <20191008190527.hprv53vhzvrvdnhm@chatter.i7.local>
- <20191008203249.olm2g2qosflcguuk@redhat.com>
- <20191008213502.GA3591@pure.paranoia.local>
- <6da53e48-20f7-f473-ca4d-d773f1c7330c@redhat.com>
+        <87zhicqhzg.fsf@dja-thinkpad.axtens.net>
+        <20191007211704.6b555bb1@oasis.local.home>
+        <20191008164309.mddbouqmbqipx2sx@redhat.com>
+        <20191008131730.4da4c9c5@gandalf.local.home>
+        <20191008173902.jbkzrqrwg43szgyz@redhat.com>
+        <20191008190527.hprv53vhzvrvdnhm@chatter.i7.local>
+        <bbf9d038-2238-b97f-7cae-97804ee1624c@redhat.com>
+        <20191009215416.o2cw6cns3xx3ampl@chatter.i7.local>
+        <20191009222156.nedvmajswb3w3r3c@dcvr>
+        <20191009235631.hhkbxoiqgzyypcer@pure.paranoia.local>
+        <cf24af7f-6094-5b96-8e65-58b74bbee247@gandi.net>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6da53e48-20f7-f473-ca4d-d773f1c7330c@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2 (mx1.redhat.com [10.5.110.70]); Thu, 10 Oct 2019 12:48:07 +0000 (UTC)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Wed, Oct 09, 2019 at 05:50:36PM -0400, Laura Abbott wrote:
-> On 10/8/19 5:35 PM, Konstantin Ryabitsev wrote:
-> > On Tue, Oct 08, 2019 at 04:32:49PM -0400, Don Zickus wrote:
-> > > > This doesn't mean that forges are entirely out -- but they must remain mere
-> > > > tools that participate in a globally decentralized, developer-attestable,
-> > > > self-archiving messaging service. Maybe let's call that "kernel developer
-> > > > bus" or "kdbus" -- pretty sure that name hasn't been used before.
-> > > 
-> > > If we flipped it around and used today's git-pull-request emails as trigger
-> > > for forges to run their services, does cover some of your concerns?
-> > 
-> > Not really, because it doesn't preserve any records. A pull request is a
-> > pointer to some code in a git repository somewhere. Like any pointer, it
-> > is neither self-contained nor long-lived:
-> > 
-> > - the repo can be gone a month later (or that branch deleted)
-> > - the PR does not preserve any discussions that happened around that
-> >    code such as bug reports, test success/fail matrices, or peer reviews
-> > 
-> > It's also pretty inefficient, because it requires that the pull-request
-> > submitter hosts a 1.5GB repository on a fast permanently-available
-> > connection just so they can share a few lines of changes.
-> > 
-> 
-> I know this is an issue that Outreachy interns across projects have had in
-> the past with trying to sync large git repos across laggy connections.
-> 
-I wonder if the alternate index features of git could be expanded here
-to support this kind of workflow.  I.e. if a child tree to a parent
-project could just point to the master trees object database, and the
-child only stores new objects pushed to it that don't exist in the
-master tree.  That would greatly reduce the storage space needed for
-forks.  I expect this is what forge solutions do under the covers
-anyway.  It might be nice to codify that in direct git usage
+On Thu, 10 Oct 2019 09:35:12 +0200
+Nicolas Belouin <nicolas.belouin@gandi.net> wrote:
 
-Neil
+> Maybe the solution is to build such kind of features within git,
+> many proposed solutions with tools over git or using git.
+> A tool over git has the issue of conveying the data and making
+> it non-centralized, whereas a tool using git is non-scalable because
+> of the way git is *currently* storing things.
+> Improving git to make it able to store many more objects (be it in-review
+> commits or previous versions of patches) and then use it to get the kind
+> of features we can envy from fossil.
 
+To do this, we would have to make it where a user could pull just what
+they want. The history of the code without the comments, or may choose
+reviews etc. We don't want to bloat git too much that it becomes too
+big just to compile the kernel.
+
+-- Steve
