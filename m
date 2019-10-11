@@ -2,106 +2,60 @@ Return-Path: <SRS0=iLUk=YE=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3B54C47404
-	for <workflows@archiver.kernel.org>; Fri, 11 Oct 2019 18:59:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5543BECE58D
+	for <workflows@archiver.kernel.org>; Fri, 11 Oct 2019 19:02:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 81BE22089F
-	for <workflows@archiver.kernel.org>; Fri, 11 Oct 2019 18:59:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1570820398;
-	bh=3jXlt41X2G7uTGZZzPUU//dmtk7Phlhf51M7zrQdjk4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=GekM1Y/sysaMzSBDSqlhvCXvC0AyY5xRwVNGuq6ZW/+7ZUxPbRxqpSls9lp4uavQ/
-	 HkraySHUQD8gTuyQO0OzFVKeHO6rf5gaWfMVLUjP6wD7NQ3Izd8eZeAv5X9Jh/HheM
-	 pKUZsVykbbEpeIBHSC9HzgnEdnywMsI8CeMk5v6o=
+	by mail.kernel.org (Postfix) with ESMTP id 187C2218AC
+	for <workflows@archiver.kernel.org>; Fri, 11 Oct 2019 19:02:39 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=cmpwn.com header.i=@cmpwn.com header.b="CfDMiOjl"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728853AbfJKS76 (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 11 Oct 2019 14:59:58 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:57224 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728603AbfJKS76 (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Fri, 11 Oct 2019 14:59:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=cwfBiQ5ctI3mkVjjtCxRFp3Nln/rZMSEm2zX78VVX0Q=; b=VLuHeuXbfvGdGVmLfLg3ODxTp
-        0NIWeuZCuK29JfiRMjAB3sZFCQqOL3EeOVqtOB1c7lTndyphzM+3MxG/XksFscw1y/ehxiBlnNsva
-        ah4JEUox884fTXyByJehoBtWDeLaS2obOeWBSyN4lrU98eY3rocYGjo4Me+wiVGHeWTIFOM223Ch0
-        O6yqlk+PTB1yjyWIOIYto08BcbKvbulT0phxc7oL3TfZE5cTg0N/uQeTaDI1MuFoByPiT/SIkuY7+
-        3NEKJBJEq89hncAMv+9pOxk/tNpUY2ZJ2UlusnK8wNxNMozoF609JTLIn3olEVIjSqwLVTOhYfzOo
-        yqNuJ8a4g==;
-Received: from 177.17.141.107.dynamic.adsl.gvt.net.br ([177.17.141.107] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iJ08n-000627-5w; Fri, 11 Oct 2019 18:59:53 +0000
-Date:   Fri, 11 Oct 2019 15:59:49 -0300
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     David Miller <davem@davemloft.net>
-Cc:     rostedt@goodmis.org, skhan@linuxfoundation.org,
-        gregkh@linuxfoundation.org, patchwork@lists.ozlabs.org,
-        workflows@vger.kernel.org
+        id S1728936AbfJKTCi (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 11 Oct 2019 15:02:38 -0400
+Received: from mail.cmpwn.com ([45.56.77.53]:38310 "EHLO mail.cmpwn.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728794AbfJKTCi (ORCPT <rfc822;workflows@vger.kernel.org>);
+        Fri, 11 Oct 2019 15:02:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=cmpwn.com; s=cmpwn;
+        t=1570820557; bh=jY55TPWGKBH1C4mQtoByqSvtWG77xJZvma6WneSOsbo=;
+        h=In-Reply-To:Date:To:Cc:Subject:From;
+        b=CfDMiOjl5Ui6UphrpnMhLgS5olmqeWHI4ymyLEOwYXRz+HOz2CnH4rtj/lYWmj0jz
+         QMp4zw9sGrDP9IY/ylKbscPbUAfM3nQptfU4bbyzp9x4xupui2LaZ68Uj4ei2ClcyN
+         DNxNkdCSlVdiY5hZlq4QJvcYybCSaN+gbGczmcYA=
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20191011155949.145f0f7d@coco.lan>
+Date:   Fri, 11 Oct 2019 15:02:37 -0400
+To:     "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        "David Miller" <davem@davemloft.net>
+Cc:     <rostedt@goodmis.org>, <skhan@linuxfoundation.org>,
+        <gregkh@linuxfoundation.org>, <patchwork@lists.ozlabs.org>,
+        <workflows@vger.kernel.org>
 Subject: Re: RFE: use patchwork to submit a patch
-Message-ID: <20191011155949.145f0f7d@coco.lan>
-In-Reply-To: <20191011.113254.1964556815296845399.davem@davemloft.net>
-References: <f41e7a81-54f4-d4e8-b3c0-d98608fc4bdc@linuxfoundation.org>
-        <20191011143744.4291b42d@coco.lan>
-        <20191011140108.589bbb52@gandalf.local.home>
-        <20191011.113254.1964556815296845399.davem@davemloft.net>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+From:   "Drew DeVault" <sir@cmpwn.com>
+Message-Id: <BXMXEXQZRM3R.BVHXKDSEV8A4@homura>
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Em Fri, 11 Oct 2019 11:32:54 -0700 (PDT)
-David Miller <davem@davemloft.net> escreveu:
+I happen to have been working on something like this today:
 
-> From: Steven Rostedt <rostedt@goodmis.org>
-> Date: Fri, 11 Oct 2019 14:01:08 -0400
-> 
-> > Thus, if we want people to send us their fixes, we better keep just
-> > an email with a patch the lowest bar for entry.  
-> 
-> I argue that for people coming into the software engineering world
-> today, a PR is the lowest bar for entry.  And email is the exact
-> opposite, _especially_ our way of doing email.
-> 
-> Because it IS NOT just an email with a patch.
-> 
-> It is an email with a specific Subject line format, with various
-> fields.  Some field are optional and some are mandatory, and it also
-> depends upon which tree you are targetting.
-> 
-> Then there is the commit message which has content and formatting
-> requirements.
-> 
-> And then there are the tags, of various types and flavors, and the
-> context (which is sometimes subtle) determines which of those tags are
-> relevant and how they should be filled in.
-> 
-> The various other standard email fields like TO: and CC: have to
-> be set a certain way otherwise the patch won't even be looked at.
+https://sr.ht/x71F.png
 
-I can't see how just adding a web interface like github/gitlab
-would solve any of the above. I mean, the submitter will still
-need to write a proper subject/description before submitting the
-patch to the web interface, add the tags, etc. 
+This doesn't require any JavaScript.
 
-The only thing that would be different if we write a a Kernel-specific
-web GUI would be to automate some sanity checks on it, like starting a CI
-build for the patch series, run checkpatch and get_maintainers, but that 
-could also happen if we write a script/submit_patches tool, that would
-internally call checkpatch, get_maintainers and git send e-mail
-(or use some other interface like patchwork REST to submit patches).
+I've also been working on the other side, but it's less shiny - I'm
+teaching pygit2 about pluggable object db backends so that I can teach
+my mailing lists to talk to my git repos, and do things like offer
+expandable diffs, check mergability of patches, submit CI jobs, etc.
 
-Thanks,
-Mauro
+Some more screenshots from my work today:
+
+https://sr.ht/3grl.png
+https://sr.ht/rcsA.png
+https://sr.ht/CLHm.png
