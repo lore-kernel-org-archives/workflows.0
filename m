@@ -2,316 +2,188 @@ Return-Path: <SRS0=iLUk=YE=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=ham autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 242E4C47404
-	for <workflows@archiver.kernel.org>; Fri, 11 Oct 2019 17:15:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB724C47404
+	for <workflows@archiver.kernel.org>; Fri, 11 Oct 2019 17:20:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CF09F206A1
-	for <workflows@archiver.kernel.org>; Fri, 11 Oct 2019 17:15:26 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mcCRgzrD"
+	by mail.kernel.org (Postfix) with ESMTP id 7AFE32089F
+	for <workflows@archiver.kernel.org>; Fri, 11 Oct 2019 17:20:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1570814420;
+	bh=gcq68lpyBnrFm6wsoRxthFwmkz/Myj73uwbU+XXoLO0=;
+	h=Subject:To:References:From:Date:In-Reply-To:List-ID:From;
+	b=LglZNWWWLCR5ha36Tq8SJ/X5QXg0Uur4xK0zq1rld2bwH4WJIgE3dcyzMJ5a70l2X
+	 3zWKW5deTBneBlgRh0geSn6NZ9i02omWTfTI4RMWv4N7759NLxw8AV5DeSs6KnT55z
+	 S3+XXxzEzBiTo14ISdp7cwcOS90O503gYtA47NQY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728553AbfJKRP0 (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 11 Oct 2019 13:15:26 -0400
-Received: from mail-qk1-f180.google.com ([209.85.222.180]:45300 "EHLO
-        mail-qk1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727984AbfJKRP0 (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Fri, 11 Oct 2019 13:15:26 -0400
-Received: by mail-qk1-f180.google.com with SMTP id z67so9518276qkb.12
-        for <workflows@vger.kernel.org>; Fri, 11 Oct 2019 10:15:25 -0700 (PDT)
+        id S1728437AbfJKRUU (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 11 Oct 2019 13:20:20 -0400
+Received: from mail-io1-f67.google.com ([209.85.166.67]:41303 "EHLO
+        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728431AbfJKRUU (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Fri, 11 Oct 2019 13:20:20 -0400
+Received: by mail-io1-f67.google.com with SMTP id n26so23058447ioj.8
+        for <workflows@vger.kernel.org>; Fri, 11 Oct 2019 10:20:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Ma3ort9NJLBMUjWqcbLlF+M0+F3wqjkDbQzPJOV8BGQ=;
-        b=mcCRgzrDGnXhyFN7sFjy5uoey/EayWQyXZr9ue1juv4/3geIsSCRYKMoUmQRdZrQ6X
-         fAyctJIq5gIrZQGu1vYrmBy1R0uEcS8y+IyjubG1Xg4/ZOcS6q5EnuKilJfk6powbvhk
-         Ar04yQ3RLf9bTlH4Uwb6x8y2/uM9rqqU/LjW2K0rc+NkukVn1UEyTSXlMnfBTjshVvj0
-         S4lkWBLBga9TUsYxpoA9GAOThMxZcdc7lqcmCkgXXDJZZnWJMOUWWCaADB5r/m3uZ9JG
-         yMVJyUbZjHbBy/G8MPuzlIXOrq/gulER2e7tqWfkpmsVpThFQdQceOX8YQ2AERBPNaob
-         DVkw==
+        d=linuxfoundation.org; s=google;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=Cx2qoB6yOzxQfmfjfAkr9/ExuKZidtzQ4ImtxQyEAg4=;
+        b=aTBBJFG1Us4P8SB0d1OfkqW7pJSdhSBAMZUJF6sVXWhYEuuIqzEndlY+DZt5GoDARo
+         ep7gtfHwzGe0yYpZySX9mWU+8o0eUqHOMMRCu/twt8Nk/GQFZFdzMbi92lcJtQ1csEpA
+         fTuNQn34zvBIbDLE3ti/7o+Pf2XlQuRf2ddN8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Ma3ort9NJLBMUjWqcbLlF+M0+F3wqjkDbQzPJOV8BGQ=;
-        b=blCwYYNvkjY/lrWP4Hf2hJOkKPDq2ItWKtX9KU72osFsFQVRD8JlZXGCecgdopaXc0
-         +BW+YxclXk+NOG+mYK4TyCAnzHg3WphdLenzc1iheJXMsCXOOVR6JoZreQBl6t/JjCWN
-         EVgw8+xuMEnxYQP3Y95+q52N1niWLY0YPjjzoqlKK5kaiWkYFQLG1Z2PGLkrzSe+n/sm
-         0n5SqOgI0OPsH2jPmronoXiXZ8X4w2p1AhmexxPyF0CYt7QsaE6JK9KpB8eOoLGFce1f
-         hBs6HJAilzbTi2NFfhfm+/i7pc+WaH82i1hTwCQKD7xDyr6TnZOtWmotYdBO7YCmCwxa
-         h/iw==
-X-Gm-Message-State: APjAAAWx1AG0ZmD0pmlyuukHLojRFcC0UzoEQPCnnJcxQpbCbDt4pvKR
-        LwA9jxXteMFd+K98yVpB69h/NWrpa2pQ1TH0ckwNmK3Zt/4=
-X-Google-Smtp-Source: APXvYqxaADf8Y3AGmJrB//4QR5ugNnSabSN2qoXjZUwzG/YbRGBZbtDx/R9O6R1+XZ5DL4qevh/BTLFk1+utKA1KArM=
-X-Received: by 2002:a37:4a87:: with SMTP id x129mr16424205qka.43.1570814124543;
- Fri, 11 Oct 2019 10:15:24 -0700 (PDT)
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Cx2qoB6yOzxQfmfjfAkr9/ExuKZidtzQ4ImtxQyEAg4=;
+        b=FU6rtV2dgQLlUZgqKL2wtEqnRAOmrFtnZ+cQaHwup3JHs/Mle6V5UdA3GYV1gu1F9l
+         dHp/DWPLW88wGFv9frRCqm2odBKoYxsUs5T8lW6q0h355yVrXKVgBcqcjmYkN9bCLemw
+         cp5dlDnoVvu4SY1Inxl5y3lW3svJl7k8kXpFqbE+3e48PpGkxTqfhy0EsupON5ubjfYo
+         fIO6/8BfiBPpnwt46oV3j35DEQjNBD0kH4ZzcJX95KglQacMoGZ5x8ptjAjrN2fWvjlw
+         TifuSnO1piowVgycdHYgLcaFKg/qj0zBDsXRy9ZRbuo4FAY6Mh41h0awHXbAeI/8eHxp
+         UTLQ==
+X-Gm-Message-State: APjAAAUy8+YWGpW9sQaDCTsHL+YGyLl+ANv0US4EVKlhv6+YOB7WqaKJ
+        lLfTfHqWxnTcnPBS7VIkUji9sg==
+X-Google-Smtp-Source: APXvYqyEHzGL/bGt6X7WsZvrsO2CIJA6lzd5KjnHoGZ1RG/Pljue9N2puKKpo6eW2gQ7DcAV2NZNPQ==
+X-Received: by 2002:a02:a15b:: with SMTP id m27mr19123864jah.59.1570814418629;
+        Fri, 11 Oct 2019 10:20:18 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id 128sm12610542iox.35.2019.10.11.10.20.17
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 11 Oct 2019 10:20:18 -0700 (PDT)
+Subject: Re: RFE: use patchwork to submit a patch
+To:     Greg KH <gregkh@linuxfoundation.org>, patchwork@lists.ozlabs.org,
+        workflows@vger.kernel.org,
+        "skh >> Shuah Khan" <skhan@linuxfoundation.org>
+References: <20191010144150.hqiosvwolm3lmzp5@chatter.i7.local>
+ <20191011085702.GB1075470@kroah.com>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <f41e7a81-54f4-d4e8-b3c0-d98608fc4bdc@linuxfoundation.org>
+Date:   Fri, 11 Oct 2019 11:20:17 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20191010192852.wl622ijvyy6i6tiu@chatter.i7.local>
-In-Reply-To: <20191010192852.wl622ijvyy6i6tiu@chatter.i7.local>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Fri, 11 Oct 2019 19:15:12 +0200
-Message-ID: <CACT4Y+YddN06rOcE0jc8rVixamHSJALNvGLfzLk2moutL_9rTg@mail.gmail.com>
-Subject: Re: RFC: individual public-inbox/git activity feeds
-To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc:     workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191011085702.GB1075470@kroah.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Thu, Oct 10, 2019 at 9:29 PM Konstantin Ryabitsev
-<konstantin@linuxfoundation.org> wrote:
->
-> Hi, all:
->
-> The idea of using public-inbox repositories as individual feeds has been
-> mentioned here a couple of times already, and I would like to propose a
-> tentative approach that could work without needing to involve SSB or
-> other protocols.
->
-> # What are public-inbox repos?
->
-> Public-inbox (v2) uses git to archive mail messages, with the following
-> general structure:
->
-> topdir/
->   0.git/
->   1.git/
->   ...
->
-> Each of these git repositories has a single ref, master, with a single
-> file "m" containing the entire body of the message, e.g.:
->   - https://erol.kernel.org/workflows/git/0/tree/m
->
-> Each incoming message overwrites this file and creates a new commit,
-> e.g.:
->   - https://erol.kernel.org/workflows/git/0/log/m
->
-> This has the following upsides:
->
->   - with a single file, git commit operations are very fast
->   - git performance remains pretty much unaffected as repository grows,
->     since there aren't more and more objects to hash (the main downside
->     of public-inbox v1).
->   - it is easy to get the contents of any message by simply performing
->     `git show <commit hash>:m`, which is a very fast operation even for
->     very old messages in the archive
->   - most language environments have decent git libraries, so writing
->     tooling around git repositories is easy
->   - git is really good at replicating itself, especially with a single
->     ref
->   - git supports commit signing, so all commits can have cryptographic
->     attestation if the tools are configured to do that
->
-> There are a few downsides to this, too:
->
->   - git maintenance tools like git-repack don't expect that repository
->     contents are going to be 90%-100% rewritten with every new commit,
->     so by default it will try to perform many rather useless
->     optimizations looking for non-existent deltas (but this can be
->     tweaked in config files)
->   - most useful operations require maintaining auxiliary databases, e.g.
->     for message-id to commit-id mapping -- so repositories need to be
->     indexed using public-inbox-index in order to be useful for more than
->     just archival and replication. For huge repositories like LKML, the
->     initial indexing takes a long time, though subsequent
->     public-inbox-index calls after each `git remote update` are pretty
->     quick.
->   - there is only rudimentary sharding into epochs, which makes partial
->     replication tricky (e.g. "replicate just the archives from last
->     October")
->
-> # Public-inbox repositories are feeds
->
-> Each public-inbox repository is therefore a consecutive feed of messages
-> in the same sense something like SSB or NNTP is (for this reason,
-> there's robust NNTP support in public-inbox). Public-inbox feeds are:
->
->   - distributed
->   - immutable (or tamper-evident once replicated, which is effectively
->     the same as immutable if git is configured to reject non-ff updates)
->   - cryptographically attestable, if commit signing is used
->
-> # Individual developer feeds
->
-> Individual developers can begin providing their own public-inbox feeds.
-> At the start, they can act as a sort of a "public sent-mail folder" -- a
-> simple tool would monitor the local/IMAP "sent" folder and add any new
-> mail it finds (sent to specific mailing lists) to the developer's local
-> public-inbox instance. Every commit will be automatically signed and
-> pushed out to a public remote.
->
-> On the kernel.org side, we can collate these individual feeds and mirror
-> them into an aggregated feeds repository, with a ref per individual
-> developer, like so:
->
-> refs/feeds/gregkh/0/master
-> refs/feeds/davem/0/master
-> refs/feeds/davem/1/master
-> ...
->
-> Already, this gives us the following perks:
->
->   - cryptographic attestation
->   - patches that are guaranteed against mangling by MTA software
->   - guaranteed spam-free message delivery from all the important people
->   - permanent, attestable and distributable archive
->
-> (With time, we can teach kernel.org to act as an MTA bridge that sends
-> actual mail to the mailing lists after we receive individual feed
-> updates.)
->
-> # Using public-inbox with structured data
->
-> One of the problems we are trying to solve is how to deliver structured
-> data like CI reports, bugs, issues, etc in a decentralized fashion.
-> Instead of (or in addition to) sending mail to mailing lists and
-> individual developers, bots and bug-tracking tools can provide their own
-> feeds with structured data aimed at consumption by client-side and
-> server-side tools.
->
-> I suggest we use public-inbox feeds with structured data in addition to
-> human-readable data, using some universally adopted machine-parseable
-> format like JSON. In my mind, I see this working as a separate ref in
-> each individual feed, e.g.:
->
-> refs/heads/master -- RFC-2822 (email) feed for human consumption
-> refs/heads/json -- json feed for machine-readable structured data
->
-> E.g. syzbot could publish a human-readable message in master:
->
-> ----
-> From: syzbot
-> To: [list of addressees here]
-> Subject: BUG: bad usercopy in read_rio
-> Date: Wed, 09 Oct 2019 09:09:06 -0700
->
-> Hello,
->
-> syzbot found the following crash on:
->
-> HEAD commit:    58d5f26a usb-fuzzer: main usb gadget fuzzer driver
-> git tree:       https://github.com/google/kasan.git usb-fuzzer
-> console output: https://syzkaller.appspot.com/x/log.txt?x=149329b3600000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=aa5dac3cda4ffd58
-> dashboard link: https://syzkaller.appspot.com/bug?extid=43e923a8937c203e9954
-> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
->
-> ...
-> ----
->
-> The same data, including all the relevant info provided via
-> syzkaller.appspot.com links would be included in the structured-section
-> commit, allowing client-side tools to present it to the developer
-> without requiring that they view it on the internet (or simply included
-> for archival purposes).
->
-> The same approach can be used by bugzilla and any other bug-tracking
-> software -- a human-readable commit in master, plus a corresponding
-> machine-formatted commit in refs/heads/json. Minor record changes that
-> aren't intended for humans can omit the commit in master (to avoid
-> the usual noise of "so-and-so started following this bug" messages). All
-> commits would be cryptographically signed and fully attestable.
->
-> All these feeds can be aggregated centrally by entities like kernel.org
-> for ease of discovery and replication, though this process would be
-> human-administered and not automatic.
->
-> # Where this falls short
->
-> This is an archival solution first and foremost and not a true
-> distributed, decentralized communication fabric. It solves the following
-> problems:
->
->   - it gets us cryptographically attestable feeds from important people
->     with little effort on their part (after initial setup)
->   - it allows centralized tools (bots, forges, bug trackers, CI) to
->     export internal data so it can be preserved for future reference or
->     consumed directly by client-side tools -- though it obviously
->     requires that vendors jump on this bandwagon and don't simply ignore
->     it
->   - it uses existing technologies that are known to work well together
->     (public-inbox, git) and doesn't require that we adopt any nascent
->     technologies like SSB that are still in early stages of development
->     and haven't yet had time to mature
->
-> What this doesn't fix:
->
->   - we still continue to largely rely on email and mailing lists, though
->     theoretically their use would become less important as more
->     developer feeds are aggregated and maintainer tools start to rely on
->     those as their primary source of truth. We can easily see a future
->     where vger.kernel.org just writes to public-inbox archives and
->     leaves mail delivery and subscription management up to someone else.
->   - we still need aggregation authorities like kernel.org -- though we
->     can hedge this by having multiple mirrors and publishing a manifest
->     of feeds that can be pulled individually if needed
->   - this doesn't really get us builtin encrypted communication between
->     developers, though we can think of some clever solutions, such as
->     keypairs per incident that are initially only distributed to members
->     of security@kernel.org and then disclosed publicly after embargo is
->     lifted, allowing anyone interested to go back and read the encrypted
->     discussion for the purpose of full transparency.
->
-> The main upside of this approach is that it's evolutionary and not
-> revolutionary and we can start implementing it right away, using it to
-> augment and improve mailing lists instead of replacing them outright.
+On 10/11/19 2:57 AM, Greg KH wrote:
+> On Thu, Oct 10, 2019 at 10:41:50AM -0400, Konstantin Ryabitsev wrote:
+>> Hi, all:
+>>
+>> I would like to propose a new (large) feature to patchwork with the goal to
+>> make the process of submitting a patch easier for newbies and people
+>> generally less familiar with patch-based development. This was discussed
+>> previously on the workflows list:
+>> https://lore.kernel.org/workflows/20190930202451.GA14403@pure.paranoia.local/
+>>
+>> How I envision this would work:
+>>
+>> - user creates an account (which requires a mail confirmation) >> - they choose a "submit patch" option from the menu
+>> - the patch submission screen has a succession of screens:
+>>
+>>   1. a screen with a single field allowing a user to paste a URL to     their
+>> fork of the git repository. Once submitted, patchwork does a     "git
+>> ls-remote" to attempt to get a list of refs and to verify that     this is
+>> indeed a valid git repository
+> 
+> s/valid git repository/valid git repository based on the kernel git tree/
+> 
+> Otherwise you might be sending out lots of emails for other projects :)
+> 
+>>
+>>   2. next screen asks the user to select the ref to work from using the
+>> list obtained from the remote. Once submitted, patchwork performs a     `git
+>> clone --reference` to clone the repository locally using a     local fork of
+>> the same repo to minimize object transfer. This part     requires that:
+>>        a. patchwork project is configured with a path to a local fork,
+>> if this feature is enabled for a project
+>>        b. that fork is kept current via some mechanism outside of
+>> patchwork (e.g. with grokmirror)
+>>        c. there is some sanity-checking during the clone process to
+>> avoid abuse (e.g. a sane timeout, a tmpdir with limited size,          etc
+>> -- other suggestions welcome)
+>>
+>>   3. next screen asks the user to pick a starting commit from the log.
+>> Once submitted, patchwork generates the patch from the commit     provided
+>> to the tip of the branch selected by the user earlier,
+>>      using git format-patch.
+>>
+>>   4. next screen asks the user to review the patch to make sure this is
+>> what they want to submit. Once confirmed, patchwork performs two
+>> admin-defined optional hooks:
+>>
+>>        a. a hook to generate a list of cc's (e.g. get_maintainer.pl)
+>>        b. a sanity check hook (e.g. checkpatch.pl)
+> 
+> I will note that many "first patch" submissions are checkpatch.pl
+> cleanups for staging.  When doing that, I require that they do "one
+> logical change per patch", which means that many of the individual
+> patches themselves will not be checkpatch.pl clean, because many lines
+> have multiple issues with them (tabs, spaces, format, length, etc.)
+> 
+> So other than that minor thing, sounds interesting.  It's hard to
+> determine just how difficult the whole "set up git and send a patch out"
+> process is for people these days given the _huge_ numbers of new
+> contributions we keep getting, and the numerous good tutorials we have
+> created that spell out exactly how to do this.
+> 
+> So you might be "solving" a problem that we don't really have.  It's
+> hard to tell :(
+> 
 
+I agree with this. I don't think this a problem that is worth solving.
+When a new developer wants to send a patch, they don't need to create
+any accounts. They setup their email client and send patch.
 
-Interesting. This is similar to SSB on _some_ level, right? Because
-it's just a different type of transport. I personally don't have any
-horses in the transport race (as long as it is easy to setup and
-provides a good foundation for transferring structured data).
+We have several resources that walk them through setting up email
+clients and sending patches. checkpatch.pl can be automated with
+git hooks.
 
-What attracted my attention is this part:
+>> I know this is a pretty big RFE, and I would like to hear your thoughts
+>> about this. If there is general agreement that this is doable/good idea, I
+>> may be able to come up with funding for this development as part of the
+>> overall tooling improvement proposal.
+> 
+> The workflow seems sane, and matches what most people do today, with the
+> exception that it "solves" the git send-email issue, right?  Is that our
+> biggest barrier?
+> 
+> I would recommend interviewing some of the recent kernel mentor project
+> and outreachy applicants first, to try to determine exactly what their
+> problems, if any, were with our development process.  If they say that
+> this type of tool/workflow would have saved them hours of time and
+> energy, then that's a great indication that we should try to do this.
+> 
 
-refs/feeds/gregkh/0/master
-refs/feeds/davem/0/master
-refs/feeds/davem/1/master
+I would say considering the number of applicants to mentorship program
+and new developers it will be lot overhead to require them to create
+patchwork accounts, and it might even be hard overtime. A lot of them
+start out and drop out in the middle. With the current setup, nothing
+to cleanup.
 
-Will this provide a total ordering over all messages by all
-participants? That may be a significant advantage over SSB then (see
-point 14 in [1]). But the "that can be pulled individually" part
-breaks this (complete read-only mirrors for fault-tolerance are fine,
-though).
+Setting up email clients and git hooks is one time task. It is the
+easiest of the learning curve for many new developers. New developers
+struggle with getting the change logs right, coding styles right, and
+responding to review comments and acting on them.
 
-This may also need some form of DoS protection (esp as we move further
-from email).
+These aren't something that can be automated and they just have to
+learn through experience of sending patches.
 
-I also tend to conclude that some actions should not be done offline
-and then "synced" a week later. Ted provided an example of starting
-tests in another thread. Or, say if you close a bug and then push than
-update a month later without any regard to the current bug state, that
-may not be the right thing. Working with read-only data offline is
-perfectly fine. Doing _some_ updates locally and then pushing a week
-later is fine (e.g. queue a new patch for review). But not necessary
-all updates should be doable in offline mode. And this seems to be
-inherent conflict with any scheme where one can "queue" any updates
-locally, and then "sync" them anytime later without any regard to the
-current state of things and just tell the system and all other
-participants "deal with it". Also, if we have any kind of
-permissions/quotas, when are these checks done: when one creates an
-update or when it's synced?
+My opinion based on contact with new developers as well running the
+mentorship program, I would sat this isn't something that needs
+solving.
 
-This is interesting too:
-
-refs/heads/master -- RFC-2822 (email) feed for human consumption
-refs/heads/json -- json feed for machine-readable structured data
-
-Playing devil's advocate, what about MIME? :)
-It does not need to be completely arbitrary MIME, but say only 2
-alternative section, first has to be plain/text, second (optional) has
-to be kthul/json. Say, "kthul mail" creates that properly formed email
-with plain text and all structured data. Or, CI creates both human
-readable and machine readable form. It seems reasonable to keep both
-versions together.
-Though, it's not that I thought it all out and strongly advocating
-this. Just a potential interesting option.
-
-[1] https://lore.kernel.org/workflows/CACT4Y+YU78dQUeFob7NXaOU-gjnKHtxpceQj2c4=2aBV0_PSxg@mail.gmail.com/T/#t
+thanks,
+-- Shuah
