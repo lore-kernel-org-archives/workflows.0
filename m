@@ -3,112 +3,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8CA5C47404
-	for <workflows@archiver.kernel.org>; Fri, 11 Oct 2019 12:56:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AAEDC47404
+	for <workflows@archiver.kernel.org>; Fri, 11 Oct 2019 13:18:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8969420679
-	for <workflows@archiver.kernel.org>; Fri, 11 Oct 2019 12:56:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 38F5221D71
+	for <workflows@archiver.kernel.org>; Fri, 11 Oct 2019 13:18:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728002AbfJKM4F (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 11 Oct 2019 08:56:05 -0400
-Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:37624 "EHLO
-        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727589AbfJKM4F (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Fri, 11 Oct 2019 08:56:05 -0400
-Received: from callcc.thunk.org (guestnat-104-132-34-105.corp.google.com [104.132.34.105] (may be forged))
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x9BCsGXH002568
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 11 Oct 2019 08:54:17 -0400
-Received: by callcc.thunk.org (Postfix, from userid 15806)
-        id 2F52E42045A; Fri, 11 Oct 2019 08:54:16 -0400 (EDT)
-Date:   Fri, 11 Oct 2019 08:54:16 -0400
-From:   "Theodore Y. Ts'o" <tytso@mit.edu>
+        id S1728165AbfJKNSQ (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 11 Oct 2019 09:18:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47768 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727950AbfJKNSQ (ORCPT <rfc822;workflows@vger.kernel.org>);
+        Fri, 11 Oct 2019 09:18:16 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8AEE1206A1;
+        Fri, 11 Oct 2019 13:18:14 +0000 (UTC)
+Date:   Fri, 11 Oct 2019 09:18:12 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
 To:     Dmitry Vyukov <dvyukov@google.com>
-Cc:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Don Zickus <dzickus@redhat.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Daniel Axtens <dja@axtens.net>,
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Dmitry Vyukov <dvyukov@gmail.com>,
+        "Theodore Ts'o" <tytso@mit.edu>, Rob Herring <robh@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>, workflows@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Bjorn Helgaas <helgaas@kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Jani Nikula <jani.nikula@intel.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        stefan@datenfreihafen.org, Sasha Levin <sashal@kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
         David Miller <davem@davemloft.net>,
-        Drew DeVault <sir@cmpwn.com>,
-        Neil Horman <nhorman@tuxdriver.com>, workflows@vger.kernel.org
-Subject: Re: thoughts on a Merge Request based development workflow
-Message-ID: <20191011125416.GB16225@mit.edu>
-References: <20191007211704.6b555bb1@oasis.local.home>
- <20191008164309.mddbouqmbqipx2sx@redhat.com>
- <20191008131730.4da4c9c5@gandalf.local.home>
- <20191008173902.jbkzrqrwg43szgyz@redhat.com>
- <20191008190527.hprv53vhzvrvdnhm@chatter.i7.local>
- <bbf9d038-2238-b97f-7cae-97804ee1624c@redhat.com>
- <20191009215416.o2cw6cns3xx3ampl@chatter.i7.local>
- <CACT4Y+ZJd+3m8zh6m1LtGS0nXQpZbeo3xk=qRjj96wq7gTWwDw@mail.gmail.com>
- <20191010205733.GA16225@mit.edu>
- <CACT4Y+YcM6U53FpJ6dtjk6CDmW0POVwbyvxJLZx-u+NZOgM_aw@mail.gmail.com>
+        Christian Brauner <christian@brauner.io>
+Subject: Re: [MAINTAINERS SUMMIT] Reflections on kernel development
+ processes
+Message-ID: <20191011091812.68257184@gandalf.local.home>
+In-Reply-To: <CACT4Y+aBJctHyR3EXRevOU6KCaAWFJO75Gr6yB_t-xeWZ8tjLg@mail.gmail.com>
+References: <20190912120602.GC29277@pure.paranoia.local>
+        <d6e8f49e93ece6f208e806ece2aa85b4971f3d17.1569152718.git.dvyukov@google.com>
+        <20190930202451.GA14403@pure.paranoia.local>
+        <CACT4Y+a9VXYF3N__Bw52RPhVhXc4B6hT7Hdpjn=wk_qzhgJZ8Q@mail.gmail.com>
+        <20191008165155.GA30571@chatter.i7.local>
+        <CAMwyc-TzGj4BE0E2tRn8Esj43SnpcWXpS-ureG1YWbmtzmfqbA@mail.gmail.com>
+        <20191011083057.GA1074413@kroah.com>
+        <CACT4Y+Y=w-vBCKn__ZVM_qk=vU9wactVQkCTLiVp+4OpJW2BgA@mail.gmail.com>
+        <CACT4Y+aBJctHyR3EXRevOU6KCaAWFJO75Gr6yB_t-xeWZ8tjLg@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACT4Y+YcM6U53FpJ6dtjk6CDmW0POVwbyvxJLZx-u+NZOgM_aw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Fri, Oct 11, 2019 at 01:01:04PM +0200, Dmitry Vyukov wrote:
-> Good point. I wonder if it's possible to choose a more-git-friendly
-> storage scheme and to optimize the OSS git to get to the necessary
-> scalability level. I am asking because "optimizing some piece of
-> software" looks like a smaller part in the grand scheme of things of
-> the overall problem (unless of course there are some fundamental
-> conflicts between git and efficient storage for this type of data).
+On Fri, 11 Oct 2019 11:33:35 +0200
+Dmitry Vyukov <dvyukov@google.com> wrote:
 
-It's certainly possible; Jgit is open source (licensed under the
-Eclipse Public License), and while G-o-B is not open sourced (since it
-needs to interface with internal Google infrastructure, such as Big
-Table, it wouldn't help if it was open sourced), I suspect it wouldn't
-be hard to create new Java classes for jgit which used some other
-backend storage, such as Postgres.  That being said running a
-Jgit/Postgres server is probably going to be quite bit more
-complicated than the OSS git.
+> > Let's try to figure out time then.
+> > I propose the first day to not leave it to the last day and we may
+> > need some follow up discussions.
+> > On Monday I see Greg's keynote at 09:50 - 10:10. Steven's talk at
+> > 12:20 - 12:55. Sasha's talk at 12:20 - 12:55. Any other conflicts for
+> > people who want to attend?
+> > What about 10:30-11:30 (this covers a coffee break at 10:45-11:00, can
+> > prolong it to 12:00)? Any other time slot proposals?  
+> 
+> +Christian also expressed interest, his talks are 14:25 - 15:50 and
+> 16:20 - 16:55 on Monday.
 
-> However, I mainly wanted to point out a higher-level consideration.
-> Total doomsday resistance, assuming every party in the world is an
-> adversary and total decentralization are nice properties, but each of
-> them makes project design and implementation an order or magnitude
-> harder. So the question is: are the following requirements would be
-> enough:
->  - open-source implementation
->  - transparent raw data format
->  - ability to export and backup all data natively (each user may even
-> have a complete replica of whole raw data for the "local patchwork"
-> thing)
->  - ability to do most of the work locally
->  - not owning user identities/be able to export user identities
->  - maybe something else, but you get the idea
-> ?
+If everyone's giving a talk on Monday, can we do this meeting on
+Tuesday?
 
-This is a good point, and I agree.  And whether we use something like
-Jgit, or OSS git, or Google's G-o-B, or Microsoft's highly scalable
-git reimplementation, is really is an implementation detail.  So long
-as we know that our requirements have viable solutions, we don't need
-to rathole on the which solution is best.
+It's much easier to concentrate if you don't have to worry about a talk
+you are about to give (or just finished).
 
-And if we have an independent implementation which _could_ scale, and
-could be stood up and demonstrate could work for a small set of trees,
-if some large company were to contribute the infrastructure so that
-could run at scale for most of the kernel subsystems' git trees,
-perhaps we would be OK with a solution which is centralized-at-least-in-practice?
-
-After all, lore.kernel.org is centralized at least in practice, and
-it's convenient that it archives many of the kernel's mailing lists
-(on vger as well as others) because when a message is CC'ed to many
-lists, it can be more efficient when it is run centrally.  But the
-fact that public inbox *can* be run by others is enough to keep people
-from being worried about things being too centralized.
-
-						- Ted
+-- Steve
