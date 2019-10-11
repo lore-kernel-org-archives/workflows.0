@@ -4,129 +4,143 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33A0EECE58C
-	for <workflows@archiver.kernel.org>; Fri, 11 Oct 2019 10:46:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4ADCECE58C
+	for <workflows@archiver.kernel.org>; Fri, 11 Oct 2019 11:01:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F08FD21D80
-	for <workflows@archiver.kernel.org>; Fri, 11 Oct 2019 10:46:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8FA8F206CD
+	for <workflows@archiver.kernel.org>; Fri, 11 Oct 2019 11:01:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GBgqihvw"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EJjtKoJw"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727529AbfJKKqf (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 11 Oct 2019 06:46:35 -0400
-Received: from mail-qt1-f180.google.com ([209.85.160.180]:33220 "EHLO
-        mail-qt1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727289AbfJKKqf (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Fri, 11 Oct 2019 06:46:35 -0400
-Received: by mail-qt1-f180.google.com with SMTP id r5so13235432qtd.0
-        for <workflows@vger.kernel.org>; Fri, 11 Oct 2019 03:46:33 -0700 (PDT)
+        id S1726885AbfJKLBS (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 11 Oct 2019 07:01:18 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:34369 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727243AbfJKLBS (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Fri, 11 Oct 2019 07:01:18 -0400
+Received: by mail-qt1-f193.google.com with SMTP id 3so13282168qta.1
+        for <workflows@vger.kernel.org>; Fri, 11 Oct 2019 04:01:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Ep2cxMR0WeX+YNvYPPxEjETtK9Kd1PBebp696ucn230=;
-        b=GBgqihvwiukdvEx+g58rK/olxZfc/TrUdpnSRtG9svFVEZ+D31kgurHNdSBfxwXN8g
-         gGxfuq27MUJi2SPCsmUrfHACkK5jM2JpmIW5qjjiy577MEL1yrfsuX0Uko8Xqwr7Y8UA
-         ZOjruDCn8nw+18QICW54XJLLkqYzgu0o8KYpGmlpL/vt+CF2uoOlBBR6v6BqKnAJ9thF
-         3Zz142AwCjZNxqJ+RLdL2UiAoXlCjQkB4tv4xgvIc6jcmeV3kumonomlXbX5Hee+kADa
-         a2aonmiOci1apqxNuOnZBGCW/BG6dlYpWXWxfhrTRrix4VrlTOsa5u2g/FYC0V3h9PpE
-         PG2A==
+        bh=lF1QyFtxuPZ9J9k5ftv/F81iT/9b/LBryGRSZCKsgYs=;
+        b=EJjtKoJw2bDaQtl61mTr1hLRF8AyF4IDTUKxSvsY5pKPfR7qoTcScZH5AxuABo9CiY
+         WK0RPs2WVcIqj05VlydavtieZfclojZJv2BITIDhxO9JVJvMjpSsXgJFtJGZzloutq8d
+         UEqxPdJ+POVj4zKcN97OyuRANgecGby1+VNcbE8REoSikZg5b5JMpHVG3V+TN3RN8Uh7
+         0ST6D/v3URpJRUR14Fp5kg2ppvt3qUz/9FPFLagKACinuCPk4E+KSRS+YSlJxHkCqqww
+         aiAK7obe3ZGn7g15I7/MgBtZuAMmHU5T6ReTh6KwJ8JYv5CzleQfq0pmLispc2Ua6ybu
+         wYCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Ep2cxMR0WeX+YNvYPPxEjETtK9Kd1PBebp696ucn230=;
-        b=dXac245IvlqeRW8ASsL+gzDYNB+uLAG/Yh5bNlbbbZsTPtq3M1tgdfDEfAl9YKzOLZ
-         0YUu/6smUJzm8/RJFYBaZwa6AbJxau39s0Ivs24kbpluVpuCjXxjjl0Bg0cvyY625vTm
-         UjVc1JgOC0f14t+W+O42xdpjuzugki+mVmd8tlAmTb9bf5M+Pzd1Za0WeIcOg+ZwvBt4
-         dyn2K4FNzlg4s5Mk78PmHNBz1WzL/deAZKw+WfK3E3XGIwAp/jruCQ/jsULgOK6znTsM
-         NsQlneqgBLsAJhHxqAXZUw/SkUVwjqZSy6PtkPptwoYFpGt8s0PSeEtMFxOin+ZKzJtR
-         jtzQ==
-X-Gm-Message-State: APjAAAV7GbA4fbLRb2HeexUNzhahFjuGiKfb/VgIwsXJKQgFj+g/0hxy
-        YFioQ+l51LUw2sTMV1slJKPsXxqv8KbGrc5Y1v74Ew==
-X-Google-Smtp-Source: APXvYqwEhLXTUgHetWKVWDwIiwhe2cTuZ5MdNrXrhFa6LmLoHe0MxHISGwxnUUUJ7CycNXltQiCbdNw9w2uyhTNbeLs=
-X-Received: by 2002:ac8:4749:: with SMTP id k9mr15751080qtp.257.1570790792357;
- Fri, 11 Oct 2019 03:46:32 -0700 (PDT)
+        bh=lF1QyFtxuPZ9J9k5ftv/F81iT/9b/LBryGRSZCKsgYs=;
+        b=mhbjto5jcp9ADdmtsU620wFNQYKLvMymkCU3VBfJ0blrcZcYyKadAwfWZ3+RaKw1Mv
+         hatUbTmWEVyPIkaL8+Jb/YWUbT5vNGdW28d1V91igytzKA2+/6z5qocLlx4olzZAGfOA
+         gFx7dUrwNxCHRH0sGseQUkpPdf6s6pGpb7PE7H/BuO09A0dYyP4SfCwDuEbsTTIf63sF
+         FjJfo1N2HOkOv10KKlJvsfo/n4qadCjw5UUyQCdAew2v5jeOeL0twZ6xdXY4EGol0nVn
+         momRCc/uZUQ6bJaTeBHf39ZHGvEfqHOquvvISoGrG+KwdM/dAjq/OItgdwgP8YePVihC
+         XJpA==
+X-Gm-Message-State: APjAAAVBq5RN4RpXsXnE7JcdOeevJXk+URKKbXYsaqPxxsFNMBwmgF5l
+        YgV23Gd9wMGKyIMhWJnxlZ3UG+ewjdQ+lrPUbyuLPg==
+X-Google-Smtp-Source: APXvYqySUwexgRU/RPnBw2Heyv9mQq2Cqk8XeptYgnKTvok12UBRgrPyLJyoUx6+3DLlUv3mSV+wyKWqd+cD/IxNE9k=
+X-Received: by 2002:ac8:73c8:: with SMTP id v8mr15939917qtp.158.1570791676449;
+ Fri, 11 Oct 2019 04:01:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190912120602.GC29277@pure.paranoia.local> <d6e8f49e93ece6f208e806ece2aa85b4971f3d17.1569152718.git.dvyukov@google.com>
- <20190930202451.GA14403@pure.paranoia.local> <CACT4Y+a9VXYF3N__Bw52RPhVhXc4B6hT7Hdpjn=wk_qzhgJZ8Q@mail.gmail.com>
- <20191008165155.GA30571@chatter.i7.local> <CAMwyc-TzGj4BE0E2tRn8Esj43SnpcWXpS-ureG1YWbmtzmfqbA@mail.gmail.com>
-In-Reply-To: <CAMwyc-TzGj4BE0E2tRn8Esj43SnpcWXpS-ureG1YWbmtzmfqbA@mail.gmail.com>
+References: <20191007.173329.2182256975398971437.davem@davemloft.net>
+ <87zhicqhzg.fsf@dja-thinkpad.axtens.net> <20191007211704.6b555bb1@oasis.local.home>
+ <20191008164309.mddbouqmbqipx2sx@redhat.com> <20191008131730.4da4c9c5@gandalf.local.home>
+ <20191008173902.jbkzrqrwg43szgyz@redhat.com> <20191008190527.hprv53vhzvrvdnhm@chatter.i7.local>
+ <bbf9d038-2238-b97f-7cae-97804ee1624c@redhat.com> <20191009215416.o2cw6cns3xx3ampl@chatter.i7.local>
+ <CACT4Y+ZJd+3m8zh6m1LtGS0nXQpZbeo3xk=qRjj96wq7gTWwDw@mail.gmail.com> <20191010205733.GA16225@mit.edu>
+In-Reply-To: <20191010205733.GA16225@mit.edu>
 From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Fri, 11 Oct 2019 12:46:20 +0200
-Message-ID: <CACT4Y+ZcPf4HiXhBknBY=aE0hJM33e1FG8pVepb2hYXMvbiMVw@mail.gmail.com>
-Subject: Re: [MAINTAINERS SUMMIT] Reflections on kernel development processes
-To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc:     Dmitry Vyukov <dvyukov@gmail.com>, "Theodore Ts'o" <tytso@mit.edu>,
-        Rob Herring <robh@kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>, workflows@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bjorn Helgaas <helgaas@kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Jani Nikula <jani.nikula@intel.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        stefan@datenfreihafen.org, Sasha Levin <sashal@kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        David Miller <davem@davemloft.net>
+Date:   Fri, 11 Oct 2019 13:01:04 +0200
+Message-ID: <CACT4Y+YcM6U53FpJ6dtjk6CDmW0POVwbyvxJLZx-u+NZOgM_aw@mail.gmail.com>
+Subject: Re: thoughts on a Merge Request based development workflow
+To:     "Theodore Y. Ts'o" <tytso@mit.edu>
+Cc:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Don Zickus <dzickus@redhat.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Daniel Axtens <dja@axtens.net>,
+        David Miller <davem@davemloft.net>,
+        Drew DeVault <sir@cmpwn.com>,
+        Neil Horman <nhorman@tuxdriver.com>, workflows@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Fri, Oct 11, 2019 at 4:16 AM Konstantin Ryabitsev
-<konstantin@linuxfoundation.org> wrote:
+On Thu, Oct 10, 2019 at 10:58 PM Theodore Y. Ts'o <tytso@mit.edu> wrote:
+> On Thu, Oct 10, 2019 at 07:52:50PM +0200, Dmitry Vyukov wrote:
+> > I know you all love Gerrit but just to clarify :)
+> > Gerrit stores all metadata in a git repo, all users can have a replica
+> > and you can always have, say, a "backup" replica on a side done
+> > automatically. Patches and versions of the patches are committed into
+> > git into special branches (e.g. change/XXX/version/YYY), comments and
+> > metadata are in a pretty straightforward json (this is comment text
+> > for line X, etc) also committed into git, so one can always read that
+> > in and transform into any other format. And you can also run Gerrit
+> > locally over your replica.
 >
-> On Tue, 8 Oct 2019 at 12:51, Konstantin Ryabitsev
-> <konstantin@linuxfoundation.org> wrote:
-> > >Hi Konstantin,
-> > >
-> > >Are you going to attend OSS Summit EU? If yes, I think we should sync
-> > >up there. I know Dave and Greg are there too. Perhaps we could
-> > >schedule some kind of semi-formal meeting?
-> >
-> > Unfortunately, no -- we have limited budget for traveling and I burned
-> > through mine by going to Lisbon. I'd be happy to work on a draft
-> > document that expands on my tooling vision (I'm doing so anyway), and I
-> > can time it to be ready before the summit so you can review and improve
-> > it. My hope is to submit it formally to the LF by the end of the month.
+> Konstantin has spoken about some his concerns about git's scalability,
+> and it's important to remember that just because Gerrit has shown to
+> work well on some very large repositories, it doesn't necessarily mean
+> that it will work well on git repositories using the open source C
+> implementation of git.
 >
-> Oh, hey, change of plans -- looks like I *will* be going to Lyon after
-> all. I think sitting down together for a semi-formal meeting sounds
-> like a good idea, considering all the active discussions happening
-> lately. Should we hash out a tentative agenda about topics that we
-> should and shouldn't cover? Who should be in attendance?
+> That's because Gerrit as used by Google (and made available in various
+> public-facing Gerrit servers) uses a Git-on-Borg implementation[1],
+> where the storage is done using Google's internal storage
+> infrastructure.  This is implemented on top of Jgit (which is git
+> implemented in Java)[2].
+>
+> [1] https://groups.google.com/a/chromium.org/forum/#!topic/chromium-dev/xM9THFr55L8
+> [2] https://groups.google.com/a/chromium.org/d/msg/blink-dev/GZOeMUPE7Bc/LmxSj_ezcQ8J
+>
+> That doesn't necessarily mean that git can't be made to work well
+> enough as a transport layer.  I'm just pointing out this may be the
+> explanation for why some say, "See, Gerrit works really well on
+> super-large repos storing huge numbers of review comments" and others
+> are saying, "it would be really scary to run git as a transport layer
+> on kernel.org servers because git won't scale well to that kind of
+> load."
+>
+> Both may be correct.
+>
+> Cheers,
+>
+>                                         - Ted
 
-Re agenda.
-For me the main bullet on the agenda would be figuring out high-level
-final destination for the effort. I think we need to take a step back,
-forget about implementation costs for a moment and try to imagine how
-we want kernel development process to look like in 5-10 years. Once we
-do that, most likely we will decide to cut some corners and compromise
-on practical grounds, and definitely have some incremental process of
-getting there. But still making small steps with a clear vision of the
-final destination is very different from making conflicting small
-steps in random directions.
-It should help us to avoid conflicting, duplicate and throwaway
-efforts. Personally I would be much more willing to contribute to such
-unified effort with clear destination rather than random projects used
-by a fraction of the community. It seems that lots of current efforts
-suffer from an inability to get enough resources behind because of an
-unofficial status. If we discard something based on the implementation
-costs, it would be useful to make that an explicit informed decision.
-Implementing something solid from scratch may actually be less effort
-than trying to connect together two pieces that were never meant to
-work together, it's important to consider short term vs long term
-costs here.
+Good point. I wonder if it's possible to choose a more-git-friendly
+storage scheme and to optimize the OSS git to get to the necessary
+scalability level. I am asking because "optimizing some piece of
+software" looks like a smaller part in the grand scheme of things of
+the overall problem (unless of course there are some fundamental
+conflicts between git and efficient storage for this type of data).
 
-But for this final destination we also need to figure out concrete
-technical foundations: email vs git vs ssb vs forge vs something else;
-identity/user account story, etc. But it's not just picking one name,
-because e.g. for ssb it's currently unclear to me how to deal with its
-inability to provide global data consistency. But git-based solution
-has comparable fundamental problems too.
-Without these decisions we won't be able to make any actual forward progress.
+However, I mainly wanted to point out a higher-level consideration.
+Total doomsday resistance, assuming every party in the world is an
+adversary and total decentralization are nice properties, but each of
+them makes project design and implementation an order or magnitude
+harder. So the question is: are the following requirements would be
+enough:
+ - open-source implementation
+ - transparent raw data format
+ - ability to export and backup all data natively (each user may even
+have a complete replica of whole raw data for the "local patchwork"
+thing)
+ - ability to do most of the work locally
+ - not owning user identities/be able to export user identities
+ - maybe something else, but you get the idea
+?
+
+We already have patchwork and public inbox deployed on kernel.org, so
+could this whole development support system also be something simply
+deployed on kernel.org? That would make lots of things _much_ easier.
