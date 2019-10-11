@@ -2,88 +2,93 @@ Return-Path: <SRS0=iLUk=YE=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26FD7C47404
-	for <workflows@archiver.kernel.org>; Fri, 11 Oct 2019 22:54:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EDA9C47404
+	for <workflows@archiver.kernel.org>; Fri, 11 Oct 2019 22:57:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E87022084C
-	for <workflows@archiver.kernel.org>; Fri, 11 Oct 2019 22:54:36 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VBqzlcNM"
+	by mail.kernel.org (Postfix) with ESMTP id 1493B2084C
+	for <workflows@archiver.kernel.org>; Fri, 11 Oct 2019 22:57:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726255AbfJKWyg (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 11 Oct 2019 18:54:36 -0400
-Received: from mail-lj1-f178.google.com ([209.85.208.178]:39820 "EHLO
-        mail-lj1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726205AbfJKWyg (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Fri, 11 Oct 2019 18:54:36 -0400
-Received: by mail-lj1-f178.google.com with SMTP id y3so11310901ljj.6
-        for <workflows@vger.kernel.org>; Fri, 11 Oct 2019 15:54:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9Lqq2ROD3kKa1gg36bLWPRJPFH2NoReRxCgnboAGOLA=;
-        b=VBqzlcNMxAlekeZLZq4vhRITKaRV/aSAY68fqhJ2lVXbenRSGF6VyWv4OEUpARr2oR
-         c1yDbbvrq+qkTETJWGwv6Nh3GJiWxGXhVzaCp2BNuOrLZRs/x5gtLME7eiviiFqNuezI
-         DF/WtrHkLN1XePtMm1K0BlkfPrubNVLJuznPNIWZfLNVl1Xoo0R8MBaU9aGFBOc87bte
-         ufsxcni5N64CVD0MM8wJ3ZqaL2QbdkIEDy6YYN7MZk9iozg42mumdDMFL/P5IUbcDmZh
-         Og2q7G6CBreoACWCfxXS7G8db5hQFkO+a89iUj7W1DLmhM6uAYVuJE1S0zMp1MnOIQhl
-         Nzug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9Lqq2ROD3kKa1gg36bLWPRJPFH2NoReRxCgnboAGOLA=;
-        b=KI8k4p/FSd/mBebOkrJXXkVeS1RgkCC/tkYqUITtdIYtHZitt3YgQ4UFawK1X6w7m7
-         iOfD7Br2RFWZc+AyGaES+deGkq2M4yYOPRtevtnsIOUfmsTC0/ZtAJ/1GTwXHZgB3Oav
-         CoCjMJDH3QoWxLOTB3O7+AtlI6ZYCLzJmI7FjR+lFF/eAg8lMWfwGz5JvRnwUeLfSMUI
-         rJyGvn6BdXtqZW5RN2Qtd64kTz2yC+dubrRGNhFpXcTP4UArZOiKOYSgxRST3EX7Sj7d
-         eYcQM9fuYRe1q4IMiSf+AHKHX7VF+x5gLn5EhXjgHFGDFKeTyyXSfcT5pgHqep5rOv4/
-         EnOw==
-X-Gm-Message-State: APjAAAUMf9WPkr/KW4FMu3d9KqDXgf++wBe1p7PuTBjekBy+2QI486Dm
-        0SEiys+r+O6lvDtugu77L5FWnNa1DVTBWBWpo8pe6w==
-X-Google-Smtp-Source: APXvYqwVjI6c74bmO4g6kwDfDL2P09I8rvo8gL6KEpSicrX9REWQuQfdYK4WuH52vvHibyLMw81RSTzH4+GNCpcIfFo=
-X-Received: by 2002:a2e:42d6:: with SMTP id h83mr10280361ljf.21.1570834474041;
- Fri, 11 Oct 2019 15:54:34 -0700 (PDT)
+        id S1726354AbfJKW5Q (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 11 Oct 2019 18:57:16 -0400
+Received: from www62.your-server.de ([213.133.104.62]:41412 "EHLO
+        www62.your-server.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726205AbfJKW5Q (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Fri, 11 Oct 2019 18:57:16 -0400
+Received: from sslproxy01.your-server.de ([88.198.220.130])
+        by www62.your-server.de with esmtpsa (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.89_1)
+        (envelope-from <daniel@iogearbox.net>)
+        id 1iJ3qU-0006Ns-Pp; Sat, 12 Oct 2019 00:57:14 +0200
+Received: from [178.197.249.55] (helo=pc-63.home)
+        by sslproxy01.your-server.de with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.89)
+        (envelope-from <daniel@iogearbox.net>)
+        id 1iJ3qU-0003TZ-ID; Sat, 12 Oct 2019 00:57:14 +0200
+Subject: Re: RFC: individual public-inbox/git activity feeds
+To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        workflows@vger.kernel.org
+References: <20191010192852.wl622ijvyy6i6tiu@chatter.i7.local>
+From:   Daniel Borkmann <daniel@iogearbox.net>
+Message-ID: <a527b3cb-d5e7-dc92-2ec0-a4052ffd8106@iogearbox.net>
+Date:   Sat, 12 Oct 2019 00:57:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-References: <20191011140108.589bbb52@gandalf.local.home> <20191011.113254.1964556815296845399.davem@davemloft.net>
- <20191011155949.145f0f7d@coco.lan> <20191011.121153.1410013220730418292.davem@davemloft.net>
- <20191011141909.1ccb58b3@hermes.lan> <20191011174719.16e997f5@gandalf.local.home>
-In-Reply-To: <20191011174719.16e997f5@gandalf.local.home>
-From:   Dave Airlie <airlied@gmail.com>
-Date:   Sat, 12 Oct 2019 08:54:22 +1000
-Message-ID: <CAPM=9tyjGBC2e5mi7=OetWACYjQ6iwiLPNXpuAEReeyttKNrtw@mail.gmail.com>
-Subject: Re: RFE: use patchwork to submit a patch
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Stephen Hemminger <stephen@networkplumber.org>,
-        David Miller <davem@davemloft.net>, mchehab@kernel.org,
-        skhan@linuxfoundation.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        patchwork@lists.ozlabs.org, workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191010192852.wl622ijvyy6i6tiu@chatter.i7.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Authenticated-Sender: daniel@iogearbox.net
+X-Virus-Scanned: Clear (ClamAV 0.101.4/25599/Fri Oct 11 10:48:23 2019)
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Sat, 12 Oct 2019 at 08:34, Steven Rostedt <rostedt@goodmis.org> wrote:
->
-> On Fri, 11 Oct 2019 14:19:09 -0700
-> Stephen Hemminger <stephen@networkplumber.org> wrote:
->
-> > As someone who has to deal with a corporate busted mail server.
-> > I agree mailing patches is a barrier to entry for many people today.
->
-> Hmm, and I wonder what company fosters so many issues with doing that
-> today? :-/
->
-> /me notices that Stephen uses his personal email account ;-)
+On 10/10/19 9:28 PM, Konstantin Ryabitsev wrote:
+[...]
+> # Individual developer feeds
+> 
+> Individual developers can begin providing their own public-inbox feeds.
+> At the start, they can act as a sort of a "public sent-mail folder" -- a simple tool would monitor the local/IMAP "sent" folder and add any new mail it finds (sent to specific mailing lists) to the developer's local public-inbox instance. Every commit will be automatically signed and pushed out to a public remote.
+> On the kernel.org side, we can collate these individual feeds and mirror them into an aggregated feeds repository, with a ref per individual developer, like so:
+> 
+> refs/feeds/gregkh/0/master
+> refs/feeds/davem/0/master
+> refs/feeds/davem/1/master
+> ...
+> 
+> Already, this gives us the following perks:
+> 
+>   - cryptographic attestation
+>   - patches that are guaranteed against mangling by MTA software
+>   - guaranteed spam-free message delivery from all the important people
+>   - permanent, attestable and distributable archive
+> 
+> (With time, we can teach kernel.org to act as an MTA bridge that sends actual mail to the mailing lists after we receive individual feed updates.)
+[...]
 
-Your current employer also defaults to a crappy link replacer on most emails :-)
+[...]
+>   - we still continue to largely rely on email and mailing lists, though    theoretically their use would become less important as more    developer feeds are aggregated and maintainer tools start to rely on    those as their primary source of truth. We can easily see a future    where vger.kernel.org just writes to public-inbox archives and    leaves mail delivery and subscription management up to someone else.
 
-Dave.
+[...]
+> The main upside of this approach is that it's evolutionary and not revolutionary and we can start implementing it right away, using it to augment and improve mailing lists instead of replacing them outright.
+
+I do like these aspects, and the receive side aka git to mail client integration is already done,
+so the one missing piece is a sendmail drop-in replacement acting as public git sent-mail folder.
+I think it doesn't have to be on kernel.org, but could live anywhere e.g. developers could also
+push to github or elsewhere with such tool, so "subscribing" to a mailing list for sending would
+need kernel.org infra that adds the repo to a list of repos to pull from, extracts <commit hash>:m
+from that developers repo from the point where it was last read up to the git HEAD (e.g. rejecting
+any forced pushes, and doing sanity checks on m), and m would then be committed conflict-free to
+the official public-inbox repositories of the lists in Cc in m, and potentially sent from kernel.org
+via MTA bridge to old-style mail receivers. Nice thing is that this would allow for transparent
+testing/roll-out to today's development workflow. It might be one component/(sub-)tool of the bigger
+picture to have email slowly fade out (and new/non-mail based tools could be built around it, too).
+
+Thanks,
+Daniel
