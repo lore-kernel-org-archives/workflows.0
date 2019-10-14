@@ -2,210 +2,216 @@ Return-Path: <SRS0=tG+E=YH=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76EF7C4CECE
-	for <workflows@archiver.kernel.org>; Mon, 14 Oct 2019 14:58:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD2BCECE587
+	for <workflows@archiver.kernel.org>; Mon, 14 Oct 2019 15:12:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4393F20873
-	for <workflows@archiver.kernel.org>; Mon, 14 Oct 2019 14:58:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7504021848
+	for <workflows@archiver.kernel.org>; Mon, 14 Oct 2019 15:12:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="N2oIzsoE"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kAM+apTz"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733117AbfJNO6b (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 14 Oct 2019 10:58:31 -0400
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:41708 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732566AbfJNO6a (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 14 Oct 2019 10:58:30 -0400
-Received: by mail-qk1-f193.google.com with SMTP id p10so16132526qkg.8
-        for <workflows@vger.kernel.org>; Mon, 14 Oct 2019 07:58:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ptgHX5DKcWHI6v1VadDSkZXCvjN+gACVNIUcuOWUSxk=;
-        b=N2oIzsoEQFpJwTwYVri71PcRpYnvVLQ6/ot8AIGxFIxZ/CTG1NT87A2jYLKxPy+H5E
-         M4OS/uPZox9INSRCoCDvMbRttJmX2Wv3zqbkDGUb+dgl5pR82dUxXRFXLHX+eVTFTQE1
-         UP+CUOeRRA7ocOjNEo7EMTzvsDWdBUGGMqJn4cqqEuP9japcP9s5LrODi8gu56OIHNpp
-         DpGuIRD7ThnzWgdk9sZea/+LwLuMTSGyNi73WHaO8ctIc0r8FENQq8IxhQztt68oxNpJ
-         Hc+uHZ+kBEdVXY7yJDf76XnnNP+2nUui/qGQ4kwd1gjzJSFpdZgJfzIu4aPCVBE96mrT
-         pNfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ptgHX5DKcWHI6v1VadDSkZXCvjN+gACVNIUcuOWUSxk=;
-        b=dsE8ZOPbl497ZuZwkNNb9fFTZB3JiygG1UWpXfs8Wdcv1820Tc4L5ZzlztIY84OP0J
-         Yh2AImSuAHDgqzQzmWilw8EgLnX8bNfObRXcC9GYSQI7Qq3U1tn3/pSAecS0sLpeH1mw
-         PClvdDeIO3Yl1+Yk2TZltrqquaGB6txb2nhpLR12zvyNbwXoPaVSMCDS6Pq9XiVv2Cg+
-         QryfjXPihskZ+4+n9rPJrOgvSfSXs1njRFQCiY7xn9USK7uOK3TWSF4em6BD5GvTUQtR
-         GmxvUCldctTacVO/IwIdmo9E/P37etCDuoo8Zbmt2SQFzy4FEXQGw6UBdIO9dulzggf6
-         Knzg==
-X-Gm-Message-State: APjAAAW4xg0WA9OGzhkc0I4DFHoOnPkNpqd++l7VEYuXe0EpI6LqjFUz
-        Gy3OyIVh5SpHX/3F6lFyt7b6VQXdBkNwHCe7sWPd6w==
-X-Google-Smtp-Source: APXvYqzf6Ryt9Kfmc7WTgQiiCQ/xjyi8CDaHknzQkQZCUO0wK1JV/hGc64gIcLUlguv8k9E4u+vSxNrL93XKwxMpq8w=
-X-Received: by 2002:a05:620a:2158:: with SMTP id m24mr30589744qkm.250.1571065108877;
- Mon, 14 Oct 2019 07:58:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191010144150.hqiosvwolm3lmzp5@chatter.i7.local>
- <20191011085702.GB1075470@kroah.com> <f41e7a81-54f4-d4e8-b3c0-d98608fc4bdc@linuxfoundation.org>
-In-Reply-To: <f41e7a81-54f4-d4e8-b3c0-d98608fc4bdc@linuxfoundation.org>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Mon, 14 Oct 2019 16:58:17 +0200
-Message-ID: <CACT4Y+aYn57hQ4do0jvUGm-0C02UuDSwWeZL=M6XAaZjS51Jyw@mail.gmail.com>
+        id S1733143AbfJNPMq (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 14 Oct 2019 11:12:46 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:53980 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732223AbfJNPMp (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 14 Oct 2019 11:12:45 -0400
+Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1FA9D324;
+        Mon, 14 Oct 2019 17:12:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1571065963;
+        bh=RKgfNWN3Q80HMTGtJpMRwFDiV3JoRrh03vewUKuDOyk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=kAM+apTzLo0WVHsnA6RHXLRp6FOy+OX9b7JcSs3lH46SlRsfb+IVrLm2a+UKCzGHk
+         1YK8RcuBqgvYgc5ToIqU/s4RJopROhpwiluBt4+pZn7xt2GWfLltJQxqcrQRMuoUx3
+         gEZU9VbSFbumWR/y2+cB6S7FINUWHUlB4ZcIEH44=
+Date:   Mon, 14 Oct 2019 18:12:40 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Dmitry Vyukov <dvyukov@google.com>
+Cc:     Shuah Khan <skhan@linuxfoundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        patchwork@lists.ozlabs.org, workflows@vger.kernel.org
 Subject: Re: RFE: use patchwork to submit a patch
-To:     Shuah Khan <skhan@linuxfoundation.org>
-Cc:     Greg KH <gregkh@linuxfoundation.org>, patchwork@lists.ozlabs.org,
-        workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Message-ID: <20191014151240.GA19861@pendragon.ideasonboard.com>
+References: <20191010144150.hqiosvwolm3lmzp5@chatter.i7.local>
+ <20191011085702.GB1075470@kroah.com>
+ <f41e7a81-54f4-d4e8-b3c0-d98608fc4bdc@linuxfoundation.org>
+ <CACT4Y+aYn57hQ4do0jvUGm-0C02UuDSwWeZL=M6XAaZjS51Jyw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CACT4Y+aYn57hQ4do0jvUGm-0C02UuDSwWeZL=M6XAaZjS51Jyw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Fri, Oct 11, 2019 at 7:20 PM Shuah Khan <skhan@linuxfoundation.org> wrote:
->
-> On 10/11/19 2:57 AM, Greg KH wrote:
-> > On Thu, Oct 10, 2019 at 10:41:50AM -0400, Konstantin Ryabitsev wrote:
-> >> Hi, all:
-> >>
-> >> I would like to propose a new (large) feature to patchwork with the goal to
-> >> make the process of submitting a patch easier for newbies and people
-> >> generally less familiar with patch-based development. This was discussed
-> >> previously on the workflows list:
-> >> https://lore.kernel.org/workflows/20190930202451.GA14403@pure.paranoia.local/
-> >>
-> >> How I envision this would work:
-> >>
-> >> - user creates an account (which requires a mail confirmation) >> - they choose a "submit patch" option from the menu
-> >> - the patch submission screen has a succession of screens:
-> >>
-> >>   1. a screen with a single field allowing a user to paste a URL to     their
-> >> fork of the git repository. Once submitted, patchwork does a     "git
-> >> ls-remote" to attempt to get a list of refs and to verify that     this is
-> >> indeed a valid git repository
-> >
-> > s/valid git repository/valid git repository based on the kernel git tree/
-> >
-> > Otherwise you might be sending out lots of emails for other projects :)
-> >
-> >>
-> >>   2. next screen asks the user to select the ref to work from using the
-> >> list obtained from the remote. Once submitted, patchwork performs a     `git
-> >> clone --reference` to clone the repository locally using a     local fork of
-> >> the same repo to minimize object transfer. This part     requires that:
-> >>        a. patchwork project is configured with a path to a local fork,
-> >> if this feature is enabled for a project
-> >>        b. that fork is kept current via some mechanism outside of
-> >> patchwork (e.g. with grokmirror)
-> >>        c. there is some sanity-checking during the clone process to
-> >> avoid abuse (e.g. a sane timeout, a tmpdir with limited size,          etc
-> >> -- other suggestions welcome)
-> >>
-> >>   3. next screen asks the user to pick a starting commit from the log.
-> >> Once submitted, patchwork generates the patch from the commit     provided
-> >> to the tip of the branch selected by the user earlier,
-> >>      using git format-patch.
-> >>
-> >>   4. next screen asks the user to review the patch to make sure this is
-> >> what they want to submit. Once confirmed, patchwork performs two
-> >> admin-defined optional hooks:
-> >>
-> >>        a. a hook to generate a list of cc's (e.g. get_maintainer.pl)
-> >>        b. a sanity check hook (e.g. checkpatch.pl)
-> >
-> > I will note that many "first patch" submissions are checkpatch.pl
-> > cleanups for staging.  When doing that, I require that they do "one
-> > logical change per patch", which means that many of the individual
-> > patches themselves will not be checkpatch.pl clean, because many lines
-> > have multiple issues with them (tabs, spaces, format, length, etc.)
-> >
-> > So other than that minor thing, sounds interesting.  It's hard to
-> > determine just how difficult the whole "set up git and send a patch out"
-> > process is for people these days given the _huge_ numbers of new
-> > contributions we keep getting, and the numerous good tutorials we have
-> > created that spell out exactly how to do this.
-> >
-> > So you might be "solving" a problem that we don't really have.  It's
-> > hard to tell :(
-> >
->
-> I agree with this. I don't think this a problem that is worth solving.
-> When a new developer wants to send a patch, they don't need to create
-> any accounts. They setup their email client and send patch.
->
-> We have several resources that walk them through setting up email
-> clients and sending patches. checkpatch.pl can be automated with
-> git hooks.
->
-> >> I know this is a pretty big RFE, and I would like to hear your thoughts
-> >> about this. If there is general agreement that this is doable/good idea, I
-> >> may be able to come up with funding for this development as part of the
-> >> overall tooling improvement proposal.
-> >
-> > The workflow seems sane, and matches what most people do today, with the
-> > exception that it "solves" the git send-email issue, right?  Is that our
-> > biggest barrier?
-> >
-> > I would recommend interviewing some of the recent kernel mentor project
-> > and outreachy applicants first, to try to determine exactly what their
-> > problems, if any, were with our development process.  If they say that
-> > this type of tool/workflow would have saved them hours of time and
-> > energy, then that's a great indication that we should try to do this.
-> >
->
-> I would say considering the number of applicants to mentorship program
-> and new developers it will be lot overhead to require them to create
-> patchwork accounts, and it might even be hard overtime. A lot of them
-> start out and drop out in the middle. With the current setup, nothing
-> to cleanup.
->
-> Setting up email clients and git hooks is one time task. It is the
-> easiest of the learning curve for many new developers. New developers
-> struggle with getting the change logs right, coding styles right, and
-> responding to review comments and acting on them.
->
-> These aren't something that can be automated and they just have to
-> learn through experience of sending patches.
->
-> My opinion based on contact with new developers as well running the
-> mentorship program, I would sat this isn't something that needs
-> solving.
->
-> thanks,
-> -- Shuah
+Hi Dmitry,
 
+On Mon, Oct 14, 2019 at 04:58:17PM +0200, Dmitry Vyukov wrote:
+> On Fri, Oct 11, 2019 at 7:20 PM Shuah Khan wrote:
+> > On 10/11/19 2:57 AM, Greg KH wrote:
+> >> On Thu, Oct 10, 2019 at 10:41:50AM -0400, Konstantin Ryabitsev wrote:
+> >>> Hi, all:
+> >>>
+> >>> I would like to propose a new (large) feature to patchwork with the goal to
+> >>> make the process of submitting a patch easier for newbies and people
+> >>> generally less familiar with patch-based development. This was discussed
+> >>> previously on the workflows list:
+> >>> https://lore.kernel.org/workflows/20190930202451.GA14403@pure.paranoia.local/
+> >>>
+> >>> How I envision this would work:
+> >>>
+> >>> - user creates an account (which requires a mail confirmation) >> - they choose a "submit patch" option from the menu
+> >>> - the patch submission screen has a succession of screens:
+> >>>
+> >>>   1. a screen with a single field allowing a user to paste a URL to     their
+> >>> fork of the git repository. Once submitted, patchwork does a     "git
+> >>> ls-remote" to attempt to get a list of refs and to verify that     this is
+> >>> indeed a valid git repository
+> >>
+> >> s/valid git repository/valid git repository based on the kernel git tree/
+> >>
+> >> Otherwise you might be sending out lots of emails for other projects :)
+> >>
+> >>>   2. next screen asks the user to select the ref to work from using the
+> >>> list obtained from the remote. Once submitted, patchwork performs a     `git
+> >>> clone --reference` to clone the repository locally using a     local fork of
+> >>> the same repo to minimize object transfer. This part     requires that:
+> >>>        a. patchwork project is configured with a path to a local fork,
+> >>> if this feature is enabled for a project
+> >>>        b. that fork is kept current via some mechanism outside of
+> >>> patchwork (e.g. with grokmirror)
+> >>>        c. there is some sanity-checking during the clone process to
+> >>> avoid abuse (e.g. a sane timeout, a tmpdir with limited size,          etc
+> >>> -- other suggestions welcome)
+> >>>
+> >>>   3. next screen asks the user to pick a starting commit from the log.
+> >>> Once submitted, patchwork generates the patch from the commit     provided
+> >>> to the tip of the branch selected by the user earlier,
+> >>>      using git format-patch.
+> >>>
+> >>>   4. next screen asks the user to review the patch to make sure this is
+> >>> what they want to submit. Once confirmed, patchwork performs two
+> >>> admin-defined optional hooks:
+> >>>
+> >>>        a. a hook to generate a list of cc's (e.g. get_maintainer.pl)
+> >>>        b. a sanity check hook (e.g. checkpatch.pl)
+> >>
+> >> I will note that many "first patch" submissions are checkpatch.pl
+> >> cleanups for staging.  When doing that, I require that they do "one
+> >> logical change per patch", which means that many of the individual
+> >> patches themselves will not be checkpatch.pl clean, because many lines
+> >> have multiple issues with them (tabs, spaces, format, length, etc.)
+> >>
+> >> So other than that minor thing, sounds interesting.  It's hard to
+> >> determine just how difficult the whole "set up git and send a patch out"
+> >> process is for people these days given the _huge_ numbers of new
+> >> contributions we keep getting, and the numerous good tutorials we have
+> >> created that spell out exactly how to do this.
+> >>
+> >> So you might be "solving" a problem that we don't really have.  It's
+> >> hard to tell :(
+> >
+> > I agree with this. I don't think this a problem that is worth solving.
+> > When a new developer wants to send a patch, they don't need to create
+> > any accounts. They setup their email client and send patch.
+> >
+> > We have several resources that walk them through setting up email
+> > clients and sending patches. checkpatch.pl can be automated with
+> > git hooks.
+> >
+> >>> I know this is a pretty big RFE, and I would like to hear your thoughts
+> >>> about this. If there is general agreement that this is doable/good idea, I
+> >>> may be able to come up with funding for this development as part of the
+> >>> overall tooling improvement proposal.
+> >>
+> >> The workflow seems sane, and matches what most people do today, with the
+> >> exception that it "solves" the git send-email issue, right?  Is that our
+> >> biggest barrier?
+> >>
+> >> I would recommend interviewing some of the recent kernel mentor project
+> >> and outreachy applicants first, to try to determine exactly what their
+> >> problems, if any, were with our development process.  If they say that
+> >> this type of tool/workflow would have saved them hours of time and
+> >> energy, then that's a great indication that we should try to do this.
+> >
+> > I would say considering the number of applicants to mentorship program
+> > and new developers it will be lot overhead to require them to create
+> > patchwork accounts, and it might even be hard overtime. A lot of them
+> > start out and drop out in the middle. With the current setup, nothing
+> > to cleanup.
+> >
+> > Setting up email clients and git hooks is one time task. It is the
+> > easiest of the learning curve for many new developers. New developers
+> > struggle with getting the change logs right, coding styles right, and
+> > responding to review comments and acting on them.
+> >
+> > These aren't something that can be automated and they just have to
+> > learn through experience of sending patches.
+> >
+> > My opinion based on contact with new developers as well running the
+> > mentorship program, I would sat this isn't something that needs
+> > solving.
+> 
+> As one data point, I cannot send emails with git send-email anymore.
+> It used to work, then broke and I don't know how to fix it. Now it says:
+> 
+> 5.7.8 Username and Password not accepted. Learn more at
+> 5.7.8  https://support.google.com/mail/?p=BadCredentials
+> s10sm8376885wrr.5 - gsmtp
+> 
+> I suspect it has something to do with two factor auth.
+> So that's it: it cannot contribute to kernel right now.
+> I will not consider time spent fixing it as useful time investment.
 
-As one data point, I cannot send emails with git send-email anymore.
-It used to work, then broke and I don't know how to fix it. Now it says:
+Starting from an estalished working process, a change on your e-mail
+provider side broke your workflow. The exact same problem could happen
+regardless of how changes get submitted, a corporate HTTP proxy or
+firewall could also break HTTP-based submissions.
 
-5.7.8 Username and Password not accepted. Learn more at
-5.7.8  https://support.google.com/mail/?p=BadCredentials
-s10sm8376885wrr.5 - gsmtp
+Now, gmail being one of the largest e-mail providers, I think it's fair
+to consider that the kernel community should provide clear and easy to
+follow instructions on how to use git-send-email with gmail. In
+particular, with two-factor authentication being widespread, how to set
+it up with git-send-email should likely be described in
+https://www.kernel.org/doc/html/latest/process/email-clients.html.
+Blaming it solely on the SMTP protocol is a bit of a shortcut.
 
-I suspect it has something to do with two factor auth.
-So that's it: it cannot contribute to kernel right now.
-I will not consider time spent fixing it as useful time investment.
+> Any kernel documentation that I can find for gmail, mentions config
+> that I am already using and that is not working:
+> https://www.kernel.org/doc/html/latest/search.html?q=gmail&check_keywords=yes&area=default#
+> https://www.kernel.org/doc/html/latest/process/email-clients.html?highlight=gmail
+> 
+> As another data point, I spoke to KP Singh at the Plumbers. He is a
+> "returning" kernel developer (so already did this before), he said it
+> took him 3 days and 52 configurations changes (all were committed to
+> git, so was possible to count exactly) to setup mail client properly.
+> And he is "staffed" to do kernel work, I would expect that most people
+> who don't _have_ to do kernel contributions will turn away half-way.
 
-Any kernel documentation that I can find for gmail, mentions config
-that I am already using and that is not working:
-https://www.kernel.org/doc/html/latest/search.html?q=gmail&check_keywords=yes&area=default#
-https://www.kernel.org/doc/html/latest/process/email-clients.html?highlight=gmail
+That's very interesting information, is there any way that more details
+about the 52 steps could be shared ?
 
-As another data point, I spoke to KP Singh at the Plumbers. He is a
-"returning" kernel developer (so already did this before), he said it
-took him 3 days and 52 configurations changes (all were committed to
-git, so was possible to count exactly) to setup mail client properly.
-And he is "staffed" to do kernel work, I would expect that most people
-who don't _have_ to do kernel contributions will turn away half-way.
+> As another data point, several people told me that they are afraid of
+> sending kernel patches b/c there is so much "on you" to do right.
 
-As another data point, several people told me that they are afraid of
-sending kernel patches b/c there is so much "on you" to do right.
+Is that related to the submission mechanism, or to all the other things
+you need to get right ?
 
-I would say that we need to aim at  a process that does not require a
-friendly experienced person to answer any of your questions in the
-common case. Lots of people will simply not ask any questions.
+> I would say that we need to aim at  a process that does not require a
+> friendly experienced person to answer any of your questions in the
+> common case. Lots of people will simply not ask any questions.
+
+I fully agree with that.
+
+-- 
+Regards,
+
+Laurent Pinchart
