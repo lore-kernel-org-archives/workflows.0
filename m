@@ -2,107 +2,140 @@ Return-Path: <SRS0=tG+E=YH=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD1F6C4CECE
-	for <workflows@archiver.kernel.org>; Mon, 14 Oct 2019 11:31:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A325C4CECE
+	for <workflows@archiver.kernel.org>; Mon, 14 Oct 2019 12:27:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 86526207FF
-	for <workflows@archiver.kernel.org>; Mon, 14 Oct 2019 11:31:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1571052690;
-	bh=kKVQyZ5u2pdHVK0UNditGl3eCeII4jHNkqeJOqZ0/8o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=RzI2dUVCcQwISMhAnTTmmo1yBIVaY/JX6tRywjdGHruJaEKEDIU03WyudEdXMmhuR
-	 CYJLtexwPsYvjek3cYi+Ue+0a4NL8ZaH3+HGVAB2O/UG8YEyaVcLdpIkrx7KdZqjIi
-	 gIvx1sjDErt36JBF5CTZMj+Yn2dRA7v8ak3gFnVw=
+	by mail.kernel.org (Postfix) with ESMTP id 1CADE21848
+	for <workflows@archiver.kernel.org>; Mon, 14 Oct 2019 12:27:33 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=axtens.net header.i=@axtens.net header.b="EFNjAqy9"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729999AbfJNLba (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 14 Oct 2019 07:31:30 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:34174 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729930AbfJNLba (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 14 Oct 2019 07:31:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=od7uK9MSZ0ptZ1g2eBKfMy/a1yjaw54zbsZrX/lj1zU=; b=jROWxcJZood3dopRAqZSuyBg1
-        EbbYM5bT/i8ZK2scELlyNa7Q3+MH07FsiB2HUlFjxNE4cv9gEpm5ff9gnMzJdnHqtUaMYFcMwcDug
-        EyJoWa+V09aZ5wAjJCnUeBc6ZvO2wtqZEXWVW4iMOpgFam9CEmmX5vCfPpKMYRtOiEdMk=;
-Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
-        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <broonie@sirena.co.uk>)
-        id 1iJyZQ-0007T9-Oz; Mon, 14 Oct 2019 11:31:24 +0000
-Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
-        id CDB042741EED; Mon, 14 Oct 2019 12:31:23 +0100 (BST)
-Date:   Mon, 14 Oct 2019 12:31:23 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Eric Wong <e@80x24.org>, patchwork@lists.ozlabs.org,
-        workflows@vger.kernel.org
+        id S1730070AbfJNM1c (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 14 Oct 2019 08:27:32 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:36042 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730036AbfJNM1c (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 14 Oct 2019 08:27:32 -0400
+Received: by mail-pf1-f196.google.com with SMTP id y22so10335178pfr.3
+        for <workflows@vger.kernel.org>; Mon, 14 Oct 2019 05:27:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=axtens.net; s=google;
+        h=from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=+aeBjoIUgWHh/pWt4ckwfi/E6B5Es4XX0m4lyiOK4Z0=;
+        b=EFNjAqy9R7lIJG+U8L32gkmNkjBNnKaC7mLVcQR5+FNByLvRLvFXdTjx/BfmkGogpK
+         WoDVRUK2a0uwJRbxQ/UPf4m8oZUhBdqiQ00XOKIPv0rVKf75AmiibKQ+HhplmqM5hnJE
+         /kfQpdKl7rl2E+EcXeFy17l+/g0vukdQGwNOY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version:content-transfer-encoding;
+        bh=+aeBjoIUgWHh/pWt4ckwfi/E6B5Es4XX0m4lyiOK4Z0=;
+        b=kQoDE42F9YOoF38X1uAGUjpAi8UkKD1FJsf2k4IFBte+Pbxyu7EsUElOllmG4dZlwy
+         HNRoO07fxlron7duu3DwOKvaCweELLMye4Sg21fTkHg5Lf/fv7VfOQiahnHQXzNYs/xv
+         xxmGaSB67C48TYNXR9IYWg91FyGNP8srEzDLxx+aCSeVjCriCEAZQClqWeQBiWFZGsMY
+         qBByZPLb/gn2fVX3AaL+nbTtYJJUUE67YYSNYETUeJDJfH6wN3o5Nsm+EtbjvczXO9Dx
+         qCD5I5w3qih4S85VvXx1OhCGqdNf9bpwZSi+46SQPN+OsXaiPNn2ipqJmCzpVpB10gFJ
+         cvOw==
+X-Gm-Message-State: APjAAAXbv+neQPoLjpegaN1+4y3tX+J5e1PfDkviOBQWq1SLli8pZLtE
+        r1MaD3lEBbLmb5y1WfXZEs/oxQ==
+X-Google-Smtp-Source: APXvYqzqVXEPnosYG9jpTHe81XoQXofVtSyq8nYvc1ij0qoGmhJG4FyqutVxEOJZvkthgAGDP0V95A==
+X-Received: by 2002:a17:90a:8089:: with SMTP id c9mr35120515pjn.69.1571056050311;
+        Mon, 14 Oct 2019 05:27:30 -0700 (PDT)
+Received: from localhost (ppp167-251-205.static.internode.on.net. [59.167.251.205])
+        by smtp.gmail.com with ESMTPSA id 26sm21225924pjg.21.2019.10.14.05.27.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Oct 2019 05:27:29 -0700 (PDT)
+From:   Daniel Axtens <dja@axtens.net>
+To:     Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>,
+        Stephen Hemminger <stephen@networkplumber.org>,
+        Steven Rostedt <rostedt@goodmis.org>
+Cc:     Dave Airlie <airlied@gmail.com>,
+        David Miller <davem@davemloft.net>, mchehab@kernel.org,
+        skhan@linuxfoundation.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        patchwork@lists.ozlabs.org, workflows@vger.kernel.org
 Subject: Re: RFE: use patchwork to submit a patch
-Message-ID: <20191014113123.GA4826@sirena.co.uk>
-References: <20191010144150.hqiosvwolm3lmzp5@chatter.i7.local>
- <20191011085702.GB1075470@kroah.com>
- <20191011200228.zuka44ve7hob4ia4@chatter.i7.local>
- <20191011212308.xk7xcvfamwnkwovn@dcvr>
- <20191011213553.g3pleurh5uomumi7@chatter.i7.local>
- <20191012071911.GA2034802@kroah.com>
+In-Reply-To: <874l0bk3qb.fsf@toke.dk>
+References: <20191011140108.589bbb52@gandalf.local.home> <20191011.113254.1964556815296845399.davem@davemloft.net> <20191011155949.145f0f7d@coco.lan> <20191011.121153.1410013220730418292.davem@davemloft.net> <20191011141909.1ccb58b3@hermes.lan> <20191011174719.16e997f5@gandalf.local.home> <CAPM=9tyjGBC2e5mi7=OetWACYjQ6iwiLPNXpuAEReeyttKNrtw@mail.gmail.com> <20191011190009.6ee15756@gandalf.local.home> <20191011170839.75c52ad3@hermes.lan> <87lftotdv8.fsf@dja-thinkpad.axtens.net> <874l0bk3qb.fsf@toke.dk>
+Date:   Mon, 14 Oct 2019 23:27:25 +1100
+Message-ID: <87imortsuq.fsf@dja-thinkpad.axtens.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="nFreZHaLTZJo0R7j"
-Content-Disposition: inline
-In-Reply-To: <20191012071911.GA2034802@kroah.com>
-X-Cookie: Androphobia:
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
+Toke H=C3=B8iland-J=C3=B8rgensen <toke@redhat.com> writes:
 
---nFreZHaLTZJo0R7j
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> Daniel Axtens <dja@axtens.net> writes:
+>
+>>> It does bring up that any new workflow has to have security protocol
+>>> and threat model as part of its design.
+>>
+>> This is actually something that worries me about the patchwork
+>> workflow. Maintainers seem to trust the patchwork version of a patch
+>> without much (or any) verification that it matches what was sent to the
+>> list.
+>>
+>> Say Alice emails a patch that says something like:
+>>
+>>  if ((permissions =3D=3D allowed) && other_stuff) {
+>>     do_things();
+>>  }
+>>  do_more_stuff(permissions);
+>>
+>> List members read that email, and many review it in the email client.
+>>
+>> However, say that the version in Patchwork actually reads like this:
+>>
+>>  if ((permission =3D allowed) && other_stuff) {
+>>     do_things();
+>>  }
+>>  do_more_stuff(permissions);
+>>
+>> (You could get this with a malicious/compromised patchwork admin, or a
+>> sufficiently advanced network adversary - patchwork takes the first mail
+>> for a given message-id + project and later ones are discarded, so
+>> there's a race you can win.)
+>>
+>> If the maintainer or someone else happens to apply the patch from
+>> patchwork and then review it, or if tests happen to catch the relevant
+>> case, we'll catch this. Otherwise...
+>>
+>> It's not the easiest or lowest risk way to get malicious code into the
+>> kernel, but nonetheless, I worry about it.
+>>
+>> I can't think of a sensible way to fix this, unless we want to move to a
+>> world where patch submissions are GPG signed, and teach patchwork to
+>> verify sigs.
+>
+> It should be detectable, though, right?
+>
+> Say you have two independently administered patchwork instances (or even
+> better, two different software packages entirely) that both subscribe to
+> the mailing lists, and compare patch content with each other. They
+> should at least be able to detect mismatches. Especially if you add a
+> sanity check before discarding duplicate message-ids.
+>
+> This way you'd need to compromise multiple machines to achieve the kind
+> of compromise you're worried about. And you can add more independent
+> machines until you're satisfied that the risk is low enough :)
 
-On Sat, Oct 12, 2019 at 09:19:11AM +0200, Greg KH wrote:
-> On Fri, Oct 11, 2019 at 05:35:53PM -0400, Konstantin Ryabitsev wrote:
+Yeah, it's detectable, even more simply if someone who subscribes to the
+list checks patches they receive against a public patchwork. But my
+concern isn't that it's undetectable, it's that it unlikely to be
+detected in practice unless someone goes to the effort of writing code
+to do it.
 
-> > 1. provide a way for someone to submit a patch using a web interface   (but
-> > still in a way that From: is their corporate ID)
+Regards,
+Daniel
 
-> If you do this, what happens when a maintainer/reviewer responds to that
-> patch and says "looks good, but can you change X and resend it?"
-
-> How will they get that message if it didn't go through their email
-> system?  How will they be able to respond to it?
-
-If they're using their work e-mail address like Konstantin says they'll
-get the reply there.  Probably any response from them will be some top
-posted thing with HTML but this happens often enough currently - people
-often use git send-email or something to send but continue using a mail
-setup that's not really what's expected for kernel work.  Usually it's
-not the end of the world even if people get a bit grumpy at them.
-
---nFreZHaLTZJo0R7j
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl2kXH8ACgkQJNaLcl1U
-h9CmyAf+POhugufPprT2M1X/YLC14hjZXhyNyDvGLA999aoQKz+RRmNjxCJBY1ZZ
-IYA9+vdrFi5AGRTiYTBjc77EZsunGaW5gxKCChQX3jvPh0siBEM9FB5LcqGSo+vQ
-+qBYENYRWx3F+wRlL0ZDvp8gdE0u1DTbE2IFBS551PZ5H4kSJdi2nzqJIa+P3bK3
-E1PwYzw61B1iz6ADzS+SO7htbBICh2a/v0LB7OwHd08J+/MFqnrVsUyOEAVHUal4
-rtiYkGtQgYYyD/CpRuro4jX204TpqWACwvDuIaNJq+65r4Ud+cOGY0dRuyZZEUCs
-ASAfi0D58UumlpVj4+k++czgx/mGWg==
-=qpb2
------END PGP SIGNATURE-----
-
---nFreZHaLTZJo0R7j--
+>
+> -Toke
