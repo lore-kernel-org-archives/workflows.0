@@ -2,186 +2,92 @@ Return-Path: <SRS0=tG+E=YH=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1F60ECE58C
-	for <workflows@archiver.kernel.org>; Mon, 14 Oct 2019 19:08:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B835C4CECE
+	for <workflows@archiver.kernel.org>; Mon, 14 Oct 2019 20:57:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 83E702089C
-	for <workflows@archiver.kernel.org>; Mon, 14 Oct 2019 19:08:33 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XDMbCxL0"
+	by mail.kernel.org (Postfix) with ESMTP id 3A3A621721
+	for <workflows@archiver.kernel.org>; Mon, 14 Oct 2019 20:57:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387678AbfJNTId (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 14 Oct 2019 15:08:33 -0400
-Received: from mail-vs1-f44.google.com ([209.85.217.44]:46337 "EHLO
-        mail-vs1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728005AbfJNTIc (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 14 Oct 2019 15:08:32 -0400
-Received: by mail-vs1-f44.google.com with SMTP id z14so11483229vsz.13
-        for <workflows@vger.kernel.org>; Mon, 14 Oct 2019 12:08:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=THlV0L+T1s5KFNMVwT50kAHRKJH0UUqXmIVUxChsjxU=;
-        b=XDMbCxL0d2NZTenuEIe+o3GE8k9DLhuKpA6oHL9E4fJC4QvNE6JhVFNYdCzXAF8d4g
-         ohsj6iEZEIzGitbOKzeWCoyntwvtKf9wFvXEN8qbkymfWCdQRqmXVQ+Oh2T5kk0SCu9C
-         2PJYmzdEW6y26ixEf//Fx1IUjXmBel0jAdGaS6tCwsXnGcudIpi17pXVjWPITb7H4n3U
-         YHeq0+RMhoVfVx7eAjWUlD/4G65DS3v7TmGaBTlF1sGcRAsEoRtxU7ehnDTMO8syTTkP
-         H4khbCG6XDA6WF5PTG6bPBElf68q1mg3JPizjeNuhyyLROGN89YfONj9sVkVJZV+J1op
-         Utgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=THlV0L+T1s5KFNMVwT50kAHRKJH0UUqXmIVUxChsjxU=;
-        b=RrDXJqd2mLIWlhXJi7rQNb28EawD+a+FztztuzATuNILzV5UUFgG5z+semD2a8qBtd
-         8RYiZdlCLwbWmwx3aVoFKKu1jkUZxIhUtemMsSPmmqYVjl5/stwiOQsLvuRYIAzvxNfj
-         ILvC3dD/lgAvVmNaJKbaE1Cu+AjQm5SMzlDINV4x16z3raN463qZ48J4luNK7rHvqaq8
-         sfNVwZh26nMryR2TmwXg4QgCEa3a1HvsMq8f95F6yXmSdx7t30lzyepIVRwzPCaI5sBz
-         kOVwDgbz+P3SGcCq2C1zJQEmt/LzYQ2sUcnfM7uod21PxmHjjjgzBMtnRLKWd0M4Em1F
-         KZfg==
-X-Gm-Message-State: APjAAAVmg7lBI6WkU8QmAtWpLk/QOpMfN3huTSEe2NGSzk1m02xGxD7b
-        WdX+yjWpWNBjQD0OfSGdhttLWRDpLp4mVVXbGSfQRA==
-X-Google-Smtp-Source: APXvYqy/4lT1j/g3DXXaCs2EO6YZfQt5XMQjWYMdRiQX8jskuuEES+cva5B3lM24efQzgqBf8pgAgbg3XubwnlV9Mp0=
-X-Received: by 2002:a67:f703:: with SMTP id m3mr17797152vso.204.1571080111316;
- Mon, 14 Oct 2019 12:08:31 -0700 (PDT)
+        id S1730635AbfJNU5P (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 14 Oct 2019 16:57:15 -0400
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:53750 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1730335AbfJNU5O (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 14 Oct 2019 16:57:14 -0400
+Received: from callcc.thunk.org (guestnat-104-133-0-98.corp.google.com [104.133.0.98] (may be forged))
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x9EKux5W003300
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 14 Oct 2019 16:57:00 -0400
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id 13856420287; Mon, 14 Oct 2019 16:56:59 -0400 (EDT)
+Date:   Mon, 14 Oct 2019 16:56:58 -0400
+From:   "Theodore Y. Ts'o" <tytso@mit.edu>
+To:     Dmitry Vyukov <dvyukov@google.com>
+Cc:     Shuah Khan <skhan@linuxfoundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        patchwork@lists.ozlabs.org, workflows@vger.kernel.org
+Subject: Re: RFE: use patchwork to submit a patch
+Message-ID: <20191014205658.GG5564@mit.edu>
+References: <20191010144150.hqiosvwolm3lmzp5@chatter.i7.local>
+ <20191011085702.GB1075470@kroah.com>
+ <f41e7a81-54f4-d4e8-b3c0-d98608fc4bdc@linuxfoundation.org>
+ <CACT4Y+aYn57hQ4do0jvUGm-0C02UuDSwWeZL=M6XAaZjS51Jyw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20191007.173329.2182256975398971437.davem@davemloft.net>
- <87zhicqhzg.fsf@dja-thinkpad.axtens.net> <20191007211704.6b555bb1@oasis.local.home>
- <20191008164309.mddbouqmbqipx2sx@redhat.com> <20191008131730.4da4c9c5@gandalf.local.home>
- <20191008173902.jbkzrqrwg43szgyz@redhat.com> <20191008190527.hprv53vhzvrvdnhm@chatter.i7.local>
- <bbf9d038-2238-b97f-7cae-97804ee1624c@redhat.com> <20191009215416.o2cw6cns3xx3ampl@chatter.i7.local>
- <CACT4Y+ZJd+3m8zh6m1LtGS0nXQpZbeo3xk=qRjj96wq7gTWwDw@mail.gmail.com> <20191010205733.GA16225@mit.edu>
-In-Reply-To: <20191010205733.GA16225@mit.edu>
-From:   Han-Wen Nienhuys <hanwen@google.com>
-Date:   Mon, 14 Oct 2019 21:08:17 +0200
-Message-ID: <CAFQ2z_Pd2bSL+qpTNxwSNUOccvOt1QD9-XeCqqcdHtiNLKeJxA@mail.gmail.com>
-Subject: Re: thoughts on a Merge Request based development workflow
-To:     "Theodore Y. Ts'o" <tytso@mit.edu>
-Cc:     Dmitry Vyukov <dvyukov@google.com>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Don Zickus <dzickus@redhat.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Daniel Axtens <dja@axtens.net>,
-        David Miller <davem@davemloft.net>,
-        Drew DeVault <sir@cmpwn.com>,
-        Neil Horman <nhorman@tuxdriver.com>, workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACT4Y+aYn57hQ4do0jvUGm-0C02UuDSwWeZL=M6XAaZjS51Jyw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-(again, without html)
+On Mon, Oct 14, 2019 at 04:58:17PM +0200, Dmitry Vyukov wrote:
+> As one data point, I cannot send emails with git send-email anymore.
+> It used to work, then broke and I don't know how to fix it. Now it says:
+> 
+> 5.7.8 Username and Password not accepted. Learn more at
+> 5.7.8  https://support.google.com/mail/?p=BadCredentials
+> s10sm8376885wrr.5 - gsmtp
+> 
+> I suspect it has something to do with two factor auth.
+> So that's it: it cannot contribute to kernel right now.
+> I will not consider time spent fixing it as useful time investment.
 
-On Thu, Oct 10, 2019 at 11:00 PM Theodore Y. Ts'o <tytso@mit.edu> wrote:
->
-> On Thu, Oct 10, 2019 at 07:52:50PM +0200, Dmitry Vyukov wrote:
-> > I know you all love Gerrit but just to clarify :)
-> > Gerrit stores all metadata in a git repo, all users can have a replica
-> > and you can always have, say, a "backup" replica on a side done
-> > automatically. Patches and versions of the patches are committed into
-> > git into special branches (e.g. change/XXX/version/YYY), comments and
-> > metadata are in a pretty straightforward json (this is comment text
-> > for line X, etc) also committed into git, so one can always read that
-> > in and transform into any other format. And you can also run Gerrit
-> > locally over your replica.
->
-> Konstantin has spoken about some his concerns about git's scalability,
-> and it's important to remember that just because Gerrit has shown to
-> work well on some very large repositories, it doesn't necessarily mean
-> that it will work well on git repositories using the open source C
-> implementation of git.
->
-> That's because Gerrit as used by Google (and made available in various
-> public-facing Gerrit servers) uses a Git-on-Borg implementation[1],
-> where the storage is done using Google's internal storage
-> infrastructure.  This is implemented on top of Jgit (which is git
-> implemented in Java)[2].
->
+Note that this is a Googler-specific problem, as it's due to
+corp-security requirements that other GMail users and most GSuites
+customers won't have.  (For example, you could use another SMTP server
+and bypass the corp. mail submission server, but for google.com e-mail
+addresses, the DMARC settings foreclose that particular workaround.)
 
+So it's an extreme case, and is an example of corp e-mail insanity.
+The good news is that for companies that are really serious about
+working with upstream, they will roll out solutions for their own
+customers.  For example, with IBM, since Lotus notes was maximally
+unfriendly to OSS development practices, they created a separate mail
+system with ldap@linux.ibm.com addresses be cause it was simply
+impossible to engage with upstream development using ibm.com
+addresses.  So there are work arounds, and I encourage you to reach
+out to other Google kernel developers --- and if you are unhappy,
+please file internal bugs against the corp infrastructure.
 
+Personally, my solution to this problem is to use a non-google address
+(tytso@mit.edu) for upstream work, because life is too short to fight
+with GMail.  (Although it is doable; as many people can attest.)
 
-Hi there,
+> I would say that we need to aim at  a process that does not require a
+> friendly experienced person to answer any of your questions in the
+> common case. Lots of people will simply not ask any questions.
 
-I manage the Gerrit backend team at Google.
+If you work inside a corporation with "unique" e-mail settings, you
+may need to ask a friendly experienced person inside your company, or
+look for the "new employee" (Noogler) web documentation for working
+with the kernel.
 
-It is true that Gerrit at Google runs on top of Borg (Gerrit-on-Borg aka. G=
-oB),
-
-1) there is no real concern about Cgit's scalability.
-2) the borg deployment has no relevant magical sauce here.
-
-To 1) : Konstantin was worried about performance implication on git
-notes.  The git-notes command stores data in a single
-refs/notes/commits branch. Gerrit actually uses notes (the file
-format) as well, but has a single notes branch per review, so
-performance here is not a concern when scaling up the number of
-reviews.
-
-To 2) : Google needs special magic sauce, because we service hundreds
-of teams that work on thousands of repositories. However, here we're
-talking about just the kernel itself; that is just a single
-repository, and not an especially large one.  Chromium is our largest
-repo, and it is about 10x larger than the linux kernel.
-
-Google runs gerrit in tasks with (currently) 16G memory each. There
-are many large companies (eg. SAP) that run much larger instances, ie.
-one can easily match GoB's performance level on a single machine.
-
-I have been wanting to propose Gerrit as an alternative for the Linux
-kernel workflow, so I might as well bring forth my arguments here.
-
-Gerrit isn't a big favorite of many people, but some of that
-perception may be outdated. Since 2016, Google has significantly
-increased its investment in Gerrit. For example, we have rewritten the
-web UI from scratch, and there have been many performance
-improvements.
-
-Git is a tool built to exchange code and diffs. It seems natural to
-build a review solution on top of Git too. Gerrit is also built on top
-of git, and stores all metadata in Git too, ie. you can mirror review
-data into other Gerrit instances losslessly.
-
-Building a review tool is not all that easy to do well; by using
-Gerrit, you get a tool that already exists, works, and has significant
-corporate support. We at Google have ~11 SWEs working on Gerrit
-full-time, for example, and we have support from UX research and UI
-design. The amount of work to tweak Gerrit for Linux kernel
-development surely is much less than building something from scratch.
-
-Gerrit has a patchset oriented workflow (where changes are amended all
-the time), which is a good fit to the kernel's development process.
-Linus doesn't like Change-Id lines, but I think we could adapt Gerrit
-so it accepts URLs as IDs instead.
-
-There is talk of building a distributed/federated tool, but if there
-are policies ("Jane Doe is maintainer of the network subsystem, and
-can merge changes that only touch file in net/ "), then building
-something decentralized is really hard. You have to build
-infrastructure where Jane can prove to others who she is (PGP key
-signing parties?), and some sort of distributed storage of the policy
-rules.
-
-By contrast, a centralized server can authenticate users reliably and
-the server owner can define such rules.  There can still be multiple
-gerrit servers, possibly sponsored by corporate entities (one from
-RedHat, one from Google, etc.), and different servers can support
-different authentication models (OpenID, OAuth, Google account, etc.)
-
---
-Han-Wen Nienhuys - Google Munich
-I work 80%. Don't expect answers from me on Fridays.
---
-
-Google Germany GmbH, Erika-Mann-Strasse 33, 80636 Munich
-Registergericht und -nummer: Hamburg, HRB 86891
-Sitz der Gesellschaft: Hamburg
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
+						- Ted
