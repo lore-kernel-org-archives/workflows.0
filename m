@@ -2,100 +2,83 @@ Return-Path: <SRS0=cg+L=YI=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5DF3ECE588
-	for <workflows@archiver.kernel.org>; Tue, 15 Oct 2019 16:44:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F48BECE588
+	for <workflows@archiver.kernel.org>; Tue, 15 Oct 2019 16:47:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9A5B820650
-	for <workflows@archiver.kernel.org>; Tue, 15 Oct 2019 16:44:32 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="admU+BAg"
+	by mail.kernel.org (Postfix) with ESMTP id 608582086A
+	for <workflows@archiver.kernel.org>; Tue, 15 Oct 2019 16:47:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728864AbfJOQoc (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 15 Oct 2019 12:44:32 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:57046 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727643AbfJOQoc (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 15 Oct 2019 12:44:32 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 271EF324;
-        Tue, 15 Oct 2019 18:44:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1571157870;
-        bh=HhC8NS8BY31v4XqF1X33Z7kj7PW/yMqs3HoAqR+F0hQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=admU+BAgcmt2mDXbaxCJDWA1FB1yxgF3KCXj/Y7KohpjjqXvSZ6uKzEyHjkfOyYQv
-         fSb9QxTh/FOTjUKdKPSvL5sT2w+AeLd9ONmbTbv9kRRc780ebn+343knH50KYd1d/N
-         8NcMqgGIexeigx272yPTi/NPPSqA6k3ipk835ObA=
-Date:   Tue, 15 Oct 2019 19:44:27 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Drew DeVault <sir@cmpwn.com>
-Cc:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Eric Wong <e@80x24.org>, Greg KH <gregkh@linuxfoundation.org>,
+        id S1728340AbfJOQrx (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 15 Oct 2019 12:47:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55650 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726362AbfJOQrx (ORCPT <rfc822;workflows@vger.kernel.org>);
+        Tue, 15 Oct 2019 12:47:53 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9EC7220650;
+        Tue, 15 Oct 2019 16:47:51 +0000 (UTC)
+Date:   Tue, 15 Oct 2019 12:47:49 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
         patchwork@lists.ozlabs.org, workflows@vger.kernel.org
 Subject: Re: RFE: use patchwork to submit a patch
-Message-ID: <20191015164427.GK4875@pendragon.ideasonboard.com>
-References: <20191015163241.GI4875@pendragon.ideasonboard.com>
- <BXQ8S25YPZ4K.2C3I7TKEUE81O@homura>
+Message-ID: <20191015124749.1a11926f@gandalf.local.home>
+In-Reply-To: <20191015163704.GJ4875@pendragon.ideasonboard.com>
+References: <20191010144150.hqiosvwolm3lmzp5@chatter.i7.local>
+        <20191011085702.GB1075470@kroah.com>
+        <f41e7a81-54f4-d4e8-b3c0-d98608fc4bdc@linuxfoundation.org>
+        <CACT4Y+aYn57hQ4do0jvUGm-0C02UuDSwWeZL=M6XAaZjS51Jyw@mail.gmail.com>
+        <20191014205658.GG5564@mit.edu>
+        <20191015083741.1d0731e5@gandalf.local.home>
+        <20191015163704.GJ4875@pendragon.ideasonboard.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <BXQ8S25YPZ4K.2C3I7TKEUE81O@homura>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Hi Drew,
+On Tue, 15 Oct 2019 19:37:04 +0300
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
 
-On Tue, Oct 15, 2019 at 12:34:57PM -0400, Drew DeVault wrote:
-> On Tue Oct 15, 2019 at 7:32 PM Laurent Pinchart wrote:
-> > I certainly wouldn't recommend a solution based on a proprietary
-> > closed-source stack :-) But as we're talking about performing new
-> > development for patchwork, I wanted to point out that we could also
-> > consider a different technical approach that would involve new
-> > development for a different open-source project. For instance, is the
-> > above idea something that could be developed on top of gitolite ? Or
-> > possibly even as a tiny standalone git server ?
-> 
-> Some of the work I'm doing with code review on sourcehut can be
-> generalized, to support writing up arbitrary mailing lists with
-> arbitrary review tools with a bidirectional workflow. I intend to make a
-> reality of this for at least lists.sr.ht <-> gitlab and lists.sr.ht <->
-> github, so that patchsets and the resulting discussion gets turned into
-> git{hub,lab} code reviews, and vise versa. I think it's possible to make
-> a system which presents both sides with an experience that is idiomatic
-> for each context, so that you can't really tell whose using which tool
-> because they're both speaking each other's conventional language.
+> But how far could we push this reasoning ? I've worked for a company
+> whose corporate policy was that all source code had to be stored in SVN,
+> not exception. I didn't reach the community to move kernel development
+> away from git. I've also worked with people whose corporate policy was
+> that they had to do Linux kernel development on Windows, without using
+> any virtual machine. There are all kind of crazy corporate policies, and
+> if we don't push the pain it inflicts on all of us back to the people
+> who enact those crazy policies, we'll always lose.
 
-First of all, please let me thank you for all the effort you're putting
-into this.
+I understand your sentiment. But most of your examples are one-off
+"crazy corporate policies". The "sucky email server" and "you must use
+this sucky email server" is rather standard. Not saying that we don't
+want to pressure them to change, but I'm hearing from people (like Dave
+Miller), that new developers are moving away from email for
+development.
 
-I'm not very confident that perfect transparent e-mail bridges could be
-developed, and the culprit here it e-mail. From forge to e-mail there's
-no real issue, we have structure data, and we write it out in text form.
-The other way around, though, involves recovering structure from text.
-If the MTAs, MDAs, MUAs and, quite importanttly, users, behave
-correctly, that's doable. We can handle some of the "features" of common
-M*A, but if someone decides to throw the formatting through the window
-completely, we'll be screwed.
+I thought part of this thread was talking about having other ways
+besides email to submit a patch. Something that can help people
+correctly send a patch (at least their formatting) by making sure they
+fill out the proper fields and have a tool that helps them do so. I
+brought up the corporate email servers just as an example of having
+this help out there too.
 
-An idea I was toying with in the past was to create a structured format
-for review, that would match what we use now in e-mail very closely, but
-with a clearly defined syntax and grammar. The format would appear as
-just plain e-mails to users, and a MUA that behaves reasonably would
-likely produce valid structured data as e-mail replies. Over time we
-could develop clients or teach some MUAs about the structured format,
-removing the risk that they, or the end users, would mess up a reply.
-The migration would be mostly transparent as it wouldn't really impact
-existing users of e-mail, and could thus be rolled out over a long
-period of time.
+I plan on continuing to develop mostly in email (I still send my patch
+series via quilt!). But I'm not going to enforce everyone to continue
+to use email if we can come up with a better way. I also want to make
+sure that whatever we do come up with will still support email.
 
--- 
-Regards,
-
-Laurent Pinchart
+-- Steve
