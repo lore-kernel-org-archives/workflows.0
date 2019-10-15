@@ -2,138 +2,114 @@ Return-Path: <SRS0=cg+L=YI=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7672FC10F14
-	for <workflows@archiver.kernel.org>; Tue, 15 Oct 2019 15:21:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F41BCC10F14
+	for <workflows@archiver.kernel.org>; Tue, 15 Oct 2019 15:34:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4A05821835
-	for <workflows@archiver.kernel.org>; Tue, 15 Oct 2019 15:21:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C786620640
+	for <workflows@archiver.kernel.org>; Tue, 15 Oct 2019 15:34:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1571152893;
-	bh=80VDJlvi2rm3moGzz+obZeY/GRx9r0v6t0szjyjE3yc=;
+	s=default; t=1571153659;
+	bh=4A+KzpA6LoOr4velWRNwJLM2KR+IaHiq5gcKf/byPDo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=c1PNuEWF3yq5j33HYK0ywq7tW7wTEDm0KQlnXfGRbfG0U8mSo5Y+/iYoLqGNf/u7I
-	 IsgWrLSaLIi0pLLm25qd5AcqJtjx9uLL+XkOkmsYuBW80Mw2911EELJltftJy4utlc
-	 ymqB/1JCQNKwMoIlYVGDlTUHaORw/RmEkFs2U2EM=
+	b=Z0FdtRvuykQjuTj196H9tF9pzItyz7rzmftWZJGb3+0RShMbam3byTsB0y4GEIUkX
+	 9pDp3XSM/V1/JeEO1HPVU4Pw+GAoz2MdMna6Bny2ymGwItG6CeSL3JMD+jzUgSPfqR
+	 roj/sBj4Kpu6IvP7Eet5hE5ow9bCRF7hekYwtU38=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733173AbfJOPVc (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 15 Oct 2019 11:21:32 -0400
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:42506 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732991AbfJOPVc (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 15 Oct 2019 11:21:32 -0400
-Received: by mail-qt1-f194.google.com with SMTP id w14so31073509qto.9
-        for <workflows@vger.kernel.org>; Tue, 15 Oct 2019 08:21:32 -0700 (PDT)
+        id S2387489AbfJOPeT (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 15 Oct 2019 11:34:19 -0400
+Received: from mail-qt1-f171.google.com ([209.85.160.171]:39426 "EHLO
+        mail-qt1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732659AbfJOPeT (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 15 Oct 2019 11:34:19 -0400
+Received: by mail-qt1-f171.google.com with SMTP id n7so31146204qtb.6
+        for <workflows@vger.kernel.org>; Tue, 15 Oct 2019 08:34:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=date:from:to:cc:subject:message-id:mail-followup-to:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=mV/l3TSGkG5ByXJv0UeIBB6oyrp7TSJxLJZYdsLPhn0=;
-        b=LP9VOG7oTOvQfxyxGX/j9+MvOJNnaYeCjfIO3kmDieQiB8AJiGigcKFDQnajy3/hAM
-         xS3HXIYwvLrVHOcw6vG8n6cUo6Uurn3YLtnXHg1Qoi4WERWKV1Tr/9ZVbYEe7JOJvqZK
-         gWwlP6LGRTl4c2i3eDLJGGA0PLksqfBESAS1E=
+        bh=gzr4IEUeg1rNxZYacA6EWRUqIm2x9B+QplyuRBEeTWY=;
+        b=aAFyWErnT5kFC86ukR+dRR03kZ0WYpPM8pHGzG3LP1A/9jkt5zOhnkyH3QU2xNJPVt
+         fN0jcFVT7afMudwR5ZTnsaiu9DqP/IuYYLojK3f+ffZvqIaBaFvD/ha1s1/fs2Bk2ULw
+         DE6PGxvhUizmMtpnwcM2QLWABWHwZCZYk+NMU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id
          :mail-followup-to:references:mime-version:content-disposition
          :in-reply-to:user-agent;
-        bh=mV/l3TSGkG5ByXJv0UeIBB6oyrp7TSJxLJZYdsLPhn0=;
-        b=W+AYbuwveFLA4mwmDOKEb+AYqO4MBCzaSn4vTbtLZSNZ514zZg2rpOt2qvTpWYaO5P
-         RTbSS1U4wJjXKXh5l1Rx4vGGkBNZUpd1GllRqSrsFBLM0Bl/7+WE7Si/pNMylPNKWCcz
-         wd43M0BkY3Mn9f1byhwtzVl0DiWgWdnf5ZWq1Zy700C9iVPAXTeXHx8bejZHN5nlXyPW
-         beFHIUeOJy9beQaCsxb2ecmC+FXwoV9U62T/jOr+lf0LBWwRSi/EXvh8M0Wg2btJcZ1b
-         cyGUipcIn4rdV+U0lJDsvB7pLyCAEcl65m5RS3mXYYr3JFM5qWIUdllBgmB/LCKvH8ne
-         rdjA==
-X-Gm-Message-State: APjAAAWq4XeGoU2o+gV7OqzArnfr7X6xEpVpNwsqtA2Rd4wCR1EtTC9D
-        z5iM/qCRPOueqVDTQ/dqmzVMBCn2F0s=
-X-Google-Smtp-Source: APXvYqwvOv/XOoRBvo8y7kKAJIk2GyFGaAEMvDhu7aoJsq8UakjEhkyVpDtq8hhrpWkCtX7oCkcJuw==
-X-Received: by 2002:a0c:ee86:: with SMTP id u6mr37464574qvr.48.1571152891451;
-        Tue, 15 Oct 2019 08:21:31 -0700 (PDT)
+        bh=gzr4IEUeg1rNxZYacA6EWRUqIm2x9B+QplyuRBEeTWY=;
+        b=YnqyhFTORN/tQkPP1iD0Zv4IWZxuLbybiRphB3St26oU+fwVvSTt3xCAkWb2lCHzt4
+         FdqVAr0W0l5GZAo/H+/z2RizZWjZi5Z3jIb/ikjUzRBG/nB4pK94b6K8NErWhyHAA9qQ
+         CoNGUASXgY+H+kibMO3P3tOonWm/j/oAZ/t+ORCSIpou9IQ23OUMFsy8nw05ZXdg6V2n
+         f6bci4kYJqg7bxhjSlzRyJZZOMqow43kszMK7Uc8QNOPgLpvQ8eNH+akKhtXQk3pEZwV
+         L/qdnaCOyl4ZAFkCSKDGN/TbybBY9xOs5gnZ4icKwPun/Xl4kwA1ZVnN2k4w2a6Q6gVV
+         JzCw==
+X-Gm-Message-State: APjAAAXpWpIXO9d+AVfJAoq65lHGM7D/IoYCU5SsnbUuW/QilPu6H6Rw
+        71bag2VDOfHHVZfC7cNjceweZt24eP4=
+X-Google-Smtp-Source: APXvYqwEm8wtJlj9XXQvIR8FAuhPzMBzNdgDOuy9XzAsKqIF9yoZu6tHJfiFKy5OcIqHuGRKum+hCQ==
+X-Received: by 2002:ac8:2c7b:: with SMTP id e56mr40268827qta.295.1571153658233;
+        Tue, 15 Oct 2019 08:34:18 -0700 (PDT)
 Received: from chatter.i7.local (192-0-228-88.cpe.teksavvy.com. [192.0.228.88])
-        by smtp.gmail.com with ESMTPSA id w73sm10383222qkb.111.2019.10.15.08.21.30
+        by smtp.gmail.com with ESMTPSA id x6sm9771170qts.37.2019.10.15.08.34.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2019 08:21:30 -0700 (PDT)
-Date:   Tue, 15 Oct 2019 11:21:29 -0400
+        Tue, 15 Oct 2019 08:34:17 -0700 (PDT)
+Date:   Tue, 15 Oct 2019 11:34:15 -0400
 From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To:     "Theodore Y. Ts'o" <tytso@mit.edu>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        patchwork@lists.ozlabs.org, workflows@vger.kernel.org
+To:     Eric Wong <e@80x24.org>
+Cc:     Greg KH <gregkh@linuxfoundation.org>, patchwork@lists.ozlabs.org,
+        workflows@vger.kernel.org
 Subject: Re: RFE: use patchwork to submit a patch
-Message-ID: <20191015152129.GA11491@chatter.i7.local>
-Mail-Followup-To: "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
+Message-ID: <20191015153415.GB11491@chatter.i7.local>
+Mail-Followup-To: Eric Wong <e@80x24.org>,
         Greg KH <gregkh@linuxfoundation.org>, patchwork@lists.ozlabs.org,
         workflows@vger.kernel.org
 References: <20191010144150.hqiosvwolm3lmzp5@chatter.i7.local>
  <20191011085702.GB1075470@kroah.com>
- <f41e7a81-54f4-d4e8-b3c0-d98608fc4bdc@linuxfoundation.org>
- <CACT4Y+aYn57hQ4do0jvUGm-0C02UuDSwWeZL=M6XAaZjS51Jyw@mail.gmail.com>
- <20191014205658.GG5564@mit.edu>
- <20191015083741.1d0731e5@gandalf.local.home>
- <20191015133526.GC7456@mit.edu>
+ <20191011200228.zuka44ve7hob4ia4@chatter.i7.local>
+ <20191011212308.xk7xcvfamwnkwovn@dcvr>
+ <20191011213553.g3pleurh5uomumi7@chatter.i7.local>
+ <20191013233930.GB13089@dcvr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20191015133526.GC7456@mit.edu>
+In-Reply-To: <20191013233930.GB13089@dcvr>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Tue, Oct 15, 2019 at 09:35:27AM -0400, Theodore Y. Ts'o wrote:
->On Tue, Oct 15, 2019 at 08:37:41AM -0400, Steven Rostedt wrote:
->> Now, if we had a way to send and receive upstream patches via a web
->> site, that would actually make things easier.
+On Sun, Oct 13, 2019 at 11:39:30PM +0000, Eric Wong wrote:
+>> Well, this is the bit where I say that it may not be allowed by 
+>> corporate
+>> rules. I see this all the time in CAF/Android world where companies
+>> *require* that all email goes through their SMTP server so that it can be
+>> properly logged (often for legal reasons). And it is often equally required
+>> that any code submissions come from person@corporate.com and not
+>> person@free-email-provider.com for License/CLA reasons, so setting up a
+>> webmail server is not a solution either.
 >
->Alas, for those corporations who choose to enable DMARC in hard-fail
->mode (which includes google.com BTW, although thankfully, not
->gmail.com) sending (from DMARC's perspective, "forging") e-mail from
->someone at that particular domain won't work unless it comes from an
->authorized e-mail server.
+>Aren't they still allowed to submit stuff via forges the same way
+>they'd use a potential hacker-oriented webmail/SMTP/IMAP solution?
 
-This is not a huge deal for web services mailing patches, because they 
-just need to specify the `From:` header in the body of the patch. From 
-`man git-am`:
+You're trying to apply logic to legal requirements. :) It's actually 
+fine for someone to submit a Github pull request using their corporate 
+"From:", because it's not an action that sends email from their 
+corporate address. Email is considered official company correspondence 
+and therefore must be preserved in case it needs to be turned over 
+during lawsuits (for fact-finding).
 
-  "From: " and "Subject: " lines starting the body override the 
-  respective commit author name and title values taken from the headers.
+>We can also find creative ways to subvert corporate policies:
+>For example; if their policy specifically prevents outgoing SMTP,
+>"git imap-send" could be used.
 
-So, a web service emailing patches can have:
-
-  From jdoe@webserviceaddr.example.org
-  From: J.Doe <jdoe@webserviceaddr.example.org>
-  Reply-to: J.Doe <jdoe@corpaddress.example.com>
-  Cc: jdoe@corpaddress.example.com
-  Subject: [PATCH] Fix foo in bar
-
-  From: J.Doe <jdoe@corpaddress.example.com>
-
-  Signed-off-by: J.Doe <jdoe@corpaddress.example.com>
-  ---
-
-This *should* be kosher with legal requirements in most companies:
-
-- the email traverses the corporate server when the cc is received, so 
-  there is a log of it in their legally required auto-cc inbox
-- all replies will be sent to the corporate server
-- when the patch is applied, the commit will be properly listing the 
-  corporate address
-
->Of course, we do have a workaround for that, which is to use a
->kernel.org address.
-
-Only a very small subset of people have these, and it may still be not 
-allowed by individual company's legal departments even when this is 
-available.
+I'm generally against recommending solutions that can get people into 
+legal trouble. If their company requires that all work correspondence is 
+sent via the company's SMTP server, then we shouldn't be putting forth 
+technical solutions defeating this.
 
 -K
