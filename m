@@ -4,74 +4,186 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45D5CC10F14
-	for <workflows@archiver.kernel.org>; Tue, 15 Oct 2019 04:39:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46182C10F14
+	for <workflows@archiver.kernel.org>; Tue, 15 Oct 2019 04:41:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 132FE2089C
-	for <workflows@archiver.kernel.org>; Tue, 15 Oct 2019 04:39:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0D6A020640
+	for <workflows@archiver.kernel.org>; Tue, 15 Oct 2019 04:41:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TwEF4Em5"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hW/aF7ga"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727049AbfJOEjy (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 15 Oct 2019 00:39:54 -0400
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:40780 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726825AbfJOEjy (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 15 Oct 2019 00:39:54 -0400
-Received: by mail-qk1-f194.google.com with SMTP id y144so17981461qkb.7
-        for <workflows@vger.kernel.org>; Mon, 14 Oct 2019 21:39:53 -0700 (PDT)
+        id S1727050AbfJOElR (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 15 Oct 2019 00:41:17 -0400
+Received: from mail-qk1-f179.google.com ([209.85.222.179]:42832 "EHLO
+        mail-qk1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726380AbfJOElR (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 15 Oct 2019 00:41:17 -0400
+Received: by mail-qk1-f179.google.com with SMTP id f16so17988079qkl.9
+        for <workflows@vger.kernel.org>; Mon, 14 Oct 2019 21:41:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=1maCgj4rLPKtPqWY+v5nJ4Hl7GtRZv4L7Za3RGEP1kM=;
-        b=TwEF4Em5+3gX8HNydpFQypJgANSf9t71Fp1w8e+Bdpda+ncbJgo3P85wCLOXKCbcc0
-         agzamR2fK1DPiPpo356CKwqc275g1g8n/luDRda1Qyt22TvCJwPvlDA9FWZkhi5ZAGs8
-         ZAI4SeiM8Lj956+8SrwLT4qCPf30b7vysCcWSbiJfdkjYfYVYVTfh6wvg/LSfWyJquQS
-         K7BomMNusH5dIveM7F0h/DAmvG8POSBex+oEXW7N6869WpUnpxrsAv5uDP18liP4dOct
-         UkPSMXim0vAU8qarj7zSDQoKPqXVJm89LRq8lAb3y3edLkEGvxT37IEs6Y3bJZ7pzEUh
-         c1yQ==
+        bh=adlyJSG60ZXOb3SbhkwPDOWi2Dv542tokIGBKaWiJ7o=;
+        b=hW/aF7gazsMQCun7s3brIKqROVu7yrLXz1J+5otokdGsDNI2wstPHaZhrqDmg8/5mg
+         4poeLWCzzsvsH9o/3DHX2uwWqKoXZET3ppx8uuc/vIIe8tOXvgRhGQ5BZpwP8YFD9VJl
+         VukPg9kUbNK9vHsL7e3ESvtJzrz4kr9KiCOqdhid33R89e0bJBaQZb6CYENdRWhOx1i2
+         Yhn7h9LcnUDakiu0V99WsX1GWcJX57J7qkWdXDx2SOnqPQl7q9wtimX8E8n0ZupwdyCk
+         gmJBqqSXSCh+X5WyP7g7QuMfNC0s/aIqZUQpxqBX4DPObguoDeHWzpWBNj3S/XW0mzh7
+         3Uqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=1maCgj4rLPKtPqWY+v5nJ4Hl7GtRZv4L7Za3RGEP1kM=;
-        b=iI+w5/2zsN5UQGy6NsoGZc7P3sDbCiTCCO9jDI6ucspE9wjgpss/g3CG/XE5Pl6zDc
-         Hiu4TZhHJ0odWkEiBDTFXjpUb79+UKEUgKXDyHTUUvtiH+kZTnCEhKEPAnwJgDi9cG3C
-         kTEBvDSVU9fxBOsS8P+20LCvnsC/mcJ1b1cAlRhKVXSRuNpN/Fm9Ti1B42CBOI89GIgn
-         7R/dp+a90QjyLGJsGSa/yUPQ1RGB1YDkmpfVDdftd0LgIt/4f5HXA4nlLwInoYkRE2WQ
-         Db6iPNMewdmUBwGUfOxgtneqmChxpPqMvRKjMq0CzUeMAqnnFSs0Q9E81hdXTDKfypQs
-         Dxzg==
-X-Gm-Message-State: APjAAAWrX5ZT+4i9xYfw4Zf5iFeUW3WlJSppjrZAIzh81CMzcfGnZGaW
-        XVtdjTWNDQsTqRXwmhMZIXC8MogDTLqZr1klvFPm2w==
-X-Google-Smtp-Source: APXvYqxQhAQ1TkNCjenMZYZ33QQRs/14nU7vyBJDVzNCA57UyUpif1lBiKZGLp56awBxLCC90G0X4uJrcZHVkPutON8=
-X-Received: by 2002:a37:9202:: with SMTP id u2mr33749069qkd.8.1571114392641;
- Mon, 14 Oct 2019 21:39:52 -0700 (PDT)
+        bh=adlyJSG60ZXOb3SbhkwPDOWi2Dv542tokIGBKaWiJ7o=;
+        b=TgdQzHzgHF1SrJmNPJVlv6lU3THL/ch/7qWyleqGWa7Cb1XQGsrOqlOnRqyrzw0XTt
+         8AFhLOzC+vYhCUz4U7rUnYdxpGUuhnkGJtkjoeTqpm4z4t7m71DeP61JVPBGGF7r1cSY
+         pL0iIHj0NdJ/WEdLuEMutGWY2frlNrGhMqKlB8smL9JCRKAv7cWOZXsgdZy8ruthfLmg
+         82UyvzRPKkrcqWZWW940P5++Hl0Sd3KjIoc6jhxxnSxUHpnkwqfIjGioGN057CH8mbQc
+         +mzVbMMLQT22W6EJ8+N/DKoDd6Q5AkO37ImAdOthHMx5CStG1S5Fi1WO/2f+8lw8Pfbe
+         Vsqw==
+X-Gm-Message-State: APjAAAX9t1WJcwnJeWpY1kasVyaAvJ2IBIlUyAZGmr7owaDp9h880kcl
+        WSBj0/vOeHa5Mng4q3kAfZa3qgr8vXoUV2tKuDqzQQ==
+X-Google-Smtp-Source: APXvYqygsAmnzspwiDUpa93apYkp7N/AEJiWuiyjaTdkhN0jhxN9WXzZXe7GWxix+u1pryEmlF/9kN1m+J798tCfmrQ=
+X-Received: by 2002:a37:4a87:: with SMTP id x129mr32809186qka.43.1571114475524;
+ Mon, 14 Oct 2019 21:41:15 -0700 (PDT)
 MIME-Version: 1.0
 References: <20191010144150.hqiosvwolm3lmzp5@chatter.i7.local>
  <20191011085702.GB1075470@kroah.com> <f41e7a81-54f4-d4e8-b3c0-d98608fc4bdc@linuxfoundation.org>
- <CACT4Y+aYn57hQ4do0jvUGm-0C02UuDSwWeZL=M6XAaZjS51Jyw@mail.gmail.com> <20191014205658.GG5564@mit.edu>
-In-Reply-To: <20191014205658.GG5564@mit.edu>
+ <CACT4Y+aYn57hQ4do0jvUGm-0C02UuDSwWeZL=M6XAaZjS51Jyw@mail.gmail.com> <20191014151711.GA654561@kroah.com>
+In-Reply-To: <20191014151711.GA654561@kroah.com>
 From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Tue, 15 Oct 2019 06:39:40 +0200
-Message-ID: <CACT4Y+ZkteF1cGX2RjL99yagVLXxLSFcSoLBMtGitDVNY-0LJQ@mail.gmail.com>
+Date:   Tue, 15 Oct 2019 06:41:03 +0200
+Message-ID: <CACT4Y+ZjUz1X3eE9NT=X8CX3ZBNMZn21AMmSPbNfybTYK4BYAw@mail.gmail.com>
 Subject: Re: RFE: use patchwork to submit a patch
-To:     "Theodore Y. Ts'o" <tytso@mit.edu>
-Cc:     Shuah Khan <skhan@linuxfoundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        patchwork@lists.ozlabs.org, workflows@vger.kernel.org
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Shuah Khan <skhan@linuxfoundation.org>, patchwork@lists.ozlabs.org,
+        workflows@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Mon, Oct 14, 2019 at 10:57 PM Theodore Y. Ts'o <tytso@mit.edu> wrote:
+On Mon, Oct 14, 2019 at 5:17 PM Greg KH <gregkh@linuxfoundation.org> wrote:
 >
 > On Mon, Oct 14, 2019 at 04:58:17PM +0200, Dmitry Vyukov wrote:
+> > On Fri, Oct 11, 2019 at 7:20 PM Shuah Khan <skhan@linuxfoundation.org> wrote:
+> > >
+> > > On 10/11/19 2:57 AM, Greg KH wrote:
+> > > > On Thu, Oct 10, 2019 at 10:41:50AM -0400, Konstantin Ryabitsev wrote:
+> > > >> Hi, all:
+> > > >>
+> > > >> I would like to propose a new (large) feature to patchwork with the goal to
+> > > >> make the process of submitting a patch easier for newbies and people
+> > > >> generally less familiar with patch-based development. This was discussed
+> > > >> previously on the workflows list:
+> > > >> https://lore.kernel.org/workflows/20190930202451.GA14403@pure.paranoia.local/
+> > > >>
+> > > >> How I envision this would work:
+> > > >>
+> > > >> - user creates an account (which requires a mail confirmation) >> - they choose a "submit patch" option from the menu
+> > > >> - the patch submission screen has a succession of screens:
+> > > >>
+> > > >>   1. a screen with a single field allowing a user to paste a URL to     their
+> > > >> fork of the git repository. Once submitted, patchwork does a     "git
+> > > >> ls-remote" to attempt to get a list of refs and to verify that     this is
+> > > >> indeed a valid git repository
+> > > >
+> > > > s/valid git repository/valid git repository based on the kernel git tree/
+> > > >
+> > > > Otherwise you might be sending out lots of emails for other projects :)
+> > > >
+> > > >>
+> > > >>   2. next screen asks the user to select the ref to work from using the
+> > > >> list obtained from the remote. Once submitted, patchwork performs a     `git
+> > > >> clone --reference` to clone the repository locally using a     local fork of
+> > > >> the same repo to minimize object transfer. This part     requires that:
+> > > >>        a. patchwork project is configured with a path to a local fork,
+> > > >> if this feature is enabled for a project
+> > > >>        b. that fork is kept current via some mechanism outside of
+> > > >> patchwork (e.g. with grokmirror)
+> > > >>        c. there is some sanity-checking during the clone process to
+> > > >> avoid abuse (e.g. a sane timeout, a tmpdir with limited size,          etc
+> > > >> -- other suggestions welcome)
+> > > >>
+> > > >>   3. next screen asks the user to pick a starting commit from the log.
+> > > >> Once submitted, patchwork generates the patch from the commit     provided
+> > > >> to the tip of the branch selected by the user earlier,
+> > > >>      using git format-patch.
+> > > >>
+> > > >>   4. next screen asks the user to review the patch to make sure this is
+> > > >> what they want to submit. Once confirmed, patchwork performs two
+> > > >> admin-defined optional hooks:
+> > > >>
+> > > >>        a. a hook to generate a list of cc's (e.g. get_maintainer.pl)
+> > > >>        b. a sanity check hook (e.g. checkpatch.pl)
+> > > >
+> > > > I will note that many "first patch" submissions are checkpatch.pl
+> > > > cleanups for staging.  When doing that, I require that they do "one
+> > > > logical change per patch", which means that many of the individual
+> > > > patches themselves will not be checkpatch.pl clean, because many lines
+> > > > have multiple issues with them (tabs, spaces, format, length, etc.)
+> > > >
+> > > > So other than that minor thing, sounds interesting.  It's hard to
+> > > > determine just how difficult the whole "set up git and send a patch out"
+> > > > process is for people these days given the _huge_ numbers of new
+> > > > contributions we keep getting, and the numerous good tutorials we have
+> > > > created that spell out exactly how to do this.
+> > > >
+> > > > So you might be "solving" a problem that we don't really have.  It's
+> > > > hard to tell :(
+> > > >
+> > >
+> > > I agree with this. I don't think this a problem that is worth solving.
+> > > When a new developer wants to send a patch, they don't need to create
+> > > any accounts. They setup their email client and send patch.
+> > >
+> > > We have several resources that walk them through setting up email
+> > > clients and sending patches. checkpatch.pl can be automated with
+> > > git hooks.
+> > >
+> > > >> I know this is a pretty big RFE, and I would like to hear your thoughts
+> > > >> about this. If there is general agreement that this is doable/good idea, I
+> > > >> may be able to come up with funding for this development as part of the
+> > > >> overall tooling improvement proposal.
+> > > >
+> > > > The workflow seems sane, and matches what most people do today, with the
+> > > > exception that it "solves" the git send-email issue, right?  Is that our
+> > > > biggest barrier?
+> > > >
+> > > > I would recommend interviewing some of the recent kernel mentor project
+> > > > and outreachy applicants first, to try to determine exactly what their
+> > > > problems, if any, were with our development process.  If they say that
+> > > > this type of tool/workflow would have saved them hours of time and
+> > > > energy, then that's a great indication that we should try to do this.
+> > > >
+> > >
+> > > I would say considering the number of applicants to mentorship program
+> > > and new developers it will be lot overhead to require them to create
+> > > patchwork accounts, and it might even be hard overtime. A lot of them
+> > > start out and drop out in the middle. With the current setup, nothing
+> > > to cleanup.
+> > >
+> > > Setting up email clients and git hooks is one time task. It is the
+> > > easiest of the learning curve for many new developers. New developers
+> > > struggle with getting the change logs right, coding styles right, and
+> > > responding to review comments and acting on them.
+> > >
+> > > These aren't something that can be automated and they just have to
+> > > learn through experience of sending patches.
+> > >
+> > > My opinion based on contact with new developers as well running the
+> > > mentorship program, I would sat this isn't something that needs
+> > > solving.
+> > >
+> > > thanks,
+> > > -- Shuah
+> >
+> >
 > > As one data point, I cannot send emails with git send-email anymore.
 > > It used to work, then broke and I don't know how to fix it. Now it says:
 > >
@@ -81,37 +193,50 @@ On Mon, Oct 14, 2019 at 10:57 PM Theodore Y. Ts'o <tytso@mit.edu> wrote:
 > >
 > > I suspect it has something to do with two factor auth.
 > > So that's it: it cannot contribute to kernel right now.
-> > I will not consider time spent fixing it as useful time investment.
 >
-> Note that this is a Googler-specific problem, as it's due to
-> corp-security requirements that other GMail users and most GSuites
-> customers won't have.  (For example, you could use another SMTP server
-> and bypass the corp. mail submission server, but for google.com e-mail
-> addresses, the DMARC settings foreclose that particular workaround.)
->
-> So it's an extreme case, and is an example of corp e-mail insanity.
-> The good news is that for companies that are really serious about
-> working with upstream, they will roll out solutions for their own
-> customers.  For example, with IBM, since Lotus notes was maximally
-> unfriendly to OSS development practices, they created a separate mail
-> system with ldap@linux.ibm.com addresses be cause it was simply
-> impossible to engage with upstream development using ibm.com
-> addresses.  So there are work arounds, and I encourage you to reach
-> out to other Google kernel developers --- and if you are unhappy,
-> please file internal bugs against the corp infrastructure.
->
-> Personally, my solution to this problem is to use a non-google address
-> (tytso@mit.edu) for upstream work, because life is too short to fight
-> with GMail.  (Although it is doable; as many people can attest.)
->
+> That is because your employer changed how it manages imap.  So yes, this
+> configuration is now broken, you can not contribute to the kernel this
+> way.  They know about it, and there's an "opt-out" list you can sign up
+> for if you want to fix it.  Nothing the community can do about something
+> crazy like this.
+
+I used my private gmail account to send emails. My private email
+account stopped working.
+
+
+> > As another data point, I spoke to KP Singh at the Plumbers. He is a
+> > "returning" kernel developer (so already did this before), he said it
+> > took him 3 days and 52 configurations changes (all were committed to
+> > git, so was possible to count exactly) to setup mail client properly.
+> > And he is "staffed" to do kernel work, I would expect that most people
+> > who don't _have_ to do kernel contributions will turn away half-way.
+> >
+> > As another data point, several people told me that they are afraid of
+> > sending kernel patches b/c there is so much "on you" to do right.
+> >
 > > I would say that we need to aim at  a process that does not require a
 > > friendly experienced person to answer any of your questions in the
 > > common case. Lots of people will simply not ask any questions.
 >
-> If you work inside a corporation with "unique" e-mail settings, you
-> may need to ask a friendly experienced person inside your company, or
-> look for the "new employee" (Noogler) web documentation for working
-> with the kernel.
-
-I used my private gmail account to send emails. My private email
-account stopped working.
+> Again, interview the outreachy and mentorship applicants and see what
+> they say about this.
+>
+> All corporate email systems do crazy things with email to help prevent
+> them from participating in Linux kernel development.  We have known this
+> for decades.  Is it the community's job to fix that, or is it the
+> individual company's job to do that for when they want to have people
+> participate?
+>
+> There's a good reason almost all Linux groups at companies have a Linux
+> email server in the corner from which to send out patches from.  This
+> started 2 decades ago with IBM, and continues to this day with many many
+> many other companies.  That's proof that if a company does want to
+> participate, it will do the needed work to do so.
+>
+> But that's not the group of people we are trying to help here, are we?
+> I can't tell, there seems to be complaints from both sides (newbies and
+> companies...)
+>
+> thanks,
+>
+> greg k-h
