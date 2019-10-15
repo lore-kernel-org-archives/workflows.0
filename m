@@ -2,65 +2,70 @@ Return-Path: <SRS0=cg+L=YI=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6235C10F14
-	for <workflows@archiver.kernel.org>; Tue, 15 Oct 2019 18:37:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 682A8C10F14
+	for <workflows@archiver.kernel.org>; Tue, 15 Oct 2019 18:58:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9272E2067B
-	for <workflows@archiver.kernel.org>; Tue, 15 Oct 2019 18:37:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1571164676;
-	bh=2n1QPJ9+wsX+90Eam6hDrj/Clcvhyd3UndJCk8XgdzY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=DEDy7QUravUPtwE6b4xlx2DZg6ag9eEBkqkCoaXKYV79/MnMNJn6sNBLYFVdokoTr
-	 XyIXuZcTi+sDW/okRQmAu9XoOrl1UxUmWR0MOx5efltHs2yWRYIRUURoaQcyoXAx+C
-	 Nrx0kD8nP8E1shleowfCCwHhFCrA1kBIkgrbsnq4=
+	by mail.kernel.org (Postfix) with ESMTP id 2A6B220663
+	for <workflows@archiver.kernel.org>; Tue, 15 Oct 2019 18:58:32 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Lod/om/5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729346AbfJOSh4 (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 15 Oct 2019 14:37:56 -0400
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:40699 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726144AbfJOSh4 (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 15 Oct 2019 14:37:56 -0400
-Received: by mail-qk1-f193.google.com with SMTP id y144so20134964qkb.7
-        for <workflows@vger.kernel.org>; Tue, 15 Oct 2019 11:37:55 -0700 (PDT)
+        id S1728950AbfJOS6b (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 15 Oct 2019 14:58:31 -0400
+Received: from mail-vs1-f66.google.com ([209.85.217.66]:42094 "EHLO
+        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727923AbfJOS6b (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 15 Oct 2019 14:58:31 -0400
+Received: by mail-vs1-f66.google.com with SMTP id m22so13872691vsl.9
+        for <workflows@vger.kernel.org>; Tue, 15 Oct 2019 11:58:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=SknjRA9Ao+FbL08gMkKZrS0vJw7jk28JLULmLntlS9s=;
-        b=b0hREZspxSJkBL4Q6iW7tutoXHceS+ox7a/TbznDoG9nTg4Yg+aS21M2i7CJ8KoPrj
-         0Mc68RAQdb83k+ETp38HEoepJWFqPGzZ5Kmtym+gcw+x9O9lgwC1aT6cvIwmdZR0E0Ys
-         4kVWl7cUBWzAcdCBhfeGTmhpajYIinW1QFHFg=
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=t8cFXxLcso62O8KsTkB4BEbSL1Pv+VdVT/B9AUER5f4=;
+        b=Lod/om/5kANWTTY5myGjbSieIV7R5TmHRavDQuoa7Rl1WvMnS3MYCO1ytCugcCRvJL
+         UZ6w+UmfEBEPW2qZCwWI5wcC7xwoE/WFwf5Hw/Jku3s+VzhPhju1qoQw2nhDN6NaDROT
+         BsCN1Zs9j7jdir3s+Gz/mbIhKeOAr9xPPfQMPuJLAhgXatDeJ/7VsCcTXksT20tJNfPy
+         BJybX2Hpb1ab98nPOPRgzcdBmUYJAJdHtp1kGdZ+dJc3HWB51u3sSKH96w8c4Ms8shiq
+         z1KsaoJi35ExJ9vITQM87NKA2drTkmQNGtobwaWQp4H2gB7gkQphY9N+VOJyKlUa6Ry5
+         K9XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=SknjRA9Ao+FbL08gMkKZrS0vJw7jk28JLULmLntlS9s=;
-        b=C8wXLCtjhK8Npdl2Ra5hs1VPaFGgXIOruqqvUDjj3cLxBpIgPZ63p+mCpeVqjUKcpS
-         4g9+fi6sR+/ZXvETBQ94V5fg40a8VCiD50e/X/M4JSy/LRdWiz8AEg4q6MdOicbF76Js
-         5JnspmgEp0izwqzS+FopP5gLN58oqSKv2L2VizR6RbnuZEw/phnGZjq1BCUV5GUvSa4P
-         pC8sVDTTn8gwvcz9Sxw9X9jpX0UAqe2GUIhC6EgYoeiMM+dhJdrqBM4SUJl//vw3cUm8
-         PET8t+oEj27SCBJaQ2tI2PC/i49S8ivCzLoIxYfciUU9aLzxYJYY3fzU4EkoHwgfJc3Y
-         +FtQ==
-X-Gm-Message-State: APjAAAXzmqsAJ8H4+37P3PaH/HkNJILxUP2fZyarLkvNta607rsWJYTZ
-        P7tKOzd+ggeB9KqY04oGr68/6XpFFA0=
-X-Google-Smtp-Source: APXvYqxUMrMJowuu4R4sbnTh0jnKDtmLohEbgY0o2NStLt+LtR07/gMAHUiGnKEbQz2oRM/DeGqXDQ==
-X-Received: by 2002:a37:6648:: with SMTP id a69mr36151536qkc.154.1571164674654;
-        Tue, 15 Oct 2019 11:37:54 -0700 (PDT)
-Received: from chatter.i7.local (192-0-228-88.cpe.teksavvy.com. [192.0.228.88])
-        by smtp.gmail.com with ESMTPSA id v4sm9301984qkj.28.2019.10.15.11.37.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2019 11:37:53 -0700 (PDT)
-Date:   Tue, 15 Oct 2019 14:37:52 -0400
-From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To:     Han-Wen Nienhuys <hanwen@google.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=t8cFXxLcso62O8KsTkB4BEbSL1Pv+VdVT/B9AUER5f4=;
+        b=jk1UbiScPQJyNHQNs/cLZFr7RnSP7nU+6Yqvr7S/xB1wQjT2CZRqxcHZ8RHVaG2CKY
+         6UqsvPSci5UBAfCDK7RwV1pofgHnB4NEPL5u9GDqr8ZAV0G/GN+2kCjMnwC5lUCK7CMr
+         HSwJgmKHZSo2+p77pgTt1cciZF3OeU29gytoKQKk4X0ZDKDFRRhhwNYJIuiT5/3K161c
+         PfpnyefAXW5K/lN9G5mZhsOIbjLIC/g00eLR1op1g6zAGht8uOjnWjpkhbemJmIpehGl
+         jziUz+h/rsbsqLPvKWpf3BLKB2j6XLuAv1sr2eK/8+QVkV9/sxgg48M7/3PRJIwu9Urz
+         TbiA==
+X-Gm-Message-State: APjAAAVvkSZz3N7YMPG8RhlT+zxy4f/0SmCGO5VbSOwDEqYkuNB3RDdL
+        LwOjyL4tf+kEwXMV7IcgKi7Z8n7tTpaXoRLHHi8vJg==
+X-Google-Smtp-Source: APXvYqw0Il46IWROPXyxGTEBWtnuHb3d6rjpvmFLNNY+0yrUwQJ7mnrMz6F6uw/t8F6QTBWhXNiLMbQ8tHHmsuqjPjA=
+X-Received: by 2002:a67:3209:: with SMTP id y9mr21375959vsy.231.1571165908545;
+ Tue, 15 Oct 2019 11:58:28 -0700 (PDT)
+MIME-Version: 1.0
+References: <20191007211704.6b555bb1@oasis.local.home> <20191008164309.mddbouqmbqipx2sx@redhat.com>
+ <20191008131730.4da4c9c5@gandalf.local.home> <20191008173902.jbkzrqrwg43szgyz@redhat.com>
+ <20191008190527.hprv53vhzvrvdnhm@chatter.i7.local> <bbf9d038-2238-b97f-7cae-97804ee1624c@redhat.com>
+ <20191009215416.o2cw6cns3xx3ampl@chatter.i7.local> <CACT4Y+ZJd+3m8zh6m1LtGS0nXQpZbeo3xk=qRjj96wq7gTWwDw@mail.gmail.com>
+ <20191010205733.GA16225@mit.edu> <CAFQ2z_Pd2bSL+qpTNxwSNUOccvOt1QD9-XeCqqcdHtiNLKeJxA@mail.gmail.com>
+ <20191015160712.GD1003139@kroah.com>
+In-Reply-To: <20191015160712.GD1003139@kroah.com>
+From:   Han-Wen Nienhuys <hanwen@google.com>
+Date:   Tue, 15 Oct 2019 20:58:14 +0200
+Message-ID: <CAFQ2z_N0Hriv68HajKZoNg1AyXzd_GqT8a2sDoCRZkUJy_vKSA@mail.gmail.com>
+Subject: Re: thoughts on a Merge Request based development workflow
+To:     Greg KH <gregkh@linuxfoundation.org>
 Cc:     "Theodore Y. Ts'o" <tytso@mit.edu>,
         Dmitry Vyukov <dvyukov@google.com>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
         Laura Abbott <labbott@redhat.com>,
         Don Zickus <dzickus@redhat.com>,
         Steven Rostedt <rostedt@goodmis.org>,
@@ -68,132 +73,167 @@ Cc:     "Theodore Y. Ts'o" <tytso@mit.edu>,
         David Miller <davem@davemloft.net>,
         Drew DeVault <sir@cmpwn.com>,
         Neil Horman <nhorman@tuxdriver.com>, workflows@vger.kernel.org
-Subject: Re: thoughts on a Merge Request based development workflow
-Message-ID: <20191015183752.GB5473@chatter.i7.local>
-References: <20191007211704.6b555bb1@oasis.local.home>
- <20191008164309.mddbouqmbqipx2sx@redhat.com>
- <20191008131730.4da4c9c5@gandalf.local.home>
- <20191008173902.jbkzrqrwg43szgyz@redhat.com>
- <20191008190527.hprv53vhzvrvdnhm@chatter.i7.local>
- <bbf9d038-2238-b97f-7cae-97804ee1624c@redhat.com>
- <20191009215416.o2cw6cns3xx3ampl@chatter.i7.local>
- <CACT4Y+ZJd+3m8zh6m1LtGS0nXQpZbeo3xk=qRjj96wq7gTWwDw@mail.gmail.com>
- <20191010205733.GA16225@mit.edu>
- <CAFQ2z_Pd2bSL+qpTNxwSNUOccvOt1QD9-XeCqqcdHtiNLKeJxA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CAFQ2z_Pd2bSL+qpTNxwSNUOccvOt1QD9-XeCqqcdHtiNLKeJxA@mail.gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Mon, Oct 14, 2019 at 09:08:17PM +0200, Han-Wen Nienhuys wrote:
->It is true that Gerrit at Google runs on top of Borg (Gerrit-on-Borg 
->aka. GoB),
+On Tue, Oct 15, 2019 at 6:07 PM Greg KH <gregkh@linuxfoundation.org> wrote:
 >
->1) there is no real concern about Cgit's scalability.
->2) the borg deployment has no relevant magical sauce here.
+> > Gerrit isn't a big favorite of many people, but some of that
+> > perception may be outdated. Since 2016, Google has significantly
+> > increased its investment in Gerrit. For example, we have rewritten the
+> > web UI from scratch, and there have been many performance
+> > improvements.
 >
->To 1) : Konstantin was worried about performance implication on git
->notes.  The git-notes command stores data in a single
->refs/notes/commits branch. Gerrit actually uses notes (the file
->format) as well, but has a single notes branch per review, so
->performance here is not a concern when scaling up the number of
->reviews.
+> As one of the many people who complain about Gerrit (I gave a whole talk
+> about it!), I guess I should comment here...
+>..
+> Anyway, my objections:
+>         - slow.  Seriously, have you tried using it on a slower network
+>           connection (i.e. cellular teather, or train/bus wifi, or cafe
+>           wifi?)
 
-Well, it's true that notes use a single ref by default, but the actual 
-file structure is similar to git/objects:
+I did (train wifi), and found it to be workable, but it might be that
+I have different expectations for speed.  If you're worried about
+off-line behavior, you could run a local mirror of an Gerrit server,
+and posting draft comments locally, and then use a script to post the
+draft comments to the central gerrit server once you're online.
 
-  A notes ref is usually a branch which contains "files" whose paths are 
-  the object names for the objects they describe, with some directory 
-  separators included for performance reasons.
+>         - Can not see all changes made in a single commit across
+>           multiple files on the same page.  You have to click through
+>           each and every individual file to see the diffs.  That's
+>           horrid for patches that touch multiple files and is my biggest
+>           pet-peve about the tool.
 
-So, if you are creating a note for commit abcdefg, a new file will be 
-created in the refs/notes/commits named ab/cd/efg or something similar.  
-That is why "performance reasons" are mentioned in the sentence above, 
-because as more notes are added, more and more processing power will be 
-required to generate tree hashes. Granted, you have to have tens of 
-thousands of notes before this even approaches a concern, but past a 
-certain point performance will start taking a hit.
+Have you ever tried pressing Shift + i on the change screen?
 
->To 2) : Google needs special magic sauce, because we service hundreds
->of teams that work on thousands of repositories. However, here we're
->talking about just the kernel itself; that is just a single
->repository, and not an especially large one.  Chromium is our largest
->repo, and it is about 10x larger than the linux kernel.
+>         - patch series are a pain to apply, I have to manually open each
+>           patch, give it a +2 and then when all of them are reviewed and
+>           past testing, then they will be merged.  Is a pain.  Does no
+>           one else accept patch series of 10-30 patches at a time other
+>           than me?  How do they do it without opening 30+ tabs?
 
-Kernel isn't a single repository -- most maintainers have their own fork 
-or multiple. Git.kernel.org is now over a thousand repositories (mostly 
-forks of the kernel).
+How would you want it to work otherwise? I assume that you are
+actually looking at each patch, and would want to record the fact
+they're OK with a +2.
 
->Git is a tool built to exchange code and diffs. It seems natural to
->build a review solution on top of Git too. Gerrit is also built on top
->of git, and stores all metadata in Git too, ie. you can mirror review
->data into other Gerrit instances losslessly.
+If you're the boss of the project (like in your mbox scenario below)
+and are in charge of the gerrit instance, you can remove all the
+review requirements, but restrict merge privileges to yourself. You'd
+have a "merge including parents" button on the tip of the patch series
+without any voting requirements.
 
-As I see it, there are the following things that would make Gerrit a 
-difficult proposition:
+> And, by reference of the "slow" issue, I should not have to do multiple
+> round-trip queries of a web interface just to see a single patch.
+> There's the initial cover page, then there's a click on each individual
+> file, bring up a new page for each and every file that was changed for
+> that commit to read it, and then when finished, clicking again to go
+> back to the initial page, and then a click to give a +2 and another
+> click to give a verified and then another refresh of the whole thing.
 
-1. A gerrit instance would introduce a single source of failure, which 
-   is something many see as undesirable. If there's a DoS attack, Google 
-   can restrict access to their Gerrit server to limit the requests to 
-   only come from their corporate IP ranges, but kernel.org cannot do 
-   the same, so anyone relying on gerrit.kernel.org cannot do any work 
-   while it is unavailable.
-2. There is limited support for attestation with Gerrit. A change 
-   request can contain a digital signature, but any comments surrounding 
-   it do not. It would be easy for the administrator of the gerrit 
-   instance to forge a +1 or +2 on a CR making it look like it came from 
-   the maintainer or the CI service (in other words, we are back to 
-   explicitly trusting the infrastructure and IT admins).
-3. There is no email bridge, only notifications. Switching to gerrit 
-   would require a flag-day when everyone must start using it (or stop 
-   participating in kernel development).
+The 'verified' label was meant for automation systems. If you click
+the 'verified' label yourself, that suggests that there is no test
+automation for this project, and maybe you should just ask the admin
+to disable this label.
 
-I am not sure any of these can be fixed.
+> When you are reviewing thousands of patches a year, time matters.
+> Gerrit just does not cut it at all.  Remember, we only accept 1/3 of the
+> patches sent to us.  We are accepting 9 patches an hour, 24 hours a day.
+> That means we reject 18 patches an hour at that same time.
 
->Building a review tool is not all that easy to do well; by using
->Gerrit, you get a tool that already exists, works, and has significant
->corporate support. We at Google have ~11 SWEs working on Gerrit
->full-time, for example, and we have support from UX research and UI
->design. The amount of work to tweak Gerrit for Linux kernel
->development surely is much less than building something from scratch.
+
+I'm curious how you come to this number. When I look at Linus' tree.
+
+git show --no-merges
+43b815c6a8e7dbccb5b8bd9c4b099c24bc22d135..8e0d0ad206f08506c893326ca7c9c3d9c=
+c042cef
+| grep ^Date | wc
+
+This range is two recent merge commits by Linus about 232 hours apart.
+During that window, 386 non-merge change were merged, ie. about 1.6
+commit/hour.
+
+> And then there's the issue of access when you do not have internet, like
+> I currently do not right now on a plane.  Or a very slow connection.  I
+> can still suck down patches in email apply them, and push them out.
+> Using gerrit on this connection is impossible.
+
+there is actually a TTY interface to gerrit that has a local cache,
+but i'll admit I have never tried it.
+
+> > Building a review tool is not all that easy to do well; by using
+> > Gerrit, you get a tool that already exists, works, and has significant
+> > corporate support. We at Google have ~11 SWEs working on Gerrit
+> > full-time, for example, and we have support from UX research and UI
+> > design. The amount of work to tweak Gerrit for Linux kernel
+> > development surely is much less than building something from scratch.
 >
->Gerrit has a patchset oriented workflow (where changes are amended all
->the time), which is a good fit to the kernel's development process.
->Linus doesn't like Change-Id lines, but I think we could adapt Gerrit
->so it accepts URLs as IDs instead.
+> I would love to see a better working gerrit today, for google, for the
+> developers there as that would save them time and energy that they
+> currently waste using it.  But for a distributed development / review
+> environment, with multiple people having multiple trees all over the
+> place, I don't know how Gerrit would work, unless it is trivial to
+> host/manage locally.
 >
->There is talk of building a distributed/federated tool, but if there
->are policies ("Jane Doe is maintainer of the network subsystem, and
->can merge changes that only touch file in net/ "), then building
->something decentralized is really hard. You have to build
->infrastructure where Jane can prove to others who she is (PGP key
->signing parties?), and some sort of distributed storage of the policy
->rules.
+> > Gerrit has a patchset oriented workflow (where changes are amended all
+> > the time), which is a good fit to the kernel's development process.
 >
->By contrast, a centralized server can authenticate users reliably and
->the server owner can define such rules.  There can still be multiple
->gerrit servers, possibly sponsored by corporate entities (one from
->RedHat, one from Google, etc.), and different servers can support
->different authentication models (OpenID, OAuth, Google account, etc.)
+> Maybe for some tiny subsystem's workflows, but not for any with a real
+> amount of development.  Try dumping a subsystem's patches into gerrit
+> today.  Can it handle something like netdev?  linux-input?  linux-usb?
+> staging?  Where does it start to break down in just being able to handle
+> the large quantities of changes?  Patchwork has done a lot to help some
 
-How would multiple Gerrit servers operate if they are backed by 
-different authentication models? Something like a replication plugin 
-would require that each of these instances are fully trusted sources of 
-truth. I am not sure Red Hat would be happy to fully trust a replication 
-stream coming from its direct market competitors, especially if they are 
-in a position to forge identities.
+I am not sure I understand the question. We merge about 300 commits
+per day into https://chromium.googlesource.com/chromium/src/, which
+looks to be much more than what the linux kernel receives.
 
-Or do you mean they are separate instances and a maintainer would pick 
-where to host their subsystem? But then, if they pick Google's gerrit 
-system, how would engineers from China be able to participate?
+What do you mean with 'break down' ?
 
-Generally, unless there is a way to run Gerrit without explicitly 
-trusting the infrastructure and admins, I will be in strong opposition 
-to choosing it as the solution.
+> > There is talk of building a distributed/federated tool, but if there
+> > are policies ("Jane Doe is maintainer of the network subsystem, and
+> > can merge changes that only touch file in net/ "), then building
+> > something decentralized is really hard. You have to build
+> > infrastructure where Jane can prove to others who she is (PGP key
+> > signing parties?), and some sort of distributed storage of the policy
+> > rules.
+> >
+> > By contrast, a centralized server can authenticate users reliably and
+> > the server owner can define such rules.  There can still be multiple
+> > gerrit servers, possibly sponsored by corporate entities (one from
+> > RedHat, one from Google, etc.), and different servers can support
+> > different authentication models (OpenID, OAuth, Google account, etc.)
+>
+> Like Daniel said, the kernel is multi-repos for a mono-tree.  I don't
+> think Gerrit is set up to handle that at all from what I can see.
 
--K
+What problem is solved by having multiple copies of the same tree?
+
+The normal Gerrit approach would be to have one server, with one Linux
+repository, with multiple branches. Gerrit has per-branch permissions,
+so you can define custom permissions (eg. merge, vote, read, amend
+other people's changes) for different branches. Using branches in this
+way would allow you to retarget a change to another branch without
+losing the review history, or cherry-picking a change to another
+branch from within the UI.
+
+> How many people does it take to maintain an Gerrit instance and keep it
+> up and running well?
+
+To be honest, I don't know exactly, as the Google setup is very different.
+
+Anecdotally, I hear that it is a setup and forget type of server,
+except for upgrades, which require an hour or so of downtime.
+
+--=20
+Han-Wen Nienhuys - Google Munich
+I work 80%. Don't expect answers from me on Fridays.
+--
+
+Google Germany GmbH, Erika-Mann-Strasse 33, 80636 Munich
+Registergericht und -nummer: Hamburg, HRB 86891
+Sitz der Gesellschaft: Hamburg
+Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
