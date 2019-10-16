@@ -2,69 +2,71 @@ Return-Path: <SRS0=qIWo=YJ=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=ham autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD032FA372A
-	for <workflows@archiver.kernel.org>; Wed, 16 Oct 2019 18:34:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34961FA3728
+	for <workflows@archiver.kernel.org>; Wed, 16 Oct 2019 18:57:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8DBB421D7A
-	for <workflows@archiver.kernel.org>; Wed, 16 Oct 2019 18:34:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 047DD21A49
+	for <workflows@archiver.kernel.org>; Wed, 16 Oct 2019 18:57:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PFzp4d50"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="V0TcRud/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726759AbfJPSeN (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 16 Oct 2019 14:34:13 -0400
-Received: from mail-vk1-f178.google.com ([209.85.221.178]:40015 "EHLO
-        mail-vk1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726506AbfJPSeN (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 16 Oct 2019 14:34:13 -0400
-Received: by mail-vk1-f178.google.com with SMTP id d126so5409572vkf.7
-        for <workflows@vger.kernel.org>; Wed, 16 Oct 2019 11:34:12 -0700 (PDT)
+        id S2436651AbfJPS5J (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 16 Oct 2019 14:57:09 -0400
+Received: from mail-vk1-f194.google.com ([209.85.221.194]:45702 "EHLO
+        mail-vk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2436653AbfJPS5J (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 16 Oct 2019 14:57:09 -0400
+Received: by mail-vk1-f194.google.com with SMTP id q25so5417797vkn.12
+        for <workflows@vger.kernel.org>; Wed, 16 Oct 2019 11:57:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=Lum1oabecwQuhw4OwRKPvgTl6xpMImxCfKJN4wYtwuo=;
-        b=PFzp4d50qEQL2N+EFSGg++Uexh86YBabn6TqlqDGvs+M0LZagjtT2WqPLpExH4TIwI
-         AvKlGwpXnN65+c0IYvflwP83M+NWgXZquhKxlMNh3lP0e83IdNXsBv7WO2eZmRDE9O2p
-         9/Apt9S76gpaRZrwYsgkJ6JyLgXVrdbSK/ivjJ9kcLKFl1TUd9OoD/oF0sFZnATXdkTc
-         AhT+wFH7m6ecJ63YWW4fSRfjR01pumkrxbVPmxTtDVDcvuKV/v2SvqxxlPC1LvU0fCnj
-         KWuP8pd426u2VjT9yk3KQQu38ah5JA0hdX0kubD0zRBzoGTnNiTIUTcp4/mCxqyXuVbB
-         81Zg==
+        bh=A/zDaw6dT75ita7brRBB2hZ2iDo2yat8DdB8EiXu1Qw=;
+        b=V0TcRud/N9uVvi0LI3uzVnZ+kFZSoK59dc4HVL9dq3vznM5hwXR2Ub/MlRlTl8jF0A
+         nVvwwTCmEqvp0MdGFnNcsp+p4bD+rnaJMKPilPfvJBCJ8Ec48cUiBsNZ2g3Nck8LYhEy
+         cdUK6Z3pvebeS/h7DQ51mjjRIkv02E4VOu5Wa11rz2vetpCAvNgF43npTmlRRmtUW8iR
+         azXxNhCXQvXaYZf5tgRRN75sHWzedrvfjvfT3jkj/2AQmA6P5W0Of8+SvQig45pAenDO
+         Hf13C1LMM+VkLiqHd1BJvMagyTTftvnuLZsJsIWIBSteFtF5QMAXzcK1QgocLYq+eLSd
+         ZbNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Lum1oabecwQuhw4OwRKPvgTl6xpMImxCfKJN4wYtwuo=;
-        b=FmAYvxjFJFbplxu2r14jEnmYnKAa6JJYiXtWnlb0eFVIsFK3FcB8bxnR+ynJavwTvP
-         wdObbc3fMo1nbUVYEblhg1njgyR4drG3AyeNGUc069V6lMcVMfY4q6d6zsIyPqw1/7AH
-         WP0Q6sgg/pYYbxt7IY4Tupgg2cdePp3bYhOce+AIxeTWZo/L4jDOnEl263KStKb7+49N
-         lO21eLWFr8cpnq8BgznAhhKb9fjPDhn+K9zW+A+lv6e0HEHQ0TVdxNqPtfIxf+uIim5o
-         3U9bMhzlokUDfWVyc54bImKy99tQ8sLlJH/qIFywnRt1F+R/eZia0tRTA24ASeTAHmt5
-         rxfw==
-X-Gm-Message-State: APjAAAUrTgK6lEPqPoF8FsQoyFpZps6MjGql27rhkomLFmd9UOhNQ/p0
-        4BcKIWPusRvUc4ocFEXmrPng9LgHW9sFST3v7e3u6w==
-X-Google-Smtp-Source: APXvYqwzj20HQpuvJd156ejhBuPNnEN9gIUyzGipepp7PHPTijGV6COJTjugQij9o/8ie9eCHM37zvzEZDev7LOX9ME=
-X-Received: by 2002:a05:6122:10d4:: with SMTP id l20mr22835392vko.18.1571250849311;
- Wed, 16 Oct 2019 11:34:09 -0700 (PDT)
+        bh=A/zDaw6dT75ita7brRBB2hZ2iDo2yat8DdB8EiXu1Qw=;
+        b=NgDR+5IVZeRTCvEHT3/ztGmYa7nw4ihk9497P8i3oJ82PJdCyE1AegR56XoruoOFxQ
+         EnOeRNktAaixb+MQlcd0njS2U2xfQT3MJcJmuWshak0Jt+hsrbD3Tx8+UjKBr8j5y7wr
+         LvXIgFcB/ja7qBLFOzscK5oF517oe8Iq9ZrnKzpxP7YWSdwGgpnHwR/U/eH7iZtWJU/y
+         fWYRsvEZIKpbi0mRB3je0p46ulHryfUZzOD0+oBBHf2PSdlfpI2K7Hf+aI8qhSiGdR9f
+         RmUzZwvhgLj9kXET2WZHhASr9eca2J33327s8K9gt5PgaNdVpIjueGCIJNzRqiFiqY9e
+         k3hQ==
+X-Gm-Message-State: APjAAAXXfFjbhbTAeJDRLy0AVK3QnbOjz+EDWW0L1SaSSy03WP6Vu+YN
+        l9+Mn4ZVxPl/R034xvOkxJKoOtj0T4lt6o3rILa7sg==
+X-Google-Smtp-Source: APXvYqzM81spS5xSqjjAAKUnrM5EBCxRY2uP8SswcUNWSTtqhrJXZd2cfypr/8X1319ZQ2myf4iVxX/pYsrPr1YMJJ0=
+X-Received: by 2002:a1f:ed83:: with SMTP id l125mr22809152vkh.94.1571252227910;
+ Wed, 16 Oct 2019 11:57:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191008131730.4da4c9c5@gandalf.local.home> <20191008173902.jbkzrqrwg43szgyz@redhat.com>
+References: <20191007211704.6b555bb1@oasis.local.home> <20191008164309.mddbouqmbqipx2sx@redhat.com>
+ <20191008131730.4da4c9c5@gandalf.local.home> <20191008173902.jbkzrqrwg43szgyz@redhat.com>
  <20191008190527.hprv53vhzvrvdnhm@chatter.i7.local> <bbf9d038-2238-b97f-7cae-97804ee1624c@redhat.com>
  <20191009215416.o2cw6cns3xx3ampl@chatter.i7.local> <CACT4Y+ZJd+3m8zh6m1LtGS0nXQpZbeo3xk=qRjj96wq7gTWwDw@mail.gmail.com>
  <20191010205733.GA16225@mit.edu> <CAFQ2z_Pd2bSL+qpTNxwSNUOccvOt1QD9-XeCqqcdHtiNLKeJxA@mail.gmail.com>
- <20191015183752.GB5473@chatter.i7.local> <CAFQ2z_OyzfGDKQgzWNGoj4dpx-15B=kZkmOvJr9LU5AjfK=y0A@mail.gmail.com>
- <20191015194103.GA23517@chatter.i7.local>
-In-Reply-To: <20191015194103.GA23517@chatter.i7.local>
+ <20191015015425.GA26853@mit.edu> <CAKMK7uGtvqFSw+wOBeGjV88DeyUoMTV3+F4Fpqv6NGUBCkAAgA@mail.gmail.com>
+ <CAFQ2z_Pxc=0LjEieUC7Dz_sQiUKBr2oKUVrW7Fppj5AQbD_W5A@mail.gmail.com> <CAKMK7uGseMAmmLkawkaMMJgK=XAXoK+vOP8Uo9obXpss_v+WYQ@mail.gmail.com>
+In-Reply-To: <CAKMK7uGseMAmmLkawkaMMJgK=XAXoK+vOP8Uo9obXpss_v+WYQ@mail.gmail.com>
 From:   Han-Wen Nienhuys <hanwen@google.com>
-Date:   Wed, 16 Oct 2019 20:33:55 +0200
-Message-ID: <CAFQ2z_N-_k6=QkO05de6XdBsuZsKbReF_kiET=RNTze_duKFdA@mail.gmail.com>
+Date:   Wed, 16 Oct 2019 20:56:53 +0200
+Message-ID: <CAFQ2z_OVwS0Ups1QCEvJBFTsZmsw1u25bJh+a3xArjhXggLqcA@mail.gmail.com>
 Subject: Re: thoughts on a Merge Request based development workflow
-To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To:     Daniel Vetter <daniel@ffwll.ch>
 Cc:     "Theodore Y. Ts'o" <tytso@mit.edu>,
         Dmitry Vyukov <dvyukov@google.com>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
         Laura Abbott <labbott@redhat.com>,
         Don Zickus <dzickus@redhat.com>,
         Steven Rostedt <rostedt@goodmis.org>,
@@ -79,91 +81,107 @@ Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Tue, Oct 15, 2019 at 9:41 PM Konstantin Ryabitsev
-<konstantin@linuxfoundation.org> wrote:
-> >> 1. A gerrit instance would introduce a single source of failure, which
-> >>    is something many see as undesirable. If there's a DoS attack, Goog=
-le
-> >>    can restrict access to their Gerrit server to limit the requests to
-> >>    only come from their corporate IP ranges, but kernel.org cannot do
-> >>    the same, so anyone relying on gerrit.kernel.org cannot do any work
-> >>    while it is unavailable.
+On Tue, Oct 15, 2019 at 3:45 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > Last time I looked none of the common web ui tools (gerrit, gitlab,
+> > > github) had any reasonable support for topic branches/patch series
+> > > that target multiple different branches/repositories. They all assume
+> > > that a submission gets merged into one branch only and that's it. You
+> > > can of course submit the same stuff for inclusion into multiple
+> > > places, but that gives you separate discussion tracking for each one
+> > > (at least with the merge/pull request model, maybe gerrit is better
+> > > here), which is real bad.
 > >
-> >I don't understand your scenario. Are you concerned that Google would
-> >protect DoS attacks by limiting traffic to the corp network?
+> > Can you say a little more about what you expect when working with
+> > multiple branches/repos?
 > >
-> >Or are you concerned that kernel.org has no DoS protection?
->
-> Kernel.org operates on a pretty small budget, largely using
-> infrastructure donated by kind entities. If it suddenly becomes a
-> liability, I'm sure those entities will kick us out. A large, sustained
-> DoS attack would be one such liability, and due to the nature of git, we
-> can't really hide behind cloudfront or any other DoS-mitigation
-> platforms.
->
-> If a DoS attack is waged against Google's gerrit server, they can drop
-> the packets at the perimeter and still keep the service available to
-> Google engineers coming from internally routed traffic. This is not an
-> option for kernel.org, so a DoS attack against a central resource would
-> be super effective in stopping all work on Linux.
-
-This isn't how DOS mitigation works. Gerrit uses the same DOS
-mitigation as www.google.com, and we don't drop external search
-traffic when things get bad.
-
-If we can be behind a DOS protection service, kernel.org could also
-be, but I think it would require using the HTTPS protocol rather than
-SSH or anonymous git.
-
-> >How does DoS protection for kernel.org work today? If someone DoSes
-> >git.kernel.org with its 1000s of git trees, how do people get work
-> >done?
->
-> The git trees on kernel.org are just convenient copies. Most kernel
-> development is done via mailing patches, which is a distributed and
-> DoS-resistant process. The only time git.kernel.org enters into the
-> picture is when people need to send a pull request to Linus (via email).
-> If kernel.org is out for an extended period of time, they would just
-> push their repo elsewhere and send a pull request referencing the new
-> URL. Since Linus checks PGP signatures when pulling remotes, the
-> repository can be hosted anywhere at all without needing to trust the
-> infrastructure.
->
-> With gerrit, if gerrit.kernel.org is down, then everything grinds to a
-> halt. If it's down for an extended period of time, then in theory people
-> can push their git trees elsewhere, but then they would have to
-> force-push back to gerrit once it's back up.
-
-We ourselves are not worried about downtime because our deployment was
-designed to be 24x7 from the start. Our corporate overlords (large
-projects such as Chrome and Android) do not accept any downtime. I
-would be happy and proud to host the Linux kernel development on the
-same infrastructure, which would give you hosting without downtime.
-However, if there is consensus that there can't be a centralized
-infrastructure of any sort, then that isn't going to work, obviously.
-
-> >> 3. There is no email bridge, only notifications. Switching to gerrit
-> >>    would require a flag-day when everyone must start using it (or stop
-> >>    participating in kernel development).
+> > In gerrit, you can assign freeform tags ("topics") to changes, to
+> > group them. See eg.
 > >
-> >Gerrit sends out email for comments. If you reply to that email,
-> >Gerrit ingests the comment and puts it in the review.
+> >   https://gerrit-review.googlesource.com/q/topic:"rename-reviewdb-packa=
+ge"+(status:open%20OR%20status:merged)
+> >
+> > this will let you group changes, that can be in different repos and/or
+> > different branches. See also
+> > https://gerrit-review.googlesource.com/Documentation/intro-user.html#to=
+pics
+> >
+> > Discussions are tied to a single commit, but you can easily navigate
+> > between different changes in topics, and submission is synchronized
+> > (submitting one change will submit all of the topic. it's
+> > unfortunately not atomic).
+> >
+> > This is how submissions to Android work, as Android is stitched
+> > together from ~1000 repos. It is likely that this support will further
+> > improve, as Android is one of our biggest internal key customers.
 >
-> Ah, okay, I guess we've never configured it that way. But you can't
-> +1/+2/Merge anything using this mechanism, right? Otherwise that would
-> be a backchannel around authentication. :)
+> I think gitlab is working on this under the heading of "supermerge",
+> where you tie together a pile of changes for different repos under one
+> overall label to keep the discussion together.
+>
+> For the kernel we need something slightly different:
+> - There's a large pile of forks of the same underlying repo (Linus'
+> upstream branch). So not a huge pile of independent histories and file
+> trees, but all the same common kernel history and file layout.
+> - The _same_ set of patches is submitted to multiple branches in that
+> fork network. E.g. a refactoring patch series which touches both
+> driver core and a few subsystems.
 
-it doesn't allow voting exactly for the reason you mention.
+You're simplifying the android situation, and it's actually more
+similar to the linux kernel than you think. There are several hosts
+that have versions of Android (one for AOSP, one for Google, and a
+couple hosts for different partners).
+
+Then, there are a large number of branches, which represent releases.
+Changes (or sets of changes across repositories) that are submitted to
+one branch must then be propagated to other release branches, if they
+are relevant bug fixes.
+
+With the email workflow, isn't it hard to keep track of which patch
+went into which tree? Something that tracks the identity of commit
+(like Change-Id) as it travels across trees could help here.
+
+> Afaiui Android has cross-tree pulls, but the patches heading to each
+> target repo are distinct, and they're all for disjoint history chains
+> (i.e. no common ancestor commit, no shared files between all the
+> different branches/patches). I'm not aware of any project which uses
+> topic branches and cross-tree submissions as extensively as the linux
+> kernel in this fashion. Everyone with multiple repos seems to use the
+> Android approach of splitting up the entire space in disjoint repos
+> (with disjoint histories and disjoint files). I've done a fairly
+> lengthy write-up of this problem:
+>
+> https://blog.ffwll.ch/2017/08/github-why-cant-host-the-kernel.html
+>
+> Android is a multi-repo, multi-tree approach, the linux kernel is a
+> monotree but multi-repo approach. Most people think that the only
+> other approach than multi-tree is the huge monolithic monotree w/
+> monorepo approach. That one just doesn't scale. If you'd do Android
+> like the linux kernel you'd throw out the repo tool, instead have
+> _all_ repos merged into one overall git history (placed at the same
+> directory like they're now placed by the repo tool). Still each
+> "project/subsystem" would retain their individual git repo to be able
+> to scale sufficiently well, through localizing of most
+> development/review work to their specific area.
+
+this is not really relevant to the Linux kernel discussion, but it's
+more complicated:
+
+* Android exists in several flavors (eg. the vanilla Google flavor,
+AOSP, the Samsung flavor, etc.). With different subrepositories,
+partners in the ecosystem can swap out components of the Android
+platform as needed, while still keeping up with some of the upstream
+repositories.
+
+* Android (AOSP) is more than 600k files, ie. 10x larger than the
+linux kernel, and about as large as the Chromium repo. Working with
+repo that large is painful because the git client itself just doesn't
+work that well to trees with that many files.
 
 --=20
 Han-Wen Nienhuys - Google Munich
 I work 80%. Don't expect answers from me on Fridays.
 --
-
 Google Germany GmbH, Erika-Mann-Strasse 33, 80636 Munich
-
 Registergericht und -nummer: Hamburg, HRB 86891
-
 Sitz der Gesellschaft: Hamburg
-
 Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
