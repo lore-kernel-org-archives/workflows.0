@@ -2,112 +2,137 @@ Return-Path: <SRS0=qIWo=YJ=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FSL_HELO_FAKE,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E07ADFA372A
-	for <workflows@archiver.kernel.org>; Wed, 16 Oct 2019 19:09:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FDA9FA3728
+	for <workflows@archiver.kernel.org>; Wed, 16 Oct 2019 20:57:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B7233218DE
-	for <workflows@archiver.kernel.org>; Wed, 16 Oct 2019 19:09:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1571252993;
-	bh=PwDGsbHvUm9PucQ3fR8KKcrc/0tWUJCIb3E/VB50d7Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=danOyydR6jvoraE/hESZFOTC8h25b3FCCLDdsFRTNTQmGdlq8cAJVY0eajj+E3qu+
-	 0ReSYcyvSt43wBECalQRqSd5tDROdq41+tOUP3GMHRPwg5Kor0Ra3GbF3V2mJ5vYAr
-	 JGbrCvl9e3VoVp1BRDG9XkC4Br7xyv1exJ/MD8vg=
+	by mail.kernel.org (Postfix) with ESMTP id 05C19218DE
+	for <workflows@archiver.kernel.org>; Wed, 16 Oct 2019 20:57:46 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qHCnf9eT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403747AbfJPTJx (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 16 Oct 2019 15:09:53 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:53788 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732084AbfJPTJx (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 16 Oct 2019 15:09:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=SX/YEr6v0qU70S2BPQWl4oZb1aQen0uSpnVkPF5EoLs=; b=A6zBoROAKJBFC1AmH8iRtftQl
-        3eUDgeTmUKez3VwjTrB0mK9/E0huZeAuA64/wj6cZyCrDuCdXbxQ79o7z6P81xUclIKJ68ZO9NzZi
-        0XSxIHaBrbOrez8Du8B2W/mE0jeLtUhwp84KIqrH58sx/Oa9mK3XjeVe4uUbtFzf7YHPA=;
-Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
-        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <broonie@sirena.co.uk>)
-        id 1iKofF-00064v-Bf; Wed, 16 Oct 2019 19:08:53 +0000
-Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
-        id 83A412741FCE; Wed, 16 Oct 2019 20:08:52 +0100 (BST)
-Date:   Wed, 16 Oct 2019 20:08:52 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Han-Wen Nienhuys <hanwen@google.com>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Dmitry Vyukov <dvyukov@google.com>,
+        id S2394746AbfJPU5k (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 16 Oct 2019 16:57:40 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:35390 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730412AbfJPU5k (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 16 Oct 2019 16:57:40 -0400
+Received: by mail-pf1-f195.google.com with SMTP id 205so160122pfw.2;
+        Wed, 16 Oct 2019 13:57:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=6DJo1YDZGNIpjKdZdH6rc462z5b7Cwq3+7UbSq9+XHM=;
+        b=qHCnf9eTXKpxO0DjmKS3txfjMTqoAdncu/i9m1IfVP56B4eIBGwSyHrx1AlSdXaX7G
+         goSlaz3g76DvM+4BktSv0kODTIZit5TBhjU2RCygkJfuOiC2b8OgXg7S13j4jz2YzegD
+         1+oflw0/7V40xm5KaaSL0XuY7T1BMiar92GONOn0NKAP8x70bHQHAiko+gPBSov4pss/
+         hrrztV3sq0tf9iqPan5Yj0dRoNxjhbDQEzNUHKKwpoQn+EFMCILx5PzwVqtpNfYnan6e
+         W6Xo5GtvlhUP+s515aFxDLVcZEBtKke1y46DPXgp+3v4nqlxJzHcI0F7OD8oUQ3m0+rE
+         b9VQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=6DJo1YDZGNIpjKdZdH6rc462z5b7Cwq3+7UbSq9+XHM=;
+        b=Q/DKZ/YcUtOuOhStH4O5jEduoxJoVFYeRbeLncIP1pJLDHuO/IpK3w7tjdEQRmKDcT
+         8dUX8FjOWH4s84pkXO0qbwCo9FsaGJBzOYVDd8augrbP6SJc7UWhKXFnb7CRsoremYg6
+         zwZ7keKovfYsheIBCKcgaY7jMcRYKbBlvpFOPCPCnYJ18NHXhV38s3viUpiMCUNzUZqy
+         dDieUApViPlNPsovZi/myujjgukrpdNRFiRZZY3kfMI1escgTFuTxMkp0CakpBDf/oKf
+         fJ+3ha6d3llvgIY9gMh3dS1M5FZWR/sGkePj+4itTwQ2+J8aDu56zXZwvQIyJlFV+bK9
+         Uygw==
+X-Gm-Message-State: APjAAAVRnK3v1JWvnK0DFtZnErkKMnAuRGWeVDW5O8D+5/GteDCUBvwM
+        2Rq3sCLtXuxAhdZq9eW+9HIy5cNS
+X-Google-Smtp-Source: APXvYqwlSoCKEmM0ff1PN7hnPYf5NP5EflGZDfdZcgd4AO1BAUblQMPPNMgcy7ifaCLANECR/hJ7uQ==
+X-Received: by 2002:a63:d50c:: with SMTP id c12mr99234pgg.199.1571259459163;
+        Wed, 16 Oct 2019 13:57:39 -0700 (PDT)
+Received: from google.com ([2620:15c:2ce:200:cf67:1de0:170f:be65])
+        by smtp.gmail.com with ESMTPSA id e17sm29251243pfl.40.2019.10.16.13.57.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Oct 2019 13:57:38 -0700 (PDT)
+Date:   Wed, 16 Oct 2019 13:57:36 -0700
+From:   Jonathan Nieder <jrnieder@gmail.com>
+To:     Vegard Nossum <vegard.nossum@oracle.com>
+Cc:     workflows@vger.kernel.org, Git Mailing List <git@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Don Zickus <dzickus@redhat.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Daniel Axtens <dja@axtens.net>,
-        David Miller <davem@davemloft.net>,
-        Drew DeVault <sir@cmpwn.com>,
-        Neil Horman <nhorman@tuxdriver.com>, workflows@vger.kernel.org
-Subject: Re: thoughts on a Merge Request based development workflow
-Message-ID: <20191016190852.GG4881@sirena.co.uk>
-References: <bbf9d038-2238-b97f-7cae-97804ee1624c@redhat.com>
- <20191009215416.o2cw6cns3xx3ampl@chatter.i7.local>
- <CACT4Y+ZJd+3m8zh6m1LtGS0nXQpZbeo3xk=qRjj96wq7gTWwDw@mail.gmail.com>
- <20191010205733.GA16225@mit.edu>
- <CAFQ2z_Pd2bSL+qpTNxwSNUOccvOt1QD9-XeCqqcdHtiNLKeJxA@mail.gmail.com>
- <20191015015425.GA26853@mit.edu>
- <CAKMK7uGtvqFSw+wOBeGjV88DeyUoMTV3+F4Fpqv6NGUBCkAAgA@mail.gmail.com>
- <CAFQ2z_Pxc=0LjEieUC7Dz_sQiUKBr2oKUVrW7Fppj5AQbD_W5A@mail.gmail.com>
- <CAKMK7uGseMAmmLkawkaMMJgK=XAXoK+vOP8Uo9obXpss_v+WYQ@mail.gmail.com>
- <CAFQ2z_OVwS0Ups1QCEvJBFTsZmsw1u25bJh+a3xArjhXggLqcA@mail.gmail.com>
+        Eric Wong <e@80x24.org>
+Subject: Re: email as a bona fide git transport
+Message-ID: <20191016205736.GA259536@google.com>
+References: <b9fb52b8-8168-6bf0-9a72-1e6c44a281a5@oracle.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="f5QefDQHtn8hx44O"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAFQ2z_OVwS0Ups1QCEvJBFTsZmsw1u25bJh+a3xArjhXggLqcA@mail.gmail.com>
-X-Cookie: Serenity through viciousness.
+In-Reply-To: <b9fb52b8-8168-6bf0-9a72-1e6c44a281a5@oracle.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
+Hi,
 
---f5QefDQHtn8hx44O
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+A few small points.
 
-On Wed, Oct 16, 2019 at 08:56:53PM +0200, Han-Wen Nienhuys wrote:
+Vegard Nossum wrote:
 
-> With the email workflow, isn't it hard to keep track of which patch
-> went into which tree? Something that tracks the identity of commit
-> (like Change-Id) as it travels across trees could help here.
+> * git am (or an alternative command) needs to recreate the commit
+>   perfectly when applied, including applying it to the correct parent
 
-Once something's in git it flows into other trees via merges so the
-commit ID is stable, the exception is backports where the ID from
-mainline gets referenced in the backport.  Normal development doesn't
-use cherry picks really.
+Interesting.  "git format-patch" has a --base option to do some of
+what you're looking for, for the sake of snowpatch
+<https://github.com/ruscur/snowpatch>.  Though it's not exactly the
+same thing you mean.
 
---f5QefDQHtn8hx44O
-Content-Type: application/pgp-signature; name="signature.asc"
+We also discussed sending merge commits by mail recently in the
+virtual git committer summit[1].
 
------BEGIN PGP SIGNATURE-----
+Of course, the devil is in the details.  It's straightforward to use
+"git bundle" to use mail as a Git transport today, but presumably you
+also want the ability to perform reviews along the way and that's not
+so easy with a binary format.  Do you have more details on what you'd
+want the format to look like, particularly for merge commits?
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl2nasMACgkQJNaLcl1U
-h9A+sAf/XrlBB9yDPqW88PPQpPIzmnktcP2qaIMS1Ll4OBw1VwGLNrfllL9dRBL1
-iti4ZKFSqzj4O3Aq25oHA7kuRsCo+f0uGg7HuXcPKTX1pjLd0m+CLO5mg7V+6mlo
-ilfTBm8Gte/NrRY8DfjSugTMYOuC83kNJWEQs2dDRhqEX7ne14yon0WrQ7JQGraD
-I+yVYYCktvnR+KQpqWchmdvzbS1GSt5pkkV5Zi34lTL8LUf06TkgGCKxBYPFjuxA
-CA1Og+Md4OLKzVIt7c+hxeQ7mKKCWGAixaZWel/D+AsyNVxIzOx7tUH/oV+TlOCX
-hu1C1/YdMLpQ+ZChNMbKsIymbXVd+g==
-=mnSZ
------END PGP SIGNATURE-----
+[...]
+>                                                                 there
+> is no need for "changeset IDs" or whatever, since you can just use the
+> git SHA1 which is unique, unambiguous, and stable.
 
---f5QefDQHtn8hx44O--
+In [2] the hope was for some identifier that is preserved by "git
+rebase" and "git commit --amend" (so that you can track the evolution
+of a change as the author improves it in response to reviews).  Is
+that the conversation you're alluding to?
+
+[...]
+> Disadvantages:
+>
+> - requires patching git
+
+That's not a disadvantage.  It means get to work with the Git project,
+which is a welcoming bunch of people, working on userspace (seeing how
+the other half lives), and improving the lives of everyone using Git.
+
+[...]
+> Date: Sat, 5 Oct 2019 16:15:59 +0200
+> Subject: [PATCH 1/3] format-patch: add --complete
+>
+> Include the raw commit data between the changelog and the diffstat.
+
+Oh!  I had missed this on first reading because it was in an
+attachment.
+
+I have mixed feelings.  Can you say a bit more about the advantages
+and disadvantages relative to sending a git bundle?  What happens if a
+mail client or a box along the way mangles whitespace in the commit
+message?
+
+Happy hacking,
+Jonathan
+
+[1] https://public-inbox.org/git/nycvar.QRO.7.76.6.1909261253400.15067@tvgsbejvaqbjf.bet/
+[2] https://lore.kernel.org/ksummit-discuss/CAD=FV=UPjPpUyFTPjF-Ogzj_6LJLE4PTxMhCoCEDmH1LXSSmpQ@mail.gmail.com/
