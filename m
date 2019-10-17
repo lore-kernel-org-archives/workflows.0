@@ -2,68 +2,48 @@ Return-Path: <SRS0=PtRO=YK=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0621AFA3733
-	for <workflows@archiver.kernel.org>; Thu, 17 Oct 2019 10:22:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFCF1ECE58E
+	for <workflows@archiver.kernel.org>; Thu, 17 Oct 2019 11:25:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C1AB72082C
-	for <workflows@archiver.kernel.org>; Thu, 17 Oct 2019 10:22:32 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FerxmJ9U"
+	by mail.kernel.org (Postfix) with ESMTP id A149B2089C
+	for <workflows@archiver.kernel.org>; Thu, 17 Oct 2019 11:25:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1571311518;
+	bh=uVitVzZZQ5+gsHbqQVEc63kxIHRnn129fLEJkIlJQPw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=yLN5j2tpWQ6kR6/oxgJXfLJiMaDEXCtGuxd9y3tAVM1/fAerYi3DM3CT/rV7nzZpx
+	 gxWeeRtiyiWpqGqjFWGY6CDKX35CbXYlPtnW9s6NW2uVb0PRz/k+IrTyk+kNiCOSiw
+	 7NX2yeM1YM7MQZ+8DRfKYEv7b9W4oq/v9+kHzVGQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392694AbfJQKWc (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 17 Oct 2019 06:22:32 -0400
-Received: from mail-vs1-f46.google.com ([209.85.217.46]:39676 "EHLO
-        mail-vs1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726248AbfJQKWc (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 17 Oct 2019 06:22:32 -0400
-Received: by mail-vs1-f46.google.com with SMTP id y129so1216380vsc.6
-        for <workflows@vger.kernel.org>; Thu, 17 Oct 2019 03:22:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=kd06K1ML+gexuht775H03lTcU6IAD7L8aE6j+6vt8gY=;
-        b=FerxmJ9UqFQap/U0KsefF0H32T2mhh60VIlzEmZFKvrb1czl+tN6SCKx/L+IUUutiX
-         v4GSO9gWE7T7dAdnloRGb2YFayEvVHPz52SZXkSZagMGF1x3VjcAF31m8jQXfelA62mj
-         rbQzPVJMc0LxM3QcBVpvVxe50wPQ0qsc5yE5BaBfAKn4uAZWPpSwAwxKseFHMlK6OcbB
-         Mygjc9wWCUauDyFaLab/5JPkRM+BHQt0Vtsk8ut/IOGwP4dO+DYEkYUpkQ5HRt8Di6BS
-         KiQ+bL8JRIFlzNf6fzk/rEz+JZ11rbWMjek06ov181D5WF4uVOETe+2KGywx78TiMtSs
-         W3pQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=kd06K1ML+gexuht775H03lTcU6IAD7L8aE6j+6vt8gY=;
-        b=a3g4c2UcKjw3PKbxw+4VzyVhkiLSaGGGKfbZ/GUxRLmIkhb129IgY7u2TU0PlbWfKV
-         B1CvxtSMz80Hf8R6JOrOtz6iVh+pC6z46f8+v/98dl3cNLT0wGae0LWkx3yuEuLZ9huu
-         g1AmtiVIvus71GWEyZxQSqp7YfGsYQRRprJUCqzr81Rh5YsZ/0QsW30g9vVBw3PGPhJ/
-         ZeIUkRZfPuryT9zUGgV+yZ3HEDlZrHcuovbKoKmkcR9sT6mLDpjGm9dsw1q/611mQN9I
-         sX0JYlfCUrzmJoxDwu/Lv2A9P7Z3XVjeFPVlSmDHCNh/goXOm5eX/TnfKzpD57XvNeD+
-         SfWg==
-X-Gm-Message-State: APjAAAV14DFd9voTxH5KcBsBzCC2lKX88FHRhvqEv8mATWbapNVZA6Nv
-        CsO3hZJqoscjVsdFO3kOB30r7+Cj0misptXEeLc4rQ==
-X-Google-Smtp-Source: APXvYqweBQLJ5oXpZwY2KG0l+NzyAid5HFYpTNcCGeRs6poJAgO63TzbB7JVzsnhj6kUAnmThwgEGla8snDOpTY+MkQ=
-X-Received: by 2002:a67:dd18:: with SMTP id y24mr1398028vsj.203.1571307750620;
- Thu, 17 Oct 2019 03:22:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <bbf9d038-2238-b97f-7cae-97804ee1624c@redhat.com>
- <20191009215416.o2cw6cns3xx3ampl@chatter.i7.local> <CACT4Y+ZJd+3m8zh6m1LtGS0nXQpZbeo3xk=qRjj96wq7gTWwDw@mail.gmail.com>
- <20191010205733.GA16225@mit.edu> <CAFQ2z_Pd2bSL+qpTNxwSNUOccvOt1QD9-XeCqqcdHtiNLKeJxA@mail.gmail.com>
- <20191015015425.GA26853@mit.edu> <CAKMK7uGtvqFSw+wOBeGjV88DeyUoMTV3+F4Fpqv6NGUBCkAAgA@mail.gmail.com>
- <CAFQ2z_Pxc=0LjEieUC7Dz_sQiUKBr2oKUVrW7Fppj5AQbD_W5A@mail.gmail.com>
- <CAKMK7uGseMAmmLkawkaMMJgK=XAXoK+vOP8Uo9obXpss_v+WYQ@mail.gmail.com>
- <CAFQ2z_OVwS0Ups1QCEvJBFTsZmsw1u25bJh+a3xArjhXggLqcA@mail.gmail.com> <20191016190852.GG4881@sirena.co.uk>
-In-Reply-To: <20191016190852.GG4881@sirena.co.uk>
-From:   Han-Wen Nienhuys <hanwen@google.com>
-Date:   Thu, 17 Oct 2019 12:22:18 +0200
-Message-ID: <CAFQ2z_PVSO9Uas0sRNbEOSTUsKqN_49+u+HYuZemz_hECRPLKA@mail.gmail.com>
-Subject: Re: thoughts on a Merge Request based development workflow
-To:     Mark Brown <broonie@kernel.org>
+        id S2406217AbfJQLZS (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 17 Oct 2019 07:25:18 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:55370 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405890AbfJQLZS (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 17 Oct 2019 07:25:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=fq+hMAVIhxs1UI1X2J8exInk+KO/eq3WcW1QkeaH1Zs=; b=fZGA+8iGxiYWRb8YMoko6XUf0
+        xSFQce+TZuZDleQHnmti9mHdzEPonMMKk3fymtWDsSrr5RqdQyhDyghI0oLDleKOVymIXMINNC6Vo
+        hTJUaT3kWRH+mWoz/Ih3BBW+rDfaKrR4Ia9FR+csh5WhsHVA3jxieuoZMGatwII+xbtMY=;
+Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <broonie@sirena.co.uk>)
+        id 1iL3tc-0000on-Ih; Thu, 17 Oct 2019 11:24:44 +0000
+Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
+        id A967D27429C0; Thu, 17 Oct 2019 12:24:43 +0100 (BST)
+Date:   Thu, 17 Oct 2019 12:24:43 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Han-Wen Nienhuys <hanwen@google.com>
 Cc:     Daniel Vetter <daniel@ffwll.ch>,
         "Theodore Y. Ts'o" <tytso@mit.edu>,
         Dmitry Vyukov <dvyukov@google.com>,
@@ -75,39 +55,68 @@ Cc:     Daniel Vetter <daniel@ffwll.ch>,
         David Miller <davem@davemloft.net>,
         Drew DeVault <sir@cmpwn.com>,
         Neil Horman <nhorman@tuxdriver.com>, workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: thoughts on a Merge Request based development workflow
+Message-ID: <20191017112443.GD4976@sirena.co.uk>
+References: <CACT4Y+ZJd+3m8zh6m1LtGS0nXQpZbeo3xk=qRjj96wq7gTWwDw@mail.gmail.com>
+ <20191010205733.GA16225@mit.edu>
+ <CAFQ2z_Pd2bSL+qpTNxwSNUOccvOt1QD9-XeCqqcdHtiNLKeJxA@mail.gmail.com>
+ <20191015015425.GA26853@mit.edu>
+ <CAKMK7uGtvqFSw+wOBeGjV88DeyUoMTV3+F4Fpqv6NGUBCkAAgA@mail.gmail.com>
+ <CAFQ2z_Pxc=0LjEieUC7Dz_sQiUKBr2oKUVrW7Fppj5AQbD_W5A@mail.gmail.com>
+ <CAKMK7uGseMAmmLkawkaMMJgK=XAXoK+vOP8Uo9obXpss_v+WYQ@mail.gmail.com>
+ <CAFQ2z_OVwS0Ups1QCEvJBFTsZmsw1u25bJh+a3xArjhXggLqcA@mail.gmail.com>
+ <20191016190852.GG4881@sirena.co.uk>
+ <CAFQ2z_PVSO9Uas0sRNbEOSTUsKqN_49+u+HYuZemz_hECRPLKA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="n/aVsWSeQ4JHkrmm"
+Content-Disposition: inline
+In-Reply-To: <CAFQ2z_PVSO9Uas0sRNbEOSTUsKqN_49+u+HYuZemz_hECRPLKA@mail.gmail.com>
+X-Cookie: Shut off engine before fueling.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Wed, Oct 16, 2019 at 9:09 PM Mark Brown <broonie@kernel.org> wrote:
->
-> On Wed, Oct 16, 2019 at 08:56:53PM +0200, Han-Wen Nienhuys wrote:
->
-> > With the email workflow, isn't it hard to keep track of which patch
-> > went into which tree? Something that tracks the identity of commit
-> > (like Change-Id) as it travels across trees could help here.
->
-> Once something's in git it flows into other trees via merges so the
-> commit ID is stable, the exception is backports where the ID from
-> mainline gets referenced in the backport.  Normal development doesn't
-> use cherry picks really.
 
-Right, so once it's in Git, the review story is done, and everything
-we've discussed so far is really only about what happens before the
-merging?
+--n/aVsWSeQ4JHkrmm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---=20
-Han-Wen Nienhuys - Google Munich
-I work 80%. Don't expect answers from me on Fridays.
---
+On Thu, Oct 17, 2019 at 12:22:18PM +0200, Han-Wen Nienhuys wrote:
+> On Wed, Oct 16, 2019 at 9:09 PM Mark Brown <broonie@kernel.org> wrote:
+> > On Wed, Oct 16, 2019 at 08:56:53PM +0200, Han-Wen Nienhuys wrote:
 
-Google Germany GmbH, Erika-Mann-Strasse 33, 80636 Munich
+> > > With the email workflow, isn't it hard to keep track of which patch
+> > > went into which tree? Something that tracks the identity of commit
+> > > (like Change-Id) as it travels across trees could help here.
 
-Registergericht und -nummer: Hamburg, HRB 86891
+> > Once something's in git it flows into other trees via merges so the
+> > commit ID is stable, the exception is backports where the ID from
+> > mainline gets referenced in the backport.  Normal development doesn't
+> > use cherry picks really.
 
-Sitz der Gesellschaft: Hamburg
+> Right, so once it's in Git, the review story is done, and everything
+> we've discussed so far is really only about what happens before the
+> merging?
 
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
+*Mostly* - pull requests do get reviewed and may need to be rebuilt but
+pretty much.  It's certainly an out of normal workflow.
+
+--n/aVsWSeQ4JHkrmm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl2oT3oACgkQJNaLcl1U
+h9A7Zgf/QDhACZoNUlB/ORZqGUzkIt5Cu6DnbBi80ikfiuxKb9Y5IFP2sKJGINYb
+n3lwpoDRTuiDjd0SrVfL2YEIcmHdCmBcucKrT97myNVCcJGoyLry/2ML4YtBTF5z
+czJy9W9vvTk+L6BMMwsLG8+6AE1smJ+aGDExhyACjS/WL9wYHyZgPD1JfMs641fS
+beEb8kxlksOBIlXdEMsO0KrM1FkH1gRTUegOLbdmvUZYrI+JadesJyo9HdeJu7sw
+Foi5pLkNkACp+9QKTe5Ke5Cw4Riwb2p1cT/i34RNs7B5I1aQ1bFxdyzpOiCz5tYL
+CFMd53KtbxvHI5QAlHphJi3zZn2zOw==
+=dKjG
+-----END PGP SIGNATURE-----
+
+--n/aVsWSeQ4JHkrmm--
