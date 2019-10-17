@@ -2,150 +2,112 @@ Return-Path: <SRS0=PtRO=YK=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDB4DECE599
-	for <workflows@archiver.kernel.org>; Thu, 17 Oct 2019 03:17:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0621AFA3733
+	for <workflows@archiver.kernel.org>; Thu, 17 Oct 2019 10:22:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BA67421848
-	for <workflows@archiver.kernel.org>; Thu, 17 Oct 2019 03:17:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C1AB72082C
+	for <workflows@archiver.kernel.org>; Thu, 17 Oct 2019 10:22:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=pobox.com header.i=@pobox.com header.b="Di6PB5Nu"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FerxmJ9U"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387805AbfJQDR0 (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 16 Oct 2019 23:17:26 -0400
-Received: from pb-smtp2.pobox.com ([64.147.108.71]:57697 "EHLO
-        pb-smtp2.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728081AbfJQDR0 (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 16 Oct 2019 23:17:26 -0400
-Received: from pb-smtp2.pobox.com (unknown [127.0.0.1])
-        by pb-smtp2.pobox.com (Postfix) with ESMTP id BD41E3F769;
-        Wed, 16 Oct 2019 23:17:23 -0400 (EDT)
-        (envelope-from junio@pobox.com)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=from:to:cc
-        :subject:references:date:in-reply-to:message-id:mime-version
-        :content-type; s=sasl; bh=SXe0ANOp9tokM0fOyTzKa12yPms=; b=Di6PB5
-        NuGZtAfzw0CmtstcNVHNm1a2hSrPyY3SMwH5PeMYTFaqL91xTUTc1pC6LWgQUhb7
-        H9iEVDkXB4AGj1Zd2KxuNueRJ3cOFMkTsGD72Q96Bppyhtlh5AOnkGh/ox00hoNK
-        S0iYkDgf9IGNzYKzXHwbjVmn9Bx61JtmYiHW4=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=pobox.com; h=from:to:cc
-        :subject:references:date:in-reply-to:message-id:mime-version
-        :content-type; q=dns; s=sasl; b=IEzJ4IqgGHK1xXVaTyC2/N5801TShnJo
-        uLBuCF/9vvvrMkcfwFxBoAjDeuJF0nzJUX2PJmYc81iUdODMqN1vmAkRQMvuWj2x
-        6k/vDOaYT5bbO3cEd9U9XBx1gE8snXuBn5Yfon+BtFR5We3HKeSvrI3aUz6Cy6eW
-        cN6r/UFDnWQ=
-Received: from pb-smtp2.nyi.icgroup.com (unknown [127.0.0.1])
-        by pb-smtp2.pobox.com (Postfix) with ESMTP id B3EDC3F768;
-        Wed, 16 Oct 2019 23:17:23 -0400 (EDT)
-        (envelope-from junio@pobox.com)
-Received: from pobox.com (unknown [34.76.80.147])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by pb-smtp2.pobox.com (Postfix) with ESMTPSA id 1FE8C3F767;
-        Wed, 16 Oct 2019 23:17:23 -0400 (EDT)
-        (envelope-from junio@pobox.com)
-From:   Junio C Hamano <gitster@pobox.com>
-To:     Vegard Nossum <vegard.nossum@oracle.com>
-Cc:     workflows@vger.kernel.org, Git Mailing List <git@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Eric Wong <e@80x24.org>
-Subject: Re: email as a bona fide git transport
-References: <b9fb52b8-8168-6bf0-9a72-1e6c44a281a5@oracle.com>
-Date:   Thu, 17 Oct 2019 12:17:21 +0900
-In-Reply-To: <b9fb52b8-8168-6bf0-9a72-1e6c44a281a5@oracle.com> (Vegard
-        Nossum's message of "Wed, 16 Oct 2019 12:22:54 +0200")
-Message-ID: <xmqqeezc83i6.fsf@gitster-ct.c.googlers.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+        id S2392694AbfJQKWc (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 17 Oct 2019 06:22:32 -0400
+Received: from mail-vs1-f46.google.com ([209.85.217.46]:39676 "EHLO
+        mail-vs1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726248AbfJQKWc (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 17 Oct 2019 06:22:32 -0400
+Received: by mail-vs1-f46.google.com with SMTP id y129so1216380vsc.6
+        for <workflows@vger.kernel.org>; Thu, 17 Oct 2019 03:22:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=kd06K1ML+gexuht775H03lTcU6IAD7L8aE6j+6vt8gY=;
+        b=FerxmJ9UqFQap/U0KsefF0H32T2mhh60VIlzEmZFKvrb1czl+tN6SCKx/L+IUUutiX
+         v4GSO9gWE7T7dAdnloRGb2YFayEvVHPz52SZXkSZagMGF1x3VjcAF31m8jQXfelA62mj
+         rbQzPVJMc0LxM3QcBVpvVxe50wPQ0qsc5yE5BaBfAKn4uAZWPpSwAwxKseFHMlK6OcbB
+         Mygjc9wWCUauDyFaLab/5JPkRM+BHQt0Vtsk8ut/IOGwP4dO+DYEkYUpkQ5HRt8Di6BS
+         KiQ+bL8JRIFlzNf6fzk/rEz+JZ11rbWMjek06ov181D5WF4uVOETe+2KGywx78TiMtSs
+         W3pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=kd06K1ML+gexuht775H03lTcU6IAD7L8aE6j+6vt8gY=;
+        b=a3g4c2UcKjw3PKbxw+4VzyVhkiLSaGGGKfbZ/GUxRLmIkhb129IgY7u2TU0PlbWfKV
+         B1CvxtSMz80Hf8R6JOrOtz6iVh+pC6z46f8+v/98dl3cNLT0wGae0LWkx3yuEuLZ9huu
+         g1AmtiVIvus71GWEyZxQSqp7YfGsYQRRprJUCqzr81Rh5YsZ/0QsW30g9vVBw3PGPhJ/
+         ZeIUkRZfPuryT9zUGgV+yZ3HEDlZrHcuovbKoKmkcR9sT6mLDpjGm9dsw1q/611mQN9I
+         sX0JYlfCUrzmJoxDwu/Lv2A9P7Z3XVjeFPVlSmDHCNh/goXOm5eX/TnfKzpD57XvNeD+
+         SfWg==
+X-Gm-Message-State: APjAAAV14DFd9voTxH5KcBsBzCC2lKX88FHRhvqEv8mATWbapNVZA6Nv
+        CsO3hZJqoscjVsdFO3kOB30r7+Cj0misptXEeLc4rQ==
+X-Google-Smtp-Source: APXvYqweBQLJ5oXpZwY2KG0l+NzyAid5HFYpTNcCGeRs6poJAgO63TzbB7JVzsnhj6kUAnmThwgEGla8snDOpTY+MkQ=
+X-Received: by 2002:a67:dd18:: with SMTP id y24mr1398028vsj.203.1571307750620;
+ Thu, 17 Oct 2019 03:22:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Pobox-Relay-ID: A2F3D7C4-F08C-11E9-BBD0-D1361DBA3BAF-77302942!pb-smtp2.pobox.com
+References: <bbf9d038-2238-b97f-7cae-97804ee1624c@redhat.com>
+ <20191009215416.o2cw6cns3xx3ampl@chatter.i7.local> <CACT4Y+ZJd+3m8zh6m1LtGS0nXQpZbeo3xk=qRjj96wq7gTWwDw@mail.gmail.com>
+ <20191010205733.GA16225@mit.edu> <CAFQ2z_Pd2bSL+qpTNxwSNUOccvOt1QD9-XeCqqcdHtiNLKeJxA@mail.gmail.com>
+ <20191015015425.GA26853@mit.edu> <CAKMK7uGtvqFSw+wOBeGjV88DeyUoMTV3+F4Fpqv6NGUBCkAAgA@mail.gmail.com>
+ <CAFQ2z_Pxc=0LjEieUC7Dz_sQiUKBr2oKUVrW7Fppj5AQbD_W5A@mail.gmail.com>
+ <CAKMK7uGseMAmmLkawkaMMJgK=XAXoK+vOP8Uo9obXpss_v+WYQ@mail.gmail.com>
+ <CAFQ2z_OVwS0Ups1QCEvJBFTsZmsw1u25bJh+a3xArjhXggLqcA@mail.gmail.com> <20191016190852.GG4881@sirena.co.uk>
+In-Reply-To: <20191016190852.GG4881@sirena.co.uk>
+From:   Han-Wen Nienhuys <hanwen@google.com>
+Date:   Thu, 17 Oct 2019 12:22:18 +0200
+Message-ID: <CAFQ2z_PVSO9Uas0sRNbEOSTUsKqN_49+u+HYuZemz_hECRPLKA@mail.gmail.com>
+Subject: Re: thoughts on a Merge Request based development workflow
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Don Zickus <dzickus@redhat.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Daniel Axtens <dja@axtens.net>,
+        David Miller <davem@davemloft.net>,
+        Drew DeVault <sir@cmpwn.com>,
+        Neil Horman <nhorman@tuxdriver.com>, workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Vegard Nossum <vegard.nossum@oracle.com> writes:
-
-> Step 1:
+On Wed, Oct 16, 2019 at 9:09 PM Mark Brown <broonie@kernel.org> wrote:
 >
-> * git send-email needs to include parent SHA1s and generally all the
->   information needed to perfectly recreate the commit when applied so
->   that all the SHA1s remain the same
+> On Wed, Oct 16, 2019 at 08:56:53PM +0200, Han-Wen Nienhuys wrote:
 >
-> * git am (or an alternative command) needs to recreate the commit
->   perfectly when applied, including applying it to the correct parent
+> > With the email workflow, isn't it hard to keep track of which patch
+> > went into which tree? Something that tracks the identity of commit
+> > (like Change-Id) as it travels across trees could help here.
+>
+> Once something's in git it flows into other trees via merges so the
+> commit ID is stable, the exception is backports where the ID from
+> mainline gets referenced in the backport.  Normal development doesn't
+> use cherry picks really.
 
-You can record and convey the commit object name a series is meant
-to be applied on top already, and it in general is a good way to
-give a wider context in order to explain and justify the series.
+Right, so once it's in Git, the review story is done, and everything
+we've discussed so far is really only about what happens before the
+merging?
 
-On the other hand, "all the information needed to recreate..." is
-not very useful.  If you want the commit object to be exactly what
-you want to see at the tip of the end result, you are better off
-asking your upstream to pull.  Using e-mail for that makes you and
-project participants give up a lot of benefits the workflow based on
-e-mail gives you, the biggest of which is the ease of giving
-suggestions for improvements.  Once you insist "perfectly recreate
-the commit", you are not willing to take any input from the
-sidelines---worse yet, you are even dictating when the upstream
-runs "git am" to turn them into commits, and do so without reading
-the patches (there is no point reviewing as the person who runs "git
-am" is not even allowed to fix typo or make obvious fixes to the
-code, which will fail to perfectly recreate the commit).
+--=20
+Han-Wen Nienhuys - Google Munich
+I work 80%. Don't expect answers from me on Fridays.
+--
 
-In short, one should resist temptation to bring up "perfect
-reproduction" when one talks about e-mail workflow.
+Google Germany GmbH, Erika-Mann-Strasse 33, 80636 Munich
 
-> * Instead of describing a patchset in a separate introduction email, we
->   can create a merge commit between the parent of the first commit in
->   the series and the last and put the patchset description in the merge
->   commit [5]. This means the patchset description also gets to be part
->   of git history.
+Registergericht und -nummer: Hamburg, HRB 86891
 
-This has been done with tools around git-core, and merits a more
-official support.  When merging a topic, it is a good idea to
-explain in the merge commit that brings in the topic to the mainline
-what the topic is about, and at least in the past few years Linus
-and other maintainers both within and outside the kernel have been
-doing so.  The cover-letter material in [PATCH 00/NN] obviously can
-help those integrators when they write the merge message.
+Sitz der Gesellschaft: Hamburg
 
->   (This would require support for git send-email/am to be able to send
->   and apply merge commits -- at least those which have the same tree as
->   one of the parents. This is _not_ yet supported in my proposed git
->   patches.)
-
-This does not require much from format-patch and am.  All you need
-to do is to ensure that they can handle an empty commit.  What you
-need more is a support in merge.  The outline for the workflow would
-go like this:
-
- * The contributor prepares an N patch series 1/N..N/N on a single
-   topic branch.
-
- * The summary of the series, the message that is meant to help the
-   integrator, is recorded as (N+1)th commit at the tip of the topic
-   branch, as an empty commit (i.e. a commit that records the same
-   tree as its parent).
-
- * "git format-patch" is taught, when told to prepare the patch
-   e-mails from such a topic branch, to notice the unusual "an empty
-   commit at the tip" layout, and turn that into 0/N of the message.
-
- * "git am" is taught a new option to cap a topic branch made from
-   patches 1/N..N/N from the incoming mbox with an extra empty
-   commit, whose message is taken from the 0/N cover-letter
-   material, to recreate what the contributor had in the second step
-   above.
-
- * "git merge" is taught, when told to merge a topic branch, to
-   notice the unusual "an empty commit at the tip" layout, and
-
-   (1) merge topic~1 instead to excise the empty commit itself,
-
-   (2) take the log message from the empty commit at the tip and use
-       it to help prepare the log message of the merge.
-
+Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
