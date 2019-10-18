@@ -2,96 +2,102 @@ Return-Path: <SRS0=I4mM=YL=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=0.3 required=3.0 tests=DATE_IN_PAST_03_06,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05C34CA9EA1
-	for <workflows@archiver.kernel.org>; Fri, 18 Oct 2019 06:02:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 817E5CA9EA0
+	for <workflows@archiver.kernel.org>; Fri, 18 Oct 2019 06:34:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D820E21D80
-	for <workflows@archiver.kernel.org>; Fri, 18 Oct 2019 06:02:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 33CE520820
+	for <workflows@archiver.kernel.org>; Fri, 18 Oct 2019 06:34:20 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gandi.net header.i=@gandi.net header.b="SPPiFN+n"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389117AbfJRGCi (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 18 Oct 2019 02:02:38 -0400
-Received: from dcvr.yhbt.net ([64.71.152.64]:53884 "EHLO dcvr.yhbt.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732713AbfJRGCh (ORCPT <rfc822;workflows@vger.kernel.org>);
-        Fri, 18 Oct 2019 02:02:37 -0400
-Received: from localhost (dcvr.yhbt.net [127.0.0.1])
-        by dcvr.yhbt.net (Postfix) with ESMTP id C7E851F4C0;
-        Fri, 18 Oct 2019 02:22:53 +0000 (UTC)
-Date:   Fri, 18 Oct 2019 02:22:53 +0000
-From:   Eric Wong <e@80x24.org>
-To:     Vegard Nossum <vegard.nossum@oracle.com>
-Cc:     workflows@vger.kernel.org, git@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+        id S2504411AbfJRGeU (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 18 Oct 2019 02:34:20 -0400
+Received: from mail12.gandi.net ([217.70.182.73]:41999 "EHLO gandi.net"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2392981AbfJRGeT (ORCPT <rfc822;workflows@vger.kernel.org>);
+        Fri, 18 Oct 2019 02:34:19 -0400
+Received: from diconico07.dev (unknown [IPv6:2001:4b98:beef:a:e921:9c91:35ed:759a])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by gandi.net (Postfix) with ESMTPSA id A11781602FD;
+        Fri, 18 Oct 2019 06:34:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gandi.net; s=20190808;
+        t=1571380457;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Jpi61/2s16j3fMtRfMj2xF4NuVyqdh4656NY34j9qBw=;
+        b=SPPiFN+nP1KBYsIYmk+vIOht95Cx/oNJm0rrk9zrtSCBbrDaeHT9N6rOdh/dcMYOFYIC9e
+        GMqfRhIz+DG2+i/FP0IUHyBNeWxWHeH2GAt7iSIiIsY10NtgT6ZbbW1NT4VWG1V71ix3x5
+        fFGMVgRdw9v50NGTsTNv6pXL+AddYF2oxvRz5ZX6g3wdFSbZNI/+sudoqkIXG4myGeeVY+
+        ZxXIvpAAHW4hMdiB+fqIU8DkUMGwbd7km1DW81Ke9JidW9LieCaIPAgy3hxTm+IbPQY8tk
+        HwqjI93URS2jntDPKiBZukWPnJs68Aaxb6tw2Tpsshg4Z/+Tc16flbeB9m0zMQ==
 Subject: Re: email as a bona fide git transport
-Message-ID: <20191018022253.GA29290@dcvr>
+To:     Willy Tarreau <w@1wt.eu>, Greg KH <greg@kroah.com>,
+        Santiago Torres Arias <santiago@nyu.edu>,
+        Vegard Nossum <vegard.nossum@oracle.com>,
+        workflows@vger.kernel.org, Git Mailing List <git@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, Eric Wong <e@80x24.org>
 References: <b9fb52b8-8168-6bf0-9a72-1e6c44a281a5@oracle.com>
+ <20191016111009.GE13154@1wt.eu>
+ <20191016144517.giwip4yuaxtcd64g@LykOS.localdomain>
+ <20191017204343.GA1132188@kroah.com> <20191017204532.GA6446@chatter.i7.local>
+ <20191018013029.GA1167832@kroah.com> <20191018015447.GB6446@chatter.i7.local>
+ <20191018025215.GA15777@1wt.eu>
+From:   Nicolas Belouin <nicolas.belouin@gandi.net>
+Message-ID: <4ea21178-0cac-e958-7c69-ad5b4a74e6b5@gandi.net>
+Date:   Fri, 18 Oct 2019 08:34:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
+In-Reply-To: <20191018025215.GA15777@1wt.eu>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <b9fb52b8-8168-6bf0-9a72-1e6c44a281a5@oracle.com>
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Vegard Nossum <vegard.nossum@oracle.com> wrote:
-<snip>
+On 10/18/19 4:52 AM, Willy Tarreau wrote:
+> On Thu, Oct 17, 2019 at 09:54:47PM -0400, Konstantin Ryabitsev wrote:
+>> On Thu, Oct 17, 2019 at 06:30:29PM -0700, Greg KH wrote:
+>>>> It could only possibly work if nobody ever adds their own
+>>>> "Signed-Off-By" or
+>>>> any other bylines. I expect this is a deal-breaker for most maintainers.
+>>> Yeah it is :(
+>>>
+>>> But, if we could just have the signature on the code change, not the
+>>> changelog text, that would help with that issue.
+>> We totally should, and I even mused on how we would do that here:
+>> https://public-inbox.org/git/20190910121324.GA6867@pure.paranoia.local/
+>>
+>> However, since git's PGP signatures are made for the content in the actual
+>> commit record (tree hash, parent, author, commit message, etc), the only way
+>> we could preserve them between the email and the git tree is if we never
+>> modify any of that data. The SOB and other trailers would have to only be
+>> applied to the merge commit, or migrate into commit notes.
+> There's also the possibility to handle this a bit like we do when adding
+> comments before the SOB: a PGP signature would apply to the text *before*
+> it only. We could then have long chains of SOB, PGP, SOB, PGP etc.
+>
+> Willy
 
-> Disadvantages:
-> 
-> - requires patching git
+I don't think it can work that easily as the signed content is not just
+the message.
+It would need git to support nesting signatures and to allow amending a
+commit without
+touching the signature and to allow adding one to cover the new content
+and to have a
+way to verify every step.
+Moreover you won't be able to reparent the commit as a maintainer (wich
+I think is
+also a deal-breaker)
 
-The bigger disadvantage is this won't work with a historical
-patch series (and some folks stay on ancient git).  But maybe
-that window for that is only a few years...
+Nicolas
 
-The toughest part right now for public-inbox is trying to make
-sense of --range-diff (supporting --interdiff would be easy, I
-think...).  Also, we've only had --range-diff for a year or
-so.
-
-Your proposal would make things 100% easier for public-inbox
-to deal with future --range-diff uses, however :)
-
-> - requires a bot to continuously create branches for patchsets sent to
->   mailing lists
-
-Not necessarily, being able to search on commit OIDs would
-be pretty handy itself for dealing with --range-diff output
-in public-inbox, so there's no real need to actually make
-the branch in git.
-
-I also have a parallel solution in the works to make
---range-diff output more amenable for search engines like
-public-inbox by adding blob OIDs to its output:
-
-  https://public-inbox.org/git/20191017121045.GA15364@dcvr/
-  I shall call myself an "SEO expert" from now on :>
-
-> Thoughts?
-
-Pretty much the same concerns others brought up around exactness
-and working on top of cherry-picks.
-
-> PS: Eric Wong described something that comes quite close to this idea, but
-> AFAICT without actually recreating commits exactly. I've included the link
-> for completeness. [4]
-
-> [4]: https://lore.kernel.org/workflows/20191008003931.y4rc2dp64gbhv5ju@dcvr/
-
-My plan is to work on interdiff support in the next week or so
-once bugs are fixed and public-inbox v1.2 is out the door.  Not
-sure about range-diff and reverse-mapping blobs -> trees ->
-commits, but searching on "git patch-id --stable" output is also
-on the table.
-
-PS: Attached patches: I have nothing against using MIME for those,
-    (not speaking for anybody else).  public-inbox needs to handle
-    those better w.r.t search indexing linkification.  And then
-    I found some bugs for --reindex corner cases which I'm still
-    working on :x
