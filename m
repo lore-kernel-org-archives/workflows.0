@@ -2,190 +2,141 @@ Return-Path: <SRS0=I4mM=YL=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB817CA9EA0
-	for <workflows@archiver.kernel.org>; Fri, 18 Oct 2019 14:28:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E01A1CA9EA0
+	for <workflows@archiver.kernel.org>; Fri, 18 Oct 2019 15:54:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8268B222C3
-	for <workflows@archiver.kernel.org>; Fri, 18 Oct 2019 14:28:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B59BE2245A
+	for <workflows@archiver.kernel.org>; Fri, 18 Oct 2019 15:54:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="XiELLiO4"
+	dkim=pass (2048-bit key) header.d=nyu.edu header.i=@nyu.edu header.b="IRMASeta";
+	dkim=pass (2048-bit key) header.d=nyu-edu.20150623.gappssmtp.com header.i=@nyu-edu.20150623.gappssmtp.com header.b="B5P0CS8C"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2634113AbfJRO2f (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 18 Oct 2019 10:28:35 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:33492 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2408333AbfJRO2f (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Fri, 18 Oct 2019 10:28:35 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9IEOWn7121353;
-        Fri, 18 Oct 2019 14:28:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2019-08-05;
- bh=axWvDAH/P7f+8j/F6y60EiB/F+Jv9iequegesHcM0SY=;
- b=XiELLiO4jj3tt4zkNyh4WA0OYkL6A/ViceQ1aCOjsyWWIFXBW+p2FALof1QzpA5/CEO/
- OKTSjXkHHy7KQBLVI4I2Ik2dDaPbUTbq21oOIvRmfkPMdjt1iVWuXX3+Z3bXFBwG9Lv7
- +o4PRKT/+SudBBbAbpR6DGCOxegb3y8JIRVMb9AJ8snZWFsjz+iHZ0gzoOcTtDZFFGbn
- x7LIVj+2QWDBuqW74aiUQ7dNgOVSEa/pirLBE/yMp4I1vs3iqiceHzDoUKqH4eXInwzs
- qgmKQqhexxJhl4Cdj6APT/kk/sUbriho23422z1Y53VGj7gFl7j/+6KrtJEf9EwMqUPf 9g== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by aserp2120.oracle.com with ESMTP id 2vq0q449q8-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 18 Oct 2019 14:28:03 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9IES2Pu054077;
-        Fri, 18 Oct 2019 14:28:02 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by userp3030.oracle.com with ESMTP id 2vq0dxqb2k-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 18 Oct 2019 14:28:00 +0000
-Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x9IERsE1031768;
-        Fri, 18 Oct 2019 14:27:54 GMT
-Received: from [10.175.21.59] (/10.175.21.59)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Fri, 18 Oct 2019 14:27:54 +0000
-Subject: Re: email as a bona fide git transport
-To:     Santiago Torres Arias <santiago@nyu.edu>, Willy Tarreau <w@1wt.eu>
-Cc:     workflows@vger.kernel.org, Git Mailing List <git@vger.kernel.org>,
+        id S2409169AbfJRPyN (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 18 Oct 2019 11:54:13 -0400
+Received: from mx0a-00256a01.pphosted.com ([148.163.150.240]:25634 "EHLO
+        mx0b-00256a01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2409172AbfJRPyN (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Fri, 18 Oct 2019 11:54:13 -0400
+Received: from pps.filterd (m0094546.ppops.net [127.0.0.1])
+        by mx0b-00256a01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x9IFpki3116187
+        for <workflows@vger.kernel.org>; Fri, 18 Oct 2019 11:54:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nyu.edu; h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=20180315; bh=8WzOh4VxFi+gRpyaJOrI+xwl81ARGu8H2iil3vR4U0Y=;
+ b=IRMASetabSmu/GjHAE/fqblY8RHyvO8SlwgXEROQILMaVDtpXbuH5Kzozeh584vjMArJ
+ MpKKd/JnGCCiN2xccEOWXIVAzffifzSL/LY6tbWhUTWyYoIKZpJWtbhq09bQubgwQA4W
+ k9T/F+3BaDVG/EyBjHG2KqnApIhFAZ39byDtZW5NDVJgCdxNgA/YZABCtgkjK5W+j7Wx
+ RdpSOKuXIg3LJjZPOluCH0HTNrGj8Xv96f6+NDkq9BFQpGIpsx+JNaQPFpYbUIWU2J2I
+ W6Bd8OWbX6oNm7CcAWuivFPHQavVAr6J+e4QxhHdd0SdiBSfjqldKfHIby+uAvTP9qJf WA== 
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+        by mx0b-00256a01.pphosted.com with ESMTP id 2vq7yk7jm2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+        for <workflows@vger.kernel.org>; Fri, 18 Oct 2019 11:54:12 -0400
+Received: by mail-qk1-f197.google.com with SMTP id z128so5956896qke.8
+        for <workflows@vger.kernel.org>; Fri, 18 Oct 2019 08:54:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=nyu-edu.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=8WzOh4VxFi+gRpyaJOrI+xwl81ARGu8H2iil3vR4U0Y=;
+        b=B5P0CS8CKsNBgGRhAuzrX9PTFPMUAoCfIZtNkU05d3+xh5hNaJ248LtYbxm9Lj/ycZ
+         LcXOVFxKAhUoazCiYckSPjNEmQAcOOsy0F6qRp3/J5H3exiv7wtIBWrwc3soNSrX9vVz
+         tAOY+7KGv8XJbg+N/vwbwoEvBASsS+ap9Ym0Wh+z7ww5ExjWOi0n1z68bGu8zuGmop+o
+         TS8grnnF/Auk/MXsDxSLG1whzDjqXOcbk0d2xHxkKCzZcs2QjNApfNg92bqjtHdvNc3R
+         IXaZdamejE04wheJDFDk8SMEfQMAJJTLJ48QypQPuqN3LHyHJmKRhZSrw2klkWRIr1WD
+         /G+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=8WzOh4VxFi+gRpyaJOrI+xwl81ARGu8H2iil3vR4U0Y=;
+        b=R5BIw5HmMDepRcmYa1A4D/9rEQEjvaD9kfeKes3tPZAdbnIJm0MXbMEItYGOPpifz+
+         d6e3vqbXPW2JOxPasZ7+jUXsyPEOiV7V/1C3r9AA0a/3i6wynkDqS98k+svYLwN50wmD
+         AylR8SKCfb2ygDjhdXgP4jPdFaGGRQ4Lo6grc+K23UDAU7mimwxrJEqknjxSuX6XA0C3
+         GQi9plk5cO8cDiw0JqxEun8P0qQ5Gt5qql5gAT62ZYknH6UaYEYyDTw+vNhPXsT585vZ
+         q3z21W9itsYFHLgwHIUr46RlVRtGiUbk/dLKr0r5VJUfttPFaoZQgEnbPVopGaJGFZbc
+         OvIg==
+X-Gm-Message-State: APjAAAV3gd+NgB7XftFFTBWGCAA2DnUxMlYj3WlSo1sc88AtyccpQLz7
+        v2izI6v1T28chJ2kV76mgoCcu9aJLAfH5rR8YL0Wf8+agUXjOgAOqZuT221Tq1xHihERUWG65UQ
+        qEgOVEN0INNa8BDr9l7o=
+X-Received: by 2002:a0c:fa91:: with SMTP id o17mr10671192qvn.142.1571414051275;
+        Fri, 18 Oct 2019 08:54:11 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzpdpx+YqP9G6AgSLbPFZYcnbAE0igK0+Neer7IkNmX+LQFwmzaKk2LqAsNvkoquqj/CkxRZw==
+X-Received: by 2002:a0c:fa91:: with SMTP id o17mr10671172qvn.142.1571414051101;
+        Fri, 18 Oct 2019 08:54:11 -0700 (PDT)
+Received: from LykOS.localdomain (216-165-95-130.natpool.nyu.edu. [216.165.95.130])
+        by smtp.gmail.com with ESMTPSA id k13sm681936qkg.57.2019.10.18.08.54.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Oct 2019 08:54:10 -0700 (PDT)
+Date:   Fri, 18 Oct 2019 11:54:09 -0400
+From:   Santiago Torres Arias <santiago@nyu.edu>
+To:     Vegard Nossum <vegard.nossum@oracle.com>
+Cc:     Willy Tarreau <w@1wt.eu>, workflows@vger.kernel.org,
+        Git Mailing List <git@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
         Eric Wong <e@80x24.org>
+Subject: Re: email as a bona fide git transport
+Message-ID: <20191018155408.dk4tsjrne42ufpvv@LykOS.localdomain>
 References: <b9fb52b8-8168-6bf0-9a72-1e6c44a281a5@oracle.com>
  <20191016111009.GE13154@1wt.eu>
  <20191016144517.giwip4yuaxtcd64g@LykOS.localdomain>
-From:   Vegard Nossum <vegard.nossum@oracle.com>
-Message-ID: <56664222-6c29-09dc-ef78-7b380b113c4a@oracle.com>
-Date:   Fri, 18 Oct 2019 16:27:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ <56664222-6c29-09dc-ef78-7b380b113c4a@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20191016144517.giwip4yuaxtcd64g@LykOS.localdomain>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9414 signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1908290000 definitions=main-1910180136
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9414 signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
- definitions=main-1910180135
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="5sfrrmuyqloyaxm7"
+Content-Disposition: inline
+In-Reply-To: <56664222-6c29-09dc-ef78-7b380b113c4a@oracle.com>
+X-Orig-IP: 209.85.222.197
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 clxscore=1015
+ mlxlogscore=754 spamscore=0 priorityscore=1501 malwarescore=0
+ suspectscore=7 phishscore=0 adultscore=0 mlxscore=0 lowpriorityscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1908290000 definitions=main-1910180143
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
 
-On 10/16/19 4:45 PM, Santiago Torres Arias wrote:
-> Hi Willy, Vegard.
-> 
-> On Wed, Oct 16, 2019 at 01:10:09PM +0200, Willy Tarreau wrote:
->> Hi Vegard,
->>
->> On Wed, Oct 16, 2019 at 12:22:54PM +0200, Vegard Nossum wrote:
->>> (cross-posted to git, LKML, and the kernel workflows mailing lists.)
->>>
->>> Hi all,
->>>
->>> I've been following Konstantin Ryabitsev's quest for better development
->>> and communication tools for the kernel [1][2][3], and I would like to
->>> propose a relatively straightforward idea which I think could bring a
->>> lot to the table.
->>>
->>> Step 1:
->>>
->>> * git send-email needs to include parent SHA1s and generally all the
->>>    information needed to perfectly recreate the commit when applied so
->>>    that all the SHA1s remain the same
->>>
->>> * git am (or an alternative command) needs to recreate the commit
->>>    perfectly when applied, including applying it to the correct parent
->>>
->>> Having these two will allow a perfect mapping between email and git;
->>> essentially email just becomes a transport for git. There are a lot of
->>> advantages to this, particularly that you have a stable way to refer to
->>> a patch or commit (despite it appearing on a mailing list), and there
->>> is no need for "changeset IDs" or whatever, since you can just use the
->>> git SHA1 which is unique, unambiguous, and stable.
-> 
-> I wonder if it'd be also possible to then embed gpg signatures over
-> send-mail payloads so as they can be transparently transferred to the
-> commit.
-> 
-> -Santiago
-> 
+--5sfrrmuyqloyaxm7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I just played a bit with this and with my proposed patch for
-git-format-patch the signature is already part of the output:
+> Seeing how large this signature is, I have to admit that I am partial to
+> Konstantin's suggestion of using minisign. This seems like something
+> that could be added to git as an alternative to gpg without too much
+> trouble, I think.
+>=20
+>=20
 
-$ ./git-format-patch --complete HEAD^-
-0001-format-patch-add-complete.patch
+I wonder how big the pgp payload would be with ed25519 as the underlying
+algorithm. AFAICT, the payload of a minisign signature vs a signature
+packet have almost the same fields...
 
-$ cat 0001-format-patch-add-complete.patch
- From ac30b08065cd55362a7244a3bbc8df3563cefaaa Mon Sep 17 00:00:00 2001
-From: Vegard Nossum <vegard.nossum@oracle.com>
-Date: Sat, 5 Oct 2019 16:15:59 +0200
-Subject: [PATCH] format-patch: add --complete
+--5sfrrmuyqloyaxm7
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Include the raw commit data between the changelog and the diffstat.
-This will allow 'git am' to reconstruct the commit exactly to the point
-where the sha1 will be the same.
+-----BEGIN PGP SIGNATURE-----
 
-Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
----
-commit ac30b08065cd55362a7244a3bbc8df3563cefaaa
-tree 8f09d9d6ed78f8617b2fe54fe9712990ba808546
-parent 108b97dc372828f0e72e56bbb40cae8e1e83ece6
-author Vegard Nossum <vegard.nossum@oracle.com> 1570284959 +0200
-committer Vegard Nossum <vegard.nossum@oracle.com> 1571408340 +0200
-gpgsig -----BEGIN PGP SIGNATURE-----
-  Version: GnuPG v1
+iQIzBAEBCAAdFiEEkDurc2QOttZVM+/zRo8SLOgWIpUFAl2p4CAACgkQRo8SLOgW
+IpWCjBAA0Vj5QGil9RloqJJ3wtJwtCnJCmTogWUL1Aoh4fjllBRsl5Zo/MM+ttl8
+mLMGtLEpTsLwyVbgtrDNUlttd8RQRfmO5N+/QdowDchWLPt9bdbnZZ3S/PSCFfZs
+3jbWxJ/XTg9n5fpu111Vyl9O4A/0ZODqRJHDjvhg6dX04vlIj+s/UYsF/9mBvCEy
+kBqzdNgGqZ4nQMrvYQTT6kVA39jeF4PDMzg7hLpSzvXI6jTlEyEEyd9er7y22gdL
+a0qTjXVGzc5TvAUjBZ/RMbBa9o+Jkg3WwZwmvGKosScHqPIEpCp2i+iL/NiQnid2
+OxwzidTRstzc5gwjHTSaFtEw9i8YqunOZhUpoTS4/AG4RaaepsetDTpUE6Ckax/J
+MG6/ZbnfXVwGXmH5aMiuPK/o098r/dcB/3HL5KkMGuo5eF+3H0uFd3ylpBBfuv++
+DD+h9bO02I0ktNIj9p99W8Ze/66XSe/9GzOvG9jldDTBBSW92S1M5M+ul3ko4IEt
+TL0wEMYPq/81kM3hfpZYbzmL4NcY6jUIc+UvnpwczfhU3DSTA3pS+UpBXO3njuOu
+8OtWJm3rcAaJaQ+U3Pzfms4jR0uSNmgdiF/LRgMxnmBu5mQSIKiAFJ7iqIzMJXuA
+djhM8UQCu0rQwgFr7SB2ZJRsU+Ec3yTfKGWa1q0gBoz4zdaYfmU=
+=zbEw
+-----END PGP SIGNATURE-----
 
-  iQIcBAABAgAGBQJdqcnVAAoJEAvO9Nj+mLpYPEMP/0qyUF6U9y6FMM3BQrjteGGY
-  IEEwmkvfW8vMBdjXRjmSI1jxRUuW+xJs3kxezNuW79Gzkl63PlS3CdW50yLlWau6
-  2gU4R8oSNr7vxpgfAscELxaAuvUSp7Vb1FEPc5kPW06Sprg4PkLkUMD71ALRnGMV
-  TxTVMDbMYg2xHpwBFs1ZyF2l0ElqOvRqoQqYfvRql1rgbs5LhF0RevkIN5xswj93
-  3Gz1CuB8MURX2lfglfYSTy/05Rx3w/QHxwNlbbPDtXrexySf+a70j/Z6i2/BIzR/
-  kxlZJ/k4ZPN931mxFcLPBsV/K51uP378oEH1QdaZyO2jz1rj+AZxXlgXe8J3ZAmt
-  XYT/FMze5lukd7EQDO5vPZazp1dnJ6wnmrAd8shCSWe23vybDMCYnjXTuwAXwbA5
-  R7ffKxm3MwRn9LKsbHFiV0J8tS1/fHbOIEXQDJ+kFhKqys0RSXipDZU61LnogXaw
-  827TcsUYLvkYlQ+LdmSjZ537E+bUTo3Udb/UkGbgwSSm9LTjHnAI34S6dxSZ+1cl
-  jBD54v8u9I1hEImWxGbXns7ET1fh17Z4PoTPpA4COt3puAQY7vB7inGY3/kWz+7z
-  iRieHyD/W6lba4rqNYHBxacD4JTXN9S9Z7o6F4ijeGQThbA77RWD64SGjuJM0mC7
-  mGUqvHz0pn7zOl1ZOS26
-  =gCT0
-  -----END PGP SIGNATURE-----
-
----
-  builtin/log.c | 12 ++++++++++++
-  log-tree.c    | 17 +++++++++++++++++
-  revision.h    |  3 ++-
-  3 files changed, 31 insertions(+), 1 deletion(-)
-
-diff --git a/builtin/log.c b/builtin/log.c
-index c4b35fdaf9..81c1164ae5 100644
---- a/builtin/log.c
-+++ b/builtin/log.c
-@@ -1545,6 +1545,7 @@ int cmd_format_patch(int argc, const char **argv, 
-const char *prefix)
-[...]
-
-There is no corresponding support in 'git am' yet, however.
-
-Seeing how large this signature is, I have to admit that I am partial to
-Konstantin's suggestion of using minisign. This seems like something
-that could be added to git as an alternative to gpg without too much
-trouble, I think.
-
-
-Vegard
+--5sfrrmuyqloyaxm7--
