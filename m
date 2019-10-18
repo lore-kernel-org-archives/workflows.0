@@ -1,100 +1,105 @@
-Return-Path: <SRS0=PtRO=YK=vger.kernel.org=workflows-owner@kernel.org>
+Return-Path: <SRS0=I4mM=YL=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6331BFA372B
-	for <workflows@archiver.kernel.org>; Thu, 17 Oct 2019 20:45:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9498FCA9EB3
+	for <workflows@archiver.kernel.org>; Fri, 18 Oct 2019 01:30:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 328AE21835
-	for <workflows@archiver.kernel.org>; Thu, 17 Oct 2019 20:45:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1571345139;
-	bh=PBMQzlJhfwdjzlJul3iNyt+OcLxbUAw68Myl91LPzt8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=V560wB/o5jdhyIUIc9PRF5XSNkDdevreJUrGDe7c8xycABMnuv4l11qEaSU3uphFv
-	 rIjpqD3buDcHoww25+iW6xhNHCFjMamdkzPa3zyzOu6Q2zqrnrhFrKorh0rubiKDo9
-	 VdhDyG3klZXfTlhXKWzCmZIDzKV9GUujgfA2cfUw=
+	by mail.kernel.org (Postfix) with ESMTP id 6C83121D7D
+	for <workflows@archiver.kernel.org>; Fri, 18 Oct 2019 01:30:37 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="rXeFk8m6";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="tmq8jDKu"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394787AbfJQUpi (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 17 Oct 2019 16:45:38 -0400
-Received: from mail-qk1-f182.google.com ([209.85.222.182]:33822 "EHLO
-        mail-qk1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729725AbfJQUpi (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 17 Oct 2019 16:45:38 -0400
-Received: by mail-qk1-f182.google.com with SMTP id f18so2612763qkm.1
-        for <workflows@vger.kernel.org>; Thu, 17 Oct 2019 13:45:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Nm0y8itQwNxycU+KkCNl4rRv/KEizP64S0h3JjcmM1I=;
-        b=CSQkOFqGa4+s7tlWZ+YT+n2bPhZ97z4bHV0wAW/4JArlvdW9LCrTnANTSBE9hoh+r3
-         aLCCN31qCG5v4O5opbrSGTmYoK8vjfAnzSNQSkTHVmK2TqvWiRqCAptFypjby7HlsV/1
-         JV9EAp/r3IE3NFEsoDFZLsoUvjPn3Kq0IrbSE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=Nm0y8itQwNxycU+KkCNl4rRv/KEizP64S0h3JjcmM1I=;
-        b=P8t+XlUirLUEBXsJ8huZcIlEMBnwxiKdNpJWPXUeLvOOWh1yd/SwL8iHSH479LjLSG
-         NcQoa5C/NLkerGeNTHYidTnbwiWZ/nF6Sq9hiHt+DllPGABVZfrL9SEm5ocu4jb7AsF7
-         UFuLYd3LzQ01hOG6wkNlTE624jE/qrMYlM+ER6ygHXgvKDQXXvjVcNYw9ea7jnK90/ZY
-         P38tMxIawvG3+OtBQMDAw1C4G/KhVm21yEqYs/nEQFoCzCMgwhg6wRIEZWzc3Y7B2jtu
-         p1of242J/z//z5U+I9KyeYbSJ0WHmgz5UYzVrccavL9ePwsAycyFKrzqSX2CpsiwGPq7
-         C7mg==
-X-Gm-Message-State: APjAAAVAc76mBoCfxkIoBF82KmHM50S9Ke7R+vpBQf+3WFKx+pNat0Pf
-        egceAusNjsCTKLNuLvK2Qbql2Q==
-X-Google-Smtp-Source: APXvYqx67ShxHPsHmU4ie8AOdmAv0dC9DADOXV5AgHyiljWTFyBCcpGVIsssPGNMCbxjXk9vRGW2Aw==
-X-Received: by 2002:a37:507:: with SMTP id 7mr5422980qkf.107.1571345135302;
-        Thu, 17 Oct 2019 13:45:35 -0700 (PDT)
-Received: from chatter.i7.local (192-0-228-88.cpe.teksavvy.com. [192.0.228.88])
-        by smtp.gmail.com with ESMTPSA id j137sm1974051qke.64.2019.10.17.13.45.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2019 13:45:34 -0700 (PDT)
-Date:   Thu, 17 Oct 2019 16:45:32 -0400
-From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To:     Greg KH <greg@kroah.com>
-Cc:     Santiago Torres Arias <santiago@nyu.edu>, Willy Tarreau <w@1wt.eu>,
+        id S2409488AbfJRBad (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 17 Oct 2019 21:30:33 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:35093 "EHLO
+        wout2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2409455AbfJRBad (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 17 Oct 2019 21:30:33 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailout.west.internal (Postfix) with ESMTP id 5E6052FA;
+        Thu, 17 Oct 2019 21:30:31 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Thu, 17 Oct 2019 21:30:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+        date:from:to:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=pq7JnPVH1qpjTz0L7yOcPLAoIVZ
+        Xm4EsT9Idpgnd1I4=; b=rXeFk8m6yRHaRUuZ7dH4yi8NKBxBdyuwUXLPzaKrlIF
+        BYMuqS1ydTbYquvOZPff7j5NSpwqd/iKC7SuFsA7I7RlVXUCSgZoSeqP8AnTvOAM
+        yC31tI/gPgHnSXNFe3uymosBYlV/8gU6lI2tJaLZy63FmgrR2af+FnMfYp2SuoJO
+        WF30Y00Uqvyfpq5W7gdWjUlc9ZOcs/a4v0x128TQZHG5eY5tC/Vh0UsIc1IDkMhE
+        3f42Q0ejexzHGdNurWSo/zsIlsvcTlpBec6AnAfsRJohVChbKGiPbZHDVfrlQZa2
+        wZLLTG4AUZQONOhz/GagxUVp5a+xo4WjrXAUAGgb8Fg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=pq7JnP
+        VH1qpjTz0L7yOcPLAoIVZXm4EsT9Idpgnd1I4=; b=tmq8jDKuKozJEIjsoPgsxW
+        LKKy6Vs/EA+EokNQwlI4uG6UFQGg/V+ZG70GfBTKG/6itCyXoi2n4W2U9ompFd/V
+        TI7/ZOell+jp9bomTGgazNNJ2HZbanPx/k+xTCckeo/H35t2RBWdnlY7RqkeTLen
+        wvWFepzwmLnrO9zH9NZZDqWF+2QSPTA523EOku3C8RqXpr0Ucr52HaQyd/SXw0mT
+        1FXqd+DOxZiBKgHUxPwDMybZIKDqGIauiZszERfgC2/pvvUCc0s5g79d5yFF5RQj
+        zVxfjyPmjs73gJYolGIsiTUuu/155JfgJhjVzy5g4TepQ5dSecmNZRo4aemixMEA
+        ==
+X-ME-Sender: <xms:thWpXUV7Tgir_8Q3LCPydsDL_-0BqqLQz1S9OeCw0YqSOXt6-ToXMA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrjeekgdegfecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujggfsehttdertddtredvnecuhfhrohhmpefirhgvghcu
+    mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucfkphepuddtgedrudefvddrtddrud
+    dtleenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghhrdgtohhmnecu
+    vehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:thWpXSMtW2FEOhuejp4R1JVWN-qMtTcGHJeSi8uPB6JYMXcbLY_QhA>
+    <xmx:thWpXYahdQaCOdVo3BgPMQNVOVQRUymotLl_Xb-2kGs3y_ANYPG_xg>
+    <xmx:thWpXWoyOr9GjzqUkLmaZ3kU4fp6m8YX1AsdsgkVBxBNnvQP3gCvkw>
+    <xmx:txWpXcYbXojnSSNJ1-senbnByNSglnvEcq0lXsA3mMDFt6uW-Y9h8Q>
+Received: from localhost (unknown [104.132.0.109])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 37504D6005D;
+        Thu, 17 Oct 2019 21:30:30 -0400 (EDT)
+Date:   Thu, 17 Oct 2019 18:30:29 -0700
+From:   Greg KH <greg@kroah.com>
+To:     Santiago Torres Arias <santiago@nyu.edu>, Willy Tarreau <w@1wt.eu>,
         Vegard Nossum <vegard.nossum@oracle.com>,
         workflows@vger.kernel.org, Git Mailing List <git@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>, Eric Wong <e@80x24.org>
 Subject: Re: email as a bona fide git transport
-Message-ID: <20191017204532.GA6446@chatter.i7.local>
-Mail-Followup-To: Greg KH <greg@kroah.com>,
-        Santiago Torres Arias <santiago@nyu.edu>, Willy Tarreau <w@1wt.eu>,
-        Vegard Nossum <vegard.nossum@oracle.com>, workflows@vger.kernel.org,
-        Git Mailing List <git@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, Eric Wong <e@80x24.org>
+Message-ID: <20191018013029.GA1167832@kroah.com>
 References: <b9fb52b8-8168-6bf0-9a72-1e6c44a281a5@oracle.com>
  <20191016111009.GE13154@1wt.eu>
  <20191016144517.giwip4yuaxtcd64g@LykOS.localdomain>
  <20191017204343.GA1132188@kroah.com>
+ <20191017204532.GA6446@chatter.i7.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191017204343.GA1132188@kroah.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20191017204532.GA6446@chatter.i7.local>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Thu, Oct 17, 2019 at 01:43:43PM -0700, Greg KH wrote:
->> I wonder if it'd be also possible to then embed gpg signatures over
->> send-mail payloads so as they can be transparently transferred to the
->> commit.
->
->That's a crazy idea.  It would be nice if we could do that, I like it 
->:)
+On Thu, Oct 17, 2019 at 04:45:32PM -0400, Konstantin Ryabitsev wrote:
+> On Thu, Oct 17, 2019 at 01:43:43PM -0700, Greg KH wrote:
+> > > I wonder if it'd be also possible to then embed gpg signatures over
+> > > send-mail payloads so as they can be transparently transferred to the
+> > > commit.
+> > 
+> > That's a crazy idea.  It would be nice if we could do that, I like it :)
+> 
+> It could only possibly work if nobody ever adds their own "Signed-Off-By" or
+> any other bylines. I expect this is a deal-breaker for most maintainers.
 
-It could only possibly work if nobody ever adds their own 
-"Signed-Off-By" or any other bylines. I expect this is a deal-breaker 
-for most maintainers.
+Yeah it is :(
 
--K
+But, if we could just have the signature on the code change, not the
+changelog text, that would help with that issue.
+
+thanks,
+
+rgeg k-h
