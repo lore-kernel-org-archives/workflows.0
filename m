@@ -1,123 +1,217 @@
-Return-Path: <SRS0=nTwU=YN=vger.kernel.org=workflows-owner@kernel.org>
+Return-Path: <SRS0=C+WN=YO=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8A58CA9EAD
-	for <workflows@archiver.kernel.org>; Sun, 20 Oct 2019 06:29:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B95F7CA9EAF
+	for <workflows@archiver.kernel.org>; Mon, 21 Oct 2019 11:16:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 800A7222C3
-	for <workflows@archiver.kernel.org>; Sun, 20 Oct 2019 06:29:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 82AC4206C2
+	for <workflows@archiver.kernel.org>; Mon, 21 Oct 2019 11:16:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="MRM29o2J"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tZz7eRNl"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726285AbfJTG3V (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Sun, 20 Oct 2019 02:29:21 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:60262 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725916AbfJTG3U (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Sun, 20 Oct 2019 02:29:20 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9K6SiIR098640;
-        Sun, 20 Oct 2019 06:28:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2019-08-05;
- bh=nUWRZKEHXe6B3aTXbizJaL9c8qWLwRahm0jMX0i5lzY=;
- b=MRM29o2JUnLNrOU29bkhnVYEmzZt1TOuPRAxG/iYz8QUrpvoPF3VkAIkBWY2oK57AW24
- Y4hmeVTKcZuYC5/Gq7zhOEb0S5xNHjCQTGIiqHNtppGvy4Jc/JcB+0zJMNSic3N4zoAN
- BqzlZ5RhTY1tdpY2eNrxxCu+CTY7gdVLUKkapRdWj+wLdyDpijoTgnR8z/FkhZ7wsF/G
- hX5xvcZLO2ZqJwoT89J6SEsJIiaG/lqLxIdKb3s20tei8MsvTTigZTg77yZueoTQQ3zM
- +5FP0ZltTesUGgXbKTwhyj8tpb8fBAfVWsYB7Z3dRT+kfZ9Hl6CVnclVvL7dLMzILM9V Jg== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by aserp2120.oracle.com with ESMTP id 2vqtepajtk-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sun, 20 Oct 2019 06:28:44 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9K6RvIb175116;
-        Sun, 20 Oct 2019 06:28:43 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userp3020.oracle.com with ESMTP id 2vrcmj90jk-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sun, 20 Oct 2019 06:28:43 +0000
-Received: from abhmp0022.oracle.com (abhmp0022.oracle.com [141.146.116.28])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x9K6SeCP016320;
-        Sun, 20 Oct 2019 06:28:40 GMT
-Received: from [10.175.22.123] (/10.175.22.123)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Sun, 20 Oct 2019 06:28:39 +0000
-Subject: Re: email as a bona fide git transport
-To:     Willy Tarreau <w@1wt.eu>, "Theodore Y. Ts'o" <tytso@mit.edu>
-Cc:     Santiago Torres Arias <santiago@nyu.edu>,
-        workflows@vger.kernel.org, Git Mailing List <git@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Eric Wong <e@80x24.org>
-References: <b9fb52b8-8168-6bf0-9a72-1e6c44a281a5@oracle.com>
- <20191016111009.GE13154@1wt.eu>
- <20191016144517.giwip4yuaxtcd64g@LykOS.localdomain>
- <56664222-6c29-09dc-ef78-7b380b113c4a@oracle.com>
- <20191018161547.GG21137@mit.edu>
- <de49fe5e-85cb-9fb0-f9f4-c294d72e356c@oracle.com>
- <20191018191456.GI21137@mit.edu> <20191020031716.GA17475@1wt.eu>
-From:   Vegard Nossum <vegard.nossum@oracle.com>
-Message-ID: <1a259d8d-b3d1-b64e-07c3-ba143b42c442@oracle.com>
-Date:   Sun, 20 Oct 2019 08:28:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1728188AbfJULQo (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 21 Oct 2019 07:16:44 -0400
+Received: from mail-qk1-f195.google.com ([209.85.222.195]:46024 "EHLO
+        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727831AbfJULQo (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 21 Oct 2019 07:16:44 -0400
+Received: by mail-qk1-f195.google.com with SMTP id q70so4626869qke.12
+        for <workflows@vger.kernel.org>; Mon, 21 Oct 2019 04:16:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=I7HDqlovTWFXgZG5lFeXS0blu+MDoVkvU9HPoV8e7wM=;
+        b=tZz7eRNlHnR57BGlc07Qh+OmO7JuZuZsonpMpzdHgK3axDs0W4p0NTy9N+I7kUmNP5
+         8Q6LarW1T03mS888pCHwicSNvEjiIsS5BpwnTeXmQc9wFN27ZeXta6iXkGMLCEg/qObc
+         rjf0GKdvy9wYB1ED+iUSffhDFlWR+OPTidUKuyHNAX90ygbblLn5SWJ8P77gDLXmhoLH
+         nzP8KoqpV9rd/rDCfAum+aCdPZ6F92et3OqzD+rYHphf4GJ2/ICPUiLUhfukoOud9ydv
+         FS8QeL4y9Ti0DdhPx/Z/BVPgnUOtk5diffRgGPcEWMCDVxLjQPxB8WRKT1Dr/Usgv5WE
+         bkgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=I7HDqlovTWFXgZG5lFeXS0blu+MDoVkvU9HPoV8e7wM=;
+        b=VFsBRF+EmDqiEeKTGM1Z3f9HXxlm1zjZP+pnLdCedNFB6tZTP27qM8eOOH/L95qaTZ
+         rlkr+EA4NC5cyE8xqzE4/U5s91JNiCdPouTmZwZKnoCXd7D8KprNRaDgqwFmXMmVfHkQ
+         mE9HnhvTrjqGSJveBSPfRnyUvT8+Inm9tjLfYsCsU6zU03DODq9pxv9wqZ6ep8BdsYd+
+         8T0Hs9EtP2BU32SlPZD2KhiFUvhk64PGj0+XtpiQ0RGfiIRQcuRgz6LTWTr7toKxhJ50
+         OGrDqSy1vkebc2MNQG+/1QjvrykWmBmA7/UpKp7n6Spazsu5PFMMicb3mCpTJ1f9RCye
+         pfSw==
+X-Gm-Message-State: APjAAAX2oIhPwfCdMcyKscH+Ospf3ppm4pWe8t97si4NXEpjCkxxJJUy
+        aOQB1TWoTr99N881j/qoeCr8krWp1YPCl/R9lGVouQ==
+X-Google-Smtp-Source: APXvYqz3jg7zY5VnAoZXS3NT7M9QIs6g6J+zYf5uFv03dOmcEcohb7O/xP0Olu1jjRj3wEmxTixmXNG8Bk7GQ2gI5jQ=
+X-Received: by 2002:a05:620a:6b6:: with SMTP id i22mr21326895qkh.256.1571656602152;
+ Mon, 21 Oct 2019 04:16:42 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20191020031716.GA17475@1wt.eu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9415 signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1908290000 definitions=main-1910200063
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9415 signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
- definitions=main-1910200063
+References: <20191010144150.hqiosvwolm3lmzp5@chatter.i7.local>
+ <20191011085702.GB1075470@kroah.com> <f41e7a81-54f4-d4e8-b3c0-d98608fc4bdc@linuxfoundation.org>
+ <CACT4Y+aYn57hQ4do0jvUGm-0C02UuDSwWeZL=M6XAaZjS51Jyw@mail.gmail.com>
+In-Reply-To: <CACT4Y+aYn57hQ4do0jvUGm-0C02UuDSwWeZL=M6XAaZjS51Jyw@mail.gmail.com>
+From:   Dmitry Vyukov <dvyukov@google.com>
+Date:   Mon, 21 Oct 2019 13:16:29 +0200
+Message-ID: <CACT4Y+a29c=SYV_fNghFQpb0zLWFU-c4cs-etxx4EfKgWBGOow@mail.gmail.com>
+Subject: Re: RFE: use patchwork to submit a patch
+To:     Shuah Khan <skhan@linuxfoundation.org>
+Cc:     Greg KH <gregkh@linuxfoundation.org>, patchwork@lists.ozlabs.org,
+        workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
+On Mon, Oct 14, 2019 at 4:58 PM Dmitry Vyukov <dvyukov@google.com> wrote:
+>
+> On Fri, Oct 11, 2019 at 7:20 PM Shuah Khan <skhan@linuxfoundation.org> wrote:
+> >
+> > On 10/11/19 2:57 AM, Greg KH wrote:
+> > > On Thu, Oct 10, 2019 at 10:41:50AM -0400, Konstantin Ryabitsev wrote:
+> > >> Hi, all:
+> > >>
+> > >> I would like to propose a new (large) feature to patchwork with the goal to
+> > >> make the process of submitting a patch easier for newbies and people
+> > >> generally less familiar with patch-based development. This was discussed
+> > >> previously on the workflows list:
+> > >> https://lore.kernel.org/workflows/20190930202451.GA14403@pure.paranoia.local/
+> > >>
+> > >> How I envision this would work:
+> > >>
+> > >> - user creates an account (which requires a mail confirmation) >> - they choose a "submit patch" option from the menu
+> > >> - the patch submission screen has a succession of screens:
+> > >>
+> > >>   1. a screen with a single field allowing a user to paste a URL to     their
+> > >> fork of the git repository. Once submitted, patchwork does a     "git
+> > >> ls-remote" to attempt to get a list of refs and to verify that     this is
+> > >> indeed a valid git repository
+> > >
+> > > s/valid git repository/valid git repository based on the kernel git tree/
+> > >
+> > > Otherwise you might be sending out lots of emails for other projects :)
+> > >
+> > >>
+> > >>   2. next screen asks the user to select the ref to work from using the
+> > >> list obtained from the remote. Once submitted, patchwork performs a     `git
+> > >> clone --reference` to clone the repository locally using a     local fork of
+> > >> the same repo to minimize object transfer. This part     requires that:
+> > >>        a. patchwork project is configured with a path to a local fork,
+> > >> if this feature is enabled for a project
+> > >>        b. that fork is kept current via some mechanism outside of
+> > >> patchwork (e.g. with grokmirror)
+> > >>        c. there is some sanity-checking during the clone process to
+> > >> avoid abuse (e.g. a sane timeout, a tmpdir with limited size,          etc
+> > >> -- other suggestions welcome)
+> > >>
+> > >>   3. next screen asks the user to pick a starting commit from the log.
+> > >> Once submitted, patchwork generates the patch from the commit     provided
+> > >> to the tip of the branch selected by the user earlier,
+> > >>      using git format-patch.
+> > >>
+> > >>   4. next screen asks the user to review the patch to make sure this is
+> > >> what they want to submit. Once confirmed, patchwork performs two
+> > >> admin-defined optional hooks:
+> > >>
+> > >>        a. a hook to generate a list of cc's (e.g. get_maintainer.pl)
+> > >>        b. a sanity check hook (e.g. checkpatch.pl)
+> > >
+> > > I will note that many "first patch" submissions are checkpatch.pl
+> > > cleanups for staging.  When doing that, I require that they do "one
+> > > logical change per patch", which means that many of the individual
+> > > patches themselves will not be checkpatch.pl clean, because many lines
+> > > have multiple issues with them (tabs, spaces, format, length, etc.)
+> > >
+> > > So other than that minor thing, sounds interesting.  It's hard to
+> > > determine just how difficult the whole "set up git and send a patch out"
+> > > process is for people these days given the _huge_ numbers of new
+> > > contributions we keep getting, and the numerous good tutorials we have
+> > > created that spell out exactly how to do this.
+> > >
+> > > So you might be "solving" a problem that we don't really have.  It's
+> > > hard to tell :(
+> > >
+> >
+> > I agree with this. I don't think this a problem that is worth solving.
+> > When a new developer wants to send a patch, they don't need to create
+> > any accounts. They setup their email client and send patch.
+> >
+> > We have several resources that walk them through setting up email
+> > clients and sending patches. checkpatch.pl can be automated with
+> > git hooks.
+> >
+> > >> I know this is a pretty big RFE, and I would like to hear your thoughts
+> > >> about this. If there is general agreement that this is doable/good idea, I
+> > >> may be able to come up with funding for this development as part of the
+> > >> overall tooling improvement proposal.
+> > >
+> > > The workflow seems sane, and matches what most people do today, with the
+> > > exception that it "solves" the git send-email issue, right?  Is that our
+> > > biggest barrier?
+> > >
+> > > I would recommend interviewing some of the recent kernel mentor project
+> > > and outreachy applicants first, to try to determine exactly what their
+> > > problems, if any, were with our development process.  If they say that
+> > > this type of tool/workflow would have saved them hours of time and
+> > > energy, then that's a great indication that we should try to do this.
+> > >
+> >
+> > I would say considering the number of applicants to mentorship program
+> > and new developers it will be lot overhead to require them to create
+> > patchwork accounts, and it might even be hard overtime. A lot of them
+> > start out and drop out in the middle. With the current setup, nothing
+> > to cleanup.
+> >
+> > Setting up email clients and git hooks is one time task. It is the
+> > easiest of the learning curve for many new developers. New developers
+> > struggle with getting the change logs right, coding styles right, and
+> > responding to review comments and acting on them.
+> >
+> > These aren't something that can be automated and they just have to
+> > learn through experience of sending patches.
+> >
+> > My opinion based on contact with new developers as well running the
+> > mentorship program, I would sat this isn't something that needs
+> > solving.
+> >
+> > thanks,
+> > -- Shuah
+>
+>
+> As one data point, I cannot send emails with git send-email anymore.
+> It used to work, then broke and I don't know how to fix it. Now it says:
+>
+> 5.7.8 Username and Password not accepted. Learn more at
+> 5.7.8  https://support.google.com/mail/?p=BadCredentials
+> s10sm8376885wrr.5 - gsmtp
+>
+> I suspect it has something to do with two factor auth.
+> So that's it: it cannot contribute to kernel right now.
+> I will not consider time spent fixing it as useful time investment.
+>
+> Any kernel documentation that I can find for gmail, mentions config
+> that I am already using and that is not working:
+> https://www.kernel.org/doc/html/latest/search.html?q=gmail&check_keywords=yes&area=default#
+> https://www.kernel.org/doc/html/latest/process/email-clients.html?highlight=gmail
+>
+> As another data point, I spoke to KP Singh at the Plumbers. He is a
+> "returning" kernel developer (so already did this before), he said it
+> took him 3 days and 52 configurations changes (all were committed to
+> git, so was possible to count exactly) to setup mail client properly.
+> And he is "staffed" to do kernel work, I would expect that most people
+> who don't _have_ to do kernel contributions will turn away half-way.
+>
+> As another data point, several people told me that they are afraid of
+> sending kernel patches b/c there is so much "on you" to do right.
+>
+> I would say that we need to aim at  a process that does not require a
+> friendly experienced person to answer any of your questions in the
+> common case. Lots of people will simply not ask any questions.
 
-On 10/20/19 5:17 AM, Willy Tarreau wrote:
-> On Fri, Oct 18, 2019 at 03:14:56PM -0400, Theodore Y. Ts'o wrote:
->> On Fri, Oct 18, 2019 at 06:50:51PM +0200, Vegard Nossum wrote:
->>> The problem I ran into with putting the metadata at the end was
->>> detecting where the diff ends. A comment in 'git apply' suggested that
->>> detecting the difference between "--" as a diff/signature separator and
->>> as part of the diff is nontrivial in the sense that you need to actually
->>> do some parsing and keep track of hunk sizes.
->>
->> Could we cheat by having "git format-patch" add a "Diff-size" in the
->> header which gives the number of lines in the diff so git am can just
->> count lines to find the Trailer section?
-> 
-> Be careful with this, it starts like this and ends up with non-editable
-> patches. I'd rather have git-am use best-effort detection of the end.
-
-Expect filesystem developers to come up with a format that uses extents ;-)
-
-> Also when dealing with stable backports, I've done a lot of
-> "cat foo.diff >> bar.patch" to fixup some patches in which I just had
-> to move some parts around. Having to count lines and edit a counter
-> somewhere is going to become really painful.
-
-I almost have some new patches ready for putting the metadata after the
-patch using a very bare-bones diff parser (it's actually not that bad),
-I just need to fix a few corner cases that are causing breakage in the
-git test suite.
-
-
-Vegard
+Just arrived: lost emails and patches:
+https://groups.google.com/d/msg/syzkaller-bugs/GSD7eiEJm5M/XyKMJ_v8BAAJ
