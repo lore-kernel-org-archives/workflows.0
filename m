@@ -2,152 +2,102 @@ Return-Path: <SRS0=pRAV=YP=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A9C3CA9EA0
-	for <workflows@archiver.kernel.org>; Tue, 22 Oct 2019 12:12:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64406CA9EA0
+	for <workflows@archiver.kernel.org>; Tue, 22 Oct 2019 13:54:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 29A4F214B2
-	for <workflows@archiver.kernel.org>; Tue, 22 Oct 2019 12:12:07 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="bp60qwlb"
+	by mail.kernel.org (Postfix) with ESMTP id 3FE7621BE5
+	for <workflows@archiver.kernel.org>; Tue, 22 Oct 2019 13:54:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388967AbfJVMMG (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 22 Oct 2019 08:12:06 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:53088 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388960AbfJVMMG (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 22 Oct 2019 08:12:06 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9MC8tCn113199;
-        Tue, 22 Oct 2019 12:11:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : from : to :
- cc : references : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2019-08-05;
- bh=MFJzMYNcFvDsXyams3WVY/szvOVOHehPEPgrKljIzhc=;
- b=bp60qwlbt9nzMsjtdt9HiuUcE5bkuVIY3/S6BWCxKWwdv9U9/lhQcG/A/+aeudq0GXmH
- nt/k/rQKYyVRl3Ss2EdxNXrTuxxhYNllr6aPxugzRRNupLwst3z50/Z8E6YtnTmlvqOm
- IjNEQiiy1ZlKklOjSEACe05aD4iH1vtIhuZuDXVLsVtgHxUTssn7ldu2ja6F8PdYzw8A
- Qw7FcjPj9U7XU6n02Npi3CrqoZvXgGept8ESk7nljs2C44Gs/uIKqAOFuKT9HO448cbF
- oxve13v/F6Ywc+nulsOX6sJXlfqME/fdUFb9LtKgvYHlrdk1xXqPSYGWUVHlsrMlL+Mf IQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by aserp2120.oracle.com with ESMTP id 2vqtepp5pt-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 22 Oct 2019 12:11:33 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9MC8J4q100829;
-        Tue, 22 Oct 2019 12:11:33 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by aserp3020.oracle.com with ESMTP id 2vrc01rnte-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 22 Oct 2019 12:11:33 +0000
-Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x9MCBVdT031690;
-        Tue, 22 Oct 2019 12:11:31 GMT
-Received: from [10.175.28.77] (/10.175.28.77)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 22 Oct 2019 05:11:31 -0700
-Subject: Re: email as a bona fide git transport
-From:   Vegard Nossum <vegard.nossum@oracle.com>
-To:     Willy Tarreau <w@1wt.eu>, "Theodore Y. Ts'o" <tytso@mit.edu>
-Cc:     Santiago Torres Arias <santiago@nyu.edu>,
+        id S1731381AbfJVNy1 (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 22 Oct 2019 09:54:27 -0400
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:35222 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1729425AbfJVNy1 (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 22 Oct 2019 09:54:27 -0400
+Received: from callcc.thunk.org (guestnat-104-133-0-98.corp.google.com [104.133.0.98] (may be forged))
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x9MDrjb3029728
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 22 Oct 2019 09:53:45 -0400
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id C02D9420456; Tue, 22 Oct 2019 09:53:44 -0400 (EDT)
+Date:   Tue, 22 Oct 2019 09:53:44 -0400
+From:   "Theodore Y. Ts'o" <tytso@mit.edu>
+To:     Vegard Nossum <vegard.nossum@oracle.com>
+Cc:     Willy Tarreau <w@1wt.eu>, Santiago Torres Arias <santiago@nyu.edu>,
         workflows@vger.kernel.org, Git Mailing List <git@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
         Eric Wong <e@80x24.org>
+Subject: Re: email as a bona fide git transport
+Message-ID: <20191022135344.GC23268@mit.edu>
 References: <b9fb52b8-8168-6bf0-9a72-1e6c44a281a5@oracle.com>
  <20191016111009.GE13154@1wt.eu>
  <20191016144517.giwip4yuaxtcd64g@LykOS.localdomain>
  <56664222-6c29-09dc-ef78-7b380b113c4a@oracle.com>
  <20191018161547.GG21137@mit.edu>
  <de49fe5e-85cb-9fb0-f9f4-c294d72e356c@oracle.com>
- <20191018191456.GI21137@mit.edu> <20191020031716.GA17475@1wt.eu>
+ <20191018191456.GI21137@mit.edu>
+ <20191020031716.GA17475@1wt.eu>
  <1a259d8d-b3d1-b64e-07c3-ba143b42c442@oracle.com>
-Message-ID: <de6dd8b5-5c28-d0b2-d3fc-e72a6d643105@oracle.com>
-Date:   Tue, 22 Oct 2019 14:11:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ <de6dd8b5-5c28-d0b2-d3fc-e72a6d643105@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <1a259d8d-b3d1-b64e-07c3-ba143b42c442@oracle.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9417 signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1908290000 definitions=main-1910220110
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9417 signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
- definitions=main-1910220110
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <de6dd8b5-5c28-d0b2-d3fc-e72a6d643105@oracle.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On 10/20/19 8:28 AM, Vegard Nossum wrote:
+On Tue, Oct 22, 2019 at 02:11:22PM +0200, Vegard Nossum wrote:
 > 
-> On 10/20/19 5:17 AM, Willy Tarreau wrote:
->> On Fri, Oct 18, 2019 at 03:14:56PM -0400, Theodore Y. Ts'o wrote:
->>> On Fri, Oct 18, 2019 at 06:50:51PM +0200, Vegard Nossum wrote:
->>>> The problem I ran into with putting the metadata at the end was
->>>> detecting where the diff ends. A comment in 'git apply' suggested that
->>>> detecting the difference between "--" as a diff/signature separator and
->>>> as part of the diff is nontrivial in the sense that you need to 
->>>> actually
->>>> do some parsing and keep track of hunk sizes.
->>>
->>> Could we cheat by having "git format-patch" add a "Diff-size" in the
->>> header which gives the number of lines in the diff so git am can just
->>> count lines to find the Trailer section?
->>
->> Be careful with this, it starts like this and ends up with non-editable
->> patches. I'd rather have git-am use best-effort detection of the end.
+> As I wrote in there, we could already today start using
 > 
-> Expect filesystem developers to come up with a format that uses extents ;-)
+>   git am --message-id
 > 
->> Also when dealing with stable backports, I've done a lot of
->> "cat foo.diff >> bar.patch" to fixup some patches in which I just had
->> to move some parts around. Having to count lines and edit a counter
->> somewhere is going to become really painful.
+> when applying patches and this would provide something that a bot could
+> annotate with git notes pointing to lore/LKML/LWN/whatever. I think that
+> would already be a pretty nice improvement over today's situation.
 > 
-> I almost have some new patches ready for putting the metadata after the
-> patch using a very bare-bones diff parser (it's actually not that bad),
-> I just need to fix a few corner cases that are causing breakage in the
-> git test suite.
+> Sadly, since the beginning of 2018, this was only used for a measly
+> ~0.14% of all non-merge commits in the kernel:
+> 
+> $ git rev-list --count --no-merges --since='2018-01-01' --grep 'Message-Id:
+> ' linus/master
+> 178
 
-I sent v2 of the patches (with metadata _after_ the diff) to the git
-list here:
+You might also want to count commits which have a link tag with a
+Message-Id:
 
-https://public-inbox.org/git/20191022114518.32055-1-vegard.nossum@oracle.com/T/#u
+Link: https://lore.kernel.org/r/c3438dad66a34a7d4e7509a5dd64c2326340a52a.1571647180.git.mbobrowski@mbobrowski.org
 
-As I wrote in there, we could already today start using
+That's because some kernel developers have been using a hook script like this:
 
-   git am --message-id
+#!/bin/sh
+# For .git/hooks/applypatch-msg
+#
+# You must have the following in .git/config:
+# [am]
+#	messageid = true
+	
+. git-sh-setup
+perl -pi -e 's|^Message-Id:\s*<?([^>]+)>?$|Link: https://lore.kernel.org/r/$1|g;' "$1"
+test -x "$GIT_DIR/hooks/commit-msg" &&
+	exec "$GIT_DIR/hooks/commit-msg" ${1+"$@"}
+:
 
-when applying patches and this would provide something that a bot could
-annotate with git notes pointing to lore/LKML/LWN/whatever. I think that
-would already be a pretty nice improvement over today's situation.
+.... as we had reached rough consensus that this was the best way to
+incorprate the message id (since it could made to be a clickable link
+in tools like gitk, for example).  This rough consensus has only been
+in place since around the time of the Maintainer's Summit in Lisbon,
+so uptake is still probably a bit slow.  I'd expect to see a lot more
+of this in the next merge window, though.
 
-Sadly, since the beginning of 2018, this was only used for a measly
-~0.14% of all non-merge commits in the kernel:
-
-$ git rev-list --count --no-merges --since='2018-01-01' --grep 
-'Message-Id: ' linus/master
-178
-
-$ git rev-list --count --no-merges --since='2018-01-01' linus/master
-130777
-
-So how can we spread the word about --message-id and get maintainers to
-actually use it? I don't suppose it's reasonable to change the 'git am'
-default setting?
-
-
-Vegard
+						- Ted
