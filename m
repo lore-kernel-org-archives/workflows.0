@@ -1,92 +1,96 @@
-Return-Path: <SRS0=pRAV=YP=vger.kernel.org=workflows-owner@kernel.org>
+Return-Path: <SRS0=kvgU=YR=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A120CA9EB9
-	for <workflows@archiver.kernel.org>; Tue, 22 Oct 2019 19:01:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3F39CA9EAF
+	for <workflows@archiver.kernel.org>; Thu, 24 Oct 2019 13:15:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 04747222D2
-	for <workflows@archiver.kernel.org>; Tue, 22 Oct 2019 19:01:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9EFB82166E
+	for <workflows@archiver.kernel.org>; Thu, 24 Oct 2019 13:15:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732854AbfJVTBa (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 22 Oct 2019 15:01:30 -0400
-Received: from dcvr.yhbt.net ([64.71.152.64]:53062 "EHLO dcvr.yhbt.net"
+        id S2502357AbfJXNPo (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 24 Oct 2019 09:15:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54898 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732843AbfJVTB3 (ORCPT <rfc822;workflows@vger.kernel.org>);
-        Tue, 22 Oct 2019 15:01:29 -0400
-Received: from localhost (dcvr.yhbt.net [127.0.0.1])
-        by dcvr.yhbt.net (Postfix) with ESMTP id A57891F4C0;
-        Tue, 22 Oct 2019 19:01:28 +0000 (UTC)
-Date:   Tue, 22 Oct 2019 19:01:27 +0000
-From:   Eric Wong <e@80x24.org>
-To:     Vegard Nossum <vegard.nossum@oracle.com>
-Cc:     Willy Tarreau <w@1wt.eu>, "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Santiago Torres Arias <santiago@nyu.edu>,
-        workflows@vger.kernel.org, Git Mailing List <git@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Subject: Re: email as a bona fide git transport
-Message-ID: <20191022190127.GA697@dcvr>
-References: <b9fb52b8-8168-6bf0-9a72-1e6c44a281a5@oracle.com>
- <20191016111009.GE13154@1wt.eu>
- <20191016144517.giwip4yuaxtcd64g@LykOS.localdomain>
- <56664222-6c29-09dc-ef78-7b380b113c4a@oracle.com>
- <20191018161547.GG21137@mit.edu>
- <de49fe5e-85cb-9fb0-f9f4-c294d72e356c@oracle.com>
- <20191018191456.GI21137@mit.edu>
- <20191020031716.GA17475@1wt.eu>
- <1a259d8d-b3d1-b64e-07c3-ba143b42c442@oracle.com>
- <de6dd8b5-5c28-d0b2-d3fc-e72a6d643105@oracle.com>
+        id S2502438AbfJXNPo (ORCPT <rfc822;workflows@vger.kernel.org>);
+        Thu, 24 Oct 2019 09:15:44 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 231372084C;
+        Thu, 24 Oct 2019 13:15:43 +0000 (UTC)
+Date:   Thu, 24 Oct 2019 09:15:41 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        patchwork@lists.ozlabs.org, workflows@vger.kernel.org
+Subject: Re: RFE: use patchwork to submit a patch
+Message-ID: <20191024091541.10af3417@gandalf.local.home>
+In-Reply-To: <20191021153918.GE4947@pendragon.ideasonboard.com>
+References: <20191010144150.hqiosvwolm3lmzp5@chatter.i7.local>
+        <20191011085702.GB1075470@kroah.com>
+        <f41e7a81-54f4-d4e8-b3c0-d98608fc4bdc@linuxfoundation.org>
+        <CACT4Y+aYn57hQ4do0jvUGm-0C02UuDSwWeZL=M6XAaZjS51Jyw@mail.gmail.com>
+        <20191014205658.GG5564@mit.edu>
+        <20191015083741.1d0731e5@gandalf.local.home>
+        <20191015163704.GJ4875@pendragon.ideasonboard.com>
+        <20191015124749.1a11926f@gandalf.local.home>
+        <20191021153918.GE4947@pendragon.ideasonboard.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <de6dd8b5-5c28-d0b2-d3fc-e72a6d643105@oracle.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Vegard Nossum <vegard.nossum@oracle.com> wrote:
-> I sent v2 of the patches (with metadata _after_ the diff) to the git
-> list here:
+On Mon, 21 Oct 2019 18:39:18 +0300
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+
+> > I plan on continuing to develop mostly in email (I still send my patch
+> > series via quilt!). But I'm not going to enforce everyone to continue
+> > to use email if we can come up with a better way. I also want to make
+> > sure that whatever we do come up with will still support email.  
 > 
-> https://public-inbox.org/git/20191022114518.32055-1-vegard.nossum@oracle.com/T/#u
-> 
-> As I wrote in there, we could already today start using
-> 
->    git am --message-id
-> 
-> when applying patches and this would provide something that a bot could
-> annotate with git notes pointing to lore/LKML/LWN/whatever. I think that
-> would already be a pretty nice improvement over today's situation.
-> 
-> Sadly, since the beginning of 2018, this was only used for a measly
-> ~0.14% of all non-merge commits in the kernel:
+> Hypothetically speaking, if there was a service that allowed sending a
+> patch series through a git push with a tag containing a cover letter in
+> its message, and that service would send out e-mails to mailing lists
+> (with the option to self-host it if you want), would you consider using
+> it ?
 
---message-id helps provide a concrete reference, yes.  However,
-being able to search for commit subjects in the mail archives is
-already implemented via cgit filter.  An example is here:
+Only if I was forced to ;-)
 
-https://80x24.org/mirrors/git.git/commit/?id=8da56a484800023a545d7a7c022473f5aa9e720f
+Seriously, it's hard to teach an old dog new tricks. I wont change
+until it becomes necessary to do so. As the old saying goes: "Don't fix
+what ain't broke!"
 
-The link at "userdiff: fix some corner cases in dts regex" makes a link to:
+I've developed a workflow over the past decade or so, that I've
+optimized to fit my needs. Why would I want to change that? Unless
+there's something that changes that can make an impact on my
+efficiency. I've created a bunch of scripts that do exactly what I
+expect them to. To change, I'm going back into the world of the unknown,
+and will need to take up time (which I'm struggling to come up with),
+to learn something new that may or may not make it better for me.
 
-https://public-inbox.org/git/?x=t&q=%22userdiff:+fix+some+corner+cases+in+dts+regex%22
-(side note: not sure if that "x=t" to expand the whole message is good...)
+The tool I would like is simply something where all the patches I
+receive are stored in a nice formatted database that I can process
+offline somewhere (like when I'm flying to Europe).
 
-That link is generated by examples/cgit-commit-filter.lua in the
- public-inbox source:
+Right now I hacked an old version of patchwork (when I upgraded,
+everything broke, and I had to revert it), along with procmail, that
+creates a local patchwork queue I can access locally. Unfortunately,
+this doesn't work when I'm away from home without an internet
+connection.
 
-https://public-inbox.org/meta/1677253/s/?b=examples/cgit-commit-filter.lua
+I would love to be able to take this database with me and process the
+patches while traveling without connectivity.
 
-My longer term plan is to be able to use the post-image blob OIDs
-from cgit to generate a search query for public-inbox such as:
-
-https://public-inbox.org/git/?q=dfpost:afc6b5b404+dfpost:072d58b69d+dfpost:4353b8220c+dfpost:333a625c70+dfpost:e187d356f6
-
-Which finds all versions of the userdiff patch posted.  But AFAIK
-there's no easy way to get at blob OIDs from cgit to a Lua filter...
+-- Steve
