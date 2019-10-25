@@ -2,86 +2,54 @@ Return-Path: <SRS0=qLuY=YS=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21DA8CA9EA0
-	for <workflows@archiver.kernel.org>; Fri, 25 Oct 2019 18:27:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE458CA9EA0
+	for <workflows@archiver.kernel.org>; Fri, 25 Oct 2019 22:39:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E572821D7F
-	for <workflows@archiver.kernel.org>; Fri, 25 Oct 2019 18:27:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 875CD21D7F
+	for <workflows@archiver.kernel.org>; Fri, 25 Oct 2019 22:39:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726063AbfJYS1N (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 25 Oct 2019 14:27:13 -0400
-Received: from dcvr.yhbt.net ([64.71.152.64]:33760 "EHLO dcvr.yhbt.net"
+        id S1726139AbfJYWjQ (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 25 Oct 2019 18:39:16 -0400
+Received: from dcvr.yhbt.net ([64.71.152.64]:39032 "EHLO dcvr.yhbt.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726030AbfJYS1M (ORCPT <rfc822;workflows@vger.kernel.org>);
-        Fri, 25 Oct 2019 14:27:12 -0400
+        id S1725899AbfJYWjQ (ORCPT <rfc822;workflows@vger.kernel.org>);
+        Fri, 25 Oct 2019 18:39:16 -0400
 Received: from localhost (dcvr.yhbt.net [127.0.0.1])
-        by dcvr.yhbt.net (Postfix) with ESMTP id 4E98A1F4C0;
-        Fri, 25 Oct 2019 18:27:12 +0000 (UTC)
-Date:   Fri, 25 Oct 2019 18:27:12 +0000
+        by dcvr.yhbt.net (Postfix) with ESMTP id B66821F4C0;
+        Fri, 25 Oct 2019 22:39:15 +0000 (UTC)
+Date:   Fri, 25 Oct 2019 22:39:15 +0000
 From:   Eric Wong <e@80x24.org>
 To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     bpf <bpf@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
+Cc:     bpf@vger.kernel.org, netdev@vger.kernel.org,
         Daniel Borkmann <daniel@iogearbox.net>,
         "David S. Miller" <davem@davemloft.net>,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
         workflows@vger.kernel.org
 Subject: Re: patch review delays
-Message-ID: <20191025182712.GA9391@dcvr>
+Message-ID: <20191025223915.GA22959@dcvr>
 References: <CAADnVQK2a=scSwGF0TwJ_P0jW41iqnv6aV3FZVmoonRUEaj0kQ@mail.gmail.com>
+ <20191025182712.GA9391@dcvr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAADnVQK2a=scSwGF0TwJ_P0jW41iqnv6aV3FZVmoonRUEaj0kQ@mail.gmail.com>
+In-Reply-To: <20191025182712.GA9391@dcvr>
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Alexei Starovoitov <alexei.starovoitov@gmail.com> wrote:
-> The last few days I've experienced long email delivery when I was not
-> directly cc-ed on patches.
-> Even right now I see some patches in patchworks, but not in my inbox.
-> Few folks reported similar issues.
-> In order for everyone to review the submissions appropriately
-> I'll be applying only the most obvious patches and
-> will let others sit in the patchworks a bit longer than usual.
-> Sorry about that.
-> Ironic that I'm using email to talk about email delays.
-> 
-> My understanding that these delays are not vger's fault.
-> Some remediations may be used sporadically, but
-> we need to accelerate our search of long term solutions.
-> I think Daniel's l2md:
-> https://git.kernel.org/pub/scm/linux/kernel/git/dborkman/l2md.git/
-> is a great solution.
-> It's on my todo list to give it a try,
-> but I'm not sure how practical for every patch reviewer on this list
-> to switch to that model.
-> Thoughts?
+Eric Wong <e@80x24.org> wrote:
+> https://lore.kernel.org/lkml/_/text/help/ has other prefixes
+> like "dfn:" which might be helpful for search.
 
-If cloning git repos is too much work, You can subscribe to an
-Atom feed of search results to paths or files you're interested
-in using "dfn:" (diff-file-name) using your favorite feed
-reader:
+Btw, I'm hoping to expand that search functionality to be
+available for both local/private mail and git code repos
+while being network-transparent and capable of handling
+multiple accounts.
 
-lore.kernel.org/lkml/?q=dfn:path/to/dir-or-file-youre-interested-in&x=A
-
-Or drop the "&x=A" to get an HTML summary, or POST to that URL
-with "&x=m" to download an mbox.
-
-You can also search for multiple files at once by having dfn:foo
-multiple times separated by "OR"
-
-lore.kernel.org/lkml/?q=dfn:foo+OR+dfn:bar&x=A
-
-https://lore.kernel.org/lkml/_/text/help/ has other prefixes
-like "dfn:" which might be helpful for search.
-
-For example, if you expected to be Cc-ed (or To-ed) and want to
-double-check that your mail account got it, you can use the "c:"
-or "tc:" prefixes with your name or address, too.
+mairix and notmuch both hit scaling problems for my personal
+mail; so I'll be needing on something that can replace them.
