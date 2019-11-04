@@ -2,105 +2,98 @@ Return-Path: <SRS0=lUaU=Y4=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02AE3CA9EB5
-	for <workflows@archiver.kernel.org>; Mon,  4 Nov 2019 13:23:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E542BCA9EB5
+	for <workflows@archiver.kernel.org>; Mon,  4 Nov 2019 13:42:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C2E0621D7D
-	for <workflows@archiver.kernel.org>; Mon,  4 Nov 2019 13:23:47 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lnJRLYoB"
+	by mail.kernel.org (Postfix) with ESMTP id B91C82184C
+	for <workflows@archiver.kernel.org>; Mon,  4 Nov 2019 13:42:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1572874932;
+	bh=2lI6RODLtkojxLc0mPdgd84WsBvX9raK/Q+Dp/R9UqQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=YlD3EX/cPX3IlhSvTW+4UhmrsUpua4eE9On5UYey35k1+H6g7AhF9ptOIm69Z+VXL
+	 F7U+xPI4mShpk2kBWMIBFFJXIXztkHnYUI5bibvV4mwDiC7OdJoxNsukTQhejLxtox
+	 B6yeWmYrKwXu5NVRvk556JHSBCFvF2M204L52CqM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728781AbfKDNXr (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 4 Nov 2019 08:23:47 -0500
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:40152 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727332AbfKDNXr (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 4 Nov 2019 08:23:47 -0500
-Received: by mail-qt1-f195.google.com with SMTP id o49so23819063qta.7
-        for <workflows@vger.kernel.org>; Mon, 04 Nov 2019 05:23:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+Hf82UhKLGuROjcA0fmh91Iuys2bzdzmPWjxl0CdWdY=;
-        b=lnJRLYoBdnod9vSR/1xtMZD7We32j+GWkrKsH28RKPaCtSzBRfhiiI2VTPdjh3Y/YV
-         WnzGktDzQr08HOd36kz4DzYvGLsMpskHnqz1gKpEeGs8L7x2gk/6DTuAUpywZuE63uxp
-         qY7q1g4FTpEG8kuQN98IGfHbnQJeaIMOVG7Is0xDzKun3SsscZ+uf5T5bFXgEqK38ICg
-         6OxsmFrX3yiUreNeCMiDbtVYsvZi9PxHoloDol6UzhSCH18BrKf8L3AQ1lewJoo0HoMS
-         vQID4HlosLLKNkoucWiMl1AQ37nqcDT+rXgl/4uFb04IRDza+jlcMsBvAVEdaCywZWb8
-         bm7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+Hf82UhKLGuROjcA0fmh91Iuys2bzdzmPWjxl0CdWdY=;
-        b=Jo8QqMue/ItdaVeS2MS2EQMIXm6XOrvg8LhQKUvny+xUw94OOKW6eSRzufODCL0m/B
-         y+sHQHq9js1TxH3NsxIAYzDIOpft6vxuNHkcmvE5+kpD0o1Dz4bVcXo+o4LWYL3cvrxj
-         VN6TdD+qb17V1Wz3shrw+OrYpu8hxnLsc70ZnGC7xzD+9O6cTJo6GYYoMe9QZvc1ojGJ
-         mz3DM0yaB7BRLhRzQRxaB7jbCuDZz7f47QR0s52f3d/zr/3smwwn3+j11ByxHpSVqOH5
-         6tZekPe8WBC89r1D3Kvg6IYxOgMDmlv9walp3a/8GvphQwg8cc+ADfziR5VeAYMCGeLP
-         a+NQ==
-X-Gm-Message-State: APjAAAUrdmABzY5CLMI4IU74aHm2WOknq+HwufB2kRaqaL3Hadvmcxem
-        K/uFR5RNVzf7W3GrhMHZOzNlLYwFqoKYMMvyoe0zEw==
-X-Google-Smtp-Source: APXvYqyLLpLPptwc/3S4CQiu+1i1bse7bXQQK2ZUxD9FGGNOTtaPo0HQQs5Jl8RivnKaCthWOFutskmSDNm4aVKot+M=
-X-Received: by 2002:aed:24af:: with SMTP id t44mr11853767qtc.57.1572873825759;
- Mon, 04 Nov 2019 05:23:45 -0800 (PST)
-MIME-Version: 1.0
-References: <20191101022746.GA25491@dcvr> <20191101090456.GD2671695@kroah.com> <20191104131310.GE28764@mit.edu>
-In-Reply-To: <20191104131310.GE28764@mit.edu>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Mon, 4 Nov 2019 14:23:33 +0100
-Message-ID: <CACT4Y+atKXTqfjSCjzhf_P0MT+fQT-vP90nfct__BaiF2qiK0A@mail.gmail.com>
-Subject: Re: patch attachments still unwelcome?
+        id S1728765AbfKDNmM (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 4 Nov 2019 08:42:12 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59142 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727332AbfKDNmM (ORCPT <rfc822;workflows@vger.kernel.org>);
+        Mon, 4 Nov 2019 08:42:12 -0500
+Received: from localhost (unknown [62.119.166.9])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5A1C0205C9;
+        Mon,  4 Nov 2019 13:42:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1572874931;
+        bh=2lI6RODLtkojxLc0mPdgd84WsBvX9raK/Q+Dp/R9UqQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=elvS35CyFQbp6M9E1UD7vTHm5H6XzWd02c2tYoXkINMlZkzJuKEhJD3CvblBGX/xm
+         Xd2zMOvNFQ55Xqs0YQPfisNWnCB1MpqVsyxvWfa28kjx8uWd1SfOpgEtkoiaWJEniv
+         RD2TgW7YgI+gZf4AC8A9gT+AwnNCBcejbpgtB0tY=
+Date:   Mon, 4 Nov 2019 14:42:06 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
 To:     "Theodore Y. Ts'o" <tytso@mit.edu>
-Cc:     Greg KH <gregkh@linuxfoundation.org>, Eric Wong <e@80x24.org>,
-        workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Cc:     Eric Wong <e@80x24.org>, workflows@vger.kernel.org
+Subject: Re: patch attachments still unwelcome?
+Message-ID: <20191104134206.GA2133491@kroah.com>
+References: <20191101022746.GA25491@dcvr>
+ <20191101090456.GD2671695@kroah.com>
+ <20191104131310.GE28764@mit.edu>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191104131310.GE28764@mit.edu>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Mon, Nov 4, 2019 at 2:13 PM Theodore Y. Ts'o <tytso@mit.edu> wrote:
->
+On Mon, Nov 04, 2019 at 08:13:10AM -0500, Theodore Y. Ts'o wrote:
 > On Fri, Nov 01, 2019 at 10:04:56AM +0100, Greg KH wrote:
 > > > So the documentation in the kernel advising against sending
 > > > patch attachments seems hypocritical.  Changing the kernel docs
 > > > allow patch attachments could be a good start to making life
 > > > easier for contributors without SMTP or IMAP access.
-> >
+> > 
 > > It's not hypocritical, as lots of email clients still get this wrong and
 > > make responding to attachments almost impossible.  Many do get it right,
 > > but trying to document the differences here is quite difficult (I tried
 > > once, gave up as it was a mess).
-> >
+> > 
 > > > Are many MUAs still incapable of handling them?
 > > > mutt shows text patches inline, at least.
-> >
+> > 
 > > For most MUAs that send them, yes, but not for all.  I know of at least
 > > 2 that send text attachments in formats that mutt will not show it
 > > inline, nor allow responding to them properly.  MacOS Mail is one easy
 > > example to point to as getting this totally wrong.
-> >
+> > 
 > > So, if you know what you are doing, yes, this is fine, but it's still a
 > > good idea to say "please do not do this" to make it easier for people
 > > just starting out.
->
+> 
 > Perhaps we should explicitly explain this and then include a white
 > list of MUA's that can send text attachments safely/correctly?  (e.g.,
 > if you are using the following MUA's, using text attachments are OK;
 > if you are using the following MUA's, it will definitely NOT work;
 > with all others, proceed with caution.)
 
+I'm not going to try to keep such a list up-to-date, that's crazy.  It
+usually depends on defaults/configurations as well, so it's not always
+the specific program.  Also different versions do different things (like
+Mail from OS-X).  So it's just much easier to say, "no attachments" and
+then if you really know what you are doing, and you know your email
+client will set it up properly, then do it.
 
-One thing that wasn't clear to me when I implemented syzbot is that
-some people see attachments inline. syzbot included whole kernel
-config and 1MB of logs as attachments, I assumed that other people see
-them as, well, attachments. So that may be worth documenting as well.
-Though, I did not know that document exists as well, so it would not
-help me...
+Also, Zoho mail, ugh, I never understood how that could always send
+stuff out so horribly...
+
+greg k-h
