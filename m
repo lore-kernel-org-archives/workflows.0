@@ -2,185 +2,143 @@ Return-Path: <SRS0=i0oo=Y7=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48AC0C5DF61
-	for <workflows@archiver.kernel.org>; Thu,  7 Nov 2019 11:26:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CCB8C43331
+	for <workflows@archiver.kernel.org>; Thu,  7 Nov 2019 20:43:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0ED1E2187F
-	for <workflows@archiver.kernel.org>; Thu,  7 Nov 2019 11:26:26 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="czBGGofU"
+	by mail.kernel.org (Postfix) with ESMTP id 1D4BE206A3
+	for <workflows@archiver.kernel.org>; Thu,  7 Nov 2019 20:43:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1573159433;
+	bh=zWQz6fAOKSr58UOAtVdeVzlIUUMOX73B6KNf56mCH3o=;
+	h=Date:From:To:Subject:List-ID:From;
+	b=pFNereFEN1YaXv9vCPbbWeNxwo/FEGWRymfm4KLhQqK6Lxv0M5NpRa5SzdjRBo0qp
+	 HHyJRqKTxAh433AV5RfpfMqabH3LX2N4U6dOTjVydYmlf77YrY9VNjj+bqlmhLT81Q
+	 WQpZlHHACbVwtynBhU89NpOiwuKFQP22kNKMjhzQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727732AbfKGL0Z (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 7 Nov 2019 06:26:25 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:47853 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727278AbfKGL0Z (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 7 Nov 2019 06:26:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1573125983;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=4jcTgNfQXZKYYqxc/VTN5BUv8Vv+CLOaNZd+COJwz60=;
-        b=czBGGofULzb2bUkjAPNQJtyGJ9njJem3/1GLRQlcgeCiah5M8+Np++4H3fXkIyFTQJAJUX
-        GSOv4rKj4jOq2bNzvCee/fFda7sn0JoXP1lrUafqiwylEty6vL7dqNu/gAlA1g0+/xIUit
-        U3qUtdK40IalcLwrtgx1yRtOGcgI8BA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-208-2s1OH60vM8u-euQ_SIk8Qg-1; Thu, 07 Nov 2019 06:26:20 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55B65107ACC3;
-        Thu,  7 Nov 2019 11:26:18 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 08672600CE;
-        Thu,  7 Nov 2019 11:26:17 +0000 (UTC)
-Received: from zmail19.collab.prod.int.phx2.redhat.com (zmail19.collab.prod.int.phx2.redhat.com [10.5.83.22])
-        by colo-mx.corp.redhat.com (Postfix) with ESMTP id A15C618095FF;
-        Thu,  7 Nov 2019 11:26:17 +0000 (UTC)
-Date:   Thu, 7 Nov 2019 06:26:17 -0500 (EST)
-From:   Veronika Kabatova <vkabatov@redhat.com>
-To:     Daniel Axtens <dja@axtens.net>, Dmitry Vyukov <dvyukov@google.com>
-Cc:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        workflows@vger.kernel.org, automated-testing@yoctoproject.org,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Han-Wen Nienhuys <hanwen@google.com>,
-        Kevin Hilman <khilman@baylibre.com>
-Message-ID: <1033825454.8368196.1573125977348.JavaMail.zimbra@redhat.com>
-In-Reply-To: <87tv7ggdio.fsf@dja-thinkpad.axtens.net>
-References: <CACT4Y+YSC5zkJNy2U7YyZM_FV2XO1aFQDjoUgm5ifAUNxvYu9g@mail.gmail.com> <8736f1hvbn.fsf@dja-thinkpad.axtens.net> <20191106205051.56v25onrxkymrfjz@chatter.i7.local> <CACT4Y+Ywzbwz7GNfOCJb+DGdKEdkAh+v+20hmNG7S1riEbhTNA@mail.gmail.com> <87tv7ggdio.fsf@dja-thinkpad.axtens.net>
-Subject: Re: Structured feeds
+        id S1726251AbfKGUnw (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 7 Nov 2019 15:43:52 -0500
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:36071 "EHLO
+        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725906AbfKGUnw (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 7 Nov 2019 15:43:52 -0500
+Received: by mail-qk1-f193.google.com with SMTP id d13so3296462qko.3
+        for <workflows@vger.kernel.org>; Thu, 07 Nov 2019 12:43:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=date:from:to:subject:message-id:mail-followup-to:mime-version
+         :content-disposition;
+        bh=0j/x6uZI/rY54yL20eI7h8504fDarUsTwtCfIuJ2BRo=;
+        b=EkFOZHjEb/KsZacUm7VV6t8hCRR8z057UdiH0BHackxyZ6MRPLwGdn+siV1N0LviQa
+         SdTua9pX7i7KgBf4e2ZWTo72fVDmcHdY9KD8PPx5qcFQPUakv/9IF9H8yd+DW1JegxHH
+         g6rOqUpopF7IRHzLaK8vYvg1TkmLGATDHv6lo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
+         :mime-version:content-disposition;
+        bh=0j/x6uZI/rY54yL20eI7h8504fDarUsTwtCfIuJ2BRo=;
+        b=NY4QttbHHOO3IUSBwJuwFnVoH14msaOGdboneuedmjsyZeKfqM77PT9/GvPTFb06hR
+         dVFGnK7Qj0/DudA2qYE1iQHP7d45Gs4Uub5awIrlGbh4Fe+4A3rANO3eCSxpp4arsP9S
+         IRbz+J9jPi/vkhwPh3PvXtpRxx8C96y8tHh7hQjT620N5xs41rbtZQugzYG56/0UvqiC
+         BOe83jdVYLnCq0rYny9GwVCAhfajmbeycQ09P0pDOh5aBPpxCk//Y8lwo6nh9jVi3oMt
+         h3rgFCfk9YopJ1bQDUgmsNd3F9szLiKLb9Io43J58OUXyp1hQpFM6BQuHlyNlu8Bklnm
+         JY6Q==
+X-Gm-Message-State: APjAAAUnEdnBuFaVmMOTrBBFKG5rnsH7+ZJzKtoCm51Fn2jzv4Oy6iW1
+        jfn5jcVkiMCa3dYZ/r1lZtne9wvcfi8haQ==
+X-Google-Smtp-Source: APXvYqytTS3i6avnLzVWErelSIpcXzRYhk+r4bD2Y4z8K3sChIUnayeXvmPwPrIrOCCesVjN3NrBLg==
+X-Received: by 2002:a37:9343:: with SMTP id v64mr4777752qkd.241.1573159431246;
+        Thu, 07 Nov 2019 12:43:51 -0800 (PST)
+Received: from chatter.i7.local (107-179-243-71.cpe.teksavvy.com. [107.179.243.71])
+        by smtp.gmail.com with ESMTPSA id p3sm1564135qkf.107.2019.11.07.12.43.50
+        for <workflows@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Nov 2019 12:43:50 -0800 (PST)
+Date:   Thu, 7 Nov 2019 15:43:49 -0500
+From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To:     workflows@vger.kernel.org
+Subject: RFC: using supersedes: trailer to indicate patch/series revision flow
+Message-ID: <20191107204349.hqpefgp7cowj6hof@chatter.i7.local>
+Mail-Followup-To: workflows@vger.kernel.org
 MIME-Version: 1.0
-X-Originating-IP: [213.175.37.11, 10.4.196.1, 10.5.100.50, 10.4.195.3]
-Thread-Topic: Structured feeds
-Thread-Index: ChM9RR+WWUJK5v9Jh8zIq+t/CyvFrg==
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: 2s1OH60vM8u-euQ_SIk8Qg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
+Hi, all:
+
+The only mechanism we currently have for patch/series versioning is 
+subject suffixes. I think it would be useful to have a way to more 
+explicitly mark that a series obsoletes a previous version, and I 
+propose this is done with a `supersedes:` trailer at the end of the 
+cover letter or in the first patch of the series:
+
+E.g.:
+
+Initial patch:
+
+---8<---
+From: Dev Eloper <dev.eloper@example.com>
+Message-Id: <1572991351-86061-1-git-send-email-dev.eloper@example.com>
+Subject: [PATCH] Change foo
+
+Foo is no good. Use Bar.
+
+Signed-off-by: Dev Eloper <dev.eloper@example.com>
+---
+  foo | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/foo b/foo
+...
+
+base-commit: 23fdb198ae81f47a574296dab5167c5e136a02ba
+-- 
+2.24.0
+---8<---
+
+Follow-up patch:
+
+---8<---
+From: Dev Eloper <dev.eloper@example.com>
+Message-Id: <1572991352-86062-2-git-send-email-dev.eloper@example.com>
+Subject: [PATCH,v2] Change foo
+
+Foo is no good. Use Bar. Also use baz.
+
+Signed-off-by: Dev Eloper <dev.eloper@example.com>
+---
+  foo | 3 ++-
+  1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/foo b/foo
+...
+
+supersedes: <1572991351-86061-1-git-send-email-dev.eloper@example.com>
+base-commit: 23fdb198ae81f47a574296dab5167c5e136a02ba
+-- 
+2.24.0
+---8<---
+
+Questions:
+
+1. Should this be exposed via git-format-patch flags, or just used by 
+    specialized tooling?
+2. Should supersedes: link to the previous version of the patch, or the 
+    first ever version of the patch? I am leaning towards the latter, 
+    even though in this case the message-id largely becomes identical in 
+    usage to Gerrit's Change-Id.
+3. Should the supersedes trailer have:
+    a. message-id without brackets
+    b. message-id with brackets
+    c. https://lore.kernel.org/r/message-id
+    My preference is b, to match with The Message-Id header usage.
 
 
------ Original Message -----
-> From: "Daniel Axtens" <dja@axtens.net>
-> To: "Dmitry Vyukov" <dvyukov@google.com>, "Konstantin Ryabitsev" <konstan=
-tin@linuxfoundation.org>
-> Cc: workflows@vger.kernel.org, automated-testing@yoctoproject.org, "Brend=
-an Higgins" <brendanhiggins@google.com>,
-> "Han-Wen Nienhuys" <hanwen@google.com>, "Kevin Hilman" <khilman@baylibre.=
-com>, "Veronika Kabatova"
-> <vkabatov@redhat.com>
-> Sent: Thursday, November 7, 2019 11:57:19 AM
-> Subject: Re: Structured feeds
->=20
-> Dmitry Vyukov <dvyukov@google.com> writes:
->=20
-> > On Wed, Nov 6, 2019 at 9:50 PM Konstantin Ryabitsev
-> > <konstantin@linuxfoundation.org> wrote:
-> >>
-> >> On Thu, Nov 07, 2019 at 02:35:08AM +1100, Daniel Axtens wrote:
-> >> >This is an non-trivial problem, fwiw. Patchwork's email parser clocks
-> >> >in
-> >> >at almost thirteen hundred lines, and that's with the benefit of the
-> >> >Python standard library. It also regularly gets patched to handle
-> >> >changes to email systems (e.g. DMARC), changes to git (git request-pu=
-ll
-> >> >format changed subtly in 2.14.3), the bizzare ways people send email,
-> >> >and so on.
-> >>
-> >> I'm actually very interested in seeing patchwork switch from being fed
-> >> mail directly from postfix to using public-inbox repositories as its
-> >> source of patches. I know it's easy enough to accomplish as-is, by
-> >> piping things from public-inbox to parsemail.sh, but it would be even
-> >> more awesome if patchwork learned to work with these repos natively.
-> >>
-> >> The way I see it:
-> >>
-> >> - site administrator configures upstream public-inbox feeds
-> >> - a backend process clones these repositories
-> >>    - if it doesn't find a refs/heads/json, then it does its own parsin=
-g
-> >>      to generate a structured feed with patches/series/trailers/pull
-> >>      requests, cross-referencing them by series as necessary. Somethin=
-g
-> >>      like a subset of this, excluding patchwork-specific data:
-> >>      https://patchwork.kernel.org/api/1.1/patches/11177661/
-> >>    - if it does find an existing structured feed, it simply uses it (e=
-.g.
-> >>      it was made available by another patchwork instance)
-> >
-> > It's an interesting feature if a patchwork instance would convert and
-> > export text emails to structured info. Then it can be consumed by CIs
-> > for precommit testing and other systems without the need to duplicate
-> > conversion.
->=20
-> This already happens.
->=20
-> Snowpatch does this and uses it to run CI checks on patch series as soon
-> as they arrive, and sends them back to patchwork as test results. It has
-> been running on linuxppc-dev for over a year.
->=20
-> Snowpatch is at https://github.com/ruscur/snowpatch
->=20
-> An example patch showing the checks having been run is
-> https://patchwork.ozlabs.org/patch/1190589/
->=20
-
-CKI does something similar too [0].
-
-The code contains some RHEL-specific checks as we are not running patch
-testing for upstream yet. The PW checks can be submitted from the pipeline.
-We should probably update the trigger to use the events API...
-
-
-The only "structured information" CKI requires is to have the patch in the
-correct PW project, which is mapped to a git tree/branch so we know where
-to apply the patch. However there are cases when more information is needed=
-,
-such as if multiple different branches can be used with the same project, o=
-r
-the patch depends on another change.
-
-This situation should be resolved with the freeform tagging feature I
-proposed a while ago (blocked by DB refactoring; original series can be fou=
-nd
-at [1]). This feature would allow developers to add any tags to their patch=
-es,
-similar to the signed-off-by line. The extracted tags can then be queried i=
-n
-the API and used by CI.
-
-I'll be totally honest and admit I ignored most of the implementation detai=
-ls
-of public inbox feeds (will take a look when I have some free time) but as
-long as they contain the original email, the feature should be usable with
-them too.
-
-
-[0] https://gitlab.com/cki-project/pipeline-trigger/blob/master/triggers/pa=
-tch_trigger.py
-[1] https://patchwork.ozlabs.org/project/patchwork/list/?series=3D66057
-
-
-Veronika
-
-> I think there's a different CI system used for some device-tree patches:
-> e.g. https://patchwork.ozlabs.org/patch/1190714/ - I have no idea how
-> this works in the backend, but it also uses the patchwork API.
->=20
-> Regards,
-> Daniel
->=20
-
+-K
