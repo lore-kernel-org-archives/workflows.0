@@ -2,67 +2,66 @@ Return-Path: <SRS0=i0oo=Y7=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+X-Spam-Status: No, score=-13.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
-	version=3.4.0
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39ADEC5DF61
-	for <workflows@archiver.kernel.org>; Thu,  7 Nov 2019 08:53:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D698DC5DF61
+	for <workflows@archiver.kernel.org>; Thu,  7 Nov 2019 09:04:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EEC242077C
-	for <workflows@archiver.kernel.org>; Thu,  7 Nov 2019 08:53:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 90E0E2187F
+	for <workflows@archiver.kernel.org>; Thu,  7 Nov 2019 09:04:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ed3q7EHK"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="p76b62Tx"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727300AbfKGIxn (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 7 Nov 2019 03:53:43 -0500
-Received: from mail-qk1-f170.google.com ([209.85.222.170]:39423 "EHLO
-        mail-qk1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727609AbfKGIxn (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 7 Nov 2019 03:53:43 -0500
-Received: by mail-qk1-f170.google.com with SMTP id 15so1292883qkh.6
-        for <workflows@vger.kernel.org>; Thu, 07 Nov 2019 00:53:43 -0800 (PST)
+        id S1733139AbfKGJE4 (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 7 Nov 2019 04:04:56 -0500
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:41396 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727120AbfKGJEz (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 7 Nov 2019 04:04:55 -0500
+Received: by mail-qt1-f196.google.com with SMTP id o3so1604018qtj.8
+        for <workflows@vger.kernel.org>; Thu, 07 Nov 2019 01:04:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=p3jehICmABjGGN5SiFqa240ovbRheh0U/xOoBZxFEfw=;
-        b=Ed3q7EHKj3oQYH4FT9zY3vyfXBuSFVanErQVY2osN5bEUfSdI4X9aB4Ds2la3YBI5v
-         Y/gtUCnUK9xdSqt3ofKbiu8n+KiU/2fS+/UuNqLv+bp3Q+XXAJuL783/dYtEt50bzliq
-         Hl7Wazn3caYr+aP9I4DYy+sE3mvSCRV9I9kriS9EsGWdcEJyJCB96Ni/HwuPiMt1gm+2
-         U5X8xO6rfq8Oh7JxVA4RBDq9LRVhRSOjXrSn6kLhWSclPNwteteSchsOez7HDgYFtFwO
-         DSX3pp+dGton6M9OR1cTl1kGiRWNbyhrbbYLO6RSdr5P5pGuMFOmvoA3w95rXUFYdO93
-         mKJA==
+        bh=1tAcYzp0i1AINqMLWqqNqbd3uyNX4xHUf5E+Rx2D0Ak=;
+        b=p76b62TxcspT8feefC+0l+FfmAoaq+4gwjdLMPwhkP7smZ13zZR2AkShrqVItnBrfi
+         87hKca6nAWOCG1euvDd+vhcLORT1RE68D4nOtI7WKs9L12ZhSF5Jw0sbo5kBruNnN3Yw
+         gmVV1hPlV8u/O/HRrX4Q6SW6ZOITjagRsC+oCecTCcORLIkie4sUEr8b62Lxet5kVUWT
+         5dxQgDsPHaHxTx4/s2Wm3KczkwHW6lf1vnxE/h8YUDXADT4lqnXitJ2ADTL7z3y2Ytc1
+         ydZraQ0jJdRcwD9F37vLlMR/B9/azLQp18K52d5nTpRaW0e/bIeFdZtOh+1QOogOjEGi
+         7ssQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=p3jehICmABjGGN5SiFqa240ovbRheh0U/xOoBZxFEfw=;
-        b=SRt+bkimD28HB18GXgNodisX3AeO6nuOi1mhrnPuPsYpYMzcfqgaNzAz3IFvFILloF
-         OShot7hZjPtlxsMIuO4JZRSZn/2g98RsgjGcdt6JSP1uvvAkrB3/QzKd0iE2qTNBtl1z
-         HJZmKuv5h4Yn2CrcaYBoN1nuDzdkUga+R/rISThV6PAeapxA/PAliI+/uZ/yy1s5Xt/3
-         7tMvDf2viX8l+O1A9MWPE8wwAlU9PXdcqBfjnQeBn9tApaPoxc1Mg2lkba5Tw72anqga
-         592jBROfdJ+C+sxKHQcQDabYHwY4XhAXmPvwfP/ScDaD+42tln/nlCnilvZm9Amqkdhw
-         S2ew==
-X-Gm-Message-State: APjAAAWrUX5ZJyplaONXc3FcPcja1dEnbFBJ5B8lEp77VlVKyYFiqPI2
-        RF5ejPJxJF6N0HVw+n0uopVDrjJe606kPm/ntzZM1A==
-X-Google-Smtp-Source: APXvYqzTk+6XJI3NtjpQZw4O9I8NK3WAZ340nQlboTYPzmx7ktfaBnOQMfquOgifR2/6S5WkdukbnUayxoINcRH8K/g=
-X-Received: by 2002:a37:6845:: with SMTP id d66mr1546158qkc.407.1573116821941;
- Thu, 07 Nov 2019 00:53:41 -0800 (PST)
+        bh=1tAcYzp0i1AINqMLWqqNqbd3uyNX4xHUf5E+Rx2D0Ak=;
+        b=lNg6YA1UuEz9aufFjAuOr7zSChCrYJ5fXl0I4+UpFjIZhCVRiA2WWb7dqCcdbkLDGi
+         FmVGGhut3S4i/OrinyFpLvDqxppzengdzwZGLNL91bHCRlTmbroBNSw7OgizxI4CF4TZ
+         BnilyMDVSwoexoklrWecHxjBX9Kyqbp1ZNXKwL6ku9lqJz8LSqwiD7ueTkNQ8wmjc+Fq
+         Tg/tWKEihyDc1ngSbWwc/c+6bPSznPVNDoWFA3WDhTqYuSr87o/i5nE5bz1nHW5rCNH5
+         VdJfPBkohWownR38RTnJxVhh+DUJDYmsa0rFbbkssum5LCByX8nHuw8jPeyIhCvYTVtc
+         22Dg==
+X-Gm-Message-State: APjAAAXvmI+8zwT30JYS1Gt+RkZhnISteHJmTEf10fG8fpBcdqJUsRRF
+        0zlWQfM/lzdCTvPyzjsqdaSKt6/9r1hGjpVjxeDAlLGKSSM=
+X-Google-Smtp-Source: APXvYqwdxTAxk6KOdflsKBZ5rAh2zZHTbpk1w0yxrZDJBRiZZXbnL5Xt5stMnrhsbZD9a1lZ4F/Hm5/QPSiKehoWlL8=
+X-Received: by 2002:ac8:ccf:: with SMTP id o15mr2691910qti.380.1573117493849;
+ Thu, 07 Nov 2019 01:04:53 -0800 (PST)
 MIME-Version: 1.0
 References: <CACT4Y+YSC5zkJNy2U7YyZM_FV2XO1aFQDjoUgm5ifAUNxvYu9g@mail.gmail.com>
- <8736f1hvbn.fsf@dja-thinkpad.axtens.net>
-In-Reply-To: <8736f1hvbn.fsf@dja-thinkpad.axtens.net>
+ <CAFQ2z_O+_T8QZOHfr4YjpSJ7Qo=GvHq0RE1Hvq8LiL7dimNWkA@mail.gmail.com>
+In-Reply-To: <CAFQ2z_O+_T8QZOHfr4YjpSJ7Qo=GvHq0RE1Hvq8LiL7dimNWkA@mail.gmail.com>
 From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Thu, 7 Nov 2019 09:53:29 +0100
-Message-ID: <CACT4Y+Z2PJ=L+5_a=tmxkTLz7puGh4Yx0+uPPk999p-S4Zmi_A@mail.gmail.com>
+Date:   Thu, 7 Nov 2019 10:04:42 +0100
+Message-ID: <CACT4Y+Ypsj1f4Qw-Ab5jP3AGwof1udCTcUm0FiAzSMXkp7MZEA@mail.gmail.com>
 Subject: Re: Structured feeds
-To:     Daniel Axtens <dja@axtens.net>
+To:     Han-Wen Nienhuys <hanwen@google.com>
 Cc:     workflows@vger.kernel.org, automated-testing@yoctoproject.org,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
         Brendan Higgins <brendanhiggins@google.com>,
-        Han-Wen Nienhuys <hanwen@google.com>,
         Kevin Hilman <khilman@baylibre.com>,
         Veronika Kabatova <vkabatov@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
@@ -71,30 +70,134 @@ Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Wed, Nov 6, 2019 at 4:35 PM Daniel Axtens <dja@axtens.net> wrote:
+On Wed, Nov 6, 2019 at 8:54 PM Han-Wen Nienhuys <hanwen@google.com> wrote:
 >
-> > As soon as we have a bridge from plain-text emails into the structured
-> > form, we can start building everything else in the structured world.
-> > Such bridge needs to parse new incoming emails, try to make sense out
-> > of them (new patch, new patch version, comment, etc) and then push the
-> > information in structured form. Then e.g. CIs can fetch info about
+> On Tue, Nov 5, 2019 at 11:02 AM Dmitry Vyukov <dvyukov@google.com> wrote:
+> >
+> > Eventually git-lfs (https://git-lfs.github.com) may be used to embed
+> >
+> > blob's right into feeds. This would allow users to fetch only the
+> > blobs they are interested in. But this does not need to happen from
+> > day one.
 >
-> This is an non-trivial problem, fwiw. Patchwork's email parser clocks in
-> at almost thirteen hundred lines, and that's with the benefit of the
-> Python standard library. It also regularly gets patched to handle
-> changes to email systems (e.g. DMARC), changes to git (git request-pull
-> format changed subtly in 2.14.3), the bizzare ways people send email,
-> and so on.
->
-> Patchwork does expose much of this as an API, for example for patches:
-> https://patchwork.ozlabs.org/api/patches/?order=-id so if you want to
-> build on that feel free. We can possibly add data to the API if that
-> would be helpful. (Patches are always welcome too, if you don't want to
-> wait an indeterminate amount of time.)
+> I would avoid building something around git-lfs. The git upstream
+> project is actively working on providing something that is less hacky
+> and more reproducible.
 
-Hi Daniel,
+Noted.
+I mostly just captured what Konstantin pointed to. I think (1) blob
+embedding is not version 1, (2) whatever we do, somebody needs to
+prototype and try first.
 
+> Also, if we're using Git to represent the feed and are thinking about
+> embedding blobs,
+
+Blobs are not about patches. Patches are small and not binary.
+Blobs would be kernel binaries, test binaries, images, code dumps, etc.
+
+> it would be much more practical to just add a copy of
+> the linux kernel to the Lore repository, and introduce a commit for
+> each patch. The linux kernel is about 1.5G, which is much smaller than
+> the Lore archive, isn't it? You could store each patch under any of
+> these branch names :
+>
+>   refs/patches/MESSAGE-ID
+>   refs/patches/URL-ESCAPE(MESSAGE-ID)
+>   refs/patches/SHA1(MESSAGE-ID)
+>   refs/patches/AUTHOR/MESSAGE-ID
+>
+> this will lead to a large number of branches, but this is actually
+> something that is being addressed in Git with reftable.
+
+Interesting. I need to think how exactly it can be integrated as
+kernel is not a single tree. Though, obviously fetching exact git tree
+is very nice. But it's somewhat orthogonal to feeds and may be
+provided by another specialized bot feed ("I posted your patch to git
+and it's available here"), this way this will work for legacy email
+patches too.
+
+> > No work has been done on the actual form/schema of the structured
+> > feeds. That's something we need to figure out working on a prototype.
+> > However, good references would be git-appraise schema:
+> > https://github.com/google/git-appraise/tree/master/schema
+> > and gerrit schema (not sure what's a good link).
+>
+>
+> The gerrit schema for reviews is unfortunately not documented, but it
+> should be. I'll try to write down something next week, but here is the
+> gist of it:
+>
+> Each review ("change") in Gerrit is numbered. The different revisions
+> ("patchsets") of a change 12345 are stored under
+>
+>   refs/changes/45/12345/${PATCHSET_NUMBER}
+>
+> they are stored as commits to the main project, ie. if you fetch this
+> ref, you can check out the proposed change.
+>
+> A change 12345 has its review metadata under
+>
+>   refs/changes/45/12345/meta
+>
+> The metadata is a notes branch. The commit messages on the branch hold
+> global data on the change (votes, global comments). The per file
+> comments are in a notemap, where the key is the SHA1 of the patchset
+> the comment refers to, and the value is JSON data. The format of the
+> JSON is here:
+>
+>  https://gerrit.googlesource.com/gerrit/+/9a6b8da5736536405da8bf5956fb3b47e322afa8/java/com/google/gerrit/server/notedb/RevisionNoteData.java#25
+>
+> with the meat in Comment class
+>
+>   https://gerrit.googlesource.com/gerrit/+/9a6b8da5736536405da8bf5956fb3b47e322afa8/java/com/google/gerrit/entities/Comment.java#33
+>
+> an example
+>
+>    {
+>       "key": {
+>         "uuid": "c7be1334_47885e36",
+>         "filename":
+> "java/com/google/gerrit/server/restapi/project/CommitsCollection.java",
+>         "patchSetId": 7
+>       },
+>       "lineNbr": 158,
+>       "author": {
+>         "id": 1026112
+>       },
+>       "writtenOn": "2019-11-06T09:00:50Z",
+>       "side": 1,
+>       "message": "nit: factor this out in a variable, use
+> toImmutableList as collector",
+>       "range": {
+>         "startLine": 156,
+>         "startChar": 32,
+>         "endLine": 158,
+>         "endChar": 66
+>       },
+>       "revId": "071c601d6ee1a2a9f520415fd9efef8e00f9cf60",
+>       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+>       "unresolved": true
+>     },
+>
+> for CI type comments, we have "checks" data and robot comments (an
+> extension of the previous comment), defined here:
+>
+> https://gerrit.googlesource.com/gerrit/+/9a6b8da5736536405da8bf5956fb3b47e322afa8/java/com/google/gerrit/entities/RobotComment.java#22
+>
+> here is an example of CI data that we keep:
+>
+>  "checks": {
+>     "fmt:commitmsg-462a7efcf7234c5824393847968ddd28853aef6e": {
+>       "state": "FAILED",
+>       "message": "/COMMIT_MSG: subject must not end in \u0027.\u0027",
+>       "started": "2019-09-13T17:12:46Z",
+>       "created": "2019-09-11T17:42:40Z",
+>       "updated": "2019-09-13T17:12:47Z"
+>     }
+>
+> JSON definition:
+> https://gerrit.googlesource.com/plugins/checks/+/0e609a4599d17308664e1d41c0f91447640ee9fe/java/com/google/gerrit/plugins/checks/db/NoteDbCheck.java#16
+
+I've added a reference to this for future reference here:
+https://github.com/dvyukov/kit/blob/master/doc/references.md
 Thanks!
-Could you provide a link to the code?
-Do you have a test suite for the parser (set of email samples and what
-they should be parsed to)?
