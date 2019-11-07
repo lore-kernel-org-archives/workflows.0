@@ -2,143 +2,111 @@ Return-Path: <SRS0=i0oo=Y7=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CCB8C43331
-	for <workflows@archiver.kernel.org>; Thu,  7 Nov 2019 20:43:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F387AC43331
+	for <workflows@archiver.kernel.org>; Thu,  7 Nov 2019 20:44:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1D4BE206A3
-	for <workflows@archiver.kernel.org>; Thu,  7 Nov 2019 20:43:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1573159433;
-	bh=zWQz6fAOKSr58UOAtVdeVzlIUUMOX73B6KNf56mCH3o=;
-	h=Date:From:To:Subject:List-ID:From;
-	b=pFNereFEN1YaXv9vCPbbWeNxwo/FEGWRymfm4KLhQqK6Lxv0M5NpRa5SzdjRBo0qp
-	 HHyJRqKTxAh433AV5RfpfMqabH3LX2N4U6dOTjVydYmlf77YrY9VNjj+bqlmhLT81Q
-	 WQpZlHHACbVwtynBhU89NpOiwuKFQP22kNKMjhzQ=
+	by mail.kernel.org (Postfix) with ESMTP id C405C206A3
+	for <workflows@archiver.kernel.org>; Thu,  7 Nov 2019 20:44:06 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bnrBlbz6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726251AbfKGUnw (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 7 Nov 2019 15:43:52 -0500
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:36071 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725906AbfKGUnw (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 7 Nov 2019 15:43:52 -0500
-Received: by mail-qk1-f193.google.com with SMTP id d13so3296462qko.3
-        for <workflows@vger.kernel.org>; Thu, 07 Nov 2019 12:43:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=date:from:to:subject:message-id:mail-followup-to:mime-version
-         :content-disposition;
-        bh=0j/x6uZI/rY54yL20eI7h8504fDarUsTwtCfIuJ2BRo=;
-        b=EkFOZHjEb/KsZacUm7VV6t8hCRR8z057UdiH0BHackxyZ6MRPLwGdn+siV1N0LviQa
-         SdTua9pX7i7KgBf4e2ZWTo72fVDmcHdY9KD8PPx5qcFQPUakv/9IF9H8yd+DW1JegxHH
-         g6rOqUpopF7IRHzLaK8vYvg1TkmLGATDHv6lo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
-         :mime-version:content-disposition;
-        bh=0j/x6uZI/rY54yL20eI7h8504fDarUsTwtCfIuJ2BRo=;
-        b=NY4QttbHHOO3IUSBwJuwFnVoH14msaOGdboneuedmjsyZeKfqM77PT9/GvPTFb06hR
-         dVFGnK7Qj0/DudA2qYE1iQHP7d45Gs4Uub5awIrlGbh4Fe+4A3rANO3eCSxpp4arsP9S
-         IRbz+J9jPi/vkhwPh3PvXtpRxx8C96y8tHh7hQjT620N5xs41rbtZQugzYG56/0UvqiC
-         BOe83jdVYLnCq0rYny9GwVCAhfajmbeycQ09P0pDOh5aBPpxCk//Y8lwo6nh9jVi3oMt
-         h3rgFCfk9YopJ1bQDUgmsNd3F9szLiKLb9Io43J58OUXyp1hQpFM6BQuHlyNlu8Bklnm
-         JY6Q==
-X-Gm-Message-State: APjAAAUnEdnBuFaVmMOTrBBFKG5rnsH7+ZJzKtoCm51Fn2jzv4Oy6iW1
-        jfn5jcVkiMCa3dYZ/r1lZtne9wvcfi8haQ==
-X-Google-Smtp-Source: APXvYqytTS3i6avnLzVWErelSIpcXzRYhk+r4bD2Y4z8K3sChIUnayeXvmPwPrIrOCCesVjN3NrBLg==
-X-Received: by 2002:a37:9343:: with SMTP id v64mr4777752qkd.241.1573159431246;
-        Thu, 07 Nov 2019 12:43:51 -0800 (PST)
-Received: from chatter.i7.local (107-179-243-71.cpe.teksavvy.com. [107.179.243.71])
-        by smtp.gmail.com with ESMTPSA id p3sm1564135qkf.107.2019.11.07.12.43.50
-        for <workflows@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Nov 2019 12:43:50 -0800 (PST)
-Date:   Thu, 7 Nov 2019 15:43:49 -0500
-From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To:     workflows@vger.kernel.org
-Subject: RFC: using supersedes: trailer to indicate patch/series revision flow
-Message-ID: <20191107204349.hqpefgp7cowj6hof@chatter.i7.local>
-Mail-Followup-To: workflows@vger.kernel.org
+        id S1725946AbfKGUoG (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 7 Nov 2019 15:44:06 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21194 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725906AbfKGUoG (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 7 Nov 2019 15:44:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1573159445;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ikj2AsvOSTFIRwL9VZQK7hCSDZvXJm5gqh0DU8Ghs6M=;
+        b=bnrBlbz6tczqvyYqyBBpIRXOm2RlMY0A+S3GSUeKFTTzsfs9FpbkryNoaGE4Te8FMB3es6
+        MjBfVd70bpFnGqAPy5u98mXLJ5O9JXkruj01Kgal12m2Rva437gl1Gumpm5XQSBsjznVKc
+        nk/s7MjzKTLqkt2G+cYnIaMRUiQ5mgU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-232-Sln7zxF0MAizAigVvb6Cfw-1; Thu, 07 Nov 2019 15:44:01 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0881800C61;
+        Thu,  7 Nov 2019 20:43:59 +0000 (UTC)
+Received: from redhat.com (ovpn-123-187.rdu2.redhat.com [10.10.123.187])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 006811001B07;
+        Thu,  7 Nov 2019 20:43:58 +0000 (UTC)
+Date:   Thu, 7 Nov 2019 15:43:56 -0500
+From:   Don Zickus <dzickus@redhat.com>
+To:     Daniel Axtens <dja@axtens.net>
+Cc:     Dmitry Vyukov <dvyukov@google.com>, workflows@vger.kernel.org,
+        automated-testing@yoctoproject.org,
+        Han-Wen Nienhuys <hanwen@google.com>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Subject: Re: [Automated-testing] Structured feeds
+Message-ID: <20191107204356.kg3ddamtx74b6q4p@redhat.com>
+References: <CACT4Y+YSC5zkJNy2U7YyZM_FV2XO1aFQDjoUgm5ifAUNxvYu9g@mail.gmail.com>
+ <8736f1hvbn.fsf@dja-thinkpad.axtens.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <8736f1hvbn.fsf@dja-thinkpad.axtens.net>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: Sln7zxF0MAizAigVvb6Cfw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Hi, all:
+On Thu, Nov 07, 2019 at 02:35:08AM +1100, Daniel Axtens wrote:
+> > As soon as we have a bridge from plain-text emails into the structured
+> > form, we can start building everything else in the structured world.
+> > Such bridge needs to parse new incoming emails, try to make sense out
+> > of them (new patch, new patch version, comment, etc) and then push the
+> > information in structured form. Then e.g. CIs can fetch info about
+>=20
+> This is an non-trivial problem, fwiw. Patchwork's email parser clocks in
+> at almost thirteen hundred lines, and that's with the benefit of the
+> Python standard library. It also regularly gets patched to handle
+> changes to email systems (e.g. DMARC), changes to git (git request-pull
+> format changed subtly in 2.14.3), the bizzare ways people send email,
+> and so on.
 
-The only mechanism we currently have for patch/series versioning is 
-subject suffixes. I think it would be useful to have a way to more 
-explicitly mark that a series obsoletes a previous version, and I 
-propose this is done with a `supersedes:` trailer at the end of the 
-cover letter or in the first patch of the series:
+Does it ever make sense to just use git to do the translation to structured
+json?  Git has similar logic and can easily handle its own changes.  Tools
+like git-mailinfo and git-mailsplit probably do a good chunk of the
+work today.
 
-E.g.:
+It wouldn't pull together series info.
 
-Initial patch:
+Just a thought.
 
----8<---
-From: Dev Eloper <dev.eloper@example.com>
-Message-Id: <1572991351-86061-1-git-send-email-dev.eloper@example.com>
-Subject: [PATCH] Change foo
-
-Foo is no good. Use Bar.
-
-Signed-off-by: Dev Eloper <dev.eloper@example.com>
----
-  foo | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/foo b/foo
-...
-
-base-commit: 23fdb198ae81f47a574296dab5167c5e136a02ba
--- 
-2.24.0
----8<---
-
-Follow-up patch:
-
----8<---
-From: Dev Eloper <dev.eloper@example.com>
-Message-Id: <1572991352-86062-2-git-send-email-dev.eloper@example.com>
-Subject: [PATCH,v2] Change foo
-
-Foo is no good. Use Bar. Also use baz.
-
-Signed-off-by: Dev Eloper <dev.eloper@example.com>
----
-  foo | 3 ++-
-  1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/foo b/foo
-...
-
-supersedes: <1572991351-86061-1-git-send-email-dev.eloper@example.com>
-base-commit: 23fdb198ae81f47a574296dab5167c5e136a02ba
--- 
-2.24.0
----8<---
-
-Questions:
-
-1. Should this be exposed via git-format-patch flags, or just used by 
-    specialized tooling?
-2. Should supersedes: link to the previous version of the patch, or the 
-    first ever version of the patch? I am leaning towards the latter, 
-    even though in this case the message-id largely becomes identical in 
-    usage to Gerrit's Change-Id.
-3. Should the supersedes trailer have:
-    a. message-id without brackets
-    b. message-id with brackets
-    c. https://lore.kernel.org/r/message-id
-    My preference is b, to match with The Message-Id header usage.
+Cheers,
+Don
 
 
--K
+
+>=20
+> Patchwork does expose much of this as an API, for example for patches:
+> https://patchwork.ozlabs.org/api/patches/?order=3D-id so if you want to
+> build on that feel free. We can possibly add data to the API if that
+> would be helpful. (Patches are always welcome too, if you don't want to
+> wait an indeterminate amount of time.)
+>=20
+> Regards,
+> Daniel
+>=20
+>=20
+> --=20
+> _______________________________________________
+> automated-testing mailing list
+> automated-testing@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/automated-testing
+
