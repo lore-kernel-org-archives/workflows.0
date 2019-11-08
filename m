@@ -6,91 +6,95 @@ X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61DC1FA372C
-	for <workflows@archiver.kernel.org>; Fri,  8 Nov 2019 09:46:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38145C5DF60
+	for <workflows@archiver.kernel.org>; Fri,  8 Nov 2019 10:00:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4340821D6C
-	for <workflows@archiver.kernel.org>; Fri,  8 Nov 2019 09:46:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 14828214DB
+	for <workflows@archiver.kernel.org>; Fri,  8 Nov 2019 10:00:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731106AbfKHJqS (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 8 Nov 2019 04:46:18 -0500
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:40553 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730645AbfKHJqS (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Fri, 8 Nov 2019 04:46:18 -0500
-Received: by mail-oi1-f194.google.com with SMTP id 22so4706296oip.7
-        for <workflows@vger.kernel.org>; Fri, 08 Nov 2019 01:46:17 -0800 (PST)
+        id S1730899AbfKHKAH (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 8 Nov 2019 05:00:07 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:43087 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730719AbfKHKAH (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Fri, 8 Nov 2019 05:00:07 -0500
+Received: by mail-oi1-f196.google.com with SMTP id l20so4719995oie.10
+        for <workflows@vger.kernel.org>; Fri, 08 Nov 2019 02:00:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=4Idb4ADt4Vz4qbG8hmuXp+aAy3kpFmX+eyPaMSwDvuI=;
-        b=Onj8e7gYZoq15NrvDftqLSoVJZuMoq3o6tqhau2ztPemEKfpcMGVnhqicInPfzbKv/
-         LhfrNnvh1yADcCPFO1CWkLPWb/+puASBMnOuxiRF39blQCVnhPVqjwnM6L9dElgaTVCb
-         Eww6anUZofYbBiPmUuMXdLKOYSmev5/VZ2aRdYLaYgLyJZwt/RZY2C9Ob/ziwjF11EBL
-         NqljogYedIRIc2xHjVd82gb5WCqmX7mo+D3pmICcr6DHhBZqcEvWYlcDiRDog0aOqB0U
-         uDKGzJ4cER6crL5FEMVLp2H+e7+i/MRtgrLQAIWhRcSniOi9REvW9O0wT0OBsrfUzXgB
-         O7gw==
-X-Gm-Message-State: APjAAAVDNJwonXMg8/lYQaPWA+zWDw0KWB3KEzKm1PcT2mB3zfgM6eWQ
-        hGm/BbKgrPR3opm3pgS/tgdA5ToeNVhXy3tEBrxh90Pc
-X-Google-Smtp-Source: APXvYqzoRfNcp/S0NQtRzkk8lYj5qeU4aayMYO62wR/vdYQ4Jsqsf+aO0a6FbBac7yMKKRLCCsQ9h3WJCF9x2i62DLI=
-X-Received: by 2002:aca:882:: with SMTP id 124mr8746227oii.54.1573206377159;
- Fri, 08 Nov 2019 01:46:17 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=iB68wAG2ZYf3rG0IHgJEaNMEHWdaAhItIjOjO0AeHzM=;
+        b=PyDAoC/Yyl2Vg/F1dnzzZv/9h+Mhy3JH/6aLxY0x2wjYYHglzw2GmoRKcakxpFa9EM
+         azGbmZfpVxxmipb2BywrUhawyMJMDUG7oePp9v9BCpD1QssRybuv5RO/VRj/AH8acvTj
+         /mycm0XcHcXJC+tdtqAt1DQFM2BLeH+Jg+VRhfHLhfZYC1+NnqvDMyb5ZiiFYUnRAJXH
+         SqVIrDF9ARGDHXm6MfcxGs8L5ZiuvgBVsE8BimVv0GuzBtoYK4wWNPed00ANt5idyb4m
+         snHhcHg7Bi5kvWz+U/IWukYVd2se94CNw+saZdLievYXonniywm4C4mnMS4yY2Xq0jBP
+         ceCw==
+X-Gm-Message-State: APjAAAWCXD1JL8qNX7uHzJb7L8VT46CMZGLQaIxKNQNVbKq+KfmnXfSw
+        TuLbHck9wZRQ6/yw98y3npRAdHZLh+UsVcFb5gsADg==
+X-Google-Smtp-Source: APXvYqwqzbl8Y05D3NstSeefw6VQVc1BEw2nmUccuiWPn2yHHRF2K4Yt+XlqHLBKiqs2x5XuWlGYfF/slyxse6xsJok=
+X-Received: by 2002:aca:3a86:: with SMTP id h128mr8448103oia.131.1573207206604;
+ Fri, 08 Nov 2019 02:00:06 -0800 (PST)
 MIME-Version: 1.0
 References: <20191107204349.hqpefgp7cowj6hof@chatter.i7.local>
-In-Reply-To: <20191107204349.hqpefgp7cowj6hof@chatter.i7.local>
+ <1779121.stEDml5jbt@kreacher> <CAFQ2z_PCYbY_vBnbjVrVijMteG5iRYHSUswe3Vo8Jp-OFBxZAQ@mail.gmail.com>
+In-Reply-To: <CAFQ2z_PCYbY_vBnbjVrVijMteG5iRYHSUswe3Vo8Jp-OFBxZAQ@mail.gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 8 Nov 2019 10:46:05 +0100
-Message-ID: <CAMuHMdX58ztXbvSLOaLkRG6UBqhcEU1gfz_LFeM6fX5B5diF6w@mail.gmail.com>
+Date:   Fri, 8 Nov 2019 10:59:55 +0100
+Message-ID: <CAMuHMdXrPKUf5sJhw8s-NYCGpwDoLGOptN=poaCJb5dWDNkVaw@mail.gmail.com>
 Subject: Re: RFC: using supersedes: trailer to indicate patch/series revision flow
-To:     workflows@vger.kernel.org
+To:     Han-Wen Nienhuys <hanwen@google.com>
+Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        workflows@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Hi Konstantin,
+Hi Han-Wen,
 
-On Thu, Nov 7, 2019 at 9:44 PM Konstantin Ryabitsev
-<konstantin@linuxfoundation.org> wrote:
-> The only mechanism we currently have for patch/series versioning is
-> subject suffixes. I think it would be useful to have a way to more
-> explicitly mark that a series obsoletes a previous version, and I
-> propose this is done with a `supersedes:` trailer at the end of the
-> cover letter or in the first patch of the series:
-
-In theory, this sounds like a good idea to me.
-Whether it's practical to implement it, is to be seen...
-
-> Questions:
+On Fri, Nov 8, 2019 at 9:31 AM Han-Wen Nienhuys <hanwen@google.com> wrote:
+> On Fri, Nov 8, 2019 at 12:45 AM Rafael J. Wysocki <rjw@rjwysocki.net> wrote:
+> > > 2. Should supersedes: link to the previous version of the patch, or the
+> > >     first ever version of the patch? I am leaning towards the latter,
+> >
+> > And then how do you know that version 2 was superseded by version 3?
 >
-> 1. Should this be exposed via git-format-patch flags, or just used by
->     specialized tooling?
+> You throw the message ID into a search engine, and see what it returns.
+>
+> The advantage of keeping the patch series ID stable is that you can
+> consider a patchseries as a document and then easily index it inside a
+> service (say, patchwork) using Lucene, ElasticSearch or some other
+> common technology.
+>
+> If you make the "supersedes" refer to specific versions, a workflow
+> service will be more susceptible to errors if messages were lost, and
+> the service has to work harder to aggregate the different versions of
+> a patchseries together.
+>
+> Is it common for different authors to superseed each other's patch
+> series? If yes, "superseeds: precise version" is more precise, if not,
+> you get the same information from the timestamp of the cover letter.
 
-While I switched to always applying bundles from patchwork to have the
-Link: added automatically, I'm not aware of a simple way to add a
-superseded header automatically.
+All/most of the above applies only to versioning of patch series that
+implement a fixed feature, with a fixed scope.
+So Vn+1 is really an improved version of Vn, and nothing more or less.
 
-> 2. Should supersedes: link to the previous version of the patch, or the
->     first ever version of the patch? I am leaning towards the latter,
->     even though in this case the message-id largely becomes identical in
->     usage to Gerrit's Change-Id.
+But this does not apply to many patch series in Linux kernel development.
+Patch series may
+  - grow (more patches added),
+  - shrink (some patches rejected, or already applied independently),
+  - be split in multiple series,
+  - dropped but some parts reused in other series (possibly by someone
+    else),
+  - ...
+That's the hard work in patch tracking.
 
-The previous version, as that's the one being superseded, and doing it
-this way allows to iterate backwards through history.
-The first ever version has been superseded already by the previous
-version (if any).
-
-> 3. Should the supersedes trailer have:
->     a. message-id without brackets
->     b. message-id with brackets
->     c. https://lore.kernel.org/r/message-id
->     My preference is b, to match with The Message-Id header usage.
-
-I think c makes most sense, as it allows to follow the Link: in a commit, and
-iterate backwards using the same method.
-Else we have to convert manually from message-id to lore link.
+So series IDs do not cope well with this, and "superseded" really should
+apply to individual patches, not series, too.
 
 Gr{oetje,eeting}s,
 
