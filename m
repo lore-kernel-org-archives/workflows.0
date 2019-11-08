@@ -1,126 +1,127 @@
-Return-Path: <SRS0=i0oo=Y7=vger.kernel.org=workflows-owner@kernel.org>
+Return-Path: <SRS0=Hr5F=ZA=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 774ECC43331
-	for <workflows@archiver.kernel.org>; Thu,  7 Nov 2019 23:45:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E03ABC43331
+	for <workflows@archiver.kernel.org>; Fri,  8 Nov 2019 00:10:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 16EAD21882
-	for <workflows@archiver.kernel.org>; Thu,  7 Nov 2019 23:45:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 932AC2085B
+	for <workflows@archiver.kernel.org>; Fri,  8 Nov 2019 00:10:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726281AbfKGXpa (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 7 Nov 2019 18:45:30 -0500
-Received: from cloudserver094114.home.pl ([79.96.170.134]:58793 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725930AbfKGXpa (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 7 Nov 2019 18:45:30 -0500
-Received: from 79.184.254.83.ipv4.supernova.orange.pl (79.184.254.83) (HELO kreacher.localnet)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.292)
- id b2b2a0142d33df16; Fri, 8 Nov 2019 00:45:28 +0100
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc:     workflows@vger.kernel.org
-Subject: Re: RFC: using supersedes: trailer to indicate patch/series revision flow
-Date:   Fri, 08 Nov 2019 00:45:27 +0100
-Message-ID: <1779121.stEDml5jbt@kreacher>
-In-Reply-To: <20191107204349.hqpefgp7cowj6hof@chatter.i7.local>
+        id S1725906AbfKHAKE (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 7 Nov 2019 19:10:04 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:21790 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725928AbfKHAKE (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 7 Nov 2019 19:10:04 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id xA808WxB059434
+        for <workflows@vger.kernel.org>; Thu, 7 Nov 2019 19:10:03 -0500
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2w4u1vmm70-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <workflows@vger.kernel.org>; Thu, 07 Nov 2019 19:10:02 -0500
+Received: from localhost
+        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <workflows@vger.kernel.org> from <ajd@linux.ibm.com>;
+        Fri, 8 Nov 2019 00:10:00 -0000
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Fri, 8 Nov 2019 00:09:58 -0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com [9.149.105.60])
+        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id xA809wAD38600860
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+        for <workflows@vger.kernel.org>; Fri, 8 Nov 2019 00:09:58 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id E4DB342047
+        for <workflows@vger.kernel.org>; Fri,  8 Nov 2019 00:09:57 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 942084203F
+        for <workflows@vger.kernel.org>; Fri,  8 Nov 2019 00:09:57 +0000 (GMT)
+Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
+        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP
+        for <workflows@vger.kernel.org>; Fri,  8 Nov 2019 00:09:57 +0000 (GMT)
+Received: from [10.61.2.125] (haven.au.ibm.com [9.192.254.114])
+        (using TLSv1.2 with cipher AES128-SHA (128/128 bits))
+        (No client certificate requested)
+        by ozlabs.au.ibm.com (Postfix) with ESMTPSA id 69F7BA020A
+        for <workflows@vger.kernel.org>; Fri,  8 Nov 2019 11:09:55 +1100 (AEDT)
+Subject: Re: RFC: using supersedes: trailer to indicate patch/series revision
+ flow
+To:     workflows@vger.kernel.org
 References: <20191107204349.hqpefgp7cowj6hof@chatter.i7.local>
+From:   Andrew Donnellan <ajd@linux.ibm.com>
+Date:   Fri, 8 Nov 2019 11:09:56 +1100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+In-Reply-To: <20191107204349.hqpefgp7cowj6hof@chatter.i7.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-AU
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 19110800-0028-0000-0000-000003B3B2DC
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19110800-0029-0000-0000-00002476148C
+Message-Id: <9c5dc531-5edf-cb9a-9ddd-0bb1572c9b21@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-11-07_07:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1910280000 definitions=main-1911080000
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Thursday, November 7, 2019 9:43:49 PM CET Konstantin Ryabitsev wrote:
-> Hi, all:
-> 
-> The only mechanism we currently have for patch/series versioning is 
-> subject suffixes. I think it would be useful to have a way to more 
-> explicitly mark that a series obsoletes a previous version, and I 
-> propose this is done with a `supersedes:` trailer at the end of the 
-> cover letter or in the first patch of the series:
-
-All such things are a pain for patches generated by quilt, say.
-
-> E.g.:
-> 
-> Initial patch:
-> 
-> ---8<---
-> From: Dev Eloper <dev.eloper@example.com>
-> Message-Id: <1572991351-86061-1-git-send-email-dev.eloper@example.com>
-> Subject: [PATCH] Change foo
-> 
-> Foo is no good. Use Bar.
-> 
-> Signed-off-by: Dev Eloper <dev.eloper@example.com>
-> ---
-> 
->   foo | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/foo b/foo
-> ...
-> 
-> base-commit: 23fdb198ae81f47a574296dab5167c5e136a02ba
-> --
-> 2.24.0
-> ---8<---
-> 
-> Follow-up patch:
-> 
-> ---8<---
-> From: Dev Eloper <dev.eloper@example.com>
-> Message-Id: <1572991352-86062-2-git-send-email-dev.eloper@example.com>
-> Subject: [PATCH,v2] Change foo
-> 
-> Foo is no good. Use Bar. Also use baz.
-> 
-> Signed-off-by: Dev Eloper <dev.eloper@example.com>
-> ---
-> 
->   foo | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/foo b/foo
-> ...
-> 
-> supersedes: <1572991351-86061-1-git-send-email-dev.eloper@example.com>
-> base-commit: 23fdb198ae81f47a574296dab5167c5e136a02ba
-> --
-> 2.24.0
-> ---8<---
-> 
+On 8/11/19 7:43 am, Konstantin Ryabitsev wrote:
 > Questions:
 > 
-> 1. Should this be exposed via git-format-patch flags, or just used by
->     specialized tooling?
+> 1. Should this be exposed via git-format-patch flags, or just used by    
+> specialized tooling?
 
-I'd vote for specialized tooling (if anything).
+I guess we might want to expose it through git format-patch for the sake 
+of completeness? Though if people actually use it with git format-patch, 
+then the answer to Q2 is irrelevant because people will use it to link 
+to whatever the heck they feel like at the time...
 
-> 2. Should supersedes: link to the previous version of the patch, or the
->     first ever version of the patch? I am leaning towards the latter,
+Though what do you envision the user workflow actually looking like with 
+a specialised tool?
 
-And then how do you know that version 2 was superseded by version 3?
+> 2. Should supersedes: link to the previous version of the patch, or the 
+>     first ever version of the patch? I am leaning towards the latter,    
+> even though in this case the message-id largely becomes identical in    
+> usage to Gerrit's Change-Id.
 
->     even though in this case the message-id largely becomes identical in
->     usage to Gerrit's Change-Id.
-> 
+If we link to the first version of the patch, we can't tell that V3 
+supersedes V2. Though if we link to only the previous version, we can't 
+tell that V3 supersedes V1 without looking at V2.
+
+ From a Patchwork perspective, if we were to use this to track patch 
+versions I think we could work with either, except for some corner cases 
+where mail is not received or received in the wrong order and there's 
+not enough subject metadata to work things out.
+
+You could also include multiple trailers e.g. the first version and last 
+version, or all previous versions that are superseded, though that seems 
+a bit verbose.
+
 > 3. Should the supersedes trailer have:
->     a. message-id without brackets
->     b. message-id with brackets
->     c. https://lore.kernel.org/r/message-id
->     My preference is b, to match with The Message-Id header usage.
+>     a. message-id without brackets
+>     b. message-id with brackets
+>     c. https://lore.kernel.org/r/message-id
+>     My preference is b, to match with The Message-Id header usage.
 
-An id of the exact patch (or series) superseded by this one IMO.
+A or B makes the most sense.
 
-Cheers!
-
-
+-- 
+Andrew Donnellan              OzLabs, ADL Canberra
+ajd@linux.ibm.com             IBM Australia Limited
 
