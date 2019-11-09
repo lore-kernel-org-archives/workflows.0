@@ -1,140 +1,91 @@
-Return-Path: <SRS0=Hr5F=ZA=vger.kernel.org=workflows-owner@kernel.org>
+Return-Path: <SRS0=Iv5R=ZB=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B632DC5DF60
-	for <workflows@archiver.kernel.org>; Fri,  8 Nov 2019 15:26:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9697C43331
+	for <workflows@archiver.kernel.org>; Sat,  9 Nov 2019 04:31:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 894532178F
-	for <workflows@archiver.kernel.org>; Fri,  8 Nov 2019 15:26:20 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UiJYOHY3"
+	by mail.kernel.org (Postfix) with ESMTP id 807D2207FF
+	for <workflows@archiver.kernel.org>; Sat,  9 Nov 2019 04:31:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726445AbfKHP0U (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 8 Nov 2019 10:26:20 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57185 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725941AbfKHP0U (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Fri, 8 Nov 2019 10:26:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1573226778;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=v/UCtO5PkiJzAjgfCIpesJSsrkckZNF35closHNsRsA=;
-        b=UiJYOHY31wARV4LJOPEjdckJBbrbXqEaRLnJQEI8b4vnE4FNfsL81dV1dLp34HSEaxPakB
-        EPwdVxG/dR3YwfWxYuR6QunciWzbts7cjpEF0B4TSC6XoDjbUa0d3a9yLcJTmIhpbQZwm2
-        Cz/P0m41dXy7puig93Qr60SnYZb6isA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-322-ZpAHCiqQNGiHdEm8ayT0Kw-1; Fri, 08 Nov 2019 10:26:13 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88B75477;
-        Fri,  8 Nov 2019 15:26:12 +0000 (UTC)
-Received: from redhat.com (ovpn-123-53.rdu2.redhat.com [10.10.123.53])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 947EF60BE2;
-        Fri,  8 Nov 2019 15:26:11 +0000 (UTC)
-Date:   Fri, 8 Nov 2019 10:26:09 -0500
-From:   Don Zickus <dzickus@redhat.com>
+        id S1726061AbfKIEbZ (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 8 Nov 2019 23:31:25 -0500
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:60560 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726050AbfKIEbZ (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Fri, 8 Nov 2019 23:31:25 -0500
+Received: from callcc.thunk.org (96-72-102-169-static.hfc.comcastbusiness.net [96.72.102.169] (may be forged))
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id xA94V7mY011772
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 8 Nov 2019 23:31:08 -0500
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id AD9854202FD; Fri,  8 Nov 2019 23:31:06 -0500 (EST)
+Date:   Fri, 8 Nov 2019 23:31:06 -0500
+From:   "Theodore Y. Ts'o" <tytso@mit.edu>
 To:     Dmitry Vyukov <dvyukov@google.com>
-Cc:     Daniel Axtens <dja@axtens.net>, workflows@vger.kernel.org,
-        automated-testing@yoctoproject.org,
-        Han-Wen Nienhuys <hanwen@google.com>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Subject: Re: [Automated-testing] Structured feeds
-Message-ID: <20191108152609.runqdsajpe7llsvz@redhat.com>
-References: <CACT4Y+YSC5zkJNy2U7YyZM_FV2XO1aFQDjoUgm5ifAUNxvYu9g@mail.gmail.com>
- <8736f1hvbn.fsf@dja-thinkpad.axtens.net>
- <20191107204356.kg3ddamtx74b6q4p@redhat.com>
- <CACT4Y+YTe7kpEvchsHU99fH1y-STYR_tteuHTYKGUOjf6oH9kQ@mail.gmail.com>
+Cc:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        patchwork@lists.ozlabs.org, workflows@vger.kernel.org
+Subject: Re: RFE: use patchwork to submit a patch
+Message-ID: <20191109043106.GC23325@mit.edu>
+References: <20191010144150.hqiosvwolm3lmzp5@chatter.i7.local>
+ <20191011085702.GB1075470@kroah.com>
+ <f41e7a81-54f4-d4e8-b3c0-d98608fc4bdc@linuxfoundation.org>
+ <CACT4Y+aYn57hQ4do0jvUGm-0C02UuDSwWeZL=M6XAaZjS51Jyw@mail.gmail.com>
+ <CACT4Y+b=QmYDr97HMF+qXbQ2XxUA8EmYK+reFYtcRxqw=zFfzQ@mail.gmail.com>
+ <20191108140249.GA23325@mit.edu>
+ <CACT4Y+YpH6epuXBHX4RFiucgDqXkCij2v-o5ZA-q3Hfz0JT5eg@mail.gmail.com>
+ <CACT4Y+b1h5pJy5DrRS-MtABY7KF+4u_17yPgHLMx1JdCmf3AXg@mail.gmail.com>
+ <20191108141707.2yfxoychd5j3oewn@chatter.i7.local>
+ <CACT4Y+ajDz89d0TNU1pS9hS_+bgm5nrPKSAGJ5C=9L0dOyx3mw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CACT4Y+YTe7kpEvchsHU99fH1y-STYR_tteuHTYKGUOjf6oH9kQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: ZpAHCiqQNGiHdEm8ayT0Kw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <CACT4Y+ajDz89d0TNU1pS9hS_+bgm5nrPKSAGJ5C=9L0dOyx3mw@mail.gmail.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Fri, Nov 08, 2019 at 08:58:44AM +0100, Dmitry Vyukov wrote:
-> On Thu, Nov 7, 2019 at 9:44 PM Don Zickus <dzickus@redhat.com> wrote:
-> >
-> > On Thu, Nov 07, 2019 at 02:35:08AM +1100, Daniel Axtens wrote:
-> > > > As soon as we have a bridge from plain-text emails into the structu=
-red
-> > > > form, we can start building everything else in the structured world=
-.
-> > > > Such bridge needs to parse new incoming emails, try to make sense o=
-ut
-> > > > of them (new patch, new patch version, comment, etc) and then push =
-the
-> > > > information in structured form. Then e.g. CIs can fetch info about
-> > >
-> > > This is an non-trivial problem, fwiw. Patchwork's email parser clocks=
- in
-> > > at almost thirteen hundred lines, and that's with the benefit of the
-> > > Python standard library. It also regularly gets patched to handle
-> > > changes to email systems (e.g. DMARC), changes to git (git request-pu=
-ll
-> > > format changed subtly in 2.14.3), the bizzare ways people send email,
-> > > and so on.
-> >
-> > Does it ever make sense to just use git to do the translation to struct=
-ured
-> > json?  Git has similar logic and can easily handle its own changes.  To=
-ols
-> > like git-mailinfo and git-mailsplit probably do a good chunk of the
-> > work today.
-> >
-> > It wouldn't pull together series info.
->=20
-> Hi Don,
->=20
-> Could you elaborate? What exactly do you mean? I don't understand the
-> overall proposal.
+On Fri, Nov 08, 2019 at 03:25:00PM +0100, Dmitry Vyukov wrote:
+> 
+> It has the format=flowed; delsp=yes part:
+> 
+> Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+> 
+> Which according to https://tools.ietf.org/html/rfc3676 seems to mean
+> that that line is not wrapped: new line and 1 space needs to be
+> removed as part of decoding it.
 
-The problem I was looking at was, patchwork has this large elaborate python
-code to translate human git formatted patches into some structured form.
-And rightfully so.
+Actually if you read RFC 3676 carefully, the receiver MAY decode as
+you have described above.  It's not even a SHOULD or a MUST.
 
-But git has similar code in order to make git-am work.
+Essentially format=flowed is only supposed to be used when it's
+considered OK for the receiver to reflow (or not) the lines any darned
+way it wants.
 
-When applying an email to public-inbox, I had assumed it was using a tool
-like git-am that would call into git-mailsplit and git-mailinfo to split
-apart the email into various pieces and put them in .git/rebase-apply.
+If you use format=flowed in a context where (a) there might be
+whitespace at the end of lines, and random reflowing is a really bad
+idea (e.g., C/C++/Python/Java source files, or patches), or (b) where
+you really care about whether line breaks when text is quoted and used
+in replies (e.g., syzbot's parser which cares about line breaks), you
+MUST NOT use format=flowed, or things will only end in tears.
 
-At that point most of the text parsing is done.
+If the problem here is that syzbot mail, and the responses to its
+mails, can't be broken in random places, or syzbot parser will be
+unhappy.  In that case, you shouldn't have sent it using format=flowed
+in the first place.  There are other MIME text formats that are
+appropriate in that particular case, but format=flowed is not one of
+them.  And if GMail doesn't give you that option, then I suggest that
+you either make the Syzbot parser more forgiving, or you find another
+mail transport agent.
 
-So the thought was to have another public-inbox tool that took advantage of
-the already split data and just take the small step to finish converting
-into a structured file 'j'.  As opposed to sending the text email through a=
-n
-external tool like patchwork to re-split the data into structured pieces
-again.
-
-Then adding to that thought was, every time git changed its format or text
-output, instead of updating external tools, just leverage git's existing
-knowledge of the change (assuming public-inbox used the latest git tool
-consistently) would reduce the ripple effect of having to update all
-external tools before developers can utilize new git features or changes.
-
-But looking through the public-inbox code, it appears to do things
-differently, so the idea may not work at all.
-
-So just treat my idea as looking at the problem from a different angle to
-see if there is an easier solution.
-
-Cheers,
-Don
-
+   		   	     		      - Ted
