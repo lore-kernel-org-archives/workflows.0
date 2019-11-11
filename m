@@ -7,146 +7,134 @@ X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56931C43331
-	for <workflows@archiver.kernel.org>; Mon, 11 Nov 2019 09:20:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F15CC43331
+	for <workflows@archiver.kernel.org>; Mon, 11 Nov 2019 09:35:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1CC0020674
-	for <workflows@archiver.kernel.org>; Mon, 11 Nov 2019 09:20:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E4E562075C
+	for <workflows@archiver.kernel.org>; Mon, 11 Nov 2019 09:35:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PoGCrv6x"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iV8g2Hvw"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726791AbfKKJUg (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 11 Nov 2019 04:20:36 -0500
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:46124 "EHLO
-        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726770AbfKKJUg (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 11 Nov 2019 04:20:36 -0500
-Received: by mail-qt1-f196.google.com with SMTP id r20so867561qtp.13
-        for <workflows@vger.kernel.org>; Mon, 11 Nov 2019 01:20:35 -0800 (PST)
+        id S1726804AbfKKJfZ (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 11 Nov 2019 04:35:25 -0500
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:37745 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726770AbfKKJfZ (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 11 Nov 2019 04:35:25 -0500
+Received: by mail-qk1-f196.google.com with SMTP id e187so10608722qkf.4
+        for <workflows@vger.kernel.org>; Mon, 11 Nov 2019 01:35:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=hynVcniIp0/0J+eMAttnRguLbnJf9Inpj63K9Ab4FU8=;
-        b=PoGCrv6xIJ/nckUMZJlPfpIt57xFJglrYtdXFrvxtHKpXzgVjDAx/bTAwnVKYPSufP
-         Pa2jV9HDWhZo0aKzGyc+z/MmOKMO7YV5H7kxqtO7VFQGPBS/EMzUo3mo7xPdKVkzV44k
-         5xohPvps0FOaPER8oX9lDIZCKbIu+ZcqUZr9S1MSdyR0y725u7xTHCmEHO/6SZmyjKhT
-         6VplYqMKmnthSm+dfjN3k+v6a1DhYjz8R9qrsrb/Mo3xPMkccvflAxHdXJFuvNddflF4
-         abvmX8EciV19CrIesh3HZcm7UIaxuYOHTwYsuPU30+cU8mfQnoL2k69EVPeYM74Fah58
-         ApOQ==
+        bh=Zl4Yc19dsI4TqUzjI/sOKI8FT9toOAIX2j/gCYRc7TA=;
+        b=iV8g2HvwZeoVtjhSJK3AH2DSJ1t6W0xrbKBxyxyNkU9wKC5ifZKqlZyKvx3z52bGhL
+         yEZ7wjaN7nE0o44n9OHWBstUuw40zS+FwVc8yDVk3qZ7te2Og5pdhMKe7SXrjDR/eka7
+         lgVBUdwpp3tAVmpa+sZaS0fiI7YGD/rP+M70Ltq93Hd0J62PoMEnX2ECFhkEFqWmY0ZD
+         HDk4ZO8aClnw5KN4Hw3OviXaU1/7RI96/LFOI/O4R2xzY5steMFxWBBfkm+UCVm/lzVG
+         LkGaCgMi02RApHPECHS+sgjEm0XhB6hLkQDATmtkwJUku7rdCD8uhUWhbVm0apn7k7Ji
+         sizQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=hynVcniIp0/0J+eMAttnRguLbnJf9Inpj63K9Ab4FU8=;
-        b=rSpF9RhKwhSWsCOlMGW51znFu52YhU33Sj0CAYzjbq5usgoMNAE3j4vpvON1anVDfY
-         OeMh1ldL8fUoRZdC7r7Yrz1Ad7MRVleGvTs3GBhrQYlWpOlT0oQIxzx822KyP/6e/JZg
-         Xopy1axL9Z9G4bDCTkgeTmB+M1tvmu5wwJZUKBpeQECqNAhScx8x+2O8/ISYuj7TKa0/
-         WdklAyLZ6gYecpi2xljXX9KoNRwdqCL8X3hXFidPRvB4z4/dat7w/h7fnV6gvmFzKa8B
-         nB3MQslLnlV2NlORx2jcJES33tppaO1qwiGMXQk/os86FbsLpYNxw51G/uiBQBUVMQ1Y
-         hgqA==
-X-Gm-Message-State: APjAAAVyR+lTMw9kTUEDMasGx6LdI8CYZisZ1iFLTVdifMJ09Ism4/PJ
-        qW3DueSWbzAxdPHS6SUGnM7KpaB70KnK81d8bPE/1w==
-X-Google-Smtp-Source: APXvYqwYhdoq3Yd+oP8U1KVgWDLqyrYimmYOJCVgMOmnKKk7GsM5+VzayGnVCYsg48pLPtexWS3GM8UgU1uVSvOBeg8=
-X-Received: by 2002:ac8:610a:: with SMTP id a10mr10197569qtm.50.1573464034652;
- Mon, 11 Nov 2019 01:20:34 -0800 (PST)
+        bh=Zl4Yc19dsI4TqUzjI/sOKI8FT9toOAIX2j/gCYRc7TA=;
+        b=g8BrD5vRKWc+7ieFgBkjA0c0H+C2s9mLTox4TDIBRHrjdh7Mn0eGhdEl3WPDdOgHHv
+         pczDo4we3jYowE9l3SWxsp4S++1t/dG+JvNWMO4ziIV9CbzOCWNTQO7hdPKlrkqR4fOc
+         UoLnOtJNSYODO+fFABjrVM/hI00uTXouICiGccMr35Bt7+xxTYJsVIaT66Wg1CVhj+47
+         Y11WDSFCoV4EoGNPnExhaOIvucs2rnpN1EXJLkjhkMN2WA/XplydRoYGyMiqzDsI0lr0
+         68SYunON9YHVTYtP0Rc9rrAFMw7AzgM2SO7tjSj928UwEMgoghuemDF3QuLa/i6fcdge
+         2lzA==
+X-Gm-Message-State: APjAAAWK1gySUac/qwDLeToADelZiKKw7fDb0JNUupEyntPy+ThZNp2L
+        D0WbvdjeFsJN5xZKxIPYCgUr5jR/iftnWeL4FI/1kCyJ3uE=
+X-Google-Smtp-Source: APXvYqw4qYJbSsUQCqfUV5J5mNKPSBkTMDyCJjDrrVPrmnaJwUGl93rRE8cyJl+kR+TSl9MTrUUM2u9F3SRTLve+91Y=
+X-Received: by 2002:a37:a94b:: with SMTP id s72mr6900677qke.256.1573464923933;
+ Mon, 11 Nov 2019 01:35:23 -0800 (PST)
 MIME-Version: 1.0
-References: <CACT4Y+YSC5zkJNy2U7YyZM_FV2XO1aFQDjoUgm5ifAUNxvYu9g@mail.gmail.com>
- <20191107205304.3myfwfhaviizgr73@redhat.com> <CACT4Y+bpm+fqU_rLRnrTBt22Mu_6c4kRbHwvXbZXv+Q-37ZLaw@mail.gmail.com>
- <20191108145257.yb4fjfjc5yag6jqp@redhat.com>
-In-Reply-To: <20191108145257.yb4fjfjc5yag6jqp@redhat.com>
+References: <20191010144150.hqiosvwolm3lmzp5@chatter.i7.local>
+ <20191011085702.GB1075470@kroah.com> <f41e7a81-54f4-d4e8-b3c0-d98608fc4bdc@linuxfoundation.org>
+ <CACT4Y+aYn57hQ4do0jvUGm-0C02UuDSwWeZL=M6XAaZjS51Jyw@mail.gmail.com>
+ <CACT4Y+b=QmYDr97HMF+qXbQ2XxUA8EmYK+reFYtcRxqw=zFfzQ@mail.gmail.com>
+ <20191108140249.GA23325@mit.edu> <CACT4Y+YpH6epuXBHX4RFiucgDqXkCij2v-o5ZA-q3Hfz0JT5eg@mail.gmail.com>
+ <CACT4Y+b1h5pJy5DrRS-MtABY7KF+4u_17yPgHLMx1JdCmf3AXg@mail.gmail.com>
+ <20191108141707.2yfxoychd5j3oewn@chatter.i7.local> <CACT4Y+ajDz89d0TNU1pS9hS_+bgm5nrPKSAGJ5C=9L0dOyx3mw@mail.gmail.com>
+ <20191109043106.GC23325@mit.edu>
+In-Reply-To: <20191109043106.GC23325@mit.edu>
 From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Mon, 11 Nov 2019 10:20:22 +0100
-Message-ID: <CACT4Y+bxPxQ64HEO2uGRkbk9vJSeg64y10Lak4c2K54J7GyFFA@mail.gmail.com>
-Subject: Re: [Automated-testing] Structured feeds
-To:     Don Zickus <dzickus@redhat.com>
-Cc:     workflows@vger.kernel.org, automated-testing@yoctoproject.org,
-        Han-Wen Nienhuys <hanwen@google.com>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Date:   Mon, 11 Nov 2019 10:35:10 +0100
+Message-ID: <CACT4Y+a1NsFgaLYx4JQORLoyUs35PDwVt1f-PoiJYv-u8AZw1g@mail.gmail.com>
+Subject: Re: RFE: use patchwork to submit a patch
+To:     "Theodore Y. Ts'o" <tytso@mit.edu>
+Cc:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        patchwork@lists.ozlabs.org, workflows@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Fri, Nov 8, 2019 at 3:53 PM Don Zickus <dzickus@redhat.com> wrote:
+On Sat, Nov 9, 2019 at 5:31 AM Theodore Y. Ts'o <tytso@mit.edu> wrote:
 >
-> On Fri, Nov 08, 2019 at 09:05:02AM +0100, Dmitry Vyukov wrote:
-> > On Thu, Nov 7, 2019 at 9:53 PM Don Zickus <dzickus@redhat.com> wrote:
-> > >
-> > > On Tue, Nov 05, 2019 at 11:02:21AM +0100, Dmitry Vyukov wrote:
-> > > > Hi,
-> > > >
-> > > > This is another follow up after Lyon meetings. The main discussion was
-> > > > mainly around email process (attestation, archival, etc):
-> > > > https://lore.kernel.org/workflows/20191030032141.6f06c00e@lwn.net/T/#t
-> > > >
-> > > > I think providing info in a structured form is the key for allowing
-> > > > building more tooling and automation at a reasonable price. So I
-> > > > discussed with CI/Gerrit people and Konstantin how the structured
-> > > > information can fit into the current "feeds model" and what would be
-> > > > the next steps for bringing it to life.
-> > > >
-> > > > Here is the outline of the idea.
-> > > > The current public inbox format is a git repo with refs/heads/master
-> > > > that contains a single file "m" in RFC822 format. We add
-> > > > refs/heads/json with a single file "j" that contains structured data
-> > > > in JSON format. 2 separate branches b/c some clients may want to fetch
-> > > > just one of them.
-> > > >
-> > > > Current clients will only create plain text "m" entry. However, newer
-> > > > clients can also create a parallel "j" entry with the same info in
-> > > > structured form. "m" and "j" are cross-referenced using the
-> > > > Message-ID. It's OK to have only "m", or both, but not only "j" (any
-> > > > client needs to generate at least some text representation for every
-> > > > message).
-> > >
-> > > Interesting idea.
-> > >
-> > > One of the nuisances of email is the client tools have quirks.  In Red Hat,
-> > > we have used patchworkV1 for quite a long time.  These email client 'quirks'
-> > > broke a lot of expectations in the database leading us to fix the tool and
-> > > manually clean up the data.
-> > >
-> > > In the case of translating to a 'j' file.  What happens if the data is
-> > > incorrectly translated due to client 'quirks'?  Is it expected the 'j' data
-> > > is manually reviewed before committing (probably not).  Or is it left alone
-> > > as-is? Or a follow-on 'j' change is committed?
+> On Fri, Nov 08, 2019 at 03:25:00PM +0100, Dmitry Vyukov wrote:
 > >
-> > Good point.
-> > I would expect that eventually there will be updates to the format and
-> > new version. Which is easy to add to json with "version":2 attribute.
-> > Code that parses these messages will need to keep quirks for older
-> > formats.
-> > Realistically nobody will review the data (besides the initial
-> > testing). I guess in the end it depends on (1) how bad it's screwed,
-> > (2) if correct data is preserved in at least some form or not
-> > (consider a client pushes bad structured data, but it's also
-> > misrepresented in the plain text form, or simply missing there).
-> > Fixing up data later is not possible. Appending corrections is possible.
+> > It has the format=flowed; delsp=yes part:
+> >
+> > Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+> >
+> > Which according to https://tools.ietf.org/html/rfc3676 seems to mean
+> > that that line is not wrapped: new line and 1 space needs to be
+> > removed as part of decoding it.
 >
-> Ok.  Yeah, in my head I was thinking the data is largely right, just
-> occasionally 1 or 2 fields was misrepresented due to bad client tool or
-> human error in the text.
+> Actually if you read RFC 3676 carefully, the receiver MAY decode as
+> you have described above.  It's not even a SHOULD or a MUST.
 >
-> In Red Hat was use internal metadata for checking our patches through our
-> process (namely Bugzilla id).  It isn't unusual for someone to accidentally
-> fat-finger the bugzilla id when posting their patch.
+> Essentially format=flowed is only supposed to be used when it's
+> considered OK for the receiver to reflow (or not) the lines any darned
+> way it wants.
 >
-> I was thinking if there is a follow-on 'type' that appends corrections as you
-> stated, say 'type: correction' that 'corrects the original data.  This would
-> have to be linked through message-id or some unique identifier.
->
-> Then I assume any tool that parses the feed 'j' would correlate all the data
-> based around some unique ids such that picking up corrections would just be
-> a natural extension?
+> If you use format=flowed in a context where (a) there might be
+> whitespace at the end of lines, and random reflowing is a really bad
+> idea (e.g., C/C++/Python/Java source files, or patches), or (b) where
+> you really care about whether line breaks when text is quoted and used
+> in replies (e.g., syzbot's parser which cares about line breaks), you
+> MUST NOT use format=flowed, or things will only end in tears.
 
-Yes, this should be handled naturally in this model. Since it's not
-possible to mutate any previously published info, everything is
-represented as additions/corrections: adding a comment to a patch,
-adding Reviewed-by, adding Nack, adding test results. The final state
-of a patch is always reconstructed by "replaying" all messages
-published regarding the patch. So naturally if we mis-parsed a message
-as "Acked-by: X" and then corrected that to "Nacked-by: X" and
-republished, whoever will replay the feed, should replace Acked-by
-with Nacked-by.
+You are right.
+syzbot email only MAY be correct :)
+But for me the point re email still stands: why are we even spending
+time discussing this? Why are there such extensions with MAY status?
+If one doesn't care if the received with recover the original message
+or not, why caring adding/specifying these "format=flowed;
+delsp=yes"?...
+Obviously somebody in the middle got confused about these flowed/delsp
+as well and either assumed that they are MUST or assumed that
+preserving precise text for emails is just never important...
+
+> If the problem here is that syzbot mail, and the responses to its
+> mails, can't be broken in random places, or syzbot parser will be
+> unhappy.  In that case, you shouldn't have sent it using format=flowed
+> in the first place.  There are other MIME text formats that are
+> appropriate in that particular case, but format=flowed is not one of
+> them.  And if GMail doesn't give you that option, then I suggest that
+> you either make the Syzbot parser more forgiving, or you find another
+> mail transport agent.
+
+I don't see how it's possible to make it more forgiving without also
+appending unrelated text that happened to be on subsequent lines to
+patch titles and breaking everything the other way.
+I added one partial escape hatch in the form of:
+
+#syz fix:
+whole-title-goes-on-the-next-line
+
+This allows to send slightly longer titles. This is still parsable as
+we know that commit titles can't be empty.
+
+Regarding another mail agent: again this only proves the point for me:
+this is what tool developers are forced to be spending their resources
+on, rather then working on adding more useful features...
+I don't even know where to start re switching mail transport; how much
+the switch will cost? what are other transport costs in the long term
+maintenance? what are their problems?
