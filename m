@@ -2,87 +2,109 @@ Return-Path: <SRS0=/nb3=ZE=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EEFCC43331
-	for <workflows@archiver.kernel.org>; Tue, 12 Nov 2019 10:44:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B83F1C43331
+	for <workflows@archiver.kernel.org>; Tue, 12 Nov 2019 22:54:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6111E206BA
-	for <workflows@archiver.kernel.org>; Tue, 12 Nov 2019 10:44:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7C96721925
+	for <workflows@archiver.kernel.org>; Tue, 12 Nov 2019 22:54:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1573599245;
+	bh=D74m9T4oEvj/07+yMZZqB15bDYw73cwrVsndqKk6KoA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=qvUW3Wd9U780Q06VZtreLluuGQOu+s20I1b2Y1L+T/2F30q1SOJQgXbZ60yAtw8Ne
+	 qmLC3v/5NfYYWglKKwlhDkAundOsFDz/HiOh69WW1Qiq6eP3IWkSP2c2GWbBAAQ8aC
+	 3+diawBLouRDN4dT9D4t6jQzFEveiqdaeqMT9kD8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725985AbfKLKog (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 12 Nov 2019 05:44:36 -0500
-Received: from www62.your-server.de ([213.133.104.62]:46390 "EHLO
-        www62.your-server.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725954AbfKLKog (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 12 Nov 2019 05:44:36 -0500
-Received: from sslproxy06.your-server.de ([78.46.172.3])
-        by www62.your-server.de with esmtpsa (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.89_1)
-        (envelope-from <daniel@iogearbox.net>)
-        id 1iUTew-0004AR-TY; Tue, 12 Nov 2019 11:44:31 +0100
-Received: from [2a02:1205:507e:bf80:bef8:7f66:49c8:72e5] (helo=pc-11.home)
-        by sslproxy06.your-server.de with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.89)
-        (envelope-from <daniel@iogearbox.net>)
-        id 1iUTew-0009kH-CJ; Tue, 12 Nov 2019 11:44:30 +0100
-Subject: Re: Structured feeds
-To:     Johannes Berg <johannes@sipsolutions.net>,
-        Daniel Axtens <dja@axtens.net>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        patchwork@lists.ozlabs.org
-Cc:     workflows@vger.kernel.org, Kevin Hilman <khilman@baylibre.com>,
+        id S1726912AbfKLWyF (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 12 Nov 2019 17:54:05 -0500
+Received: from mail-qt1-f175.google.com ([209.85.160.175]:32812 "EHLO
+        mail-qt1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726910AbfKLWyF (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 12 Nov 2019 17:54:05 -0500
+Received: by mail-qt1-f175.google.com with SMTP id y39so390938qty.0
+        for <workflows@vger.kernel.org>; Tue, 12 Nov 2019 14:54:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=H4Ty559yLhaK3KBphKEVaY1Npq52xHc/V9GYIFkeTYM=;
+        b=EaEDvu7ur3Rwi4SOz4NgVkbCNiFF1FDmNb8cwY0WTJJRD6R0F10ShDMQnAfdv8JryF
+         UADpgKknEl87ABZlL2hdJVQU8OUGe+q7Vk3RsdAyKeyo98tAKyMRjvvKk9NfHdmlb+c7
+         qNPwuamv+nPeqAbUFlCm+8hS7XgoOvxGxHUQo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to;
+        bh=H4Ty559yLhaK3KBphKEVaY1Npq52xHc/V9GYIFkeTYM=;
+        b=A8UvmCZoSb811qj6gtg9OSQBSbAfB+pTCed6j9S1lbr118co2i0JH1b7cC1tzXR7FI
+         bLOkXk3AnATc0k290UERNFDdvKGtsP78zJD1qFJTlVa7zukGHlESJM+Z35xbNb67z+sW
+         JxNb5liOyp+GphLwxr2tT0SY0rH2baLETQcNZiIGBCkSk8ERs9D6X2Gm+0pez2D39w51
+         /T4+/MK6bET5P4Sh2jfJFNetxwgo8ihmTmU5Hr6BgDZkIeSYoP+Sgqbhl6nr5GL1S8lU
+         ZNYRkG1i+FoEu9cHAjpa99ldJhyNettw08FANCKN5i6fTN9/IRWrjyOt9wEFMvwdqErW
+         d6/w==
+X-Gm-Message-State: APjAAAVvkmdAEPHnIqAIaLwMI/3ELI5U/U5G/f4LAZSU5UB0m09tjtwz
+        GUibu4Zdrqu23ZHK4ea74XkRpeJECanp/A==
+X-Google-Smtp-Source: APXvYqwixx1XVnRTL+iRuSdejdjyF7yOD55ZBKXgnL0BxKbJ/4L9vVA+76AzD2wsUettF1OjQnH2aA==
+X-Received: by 2002:ac8:27a2:: with SMTP id w31mr34594419qtw.227.1573599242548;
+        Tue, 12 Nov 2019 14:54:02 -0800 (PST)
+Received: from chatter.i7.local (107-179-243-71.cpe.teksavvy.com. [107.179.243.71])
+        by smtp.gmail.com with ESMTPSA id a2sm49210qkl.71.2019.11.12.14.54.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Nov 2019 14:54:02 -0800 (PST)
+Date:   Tue, 12 Nov 2019 17:54:00 -0500
+From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To:     Dmitry Vyukov <dvyukov@google.com>
+Cc:     workflows@vger.kernel.org, automated-testing@yoctoproject.org,
         Brendan Higgins <brendanhiggins@google.com>,
         Han-Wen Nienhuys <hanwen@google.com>,
-        automated-testing@yoctoproject.org,
-        Dmitry Vyukov <dvyukov@google.com>
+        Kevin Hilman <khilman@baylibre.com>,
+        Veronika Kabatova <vkabatov@redhat.com>
+Subject: Re: Structured feeds
+Message-ID: <20191112225400.fcywxx74kugxerue@chatter.i7.local>
+Mail-Followup-To: Dmitry Vyukov <dvyukov@google.com>,
+        workflows@vger.kernel.org, automated-testing@yoctoproject.org,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Han-Wen Nienhuys <hanwen@google.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Veronika Kabatova <vkabatov@redhat.com>
 References: <CACT4Y+YSC5zkJNy2U7YyZM_FV2XO1aFQDjoUgm5ifAUNxvYu9g@mail.gmail.com>
- <8736f1hvbn.fsf@dja-thinkpad.axtens.net>
- <20191106205051.56v25onrxkymrfjz@chatter.i7.local>
- <87h83eh2op.fsf@dja-thinkpad.axtens.net>
- <223b3b048f644b4d0fd854f9e360ed6d451c8241.camel@sipsolutions.net>
-From:   Daniel Borkmann <daniel@iogearbox.net>
-Message-ID: <a12245be-194d-4db3-a225-30d636946589@iogearbox.net>
-Date:   Tue, 12 Nov 2019 11:44:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <223b3b048f644b4d0fd854f9e360ed6d451c8241.camel@sipsolutions.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Authenticated-Sender: daniel@iogearbox.net
-X-Virus-Scanned: Clear (ClamAV 0.101.4/25630/Mon Nov 11 10:59:49 2019)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CACT4Y+YSC5zkJNy2U7YyZM_FV2XO1aFQDjoUgm5ifAUNxvYu9g@mail.gmail.com>
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On 11/9/19 8:41 AM, Johannes Berg wrote:
-> On Sat, 2019-11-09 at 01:18 +1100, Daniel Axtens wrote:
->>>
->>   - code that efficiently reads a public-inbox git repository/folder of
->>     git repositories and feeds it into the existing parser. I have very
->>     inefficient code that converts public-inbox to an mbox and then
->>     parses that, but I'm sure you can do better with a git library.
+On Tue, Nov 05, 2019 at 11:02:21AM +0100, Dmitry Vyukov wrote:
+> Hi,
 > 
-> Somebody (Daniel Borkmann?) posted a (very fast) public-inbox git to
-> maildir converter, with procmail support. I assume that would actually
-> satisfy this step already, since you can just substitute the patchwork
-> parser for procmail.
+> This is another follow up after Lyon meetings. The main discussion was
+> mainly around email process (attestation, archival, etc):
+> https://lore.kernel.org/workflows/20191030032141.6f06c00e@lwn.net/T/#t
 > 
->>   - careful thought about how to do this incrementally. It's obvious how
->>     to do email incrementally, but I think you need to keep an extra bit
->>     of state around to incrementally parse the git archive. I think.
-> 
-> Not sure he had an incremental mode figured out there, but that can't
-> really be all *that* hard, just store the last-successfully-parsed git
-> sha1?
+> I think providing info in a structured form is the key for allowing
+> building more tooling and automation at a reasonable price. So I
+> discussed with CI/Gerrit people and Konstantin how the structured
+> information can fit into the current "feeds model" and what would be
+> the next steps for bringing it to life.
 
-Yep, that is what it is doing, so that we only need to walk the repo(s)
-upon a new git fetch to the point where we stopped last time.
+BTW, someone recently highlighted the following project to me:
 
-Thanks,
-Daniel
+https://openci.io (certificate lapsed, so ignore the browser warning)
+
+The goal of this workgroup was to establish cross-ci communication using 
+pubsub subscriptions and broadcasted events. The following docs may be 
+of interest to people on this list:
+
+https://event-driven-federated-cicd.openci.io/key-considerations-and-contraints
+https://pipeline-messaging-protocol.openci.io/
+
+-K
