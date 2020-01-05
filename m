@@ -1,102 +1,91 @@
-Return-Path: <SRS0=Im9A=ZW=vger.kernel.org=workflows-owner@kernel.org>
+Return-Path: <SRS0=mXxz=22=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49601C432C0
-	for <workflows@archiver.kernel.org>; Sat, 30 Nov 2019 18:36:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 625F7C00523
+	for <workflows@archiver.kernel.org>; Sun,  5 Jan 2020 03:49:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0CA342075C
-	for <workflows@archiver.kernel.org>; Sat, 30 Nov 2019 18:36:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2B22D21582
+	for <workflows@archiver.kernel.org>; Sun,  5 Jan 2020 03:49:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=that.guru header.i=@that.guru header.b="an26/h8j"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y3qD8gqd"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727309AbfK3Sgm (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Sat, 30 Nov 2019 13:36:42 -0500
-Received: from qrelay124.mxroute.com ([172.82.139.124]:38171 "EHLO
-        qrelay124.mxroute.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726799AbfK3Sgm (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Sat, 30 Nov 2019 13:36:42 -0500
-X-Greylist: delayed 1926 seconds by postgrey-1.27 at vger.kernel.org; Sat, 30 Nov 2019 13:36:42 EST
-Received: from filter004.mxroute.com (unknown [94.130.183.33])
-        (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by qrelay124.mxroute.com (Postfix) with ESMTPS id DCD9C12097D;
-        Sat, 30 Nov 2019 13:36:41 -0500 (EST)
-Received: from one.mxroute.com (one.mxroute.com [195.201.59.211])
-        by filter004.mxroute.com (Postfix) with ESMTPS id 87DD33EAE1;
-        Sat, 30 Nov 2019 18:36:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=that.guru;
-         s=default; h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:
-        In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=bE4lSxPjKh/tU+StFuRyIGbipqiBlgb6M8y/MBSeNsc=; b=an26/h8jc0qGHBJf53DLSMEtxK
-        Pz/PzpDCdM4zZqfXMS5OvUZLY7+x6+2REXeG07CjvaLm2MPzkGDqA4xe0m5jL17Ml8F+tQUd01yXt
-        6sme9vHMeufKxjckGuoECwUoJk9s+Uawr1ZUIHhmqLdYTCMMWYQQYmOSXF/raQr53zaXskerUHtkN
-        WzZ05iEKHfv0jAivgSJdWjyEf+OHJrkQcydnfP01/bwrSUe1K8liIlRxR/xQwtguVwjNddYMyfYTR
-        mKSdfcapVYJ0sxTYBqOLAkp/D40Ct2IADFdv3ryGRo7FKwwCnraeBfZW4bV0Yw9grmFlSt4U5vIgX
-        JICUJsHA==;
-Message-ID: <30037ebd93d2949354582f472be98524d9d52ada.camel@that.guru>
-Subject: Re: Structured feeds
-From:   Stephen Finucane <stephen@that.guru>
-To:     Johannes Berg <johannes@sipsolutions.net>,
-        Daniel Axtens <dja@axtens.net>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        patchwork@lists.ozlabs.org
-Cc:     workflows@vger.kernel.org, Kevin Hilman <khilman@baylibre.com>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Han-Wen Nienhuys <hanwen@google.com>,
-        automated-testing@yoctoproject.org,
-        Dmitry Vyukov <dvyukov@google.com>
-Date:   Sat, 30 Nov 2019 18:36:36 +0000
-In-Reply-To: <ac18c57edf7581b874399d6a4f6c1fb20c3a6543.camel@sipsolutions.net>
-References: <CACT4Y+YSC5zkJNy2U7YyZM_FV2XO1aFQDjoUgm5ifAUNxvYu9g@mail.gmail.com>
-         <8736f1hvbn.fsf@dja-thinkpad.axtens.net>
-         <20191106205051.56v25onrxkymrfjz@chatter.i7.local>
-         <87h83eh2op.fsf@dja-thinkpad.axtens.net>
-         <223b3b048f644b4d0fd854f9e360ed6d451c8241.camel@sipsolutions.net>
-         <208edf06eb4c56a4f376caf0feced65f09d23f93.camel@that.guru>
-         <ac18c57edf7581b874399d6a4f6c1fb20c3a6543.camel@sipsolutions.net>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.1 (3.34.1-1.fc31) 
+        id S1726260AbgAEDto (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Sat, 4 Jan 2020 22:49:44 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:44401 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726240AbgAEDto (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Sat, 4 Jan 2020 22:49:44 -0500
+Received: by mail-ot1-f66.google.com with SMTP id h9so64121942otj.11
+        for <workflows@vger.kernel.org>; Sat, 04 Jan 2020 19:49:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=GP2GI6NkJEz9jUWcBar1y2VTJy7aIInquYchIZEDQnU=;
+        b=Y3qD8gqdWa/NYiFBUp8o0gjGruqQ90oC1CG5au+YAjOXHkTT8G2AXC+IY5WiBg+gTS
+         Wn8Q5S37mQ3mDrSL7fsJV1OM5VKn3o4RVLSs5fpppY7Xxj0+kEVYYWAC1oeX28nHVJvF
+         O2ZXcoOrlNWwcBwCyy5Milc25bNHCN3tWRAnZE7xYt3iuKzVxFej09GVmlkYUiapycwP
+         mS2b+L2xzfFQPj5ZcQnC/Q+L24FGK0hdu5vwH3pLNZKsUwPa55+jYnTfrTa1Z1TlsvmQ
+         43LslAYzX0tlM/1JnXWGLCNbhTmRZQCT75f13sFOw8r6ZuE/IHmVdaIn4TmVzTeK40Wp
+         LiyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=GP2GI6NkJEz9jUWcBar1y2VTJy7aIInquYchIZEDQnU=;
+        b=Iri8LYPb0ZyWO3SOA6usTK/pxsoLynZLAPpaBDmqMzgjVMMLfMr+tCB5KynZ3b9FBM
+         GHXOPYUshNdgy1faDE8nR8QSTI2f/simGNRg2ajqKJ+RBwUKgP0XU/VZu2M1keoXqbye
+         9nSvyn6usHF6+0q5AuOAJMsDnFTqFU/y5SBT3mNybi08IjTSI/z3mTHdLndqxJJPpMp6
+         PVzcBa4grPNYJr8O/c+6kVzwINHP32DgYy2Jxu8F5sIT7P/l3o8HbN7Qg/IigX9u7KXx
+         PBWYt2vJO/1FzML47Qy495gNuc9XbUoacu2PELjS6GqbI44LSYgCloCQe7jmWxu+f+B4
+         9HSQ==
+X-Gm-Message-State: APjAAAUtuGron3Z4RTN/YMbF4xtkyzeYGfonYG+b3ZRfqxg/FibsN0wP
+        fTO3cB91K8huO4Bt6WQFVBtfU3jDOJE6akVXd54HVFTvFw==
+X-Google-Smtp-Source: APXvYqwdiCg13s1GKG/lWR/+uWU65VhbLDuTzAUreLfGYECTbdTyB16/IEnz9hrKHaFpd6qPNYsri7lPhcZgzUxe1b0=
+X-Received: by 2002:a9d:7305:: with SMTP id e5mr103072399otk.64.1578196183259;
+ Sat, 04 Jan 2020 19:49:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-AuthUser: stephen@that.guru
+From:   Evan Rudford <zocker76@gmail.com>
+Date:   Sun, 5 Jan 2020 04:49:32 +0100
+Message-ID: <CAE90CG5h0RqNs8N7qbZzajYK9A3eY0LWHqLfzX7Z-v-aef4R2g@mail.gmail.com>
+Subject: Is the Linux kernel underfunded? Lack of quality and security?
+To:     workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Sat, 2019-11-30 at 19:16 +0100, Johannes Berg wrote:
-> On Sat, 2019-11-30 at 18:04 +0000, Stephen Finucane wrote:
-> 
-> > > Somebody (Daniel Borkmann?) posted a (very fast) public-inbox git to
-> > > maildir converter, with procmail support. I assume that would actually
-> > > satisfy this step already, since you can just substitute the patchwork
-> > > parser for procmail.
-> > 
-> > What do you mean "substitute the patchwork parser for procmail"? From
-> > reading this thread, I got the impression that we'd be changing what
-> > feeds things into the 'parsemail' management command, right?
-> 
-> Yes, that's exactly what I meant. I was looking at it from Daniel's
-> tool's POV, so instead of calling procmail it can call patchwork.
-> 
-> johannes
+The problem of underfunding plagues many open source projects.
+I wonder whether the Linux kernel suffers from underfunding in
+comparison to its global reach.
+Although code reviews and technical discussions are working well, I
+argue that the testing infrastructure of the kernel is lacking.
+Severe bugs are discovered late, and they are discovered by developers
+that should not be exposed to that amount of breakage.
+Moreover, I feel that security issues do not receive enough resources.
 
-Ah, then that I have no issues with :) I've managed to configure
-getmail to feed into a patchwork instance exactly once, and found
-configuring postfix so daunting that I actually suggested just using an
-email-as-a-service provider to take the hassle out of things [1].
-Anything that lets one avoid working with those tools is a good thing
-in my mind.
+I argue that the cost of those bugs is vastly higher than the cost
+that it would take to setup a better quality assurance.
+With sufficient funding, the kernel might do all of the following:
 
-Stephen
+- Make serious efforts to rewrite code with a bad security track
+record, instead of only fixing security vulnerabilities on an ad hoc
+basis.
+- Although the kernel will always remain in C, make serious efforts to
+introduce a safe language for kernel modules and perhaps for some
+subsystems.
+- Build an efficient continuous integration (CI) infrastructure.
+- Run a fast subset of the CI tests as a gatekeeper for all patch sets.
+- Run strict CI tests to ensure that userspace compatibility does not break.
+- Run CI tests not only in virtual environments, but also on real hardware.
+- Run CI tests that aim to detect performance regressions.
 
-[1] https://patchwork.readthedocs.io/en/latest/deployment/installation/#use-a-email-as-a-service-provider
-
+I realize that some companies are already running kernel testing
+infrastructure like this.
+However, the development process seems to either lack the resources or
+the willingness to build a better quality assurance?
