@@ -7,96 +7,76 @@ X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A531C33C9E
-	for <workflows@archiver.kernel.org>; Tue, 14 Jan 2020 19:06:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2B24C33C9E
+	for <workflows@archiver.kernel.org>; Tue, 14 Jan 2020 19:14:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5429C24655
-	for <workflows@archiver.kernel.org>; Tue, 14 Jan 2020 19:06:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C8A3B222C4
+	for <workflows@archiver.kernel.org>; Tue, 14 Jan 2020 19:14:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TM4yGMMv"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZNorhSzE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728656AbgANTGG (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 14 Jan 2020 14:06:06 -0500
-Received: from mail-il1-f173.google.com ([209.85.166.173]:36441 "EHLO
-        mail-il1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726491AbgANTGF (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 14 Jan 2020 14:06:05 -0500
-Received: by mail-il1-f173.google.com with SMTP id b15so12521249iln.3
-        for <workflows@vger.kernel.org>; Tue, 14 Jan 2020 11:06:05 -0800 (PST)
+        id S1728741AbgANTOC (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 14 Jan 2020 14:14:02 -0500
+Received: from mail-il1-f177.google.com ([209.85.166.177]:33000 "EHLO
+        mail-il1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726523AbgANTOA (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 14 Jan 2020 14:14:00 -0500
+Received: by mail-il1-f177.google.com with SMTP id v15so12550322iln.0
+        for <workflows@vger.kernel.org>; Tue, 14 Jan 2020 11:14:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=n78b6fBtV4fRBX/RZW6L2JnJ3o+I08M5rDycuiu8020=;
-        b=TM4yGMMv1WCmqNCM6mfdTKtcTfySnaqN93U99bEanw7daejVOE5YNEFkisCh3WR7N7
-         r8PDj3Qpa56FfDSGAZNTTS3lA51tvEze2yvZhofFAzUaBn1+aYF6EzXD7wOkxNtY7h/d
-         b1cqi9RSK4jZGpra6sP23S5EPVd8lnSMwc7B9QAlJIyU8B102GomnjHGB63V7OHRxvw0
-         /I0aYIL5jnL+apniQsLVwPkMVHKR1Y3yuhYT4/dYdgsD8bkircRGMcclZpJAWyEcBzu1
-         X1Zt7dquU2Qmoxj22fMhSN2Rt/aK815M9KpBabHFtpMPF7vwtcQygSGvX9GvTvyA32T+
-         qIng==
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=hFa7vJOqH5ZYtAl3JMqWe+nNk7svu2GwB8iF38MwDP8=;
+        b=ZNorhSzEkm9297roDcAwDSNZUcDStKvZLAsW2KBgzQL8ZLefPetICHVl89MjqrMMsH
+         qXe99h0Q2gkXVUx8Q5eC0ETXq3MRVO4WeAYcajKCtO4CtLIBzcry1Sa35G6HTyiv9lns
+         JiZ1tEXRRLtqC+cJdoBHcE4SxzLIQm9Toa7i64BcngHIeqhHdM4xHGXSYcVa58JQ5CBZ
+         s5VeadTaagM22mSMkdtp+XVBRosVC3poiyvNWgWGWYyxnkaqXRrNh7sNgG+RmIJeUJVP
+         UPkD7/k/iIjGLZOwT+HZ5pJqVU/psuqx3hBDIRvPVY7mz4CJckh2uQ1Pb967iDP9mntf
+         86Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=n78b6fBtV4fRBX/RZW6L2JnJ3o+I08M5rDycuiu8020=;
-        b=cMSrHUsvnIGw8JIMX7Z+iky5sYg3gDBuTyAYXCIha+eHFymjNE9zti9o/UzrvCxms3
-         mSDWhNUBmE2UMYrnrX9vVxB2KoKRRWTvnV++U+7njsI6T5VfRxBoJawgp2X7AV285ak/
-         rF6BEjC/y1zK5gbAoRsD39Ja5J7gJYbo649zHaMnCtMt6HEXaGE//roq+NdD+P35N5Xe
-         zWSEIU7EmTt1xRDjnuOSo8nWn3SlUEGxrkQin1T3o/mpM/710MvADgpbTZ9xyiu0U3UX
-         6fpgVmZultJ9gY321uelP7fKNQsDCqivMUnzliogoHww9a8UKEnl1b0m//2tBdiH6l8t
-         0W2Q==
-X-Gm-Message-State: APjAAAUuZ395uvv6SeVGDw5Hn8xCazOEu2DljUdXDOYgU3kLfTVz0Sn9
-        fcaBKPKr2yUl+lyVJGfYmtNdBu1MlUYgwaeiE4bwJ8x5aZ3sMw==
-X-Google-Smtp-Source: APXvYqzmosxGWn8Wmbx1xbpbu2T2xdxnMNKGmZ/GFgtcKn0ch9X8Q9mqiwmbZlp2M+ix53xh9Z6J1g19GsWwWc4eHo4=
-X-Received: by 2002:a92:8f46:: with SMTP id j67mr4689765ild.125.1579028764945;
- Tue, 14 Jan 2020 11:06:04 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=hFa7vJOqH5ZYtAl3JMqWe+nNk7svu2GwB8iF38MwDP8=;
+        b=MobyzYp9SDuoKnTJ0dH15YNFcNDfLxMJCSz3KNeWja8qW5HhWV4QgolVM2/kVcLFxp
+         WIfLvAYKcbUZpPCP6EyqTQBX2Cx6oyUTxQoMTDgxDdVvwYP07liYgzVPzCmrAuETvZdy
+         H/IejFBcG9SNbHEZZPIl2e9OAIUAlA0TrG/IRqRbVTC3OxUSx29j7CaG9CC9Z5PNgK9n
+         16nf4fD+EkC3aeGWyHAIQlhUyyEhemU/WjSgrznbG16m/Z0HesZK/nGJUIzN5SThb4pg
+         BouP7o5LlHB50aRivUrqQGL/eL0aO/7hi8KcjuYN2EAwK2Ls0XV+juZjfMKcpOiX65R3
+         kE/Q==
+X-Gm-Message-State: APjAAAVVFFUPJOabHpq/U9LSUuljhzhdDlMyr7c8FGdv5V0UUNqGwfw5
+        DTXQSy9uVtlIfvw3ZjRYdCg6/zN/nwkPAXm7/mOeSky+
+X-Google-Smtp-Source: APXvYqyTaPfyEfoOtrVahul0QyghYjELLlRmRgZ0hv+/6iFCKMKT0WkW1bwN/6UOYmUNNeZCBeFHCxIccQHSLhhyvRs=
+X-Received: by 2002:a92:d7c6:: with SMTP id g6mr4251182ilq.37.1579029239754;
+ Tue, 14 Jan 2020 11:13:59 -0800 (PST)
 MIME-Version: 1.0
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date:   Tue, 14 Jan 2020 19:07:12 +0100
-Message-ID: <CAKXUXMy3_4vBeVS42c4AGYVNHzcP2iO0FxWN6MnncT0uc_ZKKw@mail.gmail.com>
-Subject: Explore ideas on workflows improvements with Google Summer of Code
- mentoring program?
-To:     workflows@vger.kernel.org
-Cc:     Till Kamppeter <till.kamppeter@gmail.com>,
-        Aveek Basu <basu.aveek@gmail.com>
+References: <87d0bmkx1w.fsf@linux.ibm.com> <BZVJY1FGBLDC.1FI35DM2QXOZT@homura>
+In-Reply-To: <BZVJY1FGBLDC.1FI35DM2QXOZT@homura>
+Reply-To: bjorn@helgaas.com
+From:   Bjorn Helgaas <bjorn.helgaas@gmail.com>
+Date:   Tue, 14 Jan 2020 13:13:48 -0600
+Message-ID: <CABhMZUUaEj7fme6OVa4sQmrUSYpumG-t-1KeACdFq-UDks5wdA@mail.gmail.com>
+Subject: Re: matrix.org as a replacement for IRC?
+To:     Drew DeVault <sir@cmpwn.com>
+Cc:     "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
+        workflows@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Dear all,
+On Tue, Jan 14, 2020 at 7:44 AM Drew DeVault <sir@cmpwn.com> wrote:
+>
+> Hard NACK from me.
 
-Till Kamppeter and Aveek Basu organize the Google Summer of Code
-student mentoring program in the name of the Linux Foundation. They
-have set up a page for project ideas for the Linux Foundation's
-participation in the linuxfoundation wiki:
+I'd never heard of matrix.org and don't have an opinion either way.  I
+do find IRC useful.  Proxies make it much more useful, and if I have a
+choice, I'd rather not pay $50/year to irccloud just for a permanent
+presence.
 
-https://wiki.linuxfoundation.org/gsoc/google-summer-code-2020
+I'd be interested to hear the details of your NACK, because they'd
+likely be informative and useful to me.
 
-I believe many ideas discussed here on this list, e.g., extensions to
-patchwork, public-inbox, further bots, scripts, etc., are well suited
-to be prototyped or implemented by students in the GSoC program.
-
-If you agree and have some good ideas, please add your ideas to this
-currently still empty draft page:
-
-https://wiki.linuxfoundation.org/gsoc/2020-gsoc-kernel-workflows
-
-Ideas should be roughly described in five to six sentences, possibly
-with a list of expectations on required knowledge a student should
-show for its application. Within the application period later,
-interested students have to write a much more extensive project
-proposal as part of their application, by exchanging with the group to
-refine the rough idea to a proper task and student project.
-
-Please also take into account that the deadline for the application as
-mentoring organization is Feb 5 and after that Google will evaluate
-the applications. So have the ideas (at least most of them, ideas can
-be posted up to the student application deadline) in by then to raise
-chances to get accepted and get slots for students assigned.
-
-If you have any questions concerning GSoC organisation, you can reach
-out to Till, Aveek or me.
-
-Best regards,
-
-Lukas
+Bjorn
