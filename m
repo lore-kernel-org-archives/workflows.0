@@ -1,170 +1,78 @@
-Return-Path: <SRS0=mXxz=22=vger.kernel.org=workflows-owner@kernel.org>
+Return-Path: <SRS0=QiH3=3D=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1680AC00523
-	for <workflows@archiver.kernel.org>; Sun,  5 Jan 2020 08:15:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18EC3C33CB1
+	for <workflows@archiver.kernel.org>; Tue, 14 Jan 2020 13:05:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B2B2020801
-	for <workflows@archiver.kernel.org>; Sun,  5 Jan 2020 08:15:56 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="swW0t/tO";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="u4lvfupj"
+	by mail.kernel.org (Postfix) with ESMTP id E6A112467C
+	for <workflows@archiver.kernel.org>; Tue, 14 Jan 2020 13:05:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725881AbgAEIP4 (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Sun, 5 Jan 2020 03:15:56 -0500
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:55695 "EHLO
-        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725828AbgAEIP4 (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Sun, 5 Jan 2020 03:15:56 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailout.nyi.internal (Postfix) with ESMTP id 826AA21ADD;
-        Sun,  5 Jan 2020 03:15:55 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Sun, 05 Jan 2020 03:15:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=8/TA91690DekiHl4uQ5KP7bZIVF
-        rGXP6ZS8UA4ijjI4=; b=swW0t/tOXs9KUG4RWOIUHVovPnOw4boqAsPMZRNd0MY
-        b9S0y0ndzCngPgLgy++YWab/EbG/z6wUHEH5OQWeaN41wr8pJbe2OFFirCz7sCWV
-        QaNDskjqjRO86zyJaNxzxebQ6CXzoyTRL/bz23sx1zT7IzGQrDTCAHicAII61Y6f
-        fa6RcSsJpSp9NHsen09MiVXWZxD4hKt7571GVY1jI+PGajTb6F8j4uVrN92FhUqu
-        zX/4EC9mPwiGTy2gsv0chulE9z2f378dGCGCiYrFJ64HHtPzdMEo5Yys6x9mcvfN
-        Q+weRqXzdcpTJmoP3IWSqe7VCXQ/UaPotuS/H9YYyFA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=8/TA91
-        690DekiHl4uQ5KP7bZIVFrGXP6ZS8UA4ijjI4=; b=u4lvfupjSkrGax+rtQX7R3
-        u6Mn/IU+1PzJv23+vD376wai0jf3L/7IptHBP3N5XOdflvs2jY7HgoYJHuZl/XYK
-        392aZec5EY3KgDNxNSsxW8pf+N2MNc8EQWdy6YVmBJSDhAFLgx9Krxl+A16eUYmo
-        nzJ3DrYC6h4HwbCkxVo6kOo2yO+3f+iuxQ1SvO4XQlX+PvaiSRAy62XMaqNR6i8V
-        x0EMfE75yAJ7dPm29SmvoVOYaaG75jkYFD7OEaUvqcJycaRC+r7+b3di+VOMtTz9
-        YyQFE84KWKo5hVyHsZULwjmwukXrOGCF9HzljuCeQIj7/roUXGHzxo8mKND80Q/w
-        ==
-X-ME-Sender: <xms:O5sRXtKuLsH06dyapDGu7Bb4mkznD9dRGHHBQt-fSAlXfOSa8fwrag>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvdegjedgvdduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkfhggtggujgesthdtre
-    dttddtvdenucfhrhhomhepifhrvghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheq
-    necukfhppeekfedrkeeirdekledruddtjeenucfrrghrrghmpehmrghilhhfrhhomhepgh
-    hrvghgsehkrhhorghhrdgtohhmnecuvehluhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:O5sRXgCX6uGRXkpzOsDpTRoM1sDiK_hJbl3e2ohUAZ1AKHtAu7pYWg>
-    <xmx:O5sRXirMHTO6xRMBL1BuZaw88Cf-wYZDETpGFpDbcappyh5Z4gJ-EA>
-    <xmx:O5sRXrizqJkZYRrO1RF9uTZESWadtRBpq0OLrAj8yLzTwyFAZkGpRQ>
-    <xmx:O5sRXvSJK3DiXKT-ozi8XifLERrQOkNYT03twPY0bqJ6TfeWJmeWkw>
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 1809430607B0;
-        Sun,  5 Jan 2020 03:15:55 -0500 (EST)
-Date:   Sun, 5 Jan 2020 09:15:50 +0100
-From:   Greg KH <greg@kroah.com>
-To:     Evan Rudford <zocker76@gmail.com>
-Cc:     workflows@vger.kernel.org
-Subject: Re: Is the Linux kernel underfunded? Lack of quality and security?
-Message-ID: <20200105081550.GB1667342@kroah.com>
-References: <CAE90CG5h0RqNs8N7qbZzajYK9A3eY0LWHqLfzX7Z-v-aef4R2g@mail.gmail.com>
+        id S1728927AbgANNFy (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 14 Jan 2020 08:05:54 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:23032 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728057AbgANNFy (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 14 Jan 2020 08:05:54 -0500
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 00ED3EV5125483
+        for <workflows@vger.kernel.org>; Tue, 14 Jan 2020 08:05:53 -0500
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.10])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2xhbprdy61-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <workflows@vger.kernel.org>; Tue, 14 Jan 2020 08:05:53 -0500
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+        by ppma02dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 00ED55RB010100
+        for <workflows@vger.kernel.org>; Tue, 14 Jan 2020 13:05:52 GMT
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com [9.57.198.27])
+        by ppma02dal.us.ibm.com with ESMTP id 2xf74p2s39-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <workflows@vger.kernel.org>; Tue, 14 Jan 2020 13:05:52 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com [9.57.199.110])
+        by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 00ED5pYQ53543342
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+        for <workflows@vger.kernel.org>; Tue, 14 Jan 2020 13:05:51 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 42C27AE064
+        for <workflows@vger.kernel.org>; Tue, 14 Jan 2020 13:05:51 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 60E61AE063
+        for <workflows@vger.kernel.org>; Tue, 14 Jan 2020 13:05:50 +0000 (GMT)
+Received: from skywalker.linux.ibm.com (unknown [9.85.105.10])
+        by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP
+        for <workflows@vger.kernel.org>; Tue, 14 Jan 2020 13:05:50 +0000 (GMT)
+X-Mailer: emacs 27.0.60 (via feedmail 11-beta-1 I)
+From:   "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
+To:     workflows@vger.kernel.org
+Subject: matrix.org as a replacement for IRC?
+Date:   Tue, 14 Jan 2020 18:35:47 +0530
+Message-ID: <87d0bmkx1w.fsf@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAE90CG5h0RqNs8N7qbZzajYK9A3eY0LWHqLfzX7Z-v-aef4R2g@mail.gmail.com>
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.572
+ definitions=2020-01-14_03:2020-01-13,2020-01-14 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
+ bulkscore=0 phishscore=0 mlxlogscore=631 impostorscore=0 spamscore=0
+ adultscore=0 lowpriorityscore=0 suspectscore=1 clxscore=1011
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-2001140111
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Sun, Jan 05, 2020 at 04:49:32AM +0100, Evan Rudford wrote:
-> The problem of underfunding plagues many open source projects.
 
-Does it?  Citation please :)
+Hi all,
 
-And compared to what exactly?
+Was there any discussion around using matrix.org or any other
+alternative as a replacement for IRC? This should help to avoid setting
+up irc proxy to keep track of discussion when the users are not online.
 
-> I wonder whether the Linux kernel suffers from underfunding in
-> comparison to its global reach.
+IIUC both KDE and mozilla switched to matrix as their IRC replacement.
 
-Does it?  Again, specifics would be great to have.
-
-> Although code reviews and technical discussions are working well, I
-> argue that the testing infrastructure of the kernel is lacking.
-
-Does it?  No one can argue we are "doing to much testing", and more
-testing is always wanted, and happening, can you help with that effort?
-
-> Severe bugs are discovered late, and they are discovered by developers
-> that should not be exposed to that amount of breakage.
-
-Specifics please.
-
-Remember that Linux runs on _EVERYTHING_ so testing on _EVERYTHING_ is
-sometimes a bit hard and bugs only show up later on when people get
-around to running newer kernels on their specific hardware/workload.
-
-> Moreover, I feel that security issues do not receive enough resources.
-
-Again, citation please?  I would argue that right now we have too many
-people/resources working on security issues that are really really minor
-in the overall scheme of things.
-
-What specific "security issues" are not currently being addressed?
-
-> I argue that the cost of those bugs is vastly higher than the cost
-> that it would take to setup a better quality assurance.
-
-Why do you think that?
-
-> With sufficient funding, the kernel might do all of the following:
-
-Define "sufficient" :)
-
-> - Make serious efforts to rewrite code with a bad security track
-> record, instead of only fixing security vulnerabilities on an ad hoc
-> basis.
-
-What code do you think meets this criteria?
-
-> - Although the kernel will always remain in C, make serious efforts to
-> introduce a safe language for kernel modules and perhaps for some
-> subsystems.
-
-That is already happening for those people that really like those types
-of languages.  Why not help them out with that effort as it seems to be
-going slowly.
-
-> - Build an efficient continuous integration (CI) infrastructure.
-
-What is wrong with the one(s) that we currently have and rely on today?
-
-> - Run a fast subset of the CI tests as a gatekeeper for all patch sets.
-
-Um, this already happens, what needs to be added?  What tests are not
-being run that would catch issues?  Why not add them to the existing
-tools we all use today?
-
-> - Run strict CI tests to ensure that userspace compatibility does not break.
-
-What tests are those that are not being run today?
-
-> - Run CI tests not only in virtual environments, but also on real hardware.
-
-That's happening today, what specific platforms/hardware is not being
-tested in this manner?
-
-> - Run CI tests that aim to detect performance regressions.
-
-Again, we are doing that, what tests need to be added to the tools?
-
-> I realize that some companies are already running kernel testing
-> infrastructure like this.
-
-Exactly :)
-
-> However, the development process seems to either lack the resources or
-> the willingness to build a better quality assurance?
-
-Why do you think this?  Again, specifics please.
-
-greg k-h
+-aneesh
