@@ -1,79 +1,66 @@
-Return-Path: <SRS0=6D5N=3F=vger.kernel.org=workflows-owner@kernel.org>
+Return-Path: <SRS0=lg0B=3G=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B965C33CAF
-	for <workflows@archiver.kernel.org>; Thu, 16 Jan 2020 19:40:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1442C33CAF
+	for <workflows@archiver.kernel.org>; Fri, 17 Jan 2020 01:34:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D4A9C2053B
-	for <workflows@archiver.kernel.org>; Thu, 16 Jan 2020 19:40:10 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="h1iZ48jb"
+	by mail.kernel.org (Postfix) with ESMTP id C48F220728
+	for <workflows@archiver.kernel.org>; Fri, 17 Jan 2020 01:34:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1579224872;
+	bh=BG6Kcxme12IshntrWgGxA+GfTGdLbmYOo2jinlXCCmk=;
+	h=In-Reply-To:References:Subject:Cc:To:From:Date:List-ID:From;
+	b=dtioToT5ZWVf4B8iu50vKyYD/iooJuylsoUuXg7Qi4evJoncRmYr6qid4ST0X7Nr6
+	 I/aSb99lHHP3kUGW1SxngjquWVAErgyL99g1brznfXvNZxazqDTnRoQ6MGS+N2qly5
+	 0gWM9C6+Cfle/+IxCnXeAeTlbQA0QNuk6euQ6tYI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728905AbgAPTkK (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 16 Jan 2020 14:40:10 -0500
-Received: from mail-io1-f66.google.com ([209.85.166.66]:43520 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727023AbgAPTkK (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 16 Jan 2020 14:40:10 -0500
-Received: by mail-io1-f66.google.com with SMTP id n21so23245905ioo.10
-        for <workflows@vger.kernel.org>; Thu, 16 Jan 2020 11:40:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=o7W9JiW9n0YzU5WH1FK+4kmlv8NJtwYqSYQl8egNEoo=;
-        b=h1iZ48jbx4Z1H6tRQTFa+EsFzhNncB7gWx9/Gj2mbqzRSgwacaFtKbAvMEum7UaEUt
-         VWUCaWlXVZyXks9rnSHGDZ4lVJKvWmYdhxzICU2sOHgtRXw7k4FiOm2Voq5DE/PUDS3a
-         PAOLSUXaH70c7/lPuTNmrFwhguw9P+Nd8dSG3FJMo9EeoTO3YOaR3wg9EyuCjnXQ1Hk/
-         tJ3S0LHG8Epgfg9waH2YXuj7IHPois9jCebuPvPH3S7mi0DEZpUzP9a9NfeN6ydaqsto
-         Qp9UpKjykRoV9owwnuKXChRsL+0LZq1In6vQrgq5aM4+E1jddfaPC/w8g359MqjQyqnt
-         W3Hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=o7W9JiW9n0YzU5WH1FK+4kmlv8NJtwYqSYQl8egNEoo=;
-        b=MzL60Ht7sZtrueuaR9WPaopJQ7fXcdp6D98f+65wP1oaHDQXHr/RizBGfKNuKfPMaG
-         UvUNQX7dOomf00sKNkAb9u9neQxu+zrGrCUauPnmUkrkoryNu0Yx7hEumoJgvNFOjwCN
-         Fw29S36jlgUItXPWasED/pS+PfMAHYo2VDi5tLljKsXOsv2RNANxizvgHj+X8wVzUg8E
-         PrVdDia3XpcJ5hZE1Pcnm9jwuux/tpRGBO4wdrAHJVD0OFYeTrkMrKb+pdaNZAhycNn1
-         xnA4IE/TP+p4QLS70ob1U9ywN11iJaCpEm24LwKrKvUIqkHMysWVKMfFTwwJyoQ30yP+
-         tUPA==
-X-Gm-Message-State: APjAAAUQjn6HPaY4j4SBCTzbuFFCpS5R9nHOprHSruWElqCKOAlCGHVt
-        D2+4KXiYNib2Jj8BqJKKbvLo7a8ehQrmarVvsofyDw==
-X-Google-Smtp-Source: APXvYqzpW3+3oGWzBxx02TWGJsg6FJmSqDj/1cVLEDA28OZnNqchffWAFXKqbM1I5QuY0ib6HVwRtCci/piNFdGxwyQ=
-X-Received: by 2002:a5d:9c4e:: with SMTP id 14mr28762274iof.166.1579203609409;
- Thu, 16 Jan 2020 11:40:09 -0800 (PST)
+        id S1730156AbgAQBec (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 16 Jan 2020 20:34:32 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50494 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731058AbgAQBec (ORCPT <rfc822;workflows@vger.kernel.org>);
+        Thu, 16 Jan 2020 20:34:32 -0500
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6E2BD20728;
+        Fri, 17 Jan 2020 01:34:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1579224871;
+        bh=BG6Kcxme12IshntrWgGxA+GfTGdLbmYOo2jinlXCCmk=;
+        h=In-Reply-To:References:Subject:Cc:To:From:Date:From;
+        b=pf4wAQfD9iTd77BHQNOfksYquObHEkkyInRd+ssAxjiRrltqBDorkd/WsdEkXinN/
+         teZGYJLmtnWrwqvwrS70AOOIBl4lM72FyRDAKxpEg9Wywc9O9wfZVHWMsZUYcRCAdT
+         tNLsA6/N3yjCJWrpw4qWTVkiC7Ml1K/h6gFL/S78=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <CAKXUXMy3_4vBeVS42c4AGYVNHzcP2iO0FxWN6MnncT0uc_ZKKw@mail.gmail.com>
- <CAEG3pNCgLTYrwoeA4_F9Ru-81O1dWWJ9SnnKKcWfr4nG=y2zRw@mail.gmail.com> <CABhMZUW5O3nMJFh+D0cTVt6jviAQw8eC+0Kx7_w38h+dRVTuxw@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
 In-Reply-To: <CABhMZUW5O3nMJFh+D0cTVt6jviAQw8eC+0Kx7_w38h+dRVTuxw@mail.gmail.com>
-From:   Michael Turquette <mturquette@baylibre.com>
-Date:   Thu, 16 Jan 2020 11:39:43 -0800
-Message-ID: <CAEG3pNB0an6RKZbTT=jL851QpT9WR_1JpjMv6ADpqsrr3GMXrQ@mail.gmail.com>
-Subject: Re: Explore ideas on workflows improvements with Google Summer of
- Code mentoring program?
-To:     bjorn@helgaas.com
+References: <CAKXUXMy3_4vBeVS42c4AGYVNHzcP2iO0FxWN6MnncT0uc_ZKKw@mail.gmail.com> <CAEG3pNCgLTYrwoeA4_F9Ru-81O1dWWJ9SnnKKcWfr4nG=y2zRw@mail.gmail.com> <CABhMZUW5O3nMJFh+D0cTVt6jviAQw8eC+0Kx7_w38h+dRVTuxw@mail.gmail.com>
+Subject: Re: Explore ideas on workflows improvements with Google Summer of Code mentoring program?
 Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>, workflows@vger.kernel.org,
         Till Kamppeter <till.kamppeter@gmail.com>,
-        Aveek Basu <basu.aveek@gmail.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Aveek Basu <basu.aveek@gmail.com>
+To:     Bjorn Helgaas <bjorn.helgaas@gmail.com>,
+        Michael Turquette <mturquette@baylibre.com>, bjorn@helgaas.com
+From:   Stephen Boyd <sboyd@kernel.org>
+User-Agent: alot/0.8.1
+Date:   Thu, 16 Jan 2020 17:34:30 -0800
+Message-Id: <20200117013431.6E2BD20728@mail.kernel.org>
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Wed, Jan 15, 2020 at 3:03 PM Bjorn Helgaas <bjorn.helgaas@gmail.com> wrote:
->
+Quoting Bjorn Helgaas (2020-01-15 15:03:47)
 > On Wed, Jan 15, 2020 at 4:07 PM Michael Turquette
 > <mturquette@baylibre.com> wrote:
->
+>=20
 > > I added the first entry, "Bidirectionally sync Patchwork patch status
 > > with Gmail labels". Stephen Boyd and I use a local solution to
 > > coordinate patches in the Linux Clk tree. Our solution requires
@@ -88,32 +75,25 @@ On Wed, Jan 15, 2020 at 3:03 PM Bjorn Helgaas <bjorn.helgaas@gmail.com> wrote:
 > > tracking as well as Gmail/G Suite for email. Having those two talk
 > > might mean that I never have to use the Patchwork web interface again,
 > > a big win IMO, and I can just use email.
->
+>=20
 > That's a really cool idea.  What do you do about the Gmail/plain text
 > problem?  I know Gmail *can* sent plain-text email, but you don't have
 > much control over the formatting, and I really don't like reviewing
 > code in a Gmail draft.  I hate to admit it, but I'm always bouncing
 > back and forth between Gmail and mutt.
 
-My solution is to not review patches or send plain-text responses with
-the Gmail web interface. I use Mutt and alot as my mailers for patch
-review. I use the Gmail web interface for everything else.
+I don't use gmail at all for composing or sending emails. I basically
+use it as a glorified label and email storage database. Downside is I
+can't work on my phone, which is probably a good thing when I have to
+write something long but a bad thing when I just want to apply the patch
+and integrate it into my tree.
 
-Mail fetching and syncing (along with bidirection sync of Notmuch tags
-and Gmail Labels) is achieved with the excellent Lieer tool:
-https://github.com/gauteh/lieer
+I've dreamed about moving away from gmail entirely and just syncing down
+the mbox files from lore.kernel.org for linux-clk (or maybe that thing
+that catches all the lists that have my kernel.org address in the to or
+cc) and then writing a UI around mbox files that I can use to reply and
+tag/update patchwork state. Basically treat lore as my email storage
+database. This fails when people want to email me privately, so maybe
+I'll have to keep injecting the patchwork files into my notmuch database
+for now.
 
-Only missing feature in that tool is to do something like fetching
-only last 30 days of mail (basic feature for offlineimap and friends)
-for the "flying with my laptop to Linux conference" use case. Maybe
-another GSoC submission if I'm feeling greedy? ;-)
-
-Best regards,
-Mike
-
--- 
-Michael Turquette
-CEO - Los Angeles, CA
-BayLibre - At the Heart of Embedded Linux
-http://baylibre.com/
-Schedule a meeting: https://calendly.com/mturquette
