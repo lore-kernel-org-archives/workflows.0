@@ -1,119 +1,117 @@
-Return-Path: <SRS0=f2kX=4M=vger.kernel.org=workflows-owner@kernel.org>
+Return-Path: <SRS0=Scut=4O=vger.kernel.org=workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE4A6C11D2F
-	for <workflows@archiver.kernel.org>; Mon, 24 Feb 2020 18:10:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3222C4BA0A
+	for <workflows@archiver.kernel.org>; Wed, 26 Feb 2020 08:28:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 820A720732
-	for <workflows@archiver.kernel.org>; Mon, 24 Feb 2020 18:10:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582567853;
-	bh=AR8lzojzLC/iu7C1qwtUJLELA8Xjzw+j2iUYekZJvuI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=I+K/2+CszdPjlVIfF13Yjb/ERaC5XvwkJ96JM8bpZRoWhsEE1HTUsWWZN883sYoLL
-	 jxxcCRTHLhvy+UBxUz3pGaqlJgkFjeP3KyKaQbVyt73iaVXWnliCqUIKtkCNd/Ri+L
-	 bgG+/xopmpPb39a5wXlwdlCSBr3EvVkj/0Lvimzw=
+	by mail.kernel.org (Postfix) with ESMTP id B6970222C2
+	for <workflows@archiver.kernel.org>; Wed, 26 Feb 2020 08:28:43 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CDw0SIaW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727479AbgBXSKx (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 24 Feb 2020 13:10:53 -0500
-Received: from mail-wr1-f51.google.com ([209.85.221.51]:40973 "EHLO
-        mail-wr1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726208AbgBXSKx (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 24 Feb 2020 13:10:53 -0500
-Received: by mail-wr1-f51.google.com with SMTP id c9so11534080wrw.8
-        for <workflows@vger.kernel.org>; Mon, 24 Feb 2020 10:10:51 -0800 (PST)
+        id S1727379AbgBZI2m (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 26 Feb 2020 03:28:42 -0500
+Received: from mail-qt1-f169.google.com ([209.85.160.169]:42552 "EHLO
+        mail-qt1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727387AbgBZI2m (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 26 Feb 2020 03:28:42 -0500
+Received: by mail-qt1-f169.google.com with SMTP id r5so1648644qtt.9
+        for <workflows@vger.kernel.org>; Wed, 26 Feb 2020 00:28:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=A2XOqSmt8889LTJio0SV0Bhl3GvyOamNgXDuAGz481E=;
-        b=H7hkSK1OUktsWbVKRpzMXn0NOxdm20LIcPjeKorJQKTPEoLtrutfheFwYFbkPFYLEO
-         UALXbq5pICenxhg2PVA5/XSjFG2AXs366d0OdeAWzTRZVjLj35fMUNjRinvcJjwQa9Bk
-         hOY9AVLI7Ix/2GWu/82gJCAkhWtHMc/Abn4q4=
+        d=google.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to:cc
+         :content-transfer-encoding;
+        bh=TCKiJfk1tuX6JcQsxBCHZJ/LwaPkV6Zrs8OdjgYk6a0=;
+        b=CDw0SIaWUZSx7ENi65bSwjHzQAWLf217RuK8tOjLweGrxEljFC5e2v65jurQ2QrUVk
+         +5HfROicgsDND0ECwSUtjOPXCq42smEuX7j9ckuDcTb6gLPAs7m+Pm/rnBnw8xtdpz2/
+         U1IAm27CYn2i2+TH4wS1dbs+d73vyMf4x0H6qc0vYg2V9liVP/0U/LjbWqD00lKPcaH+
+         EaqkEnYkk2TP8LSMxJOzJ9QsnzYTEQKXWZ9yJXWzmA4cNHYuroGM5BKMZdh9aICwYceV
+         pU4/8Rh+89HE2w6vX4ACzsGX/aYgrdm3Gj4rgLLttLxK5IT7M3oGhC7+VbGAH24nD01e
+         /jXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=A2XOqSmt8889LTJio0SV0Bhl3GvyOamNgXDuAGz481E=;
-        b=TAVQQNxApFvaLcexUDl1hN2lr6G+xVG/lwa20LE5IKvhszgkH2/wxs0epQ2y4nxOH+
-         l+KeBdIGBpJpGwgLsMKcdZFpPe3+63MsticwWFIt/vWJhirH45QShLRrACH/znoSzQDG
-         MA3WT1Wqacphxof3R+y5Xs0sNyeXbaEk2gZ3O0GXb5Cbeyx6WlAIrcLsPam5UPI1/Xy8
-         SXTBnXt5cI0TrKbbHL7/aPiCzZ07r7ybHxO/fI85x2NItwh+6HCWgnULjHRnd/cMZHLG
-         te/zu/ycLV/xf5aVjDvRler9o+rfUuXq3pwT0sk7568b5mmENsHR74U/hm+9hrapRuxk
-         PiZw==
-X-Gm-Message-State: APjAAAVxCyxyS/tImTgQcFD93h24Nqe2oScRfBQH0xA9/Nu+e/xZ+gLN
-        8Xo2i7GzCJZl6rbvHKet1NL2JSAd7s0MUA==
-X-Google-Smtp-Source: APXvYqy2aeP1GUr93E58mlX3ANKXBa73iwfn9qt0Nw1tsfSx0+LiWXaMK83hTp+nSDj7Z+LY5H4gcQ==
-X-Received: by 2002:a05:6000:1043:: with SMTP id c3mr65121843wrx.330.1582567851006;
-        Mon, 24 Feb 2020 10:10:51 -0800 (PST)
-Received: from chatter.i7.local (tor-exit-16.zbau.f3netze.de. [185.220.100.243])
-        by smtp.gmail.com with ESMTPSA id l132sm281074wmf.16.2020.02.24.10.10.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Feb 2020 10:10:49 -0800 (PST)
-Date:   Mon, 24 Feb 2020 13:10:42 -0500
-From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Kevin Hilman <khilman@baylibre.com>, workflows@vger.kernel.org
-Subject: Re: get-lore-mbox: quickly grab full threads from lore
-Message-ID: <20200224181042.h4q3umrjqxujkxwt@chatter.i7.local>
-Mail-Followup-To: Rob Herring <robh@kernel.org>,
-        Kevin Hilman <khilman@baylibre.com>, workflows@vger.kernel.org
-References: <20200201030105.k6akvbjpmlpcuiky@chatter.i7.local>
- <7hwo8p9db1.fsf@baylibre.com>
- <20200214195318.ghvcroucki4pcz4r@chatter.i7.local>
- <CAL_JsqLEA=LYdB_21rWsA-LXO+f1ZPga4j6wn6bn5gFrhxFhhw@mail.gmail.com>
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+         :content-transfer-encoding;
+        bh=TCKiJfk1tuX6JcQsxBCHZJ/LwaPkV6Zrs8OdjgYk6a0=;
+        b=eck4LbvP5p/EaetQqRFnLWzCbClqz5HWbK1ndR7ZT2lOhF0oxr2ACUoqPGQnwB3PX6
+         JFTj9vC7OKJ2+oy5GOfJltJNqCWoFwqXEknd9FooBhUnC7/4bIMrrJSx9yrid13wlA95
+         5LwoPtJB/PUn/se7lh2nePeve5Kxvz+Q6bPPIRVDrR4P4ydS6AC4T5m2WIUrgAWZ1Ees
+         9dtc0j8IQSo9n1eaB9ORdS4ny6TvNjk5LBMl9fdAeFj5V1lSVx8wrLjMddpnKv/DWBEu
+         YUfbib6SkDsbvJJ40moIeW4H5XAVgq+GXOIzheIVS194T+sTP8fZPMky7Fovynlb233Q
+         rm9A==
+X-Gm-Message-State: APjAAAWvNhJlbOD4G2REz2sOu8wA+v+tnGYDYIFZiwd4G5GvdSDg9fjG
+        jBc6o8l/oyaTP3GNKnU+1PMTiK2Rc3vNEv0/IvoMcZZKgyhEZw==
+X-Google-Smtp-Source: APXvYqzIvgC0UaVeAAwn2e2tklNhtMrCKv0uUcP6KZReoNaHA+YKvaS0da2RRppS9PoApOf/RXdhr8C/6c5EUk+kF2A=
+X-Received: by 2002:ac8:7159:: with SMTP id h25mr3593895qtp.380.1582705720488;
+ Wed, 26 Feb 2020 00:28:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAL_JsqLEA=LYdB_21rWsA-LXO+f1ZPga4j6wn6bn5gFrhxFhhw@mail.gmail.com>
+From:   Dmitry Vyukov <dvyukov@google.com>
+Date:   Wed, 26 Feb 2020 09:28:29 +0100
+Message-ID: <CACT4Y+Yezqn1JZac9=R1dmgZ4d6N1btAsP6AHON-Cds1knTaiA@mail.gmail.com>
+Subject: public gerrit instance for kernel
+To:     workflows@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Cc:     Han-Wen Nienhuys <hanwen@google.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Ben Gardon <bgardon@google.com>,
+        Jonathan Nieder <jrn@google.com>,
+        Alexei Starovoitov <ast@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: workflows-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Mon, Feb 24, 2020 at 11:39:02AM -0600, Rob Herring wrote:
-> It may be easy enough unless you have something like this series:
-> 
-> https://lore.kernel.org/lkml/cover.1582361737.git.mchehab+huawei@kernel.org/
-> 
-> It backtraces if you give it patch 2 msgid:
-> 
-> 83c5df4acbbe0fa55a1d58d4c4a435b51cd2a7ad.1582361737.git.mchehab+huawei@kernel.org
-> 
-> Presumably because patch 2 and and the cover letter aren't on the same
-> list? Arguably, that's bad practice, but it's quite common to only
-> have 1 or a few patches of the whole series. If you start with the
-> cover letter, then it can find everything.
+Hi,
 
-There is currently no way to reconstitute a single thread from multiple 
-sources -- this is something that we would like to change in the near 
-future. If a message is sent to multiple mailing lists, then there is no 
-guarantee from which list you are going to get the thread, unless you 
-specify -p projname. E.g.:
+We've setup a public Gerrit instance for use with Linux kernel development:
+https://linux.googlesource.com/Documentation/#gerrit-code-reviews-for-the-l=
+inux-kernel
 
-./get-lore-mbox.py -o/tmp -a -p linux-doc \
-  83c5df4acbbe0fa55a1d58d4c4a435b51cd2a7ad.1582361737.git.mchehab+huawei@kernel.org
+After one-time setup changes can be pushed with a single command:
+$ git push gerrit-net HEAD:refs/for/master
 
-However, this will only pick up follow-ups from linux-doc, so if there 
-are any trailers sent to another list, get-lore-mbox will know nothing 
-about them:
+Gerrit has several (subjective) benefits over email-based reviews:
+ - full context (you can expand more context as necessary)
+ - diffs between version, e.g. full change is +547 lines:
+https://linux-review.googlesource.com/c/linux/kernel/git/torvalds/linux/+/2=
+265/2
+but diff between v1 and v2 is just 2 empty lines:
+https://linux-review.googlesource.com/c/linux/kernel/git/torvalds/linux/+/2=
+265/1..2
+(no need to write that up, trust subjective write ups)
+ - colored side-by-side diffs, e.g. here you can easily see that even
+that line has changed it's only slash at the end that's added:
+https://linux-review.googlesource.com/c/linux/kernel/git/torvalds/linux/+/2=
+103/1/kunit/Makefile#2
+ - marking files as "reviewed", always correct base tree/revision, etc
 
-> Also, it didn't pick up 2 out of 3 Acked/Reviewed-by tags:
-> 
-> https://lore.kernel.org/linux-doc/CAHLCerP_UW-6CdaOziHTY01cD_6Ou4h0Jj6mOJKj60P4GL9H=w@mail.gmail.com/
-> https://lore.kernel.org/linux-doc/41551c09-5443-4980-9c6f-6bc7f48aa356@www.fastmail.com/
+But note there is no "official" story for gerrit in the linux process.
+You may use it as you find fit. Some uses that we found useful so far:
+ - upload to do self-pre-review
+ - review within a team of people who agree to use gerrit
+ - include a link to gerrit into the upstream patch email as FYI
+(after =E2=80=9C---=E2=80=9D line)
+ - upload somebody else patch just to review with side-by-side diffs
+and full context
 
-Changing this behaviour requires significant rewrites of the backend in 
-order to be able to mux results from different sources. This is work 
-that is planned and will be happening.
+The branches are mirrored automatically from kernel.org; you can
+upload changes for review against those branches, but submission has
+to be routed through the traditional process.
 
-For the moment, I don't have any good solutions other than fixing the 
-backtrace (which is now fixed).
+If you are brave enough, you may use a gerrit-managed tree as well,
+then with ability to merge/edit change on the web, non-losing comment
+threads attached to lines of code, change status tracking, etc. But
+that will need to be setup separately.
 
--K
+There are some improvements planned like not requiring Change-ID and
+proxying comments to/from kernel mailing lists. But that's only in
+plans now.
+
+Thanks
