@@ -2,61 +2,111 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3657C56202
-	for <workflows@archiver.kernel.org>; Wed, 18 Nov 2020 19:54:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4B1FC56202
+	for <workflows@archiver.kernel.org>; Thu, 26 Nov 2020 19:51:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A2605246BC
-	for <workflows@archiver.kernel.org>; Wed, 18 Nov 2020 19:54:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9862D21D91
+	for <workflows@archiver.kernel.org>; Thu, 26 Nov 2020 19:51:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726297AbgKRTyI (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 18 Nov 2020 14:54:08 -0500
-Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:51051 "EHLO
-        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725710AbgKRTyI (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 18 Nov 2020 14:54:08 -0500
-Received: from callcc.thunk.org (pool-72-74-133-215.bstnma.fios.verizon.net [72.74.133.215])
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 0AIJrdnU020080
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 18 Nov 2020 14:53:39 -0500
-Received: by callcc.thunk.org (Postfix, from userid 15806)
-        id DE69A420107; Wed, 18 Nov 2020 14:53:38 -0500 (EST)
-Date:   Wed, 18 Nov 2020 14:53:38 -0500
-From:   "Theodore Y. Ts'o" <tytso@mit.edu>
-To:     Evan Rudford <zocker76@gmail.com>
-Cc:     Steven Rostedt <rostedt@goodmis.org>, workflows@vger.kernel.org
-Subject: Re: Is the Linux kernel underfunded? Lack of quality and security?
-Message-ID: <20201118195338.GD538542@mit.edu>
-References: <CAE90CG5h0RqNs8N7qbZzajYK9A3eY0LWHqLfzX7Z-v-aef4R2g@mail.gmail.com>
- <20200105081550.GB1667342@kroah.com>
- <CAE90CG5MQM+8qX0F_RHmHwrh3fP1oxbtTym_tv-UhW2K3pYD-A@mail.gmail.com>
- <20201118131322.7bae7622@gandalf.local.home>
- <CAE90CG4N+orfJ2PUygWk3T8LDN+mHEjRz7qhz29MsyH9DOzv3A@mail.gmail.com>
+        id S1729363AbgKZTvL (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 26 Nov 2020 14:51:11 -0500
+Received: from dcvr.yhbt.net ([64.71.152.64]:38326 "EHLO dcvr.yhbt.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729352AbgKZTvL (ORCPT <rfc822;workflows@vger.kernel.org>);
+        Thu, 26 Nov 2020 14:51:11 -0500
+X-Greylist: delayed 327 seconds by postgrey-1.27 at vger.kernel.org; Thu, 26 Nov 2020 14:51:11 EST
+Received: from localhost (dcvr.yhbt.net [127.0.0.1])
+        by dcvr.yhbt.net (Postfix) with ESMTP id 0CDBF1F86C;
+        Thu, 26 Nov 2020 19:45:44 +0000 (UTC)
+Date:   Thu, 26 Nov 2020 19:45:43 +0000
+From:   Eric Wong <e@80x24.org>
+To:     workflows@vger.kernel.org
+Cc:     meta@public-inbox.org
+Subject: WIP: searching all of lore
+Message-ID: <20201126194543.GA30337@dcvr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAE90CG4N+orfJ2PUygWk3T8LDN+mHEjRz7qhz29MsyH9DOzv3A@mail.gmail.com>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Wed, Nov 18, 2020 at 08:30:48PM +0100, Evan Rudford wrote:
-> I believe that Spectre and Meltdown are kind of orthogonal to many
-> other security threats.
-> Yes, I fully agree that Spectre and Meltdown need to be addressed, but
-> I still consider arbitrary buffer overflows in parsing libraries as
-> more dangerous than "typical" Spectre/Meltdown threats.
+Requires Tor, for now:
 
-You do realize that the kernel does very little parsing, and doesn't
-use any parsing libraries, right?
+http://rskvuqcfnfizkjg6h5jvovwb3wkikzcwskf54lfpymus6mxrzw67b5ad.onion/all/
+http://lore.czquwvybam4bgbro.onion/all/
 
-In any cases, do you have a specific proposal you'd like to make?  Or
-do you have something specific you'd be interested in doing, yourself,
-to help make things better?
+It seems v3 onions with longer URLs are more secure, these days;
+but requires newer Tor.
 
-						- Ted
+On Debian or RH-based systems, it's as easy as:
+	<apt|yum> install tor torsocks
+
+	# assuming w3m is installed:
+	torsocks w3m http://rskvuqcfnfizkjg6h5jvovwb3wkikzcwskf54lfpymus6mxrzw67b5ad.onion/all/
+
+Other browsers can configure SOCKS5 proxies to 127.0.0.1:9050
+or be wrapped via torsocks (which uses LD_PRELOAD)
+
+Disclaimers:
+
+  I don't know much about Tor security (or security in general).
+  I see Tor as an alternative to paying corrupt organizations
+  (ICANN) and lets me self-host without a static IP address.
+
+  I've also had numerous ISP and power outages this year,
+  probably because more neighbors are home due to the pandemic,
+  so don't expect 99.999% uptime, either.  And I'm a klutz who
+  always trips over cables on (relatively) good days, and I've
+  only had bad days since March :<
+
+How to replicate
+----------------
+
+	# I'm using the following to update mirror and lore.kernel.org
+	# (see grokmirror docs) for more.  Old command:
+	grok-pull -v -c repos.conf
+	public-inbox-index --all # update per-inbox indices
+
+	# add "-L basic" or "-L medium" to reduce space requirements
+	# to either -extindex or -index commands
+
+	# The new command, not finalized yet:
+	public-inbox-extindex --all -v /path/to/ALL
+
+
+The following changes in a otherwise boring ~/.public-inbox/config
+(or whatever $PI_CONFIG is set to)
+
+; not yet stable or finalized, yet:
+; this section allows, "all" is a special case, currently
+[extindex "all"]
+	topdir = /path/to/ALL
+
+; these are already documented in public-inbox-config(5)
+[publicinbox]
+	; 'all' ignores domain name matching,
+	; useful for inboxes served via multiple domains
+	wwwlisting = all
+	grokManifest = all
+
+	; users with larger machines may want to bump this,
+	; the default is for machines w/ 256MB RAM
+	; (which I still use, sometimes)
+	indexBatchSize = 100m
+
+# I'm using the following to update from lore.kernel.org
+# (see grokmirror docs) for more
+grok-pull -v -c repos.conf
+public-inbox-index --all # update per-inbox indices
+public-inbox-extindex --all -v /path/to/ALL # index [extindex "all"]
+
+This is running commit 95cb3e48fc5c4e847cdc111c2c8c9f0b70bdea56
+git clone https://public-inbox.org/public-inbox.git
+
+More changes coming (JMAP, speedups), and there's probably still
+lots of stuff broken and need fixing (including my brain :<)
