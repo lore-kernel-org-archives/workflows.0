@@ -6,84 +6,56 @@ X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5924C64E7A
-	for <workflows@archiver.kernel.org>; Tue,  1 Dec 2020 18:48:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF883C4361A
+	for <workflows@archiver.kernel.org>; Sat,  5 Dec 2020 20:08:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5689021741
-	for <workflows@archiver.kernel.org>; Tue,  1 Dec 2020 18:48:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ACBFE23123
+	for <workflows@archiver.kernel.org>; Sat,  5 Dec 2020 20:08:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729888AbgLASsz (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 1 Dec 2020 13:48:55 -0500
-Received: from dcvr.yhbt.net ([64.71.152.64]:46852 "EHLO dcvr.yhbt.net"
+        id S1725274AbgLEUH6 (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Sat, 5 Dec 2020 15:07:58 -0500
+Received: from dcvr.yhbt.net ([64.71.152.64]:37190 "EHLO dcvr.yhbt.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726213AbgLASsy (ORCPT <rfc822;workflows@vger.kernel.org>);
-        Tue, 1 Dec 2020 13:48:54 -0500
+        id S1725270AbgLEUH5 (ORCPT <rfc822;workflows@vger.kernel.org>);
+        Sat, 5 Dec 2020 15:07:57 -0500
 Received: from localhost (dcvr.yhbt.net [127.0.0.1])
-        by dcvr.yhbt.net (Postfix) with ESMTP id A02871F86C;
-        Tue,  1 Dec 2020 18:48:14 +0000 (UTC)
-Date:   Tue, 1 Dec 2020 18:48:14 +0000
+        by dcvr.yhbt.net (Postfix) with ESMTP id A0C4F1F4B4;
+        Sat,  5 Dec 2020 20:07:17 +0000 (UTC)
+Date:   Sat, 5 Dec 2020 20:07:17 +0000
 From:   Eric Wong <e@80x24.org>
-To:     workflows@vger.kernel.org, meta@public-inbox.org
+To:     workflows@vger.kernel.org
+Cc:     meta@public-inbox.org
 Subject: Re: WIP: searching all of lore
-Message-ID: <20201201184814.GA32272@dcvr>
+Message-ID: <20201205200717.GA7923@dcvr>
 References: <20201126194543.GA30337@dcvr>
- <20201201140033.gyxmaejay2ddpiz3@nitro.local>
+ <20201128223457.GA31347@dcvr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20201201140033.gyxmaejay2ddpiz3@nitro.local>
+In-Reply-To: <20201128223457.GA31347@dcvr>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Konstantin Ryabitsev <konstantin@linuxfoundation.org> wrote:
-> On Thu, Nov 26, 2020 at 07:45:43PM +0000, Eric Wong wrote:
+Eric Wong <e@80x24.org> wrote:
+> Eric Wong <e@80x24.org> wrote:
 > > Requires Tor, for now:
-> > 
-> > http://rskvuqcfnfizkjg6h5jvovwb3wkikzcwskf54lfpymus6mxrzw67b5ad.onion/all/
-> > http://lore.czquwvybam4bgbro.onion/all/
-> 
-> Thanks for this work, Eric, things are looking good in my tests, though
-> I uncovered a bunch of problems with b4 when used with torsocks. :)
-> 
-> When grabbing t.mbox.gz threads from /all, it appears to properly
-> reconstitute follow-ups from multiple mailing lists, correct?
 
-Yup, though some duplicates appear due to different mailing list-added
-trailers.  Maybe some of the PublicInbox::Filter::* stuff (currently
-only for -mda + -watch) can be applied to the indexing phase to better
-dedupe and drop trailers
+An IMAP .onion running the latest per-inbox subset search patches(*)
 
-> Is there a
-> way to "weight" different sources, so that when the same message-id
-> exist in multiple places, we can prefer one source over another?
+X=rskvuqcfnfizkjg6h5jvovwb3wkikzcwskf54lfpymus6mxrzw67b5ad.onion
+torsocks mutt -f imap://$X/org.kernel.vger.workflows.0
+torsocks mutt -f imap://$X/org.kernel.vger.linux-kernel.76
 
-It indexes based on the order it iterates through the inboxes
-and messages.  That's usually that follows order in the config file;
-especially if indexing is delayed.   Of course it's possible a
-message can show up in a low-priority source first due to
-network latency or outages (something I'm too familiar with :<).
+The ".0" and ".76" at the end is the mailbox slice, LKML
+is currently at 77 ~50K message slices (I decided to cap IMAP
+mailbox size to due to MUA/Maildir slowness on giant directories).
 
-I have any idea to fix that via --reindex which *might*
-allow performance improvements on the Xapian side, too.
+Per-inbox search also uses subset search, so all the existing
+inboxes should be searchable on an individual level, not just /all:
+http://rskvuqcfnfizkjg6h5jvovwb3wkikzcwskf54lfpymus6mxrzw67b5ad.onion/lkml/
+http://rskvuqcfnfizkjg6h5jvovwb3wkikzcwskf54lfpymus6mxrzw67b5ad.onion/workflows/
+http://rskvuqcfnfizkjg6h5jvovwb3wkikzcwskf54lfpymus6mxrzw67b5ad.onion/netdev/
+...
 
---reindex is another mind twister when dealing with multiple
-histories compared to normal inboxes and will need a new
-approach.  Been working on that and my head hurts :x
-
-> For
-> example, this is useful when we're trying to do DKIM validation and some
-> lists are known to mess that up, while others do the right thing.
-
-Right, though I think it's somewhat less necessary given how sensitive
-PublicInbox::ContentHash is compared to just using the Message-ID to
-dedupe...
-
-One bad thing about it being too sensitive is NNTP speedups couldn't rely
-solely on contents hashing because of mailing list trailers yesterday:
-
-https://public-inbox.org/meta/20201130194201.GA6687@dcvr/
-
-> Thanks again,
-
-You're welcome :>
+(*) https://public-inbox.org/meta/20201205101138.11973-1-e@80x24.org/
