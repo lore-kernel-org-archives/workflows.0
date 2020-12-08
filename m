@@ -2,103 +2,83 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5557C0018C
-	for <workflows@archiver.kernel.org>; Mon,  7 Dec 2020 16:02:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C000C4361B
+	for <workflows@archiver.kernel.org>; Tue,  8 Dec 2020 14:01:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AA9E02388D
-	for <workflows@archiver.kernel.org>; Mon,  7 Dec 2020 16:02:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F0E7123ACA
+	for <workflows@archiver.kernel.org>; Tue,  8 Dec 2020 14:01:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727018AbgLGQCu (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 7 Dec 2020 11:02:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54716 "EHLO
+        id S1728318AbgLHOBy (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 8 Dec 2020 09:01:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725887AbgLGQCu (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 7 Dec 2020 11:02:50 -0500
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA80DC061749
-        for <workflows@vger.kernel.org>; Mon,  7 Dec 2020 08:02:09 -0800 (PST)
-Received: by mail-qk1-x744.google.com with SMTP id z11so3741710qkj.7
-        for <workflows@vger.kernel.org>; Mon, 07 Dec 2020 08:02:09 -0800 (PST)
+        with ESMTP id S1727716AbgLHOBy (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 8 Dec 2020 09:01:54 -0500
+Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40907C061749
+        for <workflows@vger.kernel.org>; Tue,  8 Dec 2020 06:01:14 -0800 (PST)
+Received: by mail-qv1-xf2a.google.com with SMTP id dm12so8235938qvb.3
+        for <workflows@vger.kernel.org>; Tue, 08 Dec 2020 06:01:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=S7Rpa44vVpK13982B8H0b8cHEVKk1I5bzX3iheCTUPc=;
-        b=nbWNhnYJ3BORs1YbHp3dh688MRUQRm4wp0oDnRU0z6E4SglDPNKd/V6uf/R+4dM10c
-         KVVXcS4SCye4GOhzchO2y5PDZlzvj+u6kuOmHaYLLYv48NUF0U0NplzsiUbnd+OvaWpM
-         0sz8p8jHASySnbY5BH3135UlaBa/O+gaxoU4Sf2kUcVOWXZ9bKgHK+I3LF2DrtdWm+ut
-         /t+NDkIxnKa4KzjC+29psRRQ4M/LtW45yV6XwL+qu71RXZVa5pAJRhRzSaz6lT6G+iMh
-         jB5whsnsiCwTGqrsQO9Ha0BqR59VTHcLG6cHc/5QAeENpPHfwoKFnkWfUpmoi/wp4Fod
-         T01g==
+        d=linuxfoundation.org; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=CVTllRR44suc5mVpvRLpTRmMHkCXzz7Mpl2hv9MrX9g=;
+        b=dG/pfRnqkacwAVw0+/xnLW6GJEZCWBEtn2/xmPnVGb+oW68Q4aJrG1QwlAGqqU1w0h
+         lTxY4+xW+NnOP5iG3s9Qo5xNVw3AAr7Smi69xR76W9GcWi06TYWcap1Pm8+5Jwyt5+sE
+         Vs8wlBjSbfH4+CuogUYKcgDZeOR/+Iwi1HpeU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=S7Rpa44vVpK13982B8H0b8cHEVKk1I5bzX3iheCTUPc=;
-        b=r4UtZR4zySVofjYOVn4o5hKrz5PqifOQHkzuQj5F5/XlfESY8rZUj9TfYJWNed9bXs
-         p1RDoPj6cgghJyTGr6r25Y0dgKK6PlENRXq8B1/sMWi2/4XfKYxot8tSWOdHL1H0IqLl
-         C9ALDBdh4U5lkwndF6vLCImDAeQQD1EZHc+Hb8KEAIzpr2RJjeKDMIWWbGPamMaY1Fr0
-         T6so7P5j0vHppsnCGXbZghMZ1QtyMvtXK1m55cIHriOccDl/DyNda3xFbEFA2InBd2FU
-         GDhxB/AtKuEowHtJPiLQhZVSgu1W7V/WrN0Hv2PxMfACspPJAb3OGpRQDTmYmCrXmAWi
-         hqug==
-X-Gm-Message-State: AOAM532+cllgeoZOSEhed7zCYpP6co1IrQS98vxBhKgexvU6NRdJZYSW
-        B9HoOMXfYd3JSMQb28BwqDGSsyTggRH3PzbcuzG/MA==
-X-Google-Smtp-Source: ABdhPJxDIpQj1Ku/XylxtvaARHa1gt6tPurrlNUxhRdpeFP2dwv5QTDzjXFXESyhUAcLM1/oG6O06162hZ+0mTKJIbI=
-X-Received: by 2002:a05:620a:15ce:: with SMTP id o14mr25341103qkm.231.1607356928374;
- Mon, 07 Dec 2020 08:02:08 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to;
+        bh=CVTllRR44suc5mVpvRLpTRmMHkCXzz7Mpl2hv9MrX9g=;
+        b=bJa7OhOLoP7hhkWNsLqyzOA4GLGyIfLaemJCqTdWBQiKjB1fc/u6ZISNdD6SpqgKIM
+         QtYgdPwOmOsMR7GgjcBj7gKQ2v9p5qhhpbU0TAVe82S4uLUpdsweu9FR6ldRBO4G12br
+         lGOPpD09alkHeQP7qvF+fT3OjjtLQR5Kj9JKwl96Dm9zIKBVOwEI1BKy3XEDqEeAuip9
+         HYLClaPh+pZjtNhZ7wKJFGu4i/WH+QB/3E0L+2EzzCB0qg86HNNmtJVqFNmrzAA0AYn2
+         dQ3ZvkPQgAbnScp2G/nweEml5/92i/UQGxToipcMP3YIgUBV6qxq1++VKNjijyj1RIQd
+         2X1Q==
+X-Gm-Message-State: AOAM532DKO0Es1YQYS1bqI5vx9NuW+g/wCZIwZorHX9TqGVzkXxb4m9K
+        BQUayppiXeG3M4BdO+R/D12HtPZ3XYzeuWw3
+X-Google-Smtp-Source: ABdhPJx0xfvViDD5fZGIJnfRdzGRihuxNdqS1BbBii9pLEqjSq73bFY3z+sLSUcrZuvX1s/cJTNIuQ==
+X-Received: by 2002:a05:6214:909:: with SMTP id dj9mr27102038qvb.31.1607436073442;
+        Tue, 08 Dec 2020 06:01:13 -0800 (PST)
+Received: from chatter.i7.local ([89.36.78.230])
+        by smtp.gmail.com with ESMTPSA id z186sm14004659qke.100.2020.12.08.06.01.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Dec 2020 06:01:12 -0800 (PST)
+Date:   Tue, 8 Dec 2020 09:01:11 -0500
+From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To:     Eric Wong <e@80x24.org>
+Cc:     workflows@vger.kernel.org, meta@public-inbox.org
+Subject: Re: WIP: searching all of lore
+Message-ID: <20201208140111.3lxecf42d6ooskeb@chatter.i7.local>
+Mail-Followup-To: Eric Wong <e@80x24.org>, workflows@vger.kernel.org,
+        meta@public-inbox.org
+References: <20201126194543.GA30337@dcvr>
+ <20201128223457.GA31347@dcvr>
+ <20201205200717.GA7923@dcvr>
 MIME-Version: 1.0
-References: <X84nbdgv0a/ak2ef@mwanda> <20201207131446.GA852@paasikivi.fi.intel.com>
- <CAHp75Vftvtn4DhOU73w7hgOYpw9pJbJCJ0dSW6wUrQHA5HMn-A@mail.gmail.com>
-In-Reply-To: <CAHp75Vftvtn4DhOU73w7hgOYpw9pJbJCJ0dSW6wUrQHA5HMn-A@mail.gmail.com>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Mon, 7 Dec 2020 17:01:56 +0100
-Message-ID: <CACT4Y+a3MnDamodmVi6C79+fUEse+71DSG8xPQH7S3Eg4i=S_A@mail.gmail.com>
-Subject: Re: [PATCH] media: i2c: ov02a10: fix an uninitialized return
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Arnd Bergmann <arnd.bergmann@linaro.org>,
-        kbuild test robot <lkp@intel.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        kernel-janitors@vger.kernel.org, workflows@vger.kernel.org,
-        kernelci@groups.io
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20201205200717.GA7923@dcvr>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Mon, Dec 7, 2020 at 4:55 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> +Cc: some people who involved in different kernel source checkers
->
-> On Mon, Dec 7, 2020 at 3:19 PM Sakari Ailus
-> <sakari.ailus@linux.intel.com> wrote:
-> > On Mon, Dec 07, 2020 at 04:00:29PM +0300, Dan Carpenter wrote:
-> > > The "ret" variable isn't set on the no-op path where we are setting to
-> > > on/off and it's in the on or off state already.
-> > >
-> > > Fixes: 91807efbe8ec ("media: i2c: add OV02A10 image sensor driver")
-> > > Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> >
-> > Thanks for the patch.
-> >
-> > This issue has been fixed by another patch here:
-> >
-> > <URL:https://patchwork.linuxtv.org/project/linux-media/patch/20201204082037.1658297-1-arnd@kernel.org/>
->
-> This has been reported by 3 or 4 different people. I'm wondering if
-> it's possible to introduce a common database to somehow reduce the
-> amount of patches against the same findings.
+On Sat, Dec 05, 2020 at 08:07:17PM +0000, Eric Wong wrote:
+> Per-inbox search also uses subset search, so all the existing
+> inboxes should be searchable on an individual level, not just /all:
+> http://rskvuqcfnfizkjg6h5jvovwb3wkikzcwskf54lfpymus6mxrzw67b5ad.onion/lkml/
+> http://rskvuqcfnfizkjg6h5jvovwb3wkikzcwskf54lfpymus6mxrzw67b5ad.onion/workflows/
+> http://rskvuqcfnfizkjg6h5jvovwb3wkikzcwskf54lfpymus6mxrzw67b5ad.onion/netdev/
 
-+workflows and kernelci re multiple reports/patches for the same kernel bug
+So, are things to the point where we only need a single xapian db for 
+all lists, or do we still need to keep individual list indexes?
 
-I think KernelCI DB effort has a goal of fighting this duplication of
-efforts. But as far as I understand the exact mechanism for
-deduplication is an open question.
+-K
