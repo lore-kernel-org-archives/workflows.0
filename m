@@ -2,102 +2,131 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFD85C433E0
-	for <workflows@archiver.kernel.org>; Wed, 17 Mar 2021 18:38:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFF33C433DB
+	for <workflows@archiver.kernel.org>; Mon, 22 Mar 2021 15:39:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 860AF64F51
-	for <workflows@archiver.kernel.org>; Wed, 17 Mar 2021 18:38:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A7AF261984
+	for <workflows@archiver.kernel.org>; Mon, 22 Mar 2021 15:39:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231152AbhCQSht (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 17 Mar 2021 14:37:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52490 "EHLO
+        id S230091AbhCVPiw (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 22 Mar 2021 11:38:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230236AbhCQShi (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 17 Mar 2021 14:37:38 -0400
-Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76CA3C06174A
-        for <workflows@vger.kernel.org>; Wed, 17 Mar 2021 11:37:38 -0700 (PDT)
-Received: by mail-qk1-x733.google.com with SMTP id s7so39921128qkg.4
-        for <workflows@vger.kernel.org>; Wed, 17 Mar 2021 11:37:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=VkKOmWwxZ1OJw1XYa6VFz2P6mLVdChARw+9TUM444wc=;
-        b=J8W5zW0f7ustPMLUrutCTImYdXU8dq7yPsBPAoCm2DADkyPW6eyhaT1AmFLgrkDudf
-         2iywjmUeBFHbS20l1THvc1dovQHUIbG6SbLX2Ydz+iS83IClac/x0F6flq+YpsU80pBQ
-         62BeSeKXDO6nNtFKQAdOswXtODFruhFCDqjyQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=VkKOmWwxZ1OJw1XYa6VFz2P6mLVdChARw+9TUM444wc=;
-        b=bM1fPDhVniH2FsjaeQD1e7b0pj/hFcjLHe6+Xb7U0lllVBTgJbrEzw4UMXD2oELQVt
-         4SkFZJEdM6tSEQMh97wTKii8HvJ+7zfXOS9CGEcgYyh/1V1Jwie+hqHUOTr+4sDRgpUU
-         9XzEDPLbgFe7zmuDBMX91wQCDFtRNen0jY8N6fnMaGDey+Z5A6ans2cIV58MoIZB94Px
-         32LdNAEHnA62SrDSMkhpRhKm9MOVijnLoUkJOSAy5Ndl2quy2ZcGLknOEDfVPAffKr6g
-         R3+/8/QuGjWBiigBWN6k4HXTvvzU+qWX3yhpZL3uygvLh7JO52njLf4Ywyuh5dM44gz1
-         nV4Q==
-X-Gm-Message-State: AOAM532iefSNMV8xaBEE6Vw9CtdRxiHDIXmRb13L1oXgwyPllAh5mzLv
-        siJtgnUJa894TEyyahrsgBSOi3HI4qwlFPBkvo4=
-X-Google-Smtp-Source: ABdhPJzyIncTY6V1BMh/3oqY4HwIzUqowg67DScehUnD4IqWS7Btw/Mcq9JjOsH8xpV/3xtaeRIGmw==
-X-Received: by 2002:a37:9bd1:: with SMTP id d200mr609669qke.328.1616006257517;
-        Wed, 17 Mar 2021 11:37:37 -0700 (PDT)
-Received: from chatter.i7.local ([89.36.78.230])
-        by smtp.gmail.com with ESMTPSA id a2sm15958982qtj.76.2021.03.17.11.37.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Mar 2021 11:37:37 -0700 (PDT)
-Date:   Wed, 17 Mar 2021 14:37:34 -0400
-From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To:     Eric Wong <e@80x24.org>
-Cc:     workflows@vger.kernel.org, meta@public-inbox.org
-Subject: Re: WIP: searching all of lore
-Message-ID: <20210317183734.zosq5bb44nzfsimm@chatter.i7.local>
-Mail-Followup-To: Eric Wong <e@80x24.org>, workflows@vger.kernel.org,
-        meta@public-inbox.org
-References: <20201126194543.GA30337@dcvr>
- <20210317071116.GA8121@dcvr>
- <20210317132723.xx4klonordhsb6ve@chatter.i7.local>
- <20210317181843.GA9180@dcvr>
+        with ESMTP id S230447AbhCVPif (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 22 Mar 2021 11:38:35 -0400
+X-Greylist: delayed 1208 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 22 Mar 2021 08:38:35 PDT
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 361CBC061574
+        for <workflows@vger.kernel.org>; Mon, 22 Mar 2021 08:38:35 -0700 (PDT)
+Received: from ip4d142c50.dynamic.kabel-deutschland.de ([77.20.44.80] helo=[192.168.66.200]); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1lOMJv-0006QD-Qm; Mon, 22 Mar 2021 16:18:19 +0100
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org,
+        ksummit-discuss@lists.linuxfoundation.org,
+        workflows@vger.kernel.org,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Subject: RFC: create mailing list "linux-issues" focussed on issues/bugs and
+ regressions
+Message-ID: <613fe50d-fc9c-6282-f1f3-34653acb2ee9@leemhuis.info>
+Date:   Mon, 22 Mar 2021 16:18:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210317181843.GA9180@dcvr>
+Content-Language: en-BS
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1616427515;63b4fec0;
+X-HE-SMSGID: 1lOMJv-0006QD-Qm
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Wed, Mar 17, 2021 at 08:18:43PM +0200, Eric Wong wrote:
-> > Is that intentional, or can this be tweaked to show a single result for the
-> > same message-id?
-> 
-> Not really.  At least for the summary search results, it makes
-> no sense:
-> 
-> 	https://public-inbox.org/meta/20210317181408.9124-1-e@80x24.org/
-> 
-> The underlying cause that can be seen in
-> https://yhbt.net/lore/all/20210316102311.182375-1-gregkh@linuxfoundation.org/
-> is the Mailman-added signature for one of the posts.
 
-Ack, hopefully we'll get all Mailman list managers to clue in and stop
-mangling subject/bodies. It's kind of required for DKIM-signed messages
-anyway.
+Lo! I want to provide users with an easier way to search our multitude
+of mailing lists for reports about issues (aka bugs), as reporting the
+same kernel problem multiple times has known downsides for everyone
+involved. That's why I propose to create this new mailing list:
 
-> I've been considering adding a "diff view" to more easily pick
-> out differences between messages with identical Message-ID with
-> subtly different content, but it could be expensive for PSGI...
-> I will probably prototype it in lei, first.
+linux-issues@lists.linux.dev
 
-I was going to suggest "show the one for which the DKIM signature is valid"
-but this is even more expensive. ;)
+Developers and users reporting or handling issues then can CC it or
+search it via lore. But this will only fly if the idea has buy-in from
+at least the core kernel maintainers, to make sure they and the
+developers actually use it. That's why I'm looking for feedback with
+this mail and also CCed ksummit-discuss, as that's the easiest way to
+make sure maintainers get aware of this idea and can raise their voice.
 
-Thanks for your help.
 
--K
+Note, there is a second reason why ksummit-discuss is CCed: another
+reason why I want to create this new list is making it easier to find
+and track regressions reported to our various mailing lists (often
+without LKML in CC, as for some subsystems it's seems to be custom to
+not CC it). Back on the maintainers summit in 2017 it was agreed to
+create a dedicated list for this purpose
+(https://lwn.net/Articles/738216/). I even requested a
+"linux-regressions@vger.kernel.org" a while later, but didn't hear
+anything back; and, sadly, about the same time I started having trouble
+finding spare time for working on regression tracking. :-/
+
+But I soon will get back into that area:
+https://linux-regtracking.leemhuis.info/post/hello-world/ Hence it's a
+good time to prepare some groundwork for that. But these days I think
+having something like linux-regressions@lists.linux.dev might be over
+engineered, at least for now: a linux-issues@lists.linux.dev with a
+simple "[regressions]" in the subject will suffice, as that tag is
+something a lot of people are used to already. And if we think we need
+that list we can still create it in the future. Or what do you folks
+think about it?
+
+
+
+We can obviously bikeshed about the name for the list. I'm sure some
+people will prefer to use "bugs" instead of "issues" there. I propose
+"issues" for now, because the new text I've written about reporting
+kernels issues/bugs uses the word "issues" in the filename, the title,
+and the body while avoiding "bug" (see
+Documentation/admin-guide/reporting-issues.rst or
+https://www.kernel.org/doc/html/latest/admin-guide/reporting-issues.html
+). I chose this approach as users are dealing with issues that might or
+might not be bugs in the kernel. We discussed this before above text was
+merged, but in the end stayed with issues:
+https://lore.kernel.org/linux-doc/b5f5dfad-07bb-b518-0dff-3aa340333046@infradead.org/
+BTW, creating this list will partly solve the second of the "FIXME
+warning boxes" currently left in that text (two others are solved by
+patches that are under review currently).
+
+
+The question "Why not simply LKML" will likely pop up, but the thing is:
+searching for reports there will often turn up patches that improve the
+kernel and don't fix anything. That makes it hard to find issue reports,
+especially for users that are not used to deal with mailing lists and
+their archives.
+
+And yes, I'm quite aware that searching linux-issues@lists.linux.dev
+list obviously won't turn up reports that are filed in
+bugzilla.kernel.org or some other bug tracking tool. That's okay, as the
+reporting-issues.rst tells users to look in those places as well.
+
+Another "and yes, I'm quite aware" note: sure reporting issues/bugs by
+mail has downsides and maybe instead of creating yet another mailing
+list it would be better if all the kernel issues would be reported to a
+central place like bugzilla.kernel.org. But that tracker doesn't work
+that well currently, as quite a few of the issues filed there afaics
+never reach the people that need to be handle them. I don't see that
+changing any time soon (we had a discussion about this recently:
+https://lore.kernel.org/linux-doc/20210111194822.4kvl2tx24anyu23k@chatter.i7.local/
+).
+
+Creating a new mailing list for issues OTOH is something that can be
+done quickly and easily to improve the situation without too much
+hassle. That's why that's my plan currently, unless the discussion that
+hopefully evolved due to this mail leads to something better. :-D
+
+Ciao, Thorsten
