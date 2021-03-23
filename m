@@ -2,101 +2,173 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08ED4C433C1
-	for <workflows@archiver.kernel.org>; Tue, 23 Mar 2021 08:59:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 820EAC433DB
+	for <workflows@archiver.kernel.org>; Tue, 23 Mar 2021 14:58:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BBCEA619BD
-	for <workflows@archiver.kernel.org>; Tue, 23 Mar 2021 08:59:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 50CB960232
+	for <workflows@archiver.kernel.org>; Tue, 23 Mar 2021 14:58:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229504AbhCWI63 (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 23 Mar 2021 04:58:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33512 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229500AbhCWI6D (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 23 Mar 2021 04:58:03 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7411C061574;
-        Tue, 23 Mar 2021 01:58:02 -0700 (PDT)
-Received: from ip4d142c50.dynamic.kabel-deutschland.de ([77.20.44.80] helo=[192.168.66.200]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1lOcrO-0004PS-Hi; Tue, 23 Mar 2021 09:57:58 +0100
-To:     Theodore Ts'o <tytso@mit.edu>
+        id S232458AbhCWO6G (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 23 Mar 2021 10:58:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38940 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232372AbhCWO5j (ORCPT <rfc822;workflows@vger.kernel.org>);
+        Tue, 23 Mar 2021 10:57:39 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1646E619BA;
+        Tue, 23 Mar 2021 14:57:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1616511459;
+        bh=rncsdl4i5TrEFMu6+Ym0vGycz7ZFKYV1YcXXIU8sWhk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=uCqO7iaPbbwi6UadGRPL97vvD/O8257MtlKt25IRP4o4l1tRl4ZCH2Vwt8grwc6wa
+         /2VEiACNqZdI6bLfzLjtD3USVIzSEnklfO1YimXVS0ivyNXArlGbqe46QcoP8uHcAm
+         Ow8wMNzFcBwWzQTjgVmOPO8TDmdrmu4T9CPwblF/fdAld3SslIs+3rC9fc9Pl56aqj
+         SrekgMGYx9UHqx3dW1toIj3DdsP8ZQaf3cMwnN5iNnaM4mLtOXNAnsJRjEcG31VEln
+         vjGuH+ycXre1E4415u3IflinACL0xe0mV2NafQpn1ccMJCzrQIV5IT1VsWqOxNEw+5
+         /8HuhaRPFurtA==
+Received: by mail-qv1-f44.google.com with SMTP id j17so10541699qvo.13;
+        Tue, 23 Mar 2021 07:57:39 -0700 (PDT)
+X-Gm-Message-State: AOAM5306tMb4bU5HePMs+3m8j/C8zSh/5YgoJuD89p8HKn5bz3yUC55A
+        WZBhtmJ9VHf3QMLGUp3xqRbidO8TM8dGHNYi2M4=
+X-Google-Smtp-Source: ABdhPJy0Bf1GseHqyXVnbs94f5tPVaGsMsTG1p0um1fqkgNlm8U4SZfOvAeuLw2PRao3cfn+zNk3kze7QKfjivEMxdk=
+X-Received: by 2002:a0c:f805:: with SMTP id r5mr5498083qvn.45.1616511458169;
+ Tue, 23 Mar 2021 07:57:38 -0700 (PDT)
+MIME-Version: 1.0
+References: <613fe50d-fc9c-6282-f1f3-34653acb2ee9@leemhuis.info>
+ <CAHk-=wgiYqqLzsb9-UpfH+=ktk7ra-2fOsdc_ZJ7WF47wS73CA@mail.gmail.com> <62b60247-7838-a624-706e-b1a54785b2a5@leemhuis.info>
+In-Reply-To: <62b60247-7838-a624-706e-b1a54785b2a5@leemhuis.info>
+From:   Luis Chamberlain <mcgrof@kernel.org>
+Date:   Tue, 23 Mar 2021 08:57:25 -0600
+X-Gmail-Original-Message-ID: <CAB=NE6XpDuJdJs2aStPT3+2Z1JgBof3zokboSbqq=+4BKGs+Bw@mail.gmail.com>
+Message-ID: <CAB=NE6XpDuJdJs2aStPT3+2Z1JgBof3zokboSbqq=+4BKGs+Bw@mail.gmail.com>
+Subject: Re: [Ksummit-discuss] RFC: create mailing list "linux-issues"
+ focussed on issues/bugs and regressions
+To:     Thorsten Leemhuis <linux@leemhuis.info>
 Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
         Greg KH <gregkh@linuxfoundation.org>,
         workflows@vger.kernel.org,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        ksummit <ksummit-discuss@lists.linuxfoundation.org>
-References: <613fe50d-fc9c-6282-f1f3-34653acb2ee9@leemhuis.info>
- <CAHk-=wgiYqqLzsb9-UpfH+=ktk7ra-2fOsdc_ZJ7WF47wS73CA@mail.gmail.com>
- <62b60247-7838-a624-706e-b1a54785b2a5@leemhuis.info>
- <YFkSqIN90S4a3HiF@mit.edu>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [Ksummit-discuss] RFC: create mailing list "linux-issues"
- focussed on issues/bugs and regressions
-Message-ID: <54aeb1f7-ffc7-74e1-a731-8970d44ff852@leemhuis.info>
-Date:   Tue, 23 Mar 2021 09:57:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
-MIME-Version: 1.0
-In-Reply-To: <YFkSqIN90S4a3HiF@mit.edu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-BS
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1616489882;d35cf563;
-X-HE-SMSGID: 1lOcrO-0004PS-Hi
+        ksummit <ksummit-discuss@lists.linuxfoundation.org>,
+        Luis Chamberlain <mcgrof@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On 22.03.21 22:56, Theodore Ts'o wrote:
-> On Mon, Mar 22, 2021 at 08:25:15PM +0100, Thorsten Leemhuis wrote:
->> I agree to the last point and yeah, maybe regressions are the more
->> important problem we should work on – at least from the perspective of
->> kernel development.  But from the users perspective (and
->> reporting-issues.rst is written for that perspective) it feel a bit
->> unsatisfying to not have a solution to query for existing report,
->> regressions or not. Hmmmm...
-> First of all, thanks for working on reporting-issues.rst.
+On Mon, Mar 22, 2021 at 1:25 PM Thorsten Leemhuis <linux@leemhuis.info> wro=
+te:
+>
+>
+>
+> On 22.03.21 19:32, Linus Torvalds wrote:
+> > On Mon, Mar 22, 2021 at 8:18 AM Thorsten Leemhuis <linux@leemhuis.info>=
+ wrote:
+> >>
+> >>     I even requested a
+> >> "linux-regressions@vger.kernel.org" a while later, but didn't hear
+> >> anything back; and, sadly, about the same time I started having troubl=
+e
+> >> finding spare time for working on regression tracking. :-/
+> >
+> > Honestly, I'd much prefer the name 'linux-regressions' as being much
+> > more targeted than 'linux-issues'.
+>
+> That only solves one of the two problem I'm trying to solve (albeit the
+> one that is more important to me). That way users still have no easy way
+> to query for reports about issues that are no regressions =E2=80=93 say
+> something is broken and they have no idea if it once worked or never
+> worked at all.
 
-Thx, very glad to hear that. I didn't get much feedback on it, which
-made me wonder if anybody besides docs folks actually looked at it...
+Without a known baseline of what works OK an issue cannot easily be
+categorized as a regression. This "problem" I think deserves its own
+considerations.
 
->  If we can
-> actually get users to *read* it, I think it's going to save kernel
-> developers a huge amount of time and frustration.
+There are some kernel-ci solutions out there which report "issues"
+which help develop such baselines, however what we need is a community
+visible list of the sum, a list of *known issues upstream* represents
+a baseline. The easiest way to develop such baselines are with
+respective tests. We however obviously need to also accept new user
+reported issues as possible issues which can be candidate baseline
+issues, for which perhaps there are no known tests yet available to
+reproduce.
 
-And users hopefully as well. But yes, making them read it is the
-problem. :-/
+Then there are the considerations also that some distribution issues,
+which can be part of a distribution baseline, might fit into the
+circle of upstream known issues, or baseline as well. But not all
+issues part of a distribution baseline are part of the upstream
+baseline, an example is a botched backport. Most distribution
+baselines however tend to be private, however I'd like to see that
+changed using OpenSUSE/SLE as an example in order to help with the
+upstream baseline effort. I'd like to encourage other distributions to
+follow suit.
 
-> I wonder if it might be useful to have a form which users could be
-> encouraged to fill out so that (a) the information is available in a
-> structured format so it's easier for developers to find the relevant
-> information, (b) so it is easier for programs to parse, for easier
-> reporting or indexing, and (c) as a nudge so that users remember to
-> report critical bits of information such as the hardware
-> configuration, the exact kernel version, which distribution userspace
-> was in use, etc.
-> 
-> There could also be something in the text form which would make it
-> easier for lore.kernel.org searches to identify bug reports.  (e.g.,
-> "LINUX KERNEL BUG REPORTER TEMPLATE")
+Test frameworks help develop a baseline and so working on them helps
+reduce the scope of this problem. We have many test frameworks. What I
+have not seen is a public generic baseline "list" for each of these. I
+have spent a bit of time on this problem and have come up with a
+generic format for issues on test frameworks as part of kdevops [0] in
+the hopes that it could be used to easily grep for known issues
+against upstream kernels / distribution releases. The format is
+simple:
 
-Hmmm, yeah, I like that idea. I'll keep it in mind for later: I would
-prefer to get reporting-issues.rst officially blessed and
-reporting-bugs.rst gone before working on further enhancements.
+mcgrof@bicho ~/kdevops (git::master)$ cat
+workflows/blktests/expunges/5.12.0-rc1-next-20210304/failures.txt
+block/009 # korg#212305 failure rate 1/669
+block/011
+block/012
 
-Maybe the best idea would be to have a script and/or webpage that helps
-people creating the proper text form (which they then could simply
-copy-and-paste into their mailer). I had such a script/webpage in mind
-already to help with one of the IMHO biggest pain points when it comes
-to reporting issues: finding where the report needs to go, as decoding
-MAINTAINERS requires that you have a at least a vague idea which
-component might be causing the issue – which afaics is hard even for
-people that known a thing or two about the kernel. :-/
+The korg#212305 refers to bugzilla.kernel.org bug ID #212305 [0].
 
-Ciao, Thorsten
+Distribution issues:
+
+mcgrof@bicho ~/kdevops (git::master)$ cat
+workflows/blktests/expunges/debian/testing/failures.txt
+block/011
+block/012
+meta/005
+meta/006
+meta/009
+nbd/002
+nbd/003 # causes a hang after running a few times
+scsi/004
+
+I have support for blktests and fstests, will add selftests soon. I
+tend to work on debian baseline as a public demo for work. The
+OpenSUSE Leap 15.3 baseline will be reflective of the real SLE15.3
+baseline.
+
+The nice thing about having a public baseline is we can then really be
+confident into labelling a new issue that comes up as a possible
+regression. However, confidence is subjective, and so one must also
+define confidence clearly. You associate confidence to a baseline by
+the number of full tests you have run against a baseline for a
+respective test framework. Borrowing IO stabilizing terms, I'm using a
+test "steady state goal" for this, it means how many times have you
+run all possible tests against a known baseline without failure. So a
+steady state of 100 for blktests means your confidence in the baseline
+you have developed is of 100 full tests. A higher steady state goal
+however means more time is required to test, and so sometimes you
+might be confined to only use a low steady state goal, but then use
+side workers to run random tests with a higher test count. So for
+instance, the failure rate of the issue reported on korg#212305 is
+defined by the average number of times one must run a test in order
+for it to fail. If your baseline steady state goal was just 100,
+chances are low you may have run into that issue.
+
+Are there other known collections of public baselines easily grep'able
+for different test frameworks? Where can we contribute and collaborate
+to such a thing?
+
+PS. My current goal for steady state goal for upstream is 1000 for
+blktests, 100 for fstests per filesystem.
+
+[0] https://github.com/mcgrof/kdevops
+[1] https://bugzilla.kernel.org/show_bug.cgi?id=3D212305
+
+  Luis
