@@ -6,83 +6,84 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 321C3C433E0
-	for <workflows@archiver.kernel.org>; Tue, 23 Mar 2021 18:09:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87CDFC433DB
+	for <workflows@archiver.kernel.org>; Tue, 23 Mar 2021 18:12:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ECC756192B
-	for <workflows@archiver.kernel.org>; Tue, 23 Mar 2021 18:09:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3FF0E619C1
+	for <workflows@archiver.kernel.org>; Tue, 23 Mar 2021 18:12:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231378AbhCWSIa (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 23 Mar 2021 14:08:30 -0400
-Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:55250 "EHLO
+        id S231218AbhCWSMT (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 23 Mar 2021 14:12:19 -0400
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:56154 "EHLO
         outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S231352AbhCWSIF (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 23 Mar 2021 14:08:05 -0400
+        with ESMTP id S231214AbhCWSMC (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 23 Mar 2021 14:12:02 -0400
 Received: from cwcc.thunk.org (pool-72-74-133-215.bstnma.fios.verizon.net [72.74.133.215])
         (authenticated bits=0)
         (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 12NI7RRV010579
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 12NIBs7r012557
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 23 Mar 2021 14:07:28 -0400
+        Tue, 23 Mar 2021 14:11:55 -0400
 Received: by cwcc.thunk.org (Postfix, from userid 15806)
-        id 763FF15C39CC; Tue, 23 Mar 2021 14:07:27 -0400 (EDT)
-Date:   Tue, 23 Mar 2021 14:07:27 -0400
+        id 6FBA415C39CC; Tue, 23 Mar 2021 14:11:54 -0400 (EDT)
+Date:   Tue, 23 Mar 2021 14:11:54 -0400
 From:   "Theodore Ts'o" <tytso@mit.edu>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Thorsten Leemhuis <linux@leemhuis.info>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+To:     Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
         Greg KH <gregkh@linuxfoundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        ksummit <ksummit-discuss@lists.linuxfoundation.org>,
         workflows@vger.kernel.org,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Subject: Re: RFC: create mailing list "linux-issues" focussed on issues/bugs
- and regressions
-Message-ID: <YFouX8vspDCFcBXT@mit.edu>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        ksummit <ksummit-discuss@lists.linuxfoundation.org>
+Subject: Re: [Ksummit-discuss] RFC: create mailing list "linux-issues"
+ focussed on issues/bugs and regressions
+Message-ID: <YFovanxCgq1lF4Ah@mit.edu>
 References: <613fe50d-fc9c-6282-f1f3-34653acb2ee9@leemhuis.info>
  <CAHk-=wgiYqqLzsb9-UpfH+=ktk7ra-2fOsdc_ZJ7WF47wS73CA@mail.gmail.com>
  <62b60247-7838-a624-706e-b1a54785b2a5@leemhuis.info>
- <20210323122025.77888b49@gandalf.local.home>
+ <YFkSqIN90S4a3HiF@mit.edu>
+ <54aeb1f7-ffc7-74e1-a731-8970d44ff852@leemhuis.info>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210323122025.77888b49@gandalf.local.home>
+In-Reply-To: <54aeb1f7-ffc7-74e1-a731-8970d44ff852@leemhuis.info>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Tue, Mar 23, 2021 at 12:20:25PM -0400, Steven Rostedt wrote:
-> On Mon, 22 Mar 2021 20:25:15 +0100
-> Thorsten Leemhuis <linux@leemhuis.info> wrote:
+On Tue, Mar 23, 2021 at 09:57:57AM +0100, Thorsten Leemhuis wrote:
+> On 22.03.21 22:56, Theodore Ts'o wrote:
+> > On Mon, Mar 22, 2021 at 08:25:15PM +0100, Thorsten Leemhuis wrote:
+> >> I agree to the last point and yeah, maybe regressions are the more
+> >> important problem we should work on – at least from the perspective of
+> >> kernel development.  But from the users perspective (and
+> >> reporting-issues.rst is written for that perspective) it feel a bit
+> >> unsatisfying to not have a solution to query for existing report,
+> >> regressions or not. Hmmmm...
+> > First of all, thanks for working on reporting-issues.rst.
 > 
-> > I agree to the last point and yeah, maybe regressions are the more
-> > important problem we should work on – at least from the perspective of
-> > kernel development.  But from the users perspective (and
-> > reporting-issues.rst is written for that perspective) it feel a bit
-> > unsatisfying to not have a solution to query for existing report,
-> > regressions or not. Hmmmm...
-> 
-> I think the bulk of user issues are going to be regressions. Although you
-> may be in a better position to know for sure, but at least for me, wearing
-> my "user" hat, the thing that gets me the most is upgrading to a new kernel
-> and suddenly something that use to work no longer does. And that is the
-> definition of a regression. My test boxes still run old distros (one is
-> running fedora 13). These are the boxes that catch the most issues, and if
-> they do, they are pretty much guaranteed to be a regression.
+> Thx, very glad to hear that. I didn't get much feedback on it, which
+> made me wonder if anybody besides docs folks actually looked at it...
 
-I think it depends on the user and the subsystem.  You're a
-sophisticated user, but I've fielded a goodly number of ext4 "bug
-reports" which were coming from a Ubuntu 16.04 kernel, or a user who
-is seeing a block device issue (either a driver bug or a hardware
-failure), or in some cases both.
+I'll admit that I had missed your initial submission, but having
+looked at it, while I could imagine some nits where it could be
+improved, in my opinion, it's strictly better than the older
+reporting-bugs doc.
 
-A lot of these "bug reports" would be headed off at the pass if we
-advertised:
+> Hmmm, yeah, I like that idea. I'll keep it in mind for later: I would
+> prefer to get reporting-issues.rst officially blessed and
+> reporting-bugs.rst gone before working on further enhancements.
 
+Is there anyone following this thread who believes that there is
+anything we should change *before* oficially blessing
+reporting-issues.rst?  Given that Konstantin has already linked to
+reporting-issues from the front page of kernel.bugzilla.org, I think
+we we should just go ahead and officially bless it and be done with
+it.   :-)
+
+Once it is blessed, I'd also suggest putting a link to
 https://www.kernel.org/doc/html/latest/admin-guide/reporting-issues.html
+as an "other resources" at https://www.kernel.org.
 
-much more heavily; assuming we can get the users to actually read it,
-first.
-
-						- Ted
+					- Ted
