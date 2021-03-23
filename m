@@ -2,107 +2,70 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C09DC433C1
-	for <workflows@archiver.kernel.org>; Tue, 23 Mar 2021 15:02:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF5E6C433C1
+	for <workflows@archiver.kernel.org>; Tue, 23 Mar 2021 16:21:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6EBD56198C
-	for <workflows@archiver.kernel.org>; Tue, 23 Mar 2021 15:02:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7E270619BA
+	for <workflows@archiver.kernel.org>; Tue, 23 Mar 2021 16:21:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232336AbhCWPBu (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 23 Mar 2021 11:01:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55884 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232384AbhCWPBT (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 23 Mar 2021 11:01:19 -0400
-Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com [IPv6:2607:f8b0:4864:20::f35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECE6CC061574
-        for <workflows@vger.kernel.org>; Tue, 23 Mar 2021 08:01:18 -0700 (PDT)
-Received: by mail-qv1-xf35.google.com with SMTP id g8so10609886qvx.1
-        for <workflows@vger.kernel.org>; Tue, 23 Mar 2021 08:01:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Zgh8aUOKNTyxThPCr85/xxGDpm9eLgZzd2NlgtKpAo4=;
-        b=AFRXisxkAPOvvYt9/IY+qLGdtY3Dmt9QINj0Pct5q2rZAjY/MZbqCDqlX7+4p3LmXS
-         g652Xu6Bk0hfGxFHwsgmBYrgdkkPm8A6LNZR0j/44/764LiFUp/Dhqq4OjII7cdUC+Hi
-         oPfb0teemlv6lGp2bBB0ayURMEhw21Y2qe+Oo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Zgh8aUOKNTyxThPCr85/xxGDpm9eLgZzd2NlgtKpAo4=;
-        b=eG0k8SJUUGXlC9NabsMC+GKrJH59fddwukmodZAOxSOs5Cqg3hQKUjmfgk/9awnRdL
-         b66JKExtKCKIpYySdZ+Q+EnGZWyb81Z9THMTgPAfw+RzeeVgxIJAAh7GBQ8FyPjsTUoh
-         j1pOw3zY5MXAiPqxeupcTfkKaxhUgMxzSbWCiCoCKEF2/2Jmms8o9Adv8ETYsqpBIgfJ
-         xRT7jwWT78vMRJfjk8tMR/NOCFYGPAiWCbIV+wPpMKOHIwmEuarUexZ0CV4047rjH6OO
-         EQQ26PrMtEbJL2N7uylUUIzrf6wQEC2z0oPuSk+4nZu1LzyyISnipN4xFtKCk5xInqHl
-         jgbg==
-X-Gm-Message-State: AOAM5315HiBiNZ4ccEF6cEuDEZdQkTn+lWbrAsqbJhyf97yUrObpunUz
-        YFnt7fxUTP+C/t1KDMBcz3B1IurwDSEfgtv/Q6UdtQ==
-X-Google-Smtp-Source: ABdhPJzkQ2Gi2C+hfzbXqYhepfMG6MP1FewNMuW/XTE0FfXwpv7iVI3G3PN3KkRNcKWkiBfe3LgGwCVlQEQ+YKBzIUQ=
-X-Received: by 2002:a05:6214:1424:: with SMTP id o4mr5249801qvx.34.1616511678087;
- Tue, 23 Mar 2021 08:01:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <613fe50d-fc9c-6282-f1f3-34653acb2ee9@leemhuis.info>
- <CAHk-=wgiYqqLzsb9-UpfH+=ktk7ra-2fOsdc_ZJ7WF47wS73CA@mail.gmail.com>
- <62b60247-7838-a624-706e-b1a54785b2a5@leemhuis.info> <YFkSqIN90S4a3HiF@mit.edu>
- <54aeb1f7-ffc7-74e1-a731-8970d44ff852@leemhuis.info>
-In-Reply-To: <54aeb1f7-ffc7-74e1-a731-8970d44ff852@leemhuis.info>
-From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Date:   Tue, 23 Mar 2021 11:01:06 -0400
-Message-ID: <CAMwyc-Sqbkg=VxCWcfRazkGG7vkwEQ43m9Dov_Nawia5MN_oUQ@mail.gmail.com>
-Subject: Re: [Ksummit-discuss] RFC: create mailing list "linux-issues"
- focussed on issues/bugs and regressions
+        id S233152AbhCWQU6 convert rfc822-to-8bit (ORCPT
+        <rfc822;workflows@archiver.kernel.org>);
+        Tue, 23 Mar 2021 12:20:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39878 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233116AbhCWQU2 (ORCPT <rfc822;workflows@vger.kernel.org>);
+        Tue, 23 Mar 2021 12:20:28 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id BE64561477;
+        Tue, 23 Mar 2021 16:20:26 +0000 (UTC)
+Date:   Tue, 23 Mar 2021 12:20:25 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
 To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     "Theodore Ts'o" <tytso@mit.edu>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Greg KH <gregkh@linuxfoundation.org>,
-        workflows@vger.kernel.org,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        ksummit <ksummit-discuss@lists.linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+        ksummit <ksummit-discuss@lists.linuxfoundation.org>,
+        workflows@vger.kernel.org,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Subject: Re: RFC: create mailing list "linux-issues" focussed on issues/bugs
+ and regressions
+Message-ID: <20210323122025.77888b49@gandalf.local.home>
+In-Reply-To: <62b60247-7838-a624-706e-b1a54785b2a5@leemhuis.info>
+References: <613fe50d-fc9c-6282-f1f3-34653acb2ee9@leemhuis.info>
+        <CAHk-=wgiYqqLzsb9-UpfH+=ktk7ra-2fOsdc_ZJ7WF47wS73CA@mail.gmail.com>
+        <62b60247-7838-a624-706e-b1a54785b2a5@leemhuis.info>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Tue, 23 Mar 2021 at 04:58, Thorsten Leemhuis <linux@leemhuis.info> wrote:
-> >  If we can
-> > actually get users to *read* it, I think it's going to save kernel
-> > developers a huge amount of time and frustration.
->
-> And users hopefully as well. But yes, making them read it is the
-> problem. :-/
+On Mon, 22 Mar 2021 20:25:15 +0100
+Thorsten Leemhuis <linux@leemhuis.info> wrote:
 
-I've added a very visible admonition on the front of
-bugzilla.kernel.org. Hopefully, it will help direct some users to
-their distro bug trackers first.
+> I agree to the last point and yeah, maybe regressions are the more
+> important problem we should work on – at least from the perspective of
+> kernel development.  But from the users perspective (and
+> reporting-issues.rst is written for that perspective) it feel a bit
+> unsatisfying to not have a solution to query for existing report,
+> regressions or not. Hmmmm...
 
-> > I wonder if it might be useful to have a form which users could be
-> > encouraged to fill out so that (a) the information is available in a
-> > structured format so it's easier for developers to find the relevant
-> > information, (b) so it is easier for programs to parse, for easier
-> > reporting or indexing, and (c) as a nudge so that users remember to
-> > report critical bits of information such as the hardware
-> > configuration, the exact kernel version, which distribution userspace
-> > was in use, etc.
-> >
-> > There could also be something in the text form which would make it
-> > easier for lore.kernel.org searches to identify bug reports.  (e.g.,
-> > "LINUX KERNEL BUG REPORTER TEMPLATE")
->
-> Hmmm, yeah, I like that idea. I'll keep it in mind for later: I would
-> prefer to get reporting-issues.rst officially blessed and
-> reporting-bugs.rst gone before working on further enhancements.
+I think the bulk of user issues are going to be regressions. Although you
+may be in a better position to know for sure, but at least for me, wearing
+my "user" hat, the thing that gets me the most is upgrading to a new kernel
+and suddenly something that use to work no longer does. And that is the
+definition of a regression. My test boxes still run old distros (one is
+running fedora 13). These are the boxes that catch the most issues, and if
+they do, they are pretty much guaranteed to be a regression.
 
-To my knowledge, git project uses a tool for that:
-https://git-scm.com/docs/git-bugreport
+I like the "linux-regressions" mailing list idea.
 
-Theoretically, a similar tool could exist for the kernel.
-
--K
+-- Steve
