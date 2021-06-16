@@ -7,87 +7,93 @@ X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F361C48BE6
-	for <workflows@archiver.kernel.org>; Wed, 16 Jun 2021 17:55:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 026FEC48BE8
+	for <workflows@archiver.kernel.org>; Wed, 16 Jun 2021 18:05:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 17CF2613F3
-	for <workflows@archiver.kernel.org>; Wed, 16 Jun 2021 17:55:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D4B9F61351
+	for <workflows@archiver.kernel.org>; Wed, 16 Jun 2021 18:05:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231459AbhFPR5Q (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 16 Jun 2021 13:57:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43370 "EHLO
+        id S231532AbhFPSHx (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 16 Jun 2021 14:07:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231463AbhFPR5P (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 16 Jun 2021 13:57:15 -0400
-Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD192C061760
-        for <workflows@vger.kernel.org>; Wed, 16 Jun 2021 10:55:09 -0700 (PDT)
-Received: by mail-qv1-xf36.google.com with SMTP id 5so170578qvf.1
-        for <workflows@vger.kernel.org>; Wed, 16 Jun 2021 10:55:09 -0700 (PDT)
+        with ESMTP id S231518AbhFPSHx (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 16 Jun 2021 14:07:53 -0400
+Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E256BC061574
+        for <workflows@vger.kernel.org>; Wed, 16 Jun 2021 11:05:46 -0700 (PDT)
+Received: by mail-qk1-x72e.google.com with SMTP id q16so307815qkm.9
+        for <workflows@vger.kernel.org>; Wed, 16 Jun 2021 11:05:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=fb5uH11SiIFAJ0zm+0kppwefo6n9B3PFgfoUzS8z2wo=;
-        b=C7L+5NWMo4WVF2MNEXjfgBjQ7Rha7pBO9oHy0Ggy2Az1I+uy823HlCQTvRDjrZun+p
-         0n+IG+NcWOdqWVW/+U9bIkX/wJkqqbUfeHzVZvgCSI4iQjlUL8UAf+AvD2CUx2lN0P89
-         /gwDD5be8NGowpNJpuYDI2td/+iis42hP5AGo=
+        bh=c3+BOKsT9JklU+wBo7OpZl9GkFkrssfC/xuHj/8DH0E=;
+        b=CrdqJUENhxKfaaSSR4F2MWdy9GY6AmsrMJIGbLVqKFOS9ekrROfmZ06/vbZTaZZtAF
+         WkdnR/+e8Xv2lG/tPcfwIITdfFGMP0QQ9ZAURdaub8FVyhxPy9goQP8rBjWlPdtF4W5q
+         qbYyZYeguf7KVulsyBo4S9JK3MA/oo4A37+ws=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=fb5uH11SiIFAJ0zm+0kppwefo6n9B3PFgfoUzS8z2wo=;
-        b=IhRimqFtzBRowRgG+YXUQ5y9DDAV1gG6K/hP2GHr8Qh4ZjT5GF+s8zuaWd4DTyPW3L
-         kAItVG6H4xk/ep1g3dczJjht5PJEvDyNYEuX3wa8Oofi1upJXyS5Jpuz3oEI2yBsCXX1
-         UJVLESN8M0pM+6WodwsPQNuIqIrsOi4hAWVsW7Byadm0dJIqjXL/J+TVod9L4+oRg44R
-         jiyGHMNJ1bLnCL1ylgudZaqa+RGqqwN/BeWLyYWWO7mOLI7KLmTPBtuoiD9sT0xJNI3K
-         fysamz8hyKo1oo/mC1Kgrvg7JEeCl6Be1wakLXrVuDP7gtsfWtfSdEd47CvRRkaDgCYX
-         IIUw==
-X-Gm-Message-State: AOAM531ynnAOBeExBXt2uUdHuchHURfjh1pli1yagXH2LiH0WHf0ougM
-        UJDeHfS/VOCoQkapHNZTsqVhDlC0aCMf6g==
-X-Google-Smtp-Source: ABdhPJzTHtWiwSBKtaYXpchkD7e7WyRxyebQDMWaQivDaFNjOvoqAZLrf/k/aGiH+HOh9hPPFNmYEw==
-X-Received: by 2002:ad4:5d66:: with SMTP id fn6mr1318933qvb.12.1623866108699;
-        Wed, 16 Jun 2021 10:55:08 -0700 (PDT)
+        bh=c3+BOKsT9JklU+wBo7OpZl9GkFkrssfC/xuHj/8DH0E=;
+        b=qdStWl2a+QQEKV61JnrcN2Ko1BF0aJypzQQ/pMlV6THvkc7IinSzRelUi346WWeCjh
+         JeO3DZS02Wk9cnteiMfYRknMPgnffIp/NZ4xeY6wjsYZ0gOLUX0OzdFv3lgZ4hsdsBBX
+         oMDZZkeynCGjcBehvHCBjKZgA9qAV1CGPYFJ06EbBH0Z2TF1/TwUYCW0iDiW7cBH7uix
+         V2Q+jTIgJ7TDVpgbP5TcRC9DjyDRDXOEj9RGpE2LV7D5IK4hw9VZbqJPQBO9XrpCHcqB
+         aR63hfxQPz/MBK25NHKA1lD+kU1Kn+LbY+GBpIcH6MW5lBrN/agwXMF4YVBk93oloUUf
+         ZamQ==
+X-Gm-Message-State: AOAM530ImWz5ebw7dn1+D33KZHgxIfQ2Row/SWU0EugbIqvlnWr0uDHG
+        zIoGaVH8gJlyHFHH9UTeUynbFA==
+X-Google-Smtp-Source: ABdhPJxLVekqwoWk77iNvz/TRL+ZBQtUtKLgk6xTMPMsOZmoe3cCLOFb63nzC1uoSk1I2pTUqqjjXw==
+X-Received: by 2002:a05:620a:1299:: with SMTP id w25mr1445292qki.320.1623866746050;
+        Wed, 16 Jun 2021 11:05:46 -0700 (PDT)
 Received: from nitro.local ([89.36.78.230])
-        by smtp.gmail.com with ESMTPSA id w4sm1135758qkw.91.2021.06.16.10.55.08
+        by smtp.gmail.com with ESMTPSA id z188sm2155089qkd.68.2021.06.16.11.05.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jun 2021 10:55:08 -0700 (PDT)
-Date:   Wed, 16 Jun 2021 13:55:06 -0400
+        Wed, 16 Jun 2021 11:05:45 -0700 (PDT)
+Date:   Wed, 16 Jun 2021 14:05:43 -0400
 From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To:     Johannes Berg <johannes@sipsolutions.net>
+To:     Ido Rosen <ido@kernel.org>
 Cc:     users@linux.kernel.org, workflows@vger.kernel.org
 Subject: Re: RFC: Github PR bot questions
-Message-ID: <20210616175506.pzds7shhwyec3imb@nitro.local>
+Message-ID: <20210616180543.wevddhlzq4ow22f5@nitro.local>
 References: <20210616171813.bwvu6mtl4ltotf7p@nitro.local>
- <eecb639de83eb46f0ec52cc131e8ac2d4170b411.camel@sipsolutions.net>
+ <CAJhbpm_BgbSx581HU0mTCkcE28n_hRx=tv74az_mE2VBmPtrVA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <eecb639de83eb46f0ec52cc131e8ac2d4170b411.camel@sipsolutions.net>
+In-Reply-To: <CAJhbpm_BgbSx581HU0mTCkcE28n_hRx=tv74az_mE2VBmPtrVA@mail.gmail.com>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Wed, Jun 16, 2021 at 07:47:29PM +0200, Johannes Berg wrote:
-> > - We can *probably* track when patch series get applied and auto-close pull
-> >   requests that are accepted -- but it's not going to be perfect (we'd
-> >   basically be using git-patch-id to match commits to pull requests). Or is it
-> >   better to auto-close the pull request right after it's sent to the list with
-> >   a message like "thank you, please monitor your email for the rest of the
-> >   process"? The latter is much easier for me, of course. :)
-> 
-> Those two conflict, no? I mean, if you close it, then there won't really
-> be a v2/vX?
-> 
-> Given that many (if not most) patch series require a v2 or more, it
-> would seem closing it immediately would be a bit confusing, and then
-> what do you even do to get a v2?
+On Wed, Jun 16, 2021 at 10:48:59AM -0700, Ido Rosen wrote:
+> I’d suggest limiting the feature set to automatically responding to GitHub
+> PRs with a link to a tutorial on how to contribute patches etc.  Doing too
+> much for them may create more harm than good in the long run because it
+> removes the incentive to learn the contribution process.
 
-Unless I'm misreading the docs, the submitter should be able to reopen the
-closed pull request, so it's not a permanent action. This may actually make it
-easier to track things for v1/v2, since we wouldn't need to continuously poll
-open pull requests to see if any of them changed.
+I do understand that sentiment, to a degree; in fact, I often compare our
+process to submitting a paper to a peer-reviewed journal. You can't just email
+your napkin thoughts -- it must be formatted in a very specific way, list its
+references in a very specific way etc, etc.
+
+However, that is not a perfect analogy. Our code review process must also
+allow for what is effectively a "report a typo" link. Currently, this is
+extremely onerous for anyone, as a 15-minute affair suddenly becomes a
+herculean effort. The goal of this work is to make drive-by patches easier
+without also burying maintainers under a pile of junk submissions.
+
+> An exception to this would be documentation patches and typo fixes: the
+> GitHub web editor makes it very easy to edit documentation and other
+> changes that don’t require compilation to test (e.g. spelling errors in
+> comments, man pages, txt files, etc.).
+
+Or it could be a tiny change in the driver string output, so I'm not sure it
+makes sense to limit this to just docs (especially with many docs being
+sourced straight from .c files).
 
 -K
