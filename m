@@ -2,98 +2,105 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 026FEC48BE8
-	for <workflows@archiver.kernel.org>; Wed, 16 Jun 2021 18:05:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63010C48BE6
+	for <workflows@archiver.kernel.org>; Wed, 16 Jun 2021 18:11:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D4B9F61351
-	for <workflows@archiver.kernel.org>; Wed, 16 Jun 2021 18:05:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 28EF161027
+	for <workflows@archiver.kernel.org>; Wed, 16 Jun 2021 18:11:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231532AbhFPSHx (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 16 Jun 2021 14:07:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45730 "EHLO
+        id S231604AbhFPSNl (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 16 Jun 2021 14:13:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231518AbhFPSHx (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 16 Jun 2021 14:07:53 -0400
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E256BC061574
-        for <workflows@vger.kernel.org>; Wed, 16 Jun 2021 11:05:46 -0700 (PDT)
-Received: by mail-qk1-x72e.google.com with SMTP id q16so307815qkm.9
-        for <workflows@vger.kernel.org>; Wed, 16 Jun 2021 11:05:46 -0700 (PDT)
+        with ESMTP id S231593AbhFPSNl (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 16 Jun 2021 14:13:41 -0400
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3862DC061574
+        for <workflows@vger.kernel.org>; Wed, 16 Jun 2021 11:11:35 -0700 (PDT)
+Received: by mail-yb1-xb31.google.com with SMTP id p184so4275148yba.11
+        for <workflows@vger.kernel.org>; Wed, 16 Jun 2021 11:11:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=c3+BOKsT9JklU+wBo7OpZl9GkFkrssfC/xuHj/8DH0E=;
-        b=CrdqJUENhxKfaaSSR4F2MWdy9GY6AmsrMJIGbLVqKFOS9ekrROfmZ06/vbZTaZZtAF
-         WkdnR/+e8Xv2lG/tPcfwIITdfFGMP0QQ9ZAURdaub8FVyhxPy9goQP8rBjWlPdtF4W5q
-         qbYyZYeguf7KVulsyBo4S9JK3MA/oo4A37+ws=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=u+8af1CFPSAepoNG4MQoYgPhi9JnnkajIyv11hAvWfY=;
+        b=Hcdm5Z5ODlUkMcDXCdiPlrTpcR8ki3DUBo1+1+uzL2AlHxSBVY6krjt7siq/DBY9Mb
+         Muhk7/7yQ+8BmFhBD+jbaD9A2L8RsZpqeuGYAidvGP0IK5DsIkomN0QFBSSNOUZyXPOz
+         rKrJwTkwMqploagZAAU9fJY9EcTcdqQhM6NBsWPBVRjHBDKCdQLjXGbG2wq/rT+ukd+i
+         P5PEpKEMqGh8O+NAo8blqksJnAnJ9HZlbmTdudrv7BE+5YQmGKCKl4L+UVOdTGGCoxEL
+         mbHlMKYNUyhlhrNvH3usdh8z1sRl15R2iyiMbanEP6mTBqhEnx34d1lVYbtotqHFtfq4
+         1g8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=c3+BOKsT9JklU+wBo7OpZl9GkFkrssfC/xuHj/8DH0E=;
-        b=qdStWl2a+QQEKV61JnrcN2Ko1BF0aJypzQQ/pMlV6THvkc7IinSzRelUi346WWeCjh
-         JeO3DZS02Wk9cnteiMfYRknMPgnffIp/NZ4xeY6wjsYZ0gOLUX0OzdFv3lgZ4hsdsBBX
-         oMDZZkeynCGjcBehvHCBjKZgA9qAV1CGPYFJ06EbBH0Z2TF1/TwUYCW0iDiW7cBH7uix
-         V2Q+jTIgJ7TDVpgbP5TcRC9DjyDRDXOEj9RGpE2LV7D5IK4hw9VZbqJPQBO9XrpCHcqB
-         aR63hfxQPz/MBK25NHKA1lD+kU1Kn+LbY+GBpIcH6MW5lBrN/agwXMF4YVBk93oloUUf
-         ZamQ==
-X-Gm-Message-State: AOAM530ImWz5ebw7dn1+D33KZHgxIfQ2Row/SWU0EugbIqvlnWr0uDHG
-        zIoGaVH8gJlyHFHH9UTeUynbFA==
-X-Google-Smtp-Source: ABdhPJxLVekqwoWk77iNvz/TRL+ZBQtUtKLgk6xTMPMsOZmoe3cCLOFb63nzC1uoSk1I2pTUqqjjXw==
-X-Received: by 2002:a05:620a:1299:: with SMTP id w25mr1445292qki.320.1623866746050;
-        Wed, 16 Jun 2021 11:05:46 -0700 (PDT)
-Received: from nitro.local ([89.36.78.230])
-        by smtp.gmail.com with ESMTPSA id z188sm2155089qkd.68.2021.06.16.11.05.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jun 2021 11:05:45 -0700 (PDT)
-Date:   Wed, 16 Jun 2021 14:05:43 -0400
-From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To:     Ido Rosen <ido@kernel.org>
-Cc:     users@linux.kernel.org, workflows@vger.kernel.org
-Subject: Re: RFC: Github PR bot questions
-Message-ID: <20210616180543.wevddhlzq4ow22f5@nitro.local>
-References: <20210616171813.bwvu6mtl4ltotf7p@nitro.local>
- <CAJhbpm_BgbSx581HU0mTCkcE28n_hRx=tv74az_mE2VBmPtrVA@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=u+8af1CFPSAepoNG4MQoYgPhi9JnnkajIyv11hAvWfY=;
+        b=hQdndLZLWnD72ap6tTHAqihmHgMkqvNeyBAGbr5CBfE86woXkKVBdiZ0AHVLggTsi+
+         a2KqCUkYZzSj+JrEDBVLuYLbxTHbWP9g5PHPsbCbW0HHjriR/erY0iGv0drgnip6WGOm
+         MH/+R5XFvdlqADUNGpCYGfE70aS4uIu3uOXICmYrqkJkiKtR+l8FZC565ucI3awcs2q5
+         2jA41HTWIJ6MWhmSm4lFiCBA4qHqBkNUIu8bJPCShP4KuSZVVxrd8KcBlrPv0lMAffHJ
+         38OgD85fKeMf8Bc6ciDtmzMex9I7XUf6m8UkGLRgCZgR8VHid+wAl5FhDXlnLwUigkSb
+         1/RA==
+X-Gm-Message-State: AOAM5327qzqmUgm8/xMZyw1qV0KL022Y7eF622Xcd7Ef/TscIj93f0as
+        +UlXzfrwWLxs3ewnqv9p1eOKsGrm6g2Dl4ef2hc=
+X-Google-Smtp-Source: ABdhPJyxMLDJL1EnkO39krnxACEJXPGK0bGpxj/H9gbl3vpquerwixPFDOrVhLUi/5xqSS/IUoA6QlANyBV35t1a8+M=
+X-Received: by 2002:a25:cc55:: with SMTP id l82mr541366ybf.26.1623867094430;
+ Wed, 16 Jun 2021 11:11:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJhbpm_BgbSx581HU0mTCkcE28n_hRx=tv74az_mE2VBmPtrVA@mail.gmail.com>
+References: <20210616171813.bwvu6mtl4ltotf7p@nitro.local>
+In-Reply-To: <20210616171813.bwvu6mtl4ltotf7p@nitro.local>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Wed, 16 Jun 2021 20:11:23 +0200
+Message-ID: <CANiq72=qmGRTUYzXs_FP0Y2_pJOm=5O7bSTBwXawH29oTApuuw@mail.gmail.com>
+Subject: Re: RFC: Github PR bot questions
+To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc:     users@linux.kernel.org, workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Wed, Jun 16, 2021 at 10:48:59AM -0700, Ido Rosen wrote:
-> I’d suggest limiting the feature set to automatically responding to GitHub
-> PRs with a link to a tutorial on how to contribute patches etc.  Doing too
-> much for them may create more harm than good in the long run because it
-> removes the incentive to learn the contribution process.
+Hi Konstantin,
 
-I do understand that sentiment, to a degree; in fact, I often compare our
-process to submitting a paper to a peer-reviewed journal. You can't just email
-your napkin thoughts -- it must be formatted in a very specific way, list its
-references in a very specific way etc, etc.
+On Wed, Jun 16, 2021 at 7:18 PM Konstantin Ryabitsev
+<konstantin@linuxfoundation.org> wrote:
+>
+> I've been doing some work on the "github-pr-to-ml" bot that can monitor GitHub
+> pull requests on a project and convert them into fully well-formed patch
+> series. This would be a one-way operation, effectively turning Github into a
+> fancy "git-send-email" replacement. That said, it would have the following
+> benefits for both submitters and maintainers:
 
-However, that is not a perfect analogy. Our code review process must also
-allow for what is effectively a "report a typo" link. Currently, this is
-extremely onerous for anyone, as a 15-minute affair suddenly becomes a
-herculean effort. The goal of this work is to make drive-by patches easier
-without also burying maintainers under a pile of junk submissions.
+For Rust for Linux, I have a GitHub bot that reviews PRs and spots the
+usual mistakes in commit messages (tags, formatting, lkml vs. lore
+links, that sort of thing). It has been very effective so far to teach
+newcomers how to follow the kernel development process.
 
-> An exception to this would be documentation patches and typo fixes: the
-> GitHub web editor makes it very easy to edit documentation and other
-> changes that don’t require compilation to test (e.g. spelling errors in
-> comments, man pages, txt files, etc.).
+I am also extending it to take Acks, Reviewed-by's, Tested-by's, etc.,
+and then performing the merge only if the CI passes (which includes
+running tests under QEMU, code formatting, lints, etc.) after applying
+each patch.
 
-Or it could be a tiny change in the driver string output, so I'm not sure it
-makes sense to limit this to just docs (especially with many docs being
-sourced straight from .c files).
+So, in a way, I am trying to go a bit further by bringing the kernel
+development workflow into GitHub (and similar services), rather than
+keeping the ML as the main place for code review etc. I know it can be
+controversial, but hey, I want to try. :)
 
--K
+I also thought about having the bot parse the ML and create PRs
+automatically from that (i.e. the reverse direction from what you want
+to achieve), and I thought about reusing some of your `b4` code for
+that, but it will depend on the amount of patches we receive in the ML
+etc. One could even make it bi-directional to some degree, but I am
+not sure it is worth the complexity.
+
+By the way, the gccrs project (also in GitHub, but also following
+GCC's workflow which involves MLs) also wanted something like ML-to-PR
+direction, and I suggested to them taking a look at `b4` too.
+
+Cheers,
+Miguel
