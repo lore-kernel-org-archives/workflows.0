@@ -2,65 +2,61 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=BAYES_20,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89658C48BE6
-	for <workflows@archiver.kernel.org>; Wed, 16 Jun 2021 17:47:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A150BC48BE5
+	for <workflows@archiver.kernel.org>; Wed, 16 Jun 2021 17:49:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7288C61209
-	for <workflows@archiver.kernel.org>; Wed, 16 Jun 2021 17:47:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 946C961921
+	for <workflows@archiver.kernel.org>; Wed, 16 Jun 2021 17:49:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231463AbhFPRtj (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 16 Jun 2021 13:49:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41716 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230350AbhFPRtj (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 16 Jun 2021 13:49:39 -0400
-Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76828C061574
-        for <workflows@vger.kernel.org>; Wed, 16 Jun 2021 10:47:33 -0700 (PDT)
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-        (Exim 4.94.2)
-        (envelope-from <johannes@sipsolutions.net>)
-        id 1ltZdR-007hku-TE; Wed, 16 Jun 2021 19:47:29 +0200
-Message-ID: <eecb639de83eb46f0ec52cc131e8ac2d4170b411.camel@sipsolutions.net>
-Subject: Re: RFC: Github PR bot questions
-From:   Johannes Berg <johannes@sipsolutions.net>
-To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        users@linux.kernel.org, workflows@vger.kernel.org
-Date:   Wed, 16 Jun 2021 19:47:29 +0200
-In-Reply-To: <20210616171813.bwvu6mtl4ltotf7p@nitro.local>
-References: <20210616171813.bwvu6mtl4ltotf7p@nitro.local>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+        id S230350AbhFPRvh (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 16 Jun 2021 13:51:37 -0400
+Received: from out0.migadu.com ([94.23.1.103]:51570 "EHLO out0.migadu.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230291AbhFPRve (ORCPT <rfc822;workflows@vger.kernel.org>);
+        Wed, 16 Jun 2021 13:51:34 -0400
+X-Greylist: delayed 324 seconds by postgrey-1.27 at vger.kernel.org; Wed, 16 Jun 2021 13:51:34 EDT
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-malware-bazaar: not-scanned
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cmpwn.com; s=key1;
+        t=1623865438;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=09OywGFbOH0AKNZgYQ+3bmwRxN7CHBvB4jCDhtKQ0a0=;
+        b=au8MYGw8ta3Y3XDIN6Z+QBPoZywTk2Y6aOTD4QIZNVAuDuBVMxSKYNFU7PEC6uyLfAiuRn
+        j++f5HbWpv8JjRSxMFYqUlJZVEzwe+/oY1njGO0zgCBLgLXcXkR87MszpIl/Fp2QBwVMfH
+        XldaDwazM6BtxESBuo+qg7hqlB+XPprMZRZYwzJpYljTPRtixp2z/w8UxnbsAJTfyLnq65
+        M37U37nuRG/GdWMVs2QbvX6EYlmQ3k6CrB7akMb+7r0VGLKIpCdNQLHkKWsfuk8XmcR5bO
+        c3dtnJ7I+lujPyR238CZKuDEL+HcdchC728IfQcPaWlOZ61dpWbctOfAeqHrlA==
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date:   Wed, 16 Jun 2021 13:24:33 -0400
+Message-Id: <CC57UCW5H2NE.3A6404HP4WC2Z@taiga>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   "Drew DeVault" <sir@cmpwn.com>
+To:     "Konstantin Ryabitsev" <konstantin@linuxfoundation.org>,
+        <users@linux.kernel.org>, <workflows@vger.kernel.org>
+Subject: Re: RFC: Github PR bot questions
+References: <20210616171813.bwvu6mtl4ltotf7p@nitro.local>
+In-Reply-To: <20210616171813.bwvu6mtl4ltotf7p@nitro.local>
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: sir@cmpwn.com
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Wed, 2021-06-16 at 13:18 -0400, Konstantin Ryabitsev wrote:
-> 
-> - the bot should (eventually) be clever enough to automatically track v1..vX
->   on pull request updates, assuming the API makes it straightforward
+FYI I have some prior art doing this in the reverse:
 
+https://lists.alpinelinux.org/~alpine/aports/patches/3527
+https://gitlab.alpinelinux.org/alpine/aports/-/merge_requests/21708
 
-> - We can *probably* track when patch series get applied and auto-close pull
->   requests that are accepted -- but it's not going to be perfect (we'd
->   basically be using git-patch-id to match commits to pull requests). Or is it
->   better to auto-close the pull request right after it's sent to the list with
->   a message like "thank you, please monitor your email for the rest of the
->   process"? The latter is much easier for me, of course. :)
+via dispatch.sr.ht:
 
-Those two conflict, no? I mean, if you close it, then there won't really
-be a v2/vX?
+https://git.sr.ht/~sircmpwn/dispatch.sr.ht
 
-Given that many (if not most) patch series require a v2 or more, it
-would seem closing it immediately would be a bit confusing, and then
-what do you even do to get a v2?
-
-johannes
-
+I would be quite happy to see support for doing this the other way
+around, too.
