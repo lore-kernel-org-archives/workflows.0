@@ -2,113 +2,160 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_RED,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47521C2B9F4
-	for <workflows@archiver.kernel.org>; Thu, 17 Jun 2021 18:43:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26D52C2B9F4
+	for <workflows@archiver.kernel.org>; Thu, 17 Jun 2021 20:43:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 38E7C613FB
-	for <workflows@archiver.kernel.org>; Thu, 17 Jun 2021 18:43:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E7D46610CD
+	for <workflows@archiver.kernel.org>; Thu, 17 Jun 2021 20:43:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233371AbhFQSpm (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 17 Jun 2021 14:45:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36992 "EHLO
+        id S231589AbhFQUpM (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 17 Jun 2021 16:45:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231497AbhFQSpl (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 17 Jun 2021 14:45:41 -0400
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72A60C061574
-        for <workflows@vger.kernel.org>; Thu, 17 Jun 2021 11:43:32 -0700 (PDT)
-Received: by mail-qk1-x72e.google.com with SMTP id q16so4608909qkm.9
-        for <workflows@vger.kernel.org>; Thu, 17 Jun 2021 11:43:32 -0700 (PDT)
+        with ESMTP id S231474AbhFQUpM (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 17 Jun 2021 16:45:12 -0400
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CF0AC061574
+        for <workflows@vger.kernel.org>; Thu, 17 Jun 2021 13:43:03 -0700 (PDT)
+Received: by mail-pg1-x533.google.com with SMTP id t17so5924795pga.5
+        for <workflows@vger.kernel.org>; Thu, 17 Jun 2021 13:43:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=KSkMrcggjCOoGEJDL1W3dI4ogdg629R++loSanZwrJw=;
-        b=IQ6Q61OfGl9aEOAgh47Bv5MKaeICIQnMHHRXUM1RRRPzvlnsmuAxTUu2eRXL153TgD
-         6uOpLurz+yqkfFfvJhDVXzq4NJIyvkROyIgyJtw6RusU7Z2vo8bWG9VL7AQ03QAXr2qE
-         CIRm/V+0Pp6igJuXVjeyaJ2FImsbS7OD//VvSaP9vwTSpTglbfCDs3nX/IqMZYOP2vzP
-         10fx2F0Q66Hzh/jnR150pQFOuJwkBG3KKb8Fqpfe5u8r8l3CiRT+6Y+1EASEDuftkO1e
-         Xp0r3iCf4DxjIgNv7GeFH5lgsfprj6Rf1rrOjasUJvhERBoHvZ9u7YcZBgLNXsRxzRAi
-         DU2A==
+        bh=hgi6gBgUXoAg1WLfO7wk8pQo3kpyPyhXHW62cqXwst8=;
+        b=KD4IO7hNy6zeLTb88nfjh9o/dopoZAoK2RxzTj2yCSqxjMLyVyyMS+5y/IBBbzD+nx
+         IhvACgF+yb+mnhCT8YLCM+JAFeull2UMLVnTh5ynPNrqZKHg7lwIMSLOWLfNdzYLGDb5
+         7laGKVf/wPVw9lIFoYuqEZtkbNILmDq2ygOItN2YY83uACXsEz99wnNZKAEaHxUtvZab
+         1OmJ/ZUh2/iSX+WH0l9jZFEAtCRws2+lnn605Id4027crQi2lJ1wNHxPk0sq9ADyjy8h
+         2+7Cg0mXNl7QWW7l+x5zLp2ScDqnlrhkIbOl4C9Nj9arpn0ucTwOUqBlzQJa97wW71cA
+         2ibQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=KSkMrcggjCOoGEJDL1W3dI4ogdg629R++loSanZwrJw=;
-        b=hDpVBW8dSAj/+WsG7MHJBacBoLDruJl5lje79Wi1LmuVx4R874BZlYkXqXqow+ZfBV
-         IPxG6mBaqYotqiLi/B+ZI/Ku7o8jaOGBjZyF3c+kFvU9ShVJgyDjoaYf5cx4PIoEXZBj
-         SEq/vW2CTaPQk6WmTPt/28Nk4bFKqRlStZRFjj0T9p8har0LqJFodaY0BN0X9g46QDrn
-         VHb9CbqrFA3il2MfoSmBpvxCQmvlLcTUXar+aDVH5xhxKoqZMK+DTJ6jSdgtwpAQebPi
-         GW43p2AzAA6OkmUm//B2/NNpvVRi4uC+oYZd/e4htJt7FpfMi6Dc2ZanK01jps4hEXrc
-         4QCA==
-X-Gm-Message-State: AOAM533bgrmj+Wmv239IAgN+fJA+dn9rOKsYUa2mVv+q8ve4XYZgnk4g
-        ooHC5s95fYxggc2CdJwS8JSLZuTR4n2gBVmh2fo=
-X-Google-Smtp-Source: ABdhPJxF7Rj4MF9jImAHBj7QS4RAAuxUX7v3dws2R3S1ucsExuDiJyh5rblLCJogtTzzE3OxRztJikyM5Hdf5eT7JuI=
-X-Received: by 2002:a25:cc55:: with SMTP id l82mr8570032ybf.26.1623955411662;
- Thu, 17 Jun 2021 11:43:31 -0700 (PDT)
+        bh=hgi6gBgUXoAg1WLfO7wk8pQo3kpyPyhXHW62cqXwst8=;
+        b=Yz4E8k5gGerOvXGLdxHIZiYKA9DBcV3cBqh5VsFnZ4Lm1NI65S0fPcqlsgVDLHNjpv
+         mDhF1pbVHghwrlWiczpgS96OQJqwBT2AtBF17M/B4OCiY7UvaFuRerEjul1VFyyXJOWp
+         Ao2JMgCu/7X1JDk+s3Rjx/XUyGrj2MgkXGdHItCGJeyT3mHPjRIfdjNUeQcIdD7/nhX4
+         m+r4vxBQ/7kLLTl6AgaHkpfhman1yGjVR63hiMBPDu3K2BDpddqGzBJ67OgUYjLOkfsC
+         w46wyppF99Jk8SU2as0OIZUjRXx7LvHQuNPp+9qQw3N1g6EOIAR34/Y2UJ0Q2l7adTmF
+         amvA==
+X-Gm-Message-State: AOAM530WG1NX4Ll7LFSdcthC7QDop09JqJdYPJZtaguB6cqP8KFQ+bgL
+        mOXlYi/y0bEm3h5by9mQ1E+CIvfvtWnBlzJRMGBJhA==
+X-Google-Smtp-Source: ABdhPJyzcZ4bh2BPYLYrocjdlYlE+kK4gtXjpL9yZW6k3hjUeR8L/m5DEwllaEL7n2qNd9YnFJ7srHWpThW2UB6Kgyw=
+X-Received: by 2002:a63:485a:: with SMTP id x26mr6634594pgk.159.1623962582395;
+ Thu, 17 Jun 2021 13:43:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210616171813.bwvu6mtl4ltotf7p@nitro.local> <YMsGoI0UdbmUebhX@infradead.org>
- <nycvar.YFH.7.76.2106171031220.18969@cbobk.fhfr.pm> <CACT4Y+YoHYCKaLdZFSLqKsMz1j72i=k12FVpmSo-OyB7rCorsw@mail.gmail.com>
- <YMsfXuykH6z0ZbpM@infradead.org> <20210617145728.nahkvtxapozccm6c@nitro.local>
- <20210617151659.GF5067@sirena.org.uk> <YMtpHPaJzMxmhslt@pendragon.ideasonboard.com>
-In-Reply-To: <YMtpHPaJzMxmhslt@pendragon.ideasonboard.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Thu, 17 Jun 2021 20:43:20 +0200
-Message-ID: <CANiq72n-L=aroXFfnoF96Edk6F7+hqHu_BTaKuKAeA0MgOcSbw@mail.gmail.com>
+References: <20210616171813.bwvu6mtl4ltotf7p@nitro.local>
+In-Reply-To: <20210616171813.bwvu6mtl4ltotf7p@nitro.local>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Thu, 17 Jun 2021 13:42:30 -0700
+Message-ID: <CAFd5g44cerCLF6yd_voFAEr9B+G4bLPve-ARVv8N30pHj9Zdzg@mail.gmail.com>
 Subject: Re: RFC: Github PR bot questions
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Mark Brown <broonie@kernel.org>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Jiri Kosina <jikos@kernel.org>, users@linux.kernel.org,
-        workflows@vger.kernel.org
+To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc:     users@linux.kernel.org, workflows@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Thu, Jun 17, 2021 at 5:24 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
+On Wed, Jun 16, 2021 at 10:18 AM Konstantin Ryabitsev
+<konstantin@linuxfoundation.org> wrote:
 >
-> There are some features (or lack thereof) of git..b that I suspect
-> actively decrease the quality of the hosted software. For instance, the
-> inability to comment on the commit messages during review can play a
-> role in the average low quality of those messages. Similarly, review is
+> Hi, all:
+>
+> I've been doing some work on the "github-pr-to-ml" bot that can monitor GitHub
+> pull requests on a project and convert them into fully well-formed patch
+> series. This would be a one-way operation, effectively turning Github into a
+> fancy "git-send-email" replacement. That said, it would have the following
+> benefits for both submitters and maintainers:
 
-It only decreases the quality of the repository if you allow the
-commits to go in.
+Neat! I have been going from the other direction, trying to take
+patches sent to LKML (actually from the kselftest mailing list) and
+upload them to Gerrit:
 
-The same happens in the LKML -- some people have sent bad messages,
-but we correct them and they learn.
+https://linux-review.googlesource.com/
 
-Also, as soon as you have a queue of well-written PRs (equivalently:
-messages in lore), then it is easier for others to know what the
-customs for a given project are.
+My thinking was that most developers would want to keep sending
+patches via git-send-email, but sometimes it is really nice to have a
+side-by side diff without having to download a patch and apply it
+somewhere. Also, sometimes it is nice to have all the comments on code
+in a single place (I have got it able to extract comments from emails
+- although not super reliably).
 
-> Developers who have only been exposed to those platforms are very likely
-> to never have learnt the importance of commit messages, and of proper
-> split of changes across commits. Those are issues that are inherent to
-> those platforms and that we will likely need to handle in an automated
-> way (at least to some extent) or maintainers will become crazy (I know
-> we already suffer from those issues with the mailing list-based
-> workflow, but I believe it would get worse, not better, and some of our
-> maintainers are already suffering way more than they should).
+I was thinking it might be nice to be able to go both directions, but
+it had not been on the top of my priority list.
 
-I am not sure it would get worse: in Rust for Linux, contributors that
-were new to the kernel process learnt quite quickly how to write
-proper commit messages.
+> - submitters would no longer need to navigate their way around
+>   git-format-patch, get_maintainer.pl, and git-send-email -- nor would need to
+>   have a patch-friendly outgoing mail gateway to properly contribute patches
 
-I think all depends on how willing to learn people is and how strict
-maintainers are enforcing things.
+I like having the tools run automatically, that was something I wanted
+to do with my LKML-Gerrit-Bridge at some point.
 
-But I agree that a bot that automatically performs the basic reviews
-helps *a lot*.
+> - subsystem maintainers can configure whatever CI pre-checks they want before
+>   the series is sent to them for review (and we can work on a library of
+>   Github actions, so nobody needs to reimplement checkpatch.pl multiple times)
 
-Cheers,
-Miguel
+That would be awesome!
+
+> - the bot should (eventually) be clever enough to automatically track v1..vX
+>   on pull request updates, assuming the API makes it straightforward
+
+Yeah, that's something I have wanted to do with the
+LKML-Gerrit-Bridge. This would be super awesome!
+
+> A this point, I need your input to make sure I'm not going down any wrong
+> paths:
+>
+> - My general assumption is that putting this bot on github.com/torvalds/linux
+>   would not be useful, as this will probably result in more noise than signal.
+>   I expect that subsystem maintainers would prefer to configure their own
+>   GitHub projects so they can have full control on what kind of CI prechecks
+>   must succeed before the series is sent out. Is that a valid assumption, or
+>   should I be working towards having a single point of submission on each
+>   forge platform (Github, Gitlab, etc)?
+
+I would like to be able to run KUnit tests, and I am sure other
+maintainers would want to run other tests. Beyond that, I don't think
+I would want to deviate from your above defaults too much.
+
+> - We can *probably* track when patch series get applied and auto-close pull
+>   requests that are accepted -- but it's not going to be perfect (we'd
+>   basically be using git-patch-id to match commits to pull requests). Or is it
+>   better to auto-close the pull request right after it's sent to the list with
+>   a message like "thank you, please monitor your email for the rest of the
+>   process"? The latter is much easier for me, of course. :)
+
+That would be super awesome as well. My plan with the
+LKML-Gerrit-Bridge was to leave it open until applied and then have
+some sort of timeout.
+
+> I'll probably have more questions as I go along, but I wanted to start with
+> these two.
+
+Not sure how far along you are with this. But I would love to see this
+happen. It sounds like you are planning on supporting most of the
+features I am trying to get in LKML-Gerrit-Bridge, but not all - I
+mainly would like to get patches uploaded from the mailing lists. I am
+not sure how much we could collaborate here depending on how far along
+you are. I saw some concerns in some other emails about relying on
+open source, Gerrit could be a solution to that. Anyway, let me know
+if you are interested in my project. You can see my code here:
+
+https://github.com/google/lkml-gerrit-bridge
+
+Also note, I said "I" above, but I have gotten some contributions from
+others. I'm not trying to take credit away from them, more that I
+don't want them to take blame for any of my bad ideas. Also, this is
+in NO WAY a plug for my project. It's not very stable right now, and
+has some issues - it is very experimental. I am just hoping that it
+can maybe be of some help to you.
+
+Cheers
