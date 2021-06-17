@@ -2,88 +2,106 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_RED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 768E6C2B9F4
-	for <workflows@archiver.kernel.org>; Thu, 17 Jun 2021 15:26:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56971C2B9F4
+	for <workflows@archiver.kernel.org>; Thu, 17 Jun 2021 15:31:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 45925614A7
-	for <workflows@archiver.kernel.org>; Thu, 17 Jun 2021 15:26:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2AEB8613ED
+	for <workflows@archiver.kernel.org>; Thu, 17 Jun 2021 15:31:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233242AbhFQP2H (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 17 Jun 2021 11:28:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47292 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233202AbhFQP2G (ORCPT <rfc822;workflows@vger.kernel.org>);
-        Thu, 17 Jun 2021 11:28:06 -0400
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4D2CC61437;
-        Thu, 17 Jun 2021 15:25:58 +0000 (UTC)
-Date:   Thu, 17 Jun 2021 11:25:56 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc:     Rob Herring <robh@kernel.org>, users@linux.kernel.org,
-        workflows@vger.kernel.org
+        id S231513AbhFQPdt (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 17 Jun 2021 11:33:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55885 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231790AbhFQPdh (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 17 Jun 2021 11:33:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1623943887;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=3xNuEFHHi/7PyyWtU+QodfCtfBivL1enqvC70GkJy+I=;
+        b=OKFMAva/1WJLgwgKW8zLo/ULhL6eCqbAamU7kiHd5LDij6hXt3hNlMhdghBKAZwqDqRwzg
+        wtJuhG7hOB4hT0ohGZ7jghdF1NISwnGMNXkxs2z+vbnhsH7IPZPAHMTygPHsHOLXwhrSQn
+        o36OQd7ccMDYHN2jtOmVixtXKabj8xU=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-604-jlbGlLEIM82BaF7WHrwarA-1; Thu, 17 Jun 2021 11:31:26 -0400
+X-MC-Unique: jlbGlLEIM82BaF7WHrwarA-1
+Received: by mail-ej1-f69.google.com with SMTP id j26-20020a170906411ab02904774cb499f8so39993ejk.6
+        for <workflows@vger.kernel.org>; Thu, 17 Jun 2021 08:31:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=3xNuEFHHi/7PyyWtU+QodfCtfBivL1enqvC70GkJy+I=;
+        b=JWfG+ggZWFIIXpRHYtmfjgfcNScJ30e09NwyNX+7I/S13lgKvPcgl4C/7uTmkeLb0Z
+         3MXoQ9X9lt4+uJio2gE58p80nivLVvzhzI68P+Fmp6lyFfCr5hJ5NiWNEZSoGT34OxzS
+         YTLTwit0eCRpM1S0MnQXSuRXyHVS4AOtXKphWNJu3prqYp7QAccVTa5mAoFEN3b/F/1G
+         ubkao5JXA2Y1AV/3JfjVD6KN9A2yIdMoUEsPGhetpHlZxCEnoAHJdkQH3wdM5tAILCvw
+         aHm3qG+gMYu6ulSIApPQ32W73Xydo9myuiwTzoeb9wCow0YaUBT78/uYCKgQRlJeFxKQ
+         liLg==
+X-Gm-Message-State: AOAM532BcqImLOZ9yOohq49xwYe6f0RZhisvCWSbNbqvPqAHMg5k5PM7
+        kMPEtgvP+XRwbSD2Y5Ofn07DaGlE7CkuejarxO1e/pYreqW9rlXYb2PcBMJSGCl6ST5BM/GOaLM
+        77hQMww1+sAheOBYOK0GAWlsZVeKESWiMNfZpbwXoMoqKY6rzXquENUl/GDZSJsitgHmvUlbV
+X-Received: by 2002:a05:6402:1111:: with SMTP id u17mr7401728edv.87.1623943884808;
+        Thu, 17 Jun 2021 08:31:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwxNYTVlUV3mxOfWqkQK1VqribNnjFxC7An6/5a409oSuFri3iJ7Owu2PUxxhKGTosKdxbgNw==
+X-Received: by 2002:a05:6402:1111:: with SMTP id u17mr7401692edv.87.1623943884609;
+        Thu, 17 Jun 2021 08:31:24 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+        by smtp.gmail.com with ESMTPSA id i26sm4528239edq.54.2021.06.17.08.31.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Jun 2021 08:31:23 -0700 (PDT)
 Subject: Re: RFC: Github PR bot questions
-Message-ID: <20210617112556.41fe8200@gandalf.local.home>
-In-Reply-To: <20210617144741.jxachwj46ftzlgns@nitro.local>
+To:     Mark Brown <broonie@kernel.org>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc:     Christoph Hellwig <hch@infradead.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Jiri Kosina <jikos@kernel.org>, users@linux.kernel.org,
+        workflows@vger.kernel.org
 References: <20210616171813.bwvu6mtl4ltotf7p@nitro.local>
-        <CAL_JsqLMPnCpEHpbj_=LDQNU9+sq5oFrmSxngdiWNR3XOhtc_Q@mail.gmail.com>
-        <20210617144741.jxachwj46ftzlgns@nitro.local>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ <YMsGoI0UdbmUebhX@infradead.org>
+ <nycvar.YFH.7.76.2106171031220.18969@cbobk.fhfr.pm>
+ <CACT4Y+YoHYCKaLdZFSLqKsMz1j72i=k12FVpmSo-OyB7rCorsw@mail.gmail.com>
+ <YMsfXuykH6z0ZbpM@infradead.org>
+ <20210617145728.nahkvtxapozccm6c@nitro.local>
+ <20210617151659.GF5067@sirena.org.uk>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <b675c075-19e8-11ef-3174-49eb6975be6d@redhat.com>
+Date:   Thu, 17 Jun 2021 17:31:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20210617151659.GF5067@sirena.org.uk>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Thu, 17 Jun 2021 10:47:41 -0400
-Konstantin Ryabitsev <konstantin@linuxfoundation.org> wrote:
+On 17/06/21 17:16, Mark Brown wrote:
+>> Won't this just end up reimplementing a lot of stuff that we already get "for
+>> free" from Github and other forges? Yes, I know Github is proprietary, but so
+>> are many SMTP gateways used to send the patch series. I don't see how what
+>> the GH bot would do is different from:
+> I think part of the concern here is that people have some standard
+> expectations for how projects they work with on Github are going to
+> function so if people end up using Github to submit patches we may end
+> up with some culture and process mismatches which could cause issues.
 
-> It's not specific to GH at all. The same bot will be able to perform similar
-> actions to emails created by git-request-pull, e.g.:
-> 
-> - submitter runs git request-pull instead of git-format-patch
-> - submitter sends the output to a dedicated mailing list like
->   pulls@lists.linux.dev
-> - the bot auto-converts these requests into patch series and sends them to
->   proper destinations
+This is true, and it's why I liked the suggestion of a bot that 
+auto-closes the pull request but still 1) removes the need for the 
+submitter to set up "git send-email" and 2) only does the send after 
+basic checks for Signed-off-by and the like (checkpatch is already a bit 
+borderline).
 
-I know many people that this will be useful for. Especially those that have
-to send with their work email, and have to fight Exchange servers. And
-gmail isn't very good at sending patches either.
+Paolo
 
-Let me see if I understand the proposed work flow, and perhaps add some
-myself.
-
-1) Someone clones Linus's tree or some subsystem tree into their github
-   account.
-
-2) Does some work.
-
-3) Pushes it to their account on github.
-
-4) Runs git pull-request that will go to pulls@lists.kernel.dev
-
-5) Then this bot can pull the request into a kernel.org tree.
-
-6) Runs checkpatch on each commit.
-
-   On errors, sends a report to the submitter, and stops here.
-
-7) Could have the zero-day-bot run against it.
-
-   On errors, send it back to the submitter.
-
-8) If it passes all the above, it then gets broken into a patch series and
-   then sent out to the mailing lists and Cc's maintainers based on the
-   get_maintainers list. Probably should be filtered a bit.
-
-Is this what is being proposed?
-
--- Steve
