@@ -2,63 +2,29 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FBE5C4338F
-	for <workflows@archiver.kernel.org>; Tue,  3 Aug 2021 16:47:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB24EC433EF
+	for <workflows@archiver.kernel.org>; Thu,  2 Sep 2021 20:23:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 533DE60EC0
-	for <workflows@archiver.kernel.org>; Tue,  3 Aug 2021 16:47:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AF3EF61074
+	for <workflows@archiver.kernel.org>; Thu,  2 Sep 2021 20:23:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236265AbhHCQrs (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 3 Aug 2021 12:47:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37718 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237171AbhHCQrs (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 3 Aug 2021 12:47:48 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AA47C061757
-        for <workflows@vger.kernel.org>; Tue,  3 Aug 2021 09:47:37 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id oz16so37294328ejc.7
-        for <workflows@vger.kernel.org>; Tue, 03 Aug 2021 09:47:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=miraclelinux-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6iY25rrglPS3Gh3oKWqjb0WQdwyn/C+G4a9t9iTacLA=;
-        b=Rp1AHBn7mqvNUKwaNWCL5eeJRNv4Sj8iOJlnae2g/K2ya99iCDc2o8g3rV7yCAIPsP
-         cLAX6nPbpaN5RNpAWr18gpUvpaWUEEiOMny7eME1xouUWAWDFJRMcNCFR5+tJlH1SQSb
-         hshXkxWsXF/D2EQkVSU2LTkEzmCypIlZmzq8JkqR2fHd1+qcAVvmhdwXsZcBMt4yMW91
-         IdU/HXVTyNfPEmKoJYxtz482h4IrsOz5313q/DY+gVsfZXuR8ae4+ZJxNacfBlRWwlN1
-         GIKkczkk9RV60dZjUvQgQpBai7whjJv5tqTny5p8JAr5p1o49GZGNY8l97OcXyFGzcbk
-         qYfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6iY25rrglPS3Gh3oKWqjb0WQdwyn/C+G4a9t9iTacLA=;
-        b=SDFMNLtrgbOOK+IHbiXTHq4n8Xx3cfAQuL16KXb+vyf8SI4d/I8eHmm9kSbAxEB7FX
-         sU/uEXPowIdTbYSNggvsSUS4JSq6vvPQTXcDd51iep7+xywjzd73fVl3wnypQlac0ezT
-         W6nx+O27HcyMFXFhMMwXr+MGzqwbnvqQDF+7n2N0+2pvmggmfV7CTWp8eqVBE4YpVPMD
-         0w/WMOKwnPdxnVVg/rVPG43Hm56YRE5wIglC7YWBXOa+wme/kvntKJREBgcOlvHKSMqF
-         o3Axp/SqJ2sz0ZdLQ6EH/INfkQR7ShrU0B2RD3HoFl2IKYRjkkqPxlLYI+O5MJN3en1B
-         /cEQ==
-X-Gm-Message-State: AOAM531XgU5BgtyeFPfUo4qZV1mMFAFwWNHWB6XF/W8zmoM9B2iRxj4H
-        5GWKBxR1lo1rdSNBLlbcvR0FIHVfxW3K8QD4878/
-X-Google-Smtp-Source: ABdhPJyeizlYtaT4m3WQejwy/YbdzzVZLtADNLtj71rZ3bIkcfPCEneSHNfWGUOmCbGIw0lOIuiQaYVVmXT3+5FbtTA=
-X-Received: by 2002:a17:906:5fc7:: with SMTP id k7mr21088425ejv.377.1628009255659;
- Tue, 03 Aug 2021 09:47:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <74f7b4cf-926f-d8bd-19c2-375cfe7a12b2@collabora.com>
-In-Reply-To: <74f7b4cf-926f-d8bd-19c2-375cfe7a12b2@collabora.com>
-From:   Alice Ferrazzi <alice.ferrazzi@miraclelinux.com>
-Date:   Wed, 4 Aug 2021 01:46:58 +0900
-Message-ID: <CANgtXuPjD0rW-A=gMNUd7mdF1Bynz+QQmDHLy7vh9UODd8NtbA@mail.gmail.com>
+        id S1346439AbhIBUYZ (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 2 Sep 2021 16:24:25 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:58630 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1346339AbhIBUYQ (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 2 Sep 2021 16:24:16 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: gtucker)
+        with ESMTPSA id F27671F44AE4
 Subject: Re: KernelCI Hackfest #2 - Sept 6-10 2021
-To:     kernelci@groups.io, guillaume.tucker@collabora.com
+From:   Guillaume Tucker <guillaume.tucker@collabora.com>
+To:     "kernelci@groups.io" <kernelci@groups.io>
 Cc:     kernelci-members <kernelci-members@groups.io>,
         automated-testing@lists.yoctoproject.org,
         Collabora Kernel ML <kernel@collabora.com>,
@@ -68,40 +34,102 @@ Cc:     kernelci-members <kernelci-members@groups.io>,
         linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
         kunit-dev@googlegroups.com,
         clang-built-linux <clang-built-linux@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+Reply-To: kernelci@groups.io, guillaume.tucker@collabora.com
+References: <169771B791E5E075.25031@groups.io>
+Message-ID: <259a2ea9-63da-b5df-3496-676c2b76700b@collabora.com>
+Date:   Thu, 2 Sep 2021 21:22:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <169771B791E5E075.25031@groups.io>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Hello,
-
-On Mon, Aug 2, 2021 at 6:00 PM Guillaume Tucker
-<guillaume.tucker@collabora.com> wrote:
->
+On 02/08/2021 10:00, Guillaume Tucker wrote:
 > The first KernelCI hackfest[1] early June was successful in getting
 > a number of kernel developers to work alongside the core KernelCI
 > team.  Test coverage was increased in particular with kselftest,
 > LTP, KUnit and a new test suite for libcamera.  We're now improving
 > documentation and tooling to make it easier for anyone to get
 > started.  Find out more about KernelCI on https://kernelci.org.
->
+> 
 > The second hackfest is scheduled for the 6th-10th September.  It
 > should be a good opportunity to start discussing and working on
 > upstream kernel testing topics ahead of the Linux Plumbers
 > Conference[2].
->
+
+Please find below some extra information for the KernelCI
+Hackfest which is taking place next week.  We're expecting at
+least some contributors from the Civil Infrastructure Platform
+project, the Google Chrome OS kernel team, Collabora kernel
+developers and a few more from the wider Linux kernel community.
+
+If you need any direct support, please reply to this email or ask
+on kernelci.slack.com or IRC #kernelci (libera.chat).
+
+
 > Here's the project board where anyone can already add some ideas:
->
+> 
 >   https://github.com/orgs/kernelci/projects/5
 
-I cannot add topics to the project board.
+In order to add an issue to the workboard, please first create
+one in a KernelCI GitHub repository such as kernelci-core:
 
-Thanks,
-Alice
+  https://github.com/kernelci/kernelci-core/issues
 
--- 
-======================================
-Cybertrust Japan Co.,Ltd.
-Alice Ferrazzi
-alice.ferrazzi@miraclelinux.com
-======================================
+Each contributor to the hackfest should be added to the
+KernelCI "hackers" team, which has permission to edit the
+workboard.  If you aren't part of this team yet, please ask and
+you'll be invited.
+
+Note: Having a GitHub account is not mandatory for taking part in
+the hackfest.  It's mainly there to facilitate coordination, even
+though it is required in order to contribute to the KernelCI
+GitHub repositories.  Contributions as part of the hackfest may
+also be in the kernel tree such as improvements to kselftest,
+KUnit or bug fixes, or other test suites such as LTP etc.
+
+
+> The hackfest features:
+> 
+> * Daily open hours online using Big Blue Button to discuss things
+>   and get support from the KernelCI team
+> 
+> * KernelCI team members available across most time zones to provide
+>   quick feedback
+> 
+> * A curated list of topics and a project board to help set
+>   objectives and coordinate efforts between all contributors
+
+Please see the table below with the proposed daily open hours to
+accommodate most time zones:
+
+Region        Zone    Time 1       Time 2
+East Asia     GMT+10  17:00-19:00  03:00-05:00
+Europe        GMT+2   09:00-11:00  19:00-21:00
+              UTC     07:00-09:00  17:00-19:00
+West America  GMT-7   00:00-02:00  10:00-12:00
+
+
+They will be held as a Big Blue Button virtual conference with
+the same URL as the last hackfest.  It's not being shared
+publicly to avoid any potential abuse, so please ask if you don't
+have it already.
+
+On Monday, the focus should be put on getting started and
+reviewing the backlog on the hackfest workboard to distribute
+things among people or help new contributors find topics suitable
+for them.  Open hours are otherwise opportunities to get more
+direct support from the KernelCI team or discuss any topic.
+
+See you there!
+
+Best wishes,
+Guillaume
+
+> [1] https://foundation.kernelci.org/blog/2021/06/24/the-first-ever-kernelci-hackfest/
+> [2] https://www.linuxplumbersconf.org/event/11/page/104-accepted-microconferences#cont-test
