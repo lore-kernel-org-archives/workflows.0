@@ -2,109 +2,95 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE287C433F5
-	for <workflows@archiver.kernel.org>; Mon, 15 Nov 2021 18:36:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED0B5C433F5
+	for <workflows@archiver.kernel.org>; Mon, 15 Nov 2021 22:58:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B66D86355B
-	for <workflows@archiver.kernel.org>; Mon, 15 Nov 2021 18:36:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D8F3C6321B
+	for <workflows@archiver.kernel.org>; Mon, 15 Nov 2021 22:58:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237302AbhKOSjp (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 15 Nov 2021 13:39:45 -0500
-Received: from mail-ua1-f44.google.com ([209.85.222.44]:38645 "EHLO
-        mail-ua1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242478AbhKOShK (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 15 Nov 2021 13:37:10 -0500
-Received: by mail-ua1-f44.google.com with SMTP id w23so13965929uao.5
-        for <workflows@vger.kernel.org>; Mon, 15 Nov 2021 10:34:14 -0800 (PST)
+        id S1349647AbhKOXBD (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 15 Nov 2021 18:01:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50298 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1350884AbhKOWdv (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 15 Nov 2021 17:33:51 -0500
+Received: from mail-il1-x131.google.com (mail-il1-x131.google.com [IPv6:2607:f8b0:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1FD7C06120F
+        for <workflows@vger.kernel.org>; Mon, 15 Nov 2021 13:46:43 -0800 (PST)
+Received: by mail-il1-x131.google.com with SMTP id x9so18166351ilu.6
+        for <workflows@vger.kernel.org>; Mon, 15 Nov 2021 13:46:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=lqAQ/iHOUdfQ2XqJgfrdI+h+pQ+JcNqo1lByMH5a4v0=;
+        b=VsNem1S1hUm0kSCp5esZakTFOweRWfJEmZGKZ4GYGRyRFd3ZDXEROudNoFzl/c3h63
+         Rf2zjhtE2XYkTv8f3Dp7R8Em0fXyZxu7Pom+E17oBTJriey528IclKYPpj4Y93FXPUvI
+         Q0Q+ij9P0RQllBIfoBfcKiydgBuu42OvHm9mc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=knH3ddoYX8N6nDa60kQNqQNb6pH4rRj27nRZwT6xep4=;
-        b=u8Nw7LNeyeUv1hA0Bt1kPPdn5W2N4L1ZJQTiGCT51H74Ff8gV3GLNUIQOV9Zy5UdFw
-         CQdeSP6PLorDPOYU+QG87sOK3V+G7JEY9bIAKH7ZgaijioBZp6DZwE0XlnhsTGOXf/So
-         YB45gitEdpiIdCCp2yy+Qd6aV79lob2+iEqSr7o5hWM3dLLNgeubidWQ1a1AFjDD50av
-         68TgvMTSlyLcWGKnpo+U7oFWvso8v3g/8ffC+SPvTzadmBZcCN3UrWwvj9ozk6jD9y4z
-         XpiyR/1QvvisUuj0LtPMk6tV6Ac5wwDvu3ffuG7R6BU9duSSP6zBZPSSvaYTg3aD6zSa
-         YWxg==
-X-Gm-Message-State: AOAM533Ugh3gws4avk5Y907KU7czC9Yr4zUmJVR4WkP0Uo+m407nJs/n
-        jVJWu951rxN4+0/jMPlIb7KMV1ItDkLzIQ==
-X-Google-Smtp-Source: ABdhPJxzZbsF1iwc16K8LGYCcLgCCJ4i02J9N994mFPOsMxw9xG8vY4jEcchcZJX1ZMwkF8VmdmfYg==
-X-Received: by 2002:a05:6102:c86:: with SMTP id f6mr46977623vst.38.1637001252139;
-        Mon, 15 Nov 2021 10:34:12 -0800 (PST)
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
-        by smtp.gmail.com with ESMTPSA id j15sm9369566vsp.8.2021.11.15.10.34.11
-        for <workflows@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Nov 2021 10:34:11 -0800 (PST)
-Received: by mail-ua1-f41.google.com with SMTP id p37so35230814uae.8
-        for <workflows@vger.kernel.org>; Mon, 15 Nov 2021 10:34:11 -0800 (PST)
-X-Received: by 2002:a05:6102:e82:: with SMTP id l2mr45406748vst.37.1637001251566;
- Mon, 15 Nov 2021 10:34:11 -0800 (PST)
-MIME-Version: 1.0
-References: <lorelei.part2.202111121411.sznnvkvcywfbdghl@meerkat.local>
-In-Reply-To: <lorelei.part2.202111121411.sznnvkvcywfbdghl@meerkat.local>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 15 Nov 2021 19:34:00 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXCbjx9CdkjVnp0cYhrjZCyGWYYraai=xSXXNbYjO2K1g@mail.gmail.com>
-Message-ID: <CAMuHMdXCbjx9CdkjVnp0cYhrjZCyGWYYraai=xSXXNbYjO2K1g@mail.gmail.com>
-Subject: Gmail (was: Re: lore+lei: part 2, now with IMAP)
-To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=lqAQ/iHOUdfQ2XqJgfrdI+h+pQ+JcNqo1lByMH5a4v0=;
+        b=NstbfLY9H12pDwDzHTn2rnIXgHvlQxndb6CJakgP9B4LybVw67qHHO1P0s+XQzlb1r
+         oU9HbqX0a+TCuTyLjz8k89la0muT0KfylBVTB0NKqVTL9tkTv6H0+ba13r0/mzGL3o9M
+         gTzKlvMuNyntFFD1+P/2D3dp99TnRIFOWVCdGBDg2yegO5fsNUtvylbs0FEACqsONd6D
+         Lvwcy8da47rVcami5Tt7WII1dSGJm1Xzc+fnDguySrV3usRYJ48sJ4VmVmV+5wMQeBia
+         wgjOhDLzoyNzPxLP8BQ8AOtDhh6FCz7he56VUiKFE1hUrgjZXb1vQtmSnGCzlcHtrVhM
+         TobQ==
+X-Gm-Message-State: AOAM530rdRjUzB+c2S25f34aCr53PScJWXvdJSaHcCTiuUNTBHArCJQx
+        QCwq0gk4aqTgcw5axEvgunlLLeVKcgavaQ==
+X-Google-Smtp-Source: ABdhPJw9b9Qn09ser+7yEbjBVq1eyttxocSvFhbRCBrEo6wW3JDnPLFCnPZRgPdqyXH6MiC0WSzq3A==
+X-Received: by 2002:a05:6e02:1c8f:: with SMTP id w15mr1260986ill.147.1637012803181;
+        Mon, 15 Nov 2021 13:46:43 -0800 (PST)
+Received: from nitro.local (bras-base-mtrlpq5031w-grc-32-216-209-220-181.dsl.bell.ca. [216.209.220.181])
+        by smtp.gmail.com with ESMTPSA id o10sm9555166ilc.56.2021.11.15.13.46.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Nov 2021 13:46:42 -0800 (PST)
+Date:   Mon, 15 Nov 2021 16:46:41 -0500
+From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: Gmail (was: Re: lore+lei: part 2, now with IMAP)
+Message-ID: <20211115214641.lxo5zhttrqq6mx2z@nitro.local>
+References: <lorelei.part2.202111121411.sznnvkvcywfbdghl@meerkat.local>
+ <CAMuHMdXCbjx9CdkjVnp0cYhrjZCyGWYYraai=xSXXNbYjO2K1g@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXCbjx9CdkjVnp0cYhrjZCyGWYYraai=xSXXNbYjO2K1g@mail.gmail.com>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Hi Konstantin,
+On Mon, Nov 15, 2021 at 07:34:00PM +0100, Geert Uytterhoeven wrote:
+> On a related subject, I am using Gmail for email (e.g. patch review),
+> but not for actual patch submission (git send-email through my ISP's
+> SMTP server). I do have app passwords set up for git send-email on
+> my laptop (if I ever need to send patches while on the road, barely
+> used so far) and for backing up email using getmail.
+> 
+> Recently I received an email from Google that my account may be "at
+> greater risk of targeted attack", and that they recommend enrolling
+> into Google's strongest account security offering, the Advanced
+> Protection Program.  Apparently this makes use of a hardware token,
+> the Titan Security Key. 
 
-On Fri, Nov 12, 2021 at 8:13 PM Konstantin Ryabitsev
-<konstantin@linuxfoundation.org> wrote:
-> Continuing on my previous email about setting up lei with lore.kernel.org,
-> here's the next installment. As with the previous part, this will be posted on
-> people.kernel.org as well as here.
->
-> # lore+lei: part 2, now with IMAP
+Well, I'm sure they wouldn't mind if you paid them money for a "Titan Security
+key", but it's really just a rebranded Chinese-made U2F token and, as such,
+not any different from any other U2F security key. You can get one from
+Nitrokey (nitrokey.com) or SoloKeys (solokeys.com). I *do* recommend using a
+hardware token for your Google account, seeing as it's increasingly tied to so
+much of our online identity.
 
-> ### The same with Gmail
->
-> If you are a Gmail user and aren't already using IMAP, then you will need to
-> jump through a few additional hoops before you are able to get going. Google
-> is attempting to enhance the security of your account by restricting how much
-> can be done with just your Google username and password, so services like IMAP
-> are not available without setting up a special "app password" that can only be
-> used for mail access.
->
-> Enabling app passwords requires that you first enable 2-factor authentication,
-> and then generate a random app password to use with IMAP. Please follow the
-> process described in the following Google document:
-> https://support.google.com/mail/answer/185833
+> I have no idea what kind of criteria are
+> used to reach out to people (might be people involved with important
+> FLOSS projects, who knows? ;-), but the other family members haven't
+> received this.
 
-On a related subject, I am using Gmail for email (e.g. patch review),
-but not for actual patch submission (git send-email through my ISP's
-SMTP server). I do have app passwords set up for git send-email on
-my laptop (if I ever need to send patches while on the road, barely
-used so far) and for backing up email using getmail.
+It's anyone's guess, but it's probably based on analyzing various account
+dumps a-la haveibeenpwned.com or Mozilla's Firefox Monitor. It doesn't
+necessarily mean that you have anything in particular to worry about.
 
-Recently I received an email from Google that my account may be "at
-greater risk of targeted attack", and that they recommend enrolling
-into Google's strongest account security offering, the Advanced
-Protection Program.  Apparently this makes use of a hardware token,
-the Titan Security Key.  I have no idea what kind of criteria are
-used to reach out to people (might be people involved with important
-FLOSS projects, who knows? ;-), but the other family members haven't
-received this.
-
-Perhaps other people are in the same boat?
-Do you have any advice here? Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Best regards,
+-K
