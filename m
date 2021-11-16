@@ -2,41 +2,58 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37E6AC433EF
-	for <workflows@archiver.kernel.org>; Tue, 16 Nov 2021 13:52:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10142C433EF
+	for <workflows@archiver.kernel.org>; Tue, 16 Nov 2021 14:04:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0F28361B4D
-	for <workflows@archiver.kernel.org>; Tue, 16 Nov 2021 13:52:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E728460F9C
+	for <workflows@archiver.kernel.org>; Tue, 16 Nov 2021 14:04:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233010AbhKPNzE (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 16 Nov 2021 08:55:04 -0500
-Received: from out0.migadu.com ([94.23.1.103]:36538 "EHLO out0.migadu.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231753AbhKPNzB (ORCPT <rfc822;workflows@vger.kernel.org>);
-        Tue, 16 Nov 2021 08:55:01 -0500
-MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cmpwn.com; s=key1;
-        t=1637070722;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Q4RmHw7GP/4spYdJgPJBzZyvmCRjNlAt5p44H3RiVdM=;
-        b=XHprUG0Ltmy7fah2ZDr2rVcMPeVJduq/zizKkkHdlgPVv41GuSajFnOHE9xlgTYm+jjkHi
-        I+EbjCbarYX/saevsZyslf1JDjpR/ub7HnDzZklk4rqgrJp/79YychjhOYMQRCB9v4YlZE
-        JZUfaGKkEldg+W5UBu3UeLoYYDorWIXja3RrgE96f29g58lizn1JiL3kR5kPw9MS9PsMMr
-        OWTO6+DX+YDcjfr5Rjsfy0TqmrYDLwlxcS5bC/59mdAez8bY+MGQY/bgn3XzlTePT/xHOc
-        f1KGT9mCvMde1Oaz7xvnVdtjmhU+lEqRhOga0zrtFBZnzKexaK2RDBsQ9GzzpQ==
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date:   Tue, 16 Nov 2021 14:51:59 +0100
-Message-Id: <CFR94YBY5YOV.3HUOHZ34CUV2Q@taiga>
-Cc:     "Geert Uytterhoeven" <geert@linux-m68k.org>,
-        <workflows@vger.kernel.org>
+        id S237083AbhKPOHj (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 16 Nov 2021 09:07:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33944 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237088AbhKPOH0 (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 16 Nov 2021 09:07:26 -0500
+Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BD60C061766
+        for <workflows@vger.kernel.org>; Tue, 16 Nov 2021 06:04:29 -0800 (PST)
+Received: by mail-il1-x135.google.com with SMTP id w15so20489728ill.2
+        for <workflows@vger.kernel.org>; Tue, 16 Nov 2021 06:04:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=kcG4KxOIVA5iK2+58QccdgitbHmzYhx1vi9K8aktiMQ=;
+        b=ZUJHO3jLiA6D5JN9joLKFIN1yfHiYmd/xPmndvooRZRTKhhPzZ6qOa0KbVD+gBltQK
+         zpzOd0UG648ebJ9KnUVjDAt11vLGIpH8bbNxNxEBhXRAh4zvAu0rAEUqX4yeqoYmhpDa
+         TXXHw4u87oHv2FkVj/3HWa+6q86KJQz1zSRQI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=kcG4KxOIVA5iK2+58QccdgitbHmzYhx1vi9K8aktiMQ=;
+        b=Pjyjt/tjRu1dIaj3/16XdsnKLDyOyOpcupgf+z5AlC0bQFZPVhOg4YtFu+k8N3keLP
+         b374Xqzc671le1P+l60gBVzAlXrbV5qxUHeP+sxE4+Mv0uspaqT8OWU5wcFoqqqPSMYJ
+         /VTeeCWzz6rlJq+edUqJuD7lUqG+gDtzK7POYSgE+gaG4ZE8M5h+6+FosV+t0r7PSBqh
+         SrPn+m9aDYolXk98y9vYm3wNCU3YnWb5DN2wBxUUCCbeGPo5qZ2u4dF2M0tc/oecOMPw
+         2sCeJ44l3iyfosv2ZuEusHdMRcZv+XcPGC2VxpDOLIfU5p/LAcBhKS7iShhaIHO23kRG
+         DSfQ==
+X-Gm-Message-State: AOAM532dMDpN2DoY5Xoz6mhxlhTcs661oTauBUK2kBsdxUJnLkzcQnqm
+        zo45V+jaKeeHvFpvSsb/qsAIINcZiUaIDg==
+X-Google-Smtp-Source: ABdhPJwAodlhSi2miRRPTT7CEtYiBzLLH61ghYz/VVG7mTklOgyBAdUcSBjYDCDKEFYShNr157kN7g==
+X-Received: by 2002:a05:6e02:1561:: with SMTP id k1mr4738316ilu.135.1637071468545;
+        Tue, 16 Nov 2021 06:04:28 -0800 (PST)
+Received: from meerkat.local (bras-base-mtrlpq5031w-grc-32-216-209-220-181.dsl.bell.ca. [216.209.220.181])
+        by smtp.gmail.com with ESMTPSA id r7sm12978955ilb.7.2021.11.16.06.04.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Nov 2021 06:04:28 -0800 (PST)
+Date:   Tue, 16 Nov 2021 09:04:26 -0500
+From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To:     Drew DeVault <sir@cmpwn.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        workflows@vger.kernel.org
 Subject: Re: Gmail (was: Re: lore+lei: part 2, now with IMAP)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   "Drew DeVault" <sir@cmpwn.com>
-To:     "Konstantin Ryabitsev" <konstantin@linuxfoundation.org>
+Message-ID: <20211116140426.7yghiglow66sd7y3@meerkat.local>
 References: <lorelei.part2.202111121411.sznnvkvcywfbdghl@meerkat.local>
  <CAMuHMdXCbjx9CdkjVnp0cYhrjZCyGWYYraai=xSXXNbYjO2K1g@mail.gmail.com>
  <20211115214641.lxo5zhttrqq6mx2z@nitro.local>
@@ -45,37 +62,40 @@ References: <lorelei.part2.202111121411.sznnvkvcywfbdghl@meerkat.local>
  <CAMuHMdV0OHg5AkcQ0Kwh-8SpOHxNYmSu2StrqJ3r7ubDNuNxgA@mail.gmail.com>
  <CFR29P1BWFOA.2Q2A2RE31JGEW@taiga>
  <20211116134917.cqpca6auuzt7f5sw@meerkat.local>
-In-Reply-To: <20211116134917.cqpca6auuzt7f5sw@meerkat.local>
+ <CFR94YBY5YOV.3HUOHZ34CUV2Q@taiga>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CFR94YBY5YOV.3HUOHZ34CUV2Q@taiga>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Tue Nov 16, 2021 at 2:49 PM CET, Konstantin Ryabitsev wrote:
-> We do have the maxi plan for linux.dev, and we *have* hit limits. The
-> Migadu folks have been extremely accommodating for us, so it's not
-> been a huge deal thus far, but I'm not sure if the relaxed
-> restrictions they've put in place are just for the linux.dev domain or
-> now apply globally. For example, sending large patch series (20+) used
-> to trip up Migadu's outgoing rate limit for too much mail sent at
-> once. We've not hit that error for a while, so I assume they've
-> relaxed that restriction either just for linux.dev, or perhaps
-> globally.
->
-> It's important to keep in mind that the overall outgoing/incoming
-> limits are per account, not per mailbox. Not a huge deal for personal
-> use, but quickly adds up for setups like we have, which is why we ask
-> folks not to subscribe to busy lists (see #4 in the list of our
-> requirements here:
-> https://www.kernel.org/doc/projects/korg/linuxdev.html#rules-and-restrict=
-ions)
->
-> Overall, Migadu is a good recommendation for individual developer
-> accounts, but may be too restricting for maintainers that do end up
-> sending huge amounts of mail. Gmail or Fastmail could be better
-> options for those folks.
+On Tue, Nov 16, 2021 at 02:51:59PM +0100, Drew DeVault wrote:
+> > Overall, Migadu is a good recommendation for individual developer
+> > accounts, but may be too restricting for maintainers that do end up
+> > sending huge amounts of mail. Gmail or Fastmail could be better
+> > options for those folks.
+> 
+> I'm surprised to learn that linux.dev is using Migadu rather than its
+> own infrastructure. I would only recommend it for personal use.
 
-I'm surprised to learn that linux.dev is using Migadu rather than its
-own infrastructure. I would only recommend it for personal use.
+1. We couldn't easily gauge how many people would be interested in the
+   service, so the goal was to avoid setting up infrastructure if only a small
+   subset of users would be interested in using it. And that's largely proven
+   correct, as only about 20 people requested accounts on linux.dev, and only
+   about 5-7 people use them regularly to send and receive mail.
+2. Dealing with spammers is a huge effort sink, so if someone already has a
+   good setup for recognizing and catching spammers, then we might as well
+   delegate this to them.
+3. Migadu offers open-source project discounts, so it's actually dramatically
+   cheaper for us to use them than to run our own infra in terms of admin
+   time. :)
 
-I will say that I have also occasionally hit Migadu's limits, but they
-have been accomodating in loosening them for legitimate use when asked.
+> I will say that I have also occasionally hit Migadu's limits, but they
+> have been accomodating in loosening them for legitimate use when asked.
+
+Yes, I have no complaints about Migadu. They are great and I heartily
+recommend it to others.
+
+-K
