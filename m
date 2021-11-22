@@ -2,53 +2,85 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6065BC433F5
-	for <workflows@archiver.kernel.org>; Mon, 22 Nov 2021 18:48:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DADF0C433EF
+	for <workflows@archiver.kernel.org>; Mon, 22 Nov 2021 18:50:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239446AbhKVSv4 (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 22 Nov 2021 13:51:56 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33808 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237048AbhKVSvr (ORCPT <rfc822;workflows@vger.kernel.org>);
-        Mon, 22 Nov 2021 13:51:47 -0500
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0E05960F70;
-        Mon, 22 Nov 2021 18:48:39 +0000 (UTC)
-Date:   Mon, 22 Nov 2021 13:48:37 -0500
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        workflows@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [RFC PATCH v1 0/1] Create 'Reported:' and 'Reviewed:' tags for
- links in commit messages
-Message-ID: <20211122134837.7489d725@gandalf.local.home>
-In-Reply-To: <3823dfb9-cc72-57ae-a296-92d506de1531@leemhuis.info>
-References: <cover.1637566224.git.linux@leemhuis.info>
-        <20211122151233.54xtnpwdmnrdj3jf@meerkat.local>
-        <20211122120405.7a1e1c9f@gandalf.local.home>
-        <3823dfb9-cc72-57ae-a296-92d506de1531@leemhuis.info>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S231699AbhKVSxr (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 22 Nov 2021 13:53:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49762 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233850AbhKVSxo (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 22 Nov 2021 13:53:44 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4FC7C061574;
+        Mon, 22 Nov 2021 10:50:37 -0800 (PST)
+Received: from ip4d173d4a.dynamic.kabel-deutschland.de ([77.23.61.74] helo=[192.168.66.200]); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1mpEOh-00013s-U6; Mon, 22 Nov 2021 19:50:35 +0100
+Message-ID: <aa158444-4319-a019-1031-095a69105447@leemhuis.info>
+Date:   Mon, 22 Nov 2021 19:50:35 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Content-Language: en-BS
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     workflows@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <cover.1637566224.git.linux@leemhuis.info>
+ <6b760115ecdd3687d4b82680b284f55a04f3ad90.1637566224.git.linux@leemhuis.info>
+ <20211122112916.498810bb@gandalf.local.home>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [RFC PATCH v1 1/1] docs: add the new commit-msg tags 'Reported:'
+ and 'Reviewed:'
+In-Reply-To: <20211122112916.498810bb@gandalf.local.home>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1637607038;5814353c;
+X-HE-SMSGID: 1mpEOh-00013s-U6
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Mon, 22 Nov 2021 19:40:46 +0100
-Thorsten Leemhuis <linux@leemhuis.info> wrote:
+On 22.11.21 17:29, Steven Rostedt wrote:
+> On Mon, 22 Nov 2021 08:33:42 +0100
+> Thorsten Leemhuis <linux@leemhuis.info> wrote:
+> 
+>> Introduce the tags 'Reported:' and 'Reviewed:' in addition to 'Link:',
+>> as the latter is overloaded and hence doesn't indicate what the provided
+>> URL is about. Documenting these also provides clarity, as a few
+>> developers have used 'References:' to point to problem reports;
+>> nevertheless 'Reported:' was chosen for this purpose, as it perfectly
+>> matches up with the 'Reported-by:' tag commonly used already and needed
+>> in this situation already.
+> 
+> I like the differences between "Reorted:" and "Reviewed:", although I may
+> keep the "Link" instead of Reviewed because my automate scripts just give
+> the link of the patch, and there's seldom a review attached to it :-/
 
-> Hmmm. I'm not opposed, but I wonder if 'Reported:' and 'Reviewed:' are
-> this tiny bit easier to handle (both for placing and analyzing scripts)
-> that makes the difference between "nice idea, but fails to be used in
-> the field" and "after some tradition phase this becomes the new normal"
-> in the end.
+/me wonders if "Merge Request:" would be a better tag, but at least for
+now settles on 'it's nice, as it's close to what people are used from
+git forges, but OTOH it somehow feels wrong'
 
-Either way is fine for me. My scripts are trivial and easy to update. I'm
-more worried about what other people may use.
+> That said, I would like a way to have versions show a link to the last
+> version that was reviewed.
+> 
+> v1: has no tags
+> 
+> v2: has a Reviewed: tag to v1.
+> 
+> v3: has a Reviewed: tag to v2
+> 
+> [...]
+> 
+> Then the final commit could have a "Link" or "Reviewed" tag to v3, even
+> though there may not be any reviews to v3, but v3 has the link to v2, and
+> v2 has the link to v1, etc.
 
--- Steve
+Is that really worth it? Isn't it sufficient if the commit links to the
+last public review posting, as that already should link to all earlier
+review postings. Sure, not everybody is doing this right now, but maybe
+just educating people to do so is better than creating something new.
+
+Ciao, Thorsten
