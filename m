@@ -2,94 +2,56 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 415DFC433F5
-	for <workflows@archiver.kernel.org>; Tue, 23 Nov 2021 08:53:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A03B7C433EF
+	for <workflows@archiver.kernel.org>; Tue, 23 Nov 2021 18:52:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230293AbhKWI4q (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 23 Nov 2021 03:56:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41552 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231180AbhKWI4q (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 23 Nov 2021 03:56:46 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB05EC061714;
-        Tue, 23 Nov 2021 00:53:38 -0800 (PST)
-Received: from ip4d173d4a.dynamic.kabel-deutschland.de ([77.23.61.74] helo=[192.168.66.200]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1mpRYV-0004bX-6r; Tue, 23 Nov 2021 09:53:35 +0100
-Message-ID: <56d7b2d8-1c35-0365-5e85-e40d242c15f5@leemhuis.info>
-Date:   Tue, 23 Nov 2021 09:53:33 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Content-Language: en-BS
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     workflows@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        id S235084AbhKWSzq (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 23 Nov 2021 13:55:46 -0500
+Received: from dcvr.yhbt.net ([64.71.152.64]:33182 "EHLO dcvr.yhbt.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230134AbhKWSzq (ORCPT <rfc822;workflows@vger.kernel.org>);
+        Tue, 23 Nov 2021 13:55:46 -0500
+Received: from localhost (dcvr.yhbt.net [127.0.0.1])
+        by dcvr.yhbt.net (Postfix) with ESMTP id 8B1521F953;
+        Tue, 23 Nov 2021 18:52:37 +0000 (UTC)
+Date:   Tue, 23 Nov 2021 18:52:37 +0000
+From:   Eric Wong <e@80x24.org>
+To:     Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     workflows@vger.kernel.org, linux-kernel@vger.kernel.org,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>
-References: <cover.1637566224.git.linux@leemhuis.info>
- <6b760115ecdd3687d4b82680b284f55a04f3ad90.1637566224.git.linux@leemhuis.info>
- <20211122112916.498810bb@gandalf.local.home>
- <aa158444-4319-a019-1031-095a69105447@leemhuis.info>
- <20211122152426.7c2b3ab4@gandalf.local.home>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
+        Jonathan Corbet <corbet@lwn.net>, git@vger.kernel.org
 Subject: Re: [RFC PATCH v1 1/1] docs: add the new commit-msg tags 'Reported:'
  and 'Reviewed:'
-In-Reply-To: <20211122152426.7c2b3ab4@gandalf.local.home>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1637657618;ada75402;
-X-HE-SMSGID: 1mpRYV-0004bX-6r
+Message-ID: <20211123185237.M476855@dcvr>
+References: <cover.1637566224.git.linux@leemhuis.info>
+ <6b760115ecdd3687d4b82680b284f55a04f3ad90.1637566224.git.linux@leemhuis.info>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <6b760115ecdd3687d4b82680b284f55a04f3ad90.1637566224.git.linux@leemhuis.info>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
+Thorsten Leemhuis <linux@leemhuis.info> wrote:
+> diff --git a/Documentation/maintainer/configure-git.rst b/Documentation/maintainer/configure-git.rst
+> index 80ae5030a590..8429d45d661c 100644
+> --- a/Documentation/maintainer/configure-git.rst
+> +++ b/Documentation/maintainer/configure-git.rst
 
+<snip>, +cc git@vger
 
-On 22.11.21 21:24, Steven Rostedt wrote:
-> On Mon, 22 Nov 2021 19:50:35 +0100
-> Thorsten Leemhuis <linux@leemhuis.info> wrote:
-> 
->>> That said, I would like a way to have versions show a link to the last
->>> version that was reviewed.
->>>
->>> v1: has no tags
->>>
->>> v2: has a Reviewed: tag to v1.
->>>
->>> v3: has a Reviewed: tag to v2
->>>
->>> [...]
->>>
->>> Then the final commit could have a "Link" or "Reviewed" tag to v3, even
->>> though there may not be any reviews to v3, but v3 has the link to v2, and
->>> v2 has the link to v1, etc.  
->>
->> Is that really worth it? Isn't it sufficient if the commit links to the
->> last public review posting, as that already should link to all earlier
->> review postings. Sure, not everybody is doing this right now, but maybe
->> just educating people to do so is better than creating something new.
-> 
-> Isn't "as that already should link to all earlier review postings" what I'm
-> suggesting above? I haven't seen many people do that yet.
+> @@ -56,7 +56,7 @@ by adding the following hook into your git:
+>  	$ cat >.git/hooks/applypatch-msg <<'EOF'
+>  	#!/bin/sh
+>  	. git-sh-setup
+> -	perl -pi -e 's|^Message-Id:\s*<?([^>]+)>?$|Link: https://lore.kernel.org/r/$1|g;' "$1"
+> +	perl -pi -e 's|^Message-Id:\s*<?([^>]+)>?$|Reviewed: https://lore.kernel.org/r/$1|g;' "$1"
 
-Yeah, you are right, sorry, my perception was wrong.
+Side note: that regexp should match "Message-ID" case-insensitively.
+git send-email is an outlier in its capitalization of "Message-Id",
+most RFCs capitalize it "Message-ID", as do common MUAs.
 
-Any maybe I got your suggestion wrong, but what you suggested sounded to
-me like "each patch should link to the previous submission of the
-patch". I just wonder if it's way easier and sufficient if just the
-cover letter links to the previous or all earlier submissions of the
-series in its revision history (sorry, I didn't should have made this
-more obvious in my earlier mail); for patches without a cover letter
-this obligation obviously would shift to the patch.
-
-IOW: I have something in mind like in this submission:
-https://lore.kernel.org/lkml/cover.1637252610.git.sander@svanheule.net/
-
-Only the cover letter links to the earlier version, not the individual
-patches.
-
-But I have no strong feeling here, I don't care much about this.
-
-Ciao, Thorsten
+git send-email's capitalization does annoy me and I've looked
+into changing it; but there's a bunch of tests and probably
+dependent code that also need to be updated...
