@@ -2,27 +2,29 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85246C433F5
-	for <workflows@archiver.kernel.org>; Mon, 29 Nov 2021 19:27:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 839BEC433F5
+	for <workflows@archiver.kernel.org>; Mon, 29 Nov 2021 20:34:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239552AbhK2TaX (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 29 Nov 2021 14:30:23 -0500
-Received: from mga17.intel.com ([192.55.52.151]:16145 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1351341AbhK2T2W (ORCPT <rfc822;workflows@vger.kernel.org>);
-        Mon, 29 Nov 2021 14:28:22 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10183"; a="216753170"
-X-IronPort-AV: E=Sophos;i="5.87,273,1631602800"; 
-   d="scan'208";a="216753170"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2021 11:20:13 -0800
-X-IronPort-AV: E=Sophos;i="5.87,273,1631602800"; 
-   d="scan'208";a="511825428"
-Received: from mkabdel-mobl.ger.corp.intel.com (HELO localhost) ([10.252.11.182])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2021 11:20:10 -0800
-From:   Jani Nikula <jani.nikula@intel.com>
-To:     Eric Wong <e@80x24.org>
-Cc:     Junio C Hamano <gitster@pobox.com>,
+        id S231989AbhK2UiB (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 29 Nov 2021 15:38:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33678 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232069AbhK2UgB (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 29 Nov 2021 15:36:01 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92BC0C08EB53;
+        Mon, 29 Nov 2021 09:10:08 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 37427615D7;
+        Mon, 29 Nov 2021 17:10:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F149C53FC7;
+        Mon, 29 Nov 2021 17:10:06 +0000 (UTC)
+Date:   Mon, 29 Nov 2021 12:10:04 -0500
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Jani Nikula <jani.nikula@intel.com>
+Cc:     Junio C Hamano <gitster@pobox.com>, Eric Wong <e@80x24.org>,
         Thorsten Leemhuis <linux@leemhuis.info>,
         workflows@vger.kernel.org, linux-kernel@vger.kernel.org,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
@@ -31,37 +33,37 @@ Cc:     Junio C Hamano <gitster@pobox.com>,
         Kees Cook <keescook@chromium.org>
 Subject: Re: [RFC PATCH v1 1/1] docs: add the new commit-msg tags
  'Reported:' and 'Reviewed:'
-In-Reply-To: <20211129172618.GA26651@dcvr>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Message-ID: <20211129121004.64cf125f@gandalf.local.home>
+In-Reply-To: <87mtlnjhj6.fsf@intel.com>
 References: <cover.1637566224.git.linux@leemhuis.info>
- <6b760115ecdd3687d4b82680b284f55a04f3ad90.1637566224.git.linux@leemhuis.info>
- <20211123185237.M476855@dcvr>
- <12cefa81-495b-3083-5f19-b319c704ebf7@leemhuis.info>
- <20211126171141.GA21826@dcvr>
- <42ff6b8d-0b7c-12e0-4648-a9232b0f577c@leemhuis.info>
- <20211127195231.GA4636@dcvr> <xmqqtufx5p19.fsf@gitster.g>
- <87mtlnjhj6.fsf@intel.com> <20211129172618.GA26651@dcvr>
-Date:   Mon, 29 Nov 2021 21:20:00 +0200
-Message-ID: <877dcqkbvj.fsf@intel.com>
+        <6b760115ecdd3687d4b82680b284f55a04f3ad90.1637566224.git.linux@leemhuis.info>
+        <20211123185237.M476855@dcvr>
+        <12cefa81-495b-3083-5f19-b319c704ebf7@leemhuis.info>
+        <20211126171141.GA21826@dcvr>
+        <42ff6b8d-0b7c-12e0-4648-a9232b0f577c@leemhuis.info>
+        <20211127195231.GA4636@dcvr>
+        <xmqqtufx5p19.fsf@gitster.g>
+        <87mtlnjhj6.fsf@intel.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Mon, 29 Nov 2021, Eric Wong <e@80x24.org> wrote:
-> Jani Nikula <jani.nikula@intel.com> wrote:
->> The moral of the story is that you should always offload the header
->> parsing to some tool or library designed to do that.
->
-> It's a bit much for common cases with git-send-email and
-> reasonable MUAs, I think.
+On Mon, 29 Nov 2021 14:03:09 +0200
+Jani Nikula <jani.nikula@intel.com> wrote:
 
-I think you can have unreasonable MDAs in between, though!
+> >From the RFC nitpicking department, msg-id is allowed to contain CFWS  
+> (comments and folding white space) outside the angle brackets, which
+> means you could have RFC compliant Message-ID header field:
+> 
+> Message-ID: 
+>   <message-id@example.com>
 
-BR,
-Jani.
+My scripts have already been hit by this. (I've been lazy and not fixed it,
+but instead, just edit the file that it is parsing manually, to be on one
+line :-p)
 
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+-- Steve
