@@ -2,118 +2,79 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D4ACC433EF
-	for <workflows@archiver.kernel.org>; Mon, 29 Nov 2021 12:05:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFB43C433F5
+	for <workflows@archiver.kernel.org>; Mon, 29 Nov 2021 17:20:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236691AbhK2MIo (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 29 Nov 2021 07:08:44 -0500
-Received: from mga02.intel.com ([134.134.136.20]:63418 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236237AbhK2MGo (ORCPT <rfc822;workflows@vger.kernel.org>);
-        Mon, 29 Nov 2021 07:06:44 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10182"; a="223179093"
-X-IronPort-AV: E=Sophos;i="5.87,273,1631602800"; 
-   d="scan'208";a="223179093"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2021 04:03:22 -0800
-X-IronPort-AV: E=Sophos;i="5.87,273,1631602800"; 
-   d="scan'208";a="511658562"
-Received: from mkabdel-mobl.ger.corp.intel.com (HELO localhost) ([10.252.11.182])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2021 04:03:19 -0800
-From:   Jani Nikula <jani.nikula@intel.com>
-To:     Junio C Hamano <gitster@pobox.com>, Eric Wong <e@80x24.org>
-Cc:     Thorsten Leemhuis <linux@leemhuis.info>, workflows@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
+        id S1348530AbhK2RXx (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 29 Nov 2021 12:23:53 -0500
+Received: from pb-smtp2.pobox.com ([64.147.108.71]:64864 "EHLO
+        pb-smtp2.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238841AbhK2RVx (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 29 Nov 2021 12:21:53 -0500
+Received: from pb-smtp2.pobox.com (unknown [127.0.0.1])
+        by pb-smtp2.pobox.com (Postfix) with ESMTP id 343B1EEBA5;
+        Mon, 29 Nov 2021 12:18:35 -0500 (EST)
+        (envelope-from junio@pobox.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=from:to:cc
+        :subject:references:date:in-reply-to:message-id:mime-version
+        :content-type; s=sasl; bh=rvRiW3BDnh+jHJbcguqZFpnMC/yNo38hZFZRxu
+        H4KOc=; b=ZSJ6Lwylm/ZUs/LyNhPtpGtWJFXStctVauhxJNy+OY9ri6ukWdrtk5
+        T/1nqanUKw0vZ7rd3vp0QZaXdth+/LzG4+y1rtllFviTvI7qUCsJDQ+2vI+tG+qX
+        mSIA6KKJcCQR8Wwn/yCRRCr2acSzHb16D+26hbDQJObYF/NQ1UN7M=
+Received: from pb-smtp2.nyi.icgroup.com (unknown [127.0.0.1])
+        by pb-smtp2.pobox.com (Postfix) with ESMTP id 2ACCEEEBA4;
+        Mon, 29 Nov 2021 12:18:35 -0500 (EST)
+        (envelope-from junio@pobox.com)
+Received: from pobox.com (unknown [104.133.2.91])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by pb-smtp2.pobox.com (Postfix) with ESMTPSA id 8ED22EEBA3;
+        Mon, 29 Nov 2021 12:18:34 -0500 (EST)
+        (envelope-from junio@pobox.com)
+From:   Junio C Hamano <gitster@pobox.com>
+To:     Jani Nikula <jani.nikula@intel.com>
+Cc:     Eric Wong <e@80x24.org>, Thorsten Leemhuis <linux@leemhuis.info>,
+        workflows@vger.kernel.org, linux-kernel@vger.kernel.org,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
         Jonathan Corbet <corbet@lwn.net>, git@vger.kernel.org,
         Linus Walleij <linus.walleij@linaro.org>,
         Kees Cook <keescook@chromium.org>
 Subject: Re: [RFC PATCH v1 1/1] docs: add the new commit-msg tags
  'Reported:' and 'Reviewed:'
-In-Reply-To: <xmqqtufx5p19.fsf@gitster.g>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <cover.1637566224.git.linux@leemhuis.info>
- <6b760115ecdd3687d4b82680b284f55a04f3ad90.1637566224.git.linux@leemhuis.info>
- <20211123185237.M476855@dcvr>
- <12cefa81-495b-3083-5f19-b319c704ebf7@leemhuis.info>
- <20211126171141.GA21826@dcvr>
- <42ff6b8d-0b7c-12e0-4648-a9232b0f577c@leemhuis.info>
- <20211127195231.GA4636@dcvr> <xmqqtufx5p19.fsf@gitster.g>
-Date:   Mon, 29 Nov 2021 14:03:09 +0200
-Message-ID: <87mtlnjhj6.fsf@intel.com>
+        <6b760115ecdd3687d4b82680b284f55a04f3ad90.1637566224.git.linux@leemhuis.info>
+        <20211123185237.M476855@dcvr>
+        <12cefa81-495b-3083-5f19-b319c704ebf7@leemhuis.info>
+        <20211126171141.GA21826@dcvr>
+        <42ff6b8d-0b7c-12e0-4648-a9232b0f577c@leemhuis.info>
+        <20211127195231.GA4636@dcvr> <xmqqtufx5p19.fsf@gitster.g>
+        <87mtlnjhj6.fsf@intel.com>
+Date:   Mon, 29 Nov 2021 09:18:32 -0800
+In-Reply-To: <87mtlnjhj6.fsf@intel.com> (Jani Nikula's message of "Mon, 29 Nov
+        2021 14:03:09 +0200")
+Message-ID: <xmqq5ysa5193.fsf@gitster.g>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain
+X-Pobox-Relay-ID: 6203B8F6-5138-11EC-BAC5-CD991BBA3BAF-77302942!pb-smtp2.pobox.com
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Sat, 27 Nov 2021, Junio C Hamano <gitster@pobox.com> wrote:
-> Eric Wong <e@80x24.org> writes:
->
->> Thorsten Leemhuis <linux@leemhuis.info> wrote:
->>> Just to be sure I'll do what you expect to be done: I assume you want to see
->>> it changed like this?
->>> 
->>> -	perl -pi -e 's|^Message-Id:\s*<?([^>]+)>?$|Link: https://lore.kernel.org/r/$1|g;' "$1"
->> ...
->> The entire match should be case-insensitive[1], so I'd add `i'
->> at the end:
->>
->> 	perl -pi -e 's|^Message-ID:\s*<?([^>]+)>?$|Link: https://lore.kernel.org/r/$1|gi;' "$1"
->>
->> Fwiw, every mail and HTTP/1.x header parser I've looked at works
->> case-insensitively.  Also, I'm not sure if `g' is needed, actually...
->
-> It is left anchored with "^" so it would be hard to match more than
-> once on the same line ;-)
->
-> I agree that it is the right solution to make the whole thing
-> case-insensitive by adding 'i' at the end.
->
-> FWIW, the RFC first says this:
->
->     1.2.2. Syntactic notation
->
->        This standard uses the Augmented Backus-Naur Form (ABNF) notation
->        specified in [RFC2234] for the formal definitions of the syntax of
->        messages.  Characters will be specified either by a decimal value
->        (e.g., the value %d65 for uppercase A and %d97 for lowercase A) or by
->        a case-insensitive literal value enclosed in quotation marks (e.g.,
->        "A" for either uppercase or lowercase A).
->
-> and then goes on to define how message-id should look like.
->
->     3.6.4. Identification fields
->
->     message-id      =       "Message-ID:" msg-id CRLF
->
->
-> But if you go the "add /i at the end" route, you do not have to
-> upcase "d" to "D" and that may reduce the patch noise (it only
-> matters if the patch viewer highlights letter-by-letter changes for
-> your recipients).
+Jani Nikula <jani.nikula@intel.com> writes:
 
-From the RFC nitpicking department, msg-id is allowed to contain CFWS
-(comments and folding white space) outside the angle brackets, which
-means you could have RFC compliant Message-ID header field:
+> From the RFC nitpicking department, ...
+>
+> Message-ID: (comment) 
+>   <message-id@example.com>
 
-Message-ID: 
-  <message-id@example.com>
+Thanks for a fun piece; the (comment) is quite interesting.
 
-or
+I wasn't having fun with RFC nitpicking, though.  I was reacting to
+this part of the message I was responding to ...
 
-Message-ID: (comment) 
-  <message-id@example.com>
+>>> Fwiw, every mail and HTTP/1.x header parser I've looked at works
+>>> case-insensitively.  Also, I'm not sure if `g' is needed, actually...
 
-or even worse, really.
-
-The moral of the story is that you should always offload the header
-parsing to some tool or library designed to do that.
-
-
-BR,
-Jani.
-
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+... to say that "works case-insensitively" may not just be
+empirically correct, but RFC backs him up, to Eric.
