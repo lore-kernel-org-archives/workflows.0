@@ -2,145 +2,108 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D931C433EF
-	for <workflows@archiver.kernel.org>; Mon, 29 Nov 2021 22:29:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 013AEC433EF
+	for <workflows@archiver.kernel.org>; Tue, 30 Nov 2021 01:09:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231468AbhK2Wcg (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 29 Nov 2021 17:32:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60702 "EHLO
+        id S235083AbhK3BM7 (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 29 Nov 2021 20:12:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231582AbhK2WcX (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 29 Nov 2021 17:32:23 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6432BC061748
-        for <workflows@vger.kernel.org>; Mon, 29 Nov 2021 14:18:04 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id B5EC62CA;
-        Mon, 29 Nov 2021 22:16:40 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B5EC62CA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1638224200; bh=iTY2/h04UezM1V4M7XZgBk0FWcWxT9Syov9TVxzHjFE=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=RhFQy3d6hB3kKajco72EVJtAjF4CN0+4BU2CNPr3lsAX0gkg+pA0UicUHclGgHdZK
-         YZ6EU0zHf46kFqdEPwysyZa1A+FEIyl37q6VD5GMk+xTyjM5/+CizHRLS6dS/rFbAl
-         y/PTDx66u4qjRkCMJTQM58fkXZ+/Wk24YAusD+n9jFFXuN+H+9VtMgHwzR70o8fSow
-         nTNtSF/83dOSIcR1N5fk/eeN2lbMRK8X7TtCBNEmNDcGKTclyf4O80Be86IQjxUFMR
-         wok32rcbbMNXwWneh8Qu/5KD4nNcO1ee0K4lZyH6ckPhzvIczl5vYJFJZRbeSPVYMm
-         xjsX1WH5P2vOQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Thorsten Leemhuis <linux@leemhuis.info>, workflows@vger.kernel.org
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Subject: Re: [RFC PATCH v1 1/1] docs: add the new commit-msg tags
- 'Reported:' and 'Reviewed:'
-In-Reply-To: <6b760115ecdd3687d4b82680b284f55a04f3ad90.1637566224.git.linux@leemhuis.info>
-References: <cover.1637566224.git.linux@leemhuis.info>
- <6b760115ecdd3687d4b82680b284f55a04f3ad90.1637566224.git.linux@leemhuis.info>
-Date:   Mon, 29 Nov 2021 15:16:40 -0700
-Message-ID: <8735nesj3r.fsf@meer.lwn.net>
+        with ESMTP id S229602AbhK3BM7 (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 29 Nov 2021 20:12:59 -0500
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0231C061574
+        for <workflows@vger.kernel.org>; Mon, 29 Nov 2021 17:09:40 -0800 (PST)
+Received: by mail-yb1-xb2e.google.com with SMTP id j2so47463082ybg.9
+        for <workflows@vger.kernel.org>; Mon, 29 Nov 2021 17:09:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HuIlfyseBRn31T+CB6WiobKmXfymgi7xKS2SxyF/V5A=;
+        b=blWVVvoSH2NFMks/n8oH3qDauMGlTsRl0H/cLHpdNSA57PtEUNC9ggjURr2cyqYzrE
+         KojLEJjrybccExNp4lYvCNaoRKcVCRYkq21dreo73sdexgYpI5pMOLXjW6a/8InQ3uwu
+         yKD6nUTyTwJBY947nAYbbMol2EjjoK4xFk7iQNH+kGochBNr9279Ll94mmmtxJcs3GF9
+         W7RFenHc+ZX9GqpvsZXkbCu6fJDlDYJBXnYQaunpWvV7Wo5tnxVkoe9fOHiyIdpJmJfv
+         UnV4MqgrbAuaQmFQaRewa59i7K8Jh9HD6TmSDEahcaKYnQLLf73w2NJJYEm2GltokyPX
+         lnFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HuIlfyseBRn31T+CB6WiobKmXfymgi7xKS2SxyF/V5A=;
+        b=r62gtpA0NC9rOESPJgVoabBCDZTM94Zxd8lbjLeNWX0bdm9d+pR43WDJ9FbFzRykIN
+         cMUyGWG2WgrPPl+xwv4IrMGso5VSwkI6k6GatfDbG19TRNfBWh0ysSgxl1D1ATBkXOsE
+         a9ATj1cXo+qKzn2FSAl/sp6cxNSwMdosROAjL/Nw3JXEuOFdDexMTcJBG5ZGmDL+DDWY
+         031Up8dz1vrYwWSJjmi14WhbgQr+KFfRBlS9GZVBJDW3BQ1calGN+lAn03GQ2kWXsBoA
+         ZzYDXwH92bLcsbKwfi/Ln5GGwF8V10IF878DyVb7nOQAjceTkPjGV4l4rNv5Xag9yVtC
+         C2dQ==
+X-Gm-Message-State: AOAM533SPZiTP9jYFCnytdpRJ9B5hvfHjF1fRzTH9oZxLqdb9PyuAFXJ
+        17Jna0LHf7tyMC0Buh/UckCHnZ7rkfyaBtS+esdXpUgoNGw=
+X-Google-Smtp-Source: ABdhPJxQR+QMRXh9IdeYKnQOhINU2bMBpycWje8/9Y74db/KE7RImSxycxp6FUoiVKzR8UzyhMdOT4FF3LfXhXmL6TE=
+X-Received: by 2002:a25:3b04:: with SMTP id i4mr9597838yba.767.1638234579919;
+ Mon, 29 Nov 2021 17:09:39 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20211129215634.gydsyfyhu6rhbbe2@meerkat.local>
+In-Reply-To: <20211129215634.gydsyfyhu6rhbbe2@meerkat.local>
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date:   Tue, 30 Nov 2021 02:09:29 +0100
+Message-ID: <CAKXUXMxvm9NQHK9fjtzPFEasRthTdceNLcpwpQ9oV62zpvWtZw@mail.gmail.com>
+Subject: Re: PSA: generic patches@lists.linux.dev list
+To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc:     users@linux.kernel.org, workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Thorsten Leemhuis <linux@leemhuis.info> writes:
-
-> Introduce the tags 'Reported:' and 'Reviewed:' in addition to 'Link:',
-> as the latter is overloaded and hence doesn't indicate what the provided
-> URL is about. Documenting these also provides clarity, as a few
-> developers have used 'References:' to point to problem reports;
-> nevertheless 'Reported:' was chosen for this purpose, as it perfectly
-> matches up with the 'Reported-by:' tag commonly used already and needed
-> in this situation already.
+On Tue, Nov 30, 2021 at 12:56 AM Konstantin Ryabitsev
+<konstantin@linuxfoundation.org> wrote:
 >
-> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
-> To: workflows@vger.kernel.org
-
-Thanks for flooding my inbox during a holiday week :)  Just looking at
-this now.
-
-> v1/RFC:
-> - first, *rough version* to see how this idea is received in the
->   community
-> ---
->  Documentation/maintainer/configure-git.rst   |  6 +--
->  Documentation/process/5.Posting.rst          | 54 ++++++++++++++------
->  Documentation/process/submitting-patches.rst | 22 ++++----
->  3 files changed, 53 insertions(+), 29 deletions(-)
+> Hi, all:
 >
-> diff --git a/Documentation/maintainer/configure-git.rst b/Documentation/maintainer/configure-git.rst
-> index 80ae5030a590..8429d45d661c 100644
-> --- a/Documentation/maintainer/configure-git.rst
-> +++ b/Documentation/maintainer/configure-git.rst
-> @@ -40,12 +40,12 @@ Creating commit links to lore.kernel.org
->  The web site http://lore.kernel.org is meant as a grand archive of all mail
->  list traffic concerning or influencing the kernel development. Storing archives
->  of patches here is a recommended practice, and when a maintainer applies a
-> -patch to a subsystem tree, it is a good idea to provide a Link: tag with a
-> +patch to a subsystem tree, it is a good idea to provide a Reviewed: tag with a
->  reference back to the lore archive so that people that browse the commit
->  history can find related discussions and rationale behind a certain change.
->  The link tag will look like this:
->  
-> -    Link: https://lore.kernel.org/r/<message-id>
-> +    Reviewed: https://lore.kernel.org/r/<message-id>
+> We have a generically named list `patches@lists.linux.dev` that can be used as
+> an address for sending patches.
+>
+> This can be useful for a number of reasons:
+>
+> 1. those maintainers already using lei [1] can list patches@lists.linux.dev as
+>    the mailing list address for their subsystem and receive mail sent to it
+>    via lei saved searches
+> 2. mail sent to this address goes to public-inbox first, so it's likely to
+>    show up on lore.kernel.org very quickly, with fewest delays and omissions
+> 3. you can use this address as an extra cc for mail sent to other lists that
+>    are less likely to preserve the message body as-is -- when retrieving mail
+>    with b4, it will give priority to the linux.dev address in the presence of
+>    duplicates.
+>
+> Mostly, it's a dumping ground for patches. We can even use it as "THE REST"
+> address in MAINTAINERS to help offload some of the traffic from vger and make
+> linux-kernel@vger.kernel.org less of a firehose and more amenable to actual
+> discussions.
+>
 
-The *link* tag will look like that?
+I always thought that sending patches to mailing lists has the beauty
+that the technical discussion and decision on the actual change is
+"seamlessly" connected on the same channel and allows simple
+transition between those two categories. E.g., a discussion can evolve
+into a proposition of a patch within the email thread or a patch can
+spin-off a wider discussion on the software architecture or policies
+in the development.
 
-[...]
+The proposition of patches@lists.linux.dev dedicated for patches vs.
+other mails somehow is troubling to that beauty.
+Also, I would not be surprised if besides the obvious disconnect
+caused by two lists and the unclear situation of which email belongs
+to which category (when does a technical discussion cause a patch
+proposition, or when is a patch review evolving into a policy
+discussion), we end up with two mailing lists, patches and
+linux-kernel, that both lists still feel like two fire hoses similarly
+uncontrollable as before. Or alternatively: any good filtering that
+made it manageable before with one large list, would not look
+significantly simpler just because there are now two lists with an
+implicit categorization on its mail content.
 
-> +The tags in common use are:
-> +
-> + - ``Reported:`` points to a report of a problem fixed by this patch. The
-> +   provided URL thus might point to a entry in a bug tracker or a mail in a
-> +   mailing list archive. Typically this tag is followed by a "Reported-by:"
-> +   tag (see below).
-> +
-> + - ``Link:`` points to websites providing additional backgrounds or details,
-> +   for example a document with a specification implemented by the patch.
+Just thinking out loud,
 
-So this is a serious change from how Link: is used now, and runs counter
-to the scripts used by a lot of maintainers.  I suspect that this thread
-is only as short as it is because a lot of people haven't seen this yet;
-it could be a hard change to sell.
-
-Also, I think that documents like specs should be called out separately
-in the changelog, with text saying what they actually are.
-
-> + - ``Reviewed:`` ignore this, as maintainers add it when applying a patch, to
-> +   make the commit point to the latest public review of the patch.
-
-Another question would be: what's the interplay between the (quite
-similar) "Reviewed" and "Reviewed-by" tags (and the same for the report
-tags).  If there's a "Reviewed" do we still need "Reviewed-by"?  That
-should be spelled out, whichever way is wanted.
-
-I do worry that the similarity is going to lead to a certain amount of
-confusion and use of the wrong tag.  People have a hard time getting all
-the tags we have now right; adding more that look almost like the
-existing ones seems like a recipe for trouble.
-
-For these reasons, I would be more inclined toward Konstantin's
-suggestion of adding notes to the existing Link: tags.
-
-> +A third kind of tags are used to document which developers were involved in
-> +the development of the patch. Each of these uses this format::
->  
->  	tag: Full Name <email address>  optional-other-stuff
->  
->  The tags in common use are:
->  
-> - - Signed-off-by: this is a developer's certification that he or she has
-> + - ``Signed-off-by:`` is a developer's certification that he or she has
-
-So this markup addition is a separate change that would belong in its
-own patch.  Do we really need it, though?  It clutters the text and
-irritates the anti-RST minority (which has been mercifully quiet
-recently) without really adding any benefit.
-
-Thanks,
-
-jon
+Lukas
