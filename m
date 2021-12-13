@@ -2,151 +2,115 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DC15C433EF
-	for <workflows@archiver.kernel.org>; Mon, 13 Dec 2021 18:38:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A032CC433F5
+	for <workflows@archiver.kernel.org>; Mon, 13 Dec 2021 18:39:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234465AbhLMSiK (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 13 Dec 2021 13:38:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42942 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238819AbhLMSiJ (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 13 Dec 2021 13:38:09 -0500
-Received: from mail-ua1-x936.google.com (mail-ua1-x936.google.com [IPv6:2607:f8b0:4864:20::936])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EBE1C061574
-        for <workflows@vger.kernel.org>; Mon, 13 Dec 2021 10:38:09 -0800 (PST)
-Received: by mail-ua1-x936.google.com with SMTP id n9so11828877uaq.10
-        for <workflows@vger.kernel.org>; Mon, 13 Dec 2021 10:38:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=+dYugpz/ydnh4iasdbd+38vFJgf3DUiOyowzTdwY3zs=;
-        b=fTyKUrwAbUyk7AVJi20VHh8sf1oldhi6n/ktgKqnR3Xf1hXXsW39IG8YkBWza9SDQ3
-         hZfENFeP5V8z0h67GxKt8djsHIS6dhShTr0gsxdktOW5mYZ2Ndiai6a7xZ6fiwoUUrtk
-         ZtBv0lMGJYJtN+ydJgkD8CHkvdXNj3OgKWJJ8=
+        id S235987AbhLMSjd (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 13 Dec 2021 13:39:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43005 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230346AbhLMSjd (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 13 Dec 2021 13:39:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1639420772;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=49rXU22wc7i0dic4SM+lnP3tbz11LX157HFZA+atEF8=;
+        b=JnyN3ZAhmHk9fmhF2MkROhwsjZpYI4/neszRqOeR/zkT3MrS36yRjC1yTTRIoR+ISUYYoU
+        pO5ejhafxTwwTHdZrq1R2YZJa+i7IlpAZtM96NkNqZoiPPU2ycrUzWQpDB496A3xbYJqTk
+        5smagx286uN0gYa82mbyVZzAw69rsoM=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-514-cgI_f1nRPFSZNFQHvxgA3A-1; Mon, 13 Dec 2021 13:39:31 -0500
+X-MC-Unique: cgI_f1nRPFSZNFQHvxgA3A-1
+Received: by mail-ed1-f70.google.com with SMTP id w18-20020a056402071200b003e61cbafdb4so14764501edx.4
+        for <workflows@vger.kernel.org>; Mon, 13 Dec 2021 10:39:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=+dYugpz/ydnh4iasdbd+38vFJgf3DUiOyowzTdwY3zs=;
-        b=lvRDpjp5/OygrfniQDz8NIS3GqaAAdO+upcYdYkdXhmAT9Eu5fROl477qTHn1JSDhk
-         KdTS6iggjxIHlNahaS6sQbfQ8mO1lWTnk91he0q1fFYUuOKqeg65pouzojnEsc3wcobm
-         EF+mfCpGxR3YyOggITdhgsWlVBv5yaLZiwz7pV6W+fiOKM3Ne7mx2psUAQg8oC89y+2e
-         Lj4cO6CgAMm3iIXxNUmo5IxT8htSGsojJTn3XZzPwq83853yeDHOfAwQ1p+9UcUrxK7G
-         YpLaceW+kP/mW+I+7QXsYH4MddJjmwoXfjettv4sohh0zM5rR8kV6qb0EGvr0UhOFQ5L
-         bNXQ==
-X-Gm-Message-State: AOAM53322pdEs4n2y6++qS1YUYCHE0XmOc4WuLR/2g+4k9oraO2QcxR9
-        lmuTske4NO0vjDmvGuUrTHj4GgBSLVSJt0f5rAqj77uGOJMnPQ==
-X-Google-Smtp-Source: ABdhPJwfCfcbDYvfO1khBPbFXw4qnB1xYBNrvpp30hXF7Gy1aha1l00spiLBuj/Rge6JJhGo4KWc0Sf799Ys8J37R00=
-X-Received: by 2002:ab0:3301:: with SMTP id r1mr26014uao.96.1639420688078;
- Mon, 13 Dec 2021 10:38:08 -0800 (PST)
-MIME-Version: 1.0
-References: <87mtl7ufl3.fsf@toke.dk>
-In-Reply-To: <87mtl7ufl3.fsf@toke.dk>
-From:   Simon Glass <sjg@chromium.org>
-Date:   Mon, 13 Dec 2021 11:37:57 -0700
-Message-ID: <CAPnjgZ1THJQSUj2Mmq2P6EtJXZQV=th0vnN2cLZ=BZe_sck+SA@mail.gmail.com>
-Subject: Re: Monitoring the status of your own patches on patchwork?
-To:     =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@redhat.com>
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version:content-transfer-encoding;
+        bh=49rXU22wc7i0dic4SM+lnP3tbz11LX157HFZA+atEF8=;
+        b=WSDjz7yaYw1/sHLyFhf9FVnZ3SEIP6nY8pjxgexgbfAqaWWGzyJ+NeGhwvyePq3Rvs
+         9Ru9xQMTRKjDbKqX/t5n9znteolyNieN/cCk5UIVx7EdWUptRS5CR4zuTICEGyT6xlJt
+         fIwHuHe6e0g0V41jtkBN3mAaRuJISxgk6SNvcGrEQX7I5SPjWl4UZN0WSpUjaCDxxoBH
+         IASOwiVo2FoJCkw4LWstf/U2M4dF/aNNctzyibtua8K1rraRXgwxNrMcFXav0Kgz0qgp
+         FbsNWdeb1gktWb8hesK3xFdTyilYywZU3itP4GlgEd0lJcef4jP98pk7WlGhXEXQzTv1
+         zjAA==
+X-Gm-Message-State: AOAM531jaQGv0w+xBCv1hOsjEB6a2GXqCzP43vnsZDmikOA/XW2Eea8l
+        U8TjX1im5dZpGxMk8JV0d1cd6/6wjI7mYaJFGJACIl5fAyjsKF90vYjiLeWVtw6fj0AlemDtMwx
+        ufrVEfQuh+qYZIhvf3RfI
+X-Received: by 2002:a17:907:72d2:: with SMTP id du18mr156961ejc.570.1639420769408;
+        Mon, 13 Dec 2021 10:39:29 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw/AkupvdmtQKtJ7U+JU0mO830L2XUbus/qJaY9AaL8G+oiTnWVXmvrCMy1vvKDYOtRQE9Yxg==
+X-Received: by 2002:a17:907:72d2:: with SMTP id du18mr156935ejc.570.1639420769019;
+        Mon, 13 Dec 2021 10:39:29 -0800 (PST)
+Received: from alrua-x1.borgediget.toke.dk ([45.145.92.2])
+        by smtp.gmail.com with ESMTPSA id 24sm57972ejg.47.2021.12.13.10.39.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Dec 2021 10:39:28 -0800 (PST)
+Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
+        id CB26D18043F; Mon, 13 Dec 2021 19:39:27 +0100 (CET)
+From:   Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+To:     Jakub Kicinski <kuba@kernel.org>
 Cc:     workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: Monitoring the status of your own patches on patchwork?
+In-Reply-To: <20211213080625.7febffc2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+References: <87mtl7ufl3.fsf@toke.dk>
+ <20211213070840.4353fd6d@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <877dc8fqui.fsf@toke.dk>
+ <20211213080625.7febffc2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+X-Clacks-Overhead: GNU Terry Pratchett
+Date:   Mon, 13 Dec 2021 19:39:27 +0100
+Message-ID: <87zgp4z6w0.fsf@toke.dk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Hi,
+Jakub Kicinski <kuba@kernel.org> writes:
 
-On Sat, 11 Dec 2021 at 12:06, Toke H=C3=B8iland-J=C3=B8rgensen <toke@redhat=
-.com> wrote:
+> On Mon, 13 Dec 2021 16:48:37 +0100 Toke H=C3=B8iland-J=C3=B8rgensen wrote:
+>> > Status notification when checks are failing? Hopefully not, we don't
+>> > want people posting patches just to get them tested...=20=20
+>>=20
+>> Well no, but sometimes a patch will have failures despite the best
+>> efforts of the submitter (otherwise what's the point of the checks?).
+>> Right now the only way for me to discover that there's an issue is to go
+>> look at the patchwork web interface, and I wanted something that better
+>> suits my workflow (i.e., that's not in a web browser).
 >
-> Hi everyone!
+> I think that the maintainer should notify the submitter about=20
+> the reason the patch state was changed (with the exception of
+> patches for a different tree, maybe). I know Kees has been=20
+> trying to add more meaningful states to patchwork but I can
+> never guess the meaning of those either :S So no automated
+> state checker can replace the maintainer's reply.
+
+Well, sometimes the maintainers forget to reply entirely :)
+
+And yeah, I do realise that no bot is going to be able to tell me
+exactly what the current status is, I just want a tool to help me
+manually keep track...
+
+>> I wasn't asking for patchwork to send out automatic notifications
+>> (yikes!), I just wanted to know if anyone else had done something
+>> similar before I go play around with the patchwork API myself... :)
 >
-> I was wondering if anyone had any nifty tricks or utilities to help
-> monitor the status of your own patch submissions on a patchwork
-> instance? Things like getting a notification when a patch changes status
-> or when one of the automated checks on that particular patchwork
-> instance fails for a patch you submitted?
->
-> I can just filter the patchwork web interface to my name, of course, but
-> I would like something that can be automated so I can make the stuff I
-> care about show up in my inbox :)
+> Despite the promise of "best effort" I fear such automation.
+> It's pretty common in (let's call them) modern workflows to
+> submit PRs / post changes just to get them tested by a CI.
+> We don't want to give people the impression that the mailing
+> list can serve this purpose.
 
-I'll just mention 'patman status' here, which collects tags from
-patchwork so you can send them with the next version. It also shows
-you code-review snippets on the cmdline which I find much faster to
-process, particularly for large patches. See below, although it's a
-bit hard to read without the colours that patman uses.
+People could already do that, though, they just have to look at the
+patchwork site. And I really don't think it's that convenient of an
+interface that this is a real risk. But don't worry, I'm not planning to
+publish this as a generally-available service :)
 
-I would like something that can track all the series and tell me what
-is outstanding. At the moment I keep a manual list but often forget
-things.
+-Toke
 
-$ patman status
-  1 efi: Rename UCLASS_EFI and IF_TYPE_EFI
-  + Reviewed-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
-  2 efi: Add EFI uclass for media
-  + Reviewed-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
-  3 efi: Add a media/block driver for EFI block device
-  + Reviewed-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
-  4 efi: Locate all block devices in the app
-  5 efi: serial: Support arrow keys
-[...]
-3 new responses available in patchwork (use -d to write them to a new branc=
-h)
-
-$ patman status -C
-  1 efi: Rename UCLASS_EFI and IF_TYPE_EFI
-  + Reviewed-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
-Review: Heinrich Schuchardt <xypron.glpk@gmx.de>
-    > File: include/dm/uclass-id.h
-    > Line: 48 / 48: enum uclass_id {
-    >    UCLASS_DMA, /* Direct Memory Access */
-    >    UCLASS_DSA, /* Distributed (Ethernet) Switch Architecture */
-    >    UCLASS_ECDSA, /* Elliptic curve cryptographic device */
-    > - UCLASS_EFI, /* EFI managed devices */
-    > + UCLASS_EFI_LOADER, /* Devices managed by EFI_LOADER */
-    "managed by EFI_LOADER" does not catch it. I will change this to
-    "devices created by UEFI applications and drivers" when merging.
-
-  2 efi: Add EFI uclass for media
-  + Reviewed-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
-Review: Heinrich Schuchardt <xypron.glpk@gmx.de>
-    > At present UCLASS_EFI is used to represent an EFI filesystem among ot=
-her
-    %s/UCLASS_EFI/UCLASS_EFI_LOADER/
-
-    > pretty vague. The only driver that uses this uclass is in fact not a =
-real
-    > U-Boot driver, since its operations do not include a struct udevice.
-    >
-    > Rather than mess with this, create a new UCLASS_EFI_MEDIA uclass to h=
-andle
-    > EFI media such as disks. Make this the uclass to use for EFI media so=
- that
-    The new uclass is for devices provided by an UEFI implementation loadin=
-g
-    U-Boot as an EFI application.
-
-    > it can be used with 'part list', for example.
-    >
-    > The existing implementation using UCLASS_EFI remains as is, for
-    %s/UCLASS_EFI/UCLASS_EFI_LOADER/
-    The existing uclass is for devices created by UEFI applications loaded
-    by U-Boot.
-
-    > File: include/dm/uclass-id.h
-    > Line: 49 / 49: enum uclass_id {
-    > +++ b/include/dm/uclass-id.h
-    >    UCLASS_DSA, /* Distributed (Ethernet) Switch Architecture */
-    >    UCLASS_ECDSA, /* Elliptic curve cryptographic device */
-    >    UCLASS_EFI_LOADER, /* Devices managed by EFI_LOADER */
-    > + UCLASS_EFI_MEDIA, /* EFI media (e.g. a disk) */
-    %s/EFI media (e.g. a disk)/devices provided by UEFI firmware */
-    With those changes:
-
-  3 efi: Add a media/block driver for EFI block device
-  + Reviewed-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
-
-Regards,
-Simon
