@@ -2,113 +2,86 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BA55C433F5
-	for <workflows@archiver.kernel.org>; Mon, 20 Dec 2021 10:48:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6554FC433EF
+	for <workflows@archiver.kernel.org>; Mon, 20 Dec 2021 12:29:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231432AbhLTKsh (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 20 Dec 2021 05:48:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34278 "EHLO
+        id S229741AbhLTM3k (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 20 Dec 2021 07:29:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229912AbhLTKsg (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 20 Dec 2021 05:48:36 -0500
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4745FC061574;
-        Mon, 20 Dec 2021 02:48:36 -0800 (PST)
-Received: by mail-yb1-xb30.google.com with SMTP id v203so27396020ybe.6;
-        Mon, 20 Dec 2021 02:48:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=o7LVVEj814k0rtyDv7QSeuOPMjhiVF3OoHLrvLsuSPY=;
-        b=PG9BVO9DD2fMbN7ySXYzjeTbXUr7RwLkq25Euh48MSuAbcQhHdQMXk34br/a4bYI3Z
-         8/XyesT+FyAgciSIvN5pa357k28ehjSZ2AKNZkIo29+bxXfOCFqC/N5teF9nynZz+FA5
-         f27aYbS5bQUx1LQhaqdj/3R2+mikDMUJ5lCAMDt4XZkwuLxKbaVoLdJn15IqG5t3FM7X
-         NsZNYzhaBvMeGzYp54Muj+esifYiKZ+Aa6ojuDJS+Yl7/4BJa6FIO/Znlhqty7MXbX4U
-         ISI/H+22p3tQ6fEiU+/AgFUN7Df7bY0OzBZnZZoCMyLTjiFF1L4Xi0Y+EPfq7soc04Wr
-         GowA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=o7LVVEj814k0rtyDv7QSeuOPMjhiVF3OoHLrvLsuSPY=;
-        b=c40o10jzVrOCqq5uizHb1ZEd1E02sXkzAROjQX2q5FkPMN+9aNTHv1gK8Oz7So/53r
-         w1nxUAu6v9XISPJeYaDJsv10hbAs2WS/vvPi9VqglAFoGWolVtewfh7N0CSr5hWIA/a6
-         rA0mHa2ba2lLc4FioXd5JZ8N2YdXzH/cQ+XuUfDCkcadxNfgnUlUWjNStlRwEV04d3aH
-         lh11ZvGWRBD+Awe1zxL7EXstFxnCqvqhY6FKn0rcd3pf6XcLRjMoyS7IJNOBVQXmgZ7/
-         GVwpLMgOLq5qZy9S72tEBvwr7mUxu1+ZmYFg8I/U54VAbniJwTWIMs6Vps99L/Mg+SNd
-         bKHA==
-X-Gm-Message-State: AOAM531Jw7SS7oUNjR4rAr/5Jhl2zRXqn6CRKdO9LjsfDZSX6NxZjLb7
-        i6JujHIF7SVQG+wDbCWnuzeAN8eWe1Ohfst76Jk=
-X-Google-Smtp-Source: ABdhPJzgSrIloEcvsUyQa2iy7KIbtFVaIQ8kQ0x5ak6emKhyXCD5DQJmYY3fWg8Y/4gMHJ/7bCG6OJbR8jwcMa6Qyek=
-X-Received: by 2002:a25:4dc4:: with SMTP id a187mr21542435ybb.631.1639997315350;
- Mon, 20 Dec 2021 02:48:35 -0800 (PST)
-MIME-Version: 1.0
-References: <YbvBvch8JcHED+A9@google.com> <20211217183942.npvkb3ajnx6p5cbp@meerkat.local>
-In-Reply-To: <20211217183942.npvkb3ajnx6p5cbp@meerkat.local>
-From:   Christian Couder <christian.couder@gmail.com>
-Date:   Mon, 20 Dec 2021 11:48:24 +0100
-Message-ID: <CAP8UFD1M7LM630iHXb3EhgiRSoHgKzixTHmKYTA5OU1fEo69DA@mail.gmail.com>
+        with ESMTP id S229626AbhLTM3k (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 20 Dec 2021 07:29:40 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76B1CC061574;
+        Mon, 20 Dec 2021 04:29:40 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1431160FEB;
+        Mon, 20 Dec 2021 12:29:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9040BC36AE7;
+        Mon, 20 Dec 2021 12:29:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1640003379;
+        bh=eX35oRmAncIULZ2kEvf5XCJfEwH+LmoHf7MrVq1dOik=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=aHIkxK5FbHM9LjEzWYtvbrzuNuq3JjUnIa2gKzwyNEGq1mGJbxb0d0Mcr2/uGp93m
+         wC3h6+qRefO/4Z3CNloxi2BXB5E40IbXQu+xMf8TOrCLYVtx2meRZxU4m3D4caI+B8
+         ZDK7SsEm2Hvre0DyEkBJ5arIA/cxA9VTKinjn+fPGi82PxPr0S1+jYYT3Z2eTf6qfF
+         4npg0j0FQ1D1TkEIvjuHtOLCk7Sa2J9ePctE7LH0ogH9dIDylcH4toF7dc6/5dim6z
+         IKbSxPevfS420s3wIdKzbukTWDnpznGGGPa7i8C4eQLGuvXoAzAO9D4vP6qJVyB/Q/
+         gTrx3KpGA5H4Q==
+Date:   Mon, 20 Dec 2021 12:29:34 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc:     Emily Shaffer <emilyshaffer@google.com>, git@vger.kernel.org,
+        jrnieder@gmail.com, jonathantanmy@google.com, steadmon@google.com,
+        chooglen@google.com, calvinwan@google.com,
+        workflows@vger.kernel.org
 Subject: Re: Review process improvements
-To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Emily Shaffer <emilyshaffer@google.com>
-Cc:     git <git@vger.kernel.org>, Jonathan Nieder <jrnieder@gmail.com>,
-        Jonathan Tan <jonathantanmy@google.com>,
-        Josh Steadmon <steadmon@google.com>,
-        Glen Choo <chooglen@google.com>, calvinwan@google.com,
-        workflows@vger.kernel.org, Eric Wong <e@80x24.org>,
-        Johannes Schindelin <Johannes.Schindelin@gmx.de>,
-        Josh Triplett <josh@joshtriplett.org>
-Content-Type: text/plain; charset="UTF-8"
+Message-ID: <YcB3LtxkItDVa2zd@sirena.org.uk>
+References: <YbvBvch8JcHED+A9@google.com>
+ <20211217183942.npvkb3ajnx6p5cbp@meerkat.local>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="dYWJ2OP/dGcleliY"
+Content-Disposition: inline
+In-Reply-To: <20211217183942.npvkb3ajnx6p5cbp@meerkat.local>
+X-Cookie: Christ was born in 4 B.C.
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Fri, Dec 17, 2021 at 11:00 PM Konstantin Ryabitsev
-<konstantin@linuxfoundation.org> wrote:
->
-> On Thu, Dec 16, 2021 at 02:46:21PM -0800, Emily Shaffer wrote:
-> > Some of those discussions resulted in changes - for example,
-> > GitGitGadget was improved and added to git/git, and we enjoy easy,
-> > non-noisy CI runs via GitHub Actions. But some things we thought were a
-> > good idea never went into practice. In the next few months, the Google
-> > Git team is planning to implement some of the following changes,
 
-Thanks for trying to make it easier and more efficient to contribute!
+--dYWJ2OP/dGcleliY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> > and
-> > we'd appreciate your thoughts ahead of time as well as your review later
-> > on:
->
-> I'd like to also mention that I'm hoping to add a few more features to b4 that
-> will hopefully improve the patch submission process for folks.
+On Fri, Dec 17, 2021 at 01:39:42PM -0500, Konstantin Ryabitsev wrote:
 
-Thanks also for implementing and maintaining tools and sites that help
-contributing!
+> 2. b4 submit --send: will generate a patch series from any commits created
+>    from the topical branch fork point and use the cover letter from the
+>    previous step. It will be able to send the patches using the traditional
+>    SMTP way, OR it will allow using a web-based submission service I'm setting
+>    up at kernel.org:
 
-I have added a new "Process related tools and sites" section to
-https://git.github.io/Hacking-Git/ with links to GitGitGadget,
-lore.kernel.org/git, public-inbox, lore+lei, b4 and git-series. I am
-willing to add other tools and sites if someone knows others worth
-mentioning.
+One thing my equivalent of this does (I might've used patman but I don't
+think I was aware of it at the time) is to tag each revision as it's
+published, might be worth considering.
 
-[...]
+--dYWJ2OP/dGcleliY
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> > 1. Draft a MAINTAINERS file
->
-> So, I *don't* recommend that you go this route. The biggest problem with the
-> MAINTAINERS file as used by the Linux development community is that making
-> changes to it is a very high-latency process. It will be less of a problem for
-> the much smaller git developer community, but it will still result in folks
-> operating from a stale copy of the file for weeks after it is updated
-> upstream.
+-----BEGIN PGP SIGNATURE-----
 
-My opinion is that a MAINTAINERS file makes more sense when there are
-different mailing lists to send patches to, and trusted
-lieutenants/maintainers. I am not sure that we are at that point yet.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmHAdy0ACgkQJNaLcl1U
+h9A4swf/edhslz8jQyg2lBtZ5ItZXItwIkWDR9t6aCVv8umcJHYAj3YV1v7ZIDDp
+ad+L57it4R0BXLPN6sEt0PIWRzL6nKTRedH+1ebNqN4y56s9kcqX8dJAj35JLiQ3
+bnI+019f7gxqcm4/9bB0YzGdNlPRH+e/sBmRCtp9YdNAYkZxB8V8ZMtC60l9H8qY
+Pi5jqUI5YlPv2pTdzMc1Wacvv9PjhzYiyYUeDDoT6Ou/EJvfI9AmtUUN96TtPKim
+qic9zEI3zJGlQptB9vGCClI7QAR6oI8Cq0TbORxvOaET6rfJ2xRZZ0WVUS769D8f
+ymjX3Nx6uQ26Wq8LUrMtUl43LqCROg==
+=nldj
+-----END PGP SIGNATURE-----
 
-About documentation, if some good documentation exists elsewhere, it
-might be good enough to just point to it from an existing doc and/or
-https://git.github.io/Hacking-Git/. Otherwise adding a new separate
-doc might be better than growing an existing doc too much, which could
-scare new comers.
+--dYWJ2OP/dGcleliY--
