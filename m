@@ -2,86 +2,94 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6554FC433EF
-	for <workflows@archiver.kernel.org>; Mon, 20 Dec 2021 12:29:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18776C433F5
+	for <workflows@archiver.kernel.org>; Wed, 22 Dec 2021 03:32:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229741AbhLTM3k (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 20 Dec 2021 07:29:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58016 "EHLO
+        id S242141AbhLVDcK (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 21 Dec 2021 22:32:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229626AbhLTM3k (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 20 Dec 2021 07:29:40 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76B1CC061574;
-        Mon, 20 Dec 2021 04:29:40 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1431160FEB;
-        Mon, 20 Dec 2021 12:29:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9040BC36AE7;
-        Mon, 20 Dec 2021 12:29:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1640003379;
-        bh=eX35oRmAncIULZ2kEvf5XCJfEwH+LmoHf7MrVq1dOik=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=aHIkxK5FbHM9LjEzWYtvbrzuNuq3JjUnIa2gKzwyNEGq1mGJbxb0d0Mcr2/uGp93m
-         wC3h6+qRefO/4Z3CNloxi2BXB5E40IbXQu+xMf8TOrCLYVtx2meRZxU4m3D4caI+B8
-         ZDK7SsEm2Hvre0DyEkBJ5arIA/cxA9VTKinjn+fPGi82PxPr0S1+jYYT3Z2eTf6qfF
-         4npg0j0FQ1D1TkEIvjuHtOLCk7Sa2J9ePctE7LH0ogH9dIDylcH4toF7dc6/5dim6z
-         IKbSxPevfS420s3wIdKzbukTWDnpznGGGPa7i8C4eQLGuvXoAzAO9D4vP6qJVyB/Q/
-         gTrx3KpGA5H4Q==
-Date:   Mon, 20 Dec 2021 12:29:34 +0000
-From:   Mark Brown <broonie@kernel.org>
+        with ESMTP id S242122AbhLVDcK (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 21 Dec 2021 22:32:10 -0500
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13ABEC061574;
+        Tue, 21 Dec 2021 19:32:10 -0800 (PST)
+Received: by mail-ed1-x529.google.com with SMTP id f5so3004919edq.6;
+        Tue, 21 Dec 2021 19:32:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:references:user-agent:in-reply-to
+         :message-id:mime-version;
+        bh=UnN5FpR6B16nL647aWR7O7c3lirMr4f+7u4JzW7tQiw=;
+        b=g8FzUDwplh8FUfJMO9UpCApXdwVrKKNOp0M6zbPyOVNAUeqKrKfNEDU0rnuV8BjD9U
+         V7RYiPDQEMK41ev0FexvTehVFfMl+xYDazoHjUulhjXOxfg3LH04DKjATRjbXBe/BzqF
+         ZX0mSTQZ5uSEJepZvqN50YkPbfF+F9CCpWNfeo1nxNFR0jxXQEIJDz5z9MiOQ4GE/hrN
+         /NmWTWmm2nFEChw0W66QhgWUKn5t5e/o2zcH0Q7OXGVfFiyZpvsIiyNibn9XkKM7ZuDX
+         H47qjJfwSX4d905Xt/xCLWXJ/2o4UQr/KflqUJvS2wAZlBQShAcbNfPbscmg80r3XDaZ
+         2J6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:references:user-agent
+         :in-reply-to:message-id:mime-version;
+        bh=UnN5FpR6B16nL647aWR7O7c3lirMr4f+7u4JzW7tQiw=;
+        b=ZK/ZZRZFeg/fRkKEvm58GjNQisLgcxcjWuuY5rPXAXAC/ZwfBWLvEb/1FSeAhocatg
+         MhJZlzCMpIvmezU6g8J09bw+o6zBpqgGUlCyRQrFy0DiQ4UNcI46UaW+ngUAEBZA/XMa
+         TZ0yAKVE83ysWu12JrR8LBLZDZ0GbCev0FRFGRzP+hIMegYJfhciJLuof76aT1BaEdBZ
+         rndlYF3iu0cyfy2ISmgqSmk94chLOpUqVRl5bNr/b8tCfXste7DEWxYRaDmzdpR6QLS3
+         vGipELqoXwESQnQRA5b8lWyzTpqg15LAXT78kzLmkr5FV6yATXLAzDfgGFqsaM16260C
+         Pm8w==
+X-Gm-Message-State: AOAM530Jq/H9gB/BbWZbjItjVTfnxDUzZk3DRha3kjwAC3gS+7Q7D433
+        HO2qir2qFWDCMuoqqncoBSEB4/o1f7znEw==
+X-Google-Smtp-Source: ABdhPJwFBt01OpXOKJ1xKExAk42HPqDmShR+tQrCyPuXzEJftSmfCXnYE6vG9+1cfqnYGdt7mpHp0w==
+X-Received: by 2002:a17:907:171d:: with SMTP id le29mr979509ejc.626.1640143928544;
+        Tue, 21 Dec 2021 19:32:08 -0800 (PST)
+Received: from gmgdl (j120189.upc-j.chello.nl. [24.132.120.189])
+        by smtp.gmail.com with ESMTPSA id a14sm216308edt.95.2021.12.21.19.32.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Dec 2021 19:32:07 -0800 (PST)
+Received: from avar by gmgdl with local (Exim 4.95)
+        (envelope-from <avarab@gmail.com>)
+        id 1mzsMJ-0014ix-A8;
+        Wed, 22 Dec 2021 04:32:07 +0100
+From:   =?utf-8?B?w4Z2YXIgQXJuZmrDtnLDsA==?= Bjarmason <avarab@gmail.com>
 To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
 Cc:     Emily Shaffer <emilyshaffer@google.com>, git@vger.kernel.org,
         jrnieder@gmail.com, jonathantanmy@google.com, steadmon@google.com,
         chooglen@google.com, calvinwan@google.com,
         workflows@vger.kernel.org
 Subject: Re: Review process improvements
-Message-ID: <YcB3LtxkItDVa2zd@sirena.org.uk>
+Date:   Wed, 22 Dec 2021 04:26:39 +0100
 References: <YbvBvch8JcHED+A9@google.com>
  <20211217183942.npvkb3ajnx6p5cbp@meerkat.local>
+User-agent: Debian GNU/Linux bookworm/sid; Emacs 27.1; mu4e 1.6.10
+In-reply-to: <20211217183942.npvkb3ajnx6p5cbp@meerkat.local>
+Message-ID: <211222.86ee65pb60.gmgdl@evledraar.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="dYWJ2OP/dGcleliY"
-Content-Disposition: inline
-In-Reply-To: <20211217183942.npvkb3ajnx6p5cbp@meerkat.local>
-X-Cookie: Christ was born in 4 B.C.
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
 
---dYWJ2OP/dGcleliY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Fri, Dec 17 2021, Konstantin Ryabitsev wrote:
 
-On Fri, Dec 17, 2021 at 01:39:42PM -0500, Konstantin Ryabitsev wrote:
+> [...]
+>    - on the receiving end, the patches will be written to a dedicated
+>      lore.kernel.org feed *as-is*, but also sent to the recipients after doing
+>      the usual From/Reply-To substitution and moving the original From into
+>      the in-body git headers (i.e. same as GGG does).
 
-> 2. b4 submit --send: will generate a patch series from any commits created
->    from the topical branch fork point and use the cover letter from the
->    previous step. It will be able to send the patches using the traditional
->    SMTP way, OR it will allow using a web-based submission service I'm setting
->    up at kernel.org:
+That GGG does this is one reason I haven't considered using it. It
+breaks all sorts of E-Mail workflow assumptions from polluting the
+address book for every person who uses it, to any "from:<addr>" search
+needing special consideration etc.
 
-One thing my equivalent of this does (I might've used patman but I don't
-think I was aware of it at the time) is to tag each revision as it's
-published, might be worth considering.
+Of course you'd need authentication etc, but is there a reason for why
+such tooling can't work more like an SMTP relay and less like GGG which
+(for some reason) insists on taking over the "From" header?
 
---dYWJ2OP/dGcleliY
-Content-Type: application/pgp-signature; name="signature.asc"
+I think in its case it's because it wanted to mirror all the discussion
+to GitHub. But presumably a ML-native tool won't have that problem (and
+presumably GGG could do the same mirroring by following the ML after
+submission).
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmHAdy0ACgkQJNaLcl1U
-h9A4swf/edhslz8jQyg2lBtZ5ItZXItwIkWDR9t6aCVv8umcJHYAj3YV1v7ZIDDp
-ad+L57it4R0BXLPN6sEt0PIWRzL6nKTRedH+1ebNqN4y56s9kcqX8dJAj35JLiQ3
-bnI+019f7gxqcm4/9bB0YzGdNlPRH+e/sBmRCtp9YdNAYkZxB8V8ZMtC60l9H8qY
-Pi5jqUI5YlPv2pTdzMc1Wacvv9PjhzYiyYUeDDoT6Ou/EJvfI9AmtUUN96TtPKim
-qic9zEI3zJGlQptB9vGCClI7QAR6oI8Cq0TbORxvOaET6rfJ2xRZZ0WVUS769D8f
-ymjX3Nx6uQ26Wq8LUrMtUl43LqCROg==
-=nldj
------END PGP SIGNATURE-----
-
---dYWJ2OP/dGcleliY--
