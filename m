@@ -2,108 +2,109 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 958D3C433F5
-	for <workflows@archiver.kernel.org>; Thu, 23 Dec 2021 13:50:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69C73C433EF
+	for <workflows@archiver.kernel.org>; Mon,  3 Jan 2022 07:15:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348692AbhLWNur (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 23 Dec 2021 08:50:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45815 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1348462AbhLWNuq (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 23 Dec 2021 08:50:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1640267445;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to; bh=HX7T6bml/0cL3Nkj6gaCBpynErPI+1FuaP6+rho9weI=;
-        b=bSBXFIaotJAdfXijVySkWxxYn33xKOtoPrALjkyxGQvBI/L6ZjNR2uBO69T6min9p/oa0k
-        MwCAHfnQk770pXoNCmNAEOQXfFRiz6fa8r0fSWnqktvQtfP9Mk3uMcNQJRpFZIG0l7f5at
-        /VJYZe9z6ChTnDQCw0/hwES8eD4hF50=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-616-V4NMN0gYORKJSicW2MV99Q-1; Thu, 23 Dec 2021 08:50:40 -0500
-X-MC-Unique: V4NMN0gYORKJSicW2MV99Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB28110168C3;
-        Thu, 23 Dec 2021 13:50:38 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.43])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 212F75D6CF;
-        Thu, 23 Dec 2021 13:50:37 +0000 (UTC)
-Date:   Thu, 23 Dec 2021 13:50:37 +0000
-From:   Stefan Hajnoczi <stefanha@redhat.com>
-To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc:     Emily Shaffer <emilyshaffer@google.com>, git@vger.kernel.org,
-        jrnieder@gmail.com, jonathantanmy@google.com, steadmon@google.com,
-        chooglen@google.com, calvinwan@google.com,
-        workflows@vger.kernel.org,
-        Christian Couder <christian.couder@gmail.com>
-Subject: Re: Review process improvements
-Message-ID: <YcR+rZ7YznQlTuRf@stefanha-x1.localdomain>
+        id S230206AbiACHPg (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 3 Jan 2022 02:15:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56386 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229991AbiACHPg (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 3 Jan 2022 02:15:36 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21955C061761;
+        Sun,  2 Jan 2022 23:15:36 -0800 (PST)
+Received: from ip4d173d02.dynamic.kabel-deutschland.de ([77.23.61.2] helo=truhe.fritz.box); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        id 1n4HZ7-0005ZK-1U; Mon, 03 Jan 2022 08:15:33 +0100
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+To:     linux-doc@vger.kernel.org
+Cc:     workflows@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v1] docs: 5.Posting.rst: describe Fixes: and Link: tags
+Date:   Mon,  3 Jan 2022 08:15:32 +0100
+Message-Id: <2b9c093339322e2686140a486b978c0b03476f42.1641194004.git.linux@leemhuis.info>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="Iz9Er4V2afVSVa7Z"
-Content-Disposition: inline
-In-Reply-To: <20211217183942.npvkb3ajnx6p5cbp@meerkat.local>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1641194136;221604f0;
+X-HE-SMSGID: 1n4HZ7-0005ZK-1U
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
+Explain Fixes: and Link: tags in Documentation/process/5.Posting.rst,
+which are missing in this file for unknown reasons and only described in
+Documentation/process/submitting-patches.rst.
 
---Iz9Er4V2afVSVa7Z
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+CC: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+---
+Lo! If there is still a chance I'l like to get this patch into v5.17, as
+during my work as regression tracker I noticed quite a few developers
+seem to be unaware how the Link: tag should be used. Maybe in parts
+that's because Documentation/process/5.Posting.rst doesn't describe it
+yet, which described things from a another different angle than
+Documentation/process/submitting-patches.rst.
 
-> I'd like to also mention that I'm hoping to add a few more features to b4 that
-> will hopefully improve the patch submission process for folks.
+Ciao, Thorsten
 
-This looks excellent! I wanted to mention a few features that have been
-popular in the git-publish patch series management tool
-(https://github.com/stefanha/git-publish/) in case you want to include
-something similar in b4:
+v1:
+- First version as stand alone patch. It used to be the first patch of
+  this series that got abandoned after RFC/v2:
+  https://lore.kernel.org/all/cover.1639042966.git.linux@leemhuis.info/
+  Patch itself is unchanged, patch description slighly changed. Might
+  later submit other changes from that series seperately, too, still
+  unsure.
+---
+ Documentation/process/5.Posting.rst | 29 ++++++++++++++++++++++-------
+ 1 file changed, 22 insertions(+), 7 deletions(-)
 
-- "Profiles" (.gitpublishprofile or stored in .git/config) with To and
-  CC addresses, --subject-prefix, cover letter templates, etc. The
-  default profile is automatically loaded when you run "git publish". If
-  the git repo you're working on includes a default profile then you
-  don't need to specify any command-line options to send a correctly
-  formatted patch series to the maintainers! A great help for one-off
-  contributors but also a time-saver for regular contributors.
+diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
+index 855a70b80269..e7b919070210 100644
+--- a/Documentation/process/5.Posting.rst
++++ b/Documentation/process/5.Posting.rst
+@@ -197,14 +197,29 @@ the build process, for example, or editor backup files) in the patch.  The
+ file "dontdiff" in the Documentation directory can help in this regard;
+ pass it to diff with the "-X" option.
+ 
+-The tags mentioned above are used to describe how various developers have
+-been associated with the development of this patch.  They are described in
+-detail in
+-the :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
+-document; what follows here is a brief summary.  Each of these lines has
+-the format:
++The tags already briefly mentioned above are used to provide insights how
++the patch came into being. They are described in detail in the
++:ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
++document; what follows here is a brief summary.
+ 
+-::
++One tag is used to refer to earlier commits which had problems fixed by
++the patch::
++
++	Fixes: 1f2e3d4c5b6a ("The first line of the commit specified by the first 12 characters of its SHA-1 ID")
++
++Another tag is used for linking web pages with additional backgrounds or
++details, for example a report about a bug fixed by the patch or a document
++with a specification implemented by the patch::
++
++	Link: https://example.com/somewhere.html  optional-other-stuff
++
++Many maintainers when applying a patch also add this tag to link to the
++latest public review posting of the patch; often this is automatically done
++by tools like b4 or a git hook like the one described in
++'Documentation/maintainer/configure-git.rst'.
++
++A third kind of tags are used to document who was involved in the development of
++the patch. Each of these uses this format::
+ 
+ 	tag: Full Name <email address>  optional-other-stuff
+ 
 
-- An interactive mode that lets you inspect the final patch series and
-  edit the CC list. Avoids mistakes and embarassment :).
-
-- Saving the CC list between revisions (v2, v3, etc).
-
-- Sending pull requests (for sub-maintainers) because there are times
-  when pull requests also need a v2 or even a v3 ;). The workflow is
-  basically the same as sending patch series.
-
-- githooks(5) before sending patches series and pull requests. Useful
-  for coding style and patch series linters.
-
-The git-publish man page is here if you want to read more:
-https://github.com/stefanha/git-publish/blob/master/git-publish.pod#quickstart
-
-Stefan
-
---Iz9Er4V2afVSVa7Z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHEfqwACgkQnKSrs4Gr
-c8iCsgf/ZW3jHoB+YAnHS0KAZle7Xg/m8Ql5LKA/4RIr2CLgxeHhBhrq9AXR0t4/
-pK83huJ9nW1xuhbFjcztrIcXqyjv+YJl4nZzJc0xIQsEy3E2KlfAw+q52YB21Sih
-o8qxKb+c49PR3hRAVH/PZjPrZSewozq8VII1d8aATdpmNcp1yzGT4wGlFSdCHPVR
-y3EMUMK7NUCB1JyZeF09WxsoMbALkDLmHvK7aNLRVU1fCYPT3qHq7H2JuXoFk8q5
-IWqMeeCEL0psOZ4GtqI5Czbd+4C0U+4960X3wzyIa4wzAo3Zc8sriwxtLsP+Wukv
-DwgBxsNezhTtE/oMVyGdMsidFs8TNg==
-=Q7R5
------END PGP SIGNATURE-----
-
---Iz9Er4V2afVSVa7Z--
+base-commit: b36064425a18e29a3bad9c007b4dd1223f8aadc5
+-- 
+2.31.1
 
