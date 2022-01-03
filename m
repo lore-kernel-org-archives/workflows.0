@@ -2,70 +2,62 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 883C5C433EF
-	for <workflows@archiver.kernel.org>; Mon,  3 Jan 2022 12:31:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41C93C433EF
+	for <workflows@archiver.kernel.org>; Mon,  3 Jan 2022 14:01:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231374AbiACMbO (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 3 Jan 2022 07:31:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41104 "EHLO
+        id S233191AbiACOBg (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 3 Jan 2022 09:01:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229586AbiACMbN (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 3 Jan 2022 07:31:13 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 568E9C061761;
-        Mon,  3 Jan 2022 04:31:13 -0800 (PST)
-Received: from ip4d173d02.dynamic.kabel-deutschland.de ([77.23.61.2] helo=[192.168.66.200]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1n4MUY-00075C-2s; Mon, 03 Jan 2022 13:31:10 +0100
-Message-ID: <b7cc0cd0-887e-fd19-d570-1182ec5e7b14@leemhuis.info>
-Date:   Mon, 3 Jan 2022 13:31:09 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Content-Language: en-BS
-To:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
-Cc:     workflows@vger.kernel.org,
+        with ESMTP id S229531AbiACOBf (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 3 Jan 2022 09:01:35 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6320C061761;
+        Mon,  3 Jan 2022 06:01:35 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id E89B0CE1102;
+        Mon,  3 Jan 2022 14:01:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DC19C36AED;
+        Mon,  3 Jan 2022 14:01:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1641218492;
+        bh=YFKYMANxHUBm2ZkV0SrjcH7TDlxFufpUx29gN13fwLg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=m5RM6ASmxjqaZYuKFqBFtLm+zqCxLYJ9pE273n2wa9O5qD9NuLzFcLThIe8h4w1jN
+         M9HDjydI/d4w7i9DQsaxEUQFhZ/kplVhKeIPPy/c6IyEj785c6LKpmuQCTJhHxPUov
+         sNOQyZWrynavuN76Y1tM5oamE05tSDo94kXvROFE=
+Date:   Mon, 3 Jan 2022 15:01:29 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     linux-doc@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        workflows@vger.kernel.org,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>
-References: <2b9c093339322e2686140a486b978c0b03476f42.1641194004.git.linux@leemhuis.info>
- <7a9999a4-257c-3428-779e-0fdbf02d4782@infradead.org>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH v1] docs: 5.Posting.rst: describe Fixes: and Link: tags
-In-Reply-To: <7a9999a4-257c-3428-779e-0fdbf02d4782@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1641213073;74904e5c;
-X-HE-SMSGID: 1n4MUY-00075C-2s
+Subject: Re: [RFC PATCH v1 0/2] docs: add a document dedicated to regressions
+Message-ID: <YdMBub0ugeNIOTI2@kroah.com>
+References: <cover.1641203216.git.linux@leemhuis.info>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1641203216.git.linux@leemhuis.info>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Hi Randy! Thx for taking a look. Your helpful feedback made me CC you on
-the RFC on a document about regressions I sent today as well. Feel free
-to ignore it, if you're not interested.
-
-On 03.01.22 08:36, Randy Dunlap wrote:
-> On 1/2/22 23:15, Thorsten Leemhuis wrote:
-
->> Lo! If there is still a chance I'l like to get this patch into v5.17, as
->                                  I'd
->
->>   Patch itself is unchanged, patch description slighly changed. Might
->                                                  slightly
+On Mon, Jan 03, 2022 at 10:50:49AM +0100, Thorsten Leemhuis wrote:
+> 'We don't cause regressions' might be the first rule of kernel development, but
+> it and other aspects of regressions nevertheless are hardly described in the
+> Linux kernel's documentation. These patches change this by creating a document
+> dedicated to the topic.
 > 
->>   later submit other changes from that series seperately, too, still
->                                                 separately,
+> The second patch could easily be folded into the first one, but I kept it
+> separate, as it might be a bit controversial. This also allows the patch
+> description to explain some backgrounds for this part of the text. Additionally,
+> ACKs and Reviewed-by tags can be collected separately this way.
 
-Note to self: avoid last minute changes. :-/
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
->> ---
->>  Documentation/process/5.Posting.rst | 29 ++++++++++++++++++++++-------
->>  1 file changed, 22 insertions(+), 7 deletions(-)
-> [...]
->> +A third kind of tags are used to document who was involved in the development of
->                 of tag is used
-
-Many thx, fixed all of these locally for v2.
-
-Ciao, Thorsten
