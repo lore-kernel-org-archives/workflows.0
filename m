@@ -2,82 +2,107 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AB58C433FE
-	for <workflows@archiver.kernel.org>; Mon,  3 Jan 2022 17:56:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB9CAC433EF
+	for <workflows@archiver.kernel.org>; Mon,  3 Jan 2022 22:51:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231573AbiACRz7 (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 3 Jan 2022 12:55:59 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:54006 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230489AbiACRz7 (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 3 Jan 2022 12:55:59 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        id S230351AbiACWvj (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 3 Jan 2022 17:51:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40520 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230305AbiACWvi (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 3 Jan 2022 17:51:38 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D51CDC061761
+        for <workflows@vger.kernel.org>; Mon,  3 Jan 2022 14:51:38 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D4B63B80B4C;
-        Mon,  3 Jan 2022 17:55:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 348CBC36AED;
-        Mon,  3 Jan 2022 17:55:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1641232556;
-        bh=Tgzn/rb+HnJQ8o7j1zZ/A7Ix4BYJq+5XmPEjmIm0Hpc=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=lnU5+8bP2RBURZfo/2u3ulvtFggcSdb1Tl1ZOGTtDLscyt8TINm8WQbzP83iWmJUM
-         PKkiqy3iJFKW1MQmyoNAu/SeEXt0znFVfrBcNKNbTG/ZdnPlecuuLrVI7XJERTdZ3B
-         Vcfil6dSv8MPGHdZLOgXm3CCnqq/9oq0e+omRQ9zUAYTUFWWf7TljCEGzNwvAU9r6r
-         YTfbhliUbp+PNWMVUsjyL/NbawBjnkK4HyMQlTdVLCdE9H7kGdtekvNHRBFwiLi13L
-         dATEgYZ0Sd16WKqtCnOi+1/jTnAM0a59SnSoHwi1SR2vZtUywazHc901/Pbzfr7gZX
-         sSe5/Sc1UltFA==
-Date:   Mon, 3 Jan 2022 09:55:54 -0800
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     linux-doc@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        workflows@vger.kernel.org,
+        by ms.lwn.net (Postfix) with ESMTPSA id 012F04A6;
+        Mon,  3 Jan 2022 22:51:37 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 012F04A6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1641250298; bh=PDtL8wjyQzk+GIvSh7mLsETF6xsAerR38awapGuKR28=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=eMeBKVmm/5n0yalPg+QLp6WuGrLb3SoK7BOnHc7YwVRL8rizhDcbIjX91Y4r+exJk
+         j1arpedhCPYELnxA9yDedC216LkLelp0xn+vUN0hX8CN7fWhwnig+s/wvOyUvnyBOo
+         t/uFsvISL0ZEc6OM/yDEF/XmfZhEtu99l8vjfubkUYjpYW7kjm3CdJfsM8FsjVg8F5
+         9cBgTu7S23Ry/eDlKxGLcNWhQHlfHiOzOqcJu6GDAg1A4It2Oxy9Kv2nRgMYzS6aQM
+         rujIEoi0dyj7szRvCZ95JvYNQ3Gj42xrh//Z/MOJp/EaCecHQ+jN1oouuEh21LrKkW
+         009kAsM1Ld4Rw==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Thorsten Leemhuis <linux@leemhuis.info>, linux-doc@vger.kernel.org
+Cc:     workflows@vger.kernel.org,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [RFC PATCH v1 1/2] docs: add a document about regression
- handling
-Message-ID: <20220103095554.34602944@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
-In-Reply-To: <122bf6e0-8e1f-6567-252e-5120b3f8a573@leemhuis.info>
-References: <cover.1641203216.git.linux@leemhuis.info>
-        <7b71a1262b8b72d30154203bb14f00db7d4170ef.1641203216.git.linux@leemhuis.info>
-        <20220103090746.2599f729@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
-        <122bf6e0-8e1f-6567-252e-5120b3f8a573@leemhuis.info>
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Subject: Re: [PATCH v1] docs: 5.Posting.rst: describe Fixes: and Link: tags
+In-Reply-To: <2b9c093339322e2686140a486b978c0b03476f42.1641194004.git.linux@leemhuis.info>
+References: <2b9c093339322e2686140a486b978c0b03476f42.1641194004.git.linux@leemhuis.info>
+Date:   Mon, 03 Jan 2022 15:51:40 -0700
+Message-ID: <87ilv0xwjn.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Mon, 3 Jan 2022 18:20:23 +0100 Thorsten Leemhuis wrote:
-> On 03.01.22 18:07, Jakub Kicinski wrote:
-> > On Mon,  3 Jan 2022 10:50:50 +0100 Thorsten Leemhuis wrote:  
-> >> +How to see which regressions regzbot tracks currently?
-> >> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >> +
-> >> +Check `regzbot's web-interface <https://linux-regtracking.leemhuis.info/regzbot/>`_
-> >> +for the latest info; alternatively, `search for the latest regression report
-> >> +<https://lore.kernel.org/lkml/?q=%22Linux+regressions+report%22+f%3Aregzbot>`_,
-> >> +which regzbot normally sends out once a week on Sunday evening (UTC), which is a
-> >> +few hours before Linus usually publishes new (pre-)releases.  
-> > 
-> > Cool, I wonder if it would be a useful feature to be able to filter by
-> > mailing lists involved or such to give maintainers a quick overview of
-> > regressions they are on the hook for?  
-> 
-> Ha, that's a great idea, many thx. I have been scratching my head for a
-> while already how to give maintainers a better overview, but the only
-> thing I came up with was "check the merge path a commit causing the
-> regression took", which has a few obvious downsides (it for example
-> won't work if the culprit is not known yet). This should work a lot better.
-> 
-> But be warned, will likely take a few weeks (months?) before I get to
-> implement that: I have less time to work on the regzbot code than in the
-> past weeks, as I have to take care of a few other things first (most of
-> them related to regzbot).
+Thorsten Leemhuis <linux@leemhuis.info> writes:
 
-No worries, do ping when you got it ready tho :)
+> Explain Fixes: and Link: tags in Documentation/process/5.Posting.rst,
+> which are missing in this file for unknown reasons and only described in
+> Documentation/process/submitting-patches.rst.
+>
+> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+> CC: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+> ---
+> Lo! If there is still a chance I'l like to get this patch into v5.17, as
+
+I think that should be possible.  Send me a version with Randy's
+comments addressed; I also had one nit below...
+
+> during my work as regression tracker I noticed quite a few developers
+> seem to be unaware how the Link: tag should be used. Maybe in parts
+> that's because Documentation/process/5.Posting.rst doesn't describe it
+> yet, which described things from a another different angle than
+> Documentation/process/submitting-patches.rst.
+>
+> Ciao, Thorsten
+>
+> v1:
+> - First version as stand alone patch. It used to be the first patch of
+>   this series that got abandoned after RFC/v2:
+>   https://lore.kernel.org/all/cover.1639042966.git.linux@leemhuis.info/
+>   Patch itself is unchanged, patch description slighly changed. Might
+>   later submit other changes from that series seperately, too, still
+>   unsure.
+> ---
+>  Documentation/process/5.Posting.rst | 29 ++++++++++++++++++++++-------
+>  1 file changed, 22 insertions(+), 7 deletions(-)
+>
+> diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
+> index 855a70b80269..e7b919070210 100644
+> --- a/Documentation/process/5.Posting.rst
+> +++ b/Documentation/process/5.Posting.rst
+> @@ -197,14 +197,29 @@ the build process, for example, or editor backup files) in the patch.  The
+>  file "dontdiff" in the Documentation directory can help in this regard;
+>  pass it to diff with the "-X" option.
+>  
+> -The tags mentioned above are used to describe how various developers have
+> -been associated with the development of this patch.  They are described in
+> -detail in
+> -the :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
+> -document; what follows here is a brief summary.  Each of these lines has
+> -the format:
+> +The tags already briefly mentioned above are used to provide insights how
+> +the patch came into being. They are described in detail in the
+> +:ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
+> +document; what follows here is a brief summary.
+>  
+> -::
+> +One tag is used to refer to earlier commits which had problems fixed by
+> +the patch::
+
+I would s/had/introduced/
+
+Thanks,
+
+jon
