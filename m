@@ -2,59 +2,80 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29612C433FE
-	for <workflows@archiver.kernel.org>; Thu,  6 Jan 2022 22:29:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCEC2C433F5
+	for <workflows@archiver.kernel.org>; Fri,  7 Jan 2022 14:21:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245114AbiAFW3i (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 6 Jan 2022 17:29:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54190 "EHLO
+        id S231689AbiAGOVI (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 7 Jan 2022 09:21:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245095AbiAFW3i (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 6 Jan 2022 17:29:38 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51609C061245;
-        Thu,  6 Jan 2022 14:29:38 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id CF7564A6;
-        Thu,  6 Jan 2022 22:29:37 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CF7564A6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1641508178; bh=5nihu8RlJCQgeS4a5geT49tU31i3B7MpQB0TVfiDUOY=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=KQvFzyypLpXIPoRAgZMjqUPsZHFLxPUOCbIiJTMs1oJrg8m/mXSQehmILpG/7pH4S
-         C5FcAC+NBE5oRrzWJgPLVuul634UCd/LYuT2B5Cj3186neritEkwhEcILiTVR23QVW
-         5P6Se7kw60juw8tHqXmISJQlheDTBV5MqDVb/E/9y66jUtAKmSE8sNr47HLLBIwk5C
-         ksvQZxBCUBx97JPCP7VxOgDHl2Sqq/AoUhZQi/3wmEQOBb6Tv1oT2WE60Yb6P09q//
-         z+7JpmUE8lnJUVySaw+CT0hHMSkm66QSh3ZFun6/Sbs3y9qafH6gnZ8OYi6R0F1p+u
-         Ey41H2lnAlKMg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Thorsten Leemhuis <linux@leemhuis.info>, linux-doc@vger.kernel.org
+        with ESMTP id S1347627AbiAGOVH (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Fri, 7 Jan 2022 09:21:07 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99EDBC06173E;
+        Fri,  7 Jan 2022 06:21:06 -0800 (PST)
+Received: from ip4d173d02.dynamic.kabel-deutschland.de ([77.23.61.2] helo=truhe.fritz.box); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        id 1n5q75-0007s5-SL; Fri, 07 Jan 2022 15:21:03 +0100
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+To:     linux-doc@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>
 Cc:     workflows@vger.kernel.org,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v2] docs: 5.Posting.rst: describe Fixes: and Link: tags
-In-Reply-To: <c4a5f5e25fa84b26fd383bba6eafde4ab57c9de7.1641314856.git.linux@leemhuis.info>
-References: <c4a5f5e25fa84b26fd383bba6eafde4ab57c9de7.1641314856.git.linux@leemhuis.info>
-Date:   Thu, 06 Jan 2022 15:29:44 -0700
-Message-ID: <87bl0opkfb.fsf@meer.lwn.net>
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [RFC PATCH v2 0/2] docs: add a text about regressions to the Linux kernel's documentation
+Date:   Fri,  7 Jan 2022 15:21:00 +0100
+Message-Id: <cover.1641565030.git.linux@leemhuis.info>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1641565266;60e5e95e;
+X-HE-SMSGID: 1n5q75-0007s5-SL
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Thorsten Leemhuis <linux@leemhuis.info> writes:
+'We don't cause regressions' might be the first rule of Linux kernel
+development, but it and other aspects of regressions nevertheless are hardly
+described in the Linux kernel's documentation. The following two patches change
+this by creating a document dedicated to the topic.
 
-> Explain Fixes: and Link: tags in Documentation/process/5.Posting.rst,
-> which are missing in this file for unknown reasons and only described in
-> Documentation/process/submitting-patches.rst.
->
-> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
-> CC: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+The second patch could easily be folded into the first one, but was kept
+separate, as it might be a bit controversial. This also allows the patch
+description to explain some backgrounds for this part of the document.
+Additionally, ACKs and Reviewed-by tags can be collected separately this way.
 
-Applied, thanks.
+v2/RFC:
+- a lot of small fixes, most are for spelling mistakes and grammar
+  errors/problems pointed out in the review feedback I got so far
+- add ACK for the series from Greg
 
-jon
+v1/RFC (https://lore.kernel.org/linux-doc/cover.1641203216.git.linux@leemhuis.info/):
+- initial version
+
+---
+
+Hi! Here is a quick update to the patches I sent a few days with a lot of fixes,
+in case anyone has some spare cycles and looks for something to read over the
+weekend.
+
+Ciao, Thorsten
+
+Thorsten Leemhuis (2):
+  docs: add a document about regression handling
+  docs: regressions.rst: rules of thumb for handling regressions
+
+ Documentation/admin-guide/index.rst       |   1 +
+ Documentation/admin-guide/regressions.rst | 965 ++++++++++++++++++++++
+ MAINTAINERS                               |   1 +
+ 3 files changed, 967 insertions(+)
+ create mode 100644 Documentation/admin-guide/regressions.rst
+
+
+base-commit: 82ca67321f55a8d1da6ac3ed611da3c32818bb37
+-- 
+2.31.1
+
