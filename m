@@ -2,68 +2,88 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C489C433EF
-	for <workflows@archiver.kernel.org>; Mon, 10 Jan 2022 17:13:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4BA5C433F5
+	for <workflows@archiver.kernel.org>; Mon, 10 Jan 2022 19:40:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238064AbiAJRNf (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 10 Jan 2022 12:13:35 -0500
-Received: from pb-smtp21.pobox.com ([173.228.157.53]:52720 "EHLO
-        pb-smtp21.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238060AbiAJRNb (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 10 Jan 2022 12:13:31 -0500
-Received: from pb-smtp21.pobox.com (unknown [127.0.0.1])
-        by pb-smtp21.pobox.com (Postfix) with ESMTP id 0E81E1852DF;
-        Mon, 10 Jan 2022 12:13:31 -0500 (EST)
-        (envelope-from junio@pobox.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=from:to:cc
-        :subject:references:date:in-reply-to:message-id:mime-version
-        :content-type; s=sasl; bh=SjFINrSLUSCWN/T1CqImY1DZ2OPOSrUZq9Qd8y
-        QVU04=; b=GqqgWGsxgvTJ/T568gwxTE2/JF37YwStbwpE0sP0TXOadi8BAvejn9
-        dSA2drLEAUD9Lgf/5HQx3Gk779LzxL1jq6HF51lXE3bwYpcE03TWSaSc+9xXa4R8
-        ecGQAwFDNJX9sBlXUsrINUvv7SuyApsw/hmNpB3E6IX5kgW1RI8vM=
-Received: from pb-smtp21.sea.icgroup.com (unknown [127.0.0.1])
-        by pb-smtp21.pobox.com (Postfix) with ESMTP id 060411852DE;
-        Mon, 10 Jan 2022 12:13:31 -0500 (EST)
-        (envelope-from junio@pobox.com)
-Received: from pobox.com (unknown [104.133.2.91])
+        id S243428AbiAJTkm (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 10 Jan 2022 14:40:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50790 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241122AbiAJTkl (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 10 Jan 2022 14:40:41 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 502C5C06173F
+        for <workflows@vger.kernel.org>; Mon, 10 Jan 2022 11:40:41 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by pb-smtp21.pobox.com (Postfix) with ESMTPSA id 6EF9B1852DD;
-        Mon, 10 Jan 2022 12:13:28 -0500 (EST)
-        (envelope-from junio@pobox.com)
-From:   Junio C Hamano <gitster@pobox.com>
-To:     Johannes Schindelin <Johannes.Schindelin@gmx.de>
-Cc:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        =?utf-8?B?w4Z2?= =?utf-8?B?YXIgQXJuZmrDtnLDsA==?= Bjarmason 
-        <avarab@gmail.com>, Emily Shaffer <emilyshaffer@google.com>,
-        git@vger.kernel.org, jrnieder@gmail.com, jonathantanmy@google.com,
-        steadmon@google.com, chooglen@google.com, calvinwan@google.com,
-        workflows@vger.kernel.org
-Subject: Re: Why GitGitGadget does not use Sender:, was Re: Review process
- improvements
-References: <YbvBvch8JcHED+A9@google.com>
-        <20211217183942.npvkb3ajnx6p5cbp@meerkat.local>
-        <211222.86ee65pb60.gmgdl@evledraar.gmail.com>
-        <20211222154534.b2gb22ghn2mpyeur@meerkat.local>
-        <xmqqh7b0juk5.fsf@gitster.g>
-        <nycvar.QRO.7.76.6.2201101401530.339@tvgsbejvaqbjf.bet>
-Date:   Mon, 10 Jan 2022 09:13:27 -0800
-In-Reply-To: <nycvar.QRO.7.76.6.2201101401530.339@tvgsbejvaqbjf.bet> (Johannes
-        Schindelin's message of "Mon, 10 Jan 2022 14:03:01 +0100 (CET)")
-Message-ID: <xmqqwnj71pl4.fsf@gitster.g>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+        by ams.source.kernel.org (Postfix) with ESMTPS id EB878B8161F
+        for <workflows@vger.kernel.org>; Mon, 10 Jan 2022 19:40:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75487C36AE3;
+        Mon, 10 Jan 2022 19:40:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1641843638;
+        bh=DyhP0RxV4U4bi/Xoy2Al+9Y+bge0tDDkae+go3KYAeA=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=dZL9xmlnIOWHzDVHwtBZ6+npKxUa3aHIoBN3w8+B3vmphg8vec5W7FfAVaT0lYxES
+         N4rpLzn0n8Crkydw0JfTHx4P4zpFetxMHYw4r6Q6mfelPotx3Y0+rsCjs3ImII2r/c
+         sPd1DpfrJztC1bGIkdENHtbQg2TQi5YS02unC++0r6DqB4Jjsc5WsUpSRxjo4s4v83
+         34wadlooCOcLP27ATzd9Sqwi+D3FOdYkudZPNNHtWSWRtA7w8VOH50oJpZSPuCIV9y
+         6ilVaQ4WEj5Uc7LOqsTv3MFlMVGdYq4DKu7+yWmn6q9n6zcZ6fOpe4w4geafW4eQOQ
+         WkKtotIeOqRWw==
+Date:   Mon, 10 Jan 2022 13:40:37 -0600
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc:     workflows@vger.kernel.org
+Subject: Re: lore+lei: getting started
+Message-ID: <20220110194037.GA66290@bhelgaas>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Pobox-Relay-ID: A0E49236-7238-11EC-BAA1-CBA7845BAAA9-77302942!pb-smtp21.pobox.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <lorelei.part1.202111051304.mdtebsxahljcrxak@meerkat.local>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Konstantin gave a more generally applicable answer to think about
-this issue in <20211222213247.5dnj3zlj53lh6l32@meerkat.local> in a
-separate thread last year.  I would not be surprised if GMail pays
-attention to the reasoning he gave in that message and that is the
-reason why it does not use the "Sender" as I hoped.  I expect other
-e-mail providers should do the same.
+I'm really excited about lei; thanks very much for working on it!
 
-Thanks.  
+On Fri, Nov 05, 2021 at 01:07:38PM -0400, Konstantin Ryabitsev wrote:
+> By default, `lei -q` will save your search and start keeping track of it. To
+> see your saved searches, run:
+
+I think this is a typo for "lei q".  I only mention it because this
+typo also appears in your blog:
+https://people.kernel.org/monsieuricon/lore-lei-part-1-getting-started
+
+> To edit your saved search, just run `lei edit-search`. This will bring up your
+> $EDITOR with the configuration file lei uses internally:
+
+This isn't working for me.  With current public-inbox (07cd8973baf8
+("Makefile.PL: fix useless use of push")), I get:
+
+  $ lei edit-search
+  usage: lei edit-search OUTPUT
+  E: OUTPUT not supplied
+  $ lei edit-search out
+  --no-save was used with out cwd=/home/bjorn
+
+Maybe I'm doing something wrong?
+
+"lei help" and "lei --help" are not very useful because I can't figure
+out how to even get a list of the commands:
+
+  $ lei help | cat
+  usage: lei help [SUBCOMMAND]
+  show help
+
+  $ lei --help | cat
+  usage: lei COMMAND ...
+  ...
+
+lib/PublicInbox/LEI.pm *looks* like it has good help text in it, so
+maybe I'm doing something wrong.
+
+Also their output gets piped through $PAGER by default, which isn't
+super convenient.
+
+Bjorn
