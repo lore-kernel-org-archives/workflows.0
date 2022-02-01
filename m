@@ -2,165 +2,110 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C545EC433FE
-	for <workflows@archiver.kernel.org>; Mon, 31 Jan 2022 14:22:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 622F4C433F5
+	for <workflows@archiver.kernel.org>; Tue,  1 Feb 2022 10:26:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231178AbiAaOW0 (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 31 Jan 2022 09:22:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35194 "EHLO
+        id S236116AbiBAK0n (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 1 Feb 2022 05:26:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233412AbiAaOW0 (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 31 Jan 2022 09:22:26 -0500
+        with ESMTP id S235665AbiBAK0n (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 1 Feb 2022 05:26:43 -0500
 Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EECD1C061714;
-        Mon, 31 Jan 2022 06:22:25 -0800 (PST)
-Received: from ip4d144895.dynamic.kabel-deutschland.de ([77.20.72.149] helo=[192.168.66.200]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1nEXZX-00074h-C5; Mon, 31 Jan 2022 15:22:23 +0100
-Message-ID: <00f73105-da64-f62b-866c-00828d8701ba@leemhuis.info>
-Date:   Mon, 31 Jan 2022 15:22:22 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Content-Language: en-BS
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F5FCC06173D;
+        Tue,  1 Feb 2022 02:26:43 -0800 (PST)
+Received: from ip4d144895.dynamic.kabel-deutschland.de ([77.20.72.149] helo=truhe.fritz.box); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        id 1nEqMy-0002pB-5Q; Tue, 01 Feb 2022 11:26:40 +0100
 From:   Thorsten Leemhuis <linux@leemhuis.info>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+To:     linux-doc@vger.kernel.org,
         Linus Torvalds <torvalds@linux-foundation.org>
 Cc:     workflows@vger.kernel.org,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Randy Dunlap <rdunlap@infradead.org>,
         regressions@lists.linux.dev,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Lukas Bulwahn <lukas.bulwahn@gmail.com>
-References: <cover.1643110442.git.linux@leemhuis.info>
- <f97738d6250050bc982bf2947587f1c73f37446f.1643110442.git.linux@leemhuis.info>
- <87sftbwemg.fsf@meer.lwn.net>
- <c8d7228a-2df5-df92-6d53-c3e940274dad@leemhuis.info>
-Subject: Re: [PATCH v3 1/2] docs: add a document about regression handling
-In-Reply-To: <c8d7228a-2df5-df92-6d53-c3e940274dad@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
+Subject: [PATCH v4 0/3] docs: add two texts covering regressions
+Date:   Tue,  1 Feb 2022 11:26:36 +0100
+Message-Id: <cover.1643710947.git.linux@leemhuis.info>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1643638946;ed0d6898;
-X-HE-SMSGID: 1nEXZX-00074h-C5
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1643711203;661d3094;
+X-HE-SMSGID: 1nEqMy-0002pB-5Q
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On 26.01.22 15:10, Thorsten Leemhuis wrote:
-> 
-> On 26.01.22 00:59, Jonathan Corbet wrote:
->> Thorsten Leemhuis <linux@leemhuis.info> writes:
+"We don't cause regressions" might be the first rule of Linux kernel
+development, but it and other aspects of regressions nevertheless are hardly
+described in the Linux kernel's documentation. The following patches change
+this by creating two documents dedicated to the topic.
 
->>> +   Note: Only the content of this RST file as found in the Linux kernel sources
->>> +   is available under CC-BY-4.0, as versions of this text that were processed
->>> +   (for example by the kernel's build system) might contain content taken from
->>> +   files which use a more restrictive license.
->>
->> I wonder if we could put this boilerplate at the bottom, with a single
->> "see the bottom for redistribution information" line here?  Most readers
->> won't care about this stuff and shouldn't have to slog through it to get
->> to what they want to read.
-> 
-> Totally fine with me. When I touch reporting-issues.rst the next time
-> I'll move it downwards as well.
+The second patch could easily be folded into the first one, but was kept
+separate, as it might be a bit controversial. This also allows the patch
+description to explain some backgrounds for this part of the document.
+Additionally, ACKs and Reviewed-by tags can be collected separately this way.
 
-V4 will do that, as I added a patch to point from reporting-issues.rst
-to one of the two new documents.
+v4 (this version):
+- countless small and medium changes after review feedback from Jon (thx), which
+  also lead to a big change:
+- split the document into two, one for users and one for developers (both added
+  by the first patch, as they are interlinked)
+- fixed and improved a bunch of areas I stumbled upon while checking the text
+  again after the split
+- add a third patch to get one of the user-centric document on regressions
+  mentioned in Documentation/admin-guide/reporting-issues.rst
+- note: the content added by the second patch did not change significantly,
+  that's why I left an earlier reviewed-by for the patch and an ACK for the
+  series in place there, but dropped the ACK for the first patch of the series
 
->>> +The important bits for people affected by regressions
->>> +=====================================================
->>> +
->>> +It's a regression if something running fine with one Linux kernel works worse or
->>> +not at all with a newer version. Note, the newer kernel has to be compiled using
->>> +a similar configuration -- for this and other fine print, check out below
->>> +section "What is a 'regression' and what is the 'no regressions rule'?".
->> Can we be consistent with either single or double quotes?  I'd suggest
->> "double quotes" but won't make a fuss about that.
-> 
-> Changed to "double quotes" everywhere in the text. But just to make sure
-> I get things right: in this particular case this will result in
-> 
-> ...section "What is a "regression" and what is the "no regressions rule"?".
-> 
-> This looks a bit strange to me. Something in me really would like to
-> quote the section's header in single quotes, but I guess grammar rules
-> do not allow that, so whatever. :-D
+v3 (https://lore.kernel.org/regressions/cover.1643110442.git.linux@leemhuis.info/):
+- drop RFC tag
+- heavily reshuffled and slightly adjusted the text in the sections "The
+  important bits for people fixing regressions" and "How to add a regression to
+  regzbot's tracking somebody else reported?" to make them easier to grasp
+- a few small fixes and improvements
+- add ACK for the series from Greg (now for real)
 
-I changed something and now simply don't mentioned the section names to
-avoid this problem. After the split that's not strictly needed afaics.
+v2/RFC (https://lore.kernel.org/linux-doc/cover.1641565030.git.linux@leemhuis.info/):
+- a lot of small fixes, most are for spelling mistakes and grammar
+  errors/problems pointed out in the review feedback I got so far
+- add ACK for the series from Greg
 
->>> +Report your regression as outlined in
->>> +`Documentation/admin-guide/reporting-issues.rst`, it already covers all aspects
->> No need to quote the file name.
-> Okay, I thought I had seen some commit or instructions that it's better
-> to use them in this case, but my brain must have imagined it.
+v1/RFC (https://lore.kernel.org/linux-doc/cover.1641203216.git.linux@leemhuis.info/):
+- initial version
 
-I noticed I quoted internal references in reporting-issues.rst quite
-often. IMHO it improves readability sometimes (it depends a lot on the
-title of the target document), as can be seen in this example:
+---
 
-```
-If your kernel is tainted, study
-'Documentation/admin-guide/tainted-kernels.rst' to find out why.
-[...]
-To find the change there is a process called 'bisection' which the document
-'Documentation/admin-guide/bug-bisect.rst' describes in detail.
-```
-
-after processing to HTML looks like this:
-
-```
-If your kernel is tainted, study 'Tainted kernels' to find out why.
-[...]
-To find the change there is a process called ‘bisection’ which the
-document ‘Bisecting a bug’ describes in detail.
-```
-
-Sure, "Tainted kernels" and "Bisecting a bug" are links and hence
-displayed differently by the browser, but I think the quotes help. But YMMV.
-
-I sooner or later hope to improve and fix a few things in
-reporting-issues.rst anyway. Let me know if I should take the
-opportunity to remove the single quotes then.
-
->>> +Who needs to find the commit causing a regression?
->>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>> +
->>> +It's the reporter's duty to find the culprit, but developers of the affected
->>> +subsystem should offer advice and reasonably help where they can.
->>
->> Is it really our policy that *reporters* need to find the offending
->> commit?  That's certainly not my view of things, anyway?
-
-BTW, I noticed reporting-issues.rst covers it like this:
-
-Normally it's up to the reporter to track down the culprit, as
-maintainers often won't have the time or setup at hand to reproduce it
-themselves.
-
-> Well, do we have something on that written down somewhere or a few
-> quotes from Linus that might help to clarify things?
-> 
-> Anyway: I was not totally happy with it either, as I found the first
-> part of the sentence to strong, and the second to soft. But I had
-> trouble finding something better, maybe a native speaker could help out
-> here. Maybe something along these lines?
-
-I plan to go with this now:
-```
-Who needs to find the root cause of a regression?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Developers of the affected code area should try to locate the culprit on
-their own. But for them that's often impossible to do with reasonable
-effort, as quite a lot of issues only occur in a particular environment
-outside the developer's reach -- for example, a specific hardware
-platform, firmware, Linux distro, system's configuration, or
-application. That's why in the end it's often up to the reporter to
-locate the culprit commit; sometimes users might even need to run
-additional tests afterwards to pinpoint the exact root cause. Developers
-should offer advice and reasonably help where they can, to make this
-process relatively easy and achievable for typical users.
-```
+Hi! Here is a updated version of my patch-set adding documentation regarding
+regression. This bring bigger changes after Jon took a look and suggested
+splitting the text up. I did that and changed a bunch of other things along the
+way. But I for now decided against splitting off the regression tracking stuff
+into one or two other documents, as suggested by Jon, as that IMHO distributes
+the information over too many places.
 
 Ciao, Thorsten
+
+Thorsten Leemhuis (3):
+  docs: add two documents about regression handling
+  docs: regressions*rst: rules of thumb for handling regressions
+  docs: reporting-issues.rst: link new document about regressions
+
+ Documentation/admin-guide/index.rst           |   1 +
+ .../admin-guide/regressions-users.rst         | 448 +++++++++++
+ .../admin-guide/reporting-issues.rst          |  60 +-
+ Documentation/process/index.rst               |   1 +
+ Documentation/process/regressions-devs.rst    | 753 ++++++++++++++++++
+ MAINTAINERS                                   |   2 +
+ 6 files changed, 1234 insertions(+), 31 deletions(-)
+ create mode 100644 Documentation/admin-guide/regressions-users.rst
+ create mode 100644 Documentation/process/regressions-devs.rst
+
+
+base-commit: b8f4eee6a630ef8c5f00594e25c377463b4f299c
+-- 
+2.31.1
+
