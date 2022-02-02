@@ -2,23 +2,23 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03CD1C43219
-	for <workflows@archiver.kernel.org>; Wed,  2 Feb 2022 06:53:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62396C433F5
+	for <workflows@archiver.kernel.org>; Wed,  2 Feb 2022 09:47:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244998AbiBBGxF (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 2 Feb 2022 01:53:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50840 "EHLO
+        id S245547AbiBBJrn (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 2 Feb 2022 04:47:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244751AbiBBGwi (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 2 Feb 2022 01:52:38 -0500
+        with ESMTP id S229829AbiBBJrm (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 2 Feb 2022 04:47:42 -0500
 Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C32CC061755;
-        Tue,  1 Feb 2022 22:08:26 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67E03C061714;
+        Wed,  2 Feb 2022 01:47:42 -0800 (PST)
 Received: from ip4d144895.dynamic.kabel-deutschland.de ([77.20.72.149] helo=[192.168.66.200]); authenticated
         by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1nF8oW-0002ui-WD; Wed, 02 Feb 2022 07:08:21 +0100
-Message-ID: <7a1e66cc-a1c5-54c7-ca7d-04a389beb8b2@leemhuis.info>
-Date:   Wed, 2 Feb 2022 07:08:20 +0100
+        id 1nFCEm-0002jG-6d; Wed, 02 Feb 2022 10:47:40 +0100
+Message-ID: <a41bb41e-1a3e-a6eb-be31-3fe94e7f7db6@leemhuis.info>
+Date:   Wed, 2 Feb 2022 10:47:39 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
@@ -32,109 +32,110 @@ Cc:     workflows@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Lukas Bulwahn <lukas.bulwahn@gmail.com>
 References: <cover.1643710947.git.linux@leemhuis.info>
- <978ad91647e93b20b7fe12c3f237f6de8f9eaca1.1643710947.git.linux@leemhuis.info>
- <87bkzq5fxu.fsf@meer.lwn.net>
+ <e655527632dc4324cc7584cb3a73880d9c733df5.1643710947.git.linux@leemhuis.info>
+ <87fsp25g28.fsf@meer.lwn.net>
 From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH v4 3/3] docs: reporting-issues.rst: link new document
- about regressions
-In-Reply-To: <87bkzq5fxu.fsf@meer.lwn.net>
+Subject: Re: [PATCH v4 2/3] docs: regressions*rst: rules of thumb for handling
+ regressions
+In-Reply-To: <87fsp25g28.fsf@meer.lwn.net>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1643782106;67ce4a9f;
-X-HE-SMSGID: 1nF8oW-0002ui-WD
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1643795262;13038e33;
+X-HE-SMSGID: 1nFCEm-0002jG-6d
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On 02.02.22 00:23, Jonathan Corbet wrote:
+On 02.02.22 00:21, Jonathan Corbet wrote:
 > Thorsten Leemhuis <linux@leemhuis.info> writes:
 > 
->> Make Documentation/admin-guide/reporting-issues.rst point to the newly
->> created document about regressions
->> (Documentation/admin-guide/regressions-users.rst). This allows to
->> shorten a few explanations the new document describes better and in more
->> detail.
->>
->> While at it move the copyright hint to the end of the file, as suggested
->> during review of the new documents about regressions.
->>
->> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
->> ---
->>  .../admin-guide/reporting-issues.rst          | 60 +++++++++----------
->>  1 file changed, 29 insertions(+), 31 deletions(-)
+> One thing that caught my eye this time around...
 > 
-> [...]
+>> + * Address regressions in stable, longterm, or proper mainline releases with
+>> +   more urgency than regressions in mainline pre-releases. That changes after
+>> +   the release of the fifth pre-release, aka "-rc5": mainline then becomes as
+>> +   important, to ensure all the improvements and fixes are ideally tested
+>> +   together for at least one week before Linus releases a new mainline version.
 > 
->> +You deal with a regression if some application or practical use case running
->> +fine with one Linux kernel works worse or not at all with a newer version
->> +compiled using a similar configuration. The document
->> +'Documentation/admin-guide/regressions-users.rst' explains this in more detail.
+> Is that really what we want to suggest?  I ask because (1) fixes for
+> stable releases need to show up in mainline first anyway, and (2) Greg
+> has often stated that the stable releases shouldn't be something that
+> most maintainers need to worry about.  So if the bug is in mainline,
+> that has to get fixed first, and if it's something special to a stable
+> release, well, then the stable folks should fix it :)
+
+Hmmm. Well, afaics in the end many (most?) of the regressions that
+happen in these series are present in mainline as well: either they
+where introduced in an earlier devel cycle or came with a backport to
+stable/longterm and thus are present in mainline as well (unless the
+backport was incomplete or broken). So I'd say it's up to the regular
+developers and not the stable team to fix many (most?) of them.
+
+That being said: yes, I think you have a point. This could be fixed with
+some small adjustments to the wording above, but...
+
+>> + * Fix regressions within two or three days, if they are critical for some
+>> +   reason -- for example, if the issue is likely to affect many users of the
+>> +   kernel series in question on all or certain architectures. Note, this
+>> +   includes mainline, as issues like compile errors otherwise might prevent many
+>> +   testers or continuous integration systems from testing the series.
+
+...the same aspect is relevant for other points like this one, too. And
+there it's not as easily solved. So maybe this is better addressed with
+a separate point early in the list:
+
+```
+* Developers are expected to handle regressions in all kernel series,
+but are free to leave them to the stable team, if the regression
+probably at no point in time occurred with mainline.
+```
+
+Regressions for example caused by incomplete or broken backports thus
+would be something developers could leave to Greg (and I expect he won't
+mind).
+
+>> + * Aim to merge regression fixes into mainline within one week after the culprit
+>> +   was identified, if the regression was introduced in a stable/longterm release
+>> +   or the development cycle for the latest mainline release (say v5.14). If
+>> +   possible, try to address the issue even quicker, if the previous stable
+>> +   series (v5.13.y) will be abandoned soon or already was stamped "End-of-Life"
+>> +   (EOL) -- this usually happens about three to four weeks after a new mainline
+>> +   release.
 > 
-> Some of those quotes around file names are still sneaking in.
+> How much do we really think developers should worry about nearly-dead
+> stable kernels?  We're about to tell users they shouldn't be running the
+> kernel anyway...
 
-I did that on purpose here, as the file right now uses single quotes for
-doc references almost everywhere and I thought I better stick to its
-style -- especially as one such a quoted references is pretty close by
-in this case, so it would look odd to quote one but not the other:
+I'd expect we handle near EOL stable release round about normally until
+they become EOL. But anyway, I had something different in mind when I
+wrote the above and I get the feeling my text didn't express it well and
+got you on the wrong track. :-/
 
-```
-[...] compiled using a similar configuration. The document
- 'Documentation/admin-guide/regressions-users.rst' explains this in more
-detail.
- It also provides a good deal of other information about regressions you
-might
- want to be aware of; it for example explains how to add your issue to
-the list
- of tracked regressions, to ensure it won't fall through the cracks.
+My intention was: I want to prevent users getting stuck on EOLed stable
+series (say 5.13.y) when a regression makes it hard or impossible for
+the user to run the directly succeeding stable series (5.14.y).
 
-
-
-What qualifies as security issue is left to your judgment. Consider reading
- 'Documentation/admin-guide/security-bugs.rst' before proceeding, as it
- [...]
-```
-
-Stupid me just forgot to use single quotes for the second link to
-Documentation/admin-guide/regressions-users.rst. Will fix this up :-/
-
-That being said: in a mail on Monday I already raised the issue like
-this (slightly reworded):
-
-----
-I noticed I quoted internal references in reporting-issues.rst quite
-often. IMHO it improves readability sometimes (it depends a lot on the
-title of the target document), as can be seen in this example.
-
-The source text looks like this:
+I think this expresses it better:
 
 ```
-If your kernel is tainted, study
-'Documentation/admin-guide/tainted-kernels.rst' to find out why.
-[...]
-To find the change there is a process called 'bisection' which the
-document 'Documentation/admin-guide/bug-bisect.rst' describes in detail.
+* Aim to merge regression fixes into mainline within one week after the
+culprit was identified, if the regression was introduced in either:
+
+  * the development cycle of the latest proper mainline release
+
+  * a recent release in a stable/longterm series
+
+  Try to address regressions in the latest stable series even quicker,
+if the previous series will be abandoned soon or already was stamped
+"End-of-Life" (EOL) -- this usually happens about three to four weeks
+after a new mainline release.
+
+  Remember to mark the fix for backporting by using both the ``Fixes:``
+tag and ``Cc: stable@vger.kernel.org``.
 ```
 
-After processing to HTML the text looks like this:
+How does that sound?
 
-```
-If your kernel is tainted, study ‘Tainted kernels‘ to find out why.
-[...]
-To find the change there is a process called ‘bisection’ which the
-document ‘Bisecting a bug’ describes in detail.
-```
-
-Sure, "Tainted kernels" and "Bisecting a bug" are links and hence
-displayed differently by the browser, but I think the quotes help. But YMMV.
-
-I sooner or later hope to improve and fix a few things in
-reporting-issues.rst anyway. Let me know if I should take the
-opportunity to remove the single quotes then.
-----
-
-So I'd say: I add two more quoted doc links to the file now and fix this
-up later, if you still think removing the quotes is a good idea. Or do
-you want me to remove the single quotes now in that patch (or a separate
-one?)? It's not a big deal, there are only about 10 docs references.
+Thx for the feedback, it's good that these things turned up.
 
 Ciao, Thorsten
