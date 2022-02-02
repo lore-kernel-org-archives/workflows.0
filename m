@@ -2,125 +2,87 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDB9BC4332F
-	for <workflows@archiver.kernel.org>; Wed,  2 Feb 2022 10:05:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 329D6C433EF
+	for <workflows@archiver.kernel.org>; Wed,  2 Feb 2022 11:46:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245640AbiBBKFm (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 2 Feb 2022 05:05:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37924 "EHLO
+        id S231171AbiBBLqb (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 2 Feb 2022 06:46:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233894AbiBBKFl (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 2 Feb 2022 05:05:41 -0500
+        with ESMTP id S234359AbiBBLqb (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 2 Feb 2022 06:46:31 -0500
 Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D91C3C061714;
-        Wed,  2 Feb 2022 02:05:41 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB916C061714;
+        Wed,  2 Feb 2022 03:46:30 -0800 (PST)
 Received: from ip4d144895.dynamic.kabel-deutschland.de ([77.20.72.149] helo=[192.168.66.200]); authenticated
         by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1nFCWB-0006QL-5B; Wed, 02 Feb 2022 11:05:39 +0100
-Message-ID: <35bf934c-d8ed-7988-69f3-e0cb53e0adf4@leemhuis.info>
-Date:   Wed, 2 Feb 2022 11:05:38 +0100
+        id 1nFE5k-0006et-9U; Wed, 02 Feb 2022 12:46:28 +0100
+Message-ID: <12e09497-a848-b767-88f4-7dabd8360c5e@leemhuis.info>
+Date:   Wed, 2 Feb 2022 12:46:27 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
 Content-Language: en-BS
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     workflows@vger.kernel.org,
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        workflows@vger.kernel.org,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Randy Dunlap <rdunlap@infradead.org>,
         regressions@lists.linux.dev,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Lukas Bulwahn <lukas.bulwahn@gmail.com>
-References: <cover.1643710947.git.linux@leemhuis.info>
- <b32d06dca7d228d61692acaff386928bd673754f.1643710947.git.linux@leemhuis.info>
- <87k0ee5gf2.fsf@meer.lwn.net>
+References: <cover.1643110442.git.linux@leemhuis.info>
+ <f97738d6250050bc982bf2947587f1c73f37446f.1643110442.git.linux@leemhuis.info>
+ <CAMuHMdXRoVt_zRBNvugJjYhJnyYbABeCWv9fFRM0r_=s7FYvJQ@mail.gmail.com>
 From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH v4 1/3] docs: add two documents about regression handling
-In-Reply-To: <87k0ee5gf2.fsf@meer.lwn.net>
+Subject: Re: [PATCH v3 1/2] docs: add a document about regression handling
+In-Reply-To: <CAMuHMdXRoVt_zRBNvugJjYhJnyYbABeCWv9fFRM0r_=s7FYvJQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1643796341;cd3236e6;
-X-HE-SMSGID: 1nFCWB-0006QL-5B
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1643802390;286e733a;
+X-HE-SMSGID: 1nFE5k-0006et-9U
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On 02.02.22 00:13, Jonathan Corbet wrote:
-> OK, I'll try not to take so long to have a look at it this time.
-> 
-> Thorsten Leemhuis <linux@leemhuis.info> writes:
-> 
->> Create two documents explaining various aspects around regression
->> handling and tracking; one is aimed at users, the other targets
->> developers.
->>
->> The texts among others describe the first rule of Linux kernel
->> development and what it means in practice. They also explain what a
->> regression actually is and how to report one properly.
->>
->> Both texts additionally provide a brief introduction to the bot the
->> kernel's regression tracker uses to facilitate the work, but mention the
->> use is optional.
->>
->> To sum things up, provide a few quotes from Linus in the document for
->> developers to show how serious he takes regressions.
->>
->> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
->> ---
->>  Documentation/admin-guide/index.rst           |   1 +
->>  .../admin-guide/regressions-users.rst         | 436 ++++++++++++
->>  Documentation/process/index.rst               |   1 +
->>  Documentation/process/regressions-devs.rst    | 672 ++++++++++++++++++
-> 
-> I'll start with some *serious* bikesheddery...it's best if the names of
-> the files tell readers what's inside.  This isn't something I feel
-> really strongly about, but we could consider
+Hi! I noticed I forgot to reply here:
 
-I wasn't totally happy with the file names myself, so it's good that you
-bring it up.
-
-> 	admin-guide/reporting-regressions.txt (or just regressions.txt)
->         process/regression-policy.txt
-
-I like "reporting-regressions.txt", but I wonder if using the word
-"policy" is a good idea. I tried to avoid it (and similar words, like
-guidelines), as they might do more harm then good. So how about:
-
- 	admin-guide/reporting-regressions.rst
-        process/regressions.rst
-
-> [...] 
->> +Send a mail to the regressions mailing list (regressions@lists.linux.dev) while
->> +CCing the Linux kernel's regression tracker (regressions@leemhuis.info); if the
->> +issue might better be dealt with in private, feel free to omit the list.
-> 
-> Perhaps a separate concern, but might you want to set up an @kernel.org
-> alias for the regression tracker?  Trust me, you're not gonna want to
-> run it forever, and the ability to quickly redirect the mail may prove
-> to be a nice thing to have.  An email address with your domain sitting
-> in the docs will circulate for years after it gets changed.
-
-Yeah, it's on my mental to do list for a few weeks already, but never
-set down to actually get this rolling. You are right, I'll ask for an alias.
-
->> +Is the "no regressions" rule really adhered in practice?
->> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+On 26.01.22 15:28, Geert Uytterhoeven wrote:
+> On Tue, Jan 25, 2022 at 5:45 PM Thorsten Leemhuis <linux@leemhuis.info> wrote:
+>> +How to create a configuration similar to the one of an older kernel?
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 >> +
->> +It's taken really serious, as can be seen by many mailing list posts from Linux
+>> +Start a known-good kernel and configure the newer Linux version with ``make
+>> +olddefconfig``. This makes the kernel's build scripts pick up the configuration
+>> +file (the `.config` file) from the running kernel as base for the new one you
+>> +are about to compile; afterwards they set all new configuration options to their
+>> +default value, which should disable new features that might cause regressions.
 > 
-> serious*ly*
+> Doing so may actually cause mutations to appear in your .config
+> when going back and forth (i.e. when bisecting), interfering with
+> the bisection process.
 
-Fixed.
+Good point, I knew about this, but hadn't thought of this when writing
+the text.
 
-> Otherwise I can't find a lot to complain about at this point.  I'm not
-> really convinced that we need all those Quotations From Chairman Linus,
-> but I won't fight about it either :)
+> To avoid that, I usually start bisecting with
+> "cp .config <src>/arch/<arch>/configs/bisect_defconfig", and use
+> "make bisect_defconfig" in every bisection step. That way all steps
+> are reproducible, and unaffected by config mutations.
 
-I'll take a look again and consider kicking a few.
+That's a really cool trick, thx for mentioning it. But I think it's not
+needed in the text about regressions and instead better be mentioned in
+Documentation/admin-guide/bug-bisect.rst. I hope to sooner or later
+improve (rewrite?) that document anyway and will make sure to keep it in
+mind for that time.
 
-> In general, though, unless objections show up, I don't see any real
-> reason to not apply this one.
-
-Great, many thx!
+I wonder if there is a way to make this work without messing in the
+source tree? Took a quick look at the sources. It seems to me that it's
+possible to "cp .config ~/working.config" and then using "make
+KBUILD_DEFCONFIG=~/working.config defconfig" at every bisection step. It
+seems to do the trick as well -- but I only tried briefly, so maybe I
+might have missed something.
 
 Ciao, Thorsten
