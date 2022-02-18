@@ -2,200 +2,104 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8395EC433FE
-	for <workflows@archiver.kernel.org>; Wed, 16 Feb 2022 07:36:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A397C433EF
+	for <workflows@archiver.kernel.org>; Fri, 18 Feb 2022 18:09:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230211AbiBPHhI (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 16 Feb 2022 02:37:08 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:43862 "EHLO
+        id S237964AbiBRSJg (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 18 Feb 2022 13:09:36 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:50678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230208AbiBPHhH (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 16 Feb 2022 02:37:07 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8587F172884;
-        Tue, 15 Feb 2022 23:36:17 -0800 (PST)
-Received: from ip4d144895.dynamic.kabel-deutschland.de ([77.20.72.149] helo=truhe.fritz.box); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1nKEA6-00083j-Mr; Wed, 16 Feb 2022 07:51:38 +0100
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-To:     linux-doc@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     workflows@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        regressions@lists.linux.dev,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH v5 3/3] docs: reporting-issues.rst: link new document about regressions
-Date:   Wed, 16 Feb 2022 07:51:35 +0100
-Message-Id: <f20114eaddc356a8c79dd62812a6c7f4ca5d87b9.1644994117.git.linux@leemhuis.info>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <cover.1644994117.git.linux@leemhuis.info>
-References: <cover.1644994117.git.linux@leemhuis.info>
+        with ESMTP id S238975AbiBRSJf (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Fri, 18 Feb 2022 13:09:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A3D65278290
+        for <workflows@vger.kernel.org>; Fri, 18 Feb 2022 10:09:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1645207757;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=90wA+Ljm401rFcVaqDYJBbKSJobGWl8KgcSB0NrgsvA=;
+        b=S/O0ZQzkiRXktXfgchYKEsFbTfZk7RWzlqOVKecLm6MvJR2FaGWjJjZLd8E5hGRM6XfNTt
+        j/VpCNTBw3m2Etc1Ah4L8r7NypmIe59bRQoDoxfICRhcBxRxhQL3BxvvpIJ79I0ea3J4Nq
+        w/JJftd6p1askGLhnFFUBJVKEgM9miA=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-245-nqh2RZJtMbqPGikGnshR_w-1; Fri, 18 Feb 2022 13:09:16 -0500
+X-MC-Unique: nqh2RZJtMbqPGikGnshR_w-1
+Received: by mail-ed1-f69.google.com with SMTP id o5-20020a50c905000000b00410effbf65dso5946913edh.17
+        for <workflows@vger.kernel.org>; Fri, 18 Feb 2022 10:09:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:from:subject:content-transfer-encoding;
+        bh=90wA+Ljm401rFcVaqDYJBbKSJobGWl8KgcSB0NrgsvA=;
+        b=CIsGWVcN6K5/AQ4InKBxtKtFxxYJO+9hYj7wbtBPPktEJOBzwYAzRIgFlfwkh5j9um
+         6DFVHE0uSO9k8hRQrt0Fw7theRLUvD6U2u5bgjv2Ji9aLGqUsncua5Co2Qdur9B9C5oe
+         e9ws+thKvG9VXmgefbUe4UStli20R0u1z7JZw5uf/P1YJmXmYI7BWt1VuPFC9mxSnL6p
+         YIzcCtGJbpfSxFVa1Kn7ThNKdvpjF5EdKgaTzP9iDNxU1Mqrai6SV+yY6job144w3rIS
+         C2SwvrrBTEn7mxUwdAOHy7CND2U3Stdea88uCGfWyWj9TIbkzv5xgOSMcT7ipAaMkJLs
+         a9FA==
+X-Gm-Message-State: AOAM530c2O7m6zUw4902xf+qCoJMXpg1J/Cg4htWMQY41xOKA1BgKNbm
+        5gZLVQ+yruBVfK0aFQ+/jBOT70gp/QPwoT5Le0f1U2kfCz7KvwM4vPkxWPGAPI3+WC1LJhDc7AQ
+        EDdq+PM7yceAUIQs+KzQuzaSNSEITnGwF9DmqvMORa8FAY1zJXCLmbeT13P6NDA4KwsgUzhaI
+X-Received: by 2002:a50:9559:0:b0:410:9f7d:9f68 with SMTP id v25-20020a509559000000b004109f7d9f68mr9204378eda.437.1645207754074;
+        Fri, 18 Feb 2022 10:09:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJymN/86N6m3lvZn4wZicSQzOGE3LlPP0sX+rxcvCxbagmQnnaAPLOlWjdhfeOmOu3hQ7SIzYQ==
+X-Received: by 2002:a50:9559:0:b0:410:9f7d:9f68 with SMTP id v25-20020a509559000000b004109f7d9f68mr9204340eda.437.1645207753698;
+        Fri, 18 Feb 2022 10:09:13 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+        by smtp.googlemail.com with ESMTPSA id r10sm2483726ejy.148.2022.02.18.10.09.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Feb 2022 10:09:13 -0800 (PST)
+Message-ID: <9a4360d9-2420-59fd-2490-3b657710db13@redhat.com>
+Date:   Fri, 18 Feb 2022 19:09:10 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1644996977;2c8732e0;
-X-HE-SMSGID: 1nKEA6-00083j-Mr
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+X-Mozilla-News-Host: news://lore.kernel.org:119
+Content-Language: en-US
+To:     workflows@vger.kernel.org, Fam Zheng <fam@euphon.net>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+Subject: Patchew is now indexing LKML
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Make Documentation/admin-guide/reporting-issues.rst point to the newly
-created document about regressions
-(Documentation/admin-guide/regressions-regressions.rst). This allows to
-shorten a few explanations the new document describes better and in more
-detail.
+Hi all,
 
-While at it move the copyright hint to the end of the file and remove
-quotes around links to other places in the documentation. Both issues
-came up during the review of the new documents about regressions.
+just a small announcement that the patchew.org service is now archiving 
+and indexing all patch series coming through LKML.  The main page is at 
+https://patchew.org/linux/.
 
-Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
----
- .../admin-guide/reporting-issues.rst          | 73 +++++++++----------
- 1 file changed, 36 insertions(+), 37 deletions(-)
+Patchew is not unlike patchwork, in that it will collect and index patch 
+series as they appear on a mailing list.  Its functionality also 
+overlaps a bit with b4 in that it recognizes and stores various tags 
+sent in reply to the patch series, and also links together different 
+submissions of the same series.  It has been in use for a few years with 
+various virtualization projects (it was created during the patchword 2.x 
+stasis), and recently MPTCP has also based its CI on Patchew plus GitHub 
+Actions.
 
-diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentation/admin-guide/reporting-issues.rst
-index d7ac13f789cc..ec62151fe672 100644
---- a/Documentation/admin-guide/reporting-issues.rst
-+++ b/Documentation/admin-guide/reporting-issues.rst
-@@ -1,14 +1,5 @@
- .. SPDX-License-Identifier: (GPL-2.0+ OR CC-BY-4.0)
--..
--   If you want to distribute this text under CC-BY-4.0 only, please use 'The
--   Linux kernel developers' for author attribution and link this as source:
--   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/Documentation/admin-guide/reporting-issues.rst
--..
--   Note: Only the content of this RST file as found in the Linux kernel sources
--   is available under CC-BY-4.0, as versions of this text that were processed
--   (for example by the kernel's build system) might contain content taken from
--   files which use a more restrictive license.
--
-+.. See the bottom of this file for additional redistribution information.
- 
- Reporting issues
- ++++++++++++++++
-@@ -395,22 +386,16 @@ fixed as soon as possible, hence there are 'issues of high priority' that get
- handled slightly differently in the reporting process. Three type of cases
- qualify: regressions, security issues, and really severe problems.
- 
--You deal with a 'regression' if something that worked with an older version of
--the Linux kernel does not work with a newer one or somehow works worse with it.
--It thus is a regression when a WiFi driver that did a fine job with Linux 5.7
--somehow misbehaves with 5.8 or doesn't work at all. It's also a regression if
--an application shows erratic behavior with a newer kernel, which might happen
--due to incompatible changes in the interface between the kernel and the
--userland (like procfs and sysfs). Significantly reduced performance or
--increased power consumption also qualify as regression. But keep in mind: the
--new kernel needs to be built with a configuration that is similar to the one
--from the old kernel (see below how to achieve that). That's because the kernel
--developers sometimes can not avoid incompatibilities when implementing new
--features; but to avoid regressions such features have to be enabled explicitly
--during build time configuration.
-+You deal with a regression if some application or practical use case running
-+fine with one Linux kernel works worse or not at all with a newer version
-+compiled using a similar configuration. The document
-+Documentation/admin-guide/reporting-regressions.rst explains this in more
-+detail. It also provides a good deal of other information about regressions you
-+might want to be aware of; it for example explains how to add your issue to the
-+list of tracked regressions, to ensure it won't fall through the cracks.
- 
- What qualifies as security issue is left to your judgment. Consider reading
--'Documentation/admin-guide/security-bugs.rst' before proceeding, as it
-+Documentation/admin-guide/security-bugs.rst before proceeding, as it
- provides additional details how to best handle security issues.
- 
- An issue is a 'really severe problem' when something totally unacceptably bad
-@@ -517,7 +502,7 @@ line starting with 'CPU:'. It should end with 'Not tainted' if the kernel was
- not tainted when it noticed the problem; it was tainted if you see 'Tainted:'
- followed by a few spaces and some letters.
- 
--If your kernel is tainted, study 'Documentation/admin-guide/tainted-kernels.rst'
-+If your kernel is tainted, study Documentation/admin-guide/tainted-kernels.rst
- to find out why. Try to eliminate the reason. Often it's caused by one these
- three things:
- 
-@@ -1043,7 +1028,7 @@ down the culprit, as maintainers often won't have the time or setup at hand to
- reproduce it themselves.
- 
- To find the change there is a process called 'bisection' which the document
--'Documentation/admin-guide/bug-bisect.rst' describes in detail. That process
-+Documentation/admin-guide/bug-bisect.rst describes in detail. That process
- will often require you to build about ten to twenty kernel images, trying to
- reproduce the issue with each of them before building the next. Yes, that takes
- some time, but don't worry, it works a lot quicker than most people assume.
-@@ -1073,10 +1058,11 @@ When dealing with regressions make sure the issue you face is really caused by
- the kernel and not by something else, as outlined above already.
- 
- In the whole process keep in mind: an issue only qualifies as regression if the
--older and the newer kernel got built with a similar configuration. The best way
--to archive this: copy the configuration file (``.config``) from the old working
--kernel freshly to each newer kernel version you try. Afterwards run ``make
--olddefconfig`` to adjust it for the needs of the new version.
-+older and the newer kernel got built with a similar configuration. This can be
-+achieved by using ``make olddefconfig``, as explained in more detail by
-+Documentation/admin-guide/reporting-regressions.rst; that document also
-+provides a good deal of other information about regressions you might want to be
-+aware of.
- 
- 
- Write and send the report
-@@ -1283,7 +1269,7 @@ them when sending the report by mail. If you filed it in a bug tracker, forward
- the report's text to these addresses; but on top of it put a small note where
- you mention that you filed it with a link to the ticket.
- 
--See 'Documentation/admin-guide/security-bugs.rst' for more information.
-+See Documentation/admin-guide/security-bugs.rst for more information.
- 
- 
- Duties after the report went out
-@@ -1571,7 +1557,7 @@ Once your report is out your might get asked to do a proper one, as it allows to
- pinpoint the exact change that causes the issue (which then can easily get
- reverted to fix the issue quickly). Hence consider to do a proper bisection
- right away if time permits. See the section 'Special care for regressions' and
--the document 'Documentation/admin-guide/bug-bisect.rst' for details how to
-+the document Documentation/admin-guide/bug-bisect.rst for details how to
- perform one. In case of a successful bisection add the author of the culprit to
- the recipients; also CC everyone in the signed-off-by chain, which you find at
- the end of its commit message.
-@@ -1594,7 +1580,7 @@ Some fixes are too complex
- Even small and seemingly obvious code-changes sometimes introduce new and
- totally unexpected problems. The maintainers of the stable and longterm kernels
- are very aware of that and thus only apply changes to these kernels that are
--within rules outlined in 'Documentation/process/stable-kernel-rules.rst'.
-+within rules outlined in Documentation/process/stable-kernel-rules.rst.
- 
- Complex or risky changes for example do not qualify and thus only get applied
- to mainline. Other fixes are easy to get backported to the newest stable and
-@@ -1756,10 +1742,23 @@ art will lay some groundwork to improve the situation over time.
- 
- 
- ..
--   This text is maintained by Thorsten Leemhuis <linux@leemhuis.info>. If you
--   spot a typo or small mistake, feel free to let him know directly and he'll
--   fix it. You are free to do the same in a mostly informal way if you want
--   to contribute changes to the text, but for copyright reasons please CC
-+   end-of-content
-+..
-+   This document is maintained by Thorsten Leemhuis <linux@leemhuis.info>. If
-+   you spot a typo or small mistake, feel free to let him know directly and
-+   he'll fix it. You are free to do the same in a mostly informal way if you
-+   want to contribute changes to the text, but for copyright reasons please CC
-    linux-doc@vger.kernel.org and "sign-off" your contribution as
-    Documentation/process/submitting-patches.rst outlines in the section "Sign
-    your work - the Developer's Certificate of Origin".
-+..
-+   This text is available under GPL-2.0+ or CC-BY-4.0, as stated at the top
-+   of the file. If you want to distribute this text under CC-BY-4.0 only,
-+   please use "The Linux kernel developers" for author attribution and link
-+   this as source:
-+   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/Documentation/admin-guide/reporting-issues.rst
-+..
-+   Note: Only the content of this RST file as found in the Linux kernel sources
-+   is available under CC-BY-4.0, as versions of this text that were processed
-+   (for example by the kernel's build system) might contain content taken from
-+   files which use a more restrictive license.
--- 
-2.35.1
+The LKML integration is still a bit new and experimental, so it is not 
+yet applying the patches to a git tree like it does for other projects 
+such as QEMU; this also means that for example it is not yet possible to 
+"search by maintainer".  However, the patches are already searchable by 
+to/cc, and also available via REST API at 
+https://patchew.org/api/v1/projects/12/.
+
+Our hope is to further integrate Patchew with the various mailing list 
+workflow tools in the coming months, for example using b4's three-way merge.
+
+The website has some small server-side functionality for users to mark 
+series as accepted/rejected, though it lacks something like the 
+delegation feature of patchwork.  To use this functionality you'll need 
+an account, which right now must be created by myself.  Please contact 
+me offlist if you're interested (though by all means reply on the 
+mailing list if you want further information on the tool).
+
+Paolo
 
