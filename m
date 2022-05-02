@@ -2,121 +2,66 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3577C433EF
-	for <workflows@archiver.kernel.org>; Wed, 20 Apr 2022 16:32:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D6ACC433FE
+	for <workflows@archiver.kernel.org>; Mon,  2 May 2022 14:18:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380607AbiDTQfN (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 20 Apr 2022 12:35:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41704 "EHLO
+        id S232083AbiEBOVw (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 2 May 2022 10:21:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380524AbiDTQfM (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 20 Apr 2022 12:35:12 -0400
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A32643ECA
-        for <workflows@vger.kernel.org>; Wed, 20 Apr 2022 09:32:26 -0700 (PDT)
-Received: by mail-qt1-x832.google.com with SMTP id ay11so1356722qtb.4
-        for <workflows@vger.kernel.org>; Wed, 20 Apr 2022 09:32:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=3J4XthPQxhmZkFCcoyfDlVHXj50acCyi35YWGqXRzhQ=;
-        b=MnuBJjSO+X5Pn8+P5NO2V5AJCtF1cWQ6TPbAd8C+4hJ5Qvnsyy7d412pABypCnNTlk
-         GqdXNfazFth9H0OxyARXt//T6KxxcABwfqHwl0XjhcpQ73Lq//+viSjwoBWzsN9BjwH+
-         LDRP+DaHS0tzYKk8DZQz6i/TNoeBRlftRxZNQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=3J4XthPQxhmZkFCcoyfDlVHXj50acCyi35YWGqXRzhQ=;
-        b=A6FlA4N+v4YrGZimxhaH2GHCFE5cG0Vo7hPXdspVzfAYSNu6BJqezva/Wi4Ir7taUW
-         46QnMP9/PpQW3anOjDhn/ORaIxUGoCEGRKSmIL2jrwRjZ51zdyjGKmbZ+oAV1eiQB0Fq
-         P0bb9d2bdmcRrGV5QedUBhbUG1ga/fp8224huZG+EIyFMeDpWm7Y8+OjN2vTiIuqu+Nl
-         i+hDZmzfrfvX9yvnM6bItAHTLpOYXSNgmPh7xamedkKSdqUrvqKEYRWMztdTd6OcDSdE
-         rGkJQPg8lx9sF5GLe1lnRdXsqx74/5gacm2r3JNmIejcy+f456lmpF0EwT5KX9meHSxP
-         kB+A==
-X-Gm-Message-State: AOAM530KRGdqDuTK9onvk5VGFF/ZmUenPkjt9RDJ7JiKz2pqFAhsXy7w
-        MfTuvssswBL+OuYRPQNDOXI5Mg==
-X-Google-Smtp-Source: ABdhPJx539AYgJ3/MSSBaHkjC7fNsv8ltIIot/KmpPFw8OAWDw6agxwItmPKNSuHHH1eKaSLKSEWOg==
-X-Received: by 2002:ac8:5c4c:0:b0:2e2:1006:2b21 with SMTP id j12-20020ac85c4c000000b002e210062b21mr14391034qtj.423.1650472345134;
-        Wed, 20 Apr 2022 09:32:25 -0700 (PDT)
-Received: from nitro.local (bras-base-mtrlpq5031w-grc-32-216-209-220-127.dsl.bell.ca. [216.209.220.127])
-        by smtp.gmail.com with ESMTPSA id k20-20020a05622a03d400b002ec16d2694fsm1978359qtx.39.2022.04.20.09.32.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Apr 2022 09:32:24 -0700 (PDT)
-Date:   Wed, 20 Apr 2022 12:32:23 -0400
-From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        workflows@vger.kernel.org
-Subject: Re: A lot of regression reports submitted to bugzilla.kernel.org are
- apparently ignored, even bisected ones
-Message-ID: <20220420163223.kz32qomzj3y4hjj5@nitro.local>
-References: <6808cd17-b48c-657d-de60-ef9d8bfa151e@leemhuis.info>
- <acccdf28-3c5d-a81b-8e3a-f72e0f46149c@kernel.org>
- <20ad7c63-c837-6f6e-6bbe-7b49d653e033@leemhuis.info>
+        with ESMTP id S229484AbiEBOVv (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 2 May 2022 10:21:51 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA3AC17041;
+        Mon,  2 May 2022 07:18:22 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 85E2AB81145;
+        Mon,  2 May 2022 14:18:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE7E0C385AC;
+        Mon,  2 May 2022 14:18:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1651501100;
+        bh=9d0+SRhCTXh1I97iLO2Qt8sNKus0pEAvu7QeNMFm1vk=;
+        h=Date:From:To:Cc:Subject:From;
+        b=ECT//X3L/FY8AWdbKZ/l8E6sKBzLwStQ7Pp3jg4R5/c+CGhr2JcZSSAKmcxYsDQHU
+         H2cneGVlSmiXiJxlCEzJMMaiHOLPPTDqAJ24elScWzG7dzcUHxyhUbsfcBADEt7gWm
+         kAwNwXRQWsBZBxtOstDZiLStlen3yb3WBKlgngIaD7UCWUWmTxAWVh6BoHpm5YFBxZ
+         sZamfV2Ihgd9Y4lO6nHw/r/lSV09qiDhpj95K15pCSoUbcu9agqmEiuPktkzw3QTqP
+         6+miCYCNNX4dEGmxJBxOpk6dEXT/7zqoqeyB16H9mGsKKa65shlJy8J8QouYAGEexU
+         AWv45iaVxCD/A==
+Date:   Mon, 2 May 2022 07:18:18 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Arnd Bergmann <arnd@kernel.org>, torvalds@linux-foundation.org
+Cc:     workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        Thomas Osterried <thomas@osterried.de>
+Subject: Driver graveyard
+Message-ID: <20220502071818.5101c752@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20ad7c63-c837-6f6e-6bbe-7b49d653e033@leemhuis.info>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Wed, Apr 20, 2022 at 01:57:12PM +0200, Thorsten Leemhuis wrote:
-> > I find such Bugzilla useless - the Components are not matching reality,
-> > Products look ok except missing really a lot. Does it have proper
-> > assigners based on maintainers? Nope. At least not everywhere.
+Hi!
 
-Nobody has stepped up to maintain bugzilla for the past 10 years. Managing
-components, products, assignees -- that's not the job of the infrastructure
-team. Linux development is so compartmentalized that cross-subsystem tasks
-like bug reporting have been thoroughly neglected.
+Thomas suggested that it may be nice to create some form of a record
+for drivers which were retired from the tree. I think a code-centric
+equivalent of CREDITS could be a good idea.
 
-However, I would argue that bugzilla needs fewer components, not more of them.
-Otherwise people get confused and file bugs against "kernel.org" or whatever
-happens to be the first entry in the list. For bugzilla to be useful, it needs
-to have a bugmaster -- and nobody has volunteered thus far. It's not something
-that members of the LF IT team can do, since none of us are kernel developers.
+Does such a record already exist somewhere? If not any thoughts on
+creating a file storing (Kconfig, short description, commit which
+removed the driver)? E.g.
 
-If someone steps up, I'll be happy to grant them admin rights to manage all
-the components, etc.
 
-> > All the bug or issue reports I get via email and I think I am not alone
-> > in this. All automated tools (kbuild, kernelCI) are using emails for bug
-> > reporting. Why having one more system which seems not up to date?
+K: DMASCC
+D: Hamradio high-speed (DMA) SCC driver for AX.25. Driver supported
+D: Ottawa PI/PI2, Paccomm/Gracilis D: PackeTwin, and S5SCC/DMA boards.
+C: 865e2eb08f51
 
-Email is a poor choice when someone needs to share large files (usually,
-dumps). Besides, I really don't want stuff like that in public-inbox archives,
-either.
 
-This is one major upside of bugzilla -- it can still be largely email-based,
-but it also provides a way to share large files without the need to ship them
-around as attachments or use some other 3rd-party file sharing services.
-
-> I'm the wrong one to ask, as I think it's a disservice right now that
-> needs to be dealt with -- for example by turning it off or by making it
-> work properly. But to my knowledge there is nobody really responsible
-> for it (apart from Konstantin and his team, but they are afaics only
-> responsible for running bugzilla the software -- not for maintaining
-> components, products, and such things). That's afaics why we as the
-> kernel developers community need to come up with a decision. But maybe
-> mailing lists are a bad tool for this and this needs to wait till kernel
-> and/or maintainers summit in September (it's already on the list of
-> topics I plan to propose).
-
-All that really needs to happen to improve the situation:
-
-1. have an actual kernel developer be responsible for managing bugzilla; this
-   person would manage components and keep an eye on new bugs to make sure
-   they get to proper subsystem owners
-
-That's it, there are no other entries here. Bugzilla *can* be a useful tool
-and works reasonably well with email back-and-forth, but nobody wants to do
-this work -- so everyone ends up blaming the tool.
-
--K
+I have no idea how to name such a file.
