@@ -2,54 +2,37 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD03FC433F5
-	for <workflows@archiver.kernel.org>; Wed, 25 May 2022 08:34:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D46BC433EF
+	for <workflows@archiver.kernel.org>; Wed, 25 May 2022 09:55:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232979AbiEYIeY (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 25 May 2022 04:34:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41590 "EHLO
+        id S240000AbiEYJzh (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 25 May 2022 05:55:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234281AbiEYIeW (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 25 May 2022 04:34:22 -0400
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D923FD3E;
-        Wed, 25 May 2022 01:34:22 -0700 (PDT)
-Received: by mail-qt1-f169.google.com with SMTP id f35so3812119qtb.11;
-        Wed, 25 May 2022 01:34:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=k0kND5Wa+9pOerRMBCYU4fSimE0yKktYBrnLP5AV+p8=;
-        b=edd5IEcjEmLMp0FWb140O9Q3WMsrPhze3PGb+dB/+b63CrbEX6jHl87LIzBDKEwgqL
-         4nF4KoBsjYzcbXj8tb8sV6+cY8jrKxdeGMmznDmf6Cjlxr8DWkQfmnQH8sn82tBWrUaD
-         mp8mGD+a8agaUvm223buneDHbfA1bMuLhNh2Vdxj1iwvPL+naPTi+PehoS/nt9qUjUGS
-         A6qj0+JW+FAXixtRKbumSu3N+yEqTXgR8+nwNGFOzMCLM6iDddz2rtgCCouYDHh8ODWn
-         +W0FCAbBf+0cH86Vge2kaea3HFBJmxI/OqVRaIOAHhZI1Y9rGYMmkhjUYzjAkK8skIrZ
-         vZtg==
-X-Gm-Message-State: AOAM5331a0CAiI7UGnOA3I7YCSlJvXTOkFeUHzQ0HK3gsCX+Oqv24TJF
-        NBeJxzMiGR2m3bhv8S60fJ5dzrvx4+kShQ==
-X-Google-Smtp-Source: ABdhPJzer+uBM4DHKSvvxJIUrdGlXeiXHkO4euT9g3MFoQ2+JOXJheVjysiSEaR8SaAYiXjmzN5sog==
-X-Received: by 2002:ac8:5bc5:0:b0:2f9:2abd:b12e with SMTP id b5-20020ac85bc5000000b002f92abdb12emr15498818qtb.271.1653467660738;
-        Wed, 25 May 2022 01:34:20 -0700 (PDT)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
-        by smtp.gmail.com with ESMTPSA id a4-20020ac844a4000000b002f8f406338fsm950603qto.42.2022.05.25.01.34.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 May 2022 01:34:20 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-2fee010f509so206852727b3.11;
-        Wed, 25 May 2022 01:34:19 -0700 (PDT)
-X-Received: by 2002:a0d:d493:0:b0:300:43da:57f0 with SMTP id
- w141-20020a0dd493000000b0030043da57f0mr4494354ywd.502.1653467659521; Wed, 25
- May 2022 01:34:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <b36280be-9993-9a78-0960-4094efeed1aa@linaro.org>
-In-Reply-To: <b36280be-9993-9a78-0960-4094efeed1aa@linaro.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 25 May 2022 10:34:07 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWL93+r0cofwHKj1k-gUo9nk3OzUf6gtY68sK4JNibyNg@mail.gmail.com>
-Message-ID: <CAMuHMdWL93+r0cofwHKj1k-gUo9nk3OzUf6gtY68sK4JNibyNg@mail.gmail.com>
+        with ESMTP id S241237AbiEYJzg (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 25 May 2022 05:55:36 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3B4B4A3DE;
+        Wed, 25 May 2022 02:55:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=MIME-Version:Content-Type:References:
+        In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=boYhMYqJS9ZZKmtj3OV1/REr5blh9ebURD7076KB97Y=; b=FVjDbBsEUwcv30Ei/FnB31K29O
+        92KxRJBOigwGNqaWmm7YeWwcQ0IjLcBOSd73qNF8OR+XmqAXuvHr5LvF0uNxEtedsdL/76a0mqyFo
+        Yw1lslDNi27mpaY6DTJuoAvHOKW8YLopfQSxR2I2gs8IhOKk1KnMX8yig2CjGlJ0zEcdobSXMUohX
+        O93CCputvseixv9UuKuLbiWstYzlojXLN52ydGTVSbdZaP73KoiZWke6mA4Bmk9dy4uCD2tHkHzh1
+        39xEomNU3cppqQPZ6tIXu8pQd4OBMXM0wi80mFKeWj1MRZatKcwAS4jF4phsGekFsoWIRaFvCAiJv
+        lSXkuv4Q==;
+Received: from [2001:8b0:10b:1::3ae] (helo=u3832b3a9db3152.ant.amazon.com)
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1ntnjc-001ZmZ-ES; Wed, 25 May 2022 09:55:21 +0000
+Message-ID: <eb5ab9553c419b8259f5494664865597b6c5d4db.camel@infradead.org>
 Subject: Re: Getting rid of infradead.org - corrupted subjects
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+From:   David Woodhouse <dwmw2@infradead.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        mark@msapiro.net
 Cc:     workflows@vger.kernel.org,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
         "linux-arm-kernel@lists.infradead.org" 
@@ -58,44 +41,208 @@ Cc:     workflows@vger.kernel.org,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
         Miquel Raynal <miquel.raynal@bootlin.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        David Woodhouse <dwmw2@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+        Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Date:   Wed, 25 May 2022 10:55:18 +0100
+In-Reply-To: <CAMuHMdWL93+r0cofwHKj1k-gUo9nk3OzUf6gtY68sK4JNibyNg@mail.gmail.com>
+References: <b36280be-9993-9a78-0960-4094efeed1aa@linaro.org>
+         <CAMuHMdWL93+r0cofwHKj1k-gUo9nk3OzUf6gtY68sK4JNibyNg@mail.gmail.com>
+Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
+        boundary="=-r1Z7kBTaqyNn1YKF5QsV"
+User-Agent: Evolution 3.36.5-0ubuntu1 
+MIME-Version: 1.0
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-CC dwmw2
 
-On Wed, May 25, 2022 at 10:07 AM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
-> The address list is semi-random as I don't know whom to approach.
->
-> Problem: infradead.org corrupts email subjects by changing:
-> s/,/, /
->
-> Examples:
-> 1. Previous discussion with Uwe about linux-arm-kernel:
-> https://lore.kernel.org/all/20220215125856.es2euyoqo6mp4y2t@pengutronix.de/
->
-> 2. My last email for MTD
-> Modified email:
-> https://lore.kernel.org/linux-mtd/20220408063720.12826-1-krzysztof.kozlowski@linaro.org/
-> Proper email:
-> https://lore.kernel.org/all/3e550deb-7c27-894b-a0b5-62609a60f17f@microchip.com/
->
-> When people use Patchwork or b4, the email from the list is being used,
-> thus the one with a changed subject. Example:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=9547c4e74f6b4b56c2f9e4e7a286ce126fd333fa
-> The subject should be "dt-bindings: mtd: jedec,spi-nor: remove unneeded
-> properties" (no space after coma)
->
-> This leads to real commits with a bit odd subject. At least not the
-> original subject.
->
-> Can we do something about infradead? Get rid of it and move the mailing
-> lists to vger.kernel.org? Or fix it?
->
-> Best regards,
-> Krzysztof
+--=-r1Z7kBTaqyNn1YKF5QsV
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, 2022-05-25 at 10:34 +0200, Geert Uytterhoeven wrote:
+> CC dwmw2
+
+Thanks, Geert.
+
+> On Wed, May 25, 2022 at 10:07 AM Krzysztof Kozlowski
+> <krzysztof.kozlowski@linaro.org> wrote:
+>=20
+> > The address list is semi-random as I don't know whom to approach.
+> > Problem: infradead.org corrupts email subjects by changing:
+> > s/,/, /
+
+I found an old thread on mailman-users which appears to be claiming
+that it's just standard folding as described in RFC2822 =C2=A72.2.3.
+
+https://mail.python.org/pipermail/mailman-users/2007-May/057119.html
+
+2.2.3. Long Header Fields
+
+   Each header field is logically a single line of characters comprising
+   the field name, the colon, and the field body.  For convenience
+   however, and to deal with the 998/78 character limitations per line,
+   the field body portion of a header field can be split into a multiple
+   line representation; this is called "folding".  The general rule is
+   that wherever this standard allows for folding white space (not
+   simply WSP characters), a CRLF may be inserted before any WSP.  For
+   example, the header field:
+
+           Subject: This is a test
+
+   can be represented as:
+
+           Subject: This
+            is a test
+
+But this is folding at a *comma*, not at whitespace. The original
+subject line was (in a single line):
+
+Subject: [PATCH v2] dt-bindings: mtd: jedec,spi-nor: remove unneeded proper=
+ties
+
+... and Mailman 'folded' it in the wrong place to:
+
+Subject: [PATCH v2] dt-bindings: mtd: jedec,
+ spi-nor: remove unneeded properties
+
+That *isn't* proper folding because it didn't happen at a whitespace.
+
+I do need to upgrade to Mailman 3 at some point; I've been
+procrastinating on the basis that it "ain't broke". For the time being
+I've just disabled folding in MM2 with a trivial hack:
+
+--- Message.py.orig	2022-05-25 02:51:05.917145192 -0700
++++ Message.py	2022-05-25 02:50:44.137142069 -0700
+@@ -49,7 +49,7 @@ class Generator(email.Generator.Generato
+        Headers will by default _not_ be folded in attachments.
+     """
+     def __init__(self, outfp, mangle_from_=3DTrue,
+-                 maxheaderlen=3D78, children_maxheaderlen=3D0):
++                 maxheaderlen=3D0, children_maxheaderlen=3D0):
+         email.Generator.Generator.__init__(self, outfp,
+                 mangle_from_=3Dmangle_from_, maxheaderlen=3Dmaxheaderlen)
+         self.__children_maxheaderlen =3D children_maxheaderlen
+
+Looking at http://lists.infradead.org/pipermail/testlist/2022-May/subject.h=
+tml
+it seems to have had the desired effect. Please let me know if not (or
+if there are other side-effects).
+
+Thanks for the report.
+
+--=-r1Z7kBTaqyNn1YKF5QsV
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjIwNTI1MDk1NTE4WjAvBgkqhkiG9w0BCQQxIgQguls9c/w4
+sFxBxbedRUQ4Q77urjYdIZ4S+dJe6S/2DBYwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgCYT6A2MV2/wLWFFBGwl1C4Y9bQemnAgfZ3
+z9KIIpVSRyHSPWPW+9OyVCpzFMtd30VWPF/69k1O5664eUuzLcXAEr4DBSXvCapYOadghhuHscDb
+0Osg/SzsDJoxQaL30NElCOLGDexglswf6rpRFS4038V9CU9/h6pCqo0Hf+maHyM8oUknk4z3xCbA
+deFD3u3DJXc7g5l6SMRVPc9GvmlZKSfl0HYHZC8uG2ZGAmqjZW0LmeBr9l8RArh8HBjzRmkZ9LgV
+oyyJRlQHIPiPqhH8pQPVsPbFNqo/I67fqpm6ibjfJNb05VqWgmAeUGe6bwmNrrA78ZZ7g+DLNVTq
+QJQv229MFaGUrlJcjCh2EqiN4/MynK16PhGA0JMHV3qjFosJ00vBF/mmIS27cSwPX10OQqUhuEjT
+9yEpkwmHmKlwtoNqeYc1PWDvTwMy/9JXfbkXOiLO/9YRhOO/MtcWmkH0UrzX/89vBwa8oYW96MSd
+kFLBrj/0ToNQLzsc3Xn4iR3OTg1LZIFotQch7+Hl0YcSsaZmWiK698xk1UAhC7j+TH5I+L+TKzgL
+oHhzqxeu8DtlrOo3caGftP7f/d+1XEm61mXIE8qeTcwVuFphX+mKpI/oqhw5OufDPikP4TojwWR6
+wdGoifEHIgy+7xmQ50fGqxVwN4Wq9jEO30NbQHp4KwAAAAAAAA==
+
+
+--=-r1Z7kBTaqyNn1YKF5QsV--
+
