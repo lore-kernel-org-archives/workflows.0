@@ -2,77 +2,157 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C0CDC433EF
-	for <workflows@archiver.kernel.org>; Sun, 26 Jun 2022 10:20:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1146C433F5
+	for <workflows@archiver.kernel.org>; Thu, 29 Sep 2022 11:19:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229532AbiFZKUJ (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Sun, 26 Jun 2022 06:20:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53382 "EHLO
+        id S234869AbiI2LT3 (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 29 Sep 2022 07:19:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229513AbiFZKUI (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Sun, 26 Jun 2022 06:20:08 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A2AC120BB
-        for <workflows@vger.kernel.org>; Sun, 26 Jun 2022 03:20:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1656238806;
-        bh=JawSD+wnehZeU7SuraNq+E4KPkiJSSTIeiokJhE6NN4=;
-        h=X-UI-Sender-Class:Date:To:From:Subject;
-        b=kGY5TbuEnHmZC6NAroqclJ7qS0ZKw7YnSyuTgyhzxkxQSclUQfomNySQqO/EKN9NG
-         8ZiPk4exSEl1HwsGOcP5ZXhmk55IEC1u0UiMacirwt4Cue5oaUO8JxGKi+LVbjTsMD
-         l0xFP9KD8IWsaTRBmrI7nvzxJlD3dNeoS0jd21AM=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.178.102] ([46.5.231.21]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MEUz4-1nqVwK1LvW-00G1ik for
- <workflows@vger.kernel.org>; Sun, 26 Jun 2022 12:20:06 +0200
-Message-ID: <dde87559-5248-a8ef-e750-86bcfe2be9e7@gmx.de>
-Date:   Sun, 26 Jun 2022 12:20:05 +0200
+        with ESMTP id S234798AbiI2LT3 (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 29 Sep 2022 07:19:29 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDC6114B841;
+        Thu, 29 Sep 2022 04:19:27 -0700 (PDT)
+Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1odrZc-0002Qp-Ti; Thu, 29 Sep 2022 13:19:24 +0200
+Message-ID: <aa876027-1038-3e4a-b16a-c144f674c0b0@leemhuis.info>
+Date:   Thu, 29 Sep 2022 13:19:24 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-To:     workflows@vger.kernel.org
-Content-Language: en-US
-From:   =?UTF-8?Q?Volker_Wei=c3=9fmann?= <volker.weissmann@gmx.de>
-Subject: Script to see patches used in certain build configuration (from the
- google pixel devs?)
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:w4hB3heq5jpXYRAMSAT4RzckJ+6MZ14BWBv+CivJ+0AiKHh3EUo
- SP4WefSSinZmjn3htyiP5Lj7GC2GdVIp5yX2uGQem1BeLbdRNM6nnIAFc1fFUhY+08uttGC
- Zw6y7FqqJ4mFrlo7zEo+0jN9lfMyFWs47/diy46yW9zsRK9xCCE7zzCx+pJVtAKNvyUPCk/
- 3FYWg8+uYYODkp5XHSIsQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Yk9KQXM+Kvc=:mi5MJmCif5haXiVTkEryd+
- VAbse/9mb8lOv9GxffuYlkz3ZpPgr7tKYKNVMG94E1aWwW5NEapKXI3fGKLwaf9lkU0Wf6Okd
- bKM71QMwuev/gHaGUG1uCccJNkoVC9mxZV9ogra6ndvAZ/tNQD+OHmpg6mMJYkU5cAqY4+Zke
- XR240FBogNIuOrljWTOZ33D+NqXgGm795qGJefIyFkGZCYyHH0cqRIo8tX36LI4M4x4sm7Sz6
- En0ufLzHMndPDguc4weWaGo8ivFQ6nj/ZPuZdgTD9juC7QKkpAP0wB7ezAaPhon0S13zc8y6c
- Cax2wKP4lcOyKRboMGB15kKBCh03XyUj9XX7GfGFzBGpC63PNFgWhlTFj0dkBcrN2wvEQTWZw
- tsXd6ImHguC4L+VatAtSt1+IJAXbCtKdmbqcqO0DYtOjz/JL0vJ/I8kmFtRVuKXcR5xwylRJ4
- N5B1Jv6D6omSkpioY/lglpVggAWDYfTYMws0qKLEoTDXht7BHR9Vtl1SBtQGwklQHszK1I7io
- pWTFKBl4R8Td+w1FcGu8HnIbwhMGtG26C74SD87S0RDox39kD3qZYn+tkgzivQten18v+vBH3
- +xXXAWl+YPJHjb/l126WF1fmym6/LKyh32fughpEvOPOZ2sFEM4fEMu0xdklLik3YOWhyDJ1U
- Ix3ydfs0MdRUrSycHTG4EB4CARpgP2TsnDjzdiurk2J3SmKC8e71iOqISRY+kZA41zJ5+st41
- DZdUY/qaEHSX0MpEh0Ss5l3vtmzDavvTGY9bT6KxoQne7u1TWASQAAWjHUXD7uwWg9zmw121Z
- FWU3FRor0WW4HcHi2gykIreFPo64EQrs49zkHJOVlh5UeRm+YCT0RHC095LWUNSjyv98SmWsa
- XOTlR7fOQVsbw+KieI23y+TO5hVvEd1wAnwQAFBHVtjGAyPROb2mkQoG5eYGs8jG+r9MG+nlx
- pTokyWJ3UGXpMUGRuJ0rGPlxSZGpXi1T2qwEDwgcjnJOJJjlXVAo5B21REix4CxThRPGuH7n2
- ErCLGXplm91EOA2hHzYP65td1jLeGoYG/4ymx+xPNGn3FfaIuTSq7WG0nLn1K3I6Xc3HSrhcB
- Mupf+xFTrQwJ4JJRMzbhbs0V1sPMSkFyUdQHPVe6WYGSVan7YU4nIqzpw==
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Content-Language: en-US, de-DE
+To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     "Artem S. Tashkinov" <aros@gmx.com>,
+        ksummit <ksummit-discuss@lists.linuxfoundation.org>,
+        workflows@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        "regressions@lists.linux.dev" <regressions@lists.linux.dev>
+Subject: Planned changes for bugzilla.kernel.org to reduce the "Bugzilla
+ blues"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1664450367;defc13b9;
+X-HE-SMSGID: 1odrZc-0002Qp-Ti
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Hello,
+Hi!
 
-Greg KH said in a talk [1]:
+TLDR: Core Linux kernel developers are unhappy with the state of
+bugzilla.kernel.org; to improve things I plan to change a few important
+aspects of its configuration, unless somebody comes up with better ideas
+to tackle current problems: (1) Create a catch-all product making it
+totally obvious to submitters that likely nobody will look into the
+ticket. (2) Remove or hide all products & components where the subsystem
+didn't fully commit to look into newly submitted reports. (3) Change the
+text on the front page to make it clear that most kernel bug reports
+need to be sent by mail.
 
-The google pixel phone has a script, that when they do a merge from an
-LTS tree, they actually go through and they show you what patches
-actually apply based on their build configuration.
+I recently brought the state of bugzilla.kernel.org up for discussion on
+the kernel summit and the kernel maintainers summit in sessions about my
+regression tracking efforts. Long story short and rough: in both
+sessions attendees were quite unhappy about the current state and wanted
+things to change for the better. As I brought that topic up, I guess I
+have to get things rolling now.
 
+But before getting into the details, a quick & rough reminder about the
+current state of bugzilla.kernel.org:
 
-Anyone knows where I can find this script?
+ * The server and the software running on it are well maintained by the
+the infrastructure team (Konstantin et al.); many thx for this!
 
+ * Products, components, default assignees, et al. OTOH are heavily
+outdated, incomplete, or wrong: maintaining this is not the job of the
+infrastructure team and nobody else has stepped up to take care of this
+(for a few more details see:
+https://lore.kernel.org/lkml/20220420163223.kz32qomzj3y4hjj5@nitro.local/).
 
-[1] https://youtu.be/HeeoTE9jLjM?t=3D1524
+ * To the best of my knowledge bugzilla.kernel.org was never really
+sanctioned as the official place to report all sorts of kernel bugs:
+only 20 (most of them from the area of ACPI/PM and PCI) out of ~2500
+entries in MAINTAINERS currently tell users to report issues there; most
+other subsystems just mention email contacts, a few (like the DRM
+developers) point reporters to external bugtrackers.
 
+ * Developers of subsystems committed to the bug-tracker afaics usually
+react to reports submitted in bugzilla.kernel.org. A few other
+developers & subsystems keep an eye on reports, too; some do this
+directly, others rely on bugzilla forwarding reports for certain
+products/components by mail to the subsystem's mailing list. Quite some
+or a lot of tickets are not forwarded to any developer or mailing list
+at all.
+
+ * In the end lots of bug and regression reports (even good ones!) never
+get a reply from a developer, as a brief analysis of mine showed
+(https://lore.kernel.org/lkml/6808cd17-b48c-657d-de60-ef9d8bfa151e@leemhuis.info/
+). I at least currently try to work a bit against this by briefly
+looking at each new report and forwarding any by mail that looks like a
+regression worth forwarding (I ignore everything else). Artem S.
+Tashkinov also looks into some (all?) reports and tries to help reporters.
+
+The sessions on kernel summit and the kernel maintainers summit
+discussed the current state only for a few minutes. It's hard to
+summarize these discussions, but let me try to mention the aspects that
+are important for now:
+
+ * In both sessions members of the audience seemed pretty unhappy to me
+about the current state of things.
+
+ * In the kernel summit sessions (recording:
+https://youtu.be/e2SZoUPhDRg?t=5370 ) Len Brown stated that he and
+fellow ACPI/PM developers rely on bugzilla.kernel.org and would need
+some replacement if it's decommissioned.
+
+ * On the maintainers summit (see the last section of
+https://lwn.net/Articles/908324/ for a brief write-up that coined the
+term "Bugzilla blues") someone brought up the upstream development of
+bugzilla the software seems to be dead; there was not even one strong
+advocate for bugzilla.kernel.org and the general vibe tented into the
+direction of "let's get rid of it". But it was also mentioned that
+bugzilla.kernel.org does something useful which will need a replacement:
+a place where reporters can upload big files needed for debugging problems.
+
+In the end that made me settle on this plan of action:
+
+ 1. Finding a replacement for bugzilla will take a while, so for now
+let's try to reduce some of its aspects that are bothering people:
+
+  1a. Create a new product/component that can act as a catch-all bug,
+but makes it pretty clear that nobody might see the report because it's
+not forwarded to anyone. People can use it to upload files for debugging
+and link to them in mailed reports. People unable or unwilling to report
+issues my mail (see 1c) could use it to submit issues, too. The outcome
+then is the same as before, but at least people were told upfront about
+the likely outcome; it also gives users a chance to help each other or
+to coordinate before properly reporting an issue.
+
+  1b. Go through the list of products and components and hide or remove
+*all* where the subsystem didn't fully commit to look into newly
+submitted reports. Minimum requirements to remain listed will be along
+these lines: subsystem mentions bugzilla.kernel.org in MAINTAINERS or a
+developer listed in MAINTAINERS is one of the default assignees in
+bugzilla. Subsystems where bugzilla forwards mails to a mailing list can
+remain listed as well, if the recent history shows the developers look
+into newly filed bugs. I'll use my best judgment in the transition
+process and will file "anyone listening?" bugs if in a doubt.
+
+  1c. Make it obvious on the front-page of bugzilla.kernel.org that most
+kernel developers want bug reports to be submitted by mail; mention the
+subsystems that accept reports there and point to the catch-all bug (see
+1a) as a last straw.
+
+ 2. See if everybody is happy with the new state for the time being; if
+not further fine-tune things or speed up step (3).
+
+ 3. Work out what we want as replacement.
+
+Anyone any comments on this or helpful ideas how to make things even
+better? Otherwise, I'll in a week or two get down and start working on
+realizing the points listed under step (1).
+
+Ciao, Thorsten
