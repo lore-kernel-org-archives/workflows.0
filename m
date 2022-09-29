@@ -2,46 +2,46 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7C0AC4332F
-	for <workflows@archiver.kernel.org>; Thu, 29 Sep 2022 16:44:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13A9DC4332F
+	for <workflows@archiver.kernel.org>; Thu, 29 Sep 2022 19:00:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234740AbiI2QoT (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 29 Sep 2022 12:44:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52618 "EHLO
+        id S229899AbiI2TAP (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 29 Sep 2022 15:00:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235802AbiI2QoS (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 29 Sep 2022 12:44:18 -0400
-X-Greylist: delayed 3894 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 29 Sep 2022 09:44:17 PDT
+        with ESMTP id S229866AbiI2TAM (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 29 Sep 2022 15:00:12 -0400
 Received: from premium237-5.web-hosting.com (premium237-5.web-hosting.com [66.29.146.205])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69E94153EF7;
-        Thu, 29 Sep 2022 09:44:17 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D283732D90;
+        Thu, 29 Sep 2022 12:00:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=sladewatkins.net; s=default; h=To:References:Message-Id:
         Content-Transfer-Encoding:Cc:Date:In-Reply-To:From:Subject:Mime-Version:
         Content-Type:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=bhJ9ijaSrg8Q+iqIaQe6wLGB9ZwmWZRAjaxAvMQnDDY=; b=TmfJx7SJEmrvukW5mmoQnYn35S
-        lfgwfPVrEFMbjnPKdUOEJY0kY2aD6VEChuL2+9nQiA23OFHvMPbfwniErdA8xfv109X4wK4K4paEw
-        ndbIVCPQiGGlKFE3o3xKUMkE+v8CJ/7nnbKzRQCNC7yNv9KqNET+Yha6bRSYk9di8sImT/Lysex0U
-        zrFExlNefn6xeoB2yjUK0iX5p+75PDOmGHI8roUJCPyPZWKr2PSVKMwD6kQ02L+DGvh5VzjhlDgIp
-        lTyDJXFgqP1P1ct9u+ITXKDujYtsYjV7LZA+t8iIUj9LMNUC9+xhtlLQHjjFUldbiNPRIPsVGDSUj
-        b5A63veg==;
-Received: from pool-108-4-135-94.albyny.fios.verizon.net ([108.4.135.94]:49863 helo=smtpclient.apple)
+        bh=eb0khICbQDL4+jyyr8c6E6L4E4XS0/81ahtM8QIqTzo=; b=UrW1D3nlrRLAddd5YLM8QMUKUO
+        VJ6k9TO6qjLzi7BhaH49aB3G+Aqk0sS/ySSbtZmvVhxAJbX3JgZ/HO2KlOU4U9xQM/e67XmslWzkj
+        ZfxZ6POs9H2CgfQhQvtUm5baBZG5W70OvzoO2oBDSvR23QwlRWZ+L7ORm/RZJsN4MWg6MbKL0DnZT
+        cVgq+1PWpnsAfboZ+Hh5IDqejG0gA3hyt0A8M/Ry6FOK/Er5h0iAXnbPiJFFUJ/jONfz9We85iu8i
+        8mmH5jR4T6qFAafUvs9tSYEpJVfm5UhXT/X5J5BOZuDwyJyDFw7kmf5BWNRk6pWXBBxPo6sNyDzka
+        IuTIUnxg==;
+Received: from pool-108-4-135-94.albyny.fios.verizon.net ([108.4.135.94]:54336 helo=smtpclient.apple)
         by premium237.web-hosting.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.95)
         (envelope-from <srw@sladewatkins.net>)
-        id 1odvdC-00HRHw-Jt;
-        Thu, 29 Sep 2022 11:39:22 -0400
+        id 1odylQ-003C8d-CP;
+        Thu, 29 Sep 2022 15:00:04 -0400
 Content-Type: text/plain;
         charset=utf-8
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.1\))
 Subject: Re: Planned changes for bugzilla.kernel.org to reduce the "Bugzilla
  blues"
 From:   Slade Watkins <srw@sladewatkins.net>
-In-Reply-To: <20220929153135.vu43n5kgdj4a3at6@meerkat.local>
-Date:   Thu, 29 Sep 2022 11:39:20 -0400
+In-Reply-To: <YzXK6Px+BrNuuMZH@pendragon.ideasonboard.com>
+Date:   Thu, 29 Sep 2022 15:00:00 -0400
 Cc:     "Artem S. Tashkinov" <aros@gmx.com>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
         Thorsten Leemhuis <linux@leemhuis.info>,
         workflows@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -49,7 +49,7 @@ Cc:     "Artem S. Tashkinov" <aros@gmx.com>,
         "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
         ksummit@lists.linux.dev
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <C4935ACC-65C8-4705-B9FF-A1CA0A648B9D@sladewatkins.net>
+Message-Id: <49D9FA95-4C73-40BA-A112-93DDFD77D1A2@sladewatkins.net>
 References: <aa876027-1038-3e4a-b16a-c144f674c0b0@leemhuis.info>
  <05d149a0-e3de-8b09-ecc0-3ea73e080be3@leemhuis.info>
  <93a37d72-9a88-2eec-5125-9db3d67f5b65@gmx.com>
@@ -57,8 +57,9 @@ References: <aa876027-1038-3e4a-b16a-c144f674c0b0@leemhuis.info>
  <7b427b41-9446-063d-3161-e43eb2e353f9@gmx.com>
  <20220929135325.4riz4ijva2vc7q5p@meerkat.local>
  <95c3384b-53d0-fd6c-6ec5-a7e03fdeddfc@gmx.com>
- <20220929153135.vu43n5kgdj4a3at6@meerkat.local>
-To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+ <F300ED64-5E8E-4060-89DC-C98BC5FF08E6@sladewatkins.net>
+ <YzXK6Px+BrNuuMZH@pendragon.ideasonboard.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 X-Mailer: Apple Mail (2.3696.120.41.1.1)
 X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
 X-AntiAbuse: Primary Hostname - premium237.web-hosting.com
@@ -77,45 +78,53 @@ X-Mailing-List: workflows@vger.kernel.org
 
 Hey there,
 
-> On Sep 29, 2022, at 11:31 AM, Konstantin Ryabitsev =
-<konstantin@linuxfoundation.org> wrote:
+> On Sep 29, 2022, at 12:42 PM, Laurent Pinchart =
+<laurent.pinchart@ideasonboard.com> wrote:
 >=20
-> On Thu, Sep 29, 2022 at 02:22:10PM +0000, Artem S. Tashkinov wrote:
->> * Delete all the components.
->> * Leave a catch-all one.
->> * Let bug reports rot because no one will ever see them. Almost just
->> like now. Don't remind me of mailing lists.
->=20
-> This is my proposal, except also:
->=20
-> 1. post all new bugs and comments to a public-inbox feed that people =
-can query
->   via lore.kernel.org and tooling like lei.
+> E-mails are not that bad to report issues, but they can't provide the
+> core feature that any bug tracker oughts to have: tracking. There's no
+> way, with the tools we have at the moment (including public-inbox, b4
+> and lei), to track the status of bug reports and fixes. Even for =
+patches
+> we need to rely on patchwork, and that's far from perfect.
 
-Honestly, giving it a lot more thought, this is a brilliant idea.
+Yeah, I (sort of) changed my mind on this [1], but you=E2=80=99re right: =
+it lacks tracking issues from reported-to-fixed, and unless something =
+was engineered specifically for it, we=E2=80=99re out of luck.
 
 >=20
->> Mailing lists will not work for such a huge project. Period. In the
->> early 90s they worked, but we are 25 years later with millions more
->> users. With a ton more of a ton more complicated hardware.
->=20
-> We've recognized this a while ago, which is why our efforts have been =
-targeted
-> at query-based message feeds. Hence, tools like lore.kernel.org and =
-lei. It's
-> a work in progress, for sure, but it doesn't require any "everyone =
-must switch
-> workflows today" kind of coordination, and avoids introducing single =
-points of
-> failure by making it easy to replicate everything to mirrored systems.
+> I agree with the comment that was repeated multiple times: it's quite
+> pointless to improve the tooling if we don't first improve the =
+process,
+> and find a way to allocate people and time to handling bug reports. =
+Even
+> if bugzilla has reached EOL upstream, and even if it isn't perfect, =
+the
+> instance runs today, and gives us a tracker that could be used to =
+design
+> a proper process and implement it, should we desire to do so. There's =
+no
+> chicken-and-egg issue to be solved where lack of tooling would prevent
+> the implementation of a bug tracking process. I'm quite confident =
+that,
+> if we manage to implement a bug tracking process, we will find a way =
+to
+> get the tooling we need, be it through bugzilla or something else.
 
-My parents taught me growing up that you can only ever _improve_: you =
-can never be perfect.=20
+Right.=20
 
-Needless to say, it=E2=80=99s worth a shot.
+To be honest, I think the best move from here is improve the process =
+first, then worry about everything else when the time comes. Can=E2=80=99t=
+ really go any further without first addressing the process in my =
+opinion. The important thing to remember is that nothing implemented =
+will ever be "perfect.=E2=80=9D That=E2=80=99s just not possible. =
+However, we _can_ make something that=E2=80=99ll work and continue =
+refining it over time.=20
 
+[1] =
+https://lore.kernel.org/lkml/C4935ACC-65C8-4705-B9FF-A1CA0A648B9D@sladewat=
+kins.net/
 
-Best,
-
+Cheers,
 -srw
 
