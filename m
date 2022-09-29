@@ -2,28 +2,28 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDF2FC433FE
-	for <workflows@archiver.kernel.org>; Thu, 29 Sep 2022 14:03:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 685E6C433F5
+	for <workflows@archiver.kernel.org>; Thu, 29 Sep 2022 14:11:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235044AbiI2ODC (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 29 Sep 2022 10:03:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59942 "EHLO
+        id S235320AbiI2OL1 (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 29 Sep 2022 10:11:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235485AbiI2ODB (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 29 Sep 2022 10:03:01 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C2061591CA;
-        Thu, 29 Sep 2022 07:02:59 -0700 (PDT)
-Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1odu7t-0007ZW-A8; Thu, 29 Sep 2022 16:02:57 +0200
-Message-ID: <4f704d2f-12b5-8d6a-357e-d79b1e871ed7@leemhuis.info>
-Date:   Thu, 29 Sep 2022 16:02:56 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Content-Language: en-US, de-DE
-To:     Steven Rostedt <rostedt@goodmis.org>
+        with ESMTP id S234453AbiI2OLY (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 29 Sep 2022 10:11:24 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F5811684F2;
+        Thu, 29 Sep 2022 07:11:23 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 7E428CE21BF;
+        Thu, 29 Sep 2022 14:11:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB9E7C433C1;
+        Thu, 29 Sep 2022 14:11:18 +0000 (UTC)
+Date:   Thu, 29 Sep 2022 10:12:31 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Thorsten Leemhuis <linux@leemhuis.info>
 Cc:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
         "Artem S. Tashkinov" <aros@gmx.com>, workflows@vger.kernel.org,
         LKML <linux-kernel@vger.kernel.org>,
@@ -31,47 +31,33 @@ Cc:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
         ksummit@lists.linux.dev
-References: <aa876027-1038-3e4a-b16a-c144f674c0b0@leemhuis.info>
- <05d149a0-e3de-8b09-ecc0-3ea73e080be3@leemhuis.info>
- <20220929094753.6bba89d8@gandalf.local.home>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
 Subject: Re: Planned changes for bugzilla.kernel.org to reduce the "Bugzilla
  blues"
-In-Reply-To: <20220929094753.6bba89d8@gandalf.local.home>
-Content-Type: text/plain; charset=UTF-8
+Message-ID: <20220929101231.58c052f1@gandalf.local.home>
+In-Reply-To: <4f704d2f-12b5-8d6a-357e-d79b1e871ed7@leemhuis.info>
+References: <aa876027-1038-3e4a-b16a-c144f674c0b0@leemhuis.info>
+        <05d149a0-e3de-8b09-ecc0-3ea73e080be3@leemhuis.info>
+        <20220929094753.6bba89d8@gandalf.local.home>
+        <4f704d2f-12b5-8d6a-357e-d79b1e871ed7@leemhuis.info>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1664460180;fe8703b0;
-X-HE-SMSGID: 1odu7t-0007ZW-A8
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On 29.09.22 15:47, Steven Rostedt wrote:
-> On Thu, 29 Sep 2022 13:33:53 +0200
-> Thorsten Leemhuis <linux@leemhuis.info> wrote:
-> 
-> Thanks Thorsten for doing this.
+On Thu, 29 Sep 2022 16:02:56 +0200
+Thorsten Leemhuis <linux@leemhuis.info> wrote:
 
-Thx for saying this, as I fear it in the end will again be more work
-then anticipated -- but well, that's how life often is :-D
+> Ohh, yeah, sorry, should have mentioned this. Don't worry, I'm aware of
+> this particular and a few similar products/components in bugzilla. I
+> don't plan changing any of them, unless something unforeseen or a very
+> good reason comes up (for example if they're obviously unused for years
+> or something like that).
 
->>>  * In the kernel summit sessions (recording:
->>> https://youtu.be/e2SZoUPhDRg?t=5370 ) Len Brown stated that he and
->>> fellow ACPI/PM developers rely on bugzilla.kernel.org and would need
->>> some replacement if it's decommissioned.
-> 
-> I also use bugzilla.kernel.org with trace-cmd/kernelshark and the
-> libraries, although I don't really use it for the Linux tracing subsystem
-> (but I probably should :-/).
-> 
-> That is, the tools portion of bugzilla is not part of the MAINTAINERS file
-> (that I know of), so probably shouldn't be affected by this.
+Well, years of not being used may not be a good indicator. I use bugzilla
+as a dumping ground of my "todo lists". And I find sometimes it may take
+years before I get to them ;-)
 
-Ohh, yeah, sorry, should have mentioned this. Don't worry, I'm aware of
-this particular and a few similar products/components in bugzilla. I
-don't plan changing any of them, unless something unforeseen or a very
-good reason comes up (for example if they're obviously unused for years
-or something like that).
-
-Ciao, Thorsten
-
+-- Steve
