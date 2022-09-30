@@ -2,57 +2,52 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA14AC433F5
-	for <workflows@archiver.kernel.org>; Fri, 30 Sep 2022 17:49:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E7A5C433F5
+	for <workflows@archiver.kernel.org>; Fri, 30 Sep 2022 20:05:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230469AbiI3RtM (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 30 Sep 2022 13:49:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41766 "EHLO
+        id S232154AbiI3UFU (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 30 Sep 2022 16:05:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230017AbiI3RtL (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Fri, 30 Sep 2022 13:49:11 -0400
-Received: from premium237-5.web-hosting.com (premium237-5.web-hosting.com [66.29.146.205])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80F461E16E2;
-        Fri, 30 Sep 2022 10:49:10 -0700 (PDT)
+        with ESMTP id S229730AbiI3UFT (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Fri, 30 Sep 2022 16:05:19 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8424E21C6;
+        Fri, 30 Sep 2022 13:05:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sladewatkins.net; s=default; h=To:References:Message-Id:
-        Content-Transfer-Encoding:Cc:Date:In-Reply-To:From:Subject:Mime-Version:
-        Content-Type:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=2DQAQ/DVjh9XJe012TirfWSDIuPuQzX5Pl4j7t64C7A=; b=LnBYJzWknlr1GcKhsJVE5Vu79Y
-        U7ZfmVcDW/zC1vgb341/sIf1Mq0PPYkDZ+n5YLij7WdErKFbDr+qVw99C6yN8QWVGTP5gmCiCDGaE
-        8xrj8JFgm80iyogpG3q4KyWdzhrpWRehX6AHc7g1VogKItDW7X7te9G3Y3sk+wJqrOlnsH4MYBwrY
-        DRyCpo9EG7hdZmDNt6nHtg9dZQR9yVHP3P6HatMaixOZbrzmrIiPzEweURcfbflOmvZOfmMK+id5K
-        kxe1ifmIzPKgYZc6YnKxZj8k2KYK+IU0wxEC+nYs8kgaZ6lUc3BAfQBKjXg46akxgb3hTA74ACZNG
-        cwWr/sjw==;
-Received: from pool-108-4-135-94.albyny.fios.verizon.net ([108.4.135.94]:62270 helo=smtpclient.apple)
-        by premium237.web-hosting.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.95)
-        (envelope-from <srw@sladewatkins.net>)
-        id 1oeK8J-00963m-7O;
-        Fri, 30 Sep 2022 13:49:07 -0400
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.1\))
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=gxAcXgV1LDV4vzBWpZ/qZt853xhT17W2/uV47tPaqec=; b=LI64qn7u3WVEHhykrURq5oQUi+
+        RZjHefVco06xCFv3XqVdv3rbhN4RFM2YjOHvpeQVpRwO/TpyyWNokGebc34K9/A2S6MLkOgVbBb8f
+        THhsbGenA+GcI6tkk55Bfb80Td5OUHDX2QVd2QLPmA3uus44kVsvhDye7aAhv6AZ4c1p8xd0W9+sM
+        oVpClL97m5g22SEbDskOTRk+QcXcw4o/A7f7VSlrFEYeyVPaR6RpRuqc5q/3Mk8goImg5Ji6NFqzk
+        Ni4POOTDsF50Y8tMtcRJk/IrZ1BQfI9pqiCKp6ZE83gYNQnZ06SLObfSp/Qc2lQe1mBPvHzVgtOKb
+        hgibOMzg==;
+Received: from [2601:1c2:d80:3110::a2e7]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1oeMFN-00BJGq-Vv; Fri, 30 Sep 2022 20:04:34 +0000
+Message-ID: <5c6a16c6-f762-9fcf-714e-3dd98137c556@infradead.org>
+Date:   Fri, 30 Sep 2022 13:04:30 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
 Subject: Re: Planned changes for bugzilla.kernel.org to reduce the "Bugzilla
  blues"
-From:   Slade Watkins <srw@sladewatkins.net>
-In-Reply-To: <SJ1PR11MB60836F8B9E045C5542D01ADAFC569@SJ1PR11MB6083.namprd11.prod.outlook.com>
-Date:   Fri, 30 Sep 2022 13:49:01 -0400
-Cc:     "Bird, Tim" <Tim.Bird@sony.com>,
+Content-Language: en-US
+To:     "Luck, Tony" <tony.luck@intel.com>,
+        "Bird, Tim" <Tim.Bird@sony.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
+        Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     Slade Watkins <srw@sladewatkins.net>,
         "Artem S. Tashkinov" <aros@gmx.com>,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
         "workflows@vger.kernel.org" <workflows@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+        "Torvalds, Linus" <torvalds@linux-foundation.org>,
         "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
         "ksummit@lists.linux.dev" <ksummit@lists.linux.dev>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <7A947768-A4CC-4BE8-AFF3-056CAE266674@sladewatkins.net>
 References: <aa876027-1038-3e4a-b16a-c144f674c0b0@leemhuis.info>
  <05d149a0-e3de-8b09-ecc0-3ea73e080be3@leemhuis.info>
  <93a37d72-9a88-2eec-5125-9db3d67f5b65@gmx.com>
@@ -66,59 +61,35 @@ References: <aa876027-1038-3e4a-b16a-c144f674c0b0@leemhuis.info>
  <Yzbtuz6L1jlDCf9/@pendragon.ideasonboard.com>
  <BYAPR13MB250377AAFCC43AC34E244795FD569@BYAPR13MB2503.namprd13.prod.outlook.com>
  <SJ1PR11MB60836F8B9E045C5542D01ADAFC569@SJ1PR11MB6083.namprd11.prod.outlook.com>
-To:     "Luck, Tony" <tony.luck@intel.com>
-X-Mailer: Apple Mail (2.3696.120.41.1.1)
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - premium237.web-hosting.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - sladewatkins.net
-X-Get-Message-Sender-Via: premium237.web-hosting.com: authenticated_id: srw@sladewatkins.net
-X-Authenticated-Sender: premium237.web-hosting.com: srw@sladewatkins.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-From-Rewrite: unmodified, already matched
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <SJ1PR11MB60836F8B9E045C5542D01ADAFC569@SJ1PR11MB6083.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Hey:
 
-> On Sep 30, 2022, at 1:28 PM, Luck, Tony <tony.luck@intel.com> wrote:
->=20
->> E-mails sent from a web interface could have as much structure as =
-you'd like.
->> So one avenue would be to set up a nice interface for bug reporting, =
-that just
->> delivered the form data in e-mail format to the proposed =
-bug-receiving mail list.
->=20
-> Web interfaces have the advantage that they can be full of boxes which =
-indicate
-> useful details to supply. Like what kernel version? Did this work on =
-an older version,
-> is so, which one? Which CPU vendor/model are you using? Is there an =
-error message?
-> Are there warnings in the console log before the error? Can you upload =
-a full console log?
+
+On 9/30/22 10:28, Luck, Tony wrote:
+>> E-mails sent from a web interface could have as much structure as you'd like.
+>> So one avenue would be to set up a nice interface for bug reporting, that just
+>> delivered the form data in e-mail format to the proposed bug-receiving mail list.
+> 
+> Web interfaces have the advantage that they can be full of boxes which indicate
+> useful details to supply. Like what kernel version? Did this work on an older version,
+> is so, which one? Which CPU vendor/model are you using? Is there an error message?
+> Are there warnings in the console log before the error? Can you upload a full console log?
 > Does this happen repeatably? What are the steps to reproduce?
+> 
+> Etc.etc.
 
-Not to mention, they have the advantage of being faster, in a lot of =
-cases. (Sometimes, just a few keystrokes and an issue is filed. Saves =
-everyone time.)
+We have Documentation for all of that, but (a) people don't read documentation
+and/or (b) it's too longwinded (not brief).
 
-> Sometimes it takes a few round trips by e-mail to establish the =
-baseline facts.
+> Sometimes it takes a few round trips by e-mail to establish the baseline facts.
 
-+1 to this, it=E2=80=99s much easier to have that information =
-immediately at hand. It helps no one when you have to wait for it all to =
-trickle via email taking days if not weeks. Waste of everyone=E2=80=99s =
-time, in my mind.
+Ack.
 
-As I=E2=80=99ve said=E2=80=94my opinion is that email is good for =
-discussions, but  is not great for bug reports (at least, the initial =
-ones that have all the base information.)=20
-
--srw
-
+-- 
+~Randy
