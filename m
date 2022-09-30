@@ -2,96 +2,109 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 015E3C433FE
-	for <workflows@archiver.kernel.org>; Thu, 29 Sep 2022 20:26:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67870C433FE
+	for <workflows@archiver.kernel.org>; Fri, 30 Sep 2022 08:47:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229511AbiI2U0W (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 29 Sep 2022 16:26:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51012 "EHLO
+        id S231172AbiI3Ire (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 30 Sep 2022 04:47:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229509AbiI2U0V (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 29 Sep 2022 16:26:21 -0400
-Received: from premium237-5.web-hosting.com (premium237-5.web-hosting.com [66.29.146.205])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92EC4FB33E;
-        Thu, 29 Sep 2022 13:26:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sladewatkins.net; s=default; h=To:References:Message-Id:
-        Content-Transfer-Encoding:Cc:Date:In-Reply-To:From:Subject:Mime-Version:
-        Content-Type:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=+AfdzDbB6qFHwhHUz93W6CYPO+fA//BDSU2BSgua2ic=; b=f6tN5l7rsIrslJiGjUQ686RN10
-        E+xInOf2oYk4nJKU571gUNBhesBhcAG9uCYE+N6V0QRBFAVQjsS9r06z+Xfzxm57BjC7jUjVQVcDO
-        zQ+v+kWFDvFUaa96L88/t7KUb7TE9gtrCa5II5AmQBZEktvZSN/jIy0Li/szoCWNA0P1ksMrw2BIS
-        nnrv3O/TooLFtpzhtU18ruso1XDggw0ZK9IREQVe3h24qQByXQLaEv7aD1+fNWax+Kove7W/JAzk5
-        r7EQBhkFOLvJ5/7YxCShyNCliWWHVekfjIbUa/jHpu2w4jy8W/44fXMqrsCXNYMjU2l7Pkjms8Kwv
-        JMHb5jrg==;
-Received: from pool-108-4-135-94.albyny.fios.verizon.net ([108.4.135.94]:55375 helo=smtpclient.apple)
-        by premium237.web-hosting.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.95)
-        (envelope-from <srw@sladewatkins.net>)
-        id 1oe06s-004cQC-Bb;
-        Thu, 29 Sep 2022 16:26:18 -0400
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.1\))
-Subject: Re: Planned changes for bugzilla.kernel.org to reduce the "Bugzilla
- blues"
-From:   Slade Watkins <srw@sladewatkins.net>
-In-Reply-To: <591ab7d4-b283-32bf-13d8-419a5b91c365@gmx.com>
-Date:   Thu, 29 Sep 2022 16:26:15 -0400
-Cc:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        workflows@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        with ESMTP id S229571AbiI3Ird (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Fri, 30 Sep 2022 04:47:33 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA83B154468;
+        Fri, 30 Sep 2022 01:47:31 -0700 (PDT)
+Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1oeBg9-0005wX-SR; Fri, 30 Sep 2022 10:47:29 +0200
+Message-ID: <5d15ec50-e0b7-dc90-9060-3583633070e8@leemhuis.info>
+Date:   Fri, 30 Sep 2022 10:47:29 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Content-Language: en-US, de-DE
+To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        "Artem S. Tashkinov" <aros@gmx.com>
+Cc:     workflows@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
         ksummit@lists.linux.dev
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <F6A94603-563D-4627-A62F-9B9A48F3A3AD@sladewatkins.net>
 References: <aa876027-1038-3e4a-b16a-c144f674c0b0@leemhuis.info>
  <05d149a0-e3de-8b09-ecc0-3ea73e080be3@leemhuis.info>
  <93a37d72-9a88-2eec-5125-9db3d67f5b65@gmx.com>
  <20220929130410.hxtmwmoogzkwcey7@meerkat.local>
- <7b427b41-9446-063d-3161-e43eb2e353f9@gmx.com>
- <20220929135325.4riz4ijva2vc7q5p@meerkat.local>
- <95c3384b-53d0-fd6c-6ec5-a7e03fdeddfc@gmx.com>
- <20220929153135.vu43n5kgdj4a3at6@meerkat.local>
- <591ab7d4-b283-32bf-13d8-419a5b91c365@gmx.com>
-To:     "Artem S. Tashkinov" <aros@gmx.com>
-X-Mailer: Apple Mail (2.3696.120.41.1.1)
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - premium237.web-hosting.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - sladewatkins.net
-X-Get-Message-Sender-Via: premium237.web-hosting.com: authenticated_id: srw@sladewatkins.net
-X-Authenticated-Sender: premium237.web-hosting.com: srw@sladewatkins.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-From-Rewrite: unmodified, already matched
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: Planned changes for bugzilla.kernel.org to reduce the "Bugzilla
+ blues"
+In-Reply-To: <20220929130410.hxtmwmoogzkwcey7@meerkat.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1664527651;18c2ace7;
+X-HE-SMSGID: 1oeBg9-0005wX-SR
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Hi,
+On 29.09.22 15:04, Konstantin Ryabitsev wrote:
+> On Thu, Sep 29, 2022 at 12:22:35PM +0000, Artem S. Tashkinov wrote:
+> [...]
+> We do have ability to fund development efforts -- LF has been the primary
+> sponsor behind public-inbox.org over the past 3 years. However, there must be
+> a clear, strong, and well-articulated mandate from the community. From what I
+> heard, the vast majority of maintainers simply want a web form that would
+> allow someone to:
+> 
+> 1. clearly state what kernel version they are using
+> 2. clearly describe what they were trying to do
+> 3. explain what they expected vs. what they got
+> 4. attach any files
+> 5. give this bug report a unique identifier
 
-> On Sep 29, 2022, at 12:06 PM, Artem S. Tashkinov <aros@gmx.com> wrote:
->=20
-> On 9/29/22 15:31, Konstantin Ryabitsev wrote:
->>=20
->>=20
->> In fact, he probably did this by replying to emails, not via the web
->> interface.
->=20
-> Nope, I CC'ed him.
+Sometimes there are days where I think "let's go down the 'do everything
+by mail' rabbit hole some more and couple a pastebin and a somewhat
+improved regzbot with an app (usable both locally and on the web) that
+helps users preparing a report they can then send with their usual
+mailer". And then there are days "ohh, no, that might be a totally
+stupid thing to do". :-/
 
-I think you can still reply via email if you=E2=80=99re a Cc. Been a =
-while though.=20
+> Then a designated person would look through the bug report and either:
+> 
+> a. quick-close it (with the usual "talk to your distro" or "don't use a
+>    tainted kernel" etc)
 
-Regardless =E2=80=94 not the point of the thread so it=E2=80=99s not =
-worth arguing about.
+I think having some app would be good here, as it could help gathering
+everything and catch problems early, to prevent users from spending a
+lot of time on preparing a report that will be ignored.
 
--srw
+> b. identify the responsible maintainers and notify them
+> 
+> The hard part is not technical -- the hard part is that "designated person."
 
++1
+
+> Being a bugmaster is a thankless job that leads to burnout, regardless of how
+> well you are paid. Everyone is constantly irate at you from both ends [...]
+
+Tell me about it. Nevertheless I sometimes wonder if I should give it a
+try once I got all this regression tracking thing established somewhat
+more, as in the end there I'm kind of a bugmaster for regressions already...
+
+> Before we try to fix/replace bugzilla,
+
+Just to be sure: I assume you meant "replacing bugzilla or fixing it for
+real" here, and not my band-aid efforts outlined at the start of this
+thread? Or do you have a problem with what I proposed to at least make
+things less bad for now?
+
+> we really need to figure out the entire
+> process and pinpoint who is going to be the one in charge of bug reports. If
+> you think that LF should establish a fund for a position like that, then you
+> should probably approach LF fellows (Greg KH, Shuah Khan), who can then talk
+> to LF management. The IT team will be happy to support you with the tooling,
+> but tooling should come second to that -- otherwise we'll just be replacing an
+> old and rusty dumpster on fire with a new and shiny dumpster on fire.
+
++1
+
+Ciao, Thorsten
