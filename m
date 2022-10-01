@@ -2,45 +2,53 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53CA7C433FE
-	for <workflows@archiver.kernel.org>; Fri, 30 Sep 2022 20:29:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 707F5C433FE
+	for <workflows@archiver.kernel.org>; Sat,  1 Oct 2022 01:22:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231612AbiI3U3U (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 30 Sep 2022 16:29:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45628 "EHLO
+        id S232685AbiJABW1 (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 30 Sep 2022 21:22:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231157AbiI3U3T (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Fri, 30 Sep 2022 16:29:19 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3218216F865;
-        Fri, 30 Sep 2022 13:29:18 -0700 (PDT)
-Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1oeMdD-0002Kj-6J; Fri, 30 Sep 2022 22:29:11 +0200
-Message-ID: <3a036077-2cad-45c5-c5a3-9f4cb3288b69@leemhuis.info>
-Date:   Fri, 30 Sep 2022 22:29:08 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Content-Language: en-US, de-DE
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        "Luck, Tony" <tony.luck@intel.com>,
+        with ESMTP id S232541AbiJABVo (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Fri, 30 Sep 2022 21:21:44 -0400
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7A3914DEAC;
+        Fri, 30 Sep 2022 18:18:50 -0700 (PDT)
+Received: from letrec.thunk.org ([50.224.35.3])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 2911IDJQ003923
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 30 Sep 2022 21:18:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+        t=1664587096; bh=VVrmG+L77k+A4mbQHLm8g6lUcgS5dhy5YDDgl23YS0g=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=n93EJazXxkEDN2ciQ/OumDVDBxmMjqxzZBRYygSMro0tqBMulkfPC5wUS660vCKS3
+         gnP59ewmoUlv4B3lNghs2Zp+VEeDF0HEaKXdVbU0/iXmxTApirywEG8V3R27Rw0bKE
+         tyUBrevRfOCC1r0Y/Th2+zWyOE1xr+hNmScueZk9uhaoBzEmB7vXGxEcmxJT/WyoXX
+         gsaZjNFwGgqBKrw2NmebGrkmI5WXnV4CtwRhNWPvf3gcnvI5TaD6Eqp2IFrOsPYrok
+         bO3AJQ9n51N/v92h8JTuyIOg9R+YPPJKHdA0D377drQs4V0sR3GiiJw2azohWVC1fk
+         iLbz3cs5DlGyQ==
+Received: by letrec.thunk.org (Postfix, from userid 15806)
+        id 47D538C2AAF; Fri, 30 Sep 2022 21:18:13 -0400 (EDT)
+Date:   Fri, 30 Sep 2022 21:18:13 -0400
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     "Artem S. Tashkinov" <aros@gmx.com>,
         "Bird, Tim" <Tim.Bird@sony.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Slade Watkins <srw@sladewatkins.net>,
-        "Artem S. Tashkinov" <aros@gmx.com>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Slade Watkins <srw@sladewatkins.net>,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
         "workflows@vger.kernel.org" <workflows@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Torvalds, Linus" <torvalds@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
         "ksummit@lists.linux.dev" <ksummit@lists.linux.dev>
-References: <aa876027-1038-3e4a-b16a-c144f674c0b0@leemhuis.info>
- <05d149a0-e3de-8b09-ecc0-3ea73e080be3@leemhuis.info>
- <93a37d72-9a88-2eec-5125-9db3d67f5b65@gmx.com>
- <20220929130410.hxtmwmoogzkwcey7@meerkat.local>
- <7b427b41-9446-063d-3161-e43eb2e353f9@gmx.com>
+Subject: Re: Planned changes for bugzilla.kernel.org to reduce the "Bugzilla
+ blues"
+Message-ID: <YzeVVV+nPaxsqS0V@mit.edu>
+References: <7b427b41-9446-063d-3161-e43eb2e353f9@gmx.com>
  <20220929135325.4riz4ijva2vc7q5p@meerkat.local>
  <95c3384b-53d0-fd6c-6ec5-a7e03fdeddfc@gmx.com>
  <F300ED64-5E8E-4060-89DC-C98BC5FF08E6@sladewatkins.net>
@@ -48,53 +56,49 @@ References: <aa876027-1038-3e4a-b16a-c144f674c0b0@leemhuis.info>
  <a86adc6d-05db-ec2e-c5de-d280aad9fb8a@leemhuis.info>
  <Yzbtuz6L1jlDCf9/@pendragon.ideasonboard.com>
  <BYAPR13MB250377AAFCC43AC34E244795FD569@BYAPR13MB2503.namprd13.prod.outlook.com>
- <SJ1PR11MB60836F8B9E045C5542D01ADAFC569@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <5c6a16c6-f762-9fcf-714e-3dd98137c556@infradead.org>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: Planned changes for bugzilla.kernel.org to reduce the "Bugzilla
- blues"
-In-Reply-To: <5c6a16c6-f762-9fcf-714e-3dd98137c556@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1664569758;febb40a3;
-X-HE-SMSGID: 1oeMdD-0002Kj-6J
+ <3cfaef48-744f-000f-1be5-6f96d64dea24@gmx.com>
+ <YzcdnnjJA4M09dNH@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YzcdnnjJA4M09dNH@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On 30.09.22 22:04, Randy Dunlap wrote:
+On Fri, Sep 30, 2022 at 07:47:26PM +0300, Laurent Pinchart wrote:
+> > Debian uses an email based bug tracker and you know what? Most people
+> > avoid it like a plague. It's a hell on earth to use. Ubunutu's Launchpad
+> > which looks and feels like Bugzilla is a hundred times more popular.
 > 
-> 
-> On 9/30/22 10:28, Luck, Tony wrote:
->>> E-mails sent from a web interface could have as much structure as you'd like.
->>> So one avenue would be to set up a nice interface for bug reporting, that just
->>> delivered the form data in e-mail format to the proposed bug-receiving mail list.
->>
->> Web interfaces have the advantage that they can be full of boxes which indicate
->> useful details to supply. Like what kernel version? Did this work on an older version,
->> is so, which one? Which CPU vendor/model are you using? Is there an error message?
->> Are there warnings in the console log before the error? Can you upload a full console log?
->> Does this happen repeatably? What are the steps to reproduce?
->>
->> Etc.etc.
-> 
-> We have Documentation for all of that, but (a) people don't read documentation
-> and/or (b) it's too longwinded (not brief).
+> It would be pretty sad if the only options we could come up with for bug
+> tracking would be either popular with reporters and ignored by
+> maintainers, or the other way around. Ideally we wouldn't have to decide
+> which of those two classes of users to prioritize, but I fear that,
+> given resource starvation, we'll have to make a decision there that will
+> be unpopular with one of the two sides.
 
-Yup. But as the one that is partly (mainly?) responsible for "(b)",
-please allow me to quote the last sentence of reporting-issues.rst here:
+Funny thing.  I've largely given up on getting any kind of useful bug
+report from Launchpad, so I've largely ignored it.  In contast, the
+bug reports I get for e2fsprogs from Debian are generally far more
+actionable, with bug reports that have all of the data so I can
+actually root cause the problem, and help the user.
 
-"""The main author of this text hopes documenting the state of the art
-will lay some groundwork to improve the situation over time."""
+So Launchpad may be pretty, but perhaps because of selection bias, the
+bug reports I've seen there are generally a waste of my time, and if
+I'm going to choose which users I'm going to help for ***free***, it's
+going to be the one which is far less frustrating to me as the
+volunteer.
 
-IOW: I really hope we over time can shorten that text somewhat (or even
-a lot?) by...
+"100 times more popular" is not necessarily a feature if what we get
+is 1000 times the noise.
 
-* making some things a lot easier that currently are unnecessarily hard
+> > Sometimes programmers have to realize that most people around are not as
+> > smart as they are.
 
-* hiding some things in a reporting app or something like that (ideally
-usable on the web and locally) that only bothers reporters with tainted
-status, bisection, decoding of stack-traces, and things like that if
-they are relevant in the particular case
+Given my personal experience having seen bug repors from Launchpad,
+I'm sure that's true.  The question is whether I want to engage with
+people who can't me decent bug reports...  (or who are just asking for
+free consulting help; there's a lot of that too).
 
-Ciao, Thorsten
+     	    	       	     	       - Ted
