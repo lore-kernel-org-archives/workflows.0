@@ -2,87 +2,105 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1538C433FE
-	for <workflows@archiver.kernel.org>; Sun,  2 Oct 2022 17:22:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C774EC433FE
+	for <workflows@archiver.kernel.org>; Sun,  2 Oct 2022 17:58:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229942AbiJBRWZ (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Sun, 2 Oct 2022 13:22:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37846 "EHLO
+        id S229831AbiJBR6E (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Sun, 2 Oct 2022 13:58:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229865AbiJBRWX (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Sun, 2 Oct 2022 13:22:23 -0400
-Received: from premium237-5.web-hosting.com (premium237-5.web-hosting.com [66.29.146.205])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A4A426106;
-        Sun,  2 Oct 2022 10:22:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sladewatkins.net; s=default; h=To:References:Message-Id:
-        Content-Transfer-Encoding:Cc:Date:In-Reply-To:From:Subject:Mime-Version:
-        Content-Type:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=WrPbaSzv/4VTpUQ9MnAyS53i5Kj6rLDp3NY7/tDVztw=; b=OvQlOx5ZZw4CP48AFNVI2deyfe
-        Ol30g08ywaOg9bD3puD/qsPlDBK12Mg5FB11JR0RjpSX5yAwO6irp1AImZd4Wgc3OJeo+HpuZhEIO
-        TN97f03Vn0rleSTFppqLyCJzZhe4Nz4BHJz0tF9mh7N2gWQJF/o+lnaai7R9u37fj4Ftx5DMBHSv7
-        UTqFZIB+miCew9pUwR+HRUJiokFDWu4C47FlC3H+aBtQ5ixJzhE/44uTHSFy7kk2Pbn6jnYSOLqAz
-        pbcbDRzQbW1S9ENq5l1kncNBGezXOarq7RdESeDiJZt1rU9IKxgxrhB6KFrg9WvH0CBWpgkx89D9t
-        jlF/SVyQ==;
-Received: from pool-108-4-135-94.albyny.fios.verizon.net ([108.4.135.94]:59397 helo=smtpclient.apple)
-        by premium237.web-hosting.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.95)
-        (envelope-from <srw@sladewatkins.net>)
-        id 1of2fU-006dyC-VR;
-        Sun, 02 Oct 2022 13:22:21 -0400
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.1\))
-Subject: Re: Planned changes for bugzilla.kernel.org to reduce the "Bugzilla
- blues"
-From:   Slade Watkins <srw@sladewatkins.net>
-In-Reply-To: <Yzm0mia7ndwFGk2c@ZenIV>
-Date:   Sun, 2 Oct 2022 13:22:14 -0400
-Cc:     "Artem S. Tashkinov" <aros@gmx.com>, Theodore Ts'o <tytso@mit.edu>,
+        with ESMTP id S229714AbiJBR57 (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Sun, 2 Oct 2022 13:57:59 -0400
+Received: from 1wt.eu (wtarreau.pck.nerim.net [62.212.114.60])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 51B7E3A17A;
+        Sun,  2 Oct 2022 10:57:58 -0700 (PDT)
+Received: (from willy@localhost)
+        by pcw.home.local (8.15.2/8.15.2/Submit) id 292HveuS021796;
+        Sun, 2 Oct 2022 19:57:40 +0200
+Date:   Sun, 2 Oct 2022 19:57:40 +0200
+From:   Willy Tarreau <w@1wt.eu>
+To:     "Artem S. Tashkinov" <aros@gmx.com>
+Cc:     "Theodore Ts'o" <tytso@mit.edu>,
         Thorsten Leemhuis <linux@leemhuis.info>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
         workflows@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        regressions@lists.linux.dev, ksummit@lists.linux.dev,
+        "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
+        ksummit@lists.linux.dev,
         Mario Limonciello <mario.limonciello@amd.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <1C107EF2-9842-40D9-A23D-FCFD610A9104@sladewatkins.net>
-References: <Yzm0mia7ndwFGk2c@ZenIV>
-To:     Al Viro <viro@zeniv.linux.org.uk>
-X-Mailer: Apple Mail (2.3696.120.41.1.1)
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - premium237.web-hosting.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - sladewatkins.net
-X-Get-Message-Sender-Via: premium237.web-hosting.com: authenticated_id: srw@sladewatkins.net
-X-Authenticated-Sender: premium237.web-hosting.com: srw@sladewatkins.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-From-Rewrite: unmodified, already matched
+Subject: Re: Planned changes for bugzilla.kernel.org to reduce the "Bugzilla
+ blues"
+Message-ID: <20221002175740.GA21700@1wt.eu>
+References: <9a2fdff8-d0d3-ebba-d344-3c1016237fe5@gmx.com>
+ <YzgY9X/DM9t/ZuJe@kroah.com>
+ <f8cbb12c-590b-28a3-e3e9-d3fb0d7e3c90@gmx.com>
+ <d7798453-3105-7adf-a9a6-76e8cfe4d012@leemhuis.info>
+ <83f6dd2b-784a-e6d3-ebaf-6ad9cfe4eefe@gmx.com>
+ <a676e5cf-c67b-7946-ce73-8fb8d63a5a0a@leemhuis.info>
+ <Yzg7pHspc72I7TAb@mit.edu>
+ <e98597e8-9ddb-bbf0-7652-691327186a92@gmx.com>
+ <YzmBjgXq9geMnL1B@mit.edu>
+ <79bb605a-dab8-972d-aa4a-a5e5ee49387c@gmx.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <79bb605a-dab8-972d-aa4a-a5e5ee49387c@gmx.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Hi,
+On Sun, Oct 02, 2022 at 12:49:04PM +0000, Artem S. Tashkinov wrote:
+> The current ill-maintained semi-functional bugzilla has proven to be a
+> ton more useful than random mailing lists no sane person can keep track
+> of. Bug "reports", i.e. random emails are neglected and forgotten. LKML
+> is the worst of them probably.
 
-> On Oct 2, 2022, at 11:56 AM, Al Viro <viro@zeniv.linux.org.uk> wrote:
->=20
-> OK, then - please tell me how to prevent e.g. =
-linux-fsdevel@vger.kernel.org
-> getting spammed by that thing.  Where should I go and how do I =
-unsubscribe
-> it?
+You seem to completely miss the point. There's no need for *someone* to
+keep track of the whole mailing lists, these mailing lists are used daily
+by thousands of people. It's a *collective* effort. What matters is that
+there exists someone among these people who will deal with your request.
+Do patches fall through the cracks ? Sure! And so what ? The important
+ones are eventually noticed or resent, and there's no harm in sending a
+"ping" once in a while. Actually I find bug trackers worse for this,
+because they give the reporter the impression that their report is being
+handled while many times there's noone reading at the other end due to
+the amount of stuff that has to be triaged. With mailing lists, a sender
+who gets no response starts to wonder whether anything wrong happened and
+is more naturally going to ask if the message was properly received, thus
+reviving it. It's extremely rare that nobody responds to a retry on a first
+message.
 
-Exactly. It=E2=80=99d be nearly impossible, not to mention that you=E2=80=99=
-d have to (somehow) do it for _a large number of lists_.=20
+> As I've said many times already: bugzilla must be an opt-out, not opt-in
+> experience/option.
 
-I=E2=80=99m sure there is a better solution, but this isn=E2=80=99t =
-it=E2=80=A6
+That's the best way to make sure those who feel annoyed by this spam will
+just redirect the bug tracker's address to /dev/null and will never ever
+receive any message from it anymore. That's quite a common pattern, I'm
+surprised that it's even still proposed as a solution...
 
--srw
+> Let's subscribe the past six months of developers using git commits and
+> if someone doesn't like getting emails they go to the website and
+> unsubscribe _once_ which takes a minute. This is a non-issue I've no
+> clue why we're dwelling on it.
 
+Maybe because you have not yourself been spammed by bots that each
+require a different way to unsubscribe/unregister/reconfigure options ?
+
+> Let's operate with some examples:
+> 
+> Bugzilla gets around two dozen bug reports weekly which encompass at
+> most thirty emails, which equals to four emails daily on average.
+
+That's roughly what I was getting from github when I disabled all
+notifications.
+
+> LKML alone sees up to a hundred emails _daily_.
+
+With a difference that these ones are not necessarily *read*, they're
+*scanned* by many of us before being archived via a single- or two-key
+shortcut, with a particular focus only on some messages or series
+(hence the importance of a good subject).
+
+Willy
