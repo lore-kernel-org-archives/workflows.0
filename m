@@ -2,147 +2,121 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A00D0C433FE
-	for <workflows@archiver.kernel.org>; Sun,  2 Oct 2022 21:08:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40F79C433FE
+	for <workflows@archiver.kernel.org>; Sun,  2 Oct 2022 21:11:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229630AbiJBVH5 (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Sun, 2 Oct 2022 17:07:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46750 "EHLO
+        id S229626AbiJBVLM (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Sun, 2 Oct 2022 17:11:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229534AbiJBVHx (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Sun, 2 Oct 2022 17:07:53 -0400
-Received: from mout-xforward.gmx.net (mout-xforward.gmx.net [82.165.159.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADF2A2CCB3;
-        Sun,  2 Oct 2022 14:07:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1664744836;
-        bh=rUPWwxQghqBoTsy1GL3TJG6JijaqINIBDDwimlKpQ2A=;
-        h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=WURI/5rrVB0y11dS4o5pEw4pdy7ok84JQ7pRHat9OLq7xmLN19WrDrO+sGeNF6zaG
-         ZXNDoTxvG/EP4RIMJ93z6lBrvXnx5O3eAmKtL2iwyQH3PGx3dfk5B+sANNeqgtrZsq
-         3AQqkwN7iEfLYbTwq8ibOsfPQGOwyn6aH+CYvdgA=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [10.13.110.23] ([143.244.37.73]) by mail.gmx.net (mrgmx105
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1MCbEp-1oWXbc30Lb-009eAV; Sun, 02
- Oct 2022 23:07:15 +0200
-Message-ID: <d1f99826-2a66-c2d5-c9cd-d2fadd35eca4@gmx.com>
-Date:   Sun, 2 Oct 2022 21:07:13 +0000
-MIME-Version: 1.0
-Subject: Re: Planned changes for bugzilla.kernel.org to reduce the "Bugzilla
- blues"
-To:     Willy Tarreau <w@1wt.eu>
-Cc:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        with ESMTP id S229446AbiJBVLL (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Sun, 2 Oct 2022 17:11:11 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3B752ED53;
+        Sun,  2 Oct 2022 14:11:10 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B2DEF505;
+        Sun,  2 Oct 2022 23:11:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1664745068;
+        bh=qv2su+QSycPx0jnsfJ8GfepNj8T6Grl7/TcXglSgRyY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=YZJTi08sPv41VZH7lpr0NmEGl1FZv0yA9h8Ac0Qny9ET1vuYExkhlrCK8nnh/8TYs
+         4+YSvxqEw7FQHcfJRdsrn35VtwxymflYdzXMNfnZouTtPJ48C887iE5512MIJfsjSs
+         iT0qm3jqOza6SmouwOMAfX03L1mnLuk3nH4tbLyk=
+Date:   Mon, 3 Oct 2022 00:11:07 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     "Artem S. Tashkinov" <aros@gmx.com>
+Cc:     Slade Watkins <srw@sladewatkins.net>,
         Theodore Ts'o <tytso@mit.edu>,
         Thorsten Leemhuis <linux@leemhuis.info>,
-        Greg KH <gregkh@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
         workflows@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
         ksummit@lists.linux.dev,
         Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: Planned changes for bugzilla.kernel.org to reduce the "Bugzilla
+ blues"
+Message-ID: <Yzn+a5lA8fryeGNG@pendragon.ideasonboard.com>
 References: <f8cbb12c-590b-28a3-e3e9-d3fb0d7e3c90@gmx.com>
  <d7798453-3105-7adf-a9a6-76e8cfe4d012@leemhuis.info>
  <83f6dd2b-784a-e6d3-ebaf-6ad9cfe4eefe@gmx.com>
  <a676e5cf-c67b-7946-ce73-8fb8d63a5a0a@leemhuis.info>
- <Yzg7pHspc72I7TAb@mit.edu> <e98597e8-9ddb-bbf0-7652-691327186a92@gmx.com>
- <YzmBjgXq9geMnL1B@mit.edu> <79bb605a-dab8-972d-aa4a-a5e5ee49387c@gmx.com>
- <20221002150522.ul4nbtfawqjhnsag@meerkat.local>
- <b594681b-6b8c-ffb7-f526-3da847d160a8@gmx.com>
- <20221002205430.GC22129@1wt.eu>
-From:   "Artem S. Tashkinov" <aros@gmx.com>
-In-Reply-To: <20221002205430.GC22129@1wt.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:OOGCfeol/3qU55wo6wmgNNZwCIlcy1sEWv8KdnSgTkop3eIwVg8
- Hi80881OmBGlcHf6GL59BudNRA5SF9LUHl7icLNG18ygjeXhLlwT2f+iKHk8VvTFbodc35w
- lmyM36KqhosAzMRs46ogkP5Sxy5BgGZX0HcSkONrlalo4bv3gdZl0W0XgoUnaFiwO18kutB
- SmfD6QWErw/MRbP8wbZFg==
-X-UI-Out-Filterresults: junk:10;V03:K0:LXbn3my7Qjg=:sEapeLsGTqe45Xt8L0+hmV6R
- jNmuWsa0yQeYKgUHxjxVGhEXUW4Xm3lGJx+LwW86X4Bf1O1cXn8NMM+piTr4zJORUcKoKb8OF
- 8jVt5JS/S+OK/bk/MYhw074I2AwdcDmL+XsdHndr8qN6Hw7/jqFe5OqYcfgas6svDKhZSBukP
- cm6re0VgDe/oPmIaI4NkIAT7D7EaGUTJLIFsTnqNebGcNaALaLuFz/Gs/bvfXhdiGEPB+64j5
- 3O3Pftz2ex6khQZQDUI9lAe1D7dYO1SkoMtZ/nMa/nWO72e8lewL99JwSIO1sJBGCSx4Zv2RH
- tFNRBT/6C4+7ypYuPeuSkN3fmKk3KmXxYhqnPPWaXc2JrKBxJw6syeKPQvrEAfSh1IFT8BuQf
- 9gFNh5V5YxwDzFI+rn084gnXH94eiodorZNQ3XlW4Jv6sXXSUsh/xSqcjHcawdfMrRvRd5T0f
- XdeAnQ8/vjE7iFb6OdoDDmyJ6vZMK/p8v2n7NyIxaZD5Cl3ZHiRHLVg5cAL1rVlhBmznpdpvk
- xSI0IP7XSQ9UiKXQythbmKeLrG2snuEHtFQaSyU2/Emqlc7qhTzAb4e6BO85Fm3Io99xwh8ci
- wHg+8/md1lEjwEBDdS2E895LqsJzobQCPtXy4xWl1e9y1+F4uymfTOojmJHuegDc+tT3mk7Wi
- orKkUXKAtBd6EjP7cOfLO1p9U8lwjUZFxgCE5d6dgdK4riyAEXQAgEM0O8llXByG3UAOSHdlA
- DOPOuJmZAAwfGqOUTkMavzIfNSnmVRDZBYyIkk9IzbhQx+1gvRplkAO35jqUY8f+/mhdJUnat
- QzGDAhtuLgUjvO/kEVVC7tkYoJJJsHI23eprtx59BmLB+NRnpBXQG0ruWIohDdszPhbbFe4BI
- yUhJqFl6+3o7U/gD8nSHkOESTNGifztjNQcd3JnMuMOmgJ1oc62FTv3PIsfGrachhGQqeysLV
- ViDN3VvoAHbmgFn1+PuvmuvZmtDhkchJC5t5AoQ5+d6BBNxSHJd8an93lHn23yQQnR98KE64D
- 6sNd6EcWBY4Hjt2q7woaxOPWRG006poJTVZl1OgWU8esYbDIuIhZhFxPwa2PN+vfZhNRuFk5X
- 5v78j70JCFhBwhIkKUpQI9DpjflrTtJCqWu+u+dhoGHyjT0v1H8sVc44OSl3ZytspITffmwOI
- AglF7eM5STOLExjidm55Sq4HOGMfYKv97lRSG4j79PzpSw==
+ <Yzg7pHspc72I7TAb@mit.edu>
+ <e98597e8-9ddb-bbf0-7652-691327186a92@gmx.com>
+ <YzmBjgXq9geMnL1B@mit.edu>
+ <79bb605a-dab8-972d-aa4a-a5e5ee49387c@gmx.com>
+ <11098E44-8BB4-4318-9BE1-A659573E6BA4@sladewatkins.net>
+ <20ddd12f-7277-f343-885d-b39d9ab5c2c3@gmx.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20ddd12f-7277-f343-885d-b39d9ab5c2c3@gmx.com>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
+On Sun, Oct 02, 2022 at 07:37:38PM +0000, Artem S. Tashkinov wrote:
+> On 10/2/22 14:48, Slade Watkins wrote:
+> >> On Oct 2, 2022, at 8:49 AM, Artem S. Tashkinov <aros@gmx.com> wrote:
+> >> As I've said many times already: bugzilla must be an opt-out, not opt-in
+> >> experience/option.
+> >>
+> >> Let's subscribe the past six months of developers using git commits and
+> >> if someone doesn't like getting emails they go to the website and
+> >> unsubscribe _once_ which takes a minute. This is a non-issue I've no
+> >> clue why we're dwelling on it.
+> >
+> > I disagree with this in its *entirety* and I really don’t think it
+> > has any chance of moving forward.
+> >
+> > If this were to happen (and it won’t!) then developers will just
+> > send the emails to spam or some other filter because they didn’t
+> > _consent_ to being subscribed to it. And in my opinion, they’d be
+> > justified in doing that.
+> 
+> It was a proposal from no one, i.e. me.
+> 
+> The other option will be what? To _mass email_ everyone asking them to
+> subscribe to bugzilla? Do you know what will happen? 2/3 of relevant
+> people will forget about/neglect this email, they will never sign up
+> even if they are willing to and we'll end up with a disfunction bugzilla
+> again.
+> 
+> It feels to me we are back to:
+> 
+> "Users are expected to break their necks finding random mailing lists
+> and sending their reports to them expecting feedback".
+> 
+> 95% of users will just give up.
+> 
+> 4.95% of users will not receive any feedback: the developer has been
+> busy with their work, life, past time, etc - "Sorry, missed your email".
+> 
+> Maybe 0.05% bug reports will be actually dealt with.
+> 
+> Again this does not work for serious collaborations requiring multiple
+> people over extended periods of time. It absolutely sucks in terms of
+> filling in the missing details.
+> 
+> I begin to sound like a broken record repeating what we've already
+> discussed to death a dozen times.
+> 
+> Let's deprecate bugzilla and just say "f it". That's what I hear. Great!
+> 
+> No responsibility, no bug reports, no fixes, welcome regressions.
+> 
+> I concur. This discussion has been a complete waste of time.
 
+Do you realize how insulting this is, for all the developers and
+maintainers who spend lots of their free time doing their best ? It's
+all very nice to complain and rant, but if you want things to move
+forward, lead the effort and work on it.
 
-On 10/2/22 20:54, Willy Tarreau wrote:
-> On Sun, Oct 02, 2022 at 07:43:19PM +0000, Artem S. Tashkinov wrote:
->> Again, to remind everyone, bugzilla sees around ~20 bug reports
->> _weekly_. There are hundreds of active of kernel developers. That means
->> for a single bug report maybe a couple of people will receive maybe a
->> few emails per week.
->>
->> Is this really an _issue_?
->>
->> Why are people are now blowing stuff out of proportion for no reason?
->
-> Because the approach is wrong. As I explained it gives a false sense to
-> the reporter that their issue is being handled while the simple fact tha=
-t
-> a message was sent to a person is in no way an engagement to do anything
-> about it. LKML is a broadcast area. Everyone hopes someone else will
-> respond and that eventually happens. When the reports are targetted, it
-
-No, it doesn't happen. Should I open LKML and send you a hundred of
-unreplied emails over the past year alone?
-
-> puts pressure on the few developers receiving the message who know that
-> it's unlikely anyone else will deal with that report.
-
-"Pressure", "spam", I've completely lost you.
-
-My first proposal was to let people _unsubscribe_ which takes a _minute_
-if they hate this kind of workflow. And then I calculated how many
-emails a particular developer may receive. In the worst case scenario
-fewer than five in a week.
-
-What a drama.
-
-
-
-Just before I GTFO I will leave this bug report here (already posted it
-here but maybe I need to do it again and again):
-
-https://bugzilla.kernel.org/show_bug.cgi?id=3D204807
-
-Tell me honestly how ~255 comments, and a ton of collaboration over the
-span of 2.5 years can be managed using email.
-
->
->> This conversation alone has already seen close to three dozen emails an=
-d
->> no one is complaining.
->
-> Because it's easy to ignore. Try to setup this conversation in your
-> favorite bug tracker and you'll feel alone discussing with yourself.
-> This is a great indication that participation is much more powerful
-> in the mailing list model than in the bug tracker model.
-
-OK, let's kill the damn thing.
-
-Let's have random emails with duplicated issues over 50+ mailing lists
-no one sees, maybe some of them are replied to. Maybe 1% of them are
-actually dealt with.
-
-After all, it's all for fun despite > 95% of kernel contributions coming
-from people who are really well paid working for major corporations such
-as Intel and AMD.
-
+-- 
 Regards,
-Artem
+
+Laurent Pinchart
