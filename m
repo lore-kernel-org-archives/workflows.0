@@ -2,62 +2,38 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C8BFC433F5
-	for <workflows@archiver.kernel.org>; Mon,  3 Oct 2022 09:30:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63DDFC433FE
+	for <workflows@archiver.kernel.org>; Mon,  3 Oct 2022 09:45:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229600AbiJCJar (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 3 Oct 2022 05:30:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57800 "EHLO
+        id S229791AbiJCJpp (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 3 Oct 2022 05:45:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230267AbiJCJ30 (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 3 Oct 2022 05:29:26 -0400
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C59575208B;
-        Mon,  3 Oct 2022 02:27:34 -0700 (PDT)
-Received: by mail-qv1-f42.google.com with SMTP id l19so1821146qvu.4;
-        Mon, 03 Oct 2022 02:27:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=9excRcA/AuyGayqGljoD++Jb4ncrUvF318p9Vq+i1xY=;
-        b=FekBfJ3WPCBfJ/Ife6rJWCaAH4tUMjPSgSQjJKIm+0rh5E433W7nvyUk3f0L2oxx4C
-         8Os6CpwqMLHYw+5kQ2hZ9FAc65UbjLrHU4ergihyanA1l8NnkESOMxpubOHGPmqLIf59
-         rAigzKPZn/oIR3mPTO4lmB+I1FQ45Q947+OegiiOivclFYtPF6jV5P5MCiGkszYHf1WA
-         dONnNI8U3RniTY9iG84lVrymwKfGLh53xROi0mly5cjvmz1yPMUbbVDzHnRI8uQR5j+Y
-         QpWH5syMQxgGP/YX4k4+/8JMSA9W7JSAQHpTyqw0Vvfr31AvNNXQ1hhzarHE+NWzCgiX
-         Z7vA==
-X-Gm-Message-State: ACrzQf2T4FfoF5dianvyo9wZWYKWnmIt+UPPuVkaIa+Km/ZeqPp1Z1ld
-        OpPSSqQRwqP+RBWm3vSns5nZz37OFzY33w==
-X-Google-Smtp-Source: AMsMyM6JjD1VyNRAQ8vrQK6UB2mbgBLayAybL2fquB7l7uTV7LGRHbS+0gLTugxsAYqKtf1vuKe63g==
-X-Received: by 2002:a05:6214:1bc8:b0:4ac:7f16:aef1 with SMTP id m8-20020a0562141bc800b004ac7f16aef1mr15400136qvc.64.1664789226501;
-        Mon, 03 Oct 2022 02:27:06 -0700 (PDT)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
-        by smtp.gmail.com with ESMTPSA id i4-20020a05620a404400b006cddf59a600sm10972886qko.34.2022.10.03.02.27.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Oct 2022 02:27:05 -0700 (PDT)
-Received: by mail-yb1-f170.google.com with SMTP id 63so12328873ybq.4;
-        Mon, 03 Oct 2022 02:27:05 -0700 (PDT)
-X-Received: by 2002:a5b:506:0:b0:6af:ffac:4459 with SMTP id
- o6-20020a5b0506000000b006afffac4459mr17298314ybp.365.1664789225092; Mon, 03
- Oct 2022 02:27:05 -0700 (PDT)
+        with ESMTP id S229803AbiJCJpZ (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 3 Oct 2022 05:45:25 -0400
+Received: from mout-xforward.gmx.net (mout-xforward.gmx.net [82.165.159.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09830402FD;
+        Mon,  3 Oct 2022 02:41:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1664790047;
+        bh=EUJB6wfy+c3lmgBfbDPSdjQQPEEfd/Wc3Hc6k/SbItY=;
+        h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=gTReBW0CrahOsdE7aoLD5kJgC2/CMOPA66/TiLrPPhJjfRhnKt6k80vd+fP45TPOy
+         DAdavxlFRFvrCLzKLMvepfZwrc+aUDEFFt42AwjaGulnZHU4aDjtxGGxFN6xq2dfYg
+         CMV7QYMm38WEXs6KxWqkO4zoS+QzwHHCQDHVrfw8=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [10.25.110.16] ([143.244.37.214]) by mail.gmx.net (mrgmx105
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1N8ofO-1pJLPE2bh8-015qpn; Mon, 03
+ Oct 2022 11:40:46 +0200
+Message-ID: <1d3fdc6a-a98a-fe3b-2e3e-acc2ffa24f9d@gmx.com>
+Date:   Mon, 3 Oct 2022 09:40:43 +0000
 MIME-Version: 1.0
-References: <Yzg7pHspc72I7TAb@mit.edu> <e98597e8-9ddb-bbf0-7652-691327186a92@gmx.com>
- <YzmBjgXq9geMnL1B@mit.edu> <79bb605a-dab8-972d-aa4a-a5e5ee49387c@gmx.com>
- <20221002141321.394de676@rorschach.local.home> <6de0925c-a98a-219e-eed2-ba898ef974f8@gmx.com>
- <20221002180844.2e91b1f1@rorschach.local.home> <3a3b9346-e243-e178-f8dd-f8e1eacdc6ae@gmx.com>
- <YzoY+dxLuCfOp0sL@ZenIV> <b032e79a-a9e3-fc72-9ced-39411e5464c9@gmx.com>
- <YzqjfU66alRlGk5y@kernel.org> <251201be-9552-3a51-749c-3daf4d181250@gmx.com>
-In-Reply-To: <251201be-9552-3a51-749c-3daf4d181250@gmx.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 3 Oct 2022 11:26:52 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX8Ko_LiqsWafzcqheW_7SZmtzEvgrpBbyoCLxyWqjqBg@mail.gmail.com>
-Message-ID: <CAMuHMdX8Ko_LiqsWafzcqheW_7SZmtzEvgrpBbyoCLxyWqjqBg@mail.gmail.com>
-Subject: Re: Planned changes for bugzilla.kernel.org to reduce the "Bugzilla blues"
-To:     "Artem S. Tashkinov" <aros@gmx.com>
+Subject: Re: Planned changes for bugzilla.kernel.org to reduce the "Bugzilla
+ blues"
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Mike Rapoport <rppt@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
         Steven Rostedt <rostedt@goodmis.org>,
-        "Theodore Ts'o" <tytso@mit.edu>,
+        Theodore Ts'o <tytso@mit.edu>,
         Thorsten Leemhuis <linux@leemhuis.info>,
         Greg KH <gregkh@linuxfoundation.org>,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
@@ -66,91 +42,108 @@ Cc:     Mike Rapoport <rppt@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
         "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
         ksummit@lists.linux.dev,
         Mario Limonciello <mario.limonciello@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+References: <Yzg7pHspc72I7TAb@mit.edu>
+ <e98597e8-9ddb-bbf0-7652-691327186a92@gmx.com> <YzmBjgXq9geMnL1B@mit.edu>
+ <79bb605a-dab8-972d-aa4a-a5e5ee49387c@gmx.com>
+ <20221002141321.394de676@rorschach.local.home>
+ <6de0925c-a98a-219e-eed2-ba898ef974f8@gmx.com>
+ <20221002180844.2e91b1f1@rorschach.local.home>
+ <3a3b9346-e243-e178-f8dd-f8e1eacdc6ae@gmx.com> <YzoY+dxLuCfOp0sL@ZenIV>
+ <b032e79a-a9e3-fc72-9ced-39411e5464c9@gmx.com> <YzqjfU66alRlGk5y@kernel.org>
+ <251201be-9552-3a51-749c-3daf4d181250@gmx.com>
+ <CAMuHMdX8Ko_LiqsWafzcqheW_7SZmtzEvgrpBbyoCLxyWqjqBg@mail.gmail.com>
+From:   "Artem S. Tashkinov" <aros@gmx.com>
+In-Reply-To: <CAMuHMdX8Ko_LiqsWafzcqheW_7SZmtzEvgrpBbyoCLxyWqjqBg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:hhEu9piEIkivO3JYpjS4M1eC21F6vmB8UqEA8VGqfUg0C8DeYlc
+ QWrb+ObAZIocgkIh7Jbwxpq9MZ3fCE/KjLaeH2agg6+3QvS9uNQGc/N6uVkoXEXoGn3F5kN
+ EXJW7wfzx9as+7cOYSLw/izXFjXpIEfB0cOcFF7e4PpG4UkbJ6O3ccQ86ymg5xLgk/eJ67/
+ EbxeoG2rod47rSU20BQaA==
+X-UI-Out-Filterresults: junk:10;V03:K0:NpW1KbfyJ7A=:KX7pKYpEkG3mc+P95QywrIOB
+ XeJ3275pdF1QKns7LNbjj8DgXRusRSPxziWtP2qZfHLCr6g6lYPfqymyPEdMdNaIhqOI2qE/V
+ HJNQY1ia9Wrk5AvzsByE1SGKubW9ytfbuw6mlcsG75phG86mbgCEFhHwO6LK49pIRUhstQX9z
+ YyM5Xfc1Sukk89Z59LNGmQxMYL4QvFen8fccYV8ElrQNH9Aaa3/NuXjseqiTckUSYVqh9ZKLn
+ un+sB72ww4BWXTluKuQXYUqCJLdPtX48izzxE6hMMCktRTVBP4wlvAe95KqA9CSBZIvJSa70y
+ Cxxktz5/nQr812OR8Rc+BqF43gVxunCdaOM3sP5kkNuQ2fRbSHR37o5hBNwZyPLEuJT+sOAUq
+ ecVBwtR2p0JAvsf4I6ds79XPSx76YYMQRrn2d1WmdD0PZfshpHHkDXSobMddoN5pR0D5kSuJQ
+ DmGLxvNoT1iZkLkNDcelykD1fNkPqPJtN7lOdH/pajFp9bkCxB08E/DFUKVOgLqsFnkgVM4VO
+ zO/YVCrOnvFkUSRLxSFAr0Fkm2K+VjlrrAM44WpHRPWwe42NbedFt+lSwecZIlOgUfQfKa5AZ
+ jSGOPZkyvmpR4v8LjMGiv1dR6yR/0naps0iRrbe3IusiaKTchlR7uDoBSFpGmFbDjLb3xMOwm
+ 9eHEjgd1ou9UMjU50yL1msFkBHU6u7TeXDqxVEorJK1B2bX0/q/wGT1n24JKpiUVxZqNnnQKS
+ sL2DpVYQNK3sx8ao/ouIihjiCSBBNC1DMVl6YI7X+OH9SbxKZh51e44UOl+gkdJrcl6VnO6hZ
+ M/0TlW0Xoa8pdEeVpI340xc3vbhcOj5Zlr1E3NZwimu+RixEspgMJBrGJ/PIDK3Yme7MB0cK7
+ eo6uQZUbO/hXPiYn7fqXZibp33sd9ONsvALXC6/oC53GE+6nOiBeAsp946A5bwnZUfCT671jl
+ da8flxUPPN8/an3rb30f/TqGPBkvZZEpTeEUoM7os/dQP4t1iVmTiWs4HHkbIg+0j9/opuJYV
+ Jru8IujKX4dbUV3/sNedHvrtHf/8D87kXiOCQvt38Bv3Id+04jKj5AXJPtsqEgcnfPBDdB8hs
+ WhbcKpkfJqcbBGPExKPGHH6J7ZfhfnkeGYYIL10SoUkJJycfFuQV2dM1txvZZOwqyF1VxdXca
+ bgryWjWwu7poorw6p5nyDWf7dkheQczbAJZ2nOcK9pBklw==
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Hi Artem,
-
-On Mon, Oct 3, 2022 at 11:16 AM Artem S. Tashkinov <aros@gmx.com> wrote:
-> On 10/3/22 08:55, Mike Rapoport wrote:
-> > On Mon, Oct 03, 2022 at 07:41:08AM +0000, Artem S. Tashkinov wrote:
-> >> On 10/2/22 23:04, Al Viro wrote:
-> >>> On Sun, Oct 02, 2022 at 10:20:40PM +0000, Artem S. Tashkinov wrote:
-> >>>> Bugzilla hasn't been updated in a very long time so it's missing both
-> >>>> mailing lists and individual kernel developers.
-> >>>>
-> >>>> AFAIK, some pieces of kernel have no appropriate mailing lists at all.
-> >>>> What about that? I've no clue.
-> >>>
-> >>> There's that file, right in the root of the source tree.  Called "MAINTAINERS",
-> >>> in all-caps...  Could have something to do with locating maintainers, could it not?
-> >>>
-> >>>> Opt-in will work, except I've no idea how to make it work. Mass email
-> >>>> all the kernel developers and politely invite them to sign up? Most will
-> >>>> simply ignore it.
-> >>>
-> >>> Sigh...   You really don't seem to appreciate just how deep a septic
-> >>> tank you've jumped into with your combination of "it should be opt-out"
-> >>> and "but unsubscribing takes just a minute, what are you unhappy about?!?"
-> >>>
-> >>> Maybe you are not using email a lot, but for just about everyone who does...
-> >>> We have heard that.  Many, many times.  From many sources - spammers,
-> >>> "legitimate" companies' marketing departments, etc.
-> >>>
-> >>> And you keep moving along the same track - the usual reaction of some
-> >>> company after having pulled back a bloody stump and enjoyed the pile of
-> >>> explanations of the reasons why opt-out is *NOT* *ACCEPTABLE*, *EVER*
-> >>> is along the lines of "OK, we'll just spam everyone in our database once
-> >>> and ask them to opt-in - that must be OK, right?"
-> >>
-> >> Being on bugzilla does _not_ mean you'll receive a single email unless
-> >> someone _specifically_ CC's you.
-> >
-> > If I'm not mistaken, bugzilla lets CC people explicitly. How the database
-> > of emails in bugzilla would help choosing the right people to CC better
-> > than MAINTAINERS?
-> >
-> > You repeated multiple times that bug reports sent to the mailing lists are
-> > ignored, but what will make emails from bugzilla different from those bug
-> > reports? Why do you think they will get more attention?
+On 10/3/22 09:26, Geert Uytterhoeven wrote:
 >
-> Maybe because they are specific? Maybe because they are not part of a
-> high volume mailing list such as LKML? Maybe because lots of developers
-> are _not_ on any mailing lists?
+>> Imagine instead you send your issue to a random mailing list. What is
+>> the chance another person with a similar issue will even find it?
+>
+> Do not underestimate the power of search engines.
 
-If they're sent only to the maintainers, not to the subsystem mailing
-lists, they may be ignored, as no one but the maintainer will be aware.
+I don't. In many situations the same issue can be described completely
+differently and finding duplicates becomes near impossible. You
+overestimate the power of search engines and the person's ability to use
+very specific wording.
 
-> Imagine instead you send your issue to a random mailing list. What is
-> the chance another person with a similar issue will even find it?
+>> Again the volume of bug reports is relatively low, fewer than two dozen
+>> a week.
+>
+> Which proves this tool is insignificant in the grant scheme of (Linux)
+> things.
 
-Do not underestimate the power of search engines.
 
-> Again the volume of bug reports is relatively low, fewer than two dozen
-> a week.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D204807
 
-Which proves this tool is insignificant in the grant scheme of (Linux)
-things.
+A very insignificant exchange of over 2 hundred comments, patches,
+suggestions, etc. by the people absolute most of whom would have failed
+to do that via email.
 
-> * Multiple reporters can perfectly find the people who have made bad
-> commits or who are responsible for certain drivers - it's safer to CC
-> them _via_ Bugzilla than to email them _privately_ or via mailing lists
-> which entails multiple issues including trust, SPAM, formatting,
-> English, net etiquette, etc. etc. etc.
+Nothing was lost, no messages were accidentally sent to SPAM, all the
+people in the conversation _retained_ their privacy as Bugzilla _hides_
+emails.
 
-Never send bug reports privately, unless you have a monetary
-relationship with the receiving end.  Always Cc the subsystem
-mailing list, so anyone involved can help.
+Hasn't privacy been raised as the cornerstone of this discussion several
+times already? You're _far more private_ on Bugzilla.
 
-Gr{oetje,eeting}s,
 
-                        Geert
+>> * Multiple reporters can perfectly find the people who have made bad
+>> commits or who are responsible for certain drivers - it's safer to CC
+>> them _via_ Bugzilla than to email them _privately_ or via mailing lists
+>> which entails multiple issues including trust, SPAM, formatting,
+>> English, net etiquette, etc. etc. etc.
+>
+> Never send bug reports privately, unless you have a monetary
+> relationship with the receiving end.  Always Cc the subsystem
+> mailing list, so anyone involved can help.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+I've done that on multiple occasions and in _many_ cases actually
+received help vs. sending to a mailing list where my messages were
+completely neglected.
+
+For instance, I've CC'ed Linus Torvalds _privately_ from Bugzilla twice
+and he _chimed_ in and _helped_ resolve the bugs. My messages to LKML
+were _ignored_ by +1000 people subscribed to it.
+
+You continue to talk as if random messages to mailing lists are
+_actively_ monitored by developers. That's _not_ the case.
+
+Absolute most developers actively monitor only messages from the people
+they constantly work with. That's it.
+
+Maybe I should start the list of "Why email sucks in terms of bug
+reporting" because I keep saying the same stuff over and over again.
+
+
+
+Regards,
+Artem
