@@ -2,98 +2,164 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05112C433F5
-	for <workflows@archiver.kernel.org>; Mon,  3 Oct 2022 15:37:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B5A9C433FE
+	for <workflows@archiver.kernel.org>; Mon,  3 Oct 2022 15:44:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230207AbiJCPhb (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 3 Oct 2022 11:37:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42116 "EHLO
+        id S229481AbiJCPo5 (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 3 Oct 2022 11:44:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229864AbiJCPhZ (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 3 Oct 2022 11:37:25 -0400
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08C3717E28
-        for <workflows@vger.kernel.org>; Mon,  3 Oct 2022 08:37:21 -0700 (PDT)
-Received: by mail-qk1-x730.google.com with SMTP id h28so6769216qka.0
-        for <workflows@vger.kernel.org>; Mon, 03 Oct 2022 08:37:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=4TUdHFmO38US6568yTP0OqVuYA8SXcCUcaHPL5GJBFU=;
-        b=PTlyWeS31NLqjaTlw+KY83qoDH3YyzTeDyWw8uQv+LwUMWpyvoN/3JNSV+RkGeGPNC
-         7tObuMVupQk+MM0gvXycEHmn5lqCF54cptJo+DEC43rpFrzH2Lf3nv5OlFhqYEGVrOTY
-         zHdzLcJaCuDQCuGuJsiSBgeFPFWzL55J1SrrQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=4TUdHFmO38US6568yTP0OqVuYA8SXcCUcaHPL5GJBFU=;
-        b=ScPAs7F4ISY840xKmTGrFUyTt6IHch2v1Zou75i5WkoHaosefM0Oi5bM2fyKYKg/fo
-         +q9DA8T48N5p/Q5weY+Div63lRtgdh6PRxQ1USaq+JOBecqR4xmJA3iKkrpcLfbYvN9N
-         cJKnou5pCGym2kOG0TMqqPPcOgmmm8lWKsm3rTQyuVIbZ3AWZcrR8XVw+HXXIvsZ51cd
-         NQ5r9CiznkaxYuMIvwdLBadAL8lmp2lAQBscu86YgljQ+mRIdfWK0m/pQnrXLkTAuk6d
-         TNQF0vyIHTKHLKTQPed2zsHIuGbY2J4RfOASpfZ6Wey7lA6cvMEuGpXdW86hDGuNMGlk
-         UQSQ==
-X-Gm-Message-State: ACrzQf3lD69MleGe4EdNQADzNTkCxy90pLinEfjxayZQ06sCNUxQ8wdo
-        jg1JP58EbVSfQKN2ciFYH8WDTQ==
-X-Google-Smtp-Source: AMsMyM6xZRzH+5svctKxIwHBih0k2vYshlZ4CyvgElwEimd5Az8JwxIF+PfcfD4yvSCzvRFEVZCQTQ==
-X-Received: by 2002:a05:620a:67b:b0:6cd:1bce:47e1 with SMTP id a27-20020a05620a067b00b006cd1bce47e1mr13904209qkh.666.1664811440556;
-        Mon, 03 Oct 2022 08:37:20 -0700 (PDT)
-Received: from meerkat.local (bras-base-mtrlpq5031w-grc-33-142-113-79-147.dsl.bell.ca. [142.113.79.147])
-        by smtp.gmail.com with ESMTPSA id k19-20020a05620a415300b006ce60f5d8e4sm12058244qko.130.2022.10.03.08.37.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Oct 2022 08:37:20 -0700 (PDT)
-Date:   Mon, 3 Oct 2022 11:37:18 -0400
-From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     "Artem S. Tashkinov" <aros@gmx.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        workflows@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        with ESMTP id S229534AbiJCPoy (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 3 Oct 2022 11:44:54 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE37D12605;
+        Mon,  3 Oct 2022 08:44:49 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E30E9440;
+        Mon,  3 Oct 2022 17:44:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1664811887;
+        bh=WenF/IYV+bSzqDwQMnsaZ+AamTYL8u2Ic2VUwRf6uTo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XbMMl/WX8AabqfedQavDBdYKUBp42DLVFcn0tbrG26F8ruBaZA9hqsuds1XkcGF6x
+         /MDLpvtgK8MC62QKm54BZr9wG/rJw2BOXyLZfWfNG3dJ9ZGICsLa87YV2hCj20gT2O
+         d1LZVt8a5O/69myxJRVn6Cvn5ScUPcEYofPBE9O4=
+Date:   Mon, 3 Oct 2022 18:44:45 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Thorsten Leemhuis <linux@leemhuis.info>,
+        Slade Watkins <srw@sladewatkins.net>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        "Artem S. Tashkinov" <aros@gmx.com>, workflows@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
-        ksummit@lists.linux.dev,
-        Mario Limonciello <mario.limonciello@amd.com>
+        ksummit@lists.linux.dev
 Subject: Re: Planned changes for bugzilla.kernel.org to reduce the "Bugzilla
  blues"
-Message-ID: <20221003153718.o7fhrain5fnwwu3l@meerkat.local>
-References: <e98597e8-9ddb-bbf0-7652-691327186a92@gmx.com>
- <YzmBjgXq9geMnL1B@mit.edu>
- <79bb605a-dab8-972d-aa4a-a5e5ee49387c@gmx.com>
- <20221002141321.394de676@rorschach.local.home>
- <6de0925c-a98a-219e-eed2-ba898ef974f8@gmx.com>
- <20221002180844.2e91b1f1@rorschach.local.home>
- <3a3b9346-e243-e178-f8dd-f8e1eacdc6ae@gmx.com>
- <YzoY+dxLuCfOp0sL@ZenIV>
- <b032e79a-a9e3-fc72-9ced-39411e5464c9@gmx.com>
- <YzqjfU66alRlGk5y@kernel.org>
+Message-ID: <YzsDbeF8WQHy9Hat@pendragon.ideasonboard.com>
+References: <aa876027-1038-3e4a-b16a-c144f674c0b0@leemhuis.info>
+ <05d149a0-e3de-8b09-ecc0-3ea73e080be3@leemhuis.info>
+ <63a8403d-b937-f870-3a9e-f92232d5306c@leemhuis.info>
+ <534EB870-3AAE-4986-95F3-0E9AD9FCE45B@sladewatkins.net>
+ <e9dd6af0-37ef-1195-0d3b-95601d1ab902@leemhuis.info>
+ <20221003112605.4d5ec4e9@gandalf.local.home>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YzqjfU66alRlGk5y@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221003112605.4d5ec4e9@gandalf.local.home>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Mon, Oct 03, 2022 at 11:55:25AM +0300, Mike Rapoport wrote:
-> If I'm not mistaken, bugzilla lets CC people explicitly. How the database
-> of emails in bugzilla would help choosing the right people to CC better
-> than MAINTAINERS?
+On Mon, Oct 03, 2022 at 11:26:05AM -0400, Steven Rostedt wrote:
+> On Mon, 3 Oct 2022 14:59:54 +0200 Thorsten Leemhuis wrote:
+> 
+> > > With the band-aids you outline in place: do you think it would it be
+> > > beneficial to have a liaison holding users’s hands through the
+> > > process, _then_ triaging to developers by contacting them with the
+> > > information they need?  
+> > 
+> > Well, yes and no. :-/
+> > 
+> > Thing is: up to a point that's something I do already (and will likely
+> > continue to do at least for a while) when the reported issue is a
+> > regression. But to be fair, I often could help way more if I wanted to,
+> > but there are only so many hours in a day and other things to take care
+> > of (regression tracking is only a part-time thing for me currently). So
+> > some help there might be handy; would get load of the developers as
+> > well, as they often are more willing to help users when a report is
+> > about a regression.
+> 
+> Are you asking for help in the regression tracking?
+> 
+> > But for other issues (aka regular bugs) I don't think it's worth it,
+> > because why only help those users that report to bugzilla (you didn't
+> > say that, but it sounded to me like the focus is on it)? There are
+> > people that try to use the mailing lists, but do it badly and never get
+> > a reply (for example because they sent their report just to LKML). They
+> > could need help, too; maybe helping them should even be priority, as
+> > they at least tried to do what most kernel developers want them to do,
+> > hence their reports might be better, too.
+> 
+> Could do both.
+> 
+> > But there is a more important reason why I think having a liaison might
+> > not be worth it for now: It IMHO would be much better to spend the time
+> > and effort on other things that enable users submitting better bug
+> > reports in the first place. I have no concrete and well-thought-out
+> > ideas at hand what to do exactly, but here are a few vague ones:
+> > 
+> >  * create an app (ideally usable locally and on the web) that guides
+> > users through generating a good bug report (let's leave the way of
+> > submission aside for now). That app could handle quite a few of the
+> > steps that https://docs.kernel.org/admin-guide/reporting-issues.html
+> > currently mentions. It for example could check if the kernel looks to be
+> > vanilla, if the kernel is fresh, if the kernel is tainted, if an Oops is
+> > the first one or just a follow-up error; maybe that app could even
+> > decode stack-traces locally in some environments; and it could collect
+> > and upload logs as well. It could also explain certain things to users
+> > when not fulfilled, for example why it's not worth to report a problem
+> > that happens with an old kernel.
+> 
+> Christoph mentioned Debian's reportbug utility. That does a pretty good
+> job at walking people through how to report a bug. It could also get
+> information about the current environment that would be useful too. Perhaps
+> something like that?
+> 
+> >    Sure, these apps never work perfect and doing it right is a lot of
+> > work, but I guess one could make things a lot easier for many users
+> > especially for our case. I assume other projects have done something
+> > like that so that we could learn from them.
+> > 
+> >  * Improve https://docs.kernel.org/admin-guide/reporting-issues.html
+> > further. I have some ideas there, but other things are higher on my
+> > priority list currently. That document in the end somehow needs to
+> > become less scary looking while still providing all important details
+> > for situations where a reporter might need them.
+> > 
+> >  * Write new docs relevant for bug reporting. We for example still have
+> > no well written and simple to understand text that explains bisection to
+> > people that are new to git, bisection, or compiling kernels in general.
+> > Speaking of which: we iirc are also missing a text that properly
+> > explains how to quickly configure and compile a kernel using "make
+> > localmodconfig" (I mean something like
+> > http://www.h-online.com/open/features/Good-and-quick-kernel-configuration-creation-1403046.html)
+> 
+> The sad part is that most people that are going to report a bug is not
+> going to read a full document to figure out how to do it. Usually when
+> someone hits a bug, they are doing something else. And it's a burden to
+> report it. Obviously, they want it to be fixed, but it's viewed as a favor
+> to the developer and not the user to get it fixed, as it's likely seen as a
+> mistake by the developer that the bug exists in the first place.
 
-It can't, actually, which is I think is the crux of misunderstanding here. I
-think what Artem is proposing is to *auto-create bugzilla accounts* for anyone
-who shows up in MAINTAINERS, so that they can be cc'd on a bug report.
-However, everyone understood this as "add these people as default assignees,"
-which is not the case.
+It really depends on how badly the bug affects the reporter. I'm sure
+that a bug that prevents GPU or audio from working alone on a shiny
+brand new laptop will see lots of pings. A side issue noticed by the
+user that wouldn't really affect them is more likely to end up in a
+blackhole. I recently faced issues with a display controller. I sent
+patches for the problems affecting my use case, and only notified the
+maintainer for the other issues. Those have been "added to their todo
+list (TM)". But is that really a problem ? If I'm not affected and
+neither is the maintainer, there's likely better use of their time, at
+least until a user who is really affected by the problem shows up.
 
-If we auto-create accounts for MAINTAINERS, that would allow them to be cc'd
-by an actual human being triaging bugs, but won't lead to any discernable
-increase of bugzilla mail.
+> Having a tool like reportbug that walks you through the steps of reporting
+> it would be the best way to do so. As the reporter doesn't need to think
+> too hard and just answer questions and let the tool do all the work.
+> 
+> >  * Not sure, maybe a list of things that known to be broken might be
+> > good to have? Like "yes, we know that nouveau is slow, but we can't do
+> > anything about this" or "driver 'wifi-foo' only supports a small subset
+> > of the features the hardware offers, so don't report bugs if bar, baz
+> > and foobar don't work".
+> 
+> The tool could possibly reply with known issues, and state something like
+> "We are aware of this issue, and are currently trying to figure it out."
 
-Artem, please correct me if I'm wrong.
+-- 
+Regards,
 
--K
+Laurent Pinchart
