@@ -2,128 +2,143 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BCFAC433F5
-	for <workflows@archiver.kernel.org>; Tue,  4 Oct 2022 10:45:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 198DEC433F5
+	for <workflows@archiver.kernel.org>; Tue,  4 Oct 2022 12:16:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229717AbiJDKpX (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 4 Oct 2022 06:45:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49080 "EHLO
+        id S229641AbiJDMQ5 (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 4 Oct 2022 08:16:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229788AbiJDKpU (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 4 Oct 2022 06:45:20 -0400
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B631220CD;
-        Tue,  4 Oct 2022 03:45:18 -0700 (PDT)
-Received: by mail-qt1-f180.google.com with SMTP id e20so7731914qts.1;
-        Tue, 04 Oct 2022 03:45:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=m9GiAv2zn7tOwgDUayjXp6TNSQoaABoD0B7pi612u2E=;
-        b=n7Nayo7AMprY/KRScOMstGGRxg09Jwbu830Qck3JJPZAQvtcBLk9NAEi0dTxCsTBrj
-         hAhTQZ+EGptjV3mvN8pcQ/RRowDujmkuyBXIMbzShChqr006gXFBgqvLYfAPG3q3I4PV
-         kgHzUeB0Co1Yr/I2r1QSo22Wx+P0IFTkgZMfty9vFdzYIoMw8WR24fDBYsKvNPOfrzW6
-         SW4ZaFSVQEz+hSW0EjdhwbI5rE8xTbKsPfu7GT5OxeEIxCGPLuzMh4BsRJjkVwwDmT3n
-         UIbj/946ET8wsfLn+oa85b2Wlww89UVe6yn/obNph6LZyUNSsfz+gs1KxHkNhks1++c3
-         jtLA==
-X-Gm-Message-State: ACrzQf1plBQRDRFb2qg5t3GW8XCEDtyKgBBq8mOLbH88iAEZ9UbNS+SY
-        0oyLOS7Jtnpp5jaRGkqs/erJgcLlm74nPw==
-X-Google-Smtp-Source: AMsMyM45GI63QzCb0QM7ySosJcTmz27YwnClehbEDW0Co9NDsKzPLq6oY9/NO3sCrPg+Q/7+aL0prQ==
-X-Received: by 2002:ac8:5983:0:b0:35c:c560:a3f8 with SMTP id e3-20020ac85983000000b0035cc560a3f8mr18534571qte.600.1664880316840;
-        Tue, 04 Oct 2022 03:45:16 -0700 (PDT)
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
-        by smtp.gmail.com with ESMTPSA id bs18-20020a05620a471200b006cf38fd659asm13137349qkb.103.2022.10.04.03.45.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Oct 2022 03:45:16 -0700 (PDT)
-Received: by mail-yb1-f169.google.com with SMTP id 203so16283185ybc.10;
-        Tue, 04 Oct 2022 03:45:15 -0700 (PDT)
-X-Received: by 2002:a25:8e84:0:b0:696:466c:baa with SMTP id
- q4-20020a258e84000000b00696466c0baamr23319543ybl.604.1664880315391; Tue, 04
- Oct 2022 03:45:15 -0700 (PDT)
+        with ESMTP id S229576AbiJDMQ4 (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 4 Oct 2022 08:16:56 -0400
+Received: from mout-xforward.gmx.net (mout-xforward.gmx.net [82.165.159.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72B202018B;
+        Tue,  4 Oct 2022 05:16:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1664885791;
+        bh=bpj4hT8aKCM5j/PSqq2l+Mhtjnt1+/PxDY0aFNs17Cs=;
+        h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=XaCpZHtgZZcIk8afsOe0AFcPyFP3S8cNcnJucbF/apJ6KM8zz2HmSQEeZqzzIwsVL
+         bh+504f+eodqQA5p0vMEeVCE5kmiSaTZcyA9OJX1/+dZ/ITCFit6bvgkmqPVCRoUjD
+         EmlEHXAKdyj/yqs9FkIoeCd01LoGKe9n+QMolCLg=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [10.17.110.14] ([143.244.37.77]) by mail.gmx.net (mrgmx105
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1M3DJl-1ocfdj438n-003dB9; Tue, 04
+ Oct 2022 14:16:31 +0200
+Message-ID: <fde043f3-da34-9fc6-379b-922f29284e66@gmx.com>
+Date:   Tue, 4 Oct 2022 12:16:28 +0000
 MIME-Version: 1.0
-References: <aa876027-1038-3e4a-b16a-c144f674c0b0@leemhuis.info>
- <05d149a0-e3de-8b09-ecc0-3ea73e080be3@leemhuis.info> <63a8403d-b937-f870-3a9e-f92232d5306c@leemhuis.info>
- <534EB870-3AAE-4986-95F3-0E9AD9FCE45B@sladewatkins.net> <e9dd6af0-37ef-1195-0d3b-95601d1ab902@leemhuis.info>
- <20221003112605.4d5ec4e9@gandalf.local.home> <eb935178-995b-84f1-6cbe-3492ba74f85b@leemhuis.info>
- <CAMuHMdWq+NntrPqMHzP3XEvKZgjEwSHW80vwWkZnaTORRrhpHA@mail.gmail.com> <409a039b-fd00-a480-ee82-e7a329fa7ae2@leemhuis.info>
-In-Reply-To: <409a039b-fd00-a480-ee82-e7a329fa7ae2@leemhuis.info>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 4 Oct 2022 12:45:03 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWxrmTC8caWpMTJ+s7QscGouJfFsK_3xy+qvNojHyNzkg@mail.gmail.com>
-Message-ID: <CAMuHMdWxrmTC8caWpMTJ+s7QscGouJfFsK_3xy+qvNojHyNzkg@mail.gmail.com>
-Subject: Re: Planned changes for bugzilla.kernel.org to reduce the "Bugzilla blues"
-To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Slade Watkins <srw@sladewatkins.net>,
+Subject: Re: Planned changes for bugzilla.kernel.org to reduce the "Bugzilla
+ blues"
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Greg KH <gregkh@linuxfoundation.org>,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        "Artem S. Tashkinov" <aros@gmx.com>, workflows@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        workflows@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
-        ksummit@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+        ksummit@lists.linux.dev,
+        Mario Limonciello <mario.limonciello@amd.com>
+References: <Yzg7pHspc72I7TAb@mit.edu>
+ <e98597e8-9ddb-bbf0-7652-691327186a92@gmx.com> <YzmBjgXq9geMnL1B@mit.edu>
+ <79bb605a-dab8-972d-aa4a-a5e5ee49387c@gmx.com>
+ <20221002141321.394de676@rorschach.local.home>
+ <6de0925c-a98a-219e-eed2-ba898ef974f8@gmx.com>
+ <20221002180844.2e91b1f1@rorschach.local.home>
+ <3a3b9346-e243-e178-f8dd-f8e1eacdc6ae@gmx.com> <YzoY+dxLuCfOp0sL@ZenIV>
+ <b032e79a-a9e3-fc72-9ced-39411e5464c9@gmx.com> <YzqjfU66alRlGk5y@kernel.org>
+ <251201be-9552-3a51-749c-3daf4d181250@gmx.com>
+ <CAMuHMdX8Ko_LiqsWafzcqheW_7SZmtzEvgrpBbyoCLxyWqjqBg@mail.gmail.com>
+ <1d3fdc6a-a98a-fe3b-2e3e-acc2ffa24f9d@gmx.com>
+ <20221003102029.1fe4f31b@gandalf.local.home>
+From:   "Artem S. Tashkinov" <aros@gmx.com>
+In-Reply-To: <20221003102029.1fe4f31b@gandalf.local.home>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:SLfgjVdlF7X2l/Rg+z8mjWCt4AvRLhhZPbCaKSNbyrV4j/6O0gj
+ uk2033ABnu5nBei7NAIDbVgfLGxK5/Fh+BXc88Nw4CpMU/JCJbfcw3Lv6E4ZrjcaueKDtnJ
+ BDZ+Khl6ICrWZ0D323ER/PZaeHYgVduAC5rOku2OHxS/i7vYSkLCpKBgnm90va2y5mqdw9L
+ RKF8TM4TQgrKoHSISVnRA==
+X-UI-Out-Filterresults: junk:10;V03:K0:TkA4SQZEqIQ=:VI+bDZS2UvDLj2IMmM+ofbOH
+ PJr68FLrJFgSaJIT2PY/2K8MspuiefGLtIxN7rxW4LyYzFD67vFJQ9GvzLx7siIIvZ2rU/OvS
+ r7c+B71IqGDHCmmJ+gmaT4lv6+O+rWl/YEn93X1PXg2VKvagZ04zCF5yeqfiJtUqEh3NSFtYF
+ 3Lptld4ic7OIEG75xC7DhTgEaLSeJEQME2rP4MedTirZL2uHvWHq8l5pnffkMg3W42SuoEOA6
+ BTElgax42aOtaXRduBevj05D/c0kvuKhWFQCmfNyFDe65kh5uXLB90/fsE1Hsrr2It650v9wK
+ 0Xbw/TsqH8msdIKLKaHUc5+aqGuYELccEmA7v2+R17ZH+6cYEewf5mc9mIZfE8MgORYPfrRu7
+ E1oTEaQFNNgU2MurWBrdsAbkKvMc55p8D9EgS0QQk+Z10J8UjvwNfoXZFZUcGYvjbTie/s4+m
+ oO+eXSPkVr28g+IQWj1wuEE1zDBZGUWSJRMzb7WlQRY6JYIyje64VwkZ9a2nDS5AiGSVUNpga
+ P7rlc94OmTScgQN04WAxaRWCeLusd4k3bH9V4PnCQvVMCdl7WgV0eyHDliD6cA15HuVeVo9CR
+ 0NVmDpOi4PU37N+WoBc0k12vZeBoqHCOAm1KM2VNzHQHpw65zNbww9ypIiMWiI2gj+u4QDg+R
+ EnL+rqbEjCVfdwFl8dUnXMl90PGhfvT8lwAoO0y5Lq/o/KTpo/8R8N3+cnBOOm+KFh0dxgv+O
+ t5LQ0/dvEghPWwZpDobXOMpqetwTCVbaH8gXj07TnXU0Wu9nQRi5w9R9UeslvgxJiODBmcC24
+ 9wLlVduDd/Nw7qDDkyGJgqHPAUrCPtLkXQRearVWm2bwhKWIeXeSLhlPrAWbcGzQfPlvUu7pB
+ dhH7ORMfbefwnqSUzxG3qr/0oAx6t4HorYzLany6VG7Vhw5VsxctRLkR1pM2vMBY5hcz4/XtG
+ k/SPvH+WBj56cmNvgi4M0QsLqV4VrJWYyMLO/9rpudLLNzqoUyuNAluCI+UjfusrXbDlsr14Z
+ PRDKwf645+Fd/I9CYGhHDgVX6ZzjnVIZUF4akC+GnALGv6ejEWLGov8zmdt0LtDyn/BRwkjkd
+ MkolhIMjrK6BboYAJCbGJbwetRMrxuybG3yRMZ7D2R1c4ULRyKRfvKc2e5q43+elnr3/2c3Ip
+ HncEsiGEqaqPjRwd/ww9bjybnU1Qsnq3owKAHB+2fGCDnQ==
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Hi Thorsten,
-
-On Tue, Oct 4, 2022 at 12:16 PM Thorsten Leemhuis <linux@leemhuis.info> wrote:
-> On 04.10.22 11:20, Geert Uytterhoeven wrote:
-> > On Tue, Oct 4, 2022 at 10:41 AM Thorsten Leemhuis <linux@leemhuis.info> wrote:
-> >> But I consider explaining things like bisection and localmodconfig in
-> >> the documentation as also important, as that's likely something the tool
-> >> won't be able to automate any time soon (or never, as realizing that is
-> >> likely hard and better left to a separate tool anyway).
-> >
-> > Creating a simple Linux-specific wrapper around git bisect under
-> > scripts/ might be useful?
-> > The wrapper could copy .config to
-> > $(srctree)/arch/$(ARCH)/config/bisect_defconfig, automatically run
-> > "make bisect_defconfig" in each step, and show not only the bisected
-> > commit, but also the impact on .config.
+On 10/3/22 14:20, Steven Rostedt wrote:
+> On Mon, 3 Oct 2022 09:40:43 +0000
+> "Artem S. Tashkinov" <aros@gmx.com> wrote:
 >
-> Don't worry, I still remember that trick of yours from this discussion:
-> https://lore.kernel.org/all/12e09497-a848-b767-88f4-7dabd8360c5e@leemhuis.info/
+>> For instance, I've CC'ed Linus Torvalds _privately_ from Bugzilla twice
+>> and he _chimed_ in and _helped_ resolve the bugs.
+>
+> You didn't Cc Linus _privately_, because you Cc'd him from Bugzilla. I'm
+> guessing that means it's a public conversation. Which is similar to Cc'i=
+ng
+> a maintainer and a public mailing list.
 
-OK ;-)
+I _did_ CC him privately by adding his _personal_ e-mail. I'm astonished
+not only you don't believe me you turn my words inside out.
 
-> Something like that would be a start, but I'd say having localmodconfig
-> covered would be wise also, as it speeds things up tremendously for
-> those that start with a full-blown x86 pc distro config.
+>
+>> My messages to LKML
+>> were _ignored_ by +1000 people subscribed to it.
+>
+> LKML gets 800 emails a day. Nobody reads it (besides Jon Corbet and Andr=
+ew
+> Morton). But if you send email to a maintainer privately without Cc'ing =
+any
+> public mailing list (or Bugzilla), then it will likely be ignored.
 
-That's not that much different, as you only need to run "make localmodconfig"
-once, as the first step (or as step zero, before starting the bisection).
+Wow, so pretty much the vast majority of people here advocate for
+deprecating Bugzilla and asking non-IT people to use something which is
+essentially a ... SPAM list?
 
-> There are also people that find regressions when updating from say
-> v5.18.15 to v5.19.4 and want to bisect that range; never tried if that
-> actually works with a stable git tree, but I'd assume that approach is
-> unwise. I also assume a lot of people would prefer to download only the
+Woah.
 
-Yeah, you may run into issues that are fixed in v5.18.15, but not in
-v5.18 itself, or in later intermediate steps.
-For a short range like v5.18.15 to v5.19.4 (which are not LTS, hence
-didn't receive that many updates, which can be good or bad), I don't
-expect many problems, though
+I've given almost a dozen reasons why mailing lists simply don't work as
+a bug tracker in absolute most cases.
 
-There are similar (but much worse) issues with bisecting between two
-linux-next releases.
+BTW, this discussion is a perfect f-ing example of that. What could have
+been easily read in a tracker needs to be repeated over and over and
+over again because you didn't bother to read previous messages 'cause
+you were busy, not paying attention, simply forgot and you don't want to
+scroll days of messages in your inbox.
 
-> recent history or specific stable branches when cloning the git tree
-> (which is possible if you know what to do, but I guess most people don't).
+God, this is so ugly it's cringe worthy.
 
-Does it really save that much bandwidth?
-How many minutes of 4K streaming video is the kernel nowadays? ;-)
+Most people here who advocate for killing off Bugzilla:
 
-Gr{oetje,eeting}s,
+1) Have _never_ used it
+2) Have troubles even following _this_ conversation
 
-                        Geert
+That' ridiculous.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+>
+> What we are saying is, you need to do both. Cc the maintainer _and_ a
+> public mailing list. That way the maintainer knows others can see it, an=
+d
+> could point someone else to look at it if they do not have the time, or
+> they know someone who can better help.
+>
+> -- Steve
