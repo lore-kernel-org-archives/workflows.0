@@ -2,67 +2,97 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F25A1C433F5
-	for <workflows@archiver.kernel.org>; Tue,  4 Oct 2022 07:37:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FC4EC433FE
+	for <workflows@archiver.kernel.org>; Tue,  4 Oct 2022 07:56:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229611AbiJDHhu (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 4 Oct 2022 03:37:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34370 "EHLO
+        id S229495AbiJDH4o (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 4 Oct 2022 03:56:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229867AbiJDHhg (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 4 Oct 2022 03:37:36 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9910526122;
-        Tue,  4 Oct 2022 00:37:34 -0700 (PDT)
-Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1ofcUc-0005WV-IW; Tue, 04 Oct 2022 09:37:30 +0200
-Message-ID: <109147a2-621d-d4ce-f4b3-8516664e138e@leemhuis.info>
-Date:   Tue, 4 Oct 2022 09:37:29 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Content-Language: en-US, de-DE
-To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Mike Rapoport <rppt@kernel.org>
-Cc:     "Artem S. Tashkinov" <aros@gmx.com>,
+        with ESMTP id S229544AbiJDH4n (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 4 Oct 2022 03:56:43 -0400
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27D3F2CCB9;
+        Tue,  4 Oct 2022 00:56:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1664870201; x=1696406201;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Qb9fbv/Io45XqXq5yw/xMnK70ks44Jqm3hPSzeSs3eY=;
+  b=cr7kIxzGYkxdTqPCnw5bZdNLWD+nyVNWf9nr1MJBJy+LgXl68oINIk33
+   Z09Yv7nAt1b/LZYndsF4Tx4uY6KOV4rarsugA7gJC7FyDDP4ya9gfCp8J
+   gVUwWVqdGKv9nBvGE6vSj3RVM5f/KYQ8jgeaPoCObTv4hRxvQYawBoynH
+   WobNb3iwAvwqpataJZCtCXbaxDZCtVILtc5vZ9Wu0ax+qPi2rQN9eEd51
+   LxVcVJY+562xqD89iE+TuQvwvzUq0io+bl/4SiSIGn9qTWZdyV3f2RzAp
+   0ifUIfqYMBjFBp2Jcwrncg9NR9hsssWBC2hgAO5C7S8O9Ko2709J1eJCI
+   w==;
+X-IronPort-AV: E=Sophos;i="5.93,367,1654585200"; 
+   d="scan'208";a="180241548"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 04 Oct 2022 00:56:39 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.12; Tue, 4 Oct 2022 00:56:39 -0700
+Received: from wendy (10.10.115.15) by chn-vm-ex02.mchp-main.com
+ (10.10.85.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12 via Frontend
+ Transport; Tue, 4 Oct 2022 00:56:36 -0700
+Date:   Tue, 4 Oct 2022 08:56:15 +0100
+From:   Conor Dooley <conor.dooley@microchip.com>
+To:     Thorsten Leemhuis <linux@leemhuis.info>
+CC:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        "Artem S. Tashkinov" <aros@gmx.com>,
         Al Viro <viro@zeniv.linux.org.uk>,
         Steven Rostedt <rostedt@goodmis.org>,
         Theodore Ts'o <tytso@mit.edu>,
         Greg KH <gregkh@linuxfoundation.org>,
-        workflows@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        <workflows@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
-        ksummit@lists.linux.dev,
+        <ksummit@lists.linux.dev>,
         Mario Limonciello <mario.limonciello@amd.com>
-References: <e98597e8-9ddb-bbf0-7652-691327186a92@gmx.com>
- <YzmBjgXq9geMnL1B@mit.edu> <79bb605a-dab8-972d-aa4a-a5e5ee49387c@gmx.com>
+Subject: Re: Planned changes for bugzilla.kernel.org to reduce the "Bugzilla
+ blues"
+Message-ID: <YzvnH3NROBu4U5kW@wendy>
+References: <79bb605a-dab8-972d-aa4a-a5e5ee49387c@gmx.com>
  <20221002141321.394de676@rorschach.local.home>
  <6de0925c-a98a-219e-eed2-ba898ef974f8@gmx.com>
  <20221002180844.2e91b1f1@rorschach.local.home>
- <3a3b9346-e243-e178-f8dd-f8e1eacdc6ae@gmx.com> <YzoY+dxLuCfOp0sL@ZenIV>
- <b032e79a-a9e3-fc72-9ced-39411e5464c9@gmx.com> <YzqjfU66alRlGk5y@kernel.org>
+ <3a3b9346-e243-e178-f8dd-f8e1eacdc6ae@gmx.com>
+ <YzoY+dxLuCfOp0sL@ZenIV>
+ <b032e79a-a9e3-fc72-9ced-39411e5464c9@gmx.com>
+ <YzqjfU66alRlGk5y@kernel.org>
  <20221003153718.o7fhrain5fnwwu3l@meerkat.local>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: Planned changes for bugzilla.kernel.org to reduce the "Bugzilla
- blues"
-In-Reply-To: <20221003153718.o7fhrain5fnwwu3l@meerkat.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1664869054;a8c046e3;
-X-HE-SMSGID: 1ofcUc-0005WV-IW
+ <109147a2-621d-d4ce-f4b3-8516664e138e@leemhuis.info>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <109147a2-621d-d4ce-f4b3-8516664e138e@leemhuis.info>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On 03.10.22 17:37, Konstantin Ryabitsev wrote:
->
-> If we auto-create accounts for MAINTAINERS, that would allow them to be cc'd
-> by an actual human being triaging bugs, [...]
+On Tue, Oct 04, 2022 at 09:37:29AM +0200, Thorsten Leemhuis wrote:
+> On 03.10.22 17:37, Konstantin Ryabitsev wrote:
+> >
+> > If we auto-create accounts for MAINTAINERS, that would allow them to be cc'd
+> > by an actual human being triaging bugs, [...]
+> 
+> For the record: that would not be enough, as for bisected regressions
+> you often want to CC the author of the culprit who might not be a
 
-For the record: that would not be enough, as for bisected regressions
-you often want to CC the author of the culprit who might not be a
-maintainer. To catch that case as well, you'd have to create account for
-everyone that contributes a change.
+And possibly those who provided a review for the original patch too.
 
-Ciao, Thorsten
+> maintainer. To catch that case as well, you'd have to create account for
+> everyone that contributes a change.
+
+As someone blissfully unaware of the workings of bugzilla, it is
+possible to tie multiple emails to the same account? Not that I would be
+happy about having an account created for me, but I certainly would not
+want more than one account..
+
+Thanks,
+Conor.
