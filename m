@@ -2,125 +2,119 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB46CC433FE
-	for <workflows@archiver.kernel.org>; Tue,  4 Oct 2022 14:48:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E26BC433FE
+	for <workflows@archiver.kernel.org>; Tue,  4 Oct 2022 17:54:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229911AbiJDOsP (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 4 Oct 2022 10:48:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56598 "EHLO
+        id S229619AbiJDRx7 (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 4 Oct 2022 13:53:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbiJDOsO (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 4 Oct 2022 10:48:14 -0400
-Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0129757553
-        for <workflows@vger.kernel.org>; Tue,  4 Oct 2022 07:48:12 -0700 (PDT)
-Received: by mail-qk1-x72b.google.com with SMTP id x18so8467489qkn.6
-        for <workflows@vger.kernel.org>; Tue, 04 Oct 2022 07:48:11 -0700 (PDT)
+        with ESMTP id S229643AbiJDRx6 (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 4 Oct 2022 13:53:58 -0400
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FF3E2FC28
+        for <workflows@vger.kernel.org>; Tue,  4 Oct 2022 10:53:57 -0700 (PDT)
+Received: by mail-qt1-x82e.google.com with SMTP id gb14so8599425qtb.3
+        for <workflows@vger.kernel.org>; Tue, 04 Oct 2022 10:53:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=ihftkltNveJbQdV47ucYZdqJk9biYFJbbWec+UAUaqI=;
-        b=bCOclblMw4zaokxU052XVeIH9IFOsnNvnBLTBNQQxDiYphNQW14xmYUVoJa7/SvzOX
-         qBTxFSblw8bPY01muWGwvsgRYJUDWeQa+OXchhb8JbbPQAZKzWdKQdmR67BRmmhvbBKJ
-         uk1jbSJv+lkQ8beE7uQosuUrHRinvgB6Z4fHs=
+        bh=5Vo8p/cM3obgtfs2skgCytAWp05nMFJ/Nn5TC15GrH0=;
+        b=ac3xFb73L4PnwMtdIaThuvvAQcWUY2Dv379FdTurNx3wBZ1HfqE4DJXNR49NS2P7uZ
+         +XiC1P3MjxL6lUacUwgsaXJEPy7zrm7NLtWgNtquaD2rMLeQbdItWAv5UoARVmtsTSpe
+         HOShdLT2KMhwAliZjGDugL/+Qnrb4T0qT70Sk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=ihftkltNveJbQdV47ucYZdqJk9biYFJbbWec+UAUaqI=;
-        b=38cCsiS8w/KWUyX3mo5aVO/34fxoeizoTNUQStWg+I2QjakgC/VmG7IIbzWYq1hJNE
-         ZvguJ5UGHENCEqQFVTfmAsOtbPlE8ky2Pl/Bzgqpj2CJ4Uw8ma+TTDhaB8QJsJrt6qM8
-         HQJXVGNe7ihEEPz0SysIYV+ayZmTxiJujwNt+TuaJ8QfjHosLuPYz6s/YlEEcC94DlwX
-         dM+kDpBTwQhIFpZm+Gasuiz2ENjd7rvHvp7o3JhGgqt1jNfHI6GT29OX6trkKRQ8RDRA
-         evb/LB+liaJpZTDRZM92Ra0/3W5sQLlDXdYTXDa4Y+Q+vwdRK3tfXPfYk0qZExwP/uxl
-         v0SQ==
-X-Gm-Message-State: ACrzQf3sApXGplv+V81V5tmz85Z0YCO8h06Xnxr16t4cjSGYHiUZfALu
-        A7d1j+DOMAmGWkVWvTWGWj+2v0TMVYNK+w==
-X-Google-Smtp-Source: AMsMyM6+Bc9ggdImprFSEV1hRtemUxuVGWvA6/LDu4e+5bM+Ys3Rxli+THNpHa5WG/LMSjfwREz93g==
-X-Received: by 2002:a05:620a:158d:b0:6cd:efb1:8eb6 with SMTP id d13-20020a05620a158d00b006cdefb18eb6mr16903244qkk.185.1664894891065;
-        Tue, 04 Oct 2022 07:48:11 -0700 (PDT)
+        bh=5Vo8p/cM3obgtfs2skgCytAWp05nMFJ/Nn5TC15GrH0=;
+        b=GxijP6oK3bpTxPZa6nYa2aVu3rLnOKDW0SlTlwtI1dloLCkULljLmNtNDie6/5vgFY
+         h7sOsNfej3Vrzj86/m2f8TveRPNgkTvjFUis+4i6GjPups84gK9TlTzEZglybMCA1ywd
+         512u61O6JI5DyxfKkwpseV5GXiVPQ0VsMVKYw+5b2F7uB6Wb35rBsh17pm4yOmbvxT/d
+         mhU8pu8Zm2dU9RUVfqmrvmhZnFOw/zo1a9Ry7UJYdbCuNjyVnvm1gzbS4X+ObCpxCIpF
+         dQXcMEGC7LAysvGHQvFplxn39mRXBZTPXD9/F/cAB9YRvVuVbEKfdW7Y1PPC4cx1AWc4
+         tMfw==
+X-Gm-Message-State: ACrzQf1B71jSE5r6GtZp5EsLh7H120Fn+QIs/4//y/a/9J+tIwIClMqI
+        GbS0yqsa4O32qXlzA9FOXztB4g==
+X-Google-Smtp-Source: AMsMyM6rucTJ1CQBuNL9rJOQoDLHcHv38gQgU5eP8vFeKD58IMo0QpEfmLy9aTnmshF6GZNlOknXzw==
+X-Received: by 2002:a05:622a:164d:b0:35c:c465:911b with SMTP id y13-20020a05622a164d00b0035cc465911bmr20054305qtj.250.1664906036554;
+        Tue, 04 Oct 2022 10:53:56 -0700 (PDT)
 Received: from meerkat.local (bras-base-mtrlpq5031w-grc-33-142-113-79-147.dsl.bell.ca. [142.113.79.147])
-        by smtp.gmail.com with ESMTPSA id y3-20020a05620a44c300b006ce60296f97sm57780qkp.68.2022.10.04.07.48.10
+        by smtp.gmail.com with ESMTPSA id l18-20020a05620a28d200b006ce813bb306sm15174832qkp.125.2022.10.04.10.53.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Oct 2022 07:48:10 -0700 (PDT)
-Date:   Tue, 4 Oct 2022 10:48:08 -0400
+        Tue, 04 Oct 2022 10:53:55 -0700 (PDT)
+Date:   Tue, 4 Oct 2022 13:53:54 -0400
 From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To:     "Artem S. Tashkinov" <aros@gmx.com>
-Cc:     Mike Rapoport <rppt@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        Greg KH <gregkh@linuxfoundation.org>,
+To:     Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     "Artem S. Tashkinov" <aros@gmx.com>,
+        ksummit <ksummit-discuss@lists.linuxfoundation.org>,
         workflows@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
-        ksummit@lists.linux.dev,
-        Mario Limonciello <mario.limonciello@amd.com>
+        "regressions@lists.linux.dev" <regressions@lists.linux.dev>
 Subject: Re: Planned changes for bugzilla.kernel.org to reduce the "Bugzilla
  blues"
-Message-ID: <20221004144808.q6jq77quysduw5wt@meerkat.local>
-References: <79bb605a-dab8-972d-aa4a-a5e5ee49387c@gmx.com>
- <20221002141321.394de676@rorschach.local.home>
- <6de0925c-a98a-219e-eed2-ba898ef974f8@gmx.com>
- <20221002180844.2e91b1f1@rorschach.local.home>
- <3a3b9346-e243-e178-f8dd-f8e1eacdc6ae@gmx.com>
- <YzoY+dxLuCfOp0sL@ZenIV>
- <b032e79a-a9e3-fc72-9ced-39411e5464c9@gmx.com>
- <YzqjfU66alRlGk5y@kernel.org>
- <20221003153718.o7fhrain5fnwwu3l@meerkat.local>
- <b23586ae-3082-08dc-7bc7-94c3fecffbf9@gmx.com>
+Message-ID: <20221004175354.bfvg3vhfqch35ib5@meerkat.local>
+References: <aa876027-1038-3e4a-b16a-c144f674c0b0@leemhuis.info>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <b23586ae-3082-08dc-7bc7-94c3fecffbf9@gmx.com>
+In-Reply-To: <aa876027-1038-3e4a-b16a-c144f674c0b0@leemhuis.info>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Tue, Oct 04, 2022 at 12:24:23PM +0000, Artem S. Tashkinov wrote:
-> > It can't, actually, which is I think is the crux of misunderstanding here. I
-> > think what Artem is proposing is to *auto-create bugzilla accounts* for anyone
-> > who shows up in MAINTAINERS, so that they can be cc'd on a bug report.
-> > However, everyone understood this as "add these people as default assignees,"
-> > which is not the case.
-> > 
-> > If we auto-create accounts for MAINTAINERS, that would allow them to be cc'd
-> > by an actual human being triaging bugs, but won't lead to any discernable
-> > increase of bugzilla mail.
-> > 
-> > Artem, please correct me if I'm wrong.
+On Thu, Sep 29, 2022 at 01:19:24PM +0200, Thorsten Leemhuis wrote:
+> Hi!
 > 
-> Exactly. Only maintainers and mailing lists will be assigned
-> automatically as it is _now_. Other developers need to be CC'ed _manually_.
-> 
-> There's no SPAM issue or never has been about what I proposed. Absolute
-> most people will never CC anyone 'cause bug reporters are normally quite
-> lazy or not experienced enough to grep git logs.
+> TLDR: Core Linux kernel developers are unhappy with the state of
+> bugzilla.kernel.org; to improve things I plan to change a few important
+> aspects of its configuration, unless somebody comes up with better ideas
+> to tackle current problems: (1) Create a catch-all product making it
+> totally obvious to submitters that likely nobody will look into the
+> ticket. (2) Remove or hide all products & components where the subsystem
+> didn't fully commit to look into newly submitted reports. (3) Change the
+> text on the front page to make it clear that most kernel bug reports
+> need to be sent by mail.
 
-It's still not a perfect plan, because this is what tends to happen:
+Here's my counter-plan, which builds on top of yours.
 
-1. someone is cc'd via the bugzilla interface
-2. the maintainer responds via replying to the email and cc's someone else
-3. bugzilla doesn't automatically synchronize the email Cc: fields and the
-   bug's cc list, so any responses posted via the web interface don't go to
-   people who were cc'd via email
+1. Create a Kernel/Kernel product that acts as a starting point for all bug
+   submissions.
+2. Create and maintain a mapping from MAINTAINER subsystem entries to
+   Product/Component categories in Bugzilla (the scheme to be established).
+3. Establish and maintain a team of designated triage people who are willing
+   to look at incoming bugs to either:
 
-Let me ponder what can be done about that.
+   a. quick-close them as non-actionable (tainted kernel, distro kernel, spam)
+   b. obtain missing information from the submitter as necessary
+   c. figure out the correct component to assign, to the best of their ability
+   d. set a "triaged" flag
 
-If you're interested in helping to get the bugzilla product list into a sane
-format, I can suggest that you work on creating a mapping file between
-bugzilla product/component and MAINTAINERS entry, maybe just for the
-"S: Maintained" and "S: Supported" ones?
+4. a backend monitoring bot will track all bug changes and, when it sees a bug
+   get the "triaged" state, it will:
 
-E.g., starting from the top:
+   a. create a useful bug summary from all bug comments
+   b. figure out who to notify based on the mapping (see #2 above)
+   c. send out the email to everyone identified
 
-    3CR990 NETWORK DRIVER -> Drivers/3CR990
-    3WARE SAS/SATA-RAID SCSI DRIVERS (3W-XXXX, 3W-9XXX, 3W-SAS) -> Drivers/3WARE
-    53C700 AND 53C700-66 SCSI DRIVER -> Drivers/53C700
-    ... etc ...
+5. the same backend monitoring bot will track responses and update the bug
+   comments as needed; any comments added via the bugzilla site will be
+   similarly sent out as follow-up messages.
 
-That would allow me to automate the creation of components *and* work on a
-better email bridge than what bugzilla can currently do.
+6. the bot can also monitor commits and other discussions via lore.kernel.org
+   and automatically add comments/links when it sees the bug mentioned
+   elsewhere.
+
+I'm happy to take care of everything bot-related (apparently, programming bots
+is what I do now -- I just wish it was the cool and glamorous kind).
+
+As I have stated multiple times, the hard part will be keeping a team of
+people who are willing to do the bug triage work, but maybe we can start with
+Greg KH using his intern funds to hire someone (assuming he's not already
+using these funds for someone to help him with all the other tasks).
+
+Does that sound like a plan for everyone?
 
 -K
