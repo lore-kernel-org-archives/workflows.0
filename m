@@ -2,56 +2,28 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A63E4C433F5
-	for <workflows@archiver.kernel.org>; Tue,  4 Oct 2022 09:22:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4D90C433F5
+	for <workflows@archiver.kernel.org>; Tue,  4 Oct 2022 10:16:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230526AbiJDJWU (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 4 Oct 2022 05:22:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38494 "EHLO
+        id S229519AbiJDKQc (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 4 Oct 2022 06:16:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230017AbiJDJVu (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 4 Oct 2022 05:21:50 -0400
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45D5018F;
-        Tue,  4 Oct 2022 02:20:47 -0700 (PDT)
-Received: by mail-qk1-f177.google.com with SMTP id o7so8005613qkj.10;
-        Tue, 04 Oct 2022 02:20:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=Y+//hU1Yc4LQ2dGbJVOgmvwKDPAT2yhj8ciBdV7pT7o=;
-        b=TOsVM/mpYx+Vq5Lbc3mQA940s2ppqhs/utdk0iDamm9JYQnGcu/bGDCs1PgtRV19zf
-         essfbvp+qnhn4fZ7gqNF6+Bla9pUci2M53nrURoBQXvbQ9r5I/zqgwrvWC9ylOMD8lqP
-         6B75GuX7FOM9EzoKD8NQdOrlBznKpuUxPeTWeS0l+vXRutU3b6V+rHK4fcLMKGfeSz6P
-         lFe6wMyU2H+dy6GST7LBbQPM2924Cu6tIAXtbpcStyZEummXSUEfJhEa2zvOfoNQUfJ7
-         fLLUBsVk8g5446gC84S99oFa62tCq6rNcKtUL5o5LoaSGXbVO+d8qLM5hEY2ERkkvo57
-         tLVg==
-X-Gm-Message-State: ACrzQf0fKnVWYso0kUuPevQuxxkVwcMMuU+/st2ugitt8VFGsLHu+6Pz
-        YGGfobdXjMvTZJXAxMnhz4n1M98V55jH7A==
-X-Google-Smtp-Source: AMsMyM76ppye0mxvW1iqbiw9wbGkaPq0OTdjFE+dXnEdkp5i1Q+eRRDN1uCOhd5siTKxZ5idSDpVcQ==
-X-Received: by 2002:a05:620a:b88:b0:6ce:ec98:e7f8 with SMTP id k8-20020a05620a0b8800b006ceec98e7f8mr16462931qkh.338.1664875245906;
-        Tue, 04 Oct 2022 02:20:45 -0700 (PDT)
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
-        by smtp.gmail.com with ESMTPSA id 132-20020a37038a000000b006ceb933a9fesm13100349qkd.81.2022.10.04.02.20.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Oct 2022 02:20:45 -0700 (PDT)
-Received: by mail-yb1-f169.google.com with SMTP id y205so1812247yby.13;
-        Tue, 04 Oct 2022 02:20:44 -0700 (PDT)
-X-Received: by 2002:a5b:104:0:b0:6b0:429:3fe9 with SMTP id 4-20020a5b0104000000b006b004293fe9mr24063004ybx.543.1664875244639;
- Tue, 04 Oct 2022 02:20:44 -0700 (PDT)
+        with ESMTP id S229662AbiJDKQ2 (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 4 Oct 2022 06:16:28 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C83032CC88;
+        Tue,  4 Oct 2022 03:16:26 -0700 (PDT)
+Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1ofeyN-0004j4-4w; Tue, 04 Oct 2022 12:16:23 +0200
+Message-ID: <409a039b-fd00-a480-ee82-e7a329fa7ae2@leemhuis.info>
+Date:   Tue, 4 Oct 2022 12:16:22 +0200
 MIME-Version: 1.0
-References: <aa876027-1038-3e4a-b16a-c144f674c0b0@leemhuis.info>
- <05d149a0-e3de-8b09-ecc0-3ea73e080be3@leemhuis.info> <63a8403d-b937-f870-3a9e-f92232d5306c@leemhuis.info>
- <534EB870-3AAE-4986-95F3-0E9AD9FCE45B@sladewatkins.net> <e9dd6af0-37ef-1195-0d3b-95601d1ab902@leemhuis.info>
- <20221003112605.4d5ec4e9@gandalf.local.home> <eb935178-995b-84f1-6cbe-3492ba74f85b@leemhuis.info>
-In-Reply-To: <eb935178-995b-84f1-6cbe-3492ba74f85b@leemhuis.info>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 4 Oct 2022 11:20:32 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWq+NntrPqMHzP3XEvKZgjEwSHW80vwWkZnaTORRrhpHA@mail.gmail.com>
-Message-ID: <CAMuHMdWq+NntrPqMHzP3XEvKZgjEwSHW80vwWkZnaTORRrhpHA@mail.gmail.com>
-Subject: Re: Planned changes for bugzilla.kernel.org to reduce the "Bugzilla blues"
-To:     Thorsten Leemhuis <linux@leemhuis.info>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Content-Language: en-US, de-DE
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Steven Rostedt <rostedt@goodmis.org>,
         Slade Watkins <srw@sladewatkins.net>,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
@@ -61,33 +33,54 @@ Cc:     Steven Rostedt <rostedt@goodmis.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
         ksummit@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+References: <aa876027-1038-3e4a-b16a-c144f674c0b0@leemhuis.info>
+ <05d149a0-e3de-8b09-ecc0-3ea73e080be3@leemhuis.info>
+ <63a8403d-b937-f870-3a9e-f92232d5306c@leemhuis.info>
+ <534EB870-3AAE-4986-95F3-0E9AD9FCE45B@sladewatkins.net>
+ <e9dd6af0-37ef-1195-0d3b-95601d1ab902@leemhuis.info>
+ <20221003112605.4d5ec4e9@gandalf.local.home>
+ <eb935178-995b-84f1-6cbe-3492ba74f85b@leemhuis.info>
+ <CAMuHMdWq+NntrPqMHzP3XEvKZgjEwSHW80vwWkZnaTORRrhpHA@mail.gmail.com>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: Planned changes for bugzilla.kernel.org to reduce the "Bugzilla
+ blues"
+In-Reply-To: <CAMuHMdWq+NntrPqMHzP3XEvKZgjEwSHW80vwWkZnaTORRrhpHA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1664878586;4783420b;
+X-HE-SMSGID: 1ofeyN-0004j4-4w
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Hi Thorsten,
+On 04.10.22 11:20, Geert Uytterhoeven wrote:
+> Hi Thorsten,
+> 
+> On Tue, Oct 4, 2022 at 10:41 AM Thorsten Leemhuis <linux@leemhuis.info> wrote:
+>> But I consider explaining things like bisection and localmodconfig in
+>> the documentation as also important, as that's likely something the tool
+>> won't be able to automate any time soon (or never, as realizing that is
+>> likely hard and better left to a separate tool anyway).
+> 
+> Creating a simple Linux-specific wrapper around git bisect under
+> scripts/ might be useful?
+> The wrapper could copy .config to
+> $(srctree)/arch/$(ARCH)/config/bisect_defconfig, automatically run
+> "make bisect_defconfig" in each step, and show not only the bisected
+> commit, but also the impact on .config.
 
-On Tue, Oct 4, 2022 at 10:41 AM Thorsten Leemhuis <linux@leemhuis.info> wrote:
-> But I consider explaining things like bisection and localmodconfig in
-> the documentation as also important, as that's likely something the tool
-> won't be able to automate any time soon (or never, as realizing that is
-> likely hard and better left to a separate tool anyway).
+Don't worry, I still remember that trick of yours from this discussion:
+https://lore.kernel.org/all/12e09497-a848-b767-88f4-7dabd8360c5e@leemhuis.info/
 
-Creating a simple Linux-specific wrapper around git bisect under
-scripts/ might be useful?
-The wrapper could copy .config to
-$(srctree)/arch/$(ARCH)/config/bisect_defconfig, automatically run
-"make bisect_defconfig" in each step, and show not only the bisected
-commit, but also the impact on .config.
+Something like that would be a start, but I'd say having localmodconfig
+covered would be wise also, as it speeds things up tremendously for
+those that start with a full-blown x86 pc distro config.
 
-Gr{oetje,eeting}s,
+There are also people that find regressions when updating from say
+v5.18.15 to v5.19.4 and want to bisect that range; never tried if that
+actually works with a stable git tree, but I'd assume that approach is
+unwise. I also assume a lot of people would prefer to download only the
+recent history or specific stable branches when cloning the git tree
+(which is possible if you know what to do, but I guess most people don't).
 
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Ciao, Thorsten
