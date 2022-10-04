@@ -2,118 +2,67 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F685C433F5
-	for <workflows@archiver.kernel.org>; Mon,  3 Oct 2022 20:29:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F25A1C433F5
+	for <workflows@archiver.kernel.org>; Tue,  4 Oct 2022 07:37:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229979AbiJCU3O (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 3 Oct 2022 16:29:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44824 "EHLO
+        id S229611AbiJDHhu (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 4 Oct 2022 03:37:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229935AbiJCU3M (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 3 Oct 2022 16:29:12 -0400
-Received: from premium237-5.web-hosting.com (premium237-5.web-hosting.com [66.29.146.205])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 674CD4A82C;
-        Mon,  3 Oct 2022 13:29:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sladewatkins.net; s=default; h=To:References:Message-Id:
-        Content-Transfer-Encoding:Cc:Date:In-Reply-To:From:Subject:Mime-Version:
-        Content-Type:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=eakTztduk/2KTShxqBF2G+FBfuHrYom5QVAxjPxCOgU=; b=TMeY8OSocHgYUSgerJTmo2v7AV
-        9KvpmauYTeaP0eo2qNarkdgZ9fSp/do6HonVKq53ZLYKoySk6uy+gVyt2cadfXkjayGr10nRsn0X+
-        ywxVOecCzLzZ4hRjw84w6PLS8elOqYlFlHusJGb/hTOsk44QYWTni2IKVVLy9Zk3jP7mo9Bux7c2w
-        KI480dnTzUM770tRlOu8WNn6VB6/pG2RqFqqK6SakerhTZAJ+O87LEUIn9fTTj7TM1jpatdKJaD9J
-        DEp8YYfhGszb4CunwChFPIXHAI8v4166AitELMEVEhvAQ2ZoTz5ZC1ZwcjQmI8nghz/iJKMig9t29
-        3UItnZ2Q==;
-Received: from pool-108-4-135-94.albyny.fios.verizon.net ([108.4.135.94]:63594 helo=smtpclient.apple)
-        by premium237.web-hosting.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.95)
-        (envelope-from <srw@sladewatkins.net>)
-        id 1ofS3m-00HAqt-A7;
-        Mon, 03 Oct 2022 16:29:06 -0400
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.1\))
-Subject: Re: Planned changes for bugzilla.kernel.org to reduce the "Bugzilla
- blues"
-From:   Slade Watkins <srw@sladewatkins.net>
-In-Reply-To: <20221003150708.5f5a409b@gandalf.local.home>
-Date:   Mon, 3 Oct 2022 16:28:59 -0400
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        "Artem S. Tashkinov" <aros@gmx.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Mike Rapoport <rppt@kernel.org>, Theodore Ts'o <tytso@mit.edu>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        with ESMTP id S229867AbiJDHhg (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 4 Oct 2022 03:37:36 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9910526122;
+        Tue,  4 Oct 2022 00:37:34 -0700 (PDT)
+Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1ofcUc-0005WV-IW; Tue, 04 Oct 2022 09:37:30 +0200
+Message-ID: <109147a2-621d-d4ce-f4b3-8516664e138e@leemhuis.info>
+Date:   Tue, 4 Oct 2022 09:37:29 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Content-Language: en-US, de-DE
+To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Mike Rapoport <rppt@kernel.org>
+Cc:     "Artem S. Tashkinov" <aros@gmx.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Greg KH <gregkh@linuxfoundation.org>,
         workflows@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
         ksummit@lists.linux.dev,
         Mario Limonciello <mario.limonciello@amd.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <4CCE7FAA-D4D1-4D07-A0AC-FDCFE581DD0E@sladewatkins.net>
-References: <6de0925c-a98a-219e-eed2-ba898ef974f8@gmx.com>
+References: <e98597e8-9ddb-bbf0-7652-691327186a92@gmx.com>
+ <YzmBjgXq9geMnL1B@mit.edu> <79bb605a-dab8-972d-aa4a-a5e5ee49387c@gmx.com>
+ <20221002141321.394de676@rorschach.local.home>
+ <6de0925c-a98a-219e-eed2-ba898ef974f8@gmx.com>
  <20221002180844.2e91b1f1@rorschach.local.home>
  <3a3b9346-e243-e178-f8dd-f8e1eacdc6ae@gmx.com> <YzoY+dxLuCfOp0sL@ZenIV>
  <b032e79a-a9e3-fc72-9ced-39411e5464c9@gmx.com> <YzqjfU66alRlGk5y@kernel.org>
- <251201be-9552-3a51-749c-3daf4d181250@gmx.com>
- <CAMuHMdX8Ko_LiqsWafzcqheW_7SZmtzEvgrpBbyoCLxyWqjqBg@mail.gmail.com>
- <1d3fdc6a-a98a-fe3b-2e3e-acc2ffa24f9d@gmx.com>
- <20221003102029.1fe4f31b@gandalf.local.home> <Yzsox+Q6mKSpQuc6@ZenIV>
- <20221003150708.5f5a409b@gandalf.local.home>
-To:     Steven Rostedt <rostedt@goodmis.org>
-X-Mailer: Apple Mail (2.3696.120.41.1.1)
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - premium237.web-hosting.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - sladewatkins.net
-X-Get-Message-Sender-Via: premium237.web-hosting.com: authenticated_id: srw@sladewatkins.net
-X-Authenticated-Sender: premium237.web-hosting.com: srw@sladewatkins.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-From-Rewrite: unmodified, already matched
+ <20221003153718.o7fhrain5fnwwu3l@meerkat.local>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: Planned changes for bugzilla.kernel.org to reduce the "Bugzilla
+ blues"
+In-Reply-To: <20221003153718.o7fhrain5fnwwu3l@meerkat.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1664869054;a8c046e3;
+X-HE-SMSGID: 1ofcUc-0005WV-IW
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
+On 03.10.22 17:37, Konstantin Ryabitsev wrote:
+>
+> If we auto-create accounts for MAINTAINERS, that would allow them to be cc'd
+> by an actual human being triaging bugs, [...]
 
-> On Oct 3, 2022, at 3:07 PM, Steven Rostedt <rostedt@goodmis.org> =
-wrote:
->=20
-> On Mon, 3 Oct 2022 19:24:07 +0100
-> Al Viro <viro@zeniv.linux.org.uk> wrote:
->=20
->> Way more than 800, IME.  And I'm still subscribed to it, even though
->> reading through the damn thing isn't physically possible.  About 1 or =
-2
->> percents gets past the "delete unopened" pass...
->=20
-> I keep the last 10 weeks in my folder (and archive the rest.) That's =
-70
-> days worth, and I have 78,109 emails currently in that folder. OK, =
-it's
-> been a while since I last took the average. It appears to be 1114 =
-emails
-> per day now. I blame the extra 300 emails a day being the stable =
-updates :-D
+For the record: that would not be enough, as for bisected regressions
+you often want to CC the author of the culprit who might not be a
+maintainer. To catch that case as well, you'd have to create account for
+everyone that contributes a change.
 
-I keep emails under three circumstances:
-1) emails pertaining to whatever window we=E2=80=99re in on mainline. =
-Since that=E2=80=99s 6.1, I only have emails pertaining to that.
-2) the two most recent stable-rc emails for current stable versions
-3) anything I=E2=80=99ve replied to or am Cc=E2=80=99d on
-
-I erase emails each window for number 1, and numbers 2+3 get their =
-emails erased after a month of no activity.
-
-But, I do try to at least skim through everything that comes through =
-LKML so I=E2=80=99m in-the-know, so to speak. (I know, that=E2=80=99s =
-strange, but I=E2=80=99m a fast reader and am very deeply interested in =
-it so it=E2=80=99s never been hard for me to keep up on the list.)
-
--srw
-
+Ciao, Thorsten
