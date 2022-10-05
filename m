@@ -2,81 +2,77 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFD60C433FE
-	for <workflows@archiver.kernel.org>; Tue,  4 Oct 2022 22:45:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42095C433FE
+	for <workflows@archiver.kernel.org>; Wed,  5 Oct 2022 09:01:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230351AbiJDWpw (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 4 Oct 2022 18:45:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33476 "EHLO
+        id S230049AbiJEJBH (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 5 Oct 2022 05:01:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230350AbiJDWpr (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 4 Oct 2022 18:45:47 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBF5B5300D;
-        Tue,  4 Oct 2022 15:45:45 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 75255B81BF7;
-        Tue,  4 Oct 2022 22:45:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A64EC433D6;
-        Tue,  4 Oct 2022 22:45:41 +0000 (UTC)
-Date:   Tue, 4 Oct 2022 18:45:44 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
+        with ESMTP id S229944AbiJEJBC (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 5 Oct 2022 05:01:02 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3F265F7C2;
+        Wed,  5 Oct 2022 02:00:56 -0700 (PDT)
+Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1og0Gr-0006G8-NF; Wed, 05 Oct 2022 11:00:53 +0200
+Message-ID: <89926f21-e172-9f3d-d08f-8d5eef812ee1@leemhuis.info>
+Date:   Wed, 5 Oct 2022 11:00:53 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Content-Language: en-US, de-DE
+To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
 Cc:     "Artem S. Tashkinov" <aros@gmx.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
+        ksummit <ksummit@lists.linux.dev>, workflows@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
         Greg KH <gregkh@linuxfoundation.org>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        workflows@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
-        ksummit@lists.linux.dev,
-        Mario Limonciello <mario.limonciello@amd.com>
+        "regressions@lists.linux.dev" <regressions@lists.linux.dev>
+References: <aa876027-1038-3e4a-b16a-c144f674c0b0@leemhuis.info>
+ <20221004175354.bfvg3vhfqch35ib5@meerkat.local>
+ <c74d9d75-4428-e22d-1adb-334b1173d871@leemhuis.info>
+ <20221004202540.etokkm3jk6sk7z7y@meerkat.local>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
 Subject: Re: Planned changes for bugzilla.kernel.org to reduce the "Bugzilla
  blues"
-Message-ID: <20221004184544.371daf46@gandalf.local.home>
-In-Reply-To: <CAMuHMdW1yp76X6xMFSXnpRNXPBVVLuyqm=UCOZ0uQem0_50poQ@mail.gmail.com>
-References: <Yzg7pHspc72I7TAb@mit.edu>
-        <e98597e8-9ddb-bbf0-7652-691327186a92@gmx.com>
-        <YzmBjgXq9geMnL1B@mit.edu>
-        <79bb605a-dab8-972d-aa4a-a5e5ee49387c@gmx.com>
-        <20221002141321.394de676@rorschach.local.home>
-        <6de0925c-a98a-219e-eed2-ba898ef974f8@gmx.com>
-        <20221002180844.2e91b1f1@rorschach.local.home>
-        <3a3b9346-e243-e178-f8dd-f8e1eacdc6ae@gmx.com>
-        <YzoY+dxLuCfOp0sL@ZenIV>
-        <b032e79a-a9e3-fc72-9ced-39411e5464c9@gmx.com>
-        <YzqjfU66alRlGk5y@kernel.org>
-        <251201be-9552-3a51-749c-3daf4d181250@gmx.com>
-        <CAMuHMdX8Ko_LiqsWafzcqheW_7SZmtzEvgrpBbyoCLxyWqjqBg@mail.gmail.com>
-        <1d3fdc6a-a98a-fe3b-2e3e-acc2ffa24f9d@gmx.com>
-        <20221003102029.1fe4f31b@gandalf.local.home>
-        <fde043f3-da34-9fc6-379b-922f29284e66@gmx.com>
-        <CAMuHMdW1yp76X6xMFSXnpRNXPBVVLuyqm=UCOZ0uQem0_50poQ@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20221004202540.etokkm3jk6sk7z7y@meerkat.local>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1664960456;19817fd4;
+X-HE-SMSGID: 1og0Gr-0006G8-NF
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Tue, 4 Oct 2022 14:32:26 +0200
-Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-
-> > I _did_ CC him privately by adding his _personal_ e-mail. I'm astonished
-> > not only you don't believe me you turn my words inside out.  
+On 04.10.22 22:25, Konstantin Ryabitsev wrote:
+> On Tue, Oct 04, 2022 at 10:06:28PM +0200, Thorsten Leemhuis wrote:
+>> Your plan would afaics mean that we invest further into a software
+>> abandoned by its upstream and already becoming more and more of a
+>> maintenance burden. That investment would also further increase our
+>> dependency on that software by establishing workflows that rely on it.
+>> Is that really wise at this point? Wouldn't it be better to spend that
+>> time and effort to build something better that is more future proof?
 > 
-> I think there is a misunderstanding of the meaning of "CC privately".
-> To me it means no public data disclosing entity (be it a public mailing
-> list, or a public bug tracker) was CCed as well.
-> To you, it seems to mean you used his personal email address instead
-> of a mailing list address.
+> Unfortunately, there's no such thing. ;) And maybe we'll even help tip the
+> course of history into the other direction -- Red Hat uses bugzilla, and so
+> does OpenSuse, so there's a pretty good core of well-funded companies that
+> would be in a position to help keep bugzilla going if it's looking like the
+> platform is still alive. Or that could all be wishful thinking and they'll all
+> migrate to Jira or something equally horrible, who knows.
 
-Exactly. If I can go find it, it wasn't "private".
+Well, Red Hat apparently is already in the process of migrating to Jira
+in the long run:
+https://lists.fedoraproject.org/archives/list/epel-devel@lists.fedoraproject.org/thread/U7TZRWXVUGBCHS6EBJIBSFAVPFUHHV7J/
 
--- Steve
+To quote that mail from March:
+
+```
+As some of you may know, Red Hat has been using both Bugzilla and Jira
+via issues.redhat.com for RHEL development for several years.  Our
+intention is to move to using issues.redhat.com only for the major
+RHEL releases after RHEL 9.
+```
+
+Ciao, Thorsten
