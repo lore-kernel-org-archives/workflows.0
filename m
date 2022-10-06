@@ -2,133 +2,150 @@ Return-Path: <workflows-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79EBBC433FE
-	for <workflows@archiver.kernel.org>; Wed,  5 Oct 2022 09:57:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ADE7C433FE
+	for <workflows@archiver.kernel.org>; Thu,  6 Oct 2022 07:56:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229810AbiJEJ50 (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 5 Oct 2022 05:57:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49286 "EHLO
+        id S230442AbiJFH4h (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 6 Oct 2022 03:56:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229623AbiJEJ5Z (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 5 Oct 2022 05:57:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3019F6F245
-        for <workflows@vger.kernel.org>; Wed,  5 Oct 2022 02:57:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1664963843;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=20ff7s16mtIwZ8gqYFObUPuSeBfntjdVTNqXHSuaHoI=;
-        b=ZHYb3YcMK25WqNfJAfeTatUL5AnNUaSbj0VBqUWUr12vqKNhi6oMO+hTYkPwu6nvpf5h19
-        afP5BrzWgQVU45sy32Q9DDypiOZccULssRZ/tioED2299Dojo+asB7+cz4N6QmCUa+wMXY
-        cT/9dBKKaMKV5m1OqITk9+O13cj4UYc=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-182-nGYwmHyyMquWhy-I1ZYTAQ-1; Wed, 05 Oct 2022 05:57:21 -0400
-X-MC-Unique: nGYwmHyyMquWhy-I1ZYTAQ-1
-Received: by mail-ej1-f70.google.com with SMTP id oz10-20020a1709077d8a00b00783c1ad301fso6211203ejc.2
-        for <workflows@vger.kernel.org>; Wed, 05 Oct 2022 02:57:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=20ff7s16mtIwZ8gqYFObUPuSeBfntjdVTNqXHSuaHoI=;
-        b=XWbOGAd8AECRAkbTX1jc/NWkh//WlIPTD3s2tJfDsv1WNMliA4KZyUXwgwHsrI4aMs
-         /gyEZhdMvftzlrlewEQM0zvaBlCAfG+5NLCfL2XhYNp3FH2ag2LCRcaNTwxwRaS+hasK
-         lWlSAT7rS6+o8f92jIa0XxK+y6bN0pgjTpt0lAkxp35mjdpMZTtSXVRIh1UcT4g3jeG3
-         Xmstgj6Rhq/57GjACl3qNECGt+P59gI5adL6FcyVG4wkNwZeRRp7bz8KKQ7HUJKcqeG7
-         33tDYDrNXuKYYNO0o6gPeziYpiqFu8CixgdTwISQxj5vepni6Qx4kIMlEvVklZfd2WcU
-         HvYw==
-X-Gm-Message-State: ACrzQf3YQNsnUrQzDfLBE/p61AoI6vS+q7H5bb+jr+wdPSU2gAzO4Qqx
-        qEyObAqyjO7Uhbn7RMAGiuiP+aH/Fp/peIXUD88XTI4OTb1UZuCXtXjx/ovSOa3c3iWBYQooHSZ
-        VLU5/dskIUrF89Wb1v2P5
-X-Received: by 2002:a17:907:8a04:b0:782:5277:2bac with SMTP id sc4-20020a1709078a0400b0078252772bacmr23287309ejc.128.1664963840705;
-        Wed, 05 Oct 2022 02:57:20 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5mca9biPXLa+2VXu6jXHj36N0ePmCtaDc/BXk6keLmkoscY89Q4ZDPxtCjzrCOOdednWj6xg==
-X-Received: by 2002:a17:907:8a04:b0:782:5277:2bac with SMTP id sc4-20020a1709078a0400b0078252772bacmr23287285ejc.128.1664963840468;
-        Wed, 05 Oct 2022 02:57:20 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id oq4-20020a170906cc8400b0078b1ff41f05sm5053016ejb.43.2022.10.05.02.57.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Oct 2022 02:57:19 -0700 (PDT)
-Message-ID: <477635db-c89b-cfd3-cd26-fea51bb094a5@redhat.com>
-Date:   Wed, 5 Oct 2022 11:57:19 +0200
+        with ESMTP id S230441AbiJFH4g (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 6 Oct 2022 03:56:36 -0400
+Received: from mout-xforward.gmx.net (mout-xforward.gmx.net [82.165.159.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B087527CD6;
+        Thu,  6 Oct 2022 00:56:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1665042986;
+        bh=UxqOWl+5Fnu5BtMbVy/UIVQ40JwvSPGP9jrVh2B1CO8=;
+        h=X-UI-Sender-Class:Date:Subject:Cc:References:From:In-Reply-To;
+        b=CZtDCWr9IbSPn/tM+zuzLY1JZnhRZH00lkKITVTEZVK+THtBe3QEMlUUlPVkeWcHM
+         QJf8z86cSslIvvtCuEHOtMm00bAApWryE9p06pAJcTBPWIjcfQFe1kepW4a9wxnERL
+         Zo7HmL8PU6iKlzVqdrBciINrTyPY5evWL3VD0ktc=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [10.24.110.15] ([143.244.37.25]) by mail.gmx.net (mrgmx105
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1M6Daq-1oZl6Q2Iem-006eJS; Thu, 06
+ Oct 2022 09:56:26 +0200
+Message-ID: <3ee2a3d6-5711-3240-c181-cd34426932ed@gmx.com>
+Date:   Thu, 6 Oct 2022 07:56:24 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
 Subject: Re: Planned changes for bugzilla.kernel.org to reduce the "Bugzilla
  blues"
-Content-Language: en-US, nl
-To:     Thorsten Leemhuis <linux@leemhuis.info>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc:     "Artem S. Tashkinov" <aros@gmx.com>,
-        ksummit <ksummit@lists.linux.dev>, workflows@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+Cc:     ksummit <ksummit-discuss@lists.linuxfoundation.org>,
+        workflows@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
         "regressions@lists.linux.dev" <regressions@lists.linux.dev>
 References: <aa876027-1038-3e4a-b16a-c144f674c0b0@leemhuis.info>
  <20221004175354.bfvg3vhfqch35ib5@meerkat.local>
- <c74d9d75-4428-e22d-1adb-334b1173d871@leemhuis.info>
- <20221004202540.etokkm3jk6sk7z7y@meerkat.local>
- <89926f21-e172-9f3d-d08f-8d5eef812ee1@leemhuis.info>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <89926f21-e172-9f3d-d08f-8d5eef812ee1@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From:   "Artem S. Tashkinov" <aros@gmx.com>
+In-Reply-To: <20221004175354.bfvg3vhfqch35ib5@meerkat.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:pXQ1jKnLz0YSBlquK4q7D7JoQVjjVm62KF2orsKZYLNPYNAj+h3
+ MVJJZhpolAu2PeU1r3bkYJozjk8FLElf36L9FQA3wWpdUoVsIAUY08Jiog+u4WiOBzh7V6/
+ hQ0v2ifDq5S0tZzW4yQiwegFTtA5ckez8WhoTzEjMaOcWr7tPFz26arLSBcAhEE/PBr1SFC
+ nwcegtu+eaHRIqjxn/Sag==
+X-UI-Out-Filterresults: junk:10;V03:K0:wJa772Smk1s=:s2w1iITOWIn6kRqZiH1Oo2pZ
+ tSwHrSi8YZS0GHfw/4Dwx+A3k+9M8JKHB+HpN/2tURgfnVvRWlj5t+n39p4I/IQ4B9g4IN1dI
+ R8SE2cQN1sAE9NRgKB7TasMzQb0omodxG7smA3/lkjJjdp8Le6O2v8ncLSIUmsXbIZS9xYySx
+ wOcEyCcvhy77OLHyj4reUihMknpSL8wLY23IDe3byzWnnhDE15Jk4rNyptUmdF1bBa3jmmzaP
+ 67/wOSaQNL8SUY+QGYjFyVV2EbtjDmhebn+psljW7mRa+ly0aBqgbp3aeGP0auLxC/maI6pXA
+ isUd84kbw9q+YY2U8wgBJk1SUH9dAq15f90NaMT8eB1FfGsJiSxfEPcRaXv7DaqoA4uyDUvBH
+ +P8TSwYbPwzRZafqBD8UnFjuFzZ8xMYyNe+l8Q2jr8BGXXMoe0YsBK0uaAvix7NrxtPKQxJVF
+ 5oXcwlfgOFxapb3lVXmMA8qp2CpUGHO3hnxQwFRNfLq0y0vJJORRp4tx1qOKznd7+lUMzAt9r
+ O6htHm8AHW0awmjftmhciYGNvZf8q8J/QLbKQQrV4ZGplL585Xl5wXj6E4H2rWN7ZhTpaEzPX
+ DsQHub/ffIvo8Wlo26Bf3I7zMu6UhTGNXYPS/aCO3ERyGTojU1WEVBxfloCIrfvQlEfOemeVQ
+ PdP1eJBn7zBzkhy32/zxUz2YZByLOrWTMBH/W8Dyiaq/HfysIT6BWqgmbchthqPw+jMPwSv48
+ 8YI7PCj97kbY2pQVFwnGx1Tigfb7rRSsR8MR1vE62CSe5ultFld1EFwejYv9OYzwFjLmDBhF7
+ nzNpJSIBpYvz6B07boRqoKn/CAiymY/5MUxh0pI1L1ecgOunqvNeN/v9Xfzq15r9NtPhtx1o3
+ OhcTb+s71dUoCcHN88RMdP+MmGH3Lu7VzSYbE/Io4gV3NaxdoTmtfbadwdRd7R9WvC6Usedtg
+ ypHVmH5EY05W++soDvt3JTgBQ4uJyQZehNDiRCJMLWApij6IWoxgaPn0TyDaxaww03Y7S70TK
+ D1mIXFiH/dgrjG7dNCApaGg/wlaOXWaWVn8a/X041ki6sGzbZyo91eImJ+L3McSOVAmDoxLgg
+ NGeCJAeQ8giC97578l2bPMgyQQZzLhnx2zO1t7JdxXeyBW2k48Ii8ZfZANISrzV5sW7qM972x
+ i0TP7yAnpbdEeLhLwj1ralEWsolG7TqoVQXnmdcCq43lggKRcqOGJrIQRWUDH2Y+xQaJ+lwGL
+ rdnhxOeAt0Hq5Wprdc+oOCiLC7xsmvXXDd3iT/kvNwYqEiZZXm5LvkRIMHt6sDq5VY31b2feU
+ N34UOdXwTB0YBvMlYPCJi6BAaPI3a26LE22hfpUENaxeQW0zDF+UmIQiFMaV48l75R+XW7Fz4
+ doV5DsQ3UvaBfBsNKKEL+CUtFWViNlrE/i3EH/Wotp2f3lDz8trT/drPJ20wLO5nWj8nU/4tv
+ Lqp7n0SGDNrRo9BpdQWOAcggiykV3qZ/DZAErwK1hvBuv7IZJcg2aZeIDs+NjlCFeR7O5+7KP
+ u3Ne+i7UAYVn7ThkS0nQ0lxpGEyIfNcrQ7BGhcvgfw7/ZHD/46/m7sraWNzZtwVXw==
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Hi,
 
-On 10/5/22 11:00, Thorsten Leemhuis wrote:
-> On 04.10.22 22:25, Konstantin Ryabitsev wrote:
->> On Tue, Oct 04, 2022 at 10:06:28PM +0200, Thorsten Leemhuis wrote:
->>> Your plan would afaics mean that we invest further into a software
->>> abandoned by its upstream and already becoming more and more of a
->>> maintenance burden. That investment would also further increase our
->>> dependency on that software by establishing workflows that rely on it.
->>> Is that really wise at this point? Wouldn't it be better to spend that
->>> time and effort to build something better that is more future proof?
+
+On 10/4/22 17:53, Konstantin Ryabitsev wrote:
+> On Thu, Sep 29, 2022 at 01:19:24PM +0200, Thorsten Leemhuis wrote:
+>> Hi!
 >>
->> Unfortunately, there's no such thing. ;) And maybe we'll even help tip the
->> course of history into the other direction -- Red Hat uses bugzilla, and so
->> does OpenSuse, so there's a pretty good core of well-funded companies that
->> would be in a position to help keep bugzilla going if it's looking like the
->> platform is still alive. Or that could all be wishful thinking and they'll all
->> migrate to Jira or something equally horrible, who knows.
-> 
-> Well, Red Hat apparently is already in the process of migrating to Jira
-> in the long run:
-> https://lists.fedoraproject.org/archives/list/epel-devel@lists.fedoraproject.org/thread/U7TZRWXVUGBCHS6EBJIBSFAVPFUHHV7J/
-> 
-> To quote that mail from March:
-> 
-> ```
-> As some of you may know, Red Hat has been using both Bugzilla and Jira
-> via issues.redhat.com for RHEL development for several years.  Our
-> intention is to move to using issues.redhat.com only for the major
-> RHEL releases after RHEL 9.
-> ```
+>> TLDR: Core Linux kernel developers are unhappy with the state of
+>> bugzilla.kernel.org; to improve things I plan to change a few important
+>> aspects of its configuration, unless somebody comes up with better idea=
+s
+>> to tackle current problems: (1) Create a catch-all product making it
+>> totally obvious to submitters that likely nobody will look into the
+>> ticket. (2) Remove or hide all products & components where the subsyste=
+m
+>> didn't fully commit to look into newly submitted reports. (3) Change th=
+e
+>> text on the front page to make it clear that most kernel bug reports
+>> need to be sent by mail.
+>
+> Here's my counter-plan, which builds on top of yours.
+>
+> 1. Create a Kernel/Kernel product that acts as a starting point for all =
+bug
+>     submissions.
+> 2. Create and maintain a mapping from MAINTAINER subsystem entries to
+>     Product/Component categories in Bugzilla (the scheme to be establish=
+ed).
+> 3. Establish and maintain a team of designated triage people who are wil=
+ling
+>     to look at incoming bugs to either:
+>
+>     a. quick-close them as non-actionable (tainted kernel, distro kernel=
+, spam)
+>     b. obtain missing information from the submitter as necessary
+>     c. figure out the correct component to assign, to the best of their =
+ability
+>     d. set a "triaged" flag
+>
+> 4. a backend monitoring bot will track all bug changes and, when it sees=
+ a bug
+>     get the "triaged" state, it will:
+>
+>     a. create a useful bug summary from all bug comments
+>     b. figure out who to notify based on the mapping (see #2 above)
+>     c. send out the email to everyone identified
+>
+> 5. the same backend monitoring bot will track responses and update the b=
+ug
+>     comments as needed; any comments added via the bugzilla site will be
+>     similarly sent out as follow-up messages.
+>
+> 6. the bot can also monitor commits and other discussions via lore.kerne=
+l.org
+>     and automatically add comments/links when it sees the bug mentioned
+>     elsewhere.
+>
+> I'm happy to take care of everything bot-related (apparently, programmin=
+g bots
+> is what I do now -- I just wish it was the cool and glamorous kind).
+>
+> As I have stated multiple times, the hard part will be keeping a team of
+> people who are willing to do the bug triage work, but maybe we can start=
+ with
+> Greg KH using his intern funds to hire someone (assuming he's not alread=
+y
+> using these funds for someone to help him with all the other tasks).
+>
+> Does that sound like a plan for everyone?
 
-That is for RHEL only though I'm not sure what the plans for Fedora are.
+This looks fabulous.
 
-Also I do believe that the Red Hat bugzilla team is working on porting
-bugzilla to postgresql, which would at least fix the problem of depending on
-a no longer maintained mysql version.
+Except, I'd love to let users have an option of submitting bugs to the
+component they specify manually.
 
-If the postgresql port is something of interest to keep bugzilla.kernel.org
-going for now, then it is probably best to just directly contact the bugzilla
-maintainers @redhat.
-
-Regards,
-
-Hans
-
-
-
+(I've removed a ton of people from CC because my email provider
+absolutely hates when I send emails to many addresseses simultaneously -
+my account was completely blocked for five days while I tried hard to
+reach support).
