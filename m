@@ -2,80 +2,144 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FE0DC6FD1D
-	for <workflows@archiver.kernel.org>; Tue,  4 Apr 2023 12:55:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56391C761A6
+	for <workflows@archiver.kernel.org>; Tue,  4 Apr 2023 16:16:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234228AbjDDMz5 (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 4 Apr 2023 08:55:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60720 "EHLO
+        id S231823AbjDDQQT (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 4 Apr 2023 12:16:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234318AbjDDMz4 (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 4 Apr 2023 08:55:56 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E5D4212A;
-        Tue,  4 Apr 2023 05:55:53 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1pjgCV-00085a-KP; Tue, 04 Apr 2023 14:55:51 +0200
-Message-ID: <fb31aa79-ad4a-0c2d-3f77-4eb84bedfd4f@leemhuis.info>
-Date:   Tue, 4 Apr 2023 14:55:51 +0200
+        with ESMTP id S231477AbjDDQQS (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 4 Apr 2023 12:16:18 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0944430ED;
+        Tue,  4 Apr 2023 09:16:16 -0700 (PDT)
+Received: from [192.168.18.39] ([45.154.89.243]) by mail.gmx.net (mrgmx105
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1MYNNy-1pxSpw141i-00VSDi; Tue, 04
+ Apr 2023 18:16:14 +0200
+Message-ID: <022e2ef8-2a94-3109-ab90-9ee980915887@gmx.com>
+Date:   Tue, 4 Apr 2023 16:16:08 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Content-Language: en-US, de-DE
-To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc:     workflows@vger.kernel.org, aros@gmx.com,
-        linux-kernel@vger.kernel.org, regressions@lists.linux.dev,
-        tools@linux.kernel.org
-References: <gmnswy45efztvcyc3xqymm52h7cdfwjz64go2wy3zyeqcqwb76@36fva4hyip4q>
- <b38de7ff-3de1-cd4a-a532-66642aea587c@leemhuis.info>
- <20230404-bacteria-refinery-a97393@meerkat>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
 Subject: Re: Introducing bugbot
-In-Reply-To: <20230404-bacteria-refinery-a97393@meerkat>
-Content-Type: text/plain; charset=UTF-8
+To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        workflows@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <gmnswy45efztvcyc3xqymm52h7cdfwjz64go2wy3zyeqcqwb76@36fva4hyip4q>
+Content-Language: en-US
+From:   "Artem S. Tashkinov" <aros@gmx.com>
+In-Reply-To: <gmnswy45efztvcyc3xqymm52h7cdfwjz64go2wy3zyeqcqwb76@36fva4hyip4q>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1680612953;b7f2feb0;
-X-HE-SMSGID: 1pjgCV-00085a-KP
+X-Provags-ID: V03:K1:OUXkQPRmTB5NvpJ+wt+2kQLczRv7y+6H6rGxYNiEmYBBzbl9O9G
+ yx+0yY7R3i//SCtCo5zEGPN/J3FdZIvhjtnR1HDBJucfpO7+fXtO36h3tZ9YCuEAn9axHJN
+ oGYTkKKvjRD2rsAB0AC8QD7yhZBOFzmuezdVYqeaBSHekk9J71rquvezCdPMO1lgacqAFJs
+ nzxVX0rO7tVGWUYcSlT8Q==
+UI-OutboundReport: notjunk:1;M01:P0:/eXXL/h+Wxk=;0pqoJ5egTIzCZN+KY8vjhZ0/DHE
+ oYN2TOVB5rjvJJOV8hhyQy+XSUgPOg2ZzJt0X7YKv2favexcIxcxj4eE6SK/JH1h45iuYVv99
+ ZnRn6ObMJYjYkhjhHel2jvVhIvxSDof4jG0c9/qnMXDwQuoKME7dpShFKgdFa1sr7CMakihn4
+ eIffVRbt9Y68HWVxv+TjjxMHf9ZomdZJozVJ2vvCGT7ovVVBLrHqiisK/7ilGnynBtZmY8PRo
+ 51dvpijcwYccKFoOY5tjswGkvc1jLu+M5CLqRSzoXWH21MHJYQjSTINfrDrGXwngmaPt7gUvc
+ ZTAJjQUf6cxL3OiA62Uh9wst7r0AxQzToHl5BUjS+nb6cwz/DLuE0tlqHfuemCG/tHHllnhxQ
+ oHU8hbkMR/ojmG6fWEpEHmRhCfUU4vw6CQqnGXxc/H3dYuwxBSisWsj0/1Z2w5v+VFoVC4n0y
+ UvZE2+Qm10gbtn3e+1LjeXSvCSLLIP63O6wCjqOTkTO93CAM4t22ySD67TbbDHQnnq4uggiU8
+ FTLUEiKqwWC7lrzz2BoEqq/jg4prqt0DAidcs0lECPe2MCCnaJvUFDD4SS78h7GbN2JPjhJaa
+ AOC5c+OO7P3iTIOtsecoqUvpZiXCptes9DWn8cPTxUHzjLTLMsrQ1546pA8PkTznKYtFfu9S8
+ DXHtr2vwXtS2MlZZQ9tx5MLaeoyiZX3XEYI/EP4hJmaxFaALqx0Wug4hihl9Ik8cfXHPuu+MP
+ ABTeWm2jTMcr0S3Rd//plNJhxILXEW3R6+UvWJL0u9azzLCW5kwXZwG2nIDxl+FiIjpnFHKtM
+ Yg7jfpLNyHhyp+sHGmzVn87U5Ri9dmY4CrQ1kSmkXi2eZT56Lz4ZUPN3lJasokHzgsUR57FBd
+ w9uPTJRXa7ywjoDQddkWyM+1Cg89oQW6tKroM6f01mHmwly5/1eIt9LRAC4DqbN9uG/f5UJN8
+ PG/+l5fFk9tnrMKbWQnFB1D/RDs=
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On 04.04.23 14:36, Konstantin Ryabitsev wrote:
-> On Tue, Apr 04, 2023 at 07:58:40AM +0200, Thorsten Leemhuis wrote:
->> Would be great if bugbot could CC the regressions list for all bugs that
->> have the regressions flag set to "yes"
-> I'll see if I can add this logic and make it configurable.
-
-great, thx!
-
->> How does one make bugbot forward a bug to everyone in the signed-off-by
->> chain of a commit that caused a regression, which might or might not
->> have a bugzilla account?  When the reporter performed a bisection these
->> are the primary contacts that need to be reached out to, but the
->> maintainers and lists for the subsystem obviously should be CCed.
+On 4/3/23 21:45, Konstantin Ryabitsev wrote:
+> Hi, all:
 > 
-> I can add a cf_bisected_commit field that can take a commit-id. When gathering
-> recipients, we can check if we know that commit in one of the tracked
-> repositories, and get the author field out of it. Would that be sufficient,
+> Per our discussion last fall, I've been working on a bridge between bugzilla
+> and public-inbox, which went live in the past few days. It's still a very
+> early release, but it can do the following:
+> 
+> 1. Create bugs from mailing list discussions, with full history. For example,
+>     it is sufficient for someone [1] to say "bugbot on" in a mailing list
+>     discussion to request bugbot to convert that thread into a new bug. It will
+>     then continue checking that thread for new messages, creating new comments
+>     for any added communication. This works both ways -- any comments added on
+>     bugzilla will be sent as follow-up messages to the original recipients.
+> 
+>     New bugs will be created in the Linux/Kernel component of Bugzilla, but
+>     they can then be reassigned to any other component. As long as they remain
+>     open, bugbot will continue tracking threads for new messages until either
+>     the bug is closed, or it has been over 30 days since any activity on the
+>     bug.
+> 
+>     [1] At this time, the From address of the person saying "bugbot on" has to
+>     have an account on bugzilla and be part of the "editbugs" group.
+> 
+>     Here's me using it to turn a thread into a bug:
+>     https://lore.kernel.org/lkml/CAJfuBxwomDagbdNP-Q6WvzcWsNY0Z2Lu2Yy5aZQ1d9W7Ka1_NQ@mail.gmail.com/
+> 
+> 2. Start mailing list threads from pre-triaged bugzilla bugs. This works the
+>     opposite way and creates mailing list threads based on bug reports filed in
+>     bugzilla. The useful things here are:
+> 
+>     - bugbot only gets triggered on open bugs in Linux/Kernel that have the
+>       "bugbot" flag set to "+", which allows pre-triaging a bug before bugbot
+>       sends it to the mailing list
+>     - there is a special "cf_subsystem" field added to that component; bugbot
+>       will match it verbatim to the MAINTAINERS file components and will send
+>       mail to the M: and L: addresses for that subsystem
+>     - bugbot will then monitor for any updates to that thread, so any mailing
+>       list replies will be added as comments to the bug (thus sending a
+>       bugzilla mail notification to the initial author)
+>     - if the cf_subsystem is incorrect, it can be changed to a different
+>       subsystem at any time, triggering a different set of recipients on the
+>       next update
+>     - any files added in bugzilla will trigger notification sent to the list
+>       (but won't attach the actual files, so they don't clog everyone's mailbox
+>       or list archives)
+> 
+>     Artem, I'm not sure if you're still active with bugzilla.kernel.org, but I
+>     believe the cf_subsystem functionality is pretty much what you wanted so it
+>     was possible to bring bugs to the attention of actual subsystem
+>     maintainers.
+> 
+>     Here is a bug that was turned into a mailing list thread via cf_subsystem:
+>     https://bugzilla.kernel.org/show_bug.cgi?id=217293
+> 
+> Like I said, bugbot is very young and probably full of bugs, so it will still
+> see a lot of change and will likely explode a couple of times. The code behind
+> it is here, woefully lacking any documentation as yet:
+> https://git.kernel.org/pub/scm/utils/peebz/peebz.git/
+> 
+> At this time, I invite anyone with an account on bugzilla and "editbugs" group
+> membership can start using bugbot in either direction and to report any bugs
+> you find to the tools list.
+> 
+> Next features on my todo list are:
+> 
+> - documentation
+> - tracking repositories and recording when bugs are mentioned in commits
+> - whatever other feedback I receive
+> 
+> Best regards,
+> Konstantin
 
-Nearly, as mentioned above: it should be everybody in the signed-off-by
-chain (as explained in reporting-issues.rst), as that will catch
-co-developers and the people that handled the change on the way.
+Hello Konstantin,
 
-> or do we need to run get_maintainer on it for a full picture?
+I love everything about what you've done except I've got a minor feature 
+request for the kernel bugzilla and this new workflow specifically.
 
-The normal magic you described that bugbot applies to match reports to
-subsystems is also needed, as otherwise lists and co-maintainer would
-not be in the loop.
+Let's have a bot which polls open bug reports every 3-6 months with this 
+question:
 
-> Note, that you can also add addresses to Cc: on the thread -- they will be
-> collected behind the scenes as each message is processed and any bugbot
-> notifications originating from the bugzilla side will also include them.
+"Is this still an issue in the current kernel? Please leave a comment or 
+this bug report will be closed due to inactivity".
 
-That's good to know and likely will be handy sometimes, but well, for
-regular use of the bugzilla->mailing list use-case it would be slightly
-annoying if you'd first have to tell bugzilla to create a ml thread,
-which you then need to find to write a reply to add people to the CC.
+By doing this we could make the bugzilla a whole more relevant and 
+effective tool instead of having a ton of bug reports no one cares about 
+or can even confirm.
 
-Ciao, Thorsten
+I would only exclude the bug reports of type "Enhancement".
+
+Best regards,
+Artem
