@@ -2,92 +2,101 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A1A3C761A6
-	for <workflows@archiver.kernel.org>; Tue,  4 Apr 2023 17:36:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20A42C6FD1D
+	for <workflows@archiver.kernel.org>; Tue,  4 Apr 2023 21:39:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235610AbjDDRgF (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 4 Apr 2023 13:36:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49186 "EHLO
+        id S236266AbjDDVjY (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 4 Apr 2023 17:39:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235832AbjDDRgE (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 4 Apr 2023 13:36:04 -0400
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 448753C28
-        for <workflows@vger.kernel.org>; Tue,  4 Apr 2023 10:35:38 -0700 (PDT)
-Received: by mail-qt1-x836.google.com with SMTP id y4so2345901qti.5
-        for <workflows@vger.kernel.org>; Tue, 04 Apr 2023 10:35:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1680629736;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=R19pDDlxEBqwP4WCwxhzBg+mcLiYnMRVxRJpokPqHX4=;
-        b=bUUDxGt4LptYFJ32xj1qDLwvla/b4T89Nyh/qXyxss01mkOHxqUPLYtggziGR9z5Q6
-         rJsXskKlBIMEKAHdzj2dmQksxr7d2TO2h+CzeogS0ZwMrAQyNJQTF7RT1FoZX+KP0TOQ
-         uzKO5NKOnFcc+uVbVv/maP6fZCujH372RBHTs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680629736;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R19pDDlxEBqwP4WCwxhzBg+mcLiYnMRVxRJpokPqHX4=;
-        b=WxL6RyMF13kX0F8EITTFGPVb2XnAI3sgCVFci1VmO2eeA5iOrX6YpmfL581o0I3KlM
-         NtKmr97tCcSGKml3ztUweuHrt3OtKHOuvETM49AX+bZQbAS5SwA42ic1lWqe/wx8QDYD
-         mqhkwBimj2Qdm/If65N4Vfs9MWUrbT6s3ivXz2sK8RKIPFvy7D/Lm/NvpFeKRRDt4pF6
-         D6H/MOPKicyxyKZNO7EcLdQGN1b5RzDajMJuQGAeGJvZn75GHCfCd3w/zIgUtglpi1ML
-         BlWSFGlnKnb1sB6ucQ4gDCGeTyxfJbkfsAU4Fv1umbuD16ZkbguzyoHWZqyCgPhPIPxv
-         F0zg==
-X-Gm-Message-State: AAQBX9fYxlDkVC2tS7f3LI5Bg6dRxIbjHoHTBDyhaAvsC23yItAZvJLP
-        l0MbBqsF73Op+Tn5eekfbaHhyg==
-X-Google-Smtp-Source: AKy350ajeyotBg9jvJBOVc1c8jIKI7pCvJuNqMmFFCwaJbU2MxjtKJDIHg1k8WCl321CX9d1PRQx/A==
-X-Received: by 2002:a05:622a:110f:b0:3bd:1a4f:96b5 with SMTP id e15-20020a05622a110f00b003bd1a4f96b5mr307410qty.47.1680629736272;
-        Tue, 04 Apr 2023 10:35:36 -0700 (PDT)
-Received: from meerkat.local (bras-base-mtrlpq5031w-grc-30-209-226-106-7.dsl.bell.ca. [209.226.106.7])
-        by smtp.gmail.com with ESMTPSA id m17-20020ae9e011000000b00746b2ca65edsm3702859qkk.75.2023.04.04.10.35.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Apr 2023 10:35:35 -0700 (PDT)
-Date:   Tue, 4 Apr 2023 13:35:34 -0400
-From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To:     "Artem S. Tashkinov" <aros@gmx.com>
-Cc:     workflows@vger.kernel.org, linux-kernel@vger.kernel.org
+        with ESMTP id S236421AbjDDVjW (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 4 Apr 2023 17:39:22 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDA8D40FF;
+        Tue,  4 Apr 2023 14:39:20 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 3BA411FDBE;
+        Tue,  4 Apr 2023 21:39:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1680644359;
+        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+         cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=c6rnFBcBWfr2aiT8YSmtZUrPXOfzsUgPS2qkwzrhBQs=;
+        b=Juq+gzubV1kWRI+fBWdnbjM58H1OERRfulwEMts4fHSuASfQ6Bv5GcNBosDDlj6v44k+FH
+        YSaIOuVjmrWSPAWP8psqWWbYgFn8mcPY78ij01RsT+NQ3BSiOX6tMOxeQdoqy9rlhLQWBm
+        1TVDUf0V/hGk4KQxFn4f9W/78Dx0wE0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1680644359;
+        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+         cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=c6rnFBcBWfr2aiT8YSmtZUrPXOfzsUgPS2qkwzrhBQs=;
+        b=ujFyYHLB72/95xHjjUrl1gOKROPgRo1Zmn5OLJ7fk9tgPzotZGvKHOiVFGqPvThXoxtKY2
+        ke/9GUrfIP3HAvCw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0D42713920;
+        Tue,  4 Apr 2023 21:39:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id tiFWAgeZLGS+LQAAMHmgww
+        (envelope-from <dsterba@suse.cz>); Tue, 04 Apr 2023 21:39:19 +0000
+Date:   Tue, 4 Apr 2023 23:39:17 +0200
+From:   David Sterba <dsterba@suse.cz>
+To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc:     "Artem S. Tashkinov" <aros@gmx.com>, workflows@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Subject: Re: Introducing bugbot
-Message-ID: <20230404-uncrown-detonate-8bc1ac@meerkat>
+Message-ID: <20230404213917.GG19619@twin.jikos.cz>
+Reply-To: dsterba@suse.cz
 References: <gmnswy45efztvcyc3xqymm52h7cdfwjz64go2wy3zyeqcqwb76@36fva4hyip4q>
  <022e2ef8-2a94-3109-ab90-9ee980915887@gmx.com>
+ <20230404-uncrown-detonate-8bc1ac@meerkat>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <022e2ef8-2a94-3109-ab90-9ee980915887@gmx.com>
+In-Reply-To: <20230404-uncrown-detonate-8bc1ac@meerkat>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Tue, Apr 04, 2023 at 04:16:08PM +0000, Artem S. Tashkinov wrote:
-> I love everything about what you've done except I've got a minor feature
-> request for the kernel bugzilla and this new workflow specifically.
-
-Great to hear.
-
-> Let's have a bot which polls open bug reports every 3-6 months with this
-> question:
+On Tue, Apr 04, 2023 at 01:35:34PM -0400, Konstantin Ryabitsev wrote:
+> On Tue, Apr 04, 2023 at 04:16:08PM +0000, Artem S. Tashkinov wrote:
+> > I love everything about what you've done except I've got a minor feature
+> > request for the kernel bugzilla and this new workflow specifically.
 > 
-> "Is this still an issue in the current kernel? Please leave a comment or
-> this bug report will be closed due to inactivity".
-
-I plan to do it slightly differently -- there will be a "housekeeping" command
-running daily that will auto-close bugs that haven't seen any activity for a
-defined period (90 days, for example), with a message like:
-
-"This bug is now closed due to inactivity. Please reopen if this issue is
-still relevant with the latest kernel version."
-
-> By doing this we could make the bugzilla a whole more relevant and effective
-> tool instead of having a ton of bug reports no one cares about or can even
-> confirm.
+> Great to hear.
 > 
-> I would only exclude the bug reports of type "Enhancement".
+> > Let's have a bot which polls open bug reports every 3-6 months with this
+> > question:
+> > 
+> > "Is this still an issue in the current kernel? Please leave a comment or
+> > this bug report will be closed due to inactivity".
+> 
+> I plan to do it slightly differently -- there will be a "housekeeping" command
+> running daily that will auto-close bugs that haven't seen any activity for a
+> defined period (90 days, for example), with a message like:
+> 
+> "This bug is now closed due to inactivity. Please reopen if this issue is
+> still relevant with the latest kernel version."
 
-I wouldn't, because these aren't bugs and shouldn't be filed in bugzilla. I
-would just advise the person who opened the bug where they should send an
-email with their ideas and then close with "RESOLVED/MOVED".
+Will there be a way to opt out of this? I'd rather see any bug closed
+after an inspection from a human, I find the auto-close messages a bit
+rude and I've read similar sentiment from others. The upstream bugzilla
+is a best-effort level of support so it's true that bugs are left open
+for months, sometimes years unfortunately, but I've seen many cases where
+the report is valid or the "fix" is to improve documentation.
 
--K
+If we had enough people routinely going through the reports then some
+sort of reminders would make sense but we don't. I take the bug
+reports a task pool if there aren't more pressing things to do, which
+may not be the same way how others use bugzilla.k.org so I'd be fine
+with opting out of the auto-close or maybe out of any bugbot
+interactions.
