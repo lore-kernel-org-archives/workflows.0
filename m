@@ -2,84 +2,95 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4182FC6FD1D
-	for <workflows@archiver.kernel.org>; Tue,  4 Apr 2023 05:58:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A4C6C761A6
+	for <workflows@archiver.kernel.org>; Tue,  4 Apr 2023 06:58:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233342AbjDDF6o (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 4 Apr 2023 01:58:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47990 "EHLO
+        id S233680AbjDDG6B convert rfc822-to-8bit (ORCPT
+        <rfc822;workflows@archiver.kernel.org>);
+        Tue, 4 Apr 2023 02:58:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231643AbjDDF6n (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 4 Apr 2023 01:58:43 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A2F31992;
-        Mon,  3 Apr 2023 22:58:42 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1pjZgm-0008WR-G0; Tue, 04 Apr 2023 07:58:40 +0200
-Message-ID: <b38de7ff-3de1-cd4a-a532-66642aea587c@leemhuis.info>
-Date:   Tue, 4 Apr 2023 07:58:40 +0200
+        with ESMTP id S233473AbjDDG55 (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 4 Apr 2023 02:57:57 -0400
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94FC1268C;
+        Mon,  3 Apr 2023 23:57:56 -0700 (PDT)
+Received: by mail-yb1-f178.google.com with SMTP id k17so37480901ybm.11;
+        Mon, 03 Apr 2023 23:57:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680591475;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IMUOBSmsf+P2tOaipYQIbA2HBuBLhKgLLhCNUMVXeeQ=;
+        b=EnFFn2G+3rlM+ZQHgSj3Zxqkiup86CYReZYWZdS/D6P6TN965SdsPL3pdSL8S3BlVU
+         VtEnzqA1VaFZmIkRNfx0QeHsNM32EzI/T6yuqaFgIGuuAqoPIgjpcbMF7MMIP5UlU7J5
+         I80cfDeSy4YCKLd1fW6FIIZRGA3mZyAMC/Jqc+yKTLM/xzIVlJMjHlyCd/9IwrHqdlD1
+         Mx7A8EcngwXJ8PFNBcas0nUJfnYMDmumeXCDeF/gvsgCDDVCpzmvm/HEgW0bXCniLy3K
+         RLUafcAABqeUvt335YGbPYunOnBpYJnSzeR0+SFYYfoTPesC+YNAXyP+vWooK2rUUGJp
+         cFHA==
+X-Gm-Message-State: AAQBX9eza2GAXNgni5bZ1cW1GPxb2Bw7Q0aQQ/5XksF5bjbFfTt7NQOo
+        61wh1ETQZSoDVjru2gdWHD9lUaocFgZOSBmL
+X-Google-Smtp-Source: AKy350bzNroqoM6p6OIScBnJ+x5iQHbmndWuVdR3KKamku3Hlc+g7fGOiBH+SW8BykY7B/j2dgGQKw==
+X-Received: by 2002:a25:2641:0:b0:b72:e991:e29d with SMTP id m62-20020a252641000000b00b72e991e29dmr2284689ybm.15.1680591475469;
+        Mon, 03 Apr 2023 23:57:55 -0700 (PDT)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
+        by smtp.gmail.com with ESMTPSA id b34-20020a25aea2000000b00b8692cfdfa6sm1783992ybj.27.2023.04.03.23.57.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Apr 2023 23:57:55 -0700 (PDT)
+Received: by mail-yb1-f171.google.com with SMTP id i6so37532389ybu.8;
+        Mon, 03 Apr 2023 23:57:55 -0700 (PDT)
+X-Received: by 2002:a25:ca4b:0:b0:b77:d2db:5f8f with SMTP id
+ a72-20020a25ca4b000000b00b77d2db5f8fmr1190961ybg.12.1680591474911; Mon, 03
+ Apr 2023 23:57:54 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Content-Language: en-US, de-DE
-To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+References: <gmnswy45efztvcyc3xqymm52h7cdfwjz64go2wy3zyeqcqwb76@36fva4hyip4q> <b38de7ff-3de1-cd4a-a532-66642aea587c@leemhuis.info>
+In-Reply-To: <b38de7ff-3de1-cd4a-a532-66642aea587c@leemhuis.info>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 4 Apr 2023 08:57:43 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX6OOHXCB9pw-iO+ajHVP6eJwzK8mUTE5N4AKRXdNj66w@mail.gmail.com>
+Message-ID: <CAMuHMdX6OOHXCB9pw-iO+ajHVP6eJwzK8mUTE5N4AKRXdNj66w@mail.gmail.com>
+Subject: Re: Introducing bugbot
+To:     Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
         workflows@vger.kernel.org, aros@gmx.com,
         linux-kernel@vger.kernel.org, regressions@lists.linux.dev,
         tools@linux.kernel.org
-References: <gmnswy45efztvcyc3xqymm52h7cdfwjz64go2wy3zyeqcqwb76@36fva4hyip4q>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: Introducing bugbot
-In-Reply-To: <gmnswy45efztvcyc3xqymm52h7cdfwjz64go2wy3zyeqcqwb76@36fva4hyip4q>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1680587922;b9893b0d;
-X-HE-SMSGID: 1pjZgm-0008WR-G0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On 03.04.23 23:45, Konstantin Ryabitsev wrote:
-> 
-> Per our discussion last fall, I've been working on a bridge between bugzilla
-> and public-inbox, which went live in the past few days. It's still a very
-> early release, but it can do the following:
+On Tue, Apr 4, 2023 at 8:03 AM Thorsten Leemhuis <linux@leemhuis.info> wrote:
+> On 03.04.23 23:45, Konstantin Ryabitsev wrote:
+> > Per our discussion last fall, I've been working on a bridge between bugzilla
+> > and public-inbox, which went live in the past few days. It's still a very
+> > early release, but it can do the following:
+>
+> thx for working on this.
 
-thx for working on this.
+Thx indeed, looks nice!
 
->    New bugs will be created in the Linux/Kernel component of Bugzilla, but
->    they can then be reassigned to any other component. As long as they remain
->    open, bugbot will continue tracking threads for new messages until either
->    the bug is closed, or it has been over 30 days since any activity on the
->    bug.
+> >    New bugs will be created in the Linux/Kernel component of Bugzilla, but
+> >    they can then be reassigned to any other component. As long as they remain
+> >    open, bugbot will continue tracking threads for new messages until either
+> >    the bug is closed, or it has been over 30 days since any activity on the
+> >    bug.
+>
+> 30 days from my experience sounds too short for me (but I have no hard
+> numbers to back this up). I would have gone for 90 days, but I guess
+> that would create too much load?
 
-30 days from my experience sounds too short for me (but I have no hard
-numbers to back this up). I would have gone for 90 days, but I guess
-that would create too much load?
+30 < release cycle (9..10 weeks) < 90, so 90 days sounds better to me.
 
-> [...]
-> 2. Start mailing list threads from pre-triaged bugzilla bugs. This works the
->    opposite way and creates mailing list threads based on bug reports filed in
->    bugzilla. The useful things here are:
-> 
->    - bugbot only gets triggered on open bugs in Linux/Kernel that have the
->      "bugbot" flag set to "+", which allows pre-triaging a bug before bugbot
->      sends it to the mailing list
->    - there is a special "cf_subsystem" field added to that component; bugbot
->      will match it verbatim to the MAINTAINERS file components and will send
->      mail to the M: and L: addresses for that subsystem
->    - bugbot will then monitor for any updates to that thread, so any mailing
->      list replies will be added as comments to the bug (thus sending a
->      bugzilla mail notification to the initial author)
-> [...]
+Gr{oetje,eeting}s,
 
-Would be great if bugbot could CC the regressions list for all bugs that
-have the regressions flag set to "yes"
+                        Geert
 
-How does one make bugbot forward a bug to everyone in the signed-off-by
-chain of a commit that caused a regression, which might or might not
-have a bugzilla account?  When the reporter performed a bisection these
-are the primary contacts that need to be reached out to, but the
-maintainers and lists for the subsystem obviously should be CCed.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Ciao, Thorsten
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
