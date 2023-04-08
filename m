@@ -2,101 +2,71 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20A42C6FD1D
-	for <workflows@archiver.kernel.org>; Tue,  4 Apr 2023 21:39:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D42FC7619A
+	for <workflows@archiver.kernel.org>; Sat,  8 Apr 2023 12:10:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236266AbjDDVjY (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 4 Apr 2023 17:39:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45872 "EHLO
+        id S229882AbjDHMKo (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Sat, 8 Apr 2023 08:10:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236421AbjDDVjW (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 4 Apr 2023 17:39:22 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDA8D40FF;
-        Tue,  4 Apr 2023 14:39:20 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 3BA411FDBE;
-        Tue,  4 Apr 2023 21:39:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1680644359;
-        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-         cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=c6rnFBcBWfr2aiT8YSmtZUrPXOfzsUgPS2qkwzrhBQs=;
-        b=Juq+gzubV1kWRI+fBWdnbjM58H1OERRfulwEMts4fHSuASfQ6Bv5GcNBosDDlj6v44k+FH
-        YSaIOuVjmrWSPAWP8psqWWbYgFn8mcPY78ij01RsT+NQ3BSiOX6tMOxeQdoqy9rlhLQWBm
-        1TVDUf0V/hGk4KQxFn4f9W/78Dx0wE0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1680644359;
-        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-         cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=c6rnFBcBWfr2aiT8YSmtZUrPXOfzsUgPS2qkwzrhBQs=;
-        b=ujFyYHLB72/95xHjjUrl1gOKROPgRo1Zmn5OLJ7fk9tgPzotZGvKHOiVFGqPvThXoxtKY2
-        ke/9GUrfIP3HAvCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0D42713920;
-        Tue,  4 Apr 2023 21:39:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id tiFWAgeZLGS+LQAAMHmgww
-        (envelope-from <dsterba@suse.cz>); Tue, 04 Apr 2023 21:39:19 +0000
-Date:   Tue, 4 Apr 2023 23:39:17 +0200
-From:   David Sterba <dsterba@suse.cz>
-To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc:     "Artem S. Tashkinov" <aros@gmx.com>, workflows@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: Introducing bugbot
-Message-ID: <20230404213917.GG19619@twin.jikos.cz>
-Reply-To: dsterba@suse.cz
-References: <gmnswy45efztvcyc3xqymm52h7cdfwjz64go2wy3zyeqcqwb76@36fva4hyip4q>
- <022e2ef8-2a94-3109-ab90-9ee980915887@gmx.com>
- <20230404-uncrown-detonate-8bc1ac@meerkat>
+        with ESMTP id S229611AbjDHMKn (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Sat, 8 Apr 2023 08:10:43 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC91FEF8B;
+        Sat,  8 Apr 2023 05:10:42 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1pl7Oz-00054B-Ak; Sat, 08 Apr 2023 14:10:41 +0200
+Message-ID: <1f0ebf13-ab0f-d512-6106-3ebf7cb372f1@leemhuis.info>
+Date:   Sat, 8 Apr 2023 14:10:40 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230404-uncrown-detonate-8bc1ac@meerkat>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Content-Language: en-US, de-DE
+To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        workflows@vger.kernel.org, aros@gmx.com,
+        linux-kernel@vger.kernel.org, regressions@lists.linux.dev,
+        tools@linux.kernel.org
+References: <gmnswy45efztvcyc3xqymm52h7cdfwjz64go2wy3zyeqcqwb76@36fva4hyip4q>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     Kalle Valo <kvalo@kernel.org>
+Subject: Re: Introducing bugbot
+In-Reply-To: <gmnswy45efztvcyc3xqymm52h7cdfwjz64go2wy3zyeqcqwb76@36fva4hyip4q>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1680955842;db1b7ed9;
+X-HE-SMSGID: 1pl7Oz-00054B-Ak
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Tue, Apr 04, 2023 at 01:35:34PM -0400, Konstantin Ryabitsev wrote:
-> On Tue, Apr 04, 2023 at 04:16:08PM +0000, Artem S. Tashkinov wrote:
-> > I love everything about what you've done except I've got a minor feature
-> > request for the kernel bugzilla and this new workflow specifically.
-> 
-> Great to hear.
-> 
-> > Let's have a bot which polls open bug reports every 3-6 months with this
-> > question:
-> > 
-> > "Is this still an issue in the current kernel? Please leave a comment or
-> > this bug report will be closed due to inactivity".
-> 
-> I plan to do it slightly differently -- there will be a "housekeeping" command
-> running daily that will auto-close bugs that haven't seen any activity for a
-> defined period (90 days, for example), with a message like:
-> 
-> "This bug is now closed due to inactivity. Please reopen if this issue is
-> still relevant with the latest kernel version."
+CCing Kalle (JFYI)
 
-Will there be a way to opt out of this? I'd rather see any bug closed
-after an inspection from a human, I find the auto-close messages a bit
-rude and I've read similar sentiment from others. The upstream bugzilla
-is a best-effort level of support so it's true that bugs are left open
-for months, sometimes years unfortunately, but I've seen many cases where
-the report is valid or the "fix" is to improve documentation.
+On 03.04.23 23:45, Konstantin Ryabitsev wrote:
+> 
+> 2. Start mailing list threads from pre-triaged bugzilla bugs. This works the
+>    opposite way and creates mailing list threads based on bug reports filed in
+>    bugzilla. The useful things here are:
+> 
+>    - bugbot only gets triggered on open bugs in Linux/Kernel that have the
+>      "bugbot" flag set to "+", which allows pre-triaging a bug before bugbot
+>      sends it to the mailing list
+> [...]
 
-If we had enough people routinely going through the reports then some
-sort of reminders would make sense but we don't. I take the bug
-reports a task pool if there aren't more pressing things to do, which
-may not be the same way how others use bugzilla.k.org so I'd be fine
-with opting out of the auto-close or maybe out of any bugbot
-interactions.
+Are there any policies or best practices on how people should/are
+allowed to use this? From what I can see it seems one needs to change
+the Product/Component of the bug to start a thread. I wonder if a few
+maintainers that are active in bugzilla might be annoyed by this, as
+that might break their workflow.
+
+Which puts me in an awkward position when I see regressions reports in
+bugzilla and would like to create threads for them. Using bugbot would
+be better then the manual forwards I do now, like this one:
+
+https://lore.kernel.org/all/ed31b6fe-e73d-34af-445b-81c5c644d615@leemhuis.info/
+
+
+But here I decided to *not* use bugbot, as I know Kalle sometimes is
+active in bugzilla -- and thus might hate it, if I re-categorize the bug.
+
+Ciao, Thorsten
