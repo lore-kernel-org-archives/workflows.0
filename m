@@ -2,83 +2,58 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD487C7619A
-	for <workflows@archiver.kernel.org>; Wed, 12 Apr 2023 16:49:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 756B5C77B75
+	for <workflows@archiver.kernel.org>; Fri,  5 May 2023 15:52:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230399AbjDLQtu (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 12 Apr 2023 12:49:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50318 "EHLO
+        id S232934AbjEEPwW (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 5 May 2023 11:52:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230401AbjDLQtt (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 12 Apr 2023 12:49:49 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08EEA40FC;
-        Wed, 12 Apr 2023 09:49:24 -0700 (PDT)
+        with ESMTP id S232761AbjEEPwV (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Fri, 5 May 2023 11:52:21 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87A9715690;
+        Fri,  5 May 2023 08:52:20 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B757C63765;
-        Wed, 12 Apr 2023 16:47:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95008C4339B;
-        Wed, 12 Apr 2023 16:47:38 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2454E63F0A;
+        Fri,  5 May 2023 15:52:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33141C433D2;
+        Fri,  5 May 2023 15:52:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1681318060;
-        bh=BqTptBLVI1dCnRJ0/GjMix6ij4TtxuV6kJqDROI1j1Q=;
-        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-        b=f6oplni109CwS2TqFnZbWPjPKmBqu2qk0XUDILlq7jlI0H5AhPqADCEuPHgJNMi9Q
-         TMt3vYRC7poMtBsl58dq6guqo6q8wPicuV+ZQfqflOVunfwdWG6h29HPw5uYWfA7NP
-         v9Xlh3wNUk/bduO2svXz0Mk5pYZDGjC2O9i0rxIQdmMg9q+0tzlzN7zXPn9o+yYqKg
-         7TLQCUfOZewjc22DBCNxW+bGdUFHraml7r06bMEIzvteHu9LV56kJQOVd6dVrT9ey8
-         K6SsNKrtKZYqopQlGknxNte1hZtviRqn5adnBbB/7mEiWJ2k59eQpU4VsNbtj5W/fq
-         7Qeml2g3+RE1g==
-From:   Kalle Valo <kvalo@kernel.org>
+        s=k20201202; t=1683301939;
+        bh=esyJrzwkSGQWNXny2nF4USQbJ4A4dvrAVZjB18tgnGQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=ksNuYaJneF1n5GdsdmblG/wfMw4Ifmr9EjRhogMt0WJVaPYLKnBBHlCmNGlaweJHo
+         Xet4li83H6Y7nlIag4d2jqyMORJnG91sBO28VfNI5aKzsMr609H3WjPuFv48m9upFQ
+         i6jGbc9hm3XN790k14TmB4q9a2HmW7Lis/c2gkHig/5V/+Ev4xTYUIOldZW9tjtYyz
+         Jefy/LVY1kLq8U1AVN43FSV2UDnJ7TU0DTAtwu5m6845dkjllnPeR5JbOFSEtKTPyH
+         KlvSKXtF1b1aRIxD/GPTf49aU7uqlbtehfNdoHLzKqHNXmCVvONodENXnagMJYquuU
+         nK/esnlwx9Oog==
+Date:   Fri, 5 May 2023 08:52:18 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
 To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc:     Thorsten Leemhuis <linux@leemhuis.info>, workflows@vger.kernel.org,
-        aros@gmx.com, linux-kernel@vger.kernel.org,
-        regressions@lists.linux.dev, tools@linux.kernel.org
+Cc:     workflows@vger.kernel.org, aros@gmx.com,
+        linux-kernel@vger.kernel.org, regressions@lists.linux.dev,
+        tools@linux.kernel.org, linux@leemhuis.info
 Subject: Re: Introducing bugbot
+Message-ID: <20230505085218.60c62d75@kernel.org>
+In-Reply-To: <gmnswy45efztvcyc3xqymm52h7cdfwjz64go2wy3zyeqcqwb76@36fva4hyip4q>
 References: <gmnswy45efztvcyc3xqymm52h7cdfwjz64go2wy3zyeqcqwb76@36fva4hyip4q>
-        <1f0ebf13-ab0f-d512-6106-3ebf7cb372f1@leemhuis.info>
-        <87fs958f2a.fsf@kernel.org> <20230412-appear-tiring-f5a896@meerkat>
-Date:   Wed, 12 Apr 2023 19:47:35 +0300
-In-Reply-To: <20230412-appear-tiring-f5a896@meerkat> (Konstantin Ryabitsev's
-        message of "Wed, 12 Apr 2023 10:07:21 -0400")
-Message-ID: <87y1mx6o9k.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Konstantin Ryabitsev <konstantin@linuxfoundation.org> writes:
+On Mon, 3 Apr 2023 17:45:31 -0400 Konstantin Ryabitsev wrote:
+> Hi, all:
+> 
+> Per our discussion last fall, I've been working on a bridge between bugzilla
+> and public-inbox, which went live in the past few days. It's still a very
+> early release, but it can do the following:
 
-> On Wed, Apr 12, 2023 at 03:23:25PM +0300, Kalle Valo wrote:
->
->> While at it, I have some things on my wishlist to make my use of
->> bugzilla.kernel.org easier:
->> 
->> * A new state named UNCONFIRMED and have it as the default state for
->>   reported bugs. This would help triaging bugs as some of the reports
->>   are not valid. In other words only valid bugs would have NEW state.
->>   IIRC the Mozilla project did this back in the day.
->
-> This is more hairy than it looks, but I'll try to figure out what happened to
-> the UNCONFIRMED state in our bugzilla.
-
-I can only imagine how difficult bugzilla can to administer. So if it's
-too hairy to get UNCONFIRMED working again don't use too much on it.
-This is more like a nice to have feature, not a critical thing.
-
->> * Use P3 as the default priority for the new bugs. I try to keep ath11k
->>   bugs in priority order but new reported bugs having P1 always messes
->>   up the list always.
->
-> Okay, I set the default to P3, which is nicely in the middle.
-
-Nice, thanks!
-
--- 
-https://patchwork.kernel.org/project/linux-wireless/list/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+What about closing the bugs once they had been fixed/triaged/proven
+invalid?
