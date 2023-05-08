@@ -2,49 +2,56 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F9B3C77B7C
-	for <workflows@archiver.kernel.org>; Fri,  5 May 2023 19:43:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F753C7EE22
+	for <workflows@archiver.kernel.org>; Mon,  8 May 2023 20:11:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233241AbjEETnq (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 5 May 2023 15:43:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35926 "EHLO
+        id S234341AbjEHULO (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 8 May 2023 16:11:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232168AbjEETnp (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Fri, 5 May 2023 15:43:45 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B80641BE4;
-        Fri,  5 May 2023 12:43:44 -0700 (PDT)
+        with ESMTP id S234401AbjEHUK4 (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 8 May 2023 16:10:56 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEECD5FDC
+        for <workflows@vger.kernel.org>; Mon,  8 May 2023 13:09:48 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 540526403E;
-        Fri,  5 May 2023 19:43:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 809E7C433D2;
-        Fri,  5 May 2023 19:43:43 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4F8BD62FE4
+        for <workflows@vger.kernel.org>; Mon,  8 May 2023 20:09:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C60AC433EF;
+        Mon,  8 May 2023 20:09:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1683315823;
-        bh=T5l6dCqo8uMqAE9WymPOpZEzKUonWCblD9zWQKPe/zA=;
+        s=k20201202; t=1683576585;
+        bh=4ZYRG+YiH474zWpI41416ytA6fpX7/XY91vw37d1V5w=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=jcPs6Nm6/3xa+PQ0mSfWkbKxZ9VUhyheDiN8a4JLxjBrgXT0GYONOB1ksgu6pJXOe
-         v/hlUk7rY7lImDYAXiZ5n+JwgQFHZ/5RiM+3cDomJQv34TiBL/M19xzsa/zycpYhJW
-         sM+SsxzPTxmqnJ5pIO6URw0dB8UJPhDcfYmDeG+H3pwJhUni5rP0QEQa0eXqU8iNGC
-         rSB1HI2gojRZ2i+uleZXdJuZ5UQW2+yCFn4jA9/l/g+PW+I3FIvrx+eYMt75OjKXL8
-         KXx+bJUaBwDpkUfspkSRcWsyseAv21vAW51sv5ROEPio0uKeeu7nMnJYodWpISOLUa
-         SYEtAn8gNA9HA==
-Date:   Fri, 5 May 2023 12:43:42 -0700
+        b=Du/4nYep6dkPXZKJNA6Z9jEfR6lIxMQuGap7tYvJrsw9JYzjhzrccZdH64OteUZWm
+         nZsVJf1efhpmHyVJkqimDHKEg+4yH540/QUx84gSZSC01kMkdh6UyvLVigWmro8L/p
+         MKDMZxH8Ir7TkYtYcBzkiFdJtdUIVOJvdYJzLV+obsbFvZEYfJ8hDjjDcoPJyTvKE6
+         G8ooKh94bZLCIwVUWr7dCj5JsC0az/5m4DlFSSUWRBbhn+BqK4kJpTVYqxC+7bkro9
+         ul/NAXUYm7B7eI54oxbbgAVNTWRktNDNNoRspsoRp2ry/SxBB6Yi0qUwxDWaXXfLfj
+         +3CYP0a+FsuBQ==
+Date:   Mon, 8 May 2023 13:09:44 -0700
 From:   Jakub Kicinski <kuba@kernel.org>
-To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc:     workflows@vger.kernel.org, aros@gmx.com,
-        linux-kernel@vger.kernel.org, regressions@lists.linux.dev,
-        tools@linux.kernel.org, linux@leemhuis.info
-Subject: Re: Introducing bugbot
-Message-ID: <20230505124342.5ed51cc7@kernel.org>
-In-Reply-To: <20230505-blunt-corncob-6e6e95@meerkat>
-References: <gmnswy45efztvcyc3xqymm52h7cdfwjz64go2wy3zyeqcqwb76@36fva4hyip4q>
-        <20230505085218.60c62d75@kernel.org>
-        <20230505-lent-swoosh-4897e2@meerkat>
-        <20230505123226.731d8ff8@kernel.org>
-        <20230505-blunt-corncob-6e6e95@meerkat>
+To:     "Linux regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+Cc:     Linux regressions mailing list <regressions@lists.linux.dev>,
+        =?UTF-8?B?QmrDuHJu?= Mork <bjorn@mork.no>,
+        Hayes Wang <hayeswang@realtek.com>, netdev@vger.kernel.org,
+        Paolo Abeni <pabeni@redhat.com>,
+        Eric Dumazet <edumazet@google.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Stanislav Fomichev <sdf@fomichev.me>, workflows@vger.kernel.org
+Subject: Re: [regression] Kernel OOPS on boot with Kernel 6.3(.1) and
+ RTL8153 Gigabit Ethernet Adapter
+Message-ID: <20230508130944.30699c33@kernel.org>
+In-Reply-To: <9284a9ec-d7c9-68e8-7384-07291894937b@leemhuis.info>
+References: <ec4be122-e213-ca5b-f5d6-e8f9c3fd3bee@leemhuis.info>
+        <87lei36q27.fsf@miraculix.mork.no>
+        <20230505120436.6ff8cfca@kernel.org>
+        <57dbce31-daa9-9674-513e-f123b94950da@leemhuis.info>
+        <20230505123744.16666106@kernel.org>
+        <9284a9ec-d7c9-68e8-7384-07291894937b@leemhuis.info>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -52,29 +59,33 @@ Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Fri, 5 May 2023 15:39:38 -0400 Konstantin Ryabitsev wrote:
-> On Fri, May 05, 2023 at 12:32:26PM -0700, Jakub Kicinski wrote:
-> > Interesting. Obviously that assumes the bug needs a fix, and we're
-> > talking bugzilla so lots of clueless people lobbing non-issues at us.  
+On Sat, 6 May 2023 08:20:23 +0200 Linux regression tracking (Thorsten
+Leemhuis) wrote:
+> > I don't seem to have the permissions on BZ, but I'm guessing we could
+> > do the opposite - you could flip bugbot on first to have it flush the BZ
+> > report to the list, and then reply on the list with regzbot tracking?  
 > 
-> This is why anyone can create a bug on bugzilla, but only a subset of people
-> can enable bugbot on it (by setting the bugbot+ flag).
-
-Makes sense!
-
-> > But also - Closes: is a legit trailer now? I thought we only allow Link:  
+> That's the plan for the future, but for now I don't want to do that, as
+> it might mess up other peoples workflows, as hinted above already and
+> discussed here:
 > 
-> It's a semi-legit trailer and is going through -next:
-> https://docs.kernel.org/next/process/submitting-patches.html#using-reported-by-tested-by-reviewed-by-suggested-by-and-fixes
-
-Ah, must have come in this merge window, cause we don't have that text 
-in networking trees yet. GTK.
-
-> > In any case - I'm guessing I just don't have permissions to close the
-> > issues via web. Is your preference to iterate on the bot or maintainers
-> > to request permissions in BZ (how?)?  
+> https://lore.kernel.org/all/1f0ebf13-ab0f-d512-6106-3ebf7cb372f1@leemhuis.info/
 > 
-> Yes, it's not a power granted by default, but people just need to ask.
-> You should have this awesome power now.
+> That was only recently, but if you jump in there as well it might
+> persuade Konstantin to enable bugbot for other products/components. Then
+> I could and would do what you suggested.
 
-Can confirm, thanks!
+CC: workflows
+
+I'm a bit confused. I understand that we don't want to automatically
+send all bugzilla reports to the ML. But AFAIU this is to avoid spamming
+the list / messing with people's existing BZ workflow.
+If you pre-triage the problem and decide to forward it to the list -
+whether you do it with buzbot + regzbot or manual + regzbot is moot.
+
+The bugbot can be enabled per BZ entry (AFAIU), so you can flip it
+individually for the thread you want to report. It should flush that 
+BZ to the list. At which point you can follow your normal ML regression
+process.
+
+Where did I go off the rails?
