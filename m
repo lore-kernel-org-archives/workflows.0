@@ -2,90 +2,93 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F753C7EE22
-	for <workflows@archiver.kernel.org>; Mon,  8 May 2023 20:11:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10D0CC77B7D
+	for <workflows@archiver.kernel.org>; Thu, 11 May 2023 02:02:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234341AbjEHULO (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 8 May 2023 16:11:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51792 "EHLO
+        id S229632AbjEKCCK (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 10 May 2023 22:02:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234401AbjEHUK4 (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 8 May 2023 16:10:56 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEECD5FDC
-        for <workflows@vger.kernel.org>; Mon,  8 May 2023 13:09:48 -0700 (PDT)
+        with ESMTP id S229447AbjEKCCJ (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 10 May 2023 22:02:09 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CC20E7A;
+        Wed, 10 May 2023 19:02:07 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4F8BD62FE4
-        for <workflows@vger.kernel.org>; Mon,  8 May 2023 20:09:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C60AC433EF;
-        Mon,  8 May 2023 20:09:45 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DDA6463F65;
+        Thu, 11 May 2023 02:02:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE05DC433D2;
+        Thu, 11 May 2023 02:02:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1683576585;
-        bh=4ZYRG+YiH474zWpI41416ytA6fpX7/XY91vw37d1V5w=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Du/4nYep6dkPXZKJNA6Z9jEfR6lIxMQuGap7tYvJrsw9JYzjhzrccZdH64OteUZWm
-         nZsVJf1efhpmHyVJkqimDHKEg+4yH540/QUx84gSZSC01kMkdh6UyvLVigWmro8L/p
-         MKDMZxH8Ir7TkYtYcBzkiFdJtdUIVOJvdYJzLV+obsbFvZEYfJ8hDjjDcoPJyTvKE6
-         G8ooKh94bZLCIwVUWr7dCj5JsC0az/5m4DlFSSUWRBbhn+BqK4kJpTVYqxC+7bkro9
-         ul/NAXUYm7B7eI54oxbbgAVNTWRktNDNNoRspsoRp2ry/SxBB6Yi0qUwxDWaXXfLfj
-         +3CYP0a+FsuBQ==
-Date:   Mon, 8 May 2023 13:09:44 -0700
+        s=k20201202; t=1683770526;
+        bh=8kVvNTf+SIgWcuslTbMYwVXYnOSgaLXA0Yfwmxi6Yho=;
+        h=From:To:Cc:Subject:Date:From;
+        b=hwrvHBzn4f4aLRx4Rf7teQtUSM+k4glGOd7ddiLGBZxh9yVAEudQYS5+4CA3cY7hH
+         ECumTP5vaAXYz67ehGZLdtpr5rGG4mDZVD63g72qymZO0WqJLAVjApMOvm6JmKncUk
+         F+Ash32VsNAtr6FE2nZ1jOlGGGP5Zif+4t3BX4QN1MPdAJe5w9Kx+Sqgonik0iRY6Z
+         irsJfCmYsoZIdwL2KieDr/PBV4k6Ks4nc4M2jb3SAAFXd5WHJj7rm8P0XE91DezvV9
+         yxDypvoGMT1/i5nRD7z4EOm4ZObMMSDawCNl/3zUnln3xYfwE+jwI3Cor5GVk4Smob
+         07Mp+bcUOac5Q==
 From:   Jakub Kicinski <kuba@kernel.org>
-To:     "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-Cc:     Linux regressions mailing list <regressions@lists.linux.dev>,
-        =?UTF-8?B?QmrDuHJu?= Mork <bjorn@mork.no>,
-        Hayes Wang <hayeswang@realtek.com>, netdev@vger.kernel.org,
-        Paolo Abeni <pabeni@redhat.com>,
-        Eric Dumazet <edumazet@google.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Stanislav Fomichev <sdf@fomichev.me>, workflows@vger.kernel.org
-Subject: Re: [regression] Kernel OOPS on boot with Kernel 6.3(.1) and
- RTL8153 Gigabit Ethernet Adapter
-Message-ID: <20230508130944.30699c33@kernel.org>
-In-Reply-To: <9284a9ec-d7c9-68e8-7384-07291894937b@leemhuis.info>
-References: <ec4be122-e213-ca5b-f5d6-e8f9c3fd3bee@leemhuis.info>
-        <87lei36q27.fsf@miraculix.mork.no>
-        <20230505120436.6ff8cfca@kernel.org>
-        <57dbce31-daa9-9674-513e-f123b94950da@leemhuis.info>
-        <20230505123744.16666106@kernel.org>
-        <9284a9ec-d7c9-68e8-7384-07291894937b@leemhuis.info>
+To:     corbet@lwn.net
+Cc:     torvalds@linux-foundation.org, linux-doc@vger.kernel.org,
+        workflows@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jakub Kicinski <kuba@kernel.org>
+Subject: [RFC] MAINTAINERS: direct process doc changes to a dedicated ML
+Date:   Wed, 10 May 2023 19:02:04 -0700
+Message-Id: <20230511020204.910178-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Sat, 6 May 2023 08:20:23 +0200 Linux regression tracking (Thorsten
-Leemhuis) wrote:
-> > I don't seem to have the permissions on BZ, but I'm guessing we could
-> > do the opposite - you could flip bugbot on first to have it flush the BZ
-> > report to the list, and then reply on the list with regzbot tracking?  
-> 
-> That's the plan for the future, but for now I don't want to do that, as
-> it might mess up other peoples workflows, as hinted above already and
-> discussed here:
-> 
-> https://lore.kernel.org/all/1f0ebf13-ab0f-d512-6106-3ebf7cb372f1@leemhuis.info/
-> 
-> That was only recently, but if you jump in there as well it might
-> persuade Konstantin to enable bugbot for other products/components. Then
-> I could and would do what you suggested.
+It's hard to keep track of changes to the process docs.
+Subsystem maintainers should probably know what's going on,
+to ensure reasonably uniform developer experience across
+trees.
 
-CC: workflows
+We also need a place where process discussions can be held
+(i.e. designated mailing list which can be CCed on naturally
+arising discussions). I'm using workflows@ in this RFC,
+but a new list may be better.
 
-I'm a bit confused. I understand that we don't want to automatically
-send all bugzilla reports to the ML. But AFAIU this is to avoid spamming
-the list / messing with people's existing BZ workflow.
-If you pre-triage the problem and decide to forward it to the list -
-whether you do it with buzbot + regzbot or manual + regzbot is moot.
+No change to the patch flow intended.
 
-The bugbot can be enabled per BZ entry (AFAIU), so you can flip it
-individually for the thread you want to report. It should flush that 
-BZ to the list. At which point you can follow your normal ML regression
-process.
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+I've been pondering the lack of cross-maintainer communication
+as the kernel grows, and I hope this could help bring us together
+a little. Plus twice over the last 2 weeks someone popped up on
+netdev with what I personally considered incorrect interpretation
+of the process docs, so it'd be nice to CC a list on my replies
+so I can be corrected, in case I'm wrong.
 
-Where did I go off the rails?
+Opinions more than welcome!
+---
+ MAINTAINERS | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 1c78e61a3387..58239fbc7007 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6223,6 +6223,12 @@ X:	Documentation/power/
+ X:	Documentation/spi/
+ X:	Documentation/userspace-api/media/
+ 
++DOCUMENTATION PROCESS
++M:	Jonathan Corbet <corbet@lwn.net>
++S:	Maintained
++F:	Documentation/process/
++L:	workflows@vger.kernel.org
++
+ DOCUMENTATION REPORTING ISSUES
+ M:	Thorsten Leemhuis <linux@leemhuis.info>
+ L:	linux-doc@vger.kernel.org
+-- 
+2.40.1
+
