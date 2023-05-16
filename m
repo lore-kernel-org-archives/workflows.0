@@ -2,95 +2,124 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 976E0C7EE22
-	for <workflows@archiver.kernel.org>; Thu, 11 May 2023 16:06:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA680C77B7F
+	for <workflows@archiver.kernel.org>; Tue, 16 May 2023 21:05:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237852AbjEKQGU (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 11 May 2023 12:06:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55096 "EHLO
+        id S229751AbjEPVFv (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 16 May 2023 17:05:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238412AbjEKQGT (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 11 May 2023 12:06:19 -0400
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9118159C6
-        for <workflows@vger.kernel.org>; Thu, 11 May 2023 09:06:17 -0700 (PDT)
-Received: by mail-pg1-x534.google.com with SMTP id 41be03b00d2f7-51452556acdso5878522a12.2
-        for <workflows@vger.kernel.org>; Thu, 11 May 2023 09:06:17 -0700 (PDT)
+        with ESMTP id S229521AbjEPVFu (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 16 May 2023 17:05:50 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56976729B
+        for <workflows@vger.kernel.org>; Tue, 16 May 2023 14:05:49 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1ab1b79d3a7so991405ad.3
+        for <workflows@vger.kernel.org>; Tue, 16 May 2023 14:05:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1683821177; x=1686413177;
+        d=chromium.org; s=google; t=1684271149; x=1686863149;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yjcQw5qfoWhZrHShMenKyn6N6JRDwRPKfT0j3vGPb74=;
-        b=O99GbI7t2R7iCSmuWqIAWRBpWiqB5S/bkuc71mZR9seDW2TcyxC4NWNMQr8lVBcHh1
-         ktf8bgGWxvwJzfDEmy0q2E/gnPMr2u+QXjAEfPyXnQx5eokWsKyerUoh/nAOEzEkT1tX
-         jmIyPIGMJykQ1GWWv4ZeOBG97LMOEMlqeSvz8=
+        bh=SFkd1dKbP6tnltyZPTScAM9Myy8k7lmViwxiQ8QCDqw=;
+        b=ieBBJkzv1FX3uTWdfVYvnVTnwp7CFL1tJvfcS7PSzpipTI9ACNGqJJGkikhfV0mPaC
+         CWzAaP2Yz6w5qEAcDi+dTWOSUSI34tT1Xmagj0xqnPGDqELUjLr8HDJmSPmfrvxvMlA9
+         WU8o+BldDx/WK/rKGewb4xTSSKQNTdTC3D0FY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683821177; x=1686413177;
+        d=1e100.net; s=20221208; t=1684271149; x=1686863149;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yjcQw5qfoWhZrHShMenKyn6N6JRDwRPKfT0j3vGPb74=;
-        b=T4QJGtF7xN32/JHHuyzhtnOeHPO/EcEDYIoRBUP7GQs0SwPStvD8czh4CwtuEdCsJw
-         pcSBrJyzXDW9jaNA5gHKrP6v25LmQ0s3GLlpJYQPfUPwOJFPdMLhJw3ki+qy4QOTSKoW
-         Z1Qymj/1GbMD8tMV7vt02Y0FhAyiOe+2GwaPa/VHg2+kC2b8vKzhVzkSYgQJH/C5hi4b
-         Uk4m9ZYvPMK+0smf6ovCf1PmP2g2l7KU9tkbVjatl6Vny49spaWi9rK2SmSVWs9Asg2p
-         LMXlgCrf2J9K0oQbvUYSZseGs2l0ToZz7Zqf+tenNBpeJGhG0OhLgU4ULn9u1lxlFt/l
-         R73Q==
-X-Gm-Message-State: AC+VfDwPLEqkTP0f4TawtPKfAz98id3lXfxsqWYKaV4FOkDoViQvWT8l
-        qxHznV7fzc/nq6rFmL+qBFuCjQ==
-X-Google-Smtp-Source: ACHHUZ4T7fGPw6RhgXB3YhPDAVdBil7K8ZjbNA7hvHIB3GIJ2h84kwHUsXVjfo+wUT2IQqmnyofUhA==
-X-Received: by 2002:a17:90a:dd8d:b0:252:98ca:e7ac with SMTP id l13-20020a17090add8d00b0025298cae7acmr1639114pjv.44.1683821177052;
-        Thu, 11 May 2023 09:06:17 -0700 (PDT)
-Received: from nitro.local ([2001:4958:15a0:30:e305:5a3c:4c5a:1bc7])
-        by smtp.gmail.com with ESMTPSA id q22-20020a656256000000b005287a0560c9sm4989386pgv.1.2023.05.11.09.06.16
+        bh=SFkd1dKbP6tnltyZPTScAM9Myy8k7lmViwxiQ8QCDqw=;
+        b=FgVWCmJksrq+uIY324jN3OaNAe6o+YszZbyaKxZfE8/vmDQTRbmvPfRzYACO0SGftd
+         ebiK030YVOEjEYEjcBEfjPzj5dydoEez/dZIhW5b+mFpJhOyOXR6QTnOwRanVa8IqztK
+         Y0RHZlXd3en6jHgzxy+l5I7hszjMOBlEoWPcX7zZnNP19AERZI5XN9FX/kKRGZRbWYtx
+         81Fnemf8SyNNU9wP7UJO0iHx+QJ/Z/2L8aWV4Tloe9KMCRaQ+3vc1lKwGiW+0HeDO4s/
+         JUA4fkkut0ZsMS9+ys7DPWzUFVtlRFjLZOEeKIV52Hxl40FajVXxD30zJl3j39pPuQ/P
+         XHPg==
+X-Gm-Message-State: AC+VfDwxQ1r0unfh/NUMkTd71s9UCu7YJulILigOWn0p82wkv8+BSjVp
+        jnLlKeqrhORuZrHxg4avRfvw3Q==
+X-Google-Smtp-Source: ACHHUZ5a0ti3E2WIToW5A8qJAvAtO1IxkLJPMPANL+k0TkT4HGTFx6lglKrZlkZWGkIMUmQI2aU0rA==
+X-Received: by 2002:a17:902:c10c:b0:1ae:403f:d838 with SMTP id 12-20020a170902c10c00b001ae403fd838mr2744666pli.27.1684271148839;
+        Tue, 16 May 2023 14:05:48 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id j4-20020a17090276c400b00194caf3e975sm15909763plt.208.2023.05.16.14.05.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 May 2023 09:06:16 -0700 (PDT)
-Date:   Thu, 11 May 2023 12:06:14 -0400
-From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To:     Thorsten Leemhuis <regressions@leemhuis.info>
-Cc:     Jakub Kicinski <kuba@kernel.org>,
-        Linux regressions mailing list <regressions@lists.linux.dev>,
-        =?utf-8?B?QmrDuHJu?= Mork <bjorn@mork.no>,
-        Hayes Wang <hayeswang@realtek.com>, netdev@vger.kernel.org,
-        Paolo Abeni <pabeni@redhat.com>,
-        Eric Dumazet <edumazet@google.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Stanislav Fomichev <sdf@fomichev.me>, workflows@vger.kernel.org
-Subject: Re: [regression] Kernel OOPS on boot with Kernel 6.3(.1) and RTL8153
- Gigabit Ethernet Adapter
-Message-ID: <20230511-tart-asthma-girth-11164c@meerkat>
-References: <ec4be122-e213-ca5b-f5d6-e8f9c3fd3bee@leemhuis.info>
- <87lei36q27.fsf@miraculix.mork.no>
- <20230505120436.6ff8cfca@kernel.org>
- <57dbce31-daa9-9674-513e-f123b94950da@leemhuis.info>
- <20230505123744.16666106@kernel.org>
- <9284a9ec-d7c9-68e8-7384-07291894937b@leemhuis.info>
- <20230508130944.30699c33@kernel.org>
- <71f119ab-24e2-6a35-2b7d-43ea2a9578b8@leemhuis.info>
+        Tue, 16 May 2023 14:05:48 -0700 (PDT)
+Date:   Tue, 16 May 2023 14:05:47 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     corbet@lwn.net, torvalds@linux-foundation.org,
+        linux-doc@vger.kernel.org, workflows@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC] MAINTAINERS: direct process doc changes to a dedicated ML
+Message-ID: <202305161404.7605E653B@keescook>
+References: <20230511020204.910178-1-kuba@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <71f119ab-24e2-6a35-2b7d-43ea2a9578b8@leemhuis.info>
+In-Reply-To: <20230511020204.910178-1-kuba@kernel.org>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Thu, May 11, 2023 at 03:25:47PM +0200, Thorsten Leemhuis wrote:
-> > The bugbot can be enabled per BZ entry (AFAIU), so you can flip it
-> > individually for the thread you want to report. It should flush that 
-> > BZ to the list. At which point you can follow your normal ML regression
-> > process.
-> > 
-> > Where did I go off the rails?
+On Wed, May 10, 2023 at 07:02:04PM -0700, Jakub Kicinski wrote:
+> It's hard to keep track of changes to the process docs.
+> Subsystem maintainers should probably know what's going on,
+> to ensure reasonably uniform developer experience across
+> trees.
 > 
-> You missed that Konstantin (now CCed) is just a bit careful for the
-> bugbot bring up and therefore for now only allows bugbot to be enabled
-> for BZ entries that are filed against the product/component combination
-> Linux/Kernel. I could reassigning bugs there, but that would break the
-> workflow for maintainers like Kalle, which look at all bugs assigned to
-> their product/component combo (Drivers/network-wireless in Kalle's case).
+> We also need a place where process discussions can be held
+> (i.e. designated mailing list which can be CCed on naturally
+> arising discussions). I'm using workflows@ in this RFC,
+> but a new list may be better.
+> 
+> No change to the patch flow intended.
+> 
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> ---
+> I've been pondering the lack of cross-maintainer communication
+> as the kernel grows, and I hope this could help bring us together
+> a little. Plus twice over the last 2 weeks someone popped up on
+> netdev with what I personally considered incorrect interpretation
+> of the process docs, so it'd be nice to CC a list on my replies
+> so I can be corrected, in case I'm wrong.
 
-I hope to start opening this up to other products within the next few weeks,
-as things are looking fairly stable for our initial tests.
+I like this as a place to start. I wonder if there are people that
+should be included in some discussions that aren't already subscribed to
+the workflows list?
 
--K
+But, FWIW,
+
+Reviewed-by: Kees Cook <keescook@chromium.org>
+
+-Kees
+
+> 
+> Opinions more than welcome!
+> ---
+>  MAINTAINERS | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 1c78e61a3387..58239fbc7007 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -6223,6 +6223,12 @@ X:	Documentation/power/
+>  X:	Documentation/spi/
+>  X:	Documentation/userspace-api/media/
+>  
+> +DOCUMENTATION PROCESS
+> +M:	Jonathan Corbet <corbet@lwn.net>
+> +S:	Maintained
+> +F:	Documentation/process/
+> +L:	workflows@vger.kernel.org
+> +
+>  DOCUMENTATION REPORTING ISSUES
+>  M:	Thorsten Leemhuis <linux@leemhuis.info>
+>  L:	linux-doc@vger.kernel.org
+> -- 
+> 2.40.1
+> 
+
+-- 
+Kees Cook
