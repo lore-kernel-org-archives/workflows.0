@@ -2,92 +2,115 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBA0BC77B7A
-	for <workflows@archiver.kernel.org>; Fri, 19 May 2023 15:17:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E65ECC7EE24
+	for <workflows@archiver.kernel.org>; Sat,  3 Jun 2023 15:20:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230519AbjESPRD (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 19 May 2023 11:17:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48462 "EHLO
+        id S229566AbjFCPUp (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Sat, 3 Jun 2023 11:20:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229532AbjESPRC (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Fri, 19 May 2023 11:17:02 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9300DCF;
-        Fri, 19 May 2023 08:17:01 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 3DABE536;
-        Fri, 19 May 2023 15:17:01 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3DABE536
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1684509421; bh=CK6rRcjDmy59SAWk5ogUPHgX/+aOB52LGzE5tSHwm6g=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=bLWvdKK+WFSXvmaz58gi3ugXKzO6raXMduOFBnX5WxH+sXHsYkkuVqBftrLqH/1Zi
-         eOBvoE4iLqIUYodItyE7dy43AIxlOObiCNjxaMcMaybS3r8N2BGWPXcWQ7Z3xHBi2O
-         SUjwLlvVfuvWzakgDuDHGe+QsmhZq0rz9q2YDSAivHExqq1xjJ2xyYrjPGCuRKshGw
-         2JeeuczENBfFoDHk3B4pTusxr+oxch9VlwzS+oiYC6xzFNs57JmNb49+DZ5KJjOVwc
-         N/J21spsvRqR5duNeBIeJxWUfWrU7k0Hl6hHaLb23gVtN0KJo7162XBsmz8t8tz8jL
-         WABbANxwWcDqQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     torvalds@linux-foundation.org, linux-doc@vger.kernel.org,
-        workflows@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jakub Kicinski <kuba@kernel.org>
-Subject: Re: [RFC] MAINTAINERS: direct process doc changes to a dedicated ML
-In-Reply-To: <20230511020204.910178-1-kuba@kernel.org>
-References: <20230511020204.910178-1-kuba@kernel.org>
-Date:   Fri, 19 May 2023 09:17:00 -0600
-Message-ID: <87353snyfn.fsf@meer.lwn.net>
+        with ESMTP id S229555AbjFCPUp (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Sat, 3 Jun 2023 11:20:45 -0400
+X-Greylist: delayed 301 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 03 Jun 2023 08:20:43 PDT
+Received: from rs227.mailgun.us (rs227.mailgun.us [209.61.151.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D51E9123
+        for <workflows@vger.kernel.org>; Sat,  3 Jun 2023 08:20:43 -0700 (PDT)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=equiv.tech; q=dns/txt;
+ s=mx; t=1685805643; x=1685812843; h=Content-Transfer-Encoding: MIME-Version:
+ Message-Id: Date: Subject: Subject: Cc: To: To: From: From: Sender: Sender;
+ bh=XTa4pTN8mA1qs4eZR7hkgbdD55qmi0189Q+ftbOrPYA=;
+ b=IokmkBk8Yjwp/KH21IMBHwfQ4aBHf8luw0/wzDaoMeJDS3skL/zu5qXnAbi60s6EF9ticUWJo3N2x5tdb11qHFL8kDSqAFGQW6hPszTU7zf01vAbZ1+Yp6jsf/eDnzgyATmsUhKfgBRjDiPNmBpZZSvCemfYsN4aXXAxfveeAeDNaOYdp17SWoyyedkYeTWo/ikZF0I8TwKw2hzUNTUBaZxxOKUAjHdqX26nuYgvynI06dG9AMMvEBHvAX4CZ4kTeV6CtMeU/BefyqjcUi5J1kOvF9DU4U5WaT3q9G2umhUt/Yp8kibFRL/fTwAGXyyssVK0/VKKlD4R+R+pLjSxvQ==
+X-Mailgun-Sending-Ip: 209.61.151.227
+X-Mailgun-Sid: WyIxOWZjNiIsIndvcmtmbG93c0B2Z2VyLmtlcm5lbC5vcmciLCI5M2Q1YWIiXQ==
+Received: from mail.equiv.tech (equiv.tech [142.93.28.83]) by 54d8775e8f74 with SMTP id
+ 647b591d2f85f82427c4c490 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sat, 03 Jun 2023 15:15:41 GMT
+Sender: james@equiv.tech
+From:   James Seo <james@equiv.tech>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     James Seo <james@equiv.tech>, Kalle Valo <kvalo@kernel.org>,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [RFC] docs: process: Send patches 'To' maintainers and 'Cc' lists
+Date:   Sat,  3 Jun 2023 08:14:47 -0700
+Message-Id: <20230603151447.29288-1-james@equiv.tech>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Jakub Kicinski <kuba@kernel.org> writes:
+The existing wording in the 'Select the recipients for your patch'
+section of submitting-patches.rst states that contributors should
+'copy' maintainers and lists, which might be interpreted to mean that
+patch e-mails should be sent 'Cc' such recipients without any 'To'
+recipients at all.
 
-> It's hard to keep track of changes to the process docs.
-> Subsystem maintainers should probably know what's going on,
-> to ensure reasonably uniform developer experience across
-> trees.
->
-> We also need a place where process discussions can be held
-> (i.e. designated mailing list which can be CCed on naturally
-> arising discussions). I'm using workflows@ in this RFC,
-> but a new list may be better.
->
-> No change to the patch flow intended.
->
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
-> I've been pondering the lack of cross-maintainer communication
-> as the kernel grows, and I hope this could help bring us together
-> a little. Plus twice over the last 2 weeks someone popped up on
-> netdev with what I personally considered incorrect interpretation
-> of the process docs, so it'd be nice to CC a list on my replies
-> so I can be corrected, in case I'm wrong.
->
-> Opinions more than welcome!
-> ---
->  MAINTAINERS | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 1c78e61a3387..58239fbc7007 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6223,6 +6223,12 @@ X:	Documentation/power/
->  X:	Documentation/spi/
->  X:	Documentation/userspace-api/media/
->  
-> +DOCUMENTATION PROCESS
-> +M:	Jonathan Corbet <corbet@lwn.net>
-> +S:	Maintained
-> +F:	Documentation/process/
-> +L:	workflows@vger.kernel.org
-> +
+Indeed, this does happen on occasion (and to be fair, examples of the
+practice predating the submitting-patches document exist in kernel
+mailing list archives). It isn't a problem on the protocol level, as
+SMTP itself deals only with SMTP commands (cf. 'RCPT TO'), but
+software that works with MIME headers in message text, perhaps in
+order to generate those commands, doesn't always handle the situation
+well.
 
-Applied, thanks.
+At present, when such an e-mail is sent to the vger listservs, the
+MIME header 'To: unlisted-recipients:; (no To-header on input)' is
+added to it somewhere along the chain. 'unlisted-recipients:;' is a
+valid RFC 5322 Group Address, but it (or '(no To-header on input)')
+sometimes goes on to cause problems itself further down the line.
 
-jon
+For example, in mutt, it can result in the silent removal of all 'Cc'
+recipients (e.g. kernel mailing lists) from a group reply, leaving
+the 'To' recipient that the original e-mail was 'From' as the only
+actual reply recipient [1]. Other issues [2] are possible in other
+software [3]. It also bears mentioning that a lack of 'To' headers is
+a characteristic of some spam, so such an e-mail may trigger some
+spam filters.
+
+To reduce ambiguity and eliminate this class of potential (albeit
+tangential) issues, prescribe sending patches 'To' maintainers and
+'Cc' lists. While we're at it, strengthen the recommendation to use
+scripts/get_maintainer.pl to find patch recipients, and move Andrew
+Morton's callout as the maintainer of last resort to the next
+paragraph for better flow.
+
+Link: https://github.com/neomutt/neomutt/issues/2548 [1]
+Link: https://github.com/python/cpython/issues/83281 [2]
+Link: https://github.com/kvalo/pwcli/issues/15 [3]
+Signed-off-by: James Seo <james@equiv.tech>
+---
+ Documentation/process/submitting-patches.rst | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
+
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index efac910e2659..53460f3cdc1d 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -231,14 +231,15 @@ patch.
+ Select the recipients for your patch
+ ------------------------------------
+ 
+-You should always copy the appropriate subsystem maintainer(s) and list(s) on
+-any patch to code that they maintain; look through the MAINTAINERS file and the
+-source code revision history to see who those maintainers are.  The script
+-scripts/get_maintainer.pl can be very useful at this step (pass paths to your
+-patches as arguments to scripts/get_maintainer.pl).  If you cannot find a
+-maintainer for the subsystem you are working on, Andrew Morton
+-(akpm@linux-foundation.org) serves as a maintainer of last resort.
+-
++You should always notify the appropriate subsystem maintainer(s) and list(s)
++about any patch to code that they maintain.  Identify them by looking through
++the MAINTAINERS file and the source code revision history, and by using the
++script scripts/get_maintainer.pl (pass paths to your patches as arguments to
++scripts/get_maintainer.pl).  Send your patch e-mail "To:" those maintainers and
++"Cc:" those lists.
++
++If you cannot find a maintainer for the subsystem you are working on, Andrew
++Morton (akpm@linux-foundation.org) serves as a maintainer of last resort.  Also,
+ linux-kernel@vger.kernel.org should be used by default for all patches, but the
+ volume on that list has caused a number of developers to tune it out.  Please
+ do not spam unrelated lists and unrelated people, though.
+-- 
+2.39.2
+
