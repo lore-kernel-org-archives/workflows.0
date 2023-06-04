@@ -2,87 +2,70 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0555AC7EE29
-	for <workflows@archiver.kernel.org>; Sun,  4 Jun 2023 14:01:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E141C77B73
+	for <workflows@archiver.kernel.org>; Sun,  4 Jun 2023 18:26:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231244AbjFDOBf (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Sun, 4 Jun 2023 10:01:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45850 "EHLO
+        id S229904AbjFDS0s (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Sun, 4 Jun 2023 14:26:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229635AbjFDOBe (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Sun, 4 Jun 2023 10:01:34 -0400
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E6DCCF;
-        Sun,  4 Jun 2023 07:01:34 -0700 (PDT)
-Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-1b01d912924so36138905ad.1;
-        Sun, 04 Jun 2023 07:01:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685887293; x=1688479293;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SGHDepzavGuE83PchG6Ifo8HIEjyqsZ7nz/7LX1OmGI=;
-        b=ExlXXAf4O6jig1b/rfi43C25mDdUj5bJQHMsQMp5mBNHGPQmNDgxGDZhQdoJTxvt+w
-         1RuEvxdKrjJmTHhaibE6j9a2lkbR7GX9a1YbvxMsYx+70EfEcbW68PKn230qhxNSYvyN
-         wCF68SZcJqkkp91Pm/sIIzSJ9RzQCjkNHe/MzlSkn6XeNcTjEMLlZ/xGlHM8pZr1oKp6
-         e1bqmBvy0eE7g8Jgk4NiSy32bc5Ji28CPa1u3ShZRvlw/c0GH4751Vq+hmz6pWM6e2kJ
-         eNr4UyXH48zt1fMrqsAX8fHfOwUb2fMfd1eowirXpTcy9F6+8mQz49EtLQx3r3zttKAq
-         R85Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685887293; x=1688479293;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SGHDepzavGuE83PchG6Ifo8HIEjyqsZ7nz/7LX1OmGI=;
-        b=M0Gl1sZjks3MHOSiR1sJkJEsezFAeSGi9vN462KQHCcSD44wMOSJLaurhaoKAwORTU
-         sI7MEYc3MJ4O0UkMYp/Ju/T/KTW8xe94DS1kyUNuQlXSeln+X/ZcVEKABqg/hDYKUwl8
-         bMBMnkWanl4708azg2h8pxYIHZd0K0ebwKetcJDh7K681RNNnt68+OndQ7tPOYB4HqkV
-         adqgJpm8Mbmp6Kjttd6g6M36IGFs6V4Kj/Ot5dEJXQX1FTui8dcmXT98iOBZj6026hL3
-         1ondcNEXV9eA0z3q88Zfxt3EPeuyMT1Cqdr8qMe3SZlpz3de9rLg3Cka+H3eHSwuVJwy
-         V6Cw==
-X-Gm-Message-State: AC+VfDw7+PRo5MS30MYC8VvG/J2+g4JgT9sk9qD29ET7WDtla82qr5M9
-        1s0NknYXxMHCNxZkGHJfNNg=
-X-Google-Smtp-Source: ACHHUZ5olLI4H9tXFHWVTFNSmHMVCx5b78J0aCp08Om7tek2DOOaEL+crIoRBFaJK7sobABtfmcvww==
-X-Received: by 2002:a17:902:f550:b0:1af:c1a7:3bb5 with SMTP id h16-20020a170902f55000b001afc1a73bb5mr6244163plf.4.1685887293403;
-        Sun, 04 Jun 2023 07:01:33 -0700 (PDT)
-Received: from [192.168.43.80] (subs28-116-206-12-54.three.co.id. [116.206.12.54])
-        by smtp.gmail.com with ESMTPSA id l4-20020a170903244400b001a96a6877fdsm4763410pls.3.2023.06.04.07.01.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 04 Jun 2023 07:01:32 -0700 (PDT)
-Message-ID: <10e68064-42a3-c80e-10cc-079a3cf4eb35@gmail.com>
-Date:   Sun, 4 Jun 2023 21:01:29 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [RFC] docs: process: Send patches 'To' maintainers and 'Cc' lists
-Content-Language: en-US
-To:     James Seo <james@equiv.tech>, Jonathan Corbet <corbet@lwn.net>
-Cc:     Kalle Valo <kvalo@kernel.org>, workflows@vger.kernel.org,
+        with ESMTP id S229657AbjFDS0r (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Sun, 4 Jun 2023 14:26:47 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A097B9F;
+        Sun,  4 Jun 2023 11:26:46 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3B09460D2F;
+        Sun,  4 Jun 2023 18:26:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3954EC433EF;
+        Sun,  4 Jun 2023 18:26:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1685903205;
+        bh=dth7Aax/mLDPwW7UkizU6eda/8h6bGF9h4Hv/a9RVPI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=fWgGmNQdQRsqINbir0ErYfXcBEXbJICqTNpIsxPSy0qwbUUDJ4Gr0dYN3PxBaGL0t
+         fn33RJpKrhRxVzEwWSWJuCuM0YJFhKbXq2QiMP4v3lq2TX7xl1LhlPRkwyUhTU2L5R
+         6YfcdCmF5Y7rVzs/sFZmt0suId8dpJwPYWuugTIbJ/bu8/WN6kBkGJ3S+i169jqv3T
+         /HOyYhj0d3AFhH0sehYrXZD65TBesBjbt+MoJ4aIO8HIl4RqvQN2DaXV++VKlMkPBk
+         glT23a4hlVlrNanh06sNVYn5NmdAztSAleZ4l0jV6rKuo9kyB4jvcLIkawxCIlgJuh
+         piH3q3LA2tosw==
+Date:   Sun, 4 Jun 2023 11:26:44 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Willy Tarreau <w@1wt.eu>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, James Seo <james@equiv.tech>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kalle Valo <kvalo@kernel.org>, workflows@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC] docs: process: Send patches 'To' maintainers and 'Cc'
+ lists
+Message-ID: <20230604112644.49ac2035@kernel.org>
+In-Reply-To: <20230603160659.GA5182@1wt.eu>
 References: <20230603151447.29288-1-james@equiv.tech>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20230603151447.29288-1-james@equiv.tech>
-Content-Type: text/plain; charset=UTF-8
+        <975d35cb-e0aa-8ea7-5520-238d1aa4cbaf@infradead.org>
+        <20230603160659.GA5182@1wt.eu>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On 6/3/23 22:14, James Seo wrote:
-> To reduce ambiguity and eliminate this class of potential (albeit
-> tangential) issues, prescribe sending patches 'To' maintainers and
-> 'Cc' lists. While we're at it, strengthen the recommendation to use
-> scripts/get_maintainer.pl to find patch recipients, and move Andrew
-> Morton's callout as the maintainer of last resort to the next
-> paragraph for better flow.
+On Sat, 3 Jun 2023 18:06:59 +0200 Willy Tarreau wrote:
+> > I think that is going overboard (too far). As long as a maintainer
+> > is a direct recipient of the email (patch), that should be sufficient.  
 > 
+> Or it could be simplified, saying that all those who are expected to
+> play a role on the patchset (review, test, merge etc) should be in the
+> 'To' field while those who might possibly be interested in having a
+> look are in 'Cc' (lists, other people having expressed interest in the
+> patchset, single-time contributors to the file being changed etc). It
+> could be hinted that usually people read mails sent to them faster than
+> those they're CCed. This implies that maintainers have to be in To and
+> lists in Cc.
 
-IMO, To: and Cc: don't have any practical differences between two,
-and I usually do vice-versa when sending patches: lists are in To:
-and individual maintainers are in Cc:
-
-Thanks.
-
--- 
-An old man doll... just what I always wanted! - Clara
-
+It's useful when maintainer (or group thereof) who are expected to apply
+the patch are in the To:
+Who applies the patch is not information a noob may know but it may be
+worth writing down as best practice?
