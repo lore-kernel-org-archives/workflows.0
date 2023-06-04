@@ -2,69 +2,88 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40664C77B73
-	for <workflows@archiver.kernel.org>; Sat,  3 Jun 2023 16:14:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06B50C77B73
+	for <workflows@archiver.kernel.org>; Sun,  4 Jun 2023 13:56:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229490AbjFCQOB (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Sat, 3 Jun 2023 12:14:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46392 "EHLO
+        id S229930AbjFDN4k (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Sun, 4 Jun 2023 09:56:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbjFCQOA (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Sat, 3 Jun 2023 12:14:00 -0400
-X-Greylist: delayed 388 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 03 Jun 2023 09:13:59 PDT
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1137CA2;
-        Sat,  3 Jun 2023 09:13:58 -0700 (PDT)
-Received: (from willy@localhost)
-        by pcw.home.local (8.15.2/8.15.2/Submit) id 353G6xE1005188;
-        Sat, 3 Jun 2023 18:06:59 +0200
-Date:   Sat, 3 Jun 2023 18:06:59 +0200
-From:   Willy Tarreau <w@1wt.eu>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     James Seo <james@equiv.tech>, Jonathan Corbet <corbet@lwn.net>,
-        Kalle Valo <kvalo@kernel.org>, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+        with ESMTP id S229739AbjFDN4j (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Sun, 4 Jun 2023 09:56:39 -0400
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 934B7C4;
+        Sun,  4 Jun 2023 06:56:37 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-651f2f38634so3337585b3a.0;
+        Sun, 04 Jun 2023 06:56:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685886997; x=1688478997;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=117yVyRXLiZbNEVSmtDOgF7WMAgwu5egOkvBC/5odcI=;
+        b=Nza6NKslXjutBq54b2HRVSaCwcmingt2EQQnlYugloMgti34dhsfd0DBZxtEgIIX13
+         hVs+Sfc5RwPj4AprLd7GgS5z5rEJjlta/OHHdf5S4rGobWG4obbr5iuTVQ6blGKP6PIw
+         VLJTkWLIiH6HGyAW/2iTYkGYbWPpEkerqEo4y/GzR63W2dmh4lpOZ4DTpYtG0zgo+5ih
+         II7kYmryIjdJazcoOuaqAffYH9nS8M8032cgKha5NOmYloJdTB/Kp1CouQxSj19Bf4pm
+         PPfW1OECf27AACVlOaKXfzjp9ey3qHnBLmxXySvPCnk4rNO6MagoJahXNsFUWejbX4bh
+         9klg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685886997; x=1688478997;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=117yVyRXLiZbNEVSmtDOgF7WMAgwu5egOkvBC/5odcI=;
+        b=kh5nZ+q76K9hV6xJsbFVG3GC5R+XNoHwOT8fa7bJ4W7iMdDWucCW5jn4qzhfQ34lB3
+         Bkmz3DQ3APo5VJ7NJ5DK1p73D6VBLPsBrtfN2Bk4/YKh958UF3ddUNZzUAJyJr7H+xgz
+         isvH5csgC5Qlkgqvtvz14RBIVpxq3Ij/LFprAKejExuW79q/5JvuKMsUGnS9FWHo3jcx
+         CP30pB4D+XVMR5vbzrz4ZGjfhBv1n60CnYlptvROlD/lmdiHfMTPkQjcc/XRhHKs4dXE
+         SBVxNSBb5TrJA6GBtiBvdWL6D3U8/GQy1t1Y/+H3Qj1CTGdOSXoYje4LM/BOuBtW0T0k
+         bkyg==
+X-Gm-Message-State: AC+VfDxtoEqcVqTxWmj4TETUxTuIps3xBG2jFbBQNJxzgMg+JYsTrN09
+        PyI+6BLzMGUwVNJLGqM9dFc=
+X-Google-Smtp-Source: ACHHUZ6MBAd8Gnu5v81tMunkT6WV7jiquUQY99c9qc3eYJFzdT7nI9SCx/hOFkmgwXU4AvgAkDgfqA==
+X-Received: by 2002:a05:6a20:8f17:b0:111:11a6:920e with SMTP id b23-20020a056a208f1700b0011111a6920emr4828938pzk.18.1685886996922;
+        Sun, 04 Jun 2023 06:56:36 -0700 (PDT)
+Received: from [192.168.43.80] (subs28-116-206-12-54.three.co.id. [116.206.12.54])
+        by smtp.gmail.com with ESMTPSA id m3-20020aa78a03000000b005a8173829d5sm3709111pfa.66.2023.06.04.06.56.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 04 Jun 2023 06:56:36 -0700 (PDT)
+Message-ID: <49fa3dc5-ffdb-2af4-9b7a-3d19e88bcbda@gmail.com>
+Date:   Sun, 4 Jun 2023 20:56:32 +0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
 Subject: Re: [RFC] docs: process: Send patches 'To' maintainers and 'Cc' lists
-Message-ID: <20230603160659.GA5182@1wt.eu>
+Content-Language: en-US
+To:     Randy Dunlap <rdunlap@infradead.org>, James Seo <james@equiv.tech>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Kalle Valo <kvalo@kernel.org>, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20230603151447.29288-1-james@equiv.tech>
  <975d35cb-e0aa-8ea7-5520-238d1aa4cbaf@infradead.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
 In-Reply-To: <975d35cb-e0aa-8ea7-5520-238d1aa4cbaf@infradead.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Hi Randy,
-
-On Sat, Jun 03, 2023 at 08:55:39AM -0700, Randy Dunlap wrote:
+On 6/3/23 22:55, Randy Dunlap wrote:
 > It sounds to me like we should just prohibit (not allow) emails that
-> don't have a To: recipient in them.
-
-Also those without subjects, which seem to become increasingly frequent
-and which used to exclusively be used by spam years ago.
-
-> > To reduce ambiguity and eliminate this class of potential (albeit
-> > tangential) issues, prescribe sending patches 'To' maintainers and
-> > 'Cc' lists. While we're at it, strengthen the recommendation to use
-> > scripts/get_maintainer.pl to find patch recipients, and move Andrew
-> > Morton's callout as the maintainer of last resort to the next
-> > paragraph for better flow.
-> > 
+> don't have a To: recipient in them. It also sounds like mutt (and maybe
+> other software) have problems.
 > 
-> I think that is going overboard (too far). As long as a maintainer
-> is a direct recipient of the email (patch), that should be sufficient.
 
-Or it could be simplified, saying that all those who are expected to
-play a role on the patchset (review, test, merge etc) should be in the
-'To' field while those who might possibly be interested in having a
-look are in 'Cc' (lists, other people having expressed interest in the
-patchset, single-time contributors to the file being changed etc). It
-could be hinted that usually people read mails sent to them faster than
-those they're CCed. This implies that maintainers have to be in To and
-lists in Cc.
+In mutt, there is a command for reply-to-all (named group-chat-reply),
+but you need to assign key binding for it. I'd like to type Esc-g
+for this purpose. The corresponding .muttrc is:
 
-regards,
-Willy
+```
+bind index,pager "<esc>g" group-chat-reply
+```
+
+-- 
+An old man doll... just what I always wanted! - Clara
+
