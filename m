@@ -2,76 +2,72 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54D37C77B7A
-	for <workflows@archiver.kernel.org>; Tue,  6 Jun 2023 13:46:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF209C0015E
+	for <workflows@archiver.kernel.org>; Sun, 25 Jun 2023 20:20:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231259AbjFFNqf (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 6 Jun 2023 09:46:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34726 "EHLO
+        id S229844AbjFYUUI (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Sun, 25 Jun 2023 16:20:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236774AbjFFNqe (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 6 Jun 2023 09:46:34 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04FAFE6B;
-        Tue,  6 Jun 2023 06:46:34 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 949E4627CE;
-        Tue,  6 Jun 2023 13:46:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 170F9C433EF;
-        Tue,  6 Jun 2023 13:46:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686059193;
-        bh=68eaGrLGrnORDP1z2Q9crKD3m6oo24cQZZ0jGyTzM9g=;
-        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-        b=oWB9VCBzGWlONboGUB2EfG9Dpzthr9066iDyJx6GNNpEi4Zfwl5Gu0tYTMMmnJpdk
-         pmm3kAY+jeWGHqKKt5VyzWzzmnyRhMR8Cj87ISDaRjMWSko7WO+uBmeSEGYhi5y4py
-         z6Rqimlc+UD62AyS1YplgBIDcGeqTM/8wE1mIQZ7vxC3dryFTv1HRm8E7bSClm6qLc
-         CIHxj/SM5muMKaf6mq6YZyJ/ShZ0BdS3Hh9KQp/n9+36ObkIMNhq+8Kx8TODcTCLaa
-         efx8uSFDZdWVxLFF4hxA+xI+uUkXyPrehTB/4LKWCcUQBkPxfdeZPs9qSnuAfyCqO1
-         3eav54GnVKIfA==
-From:   Kalle Valo <kvalo@kernel.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Willy Tarreau <w@1wt.eu>, Randy Dunlap <rdunlap@infradead.org>,
-        James Seo <james@equiv.tech>, Jonathan Corbet <corbet@lwn.net>,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RFC] docs: process: Send patches 'To' maintainers and 'Cc' lists
-References: <20230603151447.29288-1-james@equiv.tech>
-        <975d35cb-e0aa-8ea7-5520-238d1aa4cbaf@infradead.org>
-        <20230603160659.GA5182@1wt.eu> <20230604112644.49ac2035@kernel.org>
-        <20230605041258.GA22604@pendragon.ideasonboard.com>
-        <87v8g2hwm1.fsf@kernel.org> <20230605103029.3fb821db@kernel.org>
-Date:   Tue, 06 Jun 2023 16:46:25 +0300
-In-Reply-To: <20230605103029.3fb821db@kernel.org> (Jakub Kicinski's message of
-        "Mon, 5 Jun 2023 10:30:29 -0700")
-Message-ID: <87ilc0itzi.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        with ESMTP id S229654AbjFYUUH (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Sun, 25 Jun 2023 16:20:07 -0400
+X-Greylist: delayed 451 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 25 Jun 2023 13:20:06 PDT
+Received: from smtp.smtpout.orange.fr (smtp-24.smtpout.orange.fr [80.12.242.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0E8C8E40
+        for <workflows@vger.kernel.org>; Sun, 25 Jun 2023 13:20:05 -0700 (PDT)
+Received: from pop-os.home ([86.243.2.178])
+        by smtp.orange.fr with ESMTPA
+        id DW63qPPnMbrosDW63qNCVb; Sun, 25 Jun 2023 22:12:32 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+        s=t20230301; t=1687723952;
+        bh=HTnGWUbgPOu9tTPS83pukflv+YYfBRc11HYbCi9ouX0=;
+        h=From:To:Cc:Subject:Date;
+        b=b2ShBgjQ6v15WHD9DHvM6hSighEpWGOflB5hZdnpEp1Wo7tww95BuoosSTZtrdpM0
+         eaSTuK04y7HdYQxEwtA1uf3oEVA7PiF1JwRMQzpX0t5VYOv7qP0TQurFcLQFDs2PuE
+         zEOpWxESgG4U8CxdXQ7FZYp7IpP04kL7R/CPvTKXnxZpuJA3Itm1bcEyH27vH4Mhot
+         xEcMPVfpCwTdJRH9qors2SpIM0MGgWsFnC7/KkyfSHGQBlOjJjhgmfM4tS1t6fSqaz
+         oxWAeyJsM0FhaS/uTLde2F/rxfCQaU2GD6oPgNv4tIRJc4biNsxDPHSKAiE9m8Mld4
+         ECjYMjYlyzB4Q==
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 25 Jun 2023 22:12:32 +0200
+X-ME-IP: 86.243.2.178
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH] docs: deprecated.rst: Update an example
+Date:   Sun, 25 Jun 2023 22:12:24 +0200
+Message-Id: <3484e46180dd2cf05d993ff1a78b481bc2ad1f71.1687723931.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Jakub Kicinski <kuba@kernel.org> writes:
+vmalloc() has a 2-factor form. It is vmalloc_array().
+So use another function as an example.
 
-> On Mon, 05 Jun 2023 16:22:46 +0300 Kalle Valo wrote:
->> > Note that some maintainers process pull requests from patchwork, not
->> > from their mailbox, and prefer not to be aadressed in the To or CC
->> > headers. I don't know how widespread that is.  
->> 
->> FWIW I belong to this group and prefer not be in To or Cc, I'll always
->> check the patch from patchwork.
->
-> Ah, I didn't realize this. 
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ Documentation/process/deprecated.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-So no action needed for this, I'm sure I'm in a very small minority and
-I can handle the mails with my filters just fine. Just wanted to comment
-that such maintainers do exist.
-
+diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+index f91b8441f2ef..1f7f3e6c9cda 100644
+--- a/Documentation/process/deprecated.rst
++++ b/Documentation/process/deprecated.rst
+@@ -77,7 +77,7 @@ kzalloc() can be replaced with kcalloc().
+ If no 2-factor form is available, the saturate-on-overflow helpers should
+ be used::
+ 
+-	bar = vmalloc(array_size(count, size));
++	bar = dma_alloc_coherent(dev, array_size(count, size), &dma, GFP_KERNEL);
+ 
+ Another common case to avoid is calculating the size of a structure with
+ a trailing array of others structures, as in::
 -- 
-https://patchwork.kernel.org/project/linux-wireless/list/
+2.34.1
 
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
