@@ -2,97 +2,91 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B6A5C001B3
-	for <workflows@archiver.kernel.org>; Fri, 30 Jun 2023 07:14:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB2B0EB64DA
+	for <workflows@archiver.kernel.org>; Fri, 30 Jun 2023 07:22:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232236AbjF3HOg (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 30 Jun 2023 03:14:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45272 "EHLO
+        id S230455AbjF3HWC (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 30 Jun 2023 03:22:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231824AbjF3HOd (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Fri, 30 Jun 2023 03:14:33 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E71B61FE8;
-        Fri, 30 Jun 2023 00:14:30 -0700 (PDT)
+        with ESMTP id S229945AbjF3HV7 (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Fri, 30 Jun 2023 03:21:59 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46CF91737;
+        Fri, 30 Jun 2023 00:21:58 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 84B12616DA;
-        Fri, 30 Jun 2023 07:14:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65E79C433C8;
-        Fri, 30 Jun 2023 07:14:29 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C36D1616E3;
+        Fri, 30 Jun 2023 07:21:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A24B0C433C0;
+        Fri, 30 Jun 2023 07:21:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1688109269;
-        bh=Zdprq0YUnfUvu95kY3UJZFl9wG79vBDtun14mBUAIa0=;
-        h=From:To:Cc:Subject:Date:From;
-        b=W8zHCNdzi7qka4Xk8ff1PuhnGYV+VIEY0+LJDsmoO8FpA9qProSFWNcoWMyzyw0Ez
-         6EYxIRjo2tPLjntGJj1eIXR0WlbJs+/VF7YmvnoX6uIgZJqw26r9wKriMVmoAHmMBo
-         6ZJMsfp/YjKswNzhZu8WI+T/CkaAv+OWlvMu9T4c=
+        s=korg; t=1688109717;
+        bh=BDmWeEiyVyhxO4weCChminjG1iwLGB4gkzlpA3fDucw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ro8cibij/8i00PC+hOje/CTUUrjN3z3u3p0ROrgVjOyKMTDntZK8Yek4OmjRyDDet
+         /B6t+RA1bpLjpmGgUnqyh3smkbpxi01Y+NpezwcTxHDWzfgsouNajhdXmScre6N1Kk
+         pNbYFk1lj+pEcramVH47Fbkr7aAI7Ua1A+yVCS94=
+Date:   Fri, 30 Jun 2023 09:21:54 +0200
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-doc@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, security@kernel.org, corbet@lwn.net,
-        workflows@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH 1/2] Documentation: security-bugs.rst: update preferences when dealing with the linux-distros group
-Date:   Fri, 30 Jun 2023 09:14:20 +0200
-Message-ID: <2023063020-throat-pantyhose-f110@gregkh>
-X-Mailer: git-send-email 2.41.0
+        workflows@vger.kernel.org
+Subject: Re: [PATCH 2/2] Documentation: security-bugs.rst: clarify CVE
+ handling
+Message-ID: <2023063030-onshore-ambiance-887c@gregkh>
+References: <2023063020-throat-pantyhose-f110@gregkh>
+ <2023063022-retouch-kerosene-7e4a@gregkh>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2511; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=Zdprq0YUnfUvu95kY3UJZFl9wG79vBDtun14mBUAIa0=; b=owGbwMvMwCRo6H6F97bub03G02pJDCnzGs7U5+Qo8YQdNk73SZmzcNXPLx5PH3Hdcdy7eM/qr Ye+b7ye3xHLwiDIxCArpsjyZRvP0f0VhxS9DG1Pw8xhZQIZwsDFKQATqShgmKe674Nui2HQvfxp EwV/O/5//LKoKZNhweqQxlYBW4n3aauFV/35as2puVfLEAA=
-X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2023063022-retouch-kerosene-7e4a@gregkh>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Because the linux-distros group forces reporters to release information
-about reported bugs, and they impose arbitrary deadlines in having those
-bugs fixed despite not actually being kernel developers, the kernel
-security team recommends not interacting with them at all as this just
-causes confusion and the early-release of reported security problems.
+On Fri, Jun 30, 2023 at 09:14:21AM +0200, Greg Kroah-Hartman wrote:
+> The kernel security team does NOT assign CVEs, so document that properly
+> and provide the "if you want one, ask MITRE for it" response that we
+> give on a weekly basis in the document, so we don't have to constantly
+> say it to everyone who asks.
+> 
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> ---
+>  Documentation/process/security-bugs.rst | 11 ++++-------
+>  1 file changed, 4 insertions(+), 7 deletions(-)
+> 
+> diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
+> index f12ac2316ce7..8b80e1eb7d79 100644
+> --- a/Documentation/process/security-bugs.rst
+> +++ b/Documentation/process/security-bugs.rst
+> @@ -79,13 +79,10 @@ not contribute to actually fixing any potential security problems.
+>  CVE assignment
+>  --------------
+>  
+> -The security team does not normally assign CVEs, nor do we require them
+> -for reports or fixes, as this can needlessly complicate the process and
+> -may delay the bug handling. If a reporter wishes to have a CVE identifier
+> -assigned ahead of public disclosure, they will need to contact the private
+> -linux-distros list, described above. When such a CVE identifier is known
+> -before a patch is provided, it is desirable to mention it in the commit
+> -message if the reporter agrees.
+> +The security team does not assign CVEs, nor do we require them for
+> +reports or fixes, as this can needlessly complicate the process and may
+> +delay the bug handling.  If a reporter wishes to have a CVE identifier
+> +assigned, they should contact MITRE directly.
+>  
+>  Non-disclosure agreements
+>  -------------------------
+> -- 
+> 2.41.0
+> 
 
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- Documentation/process/security-bugs.rst | 24 +++++++++++-------------
- 1 file changed, 11 insertions(+), 13 deletions(-)
+If there are no objections to these, I'll take them in my tree after
+6.5-rc1 is out to make it simpler.
 
-diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
-index 82e29837d589..f12ac2316ce7 100644
---- a/Documentation/process/security-bugs.rst
-+++ b/Documentation/process/security-bugs.rst
-@@ -63,20 +63,18 @@ information submitted to the security list and any followup discussions
- of the report are treated confidentially even after the embargo has been
- lifted, in perpetuity.
- 
--Coordination
--------------
-+Coordination with other groups
-+------------------------------
- 
--Fixes for sensitive bugs, such as those that might lead to privilege
--escalations, may need to be coordinated with the private
--<linux-distros@vs.openwall.org> mailing list so that distribution vendors
--are well prepared to issue a fixed kernel upon public disclosure of the
--upstream fix. Distros will need some time to test the proposed patch and
--will generally request at least a few days of embargo, and vendor update
--publication prefers to happen Tuesday through Thursday. When appropriate,
--the security team can assist with this coordination, or the reporter can
--include linux-distros from the start. In this case, remember to prefix
--the email Subject line with "[vs]" as described in the linux-distros wiki:
--<http://oss-security.openwall.org/wiki/mailing-lists/distros#how-to-use-the-lists>
-+The kernel security team strongly recommends that reporters of potential
-+security issues NEVER contact the "linux-distros" mailing list until
-+AFTER discussing it with the kernel security team.  Do not Cc: both
-+lists at once.  You may contact the linux-distros mailing list after a
-+fix has been agreed on and you fully understand the requirements that
-+doing so will impose on you and the kernel community.
-+
-+The different lists have different goals and the linux-distros rules do
-+not contribute to actually fixing any potential security problems.
- 
- CVE assignment
- --------------
--- 
-2.41.0
+thanks,
 
+greg k-h
