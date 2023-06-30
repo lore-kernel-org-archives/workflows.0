@@ -2,72 +2,84 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF209C0015E
-	for <workflows@archiver.kernel.org>; Sun, 25 Jun 2023 20:20:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10290C001DE
+	for <workflows@archiver.kernel.org>; Fri, 30 Jun 2023 07:14:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229844AbjFYUUI (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Sun, 25 Jun 2023 16:20:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57706 "EHLO
+        id S232260AbjF3HOh (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 30 Jun 2023 03:14:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229654AbjFYUUH (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Sun, 25 Jun 2023 16:20:07 -0400
-X-Greylist: delayed 451 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 25 Jun 2023 13:20:06 PDT
-Received: from smtp.smtpout.orange.fr (smtp-24.smtpout.orange.fr [80.12.242.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0E8C8E40
-        for <workflows@vger.kernel.org>; Sun, 25 Jun 2023 13:20:05 -0700 (PDT)
-Received: from pop-os.home ([86.243.2.178])
-        by smtp.orange.fr with ESMTPA
-        id DW63qPPnMbrosDW63qNCVb; Sun, 25 Jun 2023 22:12:32 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-        s=t20230301; t=1687723952;
-        bh=HTnGWUbgPOu9tTPS83pukflv+YYfBRc11HYbCi9ouX0=;
-        h=From:To:Cc:Subject:Date;
-        b=b2ShBgjQ6v15WHD9DHvM6hSighEpWGOflB5hZdnpEp1Wo7tww95BuoosSTZtrdpM0
-         eaSTuK04y7HdYQxEwtA1uf3oEVA7PiF1JwRMQzpX0t5VYOv7qP0TQurFcLQFDs2PuE
-         zEOpWxESgG4U8CxdXQ7FZYp7IpP04kL7R/CPvTKXnxZpuJA3Itm1bcEyH27vH4Mhot
-         xEcMPVfpCwTdJRH9qors2SpIM0MGgWsFnC7/KkyfSHGQBlOjJjhgmfM4tS1t6fSqaz
-         oxWAeyJsM0FhaS/uTLde2F/rxfCQaU2GD6oPgNv4tIRJc4biNsxDPHSKAiE9m8Mld4
-         ECjYMjYlyzB4Q==
-X-ME-Helo: pop-os.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 25 Jun 2023 22:12:32 +0200
-X-ME-IP: 86.243.2.178
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH] docs: deprecated.rst: Update an example
-Date:   Sun, 25 Jun 2023 22:12:24 +0200
-Message-Id: <3484e46180dd2cf05d993ff1a78b481bc2ad1f71.1687723931.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S231617AbjF3HO2 (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Fri, 30 Jun 2023 03:14:28 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E37B61FFA;
+        Fri, 30 Jun 2023 00:14:27 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7263F616D4;
+        Fri, 30 Jun 2023 07:14:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B117C433C0;
+        Fri, 30 Jun 2023 07:14:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1688109266;
+        bh=PYqCnWF7IAzpYnZdeaPArwQn6IWMC08ErzlI9oBfh4o=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=hwAyH0cMXXytdhps+l+CZl8PsJ798gPS4pZvhgJ4u+vAZUoMt/ZKxX+EVJ7hSKAqf
+         awolAd9LBvw+CZTVTNA5vb1Jczb+DNMAzV1pafEZ5x6HFBLCi+b2691QrrDta+BDEt
+         2iJfpqDVugdnI8sZKiU2znS9a98WzWt0oPf81/NY=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, security@kernel.org, corbet@lwn.net,
+        workflows@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH 2/2] Documentation: security-bugs.rst: clarify CVE handling
+Date:   Fri, 30 Jun 2023 09:14:21 +0200
+Message-ID: <2023063022-retouch-kerosene-7e4a@gregkh>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <2023063020-throat-pantyhose-f110@gregkh>
+References: <2023063020-throat-pantyhose-f110@gregkh>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1604; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=PYqCnWF7IAzpYnZdeaPArwQn6IWMC08ErzlI9oBfh4o=; b=owGbwMvMwCRo6H6F97bub03G02pJDCnzGs7J7u3/x9SV/eDmvwqfk3NervP2496welGr/iX11 0/YCqbe6ohlYRBkYpAVU2T5so3n6P6KQ4pehranYeawMoEMYeDiFICJPHJjmKf68PZKBpcOQ9s7 dVWrJWQTkk2StRkWbDdVEYt+WCh0bpussqXr7ap4Bwt2AA==
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-vmalloc() has a 2-factor form. It is vmalloc_array().
-So use another function as an example.
+The kernel security team does NOT assign CVEs, so document that properly
+and provide the "if you want one, ask MITRE for it" response that we
+give on a weekly basis in the document, so we don't have to constantly
+say it to everyone who asks.
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- Documentation/process/deprecated.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/process/security-bugs.rst | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-index f91b8441f2ef..1f7f3e6c9cda 100644
---- a/Documentation/process/deprecated.rst
-+++ b/Documentation/process/deprecated.rst
-@@ -77,7 +77,7 @@ kzalloc() can be replaced with kcalloc().
- If no 2-factor form is available, the saturate-on-overflow helpers should
- be used::
+diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
+index f12ac2316ce7..8b80e1eb7d79 100644
+--- a/Documentation/process/security-bugs.rst
++++ b/Documentation/process/security-bugs.rst
+@@ -79,13 +79,10 @@ not contribute to actually fixing any potential security problems.
+ CVE assignment
+ --------------
  
--	bar = vmalloc(array_size(count, size));
-+	bar = dma_alloc_coherent(dev, array_size(count, size), &dma, GFP_KERNEL);
+-The security team does not normally assign CVEs, nor do we require them
+-for reports or fixes, as this can needlessly complicate the process and
+-may delay the bug handling. If a reporter wishes to have a CVE identifier
+-assigned ahead of public disclosure, they will need to contact the private
+-linux-distros list, described above. When such a CVE identifier is known
+-before a patch is provided, it is desirable to mention it in the commit
+-message if the reporter agrees.
++The security team does not assign CVEs, nor do we require them for
++reports or fixes, as this can needlessly complicate the process and may
++delay the bug handling.  If a reporter wishes to have a CVE identifier
++assigned, they should contact MITRE directly.
  
- Another common case to avoid is calculating the size of a structure with
- a trailing array of others structures, as in::
+ Non-disclosure agreements
+ -------------------------
 -- 
-2.34.1
+2.41.0
 
