@@ -2,79 +2,134 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DEB1EB64DC
-	for <workflows@archiver.kernel.org>; Fri, 30 Jun 2023 22:14:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8776DEB64DA
+	for <workflows@archiver.kernel.org>; Sun,  2 Jul 2023 12:40:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231324AbjF3WOw (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 30 Jun 2023 18:14:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49574 "EHLO
+        id S229656AbjGBMkA (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Sun, 2 Jul 2023 08:40:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232420AbjF3WOv (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Fri, 30 Jun 2023 18:14:51 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BBAE3C22;
-        Fri, 30 Jun 2023 15:14:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=bBmF8PoAQEZMJlbfm9Trh4AS+Z1wbpxDhtVNF9ChCns=; b=Tj4EmHA2DdYSG8yLlZQhDVazSm
-        YZ4qyO7cSH+9Vm+yCARCF4qVw6Kx1Ocw/dTKPJnmfX0KJVQg1gzq7RzzT72L0pMOL0wmk7T8N/hwl
-        8cbOFUHFTibFu7IrlK5bVHKC8ime/wckAqPLwFa2BSTRYYcyQh5/BGGGUWWtpCu9xG3McLjnh7csU
-        nHhf+XysQ39d75F5N/BEAuWfwrDHsPCY98nxhAM+09PW2nwZBFCfRMGFPWey25u0kDsQmfb5duz45
-        +iv01UZam/guOSjcezd9gjPslMY6lsCSk6EFdUt/4vu5IuteP0l5PUAkIfiaMlExL8pbT0vXmfS5H
-        AJA9jt9g==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qFMOA-004ezY-04;
-        Fri, 30 Jun 2023 22:14:50 +0000
-Message-ID: <4b9937d8-59b5-5a9a-df72-e7fa33728e41@infradead.org>
-Date:   Fri, 30 Jun 2023 15:14:48 -0700
+        with ESMTP id S229460AbjGBMj7 (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Sun, 2 Jul 2023 08:39:59 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E20812A;
+        Sun,  2 Jul 2023 05:39:58 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1E60660BD8;
+        Sun,  2 Jul 2023 12:39:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9C0FC433C8;
+        Sun,  2 Jul 2023 12:39:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1688301597;
+        bh=Gs10fttTgnhj5fhjLDWFZ0nrwMhadhZS6+ukxYV05Bw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jyxA0qYizBtdPmWrk2kjuW65B0CjVfIE8CbaJzq8Km7bcrnlErGRNRnEwesmL9cIf
+         gwFhHQokKhnVJYn9t/qYRVj7c55uJlu7pjrdZBCZJRwqCLlYDK3rsIowy9krOr3gvY
+         8VtLI43tqlGvp/Ard9XCx9MM8Fq5KuzjRMH7dQZg=
+Date:   Sun, 2 Jul 2023 14:39:49 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        security@kernel.org, corbet@lwn.net, workflows@vger.kernel.org
+Subject: Re: [PATCH 2/2] Documentation: security-bugs.rst: clarify CVE
+ handling
+Message-ID: <2023070213-capacity-moneybags-3668@gregkh>
+References: <2023063020-throat-pantyhose-f110@gregkh>
+ <2023063022-retouch-kerosene-7e4a@gregkh>
+ <202306301114.E199B136@keescook>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH docs] docs: remove the tips on how to submit patches from
- MAINTAINERS
-Content-Language: en-US
-To:     Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, workflows@vger.kernel.org
-References: <20230630171550.128296-1-kuba@kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230630171550.128296-1-kuba@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202306301114.E199B136@keescook>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
+On Fri, Jun 30, 2023 at 11:18:37AM -0700, Kees Cook wrote:
+> On Fri, Jun 30, 2023 at 09:14:21AM +0200, Greg Kroah-Hartman wrote:
+> > The kernel security team does NOT assign CVEs, so document that properly
+> > and provide the "if you want one, ask MITRE for it" response that we
+> > give on a weekly basis in the document, so we don't have to constantly
+> > say it to everyone who asks.
+> > 
+> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > ---
+> >  Documentation/process/security-bugs.rst | 11 ++++-------
+> >  1 file changed, 4 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
+> > index f12ac2316ce7..8b80e1eb7d79 100644
+> > --- a/Documentation/process/security-bugs.rst
+> > +++ b/Documentation/process/security-bugs.rst
+> > @@ -79,13 +79,10 @@ not contribute to actually fixing any potential security problems.
+> >  CVE assignment
+> >  --------------
+> >  
+> > -The security team does not normally assign CVEs, nor do we require them
+> > -for reports or fixes, as this can needlessly complicate the process and
+> > -may delay the bug handling. If a reporter wishes to have a CVE identifier
+> > -assigned ahead of public disclosure, they will need to contact the private
+> > -linux-distros list, described above. When such a CVE identifier is known
+> > -before a patch is provided, it is desirable to mention it in the commit
+> > -message if the reporter agrees.
+> > +The security team does not assign CVEs, nor do we require them for
+> > +reports or fixes, as this can needlessly complicate the process and may
+> > +delay the bug handling.  If a reporter wishes to have a CVE identifier
+> > +assigned, they should contact MITRE directly.
+> 
+> Hmm. The language about "assigned ahead of public disclosure" was added
+> intentionally due to trouble we'd had with coordination when a CVE was
+> needed, etc. Additionally, it IS preferred to have a CVE in a patch when
+> it IS known ahead of time, so I think that should be kept. How about
+> this:
+> 
+> 
+> diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
+> index 82e29837d589..2f4060d49b31 100644
+> --- a/Documentation/process/security-bugs.rst
+> +++ b/Documentation/process/security-bugs.rst
+> @@ -81,13 +81,12 @@ the email Subject line with "[vs]" as described in the linux-distros wiki:
+>  CVE assignment
+>  --------------
+>  
+> -The security team does not normally assign CVEs, nor do we require them
+> -for reports or fixes, as this can needlessly complicate the process and
+> -may delay the bug handling. If a reporter wishes to have a CVE identifier
+> -assigned ahead of public disclosure, they will need to contact the private
+> -linux-distros list, described above. When such a CVE identifier is known
+> -before a patch is provided, it is desirable to mention it in the commit
+> -message if the reporter agrees.
+> +The security team does not assign CVEs, nor do we require them for reports
+> +or fixes, as this can needlessly complicate the process and may delay
+> +the bug handling. If a reporter wishes to have a CVE identifier assigned
+> +ahead of public disclosure, they will need to contact MITRE directly.
+> +When such a CVE identifier is known before a patch is provided, it is
+> +desirable to mention it in the commit message if the reporter agrees.
 
+I can not, in good faith, with the current mess that MITRE is going
+through, tell anyone that they should contact MITRE ahead of public
+disclosure, sorry.
 
-On 6/30/23 10:15, Jakub Kicinski wrote:
-> Having "how to submit patches" in MAINTAINTERS seems out of place.
-> We have a whole section of documentation about it, duplication
-> is harmful and a lot of the text looks really out of date.
-> 
-> Sections 1, 2 and 4 look really, really old and not applicable
-> to the modern process.
-> 
-> Section 3 is obvious but also we have build bots now.
-> 
-> Section 5 is a bit outdated (diff -u?!). But I like the part
-> about factoring out shared code, so add that to process docs.
-> 
-> Section 6 is unnecessary?
-> 
-> Section 7 is covered by more appropriate docs.
-> 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
->  Documentation/process/6.Followthrough.rst |  7 ++
->  MAINTAINERS                               | 80 +----------------------
->  2 files changed, 9 insertions(+), 78 deletions(-)
+All I can say is "if you really want one, go ask them for one", as
+everyone keeps asking us for one to pad their resume/CV.
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Also note that many non-US-based companies are not allowed to contact a
+US-government-backed entity for potential security issues for obvious
+reasons.
 
-Thanks.
+So I don't want to even give a hint that we support or request this at
+all, or that it is something that changelog texts should contain for
+security issues (for the obvious reason of them being a "hint" one way
+or another.)
 
--- 
-~Randy
+External groups may wish to play the CVE "game" as it facilitates their
+engineering procedures to get changes past managers, but that's not
+anything that we should be encouraging at all for all of the various
+geopolitical and corporate reasons involved in that mess.
+
+thanks,
+
+greg k-h
