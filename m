@@ -2,73 +2,156 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 514B4EB64DC
-	for <workflows@archiver.kernel.org>; Mon,  3 Jul 2023 14:35:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B0E2EB64DD
+	for <workflows@archiver.kernel.org>; Mon,  3 Jul 2023 15:00:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230273AbjGCOfq (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 3 Jul 2023 10:35:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52940 "EHLO
+        id S230075AbjGCPAc (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 3 Jul 2023 11:00:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229591AbjGCOfp (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 3 Jul 2023 10:35:45 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AB1594;
-        Mon,  3 Jul 2023 07:35:45 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S230063AbjGCPAb (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 3 Jul 2023 11:00:31 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26AB4E41;
+        Mon,  3 Jul 2023 08:00:30 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id E059A380;
-        Mon,  3 Jul 2023 14:35:44 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E059A380
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1688394945; bh=DK/Zjt0X/wkpOiqYyIxSo3gzv9UFdeyywGWFaQyeNRc=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=gWgWeHOKiKkWU/1iTqTOWhcI+uo1108Dt8uwKRIjYigVW1CTVuHKch/7dJ+jbkxMa
-         +5gMZ1b19JZ2O0RJD0URsCKA15w4N7gRSSLtj/jNDM8Uh8I668P4Zb9gfkJojINrZP
-         +FjPMB2oxnaBAEoqCCMHwxmFl3R/G2KCfj9inIBlmaO15fTQIDbTC7BJVNd0aI8JTd
-         ppvMwNbcNE3p1O/UV8u5sTT/7Zomh86IcGUBDeSRF0IJIU2gXrcdaJLodwk8cGL6ja
-         +/IoQ6ZfNRw4bFYk8H946RC+d+tLGxigJP6DqIO26L9yXOXHO1mDTqpE7p51TdeuOh
-         BPzXvzYQ1WxlA==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     linux-doc@vger.kernel.org, workflows@vger.kernel.org,
-        Jakub Kicinski <kuba@kernel.org>
-Subject: Re: [PATCH docs] docs: remove the tips on how to submit patches
- from MAINTAINERS
-In-Reply-To: <20230630171550.128296-1-kuba@kernel.org>
-References: <20230630171550.128296-1-kuba@kernel.org>
-Date:   Mon, 03 Jul 2023 08:35:44 -0600
-Message-ID: <87mt0djc5b.fsf@meer.lwn.net>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AFA1160F58;
+        Mon,  3 Jul 2023 15:00:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B0FFC433C7;
+        Mon,  3 Jul 2023 15:00:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1688396429;
+        bh=lIdqQ67i0FMsC0cUxCJ5AfsUJuPaQdWJi5CbAOYuFN0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lqQaODny3PFiok3uuUGZ6RZMrVppXRyHc0EQzS5vSky8C1535Ew23fb+VpDMsh2R7
+         5G/6V33iXSD8GKWOU6nSjt58XiHiRJEMJbTMC22aAfAnFPfltISAUNDBXp2f41ebzV
+         oXxIdeuZvhu1IP9Wo5ArwWXnq2rsDUVMmG3METKA=
+Date:   Mon, 3 Jul 2023 17:00:15 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Willy Tarreau <w@1wt.eu>
+Cc:     Kees Cook <keescook@chromium.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, security@kernel.org, corbet@lwn.net,
+        workflows@vger.kernel.org
+Subject: Re: [PATCH 2/2] Documentation: security-bugs.rst: clarify CVE
+ handling
+Message-ID: <2023070335-groggily-catfish-9ad5@gregkh>
+References: <2023063020-throat-pantyhose-f110@gregkh>
+ <2023063022-retouch-kerosene-7e4a@gregkh>
+ <202306301114.E199B136@keescook>
+ <2023070213-capacity-moneybags-3668@gregkh>
+ <ZKJJoK4kyOCEYcOR@1wt.eu>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZKJJoK4kyOCEYcOR@1wt.eu>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Jakub Kicinski <kuba@kernel.org> writes:
+On Mon, Jul 03, 2023 at 06:08:00AM +0200, Willy Tarreau wrote:
+> On Sun, Jul 02, 2023 at 02:39:49PM +0200, Greg Kroah-Hartman wrote:
+> > On Fri, Jun 30, 2023 at 11:18:37AM -0700, Kees Cook wrote:
+> > > On Fri, Jun 30, 2023 at 09:14:21AM +0200, Greg Kroah-Hartman wrote:
+> > > > The kernel security team does NOT assign CVEs, so document that properly
+> > > > and provide the "if you want one, ask MITRE for it" response that we
+> > > > give on a weekly basis in the document, so we don't have to constantly
+> > > > say it to everyone who asks.
+> > > > 
+> > > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > > ---
+> > > >  Documentation/process/security-bugs.rst | 11 ++++-------
+> > > >  1 file changed, 4 insertions(+), 7 deletions(-)
+> > > > 
+> > > > diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
+> > > > index f12ac2316ce7..8b80e1eb7d79 100644
+> > > > --- a/Documentation/process/security-bugs.rst
+> > > > +++ b/Documentation/process/security-bugs.rst
+> > > > @@ -79,13 +79,10 @@ not contribute to actually fixing any potential security problems.
+> > > >  CVE assignment
+> > > >  --------------
+> > > >  
+> > > > -The security team does not normally assign CVEs, nor do we require them
+> > > > -for reports or fixes, as this can needlessly complicate the process and
+> > > > -may delay the bug handling. If a reporter wishes to have a CVE identifier
+> > > > -assigned ahead of public disclosure, they will need to contact the private
+> > > > -linux-distros list, described above. When such a CVE identifier is known
+> > > > -before a patch is provided, it is desirable to mention it in the commit
+> > > > -message if the reporter agrees.
+> > > > +The security team does not assign CVEs, nor do we require them for
+> > > > +reports or fixes, as this can needlessly complicate the process and may
+> > > > +delay the bug handling.  If a reporter wishes to have a CVE identifier
+> > > > +assigned, they should contact MITRE directly.
+> > > 
+> > > Hmm. The language about "assigned ahead of public disclosure" was added
+> > > intentionally due to trouble we'd had with coordination when a CVE was
+> > > needed, etc. Additionally, it IS preferred to have a CVE in a patch when
+> > > it IS known ahead of time, so I think that should be kept. How about
+> > > this:
+> > > 
+> > > 
+> > > diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
+> > > index 82e29837d589..2f4060d49b31 100644
+> > > --- a/Documentation/process/security-bugs.rst
+> > > +++ b/Documentation/process/security-bugs.rst
+> > > @@ -81,13 +81,12 @@ the email Subject line with "[vs]" as described in the linux-distros wiki:
+> > >  CVE assignment
+> > >  --------------
+> > >  
+> > > -The security team does not normally assign CVEs, nor do we require them
+> > > -for reports or fixes, as this can needlessly complicate the process and
+> > > -may delay the bug handling. If a reporter wishes to have a CVE identifier
+> > > -assigned ahead of public disclosure, they will need to contact the private
+> > > -linux-distros list, described above. When such a CVE identifier is known
+> > > -before a patch is provided, it is desirable to mention it in the commit
+> > > -message if the reporter agrees.
+> > > +The security team does not assign CVEs, nor do we require them for reports
+> > > +or fixes, as this can needlessly complicate the process and may delay
+> > > +the bug handling. If a reporter wishes to have a CVE identifier assigned
+> > > +ahead of public disclosure, they will need to contact MITRE directly.
+> > > +When such a CVE identifier is known before a patch is provided, it is
+> > > +desirable to mention it in the commit message if the reporter agrees.
+> > 
+> > I can not, in good faith, with the current mess that MITRE is going
+> > through, tell anyone that they should contact MITRE ahead of public
+> > disclosure, sorry.
+> > 
+> > All I can say is "if you really want one, go ask them for one", as
+> > everyone keeps asking us for one to pad their resume/CV.
+> > 
+> > Also note that many non-US-based companies are not allowed to contact a
+> > US-government-backed entity for potential security issues for obvious
+> > reasons.
+> > 
+> > So I don't want to even give a hint that we support or request this at
+> > all, or that it is something that changelog texts should contain for
+> > security issues (for the obvious reason of them being a "hint" one way
+> > or another.)
+> > 
+> > External groups may wish to play the CVE "game" as it facilitates their
+> > engineering procedures to get changes past managers, but that's not
+> > anything that we should be encouraging at all for all of the various
+> > geopolitical and corporate reasons involved in that mess.
+> 
+> I generally agree with your points above, and these can be easily
+> summarized by indicating that the patch will not wait for this, and
+> suggesting that MITRE is not the only possible source:
+> 
+>   The security team does not assign CVEs, nor do we require them for
+>   reports or fixes, as this can needlessly complicate the process and may
+>   delay the bug handling.  If a reporter wishes to have a CVE identifier
+>   assigned, they should find one by themselves, for example by contacting
+>   MITRE directly.  However under no circumstances will a patch inclusion
+>   be delayed to wait for a CVE identifier to arrive.
+> 
+> This puts the responsibility for finding one in time on the reporter
+> depending on what they expect, and if they want it in the commit
+> message, they'd rather have one before reporting the problem.
 
-> Having "how to submit patches" in MAINTAINTERS seems out of place.
-> We have a whole section of documentation about it, duplication
-> is harmful and a lot of the text looks really out of date.
->
-> Sections 1, 2 and 4 look really, really old and not applicable
-> to the modern process.
->
-> Section 3 is obvious but also we have build bots now.
->
-> Section 5 is a bit outdated (diff -u?!). But I like the part
-> about factoring out shared code, so add that to process docs.
->
-> Section 6 is unnecessary?
->
-> Section 7 is covered by more appropriate docs.
->
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
->  Documentation/process/6.Followthrough.rst |  7 ++
->  MAINTAINERS                               | 80 +----------------------
->  2 files changed, 9 insertions(+), 78 deletions(-)
+Oh, nice wording, let me steal that!  :)
 
-Applied, thanks.
+thanks,
 
-jon
+greg k-h
