@@ -2,73 +2,97 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C34AC001B0
-	for <workflows@archiver.kernel.org>; Mon,  3 Jul 2023 15:01:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B013CC30654
+	for <workflows@archiver.kernel.org>; Mon,  3 Jul 2023 18:35:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230367AbjGCPBt (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 3 Jul 2023 11:01:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44314 "EHLO
+        id S229599AbjGCSfl (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 3 Jul 2023 14:35:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231309AbjGCPBq (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 3 Jul 2023 11:01:46 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47DF1E43;
-        Mon,  3 Jul 2023 08:01:45 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id DA42C60DDE;
-        Mon,  3 Jul 2023 15:01:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99AF2C433C7;
-        Mon,  3 Jul 2023 15:01:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1688396504;
-        bh=0LlMTP/ss0qe/BwBBjUV7dxASlPdSFAkRzzV0NudEmY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oPGV3awB3NhNVOFw8hQI2a/tdVua3RI6YifZsvgfbQml+EYIEpQeJyO/mnnSRPQOR
-         BDl+TsJAth0Qy8SuUrnYgWI0cQ4cYU6I5OLnDfrUkqvvQoqFLrXTDejxiJ4Xua1QEe
-         NMRdbH2zzlFylgfGXWUNBAJA+H9qWVehApJcM074=
-Date:   Mon, 3 Jul 2023 17:01:40 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        security@kernel.org, corbet@lwn.net, workflows@vger.kernel.org
-Subject: Re: [PATCH 1/2] Documentation: security-bugs.rst: update preferences
- when dealing with the linux-distros group
-Message-ID: <2023070320-nutty-elitism-0e6c@gregkh>
+        with ESMTP id S229608AbjGCSfk (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 3 Jul 2023 14:35:40 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E1D3137
+        for <workflows@vger.kernel.org>; Mon,  3 Jul 2023 11:35:39 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1b8918dadbdso7841465ad.1
+        for <workflows@vger.kernel.org>; Mon, 03 Jul 2023 11:35:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1688409339; x=1691001339;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bUmtkPfGFGLt/sWqyxDB3seIbhKCcY0ouJFur5sT6is=;
+        b=T3xfRpMZUBrRfRyVx/RvzEmOyeERM4oSUVGO+qOoivWCgbOAFaQmQo4cY/xiie+cay
+         nad8N913HoffqJe8j0NmInCTvMDNeC2XRRK5qs/rq0d4i75H3KuXwTApYMvrU3Tlld3Q
+         2hVUeub3JzmYokqGbjoCg907XEIogd8u7b+8k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688409339; x=1691001339;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bUmtkPfGFGLt/sWqyxDB3seIbhKCcY0ouJFur5sT6is=;
+        b=KVHY60EsZOxG72PlDoC7YgBGL/TIXB00EF7nBpiKv/H4Ih/WyjlMMoZey7P4iwmL4u
+         4mVpSVrWm6Glc8YRppEXYRsb28VrKd5C/fAniMPBwM2IO+SlhlBDaRdoxMbD2vRwBLqg
+         HsFjBZmIAqvQIkbfwna5GDKWtMHtC0k4HgZLkwLxg+6slnoyYMHhdapEf+qnYLQNsbyB
+         rJ7yXQ9cgbAXA85Mv/BtlzGIFoTWtk0xuDMslzY4Eq6BtPBPKblI6kN+flfYsRz85QSN
+         5/FP4CJ4YZAZ7tdK1t/41lzgUBKvMGyKgzYHpy9GXv2hsqugJ4uliXTpdckU+y7hzGq8
+         HNGQ==
+X-Gm-Message-State: ABy/qLaLMQWOLrv6MkGVTWzutpwZg8+mb9rTIqf2flz7ocIh6Z9IONtL
+        fIDZzAeseZVHdNOe7JIyO1uKOw==
+X-Google-Smtp-Source: APBJJlE0gEja4grNegOCxc+0vth+lPOPSiYX92TLbp6hq3tCxb8WUto6r2gI8npoQ6pZD8Ee1nBiVQ==
+X-Received: by 2002:a17:902:efd6:b0:1b3:fb76:215b with SMTP id ja22-20020a170902efd600b001b3fb76215bmr8489185plb.48.1688409339122;
+        Mon, 03 Jul 2023 11:35:39 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id t4-20020a170902a5c400b001b077301a58sm15603963plq.79.2023.07.03.11.35.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Jul 2023 11:35:38 -0700 (PDT)
+Date:   Mon, 3 Jul 2023 11:35:37 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Willy Tarreau <w@1wt.eu>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, security@kernel.org, corbet@lwn.net,
+        workflows@vger.kernel.org
+Subject: Re: [PATCH 2/2] Documentation: security-bugs.rst: clarify CVE
+ handling
+Message-ID: <202307031131.51907BC65@keescook>
 References: <2023063020-throat-pantyhose-f110@gregkh>
- <202306301113.FA8FD533@keescook>
- <2023070323-sloppy-panama-4868@gregkh>
+ <2023063022-retouch-kerosene-7e4a@gregkh>
+ <202306301114.E199B136@keescook>
+ <2023070213-capacity-moneybags-3668@gregkh>
+ <ZKJJoK4kyOCEYcOR@1wt.eu>
+ <2023070335-groggily-catfish-9ad5@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2023070323-sloppy-panama-4868@gregkh>
+In-Reply-To: <2023070335-groggily-catfish-9ad5@gregkh>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Mon, Jul 03, 2023 at 05:00:51PM +0200, Greg Kroah-Hartman wrote:
-> On Fri, Jun 30, 2023 at 11:14:05AM -0700, Kees Cook wrote:
-> > On Fri, Jun 30, 2023 at 09:14:20AM +0200, Greg Kroah-Hartman wrote:
-> > > Because the linux-distros group forces reporters to release information
-> > > about reported bugs, and they impose arbitrary deadlines in having those
-> > > bugs fixed despite not actually being kernel developers, the kernel
-> > > security team recommends not interacting with them at all as this just
-> > > causes confusion and the early-release of reported security problems.
-> > > 
-> > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+On Mon, Jul 03, 2023 at 05:00:15PM +0200, Greg Kroah-Hartman wrote:
+> On Mon, Jul 03, 2023 at 06:08:00AM +0200, Willy Tarreau wrote:
+> >   The security team does not assign CVEs, nor do we require them for
+> >   reports or fixes, as this can needlessly complicate the process and may
+> >   delay the bug handling.  If a reporter wishes to have a CVE identifier
+> >   assigned, they should find one by themselves, for example by contacting
+> >   MITRE directly.  However under no circumstances will a patch inclusion
+> >   be delayed to wait for a CVE identifier to arrive.
 > > 
-> > Yeah, this is good. It might make sense to explicitly detail the
-> > rationale in security-bugs.rst (as you have in the commit log), but
-> > perhaps that's too much detail.
-> > 
-> > Reviewed-by: Kees Cook <keescook@chromium.org>
+> > This puts the responsibility for finding one in time on the reporter
+> > depending on what they expect, and if they want it in the commit
+> > message, they'd rather have one before reporting the problem.
 > 
-> Thanks for the review.  I'll keep this as-is as it's the content of the
-> file that matters in the end.
+> Oh, nice wording, let me steal that!  :)
 
-Ok, that didn't come out well, let me try again.  Let's leave the text
-as-is for now, thanks.
+Yeah, this is good. The last sentence is a little hard to parse, so how
+about this, with a little more rationale expansion:
 
-greg k-h
+However under no circumstances will patch publication be delayed for
+CVE identifier assignment. Getting fixes landed takes precedence; the
+CVE database entry will already reference the commit, so there is no loss
+of information if the CVE is assigned later.
+
+
+-Kees
+
+-- 
+Kees Cook
