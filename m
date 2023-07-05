@@ -2,59 +2,93 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFF00C001DD
-	for <workflows@archiver.kernel.org>; Mon,  3 Jul 2023 19:35:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98CC4C001B0
+	for <workflows@archiver.kernel.org>; Wed,  5 Jul 2023 09:54:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229653AbjGCTfn (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 3 Jul 2023 15:35:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49320 "EHLO
+        id S232046AbjGEJys (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 5 Jul 2023 05:54:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229504AbjGCTfm (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 3 Jul 2023 15:35:42 -0400
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 604BAE62;
-        Mon,  3 Jul 2023 12:35:40 -0700 (PDT)
-Received: (from willy@localhost)
-        by mail.home.local (8.17.1/8.17.1/Submit) id 363JZBcQ029047;
-        Mon, 3 Jul 2023 21:35:11 +0200
-Date:   Mon, 3 Jul 2023 21:35:11 +0200
-From:   Willy Tarreau <w@1wt.eu>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        security@kernel.org, corbet@lwn.net, workflows@vger.kernel.org
-Subject: Re: [PATCH 2/2] Documentation: security-bugs.rst: clarify CVE
- handling
-Message-ID: <ZKMi78OUCL2N5OQB@1wt.eu>
-References: <2023063020-throat-pantyhose-f110@gregkh>
- <2023063022-retouch-kerosene-7e4a@gregkh>
- <202306301114.E199B136@keescook>
- <2023070213-capacity-moneybags-3668@gregkh>
- <ZKJJoK4kyOCEYcOR@1wt.eu>
- <2023070335-groggily-catfish-9ad5@gregkh>
- <202307031131.51907BC65@keescook>
- <2023070329-mangy-dipping-2ebd@gregkh>
- <202307031217.95B8803@keescook>
+        with ESMTP id S232045AbjGEJyn (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 5 Jul 2023 05:54:43 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D68521731;
+        Wed,  5 Jul 2023 02:54:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688550881; x=1720086881;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=gZs5puT8XIu8UqezpunPVtrS+rhk5K8cygXvP7LrZZk=;
+  b=KzkIdcMsKq9qUmvu0CKLJtUTtGPRo1+lbyeXzFojPjyjBKupy/oaWXl2
+   NrMUW0ZEHZGLI2zU+e22stONqKof3dG2x11v7qNVeOLkqji5DJwLwjQXB
+   nthWsNfHEmWgE+dMNxsVG3OKfYfo+qYJiEZfziNxPXXrRJJLcZJ/LniMK
+   3vrrbxeGXo353pDgMAyb6CADod6SDldKJlUq1P8wnCZ2uT4uBLwyjzFEE
+   1BivjxZ3KVJLvsjD0X43lSLhGo1vDIl54yUOIR6K5dhKpBSLWsri1oU5F
+   jGR2oY4mvsidaV34OPeYuAtPcJFzlMxcNiw7358dvTs9zf/dNFN7UmRou
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="360774836"
+X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
+   d="scan'208";a="360774836"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2023 02:54:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="719166445"
+X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
+   d="scan'208";a="719166445"
+Received: from unisar-mobl.ger.corp.intel.com (HELO localhost) ([10.252.49.23])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2023 02:54:37 -0700
+From:   Jani Nikula <jani.nikula@intel.com>
+To:     linux-kernel@vger.kernel.org, workflows@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, intel-gfx@lists.freedesktop.org
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: __diag_ignore_all(), GCC < 8, extra warnings, and -Werror
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Date:   Wed, 05 Jul 2023 12:54:35 +0300
+Message-ID: <87wmzezns4.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202307031217.95B8803@keescook>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Mon, Jul 03, 2023 at 12:26:32PM -0700, Kees Cook wrote:
-> I still think this version of the sentence is more readable:
-> 
-> However under no circumstances will patch publication be delayed for
-> CVE identifier assignment.
-> 
-> "patch inclusion" is less clear to me that "publication", and "be
-> delayed to wait for" is redundant: a delay is a wait, and "to arrive"
-> is just the assignment, which is the subject of the paragraph, so better
-> to keep the language for that consistent.
 
-I agree, I find it better as well :-)
+For a long time now, i915 has enabled a bunch of W=1 style warnings
+locally, and we try hard to keep i915 warning free.
 
-Thanks,
-Willy
+One of the warnings is -Woverride-init from -Wextra. We need to bypass
+that in a few cases, and used to do this for the relevant files:
+
+	CFLAGS_file.o = $(call cc-disable-warning, override-init)
+
+Recently, we switched from the above to a more localized version in each
+file.c:
+
+	__diag_push();
+	__diag_ignore_all("-Woverride-init", "Allow overriding inherited members");
+	...
+        __diag_pop();
+
+We now got a report that this fails the build with CONFIG_WERROR=y or
+W=e when using GCC version < 8. Indeed, __diag_ignore_all() requires GCC
+version 8 or later.
+
+Should we now revert back to disabling -Woverride-init on a file
+granularity? Should we consider breaking the build for CONFIG_WERROR=y
+or W=e on older compilers a regression?
+
+I'll note that with the current usage of __diag_ignore_all() elsewhere
+in kernel, CONFIG_WERROR=y or W=e with W=1 will never pass on older
+compilers. But then again, it has never passed on any compiler, so it
+can't be a regression.
+
+
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
