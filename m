@@ -2,93 +2,48 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98CC4C001B0
-	for <workflows@archiver.kernel.org>; Wed,  5 Jul 2023 09:54:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51A27EB64D9
+	for <workflows@archiver.kernel.org>; Mon, 10 Jul 2023 17:28:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232046AbjGEJys (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 5 Jul 2023 05:54:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34808 "EHLO
+        id S230013AbjGJR2e (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 10 Jul 2023 13:28:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232045AbjGEJyn (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 5 Jul 2023 05:54:43 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D68521731;
-        Wed,  5 Jul 2023 02:54:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688550881; x=1720086881;
-  h=from:to:cc:subject:date:message-id:mime-version;
-  bh=gZs5puT8XIu8UqezpunPVtrS+rhk5K8cygXvP7LrZZk=;
-  b=KzkIdcMsKq9qUmvu0CKLJtUTtGPRo1+lbyeXzFojPjyjBKupy/oaWXl2
-   NrMUW0ZEHZGLI2zU+e22stONqKof3dG2x11v7qNVeOLkqji5DJwLwjQXB
-   nthWsNfHEmWgE+dMNxsVG3OKfYfo+qYJiEZfziNxPXXrRJJLcZJ/LniMK
-   3vrrbxeGXo353pDgMAyb6CADod6SDldKJlUq1P8wnCZ2uT4uBLwyjzFEE
-   1BivjxZ3KVJLvsjD0X43lSLhGo1vDIl54yUOIR6K5dhKpBSLWsri1oU5F
-   jGR2oY4mvsidaV34OPeYuAtPcJFzlMxcNiw7358dvTs9zf/dNFN7UmRou
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="360774836"
-X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
-   d="scan'208";a="360774836"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2023 02:54:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="719166445"
-X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
-   d="scan'208";a="719166445"
-Received: from unisar-mobl.ger.corp.intel.com (HELO localhost) ([10.252.49.23])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2023 02:54:37 -0700
-From:   Jani Nikula <jani.nikula@intel.com>
-To:     linux-kernel@vger.kernel.org, workflows@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, intel-gfx@lists.freedesktop.org
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: __diag_ignore_all(), GCC < 8, extra warnings, and -Werror
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date:   Wed, 05 Jul 2023 12:54:35 +0300
-Message-ID: <87wmzezns4.fsf@intel.com>
+        with ESMTP id S231319AbjGJR23 (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 10 Jul 2023 13:28:29 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D765C7
+        for <workflows@vger.kernel.org>; Mon, 10 Jul 2023 10:28:28 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1qIugV-0000ha-4O; Mon, 10 Jul 2023 19:28:27 +0200
+Message-ID: <8133fcf4-5ed6-204a-ceb1-ee4136e32fb4@leemhuis.info>
+Date:   Mon, 10 Jul 2023 19:28:26 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Content-Language: en-US, de-DE
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc:     "workflows@vger.kernel.org" <workflows@vger.kernel.org>,
+        Linux kernel regressions list <regressions@lists.linux.dev>,
+        Linux kernel regressions list <regressions@lists.linux.dev>
+Subject: Bugbot for all kernel bugs?
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1689010108;eb834e3e;
+X-HE-SMSGID: 1qIugV-0000ha-4O
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
+Hi Konstantin. Is there any hope that bugbot will be usable for all
+kernel bugs in bugzilla.kernel.org soon? It sounded some weeks ago like
+that wasn't too far away, that's why I wonder if we might have arrived
+at a point where this support could be enabled.
 
-For a long time now, i915 has enabled a bunch of W=1 style warnings
-locally, and we try hard to keep i915 warning free.
+Sorry for bothering you about this, but I'm getting a bit tired by all
+that tedious man-in-the-middle between reporters and developers to let
+one group know about things the other did...
 
-One of the warnings is -Woverride-init from -Wextra. We need to bypass
-that in a few cases, and used to do this for the relevant files:
-
-	CFLAGS_file.o = $(call cc-disable-warning, override-init)
-
-Recently, we switched from the above to a more localized version in each
-file.c:
-
-	__diag_push();
-	__diag_ignore_all("-Woverride-init", "Allow overriding inherited members");
-	...
-        __diag_pop();
-
-We now got a report that this fails the build with CONFIG_WERROR=y or
-W=e when using GCC version < 8. Indeed, __diag_ignore_all() requires GCC
-version 8 or later.
-
-Should we now revert back to disabling -Woverride-init on a file
-granularity? Should we consider breaking the build for CONFIG_WERROR=y
-or W=e on older compilers a regression?
-
-I'll note that with the current usage of __diag_ignore_all() elsewhere
-in kernel, CONFIG_WERROR=y or W=e with W=1 will never pass on older
-compilers. But then again, it has never passed on any compiler, so it
-can't be a regression.
-
-
-BR,
-Jani.
-
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Ciao, Thorsten
