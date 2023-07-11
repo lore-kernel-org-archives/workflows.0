@@ -2,68 +2,81 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3F36EB64DC
-	for <workflows@archiver.kernel.org>; Tue, 11 Jul 2023 13:52:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06B25EB64DC
+	for <workflows@archiver.kernel.org>; Tue, 11 Jul 2023 20:43:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230296AbjGKNwS (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 11 Jul 2023 09:52:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35138 "EHLO
+        id S229524AbjGKUnf (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 11 Jul 2023 16:43:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229637AbjGKNwR (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 11 Jul 2023 09:52:17 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 186C499;
-        Tue, 11 Jul 2023 06:52:16 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id C818735D;
-        Tue, 11 Jul 2023 13:52:14 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C818735D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1689083535; bh=th7mU2Y52P3owRLZiI3vRPeVMIxGwFCBFlm93ZNUBws=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Rqwhyw6g6zzsff4NuNKIp2L7GFSVYYgtSp6RZO3j9FZD4lmAMzWEil64/I8p8UlHz
-         XnCFQm0NUAFoOUbsv+nihT3nKLju5cLHHyeCbvm+7toWyhb/63WO+Os06yFaPrbqTh
-         jlZuRoatDWbhdr9X30LQyUxHno7PptYLmzEvhwnhnlH5yqS4Ge/FmCXRBxiuug7ito
-         AVEP3ieEyn2d8LVdyZTWIPTyolymVNjJaZp8LbkKYtpd4c41vf0ZiGKADMZxwh7I3f
-         Kwano92y7Ka+y3fJfVxvfIqS08LUZBfXMiapph1a/MMW3qcoGtMEcLzfTidWs0gQmB
-         2R/fDeQHuRskQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jakub Kicinski <kuba@kernel.org>, workflows@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org
-Subject: Re: Docs for base maintainer expectations?
-In-Reply-To: <20230710115239.3f9e2c24@kernel.org>
-References: <20230710115239.3f9e2c24@kernel.org>
-Date:   Tue, 11 Jul 2023 07:52:14 -0600
-Message-ID: <875y6q8sj5.fsf@meer.lwn.net>
+        with ESMTP id S229521AbjGKUne (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 11 Jul 2023 16:43:34 -0400
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A42E195
+        for <workflows@vger.kernel.org>; Tue, 11 Jul 2023 13:43:33 -0700 (PDT)
+Received: by mail-ot1-x32a.google.com with SMTP id 46e09a7af769-6b75637076eso5406145a34.2
+        for <workflows@vger.kernel.org>; Tue, 11 Jul 2023 13:43:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1689108212; x=1691700212;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=LjUdrFfcJIMkJGNGdxZJPX7vh7QvoOKA+YjjfGd0IZ8=;
+        b=RYbbIOpTwNHNj8ZeTMcyXdIsmQTac3bFnM9TN91zjqc/1iXqGe1kB1+IvF4rAcPI6v
+         13uL1hBfR//0LG2EWnwZ7va1bOLhwKOAXq5ttO9UXkkUe/IhLXTy7Oo/kRMkwGGs4XxX
+         rH1tJJjvgom5VzijBkd4Gp9D7p9hr7DhdZbMM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689108212; x=1691700212;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LjUdrFfcJIMkJGNGdxZJPX7vh7QvoOKA+YjjfGd0IZ8=;
+        b=Qf1454yMJKycms5O89c8S4WRUXM1E39b2QeIXrq4tIVkdyJY7fhDrYRm5CYSzTQJEk
+         thsr9e4w1oW7BgzwcdkhtJpES6xJRpyl6JmE7P/Fmt0BmjIRfC7M2o7F3HD+2dztGR8M
+         r4KyJ+KFK6xeNRh32s3/alfi9vN022idQJAXGodNMFHAfNBGVM4cOJEjkC8L4yKlxIbX
+         WmCsA7gOEYA8WBjv1U3fePo+kVIyNCgcLBTLqKvE3fKm3sIAQC8hlze7BcCpPiLhEzBE
+         k1mWg7Vqshj9CPN9lK1o3MCB9vIu99SRZd3DH63ufx+X+3BgQFNq/skvs8WTPAl6VNch
+         5AJg==
+X-Gm-Message-State: ABy/qLa0j2ZW7qE4p6/c3bXT/sF0+E8RdF7DM8CTo2FhkNh4JoCBfJy0
+        ot2e9Wv8zkEBZpUqMFgShrnlEHZy/uxMX63PU9E=
+X-Google-Smtp-Source: APBJJlFmr4987jlLXbzbogCv42AY5QKpJU0kjVY3vk1WjHNHiRZcqdtpvaIXNxQHbdNJhuwDqo+2pA==
+X-Received: by 2002:a9d:6497:0:b0:6b7:5430:706c with SMTP id g23-20020a9d6497000000b006b75430706cmr2357614otl.24.1689108212495;
+        Tue, 11 Jul 2023 13:43:32 -0700 (PDT)
+Received: from meerkat.local ([209.226.106.132])
+        by smtp.gmail.com with ESMTPSA id 83-20020a251656000000b00be8e8772025sm627518ybw.45.2023.07.11.13.43.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jul 2023 13:43:32 -0700 (PDT)
+Date:   Tue, 11 Jul 2023 16:43:23 -0400
+From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To:     Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     "workflows@vger.kernel.org" <workflows@vger.kernel.org>,
+        Linux kernel regressions list <regressions@lists.linux.dev>
+Subject: Re: Bugbot for all kernel bugs?
+Message-ID: <20230711-encore-hunchback-2d103b@meerkat>
+References: <8133fcf4-5ed6-204a-ceb1-ee4136e32fb4@leemhuis.info>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <8133fcf4-5ed6-204a-ceb1-ee4136e32fb4@leemhuis.info>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Jakub Kicinski <kuba@kernel.org> writes:
+On Mon, Jul 10, 2023 at 07:28:26PM +0200, Thorsten Leemhuis wrote:
+> Hi Konstantin. Is there any hope that bugbot will be usable for all
+> kernel bugs in bugzilla.kernel.org soon? It sounded some weeks ago like
+> that wasn't too far away, that's why I wonder if we might have arrived
+> at a point where this support could be enabled.
 
-> do we have any docs describing what's expected from folks stepping up
-> to maintain (small-ish) parts of the kernel like a driver or a protocol?
->
-> Experienced developers / maintainers differ like the beautiful
-> snowflakes that we are, but outsiders have much less familiarity 
-> with the landscape, and frankly sometimes much less interest in
-> participating once they code lands.
->
-> Which makes we wonder if a simple list of responsibilities would be
-> useful as a baseline. I haven't spotted anything in Docs/process but
-> perhaps someone has a local version for their subsystem?
+I just need to add a wrapper that would make it more convenient to run as an
+actual service as opposed to in a screen session I've been using for testing
+purposes. Probably a day worth of effort, plus documentation.
 
-I think that would be good to have.  We often complain about a lack of
-maintainers, but we have nothing to point to telling people how they can
-step up and do that.
+> Sorry for bothering you about this, but I'm getting a bit tired by all
+> that tedious man-in-the-middle between reporters and developers to let
+> one group know about things the other did...
 
-I've tried to fill in some pieces with the documents on merging and
-such, but we're missing the introduction.
+So, we can't easily do "enable for all the bugs" because the bot was written
+with the idea that it would be invoked per-component. Is there a bugzilla
+component (and a matching mailing list) that you have in mind for the bot?
 
-Thanks,
-
-jon
+-K
