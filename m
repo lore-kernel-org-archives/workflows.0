@@ -2,81 +2,100 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06B25EB64DC
-	for <workflows@archiver.kernel.org>; Tue, 11 Jul 2023 20:43:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0478C001B0
+	for <workflows@archiver.kernel.org>; Wed, 12 Jul 2023 08:41:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229524AbjGKUnf (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 11 Jul 2023 16:43:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47764 "EHLO
+        id S232556AbjGLIlp (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 12 Jul 2023 04:41:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229521AbjGKUne (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 11 Jul 2023 16:43:34 -0400
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A42E195
-        for <workflows@vger.kernel.org>; Tue, 11 Jul 2023 13:43:33 -0700 (PDT)
-Received: by mail-ot1-x32a.google.com with SMTP id 46e09a7af769-6b75637076eso5406145a34.2
-        for <workflows@vger.kernel.org>; Tue, 11 Jul 2023 13:43:33 -0700 (PDT)
+        with ESMTP id S231588AbjGLIlo (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 12 Jul 2023 04:41:44 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4F7AB1
+        for <workflows@vger.kernel.org>; Wed, 12 Jul 2023 01:41:42 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-9923833737eso771336966b.3
+        for <workflows@vger.kernel.org>; Wed, 12 Jul 2023 01:41:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1689108212; x=1691700212;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LjUdrFfcJIMkJGNGdxZJPX7vh7QvoOKA+YjjfGd0IZ8=;
-        b=RYbbIOpTwNHNj8ZeTMcyXdIsmQTac3bFnM9TN91zjqc/1iXqGe1kB1+IvF4rAcPI6v
-         13uL1hBfR//0LG2EWnwZ7va1bOLhwKOAXq5ttO9UXkkUe/IhLXTy7Oo/kRMkwGGs4XxX
-         rH1tJJjvgom5VzijBkd4Gp9D7p9hr7DhdZbMM=
+        d=linaro.org; s=google; t=1689151301; x=1691743301;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=X/8q7gkdwr/BrCDqoyz31fyjMWdFi221FyF4qfS1iTk=;
+        b=WbQEEHw+wTXjlvAlkmvcyKPPQ1lFW+/pcjio/9fWKTrKT4J+I7npAXXOzgvTDO5/Se
+         bbswC8PyDEE1c5cwp4tAkSpw49h252SBQZ5K6ESU3geiRRvptJhyYfgvkYS7wMeeGH1G
+         YmnOX4RqZQ66xtwoaVHGLb67pXGwU1bRcV+FaS0/7Ee9Kx4pYkcFTlukt79+nDqptWTt
+         XCcIh+GklixeqHI2n9vg3GThJWhqeAD6zykBUFx5ffOJ3zfMujRyqA/uZg1VToWe/RtF
+         8SMWd2CjWYlZ93l/ljmZl33n0kNO0foY6tFk7NDGG19wuX+fFD0+ypjA/rGAknuHjkVZ
+         tmbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689108212; x=1691700212;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LjUdrFfcJIMkJGNGdxZJPX7vh7QvoOKA+YjjfGd0IZ8=;
-        b=Qf1454yMJKycms5O89c8S4WRUXM1E39b2QeIXrq4tIVkdyJY7fhDrYRm5CYSzTQJEk
-         thsr9e4w1oW7BgzwcdkhtJpES6xJRpyl6JmE7P/Fmt0BmjIRfC7M2o7F3HD+2dztGR8M
-         r4KyJ+KFK6xeNRh32s3/alfi9vN022idQJAXGodNMFHAfNBGVM4cOJEjkC8L4yKlxIbX
-         WmCsA7gOEYA8WBjv1U3fePo+kVIyNCgcLBTLqKvE3fKm3sIAQC8hlze7BcCpPiLhEzBE
-         k1mWg7Vqshj9CPN9lK1o3MCB9vIu99SRZd3DH63ufx+X+3BgQFNq/skvs8WTPAl6VNch
-         5AJg==
-X-Gm-Message-State: ABy/qLa0j2ZW7qE4p6/c3bXT/sF0+E8RdF7DM8CTo2FhkNh4JoCBfJy0
-        ot2e9Wv8zkEBZpUqMFgShrnlEHZy/uxMX63PU9E=
-X-Google-Smtp-Source: APBJJlFmr4987jlLXbzbogCv42AY5QKpJU0kjVY3vk1WjHNHiRZcqdtpvaIXNxQHbdNJhuwDqo+2pA==
-X-Received: by 2002:a9d:6497:0:b0:6b7:5430:706c with SMTP id g23-20020a9d6497000000b006b75430706cmr2357614otl.24.1689108212495;
-        Tue, 11 Jul 2023 13:43:32 -0700 (PDT)
-Received: from meerkat.local ([209.226.106.132])
-        by smtp.gmail.com with ESMTPSA id 83-20020a251656000000b00be8e8772025sm627518ybw.45.2023.07.11.13.43.31
+        d=1e100.net; s=20221208; t=1689151301; x=1691743301;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=X/8q7gkdwr/BrCDqoyz31fyjMWdFi221FyF4qfS1iTk=;
+        b=RxNmpX4hN31lNwU/qFe7YsVT0vP17aUb1TFYcPIYRgxZaNhihXNvSa3Dh8zwcCAZgJ
+         8kQHnatMxelseQrJ+JVUd6a//m5tTMgJ87GrIrFmPkziqUMfmJl8z5L8l9ue+XxiRQ32
+         Rz5/kN/rJvGpijZoYeB64DfaZ04ChD20TCKqvHljWpRoEcj9AYc1nN26RoxSKfYqFGqk
+         /Ko4rbXMuNU3caNOKCz+ZV/MLjJI07KxxJYqhoA3oA0Wg1Ql8xTXDw5HIWgI7RcTa03n
+         a5CiwnH/SVVb5Tbd5PGfS1nab0NmKH/SleGi1yzK59lVNpvh6feJTx5PbVpVkc3mgBEy
+         Xhjw==
+X-Gm-Message-State: ABy/qLZAqKSuYH1MGqre5+dBInMr4+QXTrja/M/AyuTOO0JeueSXumE9
+        NthmShaIdltt+uN+kd7VnE/yjg==
+X-Google-Smtp-Source: APBJJlFvFQbAdGMgg1Ate5TQGNzSTflGEsWFqGw7mIgHfXMkQ7khqIwPPGWd/8oANb1nquf0ECXWQg==
+X-Received: by 2002:a17:906:f6cb:b0:98e:4c96:6e1f with SMTP id jo11-20020a170906f6cb00b0098e4c966e1fmr17968958ejb.69.1689151301084;
+        Wed, 12 Jul 2023 01:41:41 -0700 (PDT)
+Received: from krzk-bin.. ([178.197.223.104])
+        by smtp.gmail.com with ESMTPSA id t14-20020a17090616ce00b0094e7d196aa4sm2216496ejd.160.2023.07.12.01.41.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jul 2023 13:43:32 -0700 (PDT)
-Date:   Tue, 11 Jul 2023 16:43:23 -0400
-From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     "workflows@vger.kernel.org" <workflows@vger.kernel.org>,
-        Linux kernel regressions list <regressions@lists.linux.dev>
-Subject: Re: Bugbot for all kernel bugs?
-Message-ID: <20230711-encore-hunchback-2d103b@meerkat>
-References: <8133fcf4-5ed6-204a-ceb1-ee4136e32fb4@leemhuis.info>
+        Wed, 12 Jul 2023 01:41:40 -0700 (PDT)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+        soc@kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-arm-kernel@lists.infradead.org, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Conor Dooley <conor.dooley@microchip.com>
+Subject: [PATCH] Documentation/process: maintainer-soc: document dtbs_check requirement for Samsung
+Date:   Wed, 12 Jul 2023 10:41:31 +0200
+Message-Id: <20230712084131.127982-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <8133fcf4-5ed6-204a-ceb1-ee4136e32fb4@leemhuis.info>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Mon, Jul 10, 2023 at 07:28:26PM +0200, Thorsten Leemhuis wrote:
-> Hi Konstantin. Is there any hope that bugbot will be usable for all
-> kernel bugs in bugzilla.kernel.org soon? It sounded some weeks ago like
-> that wasn't too far away, that's why I wonder if we might have arrived
-> at a point where this support could be enabled.
+Samsung ARM/ARM64 SoCs (except legacy S5PV210) are also expected not to
+bring any new dtbs_check warnings.  In fact this have been already
+enforced and tested since few release.
 
-I just need to add a wrapper that would make it more convenient to run as an
-actual service as opposed to in a screen session I've been using for testing
-purposes. Probably a day worth of effort, plus documentation.
+Cc: Conor Dooley <conor.dooley@microchip.com>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-> Sorry for bothering you about this, but I'm getting a bit tired by all
-> that tedious man-in-the-middle between reporters and developers to let
-> one group know about things the other did...
+---
 
-So, we can't easily do "enable for all the bugs" because the bot was written
-with the idea that it would be invoked per-component. Is there a bugzilla
-component (and a matching mailing list) that you have in mind for the bot?
+Not sure where to document this. Creating new maintainer profile for
+Samsung SoC would be an overkill. OTOH, more SoCs might want to grow
+this list, so this also scales poor.
+---
+ Documentation/process/maintainer-soc.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
--K
+diff --git a/Documentation/process/maintainer-soc.rst b/Documentation/process/maintainer-soc.rst
+index 49f08289d62c..12637530d68f 100644
+--- a/Documentation/process/maintainer-soc.rst
++++ b/Documentation/process/maintainer-soc.rst
+@@ -133,8 +133,8 @@ with the dt-bindings that describe the ABI.  Please read the section
+ more information on the validation of devicetrees.
+ 
+ For new platforms, or additions to existing ones, ``make dtbs_check`` should not
+-add any new warnings.  For RISC-V, as it has the advantage of being a newer
+-architecture, ``make dtbs_check W=1`` is required to not add any new warnings.
++add any new warnings.  For RISC-V and Samsung SoC, ``make dtbs_check W=1`` is
++required to not add any new warnings.
+ If in any doubt about a devicetree change, reach out to the devicetree
+ maintainers.
+ 
+-- 
+2.34.1
+
