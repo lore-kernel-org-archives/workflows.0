@@ -2,116 +2,81 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AC24EB64D9
-	for <workflows@archiver.kernel.org>; Wed, 12 Jul 2023 12:35:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D953BC001DC
+	for <workflows@archiver.kernel.org>; Wed, 12 Jul 2023 16:10:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230035AbjGLMfk (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 12 Jul 2023 08:35:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51974 "EHLO
+        id S231558AbjGLQKS (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 12 Jul 2023 12:10:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233233AbjGLMfj (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 12 Jul 2023 08:35:39 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 368B810FC;
-        Wed, 12 Jul 2023 05:35:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1689165337; x=1720701337;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XAbpANE/Fng5ECm20P1cz/dS/we/2gWEgl+TdS/1S6M=;
-  b=fVQv6PIbWnX9T9WpHW1d3e0CGWeF+b01Ol+GPCLmskMWXRygvN+ZeNZF
-   hjsxqMGeeKqkZ8DZtneUujBdzvTje0vsbP7JkkrHA0oUDLZ8JCGEaJxes
-   BPWnJeHTIgcN4WfCugdz5jul+e9hE9rpvkqywyFF6hyDtiE0YMmEnxwRr
-   6iSmJXInkPk4gIfxnghbCSImXITb/OKLEN1DRIlE7xd1EwBLSQZT7na+h
-   vgO2sxyD9+GTMtmaAp1IBQHksHe11cvkMmBaBf3XO1YpPtEVsqf8rF+F+
-   SqkMvs+U+NuiTOHu4FpJPFSBOAW2PfPtYxERnlRJ9L1fbzlTsYgAnfgzu
-   Q==;
-X-IronPort-AV: E=Sophos;i="6.01,199,1684825200"; 
-   d="asc'?scan'208";a="220004003"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 12 Jul 2023 05:35:36 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Wed, 12 Jul 2023 05:35:35 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex04.mchp-main.com
- (10.10.85.152) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
- Transport; Wed, 12 Jul 2023 05:35:34 -0700
-Date:   Wed, 12 Jul 2023 13:34:57 +0100
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-CC:     Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        <soc@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <workflows@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] Documentation/process: maintainer-soc: document
- dtbs_check requirement for Samsung
-Message-ID: <20230712-unfasten-trespass-d57b3ff1f134@wendy>
-References: <20230712084131.127982-1-krzysztof.kozlowski@linaro.org>
- <20230712-skier-ribcage-0d82be7e16fd@wendy>
- <da79ac87-f112-be43-52b2-2293e1a99d9b@linaro.org>
+        with ESMTP id S229661AbjGLQKR (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 12 Jul 2023 12:10:17 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14677134;
+        Wed, 12 Jul 2023 09:10:17 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A36B9617E4;
+        Wed, 12 Jul 2023 16:10:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE722C433C8;
+        Wed, 12 Jul 2023 16:10:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689178216;
+        bh=jt61eYrGRcw7GpCYbg4kYqiuc58u1JV93PXN/l01opA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=EA4Zuk2Ta0cvdCD4lpEWebWL+mlSAbIla2ap8oWfX4ouCaNP7V1q8p5mvqody6Q5G
+         S5E+7MJX1VtDy+4rCW44aP4OT3uGfKeqBD287+xD3m/5DhsThDI2/K01XHj0Tr3SWS
+         CozBeZcngCMvvyMPpDdhYqmfqLnOVTnU3+PND+jcKvgQfMD7ZenLUtuOCPHrag3Z2w
+         2udKm+ViX9rHZc9mDLvwV4LGKM1G+P4yDAmRoCqHtVCCQg4/SwZwxQHUIqYe7x9q4F
+         BPQbfSaGdcK6Ip4PK4Pd7i3r840jQxn/beiIvYpukEZYZQFSbo/lzAs/AmPCLWMvuV
+         MyWd4B0lhL64w==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, workflows@vger.kernel.org,
+        Jakub Kicinski <kuba@kernel.org>
+Subject: [PATCH docs] MAINTAINERS: treat Documentation/maintainer as process docs
+Date:   Wed, 12 Jul 2023 09:10:11 -0700
+Message-ID: <20230712161011.1339829-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="oZupxwsk8vse9QyQ"
-Content-Disposition: inline
-In-Reply-To: <da79ac87-f112-be43-52b2-2293e1a99d9b@linaro.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
---oZupxwsk8vse9QyQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+A handful of people got caught out by the recent changes in git
+which changed the format of Message-ID and broke our recommended
+applyhook for adding lore links.
 
-On Wed, Jul 12, 2023 at 01:46:20PM +0200, Krzysztof Kozlowski wrote:
-> On 12/07/2023 11:48, Conor Dooley wrote:
-> > On Wed, Jul 12, 2023 at 10:41:31AM +0200, Krzysztof Kozlowski wrote:
-> >> Samsung ARM/ARM64 SoCs (except legacy S5PV210) are also expected not to
-> >> bring any new dtbs_check warnings.  In fact this have been already
-> >> enforced and tested since few release.
-> >>
-> >> Cc: Conor Dooley <conor.dooley@microchip.com>
-> >> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> >>
-> >> ---
-> >=20
-> >> Not sure where to document this. Creating new maintainer profile for
-> >> Samsung SoC would be an overkill. OTOH, more SoCs might want to grow
-> >> this list, so this also scales poor.
-> >=20
-> > To me, this portion of the document was "information to the
-> > submaintainer", which would be you, not information to the contributors
-> > to the platform. Adding the comment about Samsung SoC seems aimed at
-> > contributors?
->=20
-> Yes, I want to document it for contributors, so they won't be surprised.
-> Any hints where to store it? I could put it in the "About" tab of my
-> kernel.org repo, but no one checks this for contribution guidelines.
+This was fixed in the docs by commit 2bb19e740e9b ("Documentation:
+update git configuration for Link: tag") but it seems like few people
+have noticed. Add maintainer directory to the process entry so that
+workflows@ gets CCed.
 
-I've not got a better suggestion for where to put this, but under
-something labelled as "Information for (new) Submaintainers" isn't
-where I would be looking as a contributor.
-Is adding to the generic DT documentation that dtbs_check should not add
-any new warnings at W=3D1 too extreme?
-writing-schema.rst has the instructions about how to run dtbs_check while
-writing dt-binding patches, but we don't seem to have any docs about
-running dtbs_check for dts/dtsi changes.
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+TBH I wasn't aware / forgot this directory exists. I usually grep
+Documentation/process. No real preference but I wanted to mention
+the alternative of moving the directory under Documentation/process
+instead..
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
---oZupxwsk8vse9QyQ
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 99f18f6e8bc6..a04776f01186 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6274,6 +6274,7 @@ DOCUMENTATION PROCESS
+ M:	Jonathan Corbet <corbet@lwn.net>
+ S:	Maintained
+ F:	Documentation/process/
++F:	Documentation/maintainer/
+ L:	workflows@vger.kernel.org
+ 
+ DOCUMENTATION REPORTING ISSUES
+-- 
+2.41.0
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZK6d8QAKCRB4tDGHoIJi
-0lwSAQDBl5SejPpAFmt5bv2VhK+0qeUjxPKk2oF8smIN4o1SmAEA0svDs8omMe+R
-WsZHkfgbSn5tEDE4rofWHvQ8e/QKrgM=
-=b8RU
------END PGP SIGNATURE-----
-
---oZupxwsk8vse9QyQ--
