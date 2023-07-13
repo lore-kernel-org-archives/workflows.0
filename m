@@ -2,69 +2,79 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D25B6EB64DA
-	for <workflows@archiver.kernel.org>; Wed, 12 Jul 2023 21:32:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE061EB64DD
+	for <workflows@archiver.kernel.org>; Thu, 13 Jul 2023 11:46:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231675AbjGLVcQ (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 12 Jul 2023 17:32:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50160 "EHLO
+        id S233395AbjGMLqC (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 13 Jul 2023 07:46:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229512AbjGLVcP (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 12 Jul 2023 17:32:15 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4585CCF;
-        Wed, 12 Jul 2023 14:32:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=X5RvNDpha0pXy5z1FbTruBc/+E7AU+Rl+3OdvU1NSjw=; b=QInHJOTDWygtewJArexZLK/bmV
-        psP9Q+UJAGh0SrtpoNIvU/LFmi6i5qQl5I9m7XISjIrK+9RSVb5NYZDb5Ec1otdP9vuu2rgrxClKJ
-        W+DZ2SIg84jJMDHPnJkD9WOK1slvsPvGFyD8d6HAlaYh+k/akfHxWSqz7xWgpS/aWVUpOdcNIi9+2
-        mBvaWLUIXzPQThfwSCYf6E+l0QeB9J4RoF9pYtHcoCj0FRRWTn2otLEvzlcmmPEZaska/Wsc/oFNY
-        fDHONKjj4vXh9Yqr5p/yXz6JNWZlAA2Ui+DUnrZM0h3Llm9oILsLMyDxGR4rTCndvM3qZhAvBwhmX
-        aUkEbSjQ==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qJhRR-001JNw-1u;
-        Wed, 12 Jul 2023 21:32:09 +0000
-Message-ID: <c4afe7ca-7d6a-652c-3bfc-1b2c1d58f038@infradead.org>
-Date:   Wed, 12 Jul 2023 14:32:09 -0700
+        with ESMTP id S232882AbjGMLqB (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 13 Jul 2023 07:46:01 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BB132123
+        for <workflows@vger.kernel.org>; Thu, 13 Jul 2023 04:46:00 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1qJuli-0007Xd-JC; Thu, 13 Jul 2023 13:45:58 +0200
+Message-ID: <10064cba-f0fe-fbc6-0c3a-97be48360a05@leemhuis.info>
+Date:   Thu, 13 Jul 2023 13:45:58 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH docs] MAINTAINERS: treat Documentation/maintainer as
- process docs
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>, Jakub Kicinski <kuba@kernel.org>
-Cc:     linux-doc@vger.kernel.org, workflows@vger.kernel.org
-References: <20230712161011.1339829-1-kuba@kernel.org>
- <20230712091154.7ad7561c@kernel.org> <87pm4x3xv3.fsf@meer.lwn.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <87pm4x3xv3.fsf@meer.lwn.net>
+ Thunderbird/102.13.0
+Subject: Re: Bugbot for all kernel bugs?
+Content-Language: en-US, de-DE
+To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc:     "workflows@vger.kernel.org" <workflows@vger.kernel.org>,
+        Linux kernel regressions list <regressions@lists.linux.dev>
+References: <8133fcf4-5ed6-204a-ceb1-ee4136e32fb4@leemhuis.info>
+ <20230711-encore-hunchback-2d103b@meerkat>
+From:   Thorsten Leemhuis <regressions@leemhuis.info>
+In-Reply-To: <20230711-encore-hunchback-2d103b@meerkat>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1689248760;1b426e91;
+X-HE-SMSGID: 1qJuli-0007Xd-JC
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-
-
-On 7/12/23 09:20, Jonathan Corbet wrote:
-> Jakub Kicinski <kuba@kernel.org> writes:
+On 11.07.23 22:43, Konstantin Ryabitsev wrote:
+> On Mon, Jul 10, 2023 at 07:28:26PM +0200, Thorsten Leemhuis wrote:
+>> Hi Konstantin. Is there any hope that bugbot will be usable for all
+>> kernel bugs in bugzilla.kernel.org soon? It sounded some weeks ago like
+>> that wasn't too far away, that's why I wonder if we might have arrived
+>> at a point where this support could be enabled.
 > 
->> On Wed, 12 Jul 2023 09:10:11 -0700 Jakub Kicinski wrote:
->>>  F:	Documentation/process/
->>> +F:	Documentation/maintainer/
->>
->> Ugh, and looking at it in the email client I remember that m comes
->> before p. I'll send a v2 tomorrow if nobody nacks.
+> I just need to add a wrapper that would make it more convenient to run as an
+> actual service as opposed to in a screen session I've been using for testing
+> purposes. Probably a day worth of effort, plus documentation.
+>
+>> Sorry for bothering you about this, but I'm getting a bit tired by all
+>> that tedious man-in-the-middle between reporters and developers to let
+>> one group know about things the other did...
 > 
-> See https://git.kernel.org/linus/c192ac735768 :)
-> 
-> jon
+> So, we can't easily do "enable for all the bugs" because the bot was written
+> with the idea that it would be invoked per-component. Is there a bugzilla
+> component (and a matching mailing list) that you have in mind for the bot?
 
-Ugh, that is sad. :(
+Ugh. :-/ Well, as you can see from a quick search like
+https://lore.kernel.org/all/?q=%28nq%3A%22noticed+a+regression+report+in+bugzilla.kernel.org%22+f%3Aleemhuis%29+OR+%28nq%3A%22I+notice+a+regression+report+on+Bugzilla%22+f%3Asanjaya%29
+we have to deal will bug reports for many different components. So it
+would be great if it could be enabled for all products/components, except:
 
--- 
-~Randy
+* all components from the product categories "Alternate Trees",
+"Backports project", "Documentation", "kernel.org", and "Tools"
+
+* "Bug Tracker", "klibc/kinit", "module-init-tools", and "Spam" from the
+product category "Other"
+
+There might be a few more that are obsolete hidden in the other products
+categories (like "PS3" in "Platform Specific/Hardware" or "lguest" in
+"Virtualization")
+
+Did I say "Ugh" already? Ohh, seems I did. :-/
+
+So how do you suggest to move forward
+
+Ciao, Thorsten
