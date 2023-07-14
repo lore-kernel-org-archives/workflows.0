@@ -2,60 +2,113 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81D2CEB64DC
-	for <workflows@archiver.kernel.org>; Fri, 14 Jul 2023 19:36:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DA16C001B0
+	for <workflows@archiver.kernel.org>; Fri, 14 Jul 2023 20:02:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236172AbjGNTgr (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 14 Jul 2023 15:36:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42460 "EHLO
+        id S236012AbjGNUCT (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 14 Jul 2023 16:02:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235705AbjGNTgq (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Fri, 14 Jul 2023 15:36:46 -0400
-X-Greylist: delayed 4802 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 14 Jul 2023 12:36:45 PDT
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B5553A91;
-        Fri, 14 Jul 2023 12:36:45 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S235873AbjGNUCT (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Fri, 14 Jul 2023 16:02:19 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52C99E5C;
+        Fri, 14 Jul 2023 13:02:18 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id BC87F5BF;
-        Fri, 14 Jul 2023 19:36:44 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BC87F5BF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1689363404; bh=Y6cx46rpyh4f4kwzVAMRkODbnECw1wEIsMHA+sJSiFk=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=rkhiCVGUzUcMHrD9BPxy+15/3RNrw4fFAeTTf5qCi2Tk89A1pkY8CVO1+U8PRPfuL
-         WYo09QA9gPZdFOFqftdtEqsT/pGIVs2RMtQpdqQl2jmh2OZzEcVRchviTCojJzU+p/
-         2c/a2rIkGjOAOgtWg6it4AsuygjqthETJ6r1UG+Qi3bsnDbYZLBIS1CSidlvi0231K
-         BigK+Z/XGzhE8CKF2NGFfjURfNonotxadSMwCSDbnJexDZiTKkDbYFkTs5TC8eUThk
-         abwSapIoq2P9gYohspDzVCpyD5dU7VR5I1MgtYOrJLoZbSczwAt2KD0VfPtswcJs9h
-         gBVb2XhGeiPxA==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: deprecated.rst: Update an example
-In-Reply-To: <3484e46180dd2cf05d993ff1a78b481bc2ad1f71.1687723931.git.christophe.jaillet@wanadoo.fr>
-References: <3484e46180dd2cf05d993ff1a78b481bc2ad1f71.1687723931.git.christophe.jaillet@wanadoo.fr>
-Date:   Fri, 14 Jul 2023 13:36:44 -0600
-Message-ID: <875y6mz3n7.fsf@meer.lwn.net>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DB5A261DE6;
+        Fri, 14 Jul 2023 20:02:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD564C433C8;
+        Fri, 14 Jul 2023 20:02:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689364937;
+        bh=UT9j9q6/BWfR67FxkI+ij2KTzELof0exJwjKYHRs4R8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=YcBccN58eI766HtMQ2IQlB0kW1JvkiwsS5clOvALgM0UWC3MdI/3E5p+ACpxkHNQO
+         wYpxnKfUwZfM1qWLFdxScfAXt40ygyI+xRoOhsOOMA0UaRJYmVvQqMy+bwixSC3bao
+         19NUWX93HpVfXCXgnwZrNY4YqDvo7j7iBnaRnFKsse583R/hdW8UjXgCL8TNwJ/84U
+         WHvuC8iw+hx52up83YpirfblY1ButPG7w0SM/EiGNWC7c26iRdHX5C1X2JaeZItxza
+         PM7T2vItZzdSVitXTJTHHWyFuq9dJbgKxQatEYyROvSIrtdfAumRWioqrZhwvR7q0c
+         iipeLmo15v5BQ==
+Date:   Fri, 14 Jul 2023 21:02:12 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     Thorsten Leemhuis <linux@leemhuis.info>, corbet@lwn.net,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org
+Subject: Re: [PATCH docs] docs: maintainer: document expectations of small
+ time maintainers
+Message-ID: <a5fcc05c-3549-491e-b28f-68ceedceb75e@sirena.org.uk>
+References: <20230713223432.1501133-1-kuba@kernel.org>
+ <f61a12c6-9587-9cb4-122e-dc3a74e58bd1@leemhuis.info>
+ <20230714102218.687ee2ea@kernel.org>
+ <a7d0381c-c99e-4dba-9156-cc07a86bdc39@sirena.org.uk>
+ <20230714113418.49dfac7e@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ZMGLOwCUDl6aLp+8"
+Content-Disposition: inline
+In-Reply-To: <20230714113418.49dfac7e@kernel.org>
+X-Cookie: Preserve the old, but know the new.
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Christophe JAILLET <christophe.jaillet@wanadoo.fr> writes:
 
-> vmalloc() has a 2-factor form. It is vmalloc_array().
-> So use another function as an example.
->
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
->  Documentation/process/deprecated.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+--ZMGLOwCUDl6aLp+8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Applied, thanks.
+On Fri, Jul 14, 2023 at 11:34:18AM -0700, Jakub Kicinski wrote:
+> On Fri, 14 Jul 2023 18:59:08 +0100 Mark Brown wrote:
+> > > If we try to fend off anyone who doesn't understand common meaning=20
+> > > of words the document will be very long and painful to read. =20
 
-jon
+> > That's true, but "bug" is one of those things where there is a frequent
+> > disconnect on definitions, and when coupled with the must respond bit I
+> > can see things going wrong.
+
+=2E..
+
+> But we can't expect from the user to know if the problem is stable
+> material, or even whether their problem is a bug in the first place.
+> Simple example - WiFi cards which don't support AP mode. User may try
+> to run an AP, and report it doesn't work. They may not know whether
+> it's HW limitation or a bug. The maintainer responding with "it's not
+> supported, sorry" does not seem to me to be a high bar.
+
+Sure, there's cases where it's really clear and people ought to reply
+but there's other things especially as you get into the automated
+reports - for things like the fuzzers with automated reports and
+sometimes janky bisection it's a lot more reasonable to just drop them
+on the floor.
+
+> Just in case someone thought that maintainers are their tech support.
+> Then again, I don't want to completely exclude technical questions which
+> aren't straight up crashes because some of those are reasonable, should
+> be answered or even result in improving docs or error reporting.
+
+> It's a balancing act :(
+
+Honestly I think a lot of it is the "must" rather than "should", it
+comes over as being a bit inflexible.
+
+--ZMGLOwCUDl6aLp+8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmSxqcMACgkQJNaLcl1U
+h9BaWQf+ISEPJQXevs7v9RaLSpGDfpwmrHXZ2yL/97jE8US6G50yCCTI2pnHwDKA
+kO9VWuxFj/ZQMx8xrbVJTGmQ3YlohH+s6a6obkVoRb+qSP68Sw0ekiG6b2Yv1gip
+/RTHQ1rsigv+yFKd+n1n7tTKA8QLzHVJNlAN06Y8drdnNEGtyn+xMB2S3DQY1onb
+u/BgR4frCSl+BIIvfeTPHA5SeE1/Adpjir/0wZMO0s8W2K1fCVNVtQCsT+fEAn2L
+3qNYAjZIcCNTR1de44QGNY88zKYWQwTalrkTMYvxqmO/HlvhzeedwZIzsaHkjTQJ
+vfzjMPbVZ5ff/SuzBO8bxhf50YyYQw==
+=yOvy
+-----END PGP SIGNATURE-----
+
+--ZMGLOwCUDl6aLp+8--
