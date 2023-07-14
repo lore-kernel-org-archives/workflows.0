@@ -2,97 +2,126 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC2DDC001DE
-	for <workflows@archiver.kernel.org>; Thu, 13 Jul 2023 23:14:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6459AC001DF
+	for <workflows@archiver.kernel.org>; Fri, 14 Jul 2023 00:47:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234131AbjGMXOh (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 13 Jul 2023 19:14:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55138 "EHLO
+        id S234383AbjGNArl (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 13 Jul 2023 20:47:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231282AbjGMXOh (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 13 Jul 2023 19:14:37 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39A261999;
-        Thu, 13 Jul 2023 16:14:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=OjO2novDaGiT46H3m8d6xCRWHC4HljnpYm08g8bi3eQ=; b=E2RQNa6ZF1FSJ7QV/QpJ+bt57l
-        0R9tgns6fFstKI1Klc1b60yxOAKr6ZWbRKaJHbT5qIxy8oPDBoFn8+keLlR3AAVpKZcAHiiaKnfuE
-        L8QtqZg8L9F/xIjSxlHu7Kiqpzv7t+XzO55El3dbCK0UD5OuPc7EIFKSlAachVGO+O0GVin4xIunX
-        YlJV/InS4Llv0/7DZ0qAH8tvE1SqFja8faZRKqDZdVWRzs4i4d1qb7nkfqV0T8uDRN6/73znwPpuX
-        5nMjZ1OWYIPP4gvynf12gfMqUiU5WTSBzBL6zQdlrqioPGjDAjAhGGHSzQ+AGipjGEtNnCrtJaOT4
-        FEwMLTkw==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qK5W3-004XLo-0c;
-        Thu, 13 Jul 2023 23:14:31 +0000
-Message-ID: <001d94a5-6afa-98cb-3b2f-05711ae309d0@infradead.org>
-Date:   Thu, 13 Jul 2023 16:14:29 -0700
+        with ESMTP id S232649AbjGNArk (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 13 Jul 2023 20:47:40 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 934632D53
+        for <workflows@vger.kernel.org>; Thu, 13 Jul 2023 17:47:38 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id 2adb3069b0e04-4f122ff663eso2322054e87.2
+        for <workflows@vger.kernel.org>; Thu, 13 Jul 2023 17:47:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1689295656; x=1691887656;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=k7y296KedplM2A3mke9UNwqTxqKMP8WdPVepgqrON6E=;
+        b=QPK4Vb9V1JiKbKNNG1W4kMrTt/sbfQYFbO+F+IzDPH4/Sc61AQqk0LodIW9hZeZYj8
+         a/yP5YwNng8/3JemhpHqBe3ELJQgYkgSm3tSyjJLb4657jtRsucgRZUKGy0rcJVvWgOl
+         V78bOBdfllbw8T5Ws3BnF2hFlJpaxWMKPWvcM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689295656; x=1691887656;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=k7y296KedplM2A3mke9UNwqTxqKMP8WdPVepgqrON6E=;
+        b=CgN+f0hPjVCXItk0e0mwGXzGUUPuBBG456fjr0wfdiaiJK5jaY4Inm6PFfv3epBZOW
+         CpNvmagOKoxFIIJWBR+rdUz7jeJp4a2zzs7nVCTAouwfgqb37WKhgIrtnidmY5suC/cC
+         rQgLPQIjPIwXHhGH5bLdlB0TX2GrhkxSp9XEV99Lq8BGqX46zgAlWQBBfxpE5gvNmH/O
+         wG59uTmmwPmkx6ggxZE5bVS2gYOirDnq2ayq1xcarBKOvDJBIWbCty4wx2c4KPNpggFh
+         HNZMWO10fgnmgh1F2T0eoU7TQv+zh1Fg2zqdDv05pYG0Ll92mpN3gPvy7cP7PPSMxxw+
+         dfiA==
+X-Gm-Message-State: ABy/qLZvOIK70BASOwsyHq4J3zcED3P9BqrjoXK88ho806XNJ5/pwUjr
+        mOaf0yIznXiXEDBVbKGwAoJTLFKBVei6LWd6etXsu42m
+X-Google-Smtp-Source: APBJJlELSpBi7rwbxPRATYAmb/SRRr3gtJzzGTw7M/Y0smmHUKyz3YNaobMACACvmQ+qGdkd7kN4Pg==
+X-Received: by 2002:ac2:4f16:0:b0:4f8:43b8:c722 with SMTP id k22-20020ac24f16000000b004f843b8c722mr3423968lfr.67.1689295656705;
+        Thu, 13 Jul 2023 17:47:36 -0700 (PDT)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com. [209.85.208.176])
+        by smtp.gmail.com with ESMTPSA id p4-20020ac246c4000000b004fbe7b01b15sm1298050lfo.62.2023.07.13.17.47.35
+        for <workflows@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Jul 2023 17:47:35 -0700 (PDT)
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2b701e1ca63so20761671fa.1
+        for <workflows@vger.kernel.org>; Thu, 13 Jul 2023 17:47:35 -0700 (PDT)
+X-Received: by 2002:ac2:5388:0:b0:4f6:3677:54e with SMTP id
+ g8-20020ac25388000000b004f63677054emr2106458lfh.36.1689295655179; Thu, 13 Jul
+ 2023 17:47:35 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH docs v2] MAINTAINERS: treat Documentation/maintainer as
- process docs
-Content-Language: en-US
-To:     Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net
-Cc:     workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230713230713.1505561-1-kuba@kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230713230713.1505561-1-kuba@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20230713230417.1504773-1-kuba@kernel.org>
+In-Reply-To: <20230713230417.1504773-1-kuba@kernel.org>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Thu, 13 Jul 2023 17:47:18 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wiyGEZKpb1h=OTYzxaam_g0ek4GKyCPCvVz4fOh+BzCEA@mail.gmail.com>
+Message-ID: <CAHk-=wiyGEZKpb1h=OTYzxaam_g0ek4GKyCPCvVz4fOh+BzCEA@mail.gmail.com>
+Subject: Re: [PATCH docs] docs: maintainers: suggest including lore link for
+ conflicts known to linux-next
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     corbet@lwn.net, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Hi,
+On Thu, 13 Jul 2023 at 16:04, Jakub Kicinski <kuba@kernel.org> wrote:
+>
+> I'm not completely sure what is the best practice for notifying Linus
+> about conflicts which have already been resolved in linux-next.
+> I presume they are a no-op to him, so maybe we shouldn't even call
+> them out?
 
-On 7/13/23 16:07, Jakub Kicinski wrote:
-> A handful of people got caught out by the recent changes in git
-> which changed the format of Message-ID and broke our recommended
-> applyhook for adding lore links.
-> 
-> This was fixed in the docs by commit 2bb19e740e9b ("Documentation:
-> update git configuration for Link: tag") but it seems like few people
-> have noticed. Add maintainer directory to the process entry so that
-> workflows@ gets CCed.
-> 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+No, I do *not* somehow auto-merge stuff that has been merged in
+linux-next. I will do my own merge, and see the conflicts, and I will
+resolve them independently of anything that has happened in
+linux-next.
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Thanks.
+I may then check what linux-next did, particularly if the merge was
+non-trivial, but honestly, that's fairly rare. And if the merge was so
+non-trivial that I check what happened in linux-next, it's actually
+not all that unlikely that I ended up resolving it differently anyway.
+I send out emails saying "that was wrong in linux-next" somewhat
+regularly.
 
-Not your problem, but I find "DOCUMENTATION PROCESS" confusing.
-It's not about the documentation process. IMO it needs a colon
-at least:
-DOCUMENTATION: PROCESS
-or
-DOCUMENTATION: DEVELOPMENT PROCESS
+So if you were notified by Stephen that there is a conflict in
+linux-next, and it has been resolved there, that means that as far as
+linux-next is concerned - and *only* as fat as linux-next is concerned
+- that resolution will now continue to be done in linux-next.
 
+But you should preferably mention said conflict when you then send the
+pull request to me.
 
-> ---
-> v2:
->  - fix order of entries
-> v1: https://lore.kernel.org/all/20230712161011.1339829-1-kuba@kernel.org/
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 3be1bdfe8ecc..fff7e50948b6 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6206,6 +6206,7 @@ DOCUMENTATION PROCESS
->  M:	Jonathan Corbet <corbet@lwn.net>
->  L:	workflows@vger.kernel.org
->  S:	Maintained
-> +F:	Documentation/maintainer/
->  F:	Documentation/process/
->  
->  DOCUMENTATION REPORTING ISSUES
+It's perfectly fine to just mention it - say "there's a conflict in
+so-and-so with the pull from tree so-and-so". That will give me a
+heads-up to not be surprised about it.
 
--- 
-~Randy
+You can point to the email that Stephen sent (using lore), or you can
+quote his resolution (or your own, if you do a test-merge, like many
+people do) if you want.  It's not a requirement.
+
+But I do kind of want to see the "there's a conflict" mention, not
+just to have a heads-up. It's also a sign that you are actually
+keeping track of what happens in linux-next and are on top of things.
+
+Because I've had _too_ many pull requests that actually turned out to
+have had problems in linux-next - merge related or not - and the
+developer having not tracked anything at all despite having been told
+about said problems, and just sent the resulting untested crap to me.
+
+So the "there's a conflict" note ends up having that kind of secondary
+meaning. It gives me the warm and fuzzies that the developer has
+actually reacted to what happened in linux-next.
+
+The corollary to that is that when I see a conflict - even if it's
+completely trivial - and I see it in linux-next too, and the conflict
+was never mentioned, I go "ok, this maintainer never actually reacted
+to anything that Stephen said about his tree".
+
+That often says more about the situation in general than about the
+particular conflict.
+
+             Linus
