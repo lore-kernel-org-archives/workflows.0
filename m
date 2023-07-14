@@ -2,43 +2,42 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63B50EB64DC
-	for <workflows@archiver.kernel.org>; Fri, 14 Jul 2023 18:16:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CD56C001B0
+	for <workflows@archiver.kernel.org>; Fri, 14 Jul 2023 18:19:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236009AbjGNSQp (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 14 Jul 2023 14:16:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36208 "EHLO
+        id S236774AbjGNSTG (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 14 Jul 2023 14:19:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235958AbjGNSQo (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Fri, 14 Jul 2023 14:16:44 -0400
+        with ESMTP id S236739AbjGNSTD (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Fri, 14 Jul 2023 14:19:03 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33E66B4;
-        Fri, 14 Jul 2023 11:16:43 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1CF11BD;
+        Fri, 14 Jul 2023 11:19:02 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A0F9B5BF;
-        Fri, 14 Jul 2023 18:16:42 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A0F9B5BF
+        by ms.lwn.net (Postfix) with ESMTPSA id 669CA5BF;
+        Fri, 14 Jul 2023 18:19:02 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 669CA5BF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1689358602; bh=jm+R7vHwwOq2dhTjthyZ/gNcY4UldlFgG2p6s1wdco4=;
+        t=1689358742; bh=kKXWA+c2Cm/Sw1VCTU1wLREs010/IyM3OtFfP0eC0lc=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=TXltqLpgWcA0ukU8yA1pgoc5eRXYGuiVDgH7RZU7clEhEfmZQddYbR2lsDE+9vqnt
-         6lbFcgjl1LPrY0Hv2gG8c2ZK/xrnwmqQg6Iv1IXCPNh6GBOTGnkdSQCHDh3hyyPR50
-         weYzwJjmQF/nUnUf3FBTxoFGM+FMj8YmU6M9xJ60iDNTOgMbd6M3qmk50FiMD8aygu
-         zY6QFng7Drvgl+f8lErXUD47QWu5uEwlv5s8tqpMKFiIfG5DVfUsOoSX+nYnJ+y1UV
-         loTp5VeS0VjRE6bzDxC/m4nAPcm/XH/2aR2wpicvpH2WK+tWJSh/utM6qSVjiyRmkN
-         nDTyZ+38z8ZMQ==
+        b=otSdXOsZUpCOtpqFHl615W5pfjTrD/1DfP4VQa7iLzHprdJvvZZ6lfyDA0VHM68Za
+         xTd4HNpMWsioqpUCTwBC5E5Np5pd5DW5n1YrTlfUBkz03+pbuZ1FcQY+/biRpxumtz
+         HMNM58WSKaP4EKoqIgBYCgThpGiK61mokZ6FlE38kmOHY27CU6MzdgQ1HX+gv6TMM8
+         eg8pVaAqw6M54TjWyDrot6dvdV8Gp4IYmhr6Ozf6yOXM6M4p6hm9IcXuu5nwZJdMI/
+         WNaoZ27O/Ue8/WfCwTxJ925b4Ae3PLeMFFsHEDNB1J7SzheH21YKfAtgo0ly2Pj8iM
+         7O1wyA8hfvdeQ==
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Jakub Kicinski <kuba@kernel.org>
 Cc:     workflows@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>
-Subject: Re: [PATCH docs v2] MAINTAINERS: treat Documentation/maintainer as
- process docs
-In-Reply-To: <20230713230713.1505561-1-kuba@kernel.org>
-References: <20230713230713.1505561-1-kuba@kernel.org>
-Date:   Fri, 14 Jul 2023 12:16:41 -0600
-Message-ID: <87o7ke1hpy.fsf@meer.lwn.net>
+Subject: Re: [PATCH docs] docs: maintainers: mention tag -s for signed tags
+In-Reply-To: <20230713230606.1505458-1-kuba@kernel.org>
+References: <20230713230606.1505458-1-kuba@kernel.org>
+Date:   Fri, 14 Jul 2023 12:19:01 -0600
+Message-ID: <87jzv21hm2.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
@@ -47,39 +46,33 @@ X-Mailing-List: workflows@vger.kernel.org
 
 Jakub Kicinski <kuba@kernel.org> writes:
 
-> A handful of people got caught out by the recent changes in git
-> which changed the format of Message-ID and broke our recommended
-> applyhook for adding lore links.
->
-> This was fixed in the docs by commit 2bb19e740e9b ("Documentation:
-> update git configuration for Link: tag") but it seems like few people
-> have noticed. Add maintainer directory to the process entry so that
-> workflows@ gets CCed.
+> The documentation talks about -u and how to configure the default
+> key. It does not mention that once the default key is set one
+> should use the -s flag. Which is likely what most people end up
+> using.
 >
 > Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 > ---
-> v2:
->  - fix order of entries
-> v1: https://lore.kernel.org/all/20230712161011.1339829-1-kuba@kernel.org/
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
+>  Documentation/maintainer/configure-git.rst | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 >
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 3be1bdfe8ecc..fff7e50948b6 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6206,6 +6206,7 @@ DOCUMENTATION PROCESS
->  M:	Jonathan Corbet <corbet@lwn.net>
->  L:	workflows@vger.kernel.org
->  S:	Maintained
-> +F:	Documentation/maintainer/
->  F:	Documentation/process/
+> diff --git a/Documentation/maintainer/configure-git.rst b/Documentation/maintainer/configure-git.rst
+> index ec0ddfb9cdd3..a054de0c50dc 100644
+> --- a/Documentation/maintainer/configure-git.rst
+> +++ b/Documentation/maintainer/configure-git.rst
+> @@ -7,9 +7,10 @@ This chapter describes maintainer level git configuration.
+>  
+>  Tagged branches used in :ref:`Documentation/maintainer/pull-requests.rst
+>  <pullrequests>` should be signed with the developers public GPG key. Signed
+> -tags can be created by passing the ``-u`` flag to ``git tag``. However,
+> -since you would *usually* use the same key for the same project, you can
+> -set it once with
+> +tags can be created by passing ``-u <key-id>`` to ``git tag``. However,
+> +since you would *usually* use the same key for the project, you can
+> +set it in the configuration and use the ``-s`` flag. To set the default
+> +``key-id`` use
+>  ::
 
-So what this may really be telling us is that we should move the
-maintainer directory under Documentation/process/.  But applying this
-patch is easier, so that's what I've done for now :)
-
-Thanks,
+Applied, thanks.
 
 jon
