@@ -2,52 +2,53 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72B3CC00528
-	for <workflows@archiver.kernel.org>; Fri, 14 Jul 2023 08:47:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CE8FC0015E
+	for <workflows@archiver.kernel.org>; Fri, 14 Jul 2023 08:47:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235060AbjGNIrp (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 14 Jul 2023 04:47:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53916 "EHLO
+        id S235405AbjGNIrq (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 14 Jul 2023 04:47:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235413AbjGNIrd (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Fri, 14 Jul 2023 04:47:33 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E86C26B1
-        for <workflows@vger.kernel.org>; Fri, 14 Jul 2023 01:47:30 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-4fba74870abso2884844e87.0
-        for <workflows@vger.kernel.org>; Fri, 14 Jul 2023 01:47:30 -0700 (PDT)
+        with ESMTP id S235626AbjGNIrg (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Fri, 14 Jul 2023 04:47:36 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB33C26B7
+        for <workflows@vger.kernel.org>; Fri, 14 Jul 2023 01:47:32 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id 4fb4d7f45d1cf-5149aafef44so1906711a12.0
+        for <workflows@vger.kernel.org>; Fri, 14 Jul 2023 01:47:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1689324449; x=1691916449;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=R8aePuJNV+aTV/P2+d1zYFy1JBvn+SWePZ58r04GmFw=;
-        b=Yv7wNCignVQeQHx68i0XxK3/6GnIxCb5iM+IxeTjplbMgzS5ZtFIEB/aBTEjPcsGQo
-         K/mpiJeUBlNHm0kHoZBkiohGUSSm9+Mi5FNldcjIcQ+SQT40x7B4nquXzDbdPBQ2XsK8
-         qtlpvESK5DwpFP1JToV9AYRDC1pzj2EjYxTpiAP/XHu4om4/Bj3gDlzec+IDfba3rAf9
-         CbRJlFJiSnhiK3K4BfH96M9QQyyC0o7KoBemZildDs7MP1wT6ZoOSuJ/EmNIqxeFWmrE
-         JqqZ/T8CUFWgiljdQRkmtema9Scy91H9ikRBceYOsDNjn+eqfm4T+VSrYT6c4xbIfNij
-         53Pw==
+        d=linaro.org; s=google; t=1689324451; x=1691916451;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FA7l8IIaj4aslYJzQ2fc8TOlfhX9HZt+/RtZQq7WtRA=;
+        b=IjRI/ni/znH5CfUK0qL5zLtrjXUMOaLNLSrIjp94+7qxfkRqsKiVPVS+QG7xDnOTp5
+         zqVS8raXsnlmrk4UofwpwgzbCex35dBTyD18hk9u7sFl1jpNKPh+lX72cNrhFb5pbBau
+         V9OQY57fR7x8DEGW5GblZVYzOMBpn48qmiyKffhHB53Iyrdr6hZAsU4FQbUnwglf0/nI
+         1kAtgRohXmRo0S3MxwHv2JDA9+VJB2NkEIrC22nQKOinVipQiTkZ1HD8QXSiTDj7O8G9
+         8Z11gWKpFdHJY5N91jzvPamwh1Gp414zZHdDII2AF50a8m+nDyOXIdVbgKbwR7/E1CZB
+         rFZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689324449; x=1691916449;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=R8aePuJNV+aTV/P2+d1zYFy1JBvn+SWePZ58r04GmFw=;
-        b=Ubr2ADdELUZXzj+LsdvpKR/2qeeOLC4XxU8JyDTDNqgu9Z1OioTOYO8xXxkHf5e+Qq
-         PuFSqgLmyPPNGspVZPsgEM2pxQqzmQXz8RyG4Xz2wFFjHBXH+yUN5saZEfP/NdyQg7Nd
-         96ApOqmuCg/NNnclapGnM96/ZvYppaxI2VCMkb7tzk4lwgFmbe+MSkNoiOZ6rDN4JQnd
-         Mbij4/UZ/NzXZ96AEVIHvctnEfuv8uSsF5ZxNPKbHUjksyz7kcf5yJv2zZRgUBOBp/dd
-         2jB9m/CYAG6WJHuAce8aMst74fEzw/NfIPw4hiEErBI1irKA1gn+R0vabgR8JYf2vDAF
-         kWQw==
-X-Gm-Message-State: ABy/qLbuwzJBZi5whsPy8RO9dJP464Bl44MnNw7j0ZBlZHel/CHptXl6
-        CAokzZVIVXRWvsm/b4aGpx1QxQ==
-X-Google-Smtp-Source: APBJJlFjG7pdcW2yr/b2fsXuHegMrNjuBRaWxyLYGHZw7UwjJRO5qo5VVUqBvzsKR8P2U1WefMFewA==
-X-Received: by 2002:a05:6512:33c8:b0:4fb:7666:3bc0 with SMTP id d8-20020a05651233c800b004fb76663bc0mr4290710lfg.47.1689324448797;
-        Fri, 14 Jul 2023 01:47:28 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1689324451; x=1691916451;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FA7l8IIaj4aslYJzQ2fc8TOlfhX9HZt+/RtZQq7WtRA=;
+        b=TKVkdRidFQ5JDWHtPFUM0ehtfjlanRsbHQb6cLd6WtDfnu8biM2HCvnkTryQYtbWrp
+         hKjTYLmH/TZkTdmuuJl7zJsDKgR0oc0BjW78YGiNJAkAySpuSjiiAPkLvCZr/mi4zMIC
+         221WhlsLK8CvY3I0LyLYwz3Kb/P/zxkCXvuoyyKPXikdvnd1ylMfNWc5C3WnrH3XIsxS
+         Syz0BFIAo3n1AcHx34WUjKNpmc6rQjp1DBMBBH34po6veczZAi1+eDjKgfpPDfEtjNN0
+         YKmBQjZB4U+TEuvL4a7gtR2cyjftbAHlIG23WFqLtuQzGfvbbNoPcq73xyWGBcIPGkRf
+         KycQ==
+X-Gm-Message-State: ABy/qLa/MnxX4ZkGOOsBrzqTta0GOb+kJY19K7exSvRatw4PVVO2YC5u
+        gk31JuTPlXGvNMwaY/3EdzvCfg==
+X-Google-Smtp-Source: APBJJlGbRMLTxhL0KR5Vo3tgekUEa/KYea9Ns8LQK2+4AHZpZEZ1JvWe0hTShfEvBphmXA2MIroU3Q==
+X-Received: by 2002:a05:6402:1210:b0:51d:ec25:ce38 with SMTP id c16-20020a056402121000b0051dec25ce38mr3932884edw.10.1689324450843;
+        Fri, 14 Jul 2023 01:47:30 -0700 (PDT)
 Received: from krzk-bin.. ([178.197.223.104])
-        by smtp.gmail.com with ESMTPSA id w24-20020aa7cb58000000b0051e0f8aac74sm5480662edt.8.2023.07.14.01.47.26
+        by smtp.gmail.com with ESMTPSA id w24-20020aa7cb58000000b0051e0f8aac74sm5480662edt.8.2023.07.14.01.47.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jul 2023 01:47:28 -0700 (PDT)
+        Fri, 14 Jul 2023 01:47:30 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Conor Dooley <conor@kernel.org>, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -67,35 +68,85 @@ To:     Conor Dooley <conor@kernel.org>, Rob Herring <robh+dt@kernel.org>,
         soc@kernel.org, workflows@vger.kernel.org,
         linux-doc@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 1/3] MAINTAINERS: soc: reference maintainer profile
-Date:   Fri, 14 Jul 2023 10:47:23 +0200
-Message-Id: <20230714084725.27847-1-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 2/3] Documentation/process: maintainer-soc: add clean platforms profile
+Date:   Fri, 14 Jul 2023 10:47:24 +0200
+Message-Id: <20230714084725.27847-2-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230714084725.27847-1-krzysztof.kozlowski@linaro.org>
+References: <20230714084725.27847-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Mention the SoC maintainer profile in P: entry.
+Some SoC platforms require that commits must not bring any new
+dtbs_check warnings.  Maintainers of such platforms usually have some
+automation set, so any new warning will be spotted sooner or later.
+Worst case: they run the tests themselves.  Document requirements for
+such platforms, so contributors can expect their patches being dropped
+or ignored, if they bring new warnings for existing boards.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+ .../process/maintainer-handbooks.rst          |  1 +
+ .../process/maintainer-soc-clean-dts.rst      | 22 +++++++++++++++++++
+ MAINTAINERS                                   |  2 +-
+ 3 files changed, 24 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/process/maintainer-soc-clean-dts.rst
 
+diff --git a/Documentation/process/maintainer-handbooks.rst b/Documentation/process/maintainer-handbooks.rst
+index 9992bfd7eaa3..976391cec528 100644
+--- a/Documentation/process/maintainer-handbooks.rst
++++ b/Documentation/process/maintainer-handbooks.rst
+@@ -17,5 +17,6 @@ Contents:
+ 
+    maintainer-netdev
+    maintainer-soc
++   maintainer-soc-clean-dts
+    maintainer-tip
+    maintainer-kvm-x86
+diff --git a/Documentation/process/maintainer-soc-clean-dts.rst b/Documentation/process/maintainer-soc-clean-dts.rst
+new file mode 100644
+index 000000000000..87feeb5543ff
+--- /dev/null
++++ b/Documentation/process/maintainer-soc-clean-dts.rst
+@@ -0,0 +1,22 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=============================
++SoC Platforms with Strict DTS
++=============================
++
++Overview
++--------
++
++SoC platforms or subarchitectures follow all the rules from
++Documentation/process/maintainer-soc.rst.  However platforms referencing this
++document impose additional requirements listed below.
++
++Strict DTS DT schema compliance
++-------------------------------
++None of the changes to the SoC platform Devicetree sources (DTS files) can
++bring new ``make dtbs_check W=1`` warnings.  The platform maintainers have
++automation in place which should point out any new warnings.
++
++If a commit introducing new warning gets accepted somehow, the resulting issues
++shall be fixed in reasonable time (e.g. within one release) or the commit
++reverted.
 diff --git a/MAINTAINERS b/MAINTAINERS
-index f646ba70a01b..b61289fa7891 100644
+index b61289fa7891..7405fb6e38c3 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1558,6 +1558,7 @@ M:	Olof Johansson <olof@lixom.net>
- M:	soc@kernel.org
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- S:	Maintained
-+P:	Documentation/process/maintainer-soc.rst
+@@ -1561,7 +1561,7 @@ S:	Maintained
+ P:	Documentation/process/maintainer-soc.rst
  C:	irc://irc.libera.chat/armlinux
  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git
- F:	Documentation/process/maintainer-soc.rst
+-F:	Documentation/process/maintainer-soc.rst
++F:	Documentation/process/maintainer-soc*.rst
+ F:	arch/arm/boot/dts/Makefile
+ F:	arch/arm64/boot/dts/Makefile
+ 
 -- 
 2.34.1
 
