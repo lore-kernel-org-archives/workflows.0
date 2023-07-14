@@ -2,94 +2,69 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3E83C04A6A
-	for <workflows@archiver.kernel.org>; Fri, 14 Jul 2023 15:04:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17C1EEB64DC
+	for <workflows@archiver.kernel.org>; Fri, 14 Jul 2023 15:44:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236314AbjGNPEg (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 14 Jul 2023 11:04:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38668 "EHLO
+        id S236064AbjGNPo2 (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 14 Jul 2023 11:44:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236293AbjGNPEf (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Fri, 14 Jul 2023 11:04:35 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCD8F2700;
-        Fri, 14 Jul 2023 08:04:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-        bh=qkCLhchmFE6Ae0iC8ZYvyTVa+UOqDTQhu4Aq6+1S4Xw=; b=lBOjZeMIMEUpxXjADFtB3DDa77
-        Sssnp153TrRmreFV3fpKhKKAR9RmFUQ9/sx86lLWLcSt7JvFsYwaS6EmQ4ah9MMlG8HtPhRhcJ15g
-        TbkbeNO1mo6++2ARehIbb7ptpTZ1Kq8snGkUvGhpD4FHJXbE0cDfNYrIgaZ/n+xI0fd8Ym7b105kv
-        S/ktaDSWFC+d9pDEBMJDxwR8OJlZ/wTJ9i/sPeVPc/gD5kZXoVoqPNpr9UFHH1p0Q57kMavNI4tqB
-        +dFoIHzlP8ZzxjophTo2TZSsuZmEIjnWNNAa1rp2hmlGpXNU0hrvmNGFX047YrfCnbxpzkHUUplhV
-        KdH/1tqA==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qKKL7-006TC1-01;
-        Fri, 14 Jul 2023 15:04:13 +0000
-Message-ID: <ccf1e027-1f36-3dfb-af65-c7eea27c89cb@infradead.org>
-Date:   Fri, 14 Jul 2023 08:04:11 -0700
+        with ESMTP id S236160AbjGNPo0 (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Fri, 14 Jul 2023 11:44:26 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 378EA3A82;
+        Fri, 14 Jul 2023 08:44:25 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BB35261D1A;
+        Fri, 14 Jul 2023 15:44:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4324C433C8;
+        Fri, 14 Jul 2023 15:44:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689349464;
+        bh=gIEirEVNj2eZrnvQMBk6eeqLsF9YpgAI2QODQB8o9KM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=jCGKYGB/ySKGSIY3DFVkZr6AEKTeBe4dWS1D2LMlvynTsQmZAeDdventQJbKuI7GR
+         0FiaIuqY4NoCh2bGenNVFUnd8jMO/f76qgp9jBactaQr457I+1kQ9Ezn9t/28GTi7L
+         MHbBs66Hrj2xigwse2mEpC6iO8rRwWaSrjBt+pu325OYAQQ6TKHe1nST6f7Xf2rX+i
+         BdHW5GIOUItZFO+swsNQfXqsIemwnO+LKx6u8+p3PPM3QUG/jRA8UojvY3uVvY5xIN
+         4Y+/1H5MKyefWC4lA1KURJ7cEp0hmeF1vVzO4agb5PjEfJK57cznRYtRg7MtMbdcgo
+         x4pDZOYclak7w==
+Date:   Fri, 14 Jul 2023 08:44:22 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     "Theodore Ts'o" <tytso@mit.edu>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>, corbet@lwn.net,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH docs] docs: maintainers: suggest including lore link for
+ conflicts known to linux-next
+Message-ID: <20230714084422.107fca7a@kernel.org>
+In-Reply-To: <20230714031624.GA3736130@mit.edu>
+References: <20230713230417.1504773-1-kuba@kernel.org>
+        <CAHk-=wiyGEZKpb1h=OTYzxaam_g0ek4GKyCPCvVz4fOh+BzCEA@mail.gmail.com>
+        <20230714031624.GA3736130@mit.edu>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 1/3] MAINTAINERS: soc: reference maintainer profile
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Conor Dooley <conor@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Nishanth Menon <nm@ti.com>, linux-riscv@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        soc@kernel.org, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20230714084725.27847-1-krzysztof.kozlowski@linaro.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230714084725.27847-1-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-
-
-On 7/14/23 01:47, Krzysztof Kozlowski wrote:
-> Mention the SoC maintainer profile in P: entry.
+On Thu, 13 Jul 2023 23:16:24 -0400 Theodore Ts'o wrote:
+> On Thu, Jul 13, 2023 at 05:47:18PM -0700, Linus Torvalds wrote:
+> > 
+> > You can point to the email that Stephen sent (using lore), or you can
+> > quote his resolution (or your own, if you do a test-merge, like many
+> > people do) if you want.  It's not a requirement.  
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Yeah, I normally do my own test merge.  I might check to see if it's
+> the same as the one which is in linux-next, but the more importantly,
+> I then run a full set of regression tests and make sure there are no
+> new test failures caused by the merge resolution.
 
-Yes, please.
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f646ba70a01b..b61289fa7891 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1558,6 +1558,7 @@ M:	Olof Johansson <olof@lixom.net>
->  M:	soc@kernel.org
->  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
->  S:	Maintained
-> +P:	Documentation/process/maintainer-soc.rst
->  C:	irc://irc.libera.chat/armlinux
->  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git
->  F:	Documentation/process/maintainer-soc.rst
-
--- 
-~Randy
+Alright, I guess we all end up intuiting in a similar way :)
+In this case let's ditch the patch, it may do more harm than good.
+Someone may read it as "if Stephen posted something - just point 
+at it without thinking".
