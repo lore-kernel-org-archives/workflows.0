@@ -2,113 +2,105 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DA16C001B0
-	for <workflows@archiver.kernel.org>; Fri, 14 Jul 2023 20:02:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71305EB64DC
+	for <workflows@archiver.kernel.org>; Fri, 14 Jul 2023 20:20:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236012AbjGNUCT (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 14 Jul 2023 16:02:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51800 "EHLO
+        id S236420AbjGNUUG (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 14 Jul 2023 16:20:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235873AbjGNUCT (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Fri, 14 Jul 2023 16:02:19 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52C99E5C;
-        Fri, 14 Jul 2023 13:02:18 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id DB5A261DE6;
-        Fri, 14 Jul 2023 20:02:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD564C433C8;
-        Fri, 14 Jul 2023 20:02:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689364937;
-        bh=UT9j9q6/BWfR67FxkI+ij2KTzELof0exJwjKYHRs4R8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YcBccN58eI766HtMQ2IQlB0kW1JvkiwsS5clOvALgM0UWC3MdI/3E5p+ACpxkHNQO
-         wYpxnKfUwZfM1qWLFdxScfAXt40ygyI+xRoOhsOOMA0UaRJYmVvQqMy+bwixSC3bao
-         19NUWX93HpVfXCXgnwZrNY4YqDvo7j7iBnaRnFKsse583R/hdW8UjXgCL8TNwJ/84U
-         WHvuC8iw+hx52up83YpirfblY1ButPG7w0SM/EiGNWC7c26iRdHX5C1X2JaeZItxza
-         PM7T2vItZzdSVitXTJTHHWyFuq9dJbgKxQatEYyROvSIrtdfAumRWioqrZhwvR7q0c
-         iipeLmo15v5BQ==
-Date:   Fri, 14 Jul 2023 21:02:12 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Thorsten Leemhuis <linux@leemhuis.info>, corbet@lwn.net,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org
-Subject: Re: [PATCH docs] docs: maintainer: document expectations of small
- time maintainers
-Message-ID: <a5fcc05c-3549-491e-b28f-68ceedceb75e@sirena.org.uk>
-References: <20230713223432.1501133-1-kuba@kernel.org>
- <f61a12c6-9587-9cb4-122e-dc3a74e58bd1@leemhuis.info>
- <20230714102218.687ee2ea@kernel.org>
- <a7d0381c-c99e-4dba-9156-cc07a86bdc39@sirena.org.uk>
- <20230714113418.49dfac7e@kernel.org>
+        with ESMTP id S236235AbjGNUUG (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Fri, 14 Jul 2023 16:20:06 -0400
+Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com [IPv6:2607:f8b0:4864:20::f2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16DF030E3
+        for <workflows@vger.kernel.org>; Fri, 14 Jul 2023 13:20:05 -0700 (PDT)
+Received: by mail-qv1-xf2c.google.com with SMTP id 6a1803df08f44-635e6f8bf77so12958906d6.0
+        for <workflows@vger.kernel.org>; Fri, 14 Jul 2023 13:20:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1689366004; x=1691958004;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=59aHtJubGNcK+yaxm0dmlYUofMvSN9PYT+/y44pZsrI=;
+        b=X9PGBrLEe+d/gGimNmRikXxkkpaEOE8gaX3JdODRKTX3KwLhImLGlXm5mgd8CvUQAw
+         Wb4fOvQmgx9KW1I8VAtCQfNsRzGu+pZaSuYXwCRZf09I9Qw6CBk0c+Muq3qoCed/TiWo
+         wNNGwNw3RRvbp2Wql4lWnDusNu+TOf63nkQZI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689366004; x=1691958004;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=59aHtJubGNcK+yaxm0dmlYUofMvSN9PYT+/y44pZsrI=;
+        b=Up8+LwhlA7oG2Lqt5K9A/gF7ppoTBDdOLM6tW1Sce25uI1qNCqAqYFauLnPudMaCNk
+         etXqlARZh4UVujHLTQT+9a57nbQ1SiePNqN7jgxmX59i7DuQrCnD+RrwQj3oRKEOcRiN
+         g8qfkNlMEaqjT1HgdtgI7FBRF317Gt0R2ABJ1AWTELXjpSIYdHwCIM85R3FT66jDdBRV
+         c3435eXFYl1E5/sk3312Qp/BwhH8nd8Ail4dzLk/8ffR/s6AZyGu+qFKP5v4qunyMkbA
+         LWAbIQ0s//9EotXpAWbZBFSjMiEHVkd6Iaj6kdPOvbN9WwN1QstrFAOBpRlJKCSt5o3r
+         VZIw==
+X-Gm-Message-State: ABy/qLYRgL6IKgl65U+3MP/ggUbDpopPoem+XFY2hnE1lT3aKC86USfr
+        Mvks7EjY+Nksy8Ledn2fXRowJg==
+X-Google-Smtp-Source: APBJJlGF4nHs7Q3EUm4uKApl3ont4tN/gRqL8HOBDwirrQxI1hIMB2FeSUDky5fE+2EmkCjTAvaS2g==
+X-Received: by 2002:a0c:9c8c:0:b0:626:3a5a:f8f8 with SMTP id i12-20020a0c9c8c000000b006263a5af8f8mr4737316qvf.58.1689366004140;
+        Fri, 14 Jul 2023 13:20:04 -0700 (PDT)
+Received: from nitro.local ([142.113.79.114])
+        by smtp.gmail.com with ESMTPSA id q4-20020a0ce204000000b00626286e41ccsm720885qvl.77.2023.07.14.13.20.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Jul 2023 13:20:03 -0700 (PDT)
+Date:   Fri, 14 Jul 2023 16:19:54 -0400
+From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To:     Thorsten Leemhuis <regressions@leemhuis.info>
+Cc:     "workflows@vger.kernel.org" <workflows@vger.kernel.org>,
+        Linux kernel regressions list <regressions@lists.linux.dev>
+Subject: Re: Bugbot for all kernel bugs?
+Message-ID: <20230714-zion-margin-natasha-a66ce1@meerkat>
+References: <8133fcf4-5ed6-204a-ceb1-ee4136e32fb4@leemhuis.info>
+ <20230711-encore-hunchback-2d103b@meerkat>
+ <10064cba-f0fe-fbc6-0c3a-97be48360a05@leemhuis.info>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ZMGLOwCUDl6aLp+8"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230714113418.49dfac7e@kernel.org>
-X-Cookie: Preserve the old, but know the new.
+In-Reply-To: <10064cba-f0fe-fbc6-0c3a-97be48360a05@leemhuis.info>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
+On Thu, Jul 13, 2023 at 01:45:58PM +0200, Thorsten Leemhuis wrote:
+> > So, we can't easily do "enable for all the bugs" because the bot was written
+> > with the idea that it would be invoked per-component. Is there a bugzilla
+> > component (and a matching mailing list) that you have in mind for the bot?
+> 
+> Ugh. :-/ Well, as you can see from a quick search like
+> https://lore.kernel.org/all/?q=%28nq%3A%22noticed+a+regression+report+in+bugzilla.kernel.org%22+f%3Aleemhuis%29+OR+%28nq%3A%22I+notice+a+regression+report+on+Bugzilla%22+f%3Asanjaya%29
+> we have to deal will bug reports for many different components. So it
+> would be great if it could be enabled for all products/components, except:
+> 
+> * all components from the product categories "Alternate Trees",
+> "Backports project", "Documentation", "kernel.org", and "Tools"
+> 
+> * "Bug Tracker", "klibc/kinit", "module-init-tools", and "Spam" from the
+> product category "Other"
+> 
+> There might be a few more that are obsolete hidden in the other products
+> categories (like "PS3" in "Platform Specific/Hardware" or "lguest" in
+> "Virtualization")
+> 
+> Did I say "Ugh" already? Ohh, seems I did. :-/
+> 
+> So how do you suggest to move forward
 
---ZMGLOwCUDl6aLp+8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+One of the main drives behind bugbot was to eliminate as many components as
+possible and just let people file bugs under "Linux/Kernel". The "bug
+wrangler" people would then do initial triage and set the "Subsystem" field to
+match an entry from MAINTAINERS. Then, they would set the "bugbot" flag to "+"
+and let the bot do the rest, fully bridging bugzilla with the mailing lists.
 
-On Fri, Jul 14, 2023 at 11:34:18AM -0700, Jakub Kicinski wrote:
-> On Fri, 14 Jul 2023 18:59:08 +0100 Mark Brown wrote:
-> > > If we try to fend off anyone who doesn't understand common meaning=20
-> > > of words the document will be very long and painful to read. =20
+So, in my perfect little world we'd:
 
-> > That's true, but "bug" is one of those things where there is a frequent
-> > disconnect on definitions, and when coupled with the must respond bit I
-> > can see things going wrong.
+1. identify products/components that we can abandon right away and close them
+   for new bug entry
+2. identify the "bug wranglers" who can do the initial triage and grant them
+   the power to set the "bugbot" flag
+3. catch and fix the bugs
 
-=2E..
+We can start with #1 if everyone is happy with this course of action.
 
-> But we can't expect from the user to know if the problem is stable
-> material, or even whether their problem is a bug in the first place.
-> Simple example - WiFi cards which don't support AP mode. User may try
-> to run an AP, and report it doesn't work. They may not know whether
-> it's HW limitation or a bug. The maintainer responding with "it's not
-> supported, sorry" does not seem to me to be a high bar.
-
-Sure, there's cases where it's really clear and people ought to reply
-but there's other things especially as you get into the automated
-reports - for things like the fuzzers with automated reports and
-sometimes janky bisection it's a lot more reasonable to just drop them
-on the floor.
-
-> Just in case someone thought that maintainers are their tech support.
-> Then again, I don't want to completely exclude technical questions which
-> aren't straight up crashes because some of those are reasonable, should
-> be answered or even result in improving docs or error reporting.
-
-> It's a balancing act :(
-
-Honestly I think a lot of it is the "must" rather than "should", it
-comes over as being a bit inflexible.
-
---ZMGLOwCUDl6aLp+8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmSxqcMACgkQJNaLcl1U
-h9BaWQf+ISEPJQXevs7v9RaLSpGDfpwmrHXZ2yL/97jE8US6G50yCCTI2pnHwDKA
-kO9VWuxFj/ZQMx8xrbVJTGmQ3YlohH+s6a6obkVoRb+qSP68Sw0ekiG6b2Yv1gip
-/RTHQ1rsigv+yFKd+n1n7tTKA8QLzHVJNlAN06Y8drdnNEGtyn+xMB2S3DQY1onb
-u/BgR4frCSl+BIIvfeTPHA5SeE1/Adpjir/0wZMO0s8W2K1fCVNVtQCsT+fEAn2L
-3qNYAjZIcCNTR1de44QGNY88zKYWQwTalrkTMYvxqmO/HlvhzeedwZIzsaHkjTQJ
-vfzjMPbVZ5ff/SuzBO8bxhf50YyYQw==
-=yOvy
------END PGP SIGNATURE-----
-
---ZMGLOwCUDl6aLp+8--
+-K
