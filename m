@@ -2,94 +2,84 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 956E5EB64DC
-	for <workflows@archiver.kernel.org>; Fri, 14 Jul 2023 18:01:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63B50EB64DC
+	for <workflows@archiver.kernel.org>; Fri, 14 Jul 2023 18:16:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236585AbjGNSBy (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 14 Jul 2023 14:01:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48484 "EHLO
+        id S236009AbjGNSQp (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 14 Jul 2023 14:16:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236116AbjGNSBu (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Fri, 14 Jul 2023 14:01:50 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D3B43A81;
-        Fri, 14 Jul 2023 11:01:03 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        with ESMTP id S235958AbjGNSQo (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Fri, 14 Jul 2023 14:16:44 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33E66B4;
+        Fri, 14 Jul 2023 11:16:43 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9DD0761DB5;
-        Fri, 14 Jul 2023 17:59:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD982C433C7;
-        Fri, 14 Jul 2023 17:59:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689357553;
-        bh=s1el2zzcSXw96fILtVV/pU2QXloiost9bfy5t32Iex0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ao86t8MZvEKBX/XgxW1G3+uLkvz2sj3PdGXfpGTEa/GrPIW3mGqzpkGOF7eCF1vWx
-         0VimLdhjIb3Me1NyirFerV8HXvZVoA1tFC1CrsJF7VEcHjDEhwLj3Kvvfr0eOR2Dqi
-         oTY15VDUOV37uBg3EcrTug8xNql0jrwRjvrqCIhqRV9kt2yc5HAnU9df6e3vu3IlYK
-         BYQvqiVuYABgO++OH8ym20BY/AxIXPNmHLFalcOZtZqnX0DgNUljn9UIIWdL/7Ohmv
-         OnGiB8DHRlzrrmRIGSZSortxasXbis/ID18ere56edFKZOSUqj78OOiXbXLMGmPZEI
-         zH1eJC4Ns8nPA==
-Date:   Fri, 14 Jul 2023 18:59:08 +0100
-From:   Mark Brown <broonie@kernel.org>
+        by ms.lwn.net (Postfix) with ESMTPSA id A0F9B5BF;
+        Fri, 14 Jul 2023 18:16:42 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A0F9B5BF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1689358602; bh=jm+R7vHwwOq2dhTjthyZ/gNcY4UldlFgG2p6s1wdco4=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=TXltqLpgWcA0ukU8yA1pgoc5eRXYGuiVDgH7RZU7clEhEfmZQddYbR2lsDE+9vqnt
+         6lbFcgjl1LPrY0Hv2gG8c2ZK/xrnwmqQg6Iv1IXCPNh6GBOTGnkdSQCHDh3hyyPR50
+         weYzwJjmQF/nUnUf3FBTxoFGM+FMj8YmU6M9xJ60iDNTOgMbd6M3qmk50FiMD8aygu
+         zY6QFng7Drvgl+f8lErXUD47QWu5uEwlv5s8tqpMKFiIfG5DVfUsOoSX+nYnJ+y1UV
+         loTp5VeS0VjRE6bzDxC/m4nAPcm/XH/2aR2wpicvpH2WK+tWJSh/utM6qSVjiyRmkN
+         nDTyZ+38z8ZMQ==
+From:   Jonathan Corbet <corbet@lwn.net>
 To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Thorsten Leemhuis <linux@leemhuis.info>, corbet@lwn.net,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org
-Subject: Re: [PATCH docs] docs: maintainer: document expectations of small
- time maintainers
-Message-ID: <a7d0381c-c99e-4dba-9156-cc07a86bdc39@sirena.org.uk>
-References: <20230713223432.1501133-1-kuba@kernel.org>
- <f61a12c6-9587-9cb4-122e-dc3a74e58bd1@leemhuis.info>
- <20230714102218.687ee2ea@kernel.org>
+Cc:     workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>
+Subject: Re: [PATCH docs v2] MAINTAINERS: treat Documentation/maintainer as
+ process docs
+In-Reply-To: <20230713230713.1505561-1-kuba@kernel.org>
+References: <20230713230713.1505561-1-kuba@kernel.org>
+Date:   Fri, 14 Jul 2023 12:16:41 -0600
+Message-ID: <87o7ke1hpy.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="KVi/BTK8+Otxl5a/"
-Content-Disposition: inline
-In-Reply-To: <20230714102218.687ee2ea@kernel.org>
-X-Cookie: Preserve the old, but know the new.
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
+Jakub Kicinski <kuba@kernel.org> writes:
 
---KVi/BTK8+Otxl5a/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> A handful of people got caught out by the recent changes in git
+> which changed the format of Message-ID and broke our recommended
+> applyhook for adding lore links.
+>
+> This was fixed in the docs by commit 2bb19e740e9b ("Documentation:
+> update git configuration for Link: tag") but it seems like few people
+> have noticed. Add maintainer directory to the process entry so that
+> workflows@ gets CCed.
+>
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> ---
+> v2:
+>  - fix order of entries
+> v1: https://lore.kernel.org/all/20230712161011.1339829-1-kuba@kernel.org/
+> ---
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 3be1bdfe8ecc..fff7e50948b6 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -6206,6 +6206,7 @@ DOCUMENTATION PROCESS
+>  M:	Jonathan Corbet <corbet@lwn.net>
+>  L:	workflows@vger.kernel.org
+>  S:	Maintained
+> +F:	Documentation/maintainer/
+>  F:	Documentation/process/
 
-On Fri, Jul 14, 2023 at 10:22:18AM -0700, Jakub Kicinski wrote:
-> On Fri, 14 Jul 2023 08:24:38 +0200 Thorsten Leemhuis wrote:
+So what this may really be telling us is that we should move the
+maintainer directory under Documentation/process/.  But applying this
+patch is easier, so that's what I've done for now :)
 
-> > Also: It's totally normal that commercial vendor contribute basic
-> > drivers with known problems and missing features (some of which will
-> > never be implemented). The latter will be considered a "bug" for quite a
-> > few users that read this. Those suddenly thus might becomes something
-> > they now "must" fix, which leads to questions: how fast? just in
-> > mainline, or in stable, too?
+Thanks,
 
-> If we try to fend off anyone who doesn't understand common meaning=20
-> of words the document will be very long and painful to read.
-
-That's true, but "bug" is one of those things where there is a frequent
-disconnect on definitions, and when coupled with the must respond bit I
-can see things going wrong.
-
---KVi/BTK8+Otxl5a/
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmSxjOsACgkQJNaLcl1U
-h9ANGQf/Uj59jbEqoKoJTQol5fPW0lVUi1Wk7isseKJDDsElbkiIwrx3FQx3sGjX
-T2OjnR9KfvcAENLz7nrC0amKje5ZclDI+70Jz2FRfdVRwVVWh937vG/JnS2Ciy1l
-avneg5pyeMDLJaaF8X9V6IDRv4HKZII1YyEOAM9K6o42ZJVuTIMs+VQqowgy1tJN
-vGDOCS4GZNmPCSHVGtdfLulsH3D9NilRMXunGFzGdudvDacm+t5b14V/n0tSD0/D
-62Jf/C5LTIo5SadXVWakl80KYGnG+AmUHwYa4JHWktw1VGY33ywrhFsa/oRwva/S
-ZYsFRsXYI3ly2G3UiN1JpuB6MzAXMg==
-=7c+u
------END PGP SIGNATURE-----
-
---KVi/BTK8+Otxl5a/--
+jon
