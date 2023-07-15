@@ -2,105 +2,130 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71305EB64DC
-	for <workflows@archiver.kernel.org>; Fri, 14 Jul 2023 20:20:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87668EB64DC
+	for <workflows@archiver.kernel.org>; Sat, 15 Jul 2023 06:38:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236420AbjGNUUG (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 14 Jul 2023 16:20:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56354 "EHLO
+        id S230149AbjGOGiT (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Sat, 15 Jul 2023 02:38:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236235AbjGNUUG (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Fri, 14 Jul 2023 16:20:06 -0400
-Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com [IPv6:2607:f8b0:4864:20::f2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16DF030E3
-        for <workflows@vger.kernel.org>; Fri, 14 Jul 2023 13:20:05 -0700 (PDT)
-Received: by mail-qv1-xf2c.google.com with SMTP id 6a1803df08f44-635e6f8bf77so12958906d6.0
-        for <workflows@vger.kernel.org>; Fri, 14 Jul 2023 13:20:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1689366004; x=1691958004;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=59aHtJubGNcK+yaxm0dmlYUofMvSN9PYT+/y44pZsrI=;
-        b=X9PGBrLEe+d/gGimNmRikXxkkpaEOE8gaX3JdODRKTX3KwLhImLGlXm5mgd8CvUQAw
-         Wb4fOvQmgx9KW1I8VAtCQfNsRzGu+pZaSuYXwCRZf09I9Qw6CBk0c+Muq3qoCed/TiWo
-         wNNGwNw3RRvbp2Wql4lWnDusNu+TOf63nkQZI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689366004; x=1691958004;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=59aHtJubGNcK+yaxm0dmlYUofMvSN9PYT+/y44pZsrI=;
-        b=Up8+LwhlA7oG2Lqt5K9A/gF7ppoTBDdOLM6tW1Sce25uI1qNCqAqYFauLnPudMaCNk
-         etXqlARZh4UVujHLTQT+9a57nbQ1SiePNqN7jgxmX59i7DuQrCnD+RrwQj3oRKEOcRiN
-         g8qfkNlMEaqjT1HgdtgI7FBRF317Gt0R2ABJ1AWTELXjpSIYdHwCIM85R3FT66jDdBRV
-         c3435eXFYl1E5/sk3312Qp/BwhH8nd8Ail4dzLk/8ffR/s6AZyGu+qFKP5v4qunyMkbA
-         LWAbIQ0s//9EotXpAWbZBFSjMiEHVkd6Iaj6kdPOvbN9WwN1QstrFAOBpRlJKCSt5o3r
-         VZIw==
-X-Gm-Message-State: ABy/qLYRgL6IKgl65U+3MP/ggUbDpopPoem+XFY2hnE1lT3aKC86USfr
-        Mvks7EjY+Nksy8Ledn2fXRowJg==
-X-Google-Smtp-Source: APBJJlGF4nHs7Q3EUm4uKApl3ont4tN/gRqL8HOBDwirrQxI1hIMB2FeSUDky5fE+2EmkCjTAvaS2g==
-X-Received: by 2002:a0c:9c8c:0:b0:626:3a5a:f8f8 with SMTP id i12-20020a0c9c8c000000b006263a5af8f8mr4737316qvf.58.1689366004140;
-        Fri, 14 Jul 2023 13:20:04 -0700 (PDT)
-Received: from nitro.local ([142.113.79.114])
-        by smtp.gmail.com with ESMTPSA id q4-20020a0ce204000000b00626286e41ccsm720885qvl.77.2023.07.14.13.20.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jul 2023 13:20:03 -0700 (PDT)
-Date:   Fri, 14 Jul 2023 16:19:54 -0400
-From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To:     Thorsten Leemhuis <regressions@leemhuis.info>
-Cc:     "workflows@vger.kernel.org" <workflows@vger.kernel.org>,
-        Linux kernel regressions list <regressions@lists.linux.dev>
-Subject: Re: Bugbot for all kernel bugs?
-Message-ID: <20230714-zion-margin-natasha-a66ce1@meerkat>
-References: <8133fcf4-5ed6-204a-ceb1-ee4136e32fb4@leemhuis.info>
- <20230711-encore-hunchback-2d103b@meerkat>
- <10064cba-f0fe-fbc6-0c3a-97be48360a05@leemhuis.info>
+        with ESMTP id S229555AbjGOGiT (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Sat, 15 Jul 2023 02:38:19 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAD1A358E;
+        Fri, 14 Jul 2023 23:38:17 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 508B5600BE;
+        Sat, 15 Jul 2023 06:38:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4CACC433C7;
+        Sat, 15 Jul 2023 06:38:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1689403096;
+        bh=uRlIl+vbdu2QDLuqivP4y8zF+71MOCAvYoUKfpnosCc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ucZdyl0ekP17LSlYQl20XnwxkfjrKusvXBqL5aS3aQ7EOagl3MTDzTh7nTZvtDm3G
+         7wjEP//NUajY+2c+mvFIPoX1SPB91hbDrX7U/4ybPVKxFKRrE1rwT/k4fBX8+Ksg/a
+         E5gpVu//lE0YohivXiMBMt9B3VZ88wBINLN8SrQA=
+Date:   Sat, 15 Jul 2023 08:38:10 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     corbet@lwn.net, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH docs] docs: maintainer: document expectations of small
+ time maintainers
+Message-ID: <2023071542-startup-everyone-eb5d@gregkh>
+References: <20230713223432.1501133-1-kuba@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <10064cba-f0fe-fbc6-0c3a-97be48360a05@leemhuis.info>
+In-Reply-To: <20230713223432.1501133-1-kuba@kernel.org>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Thu, Jul 13, 2023 at 01:45:58PM +0200, Thorsten Leemhuis wrote:
-> > So, we can't easily do "enable for all the bugs" because the bot was written
-> > with the idea that it would be invoked per-component. Is there a bugzilla
-> > component (and a matching mailing list) that you have in mind for the bot?
+On Thu, Jul 13, 2023 at 03:34:32PM -0700, Jakub Kicinski wrote:
+> We appear to have a gap in our process docs. We go into detail
+> on how to contribute code to the kernel, and how to be a subsystem
+> maintainer. I can't find any docs directed towards the thousands
+> of small scale maintainers, like folks maintaining a single driver
+> or a single network protocol.
 > 
-> Ugh. :-/ Well, as you can see from a quick search like
-> https://lore.kernel.org/all/?q=%28nq%3A%22noticed+a+regression+report+in+bugzilla.kernel.org%22+f%3Aleemhuis%29+OR+%28nq%3A%22I+notice+a+regression+report+on+Bugzilla%22+f%3Asanjaya%29
-> we have to deal will bug reports for many different components. So it
-> would be great if it could be enabled for all products/components, except:
+> Document our expectations and best practices. I'm hoping this doc
+> will be particularly useful to set expectations with HW vendors.
 > 
-> * all components from the product categories "Alternate Trees",
-> "Backports project", "Documentation", "kernel.org", and "Tools"
-> 
-> * "Bug Tracker", "klibc/kinit", "module-init-tools", and "Spam" from the
-> product category "Other"
-> 
-> There might be a few more that are obsolete hidden in the other products
-> categories (like "PS3" in "Platform Specific/Hardware" or "lguest" in
-> "Virtualization")
-> 
-> Did I say "Ugh" already? Ohh, seems I did. :-/
-> 
-> So how do you suggest to move forward
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> ---
+> Please consider this more of a draft than a statement of my opinion.
+> IOW prefer suggesting edits over arguing about correctness, hope
+> that makes sense.
 
-One of the main drives behind bugbot was to eliminate as many components as
-possible and just let people file bugs under "Linux/Kernel". The "bug
-wrangler" people would then do initial triage and set the "Subsystem" field to
-match an entry from MAINTAINERS. Then, they would set the "bugbot" flag to "+"
-and let the bot do the rest, fully bridging bugzilla with the mailing lists.
+This looks great to me, thanks for putting it together.
 
-So, in my perfect little world we'd:
+But I do have one objection on the timeline portion:
 
-1. identify products/components that we can abandon right away and close them
-   for new bug entry
-2. identify the "bug wranglers" who can do the initial triage and grant them
-   the power to set the "bugbot" flag
-3. catch and fix the bugs
+> ---
+>  .../feature-and-driver-maintainers.rst        | 159 ++++++++++++++++++
+>  Documentation/maintainer/index.rst            |   1 +
+>  2 files changed, 160 insertions(+)
+>  create mode 100644 Documentation/maintainer/feature-and-driver-maintainers.rst
+> 
+> diff --git a/Documentation/maintainer/feature-and-driver-maintainers.rst b/Documentation/maintainer/feature-and-driver-maintainers.rst
+> new file mode 100644
+> index 000000000000..ee8ccc22b16a
+> --- /dev/null
+> +++ b/Documentation/maintainer/feature-and-driver-maintainers.rst
+> @@ -0,0 +1,159 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +==============================
+> +Feature and driver maintainers
+> +==============================
+> +
+> +The term "maintainer" spans a very wide range of levels of engagement
+> +from people handling patches and pull requests as almost a full time job
+> +to people responsible for a small feature or a driver.
+> +
+> +Unlike most of the chapter, this section is meant for the latter (more
+> +populous) group. It provides tips and describes the expectations and
+> +responsibilities of maintainers of a small(ish) section of the code.
+> +
+> +Driver and alike most often do not have their own mailing lists and
+> +git trees but instead send and review patches on the list of a larger
+> +subsystem.
+> +
+> +Responsibilities
+> +================
+> +
+> +The amount of maintenance work is usually proportional to the size
+> +and popularity of the code base. Small features and drivers should
+> +require relatively small amount of care and feeding. Nonetheless
+> +when the work does arrive (in form of patches which need review,
+> +user bug reports etc.) it has to be acted upon very promptly.
+> +Even when single driver only sees one patch a month, or a quarter,
+> +a subsystem could well have a hundred such drivers. Subsystem
+> +maintainers cannot afford to wait a long time to hear from reviewers.
+> +
+> +The exact expectations on the review time will vary by subsystem
+> +from 1 day (e.g. networking) to a week in smaller subsystems.
 
-We can start with #1 if everyone is happy with this course of action.
+"to a few weeks".
 
--K
+I can't do 1 day, or even 1 week for the subsystems I maintain
+(especially during merge windows or vacations.)  How about that line
+being:
+	from 1 day (e.g. networking) to a few weeks for smaller subsystems.
+
+And then add a link to "For specific subsystem response times, please
+see the document in [insert link here to where we keep the subsystem
+expectations]"
+
+And yeah, I do need to go add some process/maintainer-* files for the
+subsystems I maintain, it might be a good idea to also say that any new
+subsystems also provide this so we can start catching up on that.
+
+thanks,
+
+greg k-h
