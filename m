@@ -2,204 +2,80 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75DAEC001E0
-	for <workflows@archiver.kernel.org>; Mon, 17 Jul 2023 07:45:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39D55EB64DC
+	for <workflows@archiver.kernel.org>; Mon, 17 Jul 2023 07:49:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230469AbjGQHpS (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 17 Jul 2023 03:45:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46620 "EHLO
+        id S229555AbjGQHt2 (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 17 Jul 2023 03:49:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230494AbjGQHpP (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 17 Jul 2023 03:45:15 -0400
+        with ESMTP id S229965AbjGQHt1 (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 17 Jul 2023 03:49:27 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7D5E171C;
-        Mon, 17 Jul 2023 00:44:41 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FB2CDE;
+        Mon, 17 Jul 2023 00:49:16 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3E20860F99;
-        Mon, 17 Jul 2023 07:44:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AC5CC433C7;
-        Mon, 17 Jul 2023 07:44:38 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id F0C6960F90;
+        Mon, 17 Jul 2023 07:49:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6E2DC433C9;
+        Mon, 17 Jul 2023 07:49:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689579880;
-        bh=Jkd84nE5R3TaLVNwXO673x0RBPwyNCoKfZf2MRJiVKg=;
+        s=k20201202; t=1689580155;
+        bh=waKWJVOAVBelCCI1mB4poaxnZoLxRarS05iTbEu+fGg=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=T0zN+ab3PsuKv+u/5fxNvWiijHF8BILGM8r9lyHoR58ee2SrxP9jx1CfKZ03kHP4q
-         2EJIiKxzW4XoRyBIEc+wBosZ0j5K+2lQUPwe4RkuppCJWQ6ahkdMjtAUwORbyrtl91
-         5lmYO0Or+cTXKSQCqk5F/sbp7cAHHuV41JcxJ0QpW5CSpjSSM9phuflh2X+NUo6DbI
-         D8Zx2v3ZF+FftoTG5Ui7C4vRQTF2Z2og2AiCg4ylGkE9Ufu27ei35Q4ldm/xmsz8dr
-         9pT9OYiZfUp7n7w8XN0fIhFodFiiRXjnl4ty/mc9yPYznU1ACvk87YOsVA3FvBcy6h
-         nFgKblZnbo5xw==
-Message-ID: <1da16601-dc03-4b65-252f-3925f2a83705@kernel.org>
-Date:   Mon, 17 Jul 2023 09:44:35 +0200
+        b=ETvDL7REf0/QLPjSciqioJlqT1+t33+n0MsHYt3ZS5nlqHjalFVSULyueWDSepJDZ
+         a46DVAA3dKgwxAjvszYB+hLxtPJD1X/rgMNPtfuf5hdqn2jsiKrzSrJfDhNHwRSJg6
+         V0Uh9d0cJBX0uREL+nV3SHHXKD/coZHG4MNLn11h9ZkEKXvFzKsjo+zSsKHvYkdH3v
+         fHlC6qyQk6G2/u5DWApyL3KQk622YrhFo0WZP/Mibs0WahAhiJlvWHs+726a2EyFVz
+         3ura9Lcwiw7xZvHtGYlm8Xcl0CQ3PuZi0qM9x//tPcN/a7n49IXmpXwBaKsRgV32Qe
+         xgne2JMBU4bAQ==
+Message-ID: <895ed8ae-e93f-b296-330e-356cda698de2@kernel.org>
+Date:   Mon, 17 Jul 2023 09:49:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
 Subject: Re: [PATCH docs] docs: maintainer: document expectations of small
  time maintainers
 Content-Language: en-US
-To:     Jakub Kicinski <kuba@kernel.org>
+To:     Linux regressions mailing list <regressions@lists.linux.dev>,
+        Jakub Kicinski <kuba@kernel.org>
 Cc:     corbet@lwn.net, workflows@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        gregkh@linuxfoundation.org
+        gregkh@linuxfoundation.org, Mark Brown <broonie@kernel.org>
 References: <20230713223432.1501133-1-kuba@kernel.org>
  <6f1014cd-f8c5-f935-dcc7-4f5a6b85e473@kernel.org>
  <20230714101028.337fb39a@kernel.org>
+ <bb8c6476-283c-3bc6-710b-5a8602ccd40e@leemhuis.info>
 From:   Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <20230714101028.337fb39a@kernel.org>
+In-Reply-To: <bb8c6476-283c-3bc6-710b-5a8602ccd40e@leemhuis.info>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On 14/07/2023 19:10, Jakub Kicinski wrote:
->>> +
->>> +Maintainers must review *all* patches touching exclusively their drivers,  
->>
->> I don't agree with this as a small driver maintainer. Several subsystem
->> maintainers take the patches much faster than I am able to check the
->> inbox. I can provide names if you need some proves. With such criteria I
->> should be removed from maintainers, because I am not able to review
->> within 24h.
->>
->> Either give reasonable time, like two weeks, or don't require driver
->> maintainers to be 24/7 for subystem maintainer disposal. This is very
->> unfair rule.
+On 15/07/2023 12:31, Linux regression tracking (Thorsten Leemhuis) wrote:
+> [CCing other people in the thread]
+> How about something like this:
 > 
-> I think your concern is more about the timeline than what's quoted here,
-> so I rephrased that:
+> ```
+> Bug reports
+> -----------
+> 
+> Maintainers must ensure severe problems in their code reported to them
+> are resolved in a timely manner: security vulnerabilities, regressions,
+> compilation errors, data loss, kernel crashes, and bugs of similar scope.
+> 
+> Maintainers furthermore should respond to reports about other kind of
+> bugs as well, if the report is of reasonable quality or indicates a
+> problem that might be severe -- especially if they have *Supported*
+> status of the codebase in the MAINTAINERS file.
 
-My concerns are for both timeline and for wording which makes it
-obligatory. I think we should not have stale maintainers in MAINTAINERS
-file, thus if someone repeatedly does not match criteria, should be
-dropped and moved to CREDITS. However I felt here your wording quite
-strong, thus I would assume we will start dropping a lot, a lot of
-driver maintainers. I am not sure if we really want it, because from
-time to time, such maintainer might be actually active and helpful.
-
-> 
-> -The exact expectations on the review time will vary by subsystem
-> -from 1 day (e.g. networking) to a week in smaller subsystems.
-> 
-> +The exact expectations on the response time will vary by subsystem.
-> +The patch review SLA the subsystem had set for itself can sometimes
-> +be found in the subsystem documentation. Failing that as a rule of thumb
-> +reviewers should try to respond quicker than what is the usual patch
-> +review delay of the subsystem maintainer. The resulting expectations
-> +may range from two working days for fast-paced subsystems to two weeks
-> +in slower moving parts of the kernel.
-
-Sounds good. Thank you.
-
-> 
-> 
-> To the point of reviewing "all" patches, I want to keep this. When 
-> I ping vendors they often reply with "oh I didn't know I'm supposed
-> to respond, the change looks good". People confuse the review process
-> with a veto process, if they don't want to outright reject the change
-> they stay quiet :|
-
-OK, I understand. That's the good point.
-
-> 
->>> +no matter how trivial. If the patch is a tree wide change and modifies
->>> +multiple drivers - whether to provide a review is left to the maintainer.
->>> +
->>> +There should be multiple maintainers for any piece of code, an ``Acked-by``
->>> +or ``Reviewed-by`` tag (or review comments) from a single maintainer is
->>> +enough to satisfy this requirement.
->>> +
->>> +If review process or validation for a particular change will take longer
->>> +than the expected review timeline for the subsystem, maintainer should
->>> +reply to the submission indicating that the work is being done, and when
->>> +to expect full results.
->>> +
->>> +Refactoring and core changes
->>> +----------------------------
->>> +
->>> +Occasionally core code needs to be changed to improve the maintainability
->>> +of the kernel as a whole. Maintainers are expected to be present and
->>> +help guide and test changes to their code to fit the new infrastructure.
->>> +
->>> +Bug reports
->>> +-----------
->>> +
->>> +Maintainers must respond to and address bug reports. The bug reports  
->>
->> This is even more unreasonable than previous 1 day review. I don't have
->> capabilities to address bug reports for numerous drivers I am
->> maintaining. I don't have hardware, I don't have time, no one pays me
->> for it. I still need some life outside of working hours, so expecting
->> both reviews in 1 day and addressing bugs is way too much.
->>
->>> +range from users reporting real life crashes, thru errors discovered
->>> +in fuzzing to reports of issues with the code found by static analysis
->>> +tools and new compiler warnings.
->>> +
->>> +Volunteer maintainers are only required to address bugs and regressions.  
->>
->> "Only required"? That's not "only" but a lot.
-
-Thanks.
-
-> 
-> I was trying to soften the paragraph for volunteers let me try to
-> soften it.. harder?
-> 
->>> +It is understood that due to lack of access to documentation and
->>> +implementation details they may not be able to solve all problems.  
->>
->> So how do I address? Say "Oh, that's bad"?
-> 
-> How about:
-> 
->   Bug reports
->   -----------
-> 
->   Maintainers must respond to bug reports of reasonable quality. The bug reports
->   range from users reporting real life crashes, thru errors discovered
->   in fuzzing to reports of issues with the code found by static analysis
->   tools and new compiler warnings.
-> 
->   It is understood that the hands of volunteer maintainers can often be tied
->   by the lack of access to documentation, implementation details, hardware
->   platforms, etc.
-> 
-> 
-> I don't know how to phrase it better :( Obviously maintainers are
-> expected to look at bug reports. At the same time we all know the
-> feeling of being a maintainer of some crappy HW which sometimes 
-> doesn't work and all we can do is say "thoughts and prayers". 
-
-Yes, sounds better.
-
-> 
-> IDK. 
-> 
-> The doc would be incomplete without mentioning that bug reports are
-> part of maintainers' life :(
-> 
->> Jakub, with both of your criteria - reviewing and addressing - I should
->> be dropped from all the driver maintainership. If this document passes,
->> I will do it - drop myself - because:
->> 1. No one pays me for it,
->> 2. I barely have hardware,
->> 3. I want to live a life and I am already working much more than 8h per day.
-> 
-> It's really hard to codify the rules. I hope we can start somewhere
-> and chisel at the rules if/as we start getting feedback/complaints.
-> 
-> I can give you examples of bad vendor behavior or people who stopped
-> participating 10 years ago yet they still figure in MAINTAINERS all day.
-
-Yep, I understand and I was cleaning such entries as well... :)
-
-> Next time I see a rando manager added as a maintainer I want to be able
-> to point them at a document. If the document is too "soft" they will
-> just wave it off :(
+I like mentioning the "Supported" part. We should be a bit more
+understanding to all folks who are not paid to do this.
 
 Best regards,
 Krzysztof
