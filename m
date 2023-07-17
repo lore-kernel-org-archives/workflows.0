@@ -2,201 +2,82 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B13C7C001E0
-	for <workflows@archiver.kernel.org>; Mon, 17 Jul 2023 07:58:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB0DBC00528
+	for <workflows@archiver.kernel.org>; Mon, 17 Jul 2023 14:38:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229870AbjGQH6N (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 17 Jul 2023 03:58:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56688 "EHLO
+        id S231719AbjGQOiF (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 17 Jul 2023 10:38:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231239AbjGQH6I (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 17 Jul 2023 03:58:08 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6C88DE
-        for <workflows@vger.kernel.org>; Mon, 17 Jul 2023 00:58:05 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-9891c73e0fbso861406866b.1
-        for <workflows@vger.kernel.org>; Mon, 17 Jul 2023 00:58:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1689580684; x=1692172684;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FmNQm9M+0zn/nMrIBNBkshVCde1QUTYeyBhIVjKtHnY=;
-        b=sQNpV1XUH/ZgObuv1zrTnKpPMULBMO+AzfSKXjvsS1gay3a2emm3/9jpD6YLn7ixyv
-         jqXWoFyybylAJcWZgtp1rebtgXsklM5cTyI7JZs3FsDT/qYKb+eKVg77Ids8kU0kUA0r
-         BjeSfAiC9y3fHSvYk+EgihQ50nn7SHkXzlOJfXmok3IBfsVXlkDx4mnEas4xQGJw3O8f
-         1r+8G17PPMIuNVEPHgd3KUWhc4WSIkYDR9KnM8hwrp10tHEMdHQ7NuC52eFpZ50IGkSW
-         UsggA7SYOg8U88CMuMQvyfvFh7ndq99ePxJVakwAtXKJgfJ964M/sgBB+a786C8XKtVD
-         TsWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689580684; x=1692172684;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FmNQm9M+0zn/nMrIBNBkshVCde1QUTYeyBhIVjKtHnY=;
-        b=eth196QHCooDujTP1AxxfOoY2h6HI2uVfQVDg690OywpT+4VLyDLC0l86rDsAMU9LS
-         SvKE9n/lSxoCdUELaZpg75ugevnVgbgvJKbJeP5PxzMYxatMj2SGL26s8y4aet5/MSWd
-         ZIcD8khPy7x+2s3ZjD3Nn6Nt/Hw4oXkMOwN07SnT+uS+bxhY76EBlBdR9cH5juQ6/cyZ
-         cnqgbZNNKL3/NQUINTgeQyRUpc2kgzAsVthWrkZAF8mQeTMG2kea3+yLiSHmyOHdWat+
-         oiNVT8OSPmTHMk1FPigr/to8sigjsl0MUhviPaxb+EtPZe3winUDhM5tJFcxrkGNfU2o
-         HtvQ==
-X-Gm-Message-State: ABy/qLbVl1/Q9a89lnPMqHjV+PZ+1yZzSlQtFT80d06pXnFkuSu1tdER
-        4Wna7RzKtYvmSbXGtsQoYquQ5g==
-X-Google-Smtp-Source: APBJJlGtCX9k5iJy3dI+RGwPFkVJmxznXKt3Y4+Mj8D95AdYaZc3jwO8W52PEiMJ5W/r28uuapZFJA==
-X-Received: by 2002:a17:906:225c:b0:994:5407:9ac9 with SMTP id 28-20020a170906225c00b0099454079ac9mr9978026ejr.5.1689580684429;
-        Mon, 17 Jul 2023 00:58:04 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.104])
-        by smtp.gmail.com with ESMTPSA id s7-20020a1709064d8700b00993004239a4sm8794738eju.215.2023.07.17.00.58.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Jul 2023 00:58:03 -0700 (PDT)
-Message-ID: <66cff026-3e7d-f88b-e99f-8100233231bb@linaro.org>
-Date:   Mon, 17 Jul 2023 09:58:00 +0200
+        with ESMTP id S231987AbjGQOhv (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 17 Jul 2023 10:37:51 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA9A6E60;
+        Mon, 17 Jul 2023 07:37:50 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 31A0D610A7;
+        Mon, 17 Jul 2023 14:37:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A82DC433C7;
+        Mon, 17 Jul 2023 14:37:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1689604669;
+        bh=2r0sll+s0IDy8bTc7YEbr58iDiN4CqkfNKcW4JXgjNo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Q36eFDp2S55Uz3SGh9XpDRKshan0KQuW4SsGfDkGUd3gdtRMaGjBGClRcWqJedQLW
+         94YlB3S2VU7KqhljCOksy9V/PP+vbfVVDavv1H4nxsWs1Kng77cxegWwkf288YJGuD
+         BQit2h1PmgEgP/M6u3OhPMNkUmXnIIG3WLuviGJM=
+Date:   Mon, 17 Jul 2023 16:37:46 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Linux regressions mailing list <regressions@lists.linux.dev>,
+        Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH docs] docs: maintainer: document expectations of small
+ time maintainers
+Message-ID: <2023071759-visible-identify-e5d7@gregkh>
+References: <20230713223432.1501133-1-kuba@kernel.org>
+ <6f1014cd-f8c5-f935-dcc7-4f5a6b85e473@kernel.org>
+ <20230714101028.337fb39a@kernel.org>
+ <bb8c6476-283c-3bc6-710b-5a8602ccd40e@leemhuis.info>
+ <895ed8ae-e93f-b296-330e-356cda698de2@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 2/3] Documentation/process: maintainer-soc: add clean
- platforms profile
-Content-Language: en-US
-To:     Conor Dooley <conor@kernel.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Nishanth Menon <nm@ti.com>, linux-riscv@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        soc@kernel.org, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20230714084725.27847-1-krzysztof.kozlowski@linaro.org>
- <20230714084725.27847-2-krzysztof.kozlowski@linaro.org>
- <20230714-verbose-unwound-fb8b1df29d25@spud>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230714-verbose-unwound-fb8b1df29d25@spud>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <895ed8ae-e93f-b296-330e-356cda698de2@kernel.org>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On 14/07/2023 14:50, Conor Dooley wrote:
-> Hey Krzysztof,
+On Mon, Jul 17, 2023 at 09:49:09AM +0200, Krzysztof Kozlowski wrote:
+> On 15/07/2023 12:31, Linux regression tracking (Thorsten Leemhuis) wrote:
+> > [CCing other people in the thread]
+> > How about something like this:
+> > 
+> > ```
+> > Bug reports
+> > -----------
+> > 
+> > Maintainers must ensure severe problems in their code reported to them
+> > are resolved in a timely manner: security vulnerabilities, regressions,
+> > compilation errors, data loss, kernel crashes, and bugs of similar scope.
+> > 
+> > Maintainers furthermore should respond to reports about other kind of
+> > bugs as well, if the report is of reasonable quality or indicates a
+> > problem that might be severe -- especially if they have *Supported*
+> > status of the codebase in the MAINTAINERS file.
 > 
-> On Fri, Jul 14, 2023 at 10:47:24AM +0200, Krzysztof Kozlowski wrote:
->> Some SoC platforms require that commits must not bring any new
->> dtbs_check warnings.  Maintainers of such platforms usually have some
->> automation set, so any new warning will be spotted sooner or later.
->> Worst case: they run the tests themselves.  Document requirements for
->> such platforms, so contributors can expect their patches being dropped
->> or ignored, if they bring new warnings for existing boards.
-> 
-> Definitely a more scalable approach than your previous version!
-> 
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> ---
->>  .../process/maintainer-handbooks.rst          |  1 +
->>  .../process/maintainer-soc-clean-dts.rst      | 22 +++++++++++++++++++
->>  MAINTAINERS                                   |  2 +-
->>  3 files changed, 24 insertions(+), 1 deletion(-)
->>  create mode 100644 Documentation/process/maintainer-soc-clean-dts.rst
->>
->> diff --git a/Documentation/process/maintainer-handbooks.rst b/Documentation/process/maintainer-handbooks.rst
->> index 9992bfd7eaa3..976391cec528 100644
->> --- a/Documentation/process/maintainer-handbooks.rst
->> +++ b/Documentation/process/maintainer-handbooks.rst
->> @@ -17,5 +17,6 @@ Contents:
->>  
->>     maintainer-netdev
->>     maintainer-soc
->> +   maintainer-soc-clean-dts
->>     maintainer-tip
->>     maintainer-kvm-x86
->> diff --git a/Documentation/process/maintainer-soc-clean-dts.rst b/Documentation/process/maintainer-soc-clean-dts.rst
->> new file mode 100644
->> index 000000000000..87feeb5543ff
->> --- /dev/null
->> +++ b/Documentation/process/maintainer-soc-clean-dts.rst
->> @@ -0,0 +1,22 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +=============================
->> +SoC Platforms with Strict DTS
-> 
-> I don't think that this title makes much sense, it feels like it has
-> been truncated. Perhaps add "Requirements" to the end?
+> I like mentioning the "Supported" part. We should be a bit more
+> understanding to all folks who are not paid to do this.
 
-OK, but maybe better then
+And, we should not be as understanding for companies who do NOT allow
+their developers to do this on company time, so pointing out the
+difference here is good, as most of the time it goes unnoticed as to
+just how little companies allow their maintainers to do their work.
 
-SoC Platforms with DTS Compliance Requirements
-?
+thanks,
 
-> 
->> +=============================
->> +
->> +Overview
->> +--------
->> +
->> +SoC platforms or subarchitectures follow all the rules from
-> 
-> s/follow/should follow/?
-
-Ack
-
-> 
->> +Documentation/process/maintainer-soc.rst.  However platforms referencing this
->> +document impose additional requirements listed below.
->> +
->> +Strict DTS DT schema compliance
->> +-------------------------------
-> Should there be a blank line here to match the other section headings?
-
-Ack
-
-> Also, to match the title case you used elsewhere, "Schema Compliance"?
-
-Ack
-
-> 
->> +None of the changes to the SoC platform Devicetree sources (DTS files) can
->> +bring new ``make dtbs_check W=1`` warnings.  The platform maintainers have
-> 
-> Nitpickery again, but perhaps the first sentence here would read better as
-> "No changes to the SoC platform Devicetree sources (DTS files) should
-> introduce new ``make dtbs_check W=1`` warnings."?
-
-Ack
-
-> 
->> +automation in place which should point out any new warnings.
->> +
->> +If a commit introducing new warning gets accepted somehow, the resulting issues
->> +shall be fixed in reasonable time (e.g. within one release) or the commit
->> +reverted.
-> 
-> It is loosely related, but I was wondering if we should also try to push
-> people that change the platform's bindings to update the DTS also, so
-> that binding changes do not introduce W=1 complaints?
-
-Makes sense, we could add such rule to Devicetree maintainer profile.
-Anyway enforcing it relies on Rob's bot reporting the warnings, which
-seems silent recently.
-
-> For many bindings the platform entry in MAINTAINERS does not cover them,
-> but things like the arm64 Apple stuff mention them specifically & others
-> will get coverage due to regexes.
-> 
-> Anyway, nitpickery aside I like this approach.
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> 
-
-
-Best regards,
-Krzysztof
-
+greg k-h
