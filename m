@@ -2,53 +2,58 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B34FCEB64DD
-	for <workflows@archiver.kernel.org>; Tue, 18 Jul 2023 17:34:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49E1BEB64DD
+	for <workflows@archiver.kernel.org>; Tue, 18 Jul 2023 18:07:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232302AbjGRRey (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 18 Jul 2023 13:34:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57756 "EHLO
+        id S230148AbjGRSG6 (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 18 Jul 2023 14:06:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230215AbjGRRex (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 18 Jul 2023 13:34:53 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1354D91;
-        Tue, 18 Jul 2023 10:34:53 -0700 (PDT)
+        with ESMTP id S232064AbjGRSG6 (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 18 Jul 2023 14:06:58 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE2591B5;
+        Tue, 18 Jul 2023 11:06:56 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A50AB616A0;
-        Tue, 18 Jul 2023 17:34:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D933C433C8;
-        Tue, 18 Jul 2023 17:34:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1689701692;
-        bh=gRqK4YQ9SwmOtiWj1frwDfFvpy6S6QoNvpMI5EL4rP4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uKdno7EYrnRrGF6BIgpk6wjGWU5SJFWTnoWdbXbJqtegpdQhERHFWu/+CmJ6V31I6
-         ZTFvr4dy4oZ8UQjpG4TANXYe+0M6fyGPQeYsaKTnErBBelTlVsLIzGyANsRY/a8Y5c
-         V4ng2bwJrRBuehzaCh/I2Lzvwkdy26E2cC1A/hBk=
-Date:   Tue, 18 Jul 2023 19:34:49 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     corbet@lwn.net, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, linux@leemhuis.info, broonie@kernel.org,
-        krzk@kernel.org
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7DD73616AC;
+        Tue, 18 Jul 2023 18:06:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EE3CC433C7;
+        Tue, 18 Jul 2023 18:06:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689703615;
+        bh=88mOW/Jxt3hWqsKWEzcfOJPc4T/peV4NshcYKjzQeRk=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=tRIRNV9xuItBjPLIPo5eYoGYUpetQN69SoaS11o/Trrpq+PNH3zu98+n12K66NRXl
+         y0Hrs1r5XJkJ0DURie+rFr/KCZKHzCFS2/e5J7JIT5eobHLVBO28Pq6Cc563b66Rfh
+         i5nZs4KbH66LYayy6xhq8lLxAalXJ4FpUIzsiKmAARnYdovH0ezvgwaJpwsS4HsgVD
+         3HlmmPQR00WxAaXPb3TBvSqfpiQ1irDh9F4spvq8yl7kOmazHllO7Hz5SbH2AYFUIa
+         BTJAKgHBoEw1NPOG7Fd5lS7oJHbJaCgegvmC1JJ2/9H4aAXpXCX4eBSnJ98ROAfJ+9
+         RRN81ukzNNhrA==
+Message-ID: <8331449d-6b25-7ea0-4c28-9128ab483fba@kernel.org>
+Date:   Tue, 18 Jul 2023 20:06:48 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
 Subject: Re: [PATCH docs v2] docs: maintainer: document expectations of small
  time maintainers
-Message-ID: <2023071832-headstone-chafe-5be9@gregkh>
+Content-Language: en-US
+To:     Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net
+Cc:     workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        gregkh@linuxfoundation.org, linux@leemhuis.info, broonie@kernel.org
 References: <20230718155814.1674087-1-kuba@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+From:   Krzysztof Kozlowski <krzk@kernel.org>
 In-Reply-To: <20230718155814.1674087-1-kuba@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Tue, Jul 18, 2023 at 08:58:14AM -0700, Jakub Kicinski wrote:
+On 18/07/2023 17:58, Jakub Kicinski wrote:
 > We appear to have a gap in our process docs. We go into detail
 > on how to contribute code to the kernel, and how to be a subsystem
 > maintainer. I can't find any docs directed towards the thousands
@@ -60,6 +65,9 @@ On Tue, Jul 18, 2023 at 08:58:14AM -0700, Jakub Kicinski wrote:
 > 
 > Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 
-Looks good to me, thanks for writing this up:
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+
+Best regards,
+Krzysztof
+
