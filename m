@@ -2,96 +2,70 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65258EB64DA
-	for <workflows@archiver.kernel.org>; Thu, 20 Jul 2023 18:31:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85FE9EB64DA
+	for <workflows@archiver.kernel.org>; Thu, 20 Jul 2023 21:37:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232071AbjGTSbT (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 20 Jul 2023 14:31:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36412 "EHLO
+        id S229604AbjGTVht (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 20 Jul 2023 17:37:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232072AbjGTSbT (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 20 Jul 2023 14:31:19 -0400
+        with ESMTP id S229570AbjGTVht (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 20 Jul 2023 17:37:49 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75CD11734;
-        Thu, 20 Jul 2023 11:31:18 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76B0A270D;
+        Thu, 20 Jul 2023 14:37:48 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0ACA061BDC;
-        Thu, 20 Jul 2023 18:31:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 853CBC433C9;
-        Thu, 20 Jul 2023 18:31:14 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0E06961CAA;
+        Thu, 20 Jul 2023 21:37:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F18DAC433C7;
+        Thu, 20 Jul 2023 21:37:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689877877;
-        bh=CtNFdU3F9NU71cT8OwvsL628imoZj0J7FgObAG63Kxs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=f3oMGjflOKxpKcCuRTekPugXGhdCEoJECkCTCtljh9qkBNODb2gjp/RH8CrfeBET3
-         V08CAQ5L9vSmqBuNoa0cwYWxopmZ5ohkahFf2x+u1lf2LjjL/ThDQE8eEP3imj/n2s
-         XjvY50a4o8mJpBIu9YI+Goan+/t1AadoS2R9nhmLxM49gjZHc4ddLrAIE8c2QHhhoF
-         imn4wueHAcTdZV+KnNNPpD/A06brA5ZstZxqjtZwxb9vjbKeCc1lWlbZtdCZCo5Pj4
-         s7zXHStdAlWnD9z0EraLhldfQRFvipqq5zuitrNJjgvpfxeDN/aDZOtNQxzUuEJqW2
-         4gxfgLSwZs5PA==
-Date:   Thu, 20 Jul 2023 19:31:11 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Edward Cree <ecree.xilinx@gmail.com>
-Cc:     Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net,
-        Andrew Lunn <andrew@lunn.ch>,
+        s=k20201202; t=1689889067;
+        bh=GZUiHqFRIa9kRqFdnfZG76QIb9kkoyd03I0c7rzEtyg=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=FjhNfRFqD9OiPLhgTKdcW4hQ0kZIJhTHZ2NEg/quOHHTaoMtPNoe2XuiAdXjlbQJr
+         9UAEe1eip8ms1WhUOp6y9/cOoIIlfQm5lbMp90k0a14oSSvvPDe+YhLgLBZEvlk+Mz
+         UdZVfCsS/iDSTIRHRtnYltLW12WLvk3h59LAd8t7RcJ76cF1XbKDQLPHEs8LbuqS1l
+         ocekAft9WQjJ2F/Y3o15wfGmjfDcHuc2ypSLEz+A60jg1fCcN0hkDnE+2QNBuZ9Fy0
+         0ITe+vyojYkS11bfISx/Za/cuv4RwmNBY+lFESbUITd0OnKLYB0jurnSBxOGUT+Bs1
+         oHqjgiW89wo7Q==
+Date:   Thu, 20 Jul 2023 14:37:46 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Conor Dooley <conor@kernel.org>
+Cc:     corbet@lwn.net, Andrew Lunn <andrew@lunn.ch>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Krzysztof Kozlowski <krzk@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
         Leon Romanovsky <leonro@nvidia.com>, workflows@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         netdev@vger.kernel.org, linux@leemhuis.info, kvalo@kernel.org,
         benjamin.poirier@gmail.com
-Subject: Re: [PATCH docs v3] docs: maintainer: document expectations of small
- time maintainers
-Message-ID: <1d136db7-4c39-4b56-86fc-3840b1395b4d@sirena.org.uk>
+Subject: Re: [PATCH docs v3] docs: maintainer: document expectations of
+ small time maintainers
+Message-ID: <20230720143746.1adb159a@kernel.org>
+In-Reply-To: <20230720-proxy-smile-f1b882906ded@spud>
 References: <20230719183225.1827100-1-kuba@kernel.org>
- <50164116-9d12-698d-f552-96b52c718749@gmail.com>
+        <20230720-proxy-smile-f1b882906ded@spud>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="jb9kzeyvt9pPL7IP"
-Content-Disposition: inline
-In-Reply-To: <50164116-9d12-698d-f552-96b52c718749@gmail.com>
-X-Cookie: Ginger snap.
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
+On Thu, 20 Jul 2023 16:15:26 +0100 Conor Dooley wrote:
+> ..I noticed that none of these sections address actually testing the
+> code they're responsible for on a (semi-)regular basis. Sure, that comes
+> as part of reviewing the patches for their code, but changes to other
+> subsystems that a driver/feature maintainer probably would not have been
+> CCed on may cause problems for the code they maintain.
+> If we are adding a doc about best-practice for maintainers, I think we
+> should be encouraging people to test regularly.
 
---jb9kzeyvt9pPL7IP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Thu, Jul 20, 2023 at 07:23:56PM +0100, Edward Cree wrote:
-> On 19/07/2023 19:32, Jakub Kicinski wrote:
-
-> > +Maintainers must review *all* patches touching exclusively their drivers,
-> > +no matter how trivial. If the patch is a tree wide change and modifies
-> > +multiple drivers - whether to provide a review is left to the maintainer.
-
-> Does this apply even to "checkpatch cleanup patch spam", where other patches
->  sprayed from the same source (perhaps against other drivers) have already
->  been nacked as worthless churn?  I've generally been assuming I can ignore
->  those, do I need to make sure to explicitly respond with typically a repeat
->  of what's already been said elsewhere?
-
-Yeah, it's this sort of stuff that makes me concerned about the "must"
-wording.  I'd say it's obviously reasonable to ignore such things.
-
---jb9kzeyvt9pPL7IP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmS5fW4ACgkQJNaLcl1U
-h9AIHQf/Q9pz80IaSHLonaCmKZBC/PhYzARUEaUDHduoe5xLcbBScTYkq8I6Z7Xp
-MMEdiuI9ueOcSGGJNwSxrsjJMPvYQ59ji4fsJ7hEQULZZ+44f5XBR46jRd0rYX3z
-b3fNyivasjTQEo/yNinlzMDQBA5Bzgquft3GCSd7sOn+Ba76YWofKBrAWJ9XfHqs
-Hc9JY98Eh/sa03U8rTMF8BuDKpz+XNexp6r5WY9SbVwtHlNOM/vwvb3Lf3EK5TYA
-Xau0KMJYF+Z+kIn7vElXvGwxLPa1rbxZfj8yuvEnwxX76U0in2XSXmJ2b8Nyd2I4
-wF7oOllE5TwlbmHTw0i5uBWk33Npdw==
-=XcvA
------END PGP SIGNATURE-----
-
---jb9kzeyvt9pPL7IP--
+I think our testing story is too shaky to make that a requirement.
+Differently put - I was never able to get good upstream testing running
+when I worked for a vendor myself so I wouldn't know how to draw 
+the lines.
