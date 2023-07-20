@@ -2,39 +2,39 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85FE9EB64DA
-	for <workflows@archiver.kernel.org>; Thu, 20 Jul 2023 21:37:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 681A3EB64DA
+	for <workflows@archiver.kernel.org>; Thu, 20 Jul 2023 21:42:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229604AbjGTVht (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 20 Jul 2023 17:37:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57688 "EHLO
+        id S230289AbjGTVm4 (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 20 Jul 2023 17:42:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229570AbjGTVht (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 20 Jul 2023 17:37:49 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76B0A270D;
-        Thu, 20 Jul 2023 14:37:48 -0700 (PDT)
+        with ESMTP id S229528AbjGTVmt (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 20 Jul 2023 17:42:49 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E9EFE53;
+        Thu, 20 Jul 2023 14:42:49 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0E06961CAA;
-        Thu, 20 Jul 2023 21:37:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F18DAC433C7;
-        Thu, 20 Jul 2023 21:37:46 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AE0AE61C9C;
+        Thu, 20 Jul 2023 21:42:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F57DC433C8;
+        Thu, 20 Jul 2023 21:42:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689889067;
-        bh=GZUiHqFRIa9kRqFdnfZG76QIb9kkoyd03I0c7rzEtyg=;
+        s=k20201202; t=1689889368;
+        bh=++9KJC+95Badpi6e4Z9Qi6JrsvpaaCgM0iDxU+I098I=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=FjhNfRFqD9OiPLhgTKdcW4hQ0kZIJhTHZ2NEg/quOHHTaoMtPNoe2XuiAdXjlbQJr
-         9UAEe1eip8ms1WhUOp6y9/cOoIIlfQm5lbMp90k0a14oSSvvPDe+YhLgLBZEvlk+Mz
-         UdZVfCsS/iDSTIRHRtnYltLW12WLvk3h59LAd8t7RcJ76cF1XbKDQLPHEs8LbuqS1l
-         ocekAft9WQjJ2F/Y3o15wfGmjfDcHuc2ypSLEz+A60jg1fCcN0hkDnE+2QNBuZ9Fy0
-         0ITe+vyojYkS11bfISx/Za/cuv4RwmNBY+lFESbUITd0OnKLYB0jurnSBxOGUT+Bs1
-         oHqjgiW89wo7Q==
-Date:   Thu, 20 Jul 2023 14:37:46 -0700
+        b=oVmzzdHX1ozGOZytAVhUTJfYl3Buw8THkakySyOsv4RCOGIB5ibhd3iuOD4pJPMFZ
+         vapReJq02teqjwMVyVfNlZQ3fPRsz9b0BAMT0zSYQBs4bNVMdG14tQ37AsD2umLWbY
+         8gNDeFd6abktON2QerTzT/07eQnGb4TUtfmOxUpPdHPLiUXsD1mOOYIU+ibR9JRQMe
+         BhzdDegv2D9xpJRL0NIH2g/SdRRZksFW78Ibr8H+M5IghsnieyhtcSQLtTW6NBgXKT
+         pa0VOJlFlqY5o4m4VbOfZY0VlXISo5YQ2nTzExS6A0gFL+bMZ9PCfWQbCWJoFQC6x7
+         YYekiguikaBuw==
+Date:   Thu, 20 Jul 2023 14:42:46 -0700
 From:   Jakub Kicinski <kuba@kernel.org>
-To:     Conor Dooley <conor@kernel.org>
+To:     Edward Cree <ecree.xilinx@gmail.com>
 Cc:     corbet@lwn.net, Andrew Lunn <andrew@lunn.ch>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Krzysztof Kozlowski <krzk@kernel.org>,
@@ -45,10 +45,10 @@ Cc:     corbet@lwn.net, Andrew Lunn <andrew@lunn.ch>,
         benjamin.poirier@gmail.com
 Subject: Re: [PATCH docs v3] docs: maintainer: document expectations of
  small time maintainers
-Message-ID: <20230720143746.1adb159a@kernel.org>
-In-Reply-To: <20230720-proxy-smile-f1b882906ded@spud>
+Message-ID: <20230720144246.7e3507d1@kernel.org>
+In-Reply-To: <50164116-9d12-698d-f552-96b52c718749@gmail.com>
 References: <20230719183225.1827100-1-kuba@kernel.org>
-        <20230720-proxy-smile-f1b882906ded@spud>
+        <50164116-9d12-698d-f552-96b52c718749@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -56,16 +56,17 @@ Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Thu, 20 Jul 2023 16:15:26 +0100 Conor Dooley wrote:
-> ..I noticed that none of these sections address actually testing the
-> code they're responsible for on a (semi-)regular basis. Sure, that comes
-> as part of reviewing the patches for their code, but changes to other
-> subsystems that a driver/feature maintainer probably would not have been
-> CCed on may cause problems for the code they maintain.
-> If we are adding a doc about best-practice for maintainers, I think we
-> should be encouraging people to test regularly.
+On Thu, 20 Jul 2023 19:23:56 +0100 Edward Cree wrote:
+> Does this apply even to "checkpatch cleanup patch spam", where other patches
+>  sprayed from the same source (perhaps against other drivers) have already
+>  been nacked as worthless churn? 
 
-I think our testing story is too shaky to make that a requirement.
-Differently put - I was never able to get good upstream testing running
-when I worked for a vendor myself so I wouldn't know how to draw 
-the lines.
+For networking you can check patchwork, if it's already marked
+as rejected or such - there's no need to respond.
+
+> I've generally been assuming I can ignore those, do I need to make
+> sure to explicitly respond with typically a repeat of what's already
+> been said elsewhere?
+
+Repeating the same thing over and over is sadly a part of being
+a maintainer, tho.
