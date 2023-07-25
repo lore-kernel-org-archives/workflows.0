@@ -2,101 +2,87 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37488C0015E
-	for <workflows@archiver.kernel.org>; Tue, 25 Jul 2023 21:18:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79F63EB64DD
+	for <workflows@archiver.kernel.org>; Tue, 25 Jul 2023 22:19:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229678AbjGYVSW convert rfc822-to-8bit (ORCPT
-        <rfc822;workflows@archiver.kernel.org>);
-        Tue, 25 Jul 2023 17:18:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54472 "EHLO
+        id S229447AbjGYWSb (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 25 Jul 2023 18:18:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbjGYVSV (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 25 Jul 2023 17:18:21 -0400
-Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90DE4E42;
-        Tue, 25 Jul 2023 14:18:20 -0700 (PDT)
-Received: from omf17.hostedemail.com (a10.router.float.18 [10.200.18.1])
-        by unirelay05.hostedemail.com (Postfix) with ESMTP id F1F8640FAF;
-        Tue, 25 Jul 2023 21:18:18 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf17.hostedemail.com (Postfix) with ESMTPA id 899D617;
-        Tue, 25 Jul 2023 21:18:16 +0000 (UTC)
-Message-ID: <e032507fcb9e6c72d19520898c0095a4c0bd1c33.camel@perches.com>
+        with ESMTP id S232047AbjGYWRD (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 25 Jul 2023 18:17:03 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ECB83A9E
+        for <workflows@vger.kernel.org>; Tue, 25 Jul 2023 15:15:56 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CAC2661924
+        for <workflows@vger.kernel.org>; Tue, 25 Jul 2023 22:15:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF6EEC433C8;
+        Tue, 25 Jul 2023 22:15:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690323353;
+        bh=R8hDw13PkX4HnETJNxCMRO4YjpeRUQPJLGHS8yBElLM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=NVmTupd2cexcEtLMEZ7j0wrpJNTbo88NpuFjFZHF0vIay7SlSgTI1IDjwkfsWHENn
+         bfUDsklcZw6+yh4uk2K0IJYd1C9DQ6Jh4Gh8BAhSA4Q83Z/gcaKP508+J6PUk+CohD
+         Ub/yycpVwUPOp7ATlrxSiIOLGe7njFWlcknXlTQNftDwTKjFAqyBMLafdOXJFOCssM
+         M3uVlPORfEwKj7azXLVwk6Ws8uBbF20qG4M0y0c+j5Rwu5CvVcxjevPQ2CDV0s2OpI
+         rWGjC4cuKyHrx7+NdSe7avUKpPuYXjHpUAkO0x4Lqhpr8NXUevfOG/cmb0XnTmnZ6o
+         9iOMTXc4JSq5Q==
+Date:   Tue, 25 Jul 2023 15:15:52 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Joe Perches <joe@perches.com>
+Cc:     krzk@kernel.org, geert@linux-m68k.org, netdev@vger.kernel.org,
+        workflows@vger.kernel.org, mario.limonciello@amd.com
 Subject: Re: [PATCH] scripts: checkpatch: steer people away from using file
  paths
-From:   Joe Perches <joe@perches.com>
-To:     Jakub Kicinski <kuba@kernel.org>, krzk@kernel.org
-Cc:     geert@linux-m68k.org, netdev@vger.kernel.org,
-        workflows@vger.kernel.org, mario.limonciello@amd.com
-Date:   Tue, 25 Jul 2023 14:18:15 -0700
-In-Reply-To: <20230725155926.2775416-1-kuba@kernel.org>
+Message-ID: <20230725151552.723f1e3f@kernel.org>
+In-Reply-To: <e032507fcb9e6c72d19520898c0095a4c0bd1c33.camel@perches.com>
 References: <b6ab3c25-eab8-5573-f6e5-8415222439cd@kernel.org>
-         <20230725155926.2775416-1-kuba@kernel.org>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+        <20230725155926.2775416-1-kuba@kernel.org>
+        <e032507fcb9e6c72d19520898c0095a4c0bd1c33.camel@perches.com>
 MIME-Version: 1.0
-X-Stat-Signature: gzfawxpno8g1tido3ymgj9f4fmse561o
-X-Rspamd-Server: rspamout04
-X-Rspamd-Queue-Id: 899D617
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19+gnyP27RIeixagOLJtFpzlaFEYGgPOs0=
-X-HE-Tag: 1690319896-424278
-X-HE-Meta: U2FsdGVkX1/LZNSbfIXGQyGI2AhKaY5A1Mx9c52Aa6PDMKrcIhn8cn2Ug5Lnkhgr/O+10CYCGH1zUK5RUxhGINWFGYfg8mkDw4qGEtzI0IPQZFzcfFI6FfQn7BEQ+UsXocPDIPaUU95RZQuRyDGLPJ/Cjtjri3rZ3gFPRL+AXkV45dfbDJrz3VG6hGj43jYIYzwMz+r9dQ863fwiThq6M0RADGxthFS7uFw7gCXNXiRYcwLkYBVFaWSaWX2ExuiGxF1ZHCQypkiiKjX/R+uT87mh24/fWT5TLNjHLyXBBfDahk4dW7y8jt/s9s/m5Q8Y
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Tue, 2023-07-25 at 08:59 -0700, Jakub Kicinski wrote:
-> We repeatedly see noobs misuse get_maintainer by running it on
-> the file paths rather than the patchfile. This leads to authors
-> of changes (quoted commits and commits under Fixes) not getting
-> CCed. These are usually the best reviewers!
+On Tue, 25 Jul 2023 14:18:15 -0700 Joe Perches wrote:
+> > @@ -544,7 +546,13 @@ foreach my $file (@ARGV) {
+> >      if ($from_filename && (vcs_exists() && !vcs_file_exists($file))) {
+> >  	warn "$P: file '$file' not found in version control $!\n";
+> >      }
+> > -    if ($from_filename || ($file ne "&STDIN" && vcs_file_exists($file))) {
+> > +    if ($from_filename) {
+> > +	if (!$silence_file_warning) {
+> > +	    warn "$P: WARNING: Prefer running the script on patches as "
+> > +	        . "generated by git format-patch. Selecting paths is known "
+> > +		. "to miss recipients!\n";  
 > 
-> The file option should really not be used by noobs, unless
-> they are just trying to find a maintainer to manually contact.
+> Don't separate a single output message into multiple lines.
+> Coalesce the string elements.
+> 
+> Also, this should show some reason why this isn't appropriate
+> as a patch to a single file would not have this issue.
+> 
+> e.g.:	When a patch series touches multiple files, showing all maintainers is useful. see:  <some process doc>
 
-noobs is not an appropriate use IMO for a commit message.
+I tried to do that in --help. Added the "multiple files" one there, too.
 
-> This is what I had in mind.
+> > @@ -1089,6 +1098,10 @@ version: $V
+> >     --pattern-depth=0 --remove-duplicates --rolestats]
+> >  
+> >  Notes:
+> > +  Using "-f file" is generally discouraged, running the script on a filepatch
+> > +      (as generated by git format-patch) is usually the right thing to do.
+> > +      Commit message is an integral part of the change and $P
+> > +      will extract additional information from it (keywords, Fixes tags etc.)  
+> 
+> "filepatch" doesn't appear in the kernel at all. Use "patch file".
 
-<shrug>  I think it's unnecessary and this content should be
-better described in some process doc.
-
-> diff --git a/scripts/get_maintainer.pl b/scripts/get_maintainer.pl
-[]
-> @@ -544,7 +546,13 @@ foreach my $file (@ARGV) {
->      if ($from_filename && (vcs_exists() && !vcs_file_exists($file))) {
->  	warn "$P: file '$file' not found in version control $!\n";
->      }
-> -    if ($from_filename || ($file ne "&STDIN" && vcs_file_exists($file))) {
-> +    if ($from_filename) {
-> +	if (!$silence_file_warning) {
-> +	    warn "$P: WARNING: Prefer running the script on patches as "
-> +	        . "generated by git format-patch. Selecting paths is known "
-> +		. "to miss recipients!\n";
-
-Don't separate a single output message into multiple lines.
-Coalesce the string elements.
-
-Also, this should show some reason why this isn't appropriate
-as a patch to a single file would not have this issue.
-
-e.g.:	When a patch series touches multiple files, showing all maintainers is useful. see:  <some process doc>
-
-> @@ -1089,6 +1098,10 @@ version: $V
->     --pattern-depth=0 --remove-duplicates --rolestats]
->  
->  Notes:
-> +  Using "-f file" is generally discouraged, running the script on a filepatch
-> +      (as generated by git format-patch) is usually the right thing to do.
-> +      Commit message is an integral part of the change and $P
-> +      will extract additional information from it (keywords, Fixes tags etc.)
-
--f <file>
-
-"filepatch" doesn't appear in the kernel at all. Use "patch file".
-
-grammar: The commit message is...
-
-may instead of will
-
+I got it the wrong way around. I'll use patchfile (no space) for v2
+since that's what's what get_maintainer uses in two other places.
