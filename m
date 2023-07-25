@@ -2,142 +2,135 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BE18C001DE
-	for <workflows@archiver.kernel.org>; Tue, 25 Jul 2023 14:38:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CD99C04E69
+	for <workflows@archiver.kernel.org>; Tue, 25 Jul 2023 15:59:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229591AbjGYOic (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 25 Jul 2023 10:38:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49154 "EHLO
+        id S232326AbjGYP7i (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 25 Jul 2023 11:59:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233224AbjGYOh6 (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 25 Jul 2023 10:37:58 -0400
+        with ESMTP id S231253AbjGYP7h (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 25 Jul 2023 11:59:37 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A75CD1BE;
-        Tue, 25 Jul 2023 07:37:51 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2586F210A
+        for <workflows@vger.kernel.org>; Tue, 25 Jul 2023 08:59:36 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 46E4261782;
-        Tue, 25 Jul 2023 14:37:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EB3AC433C8;
-        Tue, 25 Jul 2023 14:37:48 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B8331617D4
+        for <workflows@vger.kernel.org>; Tue, 25 Jul 2023 15:59:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD016C433C8;
+        Tue, 25 Jul 2023 15:59:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690295870;
-        bh=0Oz8CD4VYFS2ZuWfX7wJBu37DvBUA5Ei6YCtywcVAJ8=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=RjgpozTiR71X12HVv4uWfmqME0LfYVB0EGiFG5NLtDqBAGpAGUmaWsf5EtG6V6p3X
-         e/VQ2LwHiX7pN/MP9pZvIZvEaX3ryp7lSbS9qv197eiJMwN4zsU/mklEATWW/zMKqK
-         w3tVhignBpyq1RW4ONerAnkJVhqWqgWieGD+oWU85TBKhW03jNvSLMcYhHQ4Qg0hSJ
-         rsHsLMIB8WlKIF3W+CpiAndKVp3nIW4kwT9+x4JM3ipBG0Tzvvk9SGtm9d2Fw3ExTr
-         IgxLpgA2V4gfM0MBE7dtKa8YWwU/X0cE7EQDhh5hsUgka46+JuZHO3/9TTooGI3Rn7
-         9fO0HKpjFiXZg==
-Message-ID: <b6ab3c25-eab8-5573-f6e5-8415222439cd@kernel.org>
-Date:   Tue, 25 Jul 2023 16:37:44 +0200
+        s=k20201202; t=1690300775;
+        bh=nTTuihyI1xY7bppjNH5+k7uZ2Bsp3knPwVCY54xVBVc=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=bIXzsXIMqVjwdyyLRqhNfsHtiZmGus75WVrpYPtyJ8bAJjGbs/gHFG6mKO9D62kPj
+         C6PQKrxMYnPNmxKJz9vF95HZlI0QuBf0FCDDuLKW+D3Ba4pCAYryIGCUr6NNZ6y5aB
+         ROXCTjn+PB41uoWyDKDQwKUnMbNQlAyEl33EezoolwnFy2ZUrzSXD/cr6aOuhxu0Jk
+         5GUwBMJ3v2USYS/uRdGIfnmHF1KnnQpg+mi1ZbP/8CVYExPu0nRMtMUfQxtxWLbNCb
+         ttkXnMKG2I6LIPzTG6Tk8EjWi7ZTuark1OLMiqdjW4sZDRLeGrDvMiFUfkIQPVxJWg
+         n9IGtLxJfwAJg==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     krzk@kernel.org
+Cc:     Jakub Kicinski <kuba@kernel.org>, joe@perches.com,
+        geert@linux-m68k.org, netdev@vger.kernel.org,
+        workflows@vger.kernel.org, mario.limonciello@amd.com
+Subject: [PATCH] scripts: checkpatch: steer people away from using file paths
+Date:   Tue, 25 Jul 2023 08:59:26 -0700
+Message-ID: <20230725155926.2775416-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <b6ab3c25-eab8-5573-f6e5-8415222439cd@kernel.org>
+References: <b6ab3c25-eab8-5573-f6e5-8415222439cd@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [Enable Designware XGMAC VLAN Stripping Feature 1/2] dt-bindings:
- net: snps,dwmac: Add description for rx-vlan-offload
-To:     Joe Perches <joe@perches.com>,
-        Mario Limonciello <mario.limonciello@amd.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Jakub Kicinski <kuba@kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        workflows@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20230721062617.9810-1-boon.khai.ng@intel.com>
- <20230721062617.9810-2-boon.khai.ng@intel.com>
- <e552cea3-abbb-93e3-4167-aebe979aac6b@kernel.org>
- <DM8PR11MB5751EAB220E28AECF6153522C13FA@DM8PR11MB5751.namprd11.prod.outlook.com>
- <8e2f9c5f-6249-4325-58b2-a14549eb105d@kernel.org>
- <20230721185557.199fb5b8@kernel.org>
- <c690776ce6fd247c2b2aeb805744d5779b6293ab.camel@perches.com>
- <20230724180428.783866cc@kernel.org>
- <213f5d2b13225f9ed4bdadda3c492ffc79940b13.camel@perches.com>
- <CAMuHMdX0DpNSDRSJ7D85NGV2ri2kFHjTtXJE5aOaTD3jNoyc-w@mail.gmail.com>
- <d2f7d5dd-cada-a3a2-2962-9c93d847f491@amd.com>
- <03ace72f8c8796e2a2f24a86e089a617daef9688.camel@perches.com>
-Content-Language: en-US
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <03ace72f8c8796e2a2f24a86e089a617daef9688.camel@perches.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On 25/07/2023 15:43, Joe Perches wrote:
-> On Tue, 2023-07-25 at 08:19 -0500, Mario Limonciello wrote:
->> On 7/25/23 02:33, Geert Uytterhoeven wrote:
->>> Hi Joe,
->>>
->>> On Tue, Jul 25, 2023 at 6:22 AM Joe Perches <joe@perches.com> wrote:
->>>> I do suggest you instead write wrapper scripts to get
->>>> the output you want rather than updating the defaults
->>>> for the script and update the process documentation
->>>> to let other people know what do to as well.
->>>>
->>>> Something akin to Mario Limonciello's suggestion back in 2022:
->>>>
->>>> https://lore.kernel.org/lkml/20220617183215.25917-1-mario.limonciello@amd.com/
->>>
->>> FTR, this is more or less what I am using to generate a script
->>> to send out patches:
->>>
->>>      OUT=...
->>>      echo git send-email \\ > $OUT
->>>      # Add -cc
->>>      # Wrap comment inside $(: ...)
->>>      # Replace (...) in comment by [...]
->>>      # Replace ] at EOL by ) again
->>>      # Add continuation to EOL
->>>      scripts/get_maintainer.pl $* | \
->>>      tr -d \" | \
->>>      sed -e 's/^/--cc "/' \
->>>          -e 's/ (/" $(: /' \
->>>          -e 's/ (/ [/' -e 's/)/]/' \
->>>          -e 's/]$/)/' \
->>>          -e 's/$/ \\/' | \
->>>      tee -a $OUT
->>>      echo "*[0-9][0-9][0-9][0-9]-*.*" >> $OUT
->>>
->>> After generation, I edit the script to
->>>    - Replace some --cc by --to,
->>>    - Add/remove some people,
->>> and run "source $OUT" to send the patches...
->>>
->>> Gr{oetje,eeting}s,
->>
->> My script is great for single subsystem patches as it gets all the right 
->> people but I've found problems whenever it crosses multiple subsystems.
->>
->> Many subsystem owners want to see the whole series of patches to 
->> understand how they interact.  So the group of patches needs to be 
->> treated together which would need the wrapper to look at all patches 
->> instead.
-> 
-> Which can't really work all the time as vger has a recipient limit
-> and subsystem spanning patches frequently exceed that limit.
-> 
-> bcc's don't work well either as the reply-to chain is broken.
-> 
-> No great solution to that.
-> 
+We repeatedly see noobs misuse get_maintainer by running it on
+the file paths rather than the patchfile. This leads to authors
+of changes (quoted commits and commits under Fixes) not getting
+CCed. These are usually the best reviewers!
 
-For small patchsets (and recipients list) I recommend:
-https://github.com/krzk/tools/blob/master/linux/.bash_aliases_linux#L91
+The file option should really not be used by noobs, unless
+they are just trying to find a maintainer to manually contact.
 
-For bigger patchsets - Rob's sendemail identity could work:
-https://lore.kernel.org/all/CAL_JsqLubWBr2W3xZPsuPLOGav7CFgBdH=aCfT22F_m0_cx3cQ@mail.gmail.com/
-but cover letter has to be treated separately.
+Print a warning when someone tries to use -f and remove
+the "auto-guessing" of file paths.
 
-Anyway, it is not the case here. This is small patchset and the
-submitter should run get_maintainers.pl on *the patchset*, not on one
-chosen file. Running it one one file, ignoring maintainers of all other
-patches, does not make sense. There is nothing to fix in
-get_maintainers.pl. I believe our docs are also correct here.
+This script may break people's "scripts on top of get_maintainer"
+if they are using -f... but that's the point.
 
-Best regards,
-Krzysztof
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+This is what I had in mind.
+
+CC: joe@perches.com
+Cc: geert@linux-m68k.org
+Cc: krzk@kernel.org
+Cc: netdev@vger.kernel.org
+Cc: workflows@vger.kernel.org
+Cc: mario.limonciello@amd.com
+---
+ scripts/get_maintainer.pl | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/get_maintainer.pl b/scripts/get_maintainer.pl
+index ab123b498fd9..3635b3d40ebe 100755
+--- a/scripts/get_maintainer.pl
++++ b/scripts/get_maintainer.pl
+@@ -51,6 +51,7 @@ my $output_roles = 0;
+ my $output_rolestats = 1;
+ my $output_section_maxlen = 50;
+ my $scm = 0;
++my $silence_file_warning = 0;
+ my $tree = 1;
+ my $web = 0;
+ my $subsystem = 0;
+@@ -267,6 +268,7 @@ if (!GetOptions(
+ 		'subsystem!' => \$subsystem,
+ 		'status!' => \$status,
+ 		'scm!' => \$scm,
++		'silence-file-warning!' => \$silence_file_warning,
+ 		'tree!' => \$tree,
+ 		'web!' => \$web,
+ 		'letters=s' => \$letters,
+@@ -544,7 +546,13 @@ foreach my $file (@ARGV) {
+     if ($from_filename && (vcs_exists() && !vcs_file_exists($file))) {
+ 	warn "$P: file '$file' not found in version control $!\n";
+     }
+-    if ($from_filename || ($file ne "&STDIN" && vcs_file_exists($file))) {
++    if ($from_filename) {
++	if (!$silence_file_warning) {
++	    warn "$P: WARNING: Prefer running the script on patches as "
++	        . "generated by git format-patch. Selecting paths is known "
++		. "to miss recipients!\n";
++	}
++
+ 	$file =~ s/^\Q${cur_path}\E//;	#strip any absolute path
+ 	$file =~ s/^\Q${lk_path}\E//;	#or the path to the lk tree
+ 	push(@files, $file);
+@@ -1081,6 +1089,7 @@ version: $V
+   --mailmap => use .mailmap file (default: $email_use_mailmap)
+   --no-tree => run without a kernel tree
+   --self-test => show potential issues with MAINTAINERS file content
++  --silence-file-warning => silence the warning about -f being used (see Notes)
+   --version => show version
+   --help => show this help information
+ 
+@@ -1089,6 +1098,10 @@ version: $V
+    --pattern-depth=0 --remove-duplicates --rolestats]
+ 
+ Notes:
++  Using "-f file" is generally discouraged, running the script on a filepatch
++      (as generated by git format-patch) is usually the right thing to do.
++      Commit message is an integral part of the change and $P
++      will extract additional information from it (keywords, Fixes tags etc.)
+   Using "-f directory" may give unexpected results:
+       Used with "--git", git signators for _all_ files in and below
+           directory are examined as git recurses directories.
+-- 
+2.41.0
 
