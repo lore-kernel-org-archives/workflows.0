@@ -2,75 +2,77 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49FE0EB64DD
-	for <workflows@archiver.kernel.org>; Tue, 25 Jul 2023 19:52:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97A91EB64DD
+	for <workflows@archiver.kernel.org>; Tue, 25 Jul 2023 21:01:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229655AbjGYTwL (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 25 Jul 2023 15:52:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42366 "EHLO
+        id S229845AbjGYVBx convert rfc822-to-8bit (ORCPT
+        <rfc822;workflows@archiver.kernel.org>);
+        Tue, 25 Jul 2023 17:01:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229547AbjGYTwK (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 25 Jul 2023 15:52:10 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D373310D4
-        for <workflows@vger.kernel.org>; Tue, 25 Jul 2023 12:52:09 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 715E561883
-        for <workflows@vger.kernel.org>; Tue, 25 Jul 2023 19:52:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97292C433C8;
-        Tue, 25 Jul 2023 19:52:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690314728;
-        bh=XZgxjbZNq0MP0RMfcV+VzYH+0OZv78FM95RXeuhNOVQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=jj8w92J12bzFsLv3jWv83HRB/fCuEMaNmYEaPRdFaq4ifCPReOftNb+uLH8XjuBxJ
-         /hL8zDqM6rXcmZgd094Lwdo2uNWwN5OGimgI+kwskQD/PAPlDUrOpP8IjwpEOBTpQz
-         Lx2sjvI7aRbI2EmL8/u2BwwRtI+hsqfZcnEveRDwor2UTLJJ8Gjyl/PiNQlYWa/CrB
-         wfiI7kjplfF2dbFjyE/jHlMApUUTCoZUOA66DjjJe2RtuSxzndbkqFESmt0bDgtYCX
-         PYI+jo//FJx5lgkAplvJ9AZZov31DsSbfy+YxJfbBRrTMjU2MeJnYB+FUaCoCijTYW
-         GMS+KCujos7hw==
-Date:   Tue, 25 Jul 2023 12:52:07 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     krzk@kernel.org, joe@perches.com, geert@linux-m68k.org,
-        netdev@vger.kernel.org, workflows@vger.kernel.org,
-        mario.limonciello@amd.com
+        with ESMTP id S229657AbjGYVBw (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 25 Jul 2023 17:01:52 -0400
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9B9B99;
+        Tue, 25 Jul 2023 14:01:50 -0700 (PDT)
+Received: from omf03.hostedemail.com (a10.router.float.18 [10.200.18.1])
+        by unirelay09.hostedemail.com (Postfix) with ESMTP id 1AD7180D6C;
+        Tue, 25 Jul 2023 21:01:49 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf03.hostedemail.com (Postfix) with ESMTPA id 8B3EC6000B;
+        Tue, 25 Jul 2023 21:01:45 +0000 (UTC)
+Message-ID: <71070489e9fb57c341cea569042f837ce7c7ec9d.camel@perches.com>
 Subject: Re: [PATCH] scripts: checkpatch: steer people away from using file
  paths
-Message-ID: <20230725125207.73387bfc@kernel.org>
-In-Reply-To: <2023072507-smugness-landslide-bd42@gregkh>
+From:   Joe Perches <joe@perches.com>
+To:     Jakub Kicinski <kuba@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>
+Cc:     krzk@kernel.org, geert@linux-m68k.org, netdev@vger.kernel.org,
+        workflows@vger.kernel.org, mario.limonciello@amd.com
+Date:   Tue, 25 Jul 2023 14:01:44 -0700
+In-Reply-To: <20230725125207.73387bfc@kernel.org>
 References: <b6ab3c25-eab8-5573-f6e5-8415222439cd@kernel.org>
-        <20230725155926.2775416-1-kuba@kernel.org>
-        <2023072555-stamina-hurray-b95c@gregkh>
-        <20230725101051.7287d7cf@kernel.org>
-        <2023072507-smugness-landslide-bd42@gregkh>
+         <20230725155926.2775416-1-kuba@kernel.org>
+         <2023072555-stamina-hurray-b95c@gregkh>
+         <20230725101051.7287d7cf@kernel.org>
+         <2023072507-smugness-landslide-bd42@gregkh>
+         <20230725125207.73387bfc@kernel.org>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-Stat-Signature: y1u5u7ho4z8za3orkerpag88w5moqbhr
+X-Rspamd-Server: rspamout04
+X-Rspamd-Queue-Id: 8B3EC6000B
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX19SYY1iThJ9rriAeSw3Esw43greG2YvKp8=
+X-HE-Tag: 1690318905-503073
+X-HE-Meta: U2FsdGVkX1940WfeGFQ3BuInvLpFaBTGC+8MpTuRyFt+50yWqolcLjiS6J69qNMoiRX+ZClvWfzH7Z5S6TgcOrniS8qN5MYSoSV3acVL1w5BxODFy+/JpavrwKlazvFM97iseS2o9UEUf1XeSk5db1xgOb9HVIyXI7OY5F0aZwRwy6CzvuAvdCSIK+/6Yi8TyxNUS1ywzIqWwzW1RjNdBS34Dlh10HE/DzG8bEbG06HF1ojgjFjtWES6H3xxomEbh/+IP7LVmqDSXfXafugzlUODnqxFzuF++nM50JgV/NRd5L/j0z9cUsukz2/LHPf3yieeHQD0pYrUWMvJ9mq56W3zcc2eovvMjc/nD4dUOo7mrYI5kCmDru1nr47AaSph
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Tue, 25 Jul 2023 19:25:09 +0200 Greg KH wrote:
-> I do:
-> 	- git format-patch to generate the patch series.
-> 	- run the generate_cc_list script which creates XXXX.info files
-> 	  (the XXXX being the patch number) that contain the
-> 	  people/lists to cc: on the patch
-> 	- git rebase -i on the patch series and edit the changelog
-> 	  description and paste in the XXXX.info file for that specific
-> 	  patch.
+On Tue, 2023-07-25 at 12:52 -0700, Jakub Kicinski wrote:
+> On Tue, 25 Jul 2023 19:25:09 +0200 Greg KH wrote:
+> > I do:
+> > 	- git format-patch to generate the patch series.
+> > 	- run the generate_cc_list script which creates XXXX.info files
+> > 	  (the XXXX being the patch number) that contain the
+> > 	  people/lists to cc: on the patch
+> > 	- git rebase -i on the patch series and edit the changelog
+> > 	  description and paste in the XXXX.info file for that specific
+> > 	  patch.
+> > 
+> > Yeah, it's a lot of manual steps, I should use b4 for it, one of these
+> > days...
 > 
-> Yeah, it's a lot of manual steps, I should use b4 for it, one of these
-> days...
+> Oh, neat! I do a similar thing. Modulo the number of steps:
+> 
+>   git rebase --exec './ccer.py --inline'
+> 
+> I was wondering if I was the only one who pastes the Cc: person
+> into the patch, because I'd love to teach get_maintainer to do
+> the --inline thing, instead of carrying my own wrapper...
 
-Oh, neat! I do a similar thing. Modulo the number of steps:
+Now for that, you'd want checkpatch or yet another script to do it.
 
-  git rebase --exec './ccer.py --inline'
 
-I was wondering if I was the only one who pastes the Cc: person
-into the patch, because I'd love to teach get_maintainer to do
-the --inline thing, instead of carrying my own wrapper...
