@@ -2,86 +2,106 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77566EB64DD
-	for <workflows@archiver.kernel.org>; Tue, 25 Jul 2023 01:04:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95B74EB64DD
+	for <workflows@archiver.kernel.org>; Tue, 25 Jul 2023 03:05:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229547AbjGYBEc (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 24 Jul 2023 21:04:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45530 "EHLO
+        id S229802AbjGYDFe (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 24 Jul 2023 23:05:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229470AbjGYBEc (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 24 Jul 2023 21:04:32 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B07CE53;
-        Mon, 24 Jul 2023 18:04:31 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B542861173;
-        Tue, 25 Jul 2023 01:04:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4690C433C8;
-        Tue, 25 Jul 2023 01:04:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690247069;
-        bh=k0+Q7F/uZHsflIOAaWgAaLqYda6TVmmp+S/0I3sWSCo=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=P+DUYEJ5KB6/L2c/yXGBpkbsWb3OmbEqyvdR8CQn8TMmASqIHzg548JtS63kSE80P
-         lCOaF6qjmq9gSCwO5nOhQkGO1IjwyvU2Ku6oEDwzYUsnmaTkXUZM9KP1cKtD/yE9hZ
-         2KEaQRm9N9Tk0XqdQPIe2xsdEDsc0UksZ74xK2E8U7uLYuQTeKSooMN2OjzuuZNF/Y
-         niPhk5Uky7RvT5sy2BiQ5fO5slG5AhcYn7tEAARX9JUiI8dPiOiGEwJA14VqDZThHN
-         jrYTPqQuzHfcofbP8hZDk9GNXPeHpXqOZ9+mD0H8lM3z4XIPuDHz8/nUw0jXsAu/KM
-         h6Xmcybjye22g==
-Date:   Mon, 24 Jul 2023 18:04:28 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Joe Perches <joe@perches.com>
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        workflows@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [Enable Designware XGMAC VLAN Stripping Feature 1/2]
- dt-bindings: net: snps,dwmac: Add description for rx-vlan-offload
-Message-ID: <20230724180428.783866cc@kernel.org>
-In-Reply-To: <c690776ce6fd247c2b2aeb805744d5779b6293ab.camel@perches.com>
-References: <20230721062617.9810-1-boon.khai.ng@intel.com>
-        <20230721062617.9810-2-boon.khai.ng@intel.com>
-        <e552cea3-abbb-93e3-4167-aebe979aac6b@kernel.org>
-        <DM8PR11MB5751EAB220E28AECF6153522C13FA@DM8PR11MB5751.namprd11.prod.outlook.com>
-        <8e2f9c5f-6249-4325-58b2-a14549eb105d@kernel.org>
-        <20230721185557.199fb5b8@kernel.org>
-        <c690776ce6fd247c2b2aeb805744d5779b6293ab.camel@perches.com>
+        with ESMTP id S231635AbjGYDFP (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 24 Jul 2023 23:05:15 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4305210C3;
+        Mon, 24 Jul 2023 20:05:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
+        bh=oa+so10xLETAgc5pdBX8v/zloJHSFamiykfxB9L3iNQ=; b=pqw9oioaugNc/2kx9y0xlJ9NId
+        jyWlek+X1AoKk0llItmIC3Bf3mzcoWu0ZTlj6G2sYvsHiO6+UHsis4MxPhQujAYnQ0Z42oQw3MOUm
+        aT1/QNOaq2uLaY9aJkIkqTjTvcxMB7aL12fQ/Vc3M2yGTqobvXOkxeikSUdxkM1cr1WxiIOdyE7ny
+        +Gqkh6ljwnDBIToS47UTxIXHDk8B9zX34r2/93tHSoD4aLc9GQOhHrL10cFO7Dxj7xxU3c6KCEofm
+        0GPJb3RuDytDWvYT1xQclal3ZH3bsRt6VE4SnFbBhLygs70kHMgmJ+w7zzOo3Q/2D610I+JeyZFt3
+        roNC6HaA==;
+Received: from [2601:1c2:980:9ec0::2764]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qO8M8-005zR5-1M;
+        Tue, 25 Jul 2023 03:05:00 +0000
+Message-ID: <9fa8e67e-e46b-074d-8406-bfd11303e95f@infradead.org>
+Date:   Mon, 24 Jul 2023 20:04:59 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [RFC PATCH] rework top page and organize toc on the sidebar
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Costa Shulyupin <costa.shul@redhat.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Benno Lossin <benno.lossin@proton.me>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>,
+        "open list:RUST" <rust-for-linux@vger.kernel.org>
+References: <20230724193118.2204673-1-costa.shul@redhat.com>
+ <87ila9atuk.fsf@meer.lwn.net>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <87ila9atuk.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-[clean up the CC list]
 
-On Fri, 21 Jul 2023 20:32:44 -0700 Joe Perches wrote:
-> On Fri, 2023-07-21 at 18:55 -0700, Jakub Kicinski wrote:
-> > On Fri, 21 Jul 2023 18:21:32 +0200 Krzysztof Kozlowski wrote:  
-> > > That's not how you run it. get_maintainers.pl should be run on patches
-> > > or on all files, not just some selection.  
-> > 
-> > Adding Joe for visibility (I proposed to print a warning when people 
-> > do this and IIRC he wasn't on board).  
+
+On 7/24/23 14:21, Jonathan Corbet wrote:
+> Costa Shulyupin <costa.shul@redhat.com> writes:
 > 
-> What's the issue here?  Other than _how_ the script was used,
-> I don't see an actual problem with the script itself.
+>> Template {{ toctree(maxdepth=3) }} in
+>> Documentation/sphinx/templates/kernel-toc.html
+>> uses directives toctree and doesn't use sections on the top page
+>> Documentation/index.rst
+>> to generate expandable toc on the sidebar.
+>>
+>> BTW, other template {{ toc }} uses only sections, and doesn't
+>> use directives toctree.
+>>
+>> Summary of changes:
+>> - split top page index.rst to several pages
+>> - convert sections of Documentation/index.rst to hierarchical toctree
+>> - vertical bars '|' add empty lines
+>>
+>> Benefits:
+>> - collapsed toc is just seven short lines length
+>> - toc is expandable
+>>
+>> References:
+>> - https://www.sphinx-doc.org/en/master/development/templating.html#toctree
+>> - https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html#directive-toctree
+>> - https://www.sphinx-doc.org/en/master/development/templating.html#toc
+>> - https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#sections
+>> - https://sphinx-rtd-theme.readthedocs.io/
+> 
+> What is the purpose of all these links in a patch changelog?
+> 
+> This patch is somewhat difficult to apply, as a result of:
+> 
+>> Content-Type: text/plain; charset=true
 
-I just CCed you on another case. If people keep using get_maintainers
-wrong, it *is* an issue with the script.
+I didn't have any problem applying and testing it.
 
-> I use the scripts below to send patch series where a patch series
-> are the only files in individual directories.
+> But the real problem is that you seem to have ignored my last message.
+> The purpose of the front page isn't to create a nice-looking sidebar, it
+> is the entry point to our documentation as a whole.  I am all for a
+> better sidebar, but this is not the way to do it.
 
-The fact that most people end up wrapping get_maintainers in another
-script is also a pretty strong indication that the user experience is
-inadequate.
+Regardless of what the purpose of the front page is, I prefer this one
+from Costa.  The other one is a huge mess.
 
-To be clear - I'm happy to put in the work to make the changes.
-It's just that from past experience you seem to have strong opinions
-which run counter to maintainers' needs, and I don't really enjoy
-writing Perl for the sake of it.
+-- 
+~Randy
