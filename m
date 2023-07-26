@@ -2,65 +2,65 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F49EC001DC
-	for <workflows@archiver.kernel.org>; Wed, 26 Jul 2023 18:59:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4637C001DC
+	for <workflows@archiver.kernel.org>; Wed, 26 Jul 2023 19:06:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229461AbjGZS70 (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 26 Jul 2023 14:59:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50950 "EHLO
+        id S229606AbjGZTGT (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 26 Jul 2023 15:06:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229798AbjGZS70 (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 26 Jul 2023 14:59:26 -0400
+        with ESMTP id S229495AbjGZTGS (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 26 Jul 2023 15:06:18 -0400
 Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78856212D
-        for <workflows@vger.kernel.org>; Wed, 26 Jul 2023 11:59:24 -0700 (PDT)
-Received: by mail-lf1-x133.google.com with SMTP id 2adb3069b0e04-4fe0eb0ca75so196901e87.2
-        for <workflows@vger.kernel.org>; Wed, 26 Jul 2023 11:59:24 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32104198D
+        for <workflows@vger.kernel.org>; Wed, 26 Jul 2023 12:06:17 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id 2adb3069b0e04-4fbaef9871cso245157e87.0
+        for <workflows@vger.kernel.org>; Wed, 26 Jul 2023 12:06:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1690397962; x=1691002762;
+        d=linux-foundation.org; s=google; t=1690398375; x=1691003175;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9ltB90dbZBs9x2w+zTel/ot+HALu1Ht+7bi6jGbPAdk=;
-        b=H2XJWiCoD7KhXfeojnRimRKEFZc2C/9H5g8aJ4i1DGkWQVukNSDP33l4XgAR3Vr9q7
-         CJG0DYnu+674+LKE0mfCHvAvLMZ75UrdhRTrU30CAglnbvmOv3qyb0iWgsD8pTXPDOrc
-         xxd3Gpjakobk15VI731GXxslOpbzWfz+pyo6k=
+        bh=5ISopsp3GPjCEYylIemfLA0z3JmRG0JusuOWHSGEOLw=;
+        b=Wyo2LaoVHtAiw2PazwAFDmQcirOzA6gP9C+wgO1nx2DyTeSWDe2UJT4YLSqbezPdXi
+         FYtDoimOGsFJYfth3e4yqD0aQQCIlAZEvYrZJstJwIyZhZBqWxo2I2fHbgXhkZpRUsLY
+         h0Ca7UDrIZ9c7yA/XeOF95zhnwrbRRHcS7fMo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690397962; x=1691002762;
+        d=1e100.net; s=20221208; t=1690398375; x=1691003175;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9ltB90dbZBs9x2w+zTel/ot+HALu1Ht+7bi6jGbPAdk=;
-        b=lYM5A/XU2TniTzHuFDu/LPREna20GVQ5UgIwFWzu/OmobFKGkni78v5H4GkXN8rU+9
-         fANUha6EpvLqcFqOS3H6/MeKPg6HleXyKmWzKF3IGFFF8+px1NPKTLed7sYeSqG+RdJy
-         pB9aqHzsEOPCYEqJdKsU4aXTnTgOVLmeHjIReIPzFDNFu8O6keWU5cPxxYmcYooubGCO
-         1gDYnfjKc4Vxy2EiYQiWbhIEja3w16KRSN+l0qBMFczN9/hYPQ7DiGGaN5wDYq8D0LJc
-         0NUxlsdHuKwQVAHxobrDj8btDFRNX0ouf/otvx4i+lkmydUtRuPBTNSjNebPO4PQF5qW
-         rcjw==
-X-Gm-Message-State: ABy/qLbSDYj3oS0RRpqBYvAc0tw5pDPaxDXJhDL/ksPBYkCWFK4Bz1pv
-        IadT53o/D2ABiOizMjjxcKHlTDVvzKA43ucSGavWLPIv
-X-Google-Smtp-Source: APBJJlF9B+3GNMSq/j81uUczMhYjaMyXS/PzGSPpzT6fBotiuSSn9Pv2CBaABqqAqz8nz1LwgS1TRA==
-X-Received: by 2002:a05:6512:682:b0:4fb:893e:8ffc with SMTP id t2-20020a056512068200b004fb893e8ffcmr40191lfe.17.1690397962425;
-        Wed, 26 Jul 2023 11:59:22 -0700 (PDT)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com. [209.85.208.182])
-        by smtp.gmail.com with ESMTPSA id r6-20020ac24d06000000b004fdfd2d0659sm1219438lfi.277.2023.07.26.11.59.21
+        bh=5ISopsp3GPjCEYylIemfLA0z3JmRG0JusuOWHSGEOLw=;
+        b=ZwvVD8HPf5/vtQrhV5EjWoVt8ikaXnHaY6q1iiaEthu8zgFlSwbN5KvPhkkYGEKkXo
+         rH+fIfD5cK/KqZp9DnZ0R34HDOAHqNp9dliiWQcnZ2dyFJJgHZT6C9F09ngEtVE/ikCR
+         C5lAWyPbt2fFQTS3hRNHWoFScNJvARBhDnxdyKaIq3/binWttWb1sUy/fDO4eX3e2UWh
+         FNt0cb0Awze5AeTc+SEUlcTFWwRTqL2zubrpMXhaO4Z3Zc4Qb7ogrkHTHJwCPt4IyLpp
+         Cq7F2KeE0acZqLL6TApfqI7zwvz5EB/x4DZ2urP3h2nlQBPNR5HmzTtD8K/pDbsAcbZn
+         88Zw==
+X-Gm-Message-State: ABy/qLaBUDMQOD9DmbdfE+bj4CdRwhnDHq6aT+/FAukUc0E2G6OlirLN
+        2iaErAMT+JzJmryzOE+Ivv+hCDso//EUjysNclPKawRO
+X-Google-Smtp-Source: APBJJlExfXqoAzwwGCcHmVSLqHYtu21b6VzNA+jpdf9HLQjVRE9DUv8MairpCylstG2TVVw/rnYeyg==
+X-Received: by 2002:ac2:5a48:0:b0:4f9:556b:93c2 with SMTP id r8-20020ac25a48000000b004f9556b93c2mr46164lfn.1.1690398375307;
+        Wed, 26 Jul 2023 12:06:15 -0700 (PDT)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com. [209.85.167.46])
+        by smtp.gmail.com with ESMTPSA id a12-20020ac2520c000000b004f4b42e2d7dsm3360294lfl.230.2023.07.26.12.06.14
         for <workflows@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Jul 2023 11:59:21 -0700 (PDT)
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2b97f34239cso887021fa.3
-        for <workflows@vger.kernel.org>; Wed, 26 Jul 2023 11:59:21 -0700 (PDT)
-X-Received: by 2002:a2e:9510:0:b0:2b5:9d2a:ab51 with SMTP id
- f16-20020a2e9510000000b002b59d2aab51mr1859153ljh.5.1690397960827; Wed, 26 Jul
- 2023 11:59:20 -0700 (PDT)
+        Wed, 26 Jul 2023 12:06:14 -0700 (PDT)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-4fe04882c66so206731e87.3
+        for <workflows@vger.kernel.org>; Wed, 26 Jul 2023 12:06:14 -0700 (PDT)
+X-Received: by 2002:a19:c519:0:b0:4fb:c0b5:63d4 with SMTP id
+ w25-20020a19c519000000b004fbc0b563d4mr42636lfe.43.1690398373839; Wed, 26 Jul
+ 2023 12:06:13 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230726151515.1650519-1-kuba@kernel.org> <11ec5b3819ff17c7013348b766eab571eee5ca96.camel@perches.com>
  <20230726092312.799503d6@kernel.org> <CAHk-=wjEj2fGiaQXrYUZu65EPdgbGEAEMzch8LTtiUp6UveRCw@mail.gmail.com>
  <20230726112031.61bd0c62@kernel.org> <CAHk-=wi9MyyWmP_HAddLrmGfdANkut6_2f9hzv9HcyTBvg3+kA@mail.gmail.com>
- <20230726114817.1bd52d48@kernel.org>
-In-Reply-To: <20230726114817.1bd52d48@kernel.org>
+ <20230726114817.1bd52d48@kernel.org> <CAHk-=wiuR7_A=PbN8jhmqGPJQHypUHR+W4-UuSVhOVWvYXs1Tg@mail.gmail.com>
+In-Reply-To: <CAHk-=wiuR7_A=PbN8jhmqGPJQHypUHR+W4-UuSVhOVWvYXs1Tg@mail.gmail.com>
 From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Wed, 26 Jul 2023 11:59:04 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiuR7_A=PbN8jhmqGPJQHypUHR+W4-UuSVhOVWvYXs1Tg@mail.gmail.com>
-Message-ID: <CAHk-=wiuR7_A=PbN8jhmqGPJQHypUHR+W4-UuSVhOVWvYXs1Tg@mail.gmail.com>
+Date:   Wed, 26 Jul 2023 12:05:56 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wh4pbrNZGqfV9u1urZr3Xjci=UV-MP+KneB6a5yo7-VOQ@mail.gmail.com>
+Message-ID: <CAHk-=wh4pbrNZGqfV9u1urZr3Xjci=UV-MP+KneB6a5yo7-VOQ@mail.gmail.com>
 Subject: Re: [PATCH v2] scripts: get_maintainer: steer people away from using
  file paths
 To:     Jakub Kicinski <kuba@kernel.org>
@@ -74,23 +74,29 @@ Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Wed, 26 Jul 2023 at 11:48, Jakub Kicinski <kuba@kernel.org> wrote:
+On Wed, 26 Jul 2023 at 11:59, Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> We get at least one fix a week where author adds a Fixes tag
-> but somehow magically didn't CC the author of that commit.
-> When we ask they usually reply with "but I run get_maintainer -f,
-> isn't that what I'm supposed to do?".
+> You're already using 'patchwork'. Why don't you instead go "Oh, *that*
+> tool isn't doing the right thing?"
 
-Bah. I think you're blaming entirely the wrong people, and the wrong tool.
+Christ. Looking around, patchwork *ALREADY DOES THIS*.
 
-Your complaint seems to be "we got a fix, it even says what commit it
-is fixing, and the tool that the person ran didn't add the right
-people automatically".
+Except it looks like it might be set up to just complain
+("netdev/cc_maintainers"). Which seems to be why you're complaining.
 
-And my reaction is "I use that tooling, I want it to do exactly what
-it does right now, why are you blaming that tool"?
+IOW, you're complaining about *another* tool, because your own tool
+use is set up to complain instead of being helpful.
 
-You're already using 'patchwork'. Why don't you instead go "Oh, *that*
-tool isn't doing the right thing?"
+I'm now even more convinced that that warning is completely bogus.
 
-                  Linus
+No way in hell am *I* going to bend over backwards and add some stupid
+new rule to my workflow because *you* use a tool that is a whining
+little complaint-machine instead of just *fixing* the problem.
+
+Guys, tools are supposed to *help*, not just whine about
+technicalities and make it harder for everybody else.
+
+So just fix your tool. Don't complain about *my* use of another tool.
+
+                 Linus
