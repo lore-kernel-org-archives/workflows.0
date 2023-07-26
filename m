@@ -2,55 +2,55 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 656B5C001DC
-	for <workflows@archiver.kernel.org>; Wed, 26 Jul 2023 22:02:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A20EAC0015E
+	for <workflows@archiver.kernel.org>; Wed, 26 Jul 2023 22:16:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229974AbjGZWCY (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 26 Jul 2023 18:02:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54710 "EHLO
+        id S229949AbjGZWQD (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 26 Jul 2023 18:16:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229454AbjGZWCY (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 26 Jul 2023 18:02:24 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11EC61BF2
-        for <workflows@vger.kernel.org>; Wed, 26 Jul 2023 15:02:23 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id 4fb4d7f45d1cf-52256241c66so464222a12.1
-        for <workflows@vger.kernel.org>; Wed, 26 Jul 2023 15:02:22 -0700 (PDT)
+        with ESMTP id S229779AbjGZWQD (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 26 Jul 2023 18:16:03 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48F6E270F
+        for <workflows@vger.kernel.org>; Wed, 26 Jul 2023 15:16:02 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id 2adb3069b0e04-4fdd31bf179so487420e87.2
+        for <workflows@vger.kernel.org>; Wed, 26 Jul 2023 15:16:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1690408941; x=1691013741;
+        d=linux-foundation.org; s=google; t=1690409760; x=1691014560;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=GY186T8m/bDCmaQhdLceOK7QlWH6sfqqrFjk853Mroc=;
-        b=ZlEjpgTswNyeC2aD0u7KqX182+Wu6Nm28qo4hUgQFXpkqndCJIElxjRMV07rPz0N6T
-         jsGpz5JKATZ169JHR2xHD9FTAnM0KHilfcnXF96kX9OvYQlUtU7NqZnedbDfb2YmxanL
-         qsBl6n3as/e3vD792jT3SkgiM6SDbk+rHgkAE=
+        bh=P/sqc18KIK7dshywkzhq0KOuh2Dzddlts3yGF32bqfQ=;
+        b=dchqpLV7SRPQprn70CICb5MoiAOapA8YyqfY1jkvko2beqSDEfKw9OZBzldPdmlRZo
+         1ypAoRkik5SI9cBKp8JkqX5C5fmiKcVZCaSjZw/5VSzKupD6dRL8aGafGoKJ59w2lnH7
+         BFTMVvkYfRg5lW6uzaa6K9oedCu/piEuq88Mk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690408941; x=1691013741;
+        d=1e100.net; s=20221208; t=1690409760; x=1691014560;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GY186T8m/bDCmaQhdLceOK7QlWH6sfqqrFjk853Mroc=;
-        b=MF6BTaX4Cyj04NYVV2PseQoOwIKDOxhFayrtsWmGeWWJOeXcmkiDa/QpjInv/huUog
-         Er9c8Nn6xnwbQITFt1EmSKUx1NBTeP+goHoujgVzJejpd86bOQZMbqfoNaiM4kocgxM3
-         0RpqO4lcHjKELdEflEDXXm8ctzDjcSQck5TRXAr5zxS9fXyPR0Za/4UlDduMG6b5kKil
-         GMOkzWznIpVVCGMP4Kx5bOnQ61GNUzcWYchJFWLypKpE5TFuiGI30iuRkdFJcqjUQDO6
-         0EbXaypQnquRWEjg54XGVmq8wv3lQG/AtS0Wt5RC17RwSSw/1skQxhYWGUVYmoZnztOn
-         dmVw==
-X-Gm-Message-State: ABy/qLZxBmJG0P4HPLB5IZ4Z4MPVnMhMTVShRV/rETBn0LrfQVGB7VqB
-        Z5urCkqEIExS7cjsKvO0qAVjid5Dtk7UfbRKWHssMUBP
-X-Google-Smtp-Source: APBJJlGudlBSgWAMjPxzVbhnTNitekBudjy7aT0v9nvX2iMLp5ElDkX3BEkVToSdeGnbID2TZUbguA==
-X-Received: by 2002:a05:6402:14ce:b0:51f:f079:875f with SMTP id f14-20020a05640214ce00b0051ff079875fmr382342edx.4.1690408941451;
-        Wed, 26 Jul 2023 15:02:21 -0700 (PDT)
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com. [209.85.208.50])
-        by smtp.gmail.com with ESMTPSA id m15-20020aa7d34f000000b00522584bb58esm1644721edr.24.2023.07.26.15.02.20
+        bh=P/sqc18KIK7dshywkzhq0KOuh2Dzddlts3yGF32bqfQ=;
+        b=W5/HciN1Z9F0uYbANSDLR0nJf0/BQW7TAuHQ7uvGyfzf6SxLIJEJA/5ElOX8zNQPWL
+         xOU1PctYouy7oX5D8ih1MrKyISwa7H0hAPqWP4WPxccqgu0+07PovOeIRs+pEWBqPLRC
+         JZbf5nwmYAYaXgsuM+QUnmauhM1x8/G6aslps7uT32shFQkbPqrLe8pd6uWUmjbhwrv9
+         0vRzBWCSUpJcDIxM72j35upUFE5kVajspVK4eoBUjainvoh5xyMZ9OD1yPzk6F5RmEzM
+         2oMyYPQUBXIZUG9CPMcsWSs1Kd2irfhtDCmWOeM29XQlKjEXM2IDq6UHUGelZq3duWl6
+         Mjsg==
+X-Gm-Message-State: ABy/qLZlqv8DH0KpsFVad1PGpdJ9iokvs91ILNo9bmF4zkGf7xKC0Q+Z
+        aqogisrNXKm4FNz3ozZlUfIZhO8WLkBQeH0PxW0XfSM/
+X-Google-Smtp-Source: APBJJlHgompoBM+56AidEofYuzMqyA1AMoRyrDDY3LXL1iFqYVHCCBRh1t/QdE5YrDmqUFGJ6mpnfQ==
+X-Received: by 2002:a05:6512:324e:b0:4fd:d9dd:7a1a with SMTP id c14-20020a056512324e00b004fdd9dd7a1amr264650lfr.31.1690409760312;
+        Wed, 26 Jul 2023 15:16:00 -0700 (PDT)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com. [209.85.167.49])
+        by smtp.gmail.com with ESMTPSA id u27-20020ac248bb000000b004fb7359ab83sm14092lfg.80.2023.07.26.15.15.58
         for <workflows@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Jul 2023 15:02:20 -0700 (PDT)
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-51e28cac164so3174371a12.1
-        for <workflows@vger.kernel.org>; Wed, 26 Jul 2023 15:02:20 -0700 (PDT)
-X-Received: by 2002:a05:6402:3552:b0:522:405f:a7 with SMTP id
- f18-20020a056402355200b00522405f00a7mr344715edd.16.1690408939880; Wed, 26 Jul
- 2023 15:02:19 -0700 (PDT)
+        Wed, 26 Jul 2023 15:15:58 -0700 (PDT)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-4fdd14c1fbfso498857e87.1
+        for <workflows@vger.kernel.org>; Wed, 26 Jul 2023 15:15:58 -0700 (PDT)
+X-Received: by 2002:ac2:5592:0:b0:4fb:772a:af17 with SMTP id
+ v18-20020ac25592000000b004fb772aaf17mr288800lfg.37.1690409758357; Wed, 26 Jul
+ 2023 15:15:58 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230726151515.1650519-1-kuba@kernel.org> <11ec5b3819ff17c7013348b766eab571eee5ca96.camel@perches.com>
  <20230726092312.799503d6@kernel.org> <CAHk-=wjEj2fGiaQXrYUZu65EPdgbGEAEMzch8LTtiUp6UveRCw@mail.gmail.com>
@@ -63,9 +63,9 @@ References: <20230726151515.1650519-1-kuba@kernel.org> <11ec5b3819ff17c7013348b7
  <20230726145721.52a20cb7@kernel.org>
 In-Reply-To: <20230726145721.52a20cb7@kernel.org>
 From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Wed, 26 Jul 2023 15:02:02 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiJx-FDuH6+22D+L2gMdVOpYi948oWpJr7BpbS-0pEqFg@mail.gmail.com>
-Message-ID: <CAHk-=wiJx-FDuH6+22D+L2gMdVOpYi948oWpJr7BpbS-0pEqFg@mail.gmail.com>
+Date:   Wed, 26 Jul 2023 15:15:41 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjrk1O+a74xKbKMNshZc9dKByWbyXvW+Wre=DQwPjTKGA@mail.gmail.com>
+Message-ID: <CAHk-=wjrk1O+a74xKbKMNshZc9dKByWbyXvW+Wre=DQwPjTKGA@mail.gmail.com>
 Subject: Re: [PATCH v2] scripts: get_maintainer: steer people away from using
  file paths
 To:     Jakub Kicinski <kuba@kernel.org>
@@ -81,24 +81,26 @@ X-Mailing-List: workflows@vger.kernel.org
 
 On Wed, 26 Jul 2023 at 14:57, Jakub Kicinski <kuba@kernel.org> wrote:
 >
-> > And it can't even be the right thing to do, when experienced
-> > developers don't do it.
->
-> I explained to you already that Florian's posting is a PR.
+> Lots of those will be false positives, and also I do not want
+> to sign up to maintain a bot which actively bothers people.
 
-.. and your point is?
+I don't really see the difference between creating a bot that
+"actively bothers people" and asking _people_ to run a script and then
+re-send the patch to actively bother the exact same people.
 
-The fact is, experienced developers don't add cc'd when they commit
-their own patches, and nobody bats an eye on it.
+They'd get bothered either way.
 
-So you are *literally* saying that inexperienced people should do this
-pointless thing that can be - and is - automated, even though it's
-clearly not the thing that is required in general.
+At least with the bot, they can opt out of the automation.
 
-And you're saying that I should have to change my workflow to make it
-MORE INCONVENIENT to do the thing that you claim inexperienced people
-do now.
+> Sidebar, but IMO we should work on lore to create a way to *subscribe*
+> to patches based on paths without running any local agents.
 
-Yup. We're done here.
+I already contacted Konstantin to see how hard it would be to change
+patchwork-bot scripting, and he's trawling this thread.
 
-               Linus
+Maybe he will just go "the code already does all the patch detection
+and looks up pathnames in them anyway, and we already maintain a list
+of people who do not want to be bothered, it would be easy to add the
+'please bother me for these paths' script too".
+
+             Linus
