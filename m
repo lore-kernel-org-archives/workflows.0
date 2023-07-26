@@ -2,92 +2,150 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F7A8C04A6A
-	for <workflows@archiver.kernel.org>; Wed, 26 Jul 2023 18:49:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5B91C0015E
+	for <workflows@archiver.kernel.org>; Wed, 26 Jul 2023 18:51:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232163AbjGZStG (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 26 Jul 2023 14:49:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45612 "EHLO
+        id S229823AbjGZSv1 (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 26 Jul 2023 14:51:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231857AbjGZStF (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 26 Jul 2023 14:49:05 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD80526BB
-        for <workflows@vger.kernel.org>; Wed, 26 Jul 2023 11:49:03 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-4fbf09a9139so172612e87.2
-        for <workflows@vger.kernel.org>; Wed, 26 Jul 2023 11:49:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1690397342; x=1691002142;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=gssK/9t+yReI1WWHhHksFFEr4iOJwLuyj2VWyW67HMg=;
-        b=RNrtpRSLTvNO2OgHpwCznWmRSNMi2w23oMmAxuJFWeOxkQubF2lAVOF2bvMae444OD
-         9zVJxJePna8u2jocJu+ZX/i0HqTIpTM12WXczC5ccoG307ABuL+lZIt/qGg+brMh6r0l
-         GeeZ73/ZiEJuzwhEiNEyNGla4a0mrOuFpGwVU=
+        with ESMTP id S229572AbjGZSv0 (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 26 Jul 2023 14:51:26 -0400
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93BBC1FEC;
+        Wed, 26 Jul 2023 11:51:25 -0700 (PDT)
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7672073e7b9so11358485a.0;
+        Wed, 26 Jul 2023 11:51:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690397342; x=1691002142;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gssK/9t+yReI1WWHhHksFFEr4iOJwLuyj2VWyW67HMg=;
-        b=Jz9bUnyBA2rslVnkeZPN27/29Yc4gjSCmtrX4hXBjVhYfs9+nsP5mzF+ywoxCVs+x4
-         pkTWiAq5irBawGBMFm2J54L/4rPWLNE2OOr/4ULi+o/hYomidA8xsQI2DT41zrehFkMC
-         Es6obM+6WgY5/DG9OJQsQThheqhWse0otlxMVf2UMFMSUa+mLl81rWgLmnYXnle4SOxX
-         ZQFUlDCu3IRuy4CkpjnUUlOaP84/4P89mn+G/2EjAKHJNqmr45aDu0/BIg0lzBNAHoh2
-         SYTgZBkKcMVpa3LYlPCJkr/Y/jrUT4wkgFAa4mmZPXw/b4teOTi62Rz0JV5uf6VfXsSI
-         dbDg==
-X-Gm-Message-State: ABy/qLYvD2qK1Eq0RNk/1QFhHRDIYue297mWWctR2bfaHNSKaRBr3VQ5
-        f0ox8JrsKxDVV+aE6Wfcut7k9yYPeODBD8L4L0n8c69V
-X-Google-Smtp-Source: APBJJlE9SUJ8ZwYEQvW6/nF+SZhGRHieA0RjC3YF23S0KOutPF/XKaLCQTXd5gcoPn1zvrpZP220KA==
-X-Received: by 2002:a05:6512:1188:b0:4f9:571d:c50e with SMTP id g8-20020a056512118800b004f9571dc50emr29246lfr.36.1690397341797;
-        Wed, 26 Jul 2023 11:49:01 -0700 (PDT)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com. [209.85.167.45])
-        by smtp.gmail.com with ESMTPSA id u11-20020ac243cb000000b004fddaddeb63sm3432666lfl.137.2023.07.26.11.49.01
-        for <workflows@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Jul 2023 11:49:01 -0700 (PDT)
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-4fe1489ced6so207234e87.0
-        for <workflows@vger.kernel.org>; Wed, 26 Jul 2023 11:49:01 -0700 (PDT)
-X-Received: by 2002:a05:6512:2107:b0:4f9:5d2a:e0f5 with SMTP id
- q7-20020a056512210700b004f95d2ae0f5mr16955lfr.19.1690397340786; Wed, 26 Jul
- 2023 11:49:00 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1690397484; x=1691002284;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZHyX3wq0ojFXPUI8SahCi1FQW7IJesz87c8DpSzeOCw=;
+        b=kkUQgqr8T6q3+LtXE/B8F6jrpfBEFq856rQ0WmbhThXP00OupGuaodeYaegjscoJap
+         whz2SE9rnmKYuX7eq/ABaH+Fl3XQZX29+4RjCKmFygh/dWXbeyrn8THH1hZn8d4OMpsa
+         S6xPdiDP/j7DVZ6VbvLq+u0l245iOkEN3mmtf9nuINfdA/S51QzQe6H/qkmgU9bZD5fc
+         PM25HJnBOaqhV5gd9+KuAW+fKLtkz1FwSyLeq2v1XCdaq1afihmcsyHNGItpeW5zyMyR
+         lIuEhPaX3B9k8Ra+L+OkfEM5PeWXAZ99kG/5ehj/zOtrjvLpSTSOsr7498QJFr9Zt8Kb
+         5byA==
+X-Gm-Message-State: ABy/qLaKfRxj8QuO4kCCx5fmWcf+n9iHB5TL4AzREuDPPIqX1LpRTb3v
+        F8rUQUqEbbsiaDdReabo2T4blv02G+iBTg==
+X-Google-Smtp-Source: APBJJlEiIiMrCuHBh5EMrE6WULrKvE/VQouJQAx/LwvKSQ27NngFdA8c3ZBXCKmZCev8BLTyEDFsfg==
+X-Received: by 2002:ac8:5bd5:0:b0:403:a4d3:a633 with SMTP id b21-20020ac85bd5000000b00403a4d3a633mr3560424qtb.66.1690397484502;
+        Wed, 26 Jul 2023 11:51:24 -0700 (PDT)
+Received: from costa-tp.bos2.lab ([2a00:a040:199:8930:2c90:cb9e:b154:73dc])
+        by smtp.gmail.com with ESMTPSA id b3-20020ac86783000000b0040324785e4csm4939197qtp.13.2023.07.26.11.51.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Jul 2023 11:51:24 -0700 (PDT)
+From:   Costa Shulyupin <costa.shul@redhat.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Cc:     Costa Shulyupin <costa.shul@redhat.com>
+Subject: [RFC PATCH v2] docs: rework "Working with the development community"
+Date:   Wed, 26 Jul 2023 21:49:37 +0300
+Message-ID: <20230726184939.3118350-1-costa.shul@redhat.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <87ila9atuk.fsf@meer.lwn.net>
+References: <87ila9atuk.fsf@meer.lwn.net>
 MIME-Version: 1.0
-References: <20230726151515.1650519-1-kuba@kernel.org> <11ec5b3819ff17c7013348b766eab571eee5ca96.camel@perches.com>
- <20230726092312.799503d6@kernel.org> <CAHk-=wjEj2fGiaQXrYUZu65EPdgbGEAEMzch8LTtiUp6UveRCw@mail.gmail.com>
- <20230726112031.61bd0c62@kernel.org> <CAHk-=wi9MyyWmP_HAddLrmGfdANkut6_2f9hzv9HcyTBvg3+kA@mail.gmail.com>
- <63361a8f-ffa5-50e7-97d6-297d8e8b059f@amd.com>
-In-Reply-To: <63361a8f-ffa5-50e7-97d6-297d8e8b059f@amd.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Wed, 26 Jul 2023 11:48:44 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whOT-r-W+pOnbkGatKVUpEfNkRwwYxkuy=Stxf475y_Mg@mail.gmail.com>
-Message-ID: <CAHk-=whOT-r-W+pOnbkGatKVUpEfNkRwwYxkuy=Stxf475y_Mg@mail.gmail.com>
-Subject: Re: [PATCH v2] scripts: get_maintainer: steer people away from using
- file paths
-To:     "Limonciello, Mario" <mario.limonciello@amd.com>
-Cc:     Jakub Kicinski <kuba@kernel.org>, Joe Perches <joe@perches.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        geert@linux-m68k.org, gregkh@linuxfoundation.org,
-        netdev@vger.kernel.org, workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Wed, 26 Jul 2023 at 11:45, Limonciello, Mario
-<mario.limonciello@amd.com> wrote:
->
-> If the goal is to get people who are involved with a file, how about
-> some variation of:
+Mission: Make the documentation more readable, organized and maintainable.
 
-No, that isn't the goal.
+NB: no information content is lost of changed on the rendered top page.
 
-The goal is to get the maintainer responsible for that file, so that I
-can bring them in.
+This patch demonstrates rework of the only the first section
+of the top page for review. The proposal is to rework all sections.
 
-Maybe it's a security issue that gets reported. Maybe it's an oops.
-Maybe it's a regression, but not clear what caused it.
+Summary of changes:
+- Heading "Working with the development community" is converted into
+  branch of toctree and visually moved after the text
+  "The essential guides for interacting ..."
+- toctree list is split into separated file. Please don't worry, the
+  content of the list is incorporated to the top page because of
+  `:maxdepth: 2`
+- vertical bar '|' add empty line for better visual distribution
 
-Maybe we could have a script to help do that, and call it
-'get_maintainer' or something like that?
+Technical explanations:
+Template {{ toctree(maxdepth=3) }} in
+Documentation/sphinx/templates/kernel-toc.html
+uses directives toctree and doesn't use sections on the top page
+Documentation/index.rst
+to generate expandable toc on the sidebar.
 
-              Linus
+BTW, other template {{ toc }} uses only sections, and doesn't
+use directives toctree.
+
+Benefit:
+- toc on side bar is expandable and collapsible
+
+---
+
+References:
+- https://www.sphinx-doc.org/en/master/development/templating.html#toctree
+- https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html#directive-toctree
+- https://www.sphinx-doc.org/en/master/development/templating.html#toc
+- https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#sections
+- https://sphinx-rtd-theme.readthedocs.io/
+
+Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+---
+ Documentation/index.rst        | 12 +++---------
+ Documentation/process/main.rst | 13 +++++++++++++
+ 2 files changed, 16 insertions(+), 9 deletions(-)
+ create mode 100644 Documentation/process/main.rst
+
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index 9dfdc826618c..560eb0bc78dd 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -13,21 +13,15 @@ documents into a coherent whole.  Please note that improvements to the
+ documentation are welcome; join the linux-doc list at vger.kernel.org if
+ you want to help out.
+ 
+-Working with the development community
+-======================================
++|
+ 
+ The essential guides for interacting with the kernel's development
+ community and getting your work upstream.
+ 
+ .. toctree::
+-   :maxdepth: 1
+-
+-   process/development-process
+-   process/submitting-patches
+-   Code of conduct <process/code-of-conduct>
+-   maintainer/index
+-   All development-process docs <process/index>
++   :maxdepth: 2
+ 
++   process/main
+ 
+ Internal API manuals
+ ====================
+diff --git a/Documentation/process/main.rst b/Documentation/process/main.rst
+new file mode 100644
+index 000000000000..40bab4ff8198
+--- /dev/null
++++ b/Documentation/process/main.rst
+@@ -0,0 +1,13 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Working with the development community
++======================================
++
++.. toctree::
++   :maxdepth: 1
++
++   development-process
++   submitting-patches
++   Code of conduct <code-of-conduct>
++   ../maintainer/index
++   All development-process docs <../process/index>
+-- 
+2.41.0
+
