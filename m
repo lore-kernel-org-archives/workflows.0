@@ -2,80 +2,74 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9823DC001DC
-	for <workflows@archiver.kernel.org>; Wed, 26 Jul 2023 05:56:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BC9FC001DE
+	for <workflows@archiver.kernel.org>; Wed, 26 Jul 2023 06:03:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231435AbjGZF4j (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 26 Jul 2023 01:56:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40372 "EHLO
+        id S231667AbjGZGDH (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 26 Jul 2023 02:03:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231330AbjGZF4i (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 26 Jul 2023 01:56:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53F9C1989
-        for <workflows@vger.kernel.org>; Tue, 25 Jul 2023 22:55:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1690350952;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=BoO6p8OipFbIVRp/vUM7Zcf5r2fw8A+sOpUnPYaEJPY=;
-        b=QfBCgUisSAw1x28Fj7iy/1SoL0N7LX5/d3t2S2duFCVs28W/mE2C8AteaNP1OYh6aGnauz
-        cFQ5Bt9XqXwRPjeJ38E4knRiWpLfWOnEb9VOwLD8Yy9EPpeDvnzy7K2jlj15aWCjd/DluI
-        W84tZObKYQTrqdZ2MrP1PdAIvte4jd0=
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
- [209.85.210.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-511-32o3Yc7ENB2LNYNdrgkwfw-1; Wed, 26 Jul 2023 01:55:50 -0400
-X-MC-Unique: 32o3Yc7ENB2LNYNdrgkwfw-1
-Received: by mail-ot1-f72.google.com with SMTP id 46e09a7af769-6b9c03dd4f6so11748140a34.0
-        for <workflows@vger.kernel.org>; Tue, 25 Jul 2023 22:55:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690350950; x=1690955750;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BoO6p8OipFbIVRp/vUM7Zcf5r2fw8A+sOpUnPYaEJPY=;
-        b=YwogkgUiCBdUD+q1e0OwcxoXoQt4sYftJEvdJ/LTyoyEwamOPiznGjtptV9Sv8QaRm
-         VmkUb5NWhV5wZ/VjDlQUfFw/iel0gIxLKE80rd3ynmip10vLABWeVqHd1gvTZyUq0umv
-         ylxsAccmwEQaS0BwyVP/I3eAQ5987qcqLy17fCqjlA99/qNQ3MSig5FIb3SJbPC33QfG
-         BXwY5xby4GK50MCBFo2EHU9s9jWemxTJTZKC6xYUjIcTgYUXSEYD9R1cBcWdKyctk4Nl
-         ahHxPyaY4Y7Tuxy9Rnb/FEsiQfU6wEWrvZuw//cD5xAXLI6hzo17vOFX9JhwTmfzCv7C
-         y38g==
-X-Gm-Message-State: ABy/qLbuCrP4G7q902hYoyKy/MTtjgnMlPyM3IV/v+ZUFUmoFx+9kc8H
-        HTtu929v+SqWGzU0LjuLGAePGctdLYO3xpJfDPA2yXOwj9bYGP+pe46CO2TpYrl8sqlXvXM2ZNw
-        kK4UdC+ceZzS4+zWW1qPCk6Pj8E0Ty8Yuv4TXoC6Ltfj4hFw=
-X-Received: by 2002:a05:6871:806:b0:1b0:2ded:bd7 with SMTP id q6-20020a056871080600b001b02ded0bd7mr1353706oap.26.1690350949963;
-        Tue, 25 Jul 2023 22:55:49 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlGMDM0FaPwcSQf/RqvNSpjmA0qJJtEYdpnUKfPyPzpzqjFUhCmFN8imrQA3L7qRhB+SgUcXRspcP18bjzS8d/o=
-X-Received: by 2002:a05:6871:806:b0:1b0:2ded:bd7 with SMTP id
- q6-20020a056871080600b001b02ded0bd7mr1353696oap.26.1690350949784; Tue, 25 Jul
- 2023 22:55:49 -0700 (PDT)
+        with ESMTP id S230494AbjGZGDG (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 26 Jul 2023 02:03:06 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FFB8170D;
+        Tue, 25 Jul 2023 23:03:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=cwe5zzwRb5EKV9jO3R5+pCg8hvrOiH5a2qZVK2S0qoU=; b=2+UrVu/c0K9uK/BvWp0qpmyyM3
+        dQAVabbWkPOxh7MWftSZCkn2uDt2haDboO1NImshw1m9hRlpdI35uOCyQV0B8YBGWBUjVhkGUSw6H
+        uiy1uVKMJevXzX+QNL61MKkGgJA3CIgFi1G12vInGU02ezIw3GPGbzC98Myf4ugGiNr163/6Vjdcj
+        ld1Msus2nAhuorS1ijCMFILSATGOYaDSiPbM7O3/INhelCJYwOi8U/gj/mBnnDXqSuQKfQxXDkHIu
+        n0Oi63j7TzNVgBYuLv1lmMBSEIqzJWK7/GUf6g4oRbkHRWtUOREUQbIWxhcTy7tRuRCQrKxGQJ2gV
+        /FlnMpeA==;
+Received: from [2601:1c2:980:9ec0::2764]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qOXbx-009FO2-1x;
+        Wed, 26 Jul 2023 06:03:01 +0000
+Message-ID: <26d59f6e-cc29-bcf4-d113-34c93804dea8@infradead.org>
+Date:   Tue, 25 Jul 2023 23:03:00 -0700
 MIME-Version: 1.0
-References: <20230724193118.2204673-1-costa.shul@redhat.com> <87ila9atuk.fsf@meer.lwn.net>
-In-Reply-To: <87ila9atuk.fsf@meer.lwn.net>
-From:   Costa Shulyupin <costa.shul@redhat.com>
-Date:   Wed, 26 Jul 2023 08:55:38 +0300
-Message-ID: <CADDUTFzKCrrBT=46F-08_EGrwMxVniDOgdkVr-DhGFTzS3DxOg@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
 Subject: Re: [RFC PATCH] rework top page and organize toc on the sidebar
-To:     Jonathan Corbet <corbet@lwn.net>
+Content-Language: en-US
+To:     Costa Shulyupin <costa.shul@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>
 Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         open list <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        "open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>
+References: <20230724193118.2204673-1-costa.shul@redhat.com>
+ <87ila9atuk.fsf@meer.lwn.net>
+ <CADDUTFzKCrrBT=46F-08_EGrwMxVniDOgdkVr-DhGFTzS3DxOg@mail.gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <CADDUTFzKCrrBT=46F-08_EGrwMxVniDOgdkVr-DhGFTzS3DxOg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-> This patch is somewhat difficult to apply, as a result of:
-> > Content-Type: text/plain; charset=3Dtrue
 
-This is caused by em dash in the context line:
-The following manuals are written for *users* of the kernel =E2=80=94 those=
- who are
 
-I haven't found how to fix it. Are there any tips?
+On 7/25/23 22:55, Costa Shulyupin wrote:
+>> This patch is somewhat difficult to apply, as a result of:
+>>> Content-Type: text/plain; charset=true
+> 
+> This is caused by em dash in the context line:
+> The following manuals are written for *users* of the kernel — those who are
+> 
+> I haven't found how to fix it. Are there any tips?
 
+Fix the email header or fix the em dash?
+
+Did you use 'git send-email' for the patch? It seems to handle
+UTF/UCS charsets AFAIK.
+
+OTOH, any decent text editor can change the em dash to one or
+two hyphens. (which I prefer)
+
+cheers.
+-- 
+~Randy
