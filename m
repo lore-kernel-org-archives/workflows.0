@@ -2,74 +2,90 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BC9FC001DE
-	for <workflows@archiver.kernel.org>; Wed, 26 Jul 2023 06:03:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD796C0015E
+	for <workflows@archiver.kernel.org>; Wed, 26 Jul 2023 06:28:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231667AbjGZGDH (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 26 Jul 2023 02:03:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42950 "EHLO
+        id S231479AbjGZG2b convert rfc822-to-8bit (ORCPT
+        <rfc822;workflows@archiver.kernel.org>);
+        Wed, 26 Jul 2023 02:28:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230494AbjGZGDG (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 26 Jul 2023 02:03:06 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FFB8170D;
-        Tue, 25 Jul 2023 23:03:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=cwe5zzwRb5EKV9jO3R5+pCg8hvrOiH5a2qZVK2S0qoU=; b=2+UrVu/c0K9uK/BvWp0qpmyyM3
-        dQAVabbWkPOxh7MWftSZCkn2uDt2haDboO1NImshw1m9hRlpdI35uOCyQV0B8YBGWBUjVhkGUSw6H
-        uiy1uVKMJevXzX+QNL61MKkGgJA3CIgFi1G12vInGU02ezIw3GPGbzC98Myf4ugGiNr163/6Vjdcj
-        ld1Msus2nAhuorS1ijCMFILSATGOYaDSiPbM7O3/INhelCJYwOi8U/gj/mBnnDXqSuQKfQxXDkHIu
-        n0Oi63j7TzNVgBYuLv1lmMBSEIqzJWK7/GUf6g4oRbkHRWtUOREUQbIWxhcTy7tRuRCQrKxGQJ2gV
-        /FlnMpeA==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qOXbx-009FO2-1x;
-        Wed, 26 Jul 2023 06:03:01 +0000
-Message-ID: <26d59f6e-cc29-bcf4-d113-34c93804dea8@infradead.org>
-Date:   Tue, 25 Jul 2023 23:03:00 -0700
+        with ESMTP id S231235AbjGZG2a (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 26 Jul 2023 02:28:30 -0400
+Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADAEDBF;
+        Tue, 25 Jul 2023 23:28:29 -0700 (PDT)
+Received: from omf19.hostedemail.com (a10.router.float.18 [10.200.18.1])
+        by unirelay10.hostedemail.com (Postfix) with ESMTP id 3A834C0150;
+        Wed, 26 Jul 2023 06:28:28 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf19.hostedemail.com (Postfix) with ESMTPA id C9B7820025;
+        Wed, 26 Jul 2023 06:28:25 +0000 (UTC)
+Message-ID: <cd8771cb54c48e504d89d69fe18c1347d93def19.camel@perches.com>
+Subject: Re: [PATCH] scripts: checkpatch: steer people away from using file
+ paths
+From:   Joe Perches <joe@perches.com>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     krzk@kernel.org, geert@linux-m68k.org, netdev@vger.kernel.org,
+        workflows@vger.kernel.org, mario.limonciello@amd.com
+Date:   Tue, 25 Jul 2023 23:28:24 -0700
+In-Reply-To: <20230725151552.723f1e3f@kernel.org>
+References: <b6ab3c25-eab8-5573-f6e5-8415222439cd@kernel.org>
+         <20230725155926.2775416-1-kuba@kernel.org>
+         <e032507fcb9e6c72d19520898c0095a4c0bd1c33.camel@perches.com>
+         <20230725151552.723f1e3f@kernel.org>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [RFC PATCH] rework top page and organize toc on the sidebar
-Content-Language: en-US
-To:     Costa Shulyupin <costa.shul@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>
-References: <20230724193118.2204673-1-costa.shul@redhat.com>
- <87ila9atuk.fsf@meer.lwn.net>
- <CADDUTFzKCrrBT=46F-08_EGrwMxVniDOgdkVr-DhGFTzS3DxOg@mail.gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <CADDUTFzKCrrBT=46F-08_EGrwMxVniDOgdkVr-DhGFTzS3DxOg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Stat-Signature: awr37tkfip7dcaomwuf7jtquxud3m8yf
+X-Rspamd-Server: rspamout04
+X-Rspamd-Queue-Id: C9B7820025
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1815yvRKKyMguVYqdlA3AIf4D88aUj5UI4=
+X-HE-Tag: 1690352905-893079
+X-HE-Meta: U2FsdGVkX1+nzYTcXRa3IiPdklZ9ylaVb/pwnm0K1jMFFQ64HHX55PpV0Fud650S/FPkGKjG7TeTYSq38E2//SrnUBVlHU3cdi+3tyeyzWI7tOLoZ9DYZVWaf/4yYC0FP5IIC4q/Fth2d+0HifWNXr0amqVJpp4BpNBtvvT+StrOYtNmw+/GeYwnSXThSx1ZsfycWwcI2/tm7uzetKSWHwdMyAPNu+qUr0qpVWLBzjDWkP+clyFz1x1KXhi3UkYgs5U/JRXJgVGjdOlNREAiVadxRpfPY8JiUaiGALTylpSHpGTaQ50k0noXsKbuv+wJ
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-
-
-On 7/25/23 22:55, Costa Shulyupin wrote:
->> This patch is somewhat difficult to apply, as a result of:
->>> Content-Type: text/plain; charset=true
+On Tue, 2023-07-25 at 15:15 -0700, Jakub Kicinski wrote:
+> On Tue, 25 Jul 2023 14:18:15 -0700 Joe Perches wrote:
+> > > @@ -544,7 +546,13 @@ foreach my $file (@ARGV) {
+> > >      if ($from_filename && (vcs_exists() && !vcs_file_exists($file))) {
+> > >  	warn "$P: file '$file' not found in version control $!\n";
+> > >      }
+> > > -    if ($from_filename || ($file ne "&STDIN" && vcs_file_exists($file))) {
+> > > +    if ($from_filename) {
+> > > +	if (!$silence_file_warning) {
+> > > +	    warn "$P: WARNING: Prefer running the script on patches as "
+> > > +	        . "generated by git format-patch. Selecting paths is known "
+> > > +		. "to miss recipients!\n";  
+> > 
+> > Don't separate a single output message into multiple lines.
+> > Coalesce the string elements.
+> > 
+> > Also, this should show some reason why this isn't appropriate
+> > as a patch to a single file would not have this issue.
+> > 
+> > e.g.:	When a patch series touches multiple files, showing all maintainers is useful. see:  <some process doc>
 > 
-> This is caused by em dash in the context line:
-> The following manuals are written for *users* of the kernel — those who are
+> I tried to do that in --help. Added the "multiple files" one there, too.
+
+It'd be more useful in the warning message.
+Hardly anyone reads help.
+
 > 
-> I haven't found how to fix it. Are there any tips?
+> > > @@ -1089,6 +1098,10 @@ version: $V
+> > >     --pattern-depth=0 --remove-duplicates --rolestats]
+> > >  
+> > >  Notes:
+> > > +  Using "-f file" is generally discouraged, running the script on a filepatch
+> > > +      (as generated by git format-patch) is usually the right thing to do.
+> > > +      Commit message is an integral part of the change and $P
+> > > +      will extract additional information from it (keywords, Fixes tags etc.)  
+> > 
+> > "filepatch" doesn't appear in the kernel at all. Use "patch file".
+> 
+> I got it the wrong way around. I'll use patchfile (no space) for v2
+> since that's what's what get_maintainer uses in two other places.
 
-Fix the email header or fix the em dash?
-
-Did you use 'git send-email' for the patch? It seems to handle
-UTF/UCS charsets AFAIK.
-
-OTOH, any decent text editor can change the em dash to one or
-two hyphens. (which I prefer)
-
-cheers.
--- 
-~Randy
