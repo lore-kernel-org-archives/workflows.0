@@ -2,96 +2,82 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE850EB64DD
-	for <workflows@archiver.kernel.org>; Fri, 28 Jul 2023 20:50:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DDA5EB64DD
+	for <workflows@archiver.kernel.org>; Fri, 28 Jul 2023 21:16:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229588AbjG1UuO (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 28 Jul 2023 16:50:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47646 "EHLO
+        id S231146AbjG1VQX (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 28 Jul 2023 17:16:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229485AbjG1UuN (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Fri, 28 Jul 2023 16:50:13 -0400
-Received: from mail-vk1-xa29.google.com (mail-vk1-xa29.google.com [IPv6:2607:f8b0:4864:20::a29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EC5E422B
-        for <workflows@vger.kernel.org>; Fri, 28 Jul 2023 13:50:12 -0700 (PDT)
-Received: by mail-vk1-xa29.google.com with SMTP id 71dfb90a1353d-47ec8c9d7a0so1024540e0c.3
-        for <workflows@vger.kernel.org>; Fri, 28 Jul 2023 13:50:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1690577411; x=1691182211;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ysSfl5i6joVeguoUDlYgpDwoeX/MNO4AZC6tPC2qLPc=;
-        b=J6wMHZyjgRPA7gOOAnp8A6h76r4qg40rYvTphUDsg5Yxk5C7kiTacMtfpl1pJTXniN
-         Ej6DFcq22ZhPiHzuaCF2Q9kKjk3NhHMB5O4x5BFPGzCq9MtinXDtJ+ma7YRCqffXiyEB
-         dVOhLG/djPSUU5ZCfBUqQ3L6IdQnibBO4dkGc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690577411; x=1691182211;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ysSfl5i6joVeguoUDlYgpDwoeX/MNO4AZC6tPC2qLPc=;
-        b=N+6vajxO/MBGX1su0VoCN3V5ivvb27CfnC8u5z6LTOKTKxjJJh5InEDVbhs58PacM2
-         BBW2bcaRb66NlaF1lfVrw6HoCgRZuUJV/4uZK77Mu+jXA734OoFSfxEoMTngPhlSi7Cr
-         YDd4RLttQm/cSsVYagwEP1F9mUI9+B/SSYm7nKXOEmjD0JwMs+GHCBLyJeMNNcvHuSQB
-         Q/UW1kBGstDRo1zxJPel0e/ANkiNNtJUzdbP0L37OtGHQo1kv/Irhsk7khFh9vN9bog9
-         bQHtKsxyrstiut/Ij9IG7WIz9hF2R7BIduqaAZBHDmZC4OdfAtCQh6KAh7AfhnmT5ze9
-         DXEQ==
-X-Gm-Message-State: ABy/qLZnVCRDb0gf2ofX7uJWNRH4cQE1YC4PcwvJKfFTiADPAaMRdRkc
-        nwjoxs1laXghKcOO7tvYYRKLhA==
-X-Google-Smtp-Source: APBJJlEq4ZSIG2aY8RwkENR4ErrwZWYBIpCoX9j9mf+WM2EzHhGjdzABHvdvmJYseO7Tqu2RkNwxMA==
-X-Received: by 2002:a1f:5f12:0:b0:485:ac24:df1 with SMTP id t18-20020a1f5f12000000b00485ac240df1mr749000vkb.12.1690577411462;
-        Fri, 28 Jul 2023 13:50:11 -0700 (PDT)
-Received: from meerkat.local (bras-base-mtrlpq5031w-grc-33-142-113-79-114.dsl.bell.ca. [142.113.79.114])
-        by smtp.gmail.com with ESMTPSA id v6-20020a0c9c06000000b00623839cba8csm1545872qve.44.2023.07.28.13.50.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Jul 2023 13:50:10 -0700 (PDT)
-Date:   Fri, 28 Jul 2023 16:50:09 -0400
-From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Joe Perches <joe@perches.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        geert@linux-m68k.org, gregkh@linuxfoundation.org,
-        netdev@vger.kernel.org, workflows@vger.kernel.org,
-        mario.limonciello@amd.com
-Subject: Re: [PATCH v2] scripts: get_maintainer: steer people away from using
- file paths
-Message-ID: <20230728-driven-reliable-8a57d2@meerkat>
-References: <CAHk-=wjfC4tFnOC0Lk_GcU4buf+X-Jv965pWg+kMRkDb6hX6mw@mail.gmail.com>
- <20230726133648.54277d76@kernel.org>
- <CAHk-=whZHcergYrraQGgazmOGMbuPsDfRMBXjFLo1aEQPqH2xQ@mail.gmail.com>
- <20230726145721.52a20cb7@kernel.org>
- <20230726-june-mocha-ad6809@meerkat>
- <20230726171123.0d573f7c@kernel.org>
- <20230726-armless-ungodly-a3242f@meerkat>
- <1b96e465-0922-4c02-b770-4b1f27bebeb8@lunn.ch>
- <20230728-egotism-icing-3d0bd0@meerkat>
- <20230728133801.7d42dcf7@kernel.org>
+        with ESMTP id S231135AbjG1VQW (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Fri, 28 Jul 2023 17:16:22 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 316F03C0E;
+        Fri, 28 Jul 2023 14:16:22 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 997BB62209;
+        Fri, 28 Jul 2023 21:16:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92267C433C8;
+        Fri, 28 Jul 2023 21:16:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690578981;
+        bh=vtrKkVyBJ04h0WQ+xRn/gxnfxqEJUFW7+xMuf47mB0k=;
+        h=From:To:Cc:Subject:Date:From;
+        b=lW5U2/PI0wIIh50ZezAOKwQy05mb/Sg3hlrjI5qp9bhGy5Hn8tsH6p8aPfuz7G92I
+         T1Fs+katykgRYTYgW2XNTrjlwXdpSdFUI+i5vYKXLWSHqrg0PrNKvxA5N4K0QcXCH8
+         BdWvEI2BbfRSBCwhquqgTMXeKmQ3F5kDDtEDa2b1mJGnvmhRnDIG7eyDlkvIe+vR0z
+         ELeLk+/2nMEsQuOi9Y0uca8sNVPyxxYI6o2Wh7ElFiAM0F/6e4/u7n044TfrkP5pCW
+         jfYpMlPlDxEs33szIH9xo+gUUmC7rxmC7vV2bZdcUt7z9U+azJTzipH424uOTmEjkB
+         CAm0YEkWpLSCA==
+From:   SeongJae Park <sj@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     SeongJae Park <sj@kernel.org>, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] Docs/process/changes: Consolidate NFS-utils update links
+Date:   Fri, 28 Jul 2023 21:16:15 +0000
+Message-Id: <20230728211616.59550-1-sj@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230728133801.7d42dcf7@kernel.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Fri, Jul 28, 2023 at 01:38:01PM -0700, Jakub Kicinski wrote:
-> > It would require a bit more effort to adapt it so we properly handle bounces,
-> > but effectively this does what you're asking about -- replies sent to a thread
-> > will be sent out to all addresses we've associated with that thread (via
-> > get_maintainer.pl). In a sense, this will create a miniature pseudo-mailing
-> > list per each thread with its own set of subscribers.
-> > 
-> > I just need to make sure this doesn't fall over once we are hitting
-> > LKML-levels of activity.
-> 
-> How does that square with the "subscribe by path / keyword" concept?
-> If we can do deep magic of this sort can we also use it to SMTP to
-> people what they wanted to subscribe to rather than expose it as
-> POP/IMAP/NNTP?
+Two update links for NFS-utils are in two duplicate sessions.
+Consolidate.
 
-Well, people can subscribe without needing to become an M: or R: entry in
-MAINTAINERS. I guess that would be the main difference.
+Signed-off-by: SeongJae Park <sj@kernel.org>
+---
+ Documentation/process/changes.rst | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
--K
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index 5561dae94f85..f05eada0383e 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -545,6 +545,7 @@ NFS-utils
+ ---------
+ 
+ - <http://sourceforge.net/project/showfiles.php?group_id=14>
++- <http://nfs.sourceforge.net/>
+ 
+ Iptables
+ --------
+@@ -561,11 +562,6 @@ OProfile
+ 
+ - <http://oprofile.sf.net/download/>
+ 
+-NFS-Utils
+----------
+-
+-- <http://nfs.sourceforge.net/>
+-
+ Kernel documentation
+ ********************
+ 
+-- 
+2.25.1
+
