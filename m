@@ -2,110 +2,73 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CB80C001DF
-	for <workflows@archiver.kernel.org>; Fri, 28 Jul 2023 21:16:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3986EB64DD
+	for <workflows@archiver.kernel.org>; Fri, 28 Jul 2023 23:23:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231248AbjG1VQ0 (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 28 Jul 2023 17:16:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55812 "EHLO
+        id S230221AbjG1XW4 (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 28 Jul 2023 19:22:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231135AbjG1VQZ (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Fri, 28 Jul 2023 17:16:25 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4E633C30;
-        Fri, 28 Jul 2023 14:16:22 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 39EF2621FF;
-        Fri, 28 Jul 2023 21:16:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A2D3C433CA;
-        Fri, 28 Jul 2023 21:16:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690578981;
-        bh=NsRxddDlLqahYaViS384MxGc/Qfc6oFDePNf6w+QqoY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PuJnstbUtkvCNp0Gra75/xOdXcaWKDCRTsYO+r99XiqpVJMvOk5JoSnrODw9gYXkQ
-         YsssH2Tfc3A1NY8tPToUhRchUl7f1O7ZK2B/NZxmZKEScUI6fq2/fYDacML1YuVJPi
-         gvLISQMOlUCyh1aRg5mZoqqySEtaUZPRRJn5qY9NpRVHpHZRORG0/rpCAqVjtCuOse
-         VYYF02YAVdhnsDqivNZGsQHGZ+Xnww1AGd4xMzkzKK9YjIaht+FmJgjgdmDO6yuhao
-         4ySUCN1mtWsGu+J6lxLZjbKPV2zB7XSdK3lSSjN0AMa+wiMMedQgQ5DZ5b8/PaNjb4
-         Ofq7f3H3Lat5A==
-From:   SeongJae Park <sj@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     SeongJae Park <sj@kernel.org>, workflows@vger.kernel.org,
+        with ESMTP id S229585AbjG1XWz (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Fri, 28 Jul 2023 19:22:55 -0400
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 734F63AB1
+        for <workflows@vger.kernel.org>; Fri, 28 Jul 2023 16:22:54 -0700 (PDT)
+Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-686efdeabaeso1827776b3a.3
+        for <workflows@vger.kernel.org>; Fri, 28 Jul 2023 16:22:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1690586574; x=1691191374;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3J02gGPlZbZHgOQ6syHZQDMbL88svEYL3WquPy69jjU=;
+        b=OyOMvsiUoVcZVoxz3S3mVRqlkP5ItPBXfoVU508M21VmJ77cghHo71kcfTxpCTQr9B
+         +KOdpAXL278mjK4gvNLkJMvHfGwSCGkxz2J2FM+sOO/PUx5qle6t7qqrHwT7HnwRvPri
+         h9Eb9Y0/mCIbT3eADa8OM2kGwHE+NsJRA1EnQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690586574; x=1691191374;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3J02gGPlZbZHgOQ6syHZQDMbL88svEYL3WquPy69jjU=;
+        b=gpjCm1a0sBYX67bDjCP9vdX5aPQwd3KnJ5jM2pWrvKP0fx48ByqJlRDpaP2nmKYdIS
+         sCkfF304GG7IkSU5ohVEeu0a/dIs/c8GHLL4xp9LlVZZwj+2ijOHyarRyQ4pyZ3P4hVw
+         ukeCP5Dz/SjvBIOMtBIYwYbtASQdarOKKBGscLEUmsirWplN1gLoHx4+qKdPpMxSb9dN
+         bZ3Y6PYz0lZN4Zus2G7IsjFS5HJnAoxkodL1TFltxAaXi18/zqf9gYeRupxkLY3VTMQJ
+         YPUHtZgIE0IEZmlhNl9m4NsNL3ySNZDvcCUtRTXQxxEDi6l6pFYF/bxPzlaAOXsjfbF2
+         qBWg==
+X-Gm-Message-State: ABy/qLa0XNFIlMo4nrvJaFRBDLAO+jc1HUG4O/dFkSMBcCy4Nw4HYtJ6
+        xKTu0ZozCpcuYVvYHyJz8HZdeQ==
+X-Google-Smtp-Source: APBJJlGQfZLVQNgsEv0pXXb81+pMSf6XgrCMsILXZO2g0C5yTNhAizbBghrn9UMk6Jj4XjQAIKBtQw==
+X-Received: by 2002:a05:6a00:138f:b0:686:9385:4644 with SMTP id t15-20020a056a00138f00b0068693854644mr3518683pfg.2.1690586573930;
+        Fri, 28 Jul 2023 16:22:53 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id a10-20020a62bd0a000000b005d22639b577sm3615689pff.165.2023.07.28.16.22.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Jul 2023 16:22:53 -0700 (PDT)
+Date:   Fri, 28 Jul 2023 16:22:52 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     SeongJae Park <sj@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] Docs/process/changes: Replace http:// with https://
-Date:   Fri, 28 Jul 2023 21:16:16 +0000
-Message-Id: <20230728211616.59550-2-sj@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230728211616.59550-1-sj@kernel.org>
+Subject: Re: [PATCH 1/2] Docs/process/changes: Consolidate NFS-utils update
+ links
+Message-ID: <202307281622.CF15DDB@keescook>
 References: <20230728211616.59550-1-sj@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230728211616.59550-1-sj@kernel.org>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Some links are still using 'http://'.  Replace those with 'https://'.
+On Fri, Jul 28, 2023 at 09:16:15PM +0000, SeongJae Park wrote:
+> Two update links for NFS-utils are in two duplicate sessions.
+> Consolidate.
+> 
+> Signed-off-by: SeongJae Park <sj@kernel.org>
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/process/changes.rst | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index f05eada0383e..1982fa896f3b 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -482,7 +482,7 @@ E2fsprogs
- JFSutils
- --------
- 
--- <http://jfs.sourceforge.net/>
-+- <https://jfs.sourceforge.net/>
- 
- Reiserfsprogs
- -------------
-@@ -503,7 +503,7 @@ Pcmciautils
- Quota-tools
- -----------
- 
--- <http://sourceforge.net/projects/linuxquota/>
-+- <https://sourceforge.net/projects/linuxquota/>
- 
- 
- Intel P6 microcode
-@@ -524,7 +524,7 @@ FUSE
- mcelog
- ------
- 
--- <http://www.mcelog.org/>
-+- <https://www.mcelog.org/>
- 
- cpio
- ----
-@@ -544,8 +544,8 @@ PPP
- NFS-utils
- ---------
- 
--- <http://sourceforge.net/project/showfiles.php?group_id=14>
--- <http://nfs.sourceforge.net/>
-+- <https://sourceforge.net/project/showfiles.php?group_id=14>
-+- <https://nfs.sourceforge.net/>
- 
- Iptables
- --------
-@@ -560,7 +560,7 @@ Ip-route2
- OProfile
- --------
- 
--- <http://oprofile.sf.net/download/>
-+- <https://oprofile.sf.net/download/>
- 
- Kernel documentation
- ********************
 -- 
-2.25.1
-
+Kees Cook
