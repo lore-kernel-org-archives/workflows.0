@@ -2,39 +2,52 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF613C001DE
-	for <workflows@archiver.kernel.org>; Fri, 28 Jul 2023 20:38:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE850EB64DD
+	for <workflows@archiver.kernel.org>; Fri, 28 Jul 2023 20:50:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229592AbjG1UiY (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 28 Jul 2023 16:38:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44754 "EHLO
+        id S229588AbjG1UuO (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 28 Jul 2023 16:50:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229595AbjG1UiX (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Fri, 28 Jul 2023 16:38:23 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E501749F6
-        for <workflows@vger.kernel.org>; Fri, 28 Jul 2023 13:38:03 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5F404621FE
-        for <workflows@vger.kernel.org>; Fri, 28 Jul 2023 20:38:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68354C433C7;
-        Fri, 28 Jul 2023 20:38:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690576682;
-        bh=4nF+GP/Kww3rrhobqvwb8YD0LYwhm6uL18hfYnDTXT0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Ah9t1Av/+mrp9gz1vavMwieu6GWj+odnnwWbwg/P7esq2m0PiEALIV3v4oy/NZPX6
-         9nQOXW8PXV15h69bAeaUIMICisxJhmGZP1tsZQ70IJtiJmcrCgp1bd2QDFk0ONDkAg
-         r6RIJ51vqQOML552wSayvC+G5SHL2HglyG6x84p20SqNYDLWhlvdf5VjWL55ThNiiJ
-         ruiP8llW5slhOEGNk03v+6+a33qgLqXEiu7q9hJslR2q88Z2GqPVeQgvLh0vtseP5f
-         my3nmvWFYPGKz951gEL+GgQtOlWqqZHJeIzwp7XkvP/Ht8MjFz27tMNPJrnVB6pc3M
-         LITpPFePLC06Q==
-Date:   Fri, 28 Jul 2023 13:38:01 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+        with ESMTP id S229485AbjG1UuN (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Fri, 28 Jul 2023 16:50:13 -0400
+Received: from mail-vk1-xa29.google.com (mail-vk1-xa29.google.com [IPv6:2607:f8b0:4864:20::a29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EC5E422B
+        for <workflows@vger.kernel.org>; Fri, 28 Jul 2023 13:50:12 -0700 (PDT)
+Received: by mail-vk1-xa29.google.com with SMTP id 71dfb90a1353d-47ec8c9d7a0so1024540e0c.3
+        for <workflows@vger.kernel.org>; Fri, 28 Jul 2023 13:50:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1690577411; x=1691182211;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ysSfl5i6joVeguoUDlYgpDwoeX/MNO4AZC6tPC2qLPc=;
+        b=J6wMHZyjgRPA7gOOAnp8A6h76r4qg40rYvTphUDsg5Yxk5C7kiTacMtfpl1pJTXniN
+         Ej6DFcq22ZhPiHzuaCF2Q9kKjk3NhHMB5O4x5BFPGzCq9MtinXDtJ+ma7YRCqffXiyEB
+         dVOhLG/djPSUU5ZCfBUqQ3L6IdQnibBO4dkGc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690577411; x=1691182211;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ysSfl5i6joVeguoUDlYgpDwoeX/MNO4AZC6tPC2qLPc=;
+        b=N+6vajxO/MBGX1su0VoCN3V5ivvb27CfnC8u5z6LTOKTKxjJJh5InEDVbhs58PacM2
+         BBW2bcaRb66NlaF1lfVrw6HoCgRZuUJV/4uZK77Mu+jXA734OoFSfxEoMTngPhlSi7Cr
+         YDd4RLttQm/cSsVYagwEP1F9mUI9+B/SSYm7nKXOEmjD0JwMs+GHCBLyJeMNNcvHuSQB
+         Q/UW1kBGstDRo1zxJPel0e/ANkiNNtJUzdbP0L37OtGHQo1kv/Irhsk7khFh9vN9bog9
+         bQHtKsxyrstiut/Ij9IG7WIz9hF2R7BIduqaAZBHDmZC4OdfAtCQh6KAh7AfhnmT5ze9
+         DXEQ==
+X-Gm-Message-State: ABy/qLZnVCRDb0gf2ofX7uJWNRH4cQE1YC4PcwvJKfFTiADPAaMRdRkc
+        nwjoxs1laXghKcOO7tvYYRKLhA==
+X-Google-Smtp-Source: APBJJlEq4ZSIG2aY8RwkENR4ErrwZWYBIpCoX9j9mf+WM2EzHhGjdzABHvdvmJYseO7Tqu2RkNwxMA==
+X-Received: by 2002:a1f:5f12:0:b0:485:ac24:df1 with SMTP id t18-20020a1f5f12000000b00485ac240df1mr749000vkb.12.1690577411462;
+        Fri, 28 Jul 2023 13:50:11 -0700 (PDT)
+Received: from meerkat.local (bras-base-mtrlpq5031w-grc-33-142-113-79-114.dsl.bell.ca. [142.113.79.114])
+        by smtp.gmail.com with ESMTPSA id v6-20020a0c9c06000000b00623839cba8csm1545872qve.44.2023.07.28.13.50.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Jul 2023 13:50:10 -0700 (PDT)
+Date:   Fri, 28 Jul 2023 16:50:09 -0400
+From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To:     Jakub Kicinski <kuba@kernel.org>
 Cc:     Andrew Lunn <andrew@lunn.ch>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Joe Perches <joe@perches.com>,
@@ -42,46 +55,43 @@ Cc:     Andrew Lunn <andrew@lunn.ch>,
         geert@linux-m68k.org, gregkh@linuxfoundation.org,
         netdev@vger.kernel.org, workflows@vger.kernel.org,
         mario.limonciello@amd.com
-Subject: Re: [PATCH v2] scripts: get_maintainer: steer people away from
- using file paths
-Message-ID: <20230728133801.7d42dcf7@kernel.org>
-In-Reply-To: <20230728-egotism-icing-3d0bd0@meerkat>
-References: <CAHk-=whCE9cWmTXu54WFQ7x-aH8n=dhCux2h49=pYN=14ybkxg@mail.gmail.com>
-        <20230726130318.099f96fc@kernel.org>
-        <CAHk-=wjfC4tFnOC0Lk_GcU4buf+X-Jv965pWg+kMRkDb6hX6mw@mail.gmail.com>
-        <20230726133648.54277d76@kernel.org>
-        <CAHk-=whZHcergYrraQGgazmOGMbuPsDfRMBXjFLo1aEQPqH2xQ@mail.gmail.com>
-        <20230726145721.52a20cb7@kernel.org>
-        <20230726-june-mocha-ad6809@meerkat>
-        <20230726171123.0d573f7c@kernel.org>
-        <20230726-armless-ungodly-a3242f@meerkat>
-        <1b96e465-0922-4c02-b770-4b1f27bebeb8@lunn.ch>
-        <20230728-egotism-icing-3d0bd0@meerkat>
+Subject: Re: [PATCH v2] scripts: get_maintainer: steer people away from using
+ file paths
+Message-ID: <20230728-driven-reliable-8a57d2@meerkat>
+References: <CAHk-=wjfC4tFnOC0Lk_GcU4buf+X-Jv965pWg+kMRkDb6hX6mw@mail.gmail.com>
+ <20230726133648.54277d76@kernel.org>
+ <CAHk-=whZHcergYrraQGgazmOGMbuPsDfRMBXjFLo1aEQPqH2xQ@mail.gmail.com>
+ <20230726145721.52a20cb7@kernel.org>
+ <20230726-june-mocha-ad6809@meerkat>
+ <20230726171123.0d573f7c@kernel.org>
+ <20230726-armless-ungodly-a3242f@meerkat>
+ <1b96e465-0922-4c02-b770-4b1f27bebeb8@lunn.ch>
+ <20230728-egotism-icing-3d0bd0@meerkat>
+ <20230728133801.7d42dcf7@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230728133801.7d42dcf7@kernel.org>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Fri, 28 Jul 2023 16:29:13 -0400 Konstantin Ryabitsev wrote:
-> I have actually solved a similar problem already as part of a different
-> project (bugbot). We associate a set of additional addresses with a thread and
-> can send any thread updates to those addresses.
+On Fri, Jul 28, 2023 at 01:38:01PM -0700, Jakub Kicinski wrote:
+> > It would require a bit more effort to adapt it so we properly handle bounces,
+> > but effectively this does what you're asking about -- replies sent to a thread
+> > will be sent out to all addresses we've associated with that thread (via
+> > get_maintainer.pl). In a sense, this will create a miniature pseudo-mailing
+> > list per each thread with its own set of subscribers.
+> > 
+> > I just need to make sure this doesn't fall over once we are hitting
+> > LKML-levels of activity.
 > 
-> It would require a bit more effort to adapt it so we properly handle bounces,
-> but effectively this does what you're asking about -- replies sent to a thread
-> will be sent out to all addresses we've associated with that thread (via
-> get_maintainer.pl). In a sense, this will create a miniature pseudo-mailing
-> list per each thread with its own set of subscribers.
-> 
-> I just need to make sure this doesn't fall over once we are hitting
-> LKML-levels of activity.
+> How does that square with the "subscribe by path / keyword" concept?
+> If we can do deep magic of this sort can we also use it to SMTP to
+> people what they wanted to subscribe to rather than expose it as
+> POP/IMAP/NNTP?
 
-How does that square with the "subscribe by path / keyword" concept?
-If we can do deep magic of this sort can we also use it to SMTP to
-people what they wanted to subscribe to rather than expose it as
-POP/IMAP/NNTP?
+Well, people can subscribe without needing to become an M: or R: entry in
+MAINTAINERS. I guess that would be the main difference.
 
-Could be easier for people to do dedup and alike if subscriptions were
-flowing into their usual inbox.
+-K
