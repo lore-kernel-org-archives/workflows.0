@@ -2,155 +2,132 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 541C6C00528
-	for <workflows@archiver.kernel.org>; Fri,  4 Aug 2023 09:42:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 485C6C001DB
+	for <workflows@archiver.kernel.org>; Fri,  4 Aug 2023 10:17:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230164AbjHDJmh (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 4 Aug 2023 05:42:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48114 "EHLO
+        id S229557AbjHDKRw (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 4 Aug 2023 06:17:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230519AbjHDJme (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Fri, 4 Aug 2023 05:42:34 -0400
+        with ESMTP id S231436AbjHDKRb (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Fri, 4 Aug 2023 06:17:31 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 006C430F8;
-        Fri,  4 Aug 2023 02:42:32 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99F0649E6;
+        Fri,  4 Aug 2023 03:17:14 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 919B561F79;
-        Fri,  4 Aug 2023 09:42:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC527C433C8;
-        Fri,  4 Aug 2023 09:42:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1691142152;
-        bh=LxB1A3SflD2/rcpnjLAWUeMaCaz16ieR3+UC//gBZww=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Mt+c3wcn70Zldr8Gdi39eM6ykm4zIjUy9QAm9lRpy+B4zzBGUHkvIDqixv/6ZAkIe
-         sD1vuXJxW/NHCqb9t1Buwtd0L4Rbij3sjx0dYCqKT4hLmsTlhn7qJbDVcEC6uQD4Ih
-         wxz8wKeQhHWbHbV5sBPjmxBAajbimujuBWXBWN7s6fTPgfLfHloWUwQz2HwmiPiR7D
-         +6ea6qmHMLgumwzv6EJKI2yx+zWGy0vA4x5/6L2khmjSIxBUMaUDeDuj8rZIN5vzZB
-         bmyz+j56wTIa1SabTxbx4RXnZMz+n2Amf8saWus1UoBHWplsL/Y/MUGR6EYg616DsS
-         Scd+7/ArbQSmQ==
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-1bed90ee8b7so1147996fac.0;
-        Fri, 04 Aug 2023 02:42:31 -0700 (PDT)
-X-Gm-Message-State: AOJu0Ywo5aq3EtUQnaWP6d8OJJpayGZgODukPJ6+zNelX/tvej+beePx
-        r7W92phioq+dvHaLzx6zCBYQu7qrfS1DdGGITU4=
-X-Google-Smtp-Source: AGHT+IHRnNseIsFg7KvfjwUtSQb1tNdZTYfuSLHkn5ovbA6p/pkU61Fm+hGm6tYwfEycpSCl0Tn8BOndSM3U0/8P3IA=
-X-Received: by 2002:a05:6870:4710:b0:1b3:8fed:c4a0 with SMTP id
- b16-20020a056870471000b001b38fedc4a0mr1076875oaq.1.1691142151121; Fri, 04 Aug
- 2023 02:42:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230803090711.2261876-1-linux@rasmusvillemoes.dk> <2023080302-theology-custody-670b@gregkh>
-In-Reply-To: <2023080302-theology-custody-670b@gregkh>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 4 Aug 2023 18:41:54 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARPTwmnTO-saaGo4nnc7HXK44qQihRK+EqovK=qFT8zPg@mail.gmail.com>
-Message-ID: <CAK7LNARPTwmnTO-saaGo4nnc7HXK44qQihRK+EqovK=qFT8zPg@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: changes.rst: add entry for git
-To:     Greg KH <gregkh@linuxfoundation.org>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3787F61F8B;
+        Fri,  4 Aug 2023 10:17:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10E4FC433C7;
+        Fri,  4 Aug 2023 10:17:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1691144233;
+        bh=zNBDN7gMxcdP3rzmzlXceNr1RBqj0mH0rrNSb8z1r4Q=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hGjPvl06N5vqehlQBtNtTo1rEv1/w06C3pAbv/j7SfpWsoygQHEDMp1XYkebaQ52V
+         Y76yp0awGlqFUowiW4xa8hzxAX+3mxlJrgp4GwlJ0P/a4SCrziog7TJ4Z7UaXy4472
+         8hxWpFLEKdJLKerZ32ZrOKBPg50pJkFm8uQ2B/rg=
+Date:   Fri, 4 Aug 2023 12:17:10 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Jonathan Corbet <corbet@lwn.net>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         workflows@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] Documentation: changes.rst: add entry for git
+Message-ID: <2023080447-ahead-tannery-c77a@gregkh>
+References: <20230803090711.2261876-1-linux@rasmusvillemoes.dk>
+ <2023080302-theology-custody-670b@gregkh>
+ <CAK7LNARPTwmnTO-saaGo4nnc7HXK44qQihRK+EqovK=qFT8zPg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNARPTwmnTO-saaGo4nnc7HXK44qQihRK+EqovK=qFT8zPg@mail.gmail.com>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Thu, Aug 3, 2023 at 7:19=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org>=
- wrote:
->
-> On Thu, Aug 03, 2023 at 11:07:10AM +0200, Rasmus Villemoes wrote:
-> > git is obviously used for development, directly and also
-> > indirectly (via checkpatch, get_maintainer and other helper
-> > scripts). But it is also invoked during the build to produce the
-> > `uname -r` string.
+On Fri, Aug 04, 2023 at 06:41:54PM +0900, Masahiro Yamada wrote:
+> On Thu, Aug 3, 2023 at 7:19 PM Greg KH <gregkh@linuxfoundation.org> wrote:
 > >
-> > It's useful to have some minimal git version one can expect people to
-> > use. For now, set a somewhat conservative minimum of 1.8.0, which is
-> > already more then ten years old.
+> > On Thu, Aug 03, 2023 at 11:07:10AM +0200, Rasmus Villemoes wrote:
+> > > git is obviously used for development, directly and also
+> > > indirectly (via checkpatch, get_maintainer and other helper
+> > > scripts). But it is also invoked during the build to produce the
+> > > `uname -r` string.
+> > >
+> > > It's useful to have some minimal git version one can expect people to
+> > > use. For now, set a somewhat conservative minimum of 1.8.0, which is
+> > > already more then ten years old.
+> > >
+> > > Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+> > > ---
+> > >  Documentation/process/changes.rst | 8 ++++++++
+> > >  1 file changed, 8 insertions(+)
+> > >
+> > > diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+> > > index 5561dae94f85..a82c619f4bb2 100644
+> > > --- a/Documentation/process/changes.rst
+> > > +++ b/Documentation/process/changes.rst
+> > > @@ -62,6 +62,7 @@ Sphinx\ [#f1]_         1.7              sphinx-build --version
+> > >  cpio                   any              cpio --version
+> > >  GNU tar                1.28             tar --version
+> > >  gtags (optional)       6.6.5            gtags --version
+> > > +git                    1.8.0            git --version
+> > >  ====================== ===============  ========================================
+> > >
+> > >  .. [#f1] Sphinx is needed only to build the Kernel documentation
+> > > @@ -189,6 +190,13 @@ The kernel build requires GNU GLOBAL version 6.6.5 or later to generate
+> > >  tag files through ``make gtags``.  This is due to its use of the gtags
+> > >  ``-C (--directory)`` flag.
+> > >
+> > > +git
+> > > +---
+> > > +
+> > > +When building with CONFIG_LOCALVERSION_AUTO=y, the build system uses
+> > > +git to produce a version string of the form
+> > > +6.4.6-00128-gd78b7f406397, which will be shown e.g. by running `uname -r`.
 > >
-> > Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-> > ---
-> >  Documentation/process/changes.rst | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
+> > Isn't this optional?  If git is not installed it just will not use git
+> > to determine the local version.
+> 
+> Right.
+> Without git, the suffix "-00128-gd78b7f406397" is not
+> appended, but you can build the kernel.
+> 
+> 
 > >
-> > diff --git a/Documentation/process/changes.rst b/Documentation/process/=
-changes.rst
-> > index 5561dae94f85..a82c619f4bb2 100644
-> > --- a/Documentation/process/changes.rst
-> > +++ b/Documentation/process/changes.rst
-> > @@ -62,6 +62,7 @@ Sphinx\ [#f1]_         1.7              sphinx-build =
---version
-> >  cpio                   any              cpio --version
-> >  GNU tar                1.28             tar --version
-> >  gtags (optional)       6.6.5            gtags --version
-> > +git                    1.8.0            git --version
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
+> > So you should put "(optional)" above on the list of tools.
 > >
-> >  .. [#f1] Sphinx is needed only to build the Kernel documentation
-> > @@ -189,6 +190,13 @@ The kernel build requires GNU GLOBAL version 6.6.5=
- or later to generate
-> >  tag files through ``make gtags``.  This is due to its use of the gtags
-> >  ``-C (--directory)`` flag.
-> >
-> > +git
-> > +---
-> > +
-> > +When building with CONFIG_LOCALVERSION_AUTO=3Dy, the build system uses
-> > +git to produce a version string of the form
-> > +6.4.6-00128-gd78b7f406397, which will be shown e.g. by running `uname =
--r`.
->
-> Isn't this optional?  If git is not installed it just will not use git
-> to determine the local version.
+> > And also, don't pick a specific version like this unless it is that way
+> > for a reason.  Why not pick a newer one?  Or the last one that the local
+> > version script can handle properly?
+> 
+> 
+> 
+> CentOS 7 (plans to retire in 2024) unfortunately
+> uses a ten-year-old git version.
+> 
+> In CentOS 7,
+> 
+> $ git --version
+> git version 1.8.3.1
 
-Right.
-Without git, the suffix "-00128-gd78b7f406397" is not
-appended, but you can build the kernel.
+I doubt CentOS 7 can build a modern-day kernel anyway, so why is this a
+requirement?  We shouldn't be beholden to the necro-distros just because
+they have not moved into this decade :)
 
+> If we are allowed to abandon conservative distros,
+> I prefer git >= 2.14.0
+> 
+> That supports 'git status --no-optional-locks'
 
->
-> So you should put "(optional)" above on the list of tools.
->
-> And also, don't pick a specific version like this unless it is that way
-> for a reason.  Why not pick a newer one?  Or the last one that the local
-> version script can handle properly?
+That makes sense, and is a valid reason to require this.
 
+thanks,
 
-
-CentOS 7 (plans to retire in 2024) unfortunately
-uses a ten-year-old git version.
-
-In CentOS 7,
-
-$ git --version
-git version 1.8.3.1
-
-
-
-Tagger: Junio C Hamano <gitster@pobox.com>
-Date:   Mon Jun 10 12:34:56 2013 -0700
-
-Git 1.8.3.1
-
-
-
-
-
-If we are allowed to abandon conservative distros,
-I prefer git >=3D 2.14.0
-
-That supports 'git status --no-optional-locks'
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+greg k-h
