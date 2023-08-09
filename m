@@ -2,83 +2,90 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB476C0015E
-	for <workflows@archiver.kernel.org>; Sat,  5 Aug 2023 10:44:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C972C001B0
+	for <workflows@archiver.kernel.org>; Wed,  9 Aug 2023 16:30:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229826AbjHEKoL (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Sat, 5 Aug 2023 06:44:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49328 "EHLO
+        id S229898AbjHIQaO (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 9 Aug 2023 12:30:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbjHEKoL (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Sat, 5 Aug 2023 06:44:11 -0400
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2195468C;
-        Sat,  5 Aug 2023 03:44:08 -0700 (PDT)
-Received: from fsav112.sakura.ne.jp (fsav112.sakura.ne.jp [27.133.134.239])
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 375Ahs9K034135;
-        Sat, 5 Aug 2023 19:43:54 +0900 (JST)
-        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav112.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav112.sakura.ne.jp);
- Sat, 05 Aug 2023 19:43:54 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav112.sakura.ne.jp)
-Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-        (authenticated bits=0)
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 375AhmiF034121
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-        Sat, 5 Aug 2023 19:43:54 +0900 (JST)
-        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <8fd13a0a-4724-db17-f52f-3adb72868745@I-love.SAKURA.ne.jp>
-Date:   Sat, 5 Aug 2023 19:43:47 +0900
+        with ESMTP id S229478AbjHIQaO (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 9 Aug 2023 12:30:14 -0400
+Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27BF110F3;
+        Wed,  9 Aug 2023 09:30:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
+        ; s=x; h=Subject:Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Cc:To
+        :From:subject:date:message-id:reply-to;
+        bh=8EndxSmp6Qjc7xVkBhqjKI56UjhvwBrDojnvq5YdZ8g=; b=OomtjgrQg2ER400pMoM+eD70hF
+        Zc7KqgU/GHRE9bCuQ80pzkUudQTOJ3g8x1rWJsKWebFSghMNhhJbQxOch+RYVi2kYiq314fn5IAHr
+        lkbtzoEmWisQ5i+T2jNwccCpEPC0yoPCXFYdpKp1+Dmr6QYecVwyuAPQrYFL9C7zpZ2I=;
+Received: from modemcable061.19-161-184.mc.videotron.ca ([184.161.19.61]:60908 helo=localhost.localdomain)
+        by mail.hugovil.com with esmtpa (Exim 4.92)
+        (envelope-from <hugo@hugovil.com>)
+        id 1qTm4V-0004S3-Bd; Wed, 09 Aug 2023 12:30:07 -0400
+From:   Hugo Villeneuve <hugo@hugovil.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sasha Levin <sashal@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     hugo@hugovil.com, andy.shevchenko@gmail.com,
+        Hugo Villeneuve <hvilleneuve@dimonoff.com>,
+        stable@vger.kernel.org, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Wed,  9 Aug 2023 12:29:42 -0400
+Message-Id: <20230809162941.7769-1-hugo@hugovil.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH] Documentation: changes.rst: add entry for git
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>
-Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230803090711.2261876-1-linux@rasmusvillemoes.dk>
- <2023080302-theology-custody-670b@gregkh>
- <CAK7LNARPTwmnTO-saaGo4nnc7HXK44qQihRK+EqovK=qFT8zPg@mail.gmail.com>
- <2023080447-ahead-tannery-c77a@gregkh>
- <CAK7LNAQdYRuvM8t8rr=DysC_wt2QbhWqaCwnNvkrSHb5c0HWMw@mail.gmail.com>
-Content-Language: en-US
-From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <CAK7LNAQdYRuvM8t8rr=DysC_wt2QbhWqaCwnNvkrSHb5c0HWMw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 184.161.19.61
+X-SA-Exim-Mail-From: hugo@hugovil.com
+Subject: [PATCH] Documentation: stable: clarify patch series prerequisites
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On 2023/08/05 17:02, Masahiro Yamada wrote:
->>>>> It's useful to have some minimal git version one can expect people to
->>>>> use. For now, set a somewhat conservative minimum of 1.8.0, which is
->>>>> already more then ten years old.
+From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
 
-No problem with requiring git >= 1.8.0.
+Add some clarifications for patches that have dependencies within the
+patch series.
 
-> 
-> The default GCC on CentOS 7 is GCC 4.8,
-> which is too old to build the kernel.
-> 
-> I am not so sure how RHEL/CentOS 7 users are working
-> on the kernel development, but it is possible to
-> install a newer gcc version from Developer Toolset.
+Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+---
+This patch was made after some discussions I had with Greg and Andy when
+submitting a series of patches for stable inclusion:
 
-CentOS 7 users can install a newer git version as well as gcc.
+Link: https://lkml.org/lkml/2023/8/4/21
 
-> commit f5983dab0ead92dc2690d147f0604a0badcac6a8
-> Author: Masahiro Yamada <masahiroy@kernel.org>
-> Date:   Wed Jun 28 01:32:05 2023 +0900
-> 
->     modpost: define more R_ARM_* for old distributions
-> 
->     On CentOS 7, the following build error occurs.
+ Documentation/process/stable-kernel-rules.rst | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-It is glibc-headers-2.17-326.el7_9 package. Neither gcc nor git problem.
+diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
+index 51df1197d5ab..1c38ee009ed4 100644
+--- a/Documentation/process/stable-kernel-rules.rst
++++ b/Documentation/process/stable-kernel-rules.rst
+@@ -124,6 +124,18 @@ The tag sequence has the meaning of:
+      git cherry-pick fd21073
+      git cherry-pick <this commit>
+ 
++Note that for a patch series, you do not have to list as prerequisites the
++patches present in the series itself. For example, if you have the following
++patch series:
++
++.. code-block:: none
++
++     patch1
++     patch2
++
++where patch2 depends on patch1, you do not have to list patch1 as prerequisite
++of patch2 if you have already marked patch1 for stable inclusion.
++
+ Also, some patches may have kernel version prerequisites.  This can be
+ specified in the following format in the sign-off area:
+ 
+
+base-commit: 13b9372068660fe4f7023f43081067376582ef3c
+-- 
+2.30.2
 
