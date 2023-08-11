@@ -2,90 +2,77 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C972C001B0
-	for <workflows@archiver.kernel.org>; Wed,  9 Aug 2023 16:30:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96BB1C41513
+	for <workflows@archiver.kernel.org>; Fri, 11 Aug 2023 20:30:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229898AbjHIQaO (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 9 Aug 2023 12:30:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49000 "EHLO
+        id S236246AbjHKUaf (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 11 Aug 2023 16:30:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229478AbjHIQaO (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 9 Aug 2023 12:30:14 -0400
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27BF110F3;
-        Wed,  9 Aug 2023 09:30:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
-        ; s=x; h=Subject:Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Cc:To
-        :From:subject:date:message-id:reply-to;
-        bh=8EndxSmp6Qjc7xVkBhqjKI56UjhvwBrDojnvq5YdZ8g=; b=OomtjgrQg2ER400pMoM+eD70hF
-        Zc7KqgU/GHRE9bCuQ80pzkUudQTOJ3g8x1rWJsKWebFSghMNhhJbQxOch+RYVi2kYiq314fn5IAHr
-        lkbtzoEmWisQ5i+T2jNwccCpEPC0yoPCXFYdpKp1+Dmr6QYecVwyuAPQrYFL9C7zpZ2I=;
-Received: from modemcable061.19-161-184.mc.videotron.ca ([184.161.19.61]:60908 helo=localhost.localdomain)
-        by mail.hugovil.com with esmtpa (Exim 4.92)
-        (envelope-from <hugo@hugovil.com>)
-        id 1qTm4V-0004S3-Bd; Wed, 09 Aug 2023 12:30:07 -0400
-From:   Hugo Villeneuve <hugo@hugovil.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     hugo@hugovil.com, andy.shevchenko@gmail.com,
-        Hugo Villeneuve <hvilleneuve@dimonoff.com>,
-        stable@vger.kernel.org, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Wed,  9 Aug 2023 12:29:42 -0400
-Message-Id: <20230809162941.7769-1-hugo@hugovil.com>
-X-Mailer: git-send-email 2.30.2
+        with ESMTP id S233506AbjHKUae (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Fri, 11 Aug 2023 16:30:34 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C19110DF;
+        Fri, 11 Aug 2023 13:30:34 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id D3253735;
+        Fri, 11 Aug 2023 20:30:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D3253735
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1691785834; bh=akFqlDnAZSEDeOkT/rGEax3CNW9VVCMY0SZLWMdAuRE=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=Dl7ekD+Swty4fpvtIQVdXQmSfETlRA1HiBbX2ZHpBkK7Jo8FH8/RDscIaFYsRtl6J
+         O2b6ij21gt1Mm0jip7+1ZtAH9LHmfqPNTPAt5YcTdDH330lYFBz1r12dYFWI1pbZtS
+         8TPT1pJdOwXZgwCXT4D/njCz2ugMcSR8BNs44mlKD99wGak5HQ+qKoyKtb4s3EqWJh
+         rI1fjg0UEffhXOwMR/d2ibBogEOXUkv5EKmejFC4Hof9lPygbjeZ0v12Pqos7QCqN0
+         AEFB60INFnr4s5mOh11mHL+6/cEzWxoIXYTJZi5bPikDX7yMsb52Uc0JjYGqcpZR2m
+         pr3DjMVI2Q7Sg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Carlos Bilbao <carlos.bilbao@amd.com>
+Cc:     workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Carlos Bilbao <carlos.bilbao@amd.com>
+Subject: Re: [PATCH] docs: Add book to process/kernel-docs.rst
+In-Reply-To: <20230803142417.965313-1-carlos.bilbao@amd.com>
+References: <20230803142417.965313-1-carlos.bilbao@amd.com>
+Date:   Fri, 11 Aug 2023 14:30:33 -0600
+Message-ID: <87leehxqxi.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 184.161.19.61
-X-SA-Exim-Mail-From: hugo@hugovil.com
-Subject: [PATCH] Documentation: stable: clarify patch series prerequisites
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+Carlos Bilbao <carlos.bilbao@amd.com> writes:
 
-Add some clarifications for patches that have dependencies within the
-patch series.
+> Include to process/kernel-docs.rst a book on Linux system administration
+> published in May, 2023 (with ISBN 978-1098109035).
+>
+> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
+> ---
+>  Documentation/process/kernel-docs.rst | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+>
+> diff --git a/Documentation/process/kernel-docs.rst b/Documentation/process/kernel-docs.rst
+> index 46f927aae6eb..26ead9d31c01 100644
+> --- a/Documentation/process/kernel-docs.rst
+> +++ b/Documentation/process/kernel-docs.rst
+> @@ -118,6 +118,15 @@ Published books
+>        :ISBN: 978-0672329463
+>        :Notes: Foundational book
+>  
+> +    * Title: **Practical Linux System Administration: A Guide to Installation, Configuration, and Management, 1st Edition**
+> +
+> +      :Author: Kenneth Hess
+> +      :Publisher: O'Reilly Media
+> +      :Date: May, 2023
+> +      :Pages: 246
+> +      :ISBN: 978-1098109035
+> +      :Notes: System administration
+> +
+>  .. _ldd3_published:
 
-Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
----
-This patch was made after some discussions I had with Greg and Andy when
-submitting a series of patches for stable inclusion:
+Applied, thanks.
 
-Link: https://lkml.org/lkml/2023/8/4/21
-
- Documentation/process/stable-kernel-rules.rst | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
-index 51df1197d5ab..1c38ee009ed4 100644
---- a/Documentation/process/stable-kernel-rules.rst
-+++ b/Documentation/process/stable-kernel-rules.rst
-@@ -124,6 +124,18 @@ The tag sequence has the meaning of:
-      git cherry-pick fd21073
-      git cherry-pick <this commit>
- 
-+Note that for a patch series, you do not have to list as prerequisites the
-+patches present in the series itself. For example, if you have the following
-+patch series:
-+
-+.. code-block:: none
-+
-+     patch1
-+     patch2
-+
-+where patch2 depends on patch1, you do not have to list patch1 as prerequisite
-+of patch2 if you have already marked patch1 for stable inclusion.
-+
- Also, some patches may have kernel version prerequisites.  This can be
- specified in the following format in the sign-off area:
- 
-
-base-commit: 13b9372068660fe4f7023f43081067376582ef3c
--- 
-2.30.2
-
+jon
