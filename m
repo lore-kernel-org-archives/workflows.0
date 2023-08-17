@@ -2,64 +2,82 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9595CC64E96
-	for <workflows@archiver.kernel.org>; Thu, 17 Aug 2023 20:48:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20309C6FD22
+	for <workflows@archiver.kernel.org>; Thu, 17 Aug 2023 22:12:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354996AbjHQUsD (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 17 Aug 2023 16:48:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58690 "EHLO
+        id S1355557AbjHQWL4 (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 17 Aug 2023 18:11:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355006AbjHQUrg (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 17 Aug 2023 16:47:36 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 197DF2698
-        for <workflows@vger.kernel.org>; Thu, 17 Aug 2023 13:47:35 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AB52C6135D
-        for <workflows@vger.kernel.org>; Thu, 17 Aug 2023 20:47:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C47A2C433C8;
-        Thu, 17 Aug 2023 20:47:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1692305254;
-        bh=PBe6nxuGY7kS4b2kcm7CTHG47fel3k/Zzwfncca2DfI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Qj6K4XRnOv+/4ElYTYyErBCCsqsBIMwgfuyllEw7AtLXrS0+K2HmgrNPDkFNI2HsM
-         mtpPhAj+64CcizLUiuaV3FV0F2264XLVuu4O6Ul0FxuEFk/VxjcHAEitvr/JRmw1Ri
-         rEsxj//YKl8fre0ZdJ55XQ0SWnC4QtqfFbniY6eQ=
-Date:   Thu, 17 Aug 2023 22:47:31 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@redhat.com>
-Cc:     workflows@vger.kernel.org
-Subject: Re: Selective lei filters and replies to old threads
-Message-ID: <2023081720-wrath-winnings-bb16@gregkh>
-References: <87ttsxbvqd.fsf@toke.dk>
+        with ESMTP id S1355718AbjHQWLq (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 17 Aug 2023 18:11:46 -0400
+X-Greylist: delayed 61 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 17 Aug 2023 15:11:16 PDT
+Received: from smtpcmd01-sus.aruba.it (smtpcmd01-sus.aruba.it [62.149.158.243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ACD43598
+        for <workflows@vger.kernel.org>; Thu, 17 Aug 2023 15:11:16 -0700 (PDT)
+Received: from localhost.localdomain ([95.47.160.93])
+        by Aruba Outgoing Smtp  with ESMTPSA
+        id WlBwquBOoN2T6WlBwqMz6O; Fri, 18 Aug 2023 00:10:09 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+        t=1692310209; bh=YW7OOee3ntlFh+GHPTYk5DoX31eiF4LJQ1/lOJukFeY=;
+        h=From:To:Subject:Date:MIME-Version;
+        b=csE6r/INTs2vmCMgvup7TkASYill7DSypJhq/JY0uluNwB2YngpwF82O3DUyjL9Mi
+         ThGIC1+6UrWRq8rCwqXhlD9TJcYh/BEH2/6cmgu1yDFo46Z3HLLgDCJ49QrhwYS2RB
+         JdZY0Zf1Vqbp+Ti0bGOK43V/MC8RbtPpue6LVND3YFQVabioIg+WXC6osJVK+/0R7b
+         0Xx8et54o75px74GbgBVuQOznDQtHJbNbi6YOhG7FSQzWMUyKRx0jmy6+FRsyqIWrn
+         MOQLEZuPQdFAfoJXgkfCbzdV9LSlf4VWuKNkTbF6hq4EB5DMkSi8FjoRZMWvp7datJ
+         r/sVHGwJj//OA==
+From:   Giulio Benetti <giulio.benetti@benettiengineering.com>
+To:     Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Giulio Benetti <giulio.benetti@benettiengineering.com>
+Subject: [RFC PATCH 0/1] Attempt to add Sponsored-by tag
+Date:   Fri, 18 Aug 2023 00:09:56 +0200
+Message-Id: <20230817220957.41582-1-giulio.benetti@benettiengineering.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87ttsxbvqd.fsf@toke.dk>
+X-CMAE-Envelope: MS4xfIjxsLaZGIR7DNFbha2F2Ri14pnsw6afb2YXf1VMxSJbADvnJRM4obQbbNq/bKrC8icvRTOUkB5JQgrsahFEetbH3tR0IAQeOuiaRs0mJXmW5ypf3CBH
+ hgiXE0xCEsrMdEqoO6NC8vFd4ppgyVex9glFP7Q8Qzl/6p9M4EszS2oJ9taz8cAELZE3LETVwRrcNZKWE821k4w2YLKEhot1uLRYoSXvetd/nfhSqSWYTIxo
+ Ht2fqPXVVddnLZKexam9OUQfKePd8IZtsL0qp73WApn3Qe3bkAb719suT3G7krc9w8kksZIbFB6TF/eGmyV3sWqBMY1MIhR8xqChR7m36eAHam7yKB2gLw7k
+ 94b9ggoHIGjbw+JZsmN0emlPhihpJwfVYLzQ/t9I4Pjz0Gfr3Zc=
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Thu, Aug 17, 2023 at 04:15:54PM +0200, Toke Høiland-Jørgensen wrote:
-> [0] Side note: if anyone has a nice trick to specifically exclude Greg's
-> stable patch bombs from this, I would be interested in hearing about
-> that as well :)
+Hello All,
 
-I thought those stable patch bombs had a X- header on them, like:
-	X-stable: review
-and
-	X-Patchwork-Hint: ignore
-but somehow it looks like I'm only adding that to the first message in
-the stable-patch-bomb series.
+working as a consultant for some companies it happens to end up in having
+patches that the final customer could be reluctant to send upstream for
+many reasons. One of these reason is that at the moment he would not gain
+visibility except being added in the commit log as Cc: as far as I know.
 
-Would it help for me to fix my side and add those headers to make it
-easier for you to be able to ignore them?
+What I've been pointed to by someone is "Sponsored by:" that is not a real
+tag and it's been used not that often, for example here:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=73c289bac05919286f8c7e1660fcaf6ec0468363
+And as you know better than me:
+$ git log --grep="Sponsored by:"
 
-thanks,
+As explained in the commit log of the patch this is an attempt to define a
+standard Sponsored-by: tag including a method of acknowledge on sponsor's side.
+The goal is to possibly increase upstreamed patches giving the chance to the
+sponsors to gain visibility.
 
-greg k-h
+I hope someone likes the idea and that someone could help me to improve the
+description in the patch because I'm not an English mother language.
+
+Best regards
+--
+Giulio Benetti
+CEO&CTO@Benetti Engineering sas
+
+Giulio Benetti (1):
+  docs: submitting-patches: Add Sponsored-by tag to give credits to who
+    sponsored the patch
+
+ Documentation/process/submitting-patches.rst | 38 ++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
+
+-- 
+2.34.1
+
