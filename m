@@ -2,100 +2,97 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF84BEE49AA
-	for <workflows@archiver.kernel.org>; Mon, 21 Aug 2023 12:15:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5D4CEE4993
+	for <workflows@archiver.kernel.org>; Mon, 21 Aug 2023 12:57:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230157AbjHUMPv (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 21 Aug 2023 08:15:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47906 "EHLO
+        id S232268AbjHUM5V (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 21 Aug 2023 08:57:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234482AbjHUMPv (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 21 Aug 2023 08:15:51 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DF9DCC;
-        Mon, 21 Aug 2023 05:15:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692620148; x=1724156148;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=SWJbo7tRR27hpxLU8wMVzusoaS/OMxN+TKIypsZNcuw=;
-  b=VfzaiVjENMBibdLEuxc1+CT9fOpOLDudpfZy77JxtamSRfrRiZSG+fV5
-   seQpAtpqRbjvTehT/4wyCZVyX6/lzxZtYY11Jw4fU5Jh8yIwyN9Uo+54O
-   qcmUMHY1srctJyZX53YdzKx/O780WrdlwxIjpChnXgg4vxNT7yRMXfqFL
-   k+twYLwdY4oQGtIKXLXzIMptt0C4J05KJdx2+L/ILvPYm3RG2w+k93X8r
-   rCoUhfxFb9EAf7CwMrfeXkzd9fhV7ilNDWdLGl1Fi5jC1Mr0ollGaD1c0
-   T0Tk4D0liRq9ptYEdmW5Tfqw7IErDdf5f3gokYCunwYW1KdwIUHqf3vp0
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10808"; a="376322452"
-X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; 
-   d="scan'208";a="376322452"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 05:15:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10808"; a="738878294"
-X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; 
-   d="scan'208";a="738878294"
-Received: from hpabst-mobl.ger.corp.intel.com (HELO localhost) ([10.252.54.190])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 05:15:45 -0700
-From:   Jani Nikula <jani.nikula@intel.com>
-To:     Matthew Wilcox <willy@infradead.org>
+        with ESMTP id S235090AbjHUM5V (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 21 Aug 2023 08:57:21 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B242B1;
+        Mon, 21 Aug 2023 05:57:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=bkpIHgJ72JldiWUel9wVfgGF2ysEoVcz7b0lE+gT6jg=; b=KQ5ekz5vxHnK1vYsygUx286252
+        wC/k81Uz0vXgbfMXfbYd7VEJ+FI/9GEX2VVAdfdEALcbJUc+CBei90d2g5U4kRXMoG5Ob1qkcUWSu
+        R5GkY6BHiP/gBoTaARanxeNcZlIq97x4IW+46JrXCoI242sxhLQKXXoYZt1MJK4hp+g25ZQBsjEuE
+        hVpq2u4TRwZkSxi9Xmf60gv+Kg9LzK8HndFeTog/7l7Rl0wxPi4qVMPK3NOBTo2hTBczoXn8+axfF
+        mPe5a0lCNTzriPNwDFxsknbOIviTDiyLQ931aoKOZk+awBJLPg3a8Kh0pRVYC0W9KcDugFaZLz7eY
+        I5+DtpMA==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1qY4T2-00AIWb-Jt; Mon, 21 Aug 2023 12:57:12 +0000
+Date:   Mon, 21 Aug 2023 13:57:12 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Jani Nikula <jani.nikula@intel.com>
 Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Giulio Benetti <giulio.benetti@benettiengineering.com>,
         Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [RFC PATCH 1/1] docs: submitting-patches: Add Sponsored-by tag
  to give credits to who sponsored the patch
-In-Reply-To: <ZONTiijMLWbt6naQ@casper.infradead.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Message-ID: <ZONfKKwFaDQpuZ9w@casper.infradead.org>
 References: <20230817220957.41582-1-giulio.benetti@benettiengineering.com>
  <20230817220957.41582-2-giulio.benetti@benettiengineering.com>
  <20230817232348.GC1175@pendragon.ideasonboard.com>
- <ZN65iiRiSLmXz89k@casper.infradead.org> <87ttss7q8o.fsf@intel.com>
+ <ZN65iiRiSLmXz89k@casper.infradead.org>
+ <87ttss7q8o.fsf@intel.com>
  <ZONTiijMLWbt6naQ@casper.infradead.org>
-Date:   Mon, 21 Aug 2023 15:15:43 +0300
-Message-ID: <87o7j07frk.fsf@intel.com>
+ <87o7j07frk.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87o7j07frk.fsf@intel.com>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Mon, 21 Aug 2023, Matthew Wilcox <willy@infradead.org> wrote:
-> On Mon, Aug 21, 2023 at 11:29:27AM +0300, Jani Nikula wrote:
->> On Fri, 18 Aug 2023, Matthew Wilcox <willy@infradead.org> wrote:
->> > but you might have (eg)
->> >
->> > Laurent Pinchard (Coca-Cola) <laurent.pinchart@ideasonboard.com>
->> >
->> > and then when working for another sponsor:
->> >
->> > Laurent Pinchard (Ford) <laurent.pinchart@ideasonboard.com>
->> 
->> Just an observation, git shortlog -s/-se groups/distinguishes,
->> respectively, the author and sponsor in Laurent's approach. Not so with
->> Matthew's approach.
->
-> Hm?
->
-> $ git shortlog -s next-20230817..
->      1  Matthew Wilcox (Novartis)
->     25  Matthew Wilcox (Oracle)
->
-> $ git shortlog -se next-20230817..
->      1  Matthew Wilcox (Novartis) <willy@infradead.org>
->     25  Matthew Wilcox (Oracle) <willy@infradead.org>
+On Mon, Aug 21, 2023 at 03:15:43PM +0300, Jani Nikula wrote:
+> On Mon, 21 Aug 2023, Matthew Wilcox <willy@infradead.org> wrote:
+> > On Mon, Aug 21, 2023 at 11:29:27AM +0300, Jani Nikula wrote:
+> >> On Fri, 18 Aug 2023, Matthew Wilcox <willy@infradead.org> wrote:
+> >> > but you might have (eg)
+> >> >
+> >> > Laurent Pinchard (Coca-Cola) <laurent.pinchart@ideasonboard.com>
+> >> >
+> >> > and then when working for another sponsor:
+> >> >
+> >> > Laurent Pinchard (Ford) <laurent.pinchart@ideasonboard.com>
+> >> 
+> >> Just an observation, git shortlog -s/-se groups/distinguishes,
+> >> respectively, the author and sponsor in Laurent's approach. Not so with
+> >> Matthew's approach.
+> >
+> > Hm?
+> >
+> > $ git shortlog -s next-20230817..
+> >      1  Matthew Wilcox (Novartis)
+> >     25  Matthew Wilcox (Oracle)
+> >
+> > $ git shortlog -se next-20230817..
+> >      1  Matthew Wilcox (Novartis) <willy@infradead.org>
+> >     25  Matthew Wilcox (Oracle) <willy@infradead.org>
+> 
+> $ git shortlog v6.4.. -s --author="Laurent Pinchart"
+>     12  Laurent Pinchart
+> 
+> $ git shortlog v6.4.. -se --author="Laurent Pinchart"
+>      2  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>     10  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-$ git shortlog v6.4.. -s --author="Laurent Pinchart"
-    12  Laurent Pinchart
+I must not be understanding your point correctly.
 
-$ git shortlog v6.4.. -se --author="Laurent Pinchart"
-     2  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-    10  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+$ git shortlog v6.4.. -s --author="Matthew Wilcox"
+     7  Matthew Wilcox
+     1  Matthew Wilcox (Novartis)
+   123  Matthew Wilcox (Oracle)
 
-BR,
-Jani.
-
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+That seems to me like it successfully distinguishes my fake commit on
+behalf of Novartis (who I haven't actually worked for since 1997) from
+my real commits on behalf of Oracle.  It also shows a few places where
+my commits weren't attributed to Oracle (I think this happens when I
+send patches using mutt instead of git-send-email)
