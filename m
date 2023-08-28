@@ -2,57 +2,61 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A62A0C83F16
-	for <workflows@archiver.kernel.org>; Mon, 28 Aug 2023 13:49:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E872CC83F15
+	for <workflows@archiver.kernel.org>; Mon, 28 Aug 2023 15:14:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230327AbjH1Nsm convert rfc822-to-8bit (ORCPT
-        <rfc822;workflows@archiver.kernel.org>);
-        Mon, 28 Aug 2023 09:48:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42748 "EHLO
+        id S231641AbjH1POW (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 28 Aug 2023 11:14:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230197AbjH1Ns1 (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 28 Aug 2023 09:48:27 -0400
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF554BA;
-        Mon, 28 Aug 2023 06:48:24 -0700 (PDT)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-5921a962adfso38305927b3.1;
-        Mon, 28 Aug 2023 06:48:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693230503; x=1693835303;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=blhUfqzVF8tP8mpgksXjcwth+y21tfThEGRNVYSwGqo=;
-        b=devQHdnNSEAvsloV66rJ3RMFyKr4XeX6oj3I1+sEodMBq+pZo0ahB7DzB4a7sMer7u
-         odKe9KPnSQoBt+8SXY0cY4XRYgP27MhPFauSdE3lKFEK14Rp2LZ8oBpxaSbSVBmPNwZP
-         dQH8nRNhu0kzIh5T60arNTEptOeIVMwE4w+dSoleeV+m3l/E3SY3ma5evohfXtNnnbRG
-         sj8sXUJHk52hJq6XrUTw7C0jz1i5aQK03jcwJtYwxRB/h6KRD6cL8EkMFyUKmZNVxz65
-         OMLXWSbd6Qyc5W8jL99/S+KoS23H0TwOwUXBtXsGlVyd3KaobhlZOnvSQUog+8JGxTNb
-         yZHA==
-X-Gm-Message-State: AOJu0YyB+LJfr3ZcqyjIBINyLZWWy6XzNDR9Gay9zGeUmZJnLPKFzQta
-        Kh8jJZWZzz4mmTFzSijs+yR5caa/GCh0QQ==
-X-Google-Smtp-Source: AGHT+IE/aG47xr4aFKQSQnWeTHix/moy4Q5+BWRyKz5ITnwbpKg8BY6e7aupaCttRi06B/NtdZweBw==
-X-Received: by 2002:a0d:c4c4:0:b0:57a:f72:ebf8 with SMTP id g187-20020a0dc4c4000000b0057a0f72ebf8mr27083807ywd.28.1693230503695;
-        Mon, 28 Aug 2023 06:48:23 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id c66-20020a0dda45000000b0058427045833sm2151213ywe.133.2023.08.28.06.48.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Aug 2023 06:48:23 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-d746ea563f9so3081739276.1;
-        Mon, 28 Aug 2023 06:48:22 -0700 (PDT)
-X-Received: by 2002:a5b:b06:0:b0:d47:8db3:8bc8 with SMTP id
- z6-20020a5b0b06000000b00d478db38bc8mr26525998ybp.21.1693230502647; Mon, 28
- Aug 2023 06:48:22 -0700 (PDT)
+        with ESMTP id S232554AbjH1PON (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 28 Aug 2023 11:14:13 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD2CC11B;
+        Mon, 28 Aug 2023 08:14:07 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 860961F383;
+        Mon, 28 Aug 2023 15:14:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1693235646; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=a7/Km/jKsLvw/NKxCW99seF9lWJLgqSMYTjISiIIMKY=;
+        b=juD3P3pg0IENzHff2mRHsgSANByBQnrGln5C3hvcCzhoqJYhonY1TUGpJLhJZGgf0MvXcP
+        +PtjfZah9cWEzPiDO9+Gvo9S+TGt9hH960NL/IiEVuDEDqEVWDLncPTnHthr0sf4alrAhT
+        fb9+7E0p4jOMihGKndQ3IVBUdJb8VL8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1693235646;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=a7/Km/jKsLvw/NKxCW99seF9lWJLgqSMYTjISiIIMKY=;
+        b=dvUTP6SlcF9q6wm+rNzL0rLC/Km4gFRV9ib+4Lm87cMoll/Oolti2EbwuhB3xhWG+WRWFB
+        7gf3JDwBCteRWTDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3502913A11;
+        Mon, 28 Aug 2023 15:14:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id y/UUDL657GTYdgAAMHmgww
+        (envelope-from <vbabka@suse.cz>); Mon, 28 Aug 2023 15:14:06 +0000
+Message-ID: <9aec0740-2482-d3ad-caf2-5e6278a050b3@suse.cz>
+Date:   Mon, 28 Aug 2023 17:14:05 +0200
 MIME-Version: 1.0
-References: <cover.1693037031.git.quic_gurus@quicinc.com> <141b9fcab2208ace3001df4fc10e3dfd42b9f5d9.1693037031.git.quic_gurus@quicinc.com>
- <87jztf37ny.fsf@intel.com> <20230828133554.GA818859@hu-bjorande-lv.qualcomm.com>
-In-Reply-To: <20230828133554.GA818859@hu-bjorande-lv.qualcomm.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 28 Aug 2023 15:48:11 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU+3oj+-3=f5WFVTRsKQjqCpU8SnVqKSZGk8XRxhsDcVQ@mail.gmail.com>
-Message-ID: <CAMuHMdU+3oj+-3=f5WFVTRsKQjqCpU8SnVqKSZGk8XRxhsDcVQ@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
 Subject: Re: [PATCH v3 1/1] scripts: Add add-maintainer.py
-To:     Bjorn Andersson <quic_bjorande@quicinc.com>
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Bjorn Andersson <quic_bjorande@quicinc.com>
 Cc:     Jani Nikula <jani.nikula@intel.com>,
         Guru Das Srinagesh <quic_gurus@quicinc.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
@@ -69,41 +73,51 @@ Cc:     Jani Nikula <jani.nikula@intel.com>,
         tools@linux.kernel.org, devicetree@vger.kernel.org,
         linux-arm-msm@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+References: <cover.1693037031.git.quic_gurus@quicinc.com>
+ <141b9fcab2208ace3001df4fc10e3dfd42b9f5d9.1693037031.git.quic_gurus@quicinc.com>
+ <87jztf37ny.fsf@intel.com>
+ <20230828133554.GA818859@hu-bjorande-lv.qualcomm.com>
+ <CAMuHMdU+3oj+-3=f5WFVTRsKQjqCpU8SnVqKSZGk8XRxhsDcVQ@mail.gmail.com>
+From:   Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <CAMuHMdU+3oj+-3=f5WFVTRsKQjqCpU8SnVqKSZGk8XRxhsDcVQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Hi Bjorn,
+On 8/28/23 15:48, Geert Uytterhoeven wrote:
+> Hi Bjorn,
+> 
+> On Mon, Aug 28, 2023 at 3:37 PM Bjorn Andersson
+> <quic_bjorande@quicinc.com> wrote:
+>> On Mon, Aug 28, 2023 at 11:14:41AM +0300, Jani Nikula wrote:
+>> > On Sat, 26 Aug 2023, Guru Das Srinagesh <quic_gurus@quicinc.com> wrote:
+>> > > This script runs get_maintainer.py on a given patch file (or multiple
+>> > > patch files) and adds its output to the patch file in place with the
+>> > > appropriate email headers "To: " or "Cc: " as the case may be. These new
+>> > > headers are added after the "From: " line in the patch.
+>> >
+>> > FWIW, I personally prefer tooling to operate on git branches and commits
+>> > than patches. For me, the patches are just an intermediate step in
+>> > getting the commits from my git branch to the mailing list. That's not
+>> > where I add the Cc's, but rather in the commits in my local branch,
+>> > where they're preserved. YMMV.
+>> >
+>>
+>> May I ask how you add/carry the recipients in a commit?
+> 
+> I guess below a "---" line in the commit description?
 
-On Mon, Aug 28, 2023 at 3:37 PM Bjorn Andersson
-<quic_bjorande@quicinc.com> wrote:
-> On Mon, Aug 28, 2023 at 11:14:41AM +0300, Jani Nikula wrote:
-> > On Sat, 26 Aug 2023, Guru Das Srinagesh <quic_gurus@quicinc.com> wrote:
-> > > This script runs get_maintainer.py on a given patch file (or multiple
-> > > patch files) and adds its output to the patch file in place with the
-> > > appropriate email headers "To: " or "Cc: " as the case may be. These new
-> > > headers are added after the "From: " line in the patch.
-> >
-> > FWIW, I personally prefer tooling to operate on git branches and commits
-> > than patches. For me, the patches are just an intermediate step in
-> > getting the commits from my git branch to the mailing list. That's not
-> > where I add the Cc's, but rather in the commits in my local branch,
-> > where they're preserved. YMMV.
-> >
->
-> May I ask how you add/carry the recipients in a commit?
+Does that do anything special in commit log? I'd expect (and I do it that
+way) it's rather just adding a
 
-I guess below a "---" line in the commit description?
+Cc: Name <email>
 
-Gr{oetje,eeting}s,
+in the tag area where s-o-b, reviewed-by etc are added.
 
-                        Geert
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
