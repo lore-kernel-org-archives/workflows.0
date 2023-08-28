@@ -2,89 +2,102 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1DF6C83F11
-	for <workflows@archiver.kernel.org>; Mon, 28 Aug 2023 13:18:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3316EC83F17
+	for <workflows@archiver.kernel.org>; Mon, 28 Aug 2023 13:38:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230501AbjH1NRn (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 28 Aug 2023 09:17:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56416 "EHLO
+        id S230491AbjH1Nhv (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 28 Aug 2023 09:37:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231517AbjH1NRX (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 28 Aug 2023 09:17:23 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5E0E124
-        for <workflows@vger.kernel.org>; Mon, 28 Aug 2023 06:17:20 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id 3f1490d57ef6-d7830c5b20aso4053289276.0
-        for <workflows@vger.kernel.org>; Mon, 28 Aug 2023 06:17:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1693228640; x=1693833440;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MGYTgGJyz9hK6P1W5cYWJ37ojkoun6scwiaYLpf40GM=;
-        b=PDCzEuB4+vOFbmlh9WJaVjW8tsiEFTj81FSUQotQQVuJyuddJBEM6FCZABer6pd7gz
-         qZP9Jjhj7qU+ei9c6IIh1aVkpKKiXLZxr1qnGL9qczFSYStHkCYvpRv8JTnM7UF/705j
-         gOpAC2ZDoVUm2R4RV/xkBw/VcwedpwWOiBS6k37BLE3C9ihOwrn0uCEGaiGE2ug+0LKa
-         uO5mhSGt4DE13AGsazbGDfCsya1jdMG5KrKt+5b5Am4HsMtGpn5A+/YztZfQo+gBQzJE
-         lVP0EqmMGzwE9nyUKvlROzTt1GMY0rNpAs8fTnre9C8bq5H19nk0OZBW1ZfKwSK74dkO
-         g8BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693228640; x=1693833440;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MGYTgGJyz9hK6P1W5cYWJ37ojkoun6scwiaYLpf40GM=;
-        b=hOHo1HdJoi8fVWsv52PG1pCQfYmTyyAe9akwMVaNKfNmrTLovYUWnEbTgHv+6zgrWD
-         +xrDRehkfAggoZeSsSWehh+dzKivmVpuPISeS4/0nXsFtU4VuPl6otw4+ZwiMZ2J19qS
-         Hx8bOouy1B224V+LOt03CsKdWDe9RCyET86YD4X6XXb4Ol4pXYnIbqi4Qq2d0Rh744Ms
-         hVjGpJMN37QNbLr0RnqhsMKHTIlkERlql9JxLr6FUWSV8zML9wIyVbaeP8mFssZH4I6N
-         OrRW9yB7QnIcamIfvNuuuJWuGgVodq5v06lTNwnPS2RgN8fjQuZUM/Brut+nEGfAkvqI
-         G9dw==
-X-Gm-Message-State: AOJu0Ywi54V0RH7BIkL5+sJY77jRiO8A4xr+voPrUgQxJ1Hwki6Hatlk
-        eptklfV0L/mROsHM1wrjHUBNXDMfQkdvx7CqQpI8eg==
-X-Google-Smtp-Source: AGHT+IF472zwt+zJU5bvh6KBEPeZ/osWrL9kS5Td1S0IJH6vipNayQJ/MzpTXVzXkB4GiGqUispoj9X4m11CdMwjvSY=
-X-Received: by 2002:a25:27c5:0:b0:d66:9fcb:1fc1 with SMTP id
- n188-20020a2527c5000000b00d669fcb1fc1mr22835256ybn.24.1693228639796; Mon, 28
- Aug 2023 06:17:19 -0700 (PDT)
+        with ESMTP id S232114AbjH1Nhd (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 28 Aug 2023 09:37:33 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2B43CFB;
+        Mon, 28 Aug 2023 06:37:05 -0700 (PDT)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37SDX8qX028394;
+        Mon, 28 Aug 2023 13:35:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
+ cc : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=qcppdkim1; bh=GViM3/tL3UvdQVk3UIxa1wz7l24gOeny5OvFavC9lV8=;
+ b=jH5/HuldpUTeT70uNeD4VFg6+UEa61e2DXokpukY5AyaPXwboYOox8a1ahkaofSMtq4O
+ 1WFxYB8t+ieNJYc4SWI8P41YN27nK7KMqdxsdOkBbLMNQhi/S2bqYDXKmHB+3WHjPOES
+ Hvzie8sgjRAyg2oX5NV++8GLo0U/gmspeRtN68wmkGAA6CIz7eaRNJLSOORvivhG+wOg
+ qTCposvXtf0g9j6/dR24q7kqEp5kAs0/c88cpbHgbnCeovRHr3GpXEvf1fCDgrhpi6ka
+ pG1zrfar4pVm8rDBMt3iGdEcwvomI2YoLrjpgQUVIKxS4JEShpbUvwBaoV0eFHvdooZr Jw== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sruhnr41h-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 28 Aug 2023 13:35:58 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37SDZv6U017410
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 28 Aug 2023 13:35:57 GMT
+Received: from hu-bjorande-lv.qualcomm.com (10.49.16.6) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.30; Mon, 28 Aug 2023 06:35:55 -0700
+Date:   Mon, 28 Aug 2023 06:35:54 -0700
+From:   Bjorn Andersson <quic_bjorande@quicinc.com>
+To:     Jani Nikula <jani.nikula@intel.com>
+CC:     Guru Das Srinagesh <quic_gurus@quicinc.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Bjorn Andersson <andersson@kernel.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, Will Deacon <will@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <quic_pkondeti@quicinc.com>, <linux-kernel@vger.kernel.org>,
+        <kernel@quicinc.com>, <workflows@vger.kernel.org>,
+        <tools@linux.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-pm@vger.kernel.org>
+Subject: Re: [PATCH v3 1/1] scripts: Add add-maintainer.py
+Message-ID: <20230828133554.GA818859@hu-bjorande-lv.qualcomm.com>
+References: <cover.1693037031.git.quic_gurus@quicinc.com>
+ <141b9fcab2208ace3001df4fc10e3dfd42b9f5d9.1693037031.git.quic_gurus@quicinc.com>
+ <87jztf37ny.fsf@intel.com>
 MIME-Version: 1.0
-References: <20230823160244.188033-1-ojeda@kernel.org> <20230823160244.188033-3-ojeda@kernel.org>
-In-Reply-To: <20230823160244.188033-3-ojeda@kernel.org>
-From:   Alice Ryhl <aliceryhl@google.com>
-Date:   Mon, 28 Aug 2023 15:17:08 +0200
-Message-ID: <CAH5fLgjDf9VP4BWp9zX1iv9KiUhA6y+p2Cp2L6-3mR=KS_ExDQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] rust: upgrade to Rust 1.72.0
-To:     Miguel Ojeda <ojeda@kernel.org>
-Cc:     Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Benno Lossin <benno.lossin@proton.me>,
-        Andreas Hindborg <a.hindborg@samsung.com>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <87jztf37ny.fsf@intel.com>
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 239poMfsD4Fp-ipujqWFyvgT-Qa-f9Ny
+X-Proofpoint-ORIG-GUID: 239poMfsD4Fp-ipujqWFyvgT-Qa-f9Ny
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-28_09,2023-08-28_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ spamscore=0 mlxlogscore=734 suspectscore=0 clxscore=1011 phishscore=0
+ impostorscore=0 bulkscore=0 lowpriorityscore=0 adultscore=0 malwarescore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2308280118
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Wed, Aug 23, 2023 at 6:03=E2=80=AFPM Miguel Ojeda <ojeda@kernel.org> wro=
-te:
-> This is the second upgrade to the Rust toolchain, from 1.71.1 to 1.72.0
-> (i.e. the latest) [1].
->
-> See the upgrade policy [2] and the comments on the first upgrade in
-> commit 3ed03f4da06e ("rust: upgrade to Rust 1.68.2").
->
-> [...]
->
-> Link: https://github.com/rust-lang/rust/blob/stable/RELEASES.md#version-1=
-720-2023-08-24 [1]
-> Link: https://rust-for-linux.com/rust-version-policy [2]
-> Link: https://github.com/Rust-for-Linux/linux/issues/2 [3]
-> Closes: https://github.com/Rust-for-Linux/linux/issues/1012 [4]
-> Link: https://github.com/rust-lang/rust/pull/112403 [5]
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+On Mon, Aug 28, 2023 at 11:14:41AM +0300, Jani Nikula wrote:
+> On Sat, 26 Aug 2023, Guru Das Srinagesh <quic_gurus@quicinc.com> wrote:
+> > This script runs get_maintainer.py on a given patch file (or multiple
+> > patch files) and adds its output to the patch file in place with the
+> > appropriate email headers "To: " or "Cc: " as the case may be. These new
+> > headers are added after the "From: " line in the patch.
+> 
+> FWIW, I personally prefer tooling to operate on git branches and commits
+> than patches. For me, the patches are just an intermediate step in
+> getting the commits from my git branch to the mailing list. That's not
+> where I add the Cc's, but rather in the commits in my local branch,
+> where they're preserved. YMMV.
+> 
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+May I ask how you add/carry the recipients in a commit?
+
+Regards,
+Bjorn
