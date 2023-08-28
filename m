@@ -2,154 +2,103 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 860B9C83F15
-	for <workflows@archiver.kernel.org>; Mon, 28 Aug 2023 18:00:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61B2AC71153
+	for <workflows@archiver.kernel.org>; Mon, 28 Aug 2023 18:46:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231608AbjH1SAL (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 28 Aug 2023 14:00:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38660 "EHLO
+        id S233291AbjH1Spv (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 28 Aug 2023 14:45:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233036AbjH1SAC (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 28 Aug 2023 14:00:02 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8806BF9
-        for <workflows@vger.kernel.org>; Mon, 28 Aug 2023 10:59:58 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-9a2185bd83cso457239066b.0
-        for <workflows@vger.kernel.org>; Mon, 28 Aug 2023 10:59:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693245597; x=1693850397;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BjrkEommxgzVsvPeELM83BT2d5xXvo75H1UStaGsfMI=;
-        b=JTayhNgjtHQx8fxD1S0ic9K2eV0gHdK4jVwPvnPUGd2lV1rXAApieBetsa8bytyDW5
-         kMywhMh+NFRhCXY36/qiT3S+8rQTEW+i/V9PBCqjsV/VcP8DScv2dhRyBuZWwt3ghzRB
-         m8KwSRIQ8hTxsukbALZVslO4oivb0kZSsuC3weid+ly8l8KNNyjRfAZzl3BH+KfHXmDv
-         cVrxK6SpS1YGApwo4iLhrKEIW2iBp1nGzCFWGASuUbfp94glhsFkKKjOQVqARPKZbGIs
-         fAxj62ynY1wCpC7pkNCdi5h+EA10oCOXTjyg2BuRZ+r78s9uIXEdtA/l+JpCzH4OUS7m
-         QCuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693245597; x=1693850397;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BjrkEommxgzVsvPeELM83BT2d5xXvo75H1UStaGsfMI=;
-        b=EgOgj+G2F9pcw4JmF3J3isaxnFK3KS11Q9fN7Zw3bcdarZefZ6rxjKXoECAKD5HmwY
-         4l/GKLPUHRDtrsftBtz4czVacmo0RphtSuywjs4X1x6Jbc39A6K9DAVLmKybjq0mvfXx
-         A4NU1dDeXawGEc4+rm6Rm7x68UNZT0CQzm3Iuu+KwnQGJULoMqq6dGXnZXfcMZggtGUY
-         95Nwn2mB94Fi50GDtOT9F2G2PiG4lnhKDnh7QQ8H8fZHnUmbYyaQF9kU5DJAUYDPVwmv
-         s9GykCAl6ixQC9bZLHFaHVv42/YOtr6Zpjfln2K3+pUb0OPpTE0lVrXBc40Wisfd/yXa
-         QcQQ==
-X-Gm-Message-State: AOJu0YzrjeNfV+tnAVxXaYkm0rDKHn81p45g5/hf3YQG4D/pUVJ6iZ9p
-        kgy+tnN/DCkjaOJFlVmcYuQ5asYUh2VM9F29goI=
-X-Google-Smtp-Source: AGHT+IEgWbg5t5ZGn+L+7J47VuL32+upXijCivlJd+5GNKo6BO3FJ+P2Y6r8QA61T+yNo9WfJ947sA==
-X-Received: by 2002:a17:906:2921:b0:99c:f966:9ea2 with SMTP id v1-20020a170906292100b0099cf9669ea2mr17270150ejd.25.1693245597040;
-        Mon, 28 Aug 2023 10:59:57 -0700 (PDT)
-Received: from [192.168.0.22] ([77.252.47.225])
-        by smtp.gmail.com with ESMTPSA id b8-20020a170906194800b009920e9a3a73sm4921968eje.115.2023.08.28.10.59.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Aug 2023 10:59:56 -0700 (PDT)
-Message-ID: <78aa33f9-ead8-b128-2a7a-40530a1a3ed0@linaro.org>
-Date:   Mon, 28 Aug 2023 19:59:54 +0200
+        with ESMTP id S233306AbjH1Spr (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 28 Aug 2023 14:45:47 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EC72E43;
+        Mon, 28 Aug 2023 11:45:23 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2DBD964F13;
+        Mon, 28 Aug 2023 18:45:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2231BC433C7;
+        Mon, 28 Aug 2023 18:45:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693248310;
+        bh=G9FshI/MbkwP6DFeCFqMQDP37LfIo9y0U219jgPrxXM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=SeJY5Qjh6KWyoysR78zsJed1Vgmv6RQGZYawRREdLn+4Q+/1c+Gf0GNYLp6aURsul
+         DKUpvpPrHAlEq2KSynAZBccxOzFw2k4QavLiWIQPBbwUBhUNmac56oGDjgTfgerKUh
+         XBKfsCEW1TllP5REJkLSK5dB01irt4qhAgJ/2q58AHxPcIyWUx8ojdbDLwS1kVBzz8
+         mQ5Zd9V2dZ/gExkhnxhDsrflfXtjKocpwga5OTsGlWy8mFcgwfzrkNGc/PH6z3gJ6q
+         CKkecCLTRS3PyQN8l8o1mYE5uIUBJPKgN1OYSx4eP4I7JCldL7aPws2atZxdt9BfqE
+         0PGj5NuuKeAUg==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     davem@davemloft.net
+Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH net-next] docs: netdev: document patchwork patch states
+Date:   Mon, 28 Aug 2023 11:44:41 -0700
+Message-ID: <20230828184447.2142383-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH v3 1/1] scripts: Add add-maintainer.py
-Content-Language: en-US
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Bjorn Andersson <andersson@kernel.org>, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, Will Deacon <will@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        quic_pkondeti@quicinc.com, linux-kernel@vger.kernel.org,
-        kernel@quicinc.com, workflows@vger.kernel.org,
-        tools@linux.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org
-References: <cover.1693037031.git.quic_gurus@quicinc.com>
- <141b9fcab2208ace3001df4fc10e3dfd42b9f5d9.1693037031.git.quic_gurus@quicinc.com>
- <2efba6b3-2399-9deb-d0ce-78f7b5e12f30@linaro.org>
- <20230828175629.GC23466@quicinc.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230828175629.GC23466@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=a
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On 28/08/2023 19:56, Guru Das Srinagesh wrote:
-> On Aug 28 2023 10:21, Krzysztof Kozlowski wrote:
->> On 26/08/2023 10:07, Guru Das Srinagesh wrote:
->>> This script runs get_maintainer.py on a given patch file (or multiple
->>> patch files) and adds its output to the patch file in place with the
->>> appropriate email headers "To: " or "Cc: " as the case may be. These new
->>> headers are added after the "From: " line in the patch.
->>>
->>> Currently, for a single patch, maintainers and reviewers are added as
->>> "To: ", mailing lists and all other roles are added as "Cc: ".
->>>
->>> For a series of patches, however, a set-union scheme is employed in
->>> order to solve the all-too-common problem of ending up sending only
->>> subsets of a patch series to some lists, which results in important
->>> pieces of context such as the cover letter (or other patches in the
->>> series) being dropped from those lists. This scheme is as follows:
->>>
->>> - Create set-union of all maintainers and reviewers from all patches and
->>>   use this to do the following per patch:
->>>   - add only that specific patch's maintainers and reviewers as "To: "
->>>   - add the other maintainers and reviewers from the other patches as "Cc: "
->>>
->>> - Create set-union of all mailing lists corresponding to all patches and
->>>   add this to all patches as "Cc: "
->>>
->>> - Create set-union of all other roles corresponding to all patches and
->>>   add this to all patches as "Cc: "
->>>
->>> Please note that patch files that don't have any "Maintainer"s or
->>> "Reviewers" explicitly listed in their `get_maintainer.pl` output will
->>
->> So before you will ignoring the reviewers, right? One more reason to not
->> get it right...
-> 
-> In v2, Reviewers were added as "Cc:" whereas here in v3 they are added as
-> "To:". Not sure where you're getting "ignoring the reviewers" from.
-> 
->>> not have any "To: " entries added to them; developers are expected to
->>> manually make edits to the added entries in such cases to convert some
->>> "Cc: " entries to "To: " as desired.
->>>
->>> The script is quiet by default (only prints errors) and its verbosity
->>> can be adjusted via an optional parameter.
->>>
->>> Signed-off-by: Guru Das Srinagesh <quic_gurus@quicinc.com>
->>> ---
->>>  MAINTAINERS               |   5 ++
->>>  scripts/add-maintainer.py | 164 ++++++++++++++++++++++++++++++++++++++
->>>  2 files changed, 169 insertions(+)
->>>  create mode 100755 scripts/add-maintainer.py
->>>
->>
->> I do not see the benefits of this script. For me - it's unnecessarily
->> more complicated instead of my simple bash function which makes
-> 
-> Your function adds mailing lists also in "To:" which is not ideal, in my view.
-> You've mentioned before that To or Cc doesn't matter [1] which I disagree
-> with: it doesn't matter, why does Cc exist as a concept at all?
+The patchwork states are largely self-explanatory but small
+ambiguities may still come up. Document how we interpret
+the states in networking.
 
-To/Cc does not matter when sending new patch, because maintainers know
-they are maintainers of which parts. I know what I handle.
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+CC: corbet@lwn.net
+CC: workflows@vger.kernel.org
+CC: linux-doc@vger.kernel.org
+---
+ Documentation/process/maintainer-netdev.rst | 27 ++++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
 
-To/Cc still makes sense in other cases, when for example you ping
-someone asking for reviews. It also makes much more sense in all
-corpo-worlds where such distinction is obvious. We are not a corpo-world
-here.
-
-
-Best regards,
-Krzysztof
+diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
+index c1c732e9748b..5d16fbb93d25 100644
+--- a/Documentation/process/maintainer-netdev.rst
++++ b/Documentation/process/maintainer-netdev.rst
+@@ -120,7 +120,32 @@ Status of a patch can be checked by looking at the main patchwork
+   https://patchwork.kernel.org/project/netdevbpf/list/
+ 
+ The "State" field will tell you exactly where things are at with your
+-patch. Patches are indexed by the ``Message-ID`` header of the emails
++patch:
++
++================== =============================================================
++Patch state        Description
++================== =============================================================
++New, Under review  pending review, patch is in the maintainer’s queue for review
++Accepted           patch was applied to the appropriate networking tree, this is
++                   usually set automatically by the pw-bot
++Needs ACK          waiting for an ack from an area maintainer or testing
++Changes requested  patch has not passed the review, new revision is expected
++                   with appropriate code and commit message changes
++Rejected           patch has been rejected and new revision is not expected
++Not applicable     patch is expected to be applied outside of the networking
++                   subsystem
++Awaiting upstream  patch should be reviewed and handled by appropriate
++                   sub-maintainer, who will send it on to the networking trees
++Deferred           patch needs to be reposted later, usually due to dependency
++                   or because it was posted for a closed tree
++Superseded         new version of the patch was posted, usually set by the
++                   pw-bot
++RFC                not to be applied, usually not in maintainer’s review queue,
++                   pw-bot can automatically set patches to this state based
++		   on subject tags
++================== =============================================================
++
++Patches are indexed by the ``Message-ID`` header of the emails
+ which carried them so if you have trouble finding your patch append
+ the value of ``Message-ID`` to the URL above.
+ 
+-- 
+2.41.0
 
