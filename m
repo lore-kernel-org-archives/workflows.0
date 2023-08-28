@@ -2,64 +2,62 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A64FC83F18
-	for <workflows@archiver.kernel.org>; Mon, 28 Aug 2023 15:25:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBBCEC83F15
+	for <workflows@archiver.kernel.org>; Mon, 28 Aug 2023 16:47:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231376AbjH1PYg (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 28 Aug 2023 11:24:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40644 "EHLO
+        id S231991AbjH1QrC (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 28 Aug 2023 12:47:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231250AbjH1PYF (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 28 Aug 2023 11:24:05 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B2CFE0
-        for <workflows@vger.kernel.org>; Mon, 28 Aug 2023 08:24:02 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id 4fb4d7f45d1cf-52a23227567so4520086a12.0
-        for <workflows@vger.kernel.org>; Mon, 28 Aug 2023 08:24:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693236241; x=1693841041;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=72V2x3mKZTjFbmEG9hhyFoPHvMJYQFTBTRNOrHHTebM=;
-        b=Ompvoblzs3Cp9UAhmm1CCL0laidAubR1emolqZQO5pGzyhcP5fs27FuiKSLo4jbnPc
-         ZJZLYcNrvuR/XnSGJPL2y0G4v0tg33+1UYeMtCbZu0WgF67eIUHuVcMOpMKcPCsL4knG
-         m9TboCQzBqEplZyQn0SsgMTnlApvrsQ54VSs6FOGePvX0+ntcwY2BWWLZk/IOxRqjbs/
-         mn5p+vlgdnCTymfmgLIQjuiREmqlFVqR+Oz2ZHZvYJaMuu1dY0xO4iQBBFAZKBKOmZgT
-         LZw3R0psqj+/QYYYyk4y3Co0Kixhlw5D0e7FWLyyMI4E5qS4VBtiXOuIUiCYGYPER3SG
-         ZqqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693236241; x=1693841041;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=72V2x3mKZTjFbmEG9hhyFoPHvMJYQFTBTRNOrHHTebM=;
-        b=iezMx4MCT9H81mdcWnv7v3hvMNzBAukNdsqcKwL28tsnjqwNbjNyeX23bEJYEDcI1m
-         dNt5YDfXDQV1GDbaWVMMN4KVa0bNhAZpTKE2PH98czm4j6e4J1yL1YEQDj5vrsQsxafR
-         dIC3eDfZvzZ++nrOJRhAq5IJJo9Zn8vtEyuo1tLTkX0hH4YaR2+MnGUfX03pHn8/LeLa
-         5Fv4A5A2gJ7GvN81RN751bGgdGbP5JrP59HyQa0VW98QBb2LxSlw+CHaS1wg79VHNbo3
-         41YCC8XKJ+10OMW4rybOKbwEFXMWmPUiJEvLbnPCRTDOTdoF28XA/qQcqSlfV+Vx6sKW
-         EFgA==
-X-Gm-Message-State: AOJu0Yzeyb2Fw1Ee2EJBT7YC6q67FtXdn/DIIgGSsTTiXxe9G5f+br1g
-        lIge9+oLppErk6HyyBoGBT1Qhg==
-X-Google-Smtp-Source: AGHT+IH9zZnahhAaJO4DU+2Gx+LWE+isMcEILa2c7LEidmge9Dr+hODq28bZiFtKa1uoaQGgr8j/Ig==
-X-Received: by 2002:a05:6402:12cb:b0:522:3410:de23 with SMTP id k11-20020a05640212cb00b005223410de23mr20309002edx.3.1693236240895;
-        Mon, 28 Aug 2023 08:24:00 -0700 (PDT)
-Received: from [192.168.0.22] ([77.252.47.225])
-        by smtp.gmail.com with ESMTPSA id f15-20020aa7d84f000000b0052228721f84sm4588463eds.77.2023.08.28.08.23.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Aug 2023 08:24:00 -0700 (PDT)
-Message-ID: <89c73602-43f1-30a4-ad58-637aadacd653@linaro.org>
-Date:   Mon, 28 Aug 2023 17:23:58 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
+        with ESMTP id S232719AbjH1Qqt (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 28 Aug 2023 12:46:49 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D798B188;
+        Mon, 28 Aug 2023 09:46:41 -0700 (PDT)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37SGBZf2022780;
+        Mon, 28 Aug 2023 16:45:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
+ cc : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=qcppdkim1; bh=NOvWmPA8vCv3I8JAi/sQBgH15Si5uceAZBnenlQq2X4=;
+ b=Pu2OnWQQo8nDxgFT3HdL0/WcPreu0aMjVnqgFlnQRc3ax+MfoD3l9dic/xVFjyg//e26
+ /89S6/qtaJtD94zW1ZCJQkP7okbSR1IoF07QfyEUgYYM7LLq9zhIqjE/oR6btGq2q0GB
+ LjZPfN91Mh3n5i0aQiYzoNLPEY0ivdhSuzBd0xbnuSJI2GFLbxtbu4+vGKjUWERR7BvJ
+ bvsxG+nQSLRkffdDsHjA7yUHLrAC7qMB6VcCqsZWseHSdSCx0Zq4HbUcovSjGqmUvPma
+ 0jDVfUYmexZdL2V5an+5NzR7AsuzTRbVg8j9v6ScjVwQCPGL+6r0wLmuyc21kWj47Oa9 +Q== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sq9m8v6rv-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 28 Aug 2023 16:45:59 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37SGjwkT022544
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 28 Aug 2023 16:45:58 GMT
+Received: from quicinc.com (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Mon, 28 Aug
+ 2023 09:45:55 -0700
+Date:   Mon, 28 Aug 2023 09:45:54 -0700
+From:   Guru Das Srinagesh <quic_gurus@quicinc.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+CC:     Guru Das Srinagesh <quic_gurus@quicinc.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Bjorn Andersson <andersson@kernel.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, Will Deacon <will@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <quic_pkondeti@quicinc.com>, <linux-kernel@vger.kernel.org>,
+        <kernel@quicinc.com>, <workflows@vger.kernel.org>,
+        <tools@linux.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-pm@vger.kernel.org>
 Subject: Re: [PATCH v3 1/1] scripts: Add add-maintainer.py
-To:     Vlastimil Babka <vbabka@suse.cz>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Bjorn Andersson <quic_bjorande@quicinc.com>
-Cc:     Jani Nikula <jani.nikula@intel.com>,
-        Guru Das Srinagesh <quic_gurus@quicinc.com>,
+Message-ID: <20230828164554.GA23466@quicinc.com>
+Mail-Followup-To: Randy Dunlap <rdunlap@infradead.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -72,62 +70,51 @@ Cc:     Jani Nikula <jani.nikula@intel.com>,
         quic_pkondeti@quicinc.com, linux-kernel@vger.kernel.org,
         kernel@quicinc.com, workflows@vger.kernel.org,
         tools@linux.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org
+        linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-pm@vger.kernel.org
 References: <cover.1693037031.git.quic_gurus@quicinc.com>
  <141b9fcab2208ace3001df4fc10e3dfd42b9f5d9.1693037031.git.quic_gurus@quicinc.com>
- <87jztf37ny.fsf@intel.com>
- <20230828133554.GA818859@hu-bjorande-lv.qualcomm.com>
- <CAMuHMdU+3oj+-3=f5WFVTRsKQjqCpU8SnVqKSZGk8XRxhsDcVQ@mail.gmail.com>
- <9aec0740-2482-d3ad-caf2-5e6278a050b3@suse.cz>
-Content-Language: en-US
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <9aec0740-2482-d3ad-caf2-5e6278a050b3@suse.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+ <6a3ad63d-5b4d-e861-3fec-2e8fa929e156@infradead.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <6a3ad63d-5b4d-e861-3fec-2e8fa929e156@infradead.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: -YS60OBZXd_tLYi-Ssa3295G5PBZc5iB
+X-Proofpoint-GUID: -YS60OBZXd_tLYi-Ssa3295G5PBZc5iB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-28_14,2023-08-28_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
+ bulkscore=0 clxscore=1011 mlxscore=0 adultscore=0 priorityscore=1501
+ impostorscore=0 malwarescore=0 lowpriorityscore=0 mlxlogscore=597
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2308280148
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On 28/08/2023 17:14, Vlastimil Babka wrote:
-> On 8/28/23 15:48, Geert Uytterhoeven wrote:
->> Hi Bjorn,
->>
->> On Mon, Aug 28, 2023 at 3:37 PM Bjorn Andersson
->> <quic_bjorande@quicinc.com> wrote:
->>> On Mon, Aug 28, 2023 at 11:14:41AM +0300, Jani Nikula wrote:
->>>> On Sat, 26 Aug 2023, Guru Das Srinagesh <quic_gurus@quicinc.com> wrote:
->>>>> This script runs get_maintainer.py on a given patch file (or multiple
->>>>> patch files) and adds its output to the patch file in place with the
->>>>> appropriate email headers "To: " or "Cc: " as the case may be. These new
->>>>> headers are added after the "From: " line in the patch.
->>>>
->>>> FWIW, I personally prefer tooling to operate on git branches and commits
->>>> than patches. For me, the patches are just an intermediate step in
->>>> getting the commits from my git branch to the mailing list. That's not
->>>> where I add the Cc's, but rather in the commits in my local branch,
->>>> where they're preserved. YMMV.
->>>>
->>>
->>> May I ask how you add/carry the recipients in a commit?
->>
->> I guess below a "---" line in the commit description?
+On Aug 27 2023 09:44, Randy Dunlap wrote:
+> Hi,
 > 
-> Does that do anything special in commit log? I'd expect (and I do it that
-> way) it's rather just adding a
-
-It does. It goes away.
+> On 8/26/23 01:07, Guru Das Srinagesh wrote:
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 0903d87b17cb..b670e9733f03 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -8721,6 +8721,11 @@ M:	Joe Perches <joe@perches.com>
+> >  S:	Maintained
+> >  F:	scripts/get_maintainer.pl
+> >  
 > 
-> Cc: Name <email>
-> 
-> in the tag area where s-o-b, reviewed-by etc are added.
+> The MAINTAINERS file should be maintained in alphabetical order,
+> so this is not in the correct place.
 
-Why storing autogenerated scripts/get_maintainer.pl CC-entries in commit
-msg? The non-maintainer-output but the automated output? There is no
-single need to store automated output of get_maintainers.pl in the git
-log. It can be easily re-created at any given time, thus its presence in
-the git history is redundant and obfuscates the log.
+Thank you - didn't know about that. Will fix.
 
-Best regards,
-Krzysztof
-
+Guru Das.
