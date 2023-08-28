@@ -2,141 +2,89 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12643C83F11
-	for <workflows@archiver.kernel.org>; Mon, 28 Aug 2023 08:23:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1DF6C83F11
+	for <workflows@archiver.kernel.org>; Mon, 28 Aug 2023 13:18:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230154AbjH1IWf (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 28 Aug 2023 04:22:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54002 "EHLO
+        id S230501AbjH1NRn (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 28 Aug 2023 09:17:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230071AbjH1IWS (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 28 Aug 2023 04:22:18 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE619CE9
-        for <workflows@vger.kernel.org>; Mon, 28 Aug 2023 01:21:42 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-9a5be3166a2so28257866b.1
-        for <workflows@vger.kernel.org>; Mon, 28 Aug 2023 01:21:42 -0700 (PDT)
+        with ESMTP id S231517AbjH1NRX (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 28 Aug 2023 09:17:23 -0400
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5E0E124
+        for <workflows@vger.kernel.org>; Mon, 28 Aug 2023 06:17:20 -0700 (PDT)
+Received: by mail-yb1-xb36.google.com with SMTP id 3f1490d57ef6-d7830c5b20aso4053289276.0
+        for <workflows@vger.kernel.org>; Mon, 28 Aug 2023 06:17:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693210894; x=1693815694;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=R/ThTKBMXaBdcMw21bB4Tb4UrarGnjH7VR3jlnjNz0o=;
-        b=p0ofPENfE3XRABjMqYG0NDnT45lF6wkg4OivHw849Jmd0NTzi42hEWq4NSQm/ui6/H
-         mx+cwroHygO0OeNDvQFFKbX4ynkLaDOOF8/1d0TzAbG5PGFRXdDhu+hqF/kSxGrZdmvX
-         e6V0YiOH8qQPJoBgoNd331iQFOgFiRTtSX+bceYEo8QIdxaUjjggwwpKNCRG2lfuih9U
-         YUA9cUMkdFwbdO4XsGbhVJ9BbxWdk7vMCFIMK519m6PXam6shCgHvBUA+lep9Em5zDD3
-         AwQnmUMZj/8CrZwRg1r+SCdrak/ThkoTNCWe05o7IqFg06EMGtFoKmhu0dEJ+3/HhqUs
-         UKLw==
+        d=google.com; s=20221208; t=1693228640; x=1693833440;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MGYTgGJyz9hK6P1W5cYWJ37ojkoun6scwiaYLpf40GM=;
+        b=PDCzEuB4+vOFbmlh9WJaVjW8tsiEFTj81FSUQotQQVuJyuddJBEM6FCZABer6pd7gz
+         qZP9Jjhj7qU+ei9c6IIh1aVkpKKiXLZxr1qnGL9qczFSYStHkCYvpRv8JTnM7UF/705j
+         gOpAC2ZDoVUm2R4RV/xkBw/VcwedpwWOiBS6k37BLE3C9ihOwrn0uCEGaiGE2ug+0LKa
+         uO5mhSGt4DE13AGsazbGDfCsya1jdMG5KrKt+5b5Am4HsMtGpn5A+/YztZfQo+gBQzJE
+         lVP0EqmMGzwE9nyUKvlROzTt1GMY0rNpAs8fTnre9C8bq5H19nk0OZBW1ZfKwSK74dkO
+         g8BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693210894; x=1693815694;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=R/ThTKBMXaBdcMw21bB4Tb4UrarGnjH7VR3jlnjNz0o=;
-        b=EGO3HLqJzOe+toM2dYYJlFS04PUSZQSulvlPYOR5VmP4AK45jiTZlYYRJQClvBQZJ7
-         zKyf8y+QuDN3C6AJixfxHjWy+iV2+LT2uZ0V8EeiQ+51hh0lDPRt47O89cn7xDaIGsFZ
-         t3D/c3aXJ/VrS65DYubxEFqE405oKj2Sx12g2LTAvQ1qbBqEjiM90vwREgr8tgC71o0D
-         T48/m1rZRfYnYRfkJv16LmpBzwyErVAS4BaYMJzXebecqjAg/pvmrsu6swKhisgMEE3e
-         gbB/oGGTX/fR91IuOb00KHziZCFfUFBYNOcpiJ5LyzTfMsmDJ5sMi48Zu+3YpByjjsdL
-         b1Mw==
-X-Gm-Message-State: AOJu0YyqgrcgHYDV+OF+yK57ZI9tLsJPV/gQ8bwbRL1At5e+TJuXkAUG
-        2mmjaC/wukmprDpyqLaw3ujraQ==
-X-Google-Smtp-Source: AGHT+IFBUK6E4zrbQPaHC6jS5bTEiJnj2yId8vtYo61AG/BoM8FRNNTdWT0PxEWyM0E9uZwDnNK+lg==
-X-Received: by 2002:a17:907:a04a:b0:9a5:78c0:44e6 with SMTP id gz10-20020a170907a04a00b009a578c044e6mr5892043ejc.16.1693210894452;
-        Mon, 28 Aug 2023 01:21:34 -0700 (PDT)
-Received: from [192.168.0.22] ([77.252.47.225])
-        by smtp.gmail.com with ESMTPSA id v24-20020a17090606d800b0099364d9f0e2sm4368823ejb.98.2023.08.28.01.21.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Aug 2023 01:21:34 -0700 (PDT)
-Message-ID: <2efba6b3-2399-9deb-d0ce-78f7b5e12f30@linaro.org>
-Date:   Mon, 28 Aug 2023 10:21:32 +0200
+        d=1e100.net; s=20221208; t=1693228640; x=1693833440;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MGYTgGJyz9hK6P1W5cYWJ37ojkoun6scwiaYLpf40GM=;
+        b=hOHo1HdJoi8fVWsv52PG1pCQfYmTyyAe9akwMVaNKfNmrTLovYUWnEbTgHv+6zgrWD
+         +xrDRehkfAggoZeSsSWehh+dzKivmVpuPISeS4/0nXsFtU4VuPl6otw4+ZwiMZ2J19qS
+         Hx8bOouy1B224V+LOt03CsKdWDe9RCyET86YD4X6XXb4Ol4pXYnIbqi4Qq2d0Rh744Ms
+         hVjGpJMN37QNbLr0RnqhsMKHTIlkERlql9JxLr6FUWSV8zML9wIyVbaeP8mFssZH4I6N
+         OrRW9yB7QnIcamIfvNuuuJWuGgVodq5v06lTNwnPS2RgN8fjQuZUM/Brut+nEGfAkvqI
+         G9dw==
+X-Gm-Message-State: AOJu0Ywi54V0RH7BIkL5+sJY77jRiO8A4xr+voPrUgQxJ1Hwki6Hatlk
+        eptklfV0L/mROsHM1wrjHUBNXDMfQkdvx7CqQpI8eg==
+X-Google-Smtp-Source: AGHT+IF472zwt+zJU5bvh6KBEPeZ/osWrL9kS5Td1S0IJH6vipNayQJ/MzpTXVzXkB4GiGqUispoj9X4m11CdMwjvSY=
+X-Received: by 2002:a25:27c5:0:b0:d66:9fcb:1fc1 with SMTP id
+ n188-20020a2527c5000000b00d669fcb1fc1mr22835256ybn.24.1693228639796; Mon, 28
+ Aug 2023 06:17:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH v3 1/1] scripts: Add add-maintainer.py
-To:     Guru Das Srinagesh <quic_gurus@quicinc.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Bjorn Andersson <andersson@kernel.org>, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, Will Deacon <will@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        quic_pkondeti@quicinc.com
-Cc:     linux-kernel@vger.kernel.org, kernel@quicinc.com,
-        workflows@vger.kernel.org, tools@linux.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org
-References: <cover.1693037031.git.quic_gurus@quicinc.com>
- <141b9fcab2208ace3001df4fc10e3dfd42b9f5d9.1693037031.git.quic_gurus@quicinc.com>
-Content-Language: en-US
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <141b9fcab2208ace3001df4fc10e3dfd42b9f5d9.1693037031.git.quic_gurus@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20230823160244.188033-1-ojeda@kernel.org> <20230823160244.188033-3-ojeda@kernel.org>
+In-Reply-To: <20230823160244.188033-3-ojeda@kernel.org>
+From:   Alice Ryhl <aliceryhl@google.com>
+Date:   Mon, 28 Aug 2023 15:17:08 +0200
+Message-ID: <CAH5fLgjDf9VP4BWp9zX1iv9KiUhA6y+p2Cp2L6-3mR=KS_ExDQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] rust: upgrade to Rust 1.72.0
+To:     Miguel Ojeda <ojeda@kernel.org>
+Cc:     Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Benno Lossin <benno.lossin@proton.me>,
+        Andreas Hindborg <a.hindborg@samsung.com>,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patches@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On 26/08/2023 10:07, Guru Das Srinagesh wrote:
-> This script runs get_maintainer.py on a given patch file (or multiple
-> patch files) and adds its output to the patch file in place with the
-> appropriate email headers "To: " or "Cc: " as the case may be. These new
-> headers are added after the "From: " line in the patch.
-> 
-> Currently, for a single patch, maintainers and reviewers are added as
-> "To: ", mailing lists and all other roles are added as "Cc: ".
-> 
-> For a series of patches, however, a set-union scheme is employed in
-> order to solve the all-too-common problem of ending up sending only
-> subsets of a patch series to some lists, which results in important
-> pieces of context such as the cover letter (or other patches in the
-> series) being dropped from those lists. This scheme is as follows:
-> 
-> - Create set-union of all maintainers and reviewers from all patches and
->   use this to do the following per patch:
->   - add only that specific patch's maintainers and reviewers as "To: "
->   - add the other maintainers and reviewers from the other patches as "Cc: "
-> 
-> - Create set-union of all mailing lists corresponding to all patches and
->   add this to all patches as "Cc: "
-> 
-> - Create set-union of all other roles corresponding to all patches and
->   add this to all patches as "Cc: "
-> 
-> Please note that patch files that don't have any "Maintainer"s or
-> "Reviewers" explicitly listed in their `get_maintainer.pl` output will
+On Wed, Aug 23, 2023 at 6:03=E2=80=AFPM Miguel Ojeda <ojeda@kernel.org> wro=
+te:
+> This is the second upgrade to the Rust toolchain, from 1.71.1 to 1.72.0
+> (i.e. the latest) [1].
+>
+> See the upgrade policy [2] and the comments on the first upgrade in
+> commit 3ed03f4da06e ("rust: upgrade to Rust 1.68.2").
+>
+> [...]
+>
+> Link: https://github.com/rust-lang/rust/blob/stable/RELEASES.md#version-1=
+720-2023-08-24 [1]
+> Link: https://rust-for-linux.com/rust-version-policy [2]
+> Link: https://github.com/Rust-for-Linux/linux/issues/2 [3]
+> Closes: https://github.com/Rust-for-Linux/linux/issues/1012 [4]
+> Link: https://github.com/rust-lang/rust/pull/112403 [5]
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-So before you will ignoring the reviewers, right? One more reason to not
-get it right...
-
-> not have any "To: " entries added to them; developers are expected to
-> manually make edits to the added entries in such cases to convert some
-> "Cc: " entries to "To: " as desired.
-> 
-> The script is quiet by default (only prints errors) and its verbosity
-> can be adjusted via an optional parameter.
-> 
-> Signed-off-by: Guru Das Srinagesh <quic_gurus@quicinc.com>
-> ---
->  MAINTAINERS               |   5 ++
->  scripts/add-maintainer.py | 164 ++++++++++++++++++++++++++++++++++++++
->  2 files changed, 169 insertions(+)
->  create mode 100755 scripts/add-maintainer.py
-> 
-
-I do not see the benefits of this script. For me - it's unnecessarily
-more complicated instead of my simple bash function which makes
-everything one command less than here.
-One more thing to maintain.
-
-I don't see the benefits of this for newcomers, either. They should use
-b4. b4 can do much, much more, so anyone creating his workflow should
-start from b4, not from this script.
-
-Best regards,
-Krzysztof
-
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
