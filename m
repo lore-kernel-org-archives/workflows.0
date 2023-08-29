@@ -2,48 +2,64 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61BAAC83F16
-	for <workflows@archiver.kernel.org>; Tue, 29 Aug 2023 07:39:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C17AC6FA8F
+	for <workflows@archiver.kernel.org>; Tue, 29 Aug 2023 23:18:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233723AbjH2His (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 29 Aug 2023 03:38:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42594 "EHLO
+        id S241132AbjH2XSO (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 29 Aug 2023 19:18:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233725AbjH2HiU (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 29 Aug 2023 03:38:20 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2D2C132;
-        Tue, 29 Aug 2023 00:38:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693294697; x=1724830697;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version:content-transfer-encoding;
-  bh=7xbIuAVv6BRYk1f4b+LCb+VtGRsblUZaWwZkr0s2oa0=;
-  b=liawHG+5vekYu4rkUywU+qoo4MNKKB01hy6wZ7oY7gUJGc7yX9u9h2YX
-   mHdTCI+ft7gJSFj0qHK2Bvx4TKBAh0m42hR+vzOKcH9pdHbhtEAgSHMlj
-   5b2JWM/A6Yybk2VHZWQRwQJfP5QWzEQp9jOtzYDJ6kO+zxzHD0wA2EpYU
-   CI53mz5WScBeqCkb7gNVJc75n/oz/SVpdDoo0TaTe1yHfOz5LPjTt2xIM
-   KA5xuBU6KBnpq7ZlQY3MnR5HXVvM8T0O3qJIAuzdeps1/SxJwwRbMA4GT
-   laI0ogFEQC/o+IH1FDclLyAtJQtFFSfEmRx21oXsnGacyjel71QAQeO0Z
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="375263854"
-X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; 
-   d="scan'208";a="375263854"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 00:38:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="853178928"
-X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; 
-   d="scan'208";a="853178928"
-Received: from mnefedov-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.32.206])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 00:38:11 -0700
-From:   Jani Nikula <jani.nikula@intel.com>
-To:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Vlastimil Babka <vbabka@suse.cz>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Guru Das Srinagesh <quic_gurus@quicinc.com>,
+        with ESMTP id S240035AbjH2XRu (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 29 Aug 2023 19:17:50 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D02B9C;
+        Tue, 29 Aug 2023 16:17:44 -0700 (PDT)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37TMiv5g026041;
+        Tue, 29 Aug 2023 23:16:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
+ cc : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=qcppdkim1; bh=4ATyD/tEgZ/efDPx/mmt2wlb1CN5pBAvQLDrRXLw3ok=;
+ b=XMhcQly4dK6o3auQzr5fit1xLKIjjSF9UyzNGSzuo6DvWoxWZV3jjWNwiqL9d+ec5ufD
+ +UAMD3URsK9EnNZ3ugBTmO4I+EaOBjHFjJRfb5Gh1N5tj1QyJzSTBj1H7QJYdgjLWxGe
+ EF66/3AMsPfRDCz8K1+SNOjuHd/ymi8j59ZP6aTj2r5zhdt6geJwxoCJdmvYhQNwhCjw
+ 8G2/Z5trIJstAWDULDAeJomu+8SO54fO6B1hfncyDcvMCGf5Gf8yOHSIgSH88ehe9l7h
+ mPdQDLaGyM3UbBlbNGJPBZf5qpIAUUdAkWhtiSXXUUPESrVrzpxRL5HDZfw/RG30pwcT bA== 
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ssmcv8q8a-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 29 Aug 2023 23:16:44 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37TNGh6H021191
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 29 Aug 2023 23:16:43 GMT
+Received: from quicinc.com (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Tue, 29 Aug
+ 2023 16:16:40 -0700
+Date:   Tue, 29 Aug 2023 16:16:39 -0700
+From:   Guru Das Srinagesh <quic_gurus@quicinc.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+CC:     Mark Brown <broonie@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        "Konstantin Ryabitsev" <konstantin@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Bjorn Andersson <andersson@kernel.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, Will Deacon <will@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <quic_pkondeti@quicinc.com>, <linux-kernel@vger.kernel.org>,
+        <kernel@quicinc.com>, <workflows@vger.kernel.org>,
+        <tools@linux.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-pm@vger.kernel.org>,
+        "Guru Das Srinagesh" <quic_gurus@quicinc.com>
+Subject: Re: [PATCH v3 1/1] scripts: Add add-maintainer.py
+Message-ID: <20230829231638.GA27843@quicinc.com>
+Mail-Followup-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -56,98 +72,89 @@ Cc:     Vlastimil Babka <vbabka@suse.cz>,
         quic_pkondeti@quicinc.com, linux-kernel@vger.kernel.org,
         kernel@quicinc.com, workflows@vger.kernel.org,
         tools@linux.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH v3 1/1] scripts: Add add-maintainer.py
-In-Reply-To: <20230828165038.GB818859@hu-bjorande-lv.qualcomm.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+        linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-pm@vger.kernel.org
 References: <cover.1693037031.git.quic_gurus@quicinc.com>
  <141b9fcab2208ace3001df4fc10e3dfd42b9f5d9.1693037031.git.quic_gurus@quicinc.com>
- <87jztf37ny.fsf@intel.com>
- <20230828133554.GA818859@hu-bjorande-lv.qualcomm.com>
- <CAMuHMdU+3oj+-3=f5WFVTRsKQjqCpU8SnVqKSZGk8XRxhsDcVQ@mail.gmail.com>
- <9aec0740-2482-d3ad-caf2-5e6278a050b3@suse.cz>
- <89c73602-43f1-30a4-ad58-637aadacd653@linaro.org>
- <20230828165038.GB818859@hu-bjorande-lv.qualcomm.com>
-Date:   Tue, 29 Aug 2023 10:38:08 +0300
-Message-ID: <87cyz62t9b.fsf@intel.com>
+ <2efba6b3-2399-9deb-d0ce-78f7b5e12f30@linaro.org>
+ <20230828175629.GC23466@quicinc.com>
+ <78aa33f9-ead8-b128-2a7a-40530a1a3ed0@linaro.org>
+ <ZOz4XtX3DFRQpvQY@finisterre.sirena.org.uk>
+ <670a87e9-2f0c-ec9e-ebb4-9041c8972ace@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <670a87e9-2f0c-ec9e-ebb4-9041c8972ace@linaro.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: BTfg8Gx4HnM4ASTi3r21PGrkzeCDsTD-
+X-Proofpoint-GUID: BTfg8Gx4HnM4ASTi3r21PGrkzeCDsTD-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-29_16,2023-08-29_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ bulkscore=0 phishscore=0 suspectscore=0 priorityscore=1501 clxscore=1015
+ mlxlogscore=631 spamscore=0 malwarescore=0 mlxscore=0 adultscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2308290202
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Mon, 28 Aug 2023, Bjorn Andersson <quic_bjorande@quicinc.com> wrote:
-> On Mon, Aug 28, 2023 at 05:23:58PM +0200, Krzysztof Kozlowski wrote:
->> On 28/08/2023 17:14, Vlastimil Babka wrote:
->> > On 8/28/23 15:48, Geert Uytterhoeven wrote:
->> >> Hi Bjorn,
->> >>
->> >> On Mon, Aug 28, 2023 at 3:37=E2=80=AFPM Bjorn Andersson
->> >> <quic_bjorande@quicinc.com> wrote:
->> >>> On Mon, Aug 28, 2023 at 11:14:41AM +0300, Jani Nikula wrote:
->> >>>> On Sat, 26 Aug 2023, Guru Das Srinagesh <quic_gurus@quicinc.com> wr=
-ote:
->> >>>>> This script runs get_maintainer.py on a given patch file (or multi=
-ple
->> >>>>> patch files) and adds its output to the patch file in place with t=
-he
->> >>>>> appropriate email headers "To: " or "Cc: " as the case may be. The=
-se new
->> >>>>> headers are added after the "From: " line in the patch.
->> >>>>
->> >>>> FWIW, I personally prefer tooling to operate on git branches and co=
-mmits
->> >>>> than patches. For me, the patches are just an intermediate step in
->> >>>> getting the commits from my git branch to the mailing list. That's =
-not
->> >>>> where I add the Cc's, but rather in the commits in my local branch,
->> >>>> where they're preserved. YMMV.
->> >>>>
->> >>>
->> >>> May I ask how you add/carry the recipients in a commit?
->> >>
->> >> I guess below a "---" line in the commit description?
->> >=20
->> > Does that do anything special in commit log? I'd expect (and I do it t=
-hat
->> > way) it's rather just adding a
->>=20
->> It does. It goes away.
->
-> Afaict, it's verbatim copied into the .patch, which would mean that it
-> goes away when the patch is applied on the other side.
->
-> But it's still going to be in the email (followed by another ---), so
-> unless there's another step later in the process that cleans this up I
-> it looks ugly, and not very useful - unless I'm missing something.
->
->> >=20
->> > Cc: Name <email>
->> >=20
->> > in the tag area where s-o-b, reviewed-by etc are added.
->>=20
->> Why storing autogenerated scripts/get_maintainer.pl CC-entries in commit
->> msg? The non-maintainer-output but the automated output? There is no
->> single need to store automated output of get_maintainers.pl in the git
->> log. It can be easily re-created at any given time, thus its presence in
->> the git history is redundant and obfuscates the log.
->>=20
->
-> Fully agree to this. In particular if the patch is going to be sent as
-> part of a series the recipients list won't be accurate for any patch.
->
-> The case I was looking for was the case where I want to make sure to
-> include a specific person, beyond the get_maintainers output. So pretty
-> much the usual Cc: tag in the commit message, but I don't necessarily
-> want to write this fact into the git history.
+On Aug 28 2023 21:45, Krzysztof Kozlowski wrote:
+> On 28/08/2023 21:41, Mark Brown wrote:
+> > On Mon, Aug 28, 2023 at 07:59:54PM +0200, Krzysztof Kozlowski wrote:
+> >> On 28/08/2023 19:56, Guru Das Srinagesh wrote:
+> > 
+> >>> Your function adds mailing lists also in "To:" which is not ideal, in my view.
+> >>> You've mentioned before that To or Cc doesn't matter [1] which I disagree
+> >>> with: it doesn't matter, why does Cc exist as a concept at all?
+> > 
+> >> To/Cc does not matter when sending new patch, because maintainers know
+> >> they are maintainers of which parts. I know what I handle.
+> > 
+> > That might be true for you (and also is for me) but I know there are
+> > people who pay attention to if they're in the To: for various reasons, I
+> > gather it's mostly about triaging their emails and is especially likely
+> > in cases where trees have overlaps in the code they cover.
+> 
+> True, there can be cases where people pay attention to addresses of
+> emails. Just like there are cases where people pay attention to "To/Cc"
+> difference.
+> 
+> In my short experience with a few patches sent, no one complained to me
+> that I put him/her/they in "To" field of a patch instead of "Cc" (with
+> remark to not spamming to much, so imagine I send a patch for regulator
+> and DTS). Big, multi-subsystem patchsets are different case and this
+> script does not solve it either.
 
-The point is, I *never* use get_maintainer.pl output as-is.
+Not sure what you mean by "does not solve it" - what is the problem being
+referred to here?
 
-BR,
-Jani.
+In case of multi-subsystem patches in a series, the commit message of this
+patch explains exactly the actions taken.
 
+> Anyway, if it is not ideal for Guru, I wonder how his LKML maintainer
+> filters work that it is not ideal? What is exactly not ideal in
+> maintainer workflow?
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+I am not a maintainer - only an individual contributor - and as such, even
+though I may get patches on files I've contributed to, I deeply appreciate the
+distinction between being Cc-ed in a patch vs To-ed in one. The distinction
+being that if I'm in "To:" I ascribe higher priority to it and lesser if I'm in
+"Cc:".
+
+If this script is accepted and gains adoption, maintainers like yourself will
+only be To-ed in patches that touch files that you're a direct "Maintainer" or
+"Reviewer" of. For all other patches in the series you'll be in "Cc:". I
+imagine that this can be very useful regardless of the specifics of your
+workflow.
+
+Also, lists should just be in "Cc:" - that's just my personal preference, but
+one that I'm sure others also share.
+
+Guru Das.
