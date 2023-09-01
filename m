@@ -2,45 +2,45 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1BA7C6FA8F
-	for <workflows@archiver.kernel.org>; Wed, 30 Aug 2023 22:12:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6321CA0FE3
+	for <workflows@archiver.kernel.org>; Fri,  1 Sep 2023 01:41:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245328AbjH3WMR (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 30 Aug 2023 18:12:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46408 "EHLO
+        id S239488AbjIABli (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 31 Aug 2023 21:41:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245332AbjH3WMQ (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 30 Aug 2023 18:12:16 -0400
+        with ESMTP id S230061AbjIABlh (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 31 Aug 2023 21:41:37 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F1771A4;
-        Wed, 30 Aug 2023 15:11:50 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F244DE6E;
+        Thu, 31 Aug 2023 18:41:34 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 495A662351;
-        Wed, 30 Aug 2023 22:07:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 260A1C433C9;
-        Wed, 30 Aug 2023 22:07:09 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5A0026068A;
+        Fri,  1 Sep 2023 01:41:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D52AC433C7;
+        Fri,  1 Sep 2023 01:41:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693433229;
-        bh=iOlG6QCwPEJAv18mUAR+gdYgQ3y/Ze8QpP2zXy4kL3o=;
+        s=k20201202; t=1693532493;
+        bh=QGNSZhUE0TcKpqB9TuiQghQywRsl9vXdYfik8Gx8toA=;
         h=From:To:Cc:Subject:Date:From;
-        b=OSGioPeq7kf+PXKsN9z4re0fo54QSQB74WhbvhWvlQ9x1HR+fMd0ddWlA8zQDRA6X
-         kKLqf95hKIZKgoZfEBNc+EuV2GsjbsOOicm323e1xCIg39xa/NnIdCoMlpfxgt0Izw
-         FjKy7RpolV5TiAkHKpYnruB1xCWCFyaXfBaQY6mX9RQyxTBbxpA9ZmpDH6M+LnISpL
-         NILcX4ZyRnz6+qAWAfmNeus3GNMTU7dsWZ3BzHrNkyFP0RFBqLjA1Xp41iyS9eKOpL
-         edDfpkjxispR+CgX2ute1NZKTfZObfkgLMW+vgOGU1O92+kfqy8XEpIihd3ZzdxYre
-         Vb+B6gkcZ6y9A==
+        b=HmYQ6buURzjjJARm9cCAv+JjHumeRAsOS8eLxfr0hBn0IuUkoGB+RkKF7fTBg5Wxh
+         JPERo4gWP3+0b+ObcXp9oqHlGYo1PoPbYorH8tjSJHdssl/pwjfLqlwfEj0cUkuTPT
+         HOc0Kwnrl39lUaVMr2omNpG2tsUpIxsbQ6/5jVES52LGbf+fBlT2ISLhPTKcMJy7Oh
+         FUvlNKddUpQDXDoQg5rRRhstXvE1jpdCVIcPqn+VpmC7AuXQvGEA36/J9vIQGDnf9n
+         k/oDqY7NIPRg6bm2sofs/Rkb4ZS60TtGJOenpqnE+K5vHSGPX52FzvTsPCgVT2X9PP
+         GBl2DDLj2TN6Q==
 From:   Jakub Kicinski <kuba@kernel.org>
 To:     davem@davemloft.net
 Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
         Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net,
         workflows@vger.kernel.org, linux-doc@vger.kernel.org,
         rdunlap@infradead.org, laurent.pinchart@ideasonboard.com
-Subject: [PATCH net v2] docs: netdev: document patchwork patch states
-Date:   Wed, 30 Aug 2023 15:06:58 -0700
-Message-ID: <20230830220659.170911-1-kuba@kernel.org>
+Subject: [PATCH net v3] docs: netdev: document patchwork patch states
+Date:   Thu, 31 Aug 2023 18:41:29 -0700
+Message-ID: <20230901014131.540821-1-kuba@kernel.org>
 X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -55,7 +55,9 @@ the states in networking.
 
 Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 ---
-v2:
+v3:
+ - clarify that patches once set to Awaiting Upstream will stay there
+v2: https://lore.kernel.org/all/20230830220659.170911-1-kuba@kernel.org/
  - add a sentence about New vs Under Review
  - s/maintainer/export/ for Needs ACK
  - fix indent
