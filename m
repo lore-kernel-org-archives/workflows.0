@@ -2,151 +2,169 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 670DFC71153
-	for <workflows@archiver.kernel.org>; Mon,  4 Sep 2023 10:50:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC02ACA0FF3
+	for <workflows@archiver.kernel.org>; Tue,  5 Sep 2023 16:24:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233556AbjIDKu7 (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 4 Sep 2023 06:50:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42250 "EHLO
+        id S1350517AbjIEQYv (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 5 Sep 2023 12:24:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230431AbjIDKu6 (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 4 Sep 2023 06:50:58 -0400
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D63E191;
-        Mon,  4 Sep 2023 03:50:55 -0700 (PDT)
-Received: by mail-lf1-x133.google.com with SMTP id 2adb3069b0e04-5007616b756so2207509e87.3;
-        Mon, 04 Sep 2023 03:50:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693824653; x=1694429453; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=eV5JoTi0DCMOSsAGIml4QjVd10Eh9jcupgB9/8GBSPw=;
-        b=N2D7c2FplaazPs4348WmyY6eGUvVNyvkyIwmpdfDhhK7CJ7YAL8D2FZaQTHSH7h8KY
-         XCtN8JJn3lhwdNdo9GCI53O3wQZkSuBnSTAKjTDPgLfNd6EehkJ5xZC0HW6jHzeUYfqF
-         PrJfZoZZPOMFbGpioEhApkyH2wpB9Mf7BobCMF8YLEoLC8ssxJxqAk4y3vxd6gyGSCJ7
-         Ac1/vQFYs6K1W0UIskR46l4nJxW+4NPsqIIVTqHqPyZgr/FI4p9nECEoRS2EQhX26hLG
-         77jPPjoclLO7B9iVfaF5x0vQwjvQ2FNXSxepZYA/52UjreZyUp4Y+c+aZPAaX/tO+OrE
-         wBVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693824653; x=1694429453;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eV5JoTi0DCMOSsAGIml4QjVd10Eh9jcupgB9/8GBSPw=;
-        b=F5nwrpuHwJ2OafW7xSYsBNnfmkhz0hU0VtypkpEIN7XBJQQ0Yu6F/T2n/DISiga69k
-         SwmZfkrZa12whu53bDhFR0OhSRGhZzxZVAveGiremw+9kggMXdlFH5A1NIoMs4R2Apv7
-         3lOLwCl2Elqz/ijCR9i7NUkHKp+hcMWUEJ20ldng7tWEIoqMleZl4/EkfPfUSnbDPMgm
-         2yiTuW6/70/8BkbnYXG3J924byBmBwZIkfhZgpDkhjg9QFf83oTtunUS6EL71Qpdeh9H
-         wS7hbqriL1qgCuBn5GGWEk7Sb5HEEVTp6oARcCQ5wE4N/RvUcQWVMVZcKFjp9+GidcG2
-         BblQ==
-X-Gm-Message-State: AOJu0YyJ1cVpk9koSHcYWRiu/a03D89QSRILlx85YQl3NJfamfMc/Vy4
-        uEhlAKdjHAPIZlHVmEsQQ/U=
-X-Google-Smtp-Source: AGHT+IHjTygKuHa+wTdH3VEwFta6adO0Tlg6xJANZKH9z6sgiqSAQfoWvvKY2g8KJl2mPMkG3mPwEw==
-X-Received: by 2002:a19:4f48:0:b0:500:8723:e457 with SMTP id a8-20020a194f48000000b005008723e457mr5812058lfk.30.1693824652953;
-        Mon, 04 Sep 2023 03:50:52 -0700 (PDT)
-Received: from localhost ([81.168.73.77])
-        by smtp.gmail.com with ESMTPSA id x20-20020a05600c2a5400b00401b242e2e6sm16809585wme.47.2023.09.04.03.50.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Sep 2023 03:50:52 -0700 (PDT)
-Date:   Mon, 4 Sep 2023 11:50:51 +0100
-From:   Martin Habets <habetsm.xilinx@gmail.com>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-        pabeni@redhat.com, corbet@lwn.net, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, rdunlap@infradead.org,
-        laurent.pinchart@ideasonboard.com, sd@queasysnail.net
-Subject: Re: [PATCH net v4] docs: netdev: document patchwork patch states
-Message-ID: <20230904105051.GB8198@gmail.com>
-Mail-Followup-To: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net,
-        netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        with ESMTP id S1350299AbjIEFAR (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 5 Sep 2023 01:00:17 -0400
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2049.outbound.protection.outlook.com [40.107.101.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F91F8E;
+        Mon,  4 Sep 2023 22:00:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QGE4hp05udQKasuNqPuyACZNXrqfqKDXj1CUP72HWGGA35cdJv05tCs1u0irs3P34O7qIm/KVrd5YYZX+XZEz/VvEsTzlcpiLqY6QAz1XJ2ooAk2owtT8C8VVE1Brpkr92OKMqou9k3AL0nCc8VFRLnBddblaEz3nsofqYD+gYrk9ioFiYXRncv0Af7qBVkWRbujCtojQ0SZNlmM6sWb1CLQvt0QpAzdXyDBPRW6nbBm3mWVQCUZG5awpugrkraxQ8zW4AbZYDjPHYgX9MZVm8yVBqjeh0+x2hcHVyVXFVxMeSylMYZDsRLAatgZQfT2FKjOnUbF/xwBMrZ91xyXPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fBUrtZp1dUSQ0gLbEJuHgjlJfkzQejYmULTWO1xZ//c=;
+ b=DkRTEcaDIMPj/0jiSIIiIxIO6O2PH6S4yGTwWZglp+v+klLbrlsVgcWBtqVabIGfwQjF9nnf4YnWwbtt0UZtUvauVBHgQzJWfSkUrGZ8gg2GTdWNDuFsp+WIFHnzKP5w3Tb0ean5Z0I93vYLCMmYo5p0TSsgdW32UGJvxnTM3iHg8yNAGDZvlK2AL/Kvv5n6p9HZS7YmSbN1z+Z7QQdgiNS0PIRcHc+KhsiHhwua8+EXqA8UvUqgViVSt4ex40s/edwBMitIbr9fRF+b2bTA3PcQNRMnJgKjVLUuZqi4TO//yYyFPl1AGAHs/G5Ry1jRlFGYOh0sRwc1NWQoVJcMGA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fBUrtZp1dUSQ0gLbEJuHgjlJfkzQejYmULTWO1xZ//c=;
+ b=EJL9pV4d5ULVltc589zZ2LD339eNoMzI33UnHZN10DryiFBCd1cjj0YoRsUL92RIAEuUmwRlu1H9NmQDv4isQkg7YHWjlVNM4CeMN2y3i32egxFdeU+/XoOOBYmVp3qRiKn5w74ibNKVbLdonczF9BOrJST8Zd+5x0aP28tbLSA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS0PR12MB6583.namprd12.prod.outlook.com (2603:10b6:8:d1::12) by
+ SA0PR12MB4445.namprd12.prod.outlook.com (2603:10b6:806:95::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6745.33; Tue, 5 Sep 2023 05:00:11 +0000
+Received: from DS0PR12MB6583.namprd12.prod.outlook.com
+ ([fe80::5c9:9a26:e051:ddd2]) by DS0PR12MB6583.namprd12.prod.outlook.com
+ ([fe80::5c9:9a26:e051:ddd2%7]) with mapi id 15.20.6745.030; Tue, 5 Sep 2023
+ 05:00:09 +0000
+Message-ID: <1fd3d0a7-e738-40dd-a9b2-37e2adacc01c@amd.com>
+Date:   Mon, 4 Sep 2023 22:00:06 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net] docs: netdev: update the netdev infra URLs
+To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
+Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
         corbet@lwn.net, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, rdunlap@infradead.org,
-        laurent.pinchart@ideasonboard.com, sd@queasysnail.net
-References: <20230901142406.586042-1-kuba@kernel.org>
+        linux-doc@vger.kernel.org, intel-wired-lan@lists.osuosl.org
+References: <20230901211718.739139-1-kuba@kernel.org>
+Content-Language: en-US
+From:   "Nelson, Shannon" <shannon.nelson@amd.com>
+In-Reply-To: <20230901211718.739139-1-kuba@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BY5PR17CA0058.namprd17.prod.outlook.com
+ (2603:10b6:a03:167::35) To DS0PR12MB6583.namprd12.prod.outlook.com
+ (2603:10b6:8:d1::12)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230901142406.586042-1-kuba@kernel.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6583:EE_|SA0PR12MB4445:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6fbd3cc6-8b68-4103-f98b-08dbadccfa88
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 6oVo7pJwoghpDBz5dLUhimDWs9eoGCElw44F5M2lzGsmq8VKzZYUp6ytNzS2vrEMnZyI8NLwllN7NYakwoF4vpRTzInBtcRskhmfAuMEko/wu0kZTsu34zGGG867dWVopu5muFPEt8bykU/OOiwxbtsnlPAyfB8yjBzwWL/7kwL5apv4Ti6jhhA7h2iJEc8vz6ZVB1Np8aPsJMkCEXG02DHVJaUAdSC5IZfbRaP8nM/9DxmSt32ZVsJNupw/2ruVOi6jTOhrBvQrfVdYNMG/V/ak7A6MzmtOv9eoAyqcgDfMVY8NRCtH8aPs23SOVbdrNODurKP8h+1M9mhfKXWx162DJZ2Q/jynBJVeTLjfAEytxt7stUvO2P42jfb1ECiwdNCa+qu/nIVDTT1GqpD6eZ3vtnVfuLLrjH1YgNp2Y6TEURMDb6etTbLDTgMC0V1UmgQChU5gNFd7qrjvN+NSPFX5HSJH4Llz2xbvAEgoF2YP2aAizkJsMhTE4grGM8SyCu9wACmnHSE97hkot/eegZYQ8zs7fvBCg199PmSoS4zcDtDkpQ0ZTbWAARP1gzqCHwunc/8APBoEYr0DAARgSN+s/kk9nIgWTl6uj07ZMSX8FmWz5UMos0eukt0Te0I6
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6583.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(136003)(346002)(376002)(396003)(39860400002)(1800799009)(186009)(451199024)(2906002)(38100700002)(36756003)(86362001)(31696002)(6506007)(6512007)(41300700001)(53546011)(6486002)(316002)(66476007)(66556008)(66946007)(2616005)(4326008)(8676002)(8936002)(478600001)(966005)(6666004)(31686004)(83380400001)(5660300002)(26005)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Qkkrd2FnUzJRS1Njc2RrbFdBd0FWalJDdUQxcEV4QU1SM0M3R0NLRGxIOVA2?=
+ =?utf-8?B?NkNYTTVJNi9BR0lOOGF2UExUWXNjY2dFNlpZUVlscnR2ZVI0NTZxeVBKS3Rt?=
+ =?utf-8?B?ZWYrdzJZYjBOZEY0N3dSY3BPVHh3VmQxT1RBMGxtRXY0MjBKME1WekJwNzRo?=
+ =?utf-8?B?WFVMS0Jyd1c0SGZWRGVZR2dNN1ZWZHc0OTFZdkNRZXRWbWpsTjdYbmd3SzZY?=
+ =?utf-8?B?Zll3TjlKeVpLSWhNQ1N6bEw5S2V2ZkRsc0dXUnZTSGU5bDcwMkVIeDRJdmNF?=
+ =?utf-8?B?RVFlaUFXWWlxL1JRZmx0czhTa2dQejhpOWNXQzNLUnFSNTJWTlo1ZSt1ZmV5?=
+ =?utf-8?B?cnBEWXhUN2wxbjlyakluQ1J0QUVuSXhITzRpYXJNclBNY3h5eDZlM2FWblEv?=
+ =?utf-8?B?czZSdlZRUWM5Ui9CN1JWWldYTGxON2N1Z1dDZ1NRdEdaVDJMNTh5RTYwSUNm?=
+ =?utf-8?B?aHV0d2c3cFp1UEF5bld6aWFXdUhvOW03OWpYSElHbWo5czVwdlFUWFVzbkR1?=
+ =?utf-8?B?RkV5UmN1QitDNUVFYjhNQnBhN3pKNUwxS3JsdnVXdFlVekFHc2ZuTnVjY3JR?=
+ =?utf-8?B?Q2pUKzQ0T3hLZy9nWTJFMXFwVGM1VFJ0cmh3akNKT3dTUjNlWkw1Sm96UFNM?=
+ =?utf-8?B?NGEyZ0w0dUZSdlJDK3M4M1RLeUZoMmxEeUdQaXNVN09RSXdmV3RabUF3Vjkw?=
+ =?utf-8?B?cXpMV3F3SVlMTWVTQUFTK21odkZlRFMySDlZZFRZQVFLa0VMd3Z3TCs5R1Jw?=
+ =?utf-8?B?T1kwUnhuOXdob3Ztcks0UmQ5ZWxDM1Z5eEpLUy9CVmptMzF2cGYzS3BFNDZw?=
+ =?utf-8?B?KytscXpQMHM0WUdqb0x4MTc1RlFUWGZ1Y0xvc24vZVNobzJuelZtNWY0SXpz?=
+ =?utf-8?B?dWh5WEllQWZLcjljRlFHbGtpcVhMenhMMHNWb3FVYWlpalBwaWVjdUI3TTd6?=
+ =?utf-8?B?M2JNWUhlMmZHSWVJS1I4K0tMUjdCa1VzZjh1UnZOTVNXUzNCVVUvTTNXcUJQ?=
+ =?utf-8?B?MUZjQVpja0xYbEwyT0l2cCtPeWE2NHB4K0x5Z2d6K0lHc1IrM3Rya3lyRFla?=
+ =?utf-8?B?UWFCZEpJNm9hZlhJTWQ1aW9ObS90ZmN6ODhhYzM1WmZ2V0tUeE9RQ01IRlkx?=
+ =?utf-8?B?Z2NCLzAyNjNtdU5uR29uQTdibmNNYXNESVZYc0RTYjFlT1RlSThYQzJlY1Mr?=
+ =?utf-8?B?NEVGWU9EVEVCMEtRekZIWWNwQ2kzYVp1V2FLaWtBMFFkVmlIdGdXT1hsM0w4?=
+ =?utf-8?B?eHhFVWROUWRDb3B6NkYrOHBabEtCQjdMYjdRV2xRbktPSmhkeHVDZUlSa25S?=
+ =?utf-8?B?VXlFckF2Z1JOa3BINHlTaWJpck11alliTC9zSnh1ZktkTU1VTFVFbFYvZDll?=
+ =?utf-8?B?LzdDdEkrMWJIeHdxMzYzRGZVL3lGRHJIdFQyUlVTSlN4MW9aK3lKWlVOWEsr?=
+ =?utf-8?B?dk9naWhQazdlNnF4U2JERWREWG9CdE0vTVpNQXBIbmdpTkoxTkxVekxTL0VX?=
+ =?utf-8?B?Z1IzL3g4bU50R0p1Ly9SZDRmdHd5SndxTW90enBpaCtVQ3RzRU95VUM0cEt0?=
+ =?utf-8?B?Q29ZeDhNWDRRVzl3MHlvNGJCZ0FFelZmM1lNQ0VLZW9ScUtTSE5FNjYwbW42?=
+ =?utf-8?B?aEZOdFF0bHZ5dUZiUE9nTFVWZVdvY2VPRmh2NDhBQkxmVUJVRGN6V3dSZW5B?=
+ =?utf-8?B?amY0eFd2WWZhejREZHE4Z0RSUnJEcHJrQWpGbmdidUtyU3h1QlRGYkloMm9V?=
+ =?utf-8?B?cHNLenpSV1lwNzVwS2lkV0pFZnFQRVJVN0FXS2gwYXkwT01RQmdTdGdyZjVH?=
+ =?utf-8?B?cjVRNnVWaVlvWG9tcnRGeUxpZEMyQmJ5T3k3MFBMUG1WQzZnZ2pOS2ZzUnhF?=
+ =?utf-8?B?SWUrbmJEYmJpbjJUN2UxL0l5eWFBaVdRQ0lLQ01pemRsYXRMVmVtY1VqTTUv?=
+ =?utf-8?B?RFFtTmtEaFk3aW9WcVdVSE1sL1BPUHZSSHl2ZFNrajAzbm91SGgycHMwSzYv?=
+ =?utf-8?B?VlBxemRaaEpJdHIxdE1sMlNNWTdLWHFEMlpCUVcycTh3QmZYM0JTNUxrbnZx?=
+ =?utf-8?B?VzJKT3ZSWk9JOFhyQk5keWxTOW1zc3dBbzZtZXl4dmlLdGtUSlpHRitEeER1?=
+ =?utf-8?Q?adrfkOVap3V0H6CQCnRJMmEPJ?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6fbd3cc6-8b68-4103-f98b-08dbadccfa88
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6583.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2023 05:00:09.3664
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: O148ZyF0hZJ1YeimIkZphuTYOMEa2w2ku+iNCGO/+CCYUA8Gqt6ERvL16+m9O3zPEQavmlvJsyqOe6rlXvF+Cw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4445
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Fri, Sep 01, 2023 at 07:24:05AM -0700, Jakub Kicinski wrote:
-> The patchwork states are largely self-explanatory but small
-> ambiguities may still come up. Document how we interpret
-> the states in networking.
+On 9/1/2023 2:17 PM, Jakub Kicinski wrote:
+> 
+> Some corporate proxies block our current NIPA URLs because
+> they use a free / shady DNS domain. As suggested by Jesse
+> we got a new DNS entry from Konstantin - netdev.bots.linux.dev,
+> use it.
 > 
 > Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-
-Reviewed-by: Martin Habets <habetsm.xilinx@gmail.com>
-
 > ---
-> v4:
->  - clarify that patches once set to Awaiting Upstream will stay there
-> v3: no change
-> v2: https://lore.kernel.org/all/20230830220659.170911-1-kuba@kernel.org/
->  - add a sentence about New vs Under Review
->  - s/maintainer/export/ for Needs ACK
->  - fix indent
-> v1: https://lore.kernel.org/all/20230828184447.2142383-1-kuba@kernel.org/
-> 
 > CC: corbet@lwn.net
 > CC: workflows@vger.kernel.org
 > CC: linux-doc@vger.kernel.org
 > 
-> CC: rdunlap@infradead.org
-> CC: laurent.pinchart@ideasonboard.com
-> CC: sd@queasysnail.net
+> CC: intel-wired-lan@lists.osuosl.org
+> 
+> Please LMK if the old URLs pop up somewhere, I may have missed
+> some place. The old patchwork checks will continue to use the
+> old address but new ones should link via netdev.bots...
 > ---
->  Documentation/process/maintainer-netdev.rst | 32 ++++++++++++++++++++-
->  1 file changed, 31 insertions(+), 1 deletion(-)
+>   Documentation/process/maintainer-netdev.rst | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
 > diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
-> index c1c732e9748b..db1b81cfba9b 100644
+> index db1b81cfba9b..09dcf6377c27 100644
 > --- a/Documentation/process/maintainer-netdev.rst
 > +++ b/Documentation/process/maintainer-netdev.rst
-> @@ -120,7 +120,37 @@ Status of a patch can be checked by looking at the main patchwork
->    https://patchwork.kernel.org/project/netdevbpf/list/
->  
->  The "State" field will tell you exactly where things are at with your
-> -patch. Patches are indexed by the ``Message-ID`` header of the emails
-> +patch:
-> +
-> +================== =============================================================
-> +Patch state        Description
-> +================== =============================================================
-> +New, Under review  pending review, patch is in the maintainer’s queue for
-> +                   review; the two states are used interchangeably (depending on
-> +                   the exact co-maintainer handling patchwork at the time)
-> +Accepted           patch was applied to the appropriate networking tree, this is
-> +                   usually set automatically by the pw-bot
-> +Needs ACK          waiting for an ack from an area expert or testing
-> +Changes requested  patch has not passed the review, new revision is expected
-> +                   with appropriate code and commit message changes
-> +Rejected           patch has been rejected and new revision is not expected
-> +Not applicable     patch is expected to be applied outside of the networking
-> +                   subsystem
-> +Awaiting upstream  patch should be reviewed and handled by appropriate
-> +                   sub-maintainer, who will send it on to the networking trees;
-> +                   patches set to ``Awaiting upstream`` in netdev's patchwork
-> +                   will usually remain in this state, whether the sub-maintainer
-> +                   requested changes, accepted or rejected the patch
-> +Deferred           patch needs to be reposted later, usually due to dependency
-> +                   or because it was posted for a closed tree
-> +Superseded         new version of the patch was posted, usually set by the
-> +                   pw-bot
-> +RFC                not to be applied, usually not in maintainer’s review queue,
-> +                   pw-bot can automatically set patches to this state based
-> +                   on subject tags
-> +================== =============================================================
-> +
-> +Patches are indexed by the ``Message-ID`` header of the emails
->  which carried them so if you have trouble finding your patch append
->  the value of ``Message-ID`` to the URL above.
->  
-> -- 
-> 2.41.0
+> @@ -98,7 +98,7 @@ If you aren't subscribed to netdev and/or are simply unsure if
+>   repository link above for any new networking-related commits.  You may
+>   also check the following website for the current status:
 > 
+> -  https://patchwork.hopto.org/net-next.html
+> +  https://netdev.bots.linux.dev/net-next.html
+> 
+>   The ``net`` tree continues to collect fixes for the vX.Y content, and is
+>   fed back to Linus at regular (~weekly) intervals.  Meaning that the
+> @@ -185,7 +185,7 @@ must match the MAINTAINERS entry) and a handful of senior reviewers.
+> 
+>   Bot records its activity here:
+> 
+> -  https://patchwork.hopto.org/pw-bot.html
+> +  https://netdev.bots.linux.dev/pw-bot.html
+> 
+>   Review timelines
+>   ~~~~~~~~~~~~~~~~
+> --
+> 2.41.0
+
+Yes, thank you, this works much better through my masters' filters, both 
+here and through the patchwork links to the test result details.
+
+Reviewed by: Shannon Nelson <shannon.nelson@amd.com>
+
