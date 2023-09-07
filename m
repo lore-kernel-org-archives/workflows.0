@@ -2,91 +2,80 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 698A3EC873E
-	for <workflows@archiver.kernel.org>; Thu,  7 Sep 2023 16:16:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C3B5EC8744
+	for <workflows@archiver.kernel.org>; Thu,  7 Sep 2023 16:38:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238470AbjIGQQA (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 7 Sep 2023 12:16:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58982 "EHLO
+        id S240822AbjIGQiy (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 7 Sep 2023 12:38:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240146AbjIGQPt (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 7 Sep 2023 12:15:49 -0400
-Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3726900F;
-        Thu,  7 Sep 2023 09:13:51 -0700 (PDT)
-Received: by mail-il1-x136.google.com with SMTP id e9e14a558f8ab-34f2d7c1bc8so4423615ab.1;
-        Thu, 07 Sep 2023 09:13:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694103167; x=1694707967; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=229tRrHSXoxQdGlKz52ZOwfltW+JYEKB7qFRaZLcAY8=;
-        b=F02jVBtH3BtPZg9vlGEgoDJs1RMMbCyuYIyjX+P2OjV6F1HvzhtDho4oZFATWpyMCx
-         0nrhP2MS+W+KMTI5/zTAykTwT0aKBlmrukKd61T4Up579J6zc5qr3MfEHML+pKvEEZgd
-         tEUjTiIoHQHmY/lYDrZnCtyK++IAeXA/GQ0KuLTfbDtknh3SgM5yUvnpzJhGlUVPrDP9
-         UJzHJFsKwhkhICxj5yVmyEyIHv294EUuqek1neWdsA5VJpPFyjZbyb5imZr8hRsac1Xq
-         i58tLEO/7pnx6tKo5z3YeG0ehaqoCO4FyCKSAEFz2P5XbTg+5zLntjxv9RfWH9Yj8HD9
-         5k6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1694103167; x=1694707967;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=229tRrHSXoxQdGlKz52ZOwfltW+JYEKB7qFRaZLcAY8=;
-        b=KdZvN2C+g6CquFqtz1nNQE9TTWaPUIGJvBGrexslL4UL/cpFKdJ7lk45W+88naCCdi
-         swTYFPGL1D++ChSu6EbvU8tpRjd3edeDmDtnz6tE9laViWJql44N829pS+Znn1mxAQg7
-         DXUu8Z/fOdMXM+ZLScy7se+m1iHDhQOeNLJQZ5l+mUf21GZnp6pN6e/3T6OMTdPPz+LJ
-         GkERiA+TT7lSZMoUMOsUkj5xQQkUqtbAHJlt5I4CMU7IK0W03/tNXmESXmljrZO5le5M
-         V0UWqugphedydruVwTpnJbak6lGbzd8EmoTHijkNP20ViAq5Ff+RA1AqnYe8VMOthZZ7
-         Dilg==
-X-Gm-Message-State: AOJu0YwI72IeUcx/WtF+tNV1FVTOK5hL7oKJlJLY+2TrNLx/MLAENAYv
-        M+Z0AA2/+IAeY2MKrrk37HDZVovoDAc=
-X-Google-Smtp-Source: AGHT+IFDeV6B7EiSr4E6KZGhT+Wu/3NBbmvxHfrjLjcTaL2XMpoYF46hBVOIL+JMWVdKmde2D+NX0g==
-X-Received: by 2002:a0c:9c41:0:b0:64f:3ed2:c2da with SMTP id w1-20020a0c9c41000000b0064f3ed2c2damr18488068qve.55.1694087806681;
-        Thu, 07 Sep 2023 04:56:46 -0700 (PDT)
-Received: from localhost.localdomain ([154.16.192.36])
-        by smtp.gmail.com with ESMTPSA id h20-20020a0cab14000000b0064f4f9ddc72sm6315624qvb.21.2023.09.07.04.56.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Sep 2023 04:56:46 -0700 (PDT)
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     corbet@lwn.net, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+        with ESMTP id S244125AbjIGQiU (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 7 Sep 2023 12:38:20 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAB264694;
+        Thu,  7 Sep 2023 09:26:29 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id F19E12E0;
+        Thu,  7 Sep 2023 12:48:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net F19E12E0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1694090892; bh=JysPJRxXrczQoAPmvqIYhM9DcAdktvVPirtxUtRrSuU=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=gq1rdGWSBptK8bB4PeNqahqtX1h9qLqu+1xycBkYyqsLa4s2keClWk6Y2GMOTUJx3
+         /4TUy131r9C92oxQ9pcn9PAmArhMmEE6h3ANtn+nx6bTAwu2KCGdBPSXvltnsLKev5
+         WRjrdoqmsi6U+YAfOww83Z4m9Mj803LQhWu9aaGZDeWL09HBFquwqIfwtpVfJj+nmM
+         3orype6boAO/OJSe38ttkzvGjXPa+hk1wRP0lTs2PRBz5eZrjo/ZOnqJD/wyxm9iaV
+         eHeJAHoUIT3J8xMWyecyLz+LdemPc9Ku8+En66auar1NkZUVrk8XmacEkblgQranzJ
+         gdfvZWjzzwyBg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Cc:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, jesper.juhl@gmail.com
-Subject: [PATCH] Documentation: Process: Add a note about git way of applying patch
-Date:   Thu,  7 Sep 2023 17:22:11 +0530
-Message-ID: <20230907115420.28642-1-unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.41.0
+Subject: Re: [PATCH] Documentation: Process: Add a note about git way of
+ applying patch
+In-Reply-To: <20230907115420.28642-1-unixbhaskar@gmail.com>
+References: <20230907115420.28642-1-unixbhaskar@gmail.com>
+Date:   Thu, 07 Sep 2023 06:48:11 -0600
+Message-ID: <87bkee40ac.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-cc: jesper.juhl@gmail.com
+Bhaskar Chowdhury <unixbhaskar@gmail.com> writes:
 
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
----
- Documentation/process/applying-patches.rst | 7 +++++++
- 1 file changed, 7 insertions(+)
+> cc: jesper.juhl@gmail.com
+>
+> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+> ---
+>  Documentation/process/applying-patches.rst | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>
+> diff --git a/Documentation/process/applying-patches.rst b/Documentation/process/applying-patches.rst
+> index c269f5e1a0a3..201b9900bffe 100644
+> --- a/Documentation/process/applying-patches.rst
+> +++ b/Documentation/process/applying-patches.rst
+> @@ -6,6 +6,13 @@ Applying Patches To The Linux Kernel
+>  Original by:
+>  	Jesper Juhl, August 2005
+>
+> +
+> +.. applying patch by Git::
+> +
+> +    You can use the below syntax to patch in git repository
+> +    git-apply --whitespace=error-all <patchfile>
+> +
+> +
+>  .. note::
+>
+>     This document is obsolete.  In most cases, rather than using ``patch``
 
-diff --git a/Documentation/process/applying-patches.rst b/Documentation/process/applying-patches.rst
-index c269f5e1a0a3..201b9900bffe 100644
---- a/Documentation/process/applying-patches.rst
-+++ b/Documentation/process/applying-patches.rst
-@@ -6,6 +6,13 @@ Applying Patches To The Linux Kernel
- Original by:
- 	Jesper Juhl, August 2005
+So why are you sending a patch ... with no changelog ... adding a
+useless label ... and Sphinx syntax errors ... to a document that is
+explicitly marked as being obsolete?
 
-+
-+.. applying patch by Git::
-+
-+    You can use the below syntax to patch in git repository
-+    git-apply --whitespace=error-all <patchfile>
-+
-+
- .. note::
-
-    This document is obsolete.  In most cases, rather than using ``patch``
---
-2.41.0
-
+jon
