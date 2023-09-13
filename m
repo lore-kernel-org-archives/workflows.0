@@ -2,87 +2,96 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C89ACA0ED6
-	for <workflows@archiver.kernel.org>; Mon, 11 Sep 2023 22:50:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92B7DEDEC6A
+	for <workflows@archiver.kernel.org>; Wed, 13 Sep 2023 14:57:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240021AbjIKWqc (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 11 Sep 2023 18:46:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39770 "EHLO
+        id S241581AbjIMO5O (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 13 Sep 2023 10:57:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244506AbjIKUi7 (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 11 Sep 2023 16:38:59 -0400
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65688127;
-        Mon, 11 Sep 2023 13:38:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
-        ; s=x; h=Subject:Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Cc:To
-        :From:subject:date:message-id:reply-to;
-        bh=TLJ2bc/snhPLEcNROaiK2c5oF2wkJhqsS7gx9Br7BU8=; b=B6T9RrhySsq6SSgeW/VSamHn2J
-        FA+hjYw88EPbe3YEATYM2wTvQC4oSswvqDHjsb24NYeWybhPGAIMNcH4LEPLC62WNiVHl+47FLTa7
-        9BbjvaXJHnGNwWyz9JnM8eLQRQRAmaUAhz6+JBQsVkpk9fN7qcmiMNZFKwua1xR0wyZ8=;
-Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:60746 helo=pettiford.lan)
-        by mail.hugovil.com with esmtpa (Exim 4.92)
-        (envelope-from <hugo@hugovil.com>)
-        id 1qfngG-0005zL-RE; Mon, 11 Sep 2023 16:38:49 -0400
-From:   Hugo Villeneuve <hugo@hugovil.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     hugo@hugovil.com, Hugo Villeneuve <hvilleneuve@dimonoff.com>,
-        stable@vger.kernel.org, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Mon, 11 Sep 2023 16:36:30 -0400
-Message-Id: <20230911203628.20068-1-hugo@hugovil.com>
-X-Mailer: git-send-email 2.30.2
+        with ESMTP id S241462AbjIMO5O (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 13 Sep 2023 10:57:14 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A214AC;
+        Wed, 13 Sep 2023 07:57:10 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7CF6C433C7;
+        Wed, 13 Sep 2023 14:57:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694617030;
+        bh=b+BCOH6t1rTcaGA2JrOlmpGV1UIgp43vRNpFdldrGEA=;
+        h=From:Date:Subject:To:Cc:From;
+        b=b33vD0ESdeN6ammU7Dx4578slT6MXU6jFf7csmnvP14DnIXjjwfahBTJow25SkFky
+         NKj1IXoj4JgduRvT5GOC4i6ezwQVHH+pi77zjhYrdUplC2RupegXos4obhVE7rTu+X
+         zo/B1A0DDO1X006G4VyKt2TOuibMar7kaKqY3p/+lLRd3PHSbNTw79XJI4jHuOaAVE
+         cMAC27432bPo/pDZABk1v09FRYB8wYcrBVY5RZhsow7xXIYRxGlimYQL4CujdAIyWJ
+         GYNOljfn9kufYJCXpgt4D84J0AiEqAU4asWIu0gzFa+vhJdFutXLymaH6y9juaTrDi
+         i60XbvZw+pKTg==
+From:   Mark Brown <broonie@kernel.org>
+Date:   Wed, 13 Sep 2023 15:56:27 +0100
+Subject: [PATCH] docs: submitting-patches: Suggest a longer expected time
+ for responses
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 70.80.174.168
-X-SA-Exim-Mail-From: hugo@hugovil.com
-Subject: [PATCH v2] Documentation: stable: clarify patch series prerequisites
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230913-submitting-patches-delay-v1-1-a2d48c5ca205@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAJrNAWUC/x3MQQqDQAxA0atI1gY0Cq1eRVxkxlQDdZTJWCri3
+ Tt0+Rb/X2ASVQz64oIoHzXdQkZdFuAXDrOgTtlAFTVVVxPa4VZNScOMOye/iOEkbz6RO6LWMbn
+ Hs4Wc71Fe+v2vh/G+f0SYsJhqAAAA
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Javier Martinez Canillas <javier@dowhile0.org>,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.13-dev-034f2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1768; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=b+BCOH6t1rTcaGA2JrOlmpGV1UIgp43vRNpFdldrGEA=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBlAc3DDvS2E/2DB7QDbpWSPlIEsW2nLvundEuS/vZ+
+ sE9JOVKJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZQHNwwAKCRAk1otyXVSH0JEoB/
+ 4xru4ddDRvEyGfznPTLPx2e7tTRp20E/1t/7wcn3lgtpqHY+/tKTmuJnA/t/PmOLmq/gKFGxMotBcp
+ RiCA3y/GLoRPU/cavNsSyge9rt41YtbsZf1xbKGfGWa1nzIz8Pc86Gkg4W6UgcVokEAxzWNVk34d4Q
+ k+P3VNG9TlSWqz7QBDFYcRl8gE3qZJzk73cLYfhsBO3m0P+NXAY6tPXdZIchEx8e+HzQ3k4xntcA3+
+ nNKOGyZaXZUmlXp6NGx+q7DNtANubCVXBVvqDy2HvEiingZ5eNXolq7D/BiWksQOrLj8av7a8C7/Ms
+ cGTRV9P2f86eioP+HwkJKiN1faIFms
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+While some subsystems do typically have very fast turnaround times on
+review this is far from standard over the kernel and is likely to set
+unrealistic expectations for submitters.  Tell submitters to expect 2-3
+weeks instead, this will cover more of the kernel.
 
-Add some clarifications for patches that have dependencies within the
-patch series.
-
-Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+Signed-off-by: Mark Brown <broonie@kernel.org>
 ---
-Changes since v1: rebase on latest torvalds/master
+ Documentation/process/submitting-patches.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
- Documentation/process/stable-kernel-rules.rst | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
-index 41f1e07abfdf..1704f1c686d0 100644
---- a/Documentation/process/stable-kernel-rules.rst
-+++ b/Documentation/process/stable-kernel-rules.rst
-@@ -101,6 +101,19 @@ comment:
-      git cherry-pick fd21073
-      git cherry-pick <this commit>
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index efac910e2659..3fcfa029c9b3 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -366,10 +366,10 @@ busy people and may not get to your patch right away.
  
-+   Note that for a patch series, you do not have to list as prerequisites the
-+   patches present in the series itself. For example, if you have the following
-+   patch series:
-+
-+   .. code-block:: none
-+
-+     patch1
-+     patch2
-+
-+   where patch2 depends on patch1, you do not have to list patch1 as
-+   prerequisite of patch2 if you have already marked patch1 for stable
-+   inclusion.
-+
-  * For patches that may have kernel version prerequisites specify them using
-    the following format in the sign-off area:
+ Once upon a time, patches used to disappear into the void without comment,
+ but the development process works more smoothly than that now.  You should
+-receive comments within a week or so; if that does not happen, make sure
+-that you have sent your patches to the right place.  Wait for a minimum of
+-one week before resubmitting or pinging reviewers - possibly longer during
+-busy times like merge windows.
++receive comments within a few weeks (typically 2-3); if that does not
++happen, make sure that you have sent your patches to the right place.
++Wait for a minimum of one week before resubmitting or pinging reviewers
++- possibly longer during busy times like merge windows.
  
+ It's also ok to resend the patch or the patch series after a couple of
+ weeks with the word "RESEND" added to the subject line::
 
+---
 base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+change-id: 20230912-submitting-patches-delay-a9224ba2b784
+
+Best regards,
 -- 
-2.30.2
+Mark Brown <broonie@kernel.org>
 
