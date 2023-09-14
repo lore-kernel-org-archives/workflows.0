@@ -2,96 +2,82 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92B7DEDEC6A
-	for <workflows@archiver.kernel.org>; Wed, 13 Sep 2023 14:57:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66304CA0EF3
+	for <workflows@archiver.kernel.org>; Thu, 14 Sep 2023 04:11:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241581AbjIMO5O (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 13 Sep 2023 10:57:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45262 "EHLO
+        id S234607AbjINELD (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 14 Sep 2023 00:11:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241462AbjIMO5O (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 13 Sep 2023 10:57:14 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A214AC;
-        Wed, 13 Sep 2023 07:57:10 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7CF6C433C7;
-        Wed, 13 Sep 2023 14:57:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694617030;
-        bh=b+BCOH6t1rTcaGA2JrOlmpGV1UIgp43vRNpFdldrGEA=;
-        h=From:Date:Subject:To:Cc:From;
-        b=b33vD0ESdeN6ammU7Dx4578slT6MXU6jFf7csmnvP14DnIXjjwfahBTJow25SkFky
-         NKj1IXoj4JgduRvT5GOC4i6ezwQVHH+pi77zjhYrdUplC2RupegXos4obhVE7rTu+X
-         zo/B1A0DDO1X006G4VyKt2TOuibMar7kaKqY3p/+lLRd3PHSbNTw79XJI4jHuOaAVE
-         cMAC27432bPo/pDZABk1v09FRYB8wYcrBVY5RZhsow7xXIYRxGlimYQL4CujdAIyWJ
-         GYNOljfn9kufYJCXpgt4D84J0AiEqAU4asWIu0gzFa+vhJdFutXLymaH6y9juaTrDi
-         i60XbvZw+pKTg==
-From:   Mark Brown <broonie@kernel.org>
-Date:   Wed, 13 Sep 2023 15:56:27 +0100
-Subject: [PATCH] docs: submitting-patches: Suggest a longer expected time
- for responses
+        with ESMTP id S234628AbjINELC (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 14 Sep 2023 00:11:02 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B21CEB
+        for <workflows@vger.kernel.org>; Wed, 13 Sep 2023 21:10:57 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-530199bca8eso211356a12.0
+        for <workflows@vger.kernel.org>; Wed, 13 Sep 2023 21:10:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dowhile0-org.20230601.gappssmtp.com; s=20230601; t=1694664656; x=1695269456; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aufe5J8vU+SctNgmT1W1/mq3RGiP8XjApWBecp6gONY=;
+        b=ImRwRd6b/zFAX4YmIppIskNk6Jwzcmx7YL+FTacGwAvYnCrNJRX0yKmaMhmCZ2B+nQ
+         Z0hvQnKO/+d4R+T5zPDCzXqVijeV7lPjUgT52LPLoIEwcXwjWICndpZmo5cvepOghKRu
+         nMrMH4br6I+JX4xqkTFJnVA1TjYa1dpF9ciPzEh2VeWKVM67h5b/yXRUyCFgFSqpfeqy
+         hIfcXxm4uHBwfR0pvgeyucgUAnzPeek4IwHtIobEoYl4JH+ZPOQkqfqMTBw/z3TWG1N2
+         Omb/f1GYTAHZENLFi8VnpUx4o5RRa93XM5gAqLk8mK835rPdoZLhLLtCsWvcXVxYg+xY
+         evyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694664656; x=1695269456;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aufe5J8vU+SctNgmT1W1/mq3RGiP8XjApWBecp6gONY=;
+        b=h7pQN6uZlZ/t6OMr8623weBw87iJ6ZUqhK0HsJBtDsHl/h7wKHJFsFqD9cduwdm7R5
+         gMjJH17pP6JCxRc/4u3Ga2FYafnWQakD8hYPxFaptfysoyqkuiF3NBifE9jbUJDqneib
+         4WSS2rlXqgl6cdq06zfYQi98v+eJIjoDDBbNMR+ycaphTiXqlgZ3yZbzCQDjkthQmsMm
+         djm1sjAabvm9A6lTS+oV8NxluODk97C/lIK559grDUsuuPNJy2s+7j7euGBtM6M6D8u3
+         a3tiUIHwOmVuSZ3md2CBcfYbkQ6OT/UXjzB5w0IiCsnE4q7y3BGoQW3NvY33wdVYuvNy
+         OrwA==
+X-Gm-Message-State: AOJu0YyVbZxa+C+PBbwSW1HIihk6EyHwslvIUV0MTbMAgXM5BmEzqivA
+        WQAQMzOyNvECfMvPJ3+c82+KJ7NX3wuIsg2LZa1eXw==
+X-Google-Smtp-Source: AGHT+IFtsvUmPS4Noz40u6zbY6fpqmr+96j8eujD/00V5cBzXdC4gU7MPilZUrybMC4DFXO6Yn+sO+DlY8NEeebB66I=
+X-Received: by 2002:a17:906:5399:b0:9a1:b528:d0f6 with SMTP id
+ g25-20020a170906539900b009a1b528d0f6mr839462ejo.27.1694664655307; Wed, 13 Sep
+ 2023 21:10:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230913-submitting-patches-delay-v1-1-a2d48c5ca205@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAJrNAWUC/x3MQQqDQAxA0atI1gY0Cq1eRVxkxlQDdZTJWCri3
- Tt0+Rb/X2ASVQz64oIoHzXdQkZdFuAXDrOgTtlAFTVVVxPa4VZNScOMOye/iOEkbz6RO6LWMbn
- Hs4Wc71Fe+v2vh/G+f0SYsJhqAAAA
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Javier Martinez Canillas <javier@dowhile0.org>,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.13-dev-034f2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1768; i=broonie@kernel.org;
- h=from:subject:message-id; bh=b+BCOH6t1rTcaGA2JrOlmpGV1UIgp43vRNpFdldrGEA=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBlAc3DDvS2E/2DB7QDbpWSPlIEsW2nLvundEuS/vZ+
- sE9JOVKJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZQHNwwAKCRAk1otyXVSH0JEoB/
- 4xru4ddDRvEyGfznPTLPx2e7tTRp20E/1t/7wcn3lgtpqHY+/tKTmuJnA/t/PmOLmq/gKFGxMotBcp
- RiCA3y/GLoRPU/cavNsSyge9rt41YtbsZf1xbKGfGWa1nzIz8Pc86Gkg4W6UgcVokEAxzWNVk34d4Q
- k+P3VNG9TlSWqz7QBDFYcRl8gE3qZJzk73cLYfhsBO3m0P+NXAY6tPXdZIchEx8e+HzQ3k4xntcA3+
- nNKOGyZaXZUmlXp6NGx+q7DNtANubCVXBVvqDy2HvEiingZ5eNXolq7D/BiWksQOrLj8av7a8C7/Ms
- cGTRV9P2f86eioP+HwkJKiN1faIFms
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+References: <20230913-submitting-patches-delay-v1-1-a2d48c5ca205@kernel.org>
+In-Reply-To: <20230913-submitting-patches-delay-v1-1-a2d48c5ca205@kernel.org>
+From:   Javier Martinez Canillas <javier@dowhile0.org>
+Date:   Thu, 14 Sep 2023 06:10:43 +0200
+Message-ID: <CABxcv==jJvujerZNmN8PXF1-YYXy4Ra1WAHcmX4YUJRbRPUPzw@mail.gmail.com>
+Subject: Re: [PATCH] docs: submitting-patches: Suggest a longer expected time
+ for responses
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-While some subsystems do typically have very fast turnaround times on
-review this is far from standard over the kernel and is likely to set
-unrealistic expectations for submitters.  Tell submitters to expect 2-3
-weeks instead, this will cover more of the kernel.
+Hello Mark,
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- Documentation/process/submitting-patches.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+On Wed, Sep 13, 2023 at 4:57=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
+te:
+>
+> While some subsystems do typically have very fast turnaround times on
+> review this is far from standard over the kernel and is likely to set
+> unrealistic expectations for submitters.  Tell submitters to expect 2-3
+> weeks instead, this will cover more of the kernel.
+>
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+> Mark Brown <broonie@kernel.org>
+>
 
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index efac910e2659..3fcfa029c9b3 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -366,10 +366,10 @@ busy people and may not get to your patch right away.
- 
- Once upon a time, patches used to disappear into the void without comment,
- but the development process works more smoothly than that now.  You should
--receive comments within a week or so; if that does not happen, make sure
--that you have sent your patches to the right place.  Wait for a minimum of
--one week before resubmitting or pinging reviewers - possibly longer during
--busy times like merge windows.
-+receive comments within a few weeks (typically 2-3); if that does not
-+happen, make sure that you have sent your patches to the right place.
-+Wait for a minimum of one week before resubmitting or pinging reviewers
-+- possibly longer during busy times like merge windows.
- 
- It's also ok to resend the patch or the patch series after a couple of
- weeks with the word "RESEND" added to the subject line::
+Agreed that 2-3 weeks is more realistic.
 
----
-base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
-change-id: 20230912-submitting-patches-delay-a9224ba2b784
-
-Best regards,
--- 
-Mark Brown <broonie@kernel.org>
-
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
