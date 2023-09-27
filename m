@@ -2,50 +2,50 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 762D9E82CAF
-	for <workflows@archiver.kernel.org>; Wed, 27 Sep 2023 16:06:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4967CE82CAF
+	for <workflows@archiver.kernel.org>; Wed, 27 Sep 2023 16:15:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229478AbjI0QGn (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 27 Sep 2023 12:06:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40902 "EHLO
+        id S230164AbjI0QPm (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 27 Sep 2023 12:15:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230327AbjI0QGm (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 27 Sep 2023 12:06:42 -0400
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D60AB91
-        for <workflows@vger.kernel.org>; Wed, 27 Sep 2023 09:06:40 -0700 (PDT)
-Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-692779f583fso8292527b3a.0
-        for <workflows@vger.kernel.org>; Wed, 27 Sep 2023 09:06:40 -0700 (PDT)
+        with ESMTP id S231682AbjI0QPf (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 27 Sep 2023 12:15:35 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD53B1BE
+        for <workflows@vger.kernel.org>; Wed, 27 Sep 2023 09:15:33 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-692b2bdfce9so8763395b3a.3
+        for <workflows@vger.kernel.org>; Wed, 27 Sep 2023 09:15:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1695830800; x=1696435600; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1695831333; x=1696436133; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=J9IMc3CNSZ/gNDCqC4lhFAPbDDxmcPGnDavaaHDUQsA=;
-        b=NID/x3BxuTCJ5oDS7YsoDD018qUxclIX0FaDro8paN8kBI1wV/14uGu0sco/3cfdNc
-         JgFDeSrfn8+HOKdUVsk3qR2Gkbji7X3vF908ssrm4IQoutqx9b9EooD9mbTALQCqj1Ye
-         dRoZ6NEfzQWZ/TfWxIKeERkZoABV1FsGKgD+0=
+        bh=qk/M+saCBlOrifX9o0L6oxM9T2M5RIIV6XdENJ7/hVU=;
+        b=EWjJi1jqh6WTxu5oWMb4VHh6Tv+tHmmslrdt+e2SEtQ8ihfyO52L0Z+0oikG7inGG3
+         9OGc6TVEDdEYrXS9w+V2wJFguqao+tfsXvWuMwz4il198ie7VFe5VB/lwaWGcdsc4nI0
+         BeLI+46dJjyqE5ApjQjCeSrYsMT1oA+3GPkhg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695830800; x=1696435600;
+        d=1e100.net; s=20230601; t=1695831333; x=1696436133;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=J9IMc3CNSZ/gNDCqC4lhFAPbDDxmcPGnDavaaHDUQsA=;
-        b=iqb9yfcKe9VCO8D7/oFAltKotLrYY4OX7APGnkG2h9vJAjqX9jexqreI1SGUYFg3XB
-         NvoUdbvPwtMtuuu05w4U9udd/TjhZZY8c+9GUPtxdQomrqPOEsA+hnxHLOtxQtxpIGjM
-         Q5S6CYOyGQMOumx/yAvqI2iwQlPEdjnWY64OiI1K2ATvqE+enX7cAjBkoByWXf/nAskc
-         rq6UV7XCZE4qrKkOAZE60HQdE2XozeYXg9Osh75oRxSfKjHjdy9ZAkX/Q6JrEZqJtqb+
-         bZkuzAAVYqmym/LQYLCa5a84fkEmnMaysogvG+uWQ7IvGMuXQgFWYFRTfeJ3sOTAS2y/
-         og8g==
-X-Gm-Message-State: AOJu0YzbPuK6sSbbHtQREj1FUzqxJ9etSw21wazD1GA8+8TlOyGeRt14
-        RYuaOCBv8g3s+Qu8N/SIW9la/Q==
-X-Google-Smtp-Source: AGHT+IH1SofGgSqeNRn8nWrqgolxJTujcJ2tAHFRFhX6dM3k5+HerJ8jwPH2XIz59wXM/wDB99i2YQ==
-X-Received: by 2002:a05:6a20:970c:b0:159:cf93:9b50 with SMTP id hr12-20020a056a20970c00b00159cf939b50mr1874284pzc.46.1695830800300;
-        Wed, 27 Sep 2023 09:06:40 -0700 (PDT)
+        bh=qk/M+saCBlOrifX9o0L6oxM9T2M5RIIV6XdENJ7/hVU=;
+        b=tZk9EGl7USqB+1rUadmiROn9w9HqxWU/SL/elvfXy0zyC0I1u+oGMFG5BIzy3GuW0Z
+         3mwZoJQFYf9gPKhqivYrrqCBdVQNW8pWbiz79gmtBHh+MxpzC+BlvkgTife7n6KmmNZ3
+         H9CvXIIP6foj3rDG5jDfp6BdS7z4pKNLcLtkFzXpjUCQZDB7k/3CiifSHmggz3CDEYMs
+         r9F1Zg24X6EiFd9YPveOqDG4mBdXcs3GJpFreTVx214PQ52PTdH8m3pIxROH1AxGZiIK
+         iNG6hiRBcPXc7KWhAHY8SpJez7wRUjTtHzP2fB8UBY2vT8MVD/8X+1eYde0EHu6JZC6C
+         wwRA==
+X-Gm-Message-State: AOJu0YyJV5ZBFp0/5Axv7/X1nN1Asqsth7QBxywQ538SZ5XHLec8r45d
+        rQRNMel65QFalQGbYe2BoARluA==
+X-Google-Smtp-Source: AGHT+IGEWFo3Z0KRLdbeKNA9TZxiDU0ZlL7pCm1jg2RuPiQ94pBSvnMYFSNa/cMOgbj+bsYfP7FGbg==
+X-Received: by 2002:a05:6a20:ce92:b0:152:efa4:21b with SMTP id if18-20020a056a20ce9200b00152efa4021bmr2513269pzb.5.1695831333107;
+        Wed, 27 Sep 2023 09:15:33 -0700 (PDT)
 Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id s196-20020a6377cd000000b005789cbd2cacsm11488172pgc.20.2023.09.27.09.06.39
+        by smtp.gmail.com with ESMTPSA id c14-20020aa7880e000000b0069100e70943sm11945318pfo.24.2023.09.27.09.15.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Sep 2023 09:06:39 -0700 (PDT)
-Date:   Wed, 27 Sep 2023 09:06:39 -0700
+        Wed, 27 Sep 2023 09:15:32 -0700 (PDT)
+Date:   Wed, 27 Sep 2023 09:15:32 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     Justin Stitt <justinstitt@google.com>
 Cc:     Joe Perches <joe@perches.com>, linux-kernel@vger.kernel.org,
@@ -55,51 +55,111 @@ Cc:     Joe Perches <joe@perches.com>, linux-kernel@vger.kernel.org,
         Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         geert@linux-m68k.org, gregkh@linuxfoundation.org,
         workflows@vger.kernel.org, mario.limonciello@amd.com
-Subject: Re: [PATCH 1/3] MAINTAINERS: add documentation for D:
-Message-ID: <202309270903.D8ED32AE3@keescook>
+Subject: Re: [PATCH 3/3] get_maintainer: add patch-only pattern matching type
+Message-ID: <202309270913.911E51C@keescook>
 References: <20230927-get_maintainer_add_d-v1-0-28c207229e72@google.com>
- <20230927-get_maintainer_add_d-v1-1-28c207229e72@google.com>
+ <20230927-get_maintainer_add_d-v1-3-28c207229e72@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230927-get_maintainer_add_d-v1-1-28c207229e72@google.com>
+In-Reply-To: <20230927-get_maintainer_add_d-v1-3-28c207229e72@google.com>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Wed, Sep 27, 2023 at 03:19:14AM +0000, Justin Stitt wrote:
-> Document what "D:" does.
+On Wed, Sep 27, 2023 at 03:19:16AM +0000, Justin Stitt wrote:
+> Add the "D:" type which behaves the same as "K:" but will only match
+> content present in a patch file.
 > 
-> This is more or less the same as what "K:" does but only works for patch
-> files.
+> To illustrate:
 > 
-> See [3/3] for more info and an illustrative example.
-> ---
->  MAINTAINERS | 3 +++
->  1 file changed, 3 insertions(+)
+> Imagine this entry in MAINTAINERS:
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index b19995690904..de68d2c0cf29 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -59,6 +59,9 @@ Descriptions of section entries and preferred order
->  	      matches patches or files that contain one or more of the words
->  	      printk, pr_info or pr_err
->  	   One regex pattern per line.  Multiple K: lines acceptable.
-> +  D: *Content regex* (perl extended) pattern match patches only.
-> +     Usage same as K:.
-> +
+> NEW REPUBLIC
+> M: Han Solo <hansolo@rebelalliance.co>
+> W: https://www.jointheresistance.org
+> D: \bstrncpy\b
+> 
+> Our maintainer, Han, will only be added to the recipients if a patch
+> file is passed to get_maintainer (like what b4 does):
+> $ ./scripts/get_maintainer.pl 0004-some-change.patch
+> 
+> If the above patch has a `strncpy` present in the subject, commit log or
+> diff then Han will be to/cc'd.
+> 
+> However, in the event of a file from the tree given like:
+> $ ./scripts/get_maintainer.pl ./lib/string.c
+> 
+> Han will not be noisily to/cc'd (like a K: type would in this
+> circumstance)
+> 
+> Note that folks really shouldn't be using get_maintainer on tree files
+> anyways [1].
+> 
+> [1]: https://lore.kernel.org/all/20230726151515.1650519-1-kuba@kernel.org/
 
-The "emphasis" tags here are used when rendering:
-https://docs.kernel.org/process/maintainers.html
+As Greg suggested, please drop the above paragraph and link. Then this
+looks good to me.
 
-In this case, I assume "D" is inspired by "Diff", so perhaps reword this
-to get a proper emphasis hint, and add additional context:
+I would immediately want to send this patch too, so please feel free to
+add this to your series (and I bet many other hints on "git grep 'K:.\\b'"
+would want to switch from K: to D: too):
 
-  D: *Diff content regex* (perl extended) pattern match that applies
-     only to patches and not entire files (e.g. when using the
-     get_maintainers.pl script).
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5f18c6ba3c3c..830e10866acf 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5057,7 +5057,7 @@ F:	Documentation/kbuild/llvm.rst
+ F:	include/linux/compiler-clang.h
+ F:	scripts/Makefile.clang
+ F:	scripts/clang-tools/
+-K:	\b(?i:clang|llvm)\b
++D:	\b(?i:clang|llvm)\b
+ 
+ CLK API
+ M:	Russell King <linux@armlinux.org.uk>
+@@ -8199,7 +8199,7 @@ F:	lib/strcat_kunit.c
+ F:	lib/strscpy_kunit.c
+ F:	lib/test_fortify/*
+ F:	scripts/test_fortify.sh
+-K:	\b__NO_FORTIFY\b
++D:	\b__NO_FORTIFY\b
+ 
+ FPGA DFL DRIVERS
+ M:	Wu Hao <hao.wu@intel.com>
+@@ -11457,9 +11457,9 @@ F:	include/linux/overflow.h
+ F:	include/linux/randomize_kstack.h
+ F:	kernel/configs/hardening.config
+ F:	mm/usercopy.c
+-K:	\b(add|choose)_random_kstack_offset\b
+-K:	\b__check_(object_size|heap_object)\b
+-K:	\b__counted_by\b
++D:	\b(add|choose)_random_kstack_offset\b
++D:	\b__check_(object_size|heap_object)\b
++D:	\b__counted_by\b
+ 
+ KERNEL JANITORS
+ L:	kernel-janitors@vger.kernel.org
+@@ -17354,7 +17354,7 @@ F:	drivers/acpi/apei/erst.c
+ F:	drivers/firmware/efi/efi-pstore.c
+ F:	fs/pstore/
+ F:	include/linux/pstore*
+-K:	\b(pstore|ramoops)
++D:	\b(pstore|ramoops)
+ 
+ PTP HARDWARE CLOCK SUPPORT
+ M:	Richard Cochran <richardcochran@gmail.com>
+@@ -19302,8 +19302,8 @@ F:	include/uapi/linux/seccomp.h
+ F:	kernel/seccomp.c
+ F:	tools/testing/selftests/kselftest_harness.h
+ F:	tools/testing/selftests/seccomp/*
+-K:	\bsecure_computing
+-K:	\bTIF_SECCOMP\b
++D:	\bsecure_computing
++D:	\bTIF_SECCOMP\b
+ 
+ SECURE DIGITAL HOST CONTROLLER INTERFACE (SDHCI) Broadcom BRCMSTB DRIVER
+ M:	Kamal Dasu <kamal.dasu@broadcom.com>
 
 -- 
 Kees Cook
