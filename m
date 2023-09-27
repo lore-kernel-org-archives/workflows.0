@@ -2,147 +2,112 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95004E7E62D
-	for <workflows@archiver.kernel.org>; Tue, 26 Sep 2023 12:02:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBEE0E7F15D
+	for <workflows@archiver.kernel.org>; Wed, 27 Sep 2023 04:00:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234503AbjIZMDD (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 26 Sep 2023 08:03:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39108 "EHLO
+        id S229730AbjI0EAX (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 27 Sep 2023 00:00:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233884AbjIZMDC (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 26 Sep 2023 08:03:02 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E431E6;
-        Tue, 26 Sep 2023 05:02:53 -0700 (PDT)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38QBGOHk009562;
-        Tue, 26 Sep 2023 12:02:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
- cc : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=qcppdkim1; bh=2a8ACoHIsGvcVxr5BZ9tsHiiT+SNT7xd5y69XlnJqQY=;
- b=J7lTwAphiiWiKHxu+WgZCtz2LozTWomlVQwehhqeNAdNpUmUsFkHrS3dJSiElv3CEPZd
- nEEQI4YoHvSE9BecfzfnLaH8/WEssbfNvTjMUQO1rZVgW3Q3RC25ExS3yMlsckIOb7yv
- NBO6sME/INbBey7rW0sPumiS/UQ5mHPkk62FkAcfRoml7BWL1kSreVihFdquCOsLXMFR
- Cs5LvoZ4UOxVsP9DiHcw32CabcGmYd8ZqjQTcERWLNt7XGnUorrV3JLxPEfQqdzlUXzz
- cHtfU2uE4kVEb1SjY5xbUnS5rVCkjJX78HZbLxZdtTlc5ek7zgbPyTnhPBDPay8EMyH9 Tg== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tb72sk4kf-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 26 Sep 2023 12:02:22 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38QC2Ln2010849
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 26 Sep 2023 12:02:21 GMT
-Received: from hu-pkondeti-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Tue, 26 Sep 2023 05:02:13 -0700
-Date:   Tue, 26 Sep 2023 17:32:10 +0530
-From:   Pavan Kondeti <quic_pkondeti@quicinc.com>
-To:     Guru Das Srinagesh <quic_gurus@quicinc.com>
-CC:     Masahiro Yamada <masahiroy@kernel.org>,
+        with ESMTP id S229504AbjI0D65 (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 26 Sep 2023 23:58:57 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 198A01E979
+        for <workflows@vger.kernel.org>; Tue, 26 Sep 2023 20:19:28 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-d81e9981ff4so14943679276.3
+        for <workflows@vger.kernel.org>; Tue, 26 Sep 2023 20:19:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1695784767; x=1696389567; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=DGozN3Q2BjVab5DdC5Xqh5aKsGm98+6kSJqgQyphx4Q=;
+        b=wWxxFkNRhyFJrl2HT2Y7HKBAuHEyijl48YBQ4zrpWFFvwamXybQrAjZLJz6FJLS8qs
+         9jjNd38wrNAm6nQSX3ceOHEFR9mmPW2oaddv7AX9KqZLoW7Wa8+JIYO1VkA4idV0gtSB
+         +9W0zcWejYSxex4PV19AQXMQoolXKulgQYZTNqrWCfs2vwDxBJoI5GtsNJE8vjAtxxiC
+         bs4bSMLdiVL5Ov6DK0AE0G0Rr8qDL7qnQt26YhjcZhKOwB/gTTqsjSO0P1FNCwpNMTS4
+         kLrC5SjVOFkyzSr43c5pQyLl6TGTRdlsxYLBS0sVSAeXBKFTUEpiTC+BIBs7u7Iddebr
+         Gu7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695784767; x=1696389567;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DGozN3Q2BjVab5DdC5Xqh5aKsGm98+6kSJqgQyphx4Q=;
+        b=J3Yx+znSnTAXJHJzk3kO/N8C3NUDjAfzfr2EwSHBB40ZKE6s882Oto2eAaLStxGx1C
+         gvecbG7I0Aer69VzSqCCae2/AT93tiuMvTSIeGfCZIzEBOAu8pIK9Z3kHYuqdEqlU8o0
+         6Eypmdj3opy7LrskFY5G2ynAnTt5OQzqWJUZrh9VpIzIDiRnNQ/G7x4o4k9dT43NYZDa
+         3Rk9bFdxf+n6eO3kfoZSt44g4i5t0KnmtR83lYJwPCvaNeqibG1uN/LFMHg1Yw7QQFku
+         a6Zjgkuc6AJF6N+zF/Lsp8P66jQ6oT+x5SWS78ZpwOvDhCBbq2eGnftxmYDVe+0JuWNB
+         rapA==
+X-Gm-Message-State: AOJu0YwACZ6gmciB6K3T5KD29EIiAU4PNr1uQijhwCpf9fWyis24Tonj
+        2Cf2ZnW1Xt47KymEX4HbT+8ClJkKDAoKusUD7g==
+X-Google-Smtp-Source: AGHT+IFacMx8GpxVXB6axPpq+vXi8WKy5ZXo2AjxMntJypqIRg0l1HjRPdST6huJcVUl8MLsrqNan5P2YE12nFDdbg==
+X-Received: from jstitt-linux1.c.googlers.com ([fda3:e722:ac3:cc00:2b:ff92:c0a8:23b5])
+ (user=justinstitt job=sendgmr) by 2002:a25:880b:0:b0:d89:dd12:163d with SMTP
+ id c11-20020a25880b000000b00d89dd12163dmr1445ybl.1.1695784767190; Tue, 26 Sep
+ 2023 20:19:27 -0700 (PDT)
+Date:   Wed, 27 Sep 2023 03:19:13 +0000
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIADGfE2UC/x2MQQqAIBAAvxJ7TrBNsvpKhEhutocsVCKI/p50m
+ MMcZh5IFJkSjNUDkS5OfIQiTV3BstngSbArDiixlQN2wlM2u+WQCxSNdc44IbVCZftGkUYo6Rl p5fvfTvP7fozB+mhmAAAA
+X-Developer-Key: i=justinstitt@google.com; a=ed25519; pk=tC3hNkJQTpNX/gLKxTNQKDmiQl6QjBNCGKJINqAdJsE=
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1695784766; l=1608;
+ i=justinstitt@google.com; s=20230717; h=from:subject:message-id;
+ bh=Z/OmsHcYrM5MtXvVa9TZMGeFKOHN5xCyog9zO9xwJV0=; b=lPG98gO1n66aeEpHpqKhRK8xSwE9XYPSVvpQeaoQ1BmEHFgA6zvp7wzCceTBEOWUVNotomdWM
+ vmWsWEkLWirA9uPCL0HWgUEeGew3+yB6ftxyokDo8HNY/g8F8Kwa6gZ
+X-Mailer: b4 0.12.3
+Message-ID: <20230927-get_maintainer_add_d-v1-0-28c207229e72@google.com>
+Subject: [PATCH 0/3] get_maintainer: add patch-only keyword matching
+From:   Justin Stitt <justinstitt@google.com>
+To:     Joe Perches <joe@perches.com>
+Cc:     linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Nicolas Schier" <nicolas@fjasle.eu>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        "Bjorn Andersson" <andersson@kernel.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, Will Deacon <will@kernel.org>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        <quic_pkondeti@quicinc.com>, <linux-kernel@vger.kernel.org>,
-        <kernel@quicinc.com>, <workflows@vger.kernel.org>,
-        <tools@linux.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-pm@vger.kernel.org>
-Subject: Re: [PATCH v3 1/1] scripts: Add add-maintainer.py
-Message-ID: <d0711242-df00-45c7-962f-841f7cefa7e3@quicinc.com>
-References: <cover.1693037031.git.quic_gurus@quicinc.com>
- <141b9fcab2208ace3001df4fc10e3dfd42b9f5d9.1693037031.git.quic_gurus@quicinc.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <141b9fcab2208ace3001df4fc10e3dfd42b9f5d9.1693037031.git.quic_gurus@quicinc.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: NatgBplqSlxKxQknsktnvf_838ZElKmd
-X-Proofpoint-ORIG-GUID: NatgBplqSlxKxQknsktnvf_838ZElKmd
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-09-26_07,2023-09-25_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
- mlxscore=0 priorityscore=1501 lowpriorityscore=0 clxscore=1011
- malwarescore=0 adultscore=0 mlxlogscore=661 spamscore=0 suspectscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2309180000 definitions=main-2309260104
+        Nathan Chancellor <nathan@kernel.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        geert@linux-m68k.org, gregkh@linuxfoundation.org,
+        workflows@vger.kernel.org, mario.limonciello@amd.com,
+        Justin Stitt <justinstitt@google.com>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Sat, Aug 26, 2023 at 01:07:42AM -0700, Guru Das Srinagesh wrote:
-> +def gather_maintainers_of_file(patch_file):
-> +    all_entities_of_patch = dict()
-> +
-> +    # Run get_maintainer.pl on patch file
-> +    logging.info("GET: Patch: {}".format(os.path.basename(patch_file)))
-> +    cmd = ['scripts/get_maintainer.pl']
-> +    cmd.extend([patch_file])
-> +
-> +    try:
-> +        p = subprocess.run(cmd, stdout=subprocess.PIPE, check=True)
-> +    except:
-> +        sys.exit(1)
-> +
-> +    logging.debug("\n{}".format(p.stdout.decode()))
-> +
-> +    entries = p.stdout.decode().splitlines()
-> +
-> +    maintainers = []
-> +    lists = []
-> +    others = []
-> +
-> +    for entry in entries:
-> +        entity = entry.split('(')[0].strip()
-> +        if any(role in entry for role in ["maintainer", "reviewer"]):
-> +            maintainers.append(entity)
-> +        elif "list" in entry:
-> +            lists.append(entity)
-> +        else:
-> +            others.append(entity)
-> +
-> +    all_entities_of_patch["maintainers"] = set(maintainers)
-> +    all_entities_of_patch["lists"] = set(lists)
-> +    all_entities_of_patch["others"] = set(others)
-> +
-> +    return all_entities_of_patch
-> +
+This series aims to add "D:" which behaves exactly the same as "K:" but
+works only on patch files.
 
-FYI, there are couple of issues found while playing around.
+The goal of this is to reduce noise when folks use get_maintainer on
+tree files as opposed to patches. This use case should be steered away
+from [1] but "D:" should help maintainers reduce noise in their inboxes
+regardless, especially when matching omnipresent keywords like [2]. In
+the event of [2] Kees would be to/cc'd from folks running get_maintainer
+on _any_ file containing "__counted_by". The number of these files is
+rising and I fear for his inbox as his goal, as I understand it, is to
+simply monitor the introduction of new __counted_by annotations to
+ensure accurate semantics.
 
-- Some entries in MAINTAINERS could be "supporter"
-- When names contain ("company"), the script fails to extract name.
+See [3/3] for an illustrative example.
 
-Thanks,
-Pavan
+This series also includes a formatting pass over get_maintainer because
+I personally found it difficult to parse with the human eye.
 
-diff --git a/scripts/add-maintainer.py b/scripts/add-maintainer.py
-index 5a5cc9482b06..6aa5e7941172 100755
---- a/scripts/add-maintainer.py
-+++ b/scripts/add-maintainer.py
-@@ -29,8 +29,8 @@ def gather_maintainers_of_file(patch_file):
-     others = []
+[1]: https://lore.kernel.org/all/20230726151515.1650519-1-kuba@kernel.org/
+[2]: https://lore.kernel.org/all/20230925172037.work.853-kees@kernel.org/
 
-     for entry in entries:
--        entity = entry.split('(')[0].strip()
--        if any(role in entry for role in ["maintainer", "reviewer"]):
-+        entity = entry.rsplit('(', 1)[0].strip()
-+        if any(role in entry for role in ["maintainer", "reviewer", "supporter"]):
-             maintainers.append(entity)
-         elif "list" in entry:
-             lists.append(entity)
+Signed-off-by: Justin Stitt <justinstitt@google.com>
+---
+Justin Stitt (3):
+      MAINTAINERS: add documentation for D:
+      get_maintainer: run perltidy
+      get_maintainer: add patch-only pattern matching type
 
+ MAINTAINERS               |    3 +
+ scripts/get_maintainer.pl | 3334 +++++++++++++++++++++++----------------------
+ 2 files changed, 1718 insertions(+), 1619 deletions(-)
+---
+base-commit: 6465e260f48790807eef06b583b38ca9789b6072
+change-id: 20230926-get_maintainer_add_d-07424a814e72
 
-Thanks,
-Pavan
+Best regards,
+--
+Justin Stitt <justinstitt@google.com>
+
