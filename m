@@ -2,128 +2,117 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58E7BCE7B19
-	for <workflows@archiver.kernel.org>; Thu, 28 Sep 2023 10:58:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19F6DE732E5
+	for <workflows@archiver.kernel.org>; Thu, 28 Sep 2023 15:52:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231789AbjI1K60 (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 28 Sep 2023 06:58:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41224 "EHLO
+        id S232046AbjI1Pwb (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 28 Sep 2023 11:52:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231817AbjI1K6X (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 28 Sep 2023 06:58:23 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FB0F1A4;
-        Thu, 28 Sep 2023 03:58:21 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-68bed2c786eso10281197b3a.0;
-        Thu, 28 Sep 2023 03:58:21 -0700 (PDT)
+        with ESMTP id S232063AbjI1Pwa (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 28 Sep 2023 11:52:30 -0400
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D65CEB
+        for <workflows@vger.kernel.org>; Thu, 28 Sep 2023 08:52:28 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-4053c6f0e50so127636285e9.1
+        for <workflows@vger.kernel.org>; Thu, 28 Sep 2023 08:52:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695898700; x=1696503500; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=r8FHvQbj7rNmFiJppzUFr2acXChGkldi3IkyP6IO254=;
-        b=W+P3fJZYXpew8PWTo68+E8PFtJa+tP90X13cTMIJ1qKWCfnC798VXWeucUujKcbsfu
-         pi0fVgDVHHUYMTbDlbSLRxI6DLQEoiB6zixBytMQDUu5KU5U0Si2zlpph6zwPUfuBj67
-         5C6AfaskKMDmFjzf4bOp0Hj5EhspUMT00ZgJWre8r+MUobEI2RUpt4TB0RJbeMCe9dol
-         DuMGee9A7qIzaefECJLLSZPliaQXJTQY3wFwUGGL2qYbMiX+3WfkrSKr/4puPm2DH8RX
-         QuzaUZliI9Xcn1KoPxLRWMQApbZnop+atuZPKxJX9ArZbmXAarlrG34TymhGpFfvFtnc
-         7V3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695898700; x=1696503500;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1695916346; x=1696521146; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=r8FHvQbj7rNmFiJppzUFr2acXChGkldi3IkyP6IO254=;
-        b=R7tvPFbz9qGd4FIOAYT04jpxjrwo0cjFZ4/rr+uoxWMX+uZ+xTGrMZsjCU7qLBO+V3
-         cHpgSVwLL14UAwiWyz4vBqLKe2fB1jtbMCfwhUdhhFtd6kqv2vBmCBrAl243TJ74LEKj
-         Ub5agSG1jpPs/sVD6h6c74jr3komW58hSnBcjyySlts+jrf2/5y2Kx/BDBfqmwohQWpe
-         H5CTXXET3DFXb2KfBHnBo0qzWy5BIGYWzzSYgj13JA/0831jPHVSDca3J6prIv6HbeF6
-         Edns8CizSyzwcNUHgQ4SPKwicEp2EP+L+Ob2Lt+mmzTKQnf2j+xMqrgOJzhVtn82hyc0
-         yqiQ==
-X-Gm-Message-State: AOJu0YxCflwL+GtaG5AgK+3jMVyZa+qRsA+RVKFpR0dIACZ5ekOG2Z7k
-        V19vTXW51D09k6he1QzVB0s=
-X-Google-Smtp-Source: AGHT+IGkoIlqHRlYP7Pacij/Tt4HsEzkQDrH/+yO9n+fWmRgJ9u+9+0jz+4WLeu2VEe9Tec0P8kfbA==
-X-Received: by 2002:a05:6300:8004:b0:13d:5b70:17da with SMTP id an4-20020a056300800400b0013d5b7017damr804292pzc.26.1695898700374;
-        Thu, 28 Sep 2023 03:58:20 -0700 (PDT)
-Received: from debian.me ([103.124.138.83])
-        by smtp.gmail.com with ESMTPSA id jj3-20020a170903048300b001a9b29b6759sm9449520plb.183.2023.09.28.03.58.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Sep 2023 03:58:19 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 78E8C81C9B1B; Thu, 28 Sep 2023 17:58:16 +0700 (WIB)
-Date:   Thu, 28 Sep 2023 17:58:16 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Costa Shulyupin <costa.shul@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Atish Patra <atishp@rivosinc.com>,
-        Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Evan Green <evan@rivosinc.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Andy Chiu <andy.chiu@sifive.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Greentime Hu <greentime.hu@sifive.com>,
-        Anup Patel <anup@brainfault.org>,
-        Charlie Jenkins <charlie@rivosinc.com>,
-        Vincent Chen <vincent.chen@sifive.com>,
-        Wu XiangCheng <bobwxc@email.cn>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org, workflows@vger.kernel.org
-Subject: Re: [PATCH] docs: move riscv under arch
-Message-ID: <ZRVcSDkMmWaePqaL@debian.me>
-References: <20230928103134.2779459-1-costa.shul@redhat.com>
+        bh=foVf5TV1MmYsP7PedGF8V/NHFqHve2xNubfmQ3LV2g4=;
+        b=tvWQEmqFxsVIS/BF4LzTeA7treVv5t5yHUyTzUkEeOrM3tFnq/GkYbgB+CX2NYjSik
+         bO2hjgim4OaZ2hxJZFWReBkqr2pixgFlSYjpZrnm6rUodBXPrBulAgLWAImCe3+vxTCM
+         CFHrhtW+UnncxkFXBa6QBkaaLvk92fVf1mIWYJAp3Wik/cRJeFSlwWqRPJOQ6jv+9qou
+         btpfiyvf5NlXvlca+kOQHG4vnrGHUGuVWnOAtydmqpyaI+jWY0numxgAjW7YDM6+hgbd
+         mRqTWtdY/hoc6Mbo/J1QN/FyL4LKcgW6eT9QPVRvibXWcfqKjo+aQkur9n6g53z0vPsp
+         3WhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695916346; x=1696521146;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=foVf5TV1MmYsP7PedGF8V/NHFqHve2xNubfmQ3LV2g4=;
+        b=jeT1oPlc5VgBnQF09q/FuW5gLVs7h55nrdrDvMiCthT3MEbImc65Z3JwNx+KSJ2oU9
+         Hypg1v8QtWcSE13cAqhy+0+BZ2r/NMb7oWYn+m63bpn8U/bZdw8WdvBZxaMj93lShIQA
+         oFxvUXMFYvrnmmTSqa7qc/HehK6+yMhEdoKHAogsPFaCUdykGLnw4filXyXA649Cd8HB
+         XlCZiEl5vhJhe7qma64aqkcM4y/k2aUo+0NFWLgRxJWRZVLm1P0Oh8a36xh9ld9d3qYO
+         YGACYbz4Q9XyPbZmYYk+bSgj6XEZR6gqZ7DV3Ye7hcDUWj++71W1oaKwlmxHJ4q2Y/lK
+         s4Ag==
+X-Gm-Message-State: AOJu0YxjRyEuzpaG5gazpXJ1HEql2LKw92vZaGcuzdrgdY1r9XGsUJUz
+        eI69MRuXVlyDsmfoidCG597AIcjXF9j1zH4fHloVog==
+X-Google-Smtp-Source: AGHT+IFZjhxkEjiaXp2zigCJ7tc2I6455jijXEKgoD9JgTP2Y0UEY5UScbCjY5Sj4DCn07iZsNn312ihcg5GHjZeZXE=
+X-Received: by 2002:adf:f108:0:b0:313:f783:262b with SMTP id
+ r8-20020adff108000000b00313f783262bmr1652155wro.26.1695916346402; Thu, 28 Sep
+ 2023 08:52:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="Ix2tTzAorCIauNUV"
-Content-Disposition: inline
-In-Reply-To: <20230928103134.2779459-1-costa.shul@redhat.com>
+References: <20230928-get_maintainer_add_d-v2-0-8acb3f394571@google.com>
+ <5707f3bef3ecd8220a8bf7c8b72c72c53e65b666.camel@perches.com>
+ <CAFhGd8rtnvipRVAKRQAEcyGqCknVmx+bd2NMT7mCuTZjhrqULA@mail.gmail.com> <137a309b313cc8a295f3affc704f0da049f233aa.camel@perches.com>
+In-Reply-To: <137a309b313cc8a295f3affc704f0da049f233aa.camel@perches.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Thu, 28 Sep 2023 08:52:15 -0700
+Message-ID: <CAKwvOdnGzTvSXf7VeyG8tPEONpqSgkDiBTmgJbUUWsRHzbc5JQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] get_maintainer: add patch-only keyword matching
+To:     Joe Perches <joe@perches.com>,
+        Justin Stitt <justinstitt@google.com>
+Cc:     linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        geert@linux-m68k.org, gregkh@linuxfoundation.org,
+        workflows@vger.kernel.org, mario.limonciello@amd.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
+On Wed, Sep 27, 2023 at 11:09=E2=80=AFPM Joe Perches <joe@perches.com> wrot=
+e:
+>
+> On Thu, 2023-09-28 at 14:31 +0900, Justin Stitt wrote:
+> > On Thu, Sep 28, 2023 at 2:01=E2=80=AFPM Joe Perches <joe@perches.com> w=
+rote:
+> > >
+> > > On Thu, 2023-09-28 at 04:23 +0000, Justin Stitt wrote:
+> > > > Changes in v2:
+> > > > - remove formatting pass (thanks Joe) (but seriously the formatting=
+ is
+> > > >   bad, is there opportunity to get a formatting pass in here at som=
+e
+> > > >   point?)
+> > >
+> > > Why?  What is it that makes you believe the formatting is bad?
+> > >
+> >
+> > Investigating further, it looked especially bad in my editor. There is
+> > a mixture of
+> > tabs and spaces and my vim tabstop is set to 4 for pl files. Setting th=
+is to
+> > 8 is a whole lot better. But I still see some weird spacing
+> >
+>
+> Yes, it's a bit odd indentation.
+> It's emacs default perl format.
+> 4 space indent with 8 space tabs, maximal tab fill.
+>
 
---Ix2tTzAorCIauNUV
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Oh! What?! That's the most surprising convention I've ever heard of
+(after the GNU C coding style).  Yet another thing to hold against
+perl I guess. :P
 
-On Thu, Sep 28, 2023 at 01:29:42PM +0300, Costa Shulyupin wrote:
-> and fix all in-tree references.
->=20
-> Architecture-specific documentation is being moved into Documentation/arc=
-h/
-> as a way of cleaning up the top-level documentation directory and making
-> the docs hierarchy more closely match the source hierarchy.
->=20
+I have my editor setup to highlight tabs vs spaces via visual cues, so
+that I don't mess up kernel coding style. (`git clang-format HEAD~`
+after a commit helps).  scripts/get_maintainer.pl has some serious
+inconsistencies to the point where I'm not sure what it should or was
+meant to be.  Now that you mention it, I see it, and it does seem
+consistent in that regard.
 
-LGTM, thanks!
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
+Justin, is your formatter configurable to match that convention?
+Maybe it's still useful, as long as you configure it to stick to the
+pre-existing convention.
 --=20
-An old man doll... just what I always wanted! - Clara
-
---Ix2tTzAorCIauNUV
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZRVcSAAKCRD2uYlJVVFO
-oxopAQDpgNiTTDa6zSkvdGa04UmmwznBVnQSr7ZXi8fu4RKxpgD/dDib4v3kjHl7
-o8u4EurgRVctwGPMU1PvkP2OK6s6ygs=
-=e+Pu
------END PGP SIGNATURE-----
-
---Ix2tTzAorCIauNUV--
+Thanks,
+~Nick Desaulniers
