@@ -2,26 +2,26 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC0C6CE7AF9
-	for <workflows@archiver.kernel.org>; Thu, 28 Sep 2023 05:08:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8D70CE7AFD
+	for <workflows@archiver.kernel.org>; Thu, 28 Sep 2023 06:09:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230179AbjI1FIm convert rfc822-to-8bit (ORCPT
+        id S229758AbjI1GJi convert rfc822-to-8bit (ORCPT
         <rfc822;workflows@archiver.kernel.org>);
-        Thu, 28 Sep 2023 01:08:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52842 "EHLO
+        Thu, 28 Sep 2023 02:09:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229922AbjI1FIk (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 28 Sep 2023 01:08:40 -0400
-Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6873B122;
-        Wed, 27 Sep 2023 22:08:39 -0700 (PDT)
-Received: from omf20.hostedemail.com (a10.router.float.18 [10.200.18.1])
-        by unirelay05.hostedemail.com (Postfix) with ESMTP id EFC084029A;
-        Thu, 28 Sep 2023 05:08:37 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf20.hostedemail.com (Postfix) with ESMTPA id F14042002B;
-        Thu, 28 Sep 2023 05:08:34 +0000 (UTC)
-Message-ID: <a3959ab9a9d44444c06ffd0f390cf95dc6bc7f6e.camel@perches.com>
-Subject: Re: [PATCH v2 1/2] get_maintainer: add patch-only keyword-matching
+        with ESMTP id S229445AbjI1GJi (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 28 Sep 2023 02:09:38 -0400
+Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FD7899;
+        Wed, 27 Sep 2023 23:09:36 -0700 (PDT)
+Received: from omf08.hostedemail.com (a10.router.float.18 [10.200.18.1])
+        by unirelay02.hostedemail.com (Postfix) with ESMTP id E02EF1208E3;
+        Thu, 28 Sep 2023 06:09:34 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf08.hostedemail.com (Postfix) with ESMTPA id 3CF0520025;
+        Thu, 28 Sep 2023 06:09:32 +0000 (UTC)
+Message-ID: <137a309b313cc8a295f3affc704f0da049f233aa.camel@perches.com>
+Subject: Re: [PATCH v2 0/2] get_maintainer: add patch-only keyword matching
 From:   Joe Perches <joe@perches.com>
 To:     Justin Stitt <justinstitt@google.com>
 Cc:     linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
@@ -30,52 +30,46 @@ Cc:     linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
         Jakub Kicinski <kuba@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         geert@linux-m68k.org, gregkh@linuxfoundation.org,
-        workflows@vger.kernel.org, mario.limonciello@amd.com,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Date:   Wed, 27 Sep 2023 22:08:33 -0700
-In-Reply-To: <CAFhGd8o8ihYeML6WpiE1-=eeXC+k1yzSEdA-WJXjwB-f9VcHoA@mail.gmail.com>
+        workflows@vger.kernel.org, mario.limonciello@amd.com
+Date:   Wed, 27 Sep 2023 23:09:31 -0700
+In-Reply-To: <CAFhGd8rtnvipRVAKRQAEcyGqCknVmx+bd2NMT7mCuTZjhrqULA@mail.gmail.com>
 References: <20230928-get_maintainer_add_d-v2-0-8acb3f394571@google.com>
-         <20230928-get_maintainer_add_d-v2-1-8acb3f394571@google.com>
-         <bf9200e2fc9c55187f2b7661a3b5043f56b0deff.camel@perches.com>
-         <CAFhGd8o8ihYeML6WpiE1-=eeXC+k1yzSEdA-WJXjwB-f9VcHoA@mail.gmail.com>
+         <5707f3bef3ecd8220a8bf7c8b72c72c53e65b666.camel@perches.com>
+         <CAFhGd8rtnvipRVAKRQAEcyGqCknVmx+bd2NMT7mCuTZjhrqULA@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-X-Stat-Signature: z1cb3daqrhj93sebxb4qaceau4s1d38b
+X-Stat-Signature: d7fqwmokkq5kfxxtzgzn3gegcormsb3p
 X-Rspamd-Server: rspamout04
-X-Rspamd-Queue-Id: F14042002B
+X-Rspamd-Queue-Id: 3CF0520025
 X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/wBlyl1trwp8454zb4yglEYAVPoRqUPOE=
-X-HE-Tag: 1695877714-321605
-X-HE-Meta: U2FsdGVkX1/Kp44g5MsFDisPUMFqYNNo6ac8AUAQm42hMWCtwgJlcywvw+2OPjS1QJFm1PzyJL0pQioT1yGvQoEnqHmpb4LtUF/A29Aoonc5Xu2Sdb6uu/nwTWO68PRh1hVOJoa5y+Fl16SLZBO5s1rVcWoQwbY7C2Je5WHTV0TU7HLKHUVEIiR3OGFWjwD+AdUeStf8m4mMU9UioccZOa/ETNNuHvdXr/AiPLNMUXy47b9n0wf2PEIaJrj3vRJW3EE2M9CHCBsNVTYA/X881I09V8q/dKS84jPrZTO5/MWmcyInkGsCFgQXgS5Nzxzh6MHhWej1mr7PCct20fLIb1x7zg73TSgPwR0ZNmwqU2uoZjSE3EV5kBTtP20MQ51pY0iKkagFMR7zEitvX2d7BQ==
+X-Session-ID: U2FsdGVkX1+FqDn4VJxmBi1YH6dCdp9LKcI52YXn62E=
+X-HE-Tag: 1695881372-161195
+X-HE-Meta: U2FsdGVkX1+tEvnQKoggFUWcmCpgX3G0a9W3Z4uVrc8hP+JwscwmhypG7KnHNpTKQWK3KRDNiZbfQf0QrO0d56XXW8uV9mfXUxcp4xsh+Ti+LeI3aTm6tQHCkVWLEsm9cqpdvzX9s1dDgRkTYWBQdeuXlj/SPhhbrCWXTx7UZfw48op9U8K1kGXsbP1jMT43dCDlNxWFz1MSWj4hwjqShexodnNUAkLIIGfoa7vNEgKuGT8Mpi0WXL/DF7853BMBZFPekFeofrB1CsUVP/6infi05vulObR/6tnusNeWlDgcWR4jNBy9hxcNgXAj/CFXbW0dmWeHRvaPHlpfaM2Y06nFdoGOSfXgl9tAOSBp66a+JoVsQPOsTDSRGd5VDCNC
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Thu, 2023-09-28 at 14:03 +0900, Justin Stitt wrote:
-> On Thu, Sep 28, 2023 at 1:46 PM Joe Perches <joe@perches.com> wrote:
+On Thu, 2023-09-28 at 14:31 +0900, Justin Stitt wrote:
+> On Thu, Sep 28, 2023 at 2:01 PM Joe Perches <joe@perches.com> wrote:
 > > 
 > > On Thu, 2023-09-28 at 04:23 +0000, Justin Stitt wrote:
-> > > Add the "D:" type which behaves the same as "K:" but will only match
-> > > content present in a patch file.
-[]
-> > > My opinion: Nack.
+> > > Changes in v2:
+> > > - remove formatting pass (thanks Joe) (but seriously the formatting is
+> > >   bad, is there opportunity to get a formatting pass in here at some
+> > >   point?)
 > > 
-> > I think something like this would be better
-> > as it avoids duplication of K and D content.
+> > Why?  What is it that makes you believe the formatting is bad?
+> > 
 > 
-> If I understand correctly, this puts the onus on the get_maintainer users
-> to select the right argument whereas adding "D:", albeit with some
-> duplicate code, allows maintainers themselves to decide in exactly
-> which context they receive mail.
+> Investigating further, it looked especially bad in my editor. There is
+> a mixture of
+> tabs and spaces and my vim tabstop is set to 4 for pl files. Setting this to
+> 8 is a whole lot better. But I still see some weird spacing
+> 
 
-Maybe, but I doubt it'll be significantly different.
-
-
-> This could all be a moot point, though, as I believe Konstantin
-> is trying to separate out the whole idea of a patch-sender needing
-> to specify the recipients of a patch.
-
-As I understand it, by using get_maintainer.
+Yes, it's a bit odd indentation.
+It's emacs default perl format.
+4 space indent with 8 space tabs, maximal tab fill.
 
