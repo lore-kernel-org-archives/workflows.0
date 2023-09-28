@@ -2,26 +2,26 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87251CE7AFF
-	for <workflows@archiver.kernel.org>; Thu, 28 Sep 2023 04:46:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82616CE7AFE
+	for <workflows@archiver.kernel.org>; Thu, 28 Sep 2023 04:49:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229920AbjI1EqK convert rfc822-to-8bit (ORCPT
+        id S229445AbjI1Ety convert rfc822-to-8bit (ORCPT
         <rfc822;workflows@archiver.kernel.org>);
-        Thu, 28 Sep 2023 00:46:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45084 "EHLO
+        Thu, 28 Sep 2023 00:49:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbjI1EqJ (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 28 Sep 2023 00:46:09 -0400
+        with ESMTP id S230141AbjI1Ety (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 28 Sep 2023 00:49:54 -0400
 Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 879FC122;
-        Wed, 27 Sep 2023 21:46:06 -0700 (PDT)
-Received: from omf19.hostedemail.com (a10.router.float.18 [10.200.18.1])
-        by unirelay10.hostedemail.com (Postfix) with ESMTP id DD6D7C01D8;
-        Thu, 28 Sep 2023 04:46:04 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf19.hostedemail.com (Postfix) with ESMTPA id 05D4320027;
-        Thu, 28 Sep 2023 04:46:01 +0000 (UTC)
-Message-ID: <bf9200e2fc9c55187f2b7661a3b5043f56b0deff.camel@perches.com>
-Subject: Re: [PATCH v2 1/2] get_maintainer: add patch-only keyword-matching
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E79FC13A;
+        Wed, 27 Sep 2023 21:49:51 -0700 (PDT)
+Received: from omf14.hostedemail.com (a10.router.float.18 [10.200.18.1])
+        by unirelay09.hostedemail.com (Postfix) with ESMTP id 7D0898029B;
+        Thu, 28 Sep 2023 04:49:50 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf14.hostedemail.com (Postfix) with ESMTPA id AA8A13B;
+        Thu, 28 Sep 2023 04:49:47 +0000 (UTC)
+Message-ID: <296cf67699ab7aefe378b6719230a50e2851fe7b.camel@perches.com>
+Subject: Re: [PATCH v2 2/2] MAINTAINERS: migrate some K to D
 From:   Joe Perches <joe@perches.com>
 To:     Justin Stitt <justinstitt@google.com>
 Cc:     linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
@@ -31,185 +31,94 @@ Cc:     linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         geert@linux-m68k.org, gregkh@linuxfoundation.org,
         workflows@vger.kernel.org, mario.limonciello@amd.com
-Date:   Wed, 27 Sep 2023 21:46:01 -0700
-In-Reply-To: <20230928-get_maintainer_add_d-v2-1-8acb3f394571@google.com>
+Date:   Wed, 27 Sep 2023 21:49:46 -0700
+In-Reply-To: <20230928-get_maintainer_add_d-v2-2-8acb3f394571@google.com>
 References: <20230928-get_maintainer_add_d-v2-0-8acb3f394571@google.com>
-         <20230928-get_maintainer_add_d-v2-1-8acb3f394571@google.com>
+         <20230928-get_maintainer_add_d-v2-2-8acb3f394571@google.com>
 Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 8BIT
 User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: 05D4320027
-X-Stat-Signature: qeinrsmei3ja19axxtycfdr5dscit6dg
+X-Rspamd-Queue-Id: AA8A13B
+X-Stat-Signature: 69ieiws3y53ioe8ryg6onpcgzq5oqn5z
 X-Rspamd-Server: rspamout08
 X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX185vXcL/b9usz0C882foflJofFvwxVo9/w=
-X-HE-Tag: 1695876361-983820
-X-HE-Meta: U2FsdGVkX18CCCe4hmse5fZo10tEdxpz+jjkXnAdw6Lv8ijYTtK1ZWrjgSejmbS0yCyQG0ApORtEPcUQbrO4o/yYrFxqXxjE5Euckpge7CNz364G8VuZUpST3//rK31y0GjJRDYXPPJnpGkHBAxpzZz5kF7fLJQMvGnjOaq6YY3mu7ZoAPmuNmnI8NSqNuXssiPawWUXDVpmmcZakmHWNtp7VmBhizCjfLXh28yewW9fW5WRDNZwRh1R8KzZ/JaBrytKoZBJHoR3XxYmFktktopYVlZCsgyWOjO29kmsn0QlOYxyQd4gxjcUJTKpjA6v1CLSjmtPeUZPcR7GuN9ThoXYb++5h7TmR2BHutCbZbTNuDe/dc4/cZfPtUwaowknIGAQx/nBAfFrPeW/j+4nydQOEXmBDD++B8/PlAt9T8GdcGuimwODUT4oV5+A+I/UtJ9b6jkUxXY=
+X-Session-ID: U2FsdGVkX1/5VJjhIijyPfi+oXi/uXwj1ido5cqt1jY=
+X-HE-Tag: 1695876587-516273
+X-HE-Meta: U2FsdGVkX19eo0uOjCcm4mPH7s7d0Lw6X1PiL8S2be4QsQ4rx0FQOElQVxN2szfChbPT6lt5yBjBXi8j3YYJkmr538LqEbJDe5pRqYui56Jz9jk380QAFmM9EwcqlurPUaFwklLcP8OfNRL6YzX1d+uLNq59GcROf8e/4nQ1uz69Iq6Qr7jMbitVhLesRK/AfXzLhYQaa/7k/brdBq0lPa5b98kyqGfFVyQErrnijpuZQt+OprNhl+xEz/zdgajVF5hPgBj2i4xCq3cWOVSpyYPnMIffBpLF/dqVgbzZRhGc2AmI+PPKE5dzPbX74C1BU5riky1NmWHU1/7AKaR+sdovPCrhVqwuGjMm094EjmoOdKgKrGb3CsywLuGJBpAvZFns0SFm4iUAxjcT9dsblYMl/ZCcKBEgVDLsvME2em84mOFRlROP8U8IjSuWvbunrLfRjsFi7TjsPrPewOh4y3lvpTA7uYYC69THH0r6+n2tK+F5AjvIhex28voOXMYHhw1tUr5Fv0Cs/aAomT9fOCVD0JJChqJfcAjZ07Hl4wkusfSAc7R/61cm9Gz4Ge5knH5WVQOs9mdc3RJjYz505HZPtuHNXCL3A1EAvTrbmmzeyBH50r/ewA==
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
 On Thu, 2023-09-28 at 04:23 +0000, Justin Stitt wrote:
-> Add the "D:" type which behaves the same as "K:" but will only match
-> content present in a patch file.
+> Let's get the ball rolling with some changes from K to D.
 > 
-> To illustrate:
-> 
-> Imagine this entry in MAINTAINERS:
-> 
-> NEW REPUBLIC
-> M: Han Solo <hansolo@rebelalliance.co>
-> W: https://www.jointheresistance.org
-> D: \bstrncpy\b
-> 
-> Our maintainer, Han, will only be added to the recipients if a patch
-> file is passed to get_maintainer (like what b4 does):
-> $ ./scripts/get_maintainer.pl 0004-some-change.patch
-> 
-> If the above patch has a `strncpy` present in the subject, commit log or
-> diff then Han will be to/cc'd.
-> 
-> However, in the event of a file from the tree given like:
-> $ ./scripts/get_maintainer.pl ./lib/string.c
-> 
-> Han will not be noisily to/cc'd (like a K: type would in this
-> circumstance)
+> Ultimately, if it turns out that 100% of K users want to change to D
+> then really the behavior of K could just be changed.
+
+Given my suggestion to 1/2, this would be unnecessary.
+
 > 
 > Signed-off-by: Justin Stitt <justinstitt@google.com>
+> Original-author: Kees Cook <keescook@chromium.org>
 > ---
->  MAINTAINERS               |  5 +++++
->  scripts/get_maintainer.pl | 12 ++++++++++--
->  2 files changed, 15 insertions(+), 2 deletions(-)
+>  MAINTAINERS | 16 +++++++++-------
+>  1 file changed, 9 insertions(+), 7 deletions(-)
 > 
 > diff --git a/MAINTAINERS b/MAINTAINERS
-> index b19995690904..94e431daa7c2 100644
+> index 94e431daa7c2..80ffdaa8f044 100644
 > --- a/MAINTAINERS
 > +++ b/MAINTAINERS
-> @@ -59,6 +59,11 @@ Descriptions of section entries and preferred order
->  	      matches patches or files that contain one or more of the words
->  	      printk, pr_info or pr_err
->  	   One regex pattern per line.  Multiple K: lines acceptable.
-> +  D: *Diff content regex* (perl extended) pattern match that applies only to
-> +     patches and not entire files (e.g. when using the get_maintainers.pl
-> +     script).
-> +     Usage same as K:.
+> @@ -5038,7 +5038,7 @@ F:	Documentation/kbuild/llvm.rst
+>  F:	include/linux/compiler-clang.h
+>  F:	scripts/Makefile.clang
+>  F:	scripts/clang-tools/
+> -K:	\b(?i:clang|llvm)\b
+> +D:	\b(?i:clang|llvm)\b
+>  
+>  CLK API
+>  M:	Russell King <linux@armlinux.org.uk>
+> @@ -8149,7 +8149,7 @@ F:	lib/strcat_kunit.c
+>  F:	lib/strscpy_kunit.c
+>  F:	lib/test_fortify/*
+>  F:	scripts/test_fortify.sh
+> -K:	\b__NO_FORTIFY\b
+> +D:	\b__NO_FORTIFY\b
+>  
+>  FPGA DFL DRIVERS
+>  M:	Wu Hao <hao.wu@intel.com>
+> @@ -11405,8 +11405,10 @@ F:	Documentation/ABI/testing/sysfs-kernel-warn_count
+>  F:	include/linux/overflow.h
+>  F:	include/linux/randomize_kstack.h
+>  F:	mm/usercopy.c
+> -K:	\b(add|choose)_random_kstack_offset\b
+> -K:	\b__check_(object_size|heap_object)\b
+> +D:	\b(add|choose)_random_kstack_offset\b
+> +D:	\b__check_(object_size|heap_object)\b
+> +D:	\b__counted_by\b
 > +
 >  
->  Maintainers List
->  ----------------
-> diff --git a/scripts/get_maintainer.pl b/scripts/get_maintainer.pl
-> index ab123b498fd9..a3e697926ddd 100755
-> --- a/scripts/get_maintainer.pl
-> +++ b/scripts/get_maintainer.pl
-> @@ -342,6 +342,7 @@ if ($tree && !top_of_kernel_tree($lk_path)) {
+>  KERNEL JANITORS
+>  L:	kernel-janitors@vger.kernel.org
+> @@ -17290,7 +17292,7 @@ F:	drivers/acpi/apei/erst.c
+>  F:	drivers/firmware/efi/efi-pstore.c
+>  F:	fs/pstore/
+>  F:	include/linux/pstore*
+> -K:	\b(pstore|ramoops)
+> +D:	\b(pstore|ramoops)
 >  
->  my @typevalue = ();
->  my %keyword_hash;
-> +my %patch_keyword_hash;
->  my @mfiles = ();
->  my @self_test_info = ();
+>  PTP HARDWARE CLOCK SUPPORT
+>  M:	Richard Cochran <richardcochran@gmail.com>
+> @@ -19231,8 +19233,8 @@ F:	include/uapi/linux/seccomp.h
+>  F:	kernel/seccomp.c
+>  F:	tools/testing/selftests/kselftest_harness.h
+>  F:	tools/testing/selftests/seccomp/*
+> -K:	\bsecure_computing
+> -K:	\bTIF_SECCOMP\b
+> +D:	\bsecure_computing
+> +D:	\bTIF_SECCOMP\b
 >  
-> @@ -369,8 +370,10 @@ sub read_maintainer_file {
->  		    $value =~ s@([^/])$@$1/@;
->  		}
->  	    } elsif ($type eq "K") {
-> -		$keyword_hash{@typevalue} = $value;
-> -	    }
-> +          $keyword_hash{@typevalue} = $value;
-> +	    } elsif ($type eq "D") {
-> +          $patch_keyword_hash{@typevalue} = $value;
-> +      }
->  	    push(@typevalue, "$type:$value");
->  	} elsif (!(/^\s*$/ || /^\s*\#/)) {
->  	    push(@typevalue, $line);
-> @@ -607,6 +610,11 @@ foreach my $file (@ARGV) {
->  			push(@keyword_tvi, $line);
->  		    }
->  		}
-> +    foreach my $line(keys %patch_keyword_hash) {
-> +      if ($patch_line =~ m/${patch_prefix}$patch_keyword_hash{$line}/x) {
-> +        push(@keyword_tvi, $line);
-> +      }
-> +    }
->  	    }
->  	}
->  	close($patch);
+>  SECURE DIGITAL HOST CONTROLLER INTERFACE (SDHCI) Broadcom BRCMSTB DRIVER
+>  M:	Kamal Dasu <kamal.dasu@broadcom.com>
 > 
-
-
-My opinion: Nack.
-
-I think something like this would be better
-as it avoids duplication of K and D content.
----
- scripts/get_maintainer.pl | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
-
-diff --git a/scripts/get_maintainer.pl b/scripts/get_maintainer.pl
-index ab123b498fd9..07e7d744cadb 100755
---- a/scripts/get_maintainer.pl
-+++ b/scripts/get_maintainer.pl
-@@ -57,6 +57,7 @@ my $subsystem = 0;
- my $status = 0;
- my $letters = "";
- my $keywords = 1;
-+my $keywords_in_file = 0;
- my $sections = 0;
- my $email_file_emails = 0;
- my $from_filename = 0;
-@@ -272,6 +273,7 @@ if (!GetOptions(
- 		'letters=s' => \$letters,
- 		'pattern-depth=i' => \$pattern_depth,
- 		'k|keywords!' => \$keywords,
-+		'kf|keywords-in-file!' => \$keywords_in_file,
- 		'sections!' => \$sections,
- 		'fe|file-emails!' => \$email_file_emails,
- 		'f|file' => \$from_filename,
-@@ -318,6 +320,7 @@ if ($sections || $letters ne "") {
-     $subsystem = 0;
-     $web = 0;
-     $keywords = 0;
-+    $keywords_in_file = 0;
-     $interactive = 0;
- } else {
-     my $selections = $email + $scm + $status + $subsystem + $web;
-@@ -548,16 +551,14 @@ foreach my $file (@ARGV) {
- 	$file =~ s/^\Q${cur_path}\E//;	#strip any absolute path
- 	$file =~ s/^\Q${lk_path}\E//;	#or the path to the lk tree
- 	push(@files, $file);
--	if ($file ne "MAINTAINERS" && -f $file && $keywords) {
-+	if ($file ne "MAINTAINERS" && -f $file && $keywords && $keywords_in_file) {
- 	    open(my $f, '<', $file)
- 		or die "$P: Can't open $file: $!\n";
- 	    my $text = do { local($/) ; <$f> };
- 	    close($f);
--	    if ($keywords) {
--		foreach my $line (keys %keyword_hash) {
--		    if ($text =~ m/$keyword_hash{$line}/x) {
--			push(@keyword_tvi, $line);
--		    }
-+	    foreach my $line (keys %keyword_hash) {
-+		if ($text =~ m/$keyword_hash{$line}/x) {
-+		    push(@keyword_tvi, $line);
- 		}
- 	    }
- 	}
-@@ -1076,6 +1077,7 @@ Output type options:
- Other options:
-   --pattern-depth => Number of pattern directory traversals (default: 0 (all))
-   --keywords => scan patch for keywords (default: $keywords)
-+  --keywords-in-file => scan file for keywords (default: $keywords_in_file)
-   --sections => print all of the subsystem sections with pattern matches
-   --letters => print all matching 'letter' types from all matching sections
-   --mailmap => use .mailmap file (default: $email_use_mailmap)
-@@ -1086,7 +1088,7 @@ Other options:
- 
- Default options:
-   [--email --tree --nogit --git-fallback --m --r --n --l --multiline
--   --pattern-depth=0 --remove-duplicates --rolestats]
-+   --pattern-depth=0 --remove-duplicates --rolestats --keywords]
- 
- Notes:
-   Using "-f directory" may give unexpected results:
 
