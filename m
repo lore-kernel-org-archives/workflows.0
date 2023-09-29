@@ -2,83 +2,129 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF889CE7B1F
-	for <workflows@archiver.kernel.org>; Thu, 28 Sep 2023 19:12:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92C79E743D9
+	for <workflows@archiver.kernel.org>; Fri, 29 Sep 2023 02:08:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231684AbjI1TMg (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 28 Sep 2023 15:12:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42260 "EHLO
+        id S229799AbjI2CIH (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 28 Sep 2023 22:08:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231701AbjI1TMe (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 28 Sep 2023 15:12:34 -0400
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E088D1B4
-        for <workflows@vger.kernel.org>; Thu, 28 Sep 2023 12:12:30 -0700 (PDT)
-Received: by mail-yb1-xb2d.google.com with SMTP id 3f1490d57ef6-d852b28ec3bso14572074276.2
-        for <workflows@vger.kernel.org>; Thu, 28 Sep 2023 12:12:30 -0700 (PDT)
+        with ESMTP id S229654AbjI2CIG (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 28 Sep 2023 22:08:06 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DF831A2
+        for <workflows@vger.kernel.org>; Thu, 28 Sep 2023 19:08:02 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-405524e6769so826425e9.1
+        for <workflows@vger.kernel.org>; Thu, 28 Sep 2023 19:08:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1695928350; x=1696533150; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=aPa0ErQF3fDxXQHa7m7tWTHEw6Kx2LmY0ex/FSA/iQs=;
-        b=E6sdIGReA0N/tSvIeLtLw5A76OAsGnJ5wgdJLkKmPgq9D4sma5A0dmDG275I3SNmCd
-         pfEP61X8QpfV5QSj0EFZ1UX2tl3gvISyWuI4cFoe/oTtOlRBjRTat/SLTF5F4kdog07o
-         fTRkcvDefdVzpPKwnGMpsUtD0ddfMD4R6Qv/Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695928350; x=1696533150;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1695953280; x=1696558080; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aPa0ErQF3fDxXQHa7m7tWTHEw6Kx2LmY0ex/FSA/iQs=;
-        b=m6n8qN4mCZ+L53iYoj88T9Mg8aVadwjkgFIgt+8cIpMq1SiTVoXN621DGMyAQp4Cod
-         F15FFZ0zO3X32ThVw15UtYn77aVUWE/zHQdbtYYrtu9cIV/LReRs5/TXvJFIFojCZPvj
-         Pz5xtm1QfJkTtjSaI+VvesM2+X1l9F3sGRDF9ZlRm/2NsTTnF9top7rpEiCre43HDJ2K
-         1mBuc7kH6UBoFx6HXdOxXNbVG0Xz2359dScYe4Bp+YOLx+ZiQoH0LE8PwhpqX+lJbPIy
-         xm2pmK8w0HHLW3ijxG6HnIvtL2V3mQsa/2VVWuLd7iQAZ4KT6FBehdnafO4SNVLmoACB
-         7Bjw==
-X-Gm-Message-State: AOJu0YzbWZMx6IsNV7mHfW7aoLDP5H3oT2DkYX9iDcsCUWEuRjvZjxDL
-        a79lU5RkpluDAJPxbYTBDTOvaA==
-X-Google-Smtp-Source: AGHT+IGPwgEvuDu4xj7ASqQ85LZ8y5lOYw28uselEYoiklqGHmZmYw1o958hUhSVlQbLtGGSIMTwbg==
-X-Received: by 2002:a25:4255:0:b0:d85:e0d3:b491 with SMTP id p82-20020a254255000000b00d85e0d3b491mr1995811yba.32.1695928349874;
-        Thu, 28 Sep 2023 12:12:29 -0700 (PDT)
-Received: from meerkat.local ([209.226.106.110])
-        by smtp.gmail.com with ESMTPSA id p9-20020a0cf549000000b0065b11053445sm3589952qvm.54.2023.09.28.12.12.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Sep 2023 12:12:29 -0700 (PDT)
-Date:   Thu, 28 Sep 2023 15:12:20 -0400
-From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To:     Joe Perches <joe@perches.com>
-Cc:     Justin Stitt <justinstitt@google.com>,
-        linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
+        bh=DpJvrW7U3xIffjqcwESsvsx+jvDlYI20BWsEDJIfKsE=;
+        b=2mEH4vX2MW9Muivxe5HnYD0D9xKlG7iFWifZZmlmkg61RvoSAI7p1LzGG0z0NZbX59
+         GhSigpX7EF2e6wrKBQBONwQtNBGW4a4IA5we4eeGeOI+bCcqEvOYbjOHChN8pSKOd2NJ
+         OQbUWVE810bKYvKkUoQQw8Xb1Dfy1r125Z2BfZbzDi/Yqvrra4Xjx1LPqvVxTHl6xaNE
+         2AAud50EfMp5Zaxq0ytKKqvL5oD9cOac1015NGFIGDwlz6XXN9FiVnhDOKvsD9bpgjFi
+         WAhP/yFPdcrL/+1yFMiqTtBPZWjIyt1mCSl6tL88ZOz1cNtWWoBOBihys4V/31JrytO1
+         YYdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695953280; x=1696558080;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DpJvrW7U3xIffjqcwESsvsx+jvDlYI20BWsEDJIfKsE=;
+        b=rQzcdCsdj5RhweYn1kueWlNYY5kWWlgH5rwRxqQZWDuRc1y7KiYGcxW6TBRCh1o+7c
+         FBFgpKQmu7IhRyTwU9/jw56dlVfmn2bzVWtdBRMVPto6Zg8KhTyOSbQhWTUC3ZjG4p+S
+         EX8ExGXaXgoGZWLoQtxAda0I/+LMdncPNjS6C57L/wkoIm4nbSAtWAuHuxxA+cjYwehu
+         8x7FjCDPJUOTpsQEbDK4q8wkStSxSJlTlCBDoJ8JGn/o4vniBAEltdLd8u6fpnlKRr9p
+         zNiE44uXabZkijZ0Kx7q7eml0oi2RYHWCfBpwbj6edCLh6p6DlP9PUgBo8FCqtIMC8hO
+         w0Ug==
+X-Gm-Message-State: AOJu0Yymttpq+fRj3FBwYfeDzGpSDXJykxK4vY+YkJ6Zk56H+aJQID86
+        ggEUxvJBLHsw9qOT2nIM4HCwgN0djqLX3X6dNN2vng==
+X-Google-Smtp-Source: AGHT+IFyoQ45G0/xSiJVIsjcy4eWKEwZ/2vhbS/D95tXQxzUqaJAJuRIh3RZM++LVJ05Ro/8eSB9olgdUNOmkr0SiWg=
+X-Received: by 2002:a17:906:c146:b0:9a5:dc2b:6a5 with SMTP id
+ dp6-20020a170906c14600b009a5dc2b06a5mr2604319ejc.35.1695953280532; Thu, 28
+ Sep 2023 19:08:00 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230928-get_maintainer_add_d-v2-0-8acb3f394571@google.com>
+ <5707f3bef3ecd8220a8bf7c8b72c72c53e65b666.camel@perches.com>
+ <CAFhGd8rtnvipRVAKRQAEcyGqCknVmx+bd2NMT7mCuTZjhrqULA@mail.gmail.com>
+ <137a309b313cc8a295f3affc704f0da049f233aa.camel@perches.com> <CAKwvOdnGzTvSXf7VeyG8tPEONpqSgkDiBTmgJbUUWsRHzbc5JQ@mail.gmail.com>
+In-Reply-To: <CAKwvOdnGzTvSXf7VeyG8tPEONpqSgkDiBTmgJbUUWsRHzbc5JQ@mail.gmail.com>
+From:   Justin Stitt <justinstitt@google.com>
+Date:   Fri, 29 Sep 2023 11:07:48 +0900
+Message-ID: <CAFhGd8rrHp1V4NpExpdNwWV4FAdLYhixLMB5HGygNSe7NKPUMA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] get_maintainer: add patch-only keyword matching
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Joe Perches <joe@perches.com>, linux-kernel@vger.kernel.org,
+        Kees Cook <keescook@chromium.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Jakub Kicinski <kuba@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         geert@linux-m68k.org, gregkh@linuxfoundation.org,
         workflows@vger.kernel.org, mario.limonciello@amd.com
-Subject: Re: [PATCH v2 1/2] get_maintainer: add patch-only keyword-matching
-Message-ID: <20230928-revisable-custard-bd7d72@meerkat>
-References: <20230928-get_maintainer_add_d-v2-0-8acb3f394571@google.com>
- <20230928-get_maintainer_add_d-v2-1-8acb3f394571@google.com>
- <bf9200e2fc9c55187f2b7661a3b5043f56b0deff.camel@perches.com>
- <CAFhGd8o8ihYeML6WpiE1-=eeXC+k1yzSEdA-WJXjwB-f9VcHoA@mail.gmail.com>
- <a3959ab9a9d44444c06ffd0f390cf95dc6bc7f6e.camel@perches.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <a3959ab9a9d44444c06ffd0f390cf95dc6bc7f6e.camel@perches.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Wed, Sep 27, 2023 at 10:08:33PM -0700, Joe Perches wrote:
-> > This could all be a moot point, though, as I believe Konstantin
-> > is trying to separate out the whole idea of a patch-sender needing
-> > to specify the recipients of a patch.
-> 
-> As I understand it, by using get_maintainer.
+On Fri, Sep 29, 2023 at 12:52=E2=80=AFAM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
+>
+> On Wed, Sep 27, 2023 at 11:09=E2=80=AFPM Joe Perches <joe@perches.com> wr=
+ote:
+> >
+> > On Thu, 2023-09-28 at 14:31 +0900, Justin Stitt wrote:
+> > > On Thu, Sep 28, 2023 at 2:01=E2=80=AFPM Joe Perches <joe@perches.com>=
+ wrote:
+> > > >
+> > > > On Thu, 2023-09-28 at 04:23 +0000, Justin Stitt wrote:
+> > > > > Changes in v2:
+> > > > > - remove formatting pass (thanks Joe) (but seriously the formatti=
+ng is
+> > > > >   bad, is there opportunity to get a formatting pass in here at s=
+ome
+> > > > >   point?)
+> > > >
+> > > > Why?  What is it that makes you believe the formatting is bad?
+> > > >
+> > >
+> > > Investigating further, it looked especially bad in my editor. There i=
+s
+> > > a mixture of
+> > > tabs and spaces and my vim tabstop is set to 4 for pl files. Setting =
+this to
+> > > 8 is a whole lot better. But I still see some weird spacing
+> > >
+> >
+> > Yes, it's a bit odd indentation.
+> > It's emacs default perl format.
+> > 4 space indent with 8 space tabs, maximal tab fill.
+> >
+>
+> Oh! What?! That's the most surprising convention I've ever heard of
+> (after the GNU C coding style).  Yet another thing to hold against
+> perl I guess. :P
+>
+> I have my editor setup to highlight tabs vs spaces via visual cues, so
+> that I don't mess up kernel coding style. (`git clang-format HEAD~`
+> after a commit helps).  scripts/get_maintainer.pl has some serious
+> inconsistencies to the point where I'm not sure what it should or was
+> meant to be.  Now that you mention it, I see it, and it does seem
+> consistent in that regard.
+>
+> Justin, is your formatter configurable to match that convention?
+> Maybe it's still useful, as long as you configure it to stick to the
+> pre-existing convention.
 
-Correct, we will ultimately still defer to get_maintainer to figure out who
-needs to be added.
+Negative, all the perl formatters I've tried will convert everything to spa=
+ces.
+The best I've seen is perltidy.
 
--K
+https://gist.github.com/JustinStitt/347385921c80a5212c2672075aa769b6
+
+> --
+> Thanks,
+> ~Nick Desaulniers
