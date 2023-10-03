@@ -2,68 +2,96 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50EB6E748F8
-	for <workflows@archiver.kernel.org>; Mon,  2 Oct 2023 17:04:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E950E75428
+	for <workflows@archiver.kernel.org>; Tue,  3 Oct 2023 06:30:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238594AbjJBREV (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 2 Oct 2023 13:04:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45098 "EHLO
+        id S230457AbjJCGag (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 3 Oct 2023 02:30:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238458AbjJBREU (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 2 Oct 2023 13:04:20 -0400
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16527AB;
-        Mon,  2 Oct 2023 10:04:18 -0700 (PDT)
+        with ESMTP id S230273AbjJCGaf (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 3 Oct 2023 02:30:35 -0400
+Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1A119E;
+        Mon,  2 Oct 2023 23:30:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-        s=mail; t=1696266256;
-        bh=xU0lQadd79FKZ0nIWwG573DirwofiNfxexqTugOnujE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gfa5ExFb/qou+BSXCMHbqgjwuI2dFkE6+t4HV/hhWQNbwodQeNkiXfeqU4V6eCzZ/
-         WQPiu8nAHRbOBKJF8iw3nQfGmx4ap4r/SvWZGKgcWpTSZE2n2iGZBYbE7z/Z2dr1uY
-         c62SVwcMsVyUcuV1AZOn2zKxjtk+/VDgIkKPC4uY=
-Date:   Mon, 2 Oct 2023 19:04:15 +0200
-From:   Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     Jani Nikula <jani.nikula@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: submitting-patches: encourage direct notifications
- to reviewers
-Message-ID: <4dd558eb-516d-4a92-8c6b-273877eb6751@t-8ch.de>
-References: <20230927-docs-cc-reviewer-v1-1-2af46ceb2d3c@weissschuh.net>
- <ZRVDv2fiFyW2S0z1@infradead.org>
- <f4ce8205-93a6-4ef5-94c0-1fb8d261bcac@t-8ch.de>
- <ZRpkWXMiQjUJPszZ@infradead.org>
- <874jj9iihq.fsf@intel.com>
- <ZRqEQ2uxAlCyihS3@infradead.org>
+        s=mail; t=1696314629;
+        bh=hLBoB3YRvSlBpdlzyiN1FFL/R0tXiIaWc9aCqoErf9g=;
+        h=From:Date:Subject:To:Cc:From;
+        b=Q9BXdLm4iEfaZ5ifJCGaDQHhhmzUBPUnyOP2QiHjs9gsLkvgFR/OqYfCQojbFQJPt
+         DvhGdoiD/dphkNACWIFq2LfmpXS73wRpzErAylan6c+fSdVIIrvxGw18yDcrYFcQBA
+         UtM9Ee30wereRhb4x96zUitVcdZSn04NcfDBfFvk=
+From:   =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date:   Tue, 03 Oct 2023 08:30:03 +0200
+Subject: [PATCH v2] docs: submitting-patches: encourage direct
+ notifications to commenters
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZRqEQ2uxAlCyihS3@infradead.org>
+Message-Id: <20231003-docs-cc-reviewer-v2-1-f93fb946e21e@weissschuh.net>
+X-B4-Tracking: v=1; b=H4sIAOq0G2UC/2WNQQ6CQAxFr0K6tgY6BqIr72FYQClON2CmMGgId
+ 3cgceXy/f7/uoJJUDG4ZSsEiWo6DgnolAH7ZngKapcYKCeXX6nEbmRDZtzLskjAdGhd5fKmJwd
+ p9grS6/tQPurEXm0aw+f4EIs9/cmqf1kssEBq+kvJ0lLn+L6Imhn72Z8HmaDetu0LXb+yqrUAA
+ AA=
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Christoph Hellwig <hch@infradead.org>,
+        Jani Nikula <jani.nikula@intel.com>,
+        =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1696314629; l=1773;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=hLBoB3YRvSlBpdlzyiN1FFL/R0tXiIaWc9aCqoErf9g=;
+ b=W1MIMd5b9zo7ZkjZUFcLd/mT5jkwrbH8J0aRWLcD6+kAtRo/Nz6yBoM2HdHrzactcbzEkWWJP
+ eTvhARdO5s/CLPfu017wwUHiaHx075paqbUGMKPYLe2FrdoWh6YAy5R
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On 2023-10-02 01:50:11-0700, Christoph Hellwig wrote:
-> On Mon, Oct 02, 2023 at 10:36:01AM +0300, Jani Nikula wrote:
-> > On Sun, 01 Oct 2023, Christoph Hellwig <hch@infradead.org> wrote:
-> > > On Fri, Sep 29, 2023 at 09:24:57AM +0200, Thomas Weißschuh wrote:
-> > >> > This does not scale.
-> > >> 
-> > >> Could you elaborate in which way it doesn't scale?
-> > >
-> > > If I send a modest cross-subsystem series it often touches 20+
-> > > subsystems.  Between mailing lists and maintainers that's usually
-> > > already 60+ recipients.  If you now add a another 2-3 maintainers
-> > > we're just going to hit limits in mail servers.
-> > 
-> > I thought this was about adding people who have commented on previous
-> > versions to Cc. That's usually a very limited number.
-> 
-> Oh, that absolutely makes sense.  But maybe we need to stop overloading
-> the term reviewer :)
+Commenters may not receive new versions of patches via the lists.
+Without a directed notification to them they might miss those new
+versions.
 
-Thanks Jani for fixing the misunderstanding!
+This is frustrating for the patch developers as they don't receive their
+earned Reviewed-by.
+It is also frustrating for the commenters, as they might think their
+review got ignored or they have to dig up new versions from the archive
+manually.
 
-I'll try to find some better wording.
+So encourage patch submitters to make sure that all commenters get
+notified also when no Reviewed-by was issued yet.
+
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+Changes in v2:
+- s/reviewer/commenter/ to avoid ambiguity (Christoph)
+- Link to v1: https://lore.kernel.org/r/20230927-docs-cc-reviewer-v1-1-2af46ceb2d3c@weissschuh.net
+---
+ Documentation/process/submitting-patches.rst | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index efac910e2659..3245b7b38b98 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -327,6 +327,8 @@ politely and address the problems they have pointed out.  When sending a next
+ version, add a ``patch changelog`` to the cover letter or to individual patches
+ explaining difference against previous submission (see
+ :ref:`the_canonical_patch_format`).
++Notify people that commented on your patch about new versions by adding them to
++the patches CC list.
+ 
+ See Documentation/process/email-clients.rst for recommendations on email
+ clients and mailing list etiquette.
+
+---
+base-commit: 633b47cb009d09dc8f4ba9cdb3a0ca138809c7c7
+change-id: 20230926-docs-cc-reviewer-023b3730af23
+
+Best regards,
+-- 
+Thomas Weißschuh <linux@weissschuh.net>
+
