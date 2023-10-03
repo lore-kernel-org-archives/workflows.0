@@ -2,96 +2,68 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E950E75428
-	for <workflows@archiver.kernel.org>; Tue,  3 Oct 2023 06:30:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 662E7E7AD6E
+	for <workflows@archiver.kernel.org>; Tue,  3 Oct 2023 15:33:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230457AbjJCGag (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 3 Oct 2023 02:30:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44108 "EHLO
+        id S231559AbjJCPdl (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 3 Oct 2023 11:33:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230273AbjJCGaf (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 3 Oct 2023 02:30:35 -0400
-Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1A119E;
-        Mon,  2 Oct 2023 23:30:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-        s=mail; t=1696314629;
-        bh=hLBoB3YRvSlBpdlzyiN1FFL/R0tXiIaWc9aCqoErf9g=;
-        h=From:Date:Subject:To:Cc:From;
-        b=Q9BXdLm4iEfaZ5ifJCGaDQHhhmzUBPUnyOP2QiHjs9gsLkvgFR/OqYfCQojbFQJPt
-         DvhGdoiD/dphkNACWIFq2LfmpXS73wRpzErAylan6c+fSdVIIrvxGw18yDcrYFcQBA
-         UtM9Ee30wereRhb4x96zUitVcdZSn04NcfDBfFvk=
-From:   =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date:   Tue, 03 Oct 2023 08:30:03 +0200
-Subject: [PATCH v2] docs: submitting-patches: encourage direct
- notifications to commenters
+        with ESMTP id S230338AbjJCPdl (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 3 Oct 2023 11:33:41 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 879A095;
+        Tue,  3 Oct 2023 08:33:38 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 4BD8E6E2;
+        Tue,  3 Oct 2023 15:33:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4BD8E6E2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1696347215; bh=wrUIBIBF70pQpH9AG4CLDBT6UzO9ydi22FmoxMPhVyY=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=YHT1tiQgjh+VPNa73fxf18TfxhMWtWMVkS06IWUr99x+Jh9OJs9b5KIbcp9x0R1C9
+         bjltukpsAwFLgvL/+4ddW0AR/Sm3ejLqkP42NbH2AW4C/SIoAQEIYinF6P56sEtWZN
+         uA4eosAAudtNkVfIc3rtUQoNKURhsYAJ4/uUFk5JX5o63yso2/wYHypBzjZ2HmvZ9I
+         /rKQSjoXn7cG5qKx8Ch8ttIkMSxNwHbJyeEU1E2amq1wWEu2QFIqzbn/xOilDRM8CS
+         aFTP0X7a4cqb/ypmnNgIiJVe41nE0iR0pmuSfqqmltZW5e1XRWdVD7kFQ2SjyuUFse
+         Urp4U7N9j37gA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Javier Martinez Canillas <javier@dowhile0.org>,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH] docs: submitting-patches: Suggest a longer expected
+ time for responses
+In-Reply-To: <20230913-submitting-patches-delay-v1-1-a2d48c5ca205@kernel.org>
+References: <20230913-submitting-patches-delay-v1-1-a2d48c5ca205@kernel.org>
+Date:   Tue, 03 Oct 2023 09:33:34 -0600
+Message-ID: <87y1gjen5d.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20231003-docs-cc-reviewer-v2-1-f93fb946e21e@weissschuh.net>
-X-B4-Tracking: v=1; b=H4sIAOq0G2UC/2WNQQ6CQAxFr0K6tgY6BqIr72FYQClON2CmMGgId
- 3cgceXy/f7/uoJJUDG4ZSsEiWo6DgnolAH7ZngKapcYKCeXX6nEbmRDZtzLskjAdGhd5fKmJwd
- p9grS6/tQPurEXm0aw+f4EIs9/cmqf1kssEBq+kvJ0lLn+L6Imhn72Z8HmaDetu0LXb+yqrUAA
- AA=
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Christoph Hellwig <hch@infradead.org>,
-        Jani Nikula <jani.nikula@intel.com>,
-        =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1696314629; l=1773;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=hLBoB3YRvSlBpdlzyiN1FFL/R0tXiIaWc9aCqoErf9g=;
- b=W1MIMd5b9zo7ZkjZUFcLd/mT5jkwrbH8J0aRWLcD6+kAtRo/Nz6yBoM2HdHrzactcbzEkWWJP
- eTvhARdO5s/CLPfu017wwUHiaHx075paqbUGMKPYLe2FrdoWh6YAy5R
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Commenters may not receive new versions of patches via the lists.
-Without a directed notification to them they might miss those new
-versions.
+Mark Brown <broonie@kernel.org> writes:
 
-This is frustrating for the patch developers as they don't receive their
-earned Reviewed-by.
-It is also frustrating for the commenters, as they might think their
-review got ignored or they have to dig up new versions from the archive
-manually.
+> While some subsystems do typically have very fast turnaround times on
+> review this is far from standard over the kernel and is likely to set
+> unrealistic expectations for submitters.  Tell submitters to expect 2-3
+> weeks instead, this will cover more of the kernel.
+>
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  Documentation/process/submitting-patches.rst | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 
-So encourage patch submitters to make sure that all commenters get
-notified also when no Reviewed-by was issued yet.
+I was hoping to see some more comments on this; it is a fairly
+significant change in the expectations we put on our reviewers.  Oh
+well, I've applied it.  I wonder if we should add a note saying to look
+at the maintainer profile for the subsystem in question for more
+specific guidance?  Of course, it would be good to have more of those...
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
-Changes in v2:
-- s/reviewer/commenter/ to avoid ambiguity (Christoph)
-- Link to v1: https://lore.kernel.org/r/20230927-docs-cc-reviewer-v1-1-2af46ceb2d3c@weissschuh.net
----
- Documentation/process/submitting-patches.rst | 2 ++
- 1 file changed, 2 insertions(+)
+Thanks,
 
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index efac910e2659..3245b7b38b98 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -327,6 +327,8 @@ politely and address the problems they have pointed out.  When sending a next
- version, add a ``patch changelog`` to the cover letter or to individual patches
- explaining difference against previous submission (see
- :ref:`the_canonical_patch_format`).
-+Notify people that commented on your patch about new versions by adding them to
-+the patches CC list.
- 
- See Documentation/process/email-clients.rst for recommendations on email
- clients and mailing list etiquette.
-
----
-base-commit: 633b47cb009d09dc8f4ba9cdb3a0ca138809c7c7
-change-id: 20230926-docs-cc-reviewer-023b3730af23
-
-Best regards,
--- 
-Thomas Weißschuh <linux@weissschuh.net>
-
+jon
