@@ -2,68 +2,84 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 662E7E7AD6E
-	for <workflows@archiver.kernel.org>; Tue,  3 Oct 2023 15:33:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2EC5E7AD7A
+	for <workflows@archiver.kernel.org>; Tue,  3 Oct 2023 17:03:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231559AbjJCPdl (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 3 Oct 2023 11:33:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51112 "EHLO
+        id S231397AbjJCRDM (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 3 Oct 2023 13:03:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230338AbjJCPdl (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 3 Oct 2023 11:33:41 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 879A095;
-        Tue,  3 Oct 2023 08:33:38 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 4BD8E6E2;
-        Tue,  3 Oct 2023 15:33:35 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4BD8E6E2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1696347215; bh=wrUIBIBF70pQpH9AG4CLDBT6UzO9ydi22FmoxMPhVyY=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=YHT1tiQgjh+VPNa73fxf18TfxhMWtWMVkS06IWUr99x+Jh9OJs9b5KIbcp9x0R1C9
-         bjltukpsAwFLgvL/+4ddW0AR/Sm3ejLqkP42NbH2AW4C/SIoAQEIYinF6P56sEtWZN
-         uA4eosAAudtNkVfIc3rtUQoNKURhsYAJ4/uUFk5JX5o63yso2/wYHypBzjZ2HmvZ9I
-         /rKQSjoXn7cG5qKx8Ch8ttIkMSxNwHbJyeEU1E2amq1wWEu2QFIqzbn/xOilDRM8CS
-         aFTP0X7a4cqb/ypmnNgIiJVe41nE0iR0pmuSfqqmltZW5e1XRWdVD7kFQ2SjyuUFse
-         Urp4U7N9j37gA==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mark Brown <broonie@kernel.org>
+        with ESMTP id S231150AbjJCRDL (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 3 Oct 2023 13:03:11 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCDA2AF;
+        Tue,  3 Oct 2023 10:03:08 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 746A5C433C8;
+        Tue,  3 Oct 2023 17:03:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696352588;
+        bh=2CYnWvtXt90mgRwSHfw8tCk2sH07p2olXVL/VqC8WNE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Y1hsbnL4fm7Bv7ZICc/2FMKW/20RphpnHCx/Tn5Ui54gN20adbO2TOvmk+RMmuLzM
+         N9UE1KGku3S8zV1O0OQRdM0Yfunb5tZIAofpsRhc5tJalERLTpKu52j30Nyr9Gnprr
+         RnHTqxyL/ptiiPPIaG3x0z+SZZimAvF0dT+ex/1pR8H+SEcEvDR9Q0FR1XKSCma831
+         lGCFYnhC6w8jeq0IZbWBEqFNQsRcL+d7NZN0cX0WPnBcwh9sxGxXHtCU9Pio9IxQbN
+         ppTPLz1XuHDxdsNzRDcC8LxVmHp1Vlv8jwzjvqoah1sJjyAXPZVdU1AAWS+MIS79PU
+         RE8Vwr9POl5hQ==
+Date:   Tue, 3 Oct 2023 18:03:02 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Javier Martinez Canillas <javier@dowhile0.org>,
         workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH] docs: submitting-patches: Suggest a longer expected
- time for responses
-In-Reply-To: <20230913-submitting-patches-delay-v1-1-a2d48c5ca205@kernel.org>
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: submitting-patches: Suggest a longer expected time
+ for responses
+Message-ID: <68a9bc07-07dc-4e97-ae0e-e0b29c808707@sirena.org.uk>
 References: <20230913-submitting-patches-delay-v1-1-a2d48c5ca205@kernel.org>
-Date:   Tue, 03 Oct 2023 09:33:34 -0600
-Message-ID: <87y1gjen5d.fsf@meer.lwn.net>
+ <87y1gjen5d.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="9Jz4o80Rm23Rqhve"
+Content-Disposition: inline
+In-Reply-To: <87y1gjen5d.fsf@meer.lwn.net>
+X-Cookie: Oh Dad!  We're ALL Devo!
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Mark Brown <broonie@kernel.org> writes:
 
-> While some subsystems do typically have very fast turnaround times on
-> review this is far from standard over the kernel and is likely to set
-> unrealistic expectations for submitters.  Tell submitters to expect 2-3
-> weeks instead, this will cover more of the kernel.
->
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
->  Documentation/process/submitting-patches.rst | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+--9Jz4o80Rm23Rqhve
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I was hoping to see some more comments on this; it is a fairly
-significant change in the expectations we put on our reviewers.  Oh
-well, I've applied it.  I wonder if we should add a note saying to look
-at the maintainer profile for the subsystem in question for more
-specific guidance?  Of course, it would be good to have more of those...
+On Tue, Oct 03, 2023 at 09:33:34AM -0600, Jonathan Corbet wrote:
 
-Thanks,
+> I was hoping to see some more comments on this; it is a fairly
+> significant change in the expectations we put on our reviewers.  Oh
+> well, I've applied it.  I wonder if we should add a note saying to look
+> at the maintainer profile for the subsystem in question for more
+> specific guidance?  Of course, it would be good to have more of those...
 
-jon
+It's the sort of thing that's going to vary quite a lot with things like
+the point in the release cycle as well (as the existing text already
+gestures towards) plus the complexity of the change, I'm not sure that
+setting explicit QoS guarantees is going to work out well.  The list of
+variables gets long and complicated, and the more explicit things are
+the more likely someone is to be disappointed.
+
+--9Jz4o80Rm23Rqhve
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmUcSUYACgkQJNaLcl1U
+h9Ag8gf9HduXLtJgMwI+3EeEQhIZIMvFNRa1kIyisAaAw/T2BBNHnujHGvh6Sp00
+2KQZ4+LiPMvmzzt10YXFTsK5L4E7HqrRIdcoRog8WVdQlQjKOgsMxPHUkP8V2E1l
+mOsC34R5VK8WDGp7BbhUWqWbFoqADUOGRwNs/gULaTap5tSsvHGQOKpqYzL+M/Lk
+iwaG8PQgAZ8urJVuf1aUH6AW4JIKG0s3hDn4PDV63lFMjIHuF0gnrZvJ6QvvUIdz
+0bocxGJkt+T+Smayrelvjr1eX3AxLKAUbNYUIuZXr682bXDOVTIRyQqG1geV0rmk
+rkc3V/GWC+geogdNu1Y27RKhbkmQmA==
+=VBdU
+-----END PGP SIGNATURE-----
+
+--9Jz4o80Rm23Rqhve--
