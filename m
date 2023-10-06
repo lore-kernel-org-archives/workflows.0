@@ -2,81 +2,71 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08C1FE92FC7
-	for <workflows@archiver.kernel.org>; Thu,  5 Oct 2023 21:30:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D45BCE92FFC
+	for <workflows@archiver.kernel.org>; Fri,  6 Oct 2023 09:08:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231795AbjJEVaw (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 5 Oct 2023 17:30:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33534 "EHLO
+        id S231398AbjJFJIx (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 6 Oct 2023 05:08:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231722AbjJEVat (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 5 Oct 2023 17:30:49 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D287495;
-        Thu,  5 Oct 2023 14:30:47 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1c61bde0b4bso12081785ad.3;
-        Thu, 05 Oct 2023 14:30:47 -0700 (PDT)
+        with ESMTP id S231387AbjJFJIx (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Fri, 6 Oct 2023 05:08:53 -0400
+Received: from mail-ed1-x54a.google.com (mail-ed1-x54a.google.com [IPv6:2a00:1450:4864:20::54a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8A1393
+        for <workflows@vger.kernel.org>; Fri,  6 Oct 2023 02:08:48 -0700 (PDT)
+Received: by mail-ed1-x54a.google.com with SMTP id 4fb4d7f45d1cf-5342c8a70a8so1727539a12.1
+        for <workflows@vger.kernel.org>; Fri, 06 Oct 2023 02:08:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696541447; x=1697146247; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eEZ6HGHY7M39jHS8HQsMgoR34dJ/9xEfGiox94C3KTE=;
-        b=IByvvbL4w91DZXPVd8WXRcz9EG2WizQdpa07B17CkeWSSVR5eUMDvNJbRv3ybrLKEU
-         /Wu6naF5Ln4+T5jvuN5YC5Q5+rBWKHAxZ9ic/3Y8EDd+wjXXURiKSQvp7sxdjgmN6B6g
-         by8WolHyy+LqmckpwgIxYPX9O+u317DvkQwe0EAXgy583PnvubnwR9ptF3iS+IVBZ1RH
-         PB2OvbJv4TzbG0qSqzlvVR7ksubQ4iNSnkEx5pVjnPL9UhYMO6smmhFL/C5B86soSOL/
-         bWEpx7rO3tNnFYPsALXjBEV4JxDBExYYrtxLFNZyKJw6qFrAdMWFTr9l6hreqtqmHTZu
-         7aFw==
+        d=google.com; s=20230601; t=1696583327; x=1697188127; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=By50B9iWyiri7G4mok67XeNGnVJ8i3ORWOZUIjkYfmU=;
+        b=THpIUprKsxUTfMM7VHPC9C32myqfwWQTjjA2MZCE/4OdR1nFw1jUVSRGPpEz8Pbhrr
+         lYytVUcImtSEKiRepWi6uxefq32JSi2kCAibmUZy4PfxtOGSfHpTNm5RwL5PbECDs+jk
+         2TLLgVSq511qbnKChTgjRcRPSoDaRlY9RM5Yt9dXHSmXqbzQBVzeD8FL6n434T7THSC1
+         6wH/nDAAtgovXw7ybXOl38HLlPSFEkVoRLCs1qCt4ZuedYCQED/DBwykhLYC0vjz6TRc
+         0U7z/Lxxs5ko1T/5i1dxarYYZvN9WerBB418h065O9X0yf2OAYuYdHDQ6plNw/tZM90V
+         OJcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696541447; x=1697146247;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eEZ6HGHY7M39jHS8HQsMgoR34dJ/9xEfGiox94C3KTE=;
-        b=qHdwun21qPivFcdUiwiBVZX2aZ4DAkWjZLA66lp3AhInRsOFnjkDso0erpjB6AszJj
-         AdHhRDVDdKORqyHRhEH2SyTgtk1XMXsw0fINTKui6ul4o9codshlD9kamM6Cd6JR/FNB
-         6SwtrcaqGmu4yc16KiwS9cdTP8zD51xUHUrdRKsnzfRqk3x6bmYp/sqkT7i0ikiMo6nq
-         ofAo668OSkqhDeh6XxWdekg9m+LU1KVvFBbL9fefClZ7cdtHYcgmdq84pvGBteFWzb09
-         LHwY+9++HqDfInzTuk4YNxZoj2LFNwh27pb+Y9qlI07SFdmWsHhLZ3dU+/wJfTq44qmd
-         NrcA==
-X-Gm-Message-State: AOJu0Ywd7txs49jwSuvml8jW3p1r6+dP9AVae+G6bJStYf1sqiDmn1k9
-        ZAAo+37xisSp64otYB2HZ/c=
-X-Google-Smtp-Source: AGHT+IEAAKJOemdFQh6i8JbzDMBhV0u3VP1X20yG7F/HYr2B1uqkkb3aY/7Qb20W548P94yx10rOFQ==
-X-Received: by 2002:a17:902:e84a:b0:1c2:218c:3754 with SMTP id t10-20020a170902e84a00b001c2218c3754mr7419410plg.53.1696541447132;
-        Thu, 05 Oct 2023 14:30:47 -0700 (PDT)
-Received: from [192.168.54.90] (static.220.238.itcsa.net. [190.15.220.238])
-        by smtp.gmail.com with ESMTPSA id l7-20020a170903244700b001b8a00d4f7asm2230148pls.9.2023.10.05.14.30.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Oct 2023 14:30:46 -0700 (PDT)
-Message-ID: <7a98dc62-924c-4b6a-844d-d6db2b9e5a3b@gmail.com>
-Date:   Thu, 5 Oct 2023 18:30:21 -0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] rust: upgrade to Rust 1.73.0
-Content-Language: en-US
-To:     Miguel Ojeda <ojeda@kernel.org>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Alex Gaynor <alex.gaynor@gmail.com>
-Cc:     Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Benno Lossin <benno.lossin@proton.me>,
-        Andreas Hindborg <a.hindborg@samsung.com>,
-        Alice Ryhl <aliceryhl@google.com>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20231005210556.466856-1-ojeda@kernel.org>
- <20231005210556.466856-4-ojeda@kernel.org>
-From:   Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+        d=1e100.net; s=20230601; t=1696583327; x=1697188127;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=By50B9iWyiri7G4mok67XeNGnVJ8i3ORWOZUIjkYfmU=;
+        b=kcc0Iz7mno4h2BqLayJxqu+Ov1bJRT9QbFLgXGz9ca/6nYZsZTxwoiwhGSTp82SyKL
+         cifAXeSmiWN3O/l+F41RBk4WRn+U5FpPTZQWP3un66lBA6c/3oC3/xf69jNgdwD9Ivd9
+         DkTaWWJzzJmPFdZOfrWcTmVnQwIid+O0MmcdFBJ+ziLx8SCySTDt2MMsUVsCuw44xduE
+         kt9Prvr6ZEo0zeVxJPky4CNacRj0TyGm2UmZ5D2JbVmUTYJJGj+TUMT+Sbd6FqTtXyJn
+         2sF+Alp2DTRyGL5DgHWWyBAdrVh07nMCV9kY1oIxd5YegAhWD+3k3A2HU7locCDgvV2E
+         /C7Q==
+X-Gm-Message-State: AOJu0YyBguN5vTJEV6tFHWRQaN7RzwiUhWT+QrdXkrrz26nmf+LHc/Qn
+        d8RXA1Axzyj08afMCGL2YepJtuOQ7ThxS94=
+X-Google-Smtp-Source: AGHT+IHyTF+le1HnasoBIq26If2cGaxNtJZpJWqm6IaNqDoF43T8cgXKU59KxB3YywrAUrCwKcHUxIsepOPC0bU=
+X-Received: from aliceryhl.c.googlers.com ([fda3:e722:ac3:cc00:31:98fb:c0a8:6c8])
+ (user=aliceryhl job=sendgmr) by 2002:a50:aac5:0:b0:523:1f28:f648 with SMTP id
+ r5-20020a50aac5000000b005231f28f648mr50382edc.4.1696583327266; Fri, 06 Oct
+ 2023 02:08:47 -0700 (PDT)
+Date:   Fri,  6 Oct 2023 09:08:35 +0000
 In-Reply-To: <20231005210556.466856-4-ojeda@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <20231005210556.466856-4-ojeda@kernel.org>
+X-Mailer: git-send-email 2.42.0.609.gbb76f46606-goog
+Message-ID: <20231006090835.1141768-1-aliceryhl@google.com>
+Subject: Re: [PATCH 3/3] rust: upgrade to Rust 1.73.0
+From:   Alice Ryhl <aliceryhl@google.com>
+To:     ojeda@kernel.org
+Cc:     a.hindborg@samsung.com, alex.gaynor@gmail.com,
+        aliceryhl@google.com, benno.lossin@proton.me,
+        bjorn3_gh@protonmail.com, boqun.feng@gmail.com, corbet@lwn.net,
+        gary@garyguo.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        rust-for-linux@vger.kernel.org, wedsonaf@gmail.com,
+        workflows@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On 10/5/23 18:05, Miguel Ojeda wrote:
+Miguel Ojeda <ojeda@kernel.org> writes:
 > This is the next upgrade to the Rust toolchain, from 1.72.1 to 1.73.0
 > (i.e. the latest) [1].
 > 
@@ -97,15 +87,15 @@ On 10/5/23 18:05, Miguel Ojeda wrote:
 > 
 > For the upgrade, the following changes are required:
 > 
->    - Allow `internal_features` for `feature(compiler_builtins)` since
->      now Rust warns about using internal compiler and standard library
->      features (similar to how it also warns about incomplete ones) [4].
+>   - Allow `internal_features` for `feature(compiler_builtins)` since
+>     now Rust warns about using internal compiler and standard library
+>     features (similar to how it also warns about incomplete ones) [4].
 > 
->    - A cleanup for a documentation link thanks to a new `rustdoc` lint.
->      See previous commits for details.
+>   - A cleanup for a documentation link thanks to a new `rustdoc` lint.
+>     See previous commits for details.
 > 
->    - A need to make an intra-doc link to a macro explicit, due to a
->      change in behavior in `rustdoc`. See previous commits for details.
+>   - A need to make an intra-doc link to a macro explicit, due to a
+>     change in behavior in `rustdoc`. See previous commits for details.
 > 
 > # `alloc` upgrade and reviewing
 > 
@@ -132,36 +122,95 @@ On 10/5/23 18:05, Miguel Ojeda wrote:
 > Rust and the kernel (for the subset of `alloc` we use) before and after
 > applying this patch:
 > 
->      # Get the difference with respect to the old version.
->      git -C rust checkout $(linux/scripts/min-tool-version.sh rustc)
->      git -C linux ls-tree -r --name-only HEAD -- rust/alloc |
->          cut -d/ -f3- |
->          grep -Fv README.md |
->          xargs -IPATH cp rust/library/alloc/src/PATH linux/rust/alloc/PATH
->      git -C linux diff --patch-with-stat --summary -R > old.patch
->      git -C linux restore rust/alloc
+>     # Get the difference with respect to the old version.
+>     git -C rust checkout $(linux/scripts/min-tool-version.sh rustc)
+>     git -C linux ls-tree -r --name-only HEAD -- rust/alloc |
+>         cut -d/ -f3- |
+>         grep -Fv README.md |
+>         xargs -IPATH cp rust/library/alloc/src/PATH linux/rust/alloc/PATH
+>     git -C linux diff --patch-with-stat --summary -R > old.patch
+>     git -C linux restore rust/alloc
 > 
->      # Apply this patch.
->      git -C linux am rust-upgrade.patch
+>     # Apply this patch.
+>     git -C linux am rust-upgrade.patch
 > 
->      # Get the difference with respect to the new version.
->      git -C rust checkout $(linux/scripts/min-tool-version.sh rustc)
->      git -C linux ls-tree -r --name-only HEAD -- rust/alloc |
->          cut -d/ -f3- |
->          grep -Fv README.md |
->          xargs -IPATH cp rust/library/alloc/src/PATH linux/rust/alloc/PATH
->      git -C linux diff --patch-with-stat --summary -R > new.patch
->      git -C linux restore rust/alloc
+>     # Get the difference with respect to the new version.
+>     git -C rust checkout $(linux/scripts/min-tool-version.sh rustc)
+>     git -C linux ls-tree -r --name-only HEAD -- rust/alloc |
+>         cut -d/ -f3- |
+>         grep -Fv README.md |
+>         xargs -IPATH cp rust/library/alloc/src/PATH linux/rust/alloc/PATH
+>     git -C linux diff --patch-with-stat --summary -R > new.patch
+>     git -C linux restore rust/alloc
 > 
 > Now one may check the `new.patch` to take a look at the additions (first
 > approach) or at the difference between those two patches (second
 > approach). For the latter, a side-by-side tool is recommended.
-> 
+
+I followed these instructions, and it looks good to me:
+
+    $ diff old.patch new.patch 
+    18c18
+    < index e24a0fe51bda..51821feb20b1 100644
+    ---
+    > index 5205ed9fb50a..8cb4a31cf6e5 100644
+    28c28
+    < index 8ef2bac9282c..bdab710f7737 100644
+    ---
+    > index 96b93830f960..9620eba17268 100644
+    60c60
+    < index 967ad3a0e690..115fcb053e73 100644
+    ---
+    > index ffe6d6373875..73b9ffd845d9 100644
+    69c69
+    < @@ -107,7 +109,7 @@
+    ---
+    > @@ -109,7 +111,7 @@
+    78c78
+    < @@ -217,6 +219,7 @@
+    ---
+    > @@ -218,6 +220,7 @@
+    86c86
+    < @@ -237,15 +240,19 @@
+    ---
+    > @@ -238,15 +241,19 @@
+    107c107
+    < index dfd30d99cf04..65d5ce15828e 100644
+    ---
+    > index 01b03de6acb5..a7425582a323 100644
+    238c238
+    < index 598ecf05e824..a4e9a5002a6d 100644
+    ---
+    > index e45ddc7896be..209a88cfe598 100644
+    679c679
+    < index 56065ce565bf..a6a735201e59 100644
+    ---
+    > index e2f865d0f716..ada919537446 100644
+    756c756
+    <  impl<'a, T: 'a, I, A: Allocator + 'a> SpecExtend<&'a T, I> for Vec<T, A>
+    ---
+    >  impl<'a, T: 'a, I, A: Allocator> SpecExtend<&'a T, I> for Vec<T, A>
+    759c759
+    < @@ -46,6 +87,17 @@ impl<'a, T: 'a, I, A: Allocator + 'a> SpecExtend<&'a T, I> for Vec<T, A>
+    ---
+    > @@ -46,6 +87,17 @@ impl<'a, T: 'a, I, A: Allocator> SpecExtend<&'a T, I> for Vec<T, A>
+    763c763
+    < +impl<'a, T: 'a, I, A: Allocator + 'a> TrySpecExtend<&'a T, I> for Vec<T, A>
+    ---
+    > +impl<'a, T: 'a, I, A: Allocator> TrySpecExtend<&'a T, I> for Vec<T, A>
+    774c774
+    <  impl<'a, T: 'a, A: Allocator + 'a> SpecExtend<&'a T, slice::Iter<'a, T>> for Vec<T, A>
+    ---
+    >  impl<'a, T: 'a, A: Allocator> SpecExtend<&'a T, slice::Iter<'a, T>> for Vec<T, A>
+    782c782
+    < +impl<'a, T: 'a, A: Allocator + 'a> TrySpecExtend<&'a T, slice::Iter<'a, T>> for Vec<T, A>
+    ---
+    > +impl<'a, T: 'a, A: Allocator> TrySpecExtend<&'a T, slice::Iter<'a, T>> for Vec<T, A>
+
 > Link: https://github.com/rust-lang/rust/blob/stable/RELEASES.md#version-1730-2023-10-05 [1]
 > Link: https://rust-for-linux.com/rust-version-policy [2]
 > Link: https://github.com/Rust-for-Linux/linux/issues/2 [3]
 > Link: https://github.com/rust-lang/compiler-team/issues/596 [4]
 > Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
-> ---
-> [...]
-Reviewed-by: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
