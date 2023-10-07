@@ -2,84 +2,96 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0599E95A63
-	for <workflows@archiver.kernel.org>; Sat,  7 Oct 2023 12:57:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35455E95A61
+	for <workflows@archiver.kernel.org>; Sat,  7 Oct 2023 14:06:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343741AbjJGM5G (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Sat, 7 Oct 2023 08:57:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41364 "EHLO
+        id S1343945AbjJGOF7 (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Sat, 7 Oct 2023 10:05:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343680AbjJGM5F (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Sat, 7 Oct 2023 08:57:05 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43629B6;
-        Sat,  7 Oct 2023 05:57:04 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id DECE07C0;
-        Sat,  7 Oct 2023 12:57:03 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DECE07C0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1696683424; bh=Q/1XW57KSxFZsvTueCHp+MJQ8+S0TrgP3bKSsrznURk=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=E6s5KCew+0oR5T02HoU+z/vbCC4hlRj58p3KKnR99rYHbGyESaGnU9KkXmQtGNVZd
-         qy1HVSqaqvGQAmJW3LCa/JSfkeHihd6GfTIpQ9Fqz2EnRYWeGfT9mCy0l3dNi9mTi+
-         NlTbvhjjsxBZZCHg1yMc49znmFkBF5p4XiFgkTIST2c7FGZNypEGZigqhhEUWAJpg4
-         +9bov3mOOEr4aOPwhBXXB8joULig7bn/RJD4G39/IoceyTud2uCoH3f/XGc6Sc838O
-         pGb0dDwNNkU7vPmFYUcjqzeicHQ4a05S3WbTxY1ajtr+/a1y5F9cDQdDp+EC1oE27/
-         UHPMNGMRL9jTA==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc:     workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Submitting Co-Author <sub@coauthor.example.org>
-Subject: Re: [PATCH] docs: submitting-patches: Introduce Test: tag
-In-Reply-To: <20231007-topic-test_tag-v1-1-513cd9e577ed@linaro.org>
-References: <20231007-topic-test_tag-v1-1-513cd9e577ed@linaro.org>
-Date:   Sat, 07 Oct 2023 06:57:03 -0600
-Message-ID: <8734ymvbds.fsf@meer.lwn.net>
-MIME-Version: 1.0
-Content-Type: text/plain
+        with ESMTP id S1343933AbjJGOF6 (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Sat, 7 Oct 2023 10:05:58 -0400
+Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DAE25BC;
+        Sat,  7 Oct 2023 07:05:56 -0700 (PDT)
+Received: (from willy@localhost)
+        by pcw.home.local (8.15.2/8.15.2/Submit) id 397E5OlR025463;
+        Sat, 7 Oct 2023 16:05:24 +0200
+From:   Willy Tarreau <w@1wt.eu>
+To:     linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, security@kernel.org, corbet@lwn.net,
+        workflows@vger.kernel.org, Willy Tarreau <w@1wt.eu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Solar Designer <solar@openwall.com>,
+        Vegard Nossum <vegard.nossum@oracle.com>
+Subject: [RFC PATCH] Documentation: security-bugs.rst: linux-distros relaxed their rules
+Date:   Sat,  7 Oct 2023 16:04:54 +0200
+Message-Id: <20231007140454.25419-1-w@1wt.eu>
+X-Mailer: git-send-email 2.17.5
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Konrad Dybcio <konrad.dybcio@linaro.org> writes:
+The linux-distros list relaxed their rules to try to adapt better to
+how the Linux kernel works. Let's update the Coordination part to
+explain why and when to contact them or not to and how to avoid trouble
+in the future.
 
-> Currently, we blindly trust the submitters that they both compiled their
-> code at all, tested it on a relevant device, and have done so in a manner
-> that made sense for a given changeset.
->
-> If at least two of these three things were always true, the review
-> workflow would be much more exciting.
->
-> Introduce a new Test: tag to help submitters express the way the patch
-> was tested, making it easier to understand for reviewers and maintainers
-> whether it was tested, and if so, whether that test was sufficient.
->
-> I originally found something like this on Google's Android kernel repos
-> and loved the concept.
->
-> Test: make htmldocs and manual examination
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> ---
->  Documentation/process/submitting-patches.rst | 18 +++++++++++++++++-
->  1 file changed, 17 insertions(+), 1 deletion(-)
+Link: https://www.openwall.com/lists/oss-security/2023/09/08/4
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Solar Designer <solar@openwall.com>
+Cc: Vegard Nossum <vegard.nossum@oracle.com>
+Signed-off-by: Willy Tarreau <w@1wt.eu>
+---
+ Documentation/process/security-bugs.rst | 33 ++++++++++++++++++-------
+ 1 file changed, 24 insertions(+), 9 deletions(-)
 
-Do we really want to do this?  To me, it almost seems like it codifies
-the idea that sending *untested* patches is OK as long as you leave out
-the tag.
+diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
+index 5a6993795bd2..8bbad669af1f 100644
+--- a/Documentation/process/security-bugs.rst
++++ b/Documentation/process/security-bugs.rst
+@@ -66,15 +66,30 @@ lifted, in perpetuity.
+ Coordination with other groups
+ ------------------------------
+ 
+-The kernel security team strongly recommends that reporters of potential
+-security issues NEVER contact the "linux-distros" mailing list until
+-AFTER discussing it with the kernel security team.  Do not Cc: both
+-lists at once.  You may contact the linux-distros mailing list after a
+-fix has been agreed on and you fully understand the requirements that
+-doing so will impose on you and the kernel community.
+-
+-The different lists have different goals and the linux-distros rules do
+-not contribute to actually fixing any potential security problems.
++While the kernel security team solely focuses on getting bugs fixed,
++other groups focus on fixing issues in distros and coordinating
++disclosure between operating system vendors.  Coordination is usually
++handled by the "linux-distros" mailing list and disclosure by the
++public "oss-security" mailing list, both of which are closely related
++and presented in the linux-distros wiki:
++<https://oss-security.openwall.org/wiki/mailing-lists/distros>
++
++Please note that the respective policies and rules are different since
++the 3 lists pursue different goals.  Coordinating between the kernel
++security team and other teams is difficult since occasional embargoes
++start from the availability of a fix for the kernel security team, while
++for other lists they generally start from the initial post to the list,
++regardless of the availability of a fix.
++
++As such, the kernel security team strongly recommends that reporters of
++potential security issues DO NOT contact the "linux-distros" mailing
++list BEFORE a fix is accepted by the affected code's maintainers and you
++have read the linux-distros wiki page above and you fully understand the
++requirements that doing so will impose on you and the kernel community.
++This also means that in general it doesn't make sense to Cc: both lists
++at once, except for coordination if a fix remains under embargo. And in
++general, please do not Cc: the kernel security list about fixes that
++have already been merged.
+ 
+ CVE assignment
+ --------------
+-- 
+2.17.5
 
-Others may disagree, but I don't think we need yet another tag for this.
-Testing of patches before sending them should be the norm; if special
-notes about testing are needed, they can go in or below the changelog,
-as appropriate.
-
-Thanks,
-
-jon
