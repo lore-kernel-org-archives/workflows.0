@@ -2,109 +2,144 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3E45E94114
-	for <workflows@archiver.kernel.org>; Fri,  6 Oct 2023 20:54:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0D04E9413C
+	for <workflows@archiver.kernel.org>; Sat,  7 Oct 2023 00:43:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233549AbjJFUyX (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 6 Oct 2023 16:54:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45802 "EHLO
+        id S233952AbjJGAn6 (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 6 Oct 2023 20:43:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233567AbjJFUyW (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Fri, 6 Oct 2023 16:54:22 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0E42C5;
-        Fri,  6 Oct 2023 13:54:21 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 627F1C433C8;
-        Fri,  6 Oct 2023 20:54:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696625661;
-        bh=77r2KlFSGk08tldlnpzfUf4EEwr9qqvQObU5pu1mnrk=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Ie2I9q4KGZOQto+yPy3NESQH0JBbLtjMYIBZAUiqQdnvk/pUCXfGUCf1Ar/XJcuKx
-         cEMfcFvCNf3TYZ6zHh7IKg4fG4/zf4mtFFTgswyyUdrn1zzxcJNQyJHuqKYfL07aA1
-         F80pJZEOYyW5DoeJb1jBg6UjC1WTk7gBnPxv2Q/2ogfQ8fr1d7TxVlvIMTUMPUT5Iu
-         T8A/8IYtsJMjWjjixGqC8ihuT2Ny7gxUMRwx8JI+oyEsprv9B1ODteKGFQ+DQ0tO/l
-         P7y6s80Q+uTwwjE40APs4KceuL2rzXtlwsJd9b2xYbzjWvlKpQuZaKth86QFexk3MQ
-         6uLvW81I/jbSg==
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     pbonzini@redhat.com
-Cc:     seanjc@google.com, workflows@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH] KVM: deprecate KVM_WERROR in favor of general WERROR
-Date:   Fri,  6 Oct 2023 13:54:15 -0700
-Message-ID: <20231006205415.3501535-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.41.0
+        with ESMTP id S233883AbjJGAn6 (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Fri, 6 Oct 2023 20:43:58 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43678BD
+        for <workflows@vger.kernel.org>; Fri,  6 Oct 2023 17:43:56 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-50437c618b4so3331455e87.2
+        for <workflows@vger.kernel.org>; Fri, 06 Oct 2023 17:43:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1696639434; x=1697244234; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2i7SU6EGyxqMylhMcqAeEXUl2esBxj9TVs6vu8xDfG0=;
+        b=At/Dx7MdddGdlgPSNutQU+s12hUeZKP/STbAZIBxMN/IjqyiaFcHwUshWwo20fy9PD
+         ZfAg/Z025d4IgJiU4bK14/hWZJTX6ZbSE95ijvzGHZTC/q2VRgdPA9ZWMk3AH48HHxzV
+         jBpRhNHN+g11R85J8bvca9KVNZri30ug2dwpv0nzEoQP7Rf8TiveoZHPeIBb3ALtelMJ
+         9MJslMHcTiZaiu4Kufp+YA4rLXKBzGCfyUq4tTjAhhpUzor3pp/zDU2XtGOR7QVUXYls
+         yqnjgsODIldV/8f522morKBQOeJE3vie3Ezgp2cQPMOz97Cyg240ewQMum/RvkP/ZpfQ
+         dlgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696639434; x=1697244234;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2i7SU6EGyxqMylhMcqAeEXUl2esBxj9TVs6vu8xDfG0=;
+        b=nYw9WpIiJgRYQZ41AQON3uDWXXIKCc24TbbwQManF0NkycZmHKnrFcsFP5NBaUkG9D
+         EBvWQAHtG+EfKz8gWpbn01qmgIOJBreNjdSZhkT/g+8g9igXotmtwGS5qMzF+gOKYDf0
+         P99ilhEitEINd+6sYU62QcODo7McvYz+XKJ/d/d1BIEGjdsBFKyh4TZyIM4TLEkqhzZC
+         jB/FMXfDHl/mKzvZztJvxyf9SsHtklJlTJqB9/jnF5yDaIV5h2pl1VP/TkglfBTcaGN4
+         ef9ciD7+igJSDKnn37DBqtWKug33ASHXDARlhGAcAmdjW5khO53Yri35whFH+/tLk71P
+         5bGw==
+X-Gm-Message-State: AOJu0YzrUpLWtDu6raIQgUeUwiEZHmraTkHEo1blVcHzg8+SHRgqpQ/p
+        HAqfmD/wYUcqkiCEkSSSZHauig==
+X-Google-Smtp-Source: AGHT+IFI9eOT8axsVoEo2tOZEhrDgFsGkI3OXuA9O7GPk8YuXtaSm/TMTj6vfU1QQttp17TT7pQ5/A==
+X-Received: by 2002:a05:6512:1285:b0:503:33ab:8126 with SMTP id u5-20020a056512128500b0050333ab8126mr10672999lfs.17.1696639434420;
+        Fri, 06 Oct 2023 17:43:54 -0700 (PDT)
+Received: from [10.167.154.1] (178235177147.dynamic-4-waw-k-1-1-0.vectranet.pl. [178.235.177.147])
+        by smtp.gmail.com with ESMTPSA id 7-20020ac24847000000b004fb745fd22fsm492682lfy.32.2023.10.06.17.43.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Oct 2023 17:43:54 -0700 (PDT)
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+Date:   Sat, 07 Oct 2023 02:43:08 +0200
+Subject: [PATCH] docs: submitting-patches: Introduce Test: tag
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20231007-topic-test_tag-v1-1-513cd9e577ed@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAJupIGUC/x2N0QqDMAwAf0XyvEDbgWX7lTFGWqMGpEpTx0D89
+ wUf7+C4A5SrsMKzO6DyV1TWYuBvHeSZysQogzEEF+7euYht3SRjY22fRhPGkDL1ofdxfIBFiZQ
+ xVSp5tqzsy2JyqzzK77q83uf5B4mzpBd1AAAA
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Submitting Co-Author <sub@coauthor.example.org>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1696639433; l=2711;
+ i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
+ bh=SIEVaHthR5Ve3brLeeJf9IytmM4E9WoIPQI8DGRS/3M=;
+ b=DOmjEF2R8rq8WZs6hM1z7rM2lY946gD/FywWsZB1OLCmP8rZ1a4ndfO2gtHwkBLCS397A7NYr
+ XJSmL/tqEOmC9XbUADRe24xxL1L7pXGNcQUniAXuA/3mUc/aoZj4LT/
+X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
+ pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Setting WERROR for random subsystems make life really hard
-for subsystems which want to build-test their stuff with W=1.
-WERROR for the entire kernel now exists and can be used
-instead. W=1 people probably know how to deal with the global
-W=1 already, tracking all per-subsystem WERRORs is too much...
+Currently, we blindly trust the submitters that they both compiled their
+code at all, tested it on a relevant device, and have done so in a manner
+that made sense for a given changeset.
 
-Link: https://lore.kernel.org/all/0da9874b6e9fcbaaa5edeb345d7e2a7c859fc818.1696271334.git.thomas.lendacky@amd.com/
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+If at least two of these three things were always true, the review
+workflow would be much more exciting.
+
+Introduce a new Test: tag to help submitters express the way the patch
+was tested, making it easier to understand for reviewers and maintainers
+whether it was tested, and if so, whether that test was sufficient.
+
+I originally found something like this on Google's Android kernel repos
+and loved the concept.
+
+Test: make htmldocs and manual examination
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- Documentation/process/maintainer-kvm-x86.rst |  2 +-
- arch/x86/kvm/Kconfig                         | 14 --------------
- arch/x86/kvm/Makefile                        |  1 -
- 3 files changed, 1 insertion(+), 16 deletions(-)
+ Documentation/process/submitting-patches.rst | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/process/maintainer-kvm-x86.rst b/Documentation/process/maintainer-kvm-x86.rst
-index 9183bd449762..cd70c0351108 100644
---- a/Documentation/process/maintainer-kvm-x86.rst
-+++ b/Documentation/process/maintainer-kvm-x86.rst
-@@ -243,7 +243,7 @@ context and disambiguate the reference.
- Testing
- -------
- At a bare minimum, *all* patches in a series must build cleanly for KVM_INTEL=m
--KVM_AMD=m, and KVM_WERROR=y.  Building every possible combination of Kconfigs
-+KVM_AMD=m, and WERROR=y.  Building every possible combination of Kconfigs
- isn't feasible, but the more the merrier.  KVM_SMM, KVM_XEN, PROVE_LOCKING, and
- X86_64 are particularly interesting knobs to turn.
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index 3fcfa029c9b3..c3fda5743ca7 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -522,7 +522,7 @@ Example of a patch submitted by a Co-developed-by: author::
+ 	Signed-off-by: Submitting Co-Author <sub@coauthor.example.org>
  
-diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
-index ed90f148140d..12929324ac3e 100644
---- a/arch/x86/kvm/Kconfig
-+++ b/arch/x86/kvm/Kconfig
-@@ -63,20 +63,6 @@ config KVM
  
- 	  If unsure, say N.
+-Using Reported-by:, Tested-by:, Reviewed-by:, Suggested-by: and Fixes:
++Using informative tags:
+ ----------------------------------------------------------------------
  
--config KVM_WERROR
--	bool "Compile KVM with -Werror"
--	# KASAN may cause the build to fail due to larger frames
--	default y if X86_64 && !KASAN
--	# We use the dependency on !COMPILE_TEST to not be enabled
--	# blindly in allmodconfig or allyesconfig configurations
--	depends on KVM
--	depends on (X86_64 && !KASAN) || !COMPILE_TEST
--	depends on EXPERT
--	help
--	  Add -Werror to the build flags for KVM.
--
--	  If in doubt, say "N".
--
- config KVM_INTEL
- 	tristate "KVM for Intel (and compatible) processors support"
- 	depends on KVM && IA32_FEAT_CTL
-diff --git a/arch/x86/kvm/Makefile b/arch/x86/kvm/Makefile
-index 80e3fe184d17..8e6afde7c680 100644
---- a/arch/x86/kvm/Makefile
-+++ b/arch/x86/kvm/Makefile
-@@ -1,7 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
+ The Reported-by tag gives credit to people who find bugs and report them and it
+@@ -600,6 +600,22 @@ process nor the requirement to Cc: stable@vger.kernel.org on all stable
+ patch candidates. For more information, please read
+ Documentation/process/stable-kernel-rules.rst.
  
- ccflags-y += -I $(srctree)/arch/x86/kvm
--ccflags-$(CONFIG_KVM_WERROR) += -Werror
++A Test: tag confirms that the patch was actually tested by the submitter and
++helps reviewers determine whether the testing procedure made sense for a given
++changeset. The latter in particular, may bring attention to errors in the
++testing procedure and prompt a more in-depth examination of a patch.
++
++Commonly, ``Test: Smoke test on [device name]`` may be used to signify that:
++
++	 (a) The kernel compiled successfully with the default defconfig.
++
++	 (b) The device has successfully booted the image from point (a), with
++	     no apparent loss in functionality compared to the state before this
++	     patch was applied.
++
++	 (c) The submitter believes in good faith, that such simple test is
++	     enough, given the scope of the patch.
++
+ .. _the_canonical_patch_format:
  
- ifeq ($(CONFIG_FRAME_POINTER),y)
- OBJECT_FILES_NON_STANDARD_vmenter.o := y
+ The canonical patch format
+
+---
+base-commit: 0f0fe5040de5e5fd9b040672e37725b046e312f0
+change-id: 20231007-topic-test_tag-72bca62617f9
+
+Best regards,
 -- 
-2.41.0
+Konrad Dybcio <konrad.dybcio@linaro.org>
 
