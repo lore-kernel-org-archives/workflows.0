@@ -2,88 +2,115 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEF26E95A66
-	for <workflows@archiver.kernel.org>; Sat,  7 Oct 2023 16:40:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A0D8E95A82
+	for <workflows@archiver.kernel.org>; Sun,  8 Oct 2023 17:18:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344025AbjJGQka (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Sat, 7 Oct 2023 12:40:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46994 "EHLO
+        id S1344915AbjJHRSW convert rfc822-to-8bit (ORCPT
+        <rfc822;workflows@archiver.kernel.org>);
+        Sun, 8 Oct 2023 13:18:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343956AbjJGQk3 (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Sat, 7 Oct 2023 12:40:29 -0400
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3A02EBA;
-        Sat,  7 Oct 2023 09:40:23 -0700 (PDT)
-Received: (from willy@localhost)
-        by pcw.home.local (8.15.2/8.15.2/Submit) id 397GdaTL026853;
-        Sat, 7 Oct 2023 18:39:36 +0200
-Date:   Sat, 7 Oct 2023 18:39:36 +0200
-From:   Willy Tarreau <w@1wt.eu>
-To:     Vegard Nossum <vegard.nossum@oracle.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        security@kernel.org, corbet@lwn.net, workflows@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Solar Designer <solar@openwall.com>
-Subject: Re: [RFC PATCH] Documentation: security-bugs.rst: linux-distros
- relaxed their rules
-Message-ID: <20231007163936.GA26837@1wt.eu>
-References: <20231007140454.25419-1-w@1wt.eu>
- <5ae47535-b6e0-8b48-4d59-a167e37c7fcc@oracle.com>
+        with ESMTP id S232265AbjJHRSV (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Sun, 8 Oct 2023 13:18:21 -0400
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4379FA6;
+        Sun,  8 Oct 2023 10:18:20 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-5a1ec43870cso46605637b3.0;
+        Sun, 08 Oct 2023 10:18:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696785499; x=1697390299;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aXz1WAscNlXtreSjX4AVrNaeR1jQa7xTI02en+Fku0k=;
+        b=MIeFV2UyWpP/CyV27AalUD1KHuQUQK7VV1JNGlzv8B7tJzozeCcBJm3ZT1IoJHcJ+Z
+         9cnZL8o6Npwh4+P+p0r6C6NYZv6ZWVRCGHkn+cZl3CaHPCwlvC6XdbcWJOIbAphRbE5w
+         7EyI0x+c/971PUkRNu4bFta2adWCfVxsM6drE/gR+HXIGJzkpwD6r15JXuRJqziaRpy6
+         cs9GyU8XmhO9Apzj5OzSu4bXmQDhV8HCWsyo6w2XwxrmtSnYhtjeW4Uc26oXN9S27U1k
+         JZJXu5Qg498jdCoYDNpvxc2LWkYsaoiLhfT1sD+gADosMcZNoaULTwhCLVY190CMon+f
+         eg0g==
+X-Gm-Message-State: AOJu0YxGmRy8T3XiGBXdj7HFercU9KLzVItwAjQ8eL2LpKwT6yZHlPXb
+        tSclK2F6EYLbJW9SZRtpDD6OSx8Ixo006g==
+X-Google-Smtp-Source: AGHT+IE78dOpilgHkHrHLFheYJDxeTNdftneOBRzDJOTZOR7+p2WpYAcDOTxsQ7zEYdugyaKJGVfAw==
+X-Received: by 2002:a81:7b54:0:b0:595:e1b:b978 with SMTP id w81-20020a817b54000000b005950e1bb978mr14689697ywc.21.1696785499289;
+        Sun, 08 Oct 2023 10:18:19 -0700 (PDT)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
+        by smtp.gmail.com with ESMTPSA id r63-20020a0dcf42000000b0058e37788bf7sm2962674ywd.72.2023.10.08.10.18.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 08 Oct 2023 10:18:18 -0700 (PDT)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-5a4e29928c3so46512387b3.1;
+        Sun, 08 Oct 2023 10:18:18 -0700 (PDT)
+X-Received: by 2002:a0d:db08:0:b0:59f:57ca:6e05 with SMTP id
+ d8-20020a0ddb08000000b0059f57ca6e05mr13994780ywe.5.1696785498600; Sun, 08 Oct
+ 2023 10:18:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5ae47535-b6e0-8b48-4d59-a167e37c7fcc@oracle.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20231007-topic-test_tag-v1-1-513cd9e577ed@linaro.org> <8734ymvbds.fsf@meer.lwn.net>
+In-Reply-To: <8734ymvbds.fsf@meer.lwn.net>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Sun, 8 Oct 2023 19:18:06 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVf+bVj8at_GsHhRzHuDFbYGMmutOofMz1Ekv3TTxP4Qg@mail.gmail.com>
+Message-ID: <CAMuHMdVf+bVj8at_GsHhRzHuDFbYGMmutOofMz1Ekv3TTxP4Qg@mail.gmail.com>
+Subject: Re: [PATCH] docs: submitting-patches: Introduce Test: tag
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Konrad Dybcio <konrad.dybcio@linaro.org>,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Submitting Co-Author <sub@coauthor.example.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Hi Vegard,
+On Sat, Oct 7, 2023 at 2:57 PM Jonathan Corbet <corbet@lwn.net> wrote:
+> Konrad Dybcio <konrad.dybcio@linaro.org> writes:
+>
+> > Currently, we blindly trust the submitters that they both compiled their
+> > code at all, tested it on a relevant device, and have done so in a manner
+> > that made sense for a given changeset.
+> >
+> > If at least two of these three things were always true, the review
+> > workflow would be much more exciting.
+> >
+> > Introduce a new Test: tag to help submitters express the way the patch
+> > was tested, making it easier to understand for reviewers and maintainers
+> > whether it was tested, and if so, whether that test was sufficient.
+> >
+> > I originally found something like this on Google's Android kernel repos
+> > and loved the concept.
+> >
+> > Test: make htmldocs and manual examination
+> > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> > ---
+> >  Documentation/process/submitting-patches.rst | 18 +++++++++++++++++-
+> >  1 file changed, 17 insertions(+), 1 deletion(-)
+>
+> Do we really want to do this?  To me, it almost seems like it codifies
+> the idea that sending *untested* patches is OK as long as you leave out
+> the tag.
 
-On Sat, Oct 07, 2023 at 06:30:11PM +0200, Vegard Nossum wrote:
-> 
-> On 07/10/2023 16:04, Willy Tarreau wrote:
-> > +As such, the kernel security team strongly recommends that reporters of
-> > +potential security issues DO NOT contact the "linux-distros" mailing
-> > +list BEFORE a fix is accepted by the affected code's maintainers and you
-> 
-> is s/BEFORE/UNTIL/ clearer?
+Exactly. We are already receiving too many untested patches.
 
-Probably, yes.
+> Others may disagree, but I don't think we need yet another tag for this.
+> Testing of patches before sending them should be the norm; if special
 
-> > +have read the linux-distros wiki page above and you fully understand the
-> > +requirements that doing so will impose on you and the kernel community.
-> > +This also means that in general it doesn't make sense to Cc: both lists
-> > +at once, except for coordination if a fix remains under embargo. And in
-> > +general, please do not Cc: the kernel security list about fixes that
-> > +have already been merged.
-> 
-> I was thinking about this Cc: thing and would it make sense to:
-> 
-> 1) have LKML and other public vger lists reject messages that include
-> s@k.o or (linux-)distros@ on Cc? The idea being that this is probably a
-> mistake -- I believe it has happened a few times recently by mistake.
-> 
-> 2) have (linux-)distros@ reject NEW threads (i.e. no In-Reply-To:) that
-> also include s@k.o on Cc? We could include a nice message explaining why
-> and to please resend when a patch has been developed and/or a disclosure
-> is planned in the next 7 days.
++1
 
-I don't know, maybe it would add extra config burden, but on the other
-hand it could avoid the mistake from newcomers who have not read the
-docs first (which happened a few times already), but if l-d becomes a
-bit more flexible and tolerant to reporters' mistakes, as now documented,
-it should also be less of a problem.
+> notes about testing are needed, they can go in or below the changelog,
+> as appropriate.
 
-> I guess the problem with this would be if
-> somebody on s@k.o does a reply-all which would add distros right back in
-> the loop -OR- a patch has already been developed and included.
++1
 
-Then this would be deliberate, there would an in-reply-to so that would
-not be a problem. I really doubt anyone from s@k.o would Cc linux-distros
-anyway since it would imply disclosing some details from a reporter, and
-we do not do that, it's up to the reporter to do it if they want.
+Gr{oetje,eeting}s,
 
-Thanks,
-Willy
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
