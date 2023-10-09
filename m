@@ -2,123 +2,109 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AEF9CD6114
-	for <workflows@archiver.kernel.org>; Mon,  9 Oct 2023 18:06:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CA10CD612D
+	for <workflows@archiver.kernel.org>; Mon,  9 Oct 2023 19:34:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377069AbjJISGR (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 9 Oct 2023 14:06:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34870 "EHLO
+        id S1378413AbjJITeB (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 9 Oct 2023 15:34:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376935AbjJISGQ (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 9 Oct 2023 14:06:16 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7393194;
-        Mon,  9 Oct 2023 11:06:15 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1684C433C7;
-        Mon,  9 Oct 2023 18:06:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696874775;
-        bh=qqVvnqpRR2N4XysEim0lFNvDHLgFX3LGkETYl0RUp4A=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=g3TE2KEeFA9h+2fmDP9XZhcbQc0uMpaGwj7ccP0sJbXdxGQQHNymKHn3YUj4OrhjM
-         UXzja3eHHsmyiRHb+bWSj9pFXrXLL8a6JE7SSWJPxKq/6M+s6ky94JbqAURdhJHsB7
-         7vKVKTBkklWclrMCflsCU1u+Io306z4YQtA+LyY1gwkjLbZNvP6+PqiKU0pqrq3N+/
-         opSASAs5D9NG5dfUbCyOP05KhdS2zlR3acolnen7rrWHLzBVjdTR1FX1nEXPQBfwSi
-         cOAg557HhXwoZVS1IEqr2jSKmgPAMVSuANlP26pKsjBWedsRbD1B4V7zoC/OfANosz
-         /MrrZ4pDjclUA==
-Date:   Mon, 9 Oct 2023 11:06:13 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Sean Christopherson <seanjc@google.com>
+        with ESMTP id S1378442AbjJITd5 (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 9 Oct 2023 15:33:57 -0400
+Received: from mail-pj1-x104a.google.com (mail-pj1-x104a.google.com [IPv6:2607:f8b0:4864:20::104a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2571A6
+        for <workflows@vger.kernel.org>; Mon,  9 Oct 2023 12:33:55 -0700 (PDT)
+Received: by mail-pj1-x104a.google.com with SMTP id 98e67ed59e1d1-27756e0e4d8so4800891a91.3
+        for <workflows@vger.kernel.org>; Mon, 09 Oct 2023 12:33:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1696880035; x=1697484835; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tIAr8DPfh+qMIaRmwoAlJ+K4B6ZX16dNQ2a3o/4VJ9I=;
+        b=XALda4cKKkaYprWGEkpE21aEPAUwgqx52xipa4+ankXckFsHspZjrMmutDqT6M0s9N
+         VDy3C4SXxcDjAZMYmRP3eqCCTn04mj3ceBzf1/6dLKnCdf3wbOQAB5+2z5jxE821+drT
+         pqVUltva8tUguLuzEYynhQQleeNwVkxueV6vxD7YErx9almeNHcVBMWkm3hCa8b9uCCD
+         E4eDpAU8BcqemnmCEMR6eYYzoGujz5j4R2CWkAM16wLuXFv2fdZX+ddWemJ544pg85C0
+         v1RV4iZtcvRItTXVdF9zm3Cx7yfDvaLsBKqZWRmxduHhjJeCxXtY7Q2h6npiSG2QE3vt
+         oCJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696880035; x=1697484835;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tIAr8DPfh+qMIaRmwoAlJ+K4B6ZX16dNQ2a3o/4VJ9I=;
+        b=nxU23/y0GdW964HunshSoMtbT5lnPHCr0LJ3szKIBhOT8HKP9nLZKIFnjVFxJPdpoo
+         L/l658c/Ty4S8pydHvfUSGpa9rQGjcHo0Ib9+O0pUZcCC0qta/5KL4nzghXdso7ytPzc
+         rQDo7YK3EbAeoDauQO6vntSoNgzkqJDLYoIVxCVT0GRLBTFn7bmevyQ8Un1cR73JW2WP
+         1NDwG4CR8ZWeJ4E93HqgpE4unEnnBZXM6NrWOmYE1pUHRFpDWghG0vuELvMM15aQn/AS
+         chwg3QTGo/lpXxsk27DYHS6HmrWFw0WvjQHqSmuSyFiFFuwvLIYC2F7IhzcqEL7SUQc6
+         RL3w==
+X-Gm-Message-State: AOJu0YwsLV6zCNOpf8GJQpvdfol20odfFYpebOnBdj8J31ub9NLSLFXe
+        0KOuXGqOKZ21O0NZyBfs5GxN4/569+c=
+X-Google-Smtp-Source: AGHT+IE+bCR4ihgMmpiXgbNhSP5Vgu2CEPjeNQ9Yi6y1+8EM0hWz4Lu0bXeDtqwwTuiBXuOI0tlfBWMKDWg=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a17:90a:aa84:b0:279:84c3:4ab4 with SMTP id
+ l4-20020a17090aaa8400b0027984c34ab4mr279179pjq.9.1696880035378; Mon, 09 Oct
+ 2023 12:33:55 -0700 (PDT)
+Date:   Mon, 9 Oct 2023 12:33:53 -0700
+In-Reply-To: <20231009110613.2405ff47@kernel.org>
+Mime-Version: 1.0
+References: <20231006205415.3501535-1-kuba@kernel.org> <ZSQ7z8gqIemJQXI6@google.com>
+ <20231009110613.2405ff47@kernel.org>
+Message-ID: <ZSRVoYbCuDXc7aR7@google.com>
+Subject: Re: [PATCH] KVM: deprecate KVM_WERROR in favor of general WERROR
+From:   Sean Christopherson <seanjc@google.com>
+To:     Jakub Kicinski <kuba@kernel.org>
 Cc:     pbonzini@redhat.com, workflows@vger.kernel.org,
         linux-kernel@vger.kernel.org, kvm@vger.kernel.org
-Subject: Re: [PATCH] KVM: deprecate KVM_WERROR in favor of general WERROR
-Message-ID: <20231009110613.2405ff47@kernel.org>
-In-Reply-To: <ZSQ7z8gqIemJQXI6@google.com>
-References: <20231006205415.3501535-1-kuba@kernel.org>
-        <ZSQ7z8gqIemJQXI6@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Mon, 9 Oct 2023 10:43:43 -0700 Sean Christopherson wrote:
-> On Fri, Oct 06, 2023, Jakub Kicinski wrote:
-> > Setting WERROR for random subsystems make life really hard
-> > for subsystems which want to build-test their stuff with W=1.
-> > WERROR for the entire kernel now exists and can be used
-> > instead. W=1 people probably know how to deal with the global
-> > W=1 already, tracking all per-subsystem WERRORs is too much...  
-> 
-> I assume s/W=1/WERROR=y in this line?
-
-Yes, sorry about that.
-
-> > Link: https://lore.kernel.org/all/0da9874b6e9fcbaaa5edeb345d7e2a7c859fc818.1696271334.git.thomas.lendacky@amd.com/
-> > Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> > ---
-> >  Documentation/process/maintainer-kvm-x86.rst |  2 +-
-> >  arch/x86/kvm/Kconfig                         | 14 --------------
-> >  arch/x86/kvm/Makefile                        |  1 -
-> >  3 files changed, 1 insertion(+), 16 deletions(-)
+On Mon, Oct 09, 2023, Jakub Kicinski wrote:
+> On Mon, 9 Oct 2023 10:43:43 -0700 Sean Christopherson wrote:
+> > On Fri, Oct 06, 2023, Jakub Kicinski wrote:
+> > On a related topic, this is comically stale as WERROR is on by default for both
+> > allmodconfig and allyesconfig, which work because they trigger 64-bit builds.
+> > And KASAN on x86 is 64-bit only.
 > > 
-> > diff --git a/Documentation/process/maintainer-kvm-x86.rst b/Documentation/process/maintainer-kvm-x86.rst
-> > index 9183bd449762..cd70c0351108 100644
-> > --- a/Documentation/process/maintainer-kvm-x86.rst
-> > +++ b/Documentation/process/maintainer-kvm-x86.rst
-> > @@ -243,7 +243,7 @@ context and disambiguate the reference.
-> >  Testing
-> >  -------
-> >  At a bare minimum, *all* patches in a series must build cleanly for KVM_INTEL=m
-> > -KVM_AMD=m, and KVM_WERROR=y.  Building every possible combination of Kconfigs
-> > +KVM_AMD=m, and WERROR=y.  Building every possible combination of Kconfigs
-> >  isn't feasible, but the more the merrier.  KVM_SMM, KVM_XEN, PROVE_LOCKING, and
-> >  X86_64 are particularly interesting knobs to turn.
-> >  
-> > diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
-> > index ed90f148140d..12929324ac3e 100644
-> > --- a/arch/x86/kvm/Kconfig
-> > +++ b/arch/x86/kvm/Kconfig
-> > @@ -63,20 +63,6 @@ config KVM
-> >  
-> >  	  If unsure, say N.
-> >  
-> > -config KVM_WERROR
-> > -	bool "Compile KVM with -Werror"
-> > -	# KASAN may cause the build to fail due to larger frames
-> > -	default y if X86_64 && !KASAN  
+> > Rather than yank out KVM_WERROR entirely, what if we make default=n and trim the
+> > depends down to "KVM && EXPERT && !KASAN"?  E.g.
 > 
-> Hrm, I am loath to give up KVM's targeted -Werror as it allows for more aggresive
-> enabling, e.g. enabling CONFIG_WERROR for i386 builds with other defaults doesn't
-> work because of CONFIG_FRAME_WARN=1024.  That in turns means making WERROR=y a
-> requirement in maintainer-kvm-x86.rst is likely unreasonable.
-> 
-> And arguably KVM_WERROR is doing its job by flagging the linked W=1 error.  The
-> problem there lies more in my build testing, which I'll go fix by adding a W=1
-> configuration or three.  As the changelog notes, I highly doubt W=1 builds work
-> with WERROR, whereas keeping KVM x86 warning-free even with W=1 is feasible.
-> 
-> > -	# We use the dependency on !COMPILE_TEST to not be enabled
-> > -	# blindly in allmodconfig or allyesconfig configurations
-> > -	depends on KVM
-> > -	depends on (X86_64 && !KASAN) || !COMPILE_TEST  
-> 
-> On a related topic, this is comically stale as WERROR is on by default for both
-> allmodconfig and allyesconfig, which work because they trigger 64-bit builds.
-> And KASAN on x86 is 64-bit only.
-> 
-> Rather than yank out KVM_WERROR entirely, what if we make default=n and trim the
-> depends down to "KVM && EXPERT && !KASAN"?  E.g.
+> IMO setting WERROR is a bit perverse. The way I see it WERROR is a
+> crutch for people who don't have the time / infra to properly build
+> test changes they send to Linus. Or wait for build bots to do their job.
 
-IMO setting WERROR is a bit perverse. The way I see it WERROR is a
-crutch for people who don't have the time / infra to properly build
-test changes they send to Linus. Or wait for build bots to do their job.
-We do have sympathy for these folks, we are mostly volunteers after
-all. At the same time someone's under-investment should not be causing
-pain to those of us who _do_ build test stuff carefully.
+KVM_WERROR reduces the probability of issues in patches being sent to *me*.  The
+reality is that most contributors do not have the knowledge and/or resources to
+"properly" build test changes without specific guidance on what/how to test, or
+what configs to prioritize.
 
-Rather than tweak stuff I'd prefer if we could agree that local -Werror
-is anti-social :(
+Nor is it realistic to expect that build bots will detect every issue in every
+possible configuration in every patch that's posted.
 
-The global WERROR seems to be a good compromise.
+Call -Werror a crutch if you will, but for me it's a crutch that I'm more than
+willing to lean on in order to increase the overall quality of KVM x86 submissions.
+
+> We do have sympathy for these folks, we are mostly volunteers after
+> all. At the same time someone's under-investment should not be causing
+> pain to those of us who _do_ build test stuff carefully.
+
+This is a bit over the top.  Yeah, I need to add W=1 to my build scripts, but that's
+not a lack of investment, just an oversight.  Though in this case it likely wouldn't
+have made any difference since Paolo grabbed the patches directly and might have
+even bypassed linux-next.  But again I would argue that's bad process, not a lack
+of investment.
+
+> Rather than tweak stuff I'd prefer if we could agree that local -Werror
+> is anti-social :(
+> 
+> The global WERROR seems to be a good compromise.
+
+I disagree.  WERROR simply doesn't provide the same coverage.  E.g. it can't be
+enabled for i386 without tuning FRAME_WARN, which (a) won't be at all obvious to
+the average contributor and (b) increasing FRAME_WARN effectively reduces the
+test coverage of KVM i386.
+
+For KVM x86, I want the rules for contributing to be clearly documented, and as
+simple as possible.  I don't see a sane way to achieve that with WERROR=y.
