@@ -2,93 +2,128 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C1ACCD8CB4
-	for <workflows@archiver.kernel.org>; Tue, 10 Oct 2023 19:59:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BC14CD98CC
+	for <workflows@archiver.kernel.org>; Tue, 10 Oct 2023 23:46:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234314AbjJJT7M (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 10 Oct 2023 15:59:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58742 "EHLO
+        id S229456AbjJJXqb (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 10 Oct 2023 19:46:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233571AbjJJT7M (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 10 Oct 2023 15:59:12 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D49F793;
-        Tue, 10 Oct 2023 12:59:10 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 87B1444A;
-        Tue, 10 Oct 2023 19:59:10 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 87B1444A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1696967950; bh=JA8hjFFFGYf/T57XN4WlJmox2mL5lMtyjwDlvY9UAZc=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=IBPIE+3pHmYQYIGc/SAGBL/1/FqkBmg98WQpN89EYW0pC2igNp1+tRaBcWIKnL3I1
-         qQnEL/mv1C/doKNzoa56NXXzjULcLirMS/4pdoGoFahaYnAqE/V+0KXQSvIiJhvZcM
-         AEt8JlLrjXuZWyMl3SlGRJ0gmNseZ48hTWfMMcL8PpWPJpYWanpDOKOnSCAmnJIMlt
-         9Qq7e0vTVtR/vvB5OP/rfUgioUUuTkp7eTtojp7fv2f9IfVQbc9oYIkvRY+DX8qhjn
-         DUAq/rvDsTkjHsM+/gnN3P3hKeJOpinlbSB58say6PK0sbcsn0ruD8CWIouR0e0ypR
-         DZqv4meHQu0vA==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc:     workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Christoph Hellwig <hch@infradead.org>,
-        Jani Nikula <jani.nikula@intel.com>,
-        Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Subject: Re: [PATCH v2] docs: submitting-patches: encourage direct
- notifications to commenters
-In-Reply-To: <20231003-docs-cc-reviewer-v2-1-f93fb946e21e@weissschuh.net>
-References: <20231003-docs-cc-reviewer-v2-1-f93fb946e21e@weissschuh.net>
-Date:   Tue, 10 Oct 2023 13:59:09 -0600
-Message-ID: <8734yi5jw2.fsf@meer.lwn.net>
+        with ESMTP id S229450AbjJJXqb (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 10 Oct 2023 19:46:31 -0400
+Received: from mail-ua1-x92f.google.com (mail-ua1-x92f.google.com [IPv6:2607:f8b0:4864:20::92f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6D598F;
+        Tue, 10 Oct 2023 16:46:29 -0700 (PDT)
+Received: by mail-ua1-x92f.google.com with SMTP id a1e0cc1a2514c-7a52a27fe03so2705528241.0;
+        Tue, 10 Oct 2023 16:46:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1696981589; x=1697586389; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CM+jvdydXHv5556bdY8VF7dkGPmKm212tPIOIcFNEEQ=;
+        b=mYXJeK6ZUhXkIFFd6pUtbk7rGKnI35JD8PdqklapFkhxSf0xF77/Nt7vUN0V/X0VS7
+         kxg+1JBwqdaRZid8mZtX8a4zttGr3ZHlSNn3n2p1uf6ySoe4h+PrxFZuUXWw3EJEj4Gp
+         eqOd7h27MAwihaiGWPngyCVhDGlxDyioTp/DUuSAod6Zz0H0qJ0f4gmhvw8Gd/KvsIqV
+         boGFDPWqJYwbC9dIX3L0MLQOOIa0hqJkLBOMHjpYeNfacq2LyadvarZY0JakdvAvaGb9
+         ff0CDMpnQjNNkACagykvuZgwXxnx+TuflCmYVc6CV/GkBihsfL20tRauE4Yvodf9olUM
+         G8DQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696981589; x=1697586389;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CM+jvdydXHv5556bdY8VF7dkGPmKm212tPIOIcFNEEQ=;
+        b=tWEdE0IP/vvhEJBx6iIn73vfFbc/aDi65obCOPzhYlxm79cpvbhCxrIIDvsYd6tuuF
+         bEaLAi3whrhXNjAD6BUlkGBFqO6dvaGBV4wnZ9P4ZFmA5T/PKcn84uAoJjHoaRLZia7U
+         u9/4wsmslnflburDwyoAt317nX5qL4hPSUKpsPzhvp3suwiqlrKEJkTMCodxO5HCwBIM
+         sLZQXJZCXWN1MzJ8iNizVEqwY21QzXL6sqCeKgwVcpAK1tUx6kp2/uzTKT3D4dKstjIb
+         lvXsRXlU+e2DpiTuNHpgP9ogjmVg20EYc/tdCT+eGq7ChibFolcVKVBr1pnNQ+W72aGc
+         g6ag==
+X-Gm-Message-State: AOJu0YziXCV/14cOauPEdk4akqfDdgHUzXufvGGobsWxwPdWjup05nNI
+        h+vPjYiM8f17/SxMqFLOQ2Y=
+X-Google-Smtp-Source: AGHT+IHDqByel4wQUh67zGN6+2lSqQOLNCtEMrq8DUunjw8Og0HhDtVU2Fu84whBnh32yVp3IYXeRg==
+X-Received: by 2002:a05:6102:f9c:b0:457:a003:2d26 with SMTP id e28-20020a0561020f9c00b00457a0032d26mr1162297vsv.32.1696981588853;
+        Tue, 10 Oct 2023 16:46:28 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id y28-20020ab0561c000000b007a251efad75sm501040uaa.36.2023.10.10.16.46.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Oct 2023 16:46:28 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Tue, 10 Oct 2023 16:46:26 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Max Kellermann <max.kellermann@ionos.com>
+Cc:     joe@perches.com, gregkh@linuxfoundation.org,
+        Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] Documentation/process/coding-style.rst: space around
+ const
+Message-ID: <5e13f429-d08d-4c13-b5e8-72da4624e6a4@roeck-us.net>
+References: <20231010125832.1002941-1-max.kellermann@ionos.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231010125832.1002941-1-max.kellermann@ionos.com>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Thomas Wei=C3=9Fschuh <linux@weissschuh.net> writes:
+On Tue, Oct 10, 2023 at 02:58:31PM +0200, Max Kellermann wrote:
+> There are currently no rules on the placement of "const", but a recent
+> code submission revealed that there is clearly a preference for spaces
+> around it.
+> 
+> checkpatch.pl has no check at all for this; though it does sometimes
+> complain, but only because it erroneously thinks that the "*" (on
+> local variables) is an unary dereference operator, not a pointer type.
+> 
+> Current coding style for const pointers-to-pointers:
+> 
+>  "*const*": 2 occurrences
+>  "* const*": 3
+>  "*const *": 182
+>  "* const *": 681
+> 
+> Just const pointers:
+> 
+>  "*const": 2833 occurrences
+>  "* const": 16615
+> 
+> Link: https://lore.kernel.org/r/264fa39d-aed6-4a54-a085-107997078f8d@roeck-us.net/
+> Link: https://lore.kernel.org/r/f511170fe61d7e7214a3a062661cf4103980dad6.camel@perches.com/
+> Signed-off-by: Max Kellermann <max.kellermann@ionos.com>
 
-> Commenters may not receive new versions of patches via the lists.
-> Without a directed notification to them they might miss those new
-> versions.
->
-> This is frustrating for the patch developers as they don't receive their
-> earned Reviewed-by.
-> It is also frustrating for the commenters, as they might think their
-> review got ignored or they have to dig up new versions from the archive
-> manually.
->
-> So encourage patch submitters to make sure that all commenters get
-> notified also when no Reviewed-by was issued yet.
->
-> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+
 > ---
-> Changes in v2:
-> - s/reviewer/commenter/ to avoid ambiguity (Christoph)
-> - Link to v1: https://lore.kernel.org/r/20230927-docs-cc-reviewer-v1-1-2a=
-f46ceb2d3c@weissschuh.net
+> V1 -> V2: removed "volatile" on gregkh's request.
+> V2 -> V3: moved patch changelog below the "---" line
 > ---
->  Documentation/process/submitting-patches.rst | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation=
-/process/submitting-patches.rst
-> index efac910e2659..3245b7b38b98 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -327,6 +327,8 @@ politely and address the problems they have pointed o=
-ut.  When sending a next
->  version, add a ``patch changelog`` to the cover letter or to individual =
-patches
->  explaining difference against previous submission (see
->  :ref:`the_canonical_patch_format`).
-> +Notify people that commented on your patch about new versions by adding =
-them to
-> +the patches CC list.
-
-Applied, thanks.
-
-jon
+>  Documentation/process/coding-style.rst | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+> index 6db37a46d305..71d62d81e506 100644
+> --- a/Documentation/process/coding-style.rst
+> +++ b/Documentation/process/coding-style.rst
+> @@ -271,6 +271,17 @@ adjacent to the type name.  Examples:
+>  	unsigned long long memparse(char *ptr, char **retptr);
+>  	char *match_strdup(substring_t *s);
+>  
+> +Use space around the ``const`` keyword (except when adjacent to
+> +parentheses).  Example:
+> +
+> +.. code-block:: c
+> +
+> +	const void *a;
+> +	void * const b;
+> +	void ** const c;
+> +	void * const * const d;
+> +	int strcmp(const char *a, const char *b);
+> +
+>  Use one space around (on each side of) most binary and ternary operators,
+>  such as any of these::
+>  
+> -- 
+> 2.39.2
+> 
