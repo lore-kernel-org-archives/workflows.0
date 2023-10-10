@@ -2,149 +2,119 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C9D9E9371E
-	for <workflows@archiver.kernel.org>; Mon,  9 Oct 2023 22:56:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4BD7CD68FB
+	for <workflows@archiver.kernel.org>; Tue, 10 Oct 2023 08:04:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378948AbjJIW4r (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 9 Oct 2023 18:56:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53404 "EHLO
+        id S234638AbjJJIE0 (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 10 Oct 2023 04:04:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378939AbjJIW4q (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 9 Oct 2023 18:56:46 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F7FB9D;
-        Mon,  9 Oct 2023 15:56:45 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E97CC433C7;
-        Mon,  9 Oct 2023 22:56:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696892205;
-        bh=BTlWTB+1l64Oxw8ls3cp8V8J5xa145Pg1B80U2Egz30=;
-        h=From:To:Cc:Subject:Date:From;
-        b=ERGCccyEKO6+Cb8YH5RvW73EZUhN4kLKZlWfBVX6Jfwxs5PzFjwiptbF6JcljpzEi
-         kQixuG48FZkMWH9f+lN2P5661/EImy/kgFsfvzQNAcVT11c3oubzumZNbBLeGLDXG7
-         +vjEcqIEz1yNWUPajeApDSJPRVeowBXfA7gyepJ0MzURun1SlwAImgcAdtJqLsZaT4
-         eROKMdRgk2r3aGLJvoOWWSzSRrK5A7l+700vrA8KnedutQW1GI0y18bz+oBqvEGhxh
-         b+V8+01f/iDIIGM3CuZNeXxXNu42tVnCoExYjZk0FP07fKG4GYeUikx7clWhcg5HcS
-         nrjiL0DBqCu7g==
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     davem@davemloft.net
-Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-        corbet@lwn.net, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-        andrew@lunn.ch, jesse.brandeburg@intel.com, sd@queasysnail.net,
-        horms@verge.net.au, przemyslaw.kitszel@intel.com,
-        f.fainelli@gmail.com, jiri@resnulli.us, ecree.xilinx@gmail.com
-Subject: [PATCH net-next] docs: try to encourage (netdev?) reviewers
-Date:   Mon,  9 Oct 2023 15:56:36 -0700
-Message-ID: <20231009225637.3785359-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.41.0
+        with ESMTP id S234631AbjJJIE0 (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 10 Oct 2023 04:04:26 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2EC6A4;
+        Tue, 10 Oct 2023 01:04:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696925063; x=1728461063;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=9LiiwaafL7vqK3S5UC+zEZeuqHkrKCe3GV3w9WmVU4k=;
+  b=XtueLShwNhFTt1rfpMfXbn/ayQ6lkipJceGENEZob9WWbOEkhQLyuFQO
+   u24AtSpGBWak0wyABqnpW2Ty//226gZ/q4Em5jko9PwkTzZokxuGZTlBT
+   V1WRmDDetUFnNgTJkFfV3h2hkNTazKE0MJDRbBPskIfdwGXjr9OA8hWoR
+   BbBRzBechS2GhO4qH+pgmaXJ4uq5QrP7f4jmtRAXnBRQcJYLb5cuovGep
+   6k5ECXqiyzbldtqWGd0PIQFe8YeNXk/5rp2ZifKKrfpu4aWQRl/7JL7ar
+   LxdCG9EYez9btVvxaXolKtviW8BLTt68xuZdUF3NJc2zvbaAXqNGPvyJq
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="363684569"
+X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
+   d="scan'208";a="363684569"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 01:04:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="927050497"
+X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
+   d="scan'208";a="927050497"
+Received: from pors-mobl3.ger.corp.intel.com (HELO localhost) ([10.252.42.155])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 01:04:20 -0700
+From:   Jani Nikula <jani.nikula@intel.com>
+To:     Jakub Kicinski <kuba@kernel.org>,
+        Sean Christopherson <seanjc@google.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     pbonzini@redhat.com, workflows@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org
+Subject: Re: [PATCH] KVM: deprecate KVM_WERROR in favor of general WERROR
+In-Reply-To: <20231009144944.17c8eba3@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20231006205415.3501535-1-kuba@kernel.org>
+ <ZSQ7z8gqIemJQXI6@google.com> <20231009110613.2405ff47@kernel.org>
+ <ZSRVoYbCuDXc7aR7@google.com> <20231009144944.17c8eba3@kernel.org>
+Date:   Tue, 10 Oct 2023 11:04:18 +0300
+Message-ID: <87sf6i6gzh.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Add a section to netdev maintainer doc encouraging reviewers
-to chime in on the mailing list.
+On Mon, 09 Oct 2023, Jakub Kicinski <kuba@kernel.org> wrote:
+> On Mon, 9 Oct 2023 12:33:53 -0700 Sean Christopherson wrote:
+>> > We do have sympathy for these folks, we are mostly volunteers after
+>> > all. At the same time someone's under-investment should not be causing
+>> > pain to those of us who _do_ build test stuff carefully.  
+>> 
+>> This is a bit over the top.  Yeah, I need to add W=1 to my build scripts, but that's
+>> not a lack of investment, just an oversight.  Though in this case it likely wouldn't
+>> have made any difference since Paolo grabbed the patches directly and might have
+>> even bypassed linux-next.  But again I would argue that's bad process, not a lack
+>> of investment.
+>
+> If you do invest in build testing automation, why can't your automation
+> count warnings rather than depend on WERROR? I don't understand.
 
-The questions about "when is it okay to share feedback"
-keep coming up (most recently at netconf) and the answer
-is "pretty much always".
+Because having both CI and the subsystem/driver developers enable a
+local WERROR actually works in keeping the subsystem/driver clean of
+warnings.
 
-Extend the section of 7.AdvancedTopics.rst which deals
-with reviews a little bit to add stuff we had been recommending
-locally.
+For i915, we also enable W=1 warnings and kernel-doc -Werror with it,
+keeping all of them warning clean. I don't much appreciate calling that
+anti-social.
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
---
-RFC -> v1:
- - spelling (compliment)
- - move to common docs:
-   - ask for more opinions
-   - use of tags
-   - compliments
- - ask less experienced reviewers to avoid style comments
-   (using Florian's wording)
+>
+>> > Rather than tweak stuff I'd prefer if we could agree that local -Werror
+>> > is anti-social :(
+>> > 
+>> > The global WERROR seems to be a good compromise.  
+>> 
+>> I disagree.  WERROR simply doesn't provide the same coverage.  E.g. it can't be
+>> enabled for i386 without tuning FRAME_WARN, which (a) won't be at all obvious to
+>> the average contributor and (b) increasing FRAME_WARN effectively reduces the
+>> test coverage of KVM i386.
+>> 
+>> For KVM x86, I want the rules for contributing to be clearly documented, and as
+>> simple as possible.  I don't see a sane way to achieve that with WERROR=y.
+>
+> Linus, you created the global WERROR option. Do you have an opinion
+> on whether random subsystems should create their own WERROR flags?
+> W=1 warning got in thru KVM and since they have a KVM_WERROR which
+> defaults to enabled it broke build testing in networking.
+> Randomly sprinkled -Werrors are fragile. Can we ask people to stop
+> using them now that the global ERROR exists?
 
-CC: andrew@lunn.ch
-CC: jesse.brandeburg@intel.com
-CC: sd@queasysnail.net
-CC: horms@verge.net.au
-CC: przemyslaw.kitszel@intel.com
-CC: f.fainelli@gmail.com
-CC: jiri@resnulli.us
-CC: ecree.xilinx@gmail.com
----
- Documentation/process/7.AdvancedTopics.rst  | 18 ++++++++++++++++++
- Documentation/process/maintainer-netdev.rst | 15 +++++++++++++++
- 2 files changed, 33 insertions(+)
+The DRM_I915_WERROR config depends on EXPERT and !COMPILE_TEST, and to
+my knowledge this has never caused issues outside of i915 developers and
+CI.
 
-diff --git a/Documentation/process/7.AdvancedTopics.rst b/Documentation/process/7.AdvancedTopics.rst
-index bf7cbfb4caa5..415749feed17 100644
---- a/Documentation/process/7.AdvancedTopics.rst
-+++ b/Documentation/process/7.AdvancedTopics.rst
-@@ -146,6 +146,7 @@ pull.  The git request-pull command can be helpful in this regard; it will
- format the request as other developers expect, and will also check to be
- sure that you have remembered to push those changes to the public server.
- 
-+.. _development_advancedtopics_reviews:
- 
- Reviewing patches
- -----------------
-@@ -167,6 +168,12 @@ comments as questions rather than criticisms.  Asking "how does the lock
- get released in this path?" will always work better than stating "the
- locking here is wrong."
- 
-+Another technique useful in case of a disagreement is to ask for others
-+to chime in. If a discussion reaches a stalemate after a few exchanges,
-+calling for opinions of other reviewers or maintainers. Often those in
-+agreement with a reviewer remain silent unless called upon.
-+Opinion of multiple people carries exponentially more weight.
-+
- Different developers will review code from different points of view.  Some
- are mostly concerned with coding style and whether code lines have trailing
- white space.  Others will focus primarily on whether the change implemented
-@@ -176,3 +183,14 @@ security issues, duplication of code found elsewhere, adequate
- documentation, adverse effects on performance, user-space ABI changes, etc.
- All types of review, if they lead to better code going into the kernel, are
- welcome and worthwhile.
-+
-+There is no strict requirement to use specific tags like ``Reviewed-by``.
-+In fact reviews in plain English are more informative and encouraged
-+even when a tag is provided (e.g. "I looked at aspects A, B and C of this
-+submission and it looks good to me.")
-+Some form of a review message / reply is obviously necessary otherwise
-+maintainers will not know that the reviewer has looked at the patch at all!
-+
-+Last but not least patch review may become a negative process, focused
-+on pointing out problems. Please throw in a compliment once in a while,
-+particularly for newbies!
-diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
-index 09dcf6377c27..a0cb00e7f579 100644
---- a/Documentation/process/maintainer-netdev.rst
-+++ b/Documentation/process/maintainer-netdev.rst
-@@ -441,6 +441,21 @@ in a way which would break what would normally be considered uAPI.
- new ``netdevsim`` features must be accompanied by selftests under
- ``tools/testing/selftests/``.
- 
-+Reviewer guidance
-+-----------------
-+
-+Reviewing other people's patches on the list is highly encouraged,
-+regardless of the level of expertise. For general guidance and
-+helpful tips please see :ref:`development_advancedtopics_reviews`.
-+
-+It's safe to assume that netdev maintainers know the community and the level
-+of expertise of the reviewers. The reviewers should not be concerned about
-+their comments impeding or derailing the patch flow.
-+
-+Less experienced reviewers are highly encouraged to do more in-depth
-+review of submissions and not focus exclusively on trivial / subject
-+matters like code formatting, tags etc.
-+
- Testimonials / feedback
- -----------------------
- 
+Maybe the fix to KVM_ERROR config should be
+
+-	depends on (X86_64 && !KASAN) || !COMPILE_TEST
+-	depends on (X86_64 && !KASAN) && !COMPILE_TEST
+
+
+BR,
+Jani.
+
+
 -- 
-2.41.0
-
+Jani Nikula, Intel
