@@ -2,90 +2,93 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 735BACD8CB5
-	for <workflows@archiver.kernel.org>; Tue, 10 Oct 2023 19:48:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C1ACCD8CB4
+	for <workflows@archiver.kernel.org>; Tue, 10 Oct 2023 19:59:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343685AbjJJTsB (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 10 Oct 2023 15:48:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54240 "EHLO
+        id S234314AbjJJT7M (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 10 Oct 2023 15:59:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343611AbjJJTsA (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 10 Oct 2023 15:48:00 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CA298E;
-        Tue, 10 Oct 2023 12:47:59 -0700 (PDT)
+        with ESMTP id S233571AbjJJT7M (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 10 Oct 2023 15:59:12 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D49F793;
+        Tue, 10 Oct 2023 12:59:10 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 854832B2;
-        Tue, 10 Oct 2023 19:47:58 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 854832B2
+        by ms.lwn.net (Postfix) with ESMTPSA id 87B1444A;
+        Tue, 10 Oct 2023 19:59:10 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 87B1444A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1696967278; bh=cSAnQCe5ozuzSh9BgixGZxQQjWIwqW45PYOSq7td7vo=;
-        h=From:To:Subject:In-Reply-To:References:Date:From;
-        b=CbxkbiA2JrjJ87nEvlpd4zsoRbQ4ntUP79tUocWMU9pnJORSrhJCLX37LCi/7ltAo
-         WITACmB4Vlc/964LfUkHgKAF9Y25q5avKFSEcIZ4iZePafCyT4fZ64bvCM64UqBSPS
-         GeGG1lnoJc8IZPoO3YsEYb0B8F5xlys1t70DBIlhp11QUSPjO6vf4Qen522cRhr4ft
-         QzOe7XMIiED2pE+VUcRO3Nu9d2JikRoa6DEM+8obm4ubqwWHuXyB9tVmQAVWDMsypm
-         8o5FZmBcAuol5goJcN6q8iJTK5zIMfq7Mi4Yneo6cunyfjVCZBdeKJ0gLZUzDNlPge
-         ItpJaDMhQrsHA==
+        t=1696967950; bh=JA8hjFFFGYf/T57XN4WlJmox2mL5lMtyjwDlvY9UAZc=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=IBPIE+3pHmYQYIGc/SAGBL/1/FqkBmg98WQpN89EYW0pC2igNp1+tRaBcWIKnL3I1
+         qQnEL/mv1C/doKNzoa56NXXzjULcLirMS/4pdoGoFahaYnAqE/V+0KXQSvIiJhvZcM
+         AEt8JlLrjXuZWyMl3SlGRJ0gmNseZ48hTWfMMcL8PpWPJpYWanpDOKOnSCAmnJIMlt
+         9Qq7e0vTVtR/vvB5OP/rfUgioUUuTkp7eTtojp7fv2f9IfVQbc9oYIkvRY+DX8qhjn
+         DUAq/rvDsTkjHsM+/gnN3P3hKeJOpinlbSB58say6PK0sbcsn0ruD8CWIouR0e0ypR
+         DZqv4meHQu0vA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Costa Shulyupin <costa.shul@redhat.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Costa Shulyupin <costa.shul@redhat.com>,
-        Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Atish Patra <atishp@rivosinc.com>,
-        Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        Evan Green <evan@rivosinc.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Andy Chiu <andy.chiu@sifive.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Song Shuai <songshuaishuai@tinylab.org>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>,
-        Anup Patel <anup@brainfault.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Charlie Jenkins <charlie@rivosinc.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Wu XiangCheng <bobwxc@email.cn>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org, workflows@vger.kernel.org
-Subject: Re: [PATCH v1] docs: move riscv under arch
-In-Reply-To: <20230930185354.3034118-1-costa.shul@redhat.com>
-References: <87h6nbka8x.fsf@meer.lwn.net>
- <20230930185354.3034118-1-costa.shul@redhat.com>
-Date:   Tue, 10 Oct 2023 13:47:57 -0600
-Message-ID: <87jzru5keq.fsf@meer.lwn.net>
+To:     Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc:     workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Christoph Hellwig <hch@infradead.org>,
+        Jani Nikula <jani.nikula@intel.com>,
+        Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Subject: Re: [PATCH v2] docs: submitting-patches: encourage direct
+ notifications to commenters
+In-Reply-To: <20231003-docs-cc-reviewer-v2-1-f93fb946e21e@weissschuh.net>
+References: <20231003-docs-cc-reviewer-v2-1-f93fb946e21e@weissschuh.net>
+Date:   Tue, 10 Oct 2023 13:59:09 -0600
+Message-ID: <8734yi5jw2.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Costa Shulyupin <costa.shul@redhat.com> writes:
+Thomas Wei=C3=9Fschuh <linux@weissschuh.net> writes:
 
-> and fix all in-tree references.
+> Commenters may not receive new versions of patches via the lists.
+> Without a directed notification to them they might miss those new
+> versions.
 >
-> Architecture-specific documentation is being moved into Documentation/arch/
-> as a way of cleaning up the top-level documentation directory and making
-> the docs hierarchy more closely match the source hierarchy.
+> This is frustrating for the patch developers as they don't receive their
+> earned Reviewed-by.
+> It is also frustrating for the commenters, as they might think their
+> review got ignored or they have to dig up new versions from the archive
+> manually.
 >
-> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+> So encourage patch submitters to make sure that all commenters get
+> notified also when no Reviewed-by was issued yet.
 >
+> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+> ---
+> Changes in v2:
+> - s/reviewer/commenter/ to avoid ambiguity (Christoph)
+> - Link to v1: https://lore.kernel.org/r/20230927-docs-cc-reviewer-v1-1-2a=
+f46ceb2d3c@weissschuh.net
+> ---
+>  Documentation/process/submitting-patches.rst | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/Documentation/process/submitting-patches.rst b/Documentation=
+/process/submitting-patches.rst
+> index efac910e2659..3245b7b38b98 100644
+> --- a/Documentation/process/submitting-patches.rst
+> +++ b/Documentation/process/submitting-patches.rst
+> @@ -327,6 +327,8 @@ politely and address the problems they have pointed o=
+ut.  When sending a next
+>  version, add a ``patch changelog`` to the cover letter or to individual =
+patches
+>  explaining difference against previous submission (see
+>  :ref:`the_canonical_patch_format`).
+> +Notify people that commented on your patch about new versions by adding =
+them to
+> +the patches CC list.
 
 Applied, thanks.
-
-This is the last of the arch moves!  Thanks again for helping push this
-through to a conclusion.
 
 jon
