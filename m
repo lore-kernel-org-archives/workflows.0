@@ -2,152 +2,123 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7EE1CD98E7
-	for <workflows@archiver.kernel.org>; Wed, 11 Oct 2023 02:42:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD56FCD6E42
+	for <workflows@archiver.kernel.org>; Wed, 11 Oct 2023 08:47:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344842AbjJKCmm (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 10 Oct 2023 22:42:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47262 "EHLO
+        id S230359AbjJKIrm (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 11 Oct 2023 04:47:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344791AbjJKCmm (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 10 Oct 2023 22:42:42 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB7A08E
-        for <workflows@vger.kernel.org>; Tue, 10 Oct 2023 19:42:40 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B72BBC433C7;
-        Wed, 11 Oct 2023 02:42:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696992160;
-        bh=+feC0UohEV8eNn1xQpSSzuW3QkwRQn5mv5VGWzQsIHo=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Y+CVE8aS9FNsIvhoM9yXShjHiN4PU1bw8S7QLAVt1KYkgqRFWKI61wToSADGNyutv
-         NuKEtNlTQrNPQMeh6g2cCkubu5LH/qsnZEh5X+NjHp1q2BfUdapn6zG1psV4PDxujT
-         1ZD3lARC1tC+tqrBBW8YgUw665X8/1Z/rPPwyGjjUcJJU4A1INw6nNSmikVr1rKPh8
-         Wa3JRP8NeBjaKMkOVyNZMBZpVAWZpJFciygqM/tM6iw9SOGOcVClu/9yzDgLL3Ym6n
-         ZSI0vdNi2Z1Jl3n2CeLT3rGKgEBO5ZZVQdyuMDtcN8E13NsDRFGis6I8kFxG7JqAo7
-         RN+xzG/embosA==
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     davem@davemloft.net
+        with ESMTP id S230356AbjJKIrl (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 11 Oct 2023 04:47:41 -0400
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3433C94;
+        Wed, 11 Oct 2023 01:47:39 -0700 (PDT)
+Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-693375d2028so5897665b3a.2;
+        Wed, 11 Oct 2023 01:47:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697014058; x=1697618858; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5PHd4L11YnGUPoVNdOQWl2i7d9heDpgbDvz1RYjLYGo=;
+        b=E8pWZ2AgZQklRG238cKQVbMARt6w17HVIcabdkMGTcdXdg7N/aD+wpIvfiBJjxG4gM
+         Mj0f3YHZZBcP6Btm+dWcNBeWN4DN3/HdNryEsnmS/upGXVTK9VDO3JWfZOf4X4sTYfIk
+         cNKCnvmthbvcV8SMFfT6polyc9b8a9UaHzA+q7JNIjaIYY/axPsrGs8vAXaZ1GJ/Vckt
+         aHNK7+YpHD/bHTpVnOebg7s4GiEH0gkGfz2lF4kU9AWgyrHRzvbNfUMWC4lU3LzF+dYw
+         JGGjY+543iHL2kneytDSRGmM9B1Fw6ucD3ouSdblO4g/FxPPeFUJK2Y8guzjs5XltUSn
+         +Ljw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697014058; x=1697618858;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5PHd4L11YnGUPoVNdOQWl2i7d9heDpgbDvz1RYjLYGo=;
+        b=cVL/+tQiOzm620BPjkuv+Dgv754OgJoJIZS07xbwHnv2ZX+xVw8/Tsdp6kK0lIEytN
+         h4BWHaCDAdhr2r14PPIz4BbAzKhdxDIKxk9CLTX1p3KHh0PkSjbGK3D9z2fKT7bs7L2i
+         V2sc+Ih0L5wfrBM9yzRmGIaIxjVYov/BUyKajVuXGclZb1f4I2GvZQaoC5gWjtuEw08h
+         ocNWMpOTzAabVkU/EdayNW9tzU52mdoZhAJiwgmlXBH3AW2+M8DMCE5k8dlFSmXP/4Xk
+         ikBE47qFI0j12O7pqzMByho+kFgDuRPW8oOhvlknMJgHHU59BFct06LZL7JWKZfRvwAd
+         HOIg==
+X-Gm-Message-State: AOJu0YyC3ws2jy4EQYaNeCJbjDZ3ISUFG28bQZ9VJ2U58TzmtQcncUiR
+        CwL27qSsG2aC4tFA7E750yU=
+X-Google-Smtp-Source: AGHT+IHKp/lP2UEjdreQ/MNJ3ZVCxCcslScZQgnSOtE2Q68tcxarXWrfg8amvM0SQrX/eavqTPhfmw==
+X-Received: by 2002:a05:6a00:234a:b0:68f:b5a1:12bf with SMTP id j10-20020a056a00234a00b0068fb5a112bfmr24118194pfj.29.1697014058577;
+        Wed, 11 Oct 2023 01:47:38 -0700 (PDT)
+Received: from debian.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id fb15-20020a056a002d8f00b006932657075bsm7797963pfb.82.2023.10.11.01.47.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Oct 2023 01:47:37 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 3F2968222031; Wed, 11 Oct 2023 15:47:34 +0700 (WIB)
+Date:   Wed, 11 Oct 2023 15:47:33 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
 Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
         corbet@lwn.net, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-        andrew@lunn.ch, jesse.brandeburg@intel.com, sd@queasysnail.net,
-        horms@verge.net.au, przemyslaw.kitszel@intel.com,
-        f.fainelli@gmail.com, jiri@resnulli.us, ecree.xilinx@gmail.com
-Subject: [PATCH net-next v2] docs: try to encourage (netdev?) reviewers
-Date:   Tue, 10 Oct 2023 19:42:24 -0700
-Message-ID: <20231011024224.161282-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.41.0
+        linux-doc@vger.kernel.org, andrew@lunn.ch,
+        jesse.brandeburg@intel.com, sd@queasysnail.net, horms@verge.net.au,
+        przemyslaw.kitszel@intel.com, f.fainelli@gmail.com,
+        jiri@resnulli.us, ecree.xilinx@gmail.com
+Subject: Re: [PATCH net-next v2] docs: try to encourage (netdev?) reviewers
+Message-ID: <ZSZhJW92xsLVdtFw@debian.me>
+References: <20231011024224.161282-1-kuba@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="N/jma408R2QpVyun"
+Content-Disposition: inline
+In-Reply-To: <20231011024224.161282-1-kuba@kernel.org>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Add a section to netdev maintainer doc encouraging reviewers
-to chime in on the mailing list.
 
-The questions about "when is it okay to share feedback"
-keep coming up (most recently at netconf) and the answer
-is "pretty much always".
+--N/jma408R2QpVyun
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Extend the section of 7.AdvancedTopics.rst which deals
-with reviews a little bit to add stuff we had been recommending
-locally.
+On Tue, Oct 10, 2023 at 07:42:24PM -0700, Jakub Kicinski wrote:
+> +Another technique that is useful in case of a disagreement is to ask for=
+ others
+> +to chime in. If a discussion reaches a stalemate after a few exchanges,
+> +then call for opinions of other reviewers or maintainers. Often those in
+> +agreement with a reviewer remain silent unless called upon.
+> +The opinion of multiple people carries exponentially more weight.
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
---
-v2:
- - grammar fixes from Donald
- - remove parenthesis around a quote
-v1: https://lore.kernel.org/all/20231009225637.3785359-1-kuba@kernel.org/
- - spelling (compliment)
- - move to common docs:
-   - ask for more opinions
-   - use of tags
-   - compliments
- - ask less experienced reviewers to avoid style comments
-   (using Florian's wording)
+or no conclusing replies?
 
-CC: andrew@lunn.ch
-CC: jesse.brandeburg@intel.com
-CC: sd@queasysnail.net
-CC: horms@verge.net.au
-CC: przemyslaw.kitszel@intel.com
-CC: f.fainelli@gmail.com
-CC: jiri@resnulli.us
-CC: ecree.xilinx@gmail.com
----
- Documentation/process/7.AdvancedTopics.rst  | 18 ++++++++++++++++++
- Documentation/process/maintainer-netdev.rst | 15 +++++++++++++++
- 2 files changed, 33 insertions(+)
+> +
+> +There is no strict requirement to use specific tags like ``Reviewed-by``.
+> +In fact reviews in plain English are more informative and encouraged
+> +even when a tag is provided, e.g. "I looked at aspects A, B and C of this
+> +submission and it looks good to me."
+> +Some form of a review message or reply is obviously necessary otherwise
+> +maintainers will not know that the reviewer has looked at the patch at a=
+ll!
+> +
 
-diff --git a/Documentation/process/7.AdvancedTopics.rst b/Documentation/process/7.AdvancedTopics.rst
-index bf7cbfb4caa5..43291704338e 100644
---- a/Documentation/process/7.AdvancedTopics.rst
-+++ b/Documentation/process/7.AdvancedTopics.rst
-@@ -146,6 +146,7 @@ pull.  The git request-pull command can be helpful in this regard; it will
- format the request as other developers expect, and will also check to be
- sure that you have remembered to push those changes to the public server.
- 
-+.. _development_advancedtopics_reviews:
- 
- Reviewing patches
- -----------------
-@@ -167,6 +168,12 @@ comments as questions rather than criticisms.  Asking "how does the lock
- get released in this path?" will always work better than stating "the
- locking here is wrong."
- 
-+Another technique that is useful in case of a disagreement is to ask for others
-+to chime in. If a discussion reaches a stalemate after a few exchanges,
-+then call for opinions of other reviewers or maintainers. Often those in
-+agreement with a reviewer remain silent unless called upon.
-+The opinion of multiple people carries exponentially more weight.
-+
- Different developers will review code from different points of view.  Some
- are mostly concerned with coding style and whether code lines have trailing
- white space.  Others will focus primarily on whether the change implemented
-@@ -176,3 +183,14 @@ security issues, duplication of code found elsewhere, adequate
- documentation, adverse effects on performance, user-space ABI changes, etc.
- All types of review, if they lead to better code going into the kernel, are
- welcome and worthwhile.
-+
-+There is no strict requirement to use specific tags like ``Reviewed-by``.
-+In fact reviews in plain English are more informative and encouraged
-+even when a tag is provided, e.g. "I looked at aspects A, B and C of this
-+submission and it looks good to me."
-+Some form of a review message or reply is obviously necessary otherwise
-+maintainers will not know that the reviewer has looked at the patch at all!
-+
-+Last but not least patch review may become a negative process, focused
-+on pointing out problems. Please throw in a compliment once in a while,
-+particularly for newbies!
-diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
-index 09dcf6377c27..7feacc20835e 100644
---- a/Documentation/process/maintainer-netdev.rst
-+++ b/Documentation/process/maintainer-netdev.rst
-@@ -441,6 +441,21 @@ in a way which would break what would normally be considered uAPI.
- new ``netdevsim`` features must be accompanied by selftests under
- ``tools/testing/selftests/``.
- 
-+Reviewer guidance
-+-----------------
-+
-+Reviewing other people's patches on the list is highly encouraged,
-+regardless of the level of expertise. For general guidance and
-+helpful tips please see :ref:`development_advancedtopics_reviews`.
-+
-+It's safe to assume that netdev maintainers know the community and the level
-+of expertise of the reviewers. The reviewers should not be concerned about
-+their comments impeding or derailing the patch flow.
-+
-+Less experienced reviewers are highly encouraged to do more in-depth
-+review of submissions and not focus exclusively on trivial or subjective
-+matters like code formatting, tags etc.
-+
- Testimonials / feedback
- -----------------------
- 
--- 
-2.41.0
+So a bare Reviewed-by: tag is enough to be a reviewer, right?
 
+> +Last but not least patch review may become a negative process, focused
+> +on pointing out problems. Please throw in a compliment once in a while,
+> +particularly for newbies!
+
+=2E.. to encourage them contributing more.
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--N/jma408R2QpVyun
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZSZhIQAKCRD2uYlJVVFO
+oymvAP9DmFsyNnwltxdWdQ8mYcBNUcosrEZXiATNE4F9MoPGEwD9HHMb9gqbleNj
+6Pn6Ea3JGk95CyppmVUuy+N53qybgQA=
+=hKvm
+-----END PGP SIGNATURE-----
+
+--N/jma408R2QpVyun--
