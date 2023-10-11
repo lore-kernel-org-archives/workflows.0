@@ -2,105 +2,84 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D87DCCD98CC
-	for <workflows@archiver.kernel.org>; Tue, 10 Oct 2023 23:46:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4D27CD98D9
+	for <workflows@archiver.kernel.org>; Wed, 11 Oct 2023 00:46:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229548AbjJJXqz (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 10 Oct 2023 19:46:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55046 "EHLO
+        id S1344613AbjJKAqN convert rfc822-to-8bit (ORCPT
+        <rfc822;workflows@archiver.kernel.org>);
+        Tue, 10 Oct 2023 20:46:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229486AbjJJXqx (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 10 Oct 2023 19:46:53 -0400
-Received: from mail-pg1-x54a.google.com (mail-pg1-x54a.google.com [IPv6:2607:f8b0:4864:20::54a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AFBE9D
-        for <workflows@vger.kernel.org>; Tue, 10 Oct 2023 16:46:52 -0700 (PDT)
-Received: by mail-pg1-x54a.google.com with SMTP id 41be03b00d2f7-59a1c81979eso1631586a12.3
-        for <workflows@vger.kernel.org>; Tue, 10 Oct 2023 16:46:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1696981612; x=1697586412; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5FmO3Xs5F7J7ASiRfJaJgxvmEtofMuf8cd3H6Jj8Oxc=;
-        b=sw830k0PL3NMYXRUkHKbfE/Z2t1LjO27Wf0iFri2H5m5fuSKAPh4vXHBjbx1PNzKf+
-         KbuhM7Q3ehefFVTpfxhyjWSjQe9U/B7Hep6jVlWAIjIxlMbYE8vZN+cpmJBlvQRDwZjs
-         KTpn+KLaz+fJXjs+dUtU/s61qRqDODT+Ldi2GLj6sSchi4Zky6YoLgtn28sPeRPFFTRb
-         sIXyY8cOujCColNNZmgAqQOt5QKT4Jwp4nzjLVILDOOxd9yNGohjJOdDb1YsBP6MXRYQ
-         DJoAXKDMfXGlKbnI+6XgRiUBTMxAzHC5wMYFld1RuIs/mTEA5CiQtf+E5luV+SWKIgum
-         dJbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696981612; x=1697586412;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5FmO3Xs5F7J7ASiRfJaJgxvmEtofMuf8cd3H6Jj8Oxc=;
-        b=Kp59XhGz2cMnvrkQWAdNELVT5GON4yfoVh9P9ZsMs6H1pL6djtvj9jXVT+5Cwk0ic1
-         xqwlxJfKjfZwKDslC4ucniQmt9nn55oIdhsrQczF0HPhKZIX53AeWF+By5FYaAfA6hf5
-         xv+3c+AgDMLhkamT3MCUH0HCmWOJ3Ajqi6mpeHuGKorgS0qfq1/3DCCVL5hYXiDpmsEj
-         Yeh986fANS2V+zSh2KKAzjmUVCmMR6hXglQSOk44vgri8ZO/+gr5e1pNqtGGak2ZMuQF
-         LrJnL4Yzd7mBc2BWO4PQBTxCmGsIncKj+EAmr3k6IXGtBGczZwCkDR/vhFBujpv4H8oF
-         eC2w==
-X-Gm-Message-State: AOJu0YwHUhGMHCly0fIQghjpGeIwu8yqLIvN39mXxuFAJViYRKTa9MpV
-        kt6fE/WPkgCbhJHHTyMuXeLCa/+OAMw=
-X-Google-Smtp-Source: AGHT+IEiuH6Qk2FcGVWo/cQAMWRwWWbALoP0091veyMYm/roMpYJGE9BPIxeRJHBqMbF2wCkC3373CK3UMY=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a63:2955:0:b0:578:eaab:6770 with SMTP id
- bu21-20020a632955000000b00578eaab6770mr313470pgb.0.1696981612064; Tue, 10 Oct
- 2023 16:46:52 -0700 (PDT)
-Date:   Tue, 10 Oct 2023 16:46:50 -0700
-In-Reply-To: <20231010072359.0df918e9@kernel.org>
-Mime-Version: 1.0
-References: <20231006205415.3501535-1-kuba@kernel.org> <ZSQ7z8gqIemJQXI6@google.com>
- <20231009110613.2405ff47@kernel.org> <ZSRVoYbCuDXc7aR7@google.com>
- <20231009144944.17c8eba3@kernel.org> <87sf6i6gzh.fsf@intel.com> <20231010072359.0df918e9@kernel.org>
-Message-ID: <ZSXiapPMIPj3ko41@google.com>
-Subject: Re: [PATCH] KVM: deprecate KVM_WERROR in favor of general WERROR
-From:   Sean Christopherson <seanjc@google.com>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Jani Nikula <jani.nikula@intel.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        pbonzini@redhat.com, workflows@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+        with ESMTP id S1344552AbjJKAqK (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 10 Oct 2023 20:46:10 -0400
+Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1815FB;
+        Tue, 10 Oct 2023 17:46:00 -0700 (PDT)
+Received: from omf08.hostedemail.com (a10.router.float.18 [10.200.18.1])
+        by unirelay07.hostedemail.com (Postfix) with ESMTP id 55698160303;
+        Wed, 11 Oct 2023 00:45:59 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf08.hostedemail.com (Postfix) with ESMTPA id 0231720026;
+        Wed, 11 Oct 2023 00:45:56 +0000 (UTC)
+Message-ID: <f19f55f13682a6c019be2a67e4acb07e94e103f3.camel@perches.com>
+Subject: Re: [PATCH v3] Documentation/process/coding-style.rst: space around
+ const
+From:   Joe Perches <joe@perches.com>
+To:     Max Kellermann <max.kellermann@ionos.com>, linux@roeck-us.net,
+        gregkh@linuxfoundation.org, Jonathan Corbet <corbet@lwn.net>
+Cc:     workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Date:   Tue, 10 Oct 2023 17:45:55 -0700
+In-Reply-To: <20231010125832.1002941-1-max.kellermann@ionos.com>
+References: <20231010125832.1002941-1-max.kellermann@ionos.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+MIME-Version: 1.0
+X-Rspamd-Queue-Id: 0231720026
+X-Stat-Signature: ftb4aswraeg9ufnzdw15mwoboyoeo934
+X-Rspamd-Server: rspamout01
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX181EpPdpemFZmpY9nkwWDJH0zZmsZ2ZaUo=
+X-HE-Tag: 1696985156-390945
+X-HE-Meta: U2FsdGVkX184/p56Wz98aBmu/bGpEMuwN80kbPn/OzGG3c3XICAqYEdACsIuzDe2ZcHe5izk65H1HKz0dIFU+9BSRd/Xnl6fg8RjVoe+Gng81t6pZob0I15wXzBvD4hAkVAQi5rFcyaPuXzRw+cXqFReXvaNJZoE1X9+u0VQ12qlIFsDcz9jw1nTz3fZndLRI1YaB/04BRFE7NUxb56mmykOq7BrUhoPpRTo134fiJPaovV328+1p0IAPnYJs3MKKDCv+5LALwt7EYQk6hL/+ucadioG/j7W5yW4YWL+LaN8iu47kat1/018I8c8aN5R
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Tue, Oct 10, 2023, Jakub Kicinski wrote:
-> On Tue, 10 Oct 2023 11:04:18 +0300 Jani Nikula wrote:
-> > > If you do invest in build testing automation, why can't your automation
-> > > count warnings rather than depend on WERROR? I don't understand.  
-> > 
-> > Because having both CI and the subsystem/driver developers enable a
-> > local WERROR actually works in keeping the subsystem/driver clean of
-> > warnings.
-> > 
-> > For i915, we also enable W=1 warnings and kernel-doc -Werror with it,
-> > keeping all of them warning clean. I don't much appreciate calling that
-> > anti-social.
+On Tue, 2023-10-10 at 14:58 +0200, Max Kellermann wrote:
+> There are currently no rules on the placement of "const", but a recent
+> code submission revealed that there is clearly a preference for spaces
+> around it.
 > 
-> Anti-social is not the right word, that's fair.
+> checkpatch.pl has no check at all for this; though it does sometimes
+> complain, but only because it erroneously thinks that the "*" (on
+> local variables) is an unary dereference operator, not a pointer type.
 > 
-> Werror makes your life easier while increasing the blast radius 
-> of your mistakes. So you're trading off your convenience for risk
-> of breakage to others. Note that you can fix issues locally very
-> quickly and move on. Others have to wait to get your patches thru
-> Linus.
-> 
-> > >> I disagree.  WERROR simply doesn't provide the same coverage.  E.g. it can't be
-> > >> enabled for i386 without tuning FRAME_WARN, which (a) won't be at all obvious to
-> > >> the average contributor and (b) increasing FRAME_WARN effectively reduces the
-> > >> test coverage of KVM i386.
-> > >> 
-> > >> For KVM x86, I want the rules for contributing to be clearly documented, and as
-> > >> simple as possible.  I don't see a sane way to achieve that with WERROR=y.  
-> > 
-> > The DRM_I915_WERROR config depends on EXPERT and !COMPILE_TEST, and to
-> > my knowledge this has never caused issues outside of i915 developers and
-> > CI.
-> 
-> Ack, I think you do it right. I was trying to establish a precedent
-> so that we can delete these as soon as they cause an issue, not sooner.
 
-So isn't the underlying problem simply that KVM_WERROR is enabled by default for
-some configurations?  If that's the case, then my proposal to make KVM_WERROR
-always off by default, and "depends on KVM && EXPERT && !KASAN", would make this
-go away, no?
+Maybe something like this for checkpatch:
+---
+ scripts/checkpatch.pl | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 25fdb7fda1128..48d70d0ad9a2b 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -4726,6 +4726,16 @@ sub process {
+ 			}
+ 		}
+ 
++# check for const* and *const uses that should have space around const
++		if ($line =~ /(?:const\*|\*const)/) {
++			if (WARN("CONST_POINTER",
++				 "const pointers should have spaces around const\n" . $herecurr) &&
++			    $fix) {
++				$fixed[$fixlinenr] =~ s/\*const\b/* const/g;
++				$fixed[$fixlinenr] =~ s/\bconst\*/const */g;
++			}
++		}
++
+ # check for non-global char *foo[] = {"bar", ...} declarations.
+ 		if ($line =~ /^.\s+(?:static\s+|const\s+)?char\s+\*\s*\w+\s*\[\s*\]\s*=\s*\{/) {
+ 			WARN("STATIC_CONST_CHAR_ARRAY",
+
