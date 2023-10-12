@@ -2,89 +2,150 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62406CDB46E
-	for <workflows@archiver.kernel.org>; Thu, 12 Oct 2023 16:53:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E35BFCDB474
+	for <workflows@archiver.kernel.org>; Thu, 12 Oct 2023 21:59:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347325AbjJLQx7 (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 12 Oct 2023 12:53:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55272 "EHLO
+        id S234509AbjJLV7L (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 12 Oct 2023 17:59:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344025AbjJLQxy (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 12 Oct 2023 12:53:54 -0400
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30180C6;
-        Thu, 12 Oct 2023 09:53:49 -0700 (PDT)
-Received: by mail-yb1-xb2f.google.com with SMTP id 3f1490d57ef6-d81d09d883dso1323841276.0;
-        Thu, 12 Oct 2023 09:53:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697129628; x=1697734428; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4YEO2sX1644pceOCmBcjKjNP7tzfloEulvFa61W15NE=;
-        b=Vrzvn0UOqTDkhs932FErDcZ84wEhSS/5wFfaQnd0Vl1pthX1RmXVDjUqLURoJtgILj
-         lKnz1oCHgkJt7SXNadwAiLctNEu+6YJD/akcNC6KK5tlniOlKMiFMD/jMJoESCDvP0It
-         vX/AKzCV6ADUXNJv+e4pUk1fAHWBQs3rkZAubfehyLxJJb4dDFMPh5KQ9T4YjouflH5c
-         uzP8SO5AfAmBNJXQi4eO9s/uaW70L0N0yMUHPWTmorhPXKFORl4gWY20CZg5FxwNRrlQ
-         pgTUSh+pXs6otssvywKdBCn3VYxFC6acl73AVRjNcGwm5WzjPNaYVZu0WcqnzBiu/IQ0
-         1N/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697129628; x=1697734428;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4YEO2sX1644pceOCmBcjKjNP7tzfloEulvFa61W15NE=;
-        b=Cefu9QLU6DVROdfLP+HngvXVSnt+KcxY/Cp0TzbXe9cZE3ed4c9mgeISYJxPlzWpu9
-         z5asejn7B7D1vpmxfuAg2MD+BBDPDVrfeCoUREntcWmKimGCfEUpvb5lNpGmfTqC/y5j
-         H4q35IcLuAhQHQIacf3VeWMT03EsJKspd8BSo0zaZRtpxnSB8yv9Drg1NvHS6g9nPTrb
-         Son7tf+SkDH6Ra/7NLYcKFjJ1Wgw1Pu8wJ/9EOZn/w9yughznf75r/eLKcaUT76wANoh
-         53auAG8ab0Pa2TXJsULo/Ekss8s9vHvjoZAt8vaSOFGmMQRxFZfr8fYiefmPXZ/0aNOv
-         HZGw==
-X-Gm-Message-State: AOJu0YyErqysz+V+FRM56g4STHa9D0FqVwwtrVFMDyVSnYSdZEoG3nus
-        ET0P73dJ2aYR1jFyk1F2UJ2GSVBgf/mRrpEWzBQrhATQqoPggyoB
-X-Google-Smtp-Source: AGHT+IGslQv6Y0IoJqXSCrmVs66RJC9r/My3WLXN2jblL1vhxvdvCgYI08ytpQwY9A2IPEFzHgyP1C1wkz8RDc1LCCo=
-X-Received: by 2002:a5b:ccc:0:b0:d92:13fc:c940 with SMTP id
- e12-20020a5b0ccc000000b00d9213fcc940mr18893672ybr.9.1697129628287; Thu, 12
- Oct 2023 09:53:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <65271731e25f4_7258329472@dwillia2-xfh.jf.intel.com.notmuch>
- <20231012115039.1680561-1-ojeda@kernel.org> <e212997cf8b05608718fb6ac1766c390255664ac.camel@perches.com>
-In-Reply-To: <e212997cf8b05608718fb6ac1766c390255664ac.camel@perches.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Thu, 12 Oct 2023 18:53:37 +0200
-Message-ID: <CANiq72nr88=r-rackE7+DBAxg8VYy8LYO9D2h0vnxbAoSXFFSQ@mail.gmail.com>
-Subject: Re: [PATCH v3] Documentation/process/coding-style.rst: space around const
-To:     Joe Perches <joe@perches.com>
-Cc:     Miguel Ojeda <ojeda@kernel.org>, dan.j.williams@intel.com,
-        corbet@lwn.net, gregkh@linuxfoundation.org,
+        with ESMTP id S229576AbjJLV7K (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 12 Oct 2023 17:59:10 -0400
+X-Greylist: delayed 441 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 12 Oct 2023 14:59:06 PDT
+Received: from second.openwall.net (second.openwall.net [193.110.157.125])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id BC3BBD7
+        for <workflows@vger.kernel.org>; Thu, 12 Oct 2023 14:59:06 -0700 (PDT)
+Received: (qmail 21923 invoked from network); 12 Oct 2023 21:51:43 -0000
+Received: from localhost (HELO pvt.openwall.com) (127.0.0.1)
+  by localhost with SMTP; 12 Oct 2023 21:51:43 -0000
+Received: by pvt.openwall.com (Postfix, from userid 503)
+        id DD58DA064D; Thu, 12 Oct 2023 23:51:22 +0200 (CEST)
+Date:   Thu, 12 Oct 2023 23:51:22 +0200
+From:   Solar Designer <solar@openwall.com>
+To:     Willy Tarreau <w@1wt.eu>
+Cc:     Vegard Nossum <vegard.nossum@oracle.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux@roeck-us.net, max.kellermann@ionos.com,
-        workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        security@kernel.org, corbet@lwn.net, workflows@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>
+Subject: Re: [RFC PATCH] Documentation: security-bugs.rst: linux-distros relaxed their rules
+Message-ID: <20231012215122.GA8245@openwall.com>
+References: <20231007140454.25419-1-w@1wt.eu> <5ae47535-b6e0-8b48-4d59-a167e37c7fcc@oracle.com> <20231007163936.GA26837@1wt.eu>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231007163936.GA26837@1wt.eu>
+User-Agent: Mutt/1.4.2.3i
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Thu, Oct 12, 2023 at 4:48=E2=80=AFPM Joe Perches <joe@perches.com> wrote=
-:
->
-> Do older versions of clang-format ignore entries
-> they don't understand?
+Hi all,
 
-Sadly, no, that is the reason we keep it at the minimum.
+Thank you (especially Willy) for your effort on this.
 
-However, I just took a look again at it, and I see that such support
-was added to LLVM 12, the `--Wno-error=3Dunknown` flag in commit
-f64903fd8176 ("Add -Wno-error=3Dunknown flag to clang-format.").
+Out of the 3 paragraphs, the first one looks good to me as-is, but for
+the last two I propose the slightly edited versions below.
 
-So this means that the minimum is bumped to 12, we could in principle
-use newer options.
+On Sat, Oct 07, 2023 at 04:04:54PM +0200, Willy Tarreau wrote:
+> +Please note that the respective policies and rules are different since
+> +the 3 lists pursue different goals.  Coordinating between the kernel
+> +security team and other teams is difficult since occasional embargoes
+> +start from the availability of a fix for the kernel security team, while
+> +for other lists they generally start from the initial post to the list,
+> +regardless of the availability of a fix.
 
-I think the downsides are that users will need to pass the flag
-(potentially in e.g. their IDE or similar) and that formatting could
-be potentially chaotic depending on the options ignored. I guess
-particular subsystems could agree on which version to use.
+---
+Please note that the respective policies and rules are different since
+the 3 lists pursue different goals.  Coordinating between the kernel
+security team and other teams is difficult since for the kernel security
+team occasional embargoes (as subject to a maximum allowed number of
+days) start from the availability of a fix, while for "linux-distros"
+they start from the initial post to the list regardless of the
+availability of a fix.
+---
 
-Cheers,
-Miguel
+I added the part in braces to explain why the difference in when
+embargoes start matters.  I also moved part of that sentence for
+consistency.  Finally, I replaced "other lists" with specific reference
+to "linux-distros" because this paragraph talks only about 3 specific
+lists and on "oss-security" there are no embargoes.
+
+On Sat, Oct 07, 2023 at 06:39:36PM +0200, Willy Tarreau wrote:
+> On Sat, Oct 07, 2023 at 06:30:11PM +0200, Vegard Nossum wrote:
+> > On 07/10/2023 16:04, Willy Tarreau wrote:
+> > > +As such, the kernel security team strongly recommends that reporters of
+> > > +potential security issues DO NOT contact the "linux-distros" mailing
+> > > +list BEFORE a fix is accepted by the affected code's maintainers and you
+> > 
+> > is s/BEFORE/UNTIL/ clearer?
+> 
+> Probably, yes.
+
+I agree.  Also, the sentence jumps from "reporters" to "you" implying
+that "you" is a reporter, but maybe it's better to make that explicit.
+
+> > > +have read the linux-distros wiki page above and you fully understand the
+> > > +requirements that doing so will impose on you and the kernel community.
+> > > +This also means that in general it doesn't make sense to Cc: both lists
+> > > +at once, except for coordination if a fix remains under embargo. And in
+> > > +general, please do not Cc: the kernel security list about fixes that
+> > > +have already been merged.
+
+This implies that in general a fix does not remain under embargo.
+However, contacting "linux-distros" only makes sense when a fix does
+remain under embargo (either not yet pushed to a public list/repo, or
+under the Linux kernel exception for a public not-too-revealing fix) -
+otherwise, the issue should be brought to "oss-security" right away.
+
+Edited:
+
+---
+As such, the kernel security team strongly recommends that as a reporter
+of a potential security issue you DO NOT contact the "linux-distros"
+mailing list UNTIL a fix is accepted by the affected code's maintainers
+and you have read the distros wiki page above and you fully understand
+the requirements that contacting "linux-distros" will impose on you and
+the kernel community.  This also means that in general it doesn't make
+sense to Cc: both lists at once, except maybe for coordination if and
+while an accepted fix has not yet been merged.  In other words, until a
+fix is accepted do not Cc: "linux-distros", and after it's merged do not
+Cc: the kernel security team.
+---
+
+This allows possible Cc'ing of both lists in the time window between
+"fix is accepted by the affected code's maintainers" and "merged".
+Makes sense?  I worry this distinction between accepted and merged may
+be overly complicated for some, but I don't have better wording.
+
+> > I was thinking about this Cc: thing and would it make sense to:
+> > 
+> > 1) have LKML and other public vger lists reject messages that include
+> > s@k.o or (linux-)distros@ on Cc? The idea being that this is probably a
+> > mistake -- I believe it has happened a few times recently by mistake.
+> > 
+> > 2) have (linux-)distros@ reject NEW threads (i.e. no In-Reply-To:) that
+> > also include s@k.o on Cc? We could include a nice message explaining why
+> > and to please resend when a patch has been developed and/or a disclosure
+> > is planned in the next 7 days.
+> 
+> I don't know, maybe it would add extra config burden, but on the other
+> hand it could avoid the mistake from newcomers who have not read the
+> docs first (which happened a few times already), but if l-d becomes a
+> bit more flexible and tolerant to reporters' mistakes, as now documented,
+> it should also be less of a problem.
+> 
+> > I guess the problem with this would be if
+> > somebody on s@k.o does a reply-all which would add distros right back in
+> > the loop -OR- a patch has already been developed and included.
+> 
+> Then this would be deliberate, there would an in-reply-to so that would
+> not be a problem. I really doubt anyone from s@k.o would Cc linux-distros
+> anyway since it would imply disclosing some details from a reporter, and
+> we do not do that, it's up to the reporter to do it if they want.
+
+I think we don't want to complicate the setup, which we'd then have to
+explain somewhere.  With my concern/edit above, also the logic isn't
+that simple.
+
+Alexander
