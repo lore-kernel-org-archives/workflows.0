@@ -2,72 +2,89 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A357ECDB46E
-	for <workflows@archiver.kernel.org>; Thu, 12 Oct 2023 16:06:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62406CDB46E
+	for <workflows@archiver.kernel.org>; Thu, 12 Oct 2023 16:53:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235744AbjJLQGy (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 12 Oct 2023 12:06:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51246 "EHLO
+        id S1347325AbjJLQx7 (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 12 Oct 2023 12:53:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235784AbjJLQGt (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 12 Oct 2023 12:06:49 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 557A2CC;
-        Thu, 12 Oct 2023 09:06:48 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF7BAC433C7;
-        Thu, 12 Oct 2023 16:06:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697126808;
-        bh=00lPvPtzMCUPSLjIIa16o5rJLJHCDfj3pECK1utPSs0=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=QJ0JlZ2L1r1KkhNHIRGx+Mo/3HN9OiCTVrlBNED3Gx+unODo3pKyMnlZmDZpp37OE
-         fAifTI3MYzPpRSX4h9Q1Ql0Gzq5qX48qg+dRN5Jk3FO0Q4K9bEPXt2mpYAhmDHzuPz
-         MlnYTjCPm8/CSKKIcK0Op/xcKmyX0+iMeGkdfEHDfzeSnIcLSRk3CLUWMXrNfchvaB
-         bFlO+kNEa9EymKS6qJwMFdXyWRXK5ozx+6IhsHUnGWyEFcqski4xcy5fPDbwRrPX46
-         ELsTwILTAq3/VmKPALalRabbNWfdFHh8S/K6cEK/lACi53Nt6gY4Ob9ZCyrmGLa8iz
-         UvNbGznzHtXMw==
-Date:   Thu, 12 Oct 2023 18:06:43 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Willy Tarreau <w@1wt.eu>
-cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        security@kernel.org, corbet@lwn.net, workflows@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Solar Designer <solar@openwall.com>,
-        Vegard Nossum <vegard.nossum@oracle.com>
-Subject: Re: [RFC PATCH] Documentation: security-bugs.rst: linux-distros
- relaxed their rules
-In-Reply-To: <20231007140454.25419-1-w@1wt.eu>
-Message-ID: <nycvar.YFH.7.76.2310121805480.3534@cbobk.fhfr.pm>
-References: <20231007140454.25419-1-w@1wt.eu>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        with ESMTP id S1344025AbjJLQxy (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 12 Oct 2023 12:53:54 -0400
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30180C6;
+        Thu, 12 Oct 2023 09:53:49 -0700 (PDT)
+Received: by mail-yb1-xb2f.google.com with SMTP id 3f1490d57ef6-d81d09d883dso1323841276.0;
+        Thu, 12 Oct 2023 09:53:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697129628; x=1697734428; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4YEO2sX1644pceOCmBcjKjNP7tzfloEulvFa61W15NE=;
+        b=Vrzvn0UOqTDkhs932FErDcZ84wEhSS/5wFfaQnd0Vl1pthX1RmXVDjUqLURoJtgILj
+         lKnz1oCHgkJt7SXNadwAiLctNEu+6YJD/akcNC6KK5tlniOlKMiFMD/jMJoESCDvP0It
+         vX/AKzCV6ADUXNJv+e4pUk1fAHWBQs3rkZAubfehyLxJJb4dDFMPh5KQ9T4YjouflH5c
+         uzP8SO5AfAmBNJXQi4eO9s/uaW70L0N0yMUHPWTmorhPXKFORl4gWY20CZg5FxwNRrlQ
+         pgTUSh+pXs6otssvywKdBCn3VYxFC6acl73AVRjNcGwm5WzjPNaYVZu0WcqnzBiu/IQ0
+         1N/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697129628; x=1697734428;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4YEO2sX1644pceOCmBcjKjNP7tzfloEulvFa61W15NE=;
+        b=Cefu9QLU6DVROdfLP+HngvXVSnt+KcxY/Cp0TzbXe9cZE3ed4c9mgeISYJxPlzWpu9
+         z5asejn7B7D1vpmxfuAg2MD+BBDPDVrfeCoUREntcWmKimGCfEUpvb5lNpGmfTqC/y5j
+         H4q35IcLuAhQHQIacf3VeWMT03EsJKspd8BSo0zaZRtpxnSB8yv9Drg1NvHS6g9nPTrb
+         Son7tf+SkDH6Ra/7NLYcKFjJ1Wgw1Pu8wJ/9EOZn/w9yughznf75r/eLKcaUT76wANoh
+         53auAG8ab0Pa2TXJsULo/Ekss8s9vHvjoZAt8vaSOFGmMQRxFZfr8fYiefmPXZ/0aNOv
+         HZGw==
+X-Gm-Message-State: AOJu0YyErqysz+V+FRM56g4STHa9D0FqVwwtrVFMDyVSnYSdZEoG3nus
+        ET0P73dJ2aYR1jFyk1F2UJ2GSVBgf/mRrpEWzBQrhATQqoPggyoB
+X-Google-Smtp-Source: AGHT+IGslQv6Y0IoJqXSCrmVs66RJC9r/My3WLXN2jblL1vhxvdvCgYI08ytpQwY9A2IPEFzHgyP1C1wkz8RDc1LCCo=
+X-Received: by 2002:a5b:ccc:0:b0:d92:13fc:c940 with SMTP id
+ e12-20020a5b0ccc000000b00d9213fcc940mr18893672ybr.9.1697129628287; Thu, 12
+ Oct 2023 09:53:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <65271731e25f4_7258329472@dwillia2-xfh.jf.intel.com.notmuch>
+ <20231012115039.1680561-1-ojeda@kernel.org> <e212997cf8b05608718fb6ac1766c390255664ac.camel@perches.com>
+In-Reply-To: <e212997cf8b05608718fb6ac1766c390255664ac.camel@perches.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Thu, 12 Oct 2023 18:53:37 +0200
+Message-ID: <CANiq72nr88=r-rackE7+DBAxg8VYy8LYO9D2h0vnxbAoSXFFSQ@mail.gmail.com>
+Subject: Re: [PATCH v3] Documentation/process/coding-style.rst: space around const
+To:     Joe Perches <joe@perches.com>
+Cc:     Miguel Ojeda <ojeda@kernel.org>, dan.j.williams@intel.com,
+        corbet@lwn.net, gregkh@linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux@roeck-us.net, max.kellermann@ionos.com,
+        workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Sat, 7 Oct 2023, Willy Tarreau wrote:
+On Thu, Oct 12, 2023 at 4:48=E2=80=AFPM Joe Perches <joe@perches.com> wrote=
+:
+>
+> Do older versions of clang-format ignore entries
+> they don't understand?
 
-> The linux-distros list relaxed their rules to try to adapt better to
-> how the Linux kernel works. Let's update the Coordination part to
-> explain why and when to contact them or not to and how to avoid trouble
-> in the future.
-> 
-> Link: https://www.openwall.com/lists/oss-security/2023/09/08/4
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Solar Designer <solar@openwall.com>
-> Cc: Vegard Nossum <vegard.nossum@oracle.com>
-> Signed-off-by: Willy Tarreau <w@1wt.eu>
+Sadly, no, that is the reason we keep it at the minimum.
 
-With my distro hat on:
+However, I just took a look again at it, and I see that such support
+was added to LLVM 12, the `--Wno-error=3Dunknown` flag in commit
+f64903fd8176 ("Add -Wno-error=3Dunknown flag to clang-format.").
 
-	Acked-by: Jiri Kosina <jkosina@suse.cz>
+So this means that the minimum is bumped to 12, we could in principle
+use newer options.
 
-Thanks a lot,
+I think the downsides are that users will need to pass the flag
+(potentially in e.g. their IDE or similar) and that formatting could
+be potentially chaotic depending on the options ignored. I guess
+particular subsystems could agree on which version to use.
 
--- 
-Jiri Kosina
-SUSE Labs
-
+Cheers,
+Miguel
