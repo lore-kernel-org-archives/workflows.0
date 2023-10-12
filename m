@@ -2,88 +2,93 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4398C41513
-	for <workflows@archiver.kernel.org>; Thu, 12 Oct 2023 11:56:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7502BCDB47E
+	for <workflows@archiver.kernel.org>; Thu, 12 Oct 2023 14:48:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378368AbjJLL4w (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 12 Oct 2023 07:56:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43952 "EHLO
+        id S235248AbjJLOsd convert rfc822-to-8bit (ORCPT
+        <rfc822;workflows@archiver.kernel.org>);
+        Thu, 12 Oct 2023 10:48:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379449AbjJLL4U (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 12 Oct 2023 07:56:20 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30D1F4497;
-        Thu, 12 Oct 2023 04:52:58 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B74BC433C7;
-        Thu, 12 Oct 2023 11:51:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697111463;
-        bh=4Y7rKxiCW01/9GQcbtlTps0JwLRbYTYOda2S200SdyM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CMlfZNUFFNjNNGnSL4zV2wmeRzpu1PDENqmw8/a5GL9RGEkHwBPZPjxI3lSAWHaqr
-         v1Jn6MD0CvycLDWeJtP747k6A25vufz653mr9ZEgww2siCTlcS2k+avMPi2/2xIAt5
-         B+xbjoZ3qkHOeCSrRQldqOR9rsQ4vBJN2+U7INmyqFZ7jdUrPQpSVVjr8Mvq76eyKH
-         p+ElPXV/Gkp0LPqoQXZ61Y8ktFZqMdDrW0UC/HtT+4Uq0Ijao0AdLaLLAUKnlMN2hv
-         DOqVa2IPVuBEXN1HY89YlwmvdR7HH4ZOhP1pzAsTIhTURMuY/380oQDjNDfbirzLNn
-         KlgAf+2nb681A==
-From:   Miguel Ojeda <ojeda@kernel.org>
-To:     dan.j.williams@intel.com
-Cc:     corbet@lwn.net, gregkh@linuxfoundation.org, joe@perches.com,
+        with ESMTP id S234913AbjJLOsc (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 12 Oct 2023 10:48:32 -0400
+Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB3B0BB;
+        Thu, 12 Oct 2023 07:48:30 -0700 (PDT)
+Received: from omf15.hostedemail.com (a10.router.float.18 [10.200.18.1])
+        by unirelay07.hostedemail.com (Postfix) with ESMTP id DD3C7160680;
+        Thu, 12 Oct 2023 14:48:28 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf15.hostedemail.com (Postfix) with ESMTPA id 29DF017;
+        Thu, 12 Oct 2023 14:48:25 +0000 (UTC)
+Message-ID: <e212997cf8b05608718fb6ac1766c390255664ac.camel@perches.com>
+Subject: Re: [PATCH v3] Documentation/process/coding-style.rst: space around
+ const
+From:   Joe Perches <joe@perches.com>
+To:     Miguel Ojeda <ojeda@kernel.org>, dan.j.williams@intel.com
+Cc:     corbet@lwn.net, gregkh@linuxfoundation.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux@roeck-us.net, max.kellermann@ionos.com,
-        workflows@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>
-Subject: RE: [PATCH v3] Documentation/process/coding-style.rst: space around const
-Date:   Thu, 12 Oct 2023 13:50:39 +0200
-Message-ID: <20231012115039.1680561-1-ojeda@kernel.org>
-In-Reply-To: <65271731e25f4_7258329472@dwillia2-xfh.jf.intel.com.notmuch>
+        workflows@vger.kernel.org
+Date:   Thu, 12 Oct 2023 07:48:25 -0700
+In-Reply-To: <20231012115039.1680561-1-ojeda@kernel.org>
 References: <65271731e25f4_7258329472@dwillia2-xfh.jf.intel.com.notmuch>
+         <20231012115039.1680561-1-ojeda@kernel.org>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 29DF017
+X-Rspamd-Server: rspamout06
+X-Stat-Signature: o4bafx189b39fosaj9tugy1ng4t4hk6t
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX18cEtRlNQpeQGZ7fw6pYLI6AhZUUOJ6xzw=
+X-HE-Tag: 1697122105-37381
+X-HE-Meta: U2FsdGVkX18LWY7kGsCiHQheQS4LqScy5dMW4qcBmdEHxO9ovUtXsMDNt3FkAATB6QEVj6OE5VKr4UAFNsAIwCqNYT78sS4IRUUdbpxEdwKbbQiuvZYmLA0q2w62E505D9p82THAebCe0EGd52BqQclvNnrB5jm3bYx30j0SfbAxRC90tUbNKQy0c3xbr70M0yWot2aDEWRaqUOjn3XUH8cUDtBfDujq+ldDZInBI6tHkpR6v5xxZk3rcr+RtUDYYT1F8yAEHIkHPJ0TLX5zI3adAfzmscsrlj8yQVrLZBgZUW4dEFQMHoHH+Hx0aj/d
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Wed, 11 Oct 2023 14:44:17 -0700, Dan Williams wrote:
->
-> I notice that clang-format reflows that example to:
->
+On Thu, 2023-10-12 at 13:50 +0200, Miguel Ojeda wrote:
+> On Wed, 11 Oct 2023 14:44:17 -0700, Dan Williams wrote:
+> > 
+> > I notice that clang-format reflows that example to:
+> > 
+> >     const void *a;
+> >     void *const b;
+> >     void **const c;
+> >     void *const *const d;
+> >     int strcmp(const char *a, const char *b);
+> > 
+> > ...but someone more clang-format savvy than me would need to propose the
+> > changes to the kernel's .clang-format template to match the style
+> > suggestion.
+> 
+> I think we could use:
+> 
+>     diff --git a/.clang-format b/.clang-format
+>     index 0bbb1991defe..9eeb511c0814 100644
+>     --- a/.clang-format
+>     +++ b/.clang-format
+>     @@ -671,6 +671,7 @@ SortIncludes: false
+>      SortUsingDeclarations: false
+>      SpaceAfterCStyleCast: false
+>      SpaceAfterTemplateKeyword: true
+>     +SpaceAroundPointerQualifiers: Both
+>      SpaceBeforeAssignmentOperators: true
+>      SpaceBeforeCtorInitializerColon: true
+>      SpaceBeforeInheritanceColon: true
+> 
+> At least that makes it match the documentation example -- I got this:
+> 
 >     const void *a;
->     void *const b;
->     void **const c;
->     void *const *const d;
+>     void * const b;
+>     void ** const c;
+>     void * const * const d;
 >     int strcmp(const char *a, const char *b);
->
-> ...but someone more clang-format savvy than me would need to propose the
-> changes to the kernel's .clang-format template to match the style
-> suggestion.
+> 
+> But it is only supported in version >= 12, so we need to wait for the
+> minimum LLVM version bump.
 
-I think we could use:
+Do older versions of clang-format ignore entries
+they don't understand?
 
-    diff --git a/.clang-format b/.clang-format
-    index 0bbb1991defe..9eeb511c0814 100644
-    --- a/.clang-format
-    +++ b/.clang-format
-    @@ -671,6 +671,7 @@ SortIncludes: false
-     SortUsingDeclarations: false
-     SpaceAfterCStyleCast: false
-     SpaceAfterTemplateKeyword: true
-    +SpaceAroundPointerQualifiers: Both
-     SpaceBeforeAssignmentOperators: true
-     SpaceBeforeCtorInitializerColon: true
-     SpaceBeforeInheritanceColon: true
-
-At least that makes it match the documentation example -- I got this:
-
-    const void *a;
-    void * const b;
-    void ** const c;
-    void * const * const d;
-    int strcmp(const char *a, const char *b);
-
-But it is only supported in version >= 12, so we need to wait for the
-minimum LLVM version bump.
-
-(Thanks for the ping, Joe!)
-
-Cheers,
-Miguel
