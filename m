@@ -2,211 +2,126 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBBCFCDB482
-	for <workflows@archiver.kernel.org>; Wed, 11 Oct 2023 21:44:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90C18CDB465
+	for <workflows@archiver.kernel.org>; Thu, 12 Oct 2023 00:14:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235164AbjJKVob (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 11 Oct 2023 17:44:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55808 "EHLO
+        id S233774AbjJLAOS (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 11 Oct 2023 20:14:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233552AbjJKVoa (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 11 Oct 2023 17:44:30 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB07D9E;
-        Wed, 11 Oct 2023 14:44:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697060668; x=1728596668;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=zEM63VLra8iqwPmei6NC+GfoViAP6rRlq7Vjgd7nUbM=;
-  b=mXJxlGaU9TpUAdTV6a8h3+WYK/B/j8DlpwEg9uQvGqa/tfAL7lcoPTY0
-   6m2BtQ6CAlaRmp8zZUzzhWBDVc3/jciB/4aPS3mkIimtjvMkR5FmjPrPz
-   oUpMYRg9ZoEx9jK0OfZopzXcNtwjyDZo4XhMEs/ZITdLyB6myL4eFVTSm
-   gpAXUPXByBPjmIz2mhHCrk8VQGGCty5e4Xy/rph/JBV9IJHzNwXqrdYeS
-   uKy57Mg0akWCNG9IQ4B83sSorMU0LwDwWkHq8dRD6eYPfGRuEy2pH0izM
-   D5V+b6JOv5vOD29GqulEtsIKDxHXeKMOGyPvGLtuizshZ9zXvk2HUr44S
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="384625654"
-X-IronPort-AV: E=Sophos;i="6.03,217,1694761200"; 
-   d="scan'208";a="384625654"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 14:44:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="819879167"
-X-IronPort-AV: E=Sophos;i="6.03,217,1694761200"; 
-   d="scan'208";a="819879167"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by fmsmga008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 11 Oct 2023 14:44:28 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Wed, 11 Oct 2023 14:44:27 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Wed, 11 Oct 2023 14:44:26 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Wed, 11 Oct 2023 14:44:26 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Wed, 11 Oct 2023 14:44:22 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oeBqtaMZD4ymymyzDOVWkQFEVLtPi5BQiwkLGBcK3BCzZcOwRI+0q88eUYmnC6R+WACCz9nSmNtcxXWS/MICSZ0QhBtViPi1CHhMev3hLhdxqeWNBmvU3nPcl+HloJW3QRcotRxC7yvkvNPBQQv0WGNxCBYsrzFOo6dTcImHHuacmJdks9GWBMqrpjMYGcU68Xgd7ya5v3j4IOzvZKTL1K/sN7A5iToP1uLcX3W86UVPJPeWVRWBikpgPlqDTYwpC+ngA4ZuK1b7xRT01Dk2w5TITzqA4tvwfN0B66bnUy4Pd7L6n5Bk/uAQJtXQ/YQm3w3aAw2A/bkROYAZi38dSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t5rJwKztCjWe4DiWhwZXO1SpP8pn2Tko74a7ds1lppA=;
- b=gK7VuhRiqdUHkD8q7hSpv1j2CTArRs7SB9ZOk17ZvdIvTmFcW6Fs6fmITeHOdPWiEmtPsFu7HaGAXSkdszLxkkPHjXNZlhSRb7mFtyEz/cNppD/T2NUlHibDIROLptwQZ42y1LcDHzuzkIpVvi9iy6wXCkqNenk9AKncIR16/P8EWfsoxIVToeu15yImubeUFXDymYaLJRJ3dm1yVjBNS62iUfEDUJK4lFtMorKBHxh5jCb3Qe77yWkvlzA3TAQ1is96a8b6bW4eIgQwU3Wt2/F/dFVZnnACXa0zmJ+xUms10UR+1cxXOMct4w2kJz0LQezOCSXYAykJxarxdwkT0A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
- by SJ1PR11MB6131.namprd11.prod.outlook.com (2603:10b6:a03:45e::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.38; Wed, 11 Oct
- 2023 21:44:20 +0000
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::acb0:6bd3:58a:c992]) by PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::acb0:6bd3:58a:c992%5]) with mapi id 15.20.6838.040; Wed, 11 Oct 2023
- 21:44:20 +0000
-Date:   Wed, 11 Oct 2023 14:44:17 -0700
-From:   Dan Williams <dan.j.williams@intel.com>
-To:     Max Kellermann <max.kellermann@ionos.com>, <linux@roeck-us.net>,
-        <joe@perches.com>, <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>
-CC:     Max Kellermann <max.kellermann@ionos.com>,
-        <workflows@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v3] Documentation/process/coding-style.rst: space around
- const
-Message-ID: <65271731e25f4_7258329472@dwillia2-xfh.jf.intel.com.notmuch>
-References: <20231010125832.1002941-1-max.kellermann@ionos.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20231010125832.1002941-1-max.kellermann@ionos.com>
-X-ClientProxiedBy: MW4PR04CA0361.namprd04.prod.outlook.com
- (2603:10b6:303:81::6) To PH8PR11MB8107.namprd11.prod.outlook.com
- (2603:10b6:510:256::6)
+        with ESMTP id S231381AbjJLAOQ (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 11 Oct 2023 20:14:16 -0400
+Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com [IPv6:2607:f8b0:4864:20::f33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28EFB94;
+        Wed, 11 Oct 2023 17:14:15 -0700 (PDT)
+Received: by mail-qv1-xf33.google.com with SMTP id 6a1803df08f44-66d12b3b479so1829136d6.1;
+        Wed, 11 Oct 2023 17:14:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697069654; x=1697674454; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mf4thPA0xGlGLRp6EF2qtCeNe9d7tfxbNWGpjSLKnps=;
+        b=Qlir3Up2SSoQF2k7FIHKftgWZf2XwmYjfMwGUoVxLAt8pG1oMz9I2TNsU69ZV9V8cL
+         9w7Q7OUqfRl9c7bh0QekxAyoTLyTT968zWySipHifB+XBaiG8B/AZ8KGjSprNPZflzmy
+         nozDIs2kU+TIbE3ouxfnWK+g45LBlOen81aX9dv+VCHXf9rbTItMivOoJy/FpCUCc591
+         oCpFQeR5zC5ronoeEuDH9VzzPVjIi7F4ir/Q7mUP5fc1h6E8CuRm/f/ZTZQqPN7GBzVx
+         /Ixl5+tgpR2pSl98WBo3eJP6GwpGGLCGzCBTRgYTDFkJtLvNZ7ap2Sne2HLlRSbMt8qS
+         2svQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697069654; x=1697674454;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mf4thPA0xGlGLRp6EF2qtCeNe9d7tfxbNWGpjSLKnps=;
+        b=Yf128aFUqAHrMfqlhGdgGFQMNm9r0CveNAPQjd3IduzPO6TkC0/p4jyXGkSgU5744k
+         C3dWXryga8KLNlXTdZrhAcuaQKyF+viu0060KFypqF4na79TBYw+scuHZGS1+Xx70CiH
+         VPtFzwclEpT7TLpo+fZ3xxATWXG538Y+up5bJGS0A/ojFb31SRRtT3rnlzs+qGs83H2V
+         /rudSAkW0Jsq7nXWPHwdpajIVxM4SjLH0XMIqc0B1SZiTe8fCr1oklM6qTwaJErm7LFf
+         fmRC2ZXx43vjI4723HVo/Qh1Uj1eYgGj5NnRIduAxcaMi9LWIA4KegARiCgOej/btRNS
+         XjCg==
+X-Gm-Message-State: AOJu0YxGpcIq9K0wCpM9/iBAvMBENBDIyoIZJ9/UCXYvNx1enFDAeX17
+        4LIdWDXM1gStQcfD5ZxBWGc=
+X-Google-Smtp-Source: AGHT+IFYHIxXGgfKloHpHhm4Lqfii3ebPyy/JsQtuZyZph/+NWGwOecnLpCBXk1M2L1dEUDfy/vcOQ==
+X-Received: by 2002:a0c:f647:0:b0:658:9896:91b2 with SMTP id s7-20020a0cf647000000b00658989691b2mr21778064qvm.7.1697069654101;
+        Wed, 11 Oct 2023 17:14:14 -0700 (PDT)
+Received: from [192.168.1.3] (ip72-194-116-95.oc.oc.cox.net. [72.194.116.95])
+        by smtp.gmail.com with ESMTPSA id g2-20020a05620a108200b00770f3e5618esm5594104qkk.101.2023.10.11.17.14.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Oct 2023 17:14:13 -0700 (PDT)
+Message-ID: <b4ecda7f-1947-41aa-b645-1201a089c966@gmail.com>
+Date:   Wed, 11 Oct 2023 17:14:10 -0700
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|SJ1PR11MB6131:EE_
-X-MS-Office365-Filtering-Correlation-Id: 49c46004-50ae-4f2d-273b-08dbcaa339b5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fnVBycszZW5NqMGpdfvsC+pcm39f4mWlEco+B/Am1BuKjhDaO7KVBR1+V038z53fW0VWI8qzx0KY2llMhThTUHfgEUKqDVm0L3mXkIfujHgHHkTZkpX8nnkCeP0mTq4Hc6zYZlh+IjzRk9M7mPbs4xNFF1zypYFBP4w+ZhWTPvVOUGYZm3pFAfyrUWvGKGPOSnDtPMgQTrHC/WOhtZCQ/YqHcZCUgSpkGjYHjmOV5pSaRxFwooHuMOfWIaPNIbvA+MbJM6TzjW3zlWo5+SYUSWe6v05vhaqRK37WuPW0oz71Lb6Seb1S4xkXBAxB7bUC8AEt6JJwEAPB191lwdZ52QBv61BBoIEClI8/e0JC8cBOfHE1YNR4tu9sJUyR8QvciHU7Qmqp0LGzISVzMVyhb0ePyr2yF/QV2cLw6Sq44LANptYpsUE7lV55rlpXJy4oDV7sr71BzWXMIyYFMwJmZwDOSg+gITLNyHWPQA8Ekt4YjQMZDhif2Yew+jv5641ZgHwDHARGR5Qqce67AyKWEiWtenar4/XfdpOkYL/Hq7tjjTAVtXyaZOS3f50Y0b3bUVfuePA2vudQuJtC+5Qv0A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(136003)(396003)(39860400002)(376002)(366004)(230922051799003)(451199024)(64100799003)(186009)(1800799009)(26005)(478600001)(6486002)(966005)(86362001)(83380400001)(6506007)(6666004)(41300700001)(4326008)(8676002)(8936002)(5660300002)(66946007)(316002)(66476007)(66556008)(110136005)(2906002)(6512007)(9686003)(38100700002)(82960400001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?IOt98GPb8d0YrvivXi9uUnWkKvy4tKpDEltlj72rLaEPd/sdTTTLPUUGdJwQ?=
- =?us-ascii?Q?3bHVdehjc1tY2aJk4Do03JcBHWu3LgkyAKOV6GuljBUjppHREaMLtAXzfurh?=
- =?us-ascii?Q?/lnB1oC3iq2iKemQDS89cf8FmRp8zpDpr/dvBKYRu6kGZcC/N9jCdt5kZ6o8?=
- =?us-ascii?Q?Swe4JqFYSDvXB52ol3NK8Fl0tXH5obGtEiAGcaFu3IigoZn10aNZs7M7pD0F?=
- =?us-ascii?Q?HgXoMn4ULBOQROVTRUfQLVibSPR4mIfQ2IjcU9Ccdz/ssPID95VsS+iInSYM?=
- =?us-ascii?Q?fbCem3UXXI13TvY4dXgUQsTzGT2tNXvxTbsn/tkefhRBsYDrxkRxsZodWjK8?=
- =?us-ascii?Q?KMtk6Iprz+skjKjHdXM7MII2GXGr+05LCg2ZUPbwu4PYN7bH2XARoO3kWWRl?=
- =?us-ascii?Q?kn3AQq+U7jQIR3146/fNDZF254+16yuymUNxY92pqy4UX8fAWPGET6SBYTKr?=
- =?us-ascii?Q?idgkw0mU3Fa1FAVdol9NsgM5WENrQpmrN9L5sAK/8NFtvFaVGcZzhsuLuG+U?=
- =?us-ascii?Q?vS1ZCc1D1Adp6WMBZ0nX1lLaa9BjYiQEemzyo0DHTv9VPGiOV2ZXxx+09DBH?=
- =?us-ascii?Q?Z1307B11Q75sMHWXXwJui3Qfa20EUl8r5iI8GsSsiso+1VFT4KAL4POMRjo2?=
- =?us-ascii?Q?vQpyqQwfn+R+ba0WU263PsvwzojraYtntFyQlSILL/7RxCbK+uHPA3jjXi3h?=
- =?us-ascii?Q?w6sQWV0eZinlD/DeMRYApW8pg/hexAQMGJI7xYaliDTJ5ebhMZR+Qlipv6kr?=
- =?us-ascii?Q?auk6OsGqCcaKuQPWBs0IGZcR61qFAa15sR726t1s2Pc1btb3O4q77zLntBrr?=
- =?us-ascii?Q?qYWj+65a0qOTi8rjj4twMn59LJe3rWisrvPW5S/tQfqbFCnlwNi3A/+934d6?=
- =?us-ascii?Q?E2RDsNuudjpqMiI7Y1cE87yY7oxYo/r3us+9iFnCltmNO7xudLt7fxt+CNGX?=
- =?us-ascii?Q?fDOzFlga+4hwXOfXHc5R29reJI1ri4+FJOREqx1VElIYMGU0H0Jus2g6u/VZ?=
- =?us-ascii?Q?zsBHAy8uxbcZzhwa0w6cVRCOBuqUinQ/sDtqvAECJOMGvpX9zUrQP6iWzrev?=
- =?us-ascii?Q?lC2M/s+MmKDVa8IucXJnYt/LvGkRTVLjXiEHHlTmyr01XikgbJIE6j1y1feU?=
- =?us-ascii?Q?C3+ynDL9fNE6vDvysl+I9NejcTBlWMybLEVSRAYrvqFMb8Q+En0olGVnHYdb?=
- =?us-ascii?Q?Z8tVgGFR6DaQiyTCnvZchikHPfVDLKuMot8PMxNCM/6cUB9ZWyRf4MjbWB5Z?=
- =?us-ascii?Q?TatqWqOYObOVXc2ZqIr/ZcK2FwvS5FphGLPJTCgNRGxar3FaD/hobunudz40?=
- =?us-ascii?Q?LbHhHKbxDffsLKZfxBXj6x+Tec/c/B+kcGx4rZCLAWpMdWbCEsH9O5pd3G4Z?=
- =?us-ascii?Q?njUOg7XNJQXwodDioTd1Hg6m0hY7x+meAMtXhWYOg/DW15Y2YrK70Eoltze5?=
- =?us-ascii?Q?67L+FXhv3DLW6sURmDKfo13gpTlAa3P7vAOkLIYWegI2zaDmSmYRSoLV252H?=
- =?us-ascii?Q?9jztBiKayya9gkkJM7qOcqQ9igrU4naXfS6Id9bwjHuoytrbWUq4QiQIxFAa?=
- =?us-ascii?Q?NDyJ8np99LJhr8kjqL8gRHkyqjzcyWt4axD7UCgl+fzd+rBKm0wLUd6TB/K7?=
- =?us-ascii?Q?Sg=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 49c46004-50ae-4f2d-273b-08dbcaa339b5
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Oct 2023 21:44:20.1711
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vK6S0W4L74i9F0EmCgDw5kQUy/XLJqdif6VhRErl4bc0TCpg0yY4jRDiWNl4KGzaSMXGQq85Pf+y//Tf2zUXKYEsoA67dA6dXF03xVFlmUE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR11MB6131
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v2] docs: try to encourage (netdev?) reviewers
+Content-Language: en-US
+To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
+Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        corbet@lwn.net, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, andrew@lunn.ch,
+        jesse.brandeburg@intel.com, sd@queasysnail.net, horms@verge.net.au,
+        przemyslaw.kitszel@intel.com, jiri@resnulli.us,
+        ecree.xilinx@gmail.com
+References: <20231011024224.161282-1-kuba@kernel.org>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+Autocrypt: addr=f.fainelli@gmail.com; keydata=
+ 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
+ HGuUuzv+GKZ6nsysJw==
+In-Reply-To: <20231011024224.161282-1-kuba@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Max Kellermann wrote:
-> There are currently no rules on the placement of "const", but a recent
-> code submission revealed that there is clearly a preference for spaces
-> around it.
-> 
-> checkpatch.pl has no check at all for this; though it does sometimes
-> complain, but only because it erroneously thinks that the "*" (on
-> local variables) is an unary dereference operator, not a pointer type.
-> 
-> Current coding style for const pointers-to-pointers:
-> 
->  "*const*": 2 occurrences
->  "* const*": 3
->  "*const *": 182
->  "* const *": 681
-> 
-> Just const pointers:
-> 
->  "*const": 2833 occurrences
->  "* const": 16615
-> 
-> Link: https://lore.kernel.org/r/264fa39d-aed6-4a54-a085-107997078f8d@roeck-us.net/
-> Link: https://lore.kernel.org/r/f511170fe61d7e7214a3a062661cf4103980dad6.camel@perches.com/
-> Signed-off-by: Max Kellermann <max.kellermann@ionos.com>
-> ---
-> V1 -> V2: removed "volatile" on gregkh's request.
-> V2 -> V3: moved patch changelog below the "---" line
-> ---
->  Documentation/process/coding-style.rst | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-> index 6db37a46d305..71d62d81e506 100644
-> --- a/Documentation/process/coding-style.rst
-> +++ b/Documentation/process/coding-style.rst
-> @@ -271,6 +271,17 @@ adjacent to the type name.  Examples:
->  	unsigned long long memparse(char *ptr, char **retptr);
->  	char *match_strdup(substring_t *s);
->  
-> +Use space around the ``const`` keyword (except when adjacent to
-> +parentheses).  Example:
-> +
-> +.. code-block:: c
-> +
-> +	const void *a;
-> +	void * const b;
-> +	void ** const c;
-> +	void * const * const d;
-> +	int strcmp(const char *a, const char *b);
-> +
->  Use one space around (on each side of) most binary and ternary operators,
->  such as any of these::
 
-I notice that clang-format reflows that example to:
 
-     const void *a;
-     void *const b;
-     void **const c;
-     void *const *const d;
-     int strcmp(const char *a, const char *b);
+On 10/10/2023 7:42 PM, Jakub Kicinski wrote:
+> Add a section to netdev maintainer doc encouraging reviewers
+> to chime in on the mailing list.
+> 
+> The questions about "when is it okay to share feedback"
+> keep coming up (most recently at netconf) and the answer
+> is "pretty much always".
+> 
+> Extend the section of 7.AdvancedTopics.rst which deals
+> with reviews a little bit to add stuff we had been recommending
+> locally.
+> 
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 
-...but someone more clang-format savvy than me would need to propose the
-changes to the kernel's .clang-format template to match the style
-suggestion.
+Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com>
+
+LGTM!
+-- 
+Florian
