@@ -2,150 +2,157 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E35BFCDB474
-	for <workflows@archiver.kernel.org>; Thu, 12 Oct 2023 21:59:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABF5ACDB47E
+	for <workflows@archiver.kernel.org>; Fri, 13 Oct 2023 03:47:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234509AbjJLV7L (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 12 Oct 2023 17:59:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34002 "EHLO
+        id S229529AbjJMDry (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 12 Oct 2023 23:47:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229576AbjJLV7K (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 12 Oct 2023 17:59:10 -0400
-X-Greylist: delayed 441 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 12 Oct 2023 14:59:06 PDT
-Received: from second.openwall.net (second.openwall.net [193.110.157.125])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id BC3BBD7
-        for <workflows@vger.kernel.org>; Thu, 12 Oct 2023 14:59:06 -0700 (PDT)
-Received: (qmail 21923 invoked from network); 12 Oct 2023 21:51:43 -0000
-Received: from localhost (HELO pvt.openwall.com) (127.0.0.1)
-  by localhost with SMTP; 12 Oct 2023 21:51:43 -0000
-Received: by pvt.openwall.com (Postfix, from userid 503)
-        id DD58DA064D; Thu, 12 Oct 2023 23:51:22 +0200 (CEST)
-Date:   Thu, 12 Oct 2023 23:51:22 +0200
-From:   Solar Designer <solar@openwall.com>
-To:     Willy Tarreau <w@1wt.eu>
+        with ESMTP id S229437AbjJMDry (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 12 Oct 2023 23:47:54 -0400
+Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B20E1B7;
+        Thu, 12 Oct 2023 20:47:50 -0700 (PDT)
+Received: (from willy@localhost)
+        by pcw.home.local (8.15.2/8.15.2/Submit) id 39D3lCCr016307;
+        Fri, 13 Oct 2023 05:47:12 +0200
+Date:   Fri, 13 Oct 2023 05:47:12 +0200
+From:   Willy Tarreau <w@1wt.eu>
+To:     Solar Designer <solar@openwall.com>
 Cc:     Vegard Nossum <vegard.nossum@oracle.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         security@kernel.org, corbet@lwn.net, workflows@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>
-Subject: Re: [RFC PATCH] Documentation: security-bugs.rst: linux-distros relaxed their rules
-Message-ID: <20231012215122.GA8245@openwall.com>
-References: <20231007140454.25419-1-w@1wt.eu> <5ae47535-b6e0-8b48-4d59-a167e37c7fcc@oracle.com> <20231007163936.GA26837@1wt.eu>
-Mime-Version: 1.0
+        Kees Cook <keescook@chromium.org>,
+        Jiri Kosina <jikos@kernel.org>
+Subject: Re: [RFC PATCH] Documentation: security-bugs.rst: linux-distros
+ relaxed their rules
+Message-ID: <20231013034712.GC15920@1wt.eu>
+References: <20231007140454.25419-1-w@1wt.eu>
+ <5ae47535-b6e0-8b48-4d59-a167e37c7fcc@oracle.com>
+ <20231007163936.GA26837@1wt.eu>
+ <20231012215122.GA8245@openwall.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231007163936.GA26837@1wt.eu>
-User-Agent: Mutt/1.4.2.3i
+In-Reply-To: <20231012215122.GA8245@openwall.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Hi all,
+On Thu, Oct 12, 2023 at 11:51:22PM +0200, Solar Designer wrote:
+> Hi all,
+> 
+> Thank you (especially Willy) for your effort on this.
+> 
+> Out of the 3 paragraphs, the first one looks good to me as-is, but for
+> the last two I propose the slightly edited versions below.
+> 
+> On Sat, Oct 07, 2023 at 04:04:54PM +0200, Willy Tarreau wrote:
+> > +Please note that the respective policies and rules are different since
+> > +the 3 lists pursue different goals.  Coordinating between the kernel
+> > +security team and other teams is difficult since occasional embargoes
+> > +start from the availability of a fix for the kernel security team, while
+> > +for other lists they generally start from the initial post to the list,
+> > +regardless of the availability of a fix.
+> 
+> ---
+> Please note that the respective policies and rules are different since
+> the 3 lists pursue different goals.  Coordinating between the kernel
+> security team and other teams is difficult since for the kernel security
+> team occasional embargoes (as subject to a maximum allowed number of
+> days) start from the availability of a fix, while for "linux-distros"
+> they start from the initial post to the list regardless of the
+> availability of a fix.
+> ---
+> 
+> I added the part in braces to explain why the difference in when
+> embargoes start matters.  I also moved part of that sentence for
+> consistency.  Finally, I replaced "other lists" with specific reference
+> to "linux-distros" because this paragraph talks only about 3 specific
+> lists and on "oss-security" there are no embargoes.
 
-Thank you (especially Willy) for your effort on this.
+It's fine by me as it doesn't change the spirit but improves the wording.
 
-Out of the 3 paragraphs, the first one looks good to me as-is, but for
-the last two I propose the slightly edited versions below.
-
-On Sat, Oct 07, 2023 at 04:04:54PM +0200, Willy Tarreau wrote:
-> +Please note that the respective policies and rules are different since
-> +the 3 lists pursue different goals.  Coordinating between the kernel
-> +security team and other teams is difficult since occasional embargoes
-> +start from the availability of a fix for the kernel security team, while
-> +for other lists they generally start from the initial post to the list,
-> +regardless of the availability of a fix.
-
----
-Please note that the respective policies and rules are different since
-the 3 lists pursue different goals.  Coordinating between the kernel
-security team and other teams is difficult since for the kernel security
-team occasional embargoes (as subject to a maximum allowed number of
-days) start from the availability of a fix, while for "linux-distros"
-they start from the initial post to the list regardless of the
-availability of a fix.
----
-
-I added the part in braces to explain why the difference in when
-embargoes start matters.  I also moved part of that sentence for
-consistency.  Finally, I replaced "other lists" with specific reference
-to "linux-distros" because this paragraph talks only about 3 specific
-lists and on "oss-security" there are no embargoes.
-
-On Sat, Oct 07, 2023 at 06:39:36PM +0200, Willy Tarreau wrote:
-> On Sat, Oct 07, 2023 at 06:30:11PM +0200, Vegard Nossum wrote:
-> > On 07/10/2023 16:04, Willy Tarreau wrote:
-> > > +As such, the kernel security team strongly recommends that reporters of
-> > > +potential security issues DO NOT contact the "linux-distros" mailing
-> > > +list BEFORE a fix is accepted by the affected code's maintainers and you
+> On Sat, Oct 07, 2023 at 06:39:36PM +0200, Willy Tarreau wrote:
+> > On Sat, Oct 07, 2023 at 06:30:11PM +0200, Vegard Nossum wrote:
+> > > On 07/10/2023 16:04, Willy Tarreau wrote:
+> > > > +As such, the kernel security team strongly recommends that reporters of
+> > > > +potential security issues DO NOT contact the "linux-distros" mailing
+> > > > +list BEFORE a fix is accepted by the affected code's maintainers and you
+> > > 
+> > > is s/BEFORE/UNTIL/ clearer?
 > > 
-> > is s/BEFORE/UNTIL/ clearer?
+> > Probably, yes.
 > 
-> Probably, yes.
+> I agree.  Also, the sentence jumps from "reporters" to "you" implying
+> that "you" is a reporter, but maybe it's better to make that explicit.
 
-I agree.  Also, the sentence jumps from "reporters" to "you" implying
-that "you" is a reporter, but maybe it's better to make that explicit.
+Ah, I hate doing this, I generally avoid "you" and "we" in docs but
+given these ones are instructions it's easy to fall in the trap. I'll
+try to improve it.
 
-> > > +have read the linux-distros wiki page above and you fully understand the
-> > > +requirements that doing so will impose on you and the kernel community.
-> > > +This also means that in general it doesn't make sense to Cc: both lists
-> > > +at once, except for coordination if a fix remains under embargo. And in
-> > > +general, please do not Cc: the kernel security list about fixes that
-> > > +have already been merged.
+> > > > +have read the linux-distros wiki page above and you fully understand the
+> > > > +requirements that doing so will impose on you and the kernel community.
+> > > > +This also means that in general it doesn't make sense to Cc: both lists
+> > > > +at once, except for coordination if a fix remains under embargo. And in
+> > > > +general, please do not Cc: the kernel security list about fixes that
+> > > > +have already been merged.
+> 
+> This implies that in general a fix does not remain under embargo.
 
-This implies that in general a fix does not remain under embargo.
-However, contacting "linux-distros" only makes sense when a fix does
-remain under embargo (either not yet pushed to a public list/repo, or
-under the Linux kernel exception for a public not-too-revealing fix) -
-otherwise, the issue should be brought to "oss-security" right away.
+This is most often the case.
 
-Edited:
+> However, contacting "linux-distros" only makes sense when a fix does
+> remain under embargo (either not yet pushed to a public list/repo, or
+> under the Linux kernel exception for a public not-too-revealing fix) -
+> otherwise, the issue should be brought to "oss-security" right away.
+> 
+> Edited:
+> 
+> ---
+> As such, the kernel security team strongly recommends that as a reporter
+> of a potential security issue you DO NOT contact the "linux-distros"
+> mailing list UNTIL a fix is accepted by the affected code's maintainers
+> and you have read the distros wiki page above and you fully understand
+> the requirements that contacting "linux-distros" will impose on you and
+> the kernel community.  This also means that in general it doesn't make
+> sense to Cc: both lists at once, except maybe for coordination if and
+> while an accepted fix has not yet been merged.  In other words, until a
+> fix is accepted do not Cc: "linux-distros", and after it's merged do not
+> Cc: the kernel security team.
+> ---
+> 
+> This allows possible Cc'ing of both lists in the time window between
+> "fix is accepted by the affected code's maintainers" and "merged".
+> Makes sense?  I worry this distinction between accepted and merged may
+> be overly complicated for some, but I don't have better wording.
 
----
-As such, the kernel security team strongly recommends that as a reporter
-of a potential security issue you DO NOT contact the "linux-distros"
-mailing list UNTIL a fix is accepted by the affected code's maintainers
-and you have read the distros wiki page above and you fully understand
-the requirements that contacting "linux-distros" will impose on you and
-the kernel community.  This also means that in general it doesn't make
-sense to Cc: both lists at once, except maybe for coordination if and
-while an accepted fix has not yet been merged.  In other words, until a
-fix is accepted do not Cc: "linux-distros", and after it's merged do not
-Cc: the kernel security team.
----
+I think it's fine as is. I care a lot about giving clear instructions,
+especially for first-time reporters, for whom it's always particularly
+stressful to report a bug. With this update I think there's enough
+guidance and it should help, so OK for me.
 
-This allows possible Cc'ing of both lists in the time window between
-"fix is accepted by the affected code's maintainers" and "merged".
-Makes sense?  I worry this distinction between accepted and merged may
-be overly complicated for some, but I don't have better wording.
-
-> > I was thinking about this Cc: thing and would it make sense to:
+> > > I guess the problem with this would be if
+> > > somebody on s@k.o does a reply-all which would add distros right back in
+> > > the loop -OR- a patch has already been developed and included.
 > > 
-> > 1) have LKML and other public vger lists reject messages that include
-> > s@k.o or (linux-)distros@ on Cc? The idea being that this is probably a
-> > mistake -- I believe it has happened a few times recently by mistake.
-> > 
-> > 2) have (linux-)distros@ reject NEW threads (i.e. no In-Reply-To:) that
-> > also include s@k.o on Cc? We could include a nice message explaining why
-> > and to please resend when a patch has been developed and/or a disclosure
-> > is planned in the next 7 days.
+> > Then this would be deliberate, there would an in-reply-to so that would
+> > not be a problem. I really doubt anyone from s@k.o would Cc linux-distros
+> > anyway since it would imply disclosing some details from a reporter, and
+> > we do not do that, it's up to the reporter to do it if they want.
 > 
-> I don't know, maybe it would add extra config burden, but on the other
-> hand it could avoid the mistake from newcomers who have not read the
-> docs first (which happened a few times already), but if l-d becomes a
-> bit more flexible and tolerant to reporters' mistakes, as now documented,
-> it should also be less of a problem.
-> 
-> > I guess the problem with this would be if
-> > somebody on s@k.o does a reply-all which would add distros right back in
-> > the loop -OR- a patch has already been developed and included.
-> 
-> Then this would be deliberate, there would an in-reply-to so that would
-> not be a problem. I really doubt anyone from s@k.o would Cc linux-distros
-> anyway since it would imply disclosing some details from a reporter, and
-> we do not do that, it's up to the reporter to do it if they want.
+> I think we don't want to complicate the setup, which we'd then have to
+> explain somewhere.  With my concern/edit above, also the logic isn't
+> that simple.
 
-I think we don't want to complicate the setup, which we'd then have to
-explain somewhere.  With my concern/edit above, also the logic isn't
-that simple.
+Agreed, let's leave it to the reporter to do what they want with the
+instructions above and be done with it.
 
-Alexander
+Jiri, does your Acked-by still stand with these adjustment ? If so, I'll
+resend the updated version today or this week-end, as time permits.
+
+Thanks!
+Willy
