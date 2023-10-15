@@ -2,110 +2,75 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B5A6CDB47E
-	for <workflows@archiver.kernel.org>; Sun, 15 Oct 2023 13:11:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4939DCDB47E
+	for <workflows@archiver.kernel.org>; Sun, 15 Oct 2023 13:30:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229772AbjJONLA (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Sun, 15 Oct 2023 09:11:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36418 "EHLO
+        id S229561AbjJONa0 (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Sun, 15 Oct 2023 09:30:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229603AbjJONK7 (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Sun, 15 Oct 2023 09:10:59 -0400
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BB119A2;
-        Sun, 15 Oct 2023 06:10:56 -0700 (PDT)
-Received: (from willy@localhost)
-        by pcw.home.local (8.15.2/8.15.2/Submit) id 39FDAB6v026284;
-        Sun, 15 Oct 2023 15:10:11 +0200
-From:   Willy Tarreau <w@1wt.eu>
-To:     linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Jiri Kosina <jkosina@suse.cz>,
-        security@kernel.org, corbet@lwn.net, workflows@vger.kernel.org,
-        Willy Tarreau <w@1wt.eu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Solar Designer <solar@openwall.com>,
-        Vegard Nossum <vegard.nossum@oracle.com>
-Subject: [PATCH] Documentation: security-bugs.rst: linux-distros relaxed their rules
-Date:   Sun, 15 Oct 2023 15:09:59 +0200
-Message-Id: <20231015130959.26242-1-w@1wt.eu>
-X-Mailer: git-send-email 2.17.5
+        with ESMTP id S229555AbjJONa0 (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Sun, 15 Oct 2023 09:30:26 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3A3BA6
+        for <workflows@vger.kernel.org>; Sun, 15 Oct 2023 06:30:24 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 28ABAC433D9;
+        Sun, 15 Oct 2023 13:30:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1697376624;
+        bh=pS0gakAmkGXWfwWOHapujcu8RZsQzfyFuRVpzEMQnDY=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=ZcGzpkBBj/mJD/450Hz6T9qxBjBL22Pnnxpuq37cBKj+GmsJrbc83CTbGQPDOwOVI
+         hSxt7mmqMOW1i0g54FXKALhlcw9LwYWJEe51TqonWog5KvK5440M4VvZDRH/ry3hOF
+         9TS56sGoIjcMiSye3FXkVWwepF5AnSOtoGwGoZ8oF4AAZNwOa+LJHCDXYmL0Wcb0p0
+         wzCvsdMDu+EijnEpGVqtV9oPm9gRziMGwbqg8unzkHQVAXbMiM5ONNE1KaBVE3TxcU
+         8bVoCSYcQcZs/1D/nQ08f3kt4n/CwbB4Dv7bqOaerdfu6Vu9P8FSoZ6de02evMaUu4
+         qZLusOaZl9cTg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 13A75E1F666;
+        Sun, 15 Oct 2023 13:30:24 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v2] docs: try to encourage (netdev?) reviewers
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <169737662407.24568.3374449097895161500.git-patchwork-notify@kernel.org>
+Date:   Sun, 15 Oct 2023 13:30:24 +0000
+References: <20231011024224.161282-1-kuba@kernel.org>
+In-Reply-To: <20231011024224.161282-1-kuba@kernel.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+        pabeni@redhat.com, corbet@lwn.net, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, andrew@lunn.ch,
+        jesse.brandeburg@intel.com, sd@queasysnail.net, horms@verge.net.au,
+        przemyslaw.kitszel@intel.com, f.fainelli@gmail.com,
+        jiri@resnulli.us, ecree.xilinx@gmail.com
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-The linux-distros list relaxed their rules to try to adapt better to
-how the Linux kernel works. Let's update the Coordination part to
-explain why and when to contact them or not to and how to avoid trouble
-in the future.
+Hello:
 
-Link: https://www.openwall.com/lists/oss-security/2023/09/08/4
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Solar Designer <solar@openwall.com>
-Cc: Vegard Nossum <vegard.nossum@oracle.com>
-Acked-by: Jiri Kosina <jkosina@suse.cz>
-Signed-off-by: Willy Tarreau <w@1wt.eu>
----
+This patch was applied to netdev/net-next.git (main)
+by David S. Miller <davem@davemloft.net>:
 
-This is the final version for merging. Changes since RFC:
-  - s/BEFORE/UNTIL from Vegard
-  - improved wording from Alexander
-  - acked-by from Jiri
+On Tue, 10 Oct 2023 19:42:24 -0700 you wrote:
+> Add a section to netdev maintainer doc encouraging reviewers
+> to chime in on the mailing list.
+> 
+> The questions about "when is it okay to share feedback"
+> keep coming up (most recently at netconf) and the answer
+> is "pretty much always".
+> 
+> [...]
 
-Thanks!
-Willy
+Here is the summary with links:
+  - [net-next,v2] docs: try to encourage (netdev?) reviewers
+    https://git.kernel.org/netdev/net-next/c/6e55b1cbf05d
 
----
- Documentation/process/security-bugs.rst | 35 ++++++++++++++++++-------
- 1 file changed, 26 insertions(+), 9 deletions(-)
-
-diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
-index 5a6993795bd2..692a3ba56cca 100644
---- a/Documentation/process/security-bugs.rst
-+++ b/Documentation/process/security-bugs.rst
-@@ -66,15 +66,32 @@ lifted, in perpetuity.
- Coordination with other groups
- ------------------------------
- 
--The kernel security team strongly recommends that reporters of potential
--security issues NEVER contact the "linux-distros" mailing list until
--AFTER discussing it with the kernel security team.  Do not Cc: both
--lists at once.  You may contact the linux-distros mailing list after a
--fix has been agreed on and you fully understand the requirements that
--doing so will impose on you and the kernel community.
--
--The different lists have different goals and the linux-distros rules do
--not contribute to actually fixing any potential security problems.
-+While the kernel security team solely focuses on getting bugs fixed,
-+other groups focus on fixing issues in distros and coordinating
-+disclosure between operating system vendors.  Coordination is usually
-+handled by the "linux-distros" mailing list and disclosure by the
-+public "oss-security" mailing list, both of which are closely related
-+and presented in the linux-distros wiki:
-+<https://oss-security.openwall.org/wiki/mailing-lists/distros>
-+
-+Please note that the respective policies and rules are different since
-+the 3 lists pursue different goals.  Coordinating between the kernel
-+security team and other teams is difficult since for the kernel security
-+team occasional embargoes (as subject to a maximum allowed number of
-+days) start from the availability of a fix, while for "linux-distros"
-+they start from the initial post to the list regardless of the
-+availability of a fix.
-+
-+As such, the kernel security team strongly recommends that as a reporter
-+of a potential security issue you DO NOT contact the "linux-distros"
-+mailing list UNTIL a fix is accepted by the affected code's maintainers
-+and you have read the distros wiki page above and you fully understand
-+the requirements that contacting "linux-distros" will impose on you and
-+the kernel community.  This also means that in general it doesn't make
-+sense to Cc: both lists at once, except maybe for coordination if and
-+while an accepted fix has not yet been merged.  In other words, until a
-+fix is accepted do not Cc: "linux-distros", and after it's merged do not
-+Cc: the kernel security team.
- 
- CVE assignment
- --------------
+You are awesome, thank you!
 -- 
-2.17.5
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
