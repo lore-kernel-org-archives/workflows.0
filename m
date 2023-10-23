@@ -2,111 +2,106 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6593CC001E0
-	for <workflows@archiver.kernel.org>; Mon, 23 Oct 2023 14:02:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B391C001E0
+	for <workflows@archiver.kernel.org>; Mon, 23 Oct 2023 14:17:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231263AbjJWOCz (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 23 Oct 2023 10:02:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46064 "EHLO
+        id S229807AbjJWORL (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 23 Oct 2023 10:17:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231449AbjJWOCy (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 23 Oct 2023 10:02:54 -0400
-Received: from mail-pg1-x54a.google.com (mail-pg1-x54a.google.com [IPv6:2607:f8b0:4864:20::54a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA22710C2
-        for <workflows@vger.kernel.org>; Mon, 23 Oct 2023 07:02:48 -0700 (PDT)
-Received: by mail-pg1-x54a.google.com with SMTP id 41be03b00d2f7-5a31f85e361so1816454a12.0
-        for <workflows@vger.kernel.org>; Mon, 23 Oct 2023 07:02:48 -0700 (PDT)
+        with ESMTP id S229578AbjJWORK (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 23 Oct 2023 10:17:10 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66301B3;
+        Mon, 23 Oct 2023 07:17:08 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-9c603e2354fso700753266b.1;
+        Mon, 23 Oct 2023 07:17:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1698069768; x=1698674568; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rhW2ovogLAtdgY5SQJlkyUio4XiA8u6f7LVxFg6+xTw=;
-        b=28jjL3dGmwdSUNGHPq9r6/PNDV2Zq8+g86rWh5kEdvzsDIjYDps+VbW8/Tp5T49rMy
-         1vnL8QahM4PD4Og8ZeOHLxN73p3StEGHBQ0Ecwr+U7Bx9LtQNJTwdQmwD/i7VdXKTaP2
-         5CSu1nOUYprg6GS1eyhXmdNlREK28ToDzDiOlqQ8yBWKPsVFzp+2mruCTVMrtXMYD6rv
-         KEu0oGRC74EblJPRSHobwUgqdUjrJiwQc/dro6kUOygetsA4n5R7cqh1B+YsD1q8LAnE
-         sl25Ggz0P1oNujddlAQZlCXW4QxZC4tU9Jd1w2p8z+QfLuRbtyeid9is/hICq/mdY54O
-         VZ4Q==
+        d=gmail.com; s=20230601; t=1698070627; x=1698675427; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=psYa+jnhYhA/Me9tMdYWGK89iV6ZDBFIZP/pQeD1uzc=;
+        b=lJnG6Atm0YVpq16+S9zOHOCEaFMObn8xk+Moj1iug2ek5HRv2Z6GouIhXHMXBEB0qW
+         CmkeV9UsI+R5ZA5ZzO1rypA/b0B7q1DCV0+2xrWICxJP9VlN62WIAkioOy3Fxg3uI74D
+         /mA1jBhvEEzX6fHnji2ygfUXXB3sTqRv6l6SKSnJfojAqh7g13wsd9zNNUSx6lAEH87y
+         VQEmiaQ4vx8MH3PA1zCrRP8s3O44TKBCLDVKt9nhvvFYBX1ItgLGDx8P4lVaYsmbHy8P
+         4dDk8LpRWVIVpZkQ+EljyPlKdYrCZ2iMkCAphvzkzqaF9XnEubEXmamfqpO2jZb36flY
+         N8Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698069768; x=1698674568;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rhW2ovogLAtdgY5SQJlkyUio4XiA8u6f7LVxFg6+xTw=;
-        b=r/fPyTVfSdqhnB7kQt0Q3CpifwUDuHG3pEp/2IKlMRI9gK1FI/p8XSlzJsE+XPFbo0
-         dcPGPiSjBclwAxzYpoHPDuISC60Zwtx9MzjjXogA6bQstlTksEQ14o6mkkqr3Etrpdbt
-         gRpB7Ma0uDQHcaQtkR/zJ1NuIRRWpu5pHtbUwwXG3l0kn0CLaX4dfZktdyfUm7qxcfNy
-         34+5E4ewTd2COBjGjuMiu+6aCtiDH4qDkOY7Q8w7U/bivNwDX0lGnHYvyC0tupqhnfsR
-         NWjjEcEE2qPTG8b6yT2e41dBlNWA2C1yNDCCt2z5CtaSkY2xav5r8S91pppk436mV3aI
-         4F2w==
-X-Gm-Message-State: AOJu0YxngpalPyACc+Fq99oftyOHDTluXdgdCGfuq1gP5foJiHtmUt0J
-        D8IMYylW89xOUn749dkzpJXFMy4JUX8=
-X-Google-Smtp-Source: AGHT+IGUuvbhHZfz3wZFORlHNhRdI0cdjVmY0n57bSPikZhKGOb7nYXCvw6ZXfanc1szj32IaalJvX01dDI=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a17:902:ab5a:b0:1c7:3462:ce8d with SMTP id
- ij26-20020a170902ab5a00b001c73462ce8dmr169614plb.10.1698069768169; Mon, 23
- Oct 2023 07:02:48 -0700 (PDT)
-Date:   Mon, 23 Oct 2023 07:02:46 -0700
-In-Reply-To: <20231023102846.14830-1-przemyslaw.kitszel@intel.com>
-Mime-Version: 1.0
+        d=1e100.net; s=20230601; t=1698070627; x=1698675427;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=psYa+jnhYhA/Me9tMdYWGK89iV6ZDBFIZP/pQeD1uzc=;
+        b=Y3ioYhPlCuMTysT7A8o4A3Z451cn4ByXcYSa6S1V4RFEsRPGZ6Bg5edOxZGqkZd1ki
+         Mcl7L7tgXJ6ZExyqI2vzJqafFMPenwle71k1F8fBiLienEsiFP+QsqsLARNZ8MNITeNy
+         IEcAF0wr8gcW2XClAgVUzwhYexwj5xekJfYyhVA7GxPokK+v3fDUSecRqNF/0Ytlf5oD
+         JTj52PxOG7RqICUVP5ZHsoA1ABXqFc2tMTAjdRFspesLNRb14lPiGYxwyHFP3wC+CXlq
+         KhTuaDYViwI9l34nv8IrCLwE08exdaVWEIRvy9CtjqVLvzNkxzRKgqRQFu7V4+K68ppo
+         l3sg==
+X-Gm-Message-State: AOJu0YwMOxoDK8vzr69N4QcSvzgFv9FklJBYFTHdyCxkdB0vGoISShoo
+        rR6hGGa8/RNIbtB/j+pmgufNUgfzrXbiL9um4bE=
+X-Google-Smtp-Source: AGHT+IFVR84iaxW5JTSSwCylYDnHrJuy/QOC9TeTDd/7izvh1HJa8XLVoWYXfvL0h/RAiLVXysMlSryrZfXrwsAoTtg=
+X-Received: by 2002:a17:907:9727:b0:9ae:5513:e475 with SMTP id
+ jg39-20020a170907972700b009ae5513e475mr9252000ejc.9.1698070626608; Mon, 23
+ Oct 2023 07:17:06 -0700 (PDT)
+MIME-Version: 1.0
 References: <20231023102846.14830-1-przemyslaw.kitszel@intel.com>
-Message-ID: <ZTZ9Bk3-NrK_cVDu@google.com>
+In-Reply-To: <20231023102846.14830-1-przemyslaw.kitszel@intel.com>
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date:   Mon, 23 Oct 2023 16:16:55 +0200
+Message-ID: <CAKXUXMyOk+06ZRc7gvYMA=KHvZZp1FXiCJC5Tp9M=SUQfQnBVQ@mail.gmail.com>
 Subject: Re: [PATCH] checkpatch: allow tags between co-developed-by and their sign-off
-From:   Sean Christopherson <seanjc@google.com>
 To:     Przemek Kitszel <przemyslaw.kitszel@intel.com>
 Cc:     Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
         Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Sean Christopherson <seanjc@google.com>,
         workflows@vger.kernel.org, linux-kernel@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Jacob Keller <jacob.e.keller@intel.com>,
-        Mateusz Polchlopek <mateusz.polchlopek@intel.com>
-Content-Type: text/plain; charset="us-ascii"
+        Jacob Keller <jacob.e.keller@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-+Mateusz
+Hi Przemek,
 
-On Mon, Oct 23, 2023, Przemek Kitszel wrote:
+On Mon, Oct 23, 2023 at 12:29=E2=80=AFPM Przemek Kitszel
+<przemyslaw.kitszel@intel.com> wrote:
+>
+> Allow additional tags between Co-developed-by: and Signed-off-by:.
+>
+> Removing the "immediately" word from the doc is a great summary of the
+> change - there is no need for the two tags to be glued together, barring
+> ease of checkpatch implementation.
+>
+
+I think the currently suggested process of keeping Co-developed-by and
+Signed-off-by glued together is good, and I see no reason why this
+should be changed, nor do I see any drawbacks.
+
+
 > Additional tags between Co-developed-by and corresponding Signed-off-by
 > could include Reviewed-by tags collected by Submitter, which is also
 > a Co-developer, but should sign-off at the very end of tags provided by
 > the Submitter.
+>
 
-...
+The other tags, Reviewed-by, etc., can go anywhere just not between
+Co-developed-by and corresponding Signed-off-by. So, why do you have
+this need to put it exactly there rather than putting it anywhere
+else?
 
-> Mateusz Polchlopek <mateusz.polchlopek@intel.com> has reported this to me.
+The commit message tells me what you are proposing, but there is no
+rationale in the commit message and that is put up for discussion here
+with the proposed change.
 
-Heh, there's a tag for that...
+I see many potential areas of work for the checkpatch script, but in
+my humble opinion, this really is not one of the rules that needs to
+be improved.
 
-  Reported-by: Mateusz Polchlopek <mateusz.polchlopek@intel.com>
+Lukas
 
-And it's usually a good idea to Cc the reporter in case there are questions they
-can help answer.
-
-> @@ -509,16 +509,18 @@ Example of a patch submitted by the From: author::
->  	Signed-off-by: Second Co-Author <second@coauthor.example.org>
->  	Signed-off-by: From Author <from@author.example.org>
->  
-> -Example of a patch submitted by a Co-developed-by: author::
-> +Example of a patch submitted by a Co-developed-by: author, who also collected
-> +a Reviewed-by: tag posted for earlier version::
->  
->  	From: From Author <from@author.example.org>
->  
->  	<changelog>
->  
->  	Co-developed-by: Random Co-Author <random@coauthor.example.org>
->  	Signed-off-by: Random Co-Author <random@coauthor.example.org>
->  	Signed-off-by: From Author <from@author.example.org>
->  	Co-developed-by: Submitting Co-Author <sub@coauthor.example.org>
-> +	Reviewed-by: Some Reviewer <srev@another.example.org>
->  	Signed-off-by: Submitting Co-Author <sub@coauthor.example.org>
-
-This is silly.  Allowing tags in-between Co-developed-by with Signed-off-by
-unnecessarily complicates things, e.g. people already miss/forget the rule about
-tightly coupling Co-developed-by with Signed-off-by.
-
-And if we're being super pedantic about chronological history, arguably the
-Reviewed-by should come before the Co-developed-by as adding the Reviewed-by is
-a (trivial) modification to the patch that was done by the submitter.
+(...snipped the rest...)
