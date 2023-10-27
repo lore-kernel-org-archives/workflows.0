@@ -2,77 +2,215 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA51CC25B6C
-	for <workflows@archiver.kernel.org>; Tue, 24 Oct 2023 16:20:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B326AC25B47
+	for <workflows@archiver.kernel.org>; Fri, 27 Oct 2023 08:20:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234809AbjJXQUu (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 24 Oct 2023 12:20:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37434 "EHLO
+        id S235138AbjJ0IU1 (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Fri, 27 Oct 2023 04:20:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234700AbjJXQUt (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 24 Oct 2023 12:20:49 -0400
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D7A9D10C2;
-        Tue, 24 Oct 2023 09:20:40 -0700 (PDT)
-Received: (from willy@localhost)
-        by mail.home.local (8.17.1/8.17.1/Submit) id 39OGK3Ti004223;
-        Tue, 24 Oct 2023 18:20:03 +0200
-Date:   Tue, 24 Oct 2023 18:20:03 +0200
-From:   Willy Tarreau <w@1wt.eu>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jiri Kosina <jkosina@suse.cz>,
-        security@kernel.org, workflows@vger.kernel.org,
-        Kees Cook <keescook@chromium.org>,
-        Solar Designer <solar@openwall.com>,
-        Vegard Nossum <vegard.nossum@oracle.com>
-Subject: Re: [PATCH] Documentation: security-bugs.rst: linux-distros relaxed
- their rules
-Message-ID: <ZTfus7qKp2R5azJG@1wt.eu>
-References: <20231015130959.26242-1-w@1wt.eu>
- <87zg0ajcha.fsf@meer.lwn.net>
- <2023102402-unheated-basis-55e5@gregkh>
+        with ESMTP id S235296AbjJ0IUB (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Fri, 27 Oct 2023 04:20:01 -0400
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99EF81996;
+        Fri, 27 Oct 2023 01:19:35 -0700 (PDT)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39R5iCdg020786;
+        Fri, 27 Oct 2023 08:19:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=corp-2023-03-30;
+ bh=3Wu6bIg7tVvARFbVYaBYPJjOg+gs9lUaxjqSIpedt0E=;
+ b=gLX/GWaCBpyh1Lw+Mg5zW/ROBo2V7+vbr0cGfLNNAEBpV3J8c4crQgFYu7kTsk2VOgCB
+ 419izoc3g9sD9pGD8O0mjqfBxUsKO12FRYO907Kj4GoK7L/C4/us05ktxrikmTGg4IoU
+ WWg6xhlFTK1alsAlFY120lkgFn0dd+rcAit19QNs0ig6WAKGO1Veq2ajKTcj0DWInDXJ
+ AQ7v89Db1RoRCQzmmEcJItUDE256ZQAmMjL40ygtN2puuEosYzRoO2deDreKY1vV5NlR
+ bu31FNiY5m9+DcJx8DQP/oVbdsm7JKuH4ffqkyRQ7gMDvz8I+pGJ69uMjWaRQnuyOdAO 7g== 
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3tyx4tgx0y-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 27 Oct 2023 08:19:25 +0000
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+        by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 39R6HWAx009159;
+        Fri, 27 Oct 2023 08:19:12 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3tywqjebh6-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 27 Oct 2023 08:19:12 +0000
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 39R8Ig9d028975;
+        Fri, 27 Oct 2023 08:19:11 GMT
+Received: from t460-2.nl.oracle.com (dhcp-10-175-63-126.vpn.oracle.com [10.175.63.126])
+        by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 3tywqjeb1g-11;
+        Fri, 27 Oct 2023 08:19:11 +0000
+From:   Vegard Nossum <vegard.nossum@oracle.com>
+To:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Jani Nikula <jani.nikula@intel.com>, linux-kernel@vger.kernel.org,
+        Vegard Nossum <vegard.nossum@oracle.com>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res.211@gmail.com>, workflows@vger.kernel.org
+Subject: [PATCH RFC 10/11] docs: use toctree :caption: and move introduction
+Date:   Fri, 27 Oct 2023 10:18:29 +0200
+Message-Id: <20231027081830.195056-11-vegard.nossum@oracle.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231027081830.195056-1-vegard.nossum@oracle.com>
+References: <20231027081830.195056-1-vegard.nossum@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2023102402-unheated-basis-55e5@gregkh>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-27_06,2023-10-26_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxlogscore=999 mlxscore=0
+ spamscore=0 suspectscore=0 adultscore=0 bulkscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2310240000
+ definitions=main-2310270071
+X-Proofpoint-GUID: aNYiUgR9x7UUOkNNILohSUk0CHjwFX3r
+X-Proofpoint-ORIG-GUID: aNYiUgR9x7UUOkNNILohSUk0CHjwFX3r
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Tue, Oct 24, 2023 at 11:24:27AM +0200, Greg Kroah-Hartman wrote:
-> On Sun, Oct 22, 2023 at 08:31:45PM -0600, Jonathan Corbet wrote:
-> > Willy Tarreau <w@1wt.eu> writes:
-> > 
-> > > The linux-distros list relaxed their rules to try to adapt better to
-> > > how the Linux kernel works. Let's update the Coordination part to
-> > > explain why and when to contact them or not to and how to avoid trouble
-> > > in the future.
-> > >
-> > > Link: https://www.openwall.com/lists/oss-security/2023/09/08/4
-> > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > Cc: Kees Cook <keescook@chromium.org>
-> > > Cc: Solar Designer <solar@openwall.com>
-> > > Cc: Vegard Nossum <vegard.nossum@oracle.com>
-> > > Acked-by: Jiri Kosina <jkosina@suse.cz>
-> > > Signed-off-by: Willy Tarreau <w@1wt.eu>
-> > > ---
-> > >
-> > > This is the final version for merging. Changes since RFC:
-> > >   - s/BEFORE/UNTIL from Vegard
-> > >   - improved wording from Alexander
-> > >   - acked-by from Jiri
-> > 
-> > Greg, you've taken changes to this file in the past; do you want to grab
-> > this one or should I pick it up?
-> 
-> I was hoping there would be other reviewers of it, but I guess not.
+The canonical way to add a heading to the ToC is to use :caption:.
+Do that.
 
-I'm pretty sure non-technical stuff like this actually bores everyone,
-starting from us; when I proposed you to work on it, I was already
-convinced that nobody would have stolen me that task!
+Let's also move the introduction to the top of the document to be
+consistent with most other documents.
 
-> I'll take it through my tree now, thanks!
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Federico Vaga <federico.vaga@vaga.pv.it>
+Cc: Alex Shi <alexs@kernel.org>
+Cc: Yanteng Si <siyanteng@loongson.cn>
+Cc: Hu Haowen <src.res.211@gmail.com>
+Cc: workflows@vger.kernel.org
+Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+---
+ Documentation/process/development-process.rst | 19 +++++++++----------
+ .../it_IT/process/development-process.rst     | 19 +++++++++----------
+ .../zh_CN/process/development-process.rst     |  5 ++---
+ .../zh_TW/process/development-process.rst     |  5 ++---
+ 4 files changed, 22 insertions(+), 26 deletions(-)
 
-Thank you!
-Willy
+diff --git a/Documentation/process/development-process.rst b/Documentation/process/development-process.rst
+index 61c627e41ba8..e34d7da58b7f 100644
+--- a/Documentation/process/development-process.rst
++++ b/Documentation/process/development-process.rst
+@@ -3,9 +3,17 @@
+ A guide to the Kernel Development Process
+ =========================================
+ 
+-Contents:
++The purpose of this document is to help developers (and their managers)
++work with the development community with a minimum of frustration.  It is
++an attempt to document how this community works in a way which is
++accessible to those who are not intimately familiar with Linux kernel
++development (or, indeed, free software development in general).  While
++there is some technical material here, this is very much a process-oriented
++discussion which does not require a deep knowledge of kernel programming to
++understand.
+ 
+ .. toctree::
++   :caption: Contents
+    :numbered:
+    :maxdepth: 2
+ 
+@@ -17,12 +25,3 @@ Contents:
+    6.Followthrough
+    7.AdvancedTopics
+    8.Conclusion
+-
+-The purpose of this document is to help developers (and their managers)
+-work with the development community with a minimum of frustration.  It is
+-an attempt to document how this community works in a way which is
+-accessible to those who are not intimately familiar with Linux kernel
+-development (or, indeed, free software development in general).  While
+-there is some technical material here, this is very much a process-oriented
+-discussion which does not require a deep knowledge of kernel programming to
+-understand.
+diff --git a/Documentation/translations/it_IT/process/development-process.rst b/Documentation/translations/it_IT/process/development-process.rst
+index f1a6eca30824..20e77c9816a1 100644
+--- a/Documentation/translations/it_IT/process/development-process.rst
++++ b/Documentation/translations/it_IT/process/development-process.rst
+@@ -8,9 +8,17 @@
+ Una guida al processo di sviluppo del Kernel
+ ============================================
+ 
+-Contenuti:
++Lo scopo di questo documento è quello di aiutare gli sviluppatori (ed i loro
++supervisori) a lavorare con la communità di sviluppo con il minimo sforzo. È
++un tentativo di documentare il funzionamento di questa communità in modo che
++sia accessibile anche a coloro che non hanno famigliarità con lo sviluppo del
++Kernel Linux (o, anzi, con lo sviluppo di software libero in generale).  Benchè
++qui sia presente del materiale tecnico, questa è una discussione rivolta in
++particolare al procedimento, e quindi per essere compreso non richiede una
++conoscenza approfondità sullo sviluppo del kernel.
+ 
+ .. toctree::
++   :caption: Contenuti
+    :numbered:
+    :maxdepth: 2
+ 
+@@ -22,12 +30,3 @@ Contenuti:
+    6.Followthrough
+    7.AdvancedTopics
+    8.Conclusion
+-
+-Lo scopo di questo documento è quello di aiutare gli sviluppatori (ed i loro
+-supervisori) a lavorare con la communità di sviluppo con il minimo sforzo. È
+-un tentativo di documentare il funzionamento di questa communità in modo che
+-sia accessibile anche a coloro che non hanno famigliarità con lo sviluppo del
+-Kernel Linux (o, anzi, con lo sviluppo di software libero in generale).  Benchè
+-qui sia presente del materiale tecnico, questa è una discussione rivolta in
+-particolare al procedimento, e quindi per essere compreso non richiede una
+-conoscenza approfondità sullo sviluppo del kernel.
+diff --git a/Documentation/translations/zh_CN/process/development-process.rst b/Documentation/translations/zh_CN/process/development-process.rst
+index 30cffe66c075..c10d8e2e21eb 100644
+--- a/Documentation/translations/zh_CN/process/development-process.rst
++++ b/Documentation/translations/zh_CN/process/development-process.rst
+@@ -8,9 +8,10 @@
+ 内核开发过程指南
+ ================
+ 
+-内容:
++本文档的目的是帮助开发人员（及其经理）以最小的挫折感与开发社区合作。它试图记录这个社区如何以一种不熟悉Linux内核开发（或者实际上是自由软件开发）的人可以访问的方式工作。虽然这里有一些技术资料，但这是一个面向过程的讨论，不需要深入了解内核编程就可以理解。
+ 
+ .. toctree::
++   :caption: 内容
+    :numbered:
+    :maxdepth: 2
+ 
+@@ -22,5 +23,3 @@
+    6.Followthrough
+    7.AdvancedTopics
+    8.Conclusion
+-
+-本文档的目的是帮助开发人员（及其经理）以最小的挫折感与开发社区合作。它试图记录这个社区如何以一种不熟悉Linux内核开发（或者实际上是自由软件开发）的人可以访问的方式工作。虽然这里有一些技术资料，但这是一个面向过程的讨论，不需要深入了解内核编程就可以理解。
+diff --git a/Documentation/translations/zh_TW/process/development-process.rst b/Documentation/translations/zh_TW/process/development-process.rst
+index f4cf5c2bbc82..c4db0e3e72ce 100644
+--- a/Documentation/translations/zh_TW/process/development-process.rst
++++ b/Documentation/translations/zh_TW/process/development-process.rst
+@@ -11,9 +11,10 @@
+ 內核開發過程指南
+ ================
+ 
+-內容:
++本文檔的目的是幫助開發人員（及其經理）以最小的挫折感與開發社區合作。它試圖記錄這個社區如何以一種不熟悉Linux內核開發（或者實際上是自由軟體開發）的人可以訪問的方式工作。雖然這裡有一些技術資料，但這是一個面向過程的討論，不需要深入了解內核編程就可以理解。
+ 
+ .. toctree::
++   :caption: 內容
+    :numbered:
+    :maxdepth: 2
+ 
+@@ -26,5 +27,3 @@
+    7.AdvancedTopics
+    8.Conclusion
+ 
+-本文檔的目的是幫助開發人員（及其經理）以最小的挫折感與開發社區合作。它試圖記錄這個社區如何以一種不熟悉Linux內核開發（或者實際上是自由軟體開發）的人可以訪問的方式工作。雖然這裡有一些技術資料，但這是一個面向過程的討論，不需要深入了解內核編程就可以理解。
+-
+-- 
+2.34.1
+
