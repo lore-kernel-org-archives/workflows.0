@@ -2,215 +2,127 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B326AC25B47
-	for <workflows@archiver.kernel.org>; Fri, 27 Oct 2023 08:20:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A60BC4332F
+	for <workflows@archiver.kernel.org>; Sun, 29 Oct 2023 09:35:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235138AbjJ0IU1 (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Fri, 27 Oct 2023 04:20:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34016 "EHLO
+        id S229533AbjJ2Jfi (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Sun, 29 Oct 2023 05:35:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235296AbjJ0IUB (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Fri, 27 Oct 2023 04:20:01 -0400
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99EF81996;
-        Fri, 27 Oct 2023 01:19:35 -0700 (PDT)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39R5iCdg020786;
-        Fri, 27 Oct 2023 08:19:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=corp-2023-03-30;
- bh=3Wu6bIg7tVvARFbVYaBYPJjOg+gs9lUaxjqSIpedt0E=;
- b=gLX/GWaCBpyh1Lw+Mg5zW/ROBo2V7+vbr0cGfLNNAEBpV3J8c4crQgFYu7kTsk2VOgCB
- 419izoc3g9sD9pGD8O0mjqfBxUsKO12FRYO907Kj4GoK7L/C4/us05ktxrikmTGg4IoU
- WWg6xhlFTK1alsAlFY120lkgFn0dd+rcAit19QNs0ig6WAKGO1Veq2ajKTcj0DWInDXJ
- AQ7v89Db1RoRCQzmmEcJItUDE256ZQAmMjL40ygtN2puuEosYzRoO2deDreKY1vV5NlR
- bu31FNiY5m9+DcJx8DQP/oVbdsm7JKuH4ffqkyRQ7gMDvz8I+pGJ69uMjWaRQnuyOdAO 7g== 
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3tyx4tgx0y-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 27 Oct 2023 08:19:25 +0000
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-        by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 39R6HWAx009159;
-        Fri, 27 Oct 2023 08:19:12 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3tywqjebh6-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 27 Oct 2023 08:19:12 +0000
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 39R8Ig9d028975;
-        Fri, 27 Oct 2023 08:19:11 GMT
-Received: from t460-2.nl.oracle.com (dhcp-10-175-63-126.vpn.oracle.com [10.175.63.126])
-        by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 3tywqjeb1g-11;
-        Fri, 27 Oct 2023 08:19:11 +0000
-From:   Vegard Nossum <vegard.nossum@oracle.com>
-To:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Jani Nikula <jani.nikula@intel.com>, linux-kernel@vger.kernel.org,
-        Vegard Nossum <vegard.nossum@oracle.com>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res.211@gmail.com>, workflows@vger.kernel.org
-Subject: [PATCH RFC 10/11] docs: use toctree :caption: and move introduction
-Date:   Fri, 27 Oct 2023 10:18:29 +0200
-Message-Id: <20231027081830.195056-11-vegard.nossum@oracle.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231027081830.195056-1-vegard.nossum@oracle.com>
-References: <20231027081830.195056-1-vegard.nossum@oracle.com>
+        with ESMTP id S229446AbjJ2Jfh (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Sun, 29 Oct 2023 05:35:37 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59E95BD;
+        Sun, 29 Oct 2023 02:35:32 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21C4EC433C7;
+        Sun, 29 Oct 2023 09:35:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1698572131;
+        bh=eZVy8XsEDV2hnBzElbW3iANCuRdFZU5avkLLLW3yCxs=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=CJhxtjZgM8ykosy4ACdd38JZuIjJbJzqFz3aq9DTnRZWkIxvsjRvdMCTRc7DmLe+r
+         cJLGespkAaegYHRGcOpsNC6oWT0nGde9r6/ceQ0ze2kDGeaPCH4PTnmWa6UThLzDbj
+         y835uro9S4gX8S5jbR8G8P7ETrIrj27fMFvODcwR8PxChntVdS3aiwc/CuCoWMVB1N
+         E/XJIksKRXxSa6o3R7HRqcyVSaJ6DVdRissVBRbyx4rbVQlwwcqMgi8imXSJdN92Ym
+         UEHa28/wjV9bbENQFHCFRq/glAYuDhQA3XW1xG7xaI+QSzJ2nHGpyM/BWjShUWNNix
+         oqbUTjpLJZ9mA==
+Message-ID: <0693460e-2104-49af-b1dc-5ffae0f279c5@kernel.org>
+Date:   Sun, 29 Oct 2023 10:35:26 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] checkpatch: allow tags between co-developed-by and their
+ sign-off
+To:     Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+        Sean Christopherson <seanjc@google.com>
+Cc:     Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        workflows@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Jacob Keller <jacob.e.keller@intel.com>,
+        Mateusz Polchlopek <mateusz.polchlopek@intel.com>
+References: <20231023102846.14830-1-przemyslaw.kitszel@intel.com>
+ <ZTZ9Bk3-NrK_cVDu@google.com>
+ <887636af-6be7-f418-bfa4-d85501f2f40c@intel.com>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <887636af-6be7-f418-bfa4-d85501f2f40c@intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-27_06,2023-10-26_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxlogscore=999 mlxscore=0
- spamscore=0 suspectscore=0 adultscore=0 bulkscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2310240000
- definitions=main-2310270071
-X-Proofpoint-GUID: aNYiUgR9x7UUOkNNILohSUk0CHjwFX3r
-X-Proofpoint-ORIG-GUID: aNYiUgR9x7UUOkNNILohSUk0CHjwFX3r
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-The canonical way to add a heading to the ToC is to use :caption:.
-Do that.
+On 24/10/2023 11:15, Przemek Kitszel wrote:
+> On 10/23/23 16:02, Sean Christopherson wrote:
+>> +Mateusz
+>>
+>> On Mon, Oct 23, 2023, Przemek Kitszel wrote:
+>>> Additional tags between Co-developed-by and corresponding Signed-off-by
+>>> could include Reviewed-by tags collected by Submitter, which is also
+>>> a Co-developer, but should sign-off at the very end of tags provided by
+>>> the Submitter.
+>>
+>> ...
+>>
+>>> Mateusz Polchlopek <mateusz.polchlopek@intel.com> has reported this to me.
+>>
+>> Heh, there's a tag for that...
+>>
+>>    Reported-by: Mateusz Polchlopek <mateusz.polchlopek@intel.com>
+>>
+>> And it's usually a good idea to Cc the reporter in case there are questions they
+>> can help answer.
+> 
+> Heh ;) then I would get a checkpatch warning for not providing Link: to
+> the report, somehow I wanted to avoid those for checkpatch contrib :)
 
-Let's also move the introduction to the top of the document to be
-consistent with most other documents.
+You wanted Suggested-by. There is no bug here, so Reported-by is not
+suitable.
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Federico Vaga <federico.vaga@vaga.pv.it>
-Cc: Alex Shi <alexs@kernel.org>
-Cc: Yanteng Si <siyanteng@loongson.cn>
-Cc: Hu Haowen <src.res.211@gmail.com>
-Cc: workflows@vger.kernel.org
-Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
----
- Documentation/process/development-process.rst | 19 +++++++++----------
- .../it_IT/process/development-process.rst     | 19 +++++++++----------
- .../zh_CN/process/development-process.rst     |  5 ++---
- .../zh_TW/process/development-process.rst     |  5 ++---
- 4 files changed, 22 insertions(+), 26 deletions(-)
-
-diff --git a/Documentation/process/development-process.rst b/Documentation/process/development-process.rst
-index 61c627e41ba8..e34d7da58b7f 100644
---- a/Documentation/process/development-process.rst
-+++ b/Documentation/process/development-process.rst
-@@ -3,9 +3,17 @@
- A guide to the Kernel Development Process
- =========================================
- 
--Contents:
-+The purpose of this document is to help developers (and their managers)
-+work with the development community with a minimum of frustration.  It is
-+an attempt to document how this community works in a way which is
-+accessible to those who are not intimately familiar with Linux kernel
-+development (or, indeed, free software development in general).  While
-+there is some technical material here, this is very much a process-oriented
-+discussion which does not require a deep knowledge of kernel programming to
-+understand.
- 
- .. toctree::
-+   :caption: Contents
-    :numbered:
-    :maxdepth: 2
- 
-@@ -17,12 +25,3 @@ Contents:
-    6.Followthrough
-    7.AdvancedTopics
-    8.Conclusion
--
--The purpose of this document is to help developers (and their managers)
--work with the development community with a minimum of frustration.  It is
--an attempt to document how this community works in a way which is
--accessible to those who are not intimately familiar with Linux kernel
--development (or, indeed, free software development in general).  While
--there is some technical material here, this is very much a process-oriented
--discussion which does not require a deep knowledge of kernel programming to
--understand.
-diff --git a/Documentation/translations/it_IT/process/development-process.rst b/Documentation/translations/it_IT/process/development-process.rst
-index f1a6eca30824..20e77c9816a1 100644
---- a/Documentation/translations/it_IT/process/development-process.rst
-+++ b/Documentation/translations/it_IT/process/development-process.rst
-@@ -8,9 +8,17 @@
- Una guida al processo di sviluppo del Kernel
- ============================================
- 
--Contenuti:
-+Lo scopo di questo documento è quello di aiutare gli sviluppatori (ed i loro
-+supervisori) a lavorare con la communità di sviluppo con il minimo sforzo. È
-+un tentativo di documentare il funzionamento di questa communità in modo che
-+sia accessibile anche a coloro che non hanno famigliarità con lo sviluppo del
-+Kernel Linux (o, anzi, con lo sviluppo di software libero in generale).  Benchè
-+qui sia presente del materiale tecnico, questa è una discussione rivolta in
-+particolare al procedimento, e quindi per essere compreso non richiede una
-+conoscenza approfondità sullo sviluppo del kernel.
- 
- .. toctree::
-+   :caption: Contenuti
-    :numbered:
-    :maxdepth: 2
- 
-@@ -22,12 +30,3 @@ Contenuti:
-    6.Followthrough
-    7.AdvancedTopics
-    8.Conclusion
--
--Lo scopo di questo documento è quello di aiutare gli sviluppatori (ed i loro
--supervisori) a lavorare con la communità di sviluppo con il minimo sforzo. È
--un tentativo di documentare il funzionamento di questa communità in modo che
--sia accessibile anche a coloro che non hanno famigliarità con lo sviluppo del
--Kernel Linux (o, anzi, con lo sviluppo di software libero in generale).  Benchè
--qui sia presente del materiale tecnico, questa è una discussione rivolta in
--particolare al procedimento, e quindi per essere compreso non richiede una
--conoscenza approfondità sullo sviluppo del kernel.
-diff --git a/Documentation/translations/zh_CN/process/development-process.rst b/Documentation/translations/zh_CN/process/development-process.rst
-index 30cffe66c075..c10d8e2e21eb 100644
---- a/Documentation/translations/zh_CN/process/development-process.rst
-+++ b/Documentation/translations/zh_CN/process/development-process.rst
-@@ -8,9 +8,10 @@
- 内核开发过程指南
- ================
- 
--内容:
-+本文档的目的是帮助开发人员（及其经理）以最小的挫折感与开发社区合作。它试图记录这个社区如何以一种不熟悉Linux内核开发（或者实际上是自由软件开发）的人可以访问的方式工作。虽然这里有一些技术资料，但这是一个面向过程的讨论，不需要深入了解内核编程就可以理解。
- 
- .. toctree::
-+   :caption: 内容
-    :numbered:
-    :maxdepth: 2
- 
-@@ -22,5 +23,3 @@
-    6.Followthrough
-    7.AdvancedTopics
-    8.Conclusion
--
--本文档的目的是帮助开发人员（及其经理）以最小的挫折感与开发社区合作。它试图记录这个社区如何以一种不熟悉Linux内核开发（或者实际上是自由软件开发）的人可以访问的方式工作。虽然这里有一些技术资料，但这是一个面向过程的讨论，不需要深入了解内核编程就可以理解。
-diff --git a/Documentation/translations/zh_TW/process/development-process.rst b/Documentation/translations/zh_TW/process/development-process.rst
-index f4cf5c2bbc82..c4db0e3e72ce 100644
---- a/Documentation/translations/zh_TW/process/development-process.rst
-+++ b/Documentation/translations/zh_TW/process/development-process.rst
-@@ -11,9 +11,10 @@
- 內核開發過程指南
- ================
- 
--內容:
-+本文檔的目的是幫助開發人員（及其經理）以最小的挫折感與開發社區合作。它試圖記錄這個社區如何以一種不熟悉Linux內核開發（或者實際上是自由軟體開發）的人可以訪問的方式工作。雖然這裡有一些技術資料，但這是一個面向過程的討論，不需要深入了解內核編程就可以理解。
- 
- .. toctree::
-+   :caption: 內容
-    :numbered:
-    :maxdepth: 2
- 
-@@ -26,5 +27,3 @@
-    7.AdvancedTopics
-    8.Conclusion
- 
--本文檔的目的是幫助開發人員（及其經理）以最小的挫折感與開發社區合作。它試圖記錄這個社區如何以一種不熟悉Linux內核開發（或者實際上是自由軟體開發）的人可以訪問的方式工作。雖然這裡有一些技術資料，但這是一個面向過程的討論，不需要深入了解內核編程就可以理解。
--
--- 
-2.34.1
+Best regards,
+Krzysztof
 
