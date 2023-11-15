@@ -2,105 +2,78 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A73C7C2BB3F
-	for <workflows@archiver.kernel.org>; Wed, 15 Nov 2023 17:52:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E55BC2BB3F
+	for <workflows@archiver.kernel.org>; Wed, 15 Nov 2023 17:56:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229796AbjKORwa (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 15 Nov 2023 12:52:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56406 "EHLO
+        id S229504AbjKOR4d (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 15 Nov 2023 12:56:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229570AbjKORw3 (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 15 Nov 2023 12:52:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6EC0196
-        for <workflows@vger.kernel.org>; Wed, 15 Nov 2023 09:52:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1700070745;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=OG/PdxLPzgrb2SSqLq85wNnPv1wHigzKlm1PKA/CjnI=;
-        b=gcSr7wnSTu/2PUiIfFLFaXkjLIRgMUqOOlk7eTtLB6pMZ7ZmpIgxhDiy04BDs1Uh7gePKU
-        pKhqr2IZHw3zrRrhlTQgV1tK67uM3hW0hzzT2joZdfLQiDuSKcjbABPWmC2bKR68YagQWF
-        qrWqOkb0/zzeO0dGE7g6BRYi2dONnbc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-438-1_fhHc8YNcmXv39uhnoUYw-1; Wed, 15 Nov 2023 12:52:21 -0500
-X-MC-Unique: 1_fhHc8YNcmXv39uhnoUYw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C039D834FC6;
-        Wed, 15 Nov 2023 17:52:20 +0000 (UTC)
-Received: from ruby.redhat.com (unknown [10.39.192.56])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id B96FA1121306;
-        Wed, 15 Nov 2023 17:52:17 +0000 (UTC)
-From:   Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
-To:     workflows@vger.kernel.org, Joe Perches <joe@perches.com>,
-        Andy Whitcroft <apw@canonical.com>,
-        Theodore Ts'o <tytso@mit.edu>, David Gow <davidgow@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mark Brown <broonie@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        "Darrick J . Wong" <djwong@kernel.org>
-Cc:     kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        Veronika Kabatova <vkabatov@redhat.com>,
-        CKI <cki-project@redhat.com>, kernelci@lists.linux.dev,
-        Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
-Subject: [PATCH 3/3] MAINTAINERS: Require kunit core tests for framework changes
-Date:   Wed, 15 Nov 2023 19:43:51 +0200
-Message-ID: <20231115175146.9848-4-Nikolai.Kondrashov@redhat.com>
-In-Reply-To: <20231115175146.9848-1-Nikolai.Kondrashov@redhat.com>
-References: <20231115175146.9848-1-Nikolai.Kondrashov@redhat.com>
+        with ESMTP id S229497AbjKOR4d (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 15 Nov 2023 12:56:33 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42385D41;
+        Wed, 15 Nov 2023 09:56:29 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DD9D18D;
+        Wed, 15 Nov 2023 18:56:00 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1700070961;
+        bh=B84mM6617p9zO8gKPZeo7FnDkXTNNw/3Ui+JuYQYZ44=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=AF3Qle88iQHXmtPhaiheiGfq+kLIMg2g6lVW7W61hL/Ss5snExp5kG1/qTbhnCX0g
+         YRLFSFGnxkY+3v61QW+LsS1xYQo+aC0VgODIplApSmUGvCZI02jlCYYt8+rtc+6fYc
+         XUvC/MbS8nhpctMsrymMZ+hsrxI2YngSU1SaDhvM=
+Date:   Wed, 15 Nov 2023 19:56:32 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Borislav Petkov <bp@alien8.de>, Jonathan Corbet <corbet@lwn.net>,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] docs: submitting-patches: improve the base commit
+ explanation
+Message-ID: <20231115175632.GA29486@pendragon.ideasonboard.com>
+References: <20231115170330.16626-1-bp@alien8.de>
+ <202311150948.F6E39AD@keescook>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.3
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <202311150948.F6E39AD@keescook>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Signed-off-by: Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
----
- Documentation/process/tests.rst | 13 +++++++++++++
- MAINTAINERS                     |  1 +
- 2 files changed, 14 insertions(+)
+On Wed, Nov 15, 2023 at 09:49:31AM -0800, Kees Cook wrote:
+> On Wed, Nov 15, 2023 at 06:03:30PM +0100, Borislav Petkov wrote:
+> > From: "Borislav Petkov (AMD)" <bp@alien8.de>
+> > 
+> > After receiving a second patchset this week without knowing which tree
+> > it applies on and trying to apply it on the obvious ones and failing,
+> > make sure the base tree information which needs to be supplied in the
+> > 0th message of the patchset is spelled out more explicitly.
+> > 
+> > Also, make the formulations stronger as this really is a requirement and
+> > not only a useful thing anymore.
+> > 
+> > Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+> 
+> Yup, I wonder if making "--base=auto" a default in git might be a good
+> idea too?
 
-diff --git a/Documentation/process/tests.rst b/Documentation/process/tests.rst
-index 9a9ea3fe65c37..56a7911f69031 100644
---- a/Documentation/process/tests.rst
-+++ b/Documentation/process/tests.rst
-@@ -65,3 +65,16 @@ kvm-xfstests smoke
- 
- The "kvm-xfstests smoke" is a minimal subset of xfstests for testing all major
- file systems, running under KVM.
-+
-+kunit
-+-----
-+
-+:Summary: The complete set of KUnit unit tests
-+:Command: tools/testing/kunit/kunit.py run --alltests
-+
-+kunit core
-+----------
-+
-+:Summary: KUnit tests for the framework itself
-+:Superset: kunit
-+:Command: tools/testing/kunit/kunit.py run --kunitconfig lib/kunit
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f81a47d87ac26..5f3261e96c90f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11626,6 +11626,7 @@ L:	linux-kselftest@vger.kernel.org
- L:	kunit-dev@googlegroups.com
- S:	Maintained
- W:	https://google.github.io/kunit-docs/third_party/kernel/docs/
-+V:	kunit core
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git kunit
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git kunit-fixes
- F:	Documentation/dev-tools/kunit/
+When the base of a series is in Linus' tree, or in the corresponding
+subsystem maintainer's tree, things are easy, but there are many
+situations where the base is a merge of multiple branches (perhaps a
+for-next and a fixes branch for instance), or where prerequisites have
+been applied manually for one reason or another. This can and should of
+course be described in the cover letter, and the submitter should push
+and provide a link to a branch that contains the series on top of the
+appropriate base (or just a link to the base). This won't help the bots
+much though, if they just look at the base tag. Is there a way, or can
+we standardize on a way, to indicate where the base can be found ?
+
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+
 -- 
-2.42.0
+Regards,
 
+Laurent Pinchart
