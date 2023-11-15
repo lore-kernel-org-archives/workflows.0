@@ -2,136 +2,92 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BF04C072A2
-	for <workflows@archiver.kernel.org>; Wed, 15 Nov 2023 18:58:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C74D5C5AE4B
+	for <workflows@archiver.kernel.org>; Wed, 15 Nov 2023 20:01:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229505AbjKOS6N (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 15 Nov 2023 13:58:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57638 "EHLO
+        id S1344163AbjKOUBg (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 15 Nov 2023 15:01:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229492AbjKOS6N (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 15 Nov 2023 13:58:13 -0500
+        with ESMTP id S1344129AbjKOUBf (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 15 Nov 2023 15:01:35 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9156C101
-        for <workflows@vger.kernel.org>; Wed, 15 Nov 2023 10:58:09 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28932C433C8;
-        Wed, 15 Nov 2023 18:58:09 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3047592
+        for <workflows@vger.kernel.org>; Wed, 15 Nov 2023 12:01:32 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2DC2C433CD;
+        Wed, 15 Nov 2023 20:01:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1700074689;
-        bh=mbFipe60nh3wXLVitXBcl5WWbT6GAolpsW6Rl8bu/7Q=;
+        s=k20201202; t=1700078491;
+        bh=vYmwl8eEVWTHFHPxo7gRqNR6d4fj7k328P0ex3wMUqM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NpseXpzTT0wSMAcgWMBgg2pysbbYQcPIX7NHH/8c2wXEatuGVcSoAxK7hnneM8DjV
-         iqDwv7Px+d2o3L6+b7ZG7VYKRFWEXiYh5bOLrYKR985uMxu7SuK78I0/upIWwcVpWj
-         K9P/dAtEhJwm/gUauhw7RWPURRvUVgJt4wwIR4sl9diVcqTef0KBsVGU62oOr1lKfe
-         onZxHEO6ln21IxWL9b6toFUlCb5lNEsvQhtZp1cV3hjQ9ZcQx7jHh77KQBVIRhIidM
-         y3t4wHjjiED4OGjuHekJ8AqUGQTbDcInRINTbVVscnZNd/ukT9wBTf8V6hDjFbTYcl
-         oadiSqjcx9eEw==
-Date:   Wed, 15 Nov 2023 10:58:08 -0800
-From:   "Darrick J. Wong" <djwong@kernel.org>
-To:     Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
-Cc:     workflows@vger.kernel.org, Joe Perches <joe@perches.com>,
-        Andy Whitcroft <apw@canonical.com>,
+        b=c54zzP8lOFLL2JQlrnVVQ2f2EmcbiIDxROdtd0qYbPdToWJA4yqmkGH1J8Cc5nhY9
+         7K8+amo7y67M5TWmRG4xbepi2nNM94sgyGwkA8A2eDCnhu89U4amlp8R4772tAroxa
+         y3pZAOKA0o8JoyewcH09aZMvGrUs6jiXMiEusqpqtfrwBK6HNQ2/g/bdavJtBFNCed
+         6M7nDDSLJAOvl4ciyVdgc65FfQkRHLpLAHtNY3n7jXkZcQ95tp8p1cF6apg5i5wVAu
+         wirG8bzDeT3Nd4RpZxNb1IJqvsS0606AgKXTD5L6FtHotRlVwUjM1bEaXCNK2dswj0
+         n4CuzjHzs3nQA==
+Date:   Wed, 15 Nov 2023 20:01:25 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Joe Perches <joe@perches.com>
+Cc:     Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>,
+        workflows@vger.kernel.org, Andy Whitcroft <apw@canonical.com>,
         Theodore Ts'o <tytso@mit.edu>, David Gow <davidgow@google.com>,
         Steven Rostedt <rostedt@goodmis.org>,
-        Mark Brown <broonie@kernel.org>,
         Shuah Khan <skhan@linuxfoundation.org>,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        "Darrick J . Wong" <djwong@kernel.org>, kunit-dev@googlegroups.com,
+        linux-kselftest@vger.kernel.org,
         Veronika Kabatova <vkabatov@redhat.com>,
-        CKI <cki-project@redhat.com>, kernelci@lists.linux.dev,
-        Chandan Babu R <chandanrlinux@gmail.com>,
-        Dave Chinner <david@fromorbit.com>
-Subject: Re: [PATCH 2/3] MAINTAINERS: Require kvm-xfstests smoke for ext4
-Message-ID: <20231115185808.GD36211@frogsfrogsfrogs>
+        CKI <cki-project@redhat.com>, kernelci@lists.linux.dev
+Subject: Re: [PATCH 1/3] MAINTAINERS: Introduce V: field for required tests
+Message-ID: <1c43a4b5-55d4-402e-8eeb-db8e247dd713@sirena.org.uk>
 References: <20231115175146.9848-1-Nikolai.Kondrashov@redhat.com>
- <20231115175146.9848-3-Nikolai.Kondrashov@redhat.com>
+ <20231115175146.9848-2-Nikolai.Kondrashov@redhat.com>
+ <2e8979163c8ed93f6990c6a91c34cdf96a76daaf.camel@perches.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="YeklDa1YphrbT8Xr"
 Content-Disposition: inline
-In-Reply-To: <20231115175146.9848-3-Nikolai.Kondrashov@redhat.com>
+In-Reply-To: <2e8979163c8ed93f6990c6a91c34cdf96a76daaf.camel@perches.com>
+X-Cookie: For internal use only.
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Wed, Nov 15, 2023 at 07:43:50PM +0200, Nikolai Kondrashov wrote:
-> Signed-off-by: Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
-> ---
->  Documentation/process/tests.rst | 32 ++++++++++++++++++++++++++++++++
->  MAINTAINERS                     |  1 +
->  2 files changed, 33 insertions(+)
-> 
-> diff --git a/Documentation/process/tests.rst b/Documentation/process/tests.rst
-> index 907311e91ec45..9a9ea3fe65c37 100644
-> --- a/Documentation/process/tests.rst
-> +++ b/Documentation/process/tests.rst
-> @@ -33,3 +33,35 @@ particularly useful:
->  
->  :Source: A URL pointing to the source code of the test suite
->  :Docs: A URL pointing to further test suite documentation
-> +
-> +xfstests
-> +--------
-> +
-> +:Summary: File system regression test suite
-> +:Source: git://git.kernel.org/pub/scm/fs/xfs/xfstests-dev.git
 
-You might as well use the https link to the fstests git repo.
-https://git.kernel.org/pub/scm/fs/xfs/xfstests-dev.git
+--YeklDa1YphrbT8Xr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> +:Docs: https://github.com/tytso/xfstests-bld/blob/master/Documentation/what-is-xfstests.md
+On Wed, Nov 15, 2023 at 10:31:21AM -0800, Joe Perches wrote:
+> On Wed, 2023-11-15 at 19:43 +0200, Nikolai Kondrashov wrote:
+> > Introduce a new 'V:' ("Verify") field to MAINTAINERS. The field accepts
+> > a name of a test suite which is required to be executed for each
+> > contribution to the subsystem.
 
-Awkardly, this github link is nice for rendering the markdown as html,
-but I think the canonical source of xfstests-bld is also kernel.org:
+> Perhaps this is simply too much overhead
+> process requirements for most kernel work.
 
-https://git.kernel.org/pub/scm/fs/ext2/xfstests-bld.git
+> While the addition of V: seems ok, I think
+> putting the verification in checkpatch is
+> odd at best and the verification of test
+> execution should be a separate script.
 
-> +
-> +As the name might imply, xfstests is a file system regression test suite which
-> +was originally developed by Silicon Graphics (SGI) for the XFS file system.
-> +Originally, xfstests, like XFS was only supported on the SGI's Irix operating
-> +system. When XFS was ported to Linux, so was xfstests, and now xfstests is
-> +only supported on Linux.
-> +
-> +Today, xfstests is used as a file system regression test suite for all of
-> +Linux's major file systems: xfs, ext2, ext4, cifs, btrfs, f2fs, reiserfs, gfs,
-> +jfs, udf, nfs, and tmpfs. Many file system maintainers will run a full set of
-> +xfstests before sending patches to Linus, and will require that any major
-> +changes be tested using xfstests before they are submitted for integration.
-> +
-> +The easiest way to start running xfstests is under KVM with xfstests-bld:
-> +https://github.com/tytso/xfstests-bld/blob/master/Documentation/kvm-quickstart.md
-> +
-> +kvm-xfstests smoke
-> +------------------
-> +
-> +:Summary: File system smoke tests
-> +:Superset: xfstests
+Verifying that the expected tags are present and valid does seem firmly
+in what checkpatch's wheelhouse though?
 
-Source: https://git.kernel.org/pub/scm/fs/ext2/xfstests-bld.git
+--YeklDa1YphrbT8Xr
+Content-Type: application/pgp-signature; name="signature.asc"
 
-?
+-----BEGIN PGP SIGNATURE-----
 
-> +:Docs: https://github.com/tytso/xfstests-bld/blob/master/Documentation/kvm-quickstart.md
-> +
-> +The "kvm-xfstests smoke" is a minimal subset of xfstests for testing all major
-> +file systems, running under KVM.
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 2565c04f0490e..f81a47d87ac26 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7974,6 +7974,7 @@ L:	linux-ext4@vger.kernel.org
->  S:	Maintained
->  W:	http://ext4.wiki.kernel.org
->  Q:	http://patchwork.ozlabs.org/project/linux-ext4/list/
-> +V:	kvm-xfstests smoke
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVVI5UACgkQJNaLcl1U
+h9CTVAf/fbczHJVHBaknVXeBvlt0p/Qv+qn4JkvSm4MppQglFDxhmBqQoUtulxUs
+ulOvXjwFdT60p5+KIY8dnjLiXWdLwTItNSJYSHtc3vsiCxqQNG5Jk14BLAzPYDAV
+yaPf5HrL8K7wQH2BvEgTa4b/CnOO14nmBPLuoYhOBzkMN9jEYulvLPyBnQHx+WOU
+QH3+kb3NRa07kEcwe1zi1fIVpH28vS/e0dILtPK//7TKXkQlSri2i6WpT8KMknTZ
+DeUNm56Zf9ivi/QgmN4TuKwPBn1T7vLVP4glHC8B2jN8u0W7EdGrnv3Mm90yTMe7
+pYNcZ6zIqxDP89HUfbGAoapJMb/l3w==
+=ngzy
+-----END PGP SIGNATURE-----
 
-I wouldn't mind one of these being added to the XFS entry, though I've
-cc'd the current and past maintainer(s) of XFS for their input.
-
---D
-
->  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git
->  F:	Documentation/filesystems/ext4/
->  F:	fs/ext4/
-> -- 
-> 2.42.0
-> 
+--YeklDa1YphrbT8Xr--
