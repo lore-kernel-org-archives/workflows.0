@@ -2,71 +2,67 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0761AC2BB3F
-	for <workflows@archiver.kernel.org>; Wed, 15 Nov 2023 18:22:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02C6DC2BB3F
+	for <workflows@archiver.kernel.org>; Wed, 15 Nov 2023 18:31:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230429AbjKOSW1 (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 15 Nov 2023 13:22:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43776 "EHLO
+        id S229500AbjKOSbd convert rfc822-to-8bit (ORCPT
+        <rfc822;workflows@archiver.kernel.org>);
+        Wed, 15 Nov 2023 13:31:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232620AbjKOSW1 (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 15 Nov 2023 13:22:27 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC5EE1B8;
-        Wed, 15 Nov 2023 10:22:22 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B270C433C7;
-        Wed, 15 Nov 2023 18:22:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1700072542;
-        bh=ngoCt74/fsP8pS/ee3EIPN/IBdECAl6jorYcfguYxbg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WZyJJSSmwHY1Y4g7cygzvfBg1/Ia5H9twSL9W3BxttcE6i3R6+Y/NkikTVSK8aEVZ
-         L9c61dxyM0mSoCzwIyoKY+oXFtL2wWQEPLRabEJFcUr5Wlxf7eiEZ/m0M+k/vywWYP
-         vClpnNejFLP4Qs6q6LtRlKoAyx9rhNG9+XE7gkGI=
-Date:   Wed, 15 Nov 2023 13:22:21 -0500
-From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Kees Cook <keescook@chromium.org>, Borislav Petkov <bp@alien8.de>,
-        Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] docs: submitting-patches: improve the base commit
- explanation
-Message-ID: <20231115-resourceful-dashing-collie-63b8ff@nitro>
-References: <20231115170330.16626-1-bp@alien8.de>
- <202311150948.F6E39AD@keescook>
- <20231115175632.GA29486@pendragon.ideasonboard.com>
+        with ESMTP id S229492AbjKOSbc (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 15 Nov 2023 13:31:32 -0500
+Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AA1F182
+        for <workflows@vger.kernel.org>; Wed, 15 Nov 2023 10:31:29 -0800 (PST)
+Received: from omf08.hostedemail.com (a10.router.float.18 [10.200.18.1])
+        by unirelay05.hostedemail.com (Postfix) with ESMTP id F331A40850;
+        Wed, 15 Nov 2023 18:31:26 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf08.hostedemail.com (Postfix) with ESMTPA id EC19B20028;
+        Wed, 15 Nov 2023 18:31:22 +0000 (UTC)
+Message-ID: <2e8979163c8ed93f6990c6a91c34cdf96a76daaf.camel@perches.com>
+Subject: Re: [PATCH 1/3] MAINTAINERS: Introduce V: field for required tests
+From:   Joe Perches <joe@perches.com>
+To:     Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>,
+        workflows@vger.kernel.org, Andy Whitcroft <apw@canonical.com>,
+        Theodore Ts'o <tytso@mit.edu>, David Gow <davidgow@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mark Brown <broonie@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        "Darrick J . Wong" <djwong@kernel.org>
+Cc:     kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        Veronika Kabatova <vkabatov@redhat.com>,
+        CKI <cki-project@redhat.com>, kernelci@lists.linux.dev
+Date:   Wed, 15 Nov 2023 10:31:21 -0800
+In-Reply-To: <20231115175146.9848-2-Nikolai.Kondrashov@redhat.com>
+References: <20231115175146.9848-1-Nikolai.Kondrashov@redhat.com>
+         <20231115175146.9848-2-Nikolai.Kondrashov@redhat.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20231115175632.GA29486@pendragon.ideasonboard.com>
+X-Rspamd-Server: rspamout03
+X-Rspamd-Queue-Id: EC19B20028
+X-Stat-Signature: udaagxznsk9asmhndu3d835jjrbk6cxz
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1+4jip3LSD+Jej7pjexnseIWLQolUhj808=
+X-HE-Tag: 1700073082-6522
+X-HE-Meta: U2FsdGVkX1/xDCxqJSd44iIIaFO5Qzsc9gVNZDyfawy1q1z1bDfzscTNzfIdVz+ziykMKsGmpfilS/0145bWJURD6yJK6LefA8ONPfsyY5hLv/LjU+QNmF7zU6Z0xPY7QpDCNQNArMhNhlRWf2mh5zc4+awzDW3EtvMaJQ35O5Wv7VdvSEH7+ug/wsz18bzR4dM0rYb+IdcatpeJOFDVGOMvfduhd3IhGqxBaPqNWx3nVMiSoCUrCLm8hMltlTGQZbIPZi4dlKPSRX1j1y9632k7NIkT7t5c9Md+PW5qzdOpePA0lhHXMvhuvaQh5UmmQNWWT24x2dJQEsn7eYFhxlMuRpTXg9yu
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Wed, Nov 15, 2023 at 07:56:32PM +0200, Laurent Pinchart wrote:
-> When the base of a series is in Linus' tree, or in the corresponding
-> subsystem maintainer's tree, things are easy, but there are many
-> situations where the base is a merge of multiple branches (perhaps a
-> for-next and a fixes branch for instance), or where prerequisites have
-> been applied manually for one reason or another. This can and should of
-> course be described in the cover letter, and the submitter should push
-> and provide a link to a branch that contains the series on top of the
-> appropriate base (or just a link to the base). This won't help the bots
-> much though, if they just look at the base tag. Is there a way, or can
-> we standardize on a way, to indicate where the base can be found ?
+On Wed, 2023-11-15 at 19:43 +0200, Nikolai Kondrashov wrote:
+> Introduce a new 'V:' ("Verify") field to MAINTAINERS. The field accepts
+> a name of a test suite which is required to be executed for each
+> contribution to the subsystem.
 
-Yes, I suggest we use:
+Perhaps this is simply too much overhead
+process requirements for most kernel work.
 
-base-repository: <some-canonical-repo-url>
+While the addition of V: seems ok, I think
+putting the verification in checkpatch is
+odd at best and the verification of test
+execution should be a separate script.
 
-So, a b4-submitted series will have these footers:
 
-change-id: <unique-series-id>
-base-commit: <commit-id-or-tag>
-base-repository: <canonical-repo-url>
-
-(And then, eventually, there will be series dependency info in the format:
-
-requires: <unique-series-id>:<version>
-
--K
