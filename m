@@ -2,37 +2,56 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E55BC2BB3F
-	for <workflows@archiver.kernel.org>; Wed, 15 Nov 2023 17:56:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2712AC072A2
+	for <workflows@archiver.kernel.org>; Wed, 15 Nov 2023 18:08:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229504AbjKOR4d (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 15 Nov 2023 12:56:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40048 "EHLO
+        id S229578AbjKOSII (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 15 Nov 2023 13:08:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229497AbjKOR4d (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 15 Nov 2023 12:56:33 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42385D41;
-        Wed, 15 Nov 2023 09:56:29 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DD9D18D;
-        Wed, 15 Nov 2023 18:56:00 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1700070961;
-        bh=B84mM6617p9zO8gKPZeo7FnDkXTNNw/3Ui+JuYQYZ44=;
+        with ESMTP id S229497AbjKOSIH (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 15 Nov 2023 13:08:07 -0500
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55D0CA4;
+        Wed, 15 Nov 2023 10:08:04 -0800 (PST)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 8C6A340E018F;
+        Wed, 15 Nov 2023 18:08:02 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+        header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+        by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id iEHahqT_tC2V; Wed, 15 Nov 2023 18:08:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+        t=1700071679; bh=Cv3EjMfWm6FdFawpmRBV/D3gHWyeScSfWQgZtc5gglM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AF3Qle88iQHXmtPhaiheiGfq+kLIMg2g6lVW7W61hL/Ss5snExp5kG1/qTbhnCX0g
-         YRLFSFGnxkY+3v61QW+LsS1xYQo+aC0VgODIplApSmUGvCZI02jlCYYt8+rtc+6fYc
-         XUvC/MbS8nhpctMsrymMZ+hsrxI2YngSU1SaDhvM=
-Date:   Wed, 15 Nov 2023 19:56:32 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        b=NpNlRn6LdX2auEB+rXN06qtGweNXLprYyx6Qm/IdSDZlgCI9ADqfVdyUPnJxZx7Tm
+         2k5WfoxZAjxnCb55AX1UhdQqFuUf7+tsPNFApunDWDzqdW3Rszr9MKYFZxjl4mMDE+
+         0Kw7aaTfKh/HctY3xXhzZn6MJWgxBARu3Rab1uLQBJycSeni0ufKBalP46naIxjh6M
+         HJjwkjy4Qj70vodi9i9uypKQMs3XP6B1jp3uiykKC0qF6eDQhKpu0uWNpnZ6HCYG5L
+         GYdu0AeoUIykOQqpwse3c+1u9g50ILmK6F9mUoqTvoPUNejAEFjhFyGPdOJmrrsWPP
+         fydbUHMCu15jY1SLsWjNb4zYpcEzeJd6HDonmkvbP3rCgL2AB0PtklnfvRbg2PCkNe
+         LqRdNshCHHloPDzVjZ3j1rY7FpcqjPnA7OiTlwjiSBCM9v/x3N6mPn7cqV+KuSMeCF
+         OU2pOhIioJj0nFfvoGYTzlAMe7f3UXbYlq900ZGeh//pV615sbf1wjv7YrOPsB59ds
+         giry0RmKaFEl3sA9+KDHxvvEHlesaDdQH5oACXyh29dkzG6DtEYPNWs0HpNo+R4Qtg
+         1jgRVuHp9ip63UM6RWeSTzjBHBIedwtNT5YVbI4107FLtwhLn2KSGlWNZrzORZMUpi
+         EG+JR0gHBtNDxepZbJCLNTjE=
+Received: from zn.tnic (pd95304da.dip0.t-ipconnect.de [217.83.4.218])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+        (No client certificate requested)
+        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 63D8A40E0030;
+        Wed, 15 Nov 2023 18:07:53 +0000 (UTC)
+Date:   Wed, 15 Nov 2023 19:07:47 +0100
+From:   Borislav Petkov <bp@alien8.de>
 To:     Kees Cook <keescook@chromium.org>
-Cc:     Borislav Petkov <bp@alien8.de>, Jonathan Corbet <corbet@lwn.net>,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        git@vger.kernel.org
 Subject: Re: [PATCH] docs: submitting-patches: improve the base commit
  explanation
-Message-ID: <20231115175632.GA29486@pendragon.ideasonboard.com>
+Message-ID: <20231115180747.GFZVUI84eKiMC9BPs3@fat_crate.local>
 References: <20231115170330.16626-1-bp@alien8.de>
  <202311150948.F6E39AD@keescook>
 MIME-Version: 1.0
@@ -60,20 +79,15 @@ On Wed, Nov 15, 2023 at 09:49:31AM -0800, Kees Cook wrote:
 > Yup, I wonder if making "--base=auto" a default in git might be a good
 > idea too?
 
-When the base of a series is in Linus' tree, or in the corresponding
-subsystem maintainer's tree, things are easy, but there are many
-situations where the base is a merge of multiple branches (perhaps a
-for-next and a fixes branch for instance), or where prerequisites have
-been applied manually for one reason or another. This can and should of
-course be described in the cover letter, and the submitter should push
-and provide a link to a branch that contains the series on top of the
-appropriate base (or just a link to the base). This won't help the bots
-much though, if they just look at the base tag. Is there a way, or can
-we standardize on a way, to indicate where the base can be found ?
+Not a bad idea. And if not needed, one can simply ignore it when reading
+the cover letter.
 
-> Reviewed-by: Kees Cook <keescook@chromium.org>
+CCing the git ML for comment/opinions.
+
+Thx.
 
 -- 
-Regards,
+Regards/Gruss,
+    Boris.
 
-Laurent Pinchart
+https://people.kernel.org/tglx/notes-about-netiquette
