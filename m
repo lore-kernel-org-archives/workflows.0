@@ -2,70 +2,71 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40346C197A0
-	for <workflows@archiver.kernel.org>; Thu, 16 Nov 2023 12:10:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D741C197A0
+	for <workflows@archiver.kernel.org>; Thu, 16 Nov 2023 12:14:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345154AbjKPMKG (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Thu, 16 Nov 2023 07:10:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45862 "EHLO
+        id S1345158AbjKPMOg (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 16 Nov 2023 07:14:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345100AbjKPMKF (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 16 Nov 2023 07:10:05 -0500
+        with ESMTP id S1345138AbjKPMOf (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 16 Nov 2023 07:14:35 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6021A18B
-        for <workflows@vger.kernel.org>; Thu, 16 Nov 2023 04:10:01 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5472E9C
+        for <workflows@vger.kernel.org>; Thu, 16 Nov 2023 04:14:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1700136600;
+        s=mimecast20190719; t=1700136871;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=b6w0c/6Mjt9S6ipZbdX2b4aG7B54ILnQ5DkOjrtik/4=;
-        b=fSLrYTFMEXWcttz8z4yc3O8ZFR7fnmUBYLMLyS/sgvhUZ0WwgYI6KLjzWnTPn0ofWB0UAj
-        FOw+1RfbzUYRyJuIIaboC7JobX4sRHOqCjiKWbXMvF9b1j9YIQVVJd9mV9z4HXgVgIZuGM
-        0gtqjNVlmN7unyM6XhwYXp5VjJWeYhU=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=8bNUOH0W+hzau0QOi98ae0r3jNAzrQ9c27bIiiL1MLQ=;
+        b=JV+s4vKSEIy3BjOQbpsJtKijnMJGb3n7xdiAOoK4EIgikUIiKMmaeneEZWVmNkCnq/8QKn
+        MlvzobvdjVpJ6urXHZa5DiFMolKNA/PY7hvJ3xRwtqDGz+3r73VwBa2gp25I3iDz5Pqn/b
+        XtqcWy24i9ofmmBXrV3XdNJ6zqhYQh0=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-364-R8seJslGNHeokZDhq7OFXQ-1; Thu, 16 Nov 2023 07:09:59 -0500
-X-MC-Unique: R8seJslGNHeokZDhq7OFXQ-1
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-66d0b251a6aso8138516d6.2
-        for <workflows@vger.kernel.org>; Thu, 16 Nov 2023 04:09:59 -0800 (PST)
+ us-mta-404-vDIscZTiPQ6VZoUDeLS5Xg-1; Thu, 16 Nov 2023 07:14:30 -0500
+X-MC-Unique: vDIscZTiPQ6VZoUDeLS5Xg-1
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-779f645c74cso72921885a.0
+        for <workflows@vger.kernel.org>; Thu, 16 Nov 2023 04:14:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700136599; x=1700741399;
+        d=1e100.net; s=20230601; t=1700136869; x=1700741669;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=b6w0c/6Mjt9S6ipZbdX2b4aG7B54ILnQ5DkOjrtik/4=;
-        b=K9vDEuPDiRFv/su/+9Yhkmx9ds4UFbf1uEntoWs8huYlM9afgXQZ2/0xFqzo2wI/MF
-         RHOwUs2VMViKdgTpcab+5ZhQRe38rAfSEepHwQBMwUrw+BcotNe5qKCnvup8K0IYlUy4
-         K6sNTaHEVraktwvgYBkvIpzKR14SQjemaoTclsyhpms7fdAtQmh8Z4uCMba7yB6uDI//
-         DRSIn4PkpJxPJfK/s8AZ+M+Uo+pF3vkkykhFYmj4x7DT7hWcqTcQP0NUpVSzgayti3jj
-         OhIrSane9aJHnZFLmPGzmqr1gjbgsGcxT4mL9gG5h4MQ7850Uh+HtE4TVP5QHn9MZRit
-         TYuQ==
-X-Gm-Message-State: AOJu0YzZPdf6KJ2tvvLTH1+xF1+WVI2YfOM/DB77u1RxRwleIqy9rCXl
-        pfRDxeJoHMnSP+LNk61X39Sd+uOYbgE3/F0rOKBKST+KgSABe9VT2XCH9frPNcVMBHzY1hPlGSX
-        kKL51UXxVQ3KqPQGbtGn1
-X-Received: by 2002:a05:6214:481:b0:670:63bc:a2ca with SMTP id pt1-20020a056214048100b0067063bca2camr10416128qvb.28.1700136599040;
-        Thu, 16 Nov 2023 04:09:59 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH71Na6oMtgVxH7p4QiOqHTi/dcqvr3Ohm5MKFHhH9Kt+iUWX1LU0pvTZO2VvIJY7NykGZpBQ==
-X-Received: by 2002:a05:6214:481:b0:670:63bc:a2ca with SMTP id pt1-20020a056214048100b0067063bca2camr10416108qvb.28.1700136598694;
-        Thu, 16 Nov 2023 04:09:58 -0800 (PST)
+        bh=8bNUOH0W+hzau0QOi98ae0r3jNAzrQ9c27bIiiL1MLQ=;
+        b=BZUYAKeDDo095l2XJ72Tc6F6Ei/gKfOhzwXb2EFFmr9ijXmgbuzq12leGGmL1+aza/
+         xsfSZaDVLKQof23jKsVhEUgODTZZYQ35jsnkl91hCXotZpHQb+4V1VlNceXS6VI9NFjk
+         xb4E0okHXxtdc2du/ZU6Vw6Wa0WtOTul9qacXQ43ORMyGw6uqAR07XLoe34ZlNlF077H
+         d1QrtD6ArrQLjisQbCvnaKS+mI1eIIAGfaQRqJ/acA8cqKmtTTE78q1aGDBMliRkyoWX
+         ouf7zpQiwPGWdsfm9JuOqkB+xE3bn1l7Lnul3ooSnTK25eNQmcA+Xb4OF5WoYxA5DRzH
+         Ko0Q==
+X-Gm-Message-State: AOJu0Yx2NDW8rPK3VUZYJkzkOVIu17O4vag+5TfqkZ5YX+pb3FdQZ6yE
+        wIWGf5pgi5VFTAdYuyg+Bf3O1BVCGtUEm8VoiEOXXuJ37ZuDGOXuGr/gYb/daXhydQI0w53p1+U
+        n1Zgu0JgihWA2fnk27VJdqdC7JNfAAhY=
+X-Received: by 2002:ac8:7f4c:0:b0:41c:dd22:e7bf with SMTP id g12-20020ac87f4c000000b0041cdd22e7bfmr10072034qtk.42.1700136868939;
+        Thu, 16 Nov 2023 04:14:28 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFPGczeFtCmKIQDf7fheNsirZABfTHQecH6L89Gj9lo6GuRXElt/m+iwntGdSDoB0dFD/x7OA==
+X-Received: by 2002:ac8:7f4c:0:b0:41c:dd22:e7bf with SMTP id g12-20020ac87f4c000000b0041cdd22e7bfmr10072017qtk.42.1700136868716;
+        Thu, 16 Nov 2023 04:14:28 -0800 (PST)
 Received: from [192.168.0.118] (88-113-27-52.elisa-laajakaista.fi. [88.113.27.52])
-        by smtp.gmail.com with ESMTPSA id x9-20020a0ceb89000000b0067266b7b903sm1328321qvo.5.2023.11.16.04.09.56
+        by smtp.gmail.com with ESMTPSA id g9-20020ac84dc9000000b0041cb787ff41sm4251329qtw.67.2023.11.16.04.14.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Nov 2023 04:09:58 -0800 (PST)
-Message-ID: <cdf83c60-b89d-42b5-8f47-95a187693ac3@redhat.com>
-Date:   Thu, 16 Nov 2023 14:09:54 +0200
+        Thu, 16 Nov 2023 04:14:28 -0800 (PST)
+Message-ID: <13fe4866-0522-4690-a060-160fdab9f54b@redhat.com>
+Date:   Thu, 16 Nov 2023 14:14:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/3] MAINTAINERS: Introduce V: field for required tests
 Content-Language: en-US
-To:     Mark Brown <broonie@kernel.org>
+To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
 Cc:     workflows@vger.kernel.org, Joe Perches <joe@perches.com>,
         Andy Whitcroft <apw@canonical.com>,
         Theodore Ts'o <tytso@mit.edu>, David Gow <davidgow@google.com>,
         Steven Rostedt <rostedt@goodmis.org>,
+        Mark Brown <broonie@kernel.org>,
         Shuah Khan <skhan@linuxfoundation.org>,
         "Darrick J . Wong" <djwong@kernel.org>, kunit-dev@googlegroups.com,
         linux-kselftest@vger.kernel.org,
@@ -73,51 +74,34 @@ Cc:     workflows@vger.kernel.org, Joe Perches <joe@perches.com>,
         CKI <cki-project@redhat.com>, kernelci@lists.linux.dev
 References: <20231115175146.9848-1-Nikolai.Kondrashov@redhat.com>
  <20231115175146.9848-2-Nikolai.Kondrashov@redhat.com>
- <7a4a71a2-cca3-401e-a7ad-16ee47812900@sirena.org.uk>
+ <20231115-charcoal-sloth-of-wizardry-5a75fa@nitro>
 From:   Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
-In-Reply-To: <7a4a71a2-cca3-401e-a7ad-16ee47812900@sirena.org.uk>
+In-Reply-To: <20231115-charcoal-sloth-of-wizardry-5a75fa@nitro>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On 11/15/23 22:14, Mark Brown wrote:
+On 11/15/23 22:38, Konstantin Ryabitsev wrote:
 > On Wed, Nov 15, 2023 at 07:43:49PM +0200, Nikolai Kondrashov wrote:
-> 
 >> Introduce a new tag, 'Tested-with:', documented in the
 >> Documentation/process/submitting-patches.rst file. The tag is expected
 >> to reference the documented test suites, similarly to the 'V:' field,
 >> and to certify that the submitter executed the test suite on the change,
 >> and that it passed.
 > 
-> This doesn't feel like it fits so well with git based flows - generally
-> the tags end up in git one way or another so there'll be a strong
-> tendency for this to end up getting added for one version and then
-> carried forward to the next version.  The way the tooling is at present
-> it doesn't really feel like there's a good point at which to insert the
-> tag.
+> I'm not sure it should be a tag that stays all the way through git commit.
+> How about making it a cover letter/first patch footer?
 > 
-> I'm not sure exactly what'd be better though.
+> tested-with: <suite>
 
-Yeah, I agree that's a bit of a problem. One that only automated 
-tools/testing/CI could fully solve. Cough, git forges, cough.
-
-OTOH, once you managed to run an automated suite once, it's much easier to do 
-it again, and most of the time developers *want* their code to work and pass 
-the tests (it's much easier than manual testing after all). So it's likely 
-they will keep running them for new revisions, even though they might not 
-notice they simply reused the previously-added Tested-with: tag.
-
-Still, one way to make this better could be requiring a URL pointing at test 
-results to follow the test suite name in the Tested-with: tag. Then the 
-maintainer could check that they're indeed fresh.
-
-This would be however getting way ahead of ourselves and, with the current 
-(average) state of testing infra, hard to do. Perhaps sometime later.
-
-For now, I think this could already go a long way towards having more (and 
-better) testing.
+Yes, that would be better indeed. However, checkpatch.pl doesn't process cover 
+letters, and so we would have no automated way to advertise and nudge people 
+towards testing.
 
 Nick
+
+P.S. Git forges do that for you by nature of actually running the tests 
+themselves, automatically. *Ducks*
 
