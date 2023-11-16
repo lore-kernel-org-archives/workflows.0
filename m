@@ -2,110 +2,156 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18C97C5AD4C
-	for <workflows@archiver.kernel.org>; Thu, 16 Nov 2023 14:21:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8CCAC47071
+	for <workflows@archiver.kernel.org>; Thu, 16 Nov 2023 16:33:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234623AbjKPOVw convert rfc822-to-8bit (ORCPT
-        <rfc822;workflows@archiver.kernel.org>);
-        Thu, 16 Nov 2023 09:21:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39144 "EHLO
+        id S229841AbjKPQdP (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Thu, 16 Nov 2023 11:33:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231205AbjKPOVv (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Thu, 16 Nov 2023 09:21:51 -0500
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B49011F;
-        Thu, 16 Nov 2023 06:21:48 -0800 (PST)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-5b499b18b28so9628147b3.0;
-        Thu, 16 Nov 2023 06:21:48 -0800 (PST)
+        with ESMTP id S231178AbjKPQdO (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Thu, 16 Nov 2023 11:33:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C681192
+        for <workflows@vger.kernel.org>; Thu, 16 Nov 2023 08:33:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1700152390;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=L2R1YGHbVqaFXfxAjW2H0oaW69e+Pupsv8J1Jh5FYd8=;
+        b=UsIxlvlyg+TUDFZqbkeGCE4cJM/jEonv4NjpfoBXrM2KNVUbERl/mnwaXzTojNfqxec3rk
+        IP6HK6uREO+qTQDReyNWAzHhE9XGY3U4mglsa4PvNabr2KnzLbMq9ojJEhC5NekUI2/Nqt
+        1oBLfYtSWV/5IwwRokpmrNRvP5Ntbws=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-70-StWAQG86Od6LUudswrhERA-1; Thu, 16 Nov 2023 11:33:08 -0500
+X-MC-Unique: StWAQG86Od6LUudswrhERA-1
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-66da680f422so10625766d6.3
+        for <workflows@vger.kernel.org>; Thu, 16 Nov 2023 08:33:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700144507; x=1700749307;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aTx8TpUCHZnFxSy50UzWEJ/5KYXYD5wT5yrFARu50ps=;
-        b=TuOp9BvBKdGANoYaWcadx8dEbcMXodYtEYQJWtx3dHAq0W1iqg1xt/V+hGkG8xvIBa
-         IS6VxUFjLkM+6YX1pM8NsXVJjjwZ7TAzTffOYOL4c2yJh2qNqnEOGswXmtDkbRa7qNFq
-         4OMxdZGuxNuIUBIejViyhXBBfV2j7Sb3l6fsMCPsLrTig2fsCwoZUAZwhRm8CVAAniGA
-         Ce9YDNkMiQlV5wylXKnmc0hvm4OAc9GZGdL0IFW2orMOfshkpvc6BQKwn2ka23UeAiiq
-         qYHsKKPpifPwZFxHBvQiaACoWyYnWXXxawCwqXHVASYF4eOBLwNQacWIRyUwWBy7ubwf
-         xfIw==
-X-Gm-Message-State: AOJu0Yy6wLCo1vp2ipKLwBftoprIsIRPd43mqb1BG1vw7gzPJ5lmP4mB
-        SxVhIEjLbPKcbcOzW8HHadrDDHqjiaMF+g==
-X-Google-Smtp-Source: AGHT+IFk65NcNMuIuixJS9RaQDjqSP6f1Fe3B8zyx/qzZ08ocWCkSvOsok9Lt9o4P8u/GiMloNodUA==
-X-Received: by 2002:a81:5201:0:b0:5a7:ba09:e58b with SMTP id g1-20020a815201000000b005a7ba09e58bmr17376492ywb.14.1700144507230;
-        Thu, 16 Nov 2023 06:21:47 -0800 (PST)
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
-        by smtp.gmail.com with ESMTPSA id f125-20020a0ddc83000000b005a7bbd713ddsm1000165ywe.108.2023.11.16.06.21.46
+        d=1e100.net; s=20230601; t=1700152387; x=1700757187;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=L2R1YGHbVqaFXfxAjW2H0oaW69e+Pupsv8J1Jh5FYd8=;
+        b=CpaTzNSmlalm34YgdrKjGXFdJIEB5LpUEUTHxIBsih0Dui+5iLf7zHiBtID7p812Tn
+         ziw+MxkIO8q0xQijufCC5fGugIm33sLBsRTzzfeA6dRsDvIi6a7fUwDqoVfiGB9WcMG/
+         pkfNsLhPsS/ETUWOV6aBZXknrZBP02bTyzsldTRc7xBq2Mxnd9N11ReNSFIO1rIO3nMo
+         az/kL0Fw+c/yYlGXfg7Uh7PNNw0tF5tjE4JWsBC8Au3hDKnLNgfjZGEaZkoh7dlbnQ7V
+         CjZxZpmtjjtCx9PoSYMGoxsS43lLmSDjaW7flobE6JGl3F3QSydyx10GOy+HEsb07Cwd
+         6xjg==
+X-Gm-Message-State: AOJu0YyHVIknpqmxYPTHT/fkKxpZoiPfw1ulE2zguajPo6ahhu/gT+gy
+        uJ53sZrjMJfLb74fMhSMC945I+ckmGyVf0LgjiEDq7/n1doE44YRpqArXIIZlInyq0eyN1AJmhM
+        Dyy+f2Q6ExA3k5lSjR7H0
+X-Received: by 2002:ad4:4a0c:0:b0:677:a9f8:ffaf with SMTP id m12-20020ad44a0c000000b00677a9f8ffafmr8581048qvz.13.1700152387666;
+        Thu, 16 Nov 2023 08:33:07 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFEEgk8pzw41/n4ANf585fqyMlEj86chFUDmRIhAvinjMu1NPYWAuUtx3i3d3vcebD/atvQ1Q==
+X-Received: by 2002:ad4:4a0c:0:b0:677:a9f8:ffaf with SMTP id m12-20020ad44a0c000000b00677a9f8ffafmr8581023qvz.13.1700152387376;
+        Thu, 16 Nov 2023 08:33:07 -0800 (PST)
+Received: from [192.168.0.118] (88-113-27-52.elisa-laajakaista.fi. [88.113.27.52])
+        by smtp.gmail.com with ESMTPSA id v12-20020a0cc60c000000b006717ddb4d47sm1465741qvi.28.2023.11.16.08.33.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Nov 2023 06:21:47 -0800 (PST)
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-da3b4b7c6bdso811723276.2;
-        Thu, 16 Nov 2023 06:21:46 -0800 (PST)
-X-Received: by 2002:a25:d88a:0:b0:da0:3b47:bf0c with SMTP id
- p132-20020a25d88a000000b00da03b47bf0cmr17271398ybg.20.1700144505875; Thu, 16
- Nov 2023 06:21:45 -0800 (PST)
+        Thu, 16 Nov 2023 08:33:06 -0800 (PST)
+Message-ID: <50d6abd6-111c-4e66-9989-65cb8e43b48c@redhat.com>
+Date:   Thu, 16 Nov 2023 18:33:02 +0200
 MIME-Version: 1.0
-References: <20231115175146.9848-1-Nikolai.Kondrashov@redhat.com>
- <20231115175146.9848-2-Nikolai.Kondrashov@redhat.com> <ZVYXEry40HTCis00@archie.me>
-In-Reply-To: <ZVYXEry40HTCis00@archie.me>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 16 Nov 2023 15:21:34 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXza+PUrDfo+=Dzy6dr=C8vjsPQHN=8EDwXNjxdorNskQ@mail.gmail.com>
-Message-ID: <CAMuHMdXza+PUrDfo+=Dzy6dr=C8vjsPQHN=8EDwXNjxdorNskQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] MAINTAINERS: Introduce V: field for required tests
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>,
-        workflows@vger.kernel.org, Joe Perches <joe@perches.com>,
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] MAINTAINERS: Require kvm-xfstests smoke for ext4
+Content-Language: en-US
+To:     "Darrick J. Wong" <djwong@kernel.org>
+Cc:     workflows@vger.kernel.org, Joe Perches <joe@perches.com>,
         Andy Whitcroft <apw@canonical.com>,
-        "Theodore Ts'o" <tytso@mit.edu>, David Gow <davidgow@google.com>,
+        Theodore Ts'o <tytso@mit.edu>, David Gow <davidgow@google.com>,
         Steven Rostedt <rostedt@goodmis.org>,
         Mark Brown <broonie@kernel.org>,
         Shuah Khan <skhan@linuxfoundation.org>,
-        "Darrick J . Wong" <djwong@kernel.org>,
-        Charles Han <hanchunchao@inspur.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux Kernel Unit Tests <kunit-dev@googlegroups.com>,
-        Linux Kernel Self Tests <linux-kselftest@vger.kernel.org>,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
         Veronika Kabatova <vkabatov@redhat.com>,
-        CKI <cki-project@redhat.com>, kernelci@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+        CKI <cki-project@redhat.com>, kernelci@lists.linux.dev,
+        Chandan Babu R <chandanrlinux@gmail.com>,
+        Dave Chinner <david@fromorbit.com>
+References: <20231115175146.9848-1-Nikolai.Kondrashov@redhat.com>
+ <20231115175146.9848-3-Nikolai.Kondrashov@redhat.com>
+ <20231115185808.GD36211@frogsfrogsfrogs>
+From:   Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
+In-Reply-To: <20231115185808.GD36211@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Hi Bagas,
+Thanks for the comments, Darrick!
 
-On Thu, Nov 16, 2023 at 2:20 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
-> On Wed, Nov 15, 2023 at 07:43:49PM +0200, Nikolai Kondrashov wrote:
-> > Make scripts/checkpatch.pl ensure any added V: fields reference
-> > documented test suites only, and output a warning if a change to a
-> > subsystem doesn't certify the required test suites were executed,
-> > if any.
-> >
-> > If the test suite description includes a "Command", then checkpatch.pl
-> > will output it as the one executing the suite. The command should run
-> > with only the kernel tree and the regular developer environment set up.
-> > But, at the same time, could simply output instructions for installing
-> > any extra dependencies (or pull some automatically). The idea is to
-> > get the developer into feedback loop quicker and easier, so they have
-> > something to run and iterate on, even if it involves installing some
-> > more stuff first. Therefore it's a good idea to add such wrappers to the
-> > kernel tree proper and refer to them from the tests.rst.
->
-> Does it also apply to trivial patches (e.g. spelling or checkpatch fixes
-> as seen on drivers/staging/)?
+On 11/15/23 20:58, Darrick J. Wong wrote:
+> On Wed, Nov 15, 2023 at 07:43:50PM +0200, Nikolai Kondrashov wrote:
+>> +xfstests
+>> +--------
+>> +
+>> +:Summary: File system regression test suite
+>> +:Source: git://git.kernel.org/pub/scm/fs/xfs/xfstests-dev.git
+> 
+> You might as well use the https link to the fstests git repo.
+> https://git.kernel.org/pub/scm/fs/xfs/xfstests-dev.git
 
-After having seen the introduction of too many build failures, I'm
-inclined to ask for an even stronger proof of testing for "trivial"
-fixes for drivers/staging...
+Sure! Queued for the next version.
 
-Gr{oetje,eeting}s,
+>> +:Docs: https://github.com/tytso/xfstests-bld/blob/master/Documentation/what-is-xfstests.md
+> 
+> Awkardly, this github link is nice for rendering the markdown as html,
+> but I think the canonical source of xfstests-bld is also kernel.org:
+> 
+> https://git.kernel.org/pub/scm/fs/ext2/xfstests-bld.git
 
-                        Geert
+Alright. Changed to 
+https://git.kernel.org/pub/scm/fs/ext2/xfstests-bld.git/tree/Documentation/kvm-quickstart.md
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+And changed the kvm-xfstests docs link to 
+https://git.kernel.org/pub/scm/fs/ext2/xfstests-bld.git/tree/Documentation/kvm-quickstart.md
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+>> +kvm-xfstests smoke
+>> +------------------
+>> +
+>> +:Summary: File system smoke tests
+>> +:Superset: xfstests
+> 
+> Source: https://git.kernel.org/pub/scm/fs/ext2/xfstests-bld.git
+> 
+> ?
+
+Well, I wasn't sure what to put here either :D I would defer to you guys in 
+this matter.
+
+I'm actually not really sure we need the "Source:" field. I think maybe having 
+just the "Docs" (HOWTO) field would less confusing. I.e. just go read the 
+docs, they should tell you what and how to get.
+
+I mean you got the sources, and then what? Look for the docs there yourself?
+
+What do you think?
+
+>> +:Docs: https://github.com/tytso/xfstests-bld/blob/master/Documentation/kvm-quickstart.md
+>> +
+>> +The "kvm-xfstests smoke" is a minimal subset of xfstests for testing all major
+>> +file systems, running under KVM.
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 2565c04f0490e..f81a47d87ac26 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -7974,6 +7974,7 @@ L:	linux-ext4@vger.kernel.org
+>>   S:	Maintained
+>>   W:	http://ext4.wiki.kernel.org
+>>   Q:	http://patchwork.ozlabs.org/project/linux-ext4/list/
+>> +V:	kvm-xfstests smoke
+> 
+> I wouldn't mind one of these being added to the XFS entry, though I've
+> cc'd the current and past maintainer(s) of XFS for their input.
+
+Sure, just give me a shout when you're ready and I'll add it :D
+
+Thanks!
+Nick
+
