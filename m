@@ -2,71 +2,213 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8972EC54E76
-	for <workflows@archiver.kernel.org>; Sat, 18 Nov 2023 23:22:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9224BC54FB9
+	for <workflows@archiver.kernel.org>; Sun, 19 Nov 2023 22:55:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229924AbjKRXWi (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Sat, 18 Nov 2023 18:22:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46506 "EHLO
+        id S231508AbjKSWzv (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Sun, 19 Nov 2023 17:55:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229610AbjKRXWh (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Sat, 18 Nov 2023 18:22:37 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8903DB6
-        for <workflows@vger.kernel.org>; Sat, 18 Nov 2023 15:22:34 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC071C433C8;
-        Sat, 18 Nov 2023 23:22:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1700349754;
-        bh=dRhlMOMZc7Ynh+zzEWrF7VAnXdYgBqVfroBd0Kd7Sos=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=vGdFQ7FaOy4xdKz5BTNwA6NNCJ5XxGyjM/DjwOke7DlE098ZLfazgXqUKMW/ohXts
-         ExxSI9xheSdCn8J0KWZqaulzouLOxrOu6O4M1zY6/CB6kJYI/fvaY8/NbnTfuRsN0Q
-         pXKQgDitNSVfBxUtPXONeiv5lXUvtc0TZxEo2RxAgafNCUxqk/dtnX00AyXd1oYCqx
-         +FnE6QP9coBcTGPjDZ2oQMwdomm4ANMlWbQAQ7IurFhpu8vLeLKAVUdE3GbZ7eVilj
-         377MuK/GqWax7f4ND2jQT5U3ifxjDpkZEaw3tVyCYM99+P4i+0fhETI88takISm5A3
-         cznTd38DgJLwg==
-Date:   Sat, 18 Nov 2023 15:22:32 -0800
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-        pabeni@redhat.com, corbet@lwn.net, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH net] docs: netdev: try to guide people on dealing with
- silence
-Message-ID: <20231118152232.787e9ea2@kernel.org>
-In-Reply-To: <dd172cac-f530-4874-a4e7-fc8d7676d708@lunn.ch>
-References: <20231118172412.202605-1-kuba@kernel.org>
-        <dd172cac-f530-4874-a4e7-fc8d7676d708@lunn.ch>
+        with ESMTP id S229665AbjKSWzu (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Sun, 19 Nov 2023 17:55:50 -0500
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89D929E
+        for <workflows@vger.kernel.org>; Sun, 19 Nov 2023 14:55:46 -0800 (PST)
+Received: from cwcc.thunk.org (pool-173-48-82-21.bstnma.fios.verizon.net [173.48.82.21])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 3AJMsbEL032072
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sun, 19 Nov 2023 17:54:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+        t=1700434481; bh=cvxrKU06XMRJ5gQInDe4mgPA1QhjOCnI1DlVNYsLak4=;
+        h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+        b=hsz1c0SfTpW0jGCJSgUBydQcigyA4uiF4VnwsEb2Pjt9fcdThq6w6aQB2j5kC/SkR
+         F6Dqjy+j2/baYG40e1rQI416xnYe3WZ4b9t+8/SqkU5F4VUNxCNAFfVsAaxONzW9u6
+         HJP5/2ZtdZ+RpZPiiuCjzMiysG4hNIoZ61eem6D51qrYsjqekgMFA121jK73B6u+bS
+         vaoC0J+hsCdFKtMLrefsb80Npts0LrMD8QmS+Dtx/ltZKmSP7e2nLNxo203NAJ0OUE
+         6AFuv6Aii6fs8u9DPTRi2t9RDpM3XVftBibZ6CVdZG9TwM14rUslJZnXTVo4LdJ0Pz
+         yEYAsEIxXfgiw==
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+        id A1D9815C02B0; Sun, 19 Nov 2023 17:54:37 -0500 (EST)
+Date:   Sun, 19 Nov 2023 17:54:37 -0500
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     Chandan Babu R <chandanbabu@kernel.org>
+Cc:     "Darrick J. Wong" <djwong@kernel.org>,
+        Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>,
+        workflows@vger.kernel.org, Joe Perches <joe@perches.com>,
+        Andy Whitcroft <apw@canonical.com>,
+        David Gow <davidgow@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mark Brown <broonie@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        Veronika Kabatova <vkabatov@redhat.com>,
+        CKI <cki-project@redhat.com>, kernelci@lists.linux.dev,
+        Chandan Babu R <chandanrlinux@gmail.com>,
+        Dave Chinner <david@fromorbit.com>
+Subject: Re: [PATCH 2/3] MAINTAINERS: Require kvm-xfstests smoke for ext4
+Message-ID: <20231119225437.GA292450@mit.edu>
+References: <20231115175146.9848-1-Nikolai.Kondrashov@redhat.com>
+ <20231115175146.9848-3-Nikolai.Kondrashov@redhat.com>
+ <20231115185808.GD36211@frogsfrogsfrogs>
+ <87v8a096cr.fsf@debian-BULLSEYE-live-builder-AMD64>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87v8a096cr.fsf@debian-BULLSEYE-live-builder-AMD64>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Sat, 18 Nov 2023 20:09:43 +0100 Andrew Lunn wrote:
-> > +On the other hand, due to the volume of development discussions on netdev
-> > +are very unlikely to be reignited after a week of silence.  
-> 
-> My English parse falls over on 'are', and wants to backtrack and try
-> alternatives.
-> 
-> Maybe:
-> 
-> On the other hand, due to the volume of development discussions on
-> netdev, after a week of silence further discussions are very unlikely
-> to occur without prompting.
+On Fri, Nov 17, 2023 at 12:39:56PM +0530, Chandan Babu R wrote:
+> IMHO, For XFS, The value of "V" field should refer to xfstests rather than a
+> framework built around xfstests. This is because xfstests project contains the
+> actual tests and also we could have several frameworks (e.g. Kdevops) for
+> running xfstests.
 
-Hm. The whole "On the other hand, due to".. felt a bit clunky from 
-the start, maybe that's the problem? Is this better?
+For ext4, what I plan to do is to start requiring, in a soon-to-be
+written:
 
- Generally speaking, the patches get triaged quickly (in less than
- 48h). But be patient, if your patch is active in patchwork (i.e. it's
- listed on the project's patch list) the chances it was missed are close to zero.
-+
-+The high volume of development on netdev makes reviewers move on
-+from discussions relatively quickly. New comments and replies 
-+are very unlikely to arrive after a week of silence. If patch is
-+no longer active in patchwork and the thread went idle for more than
-+a week - clarify the next steps and/or post the next version.
+	Documentation/process/maintainer-ext4.rst
+
+that *all* patches (exempting spelling/grammer nits which only touch
+comments and result in zero changes in the compiled .o file) will
+require running the xfstests smoke test.  The prooblem is that for
+newbie patch submitters, and for "drive-by" patches from, say, mm
+developers, installing and configuring xfstests, and then figuring out
+how to set up all of the config files, and/or environments variables,
+before you get to running "./check -g smoke"P, is really f**king hard.
+
+As far as other test frameworks are concerned, I suggest that you ask
+a new college grad that your company has just hired, or a new intern,
+or a new GSOC or Outreachy intern, to apply a patch to the upstream
+linux tree --- given only the framework's documentation, and with
+***no*** help from anyone who knows how to use the framework.  Just
+sit on your hands, and try as best you can to keep your mouth
+shut.... and wait.
+
+I spent a lot of work to make the instructures here:
+
+  https://github.com/tytso/xfstests-bld/blob/master/Documentation/kvm-quickstart.md
+
+easy enough that it meets this critera.  What should be in the V:
+field for the MAINTAINERS field is less clear to me, because it's not
+clear whether we want it to be Dead Stupid Easy for anyone capable of
+creating a kernel patch can figure out how to run the tests.
+
+My personal opinion is that for someone who running through the Kernel
+Newbies' My First Kernel patch, to say, doing something trivial such
+as changing "(a < b) ? a : b" to "min(a,b)" and then being able
+compile kernel, and then be able to say, "it builds, ship it", and
+then following the kernel documentation to send a patch upstream ---
+the documentation and procedure necessary to do something better than
+"it builds, ship it!" by that Kernel Newbie.
+
+It's also my considered opinion that neither bare, upstream xfstests,
+*nor* kdevops meets this criteria.  For example, kdevops may claim
+that you only need a few commands:
+
+     "make menuconfig"
+     "make"
+     "make bringup"
+     "make linux"
+     "make fstests"
+     "make fstests-baseline"
+     "make fstests-results"
+
+... but to be honest, I never got past the 2nd step before *I* got
+massively confused and decided there was better things to do with my
+time.  First, the "make menuconfig" requires that you answer a whole
+bunch of questions, and it's not clear how you are supposed to answer
+them all.  Secondly "make" issues a huge number of cmomands, and then
+fails because I didn't run them as root.  But I won't download random
+git repositories and "make" as root.  It goes against the grain.  And
+so after trying to figure out what it did, and whether or not it was
+safe, I ultimetly gave up on it.
+
+For upstream xfstests, ask a New College Grad fresh hire, or intern,
+to read xfstests's README file, and ask them to set up xfstests,
+without help.  Go ahead, I'll wait....
+
+No doubt for someone who is willing to make a huge investment in time
+to become a file system developer specializing in that subsystem, you
+will eventually be able to figure it out.  And in the case of kdevops,
+eventually I'd could set up my own VM, and install a kernel compile
+toolchian, and all of kdevops's prequisits, and then run "make" and
+"make linux" in that VM.  But that's a lot more than just "four
+commands".
+
+So as for *me*, I'm going to point people at:
+
+https://github.com/tytso/xfstests-bld/blob/master/Documentation/kvm-quickstart.md
+
+because I've simplified a lot of things, up to and including have
+kvm-xfstests automatically download the test appliance VM image from
+kernel.org if necessary.  When it lists the handful of commands that
+need to be run, it includes downloading all of the prequisit packages,
+and there are no complex menu configuration steps, and doesn't require
+running random make processes of Makefile and Makefile fragments as
+root.
+
+(And note that I keep the xfstests-bld repo's on kernel.org and
+github.com both uptodate, and I prefer using the using the github.com
+URL because it's easier for the new developer to read and understand
+it.)
+
+Ultimately, at least for my planned
+Documentation/process/maintainer-ext4.rst, before I could make running
+a smoke test mandatory, I needed to make sure that the quickstart
+documentation for kvm-xfstests be made as simple and as fool-proof as
+possible.  That was extremely important to me from a personal point
+of view.
+
+As far as what should go into Documentation/process/tests.rst, for
+"kvm-xfstests smoke" this may depend on whether other file system
+maintainers want to adopt something which is similarly simple for
+first-time developers to run.
+
+Also, I would assert that the proposed V: line in the Maintainer's
+file does not mean that this is the only way to test the patch.  It is
+just the minimal amount of testing that should be done, and using the
+simplest test procedure that we would expect a non-subsystem developer
+to be able to use.  It certainly wouldn't be the only way to run a
+satisfactory amount of pre-submit testing.
+
+For example, *I* wouldn't be using "kvm-xfstests smoke".  I'd be using
+something like "gce-xfstests smoke", although that requires a bit more
+setup.  Or I might do a much more substantive amount of testing, such
+as "gce-xfstests ltm -c ext4/all -g auto".
+
+Or I might establish a watch on a branch, via: "gce-xfstests ltm -c
+ext4/all -g auto --repo https://github.com/tytso/ext4.git --watch
+test", and then just push commits to the test branch.
+
+And similarly, just because the V: line might say, "kvm-xfstests
+smoke", someone could certainly use kdevops if they wanted to.  So
+perhaps we need to be a bit clearer about what we expect the V: line
+to mean?
+
+Along these lines, we should perhaps be a bit more thoughtful about
+the intended audience for Documentation/process/tests.rst.  I
+personally wouldn't try ask first-time kernel developers to look at
+the xfstests group files, because that's just way too complicated for
+them.
+
+And I had *assumed* that Documentation/process/tests.rst was not
+primarily intended for sophistiocated file system developers who
+wouldn't be afraid to start looking at the many ways that xfstests
+could be configured.  But we should perhaps be a bit more explicit
+about who the intended audience would be for a certain set up
+Documentation files, since that will make it easier for us to come to
+consensus about how that particular piece of documentation would be
+worded.
+
+As E.B. White (author of the book "The Elements of Style" was reputed
+to have once said, "Always write with deep sympathy for the reader".
+Which means we need to understand who the reader is, and to try to
+walk in their shoes, first.
+
+Cheers,
+
+					- Ted
