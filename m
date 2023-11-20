@@ -2,81 +2,84 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6E2DC197A0
-	for <workflows@archiver.kernel.org>; Mon, 20 Nov 2023 20:13:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAC39C2BB3F
+	for <workflows@archiver.kernel.org>; Mon, 20 Nov 2023 20:52:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229632AbjKTUN2 (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 20 Nov 2023 15:13:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39236 "EHLO
+        id S229490AbjKTUwD (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 20 Nov 2023 15:52:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229759AbjKTUN2 (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 20 Nov 2023 15:13:28 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC724CC
-        for <workflows@vger.kernel.org>; Mon, 20 Nov 2023 12:13:24 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8765AC433C8;
-        Mon, 20 Nov 2023 20:13:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1700511204;
-        bh=4sUDEp6FYMfD2QrfOBC4znr4NhcbtUaY8p3AqsjaVX8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pmySCxX1nvFtdQ8UsIeucqu8wgXj0Q3rdUEYubyupWh6P7ZWXqu9pglCx7VFRrVzq
-         Jj+65pdeF0zLXsCGOO9B6c6RdpYMmpkN87Brsa2BykPRiNMS51ZlFfPk3dwlBKLSJh
-         94ZMOlh+ksE2Yt2DPLiUkLvCqMTo2Htk92h7Cer17OmW8gYolLT8LRDpV2a2dhGjzR
-         +q5totgxMTv0OU7XoB+gQ/0+SpcGpky89v80FB9KUFp97xwdhrC/i5JSDRtFMRgcoB
-         rKwVkk9S7NsBznSw/9kUbx4dbi0yRxFA74tTZTbaXwgBa0dyK95gK65q+YSChZSYb+
-         u2+5NGOfjzPgQ==
-Date:   Mon, 20 Nov 2023 20:13:19 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-        pabeni@redhat.com, andrew@lunn.ch, corbet@lwn.net,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net] docs: netdev: try to guide people on dealing with
- silence
-Message-ID: <0d80ee23-e106-487e-a824-b048948a859a@sirena.org.uk>
-References: <20231120200109.620392-1-kuba@kernel.org>
+        with ESMTP id S229476AbjKTUwC (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 20 Nov 2023 15:52:02 -0500
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73B4BCF
+        for <workflows@vger.kernel.org>; Mon, 20 Nov 2023 12:51:59 -0800 (PST)
+Received: from cwcc.thunk.org (pool-173-48-82-21.bstnma.fios.verizon.net [173.48.82.21])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 3AKKpVHE031574
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 20 Nov 2023 15:51:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+        t=1700513494; bh=Qhra/PeadF+kxbhZQdWkm4KjSgZyzyt74oOIJ4DgkH4=;
+        h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+        b=FeS+4Q71mi0SljGJGvZds2wEUXSIMXqejzcia7Ms7oY6UKeyeuQjQ/mZKfRxqU7BE
+         RoXIEs4X8FSNKE8FJtYbXdNks0Hlc9uCGeQmofrG1mIZvxOac0mkOnGcZAEqU8louQ
+         1VT67MKG61XIPamVBtaLLvjqOzWeGDpbiBExz9DaLDoj1vOlWCtPshUEbUSPucX0mz
+         Xi+d+Um2Ft5zLv01aURrVORoOYHFFSQ2N7rjLs8qIkx1wG4rzMZ0w9qeju/3SJ7XL7
+         oK4Vbhgzl50cG9cNefjUY9Cm64/bcDdPGcpznWiy7pRM1qjRcannRD3EuZ7bDv9DMN
+         tF0vic9HTaCIg==
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+        id 43EB615C02B0; Mon, 20 Nov 2023 15:51:31 -0500 (EST)
+Date:   Mon, 20 Nov 2023 15:51:31 -0500
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     Ricardo =?iso-8859-1?Q?Ca=F1uelo?= <ricardo.canuelo@collabora.com>
+Cc:     Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>,
+        workflows@vger.kernel.org, joe@perches.com, apw@canonical.com,
+        davidgow@google.com, rostedt@goodmis.org, broonie@kernel.org,
+        skhan@linuxfoundation.org, djwong@kernel.org,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        vkabatov@redhat.com, cki-project@redhat.com,
+        kernelci@lists.linux.dev
+Subject: Re: [PATCH 1/3] MAINTAINERS: Introduce V: field for required tests
+Message-ID: <20231120205131.GA291888@mit.edu>
+References: <20231115175146.9848-2-Nikolai.Kondrashov@redhat.com>
+ <87sf50imba.fsf@collabora.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="RbKDKJRhjswcAM1A"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20231120200109.620392-1-kuba@kernel.org>
-X-Cookie: <Manoj> I *like* the chicken
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87sf50imba.fsf@collabora.com>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
+On Mon, Nov 20, 2023 at 02:30:49PM +0100, Ricardo Cañuelo wrote:
+> 
+> This is not trivial because tests vary a lot and we'd first need to
+> define which artifacts to link to, and because whatever is linked (test
+> commands, output log, results summary) would need to be stored
+> forever. But since we're doing that already for basically all kernel
+> mailing lists, I wonder if something like "public-inbox for test
+> results" could be possible some day.
 
---RbKDKJRhjswcAM1A
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+What we have at work is a way to upload the test results summary
+(e.g., just KTAP result lines, or the xfstests junit XML) along with
+test run metadata (e.g., what was the kernel commit on which the test
+was run, and the test hardware), and this would be stored permanently.
+Test artifacts is also preserved but for a limited amount of time
+(e.g., some number of months or a year).
 
-On Mon, Nov 20, 2023 at 12:01:09PM -0800, Jakub Kicinski wrote:
+The difference in storage lifetimes is because the junit XML file
+might be a few kilobytes to tens of kilobytes. but the test artifacts
+might be a few megabytes to tens of megabytes.
 
-> +Emails saying just "ping" or "bump" are considered rude. If you can't figure
-> +out the status of the patch from patchwork or where the discussion has
-> +landed - describe your best guess and ask if it's correct. For example::
+Of course once you have this data, it becomes possible to detect when
+a test may have regressed, or to detect flaky tests, and perhaps to
+figure out if certain hardware configurations or kernel configurations
+are more likely to trigger a particular test to fail.  So having all
+of this data stored centrally would be really cool.  The only question
+is who might be able to create such an infrastructure, and be able to
+pay for the ongoing development and operational costs....
 
-> +  I don't understand what the next steps are. Person X seems to be unhappy
-> +  with A, should I do B and repost the patches?
-
-This bit (modulo the reference to patchwork) feels like it's generically
-good advice and could find a home in submitting-patches.rst or similar,
-not that it isn't worth repeating here.
-
---RbKDKJRhjswcAM1A
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVbvd4ACgkQJNaLcl1U
-h9D67Qf9HPgF7lQhJm9GidXfuMsvjIBSe0kH7WnFQND6lioBmMb3AdRniHDNKLx1
-YJLSKE2SAdlUXuFpGtfqwvf4AzaYnkNcDpxPdJBJpeuN+DkJXRguKy6fuzux4CzL
-FKjz8d7B+MIVxB7eaZCi6nuLPoHetW13OSZ/b1mepPRfSkaNDMQtUJ0kJadbzvR4
-eeW+qjZVhislHHtjneQYsgmY6qQRCDBeFryFKdN0ucc5sy/NRzKseWL5dMAzr92D
-9p54Exvw5g8ndtMCarOR2/ULR76NRJfDRBd1gKp1MflakE778m3MZsoG7k5342B4
-3YcT26WP6qpUpLZ7QjTiLGycXUVM/g==
-=d0ou
------END PGP SIGNATURE-----
-
---RbKDKJRhjswcAM1A--
+    	    	    		    		- Ted
