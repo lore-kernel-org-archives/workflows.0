@@ -2,101 +2,81 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C0B1C2BB3F
-	for <workflows@archiver.kernel.org>; Mon, 20 Nov 2023 20:01:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6E2DC197A0
+	for <workflows@archiver.kernel.org>; Mon, 20 Nov 2023 20:13:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232539AbjKTUBS (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 20 Nov 2023 15:01:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33242 "EHLO
+        id S229632AbjKTUN2 (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Mon, 20 Nov 2023 15:13:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233787AbjKTUBR (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 20 Nov 2023 15:01:17 -0500
+        with ESMTP id S229759AbjKTUN2 (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Mon, 20 Nov 2023 15:13:28 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E37A7E3
-        for <workflows@vger.kernel.org>; Mon, 20 Nov 2023 12:01:12 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E2FDC433C8;
-        Mon, 20 Nov 2023 20:01:12 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC724CC
+        for <workflows@vger.kernel.org>; Mon, 20 Nov 2023 12:13:24 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8765AC433C8;
+        Mon, 20 Nov 2023 20:13:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1700510472;
-        bh=xhLK50jLAz04UHazu67omTgum5sysPJRblqRFVwcoQM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=k5qECeYsVfWze77kgqY/oCQAC1fqRDNultn3l8W2z1cbdec99TBye+DVRcUkhJuJA
-         0vP2dfmOjTqCYKFYdUMfngUr3LKDT7iO0xvPAcNZSZk/FkprASJhzqvOOD2VPT9JQ/
-         /5IVwLlZfHuFpqGBj1SDVJMDJkNUnSq6gHr5fmPMm1sWq/0Cme2ipthhdB7Ke3Iulb
-         x/cvEPsJW91cHAP8KriLIkreYSov0UPTSUvv+xvqzCK2RF6qumRKLo/5GUCk+k7GVv
-         5jZuN5qZmIGo1/8fJsQO//3U270ky986bQJSTHia1yzwxqGuhQha44yRpPthEWGFVc
-         eqp2dRfCXhTZA==
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     davem@davemloft.net
-Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-        andrew@lunn.ch, Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net,
+        s=k20201202; t=1700511204;
+        bh=4sUDEp6FYMfD2QrfOBC4znr4NhcbtUaY8p3AqsjaVX8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pmySCxX1nvFtdQ8UsIeucqu8wgXj0Q3rdUEYubyupWh6P7ZWXqu9pglCx7VFRrVzq
+         Jj+65pdeF0zLXsCGOO9B6c6RdpYMmpkN87Brsa2BykPRiNMS51ZlFfPk3dwlBKLSJh
+         94ZMOlh+ksE2Yt2DPLiUkLvCqMTo2Htk92h7Cer17OmW8gYolLT8LRDpV2a2dhGjzR
+         +q5totgxMTv0OU7XoB+gQ/0+SpcGpky89v80FB9KUFp97xwdhrC/i5JSDRtFMRgcoB
+         rKwVkk9S7NsBznSw/9kUbx4dbi0yRxFA74tTZTbaXwgBa0dyK95gK65q+YSChZSYb+
+         u2+5NGOfjzPgQ==
+Date:   Mon, 20 Nov 2023 20:13:19 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+        pabeni@redhat.com, andrew@lunn.ch, corbet@lwn.net,
         workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH net] docs: netdev: try to guide people on dealing with silence
-Date:   Mon, 20 Nov 2023 12:01:09 -0800
-Message-ID: <20231120200109.620392-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.42.0
+Subject: Re: [PATCH net] docs: netdev: try to guide people on dealing with
+ silence
+Message-ID: <0d80ee23-e106-487e-a824-b048948a859a@sirena.org.uk>
+References: <20231120200109.620392-1-kuba@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="RbKDKJRhjswcAM1A"
+Content-Disposition: inline
+In-Reply-To: <20231120200109.620392-1-kuba@kernel.org>
+X-Cookie: <Manoj> I *like* the chicken
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-There has been more than a few threads which went idle before
-the merge window and now people came back to them and started
-asking about next steps.
 
-We currently tell people to be patient and not to repost too
-often. Our "not too often", however, is still a few orders of
-magnitude faster than other subsystems. Or so I feel after
-hearing people talk about review rates at LPC.
+--RbKDKJRhjswcAM1A
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Clarify in the doc that if the discussion went idle for a week
-on netdev, 95% of the time there's no point waiting longer.
+On Mon, Nov 20, 2023 at 12:01:09PM -0800, Jakub Kicinski wrote:
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
----
-v2:
- - rephrase the first paragraph
-v1: https://lore.kernel.org/all/20231118152232.787e9ea2@kernel.org/
+> +Emails saying just "ping" or "bump" are considered rude. If you can't figure
+> +out the status of the patch from patchwork or where the discussion has
+> +landed - describe your best guess and ask if it's correct. For example::
 
-CC: corbet@lwn.net
-CC: workflows@vger.kernel.org
-CC: linux-doc@vger.kernel.org
----
- Documentation/process/maintainer-netdev.rst | 20 +++++++++++++++++---
- 1 file changed, 17 insertions(+), 3 deletions(-)
+> +  I don't understand what the next steps are. Person X seems to be unhappy
+> +  with A, should I do B and repost the patches?
 
-diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
-index 7feacc20835e..84ee60fceef2 100644
---- a/Documentation/process/maintainer-netdev.rst
-+++ b/Documentation/process/maintainer-netdev.rst
-@@ -193,9 +193,23 @@ Review timelines
- Generally speaking, the patches get triaged quickly (in less than
- 48h). But be patient, if your patch is active in patchwork (i.e. it's
- listed on the project's patch list) the chances it was missed are close to zero.
--Asking the maintainer for status updates on your
--patch is a good way to ensure your patch is ignored or pushed to the
--bottom of the priority list.
-+
-+The high volume of development on netdev makes reviewers move on
-+from discussions relatively quickly. New comments and replies
-+are very unlikely to arrive after a week of silence. If a patch
-+is no longer active in patchwork and the thread went idle for more
-+than a week - clarify the next steps and/or post the next version.
-+
-+For RFC postings specifically, if nobody responded in a week - reviewers
-+either missed the posting or have no strong opinions. If the code is ready,
-+repost as a PATCH.
-+
-+Emails saying just "ping" or "bump" are considered rude. If you can't figure
-+out the status of the patch from patchwork or where the discussion has
-+landed - describe your best guess and ask if it's correct. For example::
-+
-+  I don't understand what the next steps are. Person X seems to be unhappy
-+  with A, should I do B and repost the patches?
- 
- .. _Changes requested:
- 
--- 
-2.42.0
+This bit (modulo the reference to patchwork) feels like it's generically
+good advice and could find a home in submitting-patches.rst or similar,
+not that it isn't worth repeating here.
 
+--RbKDKJRhjswcAM1A
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVbvd4ACgkQJNaLcl1U
+h9D67Qf9HPgF7lQhJm9GidXfuMsvjIBSe0kH7WnFQND6lioBmMb3AdRniHDNKLx1
+YJLSKE2SAdlUXuFpGtfqwvf4AzaYnkNcDpxPdJBJpeuN+DkJXRguKy6fuzux4CzL
+FKjz8d7B+MIVxB7eaZCi6nuLPoHetW13OSZ/b1mepPRfSkaNDMQtUJ0kJadbzvR4
+eeW+qjZVhislHHtjneQYsgmY6qQRCDBeFryFKdN0ucc5sy/NRzKseWL5dMAzr92D
+9p54Exvw5g8ndtMCarOR2/ULR76NRJfDRBd1gKp1MflakE778m3MZsoG7k5342B4
+3YcT26WP6qpUpLZ7QjTiLGycXUVM/g==
+=d0ou
+-----END PGP SIGNATURE-----
+
+--RbKDKJRhjswcAM1A--
