@@ -2,33 +2,38 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0B7FC2BB3F
-	for <workflows@archiver.kernel.org>; Mon, 20 Nov 2023 22:27:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F09B1C54FB9
+	for <workflows@archiver.kernel.org>; Tue, 21 Nov 2023 06:05:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232463AbjKTW1p (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Mon, 20 Nov 2023 17:27:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37198 "EHLO
+        id S230247AbjKUGFh (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 21 Nov 2023 01:05:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229732AbjKTW1p (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Mon, 20 Nov 2023 17:27:45 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49A3092
-        for <workflows@vger.kernel.org>; Mon, 20 Nov 2023 14:27:40 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A70DDC433C7;
-        Mon, 20 Nov 2023 22:27:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1700519259;
-        bh=0jOUHGCwKxgzLTwAREMVP/be39sK8VQWFmVkIgVKzRY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tA/gMsnubJUZ5lprsnSOowJATircK+pIrE44RHnOwkBVvFb7/FHhyPiu7O3DFe2Ro
-         4sO5kc4XMVFFMQgvjuOaEfmdkNbPiOKztfdQrB51lN1yP3hryjCeU010gf7Cl3pIev
-         O/D1nGnsj51nBrXrNko5i0ta/cl+9Y50LwQH7j28qAyGBMzYLFwG7ztTnX0Vxq3wuT
-         2PAvuvjyJMj6B9UdI4LTIFOV6fe6NRsD2ThzVVIrVBjbFc8eJDRL+wRvqBIYg2I9qj
-         GFSA3Vg7q7ihmv41NZbZLEglIVyNW67g1eLr79iEEsLN79WU9lusXviwB96Fi6nSzN
-         7RcVgOewsH4vA==
-Date:   Mon, 20 Nov 2023 22:27:33 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Theodore Ts'o <tytso@mit.edu>
+        with ESMTP id S230243AbjKUGFh (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 21 Nov 2023 01:05:37 -0500
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DCF0A0
+        for <workflows@vger.kernel.org>; Mon, 20 Nov 2023 22:05:32 -0800 (PST)
+Received: from cwcc.thunk.org (pool-173-48-82-21.bstnma.fios.verizon.net [173.48.82.21])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 3AL64o6L016805
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 21 Nov 2023 01:04:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+        t=1700546694; bh=YzevXqXUpMqRMD/ZnDIZC1f6cVkzH1dUVy+KDqZTPFQ=;
+        h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+        b=lc0EUC/62fTDcfy3tluLJp++BIZAt62K+ERWM2CQFx3MevJbA7Kw/YbV+cEshGUsW
+         kpvnWdDXULG3clbzhTuLaqqMsc8umzRXKpJEGFwSExJ/w0Fg0GxhjvUXumSVUyKS5G
+         GbDykyAHLWdSGQYFw2K+wsLsTmO/vORBQ41Lo2N/Yf1BDpaFecKrE+UWqZfSW8gMUl
+         U/feSR1/wq6mfiy3/eRxYKglziiJrwKP+IZRDBjmwjJBCc5CNgzr3rbKrOoBi/T4VP
+         j+okSU8CITBs3avwm8tecckqsmDPMd0Knaxsg6sprwGKpxR4BE+HjEAQhdECRcA9qe
+         AdfGuHiFEnJhA==
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+        id 2669715C02B0; Tue, 21 Nov 2023 01:04:50 -0500 (EST)
+Date:   Tue, 21 Nov 2023 01:04:50 -0500
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     Mark Brown <broonie@kernel.org>
 Cc:     Ricardo =?iso-8859-1?Q?Ca=F1uelo?= 
         <ricardo.canuelo@collabora.com>,
         Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>,
@@ -39,85 +44,95 @@ Cc:     Ricardo =?iso-8859-1?Q?Ca=F1uelo?=
         vkabatov@redhat.com, cki-project@redhat.com,
         kernelci@lists.linux.dev
 Subject: Re: [PATCH 1/3] MAINTAINERS: Introduce V: field for required tests
-Message-ID: <92c2f89d-f8a6-4260-b10d-671011cf1f70@sirena.org.uk>
+Message-ID: <20231121060450.GB335601@mit.edu>
 References: <20231115175146.9848-2-Nikolai.Kondrashov@redhat.com>
  <87sf50imba.fsf@collabora.com>
  <20231120205131.GA291888@mit.edu>
+ <92c2f89d-f8a6-4260-b10d-671011cf1f70@sirena.org.uk>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="W/tyPRnz8XNYyIuZ"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231120205131.GA291888@mit.edu>
-X-Cookie: <Manoj> I *like* the chicken
+In-Reply-To: <92c2f89d-f8a6-4260-b10d-671011cf1f70@sirena.org.uk>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
+On Mon, Nov 20, 2023 at 10:27:33PM +0000, Mark Brown wrote:
+> This is the sort of thing that kcidb (which Nikolai works on) is good at
+> ingesting, I actually do push all my CI's test results into there
+> already:
+> 
+>    https://github.com/kernelci/kcidb/
+> 
+> (the dashboard is down currently.)  A few other projects including the
+> current KernelCI and RedHat's CKI push their data in there too, I'm sure
+> Nikolai would be delighted to get more people pushing data in.  The goal
+> is to merge this with the main KernelCI infrastructure, it's currently
+> separate while people figure out the whole big data thing.
 
---W/tyPRnz8XNYyIuZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Looking at the kernelci, it appears that it's using a JSON submission
+format.  Is there conversion scripts that take a KTAP test report, or
+a Junit XML test report?
 
-On Mon, Nov 20, 2023 at 03:51:31PM -0500, Theodore Ts'o wrote:
+> The KernelCI LF project is funding kcidb with precisely this goal for
+> the reasons you outline, the data collection part seems to be relatively
+> mature at this point but AIUI there's a bunch of open questions with the
+> analysis and usage side, partly due to needing to find people to work on
+> it.
 
-> What we have at work is a way to upload the test results summary
-> (e.g., just KTAP result lines, or the xfstests junit XML) along with
-> test run metadata (e.g., what was the kernel commit on which the test
-> was run, and the test hardware), and this would be stored permanently.
-> Test artifacts is also preserved but for a limited amount of time
-> (e.g., some number of months or a year).
+Indeed, this is the super hard part.  Having looked at the kernelci
+web site, its dashboard isn't particularly useful for what I'm trying
+to do with it.  For my part, when analyizing a single test run, the
+kernelci dashboard isn't particularly helpful.  What I need is
+something more like this:
 
-> The difference in storage lifetimes is because the junit XML file
-> might be a few kilobytes to tens of kilobytes. but the test artifacts
-> might be a few megabytes to tens of megabytes.
+ext4/4k: 554 tests, 48 skipped, 4301 seconds
+ext4/1k: 550 tests, 3 failures, 51 skipped, 6739 seconds
+  Failures: generic/051 generic/475 generic/476
+ext4/ext3: 546 tests, 138 skipped, 4239 seconds
+ext4/encrypt: 532 tests, 3 failures, 159 skipped, 3218 seconds
+  Failures: generic/681 generic/682 generic/691
+ext4/nojournal: 549 tests, 3 failures, 118 skipped, 4477 seconds
+  Failures: ext4/301 ext4/304 generic/455
+ext4/ext3conv: 551 tests, 49 skipped, 4655 seconds
+ext4/adv: 551 tests, 4 failures, 56 skipped, 4987 seconds
+  Failures: generic/477 generic/506
+  Flaky: generic/269: 40% (2/5)   generic/455: 40% (2/5)
+ext4/dioread_nolock: 552 tests, 48 skipped, 4538 seconds
+ext4/data_journal: 550 tests, 2 failures, 120 skipped, 4401 seconds
+  Failures: generic/455 generic/484
+ext4/bigalloc_4k: 526 tests, 53 skipped, 4537 seconds
+ext4/bigalloc_1k: 526 tests, 61 skipped, 4847 seconds
+ext4/dax: 541 tests, 1 failures, 152 skipped, 3069 seconds
+  Flaky: generic/269: 60% (3/5)
+Totals: 6592 tests, 1053 skipped, 72 failures, 0 errors, 50577s
 
-This is the sort of thing that kcidb (which Nikolai works on) is good at
-ingesting, I actually do push all my CI's test results into there
-already:
+... which summarizes 6,592 tests in 20 lines, and for any test that
+has failed, we rerun it four more times, so we can get an indication
+of whether a test is a hard failure, or a flaky failure.
 
-   https://github.com/kernelci/kcidb/
+(I don't need to see all of the tests that passes; it's the test
+failures or the test flakes that are significant.)
 
-(the dashboard is down currently.)  A few other projects including the
-current KernelCI and RedHat's CKI push their data in there too, I'm sure
-Nikolai would be delighted to get more people pushing data in.  The goal
-is to merge this with the main KernelCI infrastructure, it's currently
-separate while people figure out the whole big data thing.
+And then when comparing between multiple test runs, that's when I'm
+interesting in see which tests may have regressed, or which tests may
+have been fixed when going in between version A and version B.
 
-> Of course once you have this data, it becomes possible to detect when
-> a test may have regressed, or to detect flaky tests, and perhaps to
-> figure out if certain hardware configurations or kernel configurations
-> are more likely to trigger a particular test to fail.  So having all
-> of this data stored centrally would be really cool.  The only question
-> is who might be able to create such an infrastructure, and be able to
-> pay for the ongoing development and operational costs....
+And right now, kernelci doesn't have any of that.  So it might be hard
+to convinced overloaded maintainers to upload test runs to kernelci,
+when they don't see any immediate benefit of uploading the kernelci db.
 
-The KernelCI LF project is funding kcidb with precisely this goal for
-the reasons you outline, the data collection part seems to be relatively
-mature at this point but AIUI there's a bunch of open questions with the
-analysis and usage side, partly due to needing to find people to work on
-it.  My understanding is that ingesting large data sets into cloud
-providers is pretty tractable, as with a lot of this stuff it gets more
-interesting trying to pull the data out and comprehend it in a practical
-fashion.  It'd be really cool to see more people working on that side of
-things.
+There is a bit of a chicken-and-egg problem, since without the test
+results getting uploaded, it's hard to get the analysis functionality
+implemented, and without the analysis features, it's hard to get
+developers to upload the data.
 
-On the submission side it'd be interesting to start collecting more data
-about the test systems used to run things, might be useful to add a new
-schema for that which can be referenced from the test schema.
+That being said, a number of file system developers probably have
+several years worth of test results that we could probably give you.
+I have hundreds of junit.xml files, with information about how kernel
+version, what version of xfstesets, etc, that was used.  I'm happy to
+make samples of it available for anyone who is interested.
 
---W/tyPRnz8XNYyIuZ
-Content-Type: application/pgp-signature; name="signature.asc"
+Cheers,
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVb3VQACgkQJNaLcl1U
-h9AAywf9H7Dzbu0aNpWDX4osAMlrLJ3HYs3A24OOVIskqWE6ACkvbL4NXD44DyHt
-a/u5Rfsach/H5bRgNI+hWWiAVwlMx574dCZcmBOxw7osjVqPK4FiSVHQNGENh59F
-8L2cFcoyxjA5UyUUKxczfmgQNhqt1LAr1bDW+y2wRaVONnwQu9eXXYirQUfVZrpT
-JwhTmkVsCvBoeE8f/w4UbvCU6/QCVIhg8pm7wdiOK4VVDvzZSkKR1A80ALvZcw69
-FRUA0FNF3qWdirU1juf4GENDtlpeiDTly1UECeOXgy6dbZ8uU0Jmr7ytWStXWJ6o
-FOQroLJoHsHZwIwRlxCWgGE5ak1XeQ==
-=0jNL
------END PGP SIGNATURE-----
-
---W/tyPRnz8XNYyIuZ--
+						- Ted
