@@ -2,258 +2,297 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57277C5ACB3
-	for <workflows@archiver.kernel.org>; Tue, 21 Nov 2023 10:17:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98C77C5ACB3
+	for <workflows@archiver.kernel.org>; Tue, 21 Nov 2023 10:36:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230304AbjKUKRL (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 21 Nov 2023 05:17:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36936 "EHLO
+        id S233784AbjKUKgb (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 21 Nov 2023 05:36:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230126AbjKUKRK (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 21 Nov 2023 05:17:10 -0500
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AAA2A2;
-        Tue, 21 Nov 2023 02:17:05 -0800 (PST)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3ALA4307019420;
-        Tue, 21 Nov 2023 10:16:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2023-03-30;
- bh=vv6UMXLoO2LmmBymxnQDAVOLLJtyT5GVZvKGyAT6UrE=;
- b=3DWiuBhQrAlVuBK1y2U17aWgtEVua280mR+zuFWtLrHWkwhVgvCFKpuhly1OEJDFmpuX
- YAZssfc4xZztlsHoXKnvs1Q61/DRXuexjF1QGUw3tWLVWjL1DgHdOWQhQOQzPfxT64UX
- 2I4N9S1Dbn8CjXXYXgYjRoVXUnamgPp3MO/0ocTLHfUg26fPkO1HL2x+Vw2rAHOnF+ay
- YDTjOjnIQwuUZoe3YBCJfA7OBXaWCRFKHdafL9QJdnejz0nii8uzsVVMZRWwmgiuhjOt
- DOVkRNarn0vpfehLrn1TvcSRA3ANZPptcJK8LwJAODMjyivmEOaGzaRVe3D5VnTOpnai fA== 
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3uekpempqn-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 21 Nov 2023 10:16:27 +0000
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-        by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 3AL9JvmJ002433;
-        Tue, 21 Nov 2023 10:16:26 GMT
-Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam04lp2041.outbound.protection.outlook.com [104.47.73.41])
-        by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3uekq6ra0j-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 21 Nov 2023 10:16:26 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Omom5uLekJhXqyab8OEUTyUvRhtOqKrKQ12mmmzlJwbEUz4slXip9FqYkcz+Y/twOGYV1sWcHEkh9F7wM/v9b7vMXIxv/lS8n0/aV5dpVkqLsd+KVa8XKT9WG29OM2PhUzZyxRDyNWtCQ7OLOo5SZ8TxXwIOL+glVfxymzc/kEW3AYxOYQqg31D3MQhLFgsxNZfh3q/Jn5ZzECL/Bd2VgKSGjjGNVAwaaePWOxl63CDQyRAqdIKhl1cd5lWDD2UY7HZHPsWsUC76xwq4JvxRM8pHiUroRIWY7gKOmx9YEaGudP4rMk3RtxXKEzKbHGwLvJS8EmXgj3yMqobmz56exQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vv6UMXLoO2LmmBymxnQDAVOLLJtyT5GVZvKGyAT6UrE=;
- b=gb2S0x4Vrvq7o7+YbRYyw8d0rda/Zwu62JW/kEDq5GN5rnKH9nx2d6gpp/CRiX19whlgkgZk4Mb87kcX0/DNQXJgJP3LYR9DGQdSNW90LSH6jepB8A9tjF/Md62lvE5EH5Zx9BVk6fBmbANXtRZiiDowRCP97jdjn2GD0Vt/suPNWMdT/JaFdK6nmWKybd186yAVPXWLx1b6vU829KHfVPI6hjzJvYzKzxUQKwZeXKKNk/ONWAtj6WVtgK3YuJ5/Bfgh94EfpCSMdJpPMUGz/imd9+9R1qE88VBzRKYx5I8AeL6SEEkZYOyOj7TKn+F6elojvG/msfkgBWXtt2NeUA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+        with ESMTP id S233640AbjKUKg3 (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 21 Nov 2023 05:36:29 -0500
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E5FD10C
+        for <workflows@vger.kernel.org>; Tue, 21 Nov 2023 02:36:25 -0800 (PST)
+Received: by mail-ed1-x52e.google.com with SMTP id 4fb4d7f45d1cf-54744e66d27so11463a12.0
+        for <workflows@vger.kernel.org>; Tue, 21 Nov 2023 02:36:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vv6UMXLoO2LmmBymxnQDAVOLLJtyT5GVZvKGyAT6UrE=;
- b=yqfCq2/4itKDPUEWskdN8I2QJMGSAhHocGa2MBChGfnbGOKUfv25hXJfr8g8jo/0peCgwjk8ZdEyE913uOqqQXkO/jW4i8dRzSs9NF4Z6mQH+2uXPVj50xlDrwv1s8CQXYVGZZKCf1hzQS9rTga+NRR+IXCcEFqisPDEKIubmkQ=
-Received: from PH0PR10MB5433.namprd10.prod.outlook.com (2603:10b6:510:e0::9)
- by CY5PR10MB6096.namprd10.prod.outlook.com (2603:10b6:930:37::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.27; Tue, 21 Nov
- 2023 10:16:24 +0000
-Received: from PH0PR10MB5433.namprd10.prod.outlook.com
- ([fe80::cef0:d8a0:3eb1:66b2]) by PH0PR10MB5433.namprd10.prod.outlook.com
- ([fe80::cef0:d8a0:3eb1:66b2%4]) with mapi id 15.20.7002.028; Tue, 21 Nov 2023
- 10:16:24 +0000
-Message-ID: <bbf74f50-c026-4f72-8437-8d15821c0340@oracle.com>
-Date:   Tue, 21 Nov 2023 11:16:16 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: xfs: consolidate XFS docs into its own
- subdirectory
-Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux XFS <linux-xfs@vger.kernel.org>,
-        Linux Kernel Workflows <workflows@vger.kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Chandan Babu R <chandan.babu@oracle.com>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Namjae Jeon <linkinjeon@kernel.org>,
-        Dave Chinner <dchinner@redhat.com>,
-        Steve French <stfrench@microsoft.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Allison Henderson <allison.henderson@oracle.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Charles Han <hanchunchao@inspur.com>
-References: <20231121095658.28254-1-bagasdotme@gmail.com>
-From:   Vegard Nossum <vegard.nossum@oracle.com>
-Autocrypt: addr=vegard.nossum@oracle.com; keydata=
- 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 8A==
-In-Reply-To: <20231121095658.28254-1-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PR1PR01CA0021.eurprd01.prod.exchangelabs.com
- (2603:10a6:102::34) To PH0PR10MB5433.namprd10.prod.outlook.com
- (2603:10b6:510:e0::9)
+        d=google.com; s=20230601; t=1700562984; x=1701167784; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=9dpx1Iyu4HxCAmRUCZ9Gazrwo46ogS3ZHGOLAB8/GdE=;
+        b=zapVsA/sRAYbK7Fh7ognV814ITxZTvzzAOTQlIANI0GikZu8zwD9JmGdGEHVSn+7Ky
+         1vp9sQiIUV9nGrn53rl6XefcnhUG8+QeZPahNP+I//evv70SW0qlt9uHchRtBV7D0Ii4
+         bUM1FuZYWnbJ4nx2J1MEj2bPC904riCe1D3LU1Ys5az40Ehfmu9bHRAGRaFolCfLr39a
+         qJyguBjBnIsopXhYDmsPwqo9eFmMT27KeCyCI7p72wNeuEgROlO45FtUJD65HIyXi+ax
+         0DM9SJmPhQ00V0xhdPqk8wFoTNjTFgIHmJisFfywWBESaDxYAwF2ALcOIoDU+EKcuk7l
+         4igQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700562984; x=1701167784;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9dpx1Iyu4HxCAmRUCZ9Gazrwo46ogS3ZHGOLAB8/GdE=;
+        b=HiceN2aYB5T/5JlovJ6MnccnZsLrBh8pTuZGO7MwMXnHEzNaUQDuCS+ocdnOW8T95s
+         RrIUb6p22DIe/CAmCDEmpTw6poPXppjvraWsJomI5LI28CGALG9hb14cImB6cxM6H5Nx
+         M7kwgVauRdy/WlHK5NHAYqrjgAQ/8G9iPIlmzIHdxZX8N8qbh8O+wOZ9kZf59HGHAgRy
+         TMU3WUiJ7UCjl8mrC8+w4ULZimYtSHY3nSh+uRqrvLCsAcQ8u9bIUwGZK9g7fw03rwAh
+         BxArEZyBMUe46LBKRltGVn4Q0Axr9tl47Sxj550xcy7Mo01/WBHyzYFRThXsZMdRN9jy
+         bUlw==
+X-Gm-Message-State: AOJu0Yws89+PrBfb15WjNhGqpHL7NUiWH8HvagisMlaD8qKjMYiJ1QqJ
+        5vK+OKIZMFY5Ti3hylz2FmxhP6Kr1T0ERL9o2TVmSw==
+X-Google-Smtp-Source: AGHT+IFlfYxhc1wYiwZZD+5VzZiy6eFom+SNf0ddy/txlFD9FuUOH500t2rQeDi2yBvvLHFaya9UYf+ebVtWVdG1KFo=
+X-Received: by 2002:a05:6402:1a32:b0:548:b26f:9980 with SMTP id
+ be18-20020a0564021a3200b00548b26f9980mr223690edb.5.1700562983628; Tue, 21 Nov
+ 2023 02:36:23 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR10MB5433:EE_|CY5PR10MB6096:EE_
-X-MS-Office365-Filtering-Correlation-Id: fc545f34-e7b0-4d78-2515-08dbea7aea63
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kG2xnr16nl7SbIIP3WsdpgWCcMxb2pL8zQYk9YRz6eMO2W39vfbaDonPbKtuJVSms55drS3p7OTrUvj9f89EEgLpnnAsA9ci1D8JzE42dv5Lb3vuJEX9soHl7/E4AsrCmdcg4Qo7MgZl/GcSs3pH5+nYaqclMacxSfzbRuRwvPPfAp32qI7np8NyCC90TpQ91SqwVNGjjXgHRGCDnDte+ctmGe5KOsNxQ7S1CbRsGpnDTMljz9RX0t69XxDARe6FD80Rx/SSQw3h4eZCU18f4eh1T/As4/0qMWaCe6yJq6gcc/fQSUHhc2kpl5MeYXXksE1+UOJhDtcQubCEFiu4EpDZH6Nnl0WgMygBVfcZWUzeGsprfCoCy855s5Oao2WfwC++3fHsaX+UV2QPJI7igkrZQOVAJ7/pMnhApY3nHLt4pUzn4v9KofH5/TyVmlPlVPlNdDXM79VjlTUQW41iCbucQ40Ys6wP331SXxeOdLrt3kWyWN1HIRWFymX0AAGsK6LW9aI5ovtjQfVjWiFP2aveUSzsPbn9Ory0M/3e2CeTvd+UadLPMr4/Yz708miy7DmM9Qubbo55nvVukinYyRixMdCkcdeXqa9OgbtNk68AQX1tKM93UigY62WZVL4wvINI/TqEujvMacypwVEYzA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB5433.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(396003)(376002)(136003)(346002)(39860400002)(230922051799003)(64100799003)(1800799012)(186009)(451199024)(86362001)(31696002)(31686004)(110136005)(6486002)(6666004)(6506007)(66556008)(66476007)(66946007)(316002)(54906003)(36756003)(53546011)(26005)(6512007)(2616005)(83380400001)(7416002)(2906002)(44832011)(41300700001)(5660300002)(478600001)(38100700002)(4326008)(8676002)(8936002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d20wYVhqdTBsaE01K0c5ZU5Cb2hFUzk1cXVRRUJRWUMvbVlWaGdPNGM2eVJC?=
- =?utf-8?B?UURleHB1REw4U3I4UjZWdXBpZmFEczliZzF6Tzk4alRENzdvdEs4NHhRblZP?=
- =?utf-8?B?SUNYOGlNRzN1WjdyWXMwRXRKd0t4RG9aY0NjdlhYWmVUTGJpVDUyWkwweDRF?=
- =?utf-8?B?Yjlhb3Q5dG1ReVhGd0MxVmlPa3IyajlybElYOHR4RzFLMlJGVW01bVE0NkVs?=
- =?utf-8?B?US9GUHN6WWxDZWZuK00wM2R6VDdNV1dweTJPcWFoTXk4aTNxWUhPT1l4SVpI?=
- =?utf-8?B?aUhOVzR3emhLUnNTUzdla0RZR0MvMjA0NEVTSy9MSEpkTnhOYnN1a0FPRXNo?=
- =?utf-8?B?djA0aTUzNEI4aE9ta3FBdzN0dkZmb0hZQ2pSSEk1U1FDU0l2S2UyUWZUSktr?=
- =?utf-8?B?aG9LRjFHSSsveVNzTlhOQjA1U3pKbUZ3S0p1U0s3SzJqNWt0UmN6SXpNMExl?=
- =?utf-8?B?WnRvaGZYdzlDQXlUYXkxY3YrSDA2SmljUjZzNE9sRGx0V0g4MU5mLzZRdCtr?=
- =?utf-8?B?ZlNZVE9GeUV2Z3lDdWZoSnVPVVhDSHllMGdsMlM5WmZkdlNISUZBUGl0VGVM?=
- =?utf-8?B?QVRNMUlBTEk1cmREbDRoY3NnMnBiQXVOc1pFdTdDZlNWVjVkaXJ0TzJTa2hm?=
- =?utf-8?B?bEhjWnh3U3J6d3hueWdHQ2lUK05DVFdPUkx2RHlLMkV6SW0yalF4VTI5aUVQ?=
- =?utf-8?B?clF6SlRCdC9CcUxOUW9qam1UcXU4dFVadjZUaDIyTFlaM25ncGJWQklSM2o0?=
- =?utf-8?B?QzB6Yit3YXAwK0JNSjJGd0FpVk01WExtOXdxM2ZnSTZhTVU1STlIYlBiOWZr?=
- =?utf-8?B?cnd3bG53bkVqTEZDUFhUZllPVWpQdXF3WFhPcEEwSHZXbXh3d25RdCs3bWxB?=
- =?utf-8?B?WjlObGxvVzYxQ2tRUW9WbE1sU3lnVENFSzVmejdMbmg1NENKMWMvQmExRlVh?=
- =?utf-8?B?dmZQeXhuaE5sMUtmNGVMVGphMmk0c1ZJdFpEd2JDZHd2YkdpMjBXMksxRDNQ?=
- =?utf-8?B?VDVpckg5Z3BDVitxM3JLTjhXUGJwSUU5WDBYZ3p1TE44a2MyeVB2cTBiSiti?=
- =?utf-8?B?SklhTmQ2SmdhWHM1UkN0ZlZaU2UwQW01V1ZHSlEwd29VNVg4T0RneXVtV0c0?=
- =?utf-8?B?VnJPVWdYcXVuZ3NiRHk0WnJqc28wNmI2L1BKKy9NNEVqbXJ4L05Bbndhc3lV?=
- =?utf-8?B?K2x5TXN3Zmk5M2xjd25WRFhRTUVad2JlNk9aZWFWelJpYmFTb1hTVW9OVWZt?=
- =?utf-8?B?cGdJV3lPdGdUZmx0anRvTzJWZG42cmZrTjRETk5GeHVGd2JrMCt3aVg3QmNS?=
- =?utf-8?B?SVZWUTZYaTYvdFozTWF5MXE3SzVBNmkyZFBYZENWTTJ1cDY3Slk1VCt1Yko1?=
- =?utf-8?B?cXNxdFhaTXRzazl6QlN6OGVHR2U3Y1BMWEtWSHBhWGJIVFJFbE5wM1RhanVY?=
- =?utf-8?B?dHF4L2FLUE1yWnpJT0hRb0ZpR3lrckEybS9nUm9FQmRxcDFZbDVFS0FuanBO?=
- =?utf-8?B?OE83YWV3Vm96aWJyR2Y0N2M1a1FLbVV2bFk5Zk40S0R4a0VmUkNiVDFEUG8y?=
- =?utf-8?B?ZGVTTXVMOXBTVEphUGFDZC8xY0VZV1RsT1pPRVNjbDczQU85WjRjREo1bER0?=
- =?utf-8?B?aGQ2QVoyN214bzBHazdBLzlOdnd2a2M3czVvMWluVzZqZnRvNDh0eFd5c3p4?=
- =?utf-8?B?ZkExZFpzY2NoSlhXMUF5VWhKY0hJMU1iSUZsVC83Nk1PK1BPYys3SnRMVFNG?=
- =?utf-8?B?TEgzSDEyMkNhc2RJOTNXdlpvMFN2TFBjbVQxQUtuVkp3NktEM2hBRkMvWFdB?=
- =?utf-8?B?SE1CQ2M4VTdybnhNLzFUdnB5c3NDY3NHcC9ITG50VTJrZ2ZuM0tqVUd0eUVw?=
- =?utf-8?B?Wmk5d2MzYVczMkc0THY3WDVxTTVoRWJHRmZOLzhHTGJtdmVzbVpEMGNUWmU2?=
- =?utf-8?B?b0p4SzVuMTNhQXFsdE5EWHI1VitOemFkemI4STk0ODdrQ2FneWc5eVBqS0w2?=
- =?utf-8?B?U3dVaTJrMG5EZDZtYm54V0RiQWhJR0svbUZndWw1aXJ5VUZGZllGNHlQTEhr?=
- =?utf-8?B?ZUFLK25OMkZmM3FLVFJiOGhLMWpXV3EwUVBweXVXTzdZdnlzMlpSYWMrN3Jj?=
- =?utf-8?B?Z293QkVrUnpicklOaW5NbnlYdW01L3RUMnM4OGMzcEhDSDd0MEg3NGJJdlRZ?=
- =?utf-8?B?enc9PQ==?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?utf-8?B?QmhkbTF2ZzM5T29ZdnQwOE41MHhGRThRTG9VUHZTODdlWjBxRkxIbVBsb3Qy?=
- =?utf-8?B?ZFh3TkIwRSt1TStpT3VrMiszMmkxbHhUYWNaWHljamFoR1l3ZFhyNWhGVzJB?=
- =?utf-8?B?QXFRZ2Jka2x0eis4ZlRjNE1LcnErdHhvM242SzA4TUZMYWg0blhTL0p5QkFj?=
- =?utf-8?B?dVU0dDY2K0k3T1dKTUhVRitCcnBCaEdoNUl2YUtGM2JUSjMwQTVSZno2UnBP?=
- =?utf-8?B?MmE1Mm9oQ0Jpby8xV1NCTm5id2VUTHFDUzRQUzJYbEZYWUFYQWZlWGwxN29u?=
- =?utf-8?B?T21DZUpJemwzVGRVb2cxMlh6VXdIRjNtajdGanBmUlJTWjlzK3UzVVRzNzUx?=
- =?utf-8?B?U3dyNy82WVFkdUJvTExGVDliK2dycTZ6RGZnSEJwc3RvWk5UaUdqaWVjZnR6?=
- =?utf-8?B?Rll1VGR6R3FPOE9ldFI5M2l6M3RoWEJlRzA4NkJ4SUJKUkl6WEY4N1RhSUpF?=
- =?utf-8?B?YUw2cU4wandVb1V5V0FwRUp4SDdUeGliQXo5ZWdlSEpBQVlueEc1azRQY1BR?=
- =?utf-8?B?RFhKQVpEWTZoU3BKaVh4aXJ4R2dWZ2x6NDI3QXdkZUZJOXV6ZGJLTU9tR3lG?=
- =?utf-8?B?RUt4ZFU5aDhwNWhqWGc1RDQramRWK0F5ZWU1SmdzSTcrSEtmSVQxcE5iYkFF?=
- =?utf-8?B?NWprbHhSa3U2WHZ1aWdtZE92MFRXSmFFWkxIUkE3a255ekNzV2JFL2o4OS93?=
- =?utf-8?B?N1hxSjArN2RNYUoyUzVyYjU4Q2U1ZWZmT1ptZloyVVg1NXJjRCtrb1hNOVNG?=
- =?utf-8?B?MWkvMnZhbGtjdE83TGQydTdXTWd1UzlseHh6VUdCUXZPdndLWFFHaHQvYWhx?=
- =?utf-8?B?YytpdVdjVTVrYVBCUUFpaW5lM29LM0RaUS8vTWZpbDFLenk0L3JHRzBwbUts?=
- =?utf-8?B?OWROZ0dHZ2lCbUlhN04zZlphT3UyWGg2Nk5LdHBEempPaWlGbHN5dE9EYjE4?=
- =?utf-8?B?cktpQ2oyYU5SeXY4bUFTbG00SExzZlcyT1Z4d0VwWDZ4Q2JHUUxxWEhQRjVW?=
- =?utf-8?B?NjZPNlBpUGd2L1REVytXanpoRmR5VnVIN25HV3FxS1NpTWdjSVNWSnp4Zk04?=
- =?utf-8?B?RTl2QnhING5hejE5Q1pyRXVQVytoKzdENHpneUdpQmFmSWdOQXh2K0ZmOThl?=
- =?utf-8?B?eFdTYWtlYUx5QVJIM2paS2k0eTdaS01Cc21Ya3YwTEVoMTUvblNZTlpMOXNk?=
- =?utf-8?B?Y3NzWEF6L3BhNWk3bVFZUm5IR0JtYVo2QldzUklhRU92dC9YK1NxMEd4eVhF?=
- =?utf-8?B?ZDVEQ2gxTWRPU2hrN0c5RGphN2hSRnVaVTRsL3JmMzFTcVZPMlQrWnBDcjBr?=
- =?utf-8?Q?05AB4tw/an+WnRnjrEsZvX6sx2kfz/1m0h?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc545f34-e7b0-4d78-2515-08dbea7aea63
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB5433.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2023 10:16:24.5669
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: asBXK8mLMu66cRNb3TCqTIMkszwXyIoL8c/vr8xP5skYvpyeP6o580OcPTF+XojEYmp11att9/78H8wmV5uazRFwGhs8r2nNXi7MhzA5E+U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR10MB6096
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-21_03,2023-11-21_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 adultscore=0 malwarescore=0
- spamscore=0 bulkscore=0 phishscore=0 mlxlogscore=943 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311060000
- definitions=main-2311210080
-X-Proofpoint-GUID: d68D5s59V9pnxvWicDdvTMubI89jCIKw
-X-Proofpoint-ORIG-GUID: d68D5s59V9pnxvWicDdvTMubI89jCIKw
+References: <20231115175146.9848-1-Nikolai.Kondrashov@redhat.com> <20231115175146.9848-2-Nikolai.Kondrashov@redhat.com>
+In-Reply-To: <20231115175146.9848-2-Nikolai.Kondrashov@redhat.com>
+From:   David Gow <davidgow@google.com>
+Date:   Tue, 21 Nov 2023 18:36:10 +0800
+Message-ID: <CABVgOSkRpL9KC4FDMrQ-g51b0_BB-=m71LzaQNG8UsqHJ7VrkQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] MAINTAINERS: Introduce V: field for required tests
+To:     Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
+Cc:     workflows@vger.kernel.org, Joe Perches <joe@perches.com>,
+        Andy Whitcroft <apw@canonical.com>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mark Brown <broonie@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        "Darrick J . Wong" <djwong@kernel.org>, kunit-dev@googlegroups.com,
+        linux-kselftest@vger.kernel.org,
+        Veronika Kabatova <vkabatov@redhat.com>,
+        CKI <cki-project@redhat.com>, kernelci@lists.linux.dev
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+        boundary="000000000000962b99060aa72c7e"
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
+--000000000000962b99060aa72c7e
+Content-Type: text/plain; charset="UTF-8"
 
-On 21/11/2023 10:56, Bagas Sanjaya wrote:
-> XFS docs are currently in upper-level Documentation/filesystems.
-> Although these are currently 4 docs, they are already outstanding as
-> a group and can be moved to its own subdirectory.
-> 
-> Consolidate them into Documentation/filesystems/xfs/.
-> 
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Thanks so much for doing this! I think everyone agrees that we need
+_some_ way of documenting which tests to run, and I think this is our
+best option.
+
+In any case, this patch does a lot, and I'll comment on them
+one-by-one. (It may be worth splitting this patch up into a few
+separate bits, if only so that we can better separate the
+uncontroversial bits from the open questions.)
+
+On Thu, 16 Nov 2023 at 01:52, Nikolai Kondrashov
+<Nikolai.Kondrashov@redhat.com> wrote:
+>
+> Introduce a new 'V:' ("Verify") field to MAINTAINERS. The field accepts
+> a name of a test suite which is required to be executed for each
+> contribution to the subsystem.
+
+Yes -- this is exactly what I'd like. (As much as I'd love 'T' to have
+been available. Alas...)
+
+The other thing discussed at plumbers was to include this in the
+'maintainer profile', but having it as a separate MAINTAINERS entry is
+my preference, and is better for automation.
+
+The question for what the tag actually contains brings us to...
+>
+> Each referenced test suite is expected to be documented in the new
+> Documentation/process/tests.rst file, which must have enough structure
+> (documented inside) for the tools to make use of it. Apart from basic
+> data, each test can refer to its "superset" - a test suite which this
+> one is a part of. The expected use is to describe both a large test
+> suite and its subsets, so the former would also be accepted, if a
+> subsystem requires only a subset.
+
+I think this could work, but is a bit complicated.
+
+My initial thought was to have this as a more free-form field, which
+either contained a:
+- Path to a command to run (e.g. tools/testing/kunit/run_checks.py)
+- Path to a documentation file describing the test.
+- URL to a page describing the test
+- (Maybe) freeform text.
+
+It's probably worth also looking at this proposal to auto-generate
+similar documentation:
+https://lore.kernel.org/linux-kselftest/cover.1689171160.git.mchehab@kernel.org/
+
+The other question is how to handle outdated results when a new patch
+revision is sent out. Personally, I think this is something we can
+solve similarly to 'Reviewed-by', depending on the extent of the
+changes and cost of the tests. I suspect for most automated tests,
+this would mean never carrying the 'Tested-with' tag over, but if
+testing it involved manually building and running kernels against 50
+different hardware setups, I could imagine it making sense to not
+re-do this if a new revision just changed a doc typo. If a URL is used
+here, it could contain version info, too.
+
+>
+> Introduce a new tag, 'Tested-with:', documented in the
+> Documentation/process/submitting-patches.rst file. The tag is expected
+> to reference the documented test suites, similarly to the 'V:' field,
+> and to certify that the submitter executed the test suite on the change,
+> and that it passed.
+
+I'm also 100% for this, though I'd considered it separately from the
+MAINTAINERS change.
+
+I think, in the ideal case, we want this to link to the results
+somehow. kcidb would seem to be the obvious choice there.
+
+Again, as a fallback, a plain text field would be useful to describe
+cases where a patch was tested by some means other than a formal test
+suite. This might not be ideal, but I'd still rather have people
+describe that something "builds and boots on <x> hardware" than have
+to guess if a patch was tested at all.
+
+Of course, it'd then be up to maintainers to decide what they'd
+accept: I'd expect that some would require there be a 'Tested-with'
+header which links to valid results for the tests described in
+MAINTAINERS.
+
+>
+> Make scripts/checkpatch.pl ensure any added V: fields reference
+> documented test suites only, and output a warning if a change to a
+> subsystem doesn't certify the required test suites were executed,
+> if any.
+>
+
+I'd definitely want something like this to run at some point in the
+patch-submission workflow. I think that, ultimately, we'll want to be
+able to run some tests automatically (e.g., a git hook could run the
+tests and add the 'Tested-with' line).
+
+Personally, I'd like to require that all patches have a 'Tested-with'
+field, even if there's not a corresponding 'V' MAINTAINERS entry, as
+people should at least think of how something's tested, even if
+there's not a formal 'test suite' for it. Though that seems a
+longer-term goal
+
+
+> If the test suite description includes a "Command", then checkpatch.pl
+> will output it as the one executing the suite. The command should run
+> with only the kernel tree and the regular developer environment set up.
+> But, at the same time, could simply output instructions for installing
+> any extra dependencies (or pull some automatically). The idea is to
+> get the developer into feedback loop quicker and easier, so they have
+> something to run and iterate on, even if it involves installing some
+> more stuff first. Therefore it's a good idea to add such wrappers to the
+> kernel tree proper and refer to them from the tests.rst.
+>
+> Extend scripts/get_maintainer.pl to support retrieving the V: fields,
+> and scripts/parse-maintainers.pl to maintain their ordering.
+>
+> Signed-off-by: Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
 > ---
->   Documentation/filesystems/index.rst                |  5 +----
->   Documentation/filesystems/xfs/index.rst            | 14 ++++++++++++++
->   .../{ => xfs}/xfs-delayed-logging-design.rst       |  0
->   .../{ => xfs}/xfs-maintainer-entry-profile.rst     |  0
->   .../{ => xfs}/xfs-online-fsck-design.rst           |  0
->   .../{ => xfs}/xfs-self-describing-metadata.rst     |  0
->   .../maintainer/maintainer-entry-profile.rst        |  2 +-
->   7 files changed, 16 insertions(+), 5 deletions(-)
->   create mode 100644 Documentation/filesystems/xfs/index.rst
->   rename Documentation/filesystems/{ => xfs}/xfs-delayed-logging-design.rst (100%)
->   rename Documentation/filesystems/{ => xfs}/xfs-maintainer-entry-profile.rst (100%)
->   rename Documentation/filesystems/{ => xfs}/xfs-online-fsck-design.rst (100%)
->   rename Documentation/filesystems/{ => xfs}/xfs-self-describing-metadata.rst (100%)
 
-I think you need to update MAINTAINERS as well.
+The questions I think we need to answer to get this in are:
+1. Do we want to split this up (and potentially land it
+piece-by-piece), or is it more valuable to have a stricter, more
+complete system from the get-go?
+2. What format should the 'V' line take? If it is simply a test name,
+do we use a doc as suggested (or one generated in part from some other
+process), or something like a command name or URL? Can it just be
+freeform text?
+3. Should 'Tested-with' be a test name in the same format as 'V', a
+URL to results (any URL, or just kcidb?), or freeform text? How does
+this evolve with multiple versions of patches?
+4. How should this be enforced? A warning (not an 'error') from
+checkpatch? A separate script?
 
-A project-wide git grep for the document names should have turned it up.
+Personally, my gut feeling is that we should land the simplest, most
+minimal version of this (the 'V' field, as freeform text) now, and
+build on that as consensus and tooling permits. I'd probably also add
+the 'Tested-with' or similar tag, as freeform text, too. I don't think
+either of those would cause major problems if we needed to change or
+restrict the format later; I imagine there won't be a huge need to
+parse old commits for test data, and even if so, it wouldn't be too
+hard to ignore any which don't conform to any stricter future
+convention.
 
+But I don't think there's anything fundamentally wrong with the full
+plan as-is, so if everyone's happy with it, I'd not object to having
+it.
 
-Vegard
+Cheers,
+-- David
+
+--000000000000962b99060aa72c7e
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
+ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
+VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
+AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
+AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
+IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
+dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
+6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
+c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
+I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
+AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
+BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
+CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
+AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
+MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
+My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
+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
+ddIn9n5Jt6Z1o79zxraLMEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
+dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
+AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
+c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
+LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
+LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
+Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQBtHFwIgQZjer5K
+H+4Q+wns10k7qN+4wN2Uf+JsyOYjukaMEgdLErfA1wwtQ9uHkoYQZcWBuVVkQFa5hI+sqI2m1Weq
+riMCFSiU38s1tADdMX12IMfJRN60Nznhrw+nPyDRZqRhUTW24TwnHorkDnFPW8PHo7fAw4FrpI0n
+impZAng7ccvvK09K3ZuhwTIxJMsPXCZYsrXWORTw5sczRAP6XvKbPBJnsJoSTe5dFBPBHOQJOGhU
+qWfEfWnWMJPF3LxSGLpLFQXO3RwQqmxv08avwXfVPouh1xuB3FX7rpDabT8YDhu9JgIZkLEKko7L
+yQt6zWwng7k8YF/jGbiAta6VMYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
+R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
+MDIwAhABzgV+4+mJnUzG7XDy6d2uMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCAq
+IB8+6lHgjYlH3l7w5GObmRl/iEGqJKNCiDrN+bekZDAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
+MBwGCSqGSIb3DQEJBTEPFw0yMzExMjExMDM2MjRaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
+BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
+CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAoXUNJNXhyXyoRaJmBbSg
+GqRPt686O54xamh9ZUcaKhUbRO1tWX6b6SwnKGgxN7AUmdb9CBsPafYeTjoseY9gLZBbTIlxx1yF
+koFY3/59W8BwT5EMbpqAWbJXCpAsXx1tDlmgG0/9L+uP7lDLlKQ5/i1RcLQBy/mGINosD+6iXpnS
+fitRM1Zc8IURT3uK+PIVqBWXm44YPnBNyINbOg+eG1AYy5NZ8LQdDWUFO9ZtfTkaOlBEimdV0a0G
+t66OeY+MC7edN8Xpfdi2FlLDRXoogVZ1aCLGpBw56txPfWKU6B/4F2sy2NFlECJzYR1RxfLDtckN
+hvPsprjtb90mPzVufA==
+--000000000000962b99060aa72c7e--
