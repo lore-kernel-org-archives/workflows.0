@@ -2,112 +2,113 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F6BBC61D90
-	for <workflows@archiver.kernel.org>; Tue, 21 Nov 2023 20:48:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA81EC61D97
+	for <workflows@archiver.kernel.org>; Tue, 21 Nov 2023 23:37:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229495AbjKUUs4 (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 21 Nov 2023 15:48:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53512 "EHLO
+        id S234704AbjKUXhu (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 21 Nov 2023 18:37:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229488AbjKUUsz (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 21 Nov 2023 15:48:55 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 002D818C
-        for <workflows@vger.kernel.org>; Tue, 21 Nov 2023 12:48:51 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06810C433C8;
-        Tue, 21 Nov 2023 20:48:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1700599731;
-        bh=KolmBwKpbH8naVtlkDeppnK3S5S+HMNbhSd3gc0CZxA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dKhUW0WCGHF12g7ooSZO9omLXTl4ZDn7ynQ20GnZgxM7ibLgdypYYdQ6so4kas9ni
-         yByBTagw90rO8Wjft/2KURnmg82qBdlqGi0Xe3BDWWmUML2qm/sCllHaRKZCFj1KT5
-         avxMFmTwveLnrhmGz6KEPfgG9eWLXeNscGBwBVB8yo3xyddcQ8IpHNj0voNyzqbLeS
-         waDhkDNt1ZmZ2ev9BeBmZ+Cp7gzf+BtufTaPQS1AGtnUHQFE+I82Au1TmsI/rXEeiW
-         69fitct9TaAJxSKlfQ3cfQlqdVdgOAgi05b5b7P4Ujxhf65MwbGHnxdNqe5f7K9OIu
-         2XwC5s1/gZyiQ==
-Date:   Tue, 21 Nov 2023 20:48:48 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     David Gow <davidgow@google.com>
-Cc:     Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>,
-        workflows@vger.kernel.org, Joe Perches <joe@perches.com>,
-        Andy Whitcroft <apw@canonical.com>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        "Darrick J . Wong" <djwong@kernel.org>, kunit-dev@googlegroups.com,
-        linux-kselftest@vger.kernel.org,
-        Veronika Kabatova <vkabatov@redhat.com>,
-        CKI <cki-project@redhat.com>, kernelci@lists.linux.dev
-Subject: Re: [PATCH 1/3] MAINTAINERS: Introduce V: field for required tests
-Message-ID: <ZV0XsLBUnzoP3KqA@finisterre.sirena.org.uk>
-References: <20231115175146.9848-1-Nikolai.Kondrashov@redhat.com>
- <20231115175146.9848-2-Nikolai.Kondrashov@redhat.com>
- <CABVgOSkRpL9KC4FDMrQ-g51b0_BB-=m71LzaQNG8UsqHJ7VrkQ@mail.gmail.com>
+        with ESMTP id S229480AbjKUXht (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 21 Nov 2023 18:37:49 -0500
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48026199;
+        Tue, 21 Nov 2023 15:37:46 -0800 (PST)
+Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-6c431b91b2aso5378678b3a.1;
+        Tue, 21 Nov 2023 15:37:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700609866; x=1701214666; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OBsM6IhveS+o7/r4qHHc1TgZJQzdQDusijV9f+awe9A=;
+        b=i+baoT7CVpQHwoxnw3QeUKOY2/8JslhpDRrWf+YUyqQQqIdtPC6mTWiD0Xat1R3Nzi
+         +JiBdsQLAVupy3IbFm5+41itKPn/RW3vl94xGYJd67DbjDMI2w/f3+UzPVL9eu8/gRl9
+         vH0cJ29LFSl85U5IQLE/O9jVXq3Pmk6lLrqR29ExLlXCKDduP27TXWJO91dNLM7kNDfY
+         BV9aDbBOb/P0CzA3IC20Phvq9GJGO9Sijtjxk9hSdiJnlzse4PDnUgCxXBJYXU8X81uC
+         alSE7MCeD2dz4XSMVavABUwFXkYBaIyNd+RxHaR65uiwMpXQdbkePz3knlM1LoAulCTG
+         2m4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700609866; x=1701214666;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OBsM6IhveS+o7/r4qHHc1TgZJQzdQDusijV9f+awe9A=;
+        b=N2A0fYrasSrh+HpS5NQVlMcw7NR56sW/ybQll/urQOMC7fUqxNLiNEmpGZFZPPjny1
+         BZ0c6TiAO43fNKB+5nRgprykHsoNKrtNozoVV8qa/DbkV5E/IbHJHWhCjZ/efj1nVmOq
+         Ond0mlTQhP6BA9UmOxS8zxvUVefbQ/vJDeUUzHGZ8zpw62c7VT+gIiR5YV7qOQFP73yX
+         HkDW/QSg+4up0QIBBPr9ddlrw1v157ZoP95BrO81VGsm9jSsDghCj6HIuv++v9Lib4wd
+         dLQSIBUDDN1eCHqt5KWITZOBnrE+IESnysZ/I4he2PQSa/UPy4UbFkJBbNvomA+OTlBR
+         x0mw==
+X-Gm-Message-State: AOJu0YwBlnt0Er2v6WZLJXJ7wmTDtX69EtswdypIiXJBf9AanJI8DmAi
+        1YJBKe109ir0I/mY4DaOxaU=
+X-Google-Smtp-Source: AGHT+IHylfg1T9X6BkuN5KOiJNcmxEeJ+UQfaRy0xEGLUcLwjosLbiBRBajuiM8h90cVFePNrmnm0g==
+X-Received: by 2002:a05:6a20:3944:b0:189:c852:562e with SMTP id r4-20020a056a20394400b00189c852562emr636458pzg.38.1700609865663;
+        Tue, 21 Nov 2023 15:37:45 -0800 (PST)
+Received: from [192.168.0.106] ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id 5-20020a17090a19c500b0028098225450sm98849pjj.1.2023.11.21.15.37.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Nov 2023 15:37:45 -0800 (PST)
+Message-ID: <a9abc5ec-f3cd-4a1a-81b9-a6900124d38b@gmail.com>
+Date:   Wed, 22 Nov 2023 06:37:39 +0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="+Qm4wxwj82KSPBf4"
-Content-Disposition: inline
-In-Reply-To: <CABVgOSkRpL9KC4FDMrQ-g51b0_BB-=m71LzaQNG8UsqHJ7VrkQ@mail.gmail.com>
-X-Cookie: Slow day.  Practice crawling.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: xfs: consolidate XFS docs into its own
+ subdirectory
+Content-Language: en-US
+To:     kernel test robot <lkp@intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux XFS <linux-xfs@vger.kernel.org>,
+        Linux Kernel Workflows <workflows@vger.kernel.org>
+Cc:     oe-kbuild-all@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
+        Chandan Babu R <chandan.babu@oracle.com>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Namjae Jeon <linkinjeon@kernel.org>,
+        Dave Chinner <dchinner@redhat.com>,
+        Steve French <stfrench@microsoft.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Allison Henderson <allison.henderson@oracle.com>,
+        Bjorn Helgaas <helgaas@kernel.org>,
+        Charles Han <hanchunchao@inspur.com>
+References: <20231121095658.28254-1-bagasdotme@gmail.com>
+ <202311220333.acL7LwXY-lkp@intel.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <202311220333.acL7LwXY-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
+On 11/22/23 03:04, kernel test robot wrote:
+> Hi Bagas,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on 98b1cc82c4affc16f5598d4fa14b1858671b2263]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Bagas-Sanjaya/Documentation-xfs-consolidate-XFS-docs-into-its-own-subdirectory/20231121-180057
+> base:   98b1cc82c4affc16f5598d4fa14b1858671b2263
+> patch link:    https://lore.kernel.org/r/20231121095658.28254-1-bagasdotme%40gmail.com
+> patch subject: [PATCH] Documentation: xfs: consolidate XFS docs into its own subdirectory
+> reproduce: (https://download.01.org/0day-ci/archive/20231122/202311220333.acL7LwXY-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202311220333.acL7LwXY-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>>> Warning: Documentation/filesystems/xfs/xfs-online-fsck-design.rst references a file that doesn't exist: Documentation/filesystems/xfs-self-describing-metadata.rst
+>>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/filesystems/xfs-maintainer-entry-profile.rst
+>>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/filesystems/xfs-*
+>>> MAINTAINERS:53207: WARNING: unknown document: ../filesystems/xfs-maintainer-entry-profile
+> 
 
---+Qm4wxwj82KSPBf4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Oh dear, I didn't catch them when building locally. Will fix anyway.
 
-On Tue, Nov 21, 2023 at 06:36:10PM +0800, David Gow wrote:
+-- 
+An old man doll... just what I always wanted! - Clara
 
-> The other question is how to handle outdated results when a new patch
-> revision is sent out. Personally, I think this is something we can
-> solve similarly to 'Reviewed-by', depending on the extent of the
-> changes and cost of the tests. I suspect for most automated tests,
-> this would mean never carrying the 'Tested-with' tag over, but if
-> testing it involved manually building and running kernels against 50
-> different hardware setups, I could imagine it making sense to not
-> re-do this if a new revision just changed a doc typo. If a URL is used
-> here, it could contain version info, too.
-
-One thing with Reviewed-by that's a bit different to testing is that
-Reviewed-by is generally invalidated by doing a change to the specific
-patch that needs at least a commit --amend.
-
-> Personally, I'd like to require that all patches have a 'Tested-with'
-> field, even if there's not a corresponding 'V' MAINTAINERS entry, as
-> people should at least think of how something's tested, even if
-> there's not a formal 'test suite' for it. Though that seems a
-> longer-term goal
-
-A requirement feels like it'd be pretty painful for my workflow, or at
-least result in me adding the thing in hope of what I'm actually going
-to do rather than as a result of the testing - all my CI stuff
-(including what I do for outgoing patches) is keyed off the git commits
-being tested so updating the commits to reflect testing would have
-unfortunate side effects.
-
-> The questions I think we need to answer to get this in are:
-> 1. Do we want to split this up (and potentially land it
-> piece-by-piece), or is it more valuable to have a stricter, more
-> complete system from the get-go?
-
-I think splitting things makes sense.
-
---+Qm4wxwj82KSPBf4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVdF60ACgkQJNaLcl1U
-h9A5vAf/f7C2XrRwjIRIADD8Ve0hYKnWBqwkrLTphkTj23ZtQSNnLIITZ05iaoQw
-71Tv3qjAA6hNllYEMhokmzVR3tnWSwIrjrl4kgejoIl0xxkYvfwovMneEy0zvwHW
-Qlwfz4MoIXXJxOrbMCfD7RVXYWhu/XYzheIKMul6/KbJskCdg9Zr1qC2boS6F09i
-mu6jEGy3PP8/iRBd4l8cgotkPjia61cLiN55iI8YHw6FA3+t3MhSVTpCT6djwWFe
-0h19srptjeRH41akN5l7j6rgBSjlSjlluk3cip7pC+31FtUFy3pW2gg12GPE5POr
-uVWCogn0zxnbnN0INipYeYnMZD6KEQ==
-=x8lK
------END PGP SIGNATURE-----
-
---+Qm4wxwj82KSPBf4--
