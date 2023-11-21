@@ -2,100 +2,112 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F401C61D85
-	for <workflows@archiver.kernel.org>; Tue, 21 Nov 2023 20:05:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F6BBC61D90
+	for <workflows@archiver.kernel.org>; Tue, 21 Nov 2023 20:48:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230427AbjKUUFX (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 21 Nov 2023 15:05:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56028 "EHLO
+        id S229495AbjKUUs4 (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 21 Nov 2023 15:48:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229524AbjKUUFV (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 21 Nov 2023 15:05:21 -0500
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DFE11A2;
-        Tue, 21 Nov 2023 12:05:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700597117; x=1732133117;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UCGmiu1nxzeNn+cEKPR0gIi35/992X5/vdcGhHlBNsM=;
-  b=kQLDQnTYg/OEBUl5BOXwzL6Ucey77hOaP5ke717dgAS1mCBDwm6ZMFf/
-   i+kGRxJSN+kr/BHKuzyZb/SduE9ri57oZ7c/tqxh7yOl5NGDJKmeEa/bI
-   yPOD6+oa5r6Bs/9fx/sFol0NHDGDFrxenh0EUejMtgFY2XlxU5t2Tp+w9
-   /YDYFS9JxW09o/OospAR6KU+vinTC0WEClYE6x/XOQoOkT09vs/AqtqJf
-   VWuJPmgVlYppiazlX4CAuKj+s58vWvyWe9Dnt18ZKfLXT5lnFGLrY8QVs
-   iBm2H5PQwGuXGaDZk/HdJ3QvMXZWhyenZbAcIQDthx/XlU9SHLEOvgzBk
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="5046569"
-X-IronPort-AV: E=Sophos;i="6.04,216,1695711600"; 
-   d="scan'208";a="5046569"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 12:05:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="801660239"
-X-IronPort-AV: E=Sophos;i="6.04,216,1695711600"; 
-   d="scan'208";a="801660239"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 21 Nov 2023 12:05:12 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1r5Wzd-0008Cu-2v;
-        Tue, 21 Nov 2023 20:05:09 +0000
-Date:   Wed, 22 Nov 2023 04:04:48 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux XFS <linux-xfs@vger.kernel.org>,
-        Linux Kernel Workflows <workflows@vger.kernel.org>
-Cc:     oe-kbuild-all@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
-        Chandan Babu R <chandan.babu@oracle.com>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Namjae Jeon <linkinjeon@kernel.org>,
-        Dave Chinner <dchinner@redhat.com>,
-        Steve French <stfrench@microsoft.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Allison Henderson <allison.henderson@oracle.com>,
-        Bjorn Helgaas <helgaas@kernel.org>,
-        Charles Han <hanchunchao@inspur.com>
-Subject: Re: [PATCH] Documentation: xfs: consolidate XFS docs into its own
- subdirectory
-Message-ID: <202311220333.acL7LwXY-lkp@intel.com>
-References: <20231121095658.28254-1-bagasdotme@gmail.com>
+        with ESMTP id S229488AbjKUUsz (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 21 Nov 2023 15:48:55 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 002D818C
+        for <workflows@vger.kernel.org>; Tue, 21 Nov 2023 12:48:51 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06810C433C8;
+        Tue, 21 Nov 2023 20:48:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1700599731;
+        bh=KolmBwKpbH8naVtlkDeppnK3S5S+HMNbhSd3gc0CZxA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=dKhUW0WCGHF12g7ooSZO9omLXTl4ZDn7ynQ20GnZgxM7ibLgdypYYdQ6so4kas9ni
+         yByBTagw90rO8Wjft/2KURnmg82qBdlqGi0Xe3BDWWmUML2qm/sCllHaRKZCFj1KT5
+         avxMFmTwveLnrhmGz6KEPfgG9eWLXeNscGBwBVB8yo3xyddcQ8IpHNj0voNyzqbLeS
+         waDhkDNt1ZmZ2ev9BeBmZ+Cp7gzf+BtufTaPQS1AGtnUHQFE+I82Au1TmsI/rXEeiW
+         69fitct9TaAJxSKlfQ3cfQlqdVdgOAgi05b5b7P4Ujxhf65MwbGHnxdNqe5f7K9OIu
+         2XwC5s1/gZyiQ==
+Date:   Tue, 21 Nov 2023 20:48:48 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     David Gow <davidgow@google.com>
+Cc:     Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>,
+        workflows@vger.kernel.org, Joe Perches <joe@perches.com>,
+        Andy Whitcroft <apw@canonical.com>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        "Darrick J . Wong" <djwong@kernel.org>, kunit-dev@googlegroups.com,
+        linux-kselftest@vger.kernel.org,
+        Veronika Kabatova <vkabatov@redhat.com>,
+        CKI <cki-project@redhat.com>, kernelci@lists.linux.dev
+Subject: Re: [PATCH 1/3] MAINTAINERS: Introduce V: field for required tests
+Message-ID: <ZV0XsLBUnzoP3KqA@finisterre.sirena.org.uk>
+References: <20231115175146.9848-1-Nikolai.Kondrashov@redhat.com>
+ <20231115175146.9848-2-Nikolai.Kondrashov@redhat.com>
+ <CABVgOSkRpL9KC4FDMrQ-g51b0_BB-=m71LzaQNG8UsqHJ7VrkQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="+Qm4wxwj82KSPBf4"
 Content-Disposition: inline
-In-Reply-To: <20231121095658.28254-1-bagasdotme@gmail.com>
+In-Reply-To: <CABVgOSkRpL9KC4FDMrQ-g51b0_BB-=m71LzaQNG8UsqHJ7VrkQ@mail.gmail.com>
+X-Cookie: Slow day.  Practice crawling.
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Hi Bagas,
 
-kernel test robot noticed the following build warnings:
+--+Qm4wxwj82KSPBf4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-[auto build test WARNING on 98b1cc82c4affc16f5598d4fa14b1858671b2263]
+On Tue, Nov 21, 2023 at 06:36:10PM +0800, David Gow wrote:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bagas-Sanjaya/Documentation-xfs-consolidate-XFS-docs-into-its-own-subdirectory/20231121-180057
-base:   98b1cc82c4affc16f5598d4fa14b1858671b2263
-patch link:    https://lore.kernel.org/r/20231121095658.28254-1-bagasdotme%40gmail.com
-patch subject: [PATCH] Documentation: xfs: consolidate XFS docs into its own subdirectory
-reproduce: (https://download.01.org/0day-ci/archive/20231122/202311220333.acL7LwXY-lkp@intel.com/reproduce)
+> The other question is how to handle outdated results when a new patch
+> revision is sent out. Personally, I think this is something we can
+> solve similarly to 'Reviewed-by', depending on the extent of the
+> changes and cost of the tests. I suspect for most automated tests,
+> this would mean never carrying the 'Tested-with' tag over, but if
+> testing it involved manually building and running kernels against 50
+> different hardware setups, I could imagine it making sense to not
+> re-do this if a new revision just changed a doc typo. If a URL is used
+> here, it could contain version info, too.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311220333.acL7LwXY-lkp@intel.com/
+One thing with Reviewed-by that's a bit different to testing is that
+Reviewed-by is generally invalidated by doing a change to the specific
+patch that needs at least a commit --amend.
 
-All warnings (new ones prefixed by >>):
+> Personally, I'd like to require that all patches have a 'Tested-with'
+> field, even if there's not a corresponding 'V' MAINTAINERS entry, as
+> people should at least think of how something's tested, even if
+> there's not a formal 'test suite' for it. Though that seems a
+> longer-term goal
 
->> Warning: Documentation/filesystems/xfs/xfs-online-fsck-design.rst references a file that doesn't exist: Documentation/filesystems/xfs-self-describing-metadata.rst
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/filesystems/xfs-maintainer-entry-profile.rst
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/filesystems/xfs-*
->> MAINTAINERS:53207: WARNING: unknown document: ../filesystems/xfs-maintainer-entry-profile
+A requirement feels like it'd be pretty painful for my workflow, or at
+least result in me adding the thing in hope of what I'm actually going
+to do rather than as a result of the testing - all my CI stuff
+(including what I do for outgoing patches) is keyed off the git commits
+being tested so updating the commits to reflect testing would have
+unfortunate side effects.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> The questions I think we need to answer to get this in are:
+> 1. Do we want to split this up (and potentially land it
+> piece-by-piece), or is it more valuable to have a stricter, more
+> complete system from the get-go?
+
+I think splitting things makes sense.
+
+--+Qm4wxwj82KSPBf4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVdF60ACgkQJNaLcl1U
+h9A5vAf/f7C2XrRwjIRIADD8Ve0hYKnWBqwkrLTphkTj23ZtQSNnLIITZ05iaoQw
+71Tv3qjAA6hNllYEMhokmzVR3tnWSwIrjrl4kgejoIl0xxkYvfwovMneEy0zvwHW
+Qlwfz4MoIXXJxOrbMCfD7RVXYWhu/XYzheIKMul6/KbJskCdg9Zr1qC2boS6F09i
+mu6jEGy3PP8/iRBd4l8cgotkPjia61cLiN55iI8YHw6FA3+t3MhSVTpCT6djwWFe
+0h19srptjeRH41akN5l7j6rgBSjlSjlluk3cip7pC+31FtUFy3pW2gg12GPE5POr
+uVWCogn0zxnbnN0INipYeYnMZD6KEQ==
+=x8lK
+-----END PGP SIGNATURE-----
+
+--+Qm4wxwj82KSPBf4--
