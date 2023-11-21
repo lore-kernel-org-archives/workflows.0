@@ -2,135 +2,100 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8425C61D90
-	for <workflows@archiver.kernel.org>; Tue, 21 Nov 2023 18:24:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F401C61D85
+	for <workflows@archiver.kernel.org>; Tue, 21 Nov 2023 20:05:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231131AbjKUSYc (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 21 Nov 2023 13:24:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46168 "EHLO
+        id S230427AbjKUUFX (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 21 Nov 2023 15:05:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230508AbjKUSYb (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 21 Nov 2023 13:24:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEEAA193
-        for <workflows@vger.kernel.org>; Tue, 21 Nov 2023 10:24:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1700591067;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=KNYl1PYeJ+yMJVHbVOL4kO+jrMdgUAF5yyCcRUFcids=;
-        b=NYMZGqQi+EZClRmAl5pzfy32bYZ9YEkYqQo9YS3fVtsNtQJXBYy+v1/YiK/CSaOChiPJzs
-        BVON5VjyZbY6vx8UZ7jJ90NwL0zQ9eyon8ljLMLFIB7LmcTeABltEO2DFACS5/ROpAhNs/
-        BEldhKy8mbB+9gJYOj9HHi2hg9FhYOA=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-295-tRoMm3upO7mvNCYfhvGr1Q-1; Tue, 21 Nov 2023 13:24:25 -0500
-X-MC-Unique: tRoMm3upO7mvNCYfhvGr1Q-1
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-41cb4d6744bso77834221cf.0
-        for <workflows@vger.kernel.org>; Tue, 21 Nov 2023 10:24:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700591064; x=1701195864;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KNYl1PYeJ+yMJVHbVOL4kO+jrMdgUAF5yyCcRUFcids=;
-        b=gY7G7ag0GwXBZQ1akIxJJuC8IJhh23c0Bkfk1ZVR62xIQnqqBouyvBYvMHUnN6rj5X
-         kEOi/uQJu6Xg+QffeTLbvT3/gdHcUO4J/15FFXAkE2Zjo1knn9PgUsPtrUiP1Cjr+vdB
-         hGjXQ/9xegIRMNSkv1whHKHNVQ2oeW/f6r6QVXKg4QSeZEEKI5IvUsIt28Q96lKgBJoI
-         +FRZ35SimxG7Ch8i21o+o+Lhg/HVXJFIMWAN4eUbE7Fy8AAkCh0ojmCKMcsVqYlJWbbd
-         /NyaU6cCT8sMJfUnkSzfxEH2ofvfTcnjJyX0tseCKhSR8Ux+vyjfwpZVr3fcTu2Mv4Bo
-         mrfQ==
-X-Gm-Message-State: AOJu0YxuYI+yGm8qkakkNtjlvCf1TwL7dmQL4EJWxENRlC06jpKyCL/0
-        0Cgq32T7cePPfkdMqiQFgnZn/053je0rLPssoFDT3PMmdeX7IQvxrrfW7r9jhLjvwJy4v2Sxop/
-        ivXLjoyIjQkIaoLLeA0n+HEcskvhsPO4=
-X-Received: by 2002:a05:622a:610e:b0:423:7060:3d69 with SMTP id hg14-20020a05622a610e00b0042370603d69mr2561622qtb.41.1700591064284;
-        Tue, 21 Nov 2023 10:24:24 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IE5ygAFkM23F7z13tnWZ/ReK//8WvWDmtKUoWmGQkQbYTbn9nuN9ibtfiofID6p6+/jnxpRSw==
-X-Received: by 2002:a05:622a:610e:b0:423:7060:3d69 with SMTP id hg14-20020a05622a610e00b0042370603d69mr2561597qtb.41.1700591063921;
-        Tue, 21 Nov 2023 10:24:23 -0800 (PST)
-Received: from [192.168.0.118] (88-113-27-52.elisa-laajakaista.fi. [88.113.27.52])
-        by smtp.gmail.com with ESMTPSA id d21-20020ac851d5000000b0041eb13a8195sm3757750qtn.61.2023.11.21.10.24.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Nov 2023 10:24:23 -0800 (PST)
-Message-ID: <6756606e-d441-47a3-9209-58770fdb0a1a@redhat.com>
-Date:   Tue, 21 Nov 2023 20:24:19 +0200
+        with ESMTP id S229524AbjKUUFV (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 21 Nov 2023 15:05:21 -0500
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DFE11A2;
+        Tue, 21 Nov 2023 12:05:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700597117; x=1732133117;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UCGmiu1nxzeNn+cEKPR0gIi35/992X5/vdcGhHlBNsM=;
+  b=kQLDQnTYg/OEBUl5BOXwzL6Ucey77hOaP5ke717dgAS1mCBDwm6ZMFf/
+   i+kGRxJSN+kr/BHKuzyZb/SduE9ri57oZ7c/tqxh7yOl5NGDJKmeEa/bI
+   yPOD6+oa5r6Bs/9fx/sFol0NHDGDFrxenh0EUejMtgFY2XlxU5t2Tp+w9
+   /YDYFS9JxW09o/OospAR6KU+vinTC0WEClYE6x/XOQoOkT09vs/AqtqJf
+   VWuJPmgVlYppiazlX4CAuKj+s58vWvyWe9Dnt18ZKfLXT5lnFGLrY8QVs
+   iBm2H5PQwGuXGaDZk/HdJ3QvMXZWhyenZbAcIQDthx/XlU9SHLEOvgzBk
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="5046569"
+X-IronPort-AV: E=Sophos;i="6.04,216,1695711600"; 
+   d="scan'208";a="5046569"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 12:05:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="801660239"
+X-IronPort-AV: E=Sophos;i="6.04,216,1695711600"; 
+   d="scan'208";a="801660239"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 21 Nov 2023 12:05:12 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1r5Wzd-0008Cu-2v;
+        Tue, 21 Nov 2023 20:05:09 +0000
+Date:   Wed, 22 Nov 2023 04:04:48 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux XFS <linux-xfs@vger.kernel.org>,
+        Linux Kernel Workflows <workflows@vger.kernel.org>
+Cc:     oe-kbuild-all@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
+        Chandan Babu R <chandan.babu@oracle.com>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Namjae Jeon <linkinjeon@kernel.org>,
+        Dave Chinner <dchinner@redhat.com>,
+        Steve French <stfrench@microsoft.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Allison Henderson <allison.henderson@oracle.com>,
+        Bjorn Helgaas <helgaas@kernel.org>,
+        Charles Han <hanchunchao@inspur.com>
+Subject: Re: [PATCH] Documentation: xfs: consolidate XFS docs into its own
+ subdirectory
+Message-ID: <202311220333.acL7LwXY-lkp@intel.com>
+References: <20231121095658.28254-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] MAINTAINERS: Introduce V: field for required tests
-Content-Language: en-US
-To:     Theodore Ts'o <tytso@mit.edu>,
-        =?UTF-8?Q?Ricardo_Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>
-Cc:     workflows@vger.kernel.org, joe@perches.com, apw@canonical.com,
-        davidgow@google.com, rostedt@goodmis.org, broonie@kernel.org,
-        skhan@linuxfoundation.org, djwong@kernel.org,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        vkabatov@redhat.com, cki-project@redhat.com,
-        kernelci@lists.linux.dev
-References: <20231115175146.9848-2-Nikolai.Kondrashov@redhat.com>
- <87sf50imba.fsf@collabora.com> <20231120205131.GA291888@mit.edu>
-From:   Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
-In-Reply-To: <20231120205131.GA291888@mit.edu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231121095658.28254-1-bagasdotme@gmail.com>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-Hi Theodore,
+Hi Bagas,
 
-On 11/20/23 22:51, Theodore Ts'o wrote:
-> On Mon, Nov 20, 2023 at 02:30:49PM +0100, Ricardo Cañuelo wrote:
->>
->> This is not trivial because tests vary a lot and we'd first need to
->> define which artifacts to link to, and because whatever is linked (test
->> commands, output log, results summary) would need to be stored
->> forever. But since we're doing that already for basically all kernel
->> mailing lists, I wonder if something like "public-inbox for test
->> results" could be possible some day.
-> 
-> What we have at work is a way to upload the test results summary
-> (e.g., just KTAP result lines, or the xfstests junit XML) along with
-> test run metadata (e.g., what was the kernel commit on which the test
-> was run, and the test hardware), and this would be stored permanently.
-> Test artifacts is also preserved but for a limited amount of time
-> (e.g., some number of months or a year).
-> 
-> The difference in storage lifetimes is because the junit XML file
-> might be a few kilobytes to tens of kilobytes. but the test artifacts
-> might be a few megabytes to tens of megabytes.
-> 
-> Of course once you have this data, it becomes possible to detect when
-> a test may have regressed, or to detect flaky tests, and perhaps to
-> figure out if certain hardware configurations or kernel configurations
-> are more likely to trigger a particular test to fail.  So having all
-> of this data stored centrally would be really cool.  The only question
-> is who might be able to create such an infrastructure, and be able to
-> pay for the ongoing development and operational costs....
+kernel test robot noticed the following build warnings:
 
-Yes, I agree, having public result storage would be awesome. I think KCIDB is 
-relatively-well positioned to take on some of that work. We have the POC 
-dashboard already. Well, *had* until somebody scraped it and exhausted our 
-cloud budget, I'm working on making it cheaper before bringing it back.
+[auto build test WARNING on 98b1cc82c4affc16f5598d4fa14b1858671b2263]
 
-Meanwhile you can get a glimpse of it in one of my slide decks:
-https://static.sched.com/hosted_files/eoss2023/ef/Kernel%20CI%20%E2%80%93%20How%20Far%20Can%20It%20Go%20%E2%80%93%20EOSS%202023.pdf
+url:    https://github.com/intel-lab-lkp/linux/commits/Bagas-Sanjaya/Documentation-xfs-consolidate-XFS-docs-into-its-own-subdirectory/20231121-180057
+base:   98b1cc82c4affc16f5598d4fa14b1858671b2263
+patch link:    https://lore.kernel.org/r/20231121095658.28254-1-bagasdotme%40gmail.com
+patch subject: [PATCH] Documentation: xfs: consolidate XFS docs into its own subdirectory
+reproduce: (https://download.01.org/0day-ci/archive/20231122/202311220333.acL7LwXY-lkp@intel.com/reproduce)
 
-We also have an artifact-mirroring system (quite basic at the moment), 
-expecting the submitter to already have the files hosted somewhere. We would 
-need to add a file upload service to that.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311220333.acL7LwXY-lkp@intel.com/
 
-Finally, I'm considering opening up submissions to (Google-authenticated) 
-public, as opposed to just CI systems, so we could support this. That's still 
-more work though.
+All warnings (new ones prefixed by >>):
 
-Regarding analysis, I have plenty of ideas for that too, and even more ideas 
-are explored by others lately. I just need to bring back the dashboard and 
-find the time for all of it :D
+>> Warning: Documentation/filesystems/xfs/xfs-online-fsck-design.rst references a file that doesn't exist: Documentation/filesystems/xfs-self-describing-metadata.rst
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/filesystems/xfs-maintainer-entry-profile.rst
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/filesystems/xfs-*
+>> MAINTAINERS:53207: WARNING: unknown document: ../filesystems/xfs-maintainer-entry-profile
 
-Anyone interested in helping with any of this?
-
-Nick
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
