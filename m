@@ -2,137 +2,166 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F09B1C54FB9
-	for <workflows@archiver.kernel.org>; Tue, 21 Nov 2023 06:05:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DE23C54FB9
+	for <workflows@archiver.kernel.org>; Tue, 21 Nov 2023 09:57:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230247AbjKUGFh (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 21 Nov 2023 01:05:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35976 "EHLO
+        id S234174AbjKUJ5M (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 21 Nov 2023 04:57:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230243AbjKUGFh (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 21 Nov 2023 01:05:37 -0500
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DCF0A0
-        for <workflows@vger.kernel.org>; Mon, 20 Nov 2023 22:05:32 -0800 (PST)
-Received: from cwcc.thunk.org (pool-173-48-82-21.bstnma.fios.verizon.net [173.48.82.21])
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 3AL64o6L016805
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 21 Nov 2023 01:04:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-        t=1700546694; bh=YzevXqXUpMqRMD/ZnDIZC1f6cVkzH1dUVy+KDqZTPFQ=;
-        h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-        b=lc0EUC/62fTDcfy3tluLJp++BIZAt62K+ERWM2CQFx3MevJbA7Kw/YbV+cEshGUsW
-         kpvnWdDXULG3clbzhTuLaqqMsc8umzRXKpJEGFwSExJ/w0Fg0GxhjvUXumSVUyKS5G
-         GbDykyAHLWdSGQYFw2K+wsLsTmO/vORBQ41Lo2N/Yf1BDpaFecKrE+UWqZfSW8gMUl
-         U/feSR1/wq6mfiy3/eRxYKglziiJrwKP+IZRDBjmwjJBCc5CNgzr3rbKrOoBi/T4VP
-         j+okSU8CITBs3avwm8tecckqsmDPMd0Knaxsg6sprwGKpxR4BE+HjEAQhdECRcA9qe
-         AdfGuHiFEnJhA==
-Received: by cwcc.thunk.org (Postfix, from userid 15806)
-        id 2669715C02B0; Tue, 21 Nov 2023 01:04:50 -0500 (EST)
-Date:   Tue, 21 Nov 2023 01:04:50 -0500
-From:   "Theodore Ts'o" <tytso@mit.edu>
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Ricardo =?iso-8859-1?Q?Ca=F1uelo?= 
-        <ricardo.canuelo@collabora.com>,
-        Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>,
-        workflows@vger.kernel.org, joe@perches.com, apw@canonical.com,
-        davidgow@google.com, rostedt@goodmis.org,
-        skhan@linuxfoundation.org, djwong@kernel.org,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        vkabatov@redhat.com, cki-project@redhat.com,
-        kernelci@lists.linux.dev
-Subject: Re: [PATCH 1/3] MAINTAINERS: Introduce V: field for required tests
-Message-ID: <20231121060450.GB335601@mit.edu>
-References: <20231115175146.9848-2-Nikolai.Kondrashov@redhat.com>
- <87sf50imba.fsf@collabora.com>
- <20231120205131.GA291888@mit.edu>
- <92c2f89d-f8a6-4260-b10d-671011cf1f70@sirena.org.uk>
+        with ESMTP id S234117AbjKUJ5L (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 21 Nov 2023 04:57:11 -0500
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BD6E10E;
+        Tue, 21 Nov 2023 01:57:06 -0800 (PST)
+Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-6c39ad730aaso4330094b3a.0;
+        Tue, 21 Nov 2023 01:57:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700560626; x=1701165426; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ka1cD2Bwmz44NS9VOtFyYCz3XAOOJeOGdzsr6w0dbzg=;
+        b=ScO8zGFvQa5SHqShlJIWoT0gQnPVGfuA5/nhXurEY7Zs4K7cmHIFllsV8s5I828Jai
+         fFzwjThO76NmxMvam0IefU2QEh1JhEwJP54SyzaPACDq2wMVbLWIeCb5tghO7Z5MjNb8
+         SbSb6cXM8HX4y4B9Ihbsml+baALw10UwmIYoUXWDAbD91wm1OJw8M2UtQ9eflZ4aE8ns
+         xnY5cZHfXVSDx/UCR5qnLyBLF1R+udzLl86c226hPXJO59vRZbuH3reDmB3fMEoJUNyM
+         O5c5UKDf+8gQzV85QYEEPtIIKei0ZqwtWQQiOhcFe7tbTvs3aPedtqc2G5HkrDJVPOG4
+         d2VQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700560626; x=1701165426;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ka1cD2Bwmz44NS9VOtFyYCz3XAOOJeOGdzsr6w0dbzg=;
+        b=Ah+PQpGWEsjnbFUyqfiDw7OyxSGyMjcisr2SOcti/OKOzVwfaQTLLHT3r59IYX6JvO
+         oPB4r+HFchKcNr4iGAGhoYciULhWazgXqqfurbO4+Rvg4egKq8bRh4ICvJP6JDZwC7m8
+         V+27S0Mg6bsy4vCcDXpwz1xOgl6hfuj98H4zKEKqVpV9KdujuTlX0ge51eZIWQoKcZua
+         Wcc9MIwULqZnl9p++CZJSq0wcSE0ZWTX1rolqbgOiNUhv9O3JQL9qVSovAfJIxr2+jP5
+         St+7eJRHHyIhpup/WIWflYGsL8VZ6WoLC0CpQyiD3sLRxUHQpjQdXhkaYIII472H2V3U
+         TkDQ==
+X-Gm-Message-State: AOJu0YxzNXTVg2mCbauXnLspFjgQmjjtDs+66EenTE4ujZ14TBNwydUT
+        Q/qdG822dCybFIomrn0yqqM=
+X-Google-Smtp-Source: AGHT+IHFjOu7YbojQq1PeZl9YrECG/pPN3fCUGfp/6gEV5LyTTPVJc/Wba5hfzQXH/anBJaHwD8BfA==
+X-Received: by 2002:a05:6a20:d38c:b0:166:82cf:424a with SMTP id iq12-20020a056a20d38c00b0016682cf424amr9289456pzb.33.1700560625873;
+        Tue, 21 Nov 2023 01:57:05 -0800 (PST)
+Received: from archie.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id g7-20020a170902934700b001ca4c7bee0csm7536341plp.232.2023.11.21.01.57.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Nov 2023 01:57:05 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+        id 84D8A102106CF; Tue, 21 Nov 2023 16:57:02 +0700 (WIB)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux XFS <linux-xfs@vger.kernel.org>,
+        Linux Kernel Workflows <workflows@vger.kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Chandan Babu R <chandan.babu@oracle.com>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Namjae Jeon <linkinjeon@kernel.org>,
+        Dave Chinner <dchinner@redhat.com>,
+        Steve French <stfrench@microsoft.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Allison Henderson <allison.henderson@oracle.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Charles Han <hanchunchao@inspur.com>
+Subject: [PATCH] Documentation: xfs: consolidate XFS docs into its own subdirectory
+Date:   Tue, 21 Nov 2023 16:56:58 +0700
+Message-ID: <20231121095658.28254-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.42.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <92c2f89d-f8a6-4260-b10d-671011cf1f70@sirena.org.uk>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4131; i=bagasdotme@gmail.com; h=from:subject; bh=YcVBndo3Vf30ZXt3UnAKYl//U5fISnvK9iyQHm73b6k=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDKkxdarv/O6evnf6wi//GHaJ/WEaGfPyf1jx/P5dIl620 Kd497F7HaUsDGJcDLJiiiyTEvmaTu8yErnQvtYRZg4rE8gQBi5OAZjIWX1GhkemD+Y/dmmruL/n vK7xedu/mzXVLadPfXhcsHuh6e7705YxMjy/de3upIDzL+19RV7tLDivzym3I+jO/ee71wnvCXh QfZgfAA==
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On Mon, Nov 20, 2023 at 10:27:33PM +0000, Mark Brown wrote:
-> This is the sort of thing that kcidb (which Nikolai works on) is good at
-> ingesting, I actually do push all my CI's test results into there
-> already:
-> 
->    https://github.com/kernelci/kcidb/
-> 
-> (the dashboard is down currently.)  A few other projects including the
-> current KernelCI and RedHat's CKI push their data in there too, I'm sure
-> Nikolai would be delighted to get more people pushing data in.  The goal
-> is to merge this with the main KernelCI infrastructure, it's currently
-> separate while people figure out the whole big data thing.
+XFS docs are currently in upper-level Documentation/filesystems.
+Although these are currently 4 docs, they are already outstanding as
+a group and can be moved to its own subdirectory.
 
-Looking at the kernelci, it appears that it's using a JSON submission
-format.  Is there conversion scripts that take a KTAP test report, or
-a Junit XML test report?
+Consolidate them into Documentation/filesystems/xfs/.
 
-> The KernelCI LF project is funding kcidb with precisely this goal for
-> the reasons you outline, the data collection part seems to be relatively
-> mature at this point but AIUI there's a bunch of open questions with the
-> analysis and usage side, partly due to needing to find people to work on
-> it.
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/filesystems/index.rst                |  5 +----
+ Documentation/filesystems/xfs/index.rst            | 14 ++++++++++++++
+ .../{ => xfs}/xfs-delayed-logging-design.rst       |  0
+ .../{ => xfs}/xfs-maintainer-entry-profile.rst     |  0
+ .../{ => xfs}/xfs-online-fsck-design.rst           |  0
+ .../{ => xfs}/xfs-self-describing-metadata.rst     |  0
+ .../maintainer/maintainer-entry-profile.rst        |  2 +-
+ 7 files changed, 16 insertions(+), 5 deletions(-)
+ create mode 100644 Documentation/filesystems/xfs/index.rst
+ rename Documentation/filesystems/{ => xfs}/xfs-delayed-logging-design.rst (100%)
+ rename Documentation/filesystems/{ => xfs}/xfs-maintainer-entry-profile.rst (100%)
+ rename Documentation/filesystems/{ => xfs}/xfs-online-fsck-design.rst (100%)
+ rename Documentation/filesystems/{ => xfs}/xfs-self-describing-metadata.rst (100%)
 
-Indeed, this is the super hard part.  Having looked at the kernelci
-web site, its dashboard isn't particularly useful for what I'm trying
-to do with it.  For my part, when analyizing a single test run, the
-kernelci dashboard isn't particularly helpful.  What I need is
-something more like this:
+diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+index 09cade7eaefc8c..e18bc5ae3b35f8 100644
+--- a/Documentation/filesystems/index.rst
++++ b/Documentation/filesystems/index.rst
+@@ -121,8 +121,5 @@ Documentation for filesystem implementations.
+    udf
+    virtiofs
+    vfat
+-   xfs-delayed-logging-design
+-   xfs-maintainer-entry-profile
+-   xfs-self-describing-metadata
+-   xfs-online-fsck-design
++   xfs/index
+    zonefs
+diff --git a/Documentation/filesystems/xfs/index.rst b/Documentation/filesystems/xfs/index.rst
+new file mode 100644
+index 00000000000000..ab66c57a5d18ea
+--- /dev/null
++++ b/Documentation/filesystems/xfs/index.rst
+@@ -0,0 +1,14 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++============================
++XFS Filesystem Documentation
++============================
++
++.. toctree::
++   :maxdepth: 2
++   :numbered:
++
++   xfs-delayed-logging-design
++   xfs-maintainer-entry-profile
++   xfs-self-describing-metadata
++   xfs-online-fsck-design
+diff --git a/Documentation/filesystems/xfs-delayed-logging-design.rst b/Documentation/filesystems/xfs/xfs-delayed-logging-design.rst
+similarity index 100%
+rename from Documentation/filesystems/xfs-delayed-logging-design.rst
+rename to Documentation/filesystems/xfs/xfs-delayed-logging-design.rst
+diff --git a/Documentation/filesystems/xfs-maintainer-entry-profile.rst b/Documentation/filesystems/xfs/xfs-maintainer-entry-profile.rst
+similarity index 100%
+rename from Documentation/filesystems/xfs-maintainer-entry-profile.rst
+rename to Documentation/filesystems/xfs/xfs-maintainer-entry-profile.rst
+diff --git a/Documentation/filesystems/xfs-online-fsck-design.rst b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
+similarity index 100%
+rename from Documentation/filesystems/xfs-online-fsck-design.rst
+rename to Documentation/filesystems/xfs/xfs-online-fsck-design.rst
+diff --git a/Documentation/filesystems/xfs-self-describing-metadata.rst b/Documentation/filesystems/xfs/xfs-self-describing-metadata.rst
+similarity index 100%
+rename from Documentation/filesystems/xfs-self-describing-metadata.rst
+rename to Documentation/filesystems/xfs/xfs-self-describing-metadata.rst
+diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
+index 7ad4bfc2cc038a..18cee1edaecb6f 100644
+--- a/Documentation/maintainer/maintainer-entry-profile.rst
++++ b/Documentation/maintainer/maintainer-entry-profile.rst
+@@ -105,4 +105,4 @@ to do something different in the near future.
+    ../driver-api/media/maintainer-entry-profile
+    ../driver-api/vfio-pci-device-specific-driver-acceptance
+    ../nvme/feature-and-quirk-policy
+-   ../filesystems/xfs-maintainer-entry-profile
++   ../filesystems/xfs/xfs-maintainer-entry-profile
 
-ext4/4k: 554 tests, 48 skipped, 4301 seconds
-ext4/1k: 550 tests, 3 failures, 51 skipped, 6739 seconds
-  Failures: generic/051 generic/475 generic/476
-ext4/ext3: 546 tests, 138 skipped, 4239 seconds
-ext4/encrypt: 532 tests, 3 failures, 159 skipped, 3218 seconds
-  Failures: generic/681 generic/682 generic/691
-ext4/nojournal: 549 tests, 3 failures, 118 skipped, 4477 seconds
-  Failures: ext4/301 ext4/304 generic/455
-ext4/ext3conv: 551 tests, 49 skipped, 4655 seconds
-ext4/adv: 551 tests, 4 failures, 56 skipped, 4987 seconds
-  Failures: generic/477 generic/506
-  Flaky: generic/269: 40% (2/5)   generic/455: 40% (2/5)
-ext4/dioread_nolock: 552 tests, 48 skipped, 4538 seconds
-ext4/data_journal: 550 tests, 2 failures, 120 skipped, 4401 seconds
-  Failures: generic/455 generic/484
-ext4/bigalloc_4k: 526 tests, 53 skipped, 4537 seconds
-ext4/bigalloc_1k: 526 tests, 61 skipped, 4847 seconds
-ext4/dax: 541 tests, 1 failures, 152 skipped, 3069 seconds
-  Flaky: generic/269: 60% (3/5)
-Totals: 6592 tests, 1053 skipped, 72 failures, 0 errors, 50577s
+base-commit: 98b1cc82c4affc16f5598d4fa14b1858671b2263
+-- 
+An old man doll... just what I always wanted! - Clara
 
-... which summarizes 6,592 tests in 20 lines, and for any test that
-has failed, we rerun it four more times, so we can get an indication
-of whether a test is a hard failure, or a flaky failure.
-
-(I don't need to see all of the tests that passes; it's the test
-failures or the test flakes that are significant.)
-
-And then when comparing between multiple test runs, that's when I'm
-interesting in see which tests may have regressed, or which tests may
-have been fixed when going in between version A and version B.
-
-And right now, kernelci doesn't have any of that.  So it might be hard
-to convinced overloaded maintainers to upload test runs to kernelci,
-when they don't see any immediate benefit of uploading the kernelci db.
-
-There is a bit of a chicken-and-egg problem, since without the test
-results getting uploaded, it's hard to get the analysis functionality
-implemented, and without the analysis features, it's hard to get
-developers to upload the data.
-
-That being said, a number of file system developers probably have
-several years worth of test results that we could probably give you.
-I have hundreds of junit.xml files, with information about how kernel
-version, what version of xfstesets, etc, that was used.  I'm happy to
-make samples of it available for anyone who is interested.
-
-Cheers,
-
-						- Ted
