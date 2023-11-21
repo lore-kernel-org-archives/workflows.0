@@ -2,140 +2,180 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5B82C61D92
-	for <workflows@archiver.kernel.org>; Tue, 21 Nov 2023 11:47:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65FF2C61D92
+	for <workflows@archiver.kernel.org>; Tue, 21 Nov 2023 13:27:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230353AbjKULrI (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 21 Nov 2023 06:47:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40788 "EHLO
+        id S231977AbjKUN15 (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 21 Nov 2023 08:27:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229561AbjKULrH (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 21 Nov 2023 06:47:07 -0500
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8172110F;
-        Tue, 21 Nov 2023 03:47:04 -0800 (PST)
-Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-6c3363a2b93so5158598b3a.3;
-        Tue, 21 Nov 2023 03:47:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700567224; x=1701172024; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3Dh0Qezs/2ZRqRfDGUZZwszGFFNv4uXTXsmAQTNvTJ8=;
-        b=Oj/wVkQQqn1YGU3a+RXqlKqr3ABt8yZuvW1qxS0H95dTAclQibbgrG8uHr6/W9bj/s
-         zDsb9xU75Yk1cCgOXByQNi6cfjl2D8MJenfBHH8GS7oIhNzgTzjPNlR0H8dYWYv1F32a
-         l2MBvGNugGYMzRVeXuIeoikkhMz8IW77SZJu49JQCxEcw+ojYM3cqr6Uy89QVstteC3E
-         rxuTWwknuhRvW0CWiaCmVJSfqZAit5vfE8YOP0UqkVBu+L1WKWE3WbQy62MJeaxrp3ya
-         qoeR8VQ3OF9ZnZRHjPwfQ5VtnBToV6Lf+ys/LpvE/4WteHPX5RI+hzxq6OxsNyjwm35c
-         3Ulw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700567224; x=1701172024;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3Dh0Qezs/2ZRqRfDGUZZwszGFFNv4uXTXsmAQTNvTJ8=;
-        b=dKYRpq4hI7nUy6wET6svhmG9YMCQl3X5362YxqFBzGcZQAStEGm/Qxk+mwiCpdN9eb
-         hiIW7m6eQTLG/ZbIJuOOzrFLOQeqBNkBJta+poA++IwiDai1MSxO5tIP+ChMnuckOLua
-         9LcptoFA7BvxhaXyKmIjHKmtPV4ZKZs18f5A/Yb9V/SX8p4EO7dvq5Tpo5RBoqrA1+3+
-         09cBfYJWDfKy4AyBOc2XvG8B/92Xalbxf9umM0pzrQYlkj751dTd6lcqBI3RSWBfiqr/
-         C6UpBbvP6sFWWT3Dv2elbMFTxIm0xyQQnhGlqGVlAr/9vp0rXxd1N9gX42pM2hyS/5N3
-         exSA==
-X-Gm-Message-State: AOJu0YyNRlMWMCDnev61kDlzC0U9yGchRHRZo37X1mP1Sv+1gAfhdtqk
-        EXBDLD0Jhpld8FpC0F+iGRQ=
-X-Google-Smtp-Source: AGHT+IEmfo36HWN/pX5H0L9nVyVz7Ausj0X4uQHMXBuvcd8rGMkt4Nlo44xIhzq9d1YRgU2fBl6rKA==
-X-Received: by 2002:a05:6a20:7353:b0:18a:da5a:8a62 with SMTP id v19-20020a056a20735300b0018ada5a8a62mr1976876pzc.59.1700567223928;
-        Tue, 21 Nov 2023 03:47:03 -0800 (PST)
-Received: from archie.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id fh33-20020a056a00392100b006c06779e593sm7971334pfb.16.2023.11.21.03.47.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Nov 2023 03:47:03 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-        id E3EDF102106CB; Tue, 21 Nov 2023 18:47:01 +0700 (WIB)
-Date:   Tue, 21 Nov 2023 18:47:01 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Vegard Nossum <vegard.nossum@oracle.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux XFS <linux-xfs@vger.kernel.org>,
-        Linux Kernel Workflows <workflows@vger.kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Chandan Babu R <chandan.babu@oracle.com>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Namjae Jeon <linkinjeon@kernel.org>,
-        Dave Chinner <dchinner@redhat.com>,
-        Steve French <stfrench@microsoft.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Allison Henderson <allison.henderson@oracle.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Charles Han <hanchunchao@inspur.com>
-Subject: Re: [PATCH] Documentation: xfs: consolidate XFS docs into its own
- subdirectory
-Message-ID: <ZVyYtQ83KwaOtCkL@archie.me>
-References: <20231121095658.28254-1-bagasdotme@gmail.com>
- <bbf74f50-c026-4f72-8437-8d15821c0340@oracle.com>
+        with ESMTP id S229514AbjKUN14 (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 21 Nov 2023 08:27:56 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C0DBD45
+        for <workflows@vger.kernel.org>; Tue, 21 Nov 2023 05:27:51 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C09A7C433C8;
+        Tue, 21 Nov 2023 13:27:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1700573271;
+        bh=HsbZm4i+W0o1xTWC6fqvVGXLlSas3MdzUj56Sie1+dk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=s/Cj1hs8TekOYMJY8u198suyeCM8gyvEOV+i5vEDjSCKFRfz67WAMTEGoxjgYZAax
+         WGa6CehOYC1MIpazeHmXZlRtUeoB2/rhy/rcVtU3XheSoDtiBlu5j4rVKQeo38mgo7
+         J80NmKCOxwXcNA0vVbs4xcuEs/EvONdLm/Pk3g5iyBfIGFZNswjJX+rpWRkmhgmRZ+
+         wEpygIBB/r90G0IJIFpAHiMZohh17d0OrYFWpWiLFTkNKRrDtm3k1JDcM0NDDo9zcQ
+         ewpxEGZYEN4V3oQPpnLRXmZZH264mqxHMmSq7to2PfN3COmxSn6cqjSpofukRlvruf
+         3m5EqiDnhgaWg==
+Date:   Tue, 21 Nov 2023 13:27:44 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Theodore Ts'o <tytso@mit.edu>
+Cc:     Ricardo =?iso-8859-1?Q?Ca=F1uelo?= 
+        <ricardo.canuelo@collabora.com>,
+        Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>,
+        workflows@vger.kernel.org, joe@perches.com, apw@canonical.com,
+        davidgow@google.com, rostedt@goodmis.org,
+        skhan@linuxfoundation.org, djwong@kernel.org,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        vkabatov@redhat.com, cki-project@redhat.com,
+        kernelci@lists.linux.dev
+Subject: Re: [PATCH 1/3] MAINTAINERS: Introduce V: field for required tests
+Message-ID: <5d69e9ef-e60c-4eb9-b067-5b44488dd8c9@sirena.org.uk>
+References: <20231115175146.9848-2-Nikolai.Kondrashov@redhat.com>
+ <87sf50imba.fsf@collabora.com>
+ <20231120205131.GA291888@mit.edu>
+ <92c2f89d-f8a6-4260-b10d-671011cf1f70@sirena.org.uk>
+ <20231121060450.GB335601@mit.edu>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="vb95jMlk3ed/EOb6"
+        protocol="application/pgp-signature"; boundary="4ChVjL7ja6bjs4kb"
 Content-Disposition: inline
-In-Reply-To: <bbf74f50-c026-4f72-8437-8d15821c0340@oracle.com>
+In-Reply-To: <20231121060450.GB335601@mit.edu>
+X-Cookie: Hindsight is an exact science.
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
 
---vb95jMlk3ed/EOb6
-Content-Type: text/plain; charset=utf-8
+--4ChVjL7ja6bjs4kb
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 21, 2023 at 11:16:16AM +0100, Vegard Nossum wrote:
+On Tue, Nov 21, 2023 at 01:04:50AM -0500, Theodore Ts'o wrote:
+> On Mon, Nov 20, 2023 at 10:27:33PM +0000, Mark Brown wrote:
+
+> > This is the sort of thing that kcidb (which Nikolai works on) is good at
+> > ingesting, I actually do push all my CI's test results into there
+> > already:
+
+> >    https://github.com/kernelci/kcidb/
+
+> > (the dashboard is down currently.)  A few other projects including the
+> > current KernelCI and RedHat's CKI push their data in there too, I'm sure
+> > Nikolai would be delighted to get more people pushing data in.  The goal
+> > is to merge this with the main KernelCI infrastructure, it's currently
+> > separate while people figure out the whole big data thing.
+
+> Looking at the kernelci, it appears that it's using a JSON submission
+> format.  Is there conversion scripts that take a KTAP test report, or
+> a Junit XML test report?
+
+Probably - I know I've got something for KUnit which is annoyingly
+difficult to publish for non-technical reasons and is a little broken
+(things weren't visible in the dashboard when it was up which might mean
+some missing field or a date set wrong).  My KTAP stuff is all mediated
+through LAVA, that can push results into a web hook directly so it's
+really easy to just add a notifier to your job and stream the results in
+directly (I intend to push that into kcidb in my copious free time so
+other people can use my code there).  It's relatively straightforward to
+write these things.
+
+> > The KernelCI LF project is funding kcidb with precisely this goal for
+> > the reasons you outline, the data collection part seems to be relatively
+> > mature at this point but AIUI there's a bunch of open questions with the
+> > analysis and usage side, partly due to needing to find people to work on
+> > it.
+
+> Indeed, this is the super hard part.  Having looked at the kernelci
+> web site, its dashboard isn't particularly useful for what I'm trying
+> to do with it.  For my part, when analyizing a single test run, the
+> kernelci dashboard isn't particularly helpful.  What I need is
+> something more like this:
 >=20
-> On 21/11/2023 10:56, Bagas Sanjaya wrote:
-> > XFS docs are currently in upper-level Documentation/filesystems.
-> > Although these are currently 4 docs, they are already outstanding as
-> > a group and can be moved to its own subdirectory.
-> >=20
-> > Consolidate them into Documentation/filesystems/xfs/.
-> >=20
-> > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> > ---
-> >   Documentation/filesystems/index.rst                |  5 +----
-> >   Documentation/filesystems/xfs/index.rst            | 14 ++++++++++++++
-> >   .../{ =3D> xfs}/xfs-delayed-logging-design.rst       |  0
-> >   .../{ =3D> xfs}/xfs-maintainer-entry-profile.rst     |  0
-> >   .../{ =3D> xfs}/xfs-online-fsck-design.rst           |  0
-> >   .../{ =3D> xfs}/xfs-self-describing-metadata.rst     |  0
-> >   .../maintainer/maintainer-entry-profile.rst        |  2 +-
-> >   7 files changed, 16 insertions(+), 5 deletions(-)
-> >   create mode 100644 Documentation/filesystems/xfs/index.rst
-> >   rename Documentation/filesystems/{ =3D> xfs}/xfs-delayed-logging-desi=
-gn.rst (100%)
-> >   rename Documentation/filesystems/{ =3D> xfs}/xfs-maintainer-entry-pro=
-file.rst (100%)
-> >   rename Documentation/filesystems/{ =3D> xfs}/xfs-online-fsck-design.r=
-st (100%)
-> >   rename Documentation/filesystems/{ =3D> xfs}/xfs-self-describing-meta=
-data.rst (100%)
->=20
-> I think you need to update MAINTAINERS as well.
->=20
-> A project-wide git grep for the document names should have turned it up.
+> ext4/4k: 554 tests, 48 skipped, 4301 seconds
+> ext4/1k: 550 tests, 3 failures, 51 skipped, 6739 seconds
+>   Failures: generic/051 generic/475 generic/476
 
-OK, will fix in v2.
+That should be achievable with the KernelCI stuff (which is different to
+kcidb at present) - you're a lot of the way there with how kselftest is
+currently reported modulo the list of failures which currently requires
+you to drill down to a second level page.
 
-Thanks for the suggestion.
+> ... which summarizes 6,592 tests in 20 lines, and for any test that
+> has failed, we rerun it four more times, so we can get an indication
+> of whether a test is a hard failure, or a flaky failure.
 
---=20
-An old man doll... just what I always wanted! - Clara
+> (I don't need to see all of the tests that passes; it's the test
+> failures or the test flakes that are significant.)
 
---vb95jMlk3ed/EOb6
+The listing of tests does get a bit more complex when you mix in running
+on different platforms.
+
+> And then when comparing between multiple test runs, that's when I'm
+> interesting in see which tests may have regressed, or which tests may
+> have been fixed when going in between version A and version B.
+
+Yup, that comparison stuff is useful.  The landing pages for individual
+tests do have something there but not really anything higher level:
+
+   https://linux.kernelci.org/test/case/id/655b0fa18dc4b7e0c47e4a88/
+
+> And right now, kernelci doesn't have any of that.  So it might be hard
+> to convinced overloaded maintainers to upload test runs to kernelci,
+> when they don't see any immediate benefit of uploading the kernelci db.
+
+Note that kcidb and KernelCI are currently different databases - with
+the dashboard being done kcidb has no UI at all.  Personally I'm pushing
+my data in on the basis that it costs me basically nothing to do so
+given that I'm already running the tests.
+
+> There is a bit of a chicken-and-egg problem, since without the test
+> results getting uploaded, it's hard to get the analysis functionality
+> implemented, and without the analysis features, it's hard to get
+> developers to upload the data.
+
+I think if we get tooling in place so that people can just run a script,
+add a flag to their tools or whatever to ingest results from the
+standard testsuites the barrier to reporting becomes sufficiently low
+that it's more of a "why not?" type thing.
+
+There's also other things we can do beyond big data analysis, some of
+which are a lot easier - for example checking other people's CI results
+for your branch before sending or accepting a pull request (if you've
+got a one stop shop to pull data from that's a lot easier than if you
+have to go round a bunch of places).
+
+> That being said, a number of file system developers probably have
+> several years worth of test results that we could probably give you.
+> I have hundreds of junit.xml files, with information about how kernel
+> version, what version of xfstesets, etc, that was used.  I'm happy to
+> make samples of it available for anyone who is interested.
+
+Right, I've likewise got a pile of results I can reprocess at will.
+
+--4ChVjL7ja6bjs4kb
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZVyYtQAKCRD2uYlJVVFO
-o6FAAQCgHyPhsgH3UuKype/Cd5adL0D6qda0lLt60JZiGqWaGAD9HNtW9qQ3A+Kw
-tf8Tfv/syImaeaPMNLMH2ssm9G33Fw4=
-=bpQl
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVcsE8ACgkQJNaLcl1U
+h9COYwf/fTMDLpXwvVNNxK+v5hlq41OYVt2sklCaJ/43xLnOUqxbRElV4yTxNnW6
+i83EPXz5J9rw1kYcPjR7NFJWeZuLJz45r5G4M2++NfS/sJGI16DpM6Lo3gD0+Oky
+sJt7j2HlvKDIxRtitaajVL4dsWKxlFkn5Xqhz6JrNONTxdbl/kEaKR6hf141NERB
+OKq70z8drw82CZvAfesZk4gxkY0qOPg8SYrgc/N2pWuYAm2sQsISRBnb9xiauNbC
+bucWk+Yx9o4n8siFE0gi2Cn5ZdKAzGbZOOr/20JrCP4Ukj1sULHTniLdORKwzYQ3
+u0KziIdFTugVPPYsOw19YE8IZvhrcw==
+=weIR
 -----END PGP SIGNATURE-----
 
---vb95jMlk3ed/EOb6--
+--4ChVjL7ja6bjs4kb--
