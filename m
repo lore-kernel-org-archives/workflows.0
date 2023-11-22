@@ -2,159 +2,95 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D24CAC61D9B
-	for <workflows@archiver.kernel.org>; Wed, 22 Nov 2023 14:45:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B95F1C61D99
+	for <workflows@archiver.kernel.org>; Wed, 22 Nov 2023 16:16:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231594AbjKVOpN (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Wed, 22 Nov 2023 09:45:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42334 "EHLO
+        id S230061AbjKVQQt (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Wed, 22 Nov 2023 11:16:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232747AbjKVOpM (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Wed, 22 Nov 2023 09:45:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C4C41B5
-        for <workflows@vger.kernel.org>; Wed, 22 Nov 2023 06:45:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1700664307;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=/w99k4ebalupsRXy3umX36OydNbePrrZgl9ysNBYTzc=;
-        b=fSarOqK0qKphFHRf0ZR1EXQYnCXPdEG/gLodsVlE38u+tFhnqUdXZdSMjaqdUUV6DtMPJQ
-        z07x0gbYrMfBArfCSgnVSSi6qzHrwhlWgUgwZsJYKgDn31316/8lpJ7atGkTMW0S5SlHf0
-        vPqkRW8MwsD9Ayk4OouzEu1yGZwDXa8=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-657-zx2Z57WrMCu91Pzob2nSgg-1; Wed, 22 Nov 2023 09:45:06 -0500
-X-MC-Unique: zx2Z57WrMCu91Pzob2nSgg-1
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-77d55e875aaso257090085a.3
-        for <workflows@vger.kernel.org>; Wed, 22 Nov 2023 06:45:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700664304; x=1701269104;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/w99k4ebalupsRXy3umX36OydNbePrrZgl9ysNBYTzc=;
-        b=pPRW2c2Pu/U1XTnjO6ugQ77j28tw6PzBK691UG2v/+cvBL/K78wKmiyJ8y/GhCuPhe
-         6+IvbkPRnlrRcpSpIOyJPbx4JBGARe34vQEDDALxwZJP1PDAsKQl1CJ5iaDmYTL5qDNT
-         ZfM2sAiDLxYvgcilGoH6iwFDqRINNfjNMvFrSK0XF1J0i7x5qZb37R4IE+1fBFK6hH8G
-         MVG2d2q5D0UzAUZAP/YwS2geNCr9yHh1js+3KgzNATfQ7DEx83Na8UYWkCewStuKsueT
-         kVfvQrB5Fkn4p7fCVId9Ivxy3vCwnucLTbXrlV2ie2S/PfvrcTxuCSUEeWTud2wRkTXl
-         tgyA==
-X-Gm-Message-State: AOJu0YwH3E+1MqF+fNtrFV4WNvJo49eVsAt9z1fkdZujMG+KG8yJtqsP
-        ZMSdoJOHvixFBA8BKSffvAgGFGTiqyRNIAFFDVFOmoxOlJVqfVCtYTUspKWWwSPwic+4nYlDzUM
-        ZhdqqIJs3YH36MlB43KD3Xnf2ame8npM=
-X-Received: by 2002:a05:620a:1646:b0:77a:6f81:59c1 with SMTP id c6-20020a05620a164600b0077a6f8159c1mr2374231qko.10.1700664304108;
-        Wed, 22 Nov 2023 06:45:04 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHDuHniv0gzYpUJTHcuWjypHxbcwH1q2sUJA7UQdbVeNJCWNMOviHrkiOi8wH8b1NUD9dZweQ==
-X-Received: by 2002:a05:620a:1646:b0:77a:6f81:59c1 with SMTP id c6-20020a05620a164600b0077a6f8159c1mr2374204qko.10.1700664303831;
-        Wed, 22 Nov 2023 06:45:03 -0800 (PST)
-Received: from [192.168.0.118] (88-113-27-52.elisa-laajakaista.fi. [88.113.27.52])
-        by smtp.gmail.com with ESMTPSA id pe41-20020a05620a852900b0075ca4cd03d4sm4504015qkn.64.2023.11.22.06.45.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Nov 2023 06:45:03 -0800 (PST)
-Message-ID: <cd2d6ed9-7047-4090-ab44-16540f503087@redhat.com>
-Date:   Wed, 22 Nov 2023 16:44:58 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] MAINTAINERS: Require kvm-xfstests smoke for ext4
-Content-Language: en-US
-To:     Theodore Ts'o <tytso@mit.edu>,
-        Chandan Babu R <chandanbabu@kernel.org>
-Cc:     "Darrick J. Wong" <djwong@kernel.org>, workflows@vger.kernel.org,
-        Joe Perches <joe@perches.com>,
-        Andy Whitcroft <apw@canonical.com>,
-        David Gow <davidgow@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mark Brown <broonie@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
+        with ESMTP id S229498AbjKVQQs (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Wed, 22 Nov 2023 11:16:48 -0500
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22276BC
+        for <workflows@vger.kernel.org>; Wed, 22 Nov 2023 08:16:44 -0800 (PST)
+Received: from cwcc.thunk.org (pool-173-48-82-21.bstnma.fios.verizon.net [173.48.82.21])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 3AMGG29u017187
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 22 Nov 2023 11:16:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+        t=1700669765; bh=Zpb9IO78HYak/yA/A/sCEkZ+iTdybo48cvv0F+iRIyc=;
+        h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+        b=O5s/kfEe6iZVGWcJpy+nieIJ0eCSmxEhPoA5/vVEjXCLbfRVyAzfHuYFpfF8Xl5lZ
+         ZYSP+vR8l00tHjankBxCelKnekfYNOtrXR+/PYNBUjmgBdDXlSE00I3PtV8b8dpfe+
+         5dV558qZa1JuWIhgF1amPqpPHDHb5D3xye4nWkatceZMpY4Kx069erIZRkssbOAlbL
+         wktwhbL6605KCzVmOHRmHXXTO6Sc7CWjr9l7PTKKNivaxg2yrDpsZdjBe5iIwp8vgC
+         vbv2DeBX5FMPLYRlJmb7LfaadmOfydd9fWh9Krm8KzttsdjU6e73GgOJIW8z8I06pY
+         PMEYlyPmnqJ0g==
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+        id 39EC015C02B0; Wed, 22 Nov 2023 11:16:02 -0500 (EST)
+Date:   Wed, 22 Nov 2023 11:16:02 -0500
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Ricardo =?iso-8859-1?Q?Ca=F1uelo?= 
+        <ricardo.canuelo@collabora.com>,
+        Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>,
+        workflows@vger.kernel.org, joe@perches.com, apw@canonical.com,
+        davidgow@google.com, rostedt@goodmis.org,
+        skhan@linuxfoundation.org, djwong@kernel.org,
         kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        Veronika Kabatova <vkabatov@redhat.com>,
-        CKI <cki-project@redhat.com>, kernelci@lists.linux.dev,
-        Chandan Babu R <chandanrlinux@gmail.com>,
-        Dave Chinner <david@fromorbit.com>
-References: <20231115175146.9848-1-Nikolai.Kondrashov@redhat.com>
- <20231115175146.9848-3-Nikolai.Kondrashov@redhat.com>
- <20231115185808.GD36211@frogsfrogsfrogs>
- <87v8a096cr.fsf@debian-BULLSEYE-live-builder-AMD64>
- <20231119225437.GA292450@mit.edu>
-From:   Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
-In-Reply-To: <20231119225437.GA292450@mit.edu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        vkabatov@redhat.com, cki-project@redhat.com,
+        kernelci@lists.linux.dev
+Subject: Re: [PATCH 1/3] MAINTAINERS: Introduce V: field for required tests
+Message-ID: <20231122161602.GA337285@mit.edu>
+References: <20231115175146.9848-2-Nikolai.Kondrashov@redhat.com>
+ <87sf50imba.fsf@collabora.com>
+ <20231120205131.GA291888@mit.edu>
+ <92c2f89d-f8a6-4260-b10d-671011cf1f70@sirena.org.uk>
+ <20231121060450.GB335601@mit.edu>
+ <5d69e9ef-e60c-4eb9-b067-5b44488dd8c9@sirena.org.uk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5d69e9ef-e60c-4eb9-b067-5b44488dd8c9@sirena.org.uk>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On 11/20/23 00:54, Theodore Ts'o wrote:
-> So as for *me*, I'm going to point people at:
+On Tue, Nov 21, 2023 at 01:27:44PM +0000, Mark Brown wrote:
+> > (I don't need to see all of the tests that passes; it's the test
+> > failures or the test flakes that are significant.)
 > 
-> https://github.com/tytso/xfstests-bld/blob/master/Documentation/kvm-quickstart.md
+> The listing of tests does get a bit more complex when you mix in running
+> on different platforms.
 
-...
+Yeah, that's part of the aggregation reports problem.  Given a
+particular test, say, generic/475, I'd love to see a summary of which
+file system config (e.g., ext4/4k, ext4/1k) and which architectures a
+particular test is failing or which is flaky.  Right now, I do this
+manually using a combination of a mutt mail reader (the test summaries
+are e-mailed to me), and emacs....
 
-> (And note that I keep the xfstests-bld repo's on kernel.org and
-> github.com both uptodate, and I prefer using the using the github.com
-> URL because it's easier for the new developer to read and understand
-> it.)
+> I think if we get tooling in place so that people can just run a script,
+> add a flag to their tools or whatever to ingest results from the
+> standard testsuites the barrier to reporting becomes sufficiently low
+> that it's more of a "why not?" type thing.
 
-I already queued a switch to the kernel.org URL, which Darrick has suggested.
-I'll drop it now, but you guys would have to figure it out between yourselves,
-which one you want :D
+Sure, I'm happy to add something like that to my test runners:
+kvm-xfstests, gce-xfstests, and android-xfstests.  Then anyone who
+uses my test runner infrastructure would get uploading for free.  We
+might need to debate whether I enable uploading as something which is
+enabled by default or not (I can imagine some people won't wanting to
+upload information to a public site, lest it leak information about an
+upcoming mobile handset :-), but that's a minor point.
 
-Personally, I agree that the one on GitHub is more reader-friendly, FWIW.
+Personally, I'm not going to have time to look into this for a while,
+but... patches welcome.  Or even something that takes a junit xml
+file, and uploads it to the kcidb.  If someone can make something like
+that available, I should be able to take it the rest of the way.
 
-> And similarly, just because the V: line might say, "kvm-xfstests
-> smoke", someone could certainly use kdevops if they wanted to.  So
-> perhaps we need to be a bit clearer about what we expect the V: line
-> to mean?
+Cheers,
 
-I tried to handle some of that with the "subsets", so that you can run a wider
-test suite and still pass the Tested-with: check. I think this has to be
-balanced between allowing all the possible ways to run the tests and a
-reasonable way to certify the commit was tested automatically.
-
-E.g. name the test "xfstests", and list all the ways it can be executed, thus
-communicating that it should still say "Tested-with: xfstests" regardless of
-the way. And if there is a smaller required subset, name it just "xfstests
-smoke" and list all the ways it can be run, including the simplest
-"kvm-xfstests smoke", but accept just "Tested-with: xfstests-smoke".
-
-I'm likely getting things wrong, but I hope you get what I'm trying to say.
-
-> Along these lines, we should perhaps be a bit more thoughtful about
-> the intended audience for Documentation/process/tests.rst.  I
-> personally wouldn't try ask first-time kernel developers to look at
-> the xfstests group files, because that's just way too complicated for
-> them.
-> 
-> And I had *assumed* that Documentation/process/tests.rst was not
-> primarily intended for sophistiocated file system developers who
-> wouldn't be afraid to start looking at the many ways that xfstests
-> could be configured.  But we should perhaps be a bit more explicit
-> about who the intended audience would be for a certain set up
-> Documentation files, since that will make it easier for us to come to
-> consensus about how that particular piece of documentation would be
-> worded.
-> 
-> As E.B. White (author of the book "The Elements of Style" was reputed
-> to have once said, "Always write with deep sympathy for the reader".
-> Which means we need to understand who the reader is, and to try to
-> walk in their shoes, first.
-
-Amen to that! Apart from the newbies and just people working on other
-subsystems, we should also remember to be kinder to ourselves and keep our own
-tools easier to use. So perhaps just say "newbies should be able to follow
-tests.rst", and enjoy it :D
-
-Ultimately, I think the (admittedly elusive) target should be the ability to
-just plop a command line into every V: entry, running something from the tree
-itself. Meanwhile, we would need the stepping stone of tests.rst, or something
-like that, to walk people through whatever setup is required.
-
-I'll see how we can accommodate the commands in the V: directly, though.
-
-Nick
-
+						- Ted
