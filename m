@@ -2,113 +2,97 @@ Return-Path: <workflows-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA81EC61D97
-	for <workflows@archiver.kernel.org>; Tue, 21 Nov 2023 23:37:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C8D6C61D85
+	for <workflows@archiver.kernel.org>; Wed, 22 Nov 2023 01:09:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234704AbjKUXhu (ORCPT <rfc822;workflows@archiver.kernel.org>);
-        Tue, 21 Nov 2023 18:37:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56412 "EHLO
+        id S235021AbjKVBJ5 (ORCPT <rfc822;workflows@archiver.kernel.org>);
+        Tue, 21 Nov 2023 20:09:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229480AbjKUXht (ORCPT
-        <rfc822;workflows@vger.kernel.org>); Tue, 21 Nov 2023 18:37:49 -0500
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48026199;
-        Tue, 21 Nov 2023 15:37:46 -0800 (PST)
-Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-6c431b91b2aso5378678b3a.1;
-        Tue, 21 Nov 2023 15:37:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700609866; x=1701214666; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OBsM6IhveS+o7/r4qHHc1TgZJQzdQDusijV9f+awe9A=;
-        b=i+baoT7CVpQHwoxnw3QeUKOY2/8JslhpDRrWf+YUyqQQqIdtPC6mTWiD0Xat1R3Nzi
-         +JiBdsQLAVupy3IbFm5+41itKPn/RW3vl94xGYJd67DbjDMI2w/f3+UzPVL9eu8/gRl9
-         vH0cJ29LFSl85U5IQLE/O9jVXq3Pmk6lLrqR29ExLlXCKDduP27TXWJO91dNLM7kNDfY
-         BV9aDbBOb/P0CzA3IC20Phvq9GJGO9Sijtjxk9hSdiJnlzse4PDnUgCxXBJYXU8X81uC
-         alSE7MCeD2dz4XSMVavABUwFXkYBaIyNd+RxHaR65uiwMpXQdbkePz3knlM1LoAulCTG
-         2m4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700609866; x=1701214666;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OBsM6IhveS+o7/r4qHHc1TgZJQzdQDusijV9f+awe9A=;
-        b=N2A0fYrasSrh+HpS5NQVlMcw7NR56sW/ybQll/urQOMC7fUqxNLiNEmpGZFZPPjny1
-         BZ0c6TiAO43fNKB+5nRgprykHsoNKrtNozoVV8qa/DbkV5E/IbHJHWhCjZ/efj1nVmOq
-         Ond0mlTQhP6BA9UmOxS8zxvUVefbQ/vJDeUUzHGZ8zpw62c7VT+gIiR5YV7qOQFP73yX
-         HkDW/QSg+4up0QIBBPr9ddlrw1v157ZoP95BrO81VGsm9jSsDghCj6HIuv++v9Lib4wd
-         dLQSIBUDDN1eCHqt5KWITZOBnrE+IESnysZ/I4he2PQSa/UPy4UbFkJBbNvomA+OTlBR
-         x0mw==
-X-Gm-Message-State: AOJu0YwBlnt0Er2v6WZLJXJ7wmTDtX69EtswdypIiXJBf9AanJI8DmAi
-        1YJBKe109ir0I/mY4DaOxaU=
-X-Google-Smtp-Source: AGHT+IHylfg1T9X6BkuN5KOiJNcmxEeJ+UQfaRy0xEGLUcLwjosLbiBRBajuiM8h90cVFePNrmnm0g==
-X-Received: by 2002:a05:6a20:3944:b0:189:c852:562e with SMTP id r4-20020a056a20394400b00189c852562emr636458pzg.38.1700609865663;
-        Tue, 21 Nov 2023 15:37:45 -0800 (PST)
-Received: from [192.168.0.106] ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id 5-20020a17090a19c500b0028098225450sm98849pjj.1.2023.11.21.15.37.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Nov 2023 15:37:45 -0800 (PST)
-Message-ID: <a9abc5ec-f3cd-4a1a-81b9-a6900124d38b@gmail.com>
-Date:   Wed, 22 Nov 2023 06:37:39 +0700
+        with ESMTP id S229498AbjKVBJw (ORCPT
+        <rfc822;workflows@vger.kernel.org>); Tue, 21 Nov 2023 20:09:52 -0500
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED889D45;
+        Tue, 21 Nov 2023 17:08:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700615331; x=1732151331;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2+fdHO12ohmJATutgg6iYR9BqC3ibMl5puCl9Ejbv/A=;
+  b=bo6hEHqaN0PpPwbSoi/V9yDaE+aXbKy3t4JjpG/mxhxFs/ACMZ8lg8Lh
+   YVcFlXR2SbpLaHvPCSEsmu0WdO0K9oxgcTxtTyW1Np8aP0mxLfjhQxpti
+   22jbDHjb3VknFEG1QpG21uF7rSIR6VaZZu0n4eX1wWg2wSaRdToRbMkL6
+   S9LMDehBL9yaGNa8cCHCCJBXYvvh2X9PPO6d34+CP/CSE1giwl6Qtdhj0
+   x6BW7dfZ72l1I3SKI49OLnxnjW/OsuiXXppqUMQ2dMQGN99Y2qIowAk3L
+   DnQKmZ4wE+A/UQkls48IcoNzDxCkA45z0C1nIq7XcplVzWt5MOIl8pDH3
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="5154722"
+X-IronPort-AV: E=Sophos;i="6.04,217,1695711600"; 
+   d="scan'208";a="5154722"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 17:08:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="801726701"
+X-IronPort-AV: E=Sophos;i="6.04,217,1695711600"; 
+   d="scan'208";a="801726701"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 21 Nov 2023 17:08:43 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1r5bjM-0008Tj-2M;
+        Wed, 22 Nov 2023 01:08:40 +0000
+Date:   Wed, 22 Nov 2023 09:08:06 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>,
+        workflows@vger.kernel.org, Joe Perches <joe@perches.com>,
+        Andy Whitcroft <apw@canonical.com>,
+        Theodore Ts'o <tytso@mit.edu>, David Gow <davidgow@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mark Brown <broonie@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        "Darrick J . Wong" <djwong@kernel.org>
+Cc:     oe-kbuild-all@lists.linux.dev, kunit-dev@googlegroups.com,
+        linux-kselftest@vger.kernel.org,
+        Veronika Kabatova <vkabatov@redhat.com>,
+        CKI <cki-project@redhat.com>, kernelci@lists.linux.dev,
+        Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
+Subject: Re: [PATCH 1/3] MAINTAINERS: Introduce V: field for required tests
+Message-ID: <202311220843.vh7WyxDF-lkp@intel.com>
+References: <20231115175146.9848-2-Nikolai.Kondrashov@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: xfs: consolidate XFS docs into its own
- subdirectory
-Content-Language: en-US
-To:     kernel test robot <lkp@intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux XFS <linux-xfs@vger.kernel.org>,
-        Linux Kernel Workflows <workflows@vger.kernel.org>
-Cc:     oe-kbuild-all@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
-        Chandan Babu R <chandan.babu@oracle.com>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Namjae Jeon <linkinjeon@kernel.org>,
-        Dave Chinner <dchinner@redhat.com>,
-        Steve French <stfrench@microsoft.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Allison Henderson <allison.henderson@oracle.com>,
-        Bjorn Helgaas <helgaas@kernel.org>,
-        Charles Han <hanchunchao@inspur.com>
-References: <20231121095658.28254-1-bagasdotme@gmail.com>
- <202311220333.acL7LwXY-lkp@intel.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <202311220333.acL7LwXY-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231115175146.9848-2-Nikolai.Kondrashov@redhat.com>
 Precedence: bulk
 List-ID: <workflows.vger.kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 
-On 11/22/23 03:04, kernel test robot wrote:
-> Hi Bagas,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on 98b1cc82c4affc16f5598d4fa14b1858671b2263]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Bagas-Sanjaya/Documentation-xfs-consolidate-XFS-docs-into-its-own-subdirectory/20231121-180057
-> base:   98b1cc82c4affc16f5598d4fa14b1858671b2263
-> patch link:    https://lore.kernel.org/r/20231121095658.28254-1-bagasdotme%40gmail.com
-> patch subject: [PATCH] Documentation: xfs: consolidate XFS docs into its own subdirectory
-> reproduce: (https://download.01.org/0day-ci/archive/20231122/202311220333.acL7LwXY-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202311220333.acL7LwXY-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> Warning: Documentation/filesystems/xfs/xfs-online-fsck-design.rst references a file that doesn't exist: Documentation/filesystems/xfs-self-describing-metadata.rst
->>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/filesystems/xfs-maintainer-entry-profile.rst
->>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/filesystems/xfs-*
->>> MAINTAINERS:53207: WARNING: unknown document: ../filesystems/xfs-maintainer-entry-profile
-> 
+Hi Nikolai,
 
-Oh dear, I didn't catch them when building locally. Will fix anyway.
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.7-rc2 next-20231121]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nikolai-Kondrashov/MAINTAINERS-Introduce-V-field-for-required-tests/20231116-015419
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20231115175146.9848-2-Nikolai.Kondrashov%40redhat.com
+patch subject: [PATCH 1/3] MAINTAINERS: Introduce V: field for required tests
+reproduce: (https://download.01.org/0day-ci/archive/20231122/202311220843.vh7WyxDF-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311220843.vh7WyxDF-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Documentation/process/tests.rst: WARNING: document isn't included in any toctree
 
 -- 
-An old man doll... just what I always wanted! - Clara
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
