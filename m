@@ -1,129 +1,187 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="ZK1Xn+aV"
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC2C1DD;
-	Sun, 26 Nov 2023 09:48:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=P+MMY/H9HFvWRq/TZPXfzpfMq3RLmEgdkEE9wrSqusE=; b=ZK1Xn+aVbP+grqplmNoNPl/JFs
-	tdqVCS3ZE4Jt1ffDtrPn4OMhzm4zhF1OO/YzWxla+LZx6dFXZPsIuvOEz/1WMe8lk47VLg12prwn2
-	Tl1HVsDqUmWdr6SlgvLkVUkqNY0LGcaMsQis5uj6R/afxgJMm+a5uq60ZNlRtVNdWnaU=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1r7JEr-001GJ7-Ig; Sun, 26 Nov 2023 18:48:13 +0100
-Date: Sun, 26 Nov 2023 18:48:13 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, Andrew Davis <afd@ti.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Heiko Stuebner <heiko@sntech.de>, Jonathan Corbet <corbet@lwn.net>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Nishanth Menon <nm@ti.com>, Olof Johansson <olof@lixom.net>,
-	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3] docs: dt-bindings: add DTS Coding Style document
-Message-ID: <4fa1e860-48bd-456b-ab0b-88215c2b8d1b@lunn.ch>
-References: <20231125184422.12315-1-krzysztof.kozlowski@linaro.org>
- <a3b65c90-afc9-4caf-8744-112369a838d2@lunn.ch>
- <15292222-39b3-4e9e-a6c1-26fba8f5efcd@linaro.org>
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from mail-yw1-f195.google.com (mail-yw1-f195.google.com [209.85.128.195])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7B5D6FA2;
+	Mon, 27 Nov 2023 06:20:06 -0800 (PST)
+Received: by mail-yw1-f195.google.com with SMTP id 00721157ae682-5cbcfdeaff3so42805607b3.0;
+        Mon, 27 Nov 2023 06:20:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701094805; x=1701699605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=p8asMA5McnjUqiDsQhrdKj0am/206nD+kU8Fb3R8j7Q=;
+        b=nwYLifb5c03uBSoGy08J+jk4kdSTzWG2HUdNOUK9Toymsx7FNnlAEISUAEKCULXlqi
+         tA/+IdWgjUmuf/Rcij4uv0uwOOBWKluBdcZunKKqrcsnyjygTjxIyFi1i3/mwYIKw2ec
+         69gRtE+3z5VZKi5HxeuuMmqBnLNddnzNOKMAef6ZQEWXTkGgp+356vO7DyHZYDRGeGzx
+         Fcnfy10u5U+afWNGkfOZljZWS5rP0KxPMZcLpKK+Xh2qX91ukBA//5X6WC9R6QOVmWGk
+         kgk/uU/Kh4dGzL7I8WpMh0HQl7OoicB9QVarh4C8n5SVo1tdf6dd5V3Lzr1/Tj4c1oAW
+         8apQ==
+X-Gm-Message-State: AOJu0YwaJcDUgbz1R/iFhh5FhfWvOspgkqE3s8D1wfhBiv73/U7sU0Hj
+	rKnsRD3tFThRLPKxtwZUE7KevIwRevWq0qoG
+X-Google-Smtp-Source: AGHT+IH5EZJ3JXP1ys8qvMygvedokqxnAV2ajL+xIX1xN5Tq5j5zb7onIkAN9QKV3wbGyR2XId9FTA==
+X-Received: by 2002:a0d:d68c:0:b0:5a7:bfbf:691d with SMTP id y134-20020a0dd68c000000b005a7bfbf691dmr11601951ywd.42.1701094804463;
+        Mon, 27 Nov 2023 06:20:04 -0800 (PST)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id v126-20020a818584000000b005c08cfb7cadsm3310487ywf.57.2023.11.27.06.20.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Nov 2023 06:20:04 -0800 (PST)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-5cc66213a34so42655617b3.1;
+        Mon, 27 Nov 2023 06:20:03 -0800 (PST)
+X-Received: by 2002:a0d:e207:0:b0:5a8:207b:48d with SMTP id
+ l7-20020a0de207000000b005a8207b048dmr10958508ywe.11.1701094803713; Mon, 27
+ Nov 2023 06:20:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <15292222-39b3-4e9e-a6c1-26fba8f5efcd@linaro.org>
+References: <20231125184422.12315-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20231125184422.12315-1-krzysztof.kozlowski@linaro.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 27 Nov 2023 15:19:52 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUYEwMuxJ2Xx=KRVKneRT-e+uHz8LE1JVY5zLDkWksqKw@mail.gmail.com>
+Message-ID: <CAMuHMdUYEwMuxJ2Xx=KRVKneRT-e+uHz8LE1JVY5zLDkWksqKw@mail.gmail.com>
+Subject: Re: [PATCH v3] docs: dt-bindings: add DTS Coding Style document
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, Andrew Davis <afd@ti.com>, 
+	Andrew Lunn <andrew@lunn.ch>, Arnd Bergmann <arnd@arndb.de>, Bjorn Andersson <andersson@kernel.org>, 
+	Chen-Yu Tsai <wens@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Heiko Stuebner <heiko@sntech.de>, 
+	Jonathan Corbet <corbet@lwn.net>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Michal Simek <michal.simek@amd.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Nishanth Menon <nm@ti.com>, Olof Johansson <olof@lixom.net>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>, 
+	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Nov 26, 2023 at 11:38:38AM +0100, Krzysztof Kozlowski wrote:
-> On 25/11/2023 20:47, Andrew Lunn wrote:
-> >> +=====================================
-> >> +Devicetree Sources (DTS) Coding Style
-> >> +=====================================
-> >> +
-> >> +When writing Devicetree Sources (DTS) please observe below guidelines.  They
-> >> +should be considered complementary to any rules expressed already in Devicetree
-> >> +Specification and dtc compiler (including W=1 and W=2 builds).
-> >> +
-> >> +Individual architectures and sub-architectures can add additional rules, making
-> >> +the style stricter.
-> > 
-> > It would be nice to add a pointer where such rules are documented.
-> 
-> Subsystem profile or any other place. The generic doc should not point
-> to specific ones.
+Hi Krzysztof,
 
-That is not so friendly for a developer. A reviewer points out that a
-file is not consistent with the coding style. So they go away and fix
-it, as described here. They then get a second review which say, no,
-you to do X, Y and Z, despite them actually following the coding
-style.
+On Sat, Nov 25, 2023 at 7:44=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+> Document preferred coding style for Devicetree sources (DTS and DTSI),
+> to bring consistency among all (sub)architectures and ease in reviews.
+>
+> Cc: Andrew Davis <afd@ti.com>
+> cc: Andrew Lunn <andrew@lunn.ch>
+> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Bjorn Andersson <andersson@kernel.org>
+> Cc: Chen-Yu Tsai <wens@kernel.org>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Heiko Stuebner <heiko@sntech.de>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Konrad Dybcio <konrad.dybcio@linaro.org>
+> Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> Cc: Michal Simek <michal.simek@amd.com>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Nishanth Menon <nm@ti.com>
+> Cc: Olof Johansson <olof@lixom.net>
+> Cc: Rafa=C5=82 Mi=C5=82ecki <zajec5@gmail.com>
+> Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
+> Acked-by: Heiko Stuebner <heiko@sntech.de>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>
+> ---
+>
+> Merging idea: Rob/DT bindings
+>
+> Changes in v3
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> 1. should->shall (Angelo)
+> 2. Comments // -> /* (Angelo, Michal)
+> 3. Use imaginary example in "Order of Properties in Device Node"
+>    (Angelo)
+> 4. Added paragraphs for three sections with justifications of chosen
+>    style.
+> 5. Allow two style of ordering overrides in board DTS: alphabetically or
+>    by order of DTSI (Rob).
+> 6. I did not incorporate feedback about, due to lack of consensus and my
+>    disagreement:
+>    a. SoM being DTS without DTSI in "Organizing DTSI and DTS"
 
-Maybe add to the paragraph above:
+Thanks for the update!
 
-These further restrictions are voluntary, until added to this
-document.
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/dts-coding-style.rst
 
-This should encourage those architectures to document their coding
-style.
+> +       /* SoC DTSI */
+> +
+> +       / {
+> +               cpus {
+> +                       /* ... */
+> +               };
+> +
+> +               psci {
+> +                       /* ... */
+> +               };
+> +
+> +               soc@ {
 
-> The root node is a bit special, but other than that mixing nodes with
-> and without unit address is discouraged practice.
+"soc@" is invalid, that should be "soc".
 
-If the root node is special, maybe it needs a few rules of its own?
-All properties without an address come first, then properties with
-addresses. Sorting within these classes follow the normal rules
-already stated?
+As the "soc" node is special, you may want to elaborate:
 
-> >> +Indentation
-> >> +-----------
-> >> +
-> >> +1. Use indentation according to :ref:`codingstyle`.
-> >> +2. For arrays spanning across lines, it is preferred to align the continued
-> >> +   entries with opening < from the first line.
-> >> +3. Each entry in arrays with multiple cells (e.g. "reg" with two IO addresses)
-> >> +   shall be enclosed in <>.
-> >> +
-> >> +Example::
-> >> +
-> >> +	thermal-sensor@c271000 {
-> >> +		compatible = "qcom,sm8550-tsens", "qcom,tsens-v2";
-> >> +		reg = <0x0 0x0c271000 0x0 0x1000>,
-> >> +		      <0x0 0x0c222000 0x0 0x1000>;
-> >> +	};
-> > 
-> > I'm not sure i understand this. Is this example correct?
-> > 
-> >                 gpio-fan,speed-map = <0    0
-> >                                       3000 1
-> >                                       6000 2>;
-> > 
-> > It exists a lot in todays files.
-> 
-> Depends on the binidng. Is it matrix? If yes, then it is not correct.
+                compatible =3D "simple-bus";
+                #address-cells =3D <1>;
+                #size-cells =3D <1>;
+                ranges;
 
-It seems to me, rules 2 and 3 should be swapped. You can only align
-the <, if you have <. So logically, the rule about having < should
-come first.
+> +                       dma: dma-controller@10000 {
+> +                               /* ... */
+> +                       };
+> +
+> +                       clk: clock-controller@80000 {
+> +                               /* ... */
+> +                       };
+> +               };
+> +       };
+> +
+> +       /* Board DTS - alphabetical order */
+> +
+> +       &clk {
+> +               /* ... */
+> +       };
+> +
+> +       &dma {
+> +               /* ... */
+> +       };
+> +
+> +       /* Board DTS - alternative order, keep as DTSI */
+> +
+> +       &dma {
+> +               /* ... */
+> +       };
+> +
+> +       &clk {
+> +               /* ... */
+> +       };
 
-     Andrew
+IMO that alternative order is hard to review: you need to have multiple
+files open.  It will also make validation hard, as you can only validate
+the end result, not individual files.
+
+Anyway, this is already quite usable so
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
