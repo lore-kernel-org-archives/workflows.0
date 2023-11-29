@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yT278aJw"
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6614A1BE9
-	for <workflows@vger.kernel.org>; Wed, 29 Nov 2023 02:06:16 -0800 (PST)
-Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-a00d5b0ec44so900493266b.0
-        for <workflows@vger.kernel.org>; Wed, 29 Nov 2023 02:06:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MERiSA2b"
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B78210C0
+	for <workflows@vger.kernel.org>; Wed, 29 Nov 2023 02:16:38 -0800 (PST)
+Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-54af1daf6a9so1387164a12.1
+        for <workflows@vger.kernel.org>; Wed, 29 Nov 2023 02:16:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701252375; x=1701857175; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1701252997; x=1701857797; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=za2yJkzzBy3V8ZBT/Ld4CZE8pNBS1Zu1vvkdsZhT4Jo=;
-        b=yT278aJwUcLvatl6DJNDKCTbn4nRwbd6RmnClf70+1Trgo4oKhCAEC5bJI5TK/zar/
-         DSIVVkvQFJcGUntvStIaitAqEpHN0mCA32JXaeaS8fR5VS9cXJGSymDNup2Nd5j5/fns
-         iZa0v0gUlUa2FevrlLDF7KyCldcgbMm+yNk1Z5xIhmjZXUQFaQ8GMgsrbEoALHZhekz1
-         qoJIJfnR6U9m25HxsWBq3AsjHkYyRe5rWMW0QREJe1bTErDZUndul+PbGVQKg0ypj0iJ
-         LZO3DMt8VVwdZS0hjJmN7x+usJSQ1lrU+B3TmM4IW5HUzoJ/locnhXfxxJVA0Rb5keo0
-         YjKQ==
+        bh=Mtc4c0Qc+Eu0vsDQ9fqBtQVu0ExHjq28ELJTpnawBxM=;
+        b=MERiSA2bxjaTVu07Yoiisg2NJ1EodPqrjYQXxeNoubGDYiqbXmJtEVKKluyELdhmNi
+         iLtf72ngS4TfJjXz++Wkzgic36vMxIphu50AM9lnuvfijZa4hcfOd4gMk76vPaXCrzen
+         o3+AZ8KidYf2mjHRBLvR1yFCw1OJrHqNze5GJz8Fr8lWu3GvFPPnMSI9kGUI1rzh82EJ
+         3bQofIqmvr3P+qAIys2yqwVAlxWfsRfQ0Dak9nEEnNWWLfCk72Cbd5TG53gTeZ3Qsx/e
+         DY8+yXs9yXc+ExwOCfhnXfnZuGXgYqlbx1+GsL/2cwM148H0L9HI8SYggtHN2TNpEZ+P
+         Zt8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701252375; x=1701857175;
+        d=1e100.net; s=20230601; t=1701252997; x=1701857797;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=za2yJkzzBy3V8ZBT/Ld4CZE8pNBS1Zu1vvkdsZhT4Jo=;
-        b=NiNfdJr1+giy/G3oW5Urx6Bde2vNuzE9sL1pgzlwe22ibzX1SfYn60bQf5medhZDTu
-         nBLBUD4oukIS4vHDjUdoS3yH/HtQ265bMXiMU6EZGrF+fqM+UreczvoeFajhU4jZM1pi
-         gbovI8l9KJm8kRHOqzmYDUFY9v/R6HCwXcYvBcsGN85NYFeXaQz2nXGlD6zkYaR98R5E
-         McaFmHZ71LlpeW+DDv8qszm8pglWiuYDvBlmx7mavM4oVhAR+4RCxpV/u0OY4vbXkGGu
-         JBzBJOctH/Ze/EmkE34O1CcVwiAOOKQ6mTd1sy4fta+I1NVnf/c4xL+3lBJP8HSbdNlp
-         6YuQ==
-X-Gm-Message-State: AOJu0YzlyAuZcaE96qrw9ABPUXf6vAIUMVt5CcvSYyJWNvQnjb2P3SvN
-	x7ej7dPaXqE54sNXpUFEyJ4/jQ==
-X-Google-Smtp-Source: AGHT+IGJuApRen3EBmEwMd5p364lmU7PTBcgXOWX8oNwUiNEQief4We8JeVPD62DOEA/pzjlIjZuIw==
-X-Received: by 2002:a17:906:3f88:b0:9ff:1dea:83b6 with SMTP id b8-20020a1709063f8800b009ff1dea83b6mr11989413ejj.4.1701252374796;
-        Wed, 29 Nov 2023 02:06:14 -0800 (PST)
+        bh=Mtc4c0Qc+Eu0vsDQ9fqBtQVu0ExHjq28ELJTpnawBxM=;
+        b=hyjRv9UJadXnk/cVNBmwfYbT5TSLtSTrsn2p4Fx4pLIzEXPd1meQwJU5qq5CMvs6oL
+         PMGMOt1QmHP8MBzD7eSmsYR9pt50j9tRzV2DrYzjO42vwFGuI5cz6nX2Un2n+y+yM06x
+         SU5fhqWciuPP4Ewd75J1ZzjE5RaAtliixvXgOBj5LaTUs8UGHCBxbcZ4WxT3S6GjA6k2
+         gClS98epBSLP0qJ9Yk6mwFl1SLvYihVO1lhvY3NNimzfqiJ5IfovZO0mFMfRW87WQW++
+         r7ydpGOqqpBe4tSwIYHtdhjDj8LG2SKdWrrJFunbNr9Io/OhM0DpZGKtva1nWsqB40cG
+         bbvg==
+X-Gm-Message-State: AOJu0YwBDdyDwuT7MUvSXUe90VErtblWtAWidk8Z3yIkMoT5oNNTYE8o
+	srZVNRNW9yDkyDSNuaEgozwtlQ==
+X-Google-Smtp-Source: AGHT+IGu/8SPkF/vFZGrEhiHZ4PgqS2y+L0isIf4cuQ2LgVvEv7goCfc9sLO+3AtcNQJ40HNnSWJnQ==
+X-Received: by 2002:aa7:d8d8:0:b0:54b:346d:cf00 with SMTP id k24-20020aa7d8d8000000b0054b346dcf00mr11346439eds.18.1701252996881;
+        Wed, 29 Nov 2023 02:16:36 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.223.109])
-        by smtp.gmail.com with ESMTPSA id gx26-20020a170906f1da00b009ad89697c86sm7757685ejb.144.2023.11.29.02.06.12
+        by smtp.gmail.com with ESMTPSA id c21-20020a056402101500b0053e5f67d637sm7175580edu.9.2023.11.29.02.16.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Nov 2023 02:06:14 -0800 (PST)
-Message-ID: <ae9ef5a6-bb66-4b15-ad6a-fc71206e2795@linaro.org>
-Date: Wed, 29 Nov 2023 11:06:12 +0100
+        Wed, 29 Nov 2023 02:16:36 -0800 (PST)
+Message-ID: <b606b44d-6b2f-4b0f-912d-b73847073616@linaro.org>
+Date: Wed, 29 Nov 2023 11:16:34 +0100
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -49,7 +49,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3] docs: dt-bindings: add DTS Coding Style document
 Content-Language: en-US
-To: Andrew Lunn <andrew@lunn.ch>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
 Cc: Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
@@ -57,8 +57,9 @@ Cc: Rob Herring <robh+dt@kernel.org>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- Andrew Davis <afd@ti.com>, Arnd Bergmann <arnd@arndb.de>,
- Bjorn Andersson <andersson@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+ Andrew Davis <afd@ti.com>, Andrew Lunn <andrew@lunn.ch>,
+ Arnd Bergmann <arnd@arndb.de>, Bjorn Andersson <andersson@kernel.org>,
+ Chen-Yu Tsai <wens@kernel.org>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
  Heiko Stuebner <heiko@sntech.de>, Jonathan Corbet <corbet@lwn.net>,
@@ -70,9 +71,7 @@ Cc: Rob Herring <robh+dt@kernel.org>,
  linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
  workflows@vger.kernel.org, linux-doc@vger.kernel.org
 References: <20231125184422.12315-1-krzysztof.kozlowski@linaro.org>
- <a3b65c90-afc9-4caf-8744-112369a838d2@lunn.ch>
- <15292222-39b3-4e9e-a6c1-26fba8f5efcd@linaro.org>
- <4fa1e860-48bd-456b-ab0b-88215c2b8d1b@lunn.ch>
+ <CAMuHMdUYEwMuxJ2Xx=KRVKneRT-e+uHz8LE1JVY5zLDkWksqKw@mail.gmail.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -118,95 +117,89 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <4fa1e860-48bd-456b-ab0b-88215c2b8d1b@lunn.ch>
+In-Reply-To: <CAMuHMdUYEwMuxJ2Xx=KRVKneRT-e+uHz8LE1JVY5zLDkWksqKw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 26/11/2023 18:48, Andrew Lunn wrote:
-> On Sun, Nov 26, 2023 at 11:38:38AM +0100, Krzysztof Kozlowski wrote:
->> On 25/11/2023 20:47, Andrew Lunn wrote:
->>>> +=====================================
->>>> +Devicetree Sources (DTS) Coding Style
->>>> +=====================================
->>>> +
->>>> +When writing Devicetree Sources (DTS) please observe below guidelines.  They
->>>> +should be considered complementary to any rules expressed already in Devicetree
->>>> +Specification and dtc compiler (including W=1 and W=2 builds).
->>>> +
->>>> +Individual architectures and sub-architectures can add additional rules, making
->>>> +the style stricter.
->>>
->>> It would be nice to add a pointer where such rules are documented.
->>
->> Subsystem profile or any other place. The generic doc should not point
->> to specific ones.
+On 27/11/2023 15:19, Geert Uytterhoeven wrote:
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/dts-coding-style.rst
 > 
-> That is not so friendly for a developer. A reviewer points out that a
-> file is not consistent with the coding style. So they go away and fix
-
-Then it is poor reviewer. If reviewer does not mention specific issues
-to fix or specific style to use, but just "coding style", then he has no
-right to expect some other output.
-
-> it, as described here. They then get a second review which say, no,
-> you to do X, Y and Z, despite them actually following the coding
-> style.
+>> +       /* SoC DTSI */
+>> +
+>> +       / {
+>> +               cpus {
+>> +                       /* ... */
+>> +               };
+>> +
+>> +               psci {
+>> +                       /* ... */
+>> +               };
+>> +
+>> +               soc@ {
 > 
-> Maybe add to the paragraph above:
-> 
-> These further restrictions are voluntary, until added to this
-> document.
+> "soc@" is invalid, that should be "soc".
 
-"can add" already expresses this.
+soc@0 is valid.
 
 > 
-> This should encourage those architectures to document their coding
-> style.
+> As the "soc" node is special, you may want to elaborate:
 > 
->> The root node is a bit special, but other than that mixing nodes with
->> and without unit address is discouraged practice.
-> 
-> If the root node is special, maybe it needs a few rules of its own?
-> All properties without an address come first, then properties with
-> addresses. Sorting within these classes follow the normal rules
-> already stated?
+>                 compatible = "simple-bus";
+>                 #address-cells = <1>;
+>                 #size-cells = <1>;
+>                 ranges;
 
-This document ought to be simple at the beginning. Also, root node has
-only nodes without addresses and soc@ node.
+but then we go to missing address/size cells in root node. Your comment
+is in general correct, but what you propose here is not a coding style,
+but DTS correctness and I only wanted to show the order of nodes. dtc
+already enforces the proper unit addresses, ranges and cells.
 
 > 
->>>> +Indentation
->>>> +-----------
->>>> +
->>>> +1. Use indentation according to :ref:`codingstyle`.
->>>> +2. For arrays spanning across lines, it is preferred to align the continued
->>>> +   entries with opening < from the first line.
->>>> +3. Each entry in arrays with multiple cells (e.g. "reg" with two IO addresses)
->>>> +   shall be enclosed in <>.
->>>> +
->>>> +Example::
->>>> +
->>>> +	thermal-sensor@c271000 {
->>>> +		compatible = "qcom,sm8550-tsens", "qcom,tsens-v2";
->>>> +		reg = <0x0 0x0c271000 0x0 0x1000>,
->>>> +		      <0x0 0x0c222000 0x0 0x1000>;
->>>> +	};
->>>
->>> I'm not sure i understand this. Is this example correct?
->>>
->>>                 gpio-fan,speed-map = <0    0
->>>                                       3000 1
->>>                                       6000 2>;
->>>
->>> It exists a lot in todays files.
->>
->> Depends on the binidng. Is it matrix? If yes, then it is not correct.
+>> +                       dma: dma-controller@10000 {
+>> +                               /* ... */
+>> +                       };
+>> +
+>> +                       clk: clock-controller@80000 {
+>> +                               /* ... */
+>> +                       };
+>> +               };
+>> +       };
+>> +
+>> +       /* Board DTS - alphabetical order */
+>> +
+>> +       &clk {
+>> +               /* ... */
+>> +       };
+>> +
+>> +       &dma {
+>> +               /* ... */
+>> +       };
+>> +
+>> +       /* Board DTS - alternative order, keep as DTSI */
+>> +
+>> +       &dma {
+>> +               /* ... */
+>> +       };
+>> +
+>> +       &clk {
+>> +               /* ... */
+>> +       };
 > 
-> It seems to me, rules 2 and 3 should be swapped. You can only align
-> the <, if you have <. So logically, the rule about having < should
-> come first.
+> IMO that alternative order is hard to review: you need to have multiple
+> files open.  It will also make validation hard, as you can only validate
+> the end result, not individual files.
 
-Hm, sure, I'll reorder them.
+Rob commented on this - tools (will) solve the issue. :)
+
+> 
+> Anyway, this is already quite usable so
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
 
 Best regards,
 Krzysztof
