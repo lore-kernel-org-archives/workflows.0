@@ -1,196 +1,196 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="YUTwYCyg"
-Received: from mail.manjaro.org (mail.manjaro.org [IPv6:2a01:4f8:c0c:51f3::1])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B081EAF;
-	Wed, 29 Nov 2023 03:37:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GDuN3Gp4"
+Received: from mail-il1-x134.google.com (mail-il1-x134.google.com [IPv6:2607:f8b0:4864:20::134])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D02D6D4A;
+	Wed, 29 Nov 2023 04:40:04 -0800 (PST)
+Received: by mail-il1-x134.google.com with SMTP id e9e14a558f8ab-35ba5e00dc5so26617545ab.1;
+        Wed, 29 Nov 2023 04:40:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701261604; x=1701866404; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=J18qit5Z0iKKA8YjGWidpFR+jQCxMImqQq5so4h0DKY=;
+        b=GDuN3Gp4pYk6GIaBAiWPDT3I6IaV5CFdlYSyOL4mAKZ4Ioa0RV5NXtkFqUyWAbJeQ/
+         OzHSfhxNe7dursUc7Z2GgFEWhuuhm/+bucLeIT1kquIQ0k3x4bljPQog94DIIyQfrKVd
+         csZk6NtNzonEAMj3L+qvC9vR2ABtKFSEXH+DZh85aTPCyYDfOwaz8UvC8Hy6j7ZVNEBD
+         D2HwF4w4uznkxGVNpnNZm/DJu7KT1FlJGKAdV4mECmg1UOLjRKOpl2bw34+XPLaOeMr0
+         9RreN/bgocWNK1twyJIKZD57z5SqFgV78lTemFU7uIBKPDHKOEaCaZBtP7ngUAVsTL9u
+         kENg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701261604; x=1701866404;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=J18qit5Z0iKKA8YjGWidpFR+jQCxMImqQq5so4h0DKY=;
+        b=gM18lNTMhKOCIy3MOGIybFjQYG/WUfDtvsZWWPi63L2GhZ31c8Y0iXCbvUuUKrFU2M
+         ZMk6IZcuuwP6gQqwvzveaGvj1UoZ97q6ltkYj6EI7o4YHC0xPiCDyemb84O2/gd3O8DR
+         nw+nSvd+08oV2gvlGYzvlJ70o5vqokIC/irfMNTkoaHcdVCAtItxTGZCc8u8FEN0HWL+
+         pUw67V9JRZgsdzQGif4C4isznVJmoj5iQOnC6gG6WjNAX0cLdXm4VZPqhHT/2rC3HoBk
+         +i9lvLy1nwtPH5t3GayA5xow2mwrihm+wCkUABMqN2TukfVllcQW5coXoA8oEk3/+6ia
+         1fgw==
+X-Gm-Message-State: AOJu0YzSqAdBjXQHMVY5EdGwPjY3E9Mx9mXRbdf7ubnp5MFyJM9hkb6p
+	OuTSIoeSVbQZsJRDZDRpkJOhCZRyHMP4Hg==
+X-Google-Smtp-Source: AGHT+IF0xGKiUv5adaCHraeo+BlX6sD+VFezOrMmpx26MCvs2HQABcSx70zfB3uEyTQ/TMJFpPg+2Q==
+X-Received: by 2002:a92:3f04:0:b0:35c:d2ed:d807 with SMTP id m4-20020a923f04000000b0035cd2edd807mr10705966ila.20.1701261604131;
+        Wed, 29 Nov 2023 04:40:04 -0800 (PST)
+Received: from archie.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id s13-20020a62e70d000000b006cb8e394574sm10766056pfh.21.2023.11.29.04.40.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Nov 2023 04:40:03 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id D840610205C79; Wed, 29 Nov 2023 19:39:58 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux XFS <linux-xfs@vger.kernel.org>,
+	Linux Kernel Workflows <workflows@vger.kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Chandan Babu R <chandan.babu@oracle.com>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Dave Chinner <dchinner@redhat.com>,
+	Steve French <stfrench@microsoft.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Allison Henderson <allison.henderson@oracle.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Charles Han <hanchunchao@inspur.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH v3] Documentation: xfs: consolidate XFS docs into its own subdirectory
+Date: Wed, 29 Nov 2023 19:39:47 +0700
+Message-ID: <20231129123947.4706-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1701257848;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zFMkyI45VT7UXczSOfK7lHaQtQAsm/dZT4KJu3kbR6M=;
-	b=YUTwYCygZsU6Xp6EA/BNba80tC0tNo4Lj5ACDCNmLzJogjTYp7Lee8wOoW6F3wmz8j1e4B
-	gT9p9h9p6IL5YpXbFPyDy7tW1GV4ySnd9idxr+Yl07Az/bD3Bww+PyC5u01Rglv6Z4h86b
-	Jx7it0g9Ar9kd/DHDNiyE8BTFXzRFwL65dzkfiW1wzMnxIzoPAvsIHmeyrl86t2UxsKmZq
-	wBTDB+AMPpuHw3zcwlPDg+I+5bFDJc01y0Bpn+L2WpdxEKUcz7dMrNIWvzMbVPnOAHJ2/h
-	vq7XGBYrnKNgVWA315hLJ8qlYrXmCUQzi+0uMWP9aeQwh15V7XVeiUxo0j5fTw==
-Date: Wed, 29 Nov 2023 12:37:26 +0100
-From: Dragan Simic <dsimic@manjaro.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, Andrew Davis <afd@ti.com>, Andrew Lunn
- <andrew@lunn.ch>, Arnd Bergmann <arnd@arndb.de>, Bjorn Andersson
- <andersson@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
- Heiko Stuebner <heiko@sntech.de>, Jonathan Corbet <corbet@lwn.net>, Konrad
- Dybcio <konrad.dybcio@linaro.org>, Michal Simek <michal.simek@amd.com>, Neil
- Armstrong <neil.armstrong@linaro.org>, Nishanth Menon <nm@ti.com>, Olof
- Johansson <olof@lixom.net>, =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?=
- <zajec5@gmail.com>, linux-rockchip@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3] docs: dt-bindings: add DTS Coding Style document
-In-Reply-To: <0bcc0679-b883-4435-8843-cc830122c0e1@linaro.org>
-References: <20231125184422.12315-1-krzysztof.kozlowski@linaro.org>
- <63ec18b2758a9e385f446fb00b60ee69@manjaro.org>
- <0bcc0679-b883-4435-8843-cc830122c0e1@linaro.org>
-Message-ID: <83b413441a953e8f2bc56adf09511a80@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5565; i=bagasdotme@gmail.com; h=from:subject; bh=E7SCxviNqr8B4kMTD16DIR3yCkpEsH8yH+zCkY0neiA=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDKnpBkZpzH4/7io/47/G/X3vFImSFPF/1xMbt/XkKQUa3 QjP5V7YUcrCIMbFICumyDIpka/p9C4jkQvtax1h5rAygQxh4OIUgImYPGb4X9i+4QLjKcHHH4xd Z5XLnOPb0b71zHOBW3ynTQ9Ml1D0ecjwz3BfaK/qDvuJL3I//busIu5VlzCf5YJqzT9TkbcMciJ 6bAA=
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-On 2023-11-29 11:43, Krzysztof Kozlowski wrote:
-> On 28/11/2023 21:00, Dragan Simic wrote:
->> 
->> I went through the language of the entire patch, after the notice that
->> the v4 would no longer accept language improvements.  My wording- and
->> grammar-related suggestions are available inline below.
-> 
-> Thanks. I want to finish this at some point and it might not happen if
-> grammar fixes will be coming every patch revision. Then after we finish
-> review, new feedback will appear about using British or American
-> spelling (which reminds me old quote/email about which variant of
-> English is most popular in Linux kernel: the incorrect one).
+XFS docs are currently in upper-level Documentation/filesystems.
+Although these are currently 4 docs, they are already outstanding as
+a group and can be moved to its own subdirectory.
 
-Ah, that's a good one. :)  Basically, both English variants should be 
-fine, but a single document should obviously use only one variant.
+Consolidate them into Documentation/filesystems/xfs/.
 
->>> +=====================================
->>> +Devicetree Sources (DTS) Coding Style
->>> +=====================================
->>> +
->>> +When writing Devicetree Sources (DTS) please observe below 
->>> guidelines.
->>>  They
->> 
->> The sentence above should be replaced with: "The following guidelines
->> are to be followed when writing Devicetree Source (DTS) files."
-> 
-> Are you sure? It's passive and I was taught it is discouraged for
-> writing. See for example:
-> https://www.hamilton.edu/academics/centers/writing/seven-sins-of-writing/1
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+Changes since v2 [1]:
 
-Hmm, you're right, passive voice is usually not the best choice.  Here's 
-my take two for the suggested replacement sentence, which is actually a 
-simplified version:
+  * Adjust MAINTAINERS pattern to include all docs in the subdirectory
+    by using wildcard.
 
-"This document contains the guidelines for writing Devicetree Source 
-(DTS) files."
+[1]: https://lore.kernel.org/linux-doc/20231128124522.28499-1-bagasdotme@gmail.com/
 
->>> +should be considered complementary to any rules expressed already in
->>> Devicetree
->>> +Specification and dtc compiler (including W=1 and W=2 builds).
->> 
->> A definite article ("the") should be added before "Devicetree
-> 
-> ack
-> 
->> Specification" and "dtc".  Also, "Specification" in "Devicetree
->> Specification" should be capitalized.
-> 
-> It was.
+ Documentation/filesystems/index.rst                |  5 +----
+ Documentation/filesystems/xfs/index.rst            | 14 ++++++++++++++
+ .../{ => xfs}/xfs-delayed-logging-design.rst       |  0
+ .../{ => xfs}/xfs-maintainer-entry-profile.rst     |  0
+ .../{ => xfs}/xfs-online-fsck-design.rst           |  2 +-
+ .../{ => xfs}/xfs-self-describing-metadata.rst     |  0
+ .../maintainer/maintainer-entry-profile.rst        |  2 +-
+ MAINTAINERS                                        |  4 ++--
+ 8 files changed, 19 insertions(+), 8 deletions(-)
+ create mode 100644 Documentation/filesystems/xfs/index.rst
+ rename Documentation/filesystems/{ => xfs}/xfs-delayed-logging-design.rst (100%)
+ rename Documentation/filesystems/{ => xfs}/xfs-maintainer-entry-profile.rst (100%)
+ rename Documentation/filesystems/{ => xfs}/xfs-online-fsck-design.rst (99%)
+ rename Documentation/filesystems/{ => xfs}/xfs-self-describing-metadata.rst (100%)
 
-Oh, sorry, I see now.  IIRC, it wasn't capitalized in some places, so I 
-made a mistake here.
+diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+index 09cade7eaefc8c..e18bc5ae3b35f8 100644
+--- a/Documentation/filesystems/index.rst
++++ b/Documentation/filesystems/index.rst
+@@ -121,8 +121,5 @@ Documentation for filesystem implementations.
+    udf
+    virtiofs
+    vfat
+-   xfs-delayed-logging-design
+-   xfs-maintainer-entry-profile
+-   xfs-self-describing-metadata
+-   xfs-online-fsck-design
++   xfs/index
+    zonefs
+diff --git a/Documentation/filesystems/xfs/index.rst b/Documentation/filesystems/xfs/index.rst
+new file mode 100644
+index 00000000000000..ab66c57a5d18ea
+--- /dev/null
++++ b/Documentation/filesystems/xfs/index.rst
+@@ -0,0 +1,14 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++============================
++XFS Filesystem Documentation
++============================
++
++.. toctree::
++   :maxdepth: 2
++   :numbered:
++
++   xfs-delayed-logging-design
++   xfs-maintainer-entry-profile
++   xfs-self-describing-metadata
++   xfs-online-fsck-design
+diff --git a/Documentation/filesystems/xfs-delayed-logging-design.rst b/Documentation/filesystems/xfs/xfs-delayed-logging-design.rst
+similarity index 100%
+rename from Documentation/filesystems/xfs-delayed-logging-design.rst
+rename to Documentation/filesystems/xfs/xfs-delayed-logging-design.rst
+diff --git a/Documentation/filesystems/xfs-maintainer-entry-profile.rst b/Documentation/filesystems/xfs/xfs-maintainer-entry-profile.rst
+similarity index 100%
+rename from Documentation/filesystems/xfs-maintainer-entry-profile.rst
+rename to Documentation/filesystems/xfs/xfs-maintainer-entry-profile.rst
+diff --git a/Documentation/filesystems/xfs-online-fsck-design.rst b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
+similarity index 99%
+rename from Documentation/filesystems/xfs-online-fsck-design.rst
+rename to Documentation/filesystems/xfs/xfs-online-fsck-design.rst
+index a0678101a7d02d..352516feef6ffe 100644
+--- a/Documentation/filesystems/xfs-online-fsck-design.rst
++++ b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
+@@ -962,7 +962,7 @@ disk, but these buffer verifiers cannot provide any consistency checking
+ between metadata structures.
+ 
+ For more information, please see the documentation for
+-Documentation/filesystems/xfs-self-describing-metadata.rst
++Documentation/filesystems/xfs/xfs-self-describing-metadata.rst
+ 
+ Reverse Mapping
+ ---------------
+diff --git a/Documentation/filesystems/xfs-self-describing-metadata.rst b/Documentation/filesystems/xfs/xfs-self-describing-metadata.rst
+similarity index 100%
+rename from Documentation/filesystems/xfs-self-describing-metadata.rst
+rename to Documentation/filesystems/xfs/xfs-self-describing-metadata.rst
+diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
+index 7ad4bfc2cc038a..18cee1edaecb6f 100644
+--- a/Documentation/maintainer/maintainer-entry-profile.rst
++++ b/Documentation/maintainer/maintainer-entry-profile.rst
+@@ -105,4 +105,4 @@ to do something different in the near future.
+    ../driver-api/media/maintainer-entry-profile
+    ../driver-api/vfio-pci-device-specific-driver-acceptance
+    ../nvme/feature-and-quirk-policy
+-   ../filesystems/xfs-maintainer-entry-profile
++   ../filesystems/xfs/xfs-maintainer-entry-profile
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ea790149af7951..5ad039cfe9c794 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -23893,10 +23893,10 @@ S:	Supported
+ W:	http://xfs.org/
+ C:	irc://irc.oftc.net/xfs
+ T:	git git://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git
+-P:	Documentation/filesystems/xfs-maintainer-entry-profile.rst
++P:	Documentation/filesystems/xfs/xfs-maintainer-entry-profile.rst
+ F:	Documentation/ABI/testing/sysfs-fs-xfs
+ F:	Documentation/admin-guide/xfs.rst
+-F:	Documentation/filesystems/xfs-*
++F:	Documentation/filesystems/xfs/*
+ F:	fs/xfs/
+ F:	include/uapi/linux/dqblk_xfs.h
+ F:	include/uapi/linux/fsmap.h
 
->>> +
->>> +Individual architectures and sub-architectures can add additional
->>> rules, making
->>> +the style stricter.
->> 
->> "Sub-architectures" should be replaced with "subarchitectures".  "Can
-> 
-> A hint, you can write such review feedback as:
-> s/sub-architectures/subarchitectures/
+base-commit: 9c235dfc3d3f901fe22acb20f2ab37ff39f2ce02
+-- 
+An old man doll... just what I always wanted! - Clara
 
-Sure, but I specifically wanted to be less terse, as a way to be 
-respectful.
-
-> BTW, my language spelling points "subarchitectures" as mistake, but
-> sure, ack.
-
-Using hyphens or not is almost always debatable, but modern English in 
-general leans toward not using them.
-
->>> +3. Unit addresses shall use lowercase hex, without leading zeros
->>> (padding).
->> 
->> "Lowercase hex" should be replaced with "lowercase hexadecimal 
->> digits".
->> 
->>> +
->>> +4. Hex values in properties, e.g. "reg", shall use lowercase hex.  
->>> The
->>> address
->>> +   part can be padded with leading zeros.
->> 
->> "Hex values" should be replaced with "Hexadecimal values".  "Lowercase
->> hex" should be replaced with "lowercase hexadecimal digits".
-> 
-> ack, but that's quite picky. We are (software) engineers so we are
-> supposed to know the slang.
-
-Sure, but this document is of a bit formal nature, so using slightly 
-more formal language can only be helpful.
-
->>> +2. Nodes without unit addresses shall be ordered alpha-numerically 
->>> by
->>> the node
->>> +   name.  For a few types of nodes, they can be ordered by the main
->>> property
->>> +   (e.g. pin configuration states ordered by value of "pins"
->>> property).
->> 
->> "Alpha-numerically" should be replaced with "alphabetically".
-> 
-> Are you sure? Does alphabetical order include numbers?
-
-That's a good question, which also crossed my mind while writing the 
-suggestions down.  A more correct word would be "lexicographically", 
-with something like ", with the already defined valid characters making 
-the symbol set and the ACSII character set defining the ordering, " 
-serving as an additional explanation.
-
-This would be a rather formal, but also very precise definition of the 
-applied ordering.
-
->>> +3. When extending nodes in the board DTS via &label, the entries 
->>> shall
->>> be
->>> +   ordered either alpha-numerically or by keeping the order from 
->>> DTSI
->>> (choice
->>> +   depending on sub-architecture).
->> 
->> "Alpha-numerically" should be replaced with "alphabetically".
-> 
-> Similar concern
-
-I agree.  We could use "lexicographically" instead, with the precise 
-definition already established earlier in the document.
-
->>> +board DTS, not in the SoC or SoM DTSI.  A partial exception is a
->>> common
->>> +external reference SoC-input clock, which could be coded as a
->>> fixed-clock in
->> 
->> "SoC-input" should be replaced with "SoC input".
-> 
-> ack, thanks!
-
-Thank you once again for working on this document!
