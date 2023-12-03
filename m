@@ -1,88 +1,43 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="PVR0CCV1"
-Received: from mail.manjaro.org (mail.manjaro.org [IPv6:2a01:4f8:c0c:51f3::1])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98EB3B8;
-	Sun,  3 Dec 2023 12:25:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="LWPIHLKl"
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC650AA;
+	Sun,  3 Dec 2023 13:11:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=tEkBw2c3bkAsXdzRKGbLG9mXG5/Csxch4Kwe/Hxkwrg=; b=LWPIHLKliN7X9zRYU5PIGZgZ3S
+	YzXxWDEm09s0MY2XZlUAde4UNypDaRpARyR7IQ21X2z5A69LF1Vqp2SNVMIwCsBRM4lKBxYvwgziA
+	luA6iCj8ve15oO/ZXfGbPPNLUqscemLO6G7Lxj+O8JDtkauyqOR0UCfLD8EK8EzhVP5bvHYWkpnFa
+	8pjsTW784Inr11dV0pwMuU/rEBU3htu/v56EJcFowkrgfs35NUd9OvvhfeLBNC5nQCkwoAylo+w51
+	nhMjaq7M20/xXE5IlaOA7kJfgbGgd8PUMOM4tPnzCPmqx2JxLSMaf8WZitN6h1WFZyGrNeA0G2Al3
+	XB2npcBA==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1r9tkR-0003oA-4y; Sun, 03 Dec 2023 21:11:31 +0000
+Date: Sun, 3 Dec 2023 21:11:31 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: attreyee-muk <tintinm2017@gmail.com>
+Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Sounds better
+Message-ID: <ZWzvA9svbcgraP7Z@casper.infradead.org>
+References: <20231203133017.18311-1-tintinm2017@gmail.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1701635155;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mWJ+aNdDgla6aB8RfWwYvr7B5kGqGCRxqh6xKbSq2wc=;
-	b=PVR0CCV1WRc971ftwf+fTnXvVPx9DB7HXgFoRLGzcnfa4K5fnch4TEMseMxptkpcKSEKZN
-	wGstlWhvUlT0yKzlPJG/ytbfQIzn+nkyRAmIpRK+Mo7YCMKn3LaVElBpqW01N+iZWreVlo
-	U6F0t1DevvvJBTYe7uvafeYl8ebUbFjeJXzBik1Y4gCgqz/dnIpa9RsATQIMWRgV6gpfOr
-	e87Fq2YjDXArbOJscUyA6s4lZc9lGsqUlK8V4amOLod0sYbJpE3OYL3uszJpVI9tSqBTux
-	yChagRYXgjU2tWdJSaXom91KIuRMtnVDJD1L6KBb8IV1Xi3gcvuEciJ1WM7Z8w==
-Date: Sun, 03 Dec 2023 21:25:54 +0100
-From: Dragan Simic <dsimic@manjaro.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, Andrew Davis <afd@ti.com>, Andrew Lunn
- <andrew@lunn.ch>, Arnd Bergmann <arnd@arndb.de>, Bjorn Andersson
- <andersson@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Jonathan Corbet <corbet@lwn.net>, Michal
- Simek <michal.simek@amd.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Nishanth Menon <nm@ti.com>, Olof Johansson <olof@lixom.net>,
- =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?= <zajec5@gmail.com>, Heiko Stuebner
- <heiko@sntech.de>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Konrad Dybcio <konradybcio@kernel.org>, Geert Uytterhoeven
- <geert+renesas@glider.be>, linux-rockchip@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4] docs: dt-bindings: add DTS Coding Style document
-In-Reply-To: <20231203174622.18402-1-krzysztof.kozlowski@linaro.org>
-References: <20231203174622.18402-1-krzysztof.kozlowski@linaro.org>
-Message-ID: <2223b302fc43959a61578aae9cc3a15a@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231203133017.18311-1-tintinm2017@gmail.com>
 
-> +Order of Properties in Device Node
-> +----------------------------------
-> +
-> +The following order of properties in device nodes is preferred:
-> +
-> +1. compatible
-> +2. reg
-> +3. ranges
-> +4. Standard/common properties (defined by common bindings, e.g. 
-> without
-> +   vendor-prefixes)
-> +5. Vendor-specific properties
-> +6. status (if applicable)
-> +7. Child nodes, where each node is preceded with a blank line
+On Sun, Dec 03, 2023 at 07:00:18PM +0530, attreyee-muk wrote:
+> Hence, sending this patch. Requesting the maintains to have a look at
+> it. 
 
-Another small suggestion...  It would be good to put the property names 
-found in the list items, such as "compatible" and "status", into 
-quotation marks, to make it obvious what they are.  That way, the list 
-would also be more consistent with the property names mentioned in the 
-sentence right below.
+In addition to Greg's comment, after you have made changes to an rst
+file, you have to try building the documents again (eg "make htmldocs").
+I can see you've introduced a syntax error in this document.
 
-> +
-> +The "status" property is by default "okay", thus it can be omitted.
-> +
-> +The above-described ordering follows this approach:
-> +
-> +1. Most important properties start the node: compatible then bus 
-> addressing to
-> +   match unit address.
-> +2. Each node will have common properties in similar place.
-> +3. Status is the last information to annotate that device node is or 
-> is not
-> +   finished (board resources are needed).
+Also, titles do not have a full stop at the end.
