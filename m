@@ -1,43 +1,89 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="LWPIHLKl"
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC650AA;
-	Sun,  3 Dec 2023 13:11:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=tEkBw2c3bkAsXdzRKGbLG9mXG5/Csxch4Kwe/Hxkwrg=; b=LWPIHLKliN7X9zRYU5PIGZgZ3S
-	YzXxWDEm09s0MY2XZlUAde4UNypDaRpARyR7IQ21X2z5A69LF1Vqp2SNVMIwCsBRM4lKBxYvwgziA
-	luA6iCj8ve15oO/ZXfGbPPNLUqscemLO6G7Lxj+O8JDtkauyqOR0UCfLD8EK8EzhVP5bvHYWkpnFa
-	8pjsTW784Inr11dV0pwMuU/rEBU3htu/v56EJcFowkrgfs35NUd9OvvhfeLBNC5nQCkwoAylo+w51
-	nhMjaq7M20/xXE5IlaOA7kJfgbGgd8PUMOM4tPnzCPmqx2JxLSMaf8WZitN6h1WFZyGrNeA0G2Al3
-	XB2npcBA==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1r9tkR-0003oA-4y; Sun, 03 Dec 2023 21:11:31 +0000
-Date: Sun, 3 Dec 2023 21:11:31 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: attreyee-muk <tintinm2017@gmail.com>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Sounds better
-Message-ID: <ZWzvA9svbcgraP7Z@casper.infradead.org>
-References: <20231203133017.18311-1-tintinm2017@gmail.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="An6Nqerw"
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C0BBE5;
+	Mon,  4 Dec 2023 04:13:10 -0800 (PST)
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id C0E1766022D1;
+	Mon,  4 Dec 2023 12:13:06 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1701691988;
+	bh=tYd+006RlkhE3PTruMujBJkOUxyMROXE4vAkt2e6WD4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=An6NqerwwhgGfO8PGeiYcMYDkkuGon45hnJi/L5mKU/QUdg8fXvHweDyu5ouS377l
+	 MKZ6u1N7V2WC5ff3OfmXddClu7wle9xb4uwQ0yBIGJ/TuJs2rZBRt5Vs3yvhbwLVll
+	 K6x+zpiw3JjZkGiFIt82WgE3fbPpLsR2oN+Wzna4S+YOr805gK0P8Ky6C8jdfl3x9n
+	 r+oyS8WKSetKFh7uLlkoA2V/I8OEmpjA1T7RDXZiNd+khnQDR43UO15PtIPpI4f9hy
+	 7d2YQy5e/pSWd35k0m8RC2l2iw2xccJQkAGzfcDK9oNhacXJFDNCfkDdvvd3ZiSj8D
+	 RDMhW/jizj9EA==
+Message-ID: <d03bf5b8-d4d7-4080-9af4-17b31ef6c72b@collabora.com>
+Date: Mon, 4 Dec 2023 13:13:04 +0100
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231203133017.18311-1-tintinm2017@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] docs: dt-bindings: add DTS Coding Style document
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org
+Cc: Andrew Davis <afd@ti.com>, Andrew Lunn <andrew@lunn.ch>,
+ Arnd Bergmann <arnd@arndb.de>, Bjorn Andersson <andersson@kernel.org>,
+ Chen-Yu Tsai <wens@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Jonathan Corbet <corbet@lwn.net>, Michal Simek <michal.simek@amd.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Nishanth Menon <nm@ti.com>,
+ Olof Johansson <olof@lixom.net>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?=
+ <zajec5@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20231203174622.18402-1-krzysztof.kozlowski@linaro.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20231203174622.18402-1-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sun, Dec 03, 2023 at 07:00:18PM +0530, attreyee-muk wrote:
-> Hence, sending this patch. Requesting the maintains to have a look at
-> it. 
+Il 03/12/23 18:46, Krzysztof Kozlowski ha scritto:
+> Document preferred coding style for Devicetree sources (DTS and DTSI),
+> to bring consistency among all (sub)architectures and ease in reviews.
+> 
+> Cc: Andrew Davis <afd@ti.com>
+> cc: Andrew Lunn <andrew@lunn.ch>
+> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Bjorn Andersson <andersson@kernel.org>
+> Cc: Chen-Yu Tsai <wens@kernel.org>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> Cc: Michal Simek <michal.simek@amd.com>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Nishanth Menon <nm@ti.com>
+> Cc: Olof Johansson <olof@lixom.net>
+> Cc: Rafał Miłecki <zajec5@gmail.com>
+> Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
+> Acked-by: Heiko Stuebner <heiko@sntech.de>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Acked-by: Konrad Dybcio <konradybcio@kernel.org>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
 
-In addition to Greg's comment, after you have made changes to an rst
-file, you have to try building the documents again (eg "make htmldocs").
-I can see you've introduced a syntax error in this document.
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Also, titles do not have a full stop at the end.
+Thumbs up!
