@@ -1,112 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C722E83B;
-	Mon,  4 Dec 2023 17:33:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M+ipHTBh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F1E1C43391;
-	Mon,  4 Dec 2023 17:33:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701711215;
-	bh=pqR5Pu1vfX8Tzb7oABBG5dDwHFoYt6PPvTFmyYLcOos=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=M+ipHTBhZNzq3PIkeoJnv1jX3zSD4kJ0NCAcc2Gt7OsXABhjElEba84C21u0h5v01
-	 KingCMNjsYCFZBg3Uaspz+xPl8mupbs7O+q+T7BE0fUaUd10QGwozJP5wxaXXCJujJ
-	 cIlo9c9felXEI7/VsyiUGYny+qAapBmJYYPdsihfxBiJCtoSXiFPclT2GuOPKUk1ru
-	 XZbewudY/x5oyNryAvQQL9GVMT7tQykspabY/F1kPq16jP9rMz2qdW4xXSQlOjGu3i
-	 XC7kvUPAi3GeG4V0VDRRvu9RoAspqrI+mBG/UKiXOV8e0bqgp1A8YoGXrScCrdJefn
-	 0HvJMXkXdIz9Q==
-Date: Mon, 4 Dec 2023 17:33:26 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, Andrew Davis <afd@ti.com>,
-	Andrew Lunn <andrew@lunn.ch>, Arnd Bergmann <arnd@arndb.de>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Michal Simek <michal.simek@amd.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Nishanth Menon <nm@ti.com>, Olof Johansson <olof@lixom.net>,
-	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4] docs: dt-bindings: add DTS Coding Style document
-Message-ID: <20231204-ladder-walnut-795fedf363d1@spud>
-References: <20231203174622.18402-1-krzysztof.kozlowski@linaro.org>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CSgdC2ML"
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8F42124
+	for <workflows@vger.kernel.org>; Mon,  4 Dec 2023 09:59:57 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-40c0a11a914so14276905e9.2
+        for <workflows@vger.kernel.org>; Mon, 04 Dec 2023 09:59:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1701712796; x=1702317596; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=8KOWg0c793AA36Q8QFZqHeT1AW9T8lmslgvjW44SEH4=;
+        b=CSgdC2MLzKvq4gTj6SA7h7FTU5RYjRJ7TXb7gnlJd1xhBzShlycc5RncBv6dJis3Kr
+         j5jZ1ZmyiEIFw3eLPl9zYW+PFVal6ClXEdM50Ipv8Lf9UEhX+KF9PvPdBeRToGEQYRD0
+         97LRIbM6X8zx2kf1U9V/HdRjOpT24XiOwvweA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701712796; x=1702317596;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8KOWg0c793AA36Q8QFZqHeT1AW9T8lmslgvjW44SEH4=;
+        b=ItMT2wawXw9E2YAFYGWBAL1+9XKAxiFFG7UMlKVXu8mZuDuzdFXgeRQl9q+u0ilEYC
+         vJhLiZkg2P7oUvJnu4iGbOvGDYdn5k0H2FoGAu80xCQ+Wv7zLgpf6A9rEI64/bvGRYOD
+         fxA04ePCJ/OrMiJHbDGe6U4pbbPr2k0cXQnCrYAO+OHoQjPo50LK3R9Y515/wpf9qNRm
+         mNAY9tfaSefLA1P46jIEa1pSxYL22f/aRqzCnZspWdYRWTZccSf8hvVsMeU8sYWhU777
+         AZRHBi6kkuSI399/A0OXMVEDNxMCjvuQF0x7n1h+mwIqS64igL72uYWvauvuLUFXwhIV
+         d+xw==
+X-Gm-Message-State: AOJu0Ywl6d2dNF/Dh2ew/PpQPL4aLR686WaVEWeSErpTHyi1oU3+mSKX
+	rm5Cxr9w+Tyen7Oeqzz1H+AgdXLQw4+zbG+3AYfE0A==
+X-Google-Smtp-Source: AGHT+IG9y2b3x3EFIttbTqFTC6lUNsW8T3erQgdzs+sKqO3l/YGV3YoWT8m4QD4w16gCT+utJ7qEYnOT1+OHrjImBF4=
+X-Received: by 2002:a7b:ce0f:0:b0:40c:8ad:1ae5 with SMTP id
+ m15-20020a7bce0f000000b0040c08ad1ae5mr1453493wmc.106.1701712796064; Mon, 04
+ Dec 2023 09:59:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="l/ugqpDYRk1oTs3I"
-Content-Disposition: inline
-In-Reply-To: <20231203174622.18402-1-krzysztof.kozlowski@linaro.org>
+References: <20231202035511.487946-1-sjg@chromium.org> <20231202035511.487946-3-sjg@chromium.org>
+ <20231203153401.GV8402@pendragon.ideasonboard.com>
+In-Reply-To: <20231203153401.GV8402@pendragon.ideasonboard.com>
+From: Simon Glass <sjg@chromium.org>
+Date: Mon, 4 Dec 2023 10:59:44 -0700
+Message-ID: <CAPnjgZ0XWDO90cq_h6V_EoOX+kmGLBRZwgT5RURCwQBQFONDYg@mail.gmail.com>
+Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-arm-kernel@lists.infradead.org, 
+	Masahiro Yamada <masahiroy@kernel.org>, Ahmad Fatoum <a.fatoum@pengutronix.de>, 
+	U-Boot Mailing List <u-boot@lists.denx.de>, Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Laurent,
 
---l/ugqpDYRk1oTs3I
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Sun, 3 Dec 2023 at 08:33, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Simon,
+>
+> Thank you for the patch.
+>
+> On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
+> > Add a script which produces a Flat Image Tree (FIT), a single file
+> > containing the built kernel and associated devicetree files.
+> > Compression defaults to gzip which gives a good balance of size and
+> > performance.
+> >
+> > The files compress from about 86MB to 24MB using this approach.
+> >
+> > The FIT can be used by bootloaders which support it, such as U-Boot
+> > and Linuxboot. It permits automatic selection of the correct
+> > devicetree, matching the compatible string of the running board with
+> > the closest compatible string in the FIT. There is no need for
+> > filenames or other workarounds.
+> >
+> > Add a 'make image.fit' build target for arm64, as well. Use
+> > FIT_COMPRESSION to select a different algorithm.
+> >
+> > The FIT can be examined using 'dumpimage -l'.
+> >
+> > This features requires pylibfdt (use 'pip install libfdt'). It also
+> > requires compression utilities for the algorithm being used. Supported
+> > compression options are the same as the Image.xxx files. For now there
+> > is no way to change the compression other than by editing the rule for
+> > $(obj)/image.fit
+> >
+> > While FIT supports a ramdisk / initrd, no attempt is made to support
+> > this here, since it must be built separately from the Linux build.
+>
+> FIT images are very useful, so I think this is a very welcome addition
+> to the kernel build system. It can get tricky though: given the
+> versatile nature of FIT images, there can't be any
+> one-size-fits-them-all solution to build them, and striking the right
+> balance between what makes sense for the kernel and the features that
+> users may request will probably lead to bikeshedding. As we all love
+> bikeshedding, I thought I would start selfishly, with a personal use
+> case :-) This isn't a yak-shaving request though, I don't see any reason
+> to delay merging this series.
 
-On Sun, Dec 03, 2023 at 06:46:22PM +0100, Krzysztof Kozlowski wrote:
-> Document preferred coding style for Devicetree sources (DTS and DTSI),
-> to bring consistency among all (sub)architectures and ease in reviews.
->=20
-> Cc: Andrew Davis <afd@ti.com>
-> cc: Andrew Lunn <andrew@lunn.ch>
-> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Bjorn Andersson <andersson@kernel.org>
-> Cc: Chen-Yu Tsai <wens@kernel.org>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Matthias Brugger <matthias.bgg@gmail.com>
-> Cc: Michal Simek <michal.simek@amd.com>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Nishanth Menon <nm@ti.com>
-> Cc: Olof Johansson <olof@lixom.net>
-> Cc: Rafa=C5=82 Mi=C5=82ecki <zajec5@gmail.com>
-> Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
-> Acked-by: Heiko Stuebner <heiko@sntech.de>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Acked-by: Konrad Dybcio <konradybcio@kernel.org>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+OK, sounds good!
 
-The advice here seems pretty reasonable, and it is nice to have
-something written. Thanks for working on it.
+>
+> Have you envisioned building FIT images with a subset of DTBs, or adding
+> DTBOs ? Both would be fairly trivial extensions to this script by
+> extending the supported command line arguments. It would perhaps be more
+> difficult to integrate in the kernel build system though. This leads me
+> to a second question: would you consider merging extensions to this
+> script if they are not used by the kernel build system, but meant for
+> users who manually invoke the script ? More generally, is the script
+> meant to be used stand-alone as well, in which case its command line
+> arguments need to remain backward-compatible, or do you see it as being
+> internal to the kernel ?
 
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+The script as written is internal to the kernel, but I am sure it
+could be expanded in some ways. I am waiting to see it merged before
+worrying too much about what might happen in the future!
 
-Cheers,
-Conor.
+[..]
 
---l/ugqpDYRk1oTs3I
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZW4NZgAKCRB4tDGHoIJi
-0hplAP4/bWQVjb7IgU8BmI66aGxhgllxfGZ+i/pqPIywcayRXAEAw27WdWDY1IxZ
-uTKhjEBZBea8K/Y7CKAXSIgVBdJqAAw=
-=6IFD
------END PGP SIGNATURE-----
-
---l/ugqpDYRk1oTs3I--
+Regards,
+Simon
