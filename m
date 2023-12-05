@@ -1,14 +1,13 @@
-Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D0E2C0;
-	Tue,  5 Dec 2023 10:55:45 -0800 (PST)
-Received: from omf03.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay02.hostedemail.com (Postfix) with ESMTP id 1884D120237;
-	Tue,  5 Dec 2023 18:55:43 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf03.hostedemail.com (Postfix) with ESMTPA id DFE226000C;
-	Tue,  5 Dec 2023 18:55:38 +0000 (UTC)
-Message-ID: <9fe310a9d4486ecf57669bf7b44a49c1788452c1.camel@perches.com>
-Subject: Re: [RFC PATCH v2 01/10] get_maintainer: Survive querying missing
- files
+Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E16EC0;
+	Tue,  5 Dec 2023 10:58:26 -0800 (PST)
+Received: from omf09.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay02.hostedemail.com (Postfix) with ESMTP id 4725E12023B;
+	Tue,  5 Dec 2023 18:58:24 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf09.hostedemail.com (Postfix) with ESMTPA id 032DB20028;
+	Tue,  5 Dec 2023 18:58:19 +0000 (UTC)
+Message-ID: <7181366346c744a544515f69b1c21d5dba6ab25a.camel@perches.com>
+Subject: Re: [RFC PATCH v2 02/10] MAINTAINERS: Introduce V: entry for tests
 From: Joe Perches <joe@perches.com>
 To: Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>, 
 	workflows@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft
@@ -19,11 +18,11 @@ To: Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>,
 Cc: kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org, Veronika
  Kabatova <vkabatov@redhat.com>, CKI <cki-project@redhat.com>,
  kernelci@lists.linux.dev
-Date: Tue, 05 Dec 2023 10:55:37 -0800
-In-Reply-To: <20231205184503.79769-2-Nikolai.Kondrashov@redhat.com>
+Date: Tue, 05 Dec 2023 10:58:19 -0800
+In-Reply-To: <20231205184503.79769-3-Nikolai.Kondrashov@redhat.com>
 References: <20231115175146.9848-1-Nikolai.Kondrashov@redhat.com>
 	 <20231205184503.79769-1-Nikolai.Kondrashov@redhat.com>
-	 <20231205184503.79769-2-Nikolai.Kondrashov@redhat.com>
+	 <20231205184503.79769-3-Nikolai.Kondrashov@redhat.com>
 Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
@@ -33,21 +32,19 @@ List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: DFE226000C
-X-Rspamd-Server: rspamout06
-X-Stat-Signature: gj851n1tw478d59kry4f4sgzaoyu3ejq
+X-Rspamd-Queue-Id: 032DB20028
+X-Stat-Signature: hn7kghgmzrchozzphyan4eirx6b5kn3b
+X-Rspamd-Server: rspamout01
 X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1+pAWtFOOiT1czbuUFmAevEF0hBsfbYuVg=
-X-HE-Tag: 1701802538-803811
-X-HE-Meta: U2FsdGVkX1+HD2pYenfxZjLJYvw3eCy+sNXc7z0F5XHJk3yx0Vo/Kcs3/NVi8U3EgOrsYCPpt1tA1fkkq2BQPcAeSTtJ0rjaJQkrQiXZK4nwIaHLzsys2/3LLUhn/6Qq3Wc5xdIGZfxMLcjxR/36JCAZNhEhPkrnD6X11DNwUFGO3cFo6q/V0pLg7h18cd+KAY29IIXE3lSKOzkDcOXfAPXQavHHqKe3NoQSlfDt7L2fH3HI+qlMpAi7Ys8mL05jpsKRVrGDeOOO8Mkw15aR2PJMNLyjaFV9pDdC8+bCUz9aLN0qbkkmCbseY1/vcD5DSEAjUB3NrBTIMGTiZA+ws1M02cCIIPBygijlm5HorKE=
+X-Session-ID: U2FsdGVkX1/YiS7yEWBgHPlpHd3dQkdApjFJd1hvXR0=
+X-HE-Tag: 1701802699-774340
+X-HE-Meta: U2FsdGVkX18NEtwviUMTx0MGx9JIeBeZTP3Z6TF+54NCEYXkuZ6y1qSb6UglvMdC+Ju3wgdDoHT1Iobu+sIxpy90DdjTBFPna5n+Bb2LFYFSsj6w5HHhvl/t2pWUh2hztHJc+VIyWV8pGGbTXU0XhJDyGb6dnzDpHDaV/JC/JMNlwrCbJmkKt4F0HiY1X3q29TfkNibof7o6NCypFobPNniSBrL9Y3cXwOgSspvKQe3KRUtXMO8rFm19ZAazgf3qAsiCA5l4hznlOo82JLZyZ9SMOIuiPeA98rF0vrDCJAUcGXHpHd95pm+bW4mTiEbU
 
 On Tue, 2023-12-05 at 20:02 +0200, Nikolai Kondrashov wrote:
-> Do not die, but only warn when scripts/get_maintainer.pl is asked to
-> retrieve information about a missing file.
->=20
-> This allows scripts/checkpatch.pl to query MAINTAINERS while processing
-> patches which are removing files.
+> Require the entry values to not contain the '@' character, so they could
+> be distinguished from emails (always) output by get_maintainer.pl.
 
 Why is this useful?
+Why the need to distinguish?
 
-Give a for-instance example please.
+
