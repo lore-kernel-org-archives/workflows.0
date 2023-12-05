@@ -1,117 +1,71 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="cdpc7fld"
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EE07A5;
-	Tue,  5 Dec 2023 11:58:34 -0800 (PST)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3B5Gj8g8032027;
-	Tue, 5 Dec 2023 19:58:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=c/wZAY+ddHkdVkk/Vxl590rR18m0rlnIQ0ZhfkdjWpE=;
- b=cdpc7fldIFHxcvk+5soYY4pZIydLXNxMxyJVtBSEdooL7k/jnYLLX2eNuOViyW9vvNaJ
- DsGVaZAAmUyrrc5O8i08AIG/zKpgU/F4BtzLjGcrj9h+Z0Br3Hbga1wzB11kgEAT0nwJ
- xawdZoPfiJJKikGOxChPrGkdF8sZ8UY/mZNSXEJ+1139EG1oy2IJAdgqB7NDZIX9Q3lF
- o2qM+o3l9Tbt3ca3qDyzo+b+MZKTD8kb9LhwElF3F+BK4gbpd7vkK50yVs/vuUKApNNs
- 9Ivcu277Jx4u2MgFzDZ19U7OGOPBh/EX8fF8FCaQp6q+XMHbitw/N7VbsEV0NuMAvh9T 1g== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ut1a39dw4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 05 Dec 2023 19:58:17 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B5JwGPT026819
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 5 Dec 2023 19:58:16 GMT
-Received: from [10.110.89.58] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 5 Dec
- 2023 11:58:15 -0800
-Message-ID: <91dcd8c3-ae86-4350-838d-62ddb62fa2bb@quicinc.com>
-Date: Tue, 5 Dec 2023 11:58:14 -0800
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="K2GrCTqP"
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58884183;
+	Tue,  5 Dec 2023 12:11:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=jJ9sUxistCYfXxn3AjS422gVO2JAhtrQB/n0qsuzpCI=; b=K2GrCTqPGZyOyLOd4c8Hy7pukH
+	2n1l946J8qDLN59IrvFOKa//pddhem8F/rnq0m1bdxy6du0518ZbcAAbucA6svtLRytGX82xdSBsG
+	oQEyIxyG7c54gl1NOemmR7yL2PFEtvzWqV518z6YtG6koHC9QdVC26wGREVOo1Fzx3YE=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1rAbky-0028ZN-Ig; Tue, 05 Dec 2023 21:11:00 +0100
+Date: Tue, 5 Dec 2023 21:11:00 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Jeff Johnson <quic_jjohnson@quicinc.com>
+Cc: "Russell King (Oracle)" <linux@armlinux.org.uk>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	David Epping <david.epping@missinglinkelectronics.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Harini Katakam <harini.katakam@amd.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Subject: Re: [net-next PATCH v3 3/3] net: phy: add support for PHY package
+ MMD read/write
+Message-ID: <a3572abc-b49a-44e7-b36c-cf462bcc09ac@lunn.ch>
+References: <20231204181752.2be3fd68@kernel.org>
+ <51aae9d0-5100-41af-ade0-ecebeccbc418@lunn.ch>
+ <656f37a6.5d0a0220.96144.356f@mx.google.com>
+ <adbe5299-de4a-4ac1-90d0-f7ae537287d0@lunn.ch>
+ <ZW89errbJWUt33vz@shell.armlinux.org.uk>
+ <20231205072912.2d79a1d5@kernel.org>
+ <ZW9LroqqugXzqAY9@shell.armlinux.org.uk>
+ <d2762241-f60a-4d61-babe-ce9535d9adde@quicinc.com>
+ <ZW9oc9TO93kOq20s@shell.armlinux.org.uk>
+ <91dcd8c3-ae86-4350-838d-62ddb62fa2bb@quicinc.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [net-next PATCH v3 3/3] net: phy: add support for PHY package MMD
- read/write
-Content-Language: en-US
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-CC: Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-        Christian
- Marangi <ansuelsmth@gmail.com>,
-        Florian Fainelli
-	<florian.fainelli@broadcom.com>,
-        Broadcom internal kernel review list
-	<bcm-kernel-feedback-list@broadcom.com>,
-        Heiner Kallweit
-	<hkallweit1@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet
-	<edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-        David Epping
-	<david.epping@missinglinkelectronics.com>,
-        Vladimir Oltean
-	<olteanv@gmail.com>,
-        Harini Katakam <harini.katakam@amd.com>, <netdev@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <workflows@vger.kernel.org>
-References: <20231128133630.7829-1-ansuelsmth@gmail.com>
- <20231128133630.7829-3-ansuelsmth@gmail.com>
- <20231204181752.2be3fd68@kernel.org>
- <51aae9d0-5100-41af-ade0-ecebeccbc418@lunn.ch>
- <656f37a6.5d0a0220.96144.356f@mx.google.com>
- <adbe5299-de4a-4ac1-90d0-f7ae537287d0@lunn.ch>
- <ZW89errbJWUt33vz@shell.armlinux.org.uk> <20231205072912.2d79a1d5@kernel.org>
- <ZW9LroqqugXzqAY9@shell.armlinux.org.uk>
- <d2762241-f60a-4d61-babe-ce9535d9adde@quicinc.com>
- <ZW9oc9TO93kOq20s@shell.armlinux.org.uk>
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-In-Reply-To: <ZW9oc9TO93kOq20s@shell.armlinux.org.uk>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: tD30F0z24fRN8-Nigg0r7H_OegAYate3
-X-Proofpoint-GUID: tD30F0z24fRN8-Nigg0r7H_OegAYate3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-05_15,2023-12-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
- malwarescore=0 adultscore=0 spamscore=0 mlxlogscore=554 suspectscore=0
- phishscore=0 priorityscore=1501 lowpriorityscore=0 mlxscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311060000
- definitions=main-2312050159
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <91dcd8c3-ae86-4350-838d-62ddb62fa2bb@quicinc.com>
 
-On 12/5/2023 10:14 AM, Russell King (Oracle) wrote:
-> On Tue, Dec 05, 2023 at 09:44:05AM -0800, Jeff Johnson wrote:
->> So in my experience a function prototype IS the function definition, and
->> the actual function is just the implementation of that definition.
->>
->> But that thinking obviously isn't shared by others.
-> 
-> Interestingly, the view that a function prototype is a function
-> definition does not seem to be shared by w3school, Microsoft, IBM,
-> and many more.
-> 
-> If we look at the C99 standard, then 6.9.1 Function definitions gives
-> the syntax as including a compound-statement, which is defined as
-> requiring the curley braces and contents. Therefore, a function
-> definition as defined by the C standard includes its body.
-> 
+> Having worked with closed-source systems, especially VxWorks, for many
+> years (where the header files contain all the documentation), it just
+> seems strange to embed the documentation in the .c files.
 
-Note I was speaking in terms of functional languages in general, not C
-specifically. Perhaps I should have used the term "specification"
-instead of "definition" (which would align with the Ada terminology).
+The key words here might be closed-source. With such black boxes, you
+don't have access the sources. You cannot look at the source to
+understand how a function works. In the open source world, the
+comments partially function as an introduction to reading the code and
+understanding what it does. You are also encouraged to change the code
+if needed, which in the closed source world you cannot do.
 
-Having worked with closed-source systems, especially VxWorks, for many
-years (where the header files contain all the documentation), it just
-seems strange to embed the documentation in the .c files.
+Given this discussion, i now think putting the documentation in the .c
+file makes more sense. For the generated documentation it does not
+matter, but for the reader of the code, having it in the .c files does
+seem to make sense.
 
-/jeff
-
-
+     Andrew
