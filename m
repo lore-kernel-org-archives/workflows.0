@@ -1,133 +1,63 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B187A7
-	for <workflows@vger.kernel.org>; Tue,  5 Dec 2023 03:49:16 -0800 (PST)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1rATuo-0007xC-VH; Tue, 05 Dec 2023 12:48:39 +0100
-Message-ID: <92a3e3b4-6f4d-4ca4-947f-db905f328d4c@pengutronix.de>
-Date: Tue, 5 Dec 2023 12:48:35 +0100
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70610AD56;
+	Tue,  5 Dec 2023 15:29:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t+u2FnOS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAA2BC433C8;
+	Tue,  5 Dec 2023 15:29:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701790154;
+	bh=SclM1eXnYMdnRBvBsf/lJdJQ0p0yUDsjtvGBYqnKRvM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=t+u2FnOSzD0cZ0AXurNhbOSSJJX0fjLrpxVxj6J14W/se6GIxs6iMIOoGYr9cdPKG
+	 z9jBGgLMCmn0X3Q0RQejJxVOJ2S01GZ/pekqoTzjtwYLWVD74qxMlgj6kHFvQ1yBBg
+	 2t9Kz2AmDcSrjafmINUo15LXgEQ8V7Iu8xmJBlyk15/u1RUdwloUJqmM8kFwHcu4GO
+	 tiITk+KpH4rw7pOy0UredN999rtOK2t05dEFp6I9yrbf/Pw7jFMSr00fhE5MTCDghH
+	 ENTAxxXxsIMBrZdJKQaP3+VmpeVsPivJEnxKFLPsee5YTaaKlw8R2lnCJSBEFjK9Fp
+	 7NKl4u74A8FnA==
+Date: Tue, 5 Dec 2023 07:29:12 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Andrew Lunn <andrew@lunn.ch>, Christian Marangi <ansuelsmth@gmail.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal kernel
+ review list <bcm-kernel-feedback-list@broadcom.com>, Heiner Kallweit
+ <hkallweit1@gmail.com>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, David
+ Epping <david.epping@missinglinkelectronics.com>, Vladimir Oltean
+ <olteanv@gmail.com>, Harini Katakam <harini.katakam@amd.com>,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ workflows@vger.kernel.org
+Subject: Re: [net-next PATCH v3 3/3] net: phy: add support for PHY package
+ MMD read/write
+Message-ID: <20231205072912.2d79a1d5@kernel.org>
+In-Reply-To: <ZW89errbJWUt33vz@shell.armlinux.org.uk>
+References: <20231128133630.7829-1-ansuelsmth@gmail.com>
+	<20231128133630.7829-3-ansuelsmth@gmail.com>
+	<20231204181752.2be3fd68@kernel.org>
+	<51aae9d0-5100-41af-ade0-ecebeccbc418@lunn.ch>
+	<656f37a6.5d0a0220.96144.356f@mx.google.com>
+	<adbe5299-de4a-4ac1-90d0-f7ae537287d0@lunn.ch>
+	<ZW89errbJWUt33vz@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
-Content-Language: en-US
-To: Simon Glass <sjg@chromium.org>, linux-arm-kernel@lists.infradead.org
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- U-Boot Mailing List <u-boot@lists.denx.de>,
- Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>,
- Will Deacon <will@kernel.org>, linux-doc@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>
-References: <20231202035511.487946-1-sjg@chromium.org>
- <20231202035511.487946-3-sjg@chromium.org>
-From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-In-Reply-To: <20231202035511.487946-3-sjg@chromium.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: workflows@vger.kernel.org
 
-Hello Simon,
+On Tue, 5 Dec 2023 15:10:50 +0000 Russell King (Oracle) wrote:
+> I've raised this before in other subsystems, and it's suggested that
+> it's better to have it in the .c file. I guess the reason is that it's
+> more obvious that the function is documented when modifying it, so
+> there's a higher probability that the kdoc will get updated when the
+> function is altered.
 
-On 02.12.23 04:54, Simon Glass wrote:
-> Add a script which produces a Flat Image Tree (FIT), a single file
-> containing the built kernel and associated devicetree files.
-> Compression defaults to gzip which gives a good balance of size and
-> performance.
-> 
-> The files compress from about 86MB to 24MB using this approach.
-> 
-> The FIT can be used by bootloaders which support it, such as U-Boot
-> and Linuxboot. It permits automatic selection of the correct
-> devicetree, matching the compatible string of the running board with
-> the closest compatible string in the FIT. There is no need for
-> filenames or other workarounds.
-> 
-> Add a 'make image.fit' build target for arm64, as well. Use
-> FIT_COMPRESSION to select a different algorithm.
-> 
-> The FIT can be examined using 'dumpimage -l'.
-> 
-> This features requires pylibfdt (use 'pip install libfdt'). It also
-> requires compression utilities for the algorithm being used. Supported
-> compression options are the same as the Image.xxx files. For now there
-> is no way to change the compression other than by editing the rule for
-> $(obj)/image.fit
-> 
-> While FIT supports a ramdisk / initrd, no attempt is made to support
-> this here, since it must be built separately from the Linux build.
-> 
-> Signed-off-by: Simon Glass <sjg@chromium.org>
+Plus I think people using IDEs (i.e. not me) may use the "jump to
+definition" functionality, to find the doc? 
 
-kernel_noload support is now in barebox next branch and I tested this
-series against it:
-
-Tested-by: Ahmad Fatoum <a.fatoum@pengutronix.de> # barebox
-
-> +"""Build a FIT containing a lot of devicetree files
-> +
-> +Usage:
-> +    make_fit.py -A arm64 -n 'Linux-6.6' -O linux
-> +        -f arch/arm64/boot/image.fit -k /tmp/kern/arch/arm64/boot/image.itk
-> +        /tmp/kern/arch/arm64/boot/dts/ -E -c gzip
-> +
-> +Creates a FIT containing the supplied kernel and a directory containing the
-> +devicetree files.
-> +
-> +Use -E to generate an external FIT (where the data is placed after the
-> +FIT data structure). This allows parsing of the data without loading
-> +the entire FIT.
-> +
-> +Use -c to compress the data, using bzip2, gzip, lz4, lzma, lzo and
-> +zstd algorithms.
-> +
-> +The resulting FIT can be booted by bootloaders which support FIT, such
-> +as U-Boot, Linuxboot, Tianocore, etc.
-
-Feel free to add barebox to the list. Did you check whether Linuxboot and
-Tianocore support kernel_noload?
-
-> +        fsw.property_u32('load', 0)
-> +        fsw.property_u32('entry', 0)
-
-I still think load and entry dummy values are confusing and should be dropped.
-
-> +    with fsw.add_node(f'fdt-{seq}'):
-> +        # Get the compatible / model information
-> +        with open(fname, 'rb') as inf:
-> +            data = inf.read()
-> +        fdt = libfdt.FdtRo(data)
-> +        model = fdt.getprop(0, 'model').as_str()
-> +        compat = fdt.getprop(0, 'compatible')
-> +
-> +        fsw.property_string('description', model)
-> +        fsw.property_string('type', 'flat_dt')
-> +        fsw.property_string('arch', arch)
-> +        fsw.property_string('compression', compress)
-> +        fsw.property('compatible', bytes(compat))
-> +
-> +        with open(fname, 'rb') as inf:
-> +            compressed = compress_data(inf, compress)
-> +        fsw.property('data', compressed)
-> +    return model, compat
-
-After Doug's elaboration, extracting multiple compatibles is fine by me.
-
-Cheers,
-Ahmad
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-
+TBH I thought putting kdoc in the C source was documented in the coding
+style, but I can't find any mention of it now.
