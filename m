@@ -1,140 +1,141 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="YKQh5usf"
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D46941A2;
-	Tue,  5 Dec 2023 10:14:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=+EEdAY5I5fDE6iNN/6bW8wHl8UaPsKF7/BDuoeVzsws=; b=YKQh5usfx8LdrGc7W+RHN5PT1c
-	VJiaeKCkgyk6iWrrXXvYZirpg/LeSBE920nEDENyfOuPLQ0AXdG2MovxQgdlj35w/asSVRszrQuds
-	FpEoA7wxnWLy3SQ5AoQBi9mquXz2q1l18OzPozKs9YcXIPBeAoiqJnI49d1VVX8X47AkmCSKoDNtO
-	VwXF7bNh+TbyG1PU8EwM8FkzjSzmbJiah5uJ1NwNn5Zl9CJglBVAeJ1RdvYcY2XDNpi1CcbkTqP0p
-	RPoT5GkyxZtL1XaxOEOv45a8HW69TIIgQYbaRMpz0Bk9dV4tFYyU8/hlLkB8w8fUwQ3+Oe9eC1MRl
-	cJFFrIJg==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:38970)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1rAZvw-0007Ce-1t;
-	Tue, 05 Dec 2023 18:14:12 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1rAZvw-0001vd-0E; Tue, 05 Dec 2023 18:14:12 +0000
-Date: Tue, 5 Dec 2023 18:14:11 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Jeff Johnson <quic_jjohnson@quicinc.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-	Christian Marangi <ansuelsmth@gmail.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	David Epping <david.epping@missinglinkelectronics.com>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Harini Katakam <harini.katakam@amd.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
-Subject: Re: [net-next PATCH v3 3/3] net: phy: add support for PHY package
- MMD read/write
-Message-ID: <ZW9oc9TO93kOq20s@shell.armlinux.org.uk>
-References: <20231128133630.7829-1-ansuelsmth@gmail.com>
- <20231128133630.7829-3-ansuelsmth@gmail.com>
- <20231204181752.2be3fd68@kernel.org>
- <51aae9d0-5100-41af-ade0-ecebeccbc418@lunn.ch>
- <656f37a6.5d0a0220.96144.356f@mx.google.com>
- <adbe5299-de4a-4ac1-90d0-f7ae537287d0@lunn.ch>
- <ZW89errbJWUt33vz@shell.armlinux.org.uk>
- <20231205072912.2d79a1d5@kernel.org>
- <ZW9LroqqugXzqAY9@shell.armlinux.org.uk>
- <d2762241-f60a-4d61-babe-ce9535d9adde@quicinc.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LV2Zye/o"
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCEC9194
+	for <workflows@vger.kernel.org>; Tue,  5 Dec 2023 10:45:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1701801931;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eXB6/JKbV4tlSKi16BxWQoAzgHXel/eAulm+zLLiiB4=;
+	b=LV2Zye/oFCOlUAQNqWGNxBN4C8o0MK+xuMMLpx2X0YC/Z9z9UVSS4RKa23fXN93IAcIilq
+	Tm6EcctD2/vciKVzi8KdnsyKw/G2t2cjEBsYajk1KSbJ68oQNbyhwwM3Jzs5HfdP59CaQ+
+	pmXRU9nbok42dpeli1kh0+sQITWxpno=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-350-upjkIcedOdq1iCOpH_d0uw-1; Tue, 05 Dec 2023 13:45:28 -0500
+X-MC-Unique: upjkIcedOdq1iCOpH_d0uw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 87F2584AEA0;
+	Tue,  5 Dec 2023 18:45:27 +0000 (UTC)
+Received: from ruby.redhat.com (unknown [10.39.192.2])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id C2107492BE6;
+	Tue,  5 Dec 2023 18:45:24 +0000 (UTC)
+From: Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
+To: workflows@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Joe Perches <joe@perches.com>,
+	Andy Whitcroft <apw@canonical.com>,
+	Theodore Ts'o <tytso@mit.edu>,
+	David Gow <davidgow@google.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mark Brown <broonie@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	"Darrick J . Wong" <djwong@kernel.org>
+Cc: kunit-dev@googlegroups.com,
+	linux-kselftest@vger.kernel.org,
+	Veronika Kabatova <vkabatov@redhat.com>,
+	CKI <cki-project@redhat.com>,
+	kernelci@lists.linux.dev
+Subject: [RFC PATCH v2 00/10] MAINTAINERS: Introduce V: entry for tests
+Date: Tue,  5 Dec 2023 20:02:56 +0200
+Message-ID: <20231205184503.79769-1-Nikolai.Kondrashov@redhat.com>
+In-Reply-To: <20231115175146.9848-1-Nikolai.Kondrashov@redhat.com>
+References: <20231115175146.9848-1-Nikolai.Kondrashov@redhat.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d2762241-f60a-4d61-babe-ce9535d9adde@quicinc.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.10
 
-On Tue, Dec 05, 2023 at 09:44:05AM -0800, Jeff Johnson wrote:
-> On 12/5/2023 8:11 AM, Russell King (Oracle) wrote:
-> > On Tue, Dec 05, 2023 at 07:29:12AM -0800, Jakub Kicinski wrote:
-> >> On Tue, 5 Dec 2023 15:10:50 +0000 Russell King (Oracle) wrote:
-> >>> I've raised this before in other subsystems, and it's suggested that
-> >>> it's better to have it in the .c file. I guess the reason is that it's
-> >>> more obvious that the function is documented when modifying it, so
-> >>> there's a higher probability that the kdoc will get updated when the
-> >>> function is altered.
-> >>
-> >> Plus I think people using IDEs (i.e. not me) may use the "jump to
-> >> definition" functionality, to find the doc? 
-> >>
-> >> TBH I thought putting kdoc in the C source was documented in the coding
-> >> style, but I can't find any mention of it now.
-> > 
-> > Well, in Documentation/doc-guide/kernel-doc.rst:
-> > 
-> >   The function and type kernel-doc comments should be placed just before
-> >   the function or type being described in order to maximise the chance
-> >   that somebody changing the code will also change the documentation.
-> > 
-> > That implies (but not explicitly) that it should be at the function
-> > definition site, since "changing the code" is used as an argument as
-> > I did in my previous email.
-> > 
-> > Secondly, this document goes on to give an example of running
-> > scripts/kernel-doc on a .c file.
-> > 
-> > Thirdly, there are seven references in this document of kernel-doc
-> > in .c files, and only one for kernel-doc in a .h file. So this suggests
-> > that "it will be in a .c file" isn't a rule (it can't be because of
-> > documenting structures!)
-> > 
-> > So let's not get hung up on whether it should be in .c or .h because I
-> > think that isn't relevant. Instead, I think it's about "it should be at
-> > the definition site" - that being a structure definition or a function
-> > definition, and not at a function prototype.
-> > 
-> > The only exception I can think of is the style I've used in
-> > linux/phylink.h for the _method_ definitions which look like function
-> > prototypes - that's just a work-around because one can't kernel-doc
-> > the structure-of-function-pointers and document the function parameters
-> > without jumping through that hoop, and it would be silly to document
-> > the methods in some random driver!
-> > 
-> 
-> The Linux Kernel philosophy of documenting functions instead of
-> prototypes has always bothered me since I'm "old school" and am
-> ingrained with the software engineering philosophy that you document
-> interfaces, not implementations. This was reinforced early in my career
-> by working on multiple projects in different programming languages using
-> processes outlined in DOD-STD-2167A, and for some projects, especially
-> ones written in Ada, the header files were the design and the documentation.
-> 
-> This philosophy was further enforced when working with closed source
-> projects (Windows, IOS, VxWorks) where all the documentation was
-> contained in shared header files.
-> 
-> So in my experience a function prototype IS the function definition, and
-> the actual function is just the implementation of that definition.
-> 
-> But that thinking obviously isn't shared by others.
+Alright, here's a second version, attempting to address as many concerns as
+possible. It's likely I've missed something, though.
 
-Interestingly, the view that a function prototype is a function
-definition does not seem to be shared by w3school, Microsoft, IBM,
-and many more.
+Changes from v1:
 
-If we look at the C99 standard, then 6.9.1 Function definitions gives
-the syntax as including a compound-statement, which is defined as
-requiring the curley braces and contents. Therefore, a function
-definition as defined by the C standard includes its body.
+* Make scripts/get_maintainer.pl survive querying missing files, giving a
+  warning instead. This is necessary to enable scripts/checkpatch.pl to query
+  MAINTAINERS about files being deleted.
+* Start with the minimal change just documenting the V: entry, which accepts
+  test commands directly, and tweaking the tools to deal with that.
+* However, require the commands accept the -h/--help option so that users have
+  an easier time getting *some* help. The run_checks.py missing that is the
+  reason why the patch proposing it for kunit subsystem is marked "DONOTMERGE"
+  in this version. We can drop that requirement, or soften the language, if
+  there's opposition.
+* Have a *separate* patch documenting 'Tested-with:' as the next (early)
+  change. Mention that you can add a '#' followed by a results URL, on the
+  end. Adjust the V: docs/checks to exclude '#'.
+* Have a *separate* patch making scripts/checkpatch.pl propose the execution
+  of the test suite defined in MAINTAINERS whenever the corresponding
+  subsystem is changed.
+* However, use 'CHECK', instead of 'WARNING', to allow submitters specify the
+  exact (and potentially slightly different) command they used, and not have
+  checkpatch.pl complain too loudly that they didn't run the (exact
+  MAINTAINERS-specified) command. This unfortunately means that unless you use
+  --strict, you won't see the message. We'll try to address that in a new
+  change at the end.
+* Have a *separate* patch introducing the test catalog and accepting
+  references to that everywhere, with a special syntax to distinguish them
+  from verbatim/direct commands. The syntax is prepending the test name with a
+  '*' (just like C pointer dereference). Make checkpatch.pl handle that.
+* Drop the recommendation to have the "Docs" and "Sources" fields in test
+  descriptions, as the description text should focus on giving a good
+  introduction and not prompt the user to go somewhere else immediately. They
+  both can be referenced in the text where and how is appropriate.
+* Generally keep the previous changes adding V: entries and test suite docs,
+  and try to accommodate all the requests, but refine the "Summary" fields to
+  fit the checkpatch.pl messages better.
+* Have a separate patch cataloguing the complete kunit suite.
+* Finally, add a patch introducing the "proposal strength" keywords
+  (SUGGESTED/RECOMMENDED/REQUIRED) to the syntax of V: entries, which directly
+  affect which level of checkpatch.pl message missing 'Tested-with:' tags
+  would generate: CHECK/WARNING/ERROR respectively. This allows subsystems to
+  disable checkpatch.pl WARNINGS/ERRORS, and keep their test proposals
+  inobtrusive, if they so wish. E.g. if they expect people to change their
+  commands often. At the same time allow stricter workflows for subsystems
+  with more uniform testing. Or e.g. for subsystems which expect the tests to
+  explain their parameters in their output, and the submitters to upload and
+  link their results in their 'Tested-with:' tags.
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+That seems to be all, but I'm sure I forgot something :D
+
+Anyway, send me more corrections and I'll try to address them, but it's likely
+going to happen next year only.
+
+Nick
+---
+Nikolai Kondrashov (9):
+      get_maintainer: Survive querying missing files
+      MAINTAINERS: Introduce V: entry for tests
+      MAINTAINERS: Propose kunit core tests for framework changes
+      docs: submitting-patches: Introduce Tested-with:
+      checkpatch: Propose tests to execute
+      MAINTAINERS: Support referencing test docs in V:
+      MAINTAINERS: Propose kvm-xfstests smoke for ext4
+      docs: tests: Document kunit in general
+      MAINTAINERS: Add proposal strength to V: entries
+
+Mark Brown (1):
+      MAINTAINERS: Propose kunit tests for regmap
+
+ Documentation/process/index.rst              |   1 +
+ Documentation/process/submitting-patches.rst |  46 +++++++
+ Documentation/process/tests.rst              |  96 +++++++++++++++
+ MAINTAINERS                                  |  17 +++
+ scripts/checkpatch.pl                        | 174 ++++++++++++++++++++++++++-
+ scripts/get_maintainer.pl                    |  23 +++-
+ scripts/parse-maintainers.pl                 |   3 +-
+ 7 files changed, 355 insertions(+), 5 deletions(-)
+---
+
+
