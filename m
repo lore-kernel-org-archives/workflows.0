@@ -1,162 +1,203 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UXm8uYZ/"
-Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com [IPv6:2607:f8b0:4864:20::1130])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF3F8D40
-	for <workflows@vger.kernel.org>; Tue,  5 Dec 2023 19:55:01 -0800 (PST)
-Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-5d3644ca426so64624697b3.1
-        for <workflows@vger.kernel.org>; Tue, 05 Dec 2023 19:55:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ICbOmHJj"
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 120F118D
+	for <workflows@vger.kernel.org>; Wed,  6 Dec 2023 00:04:00 -0800 (PST)
+Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-54c77d011acso5516a12.1
+        for <workflows@vger.kernel.org>; Wed, 06 Dec 2023 00:03:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1701834900; x=1702439700; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1701849838; x=1702454638; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BsR8qY+uS6/BsLD1U3jPPzDAagYHPNv5M9ReQzqjMkA=;
-        b=UXm8uYZ/Xl/VBZ/flQFs+9dAjL8MxLfaV1SwXude+vyG7dViCJ20LbYT4CQUaXdQFr
-         fetTd2xYcTrMmRoc2jpfsvdKFz+fBWlPhE4CEIuG1FJ7VLs5Iu3/o6sr2F61CeOPnDky
-         7TVjn+/jo9MjtLIgnTeHDtHwyNNDRS6XzCia8=
+        bh=nGCMRa+i/MihOYX6Q20WgFj7HaKctmYtsqnWq1JXn2g=;
+        b=ICbOmHJjupJdyGhpC/vs0eMB/kw0/C8Ae5bLSMn+/P7+Rn9llEtTQhjkrqbS8GMSva
+         r26QZ+Q/3WMCj8yK+/8Zdnf5qlRAY/45+WatLqdMuvqeg0tA39lQiGNNAq7RDLn7geou
+         IIenOIwTDDs/TQZfXqKZd593Ek0kiIDYGSAVhZK66JHUA0ZMWATUMS+C1O1MnKEJKox5
+         q0q1S5x0VAb8FSr3Onemofx9lWUDxrBl7ClSbr99kmyO91JLWWNoAp3wxlI/pW54J5bk
+         60Bhxwb9tHJ5VLs3Sjs5uoDkqiaUvAAXHkmTl5JnGjwibUpo6d56wEsA5cvEGeEJoaxk
+         ckpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701834900; x=1702439700;
+        d=1e100.net; s=20230601; t=1701849838; x=1702454638;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BsR8qY+uS6/BsLD1U3jPPzDAagYHPNv5M9ReQzqjMkA=;
-        b=SelEWIrgPHpUoRFvySFmie5J+/iD21k233t0kCMvuiWWkTVGHNoqx8St33LB3hK5Rz
-         tPvQlv0/W8CIlc0aaakpswElCNfBLXstEvDU4oWmtG+MntqylDO+e1ROEi6vapTaXbo+
-         9f5ZiMJzNYhBbHHYChYo4X7RClzYrlK5b3Olp35I+m8RAfCunpm5O9kPN+G8NnjzqJhe
-         bQob8ZEhWIm5iQf6I6ZAfRQyODro54h1KgQJiUJaYXJ9UzefMrm7JUKgZNaQPkGjZAKt
-         vw5jGZEJYbRynA4tvhSWL8gfnD8F2mIJ5MxlzlY6NP4GKf0LhscpFQ5D9+V6CjZ1E3my
-         e5BA==
-X-Gm-Message-State: AOJu0YzPwHsLj6J6W1bJZC7PksA+PiHQQ4UL6bTQSlJ4zUI2XysxjODz
-	cki/hmh3SynnnvBs8bZdxPkkdrYuLEN+wyQVjVz5EA==
-X-Google-Smtp-Source: AGHT+IHoRbTJaveVc4lI5CNcK45wkIN9hGVufXmpLxm2ne2EuM6HpHaABsrXS8hPPj5d6lQhPotGKPmzPUEdXOur9Ro=
-X-Received: by 2002:a81:6dce:0:b0:5d7:3104:5649 with SMTP id
- i197-20020a816dce000000b005d731045649mr174139ywc.3.1701834900083; Tue, 05 Dec
- 2023 19:55:00 -0800 (PST)
+        bh=nGCMRa+i/MihOYX6Q20WgFj7HaKctmYtsqnWq1JXn2g=;
+        b=Y0tHeXUssXeQFmetHsd4VCd1iDr73Zd1iZvlDgG/mRV8hnw66FLLSmdDcYng62eSZB
+         Maf2FO6BPOO8UK3qOBiXh39HmltxaLTfP2yjKLIxmQ0sfbVZtXGaU1kz/eBDqlRSGEl6
+         sLtPePWZ4cZdKhCwxKjTEtuKnQp84dxW7tM292j5LjdsNDW7NawcVHNO+whR4uwnjZ9T
+         kyjZqieFN+gMb9Q9CnpiBepPxXvaL9KbKhY2ZnsatvONdZGbT56cF2Dag/Gyp86EDMVM
+         ykxScewM7SqTIyagFfOVc6n+HQ+9Kw+MyxAbVXj7vHqECEzC32YaUHYnKvCYF1pPVLgM
+         On/w==
+X-Gm-Message-State: AOJu0Yyr1sJP83nzJ59lCJACHVSlsjAq7m7Kk0Yu9jwjrja+WQ/049CK
+	n1ELeDP7oZgULkCFwls9pjemVXQ7xuJBjfqZfD78Ig==
+X-Google-Smtp-Source: AGHT+IEaO+94iDBEXay94ezSPUxJ91cw5Aey+lBPpm7zInTNoW+eAVYUvOH98LT91lcesH3+n2Wv3kvyGNmnBQEJtFc=
+X-Received: by 2002:a50:d744:0:b0:543:fb17:1a8 with SMTP id
+ i4-20020a50d744000000b00543fb1701a8mr40204edj.3.1701849838267; Wed, 06 Dec
+ 2023 00:03:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231202035511.487946-1-sjg@chromium.org> <20231202035511.487946-3-sjg@chromium.org>
- <92a3e3b4-6f4d-4ca4-947f-db905f328d4c@pengutronix.de>
-In-Reply-To: <92a3e3b4-6f4d-4ca4-947f-db905f328d4c@pengutronix.de>
-From: Simon Glass <sjg@chromium.org>
-Date: Tue, 5 Dec 2023 20:54:41 -0700
-Message-ID: <CAPnjgZ3QZh3+2PtmSvje=KAw1n1o_jmhgC1ZnhM9JBoEjLG+fQ@mail.gmail.com>
-Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
-To: Ahmad Fatoum <a.fatoum@pengutronix.de>
-Cc: linux-arm-kernel@lists.infradead.org, 
-	Masahiro Yamada <masahiroy@kernel.org>, U-Boot Mailing List <u-boot@lists.denx.de>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, workflows@vger.kernel.org, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>
+References: <20231115175146.9848-1-Nikolai.Kondrashov@redhat.com>
+ <20231205184503.79769-1-Nikolai.Kondrashov@redhat.com> <20231205184503.79769-7-Nikolai.Kondrashov@redhat.com>
+In-Reply-To: <20231205184503.79769-7-Nikolai.Kondrashov@redhat.com>
+From: David Gow <davidgow@google.com>
+Date: Wed, 6 Dec 2023 16:03:44 +0800
+Message-ID: <CABVgOSnW1Yzz-1Zdr-k-qWL25yUDZo+jbhPwNkK7dG-8-WonFg@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 06/10] MAINTAINERS: Support referencing test docs
+ in V:
+To: Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
+Cc: workflows@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Joe Perches <joe@perches.com>, Andy Whitcroft <apw@canonical.com>, "Theodore Ts'o" <tytso@mit.edu>, 
+	Steven Rostedt <rostedt@goodmis.org>, Mark Brown <broonie@kernel.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org, 
+	Veronika Kabatova <vkabatov@redhat.com>, CKI <cki-project@redhat.com>, kernelci@lists.linux.dev
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="0000000000001adc75060bd2cb3b"
+
+--0000000000001adc75060bd2cb3b
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Ahmad,
+On Wed, 6 Dec 2023 at 02:45, Nikolai Kondrashov
+<Nikolai.Kondrashov@redhat.com> wrote:
+>
+> Support referencing test suite documentation in the V: entries of
+> MAINTAINERS file. Use the '*<name>' syntax (like C pointer dereference),
+> where '<name>' is a second-level heading in the new
+> Documentation/process/tests.rst file, with the suite's description.
+> This syntax allows distinguishing the references from test commands.
+>
+> Add a boiler-plate Documentation/process/tests.rst file, describing a
+> way to add structured info to the test suites in the form of field
+> lists. Apart from a "summary" and "command" fields, they can also
+> contain a "superset" field specifying the superset of the test suite,
+> helping reuse documentation and express both wider and narrower test
+> sets.
+>
+> Make scripts/checkpatch.pl load the tests from the file, along with the
+> structured data, validate the references in MAINTAINERS, dereference
+> them, and output the test suite information in the CHECK messages
+> whenever the corresponding subsystems are changed. But only if there was
+> no corresponding Tested-with: tag in the commit message, certifying it
+> was executed successfully already.
+>
+> This is supposed to help propose executing test suites which cannot be
+> executed immediately, and need extra setup, as well as provide a place
+> for extra documentation and information on directly-available suites.
+>
+> Signed-off-by: Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
+> ---
 
-On Tue, 5 Dec 2023 at 04:48, Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
->
-> Hello Simon,
->
-> On 02.12.23 04:54, Simon Glass wrote:
-> > Add a script which produces a Flat Image Tree (FIT), a single file
-> > containing the built kernel and associated devicetree files.
-> > Compression defaults to gzip which gives a good balance of size and
-> > performance.
-> >
-> > The files compress from about 86MB to 24MB using this approach.
-> >
-> > The FIT can be used by bootloaders which support it, such as U-Boot
-> > and Linuxboot. It permits automatic selection of the correct
-> > devicetree, matching the compatible string of the running board with
-> > the closest compatible string in the FIT. There is no need for
-> > filenames or other workarounds.
-> >
-> > Add a 'make image.fit' build target for arm64, as well. Use
-> > FIT_COMPRESSION to select a different algorithm.
-> >
-> > The FIT can be examined using 'dumpimage -l'.
-> >
-> > This features requires pylibfdt (use 'pip install libfdt'). It also
-> > requires compression utilities for the algorithm being used. Supported
-> > compression options are the same as the Image.xxx files. For now there
-> > is no way to change the compression other than by editing the rule for
-> > $(obj)/image.fit
-> >
-> > While FIT supports a ramdisk / initrd, no attempt is made to support
-> > this here, since it must be built separately from the Linux build.
-> >
-> > Signed-off-by: Simon Glass <sjg@chromium.org>
->
-> kernel_noload support is now in barebox next branch and I tested this
-> series against it:
->
-> Tested-by: Ahmad Fatoum <a.fatoum@pengutronix.de> # barebox
->
+I like the idea here, but wonder whether it makes sense to put all of
+these tests into a single 'tests.rst' file. There's already lots of
+existing documentation scattered around the tree, and while keeping
+all of the testing information in one place does have advantages, I
+think there's a lot to be said for keeping subsystem-specific test
+docs alongside the rest of the documentation for the subsystem itself.
+And it'd be less work, as the docs are already there.
 
-OK great thank you.
+So, could we just make this a path under Documentation/ (possibly with
+an #anchor if we need to reference just one part of a file)?
 
-> > +"""Build a FIT containing a lot of devicetree files
-> > +
-> > +Usage:
-> > +    make_fit.py -A arm64 -n 'Linux-6.6' -O linux
-> > +        -f arch/arm64/boot/image.fit -k /tmp/kern/arch/arm64/boot/image.itk
-> > +        /tmp/kern/arch/arm64/boot/dts/ -E -c gzip
-> > +
-> > +Creates a FIT containing the supplied kernel and a directory containing the
-> > +devicetree files.
-> > +
-> > +Use -E to generate an external FIT (where the data is placed after the
-> > +FIT data structure). This allows parsing of the data without loading
-> > +the entire FIT.
-> > +
-> > +Use -c to compress the data, using bzip2, gzip, lz4, lzma, lzo and
-> > +zstd algorithms.
-> > +
-> > +The resulting FIT can be booted by bootloaders which support FIT, such
-> > +as U-Boot, Linuxboot, Tianocore, etc.
->
-> Feel free to add barebox to the list. Did you check whether Linuxboot and
-> Tianocore support kernel_noload?
+e.g., something like these, all of which are existing docs:
+V: *Documentation/dev-tools/kasan.rst#Tests
+or
+V: *Dcoumentation/RCU/torture.rst
+or
+V: *Documentation/gpu/automated_testing.rst
+or
+V: *Documentation/process/maintainer-kvm-x86.rst#Testing
 
-Only what I was told by people in those projects. They may not even
-look at the load address, but I am not an expert on that.
+(We could even get rid of the '*' and just use 'Documentation/' as a
+prefix, or the executable bit on the file, or similar to distinguish
+these from scripts.)
 
->
-> > +        fsw.property_u32('load', 0)
-> > +        fsw.property_u32('entry', 0)
->
-> I still think load and entry dummy values are confusing and should be dropped.
+If we wanted to be very brave, we could extend this further to
+arbitrary webpages, like:
+V: https://git.kernel.org/pub/scm/fs/xfs/xfstests-dev.git/tree/README
 
-This is what the spec requires at present. But I agree we should
-change it. I will dig into that at some point to see what is needed.
+Thoughts?
 
->
-> > +    with fsw.add_node(f'fdt-{seq}'):
-> > +        # Get the compatible / model information
-> > +        with open(fname, 'rb') as inf:
-> > +            data = inf.read()
-> > +        fdt = libfdt.FdtRo(data)
-> > +        model = fdt.getprop(0, 'model').as_str()
-> > +        compat = fdt.getprop(0, 'compatible')
-> > +
-> > +        fsw.property_string('description', model)
-> > +        fsw.property_string('type', 'flat_dt')
-> > +        fsw.property_string('arch', arch)
-> > +        fsw.property_string('compression', compress)
-> > +        fsw.property('compatible', bytes(compat))
-> > +
-> > +        with open(fname, 'rb') as inf:
-> > +            compressed = compress_data(inf, compress)
-> > +        fsw.property('data', compressed)
-> > +    return model, compat
->
-> After Doug's elaboration, extracting multiple compatibles is fine by me.
+-- David
 
-OK good.
+--0000000000001adc75060bd2cb3b
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
 
-Regards,
-Simon
+MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
+ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
+VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
+AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
+AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
+IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
+dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
+6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
+c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
+I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
+AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
+BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
+CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
+AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
+MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
+My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
+LmNybDBMBgNVHSAERTBDMEEGCSsGAQQBoDIBKDA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3dy5n
+bG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzANBgkqhkiG9w0BAQsFAAOCAQEANyYcO+9JZYyqQt41
+TMwvFWAw3vLoLOQIfIn48/yea/ekOcParTb0mbhsvVSZ6sGn+txYAZb33wIb1f4wK4xQ7+RUYBfI
+TuTPL7olF9hDpojC2F6Eu8nuEf1XD9qNI8zFd4kfjg4rb+AME0L81WaCL/WhP2kDCnRU4jm6TryB
+CHhZqtxkIvXGPGHjwJJazJBnX5NayIce4fGuUEJ7HkuCthVZ3Rws0UyHSAXesT/0tXATND4mNr1X
+El6adiSQy619ybVERnRi5aDe1PTwE+qNiotEEaeujz1a/+yYaaTY+k+qJcVxi7tbyQ0hi0UB3myM
+A/z2HmGEwO8hx7hDjKmKbDCCA18wggJHoAMCAQICCwQAAAAAASFYUwiiMA0GCSqGSIb3DQEBCwUA
+MEwxIDAeBgNVBAsTF0dsb2JhbFNpZ24gUm9vdCBDQSAtIFIzMRMwEQYDVQQKEwpHbG9iYWxTaWdu
+MRMwEQYDVQQDEwpHbG9iYWxTaWduMB4XDTA5MDMxODEwMDAwMFoXDTI5MDMxODEwMDAwMFowTDEg
+MB4GA1UECxMXR2xvYmFsU2lnbiBSb290IENBIC0gUjMxEzARBgNVBAoTCkdsb2JhbFNpZ24xEzAR
+BgNVBAMTCkdsb2JhbFNpZ24wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDMJXaQeQZ4
+Ihb1wIO2hMoonv0FdhHFrYhy/EYCQ8eyip0EXyTLLkvhYIJG4VKrDIFHcGzdZNHr9SyjD4I9DCuu
+l9e2FIYQebs7E4B3jAjhSdJqYi8fXvqWaN+JJ5U4nwbXPsnLJlkNc96wyOkmDoMVxu9bi9IEYMpJ
+pij2aTv2y8gokeWdimFXN6x0FNx04Druci8unPvQu7/1PQDhBjPogiuuU6Y6FnOM3UEOIDrAtKeh
+6bJPkC4yYOlXy7kEkmho5TgmYHWyn3f/kRTvriBJ/K1AFUjRAjFhGV64l++td7dkmnq/X8ET75ti
++w1s4FRpFqkD2m7pg5NxdsZphYIXAgMBAAGjQjBAMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8E
+BTADAQH/MB0GA1UdDgQWBBSP8Et/qC5FJK5NUPpjmove4t0bvDANBgkqhkiG9w0BAQsFAAOCAQEA
+S0DbwFCq/sgM7/eWVEVJu5YACUGssxOGhigHM8pr5nS5ugAtrqQK0/Xx8Q+Kv3NnSoPHRHt44K9u
+bG8DKY4zOUXDjuS5V2yq/BKW7FPGLeQkbLmUY/vcU2hnVj6DuM81IcPJaP7O2sJTqsyQiunwXUaM
+ld16WCgaLx3ezQA3QY/tRG3XUyiXfvNnBB4V14qWtNPeTCekTBtzc3b0F5nCH3oO4y0IrQocLP88
+q1UOD5F+NuvDV0m+4S4tfGCLw0FREyOdzvcya5QBqJnnLDMfOjsl0oZAzjsshnjJYS8Uuu7bVW/f
+hO4FCU29KNhyztNiUGUe65KXgzHZs7XKR1g/XzCCBNgwggPAoAMCAQICEAHOBX7j6YmdTMbtcPLp
+3a4wDQYJKoZIhvcNAQELBQAwVDELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYt
+c2ExKjAoBgNVBAMTIUdsb2JhbFNpZ24gQXRsYXMgUjMgU01JTUUgQ0EgMjAyMDAeFw0yMzA4MTUw
+MjQyNDNaFw0yNDAyMTEwMjQyNDNaMCQxIjAgBgkqhkiG9w0BCQEWE2RhdmlkZ293QGdvb2dsZS5j
+b20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCnYKS3ueVXUlVatkXVQgk8pbgZH4/s
+KBKSGW9Z8e4hylAI35vqFf5f5D4U5KhUYUyG0+AYhurwEiUyZUhGcLqRNmSroohx9nbZjXDXjkVV
+LXBAr7xaCU3DDQcA1SaxmALxBC7u4zlcVHfUKope2JNJ2xn5kU0Z/kr01tZuJD5/jn+2hp68jdym
+tbFd3zzOJmtG6hb4ULJNXSi1qkjtZp6SyDLEsliQGRuI5AIha7GQPeSNsFmIpi+V5UxhrznuAv0y
+Uxd27MtO+/mgSMpLmUb4vuSjy2zuftatzVYvFG00pfHldrnJ1od+kW8lAl6gyahVgMp+j3GAlO2M
+oGCkihK9AgMBAAGjggHUMIIB0DAeBgNVHREEFzAVgRNkYXZpZGdvd0Bnb29nbGUuY29tMA4GA1Ud
+DwEB/wQEAwIFoDAdBgNVHSUEFjAUBggrBgEFBQcDBAYIKwYBBQUHAwIwHQYDVR0OBBYEFJO3Y8Jq
+ddIn9n5Jt6Z1o79zxraLMEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
+dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
+AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
+c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
+LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
+LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
+Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQBtHFwIgQZjer5K
+H+4Q+wns10k7qN+4wN2Uf+JsyOYjukaMEgdLErfA1wwtQ9uHkoYQZcWBuVVkQFa5hI+sqI2m1Weq
+riMCFSiU38s1tADdMX12IMfJRN60Nznhrw+nPyDRZqRhUTW24TwnHorkDnFPW8PHo7fAw4FrpI0n
+impZAng7ccvvK09K3ZuhwTIxJMsPXCZYsrXWORTw5sczRAP6XvKbPBJnsJoSTe5dFBPBHOQJOGhU
+qWfEfWnWMJPF3LxSGLpLFQXO3RwQqmxv08avwXfVPouh1xuB3FX7rpDabT8YDhu9JgIZkLEKko7L
+yQt6zWwng7k8YF/jGbiAta6VMYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
+R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
+MDIwAhABzgV+4+mJnUzG7XDy6d2uMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCAi
+4zRGZTPrAx8Sdr2fXBo12qgoaqGEkHi0dxeSeXWQZjAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
+MBwGCSqGSIb3DQEJBTEPFw0yMzEyMDYwODAzNThaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
+BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
+CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAeC4llIqdeMMwKOLglV8Z
+XqGVAdlUjsO+cG8/wUtR0TPh7rkgynB+oBlzgf51JYaDqo2tdBn7AK6ECfBx9Hw+4yyyGMY3hRtG
+MdLLgmJlAB4DQtr8DMnsPi9xK1hu+nVkpxCaUzptyCe4FgsBCaXRg4Au7b6z8r7QVSgdcmXcvxxd
+vIly5XegcVB2TFX8v3SuDS4rUDyn8iiqpTwZMQoXuZtlYQP0Ay9txaFOs+Bm1puub+1MjRK2tLfH
+jvJB9xh71J54wPQklybmW3WnGbUKmW18PIw2p/5cZp2UKoVfQWEGAd2yTSEi62E7pC3bckn4ZP/V
+YZMkS2d372hhut0agw==
+--0000000000001adc75060bd2cb3b--
