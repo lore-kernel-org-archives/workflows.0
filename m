@@ -1,39 +1,39 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ICbOmHJj"
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 120F118D
-	for <workflows@vger.kernel.org>; Wed,  6 Dec 2023 00:04:00 -0800 (PST)
-Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-54c77d011acso5516a12.1
-        for <workflows@vger.kernel.org>; Wed, 06 Dec 2023 00:03:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nZz5D7G/"
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BE09D3
+	for <workflows@vger.kernel.org>; Wed,  6 Dec 2023 00:12:22 -0800 (PST)
+Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-54c77d011acso5626a12.1
+        for <workflows@vger.kernel.org>; Wed, 06 Dec 2023 00:12:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1701849838; x=1702454638; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1701850341; x=1702455141; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=nGCMRa+i/MihOYX6Q20WgFj7HaKctmYtsqnWq1JXn2g=;
-        b=ICbOmHJjupJdyGhpC/vs0eMB/kw0/C8Ae5bLSMn+/P7+Rn9llEtTQhjkrqbS8GMSva
-         r26QZ+Q/3WMCj8yK+/8Zdnf5qlRAY/45+WatLqdMuvqeg0tA39lQiGNNAq7RDLn7geou
-         IIenOIwTDDs/TQZfXqKZd593Ek0kiIDYGSAVhZK66JHUA0ZMWATUMS+C1O1MnKEJKox5
-         q0q1S5x0VAb8FSr3Onemofx9lWUDxrBl7ClSbr99kmyO91JLWWNoAp3wxlI/pW54J5bk
-         60Bhxwb9tHJ5VLs3Sjs5uoDkqiaUvAAXHkmTl5JnGjwibUpo6d56wEsA5cvEGeEJoaxk
-         ckpw==
+        bh=HCdGvMVKyW3A3csdMq8cOndlTx72b0bOYqv2qS+Nx3E=;
+        b=nZz5D7G/pQG9452IcW6gvuCGYfweZ6aZx+yMSvOT7eLMrHyipBDB8o4MuQyNphVpk4
+         rnC+GWnSxBgJpomPfMZl9lUP6ArjTo7jPY+mqqTsNkrgm580jZQtW5NPI28L1hw96VMe
+         uvMWLtZMKWanHxLBic2ZDpDntOEuloFCt/Z16X3SDspsPsX430GrrmzH5jWMEo39Sceb
+         ks4d9sTYHJnrhxqW8mMmvEq1/FrNsPk3LyiIUn5LQfhC2wuMbHpFRohxpHH9KHjcHud2
+         UOJg37Rg34KoF6nTMokr0e3ugV6kLkOnGJ+dRaYM66ncJfeg86Ru8KN9rGtUDX48bEej
+         +xFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701849838; x=1702454638;
+        d=1e100.net; s=20230601; t=1701850341; x=1702455141;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=nGCMRa+i/MihOYX6Q20WgFj7HaKctmYtsqnWq1JXn2g=;
-        b=Y0tHeXUssXeQFmetHsd4VCd1iDr73Zd1iZvlDgG/mRV8hnw66FLLSmdDcYng62eSZB
-         Maf2FO6BPOO8UK3qOBiXh39HmltxaLTfP2yjKLIxmQ0sfbVZtXGaU1kz/eBDqlRSGEl6
-         sLtPePWZ4cZdKhCwxKjTEtuKnQp84dxW7tM292j5LjdsNDW7NawcVHNO+whR4uwnjZ9T
-         kyjZqieFN+gMb9Q9CnpiBepPxXvaL9KbKhY2ZnsatvONdZGbT56cF2Dag/Gyp86EDMVM
-         ykxScewM7SqTIyagFfOVc6n+HQ+9Kw+MyxAbVXj7vHqECEzC32YaUHYnKvCYF1pPVLgM
-         On/w==
-X-Gm-Message-State: AOJu0Yyr1sJP83nzJ59lCJACHVSlsjAq7m7Kk0Yu9jwjrja+WQ/049CK
-	n1ELeDP7oZgULkCFwls9pjemVXQ7xuJBjfqZfD78Ig==
-X-Google-Smtp-Source: AGHT+IEaO+94iDBEXay94ezSPUxJ91cw5Aey+lBPpm7zInTNoW+eAVYUvOH98LT91lcesH3+n2Wv3kvyGNmnBQEJtFc=
+        bh=HCdGvMVKyW3A3csdMq8cOndlTx72b0bOYqv2qS+Nx3E=;
+        b=JdhgPbAGolVo22imQdL8YnXUeI/qH97ev2zkcnBIM2ZSN+YKQFAgscQN9FnPs6wDRl
+         0p4ExMDEBx2RSp2Z3VxH/nM1V6w0yyQ0AdZ2E0SdQavezVXryTDbQ9W1RxiEL+exoVv+
+         bxKp8lTOuuzWHzpecadjxx15BvxEjazBaWMh+GHRD6c+vQcjmmhBbl2yZJHejckWSPnf
+         JYOil8Dat+Zf5BkoMVeUy6H5XkhkBBbJccwP+rjtiSkp25Up8Db1ErMAbbfGbuTVHfvL
+         BhhwdC0Yqxj4sfk4rwSpHjCMzhQbicCYHIDZlx0kdImBdux59Zj0RPtIZ3SMvVn43KWY
+         XqPw==
+X-Gm-Message-State: AOJu0YwXlwYT9YkfbM1VMTPlHOmJ7Im5XMMr+O2mEnxbz4KjbJB7sYlH
+	LJE31Cdhj8dKdcGbOdDMCl5v4uRIWK48eKBsjFk7/A==
+X-Google-Smtp-Source: AGHT+IEA1ulS5xaDm437Hb3xvdqucH0fEVeqIGpUJmjqFD3gLRCKe/pBXQkQ9tKRQbnJqWloZYVY7bSIH+EBvglbxO4=
 X-Received: by 2002:a50:d744:0:b0:543:fb17:1a8 with SMTP id
- i4-20020a50d744000000b00543fb1701a8mr40204edj.3.1701849838267; Wed, 06 Dec
- 2023 00:03:58 -0800 (PST)
+ i4-20020a50d744000000b00543fb1701a8mr41012edj.3.1701850340503; Wed, 06 Dec
+ 2023 00:12:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -41,13 +41,12 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20231115175146.9848-1-Nikolai.Kondrashov@redhat.com>
- <20231205184503.79769-1-Nikolai.Kondrashov@redhat.com> <20231205184503.79769-7-Nikolai.Kondrashov@redhat.com>
-In-Reply-To: <20231205184503.79769-7-Nikolai.Kondrashov@redhat.com>
+ <20231205184503.79769-1-Nikolai.Kondrashov@redhat.com> <20231205184503.79769-3-Nikolai.Kondrashov@redhat.com>
+In-Reply-To: <20231205184503.79769-3-Nikolai.Kondrashov@redhat.com>
 From: David Gow <davidgow@google.com>
-Date: Wed, 6 Dec 2023 16:03:44 +0800
-Message-ID: <CABVgOSnW1Yzz-1Zdr-k-qWL25yUDZo+jbhPwNkK7dG-8-WonFg@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 06/10] MAINTAINERS: Support referencing test docs
- in V:
+Date: Wed, 6 Dec 2023 16:12:09 +0800
+Message-ID: <CABVgOSnCNJcEfVp_k3emEHziYx55ecNaEj4fsbcfgrsCN4CrNQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 02/10] MAINTAINERS: Introduce V: entry for tests
 To: Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
 Cc: workflows@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
 	Joe Perches <joe@perches.com>, Andy Whitcroft <apw@canonical.com>, "Theodore Ts'o" <tytso@mit.edu>, 
@@ -56,74 +55,49 @@ Cc: workflows@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
 	kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org, 
 	Veronika Kabatova <vkabatov@redhat.com>, CKI <cki-project@redhat.com>, kernelci@lists.linux.dev
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="0000000000001adc75060bd2cb3b"
+	boundary="0000000000000a0fe6060bd2e930"
 
---0000000000001adc75060bd2cb3b
+--0000000000000a0fe6060bd2e930
 Content-Type: text/plain; charset="UTF-8"
 
 On Wed, 6 Dec 2023 at 02:45, Nikolai Kondrashov
 <Nikolai.Kondrashov@redhat.com> wrote:
 >
-> Support referencing test suite documentation in the V: entries of
-> MAINTAINERS file. Use the '*<name>' syntax (like C pointer dereference),
-> where '<name>' is a second-level heading in the new
-> Documentation/process/tests.rst file, with the suite's description.
-> This syntax allows distinguishing the references from test commands.
+> Introduce a new 'V:' ("Verify") entry to MAINTAINERS. The entry accepts
+> a test suite command which is proposed to be executed for each
+> contribution to the subsystem.
 >
-> Add a boiler-plate Documentation/process/tests.rst file, describing a
-> way to add structured info to the test suites in the form of field
-> lists. Apart from a "summary" and "command" fields, they can also
-> contain a "superset" field specifying the superset of the test suite,
-> helping reuse documentation and express both wider and narrower test
-> sets.
+> Extend scripts/get_maintainer.pl to support retrieving the V: entries
+> when '--test' option is specified.
 >
-> Make scripts/checkpatch.pl load the tests from the file, along with the
-> structured data, validate the references in MAINTAINERS, dereference
-> them, and output the test suite information in the CHECK messages
-> whenever the corresponding subsystems are changed. But only if there was
-> no corresponding Tested-with: tag in the commit message, certifying it
-> was executed successfully already.
+> Require the entry values to not contain the '@' character, so they could
+> be distinguished from emails (always) output by get_maintainer.pl. Make
+> scripts/checkpatch.pl check that they don't.
 >
-> This is supposed to help propose executing test suites which cannot be
-> executed immediately, and need extra setup, as well as provide a place
-> for extra documentation and information on directly-available suites.
+> Update entry ordering in both scripts/checkpatch.pl and
+> scripts/parse-maintainers.pl.
 >
 > Signed-off-by: Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
 > ---
 
-I like the idea here, but wonder whether it makes sense to put all of
-these tests into a single 'tests.rst' file. There's already lots of
-existing documentation scattered around the tree, and while keeping
-all of the testing information in one place does have advantages, I
-think there's a lot to be said for keeping subsystem-specific test
-docs alongside the rest of the documentation for the subsystem itself.
-And it'd be less work, as the docs are already there.
+I'm pretty happy with this personally, though I definitely think we
+need the support for tests which aren't just executable scripts (e.g.
+the docs in patch 6).
 
-So, could we just make this a path under Documentation/ (possibly with
-an #anchor if we need to reference just one part of a file)?
+The get_maintailer.pl bits, and hence the requirement to not include
+'@', feel a little bit 'off': I'd rather get_maintainer.pl kept emails
+and tests separate by some other means (either having --test _only_
+print tests, not emails at all, or by giving them a prefix like
+'TEST:' or something). But that is diverging more from the existing
+behaviour of get_maintainer.pl, so I could go either way.
 
-e.g., something like these, all of which are existing docs:
-V: *Documentation/dev-tools/kasan.rst#Tests
-or
-V: *Dcoumentation/RCU/torture.rst
-or
-V: *Documentation/gpu/automated_testing.rst
-or
-V: *Documentation/process/maintainer-kvm-x86.rst#Testing
+Otherwise, this looks pretty good. I'll give it a proper test tomorrow
+alongside the other patches.
 
-(We could even get rid of the '*' and just use 'Documentation/' as a
-prefix, or the executable bit on the file, or similar to distinguish
-these from scripts.)
-
-If we wanted to be very brave, we could extend this further to
-arbitrary webpages, like:
-V: https://git.kernel.org/pub/scm/fs/xfs/xfstests-dev.git/tree/README
-
-Thoughts?
-
+Cheers,
 -- David
 
---0000000000001adc75060bd2cb3b
+--0000000000000a0fe6060bd2e930
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -190,14 +164,14 @@ impZAng7ccvvK09K3ZuhwTIxJMsPXCZYsrXWORTw5sczRAP6XvKbPBJnsJoSTe5dFBPBHOQJOGhU
 qWfEfWnWMJPF3LxSGLpLFQXO3RwQqmxv08avwXfVPouh1xuB3FX7rpDabT8YDhu9JgIZkLEKko7L
 yQt6zWwng7k8YF/jGbiAta6VMYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
 R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
-MDIwAhABzgV+4+mJnUzG7XDy6d2uMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCAi
-4zRGZTPrAx8Sdr2fXBo12qgoaqGEkHi0dxeSeXWQZjAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
-MBwGCSqGSIb3DQEJBTEPFw0yMzEyMDYwODAzNThaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
+MDIwAhABzgV+4+mJnUzG7XDy6d2uMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCC5
+frpM5s+CUCA22eqZxX97UypNIPo6SIptoHuGn3v9rjAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
+MBwGCSqGSIb3DQEJBTEPFw0yMzEyMDYwODEyMjFaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
 BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
-CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAeC4llIqdeMMwKOLglV8Z
-XqGVAdlUjsO+cG8/wUtR0TPh7rkgynB+oBlzgf51JYaDqo2tdBn7AK6ECfBx9Hw+4yyyGMY3hRtG
-MdLLgmJlAB4DQtr8DMnsPi9xK1hu+nVkpxCaUzptyCe4FgsBCaXRg4Au7b6z8r7QVSgdcmXcvxxd
-vIly5XegcVB2TFX8v3SuDS4rUDyn8iiqpTwZMQoXuZtlYQP0Ay9txaFOs+Bm1puub+1MjRK2tLfH
-jvJB9xh71J54wPQklybmW3WnGbUKmW18PIw2p/5cZp2UKoVfQWEGAd2yTSEi62E7pC3bckn4ZP/V
-YZMkS2d372hhut0agw==
---0000000000001adc75060bd2cb3b--
+CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAFFQ7jjiyAZ3wB62FGaZY
+PON5cF2LX5hkNFBPXt2McMW3rxAgkS3jI9lFTexfmDS11kLwIwQN9ZR9X1azjTzoNHT1fLV+oehw
+gPJ30fckCQU5kmNozfvoQGfdC6tDalivJCYO7CdrmwOJ+8dcnrpZlWPM2KLWZN/r2blfIwIbKQxf
+qcl0/HHV1hmELSrj2zzkFAw3R/pILnY/w/Je3cnE2j88STMwDfdN8iVItD5sWO/9PFXoi1c/osGu
+VvWqO9D/e/f5sjhJIM1bD5AW9dnWH59wu+ipPCKbjwU120hHtjH3c72cZ3vtt1tl7woZFsMP15M0
+zuutKcFECxPkpQgh7g==
+--0000000000000a0fe6060bd2e930--
