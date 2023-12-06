@@ -1,104 +1,132 @@
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7211B120;
-	Wed,  6 Dec 2023 02:07:35 -0800 (PST)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-5d95a3562faso27027327b3.2;
-        Wed, 06 Dec 2023 02:07:35 -0800 (PST)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gOn5nqn0"
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BB3112F
+	for <workflows@vger.kernel.org>; Wed,  6 Dec 2023 08:16:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1701879366;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yV+EAjFiNperhRT8qfQcFC8inivxo54rtgnFwg4w55c=;
+	b=gOn5nqn0SgTGHqvU5/GOuYxgpMvYc2Vhak/dkJ9VzyhJVsZJvxg5QnS9d8GjZBlDsWZpBW
+	R4ekvni95i47L90HzDSLeLPUhZVq4WenIrAg+p3+xzf7OOfst/OLhOosw4DWXkjcQKI/Ab
+	RIQ/alvOdxKX2OwpKeoVGyRTMR4f5dg=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-5-sJYiFbw1O3m9S8JbOlxvBA-1; Wed, 06 Dec 2023 11:16:04 -0500
+X-MC-Unique: sJYiFbw1O3m9S8JbOlxvBA-1
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-332e82bb756so542845f8f.1
+        for <workflows@vger.kernel.org>; Wed, 06 Dec 2023 08:16:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701857254; x=1702462054;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5IhAaCIC+sv1cl9rAPh8wEgKbrg1+NsxhvGfL72SUfo=;
-        b=BvP5Zf8lhD+Qseh4HLcVThmHyO0g5zv2rgGhxLNMUlsB9ThVKqqrYqRngZV5IY93ar
-         lGqL6r3c7mOUs1dRM2iWeQcl1R9SsNXplBdX6DwMZxICxj76++CqEymu9Ekv0CHC98FV
-         GBXN6i7U8P/k9ehEtLkpEerC/XUaJg0x2TifeszReDNzWxLEK3Qmqeojsgnfu7N4hMls
-         XAQX5Zz0jehO09becYECvgfg6nyAFkkSfGdeU6KZ9o0+JmIliilQH8S+l4b07OmEdqrJ
-         ckAsuIw5UH42UmQFpGmIuODFiEiT+zUrq2nmYXqrdYwyZI32ra1VqkIt/uCX9vTpHXXR
-         DkOg==
-X-Gm-Message-State: AOJu0YyOQNga5YmOJ4gjthYWMXopgTYRHnofzez+K7A92duVX8KuPVHV
-	d+12SVap3YIT6SsDbVTnXaAHqEb7SCWEZw==
-X-Google-Smtp-Source: AGHT+IGOTVFmeip2EoeB4dqYEtyzgZVoQgZrAm8/zct3EpvC2k2C0YAtnC/tcDnIuhXD4uCAhvn3jw==
-X-Received: by 2002:a0d:d903:0:b0:5d3:4ef0:8be with SMTP id b3-20020a0dd903000000b005d34ef008bemr430303ywe.37.1701857254471;
-        Wed, 06 Dec 2023 02:07:34 -0800 (PST)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id g193-20020a8152ca000000b005d878b0c26fsm2387469ywb.3.2023.12.06.02.07.34
+        d=1e100.net; s=20230601; t=1701879363; x=1702484163;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yV+EAjFiNperhRT8qfQcFC8inivxo54rtgnFwg4w55c=;
+        b=rPiY0ifcS9mjUN1gXVMx0sxswuYSCvCaentw6i/d8e8Tk9F/bzfT5H8/gOnrCrxAli
+         Nl+irwwF84LOXuqS16zv3k2VD6cvKDPlglkZb1jGweSCSJnRNd9LChZjevXhkf9njlN9
+         gnQi0z6VRu8FVBGU+M+WR9JulewkrCGCUWFiaM/r8clcX57yWK/EVi+w6qBFNLUjFg1Z
+         W36jO2ZqQ8t5+Xh/w/X4h73BXrwV24SOXiV4r8+HWZAHMKHORQQN1VBmQxlfoqPsAd5N
+         hhtFh6dbzqoFYvR76uiOXiEUPb9PXeQyTgxIxhop5IXwOS9HHwPVL6Gs8qqs0WCVFM81
+         /iIA==
+X-Gm-Message-State: AOJu0YxNjnD3EsGiUcdOKenDOweVKbDE3DzoszXQKHgY7F5pSED/Xwmo
+	Hfm5+iuSWFSYLib/R0KPDUtdxv16lY5rAjMYXwp6r7b1mcm7Kp2NW2O/ZT6uGcdf/gpWECEZM/n
+	oA5VdFaU+SPLcoqX33n+4
+X-Received: by 2002:adf:e0d2:0:b0:333:18f6:e1d1 with SMTP id m18-20020adfe0d2000000b0033318f6e1d1mr663771wri.4.1701879363673;
+        Wed, 06 Dec 2023 08:16:03 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGTaUa0QpxcS/ure11HIYA1UTotIBwm18sFisuwlNoxHyxz08KDkgP4xAFLPJmyFS2n0/MTpg==
+X-Received: by 2002:adf:e0d2:0:b0:333:18f6:e1d1 with SMTP id m18-20020adfe0d2000000b0033318f6e1d1mr663760wri.4.1701879363301;
+        Wed, 06 Dec 2023 08:16:03 -0800 (PST)
+Received: from [192.168.0.118] (88-113-27-52.elisa-laajakaista.fi. [88.113.27.52])
+        by smtp.gmail.com with ESMTPSA id e25-20020adfa459000000b0033338c3ba42sm37676wra.111.2023.12.06.08.16.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Dec 2023 02:07:34 -0800 (PST)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-5d95a3562faso27027237b3.2;
-        Wed, 06 Dec 2023 02:07:34 -0800 (PST)
-X-Received: by 2002:a05:690c:c8a:b0:5d7:5dff:9e08 with SMTP id
- cm10-20020a05690c0c8a00b005d75dff9e08mr471487ywb.93.1701857254030; Wed, 06
- Dec 2023 02:07:34 -0800 (PST)
+        Wed, 06 Dec 2023 08:16:02 -0800 (PST)
+Message-ID: <7f662f61-330a-4134-b1a4-4bffcc4040d3@redhat.com>
+Date: Wed, 6 Dec 2023 18:16:00 +0200
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 01/10] get_maintainer: Survive querying missing
+ files
+Content-Language: en-US
+To: Joe Perches <joe@perches.com>, workflows@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>,
+ Theodore Ts'o <tytso@mit.edu>, David Gow <davidgow@google.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Mark Brown <broonie@kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, "Darrick J . Wong"
+ <djwong@kernel.org>
+Cc: kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+ Veronika Kabatova <vkabatov@redhat.com>, CKI <cki-project@redhat.com>,
+ kernelci@lists.linux.dev
 References: <20231115175146.9848-1-Nikolai.Kondrashov@redhat.com>
- <20231205184503.79769-1-Nikolai.Kondrashov@redhat.com> <20231205184503.79769-5-Nikolai.Kondrashov@redhat.com>
- <87zfyomq5k.fsf@meer.lwn.net> <fcc8a2d856dda4afbc85e70a36fc9ea903adc922.camel@perches.com>
-In-Reply-To: <fcc8a2d856dda4afbc85e70a36fc9ea903adc922.camel@perches.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 6 Dec 2023 11:07:23 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXxE4TjHFotaf1-JgnSibikk-xk1_W1e6F0o217-vq3Mg@mail.gmail.com>
-Message-ID: <CAMuHMdXxE4TjHFotaf1-JgnSibikk-xk1_W1e6F0o217-vq3Mg@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 04/10] docs: submitting-patches: Introduce Tested-with:
-To: Joe Perches <joe@perches.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>, 
-	workflows@vger.kernel.org, Andy Whitcroft <apw@canonical.com>, 
-	"Theodore Ts'o" <tytso@mit.edu>, David Gow <davidgow@google.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Mark Brown <broonie@kernel.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org, 
-	Veronika Kabatova <vkabatov@redhat.com>, CKI <cki-project@redhat.com>, kernelci@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <20231205184503.79769-1-Nikolai.Kondrashov@redhat.com>
+ <20231205184503.79769-2-Nikolai.Kondrashov@redhat.com>
+ <9fe310a9d4486ecf57669bf7b44a49c1788452c1.camel@perches.com>
+From: Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
+In-Reply-To: <9fe310a9d4486ecf57669bf7b44a49c1788452c1.camel@perches.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Dec 5, 2023 at 8:07=E2=80=AFPM Joe Perches <joe@perches.com> wrote:
-> On Tue, 2023-12-05 at 11:59 -0700, Jonathan Corbet wrote:
-> > Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com> writes:
-> >
-> > > Introduce a new tag, 'Tested-with:', documented in the
-> > > Documentation/process/submitting-patches.rst file.
-> []
-> > I have to ask whether we *really* need to introduce yet another tag for
-> > this.  How are we going to use this information?  Are we going to try t=
-o
-> > make a tag for every way in which somebody might test a patch?
->
-> In general, I think
->         Link: <to some url test result>
-> would be good enough.
+Hi Joe,
 
-Exactly.  And if you put the test results (or a link) in your patch
-below the "---", or in your cover letter, the "Link:" tag pointing to
-lore (or something else, unfortunately) that most (but unfortunately
-not all) maintainers already add when committing patches allows
-anyone to find it.
+On 12/5/23 20:55, Joe Perches wrote:
+> On Tue, 2023-12-05 at 20:02 +0200, Nikolai Kondrashov wrote:
+>> Do not die, but only warn when scripts/get_maintainer.pl is asked to
+>> retrieve information about a missing file.
+>>
+>> This allows scripts/checkpatch.pl to query MAINTAINERS while processing
+>> patches which are removing files.
+> 
+> Why is this useful?
+> 
+> Give a for-instance example please.
 
-> And remember that all this goes stale after awhile
-> and that includes old test suites.
+Sure! Take the ebb0130dad751e88c28ab94c71e46e8ee65427c9 commit for example.
 
-Yeah...
+It removes a file (and recreates it in another format, but that's besides the 
+point) which belongs to four subsystems.
 
-Isn't the purpose of a "Tested-with:" tag just for the maintainer to
-know which patches have been tested with the test suite already, and
-which haven't?  I expect reviewers/maintainers to scrutinize (extra)
-patches that lack such a tag (or lack the same under the "---"),
-and/or run the test suite theirselves.
-I.e. does this serve any purpose _after_ the patch has been applied?
+This will work OK:
 
-Gr{oetje,eeting}s,
+scripts/get_maintainer.pl 
+0001-dt-bindings-mailbox-convert-bcm2835-mbox-bindings-to.patch
 
-                        Geert
+But if we try to give the file being removed to get_maintainer.pl directly:
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+scripts/get_maintainer.pl -f 
+Documentation/devicetree/bindings/mailbox/brcm,bcm2835-mbox.txt
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+It will abort with the following message:
+
+scripts/get_maintainer.pl: file 
+'Documentation/devicetree/bindings/mailbox/brcm,bcm2835-mbox.txt' not found
+
+Even though the state of the source tree we're running this on is *exactly* 
+the same.
+
+The latter (using the -f option) is the way checkpatch.pl works to fetch the 
+maintenance status (in is_maintained_obsolete()), and the way I implemented 
+fetching the tests from MAINTAINERS (in get_file_proposed_tests()).
+
+This way seems to work better for checkpatch.pl, I suppose, because it can 
+link the error message to a specific file. But in principle, it might be 
+possible to just call get_maintainer.pl on every patch, if we really have to.
+
+However, I feel that conceptually it should be possible to query MAINTAINERS 
+without actual *source* files being present in the tree (as opposed to patch 
+files which it needs to read), or even the tree being there at all.
+
+I saw that we are printing a warning if the queried file is not there in the 
+git repo (I guess it's helpful?), and thought perhaps we can do the same 
+without the git repo too.
+
+Hope that helps!
+Nick
+
