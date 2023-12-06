@@ -1,39 +1,34 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nZz5D7G/"
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BE09D3
-	for <workflows@vger.kernel.org>; Wed,  6 Dec 2023 00:12:22 -0800 (PST)
-Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-54c77d011acso5626a12.1
-        for <workflows@vger.kernel.org>; Wed, 06 Dec 2023 00:12:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1701850341; x=1702455141; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=HCdGvMVKyW3A3csdMq8cOndlTx72b0bOYqv2qS+Nx3E=;
-        b=nZz5D7G/pQG9452IcW6gvuCGYfweZ6aZx+yMSvOT7eLMrHyipBDB8o4MuQyNphVpk4
-         rnC+GWnSxBgJpomPfMZl9lUP6ArjTo7jPY+mqqTsNkrgm580jZQtW5NPI28L1hw96VMe
-         uvMWLtZMKWanHxLBic2ZDpDntOEuloFCt/Z16X3SDspsPsX430GrrmzH5jWMEo39Sceb
-         ks4d9sTYHJnrhxqW8mMmvEq1/FrNsPk3LyiIUn5LQfhC2wuMbHpFRohxpHH9KHjcHud2
-         UOJg37Rg34KoF6nTMokr0e3ugV6kLkOnGJ+dRaYM66ncJfeg86Ru8KN9rGtUDX48bEej
-         +xFg==
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7211B120;
+	Wed,  6 Dec 2023 02:07:35 -0800 (PST)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-5d95a3562faso27027327b3.2;
+        Wed, 06 Dec 2023 02:07:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701850341; x=1702455141;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HCdGvMVKyW3A3csdMq8cOndlTx72b0bOYqv2qS+Nx3E=;
-        b=JdhgPbAGolVo22imQdL8YnXUeI/qH97ev2zkcnBIM2ZSN+YKQFAgscQN9FnPs6wDRl
-         0p4ExMDEBx2RSp2Z3VxH/nM1V6w0yyQ0AdZ2E0SdQavezVXryTDbQ9W1RxiEL+exoVv+
-         bxKp8lTOuuzWHzpecadjxx15BvxEjazBaWMh+GHRD6c+vQcjmmhBbl2yZJHejckWSPnf
-         JYOil8Dat+Zf5BkoMVeUy6H5XkhkBBbJccwP+rjtiSkp25Up8Db1ErMAbbfGbuTVHfvL
-         BhhwdC0Yqxj4sfk4rwSpHjCMzhQbicCYHIDZlx0kdImBdux59Zj0RPtIZ3SMvVn43KWY
-         XqPw==
-X-Gm-Message-State: AOJu0YwXlwYT9YkfbM1VMTPlHOmJ7Im5XMMr+O2mEnxbz4KjbJB7sYlH
-	LJE31Cdhj8dKdcGbOdDMCl5v4uRIWK48eKBsjFk7/A==
-X-Google-Smtp-Source: AGHT+IEA1ulS5xaDm437Hb3xvdqucH0fEVeqIGpUJmjqFD3gLRCKe/pBXQkQ9tKRQbnJqWloZYVY7bSIH+EBvglbxO4=
-X-Received: by 2002:a50:d744:0:b0:543:fb17:1a8 with SMTP id
- i4-20020a50d744000000b00543fb1701a8mr41012edj.3.1701850340503; Wed, 06 Dec
- 2023 00:12:20 -0800 (PST)
+        d=1e100.net; s=20230601; t=1701857254; x=1702462054;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5IhAaCIC+sv1cl9rAPh8wEgKbrg1+NsxhvGfL72SUfo=;
+        b=BvP5Zf8lhD+Qseh4HLcVThmHyO0g5zv2rgGhxLNMUlsB9ThVKqqrYqRngZV5IY93ar
+         lGqL6r3c7mOUs1dRM2iWeQcl1R9SsNXplBdX6DwMZxICxj76++CqEymu9Ekv0CHC98FV
+         GBXN6i7U8P/k9ehEtLkpEerC/XUaJg0x2TifeszReDNzWxLEK3Qmqeojsgnfu7N4hMls
+         XAQX5Zz0jehO09becYECvgfg6nyAFkkSfGdeU6KZ9o0+JmIliilQH8S+l4b07OmEdqrJ
+         ckAsuIw5UH42UmQFpGmIuODFiEiT+zUrq2nmYXqrdYwyZI32ra1VqkIt/uCX9vTpHXXR
+         DkOg==
+X-Gm-Message-State: AOJu0YyOQNga5YmOJ4gjthYWMXopgTYRHnofzez+K7A92duVX8KuPVHV
+	d+12SVap3YIT6SsDbVTnXaAHqEb7SCWEZw==
+X-Google-Smtp-Source: AGHT+IGOTVFmeip2EoeB4dqYEtyzgZVoQgZrAm8/zct3EpvC2k2C0YAtnC/tcDnIuhXD4uCAhvn3jw==
+X-Received: by 2002:a0d:d903:0:b0:5d3:4ef0:8be with SMTP id b3-20020a0dd903000000b005d34ef008bemr430303ywe.37.1701857254471;
+        Wed, 06 Dec 2023 02:07:34 -0800 (PST)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id g193-20020a8152ca000000b005d878b0c26fsm2387469ywb.3.2023.12.06.02.07.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Dec 2023 02:07:34 -0800 (PST)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-5d95a3562faso27027237b3.2;
+        Wed, 06 Dec 2023 02:07:34 -0800 (PST)
+X-Received: by 2002:a05:690c:c8a:b0:5d7:5dff:9e08 with SMTP id
+ cm10-20020a05690c0c8a00b005d75dff9e08mr471487ywb.93.1701857254030; Wed, 06
+ Dec 2023 02:07:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -41,137 +36,69 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20231115175146.9848-1-Nikolai.Kondrashov@redhat.com>
- <20231205184503.79769-1-Nikolai.Kondrashov@redhat.com> <20231205184503.79769-3-Nikolai.Kondrashov@redhat.com>
-In-Reply-To: <20231205184503.79769-3-Nikolai.Kondrashov@redhat.com>
-From: David Gow <davidgow@google.com>
-Date: Wed, 6 Dec 2023 16:12:09 +0800
-Message-ID: <CABVgOSnCNJcEfVp_k3emEHziYx55ecNaEj4fsbcfgrsCN4CrNQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 02/10] MAINTAINERS: Introduce V: entry for tests
-To: Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
-Cc: workflows@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Joe Perches <joe@perches.com>, Andy Whitcroft <apw@canonical.com>, "Theodore Ts'o" <tytso@mit.edu>, 
+ <20231205184503.79769-1-Nikolai.Kondrashov@redhat.com> <20231205184503.79769-5-Nikolai.Kondrashov@redhat.com>
+ <87zfyomq5k.fsf@meer.lwn.net> <fcc8a2d856dda4afbc85e70a36fc9ea903adc922.camel@perches.com>
+In-Reply-To: <fcc8a2d856dda4afbc85e70a36fc9ea903adc922.camel@perches.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 6 Dec 2023 11:07:23 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXxE4TjHFotaf1-JgnSibikk-xk1_W1e6F0o217-vq3Mg@mail.gmail.com>
+Message-ID: <CAMuHMdXxE4TjHFotaf1-JgnSibikk-xk1_W1e6F0o217-vq3Mg@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 04/10] docs: submitting-patches: Introduce Tested-with:
+To: Joe Perches <joe@perches.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>, 
+	workflows@vger.kernel.org, Andy Whitcroft <apw@canonical.com>, 
+	"Theodore Ts'o" <tytso@mit.edu>, David Gow <davidgow@google.com>, 
 	Steven Rostedt <rostedt@goodmis.org>, Mark Brown <broonie@kernel.org>, 
 	Shuah Khan <skhan@linuxfoundation.org>, "Darrick J . Wong" <djwong@kernel.org>, 
 	kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org, 
 	Veronika Kabatova <vkabatov@redhat.com>, CKI <cki-project@redhat.com>, kernelci@lists.linux.dev
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="0000000000000a0fe6060bd2e930"
-
---0000000000000a0fe6060bd2e930
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 6 Dec 2023 at 02:45, Nikolai Kondrashov
-<Nikolai.Kondrashov@redhat.com> wrote:
+On Tue, Dec 5, 2023 at 8:07=E2=80=AFPM Joe Perches <joe@perches.com> wrote:
+> On Tue, 2023-12-05 at 11:59 -0700, Jonathan Corbet wrote:
+> > Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com> writes:
+> >
+> > > Introduce a new tag, 'Tested-with:', documented in the
+> > > Documentation/process/submitting-patches.rst file.
+> []
+> > I have to ask whether we *really* need to introduce yet another tag for
+> > this.  How are we going to use this information?  Are we going to try t=
+o
+> > make a tag for every way in which somebody might test a patch?
 >
-> Introduce a new 'V:' ("Verify") entry to MAINTAINERS. The entry accepts
-> a test suite command which is proposed to be executed for each
-> contribution to the subsystem.
->
-> Extend scripts/get_maintainer.pl to support retrieving the V: entries
-> when '--test' option is specified.
->
-> Require the entry values to not contain the '@' character, so they could
-> be distinguished from emails (always) output by get_maintainer.pl. Make
-> scripts/checkpatch.pl check that they don't.
->
-> Update entry ordering in both scripts/checkpatch.pl and
-> scripts/parse-maintainers.pl.
->
-> Signed-off-by: Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
-> ---
+> In general, I think
+>         Link: <to some url test result>
+> would be good enough.
 
-I'm pretty happy with this personally, though I definitely think we
-need the support for tests which aren't just executable scripts (e.g.
-the docs in patch 6).
+Exactly.  And if you put the test results (or a link) in your patch
+below the "---", or in your cover letter, the "Link:" tag pointing to
+lore (or something else, unfortunately) that most (but unfortunately
+not all) maintainers already add when committing patches allows
+anyone to find it.
 
-The get_maintailer.pl bits, and hence the requirement to not include
-'@', feel a little bit 'off': I'd rather get_maintainer.pl kept emails
-and tests separate by some other means (either having --test _only_
-print tests, not emails at all, or by giving them a prefix like
-'TEST:' or something). But that is diverging more from the existing
-behaviour of get_maintainer.pl, so I could go either way.
+> And remember that all this goes stale after awhile
+> and that includes old test suites.
 
-Otherwise, this looks pretty good. I'll give it a proper test tomorrow
-alongside the other patches.
+Yeah...
 
-Cheers,
--- David
+Isn't the purpose of a "Tested-with:" tag just for the maintainer to
+know which patches have been tested with the test suite already, and
+which haven't?  I expect reviewers/maintainers to scrutinize (extra)
+patches that lack such a tag (or lack the same under the "---"),
+and/or run the test suite theirselves.
+I.e. does this serve any purpose _after_ the patch has been applied?
 
---0000000000000a0fe6060bd2e930
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+Gr{oetje,eeting}s,
 
-MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
-IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
-dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
-6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
-c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
-I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
-AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
-BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
-CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
-AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
-MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
-My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
-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
-ddIn9n5Jt6Z1o79zxraLMEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
-dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
-AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
-c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
-LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
-LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
-Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQBtHFwIgQZjer5K
-H+4Q+wns10k7qN+4wN2Uf+JsyOYjukaMEgdLErfA1wwtQ9uHkoYQZcWBuVVkQFa5hI+sqI2m1Weq
-riMCFSiU38s1tADdMX12IMfJRN60Nznhrw+nPyDRZqRhUTW24TwnHorkDnFPW8PHo7fAw4FrpI0n
-impZAng7ccvvK09K3ZuhwTIxJMsPXCZYsrXWORTw5sczRAP6XvKbPBJnsJoSTe5dFBPBHOQJOGhU
-qWfEfWnWMJPF3LxSGLpLFQXO3RwQqmxv08avwXfVPouh1xuB3FX7rpDabT8YDhu9JgIZkLEKko7L
-yQt6zWwng7k8YF/jGbiAta6VMYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
-R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
-MDIwAhABzgV+4+mJnUzG7XDy6d2uMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCC5
-frpM5s+CUCA22eqZxX97UypNIPo6SIptoHuGn3v9rjAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
-MBwGCSqGSIb3DQEJBTEPFw0yMzEyMDYwODEyMjFaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
-BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
-CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAFFQ7jjiyAZ3wB62FGaZY
-PON5cF2LX5hkNFBPXt2McMW3rxAgkS3jI9lFTexfmDS11kLwIwQN9ZR9X1azjTzoNHT1fLV+oehw
-gPJ30fckCQU5kmNozfvoQGfdC6tDalivJCYO7CdrmwOJ+8dcnrpZlWPM2KLWZN/r2blfIwIbKQxf
-qcl0/HHV1hmELSrj2zzkFAw3R/pILnY/w/Je3cnE2j88STMwDfdN8iVItD5sWO/9PFXoi1c/osGu
-VvWqO9D/e/f5sjhJIM1bD5AW9dnWH59wu+ipPCKbjwU120hHtjH3c72cZ3vtt1tl7woZFsMP15M0
-zuutKcFECxPkpQgh7g==
---0000000000000a0fe6060bd2e930--
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
