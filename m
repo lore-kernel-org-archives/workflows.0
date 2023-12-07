@@ -1,147 +1,138 @@
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F7331718;
-	Thu,  7 Dec 2023 09:58:23 -0800 (PST)
-Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-3b9d23c8bf7so820311b6e.0;
-        Thu, 07 Dec 2023 09:58:23 -0800 (PST)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="c8B/JvlL"
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AB8A1715
+	for <workflows@vger.kernel.org>; Thu,  7 Dec 2023 12:53:14 -0800 (PST)
+Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-9fa45e75ed9so157554866b.1
+        for <workflows@vger.kernel.org>; Thu, 07 Dec 2023 12:53:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1701982392; x=1702587192; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=oWIflf5hcpue6wGtlwNE/HkT4tbMsQSgIfDnrjtjjfg=;
+        b=c8B/JvlL241AVApFlMOMEU71qJxiM19TKArDurZrBANlu7YBhDBXwSgkbfua/d8XtZ
+         WfB9iTKD4UeUFE/1G8xm+4RNZWPdz87iSzi6rbarvzt1/pdZX4+ZJvEF8One39Dx8RGH
+         iiFln6d4IqKX/xXVK6Rwv2ppGNiVpwEFRMGos=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701971902; x=1702576702;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XlGlC1SkIL9mmE58AXO5RRQ634yhMDTeXthN1KRiRhM=;
-        b=oulV3p8FKKu1N+MwwHPqu8KgOslcNAkL3l2U1hkNhCEQhnIDKEHgmWXr7RZJ8S46EI
-         ITOYSAEk4Z/PLR4NXDtMO9PeiITRrqLn+3IG3TbUlmo7FHXjB6z1nKyHE5/a9HPFRyzy
-         8tKp9VIel2Ea3fWNQgHaf3LOUS6fR4bDt/ksslyWhWOKdn5o65tsOboaa5nxcxplMRGb
-         nYIuwlxyf76ZJvDIsNaR6pgl9dAdfaQPrDj4QUIBmkWebf6VdaPDK5NlgcAY50ITW6G6
-         wY8laqR6eXehqLe3rt/0zrDQP+gOTax6M/lnwVnTMVN19NYHIneOSYooSipUvp4HFr7b
-         L4fw==
-X-Gm-Message-State: AOJu0YyKMNGpq2OUlT6gGqYKe8COqKy4af05z06ZQ4dicF+4lu+I2vL9
-	NNOtx1+6gE+uAq2zjPSPoAra5JkGrA==
-X-Google-Smtp-Source: AGHT+IHxq2Dw8sFsLLI+z4S9TgWxaf6l0cocAGF+yc2TisyC49euiJvcC1n+Yr/0HeIX18RO0y1CyA==
-X-Received: by 2002:a05:6870:390c:b0:1fa:fee1:6f1e with SMTP id b12-20020a056870390c00b001fafee16f1emr3075427oap.10.1701971902619;
-        Thu, 07 Dec 2023 09:58:22 -0800 (PST)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id k29-20020a05687022dd00b001fb0edac63csm58231oaf.6.2023.12.07.09.58.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Dec 2023 09:58:22 -0800 (PST)
-Received: (nullmailer pid 2977746 invoked by uid 1000);
-	Thu, 07 Dec 2023 17:58:20 -0000
-Date: Thu, 7 Dec 2023 11:58:20 -0600
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Nishanth Menon <nm@ti.com>, linux-mediatek@lists.infradead.org, 
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Olof Johansson <olof@lixom.net>, linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Andrew Davis <afd@ti.com>, Andrew Lunn <andrew@lunn.ch>, linux-rockchip@lists.infradead.org, 
-	Michal Simek <michal.simek@amd.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Konrad Dybcio <konradybcio@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-amlogic@lists.infradead.org, 
-	Bjorn Andersson <andersson@kernel.org>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>, 
-	linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	workflows@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, devicetree@vger.kernel.org, 
-	Heiko Stuebner <heiko@sntech.de>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Conor Dooley <conor+dt@kernel.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH v4] docs: dt-bindings: add DTS Coding Style document
-Message-ID: <170197172648.2974247.13097453111547800548.robh@kernel.org>
-References: <20231203174622.18402-1-krzysztof.kozlowski@linaro.org>
+        d=1e100.net; s=20230601; t=1701982392; x=1702587192;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oWIflf5hcpue6wGtlwNE/HkT4tbMsQSgIfDnrjtjjfg=;
+        b=nHGGO/b6sBZbUDq5GwMbmdwivsT0hXT5XMUBtGc6J7m6zziCph5fgph8tCT7CAdHK4
+         iG7Yzm2GYA8PeNte4tTxY65lb4Mkhr9paVSL7aEli6OtHMzRt1v/U0xoWYvWgKtUpdY1
+         hw+9ZmYwCTRt8HBZYqZfMZXV0fQ86NWLk1W+b9JA2u34rm3jYo4/9OtnZgaPU+n7MUpB
+         HD9arM3Kr0MY3wzybutRmn7TN1fxPEwqwgvEaFS6XakOuhvQ7VPutkLqoIu1cplg6ecf
+         7mA1dwVauyQYOSDfL8mdjXumGOWF4MIyrk196+nVj8pzRc3oVcfuXa7ohJW0at+Cta/Z
+         hzEQ==
+X-Gm-Message-State: AOJu0YylbNGIR1UipxFW4z6Tn/kd1sJMoLqJZJE1LjYTzyIZxA7D/mFm
+	sPJrXRBXAzMERP1LSnYozLda7/yLo5HD8V/0nyRIMA==
+X-Google-Smtp-Source: AGHT+IGlqecBeKpKJsPolkl+LHqMluq7H92QsuDLPCGLyyt/tYoOLIFC7+pQZSilRLUlakLEfiXMyZjPKdw0aG6O2m4=
+X-Received: by 2002:a17:907:2948:b0:a19:a19a:eac0 with SMTP id
+ et8-20020a170907294800b00a19a19aeac0mr1471204ejc.121.1701982392232; Thu, 07
+ Dec 2023 12:53:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231203174622.18402-1-krzysztof.kozlowski@linaro.org>
+References: <20231202035511.487946-1-sjg@chromium.org> <20231202035511.487946-3-sjg@chromium.org>
+ <20231203153401.GV8402@pendragon.ideasonboard.com> <20231207142723.GA3187877@google.com>
+ <20231207143814.GD15521@pendragon.ideasonboard.com>
+In-Reply-To: <20231207143814.GD15521@pendragon.ideasonboard.com>
+From: Simon Glass <sjg@chromium.org>
+Date: Thu, 7 Dec 2023 13:52:53 -0700
+Message-ID: <CAPnjgZ1q3yBeyYfjLumJ03HR7JM1xwN7sMbNJqfUWpsVxFTs4Q@mail.gmail.com>
+Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Chen-Yu Tsai <wenst@chromium.org>, linux-arm-kernel@lists.infradead.org, 
+	Masahiro Yamada <masahiroy@kernel.org>, Ahmad Fatoum <a.fatoum@pengutronix.de>, 
+	U-Boot Mailing List <u-boot@lists.denx.de>, Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+Hi,
 
-On Sun, 03 Dec 2023 18:46:22 +0100, Krzysztof Kozlowski wrote:
-> Document preferred coding style for Devicetree sources (DTS and DTSI),
-> to bring consistency among all (sub)architectures and ease in reviews.
-> 
-> Cc: Andrew Davis <afd@ti.com>
-> cc: Andrew Lunn <andrew@lunn.ch>
-> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Bjorn Andersson <andersson@kernel.org>
-> Cc: Chen-Yu Tsai <wens@kernel.org>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Matthias Brugger <matthias.bgg@gmail.com>
-> Cc: Michal Simek <michal.simek@amd.com>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Nishanth Menon <nm@ti.com>
-> Cc: Olof Johansson <olof@lixom.net>
-> Cc: Rafał Miłecki <zajec5@gmail.com>
-> Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
-> Acked-by: Heiko Stuebner <heiko@sntech.de>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Acked-by: Konrad Dybcio <konradybcio@kernel.org>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> ---
-> 
-> Merging idea: Rob/DT bindings
-> 
-> Changes in v4
-> =============
-> 1. Drop label at the top (Jon)
-> 2. Grammar fixes (Laurent, Dragan)
-> 3. "Unless a bus defines differently, unit addresses shall ..." (Rob)
-> 4. Use hex in example of dma-controller (Andrew)
-> 5. Example: soc@ -> soc@0
-> 6. Reverse points 2 and 3 in "Indentation" (Andrew)
-> 7. Use full path to coding style doc (Conor)
-> 
-> Changes in v3
-> =============
-> 1. should->shall (Angelo)
-> 2. Comments // -> /* (Angelo, Michal)
-> 3. Use imaginary example in "Order of Properties in Device Node"
->    (Angelo)
-> 4. Added paragraphs for three sections with justifications of chosen
->    style.
-> 5. Allow two style of ordering overrides in board DTS: alphabetically or
->    by order of DTSI (Rob).
-> 6. I did not incorporate feedback about, due to lack of consensus and my
->    disagreement:
->    a. SoM being DTS without DTSI in "Organizing DTSI and DTS"
-> 
-> Changes in v2
-> =============
-> 1. Hopefully incorporate entire feedback from comments:
-> a. Fix \ { => / { (Rob)
-> b. Name: dts-coding-style (Rob)
-> c. Exceptions for ordering nodes by name for Renesas and pinctrl (Geert,
->    Konrad)
-> d. Ordering properties by common/vendor (Rob)
-> e. Array entries in <> (Rob)
-> 
-> 2. New chapter: Organizing DTSI and DTS
-> 
-> 3. Several grammar fixes (missing articles)
-> 
-> Cc: linux-rockchip@lists.infradead.org
-> Cc: linux-mediatek@lists.infradead.org
-> Cc: linux-samsung-soc@vger.kernel.org
-> Cc: linux-amlogic@lists.infradead.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: workflows@vger.kernel.org
-> Cc: linux-doc@vger.kernel.org
-> ---
->  .../devicetree/bindings/dts-coding-style.rst  | 196 ++++++++++++++++++
->  Documentation/devicetree/bindings/index.rst   |   1 +
->  2 files changed, 197 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/dts-coding-style.rst
-> 
+On Thu, 7 Dec 2023 at 07:38, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> On Thu, Dec 07, 2023 at 10:27:23PM +0800, Chen-Yu Tsai wrote:
+> > On Sun, Dec 03, 2023 at 05:34:01PM +0200, Laurent Pinchart wrote:
+> > > Hi Simon,
+> > >
+> > > Thank you for the patch.
+> > >
+> > > On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
+> > > > Add a script which produces a Flat Image Tree (FIT), a single file
+> > > > containing the built kernel and associated devicetree files.
+> > > > Compression defaults to gzip which gives a good balance of size and
+> > > > performance.
+> > > >
+> > > > The files compress from about 86MB to 24MB using this approach.
+> > > >
+> > > > The FIT can be used by bootloaders which support it, such as U-Boot
+> > > > and Linuxboot. It permits automatic selection of the correct
+> > > > devicetree, matching the compatible string of the running board with
+> > > > the closest compatible string in the FIT. There is no need for
+> > > > filenames or other workarounds.
+> > > >
+> > > > Add a 'make image.fit' build target for arm64, as well. Use
+> > > > FIT_COMPRESSION to select a different algorithm.
+> > > >
+> > > > The FIT can be examined using 'dumpimage -l'.
+> > > >
+> > > > This features requires pylibfdt (use 'pip install libfdt'). It also
+> > > > requires compression utilities for the algorithm being used. Supported
+> > > > compression options are the same as the Image.xxx files. For now there
+> > > > is no way to change the compression other than by editing the rule for
+> > > > $(obj)/image.fit
+> > > >
+> > > > While FIT supports a ramdisk / initrd, no attempt is made to support
+> > > > this here, since it must be built separately from the Linux build.
+> > >
+> > > FIT images are very useful, so I think this is a very welcome addition
+> > > to the kernel build system. It can get tricky though: given the
+> > > versatile nature of FIT images, there can't be any
+> > > one-size-fits-them-all solution to build them, and striking the right
+> > > balance between what makes sense for the kernel and the features that
+> > > users may request will probably lead to bikeshedding. As we all love
+> > > bikeshedding, I thought I would start selfishly, with a personal use
+> > > case :-) This isn't a yak-shaving request though, I don't see any reason
+> > > to delay merging this series.
+> > >
+> > > Have you envisioned building FIT images with a subset of DTBs, or adding
+> > > DTBOs ? Both would be fairly trivial extensions to this script by
+> > > extending the supported command line arguments. It would perhaps be more
+> > > difficult to integrate in the kernel build system though. This leads me
+> > > to a second question: would you consider merging extensions to this
+> > > script if they are not used by the kernel build system, but meant for
+> > > users who manually invoke the script ? More generally, is the script
+> >
+> > We'd also be interested in some customization, though in a different way.
+> > We imagine having a rule file that says X compatible string should map
+> > to A base DTB, plus B and C DTBO for the configuration section. The base
+> > DTB would carry all common elements of some device, while the DTBOs
+> > carry all the possible second source components, like different display
+> > panels or MIPI cameras for instance. This could drastically reduce the
+> > size of FIT images in ChromeOS by deduplicating all the common stuff.
+>
+> Do you envision the "mapping" compatible string mapping to a config
+> section in the FIT image, that would bundle the base DTB and the DTBOs ?
+>
+> > > meant to be used stand-alone as well, in which case its command line
+> > > arguments need to remain backward-compatible, or do you see it as being
+> > > internal to the kernel ?
 
-I added the quotes as discussed and applied, thanks!
+It is great to see all this discussion! I did send a proposal to the
+U-Boot ML about extensions but it was mixed up with other things, so
+I'll start a new thread.
 
-Rob
+For now, I am really just waiting for this to be applied, before
+talking too much about future possibilities.
+
+Regards,
+SImon
