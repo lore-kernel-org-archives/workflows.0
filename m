@@ -1,131 +1,131 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AYpWgT9A"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF71DD3
-	for <workflows@vger.kernel.org>; Wed,  6 Dec 2023 08:57:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701881867;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oFeuJtK+zmdF2DRGAJQr++0Z9wdgk0HTu1uHhXoKQ9I=;
-	b=AYpWgT9APhYbcdvUtZ2PO+nt5uloYTncpsnQa77VsJTYiNE8gBgi8HaSNaLx2YVeNLmvwk
-	ROSHw0b7DCjnOyatdemUIOOAotR++VTOYSxCDS0vjv6bu1j2de34rkSrH6aLYpbaX/KzbZ
-	48vRqntzg7rx1pBV5cY5deUNIb2qmno=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-392-zgxqtKM1PHi-MVXz3Buzsw-1; Wed, 06 Dec 2023 11:57:45 -0500
-X-MC-Unique: zgxqtKM1PHi-MVXz3Buzsw-1
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-33353f98b7bso7355f8f.0
-        for <workflows@vger.kernel.org>; Wed, 06 Dec 2023 08:57:45 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="S/HaNrIl"
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B64A10E6
+	for <workflows@vger.kernel.org>; Thu,  7 Dec 2023 06:27:28 -0800 (PST)
+Received: by mail-pj1-x102e.google.com with SMTP id 98e67ed59e1d1-286e57fde73so827050a91.1
+        for <workflows@vger.kernel.org>; Thu, 07 Dec 2023 06:27:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1701959248; x=1702564048; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=FnUqi8dAEgGMyEzBxdD28hEtaCGQO1gXXHV0T1kN7CU=;
+        b=S/HaNrIlZ1DvlTNB0E5lv/B/jagUzSzYVkBFDPkoNIN1LiRa1I0xHQINUKVCg0TNSR
+         SM8n1x6D6WJHzB+l3IkgyqBLYA5Jz9TniilXPvrPTiF/RF22DXM2XhS7PgktPvNbpLWh
+         eQy/d/QFNFVcy+m/YZA/NdrB5w7zq9ehc4c6U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701881864; x=1702486664;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oFeuJtK+zmdF2DRGAJQr++0Z9wdgk0HTu1uHhXoKQ9I=;
-        b=cS6F/qscvtyVhiH2JAcwRmLeW5+en7rkVokCbDItLvgIILZVTgMCnluUe+XoyNBZRC
-         BW/CTgjMy40kkO6jU3zIwYcBYlh2IxlP1wSd2uZxsC06l5AFhK3RaFbnc97rnl11iUcw
-         wLAc+sKSLrMxgg+vtThyva4v4z8GkoHiFp93IrkwmZQ7CcLWZ/0M6XI+Nn/5Tv05xL8D
-         SGIuo59KBfNwd7/w1ub9UAO86KcE3a6iCqwyAJWtvnNSae3zI8zXTdUfatLHB601aiSB
-         wgHDlFxWZ1/ZzgyqZ7u/HUhtoQsmhSlP8jyWXMCMSav2YXoqmtlTlWccTfcPSaFQUMW0
-         vemA==
-X-Gm-Message-State: AOJu0Yzu6BNePJ+WMAfzXJaDhspoHLw+lIqOKAgwEl9ahFZCE1mpyKCq
-	0SwUDjNsR7GP0597hpwrbgOTLvCzKi8RO+ZZ++7E5xlYa3wBhB4UWrIbp7epczliuAAAG/5YpnU
-	WkQgy55YxaOqtSd/5EVtd
-X-Received: by 2002:a5d:56cf:0:b0:333:1adc:a37b with SMTP id m15-20020a5d56cf000000b003331adca37bmr630982wrw.5.1701881864144;
-        Wed, 06 Dec 2023 08:57:44 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEP4MRv6FtBdsWsfM6nYWwuBr+Be/E9MbySQYUrXe/MmZeAqmbZdu0rtf327EL+KMbRwVwS1w==
-X-Received: by 2002:a5d:56cf:0:b0:333:1adc:a37b with SMTP id m15-20020a5d56cf000000b003331adca37bmr630971wrw.5.1701881863851;
-        Wed, 06 Dec 2023 08:57:43 -0800 (PST)
-Received: from [192.168.0.118] (88-113-27-52.elisa-laajakaista.fi. [88.113.27.52])
-        by smtp.gmail.com with ESMTPSA id g17-20020adfa491000000b003333541a5bdsm119315wrb.80.2023.12.06.08.57.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Dec 2023 08:57:43 -0800 (PST)
-Message-ID: <ba60bfe4-939b-4d7b-b7a5-1a8309045767@redhat.com>
-Date: Wed, 6 Dec 2023 18:57:41 +0200
+        d=1e100.net; s=20230601; t=1701959248; x=1702564048;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FnUqi8dAEgGMyEzBxdD28hEtaCGQO1gXXHV0T1kN7CU=;
+        b=H3KktKNiaqfJp8kT61p0qelmDQzQYROQ7SfNKVJ6G2Rp6GrwnsV+5nzdcItsC84CEv
+         BsDc9ytIKKXvdTs1+lX3MAetVQpQAub/EFYSHta/xeR1DDNdjqKVxE1R6YLN2FmayYTp
+         lqQU/DeVstQGRZ/96h7iPJ0mjFlIGfj7s8EspvBEMdtXhxoqCa+uKQEH0fkBUUdc9ABO
+         RxoPtO6PyHznnRhk0mgm5L17kTNUUV4CgVEn9TFHa0ZzOhg7wcAwTrijOIM0MfvjAZJL
+         9x+B3RMMkb9FePHrUjnhnsBvojMPWHvRROIPc7zACEprYwAbl4Mmlg4U7aPF7miKgcGo
+         ag/Q==
+X-Gm-Message-State: AOJu0YxVuujnFcOS9wYRE8rL96WdPs2PmW+ARMZPGDxCeH55WUevO8if
+	u86etU9RXQbQEk5OBLKSvcNGDg==
+X-Google-Smtp-Source: AGHT+IH8AzbuT3bEW5QtQ3VpbuixskHTKbrXXL1zs3HHhHdzRy4lAaYreOoFMvEXA8A9ADp82mykHw==
+X-Received: by 2002:a17:90a:e009:b0:286:6cc0:b918 with SMTP id u9-20020a17090ae00900b002866cc0b918mr2087016pjy.79.1701959247711;
+        Thu, 07 Dec 2023 06:27:27 -0800 (PST)
+Received: from google.com ([2401:fa00:1:10:e0f4:e383:e626:f567])
+        by smtp.gmail.com with ESMTPSA id d15-20020a170902654f00b001cfc2d024edsm1507200pln.29.2023.12.07.06.27.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Dec 2023 06:27:27 -0800 (PST)
+Date: Thu, 7 Dec 2023 22:27:23 +0800
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Simon Glass <sjg@chromium.org>, linux-arm-kernel@lists.infradead.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	U-Boot Mailing List <u-boot@lists.denx.de>,
+	Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
+Message-ID: <20231207142723.GA3187877@google.com>
+References: <20231202035511.487946-1-sjg@chromium.org>
+ <20231202035511.487946-3-sjg@chromium.org>
+ <20231203153401.GV8402@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 02/10] MAINTAINERS: Introduce V: entry for tests
-Content-Language: en-US
-To: Joe Perches <joe@perches.com>, David Gow <davidgow@google.com>
-Cc: workflows@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Andy Whitcroft <apw@canonical.com>, Theodore Ts'o <tytso@mit.edu>,
- Steven Rostedt <rostedt@goodmis.org>, Mark Brown <broonie@kernel.org>,
- Shuah Khan <skhan@linuxfoundation.org>, "Darrick J . Wong"
- <djwong@kernel.org>, kunit-dev@googlegroups.com,
- linux-kselftest@vger.kernel.org, Veronika Kabatova <vkabatov@redhat.com>,
- CKI <cki-project@redhat.com>, kernelci@lists.linux.dev
-References: <20231115175146.9848-1-Nikolai.Kondrashov@redhat.com>
- <20231205184503.79769-1-Nikolai.Kondrashov@redhat.com>
- <20231205184503.79769-3-Nikolai.Kondrashov@redhat.com>
- <CABVgOSnCNJcEfVp_k3emEHziYx55ecNaEj4fsbcfgrsCN4CrNQ@mail.gmail.com>
- <f64c8105-5373-4dfb-b48c-655221accd19@redhat.com>
- <9b45b0ebce3457c22aa456779aa1a5244b8ef6ad.camel@perches.com>
-From: Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
-In-Reply-To: <9b45b0ebce3457c22aa456779aa1a5244b8ef6ad.camel@perches.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231203153401.GV8402@pendragon.ideasonboard.com>
 
-On 12/6/23 18:38, Joe Perches wrote:
-> On Wed, 2023-12-06 at 18:23 +0200, Nikolai Kondrashov wrote:
->> On 12/6/23 10:12, David Gow wrote:
->>> I'm pretty happy with this personally, though I definitely think we
->>> need the support for tests which aren't just executable scripts (e.g.
->>> the docs in patch 6).
->>>
->>> The get_maintailer.pl bits, and hence the requirement to not include
->>> '@', feel a little bit 'off': I'd rather get_maintainer.pl kept emails
->>> and tests separate by some other means (either having --test _only_
->>> print tests, not emails at all, or by giving them a prefix like
->>> 'TEST:' or something). But that is diverging more from the existing
->>> behaviour of get_maintainer.pl, so I could go either way.
->>>
->>> Otherwise, this looks pretty good. I'll give it a proper test tomorrow
->>> alongside the other patches.
->>
->> Thanks for the review, David!
->>
->> Yeah, I don't like the '@' bit myself, but it seems to be the path of least
->> resistance right now (not necessarily the best one, of course).
->>
->> I'm up for adding an option to get_maintainer.pl that disables email output,
->> if people like that, though.
+On Sun, Dec 03, 2023 at 05:34:01PM +0200, Laurent Pinchart wrote:
+> Hi Simon,
 > 
-> That already exists though I don't understand the
-> specific requirement here
+> Thank you for the patch.
 > 
-> --nom --nol --nor
+> On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
+> > Add a script which produces a Flat Image Tree (FIT), a single file
+> > containing the built kernel and associated devicetree files.
+> > Compression defaults to gzip which gives a good balance of size and
+> > performance.
+> > 
+> > The files compress from about 86MB to 24MB using this approach.
+> > 
+> > The FIT can be used by bootloaders which support it, such as U-Boot
+> > and Linuxboot. It permits automatic selection of the correct
+> > devicetree, matching the compatible string of the running board with
+> > the closest compatible string in the FIT. There is no need for
+> > filenames or other workarounds.
+> > 
+> > Add a 'make image.fit' build target for arm64, as well. Use
+> > FIT_COMPRESSION to select a different algorithm.
+> > 
+> > The FIT can be examined using 'dumpimage -l'.
+> > 
+> > This features requires pylibfdt (use 'pip install libfdt'). It also
+> > requires compression utilities for the algorithm being used. Supported
+> > compression options are the same as the Image.xxx files. For now there
+> > is no way to change the compression other than by editing the rule for
+> > $(obj)/image.fit
+> > 
+> > While FIT supports a ramdisk / initrd, no attempt is made to support
+> > this here, since it must be built separately from the Linux build.
 > 
-> from
-> $ ./scripts/get_maintainer.pl --help
-> []
->      --m => include maintainer(s) if any
->      --r => include reviewer(s) if any
->      --n => include name 'Full Name <addr@domain.tld>'
->      --l => include list(s) if any
-> []
->     Most options have both positive and negative forms.
->        The negative forms for --<foo> are --no<foo> and --no-<foo>.
+> FIT images are very useful, so I think this is a very welcome addition
+> to the kernel build system. It can get tricky though: given the
+> versatile nature of FIT images, there can't be any
+> one-size-fits-them-all solution to build them, and striking the right
+> balance between what makes sense for the kernel and the features that
+> users may request will probably lead to bikeshedding. As we all love
+> bikeshedding, I thought I would start selfishly, with a personal use
+> case :-) This isn't a yak-shaving request though, I don't see any reason
+> to delay merging this series.
 > 
+> Have you envisioned building FIT images with a subset of DTBs, or adding
+> DTBOs ? Both would be fairly trivial extensions to this script by
+> extending the supported command line arguments. It would perhaps be more
+> difficult to integrate in the kernel build system though. This leads me
+> to a second question: would you consider merging extensions to this
+> script if they are not used by the kernel build system, but meant for
+> users who manually invoke the script ? More generally, is the script
 
-Thanks, Joe!
+We'd also be interested in some customization, though in a different way.
+We imagine having a rule file that says X compatible string should map
+to A base DTB, plus B and C DTBO for the configuration section. The base
+DTB would carry all common elements of some device, while the DTBOs
+carry all the possible second source components, like different display
+panels or MIPI cameras for instance. This could drastically reduce the
+size of FIT images in ChromeOS by deduplicating all the common stuff.
 
-Yeah, I already explored that way, but it seems to be explicitly forbidden:
+> meant to be used stand-alone as well, in which case its command line
+> arguments need to remain backward-compatible, or do you see it as being
+> internal to the kernel ?
 
-$ scripts/get_maintainer.pl --nom --nol --nor 
-0001-dt-bindings-mailbox-convert-bcm2835-mbox-bindings-to.patch
-scripts/get_maintainer.pl: Please select at least 1 email option
+[...]
 
-So, I assumed there is a reason and an intention behind this behavior and went 
-the other way.
-
-Nick
-
+ChenYu
