@@ -1,101 +1,171 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Iy/OVlRw"
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6142F137;
-	Sat,  9 Dec 2023 00:17:55 -0800 (PST)
-Received: by mail-io1-xd2f.google.com with SMTP id ca18e2360f4ac-7b459364167so101269239f.2;
-        Sat, 09 Dec 2023 00:17:55 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KXAPKAVA"
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26486D0
+	for <workflows@vger.kernel.org>; Sat,  9 Dec 2023 05:14:13 -0800 (PST)
+Received: by mail-lj1-x236.google.com with SMTP id 38308e7fff4ca-2c9f4bb2e5eso39873271fa.1
+        for <workflows@vger.kernel.org>; Sat, 09 Dec 2023 05:14:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702109874; x=1702714674; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Vw90yWCuaFmFuU5ynluaqiB/yx3h4VMDt+wN5n9OLZo=;
-        b=Iy/OVlRwshQzUTtWU/6YkQlBVQndchtPGKn5LPQOTU+UtzmRMl9BheydRFfJjxY0ki
-         NgjIGjpicQrVz/ThjyDFkgfQkxR6fS8IDBHEdEBCFUxSbwRXlGNSXZxUrsrgRPW3dGcc
-         OrPYADILpBWM7Opa68JLHD2f5F7pvu+X6Diquvn6KdgXyzEiCbCBovwtO+xuTys4V6nR
-         Nmp3bGcTuRZOIP+n8tascYPr3ZZBs72LYArpLYilNOkEUcq/Y0KMAny+L11nUcPSmqOl
-         +DoeWdQGuROUjS4noksrVt7oNB950jWvMIbFqtn2ifkqLROERuby+t+LWzOX+a5jqazh
-         3pPA==
+        d=chromium.org; s=google; t=1702127651; x=1702732451; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yAnV5/VTJKO+oXGb78o4eRSh3GZ7EBZgVLaL6KtYl8o=;
+        b=KXAPKAVAc7wNlN5y2GrIBSNRaMkgKppLh4IRUh4onAQGpPBkV9FbAkZfkt8b1tz/Ty
+         THon9jcecnDyGQS4mZQnZiGXd3ZZjoMJOnX4ZRTAmN4e+Py1vRIyzAVib/g0hgaMoeOP
+         /bptrp2dcSKiX3K5Mgo+itzxLU9YhXwUnKLgU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702109874; x=1702714674;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vw90yWCuaFmFuU5ynluaqiB/yx3h4VMDt+wN5n9OLZo=;
-        b=FiirOgqac7w/5p182w4onO4gLHGHIDOo7HLNW96NJkFOcnyI+30n4jm7+vPDjDXPiF
-         o37ePyG5XeGpK4yKMZn/gp8BudkFDrNsP/Z2MkT0DlQrg4w4NyjaimDMvUzlvmhFnUYW
-         /gg0IUGc10of5HNKZAytsHT3mZcC/Z6MtCBQrt9iGntOdKgaXA1p+7f1SiHbsng1rtnv
-         SH95B+JlKedCoTTuvSHndFYlsTKzXv37MupmH/Z83US48Sbg356eoUhx8hVMjWpvVgaV
-         JNYS4nL11zYgCjlDokvh0/Xw2Oaidc5a1FcndI3K9U4zcSKJjoN1BQ30RTqwipMOMzNG
-         gXzA==
-X-Gm-Message-State: AOJu0YzSs+bhVcKJo0ZUOcAjEjSbCtGI+jusaUd/XPHJFfY/mxgABjsV
-	ZTITDdvP40cBKcwPoyU/HFc=
-X-Google-Smtp-Source: AGHT+IH+cfKMv3xgzol2WOJ5lHJEvCMIaTKT9Wtn+aUdjQMts0DLGgqa340rZK08kW9nmq1E578iKQ==
-X-Received: by 2002:a05:6e02:16cb:b0:35d:9344:b033 with SMTP id 11-20020a056e0216cb00b0035d9344b033mr1454323ilx.12.1702109874647;
-        Sat, 09 Dec 2023 00:17:54 -0800 (PST)
-Received: from [192.168.0.106] ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id k10-20020a170902694a00b001d1c96a0c63sm2863886plt.274.2023.12.09.00.17.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 09 Dec 2023 00:17:54 -0800 (PST)
-Message-ID: <9573bd00-7b9e-40d0-9229-f273bf4e6a16@gmail.com>
-Date: Sat, 9 Dec 2023 15:17:29 +0700
+        d=1e100.net; s=20230601; t=1702127651; x=1702732451;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yAnV5/VTJKO+oXGb78o4eRSh3GZ7EBZgVLaL6KtYl8o=;
+        b=FEvNvimTpnTITCDBhYGW/w75PQPC1tLOBFXfthm+lF9zmR/IW+RQUY7jlyaaZG/YGP
+         lQyAy0VdNOgip/aswpnMCakrwxf0wcyYPnfod4POx2mWCZs3pPfAqPBiXskCsGVzmRBK
+         MYWlxDt3c3CqIh11Jjypy/A68P3W0GXlFQWWPOEcHPdQEI9ATbQLGf3FqNvfMqkXn47V
+         5N3gVnrHGQXikMYD0Af9uwNkzA67VvqeQMr7fmR9S0O2K0tiH7flyXkAL6L3oV+ZPRrx
+         +mr013jUmVq6JLm60FQTFZri/z255hGbWFvOSDEbthPZXDnIy07tfylElT2RBhBLiK+h
+         xe+w==
+X-Gm-Message-State: AOJu0YxFhrJ5YmUEkv6nXlM0oADueZCmhUOgfzDpMcgb+GukC8ZbAHpV
+	13VHu0tLza5O9lJ9bV4qHv1JYW5OIbJt4DTMNj7dig==
+X-Google-Smtp-Source: AGHT+IGeCP4QFN7ZgQJeFnN7faugEryNKJ80Nvg0QuCcVgGBL3GaaL9QrMygC+jl/dS1Ke3ms4zU355E0zK8lA+JEz0=
+X-Received: by 2002:ac2:4acf:0:b0:50b:f8d8:b176 with SMTP id
+ m15-20020ac24acf000000b0050bf8d8b176mr648422lfp.124.1702127651029; Sat, 09
+ Dec 2023 05:14:11 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] Documentation: xfs: consolidate XFS docs into its own
- subdirectory
-Content-Language: en-US
-To: Chandan Babu R <chandan.babu@oracle.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, "Darrick J. Wong" <djwong@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux XFS <linux-xfs@vger.kernel.org>,
- Linux Kernel Workflows <workflows@vger.kernel.org>,
- Namjae Jeon <linkinjeon@kernel.org>, Dave Chinner <dchinner@redhat.com>,
- Steve French <stfrench@microsoft.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Allison Henderson <allison.henderson@oracle.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Charles Han <hanchunchao@inspur.com>,
- Vegard Nossum <vegard.nossum@oracle.com>
-References: <20231129123947.4706-1-bagasdotme@gmail.com>
- <ZXP6kzbfUcLbBtCi@archie.me>
- <874jgryf8d.fsf@debian-BULLSEYE-live-builder-AMD64>
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <874jgryf8d.fsf@debian-BULLSEYE-live-builder-AMD64>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20231202035511.487946-1-sjg@chromium.org> <20231202035511.487946-3-sjg@chromium.org>
+ <20231203153401.GV8402@pendragon.ideasonboard.com> <20231207142723.GA3187877@google.com>
+ <20231207143814.GD15521@pendragon.ideasonboard.com>
+In-Reply-To: <20231207143814.GD15521@pendragon.ideasonboard.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Sat, 9 Dec 2023 22:13:59 +0900
+Message-ID: <CAGXv+5Go_0pEVAOLQmRCc_a9-YUtZEmBfXtMuBupX_nb9iqwbw@mail.gmail.com>
+Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Simon Glass <sjg@chromium.org>, linux-arm-kernel@lists.infradead.org, 
+	Masahiro Yamada <masahiroy@kernel.org>, Ahmad Fatoum <a.fatoum@pengutronix.de>, 
+	U-Boot Mailing List <u-boot@lists.denx.de>, Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 12/9/23 15:00, Chandan Babu R wrote:
-> On Sat, Dec 09, 2023 at 12:26:43 PM +0700, Bagas Sanjaya wrote:
->> [[PGP Signed Part:No public key for F6B9894955514EA3 created at 2023-12-09T10:56:39+0530 using EDDSA]]
->> On Wed, Nov 29, 2023 at 07:39:47PM +0700, Bagas Sanjaya wrote:
->>> XFS docs are currently in upper-level Documentation/filesystems.
->>> Although these are currently 4 docs, they are already outstanding as
->>> a group and can be moved to its own subdirectory.
->>>
->>> Consolidate them into Documentation/filesystems/xfs/.
->>>
->>> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
->>
->> Hi Jon, Chandan, and Darrick,
->>
->> FYI, XFS tree [1] is not updated since 2 weeks ago (and this patch doesn't get
->> picked up). Would you like to route this patch through docs-next tree or
->> xfs/for-next?
->>
-> 
-> This patch is part of a collection of patches that I am planning to include in
-> the pull request for v6.8-rc1. I am currently running fstests to make sure
-> that there are no regressions.
-> 
+On Thu, Dec 7, 2023 at 11:38=E2=80=AFPM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> On Thu, Dec 07, 2023 at 10:27:23PM +0800, Chen-Yu Tsai wrote:
+> > On Sun, Dec 03, 2023 at 05:34:01PM +0200, Laurent Pinchart wrote:
+> > > Hi Simon,
+> > >
+> > > Thank you for the patch.
+> > >
+> > > On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
+> > > > Add a script which produces a Flat Image Tree (FIT), a single file
+> > > > containing the built kernel and associated devicetree files.
+> > > > Compression defaults to gzip which gives a good balance of size and
+> > > > performance.
+> > > >
+> > > > The files compress from about 86MB to 24MB using this approach.
+> > > >
+> > > > The FIT can be used by bootloaders which support it, such as U-Boot
+> > > > and Linuxboot. It permits automatic selection of the correct
+> > > > devicetree, matching the compatible string of the running board wit=
+h
+> > > > the closest compatible string in the FIT. There is no need for
+> > > > filenames or other workarounds.
+> > > >
+> > > > Add a 'make image.fit' build target for arm64, as well. Use
+> > > > FIT_COMPRESSION to select a different algorithm.
+> > > >
+> > > > The FIT can be examined using 'dumpimage -l'.
+> > > >
+> > > > This features requires pylibfdt (use 'pip install libfdt'). It also
+> > > > requires compression utilities for the algorithm being used. Suppor=
+ted
+> > > > compression options are the same as the Image.xxx files. For now th=
+ere
+> > > > is no way to change the compression other than by editing the rule =
+for
+> > > > $(obj)/image.fit
+> > > >
+> > > > While FIT supports a ramdisk / initrd, no attempt is made to suppor=
+t
+> > > > this here, since it must be built separately from the Linux build.
+> > >
+> > > FIT images are very useful, so I think this is a very welcome additio=
+n
+> > > to the kernel build system. It can get tricky though: given the
+> > > versatile nature of FIT images, there can't be any
+> > > one-size-fits-them-all solution to build them, and striking the right
+> > > balance between what makes sense for the kernel and the features that
+> > > users may request will probably lead to bikeshedding. As we all love
+> > > bikeshedding, I thought I would start selfishly, with a personal use
+> > > case :-) This isn't a yak-shaving request though, I don't see any rea=
+son
+> > > to delay merging this series.
+> > >
+> > > Have you envisioned building FIT images with a subset of DTBs, or add=
+ing
+> > > DTBOs ? Both would be fairly trivial extensions to this script by
+> > > extending the supported command line arguments. It would perhaps be m=
+ore
+> > > difficult to integrate in the kernel build system though. This leads =
+me
+> > > to a second question: would you consider merging extensions to this
+> > > script if they are not used by the kernel build system, but meant for
+> > > users who manually invoke the script ? More generally, is the script
+> >
+> > We'd also be interested in some customization, though in a different wa=
+y.
+> > We imagine having a rule file that says X compatible string should map
+> > to A base DTB, plus B and C DTBO for the configuration section. The bas=
+e
+> > DTB would carry all common elements of some device, while the DTBOs
+> > carry all the possible second source components, like different display
+> > panels or MIPI cameras for instance. This could drastically reduce the
+> > size of FIT images in ChromeOS by deduplicating all the common stuff.
+>
+> Do you envision the "mapping" compatible string mapping to a config
+> section in the FIT image, that would bundle the base DTB and the DTBOs ?
 
-OK, thanks!
+That's exactly the idea. The mapping compatible string could be untied
+from the base board's compatible string if needed (which we probably do).
 
--- 
-An old man doll... just what I always wanted! - Clara
+So something like:
 
+config {
+    config-1 {
+        compatible =3D "google,krane-sku0";
+        fdt =3D "krane-baseboard", "krane-sku0-overlay";
+    };
+};
+
+With "krane-sku0-overlay" being an overlay that holds the differences
+between the SKUs, in this case the display panel and MIPI camera (not
+upstreamed) that applies to SKU0 in particular.
+
+Sorry for not giving a more concrete idea.
+
+
+ChenYu
+
+> > > meant to be used stand-alone as well, in which case its command line
+> > > arguments need to remain backward-compatible, or do you see it as bei=
+ng
+> > > internal to the kernel ?
+> >
+> > [...]
+> >
+> > ChenYu
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
