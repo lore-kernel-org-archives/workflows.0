@@ -1,85 +1,139 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F259F1173C
-	for <workflows@vger.kernel.org>; Tue, 12 Dec 2023 23:30:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CA5A28DCB;
+	Wed, 13 Dec 2023 12:14:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CGp0UvHe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 675ABC433C7
-	for <workflows@vger.kernel.org>; Tue, 12 Dec 2023 23:30:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uvBXPCRo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D52CC433C8;
+	Wed, 13 Dec 2023 12:13:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702423802;
-	bh=WTD2o0zcbXVF2fFDXS838V53B9qAqtLeuLU/99pFs8w=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=CGp0UvHecsrlSIU3jnYBYe77/5Qva/ULhrVc3BitWwxfCw0vJVPHr3gXScV95ke2W
-	 +BrgW3RO4pRKtlZH0aVQ2PnffLGdihLNShsFeXQbfXxAlocfzH9SAQYAt5K8p5ozrv
-	 mb9RMzVM9Pt3KtrKEM7/0j6w3yToPOVk3qxb8Tk4490hM6NAYodPafRJ5TWVROnEGg
-	 pbeJlf3KbpLhaLmLQSmI/iD7sZXbcXTDi3A4dF8h4k5YEU2onJL4QEI/rlVoJKOgCU
-	 du7ESgBDsPZK60Gl7y3aTE7EyJRfmgQUDvzLcOCkuOAlxkuIA0DEpAwb0MCtr4Sggi
-	 1fhij4WfhULIg==
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-50c02628291so6659057e87.0
-        for <workflows@vger.kernel.org>; Tue, 12 Dec 2023 15:30:02 -0800 (PST)
-X-Gm-Message-State: AOJu0YxtN2LwQGy6kITL/dfcvXTVjAsgbnfTPI3ESBMWKrtG2vpwBPlM
-	mqrjqmBP56+lj37vN6RtOSR+82N68MMVL9WujA==
-X-Google-Smtp-Source: AGHT+IFiYJ4gPT80dz3/3CR9QqN+nKtXgDPagWY1TcSNyMUiWE16h0gG48KaboLw1Ft39QJEf+kvNrn1heUNEIY3gVU=
-X-Received: by 2002:ac2:4351:0:b0:50e:f9a:9df8 with SMTP id
- o17-20020ac24351000000b0050e0f9a9df8mr89641lfl.41.1702423800604; Tue, 12 Dec
- 2023 15:30:00 -0800 (PST)
+	s=k20201202; t=1702469640;
+	bh=2ypXgnL4ECCpmdKkPHhPyQw7+zd7cb6G6jntIn0W0sk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uvBXPCRoFNVcz10CIj8UBIpbjMFwKXefOdwwu1fICqolJgD8TVfji1yCzxM8z7X3d
+	 e2plc4DaOL7/ZIN+zN9h4gIwy7aNXl6HdJ08DviZxC/rVmhappflf1g2rETpLsT/Eb
+	 qBrXqhuakwbA8sf+s8mVebkMLadD4KG+GYkGICZqdqcwldnS9K3D1ikMPeKplbxEqG
+	 XIpZatoZxQbCpN4D63NwqmhWvWoeabTSiE6ASlGnHG+DHAiYCoQO3y3xPg5Qwu0ytS
+	 IUIISRPA9t8EjdGuMgWirtz5z7Lbgvg+Qmcq+tRNg9Yqfxjr25XRrOiLQ5g7Q0woL4
+	 Mh18eR3L9hVnw==
+Date: Wed, 13 Dec 2023 12:13:53 +0000
+From: Will Deacon <will@kernel.org>
+To: Simon Glass <sjg@chromium.org>
+Cc: linux-arm-kernel@lists.infradead.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	U-Boot Mailing List <u-boot@lists.denx.de>,
+	Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Terrell <terrelln@fb.com>, linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org
+Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
+Message-ID: <20231213121353.GA31326@willie-the-truck>
+References: <20231202035511.487946-1-sjg@chromium.org>
+ <20231202035511.487946-3-sjg@chromium.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231128001028.M189230@dcvr> <20231128-classy-brown-muskrat-7f07b1@nitro>
- <20231128173509.M955004@dcvr> <20231128-pretty-sidewinder-of-pluck-a61b0a@meerkat>
-In-Reply-To: <20231128-pretty-sidewinder-of-pluck-a61b0a@meerkat>
-From: Rob Herring <robh@kernel.org>
-Date: Tue, 12 Dec 2023 17:29:48 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqLc2YEhJYe_Or264drdtkDXPJOf+VwbNHUHqcrt41bxCQ@mail.gmail.com>
-Message-ID: <CAL_JsqLc2YEhJYe_Or264drdtkDXPJOf+VwbNHUHqcrt41bxCQ@mail.gmail.com>
-Subject: Re: extra search flags and params? (ispatch, replycount, ...)
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc: Eric Wong <e@80x24.org>, meta@public-inbox.org, workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231202035511.487946-3-sjg@chromium.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Tue, Nov 28, 2023 at 11:49=E2=80=AFAM Konstantin Ryabitsev
-<konstantin@linuxfoundation.org> wrote:
->
-> On Tue, Nov 28, 2023 at 05:35:09PM +0000, Eric Wong wrote:
-> > > I understand the reasoning, but I'm not sure we should be trying too =
-hard to
-> > > make public-inbox a patch tracking platform. What makes lei great is =
-ability
-> > > to automatically find and retrieve entire threads -- I feel like we s=
-hould
-> > > leave series tracking to other platforms that already exist (patchwor=
-k,
-> > > patchew, etc).
+On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
+> Add a script which produces a Flat Image Tree (FIT), a single file
+> containing the built kernel and associated devicetree files.
+> Compression defaults to gzip which gives a good balance of size and
+> performance.
+> 
+> The files compress from about 86MB to 24MB using this approach.
+> 
+> The FIT can be used by bootloaders which support it, such as U-Boot
+> and Linuxboot. It permits automatic selection of the correct
+> devicetree, matching the compatible string of the running board with
+> the closest compatible string in the FIT. There is no need for
+> filenames or other workarounds.
+> 
+> Add a 'make image.fit' build target for arm64, as well. Use
+> FIT_COMPRESSION to select a different algorithm.
+> 
+> The FIT can be examined using 'dumpimage -l'.
+> 
+> This features requires pylibfdt (use 'pip install libfdt'). It also
+> requires compression utilities for the algorithm being used. Supported
+> compression options are the same as the Image.xxx files. For now there
+> is no way to change the compression other than by editing the rule for
+> $(obj)/image.fit
+> 
+> While FIT supports a ramdisk / initrd, no attempt is made to support
+> this here, since it must be built separately from the Linux build.
+> 
+> Signed-off-by: Simon Glass <sjg@chromium.org>
+> ---
+> 
+> Changes in v9:
+> - Move the compression control into Makefile.lib
+> 
+> Changes in v8:
+> - Drop compatible string in FDT node
+> - Correct sorting of MAINTAINERS to before ARM64 PORT
+> - Turn compress part of the make_fit.py comment in to a sentence
+> - Add two blank lines before parse_args() and setup_fit()
+> - Use 'image.fit: dtbs' instead of BUILD_DTBS var
+> - Use '$(<D)/dts' instead of '$(dir $<)dts'
+> - Add 'mkimage' details Documentation/process/changes.rst
+> - Allow changing the compression used
+> - Tweak cover letter since there is only one clean-up patch
+> 
+> Changes in v7:
+> - Add Image as a dependency of image.fit
+> - Drop kbuild tag
+> - Add dependency on dtbs
+> - Drop unnecessary path separator for dtbs
+> - Rebase to -next
+> 
+> Changes in v5:
+> - Drop patch previously applied
+> - Correct compression rule which was broken in v4
+> 
+> Changes in v4:
+> - Use single quotes for UIMAGE_NAME
+> 
+> Changes in v3:
+> - Drop temporary file image.itk
+> - Drop patch 'Use double quotes for image name'
+> - Drop double quotes in use of UIMAGE_NAME
+> - Drop unnecessary CONFIG_EFI_ZBOOT condition for help
+> - Avoid hard-coding "arm64" for the DT architecture
+> 
+> Changes in v2:
+> - Drop patch previously applied
+> - Add .gitignore file
+> - Move fit rule to Makefile.lib using an intermediate file
+> - Drop dependency on CONFIG_EFI_ZBOOT
+> - Pick up .dtb files separately from the kernel
+> - Correct pylint too-many-args warning for write_kernel()
+> - Include the kernel image in the file count
+> - Add a pointer to the FIT spec and mention of its wide industry usage
+> - Mention the kernel version in the FIT description
+> 
+>  Documentation/process/changes.rst |   9 +
+>  MAINTAINERS                       |   7 +
+>  arch/arm64/Makefile               |   7 +-
+>  arch/arm64/boot/.gitignore        |   1 +
+>  arch/arm64/boot/Makefile          |   6 +-
+>  scripts/Makefile.lib              |  16 ++
+>  scripts/make_fit.py               | 291 ++++++++++++++++++++++++++++++
+>  7 files changed, 334 insertions(+), 3 deletions(-)
+>  create mode 100755 scripts/make_fit.py
 
-patch tracking platforms might want to use public-inbox to get the
-patches in the first place.
+I'll need Masahiro's Ack on the scripts/ changes before I can take this
+one.
 
-> >
-> > I was thinking more along the lines of readers just trying to
-> > find trying to find non-patch discussions.
-
-I do this time to time to find things I miss. Since I have patch
-tracking, I don't miss patches.
-
-> Ah. I think here is enough to just say "s:* AND NOT s:PATCH" without
-> introducing additional xapian indexing parameters. Though, perhaps the we=
-b
-> interface can also gain a "collapse threads" view?
-
-There's also [RFC 1/N], [PATCHv5], or just [vN], so:
-
-"s:* AND NOT (s:PATCH OR s:RFC OR s:v1 OR s:v2 OR s:v3...)"
-
-But when someone does "[RFC] Things I want to discuss" or "blah blah
-patch blah blah" it won't work. It's fragile and inexact.
-
-We already have find certain patches with dfn:, why not find all patches?
-
-Rob
+Will
