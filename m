@@ -1,101 +1,104 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E02C23AD
-	for <workflows@vger.kernel.org>; Fri, 22 Dec 2023 00:02:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="YPV+TkK0"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=fJN/ZFcl/C9dzI1XQxn+L3eyLhYJR6PzTJ1hILl2VD4=; b=YPV+TkK0Cvhe62PTZvETgHi4ed
-	ivBVjUnicset3z+1xcVfrl0icy7jmKexy7Z39k6BJLaWAfgRYCxuiTgNUbzy0fq+3kVdNQ5V3SBTd
-	yTdw+yUyMExPi6JcFUJ6SBETmwXy3OV0xgAJTnqXVATdMVzhJ6epFJc2G3YFk5fV52xhYQKL9FtZJ
-	0QyzpMTYM/cemTRhejLcRk9UQO01PQqtmrifdcs+LDS40Z+beko2ocASCnjl8jM9timUB3w7F6kO2
-	xFdIDHgy5+QNcgNr64drZm1IIbU75VZcmaKuf/OQQvEF/U5+3YgJ2dyBmMZOwXQD0ltQ9MvYhV5RC
-	C3MreYSg==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1rGSzv-004Tg3-0c;
-	Fri, 22 Dec 2023 00:02:39 +0000
-Message-ID: <c979fb08-2a91-4047-9003-84fa46841d78@infradead.org>
-Date: Thu, 21 Dec 2023 16:02:38 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 695DC28E16
+	for <workflows@vger.kernel.org>; Fri, 22 Dec 2023 18:21:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3bb6ed2b913so1612708b6e.2
+        for <workflows@vger.kernel.org>; Fri, 22 Dec 2023 10:21:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703269316; x=1703874116;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tywb/k7MV49ZDNzLyU+9prKsXBV9AzKJkeR9ldE3ugY=;
+        b=XMCzpVv9lcuqP2NtuJoOp3qnk/p3n6EY8GX/spchFHVQzR4f0/osJ20e/YXrpzsdZV
+         9j2unk0YJiv6rcm7Xq0jZ/CdNj7M9hKkaDZUQL2QDPNVGn+dGKJ+xf76VtxbGUzArlVJ
+         udo0PvJMexKj6Pth9L2HiH6k9fm0LXh+R139vZsH0WUcivVQG5FouyGdn72v0D+vz8kK
+         2eeAgWAdX76rojWSNAZJWYhrPKSn6JT9B0+DwccPOe0iJqrhglBC8o6XO1aY7lZLNgYm
+         9bccDNUwTX98sI9+72ZfBWliTkG0p62h6ZGsnCF1cccl0WyyOw7ZfUV+lXUBkjD5GyVH
+         F3bA==
+X-Gm-Message-State: AOJu0YzPgWep6mbVcIcetpYCGlZVGoK0GCgHKXqtdZcw4Q9HMixufgkR
+	W5gnPxc4FjW0yr4h5AHqyfK6YNlC1MLfRA==
+X-Google-Smtp-Source: AGHT+IHF5Na1mq+Xz6d40lgT1JBJxTEJvXEPf9UvlW6fxEzOKM3yqyZ+lCz7Mubq7ufTHJdJPBOFoQ==
+X-Received: by 2002:a05:6808:6487:b0:3ae:16b6:6338 with SMTP id fh7-20020a056808648700b003ae16b66338mr1949715oib.3.1703269316296;
+        Fri, 22 Dec 2023 10:21:56 -0800 (PST)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id p139-20020a25d891000000b00d9cbf2aabc6sm1703815ybg.14.2023.12.22.10.21.55
+        for <workflows@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 22 Dec 2023 10:21:56 -0800 (PST)
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-dbd73ac40ecso1937810276.1
+        for <workflows@vger.kernel.org>; Fri, 22 Dec 2023 10:21:55 -0800 (PST)
+X-Received: by 2002:a81:5403:0:b0:5de:8547:a6a5 with SMTP id
+ i3-20020a815403000000b005de8547a6a5mr1613474ywb.70.1703269315456; Fri, 22 Dec
+ 2023 10:21:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] MAINTAINERS, docs/process/howto: Update man-pages'
- maintainer
-Content-Language: en-US
-To: Alejandro Colomar <alx@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: workflows@vger.kernel.org,
- =?UTF-8?Q?Ahelenia_Ziemia=C5=84ska?= <nabijaczleweli@nabijaczleweli.xyz>,
- Michael Kerrisk <mtk.manpages@gmail.com>
 References: <20231221112533.5259-4-alx@kernel.org>
-From: Randy Dunlap <rdunlap@infradead.org>
 In-Reply-To: <20231221112533.5259-4-alx@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 22 Dec 2023 19:21:42 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXO58KyZF2TuUaS-HrK6ry2ARHtDntbGT86YQTwieXs4Q@mail.gmail.com>
+Message-ID: <CAMuHMdXO58KyZF2TuUaS-HrK6ry2ARHtDntbGT86YQTwieXs4Q@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS, docs/process/howto: Update man-pages' maintainer
+To: Alejandro Colomar <alx@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org, 
+	=?UTF-8?Q?Ahelenia_Ziemia=C5=84ska?= <nabijaczleweli@nabijaczleweli.xyz>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Alejandro,
 
-
-On 12/21/23 03:26, Alejandro Colomar wrote:
+On Thu, Dec 21, 2023 at 12:27=E2=80=AFPM Alejandro Colomar <alx@kernel.org>=
+ wrote:
 > Michael retired from maintaining the Linux man-pages project in 2021.
 > See commit 06e72cb19c74d3b1d661609c698ee26d7b6e4d7e ("CONTRIBUTING,
 > README, lsm: Remove mtk as maintainer") in the Linux man-pages
 > repository.
-
-commit: https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/commit/?id=06e72cb19c74d3b1d661609c698ee26d7b6e4d7e
-
-> 
-> Reported-by: Ahelenia Ziemiańska <nabijaczleweli@nabijaczleweli.xyz>
+>
+> Reported-by: Ahelenia Ziemia=C5=84ska <nabijaczleweli@nabijaczleweli.xyz>
 > Signed-off-by: Alejandro Colomar <alx@kernel.org>
 
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
+Thanks for your patch!
 
 > ---
 >  Documentation/process/howto.rst | 3 +--
 >  MAINTAINERS                     | 2 +-
 >  2 files changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
-> index deb8235e20ff..6c73889c98fc 100644
-> --- a/Documentation/process/howto.rst
-> +++ b/Documentation/process/howto.rst
-> @@ -82,8 +82,7 @@ documentation files are also added which explain how to use the feature.
->  When a kernel change causes the interface that the kernel exposes to
->  userspace to change, it is recommended that you send the information or
->  a patch to the manual pages explaining the change to the manual pages
-> -maintainer at mtk.manpages@gmail.com, and CC the list
-> -linux-api@vger.kernel.org.
-> +maintainer at alx@kernel.org, and CC the list linux-api@vger.kernel.org.
->  
->  Here is a list of files that are in the kernel source tree that are
->  required reading:
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 509281e9e169..a59214c48e52 100644
+
+I think Michael deserves an entry in CREDITS.
+
 > --- a/MAINTAINERS
 > +++ b/MAINTAINERS
-> @@ -12745,7 +12745,7 @@ F:	drivers/mailbox/arm_mhuv2.c
->  F:	include/linux/mailbox/arm_mhuv2_message.h
->  
+> @@ -12745,7 +12745,7 @@ F:      drivers/mailbox/arm_mhuv2.c
+>  F:     include/linux/mailbox/arm_mhuv2_message.h
+>
 >  MAN-PAGES: MANUAL PAGES FOR LINUX -- Sections 2, 3, 4, 5, and 7
-> -M:	Michael Kerrisk <mtk.manpages@gmail.com>
-> +M:	Alejandro Colomar <alx@kernel.org>
->  L:	linux-man@vger.kernel.org
->  S:	Maintained
->  W:	http://www.kernel.org/doc/man-pages
+> -M:     Michael Kerrisk <mtk.manpages@gmail.com>
+> +M:     Alejandro Colomar <alx@kernel.org>
+>  L:     linux-man@vger.kernel.org
+>  S:     Maintained
+>  W:     http://www.kernel.org/doc/man-pages
 
--- 
-#Randy
-https://people.kernel.org/tglx/notes-about-netiquette
-https://subspace.kernel.org/etiquette.html
+This page links to https://www.kernel.org/doc/man-pages/maintaining.html,
+which needs an update, too.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
