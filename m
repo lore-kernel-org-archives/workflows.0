@@ -1,155 +1,455 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87404610B
-	for <workflows@vger.kernel.org>; Mon,  1 Jan 2024 12:43:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53217EC9
+	for <workflows@vger.kernel.org>; Tue,  2 Jan 2024 03:19:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r7mttmUk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32662C433C8;
-	Mon,  1 Jan 2024 12:42:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704112980;
-	bh=R0ntuOFbjYsJOk0RMs5uz37Vz0D/Wieii6bcWekwZOc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r7mttmUkVY4vHMBqVeSSvl1nuc/u7zv4Tcaa5LKAuoALQYSX1pyC0NzeOhDM8cjaH
-	 pBnTlM1ouNkxPPoaBbOf0/XyFLvD3uzTfMnq62w1oL/8DBHQHJe7m+NxdEmbbJIV18
-	 lwaTmOl7shZF33mb41SKd31xNaBnOF5jRbnI0W16tjjVP3vMumoq7hW0ece3Ib03NJ
-	 hh90o1iJ/ZWI4GERpte6laF1PxfaYPjJg7wtzm32IMlIcBZOQ4jUl6lFHl82OJITz9
-	 HjmyaFegGa2Gw0gxxZItvDXetVTwqk+XCiLJQ1GGs1Mu/5cdEWE9Azlo7wAd0wBn5O
-	 T5IKhtcUrsTgw==
-Date: Mon, 1 Jan 2024 13:42:56 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: workflows@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Cc: Alejandro Colomar <alx@kernel.org>,
-	Ahelenia =?utf-8?Q?Ziemia=C5=84ska?= <nabijaczleweli@nabijaczleweli.xyz>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Michael Kerrisk <mtk.manpages@gmail.com>,
-	Michael Kerrisk <mtk@man7.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: [PATCH v2] CREDITS, MAINTAINERS, docs/process/howto: Update
- man-pages' maintainer
-Message-ID: <20240101124242.8059-2-alx@kernel.org>
-References: <CAMuHMdXO58KyZF2TuUaS-HrK6ry2ARHtDntbGT86YQTwieXs4Q@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="VDDLtzq/"
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2ccbc328744so69431381fa.3
+        for <workflows@vger.kernel.org>; Mon, 01 Jan 2024 19:19:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1704165573; x=1704770373; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MSG8CaCQvnMHmRj4U7U29sjt1LfOepuOZsoWy7DEkWU=;
+        b=VDDLtzq/L1f9fVBQ1TSzFvRBqfYiRGSgdMKs7MLzkMIgC8eXFWwuTJb+vZSPu6/FOo
+         FHDK9q0Ibh6Oswpt7u3rG3OeNd12YtaTpNiri43wYjUl7l5qK0IrzHeT13nDCBiwR+7I
+         A5Cr98tz+4BmHiPUK6/VZQ6mwPI3q4mHqFHCY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704165573; x=1704770373;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MSG8CaCQvnMHmRj4U7U29sjt1LfOepuOZsoWy7DEkWU=;
+        b=KvypOrHkmK5cYVAK5LIWdssCO0QeP73u8eBy1la9/CGemWyNMq3j8+pE4skBmI8GFy
+         MrnKSZYZUH79sSnGq/uPuCJP8/BAA5SIA6iBtTiCJL3FVa1ujqE8Q5ScVutd2/PgGIaU
+         1zMtwjUMvf82LdXd124iS0lDmGFvnlG6TekXxmSimwr4caoOCvfdPY+jkCHIOlt+hV6A
+         Za6mQIrutUAQhtBPIUSnLbvfLYYyo2YGJSID8PFNemaf5kURHWyhMGYwyOBMDN5+M7cv
+         CtC9Z0tXTLKOJBNQJFkRK0SonXH1HC8BfKE4MXBHubIFNk/oHOC+fKpPwLpct4y9Ct6E
+         dJJA==
+X-Gm-Message-State: AOJu0YzEMNijy8R5T1/mf0kK0K3SDe18b7Mb2SO9K7/JqWcBCDpm+gp9
+	CJFwttoUkUlvnA9OCfO8VHqq9jnP0ckkuLwPQbp5OjOYN/dAHjjlnMHdl5p8gg==
+X-Google-Smtp-Source: AGHT+IGT4BrLfdWsBgROHYxY8UAI/pZQNjY8Pr+V7A3z8LJ4pVTi524kqd3irjIggIFV9gC7XM+GECK0k+nYmYpg5aA=
+X-Received: by 2002:a05:651c:4cd:b0:2cd:10aa:7628 with SMTP id
+ e13-20020a05651c04cd00b002cd10aa7628mr26646lji.8.1704165572658; Mon, 01 Jan
+ 2024 19:19:32 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zOSQyqZkxRABoVqR"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXO58KyZF2TuUaS-HrK6ry2ARHtDntbGT86YQTwieXs4Q@mail.gmail.com>
-X-Mailer: git-send-email 2.43.0
-
-
---zOSQyqZkxRABoVqR
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
+References: <20231202035511.487946-1-sjg@chromium.org> <20231202035511.487946-3-sjg@chromium.org>
+ <20231203153401.GV8402@pendragon.ideasonboard.com> <20231207142723.GA3187877@google.com>
+ <20231207143814.GD15521@pendragon.ideasonboard.com> <CAGXv+5Go_0pEVAOLQmRCc_a9-YUtZEmBfXtMuBupX_nb9iqwbw@mail.gmail.com>
+ <20231209152946.GC13421@pendragon.ideasonboard.com> <CAMuHMdVMZs6mnwWBgFwktO=8o=QzROv60cfZe085MhD6HxQjpQ@mail.gmail.com>
+ <CAGXv+5Est3FL-XcEL-vB-6zVNas0mqb2cNYa==Yb7W2SQU9xVQ@mail.gmail.com>
+ <CAK7LNATyD-PeNbaLTjJmU9=koqqE+V6QvFe09c2VrXopWvjpcw@mail.gmail.com>
+ <CAK7LNAR7Fm-1yaZmyH78vG5yNbbW2Avjj5F63u+aST6JQoMd5A@mail.gmail.com> <CAFLszTjfN8dzBNpr6+EVQiwen5BPoYtu8LJM3dCcd-sMP3=Nvw@mail.gmail.com>
+In-Reply-To: <CAFLszTjfN8dzBNpr6+EVQiwen5BPoYtu8LJM3dCcd-sMP3=Nvw@mail.gmail.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Tue, 2 Jan 2024 11:19:21 +0800
+Message-ID: <CAGXv+5Fp__Hats=sNmdmg8dYVfNB2K0FP23aKA_7D3sz4EvzrA@mail.gmail.com>
+Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
+To: Simon Glass <sjg@chromium.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-arm-kernel@lists.infradead.org, 
+	Ahmad Fatoum <a.fatoum@pengutronix.de>, U-Boot Mailing List <u-boot@lists.denx.de>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 1 Jan 2024 13:42:56 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: workflows@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Cc: Alejandro Colomar <alx@kernel.org>,
-	Ahelenia =?utf-8?Q?Ziemia=C5=84ska?= <nabijaczleweli@nabijaczleweli.xyz>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Michael Kerrisk <mtk.manpages@gmail.com>,
-	Michael Kerrisk <mtk@man7.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: [PATCH v2] CREDITS, MAINTAINERS, docs/process/howto: Update
- man-pages' maintainer
 
-Michael retired from maintaining the Linux man-pages project in 2021.
-See commit 06e72cb19c74d3b1d661609c698ee26d7b6e4d7e ("CONTRIBUTING,
-README, lsm: Remove mtk as maintainer") in the Linux man-pages
-repository.
+On Fri, Dec 29, 2023 at 2:39=E2=80=AFPM Simon Glass <sjg@chromium.org> wrot=
+e:
+>
+> Hi Masahiro,
+>
+> On Thu, Dec 14, 2023 at 7:34=E2=80=AFAM Masahiro Yamada <masahiroy@kernel=
+.org> wrote:
+> >
+> > On Thu, Dec 14, 2023 at 3:12=E2=80=AFPM Masahiro Yamada <masahiroy@kern=
+el.org> wrote:
+> > >
+> > > On Thu, Dec 14, 2023 at 1:03=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.=
+org> wrote:
+> > > >
+> > > > On Sun, Dec 10, 2023 at 1:31=E2=80=AFAM Geert Uytterhoeven <geert@l=
+inux-m68k.org> wrote:
+> > > > >
+> > > > > Hi Laurent,
+> > > > >
+> > > > > On Sat, Dec 9, 2023 at 4:29=E2=80=AFPM Laurent Pinchart
+> > > > > <laurent.pinchart@ideasonboard.com> wrote:
+> > > > > > On Sat, Dec 09, 2023 at 10:13:59PM +0900, Chen-Yu Tsai wrote:
+> > > > > > > On Thu, Dec 7, 2023 at 11:38=E2=80=AFPM Laurent Pinchart
+> > > > > > > <laurent.pinchart@ideasonboard.com> wrote:
+> > > > > > > > On Thu, Dec 07, 2023 at 10:27:23PM +0800, Chen-Yu Tsai wrot=
+e:
+> > > > > > > > > On Sun, Dec 03, 2023 at 05:34:01PM +0200, Laurent Pinchar=
+t wrote:
+> > > > > > > > > > On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass w=
+rote:
+> > > > > > > > > > > Add a script which produces a Flat Image Tree (FIT), =
+a single file
+> > > > > > > > > > > containing the built kernel and associated devicetree=
+ files.
+> > > > > > > > > > > Compression defaults to gzip which gives a good balan=
+ce of size and
+> > > > > > > > > > > performance.
+> > > > > > > > > > >
+> > > > > > > > > > > The files compress from about 86MB to 24MB using this=
+ approach.
+> > > > > > > > > > >
+> > > > > > > > > > > The FIT can be used by bootloaders which support it, =
+such as U-Boot
+> > > > > > > > > > > and Linuxboot. It permits automatic selection of the =
+correct
+> > > > > > > > > > > devicetree, matching the compatible string of the run=
+ning board with
+> > > > > > > > > > > the closest compatible string in the FIT. There is no=
+ need for
+> > > > > > > > > > > filenames or other workarounds.
+> > > > > > > > > > >
+> > > > > > > > > > > Add a 'make image.fit' build target for arm64, as wel=
+l. Use
+> > > > > > > > > > > FIT_COMPRESSION to select a different algorithm.
+> > > > > > > > > > >
+> > > > > > > > > > > The FIT can be examined using 'dumpimage -l'.
+> > > > > > > > > > >
+> > > > > > > > > > > This features requires pylibfdt (use 'pip install lib=
+fdt'). It also
+> > > > > > > > > > > requires compression utilities for the algorithm bein=
+g used. Supported
+> > > > > > > > > > > compression options are the same as the Image.xxx fil=
+es. For now there
+> > > > > > > > > > > is no way to change the compression other than by edi=
+ting the rule for
+> > > > > > > > > > > $(obj)/image.fit
+> > > > > > > > > > >
+> > > > > > > > > > > While FIT supports a ramdisk / initrd, no attempt is =
+made to support
+> > > > > > > > > > > this here, since it must be built separately from the=
+ Linux build.
+> > > > > > > > > >
+> > > > > > > > > > FIT images are very useful, so I think this is a very w=
+elcome addition
+> > > > > > > > > > to the kernel build system. It can get tricky though: g=
+iven the
+> > > > > > > > > > versatile nature of FIT images, there can't be any
+> > > > > > > > > > one-size-fits-them-all solution to build them, and stri=
+king the right
+> > > > > > > > > > balance between what makes sense for the kernel and the=
+ features that
+> > > > > > > > > > users may request will probably lead to bikeshedding. A=
+s we all love
+> > > > > > > > > > bikeshedding, I thought I would start selfishly, with a=
+ personal use
+> > > > > > > > > > case :-) This isn't a yak-shaving request though, I don=
+'t see any reason
+> > > > > > > > > > to delay merging this series.
+> > > > > > > > > >
+> > > > > > > > > > Have you envisioned building FIT images with a subset o=
+f DTBs, or adding
+> > > > > > > > > > DTBOs ? Both would be fairly trivial extensions to this=
+ script by
+> > > > > > > > > > extending the supported command line arguments. It woul=
+d perhaps be more
+> > > > > > > > > > difficult to integrate in the kernel build system thoug=
+h. This leads me
+> > > > > > > > > > to a second question: would you consider merging extens=
+ions to this
+> > > > > > > > > > script if they are not used by the kernel build system,=
+ but meant for
+> > > > > > > > > > users who manually invoke the script ? More generally, =
+is the script
+> > > > > > > > >
+> > > > > > > > > We'd also be interested in some customization, though in =
+a different way.
+> > > > > > > > > We imagine having a rule file that says X compatible stri=
+ng should map
+> > > > > > > > > to A base DTB, plus B and C DTBO for the configuration se=
+ction. The base
+> > > > > > > > > DTB would carry all common elements of some device, while=
+ the DTBOs
+> > > > > > > > > carry all the possible second source components, like dif=
+ferent display
+> > > > > > > > > panels or MIPI cameras for instance. This could drastical=
+ly reduce the
+> > > > > > > > > size of FIT images in ChromeOS by deduplicating all the c=
+ommon stuff.
+> > > > > > > >
+> > > > > > > > Do you envision the "mapping" compatible string mapping to =
+a config
+> > > > > > > > section in the FIT image, that would bundle the base DTB an=
+d the DTBOs ?
+> > > > > > >
+> > > > > > > That's exactly the idea. The mapping compatible string could =
+be untied
+> > > > > > > from the base board's compatible string if needed (which we p=
+robably do).
+> > > > > > >
+> > > > > > > So something like:
+> > > > > > >
+> > > > > > > config {
+> > > > > > >     config-1 {
+> > > > > > >         compatible =3D "google,krane-sku0";
+> > > > > > >         fdt =3D "krane-baseboard", "krane-sku0-overlay";
+> > > > > > >     };
+> > > > > > > };
+> > > > > > >
+> > > > > > > With "krane-sku0-overlay" being an overlay that holds the dif=
+ferences
+> > > > > > > between the SKUs, in this case the display panel and MIPI cam=
+era (not
+> > > > > > > upstreamed) that applies to SKU0 in particular.
+> > > > > >
+> > > > > > The kernel DT makefiles already contain information on what ove=
+rlays to
+> > > > > > apply to what base boards, in order to test the overlays and pr=
+oduce
+> > > > > > "full" DTBs. Maybe that information could be leveraged to creat=
+e the
+> > > > > > configurations in the FIT image ?
+> > > > >
+> > > > > Although the "full" DTBs created may only be a subset of all poss=
+ible
+> > > > > combinations (I believe Rob just started with creating one "full"=
+ DTB
+> > > > > for each overlay, cfr. the additions I made in commit a09c3e105a2=
+08580
+> > > > > ("arm64: dts: renesas: Apply overlays to base dtbs")), that could
+> > > > > definitely be a start.
+> > > > >
+> > > > > Now, since the kernel build system already creates "full" DTBs, d=
+oes
+> > > > > that mean that all of the base DTBs, overlays, and "full" DTBs wi=
+ll
+> > > > > end up in the FIT image?
+> > > >
+> > > > I suppose we could add an option to the packing tool to be able to =
+_not_
+> > > > add the "full" DTBs if they can also be assembled with a base DTB a=
+nd
+> > > > overlays. Think of it as a firmware compatibility option: if the fi=
+rmware
+> > > > supports overlays, then you almost always want the deconstructed pa=
+rts,
+> > > > not the fully assembled ones. Vice versa.
+> > > >
+> > > > If we don't we could end up with two configurations that have the s=
+ame
+> > > > compatible string?
+> > >
+> > >
+> > > Right.
+> > >
+> > > We would end up with such situations because applying
+> > > an overlay does not change the compatible string.
+> > >
+> > >
+> > >
+> > > With this code in arch/arm64/boot/dts/ti/Makefile:
+> > >
+> > > k3-am642-tqma64xxl-mbax4xxl-sdcard-dtbs :=3D \
+> > >       k3-am642-tqma64xxl-mbax4xxl.dtb k3-am64-tqma64xxl-mbax4xxl-sdca=
+rd.dtbo
+> > > k3-am642-tqma64xxl-mbax4xxl-wlan-dtbs :=3D \
+> > >       k3-am642-tqma64xxl-mbax4xxl.dtb k3-am64-tqma64xxl-mbax4xxl-wlan=
+.dtbo
+> > >
+> > >
+> > >
+> > >
+> > > $ fdtdump  arch/arm64/boot/dts/ti/k3-am642-tqma64xxl-mbax4xxl-sdcard.=
+dtb
+> > > 2>/dev/null| head -n15 | tail -n2
+> > >     model =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL carrier board";
+> > >     compatible =3D "tq,am642-tqma6442l-mbax4xxl", "tq,am642-tqma6442l=
+",
+> > > "ti,am642";
+> > >
+> > >
+> > > $ fdtdump  arch/arm64/boot/dts/ti/k3-am642-tqma64xxl-mbax4xxl-wlan.dt=
+b
+> > > 2>/dev/null| head -n15 | tail -n2
+> > >     model =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL carrier board";
+> > >     compatible =3D "tq,am642-tqma6442l-mbax4xxl", "tq,am642-tqma6442l=
+",
+> > > "ti,am642";
+> > >
+> > >
+> > >
+> > >
+> > >
+> > > These two go into image.fit, but one of them is completely dead
+> > > since there is no way to distinguish them.
+> > >
+> > >
+> > > $ fdtdump  arch/arm64/boot/image.fit
+> > >
+> > >         ...
+> > >
+> > >         conf-10 {
+> > >             compatible =3D "tq,am642-tqma6442l-mbax4xxl",
+> > > "tq,am642-tqma6442l", "ti,am642";
+> > >             description =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL car=
+rier board";
+> > >             fdt =3D "fdt-10";
+> > >             kernel =3D "kernel";
+> > >         };
+> > >
+> > >         ...
+> > >
+> > >         conf-25 {
+> > >             compatible =3D "tq,am642-tqma6442l-mbax4xxl",
+> > > "tq,am642-tqma6442l", "ti,am642";
+> > >             description =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL car=
+rier board";
+> > >             fdt =3D "fdt-25";
+> > >             kernel =3D "kernel";
+> > >         };
+> > >
+> > >
+> > >
+> > >
+> > >
+> > > I agree with Chen-Yu.
+> > >
+> > > FIT should not include full DTBs.
+> > >
+> > > Bootloaders should assemble the final DTB
+> > > from base and overlays on-the-fly.
+> > >
+> > >
+> > > The FIT spec allows the "fdt" property to list
+> > > multiple image nodes.
+> > >
+> > >
+> > > o config-1
+> > >  |- description =3D "configuration description"
+> > >  |- kernel =3D "kernel sub-node unit name"
+> > >  |- fdt =3D "fdt sub-node unit-name" [, "fdt overlay sub-node unit-na=
+me", ...]
+> > >  |- loadables =3D "loadables sub-node unit-name"
+> > >  |- script =3D "
+> > >  |- compatible =3D "vendor
+> >
+> >
+> >
+> >
+> >
+> > This is a question for U-Boot (and barebox).
+> >
+> >
+> >
+> >
+> >    images {
+> >           base {
+> >                 ...
+> >           };
+> >
+> >           addon1 {
+> >                 ...
+> >           };
+> >
+> >           addon2 {
+> >                 ...
+> >           };
+> >     };
+> >
+> >     configurations {
+> >           ...
+> >           fdt =3D "base", "addon1", "addon2";
+> >     };
+> >
+> >
+> >
+> >
+> > Is U-Boot's "bootm" command able to dynamically construct
+> > the full DTB from "base" + "addon1" + "addon2"
+> > and pass to the kernel?
+> >
+> >
+> >
+> > When I used overlay from U-Boot command line last time,
+> > I typed complicated commands, following this manual:
+> > https://docs.u-boot.org/en/latest/usage/fdt_overlays.html
+> >
+> >
+>
+> So far this is not possible with bootm, no. But if we can add
+> extensions to the FIT spec, then it should be possible to implement
+> this.
 
-Add him to CREDITS.
+Isn't this already part of the FIT spec? There's nothing special here.
+It's one configuration that lists a base DTB plus some addon overlays.
 
-Reported-by: Ahelenia Ziemia=C5=84ska <nabijaczleweli@nabijaczleweli.xyz>
-Link: <https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/commit/?=
-id=3D06e72cb19c74d3b1d661609c698ee26d7b6e4d7e>
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Michael Kerrisk <mtk.manpages@gmail.com>
-Cc: Michael Kerrisk <mtk@man7.org>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Alejandro Colomar <alx@kernel.org>
----
- CREDITS                         | 7 +++++++
- Documentation/process/howto.rst | 3 +--
- MAINTAINERS                     | 2 +-
- 3 files changed, 9 insertions(+), 3 deletions(-)
+The FIT spec says:
 
-diff --git a/CREDITS b/CREDITS
-index f33a33fd2371..6781d4eeb9fb 100644
---- a/CREDITS
-+++ b/CREDITS
-@@ -1828,6 +1828,13 @@ S: K osmidomkum 723
- S: 160 00 Praha 6
- S: Czech Republic
-=20
-+N: Michael Kerrisk
-+E: mtk.manpages@gmail.com
-+W: https://man7.org/
-+P: 4096R/3A35CE5E E522 595B 52ED A4E6 BFCC  CB5E 8561 9911 3A35 CE5E
-+D: Maintainer of the Linux man-pages project
-+D: Linux man pages online, at <https://man7.org/linux/man-pages/>
-+
- N: Niels Kristian Bech Jensen
- E: nkbj1970@hotmail.com
- D: Miscellaneous kernel updates and fixes.
-diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.=
-rst
-index deb8235e20ff..6c73889c98fc 100644
---- a/Documentation/process/howto.rst
-+++ b/Documentation/process/howto.rst
-@@ -82,8 +82,7 @@ documentation files are also added which explain how to u=
-se the feature.
- When a kernel change causes the interface that the kernel exposes to
- userspace to change, it is recommended that you send the information or
- a patch to the manual pages explaining the change to the manual pages
--maintainer at mtk.manpages@gmail.com, and CC the list
--linux-api@vger.kernel.org.
-+maintainer at alx@kernel.org, and CC the list linux-api@vger.kernel.org.
-=20
- Here is a list of files that are in the kernel source tree that are
- required reading:
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 509281e9e169..a59214c48e52 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12745,7 +12745,7 @@ F:	drivers/mailbox/arm_mhuv2.c
- F:	include/linux/mailbox/arm_mhuv2_message.h
-=20
- MAN-PAGES: MANUAL PAGES FOR LINUX -- Sections 2, 3, 4, 5, and 7
--M:	Michael Kerrisk <mtk.manpages@gmail.com>
-+M:	Alejandro Colomar <alx@kernel.org>
- L:	linux-man@vger.kernel.org
- S:	Maintained
- W:	http://www.kernel.org/doc/man-pages
---=20
-2.43.0
+  - fdt : Unit name of the corresponding fdt blob (component image node of =
+a
+    "fdt type"). Additional fdt overlay nodes can be supplied which signify
+    that the resulting device tree blob is generated by the first base fdt
+    blob with all subsequent overlays applied.
 
+Are you saying that U-boot currently lacks a mechanism to select the config=
+?
+A quick skim over U-boot code suggests that boards need to implement
+board_fit_config_name_match()?
 
---zOSQyqZkxRABoVqR
-Content-Type: application/pgp-signature; name="signature.asc"
+> Is it (or will it be) possible to get Linux to build the DT + overlay
+> combinations?
 
------BEGIN PGP SIGNATURE-----
+It is possible to build overlays separately, and have the build system
+apply them. Taking an example from the Renesas tree (line wrap mine):
 
-iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmWSs1AACgkQnowa+77/
-2zIFJxAApqQa4KIG0qN5pwrWm15a89jeTSNGXO0iseFdu/T9dwQwUUqYvtBPViL4
-3rZZNKB9bTJITFrA41iB2DZJBdM+GParnrCE/PZgZA88c/uqF44EuUeWofM6uODe
-3l+N9ab7dbwRH57Tn8/NVdoPl+89t2hu047QMbJoIDvXQKHnxSUdYMYBonxYMXMj
-7MQ4rEuLowlBVaXeEBIZWq3iD/r+CedU+r9f7Q37hSidAu/c+JDCXZ5/RST2gK4q
-3wybEW+pQQkJGGFk7J1enTeiYSDLm1Pzsn4beIVBtVTdGftkb81UKwYrNDZGYJVB
-VrBSYiYHvDH98W7mMHFR2oQLbG0d1LpTN2RbpDk0Wy8GceZ1sKxaLP73Lcrxgu4F
-mld/JjtwoFwsnp6wBmsoOZgihox0qotIHHW9tp8ThzfEB0igqdrBpQRmzwFud5Ur
-xciANgeIfXLN0Ycs3l2DIyZ1Z7w10KprnjCauKQBdzEIDOR5jEPya+sNg8nM4hWq
-2B7bUNUmGTcLG6jPahw/Bq+Qlj1uHBInCvIeBIEzXjjGYTubP+Cd6fo3VQ71osCm
-ELMjVsD/3xlcRehOdMX1LQqL4mWdGY3FpPccaqedRMHeR7z2MgWXT24506gMot9X
-MKIUxhW/LsFrBuiBaiLO6LQghgc+SEMjazrFiwgSoT9LX6kPM4I=
-=1UgX
------END PGP SIGNATURE-----
+    dtb-$(CONFIG_ARCH_R8A779G0) +=3D r8a779g0-white-hawk.dtb
+    dtb-$(CONFIG_ARCH_R8A779G0) +=3D r8a779g0-white-hawk-ard-audio-da7212.d=
+tbo
+    r8a779g0-white-hawk-ard-audio-da7212-dtbs :=3D r8a779g0-white-hawk.dtb =
+\
+            r8a779g0-white-hawk-ard-audio-da7212.dtbo
+    dtb-$(CONFIG_ARCH_R8A779G0) +=3D r8a779g0-white-hawk-ard-audio-da7212.d=
+tb
 
---zOSQyqZkxRABoVqR--
+The overlays are applied using the fdtoverlay command from the device tree
+compiler suite.
+
+ChenYu
+
+> > One more question to confirm if I can use this
+> > for my practical use-cases.
+> >
+> > Is U-Boot able to handle FIT (includes kernel + DTs)
+> > and a separate initrd?
+> >
+> >   # bootm  <fit-address>:<conf-name>  <ramdisk-address>
+> >
+> >
+> > Presumably, it would be difficult to inject initramdisk
+> > into image.fit later, so I am hoping bootm would work like that,
+> > but I did not delve into U-Boot code.
+> >
+> >
+>
+> The ramdisk is handled by the FIT configuration. I suppose it would be
+> possible to add a way to bypass the logic in select_ramdisk(), but I
+> wonder what is the use case for this?
+>
+> >
+> > If it works, is it possible to verify the integrity of initrd?
+> > The kernel and DTs inside FIT will be verified, but not sure
+> > if it is possible for ramdisk.
+>
+> I do have thoughts about a possible new FIT feature to allow external
+> files, which could perhaps include an initrd.
+>
+> Regards,
+> Simon
