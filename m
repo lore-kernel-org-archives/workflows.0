@@ -1,90 +1,89 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6FDE13AF0
-	for <workflows@vger.kernel.org>; Mon,  8 Jan 2024 10:42:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D035524B7
+	for <workflows@vger.kernel.org>; Mon,  8 Jan 2024 16:15:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OidjyUPj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1704710554;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=x+r2fYi5GswwOIpq/KUCbsfARWs5bIzb/5yg8FLKiuo=;
-	b=OidjyUPjywkl5oW1jyzgrS8Mbx3jgUMHfBYAySLw0m32jGwkBREovLLREKlXgU6mY7LlmA
-	HWUhrVCs907yRz8nvWwV0dMrMBTpufn7//ToEkW/TkAmNxm5anaF9P8h+4WH4RgBNeoTYt
-	XL58mq+ZbTC1os5BG9lGU8lFEL1rXis=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-357-7iXDMb-uPaqUcpNNcItvQQ-1; Mon, 08 Jan 2024 05:42:33 -0500
-X-MC-Unique: 7iXDMb-uPaqUcpNNcItvQQ-1
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-78319f5d6edso211181885a.2
-        for <workflows@vger.kernel.org>; Mon, 08 Jan 2024 02:42:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704710551; x=1705315351;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=x+r2fYi5GswwOIpq/KUCbsfARWs5bIzb/5yg8FLKiuo=;
-        b=EE+X5V120YQseZuMpZtm2eBtDQxPfYaKoBaPYjWBxVev8gDNNZoPuUheMGXGtKHKep
-         wcuYj3bFINcTd3R9D1syAaIbAALvNEy5I4PrztTzGkH3CVlbk1eCEH1UfB/rdqXXY1CF
-         ucvJeszpVBptmCbgPZgwrdKOJh6FT8dVDYMsEWNGWu4YXDIHOhsD2tPrHZUziR6ioW3f
-         JRrmjjFOzPCHXfR2lz7YYN1gCoPCyw3WSa0SKuJLHiPK3wG3JrxQivBU7N1fdXNbVd/g
-         SUXYQUsoKsvrfKKfzylI2p8ZwwO424IHowAyE+iT2/fHBOPV0JI8nph2xxyWh/FjkWM/
-         gSWw==
-X-Gm-Message-State: AOJu0YwQlY5milkvrWjDEkBSaEo3imsLegn1NRjXxG3EEMCgwW+kOQU4
-	en7zR5lhLp/zbSaNgZOq/SeBi5cyBP99UlsC9Nco/J8TKPdhsXk5oqn3sDc/EZOpDBZjqDvrbUn
-	yn8047cDO8e4SIOZRkrc33RHI3zNHHMfr6BSmT3J5h5eVHuwi/YewS9zVlEN48+3llUyIbVHSm+
-	zbAw544NbetOygc10ehDjugtjhGA3U
-X-Received: by 2002:a05:620a:5343:b0:781:577b:7572 with SMTP id op3-20020a05620a534300b00781577b7572mr3517205qkn.67.1704710551480;
-        Mon, 08 Jan 2024 02:42:31 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGkW4yie3FuTD9oNS2SS1mGtIhe2UW2QQqteBJuOJDUuID0HDhy3F+KPbsT61NUAUiMF7Q4QQ==
-X-Received: by 2002:a05:620a:5343:b0:781:577b:7572 with SMTP id op3-20020a05620a534300b00781577b7572mr3517186qkn.67.1704710551175;
-        Mon, 08 Jan 2024 02:42:31 -0800 (PST)
-Received: from [192.168.0.118] (88-113-27-52.elisa-laajakaista.fi. [88.113.27.52])
-        by smtp.gmail.com with ESMTPSA id g17-20020a05620a219100b0078327d52206sm146382qka.63.2024.01.08.02.42.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Jan 2024 02:42:29 -0800 (PST)
-Message-ID: <d2e2c852-aa6c-42b7-aa73-1b366dd48fcf@redhat.com>
-Date: Mon, 8 Jan 2024 12:42:24 +0200
+	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="q3QHvqdK"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 72E74240029
+	for <workflows@vger.kernel.org>; Mon,  8 Jan 2024 17:15:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+	t=1704730537; bh=Ts/rOOm0/Jq58HYvOJXottonXceweiTE91bQUrYjFqc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:From;
+	b=q3QHvqdKJhTn1p6fiWYdee57zvhifiCR2vUxYtlkYlDApvZHCc1yrdS3w760e27Vv
+	 r8Osz2cuC41ts3vtM6YZ2XfIfv/JHwACVG69zZnLS6PHixmT5Ar1aw7l+w5j+BttZr
+	 jpm2qrf+rXg0W9JN/B8aV2tn5TEJ5Vp17TwdHkr8ZYW5ol/0guxFfkhnhRF0GtBEHD
+	 i1zyJ0IQWpJMRMfvnvUXLsA0CMhh06p/yjW4hNderRJhD1Ww3YQLla8elGXxD0L5C0
+	 E0ZAcN0BRLwN+T33PMT2EHuKVt114vZp2dtikmU6/rC/gYARk3XT/o1K9b3cahFIrf
+	 ZsJXYQekFFYkg==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4T7zgR3Q0kz9rxF;
+	Mon,  8 Jan 2024 17:15:30 +0100 (CET)
+From: Yueh-Shun Li <shamrocklee@posteo.net>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Hu Haowen <src.res.211@gmail.com>,
+	Alex Shi <alexs@kernel.org>,
+	Yanteng Si <siyanteng@loongson.cn>,
+	Randy Dunlap <rdunlap@infradead.org>
+Cc: Yueh-Shun Li <shamrocklee@posteo.net>,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/4] coding-style: recommend reusing macros from split headers instead of kernel.h
+Date: Mon,  8 Jan 2024 16:03:21 +0000
+Message-ID: <20240108160746.177421-1-shamrocklee@posteo.net>
+In-Reply-To: <107b6b5e-ca14-4b2b-ba2e-38ecd74c0ad3@infradead.org>
+References: <107b6b5e-ca14-4b2b-ba2e-38ecd74c0ad3@infradead.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 00/10] MAINTAINERS: Introduce V: entry for tests
-Content-Language: en-US
-From: Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
-To: workflows@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Joe Perches <joe@perches.com>, Andy Whitcroft <apw@canonical.com>,
- Theodore Ts'o <tytso@mit.edu>, David Gow <davidgow@google.com>,
- Steven Rostedt <rostedt@goodmis.org>, Mark Brown <broonie@kernel.org>,
- Shuah Khan <skhan@linuxfoundation.org>, "Darrick J . Wong"
- <djwong@kernel.org>
-Cc: kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
- Veronika Kabatova <vkabatov@redhat.com>, CKI <cki-project@redhat.com>,
- kernelci@lists.linux.dev
-References: <20231115175146.9848-1-Nikolai.Kondrashov@redhat.com>
- <20231205184503.79769-1-Nikolai.Kondrashov@redhat.com>
-In-Reply-To: <20231205184503.79769-1-Nikolai.Kondrashov@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 12/5/23 20:02, Nikolai Kondrashov wrote:
-> Alright, here's a second version, attempting to address as many concerns as
-> possible. It's likely I've missed something, though.
+Dear Maintainers,
 
-Happy New Year, everyone! Hope your holidays went smoothly and peacefully.
+This series of patches targets the "Linux kernel coding style"
+documentation and recommend reusing macros inside the include/linux
+directory instead of the obsolete header "include/linux/kernel.h".
 
-Is anyone still interested in this effort? Any more feedback you have in mind?
-Something to change?
+This addresses the issue 'Irrelevant documentation recommending the use
+of "include/linux/kernel.h"'[1][2] and help deprecating "kernel.h".
 
-Thanks!
-Nick
+If applied, developers will no longer be confused by the contradiction
+between "Linux kernel style guide" suggestions and the deprecation
+notice on top of "kernel.h".
+
+There's also a patch that adds an example to show how reusing macro
+definition from shared headers help prevent naming collisions.
+
+This series contains the update to the zh_TW and zh_CN translation of
+the corresponding documentation changes.
+
+Best regards,
+
+Shamrock
+
+[1]: https://lore.kernel.org/linux-doc/bc63acd7ef43bdd8d9609fa48dbf92f9@posteo.net/
+[2]: https://lore.kernel.org/linux-doc/107b6b5e-ca14-4b2b-ba2e-38ecd74c0ad3@infradead.org/
+
+Yueh-Shun Li (4):
+  coding-style: recommend split headers instead of kernel.h
+  coding-style: show how reusing macros prevents naming collisions
+  doc/zh_TW: coding-style: update content for section 18
+  doc/zh_CN: coding-style: update content of section 18
+
+ Documentation/process/coding-style.rst        | 41 +++++++++++++++----
+ .../zh_CN/process/coding-style.rst            | 39 ++++++++++++++----
+ .../zh_TW/process/coding-style.rst            | 39 ++++++++++++++----
+ 3 files changed, 95 insertions(+), 24 deletions(-)
+
+-- 
+2.42.0
 
