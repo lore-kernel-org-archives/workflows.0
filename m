@@ -1,86 +1,86 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC2154BC0;
-	Mon,  8 Jan 2024 18:27:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22A2255C05
+	for <workflows@vger.kernel.org>; Mon,  8 Jan 2024 19:38:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="gyCpfHha"
-Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 31CC5377;
-	Mon,  8 Jan 2024 18:27:23 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 31CC5377
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1704738443; bh=6A53Fmc3sg36fdjFQCDXxbk/Zai3VfsgTloQdrPblU0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=gyCpfHhaEHCNty4eBaRFlalLNy3XXk1BRuvXBCi6xxtRGX5KwOVyclDy4guaOSw7X
-	 hxIXok/dNoDMJuNKSoxwdhio+8ayHPmNZhr65tB3MQuTHHbwUWT9n3f9sqtR4FggeW
-	 ZvONN6KwAVI/Awylp+0zxcaH7pf87kDzKthJpZnT/wRj8dWCX86u3vMwf5XiNty2A2
-	 3OMeYNKCl7rtqtiz4HiDtG0+XUw7z/AhpfoXSnI5kipWoIVjJ0i2rJwh5UO1kc/HEJ
-	 3hEJKM6lQja22SRObdBIGpnu88ntRCqFryGKE3sR99+jmVfAQC50g3QUZfRULRXLbl
-	 naMYuT7+fdC5w==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Yueh-Shun Li <shamrocklee@posteo.net>
-Cc: Hu Haowen <src.res.211@gmail.com>, Alex Shi <alexs@kernel.org>, Yanteng
- Si <siyanteng@loongson.cn>, Randy Dunlap <rdunlap@infradead.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/4] coding-style: show how reusing macros prevents
- naming collisions
-In-Reply-To: <eecb9fa3e0cd84fce0b2f9e5449888a0@posteo.net>
+	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="noaq1yqu"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 51D72240028
+	for <workflows@vger.kernel.org>; Mon,  8 Jan 2024 20:38:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+	t=1704742685; bh=KK1Rze8tfOMg6a52THBVx3lgQEQ9wLY2AllK4ufxraY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:From;
+	b=noaq1yquWzfRfgrqVNZJ4H/pbi8Kgv9UNASB1bOc9W2zM6bE8SMKeTF8U9iVGXzQE
+	 thrRcF31hzCZk1yDukzFaD1//X+cvUjD4Y1TmcqOmtFOwbnyCGsqK+q2daLkU5g9M7
+	 4FCMmlopw4L4wCJH5lWH/zLHpWBhAse1C89MOSMBs38RVAq40VNJs4yONgAM+r7gaN
+	 CfAHg8spWJ3fXhnp81gwMkQO5LWvfw28s1oJ91A/4MrVTFJsI/lgjEDHrycni6B+EC
+	 XoM/Qu5s4itWK6MGKiTGZPpcifLtJ1rXP5EC5jtznRTntpcaZtaBXsbn0nlzX0/HlQ
+	 707Prg7cb65rA==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4T84943sqxz6tm4;
+	Mon,  8 Jan 2024 20:38:00 +0100 (CET)
+From: Yueh-Shun Li <shamrocklee@posteo.net>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Hu Haowen <src.res.211@gmail.com>,
+	Alex Shi <alexs@kernel.org>,
+	Yanteng Si <siyanteng@loongson.cn>
+Cc: Yueh-Shun Li <shamrocklee@posteo.net>,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/3] coding-style: recommend reusing macros from split headers instead of kernel.h
+Date: Mon,  8 Jan 2024 19:37:10 +0000
+Message-ID: <20240108193737.189282-1-shamrocklee@posteo.net>
+In-Reply-To: <107b6b5e-ca14-4b2b-ba2e-38ecd74c0ad3@infradead.org>
 References: <107b6b5e-ca14-4b2b-ba2e-38ecd74c0ad3@infradead.org>
- <20240108160746.177421-1-shamrocklee@posteo.net>
- <20240108160746.177421-3-shamrocklee@posteo.net>
- <871qaryel9.fsf@meer.lwn.net>
- <eecb9fa3e0cd84fce0b2f9e5449888a0@posteo.net>
-Date: Mon, 08 Jan 2024 11:27:22 -0700
-Message-ID: <87ederwuid.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Yueh-Shun Li <shamrocklee@posteo.net> writes:
+Dear Maintainers,
 
->> So everything we add to our documentation has a cost in terms of reader
->> attention.  We ask people to read through a lot of material now, and
->> should only increase that ask for good reason.
->> 
->> With that context, I have to wonder whether we really need to tell our
->> readers, who are supposed to be capable developers, that reuse can help
->> to avoid name collisions?
->> 
->
-> The motivation comes from existing inconsistency of the "__stringify()" 
-> macro
-> definition between e.g. "samples/bpf/tracex5.bpf.c" and other files.
->
-> I agree that increasing the length of the documentation without
-> substantial benefits would not be helpful for the readers, and
-> doubling the length of a section is too much for its purpose.
->
-> Should I shorten it into one sentence, like
->
-> ```
-> On the other hand, locally-defined variants, such as ``#define 
-> __stringify(x) #x``,
-> could lead to naming collisions that break otherwise functioning 
-> facilities.
-> ```
->
-> or just omit it in the next version of patches?
+In this version of patch series, I drop the patch abouth the nameing
+conflicts caused by locally-defined macro variants to streamline the
+documentation.[1]
 
-My own feeling (others may well disagree) is that this isn't worth
-mentioning in the coding-style document.  What you *could* do is to fix
-the redefinitions (if that hasn't happened yet) and make sure that the
-macros in question are covered in our kernel documentation.
+This series of patches targets the "Linux kernel coding style"
+documentation and recommend reusing macros inside the include/linux
+directory instead of the obsolete header "include/linux/kernel.h".
 
-Thanks,
+This addresses the issue 'Irrelevant documentation recommending the use
+of "include/linux/kernel.h"'[2][3] and help deprecating "kernel.h".
 
-jon
+This series contains the update to the zh_TW and zh_CN translation of
+the corresponding documentation changes.
+
+Best regards,
+
+Shamrock
+
+[1]: https://lore.kernel.org/linux-doc/87ederwuid.fsf@meer.lwn.net/
+[2]: https://lore.kernel.org/linux-doc/bc63acd7ef43bdd8d9609fa48dbf92f9@posteo.net/
+[3]: https://lore.kernel.org/linux-doc/107b6b5e-ca14-4b2b-ba2e-38ecd74c0ad3@infradead.org/
+
+Yueh-Shun Li (3):
+  coding-style: recommend split headers instead of kernel.h
+  doc/zh_TW: coding-style: update content for section 18
+  doc/zh_CN: coding-style: update content of section 18
+
+ Documentation/process/coding-style.rst        | 24 ++++++++++---------
+ .../zh_CN/process/coding-style.rst            | 22 ++++++++---------
+ .../zh_TW/process/coding-style.rst            | 22 ++++++++---------
+ 3 files changed, 35 insertions(+), 33 deletions(-)
+
+-- 
+2.42.0
+
