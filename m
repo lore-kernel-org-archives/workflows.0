@@ -1,100 +1,106 @@
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44DA52F6A
-	for <workflows@vger.kernel.org>; Mon,  8 Jan 2024 16:16:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DBF253E16;
+	Mon,  8 Jan 2024 16:28:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="KcTeZBrg"
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id 09F46240106
-	for <workflows@vger.kernel.org>; Mon,  8 Jan 2024 17:16:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-	t=1704730591; bh=VhNI/VyHttpB6Dc+nOmQ0eI7dT/saNfHep5H24iJdO8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:
-	 Content-Transfer-Encoding:From;
-	b=KcTeZBrgov4Ofp5ylD+GLd6522cUAGXdvkHJH4RuFrXil4Dify3Kw2J/RE/RqozOv
-	 pMtCo2AjtB1kO/781pqs1RmGqWvSIo/+PPFUAPdPOvR7h8YL84GLmLzkMyw474vvqH
-	 srObjd0LuHZyP0YVOLYGtYBxz7I+iUvM6zI/uqVGyDqvIoS+Al3Q+z4DqgD433h7FA
-	 xz/F0W6e4nsZZiVXsQ+aAhsTCWFHdrYBtJe0eMqbN+xsrb1KdICrcm7Dwkb9a/jpvB
-	 0k57HFXkW7lDYSdgHNEsDG0vuGeinjXLDvheNrFQN/Vo6Z3PzXmulz4WzXvF5TLnDl
-	 smXMxAltS4vjA==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4T7zhV4n4Wz9rxN;
-	Mon,  8 Jan 2024 17:16:26 +0100 (CET)
-From: Yueh-Shun Li <shamrocklee@posteo.net>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Yueh-Shun Li <shamrocklee@posteo.net>,
-	Hu Haowen <src.res.211@gmail.com>,
-	Alex Shi <alexs@kernel.org>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/4] coding-style: show how reusing macros prevents naming collisions
-Date: Mon,  8 Jan 2024 16:03:23 +0000
-Message-ID: <20240108160746.177421-3-shamrocklee@posteo.net>
-In-Reply-To: <20240108160746.177421-1-shamrocklee@posteo.net>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="MdS1b4ha"
+Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 4ECBC377;
+	Mon,  8 Jan 2024 16:28:19 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4ECBC377
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1704731299; bh=wq9SjBGaG0x7BK6duWay1nTcX9VdeS5D83MxyhQYxH8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=MdS1b4haLNtmbhmLT7JQZh+oO6+6oYPvKiSi/216/qZqR9FBZKRiIjXGDEUoSv/2g
+	 mgwv13z4PKIUyupKtNmzwQgxiIy/KXfARS1OHCNib6jhFDnCW2m/yz0Mz125LOqWBS
+	 9iApfqzUv519ZkGoEhIWT4Yrr/10qrp88v4qI2p6uLh0ohVY1O6BMdp21GY+r2HN4D
+	 crPUi0KOC56A42/3Bf4Dq5U63qh6uDNMSnvT3sKWj8yfSUiVpCnC3rDroNBrWS59El
+	 k04jHh3ntAEiHhL39g8M2RswQ4aK8NuPQsGxXClskWlUUHXGjLRrSHB20x2vaMHp3t
+	 jeoBAvshlQmFw==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Yueh-Shun Li <shamrocklee@posteo.net>
+Cc: Yueh-Shun Li <shamrocklee@posteo.net>, Hu Haowen
+ <src.res.211@gmail.com>, Alex Shi <alexs@kernel.org>, Yanteng Si
+ <siyanteng@loongson.cn>, Randy Dunlap <rdunlap@infradead.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/4] coding-style: show how reusing macros prevents
+ naming collisions
+In-Reply-To: <20240108160746.177421-3-shamrocklee@posteo.net>
 References: <107b6b5e-ca14-4b2b-ba2e-38ecd74c0ad3@infradead.org>
  <20240108160746.177421-1-shamrocklee@posteo.net>
+ <20240108160746.177421-3-shamrocklee@posteo.net>
+Date: Mon, 08 Jan 2024 09:28:18 -0700
+Message-ID: <871qaryel9.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-In section "18) Don't re-invent the kernel macros" in "Linux kernel
-coding style":
+Yueh-Shun Li <shamrocklee@posteo.net> writes:
 
-Show how reusing macros from shared headers prevents naming collisions
-using "stringify", the one of the most widely reinvented macro, as an
-example.
+> In section "18) Don't re-invent the kernel macros" in "Linux kernel
+> coding style":
+>
+> Show how reusing macros from shared headers prevents naming collisions
+> using "stringify", the one of the most widely reinvented macro, as an
+> example.
+>
+> This patch aims to provide a stronger reason to reuse shared macros,
+> by showing the risk of improvised macro variants.
+>
+> Signed-off-by: Yueh-Shun Li <shamrocklee@posteo.net>
+> ---
+>  Documentation/process/coding-style.rst | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+>
+> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+> index 2504cb00a961..1e79aba4b346 100644
+> --- a/Documentation/process/coding-style.rst
+> +++ b/Documentation/process/coding-style.rst
+> @@ -1070,6 +1070,28 @@ Similarly, if you need to calculate the size of some structure member, use
+>  There are also ``min()`` and ``max()`` macros in ``include/linux/minmax.h``
+>  that do strict type checking if you need them.
+>  
+> +Using existing macros provided by the shared headers also prevents naming
+> +collisions. For example, if one developer define in ``foo.h``
+> +
+> +.. code-block:: c
+> +
+> +	#define __stringify(x) __stringify_1(x)
+> +	#define __stringify_1(x) #x
+> +
+> +and another define in ``bar.h``
+> +
+> +.. code-block:: c
+> +
+> +	#define stringify(x) __stringify(x)
+> +	#define __stringify(x) #x
+> +
+> +When both headers are ``#include``-d into the same file, the facilities provided
+> +by ``foo.h`` might be broken by ``bar.h``.
+> +
+> +If both ``foo.h`` and ``bar.h``  use the macro ``__stringify()`` provided by
+> +``include/linux/stringify.h``, they wouldn't have stepped onto each other's
+> +toes.
+> +
 
-This patch aims to provide a stronger reason to reuse shared macros,
-by showing the risk of improvised macro variants.
+So everything we add to our documentation has a cost in terms of reader
+attention.  We ask people to read through a lot of material now, and
+should only increase that ask for good reason.
 
-Signed-off-by: Yueh-Shun Li <shamrocklee@posteo.net>
----
- Documentation/process/coding-style.rst | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+With that context, I have to wonder whether we really need to tell our
+readers, who are supposed to be capable developers, that reuse can help
+to avoid name collisions?
 
-diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-index 2504cb00a961..1e79aba4b346 100644
---- a/Documentation/process/coding-style.rst
-+++ b/Documentation/process/coding-style.rst
-@@ -1070,6 +1070,28 @@ Similarly, if you need to calculate the size of some structure member, use
- There are also ``min()`` and ``max()`` macros in ``include/linux/minmax.h``
- that do strict type checking if you need them.
- 
-+Using existing macros provided by the shared headers also prevents naming
-+collisions. For example, if one developer define in ``foo.h``
-+
-+.. code-block:: c
-+
-+	#define __stringify(x) __stringify_1(x)
-+	#define __stringify_1(x) #x
-+
-+and another define in ``bar.h``
-+
-+.. code-block:: c
-+
-+	#define stringify(x) __stringify(x)
-+	#define __stringify(x) #x
-+
-+When both headers are ``#include``-d into the same file, the facilities provided
-+by ``foo.h`` might be broken by ``bar.h``.
-+
-+If both ``foo.h`` and ``bar.h``  use the macro ``__stringify()`` provided by
-+``include/linux/stringify.h``, they wouldn't have stepped onto each other's
-+toes.
-+
- Feel free to search across and peruse the header files to see what else is
- already defined that you shouldn't reproduce in your code.
- 
--- 
-2.42.0
+Thanks,
 
+jon
