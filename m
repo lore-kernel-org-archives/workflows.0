@@ -1,247 +1,91 @@
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFDBC1F5E4
-	for <workflows@vger.kernel.org>; Wed, 17 Jan 2024 13:14:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 907ED405EA
+	for <workflows@vger.kernel.org>; Mon, 22 Jan 2024 20:10:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705497253; cv=none; b=L5Ppq5wudgieYeLgTBvaiYrD+rX4SXnDNnp3j3DOPn857rBemOnmzKnMQcHjnVv1UgFOeyuR6wkRGIGcgPvRnEUHtHpHCGj785L0BLQ83oFHNFKbFYLi+cXXwEVYFRXq7eUoZAEMBH0KwJyDMxqEcPXnhy/nn8DTR7oXcsIEXpo=
+	t=1705954244; cv=none; b=kudNQFMBEp1A50gCtgfF/Qwy+pZoOC68gCdBhBUc9hl1VsmudGF9q+DYSzpbmAUKGKrXTLI26XB8gm2TwDUuzYcGEoeSI+rUfR8gyNP+YsW29wVKlxPqUQxqZwC+AHq1VmWTaz13Ppd0M3EOoJPcIyrzqBOMrC8NKB1XNX6U2vI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705497253; c=relaxed/simple;
-	bh=0kKkVZAmxxgCK2b83Eet+1tmuc7YCI0svgRbIjAjzRM=;
-	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:MIME-Version:
-	 References:In-Reply-To:From:Date:Message-ID:Subject:To:Cc:
-	 Content-Type:Content-Transfer-Encoding; b=I45zIUGuLSRmq5ujD/YeC4vjzTN5GMsqYtmkoipc9WhgMPXfPqRaEcLhSfftc+JuU3ji4rkv1HJ40dvhSE4FANb+7yKWenQW4zQgd6D5qiXbuMMUMKkBawgCd3CJ+FGMJAwMq1t/Vloo4GhaFsZfuvSDU9yvcPHi1jaNe8gKJh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=hvUgxsp7; arc=none smtp.client-ip=209.85.219.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1705954244; c=relaxed/simple;
+	bh=H/iOMj+r6Vg7BAQd7pMxjbBMH7JYC3aAQSRpyIU9y3Y=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:CC:Content-Type; b=scOg6FjoRXCo5SyTfNXp/SmjaAaAcNKoJQe3GPJohHJzlG3LtRMzFbbFseSNt93iekxgcBVb2Ymzaxc9fISRCdLV5bzkzUI5gWo6N68qWEoQKJWy6GtQEYzCeolqj0gkcSN0ZZLPK4WW693Ycibzx2u1aa9ZSSefjF6ivyoFKwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=VYBoBQK0; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="hvUgxsp7"
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-68180d30086so2078896d6.2
-        for <workflows@vger.kernel.org>; Wed, 17 Jan 2024 05:14:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1705497251; x=1706102051; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GqSxYa4Ll/q/inJUy6LY/8bl4uTjezprMbcgXXP+xfI=;
-        b=hvUgxsp7Qkndh0gtb2tthCiT/p/xffZ7d2edjGj7Q5BMX6YY6uSbDa5n5z0cUbfrzD
-         wY+VjpzMmNxa8dy6n46Kj8NEkNQ6tMZjirIJPzbAQB9lD6a9fIipdDF/ifc58hrzhgrB
-         0Eqqm5gdJNigyyjdz+/ASt7TrAk3WIP1ybnJc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705497251; x=1706102051;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GqSxYa4Ll/q/inJUy6LY/8bl4uTjezprMbcgXXP+xfI=;
-        b=spDIANhG5tJ8UzXr5epm7MR3rgp+W7BokosF1vqogluRrWnP7GxtYIme6W8ehPZq6d
-         +6005viseGPUg4624+pKe7U+QoBlINnGwwF0PonNgbQ3EkZ78C4Os7YyMdsf8ml2XMwL
-         j8IIFhrEE/mtNb3GhUXabizyoZ6XBx4c79doHzA/WsR8ODYdSJoaX9sqnBJyzE4MGV4Y
-         P+eCJavVXj4aVWf2MpRwcVllTgtemadpHeVuMkZ9I6yPBDvNPM6ia5U26uITbGUNFIfI
-         XqH6rTK6nQwjUu8uHMCngtn9zC3c3L2YMyubqGTA/Iyt3b7NoDRyaJ2+74iTCp9tm4aO
-         pzKg==
-X-Gm-Message-State: AOJu0YxHUtKsdCGbgLh80AaG924pKLDtwZfwqho6EwMaYzoajFdT3h4F
-	OCo3pEs91BdNZKW82fvgKSu/9bWIW7LUy7f75DQacU49caUF
-X-Google-Smtp-Source: AGHT+IF5UeVjK1iCRz3f126prxB2GJY2vd/O20pQBwj8NFheAR2YZBo4js3SPuZv3m7nAhRSa3fTwnO1FiELw6mo/2Y=
-X-Received: by 2002:a05:6214:ace:b0:681:1481:e2c4 with SMTP id
- g14-20020a0562140ace00b006811481e2c4mr9974321qvi.93.1705497250768; Wed, 17
- Jan 2024 05:14:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="VYBoBQK0"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40MK5mNa012705;
+	Mon, 22 Jan 2024 20:10:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:to:from:subject:cc:content-type
+	:content-transfer-encoding; s=qcppdkim1; bh=H/iOMj+r6Vg7BAQd7pMx
+	jbBMH7JYC3aAQSRpyIU9y3Y=; b=VYBoBQK0qCsNzoLpAiaoH1SjFvcMLUaQQ2kx
+	mah5UaOqWKgGUktwp43C6Zlbyvtg/yr5RsDNus6BsODrhKHiN7Zp0t2C1oQ80k7q
+	fbzKB+2PgjUHcnQsijXwvftVkgXRPcmmbJADaI7Ga/nygbLZIO8g/vBDpV/lebBM
+	PJDSCm9Al1zK+33SMy4vqs5FN2dekomKDY2xCHu8/aIj8nvVq3/DkYt8deomoBxb
+	yP4NLJtWYe+cnoSP40Fya3yG4+3mtGLRxlvuG3lz4A93Ehx8HkkyIDqe/HI5FytQ
+	3sEpvRlkhcJL2b2vdjGvCLz960ZtKOGdb/T1Ax69Kzu413ZgZA==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vstd98rbc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 22 Jan 2024 20:10:41 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40MKAev3027262
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 22 Jan 2024 20:10:40 GMT
+Received: from [10.110.26.199] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 22 Jan
+ 2024 12:10:39 -0800
+Message-ID: <403a40ac-10f1-46d9-bab4-86cd713fe5da@quicinc.com>
+Date: Mon, 22 Jan 2024 12:10:39 -0800
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231202035511.487946-1-sjg@chromium.org> <20231202035511.487946-3-sjg@chromium.org>
- <20231213121353.GA31326@willie-the-truck> <CAFLszTjfmSx1YMqzb2TsQf7sP4KrcQB=X7DY_HxRQp0J5HAppQ@mail.gmail.com>
- <CAK7LNAQRCDC03e=TVO=k4FuD2a2RdTy7yLr3UptQjVCX7pM1CA@mail.gmail.com> <20240109143349.GR1610741@bill-the-cat>
-In-Reply-To: <20240109143349.GR1610741@bill-the-cat>
-From: Simon Glass <sjg@chromium.org>
-Date: Wed, 17 Jan 2024 06:14:00 -0700
-Message-ID: <CAFLszTjwhy24UiT6kUJABMC1Xn0h9Q1q9fYpZZJg9DX8Vss9cA@mail.gmail.com>
-Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
-To: Tom Rini <trini@konsulko.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Will Deacon <will@kernel.org>, 
-	linux-arm-kernel@lists.infradead.org, Ahmad Fatoum <a.fatoum@pengutronix.de>, 
-	U-Boot Mailing List <u-boot@lists.denx.de>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	workflows@vger.kernel.org, Rob Herring <robh@kernel.org>
+User-Agent: Mozilla Thunderbird
+To: <workflows@vger.kernel.org>
+Content-Language: en-US
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+Subject: Patchwork Acked-by question
+CC: Kalle Valo <kvalo@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: aIyficoj-KwQuJPhp7vhqg-zYD4H4uAs
+X-Proofpoint-ORIG-GUID: aIyficoj-KwQuJPhp7vhqg-zYD4H4uAs
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-22_09,2024-01-22_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ suspectscore=0 bulkscore=0 impostorscore=0 mlxlogscore=588 mlxscore=0
+ spamscore=0 priorityscore=1501 phishscore=0 malwarescore=0 adultscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2401220144
 
-Hi Masahiro, Tom,
+I co-maintain the ath1*k wireless drivers with Kalle. Our current
+workflow is that I review and give an Acked-by and then Kalle does the
+actual patch integration.
 
-On Tue, 9 Jan 2024 at 07:33, Tom Rini <trini@konsulko.com> wrote:
->
-> On Tue, Jan 09, 2024 at 11:01:42PM +0900, Masahiro Yamada wrote:
-> > Hi Simon,
-> >
-> >
-> > On Wed, Jan 3, 2024 at 8:47=E2=80=AFAM Simon Glass <sjg@chromium.org> w=
-rote:
-> > >
-> > > Hi Masahiro,
-> > >
-> > > On Wed, Dec 13, 2023 at 5:14=E2=80=AFAM Will Deacon <will@kernel.org>=
- wrote:
-> > > >
-> > > > On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
-> > > > > Add a script which produces a Flat Image Tree (FIT), a single fil=
-e
-> > > > > containing the built kernel and associated devicetree files.
-> > > > > Compression defaults to gzip which gives a good balance of size a=
-nd
-> > > > > performance.
-> > > > >
-> > > > > The files compress from about 86MB to 24MB using this approach.
-> > > > >
-> > > > > The FIT can be used by bootloaders which support it, such as U-Bo=
-ot
-> > > > > and Linuxboot. It permits automatic selection of the correct
-> > > > > devicetree, matching the compatible string of the running board w=
-ith
-> > > > > the closest compatible string in the FIT. There is no need for
-> > > > > filenames or other workarounds.
-> > > > >
-> > > > > Add a 'make image.fit' build target for arm64, as well. Use
-> > > > > FIT_COMPRESSION to select a different algorithm.
-> > > > >
-> > > > > The FIT can be examined using 'dumpimage -l'.
-> > > > >
-> > > > > This features requires pylibfdt (use 'pip install libfdt'). It al=
-so
-> > > > > requires compression utilities for the algorithm being used. Supp=
-orted
-> > > > > compression options are the same as the Image.xxx files. For now =
-there
-> > > > > is no way to change the compression other than by editing the rul=
-e for
-> > > > > $(obj)/image.fit
-> > > > >
-> > > > > While FIT supports a ramdisk / initrd, no attempt is made to supp=
-ort
-> > > > > this here, since it must be built separately from the Linux build=
-.
-> > > > >
-> > > > > Signed-off-by: Simon Glass <sjg@chromium.org>
-> > > > > ---
-> > > > >
-> > > > > Changes in v9:
-> > > > > - Move the compression control into Makefile.lib
-> > > > >
-> > > > > Changes in v8:
-> > > > > - Drop compatible string in FDT node
-> > > > > - Correct sorting of MAINTAINERS to before ARM64 PORT
-> > > > > - Turn compress part of the make_fit.py comment in to a sentence
-> > > > > - Add two blank lines before parse_args() and setup_fit()
-> > > > > - Use 'image.fit: dtbs' instead of BUILD_DTBS var
-> > > > > - Use '$(<D)/dts' instead of '$(dir $<)dts'
-> > > > > - Add 'mkimage' details Documentation/process/changes.rst
-> > > > > - Allow changing the compression used
-> > > > > - Tweak cover letter since there is only one clean-up patch
-> > > > >
-> > > > > Changes in v7:
-> > > > > - Add Image as a dependency of image.fit
-> > > > > - Drop kbuild tag
-> > > > > - Add dependency on dtbs
-> > > > > - Drop unnecessary path separator for dtbs
-> > > > > - Rebase to -next
-> > > > >
-> > > > > Changes in v5:
-> > > > > - Drop patch previously applied
-> > > > > - Correct compression rule which was broken in v4
-> > > > >
-> > > > > Changes in v4:
-> > > > > - Use single quotes for UIMAGE_NAME
-> > > > >
-> > > > > Changes in v3:
-> > > > > - Drop temporary file image.itk
-> > > > > - Drop patch 'Use double quotes for image name'
-> > > > > - Drop double quotes in use of UIMAGE_NAME
-> > > > > - Drop unnecessary CONFIG_EFI_ZBOOT condition for help
-> > > > > - Avoid hard-coding "arm64" for the DT architecture
-> > > > >
-> > > > > Changes in v2:
-> > > > > - Drop patch previously applied
-> > > > > - Add .gitignore file
-> > > > > - Move fit rule to Makefile.lib using an intermediate file
-> > > > > - Drop dependency on CONFIG_EFI_ZBOOT
-> > > > > - Pick up .dtb files separately from the kernel
-> > > > > - Correct pylint too-many-args warning for write_kernel()
-> > > > > - Include the kernel image in the file count
-> > > > > - Add a pointer to the FIT spec and mention of its wide industry =
-usage
-> > > > > - Mention the kernel version in the FIT description
-> > > > >
-> > > > >  Documentation/process/changes.rst |   9 +
-> > > > >  MAINTAINERS                       |   7 +
-> > > > >  arch/arm64/Makefile               |   7 +-
-> > > > >  arch/arm64/boot/.gitignore        |   1 +
-> > > > >  arch/arm64/boot/Makefile          |   6 +-
-> > > > >  scripts/Makefile.lib              |  16 ++
-> > > > >  scripts/make_fit.py               | 291 ++++++++++++++++++++++++=
-++++++
-> > > > >  7 files changed, 334 insertions(+), 3 deletions(-)
-> > > > >  create mode 100755 scripts/make_fit.py
-> > > >
-> > > > I'll need Masahiro's Ack on the scripts/ changes before I can take =
-this
-> > > > one.
-> > >
-> > > Any thoughts on this request, please?
-> > >
-> > > Regards,
-> > > Simon
-> > >
-> >
-> >
-> >
-> > As I mentioned before, I am concerned with having
-> > the same "compatible" entries, with different contents,
-> > as you use the "compatible" string as an ID to selecting
-> > the target config node, right?
-> >
-> >
-> >
-> >
-> >
-> > $ fdtdump  arch/arm64/boot/image.fit
-> >
-> >         ...
-> >
-> >         conf-10 {
-> >             compatible =3D "tq,am642-tqma6442l-mbax4xxl",
-> > "tq,am642-tqma6442l", "ti,am642";
-> >             description =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL carri=
-er board";
-> >             fdt =3D "fdt-10";
-> >             kernel =3D "kernel";
-> >         };
-> >
-> >         ...
-> >
-> >         conf-25 {
-> >             compatible =3D "tq,am642-tqma6442l-mbax4xxl",
-> > "tq,am642-tqma6442l", "ti,am642";
-> >             description =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL carri=
-er board";
-> >             fdt =3D "fdt-25";
-> >             kernel =3D "kernel";
-> >         };
->
-> I had asked Rob a while ago about if having the same compatible for two
-> functionally different machines is a feature, or a bug, and I don't
-> think either of us fully agreed either way. I'd be leaning towards
-> saying the above example is a bug in the dts files, it's just not been a
-> bug people have worried about before due to (sadly) how little the
-> top-level compatible has been used.
+My observation is that when I give an Acked-by mailing list comments on
+individual patches, the appropriate flag is set in patchwork. However,
+this does not seem to work for a series of patches if I tag just the
+cover letter. Just curious if I'm doing something wrong, or if I'm
+expected to tag each individual patch, or if this is a missing
+project-specific configuration?
 
-Yes I believe this is a bug in the files.
+This is specifically in reference to
+<https://patchwork.kernel.org/project/linux-wireless/>
 
-What should the script do in this case? Print a warning, perhaps?
+And where I'd hope that the following would tag every patch in the series:
+<https://lore.kernel.org/linux-wireless/bbfc4752-0a54-4e8b-b5c3-86005ebaa834@quicinc.com/>
 
-Regards,
-Simon
+/jeff
+
