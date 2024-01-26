@@ -1,98 +1,53 @@
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A8E1C13
-	for <workflows@vger.kernel.org>; Fri, 26 Jan 2024 00:53:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C710EDC;
+	Fri, 26 Jan 2024 01:28:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706230423; cv=none; b=Mu7AAanhdRwCS/WZuirc13/R7BygdZ10cGLfFczYMWT8aGenR67LvIv6AN20HvDCO+0r7S78IFggUznvuQmwDjhQAQ8dsbJgtB78x7cohISjx3DiHwxJOORqhJc/Un7QUcizWwaOuGqVAs+1Gpn+ZLczpUJm08DLE9naiJl/4qE=
+	t=1706232512; cv=none; b=ioiGW/YfAYBMTqsDUlTOVV4EzDB+jFOLN+ook7aOKt/ye3d+Xm3ZsDgKt8Uo+MNTMYEvfweo9LAquvCnKrPDzo/f3ZDkU78p+qDASjTeHH/em1w/SfYv0bSg0jtVWwcS5WodgC6HCVyBzr/U559nGuvtjgTyRe/Tuo9u9LnD/uM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706230423; c=relaxed/simple;
-	bh=QuxxZaE5L8GrPM+q3t1r7YN+Zo56XqoDR/6PrJaKyeI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gBPhJSHFQ6NQOEY5yyS6P0OvAny1TC1yexrmlwh/ySkHJ6Uneg7QyEfJSr05+eDAgTmHNmWkYfVFr0TJS5/StD+GDxCn97K9+hQjEvBrNX6+JtYNErCFj1NSvZzO735Mu+AqCnAFplc7OwAupEgsBH7as1H3KGkVCs+aesa9DF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=fv9cm1tR; arc=none smtp.client-ip=209.85.160.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1706232512; c=relaxed/simple;
+	bh=MXHrNMwIXxXC2zkbi7yyUvT18qCcisD+QCAYXgVEWA8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uv8/au6hLBtcu+VVLVw1l8kY8ORiwHkyOeXAhT3vPQSXD0bO7uGD4xZujZLTlVD0wWG3/UgZ/C2bxEQXleWomsf9VAXHf+/mZuo0gOmuoPYIICpGePoaRVxYn3hHL7dRS/V1QXw7vDLBoKFDIQvLTNVEYU+RV6tGrVFHZWFDl6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ZQX2Ffn6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="fv9cm1tR"
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-210c535a19bso3651174fac.1
-        for <workflows@vger.kernel.org>; Thu, 25 Jan 2024 16:53:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1706230421; x=1706835221; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=aYpbwXcXYiJ6roKOkYLJmrvPmRofsX5FO7Hr83jUdbQ=;
-        b=fv9cm1tRuj04y4OsZoCeKlWR6Mr1nSrUOYCB2ZdSdW8fOmODGKMgl9WaOmORNmISGD
-         8HFLUbvzCIa1iL70GOrmS+6Ijp4vT8vFxGccWyELewdEyYjY6YMlLcP5XkDpTDz8YEIx
-         001HzGxu/pUf9Gokg4PxwfnJPrI18i+WfCbzE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706230421; x=1706835221;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aYpbwXcXYiJ6roKOkYLJmrvPmRofsX5FO7Hr83jUdbQ=;
-        b=U7cEe4azVgPWq4anwWJKXtF8yzOleD4gt3ACROOuB0EpeuHrY84SaBELvoJquF5Ipr
-         9HNn9JGCPHhdYDU3l1C8lvd3tu4x1V4eGYGUxjdeB0/4dMcrAInM3xR2eexkNctQG+iW
-         8Dol9pp4yv/oV3SUFhGU3NgPvZ4SPp+iBUnIIoEdMQoB/Me59PJJn8kcnalDZNM+8knz
-         zyt1d+f2PZz8fHRPL19fTmkCyAR1p97cDHxeJT2rMW0YeVQURfeEVim3REPOh/+DPYdz
-         KrFgrJLzlW8G8Ax6qdL4VHtpclshe01FPde/llLqnQdnAJnDk0FuMdw1ae5D5bwYT2QN
-         7q+Q==
-X-Gm-Message-State: AOJu0YzEoIjgHgSNYxNPjjAlrY2EaiMM6MgAi4F4bxF47F2q33cOvNAN
-	1NxfVpeo4rT/5Fm1Gh1zFyNkHnghxpNS4fKjjJGOlPbWEx6QgrTH3WWbj69YhQ==
-X-Google-Smtp-Source: AGHT+IE6u99yVo493L/bDH8mc50JjPU3nBjlkljRQufnwfOBxjjHm5jgbmWXPaXAguCaWwhDpGZgKA==
-X-Received: by 2002:a05:6871:530b:b0:210:a7d4:44ef with SMTP id hx11-20020a056871530b00b00210a7d444efmr572248oac.110.1706230421521;
-        Thu, 25 Jan 2024 16:53:41 -0800 (PST)
-Received: from localhost (209.148.168.34.bc.googleusercontent.com. [34.168.148.209])
-        by smtp.gmail.com with UTF8SMTPSA id o15-20020a63e34f000000b005c2420fb198sm123208pgj.37.2024.01.25.16.53.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Jan 2024 16:53:41 -0800 (PST)
-From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-To: gregkh@linuxfoundation.org
-Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org
-Subject: [PATCH] coding-style: Add guidance to prefer dev_dbg
-Date: Thu, 25 Jan 2024 16:53:11 -0800
-Message-ID: <20240125165311.1.I8d9c88e747e233917e527c7dad1feb8a18f070e2@changeid>
-X-Mailer: git-send-email 2.43.0.429.g432eaa2c6b-goog
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZQX2Ffn6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3F5FC433C7;
+	Fri, 26 Jan 2024 01:28:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1706232511;
+	bh=MXHrNMwIXxXC2zkbi7yyUvT18qCcisD+QCAYXgVEWA8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZQX2Ffn6k1pcaRnw+jJVmMFdr9GrLLoX+5tMV7En9LVxpNYz8GECkM+UvWrWJAQSH
+	 b/2p5YbcBFxxEHpVGzFaj5CB87nCMCPADzoGfeOQaJVcRJLzTBv58AA3ROZlbxEQHx
+	 o4WDupZhUiCDV67AZ7f9Mun1pFNG15jPAco8eMEo=
+Date: Thu, 25 Jan 2024 17:28:31 -0800
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Subject: Re: [PATCH] coding-style: Add guidance to prefer dev_dbg
+Message-ID: <2024012521-magnetize-dowry-8b05@gregkh>
+References: <20240125165311.1.I8d9c88e747e233917e527c7dad1feb8a18f070e2@changeid>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240125165311.1.I8d9c88e747e233917e527c7dad1feb8a18f070e2@changeid>
 
-During review, it was suggested that drivers only emit messages when
-something is wrong or it is a debug message. Document this as a formal
-recommendation.
+On Thu, Jan 25, 2024 at 04:53:11PM -0800, Abhishek Pandit-Subedi wrote:
+> During review, it was suggested that drivers only emit messages when
+> something is wrong or it is a debug message. Document this as a formal
+> recommendation.
+> 
+> https://lore.kernel.org/linux-usb/2024012525-alienate-frown-916b@gregkh/
+> 
+> Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
 
-https://lore.kernel.org/linux-usb/2024012525-alienate-frown-916b@gregkh/
-
-Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
----
-I'm sending up the change to documentation while this is still fresh.
-Will send an update to checkpatch.pl afterwards.
-
- Documentation/process/coding-style.rst | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-index c48382c6b477..f8ec23fa89bc 100644
---- a/Documentation/process/coding-style.rst
-+++ b/Documentation/process/coding-style.rst
-@@ -899,7 +899,8 @@ which you should use to make sure messages are matched to the right device
- and driver, and are tagged with the right level:  dev_err(), dev_warn(),
- dev_info(), and so forth.  For messages that aren't associated with a
- particular device, <linux/printk.h> defines pr_notice(), pr_info(),
--pr_warn(), pr_err(), etc.
-+pr_warn(), pr_err(), etc. When drivers are working properly they are quiet,
-+so prefer to use dev_dbg/pr_debug unless something is wrong.
- 
- Coming up with good debugging messages can be quite a challenge; and once
- you have them, they can be a huge help for remote troubleshooting.  However
--- 
-2.43.0.429.g432eaa2c6b-goog
-
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
