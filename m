@@ -1,256 +1,98 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162E27317F
-	for <workflows@vger.kernel.org>; Thu, 25 Jan 2024 16:03:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A8E1C13
+	for <workflows@vger.kernel.org>; Fri, 26 Jan 2024 00:53:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706198638; cv=none; b=WEOAlGip5XKtX+ayIwdv/Ot4XMBlzej6M5OcvnKYIM79OXFM31FoqQRbxFQqI5D0wH+yx2DNSYWFzYdJSK21QYzuieC95EP0igNRxWB4/eMLBT5WY2p0b5pPDs7ms6QWA4EgkRxPWUCDiLBtbrj58oeBy/auJfb9pmthP9Y+YMk=
+	t=1706230423; cv=none; b=Mu7AAanhdRwCS/WZuirc13/R7BygdZ10cGLfFczYMWT8aGenR67LvIv6AN20HvDCO+0r7S78IFggUznvuQmwDjhQAQ8dsbJgtB78x7cohISjx3DiHwxJOORqhJc/Un7QUcizWwaOuGqVAs+1Gpn+ZLczpUJm08DLE9naiJl/4qE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706198638; c=relaxed/simple;
-	bh=sW6rzFbbih98ZLcPpgT7sLre+clXbHFB1iP8PpLpz+U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TKFoWKH3hgY3f1lvz+ILNbwOPMQrcuggZOwy81HusjP7NueF82qZoyyLTarrxWXEqUQMZHig0eDdIydhgCpcI01g3Qfpqbl8hqcw8t51k+ABuTOCG/ctlXOIHSg0Gc4TXcxkqy0Bd/2TMDDgPWN9qFZWQ+EsALYwvcNrH0HFJJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Gw15sIs4; arc=none smtp.client-ip=209.85.210.178
+	s=arc-20240116; t=1706230423; c=relaxed/simple;
+	bh=QuxxZaE5L8GrPM+q3t1r7YN+Zo56XqoDR/6PrJaKyeI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gBPhJSHFQ6NQOEY5yyS6P0OvAny1TC1yexrmlwh/ySkHJ6Uneg7QyEfJSr05+eDAgTmHNmWkYfVFr0TJS5/StD+GDxCn97K9+hQjEvBrNX6+JtYNErCFj1NSvZzO735Mu+AqCnAFplc7OwAupEgsBH7as1H3KGkVCs+aesa9DF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=fv9cm1tR; arc=none smtp.client-ip=209.85.160.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Gw15sIs4"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6db0fdd2b8fso3733719b3a.2
-        for <workflows@vger.kernel.org>; Thu, 25 Jan 2024 08:03:56 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="fv9cm1tR"
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-210c535a19bso3651174fac.1
+        for <workflows@vger.kernel.org>; Thu, 25 Jan 2024 16:53:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1706198636; x=1706803436; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VrGdhy25Rn2oHABS6aENA0hptRat8XLHKlIr3dlLph0=;
-        b=Gw15sIs4wcFbif09jnX7wyeOfvbvVoVXriSTjQoojMEIg6dYp8zReFSUFu4a3UWGyg
-         Vt60f0EpzmxGsLVBdJPzEPCdzOgCG8rcNSOAG4PSxViwaxVeQTnsvMtSAKsbBngLvvrc
-         3YRNgcWkO3flkwKwDk3owu1vvL4cgbYW6Mlpc=
+        d=chromium.org; s=google; t=1706230421; x=1706835221; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aYpbwXcXYiJ6roKOkYLJmrvPmRofsX5FO7Hr83jUdbQ=;
+        b=fv9cm1tRuj04y4OsZoCeKlWR6Mr1nSrUOYCB2ZdSdW8fOmODGKMgl9WaOmORNmISGD
+         8HFLUbvzCIa1iL70GOrmS+6Ijp4vT8vFxGccWyELewdEyYjY6YMlLcP5XkDpTDz8YEIx
+         001HzGxu/pUf9Gokg4PxwfnJPrI18i+WfCbzE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706198636; x=1706803436;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VrGdhy25Rn2oHABS6aENA0hptRat8XLHKlIr3dlLph0=;
-        b=hyABaKewJbSxtMk30332NLSC1Beq1s/3PzCb0Q4m4hz7wCaMylsSZlCfMVNYaCxHQK
-         ymANazji8G8RsjJWdGq3gA9nMF6mQushoqTMrCTjsIYOSuoVuPbXJiz/W5i3ACzlMtNG
-         QGxcU/8q0Y4N9j5INVswHeZ6mfWfSRZghzg0wjt9phfx2BSCX6QCKIIiD9nlPeuMSLsk
-         3ZQofXr1kBXUQyUjhOprz4LgS7TemK+vX/gQV4GnQrVA+op1Z4uKd0BWLjAeeKvi15/7
-         EIpdWZPiorcPNKH72eVRpWqiFzjAofNezYx/R1JC4L7MP8WCOtLsA4i/MVjJsFWPlrzJ
-         8m6g==
-X-Gm-Message-State: AOJu0YyvczEykvvmzSpUTjsWP1acNlRIrm+qTzU1EIJjZ73iZdHQleEM
-	zxgFBfbHQ8ZXyf7dMPnDMMawMx7ODLGKewp7iUncdKR6TeCqpRHPgMP9KmvRHJFps0dQibOX2W8
-	JMsFT+Zje72o4cKiET0r8qIs3k3EVS/Sn7o8v
-X-Google-Smtp-Source: AGHT+IEenS2rfwvLmHoKzdoeA9hwC6DsN4jJq3co/Ozs1wndeC2wqkYhWrAhjXodKyScQl5NYPZQs+lNSO/XkzbhhAg=
-X-Received: by 2002:a62:6306:0:b0:6dd:c0a6:4421 with SMTP id
- x6-20020a626306000000b006ddc0a64421mr684803pfb.58.1706198636248; Thu, 25 Jan
- 2024 08:03:56 -0800 (PST)
+        d=1e100.net; s=20230601; t=1706230421; x=1706835221;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aYpbwXcXYiJ6roKOkYLJmrvPmRofsX5FO7Hr83jUdbQ=;
+        b=U7cEe4azVgPWq4anwWJKXtF8yzOleD4gt3ACROOuB0EpeuHrY84SaBELvoJquF5Ipr
+         9HNn9JGCPHhdYDU3l1C8lvd3tu4x1V4eGYGUxjdeB0/4dMcrAInM3xR2eexkNctQG+iW
+         8Dol9pp4yv/oV3SUFhGU3NgPvZ4SPp+iBUnIIoEdMQoB/Me59PJJn8kcnalDZNM+8knz
+         zyt1d+f2PZz8fHRPL19fTmkCyAR1p97cDHxeJT2rMW0YeVQURfeEVim3REPOh/+DPYdz
+         KrFgrJLzlW8G8Ax6qdL4VHtpclshe01FPde/llLqnQdnAJnDk0FuMdw1ae5D5bwYT2QN
+         7q+Q==
+X-Gm-Message-State: AOJu0YzEoIjgHgSNYxNPjjAlrY2EaiMM6MgAi4F4bxF47F2q33cOvNAN
+	1NxfVpeo4rT/5Fm1Gh1zFyNkHnghxpNS4fKjjJGOlPbWEx6QgrTH3WWbj69YhQ==
+X-Google-Smtp-Source: AGHT+IE6u99yVo493L/bDH8mc50JjPU3nBjlkljRQufnwfOBxjjHm5jgbmWXPaXAguCaWwhDpGZgKA==
+X-Received: by 2002:a05:6871:530b:b0:210:a7d4:44ef with SMTP id hx11-20020a056871530b00b00210a7d444efmr572248oac.110.1706230421521;
+        Thu, 25 Jan 2024 16:53:41 -0800 (PST)
+Received: from localhost (209.148.168.34.bc.googleusercontent.com. [34.168.148.209])
+        by smtp.gmail.com with UTF8SMTPSA id o15-20020a63e34f000000b005c2420fb198sm123208pgj.37.2024.01.25.16.53.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Jan 2024 16:53:41 -0800 (PST)
+From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+To: gregkh@linuxfoundation.org
+Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org
+Subject: [PATCH] coding-style: Add guidance to prefer dev_dbg
+Date: Thu, 25 Jan 2024 16:53:11 -0800
+Message-ID: <20240125165311.1.I8d9c88e747e233917e527c7dad1feb8a18f070e2@changeid>
+X-Mailer: git-send-email 2.43.0.429.g432eaa2c6b-goog
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231202035511.487946-1-sjg@chromium.org> <20231202035511.487946-3-sjg@chromium.org>
- <20231213121353.GA31326@willie-the-truck> <CAFLszTjfmSx1YMqzb2TsQf7sP4KrcQB=X7DY_HxRQp0J5HAppQ@mail.gmail.com>
- <CAK7LNAQRCDC03e=TVO=k4FuD2a2RdTy7yLr3UptQjVCX7pM1CA@mail.gmail.com>
- <20240109143349.GR1610741@bill-the-cat> <CAFLszTjwhy24UiT6kUJABMC1Xn0h9Q1q9fYpZZJg9DX8Vss9cA@mail.gmail.com>
-In-Reply-To: <CAFLszTjwhy24UiT6kUJABMC1Xn0h9Q1q9fYpZZJg9DX8Vss9cA@mail.gmail.com>
-From: Simon Glass <sjg@chromium.org>
-Date: Thu, 25 Jan 2024 09:03:44 -0700
-Message-ID: <CAFLszTjPAHd6RdO1mvatXC=yRS+h=sgJ_pMdyEnkROTx7yRpog@mail.gmail.com>
-Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
-To: Tom Rini <trini@konsulko.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Will Deacon <will@kernel.org>, 
-	linux-arm-kernel@lists.infradead.org, Ahmad Fatoum <a.fatoum@pengutronix.de>, 
-	U-Boot Mailing List <u-boot@lists.denx.de>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	workflows@vger.kernel.org, Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi,
+During review, it was suggested that drivers only emit messages when
+something is wrong or it is a debug message. Document this as a formal
+recommendation.
 
-On Wed, 17 Jan 2024 at 06:14, Simon Glass <sjg@chromium.org> wrote:
->
-> Hi Masahiro, Tom,
->
-> On Tue, 9 Jan 2024 at 07:33, Tom Rini <trini@konsulko.com> wrote:
-> >
-> > On Tue, Jan 09, 2024 at 11:01:42PM +0900, Masahiro Yamada wrote:
-> > > Hi Simon,
-> > >
-> > >
-> > > On Wed, Jan 3, 2024 at 8:47=E2=80=AFAM Simon Glass <sjg@chromium.org>=
- wrote:
-> > > >
-> > > > Hi Masahiro,
-> > > >
-> > > > On Wed, Dec 13, 2023 at 5:14=E2=80=AFAM Will Deacon <will@kernel.or=
-g> wrote:
-> > > > >
-> > > > > On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
-> > > > > > Add a script which produces a Flat Image Tree (FIT), a single f=
-ile
-> > > > > > containing the built kernel and associated devicetree files.
-> > > > > > Compression defaults to gzip which gives a good balance of size=
- and
-> > > > > > performance.
-> > > > > >
-> > > > > > The files compress from about 86MB to 24MB using this approach.
-> > > > > >
-> > > > > > The FIT can be used by bootloaders which support it, such as U-=
-Boot
-> > > > > > and Linuxboot. It permits automatic selection of the correct
-> > > > > > devicetree, matching the compatible string of the running board=
- with
-> > > > > > the closest compatible string in the FIT. There is no need for
-> > > > > > filenames or other workarounds.
-> > > > > >
-> > > > > > Add a 'make image.fit' build target for arm64, as well. Use
-> > > > > > FIT_COMPRESSION to select a different algorithm.
-> > > > > >
-> > > > > > The FIT can be examined using 'dumpimage -l'.
-> > > > > >
-> > > > > > This features requires pylibfdt (use 'pip install libfdt'). It =
-also
-> > > > > > requires compression utilities for the algorithm being used. Su=
-pported
-> > > > > > compression options are the same as the Image.xxx files. For no=
-w there
-> > > > > > is no way to change the compression other than by editing the r=
-ule for
-> > > > > > $(obj)/image.fit
-> > > > > >
-> > > > > > While FIT supports a ramdisk / initrd, no attempt is made to su=
-pport
-> > > > > > this here, since it must be built separately from the Linux bui=
-ld.
-> > > > > >
-> > > > > > Signed-off-by: Simon Glass <sjg@chromium.org>
-> > > > > > ---
-> > > > > >
-> > > > > > Changes in v9:
-> > > > > > - Move the compression control into Makefile.lib
-> > > > > >
-> > > > > > Changes in v8:
-> > > > > > - Drop compatible string in FDT node
-> > > > > > - Correct sorting of MAINTAINERS to before ARM64 PORT
-> > > > > > - Turn compress part of the make_fit.py comment in to a sentenc=
-e
-> > > > > > - Add two blank lines before parse_args() and setup_fit()
-> > > > > > - Use 'image.fit: dtbs' instead of BUILD_DTBS var
-> > > > > > - Use '$(<D)/dts' instead of '$(dir $<)dts'
-> > > > > > - Add 'mkimage' details Documentation/process/changes.rst
-> > > > > > - Allow changing the compression used
-> > > > > > - Tweak cover letter since there is only one clean-up patch
-> > > > > >
-> > > > > > Changes in v7:
-> > > > > > - Add Image as a dependency of image.fit
-> > > > > > - Drop kbuild tag
-> > > > > > - Add dependency on dtbs
-> > > > > > - Drop unnecessary path separator for dtbs
-> > > > > > - Rebase to -next
-> > > > > >
-> > > > > > Changes in v5:
-> > > > > > - Drop patch previously applied
-> > > > > > - Correct compression rule which was broken in v4
-> > > > > >
-> > > > > > Changes in v4:
-> > > > > > - Use single quotes for UIMAGE_NAME
-> > > > > >
-> > > > > > Changes in v3:
-> > > > > > - Drop temporary file image.itk
-> > > > > > - Drop patch 'Use double quotes for image name'
-> > > > > > - Drop double quotes in use of UIMAGE_NAME
-> > > > > > - Drop unnecessary CONFIG_EFI_ZBOOT condition for help
-> > > > > > - Avoid hard-coding "arm64" for the DT architecture
-> > > > > >
-> > > > > > Changes in v2:
-> > > > > > - Drop patch previously applied
-> > > > > > - Add .gitignore file
-> > > > > > - Move fit rule to Makefile.lib using an intermediate file
-> > > > > > - Drop dependency on CONFIG_EFI_ZBOOT
-> > > > > > - Pick up .dtb files separately from the kernel
-> > > > > > - Correct pylint too-many-args warning for write_kernel()
-> > > > > > - Include the kernel image in the file count
-> > > > > > - Add a pointer to the FIT spec and mention of its wide industr=
-y usage
-> > > > > > - Mention the kernel version in the FIT description
-> > > > > >
-> > > > > >  Documentation/process/changes.rst |   9 +
-> > > > > >  MAINTAINERS                       |   7 +
-> > > > > >  arch/arm64/Makefile               |   7 +-
-> > > > > >  arch/arm64/boot/.gitignore        |   1 +
-> > > > > >  arch/arm64/boot/Makefile          |   6 +-
-> > > > > >  scripts/Makefile.lib              |  16 ++
-> > > > > >  scripts/make_fit.py               | 291 ++++++++++++++++++++++=
-++++++++
-> > > > > >  7 files changed, 334 insertions(+), 3 deletions(-)
-> > > > > >  create mode 100755 scripts/make_fit.py
-> > > > >
-> > > > > I'll need Masahiro's Ack on the scripts/ changes before I can tak=
-e this
-> > > > > one.
-> > > >
-> > > > Any thoughts on this request, please?
-> > > >
-> > > > Regards,
-> > > > Simon
-> > > >
-> > >
-> > >
-> > >
-> > > As I mentioned before, I am concerned with having
-> > > the same "compatible" entries, with different contents,
-> > > as you use the "compatible" string as an ID to selecting
-> > > the target config node, right?
-> > >
-> > >
-> > >
-> > >
-> > >
-> > > $ fdtdump  arch/arm64/boot/image.fit
-> > >
-> > >         ...
-> > >
-> > >         conf-10 {
-> > >             compatible =3D "tq,am642-tqma6442l-mbax4xxl",
-> > > "tq,am642-tqma6442l", "ti,am642";
-> > >             description =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL car=
-rier board";
-> > >             fdt =3D "fdt-10";
-> > >             kernel =3D "kernel";
-> > >         };
-> > >
-> > >         ...
-> > >
-> > >         conf-25 {
-> > >             compatible =3D "tq,am642-tqma6442l-mbax4xxl",
-> > > "tq,am642-tqma6442l", "ti,am642";
-> > >             description =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL car=
-rier board";
-> > >             fdt =3D "fdt-25";
-> > >             kernel =3D "kernel";
-> > >         };
-> >
-> > I had asked Rob a while ago about if having the same compatible for two
-> > functionally different machines is a feature, or a bug, and I don't
-> > think either of us fully agreed either way. I'd be leaning towards
-> > saying the above example is a bug in the dts files, it's just not been =
-a
-> > bug people have worried about before due to (sadly) how little the
-> > top-level compatible has been used.
->
-> Yes I believe this is a bug in the files.
->
-> What should the script do in this case? Print a warning, perhaps?
+https://lore.kernel.org/linux-usb/2024012525-alienate-frown-916b@gregkh/
 
-Is there anything I should do here? Would a warning be helpful, or
-just confusing?
+Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+---
+I'm sending up the change to documentation while this is still fresh.
+Will send an update to checkpatch.pl afterwards.
 
-Regards,
-Simon
+ Documentation/process/coding-style.rst | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+index c48382c6b477..f8ec23fa89bc 100644
+--- a/Documentation/process/coding-style.rst
++++ b/Documentation/process/coding-style.rst
+@@ -899,7 +899,8 @@ which you should use to make sure messages are matched to the right device
+ and driver, and are tagged with the right level:  dev_err(), dev_warn(),
+ dev_info(), and so forth.  For messages that aren't associated with a
+ particular device, <linux/printk.h> defines pr_notice(), pr_info(),
+-pr_warn(), pr_err(), etc.
++pr_warn(), pr_err(), etc. When drivers are working properly they are quiet,
++so prefer to use dev_dbg/pr_debug unless something is wrong.
+ 
+ Coming up with good debugging messages can be quite a challenge; and once
+ you have them, they can be a huge help for remote troubleshooting.  However
+-- 
+2.43.0.429.g432eaa2c6b-goog
+
