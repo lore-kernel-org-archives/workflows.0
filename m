@@ -1,53 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C710EDC;
-	Fri, 26 Jan 2024 01:28:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162098BF7;
+	Sun, 28 Jan 2024 06:26:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706232512; cv=none; b=ioiGW/YfAYBMTqsDUlTOVV4EzDB+jFOLN+ook7aOKt/ye3d+Xm3ZsDgKt8Uo+MNTMYEvfweo9LAquvCnKrPDzo/f3ZDkU78p+qDASjTeHH/em1w/SfYv0bSg0jtVWwcS5WodgC6HCVyBzr/U559nGuvtjgTyRe/Tuo9u9LnD/uM=
+	t=1706423214; cv=none; b=TI4MQQy3gKqoJzvtWzsyPpoZLAdleloTauq6Cn6QAr8OhLwNceknuuGY0O+M4XtSSo+SLbibsn/QZcuoiM0evFCjh06lHTGi1SYsANpJWcTzXZL6jjFh//8S88o/M7mo6PthIUQmd1TPHer/K1HiIYvbzuF/xbYajB7mO4PWRqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706232512; c=relaxed/simple;
-	bh=MXHrNMwIXxXC2zkbi7yyUvT18qCcisD+QCAYXgVEWA8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uv8/au6hLBtcu+VVLVw1l8kY8ORiwHkyOeXAhT3vPQSXD0bO7uGD4xZujZLTlVD0wWG3/UgZ/C2bxEQXleWomsf9VAXHf+/mZuo0gOmuoPYIICpGePoaRVxYn3hHL7dRS/V1QXw7vDLBoKFDIQvLTNVEYU+RV6tGrVFHZWFDl6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ZQX2Ffn6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706423214; c=relaxed/simple;
+	bh=u06AxDE/ERNHphJgllEbxmKf0TouXDyp3C/4i66D+lI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TGfIdagKuXajRN+9hSY25unMcZPn4dpaTyrOOz19AczQKdQBj0dwsYj7elHwgNnn2mHXjRnzUjb4ryDv33RM6WO2XyZjGTtH1e1zODzplJwkzCgmkbQLuxk70JdkqUq5X6BIydHp29fz2HF4NlYwgiOEuNoxnyxYOp67Oz9g6g8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Vdizl39s; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZQX2Ffn6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3F5FC433C7;
-	Fri, 26 Jan 2024 01:28:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1706232511;
-	bh=MXHrNMwIXxXC2zkbi7yyUvT18qCcisD+QCAYXgVEWA8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZQX2Ffn6k1pcaRnw+jJVmMFdr9GrLLoX+5tMV7En9LVxpNYz8GECkM+UvWrWJAQSH
-	 b/2p5YbcBFxxEHpVGzFaj5CB87nCMCPADzoGfeOQaJVcRJLzTBv58AA3ROZlbxEQHx
-	 o4WDupZhUiCDV67AZ7f9Mun1pFNG15jPAco8eMEo=
-Date: Thu, 25 Jan 2024 17:28:31 -0800
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
-Subject: Re: [PATCH] coding-style: Add guidance to prefer dev_dbg
-Message-ID: <2024012521-magnetize-dowry-8b05@gregkh>
-References: <20240125165311.1.I8d9c88e747e233917e527c7dad1feb8a18f070e2@changeid>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Vdizl39s"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=3rA06n96WGLK2ibap/ECyjeIxpRARSJPprcl5Inbv4k=; b=Vdizl39swonXgRvIB3URmUUHeI
+	bU49yxcR7zVIiSc+jJ7z1+W7uBnuwYkFkzx+rSOHshxVp0MuF4qE61z3ttgzPzrR/hm8e1DvWOC9m
+	4HCy86c7mi8lRhJLoB21mthAab4RNQFzltv4HHl+Bc1+ROXTNDx1C+/bH3ooO2fUUVBXBqgWBgbxh
+	L9vgTvqpydua42924Uqwe+uYPQ/8DkrhbqnYA4M/Vghs3K2Dky6IYwY92MWMjgnjR/P6jDH6OZZAH
+	IDavZxILp8sXVhlzwkWF2cfWS0zTxu++nzTTUJ1c6Vmy95Fxsna/uPU+Kf0ZP0QbN1ecMz3fqHYOt
+	+wcCZylQ==;
+Received: from [50.53.50.0] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rTycq-00000008r9L-3te3;
+	Sun, 28 Jan 2024 06:26:41 +0000
+Message-ID: <7a0f057c-1544-49e2-9bbe-a46eb33dc8ac@infradead.org>
+Date: Sat, 27 Jan 2024 22:26:40 -0800
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240125165311.1.I8d9c88e747e233917e527c7dad1feb8a18f070e2@changeid>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/1] coding-style: recommend split headers instead of
+ kernel.h
+Content-Language: en-US
+To: Yueh-Shun Li <shamrocklee@posteo.net>, Jonathan Corbet <corbet@lwn.net>
+Cc: Hu Haowen <src.res.211@gmail.com>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <siyanteng@loongson.cn>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <107b6b5e-ca14-4b2b-ba2e-38ecd74c0ad3@infradead.org>
+ <20240108201851.191604-1-shamrocklee@posteo.net>
+ <20240108202217.191839-1-shamrocklee@posteo.net>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240108202217.191839-1-shamrocklee@posteo.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jan 25, 2024 at 04:53:11PM -0800, Abhishek Pandit-Subedi wrote:
-> During review, it was suggested that drivers only emit messages when
-> something is wrong or it is a debug message. Document this as a formal
-> recommendation.
-> 
-> https://lore.kernel.org/linux-usb/2024012525-alienate-frown-916b@gregkh/
-> 
-> Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+On 1/8/24 12:22, Yueh-Shun Li wrote:
+> In section "18) Don't re-invent the kernel macros" in "Linux kernel
+> coding style":
+> 
+> Recommend reusing macros from headers inside include/linux, instead of
+> the obsolete include/linux/kernel.h
+> 
+> Change wording
+> 
+> - "The header file contains macros" -> "the header files provide macros"
+>   Some macros are intended to use inside the header file only, or are
+>   considered the implementation detail of other facilities. Developers
+>   are expected to determine if a macro is meant to be used outside the
+>   header file.
+> 
+> Signed-off-by: Yueh-Shun Li <shamrocklee@posteo.net>
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks.
+
+> ---
+>  Documentation/process/coding-style.rst | 24 +++++++++++++-----------
+>  1 file changed, 13 insertions(+), 11 deletions(-)
+> 
+> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+> index 6db37a46d305..2a5c4f4c568c 100644
+> --- a/Documentation/process/coding-style.rst
+> +++ b/Documentation/process/coding-style.rst
+> @@ -1048,27 +1048,29 @@ readable alternative if the call-sites have naked true/false constants.
+>  Otherwise limited use of bool in structures and arguments can improve
+>  readability.
+>  
+> +
+>  18) Don't re-invent the kernel macros
+>  -------------------------------------
+>  
+> -The header file include/linux/kernel.h contains a number of macros that
+> -you should use, rather than explicitly coding some variant of them yourself.
+> +The header files in the ``include/linux`` directory provide a number of macros
+> +that you should use, rather than explicitly coding some variant of them
+> +yourself.
+> +
+>  For example, if you need to calculate the length of an array, take advantage
+> -of the macro
+> +of the macro ``ARRAY_SIZE()`` from ``include/linux/array_size.h`` by
+>  
+>  .. code-block:: c
+>  
+> -	#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+> +	#include <linux/array_size.h>
+> +	ARRAY_SIZE(x) // The size of array x
+>  
+>  Similarly, if you need to calculate the size of some structure member, use
+> +``sizeof_field()`` from ``include/linux/stddef.h``.
+>  
+> -.. code-block:: c
+> -
+> -	#define sizeof_field(t, f) (sizeof(((t*)0)->f))
+> -
+> -There are also min() and max() macros that do strict type checking if you
+> -need them.  Feel free to peruse that header file to see what else is already
+> -defined that you shouldn't reproduce in your code.
+> +There are also ``min()`` and ``max()`` macros in ``include/linux/minmax.h``
+> +that do strict type checking if you need them. Feel free to search across and
+> +peruse the header files to see what else is already defined that you shouldn't
+> +reproduce in your code.
+>  
+>  
+>  19) Editor modelines and other cruft
+
+-- 
+#Randy
