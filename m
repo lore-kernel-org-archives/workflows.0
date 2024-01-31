@@ -1,95 +1,108 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11CAF78676
-	for <workflows@vger.kernel.org>; Wed, 31 Jan 2024 12:53:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BEE880BEC
+	for <workflows@vger.kernel.org>; Wed, 31 Jan 2024 13:55:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706705639; cv=none; b=BeitBhpZipPwZySDYEbIW8UPlA2gUbKfVhh9HbezZ+A2b2FdOM0veid/cQ1XF0fhd3FNfU3GMnHW2fvBmwLfm+sXV+8FncoIiVw0Sf3p2pozVtfDxfJUXJQ4aGqdxwbyj2X754x/1+ZWb5RFT+2BxxKqzUS/q8ibjW7zY6RiDcc=
+	t=1706709312; cv=none; b=qBsLXnh3a0wY0b+bZsvpSXtobJL6Kk2pKmTcFBll3cxL4LCRCZuTLoUQpNpZU+8Yndrmkui+x0DL6eXYrKC1bRDBSKbJJvcnAcoKxKS5VzNUt1wr3EzvW3J/87/cPWVfzii6zwlIUeJG5Mc524rh0FdRIIA5MQ03r2VdwVwJeiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706705639; c=relaxed/simple;
-	bh=JfeMfeEnN893lB7oRpDj4HzmZahwCizVq6qzLQuZnx0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XS6tE6pxJkc+uQve8otEIsRrTXSyFR/AYzT+h7qxzPTtRzIyPmAJerQrLGMFmI0kJCs7LYPpAfvlPdyt/rgRb3HdiYGDmBf8TLhiBOCJ/JRWwnn2oz8N2zdleNUbD1hX4/VJzN+PtM4Qan0pZIZxAB7GCXI8fBXxnoXOKQbYQRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uXiJcRJk; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1706709312; c=relaxed/simple;
+	bh=2yaCnDKq0712Qh8a06J2vzYCV+H6rMFpxYGO33ZtKik=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TddMdl1vrUtIQbDGLeP6CtN8g1kCkUQLvcoJjrjmfT4HedMsqlnz3cag45LxyAIdVOfGe1ORPss9olFQj9ZdbOGGSwKyg5fXuiZKyJfbJRT2GVGBpmVg9ZXdILaVaW12bkPH/67DkcUjaRXWjywxAjx3e9HYvxNghkb5iLHTPbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LmQswoNt; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uXiJcRJk"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-55f082c2c92so4672751a12.0
-        for <workflows@vger.kernel.org>; Wed, 31 Jan 2024 04:53:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1706705635; x=1707310435; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=m7DD5+v6R7La9ObGy1udtBj61vuNh6NTN+5s93nqhEA=;
-        b=uXiJcRJkZ2x7RhCMDwTtwLwZLI54unGjkiIa1ihMa7YrEeFKVrrd6BMH3EuCnjTje4
-         gvOH2wq2Jddv8xik/G0D7srR2e4Spm7hvn/jxL9Gz5tl0a0wsUSytjTTdtcTsipmO4T4
-         5Y8QbDTw7MeDs3m+d1fkFVRkfNVFMYPz2awRuT4/qDYlA39ydlqOPVcI4fbceE8yzVLy
-         MAoNY+m50KT7ExXeekfLpNSEUpmn3mBlDm3AG3y5UmlFBtXVKgXThx3MY7ei0j6l0HdX
-         zyZC0gZHBi0i5Aitew5tHqORh9WxmRJCEQZ6j8DSJIpotcMlO1TGlJwywL3QzUvQTLD3
-         AJmQ==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LmQswoNt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1706709308;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ui8Ga7Cs9sNQw1EgI7uvDxrW0t4sq0StM9hyxQjQuMo=;
+	b=LmQswoNtsTmqc5NZ5C3N26oiLw0n1XEvHjUYeUB/GMXrOhtkZkXgbA1HiZBGD0JDlrr5Q8
+	5SllqPvu4QaSs9xxEDpgBGgDirh6YNplcu+VLeoiCjsx3s9AzQWH4yl+pOBJ2+ooHot4zo
+	+IubNIrmUQJEBK2QEIB7vYR+MND24JI=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-342-51ix8juZMxC_LBzJAYsdBw-1; Wed, 31 Jan 2024 08:55:04 -0500
+X-MC-Unique: 51ix8juZMxC_LBzJAYsdBw-1
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-33b0256dd6bso368156f8f.2
+        for <workflows@vger.kernel.org>; Wed, 31 Jan 2024 05:55:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706705635; x=1707310435;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=m7DD5+v6R7La9ObGy1udtBj61vuNh6NTN+5s93nqhEA=;
-        b=uD5l1YgCs2OpByJhMUTy9IYxqUAYPXlMB04xz1KeZrD6Ulitb+nSu0/TKXLyF5w8Xt
-         jtPwLyIc7mZ8oQWT+PHFB8FC4/04zpSVh6NycutJuLWcCpbJSAafKOBAqRhVA00kfReJ
-         AMQHU64qg3UGXlhaeq6qmohxsOsxNFE5unAGon8Oongo6N1LjK+X3ekhJrX6/6Csjzxb
-         dECphUmBnFlCYAKv4qyLJ8AFnF3Z+tXC/X1iUVf9bADHPF2qbIfXo128iQuAaizztPSQ
-         A/V2fERDadCe0oAY0jXkh5Wu+oTVzuHamS8ejc1wssDCbB7gi5kEAmsmD3iOF0Rcq7/y
-         zQTA==
-X-Gm-Message-State: AOJu0YxVLU6oAU++3j/+P5x67uNPHcK8pN8Vqp4ICY/WkFUXs3bUpJ8H
-	fMgv+rybd5e9wGJ3hjR15QthB2Zfy57TdHU+aU0HqGu52lcAKHnRwmykYRl9pU8=
-X-Google-Smtp-Source: AGHT+IHh+5E7WDhAyzWWQLM2E33J1ndluJSuDHtMHUT4y5vtHkbpPBVpifO1tfGUIHIFqW68HNw1AQ==
-X-Received: by 2002:a17:906:28cd:b0:a29:852c:dd21 with SMTP id p13-20020a17090628cd00b00a29852cdd21mr1040061ejd.10.1706705635294;
-        Wed, 31 Jan 2024 04:53:55 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCUAX5xN8J5gbaX9xvceyb8x4Cb+lAf5LMeiNd8+WxkOWeM7R5zIwvApPFGNdY6hzr+VW8AEQUKOxWA7BObDWUEQEv2Nu40EVAVXZT2zN2IoJ7Jn07tHg1aamojk1vdxaMU2GOMtMqknb4AyfDg3qyTYRs/rlqlcMxYaewIKdKEE3mzo
-Received: from krzk-bin.. ([178.197.222.62])
-        by smtp.gmail.com with ESMTPSA id vs6-20020a170907a58600b00a310c9d0cb9sm6092652ejc.121.2024.01.31.04.53.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jan 2024 04:53:54 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] docs: maintainer: add existing SoC and netdev profiles
-Date: Wed, 31 Jan 2024 13:53:51 +0100
-Message-Id: <20240131125351.123509-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1706709303; x=1707314103;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ui8Ga7Cs9sNQw1EgI7uvDxrW0t4sq0StM9hyxQjQuMo=;
+        b=IqIYOwaeImepS+xpQQqt/tZZD/LYHEKZmSJqgZG8Rvw8BYa+NBQf7dzl269pNIdBYh
+         flxGWnAQIpLisIH9yaYM66mk+0N/dTHnWZ6hQzIMW9CEsGvVq4Vulaf+WRli4Aw36OJL
+         23LmZ4j1ZgzGELMymBd/la9jC0stWnGmCKdYUBVZMnbNRdn5r97fJd3KrwvXEFcVzNob
+         O3r38gTczOH7ctcuXpX/lDAEJyvEwLRyJD71UWaNsRS56rNbwq0gTfHbFtJMnLdOpsDf
+         Lyp4BUX8ylWYzq4nV+k3eSPSznef4PICQC3Bwni3k12prMLzNEZ/zsKvWt7zOTIBzfAT
+         opOw==
+X-Gm-Message-State: AOJu0Yzc6+81u+2ne/KXop3H/q+4a23g6LurrhnDzxHSW+JtPq35kJ3x
+	3Ur61Var/I4HnF2X0r/Vt2uXFHCaxtwJCzS7HHuCzAwWnsQfrQOyVBwGQ5t1UoeFo1f3A2AS8qv
+	UxfhKC6qZMJROR3YSYAbL94ZhCLf8SFgLTVWPib17FFQjxAWpWLDCkKHPvw==
+X-Received: by 2002:a5d:6204:0:b0:33a:e72c:c252 with SMTP id y4-20020a5d6204000000b0033ae72cc252mr1248151wru.52.1706709303335;
+        Wed, 31 Jan 2024 05:55:03 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGF0ZaZ2+VFi5PGhj8WaiXpjUefSFNS3ytagKmk1koTDenh/6Ywn8HmCZ4+95coNSTRyHqxog==
+X-Received: by 2002:a5d:6204:0:b0:33a:e72c:c252 with SMTP id y4-20020a5d6204000000b0033ae72cc252mr1248138wru.52.1706709303015;
+        Wed, 31 Jan 2024 05:55:03 -0800 (PST)
+Received: from [192.168.0.118] (88-113-27-52.elisa-laajakaista.fi. [88.113.27.52])
+        by smtp.gmail.com with ESMTPSA id i16-20020a5d4390000000b0033af37102ddsm6858131wrq.1.2024.01.31.05.55.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 31 Jan 2024 05:55:02 -0800 (PST)
+Message-ID: <f7774c3a-792b-457c-acd3-11f8aa368d6c@redhat.com>
+Date: Wed, 31 Jan 2024 15:55:00 +0200
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 01/10] get_maintainer: Survive querying missing
+ files
+To: Joe Perches <joe@perches.com>, workflows@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>,
+ Theodore Ts'o <tytso@mit.edu>, David Gow <davidgow@google.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Mark Brown <broonie@kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, "Darrick J . Wong"
+ <djwong@kernel.org>
+Cc: kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+ Veronika Kabatova <vkabatov@redhat.com>, CKI <cki-project@redhat.com>,
+ kernelci@lists.linux.dev
+References: <20231115175146.9848-1-Nikolai.Kondrashov@redhat.com>
+ <20231205184503.79769-1-Nikolai.Kondrashov@redhat.com>
+ <20231205184503.79769-2-Nikolai.Kondrashov@redhat.com>
+ <9fe310a9d4486ecf57669bf7b44a49c1788452c1.camel@perches.com>
+Content-Language: en-US
+From: Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
+In-Reply-To: <9fe310a9d4486ecf57669bf7b44a49c1788452c1.camel@perches.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Extend the list of maintainer profiles with SoC and netdev.
+On 12/5/23 20:55, Joe Perches wrote:
+> On Tue, 2023-12-05 at 20:02 +0200, Nikolai Kondrashov wrote:
+>> Do not die, but only warn when scripts/get_maintainer.pl is asked to
+>> retrieve information about a missing file.
+>>
+>> This allows scripts/checkpatch.pl to query MAINTAINERS while processing
+>> patches which are removing files.
+> 
+> Why is this useful?
+> 
+> Give a for-instance example please.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- Documentation/maintainer/maintainer-entry-profile.rst | 3 +++
- 1 file changed, 3 insertions(+)
+Does the example I provided make sense, Joe?
 
-diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
-index 18cee1edaecb..b49fb6dc4d0c 100644
---- a/Documentation/maintainer/maintainer-entry-profile.rst
-+++ b/Documentation/maintainer/maintainer-entry-profile.rst
-@@ -102,7 +102,10 @@ to do something different in the near future.
-    ../doc-guide/maintainer-profile
-    ../nvdimm/maintainer-entry-profile
-    ../arch/riscv/patch-acceptance
-+   ../process/maintainer-soc
-+   ../process/maintainer-soc-clean-dts
-    ../driver-api/media/maintainer-entry-profile
-+   ../process/maintainer-netdev
-    ../driver-api/vfio-pci-device-specific-driver-acceptance
-    ../nvme/feature-and-quirk-policy
-    ../filesystems/xfs/xfs-maintainer-entry-profile
--- 
-2.34.1
+Would my solution be adequate, or would you like to have another?
+
+Thank you.
+Nick
 
