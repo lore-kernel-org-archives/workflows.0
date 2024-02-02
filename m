@@ -1,161 +1,168 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2048.outbound.protection.outlook.com [40.107.237.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B60EE1487C7;
-	Fri,  2 Feb 2024 17:06:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706893620; cv=fail; b=YaSIcU3KrIsNinPKSV6o/FQnJEM/t30lFn/7C7k+cydbBVjcXNgVdBYRD6wL2CrU1B+6UB5ZGKg0gUCwvoEoxpPfFqV2pWRr++T1ghAM7Iqd8+nPZzPQrIUvSN1RbMQFL2njR0XZLXN6ZzR7vjIvIq8Le5tzfGHj4CnJvoWp1os=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706893620; c=relaxed/simple;
-	bh=LtnIMEV/n6eeuhvQFhZKJBw4jLFSxDuseqfMp/yPpbM=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=IhdM01Eg2TvV8Xy112SCh8NFynADn/Tpi5na6A6YQB7a/Puo7vdKszQKYskCk4vg8aQdVllfBbdWwA1MGo326m5oYy+ION4BHVG9kK4VgA7KLCbf5xHTacJbPb3h7+hvsH8xW1Pt4LEaOcjQsPufeGu2OHf8Cx9oXRZ9enxDB3I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=bte2GPEB; arc=fail smtp.client-ip=40.107.237.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDC8A14AD03
+	for <workflows@vger.kernel.org>; Fri,  2 Feb 2024 17:30:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706895042; cv=none; b=A5qnNxVJ+HZvh3zo65lW9Qqn9j8Ho8FwzBy4Nij+zeYntGwdBbaNi1gR9muymnhrb3D69bS64ZcDaGL/p0CauIjuBC1IqC29MmtW2SbY37E3tzNuix48e2ihIiKeqv0Lx65/zmbEymnk5FzW3UCxqxqY3fyGMAGbaU2QJ+Pj3og=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706895042; c=relaxed/simple;
+	bh=2doe7Rnh2cfYTExP59GbRKeFESMtXfgH6+kHay/XYgs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SoXCjNTd/keeXbE8DjrzNgi7XauUCQxT+W2IjjPjDMEwBvWX4a/Xhdz2rWQHQj91IhmgSgBMutcjA9UlI759uyk2w33NNLciCoHbqi95jfjmLXLVac8Q8PRyYj0N7UaXIsUzXnQSD5Xxh+MgXB3MeZ0WhthSBuYZDJXRTpMZTgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=SHWnzrlu; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="bte2GPEB"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mS0shZN3LxEo7TtxU1XhBH2aKbhRCg4y8ZLv8Jip9Sus0/zB2xiMk/6A7zbZTo19uzNuQy5SOAI0uEYgLYbNbbc+EpYnjDFwjZkVtoiup5hvqbKII7alms+GSBesyq5OjrvDsopHXKcAOM3peY/SeQQtCN9SVTwuBe3rqjFfgdQHPajgymXVEuy12RCFaA1SES2rg4IPGtRySeTuLxjjYuE+vrSgFSeeCEC63Bu/vbWOdAiV8y7VGgR+4+N+4FkA9uZE7YqRMPvioTZyUJdqdmKT6+LBtt+CB5/eX5XIJtaUyQYh4RV5fXOBojX66KHxTLxwaZ7xeOgB5aS1MPMh3g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/83am6JUwPRSuZjQ+p0WEehvOdlW2BlBiMRBUCl+DkI=;
- b=AXGMle5O81Zb0DqQxWYz2muDjiBxA71/P2YMC8BkeWpPvpONHBKN6HCIJfAJCsO0MxqsyxAW3VeOp3NGZ6VJJoj1RmG20d9Fs+5CLunHMVu1f2ejCT+OaLP/h24E8iD7SvnrzmTXhlJTVvasw1xyY7t//VETcWoO1QWms/AqXsmINuWUMsHU49bxJLnVpY7/vYuznRElWaJI1qmdLEm0tl7XgOm/rZWGRQdE4c9OCQ9jGQBu8bNGLbELTiXzIzaMRJJ7FVf1NjZ3Rc/atkzFg+PqpiT8iqmOKj6z8JGcec+Rei99Sqp7jY4MrBUuzprILLsCAYI8Mko7LoQAOSjUYQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/83am6JUwPRSuZjQ+p0WEehvOdlW2BlBiMRBUCl+DkI=;
- b=bte2GPEB+1dm70A2v+T/OXwSh8yNJb5G2zQOy9lPqByVlgIearM8466W1qhu0+X5x4BMeKBcWZ1Jagf19L+07YpH7X9VDFalY+V7utyl3/4nkCOXAB2duKNcuIxiB8jBzfzzAmzotQr2WluyMa6Y2+DmaSUDjOwAth8hcky4XlQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5874.namprd12.prod.outlook.com (2603:10b6:208:396::17)
- by CH2PR12MB4280.namprd12.prod.outlook.com (2603:10b6:610:ac::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.35; Fri, 2 Feb
- 2024 17:06:52 +0000
-Received: from BL1PR12MB5874.namprd12.prod.outlook.com
- ([fe80::251:b545:952c:18dd]) by BL1PR12MB5874.namprd12.prod.outlook.com
- ([fe80::251:b545:952c:18dd%7]) with mapi id 15.20.7270.012; Fri, 2 Feb 2024
- 17:06:52 +0000
-Message-ID: <78af3df9-693f-49a5-b6bd-02a146506e7e@amd.com>
-Date: Fri, 2 Feb 2024 11:06:49 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: embargoed-hardware-issues.rst: Fix
- Trilok's email
-Content-Language: en-US
-To: Greg KH <gregkh@linuxfoundation.org>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc: corbet@lwn.net, avadhut.naik@amd.com, alexs@kernel.org,
- iyanteng@loongson.cn, 2023002089@link.tyut.edu.cn,
- quic_bjorande@quicinc.com, quic_tsoni@quicinc.com,
- linux-arm-msm@vger.kernel.org, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240202164119.4090703-1-quic_jhugo@quicinc.com>
- <2024020223-eskimo-armoire-a517@gregkh>
-From: Carlos Bilbao <carlos.bilbao@amd.com>
-In-Reply-To: <2024020223-eskimo-armoire-a517@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA9P223CA0006.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:806:26::11) To BL1PR12MB5874.namprd12.prod.outlook.com
- (2603:10b6:208:396::17)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SHWnzrlu"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a370328e8b8so126173466b.3
+        for <workflows@vger.kernel.org>; Fri, 02 Feb 2024 09:30:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1706895039; x=1707499839; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VC5vJdORBChkJeHwFEmBTnLuqGC0FMrsRwyZcN+KE/8=;
+        b=SHWnzrluA44ZDiQCs6yI/CNYRyFWJ5cvRemavkE4kIZ1+kC62SBVDCEP3dx77s1X0R
+         6gqMkKBVuIy0x2QI+IyX3uXf5I0ohB367/y2hO5Y5hnouYwOoBeODS+gwPyYfPgGkhC0
+         IxPYXlox7nL87jEQbqF4uwYe8DTv3YfUaHldc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706895039; x=1707499839;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VC5vJdORBChkJeHwFEmBTnLuqGC0FMrsRwyZcN+KE/8=;
+        b=QZZ+BUirb6s4IwvYTjSQff1Xp3DfaBer0S9j7Og+wcmWR3M2FjV8LoUACOHS3ZirOW
+         7w19EdIqyK6np/kKm+WYIQZQJJMRAToWs7kvFGKfcyQpcUYdtorZ4UUcu+sHOXOd1Fon
+         gbNWzHJ/bXnMtWjnyX18JwLvkPptmncz7WR0GEioxQKIS4AFoJRMmpSUGnFlSWqWf4/A
+         ei7a4oL41paThub7se/EMsDZ3D6Zay1vPYgS+HBI/Qpo4xDJMSZsvYH7Al/EOiVvw/aL
+         LhCcI+BRb/k41Vg/PUR8QW9O1D5y6rsVJKuur4IKokiT2rs0iI6xoXQSqMDKNuViQTrZ
+         UYmw==
+X-Gm-Message-State: AOJu0Yw2UDde1zzugQpUKHt2jRa6y+AsemgfKZpA2nTFrgyXnzIiH85Z
+	UI7HScpRBbWdDuj57cARbSyliFcCkWB1YSTLDgdPtY0WXH8qkh+gSNE8FZL0BA==
+X-Google-Smtp-Source: AGHT+IG1HErWZnyyHQSeGiKtyMdVerFNECncUUd+5zGq4gXzObiZ/ksbYjQQAYMUm32Ai9vzo+62Ow==
+X-Received: by 2002:a17:906:3ad1:b0:a36:84f5:5186 with SMTP id z17-20020a1709063ad100b00a3684f55186mr1897465ejd.77.1706895038981;
+        Fri, 02 Feb 2024 09:30:38 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCVoNRQtsktnhKqsQgth/Jzy6fvhViLBtHaC32Wc+CfldyFICiQswcGmg+tYTe6fcJJE6SXBOebY7AGhCY5TzPSpu4khIX5k0IXeiDWk81gBRjuVesFgMX/8Wu1MYjfMMllrYbHe0K3zUhWjUjZpQg1l753MWXySN6XFuLTBo2aAZ1MPnhZZEkmye7WfxY/NRJH52N1zQg5E9swSHq+1EvebLk5jvHJv4Jxvkh7CVb2MLxK9c3pC/yUovmZWkOWwnAfaf/8Md0JFVNR/e5BkCobQNpZ2eIBfyeTBFgordCWD11YYQ4ugXx59ZzhTsGKtYSSxfTVibDKASHZ76EiRDyWR2YjGKfAiPtGb69vlRTSxvOSLhqokzBsOCLx2hZLMx7s0C4OCD0FQbYkzHLEBhexR1nrEC73ENVUC
+Received: from chromium.org (66.224-78-194.adsl-static.isp.belgacom.be. [194.78.224.66])
+        by smtp.gmail.com with ESMTPSA id hd34-20020a17090796a200b00a36f314daa6sm1083392ejc.46.2024.02.02.09.30.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Feb 2024 09:30:38 -0800 (PST)
+From: Simon Glass <sjg@chromium.org>
+To: linux-arm-kernel@lists.infradead.org
+Cc: Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Simon Glass <sjg@chromium.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Terrell <terrelln@fb.com>,
+	Will Deacon <will@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org
+Subject: [PATCH v10 0/2] arm64: Add a build target for Flat Image Tree
+Date: Fri,  2 Feb 2024 10:30:32 -0700
+Message-Id: <20240202173034.221790-1-sjg@chromium.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5874:EE_|CH2PR12MB4280:EE_
-X-MS-Office365-Filtering-Correlation-Id: 30173ddf-40a9-4346-da5a-08dc24115a3a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	He6bXBNlDsty0XX+y1JCJnBGPTZJ3Xshce0nAKe2hxC6d9F/krpnB66Hy7+psJqLJ74XsmKhr0EieCLjIah1mzQMpTuDmcMY4snQyX2qaHBbviPbjcB+Ej1zhA/hEXi6OvI4uLGG3Smxy3bUN83GC/f2bdoLAMIdi0Az/tsQBGz8jR1FKfc7WiTe5yxQP7b991q0N7tYhXyoYRR5u1SG2+54rzRSyRSKuuXzU0MQz2k+VE2IEKdINfKZUIA3wCBM1baM98DG5rCXOTONbrpVa9STa7ucXUun4p6TOI2vz2yjPTA41U2GT79pe78bD98G51+RYzwS3Makf8j0UYeuPQFNimDQxkEBUAsD5K4vPFwlkfongEofB6h04SptONF+NfpGzyziLXqDSOivaLJQ4Us1zpDRyYFpReUh2SoKzAWyXl/YQgEWBiYgPTy5AkejLEZwAzjkkTq6do5GmW5cFBfnzivc8RC9qZ9ysMSOonzzHo8yszmkgxxssGDuVnN6pcl27tmpFTp/KO55qMMSGKa2EtVVtBZyzZWCVUQKT3QEHH5nYKllWRmLTHXo3vfGJMU+I0lwr7UgEWyWsG2qQ/XqVPzNdheIGA2fDJX4qQIjcVBV6EAhcrtUgiYI1Ne14j27vdRkec/Mt+sV7LeIyw==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5874.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(39860400002)(136003)(346002)(396003)(366004)(230922051799003)(64100799003)(451199024)(186009)(1800799012)(41300700001)(8936002)(83380400001)(86362001)(478600001)(31696002)(36756003)(4326008)(38100700002)(316002)(66476007)(6486002)(110136005)(2616005)(26005)(7416002)(66556008)(5660300002)(44832011)(6666004)(6506007)(8676002)(2906002)(6512007)(66946007)(53546011)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UXNGYlhtUlJodmhCYXZSL0RNUnh6eE1sMWtYVzhMRmMvN25GTWg2ZkN0SHZB?=
- =?utf-8?B?M05qQW1jWTN0NGhySFNuNm5BTTJ2cTVpTmJJVGo1RWR3aGFUVHgxRGR5ZGJ0?=
- =?utf-8?B?d1VWNFdQOUtVN1d4dnd4NnYvRzcybmNoUE5NejlLUCtoSWxlQmhGajJFS0xJ?=
- =?utf-8?B?cGFtSjlFOE44QlJYNkRtRkxiQ1J5ZHRTM3hpaXQxdnRvQktTR2o5UzF1QldO?=
- =?utf-8?B?Q2FTSEhJd3k1VWdiTi9XY1RiZzR6VkJBWEpzQ3lEY1lJeHAvOFdTbkVhaHFp?=
- =?utf-8?B?Y3pjbXBEV2tsMU9vTC9pM1JiT3RqZ1A3NEhBK0JDaVBiY3N4M0NKV1hrSjZa?=
- =?utf-8?B?Y2cxcm9KaXdHenlWVnN5bCtsMmZDcmlmZ2FyRkNjMWQ1U1ppcW9JazhhUjZJ?=
- =?utf-8?B?WXl1YUhlNllMUkFEWkNoK20wY01nWHV0bzFlRE9xcEYwSjlWM0hJaWpGMGJF?=
- =?utf-8?B?RlhLMFkyR0dCcWF5Ty8ybUN6WW80V3F4b05JNGY3WkU3UDRUUng0YVU3R3R0?=
- =?utf-8?B?TEU4QU1NM1lzMXJQUmN3TFF1VVh2T1RtcnZUdmhPRGxidmFFdG1XVHpaRXNB?=
- =?utf-8?B?NmxwNFZUNFB0RnNWT0w0ZHYvZEowNjBNaEVIRjBQYXR4S3VoOVJUYnlVekdQ?=
- =?utf-8?B?aWF3OVpsQW5pTmxOTUdzMTA3OU5Yc0ZKSVJoWDdNOXZyQ2VuTGJpamlMVGVs?=
- =?utf-8?B?SnYvMlZ2Y1ZjT2MzTW04MTkzT3lUYUFnNy9pNFRQWXYydmVqMEdKSzJyY0N2?=
- =?utf-8?B?ejFYYzZpMXNYdndSTzI0ZTJYOG5vcm5KWElndDlxM3ZiVkIrTjlzL3MxK1JV?=
- =?utf-8?B?a1JPTkdpcXcxVFRGSTJpNG5pOXhQYXhWRzA0c2ZSL2xNYnE4cG0rTWlrOGhn?=
- =?utf-8?B?cTh0YXBYTnFLc2F5Q3RPbEpLQlFkMkZDUFRRc1hrUjRWZ1M4N1hnWDB3aXRY?=
- =?utf-8?B?c0xVRGE0U21pTHVrQjhVM3BLY1g2OFJqbXY1QStwWmtlZHprOXdxTVQ0VWxh?=
- =?utf-8?B?akloWkNpOFpaM2tFQ3h6SWpjVGZGcWNJdWNveDhBQlc5VW1ua3EyaTFybTdk?=
- =?utf-8?B?NFlSN3JYU2dpUGtMaFhPaFNyalpMcE1DdEhBL0FHUmRwYi9qdjcwQ1F2TVlN?=
- =?utf-8?B?K0Jic2pnSjJPWXNuOHdDblJsb281Zlpwckx5VFQ5RlZRdzB5b1gxVDVLamdP?=
- =?utf-8?B?c1ZTS1lKVklVaGdOWE1pVzYreEhZZkkvMi9NSzZ6R2l4SkpGWGQ0cGdEQ1kv?=
- =?utf-8?B?WkR3eURNd2NTM3dCdlJQU0ZaUDR6VlIvLzdxYlNGdjUrWm9xTDBTM2o2c09o?=
- =?utf-8?B?UWhRREpFUHVoa0l3ZGJmMkQ3eDZzSFlTNTgybkJKVFFzMk1GdnBVRUVRVGpV?=
- =?utf-8?B?M09ISmlRb1JtamRWZXBEdUNuUi9qUDd6R0NCWlhjVUNuNVhCUWZUWmJsT0Ir?=
- =?utf-8?B?bkZJMG9iQlJoc0lHYkVXSHMrNE1ZeDU2blA5RkR5d1BpdWdGM3dzQ3VTZ1pW?=
- =?utf-8?B?S0RlTzBhNlBwZ0lwMm9VNzNNOVFPWWtxbUJXOTgxY3NXTE5kWXJFTndiZitw?=
- =?utf-8?B?VFdTK0JhajZpYzlHUGZ4c3NkTmdjQWI3Qmk2TGpqUVRhc2dXQ3ZHNUJLWUhG?=
- =?utf-8?B?ckZ5QjdKQjczcTVrZFNoSURaaURhWTFLWklPS0FEWG5qUTFTa1dVNjF1VExP?=
- =?utf-8?B?ektxU0N6MUxBK1JJSEhOMnZ0SE1aUFF2V1RaUGlDcTRGOVorcC9zTEJnbUYr?=
- =?utf-8?B?RTBrOUdUZEJnazY4RVY5clk3VjFNMnR1c0RpMThpSnVhdkRFNHZrSjErcHRk?=
- =?utf-8?B?RGJLS3Z6bVZxOUFZQU14VTRMZW9zRktSbTZ6NEtHY1hvbkdEdmpRcVQ1enRx?=
- =?utf-8?B?SXZ1UUN4d1BPak1Qbkt3SGFadUpNR3h0L0V5bWU2c0w3WWtzM3FlK0k4K2xO?=
- =?utf-8?B?OE5OK3ppYXlkYmlPbW5yZlE2TW9NSXN3SzdNV3FjZW02K2krb2RtNEVXTGll?=
- =?utf-8?B?bmVpNkV6MkhaVGRodVZWM1hVOHlCaitpc0xXM3Q3cDN2Z2hYdEt0QW5RRjQ3?=
- =?utf-8?B?UjBKZFZObU1xemlUbXRpeHo2ZEpkck9wL2s2b1hLYWVKZGtJTUhvcWxEdVhL?=
- =?utf-8?Q?exw0JTIGor7uvCADLtfeoKjsE?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 30173ddf-40a9-4346-da5a-08dc24115a3a
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5874.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2024 17:06:52.8352
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Wzwreqe8DYHm8C1+ytmBCPM71ggMzN6EREIbyTIQRvVCUghNni7CSa2w7gLm7ZvvwlegJL+EEeAe2duxnU0YzA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4280
+Content-Transfer-Encoding: 8bit
 
-On 2/2/24 10:48, Greg KH wrote:
-> On Fri, Feb 02, 2024 at 09:41:19AM -0700, Jeffrey Hugo wrote:
->> The servers for the @codeaurora domain have long been retired and any
->> messages addressed to @codeaurora will bounce.
->>
->> Trilok has an entry in .mailmap, but the raw documentation files still
->> list an old @codeaurora address.  Update the address in the
->> documentation files for anyone reading them.
->>
->> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
->> ---
->>   Documentation/process/embargoed-hardware-issues.rst             | 2 +-
->>   .../translations/sp_SP/process/embargoed-hardware-issues.rst    | 2 +-
->>   .../translations/zh_CN/process/embargoed-hardware-issues.rst    | 2 +-
->>   .../translations/zh_TW/process/embargoed-hardware-issues.rst    | 2 +-
->>   4 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> I think we need an ack from Trilok for this :)
+Flat Image Tree (FIT) is a widely used file format for packaging a
+kernel and associated devicetree files[1]. It is not specific to any
+one bootloader, as it is supported by U-Boot, coreboot, Linuxboot,
+Tianocore and Barebox.
 
-Assuming ack from Trilok, regarding the Spanish documentation,
+This series adds support for building a FIT as part of the kernel
+build. This makes it easy to try out the kernel - just load the FIT
+onto your tftp server and it will run automatically on any supported
+arm64 board.
 
-Reviewed-by: Carlos Bilbao <carlos.bilbao@amd.com>
+The script is written in Python, since it is easy to build a FIT using
+the Python libfdt bindings. For now, no attempt is made to compress
+files in parallel, so building the 900-odd files takes a while, about
+6 seconds with my testing.
 
-> 
-> thanks,
-> 
-> greg k-h
+The series also includes a minor clean-up patch.
 
-Thanks,
-Carlos
+[1] https://github.com/open-source-firmware/flat-image-tree
+
+Changes in v10:
+- Make use of dtbs-list file
+- Mention dtbs-list and FIT_COMPRESSION
+- Update copyright year
+- Update cover letter to take account of an applied patch
+
+Changes in v9:
+- Move the compression control into Makefile.lib
+
+Changes in v8:
+- Drop compatible string in FDT node
+- Correct sorting of MAINTAINERS to before ARM64 PORT
+- Turn compress part of the make_fit.py comment in to a sentence
+- Add two blank lines before parse_args() and setup_fit()
+- Use 'image.fit: dtbs' instead of BUILD_DTBS var
+- Use '$(<D)/dts' instead of '$(dir $<)dts'
+- Add 'mkimage' details Documentation/process/changes.rst
+- Allow changing the compression used
+- Tweak cover letter since there is only one clean-up patch
+
+Changes in v7:
+- Drop the kbuild tag
+- Add Image as a dependency of image.fit
+- Drop kbuild tag
+- Add dependency on dtbs
+- Drop unnecessary path separator for dtbs
+- Rebase to -next
+
+Changes in v6:
+- Drop the unwanted .gz suffix
+
+Changes in v5:
+- Drop patch previously applied
+- Correct compression rule which was broken in v4
+
+Changes in v4:
+- Use single quotes for UIMAGE_NAME
+
+Changes in v3:
+- Drop temporary file image.itk
+- Drop patch 'Use double quotes for image name'
+- Drop double quotes in use of UIMAGE_NAME
+- Drop unnecessary CONFIG_EFI_ZBOOT condition for help
+- Avoid hard-coding "arm64" for the DT architecture
+
+Changes in v2:
+- Drop patch previously applied
+- Add .gitignore file
+- Move fit rule to Makefile.lib using an intermediate file
+- Drop dependency on CONFIG_EFI_ZBOOT
+- Pick up .dtb files separately from the kernel
+- Correct pylint too-many-args warning for write_kernel()
+- Include the kernel image in the file count
+- Add a pointer to the FIT spec and mention of its wide industry usage
+- Mention the kernel version in the FIT description
+
+Simon Glass (2):
+  arm64: Add BOOT_TARGETS variable
+  arm64: boot: Support Flat Image Tree
+
+ Documentation/process/changes.rst |   9 +
+ MAINTAINERS                       |   7 +
+ arch/arm64/Makefile               |  11 +-
+ arch/arm64/boot/.gitignore        |   1 +
+ arch/arm64/boot/Makefile          |   6 +-
+ scripts/Makefile.lib              |  16 ++
+ scripts/make_fit.py               | 298 ++++++++++++++++++++++++++++++
+ 7 files changed, 345 insertions(+), 3 deletions(-)
+ create mode 100755 scripts/make_fit.py
+
+-- 
+2.34.1
+
