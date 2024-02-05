@@ -1,51 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683E844C7E;
-	Mon,  5 Feb 2024 17:16:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D07482E1;
+	Mon,  5 Feb 2024 17:22:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707153405; cv=none; b=hGH8NvjgLk0zxagYGUxQmrSMs2+Hp3jN9GKJNvjEwQnSq5SuEC0yuE9RdEY8jQcpOCuwwOOaKhVo3Qay/R9lYBIOs4vEWoa8GQXcsxwHlYJU59jZ34ij0wcqh/HuGVLB4fHkpwtRJnH1U+C057hODbcudBj44DdJqJ7biri4iyY=
+	t=1707153773; cv=none; b=EOvdWW2RTNamOSu6HolYkcC0a6hFf5hLPOreV5gn58ZTZ1QbqW66Y82og/k8VW9Zb1UWGIeYQx/Tu90Q7jtTbmSeBCVrqfaO6gm842WD/L10UAhCqRggYL4VcueFtfG8BFhwB0kCS6gST5PR3kEReztZFED4E8oC85OrQdXZ8Z4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707153405; c=relaxed/simple;
-	bh=F8XI2DqjCgkrm9KbXW8tvjffoJfCHy8lt51+H+cZvd8=;
+	s=arc-20240116; t=1707153773; c=relaxed/simple;
+	bh=hIRSfmrQg0Rn/nYcx47/cZU9CRerlJJPETPX4UA4gqQ=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=mrui3TPMwVaewgI1oDd3Cg8VbpN116x7PbX+vdhqFNqWDI2AdZBXNzbQnLxrghedJleGmrt0jV8ag+9Uts4aed8UC1B1nw1oRwEk3F5oR52LbWg43uLyB3D4UlFSEF3Job3o3PS7o0VNNGvCiJ01dSj0OkB4N3Q8MGVsvzGmFwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=bf0n908+; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=PEhqNZuPg0sGYNFCirovhZHiSyJZ+G/H9/2PLauDstRDOuZeJzgIl/eeo0XnjEQK+qIKIgemyiTdh2KkR1NiLQnM/wqoy5oq8ExYBWEFlh8qqUmYpfiSiKcQgW8CwOcWmjURBWxWeeQSYl99jykW4mN8ZuMeioZN3P3i4gCuRAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=nidtQxCV; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="bf0n908+"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6CFF147A9B
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="nidtQxCV"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6E1FE47A9F
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1707153394; bh=aOqO7Xk+LE5FlbU+iDPXbhTZnGtMGkyeoyB+ULkowsI=;
+	t=1707153771; bh=MCk4AMP7OTPhC5gw4fooEf9VsrtizbEaHd64UMSzPt8=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=bf0n908+iNil5mnyncMg8V14G+89f5WwaJ8RrsMSjr8mVBO84entk4I3uCZaYvlPP
-	 GOUKsmOyTTIF0YwTJ5uXGsD+L7kngf58JrTW+BBjsgiP6FNXDsBKwiGlRmYIk0mxll
-	 5Gk35iyxNhMirqRaDxMr9hQwxtZRBcx2NDD3RCWdUI5Ou+bqKT/1y9C56sQ3yAzdY+
-	 r1oH3oEjSeXw/+osTZHWIk8lXPeb4m4rqEKmV7y1fnEO6m09Ac/0mAD9g33rO1qPEn
-	 H93p7hzZCidGKsHPQg625l4gKlLNOSDGHnbPlkjla8ZgZ/d9KhODQtGaLZnbQewXXa
-	 PsosSc12MXRlA==
+	b=nidtQxCVgS1Mjo9RVySalTR77hYfvnkqTIjGHxtiKlU/1cDSm3p+kNOJpsmFmxwzp
+	 FnkQ8OAuJlzWlPk6boNxi/z7m58tPeDSQodCpzOjysPfZuTee6EeKBKUVtpBq8/spl
+	 M8ySiAWlTIkxn09KJzTmBLXniXHvh0VQPpE6DMfYLlY5Bw5Gf2XGGKSmYhdhtCMveo
+	 deBPQ8chsER//FIC+gBHGbrL2UUGsVjnMc6DISV4uGOk4nGEwuVLs5a6w4RVC+XVqJ
+	 lSTEg5BaqxXHFif8B8JZp4hcJCsKhUoYkNHwnVmkxuu8B8H6f2iYE7NQvlGmjA9mdI
+	 EYnPUtIt/d9PA==
 Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 6CFF147A9B;
-	Mon,  5 Feb 2024 17:16:34 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 6E1FE47A9F;
+	Mon,  5 Feb 2024 17:22:51 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: Thorsten Blum <thorsten.blum@toblux.com>
-Cc: Federico Vaga <federico.vaga@vaga.pv.it>, Carlos Bilbao
- <carlos.bilbao@amd.com>, Avadhut Naik <avadhut.naik@amd.com>, Alex Shi
- <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>, Hu Haowen
- <2023002089@link.tyut.edu.cn>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Thorsten Blum
- <thorsten.blum@toblux.com>
-Subject: Re: [PATCH] Documentation: coding-style: Fix indentation in
- code-blocks
-In-Reply-To: <20240202231316.7606-1-thorsten.blum@toblux.com>
-References: <20240202231316.7606-1-thorsten.blum@toblux.com>
-Date: Mon, 05 Feb 2024 10:16:33 -0700
-Message-ID: <87le7yvnke.fsf@meer.lwn.net>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Thorsten Blum <thorsten.blum@toblux.com>
+Subject: Re: [PATCH] Documentation: coding-style: Update syntax highlighting
+ for code-blocks
+In-Reply-To: <20240203223926.5077-1-thorsten.blum@toblux.com>
+References: <20240203223926.5077-1-thorsten.blum@toblux.com>
+Date: Mon, 05 Feb 2024 10:22:50 -0700
+Message-ID: <87cytavn9x.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -56,23 +52,33 @@ Content-Type: text/plain
 
 Thorsten Blum <thorsten.blum@toblux.com> writes:
 
-> - Remove spaces in C code-blocks to align error labels consistently
-> - Replace tab characters with spaces in emacs-lisp code blocks
+> Use c and elisp instead of none in code-blocks
 >
 > Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
 > ---
->  Documentation/process/coding-style.rst                    | 6 +++---
->  Documentation/translations/it_IT/process/coding-style.rst | 6 +++---
->  Documentation/translations/sp_SP/process/coding-style.rst | 6 +++---
->  Documentation/translations/zh_CN/process/coding-style.rst | 4 ++--
->  Documentation/translations/zh_TW/process/coding-style.rst | 4 ++--
->  5 files changed, 13 insertions(+), 13 deletions(-)
+>  Documentation/process/coding-style.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+> index c48382c6b477..a75c7044d8b7 100644
+> --- a/Documentation/process/coding-style.rst
+> +++ b/Documentation/process/coding-style.rst
+> @@ -203,7 +203,7 @@ Do not unnecessarily use braces where a single statement will do.
+>  
+>  and
+>  
+> -.. code-block:: none
+> +.. code-block:: c
+>  
+>  	if (condition)
+>  		do_this();
+> @@ -660,7 +660,7 @@ make a good program).
+>  So, you can either get rid of GNU emacs, or change it to use saner
+>  values.  To do the latter, you can stick the following in your .emacs file:
+>  
+> -.. code-block:: none
+> +.. code-block:: elisp
 
-I have applied this, but I would really rather not see a lot of
-white-space patches like this; there are so many ways in which our
-documentation could use improvement, and this is pretty far down the
-list.
-
-Thanks,
+Applied, thanks.
 
 jon
