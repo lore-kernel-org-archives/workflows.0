@@ -1,47 +1,49 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D07482E1;
-	Mon,  5 Feb 2024 17:22:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E5445941;
+	Mon,  5 Feb 2024 17:24:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707153773; cv=none; b=EOvdWW2RTNamOSu6HolYkcC0a6hFf5hLPOreV5gn58ZTZ1QbqW66Y82og/k8VW9Zb1UWGIeYQx/Tu90Q7jtTbmSeBCVrqfaO6gm842WD/L10UAhCqRggYL4VcueFtfG8BFhwB0kCS6gST5PR3kEReztZFED4E8oC85OrQdXZ8Z4=
+	t=1707153892; cv=none; b=PAjhpFfQ8uYALjhr5WkZ/tnWhlquzwaEr8XLnqU7P4BproKhGc+HU4oF/AlxfU7iEvG/2drA+Ew7CveIdJUHQsbUhIwzmgUd5nGyheBTHAQp/b6KvaccStAlJnZ0TsF46LBTx5eqrcCoeqreF7O1DF8QC+0exndwyWe3qWcQS+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707153773; c=relaxed/simple;
-	bh=hIRSfmrQg0Rn/nYcx47/cZU9CRerlJJPETPX4UA4gqQ=;
+	s=arc-20240116; t=1707153892; c=relaxed/simple;
+	bh=qwqCvMF+PIbl16OVgkf+2TCi5yui9ioUyHJRsouWKks=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=PEhqNZuPg0sGYNFCirovhZHiSyJZ+G/H9/2PLauDstRDOuZeJzgIl/eeo0XnjEQK+qIKIgemyiTdh2KkR1NiLQnM/wqoy5oq8ExYBWEFlh8qqUmYpfiSiKcQgW8CwOcWmjURBWxWeeQSYl99jykW4mN8ZuMeioZN3P3i4gCuRAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=nidtQxCV; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=N+7f4hcfNeorT+kvBsTdoRnw4DYZUjPput84d3yc7MtqkOcMt0GIXCicOQznNd5G4KqvpMoAPwO2MlsTJrDSdB/CEoy59IPlYjPjEjqVuuHDLoBr8U9aKphBZMTEJqdUig9Wx+9F/vL3fkYgZgOc/D9ij9ajVjadsI6Dl4x8NgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Eivg2FMt; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="nidtQxCV"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6E1FE47A9F
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Eivg2FMt"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EFFB945AC9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1707153771; bh=MCk4AMP7OTPhC5gw4fooEf9VsrtizbEaHd64UMSzPt8=;
+	t=1707153890; bh=yfpllgzWBFP/zgAYSr+xda2U05jDfEi2qKsvLe7I8UE=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=nidtQxCVgS1Mjo9RVySalTR77hYfvnkqTIjGHxtiKlU/1cDSm3p+kNOJpsmFmxwzp
-	 FnkQ8OAuJlzWlPk6boNxi/z7m58tPeDSQodCpzOjysPfZuTee6EeKBKUVtpBq8/spl
-	 M8ySiAWlTIkxn09KJzTmBLXniXHvh0VQPpE6DMfYLlY5Bw5Gf2XGGKSmYhdhtCMveo
-	 deBPQ8chsER//FIC+gBHGbrL2UUGsVjnMc6DISV4uGOk4nGEwuVLs5a6w4RVC+XVqJ
-	 lSTEg5BaqxXHFif8B8JZp4hcJCsKhUoYkNHwnVmkxuu8B8H6f2iYE7NQvlGmjA9mdI
-	 EYnPUtIt/d9PA==
+	b=Eivg2FMt4Q4y1ZOkc06YU37qoFiuTvOCiqEOx6dW0GQr5ZVKqHJapAJmQsF0R1GEq
+	 zUjyQIjXje2vWPSMAwL+Y3PaqRdwt0v1vh/Wywc3O0BQTcR/mFQ2gXqBnwCqNeCBU7
+	 Ju0uFrMC8+B2RVVcfx/bo0uNr5MGYAUkeGyqqJyNGGIuYzioumpBWL6XQUa/PTooQh
+	 TMqyTrZfUrRzA1hNM4tCpisR9JGsKaaiF5gTxx1hhSE1OaLnVOREYqNYVsXXOtWfBU
+	 TSEKXm0jSo6TQxh1XFYrnzxZ775PVuf9iHfwcW3Gkm1/8w6eIIfvuW1K0ZKiMjNdX9
+	 INtxJgoA9wxTw==
 Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 6E1FE47A9F;
-	Mon,  5 Feb 2024 17:22:51 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id EFFB945AC9;
+	Mon,  5 Feb 2024 17:24:49 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Thorsten Blum <thorsten.blum@toblux.com>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Thorsten Blum <thorsten.blum@toblux.com>
-Subject: Re: [PATCH] Documentation: coding-style: Update syntax highlighting
- for code-blocks
-In-Reply-To: <20240203223926.5077-1-thorsten.blum@toblux.com>
-References: <20240203223926.5077-1-thorsten.blum@toblux.com>
-Date: Mon, 05 Feb 2024 10:22:50 -0700
-Message-ID: <87cytavn9x.fsf@meer.lwn.net>
+To: Thorsten Blum <thorsten.blum@toblux.com>, willy@infradead.org
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ thorsten.blum@toblux.com, workflows@vger.kernel.org, Randy Dunlap
+ <rdunlap@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Re: [PATCH v2] Documentation: multiple .rst files: Fix grammar and
+ more consistent formatting
+In-Reply-To: <20240205000117.3285-1-thorsten.blum@toblux.com>
+References: <ZcAFi9ZW07fOLQaW@casper.infradead.org>
+ <20240205000117.3285-1-thorsten.blum@toblux.com>
+Date: Mon, 05 Feb 2024 10:24:49 -0700
+Message-ID: <878r3yvn6m.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -52,32 +54,31 @@ Content-Type: text/plain
 
 Thorsten Blum <thorsten.blum@toblux.com> writes:
 
-> Use c and elisp instead of none in code-blocks
+> sphinx.rst:
+> - Remove unnecessary newline
+> - Fix grammar s/on/in/
+> - Fix grammar s/check/checks/
+> - Capitalize heading "The C domain"
+>
+> changes.rst:
+> - Remove colon after "pahole" to be consistent with other entries
+>
+> howto.rst:
+> - Fix grammar s/you will/will you/
+> - Hyphenate "real-world problems"
 >
 > Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
+> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 > ---
->  Documentation/process/coding-style.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-> index c48382c6b477..a75c7044d8b7 100644
-> --- a/Documentation/process/coding-style.rst
-> +++ b/Documentation/process/coding-style.rst
-> @@ -203,7 +203,7 @@ Do not unnecessarily use braces where a single statement will do.
->  
->  and
->  
-> -.. code-block:: none
-> +.. code-block:: c
->  
->  	if (condition)
->  		do_this();
-> @@ -660,7 +660,7 @@ make a good program).
->  So, you can either get rid of GNU emacs, or change it to use saner
->  values.  To do the latter, you can stick the following in your .emacs file:
->  
-> -.. code-block:: none
-> +.. code-block:: elisp
+> Changes in v2:
+> - Preserve Reviewed-by: tags
+> - s/on/in/ in sphinx.rst as suggested by Matthew Wilcox <willy@infradead.org>
+> ---
+>  Documentation/doc-guide/sphinx.rst | 7 +++----
+>  Documentation/process/changes.rst  | 4 ++--
+>  Documentation/process/howto.rst    | 4 ++--
+>  3 files changed, 7 insertions(+), 8 deletions(-)
 
 Applied, thanks.
 
