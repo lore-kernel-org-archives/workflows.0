@@ -1,85 +1,116 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E5445941;
-	Mon,  5 Feb 2024 17:24:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B371DFE8
+	for <workflows@vger.kernel.org>; Fri,  9 Feb 2024 12:24:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707153892; cv=none; b=PAjhpFfQ8uYALjhr5WkZ/tnWhlquzwaEr8XLnqU7P4BproKhGc+HU4oF/AlxfU7iEvG/2drA+Ew7CveIdJUHQsbUhIwzmgUd5nGyheBTHAQp/b6KvaccStAlJnZ0TsF46LBTx5eqrcCoeqreF7O1DF8QC+0exndwyWe3qWcQS+M=
+	t=1707481479; cv=none; b=bhfjruXAFWX+0cKjSa4kmRYg1Rb4YmWobg1wMvR4/VneRjmfzBQyoAjaEeH7zd9Ccx5f0afsVzGW3hh/R1OEKOWMUZnWvqwa48RZ0IAlZ25m3fwnYHfW+PXlDqzcpGWYENl5Wol8lnGbxrP0WMvDcugXhqhnbC1qqUQ+QynI0e0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707153892; c=relaxed/simple;
-	bh=qwqCvMF+PIbl16OVgkf+2TCi5yui9ioUyHJRsouWKks=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=N+7f4hcfNeorT+kvBsTdoRnw4DYZUjPput84d3yc7MtqkOcMt0GIXCicOQznNd5G4KqvpMoAPwO2MlsTJrDSdB/CEoy59IPlYjPjEjqVuuHDLoBr8U9aKphBZMTEJqdUig9Wx+9F/vL3fkYgZgOc/D9ij9ajVjadsI6Dl4x8NgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Eivg2FMt; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1707481479; c=relaxed/simple;
+	bh=+Ahm8i28zg3TiaospR0NOsWzbt14Q+LpdE0Nz8BKSLQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dJiecxQD04RVfvGgZw6ejWnd4jddWBVeaJDh9/KuC9lfcPybuMc5v4c5Df1bn57QSLfW9YwBdaZp/f8t2mEVXvRN2tENVJFz+1rdPnHgq3tKldFclajdlpO96jNXdkcPjBvFvR/ys4azkPqYZ46SUFX84SxThSDHs53W58ZY7xM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=itmNBwhk; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Eivg2FMt"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EFFB945AC9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1707153890; bh=yfpllgzWBFP/zgAYSr+xda2U05jDfEi2qKsvLe7I8UE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Eivg2FMt4Q4y1ZOkc06YU37qoFiuTvOCiqEOx6dW0GQr5ZVKqHJapAJmQsF0R1GEq
-	 zUjyQIjXje2vWPSMAwL+Y3PaqRdwt0v1vh/Wywc3O0BQTcR/mFQ2gXqBnwCqNeCBU7
-	 Ju0uFrMC8+B2RVVcfx/bo0uNr5MGYAUkeGyqqJyNGGIuYzioumpBWL6XQUa/PTooQh
-	 TMqyTrZfUrRzA1hNM4tCpisR9JGsKaaiF5gTxx1hhSE1OaLnVOREYqNYVsXXOtWfBU
-	 TSEKXm0jSo6TQxh1XFYrnzxZ775PVuf9iHfwcW3Gkm1/8w6eIIfvuW1K0ZKiMjNdX9
-	 INtxJgoA9wxTw==
-Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="itmNBwhk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1707481476;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=TX9G/KsNPAz5I+4uSJrj22jg+5OH3ngaBD15l+KFK1g=;
+	b=itmNBwhkozletY8sOv8th5xxdMBo+NlJrEihM9+brEODeeMeKoISPync/tF6TH1Dmv+8fx
+	KWmkau18EFl9n/sBa1PCAJMT5MNkcTFbGGIR+DpzE05L9MGA6+g7gl130v7l+Y0BUNaxvu
+	pXce/sD9Ehoe53uXrZOeekJw0lfl/Dc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-622-gqURgv6TNIWyNFLFaXmRUg-1; Fri, 09 Feb 2024 07:24:32 -0500
+X-MC-Unique: gqURgv6TNIWyNFLFaXmRUg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id EFFB945AC9;
-	Mon,  5 Feb 2024 17:24:49 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Thorsten Blum <thorsten.blum@toblux.com>, willy@infradead.org
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- thorsten.blum@toblux.com, workflows@vger.kernel.org, Randy Dunlap
- <rdunlap@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH v2] Documentation: multiple .rst files: Fix grammar and
- more consistent formatting
-In-Reply-To: <20240205000117.3285-1-thorsten.blum@toblux.com>
-References: <ZcAFi9ZW07fOLQaW@casper.infradead.org>
- <20240205000117.3285-1-thorsten.blum@toblux.com>
-Date: Mon, 05 Feb 2024 10:24:49 -0700
-Message-ID: <878r3yvn6m.fsf@meer.lwn.net>
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 39AD5811E79;
+	Fri,  9 Feb 2024 12:24:32 +0000 (UTC)
+Received: from ruby.redhat.com (unknown [10.39.194.102])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 5209111215;
+	Fri,  9 Feb 2024 12:24:31 +0000 (UTC)
+From: Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
+To: workflows@vger.kernel.org,
+	Joe Perches <joe@perches.com>
+Cc: Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
+Subject: [PATCH] get_maintainer: Survive querying missing files
+Date: Fri,  9 Feb 2024 14:24:18 +0200
+Message-ID: <20240209122418.229144-1-Nikolai.Kondrashov@redhat.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
 
-Thorsten Blum <thorsten.blum@toblux.com> writes:
+Do not die, but only warn when scripts/get_maintainer.pl is asked to
+retrieve information about a missing file.
 
-> sphinx.rst:
-> - Remove unnecessary newline
-> - Fix grammar s/on/in/
-> - Fix grammar s/check/checks/
-> - Capitalize heading "The C domain"
->
-> changes.rst:
-> - Remove colon after "pahole" to be consistent with other entries
->
-> howto.rst:
-> - Fix grammar s/you will/will you/
-> - Hyphenate "real-world problems"
->
-> Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
-> Changes in v2:
-> - Preserve Reviewed-by: tags
-> - s/on/in/ in sphinx.rst as suggested by Matthew Wilcox <willy@infradead.org>
-> ---
->  Documentation/doc-guide/sphinx.rst | 7 +++----
->  Documentation/process/changes.rst  | 4 ++--
->  Documentation/process/howto.rst    | 4 ++--
->  3 files changed, 7 insertions(+), 8 deletions(-)
+This allows scripts/checkpatch.pl to query MAINTAINERS while processing
+patches which are removing files.
 
-Applied, thanks.
+For example take:
 
-jon
+    commit ebb0130dad75 ("dt-bindings: mailbox: convert bcm2835-mbox bindings to YAML")
+
+It removes a file (and recreates it in another format, but that's
+besides the point) which belongs to four subsystems.
+
+This will work OK:
+
+    scripts/get_maintainer.pl \
+        0001-dt-bindings-mailbox-convert-bcm2835-mbox-bindings-to.patch
+
+But if we try to give the file being removed to get_maintainer.pl
+directly:
+
+    scripts/get_maintainer.pl \
+        -f Documentation/devicetree/bindings/mailbox/brcm,bcm2835-mbox.txt
+
+It will abort with the following message:
+
+    scripts/get_maintainer.pl: file
+    'Documentation/devicetree/bindings/mailbox/brcm,bcm2835-mbox.txt'
+    not found
+
+Even though the state of the source tree we're running this on is
+*exactly* the same.
+
+This commit downgrades that error to a warning.
+
+Signed-off-by: Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
+---
+ scripts/get_maintainer.pl | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/get_maintainer.pl b/scripts/get_maintainer.pl
+index ee1aed7e090ca..35e888e3c1889 100755
+--- a/scripts/get_maintainer.pl
++++ b/scripts/get_maintainer.pl
+@@ -542,7 +542,11 @@ foreach my $file (@ARGV) {
+ 	if ((-d $file)) {
+ 	    $file =~ s@([^/])$@$1/@;
+ 	} elsif (!(-f $file)) {
+-	    die "$P: file '${file}' not found\n";
++	    if ($from_filename) {
++		warn "$P: file '${file}' not found\n";
++	    } else {
++		die "$P: file '${file}' not found\n";
++	    }
+ 	}
+     }
+     if ($from_filename && (vcs_exists() && !vcs_file_exists($file))) {
+-- 
+2.43.0
+
