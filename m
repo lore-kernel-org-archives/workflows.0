@@ -1,116 +1,118 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B371DFE8
-	for <workflows@vger.kernel.org>; Fri,  9 Feb 2024 12:24:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176CB1C14;
+	Sat, 10 Feb 2024 01:00:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707481479; cv=none; b=bhfjruXAFWX+0cKjSa4kmRYg1Rb4YmWobg1wMvR4/VneRjmfzBQyoAjaEeH7zd9Ccx5f0afsVzGW3hh/R1OEKOWMUZnWvqwa48RZ0IAlZ25m3fwnYHfW+PXlDqzcpGWYENl5Wol8lnGbxrP0WMvDcugXhqhnbC1qqUQ+QynI0e0=
+	t=1707526803; cv=none; b=evTPOnZjYxTXz4nKwl8esqLehCUmx+DHHHOYGjHHwR+ROH8yHBb4BYb5DwlsgwrwyoUl0ls+E+YUtteAD7Mt4fv/K+FRq828e6g7DZ2qzt6PVzde+lI2z+BiRkEJCvF0CQINQnAYCZ2xISW4UJE2h1kzT7Ik6u5Ud0xu3PYKPfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707481479; c=relaxed/simple;
-	bh=+Ahm8i28zg3TiaospR0NOsWzbt14Q+LpdE0Nz8BKSLQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dJiecxQD04RVfvGgZw6ejWnd4jddWBVeaJDh9/KuC9lfcPybuMc5v4c5Df1bn57QSLfW9YwBdaZp/f8t2mEVXvRN2tENVJFz+1rdPnHgq3tKldFclajdlpO96jNXdkcPjBvFvR/ys4azkPqYZ46SUFX84SxThSDHs53W58ZY7xM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=itmNBwhk; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1707526803; c=relaxed/simple;
+	bh=zCVQDeEy3CmeNb0W0b/YFSI9W5MU0WGBfkdjpvOgjW4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=KDTUATVDEIs7k4jgeNQgx52Y3lCstWbENyZ+WwsxTnLTFHEd7W0c18B6kmL3hlvCOUDsdDc6W60foZWCpRoPgv8AMjyOX8XT20n6MhloLyMEsvMd5CZ56+7W36jpUQdaDOJI0ZuqtaDhNAeLflHOFFhSCJY52sgG+fhZA/jhzUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=GA+awIJM; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="itmNBwhk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1707481476;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=TX9G/KsNPAz5I+4uSJrj22jg+5OH3ngaBD15l+KFK1g=;
-	b=itmNBwhkozletY8sOv8th5xxdMBo+NlJrEihM9+brEODeeMeKoISPync/tF6TH1Dmv+8fx
-	KWmkau18EFl9n/sBa1PCAJMT5MNkcTFbGGIR+DpzE05L9MGA6+g7gl130v7l+Y0BUNaxvu
-	pXce/sD9Ehoe53uXrZOeekJw0lfl/Dc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-622-gqURgv6TNIWyNFLFaXmRUg-1; Fri, 09 Feb 2024 07:24:32 -0500
-X-MC-Unique: gqURgv6TNIWyNFLFaXmRUg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 39AD5811E79;
-	Fri,  9 Feb 2024 12:24:32 +0000 (UTC)
-Received: from ruby.redhat.com (unknown [10.39.194.102])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 5209111215;
-	Fri,  9 Feb 2024 12:24:31 +0000 (UTC)
-From: Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
-To: workflows@vger.kernel.org,
-	Joe Perches <joe@perches.com>
-Cc: Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
-Subject: [PATCH] get_maintainer: Survive querying missing files
-Date: Fri,  9 Feb 2024 14:24:18 +0200
-Message-ID: <20240209122418.229144-1-Nikolai.Kondrashov@redhat.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="GA+awIJM"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41A0Zc4Q018024;
+	Sat, 10 Feb 2024 00:59:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=1ThlMgw5BVq5gnMCWmwPaITaugrEhf/WCXzfUOpr6u8=; b=GA
+	+awIJMlduenCKEGVHdzXS2ssfU+j0Oxw+sbLnGJOzOkxdTsWLJ2aTTXpqaH5+XS6
+	QvIgF2xKZfwdjIBiTksHvy0nCl8lSpqPExO00RGtAwSAhWZVAtzO+D60+rnZ5fHk
+	ijJ9QTEDQltLbl4gQqGBYiniPbBM4kHQCvZwjWfTnVwji2QUSF2PAW7Rt2VcM/vA
+	mWiTvK4HoqqwJISZ9Kt20ZhVrSOtEFqQNKewOJ5cuoipQqx8KHtoRzMov0cE5C18
+	VOjOvi03+MdAi+CJ1BJp60VPk8aiNCYrvof9jsf3lvVYTOO+Tll15Csd6SjkQw4P
+	Mj8bM5EtJMZlfW0B1JVg==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w5ef1t5fy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 10 Feb 2024 00:59:48 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41A0xlLV021105
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 10 Feb 2024 00:59:47 GMT
+Received: from [10.110.15.103] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 9 Feb
+ 2024 16:59:47 -0800
+Message-ID: <4d36cb5f-141b-5e01-783e-47059d0d5083@quicinc.com>
+Date: Fri, 9 Feb 2024 16:59:46 -0800
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH] Documentation: embargoed-hardware-issues.rst: Fix
+ Trilok's email
+To: Carlos Bilbao <carlos.bilbao@amd.com>,
+        Greg KH
+	<gregkh@linuxfoundation.org>,
+        Jeffrey Hugo <quic_jhugo@quicinc.com>
+CC: <corbet@lwn.net>, <avadhut.naik@amd.com>, <alexs@kernel.org>,
+        <iyanteng@loongson.cn>, <2023002089@link.tyut.edu.cn>,
+        <quic_bjorande@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
+        <workflows@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20240202164119.4090703-1-quic_jhugo@quicinc.com>
+ <2024020223-eskimo-armoire-a517@gregkh>
+ <78af3df9-693f-49a5-b6bd-02a146506e7e@amd.com>
+Content-Language: en-US
+From: Trilok Soni <quic_tsoni@quicinc.com>
+In-Reply-To: <78af3df9-693f-49a5-b6bd-02a146506e7e@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: EoVo7zVP3Yg5KdzVIjKlLtmOYeLUq-wR
+X-Proofpoint-ORIG-GUID: EoVo7zVP3Yg5KdzVIjKlLtmOYeLUq-wR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-09_20,2024-02-08_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
+ lowpriorityscore=0 spamscore=0 mlxscore=0 phishscore=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 clxscore=1011 bulkscore=0 mlxlogscore=999
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402100005
 
-Do not die, but only warn when scripts/get_maintainer.pl is asked to
-retrieve information about a missing file.
+On 2/2/2024 9:06 AM, Carlos Bilbao wrote:
+> On 2/2/24 10:48, Greg KH wrote:
+>> On Fri, Feb 02, 2024 at 09:41:19AM -0700, Jeffrey Hugo wrote:
+>>> The servers for the @codeaurora domain have long been retired and any
+>>> messages addressed to @codeaurora will bounce.
+>>>
+>>> Trilok has an entry in .mailmap, but the raw documentation files still
+>>> list an old @codeaurora address.  Update the address in the
+>>> documentation files for anyone reading them.
+>>>
+>>> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+>>> ---
+>>>   Documentation/process/embargoed-hardware-issues.rst             | 2 +-
+>>>   .../translations/sp_SP/process/embargoed-hardware-issues.rst    | 2 +-
+>>>   .../translations/zh_CN/process/embargoed-hardware-issues.rst    | 2 +-
+>>>   .../translations/zh_TW/process/embargoed-hardware-issues.rst    | 2 +-
+>>>   4 files changed, 4 insertions(+), 4 deletions(-)
+>>
+>> I think we need an ack from Trilok for this :)
+> 
+> Assuming ack from Trilok, regarding the Spanish documentation,
+> 
+> Reviewed-by: Carlos Bilbao <carlos.bilbao@amd.com>
 
-This allows scripts/checkpatch.pl to query MAINTAINERS while processing
-patches which are removing files.
+Looks good to me. Thank you.
 
-For example take:
+Reviewed-by: Trilok Soni <quic_tsoni@quicinc.com> 
 
-    commit ebb0130dad75 ("dt-bindings: mailbox: convert bcm2835-mbox bindings to YAML")
-
-It removes a file (and recreates it in another format, but that's
-besides the point) which belongs to four subsystems.
-
-This will work OK:
-
-    scripts/get_maintainer.pl \
-        0001-dt-bindings-mailbox-convert-bcm2835-mbox-bindings-to.patch
-
-But if we try to give the file being removed to get_maintainer.pl
-directly:
-
-    scripts/get_maintainer.pl \
-        -f Documentation/devicetree/bindings/mailbox/brcm,bcm2835-mbox.txt
-
-It will abort with the following message:
-
-    scripts/get_maintainer.pl: file
-    'Documentation/devicetree/bindings/mailbox/brcm,bcm2835-mbox.txt'
-    not found
-
-Even though the state of the source tree we're running this on is
-*exactly* the same.
-
-This commit downgrades that error to a warning.
-
-Signed-off-by: Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
----
- scripts/get_maintainer.pl | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/get_maintainer.pl b/scripts/get_maintainer.pl
-index ee1aed7e090ca..35e888e3c1889 100755
---- a/scripts/get_maintainer.pl
-+++ b/scripts/get_maintainer.pl
-@@ -542,7 +542,11 @@ foreach my $file (@ARGV) {
- 	if ((-d $file)) {
- 	    $file =~ s@([^/])$@$1/@;
- 	} elsif (!(-f $file)) {
--	    die "$P: file '${file}' not found\n";
-+	    if ($from_filename) {
-+		warn "$P: file '${file}' not found\n";
-+	    } else {
-+		die "$P: file '${file}' not found\n";
-+	    }
- 	}
-     }
-     if ($from_filename && (vcs_exists() && !vcs_file_exists($file))) {
 -- 
-2.43.0
+---Trilok Soni
 
