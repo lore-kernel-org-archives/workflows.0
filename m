@@ -1,101 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D42A5B67A;
-	Wed, 14 Feb 2024 15:10:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7340E60864;
+	Wed, 14 Feb 2024 16:44:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707923425; cv=none; b=dCxowx62pSMQnhjVFlEiAb6JhT/Kvc1p5S9fLk8ccp3NWwKbL8r/UaF0u1FtQHimA6Y3exYjdhF7FF0GR5dzfvfTtW8x3piGh/P2soPXIIEqZlyFErn4BU7ILsHYTQ3bqKgQO7Y77ZnG3QyYnPyA3wlszyhsoSUvO7OLXcSL0tQ=
+	t=1707929061; cv=none; b=uNsikm8bq5OZK3U9Gy8lTanLGioGxEl0v0mDQTvwsAOoNkBr7iByQKw98LDbyp0Fs+4s5RMGbrZEC2a2wjozB+qFW2IIYUoA05nYTCHQbfUyLydrUNTzkDeEyqotO/6RYFRbWjGsqRBvBDkXju9By9ZGlULQ+Jqoi0dP3fieLt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707923425; c=relaxed/simple;
-	bh=GS4eSHaDiEsFeMPQ2s8gW0MM1LndD3K1GsMp2uxE/28=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DZbk9JwhItjsDRv4BYm5D16Q1gh/C8gBgI9ZquLpVbMAsOUL1FEqB2Ack9r7m6XAwbiMjcydKSo6aULA2yYUZotbHIyYkKFIN+b+pkoIjaT0iRn0/EnvavylNxFZAISpPRwRI7xnQVSjnsXCp+lscaYeK48oCLi8eg9wghnMfzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fsFUGwyG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707929061; c=relaxed/simple;
+	bh=sfJuXclO1Ov9A69m5w+ZOgsfMXgKljyna2t9SiCtuw8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mHWbaT/WoRXUQcArzu7MMjOBqcoV+wImBK2n1kcWyMMqNFBGoNAwF4Iwtl+5fMezNP5I4pbffTUiBp+3rXwDjBnPJA2B1rPFnSHvqze1BDe1HU2j9fjbqk9aFbLAh4PObqltdu+YI1pKg1qyJtTCNd2fRX5X5whzwo0WP0Gt3s4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=EDQ4KWpZ; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fsFUGwyG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3777BC433F1;
-	Wed, 14 Feb 2024 15:10:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707923425;
-	bh=GS4eSHaDiEsFeMPQ2s8gW0MM1LndD3K1GsMp2uxE/28=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fsFUGwyGH3kALXBm25gWqtFT3QTDs7epAdoZRtSmdulitCQmGSKgYezOsCdsNYMJ9
-	 a1CoBElpkxGALBxYgT3j416u8ST43b3WZ+ogEez7CRhd1+Pg23QkEIvtSgKZMnLaU2
-	 3QIvv7VR9vLT5ClAi89uTAs+ixfmEyW33SCMxHb0AGTcwOcFj+tcGPKIiJwwDWsn3C
-	 mrwAjrbToEiDPx+otZwMqAzVFkFZusy7VTTq9A+jrUs74eLw+ZPx62/8fpwcmh4X87
-	 n5y22X39ogjhxFHmOLCB14NVGY+BGEU5cyXJ+Ebvp2bxkgQrFmpU5kKIZ5Y71EaSZY
-	 Ggwk6iE4tMzVA==
-Date: Wed, 14 Feb 2024 15:10:20 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Jiri Kosina <jikos@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, corbet@lwn.net,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, security@kernel.org,
-	Kees Cook <keescook@chromium.org>, Sasha Levin <sashal@kernel.org>,
-	Lee Jones <lee@kernel.org>
-Subject: Re: [PATCH v3] Documentation: Document the Linux Kernel CVE process
-Message-ID: <fb5f7cf4-6541-4d91-afbb-5514cec3ca47@sirena.org.uk>
-References: <2024021430-blanching-spotter-c7c8@gregkh>
- <nycvar.YFH.7.76.2402141433560.21798@cbobk.fhfr.pm>
- <7c177ba2-6b0a-4203-9ee6-113e75c6bb13@sirena.org.uk>
- <nycvar.YFH.7.76.2402141539180.21798@cbobk.fhfr.pm>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="EDQ4KWpZ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=hftmzppcjHlorwgYJRp+lM988Qc6AOkd1AYuK4Aj3w0=; b=EDQ4KWpZCjyQrQSpbU0qS+hfgt
+	U4P5K0QWOTlNO/Gy8Ld5ua4ISXBQE4e2dzeLr7QZiWq5AccxD+wDdQKRMrq6mg9JUIKSTXqNfmS7w
+	6cKSKmJNrDBI9JIt8AlH2G8yNuwDnTmwMBbhnOqs+U7mVYByFqFrtNmnpaNs47cSWotVHv99u/m+m
+	P5h/bPloUGfsWPo9+SIPBrLJWDvXf+ViYExv7xpbpli68n8XxtIaRcjMbDIPznKFXmqZ/mPHD28f6
+	ukZssGWyaVq91PablLgmHy6YRoqm4GIyw4g0tVH/8IcaFt4Y5RvY0UDDTmdr5FhLzqQuMs+FoXtfs
+	kXvpKg+A==;
+Received: from [50.53.50.0] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1raIMr-0000000Da5u-48Th;
+	Wed, 14 Feb 2024 16:44:18 +0000
+Message-ID: <768355d0-df1e-48dd-b7fd-9ed34f7a4b7c@infradead.org>
+Date: Wed, 14 Feb 2024 08:44:17 -0800
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="BG5O0liRLurZHdWB"
-Content-Disposition: inline
-In-Reply-To: <nycvar.YFH.7.76.2402141539180.21798@cbobk.fhfr.pm>
-X-Cookie: Available while quantities last.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: Document the Linux Kernel CVE process
+Content-Language: en-US
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, security@kernel.org,
+ Sasha Levin <sashal@kernel.org>, Lee Jones <lee@kernel.org>
+References: <2024021314-unwelcome-shrill-690e@gregkh>
+ <60d67476-5c56-4fa4-93cf-1eb8f5aa5953@infradead.org>
+ <2024021450-giddy-garland-e499@gregkh>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <2024021450-giddy-garland-e499@gregkh>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
---BG5O0liRLurZHdWB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 14, 2024 at 03:46:12PM +0100, Jiri Kosina wrote:
-> On Wed, 14 Feb 2024, Mark Brown wrote:
+On 2/13/24 23:15, Greg Kroah-Hartman wrote:
+> On Tue, Feb 13, 2024 at 11:56:42AM -0800, Randy Dunlap wrote:
+>>> +As part of the normal stable release process, kernel changes that are
+>>> +potentially security issues are identified by the developers responsible
+>>> +for CVE number assignments and have CVE numbers automatically assigned
+>>> +to them.  These assignments are published on the linux-cve mailing list
+>>
+>>                                                     linux-cve-announce mailing list
+> 
+> Ah, good catch, you can see the "old" name for the list here, this is
+> due to this document being an older version, a symptom of "write it on
+> my workstation, sync to laptop, travel with laptop for 3+ weeks and make
+> changes based on meetings with CVE and others and then forget to sync
+> from laptop when arriving home".
+> 
+> Ugh :(
+> 
+> Thanks so much for the grammer fixes, they are much appreciated.  I'll
+> apply them and send out the latest version in a bit.
+> 
+>>> +No CVEs will be assigned for unfixed security issues in the Linux
+>>> +kernel, assignment will only happen after a fix is available as it can
+>>
+>>    kernel;
+>>
+>>> +be properly tracked that way by the git commit id of the original fix.
+> 
+> One of my goals in life is to never use a ';' in a sentence, and after
+> writing 2 books without them, I thought I achieve that pretty well as I
+> never seem to remember when they are to be used or not.  But I'll trust
+> you on this and use it here.
 
-> > There's an argument for many headphone volume related fixes too since
-> > excessively large volumes can cause substantial distress and potential
-> > injury to users (I can't remember if that fix would be relevant to that
-> > issue).
+For some reason kernel documentation has a plethora of run-on sentences. :(
 
-> Something being too loud, causing distress ... that's really a grey zone=
-=20
-> (to put it mildly) for me. How about e.g. a bug in GPU driver, leading to=
-=20
-> a flickering screen? Many people are very sensitive to that (both=20
-> physically and mentally) for various reasons.
+Guess we need doclint.
 
-> Bug worth fixing? Absolutely, as soon as possible. Security-relevant? Not=
-=20
-> in my book.
-
-To be clear, most headphone drivers can easily generate output levels
-which will cause temporary or permanent hearing loss after very brief
-exposure.  The distress is the urgent and instinctive need to remove the
-headphones as fast as possible that tends to result, much as it would
-for any other ongoing source of injury.
-
---BG5O0liRLurZHdWB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXM19sACgkQJNaLcl1U
-h9Awvgf9Gu8FSKxDu0eWu7eEILO1aW6n3afgdS4SSJxYcmqNDCJzBT2VDTi/N6hA
-aeDLNw9G94HI23Mabmi664LWHZrCcrfo1sWSMOdFsFREZWK5t1vKyauVDeGJTsuM
-5U4PcoX14VMUbnhGLXu9oTWWw/Tx/jda0ac7ZcU1IflxuMV/s0rtHH8qmyjlScnP
-KP4wSoIK+Cmmlx1o+0Z1UrMPc5XjqTbLHzKOS99ZgS6GLMxYFMO+AX0lAObj8XJ7
-MXLRSyMgoVHUAxTPPknTmNbeE67zrQ6Ml1osozMYdRACtOYEoW+gQWo8b/qMbhJW
-brCB0Xw7JhUqKjcdyCrrgpK73uWocg==
-=ulVa
------END PGP SIGNATURE-----
-
---BG5O0liRLurZHdWB--
+-- 
+#Randy
