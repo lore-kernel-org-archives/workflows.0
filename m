@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89A4B1119B;
-	Wed, 14 Feb 2024 06:43:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F6E910A25;
+	Wed, 14 Feb 2024 07:15:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707893015; cv=none; b=oTKAu75z6AqvXWuWxVnuz+6wbgzYmulQf8BUy3rljwh+5utCz6JcTY4eFZto7yXhaT3OG2AOvaKytWIXkC42Wj63j/Bf/irjU10MFVnwuVWc+T43AHp5IQSN/vcfApsE2OblvFPEAlmxYgp5yLmWCqxUzqRfXXQJfjTBFnM7xt0=
+	t=1707894944; cv=none; b=nyjGa2qg4a9A4YSyFNxw6iLOIC6Bu191K9TmiH+TUJN085s6SPJd3HTbOoR/ugxuXcrx7kg5FnuH+Dwhud7L9VJYXH7q11KdpNOgHbthJcsowWktFKqo+rk+bFIN2aExS7oueepREQtVqlu68BmJEC1Ji7x2/Hi6ODwU1cUoolA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707893015; c=relaxed/simple;
-	bh=l0OlVPwnAA/BNoPYrpxmb0JNzdB35f0E0pfIwlxJRVg=;
+	s=arc-20240116; t=1707894944; c=relaxed/simple;
+	bh=IIvvVsjR/hVM2f/NvgMQKuJJLg9nuLk9INfiWWzJeds=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=euKSLWkcfiGBwVNXQJP39exbdRvZNkdP7CdBIeRhjAAj5KrnlcdJmYdegIqSf+H0jCdEQJAZd7OeaiS/KJbwznAaSx2q+frmUuM6XCN1xWs4PU7CdLTpdeUJBoDlFQIKw87hJiegd/TmNUKRZ8p+3M8GD2qCLQhAhUpPPsEgAD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=IDHHGp6S; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=rAUQ6c80IfsnG3Ym3gTbBfjOh72a7VL2o8Ui1bVOKmnxkCSmE/OoaGMsEgxDhub9L6cMDQnhYeFAAio/DJuryA5IEBiUax3SRRKVgH54Ow+XAVGv/SQ0JAXiJCdZOW3kuX3j2OBvSr6yXoRm/DZTKH9tgFCCi/nIshecA+UGKL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=2BImXe5d; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="IDHHGp6S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 994B8C433C7;
-	Wed, 14 Feb 2024 06:43:34 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="2BImXe5d"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5392C433C7;
+	Wed, 14 Feb 2024 07:15:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1707893015;
-	bh=l0OlVPwnAA/BNoPYrpxmb0JNzdB35f0E0pfIwlxJRVg=;
+	s=korg; t=1707894943;
+	bh=IIvvVsjR/hVM2f/NvgMQKuJJLg9nuLk9INfiWWzJeds=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IDHHGp6SmQ6hKT0WvGQTgkoC9BFQAX3vZaQlniWuUg90li5YMGtejyqLlX2ZhnBQF
-	 eBkpAE1vdKpQ7qIWcYUP1nfvJvjRKMUPHGODR04CbNfzeOnCY2Ec/FIYIFNqIwrFiy
-	 40RXus3X8i2k6t5nKCQ8ZE7xLCyzdryujSyPR9gM=
-Date: Wed, 14 Feb 2024 07:43:32 +0100
+	b=2BImXe5dl2/K6e+ijgtbrCPUcncWRTVXd5Yy0EDHMH8DynfC3IJCHLXOwwUIVBBRC
+	 PllI2aku/QHOG7Bfcs6S0etYBH1nx1gm9mxlQg7k9kh7fRr1sM1N2NcDSbqUgLdg9W
+	 JzyuwZ6gCQ8xl/Z2d1I7Y/NQxIgAyHFNoXSCBHb4=
+Date: Wed, 14 Feb 2024 08:15:40 +0100
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Kees Cook <keescook@chromium.org>
+To: Randy Dunlap <rdunlap@infradead.org>
 Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org, security@kernel.org,
 	Sasha Levin <sashal@kernel.org>, Lee Jones <lee@kernel.org>
 Subject: Re: [PATCH] Documentation: Document the Linux Kernel CVE process
-Message-ID: <2024021445-emporium-tightwad-3c35@gregkh>
+Message-ID: <2024021450-giddy-garland-e499@gregkh>
 References: <2024021314-unwelcome-shrill-690e@gregkh>
- <202402131429.A604440C6@keescook>
+ <60d67476-5c56-4fa4-93cf-1eb8f5aa5953@infradead.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -41,42 +41,39 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202402131429.A604440C6@keescook>
+In-Reply-To: <60d67476-5c56-4fa4-93cf-1eb8f5aa5953@infradead.org>
 
-On Tue, Feb 13, 2024 at 02:35:24PM -0800, Kees Cook wrote:
-> On Tue, Feb 13, 2024 at 07:48:12PM +0100, Greg Kroah-Hartman wrote:
+On Tue, Feb 13, 2024 at 11:56:42AM -0800, Randy Dunlap wrote:
+> > +As part of the normal stable release process, kernel changes that are
+> > +potentially security issues are identified by the developers responsible
+> > +for CVE number assignments and have CVE numbers automatically assigned
+> > +to them.  These assignments are published on the linux-cve mailing list
+> 
+>                                                     linux-cve-announce mailing list
+
+Ah, good catch, you can see the "old" name for the list here, this is
+due to this document being an older version, a symptom of "write it on
+my workstation, sync to laptop, travel with laptop for 3+ weeks and make
+changes based on meetings with CVE and others and then forget to sync
+from laptop when arriving home".
+
+Ugh :(
+
+Thanks so much for the grammer fixes, they are much appreciated.  I'll
+apply them and send out the latest version in a bit.
+
 > > +No CVEs will be assigned for unfixed security issues in the Linux
 > > +kernel, assignment will only happen after a fix is available as it can
-> > +be properly tracked that way by the git commit id of the original fix.
 > 
-> This seems at odds with the literal definition of what CVEs are:
-> _vulnerability_ enumeration. This is used especially during the
-> coordination of fixes; how is this meant to interact with embargoed
-> vulnerability fixing?
+>    kernel;
+> 
+> > +be properly tracked that way by the git commit id of the original fix.
 
-Yes, this is totally wrong, it was the original first draft of the
-document, that I did on my workstation, and then went on the road for 3+
-weeks and I never sycned up when I got home with the updated version
-that is on my laptop.  The updated version addresses this, as it was
-rightly pointed out by the CVE group that this is not how a CNA is
-supposed to only work.
+One of my goals in life is to never use a ';' in a sentence, and after
+writing 2 books without them, I thought I achieve that pretty well as I
+never seem to remember when they are to be used or not.  But I'll trust
+you on this and use it here.
 
-Yet another reason why keeping changes private is a major pain, not only
-for security ones!  :(
-
-Let me send out the proper one after my morning coffee has kicked in and
-I resolve the differences, and make the grammer fixes that Randy pointed
-out...
-
-> Outside of that, I welcome the fire-hose of coming identifiers! I think
-> this will more accurately represent the number of fixes landing in
-> stable trees and how important it is for end users to stay current on
-> a stable kernel.
-
-Agreed.
-
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-
-Many thanks for the review!
+thanks again for the review, much appreciated.
 
 greg k-h
