@@ -1,167 +1,244 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2919A399;
-	Wed, 14 Feb 2024 08:34:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707899694; cv=none; b=bmm0lnWNryS18EbxXJfOhd3O0EZkty0Ots0XX+KSkHtzYKc6E8OMrhJ4wFBVl7Al/+um5RYUTjv/l6Guuze0Xhxf27i/kmLU/CP7QtqAHFb5/h1vP9HoZecu2V5bBF277iuAZceKDXIdqEEmupiEAgw56MKifLxr18m1VIQbuCY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707899694; c=relaxed/simple;
-	bh=Pc8jOd7teVVjR3r6LIRBXu38f/yDdfTBDx9cr4Flonc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JCOMu1OfrkJq4CyGs2zxSL82X8ZoWAe4MltWo+ZF40RCWS/tS1e1vF7AyKIqTdIQPN8vS2puGs6wHHKaLC8MHiCQSvjUZ3FYKaUEgPv/Y3nN9ulhxT50b7uSWtOtjIOu6WfFhk8/BqPoryFPIrVAsDRdlarDAqLzuKSr3EOSfMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LWzSWc1y; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A8F04696;
+	Wed, 14 Feb 2024 08:37:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707899867; cv=fail; b=JOWp9VRHbbz+Mw8PTTuS5MogjwmWQyMgkgNV9oXazkC/lvwe4Gq/llE/e3FFBPM0ibT4bX2HKVf33adlpzJriwuUMZaEjOgmiUbSKUaZRCu/QX+q26dA3eHiHz3akMwRZugNM2de/nfvM/yYI52wvwwv7oFdzZKKnfxRpIPavN0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707899867; c=relaxed/simple;
+	bh=Jwd1/HfM65/HRY0nXb83NdB1CEr9z2nUvg2GmyPIPUs=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=DsINzn/7O5Zo34aOUG3sFtyEUl6x6YYq3qQKXasEgEGdE0lEj233A2yv+zGW+DanBXXPKYsSdHrjLTi4+SSFIMoP6ljHi7/zq8Y602BzG95w0YMUTKmJccneBtEx7jBeJYr7etYf6jphk+Qnf5WvMWiyQyLG0zVePA4REmJshXA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=b4482f8f; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=IuIrwN27; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LWzSWc1y"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a29c4bbb2f4so688174666b.1;
-        Wed, 14 Feb 2024 00:34:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="b4482f8f";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="IuIrwN27"
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 41E74suw006297;
+	Wed, 14 Feb 2024 08:37:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2023-11-20;
+ bh=YfkmvhRmKeLofm10+EfBkpIGvrL2t05nipxQ9LhUvwA=;
+ b=b4482f8fergD/n9h5zMdv5jlMMJjKMFAvoptQc+vKLsWk9GuXzT0jBMVwtvyal4/TrjB
+ 3J+BW5GHpE59PWn54PM8J7zaoJPdnuwVYco6L0hNNnusqumBiT1uDXWK3d44vxOGVM82
+ 1T23HOOe1JlxtSzGEb3AIRYPPp86qXe/RZw4vYlYp8peLzrymsyodXK4yFBEOhMgi0u8
+ Tpy1kf/fpvIIYk08Ncs9d4qAGHEEPG3hyr/RTfgSds1pCrdi3BaAgWRCeIpfEXYM0k4B
+ c5Cll6SAY0/NrX0tltzcr/VmhVJ7lUC2SFiFP7meWTrH2K10MdC+PvHK6nDQiSQQOx9L tA== 
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3w8rtcg5f5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 14 Feb 2024 08:37:40 +0000
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 41E70iNY015008;
+	Wed, 14 Feb 2024 08:37:39 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3w5yk8mn2c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 14 Feb 2024 08:37:39 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=K3ydr1RYzmh2V5UuD/1bYaIMbbU0ZPTkerqXp1mIs/hSDM1Uv8wgAHzwadHv+D18vdY941kM44sS0I4+svTFb5rhTbDMG9JFm2ODJWNP1DRMO76hG8DJyPtUMHBV6brGrAi1jV9DQMczHJ9Vn3pLZt2fd/fPnrzlhcd94jJuxIeA+ayaK4hOvTMPqYqsMef9hNNgQNpvOzZcIgrD65J7vd58SpzD37uQkqtLSSx5RfhbArDFMVPV9+XkP372Pw4wQxdZABwpRetQp8Db+qV8Je5Nw46WCiMQGXyZEBV6odDutbzXPc4Y7cZzMMYCpVzK9y4nJoWMUNA+CSVzlAIS7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YfkmvhRmKeLofm10+EfBkpIGvrL2t05nipxQ9LhUvwA=;
+ b=l90vgIUVKSDsv9J+OF93QS8I/08ACTXJAV6rY7z44ZgizEmuE/Nh+/nnvl7/oNV2K3qdRBH2yI+Tixeu5JNUh1kDRKttBsygTd0a8Wye1+KhRun40Qev6nEACto0WvGPYIAAcQG63bmXoTIkYHtQYjHLin8WqjhRPt1jI2CZ572Yex5HFhIJPEeRCautw0rAOjSm6QFxk1qFxd/zd5Bodc9z6noGVFRztBu2ZoYHxsCAmvo7WQkhhjPMFl8ZKqXv6BIqJZY72PZQ6foz8/Hf3uJzvn7XgL9Cko0W4CgM5cgFI7Vwo6FwCW/GQ3vq5J/yYPBIjqVG6ld/TjCElQ7kgQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707899690; x=1708504490; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0f1tPUAExwT49VcThYqSAawr/yjky803QIJIIWnzaDU=;
-        b=LWzSWc1yHL6k/f4CElzzh16vrZM9zcFBGWTKynJm4N5UbUF6Jgs8EbNrtyowDdjofq
-         X152PDMjnOK2SMLEaLFohctk/koutOosoriOdJ/gjxb1Z9CcEmDJtB+A5c7MTaHXzvtG
-         pai3GEsIvHOmrZqPJaiThNxqBGGXADrV+31nBUnIfRB6JvtYoSrTWx5g+LdNVATs/ubr
-         LnScb0BAKUvjpAPie2NSZbJLwqW9LYpdsaWwOKm8/VLLFC9EBN8WpH2edFCFKCxVU9+N
-         9NgUldJbXJiBlyx9yFJ6ZWGNMuv9b+YEUuQX01KBJ/TulzWNhcSkx+nQBjxgzusTe1ow
-         kfHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707899690; x=1708504490;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0f1tPUAExwT49VcThYqSAawr/yjky803QIJIIWnzaDU=;
-        b=pq71na9frhzQ3Kk3nd3iKGVXfLXUGXkEceZyNL037qKXud0qa8zB3GBmoiy4nCFJXs
-         9yoToteS9DM6DFH7t2Hi8OWlx6BcFohb8eTYKJdFMAEvzzJCZ2WYxqPlWwdMk/wARFD2
-         PYdKCK+c4Kq6uY81kClRv5iStiTpDHUZB7MN5cj7FpamuC1BBw6VnZyqWavUw/d9idt4
-         cDVeH2DjBTSF6mWoP2g0gX+8yoDsJKsXLZVUwrv4PVmHM3rOLtA140KZZC+WDLdnZIAh
-         565tCKPavoimtUoy5L9ELBcPrfdcY7+p/z4hUmcK8kP8YAnGziVtNTY9pxJ52vHd42Tz
-         YtbA==
-X-Forwarded-Encrypted: i=1; AJvYcCV0USftHzFdQnrN2cP66SMAyaxXhrocPIu1qhpUgFQPI1h88KaVUkXQ64RlSbehiPZSYhis1KOoRdqtLMweeJ6+2VmRy9Z5WCklVMe6cSIu1sH6tJqoGjhr60uSejX1AgLaYPE/uW64HmrRZcPV89ZxBexaGn1E7RcK8yHCdg21nPE6
-X-Gm-Message-State: AOJu0Yxv8w3IELwvNCjEefLeuWwUjieZQqghV5eVZbPjtPNB1C8b/cEB
-	FyEw4PYa14Pa4lp/MYS1zjrPbNFiy6UxN2qSg+51A8EdyI4wrypQFuTn7AS3vXzd9B06Eui7NvC
-	GMhmrhakwyj4E01wHJ37WhCSXU3XM2gflKsM=
-X-Google-Smtp-Source: AGHT+IE0GeITMj6p+AP7XQ7RD36dsjJ88d9XItz0OcRSaVG0Gl3awtxOXaHxnQ+GMGj3ye8rj3ucnvAqpVpsrqknbms=
-X-Received: by 2002:a17:906:513:b0:a3d:3aee:85f5 with SMTP id
- j19-20020a170906051300b00a3d3aee85f5mr919663eja.75.1707899689841; Wed, 14 Feb
- 2024 00:34:49 -0800 (PST)
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YfkmvhRmKeLofm10+EfBkpIGvrL2t05nipxQ9LhUvwA=;
+ b=IuIrwN27DLIJci9kQwZkPwcmlSxUM/BGA+tPlvZasqku66mH30A8NHHWIflQNyZxQ9gAmWp4SoBJYvrAZvgChrd+dNR9g2yWXAMsZ3hygrwQ7uA3wcDA5+2KqNxtu3TZvcQYXT7MXoNVmzhQkqAljXxH3kqdWAoxBviqwyZV+YY=
+Received: from PH0PR10MB5433.namprd10.prod.outlook.com (2603:10b6:510:e0::9)
+ by DS0PR10MB7344.namprd10.prod.outlook.com (2603:10b6:8:fe::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.25; Wed, 14 Feb
+ 2024 08:37:37 +0000
+Received: from PH0PR10MB5433.namprd10.prod.outlook.com
+ ([fe80::6e32:a89a:f2b6:864b]) by PH0PR10MB5433.namprd10.prod.outlook.com
+ ([fe80::6e32:a89a:f2b6:864b%2]) with mapi id 15.20.7270.036; Wed, 14 Feb 2024
+ 08:37:37 +0000
+Message-ID: <00057b93-b5fc-4536-b13d-cd3b6cead5b1@oracle.com>
+Date: Wed, 14 Feb 2024 09:37:31 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] Documentation: Document the Linux Kernel CVE process
+Content-Language: en-US
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, corbet@lwn.net,
+        workflows@vger.kernel.org
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        security@kernel.org, Kees Cook <keescook@chromium.org>,
+        Sasha Levin <sashal@kernel.org>, Lee Jones <lee@kernel.org>
+References: <2024021430-blanching-spotter-c7c8@gregkh>
+From: Vegard Nossum <vegard.nossum@oracle.com>
+Autocrypt: addr=vegard.nossum@oracle.com; keydata=
+ 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 8A==
+In-Reply-To: <2024021430-blanching-spotter-c7c8@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PR1P264CA0089.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:102:345::16) To PH0PR10MB5433.namprd10.prod.outlook.com
+ (2603:10b6:510:e0::9)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <2024021430-blanching-spotter-c7c8@gregkh>
-In-Reply-To: <2024021430-blanching-spotter-c7c8@gregkh>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Wed, 14 Feb 2024 09:34:38 +0100
-Message-ID: <CAKXUXMw-xZ_w6prrdTG5Vs=QL1EDvwGv1M9r2PT14LE+HxWUHQ@mail.gmail.com>
-Subject: Re: [PATCH v3] Documentation: Document the Linux Kernel CVE process
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, security@kernel.org, 
-	Kees Cook <keescook@chromium.org>, Sasha Levin <sashal@kernel.org>, Lee Jones <lee@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR10MB5433:EE_|DS0PR10MB7344:EE_
+X-MS-Office365-Filtering-Correlation-Id: e52b87a5-e556-4816-6d62-08dc2d38326e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	lYmhqtR5wufebCyN2hSbvCiuawAitO/SOc/OPR6tTwyageUXGBL4fbX8C3/fkt5StlzBya6ZDlkVAOcgJlyA0ruCiPx+SjurX4XoPFDoWCyEHogJEEDctSAKE1QJL7TUYwVzjF8Jn9lyBPkQi7C9oY2UJAKRfy/3wAzAuOWYXW/f8nSs3ufmRS5iIJLgfrsSe4qeAnHhqOnQJHx3iNMjbPs3bMRRDLMI0Y8tnFY+Oilk/pEpVFcOXjbrLatTZAoA1M4MUydzPhn2NItt+Whwm45ZJO5RxBxQ95WkzaFqlBkmz/KcF9pRSY4FnUW/wejEo8gB90fhrOhSmQZeJ/T19N0TnfQb2o8jZmYf+eCe4SMiaT5amWcCErzZ2ijEdwsEuFJPN2JYErNGPD/CtgeFvpqpK/RuImCsrRX+edLEqAZJRXVUKvEoZUxQXaqVON1BSvy4oWNEk3eyj91+OCj1xY3Y06pcpYSLtvytfFZp4A9GFNwOMOEgDkIKe671PKRJyntL6xsDdg9EkVhCkCvyg+wUt1kvT0MQbMC9EMvww+GSXCRdDQW7xvs99rm02y88
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB5433.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(136003)(346002)(366004)(396003)(39860400002)(230273577357003)(230922051799003)(451199024)(1800799012)(186009)(64100799003)(2906002)(44832011)(38100700002)(5660300002)(26005)(86362001)(31696002)(2616005)(6506007)(6666004)(53546011)(6512007)(83380400001)(54906003)(66556008)(316002)(36756003)(66476007)(8676002)(4326008)(66946007)(8936002)(966005)(6486002)(478600001)(41300700001)(31686004);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?eVdjNFlpeGJGRTNHNEQ0OVdkTmxZWGdIdWhZdnQ4SGE2STBwT3J1WmRSZUlx?=
+ =?utf-8?B?bks0NzVFMXZ4R2plTVo4cGxyMmNMeHFPRTI1emFqVjVzWHlmVWEzWEJoaGRQ?=
+ =?utf-8?B?bFNSZ3ZWSFlUZ0d4TTNhNkVlSXRsVElUckExVHRpandjd2VUeE5XRXN6T2ZC?=
+ =?utf-8?B?REdodkZsaEt1V3NQdFR6Vll3a0NQcnhVQ3gwbnNTT0g0NGpyWXlOQ1ZldzNr?=
+ =?utf-8?B?Rk1IUjZBMjI2RnJZeFNhaFdXUWZabm9vOVdycnJwbmtXWnV5TlZGNUZvNnlP?=
+ =?utf-8?B?ZDVhODFFZU5kY0tIR1hyQi9QUmNTTzYyS05YdnRrWFVUQ3NTcjlGeHJPMHEv?=
+ =?utf-8?B?SlM2V01abW92dURZcXhrTjJ4dVVqdjdjeXFPc3doaUgvV1BzRzhnSU5oUmRK?=
+ =?utf-8?B?VDBzOU92OGRtVi9KVWN1MVl2ZTJiazdRVU9YZkFnVHk5V2p1QzFNTmk5eEVM?=
+ =?utf-8?B?TlRLbEY2KzNSV1JDSXdzK3p0QkVDb2NDRXBHdytWZnppOEhEYmxRL0tmeHgv?=
+ =?utf-8?B?TndQMWN3RDV1NEt4RXhTNUVsemx6Smw1K1RRUUhzN01od3VOMWhOMDZYR3JI?=
+ =?utf-8?B?S3FBU2pEUS9KbmN0dHFBY0RLWDlqd2w2MDBWQ3MrWk1WdW81bmEyWWh2d2cx?=
+ =?utf-8?B?T1FSUy9rUWs1WlBuK3h0c05UMG9HMmVoaFRqMTZZaWc2aVNQOVQ5OEIwVngv?=
+ =?utf-8?B?cWk3b1FxUmJLWVdnZWJ4ZkxxMDErc2lCS3FnRlYrbGU3RUR0Y2Y2MmZIKzNv?=
+ =?utf-8?B?TkgyakJrMEtxai9PdlNqVVhoRmk3eHY5NG1SV1k1QTlWTG4wSmE5Yzg4VHBt?=
+ =?utf-8?B?TVBxVDFJdmdNaUJHeDgvRXlFeUZZZThyT3R3WTdLU1dMWHFjT0llcy92K0pL?=
+ =?utf-8?B?Y3lWekQxWHpaZGpWdmczS2ROUXpJOTRqbFZsRUxxSk9EZ3ZENDJOc2VvQ2dF?=
+ =?utf-8?B?NVJ5SXZVMUhzOUhTM3o5dXQwNys4M2t5aVltTlRpNURSbGRCNHRMc2RnQ2Fi?=
+ =?utf-8?B?NDFtNldKcjA1WEVKTUIrVmpHWFhYQ2YwTFZReVNIYXBmeHVKblNDUlRHTmZD?=
+ =?utf-8?B?WGY1b0xCbURuazZSOVpNVWNQTlhOeERkT00xU0lFL0ZaNnlYTzBTdnY5WENk?=
+ =?utf-8?B?WHZESGNIamkwN3Ftb2sxc2dXYXlYUkVDaHdrWHF2QllQZC91S29yblI3VzZp?=
+ =?utf-8?B?YlRENkJ1dFhiQ0JoM2NyaWdrSTRLVVE0ckgyL21iT2V1Y2M5U293elp1N2FU?=
+ =?utf-8?B?dDdNZjB5N3MzVHpTSmg0Qm5tM3kwZmFsTGNuU1JXMkRwTzNvbGpmT2kyTzUv?=
+ =?utf-8?B?Y09GbGlWWDl2cFhrUnp3ZkJnMnJZc1YvRWVQdFZ3VE5GODltY0FzN3ZJc3FS?=
+ =?utf-8?B?WlR3NTAwSkY5NG5OVjJJOGdlbXY2VUJWS3NaRmhQOEJXNzBqQkhlcS9ONnlW?=
+ =?utf-8?B?UGNZby8xQzdLYmtJcll3WlpvZ1lKQ0dTTEVVUVp0cHFkdDhqYVVuZ1l1eitE?=
+ =?utf-8?B?eUp2WDIwcHJ6N3NQYlp1d01kd3QvanRoUUFCcmY2YXRDUHBTWnFpNm1wbWVX?=
+ =?utf-8?B?TXBsYkhjQUFaMXY1T2RYYnduU3lZTDNNZ0w5SWdXZ1I3MUF0NjF0L3ZxUHYx?=
+ =?utf-8?B?aXJHUVhmUjFOMjNzU1U2ZTZFRk9tZ0hxN1ZZZUpMbk96and4ZkIwUXIvNzM1?=
+ =?utf-8?B?VWpTNGhFMTA2REVHdHI4YzFZZXNiaUJkNzVldFhYWEFMV2E3TllmTjVYb0J4?=
+ =?utf-8?B?WjhHeDBJSlliVkNWbDhKVEhoRm1vNDk4Z2ZodVc4SGJYUUh6dkZBYnk1ZVE4?=
+ =?utf-8?B?YUtGZy9XWHJsSmdJbmlNa3JabHNEUmg4ZFlpOTk4bmJ3RmlHRENmOXpENFpR?=
+ =?utf-8?B?TXJiL0JrM3FYeHhDWllDb2R5eW9hUXpmSHhTeW4wUFovcnh1QmV0cit0NkxB?=
+ =?utf-8?B?eHQ5b3VMYW1haTIxNFlXY2V2dnlIS1JlNHZOc29CbkZjWFJMVU1RTEZxRzFC?=
+ =?utf-8?B?T0pReHVqTER3dDJLTGFla002czYyOGxXYTRTVmN6WWZEZFJ2RmprQ0xudTBO?=
+ =?utf-8?B?cGhWMlVCa0t6S290aDNHa1NGNldleUVKTXo5elNXbERqSGtYeG4reEM5bmJH?=
+ =?utf-8?B?WXdha2RydXZoanZmM0Y5ckFJYzZQaXNPQWtQODRROEZ5b21CYXJDZXBHdVFP?=
+ =?utf-8?B?RlE9PQ==?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	UVQm25ZwsBkj6FGgfhQ5mGe9UMjAge+PlIOSgV71cw2zyGs2+CtJY1Bt/BtQwZlBRbdQNn0NN+JEnmP/nPdUG/eaqB8lwccOh5K/4O3FSw95diKRmWq3u1mVCIDi759aQB8iLrAgTEs/nUgVK08oEDaOXrkEyu4gcdoA0XfTxMaey/Geb1r2N516+b6qHdptvuFw6OYmJe8whDQ9PWZiKLxtI0G4vNPTFRRbq2lKByC5a7faIv8VCtBcbIvtlIE4V/Q7PKd0AiTW3b4iGeCCMFz4m294fnb4LPYe1+srHIGV05fN/Mb1A2uRAXFS2Qa8OGYroB6+C72K7F1u2WEdB368j6jI383VnzteKFGqvbYU8DQ4q2qeg9DlqomxL2Gz1SXsn2cOHnF0nPQZzxtr93noUeyd7iUXBB1MI6PAfXDD+esLPNz2bCMTtQIOzlnznOgI8XuG797m7mXUYqnJwxB02jasAbSBmehQMw8czSHv5N3IvCfor0/llPHchcB5MUL5NB5em2Usl1aqe/kZUbZiBp4KJXX4fnaNZZjNSsiNgsUGtF6hGJQ4e5ULkD3Yz4Ru/VHOju3XSthzZ9LFjk+At0+4rp/bUB8NxGheJQo=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e52b87a5-e556-4816-6d62-08dc2d38326e
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB5433.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2024 08:37:36.9583
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: F2amiMhD4XtF3CloYSDph29ky5t56yOkYeys6en2RPn+9T7snYYrGGGuCBzo+G7QGmawawCRJcHFfmbeUkT9znjyY5HtkaTHtYcK87QX4ok=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB7344
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-14_02,2024-02-12_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 bulkscore=0 suspectscore=0
+ phishscore=0 adultscore=0 spamscore=0 mlxlogscore=999 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
+ definitions=main-2402140066
+X-Proofpoint-ORIG-GUID: i2-nsFsEDhxr9vYybJPWMpKazTdkWtIU
+X-Proofpoint-GUID: i2-nsFsEDhxr9vYybJPWMpKazTdkWtIU
 
-On Wed, Feb 14, 2024 at 9:01=E2=80=AFAM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> The Linux kernel project now has the ability to assign CVEs to fixed
-> issues, so document the process and how individual developers can get a
-> CVE if one is not automatically assigned for their fixes.
->
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> Signed-off-by: Lee Jones <lee@kernel.org>
-> ---
-> v3: fix up wording in security-bugs.rst based on the changes to the cve
->     assignment process from v1, thanks to a private reviewer for
->     pointing that out.
-> v2: Grammer fixes based on review from Randy
->     Updated paragraph about how CVE identifiers will be assigned
->     (automatically when added to stable trees, or ask us for one
->     directly before that happens if so desired)
->
 
-Hi Greg, Sasha, Lee,
-
-Generally, I think this is a great step forward on the whole "security
-vulnerability mess" and this will certainly help me and others in the
-embedded space to argue to update to recent stable kernel versions.
-This can then finally put the practice of shipping multiple-year-old
-kernel versions to an end. Often this was just done with the argument
-that there is not a recent CVE and fix assigned to some recent stable
-kernel version---and integrators think updates to recent kernel stable
-versions are not needed and not recommended.
-
-I am looking forward to seeing what and how many stable commits are
-going to get CVEs assigned. If Greg's policy from the Kernel Recipes
-2019 presentation comes into play, every git kernel hash (GKH)---at
-least in the stable tree---could get a CVE identifier (just to be on
-the safe side). But I assume you are going to use some expert
-knowledge, heuristics or some machine-learning AI to make some commits
-in the stable tree carrying a CVE identifier and some others not.
-
-Reviewed-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-
-Below, there is just some nitpicking on some wording:
-
->  Documentation/process/cve.rst           | 120 ++++++++++++++++++++++++
->  Documentation/process/index.rst         |   1 +
->  Documentation/process/security-bugs.rst |   5 +-
->  3 files changed, 123 insertions(+), 3 deletions(-)
->  create mode 100644 Documentation/process/cve.rst
->
-> diff --git a/Documentation/process/cve.rst b/Documentation/process/cve.rs=
-t
+On 14/02/2024 09:00, Greg Kroah-Hartman wrote:
+> diff --git a/Documentation/process/cve.rst b/Documentation/process/cve.rst
 > new file mode 100644
 > index 000000000000..6465e6a79c18
 > --- /dev/null
 > +++ b/Documentation/process/cve.rst
 > @@ -0,0 +1,120 @@
 > +CVEs
-> +=3D=3D=3D=3D
-> +
-> +Common Vulnerabilities and Exposure (CVE=C2=AE) numbers were developed a=
-s an
-> +unambiguous way to identify, define, and catalog publicly disclosed
-> +security vulnerabilities.  Over time, their usefulness has declined with
-> +regards to the kernel project, and CVE numbers were very often assigned
-> +in inappropriate ways and for inappropriate reasons.  Because of this,
-> +the kernel development community has tended to avoid them.  However, the
-> +combination of continuing pressure to assign CVEs and other forms of
-> +security identifiers, and ongoing abuses by community members outside of
-> +the kernel community has made it clear that the kernel community should
-> +have control over those assignments.
-> +
+> +====
 
-Though, I get what is meant with "the community members outside of the
-kernel community", it still feels strange when reading.
+Document titles should have ==== above them as well, and then you would
+need to shift all the other headings in this document (i.e. all the ---
+should become ===).
 
-Here are some alternatives I could come up with:
-
-"reporters outside the kernel community"
-"reporters beyond the actively contributing/engaged kernel community member=
-s"
-"individuals not engaged with the kernel community"
+Info here: 
+https://docs.kernel.org/doc-guide/sphinx.html#specific-guidelines-for-the-kernel-documentation
 
 > +The Linux kernel developer team does have the ability to assign CVEs for
 > +potential Linux kernel security issues.  This assignment is independent
 > +of the :doc:`normal Linux kernel security bug reporting
 > +process<../process/security_bugs>`.
-> +
-> +A list of all assigned CVEs for the Linux kernel can be found in the
-> +archives of the linux-cve mailing list, as seen on
-> +https://lore.kernel.org/linux-cve-announce/.  To get notice of the
-> +assigned CVEs, please subscribe to that mailing list.
-> +
+
+These documents are both under process/ so it should be enough to say:
+
+:doc:`[...] <security-bugs>`
+
+In fact, when building the docs with your patch applied, I see:
+
+Documentation/process/cve.rst:15: WARNING: unknown document: 
+../process/security_bugs
+Documentation/process/cve.rst:42: WARNING: unknown document: 
+../process/security_bugs
+
+Note the hyphen vs. underscore (it should have a hyphen like my line above).
+
 > +Process
 > +-------
 > +
@@ -173,19 +250,12 @@ s"
 > +
 > +Note, due to the layer at which the Linux kernel is in a system, almost
 > +any bug might be exploitable to compromise the security of the kernel,
-
-Just a nit: but I would say: a kernel bug is compromising the
-"security of the system"; the kernel bug just happens to allow anyone
-to run any code on their hardware... in some systems that is a
-security issue, but in my previous MSDOS system that was the default
-behaviour ;)
-
 > +but the possibility of exploitation is often not evident when the bug is
 > +fixed.  Because of this, the CVE assignment team is overly cautious and
-> +assign CVE numbers to any bugfix that they identify.  This
-> +explains the seemingly large number of CVEs that are issued by the Linux
-> +kernel team.
-> +
+
+What is the composition of the CVE assignment team, or is that secret?
+Should this be a MAINTAINERS entry? (s@k.org is one.)
+
 > +If the CVE assignment team misses a specific fix that any user feels
 > +should have a CVE assigned to it, please email them at <cve@kernel.org>
 > +and the team there will work with you on it.  Note that no potential
@@ -194,20 +264,9 @@ behaviour ;)
 > +feel you have found an unfixed security issue, please follow the
 > +:doc:`normal Linux kernel security bug reporting
 > +process<../process/security_bugs>`.
-> +
-> +No CVEs will be automatically assigned for unfixed security issues in
-> +the Linux kernel; assignment will only automatically happen after a fix
-> +is available and applied to a stable kernel tree, and it will be tracked
-> +that way by the git commit id of the original fix.  If anyone wishes to
-> +have a CVE assigned before an issue is resolved with a commit, please
-> +contact the kernel CVE assignment team at <cve@kernel.org> to get an
-> +identifier assigned from their batch of reserved identifiers.
-> +
-> +No CVEs will be assigned for any issue found in a version of the kernel
-> +that is not currently being actively supported by the Stable/LTS kernel
-> +team.  A list of the currently supported kernel branches can be found at
-> +https://kernel.org/category/releases.html
-> +
+
+Same
+
 > +Disputes of assigned CVEs
 > +-------------------------
 > +
@@ -220,83 +279,25 @@ behaviour ;)
 > +its appropriate CVE designation.  Any attempt to modify or dispute a CVE
 > +outside of this designated authority could lead to confusion, inaccurate
 > +reporting, and ultimately, compromised systems.
-> +
-> +Invalid CVEs
-> +------------
-> +
-> +If a security issue is found in a Linux kernel that is only supported by
-> +a Linux distribution due to the changes that have been made by that
-> +distribution, or due to the distribution supporting a kernel version
-> +that is no longer one of the kernel.org supported releases, then a CVE
-> +can not be assigned by the Linux kernel CVE team, and must be asked for
-> +from that Linux distribution itself.
-> +
-> +Any CVE that is assigned against the Linux kernel for an actively
-> +supported kernel version, by any group other than the kernel assignment
-> +CVE team should not be treated as a valid CVE.  Please notify the
-> +kernel CVE assignment team at <cve@kernel.org> so that they can work to
-> +invalidate such entries through the CNA remediation process.
-> +
-> +Applicability of specific CVEs
-> +------------------------------
-> +
-> +As the Linux kernel can be used in many different ways, with many
-> +different ways of accessing it by external users, or no access at all,
-> +the applicability of any specific CVE is up to the user of Linux to
-> +determine, it is not up to the CVE assignment team.  Please do not
-> +contact us to attempt to determine the applicability of any specific
-> +CVE.
-> +
-> +Also, as the source tree is so large, and any one system only uses a
-> +small subset of the source tree, any users of Linux should be aware that
-> +large numbers of assigned CVEs are not relevant for their systems.
-> +
-> +In short, we do not know your use case, and we do not know what portions
-> +of the kernel that you use, so there is no way for us to determine if a
-> +specific CVE is relevant for your system.
-> +
-> +As always, it is best to take all released kernel changes, as they are
-> +tested together in a unified whole by many community members, and not as
-> +individual cherry-picked changes.  Also note that for many bugs, the
-> +solution to the overall problem is not found in a single change, but by
-> +the sum of many fixes on top of each other.  Ideally CVEs will be
-> +assigned to all fixes for all issues, but sometimes we do not notice
-> +fixes in released kernels, so do not assume that because a specific
-> +change does not have a CVE assigned to it, that it is not relevant to
-> +take.
-> +
-> diff --git a/Documentation/process/index.rst b/Documentation/process/inde=
-x.rst
-> index 6cb732dfcc72..de9cbb7bd7eb 100644
-> --- a/Documentation/process/index.rst
-> +++ b/Documentation/process/index.rst
-> @@ -81,6 +81,7 @@ of special classes of bugs: regressions and security pr=
-oblems.
->
->     handling-regressions
->     security-bugs
-> +   cve
->     embargoed-hardware-issues
->
->  Maintainer information
-> diff --git a/Documentation/process/security-bugs.rst b/Documentation/proc=
-ess/security-bugs.rst
-> index 692a3ba56cca..56c560a00b37 100644
+
+Just to clarify, I think "dispute" here is used in the
+Mitre/CVE-technical meaning of the word, correct? I assume people will
+still have the right to say "hey, this doesn't look like a real issue
+[because of X/Y/Z]" on a mailing list.
+
 > --- a/Documentation/process/security-bugs.rst
 > +++ b/Documentation/process/security-bugs.rst
 > @@ -99,9 +99,8 @@ CVE assignment
->  The security team does not assign CVEs, nor do we require them for
->  reports or fixes, as this can needlessly complicate the process and may
->  delay the bug handling.  If a reporter wishes to have a CVE identifier
+>   The security team does not assign CVEs, nor do we require them for
+>   reports or fixes, as this can needlessly complicate the process and may
+>   delay the bug handling.  If a reporter wishes to have a CVE identifier
 > -assigned, they should find one by themselves, for example by contacting
 > -MITRE directly.  However under no circumstances will a patch inclusion
 > -be delayed to wait for a CVE identifier to arrive.
 > +assigned for a confirmed issue, they can contact the :doc:`kernel CVE
 > +assignment team<../process/cve>` to obtain one.
->
->  Non-disclosure agreements
->  -------------------------
-> --
-> 2.43.1
->
->
+
+Same here, this could be just <cve>.
+
+
+Vegard
