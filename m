@@ -1,27 +1,27 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 452A81170A;
-	Wed, 14 Feb 2024 07:49:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A01CF12E43;
+	Wed, 14 Feb 2024 08:00:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707896978; cv=none; b=XQZ/pSlcOLuSNToZdzDrfRSzwoARWf4mheYfw5GLBOcccURsv/+WJjOUOKEaZVVAJjzMqBhYuP2siEpgC8xicjpTNLW9mAym1ngbNP7A37H7naAiBEPozIVlCd2NoPA0a8SC4xxHX1IdBy8VFEPcQYWtBkIH/QB8OV20UlQfxFc=
+	t=1707897639; cv=none; b=t92wYzKppPbNOgympaA8QMu2Bu6JyEk8PEbADrYhAKg5GLzE11ndeM8PvhISH/Vo1H28pLJ0E6L7hhYU2muUCMhbCZx0qcs9Zu6BphRxzDlRyDW07Xagw0t7jtYiFrHYcUWS1goWthP2twPYNyXupLw9s+6M/4sBrHPKxYRSW0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707896978; c=relaxed/simple;
-	bh=+30XBiTpr9kCZxuWOtbH7uq9JMNwSCfUSLWV8UPLEa8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=mL6yzXtsle6x/44QiGuQkEeisn2/NVXSrg36onSvzYdAzg3UjopfwQyLstlwTiJpMetXL93Yu3lIek8Bkd0/hVFbQ7GLhEwcX4f5eiSxzwej3aatVxuj/4b4JjYBf1B30i5hpK4a72CWLKkbYydOk3f6rvCBZLxZ4B/WVUM9aFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=gKmC1TRD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707897639; c=relaxed/simple;
+	bh=FmvLaKNhnIFQSuhbWRcDujMa+s+t+I+o5kK0EywbO78=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gLGygs031uok+IpN9jCiHsRpqHjUKOef8lk+LktU9qyCfFEj1GHLFnXpdDK7uY9BLtJQf3gytc11KGiB6otl3TSGK3JpMvFxiFUeVO3UlPzrofRKNjXSLZekbqPKknELDiSBnBZeMaMk59Jhcspju/MjJf/nNFrszyT8ahe+JDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=XGOvXL/8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="gKmC1TRD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41E9EC433C7;
-	Wed, 14 Feb 2024 07:49:37 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="XGOvXL/8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F5ECC43394;
+	Wed, 14 Feb 2024 08:00:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1707896977;
-	bh=+30XBiTpr9kCZxuWOtbH7uq9JMNwSCfUSLWV8UPLEa8=;
+	s=korg; t=1707897639;
+	bh=FmvLaKNhnIFQSuhbWRcDujMa+s+t+I+o5kK0EywbO78=;
 	h=From:To:Cc:Subject:Date:From;
-	b=gKmC1TRDRwnne/XHIp8Lgxgq7p5Te1ehpGMWvEu6pNona9feQZqCu8cLYSBJCF13J
-	 gVOwpEG8dfBce/s/baDD/R9agRbvqzHIAdPJyQjf0JLIWrr+QliLKnq8FP0FZpfAZK
-	 KCwFVPCtpOkmhCCD1Y/KO42fbym9tGXzFvKhMNQI=
+	b=XGOvXL/8iOjG1X58cQE/qDUHLGF/1cHQjE1e3f4SAdQWodf1imzAnGjl/c8XqFmGM
+	 PpuuwwcsvjQr5uTYtmtR/2DWsLdNYSVyifU0EhHOpZsYM4g+QRnJ3VHG3PrgmfmeQw
+	 BZsouhEhW13Nf15KhFQpwwgWw7phgcFc+MB57FPE=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: corbet@lwn.net,
 	workflows@vger.kernel.org
@@ -32,9 +32,9 @@ Cc: linux-doc@vger.kernel.org,
 	Kees Cook <keescook@chromium.org>,
 	Sasha Levin <sashal@kernel.org>,
 	Lee Jones <lee@kernel.org>
-Subject: [PATCH v2] Documentation: Document the Linux Kernel CVE process
-Date: Wed, 14 Feb 2024 08:49:29 +0100
-Message-ID: <2024021430-expansion-sporty-4229@gregkh>
+Subject: [PATCH v3] Documentation: Document the Linux Kernel CVE process
+Date: Wed, 14 Feb 2024 09:00:30 +0100
+Message-ID: <2024021430-blanching-spotter-c7c8@gregkh>
 X-Mailer: git-send-email 2.43.1
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
@@ -42,7 +42,7 @@ List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8674; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=+30XBiTpr9kCZxuWOtbH7uq9JMNwSCfUSLWV8UPLEa8=; b=owGbwMvMwCRo6H6F97bub03G02pJDKlnCrqqKpOyKoXuHnj81Pv2STbLp8E6jXUHu7ueWzpw/ 6u0EYvtiGVhEGRikBVTZPmyjefo/opDil6Gtqdh5rAygQxh4OIUgImsimNY0GT9MSSq4MQOl4iZ M8o1prR2ttjwMCxYpuvJdr4lRLHv35PX5/eyiLhONNYAAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8803; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=FmvLaKNhnIFQSuhbWRcDujMa+s+t+I+o5kK0EywbO78=; b=owGbwMvMwCRo6H6F97bub03G02pJDKlniuW2uSR9PGwa03xOXG7K1qUxjvMT2xYYpL88s3nnz un5vYItHbEsDIJMDLJiiixftvEc3V9xSNHL0PY0zBxWJpAhDFycAjCRxdYM82Py9FNuPq9fkNzw /OvZHy+OuuiHaDAsWPfkurjtYZNDs0/lSYu7/VS8bRHRDwA=
 X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -56,6 +56,9 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 Signed-off-by: Lee Jones <lee@kernel.org>
 ---
+v3: fix up wording in security-bugs.rst based on the changes to the cve
+    assignment process from v1, thanks to a private reviewer for
+    pointing that out.
 v2: Grammer fixes based on review from Randy
     Updated paragraph about how CVE identifiers will be assigned
     (automatically when added to stable trees, or ask us for one
@@ -63,8 +66,8 @@ v2: Grammer fixes based on review from Randy
 
  Documentation/process/cve.rst           | 120 ++++++++++++++++++++++++
  Documentation/process/index.rst         |   1 +
- Documentation/process/security-bugs.rst |   6 +-
- 3 files changed, 124 insertions(+), 3 deletions(-)
+ Documentation/process/security-bugs.rst |   5 +-
+ 3 files changed, 123 insertions(+), 3 deletions(-)
  create mode 100644 Documentation/process/cve.rst
 
 diff --git a/Documentation/process/cve.rst b/Documentation/process/cve.rst
@@ -206,19 +209,18 @@ index 6cb732dfcc72..de9cbb7bd7eb 100644
  
  Maintainer information
 diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
-index 692a3ba56cca..132842d8b377 100644
+index 692a3ba56cca..56c560a00b37 100644
 --- a/Documentation/process/security-bugs.rst
 +++ b/Documentation/process/security-bugs.rst
-@@ -99,9 +99,9 @@ CVE assignment
+@@ -99,9 +99,8 @@ CVE assignment
  The security team does not assign CVEs, nor do we require them for
  reports or fixes, as this can needlessly complicate the process and may
  delay the bug handling.  If a reporter wishes to have a CVE identifier
 -assigned, they should find one by themselves, for example by contacting
 -MITRE directly.  However under no circumstances will a patch inclusion
 -be delayed to wait for a CVE identifier to arrive.
-+assigned, after a fix is created and merged into a public tree, they can
-+contact the :doc:`kernel CVE assignment team<../process/cve>` to obtain
-+one.
++assigned for a confirmed issue, they can contact the :doc:`kernel CVE
++assignment team<../process/cve>` to obtain one.
  
  Non-disclosure agreements
  -------------------------
