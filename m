@@ -1,121 +1,199 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFF7F60DED
-	for <workflows@vger.kernel.org>; Wed, 14 Feb 2024 19:02:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 979B613DBA1;
+	Wed, 14 Feb 2024 20:10:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707937353; cv=none; b=As1R4pLGill2Z6SMuRFR2AN09Q4IlrTnU7Gsu+YdbGWwhKAk9lLovNCX+ewhAPe81MJh4D5P8g823w+bLmoHqZD6dGdYPrWlnB2WnqpX9/dvFcq3Lx6pQRWRNjf8VEKbuY6gL50Gys7UTcP1LHCEUwqjepyUfqXSkYTSgFHkCLA=
+	t=1707941410; cv=none; b=M+CIqvJhZPwQkKLY3F1hG5i/fNSusAu1ijddcF1yCio3vU6ZA0fV4quwEritmTlrQHxB8trypME5PaAGAN2u55TSGu4JzTVQtYQgp692IyQxtJnYkNaQ6Fcyg8KvJ9obeYDLXzSCCt9TO3O3v7pzKaNniHwYLbjePqehgsPEmVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707937353; c=relaxed/simple;
-	bh=o9V86J778Qw9ORHGoxTvHvPPvhDNWXNy1lzpNIZSXQU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a9FARKd7ltdnwz4OHK9YU/BUcQ2inmj3P3e4QNAORjm/XurSyOTKhiLg9V6cK5EldzLCxoRX4OVC8KgIihqK+r0aZtFrSeE+0e0CATDAH9+1TQMfkxl4sLkhR/Wr1imchJGVnHd3YdvIUMW8KFqkvw4l441d522tnTUK/04eDBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=mKIbtAeI; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1707941410; c=relaxed/simple;
+	bh=sJ2O1TysiYXzPmk/VbHIkh8RUm4JPVEySfwgSUfKEh0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=lIBu3y3yd+euFe1r2SNcCsQhHn58gDBmGy0s99v+7f/SpZ2iNP8YtsrpL9m4kf7uje9FaYy4uSLizVgKjn1Gm3kwUGOThP8fNox72Fl2DfDeF+iMySnYUjenKFXPmh1DfjrE2lB/rgShDApH5lEtOT1l0L3/UjGMsfny2S9JJZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=j7AHgBTX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mKIbtAeI"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-5d3912c9a83so77269a12.3
-        for <workflows@vger.kernel.org>; Wed, 14 Feb 2024 11:02:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1707937351; x=1708542151; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=d8cj3WGjTIoXh6wD8DzhhqKr02v4fpM95PIYtpQFjUM=;
-        b=mKIbtAeIRXKQpQPTJcOd0Cwatz+2CR26oTDu0Jy1DGlo0rvuMMsrbKuEKokaKV8z1+
-         FuZnDczbw6/Xk4p3V7ZJaxf35YzHBv7nR/bqMM67fYvvmLaZH4oew93k5lfrM6FgwU79
-         q5EHY6Pn3/it6BHcBP8ny4lHhsG2vpQ6a4MTg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707937351; x=1708542151;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=d8cj3WGjTIoXh6wD8DzhhqKr02v4fpM95PIYtpQFjUM=;
-        b=iCpT35FoeOOTeGdhfZ+3G7gZgBj+0K/RKKHfRVP92S9nbPSos8l3UHvOCREMk4E6/0
-         KM/aVwYZgsArACAZ8RH9oxiycHPtzvVdLdsEg3LG6xi/WBngmQrsU7n8yWCUjlUehpJY
-         dWPVUv4zFPtXfWvyO6nY04CfG+IlZBrEBRxYisVdNaR0aZ9jA/54UsLQNpfJH69spakq
-         jNYby0CtGzgxeuksV2j1i+8H291rE9ozQiRkP5/9CdPH0EO/9QP/55F3C1HJpV3qo7zm
-         gUunIzYckt3IC7Unfm0dRcp7Ck1Tk77su5/vysLLEk30RXqJrxfD3lYOrgQiegL885Np
-         vCyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX85PYilMQLgtGFEExs3uMFZN3OpyCS2OjexqvAdD+3Z7e3pKJIuIdcP3dneSE8XWEXyT2m2yRfku8b52Ylzjk4xBdTdmcVM6Bd
-X-Gm-Message-State: AOJu0YzJ19V92iW4D0ImI/YXighg9sPu5ZHCk7DfSvHqYKmwv0+WAwPK
-	bG66ymN13t/Qq4nfvTfKWZiRIXxzRPxdwj6LUbM5n04r44z3iJX3nxCom0sMvQ==
-X-Google-Smtp-Source: AGHT+IF+hjoQEH+X1/rP3sksppUqYAMM+QWmvhGnhuhaOBX2W7UuIRsSUKsDpq8q3c9YbeBArJgf5A==
-X-Received: by 2002:a05:6a20:d04b:b0:19e:c32f:35fc with SMTP id hv11-20020a056a20d04b00b0019ec32f35fcmr4403096pzb.38.1707937351190;
-        Wed, 14 Feb 2024 11:02:31 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVLDtjer+VatrLAp4k0+5kTGkqfTm/bLoncdmjxPUHN9QxfBzG8dERw5/gY1u2yoGnAGa9YRjir8IpRAV6WadMuFbMMhQp/EZXQbUQU+IvsxN5VhEAJs8awdk1BWhhDNmwJ1TIN0xYBrJX3breBDkkxmOzlWXtfXC2R4ifcPag2PLRHIzDHE6phBEvehs0vpv8quOxT9EeR8wfl/VCPJj3secGFwZRltDvDwDipSS9+UlMYrlANW03r/Ao=
-Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id r15-20020a638f4f000000b005dc389409c1sm4568003pgn.93.2024.02.14.11.02.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Feb 2024 11:02:30 -0800 (PST)
-Date: Wed, 14 Feb 2024 11:02:30 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, security@kernel.org,
-	Sasha Levin <sashal@kernel.org>, Lee Jones <lee@kernel.org>
-Subject: Re: [PATCH] Documentation: Document the Linux Kernel CVE process
-Message-ID: <202402141102.FA1428F1@keescook>
-References: <2024021314-unwelcome-shrill-690e@gregkh>
- <202402131429.A604440C6@keescook>
- <2024021445-emporium-tightwad-3c35@gregkh>
- <2024021446-rosy-citation-0a80@gregkh>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="j7AHgBTX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A030EC433F1;
+	Wed, 14 Feb 2024 20:10:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1707941410;
+	bh=sJ2O1TysiYXzPmk/VbHIkh8RUm4JPVEySfwgSUfKEh0=;
+	h=From:Date:Subject:To:Cc:From;
+	b=j7AHgBTX0a6tWdO0KqlSsaN0z8fLxw5cZyRPqJz7cPtbbUE3qMx4FNf6jZlLsOTb4
+	 aWUnF4DEi3HFoIgwlQwlDUWIGIEJHUy3tZT4T8H7C8/fL+U5hSOJ/zBQy3urQLuN7p
+	 0dx5qw4w+wC4Lskk26kvmPxZ7teYnwQtJJdfHWxk=
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Date: Wed, 14 Feb 2024 15:09:53 -0500
+Subject: [PATCH] Documentation: update mailing list addresses
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2024021446-rosy-citation-0a80@gregkh>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240214-lf-org-list-migration-v1-1-ef1eab4b1543@linuxfoundation.org>
+X-B4-Tracking: v=1; b=H4sIABAezWUC/x3MPQqAMAxA4atIZgNN66BeRRyKpjXgH6mIULy7x
+ fEN38uQWIUT9FUG5VuSHHsJqiuYFr9HRplLgzW2MZYaXAMeGnGVdOEmUf1VBJrQUqDOk3MOij2
+ Vgzz/dxjf9wN53vMhZwAAAA==
+To: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Theodore Ts'o <tytso@mit.edu>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Carlos Bilbao <carlos.bilbao@amd.com>, Avadhut Naik <avadhut.naik@amd.com>
+Cc: virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+ tech-board-discuss@lists.linux.dev, workflows@vger.kernel.org, 
+ Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+X-Mailer: b4 0.13-dev-b7ccd
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6088;
+ i=konstantin@linuxfoundation.org; h=from:subject:message-id;
+ bh=sJ2O1TysiYXzPmk/VbHIkh8RUm4JPVEySfwgSUfKEh0=;
+ b=owGbwMvMwCW27YjM47CUmTmMp9WSGFLPyimUR0QaHSortdecm9mqZ9h3c++/w8zNOhtuSx5i8
+ 56jxcHSUcrCIMbFICumyFK2L3ZTUOFDD7n0HlOYOaxMIEMYuDgFYCIFDgz/DFWyTx47vfDkThVH
+ W8Olfzhmx6qu5Aq/sHLvg03O/z2TPRkZ/uzpKCwS+7r98cYj/Me5H0iveB3hXq90/72wYtSCAP9
+ jLAA=
+X-Developer-Key: i=konstantin@linuxfoundation.org; a=openpgp;
+ fpr=DE0E66E32F1FDD0902666B96E63EDCA9329DD07E
 
-On Wed, Feb 14, 2024 at 08:45:19AM +0100, Greg Kroah-Hartman wrote:
-> On Wed, Feb 14, 2024 at 07:43:32AM +0100, Greg Kroah-Hartman wrote:
-> > On Tue, Feb 13, 2024 at 02:35:24PM -0800, Kees Cook wrote:
-> > > On Tue, Feb 13, 2024 at 07:48:12PM +0100, Greg Kroah-Hartman wrote:
-> > > > +No CVEs will be assigned for unfixed security issues in the Linux
-> > > > +kernel, assignment will only happen after a fix is available as it can
-> > > > +be properly tracked that way by the git commit id of the original fix.
-> > > 
-> > > This seems at odds with the literal definition of what CVEs are:
-> > > _vulnerability_ enumeration. This is used especially during the
-> > > coordination of fixes; how is this meant to interact with embargoed
-> > > vulnerability fixing?
-> > 
-> > Yes, this is totally wrong, it was the original first draft of the
-> > document, that I did on my workstation, and then went on the road for 3+
-> > weeks and I never sycned up when I got home with the updated version
-> > that is on my laptop.  The updated version addresses this, as it was
-> > rightly pointed out by the CVE group that this is not how a CNA is
-> > supposed to only work.
-> > 
-> > Yet another reason why keeping changes private is a major pain, not only
-> > for security ones!  :(
-> > 
-> > Let me send out the proper one after my morning coffee has kicked in and
-> > I resolve the differences, and make the grammer fixes that Randy pointed
-> > out...
-> 
-> To make it more obvious here, as others have pointed this out to me as
-> well, here's the updated paragraph that will be in my v2 patch, with
-> proper ';' usage:
-> 
-> 	No CVEs will be automatically assigned for unfixed security issues in
-> 	the Linux kernel; assignment will only automatically happen after a fix
-> 	is available and applied to a stable kernel tree, and it will be tracked
-> 	that way by the git commit id of the original fix.  If anyone wishes to
-> 	have a CVE assigned before an issue is resolved with a commit, please
-> 	contact the kernel CVE assignment team at <cve@kernel.org> to get an
-> 	identifier assigned from their batch of reserved identifiers.
-> 
-> Does that help explain the process better?
+The mailman2 server running on lists.linuxfoundation.org will be shut
+down in very imminent future. Update all instances of obsolete list
+addresses throughout the tree with their new destinations.
 
-Yeah, that's great. It get qualified with the "automatic" bit, which
-makes this clear now. Thanks!
+Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+---
+Jon, I am sending this primarily to linux-doc, since most of the changes
+are in Documentation/* and only a handful in MAINTAINERS. I think it
+makes most sense to bubble this up via the docs subsystem.
+---
+ Documentation/ABI/testing/sysfs-bus-vdpa                       | 10 +++++-----
+ Documentation/networking/bridge.rst                            |  2 +-
+ Documentation/process/researcher-guidelines.rst                |  2 +-
+ .../translations/sp_SP/process/researcher-guidelines.rst       |  2 +-
+ MAINTAINERS                                                    |  6 +++---
+ 5 files changed, 11 insertions(+), 11 deletions(-)
 
--Kees
+diff --git a/Documentation/ABI/testing/sysfs-bus-vdpa b/Documentation/ABI/testing/sysfs-bus-vdpa
+index 4da53878bff6..2c833b5163f2 100644
+--- a/Documentation/ABI/testing/sysfs-bus-vdpa
++++ b/Documentation/ABI/testing/sysfs-bus-vdpa
+@@ -1,6 +1,6 @@
+ What:		/sys/bus/vdpa/drivers_autoprobe
+ Date:		March 2020
+-Contact:	virtualization@lists.linux-foundation.org
++Contact:	virtualization@lists.linux.dev
+ Description:
+ 		This file determines whether new devices are immediately bound
+ 		to a driver after the creation. It initially contains 1, which
+@@ -12,7 +12,7 @@ Description:
+ 
+ What:		/sys/bus/vdpa/driver_probe
+ Date:		March 2020
+-Contact:	virtualization@lists.linux-foundation.org
++Contact:	virtualization@lists.linux.dev
+ Description:
+ 		Writing a device name to this file will cause the kernel binds
+ 		devices to a compatible driver.
+@@ -22,7 +22,7 @@ Description:
+ 
+ What:		/sys/bus/vdpa/drivers/.../bind
+ Date:		March 2020
+-Contact:	virtualization@lists.linux-foundation.org
++Contact:	virtualization@lists.linux.dev
+ Description:
+ 		Writing a device name to this file will cause the driver to
+ 		attempt to bind to the device. This is useful for overriding
+@@ -30,7 +30,7 @@ Description:
+ 
+ What:		/sys/bus/vdpa/drivers/.../unbind
+ Date:		March 2020
+-Contact:	virtualization@lists.linux-foundation.org
++Contact:	virtualization@lists.linux.dev
+ Description:
+ 		Writing a device name to this file will cause the driver to
+ 		attempt to unbind from the device. This may be useful when
+@@ -38,7 +38,7 @@ Description:
+ 
+ What:		/sys/bus/vdpa/devices/.../driver_override
+ Date:		November 2021
+-Contact:	virtualization@lists.linux-foundation.org
++Contact:	virtualization@lists.linux.dev
+ Description:
+ 		This file allows the driver for a device to be specified.
+ 		When specified, only a driver with a name matching the value
+diff --git a/Documentation/networking/bridge.rst b/Documentation/networking/bridge.rst
+index ba14e7b07869..ef8b73e157b2 100644
+--- a/Documentation/networking/bridge.rst
++++ b/Documentation/networking/bridge.rst
+@@ -324,7 +324,7 @@ Contact Info
+ The code is currently maintained by Roopa Prabhu <roopa@nvidia.com> and
+ Nikolay Aleksandrov <razor@blackwall.org>. Bridge bugs and enhancements
+ are discussed on the linux-netdev mailing list netdev@vger.kernel.org and
+-bridge@lists.linux-foundation.org.
++bridge@lists.linux.dev.
+ 
+ The list is open to anyone interested: http://vger.kernel.org/vger-lists.html#netdev
+ 
+diff --git a/Documentation/process/researcher-guidelines.rst b/Documentation/process/researcher-guidelines.rst
+index d159cd4f5e5b..beb484c5965d 100644
+--- a/Documentation/process/researcher-guidelines.rst
++++ b/Documentation/process/researcher-guidelines.rst
+@@ -167,4 +167,4 @@ If no one can be found to internally review patches and you need
+ help finding such a person, or if you have any other questions
+ related to this document and the developer community's expectations,
+ please reach out to the private Technical Advisory Board mailing list:
+-<tech-board@lists.linux-foundation.org>.
++<tech-board@groups.linuxfoundation.org>.
+diff --git a/Documentation/translations/sp_SP/process/researcher-guidelines.rst b/Documentation/translations/sp_SP/process/researcher-guidelines.rst
+index 462b3290b7b8..deccc908a68d 100644
+--- a/Documentation/translations/sp_SP/process/researcher-guidelines.rst
++++ b/Documentation/translations/sp_SP/process/researcher-guidelines.rst
+@@ -147,4 +147,4 @@ Si no se puede encontrar a nadie para revisar internamente los parches y necesit
+ ayuda para encontrar a esa persona, o si tiene alguna otra pregunta relacionada
+ con este documento y las expectativas de la comunidad de desarrolladores, por
+ favor contacte con la lista de correo privada Technical Advisory Board:
+-<tech-board@lists.linux-foundation.org>.
++<tech-board@groups.linuxfoundation.org>.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 73d898383e51..ffdfb311349f 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -14010,7 +14010,7 @@ F:	include/uapi/rdma/mlx5-abi.h
+ 
+ MELLANOX MLX5 VDPA DRIVER
+ M:	Dragos Tatulea <dtatulea@nvidia.com>
+-L:	virtualization@lists.linux-foundation.org
++L:	virtualization@lists.linux.dev
+ S:	Supported
+ F:	drivers/vdpa/mlx5/
+ 
+@@ -21519,7 +21519,7 @@ F:	tools/testing/selftests/drivers/net/team/
+ TECHNICAL ADVISORY BOARD PROCESS DOCS
+ M:	"Theodore Ts'o" <tytso@mit.edu>
+ M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+-L:	tech-board-discuss@lists.linux-foundation.org
++L:	tech-board-discuss@lists.linux.dev
+ S:	Maintained
+ F:	Documentation/process/contribution-maturity-model.rst
+ F:	Documentation/process/researcher-guidelines.rst
+@@ -23078,7 +23078,7 @@ F:	drivers/vfio/pci/mlx5/
+ VFIO VIRTIO PCI DRIVER
+ M:	Yishai Hadas <yishaih@nvidia.com>
+ L:	kvm@vger.kernel.org
+-L:	virtualization@lists.linux-foundation.org
++L:	virtualization@lists.linux.dev
+ S:	Maintained
+ F:	drivers/vfio/pci/virtio
+ 
 
+---
+base-commit: 7e90b5c295ec1e47c8ad865429f046970c549a66
+change-id: 20240214-lf-org-list-migration-0f81f19a1333
+
+Best regards,
 -- 
-Kees Cook
+Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+
