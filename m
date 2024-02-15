@@ -1,55 +1,58 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE59312C7E0;
-	Thu, 15 Feb 2024 12:00:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BA3112AADA;
+	Thu, 15 Feb 2024 12:05:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707998435; cv=none; b=sZkd+9RObX//8UtsZqLfyQKGeaNLYO203NLfM7zUp9z2bpTvvb/d+3Gv3WCaMTkOrOd0wkY1rwxOQhstg0DrwbS6H8znfapmHwvbZCYVR13dHc6GecTX6+Sr295FJSbVXQIpcS/vVK9nmMHYsZJ/I9NQD418WX51ri8TGG/yapQ=
+	t=1707998700; cv=none; b=FMufZBYuJZEbGG253xqiKXqufSnZpG0wE5158GemUb3cBO0FFmr9+orj1c9Y6SrJOIhpLQxlIfVQt9QRjTm0lepJrxVuECjR3fGVuAF8E+MWrJnihc6zAzb6PsBvP49rIAwAWvDlrexYfky9Gc0SOfqIdjLwcKhYlfPtn3W4GcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707998435; c=relaxed/simple;
-	bh=B9sdvAQJJMB9RqXnzsjqng2GlNXXY0IjB5e/gLIb84g=;
+	s=arc-20240116; t=1707998700; c=relaxed/simple;
+	bh=cZl60GmlbJhBSZCYwJlYsOtY8adqP10k5drAGwjUVK8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RECf7VcbW63bBf0ptgNT/iYOy5ZbTBNCkrPc07BsiD/XVHs8eq4+8eCEvpCg/Ky8mUL4d6IMkkcOwZJMuHCFfQ2m3VFguZj8rmZJIg/exrizJWWqTb6fYtneCxhiATIMZMS/TWA5O5l8KBGJl861KrZdNWlnmjMBE5JSjvNdE38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=lm/I/tjd; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ejq1EpGH0M1anN3KvZRqfaI/DZ2PqLyg/1/zZNp9xy/opHoK55899IeKSj60TqhSkDAnN2HOiMg6gCpyDK6UzMUR9WWJFGYSRzHQSL3pROGrDTHx4152HGg2gYOiIR+0HpDLf7yN+58+N0NfsMR1urNYiFQAU9jkmebzTAUxF2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ygrUK4A3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="lm/I/tjd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4E33C433C7;
-	Thu, 15 Feb 2024 12:00:34 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ygrUK4A3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D00BC433C7;
+	Thu, 15 Feb 2024 12:04:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1707998435;
-	bh=B9sdvAQJJMB9RqXnzsjqng2GlNXXY0IjB5e/gLIb84g=;
+	s=korg; t=1707998699;
+	bh=cZl60GmlbJhBSZCYwJlYsOtY8adqP10k5drAGwjUVK8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lm/I/tjduKHW171pZMH4vmsQ7SkG3vN/LLAqalkve2CsJjDZJfB8lDbf1RlrAnzBO
-	 xyytx78IV/+uDC2pH2+BZXCg7p+hRSPHzWCacxiUq+awYHlDbVpPVStMoPo+eu1uQ6
-	 kxzmZLJaobEYjtK7+HzFgdc3p/bIZS4V/dcA91Qw=
-Date: Thu, 15 Feb 2024 13:00:32 +0100
+	b=ygrUK4A3mOQUlv++GGIUP1LXGDLWlToiiyi8mPnsaFhJhU7o83QJYgBRrnGmm8ddW
+	 AFtuPkYh6FCqO0vxkF3Rz713xpf1Ts5IUBjdQDJNzj1dLAKDuUsdwWsE9jW3EScmll
+	 LJ5XnbvzeGDcoIrTAFY2vmTUtyOcc/Ualj3Nq6AE=
+Date: Thu, 15 Feb 2024 13:04:56 +0100
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org, security@kernel.org,
 	Kees Cook <keescook@chromium.org>, Sasha Levin <sashal@kernel.org>,
 	Lee Jones <lee@kernel.org>
 Subject: Re: [PATCH v3] Documentation: Document the Linux Kernel CVE process
-Message-ID: <2024021524-profanity-relearn-38d2@gregkh>
+Message-ID: <2024021532-commode-knickers-3895@gregkh>
 References: <2024021430-blanching-spotter-c7c8@gregkh>
- <75f89fc2-4b43-4311-bc84-03738dead5cc@kernel.org>
+ <CAKXUXMw-xZ_w6prrdTG5Vs=QL1EDvwGv1M9r2PT14LE+HxWUHQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <75f89fc2-4b43-4311-bc84-03738dead5cc@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKXUXMw-xZ_w6prrdTG5Vs=QL1EDvwGv1M9r2PT14LE+HxWUHQ@mail.gmail.com>
 
-On Wed, Feb 14, 2024 at 02:10:07PM +0100, Krzysztof Kozlowski wrote:
-> On 14/02/2024 09:00, Greg Kroah-Hartman wrote:
+On Wed, Feb 14, 2024 at 09:34:38AM +0100, Lukas Bulwahn wrote:
+> On Wed, Feb 14, 2024 at 9:01 AM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
 > > The Linux kernel project now has the ability to assign CVEs to fixed
 > > issues, so document the process and how individual developers can get a
 > > CVE if one is not automatically assigned for their fixes.
-> > 
+> >
 > > Reviewed-by: Kees Cook <keescook@chromium.org>
 > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 > > Signed-off-by: Sasha Levin <sashal@kernel.org>
@@ -62,16 +65,87 @@ On Wed, Feb 14, 2024 at 02:10:07PM +0100, Krzysztof Kozlowski wrote:
 > >     Updated paragraph about how CVE identifiers will be assigned
 > >     (automatically when added to stable trees, or ask us for one
 > >     directly before that happens if so desired)
-> > 
-> >  Documentation/process/cve.rst           | 120 ++++++++++++++++++++++++
-> >  Documentation/process/index.rst         |   1 +
-> >  Documentation/process/security-bugs.rst |   5 +-
+> >
 > 
-> Great direction! Finally all these bugs we are fixing every release
-> (thus in stable trees) will get proper attention via assigned CVEs.
+> Hi Greg, Sasha, Lee,
 > 
-> Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+> Generally, I think this is a great step forward on the whole "security
+> vulnerability mess" and this will certainly help me and others in the
+> embedded space to argue to update to recent stable kernel versions.
+> This can then finally put the practice of shipping multiple-year-old
+> kernel versions to an end. Often this was just done with the argument
+> that there is not a recent CVE and fix assigned to some recent stable
+> kernel version---and integrators think updates to recent kernel stable
+> versions are not needed and not recommended.
+> 
+> I am looking forward to seeing what and how many stable commits are
+> going to get CVEs assigned. If Greg's policy from the Kernel Recipes
+> 2019 presentation comes into play, every git kernel hash (GKH)---at
+> least in the stable tree---could get a CVE identifier (just to be on
+> the safe side). But I assume you are going to use some expert
+> knowledge, heuristics or some machine-learning AI to make some commits
+> in the stable tree carrying a CVE identifier and some others not.
 
-Thanks for the review!
+Yes, that "expert knowledge" will be "review all patches by hand" just
+like we do today for all that are included in the stable trees.
+
+> Reviewed-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+
+Thanks for the review.
+
+> > +Common Vulnerabilities and Exposure (CVE®) numbers were developed as an
+> > +unambiguous way to identify, define, and catalog publicly disclosed
+> > +security vulnerabilities.  Over time, their usefulness has declined with
+> > +regards to the kernel project, and CVE numbers were very often assigned
+> > +in inappropriate ways and for inappropriate reasons.  Because of this,
+> > +the kernel development community has tended to avoid them.  However, the
+> > +combination of continuing pressure to assign CVEs and other forms of
+> > +security identifiers, and ongoing abuses by community members outside of
+> > +the kernel community has made it clear that the kernel community should
+> > +have control over those assignments.
+> > +
+> 
+> Though, I get what is meant with "the community members outside of the
+> kernel community", it still feels strange when reading.
+> 
+> Here are some alternatives I could come up with:
+> 
+> "reporters outside the kernel community"
+> "reporters beyond the actively contributing/engaged kernel community members"
+> "individuals not engaged with the kernel community"
+
+"community members" is a strange wording, you are right, I've replaced
+it with "individuals and companies" as it has been both abusing the
+system (and "individuals at companies", but that's just nit-picking...)
+
+> > +The Linux kernel developer team does have the ability to assign CVEs for
+> > +potential Linux kernel security issues.  This assignment is independent
+> > +of the :doc:`normal Linux kernel security bug reporting
+> > +process<../process/security_bugs>`.
+> > +
+> > +A list of all assigned CVEs for the Linux kernel can be found in the
+> > +archives of the linux-cve mailing list, as seen on
+> > +https://lore.kernel.org/linux-cve-announce/.  To get notice of the
+> > +assigned CVEs, please subscribe to that mailing list.
+> > +
+> > +Process
+> > +-------
+> > +
+> > +As part of the normal stable release process, kernel changes that are
+> > +potentially security issues are identified by the developers responsible
+> > +for CVE number assignments and have CVE numbers automatically assigned
+> > +to them.  These assignments are published on the linux-cve-announce
+> > +mailing list as announcements on a frequent basis.
+> > +
+> > +Note, due to the layer at which the Linux kernel is in a system, almost
+> > +any bug might be exploitable to compromise the security of the kernel,
+> 
+> Just a nit: but I would say: a kernel bug is compromising the
+> "security of the system"; the kernel bug just happens to allow anyone
+> to run any code on their hardware... in some systems that is a
+> security issue, but in my previous MSDOS system that was the default
+> behaviour ;)
+
+Good change, made, thanks!
 
 greg k-h
