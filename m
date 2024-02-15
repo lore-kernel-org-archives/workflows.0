@@ -1,39 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E94AA138494;
-	Thu, 15 Feb 2024 18:20:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BE5E1384BE;
+	Thu, 15 Feb 2024 18:24:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708021213; cv=none; b=SoJfdTkUtEb7d+j9XC566Zw4NF4LHaCMNFp2xOMPOQ/0iXQa8ehlMU/cs/5M/IBmvB4TzF7UcCWuPjm6Ksj78wBwGAFiPD+3MRRYWdUi95jVBiukpWux9QowVGxDDR6kn0hLGiLEBupcSgWxgOEEZGVfDgPrHjYwvOR8hV23n0s=
+	t=1708021467; cv=none; b=XJTE4ym2YvqQq0XR/bQdnv75OuUwTXIWiTLbaHygPtZhr/QuC2IedumJxV09lWcmuRcdplE0TJsM5F5M0clUz5v0CwGethQfDbeT49F0YjDtx46p+0kSInp7WJBXyfbFBmNvw+hw+KhE+IIPu8cRiIBy15dkoX3MmGmkWuBF2fs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708021213; c=relaxed/simple;
-	bh=MRpnfen0ZWzFE1XgOJl3rOhrZAuKnsTO4m98xqLleB4=;
+	s=arc-20240116; t=1708021467; c=relaxed/simple;
+	bh=2T1+tvt60SNf30Xn2WusR7S21+ZI/B1zECY9WVy1KOQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fhS9mkpksi7/bJzeqqMssnQv/3scNh5q+lvZA/CG4DMCrNFSL4Oun5al+neq3SO0ShRfBg6Bx6WjAvuPS6z1Dvo8o5GHB5X2DLxTh8C7OR44aXQvm5OGmeY4em8WCBcO+jDPhu/VO+qMsONEVR/dOpc/6JEs6VQjCKtAv4Mx2OU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ChKhQcmg; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=A4Y3je2bRlzHD9ILDuwqv+nNkNhZm+hq0fwnei1CM/mCA6qhgrNtrEPJ+wMrOHnRdm4ami18eFcY21Jbal+JlP1X8aZxqSh8FAqYo794fXW/Hw5mkir9FZHbcurkZPY9zTc8Ax+gynGuzkl6ezX97whHD4R9GkpdmJ0a3mVVIiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=jKWelaQu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ChKhQcmg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34BD6C433F1;
-	Thu, 15 Feb 2024 18:20:12 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="jKWelaQu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A1D4C433C7;
+	Thu, 15 Feb 2024 18:24:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1708021212;
-	bh=MRpnfen0ZWzFE1XgOJl3rOhrZAuKnsTO4m98xqLleB4=;
+	s=korg; t=1708021466;
+	bh=2T1+tvt60SNf30Xn2WusR7S21+ZI/B1zECY9WVy1KOQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ChKhQcmgGqA6GFHftkDnUBYu6M7+wQHviAPSGU/IFcTDAMb1OhJOZQQzR5dzuV6mA
-	 gIv+WZ03dRCVJYSNF3+4/WMls04NKNb6AlgKcKUiDMZSFO1M9FaoiY5xY7YvwkpkT3
-	 khAin5KoLw3zBv1AFV3eVlHzHP68V6JGbPdFxsVc=
-Date: Thu, 15 Feb 2024 19:20:09 +0100
+	b=jKWelaQu2i9X85eLTdggrei6BKe1RVOeFvagBnpBABHBGiej8YsSNf/0uM9/aVlD1
+	 AwMfgHfocQWRExmyxe9wh00/v/w7jmE9AtW4fPsZXrnNibH2Vq4SbkQSCV/7sGwssY
+	 YzpC6X1qf1OInyZjZwWXeaBpmVDPnCXTWO/w1L7c=
+Date: Thu, 15 Feb 2024 19:24:23 +0100
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Michal Hocko <mhocko@suse.com>
+To: Jiri Kosina <jikos@kernel.org>
 Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org, security@kernel.org,
-	Kees Cook <keescook@chromium.org>, Sasha Levin <sashal@kernel.org>,
-	Lee Jones <lee@kernel.org>
-Subject: Re: [PATCH v3] Documentation: Document the Linux Kernel CVE process
-Message-ID: <2024021518-stature-frightful-e7fc@gregkh>
-References: <2024021430-blanching-spotter-c7c8@gregkh>
- <Zc5PycMenLBYECAn@tiehlicka>
+	linux@leemhuis.info, Kees Cook <keescook@chromium.org>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Sasha Levin <sashal@kernel.org>, Lee Jones <lee@kernel.org>
+Subject: Re: [PATCH v4] Documentation: Document the Linux Kernel CVE process
+Message-ID: <2024021527-shove-bodacious-e624@gregkh>
+References: <2024021500-laziness-grimace-ed80@gregkh>
+ <nycvar.YFH.7.76.2402151817440.21798@cbobk.fhfr.pm>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -42,54 +45,53 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Zc5PycMenLBYECAn@tiehlicka>
+In-Reply-To: <nycvar.YFH.7.76.2402151817440.21798@cbobk.fhfr.pm>
 
-On Thu, Feb 15, 2024 at 06:54:17PM +0100, Michal Hocko wrote:
-> On Wed 14-02-24 09:00:30, Greg KH wrote:
-> [...]
-> > +Process
-> > +-------
-> > +
-> > +As part of the normal stable release process, kernel changes that are
-> > +potentially security issues are identified by the developers responsible
-> > +for CVE number assignments and have CVE numbers automatically assigned
-> > +to them.  These assignments are published on the linux-cve-announce
-> > +mailing list as announcements on a frequent basis.
-> > +
-> > +Note, due to the layer at which the Linux kernel is in a system, almost
-> > +any bug might be exploitable to compromise the security of the kernel,
-> > +but the possibility of exploitation is often not evident when the bug is
-> > +fixed.  Because of this, the CVE assignment team is overly cautious and
-> > +assign CVE numbers to any bugfix that they identify.  This
-> > +explains the seemingly large number of CVEs that are issued by the Linux
-> > +kernel team.
+On Thu, Feb 15, 2024 at 06:38:05PM +0100, Jiri Kosina wrote:
+> On Thu, 15 Feb 2024, Greg Kroah-Hartman wrote:
 > 
-> Does the process focus only on assigning CVE numbers to a given upstream
-> commit(s) withou any specifics of the actual security threat covered by
-> the said CVE?
+> > The Linux kernel project now has the ability to assign CVEs to fixed
+> > issues, so document the process and how individual developers can get a
+> > CVE if one is not automatically assigned for their fixes.
+> 
+> There is still one thing that's not clear to me with this new process, and 
+> that's how embargos are going to be handled.
+> 
+> Currently, the process is broken as well, but at least understood by 
+> everybody.
+> 
+> - issues are reported to security@kernel.org. No CVE assigned, 7days 
+>   embargo, then fix gets pushed out
+> 
+> - at some point (in parallel, before, or after the above), the issue gets 
+>   reported to linux-distros@. CVE gets assigned, and downstreams start 
+>   integrating the fix (once available) to their codebase.
 
-Outside of the git commit text, no, we are not going to be adding
-anything additional to the report, UNLESS someone wants to add
-additional text to it, and then we will be glad to update a CVE entry
-with the additional information.
+linux-distros is not allowed to assign a CVE id for a Linux kernel fix,
+so this will not happen here anymore.  They HAVE to contact
+cve@kernel.org in order to do this as no one else is allowed to create a
+CVE entry for Linux unless some very extreem things happen that I do not
+plan on ever having happen to us (see the CNA rules for details.)
 
-Here's an example of what the CVE announcement is going to look like for
-a "test" that we have been doing for our scripts
-	https://lore.kernel.org/linux-cve-announce/2024021353-drainage-unstuffed-a7c0@gregkh/T/#u
+> - embargo is lifted, fixes are released with proper CVE reference
+> 
+> How is the new process going to look like? Please keep in mind that 
+> linux-stable is (by far!) *not* the only downstream of Linux Kernel 
+> project.
 
-Note, I am NOT saying this is a valid CVE-like commit, I only chose it
-because it is a type of entry that our tools need to handle properly
-(one where the fix was for a commit that was only in a stable tree, and
-mainline never saw the problem.)  There are many different "styles" of
-fixes that we need to handle when it comes to version information.
+I agree, and again, linux-distros will not be assigning CVEs for issues
+that affect the currently supported kernels as listed on kernel.org, nor
+will any other group, so this shouldn't be an issue as we can coordinate
+properly if the above senario happens.
 
-It will also be in JSON format on the cve.org site if you wish to parse
-it automatically with tools.  We are still working out the proper format
-of the JSON entries of the version information and should hopefully have
-an agreement of how to do this early next week, as the logic there isn't
-exactly "simple".
+> We've had this discussion in other contexts already, but I whole-heartedly 
+> believe that it's in no way in the Linux Kernel project's interest to kill 
+> those other downstreams (read: Linux distros) (*) ... or is it?
 
-If the announcement format needs additional work, please let us know.
+I have no interest in doing anything about linux-distros, just that they
+are not allowed to assign a new CVE for Linux anymore as of Tuesday this
+week, and neither is any other CNA, just like they are not allowed to
+assign a CVE for Windows today, no difference at all.
 
 thanks,
 
