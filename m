@@ -1,111 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39FB5132C04;
-	Thu, 15 Feb 2024 17:50:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45FA6136672;
+	Thu, 15 Feb 2024 17:54:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708019403; cv=none; b=BeRHgq8h/b2P6WLOe3saNfRtuZc+YFCizSXk4nA5OCIEFMAfhz+yR3lWb+xJY3TipJjcGh0KegdOo3hP5kYySco1Xk8m4u7NkmzHdm/rB95Z9j5SHI3rw/jluHD7i2r/+76E8PStzPw5YFUIB2mDb4ONQrhe90OHnPpVYCPHY5E=
+	t=1708019662; cv=none; b=YULz47o33N1YN14pUVUZV+QPod0kedw1oI/8llfwBD3UIMoAN59jl25jlp118LydFsjduFAeMSKiULPVdpj3LOlgRWThOGBjzBlTi219U2IWPoWLOd7A9hplSDRgjmkNNzdWJzFCcJ4LsB2z4u+eH4bLgn3IVoVg7pEIGv6CeqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708019403; c=relaxed/simple;
-	bh=6iQEyzYwkfviCF0e55aaTe03PfZ0ULlRw8Re/HVfXG4=;
+	s=arc-20240116; t=1708019662; c=relaxed/simple;
+	bh=qH7biky9xP1Y0Whpp5jMEnFaQMfBiSxbagBkTnig0Dc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JxRnF6QcBZ+VtCu7Fitb0xRl99d0m0wVSDNLTbvKmbnKJjr5DwQv7RAMPruKNwHSgAFFhF3FMBbGLE37X/3f2+JvVQcy+FUs4/kYB5i3e6bLtOv0RJJ4Vh5BpWt/9gVRIOMsSW16jPKJGk/RoO/wZME1a5ZuDs46q00jIlThlvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=uOe3plOE; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=jrXJ2or5yGSbdSFsfkwo61oZNLAUvRv/8ewyOkM9KPoTQrGmqvkzkbJYz9gPv22IKpIyTZpgrGZhGnTtewgekJ3Bz6S6x+X6U9OvxLoKb8/LuPP9KtIlWe4RNiOFU7jmowXRBWeR0z3DHIgYkjLVWILLv1UKIHNGdz8KVGLsOEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=JZeoGVRo; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=JZeoGVRo; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="uOe3plOE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CDCDC433C7;
-	Thu, 15 Feb 2024 17:50:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1708019402;
-	bh=6iQEyzYwkfviCF0e55aaTe03PfZ0ULlRw8Re/HVfXG4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uOe3plOEdv4hi0f9UwZO1CKVPuo7vyj8zfyB/Vcjs79ilrzKx2dCW7wkj2WIW6xRp
-	 lY4lvr+dDPR+87ZGwsahxBrziCUjClG3S8DwVGeKSu6YdjdWM1Ci8VcdQTppTwQ5yF
-	 YdbPga9Kf9il4NVPS7eqyfAuJhpRcgkbZhFLQfFU=
-Date: Thu, 15 Feb 2024 18:49:59 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Oleksandr Natalenko <oleksandr@natalenko.name>
-Cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>, corbet@lwn.net,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="JZeoGVRo";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="JZeoGVRo"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 696D32222A;
+	Thu, 15 Feb 2024 17:54:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1708019658; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0FF1UMj/P8d9MO82ReOemjt8jp7zZ5pQpvMdZhVLSKo=;
+	b=JZeoGVRoC7KYCmbBxlXZ4oHGzp9iL7vjK8rnIKwNtSu4LGfW9p1JWq52xQiGQme6BIf/WA
+	yfZP9Th4oLN2JUgUnkSro8xcDwXkeukOkOvJNbECq3Z9L313tWjUKFSWnT4zhqo67NAeTk
+	1ZgtjZ0hp+zRqBYAfIguKiPUMFqcmfw=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1708019658; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0FF1UMj/P8d9MO82ReOemjt8jp7zZ5pQpvMdZhVLSKo=;
+	b=JZeoGVRoC7KYCmbBxlXZ4oHGzp9iL7vjK8rnIKwNtSu4LGfW9p1JWq52xQiGQme6BIf/WA
+	yfZP9Th4oLN2JUgUnkSro8xcDwXkeukOkOvJNbECq3Z9L313tWjUKFSWnT4zhqo67NAeTk
+	1ZgtjZ0hp+zRqBYAfIguKiPUMFqcmfw=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 44EE713A82;
+	Thu, 15 Feb 2024 17:54:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id PW3aDcpPzmXwGQAAD6G6ig
+	(envelope-from <mhocko@suse.com>); Thu, 15 Feb 2024 17:54:18 +0000
+Date: Thu, 15 Feb 2024 18:54:17 +0100
+From: Michal Hocko <mhocko@suse.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org, security@kernel.org,
 	Kees Cook <keescook@chromium.org>, Sasha Levin <sashal@kernel.org>,
 	Lee Jones <lee@kernel.org>
 Subject: Re: [PATCH v3] Documentation: Document the Linux Kernel CVE process
-Message-ID: <2024021518-repressed-sinless-7111@gregkh>
+Message-ID: <Zc5PycMenLBYECAn@tiehlicka>
 References: <2024021430-blanching-spotter-c7c8@gregkh>
- <CAKXUXMw-xZ_w6prrdTG5Vs=QL1EDvwGv1M9r2PT14LE+HxWUHQ@mail.gmail.com>
- <2024021532-commode-knickers-3895@gregkh>
- <12454500.O9o76ZdvQC@natalenko.name>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <12454500.O9o76ZdvQC@natalenko.name>
+In-Reply-To: <2024021430-blanching-spotter-c7c8@gregkh>
+X-Spam-Level: 
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.com header.s=susede1 header.b=JZeoGVRo
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DWL_DNSWL_MED(-2.00)[suse.com:dkim];
+	 NEURAL_HAM_SHORT(-0.20)[-0.981];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	 DKIM_TRACE(0.00)[suse.com:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_SEVEN(0.00)[9];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.00)[38.70%]
+X-Spam-Score: -3.01
+X-Rspamd-Queue-Id: 696D32222A
+X-Spam-Flag: NO
 
-On Thu, Feb 15, 2024 at 05:10:50PM +0100, Oleksandr Natalenko wrote:
-> Hello.
-> 
-> On čtvrtek 15. února 2024 13:04:56 CET Greg Kroah-Hartman wrote:
-> > On Wed, Feb 14, 2024 at 09:34:38AM +0100, Lukas Bulwahn wrote:
-> > > On Wed, Feb 14, 2024 at 9:01 AM Greg Kroah-Hartman
-> > > <gregkh@linuxfoundation.org> wrote:
-> > > >
-> > > > The Linux kernel project now has the ability to assign CVEs to fixed
-> > > > issues, so document the process and how individual developers can get a
-> > > > CVE if one is not automatically assigned for their fixes.
-> > > >
-> > > > Reviewed-by: Kees Cook <keescook@chromium.org>
-> > > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > > Signed-off-by: Sasha Levin <sashal@kernel.org>
-> > > > Signed-off-by: Lee Jones <lee@kernel.org>
-> > > > ---
-> > > > v3: fix up wording in security-bugs.rst based on the changes to the cve
-> > > >     assignment process from v1, thanks to a private reviewer for
-> > > >     pointing that out.
-> > > > v2: Grammer fixes based on review from Randy
-> > > >     Updated paragraph about how CVE identifiers will be assigned
-> > > >     (automatically when added to stable trees, or ask us for one
-> > > >     directly before that happens if so desired)
-> > > >
-> > > 
-> > > Hi Greg, Sasha, Lee,
-> > > 
-> > > Generally, I think this is a great step forward on the whole "security
-> > > vulnerability mess" and this will certainly help me and others in the
-> > > embedded space to argue to update to recent stable kernel versions.
-> > > This can then finally put the practice of shipping multiple-year-old
-> > > kernel versions to an end. Often this was just done with the argument
-> > > that there is not a recent CVE and fix assigned to some recent stable
-> > > kernel version---and integrators think updates to recent kernel stable
-> > > versions are not needed and not recommended.
-> > > 
-> > > I am looking forward to seeing what and how many stable commits are
-> > > going to get CVEs assigned. If Greg's policy from the Kernel Recipes
-> > > 2019 presentation comes into play, every git kernel hash (GKH)---at
-> > > least in the stable tree---could get a CVE identifier (just to be on
-> > > the safe side). But I assume you are going to use some expert
-> > > knowledge, heuristics or some machine-learning AI to make some commits
-> > > in the stable tree carrying a CVE identifier and some others not.
-> > 
-> > Yes, that "expert knowledge" will be "review all patches by hand" just
-> > like we do today for all that are included in the stable trees.
-> 
-> Not undermining your efforts in any way, but I'd like to get an honest answer: is this really true? For instance,
-> 
-> $ git log --oneline v6.7.1..v6.7.2 | wc -l
-> 641
-> 
-> Is it physically possible to actually review all these backports in just five days?
+On Wed 14-02-24 09:00:30, Greg KH wrote:
+[...]
+> +Process
+> +-------
+> +
+> +As part of the normal stable release process, kernel changes that are
+> +potentially security issues are identified by the developers responsible
+> +for CVE number assignments and have CVE numbers automatically assigned
+> +to them.  These assignments are published on the linux-cve-announce
+> +mailing list as announcements on a frequent basis.
+> +
+> +Note, due to the layer at which the Linux kernel is in a system, almost
+> +any bug might be exploitable to compromise the security of the kernel,
+> +but the possibility of exploitation is often not evident when the bug is
+> +fixed.  Because of this, the CVE assignment team is overly cautious and
+> +assign CVE numbers to any bugfix that they identify.  This
+> +explains the seemingly large number of CVEs that are issued by the Linux
+> +kernel team.
 
-I did, yes.  And have been doing so for 15+ years, practice makes it
-easier :)
-
-thanks,
-
-greg k-h
+Does the process focus only on assigning CVE numbers to a given upstream
+commit(s) withou any specifics of the actual security threat covered by
+the said CVE?
+-- 
+Michal Hocko
+SUSE Labs
