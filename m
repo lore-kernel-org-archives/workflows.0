@@ -1,63 +1,62 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B7A179958;
-	Thu, 15 Feb 2024 18:36:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E87441A81
+	for <workflows@vger.kernel.org>; Thu, 15 Feb 2024 19:40:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708022185; cv=none; b=NvmaK2cjYums5f/yCE72L6Q6/CxUuJVDa2NUCuOKwUFF65tI3rsHkbAF/ur2Nag9+no2cnzXBnvHQhsANE0IxbiKyClR7uqMyDuwjYwKigl0ftpexX15JRUP7fjZdxXW/ppC3MxYe3MIdmpE3GQi+cc3k+fkYnodFZAoRIE9+FU=
+	t=1708026046; cv=none; b=NlzN750sYGCL2V8UI8ds8rp6a3m0IbdcyLkd/HTG2WAG5/Z6QeSLBDJhLlvwZG7xspmUAJM9qh4fALO8gT7dzbOOxGdg9HMyOkQ2CqNtzQhm4xB0DzC+DSG9tDy81d0D4JOlXofUTpymCovVd7czCJ+fN6hKH/2wzkfXaB3sKZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708022185; c=relaxed/simple;
-	bh=cqkZb2AW52urfGkdn7ilr6fwR5inqx8htNbTKkmCQTQ=;
+	s=arc-20240116; t=1708026046; c=relaxed/simple;
+	bh=jokuoCNs89OtbgBuZAnY+h16wX3YDNSNuOYB2bmOCdY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mOc6HKjoDHEtabZbfJY4zk4gUhvYao/lR4ttO/7KEWRQnG2bh/pVXNHLn4klTwI2A/sXRWdCEU/VTJu/egTLl1rOv4ZXVIzpbL8FHJsqCEiMmll6ul7G1iXRHob5s9kRG12fJS99XyCX4bDnk8HRh+TtSGSt1HvK4SDQLd15el8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=E1MXLBzZ; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=E1MXLBzZ; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tl9397RsgNGkkqZBInJpNPlSq8rzNHAhoT6AOgc9ROKN7MflH9NcJCq8cKQk4NjvNqcWcRA+yKDiMRriN9Q8tvsPPLFR6MCGKiXIaO3sLXTSIDvvcZIIekVhrY6LSeb6l6zMBC30+XHRK2tOBQiC0mdW6MAzbQ9YysrqsUj+nq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=JNiBl6sS; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="E1MXLBzZ";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="E1MXLBzZ"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 53E091F8D9;
-	Thu, 15 Feb 2024 18:36:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1708022181; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vLhyLE2nQAAth2l/4rRuG/vsRIUDmsoRm+VuUP3aA/8=;
-	b=E1MXLBzZa1mHvBu6hH+35Vt0Rp05+HnxxpmIRQhix9DT04oKDblToaOh0pha++UKKBv8dI
-	VMOA1ethmBKKludCeWoTe0nGPWiQSxIWJ1020RCTqi8Os+2k3cgyGE+SXxC9isPEN0fTr7
-	NRbG+pjhhjdavn3GmjXpP8pbKY1O3Ds=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1708022181; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vLhyLE2nQAAth2l/4rRuG/vsRIUDmsoRm+VuUP3aA/8=;
-	b=E1MXLBzZa1mHvBu6hH+35Vt0Rp05+HnxxpmIRQhix9DT04oKDblToaOh0pha++UKKBv8dI
-	VMOA1ethmBKKludCeWoTe0nGPWiQSxIWJ1020RCTqi8Os+2k3cgyGE+SXxC9isPEN0fTr7
-	NRbG+pjhhjdavn3GmjXpP8pbKY1O3Ds=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 28E3213A82;
-	Thu, 15 Feb 2024 18:36:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id R3lXB6VZzmWeIwAAD6G6ig
-	(envelope-from <mhocko@suse.com>); Thu, 15 Feb 2024 18:36:21 +0000
-Date: Thu, 15 Feb 2024 19:36:20 +0100
-From: Michal Hocko <mhocko@suse.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="JNiBl6sS"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1d7881b1843so11298415ad.3
+        for <workflows@vger.kernel.org>; Thu, 15 Feb 2024 11:40:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1708026045; x=1708630845; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=N45lPs3M9TrNxSLc9/f/ZRjzHt59sujwqrGC6tXBgWE=;
+        b=JNiBl6sSNFysLdej+LyFOyX1xlFxK9H27wtXxtlXKL4/utIkKlaCOs0xLToapqzrq+
+         naEXDSOqeGHSPkvq5MXpXtFsvskgxCJqeX8Bcb142GFDbNlxqMrKGLbK0hiWCpNd88IE
+         XKFrZjr+81oI3v9C86fDJ6EFjIDUeiXCzZwVs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708026045; x=1708630845;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N45lPs3M9TrNxSLc9/f/ZRjzHt59sujwqrGC6tXBgWE=;
+        b=qIydtYC0HSKuRqv2EabjUOzGCyfqmnnM17iL5LEbmEmEZC6HUUkb2aqHGc0uebMpAp
+         GUxOc02+IU6x5rbxgmEfRM/zUd6SNbxr98oH1djGtlmQ0yaxhYLYjy0K95Sc4ybkMtyr
+         DrSGvHCq/ScmuDVL2v8bkS630VcrGA+OA9K/fGIwTQQYlieU6rvBVHKulAIvFoAByAw9
+         uj3kTnghqndKxUtxc++H13O9zHpESxYAoXGfeLgnojoRrc26W/ZwWSg0zrmSGF0Ob8Nv
+         M4YxT6AAH0bw0I5cd5JE2s1MitnfBffCQVGMeq6hYayeVBIy37lm3iSnuyYW4uyiszFz
+         gOqg==
+X-Forwarded-Encrypted: i=1; AJvYcCXuBO+wNtGqQePKOg6Kwxm4v2zt9T+C/LcSU/w1YVLrfnjNc76gXGg3xJNm5Y75+jomIBe5c6RnNNFPbu5TZ9NYjtMP+aXHVkiT
+X-Gm-Message-State: AOJu0YyabRw+S/n9r+SYXp4KqD7+Rpj7CKAPa/bn2z0lSHtPN/xcuFaE
+	gpM37RccKxjZ36jiAah80rodcJuoI8ws6iA/chSComKyqwkNj2qdQpS9JzM93Q==
+X-Google-Smtp-Source: AGHT+IFx9b8jYULzNHxK13eAZ7tnM5C0S0j71SlJw2uZYPQ138X7hnoC7MKrw3Y2FjevZ5APngnOvA==
+X-Received: by 2002:a17:902:c1cc:b0:1da:1e0a:eeff with SMTP id c12-20020a170902c1cc00b001da1e0aeeffmr2681211plc.67.1708026044715;
+        Thu, 15 Feb 2024 11:40:44 -0800 (PST)
+Received: from www.outflux.net ([198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id 6-20020a170902c10600b001db2b8b2da7sm1618299pli.122.2024.02.15.11.40.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Feb 2024 11:40:44 -0800 (PST)
+Date: Thu, 15 Feb 2024 11:40:43 -0800
+From: Kees Cook <keescook@chromium.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+Cc: Michal Hocko <mhocko@suse.com>, corbet@lwn.net,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org, security@kernel.org,
-	Kees Cook <keescook@chromium.org>, Sasha Levin <sashal@kernel.org>,
-	Lee Jones <lee@kernel.org>
+	Sasha Levin <sashal@kernel.org>, Lee Jones <lee@kernel.org>
 Subject: Re: [PATCH v3] Documentation: Document the Linux Kernel CVE process
-Message-ID: <Zc5ZpB6jsuTKmhv5@tiehlicka>
+Message-ID: <202402151134.4ED3C9070@keescook>
 References: <2024021430-blanching-spotter-c7c8@gregkh>
  <Zc5PycMenLBYECAn@tiehlicka>
  <2024021518-stature-frightful-e7fc@gregkh>
@@ -70,85 +69,22 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <2024021518-stature-frightful-e7fc@gregkh>
-X-Spam-Level: 
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.com header.s=susede1 header.b=E1MXLBzZ
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-5.01 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 DWL_DNSWL_LOW(-1.00)[suse.com:dkim];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	 DKIM_TRACE(0.00)[suse.com:+];
-	 MX_GOOD(-0.01)[];
-	 RCPT_COUNT_SEVEN(0.00)[9];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:dkim];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%];
-	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]
-X-Spam-Score: -5.01
-X-Rspamd-Queue-Id: 53E091F8D9
-X-Spam-Flag: NO
 
-On Thu 15-02-24 19:20:09, Greg KH wrote:
-> On Thu, Feb 15, 2024 at 06:54:17PM +0100, Michal Hocko wrote:
-> > On Wed 14-02-24 09:00:30, Greg KH wrote:
-> > [...]
-> > > +Process
-> > > +-------
-> > > +
-> > > +As part of the normal stable release process, kernel changes that are
-> > > +potentially security issues are identified by the developers responsible
-> > > +for CVE number assignments and have CVE numbers automatically assigned
-> > > +to them.  These assignments are published on the linux-cve-announce
-> > > +mailing list as announcements on a frequent basis.
-> > > +
-> > > +Note, due to the layer at which the Linux kernel is in a system, almost
-> > > +any bug might be exploitable to compromise the security of the kernel,
-> > > +but the possibility of exploitation is often not evident when the bug is
-> > > +fixed.  Because of this, the CVE assignment team is overly cautious and
-> > > +assign CVE numbers to any bugfix that they identify.  This
-> > > +explains the seemingly large number of CVEs that are issued by the Linux
-> > > +kernel team.
-> > 
-> > Does the process focus only on assigning CVE numbers to a given upstream
-> > commit(s) withou any specifics of the actual security threat covered by
-> > the said CVE?
-> 
-> Outside of the git commit text, no, we are not going to be adding
-> anything additional to the report, UNLESS someone wants to add
-> additional text to it, and then we will be glad to update a CVE entry
-> with the additional information.
-
-OK, so what is the point of having CVE assigned to such a commit without
-any addional information which is already referenced by the kernel sha?
-What is the actual added value of that CVE?
-
+On Thu, Feb 15, 2024 at 07:20:09PM +0100, Greg Kroah-Hartman wrote:
 > Here's an example of what the CVE announcement is going to look like for
 > a "test" that we have been doing for our scripts
 > 	https://lore.kernel.org/linux-cve-announce/2024021353-drainage-unstuffed-a7c0@gregkh/T/#u
+> ...
+> the latest release is impossible, the individual change to resolve this
+> issue can be found at:
+> 	https://git.kernel.org/stable/linux/c/f08adf5add9a071160c68bb2a61d697f39ab0758
 
-Thanks this gave me some idea. One worrying part is
-: Please note that only supported kernel versions have fixes applied to
-: them.  For a full list of currently supported kernel versions, please
-: see https://www.kernel.org/
+This is the "original fix", a v5.16 commit, which was backported to all
+the stables. For this case, that seems fine (it's pretty easy to grep
+the stable trees for the SHA).
 
-From the above it is not really clear "supported by _whom_". Because I
-am pretty sure there are _fully_ supported kernels outside of that list
-which are actively maintained.
+In the case of a fix only being in -stable, what will be listed for
+SHAs here? Each stable SHA? Something else?
+
 -- 
-Michal Hocko
-SUSE Labs
+Kees Cook
