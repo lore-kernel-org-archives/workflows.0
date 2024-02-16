@@ -1,209 +1,110 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A7A017C7F;
-	Fri, 16 Feb 2024 08:04:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D2DB1A587;
+	Fri, 16 Feb 2024 08:28:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708070696; cv=none; b=NLQ89F1y/9V52CA9f9VvLPfAzp1xP1ozj+Mf/qUFR+trZwphNpZSZ9N6vuK7C3F8go7c1dd+Oiowx5CnHdMGy99oUJIC4zqKMo9OsMz5X5z54/FksKnP9mjDxZteLRvWGCyORAYAjZOvgBFI5R/x64QyFEgdXuftOyUTyZ+nIs4=
+	t=1708072129; cv=none; b=n9WBMvpu0k4YG+TMPBFRv3+3g8AP/dCe50T7uykcN60CyqJ1bLPCrapatPKMkd2h/J4FtNsZqxUfNV7HZCYamBFcmgSgWFpcDUlu/U9qtbVuSKNSf+ddAX1GMPIW1edRf5Vx4m2asboyDEFnfkWYEV97dIFvOnDGflVDBVdL6KI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708070696; c=relaxed/simple;
-	bh=6IcxGgQ6KhP2QolO3Y7TmheTe+h1XES9Kzd919zh5Ac=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Rym1xpZwgWr0VJ0BAiPFAdgQr7y4F6PTnGNDa2b2nBcxDM63Kg1iXQZQkiq6+RxYDrgpVad8th/7D30OH5R5ptVNj8F8huS3JekKDpTe+C3+apQMXdyIAE4uoJKdEkctZdiQEf8YfQPLdm52Bf6v/4Fi2WoSEYwowwnPb0jt1eg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=QEdyB/lG; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=fmu3FUXo; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1708072129; c=relaxed/simple;
+	bh=Nc4byJdJJWJ4cNNExDneUkbDXxOHN/J7AM2XX7SxI70=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=j0nmY13a4jBDCC8fwVgzKCU+qOB1Yi0wI1rEqbKCmEKNLLTwOMyyr4Kct4bmiws58AX6bZxWEWOKjHPQwlpaG/gpoFblAwV8c90O7NuQ8QSf00t4KPJC2Jym4fORtWLVVuLTK2/z8w8lNi4xwZQsAYPTmHmU9tgpUCg1st9GzWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GcXRItxH; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="QEdyB/lG";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="fmu3FUXo"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E221D21FC8;
-	Fri, 16 Feb 2024 08:04:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1708070646; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=H4morDVMYuFmPhrSEse/hUV+Yz8JfX8TaTSr9hmBxFI=;
-	b=QEdyB/lGeuxHG0U5scwLIc9Cj1bx3qqH1rT/lVZxpjggc+KalZugeSHFuZ2tFZuYF6THB7
-	itInW+zh4gQM+7FVBKcPmi3hAxuPFcI/SXCGs6OjOuJXpdIiIkQah8RRdgFFdDqBYWobQB
-	0XA37rzcFzq9aLw5ncXqmSVOQvfFV+E=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1708070643; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=H4morDVMYuFmPhrSEse/hUV+Yz8JfX8TaTSr9hmBxFI=;
-	b=fmu3FUXoyo7eLHfudWqM3JlOzgsOdU4WrVMJiJmU+j1+t8D6d4fgLE4c2/CdHeA5aIEXmM
-	qD14hzVEnwqChB91PhRJmo2dXe+NLp0sgbxpTA2kHQw7QFsyqLd4M39bVSdLCzqqSkpbAJ
-	kmnvTIgZmsl/TKRPmLY1I1R4AVKGoTU=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7451F1398D;
-	Fri, 16 Feb 2024 08:04:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 0ntWGvMWz2WgWAAAD6G6ig
-	(envelope-from <jgross@suse.com>); Fri, 16 Feb 2024 08:04:03 +0000
-Message-ID: <a2ccf959-2b43-4a9d-9b7d-77122670b090@suse.com>
-Date: Fri, 16 Feb 2024 09:04:03 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GcXRItxH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708072127; x=1739608127;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=Nc4byJdJJWJ4cNNExDneUkbDXxOHN/J7AM2XX7SxI70=;
+  b=GcXRItxHPIpAxAA44S324CjU8WZxiqE4BBaUahpz7r8nPj5a5W9/mSvK
+   KsnyQbN8AnDjnkJ0M9Edl4zyA7Wdiise/vkiB32J01bTMVArnn1UPvQXD
+   f1VMIjRpFDGuoC4tC74+WCo1MeogXmRPFRbBFISvz3ltRK1nYPCkbiXXV
+   jsmoNTGMoL9yiYsFvecYkmlpasiannbDfrfEfqBsxX7OmZ51ASkWS+lDg
+   3e8PRgzlGp2tb2Nst3n3q1dDAgJu0p4TMDChpHbYEqrNL01NEtXCmqPFk
+   bLQ34fX12VUcWvgMoAn+/eSKuq9m+cqOTTZ2LPSbAPGrmryoABzGLnkNW
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="24658539"
+X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; 
+   d="scan'208";a="24658539"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 00:28:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="912324995"
+X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; 
+   d="scan'208";a="912324995"
+Received: from pshishpo-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.48.79])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 00:28:41 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Vegard Nossum <vegard.nossum@oracle.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>
+Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, security@kernel.org, Kees Cook
+ <keescook@chromium.org>, Sasha Levin <sashal@kernel.org>, Lee Jones
+ <lee@kernel.org>
+Subject: Re: [PATCH v3] Documentation: Document the Linux Kernel CVE process
+In-Reply-To: <26b25204-9829-44a8-9836-1ce1c8725586@oracle.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <2024021430-blanching-spotter-c7c8@gregkh>
+ <00057b93-b5fc-4536-b13d-cd3b6cead5b1@oracle.com>
+ <2024021530-plank-cornmeal-90eb@gregkh>
+ <26b25204-9829-44a8-9836-1ce1c8725586@oracle.com>
+Date: Fri, 16 Feb 2024 10:28:39 +0200
+Message-ID: <87v86o4xu0.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] Documentation: Document the Linux Kernel CVE process
-Content-Language: en-US
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, security@kernel.org, linux@leemhuis.info,
- Kees Cook <keescook@chromium.org>,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Sasha Levin <sashal@kernel.org>,
- Lee Jones <lee@kernel.org>, "Xen.org security team" <security@xen.org>
-References: <2024021500-laziness-grimace-ed80@gregkh>
- <0bd8c620-7f80-44c4-ade3-b3d7951b48d8@suse.com>
- <2024021557-remedial-mutilated-63c6@gregkh>
-From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
-In-Reply-To: <2024021557-remedial-mutilated-63c6@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.com header.s=susede1 header.b=fmu3FUXo
-X-Spamd-Result: default: False [-0.97 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 XM_UA_NO_VERSION(0.01)[];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 TO_DN_SOME(0.00)[];
-	 R_RATELIMIT(0.00)[to_ip_from(RLnj7krbkygzjkra4c7ii5ombr)];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_TRACE(0.00)[suse.com:+];
-	 MX_GOOD(-0.01)[];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 R_MIXED_CHARSET(0.83)[subject];
-	 MID_RHS_MATCH_FROM(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%];
-	 ARC_NA(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
-	 FROM_HAS_DN(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	 RCPT_COUNT_TWELVE(0.00)[14];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FREEMAIL_CC(0.00)[lwn.net,vger.kernel.org,kernel.org,leemhuis.info,chromium.org,linuxfoundation.org,gmail.com,xen.org];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Score: -0.97
-X-Rspamd-Queue-Id: E221D21FC8
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Bar: /
+Content-Type: text/plain
 
-On 15.02.24 18:49, Greg Kroah-Hartman wrote:
-> On Thu, Feb 15, 2024 at 04:03:02PM +0100, Jürgen Groß wrote:
->> On 15.02.24 13:10, Greg Kroah-Hartman wrote:
->>> The Linux kernel project now has the ability to assign CVEs to fixed
->>> issues, so document the process and how individual developers can get a
->>> CVE if one is not automatically assigned for their fixes.
+On Thu, 15 Feb 2024, Vegard Nossum <vegard.nossum@oracle.com> wrote:
+> On 15/02/2024 12:50, Greg Kroah-Hartman wrote:
+>> On Wed, Feb 14, 2024 at 09:37:31AM +0100, Vegard Nossum wrote:
+>>> Document titles should have ==== above them as well, and then you would
+>>> need to shift all the other headings in this document (i.e. all the ---
+>>> should become ===).
 >>>
->>> Reviewed-by: Kees Cook <keescook@chromium.org>
->>> Reviewed-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
->>> Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
->>> Reviewed-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
->>> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->>> Signed-off-by: Sasha Levin <sashal@kernel.org>
->>> Signed-off-by: Lee Jones <lee@kernel.org>
->>> ---
->>> v4: Add MAINTAINER entry
->>>       Lots of tiny wording changes based on many reviews
->>>       Collected some Reviewed-by: tags
->>>       Fixed documenation build by properly referencing the security
->>>       process documentation file.
->>> v3: fix up wording in security-bugs.rst based on the changes to the cve
->>>       assignment process from v1, thanks to a private reviewer for
->>>       pointing that out.
->>> v2: Grammer fixes based on review from Randy
->>>       Updated paragraph about how CVE identifiers will be assigned
->>>       (automatically when added to stable trees, or ask us for one
->>>       directly before that happens if so desired)
->>>
->>>    Documentation/process/cve.rst           | 120 ++++++++++++++++++++++++
->>>    Documentation/process/index.rst         |   1 +
->>>    Documentation/process/security-bugs.rst |   5 +-
->>>    MAINTAINERS                             |   5 +
->>>    4 files changed, 128 insertions(+), 3 deletions(-)
->>>    create mode 100644 Documentation/process/cve.rst
->>>
->>> diff --git a/Documentation/process/cve.rst b/Documentation/process/cve.rst
->>> new file mode 100644
->>> index 000000000000..6b244d938694
->>> --- /dev/null
->>> +++ b/Documentation/process/cve.rst
->>> @@ -0,0 +1,120 @@
->>
->> ...
->>
->>> +Invalid CVEs
->>> +------------
->>> +
->>> +If a security issue is found in a Linux kernel that is only supported by
->>> +a Linux distribution due to the changes that have been made by that
->>> +distribution, or due to the distribution supporting a kernel version
->>> +that is no longer one of the kernel.org supported releases, then a CVE
->>> +can not be assigned by the Linux kernel CVE team, and must be asked for
->>> +from that Linux distribution itself.
->>> +
->>> +Any CVE that is assigned against the Linux kernel for an actively
->>> +supported kernel version, by any group other than the kernel assignment
->>> +CVE team should not be treated as a valid CVE.  Please notify the
->>> +kernel CVE assignment team at <cve@kernel.org> so that they can work to
->>> +invalidate such entries through the CNA remediation process.
->>
->> Today we (the Xen security team) are allocating CVEs for Xen-related
->> kernel security bugs.
->>
->> Does this mean we should do that via cve@kernel.org in future, or are
->> you happy us continuing our process as today? If the latter, I think
->> this should be noted somehow in this document in order to avoid complaints
->> regarding CVEs allocated by us.
->>
->>
->> Juergen (on behalf of the Xen security team)
-> 
-> That's a good question, and from what I can tell for the "rules" here,
-> yes, we need to coordinate somehow for anything that is Linux
-> kernel-only.  Just email us and ask us for an id and our tools can take
-> it from there for the submission and other stuff, so hopefully this will
-> make things easier.
+>>> Info here: https://docs.kernel.org/doc-guide/sphinx.html#specific-guidelines-for-the-kernel-documentation
+>> 
+>> Really?  I copied this directly from
+>> Documentation/process/security-bugs.rst which is in the format that I
+>> used here.  Which one is incorrect, I'm confused.
+>
+> Documentation/ currently has a mix of both formats and they both work,
+> but the guidelines linked above is the gold standard and what we should
+> aim for in new documents.
+>
+> The "correct" format would thus be:
+>
+> ====
+> CVEs
+> ====
+>
+> ...
+>
+> Process
+> =======
+>
+> ...
+>
+> At least this is my understanding; I'm happy to be corrected (and in
+> this case, we should also update the documentation).
 
-Okay, thanks, noted.
+rst basically allows any order of the heading underlines, and their
+relative hierarchy is determined by how they show up in each document,
+it's not specified by rst. However, it would be much easier for everyone
+if all the kernel documents followed the same style.
 
-> For stuff that crosses both sides (Xen and Linux), you are free to
-> create your own CVE and then use that identifier in the kernel patch
-> like you have in the past as I would consider Xen being the "primary"
-> CNA, don't you?
-
-We didn't have this case so far, and I think we'd just have one CVE for Xen
-and one for Linux. Nevertheless good to know should this case ever come up.
-
-> Is that ok?  We want to make this as easy as possible, so I don't want
-> to get in the way of your existing process if at all possible.
-
-Yes, thanks, this is okay. Just wanted to have it spelled out. :-)
+BR,
+Jani.
 
 
-Juergen
+-- 
+Jani Nikula, Intel
