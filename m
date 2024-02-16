@@ -1,108 +1,79 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68992135402;
-	Fri, 16 Feb 2024 19:26:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B687A139581;
+	Fri, 16 Feb 2024 20:27:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708111588; cv=none; b=B8AKbiptePOe+UYEtcU+WNclScwEHIDD39vWLgPewEORvrDcX/Y5TFSTsJluqLL8/ecPrnK20f0nBElAhZyQAaPE42meV/MdS9vNPyHC/hWhoaq0fAtOhMHx3Ik7HOHm1TqYiutTm8Z/nI9PiacPbge4ZukzvdMlIkQNZp6R020=
+	t=1708115268; cv=none; b=gc6lorh1pbjYMAGRvVCyNasDiPDMSOlRUY6VCSGfZBpTgw14VNVjl/tHzVfUDbb8iXiWLjL6VeZGCbQBpwAQmhvEp+sp+EhBQk8S3D4tG4sxWR7nsB/oaq1W3FcgV3FgjBcuoSrJxoKWXEfVcjkUlQFKcnb4zNx2iTkflDBUge0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708111588; c=relaxed/simple;
-	bh=1mpjenY//1/lR2l1bgr2WJZpCyo7YC4v+ajLMTbKotE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T38HGIh+H9/vVEw+X91Q8/TqiPjDVxzfwvjOM3Ca0MfePRge/qBzCPGeoZeB/mGIYBzB63Tr7x18JKIVCjxhBtluyNysLQI+fb8PhFYK7p0dU0ZGt7gsHbC6dpH57k7WN8XmqQ+gjVSPqTP5r1YPjmbv2F5kENDYJA5+Hxv/Fts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QfHnCJNB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708115268; c=relaxed/simple;
+	bh=5eEyyHxk59pCQy01eZ3kO5VsW0KLoSkpdsO63ghICCI=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=T390rVYtQAA3egQVuY/vKiEKhPQrsA94z0arudBPiy7MuMq/bO1p/Ff2EZ16ouG57VZcJXLYaWmcYzwvZ5w4Mn5Z2Fp5SR36hUQcq2ogT6yLoHbcKzuigtnuwBKb06ZazmIzrV9200907fXRIDLAaEjSq6wkOrcROJigSaav/Do=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C9s57z4z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QfHnCJNB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B630C43390;
-	Fri, 16 Feb 2024 19:26:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C9s57z4z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2851C433F1;
+	Fri, 16 Feb 2024 20:27:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708111588;
-	bh=1mpjenY//1/lR2l1bgr2WJZpCyo7YC4v+ajLMTbKotE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QfHnCJNB3GHYywyG7spCptMCzNszHj5csHJWlnqyQGO1P3//zNoyIPXWUUGyRRaWo
-	 73QBBp3w/vRwg2TbZyI0yIDgemjuQYxB0nAVsQfberERofvoWxzhGHYmXEvdZy8bbf
-	 tbtL0tBeybawWyidQ2n7yZjAgQLYHM/xdYyB1s3a4jN/i/B7g75EF7IyiIIcbg4T70
-	 C32Ms0XKzwBL0r/1ygx6V19VKJ5lCfZWlTvz80vLLjp6LPYGqRQGv2m6o8w+xML/21
-	 DM16neeI1J00KV4W9D5VgwFrOSn9hGkWgYGHeXMA7eUzm2Y9vsBu7Wm8hgRzjrSeCQ
-	 IGaAKWRKTbs9Q==
-Date: Fri, 16 Feb 2024 11:26:25 -0800
-From: Josh Poimboeuf <jpoimboe@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, security@kernel.org,
-	linux@leemhuis.info, Kees Cook <keescook@chromium.org>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Sasha Levin <sashal@kernel.org>, Lee Jones <lee@kernel.org>
-Subject: Re: [PATCH v4] Documentation: Document the Linux Kernel CVE process
-Message-ID: <20240216192625.o3q6m7cjgkwyfe4y@treble>
-References: <2024021500-laziness-grimace-ed80@gregkh>
+	s=k20201202; t=1708115268;
+	bh=5eEyyHxk59pCQy01eZ3kO5VsW0KLoSkpdsO63ghICCI=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=C9s57z4zJYL3RMdj308R+wIz3APNia/JGof6uISu1wROuMciZ7P8Vay9YbMooG65R
+	 J6lSDiXezleXAH8A6OCkWOL0ex4QNEebSeFeZKQe5hcX5D7qVYderfXMEgNh8RHbpz
+	 iDiU1GohfAtHLV3qM1XU8IxzZEg+xROk6l1175YK5++Nq4dKT4fXIaR8eRsyzz5TuL
+	 I3GkKwTW2a80A1gqhM3cJerdLKakhddVtcqPXi2ZkYmns/0N9t6KgB0NsMpX67r8Q8
+	 8KVxW1btTlD6v1zkY/5aaJKWiCqHjltIVQkGNIV7m7xQpPGBRgpzMQwzyNqpUiB0v1
+	 yal9i8V8MyLJQ==
+Date: Fri, 16 Feb 2024 21:27:48 +0100 (CET)
+From: Jiri Kosina <jikos@kernel.org>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, corbet@lwn.net, 
+    workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, security@kernel.org, linux@leemhuis.info, 
+    Kees Cook <keescook@chromium.org>, 
+    Konstantin Ryabitsev <konstantin@linuxfoundation.org>, 
+    Krzysztof Kozlowski <krzk@kernel.org>, 
+    Lukas Bulwahn <lukas.bulwahn@gmail.com>, Sasha Levin <sashal@kernel.org>, 
+    Lee Jones <lee@kernel.org>
+Subject: Re: [PATCH v4] Documentation: Document the Linux Kernel CVE
+ process
+In-Reply-To: <20240216192625.o3q6m7cjgkwyfe4y@treble>
+Message-ID: <nycvar.YFH.7.76.2402162108370.21798@cbobk.fhfr.pm>
+References: <2024021500-laziness-grimace-ed80@gregkh> <20240216192625.o3q6m7cjgkwyfe4y@treble>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <2024021500-laziness-grimace-ed80@gregkh>
+Content-Type: text/plain; charset=US-ASCII
 
-On Thu, Feb 15, 2024 at 01:10:55PM +0100, Greg Kroah-Hartman wrote:
-> +Note, due to the layer at which the Linux kernel is in a system, almost
-> +any bug might be exploitable to compromise the security of the kernel,
-> +but the possibility of exploitation is often not evident when the bug is
-> +fixed.
+On Fri, 16 Feb 2024, Josh Poimboeuf wrote:
 
-By this paranoid black-and-white logic, any mainline commit could have a
-yet-to-be-discovered regression resulting in a catastrophic
-vulnerability.
+> - Not users of -stable since they already know they need to be on the
+>   latest version.
+> 
+> - Not distros or their users as it's just flooding them with low quality
+>   CVEs which have no analysis or scoring.
+> 
+> And enterprise distros will never be able to rebase onto -stable,
+> especially for older streams for which they have to be very selective,
+> in order to avoid destabilizing them.  As you say, "a bug is a bug".
 
-Should we stay one step ahead and just open a CVE for every mainline
-commit?
+Now that you have played the distro card (thanks!) here, let me just copy 
+my comment from LWN where someone suggested "well, it's easy, it's the job 
+of the [paid] distros to do the triage" ...
 
-Problem solved, all "vulnerabilities" have been identified!  False
-positives be damned!
-
-For that matter, why don't we do as Thomas has suggested and hardcode
-NR_CPUS to zero!
-
-> Because of this, the CVE assignment team is overly cautious and
-> +assign CVE numbers to any bugfix that they identify.  This
-> +explains the seemingly large number of CVEs that are issued by the Linux
-> +kernel team.
-
-How does this match up with the definition of a vulnerabilty?
-
-  An instance of one or more weaknesses in a Product that can be
-  exploited, causing a negative impact to confidentiality, integrity, or
-  availability; a set of conditions or behaviors that allows the
-  violation of an explicit or implicit security policy.
-
-Bug != vulnerability.  Otherwise the definition of a vulnerability would
-be much simpler, i.e., "any software defect".
-
-If a CVE is created without any analysis and doesn't describe how the
-bug can be exploited then it's completely useless.
-
-Who is this process helping?
-
-- Not users of -stable since they already know they need to be on the
-  latest version.
-
-- Not distros or their users as it's just flooding them with low quality
-  CVEs which have no analysis or scoring.
-
-And enterprise distros will never be able to rebase onto -stable,
-especially for older streams for which they have to be very selective,
-in order to avoid destabilizing them.  As you say, "a bug is a bug".
-
-If the problem is low CVE quality then of course it makes a lot of sense
-for kernel.org to become a CNA in order to take a leadership role in
-helping define and improve the process for its users.  But it makes no
-sense to "fix" it by making CVE quality *vastly* lower by flooding
-people with useless CVEs.
+The problem is, that with this new system, paid distros are going to 
+suffer a big time (with no benefit to anybody at all). We'll have to put a 
+lot of productive and creative (upstream) work on hold in order to have 
+enough resources to sort out the havoc that LTS team is apparently going 
+to create by DoSing the world with a truckload of irrelevant CVEs.
 
 -- 
-Josh
+Jiri Kosina
+SUSE Labs
+
