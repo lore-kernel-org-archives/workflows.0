@@ -1,183 +1,108 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FE8C12F36A;
-	Fri, 16 Feb 2024 16:51:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68992135402;
+	Fri, 16 Feb 2024 19:26:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708102289; cv=none; b=li5XtKXvQ5o9T8nZ22qXOqW47GeVM+LTab37WNC6BQ3oUuZK4smS6cBqZGdID4o35AXD/bh6nq6+FaE4gPnjA2DOjYBIbZR97QrGIZGXBZvWuusUejB0xFaF094Ql1NbcnIcOrHDRVsBbdHWI6DFIKFZHh7QhRYpE4lkDFdcyyc=
+	t=1708111588; cv=none; b=B8AKbiptePOe+UYEtcU+WNclScwEHIDD39vWLgPewEORvrDcX/Y5TFSTsJluqLL8/ecPrnK20f0nBElAhZyQAaPE42meV/MdS9vNPyHC/hWhoaq0fAtOhMHx3Ik7HOHm1TqYiutTm8Z/nI9PiacPbge4ZukzvdMlIkQNZp6R020=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708102289; c=relaxed/simple;
-	bh=GFdZ9x5VnyQk2XmemYZ+RhJwyg2qNpV8wiYTo3qSBFc=;
+	s=arc-20240116; t=1708111588; c=relaxed/simple;
+	bh=1mpjenY//1/lR2l1bgr2WJZpCyo7YC4v+ajLMTbKotE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PeotcInXT4MWm0P9N2jhG0z//Bccr97v61zRR3PeXdDghq4ymZBLHEQRyyCyFGaPwOOi98NgDDOdUNy/9weC202xi0FYrm9FnGyaFOsZnlbiRudwS+wacFGYr/oOO6z20VmO+sVFakkLdTcWa4utONcOknliLcwa2h/WGo2PyNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=u7vQAp4C; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=u7vQAp4C; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=T38HGIh+H9/vVEw+X91Q8/TqiPjDVxzfwvjOM3Ca0MfePRge/qBzCPGeoZeB/mGIYBzB63Tr7x18JKIVCjxhBtluyNysLQI+fb8PhFYK7p0dU0ZGt7gsHbC6dpH57k7WN8XmqQ+gjVSPqTP5r1YPjmbv2F5kENDYJA5+Hxv/Fts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QfHnCJNB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="u7vQAp4C";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="u7vQAp4C"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 59E4C1FB76;
-	Fri, 16 Feb 2024 16:51:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1708102283; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=F6kQvlK/L7iuReKt8M8eM35S1Vrh5nJKRZ/vQtmta6k=;
-	b=u7vQAp4CkLoRxaZTYE7BDD3PqS4k9gTykTFSu4hXaUkUQKtXHba1yT8p8XZWQtAnYUtFHC
-	vaboM5s/oSXVvBzx2RbAPT9AzHThsw1G0q3sE/On/nDZp9EI9D2gPnQ4MzvRGpQHN/Y00y
-	Qks5UC4qaRtZHhafStqtbmthpldqme8=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1708102283; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=F6kQvlK/L7iuReKt8M8eM35S1Vrh5nJKRZ/vQtmta6k=;
-	b=u7vQAp4CkLoRxaZTYE7BDD3PqS4k9gTykTFSu4hXaUkUQKtXHba1yT8p8XZWQtAnYUtFHC
-	vaboM5s/oSXVvBzx2RbAPT9AzHThsw1G0q3sE/On/nDZp9EI9D2gPnQ4MzvRGpQHN/Y00y
-	Qks5UC4qaRtZHhafStqtbmthpldqme8=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 410BE1398D;
-	Fri, 16 Feb 2024 16:51:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id R4gXDouSz2W5VAAAD6G6ig
-	(envelope-from <mhocko@suse.com>); Fri, 16 Feb 2024 16:51:23 +0000
-Date: Fri, 16 Feb 2024 17:51:22 +0100
-From: Michal Hocko <mhocko@suse.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QfHnCJNB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B630C43390;
+	Fri, 16 Feb 2024 19:26:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708111588;
+	bh=1mpjenY//1/lR2l1bgr2WJZpCyo7YC4v+ajLMTbKotE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QfHnCJNB3GHYywyG7spCptMCzNszHj5csHJWlnqyQGO1P3//zNoyIPXWUUGyRRaWo
+	 73QBBp3w/vRwg2TbZyI0yIDgemjuQYxB0nAVsQfberERofvoWxzhGHYmXEvdZy8bbf
+	 tbtL0tBeybawWyidQ2n7yZjAgQLYHM/xdYyB1s3a4jN/i/B7g75EF7IyiIIcbg4T70
+	 C32Ms0XKzwBL0r/1ygx6V19VKJ5lCfZWlTvz80vLLjp6LPYGqRQGv2m6o8w+xML/21
+	 DM16neeI1J00KV4W9D5VgwFrOSn9hGkWgYGHeXMA7eUzm2Y9vsBu7Wm8hgRzjrSeCQ
+	 IGaAKWRKTbs9Q==
+Date: Fri, 16 Feb 2024 11:26:25 -0800
+From: Josh Poimboeuf <jpoimboe@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org, security@kernel.org,
-	Kees Cook <keescook@chromium.org>, Sasha Levin <sashal@kernel.org>,
-	Lee Jones <lee@kernel.org>
-Subject: Re: [PATCH v3] Documentation: Document the Linux Kernel CVE process
-Message-ID: <Zc-SihxiTxhDcCuK@tiehlicka>
-References: <2024021430-blanching-spotter-c7c8@gregkh>
- <Zc5PycMenLBYECAn@tiehlicka>
- <2024021518-stature-frightful-e7fc@gregkh>
- <Zc5ZpB6jsuTKmhv5@tiehlicka>
- <2024021646-procedure-faceted-ea87@gregkh>
- <Zc9hBJuca3f_5KHx@tiehlicka>
- <2024021620-retrieval-lethargic-eeca@gregkh>
+	linux@leemhuis.info, Kees Cook <keescook@chromium.org>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Sasha Levin <sashal@kernel.org>, Lee Jones <lee@kernel.org>
+Subject: Re: [PATCH v4] Documentation: Document the Linux Kernel CVE process
+Message-ID: <20240216192625.o3q6m7cjgkwyfe4y@treble>
+References: <2024021500-laziness-grimace-ed80@gregkh>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <2024021620-retrieval-lethargic-eeca@gregkh>
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.com header.s=susede1 header.b=u7vQAp4C
-X-Spamd-Result: default: False [-2.81 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	 DKIM_TRACE(0.00)[suse.com:+];
-	 MX_GOOD(-0.01)[];
-	 RCPT_COUNT_SEVEN(0.00)[9];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 59E4C1FB76
-X-Spam-Level: 
-X-Spam-Score: -2.81
-X-Spam-Flag: NO
+In-Reply-To: <2024021500-laziness-grimace-ed80@gregkh>
 
-On Fri 16-02-24 16:34:57, Greg KH wrote:
-> On Fri, Feb 16, 2024 at 02:20:04PM +0100, Michal Hocko wrote:
-> > > Right now
-> > > we are fixing lots and lots of things and no one notices as their
-> > > "traditional" path of only looking at CVEs for the kernel is totally
-> > > incorrect.
-> > 
-> > Right, there are quite a lot of people who consider CVE fixes much more
-> > important than regular fixes. Their reasoning might be completely
-> > misleading but there might be very good reasons to stick to minimalistic
-> > approach, e.g. to reduce risk of regressions.
-> > 
-> > I believe it is perfectly fair to say that whoever relies on stable
-> > kernels support needs to update to the latest stable kernel version to
-> > be covered by security and functional fixes. On the other hand I do not
-> > think it is an improvement to the process to swamp CVE database with any
-> > random fixes without a proper evaluation. If the kernel community
-> > doesn't believe in the CVE process then fair enough, just do not assign
-> > them unless you want to explicitly call out fixes with a high impact
-> > security implications. Having fewer good quality CVEs would definitely
-> > improve the process.
-> 
-> As you know, it's almost impossible to determine if a fix is "high
-> impact" or not, given that we have no idea what anyone's use case is for
-> the kernel.  We have documented proof of single-byte-buffer-overflows
-> resulting in complete system takeovers, and the same for very tiny
-> use-after-free issues, and the same for tiny "overflow a USB string
-> buffer" issues, and so on.
+On Thu, Feb 15, 2024 at 01:10:55PM +0100, Greg Kroah-Hartman wrote:
+> +Note, due to the layer at which the Linux kernel is in a system, almost
+> +any bug might be exploitable to compromise the security of the kernel,
+> +but the possibility of exploitation is often not evident when the bug is
+> +fixed.
 
-Right, generally speaking this is not an easy task. It requires a lot of
-diligence actually. Sometimes there is no clear cut and that is _fine_.
-The CVE system cannot ever be bullet proof and mark every single
-security related fix (really you can be creating new security problems
-just by backporting upstream fixes into stable trees).
+By this paranoid black-and-white logic, any mainline commit could have a
+yet-to-be-discovered regression resulting in a catastrophic
+vulnerability.
 
-But that is not really all that important, the main thing/question is
-whether it can be _useful_. If you simply assign CVE to any fix in
-stable you end up with thousands of CVEs and I really fail to see any
-practical benefit from that. Well, unless you want to DoS the system and
-its consumers. Who do you expect to be the user/consumer of those CVE
-numbers? You have already said that community supported stable kernels
-mandate the latest version to be used. Those users do not need to know
-there is $BIG_NUMBER of CVEs in them.
+Should we stay one step ahead and just open a CVE for every mainline
+commit?
 
-If you want to mark a specific class of fixes with CVE because they are
-known to be used for exploits then fine! That is something actually
-useful. If you allow users to explicitly mark a fix as security relevant
-because of XYZ argument then really great!
+Problem solved, all "vulnerabilities" have been identified!  False
+positives be damned!
 
-> So as always, we need to treat "a bug is a bug is a bug" and when
-> looking at the bug fix, if it resolves something that is known to be
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> a vulnerability (again, as defined by CVE themselves), then we need to
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> mark it as such.
+For that matter, why don't we do as Thomas has suggested and hardcode
+NR_CPUS to zero!
 
-I am completely with you on that! That is quite far away from what the
-documentation says AFAICS.
- 
-> If you find that we are marking things as a CVE thatt you do not feel
-> should be marked as such, please let us know and we will be glad to
-> discuss it on a case-by-case basis.
+> Because of this, the CVE assignment team is overly cautious and
+> +assign CVE numbers to any bugfix that they identify.  This
+> +explains the seemingly large number of CVEs that are issued by the Linux
+> +kernel team.
 
-I've been through that exercise with the CVE process over years many
-times. It has always been a pain because you were not talking to domain
-experts who could evaluate the reasoning behind the dispute. I consider
-the new process of a clearly defined dispute process a big improvement!
-But if the real practice would be thousands of CVEs created for any
-stable backport then this will DoS many existing CVE consumers.
+How does this match up with the definition of a vulnerabilty?
 
-All that being said. I do agree that taking control of CVEs and making
-that kernel community thing is a good thing! But I really fail to
-understand how increasing the number of CVEs by nominating all/most
-stable fixes is going to help anybody or improve the existing process.
+  An instance of one or more weaknesses in a Product that can be
+  exploited, causing a negative impact to confidentiality, integrity, or
+  availability; a set of conditions or behaviors that allows the
+  violation of an explicit or implicit security policy.
 
-Thanks!
+Bug != vulnerability.  Otherwise the definition of a vulnerability would
+be much simpler, i.e., "any software defect".
+
+If a CVE is created without any analysis and doesn't describe how the
+bug can be exploited then it's completely useless.
+
+Who is this process helping?
+
+- Not users of -stable since they already know they need to be on the
+  latest version.
+
+- Not distros or their users as it's just flooding them with low quality
+  CVEs which have no analysis or scoring.
+
+And enterprise distros will never be able to rebase onto -stable,
+especially for older streams for which they have to be very selective,
+in order to avoid destabilizing them.  As you say, "a bug is a bug".
+
+If the problem is low CVE quality then of course it makes a lot of sense
+for kernel.org to become a CNA in order to take a leadership role in
+helping define and improve the process for its users.  But it makes no
+sense to "fix" it by making CVE quality *vastly* lower by flooding
+people with useless CVEs.
+
 -- 
-Michal Hocko
-SUSE Labs
+Josh
