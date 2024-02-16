@@ -1,72 +1,95 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95D2712F372;
-	Fri, 16 Feb 2024 14:58:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 385B912FB14;
+	Fri, 16 Feb 2024 15:35:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708095491; cv=none; b=UF+dduOp4YfzGBVVWhmeV4i4Fkjdbp+/Hd2VEoVRMQf81rKDUxYEvX/iloRMVBPkJeDHYGX2SnCUQ267rT7s7XaWJ2HARSrnttqvq7GSID3TgjJmGg7uDv1+/OkxWso6AQenvPVi0TlQlGeJFhGPCQgkSG6rVNABsMJ2Ax/H6NE=
+	t=1708097701; cv=none; b=QdDiIwMI8gyCNSF7aCxC/6Y45kZSmwxpDBjW392SsqBRsH+OUewwuLQ2yJ0tvhvVasj89IPyJhtWkjK7Rw3eS+oLuTybcGm2nLgcVVzlhI6dERAh1KE1udJduQ0YMB6ukgjyvl2vuNJLKyPQeXsotJTy1fQ/Ya0SYYzhmbOx9wA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708095491; c=relaxed/simple;
-	bh=v3AOGTbTMTIU6iGZKfmnaeDoZ92yg35YAi9sU5vStrA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=cGgIktMYe1U/QbLctMbTAA+IeTqWCppkJl/fuYKwkE7VlMLSjiQWHavN2EXzoGdpagXfSh/jZ2OEIiv2cbTCaabaYLpdc44wv4LyxxZMT+nMEY7iPHV0hLIH+cG8DWLzW7EeEFmYHKD5dViuBptEvSQdAsjquo8ABKOqSacXqp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=WAYLoxou; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1708097701; c=relaxed/simple;
+	bh=SS7iDD7dZDZOfWXznvwX8y8maPYyPpOM4xbYO597iD8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lB1lUIeTGqYCMS5mgsQVaaKzdLw3Lwq5LvzJPyWmhlO1sJ0H0nfWFMQO6345PJkTA4Zxj8pCGX/oKA/fUi75fLXNqb4w5FCoqTNbXh+E6YfFiq+VEm3CA2i+h/Fj5RHcrapGeTQkNY6Fw3X9X7fS+2fQ96+bjSXcBmaHzmx35Fw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=jSdhlpob; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="WAYLoxou"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7DA775A321
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1708095481; bh=v3AOGTbTMTIU6iGZKfmnaeDoZ92yg35YAi9sU5vStrA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=WAYLoxouTxHteQQ22OvgVbP/TcYBJGv9ppqRodQu55jLWiBUkFUveZqwMP3pKH03O
-	 ZjmpJWoC9zK6PGXZyZydISFuH+KhF8X+lEEPe6oTmZRmf232Kz3oNRR2zO8Ox5ovoz
-	 +O2ZrLCZg9DhMp5p1POY0fn3eQKA0XVrtqcv4iGeCBW9jLdVgjWgrQGuhMob20Fc8A
-	 PH3+YXf/shdDn0LGY0fGu9hTVV7LivqdcEkb/GfVbeXvm7mU0OQBueWAkMNh0lytXO
-	 2FkqbdYHltrnBhw3kVPvCn6LY3ywiwrQ9pr9YL3qhFgEnYd7bQYCmVlxuVMjgQbbmj
-	 jRbVIt4fOCLog==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625:67c:16ff:fe81:5f9b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 7DA775A321;
-	Fri, 16 Feb 2024 14:58:01 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jani Nikula
- <jani.nikula@intel.com>
-Cc: Vegard Nossum <vegard.nossum@oracle.com>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- security@kernel.org, Kees Cook <keescook@chromium.org>, Sasha Levin
- <sashal@kernel.org>, Lee Jones <lee@kernel.org>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="jSdhlpob"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20284C433F1;
+	Fri, 16 Feb 2024 15:34:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1708097700;
+	bh=SS7iDD7dZDZOfWXznvwX8y8maPYyPpOM4xbYO597iD8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jSdhlpobzJh7tkYVoyheKTAJ2RQJIIXsgUYWbAbqzbQHjLE7NmHurOg9OkTpfyc22
+	 Ryn2vGMzQlmQhxCgtwpbivbbUmXRZOne+DYoSUVULzIrBOo9r098ubxdGbigUGYB4i
+	 pYvUkHFgcbbrw0fxUSh7sWYmtArMOhZFrfvho3bE=
+Date: Fri, 16 Feb 2024 16:34:57 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Michal Hocko <mhocko@suse.com>
+Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, security@kernel.org,
+	Kees Cook <keescook@chromium.org>, Sasha Levin <sashal@kernel.org>,
+	Lee Jones <lee@kernel.org>
 Subject: Re: [PATCH v3] Documentation: Document the Linux Kernel CVE process
-In-Reply-To: <2024021619-barrack-shack-206c@gregkh>
+Message-ID: <2024021620-retrieval-lethargic-eeca@gregkh>
 References: <2024021430-blanching-spotter-c7c8@gregkh>
- <00057b93-b5fc-4536-b13d-cd3b6cead5b1@oracle.com>
- <2024021530-plank-cornmeal-90eb@gregkh>
- <26b25204-9829-44a8-9836-1ce1c8725586@oracle.com>
- <87v86o4xu0.fsf@intel.com> <2024021619-barrack-shack-206c@gregkh>
-Date: Fri, 16 Feb 2024 07:58:00 -0700
-Message-ID: <87r0hcv4lj.fsf@meer.lwn.net>
+ <Zc5PycMenLBYECAn@tiehlicka>
+ <2024021518-stature-frightful-e7fc@gregkh>
+ <Zc5ZpB6jsuTKmhv5@tiehlicka>
+ <2024021646-procedure-faceted-ea87@gregkh>
+ <Zc9hBJuca3f_5KHx@tiehlicka>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zc9hBJuca3f_5KHx@tiehlicka>
 
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
+On Fri, Feb 16, 2024 at 02:20:04PM +0100, Michal Hocko wrote:
+> > Right now
+> > we are fixing lots and lots of things and no one notices as their
+> > "traditional" path of only looking at CVEs for the kernel is totally
+> > incorrect.
+> 
+> Right, there are quite a lot of people who consider CVE fixes much more
+> important than regular fixes. Their reasoning might be completely
+> misleading but there might be very good reasons to stick to minimalistic
+> approach, e.g. to reduce risk of regressions.
+> 
+> I believe it is perfectly fair to say that whoever relies on stable
+> kernels support needs to update to the latest stable kernel version to
+> be covered by security and functional fixes. On the other hand I do not
+> think it is an improvement to the process to swamp CVE database with any
+> random fixes without a proper evaluation. If the kernel community
+> doesn't believe in the CVE process then fair enough, just do not assign
+> them unless you want to explicitly call out fixes with a high impact
+> security implications. Having fewer good quality CVEs would definitely
+> improve the process.
 
-> On Fri, Feb 16, 2024 at 10:28:39AM +0200, Jani Nikula wrote:
->> rst basically allows any order of the heading underlines, and their
->> relative hierarchy is determined by how they show up in each document,
->> it's not specified by rst. However, it would be much easier for everyone
->> if all the kernel documents followed the same style.
->
-> Agreed, someone should pick a style and sweep the whole directory and
-> sync them up to the agreed formatting. :)
+As you know, it's almost impossible to determine if a fix is "high
+impact" or not, given that we have no idea what anyone's use case is for
+the kernel.  We have documented proof of single-byte-buffer-overflows
+resulting in complete system takeovers, and the same for very tiny
+use-after-free issues, and the same for tiny "overflow a USB string
+buffer" issues, and so on.
 
-Somebody did pick a style, it's in Documentation/doc-guide/sphinx.rst :)
+So as always, we need to treat "a bug is a bug is a bug" and when
+looking at the bug fix, if it resolves something that is known to be
+a vulnerability (again, as defined by CVE themselves), then we need to
+mark it as such.
 
-jon
+If you find that we are marking things as a CVE thatt you do not feel
+should be marked as such, please let us know and we will be glad to
+discuss it on a case-by-case basis.
+
+But note, this type of classification has been happening for the kernel
+stable commits for 2+ years now, by Sasha, in the GSD records, so this
+isn't something new that we have been doing, it's just that only a very
+small group were noticing that, and now a larger one might notice this.
+
+thanks,
+
+greg k-h
