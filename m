@@ -1,93 +1,71 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E981468ED;
-	Fri, 16 Feb 2024 21:51:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E37E69E03;
+	Sat, 17 Feb 2024 11:56:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708120276; cv=none; b=kyXSkN1V19yKgtntCaPlf5T/d44wmLCfH6sC3ks50fk9HSPZj3UV0dKgK8JxtQRjgzkGUj9fHz2SCKAHvnPoWkUmLgtw6brbK0Ixdryx2mrPph3piUf6cebiSwZyVpGyrFs24aU2F3iNYyrCYpG27Ykdqr/Z9dIyyJpRM7CcfQY=
+	t=1708170971; cv=none; b=Crv9j2x1McI+1MzPx75xPZrX5jCMnJe3amJv9Dj6Z15k6qksuOc03he7hkSeUd9/Q7IZ2lmiU/17vUDE6Pnnc15IYPaatCgQn+DlYpYeuZsV/BkjO7hT9BrkJM0DF9IDfQXHqKpwN4woZ3fOIzz60OmTo4bWhMtziI9bCmYiKYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708120276; c=relaxed/simple;
-	bh=JF4vSGOWiwOROcwPNJNnbsYCsYWSecwg65mWjX3IxSw=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=BnKEhEDoyMftzlgYeEIg+ObllBfRK0aiEeTlQr9x24NhoS5iBW4kiFdgZJA98xyWzlFtTQ2bOqSXpbuaHb6QJyuDRHtQFZmZx7qcTegdWm0NyHy1m4q73x+M1cGoIQPJ4YPbjhwMdBpOuCCZFdC/HLLvI4DaeBzIHbxwmzWN7Qw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oMIhvrla; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708170971; c=relaxed/simple;
+	bh=G4oVzcLV/ykkxbfQ9i2WyOmmFAhJ7hFVEiqulSQ7rtA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rKhSkJAr7inuwH27P1mUEp3XuGfZzp+0+WIjR1Z9qTmq70wMipNXK09vKjuRnzMtBP+yEBJl/OlRDPucAJN34N7vWW+b/pfpu9JOEHbuGU4AAIs8KRqLe80cTpOOpJjORJ/JD/92wdRdVN05iEyIl/87Hg2+d0eZ8x5ZE5jiUAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=bmwFHsR1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oMIhvrla"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8ED0C433C7;
-	Fri, 16 Feb 2024 21:51:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708120276;
-	bh=JF4vSGOWiwOROcwPNJNnbsYCsYWSecwg65mWjX3IxSw=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=oMIhvrlaKWo4lDJjR0rLa59/c12XzNJZNIO1JaguI87huxQMx0Rmmg5ho0edc3daF
-	 tfYUQ+QneKXKD10pB3+/EqQWkcgcD0FJebfOMNMXvLg6xf2Zz2r1+HzVrXshfw5Y6X
-	 WRpc3NNdLkTp9kmKY2ATNqSG2SsRSHkwU848FrueQ3rFT4mKk2omJ3iusthyYFQy+W
-	 S4LJbh64osctiKEmA6K7VhF4HWYSNoeOqpBvbVqk3VkKka9wpxEdjsCTu2aEkhy1OZ
-	 Vejzhe4a9Toh0NYk7ip6IAoa3KDDzDS9aFGGc0HVMXyRVwWXoPwwQFyDT2ppHPYjot
-	 a9fQ7kGkYo29w==
-Date: Fri, 16 Feb 2024 22:51:16 +0100 (CET)
-From: Jiri Kosina <jikos@kernel.org>
-To: Theodore Ts'o <tytso@mit.edu>
-cc: Josh Poimboeuf <jpoimboe@kernel.org>, 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, corbet@lwn.net, 
-    workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, security@kernel.org, linux@leemhuis.info, 
-    Kees Cook <keescook@chromium.org>, 
-    Konstantin Ryabitsev <konstantin@linuxfoundation.org>, 
-    Krzysztof Kozlowski <krzk@kernel.org>, 
-    Lukas Bulwahn <lukas.bulwahn@gmail.com>, Sasha Levin <sashal@kernel.org>, 
-    Lee Jones <lee@kernel.org>
-Subject: Re: [PATCH v4] Documentation: Document the Linux Kernel CVE
- process
-In-Reply-To: <20240216214521.GC549270@mit.edu>
-Message-ID: <nycvar.YFH.7.76.2402162247380.21798@cbobk.fhfr.pm>
-References: <2024021500-laziness-grimace-ed80@gregkh> <20240216192625.o3q6m7cjgkwyfe4y@treble> <nycvar.YFH.7.76.2402162108370.21798@cbobk.fhfr.pm> <20240216214521.GC549270@mit.edu>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="bmwFHsR1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 895E3C433F1;
+	Sat, 17 Feb 2024 11:56:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1708170971;
+	bh=G4oVzcLV/ykkxbfQ9i2WyOmmFAhJ7hFVEiqulSQ7rtA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bmwFHsR1utDNz5Ddraahz5/SdD9hSFNbRecKfb7nwYqrZGXJGjv/uHUFWYiuvnTPG
+	 Y6GuyEp8+jJfD0xeVcsiez5Hs/DaOLs0Dkyk3SNColG5GtpyIYPMtw6wRItVyanO+Z
+	 KTzjO9XQ6s0LqxzOX2KmhMekuAIo1++1Mk2qtUVQ=
+Date: Sat, 17 Feb 2024 12:56:07 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Jani Nikula <jani.nikula@intel.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	security@kernel.org, Kees Cook <keescook@chromium.org>,
+	Sasha Levin <sashal@kernel.org>, Lee Jones <lee@kernel.org>
+Subject: Re: [PATCH v3] Documentation: Document the Linux Kernel CVE process
+Message-ID: <2024021751-impulsive-vanity-b799@gregkh>
+References: <2024021430-blanching-spotter-c7c8@gregkh>
+ <00057b93-b5fc-4536-b13d-cd3b6cead5b1@oracle.com>
+ <2024021530-plank-cornmeal-90eb@gregkh>
+ <26b25204-9829-44a8-9836-1ce1c8725586@oracle.com>
+ <87v86o4xu0.fsf@intel.com>
+ <2024021619-barrack-shack-206c@gregkh>
+ <87r0hcv4lj.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87r0hcv4lj.fsf@meer.lwn.net>
 
-On Fri, 16 Feb 2024, Theodore Ts'o wrote:
-
-> My observation is that the old system has had pretty low-quality
-> CVE's, and worse, overly inflated CVE Severity Scores, which has
-> forced all people who are supporting distro and cloud serves which
-> sell into the US Government market to have to do very fast releases to
-> meet FedRAMP requirements.  At least once, I protested an overly
-> inflated CVSS score as being completely b.s., at a particular
-> enterprise distro bugzilla, and my opinion as the upstream developer
-> was completely ignored.
+On Fri, Feb 16, 2024 at 07:58:00AM -0700, Jonathan Corbet wrote:
+> Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
 > 
-> So quite frankly, at least one enteprise distro hasn't impressed me
+> > On Fri, Feb 16, 2024 at 10:28:39AM +0200, Jani Nikula wrote:
+> >> rst basically allows any order of the heading underlines, and their
+> >> relative hierarchy is determined by how they show up in each document,
+> >> it's not specified by rst. However, it would be much easier for everyone
+> >> if all the kernel documents followed the same style.
+> >
+> > Agreed, someone should pick a style and sweep the whole directory and
+> > sync them up to the agreed formatting. :)
+> 
+> Somebody did pick a style, it's in Documentation/doc-guide/sphinx.rst :)
 
-Sad to hear that, no matter which distro that was :), hoewer ... 
+Fair enough, I'll go fix up the file headers here :)
 
-> with avoiding low quality CVE's and high CVSS scores, and so I'm quite
-> willing to give the new system a chance.  (Especially since I've been
-> told that the Linux Kernel CVE team isn't planning on issuing CVSS
-> scores, which as far as I'm concerned, is *excellent* since my
-> experience is that they are quite bogus, and quite arbitrary.)
+thanks,
 
-... how is this new process going to change anything in that respect? 
-
-There will always be some entity assigning a CVSS score (apparently not 
-the kernel.org/LTS group), and then odds are the situation you are 
-describing will end up happening according exactly the same scenario, 
-right?
-
-I am still trying really hard to understand what exactly is the problem 
-this whole effort is magically solving for everybody out there either 
-using Linux, or producing something around/on-top-of Linux. And I still 
-don't get it.
-
-Thanks,
-
--- 
-Jiri Kosina
-SUSE Labs
-
+greg k-h
