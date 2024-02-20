@@ -1,76 +1,163 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C3660861;
-	Tue, 20 Feb 2024 10:07:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44814779F2;
+	Tue, 20 Feb 2024 18:06:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708423663; cv=none; b=NHbzkXaUlk28KaI+j2tPXkSysEIqUhIuwHGLMLGf3Nec6FR0sg6nL+seT9YbtPgAF8lcoLetOl0mLBKYIyP+RYT7XzhV+g/Ed4v6xkClUeY/VbWZiVNHgmUOHEd0bp1cA1dU+trTwIqe9d/n4ioz7B0egPXwOYmXZEHGBG8Nn88=
+	t=1708452395; cv=none; b=HDzIzJkZ0ZqqRGYXEwLp4+TG5tjhJ7W95WbcZn7JvCBY4MT0+ujhad3aYLAH4PSXF+uvGNfd7TCPwt1L3+fdOcK5AOaiJCvssX1BpHYBa7O2ZOnrwBhaa8/w/xatkvVkxZMWMlZRLykb2R29pHfUNm4w5vEAzNmLhWZQCCvosdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708423663; c=relaxed/simple;
-	bh=RaPKTKboa8gxjYiGIH9BrKC6Nz2Z5V07v5yrPMrw7do=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fVlcxvMLDs+e57vR1nGmn1ouoBkQqsXsyQyKS6Zx88wPbtdt0lOwXg6aCEsM8vRwv3mIxZ7mjVEnhtbalw0iLKNriq32xyO09nUyqLUaOxDhw8YLItYA0PjMoE4yH0Atwt/yl0BeO/S4sr7XClurm+wx+qYocVHQvzkUDmJzDP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=zwcJ9Awi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708452395; c=relaxed/simple;
+	bh=HTRjPgc3Z93+9+vnRup3H//l9q0/RpaJYD0XmG63Y+I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WgHuVNb2mpAqsx+SSTLvraoKcC4jKfsfKb5m0FTGtedb/FPBg/hool1kUkOFReYvyBePE21ZIikDLfLPxDUs6aovWxICfIKl/kYNQl7NKkiZl/YkpDXyY4yreScdwpXl3BppjnA5b0gYROX0WRE/2gZLk7ZsSecMyxRslvmxSR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cApLI3Vd; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=gCM5cWYl; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=f3iT9O7i; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=5EMPdQE7; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="zwcJ9Awi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 712B5C433C7;
-	Tue, 20 Feb 2024 10:07:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1708423663;
-	bh=RaPKTKboa8gxjYiGIH9BrKC6Nz2Z5V07v5yrPMrw7do=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=zwcJ9AwiPEbFJ7O9Y7XT1v8ZaFdscmDO3msqjEazxqF/Rib6Jj4YujIIHoOE0izBc
-	 1daiUz5eNCz8LBUxQB3VngCkgAVv7JnhmxztniMXKmqZmkewHdyEo8JvxjEicAFcRt
-	 6kAlFh1Kj4+W+k7THF1H/orF0oUZgWOczHJFC6n4=
-Date: Tue, 20 Feb 2024 11:07:38 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Vegard Nossum <vegard.nossum@oracle.com>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, security@kernel.org,
-	linux@leemhuis.info, Kees Cook <keescook@chromium.org>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Sasha Levin <sashal@kernel.org>, Lee Jones <lee@kernel.org>
-Subject: Re: [PATCH v5] Documentation: Document the Linux Kernel CVE process
-Message-ID: <2024022042-raisin-catalyst-2fae@gregkh>
-References: <2024021731-essence-sadness-28fd@gregkh>
- <1a26d598-0063-447a-a79b-16315d2899ca@oracle.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cApLI3Vd";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="gCM5cWYl";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="f3iT9O7i";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="5EMPdQE7"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E1B661F8BD;
+	Tue, 20 Feb 2024 18:06:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1708452387; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GdNVBUnk8GlUwBol8CUxIWy0oFcd/4EAWmIfbejS74g=;
+	b=cApLI3Vd53N9iWV4D4ue8aW8yLUeZFs0TAKfgK8xOsLUY+K2ABrblF87rEz/VtP52H899z
+	b6kVryas/eaoxIRdpmhWN4yYVOMoW4sPcIOKdM4Oj0vQ8HiSMkqHpT7//O/n6rorjO9KH7
+	qurZBMQ+G2LFRVd5LTzahnPAOzVeWZw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1708452387;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GdNVBUnk8GlUwBol8CUxIWy0oFcd/4EAWmIfbejS74g=;
+	b=gCM5cWYl5Rfvk51fIJTQEB9E8lv4vVXMcntr9izWnSANUzazeEQsZDido6rVDI7lw+7vOi
+	08xbQYi75Ex9I+Aw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1708452386; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GdNVBUnk8GlUwBol8CUxIWy0oFcd/4EAWmIfbejS74g=;
+	b=f3iT9O7iVtQTwb3EourgM2uTR02pJhWn8GaYv/zDzXwCH1DA53VB8TMwmOnLzTgbo5elvy
+	wBDQTk9+r3b8X0f87m+EYm2PKvP40poM8lnXgDqehXRyKDkE8kCEYOQ8gQnXay8MIGAfF0
+	hUEbgjxCG7m3674P0wn/xFvJY650nNo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1708452386;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GdNVBUnk8GlUwBol8CUxIWy0oFcd/4EAWmIfbejS74g=;
+	b=5EMPdQE7hqDjKj9wMIqeEdMdIVkXVAYF5NCZ2lMCgDwbpHK0YfhUenXPEF5KjW6oxkCDDL
+	s5l4y3eVq98zuqBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CA79E134E4;
+	Tue, 20 Feb 2024 18:06:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id +12wMCLq1GWKbQAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Tue, 20 Feb 2024 18:06:26 +0000
+Message-ID: <48318c98-2a14-46c8-b6d5-8f8584b6a789@suse.cz>
+Date: Tue, 20 Feb 2024 19:06:26 +0100
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1a26d598-0063-447a-a79b-16315d2899ca@oracle.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] MAINTAINERS: add memory mapping entry with reviewers
+Content-Language: en-US
+To: Lorenzo Stoakes <lstoakes@gmail.com>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
+Cc: "=Liam R . Howlett" <Liam.Howlett@oracle.com>, workflows@vger.kernel.org
+References: <20240220064410.4639-1-lstoakes@gmail.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <20240220064410.4639-1-lstoakes@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -1.29
+X-Spamd-Result: default: False [-1.29 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 XM_UA_NO_VERSION(0.01)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCPT_COUNT_FIVE(0.00)[6];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 BAYES_HAM(-0.00)[13.75%];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,linux-foundation.org:email,oracle.com:email];
+	 FREEMAIL_TO(0.00)[gmail.com,kvack.org,vger.kernel.org,linux-foundation.org];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 MID_RHS_MATCH_FROM(0.00)[]
+X-Spam-Flag: NO
 
-On Tue, Feb 20, 2024 at 11:03:17AM +0100, Vegard Nossum wrote:
+On 2/20/24 07:44, Lorenzo Stoakes wrote:
+> Recently there have been a number of patches which have affected various
+> aspects of the memory mapping logic as implemented in mm/mmap.c where it
+> would have been useful for regular contributors to have been notified.
 > 
-> On 17/02/2024 13:55, Greg Kroah-Hartman wrote:
-> > +A list of all assigned CVEs for the Linux kernel can be found in the
-> > +archives of the linux-cve mailing list, as seen on
-> > +https://lore.kernel.org/linux-cve-announce/.  To get notice of the
-> > +assigned CVEs, please `subscribe
-> > +<https://subspace.kernel.org/subscribing.html>`_ to that mailing list.
+> Add an entry for this part of mm in particular with regular contributors
+> tagged as reviewers.
 > 
-> Is the list open to discussion as well? (e.g. impact, analysis, etc.)
+> Signed-off-by: Lorenzo Stoakes <lstoakes@gmail.com>
 
-It's read-only, sorry.
+Acked-by: Vlastimil Babka <vbabka@suse.cz>
 
-> Or is this meant to be purely as a log of assignments?
+Would be nice if this targetted sub-reviewing could be managed in a simpler
+way as part of the MM section instead of having to define a new one which
+duplicates half of if, but until we have such support...
 
-Yes.
+> ---
+>  MAINTAINERS | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index b6c5c92e49db..129a237b7880 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14121,6 +14121,17 @@ F:	tools/mm/
+>  F:	tools/testing/selftests/mm/
+>  N:	include/linux/page[-_]*
+>  
+> +MEMORY MAPPING
+> +M:	Andrew Morton <akpm@linux-foundation.org>
+> +R:	Liam R. Howlett <Liam.Howlett@oracle.com>
+> +R:	Vlastimil Babka <vbabka@suse.cz>
+> +R:	Lorenzo Stoakes <lstoakes@gmail.com>
+> +L:	linux-mm@kvack.org
+> +S:	Maintained
+> +W:	http://www.linux-mm.org
+> +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
+> +F:	mm/mmap.c
+> +
+>  MEMORY TECHNOLOGY DEVICES (MTD)
+>  M:	Miquel Raynal <miquel.raynal@bootlin.com>
+>  M:	Richard Weinberger <richard@nod.at>
 
-> What sort of content is (not) welcome? Should this be mentioned in the doc?
-
-As it's not able to be posted to, not much to mention :)
-
-If you wish to discuss something about it, follow the reply-to that is
-set for a message there.
-
-thanks,
-
-greg k-h
