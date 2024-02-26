@@ -1,105 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1AAB73162;
-	Mon, 26 Feb 2024 12:48:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1751F1DFF7
+	for <workflows@vger.kernel.org>; Mon, 26 Feb 2024 19:06:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708951722; cv=none; b=h8ZGGM0uMOmH19Iw6u6rfi9TYWZlacZ13v3BC8LtwXx8IO0G4WhIYBu3WpJiERcMWrTbyS3siUkknAdu8h8qHgiqbWDkIFY/sOPmbnUZpB1SC+hVuLKolFS6yCQdDe0hHISNPSaIUT6fmU8rB6Y5P57QvTPhEl2JJmYchtXOX+c=
+	t=1708974368; cv=none; b=GhUx0zTOW9jogzEvNpF9H0Z732+54GLfQ9gIHy+RUKg4K+PAao3TmLTmRhL7gsIakOivAQksV/5Z+ediQetalVQzsr7roOJE6NDCggCc3NRHKjYh1/KNMdw3ln5IsijzU4wVpV0fXAyQq9042YLWaUe+xELIlX937JxlQSJByAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708951722; c=relaxed/simple;
-	bh=KJYqGiy9A+wukcKRPI63mollMcq0daEoFtYsTGBRUzM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=GBvLu0VSIhoRW4t6Dx02+E/wEoRR99XMdav5SBEyZKPnvB2/wmDN5cod4GZAqOSAvDWTQfjbyclKt7MYDL5HO3FkFRTdrpsZ9jXmrTKqAPGGWGUNho2fH8YXs8bXzYU7ItQTUI+AwNudZ+gUeXlqE7kcrEKsJAKZry3hHeN/nH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N6O8T0N9; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1708974368; c=relaxed/simple;
+	bh=vl9HfprrI7iNUlfnsdRrmSfgQrPeRzCZDAmWL+VlrJU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Cf3paG7ZGJB5D+jvzPVMTWba7uPlkaat1qAQUGbboDmVEYLv7vAcYyojGHAFZuYyJGJOTewmg9H0ZZmW4OwIL1yhQ5cfEd2nqMc39X8zVMMFOX+wWcnSTuwew5n78lbyFICTU4dy4UT9DrEN16pnBkDX5qXU6xqE6gxJzaEA2Uw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c7ZaqreM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N6O8T0N9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708951721; x=1740487721;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=KJYqGiy9A+wukcKRPI63mollMcq0daEoFtYsTGBRUzM=;
-  b=N6O8T0N9ntBG7/9HCeoowQwjZtvd+5r3/Dfey0kKHbiFNkz72DrOS9kT
-   y3jhjcjKW7DKY77F1zEg7T7TWxjAw9izq2AQNAmwlN7sJEseqjmE1NW/q
-   oWyzVLd6RFtdpxk0aUY2jtIUkmpgPH/baJ+pvLPSQOyumrZCxjFsQHqv5
-   wG2TM9mNKGnhtmnjHLAJvi47XsuN3dT7OQZweTG+hKyimaPSpVaNZABmo
-   Ucko1TuwC8uf5QSxQbDOEWmGyBtsgLCoQxSa6Z/UHeWet3XHJWoOMb5n3
-   nMfVlM9XdYCAIGotR7RIB4T5W7U3z5NUnCZGsAkO7QP0/y7jingpsAThp
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="3780103"
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="3780103"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 04:48:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="6647948"
-Received: from hibeid-mobl.amr.corp.intel.com (HELO localhost) ([10.252.46.254])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 04:48:37 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org, Lukas
- Bulwahn <lukas.bulwahn@gmail.com>
-Subject: Re: [PATCH] docs: submit-checklist: structure by category
-In-Reply-To: <20240226104653.54877-1-lukas.bulwahn@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240226104653.54877-1-lukas.bulwahn@gmail.com>
-Date: Mon, 26 Feb 2024 14:48:36 +0200
-Message-ID: <87o7c3mlwb.fsf@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c7ZaqreM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A791C433C7;
+	Mon, 26 Feb 2024 19:06:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708974367;
+	bh=vl9HfprrI7iNUlfnsdRrmSfgQrPeRzCZDAmWL+VlrJU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=c7ZaqreM7oa0f3WJBOTqPxnIL+dSstBdBOFu/nhcreNh1HbGnXaqpBuiWxNj79zfE
+	 GIX7DNuF/85ar7XDEe1KLja4VQby1bB7dibLqxM57HApSHOPFhGDiWoWE/InEtXhjn
+	 QvENbW6Kkrz6HikDh60Fw2np+pBuRQ8iBQIrMyKIaVNhg7p6S/fCP2v8UWYpdJ40Ac
+	 Win+pVjetzhcmRYunCKcq1yXUTmAGZfNbwFQi0bnXLHBVR8lb/LKLM/8agZYOWrnXi
+	 WQQofnur7DCHYqa8LfWX2e514P7SbIGnuo0VDq9wio0XLf69y7d+bg0XSirpUHeGNu
+	 /1pB94/1IXfgA==
+Date: Mon, 26 Feb 2024 11:06:06 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc: workflows@vger.kernel.org, corbet@lwn.net, ast@kernel.org
+Subject: Re: Simple analytics for docs.kernel.org and patchwork, please?
+Message-ID: <20240226110606.1420fcf8@kernel.org>
+In-Reply-To: <20240223083154.4fbee63c@kernel.org>
+References: <20240223083154.4fbee63c@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, 26 Feb 2024, Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
-> diff --git a/Documentation/process/submit-checklist.rst b/Documentation/process/submit-checklist.rst
-> index b1bc2d37bd0a..7d8dba942fe8 100644
-> --- a/Documentation/process/submit-checklist.rst
-> +++ b/Documentation/process/submit-checklist.rst
-> @@ -11,110 +11,121 @@ These are all above and beyond the documentation that is provided in
->  and elsewhere regarding submitting Linux kernel patches.
->  
->  
-> +*Review your code:*
+On Fri, 23 Feb 2024 08:31:54 -0800 Jakub Kicinski wrote:
+> Hi!
+> 
+> We have a few netdev-related bots with various simple status pages.
+> I hooked them up to analytics recently, here's the dash:
+> https://plausible.io/netdev.bots.linux.dev
+> 
+> Plausible was described here: https://lwn.net/Articles/822568/
+> it's supposedly-open, and privacy-focused, no cookies etc.
+> 
+> It's useful for me when deciding where to invest my time,
+> and to back up the efforts to my employer with some data.
 
-If you're adding subheadings, maybe consider making them actual
-subheadings instead of just italicizing them.
+Hi Konstantin, are you open to trying some analytics?
+If yes I will go ask for approval to pay the bill.
 
-The top heading should probably be modified to follow the guidelines in
-Documentation/doc-guide/sphinx.rst. This should be a separate change.
+FWIW it's not a lot of work, for netdev pages I add
+the tracker with sed:
+ sed -i 's@</title>$@</title><script defer data-domain="netdev.bots.linux.dev" src="https://plausible.io/js/script.js"></script>@' $file
 
-> +
->  1) If you use a facility then #include the file that defines/declares
->     that facility.  Don't depend on other header files pulling in ones
->     that you use.
->  
-> -2) Builds cleanly:
-> +2) Check your patch for general style as detailed in
-> +   :ref:`Documentation/process/coding-style.rst <codingstyle>`.
->  
-> -  a) with applicable or modified ``CONFIG`` options ``=y``, ``=m``, and
-> -     ``=n``.  No ``gcc`` warnings/errors, no linker warnings/errors.
-> +3) All memory barriers {e.g., ``barrier()``, ``rmb()``, ``wmb()``} need a
-> +   comment in the source code that explains the logic of what they are doing
-> +   and why.
-
-I think we should just remove all the manually updated bullet
-numbering. Either make them bulleted lists with "*" or autonumbered
-lists with "#.". See [1]. This should be a separate change.
-
-BR,
-Jani.
-
-
-[1] https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#lists-and-quote-like-blocks
-
-
--- 
-Jani Nikula, Intel
+If there's a concern that other maintainers don't want this
+we can selectively sed just the networking pages?
