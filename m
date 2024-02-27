@@ -1,83 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6915A1E878;
-	Mon, 26 Feb 2024 22:52:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD18C136A;
+	Tue, 27 Feb 2024 00:41:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708987973; cv=none; b=Wkt7HrvkoEupjTesZM1ga5VAMEDQPIZ6SS3GoYmvxTOkiV/boPmO9hhu9bB85O97e163I6ym8trOSs7s0jadtZWiUn+MWCCe+behxFARjemNReyi8e3O+U0E1beuA9d/CQdfy0gRSuDuCeUeNDJ1X/1pYaVxaVxbSvwlxTT+vSQ=
+	t=1708994500; cv=none; b=SPEwa4LPvoQz9LQZyFVaHUEXFjxVVo79NUuC42VthElamH5E2bHxa4WZwyRe6UaBeZHcaUtoHIrOfewvzdI4+J4gxtFmCfkUwgOH27u4D3McJPYEXgfUwxKwdtwIPwupJkpVY+iK+blP98+D9YZXeZJ+ER12ho6+NKeU6PJMAwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708987973; c=relaxed/simple;
-	bh=aVfUJN7ZrtESWGumta3ey0Rwz4iAPlXl3DtmVnzYO3I=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hnvhZFJBUPwVu3Oqr5+cU3EfOHERgSHLhUGGyJYNQ0HMP0fAo6RrlTrfhJAJ8xN+KwljEmU/x7ySKNorDAwLqWhdvsXiZ94SuhlgcoqAcSr4Ig16ViHUmbi0Ji09Kj4FqQlSuUNCgUa3Uc4Ziycw8S+yKu3QagSNe8+9RFB6WxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pUO1z7ws; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708994500; c=relaxed/simple;
+	bh=OCMg9lVSRi1dM4mQ/dHVKSvIT2dNp6Xad44VFS/XxqA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=C7iy0I6PwV0N3QUS5+N4hTY5cSKH6FzZ+gUuqwBEvI7vIPGLAWR1FUPnT201w+CAsPy4+HLsxvhITf5mgp0CPBIi1X/rumd+SjuPq3oh92X03dStYFLmV1hVZhz8wPkye+/48QxNS87eZfTCjFla5fkgYIYufHp5TCO2ilyKhhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=E9Pw2iwk; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pUO1z7ws"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBFF3C433C7;
-	Mon, 26 Feb 2024 22:52:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708987973;
-	bh=aVfUJN7ZrtESWGumta3ey0Rwz4iAPlXl3DtmVnzYO3I=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=pUO1z7wslM2ZcMwmxmTk2dcKtcILzTXyu1+HOt0WmXuQmqyPZROzw2nGt444ORpxh
-	 PseDthe+mQ3pGLcNTd0ifnQmQmRcc7z4M5dQuIggbZFzCTGWGDKSx5nqKVchcvzf1a
-	 vvdrN3i9GSeZS55EyksRw9I764XPpkjGuJZNZNKHlbFf1KSD16DUzfXvLq6uwZSLis
-	 dYPoyQl5E1QEpQus3GJBpEc9Rl0BEipaPRGfPrmkTnMF9EKZuNzs9cwFtJyrQtcGt+
-	 LGddfaqvlwUU+dXNMgCACUwjKuWj799jP6PiqlzhCzd3AJLehWwhIbVTdo5+HEx9Is
-	 VxzMM2vAgvVdQ==
-Date: Mon, 26 Feb 2024 14:52:51 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- workflows@vger.kernel.org, ast@kernel.org, linux-doc@vger.kernel.org
-Subject: Re: Simple analytics for docs.kernel.org and patchwork, please?
-Message-ID: <20240226145251.6335b6f6@kernel.org>
-In-Reply-To: <875xyb2e18.fsf@meer.lwn.net>
-References: <20240223083154.4fbee63c@kernel.org>
-	<20240226-gainful-dark-snake-c15cf8@meerkat>
-	<20240226114350.215be672@kernel.org>
-	<875xyb2e18.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="E9Pw2iwk"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=E3yLeoY54L7an1gZ4crtQOnqHhnFkPcsPYy0GYM/xeQ=; b=E9Pw2iwkGDsfhccy5Lx+Hx4Mlg
+	70ogJLDoMrg4GWhsksRjSilxhaGGnPUV9B0gNqASn5zii8g91A1xK/BiMkQge0f3CvchoM2ifOUTA
+	rV7oYrED8mzqWgjAiArJdUZF2AyUc2gMfrI4WaHMWNj+BpA0EtnYQz7F4COSKeX3YoKtx+mLMkWcZ
+	61mtJJyNA/6QYOLjRYnpD7t1gEPXBOa+L7JXPQG8hs1tWtdu4/ksWYVEBHrIH7n9SDw9mIAitqJrR
+	qFVz9dVCE1rakSnVmhDSR5WJIT+OopKjwuMSfFk56SnUy7GjmT1GoOyFGzKEpCzpWOjoTRhSqWwg+
+	Kj7ixWXA==;
+Received: from [50.53.50.0] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1relXN-000000038CT-14fW;
+	Tue, 27 Feb 2024 00:41:37 +0000
+Message-ID: <43df625f-bd32-4dd9-a960-6d0f5c0304c7@infradead.org>
+Date: Mon, 26 Feb 2024 16:41:36 -0800
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: submit-checklist: structure by category
+Content-Language: en-US
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240226104653.54877-1-lukas.bulwahn@gmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240226104653.54877-1-lukas.bulwahn@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Mon, 26 Feb 2024 12:58:43 -0700 Jonathan Corbet wrote:
-> Jakub Kicinski <kuba@kernel.org> writes:
-> > On Mon, 26 Feb 2024 14:24:39 -0500 Konstantin Ryabitsev wrote:  
-> >> In general, my previous experience enabling libravatar on git.kernel.org has
-> >> taught me that many very vocal people *really* don't like to have any kind of
-> >> statistics gathered about them. However, if it's just for docs.kernel.org,
-> >> then I don't think I have specific objections.
-> >> 
-> >> That said, I would need help turning this on -- if someone can pass me along a
-> >> Sphinx configuration option that I can enable during build time, then I'll be
-> >> happy to add it to our build jobs.  
-> >
-> > Excellent :)
-> >
-> > Let me CC linux-doc in case someone can tell us how to hook things in.  
+Hi Lukas,
+
+I'll review the file changes separately. This is just replying
+to the patch description comments.
+
+
+On 2/26/24 02:46, Lukas Bulwahn wrote:
+> While going through the submit checklist, the list order seemed rather
+> random, probably just by historical coincidences of always adding yet the
+> next point someone thought of at the end of the list.
+
+Probably.
+
+> Structure and order them by the category of such activity,
+> reviewing, documenting, checking with tools, building and testing.
 > 
-> It's probably not just a configuration option.  I suspect that this will
-> need to be done either by editing the templates or with a little
-> extension.  Either could require adding this support to the kernel repo,
-> which might raise some eyebrows.
+> As the diff of the reordering is large:
+> Review code now includes previous points 1, 5 and 22.
+> Review Kconfig includes previous 6, 7 and 8.
+> Documenting includes previous 11, 15, 16, 17, 18 and 23.
+> Checking with tools includes previous 5, 9 and 10.
+> Building includes previous 2, 3, 20 and 24.
+> Testing includes previous 12, 13, 14, 19 and 21.
+> 
+...
 
-FWIW I tried poking around to insert "script_files" into conf.py,
-because the RTD template does seem to have:
+> 
+> The recommendation to test with the -mm patchset (previous 21, now
+> testing, point 5) was updated to the current state of affairs to test with
+> a recent tag of linux-next.
 
-      {%- for scriptfile in script_files %}
-        {{ js_tag(scriptfile) }}
-      {%- endfor %}
+ack.
 
-But I only managed to add a pure "include" with just the 'src'
-attribute on the <script> node, like:
+> Note that the previous first point still remains the first list even after
+> reordering. Based on some vague memory, the first point was important to
+> Randy to stay the first one in any reordering.
 
-	<script src="../../cabbage.js"></script>
+Yes, I have said that. Stephen Rothwell wanted it to be first in the list.
 
-We also need to set 'defer' and "data-domain="docs.kernel.org"'.
+
+> While at it, the reference to CONFIG_SLUB_DEBUG was replaced by
+> CONFIG_DEBUG_SLAB.
+
+I don't understand this comment. DEBUG_SLAB is gone.
+I think those 2 symbols might be reversed in your comments. ?
+
+
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> ---
+> So far, no point disappeared and nothing new was added.
+> 
+
+That's a good start IMO.
+
+> Points/Ideas for further improvements (based on my knowledge and judgement):
+> 
+>   - The Review Kconfig changes makes sense, but I am not sure if they are
+>     so central during review. If we keep it, let us see if there are other
+>     parts for review that are also important similar to Kconfig changes.
+>    
+>   - Concerning checking with tools, checkpatch probably still makes sense;
+>     it pointed out in several places. If sparse and checkstack are really
+>     the next two tools to point out, I am not so sure about.
+
+I doubt that ckeckstack is important since gcc & clang warn us about
+stack usage.
+
+>     sparse has a lot of false positives nowadays, and many things are not
+>     fixed just because sparse complains about it.
+>     And I have never used make checkstack and have not found much
+>     documentation about it.
+>     So, maybe other tools deserve to be mentioned here instead?
+> 
+> I am happy to get feedback---I will work through submitting-patches next
+> and do some clean-up there. While doing that, I might learn what really
+> should go into a better future 'submit-checklist' documentation.
+> 
+>  Documentation/process/submit-checklist.rst | 157 +++++++++++----------
+>  1 file changed, 84 insertions(+), 73 deletions(-)
+
+
+-- 
+#Randy
