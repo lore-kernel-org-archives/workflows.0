@@ -1,135 +1,135 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD18C136A;
-	Tue, 27 Feb 2024 00:41:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 277E75467A;
+	Tue, 27 Feb 2024 07:28:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708994500; cv=none; b=SPEwa4LPvoQz9LQZyFVaHUEXFjxVVo79NUuC42VthElamH5E2bHxa4WZwyRe6UaBeZHcaUtoHIrOfewvzdI4+J4gxtFmCfkUwgOH27u4D3McJPYEXgfUwxKwdtwIPwupJkpVY+iK+blP98+D9YZXeZJ+ER12ho6+NKeU6PJMAwA=
+	t=1709018904; cv=none; b=ohkVX78L2Tu1ansXuLcPq7ZhbTEtm4Fk5fkeGj0myKGGhOegoEMZplbEbRBh5LPLgYSXLpytl+FXudz7FVlBM38sPIOJaykFjhsyysP3p51APWh1yvyINqToTexSa6h22tKJEu5yxNE03tsMiGvb52coiPWvPhIvk75bQkSJVwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708994500; c=relaxed/simple;
-	bh=OCMg9lVSRi1dM4mQ/dHVKSvIT2dNp6Xad44VFS/XxqA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=C7iy0I6PwV0N3QUS5+N4hTY5cSKH6FzZ+gUuqwBEvI7vIPGLAWR1FUPnT201w+CAsPy4+HLsxvhITf5mgp0CPBIi1X/rumd+SjuPq3oh92X03dStYFLmV1hVZhz8wPkye+/48QxNS87eZfTCjFla5fkgYIYufHp5TCO2ilyKhhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=E9Pw2iwk; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1709018904; c=relaxed/simple;
+	bh=1/iCSINOM9ktWkzosjfbZRxEXx1qwuEmh0fqu+UCCps=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BoGnfUxjevIVW/FGeTy8wpuCXKj+WWgGy0zhS5t1/tBIefajzItfow5ZMS0Zpc5AleT2dTAeW/+lZ9i/PuUxj0p35P/TXTrhWYnIy2S2NCLv5ejoad0LhSYMlUrjZjhsLXeCbBdKB/F0Q1S1XLG3WBUO+fhe2e6VQsk2NFO/rsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=crayPIgt; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="E9Pw2iwk"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=E3yLeoY54L7an1gZ4crtQOnqHhnFkPcsPYy0GYM/xeQ=; b=E9Pw2iwkGDsfhccy5Lx+Hx4Mlg
-	70ogJLDoMrg4GWhsksRjSilxhaGGnPUV9B0gNqASn5zii8g91A1xK/BiMkQge0f3CvchoM2ifOUTA
-	rV7oYrED8mzqWgjAiArJdUZF2AyUc2gMfrI4WaHMWNj+BpA0EtnYQz7F4COSKeX3YoKtx+mLMkWcZ
-	61mtJJyNA/6QYOLjRYnpD7t1gEPXBOa+L7JXPQG8hs1tWtdu4/ksWYVEBHrIH7n9SDw9mIAitqJrR
-	qFVz9dVCE1rakSnVmhDSR5WJIT+OopKjwuMSfFk56SnUy7GjmT1GoOyFGzKEpCzpWOjoTRhSqWwg+
-	Kj7ixWXA==;
-Received: from [50.53.50.0] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1relXN-000000038CT-14fW;
-	Tue, 27 Feb 2024 00:41:37 +0000
-Message-ID: <43df625f-bd32-4dd9-a960-6d0f5c0304c7@infradead.org>
-Date: Mon, 26 Feb 2024 16:41:36 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="crayPIgt"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a3e85a76fa8so364327066b.1;
+        Mon, 26 Feb 2024 23:28:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709018901; x=1709623701; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zI30shSOvui+UA44wihEn+kkOQkF830aXh8hZ+sdOqY=;
+        b=crayPIgtPu6xX654pJ6a3WoMUrJOxlsmbjVVzCIMHUieRyc246rzFENqHFv58t/PyM
+         6DAyL8PJhkn9LDC3wVBDdmQpQKWnyGJkOlQwEV6Yur7zo54PWRuRulX6trMdH7+Znw24
+         FnM/m08HAIUSOHmbUJR2W5FBQsb91gLZLRpQM0YHw+utKBIoFC5A4iWSAP4DV35smPib
+         Cqn6s6gqR4eP6DojpvARdNNiXVLDuGxYF5bGAEr8b1jON2ySl2LZo70LhT1AtDBk1y3/
+         kulMqCizUjMO2n5QD4k0LU7i5mrEtQoXjQ/fOesB/e5Us71dMrm5GvRYj4d9xwgDLEmh
+         swug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709018901; x=1709623701;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zI30shSOvui+UA44wihEn+kkOQkF830aXh8hZ+sdOqY=;
+        b=Ur/U4Sa16M+HBXXrEHHJDmpqh+DkxluTnuREHYu3ug6oVSU1opdNZPwMQ05YP8D4lz
+         5AtFjAoyxbiFoPOI/rsfMwVVLJAHgWopR8R+cNVwJA8e2BTZYPVcXFM1cCgG8NVl4vqJ
+         Oh6fHuOBIP0O0bXRgFih1qGlLaNUuHZwShz3DZvjUiNhNBT2Bv/OikCOjklrFQie/vlQ
+         dbvuC08x+qo3WKAZIMYjw2GrA7sshaGfSLjkesf9t++HF6N5KGrjlvmmAdlPEYZMa8fd
+         0STzgAoXjHzmnOz+7+EZ8euu/2azXUastnZtMzahuATAOlHPia87UZEkBqFxhSZNOASx
+         2QLA==
+X-Forwarded-Encrypted: i=1; AJvYcCXj6DWwopVX94eOOjsreq9lVmnsTVXBIEB7xhFcg64VR6PSodQ8vJE2swtRU7p6wq1olSPYZkc1cyTF1Wg0iTJamGB1RvMcv8cUNKwnioNsVVsKedzafoECwRtDhzeThJjqFOzC4MJ5gutBgTj9gABXCn/X466F46BP13IORy5ToWPUJWvt0GQuV260S1cD7EHC8d5iGHQkH1vKWJz7CkaLFzXm
+X-Gm-Message-State: AOJu0Yy97oEH9JBg63EJXOSeLo04uJsLiiT1/8sS7AfNbC8JU3ltEqSw
+	1UosZ0lTgukoDTHdYyLqqrchf/UhVr4hpnhw/DXlKEFFdg8SPC8cFH4UWJO+XolwFk0knU7LqY9
+	gaWa/BDbFzsF5z9b0At1jWh0l0aX/cMuso7Wb2A==
+X-Google-Smtp-Source: AGHT+IEg2zGbhLsEmK2ifI6SjC4f7kPzu91OBzps+VEwu7WS+AfN3IpeWRons2+BVRC69ODcSaX8fDa9Gqy3tZ2gFQk=
+X-Received: by 2002:a17:906:2318:b0:a43:ab98:d36a with SMTP id
+ l24-20020a170906231800b00a43ab98d36amr644131eja.17.1709018901441; Mon, 26 Feb
+ 2024 23:28:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+References: <20240226104653.54877-1-lukas.bulwahn@gmail.com> <87o7c3mlwb.fsf@intel.com>
+In-Reply-To: <87o7c3mlwb.fsf@intel.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Tue, 27 Feb 2024 08:28:10 +0100
+Message-ID: <CAKXUXMz-aTN3qrOmacWT_12awUT4wYTH8sr7SEc4B6XiYtz-BA@mail.gmail.com>
 Subject: Re: [PATCH] docs: submit-checklist: structure by category
-Content-Language: en-US
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240226104653.54877-1-lukas.bulwahn@gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240226104653.54877-1-lukas.bulwahn@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Lukas,
+Hi Jani,
 
-I'll review the file changes separately. This is just replying
-to the patch description comments.
+On Mon, Feb 26, 2024 at 1:48=E2=80=AFPM Jani Nikula <jani.nikula@intel.com>=
+ wrote:
+>
+> On Mon, 26 Feb 2024, Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+> > diff --git a/Documentation/process/submit-checklist.rst b/Documentation=
+/process/submit-checklist.rst
+> > index b1bc2d37bd0a..7d8dba942fe8 100644
+> > --- a/Documentation/process/submit-checklist.rst
+> > +++ b/Documentation/process/submit-checklist.rst
+> > @@ -11,110 +11,121 @@ These are all above and beyond the documentation =
+that is provided in
+> >  and elsewhere regarding submitting Linux kernel patches.
+> >
+> >
+> > +*Review your code:*
+>
+> If you're adding subheadings, maybe consider making them actual
+> subheadings instead of just italicizing them.
+>
+> The top heading should probably be modified to follow the guidelines in
+> Documentation/doc-guide/sphinx.rst. This should be a separate change.
+>
 
+I have done that. In my humble personal opinion, at the moment, the
+subheadings look a bit too large in the HTML view compared to the few
+points below.
+However, I am planning to add more points to the checklist anyway when
+I understand and have summarized the essence of the other documents
+for patch submissions (submitting-patches and howto).
 
-On 2/26/24 02:46, Lukas Bulwahn wrote:
-> While going through the submit checklist, the list order seemed rather
-> random, probably just by historical coincidences of always adding yet the
-> next point someone thought of at the end of the list.
+So, let us make them subheadings.
 
-Probably.
+> > +
+> >  1) If you use a facility then #include the file that defines/declares
+> >     that facility.  Don't depend on other header files pulling in ones
+> >     that you use.
+> >
+> > -2) Builds cleanly:
+> > +2) Check your patch for general style as detailed in
+> > +   :ref:`Documentation/process/coding-style.rst <codingstyle>`.
+> >
+> > -  a) with applicable or modified ``CONFIG`` options ``=3Dy``, ``=3Dm``=
+, and
+> > -     ``=3Dn``.  No ``gcc`` warnings/errors, no linker warnings/errors.
+> > +3) All memory barriers {e.g., ``barrier()``, ``rmb()``, ``wmb()``} nee=
+d a
+> > +   comment in the source code that explains the logic of what they are=
+ doing
+> > +   and why.
+>
+> I think we should just remove all the manually updated bullet
+> numbering. Either make them bulleted lists with "*" or autonumbered
+> lists with "#.". See [1]. This should be a separate change.
+>
 
-> Structure and order them by the category of such activity,
-> reviewing, documenting, checking with tools, building and testing.
-> 
-> As the diff of the reordering is large:
-> Review code now includes previous points 1, 5 and 22.
-> Review Kconfig includes previous 6, 7 and 8.
-> Documenting includes previous 11, 15, 16, 17, 18 and 23.
-> Checking with tools includes previous 5, 9 and 10.
-> Building includes previous 2, 3, 20 and 24.
-> Testing includes previous 12, 13, 14, 19 and 21.
-> 
-...
+Done that. I used "#." to still have the numbering in place.
 
-> 
-> The recommendation to test with the -mm patchset (previous 21, now
-> testing, point 5) was updated to the current state of affairs to test with
-> a recent tag of linux-next.
-
-ack.
-
-> Note that the previous first point still remains the first list even after
-> reordering. Based on some vague memory, the first point was important to
-> Randy to stay the first one in any reordering.
-
-Yes, I have said that. Stephen Rothwell wanted it to be first in the list.
-
-
-> While at it, the reference to CONFIG_SLUB_DEBUG was replaced by
-> CONFIG_DEBUG_SLAB.
-
-I don't understand this comment. DEBUG_SLAB is gone.
-I think those 2 symbols might be reversed in your comments. ?
-
-
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> ---
-> So far, no point disappeared and nothing new was added.
-> 
-
-That's a good start IMO.
-
-> Points/Ideas for further improvements (based on my knowledge and judgement):
-> 
->   - The Review Kconfig changes makes sense, but I am not sure if they are
->     so central during review. If we keep it, let us see if there are other
->     parts for review that are also important similar to Kconfig changes.
->    
->   - Concerning checking with tools, checkpatch probably still makes sense;
->     it pointed out in several places. If sparse and checkstack are really
->     the next two tools to point out, I am not so sure about.
-
-I doubt that ckeckstack is important since gcc & clang warn us about
-stack usage.
-
->     sparse has a lot of false positives nowadays, and many things are not
->     fixed just because sparse complains about it.
->     And I have never used make checkstack and have not found much
->     documentation about it.
->     So, maybe other tools deserve to be mentioned here instead?
-> 
-> I am happy to get feedback---I will work through submitting-patches next
-> and do some clean-up there. While doing that, I might learn what really
-> should go into a better future 'submit-checklist' documentation.
-> 
->  Documentation/process/submit-checklist.rst | 157 +++++++++++----------
->  1 file changed, 84 insertions(+), 73 deletions(-)
+The two changes are straightforward, and I will send them out as a v2
+series, once Randy has had time to provide his feedback on the content
+of the v1 patch and I have included his review remarks.
 
 
--- 
-#Randy
+Lukas
