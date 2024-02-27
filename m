@@ -1,119 +1,73 @@
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49EC31386CF;
-	Tue, 27 Feb 2024 11:24:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4550754664
+	for <workflows@vger.kernel.org>; Tue, 27 Feb 2024 22:32:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709033088; cv=none; b=QMuZQSRotj2mZYYuaCIkNy2yNmJ7Xl5NBZKL5xCWauIS5ZmudQIcl5OriBCDX3c7zf236h+ZczXqpvjQStKirM1DqSfQUngstL0MWa0RO+/vpL5wJEM9YGQ//Z7M85992wvssMKWoLsgjfnGUZdD7hWxWVKURbHAw/eRwRzSF3g=
+	t=1709073158; cv=none; b=MTc2J8JptE6vJbzQNr8nFsAR6kXBk0WIbqyTLDzrA7AS+7rC/szONinTzPxBLYNVCRZ96LQf/GffnYhlsNplRRU8NorgWhuKpl0OxJTx+lVKSQeoBk3oJ/nxebOAH6TLEs80souixb4CynZfGbTog4hAkGzFgrasIGnF9QZVYM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709033088; c=relaxed/simple;
-	bh=GVuMBdQqkgWQcbGGoSTLXWpS7LUUBUPbnmMli3sXPcw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aV2C0xjRbveuozXcpod4g5T02d/JsmLIwz9OzCFgBvnP4wACgS6iuz1rH8CgMYxHkP/f5ZL+M6iXkSGmxLrAQ/8HvBxayjvM0FXjy0dUsclWq/gglemice6ryThvVuYmgjRsfA7rP9O6qqoERfeyzLvXhN4AQ/IpAX8ibpZ4QF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-60925d20af0so5881587b3.2;
-        Tue, 27 Feb 2024 03:24:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709033085; x=1709637885;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UgPevVmoAKj0DGuT65JWL0siEdc3m+Qb/SY/mrF/WhA=;
-        b=hKez+5s7KHdI2/CxbWsrwUTaS+n4g0OFJn3q1ns3oF5Q0FwssLGr9jNKfYoAolCOHc
-         0uiLBpLOnHwDqYjYu1hJmBlptoMcn2fpcJ7SuvG42/MQ6D7iDu9zNA6xfiI8y0PlBbtd
-         GhzH87+wHJnvp+p4fnO4cgKLXqFtRGpEYZ4XHyHL9kOv0PKad6SjrZQwvfrlaWMJc0jE
-         5Y4Qqxga7rdVsHBXggHdBRYSjWJc3N7KddTJ9aUJqlja5YKWrraAxSGfoJTeW6fziwFj
-         n15frq+wfqqWSUD5xQ0w6iJ46befR0Km3zeQm1K9n3JP8KuAgLFYo12udLznEFx06OtN
-         cs2g==
-X-Forwarded-Encrypted: i=1; AJvYcCUpkJmU1CSj3LzJDrtn7WSEFGDbx9x61rNDa3+V+oENjcHJucJaPGQ/rc+r2w8aJ31cRQNpf8bJLsG1t8lSr1t6DuY2QNcpxwZ/b0l3NwEyGqO7YtgaHh8oHdkPdAm/iHLc0XeCM6CBtjh1sZvAjRUMVW1JlCEDuJRY+ENiX5/gIarVrG3FWdpaDVhuKHaXuDxGTJh/Q7zzcf6TN10frU2MRmrc
-X-Gm-Message-State: AOJu0Yzs/AT4QPTIG661fL1P0dYKaxIbQJKS8BFZs8DLDUdqD6EWhFE6
-	776cQ2tbt5ZCBve1UZX2/pSlRJSBgGSmblvvgdSPK+8txE4rLhsOHXs+UGqzMNE=
-X-Google-Smtp-Source: AGHT+IF6qZXhkh31/FL9NWIWiaWNbs75azxaLQr+q0HbfoJAOi5esIyA3/0S3GFWa2NY/xosW0awAg==
-X-Received: by 2002:a81:af14:0:b0:608:d1f:1088 with SMTP id n20-20020a81af14000000b006080d1f1088mr1716762ywh.17.1709033085558;
-        Tue, 27 Feb 2024 03:24:45 -0800 (PST)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
-        by smtp.gmail.com with ESMTPSA id s132-20020a81778a000000b00607f86fa184sm1715590ywc.99.2024.02.27.03.24.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Feb 2024 03:24:45 -0800 (PST)
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-dcbd1d4904dso3965991276.3;
-        Tue, 27 Feb 2024 03:24:45 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWVJ7xa8M3RUqQkjMQuIs6vqZOPftr7CjDdBfQisOSUZySBmc57Vd+/azmelXnVxPjs/+K3CFTOVzydfxwZkQO2iIfRXggH2eccDhhLw+Cby0XLQtuX3H9tfk3n78DhURjWFF7VGeE9YriB6AJsBDqnyGd/+TNKo/iKKtMzLCuujYG3hBkKa3qHQimKapbP6uz/prROSso9CPCS+Xt0+aFLL2y4
-X-Received: by 2002:a25:ef41:0:b0:dc6:9c51:760f with SMTP id
- w1-20020a25ef41000000b00dc69c51760fmr1490502ybm.56.1709033085185; Tue, 27 Feb
- 2024 03:24:45 -0800 (PST)
+	s=arc-20240116; t=1709073158; c=relaxed/simple;
+	bh=rpVNrVlxcl6g9cMUAeG0cQt/e1FxeJkvZS/bhGYlG3o=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=toTSbtqoFGrW7DkjiV3SspUlyuG5xXSl201uzYfgu8y0Fwrycon4rxWgwV9puXfolGi1pvTrO9tjYt2jIH2jDFF2vAfVLpg5qwlKZglidX1kGG0Z6WVzMUZtkYxo74GK0sT8euW+fSSimULxvRaGQOOZLd1AaTaR8b+Y9YT38ew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=1KR53+c0; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="1KR53+c0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6BF7C433C7;
+	Tue, 27 Feb 2024 22:32:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1709073157;
+	bh=rpVNrVlxcl6g9cMUAeG0cQt/e1FxeJkvZS/bhGYlG3o=;
+	h=Date:From:To:Subject:From;
+	b=1KR53+c06e4iOQ9XfBg0z0+Mq6oTgprAHKbWKZuQzwZoZL4n3XMKuF5vyVuvO9AJ7
+	 j0w5NA8ysKHO1hE0oNi8F6oJwLErgoc20ZZdrdpMU4RJH4r1jb5NxgQfRkohMiWwjG
+	 qu/YXzcBf7aA79jtiRsgb5k8qzusR75JHpgDINs8=
+Date: Tue, 27 Feb 2024 17:32:34 -0500
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To: users@kernel.org, tools@kernel.org, workflows@vger.kernel.org
+Subject: Toy/demo: using ChatGPT to summarize lengthy LKML threads (b4
+ integration)
+Message-ID: <20240227-flawless-capybara-of-drama-e09653@lemur>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240226104653.54877-1-lukas.bulwahn@gmail.com>
- <43df625f-bd32-4dd9-a960-6d0f5c0304c7@infradead.org> <CAMuHMdUD94XuE_7UK3TEWbeZ2eMOPimDi-xoo9+43FhY3O2aDA@mail.gmail.com>
- <CAKXUXMz66AzotSqzVHvXivdwhh0d34_GWqLu-hBgEq46AOOFSg@mail.gmail.com>
-In-Reply-To: <CAKXUXMz66AzotSqzVHvXivdwhh0d34_GWqLu-hBgEq46AOOFSg@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 27 Feb 2024 12:24:33 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV_s=moOpSpdrOaMqxJXcV4af_7RL_2++ZPmHYZKF72oQ@mail.gmail.com>
-Message-ID: <CAMuHMdV_s=moOpSpdrOaMqxJXcV4af_7RL_2++ZPmHYZKF72oQ@mail.gmail.com>
-Subject: Re: [PATCH] docs: submit-checklist: structure by category
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc: Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Hi Lukas,
+Hi, all:
 
-On Tue, Feb 27, 2024 at 12:04=E2=80=AFPM Lukas Bulwahn <lukas.bulwahn@gmail=
-.com> wrote:
-> On Tue, Feb 27, 2024 at 9:57=E2=80=AFAM Geert Uytterhoeven <geert@linux-m=
-68k.org> wrote:
-> > On Tue, Feb 27, 2024 at 1:41=E2=80=AFAM Randy Dunlap <rdunlap@infradead=
-.org> wrote:
-> > > >   - Concerning checking with tools, checkpatch probably still makes=
- sense;
-> > > >     it pointed out in several places. If sparse and checkstack are =
-really
-> > > >     the next two tools to point out, I am not so sure about.
-> > >
-> > > I doubt that ckeckstack is important since gcc & clang warn us about
-> > > stack usage.
-> >
-> > True, but that would leave you without a tool to get figures when
-> > there is no excess stack usage detected by the compiler.
->
-> possibly, we can configure the compiler to report/warn on any stack
-> usage from every invocation and then turn all those warnings into a
-> readable format or some format that further visualization and analysis
-> tools can process.
+I was playing with shell-gpt and wrote a quickie integration that would allow
+retrieving (slimmed-down) threads from lore, feeding them to ChatGPT, and
+asking it to provide some basic analysis of the thread contents. Here's a
+recorded demo session:
 
-"possibly"
+https://asciinema.org/a/643435
 
-> If that works, we can remove the checkstack tool. It is not a
-> massively large script, but it is certainly written with a very
-> special purpose. I mean it basically does object-code
-> reverse-engineering with a magic set of regular expressions in Perl.
-> If our current compilers can emit the same information, we are
-> probably better off just using the output from a compiler and
-> postprocessing that.
+A few notes:
 
-I'm fully aware how it works.
-And I have used Linux' checkstack.pl tool for non-Linux projects, too.
+1. This is obviously not a replacement for actually reading email, but can
+   potentially be a useful asset for a busy maintainer who just wants a quick
+   summary of a lengthy thread before they look at it in detail.
+2. This is not free or cheap! To digest a lengthy thread, you can expect
+   ChatGPT to generate enough tokens to cost you $1 or more in API usage fees.
+   I know it's nothing compared to how expensive some of y'all's time is, and
+   you can probably easily get that expensed by your employers, but for many
+   others it's a pretty expensive toy. I managed to make it a bit cheaper by
+   doing some surgery on the threads before feeding them to chatgpt (like
+   removing most of the message headers and throwing out some of the quoted
+   content), but there's a limit to how much we can throw out before the
+   analysis becomes dramatically less useful.
+3. This only works with ChatGPT-4, as most threads are too long for
+   ChatGPT-3.5 to even process.
 
-Gr{oetje,eeting}s,
+So, the question is -- is this useful at all? Am I wasting time poking in this
+direction, or is this something that would be of benefit to any of you? If the
+latter, I will document how to set this up and commit the thread minimization
+code I hacked together to make it cheaper.
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Best regards,
+-K
