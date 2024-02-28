@@ -1,87 +1,69 @@
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFF213BBD9
-	for <workflows@vger.kernel.org>; Wed, 28 Feb 2024 15:15:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=163.172.96.212
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB64315CD47
+	for <workflows@vger.kernel.org>; Wed, 28 Feb 2024 15:22:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709133325; cv=none; b=JJAcuP24r0N8JJ3KKbzn49eTGd0KGZ+VRKzL5OnFkDhO2QDmSq0YdjDiqBsuzJFy+JxEqCcjMZhM5Qp7+Vbd7D5FC4RRLkwN6OsBwTymIJbf3/EZGmmogyaK+1DjQXUp8p3NtlWEATCsepgzHNtjQXtY2A4edJqLuWMxF5E9NVo=
+	t=1709133766; cv=none; b=AG3CJ/8lVPRerm9adIcANWdtvW/u/VB5Ue6pJ83YYTcVFYe2z1aOXCpAly0/WGHx0/2LmI0KCG2E6JjjG96UmSmmWu69JPDjXkp4Ue93fciidE/liwB5GfkXbDSqeHiXeSTVt+9nxHEv7yEIYAB10h2mFD12fLvWk4DKsfHXTw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709133325; c=relaxed/simple;
-	bh=OO6UMGw9oGEtPg1LEjzW4kAK7jOJy5Lo4TOaTYmff8w=;
+	s=arc-20240116; t=1709133766; c=relaxed/simple;
+	bh=ZiTgLWbfqOKxeUh3q0lAdAoWMYQV52v6HJ3FFE11IK8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i9nJpdHGX2LTrk8rfvoHx6HjH+swwU9rsmlOXmFsRS0a+yqolg3+08kkb1Vyr/jYTCHNZs0+M8JmYFWZiuH8Gt43QHHJN4JxYx4C/AHx8ZgSNIybR8vvI5L8xMb0UCmpPI/nSsVFtMt8rpN/xomF3bCiJn9Hqi3bBRcXiKm4ees=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; arc=none smtp.client-ip=163.172.96.212
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
-Received: (from willy@localhost)
-	by mail.home.local (8.17.1/8.17.1/Submit) id 41SFF79f030230;
-	Wed, 28 Feb 2024 16:15:07 +0100
-Date: Wed, 28 Feb 2024 16:15:07 +0100
-From: Willy Tarreau <w@1wt.eu>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>, users@kernel.org,
-        tools@kernel.org, workflows@vger.kernel.org,
-        Jon Corbet <corbet@lwn.net>
+	 Content-Type:Content-Disposition:In-Reply-To; b=PkH/Wp64BWhnJpA/qv8EvL/6NE2EpxN3CDl6sp9+WLND/ulFvv8UzIosgB6zNhWCcMZPNf9okNQhIUXzzr22zt9j1l9paUAGWO1EbdKf9FidOBCQsUvMT/FrIiFfeZiDwFSXE/ut46A+a7jFvNUc/heEiY6mBIwmBmXfs1iKHKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=GKC8fHz9; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GKC8fHz9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65563C43394;
+	Wed, 28 Feb 2024 15:22:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1709133766;
+	bh=ZiTgLWbfqOKxeUh3q0lAdAoWMYQV52v6HJ3FFE11IK8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GKC8fHz9dAHnYyW3PiJAcsI2DPYPLn2WoLmaqtgTTSih1SzABAZHQLB+RVObIzCvg
+	 TqiFmumI/ILlixSdAsdtYa4Lc7Yf23dunctJmOYJOrWoNUUIri6Yx8qisY6BRkoZUc
+	 uL35KocaibRduGxfpJyJrXz0Uj9F2w7gLhX8EawE=
+Date: Wed, 28 Feb 2024 10:22:41 -0500
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Willy Tarreau <w@1wt.eu>, users@kernel.org, tools@kernel.org, 
+	workflows@vger.kernel.org
 Subject: Re: Toy/demo: using ChatGPT to summarize lengthy LKML threads (b4
  integration)
-Message-ID: <Zd9N+28A9dfSzT67@1wt.eu>
+Message-ID: <20240228-ethereal-swine-of-renovation-b1d7c7@meerkat>
 References: <20240227-flawless-capybara-of-drama-e09653@lemur>
  <20240228050007.GB18047@1wt.eu>
- <4fa1cbc7-0f9d-47bf-8ff7-a9b17456431e@suse.de>
+ <701aad76-2706-4e33-b8ba-9c76282e26d1@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <4fa1cbc7-0f9d-47bf-8ff7-a9b17456431e@suse.de>
+In-Reply-To: <701aad76-2706-4e33-b8ba-9c76282e26d1@sirena.org.uk>
 
-On Wed, Feb 28, 2024 at 04:04:28PM +0100, Hannes Reinecke wrote:
-> On 2/28/24 06:00, Willy Tarreau wrote:
-> > Hi Konstantin,
-> > 
-> [ .. ]
-> > And because of this I didn't find on what boundaries to cut the analysis,
-> > If it's "since last time I read my email", it can only be done locally
-> > and will be per-user. If it's a summary of a final thread, it's not
-> > super interesting and it's better explained (IMHO) on LWN where the
-> > hot topics are summarized and developed. If it's the list of threads
-> > of the day, I've suspected that there are so many that it's unlikely
-> > I'd read all of them every evening or every morning. I've been wondering
-> > if an interesting approach would be to only summarize long threads,
-> > since most short ones are a patch, a review and an ACK and do not need
-> > to be summarized, but I think that most of us seeing a subject repeat
-> > over many e-mails will just look at a few exchanges there to get an
-> > idea of what's going on.
-> > 
-> [ snip ]
+On Wed, Feb 28, 2024 at 02:03:31PM +0000, Mark Brown wrote:
+> > I figured a number of shortcomings about this: I suspect that those
+> > most interested in such output are either, a bit like me, not much
+> > active on kernel development, or focus on a specific area and mostly
+> > want to stay aware of ongoing changes in other areas they're really
+> > not familiar with.
 > 
-> Out of personal interest I really have to chime in here.
-> You are aware, though, that following this line of thought
-> and improving the underlying model (which really shouldn't
-> be too hard given the vast body of training data which is LKML)
-> we will actually putting LWN and its editors out of business.
+> I can imagine using this sort of thing for the case where I get to my
+> inbox in the morning and there's some enormous thread appeared overnight
+> with people arguing and I'm trying to get a handle on what the various
+> subthreads are all about.  The demo didn't cover exactly that case but
+> it looked like it might be able to give some sort of useful steer.
 
-No, really, and I mentioned it in the first message, LWN provides good
-explanations, links to articles, personal opinions, references etc. I
-wouldn't put LWN and a chatbot on the same level at all! One has skilled
-writers knowing their topic and explaining how stuff works and why
-certain choices are made, the other one is basically the chatty coworker
-that everyone prefers not to hear for too long.
+Another use for this that I could think is a way to summarize digests.
+Currently, if you choose a digest subscription, you will receive a single
+email with message subjects and all the new messages as individual
+attachments. It would be interesting to see if we can send out a "here's
+what's new" summary with links to threads instead.
 
-Here it's "just" a rough summary of a conversation and it's not capable
-of dealing with too large a context. I really love to read LWN to *learn*
-some very interesting stuff. A summary like the ones Konstantin and I
-shared is more aimed at letting you decide if you're interested in going
-deepeer into that thread. And BTW my initial experiments were clearly on
-this: "am I interested in reading that thread or should I skip it".
+The challenge would be to do it in a way that doesn't bankrupt LFIT in the
+process. :)
 
-> I would be _VERY_ interesting having a discussion here with the
-> relevant parties (Hello Jon!) to see which direction we as a
-> community will want to go. Maybe Plumbers and/or Kernel Summit in Vienna
-> would be a good place to start.
-
-Most likely, yes.
-
-Willy
+-K
