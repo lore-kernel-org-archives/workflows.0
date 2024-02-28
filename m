@@ -1,100 +1,136 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79EDD40843
-	for <workflows@vger.kernel.org>; Wed, 28 Feb 2024 18:55:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2D1D6A004
+	for <workflows@vger.kernel.org>; Wed, 28 Feb 2024 19:16:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709146515; cv=none; b=ktVTwk2PHaSE/DeNoMuzBsmYVKiMQYJ0p0JoCoDCnD5m0FWGMR2k8JTdaX3+U6SolvKZSum32tGJx6i4zp0rRutemQBPLeut2Sri3YIe6GF6TfkVmZWllnZs8zlYRFkDXxu9FZ02IYpd3xryBic4aZ2/6oRCXjakRrAhfwz5Y98=
+	t=1709147788; cv=none; b=WzG1i047DLB6t6AA+ezK1QMsxIv4dPeUYNVcVMqTFd2lqsWxFqvHcTloC3fMAI1yWqk3Hn6+A+iHeLj2iZt6roX+SGqE/BD/nsmDujx98scwYUcAGqvRg19MN7GX3ny0O/XLfxmE8DpwaBKItcnsZxiNE9BzEAyeFRq1PZIrIcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709146515; c=relaxed/simple;
-	bh=+mkgSiiOQtuji52EhhJHzY8eVcwXsinFC3RfY2Zvw/A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=p7IZ9XIorgE91Mo4Q66vkn1GF1s9RhxsYHtr3H/XaDAzmXjnARt2VvYHF8TQPyur5H+O54aS9A9nTglBkWnmKWMc6rLnqVzNnTf4zGb/abS5BHfsXHwGPyMfeMPgHoA+ccrlgq0meUNSHcg5AF22TOaSFpsi10SmiO0Vcvj+zyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=acm.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=acm.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1dcb3e6ff3fso1010645ad.2
-        for <workflows@vger.kernel.org>; Wed, 28 Feb 2024 10:55:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709146514; x=1709751314;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=M+3aVO7wLF/SKR35W8QemLDHRCVEQW+lzsTciVGLpqM=;
-        b=xRvfqCRjI9moh0K0WFZCXuF5dSiLIxMfAiS6I4sbCvDNuqwYjHt+5dY8JWHytJxkpC
-         dqMBFwDoT9CDeYsadFlyAjo/2gnMyRt7YryNLGjuS8BmVfe5WzFmoHUC2NyBXikz+Qv4
-         66vDDqWMW7CK51ihCKkRQYCnbIFdzhaGM56uy/9/ZxIe10A+VMTG24hxlprlxfiAieXA
-         Com38XLF/5vZdjV66bP0iXcV+XpRChX1rnZpIVLY/nrY7drTPZx5XLqNQ+EW6apFV8p2
-         5JTHYGR9DKqUZcilM5t0PPjG0tph5gvSeAhLIWvec1cRZA/13pxF0A9bWdAa/I1kPk/9
-         yrmg==
-X-Forwarded-Encrypted: i=1; AJvYcCXsnL0EWN1j+9rpe0DfXSNGOWY5DXmsjbaxXma8vPWV9juxYWa198aDJUbTgiu76pHXEodahy7zVqLnj5DQRXeioDFPlrUhMMyS
-X-Gm-Message-State: AOJu0Yx0Y4EZqPPgxYIybShLuH+tydY9AClqwu66eY4KMxz/JXMGK4XE
-	/LUdFvV5HhVwW4A51Nh1ZeskUh5Wt/kila/iDpAYaBA/Fds30oHN
-X-Google-Smtp-Source: AGHT+IG33ZEcUrAxqFHUUmF18QT4eH3jjCvIupU1alf086fDBu3CDaW7HjQV79JOBMqbqfvDS5Emxg==
-X-Received: by 2002:a17:902:d50b:b0:1dc:6775:a350 with SMTP id b11-20020a170902d50b00b001dc6775a350mr340902plg.58.1709146513603;
-        Wed, 28 Feb 2024 10:55:13 -0800 (PST)
-Received: from ?IPV6:2620:0:1000:8411:3174:8fc0:11f9:afc8? ([2620:0:1000:8411:3174:8fc0:11f9:afc8])
-        by smtp.gmail.com with ESMTPSA id ml11-20020a17090334cb00b001dc391cc28fsm3605573plb.121.2024.02.28.10.55.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Feb 2024 10:55:13 -0800 (PST)
-Message-ID: <964843ca-891b-4039-94b3-ed1046df2d69@acm.org>
-Date: Wed, 28 Feb 2024 10:55:12 -0800
+	s=arc-20240116; t=1709147788; c=relaxed/simple;
+	bh=LkddQYeRa67+aFPRqPqT1yNBE4/TmUZkLBPaGqXoZM8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rqnzFq4VvBeI2BO9q7mzq04e5WynFx4S6GoupedtkoL1ssHuTNg89/h2NjaveFrULh2NJ8NSDOddQ4No7juwfhw5mqJftl1KQsafiQuPE+oedPkcZjfPUZBLoUDW1CbScu1NmP8vlmzNxzVJl+wA1JOznUrPZVCcQzIwF9D65mQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CXKo+HNq; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CXKo+HNq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64754C433F1;
+	Wed, 28 Feb 2024 19:16:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1709147787;
+	bh=LkddQYeRa67+aFPRqPqT1yNBE4/TmUZkLBPaGqXoZM8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CXKo+HNqJczHJ3wglchg0ko4MGOsMXuiyVeOt8Z5/m53ocITFpr1ko7ZTr56FtJ0c
+	 C7gajTyZW8sQcKGQl8EaPD0+Yr7UNiF6HmVO3JAK0gB1jELOX+W7gxetVINddvkeuh
+	 wVKv97XzilWIqqSNiZYnAxfxpF2gYVE/LV79ilu0=
+Date: Wed, 28 Feb 2024 14:16:24 -0500
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To: Willy Tarreau <w@1wt.eu>
+Cc: Mark Brown <broonie@kernel.org>, users@kernel.org, tools@kernel.org, 
+	workflows@vger.kernel.org
+Subject: Re: Toy/demo: using ChatGPT to summarize lengthy LKML threads (b4
+ integration)
+Message-ID: <20240228-kind-obedient-chinchilla-ad7c49@lemur>
+References: <20240227-flawless-capybara-of-drama-e09653@lemur>
+ <20240228050007.GB18047@1wt.eu>
+ <701aad76-2706-4e33-b8ba-9c76282e26d1@sirena.org.uk>
+ <20240228-ethereal-swine-of-renovation-b1d7c7@meerkat>
+ <Zd9RcdLAiEdB/7w2@1wt.eu>
+ <20240228-urban-petrel-of-serenity-037e7d@lemur>
+ <Zd90LW6jZvBBP7X1@1wt.eu>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Toy/demo: using ChatGPT to summarize lengthy LKML threads (b4
- integration)
-Content-Language: en-US
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>, users@kernel.org,
- tools@kernel.org, workflows@vger.kernel.org
-References: <20240227-flawless-capybara-of-drama-e09653@lemur>
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20240227-flawless-capybara-of-drama-e09653@lemur>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Zd90LW6jZvBBP7X1@1wt.eu>
 
-On 2/27/24 14:32, Konstantin Ryabitsev wrote:
-> I was playing with shell-gpt and wrote a quickie integration that would allow
-> retrieving (slimmed-down) threads from lore, feeding them to ChatGPT, and
-> asking it to provide some basic analysis of the thread contents. Here's a
-> recorded demo session:
+On Wed, Feb 28, 2024 at 06:58:05PM +0100, Willy Tarreau wrote:
+> > For the moment, I will document how I got this working and maybe look into
+> > further shrinking the amount of data that would be needed to be sent to the
+> > LLM. I will definitely need to make it easy to use a local model, since
+> > relying on a proprietary service (of questionable repute in the eyes of many)
+> > would not be in the true spirit of what we are all trying to do here.
 > 
-> https://asciinema.org/a/643435
-> 
-> A few notes:
-> 
-> 1. This is obviously not a replacement for actually reading email, but can
->     potentially be a useful asset for a busy maintainer who just wants a quick
->     summary of a lengthy thread before they look at it in detail.
-> 2. This is not free or cheap! To digest a lengthy thread, you can expect
->     ChatGPT to generate enough tokens to cost you $1 or more in API usage fees.
->     I know it's nothing compared to how expensive some of y'all's time is, and
->     you can probably easily get that expensed by your employers, but for many
->     others it's a pretty expensive toy. I managed to make it a bit cheaper by
->     doing some surgery on the threads before feeding them to chatgpt (like
->     removing most of the message headers and throwing out some of the quoted
->     content), but there's a limit to how much we can throw out before the
->     analysis becomes dramatically less useful.
-> 3. This only works with ChatGPT-4, as most threads are too long for
->     ChatGPT-3.5 to even process.
-> 
-> So, the question is -- is this useful at all? Am I wasting time poking in this
-> direction, or is this something that would be of benefit to any of you? If the
-> latter, I will document how to set this up and commit the thread minimization
-> code I hacked together to make it cheaper.
+> I tend to think that these solutions will evolve very quickly both hosted
+> and local, and it's prudent not to stick to a single approach anyway.
 
-Please do not publish the summaries generated by ChatGPT on the web. If
-these summaries would be published on the world wide web, ChatGPT or
-other LLMs probably would use these summaries as input data. If there
-would be any mistakes in these summaries, then these mistakes would end
-up being used as input data by multiple LLMs.
+Well, in theory, and given time and budget, we can totally imagine a service
+for maintainers that is trained on the entirety of lore and continuously
+updated. It would be like lei on steroids.
 
-Thanks,
+Imagine a session like the following, typed by an imaginary maintainer:
 
-Bart.
+    >>> Are there any new patches posted for me?
 
+    Using your previously specified criteria, the following relevant series have
+    been submitted since your last inquiry:
+
+     1. [PATCH 0/5] foodrv: fixes to match the kernel coding style
+     2. [PATCH v2] foodrv: initial support for foodev-alpha3000
+     3. [PATCH v3 000/255] mm: remove the FLUB allocator
+     4. [PATCH RFC v17 00/23] foodrv: rewrite in rust
+
+    >>> Remove any series that received negative reviews and any threads that I already replied to.
+
+    After removing the patch series that received negative reviews from automated
+    testing tools and the series containing your reply, the following threads
+    remain:
+
+     1. [PATCH 0/5] foodrv: fixes to match the kernel coding style
+     2. [PATCH v2] foodrv: initial support for foodev-alpha3000
+
+    >>> Apply these series to my tree in individual branches and queue tests.
+
+     1. Applied as review/foodrv-fixes-match-kernel-coding-style
+     2. Applied as review/v2-foodrv-initial-support-foodev-alpha3000
+     3. Pushed to ci.corpforge.example.com for automated testing
+
+    >>> Any new relevant discussions?
+
+    Using your previously specified criteria, the following new discussions are
+    relevant to you:
+
+     1. CVE-5555-1212: denial of service in foodrv device drivers
+     2. [Bug 5551212] foodrv melted my keyboard!
+     3. Is anyone else getting weird results running test t/barbaz_123?
+
+    >>> Summarize the bug report.
+
+    The bug report, submitted by Krazy Person <krazy@example.com>, claims that the
+    version of foodrv shipping with stable kernel 6.6.18 melted their keyboard due
+    to sonar feedback loop between their tinfoil hat and the CIA monitoring
+    devices implanted in their USB cables.
+
+    >>> Close this bug report as invalid. Politely explain that this is not possible.
+
+    Posted a new comment from Busy Maintainer:
+
+    Hello, thank you for your bug report. At this time, we do not believe that
+    interaction between foodrv and the keyboard would lead to a thermal event
+    of this magnitude.
+
+    Bug 5551212 closed as RESOLVED/INVALID.
+
+    >>> Send the other two threads to my inbox and include any future updates.
+
+    lei: sending to your inbox:
+
+     1. CVE-5555-1212: denial of service in foodrv device drivers (5 messages)
+     2. Is anyone else getting weird results running test t/barbaz_123? (72 messages)
+
+    lei: configured to retrieve any further thread updates
+
+    >>> (etc)
+
+Large parts of this can be accomplished today already, some with minor
+integration functions (lei, bugtracker, git, etc). We should, of course, worry
+about LLM hallucinating or just being plain buggy, but we can certainly
+imagine a scenario where this is a usable workflow alongside the more
+traditional reading and replying to mail, and it's not even from the
+realm of some trek-inspired fantasy.
+
+-K
