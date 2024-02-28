@@ -1,136 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2D1D6A004
-	for <workflows@vger.kernel.org>; Wed, 28 Feb 2024 19:16:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F13579B74
+	for <workflows@vger.kernel.org>; Wed, 28 Feb 2024 19:32:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709147788; cv=none; b=WzG1i047DLB6t6AA+ezK1QMsxIv4dPeUYNVcVMqTFd2lqsWxFqvHcTloC3fMAI1yWqk3Hn6+A+iHeLj2iZt6roX+SGqE/BD/nsmDujx98scwYUcAGqvRg19MN7GX3ny0O/XLfxmE8DpwaBKItcnsZxiNE9BzEAyeFRq1PZIrIcM=
+	t=1709148758; cv=none; b=aBPe0Cr8t/Sy6xkB4Ggy8qvWg7+EXrHtohMEkhsvJKD4vW5nvqb6DJOVjV9nn3aDiZb1FY5jj30u6NOn9NknqSGvL9PJFm5HQe7/0XXoBREWWG6kmDgWPCYMaRU2Sxrphoh+sGgtYSWWKQqb+t2fQ7YYr04V7aYUwrjXLWsIPR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709147788; c=relaxed/simple;
-	bh=LkddQYeRa67+aFPRqPqT1yNBE4/TmUZkLBPaGqXoZM8=;
+	s=arc-20240116; t=1709148758; c=relaxed/simple;
+	bh=zDBDdxhkpl+y9N/Zc3Tw3tbsikzREggAr6o46hui5Ok=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rqnzFq4VvBeI2BO9q7mzq04e5WynFx4S6GoupedtkoL1ssHuTNg89/h2NjaveFrULh2NJ8NSDOddQ4No7juwfhw5mqJftl1KQsafiQuPE+oedPkcZjfPUZBLoUDW1CbScu1NmP8vlmzNxzVJl+wA1JOznUrPZVCcQzIwF9D65mQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CXKo+HNq; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=LvOsAeOX4QJoobXI19LkcYJyj5FW+I1o6+vOv4PkMFImwYH8i1Cc2PnY7x0NXarwF4iQN68sljekDwi7P77hevZuIO1xnkS+EaVu/m2k5/sDOuWJh/trzaEhpHkYPmiWKaujyZJVWNH9Z0neK1tyaF+ANVWmDgT3s/jazal2lSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=3Obg18px; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CXKo+HNq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64754C433F1;
-	Wed, 28 Feb 2024 19:16:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1709147787;
-	bh=LkddQYeRa67+aFPRqPqT1yNBE4/TmUZkLBPaGqXoZM8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CXKo+HNqJczHJ3wglchg0ko4MGOsMXuiyVeOt8Z5/m53ocITFpr1ko7ZTr56FtJ0c
-	 C7gajTyZW8sQcKGQl8EaPD0+Yr7UNiF6HmVO3JAK0gB1jELOX+W7gxetVINddvkeuh
-	 wVKv97XzilWIqqSNiZYnAxfxpF2gYVE/LV79ilu0=
-Date: Wed, 28 Feb 2024 14:16:24 -0500
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: Willy Tarreau <w@1wt.eu>
-Cc: Mark Brown <broonie@kernel.org>, users@kernel.org, tools@kernel.org, 
-	workflows@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="3Obg18px"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=Dpq1luyocGQv/sxyjVPfvUqyCaGzg0/LBtSjaqvOnGk=; b=3Obg18px4sVvXKA0SAXrv42i5r
+	X9i7EZ11EzffL/v3bFLTxOW2o8ATTn1W9oP7XRREXRmphgXNuX7nHsxFGfpRWJ2usUUD0TGy1V+Ix
+	HyCVt3m6UF9ACVGEmkv0RfnX+DJjRcMAm24w6hIKstGazZ2T6AGjy6+6TKy8wBODuFPeMHczP5jnL
+	FHnbw0LXpx9pFDcKfwxV6nMEEer9DOCct4t6KbJ+GtzSdrepQJKYOrdWYjblAFrbpdUml0+ZcIe6d
+	ePdQJL2AEI3h/nH4kwsyOeqmmPxSaTIZvJfFaBOjZU52T55RJDwCulNfa7NcvRO+lVElWTBI1AVwd
+	so6aiomQ==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rfPfP-0000000AgNv-2i5e;
+	Wed, 28 Feb 2024 19:32:36 +0000
+Date: Wed, 28 Feb 2024 11:32:35 -0800
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>
+Cc: users@kernel.org, tools@kernel.org, workflows@vger.kernel.org
 Subject: Re: Toy/demo: using ChatGPT to summarize lengthy LKML threads (b4
  integration)
-Message-ID: <20240228-kind-obedient-chinchilla-ad7c49@lemur>
+Message-ID: <Zd-KU5lrdeAk4LiT@bombadil.infradead.org>
 References: <20240227-flawless-capybara-of-drama-e09653@lemur>
- <20240228050007.GB18047@1wt.eu>
- <701aad76-2706-4e33-b8ba-9c76282e26d1@sirena.org.uk>
- <20240228-ethereal-swine-of-renovation-b1d7c7@meerkat>
- <Zd9RcdLAiEdB/7w2@1wt.eu>
- <20240228-urban-petrel-of-serenity-037e7d@lemur>
- <Zd90LW6jZvBBP7X1@1wt.eu>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Zd90LW6jZvBBP7X1@1wt.eu>
+In-Reply-To: <20240227-flawless-capybara-of-drama-e09653@lemur>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 
-On Wed, Feb 28, 2024 at 06:58:05PM +0100, Willy Tarreau wrote:
-> > For the moment, I will document how I got this working and maybe look into
-> > further shrinking the amount of data that would be needed to be sent to the
-> > LLM. I will definitely need to make it easy to use a local model, since
-> > relying on a proprietary service (of questionable repute in the eyes of many)
-> > would not be in the true spirit of what we are all trying to do here.
+On Tue, Feb 27, 2024 at 05:32:34PM -0500, Konstantin Ryabitsev wrote:
+> Hi, all:
 > 
-> I tend to think that these solutions will evolve very quickly both hosted
-> and local, and it's prudent not to stick to a single approach anyway.
+> I was playing with shell-gpt and wrote a quickie integration that would allow
+> retrieving (slimmed-down) threads from lore, feeding them to ChatGPT, and
+> asking it to provide some basic analysis of the thread contents. Here's a
+> recorded demo session:
+> 
+> https://asciinema.org/a/643435
+> 
+> A few notes:
+> 
+> 1. This is obviously not a replacement for actually reading email, but can
+>    potentially be a useful asset for a busy maintainer who just wants a quick
+>    summary of a lengthy thread before they look at it in detail.
+> 2. This is not free or cheap! To digest a lengthy thread, you can expect
+>    ChatGPT to generate enough tokens to cost you $1 or more in API usage fees.
+>    I know it's nothing compared to how expensive some of y'all's time is, and
+>    you can probably easily get that expensed by your employers, but for many
+>    others it's a pretty expensive toy. I managed to make it a bit cheaper by
+>    doing some surgery on the threads before feeding them to chatgpt (like
+>    removing most of the message headers and throwing out some of the quoted
+>    content), but there's a limit to how much we can throw out before the
+>    analysis becomes dramatically less useful.
+> 3. This only works with ChatGPT-4, as most threads are too long for
+>    ChatGPT-3.5 to even process.
+> 
+> So, the question is -- is this useful at all? Am I wasting time poking in this
+> direction, or is this something that would be of benefit to any of you? If the
+> latter, I will document how to set this up and commit the thread minimization
+> code I hacked together to make it cheaper.
 
-Well, in theory, and given time and budget, we can totally imagine a service
-for maintainers that is trained on the entirety of lore and continuously
-updated. It would be like lei on steroids.
+While I probably wouldn't use it day to day, I expect younger
+generations might use this more than us older generations to be more
+productive, even if they get halluciations.
 
-Imagine a session like the following, typed by an imaginary maintainer:
+An LLM trained with more data relevant to patches might be more
+suitable, and it is why I wanted the tooling for stable candidate patches
+to be opened up, so to enable more exploring in areas like this.
 
-    >>> Are there any new patches posted for me?
+A use case example might be training for identifying subsystems with
+more memory safety issues.
 
-    Using your previously specified criteria, the following relevant series have
-    been submitted since your last inquiry:
+Another might be to help to summarize further pull requests in one or
+two sentences, or optionally few bullets. So for instance, I try to
+document major bullet list changes for modules here:
 
-     1. [PATCH 0/5] foodrv: fixes to match the kernel coding style
-     2. [PATCH v2] foodrv: initial support for foodev-alpha3000
-     3. [PATCH v3 000/255] mm: remove the FLUB allocator
-     4. [PATCH RFC v17 00/23] foodrv: rewrite in rust
+https://kernelnewbies.org/KernelProjects/modules
 
-    >>> Remove any series that received negative reviews and any threads that I already replied to.
+So it is easier to track / go down memory lane. Doing this automatically
+would allow me to use a tool to do this.
 
-    After removing the patch series that received negative reviews from automated
-    testing tools and the series containing your reply, the following threads
-    remain:
-
-     1. [PATCH 0/5] foodrv: fixes to match the kernel coding style
-     2. [PATCH v2] foodrv: initial support for foodev-alpha3000
-
-    >>> Apply these series to my tree in individual branches and queue tests.
-
-     1. Applied as review/foodrv-fixes-match-kernel-coding-style
-     2. Applied as review/v2-foodrv-initial-support-foodev-alpha3000
-     3. Pushed to ci.corpforge.example.com for automated testing
-
-    >>> Any new relevant discussions?
-
-    Using your previously specified criteria, the following new discussions are
-    relevant to you:
-
-     1. CVE-5555-1212: denial of service in foodrv device drivers
-     2. [Bug 5551212] foodrv melted my keyboard!
-     3. Is anyone else getting weird results running test t/barbaz_123?
-
-    >>> Summarize the bug report.
-
-    The bug report, submitted by Krazy Person <krazy@example.com>, claims that the
-    version of foodrv shipping with stable kernel 6.6.18 melted their keyboard due
-    to sonar feedback loop between their tinfoil hat and the CIA monitoring
-    devices implanted in their USB cables.
-
-    >>> Close this bug report as invalid. Politely explain that this is not possible.
-
-    Posted a new comment from Busy Maintainer:
-
-    Hello, thank you for your bug report. At this time, we do not believe that
-    interaction between foodrv and the keyboard would lead to a thermal event
-    of this magnitude.
-
-    Bug 5551212 closed as RESOLVED/INVALID.
-
-    >>> Send the other two threads to my inbox and include any future updates.
-
-    lei: sending to your inbox:
-
-     1. CVE-5555-1212: denial of service in foodrv device drivers (5 messages)
-     2. Is anyone else getting weird results running test t/barbaz_123? (72 messages)
-
-    lei: configured to retrieve any further thread updates
-
-    >>> (etc)
-
-Large parts of this can be accomplished today already, some with minor
-integration functions (lei, bugtracker, git, etc). We should, of course, worry
-about LLM hallucinating or just being plain buggy, but we can certainly
-imagine a scenario where this is a usable workflow alongside the more
-traditional reading and replying to mail, and it's not even from the
-realm of some trek-inspired fantasy.
-
--K
+  Luis
