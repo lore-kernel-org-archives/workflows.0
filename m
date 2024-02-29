@@ -1,124 +1,77 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 519EC651A4;
-	Thu, 29 Feb 2024 10:05:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D7F64A8A;
+	Thu, 29 Feb 2024 10:25:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709201107; cv=none; b=XXzwQQ2E4j/rNO4d8JQCd4owjRnLh7Kah56sEZeFobVOSTvaAGkouF8fTTGY3tnHgJwQChh59+L1agfclvD7XRSn6AZOJPoVdBDqQKjuA+ohyaOq49eLGtjt4nhk/YZ0kIpNWjftbzVS0V4WciemvQz2dgFXiBUO1m2QXoEyLmw=
+	t=1709202354; cv=none; b=XuDVt9NAIjo3YMaRmI45eihXHraapkew2UrtjziDWtI9vkE6XRoa9Rk8UbJtVaPsOhli06HTewEmXV8s/dJ+RLf7mBrAfM2E5YUfbXLT8Em5az3vQRv2yypFZXX+VDV1IOdPMdgXCVfQs8WmMqSn41XSNe/i4m/HqMGIAX3DsG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709201107; c=relaxed/simple;
-	bh=3lGwHxI8UnE8JqcWEhpZmZgiy3H+Qv7T/7shG1gtysA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o+VaKQpf2lddb4n/Ktljytvij17oFgxq3YDvtUcBOgefLpOepGWdXO9VxEti4/dbN4fm5AuS83w2WvnxWyYEl65h8uZsBG3NYKQzIk+tACA82Q12Md44j/8TuoIpvgygGpgCXPoEku1SvxDVYByt8BFGX3mTLVmi4jVt66uVRyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ViWpHkNz; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1709202354; c=relaxed/simple;
+	bh=BZOzxkLaNwJzyuWMx5kdxPnNkLL7LABOOFE1Vzr+SB4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=JFFGpM0PEURtldhjh3+1B36GeMr8mX3o0Z3nYJMts+xJq4T0jjsZcA0eluSnMnpvYetbXb+MfyoL2zZwNO2MYURJAz+PzLfctKtI5/2XOTY5u58f1EPfdp5h1aWoMTlDpWx+//KKvznTo0RZUvGEn9X2fBlEdgGc+G+dAib1azQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iyQi1zYZ; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ViWpHkNz"
-Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi [89.27.53.110])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1517D2E7;
-	Thu, 29 Feb 2024 11:04:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1709201090;
-	bh=3lGwHxI8UnE8JqcWEhpZmZgiy3H+Qv7T/7shG1gtysA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ViWpHkNz18IU7gDdLPt4zKYPqt2i2i0z6PKTAE5PRvqDrWqFkGYWvgXCXYl0a9hFz
-	 g2+YeoFWRkF21qCjEbAulYDEGfHU2kOiY9fWxx6Ue6nFn4CMHmRvu0FYl84NfI4ghP
-	 YcCcGm8xarEITCnMTBean4AbPUWFEEnyZA/t7hLs=
-Date: Thu, 29 Feb 2024 12:05:05 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Nikolai Kondrashov <spbnick@gmail.com>,
-	Helen Koike <helen.koike@collabora.com>, linuxtv-ci@linuxtv.org,
-	dave.pigott@collabora.com, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org,
-	gustavo.padovan@collabora.com, pawiecz@collabora.com,
-	tales.aparecida@gmail.com, workflows@vger.kernel.org,
-	kernelci@lists.linux.dev, skhan@linuxfoundation.org,
-	kunit-dev@googlegroups.com, nfraprado@collabora.com,
-	davidgow@google.com, cocci@inria.fr, Julia.Lawall@inria.fr,
-	laura.nao@collabora.com, ricardo.canuelo@collabora.com,
-	kernel@collabora.com, torvalds@linuxfoundation.org,
-	gregkh@linuxfoundation.org
-Subject: Re: [PATCH 1/3] kci-gitlab: Introducing GitLab-CI Pipeline for
- Kernel Testing
-Message-ID: <20240229100505.GB30889@pendragon.ideasonboard.com>
-References: <20240228225527.1052240-1-helen.koike@collabora.com>
- <20240228225527.1052240-2-helen.koike@collabora.com>
- <20240229-dancing-laughing-groundhog-d85161@houat>
- <5d7ed81b-37f9-48e9-ab7e-484b74ca886c@gmail.com>
- <20240229-quizzical-persimmon-honeybee-b5db48@houat>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iyQi1zYZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709202353; x=1740738353;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=BZOzxkLaNwJzyuWMx5kdxPnNkLL7LABOOFE1Vzr+SB4=;
+  b=iyQi1zYZ42f43Ljn2az1KeblEJTEekiREoJE3zWqfInP1FySP7MQRlTJ
+   qOXAnSd55kxvvnBp19T9c2T0njxYkI8dIKAO98U/TMmozsOx6/LILGJ0K
+   EMXhZV+tg/Rl6tJWFD8zpA+6C2AiV9Ox60PEk2IvEBW6/c2/g95Oj8iOk
+   tjRkU2jLUk4l0P6t3IHp15bXr10Lt4YqlSbSEv3iyyF+IUgg9N4xslF3y
+   C8vfTQIDdKt+wI2QZHlWwApbP48vEY1iQzbkJh70h4w3VPNu5+r242Ufc
+   isRRiO/4ouzRWmFsjxahYSFnhr3ly82B0IdHMcucWzwIxhfUyzcXDB7kw
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="3786392"
+X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
+   d="scan'208";a="3786392"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 02:25:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
+   d="scan'208";a="30961090"
+Received: from smatua-mobl.ger.corp.intel.com (HELO localhost) ([10.252.47.143])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 02:25:49 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org, Lukas
+ Bulwahn <lukas.bulwahn@gmail.com>
+Subject: Re: [PATCH v2 0/3] docs: submit-checklist: structure by category
+In-Reply-To: <20240229030743.9125-1-lukas.bulwahn@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240229030743.9125-1-lukas.bulwahn@gmail.com>
+Date: Thu, 29 Feb 2024 12:25:46 +0200
+Message-ID: <87plwf8t3p.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240229-quizzical-persimmon-honeybee-b5db48@houat>
+Content-Type: text/plain
 
-On Thu, Feb 29, 2024 at 10:56:58AM +0100, Maxime Ripard wrote:
-> Hi!
-> 
-> On Thu, Feb 29, 2024 at 11:23:22AM +0200, Nikolai Kondrashov wrote:
-> > Hi everyone,
-> > 
-> > On 2/29/24 11:02, Maxime Ripard wrote:
-> > > On Wed, Feb 28, 2024 at 07:55:25PM -0300, Helen Koike wrote:
-> > > > Which rating would you select?
-> > > 
-> > > 4.5 :)
-> > > 
-> > > One thing I'm wondering here is how we're going to cope with the
-> > > different requirements each user / framework has.
-> > > 
-> > > Like, Linus probably want to have a different set of CI before merging a
-> > > PR than (say) linux-next does, or stable, or before doing an actual
-> > > release.
-> > > 
-> > > Similarly, DRM probably has a different set of requirements than
-> > > drm-misc, drm-amd or nouveau.
-> > > 
-> > > I don't see how the current architecture could accomodate for that. I
-> > > know that Gitlab allows to store issues template in a separate repo,
-> > > maybe we could ask them to provide a feature where the actions would be
-> > > separate from the main repo? That way, any gitlab project could provide
-> > > its own set of tests, without conflicting with each others (and we could
-> > > still share them if we wanted to)
-> > > 
-> > > I know some of use had good relationship with Gitlab, so maybe it would
-> > > be worth asking?
-> > 
-> > GitLab already supports getting the CI YAML from other repos. You can change
-> > that in the repo settings.
-> 
-> I'm interested but couldn't find it in the doc, do you have a link to
-> the right section?
+On Thu, 29 Feb 2024, Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+> from Jani Nikula:
+>   - turn categories into subheadings
+>   - use common heading adornment
+>   - change to bullet or autonumbered lists
+>   - propose those changes as separate additional patches
 
-e.g. https://gitlab.freedesktop.org/camera/libcamera/-/settings/ci_cd
+I was hoping these cleanups would've come *first*, but up to Jon to
+decide if that really matters.
 
-Expand "General pipelines", the setting is "CI/CD configuration file".
-You can specify the path to a file in the local repository, or in a
-separate repository. See
-https://gitlab.freedesktop.org/help/ci/pipelines/settings#specify-a-custom-cicd-configuration-file
-for the syntax.
+BR,
+Jani.
 
-> > However, I think a better approach would be *not* to add the .gitlab-ci.yaml
-> > file in the root of the source tree, but instead change the very same repo
-> > setting to point to a particular entry YAML, *inside* the repo (somewhere
-> > under "ci" directory) instead.
-> > 
-> > This way all the different subtrees can have completely different setup, but
-> > some could still use Helen's work and employ the "scenarios" she
-> > implemented.
-> 
-> I'm worried that this kind of setup will just create duplicated YAML
-> that will be developped in complete silos and will become difficult to
-> maintain. But that's definitely an opinion :)
 
 -- 
-Regards,
-
-Laurent Pinchart
+Jani Nikula, Intel
