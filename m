@@ -1,139 +1,106 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5392736123;
-	Thu, 29 Feb 2024 07:52:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2030224A19
+	for <workflows@vger.kernel.org>; Thu, 29 Feb 2024 08:37:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709193161; cv=none; b=hX+J4o+KTwUPXy5GqnoWFCcfCLX7eaZF+HaP841Gmpt/gKRrlgkaEnXeOC2BfIEnhilZYG/bfFvhBCrpvKs633k+hdwqu0H3BT7mMJiv6DlPJedAC0OBFcWeUEEDrCCiXQfqVLCPLUXBZC+dEJoCM4h5F7mXsFjw7ZoiJhdJ3vk=
+	t=1709195870; cv=none; b=IxQkTgQ+/P0935CmI+HwH4eErVzpPrJmLNgEGbkHPiYRPxmgl6vCumimVeLe2LurZunMaJAX7Gfmu/QfKsHwYeF478wYfk7qgl18qn13Ib6IHPSNrjvuCAmVK5NW5n0MpPELC84WFaqrS8xylnJOmlUujcVWmeZwvoO1Gf3+tFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709193161; c=relaxed/simple;
-	bh=e0kBmdz6lHm0agLmmbZC7IlJJ22/X6+f6wHkV+FAG88=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=oCePv8BJhn4ACEgAK5tFzclGQXRpg3pYi0H5MGmv27GOu/mLDio89gOJU+Hq0XMtlFyCqywEwJlGzfARek4cKZFWYf03wTGTagOVryBR9T7Yy04fs70R5tn58DUcMgThITqom4eF1Czk4+iKCnWeGroigMA57NTyEvoNOhORT50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JKDn3jSD; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1709195870; c=relaxed/simple;
+	bh=HQ7QGgZghHp2hnyTXd/cZDHQseHozrhZ0WRpJ3XitjI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qFHhiifbcRKLa7hDBFTRqNDFxdxrZb7kLCvgrOF3E5TFEmNAM2RmtTFDoeVM6ECsAxpFH/QeWX/JWFH6rOWe8sjA2JuRKxTKLVqma1IfGTU/uC6hBzuSfyU5LVgIr1zkPRs73wwrYUhl+gGKhOsMoSolRZPigrv7eMOd/crlObE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=GJY3QLxB; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JKDn3jSD"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1dc49b00bdbso6458595ad.3;
-        Wed, 28 Feb 2024 23:52:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709193160; x=1709797960; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5un4ACCZ7NErWeeOUddptPFbjqDwYB5cCq+sufhY4Dw=;
-        b=JKDn3jSDiP7Y4BykhdLllsCEvlPw7W6WVuPdfeGcLknk6w9hWrcZsu+f0q6rK5+7n+
-         4fH9GhKmxtLl4cwxBoZzTDVwlLed5emGaYGasAOO6kEh/9PX8uGm5lSucgxrN8x6U77v
-         qZXF+KFJzCZGr68UFLwjUWwUKwlkvclV//D8ASJb8pDkjb9gJXqrAZuHX3Vpf9EVafj8
-         daBpLgysAl5crljn4D8O5tOzGE2kixXFj1DzvGVCvLRPiOahEs+0QJUFjQRDZfEwsP2Y
-         ye760P7at0HE/jL0yaZqKvzmmpgInKJKCOLmyEc4zWaZZ4LMeIsQM+p/A2FgGApsSTyS
-         vy+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709193160; x=1709797960;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5un4ACCZ7NErWeeOUddptPFbjqDwYB5cCq+sufhY4Dw=;
-        b=lCxSg6muYI0p3fPCTXyTlWFUCLX9pRU8IvNreuuUS4Kj1f+gTqV/JuSsBmCEr6buuR
-         YVuT46h2RGtXvKRWmNH0NC+HB3tecYQN2/8Njd41/zpLDeepq4/LHaipFZiEoQLNmdfG
-         /dUH4BZs6GvwEgbKvYdobub+/tjNcITmIflV9bSMI9wl/Lq03Inosx84TWfY+vVZyStK
-         VKKc7fM/2JDOcTZKN+C2gj6Kq/1KOctoSUV5ETXEj5eM0adsP2nQLaCnFQ6+8mDLbK3F
-         bV0sCN1YYErMX84GkjBsdLk9xwl6bs5wIAhbR4Ky2U4BeVxtShWzYhOJEuyGwz2Wpkg4
-         fubA==
-X-Forwarded-Encrypted: i=1; AJvYcCXXjCysE9rgiBgAc3A72QWGcDOFfLQTABj4QZ8sMwBsMGPZGK0ucDLYVU6b/Xof7SARniElHstqQtBLdrXrDIgsXgU4B09ee3pEN2JTgkzPKLLvxMS4YzSJ9KQqQOfZMFGejeZyjrGlE+0oUkXbAPZDslb+arX8us/0smbAXQjDW9nMyP2uucnedDoKce0/HrnBogKrolBXWLLMvetLFjOysbob
-X-Gm-Message-State: AOJu0YySm8acZZVkBDstVjjBcsebm5owAA3enlBRdFXSqgWUdz/kHusc
-	kOghvW/NObgop32wXeG/XQD32DK64gb85Yum6EGmCecGikTJNrN4
-X-Google-Smtp-Source: AGHT+IEZEymE5vyIjhpOWpiG7w217jlxxRMWq4kcbp3e+Hrb0BRhZh/isKM4x8enMJ/Z6+yecEzxeQ==
-X-Received: by 2002:a17:902:f682:b0:1dc:483b:534 with SMTP id l2-20020a170902f68200b001dc483b0534mr1371017plg.68.1709193159506;
-        Wed, 28 Feb 2024 23:52:39 -0800 (PST)
-Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id u8-20020a17090341c800b001dcb4a30685sm754120ple.4.2024.02.28.23.52.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Feb 2024 23:52:39 -0800 (PST)
-Message-ID: <8df0c587-8f5b-4523-89d7-dc458ab2c1df@gmail.com>
-Date: Thu, 29 Feb 2024 16:52:41 +0900
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="GJY3QLxB"
+Received: from macsyma.thunk.org (c-73-8-226-230.hsd1.il.comcast.net [73.8.226.230])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 41T8bXXf027868
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 29 Feb 2024 03:37:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1709195855; bh=9HRWYCWBiwpSn9z/jgZMmwcrc2o0QbNc5MpPOTV3Pa8=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=GJY3QLxB6SrD0NZDDSvvtGVONygyEA1nlndch4j+GZ0+Re3es9fBRes+xicu6K0/l
+	 Ir+3ADWJCYvfUNXNtu2XD2gHcdA70J7I4Hgyze7JB9iPcBbIWKUXBWupYLWn7QdO3G
+	 2C4tLOHfVsdqXuybVJ8EyrNwdMtgdn0y4AFHZ+5VPyytngCHKVu8uWV0zlpLAy4BG8
+	 8CGKAUh+SS/gbGeELp6YAVkikM4Vdmb5laNSmtUAiac3zm0eOxkazofoZGVToyO7OZ
+	 o/znmt8mbQ5erroJ0I7P2sxFFJsoboTpQqliwIGkGwjKly3XXTe/uWJTrckhyzcc9N
+	 GQ73hZDt4sEqQ==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id B3C42340440; Thu, 29 Feb 2024 02:37:32 -0600 (CST)
+Date: Thu, 29 Feb 2024 02:37:32 -0600
+From: "Theodore Ts'o" <tytso@mit.edu>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Bart Van Assche <bvanassche@acm.org>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        users@kernel.org, tools@kernel.org, workflows@vger.kernel.org
+Subject: Re: Toy/demo: using ChatGPT to summarize lengthy LKML threads (b4
+ integration)
+Message-ID: <20240229083732.GB272762@mit.edu>
+References: <20240227-flawless-capybara-of-drama-e09653@lemur>
+ <964843ca-891b-4039-94b3-ed1046df2d69@acm.org>
+ <5758922f-a11a-4bbe-88a4-b724f53b2e6f@suse.de>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: lukas.bulwahn@gmail.com
-Cc: corbet@lwn.net, jani.nikula@intel.com, kernel-janitors@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- rdunlap@infradead.org, workflows@vger.kernel.org,
- Akira Yokosawa <akiyks@gmail.com>
-References: <20240229030743.9125-4-lukas.bulwahn@gmail.com>
-Subject: Re: [PATCH v2 3/3] docs: submit-checklist: change to autonumbered
- lists
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20240229030743.9125-4-lukas.bulwahn@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5758922f-a11a-4bbe-88a4-b724f53b2e6f@suse.de>
 
-Hi Lukas,
+On Thu, Feb 29, 2024 at 08:18:43AM +0100, Hannes Reinecke wrote:
+> On 2/28/24 19:55, Bart Van Assche wrote:
+> > On 2/27/24 14:32, Konstantin Ryabitsev wrote:
+> > Please do not publish the summaries generated by ChatGPT on the web. If
+> > these summaries would be published on the world wide web, ChatGPT or
+> > other LLMs probably would use these summaries as input data. If there
+> > would be any mistakes in these summaries, then these mistakes would end
+> > up being used as input data by multiple LLMs.
+> > 
+> Now there's a thought. Maybe we should do exactly the opposite, and posting
+> _more_ ChatGPT generated content on the web?
+> Sending them into a deadly self-enforcing feedback loop?
 
-I might be nitpicking too much, but let me go ahead...
+Well, I'll note that last July, when a number of AI companies,
+including Amazon, Anthropic, Google, Inflection, Meta, Microsoft, and
+OpenAI, met with President Biden at the White House, they made a
+commitment to develop watermarking standards to allow AI generated
+contexted to be detected[1].  Obviously, it's a lot easier to do this
+with images, and Google was the first company to release a
+watermarking system for AI-generated images[2].  However, there is
+research on-going on how to add watermarking to text[3].
 
-On Thu, 29 Feb 2024 04:07:43 +0100, Lukas Bulwahn wrote:
-> During review (see Link), Jani Nikula suggested to use autonumbered
-> lists instead of manually-maintained bullet numbering.
-> 
-> Turn all lists into autonumbered lists.
-> 
-> Link: https://lore.kernel.org/linux-doc/87o7c3mlwb.fsf@intel.com/
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> ---
->  Documentation/process/submit-checklist.rst | 48 +++++++++++-----------
->  1 file changed, 24 insertions(+), 24 deletions(-)
-> 
-> diff --git a/Documentation/process/submit-checklist.rst b/Documentation/process/submit-checklist.rst
-> index e531dd504b6c..c984b747a755 100644
-> --- a/Documentation/process/submit-checklist.rst
-> +++ b/Documentation/process/submit-checklist.rst
-> @@ -14,62 +14,62 @@ and elsewhere regarding submitting Linux kernel patches.
->  Review your code
->  ================
->  
-> -1) If you use a facility then #include the file that defines/declares
-> +#. If you use a facility then #include the file that defines/declares
->     that facility.  Don't depend on other header files pulling in ones
->     that you use.
+[1] https://www.whitehouse.gov/briefing-room/statements-releases/2023/07/21/fact-sheet-biden-harris-administration-secures-voluntary-commitments-from-leading-artificial-intelligence-companies-to-manage-the-risks-posed-by-ai/
+[2] https://www.technologyreview.com/2023/08/29/1078620/google-deepmind-has-launched-a-watermarking-tool-for-ai-generated-images/
+[3] https://www.nytimes.com/interactive/2023/02/17/business/ai-text-detection.html
 
-Wait.  This will render the list starting from:
+I doubt whether anything we do is going to make a huge difference; one
+of the largest uses of OpenAI's ChatGPT is to generate text to enable
+Search Engine Optimization spam[4].  Another major use of LLM is to
+lay off journalists by creating text explaining why a particular stock
+when up by X% when the market went up or down by Y%.  After all, why
+have to have a human making up stories explaining stock moves, when
+you can have an AI model hallucinate them instead?  :-)
 
-    1. If you use ...
+[4] https://www.opace.co.uk/blog/blog/how-openai-gpt-3-enhances-ai-chat-text-generation-for-seo
 
-In patch 1/1, you didn't change the ")".
+The bottom line is that there is a vast amount of AI-generated text
+that has been put out on the web *already*.  This is going to be
+poisoning future LLM training, even before we start generating
+summaries of LKML traffic and making them available on the web.  It
+also means that companies who are doing AI work have a large, vested
+interest in develop stardized ways of watermarking AI-generated
+context --- not just because they made a promise to some politicians,
+but if all the companies can use some common watermarking standard,
+hopefully they can all avoid this self-poisoning feedback loop.
 
-It was Jani who suggested "#.", but "#)" would work just fine.
+Cheers,
 
-For details, see docutils' documentation at:
-
-    https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#enumerated-lists
-
-By the way, you should be able to use auto enumeration in the 2nd-level
-list as well.
-
-> @@ -77,7 +77,7 @@ Check your code with tools
->  Build your code
->  ===============
->  
-> -1) Builds cleanly:
-> +#. Builds cleanly:
->  
->    a) with applicable or modified ``CONFIG`` options ``=y``, ``=m``, and
->       ``=n``.  No ``gcc`` warnings/errors, no linker warnings/errors.
-
-While the first item needs "a)", subsequent items can use "#)".
-
-Either way,
-
-Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
-
-        Thanks, Akira
-
+					- Ted
