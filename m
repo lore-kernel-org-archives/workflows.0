@@ -1,106 +1,100 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2030224A19
-	for <workflows@vger.kernel.org>; Thu, 29 Feb 2024 08:37:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C538537E9;
+	Thu, 29 Feb 2024 08:43:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709195870; cv=none; b=IxQkTgQ+/P0935CmI+HwH4eErVzpPrJmLNgEGbkHPiYRPxmgl6vCumimVeLe2LurZunMaJAX7Gfmu/QfKsHwYeF478wYfk7qgl18qn13Ib6IHPSNrjvuCAmVK5NW5n0MpPELC84WFaqrS8xylnJOmlUujcVWmeZwvoO1Gf3+tFE=
+	t=1709196208; cv=none; b=HGBQB884wecxYFqJUB3u/J6Zm8dj/JaN/YTyb1Kq+vtr1bvYB+TKOT57a87XB8GOWVRPN8RWEvge4ijlVTiQRTswnEDj7/9px9pwySWFVboZhFagAHm2cnqzQM5+VOjIDaxz9iAzfJJPOSCMTNFFz1BwIq5Kbpv4UfWX8X/2abo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709195870; c=relaxed/simple;
-	bh=HQ7QGgZghHp2hnyTXd/cZDHQseHozrhZ0WRpJ3XitjI=;
+	s=arc-20240116; t=1709196208; c=relaxed/simple;
+	bh=OtJFUbFzli0ao9Kk04l+WlQKFdrjGXqosC1GcMlUSc8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qFHhiifbcRKLa7hDBFTRqNDFxdxrZb7kLCvgrOF3E5TFEmNAM2RmtTFDoeVM6ECsAxpFH/QeWX/JWFH6rOWe8sjA2JuRKxTKLVqma1IfGTU/uC6hBzuSfyU5LVgIr1zkPRs73wwrYUhl+gGKhOsMoSolRZPigrv7eMOd/crlObE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=GJY3QLxB; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	 Content-Type:Content-Disposition:In-Reply-To; b=j+9NSbqtKf34ZCe4+QCpRsZ+TLlsHEgTmR1AalZAo3Ljwy0j6DpERBS9dyrliHBA8fSzVoQVmNxZi2GjZW0c4rsOez36a/Nmkk7pLW3ilH3VHbBj0srBlgh8yMWoKbQYOlrtO39wS+b4MBc2cOho6Nm43h8YVFDRp2F6VAeU110=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z34O1fiM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="GJY3QLxB"
-Received: from macsyma.thunk.org (c-73-8-226-230.hsd1.il.comcast.net [73.8.226.230])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 41T8bXXf027868
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 29 Feb 2024 03:37:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1709195855; bh=9HRWYCWBiwpSn9z/jgZMmwcrc2o0QbNc5MpPOTV3Pa8=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=GJY3QLxB6SrD0NZDDSvvtGVONygyEA1nlndch4j+GZ0+Re3es9fBRes+xicu6K0/l
-	 Ir+3ADWJCYvfUNXNtu2XD2gHcdA70J7I4Hgyze7JB9iPcBbIWKUXBWupYLWn7QdO3G
-	 2C4tLOHfVsdqXuybVJ8EyrNwdMtgdn0y4AFHZ+5VPyytngCHKVu8uWV0zlpLAy4BG8
-	 8CGKAUh+SS/gbGeELp6YAVkikM4Vdmb5laNSmtUAiac3zm0eOxkazofoZGVToyO7OZ
-	 o/znmt8mbQ5erroJ0I7P2sxFFJsoboTpQqliwIGkGwjKly3XXTe/uWJTrckhyzcc9N
-	 GQ73hZDt4sEqQ==
-Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id B3C42340440; Thu, 29 Feb 2024 02:37:32 -0600 (CST)
-Date: Thu, 29 Feb 2024 02:37:32 -0600
-From: "Theodore Ts'o" <tytso@mit.edu>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Bart Van Assche <bvanassche@acm.org>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        users@kernel.org, tools@kernel.org, workflows@vger.kernel.org
-Subject: Re: Toy/demo: using ChatGPT to summarize lengthy LKML threads (b4
- integration)
-Message-ID: <20240229083732.GB272762@mit.edu>
-References: <20240227-flawless-capybara-of-drama-e09653@lemur>
- <964843ca-891b-4039-94b3-ed1046df2d69@acm.org>
- <5758922f-a11a-4bbe-88a4-b724f53b2e6f@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z34O1fiM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D39AC43390;
+	Thu, 29 Feb 2024 08:43:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709196207;
+	bh=OtJFUbFzli0ao9Kk04l+WlQKFdrjGXqosC1GcMlUSc8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Z34O1fiMdBDeainA1ZPjTfVLielaOBKLFzX80CW3c98pKgURmEjTwJcXGsOqiJ0Ia
+	 ZwmkHPVHgPYH9oMMqExQdZYthC0nFc5SVVDwn7Uz689/6Fs4J5TA5kom9TGKWGv4UM
+	 vVlUAwe7W0KNMMU18vYMLOViKVsKAjuFzlj43qvt8EN2qxWNC8PZ8RbbyW7I4x3JTi
+	 8PNYG4kPaOXvSqWLsmuQU00wkUA0cyTxDrvfCX2SB7KBkYkHVQVhVckkTmf/D3Bk3m
+	 pM5EwmORJVumtGEpriYqslBnnsSDYb/04nHzojvoSRNLCcSJsBKdW07GUWZTvuUjVC
+	 WKrO2LBS3O2yg==
+Date: Thu, 29 Feb 2024 09:43:25 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Helen Koike <helen.koike@collabora.com>, linuxtv-ci@linuxtv.org, 
+	dave.pigott@collabora.com, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-kselftest@vger.kernel.org, gustavo.padovan@collabora.com, pawiecz@collabora.com, 
+	spbnick@gmail.com, tales.aparecida@gmail.com, workflows@vger.kernel.org, 
+	kernelci@lists.linux.dev, skhan@linuxfoundation.org, kunit-dev@googlegroups.com, 
+	nfraprado@collabora.com, davidgow@google.com, cocci@inria.fr, Julia.Lawall@inria.fr, 
+	laura.nao@collabora.com, ricardo.canuelo@collabora.com, kernel@collabora.com, 
+	torvalds@linuxfoundation.org, gregkh@linuxfoundation.org
+Subject: Re: [PATCH 0/3] kci-gitlab: Introducing GitLab-CI Pipeline for
+ Kernel Testing
+Message-ID: <20240229-rampant-blue-llama-c4ee7d@houat>
+References: <20240228225527.1052240-1-helen.koike@collabora.com>
+ <20240228230725.GF1659@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="eu5m6zbxesqv7xj2"
+Content-Disposition: inline
+In-Reply-To: <20240228230725.GF1659@pendragon.ideasonboard.com>
+
+
+--eu5m6zbxesqv7xj2
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5758922f-a11a-4bbe-88a4-b724f53b2e6f@suse.de>
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 29, 2024 at 08:18:43AM +0100, Hannes Reinecke wrote:
-> On 2/28/24 19:55, Bart Van Assche wrote:
-> > On 2/27/24 14:32, Konstantin Ryabitsev wrote:
-> > Please do not publish the summaries generated by ChatGPT on the web. If
-> > these summaries would be published on the world wide web, ChatGPT or
-> > other LLMs probably would use these summaries as input data. If there
-> > would be any mistakes in these summaries, then these mistakes would end
-> > up being used as input data by multiple LLMs.
-> > 
-> Now there's a thought. Maybe we should do exactly the opposite, and posting
-> _more_ ChatGPT generated content on the web?
-> Sending them into a deadly self-enforcing feedback loop?
+On Thu, Feb 29, 2024 at 01:07:25AM +0200, Laurent Pinchart wrote:
+> > Chat Discussions
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >=20
+> > For those interested in further discussions:
+> >=20
+> > **Join Our Slack Channel:**
+> > We have a Slack channel, #gitlab-ci, on the KernelCI Slack instance htt=
+ps://kernelci.slack.com/ .
+> > Feel free to join and contribute to the conversation. The KernelCI team=
+ has
+> > weekly calls where we also discuss the GitLab-CI pipeline.
+>=20
+> Could we communicate using free software please ? Furthermore, it's not
+> possible to create an account on that slack instance unless you have an
+> e-mail address affiliated with a small number of companies
+> (https://kernelci.slack.com/signup#/domain-signup). That's a big no-go
+> for me.
 
-Well, I'll note that last July, when a number of AI companies,
-including Amazon, Anthropic, Google, Inflection, Meta, Microsoft, and
-OpenAI, met with President Biden at the White House, they made a
-commitment to develop watermarking standards to allow AI generated
-contexted to be detected[1].  Obviously, it's a lot easier to do this
-with images, and Google was the first company to release a
-watermarking system for AI-generated images[2].  However, there is
-research on-going on how to add watermarking to text[3].
+Yeah, and that list looks super restrictive and arbitrary. Like,
+microsoft is there but kernel.org isn't?
 
-[1] https://www.whitehouse.gov/briefing-room/statements-releases/2023/07/21/fact-sheet-biden-harris-administration-secures-voluntary-commitments-from-leading-artificial-intelligence-companies-to-manage-the-risks-posed-by-ai/
-[2] https://www.technologyreview.com/2023/08/29/1078620/google-deepmind-has-launched-a-watermarking-tool-for-ai-generated-images/
-[3] https://www.nytimes.com/interactive/2023/02/17/business/ai-text-detection.html
+I'm sure there's a reason, but we should at the very least open it to
+everyone.
 
-I doubt whether anything we do is going to make a huge difference; one
-of the largest uses of OpenAI's ChatGPT is to generate text to enable
-Search Engine Optimization spam[4].  Another major use of LLM is to
-lay off journalists by creating text explaining why a particular stock
-when up by X% when the market went up or down by Y%.  After all, why
-have to have a human making up stories explaining stock moves, when
-you can have an AI model hallucinate them instead?  :-)
+Maxime
 
-[4] https://www.opace.co.uk/blog/blog/how-openai-gpt-3-enhances-ai-chat-text-generation-for-seo
+--eu5m6zbxesqv7xj2
+Content-Type: application/pgp-signature; name="signature.asc"
 
-The bottom line is that there is a vast amount of AI-generated text
-that has been put out on the web *already*.  This is going to be
-poisoning future LLM training, even before we start generating
-summaries of LKML traffic and making them available on the web.  It
-also means that companies who are doing AI work have a large, vested
-interest in develop stardized ways of watermarking AI-generated
-context --- not just because they made a promise to some politicians,
-but if all the companies can use some common watermarking standard,
-hopefully they can all avoid this self-poisoning feedback loop.
+-----BEGIN PGP SIGNATURE-----
 
-Cheers,
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZeBDrAAKCRDj7w1vZxhR
+xT7gAP4oRjk5cvZCFl9XtJxHv+2sUJDNxvUgOUs8Px07O0eymQEAgtIrH290cK2V
+mFnAbb5kwrTnyNl2XQDimzTR0qN31Q4=
+=Cc5W
+-----END PGP SIGNATURE-----
 
-					- Ted
+--eu5m6zbxesqv7xj2--
