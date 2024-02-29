@@ -1,104 +1,129 @@
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [96.44.175.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F2F5CDF2;
-	Thu, 29 Feb 2024 09:26:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E5155D730
+	for <workflows@vger.kernel.org>; Thu, 29 Feb 2024 09:30:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.44.175.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709198817; cv=none; b=Ykl2QKkBjIRr6KVU1xz+cqkHVR/TMTvOuYAdEJUOh5dtx59J1dWaiX9Gtvgj3neiy6qfALdt4ro1wCpsFIFRhwNEfqYdy5CydV3fylFmlKPq32nt2tlIdJ9I6wwR5Md0xkOAyTs9Gzn3tJHYN0l+v5BrTyg6B+KgCTb9ng0/ulU=
+	t=1709199040; cv=none; b=s9WUBXehEcC5oekIAzuashbNH/pYcBYIWS6k3al8cgT0dPkRknUP7NDtmBXcEkbLyD9M8UaNmaMvqT1581S6FKMWfHKAVcvG8bV2Ji8HAMZ2kTaxEeERT+7eu9e0E3d2qpv4dHZS4G1FkG6RRl99tIeKoSzZ5bnec/pk3b1JCWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709198817; c=relaxed/simple;
-	bh=H3DVOzLmQ6k1aiZNO64pehrcmvGMoPGpzkMsjPLddA4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=N2souOSP5Cu47RWKX4XLthk1JYRLt3t3mrpOG+WfEd/5Olt4R9bh4W2eyP6OweQTY7GkUw2OiafAoRObRqrNm7kR8GdZDl3c0jQtI3SOWH/o8g6sDZmwEFADY4thRq4Tt/43j429l8n+g+YMzu61Jqs9iUMoTqXS3oDpOJgQY6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hzS66Bce; arc=none smtp.client-ip=209.85.208.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1709199040; c=relaxed/simple;
+	bh=9qGGAbuf/x20ROeb4KA6+GgplMcOYlv1HIvFZSgu+QI=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=SRKEl0byFtGAivabf9OL4luiiKR04EIUyxxrbmtwg2fPATyIcb8PpuZ024LZZPsoZyDyOxpxhUj1mvOeemSJ4msPCStU7EiEghjTM+GwvL/ZBoaqH/j3cEC8XDacg56VL1TwqhWgln6zVA6tnNtNXLkTWg9sUzlSYoOPZyuq+60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=kOTno5Qr; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=T/KGnrnu; arc=none smtp.client-ip=96.44.175.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=HansenPartnership.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hzS66Bce"
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2d2533089f6so7735861fa.1;
-        Thu, 29 Feb 2024 01:26:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709198813; x=1709803613; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MUGoQKrYI+CUGIzYiMWNWVHuIqGWUhSm1DPKxOOJHWY=;
-        b=hzS66Bcej3pnr7hurc58cBly9l2tkNw3YfXX+a9j3mP6nSJUkYJc7lWJHBlEUb29L/
-         YD85meJiikcsC5T5zD413B3mZ9AZoz70PDB73CkumUOAqa6dkHNkizlB73lWabV9kiAa
-         AN7hf+QKrByOlI5jS0PA1oezdp1c3+JgqjFptYtW+jPYRomGl2uJ5mc8TDd6FScGQIaU
-         zJwTQ4nSDx570AiixFK2WKdy2g6tee0IqeGRr7KjFUEzNJ+RAdtNY7+ZthCb+nPSvtTV
-         7B03inZtfgIJjOFAg2PBlZtEA6kmFY8KBmFOlFnXjQ5qp+m64wEBojvJuVCW6U78hD4P
-         dy+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709198813; x=1709803613;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MUGoQKrYI+CUGIzYiMWNWVHuIqGWUhSm1DPKxOOJHWY=;
-        b=Y1qaoexznz2GcMX6rXKmQdFTdpheo7cuO6Q1lY2tWajjUxyNGq/qWiL6EtmW+K8UuJ
-         kgUkbnBInOk4gfpB2GVA7uQjyq45i1wsG/8A/P21qN1sUxEXy+SYREOaPryHG2KXMLdW
-         /S4ovxZ4LDtcFsA5dPRphSuzczMU2OKRvSBn05j8mp9rxBwzEccHsaPStaRRU9Zskmet
-         WwgzfEHbTvaP8H6gwKSHgx0xFAMxY79jWgW/StOLE3RD+0s8hneiVRZjkkNY8HxtxM9L
-         f+OotPbgIAl4QBdM024sd0uMEhEhFan0WWeesM3o0xzP7+1u18sko6cpaHg3xPP1QCSh
-         7SKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUZGoZRfz+coJkoVGGzyhzItGHm32QMu5AzxBnXjRkd8N3PRkRffojsbYA648eIsRl3H/STQnJ1arNlSwjeEg+xObvk38ZFHKoShxlaxBNaMwFjLUM34Lb+sp436henOnui+oga6HQfP23HndlMN8vVx3YuAZJaipDjT/dZc7AzerdJerPl8nGi
-X-Gm-Message-State: AOJu0YyHlJFCr5ZqWcb699gs5c9AxYaYdu30iLFZPq285vs54U/xeXO/
-	Lq+xc3u9BZQ65XKGdECK9qaW++U12FyxlgDb2Ux5B5d8FMW8HO2H
-X-Google-Smtp-Source: AGHT+IEQQGvEUUUJJE0Q32Q1dWpicjPYOMb4ktp8tTjoWEWQsJczQ+GYRu123pV36LqzQ6iLRlTmxA==
-X-Received: by 2002:a2e:9496:0:b0:2d2:e704:77a8 with SMTP id c22-20020a2e9496000000b002d2e70477a8mr987605ljh.3.1709198813316;
-        Thu, 29 Feb 2024 01:26:53 -0800 (PST)
-Received: from [192.168.0.118] (88-113-27-52.elisa-laajakaista.fi. [88.113.27.52])
-        by smtp.gmail.com with ESMTPSA id v2-20020a2e9902000000b002d0f905ddf9sm151234lji.18.2024.02.29.01.26.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Feb 2024 01:26:53 -0800 (PST)
-Message-ID: <0a5bf7d1-0a7e-4071-877a-a3d312d80084@gmail.com>
-Date: Thu, 29 Feb 2024 11:26:51 +0200
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="kOTno5Qr";
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="T/KGnrnu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1709199037;
+	bh=9qGGAbuf/x20ROeb4KA6+GgplMcOYlv1HIvFZSgu+QI=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=kOTno5Qr5m59x5m94E9Nngu8Yhv0fwJWj1Q8wWnSxziqZzPcGvPDAKNayw6AZR3bU
+	 ysgQtvVGwF0y4oYfBb7BbdLyERfLW0feVQwXMM6EiVdCtPIts0YHIkqcIlrDz5kemh
+	 Cl7r4tC3k7KnvkFQ8aVhXTGWKxOMtR6faBVlK9YU=
+Received: from localhost (localhost [127.0.0.1])
+	by bedivere.hansenpartnership.com (Postfix) with ESMTP id 360461286C85;
+	Thu, 29 Feb 2024 04:30:37 -0500 (EST)
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+ by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavis, port 10024)
+ with ESMTP id OxIsbgPY5qNf; Thu, 29 Feb 2024 04:30:37 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1709199036;
+	bh=9qGGAbuf/x20ROeb4KA6+GgplMcOYlv1HIvFZSgu+QI=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=T/KGnrnuvCfoMTAmjAC8qOUliAXk1ZQ6G8d0FTNvYMA3iFJPRa13VzlZVnPyN+LeC
+	 bRCS6ULpzgdaEQgs/vxDX82svNvCsoVXAxb1bELojnVVQEa0TIM/gR+4d1VVCyZEyJ
+	 8h6YrTsdUh4O4q7rk7qPyHDZ3EV1gAbnH+Cc/xj0=
+Received: from [10.0.15.72] (unknown [49.231.15.39])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 50E3B1286BFE;
+	Thu, 29 Feb 2024 04:30:35 -0500 (EST)
+Message-ID: <b2797ce67bdb6aa94cff92f21b72965396e932a1.camel@HansenPartnership.com>
+Subject: Re: Toy/demo: using ChatGPT to summarize lengthy LKML threads (b4
+ integration)
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Bart Van Assche <bvanassche@acm.org>, Konstantin Ryabitsev
+	 <konstantin@linuxfoundation.org>, users@kernel.org, tools@kernel.org, 
+	workflows@vger.kernel.org
+Date: Thu, 29 Feb 2024 16:30:31 +0700
+In-Reply-To: <964843ca-891b-4039-94b3-ed1046df2d69@acm.org>
+References: <20240227-flawless-capybara-of-drama-e09653@lemur>
+	 <964843ca-891b-4039-94b3-ed1046df2d69@acm.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] kci-gitlab: Introducing GitLab-CI Pipeline for Kernel
- Testing
-Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Helen Koike <helen.koike@collabora.com>
-Cc: linuxtv-ci@linuxtv.org, dave.pigott@collabora.com, mripard@kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kselftest@vger.kernel.org, gustavo.padovan@collabora.com,
- pawiecz@collabora.com, tales.aparecida@gmail.com, workflows@vger.kernel.org,
- kernelci@lists.linux.dev, skhan@linuxfoundation.org,
- kunit-dev@googlegroups.com, nfraprado@collabora.com, davidgow@google.com,
- cocci@inria.fr, Julia.Lawall@inria.fr, laura.nao@collabora.com,
- ricardo.canuelo@collabora.com, kernel@collabora.com,
- torvalds@linuxfoundation.org, gregkh@linuxfoundation.org
-References: <20240228225527.1052240-1-helen.koike@collabora.com>
- <20240228230725.GF1659@pendragon.ideasonboard.com>
-From: Nikolai Kondrashov <spbnick@gmail.com>
-In-Reply-To: <20240228230725.GF1659@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2/29/24 01:07, Laurent Pinchart wrote:
-> On Wed, Feb 28, 2024 at 07:55:24PM -0300, Helen Koike wrote:
->> **Join Our Slack Channel:**
->> We have a Slack channel, #gitlab-ci, on the KernelCI Slack instance https://kernelci.slack.com/ .
->> Feel free to join and contribute to the conversation. The KernelCI team has
->> weekly calls where we also discuss the GitLab-CI pipeline.
+On Wed, 2024-02-28 at 10:55 -0800, Bart Van Assche wrote:
+> On 2/27/24 14:32, Konstantin Ryabitsev wrote:
+> > I was playing with shell-gpt and wrote a quickie integration that
+> > would allow
+> > retrieving (slimmed-down) threads from lore, feeding them to
+> > ChatGPT, and
+> > asking it to provide some basic analysis of the thread contents.
+> > Here's a
+> > recorded demo session:
+> > 
+> > https://asciinema.org/a/643435
+> > 
+> > A few notes:
+> > 
+> > 1. This is obviously not a replacement for actually reading email,
+> > but can
+> >     potentially be a useful asset for a busy maintainer who just
+> > wants a quick
+> >     summary of a lengthy thread before they look at it in detail.
+> > 2. This is not free or cheap! To digest a lengthy thread, you can
+> > expect
+> >     ChatGPT to generate enough tokens to cost you $1 or more in API
+> > usage fees.
+> >     I know it's nothing compared to how expensive some of y'all's
+> > time is, and
+> >     you can probably easily get that expensed by your employers,
+> > but for many
+> >     others it's a pretty expensive toy. I managed to make it a bit
+> > cheaper by
+> >     doing some surgery on the threads before feeding them to
+> > chatgpt (like
+> >     removing most of the message headers and throwing out some of
+> > the quoted
+> >     content), but there's a limit to how much we can throw out
+> > before the
+> >     analysis becomes dramatically less useful.
+> > 3. This only works with ChatGPT-4, as most threads are too long for
+> >     ChatGPT-3.5 to even process.
+> > 
+> > So, the question is -- is this useful at all? Am I wasting time
+> > poking in this direction, or is this something that would be of
+> > benefit to any of you? If the latter, I will document how to set
+> > this up and commit the thread minimization code I hacked together
+> > to make it cheaper.
 > 
-> Could we communicate using free software please ? Furthermore, it's not
-> possible to create an account on that slack instance unless you have an
-> e-mail address affiliated with a small number of companies
-> (https://kernelci.slack.com/signup#/domain-signup). That's a big no-go
-> for me.
+> Please do not publish the summaries generated by ChatGPT on the web.
+> If these summaries would be published on the world wide web, ChatGPT
+> or other LLMs probably would use these summaries as input data. If
+> there would be any mistakes in these summaries, then these mistakes
+> would end up being used as input data by multiple LLMs.
 
-Yes, it's not ideal that we use closed-source software for communication, but 
-FWIW I'd be happy to invite you there. Perhaps if you try logging in e.g. with 
-a Google account, I'd be able to see and approve your attempt too.
+I don't believe this is true: any output from an LLM trained on the web
+will have only add a neutral bias to the existing web content (it won't
+push a learning model one way or another because it's the output
+summary of the current learning).  Or to put it another way if mistakes
+are made in the summary because of the training, training a model on
+the mistaken output won't increase (or decrease) the number of mistakes
+it makes next time.  Now if the model was only partially trained it
+will bias towards the partial training, but most models try to be fully
+trained.
 
-Otherwise, our video meetings are generally open to everyone and run in Jitsi.
+James
 
-Nick
