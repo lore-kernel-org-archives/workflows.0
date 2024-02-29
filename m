@@ -1,101 +1,98 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01D857995E;
-	Thu, 29 Feb 2024 10:36:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20F357A73F;
+	Thu, 29 Feb 2024 11:09:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709203018; cv=none; b=FoyCb9BT6pRRcqfuMUniWmNx5W2lEtPiYzifamjaPag4qPQPoDSIzl56imp6pDcxRZyEg1yi7B7WS4qdaopxKrmGaj5R18maCWyYOfGwWUxphwD798LOkcsDKhM0AKwQgXAqio3y2DVgY06qxBgDUO8uJga/PASW9YVjzc0k33w=
+	t=1709204989; cv=none; b=BKDH8TDmAvm5dKrWSZxgjjd06CnaOLO2GCTLkVquHGv6+8qATCJYq6H3CcaodqYZRLy2tcX6oNBehm7Sugk81Sn4Ad0Sg+YQVEaHJrYNuLrzZ3nTnzaS0tWkDiNGu5JPBS4mxORCH+XfHy+Ksceg8t1Re8Z7/ULy73kkz+9kNLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709203018; c=relaxed/simple;
-	bh=Bsbvr0XH+zc8GCj+JI/JzIn86gN+UlJQiaX4Au6r7U8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HtDi2TpLhTVc3wVeN0M8C0hlKJMWqps42foff0gCLqN56rLg2ZqAf+qlxyEPmC58gRXn3j+OApBgO9X5oOvqJSNrYJ8O9ISi8LT7uROFsFtLWk6ulCAhpNnx8e6jhs959e2CIen1lS6kpHNgK13SVo/hcSK5V9nK1wVLpWBk1b0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TvCjNs+C; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1709204989; c=relaxed/simple;
+	bh=3Jp3DLK4GaGdce9BlkhMX4N5x38K7gfZP7ZzlOJJEfY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nW9Q8PsM4xJsvsL00Wm7wrUjZX0wZew1bV+trkC6EyItUuvD5lXG1EFdKdOPv/Upqa7yV9YmKzZ7um6FLo6XR/zx8crxLL6pr81X+sUvODnwAIjLmVWPoS438cIWisTvmLMlfMAgTeDQw50FoX7q4+do7UDnGU9kKNaRFUfAGNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AKcbF2F8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TvCjNs+C"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-565b434f90aso1128588a12.3;
-        Thu, 29 Feb 2024 02:36:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709203015; x=1709807815; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=H1NlY8tMN7P2Y6bWlORzMKpAclH/YyADf97OHECAI4Q=;
-        b=TvCjNs+COqu/8jhd2Q+IWnTyg9nvyegB1GT8+SXzmiNcrNWjd8Z77pD/9sWB5WAYwd
-         /cJ0VbdJaghZPWd0wNzojy7QsZxQagHTm9k5WcRZ9+631/ZsqQZRT7Yb0pdkaaV5y+xo
-         QXeyLfvv6qhVFvg/0d7uRbI48C1yuKYLHWkPuDN/xw+kPsQTGprVJI7IyiYUU2r8xMtQ
-         OniIsRoR8nBxAHhmvI1zpJmo7lMysNAAT/yoM5148ZjpVRIflvxRjZE/tNPPdLs6VRus
-         3kprKC0rQvKUH3GV/TZJOR95aB3HIVxVQ78N1cqjBu/7A59wLkgME5yrYAI6bWwJcsUf
-         xU/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709203015; x=1709807815;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=H1NlY8tMN7P2Y6bWlORzMKpAclH/YyADf97OHECAI4Q=;
-        b=imEv6GcUKuru8htq1mX52G9TgECvK17/YgyOLB2L6lqkq2NLDYMOSBlX4Tjq30hY26
-         A/P2IEVd0x35CZcZ/WOkDHXPJt1qjFeBSBd3PLBNTrykX65UYTanDXyQpxqOR7dFU7un
-         M25anddkQrOTtosoG5kFrLufsivivLXHSpniWK+KFrfRVS6jtMl3Gz8pEdo54msxv26i
-         9SFObTG70AtV98fDZsCXX9KjugiY+2EIHRS4sE11ZflNFAG8jt/yy8RKYKwPBRsZxKpI
-         dXORoTF7EXU6+j0DlJ1PLqNqXc8fGfmk//QAaKF5cqWcJrJoaAugZvImpRUMuqvHEDwM
-         O85g==
-X-Forwarded-Encrypted: i=1; AJvYcCXV6B9yFUfZDGSnbSW+kWOTmPOJ2X6X99aBFZf7nUUqDlYO3szj4QniVHnGuJMSpaF4CdE+bceUnpPEBuNAWXpUgsE2kVphkwV6E/GOmFpHxr5ouU0xtlr3pPVxIAyN0B4WAXggBNAQNDbXjL+HRuria+jn+zS0fJV0sxtW0DWb/+m44ZZ/okLLsxCY1dETIjwlQY3dYqm5Wb2X8FNRZ2d5S/Tv
-X-Gm-Message-State: AOJu0YzmX7FmQC71iN/Bs3y3RRAZppLmLADgAlNe12+54nwxLxpIP7O0
-	LA6D7YbUhb0XYWBuYgS515cS/zckle04ok0tH19IKymqU+VBaF10vAgNVM9Rq6kgRcxxbaWn/ew
-	sTpJOb0c5zwjM0xLhz/FMqGWHzMBcYdFp/No=
-X-Google-Smtp-Source: AGHT+IGjKN7QsUcypeAA5SHqe0dGglsBIpMg+8XvC9BB3DHUw1Cx+eFzkMZiBo687XNl2n8mZmBho32y+QVbvKVpSLw=
-X-Received: by 2002:a17:906:278e:b0:a3f:c4f9:eb16 with SMTP id
- j14-20020a170906278e00b00a3fc4f9eb16mr1185894ejc.20.1709203015072; Thu, 29
- Feb 2024 02:36:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AKcbF2F8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B7E3C433C7;
+	Thu, 29 Feb 2024 11:09:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709204988;
+	bh=3Jp3DLK4GaGdce9BlkhMX4N5x38K7gfZP7ZzlOJJEfY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AKcbF2F8ZMtL7sBtcMDzQD6+mAG3TlIU9zJO8V9rQDocWsppaDOIxHNY1RvGjFHWw
+	 MJmN90Q2aEVdInZAr/grLzs0Qg/1CJblp0gm9YcUTPcllXe24r7VbFt1/mrOY9scQ4
+	 JsXgknMvJkYmR4XQHtS0+FB80b5EpjX1ToXNL2uGfJvbdagyEGVniY9+268P+sZc8o
+	 YQUKobwfQOW1cnqEV5CEOko6ZGbFyxko1jaPKVXNYchKccAaMlH/lanDmDt5p7Ehko
+	 onxsBZFkSNU59cP1t7HX5eK1pzTx63dac9NAaSD7gB2n4+jyOBoVxwiwg0DYfcvd6H
+	 TjlmtFWS6dkGA==
+Date: Thu, 29 Feb 2024 11:09:41 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Helen Koike <helen.koike@collabora.com>, linuxtv-ci@linuxtv.org,
+	dave.pigott@collabora.com, mripard@kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-kselftest@vger.kernel.org, pawiecz@collabora.com,
+	tales.aparecida@gmail.com, workflows@vger.kernel.org,
+	kernelci@lists.linux.dev, kunit-dev@googlegroups.com,
+	nfraprado@collabora.com, davidgow@google.com, cocci@inria.fr,
+	Julia.Lawall@inria.fr, kernel@collabora.com,
+	torvalds@linuxfoundation.org, gregkh@linuxfoundation.org
+Subject: Re: [PATCH 0/3] kci-gitlab: Introducing GitLab-CI Pipeline for
+ Kernel Testing
+Message-ID: <c7df72f5-857f-4ebb-b751-25fcb786427e@sirena.org.uk>
+References: <20240228225527.1052240-1-helen.koike@collabora.com>
+ <20240228230725.GF1659@pendragon.ideasonboard.com>
+ <ZeBQtfY8FG_qtoEJ@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240229030743.9125-1-lukas.bulwahn@gmail.com> <87plwf8t3p.fsf@intel.com>
-In-Reply-To: <87plwf8t3p.fsf@intel.com>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Thu, 29 Feb 2024 11:36:43 +0100
-Message-ID: <CAKXUXMzySDQfuF7+AY77hXQbP0GuNMwdTrx6w_1ZP5R4O4kNqw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] docs: submit-checklist: structure by category
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Iws3dWkEFVnb2rF9"
+Content-Disposition: inline
+In-Reply-To: <ZeBQtfY8FG_qtoEJ@valkosipuli.retiisi.eu>
+X-Cookie: Marriage is the sole cause of divorce.
 
-On Thu, Feb 29, 2024 at 11:25=E2=80=AFAM Jani Nikula <jani.nikula@intel.com=
-> wrote:
->
-> On Thu, 29 Feb 2024, Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
-> > from Jani Nikula:
-> >   - turn categories into subheadings
-> >   - use common heading adornment
-> >   - change to bullet or autonumbered lists
-> >   - propose those changes as separate additional patches
->
-> I was hoping these cleanups would've come *first*, but up to Jon to
-> decide if that really matters.
->
 
-I see, changing to autonumbered lists could be done before, but the
-subheadings only exist once reordered.
+--Iws3dWkEFVnb2rF9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I am still in favor of the squashed commit: we are talking about a
-very small document that central content has not been touched for a
-long time. It is not code, where someone would bisect into. So, the
-history does not need to carry every single stylistic change as yet
-another commit.
+On Thu, Feb 29, 2024 at 09:39:01AM +0000, Sakari Ailus wrote:
+> On Thu, Feb 29, 2024 at 01:07:25AM +0200, Laurent Pinchart wrote:
 
-Jani, I can do what you are asking for---but it is certainly going to
-take yet a few hours to have the commits exactly into that form of
-stylistic changes.
+> > > We have a Slack channel, #gitlab-ci, on the KernelCI Slack instance https://kernelci.slack.com/ .
+> > > Feel free to join and contribute to the conversation. The KernelCI team has
+> > > weekly calls where we also discuss the GitLab-CI pipeline.
 
-Let us see what Jon thinks.
+> > Could we communicate using free software please ? Furthermore, it's not
+> > possible to create an account on that slack instance unless you have an
+> > e-mail address affiliated with a small number of companies
+> > (https://kernelci.slack.com/signup#/domain-signup). That's a big no-go
+> > for me.
 
-Lukas
+> I agree. There is no shortage of good alternatives either: we have IRC,
+> Matrix and XMPP for instance. Just pick one of them.
+
+And indeed KernelCI does actually already have #kernelci on libera.chat.
+
+--Iws3dWkEFVnb2rF9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXgZfQACgkQJNaLcl1U
+h9AdtAf/TjlgwmBR+dFt3Imb6vVXvcZz1uk0yqE9QdLn/+P7uF+i6O6Lo61wzzW7
+wZF6S/KVkz5gmMx3Ow6CzP1eyKOYvn2N/m2F7ImNuRtqKUMKv/0/rzxEtH5DK+da
+F1p6iV8WH3xIplXt0+nxc198yzskr+/zj8i5Qbs/OCVOl/VNmYZ70u9BFAhmsdmo
+O3YFYTKWetaRZPx8u8uoPUnAVofMV3vF4PtGQQDHPTmK9AC+4poc0jIx2V6PviY8
+yYgh9MrynKWlj1WRPrutfENQo++scSX66MdRQj4DfDeZm+7LUHDe1FzK3bRncJgo
+e5RUDmeCXKOY6foBuo2NKtLQHPBOPw==
+=uZ/p
+-----END PGP SIGNATURE-----
+
+--Iws3dWkEFVnb2rF9--
