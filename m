@@ -1,153 +1,222 @@
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94C3E6BB23;
-	Fri,  1 Mar 2024 10:27:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C8D7386;
+	Fri,  1 Mar 2024 13:46:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709288841; cv=none; b=FCivNLoHaT/mxsvic787CgzEMPCPaevY4mHUqTp3M811/d+9pmGAYzIsajsYyaz3CvKEApGcbywlBG1cWziSfI4C3XNSR+AvD72sBAxE+71xV94iMSoZvOsKWFqABpVOcD8xjtM5UTL8dBUEXI3oXz+A0Jyl6k78/pku9uOUUVY=
+	t=1709300810; cv=none; b=ZuiwyETtswiAMTBF9ZjSw88vw3HWsgPpwqlXM+Aes84j1VfQd9zg6peyBOs9BKPgdl+ZovzZAQ14GEKAg5O9i+dJYUPwWFwF8et3oOgsX1ltimMqdXGtQpJSj7HsmM0tDP5O/U+JjY6hf/eji53T54m2twWWTECMPorMXtMkGPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709288841; c=relaxed/simple;
-	bh=+8R8JBu0KnyCCbyrJSAZ0i3n/0DKjztSJha154VV2Vg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z8WD6Kl5haMOKUM5+1FUtc0bHwCiHQsSkpeFLdI0CMVp/IkW+N1MlL0FLt3ltIwh/lIu4ZMkJzhTU/5t7ihfPMorqKfja88ngQaVmkUj5sB4y7b9eJO8KDJEeYNnGc3T49eCBQsxCOibAeYHJvlRBm9CYdGnp+qwA4Xd48kn39k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A7zSQN+y; arc=none smtp.client-ip=209.85.222.48
+	s=arc-20240116; t=1709300810; c=relaxed/simple;
+	bh=54FFq9yRx8MYuVhw3vkGHx7fdD7CrqETGUwW/4CAovY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=c6pWN7tPI3KEJCq9vPA+OnhgQEoCpDv9ypDa3CuasheJ7+AutxB/JLlellpFzo0qE08IjZMjfc/R9V3w/NEW5PJ0/8QW12b/9/J8yo4u82Wy/yKeWTHQbFHc1snHQbzS84kC1i1uG/InEjhxBTaRf1WrWZMDmsT5t0IMoH7QtVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bhFGHt9H; arc=none smtp.client-ip=209.85.208.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A7zSQN+y"
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-7d5bfdd2366so912843241.3;
-        Fri, 01 Mar 2024 02:27:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bhFGHt9H"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-565a2c4cc1aso3222896a12.2;
+        Fri, 01 Mar 2024 05:46:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709288838; x=1709893638; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+8R8JBu0KnyCCbyrJSAZ0i3n/0DKjztSJha154VV2Vg=;
-        b=A7zSQN+ybvAU/+N+uTiMilWWdAl7L+a/TLFpxiceukhPC0gwIS9nvVXSKWf1zDusDR
-         o/k4ov3eEF4WkQTiz41v2Hnx7SbCfZPG5GAhRTpGPlExNxwRx5JN51A4neZDJ9tp3GGI
-         OTL8Bv8UrVClATBCzJnjx4dfpW7TQstsaP7G7oTZBzPMR6x2Yyok6orGKUmOBOd1dMro
-         ra0F+WWF9CLG68s2+1O5Mm/Dzib6fUYMMU5mSKOwjgrZ1wZ48XyKTA/g4FhVjagSvg4O
-         vbZ/3mUrivb45zmqRGu+LBzZiFT3i32JHU8F3CkKYWhpoAvDMDx5UyiCwqu/dQKwU2Xu
-         wepQ==
+        d=gmail.com; s=20230601; t=1709300807; x=1709905607; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yaHYFmAj2a1qF5bLRyGFMlUXUbLIC303Xpdp1+Wxpss=;
+        b=bhFGHt9H8ZsS3+ux3BG/7jENxIM2xxY4ladt0DZXCOM/wtKbLCcpc7zj4JtwpNVeKE
+         nmPMBjnt86SneFfk+J/MupQ89nlTu+Kt9Hdc5toNj4BYIl7h6VcShTamE6rFE2pmIe28
+         T41Pf6YSY+b5JNCh0SplgVWgUhTc2WR13eb7yzh50sW9oQFrHXIC9umFeJqZU7tfNi9N
+         eB2OoqsUYJZMgQMpMpXy3Y7VUrYU5JRKMG1xO3ZGIeKvb1ZuJfhFwXoN85WEkUZK/ri8
+         /goYvyPGJ2mmN6yJDtRRqAp/SGTG6c3l/iNFGwKunlf7vlcQm572MVk2ZhR8dDYSlHz7
+         N/Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709288838; x=1709893638;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+8R8JBu0KnyCCbyrJSAZ0i3n/0DKjztSJha154VV2Vg=;
-        b=eTp4Liy7kx2QZawftlyQ9pRPvMI6jgV2F8EkLy6VqlIUA+6HGmQyiEFqP+oEENok8W
-         vDM7p/oc8SZI9bDg+PFVqSleyEveJii+Zuxgun2txGvHaDNCmwm3R3RU3Z3Z8pf23Ldg
-         J/PksTPditPZ3N50kQR2Riv4iD97ybrAwC8GV7DCXHUk4/5veibNn5/vd7wmz+TKlIcw
-         QBx5NMxQOwOm+IreYzT70KX+VIz/q54WuhUFGF3pPgk9jkQrEPFYLz3/1z/CeoIbd4eM
-         2Thhoh182ObmuUkKOPs9O8S8bgAlCpa5nLoeWHldE/zI40mEVqHL78+9gJ6Gq6abTsJa
-         1rDw==
-X-Forwarded-Encrypted: i=1; AJvYcCX67cZKSw2u7c7j5+Jp6/JCnojP6D3Er2z8udbx0quPzLkU8jLWoIcXRu6yd5NqGCkKH3e/k3XoYA8HrgbAMRQ75eLqrR3AoWdt1TZRkXkh8r5O2qnsCZHzJ7F4+HAB7oyPsvgbc/+GIa4HhUc5EXDwLPPHTPsoln/WzceyfOOHAs5yG1G/f9eG
-X-Gm-Message-State: AOJu0YyWLKk/wbKdu1G1ApDe+QbbFLSfzymOZYSO8YHPErgHyQa6+Tas
-	owK1McKkwzTIMKjDu52j7YZl7sBpnMiXfjQfPptmgrBLg4BcMNPC
-X-Google-Smtp-Source: AGHT+IGA2EhlSIveghf5fPs7eCJWWBEt2uWG2e0AMbakP0YO1TEMJxKEq/LVB0SDs/hMMY9hmOLxYQ==
-X-Received: by 2002:ac5:c923:0:b0:4ca:80c5:7544 with SMTP id u3-20020ac5c923000000b004ca80c57544mr809997vkl.4.1709288838389;
-        Fri, 01 Mar 2024 02:27:18 -0800 (PST)
-Received: from [192.168.0.118] (88-113-27-52.elisa-laajakaista.fi. [88.113.27.52])
-        by smtp.gmail.com with ESMTPSA id b22-20020ac844d6000000b0042ddde7c415sm1586898qto.9.2024.03.01.02.27.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Mar 2024 02:27:18 -0800 (PST)
-Message-ID: <44ae0339-daf1-4bb9-a12d-e3d2e79b889e@gmail.com>
-Date: Fri, 1 Mar 2024 12:27:13 +0200
+        d=1e100.net; s=20230601; t=1709300807; x=1709905607;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yaHYFmAj2a1qF5bLRyGFMlUXUbLIC303Xpdp1+Wxpss=;
+        b=AC2oFtSmE/6RCx/arw329gG1vsPdVwN4RfoPoC0TRIRzu8bzurPSXma6zX077Ienaw
+         6TUlVOjTiOE/uv9pkn5rgimcn9tJfwfdDQnW/MMrFtPRBVpd5aEhmXzlvwrk4ZOd7iWC
+         zCyzjmNH/IDpkF/g3IJm+4HAWjhQTIIBuxg5O7tUwC4d650Ba4upiSvNmHAPNX9sqZU1
+         x71xb/AMDATNXqXBXUvBdHxeFq6gTMYpMdJOdqQ0jOa4JsxTvtZ7V/kpSKdmbW0WJ+1F
+         jUS6ftc80wN6YfWlBC/cpNh8vh2xhUzXqRJgP2sT08Ft0oqxTmCBZ1ExaLQIrY9ihO0S
+         EN7A==
+X-Forwarded-Encrypted: i=1; AJvYcCWC3QFN8ZJg4/8FbXNb1Q4OUvwZh22OrEszDwJ7jYLfzCbCWycNs2AuOgDYIV0bl/F7L5oFYz68H5d8G544B/Q2HZh3q8P+KShDq+tY5cFMPPAJmcp8W5FLgropQj78aPw0oObj+yxB/FUtQyCtHv83L6MjvnHkyxKZgoW/k5pHoC/h
+X-Gm-Message-State: AOJu0YwgLoBmnHY45oWefaG352lXppK7QEI42F+aXi/tJA55XA1R55sr
+	pUmTfU2vwChgqd6THmwb+erfdnYKvSvPtyF9ianT/N8AB9V+znMqFHarc2FqmVc=
+X-Google-Smtp-Source: AGHT+IG2ZWNiDZ/UapF2emTgF/bCbiuQ7tutc4XzcrVhKozADdzWclYYDUbgLtjEov25z51CeWOB5g==
+X-Received: by 2002:a50:cbc9:0:b0:565:1780:9399 with SMTP id l9-20020a50cbc9000000b0056517809399mr1267962edi.25.1709300806508;
+        Fri, 01 Mar 2024 05:46:46 -0800 (PST)
+Received: from lola.. ([2a02:810d:7e40:14b0:d371:e319:5dd0:9b35])
+        by smtp.gmail.com with ESMTPSA id fj10-20020a0564022b8a00b00563f8233ba8sm1584107edb.7.2024.03.01.05.46.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Mar 2024 05:46:46 -0800 (PST)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH 0/3] Towards a re-organized submitting patches
+Date: Fri,  1 Mar 2024 14:46:34 +0100
+Message-ID: <20240301134637.27880-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.43.2
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] kci-gitlab: Introducing GitLab-CI Pipeline for Kernel
- Testing
-Content-Language: en-US
-To: Linus Torvalds <torvalds@linuxfoundation.org>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Helen Koike <helen.koike@collabora.com>, linuxtv-ci@linuxtv.org,
- dave.pigott@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org,
- gustavo.padovan@collabora.com, pawiecz@collabora.com,
- tales.aparecida@gmail.com, workflows@vger.kernel.org,
- kernelci@lists.linux.dev, skhan@linuxfoundation.org,
- kunit-dev@googlegroups.com, nfraprado@collabora.com, davidgow@google.com,
- cocci@inria.fr, Julia.Lawall@inria.fr, laura.nao@collabora.com,
- ricardo.canuelo@collabora.com, kernel@collabora.com,
- gregkh@linuxfoundation.org
-References: <20240228225527.1052240-1-helen.koike@collabora.com>
- <20240228225527.1052240-2-helen.koike@collabora.com>
- <20240229-dancing-laughing-groundhog-d85161@houat>
- <5d7ed81b-37f9-48e9-ab7e-484b74ca886c@gmail.com>
- <CAHk-=wixVy3WYvjbt43ZSrCqPDsS76QJQSkXFbbPsAOs1MCSAQ@mail.gmail.com>
-From: Nikolai Kondrashov <spbnick@gmail.com>
-In-Reply-To: <CAHk-=wixVy3WYvjbt43ZSrCqPDsS76QJQSkXFbbPsAOs1MCSAQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Thanks for stopping by, Linus!
+Dear Jonathan,
 
-On 2/29/24 10:21 PM, Linus Torvalds wrote:
- > On Thu, 29 Feb 2024 at 01:23, Nikolai Kondrashov <spbnick@gmail.com> wrote:
- >>
- >> However, I think a better approach would be *not* to add the .gitlab-ci.yaml
- >> file in the root of the source tree, but instead change the very same repo
- >> setting to point to a particular entry YAML, *inside* the repo (somewhere
- >> under "ci" directory) instead.
- >
- > I really don't want some kind of top-level CI for the base kernel project.
- >
- > We already have the situation that the drm people have their own ci
- > model. II'm ok with that, partly because then at least the maintainers
- > of that subsystem can agree on the rules for that one subsystem.
- >
- > I'm not at all interested in having something that people will then
- > either fight about, or - more likely - ignore, at the top level
- > because there isn't some global agreement about what the rules are.
- >
- > For example, even just running checkpatch is often a stylistic thing,
- > and not everybody agrees about all the checkpatch warnings.
+I wanted to clean up the development-process documentation. There is
+however no easy way to break the ice here:
 
-I agree, it's hard to imagine even a simple majority agreeing on how GitLab CI
-should be done. Still, we would like to help people, who are interested in
-this kind of thing, to set it up. How about we reframe this contribution as a
-sort of template, or a reference for people to start their setup with,
-assuming that most maintainers would want to tweak it? We would also be glad
-to stand by for questions and help, as people try to use it.
+The elephant in the room is that there is some unclear relation between
+5.Posting.rst, 6.Followthrough.rst and submitting-patches.rst.
+(Yes, I know each document has its own history...; but let us put the
+history aside for now.)
 
- > I would suggest the CI project be separate from the kernel.
+Submitting-patches.rst contains information largely put together from
+different initial starting points and is partly outdated due to common
+workflows with git format-patch and git send-email.
 
-It is possible to have a GitLab CI setup with the YAML files in a separate
-repository. And we can start with that. However, ultimately I think it's
-better to have it in the same repo with the code being tested. This way you
-could submit code changes together with the required tweaks to the CI to keep
-it passing, making development smoother and faster.
+Often when new additions are made, they are somehow added to both
+documents with slightly different wording.
 
-With that in mind, and if you agree, where else would you say we could put it?
-Under "scripts"? Or "Documentation"? And where it would be best for the
-various subsystems to put theirs? Or could we have the top-level "ci" dir and
-pile all the different setups there? Or would you like to wait and see how
-adoption goes, and then decide?
+Also, looking at the word count (with wc -l) on next-20240227:
 
- > And having that slack channel that is restricted to particular
- > companies is just another sign of this whole disease.
+  2917 5.Posting.rst
+  2136 6.Followthrough.rst
+  5878 submitting-patches.rst
 
-Regarding the Slack channel, we're also on #kernelci on libera.chat, and we
-have some people there, but if more people start showing up, we'll be spending
-more time there too.
+So, from the numbers, you would expect that submitting-patches.rst is a
+detailing of Posting and Followthrough.
+However, it is really difficult to see how submitting-patches.rst would
+be a refinement of Posting and Followthrough or if and where it is not.
+First, at the moment, the different initial starting points and different
+ordering somehow makes it difficult to judge.
 
- > If you want to make a google/microsoft project to do kernel CI, then
- > more power to you, but don't expect it to be some kind of agreed-upon
- > kernel project when it's a closed system.
+Also, the factor of 20% more words really does not indicate much more
+content in submitting-patches compared to Posting and Followthrough.
 
-Yes, our Slack is a closed system, unfortunately. However, it's not a part of
-the proposed CI setup *at all*, and it doesn't depend on Slack. We just like
-using it, but we're also fine with IRC.
+For a simple experiment, I moved the larger parts on the tags
+(signed-off-by, co-developed-by, acked-by, reported-by, etc.) into a
+separate document and then ran the numbers on submitting-patches again:
 
-GitLab is open-core, and no closed-source software is required for the
-proposed setup. There is the public gitlab.com where you can deploy your CI,
-there's also the freedesktop.org instance, and it's possible to set up your
-own (albeit not easily).
+  4329 submitting-patches.rst
 
-Nick
+Nowt, the size of submitting-patches is actually below Posting and
+Followthrough.
+
+So, the difficult task to reach a coherent process description is to see
+some relation between these documents and then go through the editorial
+changes. I have come up with this kind of vision:
+
+Phase 1: Clean up submitting patches
+
+  Topics/Statements that can be easily cleaned up first do not get in
+  the way (at least mentally) when trying to understand the next steps.
+  
+  E.g., as an experiment I moved the details on tags into a separate
+  document.
+  
+Phase 2: Make submitting-patches have one clear temporal flow.
+
+  The top-level structure should basically be along the temporal order of
+  things: Prepare a patch, Post a patch, Respond to review, Send reworked
+  patches, Be patient before resending
+
+  "No MIME, no links, no compression, no attachments. Just plain text"
+  needs to be reworked into "Send your patch".
+  
+  The content from the canonical patch format needs to evaluated on
+  relevance with a git workflow and the important pieces need to be
+  included into the temporal flow.
+
+  In other words, it is worth describing "the canonical patch format" much
+  more from what the submitter may add where and in which format rather
+  than explaining the purpose of some things that git format-patch does by
+  default and usually nobody would play around with.
+
+  Probably, prepare a patch will need to be broken down a bit in some
+  smaller steps. The "Send reworked patch" section is new and needs to
+  include content distributed throughout submitting-patches.
+  
+Phase 3: Merge the pieces of content from Posting and Followthrough into
+submitting patches if it adds something to that document.
+
+  When both documents roughly cover the topics of similar depth, we look
+  fine-grained into how to construct the one document that has the best
+  from both documents.
+  
+Phase 4: Remove Posting and Followthrough and simply replace it in the
+process description with submitting patches.
+  
+  In some way, when both documents cover the topic in similar depth either
+  document could be deleted.
+  However, the name "submitting patches" is probably already stuck too much
+  with the community; I have seen many presentations referring to
+  submitting patches, but I have not seen anyone referring to '5.Posting'
+  in any presentation.
+
+  Also, the number of references---excluding translations---to Posting and
+  Followthrough, submitting_patches.rst is 3, 1 and 41, respectively.
+  In fact, the two references in handling-regressions mention Posting just
+  as further reference next to submitting patches, clearly just indicating
+  this kind of duplication. So, submitting-patches is much more stuck with
+  the community at the current state and once the content from Posting is
+  added to submitting-patches, Posting will not be missed.
+
+  Further, this requires to rewrite the process description intro
+  and the intro of submitting patches a bit, such that if readers:
+
+  - just jump into submitting-patches from the top page,
+  - or are going through the development-process from cover to cover
+    (coming from its section 4 and moving on to section 7)
+
+  they see a roughly consistent flow of thought and suitable introduction.
+  But I think this should be feasible.
+
+Let us see how long it takes me to work through this and convince the
+reviewers and future readers that we are moving a good direction.
+
+So, here are some first changes to Phase 1 and Phase 2.
+
+Current state:
+
+I spend roughly two days of work---besides the usual distractions---on
+this topic, digging into the documents and trying to make a plan.
+
+Obviously, the final goal is not reached with this series, but I would
+like to get first feedback and hope that we can get the first patches
+generally accepted (but not necessarily included into the repository yet
+if only truly accepted when seeing the full picture of changes) to
+continue the rework with some backing confidence that this is not all in
+vain.
+
+Please let me know if this is going in the right direction and if some
+patches would already be accepted to be included upfront to lower the
+risks and conflicts when continuing the editorial work.
+
+Well, long text... some short simple patches for now.
+
+
+Best regards,
+
+Lukas
+
+
+Lukas Bulwahn (3):
+  docs: submitting-patches: divert focus from PATCH in the subject line
+  docs: submitting-patches: move split_changes before describe_change
+  docs: submitting-patches: move backtraces to patch description
+
+ Documentation/process/submitting-patches.rst | 119 +++++++++----------
+ 1 file changed, 58 insertions(+), 61 deletions(-)
+
+-- 
+2.43.2
+
