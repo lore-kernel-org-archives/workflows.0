@@ -1,116 +1,80 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB4013F420
-	for <workflows@vger.kernel.org>; Thu, 29 Feb 2024 20:21:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B9F6EEAE
+	for <workflows@vger.kernel.org>; Fri,  1 Mar 2024 01:13:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709238082; cv=none; b=TNWdGs/z+DFbOD5xerOcYg4RyfW5c+8UqMFT6nOF7wFphbdmTWuSeptdg9CqsogsbQn/r/zdMkVFjgdNTFrX/SJ2QeI/xq1jvacDvNZkuE4OnneZpUw79ydg2t5J7i5WaX15nWVaVJJWu9sx+iBCzbonjUG3w72/pLxxpUew50o=
+	t=1709255600; cv=none; b=k28U6YDv7D6ZCQuJJUgRK9M7Iz2bSF7ldosVwkF3jVhUYV0yaN1SB9/nBW9rXiybEVEww4FOlXJPb6uuTESt6ifsqDQlyA4E9m3kVF5//83v4N6+Tw6vOSE0EKicNKkHKzPldBPE+w/dHNdIEqHQqkEr9EAT412Aw27DsNAvORA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709238082; c=relaxed/simple;
-	bh=uXWrJbshZP7CBnPLaekgrXuRiji+uddEtfNEXyijjLg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hXv6tbsMdaKVHNXrzjdDVPkLzvvLjp8UcSloHfWZU+NPhRbzRNKw11s79O8xyoOVJv46n9ptemdtqBqDQSAuUSHrZIpJ59LzRRrN5dNM6fcqwpDusSyWr//srYojlTUTfDvyLASKM2G3a+UZzFH8Da2JSZ6rjkVpbx6YiXTScH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=UlXHl1B5; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="UlXHl1B5"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a441882f276so193726066b.2
-        for <workflows@vger.kernel.org>; Thu, 29 Feb 2024 12:21:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1709238079; x=1709842879; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=k0i0PgDtVBoPSBAUnZ0cg1G8fT87ylUFojqmg8T1gpw=;
-        b=UlXHl1B5HUAfDLiCSYcykEpLRlVRTtFSEIQOljSoH6A3WFX+EjBnAGYuhiTU3xzlM9
-         TsTkOLtfRmMSnxRgzXyznCTkltMllH7/s/GeSFvtzUocJnGoviOe61InHrw/18eogGXe
-         AiQzNmFMgSAwOO2KjvLXYwWlnpSLBxM0e5Vao=
+	s=arc-20240116; t=1709255600; c=relaxed/simple;
+	bh=ZuvjqH3HIFy12XQQHy4pBaqVidAhTDkX4wpKeIhtGms=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=jb0HAMrL4tcguUdAiD+DEXaXNuKzTuAHNjrML0wwhGC/ayZU8H8VSzEDyjxMB3O7EEITYVF7KNLkyWAH8dwbWSGtxMp+BZqbrtuQSaObA9D+gipERws3XkS5nTV/JhA4OJXTMXv+AI0PaONPqMFFSVuRwq+qA/VYq1eA38LvUls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=acm.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.215.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=acm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-5d3907ff128so1450532a12.3
+        for <workflows@vger.kernel.org>; Thu, 29 Feb 2024 17:13:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709238079; x=1709842879;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=k0i0PgDtVBoPSBAUnZ0cg1G8fT87ylUFojqmg8T1gpw=;
-        b=hZgBodrnnqeSCgst4ErqRqmR4gQ17iBPCftgXI9kNekWl1voIcfIbaXmHYY/sjcIx9
-         OHTC7GdCIuJGqcj991DcdDD5bbK9iCR1GcGV8xC/G0B5iKaHXqOQLmTMFXCV2DZjDHkd
-         ekhoL1+imDbA2WzG7fOQrKcsJUE05K8UAtjSM/tPWrH2Om3FVhdGAUs6RfuTAKfdCpC0
-         PUsiXik+7taMeUqx4BuZ3D0VhP+9HgThEVoW+ReWzODY9y0omoQjK2EdnT7W5Db7jhEu
-         B81AAqmsRIwMPph0zyHuQaMRfZVAmOpPV5IOAqa2YAYOK0u+YUy9wdFuAeTXG5YRTKtd
-         Vs5w==
-X-Forwarded-Encrypted: i=1; AJvYcCWJJVRAW9mxZjMEGOP0dN1lFUfo8aARleiZPUm5tHl1nR60d01m1bSfgqt85+oHScylSRAcizGPcqcLRnkwsX+nwc4/cJ026Wru
-X-Gm-Message-State: AOJu0YyqrkGOVSaT0Vix+52fTwHiIjT95yFTdThLIkvXrGTfIGOnXpPD
-	4Nxq7h9j3f935b7SfnRgaSWWbtNZu16mEYj5UmZEhP47373KuELtvgGtHsPq4aJTEUHYGTSNYP3
-	eON1Lug==
-X-Google-Smtp-Source: AGHT+IFzPPf0WhLYhasV58Di3lcvpsSxCJ756OCRd0HPnlQNVwZRuS/oiwOh1ie/1vdwbFyMNTC3nw==
-X-Received: by 2002:a17:906:b30d:b0:a43:a628:ff31 with SMTP id n13-20020a170906b30d00b00a43a628ff31mr39677ejz.26.1709238078796;
-        Thu, 29 Feb 2024 12:21:18 -0800 (PST)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com. [209.85.218.41])
-        by smtp.gmail.com with ESMTPSA id ss18-20020a170907039200b00a44230eafdfsm1005986ejb.83.2024.02.29.12.21.17
-        for <workflows@vger.kernel.org>
+        d=1e100.net; s=20230601; t=1709255599; x=1709860399;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JUmSc9gRpxsRRwEZsMBIvA5Xuuwgz+nXXOF7b7dCCgE=;
+        b=nro393Llh08zkNLkLPoriZWL61LgLpuCv6qXqUojZcEekA0JBQW5JsMQzHXzqPVRe5
+         1Mw8Do5iRzIiEMo0JoB5TdYihhfQOOgXvZqTNbse0wmHo+KY8Swccy4/mpans/A2txNb
+         NdxLvcfYCLg5rxZ5cGe8eVWJBRXC43wKOgljcmb47lItFqmi481h3DrsInkSkXzLC5EY
+         k8X07aQtKCDzZe1H/VNeV7K/LKywhtl1BeEo9lo6QwppSzaKMdHFcToU94jC3rTti1zM
+         hoOyeowIrJ65PGROzhIT9yt805BKNdrB0Dq2SNeEoXPRQKfdec5kL6XN5n4UGx4H9tUO
+         gPBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUPRRAhczEAJSC10KYPpYMniKx29BtR38K6wojllhcgcX+0gQ9xSFnknukeAkG+Pvm9VCc2OpDxRz5xajBZI5yw3LT8LNdV4SGs
+X-Gm-Message-State: AOJu0YzVMoESUxnuQ6XWp/OB8V9r/1tqfEWwPoR5jcQjrqqtg+aAXbp1
+	sJpi867to9ErhrO+/z0GA7V5Suq7731cmVNMv32DN3RiUYybeGMS
+X-Google-Smtp-Source: AGHT+IFt0qFrm7keCtP7YEwddle58URI8bgB2yxoxq5IX80T9wgjzBezyN63oCCiyPW5VoRuLtqmbA==
+X-Received: by 2002:a05:6a20:244a:b0:1a1:34be:24b5 with SMTP id t10-20020a056a20244a00b001a134be24b5mr157813pzc.24.1709255598567;
+        Thu, 29 Feb 2024 17:13:18 -0800 (PST)
+Received: from [192.168.51.14] (c-73-231-117-72.hsd1.ca.comcast.net. [73.231.117.72])
+        by smtp.gmail.com with ESMTPSA id ju16-20020a170903429000b001db5ecd115bsm2155836plb.276.2024.02.29.17.13.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Feb 2024 12:21:18 -0800 (PST)
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a26fa294e56so265145866b.0
-        for <workflows@vger.kernel.org>; Thu, 29 Feb 2024 12:21:17 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWTp1D+DOOb+3w4AGY/D4dUGj0SA32LuhynQb4FPKY6upEWrWqQHHmL6GnE0+kSedWPRuiCJy+gl0/MLlrsC7ohW6y7P5omGJCb
-X-Received: by 2002:a17:906:d9c9:b0:a3f:1cb6:fb00 with SMTP id
- qk9-20020a170906d9c900b00a3f1cb6fb00mr12394ejb.69.1709238077400; Thu, 29 Feb
- 2024 12:21:17 -0800 (PST)
+        Thu, 29 Feb 2024 17:13:18 -0800 (PST)
+Message-ID: <23f843e8-2eb6-4b25-b515-44c6cf5e49d5@acm.org>
+Date: Thu, 29 Feb 2024 17:13:16 -0800
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240228225527.1052240-1-helen.koike@collabora.com>
- <20240228225527.1052240-2-helen.koike@collabora.com> <20240229-dancing-laughing-groundhog-d85161@houat>
- <5d7ed81b-37f9-48e9-ab7e-484b74ca886c@gmail.com>
-In-Reply-To: <5d7ed81b-37f9-48e9-ab7e-484b74ca886c@gmail.com>
-From: Linus Torvalds <torvalds@linuxfoundation.org>
-Date: Thu, 29 Feb 2024 12:21:00 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wixVy3WYvjbt43ZSrCqPDsS76QJQSkXFbbPsAOs1MCSAQ@mail.gmail.com>
-Message-ID: <CAHk-=wixVy3WYvjbt43ZSrCqPDsS76QJQSkXFbbPsAOs1MCSAQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] kci-gitlab: Introducing GitLab-CI Pipeline for Kernel Testing
-To: Nikolai Kondrashov <spbnick@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Helen Koike <helen.koike@collabora.com>, 
-	linuxtv-ci@linuxtv.org, dave.pigott@collabora.com, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-kselftest@vger.kernel.org, gustavo.padovan@collabora.com, 
-	pawiecz@collabora.com, tales.aparecida@gmail.com, workflows@vger.kernel.org, 
-	kernelci@lists.linux.dev, skhan@linuxfoundation.org, 
-	kunit-dev@googlegroups.com, nfraprado@collabora.com, davidgow@google.com, 
-	cocci@inria.fr, Julia.Lawall@inria.fr, laura.nao@collabora.com, 
-	ricardo.canuelo@collabora.com, kernel@collabora.com, 
-	gregkh@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: Toy/demo: using ChatGPT to summarize lengthy LKML threads (b4
+ integration)
+Content-Language: en-US
+To: Hannes Reinecke <hare@suse.de>,
+ Konstantin Ryabitsev <konstantin@linuxfoundation.org>, users@kernel.org,
+ tools@kernel.org, workflows@vger.kernel.org
+References: <20240227-flawless-capybara-of-drama-e09653@lemur>
+ <964843ca-891b-4039-94b3-ed1046df2d69@acm.org>
+ <5758922f-a11a-4bbe-88a4-b724f53b2e6f@suse.de>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <5758922f-a11a-4bbe-88a4-b724f53b2e6f@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, 29 Feb 2024 at 01:23, Nikolai Kondrashov <spbnick@gmail.com> wrote:
->
-> However, I think a better approach would be *not* to add the .gitlab-ci.yaml
-> file in the root of the source tree, but instead change the very same repo
-> setting to point to a particular entry YAML, *inside* the repo (somewhere
-> under "ci" directory) instead.
+On 2/28/24 23:18, Hannes Reinecke wrote:
+> Now there's a thought. Maybe we should do exactly the opposite, and 
+> posting _more_ ChatGPT generated content on the web? Sending them
+> into a deadly self-enforcing feedback loop?
 
-I really don't want some kind of top-level CI for the base kernel project.
+That's a rather negative view. Besides concerns about the energy spent
+on training LLMs, in my opinion LLMs can be very useful. If I need to
+look up information about a kernel subsystem that I'm not very familiar
+with, I type in the question in the user interface of an LLM. While it
+can be very hard to look up information in mailing list archives with
+a traditional web search engine, LLMs can give accurate answers quickly.
+Here is an example of such a question: "Why does the Linux kernel cgroup
+implementation propagate statistics to parent cgroups periodically
+instead of immediately?" Both ChatGPT and Gemini produce reasonable
+answers to this question but the web search engines that I tried did not.
 
-We already have the situation that the drm people have their own ci
-model. II'm ok with that, partly because then at least the maintainers
-of that subsystem can agree on the rules for that one subsystem.
-
-I'm not at all interested in having something that people will then
-either fight about, or - more likely - ignore, at the top level
-because there isn't some global agreement about what the rules are.
-
-For example, even just running checkpatch is often a stylistic thing,
-and not everybody agrees about all the checkpatch warnings.
-
-I would suggest the CI project be separate from the kernel.
-
-And having that slack channel that is restricted to particular
-companies is just another sign of this whole disease.
-
-If you want to make a google/microsoft project to do kernel CI, then
-more power to you, but don't expect it to be some kind of agreed-upon
-kernel project when it's a closed system.
-
-               Linus
+Bart.
