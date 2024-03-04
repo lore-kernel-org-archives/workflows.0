@@ -1,146 +1,143 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BFF5399;
-	Mon,  4 Mar 2024 01:15:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32994171AC;
+	Mon,  4 Mar 2024 08:12:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709514903; cv=none; b=L652iqzQAPLip0AS9ACRoa/GL4mRqd/eMvXt6PD/ugcXbkb0sp1fY9IrYN5gvf0aLfpK2O6rcXE6PISeiv2HBH8SQggmq1IixbZPB1CMKE7unWxNwMNpi7oglyRtPyDWhx6icoJ9QtxcI18GpeH9ZG5Xt9a2w4lC46j2utDgXPw=
+	t=1709539975; cv=none; b=nOzk/Pt6GKmRht0LgQoZRqw2fCm8IAL3uIKrtUuQUS7spmq1yx+LbnGsh5Lwrsv9OKYHR08IOI+sXZZPh093/vVAu97CNSo065KKR+8z+M4Qicn1Lup4e0F78e7+8JDcJqKf9E2TKKD+nIriQw0DMvqNGTVbq0sgmvf0ZJU6LWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709514903; c=relaxed/simple;
-	bh=Is9g0jTE6Hghw4bYKw5kyfKhPC01Ffmw3Zw+sD4jVFM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XLjv/D+nTpodkSTWizlZYTVQUDqluhdixgYJM1o4jP77DB3G2Hy1stbc+2wFphXpL8DidmVxute7q3t4sZTuHU61LEy8gYriIDRLtbm72Z5Au610m71yHnlDZQkjGIGfgyiyZF/ifu6kK+It1EXs7+1nbmdSQts2iVWftl4QGAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VpaSsHvm; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1709539975; c=relaxed/simple;
+	bh=dSPakM85splPyrahmvvAIpbuGYBrhOcpQ6LPsHcXsTo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TPbbW1bFxVOwRA0G44HSDTnpmRKyby+sWOtznZdWzJuHMq5l6SB8qsfIssz6BVgIneRnckzET34Y8V5GIaSdvE2Uu813AYofr0MUgqEThZLRzNVj4JN8FLIL4lvNyF9o2erWmkROAwrP7T8jwTqwFn3davW9XqXETjwnsouT5nA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VpaSsHvm"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1dcab44747bso31882495ad.1;
-        Sun, 03 Mar 2024 17:15:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709514901; x=1710119701; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=J7+1VZ0sKh4c9zBtqZ8bdjGmhnnmQ3652uHnuEg9cXA=;
-        b=VpaSsHvmsq8wPxFxaVNe2k8EnXqmcm+fwBhjAVyzu+u4sDsBPDBZC3y81tGIubjuIx
-         K4JMcyVWYboXOAtx/0nfPOTvcNBmttNxkj5PzO7YyItuyd7nuE9jkoSMDuz/zpqu+Zpd
-         JDKZ7Qn08vNQ+yCp/NOSyAqfCx5JXF/3SrjqrAoQgcEteyjERPQVpCKozwX0UQzM68lf
-         nrtRfBeR2MsmZqkAH2BwgngLivWHPqt9IDw2tVxobgN4Q0Jx4hH4LEd/kjwiPQ8ymkke
-         6pLEraPupI4qGYpEZJwLy3Hmycz4zW7AwG0Eitfr8/iBYn4zQrV15F4StUYXnxKSsJVj
-         IvqQ==
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-6098bf69909so18938067b3.1;
+        Mon, 04 Mar 2024 00:12:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709514901; x=1710119701;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=J7+1VZ0sKh4c9zBtqZ8bdjGmhnnmQ3652uHnuEg9cXA=;
-        b=QmVN1j87Q6h9ixYQ5XbLKuNv/iiHlJjKZl/TipaEbfAve+vrVwXtWnUdHnlNBO/HHz
-         ek4fviPSmDjOKNI8XZebhkRlcGtxHykKEaSaJQMQrhManHrG1mYzZgeOssDbNqM7V/+o
-         B+Aqif9w1b4kW4kEWuqx8qkxoilfLNB4wMiPA8XuUpo/dPeMpsR3jMCEGL1svULqwoV0
-         hNCm3tUJM8n3XWT+76KuAUHktG0eW3yqlL89Tu47ken46rkQQgiCSK+cfflz/HnqCaeM
-         og8MKWOQT+g4OLdcOryYXEMRLEWXd57EZRaU3O8xEPP29xl/PuqzgzXDXP9pdAShewfz
-         Rypw==
-X-Forwarded-Encrypted: i=1; AJvYcCVKedpZu5DoTDcbg37EflbEfS04jtM5InjBaq1Rsb+5+VoUJuOwPx+0zr5lMsk5ct0nczfGuKIpiJentRrUufSZC+FpfzUbpk9rW/4BUppbWcnaAN25r+d6MdH2/0nGzKKs+K8kgcqDWEtxnWkZn9H6nkqaxESkuRa0anQt5c7U5rT9cXCE6AleLaTF09R9wCnS1VWoLGnSYoeRf64Sfx4wVaPn
-X-Gm-Message-State: AOJu0YymeynGbXn+aFnktXY5vVoJu7BEjfxUe/JoNGErxXTz6mfd7ZZA
-	6FpcFmNVph4A1X8j7/YDaAeqi0wxPrzEsV2fxNOPrgaDi26AsQtA
-X-Google-Smtp-Source: AGHT+IEhK3iUr8gBsGpNgs3hqYm/t6yFB3ipQbpCNtATZpIrbUTkevMfOSYevSIdRpG7OBtzj6KfsQ==
-X-Received: by 2002:a17:903:2309:b0:1dc:43d:964 with SMTP id d9-20020a170903230900b001dc043d0964mr8277235plh.48.1709514901309;
-        Sun, 03 Mar 2024 17:15:01 -0800 (PST)
-Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id w1-20020a170902d10100b001dbb14e6feesm7212913plw.189.2024.03.03.17.14.58
+        d=1e100.net; s=20230601; t=1709539972; x=1710144772;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2J1p7SXZtqr3McfoeaXd0vJRTrL26m9P2IwKT4zVhdI=;
+        b=XN5BvxHbBRwoajkhEYE2+RTjQwojxG/PFIAEfsNgkXvIkxoGF3Tkz8ylt8OPu+eCJV
+         U7Vbxhh/RdJA9k7SGbIae4eKSeNIs4C2izgjA1W7pnYdjbv4046gaWYNx43TZfmtoqkS
+         QKzFJY2AFcNlvX9asYxIZI+B1ZUt4LdlGSHzeoqsDM4Rih0qzEoD/QHjq3tJ2aAduNdb
+         BxqbHGtwSTmuEqTS6eyEYLKUVGOmJ7adUXtBvlD+Oe3GnxrAW+4nuNqPVMOjtCs5qVj9
+         mMq1Q5KY3djoph4I4Mv3Z46/B3dQVZcnqMGEILhB0wvA4gG2gKOjABkiCrkYFysokA2P
+         Fw3g==
+X-Forwarded-Encrypted: i=1; AJvYcCXqd7e579pUuczC1ugfXbMMq9Dpjv0w6Cm9c7rLmFTdhGi8q7yceLkZ6FC0p6upnfJ/tKeL5I5U2xasqgQj2agXOmZS3CUGXPkivzFO+Twb06RAgeKWFMKSaEXnAEn/+fyStUBA3KOjCdbocf5y4J7RUtaWOQ8B0wBLymJFUGzZ4oPC5SxptSht
+X-Gm-Message-State: AOJu0Yy15iujqPbg8YdKQuBiVwKt3t/ztWQuXGwx9dCth7rSWZifNqVu
+	m9kFfqoKKuSGm7Q7HSwaVklWR/IioQfMn18Bdl97Tv5CKUzLapDU+Sp1B27nQE0=
+X-Google-Smtp-Source: AGHT+IFNELEY4dPLfn3VT/vThjEP4pg8tuhkEWou8DCLplV2tuC/UeN2S2bJXZpeJpY/1vQlZDfd5A==
+X-Received: by 2002:a0d:e649:0:b0:608:d4a0:1dbe with SMTP id p70-20020a0de649000000b00608d4a01dbemr5274261ywe.15.1709539971725;
+        Mon, 04 Mar 2024 00:12:51 -0800 (PST)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id m3-20020a819c03000000b00608d0a088e3sm2456535ywa.120.2024.03.04.00.12.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 03 Mar 2024 17:15:00 -0800 (PST)
-Message-ID: <ef93a03b-d43e-44e7-bb55-17b46d86104c@gmail.com>
-Date: Mon, 4 Mar 2024 10:14:59 +0900
+        Mon, 04 Mar 2024 00:12:50 -0800 (PST)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-6098bf69909so18937977b3.1;
+        Mon, 04 Mar 2024 00:12:50 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXyyYp137yqO/FmYYnwkUQF+62shIfrTgI1uSHPQc/dwR/wvwt6TIdBFqt2TPvfhz8SoYlCHdBTaOWJkYJ0jYgUkOI0xCsti7ZO2osAWKKRCORhGd/vjxWR/CCvVaHp94vy3b8oyR7ZIR9mNK2pqXWtrKNk1HahBX+8UyAs27TWgpdjgWcA2TCY
+X-Received: by 2002:a81:451c:0:b0:609:7699:dc63 with SMTP id
+ s28-20020a81451c000000b006097699dc63mr5362566ywa.9.1709539970555; Mon, 04 Mar
+ 2024 00:12:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] docs: submit-checklist: change to autonumbered
- lists
-To: Jonathan Corbet <corbet@lwn.net>, lukas.bulwahn@gmail.com
-Cc: jani.nikula@intel.com, kernel-janitors@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- rdunlap@infradead.org, workflows@vger.kernel.org,
- Akira Yokosawa <akiyks@gmail.com>
-References: <20240229030743.9125-4-lukas.bulwahn@gmail.com>
- <8df0c587-8f5b-4523-89d7-dc458ab2c1df@gmail.com>
- <8734t7z4vs.fsf@meer.lwn.net>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <8734t7z4vs.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240228225527.1052240-1-helen.koike@collabora.com>
+ <20240228225527.1052240-2-helen.koike@collabora.com> <20240229-dancing-laughing-groundhog-d85161@houat>
+ <5d7ed81b-37f9-48e9-ab7e-484b74ca886c@gmail.com> <CAHk-=wixVy3WYvjbt43ZSrCqPDsS76QJQSkXFbbPsAOs1MCSAQ@mail.gmail.com>
+ <CABXOdTeT2ip1uS2EG2w8pW7254Tnd=ZDNz-KC61-G-yqDTVgJA@mail.gmail.com>
+ <269232e6-41c9-4aa1-9320-662beabcd69b@infradead.org> <CAMuHMdXuXV9WV3aANFTteuP8Q3JY6R5OWsVBedGOP7e_JguxqA@mail.gmail.com>
+In-Reply-To: <CAMuHMdXuXV9WV3aANFTteuP8Q3JY6R5OWsVBedGOP7e_JguxqA@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 4 Mar 2024 09:12:38 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWi069YAvOoXe7sHJ_o702tY4tDQgL3sfApPR3aCnZboQ@mail.gmail.com>
+Message-ID: <CAMuHMdWi069YAvOoXe7sHJ_o702tY4tDQgL3sfApPR3aCnZboQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] kci-gitlab: Introducing GitLab-CI Pipeline for Kernel Testing
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Guenter Roeck <groeck@google.com>, Linus Torvalds <torvalds@linuxfoundation.org>, 
+	Nikolai Kondrashov <spbnick@gmail.com>, Maxime Ripard <mripard@kernel.org>, 
+	Helen Koike <helen.koike@collabora.com>, linuxtv-ci@linuxtv.org, 
+	dave.pigott@collabora.com, linux-kernel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org, 
+	gustavo.padovan@collabora.com, pawiecz@collabora.com, 
+	tales.aparecida@gmail.com, workflows@vger.kernel.org, 
+	kernelci@lists.linux.dev, skhan@linuxfoundation.org, 
+	kunit-dev@googlegroups.com, nfraprado@collabora.com, davidgow@google.com, 
+	cocci@inria.fr, Julia.Lawall@inria.fr, laura.nao@collabora.com, 
+	ricardo.canuelo@collabora.com, kernel@collabora.com, 
+	gregkh@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 03 Mar 2024 08:55:51 -0700, Jonathan Corbet wrote:
-> Akira Yokosawa <akiyks@gmail.com> writes:
-> 
->>> -1) If you use a facility then #include the file that defines/declares
->>> +#. If you use a facility then #include the file that defines/declares
->>>     that facility.  Don't depend on other header files pulling in ones
->>>     that you use.
->>
->> Wait.  This will render the list starting from:
->>
->>     1. If you use ...
->>
->> In patch 1/1, you didn't change the ")".
->>
->> It was Jani who suggested "#.", but "#)" would work just fine.
-> 
-> So I'm a little confused.  Is the objection that it renders the number
-> as "1." rather than "1)"?  That doesn't seem like the biggest of deals,
-> somehow, but am I missing something?
-> 
+On Sun, Mar 3, 2024 at 10:30=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+> On Sun, Mar 3, 2024 at 3:30=E2=80=AFAM Randy Dunlap <rdunlap@infradead.or=
+g> wrote:
+> > On 3/2/24 14:10, Guenter Roeck wrote:
+> > > While checkpatch is indeed of arguable value, I think it would help a
+> > > lot not having to bother about the persistent _build_ failures on
+> > > 32-bit systems. You mentioned the fancy drm CI system above, but they
+> > > don't run tests and not even test builds on 32-bit targets, which has
+> > > repeatedly caused (and currently does cause) build failures in drm
+> > > code when trying to build, say, arm:allmodconfig in linux-next. Most
+> > > trivial build failures in linux-next (and, yes, sometimes mainline)
+> > > could be prevented with a simple generic CI.
+> >
+> > Yes, definitely. Thanks for bringing that up.
+>
+> +1
 
-I said at the top of my reply:
+> Kisskb can send out email when builds get broken, and when they get
+> fixed again.  I receive such emails for the m68k builds.
 
-> I might be nitpicking too much, but let me go ahead...
+Like this (yes, one more in DRM; sometimes I wonder if DRM is meant only
+for 64-bit little-endian platforms with +200 GiB/s memory bandwidth):
 
-, and my point here was to let Lukas aware of the variation of auto-
-numbering patterns.  I don't object the change from "1." to "1)" if
-that change is intended and explained in the changelog.
+---8<-------------------------------------------------------------------
+Subject: kisskb: FAILED linux-next/m68k-allmodconfig/m68k-gcc8 Mon Mar 04, =
+06:35
+To: geert@linux-m68k.org
+Date: Mon, 04 Mar 2024 08:05:14 -0000
 
-HTML builder recognizes "1)", but renders it as "1.", while
-LATEX builder renders it as "1)".
+FAILED linux-next/m68k-allmodconfig/m68k-gcc8 Mon Mar 04, 06:35
 
-> A bigger complaint I might raise is that auto-numbering restarts the
-> enumeration in each subsection, so we have a lot of steps #1, which is a
-> definite change from before.
+http://kisskb.ellerman.id.au/kisskb/buildresult/15135537/
 
-+1
+Commit:   Add linux-next specific files for 20240304
+          67908bf6954b7635d33760ff6dfc189fc26ccc89
+Compiler: m68k-linux-gcc (GCC) 8.5.0 / GNU ld (GNU Binutils) 2.36.1
 
-> That, of course, can be fixed by giving an explicit starting number in
-> each subsection, partially defeating the point of the change in the
-> first place.
+Possible errors
+---------------
 
-Right.
+ERROR: modpost: "__udivdi3" [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undef=
+ined!
+make[3]: *** [scripts/Makefile.modpost:145: Module.symvers] Error 1
+make[2]: *** [Makefile:1871: modpost] Error 2
+make[1]: *** [Makefile:240: __sub-make] Error 2
+make: *** [Makefile:240: __sub-make] Error 2
 
-> 
-> I honestly have to wonder: does this document need the enumerated list
-> at all?  We don't refer to the numbers anywhere, so I don't think there
-> is much useful information there.  How about just using regular bulleted
-> lists instead?
+No warnings found in log.
+------------------------------------------------------------------->8---
 
-That would make a lot of sense.
-Auto-numbered enumerated lists look mostly the same as bulleted lists
-in the source.
+Gr{oetje,eeting}s,
 
-No strong opinion, but I'd respect Randy's preference of not applying
-this change.
+                        Geert
 
-        Thanks, Akira
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-> 
-> That said, I don't have strong feelings one way or the other, and can
-> certainly apply it as-is if that's the consensus on what we should do.
-> 
-> Thanks,
-> 
-> jon
-
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
