@@ -1,55 +1,55 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC0375CDDD
-	for <workflows@vger.kernel.org>; Mon,  4 Mar 2024 17:23:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD5F78664
+	for <workflows@vger.kernel.org>; Mon,  4 Mar 2024 19:44:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709572995; cv=none; b=M7U5E1RrMHJwtu0jJtrvcVygVlt6LNUYSY+PSJ7da7MIhVIg1NYFLwcI/V9qhMOBSJeOZ+W+DSmbmdLXXILTrdVCv7AEAAJdg/GWtEh/DPU/2T8DYI0hpiNVu/a1dQ93EMYyNcfFW57ji2xxHSNiPzdY9iPy6pUd7zBQNWTGpBU=
+	t=1709581478; cv=none; b=DJLUHVdUazTm4179khYiWfwzX/ab3CpI4f3gVsrtUo1yfuyDy3GE+5SlONh4+qtB2CFTltLzbaGUwHMG1FI5JCR17BIVP7pQ1xP4zDrG5auamqZEK/k+SVaVDem2I00N7eXv2nEHKbuArfIn3hnMmixJ6o+hVf2jAnWmEiyCBrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709572995; c=relaxed/simple;
-	bh=2AXGixQ7Gc8HjdKyBY3Whs9KBXsRK1tfn6h6cRM619Y=;
+	s=arc-20240116; t=1709581478; c=relaxed/simple;
+	bh=aJziShSE5N9NFf9GEp25onUfKHjDILdb8pau9PDQq4s=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mlgSlA4UzQQq1OhVlqblWtzC26hPc16HfyKfrqNKN9Uh14dxQWpmg4jjnJnWj+WrOZu1oDPc/eeeRoK46vwjgJXuNPNRcdj+1tg7LzlBlbPsbc5HVqU6LIrsSNjin7Hp/we5EvLePpWH7ziTMb+Z7KjTbdPj04hp3VhbEXeNE8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kVO9AwN1; arc=none smtp.client-ip=209.85.214.170
+	 To:Cc:Content-Type; b=oVFRbYICHRUDRxdKBzinTLaK3zWhuhRniOBU20ZnNDeTuGsHK9ZP+641f5a3wyUw9ce6sqnuO52EfgS0gTzj5D6blDebwlclQc956QFXSjcQKGRa+6yCeJ8UFAaS+QRdSOz+qR8BrUsML3YSXfRPJwKSEfTDU2dyEzWzvlNzro0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZrioYmlW; arc=none smtp.client-ip=209.85.160.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kVO9AwN1"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1dcd07252d9so431155ad.1
-        for <workflows@vger.kernel.org>; Mon, 04 Mar 2024 09:23:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZrioYmlW"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-42e6939d34fso69331cf.0
+        for <workflows@vger.kernel.org>; Mon, 04 Mar 2024 11:44:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1709572993; x=1710177793; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1709581476; x=1710186276; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2AXGixQ7Gc8HjdKyBY3Whs9KBXsRK1tfn6h6cRM619Y=;
-        b=kVO9AwN1XqBKB6TtW+wnexVeMilsO598kfJ2GZlwYrhhVREP6ovuGlyPm/6bOfAv4j
-         +HEjj31gHdvX2npn7St/3KMhmWpWt0YKJF0PbX7V+WBDdEW3/31FlgkYKLOCS5vIXeDh
-         bGXIik1bISsahBvUH5oUcJkHXvnZDT7PrUVDh4cPotLEr0iwjstCfu9xo+Hfd18ihrG5
-         W3yYCq+T8tPPUElF937uZI/itK2VTtDySU1+3/hbZBeCV+ZMebl0erlfz9Qy8eK4ScLn
-         gBpuzE/wqgbUPgfZPBlR0Um7TImuOFsK+npW7NIJRHq9DP3OjlDrE8GHSVOaw8nd1A8l
-         FVxQ==
+        bh=aJziShSE5N9NFf9GEp25onUfKHjDILdb8pau9PDQq4s=;
+        b=ZrioYmlW+GykYqhLrDIIgV5gOSzsE7sBQcJ9rOhHYjUpSYtCr/KxE4rrjknPIlp2ki
+         rUuDOTzIPySpWZanxAh/z5yukqWP5HDz2apo8J3D4kgx+pzj/dD6l9+IvSVA/4S+MVbr
+         nO094A9wWgpZUz2p4Caoa9bdfQTNj47i6ulidlbKU1PWsacrZd9X+lWHYEdODs0Z24dK
+         wRXnYXYnmckpGV5E8kpgqIWQhJMs9mhgFNCZj5DQeQtUIYjC2NpscwDGBYpKo32+lkuk
+         v6qP7DRdoDvrke0eIffJUdDDFORCielI1iIfJNM3Y03TCuTK7uPtpWXyqavSgRRepIoN
+         qTrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709572993; x=1710177793;
+        d=1e100.net; s=20230601; t=1709581476; x=1710186276;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2AXGixQ7Gc8HjdKyBY3Whs9KBXsRK1tfn6h6cRM619Y=;
-        b=VP8mzvJzWV2TLtdghNviQyNBr1B+t0nITxAXzubiuR1OkJcmkPQiReJxxScEyigKFf
-         FL0KELE1YN+y5A1qEes2elMg9SbgNXuNAt2475+KdMRbVbveAiAckOc3UH55pErp4Sew
-         oqM+92oq471pI4Gyu+HaD6KKJL0fVUzQS3FxNAd746tPbyRPs/9mE8am8+A+34j2fcHs
-         Epy1e+4dRnPfB25kBiuqQxktdXEm12xKy/saGaF06DnDB9ifOZbPNXg1IuBQ+iu95c+X
-         Hjx+rA3jS6iDjpQZWFHzdXZmBLV7zPM5mIrGmAVxOnZ/EU2GSScey6QGN88jK5TJ47sJ
-         2Enw==
-X-Forwarded-Encrypted: i=1; AJvYcCUY1FxECzPt2GGWPU5b7+ZH2POO4cgHFNwMGZQIPjTufERdd2iaI5qOkec5i/gGdA4xm0wRLGspdT2pp2sddJwHiAskgtG6f4mB
-X-Gm-Message-State: AOJu0Ywhm9TCFZIvMQTee36yK9zskaadyZpUC68LU57iPn8XJjEaY76F
-	omuALOzMwijIDtH6QY+UlBrAKRy7rqiBw09uPaQ9eHO7kY0sNcbOn6wcOlcDgSrOHOC3DKGVMD/
-	82gCMtNiMUpyij/pklPUQRUzVnXwZ5CS8MzgY
-X-Google-Smtp-Source: AGHT+IFKjskUOj6278amt+2i/iRaGbWnqwH8V8ARQXyWAa4I5jxF0hWUUBHSTDwJLrfzllQF5r4CeHTssO8S/qZNiYE=
-X-Received: by 2002:a17:902:ecc5:b0:1dd:7db:69d0 with SMTP id
- a5-20020a170902ecc500b001dd07db69d0mr266118plh.11.1709572993014; Mon, 04 Mar
- 2024 09:23:13 -0800 (PST)
+        bh=aJziShSE5N9NFf9GEp25onUfKHjDILdb8pau9PDQq4s=;
+        b=ZvjW4XlUzZDi+JnhFgeaYlSS4ot+iylA2W7mrF1k2Pp7C5hXEqDaCO+Dyhbp7ZSbah
+         Rm/wyw/vlednM8KK/N8+2r9IT2oQUd2mHbgx3CT8r4+weI8yrxgUZKC/xHgKC+2uyFZL
+         5l85sVPF4cyxaLri+FlfEvFOzvu+Qu9ksEMq7WghSBcPsRfkLi8ENRPUfmXSfkp3auO7
+         8FpNpa0BrAU+eurhDJgbEftrF1+fqh1uRO5V04WK5KEcGv4y+w6/Zz8uOntmQ7BxXNqJ
+         Edb6omHcjncgw2ONZAbNSzTfXt5I+0ck/VJz77XxAlg/4KnUJJ0Kd/VITgcwOelCQZ8d
+         7/tA==
+X-Forwarded-Encrypted: i=1; AJvYcCXVBYUVmc+oOfPRzyGt54NZ7XMMMQwaIXVJzFvWNxv3Emy43+PDcTJmx/1K5IkZ5pDndk8fHOuJtfW9y3K6MEHEMwzDuQrUi09K
+X-Gm-Message-State: AOJu0YxovUT11VXzrxyewbXTNowKtWSaqEJ+9330eGefGSKOGPda6iAz
+	ovYGdy/AKXHg0Muoeag1AwTc9DoZkuTpQ3hfHhj0Z06rbUVB5OsUq4yHu4DTB0JjosdzWYxgSkB
+	ipg4JRdw+cWC1smoy6+5QdBrA3LxRvOqJT406
+X-Google-Smtp-Source: AGHT+IHCoxbqlkbvC40r/0Ghlkohpq677Z5qku5s52QYJ8GDMhK8thtW4dw5bCp5PdHftTKp8r3OdR4wiI1Sy39wTq4=
+X-Received: by 2002:ac8:7f56:0:b0:42e:f958:ea67 with SMTP id
+ g22-20020ac87f56000000b0042ef958ea67mr5712qtk.7.1709581476100; Mon, 04 Mar
+ 2024 11:44:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -65,8 +65,8 @@ References: <20240228225527.1052240-1-helen.koike@collabora.com>
  <20240304-benevolent-brawny-urchin-0af0ad@houat>
 In-Reply-To: <20240304-benevolent-brawny-urchin-0af0ad@houat>
 From: Guenter Roeck <groeck@google.com>
-Date: Mon, 4 Mar 2024 09:22:59 -0800
-Message-ID: <CABXOdTeza3ZJRO7eexp8evm8o1B81fw9cDQbE_nHwqhufMCfGA@mail.gmail.com>
+Date: Mon, 4 Mar 2024 11:44:23 -0800
+Message-ID: <CABXOdTcT+szLRMfx=3WFoXDirOmWCY7T+8Q+zZJ=B5GscpDNnQ@mail.gmail.com>
 Subject: Re: [PATCH 1/3] kci-gitlab: Introducing GitLab-CI Pipeline for Kernel Testing
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Linus Torvalds <torvalds@linuxfoundation.org>, Nikolai Kondrashov <spbnick@gmail.com>, 
@@ -86,15 +86,26 @@ Content-Transfer-Encoding: quoted-printable
 On Mon, Mar 4, 2024 at 9:09=E2=80=AFAM Maxime Ripard <mripard@kernel.org> w=
 rote:
 
+[ ...]
+
+>
 > And singling out DRM because it regularly allegedly breaks things on
 > xtensa or m68k and claiming we're not taking CI seriously because of it
 > is completely ridiculous. If the all the subsystems were taking CI as
 > seriously as DRM, we would be in a much better place.
 >
 
-The failure I reported as an example was on arm, not on xtensa or m68k
-I'll disable CONFIG_DRM in my build tests for xtensa and m68k going
-forward.
+FWIW:
 
-Thanks,
+$ git grep CONFIG_DRM arch/xtensa/ arch/m68k/
+arch/m68k/configs/virt_defconfig:CONFIG_DRM=3Dy
+arch/m68k/configs/virt_defconfig:CONFIG_DRM_FBDEV_EMULATION=3Dy
+arch/m68k/configs/virt_defconfig:CONFIG_DRM_VIRTIO_GPU=3Dy
+arch/xtensa/configs/virt_defconfig:CONFIG_DRM=3Dy
+arch/xtensa/configs/virt_defconfig:CONFIG_DRM_VGEM=3Dy
+arch/xtensa/configs/virt_defconfig:CONFIG_DRM_VIRTIO_GPU=3Dy
+
+If that isn't supported, it might really make sense to declare that
+CONFIG_DRM depends on !xtensa and !m68k.
+
 Guenter
