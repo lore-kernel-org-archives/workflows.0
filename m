@@ -1,160 +1,161 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 268665A7A4;
-	Tue,  5 Mar 2024 13:23:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F6712F5B1;
+	Thu,  7 Mar 2024 18:05:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709645025; cv=none; b=V2ynJwArTJLV0owLzD5SCvVzc11YSZmHELYrBr+Fd1K7TCzjasoPDSI+4M6rA4G7awa7jx7uhWmmOafzyvcCnU95bDXruIuYBEsb/Gd0ojEZ2WwlzdARvgQMyRfZexW79jQTTLVPqzkNlKTpVfs0AqkYP4VH9QD/VHVufUQTKBk=
+	t=1709834723; cv=none; b=fS9QUNKkXjIdyQ/+qivdpgCv4k/2tYRuIKA+GPn7TcGYAc0r1J9kla+eqAB0itwarbs3wsQGchXxyxOpBmWEu1m5yV1U8P7eSvrXMI1fHo82I8hgxyKcTgbAT8oLAylQJ/2soMdqIxQpV+iB8CIu0PGlBfFW0aPso0E+d97H6Zc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709645025; c=relaxed/simple;
-	bh=NSn3fjj7cZhdRvPGCd66wr3eOuzKXKPPeUoqCE4yTi0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oQ0X6YPlEVy33ZMqbt4Yb/3uUBu5iQCwJJCt7Cjh1nJSijgbco1brGPWfhIDSLkXXK/rcqvM1mKZBzxg9A5en8uYcUr81KsJJcGbsp12L89cqAUDF2ARuq/UCq4G6j4i5/NAXEYd/Hbv0QLvWJ0VbtrScy92q5Zzjo3C702xpBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=n+oNEcpr; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+	s=arc-20240116; t=1709834723; c=relaxed/simple;
+	bh=6PdhETDwSB9x/LARJancAnLAUQJ5EbrpK/EH1ojZ3Mc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=FbBSRdWpYLA/1D0HFhmm5pkoGm8N9H/zBhC1k4XGxSKCUgRPvYhKFaUnXY2YsbXc+5+ri9obhZyBr538nLga6i7ahkLJf7xUVcf+RO9xXjTRGUy8HbgLTUXihVv26vK02d+HFk2vCNJVUE0UF0lGjsDDBfTVXwd6g/H4eOulM8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=OU0fE8FN; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="n+oNEcpr"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=R8G11MBkvhlXCVhZnnXEF3NYg8qRglIYPfW64j0+IFs=; t=1709645023;
-	x=1710077023; b=n+oNEcprrzj5xwS3oJtdE/0Sl9xDGDu34mTMPLxl2fWA8fDdkO/Fr8G0dQ2U8
-	D83rD47V7qlez8LP1M3vZHUCMGX7I9C1AwRjcDLlzwoWDTItpaCwzCtHIXAfM+s9uu4o3OKoId1PH
-	x6oW8uQ4BgBV89nM7HF9aDt2xuGdP6vjURcYBS3iazXNdUAC89NOrIJsVTXNGyIIx2fOdwqcRb74t
-	jTfIEQiT3EUYLaOx0vBux4Fo+r7UKTSov11raGQs1CItWccQqpHMl+e6NcWsxbk0WWzc0kc5txoS7
-	e3TYfDvjB5qLmNaKoGqFasVqp2vwuxY4hzv4EtuzKmq3mM3ZnA==;
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1rhUlf-00081c-Ei; Tue, 05 Mar 2024 14:23:39 +0100
-Message-ID: <3d40b22d-2cc0-4c34-b8af-e9c84042dd12@leemhuis.info>
-Date: Tue, 5 Mar 2024 14:23:38 +0100
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="OU0fE8FN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1709834719;
+	bh=6PdhETDwSB9x/LARJancAnLAUQJ5EbrpK/EH1ojZ3Mc=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=OU0fE8FNWeNCdyMVaBI+4zAWM0y2JrwciNVCgXFIk5Qctuiac9EcJSIQWKn8GLdzL
+	 gTAxVJhidM9b0q5MCeaePZ7UfOi7iTQl+GDy25E8GwfzLhm2EZbuM7ZX5bdQlbSakU
+	 W4D0VZxomztXYGrHt7Bq2604MnjnKHvYJXfNqvuDbMvD4PELUTQDKC6NNd65GJWs5o
+	 8XgGro4CnGW93oz1/rOknU6b0cERoQtqPMi+NPzgZtMuDwftt0avBWCu1W72EIjcSV
+	 H/B1QVCYi1lbljlJPuaG92wNbtiFCWyXvgp9pxF13OCGia3NHbCOCIXo4WiDqm8YOl
+	 4nSNokRv8JaKw==
+Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 53FE037820ED;
+	Thu,  7 Mar 2024 18:05:16 +0000 (UTC)
+Message-ID: <d417daa2a8e3951da44bf2d555e04d98c83a3c5c.camel@collabora.com>
+Subject: Re: [PATCH 1/3] kci-gitlab: Introducing GitLab-CI Pipeline for
+ Kernel Testing
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Maxime Ripard <mripard@kernel.org>, Helen Koike
+ <helen.koike@collabora.com>
+Cc: linuxtv-ci@linuxtv.org, dave.pigott@collabora.com, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-kselftest@vger.kernel.org, gustavo.padovan@collabora.com, 
+ pawiecz@collabora.com, spbnick@gmail.com, tales.aparecida@gmail.com, 
+ workflows@vger.kernel.org, kernelci@lists.linux.dev,
+ skhan@linuxfoundation.org,  kunit-dev@googlegroups.com,
+ nfraprado@collabora.com, davidgow@google.com,  cocci@inria.fr,
+ Julia.Lawall@inria.fr, laura.nao@collabora.com, 
+ ricardo.canuelo@collabora.com, kernel@collabora.com, 
+ torvalds@linuxfoundation.org, gregkh@linuxfoundation.org
+Date: Thu, 07 Mar 2024 13:05:12 -0500
+In-Reply-To: <20240229-dancing-laughing-groundhog-d85161@houat>
+References: <20240228225527.1052240-1-helen.koike@collabora.com>
+	 <20240228225527.1052240-2-helen.koike@collabora.com>
+	 <20240229-dancing-laughing-groundhog-d85161@houat>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] Towards a re-organized submitting patches
-Content-Language: en-US, de-DE
-To: Jonathan Corbet <corbet@lwn.net>, Lukas Bulwahn
- <lukas.bulwahn@gmail.com>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240301134637.27880-1-lukas.bulwahn@gmail.com>
- <87plwbxon7.fsf@meer.lwn.net>
- <57b07ec5-586a-46e6-9ba2-26be2372c1c2@leemhuis.info>
- <87edcorg06.fsf@meer.lwn.net>
-From: Thorsten Leemhuis <linux@leemhuis.info>
-Autocrypt: addr=linux@leemhuis.info; keydata=
- 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 n7RI
-In-Reply-To: <87edcorg06.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1709645023;1a982acb;
-X-HE-SMSGID: 1rhUlf-00081c-Ei
 
-On 05.03.24 13:59, Jonathan Corbet wrote:
-> Thorsten Leemhuis <linux@leemhuis.info> writes:
->> On 03.03.24 17:31, Jonathan Corbet wrote:
->>> Lukas Bulwahn <lukas.bulwahn@gmail.com> writes:
->>>> I wanted to clean up the development-process documentation. There is
->>>> however no easy way to break the ice here:
->>>>
->>>> The elephant in the room is that there is some unclear relation between
->>>> 5.Posting.rst, 6.Followthrough.rst and submitting-patches.rst.
->>>> (Yes, I know each document has its own history...; but let us put the
->>>> history aside for now.)
->>>
->>> FWIW, the objective of those two documents is quite different; one is a
->>> high-level overview of how the development process as a whole works, the
->>> other is a detailed guide to submitting work for consideration.
->>
->> Sorry, I'm slightly confused here, so I have to ask: which is which?
->>
->> Due to the "*essential*" in the headline of submitting-patches.rst and
->> its "For *detailed* information on how the kernel development process
->> works, see Documentation/process/development-process.rst" in the intro
->> make it sounds to me like submitting-patches.rst should be the one with
->> the high-level overview. But...
->>
->>> Again, let's remember the different purposes of these documents.  The
->>> development-process document is an overall description of the process,
->>> so it doesn't need the details.
->>
->> ...this makes it sounds like you consider it the other way around. And
->> for me that feels the wrong, as why describe the overall process in
->> detail, but leave the most important part of the process to some other
->> document?
->>
->> /me wonders what he is missing
-> 
-> The series of files starting with Documentation/process/1.Intro.rst was
-> meant to describe the whole of the development process to a wider
-> audience; I originally wrote it as a project for the Linux Foundation.
-> It covers far more than the business of putting up patches for
-> consideration - development cycles and all that.
-> 
-> submitting-patches.rst, instead, covers the details of getting code
-> considered for merging; it is intended to be read by the people actually
-> trying to do that work.
-> 
-> One document describes what the pieces of the car are and how they work
-> together to get you to the pub.  The other gives all of the steps for
-> working on the brakes without causing accidents.  They both fit as part
-> of a larger body of documentation, but they are definitely not the same
-> document.
+Le jeudi 29 f=C3=A9vrier 2024 =C3=A0 10:02 +0100, Maxime Ripard a =C3=A9cri=
+t=C2=A0:
+> Hi Helen,
+>=20
+> Thanks for working on this
+>=20
+> On Wed, Feb 28, 2024 at 07:55:25PM -0300, Helen Koike wrote:
+> > This patch introduces a `.gitlab-ci` file along with a `ci/` folder,
+> > defininga basic test pipeline triggered by code pushes to a GitLab-CI
+> > instance. This initial version includes static checks (checkpatch and
+> > smatch for now) and build tests across various architectures and
+> > configurations. It leverages an integrated cache for efficient build
+> > times and introduces a flexible 'scenarios' mechanism for
+> > subsystem-specific extensions.
+> >=20
+> > [ci: add prerequisites to run check-patch on MRs]
+> > Co-developed-by: Tales Aparecida <tales.aparecida@redhat.com>
+> > Signed-off-by: Tales Aparecida <tales.aparecida@redhat.com>
+> > Signed-off-by: Helen Koike <helen.koike@collabora.com>
+> >=20
+> > ---
+> >=20
+> > Hey all,
+> >=20
+> > You can check the validation of this patchset on:
+> >         https://gitlab.collabora.com/koike/linux/-/pipelines/87035
+> >=20
+> > I would appreciate your feedback on this work, what do you think?
+> >=20
+> > If you would rate from 0 to 5, where:
+> >=20
+> > [ ] 0. I don't think this is useful at all, and I doubt it will ever be=
+. It doesn't seem worthwhile.
+> > [ ] 1. I don't find it useful in its current form.
+> > [ ] 2. It might be useful to others, but not for me.
+> > [ ] 3. It has potential, but it's not yet something I can incorporate i=
+nto my workflow.
+> > [ ] 4. This is useful, but it needs some adjustments before I can inclu=
+de it in my workflow.
+> > [ ] 5. This is really useful! I'm eager to start using it right away. W=
+hy didn't you send this earlier? :)
+> >=20
+> > Which rating would you select?
+>=20
+> 4.5 :)
+>=20
+> One thing I'm wondering here is how we're going to cope with the
+> different requirements each user / framework has.
+>=20
+> Like, Linus probably want to have a different set of CI before merging a
+> PR than (say) linux-next does, or stable, or before doing an actual
+> release.
+>=20
+> Similarly, DRM probably has a different set of requirements than
+> drm-misc, drm-amd or nouveau.
+>=20
+> I don't see how the current architecture could accomodate for that. I
+> know that Gitlab allows to store issues template in a separate repo,
+> maybe we could ask them to provide a feature where the actions would be
+> separate from the main repo? That way, any gitlab project could provide
+> its own set of tests, without conflicting with each others (and we could
+> still share them if we wanted to)
+>=20
+> I know some of use had good relationship with Gitlab, so maybe it would
+> be worth asking?
 
-Thx for the clarification. And of course both fit in a larger body. It
-seems some of the word used in the intros of both documents made me
-assume it was the other way around at some point in the past and then it
-stuck. Wondering if that's just me or if that happened to others as
-well. Whatever, if Lukas will realize his plans I guess the different
-target audiences will become more obvious over time.
+As agreed, the .gitlab-ci.yaml file at the list will go away. Its a default
+location, but not a required location. This way, each sub-system can have t=
+heir
+own (or not have one). The different sub-system forks will have to be confi=
+gured
+to point to their respective CI main configuration.
 
-Thx again! Ciao, Thorsten
+Of course nothing prevents having common set of configuration for jobs and =
+jobs
+template. As an example, we could have a job template common for checkpatch=
+, and
+allow each subsystem adding their own sauce on top. It can save the duplica=
+te
+effort of parsing the tool results and reporting it in a format gitlab
+understand.
+
+This also allow subsystems to offer different coverage, e.g. a fast vs a fu=
+ll
+coverage. Or perhaps a configuration to focus on specific devices. But in
+general, just not having a central config is enough to support the idea. Wh=
+at we
+have now could be entirely drm specific and "commonized" later when other
+subsystem wanting to use gitlab joins (Linux Media is among those).
+
+Nicolas
