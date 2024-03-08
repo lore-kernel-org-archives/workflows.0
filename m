@@ -1,169 +1,742 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4555381CF;
-	Thu,  7 Mar 2024 22:43:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACB4C2C6B7
+	for <workflows@vger.kernel.org>; Fri,  8 Mar 2024 03:50:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709851398; cv=none; b=WWVpu3gTrjgSqXeOW6XXEv4jtpDJv2nIv4oKaJjpLvTwCMs5e3HG9JIRuvJ0KQ2ezJp5A3GarN90wrO1p0WKGnu1ZMkST9if128FrRgSBLKGis1shv82gEFsZINShj1qnkTU1ezKAKeiFiExVebT166EO48UQGgtkJyf50f86H4=
+	t=1709869849; cv=none; b=F3e9UnEz/nCxwndIBVPk/Fd9jnXpvtPkJFlajlJivwsh13f5dg7euFKSI4YHJOgw5C9Yud5foi+DfkYY5xJQZ3xuyOorubEXJZdLdH0DKAgf5i4PEY6w8R7UOv7UR4I0omb1n9SSwZgEZ+FXk0jHCdWKQ1KRRh4iDP9rAoyQbzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709851398; c=relaxed/simple;
-	bh=6QK4W1NufyM+scYXoml0RdEgGXJVv/Tf0aCSLp9EfLY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=kqOjwSwem9Xy6WKrCyBWbEn0NYxWB/pS87jzUEd99c+1oPJ9T6GWrQ5epW7d62j00HD5U1Z2VwjSLdrAq8vJqKif1GkeI/MoPrddmw1Q7DCiV3rF4hoYgReqIZ3hyBi1rEgkFN1RtBtxNWpRmyZ4GyGaABlrqV90ACVW4wafmvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J72VMQaA; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1709869849; c=relaxed/simple;
+	bh=GzSZZKtNwf7nn5EkSa4A4TY2eXjKU8Hm74SrlW62Y/g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gu7+9JpFTyn0/WtzmS8J/XGXsHkz7FAYabmJ1nZE+XcGb0LRZWgraQubV+hOgXYxcFbwMoaNvbpkVyqM6f+/X91jGZWckCyrwEnPwlD6dYx0I48vVQ3ao76/lwra65uc5J2g7DeCC013i1+erzoUcjTC9HGPOIocPFLFT3Fwjwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Fpow79Ug; arc=none smtp.client-ip=209.85.219.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J72VMQaA"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-5c229dabbb6so1113327a12.0;
-        Thu, 07 Mar 2024 14:43:16 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Fpow79Ug"
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-68fcedcf8aaso9745316d6.2
+        for <workflows@vger.kernel.org>; Thu, 07 Mar 2024 19:50:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709851396; x=1710456196; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=TfbS9E4Z674Rghf4uG1aBze02oodSRDBbrR7JY0TaRQ=;
-        b=J72VMQaAt07ZU5JWBY98iYCZI2rvTK9nqVbZD0oyuGEFcEhPeVQbal2UEzTEGrCvOZ
-         FRsGomt4iNSxwBPh66C+Hq5qz132jNyMpNieoEkMeG0jSUadZdlgveM8XeMbHBjm0/jC
-         X3iQdfXh0ER+N0pJCDQM8tVtvruSaHNyWoQ+1HxtxOx4PyaqJFIeXSI0nQHGOIJ54HUH
-         JdAIxWj2dl6dgrWroqNtfPhKktIPUKPO87eSP3sTFdzktSlnV/dCdOjlijz91PfpEJfr
-         4DQkh9dU/pRT4IG1jMlv5gt/1ngfmUWekjsG115p/qNPRsXzvcksScsiLXQmmzYiXTD4
-         z8dw==
+        d=chromium.org; s=google; t=1709869845; x=1710474645; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WlMgVwP95ZJF2b26HQXjnVBHlPT7gv/E1tA3IRLaWMY=;
+        b=Fpow79UgNTG7U/LkpR7BgX+X0hSh1bw4NtjOEiaak20vjJgyqNetokEdcVxZb6CVPN
+         qRfMrMJyNGd5wxSabU1yYN6LgmII8hPApmu5t9N8ypTF2Ow7fRL1YsGKGdSEobg+PrMp
+         quHccXG8BU13MPxTZ+3dwWKUVmIfbmYvaU1B8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709851396; x=1710456196;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TfbS9E4Z674Rghf4uG1aBze02oodSRDBbrR7JY0TaRQ=;
-        b=IM8ocS5r0GMQXkQztf7cPvgCmFfvMLIl0HqYSNO4H5YifikcAna+zHi1aagdmyhwVv
-         K3HXj+ICbZbAcncJkgtubBYKygs++9lIT96ticj1lZ1Zsfh8ne8p4CIpeF7kJbA/aJAS
-         GnK4mNB2jfMxd78/VqK5G2c8RIGLFtr9vo7igTdhlRX/wo5wcoWm+TG02SzAwWYIZxLe
-         tKpuPb/uGz+bAKu1UXtqu/lUl5ML7rC4BnIkI3fpJkKm8k1GvYy/6rBI7QUynldpMgND
-         h9KwDN3gyiT2mmhfDtw9S4yDoY7czCw90SGDwgEUmwzKPzkS3Y2zWiGYC8Cye1Q4GCVZ
-         j4QA==
-X-Forwarded-Encrypted: i=1; AJvYcCVkGoWUs7EwSodSlddCN1BbcDq8gxZzXhJ/Ph0as2CjfiSwc9q+142XhLw8bfDvax9xc9AOPkY3Us2mDBdGuryCxkV2YnCrAg7PJYMFhMuVQTEtWZFXfvG9r0NdtLtiKl0T0FCyV+YlZZOIEWRmK4rHTnFlqgPxFAfBWnY4Nel4E/vJqVPDddbf
-X-Gm-Message-State: AOJu0YzyvufnVkLLux4IIcxFgYAYST7dRUn3V0e2PJI6RL4JiKcI1OYZ
-	5DcVR/Hq+Rvic+newmMTnBYhhNEiJTS7j2KSyLrESEGOQwO64lkTsoSBuYZ9
-X-Google-Smtp-Source: AGHT+IHtTE1JX4FWkJmXISxOpLlBlT4E93v3RIPvarcuDzGIbaoE7RwplZ6pR6YPOiYfZGA2Q6GFwQ==
-X-Received: by 2002:a05:6a20:9f03:b0:1a1:56aa:bf66 with SMTP id mk3-20020a056a209f0300b001a156aabf66mr13285633pzb.13.1709851396096;
-        Thu, 07 Mar 2024 14:43:16 -0800 (PST)
-Received: from ?IPv6:2804:1b3:a801:2ba7:2726:579:e699:a435? ([2804:1b3:a801:2ba7:2726:579:e699:a435])
-        by smtp.gmail.com with ESMTPSA id ei30-20020a056a0080de00b006e5359e621csm13053181pfb.182.2024.03.07.14.43.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Mar 2024 14:43:15 -0800 (PST)
-Message-ID: <673ec9f4899cd1380d02bebe92d9a3d6dd7cda55.camel@gmail.com>
-Subject: Re: [PATCH 1/3] kci-gitlab: Introducing GitLab-CI Pipeline for
- Kernel Testing
-From: Leonardo =?ISO-8859-1?Q?Br=E1s?= <leobras.c@gmail.com>
-To: Helen Koike <helen.koike@collabora.com>, Linus Torvalds
-	 <torvalds@linuxfoundation.org>, Nikolai Kondrashov <spbnick@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>, linuxtv-ci@linuxtv.org, 
- dave.pigott@collabora.com, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org, 
- gustavo.padovan@collabora.com, pawiecz@collabora.com,
- tales.aparecida@gmail.com,  workflows@vger.kernel.org,
- kernelci@lists.linux.dev, skhan@linuxfoundation.org, 
- kunit-dev@googlegroups.com, nfraprado@collabora.com, davidgow@google.com, 
- cocci@inria.fr, Julia.Lawall@inria.fr, laura.nao@collabora.com, 
- ricardo.canuelo@collabora.com, kernel@collabora.com,
- gregkh@linuxfoundation.org
-Date: Thu, 07 Mar 2024 19:43:04 -0300
-In-Reply-To: <17341b96-5050-4528-867a-9f628434e4e6@collabora.com>
-References: <20240228225527.1052240-1-helen.koike@collabora.com>
-	 <20240228225527.1052240-2-helen.koike@collabora.com>
-	 <20240229-dancing-laughing-groundhog-d85161@houat>
-	 <5d7ed81b-37f9-48e9-ab7e-484b74ca886c@gmail.com>
-	 <CAHk-=wixVy3WYvjbt43ZSrCqPDsS76QJQSkXFbbPsAOs1MCSAQ@mail.gmail.com>
-	 <44ae0339-daf1-4bb9-a12d-e3d2e79b889e@gmail.com>
-	 <CAHk-=wiccniE=iZDC_e7T+J8iPVQbh1Wi5BaVee9COfy+ZaYKg@mail.gmail.com>
-	 <17341b96-5050-4528-867a-9f628434e4e6@collabora.com>
-Autocrypt: addr=leobras.c@gmail.com; prefer-encrypt=mutual; keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 
+        d=1e100.net; s=20230601; t=1709869845; x=1710474645;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WlMgVwP95ZJF2b26HQXjnVBHlPT7gv/E1tA3IRLaWMY=;
+        b=ZKDlOtvchoCfOD5t6vKJ7ythIOTJDTJxNMVpmeFdJqwv/JTIE8QnTz05VyWpGquY+I
+         2dJamRdUrXIbsnJfGyXUPIfpqc88V7Xawh35/vLqp/qAQb4DDbI9k5bltK/Jfue7oswN
+         7OZad7pp7rhZ/YH7aQAfUKVeazFso32/u1Vmfc6fulZnhM5t3QRJ9YaM3yokfCBFAcHy
+         nRlGtYDJEqozd2jzbUfkIVk/K8F1aLwymlwhvvArK7Kw2zHQFfC3gXkMh7iUdszyD9oE
+         xHUb7pqQU9T/u9fJGKWML6kjlOXtF2pOXdJ9bqtg2rSUpGYA1eHmKl0u+Ip5TRgLRIZh
+         9lDA==
+X-Forwarded-Encrypted: i=1; AJvYcCWERXUSS2iP/nbcZQ2dscwrG1/sDWHcOas8pTYeN+TUYBe2aUyc/kVOBpy20dx8SId4fcWbbEQ5grp6dhpMG69WqNvS4K36+IsP
+X-Gm-Message-State: AOJu0YwqxmWVvZKBrA+R1B+sgiSjBLZNV3lEOTEWAJ5qffNKM/+bUKYr
+	btnL6WgPp8fonXja/xcP4YPcRll4HgtGrugTXPcPfb8N+z5GbUQFofVGaqrrJBoGepFIjEJwtUR
+	qkjOgrXmPwwo4Nzazfg5YLbIVA20QlT+x43jI
+X-Google-Smtp-Source: AGHT+IFgEvZdLDddBpNc1mm1jaDxya6gSL6fW27lX04bpHJrWPa8SptZByH0e9M0HgvmTisQlbt5X6Jt2xiFHXi8GVI=
+X-Received: by 2002:a0c:ebc1:0:b0:690:a800:8ffa with SMTP id
+ k1-20020a0cebc1000000b00690a8008ffamr2910459qvq.31.1709869845146; Thu, 07 Mar
+ 2024 19:50:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20240202173034.221790-1-sjg@chromium.org> <20240202173034.221790-3-sjg@chromium.org>
+ <CAK7LNARBC-zPHWDzhkMj90UBVaxHs0PJ9wfUKLRGAHxzBx=Bqg@mail.gmail.com> <CAK7LNASFR4XtyNKDtMabm6gd+oeMefZsg4nDMaY+Qmg2KkN8ew@mail.gmail.com>
+In-Reply-To: <CAK7LNASFR4XtyNKDtMabm6gd+oeMefZsg4nDMaY+Qmg2KkN8ew@mail.gmail.com>
+From: Simon Glass <sjg@chromium.org>
+Date: Fri, 8 Mar 2024 16:50:34 +1300
+Message-ID: <CAFLszTiDi4N7NbVx6BH8M1ccGu9MNAokQuo_DyGtzH7qrrdiPA@mail.gmail.com>
+Subject: Re: [PATCH v10 2/2] arm64: boot: Support Flat Image Tree
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, 
+	Ahmad Fatoum <a.fatoum@pengutronix.de>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2024-03-04 at 18:45 -0300, Helen Koike wrote:
-> Hi Linus,
->=20
-> Thank you for your reply and valuable inputs.
->=20
-> On 01/03/2024 17:10, Linus Torvalds wrote:
-> > On Fri, 1 Mar 2024 at 02:27, Nikolai Kondrashov <spbnick@gmail.com> wro=
-te:
-> > >=20
-> > > I agree, it's hard to imagine even a simple majority agreeing on how =
-GitLab CI
-> > > should be done. Still, we would like to help people, who are interest=
-ed in
-> > > this kind of thing, to set it up. How about we reframe this contribut=
-ion as a
-> > > sort of template, or a reference for people to start their setup with=
-,
-> > > assuming that most maintainers would want to tweak it? We would also =
-be glad
-> > > to stand by for questions and help, as people try to use it.
-> >=20
-> > Ack. I think seeing it as a library for various gitlab CI models would
-> > be a lot more palatable. Particularly if you can then show that yes,
-> > it is also relevant to our currently existing drm case.
->=20
-> Having it as a library would certainly make my work as the DRM-CI=20
-> maintainer easier and  also simplify the process whenever we consider=20
-> integrating tests into other subsystems.
->=20
-> >=20
-> > So I'm not objecting to having (for example) some kind of CI helper
-> > templates - I think a logical place would be in tools/ci/ which is
-> > kind of alongside our tools/testing subdirectory.
->=20
-> Works for me.
->=20
-> We  can skip having a default .gitlab-ci.yml in the root directory and=
-=20
-> instead include clear instructions in our documentation for using these=
-=20
-> templates.
+Hi Masahiro,
 
-From previous experience[1], I recommend this approach.
+On Sun, 25 Feb 2024 at 21:41, Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> On Wed, Feb 21, 2024 at 9:37=E2=80=AFPM Masahiro Yamada <masahiroy@kernel=
+.org> wrote:
+> >
+> > On Sat, Feb 3, 2024 at 2:30=E2=80=AFAM Simon Glass <sjg@chromium.org> w=
+rote:
+> > >
+> > > Add a script which produces a Flat Image Tree (FIT), a single file
+> > > containing the built kernel and associated devicetree files.
+> > > Compression defaults to gzip which gives a good balance of size and
+> > > performance.
+> > >
+> > > The files compress from about 86MB to 24MB using this approach.
+> > >
+> > > The FIT can be used by bootloaders which support it, such as U-Boot
+> > > and Linuxboot. It permits automatic selection of the correct
+> > > devicetree, matching the compatible string of the running board with
+> > > the closest compatible string in the FIT. There is no need for
+> > > filenames or other workarounds.
+> > >
+> > > Add a 'make image.fit' build target for arm64, as well.
+> > >
+> > > The FIT can be examined using 'dumpimage -l'.
+> > >
+> > > This uses the 'dtbs-list' file but processes only .dtb files, ignorin=
+g
+> > > the overlay .dtbo files.
+> > >
+> > > This features requires pylibfdt (use 'pip install libfdt'). It also
+> > > requires compression utilities for the algorithm being used. Supporte=
+d
+> > > compression options are the same as the Image.xxx files. Use
+> > > FIT_COMPRESSION to select an algorithm other than gzip.
+> > >
+> > > While FIT supports a ramdisk / initrd, no attempt is made to support
+> > > this here, since it must be built separately from the Linux build.
+> > >
+> > > Signed-off-by: Simon Glass <sjg@chromium.org>
+> > > ---
+> > >
+> > > Changes in v10:
+> > > - Make use of dtbs-list file
+> > > - Mention dtbs-list and FIT_COMPRESSION
+> > > - Update copyright year
+> > > - Update cover letter to take account of an applied patch
+> > >
+> > > Changes in v9:
+> > > - Move the compression control into Makefile.lib
+> > >
+> > > Changes in v8:
+> > > - Drop compatible string in FDT node
+> > > - Correct sorting of MAINTAINERS to before ARM64 PORT
+> > > - Turn compress part of the make_fit.py comment in to a sentence
+> > > - Add two blank lines before parse_args() and setup_fit()
+> > > - Use 'image.fit: dtbs' instead of BUILD_DTBS var
+> > > - Use '$(<D)/dts' instead of '$(dir $<)dts'
+> > > - Add 'mkimage' details Documentation/process/changes.rst
+> > > - Allow changing the compression used
+> > > - Tweak cover letter since there is only one clean-up patch
+> > >
+> > > Changes in v7:
+> > > - Add Image as a dependency of image.fit
+> > > - Drop kbuild tag
+> > > - Add dependency on dtbs
+> > > - Drop unnecessary path separator for dtbs
+> > > - Rebase to -next
+> > >
+> > > Changes in v5:
+> > > - Drop patch previously applied
+> > > - Correct compression rule which was broken in v4
+> > >
+> > > Changes in v4:
+> > > - Use single quotes for UIMAGE_NAME
+> > >
+> > > Changes in v3:
+> > > - Drop temporary file image.itk
+> > > - Drop patch 'Use double quotes for image name'
+> > > - Drop double quotes in use of UIMAGE_NAME
+> > > - Drop unnecessary CONFIG_EFI_ZBOOT condition for help
+> > > - Avoid hard-coding "arm64" for the DT architecture
+> > >
+> > > Changes in v2:
+> > > - Drop patch previously applied
+> > > - Add .gitignore file
+> > > - Move fit rule to Makefile.lib using an intermediate file
+> > > - Drop dependency on CONFIG_EFI_ZBOOT
+> > > - Pick up .dtb files separately from the kernel
+> > > - Correct pylint too-many-args warning for write_kernel()
+> > > - Include the kernel image in the file count
+> > > - Add a pointer to the FIT spec and mention of its wide industry usag=
+e
+> > > - Mention the kernel version in the FIT description
+> > >
+> > >  Documentation/process/changes.rst |   9 +
+> > >  MAINTAINERS                       |   7 +
+> > >  arch/arm64/Makefile               |   7 +-
+> > >  arch/arm64/boot/.gitignore        |   1 +
+> > >  arch/arm64/boot/Makefile          |   6 +-
+> > >  scripts/Makefile.lib              |  16 ++
+> > >  scripts/make_fit.py               | 298 ++++++++++++++++++++++++++++=
+++
+> > >  7 files changed, 341 insertions(+), 3 deletions(-)
+> > >  create mode 100755 scripts/make_fit.py
+> > >
+> > > diff --git a/Documentation/process/changes.rst b/Documentation/proces=
+s/changes.rst
+> > > index 50b3d1cb1115..a8110965e4e1 100644
+> > > --- a/Documentation/process/changes.rst
+> > > +++ b/Documentation/process/changes.rst
+> > > @@ -62,6 +62,7 @@ Sphinx\ [#f1]_         2.4.4            sphinx-buil=
+d --version
+> > >  cpio                   any              cpio --version
+> > >  GNU tar                1.28             tar --version
+> > >  gtags (optional)       6.6.5            gtags --version
+> > > +mkimage (optional)     2017.01          mkimage --version
+> > >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+> > >
+> > >  .. [#f1] Sphinx is needed only to build the Kernel documentation
+> > > @@ -189,6 +190,14 @@ The kernel build requires GNU GLOBAL version 6.6=
+.5 or later to generate
+> > >  tag files through ``make gtags``.  This is due to its use of the gta=
+gs
+> > >  ``-C (--directory)`` flag.
+> > >
+> > > +mkimage
+> > > +-------
+> > > +
+> > > +This tool is used when building a Flat Image Tree (FIT), commonly us=
+ed on ARM
+> > > +platforms. The tool is available via the ``u-boot-tools`` package or=
+ can be
+> > > +built from the U-Boot source code. See the instructions at
+> > > +https://docs.u-boot.org/en/latest/build/tools.html#building-tools-fo=
+r-linux
+> > > +
+> > >  System utilities
+> > >  ****************
+> > >
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index 61117c3afa80..10c2753d7bcc 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -3026,6 +3026,13 @@ F:       drivers/mmc/host/sdhci-of-arasan.c
+> > >  N:     zynq
+> > >  N:     xilinx
+> > >
+> > > +ARM64 FIT SUPPORT
+> > > +M:     Simon Glass <sjg@chromium.org>
+> > > +L:     linux-arm-kernel@lists.infradead.org (moderated for non-subsc=
+ribers)
+> > > +S:     Maintained
+> > > +F:     arch/arm64/boot/Makefile
+> > > +F:     scripts/make_fit.py
+> > > +
+> > >  ARM64 PORT (AARCH64 ARCHITECTURE)
+> > >  M:     Catalin Marinas <catalin.marinas@arm.com>
+> > >  M:     Will Deacon <will@kernel.org>
+> > > diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
+> > > index 83cd2b7234b9..5de2b02f549a 100644
+> > > --- a/arch/arm64/Makefile
+> > > +++ b/arch/arm64/Makefile
+> > > @@ -150,7 +150,7 @@ libs-$(CONFIG_EFI_STUB) +=3D $(objtree)/drivers/f=
+irmware/efi/libstub/lib.a
+> > >  # Default target when executing plain make
+> > >  boot           :=3D arch/arm64/boot
+> > >
+> > > -BOOT_TARGETS   :=3D Image vmlinuz.efi
+> > > +BOOT_TARGETS   :=3D Image vmlinuz.efi image.fit
+> > >
+> > >  PHONY +=3D $(BOOT_TARGETS)
+> > >
+> > > @@ -162,7 +162,9 @@ endif
+> > >
+> > >  all:   $(notdir $(KBUILD_IMAGE))
+> > >
+> > > -vmlinuz.efi: Image
+> > > +image.fit: dtbs
+> > > +
+> > > +vmlinuz.efi image.fit: Image
+> > >  $(BOOT_TARGETS): vmlinux
+> > >         $(Q)$(MAKE) $(build)=3D$(boot) $(boot)/$@
+> > >
+> > > @@ -215,6 +217,7 @@ virtconfig:
+> > >  define archhelp
+> > >    echo  '* Image.gz      - Compressed kernel image (arch/$(ARCH)/boo=
+t/Image.gz)'
+> > >    echo  '  Image         - Uncompressed kernel image (arch/$(ARCH)/b=
+oot/Image)'
+> > > +  echo  '  image.fit     - Flat Image Tree (arch/$(ARCH)/boot/image.=
+fit)'
+> > >    echo  '  install       - Install uncompressed kernel'
+> > >    echo  '  zinstall      - Install compressed kernel'
+> > >    echo  '                  Install using (your) ~/bin/installkernel =
+or'
+> > > diff --git a/arch/arm64/boot/.gitignore b/arch/arm64/boot/.gitignore
+> > > index af5dc61f8b43..abaae9de1bdd 100644
+> > > --- a/arch/arm64/boot/.gitignore
+> > > +++ b/arch/arm64/boot/.gitignore
+> > > @@ -2,3 +2,4 @@
+> > >  Image
+> > >  Image.gz
+> > >  vmlinuz*
+> > > +image.fit
+> > > diff --git a/arch/arm64/boot/Makefile b/arch/arm64/boot/Makefile
+> > > index a5a787371117..ab21af82913e 100644
+> > > --- a/arch/arm64/boot/Makefile
+> > > +++ b/arch/arm64/boot/Makefile
+> > > @@ -16,7 +16,8 @@
+> > >
+> > >  OBJCOPYFLAGS_Image :=3D-O binary -R .note -R .note.gnu.build-id -R .=
+comment -S
+> > >
+> > > -targets :=3D Image Image.bz2 Image.gz Image.lz4 Image.lzma Image.lzo=
+ Image.zst
+> > > +targets :=3D Image Image.bz2 Image.gz Image.lz4 Image.lzma Image.lzo=
+ \
+> > > +       Image.zst image.fit
+> > >
+> > >  $(obj)/Image: vmlinux FORCE
+> > >         $(call if_changed,objcopy)
+> > > @@ -39,6 +40,9 @@ $(obj)/Image.lzo: $(obj)/Image FORCE
+> > >  $(obj)/Image.zst: $(obj)/Image FORCE
+> > >         $(call if_changed,zstd)
+> > >
+> > > +$(obj)/image.fit: $(obj)/Image FORCE
+> > > +       $(call cmd,fit)
+> >
+> >
+> >
+> > The point for using dtbs-list is
+> > to avoid rebuilding image.fit needlessly.
+> >
+> >
+> > This should be:
+> >
+> > $(obj)/image.fit: $(obj)/Image $(obj)/dts/dtbs-list FORCE
+> >         $(call if_changed,fit)
+> >
+> >
+> >
+> >
+> >
+> > > +
+> > >  EFI_ZBOOT_PAYLOAD      :=3D Image
+> > >  EFI_ZBOOT_BFD_TARGET   :=3D elf64-littleaarch64
+> > >  EFI_ZBOOT_MACH_TYPE    :=3D ARM64
+> > > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> > > index b35d39022a30..4efb5ad07fd7 100644
+> > > --- a/scripts/Makefile.lib
+> > > +++ b/scripts/Makefile.lib
+> > > @@ -502,6 +502,22 @@ quiet_cmd_uimage =3D UIMAGE  $@
+> > >                         -a $(UIMAGE_LOADADDR) -e $(UIMAGE_ENTRYADDR) =
+\
+> > >                         -n '$(UIMAGE_NAME)' -d $< $@
+> > >
+> > > +# Flat Image Tree (FIT)
+> > > +# This allows for packaging of a kernel and all devicetrees files, u=
+sing
+> > > +# compression.
+> > > +# ------------------------------------------------------------------=
+---------
+> > > +
+> > > +MAKE_FIT :=3D $(srctree)/scripts/make_fit.py
+> > > +
+> > > +# Use this to override the compression algorithm
+> > > +FIT_COMPRESSION ?=3D gzip
+> > > +
+> > > +quiet_cmd_fit =3D FIT     $@
+> > > +      cmd_fit =3D $(MAKE_FIT) -f $@ --arch $(UIMAGE_ARCH) --os linux=
+ \
+> > > +                       --name '$(UIMAGE_NAME)' \
+> > > +                       --compress $(FIT_COMPRESSION) -k $< \
+> > > +                       @arch/$(SRCARCH)/boot/dts/dtbs-list
+> >
+> >
+> >
+> >
+> > cmd_fit =3D $(MAKE_FIT) -f $@ --arch $(UIMAGE_ARCH) --os linux \
+> >                 --name '$(UIMAGE_NAME)' \
+> >                 --compress $(FIT_COMPRESSION) -k $< @$(word 2,$^)
+> >
+> >
+> >
+> >
+> >
+> > > +
+> > >  # XZ
+> > >  # ------------------------------------------------------------------=
+---------
+> > >  # Use xzkern to compress the kernel image and xzmisc to compress oth=
+er things.
+> > > diff --git a/scripts/make_fit.py b/scripts/make_fit.py
+> > > new file mode 100755
+> > > index 000000000000..69eee32960ae
+> > > --- /dev/null
+> > > +++ b/scripts/make_fit.py
+> > > @@ -0,0 +1,298 @@
+> > > +#!/usr/bin/env python3
+> > > +# SPDX-License-Identifier: GPL-2.0+
+> > > +#
+> > > +# Copyright 2024 Google LLC
+> > > +# Written by Simon Glass <sjg@chromium.org>
+> > > +#
+> > > +
+> > > +"""Build a FIT containing a lot of devicetree files
+> > > +
+> > > +Usage:
+> > > +    make_fit.py -A arm64 -n 'Linux-6.6' -O linux
+> > > +        -f arch/arm64/boot/image.fit -k /tmp/kern/arch/arm64/boot/im=
+age.itk
+> > > +        @arch/arm64/boot/dts/dtbs-list -E -c gzip
+> > > +
+> > > +Creates a FIT containing the supplied kernel and a set of devicetree=
+ files,
+> > > +either specified individually or listed in a file (with an '@' prefi=
+x). Files
+> > > +which don't end in '.dtb' are silently ignored.
+> >
+> >
+> > Why do you need to check the suffix?
+> >
+> >
+> >
+> > > +
+> > > +Use -E to generate an external FIT (where the data is placed after t=
+he
+> > > +FIT data structure). This allows parsing of the data without loading
+> > > +the entire FIT.
+> > > +
+> > > +Use -c to compress the data, using bzip2, gzip, lz4, lzma, lzo and
+> > > +zstd algorithms.
+> > > +
+> > > +The resulting FIT can be booted by bootloaders which support FIT, su=
+ch
+> > > +as U-Boot, Linuxboot, Tianocore, etc.
+> > > +
+> > > +Note that this tool does not yet support adding a ramdisk / initrd.
+> > > +"""
+> > > +
+> > > +import argparse
+> > > +import collections
+> > > +import os
+> > > +import subprocess
+> > > +import sys
+> > > +import tempfile
+> > > +import time
+> > > +
+> > > +import libfdt
+> > > +
+> > > +
+> > > +# Tool extension and the name of the command-line tools
+> > > +CompTool =3D collections.namedtuple('CompTool', 'ext,tools')
+> > > +
+> > > +COMP_TOOLS =3D {
+> > > +    'bzip2': CompTool('.bz2', 'bzip2'),
+> > > +    'gzip': CompTool('.gz', 'pigz,gzip'),
+> > > +    'lz4': CompTool('.lz4', 'lz4'),
+> > > +    'lzma': CompTool('.lzma', 'lzma'),
+> > > +    'lzo': CompTool('.lzo', 'lzop'),
+> > > +    'zstd': CompTool('.zstd', 'zstd'),
+> > > +}
+> > > +
+> > > +
+> > > +def parse_args():
+> > > +    """Parse the program ArgumentParser
+> > > +
+> > > +    Returns:
+> > > +        Namespace object containing the arguments
+> > > +    """
+> > > +    epilog =3D 'Build a FIT from a directory tree containing .dtb fi=
+les'
+> > > +    parser =3D argparse.ArgumentParser(epilog=3Depilog)
+> > > +    parser.add_argument('-A', '--arch', type=3Dstr, required=3DTrue,
+> > > +          help=3D'Specifies the architecture')
+> > > +    parser.add_argument('-c', '--compress', type=3Dstr, default=3D'n=
+one',
+> > > +          help=3D'Specifies the compression')
+> > > +    parser.add_argument('-E', '--external', action=3D'store_true',
+> > > +          help=3D'Convert the FIT to use external data')
+> > > +    parser.add_argument('-n', '--name', type=3Dstr, required=3DTrue,
+> > > +          help=3D'Specifies the name')
+> > > +    parser.add_argument('-O', '--os', type=3Dstr, required=3DTrue,
+> > > +          help=3D'Specifies the operating system')
+> > > +    parser.add_argument('-f', '--fit', type=3Dstr, required=3DTrue,
+> > > +          help=3D'Specifies the output file (.fit)')
+> >
+> >
+> >
+> > I like -o (--output) to specify the output file.
+> >
+> >
+> >
+> >     parser.add_argument('-o', '--output', type=3Dstr, required=3DTrue,
+> >              help=3D'Specifies the output file (.fit)')
+> >
+> >
+> >
+> >
+> >
+> > > +    parser.add_argument('-k', '--kernel', type=3Dstr, required=3DTru=
+e,
+> > > +          help=3D'Specifies the (uncompressed) kernel input file (.i=
+tk)')
+> > > +    parser.add_argument('srcdir', type=3Dstr, nargs=3D'*',
+> > > +          help=3D'Specifies the directory tree that contains .dtb fi=
+les')
+> >
+> >
+> > srcdir?
+> >
+> > You changed the positional parameters to take dtb files.
+> >
+> >
+> >
+> >
+> >
+> >
+> > > +
+> > > +    return parser.parse_args()
+> > > +
+> > > +
+> > > +def setup_fit(fsw, name):
+> > > +    """Make a start on writing the FIT
+> > > +
+> > > +    Outputs the root properties and the 'images' node
+> > > +
+> > > +    Args:
+> > > +        fsw (libfdt.FdtSw): Object to use for writing
+> > > +        name (str): Name of kernel image
+> > > +    """
+> > > +    fsw.INC_SIZE =3D 65536
+> > > +    fsw.finish_reservemap()
+> > > +    fsw.begin_node('')
+> > > +    fsw.property_string('description', f'{name} with devicetree set'=
+)
+> > > +    fsw.property_u32('#address-cells', 1)
+> > > +
+> > > +    fsw.property_u32('timestamp', int(time.time()))
+> > > +    fsw.begin_node('images')
+> > > +
+> > > +
+> > > +def write_kernel(fsw, data, args):
+> > > +    """Write out the kernel image
+> > > +
+> > > +    Writes a kernel node along with the required properties
+> > > +
+> > > +    Args:
+> > > +        fsw (libfdt.FdtSw): Object to use for writing
+> > > +        data (bytes): Data to write (possibly compressed)
+> > > +        args (Namespace): Contains necessary strings:
+> > > +            arch: FIT architecture, e.g. 'arm64'
+> > > +            fit_os: Operating Systems, e.g. 'linux'
+> > > +            name: Name of OS, e.g. 'Linux-6.6.0-rc7'
+> > > +            compress: Compression algorithm to use, e.g. 'gzip'
+> > > +    """
+> > > +    with fsw.add_node('kernel'):
+> > > +        fsw.property_string('description', args.name)
+> > > +        fsw.property_string('type', 'kernel_noload')
+> > > +        fsw.property_string('arch', args.arch)
+> > > +        fsw.property_string('os', args.os)
+> > > +        fsw.property_string('compression', args.compress)
+> > > +        fsw.property('data', data)
+> > > +        fsw.property_u32('load', 0)
+> > > +        fsw.property_u32('entry', 0)
+> > > +
+> > > +
+> > > +def finish_fit(fsw, entries):
+> > > +    """Finish the FIT ready for use
+> > > +
+> > > +    Writes the /configurations node and subnodes
+> > > +
+> > > +    Args:
+> > > +        fsw (libfdt.FdtSw): Object to use for writing
+> > > +        entries (list of tuple): List of configurations:
+> > > +            str: Description of model
+> > > +            str: Compatible stringlist
+> > > +    """
+> > > +    fsw.end_node()
+> > > +    seq =3D 0
+> > > +    with fsw.add_node('configurations'):
+> > > +        for model, compat in entries:
+> > > +            seq +=3D 1
+> > > +            with fsw.add_node(f'conf-{seq}'):
+> > > +                fsw.property('compatible', bytes(compat))
+> > > +                fsw.property_string('description', model)
+> > > +                fsw.property_string('fdt', f'fdt-{seq}')
+> > > +                fsw.property_string('kernel', 'kernel')
+> > > +    fsw.end_node()
+> > > +
+> > > +
+> > > +def compress_data(inf, compress):
+> > > +    """Compress data using a selected algorithm
+> > > +
+> > > +    Args:
+> > > +        inf (IOBase): Filename containing the data to compress
+> > > +        compress (str): Compression algorithm, e.g. 'gzip'
+> > > +
+> > > +    Return:
+> > > +        bytes: Compressed data
+> > > +    """
+> > > +    if compress =3D=3D 'none':
+> > > +        return inf.read()
+> > > +
+> > > +    comp =3D COMP_TOOLS.get(compress)
+> > > +    if not comp:
+> > > +        raise ValueError(f"Unknown compression algorithm '{compress}=
+'")
+> > > +
+> > > +    with tempfile.NamedTemporaryFile() as comp_fname:
+> > > +        with open(comp_fname.name, 'wb') as outf:
+> > > +            done =3D False
+> > > +            for tool in comp.tools.split(','):
+> > > +                try:
+> > > +                    subprocess.call([tool, '-c'], stdin=3Dinf, stdou=
+t=3Doutf)
+> > > +                    done =3D True
+> > > +                    break
+> > > +                except FileNotFoundError:
+> > > +                    pass
+> > > +            if not done:
+> > > +                raise ValueError(f'Missing tool(s): {comp.tools}\n')
+> > > +            with open(comp_fname.name, 'rb') as compf:
+> > > +                comp_data =3D compf.read()
+> > > +    return comp_data
+> > > +
+> > > +
+> > > +def output_dtb(fsw, seq, fname, arch, compress):
+> > > +    """Write out a single devicetree to the FIT
+> > > +
+> > > +    Args:
+> > > +        fsw (libfdt.FdtSw): Object to use for writing
+> > > +        seq (int): Sequence number (1 for first)
+> > > +        fmame (str): Filename containing the DTB
+> > > +        arch: FIT architecture, e.g. 'arm64'
+> > > +        compress (str): Compressed algorithm, e.g. 'gzip'
+> > > +
+> > > +    Returns:
+> > > +        tuple:
+> > > +            str: Model name
+> > > +            bytes: Compatible stringlist
+> > > +    """
+> > > +    with fsw.add_node(f'fdt-{seq}'):
+> > > +        # Get the compatible / model information
+> > > +        with open(fname, 'rb') as inf:
+> > > +            data =3D inf.read()
+> > > +        fdt =3D libfdt.FdtRo(data)
+> > > +        model =3D fdt.getprop(0, 'model').as_str()
+> > > +        compat =3D fdt.getprop(0, 'compatible')
+> > > +
+> > > +        fsw.property_string('description', model)
+> > > +        fsw.property_string('type', 'flat_dt')
+> > > +        fsw.property_string('arch', arch)
+> > > +        fsw.property_string('compression', compress)
+> > > +        fsw.property('compatible', bytes(compat))
+> > > +
+> > > +        with open(fname, 'rb') as inf:
+> > > +            compressed =3D compress_data(inf, compress)
+> > > +        fsw.property('data', compressed)
+> > > +    return model, compat
+> > > +
+> > > +
+> > > +def build_fit(args):
+> > > +    """Build the FIT from the provided files and arguments
+> > > +
+> > > +    Args:
+> > > +        args (Namespace): Program arguments
+> > > +
+> > > +    Returns:
+> > > +        tuple:
+> > > +            bytes: FIT data
+> > > +            int: Number of configurations generated
+> > > +            size: Total uncompressed size of data
+> > > +    """
+> > > +    def add_file(fname):
+> > > +        nonlocal seq, size
+> > > +
+> > > +        if os.path.splitext(fname)[1] =3D=3D '.dtb':
+> > > +            seq +=3D 1
+> > > +            size +=3D os.path.getsize(fname)
+> > > +            model, compat =3D output_dtb(fsw, seq, fname, args.arch,
+> > > +                                       args.compress)
+> > > +            entries.append([model, compat])
+> > > +            return True
+> > > +
+> > > +    seq =3D 0
+> > > +    size =3D 0
+> > > +    fsw =3D libfdt.FdtSw()
+> > > +    setup_fit(fsw, args.name)
+> > > +    entries =3D []
+> > > +
+> > > +    # Handle the kernel
+> > > +    with open(args.kernel, 'rb') as inf:
+> > > +        comp_data =3D compress_data(inf, args.compress)
+> > > +    size +=3D os.path.getsize(args.kernel)
+> > > +    write_kernel(fsw, comp_data, args)
+> > > +
+> > > +    for path in args.srcdir:
+> > > +        # Handle a list of devicetree files
+> > > +        if path.startswith('@'):
+> > > +            with open(path[1:], 'r', encoding=3D'utf-8') as inf:
+> > > +                for fname in inf.read().splitlines():
+> > > +                    add_file(fname)
+> >
+> >
+> >
+> >
+> > You missed the point of my suggestion.
+> >
+> >
+> > I did not mean the "@file" syntax
+> > specifically for containing the device trees.
+> >
+> >
+> > It is common for tools to support the "@file" syntax
+> > to avoid "Argument list too long" error.
+> >
+> >
+> >
+> > See "man ar", "man ld", etc. for example.
+> >
+> >
+> >  @file
+> >    Read command=E2=80=90line options from file. The options read are in=
+serted in
+> >    place of the original @file option. If file does not exist, or canno=
+t
+> >    be read, then the option will be treated literally, and not removed.
+> >
+> >
+> >
+> >
+> > It must be generic enough to contain any command line parameters.
+> >
+> >
+> > And, you do not even implement it yourself because
+> > it is just a matter of adding fromfile_prefix_chars=3D'@'
+> >
+> >
+> > See the document.
+> >
+> >   https://docs.python.org/3/library/argparse.html#fromfile-prefix-chars
+>
+>
+>
+>
+>
+> Or, if you prefer using the 'file' only for containing DTB files,
+> I think it is better to use a standard short/long option instead of
+> the @file syntax.
+>
+>
+> For example, 'tar' can take files from FILE instead of the
+> positional parameters of the command line.
+>
+>
+> 'man tar':
+>
+>   -T, --files-from=3DFILE
+>        Get names to extract or create from FILE.
 
-This way it does not bother current Gitlab mirrors / personal repos, while
-allowing anyone to setup the CI from Gitlab menus just by changing:
+No, I am fine with the @ thing. I didn't know it was built into argparse
 
-Repo -> Settings -> CI/CD -> General Pipelines -> CI/CD configuration file
-
-Thanks!
-Leo
-
-[1] Last year I implemented Gitlab-CI for the perfbook repo, and I came acr=
-oss
-some issues, including the disruption of .gitlab-ci.yml in the root of a re=
-po.
-https://lore.kernel.org/perfbook/20230201201529.901316-1-leobras.c@gmail.co=
-m/
-
->=20
-> Thanks,
-> Helen Koike
->=20
-> >=20
-> > (And then perhaps have a 'gitlab' directory under that. I'm not sure
-> > whether - and how much - commonality there might be between the
-> > different CI models of different hosts).
-> >=20
-> > Just to clarify: when I say "a logical place", I very much want to
-> > emphasize the "a" - maybe there are better places, and I'm not saying
-> > that is the only possible place. But it sounds more logical to me than
-> > some.
-> >=20
-> >              Linus
-
+Regards,
+Simon
