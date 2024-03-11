@@ -1,160 +1,153 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A66D11725;
-	Mon, 11 Mar 2024 08:40:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EBBF22064;
+	Mon, 11 Mar 2024 13:39:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710146405; cv=none; b=I3iz4/3wLAjHYhTB4LqSrfHutxawojpIeX4gPiPN5EF45YMBf/rTF5KxRdpvMY0TXkfxvcYJbmd2Ea8mL5pFNRolcRJY+Z1FV+zuNjevJMkGIsaj0xo/Y22JIGUMP2HpEgaoygcgCZ55hElefmQRnWlnZh/EOXR36R2aLteJmhs=
+	t=1710164395; cv=none; b=or2Mc3p3SQnrZCbWPYA8oZdNk45TnYJiVitVOO8hdhIsS0Z8oLD9YR6+6M3vZ92vo8lIIULgnPbym0oEg90S1FKS3PCZoH6lDJ+M31wenJfIwvGZ4ivh8zxSB2V+cNDAu4/N52b4PAJl7psifH5L4DSkPBjF3rGRSIswObF6C50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710146405; c=relaxed/simple;
-	bh=u/HzVfHPDgGvIAyVqL6vd1wQwhGAYlAumZCp5eqbyZk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VEaqKnBJ8aoJYvDc7zrrtHTs1sHVnELl4Ze0MPI3Ik0HkhGPi80XdsGeyIOSKVBYVFAySZMAFTBMQ4ilFO0DUV4UuUHpazGUqH5K1CKGiH1gDSg05mD/vAKEGwHNoTljqkV6rjUmod3v2JicPlSzAy/jNGCVCspQU94mE9VUVf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mPs1yrMD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1710164395; c=relaxed/simple;
+	bh=SEEjQagVJJYIXoK3Q+z+Gy4Jtn5En5vzFh8nYszbxjk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gFtU0AtUDg9NOdVAzGClmyvcwYeO2X9fd1dw7wmz5srpdEpfpnJcVtWT1x19Pp3gooHvo7h6OuwfxPquLu04txutQyHiR//2cbwK7aGD61xs28NLd5Cm9N0g+uVBSI4t0p63got+xGHNuRp07BPdUoNe9mnMJji4yxhIulwqRTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=wgMpo1af; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mPs1yrMD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A79ECC433F1;
-	Mon, 11 Mar 2024 08:40:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710146405;
-	bh=u/HzVfHPDgGvIAyVqL6vd1wQwhGAYlAumZCp5eqbyZk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mPs1yrMDOT4qu17gVzoFqHfD4/PcM1EpPKdEPlw3EefZynzxlRt6TBYS3+2x0CI4R
-	 9ff17zB0FfByX522iSHZlUvLdYAJ5nllg8UXRfswuqzd5gjQyhTSG0oFQVVmTEntlB
-	 hvicqBKOTNktm1zDi4GeTX4dN/b6WbQVLwO9l0oI5wRPTtKh1bQ4Q32CZlXuUnI2ZI
-	 2utVOpkbR6jcDVWmcszNaCCXbMaftHFTu+jSW5LLcoqczwPxiLWpC/+5oXZF9nR+qj
-	 Xo05gL0o8n4cgAWxXIq/96y9SlCc2s3lRdOkoCXiMJ+Yl3+AHEYQl2OFLyaVVoo12l
-	 3hydjp0gbZyAQ==
-Date: Mon, 11 Mar 2024 09:40:02 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: Helen Koike <helen.koike@collabora.com>, linuxtv-ci@linuxtv.org, 
-	dave.pigott@collabora.com, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-kselftest@vger.kernel.org, gustavo.padovan@collabora.com, pawiecz@collabora.com, 
-	spbnick@gmail.com, tales.aparecida@gmail.com, workflows@vger.kernel.org, 
-	kernelci@lists.linux.dev, skhan@linuxfoundation.org, kunit-dev@googlegroups.com, 
-	nfraprado@collabora.com, davidgow@google.com, cocci@inria.fr, Julia.Lawall@inria.fr, 
-	laura.nao@collabora.com, ricardo.canuelo@collabora.com, kernel@collabora.com, 
-	torvalds@linuxfoundation.org, gregkh@linuxfoundation.org
-Subject: Re: [PATCH 1/3] kci-gitlab: Introducing GitLab-CI Pipeline for
- Kernel Testing
-Message-ID: <20240311-electric-cream-hippo-20eada@houat>
-References: <20240228225527.1052240-1-helen.koike@collabora.com>
- <20240228225527.1052240-2-helen.koike@collabora.com>
- <20240229-dancing-laughing-groundhog-d85161@houat>
- <d417daa2a8e3951da44bf2d555e04d98c83a3c5c.camel@collabora.com>
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="wgMpo1af"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=KBYkYC7Q3Vs3PYXioBEI+v+74ZYf4zGI6NQfn8C50kY=; t=1710164393;
+	x=1710596393; b=wgMpo1afu1C27tRgT78ad+Q25fPDKENd+HVMTlPI6lxBVrfcejp+HZPSGAL/U
+	IIPkRxOU3k4GFM0VgjEnqKY/E4PF6RRayBX4UaLzCQURbNj81xnzUMsmQ/tuPbfMJb7gn/ZRZFptv
+	hUqMNYfKADtifF67B8snOsfXaMUNB2U3fBW1U4wmAtxxy2OlaN6wgJ5OfWpcPWy80zELNK/KdNNsM
+	CUijPD4PpGsw+bvB2feUrAwMVLFmLhEGNJQl94Pz7PYyUUp3+nh1hVbYqcAg1PXmP7ojuid70YsHi
+	Mz3hDF+yHgeeW1umCrkZ/dwBPtfswGpNNrkVMnq8Q0OyxbIfXw==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1rjfsY-0007K8-KI; Mon, 11 Mar 2024 14:39:46 +0100
+Message-ID: <82cf3fba-fdfa-4185-b2b9-c8ed8d123136@leemhuis.info>
+Date: Mon, 11 Mar 2024 14:39:46 +0100
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="w77ek3n4gomubfzs"
-Content-Disposition: inline
-In-Reply-To: <d417daa2a8e3951da44bf2d555e04d98c83a3c5c.camel@collabora.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] docs: *-regressions.rst: Use collon after regzbot
+ introduced command
+Content-Language: en-US, de-DE
+To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: kernel@collabora.com, regressions@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ workflows@vger.kernel.org
+References: <20240308-regzbot-fixes-v1-0-577a4fe16e12@collabora.com>
+ <20240308-regzbot-fixes-v1-1-577a4fe16e12@collabora.com>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+In-Reply-To: <20240308-regzbot-fixes-v1-1-577a4fe16e12@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1710164393;2d3a856a;
+X-HE-SMSGID: 1rjfsY-0007K8-KI
 
+Thx for this!
 
---w77ek3n4gomubfzs
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 08.03.24 15:09, Nícolas F. R. A. Prado wrote:
+> All the examples in the reference documentation for regzbot have a
+> collon
 
-Hi Nicolas,
+s/collon/colon/ here and a few lines below as well. And in the subject
+as well. Speaking of which: something like "docs: *-regressions.rst:
+add colon to regzbot commands" might be better.
 
-On Thu, Mar 07, 2024 at 01:05:12PM -0500, Nicolas Dufresne wrote:
-> Le jeudi 29 f=E9vrier 2024 =E0 10:02 +0100, Maxime Ripard a =E9crit=A0:
-> > On Wed, Feb 28, 2024 at 07:55:25PM -0300, Helen Koike wrote:
-> > > This patch introduces a `.gitlab-ci` file along with a `ci/` folder,
-> > > defininga basic test pipeline triggered by code pushes to a GitLab-CI
-> > > instance. This initial version includes static checks (checkpatch and
-> > > smatch for now) and build tests across various architectures and
-> > > configurations. It leverages an integrated cache for efficient build
-> > > times and introduces a flexible 'scenarios' mechanism for
-> > > subsystem-specific extensions.
-> > >=20
-> > > [ci: add prerequisites to run check-patch on MRs]
-> > > Co-developed-by: Tales Aparecida <tales.aparecida@redhat.com>
-> > > Signed-off-by: Tales Aparecida <tales.aparecida@redhat.com>
-> > > Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> > >=20
-> > > ---
-> > >=20
-> > > Hey all,
-> > >=20
-> > > You can check the validation of this patchset on:
-> > >         https://gitlab.collabora.com/koike/linux/-/pipelines/87035
-> > >=20
-> > > I would appreciate your feedback on this work, what do you think?
-> > >=20
-> > > If you would rate from 0 to 5, where:
-> > >=20
-> > > [ ] 0. I don't think this is useful at all, and I doubt it will ever =
-be. It doesn't seem worthwhile.
-> > > [ ] 1. I don't find it useful in its current form.
-> > > [ ] 2. It might be useful to others, but not for me.
-> > > [ ] 3. It has potential, but it's not yet something I can incorporate=
- into my workflow.
-> > > [ ] 4. This is useful, but it needs some adjustments before I can inc=
-lude it in my workflow.
-> > > [ ] 5. This is really useful! I'm eager to start using it right away.=
- Why didn't you send this earlier? :)
-> > >=20
-> > > Which rating would you select?
-> >=20
-> > 4.5 :)
-> >=20
-> > One thing I'm wondering here is how we're going to cope with the
-> > different requirements each user / framework has.
-> >=20
-> > Like, Linus probably want to have a different set of CI before merging a
-> > PR than (say) linux-next does, or stable, or before doing an actual
-> > release.
-> >=20
-> > Similarly, DRM probably has a different set of requirements than
-> > drm-misc, drm-amd or nouveau.
-> >=20
-> > I don't see how the current architecture could accomodate for that. I
-> > know that Gitlab allows to store issues template in a separate repo,
-> > maybe we could ask them to provide a feature where the actions would be
-> > separate from the main repo? That way, any gitlab project could provide
-> > its own set of tests, without conflicting with each others (and we could
-> > still share them if we wanted to)
-> >=20
-> > I know some of use had good relationship with Gitlab, so maybe it would
-> > be worth asking?
->=20
-> As agreed, the .gitlab-ci.yaml file at the list will go away. Its a defau=
-lt
-> location, but not a required location. This way, each sub-system can have=
- their
-> own (or not have one). The different sub-system forks will have to be con=
-figured
-> to point to their respective CI main configuration.
->=20
-> Of course nothing prevents having common set of configuration for jobs an=
-d jobs
-> template. As an example, we could have a job template common for checkpat=
-ch, and
-> allow each subsystem adding their own sauce on top. It can save the dupli=
-cate
-> effort of parsing the tool results and reporting it in a format gitlab
-> understand.
+> after the "introduced" command, while on the kernel documentation
+> some have and others don't. This suggests both are acceptable,
 
-That makes total sense to me and would be incredibly useful indeed.
+Yup.
 
-Maxime
+> but in
+> order to avoid confusion, add collons after all the commands to match
+> the reference docs.
 
---w77ek3n4gomubfzs
-Content-Type: application/pgp-signature; name="signature.asc"
+Yeah, good idea. I likely would have done this myself soon while doing a
+few other changes I plan, but whatever. :-D
 
------BEGIN PGP SIGNATURE-----
+> Link: https://gitlab.com/knurd42/regzbot/-/blob/main/docs/reference.md
+> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZe7DYQAKCRDj7w1vZxhR
-xV1bAP9SznauRTHmk6BDIF8VURG655ttC42MmrZ8cF89TuL8fgEAr49BYmklqUpK
-gyHR4Xi8NBxGUOVUbAeJr+Ys4vmCPA8=
-=ZXTU
------END PGP SIGNATURE-----
+With the changes above:
 
---w77ek3n4gomubfzs--
+Reviewed-by: Thorsten Leemhuis <linux@leemhuis.info>
+
+Side note: I wonder if the commit message could come a bit quicker to
+the point (something along the lines of "Use colons as command
+terminator everywhere for consistency, even if it not strictly
+necessary. That way it will also match regzbot's reference
+documentation.". But not really important I guess. Up to John.
+
+Ciao, Thorsten
+
+> ---
+>  Documentation/admin-guide/reporting-regressions.rst |  2 +-
+>  Documentation/process/handling-regressions.rst      | 10 +++++-----
+>  2 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/reporting-regressions.rst b/Documentation/admin-guide/reporting-regressions.rst
+> index d8adccdae23f..76b246ecf21b 100644
+> --- a/Documentation/admin-guide/reporting-regressions.rst
+> +++ b/Documentation/admin-guide/reporting-regressions.rst
+> @@ -31,7 +31,7 @@ The important bits (aka "TL;DR")
+>     Linux kernel regression tracking bot "regzbot" track the issue by specifying
+>     when the regression started like this::
+>  
+> -       #regzbot introduced v5.13..v5.14-rc1
+> +       #regzbot introduced: v5.13..v5.14-rc1
+>  
+>  
+>  All the details on Linux kernel regressions relevant for users
+> diff --git a/Documentation/process/handling-regressions.rst b/Documentation/process/handling-regressions.rst
+> index 5d3c3de3f4ec..42b13f77b019 100644
+> --- a/Documentation/process/handling-regressions.rst
+> +++ b/Documentation/process/handling-regressions.rst
+> @@ -27,11 +27,11 @@ The important bits (aka "The TL;DR")
+>     is optional, but recommended):
+>  
+>      * For mailed reports, check if the reporter included a line like ``#regzbot
+> -      introduced v5.13..v5.14-rc1``. If not, send a reply (with the regressions
+> +      introduced: v5.13..v5.14-rc1``. If not, send a reply (with the regressions
+>        list in CC) containing a paragraph like the following, which tells regzbot
+>        when the issue started to happen::
+>  
+> -       #regzbot ^introduced 1f2e3d4c5b6a
+> +       #regzbot ^introduced: 1f2e3d4c5b6a
+>  
+>      * When forwarding reports from a bug tracker to the regressions list (see
+>        above), include a paragraph like the following::
+> @@ -79,7 +79,7 @@ When doing either, consider making the Linux kernel regression tracking bot
+>  "regzbot" immediately start tracking the issue:
+>  
+>   * For mailed reports, check if the reporter included a "regzbot command" like
+> -   ``#regzbot introduced 1f2e3d4c5b6a``. If not, send a reply (with the
+> +   ``#regzbot introduced: 1f2e3d4c5b6a``. If not, send a reply (with the
+>     regressions list in CC) with a paragraph like the following:::
+>  
+>         #regzbot ^introduced: v5.13..v5.14-rc1
+> @@ -398,9 +398,9 @@ By using a 'regzbot command' in a direct or indirect reply to the mail with the
+>  regression report. These commands need to be in their own paragraph (IOW: they
+>  need to be separated from the rest of the mail using blank lines).
+>  
+> -One such command is ``#regzbot introduced <version or commit>``, which makes
+> +One such command is ``#regzbot introduced: <version or commit>``, which makes
+>  regzbot consider your mail as a regressions report added to the tracking, as
+> -already described above; ``#regzbot ^introduced <version or commit>`` is another
+> +already described above; ``#regzbot ^introduced: <version or commit>`` is another
+>  such command, which makes regzbot consider the parent mail as a report for a
+>  regression which it starts to track.
+>  
+> 
