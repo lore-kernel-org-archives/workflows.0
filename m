@@ -1,158 +1,137 @@
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E2B86A010;
-	Wed, 20 Mar 2024 18:48:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.47
+Received: from m16.mail.126.com (m16.mail.126.com [220.197.31.9])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C55F11E87E;
+	Wed, 20 Mar 2024 23:38:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710960530; cv=none; b=Mp+kS9aqUt1qZUi9Y5FSk4MBFKRaYBNq4RveJs6NE0GqEpmg/jQdp3aM6ZeHWA2c5uPROVysy1a8v0WcZpEPJn2Fr3KYdDNj1trUo6YPsnDs+hG/KHpI49zXCkdiVOEiZ6uhpDRphjODqimSiyTtsyDuWJgKIJyE9JVeqJ2uB24=
+	t=1710977925; cv=none; b=t/FofJQhtX0KhjAKYeTnhF/sx9heQCRfSmNXepYtiipBKadYhCdQSYgWuIOXfX9+rr4cMMhRctwRVchT4n6iu9atyqySkdW5YuCMKpfEarTNOwmxi1nxqxQ/7sxSnv6KKPTV/CMbFNNuw+fPIa8sWshCIDxy4pFzSXoIP5rJ5Z4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710960530; c=relaxed/simple;
-	bh=tFJOpb0JvoYIf7/Tb9EQ8IlbJJno9k0nno8TrWoX04Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Oat1Rq/3kuXM8zxhVcXb+/E0ZNh1oBK27EkkXSTxqEFbgYoKiA1ZUunKU/vtGmyERs5oveZHCDQ9Y7jRQg0wqqYJtkhI1EzEhtq6EY+K9JXv4/POY18fX//jUE7L0sqqwmzss9bkut43AkAEQA8WirXpxe0AuHrmdqTb/U6ZOwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MD8kXSbR; arc=none smtp.client-ip=209.85.217.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1710977925; c=relaxed/simple;
+	bh=+2SWIsd88ucu5ws7uxhQnlemEmeUg8lx9NbQy9iP82Q=;
+	h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:References:
+	 Cc:In-Reply-To:To; b=HWV4J5J48mTD8iVJIndjQZWp5OPZVSYE7+HVafEvI3AK8+FND6Ws0thuMUXRMlgrvZdODYBJ4kClL9Tdr3W5qrRK3SfsI/8f+oH5rWu6nrDKNKw6LKkPZ8r+I3eZAnAKFg0fyiuxcmxbid3pnpbaPWljPL0Dm2dghmMXVRokFhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com; spf=pass smtp.mailfrom=126.com; dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b=g+JfZlv5; arc=none smtp.client-ip=220.197.31.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=126.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MD8kXSbR"
-Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-4739b6ddc94so16549137.0;
-        Wed, 20 Mar 2024 11:48:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710960528; x=1711565328; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=C3kc8hzKgebH+x6vGwYL+8FHBw8RQ3nELQdeZk5vZEA=;
-        b=MD8kXSbRL7KfUEPUqYik4hN498aH7h6N4z7V6TNXQg1KFzu1qDT7VEm5lIW8WpD+LB
-         lPzdFWGsY/43kzmgZAkGu3GISR06lqVDhNjBANSQXvF3NAyfv9ph7vFiIhqdcZtShM98
-         XXLhmEuGEoKufOascVK8SrwgxX/6CiMAEKmtjgdrPh5+tErvPIBlsZ5gEtLVm1FS4x53
-         uQl7VF6Z/u9sASLUIhGyCPMyYzrG7OwIccWKmYhnv4pnHBxot66RPnTyth8uoOgt1e7q
-         fXGgRW+h2AlHjevjfnteIDRElJGmXEGBZsfMA8GDZXV4Tnb7HHtgPjednxyNGUdDvfG1
-         mm8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710960528; x=1711565328;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=C3kc8hzKgebH+x6vGwYL+8FHBw8RQ3nELQdeZk5vZEA=;
-        b=YoLSuZjb3BInM4yva/i0Lju4EdT8uJLVtr/9Rug3hvi6/LJAIga0H/s/2IcTo+nwAk
-         1BhxFTDwMTN5KtuvnbbAxHRNbxq7FvnoV7XjOBWWDwGg9cvatHEAKiva3DQmAuR94chI
-         jtMKdI+A7FBxrBBq5btkYzWePbGfBTVAQCExAzwqhsRmA+8PQKX90jHVmmVGGZ47B7Vg
-         dIFbK219z59H4ay0/wiGDCnQzQIC77npx/2sY3COkEtIW7YB3WoBiGjRnscHpEuusJVI
-         4xL6zq5Cvkb5ZeNALxqzpDs4lISlWQsilcbRfrULzdOmEbVEsQa0QvWhdde4Q0EMmYr+
-         dqWA==
-X-Forwarded-Encrypted: i=1; AJvYcCUELNLuzLYaBAdbTx/5VZUcEVjw30dboEnR1E7i+SWOd2ihA2sxGEQHLjyP07zY9VXsRkH6fzJBRykPJdiR1IIv/ZBaDKSRxmRrzVnRbblAVHkfC86igo0CocnrHfZPQLxN2+hAdzu+Z/cYAco8mco/2a/ydR6QiKxHb5rMi1zWXgze
-X-Gm-Message-State: AOJu0YzWNQWZOC8ECVSRoKNRG3ktf0qoFOrdpBI15b08MtCrlX4g1g0j
-	Wuw5TRXi2tIJqm2mFANQF8Db/Cxuqb/pPFhX1Gnifr6upYdTD22fcm2h3oypQNwytVV7zSOqhCD
-	iCE3oVwPOSqMlxtk1qxOoqH10VutZqBw+bpw=
-X-Google-Smtp-Source: AGHT+IHHMBzJxvqxFSVFgSTPKSJn7ba2A2kXEEjNVmqdH0a0PCDskoseFwovKGJtH7rif3zQaet5AETl1OVj1yNlRL4=
-X-Received: by 2002:a05:6102:4c10:b0:476:76d8:49b with SMTP id
- jy16-20020a0561024c1000b0047676d8049bmr9593457vsb.11.1710960527098; Wed, 20
- Mar 2024 11:48:47 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b="g+JfZlv5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+	s=s110527; h=Content-Type:From:Mime-Version:Subject:Date:
+	Message-Id; bh=NJNvmjRg6+oJD+f8rosyW4DUgth/EkIgF8KUF7RekOg=; b=g
+	+JfZlv5pCw6ae43XDwcHmzR4d1lHl9pvpTQMsm/WZKERzH+NIsNImOSiXpm874dC
+	/VMHqVTcE3m8EeA1J4Yjy9UUK46cBsAfUT+mN9ytXs+zgIDZTwkyxGNJ09QY2o95
+	kGbaV+VzJ03oaiCxpnz2mK1Jk7VQNuQRIeYw4+idAA=
+Received: from smtpclient.apple (unknown [119.143.49.21])
+	by gzga-smtp-mta-g1-5 (Coremail) with SMTP id _____wD3Py80c_tl2DLlAA--.33361S2;
+	Thu, 21 Mar 2024 07:37:26 +0800 (CST)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: Meiyong Yu <meiyong.yu@126.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240320001656.10075-1-21cnbao@gmail.com> <20240320124207.0c127947@canb.auug.org.au>
- <CAGsJ_4zpXwVEhsdffoZVBVWiwT4Lw2qEMrW-X92ib=kv=9Yx9g@mail.gmail.com> <20240320084919.8e18adb418347feed6bfc8ae@linux-foundation.org>
-In-Reply-To: <20240320084919.8e18adb418347feed6bfc8ae@linux-foundation.org>
-From: Barry Song <21cnbao@gmail.com>
-Date: Thu, 21 Mar 2024 07:48:36 +1300
-Message-ID: <CAGsJ_4y+1HovQ52HPis8NBDqp4-fiGRwehX+NH0New0HoEU5GQ@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: coding-style: ask function-like macros to
- evaluate parameters
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, corbet@lwn.net, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Barry Song <v-songbaohua@oppo.com>, Chris Zankel <chris@zankel.net>, 
-	Huacai Chen <chenhuacai@loongson.cn>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	Guenter Roeck <linux@roeck-us.net>, Max Filippov <jcmvbkbc@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH] Documentation: coding-style: ask function-like macros to evaluate parameters
+Date: Thu, 21 Mar 2024 07:37:14 +0800
+Message-Id: <EFB48F08-F0B5-47C0-8C47-00A542344AC9@126.com>
+References: <20240320001656.10075-1-21cnbao@gmail.com>
+Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Barry Song <v-songbaohua@oppo.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Chris Zankel <chris@zankel.net>,
+ Huacai Chen <chenhuacai@loongson.cn>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Guenter Roeck <linux@roeck-us.net>, Max Filippov <jcmvbkbc@gmail.com>
+In-Reply-To: <20240320001656.10075-1-21cnbao@gmail.com>
+To: Barry Song <21cnbao@gmail.com>
+X-Mailer: iPhone Mail (21E219)
+X-CM-TRANSID:_____wD3Py80c_tl2DLlAA--.33361S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxAFWrur45Xr1DtrW3Zw15XFb_yoW5Gr1xpF
+	Z8JF47Xa18XFyUArnrJ392yFyxJrWrCFW3Wrsxtry5uF43A3Z2gry3tr15uan7Ar409ay7
+	ua12krsruFyayrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07bbiSdUUUUU=
+X-CM-SenderInfo: 5phl501qjo53a6rslhhfrp/1tbijh2nhmVLZvJUWgABsH
 
-On Thu, Mar 21, 2024 at 4:49=E2=80=AFAM Andrew Morton <akpm@linux-foundatio=
-n.org> wrote:
->
-> On Wed, 20 Mar 2024 16:24:30 +1300 Barry Song <21cnbao@gmail.com> wrote:
->
-> > Hi Stephen,
-> > Thanks for reviewing.
-> >
-> > On Wed, Mar 20, 2024 at 2:42=E2=80=AFPM Stephen Rothwell <sfr@canb.auug=
-.org.au> wrote:
-> > >
-> > > Hi Barry,
-> > >
-> > > On Wed, 20 Mar 2024 13:16:56 +1300 Barry Song <21cnbao@gmail.com> wro=
-te:
-> > > >
-> > > > diff --git a/Documentation/process/coding-style.rst b/Documentation=
-/process/coding-style.rst
-> > > > index 9c7cf7347394..8065747fddff 100644
-> > > > --- a/Documentation/process/coding-style.rst
-> > > > +++ b/Documentation/process/coding-style.rst
-> > > > @@ -827,6 +827,13 @@ Macros with multiple statements should be encl=
-osed in a do - while block:
-> > > >                               do_this(b, c);          \
-> > > >               } while (0)
-> > > >
-> > > > +Function-like macros should evaluate their parameters, for unused =
-parameters,
-> > > > +cast them to void:
-> > > > +
-> > > > +.. code-block:: c
-> > > > +
-> > > > +     #define macrofun(a) do { (void) (a); } while (0)
-> > > > +
-> > >
-> > > Maybe add some comment about using a static inline function for these
-> > > simple versions instead, if at all possible, (it is suggested just
-> > > above this section) since that will still type check arguments.
-> >
-> > right, what about adding the below section together with the above (voi=
-d) cast?
-> >
-> > +Another approach could involve utilizing a static inline function to r=
-eplace
-> > +the macro.:
-> > +
-> > +.. code-block:: c
-> > +
-> > +       static inline void fun(struct foo *foo)
-> > +       {
-> > +       }
-> > +
->
-> Stronger than that please.  Just tell people not to use macros in such
-> situations.  Always code it in C.
 
-While I appreciate the consistency of always using "static inline"
-instead of macros,
-I've noticed numerous instances of (void) macros throughout the kernel.
+> On Mar 20, 2024, at 08:17, Barry Song <21cnbao@gmail.com> wrote:
+>=20
+> =EF=BB=BFFrom: Barry Song <v-songbaohua@oppo.com>
+>=20
+> Recent commit 77292bb8ca69c80 ("crypto: scomp - remove memcpy if
+> sg_nents is 1 and pages are lowmem") leads to warnings on xtensa
+> and loongarch,
+>   In file included from crypto/scompress.c:12:
+>   include/crypto/scatterwalk.h: In function 'scatterwalk_pagedone':
+>   include/crypto/scatterwalk.h:76:30: warning: variable 'page' set but not=
+ used [-Wunused-but-set-variable]
+>      76 |                 struct page *page;
+>         |                              ^~~~
+>   crypto/scompress.c: In function 'scomp_acomp_comp_decomp':
+>>> crypto/scompress.c:174:38: warning: unused variable 'dst_page' [-Wunused=
+-variable]
+>     174 |                         struct page *dst_page =3D sg_page(req->d=
+st);
+>         |
+>=20
+> The reason is that flush_dcache_page() is implemented as a noop
+> macro on these platforms as below,
+>=20
+> #define flush_dcache_page(page) do { } while (0)
+>=20
+> The driver code, for itself, seems be quite innocent and placing
+> maybe_unused seems pointless,
+>=20
+> struct page *dst_page =3D sg_page(req->dst);
+>=20
+> for (i =3D 0; i < nr_pages; i++)
+>    flush_dcache_page(dst_page + i);
+>=20
+> And it should be independent of architectural implementation
+> differences.
+>=20
+> Let's have a guidance in codingstyle to ask for the evaluation
+> of parameters.
+>=20
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Chris Zankel <chris@zankel.net>
+> Cc: Huacai Chen <chenhuacai@loongson.cn>
+> Cc: Herbert Xu <herbert@gondor.apana.org.au>
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Suggested-by: Max Filippov <jcmvbkbc@gmail.com>
+> Signed-off-by: Barry Song <v-songbaohua@oppo.com>
+> ---
+> Documentation/process/coding-style.rst | 7 +++++++
+> 1 file changed, 7 insertions(+)
+>=20
+> diff --git a/Documentation/process/coding-style.rst b/Documentation/proces=
+s/coding-style.rst
+> index 9c7cf7347394..8065747fddff 100644
+> --- a/Documentation/process/coding-style.rst
+> +++ b/Documentation/process/coding-style.rst
+> @@ -827,6 +827,13 @@ Macros with multiple statements should be enclosed in=
+ a do - while block:
+>                do_this(b, c);        \
+>        } while (0)
+>=20
 
-arch/arm64/include/asm/cpuidle.h:#define arm_cpuidle_save_irq_context(c) (v=
-oid)c
-arch/arm64/include/asm/cpuidle.h:#define
-arm_cpuidle_restore_irq_context(c) (void)c
-arch/loongarch/include/asm/io.h:#define iounmap(addr) ((void)(addr))
-arch/mips/include/asm/cop2.h:#define cop2_save(r) do { (void)(r); } while (=
-0)
-arch/mips/include/asm/cop2.h:#define cop2_restore(r) do { (void)(r); } whil=
-e (0)
-arch/mips/include/asm/cop2.h:#define cop2_save(r) do { (void)(r); } while (=
-0)
-arch/mips/include/asm/cop2.h:#define cop2_restore(r) do { (void)(r); } whil=
-e (0)
-....
 
-I'm uncertain whether people would find it disconcerting if they completely
-deviate from the current approach.
+> +Function-like macros should evaluate their parameters, for unused paramet=
+ers,
+I do not support this point, if the parameter is unused, why not to remove i=
+t.
 
-If you believe it won't pose an issue, I can proceed with v3 to eliminate
-the first option, casting to (void).
+about the warning,  is  tool misreport,  the tool must make better
 
-Thanks
-Barry
+> +cast them to void:
+> +
+> +.. code-block:: c
+> +
+> +    #define macrofun(a) do { (void) (a); } while (0)
+> +
+> Things to avoid when using macros:
+>=20
+> 1) macros that affect control flow:
+> --
+> 2.34.1
+>=20
+
