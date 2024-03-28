@@ -1,169 +1,119 @@
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AB1D374D2;
-	Thu, 28 Mar 2024 02:22:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FAA81CFB6;
+	Thu, 28 Mar 2024 04:22:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711592526; cv=none; b=By9fjua5tHn+1PDqd6uLMldYNHYkdCDM2WWoURi5dNJ9Wn9tEkZYF2wmtwpYMSigly5aampqQwaHifVEohil1qOC3yCZ6k1xwuymzXAgEugd7ScyObR8lhyi6wP5/gK/IivOYel3EGuhZbT/02L4EG2bp1i+TNDA+Tps4MINBCI=
+	t=1711599748; cv=none; b=DNI/4qMgVmaYndZdjpQ4EHUSzuae6XevRamDk4ekSMlZFeSVsLom8sgAYOt3l5sf/Vrsl8taQbMNYsB1mADdKqu0LnSD37+VHLx6/R7Zkc0HpeG6GfRJiCjSdIz9GjvWfjmUGM9EtN4Llcky9u/iUQclkoaoVWgys9MI3O4ZHPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711592526; c=relaxed/simple;
-	bh=/eLhb9Rg4nh9yNL4iwlTn1l8Pyav0reD3p6fibEz1d8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=AribWiBZA3eBz0MVeVF+QkfbNU/fb7lRMJ3Jrfec6JsVf1fxn7/66mdGxKLirIag999XqvJeZ9EJllvHHqWao6OFDiek0gMMlyQkaUeawnT0YsEKWsFYOSZti8BiTgLsZEc9UMmpLeO+CsVr+q00SqliabKZ9rh+XDo5DGsI3r8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f8iGeo+M; arc=none smtp.client-ip=209.85.160.44
+	s=arc-20240116; t=1711599748; c=relaxed/simple;
+	bh=VrgOkQEO/xXHi0VxwHtrFcorWv5kNZWIJwBfQjY/Fnc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Dr9qSdTFU0JqIAJ2fI9p+n4iQ7/GboKPmADj4H7C2ab/Eqz1CbVs66AYcZvEtRCMdG/Fyc+yLn+YFqmcRmlFORlRqZJ4+G65XFs3aDZg8IPBy3v8LmZAdNmzwBFm8oawRgUPIXzeWttiZW+JJhSXgxHcoNJj6d1F+8Eln+5E+vM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IojfJj1P; arc=none smtp.client-ip=209.85.222.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f8iGeo+M"
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-222ba2a19bdso267647fac.1;
-        Wed, 27 Mar 2024 19:22:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IojfJj1P"
+Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-7dec16fc4b2so124379241.3;
+        Wed, 27 Mar 2024 21:22:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711592523; x=1712197323; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1711599745; x=1712204545; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zJKFKvTWiQ1ylayITMd1pxJyaQfArgqbTI5DSxcGrbE=;
-        b=f8iGeo+MnS8W2a21vGPo96OCc+bZwI+ZmmXjd6BvjSw/Z9g8pfF8GQku4UBTywxzCR
-         eBq9j+6Y1CIIATJWDFIibRG9dfl+12eTwCNYIVnscBMFS+YVrMoSjAoGDBHIOXUXGsbh
-         OXiu5b4UQG4PBwMMXdZVC1DqWJFplhOFhEfzaRvgn/qlsXUf6oNkMAUhtNvTGLn2w6B/
-         cbcAV9e97rCmgefxkDRHJOv8C8DW+S7yaggflHK1w5kmxcdFgjode/kBnn9Xen/P91Q/
-         kUfYK2uwmkUFKujZveNZQF7Uz0RtwotWLU/SmASRMCaU01r5RDIj6NRVEf99VgF0tx3f
-         s3EA==
+        bh=Z0+XG9kxnjTaWBVgFwj0PcuoUonk1b0BDImgIwR/heI=;
+        b=IojfJj1PEiZhppq39Ql6DQlqYJ/CemE6bQp9+S7OAUSRrCWiip8ulUiTp154FyHbBO
+         CRDrlWzIgnSOMaw+MNCeodn7Cx2Z1zRnuy32edj949BK7OA4UsaTpwQfjbntV+iklkY3
+         Vt06cli2glkkqcwY+ZL8aIkc9mer+5UW3WE44cfG/r4WVN4GQB0kvxAQVpUKETzi5aW4
+         tiMATaWcrCD/ZEEsBL1sFihobFOSQ5fvPGjc4KKHeLvwEcc7cXASQvFZm4/UalhjrrQW
+         UWRGhDhE8ezgfCMikG+izLBqn3EqvFwFUkHZwrv24yUbk9DxQvYrzU4Q+0D4ipcWes4i
+         RF3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711592523; x=1712197323;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1711599745; x=1712204545;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zJKFKvTWiQ1ylayITMd1pxJyaQfArgqbTI5DSxcGrbE=;
-        b=ILIqTKCn14mtPzNpktJwXulJkIgyBGMhr5uFhffsykqTYPCCjwXQcgfuWmk7iapcqV
-         ujfPClZE1chv5Atumz6G8gSkX7f4oHAVfViYP4oyDkfGSV9GnQy3XFB6V4sRTK3ZPq/k
-         4kKvI7Ykuavp0Pv41KlmykUOZrNwXjvUTWPynwrhXe5PG3tqlnOnZ54AdcofE4Cj+b+r
-         xr4rMH5v88Vj7Z/6iPcN6XHjnUU0RGL1yJPxCYlOPoaeJ+329f+iQQrSW6GIoK5rJDDA
-         UchM/v8LiHua5kSTxz180m8KotP+NSMqShucg7PvEiF2A9gAC9C7cfAGvclSLeVUtX9/
-         r6+g==
-X-Forwarded-Encrypted: i=1; AJvYcCWZUv26bg4nDgGgl2IPBPICKyj9HnizghLSqUDerXTI+oZhpPlwv/MX/cljwQesOJMKe0VzMin7uyfaVibJmnH7MK2mEWATxcETWn9IhpL828koWWbHxfS5QikB7XFTINeHuzHsNk8AXVUrCBwldeMzPlhzWk0TOE+yGqP70ePNeHl1
-X-Gm-Message-State: AOJu0Yy4ALOmK/Uoy79uV6rXNv93PA2eoNqj0n4mUbHUyZECIjv5nSNL
-	fJVM1R39tT4VEPSemXeHYKKMXNeYgQYUaotMobTqsYVDr/9xbHjv
-X-Google-Smtp-Source: AGHT+IG6vBI7mFQMTCRkMR1DgL0LU5ekXVqi3z1NUbDX1byFjVV13DxPVWJQAAHxY3Ul2lejpzlYyg==
-X-Received: by 2002:a05:6870:c0c8:b0:229:c1b3:db51 with SMTP id e8-20020a056870c0c800b00229c1b3db51mr1459496oad.47.1711592523713;
-        Wed, 27 Mar 2024 19:22:03 -0700 (PDT)
-Received: from localhost.localdomain ([2407:7000:8942:5500:aaa1:59ff:fe57:eb97])
-        by smtp.gmail.com with ESMTPSA id d26-20020aa7869a000000b006eac233f5c2sm228113pfo.127.2024.03.27.19.21.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Mar 2024 19:22:03 -0700 (PDT)
-From: Barry Song <21cnbao@gmail.com>
-To: akpm@linux-foundation.org,
-	linux-doc@vger.kernel.org
-Cc: apw@canonical.com,
-	broonie@kernel.org,
-	chenhuacai@loongson.cn,
-	chris@zankel.net,
-	corbet@lwn.net,
-	dwaipayanray1@gmail.com,
-	herbert@gondor.apana.org.au,
-	joe@perches.com,
-	linux-kernel@vger.kernel.org,
-	linux@roeck-us.net,
-	lukas.bulwahn@gmail.com,
-	mac.xxn@outlook.com,
-	sfr@canb.auug.org.au,
-	v-songbaohua@oppo.com,
-	workflows@vger.kernel.org,
-	Max Filippov <jcmvbkbc@gmail.com>
-Subject: [PATCH v4 2/2] scripts: checkpatch: check unused parameters for function-like macro
-Date: Thu, 28 Mar 2024 15:21:36 +1300
-Message-Id: <20240328022136.5789-3-21cnbao@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240328022136.5789-1-21cnbao@gmail.com>
-References: <20240328022136.5789-1-21cnbao@gmail.com>
+        bh=Z0+XG9kxnjTaWBVgFwj0PcuoUonk1b0BDImgIwR/heI=;
+        b=mTZFwkIlf0WJYRcjg3EztWi3+F2xrUEgkiz9+FEVs+2O4k7LKXiwx1gew+lEcoH/Wi
+         iYuEPebvryTtB/PuA6IrfjQGWOg73pZhnbJFIgtP1bG4/TsRvotw5xxW/3Rkulfo4gS2
+         y8Z3GxOLPVRo044m43giXe6Gy3gqI5RLkRewhHBEdnr3l/MAlMGR4quWbQb/+Dd50oF4
+         VvgrGfWPbetkzzWjagavNp7XmuqklMfmMYscxjR+86J9kiU/9WtsUwESwuH2A203MGhM
+         Gf368rZBrAZC+765/16zT42aVFrnXeMjpOUMpfv1M/t2O1cR1KzoPDY2RV9HudaFrlOw
+         zzpA==
+X-Forwarded-Encrypted: i=1; AJvYcCXHgBd4n0IMLvJ3yyvG73NNsEfClS02EF3oZGNQN9UlMXVHMYLyrp9QLbjKYaowoPAcT+sqfzQjmSSJ7wpqXIuW1b+/JVUPoZI2uqvt8zdYMViUniJjFMPcOTkOSl5piuYhiEh1lsoYOKATfhgrbfazBEo9lyyPFBWz3QEOCBu+z33D
+X-Gm-Message-State: AOJu0YzrZrvOjsP3okQUuNq5cq52OwvVBkO4MeFuvwDDZxCjdI8aFhku
+	8oyZmMTsI7Kqt2DAWkxtUqch8oKdZ4PmickgjCNmNBW2vrxQdopvaRLn/NijhAqY6j+X0iTtaeZ
+	BggSMjYIxlxK5Ig+i9pNWs7oKYLk=
+X-Google-Smtp-Source: AGHT+IG4I5xGnn2HQK2Ql506Ah/ABIDM5elyySVqw4MLU7VfWrcRa+tcfFuSim+wQiS7/K7PuRtrj+DHclwaqD0nrbM=
+X-Received: by 2002:a05:6102:464f:b0:478:2503:4071 with SMTP id
+ jt15-20020a056102464f00b0047825034071mr2059462vsb.3.1711599745441; Wed, 27
+ Mar 2024 21:22:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240328022136.5789-1-21cnbao@gmail.com>
+In-Reply-To: <20240328022136.5789-1-21cnbao@gmail.com>
+From: Barry Song <21cnbao@gmail.com>
+Date: Thu, 28 Mar 2024 17:22:14 +1300
+Message-ID: <CAGsJ_4xfCL3kVDDRNCba2f3+EvOMTGpBW8hkS71ZcvB5UeWZwA@mail.gmail.com>
+Subject: Re: [PATCH v4 0/2] codingstyle: avoid unused parameters for a
+ function-like macro
+To: akpm@linux-foundation.org, mac.xxn@outlook.com
+Cc: apw@canonical.com, broonie@kernel.org, chenhuacai@loongson.cn, 
+	chris@zankel.net, corbet@lwn.net, dwaipayanray1@gmail.com, 
+	herbert@gondor.apana.org.au, joe@perches.com, linux-kernel@vger.kernel.org, 
+	linux@roeck-us.net, lukas.bulwahn@gmail.com, sfr@canb.auug.org.au, 
+	v-songbaohua@oppo.com, workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Xining Xu <mac.xxn@outlook.com>
+On Thu, Mar 28, 2024 at 3:21=E2=80=AFPM Barry Song <21cnbao@gmail.com> wrot=
+e:
+>
+> From: Barry Song <v-songbaohua@oppo.com>
+>
+> -v4:
+>  * fix Xining's email address, s/ma.xxn@outlook.com/mac.xxn@outlook.com/g
 
-If function-like macros do not utilize a parameter, it might result in a
-build warning.  In our coding style guidelines, we advocate for utilizing
-static inline functions to replace such macros.  This patch verifies
-compliance with the new rule.
+Hi Andrew,
 
-For a macro such as the one below,
+Apologies for the oversight. Could you please apply these two patches to re=
+place
+the ones in the mm-nonmm-unstable branch? We need to correct Xining's email
+address regardless.
 
- #define test(a) do { } while (0)
+>  * fix some false positives of checkpatch.pl
+>  * downgrade from ERROR to WARN in checkpatch.pl
+>
+>  Thanks for Joe's comments!
+>
+> -v3:
+>  https://lore.kernel.org/all/20240322084937.66018-1-21cnbao@gmail.com/
+>
+> A function-like macro could result in build warnings such as
+> "unused variable." This patchset updates the guidance to
+> recommend always using a static inline function instead
+> and also provides checkpatch support for this new rule.
+>
+> Barry Song (1):
+>   Documentation: coding-style: ask function-like macros to evaluate
+>     parameters
+>
+> Xining Xu (1):
+>   scripts: checkpatch: check unused parameters for function-like macro
+>
+>  Documentation/process/coding-style.rst | 16 ++++++++++++++
+>  scripts/checkpatch.pl                  | 30 ++++++++++++++++++++++++++
+>  2 files changed, 46 insertions(+)
+>
+> --
+> 2.34.1
+>
 
-The test result is as follows.
-
- ERROR: Parameter 'a' is not used in function-like macro, please use static
- inline instead
- #21: FILE: mm/init-mm.c:20:
- +#define test(a) do { } while (0)
-
- total: 1 errors, 0 warnings, 8 lines checked
-
-Signed-off-by: Xining Xu <mac.xxn@outlook.com>
-Tested-by: Barry Song <v-songbaohua@oppo.com>
-Cc: Chris Zankel <chris@zankel.net>
-Cc: Huacai Chen <chenhuacai@loongson.cn>
-Cc: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: Guenter Roeck <linux@roeck-us.net>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Andy Whitcroft <apw@canonical.com>
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Cc: Joe Perches <joe@perches.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc: Max Filippov <jcmvbkbc@gmail.com>
----
- scripts/checkpatch.pl | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
-
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 9c4c4a61bc83..bcb886014d60 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -6109,6 +6109,36 @@ sub process {
- 				WARN("TRAILING_SEMICOLON",
- 				     "macros should not use a trailing semicolon\n" . "$herectx");
- 			}
-+
-+			# match "\s*" rather than "\s+" after the balanced parens, as macro definition with arguments
-+			# is not required to have whitespace after arguments
-+			if ($dstat =~ /^\+\s*#\s*define\s+$Ident$balanced_parens\s*(\S+.*)(\/[\/*].*)?/) {
-+				my $params = $1 || "";
-+				my $body = $2 || "";
-+
-+			    # get the individual params
-+				$params =~ tr/()//d;
-+				# remove leading and trailing whitespace
-+				$params =~ s/^\s+|\s+$//g;
-+
-+				$ctx =~ s/\n*$//;
-+				my $cnt = statement_rawlines($ctx);
-+				my $herectx = get_stat_here($linenr, $cnt, $here);
-+
-+				if ($params ne "") {
-+					my @paramList = split /,\s*/, $params;
-+					foreach my $param(@paramList) {
-+						if ($param =~ /\.\.\.$/) {
-+							# if the param name ends with "...", skip the check
-+							next;
-+						}
-+						if ($body !~ /\b$param\b/) {
-+							WARN("UNUSED_PARAM_IN_MACRO",
-+								"Parameter '$param' is not used in function-like macro\n" . "$herectx");
-+						}
-+					}
-+				}
-+			}
- 		}
- 
- # check for redundant bracing round if etc
--- 
-2.34.1
-
+Thanks
+Barry
