@@ -1,151 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D49B613C3DB;
-	Tue, 26 Mar 2024 14:39:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E86E12577B;
+	Thu, 28 Mar 2024 02:21:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711463962; cv=none; b=QH5GfCddvh/CJdgv2HHYo2eZBVEmab21APzVSET279vBECmE7WKe6MQzk1yCcgq/kXTlMHFicqweB4zDxLq4eGuPmegNS9kqEnx5lzhvx2mSmDCNJETyxoRhR8XYnXugbK8GK0EBoczB/cElD3dpgT8Y1fsupTZ9vYuT2mRsHSE=
+	t=1711592514; cv=none; b=P111kFpHcmw4lykJw06h50elbLAuQqKrhuLCZB/anAQN5B8CfAR6m9VFNTLLtB3NxiDNPEGaPIAJkNruoSvJsOFRw6J2NI0gHLlJBAZs4QSLohOCu9CBiCOK+Dzwi1URVnGflIPd8DmpvOa01CFe2d6Xp1/TtuIOAtH1I/+w3ao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711463962; c=relaxed/simple;
-	bh=694uUrQurged0DpiGcIKRXaR7f7IY1ihpJjxlFzcTmk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=u9thdaV3hks+RekVD9pMZgNn6U5xUs/AQ/ig50vpXkn91BKYO6S1W13M0tPlQ9mijmfBPq7YpQjnuMBJ68L4LOxBSp6XLoYBYOvQJLFpDfqgCGVMtU9yu3be0HLdI8MniVSkUM24Sgj289Vi5XieSr9KX06f0NrHJUIN05ItZYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pjwfmNZ1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711592514; c=relaxed/simple;
+	bh=hzzBRWdiGWuG8Yb90Fydca7wDueo8i9XUKGhs113zKE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=BYPJg4G74O3LqYXdoK5RZ27pthefeyTmoS0Bxxf8DT/LBiWw7Vs2NtOX6j1CpBxXBJBRL9zetuVUpvpg95ACPv9PkW7v8mHokrNKblcdSSn7e5STUdkHuOicLrthT4F+1ZRF1AeP1pYjoqbaKdJM8yYSawLV0A6T78gLSKvmYgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XPbDV2NR; arc=none smtp.client-ip=209.85.167.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pjwfmNZ1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D684C433F1;
-	Tue, 26 Mar 2024 14:39:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711463961;
-	bh=694uUrQurged0DpiGcIKRXaR7f7IY1ihpJjxlFzcTmk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=pjwfmNZ1TweH9ISfP9b/Kmwt/5cyA42r1F1XKtie1SFE90bnSPsWUp9mgj5sz+wu5
-	 9oR4383cI/j5IDxSLXpccKFuY1VW5mv4ekQIvXjMjaTRN6sUadwz5tnOFnUEoQ7Q90
-	 SFFn0WTcQyUJ7PvU+q85kgC3ZL1jYp1f+QAl0CyaPZvhQbSNn2oPG0EwowtfaPih8s
-	 FQMoex/0eXJdAaHxVcC+ygzwkQq9/URLvpyrRhbSj/CFbpcsp56k8G2EtuY457hP9z
-	 i61md7kqXW1ZV7XJWmNRXkW8r71RDsG10R43ip/GT55jceOu/yLNSFwMxutiP9+i3z
-	 fu3as+SmNMIAA==
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2d6c8d741e8so48994441fa.3;
-        Tue, 26 Mar 2024 07:39:21 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXeT0BG2NVCKm0VqavueHPCRlBYAoNoSjbLFsnkwzvAXRp1JusySytZ5ji6EGPgVDfLw8pJHHfx32hzw0i/vgzUjewsH38KDVwXztWlK4r4dugo0cCsk2uAPXfFDq3xAW6QpU7zHYDFEuXRcEUeqCu2SOXqTXmhQ1yuRWVgBHyQ9KQs/3d7PcHTmONuwBs8u5ySW+xGzN86y3xA6enIl3ma
-X-Gm-Message-State: AOJu0YxfjLQgy9PWFYjKfJP/9f5DarWrGtMq2iruwop4aOjWVLKT4bEW
-	4PZ9EBp2Q9CpVatBYsnAUukmzFL35eNeY7MlYWxk9iP4Zsf1GJMHaUrGlH8//R6wxxB8CpMaWMG
-	KyLFoZ2k3PvO6gZCjWETJ+yBZSQs=
-X-Google-Smtp-Source: AGHT+IHRLtVwQBliK06CNyOkOnUVQC6pejo7AnQDeCYkZeCtaGd/3ULk5T8a2lopDISmhpKZBiypht1J7vGrFSjSdRI=
-X-Received: by 2002:a2e:989a:0:b0:2d2:3fac:5fc7 with SMTP id
- b26-20020a2e989a000000b002d23fac5fc7mr5651686ljj.45.1711463960202; Tue, 26
- Mar 2024 07:39:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XPbDV2NR"
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3c3aa9ca414so337618b6e.2;
+        Wed, 27 Mar 2024 19:21:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711592511; x=1712197311; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wwjh6A6RPtwgIFd2DAl8tZSZOuIYbO20aM3+8bN09j0=;
+        b=XPbDV2NRMGdp86z6MR7NqjNgSzDddQluvzuwI2kZGGoq48jF60zxAvFhZoNr/CgrC9
+         02KyVIobUZkyhKUVjHO8lvasFAOlpuiZdvQxnicSrUoMgBCDV6qoChGZ+1TsjXIzF4k6
+         eD/jxXYZ+kI7ZWLZxi2t/NdzZcWad/W2o+MHUEc/IDxKnhMbL7QGnRPi0v+UX9TH/CX+
+         CGtTlyUwuOBa/8DAqzkI9CcZGCCCboq8F4MhtEjCq8+6USynQaz3PI/hN6aAYBVnau0A
+         nExnOJRP3al4np1XfxAgFhAI5Xtvp0PoVsDeT7FK0Zltp2YBgXoSNpFHxBt1Nd49qDsi
+         6jTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711592511; x=1712197311;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wwjh6A6RPtwgIFd2DAl8tZSZOuIYbO20aM3+8bN09j0=;
+        b=fCynmHN/VKmdOW4AxnH8PqWWwLsHt77k/tGnHBoSTpnGHDGUzsqICs4HdonxvKnfL1
+         GcyrB4SDQ168DAfAivBkQ8HYxbPmzgxSmLyQnJALsx/s6j2oTXewlo1a5uOI+73zh26s
+         AnGrIpbtVOcoyMVwWPOLMaVJT7OU94Cg72qa4tM6MzpGO60b2zLKQS1k+d2ypsxfA0Ib
+         66KJ+yt7voYzZhk/nGMd1xGczkv5DvA2NRtT7nxnpDTZZJkNPe7kRu4hMRppkW809T53
+         Tofr16m7TBLKZSof8ZCaxU5J/iP0120B93CpmvyO4VUFUILIrKufSfnQJv3sekgimsX2
+         pgSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVsMQ1g/Y+AOc3iKZJ/XYawo5vq1kw+zXCQzOSiqB+fnUAoLGmC6Kpi5MyzCzoMVAxgXdyIAq1I1yVUTwoPcSAYWw3P25+R81eLbPtPC5Rdl/EodBGn8MEL5EuXDSyQ1thn+ed8GRTfalrGQdrWfuIxT9aJtxE/gvKFltRAL5Ut1iVY
+X-Gm-Message-State: AOJu0YwrXUy8gsxMb7l1CCVLv/JpmLLAV/ncfS5uIcmh7ypiOj9njiUX
+	TlQcpOEnVhJEKkINrOJKabv4efiogBZrI9TK4UHE9a2eNenb78XfJmFirxiZ
+X-Google-Smtp-Source: AGHT+IG+k1TbDM0JQQJtIvL1iIb/EIijiTg8zJCF0jCKvFhoxZ3hhcIi6FgUhucwopKJh/COAKh6Zw==
+X-Received: by 2002:a05:6808:2217:b0:3c3:d372:c3c5 with SMTP id bd23-20020a056808221700b003c3d372c3c5mr2135403oib.19.1711592510953;
+        Wed, 27 Mar 2024 19:21:50 -0700 (PDT)
+Received: from localhost.localdomain ([2407:7000:8942:5500:aaa1:59ff:fe57:eb97])
+        by smtp.gmail.com with ESMTPSA id d26-20020aa7869a000000b006eac233f5c2sm228113pfo.127.2024.03.27.19.21.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Mar 2024 19:21:50 -0700 (PDT)
+From: Barry Song <21cnbao@gmail.com>
+To: akpm@linux-foundation.org,
+	linux-doc@vger.kernel.org
+Cc: apw@canonical.com,
+	broonie@kernel.org,
+	chenhuacai@loongson.cn,
+	chris@zankel.net,
+	corbet@lwn.net,
+	dwaipayanray1@gmail.com,
+	herbert@gondor.apana.org.au,
+	joe@perches.com,
+	linux-kernel@vger.kernel.org,
+	linux@roeck-us.net,
+	lukas.bulwahn@gmail.com,
+	mac.xxn@outlook.com,
+	sfr@canb.auug.org.au,
+	v-songbaohua@oppo.com,
+	workflows@vger.kernel.org
+Subject: [PATCH v4 0/2] codingstyle: avoid unused parameters for a function-like macro
+Date: Thu, 28 Mar 2024 15:21:34 +1300
+Message-Id: <20240328022136.5789-1-21cnbao@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240314042659.232142-1-sjg@chromium.org> <20240314042659.232142-3-sjg@chromium.org>
-In-Reply-To: <20240314042659.232142-3-sjg@chromium.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 26 Mar 2024 23:38:44 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASWKyTXuPwj0_xaD=8_WfbXhejCe_Z+2Os2MD+mU_D5Fg@mail.gmail.com>
-Message-ID: <CAK7LNASWKyTXuPwj0_xaD=8_WfbXhejCe_Z+2Os2MD+mU_D5Fg@mail.gmail.com>
-Subject: Re: [PATCH v11 2/2] arm64: boot: Support Flat Image Tree
-To: Simon Glass <sjg@chromium.org>
-Cc: linux-arm-kernel@lists.infradead.org, 
-	Ahmad Fatoum <a.fatoum@pengutronix.de>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 14, 2024 at 1:28=E2=80=AFPM Simon Glass <sjg@chromium.org> wrot=
-e:
->
-> Add a script which produces a Flat Image Tree (FIT), a single file
-> containing the built kernel and associated devicetree files.
-> Compression defaults to gzip which gives a good balance of size and
-> performance.
->
-> The files compress from about 86MB to 24MB using this approach.
->
-> The FIT can be used by bootloaders which support it, such as U-Boot
-> and Linuxboot. It permits automatic selection of the correct
-> devicetree, matching the compatible string of the running board with
-> the closest compatible string in the FIT. There is no need for
-> filenames or other workarounds.
->
-> Add a 'make image.fit' build target for arm64, as well.
->
-> The FIT can be examined using 'dumpimage -l'.
->
-> This uses the 'dtbs-list' file but processes only .dtb files, ignoring
-> the overlay .dtbo files.
->
-> This features requires pylibfdt (use 'pip install libfdt'). It also
-> requires compression utilities for the algorithm being used. Supported
-> compression options are the same as the Image.xxx files. Use
-> FIT_COMPRESSION to select an algorithm other than gzip.
->
-> While FIT supports a ramdisk / initrd, no attempt is made to support
-> this here, since it must be built separately from the Linux build.
->
-> Signed-off-by: Simon Glass <sjg@chromium.org>
-> ---
->
-> Changes in v11:
-> - Use dtbslist file in image.fit rule
-> - Update cmd_fit rule as per Masahiro
-> - Don't mention ignoring files without a .dtb prefix
-> - Use argparse fromfile_prefix_chars feature
-> - Add a -v option and use it for output (with make V=3D1)
-> - rename srcdir to dtbs
-> - Use -o for the output file instead of -f
->
+From: Barry Song <v-songbaohua@oppo.com>
 
+-v4:
+ * fix Xining's email address, s/ma.xxn@outlook.com/mac.xxn@outlook.com/g
+ * fix some false positives of checkpatch.pl
+ * downgrade from ERROR to WARN in checkpatch.pl
 
+ Thanks for Joe's comments!
 
+-v3:
+ https://lore.kernel.org/all/20240322084937.66018-1-21cnbao@gmail.com/
 
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -504,6 +504,21 @@ quiet_cmd_uimage =3D UIMAGE  $@
->                         -a $(UIMAGE_LOADADDR) -e $(UIMAGE_ENTRYADDR) \
->                         -n '$(UIMAGE_NAME)' -d $< $@
->
-> +# Flat Image Tree (FIT)
-> +# This allows for packaging of a kernel and all devicetrees files, using
-> +# compression.
-> +# ----------------------------------------------------------------------=
------
-> +
-> +MAKE_FIT :=3D $(srctree)/scripts/make_fit.py
-> +
-> +# Use this to override the compression algorithm
-> +FIT_COMPRESSION ?=3D gzip
-> +
-> +quiet_cmd_fit =3D FIT     $@
-> +      cmd_fit =3D $(MAKE_FIT) -o $@ --arch $(UIMAGE_ARCH) --os linux \
-> +               --name '$(UIMAGE_NAME)' $(if $(V),-v) \
-> +               --compress $(FIT_COMPRESSION) -k $< @$(word 2,$^)
-> +
+A function-like macro could result in build warnings such as
+"unused variable." This patchset updates the guidance to
+recommend always using a static inline function instead
+and also provides checkpatch support for this new rule.
 
+Barry Song (1):
+  Documentation: coding-style: ask function-like macros to evaluate
+    parameters
 
+Xining Xu (1):
+  scripts: checkpatch: check unused parameters for function-like macro
 
+ Documentation/process/coding-style.rst | 16 ++++++++++++++
+ scripts/checkpatch.pl                  | 30 ++++++++++++++++++++++++++
+ 2 files changed, 46 insertions(+)
 
-A nit in your new code.
+-- 
+2.34.1
 
-
-$(if $(V),-v) does not work for KBUILD_VERBOSE env variable.
-
-
-It should be
-
-    $(if $(findstring 1,$(KBUILD_VERBOSE)),-v)
-
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
