@@ -1,106 +1,113 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from box.trvn.ru (box.trvn.ru [194.87.146.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617F93FBBD;
-	Mon,  1 Apr 2024 15:19:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0666C129;
+	Mon,  1 Apr 2024 16:19:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.87.146.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711984766; cv=none; b=OdSey1+BGN6GMeTjeYF+LaedLyEK9QoU4GNRNpYAtgBXuKqPOZCC9eo7ZgH76DENVvMPtho8GvHUt5UT6W+5Of2kCFU9Dm6zUdKvF0BFTxOR46vYgUSvzJIribbYgIRJeGZTvDP7DA4sGP1dm4zR9HK6V6/3MD0JKboqp+spoes=
+	t=1711988392; cv=none; b=iClr+h4tRDmWFE/5FeGmvNncNN275cNvCLSa5LzNZ4g6tcT4FZWX2L/Y2x9ZgFkaRpSremne/0BnTgqbhHh9InuitoscV93SK43bA0eFMtDmJg3P6C84P0bhHQgOnhdxu0pN6tUm+lv7rFjo6entS1VaO/ZUIq4e5RKNC2xOAxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711984766; c=relaxed/simple;
-	bh=Mn1oI23NTg1AaPyrE/mNULagWOv/BYrH388SG9DOQ3Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=mFPfcldQKcX+QLEVaPPG4QSByOWjVzq28SahAhaCIdwQQlWTEJ1XNk6C4HL2QW1doeMasyzEWYbZbIE4YqT6yAfWg2mT68v8v/dQS3Rg5AzMeCWXkNKn9uUFRidjRhe1EtfSYLbL8mkAuPfA+SCixuSVine026mIMeP1lCDZpqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=j2L+IDWd; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1711988392; c=relaxed/simple;
+	bh=mR/cOeAw4E7C++Ggf0FcfRIhKkLkJCA2eKgJ7ORve1k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dvOEz5wUMf/jOdQFVgfHA6FrEnYPcUDtQnYppoDgBee7s8ORGselIOFlOAMuqyE+pk54S9JEAjHgMaAvQpmsi5O/GWxlyO2RtRq8PRw8sLswU8luy/P/nnlkbDycJP2d2Z20Riqk797aS3+UbVlNtKLSgy7spd4/DNeoFKPFNXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=trvn.ru; spf=pass smtp.mailfrom=trvn.ru; dkim=pass (2048-bit key) header.d=trvn.ru header.i=@trvn.ru header.b=Eojp17Uj; arc=none smtp.client-ip=194.87.146.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=trvn.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trvn.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="j2L+IDWd"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-	bh=PhKhQVr7znpcbPo62k7GO48yiZBLMZxLiecMoLCt7H0=; b=j2L+IDWdbDjfujvsEsWML8vFZ6
-	zbq6Ls9c9euevDYveD9NG+7LLKm7ZfwjqJpmtnRJZBsGFglBLjOX9pX4z9kXnGbC7jm4J+WCkq/bv
-	azbYVH+XEEebbJ+pfcHZaBjGi4H5hkn6D4tKce7P/qMuyFObMoYJE4oBJgHkVDpimYS7e5pfqA4MO
-	EG3a99Wq+EOizTudYSE7ewsJc3OGbIqF0y31Z/B2StM3uwm2jjdKi30GOWFXueFTxa9ezc9y1xUi4
-	zeSetGH6ToX9LR71sSJURpblWy4rnJ4ZxapdKrp7bXwCk2oDjwYuNpBvZpvkfhXBI2sBhGUPLHWPw
-	BdKDniwQ==;
-Received: from [50.53.2.121] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrJRQ-00000008A3d-42JM;
-	Mon, 01 Apr 2024 15:19:21 +0000
-Message-ID: <b3b37454-df45-4826-ac5a-85c687f99d20@infradead.org>
-Date: Mon, 1 Apr 2024 08:19:13 -0700
+	dkim=pass (2048-bit key) header.d=trvn.ru header.i=@trvn.ru header.b="Eojp17Uj"
+Received: from authenticated-user (box.trvn.ru [194.87.146.52])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	by box.trvn.ru (Postfix) with ESMTPSA id 8EC74401B8;
+	Mon,  1 Apr 2024 21:19:39 +0500 (+05)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=trvn.ru; s=mail;
+	t=1711988380; bh=mR/cOeAw4E7C++Ggf0FcfRIhKkLkJCA2eKgJ7ORve1k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Eojp17Ujo/uMpf1fwFbzjNhysujUbTNg10EALJdjfAVRyC5AVKkKURjF5xuKJv9vf
+	 FEVsiPPAT63k0DW5SMMjWK6EeW4DQBySzJ4zD5L76TzKckXGw+A4i8g7kTkLdEliOu
+	 ShR9wGrQxaSd+9o7/R4cIn08s/SKudbqSh/u+rZMpp1WwkPj5qHsQs2f3UCauExHSA
+	 AQWtOEP000HS9JfmwiXwxBp3NdbrJItZYSl6zZ/FljI9G3IPwiK7PeH8FDxgr7IJJr
+	 yx0RdOhAYpu2qJ79AJIAIVl0YgpYH7/No5LYU8uhr/SOdqdOe1/SYiiCxMKx9bPt31
+	 jhf9PBM8g9bqA==
+Date: Mon, 1 Apr 2024 21:19:36 +0500
+From: Nikita Travkin <nikita@trvn.ru>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH] docs: submitting-patches: describe additional tags
+Message-ID: <gkxxcernzydrduvmzgyyj22evukzhuxe7mr2nbn5p4cft23s6h@koerky6gc3bf>
+References: <20240401-additional-trailers-v1-1-f472bf158d2f@linaro.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] docs: handling-regressions.rst: clarify that
- "Closes:" tags work too
-To: Thorsten Leemhuis <linux@leemhuis.info>, Karel Balej <balejk@matfyz.cz>,
- Jonathan Corbet <corbet@lwn.net>, regressions@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org
-References: <20240328194342.11760-1-balejk@matfyz.cz>
- <20240328194342.11760-3-balejk@matfyz.cz>
- <dfa22ac1-36e9-48da-a2a8-8d7818c09187@leemhuis.info>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <dfa22ac1-36e9-48da-a2a8-8d7818c09187@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240401-additional-trailers-v1-1-f472bf158d2f@linaro.org>
 
-
-
-On 4/1/24 1:38 AM, Thorsten Leemhuis wrote:
-> On 28.03.24 20:29, Karel Balej wrote:
->> The regressions handling manual claims that regzbot associates patches
->> fixing an issue with the report based on the occurrence of the
->> appropriate "Link:" trailers. It reasons that this does not add any
->> burden on the maintainers/bug fix authors as this is already mandated by
->> the "Submitting patches" guide. In fact however, the guide encourages
->> using "Link:" tags for related discussions or issues which the patch
->> fixes only partially, recommending "Closes:" for full resolutions.
->>
->> Despite it not being mentioned anywhere in the "Handling regressions"
->> guide, regzbot does in fact take the "Closes:" tags into account and
->> seems to in fact treat them fully equivalently to "Link:" tags.
->>
->> Clarify this in the regressions handling guide by always mentioning both
->> of the tags.
+On Mon, Apr 01, 2024 at 08:17:03AM +0300, Dmitry Baryshkov wrote:
+> Described tags do not fully cover development needs. For example the LKP
+> robot insists on using Reported-by: tag, but that's not fully correct.
+> The robot reports an issue with the patch, not the issue that is being
+> fixed by the patch. Describe additional tags to be used while submitting
+> patches.
 > 
-> Many thx for this and the other patch. I had planned to do something
-> like this myself, but never got around to.
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  Documentation/process/submitting-patches.rst | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
 > 
-> There is just one thing that makes me slightly unhappy: this tells
-> readers that they can use both, but leaves the question "what's the
-> difference" respectively "in which situation should I use one or the
-> other" unanswered.
+> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> index 66029999b587..3a24d90fa385 100644
+> --- a/Documentation/process/submitting-patches.rst
+> +++ b/Documentation/process/submitting-patches.rst
+> @@ -544,6 +544,25 @@ future patches, and ensures credit for the testers.
+>  Reviewed-by:, instead, indicates that the patch has been reviewed and found
+>  acceptable according to the Reviewer's Statement:
+>  
+> +Additional tags to be used while submitting patches
+> +---------------------------------------------------
+> +
+> +The tags described previously do not always cover the needs of the development
+> +process.
+> +
+> +For example, if the kernel test robot reports an issue in the patch, the robot
+> +insists that the next version of the patch gets the Reported-by: and Closes:
+> +tags.  While the Closes: tag can be considered correct in such a case, the
+> +Reported-by: tag is definitely not correct. The LKP robot hasn't reported the
+> +issue that is being fixed by the patch, but instead it has reported an issue
+> +with the patch. To be more precise you may use the Improved-thanks-to: tag for
+> +the next version of the patch.
+> +
+> +Another frequent case is when you want to express gratitude to the colleagues,
+> +who helped to improve the patch, but neither the Co-developed-by: nor
+> +Suggested-by: tags are appropriate. In such case you might prefer to use
+> +Discussed-with:, Listened-by:, or Discussed-over-a-beer-with: tags.
+> +
+
+This is an amazing idea!
+
+Though I wonder if we should use the industry standard X- prefix for those:
+i.e. X-Code-generator: or X-Sent-some-messages-about-this-that-were-left-unread-to:
+to clarify they are extensions to the usual workflow.
+
+I think the decision on this would be pretty obvious after reading the
+current recommendation for X- prefixes in RFC 6648.
+
+I like this change!
+Nikita
+
+>  Reviewer's statement of oversight
+>  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  
 > 
-> To answer that question: in a ideal world developers would use "Closes:"
-> when a change resolves an issue, and "Link" when it's somehow related to
-> a report, but not resolving the problem.
-
-I use Link: when I fix only part of an LKP report and Closes: when I fix
-all of one.
-
-> But we don't live in that world and I wonder if we ever reach that point
-> where regzbot could act accordingly. Nevertheless I'd say it would be
-> wise to write the docs towards that ideal world. E.g.: tell developers
-> to uses 'Closes:', but in some places briefly hint that "'Link:' works
-> for now, too".
-
-I don't see Link: going away any time in the "near" future.
-
-> I also find the patch description a bit verbose; and it would be good to
-> turn the text upside down: first outline what the patch, then maybe
-> describe the "why".
-
-It's almost amusing that you find something verbose.  ;)
-
--- 
-#Randy
+> ---
+> base-commit: 13ee4a7161b6fd938aef6688ff43b163f6d83e37
+> change-id: 20240401-additional-trailers-2b764f3e4aee
+> 
+> Best regards,
+> -- 
+> Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
