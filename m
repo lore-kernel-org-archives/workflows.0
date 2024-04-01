@@ -1,134 +1,138 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 620EC79DD
-	for <workflows@vger.kernel.org>; Mon,  1 Apr 2024 05:17:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9D0FC08;
+	Mon,  1 Apr 2024 08:39:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711948656; cv=none; b=jC0Id1BUau/jSrUipjQrv/LWfdf9dRC2mYHAf6P6trVoouzGnP2LaFMGd/imZtfnWcHh6/sDTHmUbyrSlHlXkk+7/njUQNUpBlThhwAoj5b2LfZFu13vnfDiTW/JJ+lVGG0/vWrdtxriraT8mzfb7aBEXIYIMzp8H2K7rX0P3xo=
+	t=1711960748; cv=none; b=R0VKFJUYfluRdOjLilZV6fhNDlBwhNpy9B5MXynYxi/APeN7ztA/aqlzHBxknYANKZSoSuNIgP+buEGnNd/oNojf/nNzMToMDRWnURFNK0XOOs/JR/JiUej8HhvdiivKv3eOEanNnZLzGMoyALn2c6mjeS6lJc8BO5kGHvnnfA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711948656; c=relaxed/simple;
-	bh=tBglxvlDUeCZXU4OkTWfXJTuUNjdjT468JtqkKvyze8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=YDbmCC9aQdB5q6aw/7PB2JrRCWqlsPpAIl1ilO8oTs/4/WtqkRyLj+Dn9labSqOEAwZ1/ywdh8m+VK/xqWcrulSz5U6L1c2N56rHrR6zxJqud+L9b8FL4jilfDoIRs6rfWjRSCbv4qXrGel0NEDIrj91MfRzxynMl/8ZUoCWQ5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eo93+2kQ; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1711960748; c=relaxed/simple;
+	bh=1Tn1esD1kJcJI+TkMvadUmF0KzwOA5IFTcW+3nhhjFM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=uXMO5wdGcCnQh6n1d4guxIhwVMP8SlO3POhRBc6Vbv9HEKnUUtACCA6NKCqJzvhC7K0Ve7o/+NEZD0tokMgaXTjIPGPwAPAsqwOXqr0r+G+bI5o+i5TUr8NRpXbKcpRroG9RF0lS2kNwL35DwYViHc5nks7wgmHH70ci6VzsYac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=JOyiWYWB; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eo93+2kQ"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-516a0b7f864so535782e87.1
-        for <workflows@vger.kernel.org>; Sun, 31 Mar 2024 22:17:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711948652; x=1712553452; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cOj27ZZTllvPcuA8dCQrQVFTBK3f2AC/nEUUJ3KrkZY=;
-        b=eo93+2kQtOjwj4VoyAZppsLLX11hY+nTWnj4nc5z45OXZGdRs45L4fDq6qoCHExTk9
-         OhqEelZDErc0Z1ky61klV9H2OunI8/VPZtyo4A3C/3moik9WiKhhxtJrZOftYGfIaZix
-         nnDUQ9gMjNDWzXSXLAFfSRogBARjncAwTZggoy5mhYVn4AaepzVOLiFnvE6QI9ZsTBd6
-         ZKeq9N3GHgZkoVRy+E3KA1aZ3VbJC+qGZKO20JHLamF7kjC8FBpoMLB8mzNpsT9yA7xe
-         ArsEN6jxFSSqudOsmQJb5/qvAcogtwptdEl/HZsCNye4k9aoxKfya1OGqA+7ZNjb4lE8
-         uvgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711948652; x=1712553452;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cOj27ZZTllvPcuA8dCQrQVFTBK3f2AC/nEUUJ3KrkZY=;
-        b=obyAbciMmWalAp1xXguDNp4SAzco2tkPQ1CV+wZpIIrdUdAjNVdEkzfoGmF7cNHOIw
-         VJIRL5gsM7h7e9eXWueQoM+44noiXELAjcqZ0a5ENnZ7l/UsMM8e6+5gMUUcsC9Qn0fA
-         0c2/ZiJnxRF4HqIg4CTJk5ehEcyRJQW5BC/KiV1S1C0ecJ0NWnZOvKoGVeefFAKvOXih
-         x/dG9TTUKwHvXPGHRqwn3gL2ZrOQe9hRQji5FxVEg0UnMEYB/ImNEPsnaW7TA1jSJ+Oc
-         cc83vpirdf3sIy7HE6PxZiWhIibk4O0lIRaDFArsUybmMmB3sYORqic3r1kIBFuKx4dX
-         0tRA==
-X-Gm-Message-State: AOJu0YzzsycGHm+M+szOJHoGDZpD7Hq7oyZGjVLeIXhqXGTypO/3sHfx
-	xWFiMRkHMfFh96aXOI2Q+1YDsEFQ1Dm/X95eMCEgkYuy6aB259EzA5R3//Ad+EQ=
-X-Google-Smtp-Source: AGHT+IG3yOIWJMlaa6+5jb3PNL7kJftD0rwMRnODCA6mYOj73UqdrbvoQaH734IsVUARtuD+e2Vc6A==
-X-Received: by 2002:ac2:5f86:0:b0:513:cb7a:7cf7 with SMTP id r6-20020ac25f86000000b00513cb7a7cf7mr5147397lfe.63.1711948652453;
-        Sun, 31 Mar 2024 22:17:32 -0700 (PDT)
-Received: from umbar.lan ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id x12-20020a056512078c00b00513e4086815sm1324342lfr.162.2024.03.31.22.17.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 Mar 2024 22:17:32 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 01 Apr 2024 08:17:03 +0300
-Subject: [PATCH] docs: submitting-patches: describe additional tags
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="JOyiWYWB"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:To:Subject:MIME-Version:Date:Message-ID:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=BjGaJFLrLvMVQq06MTRerBRTLWVUItjpux/8jwfcOwI=; t=1711960745;
+	x=1712392745; b=JOyiWYWBuh/2oVTIpol+iSbaGT0B0vCD+LqVqsra6DeRg+j3M9t4Ld2OhkYny
+	M5HqF+eOW1TMtjNUydKDO6gItTIRmpnV5LIuiaByOkwoasvttdshAuxYmEjeGS8/wqjj/3ihIEsTr
+	ijG9cToFSxHcXqGnUQDHom58AHah1tSJUz3bretCDSY2gk1YvVpJYRGMubg5yQQJROTtxhUMcZkHz
+	Kzvr9pxdRrIDKOu472H4Qu1qSdlOKcfD1rO4nMcctGT9+RGAw0sYOpKKE8cGsnDVxbBG8A/e7YPBE
+	nHyzI53EK0bZMdSHWR5WhnH3SiX5DYacTZE6sZ1v7c/TOWDx3g==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1rrDBt-0007A8-17; Mon, 01 Apr 2024 10:38:53 +0200
+Message-ID: <dfa22ac1-36e9-48da-a2a8-8d7818c09187@leemhuis.info>
+Date: Mon, 1 Apr 2024 10:38:52 +0200
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] docs: handling-regressions.rst: clarify that
+ "Closes:" tags work too
+To: Karel Balej <balejk@matfyz.cz>, Jonathan Corbet <corbet@lwn.net>,
+ regressions@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+References: <20240328194342.11760-1-balejk@matfyz.cz>
+ <20240328194342.11760-3-balejk@matfyz.cz>
+From: Thorsten Leemhuis <linux@leemhuis.info>
+Content-Language: en-US, de-DE
+Autocrypt: addr=linux@leemhuis.info; keydata=
+ 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 n7RI
+In-Reply-To: <20240328194342.11760-3-balejk@matfyz.cz>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240401-additional-trailers-v1-1-f472bf158d2f@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAE5DCmYC/x2M0QpAQBQFf0X32dZaG+VX5OGyZ7kldFdS8u82j
- 1Mz81CCChJ1xUOKS5LsW4aqLGhaeJthJGQmZ5233laGQ5AzS7yaU1lWaDJubBsfa3gGKJeHIsr
- 9X/vhfT8zfY/GZQAAAA==
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2220;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=tBglxvlDUeCZXU4OkTWfXJTuUNjdjT468JtqkKvyze8=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmCkNrIW2CbJPlEIiAtlkvjFoDoy+gKdyBxndam
- HItDuxWtu2JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZgpDawAKCRCLPIo+Aiko
- 1cHiCACqii0cJWQpxMm9UTq68xxNtctI48gh9Ma5qGRTEvzCaub8Jg/6AwxCbwDtbmBiwpkMZcT
- ASQ58aPDcqe7ctxXTxSYljbaUh3cy+FCcG+86/dc2FR0HCpTyMOZQFrIVA0M0b0zgW7uF7c914G
- tEfWr1/yPCrhb+JWD5ux9xB+rVYFAsLyt2a0UIL2lrJjHVKW20G6TGYMzyEVX+U4atm1ZoELVUX
- hxYXFrfoeZN9c8MBtGm1m71q017FYwV3JDEO77BVoDy79vzZiH1eGAFXJPgG3ebnCUau2KJbfan
- waSyQntx3ReP50HhuOh0sLRhVsQyWt9kFsUs1NyvKYLS1pBZ
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1711960745;94e34c62;
+X-HE-SMSGID: 1rrDBt-0007A8-17
 
-Described tags do not fully cover development needs. For example the LKP
-robot insists on using Reported-by: tag, but that's not fully correct.
-The robot reports an issue with the patch, not the issue that is being
-fixed by the patch. Describe additional tags to be used while submitting
-patches.
+On 28.03.24 20:29, Karel Balej wrote:
+> The regressions handling manual claims that regzbot associates patches
+> fixing an issue with the report based on the occurrence of the
+> appropriate "Link:" trailers. It reasons that this does not add any
+> burden on the maintainers/bug fix authors as this is already mandated by
+> the "Submitting patches" guide. In fact however, the guide encourages
+> using "Link:" tags for related discussions or issues which the patch
+> fixes only partially, recommending "Closes:" for full resolutions.
+> 
+> Despite it not being mentioned anywhere in the "Handling regressions"
+> guide, regzbot does in fact take the "Closes:" tags into account and
+> seems to in fact treat them fully equivalently to "Link:" tags.
+> 
+> Clarify this in the regressions handling guide by always mentioning both
+> of the tags.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- Documentation/process/submitting-patches.rst | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+Many thx for this and the other patch. I had planned to do something
+like this myself, but never got around to.
 
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index 66029999b587..3a24d90fa385 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -544,6 +544,25 @@ future patches, and ensures credit for the testers.
- Reviewed-by:, instead, indicates that the patch has been reviewed and found
- acceptable according to the Reviewer's Statement:
- 
-+Additional tags to be used while submitting patches
-+---------------------------------------------------
-+
-+The tags described previously do not always cover the needs of the development
-+process.
-+
-+For example, if the kernel test robot reports an issue in the patch, the robot
-+insists that the next version of the patch gets the Reported-by: and Closes:
-+tags.  While the Closes: tag can be considered correct in such a case, the
-+Reported-by: tag is definitely not correct. The LKP robot hasn't reported the
-+issue that is being fixed by the patch, but instead it has reported an issue
-+with the patch. To be more precise you may use the Improved-thanks-to: tag for
-+the next version of the patch.
-+
-+Another frequent case is when you want to express gratitude to the colleagues,
-+who helped to improve the patch, but neither the Co-developed-by: nor
-+Suggested-by: tags are appropriate. In such case you might prefer to use
-+Discussed-with:, Listened-by:, or Discussed-over-a-beer-with: tags.
-+
- Reviewer's statement of oversight
- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
+There is just one thing that makes me slightly unhappy: this tells
+readers that they can use both, but leaves the question "what's the
+difference" respectively "in which situation should I use one or the
+other" unanswered.
 
----
-base-commit: 13ee4a7161b6fd938aef6688ff43b163f6d83e37
-change-id: 20240401-additional-trailers-2b764f3e4aee
+To answer that question: in a ideal world developers would use "Closes:"
+when a change resolves an issue, and "Link" when it's somehow related to
+a report, but not resolving the problem.
 
-Best regards,
--- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+But we don't live in that world and I wonder if we ever reach that point
+where regzbot could act accordingly. Nevertheless I'd say it would be
+wise to write the docs towards that ideal world. E.g.: tell developers
+to uses 'Closes:', but in some places briefly hint that "'Link:' works
+for now, too".
 
+I also find the patch description a bit verbose; and it would be good to
+turn the text upside down: first outline what the patch, then maybe
+describe the "why".
+
+Ciao, Thorsten
