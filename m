@@ -1,137 +1,235 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43A4E1756A;
-	Tue,  2 Apr 2024 18:59:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A358A15E1ED;
+	Tue,  2 Apr 2024 21:21:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712084400; cv=none; b=H8wMoch36zqOT9D9k8cXLiwkVdObMPm2WGlQkNbfYU1VfoUIXZmb9oyJYV4UrbSmVpz4/SwoMoUDKXChrmThShw2zvuTWbeNYfma/0JJppMxS2Gwc77LM9yeaLHz/9NQGBOi51MWz1HPJQPlky6xFbQI2NV6nZSt5jZF2Itim1k=
+	t=1712092878; cv=none; b=gl6C0BB2Gm6WTuf89Bat/SxV38+zNngh3BvVjYcaFaqvsrhEmLhhF2c2Av8aoFY8mmxTFxHS7Ew6eTBwGoydnNrtKTnpuRlRPvXvgMv6xQYvFgsKe5RHdAySD1XDXZcchaMMPe7ny09gFnCuwwXZXThPS0PlVkhofXmhD0F/qW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712084400; c=relaxed/simple;
-	bh=XK2fdkBQ+MvvV6zIPd48I+1uIxWQKMWrst9IAvR7eiE=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KEDpN8kE8VNOSdN+LYAvdm5kCH83QmHtmHu96A01UhXomNyag560WVC6sMQfbmUjb9gQg2SIGzFJmynS4LfEAKE24pqu6o2rRldgEadBQEckFw1sLmEba8+yD9kh6mwQwz4KZ9yG314sNjm0y+plGHUH+XeLiiZKo0g1nbgJNek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=f0AqIV4K; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1712092878; c=relaxed/simple;
+	bh=bMVwUivJ9lLNd1kdGPH7hkFfEtN3FFHDuc1FCFL6HcQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YBnsHiysuZNWbg3J8ht3blnnbyBhE7mO4YxeQyxiBD6NMo3pXoMGCn0xr1OVflbxl4fnfZmu/ijlnMpz5m469EeMF5KYwcstxTmH27gpOoluecGSclfqucxVHvcWavXciqefomY7SiJobVORY9Nf1RhyLiwz1aF/P8phiVh3Q5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gQKGrreZ; arc=none smtp.client-ip=209.85.221.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="f0AqIV4K"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 432HKXhI002709;
-	Tue, 2 Apr 2024 18:59:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=qcppdkim1; bh=VqCmabEEXms0gnwOlD8Gt
-	pYxp5nGccGkYx0Om8wRvMM=; b=f0AqIV4KVw+LUR32FIJomBJy82lsek0rN4FGg
-	+pWUVtIOQBeIzMbd1suTFVIGpFmKqCK0/nI5UWn2J9GNZ4Pij+OXv6kN57P9Qbhb
-	zYGc3ENoiLzqxBm3wiBXhw075yPStaD1qtpXaplFzg3/D7/ZywQIez9FKvBAh3ii
-	n19b9i2mVnciSQpwmAVubCFMb+uuKOjVTbqAJvnH7axh/kfW5/ME2ImFwIjAoeaT
-	iKJZfaeoXeLpWyNCgd+KaisD0TwZ4vWoa8tbe7u8hL1zesM7qICNpId5UgWYAyz7
-	FRKkZQM+bpO0C9cbn2xa2mpwqKrRhhZZj8BJcwQ9QKj56eXLw==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x8gn5hc1d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 02 Apr 2024 18:59:55 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 432IxsSM008926
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 2 Apr 2024 18:59:54 GMT
-Received: from hu-bjorande-lv.qualcomm.com (10.49.16.6) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.4; Tue, 2 Apr 2024 11:59:54 -0700
-Date: Tue, 2 Apr 2024 11:59:52 -0700
-From: Bjorn Andersson <quic_bjorande@quicinc.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Jonathan Corbet <corbet@lwn.net>, <workflows@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>
-Subject: Re: [PATCH] docs: submitting-patches: describe additional tags
-Message-ID: <ZgxVqIwPxiFtcBrB@hu-bjorande-lv.qualcomm.com>
-References: <20240401-additional-trailers-v1-1-f472bf158d2f@linaro.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gQKGrreZ"
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-4d47000f875so2310528e0c.2;
+        Tue, 02 Apr 2024 14:21:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712092875; x=1712697675; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vq3CfecE91BSOfD6tBbWM1V55xKe7STO9yKGnG1BXFM=;
+        b=gQKGrreZjIsMFogDcpubd/fehmE/yx00um9JEoI1fdPjwPXS+xR6zJJufkitpDFcEy
+         IHQM5tJ8CDTQ8k79JZTvg89B9/RuCGPv1GhQEWfDbioQTDF7Y+6cJ58XjxpADtjp2Spt
+         dENgNgSlsGVMBbNsc2Zlbc87kr02eJbz/ydBuR2cZ0FOR21NK6YQL/rhn/p/qAIPtxF+
+         c9wHP7IhF6FYpmWdhSLRZFcvz+yKFTYuMhEqw6+zqsYuoyB3sZVgeHewBlxOJtuY0L2R
+         aBdCI1Fop+a2LQPBccQYp7M5fmTPONTbmh+MwuH3mdtmqkR21O0+socghl/Z4mu8Vm7P
+         Tjtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712092875; x=1712697675;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vq3CfecE91BSOfD6tBbWM1V55xKe7STO9yKGnG1BXFM=;
+        b=HSUWaGPmdeJ3tot5NqgvjbwQ83+2mJy5n/97JQS9sLsuDSh4utDEwOet3Zlo7ZQWfQ
+         jZO+2ypr+maPJs794cx2mCG1qWh2PL7qOu+b/EjqLafR8GPBGhVI7a4a8SOqi0IwawkU
+         UXTA0EJdL1SnrAkuuW3E87oySrOvfZ/SdkuonDFhbNKW2RCR7pqecs2gqol7UJcXdX0M
+         tim7NsNYdX4EkOUdKs2hmEsaZdR6P3mWrzNCnEDUtB6wNZgavtREkxt8Bc66Lw9C4XDa
+         MW77a9qpzizmXKgbvijWtGIEYjKyDaK5VGufrq7WhsrBgmWDo/eMKlVHtiniO7huWYPZ
+         n+ow==
+X-Forwarded-Encrypted: i=1; AJvYcCWiHNKT5PjA7fijHIPT1A2Gq2b1MdyEfdg3HjjGGyPrnRsFTzn5A4aTqYlfti/JcgByTaOMPi2g94EDMN35LPJa0cneRC8OuJydYJ5x+PXsGysfP0IXgtMQGIurB9cXS37WmiaqkMCeqN+tNpp+yRILOpf+S3INqlMAQJo+NLeXmuKl
+X-Gm-Message-State: AOJu0YyRMk0ctCt9QKHosbJdoTOW9aYnL82wbqjre/3JqXELb8hEBBTZ
+	2dsL36tts1csyTn+0v2WcXN4/SphIEkoZ8Q3FiTUBG+AanQGK6XFoiKcRfo+aL6kn9RF+Q75jhc
+	13JNkkpDGdhlYg+VpsRB5N6YGhzo=
+X-Google-Smtp-Source: AGHT+IEy6f9Nm5LwBBzzhFjb1SYd+CGDD6rKUNN+XzVBPzjAQvMjlqio+7Ym2YNKsN9gj9s3ITLMIi8ejQT9xribV5Y=
+X-Received: by 2002:a05:6122:1805:b0:4d3:499a:830c with SMTP id
+ ay5-20020a056122180500b004d3499a830cmr11569620vkb.13.1712092875353; Tue, 02
+ Apr 2024 14:21:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240401-additional-trailers-v1-1-f472bf158d2f@linaro.org>
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: c3j5-wwZOkjC5JO4VVjP782aDnzOvVlc
-X-Proofpoint-ORIG-GUID: c3j5-wwZOkjC5JO4VVjP782aDnzOvVlc
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-02_12,2024-04-01_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 suspectscore=0
- lowpriorityscore=0 malwarescore=0 adultscore=0 mlxlogscore=999
- impostorscore=0 mlxscore=0 bulkscore=0 phishscore=0 priorityscore=1501
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2403210001 definitions=main-2404020140
+References: <20240401012120.6052-1-21cnbao@gmail.com> <20240401012120.6052-2-21cnbao@gmail.com>
+ <87msqbvj3g.fsf@meer.lwn.net>
+In-Reply-To: <87msqbvj3g.fsf@meer.lwn.net>
+From: Barry Song <21cnbao@gmail.com>
+Date: Wed, 3 Apr 2024 10:21:04 +1300
+Message-ID: <CAGsJ_4x=YaGotZwRxjaRhELi=ExVcQ+euEkSiZ2GkAoLFwhMVw@mail.gmail.com>
+Subject: Re: [PATCH v5 1/2] Documentation: coding-style: ask function-like
+ macros to evaluate parameters
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: akpm@linux-foundation.org, linux-doc@vger.kernel.org, 
+	workflows@vger.kernel.org, apw@canonical.com, broonie@kernel.org, 
+	chenhuacai@loongson.cn, chris@zankel.net, dwaipayanray1@gmail.com, 
+	herbert@gondor.apana.org.au, joe@perches.com, linux-kernel@vger.kernel.org, 
+	linux@roeck-us.net, lukas.bulwahn@gmail.com, mac.xxn@outlook.com, 
+	sfr@canb.auug.org.au, v-songbaohua@oppo.com, 
+	Max Filippov <jcmvbkbc@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 01, 2024 at 08:17:03AM +0300, Dmitry Baryshkov wrote:
-> Described tags do not fully cover development needs. For example the LKP
-> robot insists on using Reported-by: tag, but that's not fully correct.
-> The robot reports an issue with the patch, not the issue that is being
-> fixed by the patch. Describe additional tags to be used while submitting
-> patches.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  Documentation/process/submitting-patches.rst | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
-> 
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> index 66029999b587..3a24d90fa385 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -544,6 +544,25 @@ future patches, and ensures credit for the testers.
->  Reviewed-by:, instead, indicates that the patch has been reviewed and found
->  acceptable according to the Reviewer's Statement:
->  
-> +Additional tags to be used while submitting patches
-> +---------------------------------------------------
-> +
-> +The tags described previously do not always cover the needs of the development
-> +process.
-> +
-> +For example, if the kernel test robot reports an issue in the patch, the robot
-> +insists that the next version of the patch gets the Reported-by: and Closes:
-> +tags.  While the Closes: tag can be considered correct in such a case, the
-> +Reported-by: tag is definitely not correct. The LKP robot hasn't reported the
-> +issue that is being fixed by the patch, but instead it has reported an issue
-> +with the patch. To be more precise you may use the Improved-thanks-to: tag for
-> +the next version of the patch.
-> +
-> +Another frequent case is when you want to express gratitude to the colleagues,
-> +who helped to improve the patch, but neither the Co-developed-by: nor
-> +Suggested-by: tags are appropriate. In such case you might prefer to use
-> +Discussed-with:, Listened-by:, or Discussed-over-a-beer-with: tags.
-> +
+On Wed, Apr 3, 2024 at 5:13=E2=80=AFAM Jonathan Corbet <corbet@lwn.net> wro=
+te:
+>
+> So I'm not sure what your desired path for getting this upstream is.  I
+> can take it, but I'm generally quite leery of taking coding-style
+> changes without some serious acks on them - nobody elected me as the
+> arbiter of proper coding style.
 
-I really like the idea of defining two additional tags for these
-purposes ("Improved-from-review-feedback/testing-by" and "Cred-to").
+Hi Jonathan,
+Thanks!
+Andrew previously integrated it into mm-nomm and tagged it as [TO-BE-UPDATE=
+D]
+before removing it a few days back. Here's the link:
+https://lore.kernel.org/mm-commits/20240330025857.CD609C433F1@smtp.kernel.o=
+rg/
+So if feasible, I'd prefer to stick with Andrew's channel.
 
-I do however think that in order to gain acceptance and widespread
-usage, they need to be defined in the same clear fashion as the entires
-under the "Using Reported-by:, Tested-by:, ..." section.
+>
+> A nit below
+>
+> Barry Song <21cnbao@gmail.com> writes:
+>
+> > From: Barry Song <v-songbaohua@oppo.com>
+> >
+> > Recent commit 77292bb8ca69c80 ("crypto: scomp - remove memcpy if
+> > sg_nents is 1 and pages are lowmem") leads to warnings on xtensa
+> > and loongarch,
+> >    In file included from crypto/scompress.c:12:
+> >    include/crypto/scatterwalk.h: In function 'scatterwalk_pagedone':
+> >    include/crypto/scatterwalk.h:76:30: warning: variable 'page' set but=
+ not used [-Wunused-but-set-variable]
+> >       76 |                 struct page *page;
+> >          |                              ^~~~
+> >    crypto/scompress.c: In function 'scomp_acomp_comp_decomp':
+> >>> crypto/scompress.c:174:38: warning: unused variable 'dst_page' [-Wunu=
+sed-variable]
+> >      174 |                         struct page *dst_page =3D sg_page(re=
+q->dst);
+> >          |
+> >
+> > The reason is that flush_dcache_page() is implemented as a noop
+> > macro on these platforms as below,
+> >
+> >  #define flush_dcache_page(page) do { } while (0)
+> >
+> > The driver code, for itself, seems be quite innocent and placing
+> > maybe_unused seems pointless,
+> >
+> >  struct page *dst_page =3D sg_page(req->dst);
+> >
+> >  for (i =3D 0; i < nr_pages; i++)
+> >       flush_dcache_page(dst_page + i);
+> >
+> > And it should be independent of architectural implementation
+> > differences.
+> >
+> > Let's provide guidance on coding style for requesting parameter
+> > evaluation or proposing the migration to a static inline
+> > function.
+> >
+> > Signed-off-by: Barry Song <v-songbaohua@oppo.com>
+> > Suggested-by: Max Filippov <jcmvbkbc@gmail.com>
+> > Reviewed-by: Mark Brown <broonie@kernel.org>
+> > Cc: Chris Zankel <chris@zankel.net>
+> > Cc: Huacai Chen <chenhuacai@loongson.cn>
+> > Cc: Herbert Xu <herbert@gondor.apana.org.au>
+> > Cc: Guenter Roeck <linux@roeck-us.net>
+> > Cc: Stephen Rothwell <sfr@canb.auug.org.au>
+> > Cc: Andy Whitcroft <apw@canonical.com>
+> > Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>
+> > Cc: Joe Perches <joe@perches.com>
+> > Cc: Jonathan Corbet <corbet@lwn.net>
+> > Cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> > Cc: Xining Xu <mac.xxn@outlook.com>
+> > ---
+> >  Documentation/process/coding-style.rst | 16 ++++++++++++++++
+> >  1 file changed, 16 insertions(+)
+> >
+> > diff --git a/Documentation/process/coding-style.rst b/Documentation/pro=
+cess/coding-style.rst
+> > index 9c7cf7347394..791d333a57fd 100644
+> > --- a/Documentation/process/coding-style.rst
+> > +++ b/Documentation/process/coding-style.rst
+> > @@ -827,6 +827,22 @@ Macros with multiple statements should be enclosed=
+ in a do - while block:
+> >                               do_this(b, c);          \
+> >               } while (0)
+> >
+> > +Function-like macros with unused parameters should be replaced by stat=
+ic
+> > +inline functions to avoid the issue of unused variables:
+> > +
+> > +.. code-block:: c
+>
+> I would just use the "::" notation here; the ..code-block:: just adds
+> noise IMO.
 
-Regards,
-Bjorn
+I am not quite sure we want this. as reading the whole coding-style.rst,
+.. code-block:: c is everywhere :-)   Should I do something different or
+just follow the tradition?
 
->  Reviewer's statement of oversight
->  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->  
-> 
-> ---
-> base-commit: 13ee4a7161b6fd938aef6688ff43b163f6d83e37
-> change-id: 20240401-additional-trailers-2b764f3e4aee
-> 
-> Best regards,
-> -- 
-> Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> 
+>
+> > +     static inline void fun(struct foo *foo)
+> > +     {
+> > +     }
+> > +
+> > +For historical reasons, many files still use the cast to (void) to eva=
+luate
+> > +parameters, but this method is not recommended:
+> > +
+> > +.. code-block:: c
+> > +
+> > +     #define macrofun(foo) do { (void) (foo); } while (0)
+> > +
+>
+> 1) If you're putting in examples of something *not* to do, it's probably
+> better to also put in something like:
+>
+>    /* don't do this */
+>
+> people don't always read closely.
+
+ok.
+
+>
+> 2) Can we say *why* it's not recommended?
+>
+
+Andrew makes a valid point.
+
+https://lore.kernel.org/all/20240321104427.730b859087afecf5973d1c58@linux-f=
+oundation.org/
+
+"I think so.  My overall view is that we should write things in C.  Only
+use macros if the thing we're trying to do simply cannot be done in a C
+function.
+
+- inline functions don't have the "expression with side effects
+  evaluated more than once" problem.
+
+- inline functions avoid the unused-variable issue which started this threa=
+d
+
+- inline functions look better
+
+- for some reason, people are more inclined to document inline
+  functions than macros."
+
+Andrew's point seems too lengthy for inclusion in the coding-style.rst docu=
+ment?
+I'll attempt to condense it.
+
+> Thanks,
+>
+> jon
+
+Thanks
+Barry
