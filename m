@@ -1,132 +1,127 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E72C014900C;
-	Wed,  3 Apr 2024 14:14:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9649015623A;
+	Wed,  3 Apr 2024 22:43:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712153643; cv=none; b=fs3RfVb6VvVorO1XSf3Kjw5Vzy5qRKbbaH/0lSCOncW8RroT6usF4Yu4mc2vqWjMQfF0Wqgn5uTmJu6dFJhSLE06AsJRUHC9yt8ThmDPBLWFrwu0Oz7UKMtWX0pkL2DecR5Kek+DX95O53fz7OVlZbarqVcYUOPv2s6ggd0ZL3o=
+	t=1712184202; cv=none; b=g9hueLZlPGNGtk+5kHY1ue22BJTCd5J5wJ+R629/5x2+dRSgA+wRyEl9rUaZZQRzPz22mvDbO4Ie8RVbmn8KChBdYCtHQn/rvT6vapJ9MwStNDHwJPk5OVk+5IPGHhrw2kPMYWFPtKJsfkQYcNOpJJf3tgb8U+noyiOJrgpUEzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712153643; c=relaxed/simple;
-	bh=DwlKSANN19zo2hxwH89sP0PAV6BFj/6aU1fv2ORo6Dc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=Pny23h5cV/Sd63GEkWj32LyZmtqacd325tqxZZTfAR+GAasMq2SoO6nNfT22M2PpLyZ0Vz0lVzHiv/86VbnnGKFGiCP69RUPB1k6zssrkxkbLoXuDMMWQ9BqgnetxVyCdCrZTaAXmfN1Ptkikb1b3OXh9sD+w+bKNq6KSLnVIso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=FsgdTNda; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+	s=arc-20240116; t=1712184202; c=relaxed/simple;
+	bh=i83YdIPPx0R/zg6nAIJzCB1vAwrQ7TEYddQ6IihpENM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=gwPVSPD82mtGAPIqynv+pQgOVVGSX+PXo9rl7G50KJF9lH/mDEhQn1QuVpt+fB7XKF6YfDBZQhHGc1HPKXL0sht8HUXOJ2ri89aZISJYH7McohUJwR4WtabECMhy+Qk1agxorsT1oXNrBoe6s3G/hoaEWv+PRFl8mhXWPK3iUDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SQsTKsvP; arc=none smtp.client-ip=209.85.161.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="FsgdTNda"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:Reply-To:From:References:To:Subject:MIME-Version:Date:Message-ID:
-	From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=s2Hjna+7Gigv0uDBX5QjiFF/xA8CsPgyBJQvKbNatcs=; t=1712153641;
-	x=1712585641; b=FsgdTNdap3z+fS9b1TDqtQ8umiugpRhQZ6NecB2dCrUzEfqtpfAkgtAQbTSnd
-	Ns4SyFDNMdtTV/Kog1UpUz6DjBUQV4ahKqxpCjDftUQdfglfdbHy4Us9eUpYUpsOXAfheaNWkS3aP
-	vNKbog4lim5PxQ5013JfA7iUuue+RMHXPySeY2oKFbHI8tDZ5XXBlTyNBlpK8ZvdxKq/lLccdQgyX
-	9Sw0N6F619STqECYGBb+MSHW/hN7DQpU3qrv7M+s/Aaa6qJPSldaWMnUP/wZJDlc/qXwzXGaL75CU
-	1zqB+JMt2fF+Q2QUkHvm07Nm1Xo6WBT3CQKwgZtRUU73A1F+Jg==;
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1rs1NC-0008IN-EQ; Wed, 03 Apr 2024 16:13:54 +0200
-Message-ID: <3e53f18c-12aa-4bf8-b3f7-7945bbca6882@leemhuis.info>
-Date: Wed, 3 Apr 2024 16:13:53 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SQsTKsvP"
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-5a47cecb98bso260872eaf.0;
+        Wed, 03 Apr 2024 15:43:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712184199; x=1712788999; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1/DXUBEvuqpvW9vgHBUj1lOdo7CYu69Q0rcw2cg02+k=;
+        b=SQsTKsvPrPSCIV412FfI6N/0E5ZYD1zVKbgeK4QzjugxGtgo2BVF4Q7TMvwWgOn89T
+         EeQvO9c+gGajPIBoE+lH6HvrkyExBobZUDrxKWidKzf17IMJQsPgtmrM7FLcJL+qX5rZ
+         TSD6QAgbCsbKknQ6TWRN/PkDWjE1N4L4o9d0nWHMTeOOPYgfPwRTe0A5u3P1UzIplL1X
+         eXC96B+sczZx4mex/AyXlJi7cQpYzCbZVsljy8CaVdmMRZuU3+SXQvKtBDJTFiStDEYs
+         o8idLgXDEEoDATml8znT5egX7kocA1ZOgpEUNB+9KmLfTEZ8rVWNZlOeupPqsP7cTo0D
+         4NNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712184199; x=1712788999;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1/DXUBEvuqpvW9vgHBUj1lOdo7CYu69Q0rcw2cg02+k=;
+        b=Hiit4BaHnmzma/NM3gIttVfrR3YYo+fmzOxY0i59Q8FqsNGyq0L42kzIrnQt8qxW2e
+         wE/6NXDa5hqVAthwd9yTEzEOF81qPiaYbxL5iN6y/e2ucvwltl8GIxFVHksGHyAQB74z
+         1DleatuVlWL3/rZK+SIC2hnzUkMrjQKvf2i5c2dAyO841usxyZX/umCqWpQxYeF3uuC7
+         J/tYP9gkDeE170siDOK0O4Kzjwj+3jusvPTX2xbCUCYm75yb6dESlPLkr7iE3yr33AL4
+         eVkZ4pGaN1+cRAYE9F6bFpR293hULKWHJqdDYP8SgNNqn+pAWkZiGvCm143aRkrRyn56
+         xmTg==
+X-Forwarded-Encrypted: i=1; AJvYcCV2Efxa36iuyY6F6AgUzzueeOxFPbKW+olJrMPW67ZA7YuZS/LyarnfSMw4L5trkM6M0Mzd3zAQir8u8mp7p/kw4PLu+zEN5Qj2dvNqUSgBUR++A+hasP8tWb5UjiAMmba2pnkIfBVt4NmiVmDZKuRrEPi34rviw+qvRVkx52gJsty2
+X-Gm-Message-State: AOJu0YyRGQFaw2dIyXAOnnGPk1VBX+kgzPuSdrDD4LkpLEWUNXfYeN8g
+	7ikOCvTKS1ITQfQpK6Ly6FfArNt2AoFAsIiXr+g3+hAfXiv1fCyn
+X-Google-Smtp-Source: AGHT+IGGiaWtu7HMckdPJc+ewu+TUaApVj6Bfhx2mSVpxVK2P7yAETpnx6+RfPfIS1VkdOFk5JiQTw==
+X-Received: by 2002:a05:6359:4c1a:b0:183:90a2:f4ce with SMTP id kj26-20020a0563594c1a00b0018390a2f4cemr679434rwc.0.1712184199519;
+        Wed, 03 Apr 2024 15:43:19 -0700 (PDT)
+Received: from barry-desktop.hub ([2407:7000:8942:5500:aaa1:59ff:fe57:eb97])
+        by smtp.gmail.com with ESMTPSA id 13-20020a630b0d000000b005e840ad9aaesm12184383pgl.30.2024.04.03.15.43.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Apr 2024 15:43:18 -0700 (PDT)
+From: Barry Song <21cnbao@gmail.com>
+To: akpm@linux-foundation.org,
+	linux-doc@vger.kernel.org,
+	workflows@vger.kernel.org
+Cc: apw@canonical.com,
+	broonie@kernel.org,
+	chenhuacai@loongson.cn,
+	chris@zankel.net,
+	corbet@lwn.net,
+	dwaipayanray1@gmail.com,
+	herbert@gondor.apana.org.au,
+	joe@perches.com,
+	linux-kernel@vger.kernel.org,
+	linux@roeck-us.net,
+	lukas.bulwahn@gmail.com,
+	mac.xxn@outlook.com,
+	sfr@canb.auug.org.au,
+	v-songbaohua@oppo.com
+Subject: [PATCH v6 0/2] codingstyle: avoid unused parameters for a function-like macro
+Date: Thu,  4 Apr 2024 11:42:52 +1300
+Message-Id: <20240403224254.10313-1-21cnbao@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] docs: *-regressions.rst: unify quoting, add missing
- word
-To: Karel Balej <balejk@matfyz.cz>, Jonathan Corbet <corbet@lwn.net>,
- regressions@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, workflows@vger.kernel.org
-References: <20240328194342.11760-1-balejk@matfyz.cz>
- <20240328194342.11760-2-balejk@matfyz.cz>
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-Content-Language: en-US, de-DE
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <20240328194342.11760-2-balejk@matfyz.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1712153641;1673022d;
-X-HE-SMSGID: 1rs1NC-0008IN-EQ
+Content-Transfer-Encoding: 8bit
 
-On 28.03.24 20:29, Karel Balej wrote:
-> Quoting of the '"no regressions" rule' expression differs between
-> occurrences, sometimes being presented as '"no regressions rule"'. Unify
-> the quoting using the first form which seems semantically correct or is
-> at least used dominantly, albeit marginally.
-> 
-> One of the occurrences is obviously missing the 'rule' part -- add it.
-> 
-> Signed-off-by: Karel Balej <balejk@matfyz.cz>
+From: Barry Song <v-songbaohua@oppo.com>
 
-Thx for this:
+-v6:
+ * collect ack of Joe, thanks!
+ * refine docs according to Jonathan, thanks!
+ * add checkpatch doc according to Joe, thanks!
 
-Reviewed-by: Thorsten Leemhuis <linux@leemhuis.info>
+-v5:
+ * Simplify the code for Patch 2 according to Joe's suggestions.
+ * add s-o-b of Barry according to Jeff Johnson
+ v5 link:
+ https://lore.kernel.org/all/20240401012120.6052-1-21cnbao@gmail.com/
 
-Ciao, Thorsten
+-v4:
+ * fix Xining's email address, s/ma.xxn@outlook.com/mac.xxn@outlook.com/g
+ * fix some false positives of checkpatch.pl
+ * downgrade from ERROR to WARN in checkpatch.pl
 
+ Thanks for Joe's comments!
 
-> ---
->  Documentation/admin-guide/reporting-regressions.rst | 10 +++++-----
->  Documentation/process/handling-regressions.rst      |  2 +-
->  2 files changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/reporting-regressions.rst b/Documentation/admin-guide/reporting-regressions.rst
-> index 76b246ecf21b..946518355a2c 100644
-> --- a/Documentation/admin-guide/reporting-regressions.rst
-> +++ b/Documentation/admin-guide/reporting-regressions.rst
-> @@ -42,12 +42,12 @@ The important basics
->  --------------------
->  
->  
-> -What is a "regression" and what is the "no regressions rule"?
-> +What is a "regression" and what is the "no regressions" rule?
->  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->  
->  It's a regression if some application or practical use case running fine with
->  one Linux kernel works worse or not at all with a newer version compiled using a
-> -similar configuration. The "no regressions rule" forbids this to take place; if
-> +similar configuration. The "no regressions" rule forbids this to take place; if
->  it happens by accident, developers that caused it are expected to quickly fix
->  the issue.
->  
-> @@ -173,7 +173,7 @@ Additional details about regressions
->  ------------------------------------
->  
->  
-> -What is the goal of the "no regressions rule"?
-> +What is the goal of the "no regressions" rule?
->  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->  
->  Users should feel safe when updating kernel versions and not have to worry
-> @@ -199,8 +199,8 @@ Exceptions to this rule are extremely rare; in the past developers almost always
->  turned out to be wrong when they assumed a particular situation was warranting
->  an exception.
->  
-> -Who ensures the "no regressions" is actually followed?
-> -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +Who ensures the "no regressions" rule is actually followed?
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->  
->  The subsystem maintainers should take care of that, which are watched and
->  supported by the tree maintainers -- e.g. Linus Torvalds for mainline and
-> diff --git a/Documentation/process/handling-regressions.rst b/Documentation/process/handling-regressions.rst
-> index ce6753a674f3..49ba1410cfce 100644
-> --- a/Documentation/process/handling-regressions.rst
-> +++ b/Documentation/process/handling-regressions.rst
-> @@ -284,7 +284,7 @@ What else is there to known about regressions?
->  Check out Documentation/admin-guide/reporting-regressions.rst, it covers a lot
->  of other aspects you want might want to be aware of:
->  
-> - * the purpose of the "no regressions rule"
-> + * the purpose of the "no regressions" rule
->  
->   * what issues actually qualify as regression
->  
+ v4 link: https://lore.kernel.org/all/20240328022136.5789-1-21cnbao@gmail.com/
+
+-v3:
+ https://lore.kernel.org/all/20240322084937.66018-1-21cnbao@gmail.com/
+
+A function-like macro could result in build warnings such as
+"unused variable." This patchset updates the guidance to
+recommend always using a static inline function instead
+and also provides checkpatch support for this new rule.
+
+Barry Song (1):
+  Documentation: coding-style: ask function-like macros to evaluate
+    parameters
+
+Xining Xu (1):
+  scripts: checkpatch: check unused parameters for function-like macro
+
+ Documentation/dev-tools/checkpatch.rst | 14 ++++++++++++++
+ Documentation/process/coding-style.rst | 23 +++++++++++++++++++++++
+ scripts/checkpatch.pl                  |  6 ++++++
+ 3 files changed, 43 insertions(+)
+
+-- 
+2.34.1
+
