@@ -1,175 +1,147 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8878692FC;
-	Wed,  3 Apr 2024 22:43:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B088129A99
+	for <workflows@vger.kernel.org>; Thu,  4 Apr 2024 16:18:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712184215; cv=none; b=AgdDT4A8AcahetffZR4Sy+JMDpmQ61F6A0vbdi9WunUsAOJLAfsDxOIOnVXzKKJOS7sXSZyPtuR4WiPCjYdjmfNgxsz6IGc1AF87El6BtUHm4hrKaz4011wqE9hBwDj3oIkDB0WwAKOUUEZUoITeUHuSRQ82XmJIK9A2367fzhQ=
+	t=1712247500; cv=none; b=fQ6qhobM7zzxD0lqne/1UoB22HasdaSSdZuicZvTa6IfijR/oK8Pd+vE9RMkByyjOdjuB/YVuqMmfw3uLiLGb7SuMS3rSgiBwIQ0/b3gyFxzJKd9m5cAB7AJyK8VFsB2xZ8wjZrXn1rBeAhHM+EfXNidJntLFqo/pieLqgebXhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712184215; c=relaxed/simple;
-	bh=lOubGtR80AaNFh/cJV+FIWAPhTfv5Muj74fW8EsJv/8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=YYqePKeCVGu54hdpwrsqdJ8fi6a3DpT/+2Jx+6dYUr9wmdy8+gjhmo8FcmKgrceKald8XvX0JoCbJ73ctV1RS30ybWYD0xuypz0omC3O2pZK/8xKg0BqSrf8shUAe0q2iJccaSUIt/o7qwIjJVfWlCn1qXp1M2hcNlkDUYzmCF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W3OD0jh+; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1712247500; c=relaxed/simple;
+	bh=kAsemLpZF5gvKF3iRwKXe1owEO24xjO+cbsWgliCEOM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Qpw3rhM6PrfDlJMR16jDkqww3i6VlGJHIP6EpFVTMy+gVH1tLPWAc5bBoB0Vg38I2jKIlEdMGzscNaAseNyTNCT/D7TPRxHOkJy63hUMLDtlfjFQZAqpy4mdzpvmyS9fSWmJNAxWh1Qr6qBHnu6JGiy99YrSiyuo142hrsWZxEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=M0NLcUFj; arc=none smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W3OD0jh+"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2a2d159e4ffso54054a91.1;
-        Wed, 03 Apr 2024 15:43:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="M0NLcUFj"
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-6152be7c58bso13088157b3.0
+        for <workflows@vger.kernel.org>; Thu, 04 Apr 2024 09:18:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712184213; x=1712789013; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SbtBOu7AIsmC5hqACAkZ2qUxEdKcn2SBtMp5/oLSpC4=;
-        b=W3OD0jh+2Eb5DfkfsJ0BhdCOBuT4l1oJKKlvJVZQ5FVlrtCj/aJ1uArWxbzQYHTqmA
-         RZYygt0OlHAaL71kIj3tXNyo1CCJ+CUIdJscCPrvK2+ddAFQPOcQ2CBolxi6N/RaDB62
-         fqhdvg7J++5ax5xsx0ycqq5OzAemctb10zCwOMKHecOFYneuWGNTS+uYYXMZ+HEhBWfP
-         mgQsQ0ZKySnUQ/wwxS2V9F09UDLNTnZ4dR6+Z949IROEx/qAV4P2vdv4vZGo9W/KNdlZ
-         ELts58k/V4Z6Q4qcs7RLoE7snzTc+utZdc05zj1DEoc4DlYaO0Lnfi7y0FV57fbxdaN3
-         MziA==
+        d=linaro.org; s=google; t=1712247496; x=1712852296; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=y2wfhwpj0GJm8stfsi7qk1/VC2m7+vGnm3FHrvFy46A=;
+        b=M0NLcUFjVKZsas5aVDZFMt5H3vMmpH8MA3sTixXN0aOOTXrEHrWqHdkEqu6dJhG5py
+         hmew0kuq774jr2yR6ZDX6vw0lkzlyGMXZpXeTH5w5HuJqfRrds19NTGFX+jbVj9tiGeQ
+         H1EdmAq2hKj1zPToCPKkDF6vAn+GTBfZ9jUu+WThorTvYtFDSM66flcEJuji4HXHvQNe
+         PUli+pCCsIcbwDexvSrsnzL0i7Ynh62gCu8gV/v7dQH+QSFgi20NwYkRjJbellKn/9Vt
+         dIF74+hNZ4t/ITA9wV+YWPOf7SYV5CkcCmj2ezLLLCP0WJcRllVYmJ2qQtYainx++S0U
+         3HFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712184213; x=1712789013;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SbtBOu7AIsmC5hqACAkZ2qUxEdKcn2SBtMp5/oLSpC4=;
-        b=qRSvbdc6cQ7agMRABSabG5LfFGGFZrprMhrVniKt00a93AmPPqF2v1gXHdP37h1P+U
-         4avIMLvDvDcBrtQfYZXUYP8EwGM4ZTl+KmEANuZPvp+K7R5JVu3RCoAUiFSGTVkF8oWi
-         +CP2OSC1lce4scjElf9ayb1Qxmofm1roJS9kr2Rg8Nu4h3Bo0TFj49bnJuaFFHOpn9jy
-         rNHH1zcdVxxsEF4UdXxFi73NPKzrfdfqELlk1Mer132AiW5lVov3ICr8Pp8wijrJyVOw
-         2glyVWH0FNEmSD1nJRDv4sXzfohTF4/Qra8xTzX7+M+S/K5h5fQUojGACkKcEYzbHDQA
-         zfww==
-X-Forwarded-Encrypted: i=1; AJvYcCUoHNEhduy1jgPKZr3a/ya1HrEpKPEoonN9vnZ6/KEZJaoJ79OPWj3Ob3qauUIKCMM4nhlxvnizVv32AlkE4/yDc+hYYXqsQNjL1O94+XTxOIfyY9QXCg0oNx7CE55H8AYLHBg70ezaEuvjuxT5SSe9+pwx1ZDEKrmjwwe4ltdpX8Kn
-X-Gm-Message-State: AOJu0YxsoX8eo2+PvqRjDYMB9wWPx5BliIz6HkmyaYZYP67Pbbi/Ylbl
-	O1HA0AVT1ZTUvQir9/CNl7E7Z/hhiKPtEherNpKpH8XD8WAx6SM3
-X-Google-Smtp-Source: AGHT+IHou4AJqLm8+IeQGJUuH8c7Wq/7OSMZ7wXA890VZ2cnN0mGXEfhLE/66T7EWveDYzRPE/RIWQ==
-X-Received: by 2002:a17:90a:d48b:b0:2a2:c388:bb36 with SMTP id s11-20020a17090ad48b00b002a2c388bb36mr1387422pju.11.1712184212960;
-        Wed, 03 Apr 2024 15:43:32 -0700 (PDT)
-Received: from barry-desktop.hub ([2407:7000:8942:5500:aaa1:59ff:fe57:eb97])
-        by smtp.gmail.com with ESMTPSA id 13-20020a630b0d000000b005e840ad9aaesm12184383pgl.30.2024.04.03.15.43.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Apr 2024 15:43:32 -0700 (PDT)
-From: Barry Song <21cnbao@gmail.com>
-To: akpm@linux-foundation.org,
-	linux-doc@vger.kernel.org,
-	workflows@vger.kernel.org
-Cc: apw@canonical.com,
-	broonie@kernel.org,
-	chenhuacai@loongson.cn,
-	chris@zankel.net,
-	corbet@lwn.net,
-	dwaipayanray1@gmail.com,
-	herbert@gondor.apana.org.au,
-	joe@perches.com,
-	linux-kernel@vger.kernel.org,
-	linux@roeck-us.net,
-	lukas.bulwahn@gmail.com,
-	mac.xxn@outlook.com,
-	sfr@canb.auug.org.au,
-	v-songbaohua@oppo.com,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Jeff Johnson <quic_jjohnson@quicinc.com>,
-	Charlemagne Lasse <charlemagnelasse@gmail.com>
-Subject: [PATCH v6 2/2] scripts: checkpatch: check unused parameters for function-like macro
-Date: Thu,  4 Apr 2024 11:42:54 +1300
-Message-Id: <20240403224254.10313-3-21cnbao@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240403224254.10313-1-21cnbao@gmail.com>
-References: <20240403224254.10313-1-21cnbao@gmail.com>
+        d=1e100.net; s=20230601; t=1712247496; x=1712852296;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=y2wfhwpj0GJm8stfsi7qk1/VC2m7+vGnm3FHrvFy46A=;
+        b=QFP/W8cX2iadboXj1Ltbfhi4kP7nxvJAlLtQ+6QKTT+VuwiRFrOSV3swAadzOoh9UF
+         sgKPoHISGWZDlTvoX4TQ9v2bFIl6QALP4yuvAzRl3SK8TjGsWGFlEaxwOeeB7Z8kNmYy
+         HZ7a89BolN6h4CawCOzxDhh1TNXh5AfMU3Iph9k3yDVX5JPdteYR12SqTFDxIv5DGia9
+         uxu3v4aX77A/hw7o+sveFMK8fKWYV4AZu06ppNEayorHNX/p+0RS659GisOfebyk1mOn
+         brMWvh93tDgH2SFnN+9j3dPx0TCyHCCUgc9de1UcJiYfNFzK+mawlJ39vn7z6Ps6ATAR
+         Yqzw==
+X-Forwarded-Encrypted: i=1; AJvYcCV5rNIMn+wTbifjVKDo3cRlofNCp+AdcFHMix23Aeaw/v92H1sq7hgcP/QmCo16899qGgH7GHIruTP0rlhpcX0OnyHWbpgzgL3K
+X-Gm-Message-State: AOJu0YxK7OF1XXZK4FI8c2+RkZjH1EUWZpOeGlcWpCJ8gbOYL16aoKyv
+	ZClFx8zBerLJRtbMuofXJ8N7A3j8cFgx8n4zuqOyVBeLaAKWeIEFfvrayj4iUIqQCzUIE8Z/qZc
+	Y58pfhy62gpnCTs10zghQPdMNCxpS2nYFQpQQ4ZSS0y3YQTEr
+X-Google-Smtp-Source: AGHT+IGZ1IsW5nVT5b4ImkAVo1aGzZo+2+alfh2eRUC563al7JWgpLpAeRPbbZe+AU7DlbaHjZwMfNJDOEDMGTtobIc=
+X-Received: by 2002:a25:8412:0:b0:dc7:594b:f72b with SMTP id
+ u18-20020a258412000000b00dc7594bf72bmr2550436ybk.39.1712247496552; Thu, 04
+ Apr 2024 09:18:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240401-additional-trailers-v1-1-f472bf158d2f@linaro.org> <ZgxVqIwPxiFtcBrB@hu-bjorande-lv.qualcomm.com>
+In-Reply-To: <ZgxVqIwPxiFtcBrB@hu-bjorande-lv.qualcomm.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 4 Apr 2024 19:18:05 +0300
+Message-ID: <CAA8EJppRB57ra7oqjrDM8bGt7b90_56HJPQ3gPeTFy6fiMBLKw@mail.gmail.com>
+Subject: Re: [PATCH] docs: submitting-patches: describe additional tags
+To: Bjorn Andersson <quic_bjorande@quicinc.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-From: Xining Xu <mac.xxn@outlook.com>
+On Tue, 2 Apr 2024 at 21:59, Bjorn Andersson <quic_bjorande@quicinc.com> wrote:
+>
+> On Mon, Apr 01, 2024 at 08:17:03AM +0300, Dmitry Baryshkov wrote:
+> > Described tags do not fully cover development needs. For example the LKP
+> > robot insists on using Reported-by: tag, but that's not fully correct.
+> > The robot reports an issue with the patch, not the issue that is being
+> > fixed by the patch. Describe additional tags to be used while submitting
+> > patches.
+> >
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >  Documentation/process/submitting-patches.rst | 19 +++++++++++++++++++
+> >  1 file changed, 19 insertions(+)
+> >
+> > diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> > index 66029999b587..3a24d90fa385 100644
+> > --- a/Documentation/process/submitting-patches.rst
+> > +++ b/Documentation/process/submitting-patches.rst
+> > @@ -544,6 +544,25 @@ future patches, and ensures credit for the testers.
+> >  Reviewed-by:, instead, indicates that the patch has been reviewed and found
+> >  acceptable according to the Reviewer's Statement:
+> >
+> > +Additional tags to be used while submitting patches
+> > +---------------------------------------------------
+> > +
+> > +The tags described previously do not always cover the needs of the development
+> > +process.
+> > +
+> > +For example, if the kernel test robot reports an issue in the patch, the robot
+> > +insists that the next version of the patch gets the Reported-by: and Closes:
+> > +tags.  While the Closes: tag can be considered correct in such a case, the
+> > +Reported-by: tag is definitely not correct. The LKP robot hasn't reported the
+> > +issue that is being fixed by the patch, but instead it has reported an issue
+> > +with the patch. To be more precise you may use the Improved-thanks-to: tag for
+> > +the next version of the patch.
+> > +
+> > +Another frequent case is when you want to express gratitude to the colleagues,
+> > +who helped to improve the patch, but neither the Co-developed-by: nor
+> > +Suggested-by: tags are appropriate. In such case you might prefer to use
+> > +Discussed-with:, Listened-by:, or Discussed-over-a-beer-with: tags.
+> > +
+>
+> I really like the idea of defining two additional tags for these
+> purposes ("Improved-from-review-feedback/testing-by" and "Cred-to").
 
-If function-like macros do not utilize a parameter, it might result in a
-build warning.  In our coding style guidelines, we advocate for utilizing
-static inline functions to replace such macros.  This patch verifies
-compliance with the new rule.
+I think that the from-review / from-testing might be too verbose. I'd
+prefer to keep the existing tag.
 
-For a macro such as the one below,
+As for Cred-to I'm probably missing the usecase that you have in mind.
 
- #define test(a) do { } while (0)
+>
+> I do however think that in order to gain acceptance and widespread
+> usage, they need to be defined in the same clear fashion as the entires
+> under the "Using Reported-by:, Tested-by:, ..." section.
 
-The test result is as follows.
+Of course.
 
- WARNING: Argument 'a' is not used in function-like macro
- #21: FILE: mm/init-mm.c:20:
- +#define test(a) do { } while (0)
+>
+> Regards,
+> Bjorn
+>
+> >  Reviewer's statement of oversight
+> >  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> >
+> >
+> > ---
+> > base-commit: 13ee4a7161b6fd938aef6688ff43b163f6d83e37
+> > change-id: 20240401-additional-trailers-2b764f3e4aee
+> >
+> > Best regards,
+> > --
+> > Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >
 
- total: 0 errors, 1 warnings, 8 lines checked
 
-Signed-off-by: Xining Xu <mac.xxn@outlook.com>
-Tested-by: Barry Song <v-songbaohua@oppo.com>
-Signed-off-by: Barry Song <v-songbaohua@oppo.com>
-Cc: Chris Zankel <chris@zankel.net>
-Cc: Huacai Chen <chenhuacai@loongson.cn>
-Cc: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: Guenter Roeck <linux@roeck-us.net>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Andy Whitcroft <apw@canonical.com>
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Cc: Joe Perches <joe@perches.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc: Max Filippov <jcmvbkbc@gmail.com>
-Cc: Jeff Johnson <quic_jjohnson@quicinc.com>
-Cc: Charlemagne Lasse <charlemagnelasse@gmail.com>
----
- Documentation/dev-tools/checkpatch.rst | 14 ++++++++++++++
- scripts/checkpatch.pl                  |  6 ++++++
- 2 files changed, 20 insertions(+)
 
-diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index 127968995847..a9fac978a525 100644
---- a/Documentation/dev-tools/checkpatch.rst
-+++ b/Documentation/dev-tools/checkpatch.rst
-@@ -906,6 +906,20 @@ Macros, Attributes and Symbols
- 
-     See: https://lore.kernel.org/lkml/1399671106.2912.21.camel@joe-AO725/
- 
-+  **MACRO_ARG_UNUSED**
-+    If function-like macros do not utilize a parameter, it might result
-+    in a build warning. We advocate for utilizing static inline functions
-+    to replace such macros.
-+    For example, for a macro such as the one below::
-+
-+      #define test(a) do { } while (0)
-+
-+    there would be a warning like below::
-+
-+      WARNING: Argument 'a' is not used in function-like macro.
-+
-+    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#macros-enums-and-rtl
-+
-   **SINGLE_STATEMENT_DO_WHILE_MACRO**
-     For the multi-statement macros, it is necessary to use the do-while
-     loop to avoid unpredictable code paths. The do-while loop helps to
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 9c4c4a61bc83..9895d7e38a9f 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -6040,6 +6040,12 @@ sub process {
- 					CHK("MACRO_ARG_PRECEDENCE",
- 					    "Macro argument '$arg' may be better as '($arg)' to avoid precedence issues\n" . "$herectx");
- 				}
-+
-+# check if this is an unused argument
-+				if ($define_stmt !~ /\b$arg\b/) {
-+					WARN("MACRO_ARG_UNUSED",
-+						"Argument '$arg' is not used in function-like macro\n" . "$herectx");
-+				}
- 			}
- 
- # check for macros with flow control, but without ## concatenation
 -- 
-2.34.1
-
+With best wishes
+Dmitry
