@@ -1,147 +1,83 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B088129A99
-	for <workflows@vger.kernel.org>; Thu,  4 Apr 2024 16:18:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84FD181CEB;
+	Wed, 10 Apr 2024 20:58:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712247500; cv=none; b=fQ6qhobM7zzxD0lqne/1UoB22HasdaSSdZuicZvTa6IfijR/oK8Pd+vE9RMkByyjOdjuB/YVuqMmfw3uLiLGb7SuMS3rSgiBwIQ0/b3gyFxzJKd9m5cAB7AJyK8VFsB2xZ8wjZrXn1rBeAhHM+EfXNidJntLFqo/pieLqgebXhc=
+	t=1712782737; cv=none; b=GQOEYUNC2/i9FxowKyYUPSz3YUTHxWRDlwKmCAR89A0P4WmVof8ZozuRUO/6VgCBJ3Pavt33Zla+085YOAi6Q9mrY4rDXaxybZZ88Ie/sDxzi5sBLs8sIE2BsggqA+Qa15teIqN8PnMAoUSYy1t3cf8H0Mi6hP2oDwDRgRivO2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712247500; c=relaxed/simple;
-	bh=kAsemLpZF5gvKF3iRwKXe1owEO24xjO+cbsWgliCEOM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Qpw3rhM6PrfDlJMR16jDkqww3i6VlGJHIP6EpFVTMy+gVH1tLPWAc5bBoB0Vg38I2jKIlEdMGzscNaAseNyTNCT/D7TPRxHOkJy63hUMLDtlfjFQZAqpy4mdzpvmyS9fSWmJNAxWh1Qr6qBHnu6JGiy99YrSiyuo142hrsWZxEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=M0NLcUFj; arc=none smtp.client-ip=209.85.128.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1712782737; c=relaxed/simple;
+	bh=+/tK43G6OWAgoc1IQTUZhMc0O85NKgsfQkWwbiBN2Vs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Gjcio1guYno6LCf9G1PTBXd4vNT2YCWZC4PSVcXXMrkLSFj/DYPQMNrtOQuiEn5ZGOA/xvUiiA5rpp/U3/NUE2A4eEes/JVwmvbHtjJuYW3Xkvz0gsG+efypSkjcoX3jrHRvoMbbXw/y2YWbJRBPbf69j9sXLtGBdYMsPAsqnkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=j1G70P5U; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="M0NLcUFj"
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-6152be7c58bso13088157b3.0
-        for <workflows@vger.kernel.org>; Thu, 04 Apr 2024 09:18:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712247496; x=1712852296; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=y2wfhwpj0GJm8stfsi7qk1/VC2m7+vGnm3FHrvFy46A=;
-        b=M0NLcUFjVKZsas5aVDZFMt5H3vMmpH8MA3sTixXN0aOOTXrEHrWqHdkEqu6dJhG5py
-         hmew0kuq774jr2yR6ZDX6vw0lkzlyGMXZpXeTH5w5HuJqfRrds19NTGFX+jbVj9tiGeQ
-         H1EdmAq2hKj1zPToCPKkDF6vAn+GTBfZ9jUu+WThorTvYtFDSM66flcEJuji4HXHvQNe
-         PUli+pCCsIcbwDexvSrsnzL0i7Ynh62gCu8gV/v7dQH+QSFgi20NwYkRjJbellKn/9Vt
-         dIF74+hNZ4t/ITA9wV+YWPOf7SYV5CkcCmj2ezLLLCP0WJcRllVYmJ2qQtYainx++S0U
-         3HFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712247496; x=1712852296;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=y2wfhwpj0GJm8stfsi7qk1/VC2m7+vGnm3FHrvFy46A=;
-        b=QFP/W8cX2iadboXj1Ltbfhi4kP7nxvJAlLtQ+6QKTT+VuwiRFrOSV3swAadzOoh9UF
-         sgKPoHISGWZDlTvoX4TQ9v2bFIl6QALP4yuvAzRl3SK8TjGsWGFlEaxwOeeB7Z8kNmYy
-         HZ7a89BolN6h4CawCOzxDhh1TNXh5AfMU3Iph9k3yDVX5JPdteYR12SqTFDxIv5DGia9
-         uxu3v4aX77A/hw7o+sveFMK8fKWYV4AZu06ppNEayorHNX/p+0RS659GisOfebyk1mOn
-         brMWvh93tDgH2SFnN+9j3dPx0TCyHCCUgc9de1UcJiYfNFzK+mawlJ39vn7z6Ps6ATAR
-         Yqzw==
-X-Forwarded-Encrypted: i=1; AJvYcCV5rNIMn+wTbifjVKDo3cRlofNCp+AdcFHMix23Aeaw/v92H1sq7hgcP/QmCo16899qGgH7GHIruTP0rlhpcX0OnyHWbpgzgL3K
-X-Gm-Message-State: AOJu0YxK7OF1XXZK4FI8c2+RkZjH1EUWZpOeGlcWpCJ8gbOYL16aoKyv
-	ZClFx8zBerLJRtbMuofXJ8N7A3j8cFgx8n4zuqOyVBeLaAKWeIEFfvrayj4iUIqQCzUIE8Z/qZc
-	Y58pfhy62gpnCTs10zghQPdMNCxpS2nYFQpQQ4ZSS0y3YQTEr
-X-Google-Smtp-Source: AGHT+IGZ1IsW5nVT5b4ImkAVo1aGzZo+2+alfh2eRUC563al7JWgpLpAeRPbbZe+AU7DlbaHjZwMfNJDOEDMGTtobIc=
-X-Received: by 2002:a25:8412:0:b0:dc7:594b:f72b with SMTP id
- u18-20020a258412000000b00dc7594bf72bmr2550436ybk.39.1712247496552; Thu, 04
- Apr 2024 09:18:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="j1G70P5U"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0C3A347C3E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1712782735; bh=jqS9ei4MBkFAHGGRpxDKU18p0pVh8bcbcGcggGmQPfM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=j1G70P5UhkT/YPryiPKQIArCsyH4ERz/0JWB3XBZtl+d1Mh99m05L24oxivtAZIPy
+	 m71uNgfsE++Dp36nTk1fVseOW4fYvwrXSwXMyo5P46FCn5CBGeAyeLEiDLq0XnUFbl
+	 kncHD8tWB8e/3mJDAIk4O9n7dySWBLS0vcgccdUB/TJcgSgM2HdahM2eaiZblhw6SU
+	 RGSNQ5hZYrwqlEwOfgsOO0RYPNybsBcuzVdbcsXVE8swol0cYzkgKctQWU+ZQ9yNu5
+	 zdZtBbMjEhZKJXOdhAZBG7fB8LLgMh0cOi8kil2LHoPrw4yMbB/on/tp9nscMn5BBe
+	 QOIGftY6OqdVg==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625:67c:16ff:fe81:5f9b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 0C3A347C3E;
+	Wed, 10 Apr 2024 20:58:54 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Thorsten Leemhuis <linux@leemhuis.info>
+Cc: regressions@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Subject: Re: [RFC PATCH v1 1/2] docs: reporting-issue: rework the detailed
+ guide
+In-Reply-To: <ac847c1c539d5f2c3d55ab363a5038ce6d303424.1711455295.git.linux@leemhuis.info>
+References: <cover.1711455295.git.linux@leemhuis.info>
+ <ac847c1c539d5f2c3d55ab363a5038ce6d303424.1711455295.git.linux@leemhuis.info>
+Date: Wed, 10 Apr 2024 14:58:54 -0600
+Message-ID: <87cyqxszn5.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240401-additional-trailers-v1-1-f472bf158d2f@linaro.org> <ZgxVqIwPxiFtcBrB@hu-bjorande-lv.qualcomm.com>
-In-Reply-To: <ZgxVqIwPxiFtcBrB@hu-bjorande-lv.qualcomm.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 4 Apr 2024 19:18:05 +0300
-Message-ID: <CAA8EJppRB57ra7oqjrDM8bGt7b90_56HJPQ3gPeTFy6fiMBLKw@mail.gmail.com>
-Subject: Re: [PATCH] docs: submitting-patches: describe additional tags
-To: Bjorn Andersson <quic_bjorande@quicinc.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 
-On Tue, 2 Apr 2024 at 21:59, Bjorn Andersson <quic_bjorande@quicinc.com> wrote:
+Thorsten Leemhuis <linux@leemhuis.info> writes:
+
+> Rework the detailed step-by-step guide for various reasons:
 >
-> On Mon, Apr 01, 2024 at 08:17:03AM +0300, Dmitry Baryshkov wrote:
-> > Described tags do not fully cover development needs. For example the LKP
-> > robot insists on using Reported-by: tag, but that's not fully correct.
-> > The robot reports an issue with the patch, not the issue that is being
-> > fixed by the patch. Describe additional tags to be used while submitting
-> > patches.
-> >
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >  Documentation/process/submitting-patches.rst | 19 +++++++++++++++++++
-> >  1 file changed, 19 insertions(+)
-> >
-> > diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> > index 66029999b587..3a24d90fa385 100644
-> > --- a/Documentation/process/submitting-patches.rst
-> > +++ b/Documentation/process/submitting-patches.rst
-> > @@ -544,6 +544,25 @@ future patches, and ensures credit for the testers.
-> >  Reviewed-by:, instead, indicates that the patch has been reviewed and found
-> >  acceptable according to the Reviewer's Statement:
-> >
-> > +Additional tags to be used while submitting patches
-> > +---------------------------------------------------
-> > +
-> > +The tags described previously do not always cover the needs of the development
-> > +process.
-> > +
-> > +For example, if the kernel test robot reports an issue in the patch, the robot
-> > +insists that the next version of the patch gets the Reported-by: and Closes:
-> > +tags.  While the Closes: tag can be considered correct in such a case, the
-> > +Reported-by: tag is definitely not correct. The LKP robot hasn't reported the
-> > +issue that is being fixed by the patch, but instead it has reported an issue
-> > +with the patch. To be more precise you may use the Improved-thanks-to: tag for
-> > +the next version of the patch.
-> > +
-> > +Another frequent case is when you want to express gratitude to the colleagues,
-> > +who helped to improve the patch, but neither the Co-developed-by: nor
-> > +Suggested-by: tags are appropriate. In such case you might prefer to use
-> > +Discussed-with:, Listened-by:, or Discussed-over-a-beer-with: tags.
-> > +
+> * Simplify the search with the help of lore.kernel.org/all/, which did
+>   not exist when the text was written.
 >
-> I really like the idea of defining two additional tags for these
-> purposes ("Improved-from-review-feedback/testing-by" and "Cred-to").
-
-I think that the from-review / from-testing might be too verbose. I'd
-prefer to keep the existing tag.
-
-As for Cred-to I'm probably missing the usecase that you have in mind.
-
+> * Make use of the recently added document
+>   Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst,
+>   which covers many steps this text partly covered way better.
 >
-> I do however think that in order to gain acceptance and widespread
-> usage, they need to be defined in the same clear fashion as the entires
-> under the "Using Reported-by:, Tested-by:, ..." section.
-
-Of course.
-
+> * The 'quickly report a stable regression to the stable team' approach
+>   hardly worked out: most of the time the regression was not known yet.
+>   Try a different approach using the regressions list.
 >
-> Regards,
-> Bjorn
+> * Reports about stable/longterm regressions most of the time were
+>   greeted with a brief reply along the lines of 'Is mainline affected as
+>   well?'; this is needed to determine who is responsible, so we might as
+>   well make the reporter check that before sending the report (which
+>   verify-bugs-and-bisect-regressions.rst already tells them to do, too).
 >
-> >  Reviewer's statement of oversight
-> >  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> >
-> >
-> > ---
-> > base-commit: 13ee4a7161b6fd938aef6688ff43b163f6d83e37
-> > change-id: 20240401-additional-trailers-2b764f3e4aee
-> >
-> > Best regards,
-> > --
-> > Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >
+> * A lot of fine tuning after seeing what people were struggling with.
 
+So I have read through this, and don't find anything objectionable.  I
+will point out that each of those bullet items above might be better
+handled in a separate patch; the result might be easier to review.
 
+Thanks,
 
--- 
-With best wishes
-Dmitry
+jon
