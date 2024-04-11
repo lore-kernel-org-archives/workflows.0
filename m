@@ -1,141 +1,108 @@
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6428C13CF91;
-	Thu, 11 Apr 2024 09:20:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FAB714430D;
+	Thu, 11 Apr 2024 09:53:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712827229; cv=none; b=VazXHw483kPQS2rHB6WDQgqvDt9QvOzsW55D8lQEQ5q0GutYQ1Y6+iGC4SY590tXEFB51seWYuAT9VXljpqHLN31X9B7jK3yUPYUqmb9Bxy69fx4YZptRy+Qd4vQ2KDSFZ3sbmbzg5VtBSZEbibvbKZKRCMfn9rbLEooVAFYy68=
+	t=1712829190; cv=none; b=TEyMnB5qBAqCzEdpT93P24br5cSJNK06+ZDzHcl2YX7ArmcJU/QzeIMdbBBvi8mhSm7DB6jqA1sjgQcq80RMjwb1snLl1RjYXWFOApA4IZ8Am1DjxOvcCEipEQHXAZ8z9v/B9O4jyt9BOcX5XIY4OfFXx6BCs7dhVLSFmBgO7Qs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712827229; c=relaxed/simple;
-	bh=MuSa2629wjnJIwbeR+E3etbsRyL6LRWQ87Up/BxVyrU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hPa7dG8mqVfdMBrn8NiWHUFj1cJncXajtQPiRmZR9Py8k5IsN027rJ52eQ9LpMbSqufXSL+2fJzUnHPkmqkFkrWxGDvCN6PHjoisL05ygIb2tQHsC3ZNxRlqBd5/ZllEDF8oE1iz7vkK5YTcKmI1pUOP4HriDdj61BreV1t7mDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-6153d85053aso66498107b3.0;
-        Thu, 11 Apr 2024 02:20:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712827226; x=1713432026;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QWrI7vAbCyWyhkrkKcSxlbZsN3p29am8eXxJfrQzGlo=;
-        b=pD0fXMIYPvDw+J6bEKNmGhegVNLwA6O9S7wMzFwum5Yu2veacBmyPH3c9zzjTnwDKZ
-         mWe9yHvyzlg0jY7xt0W9/Bud6hDTcDE319JY5m1iWP7rO8sOBhBKuVhu0l7OVooeD11T
-         6IXOTMSlKYYPjtNRoa4GEp0/tzQJcVJhyQ83sopkQ+4FaScSLhty4CMe7reiWUCEf2ZN
-         yYLeJVE2HHYRgunp5gA4mCdg6KTi/XfFaOKQY9SSEBNww7MmptHQt9frNX3LzP2NhjSO
-         jtkjY/eL/zNoR0YBJHvGJT5jw7ka/4yulcs8nOdbmP2Z2I0HyHvEk16sguAv2yRMq9Ct
-         OLzg==
-X-Forwarded-Encrypted: i=1; AJvYcCX629CkWdRdd9elTd+dkTHHm5uQNtK5E2sS7n45q441r3w1BRhcT+qpxOvTSqS5BH2Yp1+GPnhTiGv1M3p2dC6rw6QfsitUXxTnGTvLgZ6wcFzFDj0YluYhVGRR3urNm1+4pLhToDty+qI4FPtzq9mj9i/Y3GCRZm+N2CEkc7SqsOHx6CoArWrLJcMgikFnUAXozfUYAP3HQM6o
-X-Gm-Message-State: AOJu0YwXt/N3YopQIFGMiVt5uQbqOsOe7HV+mn15SBbiySmj0iWyazqe
-	qOGc7Qmfg8UwX34/nH/5oRmEo2zZ9nIsN4e+huAvjP4MR3gmAN/VG30RHS5B
-X-Google-Smtp-Source: AGHT+IEf70VCszZn4E7AmD3QM76pIOuzM53vCivZ/FRPguLc1wUdDEXUP/74sFB5WtBdkfwk9h4KWQ==
-X-Received: by 2002:a81:a1c3:0:b0:618:198f:aedb with SMTP id y186-20020a81a1c3000000b00618198faedbmr4732950ywg.5.1712827225836;
-        Thu, 11 Apr 2024 02:20:25 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id s10-20020a81770a000000b0061537270630sm229113ywc.80.2024.04.11.02.20.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Apr 2024 02:20:09 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dd045349d42so7031135276.2;
-        Thu, 11 Apr 2024 02:20:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVxhRyejhRL+/YvVR0rRv3NZ/ew6Ar2I0taiVCwjRrqn9ff3/G/WXVLRBW9oVKTCduTfBJcjjtSiAsC6A3kwgbxsTP/HJKrigbK+e19BF48rpJVBsJJvqODzATGNMhION+J7hWHPHDsFChXLhxsNFGprdEfTNuuQASevBRsaTTzHu7Qt4J6cm0l/1G63Gbd/IwScYon8q3fSt70
-X-Received: by 2002:a25:868a:0:b0:dc7:6f13:61d1 with SMTP id
- z10-20020a25868a000000b00dc76f1361d1mr5243102ybk.20.1712827209472; Thu, 11
- Apr 2024 02:20:09 -0700 (PDT)
+	s=arc-20240116; t=1712829190; c=relaxed/simple;
+	bh=8SQ0a8KIXg+9Q6wH7l7+OtKBY0yEhH+2/6JYQpE8re8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=vB5hEHyywfhcvcv+fvEEZf8d2X/uyJN/Hy7ui94BBySY4H4gPvrGl+P+/zSeMDVYQCd5dqresws/5G84xkgk4Fd0ExQTHfWb4jkyfOtB8FUkOeKall+CrssRv61xTpUhTcNQ511UOZG3kiozxgDKR/PWO3bk5+pHiz3wtzzvls4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=G9gbSkp7; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="G9gbSkp7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A9EEC433F1;
+	Thu, 11 Apr 2024 09:53:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1712829189;
+	bh=8SQ0a8KIXg+9Q6wH7l7+OtKBY0yEhH+2/6JYQpE8re8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=G9gbSkp7oEzeuI3Q0PgtuXj1sVQzFoshmy35z6knqC8VODQ8M+jRQp7yJomxLQOXD
+	 dNeFOGL+XQjg1Lf2s1UGNC+/Gb7l6z6PIuHfU5o20nIO11lpOhSIOQ3Ur3vC7CZ+k4
+	 PEcm0JAXlJGRqkpmoG1eD++BQeSEoTmEozBpgA5s=
+Date: Thu, 11 Apr 2024 11:53:07 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Thorsten Leemhuis <linux@leemhuis.info>,
+	Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	stable@vger.kernel.org, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 2/4] docs: stable-kernel-rules: mention "no
+ semi-automatic backport"
+Message-ID: <2024041151-reflected-dancing-607a@gregkh>
+References: <cover.1712812895.git.linux@leemhuis.info>
+ <c0a08b160b286e8c98549eedb37404c6e784cf8a.1712812895.git.linux@leemhuis.info>
+ <2024041156-backache-dolly-a420@gregkh>
+ <3f395eca-fc24-469b-b5fc-de47ab2a6861@leemhuis.info>
+ <2024041123-earthling-primarily-4656@gregkh>
+ <dad33d1c-77da-4b97-a0ec-4bf566f8d861@leemhuis.info>
+ <2024041159-undone-deacon-3170@gregkh>
+ <CAMuHMdXMRJM1xQLHDc6yKWvs97W2iTZnYnNNZE=8-WrtnGRNfw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1712812895.git.linux@leemhuis.info> <c0a08b160b286e8c98549eedb37404c6e784cf8a.1712812895.git.linux@leemhuis.info>
- <2024041156-backache-dolly-a420@gregkh> <3f395eca-fc24-469b-b5fc-de47ab2a6861@leemhuis.info>
- <2024041123-earthling-primarily-4656@gregkh> <dad33d1c-77da-4b97-a0ec-4bf566f8d861@leemhuis.info>
- <2024041159-undone-deacon-3170@gregkh>
-In-Reply-To: <2024041159-undone-deacon-3170@gregkh>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 11 Apr 2024 11:19:57 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXMRJM1xQLHDc6yKWvs97W2iTZnYnNNZE=8-WrtnGRNfw@mail.gmail.com>
-Message-ID: <CAMuHMdXMRJM1xQLHDc6yKWvs97W2iTZnYnNNZE=8-WrtnGRNfw@mail.gmail.com>
-Subject: Re: [PATCH v1 2/4] docs: stable-kernel-rules: mention "no
- semi-automatic backport"
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Thorsten Leemhuis <linux@leemhuis.info>, Sasha Levin <sashal@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, stable@vger.kernel.org, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdXMRJM1xQLHDc6yKWvs97W2iTZnYnNNZE=8-WrtnGRNfw@mail.gmail.com>
 
-On Thu, Apr 11, 2024 at 11:13=E2=80=AFAM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
-> On Thu, Apr 11, 2024 at 09:50:24AM +0200, Thorsten Leemhuis wrote:
-> > On 11.04.24 09:40, Greg Kroah-Hartman wrote:
-> > > On Thu, Apr 11, 2024 at 08:59:39AM +0200, Thorsten Leemhuis wrote:
-> > >> On 11.04.24 07:29, Greg Kroah-Hartman wrote:
-> > >>> On Thu, Apr 11, 2024 at 07:25:04AM +0200, Thorsten Leemhuis wrote:
-> > >>>> Some developers deliberately steer clear of 'Fixes:' tags to preve=
-nt
-> > >>>> changes from being backported semi-automatically by the stable tea=
-m.
-> > >>>> That somewhat undermines the reason for the existence of the Fixes=
-: tag,
-> > >>>> hence point out there is an alternative to reach the same effect.
-> > > [...]
-> > >>> I do not understand, why are you saying "cc: stable" here if you do=
- NOT
-> > >>> want it backported?
-> > >> Because the only alternative the developers have to make the stable =
-team
-> > >> not pick a single patch[1] is to deliberately omit a Fixes: tag even=
- if
-> > >> the patch normally should have one. Like it was done here:
-> > >> https://lore.kernel.org/all/cover.1712226175.git.antony.antony@secun=
-et.com/
-> > > That feels odd, but ok I now see the need for this for some minor set=
- of
-> > > changes (i.e. this has rarely come up in the past 15+ years)
+On Thu, Apr 11, 2024 at 11:19:57AM +0200, Geert Uytterhoeven wrote:
+> On Thu, Apr 11, 2024 at 11:13 AM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> > On Thu, Apr 11, 2024 at 09:50:24AM +0200, Thorsten Leemhuis wrote:
+> > > On 11.04.24 09:40, Greg Kroah-Hartman wrote:
+> > > > On Thu, Apr 11, 2024 at 08:59:39AM +0200, Thorsten Leemhuis wrote:
+> > > >> On 11.04.24 07:29, Greg Kroah-Hartman wrote:
+> > > >>> On Thu, Apr 11, 2024 at 07:25:04AM +0200, Thorsten Leemhuis wrote:
+> > > >>>> Some developers deliberately steer clear of 'Fixes:' tags to prevent
+> > > >>>> changes from being backported semi-automatically by the stable team.
+> > > >>>> That somewhat undermines the reason for the existence of the Fixes: tag,
+> > > >>>> hence point out there is an alternative to reach the same effect.
+> > > > [...]
+> > > >>> I do not understand, why are you saying "cc: stable" here if you do NOT
+> > > >>> want it backported?
+> > > >> Because the only alternative the developers have to make the stable team
+> > > >> not pick a single patch[1] is to deliberately omit a Fixes: tag even if
+> > > >> the patch normally should have one. Like it was done here:
+> > > >> https://lore.kernel.org/all/cover.1712226175.git.antony.antony@secunet.com/
+> > > > That feels odd, but ok I now see the need for this for some minor set of
+> > > > changes (i.e. this has rarely come up in the past 15+ years)
+> > > >
+> > > > [...]
+> > > >> E.g. 'ignore for the AUTOSEL and the "Fixes tag only" tools'. That was
+> > > >> the best term I came up with.
+> > > >
+> > > > Thinking about it more, I think we need to be much more explicit, and
+> > > > provide the reason why.
+> > > >
+> > > > How about:
+> > > >     cc: <do-not-apply-to-stable@kernel.org> # Reason goes here, and must be present
+> > > >
+> > > > and we can make that address be routed to /dev/null just like
+> > > > <stable@kernel.org> is?
 > > >
-> > > [...]
-> > >> E.g. 'ignore for the AUTOSEL and the "Fixes tag only" tools'. That w=
-as
-> > >> the best term I came up with.
-> > >
-> > > Thinking about it more, I think we need to be much more explicit, and
-> > > provide the reason why.
-> > >
-> > > How about:
-> > >     cc: <do-not-apply-to-stable@kernel.org> # Reason goes here, and m=
-ust be present
-> > >
-> > > and we can make that address be routed to /dev/null just like
-> > > <stable@kernel.org> is?
+> > > Totally fine with me, but that feels somewhat long and hard to type.
 > >
-> > Totally fine with me, but that feels somewhat long and hard to type.
->
-> I want it long and hard to type and very very explicit that this is what
-> the developer/maintainer wants to have happen (again, because this is
-> such a rare occurrence.)
->
-> > How
-> > about just 'no-stable@kernel.org' (or 'nostable@kernel.org')?
->
-> More words are better :)
+> > I want it long and hard to type and very very explicit that this is what
+> > the developer/maintainer wants to have happen (again, because this is
+> > such a rare occurrence.)
+> >
+> > > How
+> > > about just 'no-stable@kernel.org' (or 'nostable@kernel.org')?
+> >
+> > More words are better :)
+> 
+> And after that, someone discovers this turns out to be (a hard
+> dependency for) a very critical fix that does need backporting?
 
-And after that, someone discovers this turns out to be (a hard
-dependency for) a very critical fix that does need backporting?
+Then we backport it and let the person know like always.
 
-Gr{oetje,eeting}s,
+thanks,
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+greg k-h
