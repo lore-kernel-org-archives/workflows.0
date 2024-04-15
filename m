@@ -1,35 +1,41 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E97D1EB3F;
-	Mon, 15 Apr 2024 05:22:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44BC374C6;
+	Mon, 15 Apr 2024 08:07:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713158554; cv=none; b=Gsyw5dVWungJTG9N76zu7XTac+OMVeMXp416UEUXQHR/cCuHeBnXUwPzY84ZrFeXopETwEk7NJSNOtODOIWMJQBowo+g4nK3DD/pZkJeQ9N/U815/Ibj4ZR4nmKsmV5xpkazKmslWc7xKpuTM8n+NZ7zNUfRVfHi33kmAkWA+wI=
+	t=1713168465; cv=none; b=n0dxWJBeHvHkCAi7h5y+XbRhsqssdx+VQp9txShzRklSXjDUSqa2keMR6rHHL5RRhegl/UlMMiktQY6SHWcZU1NNOn1L92uOoSnvYpYbWtUd5NfYr79+oOPPR+/RLWb/RrQkrP97IFR9vtWzcvMM6scvQxb8h63+EF9eETYdVDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713158554; c=relaxed/simple;
-	bh=PeGrG5LrpGE9sy+795bOMZBxA+0vVQWDOIsJTQsO370=;
+	s=arc-20240116; t=1713168465; c=relaxed/simple;
+	bh=b/gb7TE4JCQGCOWe+8RSOr2CPQxX6Nb3RPFg97uJimQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gINv2SjEBd6b9177OLx4iinh13EDPrdBlokBGjkCDycLvyoWLhtYfbl6E/nb0c6EQE3QT8BA8zNuLXW0yv6dmt3DmkK6fSLsBDwpcArdguzvFUOHJaDhF9B1BD3oKGgXciNMHy7I+W20KhPIVNbJtHLGgL2ZQjxKVebo7ivzty4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Mk1QQI/a; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=rz4i2aoAqmOUiSgbIgKlYvWu5aKHxAVVGVIjsn5ni4rlH1J6AHrunBbAPv0PVw3iHYHb13KZjQZoSjEJwsQ2zDP7el2S/mkEwLI6swwrA2OprwClO7uR/In6amQUeAzqgOCksedY73KNjQMe6MHxc+VLytBowHnjFFkc5hmPRkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DcB72NoZ; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Mk1QQI/a"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 314CBC113CC;
-	Mon, 15 Apr 2024 05:22:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1713158553;
-	bh=PeGrG5LrpGE9sy+795bOMZBxA+0vVQWDOIsJTQsO370=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Mk1QQI/aIZLeB+rprpwjIH3mIm4YAiY8Ze2FqlMtyPs7hy6zcG3KdzixlxEau9cfX
-	 Zehx+g9Uiunqba46VoMx+MrtH497ejIU6En2wy/F6YARU1CXcKOl47Y7tsJwJNjcOh
-	 DSVikfsQiqwd2b6RLIXbP1HJaUzXk7Yduf37BHTY=
-Date: Mon, 15 Apr 2024 07:22:28 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DcB72NoZ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=qTCFXHHPU/sMq7W8ckJhAOhCPBA+AR7EG5Qw7oWKLKI=; b=DcB72NoZjH9qclFl7EXp8QcSKI
+	FR7pRT8ouslVQY7qdOsCD5QrQnTTgdBIdff3muBs5ckw+hQMSpA1Dq6FxePuvRJxkoB0wCY0I8HGt
+	y8KZiWeEca4H5XpyU+fVflTT+qNjTmAWtzcg+LRenVsB/NiDyLECMKoEX4gdKNTK9oJvh5dMmZ0lh
+	a19wFXA5vsn8X6k20aIVPKq2VkDU9jJpiZ9BdS04Umfyf6ApRDB1MvyaPgnQNNpeycxelg+9+/33A
+	ZpYUEq09hSBO/ndGTCO/O9L4Gt4FoX2XIK1LfRzo/pYjbDogVGqIL/YLlzb6Iu5S6l+YS+KBM3NMZ
+	2jkGHutg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rwHNN-00000007TEb-0Ak6;
+	Mon, 15 Apr 2024 08:07:41 +0000
+Date: Mon, 15 Apr 2024 01:07:41 -0700
+From: Christoph Hellwig <hch@infradead.org>
 To: Alex Elder <elder@linaro.org>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
+Cc: corbet@lwn.net, gregkh@linuxfoundation.org, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] Documentation: coding-style: don't encourage WARN*()
-Message-ID: <2024041510-tacky-childlike-fc6d@gregkh>
+Message-ID: <ZhzgTeEHFF19N3UZ@infradead.org>
 References: <20240414170850.148122-1-elder@linaro.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
@@ -40,20 +46,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20240414170850.148122-1-elder@linaro.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Sun, Apr 14, 2024 at 12:08:50PM -0500, Alex Elder wrote:
-> Several times recently Greg KH has admonished that variants of WARN()
-> should not be used, because when the panic_on_warn kernel option is set,
-> their use can lead to a panic. His reasoning was that the majority of
-> Linux instances (including Android and cloud systems) run with this option
-> enabled. And therefore a condition leading to a warning will frequently
-> cause an undesirable panic.
-> 
-> The "coding-style.rst" document says not to worry about this kernel
-> option.  Update it to provide a more nuanced explanation.
-> 
-> Signed-off-by: Alex Elder <elder@linaro.org>
+No, this advice is wronger than wrong.  If you set panic_on_warn you
+get to keep the pieces.  
 
-Thanks for writing this up:
-
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
