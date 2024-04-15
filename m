@@ -1,38 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57289F9C8;
-	Mon, 15 Apr 2024 05:21:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E97D1EB3F;
+	Mon, 15 Apr 2024 05:22:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713158503; cv=none; b=nb8SqY2QLWw16b/qbIXFKfO5W9MreY2uxg4DAmlYTQBYUrUDxSyLV+sZE+8l80+p5F9FEc7ui11lIoBFXfE4BciedNgBtqvktlHaT/qBoG0h1iDFXKAy4KML3rbmWRk78L4QIGbxC4Iyl4HzdutJuygtVTKOv5n7uK/hZvReb2Y=
+	t=1713158554; cv=none; b=Gsyw5dVWungJTG9N76zu7XTac+OMVeMXp416UEUXQHR/cCuHeBnXUwPzY84ZrFeXopETwEk7NJSNOtODOIWMJQBowo+g4nK3DD/pZkJeQ9N/U815/Ibj4ZR4nmKsmV5xpkazKmslWc7xKpuTM8n+NZ7zNUfRVfHi33kmAkWA+wI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713158503; c=relaxed/simple;
-	bh=nlsa6YgRAFchswkyn7KkmzAVbBm3XbY20uZqZXRwrnE=;
+	s=arc-20240116; t=1713158554; c=relaxed/simple;
+	bh=PeGrG5LrpGE9sy+795bOMZBxA+0vVQWDOIsJTQsO370=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=exiapsBbAp0+ZZ3TfAwadstCrKAq8OPNuUR2+3SnbKQujCG4aB4oXX0oGLqjapncYW4rJvUrrwyPUxaUIn10poDHY6LXGlJyLbaks8qyEXF7VeHxbxmLaFPmjFO/lFLjX5uLsLkMR28/jJr0VKPH2G9GtxkOavdGTvbpfZ6o86o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=fzOuenNS; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=gINv2SjEBd6b9177OLx4iinh13EDPrdBlokBGjkCDycLvyoWLhtYfbl6E/nb0c6EQE3QT8BA8zNuLXW0yv6dmt3DmkK6fSLsBDwpcArdguzvFUOHJaDhF9B1BD3oKGgXciNMHy7I+W20KhPIVNbJtHLGgL2ZQjxKVebo7ivzty4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Mk1QQI/a; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fzOuenNS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EF97C113CC;
-	Mon, 15 Apr 2024 05:21:42 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Mk1QQI/a"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 314CBC113CC;
+	Mon, 15 Apr 2024 05:22:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1713158502;
-	bh=nlsa6YgRAFchswkyn7KkmzAVbBm3XbY20uZqZXRwrnE=;
+	s=korg; t=1713158553;
+	bh=PeGrG5LrpGE9sy+795bOMZBxA+0vVQWDOIsJTQsO370=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fzOuenNSgx06ppXJccfIqUwcs1fhWSId1+Mz3jtnG34Ep+W9tUwIcwm91dFZqJYgD
-	 84sKXjWf9fJ3QY9u489oGiR33PkxTyyD4+I+0mfDnV/FNxNG4F/MxhC2hPl7LxtDWU
-	 DIKpgrRKfPy8i4BH7hjtnK4g1SjKZiJBu0UcFn5M=
-Date: Mon, 15 Apr 2024 07:21:37 +0200
+	b=Mk1QQI/aIZLeB+rprpwjIH3mIm4YAiY8Ze2FqlMtyPs7hy6zcG3KdzixlxEau9cfX
+	 Zehx+g9Uiunqba46VoMx+MrtH497ejIU6En2wy/F6YARU1CXcKOl47Y7tsJwJNjcOh
+	 DSVikfsQiqwd2b6RLIXbP1HJaUzXk7Yduf37BHTY=
+Date: Mon, 15 Apr 2024 07:22:28 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Alex Elder <elder@linaro.org>, corbet@lwn.net,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+To: Alex Elder <elder@linaro.org>
+Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] Documentation: coding-style: don't encourage WARN*()
-Message-ID: <2024041503-affidavit-stopwatch-72d7@gregkh>
+Message-ID: <2024041510-tacky-childlike-fc6d@gregkh>
 References: <20240414170850.148122-1-elder@linaro.org>
- <20240414194835.GA12561@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -41,74 +39,21 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240414194835.GA12561@pendragon.ideasonboard.com>
+In-Reply-To: <20240414170850.148122-1-elder@linaro.org>
 
-On Sun, Apr 14, 2024 at 10:48:35PM +0300, Laurent Pinchart wrote:
-> Hi Alex,
+On Sun, Apr 14, 2024 at 12:08:50PM -0500, Alex Elder wrote:
+> Several times recently Greg KH has admonished that variants of WARN()
+> should not be used, because when the panic_on_warn kernel option is set,
+> their use can lead to a panic. His reasoning was that the majority of
+> Linux instances (including Android and cloud systems) run with this option
+> enabled. And therefore a condition leading to a warning will frequently
+> cause an undesirable panic.
 > 
-> Thank you for the patch.
+> The "coding-style.rst" document says not to worry about this kernel
+> option.  Update it to provide a more nuanced explanation.
 > 
-> On Sun, Apr 14, 2024 at 12:08:50PM -0500, Alex Elder wrote:
-> > Several times recently Greg KH has admonished that variants of WARN()
-> > should not be used, because when the panic_on_warn kernel option is set,
-> > their use can lead to a panic. His reasoning was that the majority of
-> > Linux instances (including Android and cloud systems) run with this option
-> > enabled. And therefore a condition leading to a warning will frequently
-> > cause an undesirable panic.
-> > 
-> > The "coding-style.rst" document says not to worry about this kernel
-> > option.  Update it to provide a more nuanced explanation.
-> > 
-> > Signed-off-by: Alex Elder <elder@linaro.org>
-> > ---
-> >  Documentation/process/coding-style.rst | 21 +++++++++++----------
-> >  1 file changed, 11 insertions(+), 10 deletions(-)
-> > 
-> > diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-> > index 9c7cf73473943..bce43b01721cb 100644
-> > --- a/Documentation/process/coding-style.rst
-> > +++ b/Documentation/process/coding-style.rst
-> > @@ -1235,17 +1235,18 @@ example. Again: WARN*() must not be used for a condition that is expected
-> >  to trigger easily, for example, by user space actions. pr_warn_once() is a
-> >  possible alternative, if you need to notify the user of a problem.
-> >  
-> > -Do not worry about panic_on_warn users
-> > -**************************************
-> > +The panic_on_warn kernel option
-> > +********************************
-> >  
-> > -A few more words about panic_on_warn: Remember that ``panic_on_warn`` is an
-> > -available kernel option, and that many users set this option. This is why
-> > -there is a "Do not WARN lightly" writeup, above. However, the existence of
-> > -panic_on_warn users is not a valid reason to avoid the judicious use
-> > -WARN*(). That is because, whoever enables panic_on_warn has explicitly
-> > -asked the kernel to crash if a WARN*() fires, and such users must be
-> > -prepared to deal with the consequences of a system that is somewhat more
-> > -likely to crash.
-> > +Note that ``panic_on_warn`` is an available kernel option. If it is enabled,
-> > +a WARN*() call whose condition holds leads to a kernel panic.  Many users
-> > +(including Android and many cloud providers) set this option, and this is
-> > +why there is a "Do not WARN lightly" writeup, above.
-> > +
-> > +The existence of this option is not a valid reason to avoid the judicious
-> > +use of warnings. There are other options: ``dev_warn*()`` and ``pr_warn*()``
-> > +issue warnings but do **not** cause the kernel to crash. Use these if you
-> > +want to prevent such panics.
-> 
-> Those options are not equivalent, they print a single message, which is
-> much easier to ignore. WARN() is similar to -Werror in some sense, it
-> pushes vendors to fix the warnings. I have used WARN() in the past to
-> indicate usage of long-deprecated APIs that we were getting close to
-> removing for instance. dev_warn() wouldn't have had the same effect.
+> Signed-off-by: Alex Elder <elder@linaro.org>
 
-If you want to reboot a box because someone called an "improper" api,
-then sure, use WARN(), but that feels like a really bad idea.  Just
-remove the api and fix up all in-kernel users instead.  Why wait?
+Thanks for writing this up:
 
-If you want to show a traceback, then just print that out, but I've seen
-that totally ignored as well, removing the api is usually the only way
-to get people to actually notice, as then their builds break.
-
-thanks,
-
-greg k-h
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
