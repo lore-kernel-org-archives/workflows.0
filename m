@@ -1,67 +1,66 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2041.outbound.protection.outlook.com [40.107.220.41])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A8A317D2;
-	Thu, 18 Apr 2024 22:33:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713479633; cv=fail; b=BZmOH5Umc5GjVEIk6+714aTV8L2/CZ8n427l1TitjXYATbrKy9uzt3ivvppGKCW8+ACERBpeemg9+Mhbaf2ip2wd2weg8JtQ8bDj9Ven0SKQ8er3wSsLh2sbiJiwcgHKK/GQA/M4+kZM/iqR9YexB8zP7KNgu2+PohpLed3J4+w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713479633; c=relaxed/simple;
-	bh=YZ4smW1ZSi26v/jXc3HHiWjd9wmZ9X3Kh6R/uYpcdpE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=BIQdZN6eDnT1RxirPmcDIIMgB85XgQC7DZ03ERKTRvDoifoTMJJhhtdap0+BnOmxUoDqwU7J8tCAuUhJQ4BMRdvhepBULJUXVs+MUQvGGlKgha09DdFSPvfhU/jNdeefOUgZFzJokAy3pAv/pHqYZLN1wLXF+zg0xNkZYd2da7Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Dqr0v/gR; arc=fail smtp.client-ip=40.107.220.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB63F3EA68
+	for <workflows@vger.kernel.org>; Fri, 19 Apr 2024 07:16:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713511010; cv=none; b=UAKdz4K6fvRz68xvDr+JHWmg/Yh5OiJ8l0YJzWulEUUNoMYsC1Mhw3IibkBnfTul2DUdqRLM02wdw6WdRq5jVOGUM3b6L62xudjITVS1aH+v4m6d7H1ggTq1ZhkDWQbqJTlIjM2H1vlx5RqLxvwFOfGfDvPCvRKDv6RLFkxF4Og=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713511010; c=relaxed/simple;
+	bh=xerZNlBWOzwvaD0cTeYN+wpQI1ET37j4sqVZ9UBtwfo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nhQMrNCRW4nAVSJw514Wo4q20i9u9fvTtCQZKsvDNIxryANBBqr7NpKXIK8R8Yl35Te3W0v/0M+gu7EQs+3eLyK5A47TcFZHz64n/1zRMsS+H9mueQGKoBrxUPJhPoAsG/WWGr4yLY2QjspjZFkJpRwNTrBrY5QdjZz/Vggvt7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bq7OSu+Y; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Dqr0v/gR"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DE8hmUinfAd2wA/VV55Ug4oGTlLq0A9RwkQF3cnQGX9dajU3vhQ9Ys6Ts6028uQ8ax+coYxPaGzFMLIvWLuJlmQDKeoEYGCrTyO2xzQ5h8xjPiC3MHDi3y2BxQY873EKpasGM80P9nD7YfSur+DCg5Fg0C5vQA7s5Rrta0Y3opWT78cH8nxev76GCf0R4MwFOqJssD5yD/Xi6OCF0AJv+FEmnnK0plVJ7F//ctrLqs8unf3zl0+lIJrPVOCqtqx815bqG42jJTYX1rljseH4gftRRgqQOHnl9assQwVUBn5BZeQpnqvrNNb7dI10tchqwXOIVlzRH13Cy89SUlaXbA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ml2DOiG9QdROq95LnfHa0LdOaopTDiTB119ItD6r5Uc=;
- b=N04VkHvHXGItryvmI3e15YNQ88UCyC5yrq6iFLH1rzjgB9yjGKCQktaHEuxLoy66xJRrMoy+E9943D58rtjIXM893h5yqf3IR+k4gd+Lt2XsHqXWMki/m1dOcEYuOk9mZJnLx2WIzD3wbrOZO1dPohCOjaiA5j+ZKjqMg/x7/nhQZaMY/78DrStrkxJ1QXWf3kRR0G+5O11OY5HkohRhaDaIODxaQw7GbmPAVCxVAQ1VbOv7P80DRNLhxOXLaMb5UnY3iZiNfG0kk3pjfxWF4wn+y2t9X8CGQpDz6BHOIkgwDIFyDrSYVzgsJ3g7ET0txfdzrmSPcl5Llrpp5AKakw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ml2DOiG9QdROq95LnfHa0LdOaopTDiTB119ItD6r5Uc=;
- b=Dqr0v/gR1UhtSwcTRAhX8TP1V0LevfgeUEki8hoBAqZbwBr5vvpO0bANj6BqNT/GWthtnQ7nqzMLFg7i/39tepJxHpxocWsMqktFVk33IDXe5mcmccN9mxSHxTn5gdbsmEc5/kgfvTU7ldgpf5CsdjfEJ3gfCmA3I87Up67TvCi+C2NtZ4CYwVNi4oQtgxbuvdEBSlL1fdpqUrcgRqiChoLlYfsv3b58afhEd1L4c1rbOz1+EqkhURguTakXKd2pjwPdbx3Kr7RhmpbklDSX5uXSBCdY0ZS83iyQCF729ZTP9dJntaw35zNa28z0gCUHyGtgYYxtEDzdr+Iryo+XOw==
-Received: from CYXPR03CA0082.namprd03.prod.outlook.com (2603:10b6:930:d3::10)
- by SA1PR12MB8888.namprd12.prod.outlook.com (2603:10b6:806:38a::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.50; Thu, 18 Apr
- 2024 22:33:46 +0000
-Received: from CY4PEPF0000FCC3.namprd03.prod.outlook.com
- (2603:10b6:930:d3:cafe::b0) by CYXPR03CA0082.outlook.office365.com
- (2603:10b6:930:d3::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7495.28 via Frontend
- Transport; Thu, 18 Apr 2024 22:33:46 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- CY4PEPF0000FCC3.mail.protection.outlook.com (10.167.242.105) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7452.22 via Frontend Transport; Thu, 18 Apr 2024 22:33:46 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 18 Apr
- 2024 15:33:21 -0700
-Received: from [10.110.48.28] (10.126.230.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 18 Apr
- 2024 15:33:21 -0700
-Message-ID: <4149777d-d8ab-43aa-8de2-f240fee2ba2b@nvidia.com>
-Date: Thu, 18 Apr 2024 15:33:19 -0700
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bq7OSu+Y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1713511007;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=cNdMyKJtZkJVADCLrbvfI61n/KWQQTgh0VRSN/5FL9U=;
+	b=bq7OSu+Y9tk3UM7Gb/n0jzjkAuBO3Mg2TOxyoJE2VKnXfmJ6h5UtsvW+eHYdr0xF3uxjAm
+	tfe0wYe++HzL8K6WvWAek1Sk3qUPHzWhutfFC9uL53y788M133oRafKoNOg82balnALZap
+	UN0RCp/GZ4i83sG8asGDOuAsOyb7xiI=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-570-rTlPmGMIMne3p_8WueFJrA-1; Fri, 19 Apr 2024 03:16:45 -0400
+X-MC-Unique: rTlPmGMIMne3p_8WueFJrA-1
+Received: by mail-lj1-f200.google.com with SMTP id 38308e7fff4ca-2d87ba1f5e0so16686331fa.2
+        for <workflows@vger.kernel.org>; Fri, 19 Apr 2024 00:16:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713511004; x=1714115804;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cNdMyKJtZkJVADCLrbvfI61n/KWQQTgh0VRSN/5FL9U=;
+        b=s1h6nnYRxxWZTiJC9YRblqfO+/MogkG2ImI/biubFXsK0u2ngf7G6sKYVvajZwZ62o
+         /r2T+LzclF6Uw9jpk0knO9ZtDkzxTooYeJynBmD1l8FYwz9Z7+NMgJCZcWZH+USh3FiO
+         Kf8JcG9YAvfP8+Wz9CpMyUhQnpxSS+t77OMMeDY1K33CttdmGNxwAu6nUN5HcpzWGeRy
+         7fmLXNCIMSrzwVYEipbb0gc9zFVqC4YCICfgIS0FPAYZPIbxgH/shxyY8zEk6TFBB5x1
+         B1a17UaaszgMJsjrXSIWgFzQBKh7yUivS1Z8fKM+C/FtJaAIN4SM6mpwQqQmGXTzp1y8
+         7Cfw==
+X-Forwarded-Encrypted: i=1; AJvYcCWq+ijhX9TTWUqoK4xJqgBlsNxuuugARzkJrPkg7y4qoS0oSxyHUUuaYcKPLf7r2ctmsWNroCsAzzZ3szV2KgOI90id62plGGcB
+X-Gm-Message-State: AOJu0YwiO6wBkYAbCSsJnq5IgPvrh1+/XrVPcww8cYY2Hz+FaeHnYmO9
+	ebmVZz4+SKulxasVZ1urohpB34N7b2/v9+rOvA5A3t9FrI35hTwkkv1IObc67wHx5o+MUecNvur
+	jBAKpNubZUm+Le9B07+YIjvTT5M4kF8ibV8EIGOY+HyCAPUYhYcJMCUO+vA==
+X-Received: by 2002:a05:651c:1031:b0:2d8:6104:f95a with SMTP id w17-20020a05651c103100b002d86104f95amr677611ljm.23.1713511004039;
+        Fri, 19 Apr 2024 00:16:44 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEzp6BC6iIIJU1Fu2PqXxEWL3FYmVn1VEc13lIuo690UE73CWmvjK75ugnF+s1hz50brkAD5g==
+X-Received: by 2002:a05:651c:1031:b0:2d8:6104:f95a with SMTP id w17-20020a05651c103100b002d86104f95amr677586ljm.23.1713511003506;
+        Fri, 19 Apr 2024 00:16:43 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c716:f300:c9f0:f643:6aa2:16? (p200300cbc716f300c9f0f6436aa20016.dip0.t-ipconnect.de. [2003:cb:c716:f300:c9f0:f643:6aa2:16])
+        by smtp.gmail.com with ESMTPSA id y18-20020a056000109200b00343300a4eb8sm2732998wrw.49.2024.04.19.00.16.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 19 Apr 2024 00:16:43 -0700 (PDT)
+Message-ID: <10af93f8-83f2-48ce-9bc3-80fe4c60082c@redhat.com>
+Date: Fri, 19 Apr 2024 09:16:41 +0200
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -70,107 +69,137 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] Documentation: coding-style: don't encourage WARN*()
-To: Eric Biggers <ebiggers@kernel.org>, Alex Elder <elder@linaro.org>
-CC: <corbet@lwn.net>, <gregkh@linuxfoundation.org>,
-	<workflows@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
+To: Alex Elder <elder@linaro.org>, corbet@lwn.net
+Cc: gregkh@linuxfoundation.org, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20240414170850.148122-1-elder@linaro.org>
- <20240418161430.GB2410@sol.localdomain>
 Content-Language: en-US
-From: John Hubbard <jhubbard@nvidia.com>
-In-Reply-To: <20240418161430.GB2410@sol.localdomain>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <20240414170850.148122-1-elder@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000FCC3:EE_|SA1PR12MB8888:EE_
-X-MS-Office365-Filtering-Correlation-Id: b325d0fe-5246-45a3-4e41-08dc5ff79c29
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	H+HI3/dH9cnKM5HjEL9WdBoXePNLLRPmCVa5fSzVCDtElnrg1wYuoWUGowTw9v2vsc76/NbidEeRDtE7UnVyURP+jPJby45e7LSgm4LLWjFFuFt9coKSk+UdcGpvOegIlk+sZO/weox087ZvcCssVfc4VHpZqusNTwu/45FabtVt29n7uasdCO5RbFDSHWMPnvWwwdHU4Wdr9pUeU4jJjq/qXovA/f0qWrep3hS+tnZX6wXOByUaZNNajaBbuUL4UcSPaVQaZLSfdOtCmS21bCbokbjvLqJCB8IMZE6l5o8EBuvbj1MMr2+jjzxqPsdHuyWKu+/8M9v22S9pdXFyBqvy/RPgL36qmlYV/BmMMkkYawSaIlQ4JPu4kPc7vd3QDjZRxJeLXkV5zFmEVMxtn88AUzKZs7FwvhY/HNjKgPa0FbaUhP4TU78Ng4itMfFIMmJh09rPdH4zmYKodo2/LZKP5EkPW54m3Qhll5ZuZcelVRXCBSxAhDC+OtpMGnisoAcJMEragoPlVfs+yKzsOOrzrrSP+yF8Ptg0hhVph5GdapQe2OBd02DB2xVUxJD8CP5rZQg/Ju1EfxKsYlS7mCQxqSJJQRC3/O2OcwcwsLtj0SjqeTmEQ9RDSM92nvIM5AqcRSIEV8+f/SnFUUqviSujI/mIigfeEiqdR36kqRjMBkk/U6Dwwa/ot69zw0oXd1mZYVuKe20IOppzS5TwWjCj/rVWL3tYnRPquSjz/9848lltodLdnFjMnaNkVSNj
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230031)(1800799015)(376005)(82310400014)(36860700004);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Apr 2024 22:33:46.0187
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b325d0fe-5246-45a3-4e41-08dc5ff79c29
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000FCC3.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8888
 
-On 4/18/24 9:14 AM, Eric Biggers wrote:
-> On Sun, Apr 14, 2024 at 12:08:50PM -0500, Alex Elder wrote:
->> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
->> index 9c7cf73473943..bce43b01721cb 100644
->> --- a/Documentation/process/coding-style.rst
->> +++ b/Documentation/process/coding-style.rst
->> @@ -1235,17 +1235,18 @@ example. Again: WARN*() must not be used for a condition that is expected
->>   to trigger easily, for example, by user space actions. pr_warn_once() is a
->>   possible alternative, if you need to notify the user of a problem.
->>   
->> -Do not worry about panic_on_warn users
-
-This is still[1] good advice. panic_on_warn users have made a
-trade-off that works for them, but that should not mean that
-all of the valid cases for WARN*() suddenly disappear. In fact,
-without the WARN*() calls, panic_on_warn is a no-op, as someone
-else has already pointed out.
-
-
->> -**************************************
->> +The panic_on_warn kernel option
->> +********************************
->>   
->> -A few more words about panic_on_warn: Remember that ``panic_on_warn`` is an
->> -available kernel option, and that many users set this option. This is why
->> -there is a "Do not WARN lightly" writeup, above. However, the existence of
->> -panic_on_warn users is not a valid reason to avoid the judicious use
->> -WARN*(). That is because, whoever enables panic_on_warn has explicitly
->> -asked the kernel to crash if a WARN*() fires, and such users must be
->> -prepared to deal with the consequences of a system that is somewhat more
->> -likely to crash.
->> +Note that ``panic_on_warn`` is an available kernel option. If it is enabled,
->> +a WARN*() call whose condition holds leads to a kernel panic.  Many users
->> +(including Android and many cloud providers) set this option, and this is
->> +why there is a "Do not WARN lightly" writeup, above.
->> +
->> +The existence of this option is not a valid reason to avoid the judicious
->> +use of warnings. There are other options: ``dev_warn*()`` and ``pr_warn*()``
->> +issue warnings but do **not** cause the kernel to crash. Use these if you
->> +want to prevent such panics.
->>   
+On 14.04.24 19:08, Alex Elder wrote:
+> Several times recently Greg KH has admonished that variants of WARN()
+> should not be used, because when the panic_on_warn kernel option is set,
+> their use can lead to a panic. His reasoning was that the majority of
+> Linux instances (including Android and cloud systems) run with this option
+> enabled. And therefore a condition leading to a warning will frequently
+> cause an undesirable panic.
 > 
-> Nacked-by: Eric Biggers <ebiggers@google.com>
-
-Yes. I agree with this NAK.
-
+> The "coding-style.rst" document says not to worry about this kernel
+> option.  Update it to provide a more nuanced explanation.
 > 
-> WARN*() are for recoverable assertions, i.e. situations where the condition
-> being true can only happen due to a kernel bug but where they can be recovered
-> from (unlike BUG*() which are for unrecoverable situations).  The people who use
-> panic_on_warn *want* the kernel to crash when such a situation happens so that
-> the underlying issue can be discovered and fixed.  That's the whole point.
+> Signed-off-by: Alex Elder <elder@linaro.org>
+> ---
+>   Documentation/process/coding-style.rst | 21 +++++++++++----------
+>   1 file changed, 11 insertions(+), 10 deletions(-)
 > 
-> Also, it's not true that "Android" sets this option.  It might be the case that
-> some individual Android OEMs have decided to use it for some reason (they do
-> have the ability to customize their kernel command line, after all).  It's
-> certainly not used by default or even recommended.
-> 
-> - Eric
-> 
+> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+> index 9c7cf73473943..bce43b01721cb 100644
+> --- a/Documentation/process/coding-style.rst
+> +++ b/Documentation/process/coding-style.rst
+> @@ -1235,17 +1235,18 @@ example. Again: WARN*() must not be used for a condition that is expected
+>   to trigger easily, for example, by user space actions. pr_warn_once() is a
+>   possible alternative, if you need to notify the user of a problem.
+>   
+> -Do not worry about panic_on_warn users
+> -**************************************
+> +The panic_on_warn kernel option
+> +********************************
+>   
+> -A few more words about panic_on_warn: Remember that ``panic_on_warn`` is an
+> -available kernel option, and that many users set this option. This is why
+> -there is a "Do not WARN lightly" writeup, above. However, the existence of
+> -panic_on_warn users is not a valid reason to avoid the judicious use
+> -WARN*(). That is because, whoever enables panic_on_warn has explicitly
+> -asked the kernel to crash if a WARN*() fires, and such users must be
+> -prepared to deal with the consequences of a system that is somewhat more
+> -likely to crash.
+> +Note that ``panic_on_warn`` is an available kernel option. If it is enabled,
+> +a WARN*() call whose condition holds leads to a kernel panic.  Many users
+> +(including Android and many cloud providers) set this option, and this is
+> +why there is a "Do not WARN lightly" writeup, above.
+> +
+> +The existence of this option is not a valid reason to avoid the judicious
+> +use of warnings. There are other options: ``dev_warn*()`` and ``pr_warn*()``
+> +issue warnings but do **not** cause the kernel to crash. Use these if you
+> +want to prevent such panics.
+>   
+>   Use BUILD_BUG_ON() for compile-time assertions
+>   **********************************************
 
-[1] https://lore.kernel.org/lkml/0db131cf-013e-6f0e-c90b-5c1e840d869c@nvidia.com/T/#md6836102150ac1e6265569aad55a692e3af75f34
+Did you even read the history about that? Likely not, otherwise I wouldn't
+have to learn about this patch on lwn.net.
 
-thanks,
+I suggest reading:
+
+commit 1cfd9d7e43d5a1cf739d1420b10b1e65feb02f88
+Author: David Hildenbrand <david@redhat.com>
+Date:   Fri Sep 23 13:34:24 2022 +0200
+
+     coding-style.rst: document BUG() and WARN() rules ("do not crash the kernel")
+
+
+which includes links to relevant discussions between me and Linus. Most
+relevant to the discussion is [1].
+
+All that's written in the document right now (use WARN_ON_ONCE() *lightly*) is precisely
+what I still think we should do. That's the case *1.5 years* after I documented that.
+
+Clear NACK from my side: "If you set 'panic_on_warn' you get to keep both
+pieces when something breaks." [1]
+
+[1] https://lore.kernel.org/all/CAHk-=wgF7K2gSSpy=m_=K3Nov4zaceUX9puQf1TjkTJLA2XC_g@mail.gmail.com/
+
+
 -- 
-John Hubbard
-NVIDIA
+Cheers,
+
+David / dhildenb
 
