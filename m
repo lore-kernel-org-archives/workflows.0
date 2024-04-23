@@ -1,63 +1,40 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6F925FDA6;
-	Tue, 23 Apr 2024 15:28:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3AF113CA89;
+	Tue, 23 Apr 2024 16:07:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713886130; cv=none; b=HPtZMzJ97KEGhnw/WI5mN+c2zPMndlAM1EfV9uhphMsyZ5D7RgaRGgpdUKKlWKR84V9yGLfisSbP9pEY82qLZwjPz4fTUf9iL85h+iVtD2G+mL76M8vBERzQ4NTzP1uzrh/cbddGA4c6fVQNj7EDhGy84yQUafpWyDYekTBBT7w=
+	t=1713888440; cv=none; b=Oe/XumGzoIPwsPRiyRWCfHfJu6Yh/W77aE+8Vor96WBzqXzOb6J2O/V6B2XrmujaSjVyinLB6HKdEzu+FG8vy7s9xplBmNsJmP3V52RCz7lghAXIhA15KogiBhoEaIOA1d+ns5H3zJwrjxkETNsGYImPmXCOZeFaBFVUVRdDZUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713886130; c=relaxed/simple;
-	bh=b2hdcRjk2UI+cmL/UIloH6qLoxe82MU3yxaag3Tg+HY=;
+	s=arc-20240116; t=1713888440; c=relaxed/simple;
+	bh=8iQx8KlYOrmnV0TdoWdZZ7Rb29HLI1k+ibkPNJAowQ0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LusU325tBNfMttZs6j/NwsaZacd6OU1JR2u9GL4SZ+jS4MCgvwFVpuhcWeAzjmmQwYEpmkguoEdN+m/JPUO78pf9/pP7RkhYV2B7sf7P7UiZQU2K5MxfMsZfHpb1A3YqJL5aKIAECtgLK8u6gt1QQN2CmH24eOYj6m1imXvUCwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=acvuE8pF; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=HyCUkBocw2WUsVJcaA6mYxSZgCpG18dEGu97Ytr8Hbw2/YmoIp1rVOrr7zizBH70p0Il506fT0atCkCshQh1/4MtB61yAqMUVYlk4ptfwSySjwdY+2EpWh9q75HoTPlaECGXJCM9Gv1BK14ilUx9W5EJUc2sGaHmetXfrV8kDVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=dvPB2hPk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="acvuE8pF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713886129; x=1745422129;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=b2hdcRjk2UI+cmL/UIloH6qLoxe82MU3yxaag3Tg+HY=;
-  b=acvuE8pF1Y3VuZxF7LV1RPDqs5bgPZwiEsfdI3qZ0b+eZu5JTobbD9sk
-   Czssqvn3MVE0ePeXcF4ZGqQ+qYkVdv5+sVAWAXsxAd8GyU/rgARnxI1BA
-   /tuZYVhPiQ+3llJ8HqTIGAiWtQ2eKN0qgeGtcRjCtZThpOeRWhoJ59IAp
-   BdQ/pM9gu70Cjg9GEX+u87/UIyZQZjQsgdqQyQYiBEszYnY1XG5c41qrm
-   R38kEwu+SYuHOr2G9i6ElqK/TbGhkn3y0brAmGF20Hnfq6+z1v7YkUKYC
-   6BH4lLn77aOSk/IL4NsNX2ZhZrtRAN7xrtiRrKL7tnfO2XFmSRpdwRz6Y
-   w==;
-X-CSE-ConnectionGUID: VC6Jxaj6SOuelSnD74Q1TQ==
-X-CSE-MsgGUID: mHFXQYZfTR+Y2lzXGaoxFg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="9647458"
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="9647458"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 08:28:48 -0700
-X-CSE-ConnectionGUID: jzqYOQiTTBOQ6VsOqB1vUA==
-X-CSE-MsgGUID: nub6UW4gRCax6pfcX5DoXA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="47684757"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 08:28:47 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1rzI4a-00000000NO2-3Fd7;
-	Tue, 23 Apr 2024 18:28:44 +0300
-Date: Tue, 23 Apr 2024 18:28:44 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Greg KH <gregkh@linuxfoundation.org>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="dvPB2hPk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 601B0C116B1;
+	Tue, 23 Apr 2024 16:07:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1713888439;
+	bh=8iQx8KlYOrmnV0TdoWdZZ7Rb29HLI1k+ibkPNJAowQ0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dvPB2hPkh/CwerF2ivKtVNxZeNZ/bJ8VPVyp7VIrFyY529DnH2JTzjR2SdtQAWl+b
+	 fKfBhnMCB+mLtxbCkZJqqhxYYIR261/Sdbsic6DrUmHwCBauU4lPmlv94YqzMK6+mw
+	 taITJ4k/p2WCEMQ6e/zmlulGekRjRkoWDwgcIzp0=
+Date: Tue, 23 Apr 2024 09:07:09 -0700
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
 Subject: Re: [PATCH v1 2/2] Documentation: process: Recommend to put Cc: tags
  after cutter '---' line
-Message-ID: <ZifTrD-jY1LZIyfs@smile.fi.intel.com>
+Message-ID: <2024042317-wolf-condition-dd5f@gregkh>
 References: <20240423132024.2368662-1-andriy.shevchenko@linux.intel.com>
  <20240423132024.2368662-3-andriy.shevchenko@linux.intel.com>
  <2024042347-ellipse-overeater-9aff@gregkh>
+ <ZifTrD-jY1LZIyfs@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -66,54 +43,47 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2024042347-ellipse-overeater-9aff@gregkh>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <ZifTrD-jY1LZIyfs@smile.fi.intel.com>
 
-On Tue, Apr 23, 2024 at 08:13:37AM -0700, Greg KH wrote:
-> On Tue, Apr 23, 2024 at 04:19:38PM +0300, Andy Shevchenko wrote:
-> > The recommendation is based on the following rationale:
+On Tue, Apr 23, 2024 at 06:28:44PM +0300, Andy Shevchenko wrote:
+> On Tue, Apr 23, 2024 at 08:13:37AM -0700, Greg KH wrote:
+> > On Tue, Apr 23, 2024 at 04:19:38PM +0300, Andy Shevchenko wrote:
+> > > The recommendation is based on the following rationale:
+> > > 
+> > > - it makes the commit messages much cleaner and easy to read, especially
+> > >   on the screens of the mobile devices;
 > > 
-> > - it makes the commit messages much cleaner and easy to read, especially
-> >   on the screens of the mobile devices;
+> > Reading commits on a mobile device is not what kernel development is
+> > optimized for, sorry.
 > 
-> Reading commits on a mobile device is not what kernel development is
-> optimized for, sorry.
-
-The commit messages not always for the kernel development, some people may read
-them in order to understand code better or many other reasons. I.o.w. it's not
-the point.
-
-> > - it reduces resources (memory, time, energy) to retrieve all these
-> >   headers, which are barely needed by a mere user, as for automation
-> >   they will be still available via mail archives, such as
-> >   https://lore.kernel.org, assuming the Link: or Message-ID tag is
-> >   provided.
-> > 
-> > Let's be environment friendly and save the planet!
-> > 
-> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > ---
-> >  Documentation/process/5.Posting.rst          | 4 ++++
-> >  Documentation/process/submitting-patches.rst | 5 +++++
-> >  2 files changed, 9 insertions(+)
+> The commit messages not always for the kernel development, some people may read
+> them in order to understand code better or many other reasons. I.o.w. it's not
+> the point.
 > 
-> This breaks my existing workflow, sorry.  I can't track cc: below the
-> --- line because obviously, git cuts that off.  So I put them above
-> where git send-email can see them,
+> > > - it reduces resources (memory, time, energy) to retrieve all these
+> > >   headers, which are barely needed by a mere user, as for automation
+> > >   they will be still available via mail archives, such as
+> > >   https://lore.kernel.org, assuming the Link: or Message-ID tag is
+> > >   provided.
+> > > 
+> > > Let's be environment friendly and save the planet!
+> > > 
+> > > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > > ---
+> > >  Documentation/process/5.Posting.rst          | 4 ++++
+> > >  Documentation/process/submitting-patches.rst | 5 +++++
+> > >  2 files changed, 9 insertions(+)
+> > 
+> > This breaks my existing workflow, sorry.  I can't track cc: below the
+> > --- line because obviously, git cuts that off.  So I put them above
+> > where git send-email can see them,
+> 
+> git send-email _sees_ them very well there.
 
-git send-email _sees_ them very well there.
+Sorry, yes, but git itself can't track them in the commit when I
+rebase/squash/redo/etc.  That's the point I was trying to make before my
+coffee kicked in...
 
-> AND where git can handle them when I
-> rebase/revise/etc.
+thanks,
 
-> Also, as Jon points out, the "environmental" argument seems very odd,
-> it's not like bits cost more to send around (they keep getting cheaper
-> in power and money), and processing power is pretty constant for servers
-> handling email, so I don't understand the power consumption argument.
-> Without some sort of data to back that up, I'd be loath to repeat it.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+greg k-h
