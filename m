@@ -1,129 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4018413BC29;
-	Tue, 23 Apr 2024 16:12:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44CD01C2A1;
+	Tue, 23 Apr 2024 16:37:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713888781; cv=none; b=T0zYpUXm5CFNdzOoPCEhO4YGADNIg1sB2ZiiFfdB79rEt6F4ItkENkEc0yQdmBMYLnjToJPE/VCl7RuRJGJpb66qudVwXudkqXUCsIlVRLjrTEn/6l785dRSa0JfHYZJrouv36nVCo76TCql42aGdozx2Fsm2ddwtcB88xMMChs=
+	t=1713890261; cv=none; b=n7O6WkfEqZwbc5N5Nmnto1WEq4QBAi/SStKvYpaDf+q4exSSkB0hRW8bcKKB9LLOlK6R2S/ymfit2a+SY46OCqA0yQFtaBo9X20d/eyIp06LQCUVDco477Ye/eP7e5nbQuoevHjVuYjZh/LRTJElTacSDW5h3K2IoENA3EOQctQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713888781; c=relaxed/simple;
-	bh=JMZZ3gcVPa767Qfvto7OizS7Ykmh/j3FMPZAU0c0ugo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rvqm9LMdtulr/9v2KZgcWxJBe9NPyMwUcUoJyIPqGHlXxAVxW/O9u+ennew0EvGrAZsBnRpr2nRjiYgnyApIzP60UwOEVLBC6udjHRZmz86xUWLmTJLCCYQmgV/vAIZVza3MJWTz40fI44DeuP6M86QeMI34O0mAwBs8ZzezN2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TJQYKDW7; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1713890261; c=relaxed/simple;
+	bh=jcoffr9WY3/d3x6oetEKDOZKC0RQWO53Pa9fb8E9jd0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=WV6Us4NWR1RypUJRKe9uKq1wyJFaQkKBKkNH+6RfVd4a/j/P3fWdnJ+Qpro2hoMxbzXbpYylpzHpDZNc26afpZcXQlJ57C2AL4C0im9tUWgGsrbl2OYOEDrX14JdoOUZwOI4MSDFnIJFKGKwZe7M/tWBU8yuTapEjUsC/NT1/oI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M0mj0Msd; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TJQYKDW7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M0mj0Msd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713888781; x=1745424781;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JMZZ3gcVPa767Qfvto7OizS7Ykmh/j3FMPZAU0c0ugo=;
-  b=TJQYKDW7hRUH+grS771+QijZFsDN2haWlqQCVdWfbX3AKLX3qQbs/4zv
-   LHbcdqIZGz2nnqSiYRiq4VhtW5r4K9c1MfQfjzFWQtzD0MSm+duBRDBf2
-   dinVDKSfyKK/D/V4N0QX8WO8aSFAkIFSeKjs41Dl2jXOaHm9Jxy0viGWc
-   o22UXUy+Ghnbt/axfSzxtjJLIozAp6ptANIdVD9I4Iucc1HVogU4j3pGL
-   DUSxebi9n3tk5kRtsGVba8Gtv4XK53CGaFOkrb3XW8bm0jJmlrhHwdN6L
-   38ktzotJZoA6d5SZarr60PX4LLpskocMxAMJIaCdNxCAfYE0zbLdz1cSc
-   w==;
-X-CSE-ConnectionGUID: p8/idohpR/yurdHn4MRnMw==
-X-CSE-MsgGUID: x4cSMRywScGQQTGMuKhd2A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="26941405"
+  t=1713890260; x=1745426260;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=jcoffr9WY3/d3x6oetEKDOZKC0RQWO53Pa9fb8E9jd0=;
+  b=M0mj0Msd215TpGcm3MniVsag8ltI3EDE/lxUIG0ufCUED6wUo3qEwI+i
+   ipdox0stTzHmzYA3HIZ/zHrmbUFpmrk+3kmn7nJecZfE5bSMp1sc0iciY
+   srMu3caYRWuk09sRrONezRXQUnEU4IRx26lMG0lMG11Xngz9ejb1YINPa
+   yVExJOMb37G1vhEZBOobSuwcQdOIV36D9CtweFg5iGsi+tlYvKiqJGHuq
+   bydbxao2qAivj5AQeYphe6fiIjJRbX/DxRdeQTGG7zXPONDucnDBw+PjP
+   hn1xQ2nxBZYUP4crc553EYU3zDoX4viFYh0zQNX+MOhLo4xxLv4xcqHmI
+   g==;
+X-CSE-ConnectionGUID: UlDGN24ySOieZLlPAfw3LQ==
+X-CSE-MsgGUID: x6A/NDiMTIGDzIx3KgHbiA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="20181915"
 X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="26941405"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 09:13:00 -0700
-X-CSE-ConnectionGUID: xqtEIRwNTm+zTkhisprLFw==
-X-CSE-MsgGUID: o7ULhN2uT76//FgyuiluyQ==
+   d="scan'208";a="20181915"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 09:37:39 -0700
+X-CSE-ConnectionGUID: IAXcuwD7TyiCFXANqaXGIw==
+X-CSE-MsgGUID: G5sy/S12TEGA8sgl2siN3Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="24934354"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 09:12:58 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1rzIlL-00000000O7B-3IDM;
-	Tue, 23 Apr 2024 19:12:55 +0300
-Date: Tue, 23 Apr 2024 19:12:55 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Greg KH <gregkh@linuxfoundation.org>
+   d="scan'208";a="28881762"
+Received: from fpirou-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.46.117])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 09:37:37 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v1 2/2] Documentation: process: Recommend to put Cc: tags
- after cutter '---' line
-Message-ID: <ZifeB_7DLa10BU__@smile.fi.intel.com>
+ linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v1 2/2] Documentation: process: Recommend to put Cc:
+ tags after cutter '---' line
+In-Reply-To: <ZifHnw1cxgP77MKx@smile.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20240423132024.2368662-1-andriy.shevchenko@linux.intel.com>
  <20240423132024.2368662-3-andriy.shevchenko@linux.intel.com>
- <2024042347-ellipse-overeater-9aff@gregkh>
- <ZifTrD-jY1LZIyfs@smile.fi.intel.com>
- <2024042317-wolf-condition-dd5f@gregkh>
+ <871q6wrw12.fsf@intel.com> <ZifHnw1cxgP77MKx@smile.fi.intel.com>
+Date: Tue, 23 Apr 2024 19:37:34 +0300
+Message-ID: <87ttjsqbld.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2024042317-wolf-condition-dd5f@gregkh>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain
 
-On Tue, Apr 23, 2024 at 09:07:09AM -0700, Greg KH wrote:
-> On Tue, Apr 23, 2024 at 06:28:44PM +0300, Andy Shevchenko wrote:
-> > On Tue, Apr 23, 2024 at 08:13:37AM -0700, Greg KH wrote:
-> > > On Tue, Apr 23, 2024 at 04:19:38PM +0300, Andy Shevchenko wrote:
-> > > > The recommendation is based on the following rationale:
-> > > > 
-> > > > - it makes the commit messages much cleaner and easy to read, especially
-> > > >   on the screens of the mobile devices;
-> > > 
-> > > Reading commits on a mobile device is not what kernel development is
-> > > optimized for, sorry.
-> > 
-> > The commit messages not always for the kernel development, some people may read
-> > them in order to understand code better or many other reasons. I.o.w. it's not
-> > the point.
-> > 
-> > > > - it reduces resources (memory, time, energy) to retrieve all these
-> > > >   headers, which are barely needed by a mere user, as for automation
-> > > >   they will be still available via mail archives, such as
-> > > >   https://lore.kernel.org, assuming the Link: or Message-ID tag is
-> > > >   provided.
-> > > > 
-> > > > Let's be environment friendly and save the planet!
-> > > > 
-> > > > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > > > ---
-> > > >  Documentation/process/5.Posting.rst          | 4 ++++
-> > > >  Documentation/process/submitting-patches.rst | 5 +++++
-> > > >  2 files changed, 9 insertions(+)
-> > > 
-> > > This breaks my existing workflow, sorry.  I can't track cc: below the
-> > > --- line because obviously, git cuts that off.  So I put them above
-> > > where git send-email can see them,
-> > 
-> > git send-email _sees_ them very well there.
-> 
-> Sorry, yes, but git itself can't track them in the commit when I
-> rebase/squash/redo/etc.  That's the point I was trying to make before my
-> coffee kicked in...
+On Tue, 23 Apr 2024, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> On Tue, Apr 23, 2024 at 05:30:49PM +0300, Jani Nikula wrote:
+>> The Cc's on the mailing list archive are harder to dig up, and do not
+>> accurately reflect the same information.
+>
+> How comes? These Cc: are 1:1 mapped to the Cc: email headers.
 
-It can in your _local_ repo if you have it as
+Patch Cc's get mapped to email Cc's depending on personal git sendemail
+configuration.
 
-  Signed-off-by:
-  ---
-  Cc:
-  Cc:
+People can add more Cc's in the emails when sending.
 
-in the commit message. It won't go to the final commit message if you sending
-it out and apply via `git am`, or reapply with the latter locally instead of
-cherry-picking.
+Mailing list Cc's actually present in the archives depend on mailing
+list manager configuration, and, in some cases, even the personal list
+preferences of individual subscribers.
+
+
+BR,
+Jani.
+
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Jani Nikula, Intel
