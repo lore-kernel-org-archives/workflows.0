@@ -1,85 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 295964C79;
-	Wed, 24 Apr 2024 01:10:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01F415EFA1;
+	Wed, 24 Apr 2024 14:53:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713921006; cv=none; b=PrI7JMK0RhabDF3KmdEFmxihY6ODcvLcVrdFsTCknpelN4fa+j1CMzOTtlLHd1776EpNkYR9AaFhzOHiq7TgrUex1SONsAw6h3oM1qSJDq6+5TQTqO82XhftGzIvQeIRGx+1jVvL8tiZBEj57cQnrLfgKaAcYjRJZbTYNqc74os=
+	t=1713970407; cv=none; b=lz+Uuqi9cWcU8UWc9ZEpso/CYmJmdj+sqOL9Wr7tX9le/j4dN2MmZaGVV9CZVA6zGNVy8KvB4jyYeNiqn3hpuoGzTFhSxmU++LCeGoay3kD2BWBdwFUdYLjo+0hxacSuHb9+9x8PDoOmImXXodIrakZZlHzkXdCMiFGNZ2jxgro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713921006; c=relaxed/simple;
-	bh=AWv2VsZOJ7kzWIisS22KXSQm6oWtn2t9d7lEq4N4gdI=;
+	s=arc-20240116; t=1713970407; c=relaxed/simple;
+	bh=RqfV+hja3oQylqzeWMZG5N4j93kHJlAuYk8CLvh4giQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gGh75kCt7oR3VJ5S6j1eeziUdU/jaamhVs0LpMlKRsQjEMQ7N/n2xRrXv4y8QtqQJ8cTQluEvB2BVf/FzC88EtMNPSI3+P19Pn5Q4TvDRqe/EyJRZXfR94SmP5caOE8UBP+IXzE+tM16HaxnC1TausVF9UVRFJfkrgIfDDPxFIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dVSFrqY0; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=tszk2kG/wGbjzsguMaksGGz9Km/v/jajDe+1rpd/rjLU1xjNk8eruTGY7+8dIA1xlr9qWCdKmgQ8YsiQovKW0pjq2/1stC/NKW9Ngf/5etmfQdEkeNz5i2uq39QhOit3K/xGPkkPB9hhniz9u27/xjJoh9CW7okWFwohXD0dphg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G+8Vet2i; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dVSFrqY0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FD40C116B1;
-	Wed, 24 Apr 2024 01:10:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713921005;
-	bh=AWv2VsZOJ7kzWIisS22KXSQm6oWtn2t9d7lEq4N4gdI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dVSFrqY0ZaR2yPQtuVIAGuOC+tb64efoP80Lju9G3QsUqgmThczfbGXCXw2MKYldO
-	 BocodyAZfzXEe+Js5Rn3ZTPc9Si24wJXu2sIVDMlc9pf/SvMyEyT/cH1zxa22/8tmw
-	 8rHWpPFX9/M8/6TxvpIMywWK6pblfvjBRVGzrVU72lPJsKDDbY4y7aru1TcZap0dU5
-	 rcgoItHWdKMLc1VTsbzBh1HQTriKV84MINLhTuiBsEFcZnh65i4iAQYM8RuzZJU5ZI
-	 b4zbxAG3vnzjeSA+EYsJ/Wnz+7Jwe/XWACa6CwMKD8gzPDicIOo0AN2OEMP+yyYxI2
-	 jCnUtKYyenbsg==
-Date: Wed, 24 Apr 2024 10:10:02 +0900
-From: Mark Brown <broonie@kernel.org>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v1 2/2] Documentation: process: Recommend to put Cc: tags
- after cutter '---' line
-Message-ID: <Zihb6tSWTF_an5gY@finisterre.sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G+8Vet2i"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713970406; x=1745506406;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RqfV+hja3oQylqzeWMZG5N4j93kHJlAuYk8CLvh4giQ=;
+  b=G+8Vet2ismbiLI44DRMeFLJ8jUSnUrzxvbLQXJtEiih1JT+iCupXnfJM
+   61mj0dGU/uKToD2/Y0yy4GZFiU/+LNXW807/EUJCxc6WMlbm4rPIRiDgG
+   GZCnNVzKaR8FkC9bQRySSbC2hVnCb8GkGXezk5ucNcvWkw2wp2VIVk0np
+   BJ9t3bSuSbzJ2NcNFaDPWiNm1WZ6WnMslc0exrwJnhCyMOcu96b0QFbsW
+   qWROmusPyqVz0HDd7QXTK6AE8zb0N1Na9pehVVqjIkG5R2rRtDz5Z5iL+
+   RgTE7XxEQwjEwE4wOhBUSjqRKkdxD2xxdHD6QuSLajcmqpmWedF997f8C
+   w==;
+X-CSE-ConnectionGUID: jYbM7rmSS6yoD7WQHEOwRg==
+X-CSE-MsgGUID: mvBx9tbVRfSksat+1Djc3A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="9727118"
+X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
+   d="scan'208";a="9727118"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 07:53:26 -0700
+X-CSE-ConnectionGUID: 09S+vG3jRaOAUzAmHorGng==
+X-CSE-MsgGUID: VlkXdLBeS6+qX3IrssO96g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
+   d="scan'208";a="24620041"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 07:53:24 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1rzdzt-00000000gI1-1C9q;
+	Wed, 24 Apr 2024 17:53:21 +0300
+Date: Wed, 24 Apr 2024 17:53:21 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v1 0/2] Documentation: process: Clarify use of Cc:
+Message-ID: <Zikc4fDNDer6hSzJ@smile.fi.intel.com>
 References: <20240423132024.2368662-1-andriy.shevchenko@linux.intel.com>
- <20240423132024.2368662-3-andriy.shevchenko@linux.intel.com>
- <871q6wrw12.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="eHHhEKhDjIo3qvrb"
-Content-Disposition: inline
-In-Reply-To: <871q6wrw12.fsf@intel.com>
-X-Cookie: TANSTAAFL
-
-
---eHHhEKhDjIo3qvrb
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240423132024.2368662-1-andriy.shevchenko@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Tue, Apr 23, 2024 at 05:30:49PM +0300, Jani Nikula wrote:
++Cc: Dmitry
+(have been told by colleague of mine that you also has an opinion on this
+ topic, sorry if I added you by a mistake).
 
-> The Cc's on the mailing list archive are harder to dig up, and do not
-> accurately reflect the same information. A lot of patches get sent with
-> more Cc's in the mail message than in the commit message.
+On Tue, Apr 23, 2024 at 04:19:36PM +0300, Andy Shevchenko wrote:
+> Add a couple of recommendations on how to utilise Cc header in
+> environment friendly way.
+> 
+> Andy Shevchenko (2):
+>   Documentation: process: Avoid unneeded Cc: tags
+>   Documentation: process: Recommend to put Cc: tags after cutter '---'
+>     line
 
-These days with b4 and lore it's pretty straightforward, especially with
-subsystems that include a message ID based link to the discussion when
-applying the patch - you can just grab the original discussion with a b4
-mbox command. =20
+-- 
+With Best Regards,
+Andy Shevchenko
 
---eHHhEKhDjIo3qvrb
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYoW+oACgkQJNaLcl1U
-h9BKYAf/XQhM385YGlm7a5BVnIggeGCeYY6QPYeIwezN0DSdZ53V3LsYPmPVxABH
-q8UQU1quCpPX+MfRCulGa/gIDO6ciaiqgTnGwe1G+wt+1T/Xwmgg3etqUkDU9SuW
-iwPiLv5abSeUi0KBjhQ3/0IDiK9Eo0IbUffK2rwjO+xlBmM+MgRZlv+zF4ytdMzR
-1Tu5MaxKYpbm/QZK45HffL4iuVSi6Pdpbkqi8nvpVrGwMoULn7iZEScYhnamO7C8
-scgVOVkDsfEytTq/pxaGuOBxkbdx+c3dedJhqDKMkzlxGCSgJIZF+3174M3RZndU
-GuahmmH2nWAU3QFgDlWb5OH6Hf4AwQ==
-=UTnu
------END PGP SIGNATURE-----
-
---eHHhEKhDjIo3qvrb--
