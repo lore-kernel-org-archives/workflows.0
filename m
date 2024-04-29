@@ -1,41 +1,63 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BACD14A8C;
-	Mon, 29 Apr 2024 08:36:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE89B1773A;
+	Mon, 29 Apr 2024 08:44:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714379801; cv=none; b=mavg66inV0WeXXHzMCIgJcVTLEyUAXZGT3pUcUb+FMzLP87ocSuxzFsrJ+DHe61v8oMrx475HId9ZLwGQA4p0bfVJuXnHX9GjwNbaoC1GEJYYxQ2CHEMqWsac6Nf+IKstyHDr0Qxy1bMxRv4rlxXvcGKkp14VlmeRj/Pw/CfeMo=
+	t=1714380293; cv=none; b=H/3/s5TNERzj+HIg+i3gnn+i8knarmcl80A2QdDdp/ydTEU8Nc9T9H7/E5Bl6CvfVgLzNHPyhqWtFYou1jcYSoNV+JSVUk1cG+hujbKrUmpjEa7ptzyRkCkRUOQK0spLnY6zftQmOyVAieFNiD1r7mrDF9j5TFXilYpgLg2sgOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714379801; c=relaxed/simple;
-	bh=tqnqj5bYRDYYmHHW3t4b3JcGXP2u6dMCeU1YcEoYQB4=;
+	s=arc-20240116; t=1714380293; c=relaxed/simple;
+	bh=hKl+ddFweiXgM/nNkFP9yir7ry8EsSWt9YFq0r39Cyw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gcHHKh8F2axVy9zPHXTz7osUSbCr2W9rrhfK+ynaWsZAZURwaOgW0ib3VvoNScmoxh6bQ9A/rpy42lpwaSJzooVG4f47MvHLy1zrjO9BVcmVIBVFeNiJWQk2crOIL3r9J+QHlOLGzij0NQjGRJOMPWVLb4e21nIDO4JXTmQ1jQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Mx9QXgo6; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=BgyI3Cf4JuS7Xr6sARfBCqHq6u2geeWxlGl7R8bHEG1WfvjB+ghoBWjazU2ogDM3N0YZq3T5C/v07+1xbClsM1uHgckK72zxF9z7KK7yLfBizxESRdiLvyQioU0xx/CaqEuEZP8Ic7qfs81+rPY7GtKOMi/biaYNTAKHazEydIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KIUiM9cO; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Mx9QXgo6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CAA1C113CD;
-	Mon, 29 Apr 2024 08:36:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1714379800;
-	bh=tqnqj5bYRDYYmHHW3t4b3JcGXP2u6dMCeU1YcEoYQB4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Mx9QXgo6uCpYFlnlEPQFxsloKgzlWFJ9nfrOLlzaIN18UierazL/l4HJZeeYXbtyq
-	 vgaslwGrusML/Dte0Ss47I9ZWSPTGOsAnCcvuuH7J37wFGu5KmoeISTXSsFhkpeLG1
-	 +e/gLzQHsFP94UcJgddRC7YeESEnj3lMneYXzocg=
-Date: Mon, 29 Apr 2024 10:36:37 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	stable@vger.kernel.org, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/5] docs: stable-kernel-rules: explain use of
- stable@kernel.org (w/o @vger.)
-Message-ID: <2024042900-sabbath-switch-69f1@gregkh>
-References: <cover.1714367921.git.linux@leemhuis.info>
- <6783b71da48aac5290756343f58591dc42da87bc.1714367921.git.linux@leemhuis.info>
- <2024042957-revision-sublevel-57c2@gregkh>
- <2dde6e68-bdac-437a-bd89-73dddf446211@leemhuis.info>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KIUiM9cO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714380292; x=1745916292;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hKl+ddFweiXgM/nNkFP9yir7ry8EsSWt9YFq0r39Cyw=;
+  b=KIUiM9cOvnxQv6HvFMIuwqQUcOaTK/AQGkkt76LX+nrdqEahoXagYicB
+   KYEC23URVRYe3i2J9ROuz18ohN4zwpQijpIYRt5jY/cdyh/lr1WsFNxoQ
+   Yx9oP0+Gf4vuWUef1d0Xzzj0mWb612uIoaBNMBRNwvwWaY+HElvAavlc4
+   DW92YNJQPHhoTa3L3T0ni0avxT8bLpxeAEzg19g7tFhxvtlHvU2rQpusp
+   fjzCFKCHHbGIHZpovRKGRM8EaTY0yWt5X5YL46wwy95mQ7SZymt+YUFjU
+   Ic0bgqeCUMAR7gjZeNWZrhfWgrsiD0X1QFj73mjiE7ivLw2Lbs31Xc3rY
+   w==;
+X-CSE-ConnectionGUID: 9lBOt3H3Rw2wD1pTkIgO4A==
+X-CSE-MsgGUID: ZadS+pj2SxOBvuiP8CGSDw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="13807782"
+X-IronPort-AV: E=Sophos;i="6.07,239,1708416000"; 
+   d="scan'208";a="13807782"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 01:44:51 -0700
+X-CSE-ConnectionGUID: M44kx3PiThKqJrrPXi7A9Q==
+X-CSE-MsgGUID: lRoWaxVfSaKaTaCFY79CSQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,239,1708416000"; 
+   d="scan'208";a="30702120"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 01:44:49 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1s1Mcx-00000002G9e-1CEx;
+	Mon, 29 Apr 2024 11:44:47 +0300
+Date: Mon, 29 Apr 2024 11:44:47 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v1 2/2] Documentation: process: Recommend to put Cc: tags
+ after cutter '---' line
+Message-ID: <Zi9d_4WUs9gows45@smile.fi.intel.com>
+References: <20240423132024.2368662-1-andriy.shevchenko@linux.intel.com>
+ <20240423132024.2368662-3-andriy.shevchenko@linux.intel.com>
+ <927c40c5-cfd7-4a22-a9c6-7b6f9592e4b0@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -44,63 +66,52 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2dde6e68-bdac-437a-bd89-73dddf446211@leemhuis.info>
+In-Reply-To: <927c40c5-cfd7-4a22-a9c6-7b6f9592e4b0@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Mon, Apr 29, 2024 at 10:30:49AM +0200, Thorsten Leemhuis wrote:
-> On 29.04.24 09:51, Greg Kroah-Hartman wrote:
-> > On Mon, Apr 29, 2024 at 09:18:29AM +0200, Thorsten Leemhuis wrote:
-> >> Document when to use of stable@kernel.org instead of
-> >> stable@vger.kernel.org, as the two are easily mixed up and their
-> >> difference not explained anywhere[1].
-> >>
-> >> Link: https://lore.kernel.org/all/20240422231550.3cf5f723@sal.lan/ [1]
-> >> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
-> >> ---
-> >>  Documentation/process/stable-kernel-rules.rst | 4 ++++
-> >>  1 file changed, 4 insertions(+)
-> >>
-> >> diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
-> >> index b4af627154f1d8..ebf4152659f2d0 100644
-> >> --- a/Documentation/process/stable-kernel-rules.rst
-> >> +++ b/Documentation/process/stable-kernel-rules.rst
-> >> @@ -72,6 +72,10 @@ for stable trees, add this tag in the sign-off area::
-> >>  
-> >>    Cc: stable@vger.kernel.org
-> >>  
-> >> +Use ``Cc: stable@kernel.org`` instead when fixing unpublished vulnerabilities:
-> >> +it reduces the chance of accidentally exposing the fix to the public by way of
-> >> +'git send-email', as mails sent to that address are not delivered anywhere.
+On Mon, Apr 29, 2024 at 09:35:18AM +0200, Krzysztof Kozlowski wrote:
+> On 23/04/2024 15:19, Andy Shevchenko wrote:
+> > The recommendation is based on the following rationale:
 > > 
-> > The "fun" part of just saying this is that then it is a huge "signal" to
-> > others that "hey, this might be a security fix!" when it lands in
-> > Linus's tree.  But hey, we do what we can, I know my scripts always use
-> > this address just to put a bit more noise into that signal :)
-> 
-> Yeah, that's likely true. :-D
-> 
-> FWIW, we could stay more vague here and use a text like """Use ``Cc:
-> stable@kernel.org`` instead when fixing something that should be kept
-> private for the timing being: it will prevent the change for
-> accidentally being exposed to the public through 'git send-email', as
-> mails sent to that address are not delivered anywhere."""
-> 
-> The sign would not be that huge anymore, but I'm not sure if that makes
-> any difference.
+> > - it makes the commit messages much cleaner and easy to read, especially
+> >   on the screens of the mobile devices;
+> > 
+> > - it reduces resources (memory, time, energy) to retrieve all these
+> >   headers, which are barely needed by a mere user, as for automation
+> >   they will be still available via mail archives, such as
+> >   https://lore.kernel.org, assuming the Link: or Message-ID tag is
+> >   provided.
+> > 
+> > Let's be environment friendly and save the planet!
 
-Yeah, let's leave this as-is for now.
+...
 
-> > That being said, it's good to have this documented now, thanks for it:
+> > +It's recommended to locate the additional Cc: tags after the cutter '---' line
+> > +in the patches as it makes sure the commit message won't be polluted with them.
+> > +At the same time they will be available via email headers on the mail archives,
+> > +such as https://lore.kernel.org.
 > 
-> yw!
+> Manually added useful Cc-tags should be kept in commit msg, because it
+> annotates who could be interested in the patch.
 > 
-> > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> The problem is that people put output of get_maintainers.pl as Cc to the
+> commit list. This is 100% redundant because it can be recreated any
+> given time with 100% accuracy (for given kernel tree). Therefore I would
+> propose to rephrase it to something:
 > 
-> Many thx for your feedback to this and the other patches. Do you want to
-> pick those up (last time I changes something in that text that was the
-> case) or let Jonathan handle them?
+> ====
+> It is recommended to not add autogenerated scripts/get_maintainer.pl
+> CC-entries into the commit msg, but keep them under cutter '---'. There
+> is no single need to store automated output of get_maintainers.pl in the
+> git log. It can be easily re-created at any given time, thus its
+> presence in the git history is redundant and obfuscates the log.
 
-Which ever Jonathan finds easier is fine for me.
+Right, but still even for non-automated output it might (may) be redundant,
+however I can go for this compromise as most of the Cc indeed duplicate
+the output of get_maintainer.pl.
 
-thanks,
+-- 
+With Best Regards,
+Andy Shevchenko
 
-greg k-h
+
