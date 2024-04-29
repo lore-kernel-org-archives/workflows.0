@@ -1,118 +1,95 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31F1481BD;
-	Sat, 27 Apr 2024 10:25:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD7FC134BE;
+	Mon, 29 Apr 2024 07:18:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714213512; cv=none; b=kbhvtx9DZ7P4HclRdnQoYqgULZmoxKjrJ4SLUP6P7DFlqYwyxwTAMVc3YpYbd7t7she+L78nyA5PArIWJXCmOGKMBNPpgYtpPD8GCF9MJXNZDJo3+76ttJGezWxz4wPzOE1oThpq1IKq+amcP02WPiQdfny25qJGWCvp6KmoRdk=
+	t=1714375118; cv=none; b=h7Da1d+btlZhW864J6C445X7tdZBKmpg6JtuRGpsVsvHR2jvR9TZX1yf7iCUAZZ76kKTPRlNNewiGdCcjdy3de+ECLmoWoc0p19yGvevkLmmtcOE/GWU8eAbWxVNGQamkItiN+6IqNDe+NTOWJOFDV5cOYwOaT4spWHibU/oU2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714213512; c=relaxed/simple;
-	bh=E6nxNxAubOE05wakCf4v1ZumsoMoA2UmJWIHNfoSllc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dVnmD/9fKffqV4T5dL036HhPUjvzkTMAqDK5TVWs0v4ywmg9441Jvj7s1Dm9ghnTZrx+yjdr8tOKyrSfTH0vKIM7ic5ZBtOfJc+YaeiNFC6aUSBKm7fH7H/q1j5y1/t66WErWYGaD+khoj58o/AApyYnqxWeOCyIN2COmadctTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hXbP4+6x; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1714375118; c=relaxed/simple;
+	bh=mRJK2AQiE5O8jdME3BVX81Wip+tE76LubZ8HkAoHRzA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=q7ON2BfFJePoPb0k8ciCzdCnFa/OXYLsiTZYrBgWtgkukCeDcOhWvJl5kwvMX/AyW/a77oDols67fsVb3PYqlODzNM+OQhVJJl3YbNxyQojTBYf3QPWfwo3XFTZQ8AOun60rSr6gnB50fwPoy7say8NPqxKRlPZcKntpQZSOtjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=fRmFoCzU; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hXbP4+6x"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1eab16c8d83so23561025ad.3;
-        Sat, 27 Apr 2024 03:25:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714213509; x=1714818309; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LUJKteoqdO5SeaZqJ7h1IGkjXYQG9ye3U8EDumHvbUU=;
-        b=hXbP4+6xnRUpqphG1c4wciqzLp2whGmbXebHA7oF/pKHKTW/OVaEtQUVWJBuh4OxVv
-         fB+t1JaG+5mMMfl955N4a8PAvEpdLwE0TaJloSbS99W6GhpxQK0n71sIAeprKdbJEpSp
-         VtvtXqCdJAuGr3K94EswSyBiPCKizQS3i8XmV+vTQmrFbV+dpnZT7/LFiqwBgG3dhNk3
-         w3XtZ77MxxmZbSvAs1syN1RP/qNAZmq5Dhy/mm7Wyt3VaSt5J01F13MadYBxHGuA1Fs0
-         KgDUjOc/au5RjB7xgn0HFqyVh8dI1oW0rv50hRCbPnXkDt4mHV7Xq2XfmPYt1peQXfW3
-         qkyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714213509; x=1714818309;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LUJKteoqdO5SeaZqJ7h1IGkjXYQG9ye3U8EDumHvbUU=;
-        b=T49IUIda43HeiHYIov8VFOM6qc14hrhEvu/INlgq+KtA/z9XkdZd5fnz4jgXEMyqUB
-         sPT5Wt9WLueTTYFIxWtJpclEmqs4f9C2UwvzNK7DVP1K+9jkeSNVYoS4sqlIXZsNQvTq
-         DFECY6M4E1MMlwLQQz3pABHVQJ1RMfAR4MG8WIYklh24z2sipROxhuzoJwOpE6gEKORu
-         Wm8xLmX9/cDBbRqagf9QuFhwkDC2q3vt+n5e616hTQE31zRPY7t+cOr6tsNhAhyqKNcU
-         1k+PWy6ewNchVa5C/fo1UHUtLD1RgCwNNUYYDgh1UCr/t1l/o42X35R7IK1U139ucX3m
-         oh3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVp4UxRnSjQgfsTUjZheoHsDVTgN/qAwkgwdNfVyB08jRFv2Gv98ciT2FltS7I5iLLMhFw4DZViUQKvaj+iDvTSB7fViT4YmqquqTgCAK1Z1VNku7NqgZJY4K499LBMRsIqJuVpCaNNu53sx+pD0Rl8cFi6hqSz39kguevvqM9W5yXy
-X-Gm-Message-State: AOJu0Yy18UATGIyjS2Xyt2bisA5RbNnmMu8EPUAKgnJTb5ZvnYDajWo2
-	iBZZCGtpaqSrzGz+2sBsnk3/RAn898ZOwDSkVvLxcYla3klnxISJkK5b/w==
-X-Google-Smtp-Source: AGHT+IHNhgASlzQriqkArHfommJX1rdgRS/zpt5HED9VzsPQ9Sx3R/YbIq8Peic1KbwOOc8vorCNcQ==
-X-Received: by 2002:a17:902:aa84:b0:1e0:b87f:beb4 with SMTP id d4-20020a170902aa8400b001e0b87fbeb4mr4765079plr.30.1714213509107;
-        Sat, 27 Apr 2024 03:25:09 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id kg8-20020a170903060800b001ea699b79cbsm6316530plb.213.2024.04.27.03.25.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Apr 2024 03:25:08 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 026CC18498712; Sat, 27 Apr 2024 17:25:05 +0700 (WIB)
-Date: Sat, 27 Apr 2024 17:25:05 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: "Bird, Tim" <Tim.Bird@sony.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: Linux Stable <stable@vger.kernel.org>,
-	Linux Kernel Workflows <workflows@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Mao Zhu <zhumao001@208suo.com>, Ran Sun <sunran001@208suo.com>,
-	Xiang wangx <wangxiang@cdjrlc.com>,
-	Shaomin Deng <dengshaomin@cdjrlc.com>,
-	Charles Han <hanchunchao@inspur.com>,
-	Attreyee M <tintinm2017@gmail.com>
-Subject: Re: [PATCH] docs: stable-kernel-rules: fix typo sent->send
-Message-ID: <ZizSgfNRtAjZv4-q@archie.me>
-References: <SA3PR13MB63726A746C847D7C0919C25BFD162@SA3PR13MB6372.namprd13.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="fRmFoCzU"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:From:Sender:
+	Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=6Urg+TQ/FnsFc4yBOyVl/MrcHcj+2yeVM0FYIrCt150=; t=1714375117;
+	x=1714807117; b=fRmFoCzU6nJ8Xl+zpoKl9DM2oMLYmmhVo3Y/8iJ07P5lQjjOjbHKGw2N6wwRh
+	+G/MWEpEbvhnlDKD1FcXMV3vWre8MkvLydjEoKfATqV5ibuoVIrbCFcA+pXZNfZR0L8VouXymYDnm
+	cnx0vgzWUJ+R0dBeP+Q/WA92+RjtGa9/QqbV250EDjVLInqZK8/+INOFIcP9KG6U+By2SneTTm1IZ
+	N7ezbXIFbD2OT3vJtzKptMA4Ku9gTbC1TR0+yQ5lD9p58T/7z6peCZZQRrsx73k/ryl6UnXHfXCkb
+	vZlYxk+h9KYuWSrEzKY1hGU0NOVtun+E0jLffIF5xTSZ7B1QZg==;
+Received: from ip4d148da6.dynamic.kabel-deutschland.de ([77.20.141.166] helo=truhe.fritz.box); authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	id 1s1LHU-0004e1-7h; Mon, 29 Apr 2024 09:18:32 +0200
+From: Thorsten Leemhuis <linux@leemhuis.info>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	stable@vger.kernel.org,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 2/5] docs: stable-kernel-rules: call mainline by its name and change example
+Date: Mon, 29 Apr 2024 09:18:27 +0200
+Message-ID: <0a120573ea827aee12d45e7bd802ba85c09884da.1714367921.git.linux@leemhuis.info>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <cover.1714367921.git.linux@leemhuis.info>
+References: <cover.1714367921.git.linux@leemhuis.info>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="N2Pm/WPT0MeZxS0x"
-Content-Disposition: inline
-In-Reply-To: <SA3PR13MB63726A746C847D7C0919C25BFD162@SA3PR13MB6372.namprd13.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1714375117;b475376d;
+X-HE-SMSGID: 1s1LHU-0004e1-7h
 
+Fine-tuning:
 
---N2Pm/WPT0MeZxS0x
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+* s/Linus' tree/Linux mainline/, as mainline is the term used elsewhere
+  in the document.
 
-On Fri, Apr 26, 2024 at 11:18:14PM +0000, Bird, Tim wrote:
-> -To sent additional instructions to the stable team, use a shell-style in=
-line
-> +To send additional instructions to the stable team, use a shell-style in=
-line
->  comment:
-> =20
->   * To specify any additional patch prerequisites for cherry picking use =
-the
+* Provide a better example for the 'delayed backporting' case that uses
+  a fixed rather than a relative reference point, which makes it easier
+  to handle for the stable team.
 
-LGTM, thanks!
+Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+---
+ Documentation/process/stable-kernel-rules.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
+index 0da9c57287c134..d28072b570f872 100644
+--- a/Documentation/process/stable-kernel-rules.rst
++++ b/Documentation/process/stable-kernel-rules.rst
+@@ -6,7 +6,7 @@ Everything you ever wanted to know about Linux -stable releases
+ Rules on what kind of patches are accepted, and which ones are not, into the
+ "-stable" tree:
+ 
+- - It or an equivalent fix must already exist in Linus' tree (upstream).
++ - It or an equivalent fix must already exist in Linux mainline (upstream).
+  - It must be obviously correct and tested.
+  - It cannot be bigger than 100 lines, with context.
+  - It must follow the
+@@ -134,7 +134,7 @@ comment to pass arbitrary or predefined notes:
+ 
+    .. code-block:: none
+ 
+-     Cc: <stable@vger.kernel.org> # after 4 weeks in mainline
++     Cc: <stable@vger.kernel.org> # after -rc3
+ 
+  * Point out known problems:
+ 
+-- 
+2.44.0
 
---=20
-An old man doll... just what I always wanted! - Clara
-
---N2Pm/WPT0MeZxS0x
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZizSeQAKCRD2uYlJVVFO
-o16hAQC4vFq5JUPRgrcka4ItB6aOJ9kAqfRetDbc1wuJDCLkmAEAp2GOG95bUjr1
-lvh8/S7PZiWSH/I5r9yUoey0fCdwWwc=
-=w/az
------END PGP SIGNATURE-----
-
---N2Pm/WPT0MeZxS0x--
