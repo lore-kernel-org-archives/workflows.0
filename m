@@ -1,91 +1,147 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD822134DE;
-	Mon, 29 Apr 2024 07:18:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EA7C1426E;
+	Mon, 29 Apr 2024 07:35:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714375119; cv=none; b=brHzbJpl9jXgN+E6hgZQX4eZhIpXKZdAi1oge5jnbt9HRqHl17VYLhJLGx9Mo08H3xag4hWg1yrvBEOJ2bn+Qu4Y7S94bWr/cwH7OcQ9okDr7cemjc/8q8tZGUQDgHeG3ISvN3RN2vG8RaBi3pTrPR21kwyrROjb3UlgdTyFx88=
+	t=1714376123; cv=none; b=MPLUjNwCfHSRcyYNjfIPnGYbG5wLespAV4vLq72bs/KDD2SaP8MCumheUk+lIIk2vaDvektOCgsp5J3OBJsP5x+nFGQ4INi3RHPCsPXQrpPWhtLUNC73cTSaf/5JnluFM7z2SekAfNO7C76xNm6RWxQ+ccxYOyGDRRSCTF5bAOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714375119; c=relaxed/simple;
-	bh=AkB16l2d8zShJAWap2HKlTOHGrssPwSZSU7S5r1EcMA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U25SGY7hcI46KPnCAKykcstWoknx9MurjNMJWey1/1OkpoacPECOMf0MFs49jmfqLmj5GPmb6bfpk3bIlcLkntb7YX7E0HaeZhVu8H8HYLu/hweza5EvSbotKkHPT/2rMLseaH2KuhBLktw7Ypv2SN3fR8+iqylSwA+A692QMgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=XKQapkLQ; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+	s=arc-20240116; t=1714376123; c=relaxed/simple;
+	bh=Og/gC5Ap5ugM800ZsNeti51wR1Sunw2lMQfNOvgcYK4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NlrorQu4MJEtjgoHUR9pro4sCJLgF30pSStDGwoKVUEBGjCmkOvhbqlW+7CZj+QiiZGIQOGk/1saHhHKalzWOkXdmm/UTlUEDFiECiqcpx8T6JBSYue6FmOBmsXlNB/WPYCD3Q9k0hJ9AFBV+YpdEPXQKAlmFkHrOpBXx2+9CmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p7adOmQ9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="XKQapkLQ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:MIME-Version:
-	Message-ID:Date:Subject:Cc:To:From:From:Sender:Reply-To:Subject:Date:
-	Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=AR7EKzJbNScSDSl4HGuD1ekuOyaMHYWeSjknrxIfYFk=; t=1714375117; x=1714807117;
-	 b=XKQapkLQEIOT38cXy1ojiZFSOvNuV2yuXJ6kapRmk0xWvRQPPuto6Bt1gyM5EWuESUHkoQtrzp
-	qoH8pTAxMvpfrcSfoO7S0LsFtO7mkXhUmstRTOIljTP5tB3cycafrgvmVNb8sZgJmRqa600CXyDDk
-	nP+sJq2E1eJHdzm0PWpSsVNv+GgK3peMqu4NqBQSelKNEVQr1sog6+qrbH8naE4m3QlrG0Wv/HCTh
-	GmAalAtlmE4iqzjLv9N1isfTJTa2sy2bv8H4xjh4KB8YjUsufda1BvYZbEguxiYAgJhmTSEqavwse
-	5A9Zrv0MetJ4fxi8FQqHzGvhZ/vzLkBnGdLng==;
-Received: from ip4d148da6.dynamic.kabel-deutschland.de ([77.20.141.166] helo=truhe.fritz.box); authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	id 1s1LHT-0004e1-IR; Mon, 29 Apr 2024 09:18:31 +0200
-From: Thorsten Leemhuis <linux@leemhuis.info>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sasha Levin <sashal@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	stable@vger.kernel.org,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/5] docs: stable-kernel-rules: fine-tuning and 'no stable backport' tag
-Date: Mon, 29 Apr 2024 09:18:25 +0200
-Message-ID: <cover.1714367921.git.linux@leemhuis.info>
-X-Mailer: git-send-email 2.44.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p7adOmQ9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EAABC113CD;
+	Mon, 29 Apr 2024 07:35:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714376123;
+	bh=Og/gC5Ap5ugM800ZsNeti51wR1Sunw2lMQfNOvgcYK4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=p7adOmQ9axAbYp6Kwo09RE/l7nhfu1sbbt4IbY4z9cDl5IX8joe2ye3L37vdHk2n7
+	 quON2T0vP9fUaTnyrgZ4h1LyZ4NBEE550Wn4Ml119im7NuULw5V3YkSyRqSlfaM+WD
+	 KvviDGEvTDuZdZrVT2soFw7XErHh9ejOfT4PxeIJAfZJvie0wSo7Qp0Lp8se+1hJAl
+	 uODVJB9xfqhTlH0UwbN8xSNgKEckxcdrNAPjycVW7k8ayLZ0CN6DR26fqFhk8Y7QN5
+	 8CxM32Y64dHyRwvBJTpY+rS9qR5bjcdvHUHSVKYAkFUpEjDqAANL5XWMBvXn2IKxyf
+	 EJOLEPeV5pXeQ==
+Message-ID: <927c40c5-cfd7-4a22-a9c6-7b6f9592e4b0@kernel.org>
+Date: Mon, 29 Apr 2024 09:35:18 +0200
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1714375117;b475376d;
-X-HE-SMSGID: 1s1LHT-0004e1-IR
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 2/2] Documentation: process: Recommend to put Cc: tags
+ after cutter '---' line
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+References: <20240423132024.2368662-1-andriy.shevchenko@linux.intel.com>
+ <20240423132024.2368662-3-andriy.shevchenko@linux.intel.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240423132024.2368662-3-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-After a recent discussion regarding "do we need a 'nobackport' tag" I
-set out to create one change for stable-kernel-rules.rst. This is now
-the last patch in the series, which links to that discussion with
-all the details; the other stuff is fine-tuning that happened along the
-way.
+On 23/04/2024 15:19, Andy Shevchenko wrote:
+> The recommendation is based on the following rationale:
+> 
+> - it makes the commit messages much cleaner and easy to read, especially
+>   on the screens of the mobile devices;
+> 
+> - it reduces resources (memory, time, energy) to retrieve all these
+>   headers, which are barely needed by a mere user, as for automation
+>   they will be still available via mail archives, such as
+>   https://lore.kernel.org, assuming the Link: or Message-ID tag is
+>   provided.
+> 
+> Let's be environment friendly and save the planet!
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  Documentation/process/5.Posting.rst          | 4 ++++
+>  Documentation/process/submitting-patches.rst | 5 +++++
+>  2 files changed, 9 insertions(+)
+> 
+> diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
+> index 90a7fe2a85f2..157b3fc0087a 100644
+> --- a/Documentation/process/5.Posting.rst
+> +++ b/Documentation/process/5.Posting.rst
+> @@ -276,6 +276,10 @@ for addition without the explicit permission of the person named; using
+>  Reported-by: is fine most of the time as well, but ask for permission if
+>  the bug was reported in private.
+>  
+> +It's recommended to locate the additional Cc: tags after the cutter '---' line
+> +in the patches as it makes sure the commit message won't be polluted with them.
+> +At the same time they will be available via email headers on the mail archives,
+> +such as https://lore.kernel.org.
 
-Ciao, Thorsten
----
-v1->v2:
-* Add reviewed-by tag from Greg to the first patch.
-* Change the backport example in 2 as suggested by Greg.
-* Improve description of patch 3 while also making the change remove a
-  level of indenting.
-* Add patch explaining stable@kernel.org (w/o @vger.)
-* Move the patch adding a 'make AUTOSEL et. al. ignore a change' flag to
-  the end of the series and use stable+noautosel@kernel.org as
-  suggested my Konstantin and ACKed by Greg.
+Manually added useful Cc-tags should be kept in commit msg, because it
+annotates who could be interested in the patch.
 
-v1: https://lore.kernel.org/all/cover.1712812895.git.linux@leemhuis.info/
+The problem is that people put output of get_maintainers.pl as Cc to the
+commit list. This is 100% redundant because it can be recreated any
+given time with 100% accuracy (for given kernel tree). Therefore I would
+propose to rephrase it to something:
 
-Thorsten Leemhuis (5):
-  docs: stable-kernel-rules: reduce redundancy
-  docs: stable-kernel-rules: call mainline by its name and change
-    example
-  docs: stable-kernel-rules: remove code-labels tags and a indention
-    level
-  docs: stable-kernel-rules: explain use of stable@kernel.org (w/o
-    @vger.)
-  docs: stable-kernel-rules: create special tag to flag 'no backporting'
+====
+It is recommended to not add autogenerated scripts/get_maintainer.pl
+CC-entries into the commit msg, but keep them under cutter '---'. There
+is no single need to store automated output of get_maintainers.pl in the
+git log. It can be easily re-created at any given time, thus its
+presence in the git history is redundant and obfuscates the log.
 
- Documentation/process/stable-kernel-rules.rst | 234 ++++++++----------
- 1 file changed, 110 insertions(+), 124 deletions(-)
+====
 
-
-base-commit: 5eb4573ea63d0c83bf58fb7c243fc2c2b6966c02
--- 
-2.44.0
+Best regards,
+Krzysztof
 
