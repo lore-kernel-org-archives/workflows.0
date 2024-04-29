@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EA7C1426E;
-	Mon, 29 Apr 2024 07:35:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 985CF134BF;
+	Mon, 29 Apr 2024 07:37:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714376123; cv=none; b=MPLUjNwCfHSRcyYNjfIPnGYbG5wLespAV4vLq72bs/KDD2SaP8MCumheUk+lIIk2vaDvektOCgsp5J3OBJsP5x+nFGQ4INi3RHPCsPXQrpPWhtLUNC73cTSaf/5JnluFM7z2SekAfNO7C76xNm6RWxQ+ccxYOyGDRRSCTF5bAOw=
+	t=1714376231; cv=none; b=Wu1CDxjnNgJH/lRZ6yVMy8n+XkQEaWkGBjGiOQrNEf7kb3pVUJy8mS2ytda3Jv9kTTg5e1IAYOJLeYySwKkQfUAbEC8okizQJiYNeL9mfG4YQO0C1tbxZbnblriB5vXb47qMgtvqdecll05u5FIAS4socqDChW8jSIEk+V7TZUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714376123; c=relaxed/simple;
-	bh=Og/gC5Ap5ugM800ZsNeti51wR1Sunw2lMQfNOvgcYK4=;
+	s=arc-20240116; t=1714376231; c=relaxed/simple;
+	bh=1u3nQV0j72tn8HUxT0EhxW47idRy6Dfl0PmeH73OPfo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NlrorQu4MJEtjgoHUR9pro4sCJLgF30pSStDGwoKVUEBGjCmkOvhbqlW+7CZj+QiiZGIQOGk/1saHhHKalzWOkXdmm/UTlUEDFiECiqcpx8T6JBSYue6FmOBmsXlNB/WPYCD3Q9k0hJ9AFBV+YpdEPXQKAlmFkHrOpBXx2+9CmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p7adOmQ9; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=qJf6hVmfJVlb08H3159QqR8EalJp3cSejWZZUx28vYMMBoJ9Nx1ueVBeLSjKsY7vuCKXqzt+q05mPtLagYKXjIhDsETAXuGUyNzA7KKLyFPKKeqqUyakoYaJfmi3S8yMpq/+fJ9l44WKFECyytBDaSPdwK43lo93dY9aCYgDdrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZTS85JJZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p7adOmQ9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EAABC113CD;
-	Mon, 29 Apr 2024 07:35:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZTS85JJZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E1FBC113CD;
+	Mon, 29 Apr 2024 07:37:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714376123;
-	bh=Og/gC5Ap5ugM800ZsNeti51wR1Sunw2lMQfNOvgcYK4=;
+	s=k20201202; t=1714376231;
+	bh=1u3nQV0j72tn8HUxT0EhxW47idRy6Dfl0PmeH73OPfo=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=p7adOmQ9axAbYp6Kwo09RE/l7nhfu1sbbt4IbY4z9cDl5IX8joe2ye3L37vdHk2n7
-	 quON2T0vP9fUaTnyrgZ4h1LyZ4NBEE550Wn4Ml119im7NuULw5V3YkSyRqSlfaM+WD
-	 KvviDGEvTDuZdZrVT2soFw7XErHh9ejOfT4PxeIJAfZJvie0wSo7Qp0Lp8se+1hJAl
-	 uODVJB9xfqhTlH0UwbN8xSNgKEckxcdrNAPjycVW7k8ayLZ0CN6DR26fqFhk8Y7QN5
-	 8CxM32Y64dHyRwvBJTpY+rS9qR5bjcdvHUHSVKYAkFUpEjDqAANL5XWMBvXn2IKxyf
-	 EJOLEPeV5pXeQ==
-Message-ID: <927c40c5-cfd7-4a22-a9c6-7b6f9592e4b0@kernel.org>
-Date: Mon, 29 Apr 2024 09:35:18 +0200
+	b=ZTS85JJZnyq18Bf4Adie2qI4RsWINmkJvPlVhZ5Iuz+bMznUGU5PjSbHTlXa8auMf
+	 viDjjfpK69PfpAPlmjtKh/nB1TZz1oUKoBjZTI3R5pYjeE7mlPEV7z9+Zh8X6xszFK
+	 pCIMPQ2e9jpUvr6YiC1Q4RlABgZoyMpKKwjOzbzMe5Tm4kLoqc3UKr+YJVi3JIVv/L
+	 lVd53TS+SxE4UAm26jcWk4Aw9y44u3au/jFYylWqOiwpE0N950pZzLbTBDaLIPst07
+	 qTq737yZg20jX1iKHiYfXreQeWDcyB43slVfzX1/oSs40XzUqD1jet0oPRCOCetKD+
+	 pRnJlLmCQYuDA==
+Message-ID: <9280849e-9c56-43ad-9488-1bb231716c73@kernel.org>
+Date: Mon, 29 Apr 2024 09:37:07 +0200
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -35,14 +35,13 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/2] Documentation: process: Recommend to put Cc: tags
- after cutter '---' line
+Subject: Re: [PATCH v1 1/2] Documentation: process: Avoid unneeded Cc: tags
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  workflows@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org
 Cc: Jonathan Corbet <corbet@lwn.net>
 References: <20240423132024.2368662-1-andriy.shevchenko@linux.intel.com>
- <20240423132024.2368662-3-andriy.shevchenko@linux.intel.com>
+ <20240423132024.2368662-2-andriy.shevchenko@linux.intel.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -88,59 +87,55 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240423132024.2368662-3-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20240423132024.2368662-2-andriy.shevchenko@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 23/04/2024 15:19, Andy Shevchenko wrote:
-> The recommendation is based on the following rationale:
-> 
-> - it makes the commit messages much cleaner and easy to read, especially
->   on the screens of the mobile devices;
-> 
-> - it reduces resources (memory, time, energy) to retrieve all these
->   headers, which are barely needed by a mere user, as for automation
->   they will be still available via mail archives, such as
->   https://lore.kernel.org, assuming the Link: or Message-ID tag is
->   provided.
-> 
-> Let's be environment friendly and save the planet!
+> Add a note that explains that  Cc: email header is implied by other
+> tags, such as Reviewed-by:. In this case an explicit Cc: is _not_
+> needed.
 > 
 > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > ---
->  Documentation/process/5.Posting.rst          | 4 ++++
->  Documentation/process/submitting-patches.rst | 5 +++++
->  2 files changed, 9 insertions(+)
+>  Documentation/process/5.Posting.rst          | 4 +++-
+>  Documentation/process/submitting-patches.rst | 5 ++++-
+>  2 files changed, 7 insertions(+), 2 deletions(-)
 > 
 > diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
-> index 90a7fe2a85f2..157b3fc0087a 100644
+> index de4edd42d5c0..90a7fe2a85f2 100644
 > --- a/Documentation/process/5.Posting.rst
 > +++ b/Documentation/process/5.Posting.rst
-> @@ -276,6 +276,10 @@ for addition without the explicit permission of the person named; using
->  Reported-by: is fine most of the time as well, but ask for permission if
->  the bug was reported in private.
+> @@ -267,7 +267,9 @@ The tags in common use are:
+>     being reported.
 >  
-> +It's recommended to locate the additional Cc: tags after the cutter '---' line
-> +in the patches as it makes sure the commit message won't be polluted with them.
-> +At the same time they will be available via email headers on the mail archives,
-> +such as https://lore.kernel.org.
+>   - Cc: the named person received a copy of the patch and had the
+> -   opportunity to comment on it.
+> +   opportunity to comment on it. Note that other formal tags are automatically
+> +   converted to the ``Cc:`` email header and you do not need to have an
+> +   explicit Cc: tag, if the person is already mentioned by another tag.
+>  
+>  Be careful in the addition of tags to your patches, as only Cc: is appropriate
+>  for addition without the explicit permission of the person named; using
+> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> index 66029999b587..6775f0698136 100644
+> --- a/Documentation/process/submitting-patches.rst
+> +++ b/Documentation/process/submitting-patches.rst
+> @@ -486,7 +486,10 @@ provided such comments, you may optionally add a ``Cc:`` tag to the patch.
+>  This is the only tag which might be added without an explicit action by the
+>  person it names - but it should indicate that this person was copied on the
+>  patch.  This tag documents that potentially interested parties
+> -have been included in the discussion.
+> +have been included in the discussion. Note that other formal tags are
+> +automatically converted to the Cc: email header and you do not need to
+> +have an explicit ``Cc:`` tag, if the person is already mentioned by another
+> +tag.
 
-Manually added useful Cc-tags should be kept in commit msg, because it
-annotates who could be interested in the patch.
+It depends on the tool. b4 and git-send-email do it, but other might not
+(e.g. quilt?). Anyway, to me this is obvious and submitting-patches is
+already way too long, so I would just keep it in the "5.Posting", but
+not here.
 
-The problem is that people put output of get_maintainers.pl as Cc to the
-commit list. This is 100% redundant because it can be recreated any
-given time with 100% accuracy (for given kernel tree). Therefore I would
-propose to rephrase it to something:
-
-====
-It is recommended to not add autogenerated scripts/get_maintainer.pl
-CC-entries into the commit msg, but keep them under cutter '---'. There
-is no single need to store automated output of get_maintainers.pl in the
-git log. It can be easily re-created at any given time, thus its
-presence in the git history is redundant and obfuscates the log.
-
-====
 
 Best regards,
 Krzysztof
