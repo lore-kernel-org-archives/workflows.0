@@ -1,105 +1,138 @@
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B3298F5A;
-	Mon,  6 May 2024 16:30:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89323132C1C
+	for <workflows@vger.kernel.org>; Mon,  6 May 2024 23:18:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715013060; cv=none; b=Ob+XC8+9neKtp+acjARAWjp+tcdP/HR+3WF3GQfUYUncLtuQ3quQl+N4siS8GnmVdm1xSglhK8HTMWxLoX5+sqr9GEA6W/j1JeYGVCquPypXBb/A90QtZqHlA7J8kFXCJ+FAuqU6+4uTF+8l7Q8UAabHNqK3ntVlD8rM8Pm8Tsc=
+	t=1715037484; cv=none; b=ZAMjY5Z2KNChfBqTw9u1o/aEvHV9nHPC/dg/qWJ86uD4ugphVlfb5Cm6ZiCCMLI9bPETdntGbYAT8OLtUft08CgOF/0/UD/K1RZF9SzEurHL5zyguvCLwE9BWFdTlXEZJiuD3x4xqCgTQfuZMC2+9oxaw1c4MMxkAAKbUoavm3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715013060; c=relaxed/simple;
-	bh=623+yU0kR22zVSMp+4D0D9rwb5aiSdJGh/wAH4FIayI=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=CfTt0eJ+esKqKG3CCIHdnFD6/WBXoLq/9gpmYusvQSL+wvDzuPPMj7p6qeMzsmi9jLNg/k3pukaWXwQlJmoprQs7bpkHxwyjW2Z7QJjPb56GrKIjciwxvvCyf4Y7JMYMGL0qeJ40K9poVDG8MDiRmQBjDkKZglyKQ7aij8SdvMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Received: from omf11.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay02.hostedemail.com (Postfix) with ESMTP id CDCFF12086E;
-	Mon,  6 May 2024 16:11:41 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf11.hostedemail.com (Postfix) with ESMTPA id 1A0BB20031;
-	Mon,  6 May 2024 16:11:35 +0000 (UTC)
-Message-ID: <0e0cf5fc8c78fac42f4c657421d16456a7adca7f.camel@perches.com>
-Subject: Re: [PATCH RESEND v6 2/2] scripts: checkpatch: check unused
- parameters for function-like macro
-From: Joe Perches <joe@perches.com>
-To: Barry Song <21cnbao@gmail.com>
-Cc: akpm@linux-foundation.org, apw@canonical.com, broonie@kernel.org, 
- charlemagnelasse@gmail.com, chenhuacai@loongson.cn, chris@zankel.net, 
- corbet@lwn.net, dwaipayanray1@gmail.com, herbert@gondor.apana.org.au, 
- jcmvbkbc@gmail.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,  linux@roeck-us.net, lukas.bulwahn@gmail.com,
- mac.xxn@outlook.com,  quic_jjohnson@quicinc.com, sfr@canb.auug.org.au,
- v-songbaohua@oppo.com,  workflows@vger.kernel.org
-Date: Mon, 06 May 2024 09:11:35 -0700
-In-Reply-To: <20240506071657.13434-1-21cnbao@gmail.com>
-References: <5e26f82913801050afa4442dfb9a07249895ab98.camel@perches.com>
-	 <20240506071657.13434-1-21cnbao@gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+	s=arc-20240116; t=1715037484; c=relaxed/simple;
+	bh=mGW9+K91pwJSeBCqfEmqJmTNvzjWv33S8x3z8z3Hc1k=;
+	h=MIME-Version:Content-Type:Date:From:To:Cc:Subject:In-Reply-To:
+	 References:Message-ID; b=fP3k60Ni8p2L10fY3/7Q04ArGsy2UMVhJwxHB/n5a6h7Yabi2R3uh6zqLymMBRZa0W7eXHHzLd7zrHA7gxeQetZgF5ZPYHA2cXLyJ64GCYNQaQNMLUOSL3yNwuEKG6vbJI7WadVf73DvVVCrSQao2D+Fr2meo1O0neVnDgW8pP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net; spf=pass smtp.mailfrom=posteo.net; dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b=YgYAxv60; arc=none smtp.client-ip=185.67.36.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="YgYAxv60"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 89B61240027
+	for <workflows@vger.kernel.org>; Tue,  7 May 2024 01:17:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+	t=1715037474; bh=mGW9+K91pwJSeBCqfEmqJmTNvzjWv33S8x3z8z3Hc1k=;
+	h=MIME-Version:Content-Type:Content-Transfer-Encoding:Date:From:To:
+	 Cc:Subject:Message-ID:From;
+	b=YgYAxv60it9j+0wJBKZIO2LFltJQLwcKuK6wYdG02viEcNv5AhwxQggZWxkPVVUD4
+	 omrUOrInOKGM6OlsJmrg0qKAMC+RxqiYef/NeLU2ikM0WmDdnVH045OA0lsmeeobTK
+	 VGrYPyBOWiLMEMpXBhpMeXBI6NxPdmIpt5F1zolqiI4JX8yoQG5aDT2OEEehtzHx0/
+	 acnt47zdOtrdLDmGKp64bNY9xgJBCiHUpJUwTsL0tOssYaxOSptLFAqeyDMW4FcSrz
+	 zSHDcXuGNSUuwsKP5a8hf21GqnhvojZlm+9PJJEjU//4wTAntSW0rHPWZib5EEw92U
+	 +Y6WM/porbKgQ==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4VYHPs1tCcz9rxB;
+	Tue,  7 May 2024 01:17:53 +0200 (CEST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: 1A0BB20031
-X-Stat-Signature: 3d6e4wb336qwmeni145jng3ns8dsimgg
-X-Rspamd-Server: rspamout01
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19zhs/AL5WOEbFEj5qxCA36b2fsPCGbK8Y=
-X-HE-Tag: 1715011895-145619
-X-HE-Meta: U2FsdGVkX1+UN2l/xe24BoxmZ2QcxLtMu707GVkFNbI4UaziYTworPj1CkmGHgewpzpU0bAt6CCktYhwbwv/1O70NRFkSHTWBE1TQcOiRalIqxAOHWVzyOejTQWInLHQwft499ZlkutiSDplRztuGJ5YYRBPSrIt3FIYzWDFmFJsTklteL996mLTidqKdoYot6Nh4FVfPIQQbQQA2b6zFGYO+cwYfGXljxWNxnfJow3F/kPlTApnHE1mt41bxlRwm8LIHOBCg23bkH50w17DODUU/9JZgw16ZmxjcZ1s9vcssLktRrVuRJSCz3hqur8Op/mn7OglbGf1aZ05cdKM/leHDc/Ty2IayAICLi/o/9rzZp3Sm/bs9YbuSsvkLEX6pWblgLYQzgM+y8O5kLa0xQ==
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Mon, 06 May 2024 23:17:53 +0000
+From: Yueh-Shun Li <shamrocklee@posteo.net>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Hu Haowen <src.res.211@gmail.com>,
+ Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/1] coding-style: recommend split headers instead of
+ kernel.h
+In-Reply-To: <7a0f057c-1544-49e2-9bbe-a46eb33dc8ac@infradead.org>
+References: <107b6b5e-ca14-4b2b-ba2e-38ecd74c0ad3@infradead.org>
+ <20240108201851.191604-1-shamrocklee@posteo.net>
+ <20240108202217.191839-1-shamrocklee@posteo.net>
+ <7a0f057c-1544-49e2-9bbe-a46eb33dc8ac@infradead.org>
+Message-ID: <f20b378af31b080a01bfdef0e15b01d8@posteo.net>
 
-On Mon, 2024-05-06 at 19:16 +1200, Barry Song wrote:
-> > > From: Xining Xu <mac.xxn@outlook.com>
-> > >=20
-> > > If function-like macros do not utilize a parameter, it might result i=
-n a
-> > > build warning.  In our coding style guidelines, we advocate for utili=
-zing
-> > > static inline functions to replace such macros.  This patch verifies
-> > > compliance with the new rule.
-> > []
-> > > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> > []
-> > > @@ -6040,6 +6040,12 @@ sub process {
-> > > =A0					CHK("MACRO_ARG_PRECEDENCE",
-> > > =A0					    "Macro argument '$arg' may be better as '($arg)' to avoid=
- precedence issues\n" . "$herectx");
-> > > =A0				}
-> > > +
-> > > +# check if this is an unused argument
-> > > +				if ($define_stmt !~ /\b$arg\b/) {
-> > > +					WARN("MACRO_ARG_UNUSED",
-> > > +						"Argument '$arg' is not used in function-like macro\n" . "$her=
-ectx");
-> >=20
-> > trivia:  This should be aligned to the open parenthesis.
-> >=20
->=20
-> Hi Joe,
-> I assume you mean the below?
->=20
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index 9895d7e38a9f..2b812210b412 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -6044,7 +6044,7 @@ sub process {
-> =A0# check if this is an unused argument
-> =A0				if ($define_stmt !~ /\b$arg\b/) {
-> =A0					WARN("MACRO_ARG_UNUSED",
-> -						"Argument '$arg' is not used in function-like macro\n" . "$herectx=
-");
-> +					     "Argument '$arg' is not used in function-like macro\n" . "$her=
-ectx");
-> =A0				}
-> =A0			}
-> > Otherwise:
-> > Acked-by: Joe Perches <joe@perches.com>
+On 2024-01-28 14:26, Randy Dunlap wrote:
+> On 1/8/24 12:22, Yueh-Shun Li wrote:
+> > In section "18) Don't re-invent the kernel macros" in "Linux kernel
+> > coding style":
+> >
+> > Recommend reusing macros from headers inside include/linux, instead of
+> > the obsolete include/linux/kernel.h
+> >
+> > Change wording
+> >
+> > - "The header file contains macros" -> "the header files provide macros"
+> >   Some macros are intended to use inside the header file only, or are
+> >   considered the implementation detail of other facilities. Developers
+> >   are expected to determine if a macro is meant to be used outside the
+> >   header file.
+> >
+> > Signed-off-by: Yueh-Shun Li <shamrocklee@posteo.net>
+> 
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> Thanks.
+> 
 
-Yes, but please send a v7 instead of a separate patch
-to akpm or perhaps Andrew could combine them or fix it
-when applying v6
+Thank you for acknowledging.
 
+Anything I could help to push it forward?
+
+> > ---
+> >  Documentation/process/coding-style.rst | 24 +++++++++++++-----------
+> >  1 file changed, 13 insertions(+), 11 deletions(-)
+> >
+> > diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+> > index 6db37a46d305..2a5c4f4c568c 100644
+> > --- a/Documentation/process/coding-style.rst
+> > +++ b/Documentation/process/coding-style.rst
+> > @@ -1048,27 +1048,29 @@ readable alternative if the call-sites have naked true/false constants.
+> >  Otherwise limited use of bool in structures and arguments can improve
+> >  readability.
+> >
+> > +
+> >  18) Don't re-invent the kernel macros
+> >  -------------------------------------
+> >
+> > -The header file include/linux/kernel.h contains a number of macros that
+> > -you should use, rather than explicitly coding some variant of them yourself.
+> > +The header files in the ``include/linux`` directory provide a number of macros
+> > +that you should use, rather than explicitly coding some variant of them
+> > +yourself.
+> > +
+> >  For example, if you need to calculate the length of an array, take advantage
+> > -of the macro
+> > +of the macro ``ARRAY_SIZE()`` from ``include/linux/array_size.h`` by
+> >
+> >  .. code-block:: c
+> >
+> > -	#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+> > +	#include <linux/array_size.h>
+> > +	ARRAY_SIZE(x) // The size of array x
+> >
+> >  Similarly, if you need to calculate the size of some structure member, use
+> > +``sizeof_field()`` from ``include/linux/stddef.h``.
+> >
+> > -.. code-block:: c
+> > -
+> > -	#define sizeof_field(t, f) (sizeof(((t*)0)->f))
+> > -
+> > -There are also min() and max() macros that do strict type checking if you
+> > -need them.  Feel free to peruse that header file to see what else is already
+> > -defined that you shouldn't reproduce in your code.
+> > +There are also ``min()`` and ``max()`` macros in ``include/linux/minmax.h``
+> > +that do strict type checking if you need them. Feel free to search across and
+> > +peruse the header files to see what else is already defined that you shouldn't
+> > +reproduce in your code.
+> >
+> >
+> >  19) Editor modelines and other cruft
+
+Best regards,
+
+Yueh-Shun
