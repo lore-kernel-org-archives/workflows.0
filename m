@@ -1,133 +1,105 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0AB759155;
-	Mon,  6 May 2024 07:17:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B3298F5A;
+	Mon,  6 May 2024 16:30:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714979836; cv=none; b=RZPZGAAQyXzSIpkLI9/QqrgNv5anUCDFSRTJwPf8ir3eI6kj8e4rNCJg7HQ/LjNdLRoSJpaPSJwe5KlNrbenrXxba8DqgpW7Or1+KmerXPG7F4FC8fr4wGSN4ayVTZCB0oFiqn4zi6n1npL2ZxRFRQ7C56kwEAVfJCRmjJMAwV4=
+	t=1715013060; cv=none; b=Ob+XC8+9neKtp+acjARAWjp+tcdP/HR+3WF3GQfUYUncLtuQ3quQl+N4siS8GnmVdm1xSglhK8HTMWxLoX5+sqr9GEA6W/j1JeYGVCquPypXBb/A90QtZqHlA7J8kFXCJ+FAuqU6+4uTF+8l7Q8UAabHNqK3ntVlD8rM8Pm8Tsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714979836; c=relaxed/simple;
-	bh=K1WCsuV2vgVysMR5YZCWY9/J81gDLpA8JuqAbgG1slQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Em8SNToH1JIbWiCzLx6Q2Wwxc4HRcpSjZ8YaBVc+RufWv6xQIFHv75bY9+boYdaYleL8iUo4DMWZrZ59VnzZQ0MYfSMOKs9EnaDwN8FwSLiB+ZCKPqMH8NMsiddxitXfOajjknOzsjBIE8w3KPiVqxR/pQBPZ8FpRZZsyzmnPaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FC6ok4Sm; arc=none smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FC6ok4Sm"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6f45020ac2cso1224540b3a.0;
-        Mon, 06 May 2024 00:17:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714979834; x=1715584634; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4CZTKvqkXHwfN9qILwrzk90HvdiwAcsWOFrQEfW+iRE=;
-        b=FC6ok4Sm59HZrkI+retbJ3dQQKoaemBXn7YnYqozhC50EAMhPM7xhbTwRzcp/qRNqe
-         owTvB6pLPcOLvbGcb7fYQPbmuvSNMwcJ7ak/97PVr+rG7gd6v7buEASSWBhqESyskkEL
-         9wYTybx7Jxxn6vZnOh9s8yrj+e+VmJK4EynabbzNjIHrJPTzoNE/IJ+GyDOpJOZ4TgBl
-         Oq0qoby54BpukduCYcNmQG4uB6/0zCyxx2P33iNlWgmmKDKbnEt1hbcLTM1WEnh26Lhw
-         I+CzB35PwE7B5L37URwd4351/BagAxoSz8nYVQEx1ckFbcfSkjyxINxXdfd9zMaA7H5G
-         QHsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714979834; x=1715584634;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4CZTKvqkXHwfN9qILwrzk90HvdiwAcsWOFrQEfW+iRE=;
-        b=tr4+wzH3hJ3DnMIc8pMTE6rSXAFmbaERHmGBnSl1arx+gESAV3bkebhM7+50+oJEBR
-         vJ/xYxe1tFraWlsVCRgV0nrnmhnE33dWQzg4/cyD8nefAhz0xaxfiw9XFGqosGcKrCWU
-         Ls+Edw0xQnr/7qDRbwOr+iye+aHxmRhLkhkOgMSqBp2nG39pWz7dzfCxiMzb02y7oDwq
-         R/08W2Zpjrz3xNb4sGg8q0M+BHBuvlY3MScKlisnWoey9fUmt+G1liSjFbHS+/tLGk6H
-         ESQ9fJ30SqafvNC5vTeTA+oWoH025K23m1YWQaYWuLfWFYKB4lcADGIAhyC7J/3wBEbs
-         3YAA==
-X-Forwarded-Encrypted: i=1; AJvYcCWLgLqCFHYL8/h9gZqQ0UJNaFEloB/hhR6gaXHT/ROYDZuWk3LCHLgK9wpHf/p4ixc7Yh+KyzfFNDBJbcNIdcYHVD2FpmSa3GkIy+A0GDgoQ0sPJfzztZSZze9w3kAfrK7rGYfQngpMaD/Ct4tC2au7s/KwHxT1djVuCvjL2UzW5zC+
-X-Gm-Message-State: AOJu0YzTGabEXQQ1DACSoVjtN4nvDAJM58hLdI5H5Etsk6iGd4EkBdb/
-	TLhThNppBXFL/yg9gu6IObCLD2SGRDq5uGDuyrDUsVkvqBBoPwK+RqbY1g==
-X-Google-Smtp-Source: AGHT+IFnkT6YBQQjfzErTQTUon6Klo1F+E+nze30gG9jbyJLQHC5uMXPftLCYlGLexdwp3QR8R3B3g==
-X-Received: by 2002:a05:6a20:564e:b0:1aa:5984:d3 with SMTP id is14-20020a056a20564e00b001aa598400d3mr8611476pzc.6.1714979833990;
-        Mon, 06 May 2024 00:17:13 -0700 (PDT)
-Received: from localhost.localdomain ([2407:7000:8942:5500:aaa1:59ff:fe57:eb97])
-        by smtp.gmail.com with ESMTPSA id u90-20020a17090a51e300b002af2bf7082fsm8178779pjh.39.2024.05.06.00.17.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 May 2024 00:17:13 -0700 (PDT)
-From: Barry Song <21cnbao@gmail.com>
-To: joe@perches.com
-Cc: akpm@linux-foundation.org,
-	apw@canonical.com,
-	broonie@kernel.org,
-	charlemagnelasse@gmail.com,
-	chenhuacai@loongson.cn,
-	chris@zankel.net,
-	corbet@lwn.net,
-	dwaipayanray1@gmail.com,
-	herbert@gondor.apana.org.au,
-	jcmvbkbc@gmail.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux@roeck-us.net,
-	lukas.bulwahn@gmail.com,
-	mac.xxn@outlook.com,
-	quic_jjohnson@quicinc.com,
-	sfr@canb.auug.org.au,
-	v-songbaohua@oppo.com,
-	workflows@vger.kernel.org
-Subject: Re: [PATCH RESEND v6 2/2] scripts: checkpatch: check unused parameters for function-like macro
-Date: Mon,  6 May 2024 19:16:57 +1200
-Message-Id: <20240506071657.13434-1-21cnbao@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <5e26f82913801050afa4442dfb9a07249895ab98.camel@perches.com>
+	s=arc-20240116; t=1715013060; c=relaxed/simple;
+	bh=623+yU0kR22zVSMp+4D0D9rwb5aiSdJGh/wAH4FIayI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=CfTt0eJ+esKqKG3CCIHdnFD6/WBXoLq/9gpmYusvQSL+wvDzuPPMj7p6qeMzsmi9jLNg/k3pukaWXwQlJmoprQs7bpkHxwyjW2Z7QJjPb56GrKIjciwxvvCyf4Y7JMYMGL0qeJ40K9poVDG8MDiRmQBjDkKZglyKQ7aij8SdvMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
+Received: from omf11.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay02.hostedemail.com (Postfix) with ESMTP id CDCFF12086E;
+	Mon,  6 May 2024 16:11:41 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf11.hostedemail.com (Postfix) with ESMTPA id 1A0BB20031;
+	Mon,  6 May 2024 16:11:35 +0000 (UTC)
+Message-ID: <0e0cf5fc8c78fac42f4c657421d16456a7adca7f.camel@perches.com>
+Subject: Re: [PATCH RESEND v6 2/2] scripts: checkpatch: check unused
+ parameters for function-like macro
+From: Joe Perches <joe@perches.com>
+To: Barry Song <21cnbao@gmail.com>
+Cc: akpm@linux-foundation.org, apw@canonical.com, broonie@kernel.org, 
+ charlemagnelasse@gmail.com, chenhuacai@loongson.cn, chris@zankel.net, 
+ corbet@lwn.net, dwaipayanray1@gmail.com, herbert@gondor.apana.org.au, 
+ jcmvbkbc@gmail.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,  linux@roeck-us.net, lukas.bulwahn@gmail.com,
+ mac.xxn@outlook.com,  quic_jjohnson@quicinc.com, sfr@canb.auug.org.au,
+ v-songbaohua@oppo.com,  workflows@vger.kernel.org
+Date: Mon, 06 May 2024 09:11:35 -0700
+In-Reply-To: <20240506071657.13434-1-21cnbao@gmail.com>
 References: <5e26f82913801050afa4442dfb9a07249895ab98.camel@perches.com>
+	 <20240506071657.13434-1-21cnbao@gmail.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 1A0BB20031
+X-Stat-Signature: 3d6e4wb336qwmeni145jng3ns8dsimgg
+X-Rspamd-Server: rspamout01
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX19zhs/AL5WOEbFEj5qxCA36b2fsPCGbK8Y=
+X-HE-Tag: 1715011895-145619
+X-HE-Meta: U2FsdGVkX1+UN2l/xe24BoxmZ2QcxLtMu707GVkFNbI4UaziYTworPj1CkmGHgewpzpU0bAt6CCktYhwbwv/1O70NRFkSHTWBE1TQcOiRalIqxAOHWVzyOejTQWInLHQwft499ZlkutiSDplRztuGJ5YYRBPSrIt3FIYzWDFmFJsTklteL996mLTidqKdoYot6Nh4FVfPIQQbQQA2b6zFGYO+cwYfGXljxWNxnfJow3F/kPlTApnHE1mt41bxlRwm8LIHOBCg23bkH50w17DODUU/9JZgw16ZmxjcZ1s9vcssLktRrVuRJSCz3hqur8Op/mn7OglbGf1aZ05cdKM/leHDc/Ty2IayAICLi/o/9rzZp3Sm/bs9YbuSsvkLEX6pWblgLYQzgM+y8O5kLa0xQ==
 
->> From: Xining Xu <mac.xxn@outlook.com>
->> 
->> If function-like macros do not utilize a parameter, it might result in a
->> build warning.  In our coding style guidelines, we advocate for utilizing
->> static inline functions to replace such macros.  This patch verifies
->> compliance with the new rule.
-> []
->> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> []
->> @@ -6040,6 +6040,12 @@ sub process {
->>  					CHK("MACRO_ARG_PRECEDENCE",
->>  					    "Macro argument '$arg' may be better as '($arg)' to avoid precedence issues\n" . "$herectx");
->>  				}
->> +
->> +# check if this is an unused argument
->> +				if ($define_stmt !~ /\b$arg\b/) {
->> +					WARN("MACRO_ARG_UNUSED",
->> +						"Argument '$arg' is not used in function-like macro\n" . "$herectx");
-> 
-> trivia:  This should be aligned to the open parenthesis.
-> 
+On Mon, 2024-05-06 at 19:16 +1200, Barry Song wrote:
+> > > From: Xining Xu <mac.xxn@outlook.com>
+> > >=20
+> > > If function-like macros do not utilize a parameter, it might result i=
+n a
+> > > build warning.  In our coding style guidelines, we advocate for utili=
+zing
+> > > static inline functions to replace such macros.  This patch verifies
+> > > compliance with the new rule.
+> > []
+> > > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> > []
+> > > @@ -6040,6 +6040,12 @@ sub process {
+> > > =A0					CHK("MACRO_ARG_PRECEDENCE",
+> > > =A0					    "Macro argument '$arg' may be better as '($arg)' to avoid=
+ precedence issues\n" . "$herectx");
+> > > =A0				}
+> > > +
+> > > +# check if this is an unused argument
+> > > +				if ($define_stmt !~ /\b$arg\b/) {
+> > > +					WARN("MACRO_ARG_UNUSED",
+> > > +						"Argument '$arg' is not used in function-like macro\n" . "$her=
+ectx");
+> >=20
+> > trivia:  This should be aligned to the open parenthesis.
+> >=20
+>=20
+> Hi Joe,
+> I assume you mean the below?
+>=20
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index 9895d7e38a9f..2b812210b412 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -6044,7 +6044,7 @@ sub process {
+> =A0# check if this is an unused argument
+> =A0				if ($define_stmt !~ /\b$arg\b/) {
+> =A0					WARN("MACRO_ARG_UNUSED",
+> -						"Argument '$arg' is not used in function-like macro\n" . "$herectx=
+");
+> +					     "Argument '$arg' is not used in function-like macro\n" . "$her=
+ectx");
+> =A0				}
+> =A0			}
+> > Otherwise:
+> > Acked-by: Joe Perches <joe@perches.com>
 
-Hi Joe,
-I assume you mean the below?
-
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 9895d7e38a9f..2b812210b412 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -6044,7 +6044,7 @@ sub process {
- # check if this is an unused argument
- 				if ($define_stmt !~ /\b$arg\b/) {
- 					WARN("MACRO_ARG_UNUSED",
--						"Argument '$arg' is not used in function-like macro\n" . "$herectx");
-+					     "Argument '$arg' is not used in function-like macro\n" . "$herectx");
- 				}
- 			}
-> Otherwise:
-> Acked-by: Joe Perches <joe@perches.com>
-
-Thanks!
-
--Barry
+Yes, but please send a v7 instead of a separate patch
+to akpm or perhaps Andrew could combine them or fix it
+when applying v6
 
