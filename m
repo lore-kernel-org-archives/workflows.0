@@ -1,55 +1,55 @@
 Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D19D366;
-	Sat, 11 May 2024 19:07:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0ECB28E8;
+	Sat, 11 May 2024 20:00:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715454423; cv=none; b=Tw/ugTKcJa22s3NLyLHjAk+rTzLdXZvVHF7dfti1Ukr/AMKJ/XG5nI7DzqmCUfiGISTe7Bg7F3FoI5tL1b8bnvwlznBEb2iGKs7zn/kXMqMhnyQasDkc7nqIEMMDddxhELzz4/+p1tUjMFHvVw1/e1w/XsLYlj6C1oMiNmeo5Ic=
+	t=1715457615; cv=none; b=s42pCvllqCRL1CFzgarLi8Hl4lcJStFjVW3KYPmDU9gABR/dVIaJK153XUGBUDfrkNIfuy+/ZUkXEwtBtYVrA7EHLI2KVFpEAew617d3t8hwEbcDD18NFg1TA6mfxVZoi4729nCpyplIkSTB7xOrgn9J6VMUlfL2vOgtx+FGnNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715454423; c=relaxed/simple;
-	bh=hHRqAUoBRH82pJuymk4l5g2SstMzMc4ea1ZkfNBzjC8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=PN+m0O2aeolQokhjeKXPJzWhKjWxS62c0A29GMkDX1J8S/INRjl26vUUGucegBYKthw6ZbaTYMZ1Tt5W3YFhbatym0Z5QMMupQa5HNrz2aekGNIGN8jAd+byQHzmYIkzUvAxZD0GG8JYMQZjP5ydw2JgmOsPM3Ebc3VdhgEXf0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j3h/p2T6; arc=none smtp.client-ip=209.85.210.196
+	s=arc-20240116; t=1715457615; c=relaxed/simple;
+	bh=8AoB+QJaCTHc+PAR6r0F/plPz1JFeuwN72FCY/yvCJM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=AiwxQ183qqS2fXdRlM1TSXw0jhDRWIVMMkCRjkYFJAXPSCrVJdFoD2ynUj+QatyQneMCDqMWaGDAjE3/1HP34DFSlKKkdWAjhiPij7uvpbSLZDJwHYdiCQ0pRW19OPymYqHRcoylMPH7eKUK294mZHHvqUJu5lf8Gqs2Kq7sq6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FXbF3Mt4; arc=none smtp.client-ip=209.85.210.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j3h/p2T6"
-Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-6f44881ad9eso2603267b3a.3;
-        Sat, 11 May 2024 12:07:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FXbF3Mt4"
+Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-6f4302187c0so2905274b3a.1;
+        Sat, 11 May 2024 13:00:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715454421; x=1716059221; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1715457613; x=1716062413; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kKFpB0RxiHeU9h9LrzBPuEHdR23O3Fp1vgl2G/bmm/Y=;
-        b=j3h/p2T6IKUYLsCGEaV8qo44dgPmQxiD7RykXf0EWABlWpYDuSXISSdQktvxUNJSJ4
-         qWOrUsuRF6uYWBszLiMBjEb9ldNHM9OlJbqSerKp0jibE/vpuOPV5U6dO/X3xYHMz0Zx
-         D+6fpNqufz51b6cfA1WSR83uNsSH0cWAx6L8Tpm4OQrcn1CLuoNyob0GPxFA24JVC8ZC
-         E+XNCvWqxFF3Chdv1Xjs4wabgn7v85MA+Qc5bQTW4J9HfUaotd4oI1xHlbZFEKrQzZJs
-         +12S9hZRH6CZ5MPLAW5obggGRZbmkHPXFS1LKwHRUyeV4iL6sIMqhakrYRpOEs7NDxnL
-         Oy1Q==
+        bh=AuGYQ/onCGtqixyYcMDAegdVw322p/wRYzHUOtlbYEc=;
+        b=FXbF3Mt4g2pMq8wfn+LlP+/jkCFOUk7khzAsrZMi2mZuzWp989yfTiuCmqA9/y+CBQ
+         Vf/m4BzUq1M5b5LFZlNPrCrtefSald6ihAH7A8bhUoRxc9ikKJ6OEvzERRnzmur2P+uQ
+         gF0MOF+JuBO5LqLS+0X+uh++jbHD6IoAT8wJ/gPzsDxPEDQecerQ6yz0tmaedDsbZHmC
+         EMQFCNAoH/FEfSHUU35H9dQvDRcuJ5MnCkm5ilsxnsp6WNreANffQIjj+0T7CQz5Yf9z
+         YfBrNQaxsY9m2t19Gq/xNPaMQJLTpOPWm8M7mJU7v23M/icyR0lg3MnqaThF6M01/L6a
+         y5kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715454421; x=1716059221;
+        d=1e100.net; s=20230601; t=1715457613; x=1716062413;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kKFpB0RxiHeU9h9LrzBPuEHdR23O3Fp1vgl2G/bmm/Y=;
-        b=AeoM6HKxBawhGL5Pj1pgQCnMBZEK0A12g/2MXmmtP9yp3blAfKGOKpzKzyZHb4DtST
-         W+fFu/RIctEPaG7J9SgwF/ysBg7IArjpKW2DjEpmUts8FZURkqTXf+9h5+y/Vldjpli0
-         mTvMEzT3bPxA/0yTl/T2RUe6u/Vq9XtdwsbAZ8BdIQcmQ9eKiCm2g7H1LEZv/kNmm30n
-         SnQG6o+x5wWTWE0UbnPY15THpTxjBPDhJ7PvFipD0HF6+4+SO540YmZ98Q8Ic26UU4Hi
-         V0JFFJz2GmXmmLuPSdRsqLNBwF9GYHJhE/RzYLFIjmrl9qhe02ToPVkmQTkw/PWp/uao
-         p/Fg==
-X-Forwarded-Encrypted: i=1; AJvYcCXRNlu0sHLqzRk8qqojEX0pK/YwmF/B06XwjmsuBlBJAeITOtrYhF46CqYy1MuKJdnUMFvp24Lh1BKTyQGoamG/mV10VImyYvP66B5uywI2+bop8Nlujuc0BLWHSZY+M63pq/cVZ81Q260tz9zkw6bLMF1eUIPewEAIbpG15a3F76wM
-X-Gm-Message-State: AOJu0YxPeigPN39aA9wlGFsc2RNRi4u1e1A4pMn9lWEJ0B3a0bXsx/aB
-	WotWvSsX7QFf7K2JEeak23gtI3wixp/8+o0kRlnfACJbJWch4NTg
-X-Google-Smtp-Source: AGHT+IGmo2f78jWcqywMtYZHpVsGSJ2APhbQt+bMScxXaLDUI2+mPESa9uh0vzNCj3GOlsrEu3zlxg==
-X-Received: by 2002:a05:6a21:2709:b0:1af:d240:2c14 with SMTP id adf61e73a8af0-1afde0a9c02mr6414939637.6.1715454421184;
-        Sat, 11 May 2024 12:07:01 -0700 (PDT)
+        bh=AuGYQ/onCGtqixyYcMDAegdVw322p/wRYzHUOtlbYEc=;
+        b=H3J57tWy5f//Eff6DoKftuWasoq6faOZiK3bA/bJnrYmpmOzSRtVoZ/3EmLnHI7crn
+         f/j11weT1FyvWq1d0KSLkDA/Wdwz9QqgW53L8M21ufl75al9z5N/NsjWYC4jaqMMkynX
+         y2yuYswQ/8U/pwTmq9W/8jKwGGvDrg7XZyKvbNlIqGWxhCB6vtdeHlS4I3UJTEtGd3vj
+         4mZIMJkYvqzTjmmiPjhyFOC0dCrpkvOmKEumNqYZf0xRPcNLydNpsFr3OUK5JrgKAZVN
+         /RCrc+4dykMNtEh7qKs3gscmHM64rvKYOqTUy/lcVzqyfDTz2ANmd+mljS5FU4nK6DqM
+         GWsQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXXO2aIXTpgOJ55AWfn7npFKZrOPhF1iEERVpSWCqy+9NH3F4hU7lmvh0DkhKueRH+qTmzOSNcRYvAukKfXSotopCoK0KweaNLFIW4JB4Qd+MY3oOeHxeljoBkPI+0WX+q6czNur7OWXYOlZpIZ0+nJo4qheDhIVqxvduldTqZtkfXq
+X-Gm-Message-State: AOJu0YwV5zYTjY3kSQfP0yHJf7Zh1hHiPnO8BecC8kBCy9+K2UOM7VC+
+	ScADjVrY/DiX1TcQ3r1jifjYrA8i63Dfs8VwGmAog2hNxcgVe1sToe8LBT5zoSjs6g==
+X-Google-Smtp-Source: AGHT+IFmYMBq4uZFK2kyPjNqULWBZdYAvLhRlpXOfeGOhQm/QpEiUJ9nwQWGSAHB0dSzN8LijhYwuA==
+X-Received: by 2002:a05:6a20:a122:b0:1aa:965d:1332 with SMTP id adf61e73a8af0-1afde1c0455mr10443683637.26.1715457612077;
+        Sat, 11 May 2024 13:00:12 -0700 (PDT)
 Received: from paran-QEMU-Virtual-Machine.. ([118.32.98.101])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2b62863a22dsm7093588a91.3.2024.05.11.12.06.59
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2a86a4fsm4827586b3a.63.2024.05.11.13.00.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 May 2024 12:07:00 -0700 (PDT)
+        Sat, 11 May 2024 13:00:11 -0700 (PDT)
 From: yskelg@gmail.com
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: Austin Kim <austindh.kim@gmail.com>,
@@ -58,9 +58,9 @@ Cc: Austin Kim <austindh.kim@gmail.com>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Yunseong Kim <yskelg@gmail.com>
-Subject: [PATCH] Documentation: security-bugs Korean translation
-Date: Sun, 12 May 2024 04:06:40 +0900
-Message-Id: <20240511190639.20235-1-yskelg@gmail.com>
+Subject: [PATCH] Documentation: cve Korean translation
+Date: Sun, 12 May 2024 04:59:43 +0900
+Message-Id: <20240511195942.30857-1-yskelg@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
@@ -73,116 +73,127 @@ Content-Transfer-Encoding: 8bit
 
 From: Yunseong Kim <yskelg@gmail.com>
 
-This is a Documentation/process/security-bugs korean version.
+This is a Documentation/process/cve korean version.
 
 Signed-off-by: Yunseong Kim <yskelg@gmail.com>
 ---
- .../ko_KR/process/security-bugs.rst           | 96 +++++++++++++++++++
- 1 file changed, 96 insertions(+)
- create mode 100644 Documentation/translations/ko_KR/process/security-bugs.rst
+ .../translations/ko_KR/process/cve.rst        | 107 ++++++++++++++++++
+ 1 file changed, 107 insertions(+)
+ create mode 100644 Documentation/translations/ko_KR/process/cve.rst
 
-diff --git a/Documentation/translations/ko_KR/process/security-bugs.rst b/Documentation/translations/ko_KR/process/security-bugs.rst
+diff --git a/Documentation/translations/ko_KR/process/cve.rst b/Documentation/translations/ko_KR/process/cve.rst
 new file mode 100644
-index 000000000000..b8f16fe846ac
+index 000000000000..26682969b2b7
 --- /dev/null
-+++ b/Documentation/translations/ko_KR/process/security-bugs.rst
-@@ -0,0 +1,96 @@
++++ b/Documentation/translations/ko_KR/process/cve.rst
+@@ -0,0 +1,107 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+:Original: Documentation/process/security-bugs.rst
++:Original: Documentation/process/cve.rst
 +:Translator: Yunseong Kim <yskelg@gmail.com>
 +
-+보안 버그
-+=========
++==========
++CVE 항목들
++==========
 +
-+Linux 커널 개발자는 보안을 매우 중요하게 생각합니다.
-+따라서 보안 버그를 발견하면 가능한 한 빨리 수정하고 공개할 수 있도록
-+알려주시기 바랍니다. 보안 버그를 Linux 커널 보안 팀에 신고해 주세요.
++공통 취약점 및 노출(CVE®) 번호는 공개적으로 발표된 보안 취약점을 식별, 정의 및
++목록화하기 위한 명확한 방법으로 개발되었습니다. 시간이 지남에 따라 커널
++프로젝트와 관련하여서는 그 유용성이 감소했으며, CVE 번호는 부적절한 방식과
++부적절한 이유로 할당되는 경우가 매우 많았습니다. 이로 인하여 커널 개발
++커뮤니티에서는 이를 기피하는 경향이 있었습니다. 그러나 커널 커뮤니티 외부의
++개인과 회사가 CVE 및 기타 형태의 보안 식별자를 할당하라는 지속적인 압박과
++지속적인 남용이 결합되면서 커널 커뮤니티가 이러한 할당에 대한 통제권을 가져야
++한다는 것이 분명해졌습니다.
 +
-+제보하기
-+--------
++Linux 커널 개발자 팀은 잠재적인 Linux 커널 보안 문제에 대해 CVE를 할당할 수
++있는 권한이 있습니다. 여기서 할당은 :doc:`일반 Linux 커널 보안 버그 보고
++절차<../process/security-bugs>`와는 별개입니다.
 +
-+Linux 커널 보안팀은 <security@kernel.org> 이메일로 연락할 수 있습니다.
-+버그 신고를 확인하고 수정 사항을 개발 및 릴리스하는 데 도움을 줄 보안 담당자의
-+비공개 목록입니다. 이미 수정 사항이 있는 경우 신고에 포함하면 처리 속도가
-+상당히 빨라질 수 있습니다. 보안팀이 보안 취약점을 파악하고 수정하기 위해
-+영역 관리자의 도움을 추가로 받을 수도 있습니다.
++Linux 커널에 할당된 모든 CVE 목록은
++https://lore.kernel.org/linux-cve-announce/ 에 있는 Linux-CVE 메일링 리스트의
++아카이브에서 확인할 수 있습니다. 할당된 CVE에 대한 알림을 받으려면 해당
++메일링 리스트에 `구독
++<https://subspace.kernel.org/subscribing.html>`_ 하세요.
 +
-+모든 버그가 그렇듯이 더 많은 정보를 제공할수록 진단과 수정이 더 쉬워집니다.
-+어떤 정보가 도움이 될지 잘 모르겠다면
-+'Documentation/admin-guide/reporting-issues.rst'에
-+나와있는 문제 신고하기 절차를 검토해 주세요. 모든 보안 취약점 공격 코드는
-+매우 유용하며 이미 공개되어 있지 않은 한 신고자의 동의 없이 공개되지 않습니다.
++절차
++====
 +
-+가능한 경우 첨부 파일 없이 일반 텍스트 이메일을 보내주세요.
-+첨부 파일에 모든 세부 사항이 숨겨져 있으면 복잡한 문제에 대해 맥락에 맞는
-+토론을 하기가 훨씬 더 어렵습니다. (아직 패치가 없는 경우라도) :doc:`일반적인
-+패치 제출<../../../process/submitting-patches>`과 마찬가지로 문제와 영향을
-+설명하고, 재현 단계를 나열하고, 제안된 수정 사항을 모두 일반 텍스트로
-+작성하세요.
++일반적인 안정 릴리스 절차의 일부로, 잠재적으로 보안 문제가 될 수 있는 커널
++변경 사항은 CVE 번호 할당을 담당하는 개발자가 식별하여 CVE 번호를 자동으로
++할당합니다. 이러한 할당은 linux-cve-announce 메일링 리스트에 공지사항으로
++수시로 게시됩니다.
 +
-+공개 및 엠바고 정보
-+-------------------
++리눅스 커널이 시스템에 있는 계층으로 인해 거의 모든 버그가 커널의 보안을
++손상시키는 데 악용될 수 있지만 버그가 수정되면 악용 가능성이 명확하게 드러나지
++않는 경우가 많습니다. 이 때문에 CVE 할당 팀은 지나치게 조심스럽게 버그 수정이
++확인되는 모든 버그에 CVE 번호를 할당합니다.
++이것이 리눅스 커널 팀에서 발행하는 겉으로 보기에 많은 수의 CVE를 설명합니다.
 +
-+보안 목록은 공개 채널이 아닙니다. 이에 대해서는 아래의 조정 사항을 참조하세요.
-+강력한 수정이 개발되면 릴리스 프로세스가 시작됩니다. 공개적으로 알려진 버그에
-+대한 수정 사항은 즉시 릴리스됩니다.
++사용자가 CVE를 지정해야 한다고 생각하는 특정 수정 사항을 CVE 할당 팀이 놓친
++경우 <cve@kernel.org>로 이메일을 보내 주시면 해당 팀에서 함께 작업할 것입니다.
++이 별칭은 이미 릴리스된 커널 트리에 있는 수정 사항에 대한 CVE 할당 전용이므로
++잠재적인 보안 문제는 이 별칭으로 보내서는 안 됩니다.
++수정되지 않은 보안 문제를 발견했다고 생각되면 :doc:`일반 Linux 커널 보안
++버그 보고 절차<../process/security-bugs>`를 따르세요.
 +
-+공개적으로 알려지지 않은 버그에 대한 수정 사항이 제공되는 즉시 공개하는 것을
-+선호하지만, 신고자 또는 영향을 받는 당사자의 요청에 따라 공개 프로세스
-+시작일로부터 최대 7일 동안 연기될 수 있으며, 버그의 중요도에 따라 시간이 더
-+필요하다는 데 동의하는 경우 예외적으로 14일까지 연장될 수 있습니다.
-+수정 사항 공개를 연기할 수 있는 유일한 유효한 이유는 릴리스 조율이 필요한 QA
-+및 대규모 롤아웃의 복잡한 실행 계획을 수용하기 위해서입니다.
++Linux 커널에서 수정되지 않은 보안 이슈에 대해서는 CVE가 자동으로 할당되지
++않으며, 수정이 제공되고 안정적인 커널 트리에 적용된 후에만 자동으로 할당되며,
++기존 수정의 git 커밋 ID로 추적할 수 있습니다. 커밋으로 문제가 해결되기 전에
++CVE를 할당받고자 하는 사람은 커널 CVE 할당 팀<cve@kernel.org>에 문의하여
++예약된 식별자 항목들에서 식별자를 할당받으시기 바랍니다.
 +
-+엠바고된 정보는 수정 개발을 위해 신뢰할 수 있는 개인과 공유할 수 있지만,
-+신고자의 허가 없이 수정 사항과 함께 또는 다른 공개 채널에 게시할 수 없습니다.
-+여기에는 원래의 버그 보고서와 후속 논의(있는 경우), 보안 취약점 공격 코드,
-+CVE 정보 또는 신고자의 신원이 포함되지만 이에 국한되지 않습니다.
++현재 Stable/LTS 커널 팀에서 적극적으로 지원하지 않는 커널 버전에서 발견된
++문제에 대해서는 CVE가 할당되지 않습니다.
++현재 지원되는 커널 브랜치 목록은 https://kernel.org/releases.html 에서 확인할
++수 있습니다.
 +
-+다시 말해, 저희의 유일한 관심사는 버그 수정입니다. 보안 목록에 제출된 기타
-+모든 정보와 보고에 대한 후속 논의는 엠바고가 해제된 후에도 영구적으로 기밀로
-+취급됩니다.
++할당된 CVE 항목들의 분쟁
++=========================
 +
-+다른 그룹과의 협력
-+------------------
++특정 커널 변경에 대해 할당된 CVE에 대해 이의를 제기하거나 수정할 권한은
++전적으로 영향을 받는 관련 하위 시스템의 유지 관리자에게 있습니다.
++이 원칙은 취약점 보고에 있어 높은 수준의 정확성과 책임성을 보장합니다.
++하위 시스템에 대한 깊은 전문 지식과 친밀한 지식을 갖춘 사람만이 보고된
++취약점의 유효성과 범위를 효과적으로 평가하고 적절한 CVE 지정을 결정할 수
++있습니다. 이 지정된 기관 외부에서 CVE를 수정하거나 이의를 제기하려는 시도는
++혼란, 부정확한 보고, 궁극적으로 시스템 손상으로 이어질 수 있습니다.
 +
-+커널 보안팀은 버그 수정에만 집중하는 반면, 다른 그룹은 배포판의 문제를
-+해결하고 운영 체제 공급업체 간의 공개를 조율하는 데 중점을 둡니다.
-+조율은 일반적으로 "리눅스 배포판" 메일링 리스트에서 처리하고 공개는
-+공공의 "oss-security" 메일링 리스트에서 처리하며, 이 둘은 서로 밀접하게
-+관련되어 있으며 리눅스 배포판 위키에 제시되어 있습니다:
-+<https://oss-security.openwall.org/wiki/mailing-lists/distros>
++잘못된 CVE 항목들
++=================
 +
-+세 가지 목록들이 추구하는 목표가 다르기 때문에 각각의 정책과 규칙이 다르다는
-+점에 유의하세요. 커널 보안 팀과 다른 팀 간의 조율이 어려운 이유는
-+커널 보안 팀의 경우 간혹 엠바고(최대 허용 일수에 따라)는 수정이 가능한
-+시점부터 시작하지만, "리눅스 배포판"의 경우 수정 가능 여부와 관계없이 초기
-+게시물부터 목록에 올라오기 때문입니다.
++해당 배포판에서 변경된 사항으로 인해 또는 해당 배포판이 더 이상 kernel.org
++지원 릴리스가 아닌 커널 버전을 지원하기 때문에 Linux 배포판에서만 지원되는
++Linux 커널에서 보안 문제가 발견되는 경우 Linux 커널 CVE 팀에서 CVE를 할당할 수
++없으며 해당 Linux 배포판 자체에서 요청해야 합니다.
 +
-+따라서 커널 보안팀은 잠재적인 보안 문제를 신고하는 경우 해당 코드의
-+메인테이너가 수정 사항을 수락하고 위의 배포판 위키 페이지를 읽었으며
-+"리눅스 배포판" 메일링 리스트에 연락하는 것이 자신과 커널 커뮤니티에 부과되는
-+요구 사항임을 완벽히 이해할 때까지 "리눅스 배포판"에 연락하지 않을 것을
-+강력히 권장합니다. 이는 또한 일반적으로 수락된 수정 사항이 아직 병합되지 않은
-+상태에서 조정을 위한 경우를 제외하고는 두 목록을 한 번에 참조하는 것이
-+합리적이지 않다는 것을 의미합니다. 즉, 수정 사항이 수락될 때까지는
-+"리눅스 배포판"을 메일에 참조하지 말고, 병합된 후에는 커널 보안 팀을 메일에
-+참조하지 마세요.
++커널 할당 CVE 팀이 아닌 다른 그룹에서 적극적으로 지원되는 커널 버전에 대해
++Linux 커널에 대해 할당된 CVE는 유효한 CVE로 취급해서는 안 됩니다.
++CNA 수정 절차를 통해 해당 항목을 무효화할 수 있도록 커널 CVE 할당 팀에
++<cve@kernel.org>로 알려주시기 바랍니다.
 +
-+CVE 할당
-+--------
++특정 CVE의 적용 가능성
++======================
 +
-+보안팀은 불필요하게 프로세스를 복잡하게 만들고 버그 처리를 지연시킬 수
-+있으므로 보고나 수정에 대해 CVE를 할당하지 않으며, 이를 요구하지도 않습니다.
-+보고자가 확인된 문제에 대해 CVE 식별자를 할당받고자 하는 경우 :doc:`커널 CVE
-+할당팀<../../../process/cve>`에 연락하여 할당받을 수 있습니다.
++Linux 커널은 외부 사용자가 다양한 방법으로 접근하거나 전혀 접근하지 않는
++등 다양한 방식으로 사용될 수 있으므로 특정 CVE의 적용 여부는 Linux 사용자가
++결정할 사항이며 CVE 할당 팀의 권한이 아닙니다. 특정 CVE의 적용 가능성을
++판단하기 위해 우리에게 문의하지 마시기 바랍니다.
 +
-+비공개 계약서
-+-------------
++또한 소스 트리가 매우 방대하고 어떤 시스템도 소스 트리의 작은 하위 집합만
++사용하므로 Linux 사용자는 할당된 많은 수의 CVE가 자신의 시스템과 관련이 없다는
++사실을 알고 인지해야 합니다.
 +
-+Linux 커널 보안 팀은 공식적인 기관이 아니므로 기밀 유지 계약을 체결할 수
-+없습니다.
++즉, 우리는 사용자의 사용 사례를 알지 못하며 사용자가 커널의 어떤 부분을
++사용하는지 알 수 없으므로 특정 CVE가 사용자의 시스템과 관련이 있는지 판단할 수
++있는 방법이 없습니다.
++
++항상 그렇듯이 커널 변경 사항은 개별적으로 선별된 변경 사항이 아니라 많은
++커뮤니티 구성원이 통합된 전체에서 함께 테스트하는 것이므로 릴리스된 모든 커널
++변경 사항을 적용하는 것이 가장 좋습니다. 또한 많은 버그의 경우 전체 문제에
++대한 해결책은 단일 변경 사항이 아니라 여러 수정 사항을 모아놓고 보아야 찾을 수
++있다는 점에 유의하세요. 이상적으로는 모든 문제에 대한 모든 수정 사항에 CVE가
++할당되지만, 때로는 수정 사항을 발견하지 못하는 경우가 있으므로 CVE가 할당되지
++않은 일부 변경 사항이 관련성이 있을 수 있다고 가정합니다.
 -- 
 2.34.1
 
