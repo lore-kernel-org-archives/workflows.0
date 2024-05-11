@@ -1,199 +1,143 @@
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0ECB28E8;
-	Sat, 11 May 2024 20:00:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AECA5C2ED
+	for <workflows@vger.kernel.org>; Sat, 11 May 2024 22:32:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715457615; cv=none; b=s42pCvllqCRL1CFzgarLi8Hl4lcJStFjVW3KYPmDU9gABR/dVIaJK153XUGBUDfrkNIfuy+/ZUkXEwtBtYVrA7EHLI2KVFpEAew617d3t8hwEbcDD18NFg1TA6mfxVZoi4729nCpyplIkSTB7xOrgn9J6VMUlfL2vOgtx+FGnNk=
+	t=1715466771; cv=none; b=P4CKcvEWOavczY0MQXRXNK7ZULwsnDjZocL4svBVAglO5Wl0TKAEVai01uUf2XERrlPtBHFygHc/D8j34WBNqoKgj3IlNg41HmNww96IPIeQ5TSyVjdUktaTAZGDdKPPUy54W1XbdxV7rmQf0ahpMnl+3VuUKnvBh9vPJZd4Zo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715457615; c=relaxed/simple;
-	bh=8AoB+QJaCTHc+PAR6r0F/plPz1JFeuwN72FCY/yvCJM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=AiwxQ183qqS2fXdRlM1TSXw0jhDRWIVMMkCRjkYFJAXPSCrVJdFoD2ynUj+QatyQneMCDqMWaGDAjE3/1HP34DFSlKKkdWAjhiPij7uvpbSLZDJwHYdiCQ0pRW19OPymYqHRcoylMPH7eKUK294mZHHvqUJu5lf8Gqs2Kq7sq6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FXbF3Mt4; arc=none smtp.client-ip=209.85.210.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1715466771; c=relaxed/simple;
+	bh=9+jNicSIoeudc+F3EPpKSthDjra2W3jAMeqKdhOWTK4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=X/JJctcCP33oAs3wva1n48BugIcecQ/pUtaKLYvPvBcBa+Fy7Z4C5N3BVP8YnQSVfjMbATzsYrCUwxsweXzp9kY/3lU0MbfA1YD9d67ROMqvAeRhvHPnngGu15zYTVC6ifXTt81txwMdEYBiV0hUTuedOjL8IBfr1C1RDDTRgWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=L5l1mY+B; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FXbF3Mt4"
-Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-6f4302187c0so2905274b3a.1;
-        Sat, 11 May 2024 13:00:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="L5l1mY+B"
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2df848f9325so39282511fa.1
+        for <workflows@vger.kernel.org>; Sat, 11 May 2024 15:32:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715457613; x=1716062413; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AuGYQ/onCGtqixyYcMDAegdVw322p/wRYzHUOtlbYEc=;
-        b=FXbF3Mt4g2pMq8wfn+LlP+/jkCFOUk7khzAsrZMi2mZuzWp989yfTiuCmqA9/y+CBQ
-         Vf/m4BzUq1M5b5LFZlNPrCrtefSald6ihAH7A8bhUoRxc9ikKJ6OEvzERRnzmur2P+uQ
-         gF0MOF+JuBO5LqLS+0X+uh++jbHD6IoAT8wJ/gPzsDxPEDQecerQ6yz0tmaedDsbZHmC
-         EMQFCNAoH/FEfSHUU35H9dQvDRcuJ5MnCkm5ilsxnsp6WNreANffQIjj+0T7CQz5Yf9z
-         YfBrNQaxsY9m2t19Gq/xNPaMQJLTpOPWm8M7mJU7v23M/icyR0lg3MnqaThF6M01/L6a
-         y5kw==
+        d=linaro.org; s=google; t=1715466767; x=1716071567; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ayQkPZ/+Ja6xRaXyLxW87mdfZ/SJLfKA5C9uQsxLStw=;
+        b=L5l1mY+BI+Zk0KHL782h7eHBQnL8sPUQkdEdnDBTg5DqnHPBGzHaTWsmtY6/inYV+o
+         t82nKKBGcpabosBtvAjAzx6cC17o3DBIHuCeV4YNdNx2fnqz5m79amzD8KWZOVhSJpaL
+         BHl/7Z0bbvZ77GXEcz/MICgHKerz41cpDf8wyNzzBOiNJHIyOqLN2Zz/NLcoQflkPBRR
+         8hWYHJlWmFpmNcbhwazBAu0pvfseoUHQtUonZdpXPMMRFVuu7JNHbyN0EGgpiSX15MWp
+         Vtwq5hpZX8PocaQJQV+/VCPSAgokavx8pGc/AuMPV2XmZ5PX0tdI1KnymuZOuHjMpt3V
+         HpBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715457613; x=1716062413;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1715466767; x=1716071567;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=AuGYQ/onCGtqixyYcMDAegdVw322p/wRYzHUOtlbYEc=;
-        b=H3J57tWy5f//Eff6DoKftuWasoq6faOZiK3bA/bJnrYmpmOzSRtVoZ/3EmLnHI7crn
-         f/j11weT1FyvWq1d0KSLkDA/Wdwz9QqgW53L8M21ufl75al9z5N/NsjWYC4jaqMMkynX
-         y2yuYswQ/8U/pwTmq9W/8jKwGGvDrg7XZyKvbNlIqGWxhCB6vtdeHlS4I3UJTEtGd3vj
-         4mZIMJkYvqzTjmmiPjhyFOC0dCrpkvOmKEumNqYZf0xRPcNLydNpsFr3OUK5JrgKAZVN
-         /RCrc+4dykMNtEh7qKs3gscmHM64rvKYOqTUy/lcVzqyfDTz2ANmd+mljS5FU4nK6DqM
-         GWsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXXO2aIXTpgOJ55AWfn7npFKZrOPhF1iEERVpSWCqy+9NH3F4hU7lmvh0DkhKueRH+qTmzOSNcRYvAukKfXSotopCoK0KweaNLFIW4JB4Qd+MY3oOeHxeljoBkPI+0WX+q6czNur7OWXYOlZpIZ0+nJo4qheDhIVqxvduldTqZtkfXq
-X-Gm-Message-State: AOJu0YwV5zYTjY3kSQfP0yHJf7Zh1hHiPnO8BecC8kBCy9+K2UOM7VC+
-	ScADjVrY/DiX1TcQ3r1jifjYrA8i63Dfs8VwGmAog2hNxcgVe1sToe8LBT5zoSjs6g==
-X-Google-Smtp-Source: AGHT+IFmYMBq4uZFK2kyPjNqULWBZdYAvLhRlpXOfeGOhQm/QpEiUJ9nwQWGSAHB0dSzN8LijhYwuA==
-X-Received: by 2002:a05:6a20:a122:b0:1aa:965d:1332 with SMTP id adf61e73a8af0-1afde1c0455mr10443683637.26.1715457612077;
-        Sat, 11 May 2024 13:00:12 -0700 (PDT)
-Received: from paran-QEMU-Virtual-Machine.. ([118.32.98.101])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2a86a4fsm4827586b3a.63.2024.05.11.13.00.10
+        bh=ayQkPZ/+Ja6xRaXyLxW87mdfZ/SJLfKA5C9uQsxLStw=;
+        b=Kh0vv7bjDVZsU22pkhNMdUQ+iMkztROShtJhFvxfsMdggFTrTUv9uzo0crKiiy486X
+         vOO4AH5tlcsdxWB7bWl3qT0XwYi3uPNWWUUHc/7eYYxFWAzUmqTF01jJPwdS7Pl/wSaz
+         D8cuPQAtP4Q3kTJUMk/Rxbnf8usw+ZLyUQwnvxsg3UqnHwb0Gqp3A6wtALzF/zNZ6j9c
+         snCk3lash42DVSqElftDSjGhuPaFAntEEjCtJYiY7Fqsd2jdyQ7B7EL/pcK1ljbqmmJm
+         qV1vC6WYqV5xl6/4Z/ZJhowDWSnH7AXpA4BhERboMvTKjqv9HO3mqUcM8W8i7OxWGfiy
+         0WZw==
+X-Gm-Message-State: AOJu0YzXewspBnSiMo7DEg9YbY7c0oMKZ6q0EOhGiZ+RY/MU/otb2iXn
+	CUbkcmwiVheRh4DT0Yl5jmhdv6z9VjbTls12ad2xHE/hjwV3dbx9p72Olc5azSM=
+X-Google-Smtp-Source: AGHT+IHIZPF1F7rpdmiB8zVjvs9j63L4ySis6WkHrE1pCnC9pnyXQKMMTw9kUd9VUQgA/K9/tkLJUQ==
+X-Received: by 2002:a05:6512:785:b0:51e:11d5:bca3 with SMTP id 2adb3069b0e04-5221006e61amr3469492e87.18.1715466766866;
+        Sat, 11 May 2024 15:32:46 -0700 (PDT)
+Received: from umbar.lan ([192.130.178.91])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-521f35ba81fsm1127956e87.100.2024.05.11.15.32.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 May 2024 13:00:11 -0700 (PDT)
-From: yskelg@gmail.com
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Austin Kim <austindh.kim@gmail.com>,
-	shjy180909@gmail.com,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Yunseong Kim <yskelg@gmail.com>
-Subject: [PATCH] Documentation: cve Korean translation
-Date: Sun, 12 May 2024 04:59:43 +0900
-Message-Id: <20240511195942.30857-1-yskelg@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Sat, 11 May 2024 15:32:45 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sun, 12 May 2024 01:32:45 +0300
+Subject: [PATCH v2] docs: document python version used for compilation
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240512-python-version-v2-1-382870a1fa1d@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAAzyP2YC/3WMQQ7CIBBFr9LMWgygqHXlPUwX0wLtJAaaoSE2D
+ XeXdu/y/fz3NkiOySV4Nhuwy5Qohgr61MAwYRidIFsZtNRXaWQr5nWZYhDZ8X4V+OhvA2qljfd
+ QpZmdp+8RfHeVJ0pL5PXoZ7Wvf1NZCSXwbi1esDW98a8PBeR4jjxCV0r5AfO3uyWtAAAA
+To: Jonathan Corbet <corbet@lwn.net>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, Jon Hunter <jonathanh@nvidia.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2264;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=9+jNicSIoeudc+F3EPpKSthDjra2W3jAMeqKdhOWTK4=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmP/IN6moNPSkS5RdVGvLI1pvK47IdjjvwevOEi
+ H2N8KH5JNiJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZj/yDQAKCRCLPIo+Aiko
+ 1b7/B/90NPkOoZ8qSWRYxnXABQCgT9LTVkXhfbbO7/Pc+dOo3/3TONJGInxKeUn490eaRHwHeuz
+ 9vE/piFYctiN3nBqMCPgU1wdwSXkpXG7aO9uzxVYZFda4T5iH2sg9LNMPG9vd66Y4MPRE5UShNJ
+ jIpW2um9X15VUVS0GLR7oExe3jVHOeBe/vsDVyejvXnNd3Y5oHdKUkjX9DqJzfDulLMqZU1Lm5A
+ Kf5du4NmIlp3XZvESVP9Xu0jkrLiVubjYMnd1ZmlmcuriIwkRqRtGpkSMcvPn/76OfkfYf6gqV1
+ cCpzDfuZXB8BAxj27gFWTe6ZxmgVGDu7p0QYa2hoioSCMCOB
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 
-From: Yunseong Kim <yskelg@gmail.com>
+The drm/msm driver had adopted using Python3 script to generate register
+header files instead of shipping pre-generated header files. Document
+the minimal Python version supported by the script. Per request by Jon
+Hunter, the script is required to be compatible with Python 3.5.
 
-This is a Documentation/process/cve korean version.
+Python is documented as an optional dependency, as it is required only
+in a limited set of kernel configurations (following the example of
+other optional dependencies).
 
-Signed-off-by: Yunseong Kim <yskelg@gmail.com>
+Cc: Jon Hunter <jonathanh@nvidia.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- .../translations/ko_KR/process/cve.rst        | 107 ++++++++++++++++++
- 1 file changed, 107 insertions(+)
- create mode 100644 Documentation/translations/ko_KR/process/cve.rst
+Depends: https://lore.kernel.org/dri-devel/20240507230440.3384949-1-quic_abhinavk@quicinc.com/
+---
+Changes in v2:
+- Expanded documentation for the Python usage.
+- Link to v1: https://lore.kernel.org/r/20240509-python-version-v1-1-a7dda3a95b5f@linaro.org
+---
+ Documentation/process/changes.rst | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/Documentation/translations/ko_KR/process/cve.rst b/Documentation/translations/ko_KR/process/cve.rst
-new file mode 100644
-index 000000000000..26682969b2b7
---- /dev/null
-+++ b/Documentation/translations/ko_KR/process/cve.rst
-@@ -0,0 +1,107 @@
-+.. SPDX-License-Identifier: GPL-2.0
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index 5685d7bfe4d0..30f17e3f954f 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -63,6 +63,7 @@ cpio                   any              cpio --version
+ GNU tar                1.28             tar --version
+ gtags (optional)       6.6.5            gtags --version
+ mkimage (optional)     2017.01          mkimage --version
++Python (optional)      3.5.x            python3 --version
+ ====================== ===============  ========================================
+ 
+ .. [#f1] Sphinx is needed only to build the Kernel documentation
+@@ -198,6 +199,13 @@ platforms. The tool is available via the ``u-boot-tools`` package or can be
+ built from the U-Boot source code. See the instructions at
+ https://docs.u-boot.org/en/latest/build/tools.html#building-tools-for-linux
+ 
++Python
++------
 +
-+:Original: Documentation/process/cve.rst
-+:Translator: Yunseong Kim <yskelg@gmail.com>
++Python is required to generate register headers for the drm/msm driver or to
++build the linker script if the kernel is built using Clang compiler if LTO
++(Link Time Optimisation) is enabled.
 +
-+==========
-+CVE 항목들
-+==========
-+
-+공통 취약점 및 노출(CVE®) 번호는 공개적으로 발표된 보안 취약점을 식별, 정의 및
-+목록화하기 위한 명확한 방법으로 개발되었습니다. 시간이 지남에 따라 커널
-+프로젝트와 관련하여서는 그 유용성이 감소했으며, CVE 번호는 부적절한 방식과
-+부적절한 이유로 할당되는 경우가 매우 많았습니다. 이로 인하여 커널 개발
-+커뮤니티에서는 이를 기피하는 경향이 있었습니다. 그러나 커널 커뮤니티 외부의
-+개인과 회사가 CVE 및 기타 형태의 보안 식별자를 할당하라는 지속적인 압박과
-+지속적인 남용이 결합되면서 커널 커뮤니티가 이러한 할당에 대한 통제권을 가져야
-+한다는 것이 분명해졌습니다.
-+
-+Linux 커널 개발자 팀은 잠재적인 Linux 커널 보안 문제에 대해 CVE를 할당할 수
-+있는 권한이 있습니다. 여기서 할당은 :doc:`일반 Linux 커널 보안 버그 보고
-+절차<../process/security-bugs>`와는 별개입니다.
-+
-+Linux 커널에 할당된 모든 CVE 목록은
-+https://lore.kernel.org/linux-cve-announce/ 에 있는 Linux-CVE 메일링 리스트의
-+아카이브에서 확인할 수 있습니다. 할당된 CVE에 대한 알림을 받으려면 해당
-+메일링 리스트에 `구독
-+<https://subspace.kernel.org/subscribing.html>`_ 하세요.
-+
-+절차
-+====
-+
-+일반적인 안정 릴리스 절차의 일부로, 잠재적으로 보안 문제가 될 수 있는 커널
-+변경 사항은 CVE 번호 할당을 담당하는 개발자가 식별하여 CVE 번호를 자동으로
-+할당합니다. 이러한 할당은 linux-cve-announce 메일링 리스트에 공지사항으로
-+수시로 게시됩니다.
-+
-+리눅스 커널이 시스템에 있는 계층으로 인해 거의 모든 버그가 커널의 보안을
-+손상시키는 데 악용될 수 있지만 버그가 수정되면 악용 가능성이 명확하게 드러나지
-+않는 경우가 많습니다. 이 때문에 CVE 할당 팀은 지나치게 조심스럽게 버그 수정이
-+확인되는 모든 버그에 CVE 번호를 할당합니다.
-+이것이 리눅스 커널 팀에서 발행하는 겉으로 보기에 많은 수의 CVE를 설명합니다.
-+
-+사용자가 CVE를 지정해야 한다고 생각하는 특정 수정 사항을 CVE 할당 팀이 놓친
-+경우 <cve@kernel.org>로 이메일을 보내 주시면 해당 팀에서 함께 작업할 것입니다.
-+이 별칭은 이미 릴리스된 커널 트리에 있는 수정 사항에 대한 CVE 할당 전용이므로
-+잠재적인 보안 문제는 이 별칭으로 보내서는 안 됩니다.
-+수정되지 않은 보안 문제를 발견했다고 생각되면 :doc:`일반 Linux 커널 보안
-+버그 보고 절차<../process/security-bugs>`를 따르세요.
-+
-+Linux 커널에서 수정되지 않은 보안 이슈에 대해서는 CVE가 자동으로 할당되지
-+않으며, 수정이 제공되고 안정적인 커널 트리에 적용된 후에만 자동으로 할당되며,
-+기존 수정의 git 커밋 ID로 추적할 수 있습니다. 커밋으로 문제가 해결되기 전에
-+CVE를 할당받고자 하는 사람은 커널 CVE 할당 팀<cve@kernel.org>에 문의하여
-+예약된 식별자 항목들에서 식별자를 할당받으시기 바랍니다.
-+
-+현재 Stable/LTS 커널 팀에서 적극적으로 지원하지 않는 커널 버전에서 발견된
-+문제에 대해서는 CVE가 할당되지 않습니다.
-+현재 지원되는 커널 브랜치 목록은 https://kernel.org/releases.html 에서 확인할
-+수 있습니다.
-+
-+할당된 CVE 항목들의 분쟁
-+=========================
-+
-+특정 커널 변경에 대해 할당된 CVE에 대해 이의를 제기하거나 수정할 권한은
-+전적으로 영향을 받는 관련 하위 시스템의 유지 관리자에게 있습니다.
-+이 원칙은 취약점 보고에 있어 높은 수준의 정확성과 책임성을 보장합니다.
-+하위 시스템에 대한 깊은 전문 지식과 친밀한 지식을 갖춘 사람만이 보고된
-+취약점의 유효성과 범위를 효과적으로 평가하고 적절한 CVE 지정을 결정할 수
-+있습니다. 이 지정된 기관 외부에서 CVE를 수정하거나 이의를 제기하려는 시도는
-+혼란, 부정확한 보고, 궁극적으로 시스템 손상으로 이어질 수 있습니다.
-+
-+잘못된 CVE 항목들
-+=================
-+
-+해당 배포판에서 변경된 사항으로 인해 또는 해당 배포판이 더 이상 kernel.org
-+지원 릴리스가 아닌 커널 버전을 지원하기 때문에 Linux 배포판에서만 지원되는
-+Linux 커널에서 보안 문제가 발견되는 경우 Linux 커널 CVE 팀에서 CVE를 할당할 수
-+없으며 해당 Linux 배포판 자체에서 요청해야 합니다.
-+
-+커널 할당 CVE 팀이 아닌 다른 그룹에서 적극적으로 지원되는 커널 버전에 대해
-+Linux 커널에 대해 할당된 CVE는 유효한 CVE로 취급해서는 안 됩니다.
-+CNA 수정 절차를 통해 해당 항목을 무효화할 수 있도록 커널 CVE 할당 팀에
-+<cve@kernel.org>로 알려주시기 바랍니다.
-+
-+특정 CVE의 적용 가능성
-+======================
-+
-+Linux 커널은 외부 사용자가 다양한 방법으로 접근하거나 전혀 접근하지 않는
-+등 다양한 방식으로 사용될 수 있으므로 특정 CVE의 적용 여부는 Linux 사용자가
-+결정할 사항이며 CVE 할당 팀의 권한이 아닙니다. 특정 CVE의 적용 가능성을
-+판단하기 위해 우리에게 문의하지 마시기 바랍니다.
-+
-+또한 소스 트리가 매우 방대하고 어떤 시스템도 소스 트리의 작은 하위 집합만
-+사용하므로 Linux 사용자는 할당된 많은 수의 CVE가 자신의 시스템과 관련이 없다는
-+사실을 알고 인지해야 합니다.
-+
-+즉, 우리는 사용자의 사용 사례를 알지 못하며 사용자가 커널의 어떤 부분을
-+사용하는지 알 수 없으므로 특정 CVE가 사용자의 시스템과 관련이 있는지 판단할 수
-+있는 방법이 없습니다.
-+
-+항상 그렇듯이 커널 변경 사항은 개별적으로 선별된 변경 사항이 아니라 많은
-+커뮤니티 구성원이 통합된 전체에서 함께 테스트하는 것이므로 릴리스된 모든 커널
-+변경 사항을 적용하는 것이 가장 좋습니다. 또한 많은 버그의 경우 전체 문제에
-+대한 해결책은 단일 변경 사항이 아니라 여러 수정 사항을 모아놓고 보아야 찾을 수
-+있다는 점에 유의하세요. 이상적으로는 모든 문제에 대한 모든 수정 사항에 CVE가
-+할당되지만, 때로는 수정 사항을 발견하지 못하는 경우가 있으므로 CVE가 할당되지
-+않은 일부 변경 사항이 관련성이 있을 수 있다고 가정합니다.
+ System utilities
+ ****************
+ 
+
+---
+base-commit: e8bd80985f8ed4c04e36209228163fcf06496763
+change-id: 20240509-python-version-a8b6ca2125ff
+
+Best regards,
 -- 
-2.34.1
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
