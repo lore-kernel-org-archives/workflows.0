@@ -1,183 +1,188 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9D6A4D13B;
-	Fri, 10 May 2024 20:04:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D19D366;
+	Sat, 11 May 2024 19:07:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715371457; cv=none; b=VvHKfGAzujG8Ro/cZKycBY7esH1/9vRCYdo1xPNUbCPrX88I/wDd+CMbdILxzrgsNJH9xTKrVhKi2VWiqgfIgzaXEmEp6dcE0WZvakdvfVQoF8XNDnoz62gBf12JWtv65HQaxpWwd0pj3tkecKX0C2iTVNI1+PfqL5sTRwvTh/Y=
+	t=1715454423; cv=none; b=Tw/ugTKcJa22s3NLyLHjAk+rTzLdXZvVHF7dfti1Ukr/AMKJ/XG5nI7DzqmCUfiGISTe7Bg7F3FoI5tL1b8bnvwlznBEb2iGKs7zn/kXMqMhnyQasDkc7nqIEMMDddxhELzz4/+p1tUjMFHvVw1/e1w/XsLYlj6C1oMiNmeo5Ic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715371457; c=relaxed/simple;
-	bh=NTpJ5mZLyP6kU52VSGq8JCs19pLGgOI5J6ZUilwq1Is=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=al6HnbipnId9sO2t4SpCQuR/7XsHJEIp5sznz1KAhF0kipGXPAMYqCqPIHQfTDf/EkFqIZmiqMQPAs+ziage3roX9cHF0n45BqW6Amn7RZP7SXpDeqB3769yL0S1k8H3pNZuCUQuqbvNjYlHDsJ9n2S9YMtzJzKAMEU7QoC3PtA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a4bxUDBF; arc=none smtp.client-ip=209.85.218.43
+	s=arc-20240116; t=1715454423; c=relaxed/simple;
+	bh=hHRqAUoBRH82pJuymk4l5g2SstMzMc4ea1ZkfNBzjC8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=PN+m0O2aeolQokhjeKXPJzWhKjWxS62c0A29GMkDX1J8S/INRjl26vUUGucegBYKthw6ZbaTYMZ1Tt5W3YFhbatym0Z5QMMupQa5HNrz2aekGNIGN8jAd+byQHzmYIkzUvAxZD0GG8JYMQZjP5ydw2JgmOsPM3Ebc3VdhgEXf0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j3h/p2T6; arc=none smtp.client-ip=209.85.210.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a4bxUDBF"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a59c5c9c6aeso597077966b.2;
-        Fri, 10 May 2024 13:04:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j3h/p2T6"
+Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-6f44881ad9eso2603267b3a.3;
+        Sat, 11 May 2024 12:07:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715371454; x=1715976254; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3w76oPIiLr/d19BookiO28Dm/LSyOamo5VRLJKyQTcM=;
-        b=a4bxUDBF/gNoLhLYzxabqHaqH+iL5fBp1yb1RhGZ8kYa3J+9U0D3s8XlO3ecIlb76K
-         Hb3Aht3KioU2Sd4Mg3Du/meFFj7v4HAyd9AWKUT3Fb8XTu/7NlI+6lh0jbOg+pOS5CJK
-         LPy3TB0T1A5Z8Y06bstvFWWNViHVV8PbrZtFszp+4iMkAAyoCzeqwX6v9/8+O2CRbCBC
-         whlzvZQVsywsso1aaxamGab2J0TEQtaJWBFVKWfJP6otDWi5hW+JG2BmRJea0h6WaQJY
-         o93RndoA963j97NFF3ga1Y+0XxKTr7yC5p8oZUtlnGqTbSjYhX2JyNhxbcO0QTJtix00
-         9RrA==
+        d=gmail.com; s=20230601; t=1715454421; x=1716059221; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kKFpB0RxiHeU9h9LrzBPuEHdR23O3Fp1vgl2G/bmm/Y=;
+        b=j3h/p2T6IKUYLsCGEaV8qo44dgPmQxiD7RykXf0EWABlWpYDuSXISSdQktvxUNJSJ4
+         qWOrUsuRF6uYWBszLiMBjEb9ldNHM9OlJbqSerKp0jibE/vpuOPV5U6dO/X3xYHMz0Zx
+         D+6fpNqufz51b6cfA1WSR83uNsSH0cWAx6L8Tpm4OQrcn1CLuoNyob0GPxFA24JVC8ZC
+         E+XNCvWqxFF3Chdv1Xjs4wabgn7v85MA+Qc5bQTW4J9HfUaotd4oI1xHlbZFEKrQzZJs
+         +12S9hZRH6CZ5MPLAW5obggGRZbmkHPXFS1LKwHRUyeV4iL6sIMqhakrYRpOEs7NDxnL
+         Oy1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715371454; x=1715976254;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3w76oPIiLr/d19BookiO28Dm/LSyOamo5VRLJKyQTcM=;
-        b=xUZm41sul/zOvwVsqI4Gr901nhAurfxSBXE59H8I9ygXPhCVQSHKRlNISBlPLKQnpd
-         eApxiSYaFr7eYHf82zrLzGPMBnDb3L6d5kaAVxM0GEKNhSHzy6aXTBblcd87XNEVpVXp
-         RpRtrU+qRNY/m6kGlXh/nT03rbB4A4XCvJl0jaqxBrxIqljWPJ6BLD3hpeIePTYZ8SCr
-         q9eo8jlGEE/Nsvp+4cPb2cISi/6LV2oJ9pKsZbK215PtYf58cv/rkd425ZuhXH3ACIwQ
-         F7xcoRf8iNaYEiHx0Svpato/c0+JiAi7ChXMmjXvhcE1Aeioq9K9vdVQYQn9D7YaLLhn
-         La7g==
-X-Forwarded-Encrypted: i=1; AJvYcCW+U399z6u07Axk4PS1CRhKNA2HNJblAYlhN0ucapJVKs6ShirNzH06Qm9/QBprcl1zYxT0CEFO9WzH6qzo3IxSMwxx+9x0izxSA9Kz5q9aIYIf1ao8kNe7XvW7f/SGoC9Jze1f0TeaKTg9vNABmLBqhBit9Hw4oz7qoXClo5E/8s2ExwJw/EaOMEcO21TNEoKC105MfTBRoYqyyGJGGxCtXw==
-X-Gm-Message-State: AOJu0Yx+DBVB7Rx/BtbvGrVgh/6z3I98ygK4Gq6dI1nNXsGM4O+8GhXl
-	98dY1HFemG0L7YUqWEJ9ePPVjsYVBXWMtl2lhApM/LNmzeXAI3m3RvWZ7++06r2MFLLjhnmUrcy
-	gxc4VB9Z5IgBYuG2LtHIqPq52Aho=
-X-Google-Smtp-Source: AGHT+IEOZIt/kgQAQ9S2hYehUkMrxzbU+PDxfVocTwJSC9s/TAZ5/r2D+c6d3cBlKbP4DaN8BXoB1u0mHygG1fPm6z4=
-X-Received: by 2002:a50:9e61:0:b0:566:d333:45e8 with SMTP id
- 4fb4d7f45d1cf-5734d5ce24fmr2906201a12.20.1715371454083; Fri, 10 May 2024
- 13:04:14 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1715454421; x=1716059221;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kKFpB0RxiHeU9h9LrzBPuEHdR23O3Fp1vgl2G/bmm/Y=;
+        b=AeoM6HKxBawhGL5Pj1pgQCnMBZEK0A12g/2MXmmtP9yp3blAfKGOKpzKzyZHb4DtST
+         W+fFu/RIctEPaG7J9SgwF/ysBg7IArjpKW2DjEpmUts8FZURkqTXf+9h5+y/Vldjpli0
+         mTvMEzT3bPxA/0yTl/T2RUe6u/Vq9XtdwsbAZ8BdIQcmQ9eKiCm2g7H1LEZv/kNmm30n
+         SnQG6o+x5wWTWE0UbnPY15THpTxjBPDhJ7PvFipD0HF6+4+SO540YmZ98Q8Ic26UU4Hi
+         V0JFFJz2GmXmmLuPSdRsqLNBwF9GYHJhE/RzYLFIjmrl9qhe02ToPVkmQTkw/PWp/uao
+         p/Fg==
+X-Forwarded-Encrypted: i=1; AJvYcCXRNlu0sHLqzRk8qqojEX0pK/YwmF/B06XwjmsuBlBJAeITOtrYhF46CqYy1MuKJdnUMFvp24Lh1BKTyQGoamG/mV10VImyYvP66B5uywI2+bop8Nlujuc0BLWHSZY+M63pq/cVZ81Q260tz9zkw6bLMF1eUIPewEAIbpG15a3F76wM
+X-Gm-Message-State: AOJu0YxPeigPN39aA9wlGFsc2RNRi4u1e1A4pMn9lWEJ0B3a0bXsx/aB
+	WotWvSsX7QFf7K2JEeak23gtI3wixp/8+o0kRlnfACJbJWch4NTg
+X-Google-Smtp-Source: AGHT+IGmo2f78jWcqywMtYZHpVsGSJ2APhbQt+bMScxXaLDUI2+mPESa9uh0vzNCj3GOlsrEu3zlxg==
+X-Received: by 2002:a05:6a21:2709:b0:1af:d240:2c14 with SMTP id adf61e73a8af0-1afde0a9c02mr6414939637.6.1715454421184;
+        Sat, 11 May 2024 12:07:01 -0700 (PDT)
+Received: from paran-QEMU-Virtual-Machine.. ([118.32.98.101])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2b62863a22dsm7093588a91.3.2024.05.11.12.06.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 May 2024 12:07:00 -0700 (PDT)
+From: yskelg@gmail.com
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Austin Kim <austindh.kim@gmail.com>,
+	shjy180909@gmail.com,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Yunseong Kim <yskelg@gmail.com>
+Subject: [PATCH] Documentation: security-bugs Korean translation
+Date: Sun, 12 May 2024 04:06:40 +0900
+Message-Id: <20240511190639.20235-1-yskelg@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240509-python-version-v1-1-a7dda3a95b5f@linaro.org>
- <878r0ijdh5.fsf@intel.com> <20240510102036.3ea40b37@sal.lan> <87o79ehtbz.fsf@intel.com>
-In-Reply-To: <87o79ehtbz.fsf@intel.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 10 May 2024 13:04:02 -0700
-Message-ID: <CAF6AEGvTkL=JxGDaOab9XpJ4htWQnBA1dTEOUxBUTAavM0DB4w@mail.gmail.com>
-Subject: Re: [PATCH] docs: document python version used for compilation
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
-	Marijn Suijten <marijn.suijten@somainline.org>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Masahiro Yamada <masahiroy@kernel.org>, linux-arm-msm@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, May 10, 2024 at 3:09=E2=80=AFAM Jani Nikula <jani.nikula@intel.com>=
- wrote:
->
-> On Fri, 10 May 2024, Mauro Carvalho Chehab <mchehab@kernel.org> wrote:
-> > Em Fri, 10 May 2024 11:08:38 +0300
-> > Jani Nikula <jani.nikula@intel.com> escreveu:
-> >
-> >> On Thu, 09 May 2024, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wr=
-ote:
-> >> > The drm/msm driver had adopted using Python3 script to generate regi=
-ster
-> >> > header files instead of shipping pre-generated header files. Documen=
-t
-> >> > the minimal Python version supported by the script.
-> >> >
-> >> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >> > ---
-> >> >  Documentation/process/changes.rst | 1 +
-> >> >  1 file changed, 1 insertion(+)
-> >> >
-> >> > diff --git a/Documentation/process/changes.rst b/Documentation/proce=
-ss/changes.rst
-> >> > index 5685d7bfe4d0..8d225a9f65a2 100644
-> >> > --- a/Documentation/process/changes.rst
-> >> > +++ b/Documentation/process/changes.rst
-> >> > @@ -63,6 +63,7 @@ cpio                   any              cpio --ver=
-sion
-> >> >  GNU tar                1.28             tar --version
-> >> >  gtags (optional)       6.6.5            gtags --version
-> >> >  mkimage (optional)     2017.01          mkimage --version
-> >> > +Python (optional)      3.5.x            python3 --version
-> >>
-> >> Python 3.5 reached end-of-life 3=C2=BD years ago [1]. What's the point=
- in
-> >> using anything older than the oldest supported version of Python,
-> >> i.e. 3.8 at this time?
-> >
-> > What's the point of breaking compilation with on older distros?
-> > The idea of minimal versions here is to specify the absolute minimum
-> > version that it is required for the build to happen. If 3.5 is
-> > the minimal one, then be it.
->
-> AFAICT 3.5 was an arbitrary rather than a deliberate choice. We should
-> at least be aware *why* we'd be sticking to old versions.
->
-> Minimum versions here also means sticking to features available in said
-> versions, for Python just as well as for GCC or any other tool. That's
-> not zero cost.
+From: Yunseong Kim <yskelg@gmail.com>
 
-At this point, the cost to having a lower minimum version is pretty
-small, so I'm not worrying too much about it.
+This is a Documentation/process/security-bugs korean version.
 
-Maybe once kernel developers discover mako, and start generating more
-at build time, we'll have to re-evaluate. ;-)
+Signed-off-by: Yunseong Kim <yskelg@gmail.com>
+---
+ .../ko_KR/process/security-bugs.rst           | 96 +++++++++++++++++++
+ 1 file changed, 96 insertions(+)
+ create mode 100644 Documentation/translations/ko_KR/process/security-bugs.rst
 
-BR,
--R
+diff --git a/Documentation/translations/ko_KR/process/security-bugs.rst b/Documentation/translations/ko_KR/process/security-bugs.rst
+new file mode 100644
+index 000000000000..b8f16fe846ac
+--- /dev/null
++++ b/Documentation/translations/ko_KR/process/security-bugs.rst
+@@ -0,0 +1,96 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++:Original: Documentation/process/security-bugs.rst
++:Translator: Yunseong Kim <yskelg@gmail.com>
++
++보안 버그
++=========
++
++Linux 커널 개발자는 보안을 매우 중요하게 생각합니다.
++따라서 보안 버그를 발견하면 가능한 한 빨리 수정하고 공개할 수 있도록
++알려주시기 바랍니다. 보안 버그를 Linux 커널 보안 팀에 신고해 주세요.
++
++제보하기
++--------
++
++Linux 커널 보안팀은 <security@kernel.org> 이메일로 연락할 수 있습니다.
++버그 신고를 확인하고 수정 사항을 개발 및 릴리스하는 데 도움을 줄 보안 담당자의
++비공개 목록입니다. 이미 수정 사항이 있는 경우 신고에 포함하면 처리 속도가
++상당히 빨라질 수 있습니다. 보안팀이 보안 취약점을 파악하고 수정하기 위해
++영역 관리자의 도움을 추가로 받을 수도 있습니다.
++
++모든 버그가 그렇듯이 더 많은 정보를 제공할수록 진단과 수정이 더 쉬워집니다.
++어떤 정보가 도움이 될지 잘 모르겠다면
++'Documentation/admin-guide/reporting-issues.rst'에
++나와있는 문제 신고하기 절차를 검토해 주세요. 모든 보안 취약점 공격 코드는
++매우 유용하며 이미 공개되어 있지 않은 한 신고자의 동의 없이 공개되지 않습니다.
++
++가능한 경우 첨부 파일 없이 일반 텍스트 이메일을 보내주세요.
++첨부 파일에 모든 세부 사항이 숨겨져 있으면 복잡한 문제에 대해 맥락에 맞는
++토론을 하기가 훨씬 더 어렵습니다. (아직 패치가 없는 경우라도) :doc:`일반적인
++패치 제출<../../../process/submitting-patches>`과 마찬가지로 문제와 영향을
++설명하고, 재현 단계를 나열하고, 제안된 수정 사항을 모두 일반 텍스트로
++작성하세요.
++
++공개 및 엠바고 정보
++-------------------
++
++보안 목록은 공개 채널이 아닙니다. 이에 대해서는 아래의 조정 사항을 참조하세요.
++강력한 수정이 개발되면 릴리스 프로세스가 시작됩니다. 공개적으로 알려진 버그에
++대한 수정 사항은 즉시 릴리스됩니다.
++
++공개적으로 알려지지 않은 버그에 대한 수정 사항이 제공되는 즉시 공개하는 것을
++선호하지만, 신고자 또는 영향을 받는 당사자의 요청에 따라 공개 프로세스
++시작일로부터 최대 7일 동안 연기될 수 있으며, 버그의 중요도에 따라 시간이 더
++필요하다는 데 동의하는 경우 예외적으로 14일까지 연장될 수 있습니다.
++수정 사항 공개를 연기할 수 있는 유일한 유효한 이유는 릴리스 조율이 필요한 QA
++및 대규모 롤아웃의 복잡한 실행 계획을 수용하기 위해서입니다.
++
++엠바고된 정보는 수정 개발을 위해 신뢰할 수 있는 개인과 공유할 수 있지만,
++신고자의 허가 없이 수정 사항과 함께 또는 다른 공개 채널에 게시할 수 없습니다.
++여기에는 원래의 버그 보고서와 후속 논의(있는 경우), 보안 취약점 공격 코드,
++CVE 정보 또는 신고자의 신원이 포함되지만 이에 국한되지 않습니다.
++
++다시 말해, 저희의 유일한 관심사는 버그 수정입니다. 보안 목록에 제출된 기타
++모든 정보와 보고에 대한 후속 논의는 엠바고가 해제된 후에도 영구적으로 기밀로
++취급됩니다.
++
++다른 그룹과의 협력
++------------------
++
++커널 보안팀은 버그 수정에만 집중하는 반면, 다른 그룹은 배포판의 문제를
++해결하고 운영 체제 공급업체 간의 공개를 조율하는 데 중점을 둡니다.
++조율은 일반적으로 "리눅스 배포판" 메일링 리스트에서 처리하고 공개는
++공공의 "oss-security" 메일링 리스트에서 처리하며, 이 둘은 서로 밀접하게
++관련되어 있으며 리눅스 배포판 위키에 제시되어 있습니다:
++<https://oss-security.openwall.org/wiki/mailing-lists/distros>
++
++세 가지 목록들이 추구하는 목표가 다르기 때문에 각각의 정책과 규칙이 다르다는
++점에 유의하세요. 커널 보안 팀과 다른 팀 간의 조율이 어려운 이유는
++커널 보안 팀의 경우 간혹 엠바고(최대 허용 일수에 따라)는 수정이 가능한
++시점부터 시작하지만, "리눅스 배포판"의 경우 수정 가능 여부와 관계없이 초기
++게시물부터 목록에 올라오기 때문입니다.
++
++따라서 커널 보안팀은 잠재적인 보안 문제를 신고하는 경우 해당 코드의
++메인테이너가 수정 사항을 수락하고 위의 배포판 위키 페이지를 읽었으며
++"리눅스 배포판" 메일링 리스트에 연락하는 것이 자신과 커널 커뮤니티에 부과되는
++요구 사항임을 완벽히 이해할 때까지 "리눅스 배포판"에 연락하지 않을 것을
++강력히 권장합니다. 이는 또한 일반적으로 수락된 수정 사항이 아직 병합되지 않은
++상태에서 조정을 위한 경우를 제외하고는 두 목록을 한 번에 참조하는 것이
++합리적이지 않다는 것을 의미합니다. 즉, 수정 사항이 수락될 때까지는
++"리눅스 배포판"을 메일에 참조하지 말고, 병합된 후에는 커널 보안 팀을 메일에
++참조하지 마세요.
++
++CVE 할당
++--------
++
++보안팀은 불필요하게 프로세스를 복잡하게 만들고 버그 처리를 지연시킬 수
++있으므로 보고나 수정에 대해 CVE를 할당하지 않으며, 이를 요구하지도 않습니다.
++보고자가 확인된 문제에 대해 CVE 식별자를 할당받고자 하는 경우 :doc:`커널 CVE
++할당팀<../../../process/cve>`에 연락하여 할당받을 수 있습니다.
++
++비공개 계약서
++-------------
++
++Linux 커널 보안 팀은 공식적인 기관이 아니므로 기밀 유지 계약을 체결할 수
++없습니다.
+-- 
+2.34.1
 
-> I guess there are two angles here too. The absolute minimum version
-> currently required, and the, uh, maximum the minimum version can be
-> safely bumped to. Say, you want to use a feature not available in the
-> current minimum, how far up can you bump the version to?
->
-> Could we define and document the criteria (e.g. based on distros as you
-> suggest below) so we don't have to repeat the discussion?
->
->
-> BR,
-> Jani.
->
-> >
-> > -
-> >
-> > Now, a criteria is needed to raise the minimal version. IMO, the
-> > minimal version shall be at least the minimal one present on most
-> > used LTS distros that are not EOL.
-> >
-> > I would look for at least 4 such distros:
-> >
-> > - Debian
-> >
-> >   Looking at https://wiki.debian.org/LTS, Debian 10 EOL will be on
-> >   June, 2024.
-> >
-> >   Looking at:
-> >
-> >       https://distrowatch.com/table.php?distribution=3Ddebian
-> >
-> >   Debian 10 uses python 3.7.3.
-> >
-> > - Looking at Distrowatch for openSUSE Leap 15.5, it uses Python
-> >   3.6.15 and has an EOL schedule for Dec, 2024.
-> >
-> > - RHEL 8.9 uses a bigger version than those two - 3.11.5 - again
-> >   looking at Distrowatch to check it.
-> >
-> > - SLES 15 SP4 and above uses Python 3.11, according with:
-> >   https://www.suse.com/c/python-3-11-stack-for-suse-linux-enterprise-15=
-/
-> >
-> > From the above, IMO kernel shall support building with Python 3.6
-> > at least until the end of this year.
-> >
-> > Regards,
-> > Mauro
->
-> --
-> Jani Nikula, Intel
