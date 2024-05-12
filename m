@@ -1,112 +1,146 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67454225DD;
-	Sat, 11 May 2024 23:52:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE964CA40;
+	Sun, 12 May 2024 07:47:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715471571; cv=none; b=fW/jmzziy5Phpk7J8TO0Vh4yMY7ydGcApU8gC3+UTzdgd5Mn8YDg8OdElmPX8F6Ztoy93OgfN7paNzIu1vDEnejEEaVjO0jn28RqT4t9kjgg5D1wzhtlFt7JEqw7WVNUTYpXnRSiBdK+aA/ip9c+mpt+inp/YAOeY6/aJJOsr8A=
+	t=1715500060; cv=none; b=QFdhhniIKbBJEa0j28yqt8vT9U2SjAo1C2WseT46jQUdPfHrclmNFnWVTh/jd5TBGSKXLEe272pQMb3No6Sr5B60+U4/Fqqa4mYHJUBU+tbzcvRsN+Cm6m1yuyh3o586RrGJB3cVs6/i50YHPF5QEzKBc+k76FJIb/9FZxBcQW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715471571; c=relaxed/simple;
-	bh=IbNnSahqd/NNiXXa5cZwi7QOzrJkA2Gqc4Z7NVjdzJA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=f8Ft16EeRWMBCuPqkCyihZrWOlhhy66yzi2cKQINePhcDpMg+9FgbNuFifFrczsyGhwaF/+qPfJjW6usRMqsQG2+AlTd6a/TyIF8V/C3lyT0M7yvMMZTGQgPXgVkT+3mcecy6eeba0Pt0rquQBAXzlR8n2u9lfqil9MCS6sxF+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=eNwt+8lq; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1715500060; c=relaxed/simple;
+	bh=NTMj3NfU9TUc+AeedznHpHq2SaG3+ncuNw0pRe/+td0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=sKJ08rd2TTd784e/dosTZsT0P4ntd7/vvrdrlFMfuQ3zXoDEVpvqBmxkCy9LKY5OtLgA2Lq3tUjHFWBPY3JB45gKLQt3mRqpETXY2aFgMC8g60lK6fvOTGKcQnn37JGcurAQ86tX79ovNsMwQ9sDTo1JtnF7Is/rIpHmR1nXlfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=S6KiLzBI; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="eNwt+8lq"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44BNX2fd025593;
-	Sat, 11 May 2024 23:52:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=e6ENqyxIQZA/ZVDqighZgSXE2MZS1LUDrO/qoWPPNGA=; b=eN
-	wt+8lqC4gIrnr9Xm2yo9GPHQOO+Zf4sv7INC+7cfM4O8aHeIOam03FdL04HoaD3e
-	07wURugB04HLiSgkmbskN5tg7O3TOHnOsNQk3+m9SX3ycuvZwcdOesLSdMHvOpJE
-	/cpjSGKZ1YZCgBtQm+kxtnTELYgFTyMjQNiG2+zGHDQZCu/kgLA0ebLw0Q5Ym40+
-	bUJ2HLl8FZAfiWds+bxewYNI8lFIiIX2c9zWOXh2scMi1ihMz8Njl0a1nyvjG7DV
-	7E+WbFMVbzNNfqW7KSG3z5IePezgZtuNa2q2ky4+FzZtDL5aJ3IpoouELD3svbul
-	pnULTxt0YepXnLq0fQcw==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3y212593w2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 11 May 2024 23:52:34 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44BNqWVJ005233
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 11 May 2024 23:52:32 GMT
-Received: from [10.110.113.192] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sat, 11 May
- 2024 16:52:31 -0700
-Message-ID: <68e05c6f-d0ed-efea-6eef-a9ee008c6c24@quicinc.com>
-Date: Sat, 11 May 2024 16:52:29 -0700
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="S6KiLzBI"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:To:Subject:MIME-Version:Date:Message-ID:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=t5YNiFvKKaSlUXzOdtFl9m4V1ultZO6GtFGZX1xHmww=; t=1715500057;
+	x=1715932057; b=S6KiLzBIF5/8+rRJX8UAPsHYF++vGOOq0xlv4PXk7Til1sEN9D2jNaFoMXPB2
+	b4sTUhD2sJZy0m813AoC7tTLy0Q1TYnPDrX6O58apvl0Kk4t/PK3FzXXWTp3zcgqO+sa0qSE4chET
+	OvPMaTbVECX7Rddrc7HwIb0wU0uNSxRdHUKOE2ZGE7KWPo6OTuSEfyDvg4U/3JbjAxHVyZWaJAr85
+	wLV4ohuhowI7DcrePVlU9mWfYR2MHzEqyI0Wp27QR95dYV5mVAQQbcXvQAYcsgD8jTp+JdezEK9eC
+	YNYQoo53irl6sTUP0xuKfDRm9J89PNTrIjxH0mUy+f0CeZ2tyw==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1s63vg-00027i-6i; Sun, 12 May 2024 09:47:32 +0200
+Message-ID: <8ebe6545-de7e-4ee4-b36e-e91e90b90b70@leemhuis.info>
+Date: Sun, 12 May 2024 09:47:31 +0200
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2] docs: document python version used for compilation
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Jonathan Corbet
-	<corbet@lwn.net>, Rob Clark <robdclark@gmail.com>,
-        Sean Paul
-	<sean@poorly.run>,
-        Marijn Suijten <marijn.suijten@somainline.org>
-CC: <workflows@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <freedreno@lists.freedesktop.org>, Jon Hunter <jonathanh@nvidia.com>
-References: <20240512-python-version-v2-1-382870a1fa1d@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20240512-python-version-v2-1-382870a1fa1d@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH docs-next v2] docs: handling-regressions.rst: recommend
+ using "Closes:" tags
+To: Karel Balej <balejk@matfyz.cz>, Jonathan Corbet <corbet@lwn.net>,
+ regressions@lists.linux.dev, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240510183748.13028-1-balejk@matfyz.cz>
+From: Thorsten Leemhuis <linux@leemhuis.info>
+Content-Language: en-US, de-DE
+Autocrypt: addr=linux@leemhuis.info; keydata=
+ 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 n7RI
+In-Reply-To: <20240510183748.13028-1-balejk@matfyz.cz>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: w0cgzoGxbAFqIURiF96Y0iqyA8G6T8BB
-X-Proofpoint-ORIG-GUID: w0cgzoGxbAFqIURiF96Y0iqyA8G6T8BB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-11_06,2024-05-10_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 spamscore=0
- lowpriorityscore=0 mlxlogscore=999 clxscore=1015 bulkscore=0
- priorityscore=1501 impostorscore=0 phishscore=0 adultscore=0
- suspectscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405010000 definitions=main-2405110180
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1715500058;4aa08b68;
+X-HE-SMSGID: 1s63vg-00027i-6i
 
-
-
-On 5/11/2024 3:32 PM, Dmitry Baryshkov wrote:
-> The drm/msm driver had adopted using Python3 script to generate register
-> header files instead of shipping pre-generated header files. Document
-> the minimal Python version supported by the script. Per request by Jon
-> Hunter, the script is required to be compatible with Python 3.5.
+On 10.05.24 20:34, Karel Balej wrote:
+> Update the handling-regressions guide to recommend using "Closes:" tags
+> rather than "Link:" when referencing fixed reports. The latter was used
+> originally but now is only recommended when the given patch only fixes
+> part of the issue, as described in submitting-patches. Briefly mention
+> that and also note that regzbot currently doesn't make a distinction.
 > 
-> Python is documented as an optional dependency, as it is required only
-> in a limited set of kernel configurations (following the example of
-> other optional dependencies).
+> Also fix a typo.
 > 
-> Cc: Jon Hunter <jonathanh@nvidia.com>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
-> Depends: https://lore.kernel.org/dri-devel/20240507230440.3384949-1-quic_abhinavk@quicinc.com/
-> ---
-> Changes in v2:
-> - Expanded documentation for the Python usage.
-> - Link to v1: https://lore.kernel.org/r/20240509-python-version-v1-1-a7dda3a95b5f@linaro.org
-> ---
->   Documentation/process/changes.rst | 8 ++++++++
->   1 file changed, 8 insertions(+)
-> 
+> Signed-off-by: Karel Balej <balejk@matfyz.cz>
 
+Many thx for this, much appreciated. Looks good!
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Acked-by: Thorsten Leemhuis <linux@leemhuis.info>
+
+One quick note:
+
+>  
+>  What's important when fixing regressions
+>  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> @@ -112,10 +115,16 @@ remember to do what Documentation/process/submitting-patches.rst,
+>  :ref:`Documentation/process/5.Posting.rst <development_posting>`, and
+>  Documentation/process/stable-kernel-rules.rst already explain in more detail:
+>  
+> - * Point to all places where the issue was reported using "Link:" tags::
+> + * Point to all places where the issue was reported using "Closes:" tags::
+>  
+> -       Link: https://lore.kernel.org/r/30th.anniversary.repost@klaava.Helsinki.FI/
+> -       Link: https://bugzilla.kernel.org/show_bug.cgi?id=1234567890
+> +       Closes: https://lore.kernel.org/r/30th.anniversary.repost@klaava.Helsinki.FI/
+> +       Closes: https://bugzilla.kernel.org/show_bug.cgi?id=1234567890
+> +
+> +   If you are only fixing part of the issue, you may use "Link:" instead as
+> +   described in the first document mentioned above.
+
+Not totally sure if...
+
+> Some maintainers may even
+> +   prefer it over "Closes:" entirely, although the latter is generally
+> +   recommended.
+
+...this sentence really should be here, but whatever.
+
+> regzbot currently treats both of these equivalently and
+> +   considers the linked reports as resolved.
+>  
+
+Thx again! Ciao, Thorsten
