@@ -1,197 +1,177 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B82385478B;
-	Tue, 21 May 2024 09:28:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA2D514B083
+	for <workflows@vger.kernel.org>; Thu, 23 May 2024 13:22:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716283709; cv=none; b=YTu23V+IXHYS2JTORSrlSL0D8IXoMwi2KNrwcg/jnZ+2oKrkxh76HtC42jFE/Yy/Yp3RNOMxAT9fYYP5Ucq+EffSxgj0JJlKwMHHdGq6yjFdYE68DMWGa6EvzBgqXbHuudPfznu7T3wmABbqhfY+OtbG6Ih2MGAUBf8nR67WVuU=
+	t=1716470525; cv=none; b=eEdYYHZQj696JOdgcbUH7HsY6ndiglWC5PzsbG7XJ5O4Tuz0Dvap+eX+ZXTwfcp1NhRwJ77w+fEpo8hPqhR3EdxHt7x8ANAE3iwKpjwJ7bQpF2BD0OgHyQjTHTYu9romsoz9n3X1UW9cdbJwk8e9IYSBcGH/0hgdUvcFU+NBMbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716283709; c=relaxed/simple;
-	bh=vu4Fr4NnQHtFu5eBOffzT74hbPy+G9MfIqvA0bqoLfU=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:
-	 References:In-Reply-To; b=b3pKvs+o/bm53gG89RtvzcplkyYW1v156/+GRXD7vNmAby1QRyZSnMRqV/jKWwx7lB5eZrQZHNXzRvzAsdPok5VA3oVIYpR6aLP1xocAfrCkx9fsKdF4lbGdjih+mjRvSNRLRUJ8pW9lNt5VD3g+L6jxt0tUps6k1GZfENCL3GA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=omHaxv8U; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1716470525; c=relaxed/simple;
+	bh=NH24LVGdDYeMPuYOJqA4c6ioraAkWYckArYfePkuphA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GqqRyu19Mu8s529FS4kXgir6odY4oDZdTeWhgbeCJrmCJm6SZqk9+GI6zgj/8C6WMpTgmJEoZED4j0JVo9L8v0cFUKinjsBaTqBxcRjVNBJXJA5qFXcWGmprpRVh2twkRzoOg3M1RxPdab/LI2dQvr26Z16LmxzPOL4ehsN2ABc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=TBlNJTYW; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="omHaxv8U"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6333FC4AF07;
-	Tue, 21 May 2024 09:28:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716283709;
-	bh=vu4Fr4NnQHtFu5eBOffzT74hbPy+G9MfIqvA0bqoLfU=;
-	h=Date:Subject:From:To:References:In-Reply-To:From;
-	b=omHaxv8UqD3LFxWqgzUNsyO6tACio0yOaRVMzFye9QZ/qJNp6cNQr0UvJVp/4Avid
-	 6U1H6sZaemnnsr40Pg4Ht3rmux9P4Mzx5l1XI3uLUDAL2jcf8lvdCzgKyaE+vFIf80
-	 qcF4N2wlwKiJzaxB3ZeuolKbTQS4kn3AUXZK7NB+yWRxojT0HV4N/nU0/hYEU7AiNM
-	 ofhCMO74eWNQTnLzekiPXedVkuKXwVRJJboiD3zYbxaxpQAeqi3Hu8Pz6D/6PH4GeR
-	 soTOpWI1wnyHRYvBisDBNRlfq23AHV0FGPmixl5LiKCmfqTHS8O/EMYwf7Q3nGfdPC
-	 Tw7uecJM7mxEg==
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="TBlNJTYW"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5782459438dso630877a12.0
+        for <workflows@vger.kernel.org>; Thu, 23 May 2024 06:22:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1716470522; x=1717075322; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=On9r6HMkgaTSzrnf05gbFZryZJM5WajSuUMiqmrGLOk=;
+        b=TBlNJTYWU5SqMAL9bKhXyayirD1yhqkc9Qc7vZCj4acOA+YcYMkcCISYlrUUyXV6Ju
+         iA2HnaV5ir6Km+ylNGX16uFtxfY6pYaoHJxnQwKM/cwduGhHje83HsUNxbL3AOoyEz1+
+         jxJUzd4LNUJ+gQWglyS4APohz500Gzr9Tb3ds=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716470522; x=1717075322;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=On9r6HMkgaTSzrnf05gbFZryZJM5WajSuUMiqmrGLOk=;
+        b=P0Ifqvool6cMss0ZO13i56DPmovX+KisEpRjAkVpg9X0v8fdHZ4taNx1AF0kVnv9Hd
+         0wZNRxPqI/FXUlpowhV4z5dXliC/+vPAAcEI6wW0c/oHbiDpBTAzv+rPjISh4HKSiGVc
+         Psft7ylce2rjPreQFchNEjHFNK0t4LSjo7RCaFTMhu/NsXbYOFyoFBuw1JPOqie7/865
+         SycM8SeqJL/uHzssq149n3w5pPpn9KvdHyzk75xl/7Ss8ENXOjei/5ylIHaH8yQrrKLM
+         3xBdEODKHBQ27n8JQ02pjqcnNXAQu9SW7Hd83oNvQAX3m8P4Op1mtHtD5QJWjwvsfcqq
+         FpPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWCD9a5RLp/uzWlOP3NRmpV8yxUo3W+R64cb2bt9P1vCz1d3+CuRmn67fHs4m6s6q0J+ewq1wrchtDpPzo8LyPy0lRfIxdJ88Xp
+X-Gm-Message-State: AOJu0YyNLitZvoUnuyZTHI9+/+P9jtoTvDIhyHkiZLBwvyt4xNxNT5lK
+	hHkz3Krhvpf2AfLAQI8l+HsmRmqLz4sjqu1TEbFc4W+rBOAmrCfrMEi9hYp8XDU=
+X-Google-Smtp-Source: AGHT+IGR0y2bdIOAPy2UsVNakF0nkcO1SJLtEWKLN+I3EqK+AagX4rPCgY602MbsaeBciZNK5T/aag==
+X-Received: by 2002:a17:906:64b:b0:a5c:e20c:8255 with SMTP id a640c23a62f3a-a622814aefamr315661266b.4.1716470521180;
+        Thu, 23 May 2024 06:22:01 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a5a1781d350sm1934790766b.23.2024.05.23.06.22.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 May 2024 06:22:00 -0700 (PDT)
+Date: Thu, 23 May 2024 15:21:58 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Helen Koike <helen.koike@collabora.com>
+Cc: Linus Torvalds <torvalds@linuxfoundation.org>,
+	Nikolai Kondrashov <spbnick@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>, linuxtv-ci@linuxtv.org,
+	dave.pigott@collabora.com, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org,
+	gustavo.padovan@collabora.com, pawiecz@collabora.com,
+	tales.aparecida@gmail.com, workflows@vger.kernel.org,
+	kernelci@lists.linux.dev, skhan@linuxfoundation.org,
+	kunit-dev@googlegroups.com, nfraprado@collabora.com,
+	davidgow@google.com, cocci@inria.fr, Julia.Lawall@inria.fr,
+	laura.nao@collabora.com, ricardo.canuelo@collabora.com,
+	kernel@collabora.com, gregkh@linuxfoundation.org
+Subject: Re: [PATCH 1/3] kci-gitlab: Introducing GitLab-CI Pipeline for
+ Kernel Testing
+Message-ID: <Zk9C9mCj15hVWUyL@phenom.ffwll.local>
+Mail-Followup-To: Helen Koike <helen.koike@collabora.com>,
+	Linus Torvalds <torvalds@linuxfoundation.org>,
+	Nikolai Kondrashov <spbnick@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>, linuxtv-ci@linuxtv.org,
+	dave.pigott@collabora.com, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org,
+	gustavo.padovan@collabora.com, pawiecz@collabora.com,
+	tales.aparecida@gmail.com, workflows@vger.kernel.org,
+	kernelci@lists.linux.dev, skhan@linuxfoundation.org,
+	kunit-dev@googlegroups.com, nfraprado@collabora.com,
+	davidgow@google.com, cocci@inria.fr, Julia.Lawall@inria.fr,
+	laura.nao@collabora.com, ricardo.canuelo@collabora.com,
+	kernel@collabora.com, gregkh@linuxfoundation.org
+References: <20240228225527.1052240-1-helen.koike@collabora.com>
+ <20240228225527.1052240-2-helen.koike@collabora.com>
+ <20240229-dancing-laughing-groundhog-d85161@houat>
+ <5d7ed81b-37f9-48e9-ab7e-484b74ca886c@gmail.com>
+ <CAHk-=wixVy3WYvjbt43ZSrCqPDsS76QJQSkXFbbPsAOs1MCSAQ@mail.gmail.com>
+ <44ae0339-daf1-4bb9-a12d-e3d2e79b889e@gmail.com>
+ <CAHk-=wiccniE=iZDC_e7T+J8iPVQbh1Wi5BaVee9COfy+ZaYKg@mail.gmail.com>
+ <17341b96-5050-4528-867a-9f628434e4e6@collabora.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 21 May 2024 12:28:22 +0300
-Message-Id: <D1F7SODNAG8W.1OR5BWUWSM4EA@kernel.org>
-Subject: Re: [PATCH 0/3] kci-gitlab: Introducing GitLab-CI Pipeline for
- Kernel Testing
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: "Helen Koike" <helen.koike@collabora.com>, <linuxtv-ci@linuxtv.org>,
- <dave.pigott@collabora.com>, <mripard@kernel.org>,
- <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kselftest@vger.kernel.org>, <gustavo.padovan@collabora.com>,
- <pawiecz@collabora.com>, <spbnick@gmail.com>, <tales.aparecida@gmail.com>,
- <workflows@vger.kernel.org>, <kernelci@lists.linux.dev>,
- <skhan@linuxfoundation.org>, <kunit-dev@googlegroups.com>,
- <nfraprado@collabora.com>, <davidgow@google.com>, <cocci@inria.fr>,
- <Julia.Lawall@inria.fr>, <laura.nao@collabora.com>,
- <ricardo.canuelo@collabora.com>, <kernel@collabora.com>,
- <torvalds@linuxfoundation.org>, <gregkh@linuxfoundation.org>
-X-Mailer: aerc 0.17.0
-References: <20240228225527.1052240-1-helen.koike@collabora.com>
-In-Reply-To: <20240228225527.1052240-1-helen.koike@collabora.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <17341b96-5050-4528-867a-9f628434e4e6@collabora.com>
+X-Operating-System: Linux phenom 6.8.9-amd64 
 
-On Thu Feb 29, 2024 at 12:55 AM EET, Helen Koike wrote:
-> Dear Kernel Community,
->
-> This patch introduces a `.gitlab-ci` file along with a `ci/` folder, defi=
-ning a
-> basic test pipeline triggered by code pushes to a GitLab-CI instance. Thi=
-s
-> initial version includes static checks (checkpatch and smatch for now) an=
-d build
-> tests across various architectures and configurations. It leverages an
-> integrated cache for efficient build times and introduces a flexible 'sce=
-narios'
-> mechanism for subsystem-specific extensions.
->
-> tl;dr: check this video to see a quick demo: https://youtu.be/TWiTjhjOuzg=
-,
-> but don't forget to check the "Motivation for this work" below. Your feed=
-back,
-> whether a simple thumbs up or down, is crucial to determine if it is wort=
-hwhile
-> to pursue this initiative.
->
-> GitLab is an Open Source platform that includes integrated CI/CD. The pip=
-eline
-> provided in this patch is designed to work out-of-the-box with any GitLab
-> instance, including the gitlab.com Free Tier. If you reach the limits of =
-the
-> Free Tier, consider using community instances like https://gitlab.freedes=
-ktop.org/.
-> Alternatively, you can set up a local runner for more flexibility. The
-> bootstrap-gitlab-runner.sh script included with this patch simplifies thi=
-s
-> process, enabling you to run tests on your preferred infrastructure, incl=
-uding
-> your own machine.
->
-> For detailed information, please refer to the documentation included in t=
-he
-> patch, or check the rendered version here: https://koike.pages.collabora.=
-com/-/linux/-/jobs/298498/artifacts/artifacts/Documentation-output/ci/gitla=
-b-ci/gitlab-ci.html .
->
->
-> Motivation for this Work
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
-> We all know tests are a major topic in the community, so let's mention th=
-e
-> specificities of this approach:
->
-> 1. **Built-in User Interface:** GitLab CI/CD is growing in popularity and=
- has an
-> user-friendly interface. Our experience with the upstream DRM-CI in the k=
-ernel
-> tree (see this blog post [https://www.collabora.com/news-and-blog/blog/20=
-24/02/08/drm-ci-a-gitlab-ci-pipeline-for-linux-kernel-testing/] )
-> has provided insights into how such a system can benefit the wider commun=
-ity.
->
-> 2. **Distributed Infrastructure:**
-> The proposed GitLab-CI pipeline is designed with a distributed infrastruc=
-ture
-> model, being possible to run in any gitlab instance.=20
->
-> 3. **Reduce regressions:** Fostering a culture where people habitually ru=
-n
-> validated tests and post their results can prevent many issues in post-me=
-rge
-> tests.
->
-> 4. **Collaborative Testing Environment:** The kernel community is already
-> engaged in numerous testing efforts, including various GitLab-CI pipeline=
-s such
-> as DRM-CI, which I maintain, along with other solutions like KernelCI and
-> BPF-CI. This proposal is designed to further stimulate contributions to t=
-he
-> evolving testing landscape. Our goal is to establish a comprehensive suit=
-e of
-> common tools and files.
->
-> 5. **Ownership of QA:**=20
-> Discrepancies between kernel code and outdated tests often lead to misatt=
-ributed
-> failures, complicating regression tracking. This issue, often arising fro=
-m
-> neglected or deprioritized test updates, creates uncertainty about the so=
-urce of
-> failures. Adopting an "always green pipeline" approach, as detailed in th=
-is
-> patch's documentation, encourages timely maintenance and validation of te=
-sts.
-> This ensures that testing accurately reflects the current state of the ke=
-rnel,
-> thereby improving the effectiveness of our QA processes.
->
-> Additionally, if we discover that this method isn't working for us, we ca=
-n
-> easily remove it from the codebase, as it is primarily contained within t=
-he ci/
-> folder.
+On Mon, Mar 04, 2024 at 06:45:33PM -0300, Helen Koike wrote:
+> Hi Linus,
+> 
+> Thank you for your reply and valuable inputs.
+> 
+> On 01/03/2024 17:10, Linus Torvalds wrote:
+> > On Fri, 1 Mar 2024 at 02:27, Nikolai Kondrashov <spbnick@gmail.com> wrote:
+> > > 
+> > > I agree, it's hard to imagine even a simple majority agreeing on how GitLab CI
+> > > should be done. Still, we would like to help people, who are interested in
+> > > this kind of thing, to set it up. How about we reframe this contribution as a
+> > > sort of template, or a reference for people to start their setup with,
+> > > assuming that most maintainers would want to tweak it? We would also be glad
+> > > to stand by for questions and help, as people try to use it.
+> > 
+> > Ack. I think seeing it as a library for various gitlab CI models would
+> > be a lot more palatable. Particularly if you can then show that yes,
+> > it is also relevant to our currently existing drm case.
+> 
+> Having it as a library would certainly make my work as the DRM-CI maintainer
+> easier and  also simplify the process whenever we consider integrating tests
+> into other subsystems.
 
-Not to criticize but I can do  tests I ever want with either Github
-or Gitlab simply by bootstrapping BuildRoot on top of whatever the CI
-runner has. So I essentially need just enough deps to make a BR build,
-and that's it. And e.g. could run x86 tests on ARM ISA runner with zero
-issues. And can even have emulated TPM chip in the QEMU VM by building
-swtpm.
+Kinda ignored this thread, just wanted to throw my +1 in here.
 
-I had this for some time running actually Gitlab runner. It does not
-currently build QEMU but then it also did that:
+To spin it positively, the kernel CI space is wide open (more negatively,
+it's a fractured mess). And I think there's just no way to force top-down
+unification. Imo the only way is to land subsystem CI support in upstream,
+figure out what exactly that should look like (I sketched a lot of open
+questions in the DRM CI PR around what should and should not be in
+upstream).
 
-https://gitlab.com/jarkkojs/linux-tpmdd-test
+Then, once we have a few of those, extract common scripts and tools into
+tools/ci/ or scripts/ci or whatever.
 
-Essentially just executing this sequence:
+And only then, best case years down the road, dare to have some common
+top-level CI, once it's clear what the actual common pieces and test
+stages even are.
 
-git clone https://gitlab.com/jarkkojs/linux-tpmdd-test.git
-cd linux-tpmdd-test
-cmake -Bbuild && make -Cbuild buildroot-prepare
-make -Cbuild/buildroot/build
-build/buildroot/build/images/run-tests.sh
+> > So I'm not objecting to having (for example) some kind of CI helper
+> > templates - I think a logical place would be in tools/ci/ which is
+> > kind of alongside our tools/testing subdirectory.
+> 
+> Works for me.
+> 
+> We  can skip having a default .gitlab-ci.yml in the root directory and
+> instead include clear instructions in our documentation for using these
+> templates.
 
-I use TCL's "expect" to make conclusions from the output :-)
+I'd go a few steps more back and start with trying to get more subsystem
+CI into upstream. And then once that dust has settled, figure out what the
+common pieces actually are. Because I'm pretty sure that what we have for
+drm ci or kernelci right now won't be it, but likely just a local optimum.
 
-I'm assuming that this has a bigger point that I can understand right
-now but makes me a bit puzzled given that it is quite trivial problem
-to my understanding (if you want to pursue to it). Like one work=20
-week maybe but not more than that...
+Cheers, Sima
 
-Especially it feels weird that it needs kernel to be patched at all and
-when I did read the motivation but it has sort of whitepaperish stuff
-that does not really explain me the edge of this compared to e.g. to my
-ad-hoc but still very usable solution (which is agnostic to runner's CPU
-architecture, can emulated hardware and works in any possible hosting
-with CI).
+> 
+> Thanks,
+> Helen Koike
+> 
+> > 
+> > (And then perhaps have a 'gitlab' directory under that. I'm not sure
+> > whether - and how much - commonality there might be between the
+> > different CI models of different hosts).
+> > 
+> > Just to clarify: when I say "a logical place", I very much want to
+> > emphasize the "a" - maybe there are better places, and I'm not saying
+> > that is the only possible place. But it sounds more logical to me than
+> > some.
+> > 
+> >              Linus
 
-So maybe my review comment it this: do not assume that this would be
-entirely new thing. It is not, and I'm sure some other people have
-done this too in the past rather than just me. Instead this should
-explain why this is so great that even kernel tree needs to be patched?
-
-BR, Jarkko
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
