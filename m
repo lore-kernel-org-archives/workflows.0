@@ -1,99 +1,94 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C96A15FD19;
-	Mon, 27 May 2024 14:55:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73EED6FB0;
+	Mon, 27 May 2024 17:00:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716821736; cv=none; b=kMeLdXWmhkO8e/hMf/TYVM7EnAObRydUaq/zreA2vbsjgCTboGh6vetIMtqV1rsiSXGUPbnpt9GKujTV0esclmdAt1O3myVK/tvI8oUEKbDYYhOwZBr9TbvqqQdJ2Kq4CwtNVOcUsyl6cutqL8H2E4H7QkGr2n2JthY0G7OVkUo=
+	t=1716829235; cv=none; b=Vhm0bpZQ/PeN04fSEXHW3sxUFfI7MKOBGJUkgZ3vuw5xsbNopZonOWJ6h9hyF+fOwR4gzNMD2bOs54GUEMO4OpGlJaCS/ytKbnBxE0z0vYq28smxDrlO0o+hhqieh7yXvkR9DX0NkvOVcWUjnConVz5oepVgxpMMm6r9MHNAG0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716821736; c=relaxed/simple;
-	bh=WqdfSky25P014jToQJxbbx2jmpw/Y6gIbx3q5jkMXhQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=r0oXFDlfO+oXok30RXIXuKr38vstRx2h+cJ3MvyfN/I/egpHWqJyytM9bXPKuuRAWj/7QMsD0UX2uaN6wdpozc8oJ5c3YIwEtvsrXx7Vq7J/+3P/ECBO8oiV6jnIAheAxqy3UO6VM3knhRp11lqopBqelu3SYz6rYZYHs0YEknk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=OpSRQSnA; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1716829235; c=relaxed/simple;
+	bh=8MLNb2bRcbp/oLUAripV2zX69ZK7bOk3ntrl8bKbv7k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=P2ZhoKwUzGGa3mp+UEs3F67+Lb5VzPJPeED3igy7rL1yrPECpRcdMPAw4HyZUXWuvokewUcITymDgOqIIM3yGDEkQKnultZ8T35qLRl1tFrByE2SB6mhXueMvu6UXO5YLMTNqcc9ICli9RQ8zOpXDfFMw3COSCZphD9lY2wzRt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e6CNCGDy; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="OpSRQSnA"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3BD0547C39
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1716821734; bh=JUk9kiyoUx5RdgIxL9VYYk1ttK/biBJXbO+frYzpI0E=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=OpSRQSnAig4IIYY8BNqix2k+Yb6FWJLwUUDh/7zJR3VliwFvSwhjOVu+Z00OWVUTi
-	 KVw4IkJcG5msbhLvlUo1sTFRWleDxOukx7T4tmzLHByyJOy6WBoMQSoE6Z4VSj5BNh
-	 wCoU4L9+TRxIe0jBtjA1q9CovmgzTdxCOQMzpRLTRj3LkpHIAEgFEA6yy5+Q2HGI0Q
-	 FM43LYmqlZedmh5NcbRxWKNjYk8UYXdxqSsRLcfqgT+CyufHyV+BJrCbjenZAOG8kO
-	 7LfrCr41ZPvqI+8bFU0s7/jDCVKQxYGIJHgACbRe+inNRNKS/hgtXKkEvGcJaSVSbY
-	 agwtFAZLmVOSA==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 3BD0547C39;
-	Mon, 27 May 2024 14:55:34 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Yunseong Kim <yskelg@gmail.com>
-Cc: skhan@linuxfoundation.org, Jinwoo Park <pmnxis@gmail.com>, Austin Kim
- <austindh.kim@gmail.com>, shjy180909@gmail.com, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH v3] Documentation: cve Korean translation
-In-Reply-To: <8880b0ec-9315-428e-b9c4-e578690d3c08@gmail.com>
-References: <20240527103003.29318-1-yskelg@gmail.com>
- <87ikyzpgqz.fsf@meer.lwn.net>
- <bf37bf39-32d3-457f-abd6-115215d631af@gmail.com>
- <87o78rnz3a.fsf@meer.lwn.net>
- <8880b0ec-9315-428e-b9c4-e578690d3c08@gmail.com>
-Date: Mon, 27 May 2024 08:55:33 -0600
-Message-ID: <877cffnw2i.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e6CNCGDy"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1f480624d04so13909515ad.2;
+        Mon, 27 May 2024 10:00:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716829234; x=1717434034; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pnYD2vB9if3b0Pw8B9yj3OZSPzEecAxuxqjy5zfQk70=;
+        b=e6CNCGDy8hNGGL2YZWY/ZvWRPvuMMRYYv6VePDFcYjkxkpX0dENQEhCThcSHWgmrk5
+         tYVgo+STgb7JonTXR7fXAv7t5yALRiivIOvAqTzA79lsEGCsMHuzjjvo9M15JtsbjEHb
+         iSPPzr22fNUXppwm237sbPa38ZVVLafhzKFejn8W6Qh4Fg0iK4p1vfrWOI7QzffalM84
+         PoXlpVmHFPw+dg1IJTEtu8CZhnCiHcibvUJtcn6wXIkZxH+j3uAKpLIbCtxXHO/+h7tR
+         rm9jjcF63yyQ2wZMgjt+dlhjzkLNMWjyzWJOYGt2QOzCzx1BjqY/hyjE4FPmlYbg5TMl
+         p02Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716829234; x=1717434034;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pnYD2vB9if3b0Pw8B9yj3OZSPzEecAxuxqjy5zfQk70=;
+        b=v7GwpEEloFfKMDjMe1rd6DLsDZfFY0eUdzGxzkqc0DinJBo31FcFL6c8pogMETStC5
+         g4UTgnYhWJrqKjuuZdqzdQeLo5x0IG4wIlZWa/v3ewVp/FnvckJfgTuSqLVg3uWI5V3t
+         dI2i/E2a8uFGC6lGhWMte9lyJeqIz3gtspZXwzpyFPPDYsNprRU+BdmuepYaxh9txIQ2
+         97jeT7pQEz0d52LTitpgVuU61WCLo/3Lrq8gbT0eFqRM4g9/2GYeLmQw5ZKag/p4RH/T
+         VLU//Tug6CcKz/X64lYlhVZ0DuCEceHmdp8ZyC/3y9mAFXG/Y07JXLSHPXC3auXiQ+RA
+         jK/g==
+X-Forwarded-Encrypted: i=1; AJvYcCXjeXxkIC2ov/Aqb8KokMFhkzP3wpnn/sbmGp4+78OUMSMtdBnTpEtRiLqb+LCpXBEsnWzog+bs4JMFfddU4rWX24X36T5hPebzrKVBbBBzwLdjunblyN5J5/4EfzB6nAAKWtx42LoaK6G/NDCkPFb3+2ieL0pqQjBEl/eXUQsimHDo
+X-Gm-Message-State: AOJu0YwRk3OP1zAWRMdYW2Ih1oTBJDQ+GomI/yEkl71aZZVAouwLca+3
+	fuwrfzksEcgfEj80fp7e9os5FkXRL73XBISTqLnp1ugsFx2cvM0I
+X-Google-Smtp-Source: AGHT+IGmgWeyiRNe9+u2BnAS1T0LPl+16VQSq5K+KtGP+MlwlyWvOvoH3Tc4mPXyjH2k8Qjrfmh4Hg==
+X-Received: by 2002:a17:902:c94d:b0:1f4:98f4:4763 with SMTP id d9443c01a7336-1f498f449a0mr38374615ad.53.1716829233424;
+        Mon, 27 May 2024 10:00:33 -0700 (PDT)
+Received: from [10.59.0.127] ([210.178.66.119])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f44c99d23asm65061795ad.208.2024.05.27.10.00.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 May 2024 10:00:33 -0700 (PDT)
+Message-ID: <f8a8c06a-9dcd-437f-ab75-d0ddb608662f@gmail.com>
+Date: Tue, 28 May 2024 02:00:28 +0900
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] Documentation: cve Korean translation
+Content-Language: ko
+To: Jonathan Corbet <corbet@lwn.net>, Yunseong Kim <yskelg@gmail.com>
+Cc: skhan@linuxfoundation.org, Austin Kim <austindh.kim@gmail.com>,
+ shjy180909@gmail.com, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+References: <20240527103003.29318-1-yskelg@gmail.com>
+ <87ikyzpgqz.fsf@meer.lwn.net>
+ <bf37bf39-32d3-457f-abd6-115215d631af@gmail.com>
+ <87o78rnz3a.fsf@meer.lwn.net>
+ <8880b0ec-9315-428e-b9c4-e578690d3c08@gmail.com>
+ <877cffnw2i.fsf@meer.lwn.net>
+From: Jinwoo Park <pmnxis@gmail.com>
+In-Reply-To: <877cffnw2i.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Yunseong Kim <yskelg@gmail.com> writes:
 
-> On 5/27/24 10:50 =EC=98=A4=ED=9B=84, Jonathan Corbet wrote:
->> Yunseong Kim <yskelg@gmail.com> writes:
->>=20
->>>> 1) Why do I have three versions of it in my mailbox, sent over a period
->>>>    of 13 minutes?  What changed between the versions?
->>>
->>> Sorry, I forgot the name of the reviewer when I first sent the
->>> documentation content related patch version 2.
->>=20
->> Which is fine, but...
->>=20
->>>>    Normally, you want to wait for reviews to come in on one version
->>>>    before posting the next, and you should put a comment after the "--=
--"
->>>>    line saying what changed.
->>>>
->>>> 2) When did this review from Jinwoo Park happen?  I was not copied on
->>>>    that.
->>=20
->> You did not answer this question.  Reviews should generally be done in
->> public, but that does not seem to have happened here?
->
-> Oops, sorry about that, Jonathan.
->
-> Jinwoo Park sent me the review below, and I've updated some of ambiguous
-> words in patch version 2.
->
-> https://lore.kernel.org/linux-doc/57f0d90c-4cc6-4418-ab79-6ae026d8ae09@gm=
-ail.com/T/#t
 
-It does look like the patch was reviewed, but no Reviewed-by tag was
-offered.  *Never* apply a Reviewed-by tag that has not been explicitly
-given to you.
+On 2024. 5. 27. 오후 11:55, Jonathan Corbet wrote:
+> It does look like the patch was reviewed, but no Reviewed-by tag was
+> offered.  *Never* apply a Reviewed-by tag that has not been explicitly
+> given to you.
+> 
+> Jinwoo, would you like to offer that tag for this patch?
 
-Jinwoo, would you like to offer that tag for this patch?
+Thank you for taking a close look at the content and flow of the patch.
+Jon, yes I want to offer and apply Reviewd-by tag for the patch.
 
-Thanks,
-
-jon
+Thanks Regards,
+Jinwoo Park
