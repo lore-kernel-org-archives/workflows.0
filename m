@@ -1,98 +1,79 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08AA813B2A4
-	for <workflows@vger.kernel.org>; Mon, 27 May 2024 10:37:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0F1A1DDC9;
+	Mon, 27 May 2024 12:53:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716806240; cv=none; b=J4x0+7CdjZmg4tD5KXTYFhZWWfGjNSwWSJMTXlbXsHUg1mqAg4gRc/+p0UjF+OwtHe9zSX8O83i7PPF28undXyF3u8RB7oqxGk0SCqqSf4rr/Wwyk+iXu49PRSy/Yvitx2r7hKojy+w+nblRfc+Y/LiyW8O7zezzE+r3AOC3zMY=
+	t=1716814388; cv=none; b=J3OMCK8qtyeMBa6Pbg6NFcKcwjlAtgeQ0obb+Etwvezx/MevEsjilCdVNRW4j3BZoRu3+hJHM0xU4TFweqnkbxstCf+z+HAs74b2n8ccMidipepVjYy88i/VWNtnW46A2ZCf3AdJ1nWdaHau1u/XZXMy2xljUGcVJRicyerFsAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716806240; c=relaxed/simple;
-	bh=BGmd38XxGSdKDMMcN3G3XiQIcyOv9DXSluGqtKQy9+M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VdKe+ZkcSvBdZEEi3IyUDRQY2oMXZqS5Hz0dxOcDZwHHacT7PUuwEncXxlE2yJU7FAC+RCzAl5j+epBvaQNOF0ReLi79KXBiDqlcLB/zRP/PbzRNMQw3vidUtTmooA4coerg5sKfGBQFnQArs5KDbRXe0L6l46GsZvB3UpXpaag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toblux.com; spf=none smtp.mailfrom=toblux.com; dkim=pass (2048-bit key) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b=nLsveh6t; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toblux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=toblux.com
+	s=arc-20240116; t=1716814388; c=relaxed/simple;
+	bh=kBPorpQ7vBYqMRTfoGQhRu1WySBg6CbmBx69KpiwWGE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=tJLxKLuPNCjL1Zf21c8AL37sQVaJMpkvaMNHLY3KLrUPplTeXJdAFrA/L5DVD8uiYz0Ujuj2OqusISBCDo1PPo+fw85HjFLVisDUavvZ8BlgWAmDJtaFFiStytFFDFYzpwlo33vV6n0w0oTu0XRZwu+yd8/BPsJ9sf4HtIPRgRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=N0/wY+f3; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b="nLsveh6t"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-578626375ffso2790086a12.3
-        for <workflows@vger.kernel.org>; Mon, 27 May 2024 03:37:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toblux-com.20230601.gappssmtp.com; s=20230601; t=1716806237; x=1717411037; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dO0AvFL5QwePC2QZ3gqTYDM4BcsHQKgOykoeZh92DyU=;
-        b=nLsveh6tAbZJL4bicjOJ+RVpjPLj4fH507GnAWwY2BdwXg/C4CtH7brjzp/AE4ISLM
-         OAZwBDKo354WnSasjw+SVTevql+5gTWy655tiuou0W9EPqpQLpjXRyl29/bRaxNY6+PZ
-         oqoJpGHQ8epYzwZ/Skcd0KhZeiRR8WPbt7FdRiI1fGrLpZSCwEHluYME3PnsQjm0NZPc
-         Gz6i5Ucv9WwjZvmB9uxWIFHTl8l5p2GXWloug08NtpcqVlSjE7fZitPH24gp3lIh+5BC
-         /y1MIk2IzmmcebQ+OC8VEDfG1RUzecul+Dubj0kxINx0vP17x9Ir8/1BhHVWO/MAPFgt
-         f1KQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716806237; x=1717411037;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dO0AvFL5QwePC2QZ3gqTYDM4BcsHQKgOykoeZh92DyU=;
-        b=RwT4LJpU4aYFCvZXYfHKuPemvPK3BlJkZzh/M1q91KxlcDkQagdDCRRNBqBcjQgiY6
-         JsH+urCJAfe0KhPwgAxKI7Otj/0BsuyT3yPVRtbsLfULcS9rw3QiYBmmtDkoNSjnF3a/
-         fHwpho5eEINE+cpjHpQDLSQX9aG3pAbVZFFl/yx4OSqwC/FrYoJ+ydCX/ful7mPsaT1/
-         2qMWaCTZ+EtaGx2V+Xzv/Glzuv/6ynrDxXWLy6vY0j0qg8CXbrCf05muaTEb+4mZZ9Bn
-         XD38l48Jkp+0c4a37rbOVvFkJvhoLlZW+xU2nKaWxZFKJ8iTw83Rv77oL929zH3EqVb3
-         HNvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVW180BXhGoLt0kvDP/EUTZnCbF87cOa6d++gx0YSDO7zVgHYIGQPLmaFtz8iDLjFNVbvLdQgvoS0hh6kQHF41hOzavCvBwjp7Y
-X-Gm-Message-State: AOJu0YzomadDQlI0v+N5KMFK6VSM//dcqLxYGCAOCw2LZLUFIal4gw93
-	6uRay/LrBCcWfzO5hrizFiDAFEr0FvnPFILzn10sMpcerx3NCQgrNX0g98QWi5E=
-X-Google-Smtp-Source: AGHT+IGxcPe6uT4yc9jWNU7ehZJr1E6b4aaoClrPA8u7hsmcPOTrwWBbPYZS8ijvvtGcf2XiujMAjA==
-X-Received: by 2002:a50:ab5a:0:b0:578:6c19:4801 with SMTP id 4fb4d7f45d1cf-5786c195f95mr4162253a12.22.1716806237244;
-        Mon, 27 May 2024 03:37:17 -0700 (PDT)
-Received: from fedora.fritz.box (aftr-62-216-208-100.dynamic.mnet-online.de. [62.216.208.100])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-578f47126f0sm3208478a12.91.2024.05.27.03.37.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 May 2024 03:37:16 -0700 (PDT)
-From: Thorsten Blum <thorsten.blum@toblux.com>
-To: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: netdev@vger.kernel.org,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Thorsten Blum <thorsten.blum@toblux.com>
-Subject: [PATCH net] docs: netdev: Fix typo in Signed-off-by tag
-Date: Mon, 27 May 2024 12:36:19 +0200
-Message-ID: <20240527103618.265801-2-thorsten.blum@toblux.com>
-X-Mailer: git-send-email 2.45.1
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="N0/wY+f3"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 269E247C5F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1716813813; bh=hZwk0AW8MLiViFy52ADHgAvY9XF6YcrHWsC+PnuwlD8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=N0/wY+f3sVLJ5hmYykdJ3dqt8t9u6adwghZY4UVPJQrK/haj1xVCL/ipi7mnAIIZP
+	 aOZRYUUa5Ix8zduN2WqD5lpzg79od4xBJ3E+rnSFWVBEt/7cKqb/RwmEsaus9ENcNd
+	 HsvjHPtklHZk45chyYMocmPBDPI+EX6DsefwzWSc+pczfBLBEyodip6PgKa5AduTxp
+	 9+9XooKIm3+c6J+Bwrth+T/WHs6mPTGRpy8ImJA/EQiFEXEaUtrWu/jsMngUcIelgG
+	 92ZF3BDtAlLm/+3XxoqWLNNGflc5/gc/fwF/UAWq8/jo90vhoOq8judBV8PTuaQF8u
+	 Yzg/RnE7R5mhA==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 269E247C5F;
+	Mon, 27 May 2024 12:43:33 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: yskelg@gmail.com
+Cc: skhan@linuxfoundation.org, Jinwoo Park <pmnxis@gmail.com>, Austin Kim
+ <austindh.kim@gmail.com>, shjy180909@gmail.com, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, Yunseong Kim
+ <yskelg@gmail.com>
+Subject: Re: [PATCH v3] Documentation: cve Korean translation
+In-Reply-To: <20240527103003.29318-1-yskelg@gmail.com>
+References: <20240527103003.29318-1-yskelg@gmail.com>
+Date: Mon, 27 May 2024 06:43:32 -0600
+Message-ID: <87ikyzpgqz.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-s/of/off/
+yskelg@gmail.com writes:
 
-Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
----
- Documentation/process/maintainer-netdev.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> From: Yunseong Kim <yskelg@gmail.com>
+>
+> This is a Documentation/process/cve korean version.
 
-diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
-index fd96e4a3cef9..5e1fcfad1c4c 100644
---- a/Documentation/process/maintainer-netdev.rst
-+++ b/Documentation/process/maintainer-netdev.rst
-@@ -227,7 +227,7 @@ preferably including links to previous postings, for example::
-   The amount of mooing will depend on packet rate so should match
-   the diurnal cycle quite well.
- 
--  Signed-of-by: Joe Defarmer <joe@barn.org>
-+  Signed-off-by: Joe Defarmer <joe@barn.org>
-   ---
-   v3:
-     - add a note about time-of-day mooing fluctuation to the commit message
--- 
-2.45.1
+Thank you for working to improve our documentation.  A couple of
+questions, though:
 
+> Reviewed-by: Jinwoo Park <pmnxis@gmail.com>
+> Signed-off-by: Yunseong Kim <yskelg@gmail.com>
+
+1) Why do I have three versions of it in my mailbox, sent over a period
+   of 13 minutes?  What changed between the versions?
+
+   Normally, you want to wait for reviews to come in on one version
+   before posting the next, and you should put a comment after the "---"
+   line saying what changed.
+
+2) When did this review from Jinwoo Park happen?  I was not copied on
+   that.
+
+Thanks,
+
+jon
