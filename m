@@ -1,55 +1,55 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F19F13AD19;
-	Mon, 27 May 2024 10:24:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABA9E79E1;
+	Mon, 27 May 2024 10:30:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716805462; cv=none; b=HLSY+lzpKb2caGZEbYlMLAXpd3RgcJsf1BVbr6qSvZ/rMVQ1CNbcyHkmtnbU170+C1tm3VAnuXLHvK3v2/qsFkVY4cibuIg+7a5T65ujlDV9ERWkZ/1PqcJ/fKmqxI2+W1pk8XiZnWlCcbUTZausd7BR+JjxDZtrmwqK4kX054M=
+	t=1716805829; cv=none; b=lNmA/JK+4tqdYB4Ym7g3vJTvT78Zcv+Y2iO6I3M01aLCQ7w8ElZhshi+40MDZYlpY/WOgErITD4Q4qLvQcGml9QZYVukdyesYyDSk10OuUKkmOY+gOLueCfNw/CLuplT06unSFXD4pNLUNrVPJ6wYuoOT+ezR8zXxqAu9w8sM6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716805462; c=relaxed/simple;
-	bh=DByw9+shEMrvZf9a7DrK7TFMRwOXIhmrErgMfKW8rQE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=QHvKf6T5ml/vBXHA+SA5w73jeOp56UOuJhhbszr2k7e4C0Kf+s2ub/gGmf0OgQIEdCo/JCsAsX29NfCVLkAr5ZrnGOm2/tmeRsthODhRu2Sobw+/36OVPjGJDap6nHiiHNJ5UxKgixXCCWH6V0AhjNcKnuxfnPM8Ij+awe9OQzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WT7KtpkC; arc=none smtp.client-ip=209.85.214.169
+	s=arc-20240116; t=1716805829; c=relaxed/simple;
+	bh=Wq8c0gvjGwwSH+T9v3NISONmcgDc06858d/bCXTl+OI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Qn8ELhz7JiMhEYFqeVVhOg8SdvG8t2DxqiPMKt6QcPVLiGmxHp/8Z+epaLiYiGfKTOAzqwYzwVpc2e01IfpnMPb6DCWObCPFSmq7pTtCn+SEQwe3xV1QU8Fj+iRhFN4J80/NErXREQNPUIP2VX3fDRSSJPXSc0NOd95DOWBjhZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NmPMN4Z7; arc=none smtp.client-ip=209.85.160.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WT7KtpkC"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1f32448e8fbso37368325ad.1;
-        Mon, 27 May 2024 03:24:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NmPMN4Z7"
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-24ca079af98so1740899fac.3;
+        Mon, 27 May 2024 03:30:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716805460; x=1717410260; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1716805826; x=1717410626; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3W8zCxpzcO90/CvE19s6K96qB6nm+isYULfxb3bCJUg=;
-        b=WT7KtpkC3KhZhTrzwLi1MrkiBvbEH53oqqaWPresiFHkE6is0A10HqYO+XVifWoLdf
-         C1p79IymzynO7fjRQTOeulB1C19UA8Os/JNR1MZAZmb0qNaQZxH9GxCZJ9gG6nkNKpPk
-         sjXf6qzpGNnZDsQMsgyKXMX7jY8bK84s1yCwkwZzXMdF65S/4ccc1C6kdKKYTm4Hs0SW
-         ZaDEXe8hrnXRhJqyNayAh1UtL4efkXC7Q6Y1Fbo8sNagDWZMiXMbpL2MSFFLV7SBdocB
-         hCgafOf/GkUJmeS2/e5FixvftevnyTlkwZsSmoBNrb3YAorGSacy+6HPdTE/EIBcXQcZ
-         t6Eg==
+        bh=ZNrP81aLFZY/yKeyxhffe6d/lACVAXrZvHzkDRJWq/M=;
+        b=NmPMN4Z7317mZuhPDG3J02ZX8BSOdgt5pTvaqc+4u6X20bsgJk4MAX0LU3vHITp9TE
+         hoLJYhpQth1bscwMCetHsY87Wj5IOUIlGpg+gjveFSUU/6PGcMIyE3PJDrVI3hsW1CC9
+         o65S3Jq+B2Y+3dpcdw6sdMwbzoD+P5+am9OV8ObzFg6jyqlvF/w+e52EEIBNrUceGvZA
+         4zzUTi/Y/7ExAVmmbv8EvwKYbiqSvIz+bQotPYP8t+Bhx9UHiieqOcRCvof42Rhdu7wH
+         i6IaNB8DYsZzzberuFtyohBxJKR9shQNi2UGNVBNhEpEhvJ8HAVk4FnCbsNlOkH/ym4S
+         hYPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716805460; x=1717410260;
+        d=1e100.net; s=20230601; t=1716805826; x=1717410626;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3W8zCxpzcO90/CvE19s6K96qB6nm+isYULfxb3bCJUg=;
-        b=w2EEGYm4nKrK9Cq9La+8L8hqVKMRJ41n3nbmKjvzFD2cSnKbGtnmkwzYi7cSq+v8H4
-         MG+ID4lS+GJqXN0QvuBtuSr9rcDd2wSn/iwroqTpe84uob438THcJr9sDcckTNOBAdys
-         WEfq/dJMX0ZXiaLuHnOw8PMRpl7LI8RFJptGfnU2xOF9wQ+au+ryAXhGYyrGuh4YT61S
-         Qex8/VJ9BZocZu+3CLAA3K44HrogcVVpl4mbYg540xAYfu+rX/KMd8HviS5wwOrRyePr
-         G/mz5szhlM2pJdzoTa0HLuigG9OeZVAhi6vWqFSLvL+P8iWnPeJl/h+9d4s5jYcDVRDL
-         baXw==
-X-Forwarded-Encrypted: i=1; AJvYcCXdC9ZS+KM+raKtY/45qCtTUSC/ixnj2mf/1w8LbWLizOlHV8zxX9p9MJVUaB+8tydde7sIbpvLCsCF+FqSSSAgTGWEKPObciCjVxCscl6fH+UPrrNYuFTjbMRuueeAj53oh3IIRWv4Vgfr2LTfcM2diykJ0cK48P4YC4Z+EG620Khl
-X-Gm-Message-State: AOJu0YxAW59tjW6JpCftg5X5w1I+8sEHwDQEJmEdMBrs48KjjUZOdbQY
-	gyC29jalUxALech2lsZzLq/XWt4dxrZ62UKXsLWLBw+SIs7GPGw2
-X-Google-Smtp-Source: AGHT+IFN5Fc8RquCxRRLx+dNWEVdMNy0o4jV2nO5Ne9ItO8lziHyCsbgLy28GpTIYNrfLOq+GgIq7g==
-X-Received: by 2002:a17:902:ea04:b0:1f4:5d87:ffb3 with SMTP id d9443c01a7336-1f45d8807d6mr77298605ad.17.1716805460425;
-        Mon, 27 May 2024 03:24:20 -0700 (PDT)
+        bh=ZNrP81aLFZY/yKeyxhffe6d/lACVAXrZvHzkDRJWq/M=;
+        b=vRnoAclOuXLdM6e0bbuT4K42TwSrap2mzHCIaQy95Wkj7NPe2Ej7JYA6DX47xrm7ol
+         7h0Be5kC/lCwUbfILLCp5lRp32Xs4/hvRrAPfqAmREUopGXPRKvsy+t6mfioOBXv6UnX
+         jA+WJnBZjx1BAjBnQaYwmzox/PnTb6PwIZ+4Z8vOQLo6RAVtd4tFgdIXRB+PX33555EE
+         ju5Dc0pbdJQOE6uWDjNB0AHrSRRxQl184S2j2DQHTNbsZf6aB2vSVuqvKfEhCBS5HHiM
+         wzaP6yJ1RMCkH6G83rTu3xQadqYB+onWpgKXzlxjGUz7rgODzAhtz/p8tbq1+ouRCEGj
+         UbgA==
+X-Forwarded-Encrypted: i=1; AJvYcCVfqn2+wEXO8IpPcTCQURFte/Ax0BvpQWX8G+b4eBQDpUF46rzXu/Uz9SvOg1tWADcqUDkqQqCZCZofgE5ocJ4ePz0iEBxU6/O+VJRuikOurmMboA9S1D8IXWjxYak9lD3XD2BDpt4BkkWNbhvJUB9ku6xxRpO1EgTRTIa5JTwu8vpo
+X-Gm-Message-State: AOJu0YwR1tfu9P++XL4ikMNKEczdKAU2G60hre/+oY1/LgWpkgEUapZ4
+	2v/m8RGK+3aPjzddKnbhSak9jNBGxodonrf1wlQ+qf3bLwXKLuLH
+X-Google-Smtp-Source: AGHT+IES0E2ywnPldmjeCTxfJ7NVU+l9hbdvDhAfceWO0tztB1xokVuOqYjcZto73JekUsR/4tOuQg==
+X-Received: by 2002:a05:6870:55c6:b0:24f:cf39:9684 with SMTP id 586e51a60fabf-24fcf39bc56mr5814339fac.3.1716805825462;
+        Mon, 27 May 2024 03:30:25 -0700 (PDT)
 Received: from paran-QEMU-Virtual-Machine.. ([118.32.98.101])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f44c79b9f1sm57687045ad.76.2024.05.27.03.24.17
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f8fd4da8f6sm4640815b3a.210.2024.05.27.03.30.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 May 2024 03:24:20 -0700 (PDT)
+        Mon, 27 May 2024 03:30:25 -0700 (PDT)
 From: yskelg@gmail.com
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: skhan@linuxfoundation.org,
@@ -61,9 +61,9 @@ Cc: skhan@linuxfoundation.org,
 	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org,
 	Yunseong Kim <yskelg@gmail.com>
-Subject: [PATCH v2] Documentation: cve Korean translation
-Date: Mon, 27 May 2024 19:23:14 +0900
-Message-Id: <20240527102313.27966-1-yskelg@gmail.com>
+Subject: [PATCH v3] Documentation: cve Korean translation
+Date: Mon, 27 May 2024 19:30:04 +0900
+Message-Id: <20240527103003.29318-1-yskelg@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
@@ -78,22 +78,24 @@ From: Yunseong Kim <yskelg@gmail.com>
 
 This is a Documentation/process/cve korean version.
 
+Reviewed-by: Jinwoo Park <pmnxis@gmail.com>
 Signed-off-by: Yunseong Kim <yskelg@gmail.com>
 ---
- .../translations/ko_KR/process/cve.rst        | 107 ++++++++++++++++++
- 1 file changed, 107 insertions(+)
+ .../translations/ko_KR/process/cve.rst        | 108 ++++++++++++++++++
+ 1 file changed, 108 insertions(+)
  create mode 100644 Documentation/translations/ko_KR/process/cve.rst
 
 diff --git a/Documentation/translations/ko_KR/process/cve.rst b/Documentation/translations/ko_KR/process/cve.rst
 new file mode 100644
-index 000000000000..94610c177f17
+index 000000000000..9daacba8d445
 --- /dev/null
 +++ b/Documentation/translations/ko_KR/process/cve.rst
-@@ -0,0 +1,107 @@
+@@ -0,0 +1,108 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+:Original: Documentation/process/cve.rst
-+:Translator: Yunseong Kim <yskelg@gmail.com>
++:원문: Documentation/process/cve.rst
++:역자: 김윤성 <yskelg@gmail.com>
++:감수: 박진우 <pmnxis@gmail.com>
 +
 +==========
 +CVE 항목들
