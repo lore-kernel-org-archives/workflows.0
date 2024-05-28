@@ -1,101 +1,75 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F80C155C88
-	for <workflows@vger.kernel.org>; Mon, 27 May 2024 21:27:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4092639B;
+	Tue, 28 May 2024 00:20:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716845247; cv=none; b=NUgks9XS5WMUYJ+qkWLhIY9z4AaUaCT7RFfDLXbX6BwHsBktzEfQHzo0HmVKhCMwMRI6CpOym5QPRS4UX/90NbXiqmRBAY4vvqYagYSRtHs2gZT/y0+Jk0/8UIjZrUa7vyG4Y8195u/BfQb4UQmr53+hmMEsK12oismNmL6TPjQ=
+	t=1716855631; cv=none; b=gsxU5R0AVFo8RrMh6f5F2E8S/ps997e3yr/GUFgFa9ZP/BmZYfZpT+Ey2pBl2IZDCduCGQHys3EowdNkZsFDyPq4Ml7GHJO4Di/IkoJ3t6jH8ASDA9nwATQQxRWdq2JmkeSPhmqpqsG7NI8TuLfCCXqk4RywRAM0rGfU+fG83CA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716845247; c=relaxed/simple;
-	bh=JQSgT4mCqW8FyQBXigrHwRZA1y9FMk1aW742MZrqNpk=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=rimF2e0J1+SfbgEW2FtPXW1X8TssReMW1j2kyxkPLc9mKAtl0tZPJUJRhW6Y2pHYNJpdxjtx6aUNqJbkPJEb1drSRHZ3kbqfBikHYB+Hn2U7r9qn6PurTSAdGVU+nrNH3XzbPZDUnzoELh3R6AbQrJi86I92zDTM7a9h1uLR7F8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toblux.com; spf=none smtp.mailfrom=toblux.com; dkim=pass (2048-bit key) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b=k5YTyz0T; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toblux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=toblux.com
+	s=arc-20240116; t=1716855631; c=relaxed/simple;
+	bh=doi/hbM/iQZc6cYxHxTjepRgnwb7/MoOp65GQJqZ5oE=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=b262xT1pHL8RsTUqqyXoxpA7NidDuzhiQU8dKstNOXi3rxW829f3D+tnffUtlpEk8MSFZMn82YSgfEyiGLclflR7nJ6B+I2QcvrCy9yjvhQm7UXH0f2U2RN5QpEJUYdti95TrAdd1vaejl5GWcUEKKlic2GyVX4yCfbLyU5GA3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oV92HDZp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b="k5YTyz0T"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5785e443cf4so114285a12.3
-        for <workflows@vger.kernel.org>; Mon, 27 May 2024 14:27:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toblux-com.20230601.gappssmtp.com; s=20230601; t=1716845244; x=1717450044; darn=vger.kernel.org;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JQSgT4mCqW8FyQBXigrHwRZA1y9FMk1aW742MZrqNpk=;
-        b=k5YTyz0Ts+T/LLPZtM95t2EaBrQH8RCdZ5jrAbL85mxvzgSxk1FFGtZ+PGidjZl1af
-         yF4e5frvXMjR7sUnBZX78vLGRYd1EcfP1YZPW3J/6P6p1TDcInZX3MJZkitPi7P7iVEL
-         62qbY8/9B47Mw24WECFFkZxARIw8FhGgcVIYshCq6pVGnlVEG7WbC09MKwsFFvnQTvLN
-         l472aktM2N30DXNBEqInBF6den468ngXO2rnAdQZzqGuYU9B1JLz1ZgW5Ma1GN7k2dSH
-         YvbTNZAIVWONw4c75NeA7Shm4GpnJg5uK24A01Vmd8zxFZHghqui7bM1j5GgbE0HptmT
-         SVKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716845244; x=1717450044;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JQSgT4mCqW8FyQBXigrHwRZA1y9FMk1aW742MZrqNpk=;
-        b=CjLw8NuIPNgq7QqIRxzs9fYqMWmbal6bMMzph40NMs11hqIBpnmzcX+Bg7q73j9xKx
-         IjREEwrfUVJP3KmwHvJ3YVLbZEf55CerD0MzmSZoBkArw+/n2c7SBfto0q/PwKZt4qwh
-         YmhkKUmGE0/AbQOm9YHVkvzgAYSA6ng1Y8faKXA00eVuOFQBGp7/0zrxWwNHfS/t5NtX
-         4RkJ9qd/rpWpR/C4d6RQEHi3vpqyhBiEfQS7KA+/X9BKrrwozfkCQFhRyYN41ayUP4BE
-         EG4bwjaFh4hu8qm6G0CQvXjoZdSMXS94SqgX2Pk8sh1Qvyb3wtRtTZxn+puvkzjjSaAu
-         bVzw==
-X-Forwarded-Encrypted: i=1; AJvYcCXUJ2hsWHQSsOJi0QYbWszoyMbntQOA4+m54BC4i8SU75f9HizZ/je0tDXqpoxKVfTB2NB+a8Oq3lb5hHKyO7P6r8Hs9akGC11o
-X-Gm-Message-State: AOJu0YwkNcPZBlwjv5vEEbMxh7gLdPjVJesfugGFmymvdcK/RwZPKU33
-	Vprh+sNWpM20G5zAdOLwI5nJDF7Nj4IDwcHNI5+FZIWRIB+VH+N9RvgYWU09D5U=
-X-Google-Smtp-Source: AGHT+IELOyKcMnwR7BVbM+SlF9SzQjptqkXxQf1KRkjjcSj4V201MJmZJSjDNl+kfWgXY+nUBqF87Q==
-X-Received: by 2002:a50:d593:0:b0:578:5f1b:5018 with SMTP id 4fb4d7f45d1cf-5785f1b50f6mr6076394a12.29.1716845244443;
-        Mon, 27 May 2024 14:27:24 -0700 (PDT)
-Received: from smtpclient.apple ([2001:a61:aa3:5c01:2d16:b332:5fba:374e])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-579ced17435sm2478923a12.53.2024.05.27.14.27.23
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 27 May 2024 14:27:24 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oV92HDZp"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E0B53C4AF0A;
+	Tue, 28 May 2024 00:20:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716855630;
+	bh=doi/hbM/iQZc6cYxHxTjepRgnwb7/MoOp65GQJqZ5oE=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=oV92HDZpgEU22gOQ4LXGTy8+TGZ2BCGRBfAMbT2xdazb2ZW8oEfT9Jxz/41Y1Awpl
+	 lPm+XyOWk+iCJss6zlBrXTrVr3x1a/e8QdehGVKoIq3phZykBnLL/TO7eGkWqhJ6wM
+	 N37icoXlYfCNOETaZ4B7Rhopqm7wv0ndw9SV4tsoa4DK4UfoDTiJzW2ZkrbE5spIhm
+	 JIg9MqrN2b8vXVsg28DKxYTuSXqehCowr4V4BOYew3KEVMTCMVVcvMRp/IpUz1AOJi
+	 9XeZcb+J0zyckcV7DRyJ0QDPlicnuIAgWsAT0DGb/zh/ZQj3JIv2KCop/IJoiAq/PY
+	 uyIedm5EheDKw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C98CED40192;
+	Tue, 28 May 2024 00:20:30 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.600.62\))
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Subject: Re: [PATCH net] docs: netdev: Fix typo in Signed-off-by tag
-From: Thorsten Blum <thorsten.blum@toblux.com>
-In-Reply-To: <d0af9c38-d15d-4706-943a-b0b68d1eacea@lunn.ch>
-Date: Mon, 27 May 2024 23:27:12 +0200
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>,
- netdev@vger.kernel.org,
- workflows@vger.kernel.org,
- linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <A1AEC97F-AE56-44B4-8198-E86F73E1D0F6@toblux.com>
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <171685563082.6024.3912376131942135596.git-patchwork-notify@kernel.org>
+Date: Tue, 28 May 2024 00:20:30 +0000
 References: <20240527103618.265801-2-thorsten.blum@toblux.com>
- <d0af9c38-d15d-4706-943a-b0b68d1eacea@lunn.ch>
-To: Andrew Lunn <andrew@lunn.ch>
-X-Mailer: Apple Mail (2.3774.600.62)
+In-Reply-To: <20240527103618.265801-2-thorsten.blum@toblux.com>
+To: Thorsten Blum <thorsten.blum@toblux.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, corbet@lwn.net, netdev@vger.kernel.org,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 
-On 27. May 2024, at 21:12, Andrew Lunn <andrew@lunn.ch> wrote:
-> On Mon, May 27, 2024 at 12:36:19PM +0200, Thorsten Blum wrote:
->> s/of/off/
->>=20
->> Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
->=20
-> Good catch.
->=20
-> Please could you add a Fixes: tag. And a Cc: stable tag. The file you
-> are patching discusses all this :-)
+Hello:
 
-Should I resend the patch or can I just add the tags here?
+This patch was applied to netdev/net.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-Cc: <stable@vger.kernel.org>
-Fixes: e110ba659271 ("docs: netdev: add note about Changes Requested and =
-revising commit messages")
+On Mon, 27 May 2024 12:36:19 +0200 you wrote:
+> s/of/off/
+> 
+> Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
+> ---
+>  Documentation/process/maintainer-netdev.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks,
-Thorsten=
+Here is the summary with links:
+  - [net] docs: netdev: Fix typo in Signed-off-by tag
+    https://git.kernel.org/netdev/net/c/c519cf9b7434
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
