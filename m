@@ -1,110 +1,150 @@
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288831B947;
-	Thu, 30 May 2024 03:46:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 074B1183964;
+	Thu, 30 May 2024 11:45:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717040777; cv=none; b=r7hv7tGKHGTMS7ESIL23a/wf4pzJopogNNz4GdjbWNZJp7QBsz7gjMHre/0rjJhupC9wKgTkgG7y2zXqCYVRL46HH/fcJkhidUPIJOuuRarXvvS3jlvshrulpMp9Plc0D1o55P0d25ClQ+1sQngDNZF6GK9j2VmDXbIXJKiputQ=
+	t=1717069552; cv=none; b=bYJI3P3Vr9nRSWyVshY/Qn2APdGV+UJkiSez0eSZIrnNCVTJ2dCOME/u/f8dBwC/cBJPjTgLf4rzvOIph/aTE41I49cTCFg4FZ735DWbGD8EdJ2WvZlyF/LX/VwT+P7oecy1k8C2vlzKvCFHvrU4kOOcGX4Sz3ORYg5Jh70ILmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717040777; c=relaxed/simple;
-	bh=6L11tRl35HQmv/mFBk8LfSjuDV9F1thr5rxj67BCpPM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sg4uhxo/MEjjA5uzvVN5H7GWg9RUhRfUvBTYYwxHjt9aO4g0WywUygmpSYyjR9bxK0UN8ryW24CAhDoVwLZpTB8nW9ZC3lOa29VLRlVz90XWPJglw1zf/Rx+r45wt/BwPmhzOx/BewzqAKGtYC2IZQqA4mMbnzy1qseGX7FanGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BMFks4zl; arc=none smtp.client-ip=209.85.222.45
+	s=arc-20240116; t=1717069552; c=relaxed/simple;
+	bh=sX4RJy4YoFPq1EwjTgAPQQ0l9jpIrZkiHp4K0YDIK7M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=abcY6KOZsBCjv8aQNTHGJg6jGkcykwmpho1kiMLo0Ibx8yuzU2i/3HB2Ww8JAVzKCXiO2y0zmufWLS4izdFH3TEUUj8d7fdoeLgDPgMSAnNskTy1YuDoHJcBnSg0o9CMAt99AtrU0yNW2EnGB+qot+KbTowriRub++FjRSM0ad8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nz9+MCiz; arc=none smtp.client-ip=209.85.215.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BMFks4zl"
-Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-80ac7385672so155184241.2;
-        Wed, 29 May 2024 20:46:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nz9+MCiz"
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-68197edc2d3so622593a12.2;
+        Thu, 30 May 2024 04:45:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717040775; x=1717645575; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6L11tRl35HQmv/mFBk8LfSjuDV9F1thr5rxj67BCpPM=;
-        b=BMFks4zl9bOe+ACcG4gMzQo0fpQUIstQOldTMawwrA/iJsMVoc1KA87o2rOPD0Q1aE
-         w8JT6LCxwcxVZ3Aph7o7yqHx8bGGQptLUI1YfyTDGDlf5G7Kak5sN/yoCBgnwBsp5Gb+
-         UubBbMbEauOasGrJE0Nm84quQq8pr7kYQ5SPyG5U+5HHnj/b9GftjnuC55m8AHK+pvMa
-         z3DjwpdKc4V4hMal4JnvLpYwKZl+VRusi60PStD9QSvfETi4tEwEkzyHqu5y+rY0IiyL
-         tf58oD5+ErnZGrkLVa2xYhIULWQEVdxWeOyQL/gbWQcYZUARUABTN3SFuLcGL+9g0oZ9
-         /zUw==
+        d=gmail.com; s=20230601; t=1717069550; x=1717674350; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Dt6lbse5R4B5MkccKBRXCeSKahpc61vxjuJbAqOgTYY=;
+        b=Nz9+MCizaHelNPr9/4r265Y+l2Kywg1MriAAneoSj+BS/7/IHBrNPkZiQ4E/3Lz/Tp
+         IyLFzwElRUoS8wq6h7EnHVu3TXPyEJ300SmTm3VeFnIYxTdqX6i3pFZglj9yND+x5tyD
+         LBvKfvlMw4RHTbSvzOkrvAYxPZ2EtqZytuZUrpQARtaqgyBVcwmjvsXQ/KsyZcysemyK
+         n++dO623unZWXdpeW/7oLSR4iZA5I/ZhPFU5MDlGHQ9U4YqBC6icCBXywposkKiwJeYn
+         YI+vbdOT6L7yJs/m9XK53HLmkMQwR8rK4ws99zYArKiS+F4V2Zm/QZmR9i1V/XVW5Csd
+         aCyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717040775; x=1717645575;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6L11tRl35HQmv/mFBk8LfSjuDV9F1thr5rxj67BCpPM=;
-        b=WV/7OjZSGFPTjThXRyEnCrtM2TgPVLd7qiebKNghmrIu7y0cCqTjuypeLKLOz6Ze6n
-         1K/P72edder+eE/ym97v1AaAmgHtiNtUJ2lRXwixL00iGpKBM79rhslc+0NPuPIf+ywv
-         U1ha2jYIbj/U06iZeyBz4o85KL9jt78xkxMOZn1DgZ58uRiukg99zJeulGHs7nfOUgeL
-         uDrmJGeojJYQJ2+D+X3K3PW8B78Jo2plukCqSvN/8/MYEpqAIunMn81WCPl/IphVnOYo
-         aBBIZhn7WbSuWXFE6BxqBqcy4CpNESf4UwQVKV6mdbi1Beo07L6jmEtiNoWbXyJnUBCC
-         k9cQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWhGVcL3lD/FcNdXZTcog9OSO8kdjhoV1x8vcJsUvz4pb0orbeALXfrzOgmnA2ZGIgOkVsf0cmJRm4JOhqGpBRDLg3S++xwxyyOJBeWkjsXe3RiQzNrruRC8ZJtxyeZo9OrJtDd3Xw8YTZS/U3ko9mjo8rluAj7zqK5UhZRKhIqQUQV
-X-Gm-Message-State: AOJu0YxuRE3svQeeMNGn1YftNYM/H+OMDi5hOinSq2bxigjCXwGllw/Y
-	M7uswLFhVoLnMB/pUIzGDIX0UTBqs/vZbo/lVzk1BBMULhp9YnnCwcy7XGjKpxPLNK3ArdwT3F8
-	7zu5JV5VrQGS0xWWs6vpxPWx0clE=
-X-Google-Smtp-Source: AGHT+IF85Nlu3c7uPVn5bMKIYbYvGkSUcAqsd5Huh0o6ZADdaGmNHXy7hxzw5zvNdX/lonak2rM8KZDHGNaZj1IXUiA=
-X-Received: by 2002:a67:b34c:0:b0:48b:a8ef:5942 with SMTP id
- ada2fe7eead31-48baea8f7afmr968789137.35.1717040774677; Wed, 29 May 2024
- 20:46:14 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1717069550; x=1717674350;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Dt6lbse5R4B5MkccKBRXCeSKahpc61vxjuJbAqOgTYY=;
+        b=qa0CrkTlUVi/FwbQvQ961Wrt9/dNVuDRysybCB8Za1HvhNzVkfr9lNgc9//io+Fnbh
+         dqnpzoSHrIpuX0ocUvp5uLZQ2CYNNbtH0OkV5w5W1F5vR414vBPS3wypGk5ggYTqMx76
+         UHFgwVm9e/HineukqCc8FlqpKrj+8Z9JiXPiQPxCtQ/QF/GuPvDOa5fCvWkQyH4pVt82
+         wGPNYy6Vl+wFC6vpprGYKIIeU/nJzlujY+Fid7Vk7C0pclFtU8VB/SipZ4M94PiqR3Iu
+         ZN/m4kpQQKNvZJF8dC2GoiHsxx8En9wnD36M5uZ7WkLMFIMEB1d1M5cLnQga+U+OIrKu
+         R6jw==
+X-Forwarded-Encrypted: i=1; AJvYcCVU9mayggPNWaRlN0d6OdrqpcbrfbR/kIKIW4vllrJ3ic10c74BAE4bmkQ4c3YgrI8IkmhkZXvMDP6KFz+u9OaJdwhfzWIsVcSwIT/NX4OYm5zqbgvdcpqxKjrGInDpyXfs+E6xmtPeONinkGPqEltRbwFx4Lky5WjPi0lZC/XbUDih
+X-Gm-Message-State: AOJu0Yy42u3g7mgtP9ri8x5pE8wEvDmaB4QsmttPGw/eeYfBITH+6yi4
+	TDiPpxnSqSO1pRG8vbouuAk9RtYczOEr2TZ/CAQHi/EmIY3JChZf
+X-Google-Smtp-Source: AGHT+IFprFj2EtA/cGtVlylQzuJQE1K6E83+32v7QgNJ6Q6uC7jejf6yvmpaSuKNZMUBiSgUm93iDg==
+X-Received: by 2002:a17:90a:4586:b0:2c1:961c:790 with SMTP id 98e67ed59e1d1-2c1abc42ffamr1732303a91.30.1717069550185;
+        Thu, 30 May 2024 04:45:50 -0700 (PDT)
+Received: from [192.168.50.95] ([118.32.98.101])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c1a777f7cdsm1372393a91.25.2024.05.30.04.45.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 May 2024 04:45:49 -0700 (PDT)
+Message-ID: <00b9c76f-0beb-46e9-9a0a-5b8e304b2759@gmail.com>
+Date: Thu, 30 May 2024 20:45:45 +0900
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240527102313.27966-1-yskelg@gmail.com>
-In-Reply-To: <20240527102313.27966-1-yskelg@gmail.com>
-From: Austin Kim <austindh.kim@gmail.com>
-Date: Thu, 30 May 2024 12:46:03 +0900
-Message-ID: <CADLLry53yZ6PZ7X8DwdS=GGp6+6L0tbAkb+hiL-Eth4FZ+ZTNw@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2] Documentation: cve Korean translation
-To: yskelg@gmail.com
-Cc: Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org, 
-	Jinwoo Park <pmnxis@gmail.com>, shjy180909@gmail.com, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+To: Austin Kim <austindh.kim@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org,
+ Jinwoo Park <pmnxis@gmail.com>, shjy180909@gmail.com,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+References: <20240527102313.27966-1-yskelg@gmail.com>
+ <CADLLry53yZ6PZ7X8DwdS=GGp6+6L0tbAkb+hiL-Eth4FZ+ZTNw@mail.gmail.com>
+Content-Language: en-US
+From: Yunseong Kim <yskelg@gmail.com>
+In-Reply-To: <CADLLry53yZ6PZ7X8DwdS=GGp6+6L0tbAkb+hiL-Eth4FZ+ZTNw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-SGVsbG8sDQoNCjIwMjTrhYQgNeyblCAyN+ydvCAo7JuUKSDsmKTtm4QgNzoyNCwgPHlza2VsZ0Bn
-bWFpbC5jb20+64uY7J20IOyekeyEsToNCj4NCj4gRnJvbTogWXVuc2VvbmcgS2ltIDx5c2tlbGdA
-Z21haWwuY29tPg0KPg0KPiBUaGlzIGlzIGEgRG9jdW1lbnRhdGlvbi9wcm9jZXNzL2N2ZSBrb3Jl
-YW4gdmVyc2lvbi4NCj4NCj4gU2lnbmVkLW9mZi1ieTogWXVuc2VvbmcgS2ltIDx5c2tlbGdAZ21h
-aWwuY29tPg0KPiAtLS0NCj4gIC4uLi90cmFuc2xhdGlvbnMva29fS1IvcHJvY2Vzcy9jdmUucnN0
-ICAgICAgICB8IDEwNyArKysrKysrKysrKysrKysrKysNCj4gIDEgZmlsZSBjaGFuZ2VkLCAxMDcg
-aW5zZXJ0aW9ucygrKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vdHJhbnNs
-YXRpb25zL2tvX0tSL3Byb2Nlc3MvY3ZlLnJzdA0KPg0KPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRh
-dGlvbi90cmFuc2xhdGlvbnMva29fS1IvcHJvY2Vzcy9jdmUucnN0IGIvRG9jdW1lbnRhdGlvbi90
-cmFuc2xhdGlvbnMva29fS1IvcHJvY2Vzcy9jdmUucnN0DQo+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0
-DQo+IGluZGV4IDAwMDAwMDAwMDAwMC4uOTQ2MTBjMTc3ZjE3DQo+IC0tLSAvZGV2L251bGwNCj4g
-KysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMva29fS1IvcHJvY2Vzcy9jdmUucnN0DQo+
-IEBAIC0wLDAgKzEsMTA3IEBADQo+ICsuLiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIu
-MA0KPiArDQo+ICs6T3JpZ2luYWw6IERvY3VtZW50YXRpb24vcHJvY2Vzcy9jdmUucnN0DQo+ICs6
-VHJhbnNsYXRvcjogWXVuc2VvbmcgS2ltIDx5c2tlbGdAZ21haWwuY29tPg0KPiArDQo+ICs9PT09
-PT09PT09DQo+ICtDVkUg7ZWt66qp65OkDQo+ICs9PT09PT09PT09DQo+ICsNClsuLi5dDQo+ICsN
-Cj4gK+yemOuqu+uQnCBDVkUg7ZWt66qp65OkDQo+ICs9PT09PT09PT09PT09PT09PQ0KPiArDQo+
-ICvtirnsoJUg67Cw7Y+s7YyQ7JeQ7IScIOuzgOqyveuQnCDsgqztla0g7KCB7Jqp7ZWcIOuwsO2P
-rO2MkOydgCDrjZQg7J207IOBIGtlcm5lbC5vcmcg7KeA7JuQIOumtOumrOyKpOqwgA0KPiAr7JWE
-64uMIOy7pOuEkCDrsoTsoITsnYQg7KeA7JuQ7ZWp64uI64ukLiDrlYzrrLjsl5AgTGludXgg67Cw
-7Y+s7YyQ7JeQ7ISc66eMIOyngOybkOuQmOuKlCBMaW51eCDsu6TrhJDsl5DshJwNCj4gK+uztOyV
-iCDrrLjsoJzqsIAg67Cc6rKs65CY64qUIOqyveyasCBMaW51eCDsu6TrhJAgQ1ZFIO2MgOyXkOyE
-nCBDVkXrpbwg7ZWg64u57ZWgIOyImCDsl4bsirXri4jri6QuDQo+ICvrs4Dqsr3rkJwg7IKs7ZWt
-7J2EIOyggeyaqe2VnCDtirnsoJUgTGludXgg67Cw7Y+s7YyQIOyekOyytOyXkCDsmpTssq3tlbTs
-lbwg7ZWp64uI64ukLg0KDQpJdCBpcyBhIGxpdHRsZSBiaXQgaGFyZCB0byB1bmRlcnN0YW5kIHRo
-ZSBhYm92ZSBzZWN0aW9uIGRlc2NyaWJpbmcNCidJbnZhbGlkIENWRXMnLg0KUGxlYXNlIHJlZmVy
-IHRvIHRoZSBmb2xsb3dpbmcgc2VudGVuY2VzIGlmIHlvdSBjb25zaWRlciByZXZpc2lvbiBvZiB0
-aGlzIHBhZ2UuDQoNCi0tLQ0K7Jyg7Zqo7ZWY7KeAIOyViuydgCBDVkUg7ZWt66qp65OkDQoNCuuz
-tOyViCDsnbTsiojqsIAg7Yq57KCVIOuwsO2PrO2MkOyXkOyEnCDtmZXsnbjrkJjrqbQg7Yq57KCV
-IOuwsO2PrO2MkOyXkCDrs4Dqsr0g7IKs7ZWt7J20IOyggeyaqeuQqeuLiOuLpC4NCuydtCDrs4Dq
-sr0g7IKs7ZWt7J20IGtlcm5lbC5vcmfsl5Ag7KCB7Jqp65CY7KeAIOyViuycvOuptCwgTGludXgg
-7Luk64SQIENWRSDtjIDsl5DshJwgQ1ZF66W8IO2VoOuLue2VoCDsiJgg7JeG7Iq164uI64ukLg0K
-64yA7IugIOuzgOqyveuQnCDsgqztla3snbQg7KCB7Jqp65CcIO2KueyglSBMaW51eCDrsLDtj6zt
-jJAg7J6Q7LK07JeQIOyalOyyre2VtOyVvCDtlanri4jri6QuDQotLS0NCg0KVGhhbmtzIGZvciBk
-ZWRpY2F0aW9uLCBldmVyeWJvZHkga25vd3MgdGhhdCBpdCBpcyBjaGFsbGVuZ2luZw0KdG8gY2Fy
-cnkgb3V0IHRyYW5zbGF0aW9uIHdvcmsuDQoNCkJSLA0KQXVzdGluIEtpbQ0KDQo+ICsNClsuLi5d
-DQo+ICvslYrsnYAg7J2867aAIOuzgOqyvSDsgqztla3snbQg6rSA66Co7ISx7J20IOyeiOydhCDs
-iJgg7J6I64uk6rOgIOqwgOygle2VqeuLiOuLpC4NCj4gLS0NCj4gMi4zNC4xDQo+DQo=
+
+
+On 5/30/24 12:46 오후, Austin Kim wrote:
+> Hello,
+> 
+> 2024년 5월 27일 (월) 오후 7:24, <yskelg@gmail.com>님이 작성:
+>>
+>> From: Yunseong Kim <yskelg@gmail.com>
+>>
+>> This is a Documentation/process/cve korean version.
+>>
+>> Signed-off-by: Yunseong Kim <yskelg@gmail.com>
+>> ---
+>>  .../translations/ko_KR/process/cve.rst        | 107 ++++++++++++++++++
+>>  1 file changed, 107 insertions(+)
+>>  create mode 100644 Documentation/translations/ko_KR/process/cve.rst
+>>
+>> diff --git a/Documentation/translations/ko_KR/process/cve.rst b/Documentation/translations/ko_KR/process/cve.rst
+>> new file mode 100644
+>> index 000000000000..94610c177f17
+>> --- /dev/null
+>> +++ b/Documentation/translations/ko_KR/process/cve.rst
+>> @@ -0,0 +1,107 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>> +:Original: Documentation/process/cve.rst
+>> +:Translator: Yunseong Kim <yskelg@gmail.com>
+>> +
+>> +==========
+>> +CVE 항목들
+>> +==========
+>> +
+> [...]
+>> +
+>> +잘못된 CVE 항목들
+>> +=================
+>> +
+>> +특정 배포판에서 변경된 사항 적용한 배포판은 더 이상 kernel.org 지원 릴리스가
+>> +아닌 커널 버전을 지원합니다. 때문에 Linux 배포판에서만 지원되는 Linux 커널에서
+>> +보안 문제가 발견되는 경우 Linux 커널 CVE 팀에서 CVE를 할당할 수 없습니다.
+>> +변경된 사항을 적용한 특정 Linux 배포판 자체에 요청해야 합니다.
+> 
+> It is a little bit hard to understand the above section describing
+> 'Invalid CVEs'.
+> Please refer to the following sentences if you consider revision of this page.
+
+Thank you for your document review Austin!
+
+I'll take your suggestions and incorporate them into the next patch.
+
+Warm Regards,
+Yunseong Kim
+
+> ---
+> 유효하지 않은 CVE 항목들
+> 
+> 보안 이슈가 특정 배포판에서 확인되면 특정 배포판에 변경 사항이 적용됩니다.
+> 이 변경 사항이 kernel.org에 적용되지 않으면, Linux 커널 CVE 팀에서 CVE를 할당할 수 없습니다.
+> 대신 변경된 사항이 적용된 특정 Linux 배포판 자체에 요청해야 합니다.
+> ---
+> 
+> Thanks for dedication, everybody knows that it is challenging
+> to carry out translation work.
+> 
+> BR,
+> Austin Kim
+> 
+>> +
+> [...]
+>> +않은 일부 변경 사항이 관련성이 있을 수 있다고 가정합니다.
+>> --
+>> 2.34.1
+>>
