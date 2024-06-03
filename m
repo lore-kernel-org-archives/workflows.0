@@ -1,188 +1,269 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ADB417565;
-	Fri, 31 May 2024 09:11:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4C8513667E;
+	Mon,  3 Jun 2024 16:16:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717146682; cv=none; b=P5qUGdw1izrFh5r7gO+kWDo7mwVIwrUM+G4+KF9RnZ9wyG8cMLWv/JkFAkLHsDIQJjSdQO4YmlXbzC/9V/ugRQaSixPuNLWDj25I7Q5tIHEeETgmgPJKf429QffXdm+Lzl91TcTrvnjfSjDf/lPNtnESUX0jhdxOKAc1uNoLKNY=
+	t=1717431375; cv=none; b=opInpXczF8uQVtDapZPIif5UbpfApcSt4qqtF0YNrYDs81/e36TXQ9jxsuGVJoQZAvHEtgktLy25TBywJMCbmYVCNXnC0AZVnYSDLw4FAxTeUQT8WT1A7h+8FPcvj2jqkt7w/VGPXDbuVLWUvEtodCMTmXJtkRKjwBF1WJCchlk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717146682; c=relaxed/simple;
-	bh=Ge2Owzh3S5cehKRYUUe+V39V9v0+HbuSHCXDNGT09Ys=;
-	h=Content-Type:Mime-Version:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=fS+76CGS2YM/CU3ueTbm4g+jSvQchUqSD8zJWW4e5YXE2I+l0NL8P/LfmDR4oC8tm1tbl3EUNBxmryftp9fcL1V8Qp7T2cNAcAfm+CK3C8WflrxvVSHeYIyfxpcXnjQQBw1+rUW00NiWRcQZZTeQ+npPgf/IBgei0uJEF/ETcPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CXmOC0jN; arc=none smtp.client-ip=209.85.221.50
+	s=arc-20240116; t=1717431375; c=relaxed/simple;
+	bh=R4zsvxB0y6E49xztUL915eNuzXp/7rBqKhyWGjTfa00=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Fj/tzBV7JnnKGLWeNaBuFoK3YxO86JXfIRY/SEpur761JihTIRfnypKnht6RsyauIQoAqTkUSi9vu8V2kXjeLhk/RE5ZXgTTr/MBJeAJilEntlBQIGF+8pzXKvnoU36FqxhXmloXRW8AvKMNMewJld1wKootyTAduxIcZtXcOrk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KD/Yp/8v; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CXmOC0jN"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-35dce610207so1153202f8f.2;
-        Fri, 31 May 2024 02:11:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KD/Yp/8v"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2c24115469bso642516a91.0;
+        Mon, 03 Jun 2024 09:16:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717146679; x=1717751479; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ge2Owzh3S5cehKRYUUe+V39V9v0+HbuSHCXDNGT09Ys=;
-        b=CXmOC0jN/3IRcuGlm642YtKa1v4UlEcMZStqZvlRmjxVJOfdkRBhYFiHTzCcbdCYVO
-         YFAP6bGArWVDli0n233A2g0ah5JWvYblL0G8FutIMqEXkSAzgW9pzCG/Et2d9gil647v
-         u47dVOCQZ7z7Ds7yyAXmnFMwuIQUPNXUZGI24NvqjLSrmbmP8IIPH3HlGXrDC7hxej8P
-         54nNbcRSpZgwMd2S5UYLWLWksiOrvBjQdsc6PvndDXZ/Q3Hb9e4SsrUkp0eeLRJzMRhV
-         xtUb99RHnUXUthZcjEZq5oIZbBRbv1NFO0/E+CMc+fdK512RQ/+pNEmhHWnkUFBWCL2J
-         wGdQ==
+        d=gmail.com; s=20230601; t=1717431373; x=1718036173; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=C/N2SeCGrQ/hc/PUmLOr58aWJUfdAgaipmiw4zP9hpg=;
+        b=KD/Yp/8vz5fTaq0CPa5iHZtmF8IA1ZbkRU7EYdoLK0Pj4oMdo7ybAgscxJs58VK78f
+         r7DVUy5IM4H7ttAICm7stAadAiZojjG51RiTxTfyduamw/xYgnsqedjnYjzYBBp3ziS6
+         1vMfSX1ONpNcN/zRCyC8qPT640PsxMTSVocJDoO3fhWGC0Nnp5AsrpSVc8k3Wyx6QZwN
+         KULYm9OC3/Uad3qo+geUeAk4PL0N9YN7az8jfaSmK7xco1MxaJJ9ADnqhPDXVTrNpaBz
+         buyI4IXPfmveDAYylU95hPRuQsEsgz6kvNR3WR1uo4oFrFR5Ko6z+l9IfeR7QzbF6FEZ
+         SDjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717146679; x=1717751479;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1717431373; x=1718036173;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Ge2Owzh3S5cehKRYUUe+V39V9v0+HbuSHCXDNGT09Ys=;
-        b=jjpHqTVjgJVb+eo1cA2jNnh0pMl8yWOftrjcfejU8oTOQUxsDtniQUfYL4Muu7vClP
-         xLhQJLf88Mm6J/ZbIFwzmwHB4Esx5qaIUtgbW1ZH9aQlqyJt3i9CqA/+9KwB5s8lZoXU
-         oVOAAEMDLJrHePOe4A38RnZEl/jMe1W8Vdz/IKE35rt2XU8636AoiYtz74jQQ9sAcG0B
-         OHBTR0/hTg62q41E/DhPF0nq5P8NUoystpRXsEObk7Nisf1EstkySfX8TmrU2pbT3Saw
-         vR8CgA423Yy9L60c1lP1BH/Wgr5WkSGbWNFo6Frufb6kLLpgcAyRIRFrJ/VWfBv1Z3Ix
-         aHxA==
-X-Forwarded-Encrypted: i=1; AJvYcCWu9FWpE/WP+OvGYLUiYu95BFEyksq1/H7hXwTqi2Yb2GY/lBAILtYPQcOiVMWduxJD2DpZwKI+ZhDrSOh29EojSpqec1gYbkL3XHpLM1+htGnq0Ih2bcjakA3GY/ag/0bgUOCY1gxbsIZdhAY4Wqd8OJIAZBi/imcSzrTQ1Cdz+H9Ot0UP23c+Ou8mTqAkQEqXN5mbnKo8hVFkXYyTuQcoUA==
-X-Gm-Message-State: AOJu0YxdNeTav8xdaHtcknT4z9h0DfcvD4ioDcP6sVXYptrHASwBpxsD
-	GzEpZC1kAKJ8FpTROeuB8fjBi4l27BbYKEjOyjyHontb6Q5cK0nx
-X-Google-Smtp-Source: AGHT+IHjSCeQFuSwL4zgQTAANKUrOtLq+ipp/4k2/cpZCON8iuqmoX8dSGF/d93BBGIHlUH85jMQVg==
-X-Received: by 2002:a5d:664d:0:b0:354:f536:31d3 with SMTP id ffacd0b85a97d-35e0f325184mr986696f8f.54.1717146679010;
-        Fri, 31 May 2024 02:11:19 -0700 (PDT)
-Received: from localhost (p200300e41f162000f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f16:2000:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35dd04c0f47sm1409029f8f.8.2024.05.31.02.11.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 May 2024 02:11:18 -0700 (PDT)
-Content-Type: multipart/signed;
- boundary=44e1abd3ea18a8ea349c6fb2b07d82a6bec49652599fd2a60f6af9c26a3c;
- micalg=pgp-sha256; protocol="application/pgp-signature"
+        bh=C/N2SeCGrQ/hc/PUmLOr58aWJUfdAgaipmiw4zP9hpg=;
+        b=DwYxHnRPwvahnL3TQ38YU2h7YKngccU/iu3MFiOfP6ST2p1BS3MnoxIsQy4InRik7w
+         8/oTBuR9F7+CMZ+EnTs7mrFnOtP4W6ZaPb1cm73DBQ384J8M3FQatQWtgXYlbIfagvYE
+         DhOM0O+CmqaOxMjHTuUDhWsBTGerBIQxfI3hSX58lHyGxXLi059aaNPBNMb9Qf+C1oKt
+         U52AovvtChyPt4eXj+yKs4PmzBN7+fs+4zmzg4Cn5vewWcGexQfW4kKiI0kPqpSuUSrw
+         CMyqI5YHZgUOtfOkVv28IvUpXGtU5dGGQcrw9EUxcdfvNDfS8a7gFSCkOvKcLaN/5e+p
+         Rh6w==
+X-Forwarded-Encrypted: i=1; AJvYcCVaNG9XrKPwZwjOcfr4GcXsrlag7mWktSalZU1lABcHX8D2OCdudYXLOs4UZu1GMCaOS8gcbqGp0umxwpa30tqm+DqEVKkQES9yJlo75WZqVvEOYKA+twjbz5GdikY+d2lQMYuaHWdmRthSKiLtUDun/7uD9aTmtT3xPNLnJTNAD5+6
+X-Gm-Message-State: AOJu0YySTQg7fnY/tLBerG7mJwPpoMem+0z+LbFe4C7uYpPoc2yUEUYe
+	bA5MBJvjEkEIAhr4AGtBIWbhkhx7t6cCaDZpFQcIs3y0eTSd//Aovz9LikRhSXU=
+X-Google-Smtp-Source: AGHT+IEHgrToHEtFQ4qUID6sHHk78/MMQn6dYkUjZkvRhieZSuneVkSqSXSEEI+/NohsmEaRRVxm8g==
+X-Received: by 2002:a17:90a:d142:b0:2a4:79ef:4973 with SMTP id 98e67ed59e1d1-2c253077af4mr166664a91.14.1717431372713;
+        Mon, 03 Jun 2024 09:16:12 -0700 (PDT)
+Received: from paran-QEMU-Virtual-Machine.. ([118.32.98.101])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c1c27e577fsm6415462a91.32.2024.06.03.09.16.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Jun 2024 09:16:12 -0700 (PDT)
+From: yskelg@gmail.com
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: SeongJae Park <sj@kernel.org>,
+	Jinwoo Park <pmnxis@gmail.com>,
+	Austin Kim <austindh.kim@gmail.com>,
+	shjy180909@gmail.com,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Yunseong Kim <yskelg@gmail.com>
+Subject: [PATCH v4] Documentation: cve Korean translation
+Date: Tue,  4 Jun 2024 01:15:31 +0900
+Message-Id: <20240603161530.80789-1-yskelg@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Date: Fri, 31 May 2024 11:11:17 +0200
-Message-Id: <D1NPP1PJ5UYS.2IGK7FBR9Q6LN@gmail.com>
-Cc: "Jonathan Corbet" <corbet@lwn.net>, "Dmitry Baryshkov"
- <dmitry.baryshkov@linaro.org>, "Rob Clark" <robdclark@gmail.com>, "Abhinav
- Kumar" <quic_abhinavk@quicinc.com>, "Sean Paul" <sean@poorly.run>, "Marijn
- Suijten" <marijn.suijten@somainline.org>, <workflows@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Masahiro
- Yamada" <masahiroy@kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>
-Subject: Re: [PATCH] docs: document python version used for compilation
-From: "Thierry Reding" <thierry.reding@gmail.com>
-To: "Geert Uytterhoeven" <geert@linux-m68k.org>
-X-Mailer: aerc 0.16.0-1-0-g560d6168f0ed-dirty
-References: <20240509-python-version-v1-1-a7dda3a95b5f@linaro.org>
- <87o79faq4a.fsf@meer.lwn.net> <D1N564M136RW.3CRPYTGKMW1NP@gmail.com>
- <CAMuHMdVA7MU8LMUW6rR=VWtCDs8erpKgx30woL5eUucRYiK-Fg@mail.gmail.com>
-In-Reply-To: <CAMuHMdVA7MU8LMUW6rR=VWtCDs8erpKgx30woL5eUucRYiK-Fg@mail.gmail.com>
-
---44e1abd3ea18a8ea349c6fb2b07d82a6bec49652599fd2a60f6af9c26a3c
-Content-Type: multipart/mixed;
- boundary=5dd707c8aefca53a80287b4aa87859be5f60dd9e69ea1e2dfc6c279ce4ae
-Mime-Version: 1.0
-
---5dd707c8aefca53a80287b4aa87859be5f60dd9e69ea1e2dfc6c279ce4ae
-Content-Type: multipart/alternative;
- boundary=07a5dde67ef47e9448bf0ccc85db98c9dc1a803fa3ba19fc3678c11852c2
-
---07a5dde67ef47e9448bf0ccc85db98c9dc1a803fa3ba19fc3678c11852c2
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri May 31, 2024 at 9:33 AM CEST, Geert Uytterhoeven wrote:
-> Hi Thierry,
->
-> On Thu, May 30, 2024 at 7:07=E2=80=AFPM Thierry Reding <thierry.reding@gm=
-ail.com> wrote:
-> > Alternatively, maybe Kconfig could be taught about build dependencies?
->
-> git grep "depends on \$(" -- "*Kconf*"
+From: Yunseong Kim <yskelg@gmail.com>
 
-Duh... of course there's something like this already. =3D)
+This is a Documentation/process/cve korean version.
 
-Maybe something like the attached patch?
+The following changes have been updated based on SeongJae Park’s feedback
+and Austin Kim’s from the last v2 and v3 patches.
 
-Thierry
+Signed-off-by: Yunseong Kim <yskelg@gmail.com>
+---
+ Documentation/translations/ko_KR/index.rst    |   2 +-
+ .../translations/ko_KR/process/cve.rst        | 119 +++++++++---------
+ 2 files changed, 61 insertions(+), 60 deletions(-)
 
---07a5dde67ef47e9448bf0ccc85db98c9dc1a803fa3ba19fc3678c11852c2--
+diff --git a/Documentation/translations/ko_KR/index.rst b/Documentation/translations/ko_KR/index.rst
+index 4add6b2fe1f2..f38f0ce19a1e 100644
+--- a/Documentation/translations/ko_KR/index.rst
++++ b/Documentation/translations/ko_KR/index.rst
+@@ -12,7 +12,7 @@
+    :maxdepth: 1
+ 
+    howto
+-
++   process/cve
+ 
+ 리눅스 커널 메모리 배리어
+ -------------------------
+diff --git a/Documentation/translations/ko_KR/process/cve.rst b/Documentation/translations/ko_KR/process/cve.rst
+index 94610c177f17..5a84d0d4266f 100644
+--- a/Documentation/translations/ko_KR/process/cve.rst
++++ b/Documentation/translations/ko_KR/process/cve.rst
+@@ -1,7 +1,9 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-:Original: Documentation/process/cve.rst
+-:Translator: Yunseong Kim <yskelg@gmail.com>
++:원문: Documentation/process/cve.rst
++:역자: 김윤성 <yskelg@gmail.com>
++:감수: 박진우 <pmnxis@gmail.com>, 박성재 <sj@kernel.org>,
++       김동현 <austindh.kim@gmail.com>
+ 
+ ==========
+ CVE 항목들
+@@ -16,92 +18,91 @@ CVE 항목들
+ 지속적인 남용이 결합되면서 커널 커뮤니티가 이러한 할당에 대한 통제권을 가져야
+ 한다는 것이 분명해졌습니다.
+ 
+-Linux 커널 개발자 팀은 잠재적인 Linux 커널 보안 문제에 대해 CVE를 할당할 수
+-있는 권한이 있습니다. 여기서 할당은 :doc:`일반 Linux 커널 보안 버그 보고
+-절차<../process/security-bugs>`와는 별개입니다.
++Linux 커널 개발팀은 잠재적인 Linux 커널 보안 문제에 대해 CVE를 할당할 수
++있는 권한이 있습니다. 여기서 할당은
++:doc:`일반 Linux 커널 보안 버그 보고절차</process/security-bugs>`와는
++별개입니다.
+ 
+ Linux 커널에 할당된 모든 CVE 목록은
+ https://lore.kernel.org/linux-cve-announce/ 에 있는 Linux-CVE 메일링 리스트의
+-아카이브에서 확인할 수 있습니다. 할당된 CVE에 대한 알림을 받으려면 다음의
+-메일링 리스트를 `구독
+-<https://subspace.kernel.org/subscribing.html>`_ 하세요.
++아카이브에서 확인할 수 있습니다. 할당된 CVE에 대한 알림을 받으려면 다음 메일링
++리스트를 `구독<https://subspace.kernel.org/subscribing.html>`_ 하세요.
+ 
+ 절차
+ ====
+ 
+ 일반적인 안정 릴리스 절차의 일부로, 잠재적으로 보안 문제가 될 수 있는 커널
+-변경 사항은 CVE 번호 할당을 담당하는 개발자가 식별하여 CVE 번호를 자동으로
++변경 사항은 CVE 번호 할당 담당을 하는 개발자가 식별하여 CVE 번호를 자동으로
+ 할당합니다. 이러한 할당은 linux-cve-announce 메일링 리스트에 공지사항으로
+ 수시로 게시됩니다.
+ 
+-리눅스 커널이 시스템에 있는 계층으로 인해 거의 모든 버그가 커널의 보안을
+-손상시키는 데 악용될 수 있지만 버그가 수정되면 악용 가능성이 명확하게 드러나지
+-않는 경우가 많습니다. 이 때문에 CVE 할당 팀은 지나치게 조심스럽게 버그 수정이
+-확인되는 모든 버그에 CVE 번호를 할당합니다.
+-이것이 리눅스 커널 팀에서 발행하는 겉으로 보기에 많은 수의 CVE를 설명합니다.
++리눅스 커널은 시스템의 최하단 계층에서 동작합니다. 때문에 거의 모든 버그가
++커널 보안을 취약하게 만들 수 있습니다. 하지만 버그를 수정할 때 악용 가능성을
++명확하게 파악하기 힘든 경우가 많습니다. 이 때문에 CVE 할당 팀은 지나치게
++조심스러워 보일 수도 있는 방식으로 버그 수정이 확인되는 모든 버그에 CVE 번호를
++할당합니다. 이것이 리눅스 커널 팀이 발행한 많은 수의 CVE를 설명합니다.
+ 
+ 사용자가 CVE를 지정해야 한다고 생각하는 특정 수정 사항을 CVE 할당 팀이 놓친
+ 경우에는 <cve@kernel.org>로 이메일을 보내 주시면 커널 CVE 할당 팀에서 함께
+ 작업할 것입니다. 이 별칭은 이미 릴리스된 커널 트리에 있는 수정 사항에 대한
+-CVE 할당 전용이므로 잠재적인 보안 문제는 이 별칭으로 보내서는 안 됩니다.
+-수정되지 않은 보안 문제를 발견했다고 생각되면 :doc:`일반 Linux 커널 보안
+-버그 보고 절차<../process/security-bugs>`를 따르세요.
++CVE 할당 전용이므로 잠재적인 보안 문제는 이 메일 주소로 보내서는 안 됩니다.
++수정되지 않은 보안 문제를 발견했다고 생각되면
++:doc:`일반 Linux 커널 보안 버그 보고 절차</process/security-bugs>`를 따르세요.
+ 
+ Linux 커널에서 수정되지 않은 보안 이슈에 대해서는 CVE가 자동으로 할당되지
+-않으며, 수정이 제공되고 안정적인 커널 트리에 적용된 후에만 자동으로 할당되며,
++않으며, 수정이 제공되고 stable 커널 트리에 적용된 후에만 자동으로 할당되며,
+ 기존 수정의 git 커밋 ID로 추적할 수 있습니다. 커밋으로 문제가 해결되기 전에
+ CVE를 할당받고자 하는 사람은 커널 CVE 할당 팀<cve@kernel.org>에 문의하여
+ 예약된 식별자 항목들에서 식별자를 할당받으시기 바랍니다.
+ 
+-현재 Stable/LTS 커널 팀에서 적극적으로 지원하지 않는 커널 버전에서 발견된
+-문제에 대해서는 CVE가 할당되지 않습니다.
+-현재 지원되는 커널 브랜치 목록은 https://kernel.org/releases.html 에서 확인할
+-수 있습니다.
++현재 Stable/LTS 커널 팀에서 지원하지 않는 커널 버전에서 발견된 문제에 대해서는
++CVE가 할당되지 않습니다. 현재 지원되는 커널 브랜치 목록은
++https://kernel.org/releases.html 에서 확인할 수 있습니다.
+ 
+-할당된 CVE 항목들의 분쟁
+-=========================
++CVE 항목들 할당 분쟁
++====================
+ 
+-특정 커널 변경에 대해 할당된 CVE에 대해 이의를 제기하거나 수정할 권한은
+-전적으로 영향을 받는 관련 하위 시스템의 유지 관리자에게 있습니다.
+-이 원칙은 취약점 보고에 있어 높은 수준의 정확성과 책임성을 보장합니다.
+-하위 시스템에 대한 깊은 전문 지식과 친밀한 지식을 갖춘 사람만이 보고된
+-취약점의 유효성과 범위를 효과적으로 평가하고 적절한 CVE 지정을 결정할 수
+-있습니다. 이 지정된 기관 외부에서 CVE를 수정하거나 이의를 제기하려는 시도는
+-혼란, 부정확한 보고, 궁극적으로 시스템 손상으로 이어질 수 있습니다.
++리눅스 커널 변경 사항에 할당된 CVE에 이의를 제기하거나 수정할 권한은 영향을
++받는 관련 하위 시스템의 관리자에게만 있습니다. 이 원칙은 취약점 보고의 정확성
++및 책임감을 높이기 위해 존재합니다. 하위 시스템에 대한 깊은 전문 지식과 정확한
++이해를 가진 사람만이 보고된 취약점의 유효성과 범위를 효과적으로 판단하고
++적절한 CVE를 지정할 수 있습니다. 지정된 권한 외의 다른 사람이 CVE를 수정 또는
++이의를 제기하려고 시도하면 혼란, 부정확한 보고, 그리고 궁극적으로는 시스템
++손상으로 이어질 수 있습니다.
+ 
+-잘못된 CVE 항목들
+-=================
++유효하지 않은 CVE 항목들
++========================
+ 
+-특정 배포판에서 변경된 사항 적용한 배포판은 더 이상 kernel.org 지원 릴리스가
+-아닌 커널 버전을 지원합니다. 때문에 Linux 배포판에서만 지원되는 Linux 커널에서
+-보안 문제가 발견되는 경우 Linux 커널 CVE 팀에서 CVE를 할당할 수 없습니다.
+-변경된 사항을 적용한 특정 Linux 배포판 자체에 요청해야 합니다.
++개별 배포판에서만 지원되는 커널 버전의 보안 문제가 발견된 경우, 또는 개별
++배포판에서 더 이상 kernel.org에서 지원하지 않는 커널 버전을 지원하고 있는
++경우라면, 보안 문제가 발생하는 경우에 Linux 커널 CVE 팀에서 CVE를 할당할 수
++없습니다. 변경된 사항을 적용한 개별 Linux 배포판에 직접 요청해야 합니다.
+ 
+-커널 할당 CVE 팀이 아닌 다른 그룹에서 적극적으로 지원되는 커널 버전에 대해
+-Linux 커널에 대해 할당된 CVE는 유효한 CVE로 취급해서는 안 됩니다.
+-CNA 수정 절차를 통해 특정 배포판에서 적용한 항목을 무효화할 수 있도록
+-커널 CVE 할당 팀<cve@kernel.org>으로 알려주시기 바랍니다.
++적극적으로 지원되고 있는 커널 버전에 대해 리눅스 커널 CVE 팀 외의 다른 그룹이
++CVE를 할당했다면, 이 CVE는 유효하지 않습니다. CNA 수정 절차를 통해 특정
++배포판에서 적용한 항목을 무효화할 수 있도록 커널 CVE 할당 팀<cve@kernel.org>에
++이메일을 통해 알려주시기 바랍니다.
+ 
+-특정 CVE의 적용 가능성
+-======================
++특정 CVE의 적용 범위
++====================
+ 
+-Linux 커널은 외부 사용자가 다양한 방법으로 접근하거나 전혀 접근하지 않는
+-등 다양한 방식으로 사용될 수 있으므로 특정 CVE의 적용 여부는 Linux 사용자가
+-결정할 사항이며 CVE 할당 팀의 권한이 아닙니다. 특정 CVE의 적용 가능성을
+-판단하기 위해 우리에게 문의하지 마시기 바랍니다.
++리눅스 커널은 다양한 방식으로 사용될 수 있으며, 외부 사용자가 커널에 접근하는
++방법도 여러 가지이며, 전혀 접근하지 않을 수도 있습니다. 따라서 특정 CVE의 적용
++범위는 리눅스 사용자가 결정해야 합니다. CVE 할당 팀은 이를 판단해줄 수
++없습니다. 특정 CVE의 적용 범위를 확인하기 위해 우리 팀에 문의하지 않기를
++바랍니다.
+ 
+-또한 소스 트리가 매우 방대하고 어떤 시스템도 소스 트리의 작은 하위 집합만
+-사용하므로 Linux 사용자는 할당된 많은 수의 CVE가 자신의 시스템과 관련이 없다는
+-사실을 알고 인지해야 합니다.
++또한 소스 트리는 매우 방대하고, 각 시스템은 소스 트리의 일부분만을 사용하기
++때문에 많은 사용자들이 할당된 CVE 중 상당 부분이 자신의 시스템과 관련이 없다는
++사실을 인지해야 합니다.
+ 
+ 즉, 우리는 사용자의 사용 사례를 알지 못하며 사용자가 커널의 어떤 부분을
+ 사용하는지 알 수 없으므로 특정 CVE가 사용자의 시스템과 관련이 있는지 판단할 수
+-있는 방법이 없습니다.
+-
+-항상 그렇듯이 커널 변경 사항은 개별적으로 선별된 변경 사항이 아니라 많은
+-커뮤니티 구성원이 통합된 전체에서 함께 테스트하는 것이므로 릴리스된 모든 커널
+-변경 사항을 적용하는 것이 가장 좋습니다. 또한 많은 버그의 경우 전체 문제에
+-대한 해결책은 단일 변경 사항이 아니라 여러 수정 사항을 모아놓고 보아야 찾을 수
+-있다는 점에 유의하세요. 이상적으로는 모든 문제에 대한 모든 수정 사항에 CVE가
+-할당되지만, 때로는 수정 사항을 발견하지 못하는 경우가 있으므로 CVE가 할당되지
+-않은 일부 변경 사항이 관련성이 있을 수 있다고 가정합니다.
++없습니다.
++
++여태까지 항상 그래왔듯이, 커뮤니티 구성원들의 통합된 테스트를 거친 전체 커널
++변경 사항을 적용하는 것이 좋습니다. 개별적인 부분만 선택하여 적용하는 것을
++권장하지 않습니다. 또한 많은 버그의 경우 전체적인 문제 해결은 단일 변경 사항이
++아니라 여러 수정 사항의 누적을 통해 이루어집니다. 이상적으로는 모든 문제에
++대한 모든 수정 사항에 CVE가 할당되지만, 때로는 누락될 수도 있습니다. 따라서
++CVE가 할당되지 않은 일부 변경 사항도 시스템에 적용하는 것이 중요할 수 있습니다.
+-- 
+2.34.1
 
---5dd707c8aefca53a80287b4aa87859be5f60dd9e69ea1e2dfc6c279ce4ae
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename=0001-kbuild-Allow-Kconfig-dependendencies-on-Python.patch
-Content-Type: text/x-patch; charset=utf-8;
- name=0001-kbuild-Allow-Kconfig-dependendencies-on-Python.patch
-
-RnJvbSAxNTNlYWVjNjE1MTNlMTRmNWE3ZjhmMmE5OTg2MDBkMDdmMTdiYzg0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBUaGllcnJ5IFJlZGluZyA8dHJlZGluZ0BudmlkaWEuY29tPgpE
-YXRlOiBGcmksIDMxIE1heSAyMDI0IDEwOjUxOjQyICswMjAwClN1YmplY3Q6IFtQQVRDSF0ga2J1
-aWxkOiBBbGxvdyBLY29uZmlnIGRlcGVuZGVuZGVuY2llcyBvbiBQeXRob24KClJlY2VudGx5IGRy
-aXZlcnMgaGF2ZSBzdGFydGVkIGRlcGVuZGluZyBvbiBQeXRob24gdG8gZ2VuZXJhdGUgcmVnaXN0
-ZXIKZGVmaW5pdGlvbnMgZHVyaW5nIHRoZSBidWlsZCBwcm9jZXNzLiBJbiBvcmRlciB0byBwcmV2
-ZW50IHN1Y2ggZHJpdmVycwpmcm9tIGJyZWFraW5nIGJ1aWxkcyBvbiBzeXN0ZW1zIHRoYXQgZG9u
-J3QgaGF2ZSBQeXRob24gaW5zdGFsbGVkLCBtYWtlCnRoZW0gZGVwZW5kIG9uIHRoZSBtaW5pbXVt
-IHJlcXVpcmVkIFB5dGhvbiB2ZXJzaW9uIHRoYXQgdGhleSBuZWVkIHZpYQpLY29uZmlnLiBJZiBQ
-eXRob24gaXMgbm90IGluc3RhbGxlZCBvbiB0aGUgc3lzdGVtLCB0aGVzZSBkcml2ZXJzIHdpbGwK
-YmUgYXV0b21hdGljYWxseSBkaXNhYmxlZC4KClNpZ25lZC1vZmYtYnk6IFRoaWVycnkgUmVkaW5n
-IDx0cmVkaW5nQG52aWRpYS5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL21zbS9LY29uZmlnIHwg
-IDEgKwogc2NyaXB0cy9taW4tdG9vbC12ZXJzaW9uLnNoIHwgIDMgKysrCiBzY3JpcHRzL3B5dGhv
-bi12ZXJzaW9uLnNoICAgfCA0MSArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-CiAzIGZpbGVzIGNoYW5nZWQsIDQ1IGluc2VydGlvbnMoKykKIGNyZWF0ZSBtb2RlIDEwMDc1NSBz
-Y3JpcHRzL3B5dGhvbi12ZXJzaW9uLnNoCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21z
-bS9LY29uZmlnIGIvZHJpdmVycy9ncHUvZHJtL21zbS9LY29uZmlnCmluZGV4IDE5MzFlY2Y3M2Uz
-Mi4uNWY3Zjg0ZGU1NWU0IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbXNtL0tjb25maWcK
-KysrIGIvZHJpdmVycy9ncHUvZHJtL21zbS9LY29uZmlnCkBAIC0xMSw2ICsxMSw3IEBAIGNvbmZp
-ZyBEUk1fTVNNCiAJZGVwZW5kcyBvbiBRQ09NX0xMQ0MgfHwgUUNPTV9MTENDPW4KIAlkZXBlbmRz
-IG9uIFFDT01fQ09NTUFORF9EQiB8fCBRQ09NX0NPTU1BTkRfREI9bgogCWRlcGVuZHMgb24gUE0K
-KwlkZXBlbmRzIG9uICQoc3VjY2VzcywkKHNyY3RyZWUpL3NjcmlwdHMvcHl0aG9uLXZlcnNpb24u
-c2gpCiAJc2VsZWN0IElPTU1VX0lPX1BHVEFCTEUKIAlzZWxlY3QgUUNPTV9NRFRfTE9BREVSIGlm
-IEFSQ0hfUUNPTQogCXNlbGVjdCBSRUdVTEFUT1IKZGlmZiAtLWdpdCBhL3NjcmlwdHMvbWluLXRv
-b2wtdmVyc2lvbi5zaCBiL3NjcmlwdHMvbWluLXRvb2wtdmVyc2lvbi5zaAppbmRleCA5MWM5MTIw
-MTIxMmMuLjQ0N2EzYWQ0YzBiZiAxMDA3NTUKLS0tIGEvc2NyaXB0cy9taW4tdG9vbC12ZXJzaW9u
-LnNoCisrKyBiL3NjcmlwdHMvbWluLXRvb2wtdmVyc2lvbi5zaApAQCAtMzgsNiArMzgsOSBAQCBy
-dXN0YykKIGJpbmRnZW4pCiAJZWNobyAwLjY1LjEKIAk7OworcHl0aG9uKQorCWVjaG8gMy41LjAK
-Kwk7OwogKikKIAllY2hvICIkMTogdW5rbm93biB0b29sIiA+JjIKIAlleGl0IDEKZGlmZiAtLWdp
-dCBhL3NjcmlwdHMvcHl0aG9uLXZlcnNpb24uc2ggYi9zY3JpcHRzL3B5dGhvbi12ZXJzaW9uLnNo
-Cm5ldyBmaWxlIG1vZGUgMTAwNzU1CmluZGV4IDAwMDAwMDAwMDAwMC4uYzk5N2Q0MDQxOGRjCi0t
-LSAvZGV2L251bGwKKysrIGIvc2NyaXB0cy9weXRob24tdmVyc2lvbi5zaApAQCAtMCwwICsxLDQx
-IEBACisjIS9iaW4vc2gKKyMgU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAtb25seQor
-IworIyBQcmludCB0aGUgUHl0aG9uIHZlcnNpb24gaW4gYSA1IG9yIDYtZGlnaXQgZm9ybS4KKyMg
-QWxzbywgcGVyZm9ybSB0aGUgbWluaW11bSB2ZXJzaW9uIGNoZWNrLgorCitzZXQgLWUKKworUFlU
-SE9OPSR7UFlUSE9OOi1weXRob259CisKK2dldF9jYW5vbmljYWxfdmVyc2lvbigpCit7CisJSUZT
-PS4KKwlzZXQgLS0gJDEKKworCSMgSWYgdGhlIDJuZCBvciAzcmQgZmllbGQgaXMgbWlzc2luZywg
-ZmlsbCBpdCB3aXRoIGEgemVyby4KKwllY2hvICQoKDEwMDAwICogJDEgKyAxMDAgKiAkezI6LTB9
-ICsgJHszOi0wfSkpCit9CisKK291dHB1dD0kKExDX0FMTD1DICIkUFlUSE9OIiAtLXZlcnNpb24p
-CisKKyMgU3BsaXQgdGhlIGxpbmUgb24gc3BhY2VzLgorSUZTPScgJworc2V0IC0tICRvdXRwdXQK
-K25hbWU9JDEKK3ZlcnNpb249JDIKKworbWluX3Rvb2xfdmVyc2lvbj0kKGRpcm5hbWUgJDApL21p
-bi10b29sLXZlcnNpb24uc2gKK21pbl92ZXJzaW9uPSQoJG1pbl90b29sX3ZlcnNpb24gcHl0aG9u
-KQorCitjdmVyc2lvbj0kKGdldF9jYW5vbmljYWxfdmVyc2lvbiAkdmVyc2lvbikKK21pbl92ZXJz
-aW9uPSQoZ2V0X2Nhbm9uaWNhbF92ZXJzaW9uICRtaW5fdmVyc2lvbikKKworaWYgWyAiJGN2ZXJz
-aW9uIiAtbHQgIiRtaW5fdmVyc2lvbiIgXTsgdGhlbgorCWVjaG8gPiYyICIqKioiCisJZWNobyA+
-JjIgIioqKiBQeXRob24gaXMgdG9vIG9sZC4iCisJZWNobyA+JjIgIioqKiIKKwlleGl0IDEKK2Zp
-CisKK2VjaG8gJG5hbWUgJHZlcnNpb24KLS0gCjIuNDQuMAoK
---5dd707c8aefca53a80287b4aa87859be5f60dd9e69ea1e2dfc6c279ce4ae--
-
---44e1abd3ea18a8ea349c6fb2b07d82a6bec49652599fd2a60f6af9c26a3c
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmZZlDYACgkQ3SOs138+
-s6HXBRAAsSmvbEsN51NCB4QBYVV1Jn9Y+Tptu+xCkkaqDLbKNSCLAseuPQph4+Sm
-yP9zBadxx9tzZ9IiJos2zcoidgtSZz6qf/fltaBjgKesq+YhIoRcjlEOjeBBK9li
-d0jZrccvkzNDPJqvQWfCrT7GHcZO5xe1RJKw5YcH5acTmYI0JTkHUpmHPWdC5GFO
-3gkvHGeth0Mus2+mGUyWXHgEWaL1iOyrm8fCDhuuFZlYxQfkuYbtsOGDz1gKsJWM
-tQcCruBMsml9b5cF88NTLJpJ3drz5RqNkxaM793DXcZVTL0rPt9Pc5m331xaKlKl
-yWf84jYCgaxFDk2f3IkWcg0Mm35a0dQi7LZ+LecsXtLZZB915wcAQV67dCIOFmyW
-qyxex5Tu5jzxDoOJx5/SJrhIdB2Lz33u+XC6nvgAAhsiAKM6lnTkSq0E/s7dIW9z
-9Dwhl4k7KpZ4MAPPqzvEH0osPi8ZqbUiv6xIUHtbo+g5ejAvqr/JXauknDacbvJ4
-xSyYAkh7Aqpu6K/y9tuI/A9sDBHhUD8D/JqRXEc9BOxjOetDeg0vpvkMQbrntX/a
-kk1pkuJrQwIsffqTOWrje9UcjkvbdzmNOknrC/uv+UTrgut/0Rn8p5zsuReU0hjD
-SzzXJF890v2QiUMen3kfPuH5vxdiwXehagUZuHDJuUMmwaMcISs=
-=cZjs
------END PGP SIGNATURE-----
-
---44e1abd3ea18a8ea349c6fb2b07d82a6bec49652599fd2a60f6af9c26a3c--
