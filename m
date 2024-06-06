@@ -1,123 +1,210 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E88F377A03
-	for <workflows@vger.kernel.org>; Thu,  6 Jun 2024 06:43:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 876C813A898;
+	Thu,  6 Jun 2024 08:14:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717656210; cv=none; b=WcIKL0y8XdjjwCtkYMAvErq5rUa9X8vhwoRqAr5eD0L47ER1bSzxu1Bzn9VFdDuF6rTp1g2HDWfi+8k9f4mLRM0BxR+OxMipBZgvbdbaoHbxa3KpCRR3o5PmCZN0kxq8bRbj24So15JHOEGUZUNZhn4InZq5BpVLemEXWJmcx64=
+	t=1717661681; cv=none; b=SUmasPxUS+x6XoBoLX8fzPBYj54Yh0DbWXYpp/aMWWke52DrjYWdD9Lit93+0CyvylN3+JY113nGh7GX/p8wsEZg7BtVxMZm7WodHdyE25BS1Whsa5ecjIu0er71pUq02yMjRoL/I0bnV272Hcooep9x7hEhMkMJkBt52b3yQxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717656210; c=relaxed/simple;
-	bh=lUTwQmTkXSAak3oROEANOq70038+HQrsZbNaSYQ2QYc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=D4+gt9yhtlAOb1MJCW9u5RIKu4KbrIv2E/1lYK1s46P1Vo5NjoWVwnwAAvIKKCZ72Q2sxh6cc9eexRWs50etavpe/2FmwU63gMU/GD5KtC5Ph1b7X67GgZYoVpCBAScUkvVYHBOBzgzjiX5F1M+YhZde08XtMA8yEbyFnt9QKWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=JbJg1HQC; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="JbJg1HQC"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2e78fe9fc2bso8143051fa.3
-        for <workflows@vger.kernel.org>; Wed, 05 Jun 2024 23:43:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1717656207; x=1718261007; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=omfvRqkaBys+keRVcCwWZsFLAUvdCTBnb4DeOzbHfX4=;
-        b=JbJg1HQCh2aIquqEsg6HggZcyaY22fGmRrHencI4b9o9Ft6B6I/LpPumOX7WJWaShV
-         90raB0HlZnb3aQIZWTtHLxrP16Yt3w4UgrHlEFdvvO4xbLRBI1q487B67h1xsnp0QeGX
-         WX6Pd8szP/g3kaUjl9PcxbTNkVEI3HaFz6u/hcUDJ099VLAD75aSuhaxIemkmYxN+FyS
-         PIiDKhjP6Mw0exWrhoBvOtv9bQWgONMJgqKxUnFEbDgh6uhAip4GqRmRB3nEG46JvfLM
-         9eyvOeC9d6lZCp381zSQquyUkgzKJ4tnaowfzf8euWMTCAW6OhTgCHkNuF4iCCt5XX5c
-         ZxAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717656207; x=1718261007;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=omfvRqkaBys+keRVcCwWZsFLAUvdCTBnb4DeOzbHfX4=;
-        b=JrmpcO0D9X2hwvYeMzhpgeigabs1Znsd8KQXJSsM72rBK6tjHCvuNSOd4znoWfn8QJ
-         3Ycbw2go1mgu0Yl9DmBqrTF1LcK9VZppCedVfS0/GbaUqdsfV5oJ1hApxWl/b7jSrmtn
-         THU/cEVwz0QxcIRpLu1vRqs9AX1F7dCeolwD8AGUOBiVCTVvoUrMGfKsKep1KNoULl2j
-         kdZvbZBq/yEkU6ClYLjGLgsHOfB2jjQzabljAaHKs/8JRoBJU/zgM95oHH+vsqSBXRWj
-         XUKBV7p3tRF8qfCFHHHNRK79N/o/Jguu4YMMnKBPFip8q9o0QqcnxAqv0XmEu1/rmftK
-         r2cQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXtojHLhcHaQi+RaYR0BMkG2QH/w4pci4AOtTK8FjyJKgVVnLnK3pjafRMXFfqD6P4w5Gs+ajBkD8warxNSiiBbnai4tjiT9WGA
-X-Gm-Message-State: AOJu0YxBMcxHVlDIVch/WP053xG14BbNkffwVMFHPFL0wcQRFfyYjx1k
-	NqANVLnKgFw3Fb6/zrKgCtcWEUN2hu/ynMoZrlRhVdjWGNcYKadnVk5OMgX9IL5Y7SbsBCdn61U
-	u
-X-Google-Smtp-Source: AGHT+IEGA59Ld7fxgXUJDzsTcNIscMWvDgsppmsiO4nhCip7lnZ+ctEKacwPIC1ddr/EL9VC/D6TNw==
-X-Received: by 2002:a2e:9888:0:b0:2ea:cd94:60f9 with SMTP id 38308e7fff4ca-2eacd9461edmr14568641fa.51.1717656207292;
-        Wed, 05 Jun 2024 23:43:27 -0700 (PDT)
-Received: from localhost ([2401:e180:8882:8af3:26fa:edbd:5679:640c])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-6de28957153sm499471a12.91.2024.06.05.23.43.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Jun 2024 23:43:26 -0700 (PDT)
-From: Shung-Hsi Yu <shung-hsi.yu@suse.com>
-To: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sasha Levin <sashal@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	stable@vger.kernel.org,
-	workflows@vger.kernel.org,
-	Shung-Hsi Yu <shung-hsi.yu@suse.com>
-Subject: [PATCH 2/2] docs: stable-kernel-rules: remind reader about DCO
-Date: Thu,  6 Jun 2024 14:43:09 +0800
-Message-ID: <20240606064311.18678-2-shung-hsi.yu@suse.com>
-X-Mailer: git-send-email 2.45.1
-In-Reply-To: <20240606064311.18678-1-shung-hsi.yu@suse.com>
-References: <20240606064311.18678-1-shung-hsi.yu@suse.com>
+	s=arc-20240116; t=1717661681; c=relaxed/simple;
+	bh=/+/BknMHLrihbmijqoFbVLzfZtNPqhWBdI3sHAuudyA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IFSvK7rEVSSc0bQOJ9G/ajvOKSwKoyBGvYhwDcyJvzOo1X8Oo8QTonHAwpnhlRdCrRuZ7Ic/4175lbqwkRhfju1L7a94P1arDnrSCm9OPEGzM2ihrkljhfrIaglBd519l2j8o9N+XZKT5dM/0WWnub6s9aYLh9QLhDR83vnvlc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.08,218,1712588400"; 
+   d="asc'?scan'208";a="210885326"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 06 Jun 2024 17:14:37 +0900
+Received: from [10.226.93.107] (unknown [10.226.93.107])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 72C8C41FD116;
+	Thu,  6 Jun 2024 17:14:34 +0900 (JST)
+Message-ID: <13e77ad1-7ff0-453b-b8f9-7962d15b49a1@bp.renesas.com>
+Date: Thu, 6 Jun 2024 09:14:32 +0100
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] docs: stable-kernel-rules: provide example of
+ specifying target series
+To: Shung-Hsi Yu <shung-hsi.yu@suse.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ stable@vger.kernel.org, workflows@vger.kernel.org
+References: <20240606064311.18678-1-shung-hsi.yu@suse.com>
+Content-Language: en-GB
+From: Paul Barker <paul.barker.ct@bp.renesas.com>
+Organization: Renesas Electronics Corporation
+In-Reply-To: <20240606064311.18678-1-shung-hsi.yu@suse.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------xI3MkB3bqz4WF3eJ5X8zp2y7"
 
-When sending patch authored by someone else to stable, it is quite easy for
-the sender to forget adding the Developer's Certification of Origin (DCO,
-i.e. Signed-off-by). Mention DCO explicilty so senders are less likely to
-forget to do so and cause another round-trip.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------xI3MkB3bqz4WF3eJ5X8zp2y7
+Content-Type: multipart/mixed; boundary="------------cuym2VioR9YeBxcmeIilliEz";
+ protected-headers="v1"
+From: Paul Barker <paul.barker.ct@bp.renesas.com>
+To: Shung-Hsi Yu <shung-hsi.yu@suse.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ stable@vger.kernel.org, workflows@vger.kernel.org
+Message-ID: <13e77ad1-7ff0-453b-b8f9-7962d15b49a1@bp.renesas.com>
+Subject: Re: [PATCH 1/2] docs: stable-kernel-rules: provide example of
+ specifying target series
+References: <20240606064311.18678-1-shung-hsi.yu@suse.com>
+In-Reply-To: <20240606064311.18678-1-shung-hsi.yu@suse.com>
 
-Add a label in submitting-patches.rst so we can directly link to the DCO
-section.
+--------------cuym2VioR9YeBxcmeIilliEz
+Content-Type: multipart/mixed; boundary="------------cwYi1y9yKe2mdo4v6vJz18ui"
 
-Link: https://lore.kernel.org/stable/2024051500-underage-unfixed-5d28@gregkh/
-Signed-off-by: Shung-Hsi Yu <shung-hsi.yu@suse.com>
----
- Documentation/process/stable-kernel-rules.rst | 4 ++++
- Documentation/process/submitting-patches.rst  | 1 +
- 2 files changed, 5 insertions(+)
+--------------cwYi1y9yKe2mdo4v6vJz18ui
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
-index daa542988095..a8fecc5f681c 100644
---- a/Documentation/process/stable-kernel-rules.rst
-+++ b/Documentation/process/stable-kernel-rules.rst
-@@ -168,6 +168,10 @@ If the submitted patch deviates from the original upstream patch (for example
- because it had to be adjusted for the older API), this must be very clearly
- documented and justified in the patch description.
- 
-+Be sure to also include a :ref:`Developer's Certificate of Origin
-+<sign_your_work>` (i.e. ``Signed-off-by``) when sending patches that you did
-+not author yourself.
-+
- 
- Following the submission
- ------------------------
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index 66029999b587..98f1c8d8b429 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -394,6 +394,7 @@ e-mail discussions.
- 
- ``git send-email`` will do this for you automatically.
- 
-+.. _sign_your_work:
- 
- Sign your work - the Developer's Certificate of Origin
- ------------------------------------------------------
--- 
-2.45.1
+On 06/06/2024 07:43, Shung-Hsi Yu wrote:
+> Provide a concrete example of how to specify what stable series should
+> be targeted for change inclusion. Looking around on the stable mailing
+> list this seems like a common practice already, so let's mention that i=
+n
+> the documentation as well (but worded so it is not interpreted as the
+> only way to do so).
+>=20
+> Signed-off-by: Shung-Hsi Yu <shung-hsi.yu@suse.com>
+> ---
+>  Documentation/process/stable-kernel-rules.rst | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentat=
+ion/process/stable-kernel-rules.rst
+> index edf90bbe30f4..daa542988095 100644
+> --- a/Documentation/process/stable-kernel-rules.rst
+> +++ b/Documentation/process/stable-kernel-rules.rst
+> @@ -57,10 +57,13 @@ options for cases where a mainlined patch needs adj=
+ustments to apply in older
+>  series (for example due to API changes).
+> =20
+>  When using option 2 or 3 you can ask for your change to be included in=
+ specific
+> -stable series. When doing so, ensure the fix or an equivalent is appli=
+cable,
+> -submitted, or already present in all newer stable trees still supporte=
+d. This is
+> -meant to prevent regressions that users might later encounter on updat=
+ing, if
+> -e.g. a fix merged for 5.19-rc1 would be backported to 5.10.y, but not =
+to 5.15.y.
+> +stable series, one way to do so is by specifying the target series in =
+the
+> +subject prefix (e.g. '[PATCH stable 5.15 5.10]' asks that the patch to=
+ be
 
+"that the patch is included in..." would be slightly better.
+
+> +included in both 5.10.y and 5.15.y). When doing so, ensure the fix or =
+an
+> +equivalent is applicable, submitted, or already present in all newer s=
+table
+> +trees still supported. This is meant to prevent regressions that users=
+ might
+> +later encounter on updating, if e.g. a fix merged for 5.19-rc1 would b=
+e
+> +backported to 5.10.y, but not to 5.15.y.
+> =20
+>  .. _option_1:
+> =20
+
+This is a helpful clarification and I like seeing an example. With the
+trivial change above:
+
+Reviewed-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+
+--=20
+Paul Barker
+--------------cwYi1y9yKe2mdo4v6vJz18ui
+Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
+Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xsFNBGS4BNsBEADEc28TO+aryCgRIuhxWAviuJl+f2TcZ1JeeaMzRLgSXKuXzkiI
+g6JIVfNvThjwJaBmb7+/5+D7kDLJuutu9MFfOzTS0QOQWppwIPgbfktvMvwwsq3m
+7e9Qb+S1LVeV0/ldZfuzgzAzHFDwmzryfIyt2JEbsBsGTq/QE+7hvLAe8R9xofIn
+z6/IndiiTYhNCNf06nFPR4Y5ZDZPGb9aw5Jisqh+OSxtc0BFHDSV8/35yWM/JLQ1
+Ja8AOHw1kP9KO+iE9rHMt0+7lH3mN1GBabxH26EdgFfPShsi14qmziLOuUlGLuwO
+ApIYqvdtCs+zlMA8PsiJIMuxizZ6qCLur3r2b+/YXoJjuFDcax9M+Pr0D7rZX0Hk
+6PW3dtvDQHfspwLY0FIlXbbtCfCqGLe47VaS7lvG0XeMlo3dUEsf707Q2h0+G1tm
+wyeuWSPEzZQq/KI7JIFlxr3N/3VCdGa9qVf/40QF0BXPfJdcwTEzmPlYetRgA11W
+bglw8DxWBv24a2gWeUkwBWFScR3QV4FAwVjmlCqrkw9dy/JtrFf4pwDoqSFUcofB
+95u6qlz/PC+ho9uvUo5uIwJyz3J5BIgfkMAPYcHNZZ5QrpI3mdwf66im1TOKKTuf
+3Sz/GKc14qAIQhxuUWrgAKTexBJYJmzDT0Mj4ISjlr9K6VXrQwTuj2zC4QARAQAB
+zStQYXVsIEJhcmtlciA8cGF1bC5iYXJrZXIuY3RAYnAucmVuZXNhcy5jb20+wsGU
+BBMBCgA+FiEE9KKf333+FIzPGaxOJ/SzRZ8AIlcFAmS4BNsCGwEFCQPCZwAFCwkI
+BwIGFQoJCAsCBBYCAwECHgECF4AACgkQJ/SzRZ8AIlfxaQ/8CM36qjfad7eBfwja
+cI1LlH1NwbSJ239rE0X7hU/5yra72egr3T5AUuYTt9ECNQ8Ld03BYhbC6hPki5rb
+OlFM2hEPUQYeohcJ4Na5iIFpTxoIuC49Hp2ce6ikvt9Hc4O2FAntabg+9hE8WA4f
+QWW+Qo5ve5OJ0sGylzu0mRZ2I3mTaDsxuDkXOICF5ggSdjT+rcd/pRVOugImjpZv
+/jzSgUfKV2wcZ8vVK0616K21tyPiRjYtDQjJAKff8gBY6ZvP5REPl+fYNvZm1y4l
+hsVupGHL3aV+BKooMsKRZIMTiKJCIy6YFKHOcgWFG62cuRrFDf4r54MJuUGzyeoF
+1XNFzbe1ySoRfU/HrEuBNqC+1CEBiduumh89BitfDNh6ecWVLw24fjsF1Ke6vYpU
+lK9/yGLV26lXYEN4uEJ9i6PjgJ+Q8fubizCVXVDPxmWSZIoJg8EspZ+Max03Lk3e
+flWQ0E3l6/VHmsFgkvqhjNlzFRrj/k86IKdOi0FOd0xtKh1p34rQ8S/4uUN9XCVj
+KtmyLfQgqPVEC6MKv7yFbextPoDUrFAzEgi4OBdqDJjPbdU9wUjONxuWJRrzRFcr
+nTIG7oC4dae0p1rs5uTlaSIKpB2yulaJLKjnNstAj9G9Evf4SE2PKH4l4Jlo/Hu1
+wOUqmCLRo3vFbn7xvfr1u0Z+oMTOOARkuAhwEgorBgEEAZdVAQUBAQdAcuNbK3VT
+WrRYypisnnzLAguqvKX3Vc1OpNE4f8pOcgMDAQgHwsF2BBgBCgAgFiEE9KKf333+
+FIzPGaxOJ/SzRZ8AIlcFAmS4CHACGwwACgkQJ/SzRZ8AIlc90BAAr0hmx8XU9KCj
+g4nJqfavlmKUZetoX5RB9g3hkpDlvjdQZX6lenw3yUzPj53eoiDKzsM03Tak/KFU
+FXGeq7UtPOfXMyIh5UZVdHQRxC4sIBMLKumBfC7LM6XeSegtaGEX8vSzjQICIbaI
+roF2qVUOTMGal2mvcYEvmObC08bUZuMd4nxLnHGiej2t85+9F3Y7GAKsA25EXbbm
+ziUg8IVXw3TojPNrNoQ3if2Z9NfKBhv0/s7x/3WhhIzOht+rAyZaaW+31btDrX4+
+Y1XLAzg9DAfuqkL6knHDMd9tEuK6m2xCOAeZazXaNeOTjQ/XqCHmZ+691VhmAHCI
+7Z7EBPh++TjEqn4ZH+4KPn6XD52+ruWXGbJP29zc+3bwQ+ZADfUaL3ADj69ySxzm
+bO24USHBAg+BhZAZMBkbkygbTen/umT6tBxG91krqbKlDdc8mhGonBN6i+nz8qv1
+6MdC5P1rDbo834rxNLvoFMSLCcpjoafiprl9qk0wQLq48WGphs9DX7V75ZAU5Lt6
+yA+je8i799EZJsVlB933Gpj688H4csaZqEMBjq7vMvI+a5MnLCGcjwRhsUfogpRb
+AWTx9ddVau4MJgEHzB7UU/VFyP2vku7XPj6mgSfSHyNVf2hqxwISQ8eZLoyxauOD
+Y61QMX6YFL170ylToSFjH627h6TzlUDOMwRkuAiAFgkrBgEEAdpHDwEBB0Bibkmu
+Sf7yECzrkBmjD6VGWNVxTdiqb2RuAfGFY9RjRsLB7QQYAQoAIBYhBPSin999/hSM
+zxmsTif0s0WfACJXBQJkuAiAAhsCAIEJECf0s0WfACJXdiAEGRYIAB0WIQSiu8gv
+1Xr0fIw/aoLbaV4Vf/JGvQUCZLgIgAAKCRDbaV4Vf/JGvZP9AQCwV06n3DZvuce3
+/BtzG5zqUuf6Kp2Esgr2FrD4fKVbogD/ZHpXfi9ELdH/JTSVyujaTqhuxQ5B7UzV
+CUIb1qbg1APIEA/+IaLJIBySehy8dHDZQXit/XQYeROQLTT9PvyM35rZVMGH6VG8
+Zb23BPCJ3N0ISOtVdG402lSP0ilP/zSyQAbJN6F0o2tiPd558lPerFd/KpbCIp8N
+kYaLlHWIDiN2AE3c6sfCiCPMtXOR7HCeQapGQBS/IMh1qYHffuzuEy7tbrMvjdra
+VN9Rqtp7PSuRTbO3jAhm0Oe4lDCAK4zyZfjwiZGxnj9s1dyEbxYB2GhTOgkiX/96
+Nw+m/ShaKqTM7o3pNUEs9J3oHeGZFCCaZBv97ctqrYhnNB4kzCxAaZ6K9HAAmcKe
+WT2q4JdYzwB6vEeHnvxl7M0Dj9pUTMujW77Qh5IkUQLYZ2XQYnKAV2WI90B0R1p9
+bXP+jqqkaNCrxKHV1tYOB6037CziGcZmiDneiTlM765MTLJLlHNqlXxDCzRwEazU
+y9dNzITjVT0qhc6th8/vqN9dqvQaAGa13u86Gbv4XPYdE+5MXPM/fTgkKaPBYcIV
+QMvLfoZxyaTk4nzNbBxwwEEHrvTcWDdWxGNtkWRZw0+U5JpXCOi9kBCtFrJ701UG
+UFs56zWndQUS/2xDyGk8GObGBSRLCwsXsKsF6hSX5aKXHyrAAxEUEscRaAmzd6O3
+ZyZGVsEsOuGCLkekUMF/5dwOhEDXrY42VR/ZxdDTY99dznQkwTt4o7FOmkY=3D
+=3DsIIN
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------cwYi1y9yKe2mdo4v6vJz18ui--
+
+--------------cuym2VioR9YeBxcmeIilliEz--
+
+--------------xI3MkB3bqz4WF3eJ5X8zp2y7
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZmFv6QUDAAAAAAAKCRDbaV4Vf/JGvWU6
+AQDSsAO3bvQOfdU4uSNy9JHsga8OyLIF2Rs7Fda7u/NyOAEAq6KIJw4g73ZA4mkNsnOM7kUpXq1+
+KcKZU1/hFlLX2wM=
+=jN5l
+-----END PGP SIGNATURE-----
+
+--------------xI3MkB3bqz4WF3eJ5X8zp2y7--
