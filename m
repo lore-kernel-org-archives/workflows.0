@@ -1,98 +1,114 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D173D635
-	for <workflows@vger.kernel.org>; Sat, 15 Jun 2024 01:57:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF4521FB4
+	for <workflows@vger.kernel.org>; Sat, 15 Jun 2024 02:04:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718416661; cv=none; b=fwMKVMbVTF65zdqnxVemxmsOIMuaYVzKL7l17kk3yBHEowL5e1gnSA6ZiIKaZObeJVwfn7qCgAv+KxcwGF9RuLdYfInT7t+AkvgMrBhl5zEeJ174jw2yboGl/Z/8ethXM78e2Rtk+9pKW+f0OCj/x6ngde1yxX73JjHP2fhDaD0=
+	t=1718417044; cv=none; b=t3S8WbRmOdBdj989Mta0vWuZ2jxOmEeg5HRv2RQeTs2wPFrR4evqouehP/laWCv+FA8/r1y0227NY3M8IOeTjKUVLnMu5KiVutTXEJAkQjrSYuxaUuJ/xPSdw8NhWFM+1v+20We80iOxiPIj43HymYCgDOWflLI1XiM4JwHRTTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718416661; c=relaxed/simple;
-	bh=00qodF6QKX6kY5aVpmFn0IV6lZaTfbB/wM6JlDqCD6E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mlCi3QxJhKRrOl4nXeB+Z+kRMf81bDaQ0HX90cxkW0Ww9GmLvZ6+CyzAQPmfgY0kTa+JGdViUJ8ymvEyXu2oepcwskWEgO7D5/kQYmNCUQRHoQy1pJwwfFc37O6ZKVpD14kNRM6iHeKRZKjdc8v8vdarUwZtSrxFamu2ALB+gME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=JgmvwduU; arc=none smtp.client-ip=209.85.221.50
+	s=arc-20240116; t=1718417044; c=relaxed/simple;
+	bh=rpZvw9XLEKpYCseIpXEkSatocTf20gqMAbN76hCnHR4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fWxZzfv8DO/Fu613NjZJr7+a5J9o2C79cqbPBT7Sjx3uuaCkCLr+jrYHDC2eR6TGJFOWmhTPN6XS3tIoRejo02XhH8fSqEkyD3PAvNj1NiAxGUzs7zNMJFBo62WtLT3+SihsGYDm2iFIj2NEtYjJEBLlHFadqSnHoOu9pChwEuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=WiLWtApZ; arc=none smtp.client-ip=209.85.208.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="JgmvwduU"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-35f2c0b7701so1610389f8f.0
-        for <workflows@vger.kernel.org>; Fri, 14 Jun 2024 18:57:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="WiLWtApZ"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2ebed33cb65so29285121fa.2
+        for <workflows@vger.kernel.org>; Fri, 14 Jun 2024 19:04:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1718416658; x=1719021458; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ABtmO3SynGCheUJoZZwiI9goLwucbtXdkggcFPq6bBg=;
-        b=JgmvwduUaBJu8FuWyAm0SGwJVhw3fGy4fv5p6eqJn2Yeeu+F6J69jgowf7WtIICuNS
-         oRFXy0lb/TYXHPEHToTRqG0g4W+9dLIi3sWtjINrotTcmut/a4fo88agCfp/IlXlqTuK
-         eIgKp7Afe5byJUEZmNQ86hMP+IJEdP8+wkdxOst90RRKpe8bx2g7B1fQq4S8QdCimc7k
-         ZhagDPSDPNtjzygQYNuUmi11Yaw+Q232WHl3HG8uuvl5T3WJwUpb/23PcPF4z+z14E8m
-         6ehDnpcjgzD3y9moSLj2foxgyo8ko1+IIpw3ZdsJ2ovj2yhAt3D1QFiNp9kI0VtrbsXK
-         M7dQ==
+        d=suse.com; s=google; t=1718417040; x=1719021840; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QJY6cmqgIo4QzbPjFJCYb3fkRY6vEH1kGUNF5UfRoaY=;
+        b=WiLWtApZsfqx3Jcsq8/YdnRkUQy/Rv4mglC2RMcTjUk/Yfyt+Yf0PVn7hmot+06O+f
+         iY+w7dk7IGWs+PzhX+MZArRZNr4MpZKl2sYVM/9Q/tRU1ve4LP/MqqAxr01WdRYa2w78
+         sqBPNJdtElQMNHSt50XO4UGQgtVZZK5i3F4WbeqMXFaf3Rru8TZGu2OQbhMg27cQvEmt
+         fWavhzF48ZFpsC0gZmCcJacJBhHd0B0AWkbSb4LYGD1vcloFpCJT1InAc7UqlNWHH9GV
+         qIOOox6gKZpc0u1xkE+GtoDhNbLrnSdVYyypjNAYsJcD/l5YKo4vQD9+qC/pihoHAFk8
+         aKhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718416658; x=1719021458;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ABtmO3SynGCheUJoZZwiI9goLwucbtXdkggcFPq6bBg=;
-        b=Zr7E8tuzMxmjmWUHsLEhCBxU7i41wCEwjIPGgdOPWy0T93UlM6oTwM0IY2if+D8fho
-         owqSi+cHP/GLSTSBh/EKwTqh993eIK/3qVddVlFa0oDfJUG8EX0b4+RkKfAofiuSZOvL
-         K0ntR7LauqPsfDY2Td1AJ13qFMxjMXgIIMpbdsajHe3TC6uXz+ClF7y6Bj0tHZaEm+Py
-         sTkKJ33ElzHyR761+0FGBEtwh2rDO8mDYPHqszYudS3oOZ3edgmodOoQXX2a47DbKI2i
-         M5sBwp9PPiZZKbFlnEn2uICMaFCaOQBs/PyJTHSx8Q7xHOj6lRCM48WUA3htDH673tmE
-         OP6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWmXF2n1e0XEOjWXxcih+/LV9xc5B7N5xfD+LNxvphb2nQoPYDb2gV12OwaDAPxQs4MLv+4K0E6jNrIz9y5aClYEF8dcV4cxrmO
-X-Gm-Message-State: AOJu0YzYFV+YXPrNDqRmx46fhB+DzlPWQEZCsTHNG5oirR8Fud8oUN0f
-	VrWeC4E+rJsdr9Kj3YCMYYYP+Wt9HWvuTKRxvxv2fnBv0uaCTG5awFCvywr7NM9qIW8BdC1zzlx
-	IDa8=
-X-Google-Smtp-Source: AGHT+IGR4zVFkXOonICx/mvA5JDvyRAE9eCUTxvhR4wF1jq/1vyMqD+Yqv9ypAbz/FBNfZXmV1CISw==
-X-Received: by 2002:a5d:6306:0:b0:35f:b45:97b4 with SMTP id ffacd0b85a97d-360718de6a1mr6772651f8f.20.1718416658187;
-        Fri, 14 Jun 2024 18:57:38 -0700 (PDT)
-Received: from u94a (2001-b011-fa04-32f9-b2dc-efff-fee8-7e7a.dynamic-ip6.hinet.net. [2001:b011:fa04:32f9:b2dc:efff:fee8:7e7a])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-705cc967334sm3717206b3a.57.2024.06.14.18.57.34
+        d=1e100.net; s=20230601; t=1718417040; x=1719021840;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QJY6cmqgIo4QzbPjFJCYb3fkRY6vEH1kGUNF5UfRoaY=;
+        b=SSc0VFle06LhHNsNw6CB0Rh8ILx/Y+djEmAGhgJ8HIe+cCNNR7ZzHrrhfBJ0ZZr2VF
+         TrrB36IG7usxBG++RarB78a6E0yk7R4qGMLtTgWfjIbkpq3WdTWpHoD8rTH+VavZAdMg
+         0NZSvGKKw8sPWXYYTyFUQEbfqlH2HhTi1csv14Nc8ll6zdiMFyazMTAxfaF+pKgtM1C8
+         my3Lk8lrIg38waaTYZrC9OUjhWTDCSWCESwXy9QTF6NDmQaxw9sAtiJKo99Qz3LX39Ns
+         lM2C+TDEELkIWpwumDuqZbB2fUxr5nfJ95NGzyasPvLZyN75OO+Ilu2y09danxa6y6XT
+         EqSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXICDOENTkLdABcsEF+Kv4n9MuOn1RLluCddjr3s/JU6j25oarE/qvg25zxK8VA/DjmU4IPyc8sxKtguaaecZVrryLysq3jyu/i
+X-Gm-Message-State: AOJu0Yx2QO1kp9398T9PICn2ZavMuuHhbNNJ0luOKQ9PwJ9DMoxx3f2o
+	z21Q/zjUg+nlZBy5byVyzLSjuxHLuqevflK6u/U+zgr440dXFQL4nu6BAaE4F4o=
+X-Google-Smtp-Source: AGHT+IFmM+dfyVMho99Mx9NOoZZ+DemtrUH0RcguBm6o/Ak9z9VlZpmwhuqfVw10Q7QX2HYYbQjZ3Q==
+X-Received: by 2002:a2e:a601:0:b0:2ec:18e5:e686 with SMTP id 38308e7fff4ca-2ec18e5e7d2mr22180571fa.33.1718417039933;
+        Fri, 14 Jun 2024 19:03:59 -0700 (PDT)
+Received: from localhost (2001-b011-fa04-32f9-b2dc-efff-fee8-7e7a.dynamic-ip6.hinet.net. [2001:b011:fa04:32f9:b2dc:efff:fee8:7e7a])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855e564c5sm39154145ad.24.2024.06.14.19.03.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jun 2024 18:57:37 -0700 (PDT)
-Date: Sat, 15 Jun 2024 09:57:29 +0800
+        Fri, 14 Jun 2024 19:03:59 -0700 (PDT)
 From: Shung-Hsi Yu <shung-hsi.yu@suse.com>
-To: Paul Barker <paul.barker.ct@bp.renesas.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Sasha Levin <sashal@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, stable@vger.kernel.org, workflows@vger.kernel.org
-Subject: Re: [PATCH 2/2] docs: stable-kernel-rules: remind reader about DCO
-Message-ID: <x7nuehxxk3cn3ra46abw3y5jks2h4ikwzc6iv7cmxw7sexla37@efgriowgekfa>
-References: <20240606064311.18678-1-shung-hsi.yu@suse.com>
- <20240606064311.18678-2-shung-hsi.yu@suse.com>
- <0f7d5012-99a3-485a-b500-1d79d69a64f9@bp.renesas.com>
+To: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	stable@vger.kernel.org,
+	workflows@vger.kernel.org,
+	Paul Barker <paul.barker.ct@bp.renesas.com>,
+	Shung-Hsi Yu <shung-hsi.yu@suse.com>
+Subject: [PATCH v2 1/2] docs: stable-kernel-rules: provide example of specifing target series
+Date: Sat, 15 Jun 2024 10:03:50 +0800
+Message-ID: <20240615020356.5595-1-shung-hsi.yu@suse.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0f7d5012-99a3-485a-b500-1d79d69a64f9@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jun 06, 2024 at 09:21:39AM GMT, Paul Barker wrote:
-> On 06/06/2024 07:43, Shung-Hsi Yu wrote:
-> > When sending patch authored by someone else to stable, it is quite easy for
-> > the sender to forget adding the Developer's Certification of Origin (DCO,
-> > i.e. Signed-off-by). Mention DCO explicilty so senders are less likely to
-> 
-> s/explicilty/explicitly/
-> 
-> > forget to do so and cause another round-trip.
-> > 
-> > Add a label in submitting-patches.rst so we can directly link to the DCO
-> > section.
-> > 
-> > Link: https://lore.kernel.org/stable/2024051500-underage-unfixed-5d28@gregkh/
-> 
-> Is "Link:" right here? I'd prefer to see something like "For example see
-> ..." added to the first paragraph so it's explicit that this is a link
-> to an example of this issue.
+Provide a concrete example of how to specify what stable series should be
+targeted for change inclusion. Looking around on the stable mailing list this
+seems like a common practice already, so let mention that in the documentation
+as well (but worded so it is not interpreted as the only way to do so).
 
-Thanks for the feedback. Yes that is better. Will clarify that, fix
-typo, and slighly edit patch 1 as suggested.
+Reviewed-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+Signed-off-by: Shung-Hsi Yu <shung-hsi.yu@suse.com>
+---
+Change from v1: 
+- "asks that the patch to be included in..." is edit to "asks that the
+  patch is included in..." for better wording (Paul)
+---
+ Documentation/process/stable-kernel-rules.rst | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-Shung-Hsi
+diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
+index edf90bbe30f4..d22aa2280f6e 100644
+--- a/Documentation/process/stable-kernel-rules.rst
++++ b/Documentation/process/stable-kernel-rules.rst
+@@ -57,10 +57,13 @@ options for cases where a mainlined patch needs adjustments to apply in older
+ series (for example due to API changes).
+ 
+ When using option 2 or 3 you can ask for your change to be included in specific
+-stable series. When doing so, ensure the fix or an equivalent is applicable,
+-submitted, or already present in all newer stable trees still supported. This is
+-meant to prevent regressions that users might later encounter on updating, if
+-e.g. a fix merged for 5.19-rc1 would be backported to 5.10.y, but not to 5.15.y.
++stable series, one way to do so is by specifying the target series in the
++subject prefix (e.g. '[PATCH stable 5.15 5.10]' asks that the patch is
++included in both 5.10.y and 5.15.y). When doing so, ensure the fix or an
++equivalent is applicable, submitted, or already present in all newer stable
++trees still supported. This is meant to prevent regressions that users might
++later encounter on updating, if e.g. a fix merged for 5.19-rc1 would be
++backported to 5.10.y, but not to 5.15.y.
+ 
+ .. _option_1:
+ 
+-- 
+2.45.2
+
