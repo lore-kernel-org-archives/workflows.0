@@ -1,33 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98FE36139;
-	Wed, 19 Jun 2024 07:12:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D06478C62
+	for <workflows@vger.kernel.org>; Wed, 19 Jun 2024 08:08:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718781177; cv=none; b=VGOV2ixgYnvgzaG7YjdGfM+j0HRqO8D6JZnbIPyyXetU4nK1Sgagio7VkYn19JcCeno6hwepVNU7rS+yXkABar5dnxSdHMh9ki4jvcWysU/TfHh9CDjIB55vw4c4EEfLXzsNJ/0dKpYyrhqPso6ymOhpd1rNgA4ffv3sHVd/SK4=
+	t=1718784535; cv=none; b=nrBqX+F7QP09a4CbFY29lpzQLbUjeDW63BTly6K5LXBaOWhqa/ItsPUaMSi+3hFPKPfVlt1o2WQTIxZo3E9q0OtNeWdqb2uToXcalSSO87N8zHctUemTFG9jpJFFomOJkJz0s/lEBkD/Jgmf9irUk4u3MV6by0J8+oG605lajD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718781177; c=relaxed/simple;
-	bh=1chuFAqYE6dJD49A1FU7iaMclljnN30WPad6vj2dIoE=;
+	s=arc-20240116; t=1718784535; c=relaxed/simple;
+	bh=vl9KclTpnM+SdGp+CrCX4wdBrh0WCaT2cjnS1mhbu6M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PlCN1dUEZLXCVi107Mqk/Antp/0aY01z63zGatevO5OGFYCgeuXIdI1cKyVBM9F6BFq+EhRmV4jGyjxOnYiaDM3P90NnhnjUNKbvvlVovftdkNAr40wCG3nAUVu7Md9rQ1sQq7PXl+iNmwHcKV3QONTv+ViVSSkjvOrKibQdeN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CXfAjh3N; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=FY2WBPEysR8U6nDPN5APytyqFP15ILwkGOy5ccjlWm46HLJIgjIdWMbvFeY30K2gSHjChHcMIU7ruQjW+Rt1fQlfEcQnn+oSd0tsHU5O+xkxPrInisM5R+radfEspMxyFkH6yTrVDPMj4OY+dbEXYqTjjzwZLw3STY7YWOkrBS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lU0wTnSP; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CXfAjh3N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71C80C32786;
-	Wed, 19 Jun 2024 07:12:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718781177;
-	bh=1chuFAqYE6dJD49A1FU7iaMclljnN30WPad6vj2dIoE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CXfAjh3NbnxJNcVD6gM3s1BgEP7eRbGSTbVqml1/XqenyATV3CgMJXIgDPZPvmVfT
-	 DN5tWbEE3+obD3s73UTA6vxAIcHz4ACGIyByj3qXAi7go9UMJPvh9AP5kLLqdd/wmv
-	 WrKZrIU4kTrG5tU9vUSbgLzlfUOvZ/RJ71CxHz55vebIkcBzjbqGo0Ta+LGhvUMNVt
-	 pOG1l3geCyMLLAAe5esg4u/2vwiF352qPtL6CzU7oy4h0VKNh5t7JmlYd7uG0JE5Qa
-	 F6nYxxDFBQ0MurmaA4bi8mGAekdcVZME2WFUxP85w/nTMdz9MssaqeZF7JKfUr0c+B
-	 vdbVVuVHDyLxg==
-Date: Wed, 19 Jun 2024 10:12:51 +0300
-From: Leon Romanovsky <leon@kernel.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lU0wTnSP"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-52c7f7fdd24so7691076e87.1
+        for <workflows@vger.kernel.org>; Wed, 19 Jun 2024 01:08:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718784532; x=1719389332; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=aCIcbRqN1/jGnE/uXHAlTtP9P6llAMOVezx7CUwbZqQ=;
+        b=lU0wTnSPMAvIuSKq90Jl8+OhEO8j++q5qM/w6FDMiudR/GjbHvlIhTAn1RIIEFkfFv
+         NuIxvQ+H6j6aowar2gU6DQYkPdkiilBDtt8jmnP3Zj977IReuhaEskXqAp8sx71CpRgH
+         EhZJQKvEHHjK/V87UnbS9dxo/4/gmIXPFYSx68DacpM0oTHuooniaqhmOg1slPfcUooG
+         Aq5fAbYuwjoLbfpTxf30Kzvq5RNh8Ol3HSQwvFPSQBPYkLkCkFpc6JFQpx3R1Ta5j+xv
+         YxhJFG3sWoIVn14V8NOL1rXW7EwebWAmBzHWcnndfOg5YFbmdFfkh7yCF9dNEf4HFnPT
+         XfWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718784532; x=1719389332;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aCIcbRqN1/jGnE/uXHAlTtP9P6llAMOVezx7CUwbZqQ=;
+        b=tYfxDGOi2cG0jTrtkZ1VdHeD+CrubegiVDCpxTmwwQPGLBXaYv6M6MmOQ+i/Q84PcC
+         nDFG7u6ynuQK87iB8HrVK2fOrWVU8wvRD1tUl5V38Unm1Sb/6BvfiLrIBc+Yp68F8eRM
+         RaDEQwSU9EtER1SWaKfu+nW+8gu+gagqbbC8Bu0d7hU+UjU7ZS1bsLGLRSYpiF1CZRQg
+         lrTS8NRA0UNd2pr+VArtfqQXvIzmnwE6heeR2SVLcjVFF7hRUlwbC05aj5hG5MOmrsIH
+         5CqRjRiEfLfxAc/7InA+sOVYvnlpcrGcLlHPPG7F2KXceagH+yZvYKLT78gffQv48JxY
+         Gp/A==
+X-Forwarded-Encrypted: i=1; AJvYcCVSrsUBcCtOSUFLhFk0jiPee4btRDC2HYiqhv/Xfc7i2+lVbv11cuhZVkKJ+gEbV193TGqhDbg1ZByhEpeu4X/e76a3PcWFitNI
+X-Gm-Message-State: AOJu0YxTXinS0JQtIywhGZmSQm5wyUmmuks3QazLeHzKt+NuBvXcnqFz
+	zpJJvX20VdOFbkwelZLaxRv/RAPjSKeCUWGALEegxOrgQYdVmiObPTcZCYL1+5w=
+X-Google-Smtp-Source: AGHT+IHzpaORTCZz1/7jsEDBtxbwIYMBPRLfAyWcTVqZGOfG4wD12iOFalcqhwT3dzksgJh+y2ozKQ==
+X-Received: by 2002:ac2:4578:0:b0:52b:85ba:a278 with SMTP id 2adb3069b0e04-52ccaa62111mr841920e87.31.1718784531869;
+        Wed, 19 Jun 2024 01:08:51 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36229be908fsm3478277f8f.38.2024.06.19.01.08.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Jun 2024 01:08:51 -0700 (PDT)
+Date: Wed, 19 Jun 2024 11:08:47 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
 Cc: Jonathan Corbet <corbet@lwn.net>,
 	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>,
@@ -38,7 +63,7 @@ Cc: Jonathan Corbet <corbet@lwn.net>,
 	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
 	ksummit@lists.linux.dev
 Subject: Re: [PATCH 2/2] Documentation: best practices for using Link trailers
-Message-ID: <20240619071251.GI4025@unreal>
+Message-ID: <aef741d4-d6e0-41f1-8102-c63a0fc5d7e2@moroto.mountain>
 References: <20240618-docs-patch-msgid-link-v1-0-30555f3f5ad4@linuxfoundation.org>
  <20240618-docs-patch-msgid-link-v1-2-30555f3f5ad4@linuxfoundation.org>
 Precedence: bulk
@@ -58,54 +83,11 @@ On Tue, Jun 18, 2024 at 12:42:11PM -0400, Konstantin Ryabitsev wrote:
 > - how to use markdown-like bracketed numbers in the commit message to
 > indicate the corresponding link
 > - when to use lore.kernel.org vs patch.msgid.link domains
-> 
-> Cc: ksummit@lists.linux.dev
-> Link: https://lore.kernel.org/20240617-arboreal-industrious-hedgehog-5b84ae@meerkat # [1]
-> Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-> ---
->  Documentation/process/maintainer-tip.rst | 24 ++++++++++++++++++------
->  1 file changed, 18 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/process/maintainer-tip.rst b/Documentation/process/maintainer-tip.rst
-> index 64739968afa6..57ffa553c21e 100644
-> --- a/Documentation/process/maintainer-tip.rst
-> +++ b/Documentation/process/maintainer-tip.rst
-> @@ -375,14 +375,26 @@ following tag ordering scheme:
->     For referring to an email on LKML or other kernel mailing lists,
->     please use the lore.kernel.org redirector URL::
->  
-> -     https://lore.kernel.org/r/email-message@id
-> +     Link: https://lore.kernel.org/email-message@id
->  
-> -   The kernel.org redirector is considered a stable URL, unlike other email
-> -   archives.
-> +   This URL should be used when referring to relevant mailing list
-> +   resources, related patch sets, or other notable discussion threads.
-> +   A convenient way to associate Link trailers with the accompanying
-> +   message is to use markdown-like bracketed notation, for example::
->  
-> -   Maintainers will add a Link tag referencing the email of the patch
-> -   submission when they apply a patch to the tip tree. This tag is useful
-> -   for later reference and is also used for commit notifications.
-> +     A similar approach was attempted before as part of a different
-> +     effort [1], but the initial implementation caused too many
-> +     regressions [2], so it was backed out and reimplemented.
-> +
-> +     Link: https://lore.kernel.org/some-msgid@here # [1]
-> +     Link: https://bugzilla.example.org/bug/12345  # [2]
-> +
-> +   When using the ``Link:`` trailer to indicate the provenance of the
-> +   patch, you should use the dedicated ``patch.msgid.link`` domain. This
-> +   makes it possible for automated tooling to establish which link leads
-> +   to the original patch submission. For example::
-> +
-> +     Link: https://patch.msgid.link/patch-source-msgid@here
 
-Default b4.linkmask points to https://msgid.link/ and not to https://patch.msgid.link/
+You should add something to checkpatch to complain about patch.msgid.link
+URLs.  Those URLs should only be added by the committers, not the patch
+authors.
 
-https://git.kernel.org/pub/scm/utils/b4/b4.git/tree/.b4-config#n3
-https://git.kernel.org/pub/scm/utils/b4/b4.git/tree/docs/config.rst#n46
+regards,
+dan carpenter
 
-It will be good to update the default value in b4 to point to the correct domain.
-
-Thanks
