@@ -1,102 +1,86 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF7E5770EF
-	for <workflows@vger.kernel.org>; Wed, 19 Jun 2024 08:41:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E61B7F490;
+	Wed, 19 Jun 2024 08:50:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718786515; cv=none; b=gvYKK4Nw5yc89SBOA54WDOxDlr1xbWaPZZwwmIsVcnZdslZ94TUTGc+3+hXGm39eW42AXMUbpsr6FwxvA8wRsAIxDuxcMNxZmqRA2G2txNVOZsdoGZa4w3nAAr/KeOYlRfu16J7tXJbmr+zQUBjZjReMwbzLh+IDRhtKOpcYDjs=
+	t=1718787059; cv=none; b=syhqOXIGlr5s6KGSQ6UiQASsIt1Cbaede+IoQkYOpDudmPQwmSPS1Du7sP8pDQNpnBVr6X/NPYWCOwZ4N1HcSuaMR//I54TRy86ANkc4HW9ht+AIlJ68RvkItN64s5ESkfiGwnLCLZxWL7tn5XqI7jXNl18fu8Of4ca60/kSGow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718786515; c=relaxed/simple;
-	bh=rWeIOug2Ynbv6OTURHg7XDbCwxyQQJLoRG3mJeBPx7s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uYZgBprrRNY38jTUNkXpF9bc41F8gfr+54EUqTi2UrO5oFnQbwdlG6bZglR7uXgU213QYBMHebuZrmkIJqODZ05OwyKMw9wflyQuP6BAm7RlZhjW0BTjNV4vF3PJJybjLVSR+uqltyYLxbdH59bE41glcgUOmktp3lnhzrPJX5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=a+KXMmjZ; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1718787059; c=relaxed/simple;
+	bh=9pX7wwOZEam6xxkbsMASbU9Ysh/sQPw19k9MrZhyxq8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=YCbT5rq0U6nkLHzDKFpBNbeWDcT/1HUlY70uZURfUF0fTneLroD/Z8SVC8Jkou9lxnRlXsqf6GKIrjTo9MXbxBADkOSXXDabvm2UxWqYI9eND4hfuK4YUbcd7VREJEzsyN0hh+rKTi0fSMnS2TI4tpZ1slWsZpKIYiX7clJbKW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a6VA2mTw; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="a+KXMmjZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1718786512;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XdxpcAnJIttE7xF3rf60XtSKDuT7zxfz6ipOIlDZ/C4=;
-	b=a+KXMmjZdv/OUbl8hyd2L2EaOD6aCln6h8FWX67WHpn0apIoOOd7JfH7mYT+H6snh3xDCP
-	J8ltlfgmKNhymIdnRoF5hMhQ5zvB2OCz+Xm0L3T2UuI2rOfzUukEYFieFF9zr539bvry5Z
-	UPKY/qrFETHT4m2NUq60apCuCc+CmRo=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-443-xQ6cqFXcM5-AUguhLbemGg-1; Wed, 19 Jun 2024 04:41:51 -0400
-X-MC-Unique: xQ6cqFXcM5-AUguhLbemGg-1
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-362763f8d2eso674777f8f.3
-        for <workflows@vger.kernel.org>; Wed, 19 Jun 2024 01:41:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718786510; x=1719391310;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XdxpcAnJIttE7xF3rf60XtSKDuT7zxfz6ipOIlDZ/C4=;
-        b=XcLxA2ndO3IgET3e6T1Y/ckc/l1VE4ATvjd6Ifj+H+bAv3SUCYLsPC9+PHRuXAaWi5
-         lkMlTQKkI6bKhYlCvBXwkEygIHBDXp8WmyZ/GXS86pAn2my0QY/m1/J0Qz7OjICIEsXL
-         cGUEr+zEZdmaU1/oDiJW5OX3iTTwxii43pqenzngRyQQD+X4IR6hudHGHkJU1CtIUqVk
-         027iCCDeKlYF9xAouviFZKaK/ciaLGG/qVAv8l0/1NKp82AsMKcUHU+49fefSZcmamOP
-         sazIp9Z5GgKZGFDVFAfxszvz6NqyYLGptqwkbBcd2XFHQ5eRGv7J5F/Ci0s7W19Aqtae
-         +3Eg==
-X-Forwarded-Encrypted: i=1; AJvYcCWDSTDdFKFd7EuT4e1JMLoWxTFSFNMBVht1mVdc+AI64t+jy6QdgS3WgdtJ0XleiIjcBSy4+bIu7tXDgvvTRJ/uGpJxjVhEIlMI
-X-Gm-Message-State: AOJu0YzyCgLfrZlCSL2XF3NmEYkrJu2BzjBrOA+5PFVRZgTTQ3qxnedP
-	K3dCLM7ks1aS/6+t1EHgsKvK3hcQXWMIgAve9utdimbiT13EWCf2LCI9KFLXm8qZWnoCDKJiaVh
-	/YvrP+0hJ+y7fEN1vV6U4wbxx8HE7550mrGeCsf1zWHx3mR+4TMXbXKxZcA==
-X-Received: by 2002:a5d:408d:0:b0:360:7829:bb93 with SMTP id ffacd0b85a97d-363177a3a72mr1642375f8f.21.1718786509773;
-        Wed, 19 Jun 2024 01:41:49 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGmonG/1oENmgMotUOYhNKtoTPMrBWuRz2ayevhgGPlMbNtdCXnZPDcBQKyrmKw0SKJQvaQlg==
-X-Received: by 2002:a5d:408d:0:b0:360:7829:bb93 with SMTP id ffacd0b85a97d-363177a3a72mr1642352f8f.21.1718786509061;
-        Wed, 19 Jun 2024 01:41:49 -0700 (PDT)
-Received: from redhat.com ([2.52.146.100])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-363bd4668aasm730542f8f.48.2024.06.19.01.41.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jun 2024 01:41:48 -0700 (PDT)
-Date: Wed, 19 Jun 2024 04:41:44 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	ksummit@lists.linux.dev
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a6VA2mTw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718787057; x=1750323057;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=9pX7wwOZEam6xxkbsMASbU9Ysh/sQPw19k9MrZhyxq8=;
+  b=a6VA2mTw3e776bH1pQo/MHUWqhtJ02yU5EfU47s82VhSFJ7u/+ww90g9
+   kw8tM9KH0OvnZ2tQAfD1xgkkNkkaIsKA0oRDTx0dNG1CaXOh/M5coPWRi
+   CKCcbB1wTArPyzvDW3Yrcu/N3wXyCpBBgup8QhqrC5VmTcpQPaqsyg/EQ
+   Ij8I1Jir04k+vmHoA1n93JcZYzxFDRKBub3M26WqE28388G1MCkExfzxF
+   LXJ35w78P9xFwyyg3tYPSx1euuBpgKLli25zkEkWtABp3Cca1UCN6/2eH
+   wAF8rFNpCbP54uBEZf3G8J5w1Pj0vCLRuClBf5VicvUPS/L0Q6wgEN2An
+   A==;
+X-CSE-ConnectionGUID: egqA1h0/QhOEm87uKPM9ng==
+X-CSE-MsgGUID: HKeyzdqBSf6t0VaJQ5T02A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="26392626"
+X-IronPort-AV: E=Sophos;i="6.08,249,1712646000"; 
+   d="scan'208";a="26392626"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 01:50:56 -0700
+X-CSE-ConnectionGUID: IC5YYstLQ+ikQtZG/ZzbJA==
+X-CSE-MsgGUID: 7cNsuLtiSUmLiLOmBS07yw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,249,1712646000"; 
+   d="scan'208";a="42556513"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.246.249])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 01:50:51 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>, Jonathan Corbet
+ <corbet@lwn.net>, Carlos Bilbao <carlos.bilbao.osdev@gmail.com>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
+ Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, Konstantin Ryabitsev
+ <konstantin@linuxfoundation.org>, ksummit@lists.linux.dev
 Subject: Re: [PATCH 2/2] Documentation: best practices for using Link trailers
-Message-ID: <20240619043727-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20240618-docs-patch-msgid-link-v1-2-30555f3f5ad4@linuxfoundation.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20240618-docs-patch-msgid-link-v1-0-30555f3f5ad4@linuxfoundation.org>
  <20240618-docs-patch-msgid-link-v1-2-30555f3f5ad4@linuxfoundation.org>
+Date: Wed, 19 Jun 2024 11:50:48 +0300
+Message-ID: <87r0ctfh93.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240618-docs-patch-msgid-link-v1-2-30555f3f5ad4@linuxfoundation.org>
+Content-Type: text/plain
 
-On Tue, Jun 18, 2024 at 12:42:11PM -0400, Konstantin Ryabitsev wrote:
+On Tue, 18 Jun 2024, Konstantin Ryabitsev <konstantin@linuxfoundation.org> wrote:
 > Based on multiple conversations, most recently on the ksummit mailing
 > list [1], add some best practices for using the Link trailer, such as:
-> 
+>
 > - how to use markdown-like bracketed numbers in the commit message to
 > indicate the corresponding link
 > - when to use lore.kernel.org vs patch.msgid.link domains
-> 
+>
 > Cc: ksummit@lists.linux.dev
 > Link: https://lore.kernel.org/20240617-arboreal-industrious-hedgehog-5b84ae@meerkat # [1]
 > Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
 > ---
 >  Documentation/process/maintainer-tip.rst | 24 ++++++++++++++++++------
 >  1 file changed, 18 insertions(+), 6 deletions(-)
-> 
+>
 > diff --git a/Documentation/process/maintainer-tip.rst b/Documentation/process/maintainer-tip.rst
 > index 64739968afa6..57ffa553c21e 100644
 > --- a/Documentation/process/maintainer-tip.rst
@@ -129,19 +113,19 @@ On Tue, Jun 18, 2024 at 12:42:11PM -0400, Konstantin Ryabitsev wrote:
 > +   patch, you should use the dedicated ``patch.msgid.link`` domain. This
 > +   makes it possible for automated tooling to establish which link leads
 > +   to the original patch submission. For example::
+
+Mostly highlighting my own ignorance here, but s/provenance/origin/
+would've felt more obvious to me, as a non-native speaker.
+
+BR,
+Jani.
+
+
 > +
 > +     Link: https://patch.msgid.link/patch-source-msgid@here
 >  
 >  Please do not use combined tags, e.g. ``Reported-and-tested-by``, as
 >  they just complicate automated extraction of tags.
 
-I don't really understand what this is saying.
-So when is msgid.link preferable to kernel.org?
-And when is kernel.org preferable to msgid?
-
-
-
-> -- 
-> 2.45.2
-> 
-
+-- 
+Jani Nikula, Intel
