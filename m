@@ -1,146 +1,163 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9F79157A7C;
-	Thu, 20 Jun 2024 08:45:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 487EE17167A
+	for <workflows@vger.kernel.org>; Fri, 21 Jun 2024 10:34:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718873122; cv=none; b=uXGtd60wLMJJBvIl5hNp7OszrhK52YFIgTfVH4p+pVQMSm+KPt/N7z4iRoVw4X0okREKmWnBOHAPF15S8Wb/HrzTPue7xjK6U++60D1CFqJbEd0K7siw0NeleF9FUjZuTiqGcVYg2sCabV1sbrYXgGobzL6Y4+U7wsSQcty2WxM=
+	t=1718966065; cv=none; b=JMvt+2XFKfTQPuWW3F3zxisMex/VwhB/UdmU9Dr/WhqirDY3W+8VOtL4GNT8+AlOvkq6KjtO2fmEutMpO/ogyIclyLgRr9hWpU9u8tMSWTB4aU5tNLaQ1IlwpfKTLuZ3KcSMCa7abEYymsQkxvmFJzZdFT3CMiO9l6DIYqQKP80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718873122; c=relaxed/simple;
-	bh=PxBnoJGW4Rs6vDxQykJcoC7D5CHDpHoYUPQTU1o3cyY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mz8SgVIrSRXh0D5q3+sEx1545WpDBzuE7heinZ001wEdFQNLaI9XZWfthG+AtHTuh4bMomtsBlSHb9hUbxMqBfSsLHLELngW47Aikh2KJ2eSX2lHT8UF2j4YNhrEw3OhBShmxTVNW8tzoBLfL5QBthvQwOpw6dqNApdCjgIHmUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=t4RkBj6R; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+	s=arc-20240116; t=1718966065; c=relaxed/simple;
+	bh=SSeHh9kklPfPOkBvM8SO62iwOdE98d/i16mJy6LV0A8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lMP0fiMpFq5mi7s+88tys94IGxZVpi06oFLMTzPHP1309J3BQ+BVRnHSvljWZDJZC1cM7N9qXuuxKChlXaPXe28Lq0vp3LAXsSTfq5HUz/d7spI/Nc5E7qviyU/llnxAhMoud2pYEkApvbT21uh8BP1Rm2rOqY0LBCZADuRc1W8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=jAXMQVV+; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="t4RkBj6R"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=zCGKty/L5MGdwQS5K/QcY24vFCLiM8wHxaRMk4azd9w=; t=1718873120;
-	x=1719305120; b=t4RkBj6Rkb78LSbnz+MfrKHG52WQUSIkGn7WgBiPgyLEHkNdZ/LdUDB++2NKF
-	tQ/Z5OS9RtxewlBLqeS9u448vKbas0ms8G3ldeDmG7ytkKzxj7/+HOAUKNx7KxaDvKYf9eSJEFK1d
-	rTTwex6h4rO4FmcQ1p1JEWB0w3/nNLdLbUUtEjFsPyMLgzOoOTFQvsjrZPEGZ52E13RTzVWYpEGo4
-	cofhtiJrUoAV8ahkgZXu8VmD9H0+cGUoIPuy0UpSezT2/QM8WeUFQ9SXDA/Mo/8og1Pgh7illwymg
-	ZTs+/5JGVHw5qBBOL8WzK7+lAHqiDRBEz/j8cQnPYhGshtvvbw==;
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1sKDPj-0003QU-2M; Thu, 20 Jun 2024 10:45:03 +0200
-Message-ID: <02493a25-30c4-4e32-835c-6fdfe0f2abbb@leemhuis.info>
-Date: Thu, 20 Jun 2024 10:45:02 +0200
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="jAXMQVV+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1718966062;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jicH10kgnAem7iqh38i51ASJS4+fEuc9yNE84SfuDqU=;
+	b=jAXMQVV+07xtGzte3T6SahzIgHp/u80zc9dnq909lVOy3IjWitZbwWITvAud4djt5r6dSu
+	pnAsQ9q92Hi6wtatBQIAjFov2lTodyrM5hD1zMofli56jrzDJoR3uEkLSGpk8Xfebv+w7t
+	VlKthkLQPhc+XMBz4/V/LxRKSHwmnjk=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-563-aPgZ8rMpPoOzyKkoK7OCEg-1; Fri, 21 Jun 2024 06:34:20 -0400
+X-MC-Unique: aPgZ8rMpPoOzyKkoK7OCEg-1
+Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-57cbaa7be59so1017947a12.0
+        for <workflows@vger.kernel.org>; Fri, 21 Jun 2024 03:34:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718966060; x=1719570860;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jicH10kgnAem7iqh38i51ASJS4+fEuc9yNE84SfuDqU=;
+        b=EUBANvBR976yhGexjG+Uwf36QFOwZKU+F4DLPv3W9e/pbUQEwLWghCZ4Z7EgcN9Qeb
+         Un47v2tS2YwnxeDbAHnDhMliSzSeqGRL4m+cYqkGa6Wj/BKV1eQ4oBmrKfpyjTQi6n6F
+         /uxK1lKNaJvwgiakROe9xzpJI7+W0T0bF9rcY2aAHNFN8ljJr6r1OOz+H3WctdqoYjiN
+         2+IJnEF/yDfn++VfBMNQnMOuzuED/9lu3cm73Le6JdQCrol2LNlyrBpyMDBoQ0qhKtlD
+         c2jCmTDP2cTo7cA8O9URXR/DVBBB/QtH0iJYtFb5inBlqP4KwSVDWMbHKifKITjhHsCE
+         7idQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWL4PinvTMkPm9riub5eblTkX1I9h+gEAVgGl8kvCVhfldTqbnOrEUvBb14L4RZNI18yVaW3b17TDQB7///d99Iw2xznga6nTee
+X-Gm-Message-State: AOJu0YwH7VN7s0wSD0TS8SICIRrTXBaPnwGr1XuXj9to+FUDbarzanuf
+	xEK7YszwnbiU58QNhkdV+l18dfn5hp+nONxWUgL1wunua2kUlmSC2tH0lBDfoQ3WcEep5vEBRQe
+	TUUoGZJK+8D6zEroCXFIhaGK9T1Jduk1+7ggOyNPRF8JK27RgtvAR0bM6Hw==
+X-Received: by 2002:a50:ab52:0:b0:57d:50e:d76b with SMTP id 4fb4d7f45d1cf-57d07e2c81amr4589282a12.7.1718966059593;
+        Fri, 21 Jun 2024 03:34:19 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFj+LHC14k3j9hWJnw+AA9J/VaHS6CBPN7VDxZhc4wOnEY9CizAlhrLs2CdLC8RK9nzYWVisQ==
+X-Received: by 2002:a50:ab52:0:b0:57d:50e:d76b with SMTP id 4fb4d7f45d1cf-57d07e2c81amr4589250a12.7.1718966058632;
+        Fri, 21 Jun 2024 03:34:18 -0700 (PDT)
+Received: from redhat.com ([2.52.146.100])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57d30562ee6sm747252a12.87.2024.06.21.03.34.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Jun 2024 03:34:18 -0700 (PDT)
+Date: Fri, 21 Jun 2024 06:34:14 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	ksummit@lists.linux.dev
+Subject: Re: [PATCH v2 2/2] Documentation: best practices for using Link
+ trailers
+Message-ID: <20240621062741-mutt-send-email-mst@kernel.org>
+References: <20240619-docs-patch-msgid-link-v2-0-72dd272bfe37@linuxfoundation.org>
+ <20240619-docs-patch-msgid-link-v2-2-72dd272bfe37@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] Documentation: best practices for using Link trailers
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Carlos Bilbao <carlos.bilbao.osdev@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, ksummit@lists.linux.dev
-References: <20240618-docs-patch-msgid-link-v1-0-30555f3f5ad4@linuxfoundation.org>
- <20240618-docs-patch-msgid-link-v1-2-30555f3f5ad4@linuxfoundation.org>
-From: Thorsten Leemhuis <linux@leemhuis.info>
-Content-Language: en-US, de-DE
-Autocrypt: addr=linux@leemhuis.info; keydata=
- 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 n7RI
-In-Reply-To: <20240618-docs-patch-msgid-link-v1-2-30555f3f5ad4@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1718873120;606b96ce;
-X-HE-SMSGID: 1sKDPj-0003QU-2M
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240619-docs-patch-msgid-link-v2-2-72dd272bfe37@linuxfoundation.org>
 
-On 18.06.24 18:42, Konstantin Ryabitsev wrote:
+On Wed, Jun 19, 2024 at 02:24:07PM -0400, Konstantin Ryabitsev wrote:
 > Based on multiple conversations, most recently on the ksummit mailing
 > list [1], add some best practices for using the Link trailer, such as:
 > 
 > - how to use markdown-like bracketed numbers in the commit message to
 > indicate the corresponding link
 > - when to use lore.kernel.org vs patch.msgid.link domains
-
-[...]
-
-> +   When using the ``Link:`` trailer to indicate the provenance of the
-> +   patch, you should use the dedicated ``patch.msgid.link`` domain. This
-> +   makes it possible for automated tooling to establish which link leads
-> +   to the original patch submission. For example::
+> 
+> Cc: ksummit@lists.linux.dev
+> Link: https://lore.kernel.org/20240617-arboreal-industrious-hedgehog-5b84ae@meerkat # [1]
+> Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+> ---
+>  Documentation/process/maintainer-tip.rst | 30 ++++++++++++++++++++++--------
+>  1 file changed, 22 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/process/maintainer-tip.rst b/Documentation/process/maintainer-tip.rst
+> index 64739968afa6..ba312345d030 100644
+> --- a/Documentation/process/maintainer-tip.rst
+> +++ b/Documentation/process/maintainer-tip.rst
+> @@ -372,17 +372,31 @@ following tag ordering scheme:
+>  
+>   - Link: ``https://link/to/information``
+>  
+> -   For referring to an email on LKML or other kernel mailing lists,
+> -   please use the lore.kernel.org redirector URL::
+> +   For referring to an email posted to the kernel mailing lists, please
+> +   use the lore.kernel.org redirector URL::
+>  
+> -     https://lore.kernel.org/r/email-message@id
+> +     Link: https://lore.kernel.org/email-message-id@here
+>  
+> -   The kernel.org redirector is considered a stable URL, unlike other email
+> -   archives.
+> +   This URL should be used when referring to relevant mailing list
+> +   topics, related patch sets, or other notable discussion threads.
+> +   A convenient way to associate ``Link:`` trailers with the commit
+> +   message is to use markdown-like bracketed notation, for example::
+>  
+> -   Maintainers will add a Link tag referencing the email of the patch
+> -   submission when they apply a patch to the tip tree. This tag is useful
+> -   for later reference and is also used for commit notifications.
+> +     A similar approach was attempted before as part of a different
+> +     effort [1], but the initial implementation caused too many
+> +     regressions [2], so it was backed out and reimplemented.
 > +
-> +     Link: https://patch.msgid.link/patch-source-msgid@here
+> +     Link: https://lore.kernel.org/some-msgid@here # [1]
+> +     Link: https://bugzilla.example.org/bug/12345  # [2]
+> +
+> +   You can also use ``Link:`` trailers to indicate the origin of the
+> +   patch when applying it to your git tree. In that case, please use the
+> +   dedicated ``patch.msgid.link`` domain instead of ``lore.kernel.org``.
+> +   This practice makes it possible for automated tooling to identify
+> +   which link to use to retrieve the original patch submission. For
+> +   example::
+> +
+> +     Link: https://patch.msgid.link/patch-source-message-id@here
+>  
+>  Please do not use combined tags, e.g. ``Reported-and-tested-by``, as
+>  they just complicate automated extraction of tags.
 
-I wonder how long it will take until someone starts using
-patch.msgid.link/ for things that are not the submission of the change,
-for example by misunderstanding what "provenance of the patch" is meant
-to mean here.
+Could you please add a hint on configuring git am to create these?
 
-How about something this:
+I think something like this in .git/hooks/applypatch-msg will work:
 
-"""
-In case you want to record the public review submission of a patch while
-committing it, use a ``Link:`` trailer with the dedicated
-``patch.msgid.link`` domain::
+. git-sh-setup
+perl -pi -e 's|^Message-Id:\s*<?([^>]+)>?$|Link: https://patch.msgid.link/$1|g;' "$1"
+test -x "$GIT_DIR/hooks/commit-msg" &&
+        exec "$GIT_DIR/hooks/commit-msg" ${1+"$@"}
+:
 
-   Link: https://patch.msgid.link/patch-source-msgid@here
+but I didn't actually try.
 
-This makes it possible to reliably look the submission up, hence don't
-use that domain for any other patches you might want to link to.
-"""
+Thanks!
 
-But I suspect some people will never see this and start assuming that
-this domain should be meant for all patches -- and not all of these
-cases will be found during review (or by checkpatch, in case we add a
-check and people actually run it). Writing that made me think a
-dedicated tag like "Lore-Submission" or "Public-Review-Link" could avoid
-this while keeping some of the aspects that Linus likes about "Link" --
-but I doubt that will convince him.
+> -- 
+> 2.45.2
+> 
 
-Ciao, Thorsten
