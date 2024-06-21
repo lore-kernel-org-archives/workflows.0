@@ -1,89 +1,68 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62C416D311;
-	Fri, 21 Jun 2024 21:07:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 659D9208C4;
+	Fri, 21 Jun 2024 21:37:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719004065; cv=none; b=Y895xR+FwVrXsPDmeuFAlUE/QTAQ3isTfNN1u54rXQxizl4K3YtjfXjYctlFBgoVij4ALe0LjTCsANbg8G0IjHJqlDVMoBpltqpsF6cWE8ULUhFsjb/M41W/M52syrdvw7mnqcaRvlKCjxu6/H/4XqBCzSNR98wETBPb9u9dN1s=
+	t=1719005832; cv=none; b=TuWpleDry3w1zsF+45J1PRJh2vODZ0jwus4GPfIv26zrdcMO+WFe92TvlpD1NgFEq59z9x+uzwVN7qDWLecfsQ4RHN/GK3We5S3iZYhHsXVKpjm4tn2LCMU1iW4eGHmvgCq3sBjowfBnSS9Nh3IfiC0APuu8YogpVSVzFdBJ6H0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719004065; c=relaxed/simple;
-	bh=mlhkA/4MVrpRXs1HI2b+DGp6GTNtGbMKN/9ULvKi5bY=;
+	s=arc-20240116; t=1719005832; c=relaxed/simple;
+	bh=HqB7/AiiMRvyE1Jtm5iJcbfxhyhyihsPuCco+kkArsg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bvcwzs4lM6vncvTmWBOQbMv+m1g0uPSD2w0aGDgdnr2aWjk1pJgnOrvLsALwpk5ijkSqbDRUYLRgP5LasC6KB7jUA8mG6TSMc0Hh2igwPbp0HHeR1k/AAGVuWuv3mG/2CP3nBnHgC8V/eS7l4Tnm49OpAcC2JNgKQ97RAXwDCdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WysC2kJS; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=fkBhvflch6ocxljAR/zKSFeNBGD4kGo1zBQtn2sU9uSxLIsbDzfCHW7SYKN72Xyklji7HQOrqUQBKsAVLBoDxs3K0dRp88CJBS/cJ0eEyaUYMymFGs6bON5RWWejUlFcvKn0WiCJPuPOM5lmehq5L9aglhUk9bTto/B9Hsn/1S8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=znN+MfEU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WysC2kJS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 382E5C32789;
-	Fri, 21 Jun 2024 21:07:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719004065;
-	bh=mlhkA/4MVrpRXs1HI2b+DGp6GTNtGbMKN/9ULvKi5bY=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="znN+MfEU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABBB3C2BBFC;
+	Fri, 21 Jun 2024 21:37:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1719005831;
+	bh=HqB7/AiiMRvyE1Jtm5iJcbfxhyhyihsPuCco+kkArsg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WysC2kJSiPn0ao/veeI/Pakff6HeD8k3kTgEGbfXsUK3Q3zrVtxCuSX5NWo0i4Nx1
-	 VAQZh3ZZzCbQDNZX5i92RwStnoFegvbLYhw6rsdG89WBEni52jsd1d7sR6+WkWoMk/
-	 LoJuDgteNNIHcbCeQxeQC16KxDUUvnx7uaKOGHes/2LejhE+j9VwnVpmDjA17Upvtz
-	 IarP8qO+06l9Sz3MDZ1DvtDS1TJnTHVHK/iCm7tdo3ixWMGdWbrxDtEWGLATcuJD4T
-	 DC0WuRs7shSf0FSm16RT2P1wHtrbOlMWptumKFgvlStGuG9tJrhEj40DoUGI5RV6X+
-	 Ox86kzAhnysZg==
-Date: Fri, 21 Jun 2024 14:07:44 -0700
-From: Kees Cook <kees@kernel.org>
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	ksummit@lists.linux.dev
+	b=znN+MfEU4yTVh3qkQUN8MlWRuNI/dIs1ZQ/kTFRfl0JsI1fsVJ/j//iDo29ZvPb5+
+	 J1J3fAxZurEhKzfuN2gssGCiefy5/5dFZrm8Va7B8A5ESC/I5pfLCg9sVgWPa2LXyF
+	 cNd0SArSL9CmDCfo9pO6lacTxqQEjHH6dn4iWTrk=
+Date: Fri, 21 Jun 2024 17:37:10 -0400
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To: Kees Cook <kees@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, ksummit@lists.linux.dev
 Subject: Re: [PATCH v2 2/2] Documentation: best practices for using Link
  trailers
-Message-ID: <202406211355.4AF91C2@keescook>
+Message-ID: <20240621-amorphous-topaz-cormorant-cc2ddb@lemur>
 References: <20240619-docs-patch-msgid-link-v2-0-72dd272bfe37@linuxfoundation.org>
  <20240619-docs-patch-msgid-link-v2-2-72dd272bfe37@linuxfoundation.org>
+ <202406211355.4AF91C2@keescook>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240619-docs-patch-msgid-link-v2-2-72dd272bfe37@linuxfoundation.org>
+In-Reply-To: <202406211355.4AF91C2@keescook>
 
-On Wed, Jun 19, 2024 at 02:24:07PM -0400, Konstantin Ryabitsev wrote:
-> +   This URL should be used when referring to relevant mailing list
-> +   topics, related patch sets, or other notable discussion threads.
-> +   A convenient way to associate ``Link:`` trailers with the commit
-> +   message is to use markdown-like bracketed notation, for example::
-> ...
-> +     Link: https://lore.kernel.org/some-msgid@here # [1]
-> +     Link: https://bugzilla.example.org/bug/12345  # [2]
+On Fri, Jun 21, 2024 at 02:07:44PM GMT, Kees Cook wrote:
+> On Wed, Jun 19, 2024 at 02:24:07PM -0400, Konstantin Ryabitsev wrote:
+> > +   This URL should be used when referring to relevant mailing list
+> > +   topics, related patch sets, or other notable discussion threads.
+> > +   A convenient way to associate ``Link:`` trailers with the commit
+> > +   message is to use markdown-like bracketed notation, for example::
+> > ...
+> > +     Link: https://lore.kernel.org/some-msgid@here # [1]
+> > +     Link: https://bugzilla.example.org/bug/12345  # [2]
+> 
+> Why are we adding the extra "# " characters? The vast majority of
+> existing Link tags don't do this:
 
-Why are we adding the extra "# " characters? The vast majority of
-existing Link tags don't do this:
+That's just convention. In general, the hash separates the trailer from the
+comment:
 
-$ git log --grep Link: | grep 'Link:.*\[' > links.txt
-$ wc -l links.txt
-1687 links.txt
+    Trailer-name: actual-trailer-body # comment
 
-# Link: URL... [1]
-$ grep 'Link: .*[^#] \[' links.txt | wc -l
-1546
-
-# Link: URL... # [1]
-$ grep 'Link: .* # \[' links.txt | wc -l
-83
-
-# Link: [1] URL...
-$ grep 'Link: \[' links.txt | wc -l
-44
-
-# Link: URL... [#1]
-$ grep 'Link: .*\[#' links.txt | wc -l
-12
-
-
--- 
-Kees Cook
+-K
