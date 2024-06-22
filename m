@@ -1,37 +1,59 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618EB43156;
-	Sat, 22 Jun 2024 15:15:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 230BE26AF0;
+	Sat, 22 Jun 2024 20:10:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719069359; cv=none; b=C8APLuhQXE1EXOZWy+pYw4GhrnmUP7w7CIg7bfYJl9wookZUHTq9tCNhuGJTtOMdElObCmw9qa0wY2vMvKvUcLh0IEd540RlBG0iSdhjjgIehI3VomvH7cAd+HN31c0Bp6a9NTFLUBdC99iO8swdh1L9HLCuobaA2oSNq6q/xNk=
+	t=1719087048; cv=none; b=FRYXJJDFQT/2Sec9MemlLI5HrJKyTd3sa5+2MClvoEyoawStyy2u5bjcogg099dqkqmTKLyL8sB8elY0nom5EMPVq9lSkOF9nBjJ5mNBtMrL5QtVqYMV5kWTVjmk93Y5lSltrpH5JNXlsUrLsMk0v52FVZqn3Q1EiYPCJPInM84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719069359; c=relaxed/simple;
-	bh=fKO6cKhLDetMCWuOqjJT5MrxvFKMPuKR9jg4oHo9kQQ=;
+	s=arc-20240116; t=1719087048; c=relaxed/simple;
+	bh=fwmdlWbIiXExgoJhGW10urHmbfOMiDt8yk/9TNg0xVA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KQ5H2WkZY98+Ihj/+7Va1SORsMAs8f4IXU7iIbG9i0jqAgUOYZnr+NPJaYD37/L5na0vbnnJSIK8zPzVehX1S304/Tlvc67PCv9T6FNDQFRh3qYRl64/U+yO1kcJfO2WENUJnNnMS0J+RbED98Do0GAmBxN7weX0emjzdh55Ngg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=pGW0Kp8Q; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 In-Reply-To:Content-Type; b=MpvxoywEvQPygPV0WEFF9skNix5fczViPr5yKcvS51+yzTogpgXYcmxkwZmb3W20HhwpyfR6R+YQ3dfyna6qGSRlqZQeB0BdXSsh1y7GGeCONVlFXmXO3PX5eyZ9tIabLFYSkHQFfdCWQ0t0Ng8PXAojj6fTIAXE3EejJVLCwnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h1GrBgMc; arc=none smtp.client-ip=209.85.167.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="pGW0Kp8Q"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=u/8MZvNVjE3HGccbfJVlLB0/ThMviFL2sbZ039sccRc=; b=pGW0Kp8QKF70FDXhq6o6d/UdIZ
-	ny3FJn78zlj0lviZOCPglkjj+nDeWzsJbnpLIKgweD4ecV0khNo2oSc3KuSw/Pqo8OShSIbIGZYcd
-	n1pZ5MCIHm9dDzP2uqg0kegjBG68PKQkPlhZnZoDYtkQSLIzd88nVYhXcZHdhctnZ0OvKjFUkj2oI
-	DWy5HdHcwcAQeQgxg0/eMQgJWnAz+Do9Z+ptN4iP6QIKjjMdONEMyguCMFL2+RNPZi1JogNBdyNW4
-	J6JnW3LbIaO/UvMRTWawu+H1iusbi9Fsq4BLxeKLT1E0DbqnTNqAGazJKUlmmcOBT+WwNc/LgWfS0
-	SZ4LN4Cg==;
-Received: from [50.53.4.147] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sL2Sz-0000000CJTH-3kI8;
-	Sat, 22 Jun 2024 15:15:49 +0000
-Message-ID: <ef3688fd-d1a5-4045-baa3-1d51c24045c9@infradead.org>
-Date: Sat, 22 Jun 2024 08:15:48 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h1GrBgMc"
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3d21b3da741so1657713b6e.2;
+        Sat, 22 Jun 2024 13:10:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719087046; x=1719691846; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5Cp87DnzZ8ubh+P4vugkHALA0amyLWY1eDfV3e8BFDc=;
+        b=h1GrBgMc+b30DdktYUQTG6+C/06Ub/j/niK/tW/D30fsPlZJr3FkZQCnOxcV8CSeNL
+         xznr38vpoTalRG3uw3RyVEZ7iPvXMX1IAnXytniqgv6O+laczbhygFC9C5ugsCfuZkj6
+         w8GACrgvoW9HJ4LqYWtQCu+MeLiYtMXatqntKBuGGdCVSeba1Tf6AIkncRiMnB/ENN5i
+         WtdstDpfpoXqEAuMYbmVFl4eJ4rtsaz+S5xIOPTpqR/mAMyn0xmLOFev/MH7QC+uFV/H
+         LfxCP+D+29+RjyTtDvkg4xtVnyiBZUF+75rgYO88TN6OZEByTgEiV8eAQinAPIAOAHMm
+         hZWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719087046; x=1719691846;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5Cp87DnzZ8ubh+P4vugkHALA0amyLWY1eDfV3e8BFDc=;
+        b=Vw/HCIl8LBUdxlJYQqlQKhx7OTr4AukPqY/nMCh/1LWkJuFeKftMJu6cvOSymNALld
+         xu7EhEGayDzF1J2CkfyjFWi4zcujL00ZMPocsGwngdItVRQFGzovw5z5Sc3QcKT7Lhak
+         F4Fdkdk8YrfGhXxvODpWYeqRgNU9FlqkLospj5VY97KVdosBFxbOwSYk2yfgO22IJJY6
+         GLgKuUDBKOMOuexh03ajZXv8aXTZEQ3yTafZDyGPYIZGIcRL8WgA2cwIfe1p1eekPUva
+         i6QbIMCXS2oTy7uRHdd402UNUMjIbM7Fon+0ZUiQCxD9CX6hrLRib44tVlzJsU74tNaz
+         gwKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW/89+yJGKY3zY3UIp11v5TcxNKYWIrYLHd3bDQALlvvKOYOSQ3YLG1M2Zd/gyPW5zvgNS3Dwj6O5GFFdilF2RoI0oOZeCYEM69/TzjWYpzVwJ2o49qvH3+/v2ju9eNUw318mktHoz42Pf/SBxr2aSDiDX5K/xaFzaq+NFnX7qF
+X-Gm-Message-State: AOJu0YzCpm7A/gZbx+YZjcTE5f0mlWQSTru1caaKX+pKXCDUfm7F8L0m
+	B7uKPOT3zz9AayLL5Md/AUYoOYffOm5KEa5i7mtzBySd1F0mOtEElAQptC8Z
+X-Google-Smtp-Source: AGHT+IE4IvNVJ2jnOFTUyi+tw9zD7x6mlnie3P5tbq7r4wwQymw1PqhvbVkDZd7gts09MtoxOns5cQ==
+X-Received: by 2002:a05:6808:1a1e:b0:3d5:1bd8:ab17 with SMTP id 5614622812f47-3d5459b4aa5mr1034519b6e.27.1719087045248;
+        Sat, 22 Jun 2024 13:10:45 -0700 (PDT)
+Received: from ?IPV6:2603:8080:2300:de:3d70:f8:6869:93de? ([2603:8080:2300:de:3d70:f8:6869:93de])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3d5344fa290sm810713b6e.14.2024.06.22.13.10.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 22 Jun 2024 13:10:44 -0700 (PDT)
+Message-ID: <28e229d9-253a-4c83-a0f8-09da8a9bf78d@gmail.com>
+Date: Sat, 22 Jun 2024 15:10:43 -0500
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -39,34 +61,83 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] Documentation: best practices for using Link
- trailers
-To: Kees Cook <kees@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Carlos Bilbao <carlos.bilbao.osdev@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Subject: Re: [PATCH 2/2] Documentation: best practices for using Link trailers
+To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>
 Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, netdev@vger.kernel.org, ksummit@lists.linux.dev
-References: <20240619-docs-patch-msgid-link-v2-0-72dd272bfe37@linuxfoundation.org>
- <20240619-docs-patch-msgid-link-v2-2-72dd272bfe37@linuxfoundation.org>
- <87v821d2kp.fsf@mail.lhotse>
- <0BD32B85-22CF-45DF-A70E-FFE8E24469A4@kernel.org>
+References: <20240618-docs-patch-msgid-link-v1-0-30555f3f5ad4@linuxfoundation.org>
+ <20240618-docs-patch-msgid-link-v1-2-30555f3f5ad4@linuxfoundation.org>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <0BD32B85-22CF-45DF-A70E-FFE8E24469A4@kernel.org>
+From: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+In-Reply-To: <20240618-docs-patch-msgid-link-v1-2-30555f3f5ad4@linuxfoundation.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+
+On 6/18/24 11:42, Konstantin Ryabitsev wrote:
+
+> Based on multiple conversations, most recently on the ksummit mailing
+> list [1], add some best practices for using the Link trailer, such as:
+>
+> - how to use markdown-like bracketed numbers in the commit message to
+> indicate the corresponding link
+> - when to use lore.kernel.org vs patch.msgid.link domains
+>
+> Cc: ksummit@lists.linux.dev
+> Link: https://lore.kernel.org/20240617-arboreal-industrious-hedgehog-5b84ae@meerkat # [1]
+> Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
 
 
+Nice! 
 
-On 6/22/24 7:40 AM, Kees Cook wrote:
->> I see some existing usage of the above style, but equally there's lots
->> of examples of footnote-style links without the Link: tag, eg:
-> I moved from that to using Link: because checkpatch would complain about my long (URL) lines unless it had a Link tag :P
+Acked-by: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
 
-We know that checkpatch isn't perfect. It's safe to ignore such complaints.
 
--- 
-~Randy
+> ---
+>  Documentation/process/maintainer-tip.rst | 24 ++++++++++++++++++------
+>  1 file changed, 18 insertions(+), 6 deletions(-)
+>
+> diff --git a/Documentation/process/maintainer-tip.rst b/Documentation/process/maintainer-tip.rst
+> index 64739968afa6..57ffa553c21e 100644
+> --- a/Documentation/process/maintainer-tip.rst
+> +++ b/Documentation/process/maintainer-tip.rst
+> @@ -375,14 +375,26 @@ following tag ordering scheme:
+>     For referring to an email on LKML or other kernel mailing lists,
+>     please use the lore.kernel.org redirector URL::
+>  
+> -     https://lore.kernel.org/r/email-message@id
+> +     Link: https://lore.kernel.org/email-message@id
+>  
+> -   The kernel.org redirector is considered a stable URL, unlike other email
+> -   archives.
+> +   This URL should be used when referring to relevant mailing list
+> +   resources, related patch sets, or other notable discussion threads.
+> +   A convenient way to associate Link trailers with the accompanying
+> +   message is to use markdown-like bracketed notation, for example::
+>  
+> -   Maintainers will add a Link tag referencing the email of the patch
+> -   submission when they apply a patch to the tip tree. This tag is useful
+> -   for later reference and is also used for commit notifications.
+> +     A similar approach was attempted before as part of a different
+> +     effort [1], but the initial implementation caused too many
+> +     regressions [2], so it was backed out and reimplemented.
+> +
+> +     Link: https://lore.kernel.org/some-msgid@here # [1]
+> +     Link: https://bugzilla.example.org/bug/12345  # [2]
+> +
+> +   When using the ``Link:`` trailer to indicate the provenance of the
+> +   patch, you should use the dedicated ``patch.msgid.link`` domain. This
+> +   makes it possible for automated tooling to establish which link leads
+> +   to the original patch submission. For example::
+> +
+> +     Link: https://patch.msgid.link/patch-source-msgid@here
+>  
+>  Please do not use combined tags, e.g. ``Reported-and-tested-by``, as
+>  they just complicate automated extraction of tags.
+
+
+Thanks,
+Carlos
+
