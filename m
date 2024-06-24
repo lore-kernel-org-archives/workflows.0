@@ -1,132 +1,108 @@
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81BD15103F;
-	Sat, 22 Jun 2024 20:13:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC1E1BC20;
+	Mon, 24 Jun 2024 18:53:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719087234; cv=none; b=Ugv5THk459Q5SGYnWeySF/2aVyjJqwfItR5m5z+qTfgqNGiK3dfgUl2hHQFT6IIiY5umJ/j9HDGryQHh3BLkb3B7aQLRRVa2Win/YvOyGpTRCW1cgYPqmGv92MBF5680lCIuleM0pD4GvltH/UqmiJlNYFi9Uz9A6ZXOtbjw+oU=
+	t=1719255200; cv=none; b=bZYnrvq/OSifWc+Q7V0y5ib43XvjeIoZDkUXQgTOm3hVu8UOcll1JW7lQb5DX4eTuFF6+BG84CFxBZFAqNSirmay8CKJRAsVpdQxb9Xwi17i6EUkePnN+Kx9ylpUHpfiDpO/4bFf3KHkGBkgCEtBNTh/8pRsNDENJ6weQTbL1fk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719087234; c=relaxed/simple;
-	bh=UA5oSXmahYbHYVBqtiUErdibO6xfe3AsD2W8aE4UE/c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EwyA+IxHr3BJIuvmRUP0JnKjrzTzhxSxmDRtV4dqmN8PwqIZb22y9wn6KJ2NnIIajAHOCRlhGvZKuO30ygc4hH6RUJL6EJZ0ndb+wt3ROlLPd71Hf+jAxcPgMLullncMRC62dxOWzdVrd+Q07Gk/nsj5TLnWnYUx3DWyJO6FjVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B78f7UY5; arc=none smtp.client-ip=209.85.160.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1719255200; c=relaxed/simple;
+	bh=5SQ6k8ql2FtQ24ggunQpn42cMs/9ehVKj7ffUjrSWaY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MLg9oNn3B52jrj0ynaJOqin26VxBpxwm88RoxzDWwRcwCx0Ws6bNR6fTS+AQDSzDFJsQLaQejHPuG8/k3++qIQpkRxc+iYT7VR3GxKkSlwgBqCzgLUElSUXQcbcbQsEvwr2Xv3zT9DBOtuQtn701X0v/SULYElD74Kb6FUJGeYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VXtXonHv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B78f7UY5"
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-2598ae41389so1658010fac.3;
-        Sat, 22 Jun 2024 13:13:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719087232; x=1719692032; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zn/Wpf9G2VUisiptebA9rcNNy8uBkLEZ47r5g9BcsXU=;
-        b=B78f7UY5nrgCxC/JjNmOlaWSetbZcWPMaLs6FAEeoCJzvyqLdQ14k7w5hF3xq4czD8
-         jXYIQ2OtMpAeFv4T1Chl3nLnu/fq6MGYoBCJ30jZtSMgCu0v37zqOrAXP1k3tlNh/R2i
-         dNTVdqa+dWn/+mWgEj6FU7heQEMukO5KI1dZ2wfblmx/BUSSOQePFb3YugXporSX83+H
-         jmwhBklpzm5OSERyWcD0kdmNT9G4EgpMPmVgkgovboE1sl6nO/+x+ZVwWcC/iblgC+ny
-         oT6I2erHlHRebIuGxQBQYFTsRTOsDe0fsUs1FpiJYqOEyrf2AdnyMNHKy2oBrT1QsG2d
-         kfPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719087232; x=1719692032;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zn/Wpf9G2VUisiptebA9rcNNy8uBkLEZ47r5g9BcsXU=;
-        b=b+O2joRRXho6bz5d9MABQR4XsZeGUb9nFvo5GDpcVjPGrmLINfL22FfLsSnXOKhS2b
-         +fX/uh9UxsdDmke1Bk1jPhOxvd0j/lsp0qnjWB+MBZyia6SWhM+unTgGcH8gqMh6wTtK
-         85Uw+ArnWAemnCpX0ScL5+nMy0yM26oAywGlgUFVC17HK+Fk7nY0LbippBZPSntaEdrP
-         lSVmDuGN9pyUg3pzp2iA0XP+REjdpazmCxnBx40VYCnmULUckKd4j0WAYox7PxTQsatU
-         OW8DqyOlxMFHaq1VNf7G/oT61sHR2Q9AEFmBIStKKDmn9kUs8jlXLibeQHEl5JIwiy+J
-         emQg==
-X-Forwarded-Encrypted: i=1; AJvYcCXgLRtgAeb1+pq20Y+oQZF5pppGYuf2M2AfG54wtHgOIVFaHwc5EQkNvGIAVC+Yc0NKNpMYCytxFwIQvcL/gTDHrHZ94P+7RI/XtbvzXyOeRDfdob1k8DFqjf/q6ALyzJz39fYH4ozL8jFYt7yAAxEFqzCW1iLDjO2xBt4uUlkJ
-X-Gm-Message-State: AOJu0YxCZb1xEmLL3RmvsCQcGcwSiBWdJuwEv69IkTqQlXSB6UxfGaU9
-	u+sH7hQSgcCEcEgAzLfF6zSZYDRwQ/vH78MZmByBO+rOMS7aNy7b
-X-Google-Smtp-Source: AGHT+IGBCgKjNBRhA2BRCjBBWXP9wdDisTR4355ryTFD1XzZRjbL080L/5borOqqmPsLMQjCp0RJ2Q==
-X-Received: by 2002:a05:6870:55c9:b0:24c:a8e6:34e7 with SMTP id 586e51a60fabf-25d06cd6cb8mr869723fac.26.1719087232560;
-        Sat, 22 Jun 2024 13:13:52 -0700 (PDT)
-Received: from ?IPV6:2603:8080:2300:de:3d70:f8:6869:93de? ([2603:8080:2300:de:3d70:f8:6869:93de])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-25cd4bfe0absm1026662fac.47.2024.06.22.13.13.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 22 Jun 2024 13:13:52 -0700 (PDT)
-Message-ID: <d4b03f1b-b0e4-4375-a2d8-3ea87e91c16b@gmail.com>
-Date: Sat, 22 Jun 2024 15:13:51 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VXtXonHv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C84DEC2BBFC;
+	Mon, 24 Jun 2024 18:53:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719255199;
+	bh=5SQ6k8ql2FtQ24ggunQpn42cMs/9ehVKj7ffUjrSWaY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=VXtXonHvyo+lWD0+pd+wr848CsLJDdbee4dVtqEC+taFZleV+/ScGSS1Uh5KTQv5a
+	 QnFj79HuE41StMAO09LmxsiUmLstImWmWCDWn9q/8trkmxUYT8DvzromPaS2Qg6S+c
+	 yV+9dimLGjxNQQ9lyL5Leh41aBeHHK3yr2nSTCCobOdAmIQfQluJ2yGek/SeYlcNbS
+	 NwEYmE70UeDPIsdiuGmk/c3RnO+nRiAyMNO1/lHiMhtxOY+SkmgIYqN7gcT3Z1UQaq
+	 +sF+wjYNdfcq3fyuNJpJ+OypNUfBlIgqoSAUVIEwvBslVQ4xxkIFgnhj+a4ejS3oRM
+	 Svk9o0CE5wYNw==
+From: SeongJae Park <sj@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: SeongJae Park <sj@kernel.org>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alex Shi <alexs@kernel.org>,
+	Avadhut Naik <avadhut.naik@amd.com>,
+	Bill Wendling <morbo@google.com>,
+	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>,
+	Federico Vaga <federico.vaga@vaga.pv.it>,
+	Hu Haowen <2023002089@link.tyut.edu.cn>,
+	Justin Stitt <justinstitt@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Yanteng Si <siyanteng@loongson.cn>,
+	linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	llvm@lists.linux.dev,
+	workflows@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/7] minor document fixups
+Date: Mon, 24 Jun 2024 11:53:05 -0700
+Message-Id: <20240624185312.94537-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] Documentation: update information for mailing
- lists
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- Dan Williams <dan.j.williams@intel.com>, ksummit@lists.linux.dev
-References: <20240619-docs-patch-msgid-link-v2-0-72dd272bfe37@linuxfoundation.org>
-Content-Language: en-US
-From: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-In-Reply-To: <20240619-docs-patch-msgid-link-v2-0-72dd272bfe37@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 6/19/24 13:24, Konstantin Ryabitsev wrote:
+This patch series is for minor document fixups.  First five patches
+clean up and remove 'Other material' section of process/index in favor
+of 'staging/' and better place for docs on the section.  A patch for
+adding DAMON maintainer-profile reference on maintainers' handbook
+follows.  And then the last patch adds 'hkml' as one of available email
+tools on email-clients document.
 
-> There have been some important changes to the mailing lists hosted at
-> kernel.org, most importantly that vger.kernel.org was migrated from
-> majordomo+zmailer to mlmmj and is now being served from the unified
-> mailing list platform called "subspace" [1].
->
-> This series updates many links pointing at obsolete locations, but also
-> makes the following changes:
->
-> - drops the recommendation to use /r/ subpaths in lore.kernel.org links
-> (it has been unnecessary for a number of years)
-> - adds some detail on how to reference specific Link trailers from
-> inside the commit message
->
-> Some of these changes are the result of discussions on the ksummit
-> mailing list [2].
->
-> Link: https://subspace.kernel.org # [1]
-> Link: https://lore.kernel.org/20240617-arboreal-industrious-hedgehog-5b84ae@meerkat/ # [2]
-> Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-> ---
-> Changes in v2:
-> - Minor wording changes to text and commit messages based on feedback.
-> - Link to v1: https://lore.kernel.org/r/20240618-docs-patch-msgid-link-v1-0-30555f3f5ad4@linuxfoundation.org
+SeongJae Park (7):
+  Docs/process/index: Remove unaligned-memory-access from 'Other
+    material'
+  Docs/process/index: Remove riscv/patch-acceptance from 'Other
+    material' section
+  Docs: Move magic-number from process to staging
+  Docs: Move clang-format from process/ to dev-tools/
+  Docs/process/index: Remove unsorted docs section
+  Docs/maintainer/maintainer-entry-profile: add DAMON maintainer profile
+  Docs/process/email-clients: Document HacKerMaiL
 
-
-I prefer 'origin'over 'provenance'as well. My Ack/R-b from version 1
-still stands.
-
->
-> ---
-> Konstantin Ryabitsev (2):
->       Documentation: fix links to mailing list services
->       Documentation: best practices for using Link trailers
->
->  Documentation/process/2.Process.rst          |  8 ++++----
->  Documentation/process/howto.rst              | 10 +++++-----
->  Documentation/process/kernel-docs.rst        |  5 ++---
->  Documentation/process/maintainer-netdev.rst  |  5 ++---
->  Documentation/process/maintainer-tip.rst     | 30 ++++++++++++++++++++--------
->  Documentation/process/submitting-patches.rst | 15 +++++---------
->  6 files changed, 40 insertions(+), 33 deletions(-)
-> ---
-> base-commit: 6ba59ff4227927d3a8530fc2973b80e94b54d58f
-> change-id: 20240618-docs-patch-msgid-link-6961045516e0
->
-> Best regards,
+ .clang-format                                         |  2 +-
+ Documentation/{process => dev-tools}/clang-format.rst |  0
+ Documentation/dev-tools/index.rst                     |  1 +
+ Documentation/maintainer/maintainer-entry-profile.rst |  1 +
+ Documentation/process/4.Coding.rst                    |  2 +-
+ Documentation/process/coding-style.rst                |  2 +-
+ Documentation/process/email-clients.rst               |  9 +++++++++
+ Documentation/process/index.rst                       | 11 -----------
+ Documentation/staging/index.rst                       |  1 +
+ Documentation/{process => staging}/magic-number.rst   |  0
+ .../translations/it_IT/process/clang-format.rst       |  2 +-
+ .../translations/it_IT/process/magic-number.rst       |  2 +-
+ .../translations/sp_SP/process/coding-style.rst       |  2 +-
+ .../translations/sp_SP/process/magic-number.rst       |  2 +-
+ Documentation/translations/zh_CN/process/4.Coding.rst |  2 +-
+ .../translations/zh_CN/process/coding-style.rst       |  2 +-
+ .../translations/zh_CN/process/magic-number.rst       |  2 +-
+ Documentation/translations/zh_TW/process/4.Coding.rst |  2 +-
+ .../translations/zh_TW/process/coding-style.rst       |  2 +-
+ .../translations/zh_TW/process/magic-number.rst       |  2 +-
+ 20 files changed, 25 insertions(+), 24 deletions(-)
+ rename Documentation/{process => dev-tools}/clang-format.rst (100%)
+ rename Documentation/{process => staging}/magic-number.rst (100%)
 
 
-Thanks,
-Carlos
+base-commit: 88407e61007a3d3ebb62fc65479cc58d891ef74e
+-- 
+2.39.2
 
