@@ -1,82 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97CEB1A01B6;
-	Mon, 24 Jun 2024 18:53:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2994D1A00FD;
+	Mon, 24 Jun 2024 19:27:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719255205; cv=none; b=gwaAdOruDXFIEwtRbzIS38MqmqfwikEuJLss8UX0f40HHLkBja3jFYaWbRQc7tVWju1kaB1/a4X63XgpdlMbFd/k3qQ9OyWlI1mWfY75TafIEE4wKUITgO4vPpT4Uto0tfV5TrAV2HUUStoJx2H9zW1uR1vI8X/ScA2fq+DKYbA=
+	t=1719257229; cv=none; b=n+9a8Nr8467C3UR3CqgT+HuhdVCAbLGjxOPXkmz0SyzPZH6GE8uq5P1vBpuXsoMmOSC5EhVdGNcAkn7JeocwUUzy4RkBiL0Ya6gqFi0T/YO5Q8rZEVS/P6nxDSan7TQNcTocrQs8pb69hhevYLAyFkNQ+7dp9mfRf29vi9z+/ms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719255205; c=relaxed/simple;
-	bh=jJ/j1xsThnzacKt11bhaVunfEXAeA8U4Nty6fqr9cTg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=cL9G+WN6uP+i5VzNfIdY48rx3FcRAfIPPgKMJssZF8gJaNXvEBk75DPnoMqHuuD+H7leWqcojTugwrjcjhFsIBLhxi/p0bNvlOxg43jdvv31OF7i+TJq/6UD8GzYyiy/IhKJfuBBeCsQ56jklNb6x9xCajV3kAfEWnnuXbH0iTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C7Ly9Odh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719257229; c=relaxed/simple;
+	bh=aQZfSwoa+l4IMNsVymSrA1l1JRzJlII9rqUvP9kMBqw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OYqwlvq9IDlPUTVtc1gIkSE9ZpStIJhpLr8QAksF3fG2ddvziac0dZ299MDOvW5e9SpZGhTTjTjKcomHxdXZp5Pznmzzx7cIeXc5uPwhCNwpVKbEz361xPH/EZtwU3vHdehlg5UF1rN9I8QQyQoicnlbiJf5xHL79WArl20eZmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pe43sEES; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C7Ly9Odh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3742C32782;
-	Mon, 24 Jun 2024 18:53:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719255205;
-	bh=jJ/j1xsThnzacKt11bhaVunfEXAeA8U4Nty6fqr9cTg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=C7Ly9OdhU/Y+BH6NcUw9QGJQWNG/AF3NuCaeAmjpNT7J2TOT/oCqsbacAO69HExfK
-	 meZyCv8GPvZndonbKlxaNctVzcfvfv/QkYiPCA3S5M650qJTuDIv8xmzI3t2bVe1HK
-	 M1rPS9Ve1JiM/NtpyXl6dlcEet4jdD+umeIDg4wg/5gDNXQ3ZbHxmclVgKgv3c8zJ2
-	 pFYG9HWciU5twEvSzvBE1fuOuSkLzz+jVx9bln9kpC5JeGTTNxPxPUTYHbZhHZuemf
-	 pni8wQlP7c0dIUtA6kxAyugJ7X8dvAmaciXX1TDDCijmAKHAI/A8r4JVWeSMBDqPFh
-	 jOZWen0I+xBLQ==
-From: SeongJae Park <sj@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: SeongJae Park <sj@kernel.org>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 7/7] Docs/process/email-clients: Document HacKerMaiL
-Date: Mon, 24 Jun 2024 11:53:12 -0700
-Message-Id: <20240624185312.94537-8-sj@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240624185312.94537-1-sj@kernel.org>
-References: <20240624185312.94537-1-sj@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pe43sEES"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1f44b45d6abso36779335ad.0;
+        Mon, 24 Jun 2024 12:27:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719257227; x=1719862027; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=D6NPcKWdrsF0ORnPMJ9lUOl+tIOO+xgUu7dqqnj8kWQ=;
+        b=Pe43sEESSzv5uKVVwJ39ujXq8cbaxc8X20Lig6F+9+i/KEy3Y39NytwHuUG23loNNt
+         rjHfr9CmkrFR1TvNf5GwOlJf6IFeGfDJRZIp80jNZEHZHuED9Zju5fDxmwZnBXHzaBPQ
+         d/MP3ZmpC1bE4mx9JqXBrdYeh2l0bLlWyFj1FYqjWbGsLWm/ab7zLhKX4wPV4EFvrpRd
+         jPzqn0Fxm70CXHUvh+ofMq4eS6mGF2xgC/HRlhlOz6haTQwVry3dUv0YwuEWm4uBhopU
+         lV6hwUuALy0H/qfL1dtYtjevYrzfWrgpF+QMtTZieAXkirlgWdva/UTN8IY73ShmKbiA
+         G+yA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719257227; x=1719862027;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=D6NPcKWdrsF0ORnPMJ9lUOl+tIOO+xgUu7dqqnj8kWQ=;
+        b=ToI0XoO7nAHFvjVf1M6VQKGLRoShdajUkUor40OdBNJ0Bt3dj/WmqUm/BtkETsktqM
+         Pjb5ROPeShPyxMkfRYMInZddXKc2ID5nM5m7gnSTGqKYS2/dLqYgUIc4xFPwOWGhGAx0
+         nuTRH4ayDV7b4SpSdZencjAsgV4y+Sjn6tU4u1PIY1RXbKRQvtFlixnHKF1aXqWdBROK
+         UD4YqmgxxqlpYvhtsinYUcLBEmho1GTOk0PmYshjFlWRVgPveNhGIXXWxEm0hkS2Wuzs
+         z6S1B1TuyAVlw5HpYPZi9rf6ufdTWYddDi6T1ng4bTB9s3PS/zcKgzSDhWBvdGaJnIfK
+         8C8A==
+X-Forwarded-Encrypted: i=1; AJvYcCXg/uhuuIDYV3o490AKKVdU/3tHy9Bw+WLojN4z0gvwsEyZ5EfS+bOXa0d8O8jYXshQWzkAZR2yhXjGSDq8Rfr5RDcDik24la4Rjq1+fMjhNJhHxK5WmB+2ZE5UEk/la8rgiUiCIsOAWF9sKHu9Dx8Ddt1ip7z2XTWOZTlCEmBpvXVK
+X-Gm-Message-State: AOJu0YzcIe5g3j3GTLsh4xG9uYYi0ppLqrOQJtKy9fvPI139UEUXyU81
+	Apht0WdcDcUJSi08kMgRoHA2AfF6K8rAOhc9DzqoVsL4pfpks+zGZB1OGpB6kqPLAHS1Jcc7k4q
+	hEe2PPQsLG4PoLwFA5cq/8QXd5vs=
+X-Google-Smtp-Source: AGHT+IGBtjhDC6P3cpTyHX222A40DKzkhUa9Vlp3o09LRMLRvr5RdM7GaIGSlUL3/mDyjjHLONQXobYxheRm3w1BZ2o=
+X-Received: by 2002:a17:90b:1e43:b0:2c2:e175:4076 with SMTP id
+ 98e67ed59e1d1-2c85829117dmr4566018a91.32.1719257227334; Mon, 24 Jun 2024
+ 12:27:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240624185312.94537-1-sj@kernel.org> <20240624185312.94537-5-sj@kernel.org>
+In-Reply-To: <20240624185312.94537-5-sj@kernel.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 24 Jun 2024 21:26:55 +0200
+Message-ID: <CANiq72nBOG-oVZxMPC-XqVrYSQ95Aj-=FQFTb2y8kG2ioej=4w@mail.gmail.com>
+Subject: Re: [PATCH 4/7] Docs: Move clang-format from process/ to dev-tools/
+To: SeongJae Park <sj@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Miguel Ojeda <ojeda@kernel.org>, 
+	Federico Vaga <federico.vaga@vaga.pv.it>, Carlos Bilbao <carlos.bilbao.osdev@gmail.com>, 
+	Avadhut Naik <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>, 
+	Yanteng Si <siyanteng@loongson.cn>, Hu Haowen <2023002089@link.tyut.edu.cn>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, workflows@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-HacKerMaiL (hkml) [1] is a simple tool for mailing lists-based
-development workflows such as that for most Linux kernel subsystems.  It
-is actively being maintained by DAMON maintainer, and recommended for
-DAMON community[2].  Add a simple introduction of the tool on the
-email-clients document, too.
+On Mon, Jun 24, 2024 at 8:53=E2=80=AFPM SeongJae Park <sj@kernel.org> wrote=
+:
+>
+> 'clang-format' is on 'Other material' section of 'process/index', but it
+> may fit more under 'dev-tools/' directory.  Move it.
+>
+> Signed-off-by: SeongJae Park <sj@kernel.org>
 
-[1] https://github.com/sjp38/hackermail
-[2] https://lore.kernel.org/20240621170353.BFB83C2BBFC@smtp.kernel.org
+Happy either way -- thanks!
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/process/email-clients.rst | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Acked-by: Miguel Ojeda <ojeda@kernel.org>
 
-diff --git a/Documentation/process/email-clients.rst b/Documentation/process/email-clients.rst
-index fc2c46f3f82d..dd22c46d1d02 100644
---- a/Documentation/process/email-clients.rst
-+++ b/Documentation/process/email-clients.rst
-@@ -350,3 +350,12 @@ although tab2space problem can be solved with external editor.
- 
- Another problem is that Gmail will base64-encode any message that has a
- non-ASCII character. That includes things like European names.
-+
-+HacKerMaiL (TUI)
-+****************
-+
-+HacKerMaiL (hkml) is a public-inbox based simple mails management tool that
-+doesn't require subscription of mailing lists.  It is developed and maintained
-+by the DAMON maintainer and aims to support simple development workflows for
-+DAMON and general kernel subsystems.  Refer to the README
-+(https://github.com/sjp38/hackermail/blob/master/README.md) for details.
--- 
-2.39.2
-
+Cheers,
+Miguel
