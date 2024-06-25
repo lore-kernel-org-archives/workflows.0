@@ -1,89 +1,102 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.153])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2994D1A00FD;
-	Mon, 24 Jun 2024 19:27:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7A73146D76;
+	Tue, 25 Jun 2024 07:51:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.103.80.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719257229; cv=none; b=n+9a8Nr8467C3UR3CqgT+HuhdVCAbLGjxOPXkmz0SyzPZH6GE8uq5P1vBpuXsoMmOSC5EhVdGNcAkn7JeocwUUzy4RkBiL0Ya6gqFi0T/YO5Q8rZEVS/P6nxDSan7TQNcTocrQs8pb69hhevYLAyFkNQ+7dp9mfRf29vi9z+/ms=
+	t=1719301886; cv=none; b=OvwhCITBZsqyhZrs812KUAjnYGmtzusLJdqRxzABZeg+l+pS2u6XzF+gOIMMZ7mzjthYzptnWLijGZSEQwVuVikJgf6b/a7BedE7PMySPo5L4XPSo3BdmPIERBcVKqT6ZafQTvDbS+6iv+o7juhIFTLkLjRaNBWU1c6CXmxKEHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719257229; c=relaxed/simple;
-	bh=aQZfSwoa+l4IMNsVymSrA1l1JRzJlII9rqUvP9kMBqw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OYqwlvq9IDlPUTVtc1gIkSE9ZpStIJhpLr8QAksF3fG2ddvziac0dZ299MDOvW5e9SpZGhTTjTjKcomHxdXZp5Pznmzzx7cIeXc5uPwhCNwpVKbEz361xPH/EZtwU3vHdehlg5UF1rN9I8QQyQoicnlbiJf5xHL79WArl20eZmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pe43sEES; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1719301886; c=relaxed/simple;
+	bh=KLqf935lSAJuGQQElpBuZqXf46nRUx378xaLq4T4IaU=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=bAbzVtOiZXwbz6JrRwu9QyFUu+GGScCl0RnDHoBgah92OprDwK8t7wGLwOPLgTUs7tNRt2AMeT+cB9bsB8NpKQlyDRQi3kVeQYB4uHxTRT0lMJudste7oY7nBXrrN0uJh31XER0Hni8AHXB4cLqpZ57cj9dSOdQZyumnykLxmgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vaga.pv.it; spf=pass smtp.mailfrom=vaga.pv.it; dkim=pass (2048-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b=ooDiAHZX; arc=none smtp.client-ip=212.103.80.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vaga.pv.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vaga.pv.it
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pe43sEES"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1f44b45d6abso36779335ad.0;
-        Mon, 24 Jun 2024 12:27:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719257227; x=1719862027; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=D6NPcKWdrsF0ORnPMJ9lUOl+tIOO+xgUu7dqqnj8kWQ=;
-        b=Pe43sEESSzv5uKVVwJ39ujXq8cbaxc8X20Lig6F+9+i/KEy3Y39NytwHuUG23loNNt
-         rjHfr9CmkrFR1TvNf5GwOlJf6IFeGfDJRZIp80jNZEHZHuED9Zju5fDxmwZnBXHzaBPQ
-         d/MP3ZmpC1bE4mx9JqXBrdYeh2l0bLlWyFj1FYqjWbGsLWm/ab7zLhKX4wPV4EFvrpRd
-         jPzqn0Fxm70CXHUvh+ofMq4eS6mGF2xgC/HRlhlOz6haTQwVry3dUv0YwuEWm4uBhopU
-         lV6hwUuALy0H/qfL1dtYtjevYrzfWrgpF+QMtTZieAXkirlgWdva/UTN8IY73ShmKbiA
-         G+yA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719257227; x=1719862027;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=D6NPcKWdrsF0ORnPMJ9lUOl+tIOO+xgUu7dqqnj8kWQ=;
-        b=ToI0XoO7nAHFvjVf1M6VQKGLRoShdajUkUor40OdBNJ0Bt3dj/WmqUm/BtkETsktqM
-         Pjb5ROPeShPyxMkfRYMInZddXKc2ID5nM5m7gnSTGqKYS2/dLqYgUIc4xFPwOWGhGAx0
-         nuTRH4ayDV7b4SpSdZencjAsgV4y+Sjn6tU4u1PIY1RXbKRQvtFlixnHKF1aXqWdBROK
-         UD4YqmgxxqlpYvhtsinYUcLBEmho1GTOk0PmYshjFlWRVgPveNhGIXXWxEm0hkS2Wuzs
-         z6S1B1TuyAVlw5HpYPZi9rf6ufdTWYddDi6T1ng4bTB9s3PS/zcKgzSDhWBvdGaJnIfK
-         8C8A==
-X-Forwarded-Encrypted: i=1; AJvYcCXg/uhuuIDYV3o490AKKVdU/3tHy9Bw+WLojN4z0gvwsEyZ5EfS+bOXa0d8O8jYXshQWzkAZR2yhXjGSDq8Rfr5RDcDik24la4Rjq1+fMjhNJhHxK5WmB+2ZE5UEk/la8rgiUiCIsOAWF9sKHu9Dx8Ddt1ip7z2XTWOZTlCEmBpvXVK
-X-Gm-Message-State: AOJu0YzcIe5g3j3GTLsh4xG9uYYi0ppLqrOQJtKy9fvPI139UEUXyU81
-	Apht0WdcDcUJSi08kMgRoHA2AfF6K8rAOhc9DzqoVsL4pfpks+zGZB1OGpB6kqPLAHS1Jcc7k4q
-	hEe2PPQsLG4PoLwFA5cq/8QXd5vs=
-X-Google-Smtp-Source: AGHT+IGBtjhDC6P3cpTyHX222A40DKzkhUa9Vlp3o09LRMLRvr5RdM7GaIGSlUL3/mDyjjHLONQXobYxheRm3w1BZ2o=
-X-Received: by 2002:a17:90b:1e43:b0:2c2:e175:4076 with SMTP id
- 98e67ed59e1d1-2c85829117dmr4566018a91.32.1719257227334; Mon, 24 Jun 2024
- 12:27:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b="ooDiAHZX"
+Received: from localhost (unknown [127.0.0.1])
+	by mx.kolabnow.com (Postfix) with ESMTP id 6E9CD3004C5C;
+	Tue, 25 Jun 2024 09:51:21 +0200 (CEST)
+Authentication-Results: ext-mx-out013.mykolab.com (amavis);
+ dkim=pass (2048-bit key) reason="pass (just generated, assumed good)"
+ header.d=kolabnow.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+	content-transfer-encoding:content-type:content-type:message-id
+	:references:in-reply-to:subject:subject:from:from:date:date
+	:mime-version:received:received:received; s=dkim20240523; t=
+	1719301880; x=1721116281; bh=H5af9yjgTthkIh74doQYQLtPF8gG8f4WGKd
+	py7fAyBs=; b=ooDiAHZXrD03pbszTQot/79JiSgW6ToSsGGEpDWSQJDyKXv2gU0
+	PcO25ueN9JV5jNRF9RCPlBVDa/zbft3jUiFXBUojNdHk6PS2t6qxHZ2QbxD108P3
+	DuKPVIoE8LZfKk3n1LDHU1FQbOjdtrRw7ekwtCUvLmyB6TMwTFXGwHXJSVMFjmws
+	4ERPs0e1YAOA5Xb32MNVaiEM8AioVdvr8zhgbfslqRgp+vsQoQ2017ZQDiFWYk99
+	s3fFNUX9jFRKOmzQ2Jf/7iYqF7CAtaiAtWpB84dMzyJbjTh8sN4ADRTj+N32w9+P
+	gCEzn8oap/IBREGTPQ+fQFlVizySqIL/dMw==
+X-Virus-Scanned: amavis at mykolab.com
+X-Spam-Flag: NO
+X-Spam-Score: -1
+X-Spam-Level:
+Received: from mx.kolabnow.com ([127.0.0.1])
+ by localhost (ext-mx-out013.mykolab.com [127.0.0.1]) (amavis, port 10024)
+ with ESMTP id 5K128MH4078t; Tue, 25 Jun 2024 09:51:20 +0200 (CEST)
+Received: from int-mx011.mykolab.com (unknown [10.9.13.11])
+	by mx.kolabnow.com (Postfix) with ESMTPS id F15203004C4C;
+	Tue, 25 Jun 2024 09:51:19 +0200 (CEST)
+Received: from int-subm015.mykolab.com (unknown [10.9.37.15])
+	by int-mx011.mykolab.com (Postfix) with ESMTPS id 5AF8F32F1269;
+	Tue, 25 Jun 2024 09:51:19 +0200 (CEST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240624185312.94537-1-sj@kernel.org> <20240624185312.94537-5-sj@kernel.org>
-In-Reply-To: <20240624185312.94537-5-sj@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 24 Jun 2024 21:26:55 +0200
-Message-ID: <CANiq72nBOG-oVZxMPC-XqVrYSQ95Aj-=FQFTb2y8kG2ioej=4w@mail.gmail.com>
-Subject: Re: [PATCH 4/7] Docs: Move clang-format from process/ to dev-tools/
+Date: Tue, 25 Jun 2024 09:51:19 +0200
+From: Federico Vaga <federico.vaga@vaga.pv.it>
 To: SeongJae Park <sj@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Miguel Ojeda <ojeda@kernel.org>, 
-	Federico Vaga <federico.vaga@vaga.pv.it>, Carlos Bilbao <carlos.bilbao.osdev@gmail.com>, 
-	Avadhut Naik <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>, 
-	Yanteng Si <siyanteng@loongson.cn>, Hu Haowen <2023002089@link.tyut.edu.cn>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, workflows@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: Jonathan Corbet <corbet@lwn.net>, Miguel Ojeda <ojeda@kernel.org>,
+ Carlos Bilbao <carlos.bilbao.osdev@gmail.com>, Avadhut Naik
+ <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>, Yanteng Si
+ <siyanteng@loongson.cn>, Hu Haowen <2023002089@link.tyut.edu.cn>, Nathan
+ Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ workflows@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH 4/7] Docs: Move clang-format from process/ to dev-tools/
+In-Reply-To: <20240624185312.94537-5-sj@kernel.org>
+References: <20240624185312.94537-1-sj@kernel.org>
+ <20240624185312.94537-5-sj@kernel.org>
+Message-ID: <ae3edebe685d15a4398e587ebd082a18@vaga.pv.it>
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 24, 2024 at 8:53=E2=80=AFPM SeongJae Park <sj@kernel.org> wrote=
-:
->
-> 'clang-format' is on 'Other material' section of 'process/index', but it
+On 2024-06-24 20:53, SeongJae Park wrote:
+> 'clang-format' is on 'Other material' section of 'process/index', but 
+> it
 > may fit more under 'dev-tools/' directory.  Move it.
->
+> 
 > Signed-off-by: SeongJae Park <sj@kernel.org>
+> ---
+>  .clang-format                                             | 2 +-
+>  Documentation/{process => dev-tools}/clang-format.rst     | 0
+>  Documentation/dev-tools/index.rst                         | 1 +
+>  Documentation/process/4.Coding.rst                        | 2 +-
+>  Documentation/process/coding-style.rst                    | 2 +-
+>  Documentation/process/index.rst                           | 1 -
+>  Documentation/translations/it_IT/process/clang-format.rst | 2 +-
+>  Documentation/translations/sp_SP/process/coding-style.rst | 2 +-
+>  Documentation/translations/zh_CN/process/4.Coding.rst     | 2 +-
+>  Documentation/translations/zh_CN/process/coding-style.rst | 2 +-
+>  Documentation/translations/zh_TW/process/4.Coding.rst     | 2 +-
+>  Documentation/translations/zh_TW/process/coding-style.rst | 2 +-
+>  12 files changed, 10 insertions(+), 10 deletions(-)
+>  rename Documentation/{process => dev-tools}/clang-format.rst (100%)
 
-Happy either way -- thanks!
+Good for me
 
-Acked-by: Miguel Ojeda <ojeda@kernel.org>
+Acked-by: Federico Vaga <federico.vaga@vaga.pv.it>
 
-Cheers,
-Miguel
+-- 
+Federico Vaga
