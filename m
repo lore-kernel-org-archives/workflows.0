@@ -1,95 +1,122 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A00149DF8;
-	Tue, 25 Jun 2024 22:16:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5CC13AA3C;
+	Wed, 26 Jun 2024 08:12:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719353786; cv=none; b=Ok5RnIF5TKkeFKa7fz0zq4NeRPA/Ka6VlxD+K3PPzoNArDHe8YjjQkt2r5vSp6Y/JdGctD2PKxXovLy4uK1r7gYSPILyOvRZTPRgLPM4dSLlF4yKxVZceltsDDWdZKzJidQnLDU9M81HxcWGNpqLuIqx1aVXg/DrRz+JVgk0SnA=
+	t=1719389573; cv=none; b=Ow/ARoD9/hgAhsmog/j1tAS2zFdwGZM4nbEVtXTymD2ji2fOloxpQKt9uvNNd2cx1mxyrkQ3p+ZZ2RQIs1lsQV6qx1JsPPzlEoWdi6ongEwdb8IzL6UpCms1Tm+LLAOsRI/tNgkPkx2WDUEaPSqQ/dyEjyst4kUjGNG9nA6dHvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719353786; c=relaxed/simple;
-	bh=CDu7orZ2Z5HI13L8wDK31mN2bZTmFIfMGBFl4CQnTFk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nlCoUVcYt3LJ5GB3wYX7XECde7a2NxVoFdOpMpDuqtwsHSOTtkVzZyhRwbTpzbh5YGvKDcNZ19X49MJXBPkk6lpUheEunsUYS9wq9xEUDkBYdywR4UUPp1bf3agM53IDQiFt8nv5+ZHwDoXQyTlyFf6UrknA03x0Zg+aO9jJ7xQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=JFxNUaeQ; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JFxNUaeQ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=yTBEcrAX7tIupXoEAf0f2ow9K88qNl2Ai+dmeT98M9Y=; b=JFxNUaeQpr4chQaSowvqUgf15p
-	NqCM8ye5NmM2BZWBeqxdCmVRaoXGLv83cLJlYrMuWMEBJ4G8RsSKbWLSM0PLAr+/uaBfGkv30RQhq
-	2Sc0okVT7ORPi/orkgBwNq6MlJsOHuL1nOQcQzBxWXmK2Z66zaYgrvlKjxUKwL+4Ca1MsghtdL0eX
-	UjBR0VvzgR3iHh4YT0YpMxC8h7ElfPLEdLohTaLodmX+RYjZa2Resp4x9OO4ehnUeoiKNbjz4nYmL
-	4f7kjqD/flUd5ibR9bryUFipBNbPons01skfdkKV/hRBqsnj3kENBjqkMuwTRWeBo+JUDqoh/FDz3
-	MoxiccBw==;
-Received: from [50.53.4.147] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sMESd-00000004fbA-1rUX;
-	Tue, 25 Jun 2024 22:16:23 +0000
-Message-ID: <61deba2b-3791-4ceb-a02c-de3bbca2426b@infradead.org>
-Date: Tue, 25 Jun 2024 15:16:23 -0700
+	s=arc-20240116; t=1719389573; c=relaxed/simple;
+	bh=D5Cbu+U1HZWDIHt0LpKSf7Cur/m6GJUgdd7v+AQOkfo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bJDNp9zAgor1LassfiZi39cLa4qVYaejj1eElt6qgoqM8ZL0Dw4cQxd3dQvNgezp+pynzD3L5FOmY5wCxxcalk2gnf/LPAMb5+zt+Tr5SPM7hpYUcQYH7+lOuOa8Ya5ktc+ErhRKXOuk7Dr7Byv92cGT5nI4IX8ERGknAn1UtnA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dfe1aa7cce2so6082997276.1;
+        Wed, 26 Jun 2024 01:12:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719389569; x=1719994369;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=S6yFjbUBltT3UtsPx++KaysizwCAujSrK4XvFo3PCu0=;
+        b=qsx2/96nKQoKmzTk9WiEVnYY0JuqNHc6kwryyEkYgiXVaY2Bw7hnC/bspl7WjeOH9w
+         7lJ2NqNWebTmGt2QVQlTW3ct6TjAFmxL8w145ynODVIALUo1IRCyJhTvAe7/ME/5SEHa
+         KPPIfMFbgAzVGnsGDkIA+Vw4CqnNM6MwUkTXCaVxLkxwBUjqZA7rq8azQW3Yk+StcuBE
+         oA5rP8Yk/hGsKq6swcgu1acP7z8HqYAys/2zG4tC0jQkAE2MV/N04n0nf53E/pdDWcYe
+         ObAlDKSoad+arQcKUjuatE/UyVolWz1LA5LUQAFEzW3ejmVb2Z+9ePBCMBwbdNkaO0gQ
+         IVXw==
+X-Forwarded-Encrypted: i=1; AJvYcCUSp9m7n2p7fKt2nU5Lqy2jewR5/qnx3T3K7aca4f5KfPkxPzuZvFlqHkUsW+5LgwXtgj2SZ/gx7v0On1P5O745E1xT1SVJVlalDzaKsa3HiS+JYtRD1p6ffdytoQYXzHOwG8kc7Y4XxY/iH18EE+NRkQt/82XQCm+BrNkeB0BTE7jTV+Mzx4juh99jcKSnxz8eBvlo9tG76UPM
+X-Gm-Message-State: AOJu0YxdVDBU8/ov4KkpAVeZ8ej0AjF055Y/kMXANYnOjBDxafx6sKhf
+	MXRkN92zrTofXRHXCqWt7TmBwm4I1KKz7fQclKdQAYeIOCHgwHwbRc0SZpn6
+X-Google-Smtp-Source: AGHT+IGu9u4YTJN2HEf5VgvjxqVtuKUriKszqMboR/wEfByBUIu3DhgMYGmysKeryJpwWVIZeN1flA==
+X-Received: by 2002:a25:ae5d:0:b0:dee:8d62:8c10 with SMTP id 3f1490d57ef6-e0303ed450bmr10044937276.12.1719389569184;
+        Wed, 26 Jun 2024 01:12:49 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e02e623c597sm4349136276.14.2024.06.26.01.12.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Jun 2024 01:12:48 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-646645f1387so20924417b3.1;
+        Wed, 26 Jun 2024 01:12:48 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWp29cvZ/azbcQW6mwk+n9Z1csuRY3Gz7DzeVh060rXUwSuuH8rbm3eYQ1TPsYMlT1MPgsrJCR02+MRbkvW58bzwq0tygbNrdFZogP5GD/Hz2nCGZ/FAbgblw+9IfR9/3JammHZSZQ9Ol6HV+r6YzYgSyBa0/1YnrT5lF2C/semZYNLUHXKSB95KBi3P/a219ijK8Dx530s//fr
+X-Received: by 2002:a05:690c:6e0c:b0:617:cbc7:26fe with SMTP id
+ 00721157ae682-643a9fcecb1mr105251747b3.16.1719389568194; Wed, 26 Jun 2024
+ 01:12:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7/7] Docs/process/email-clients: Document HacKerMaiL
-To: SeongJae Park <sj@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240624185312.94537-1-sj@kernel.org>
- <20240624185312.94537-8-sj@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240624185312.94537-8-sj@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240618-docs-patch-msgid-link-v1-0-30555f3f5ad4@linuxfoundation.org>
+ <20240618-docs-patch-msgid-link-v1-2-30555f3f5ad4@linuxfoundation.org> <20240625172727.3dd2ad67@rorschach.local.home>
+In-Reply-To: <20240625172727.3dd2ad67@rorschach.local.home>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 26 Jun 2024 10:12:35 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXHa52RBjzA4eF4ERNuJjRHyq=FfyPz-yOsjOA7ZQfouQ@mail.gmail.com>
+Message-ID: <CAMuHMdXHa52RBjzA4eF4ERNuJjRHyq=FfyPz-yOsjOA7ZQfouQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Documentation: best practices for using Link trailers
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, ksummit@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Steven,
 
+On Tue, Jun 25, 2024 at 11:27=E2=80=AFPM Steven Rostedt <rostedt@goodmis.or=
+g> wrote:
+> On Tue, 18 Jun 2024 12:42:11 -0400
+> Konstantin Ryabitsev <konstantin@linuxfoundation.org> wrote:
+> > +     A similar approach was attempted before as part of a different
+> > +     effort [1], but the initial implementation caused too many
+> > +     regressions [2], so it was backed out and reimplemented.
+> > +
+> > +     Link: https://lore.kernel.org/some-msgid@here # [1]
+> > +     Link: https://bugzilla.example.org/bug/12345  # [2]
+> > +
+> > +   When using the ``Link:`` trailer to indicate the provenance of the
+> > +   patch, you should use the dedicated ``patch.msgid.link`` domain. Th=
+is
+> > +   makes it possible for automated tooling to establish which link lea=
+ds
+> > +   to the original patch submission. For example::
+> > +
+> > +     Link: https://patch.msgid.link/patch-source-msgid@here
+>
+> Hmm, I mentioned this in the other thread, but I also like the fact
+> that my automated script uses the list that it was Cc'd to. That is, if
+> it Cc'd linux-trace-kernel, if not, if it Cc'd linux-trace-devel, it
+> adds that, otherwise it uses lkml. Now, I could just make the lkml use
+> the patch-source-msgid instead.
+>
+> This does give me some information about what the focus of the patch
+> was. Hmm, maybe I could just make it:
+>
+>   Link: https://patch.msgid.link/patch-source-msgid@here # linux-trace-de=
+vel
+>
+> Would anyone have an issue with that?
 
-On 6/24/24 11:53 AM, SeongJae Park wrote:
-> HacKerMaiL (hkml) [1] is a simple tool for mailing lists-based
-> development workflows such as that for most Linux kernel subsystems.  It
-> is actively being maintained by DAMON maintainer, and recommended for
-> DAMON community[2].  Add a simple introduction of the tool on the
-> email-clients document, too.
-> 
-> [1] https://github.com/sjp38/hackermail
-> [2] https://lore.kernel.org/20240621170353.BFB83C2BBFC@smtp.kernel.org
-> 
-> Signed-off-by: SeongJae Park <sj@kernel.org>
+Or, just like with lore links:
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+    https://patch.msgid.link/linux-trace-devel/patch-source-msgid@here
 
-Thanks.
+Gr{oetje,eeting}s,
 
-> ---
->  Documentation/process/email-clients.rst | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/Documentation/process/email-clients.rst b/Documentation/process/email-clients.rst
-> index fc2c46f3f82d..dd22c46d1d02 100644
-> --- a/Documentation/process/email-clients.rst
-> +++ b/Documentation/process/email-clients.rst
-> @@ -350,3 +350,12 @@ although tab2space problem can be solved with external editor.
->  
->  Another problem is that Gmail will base64-encode any message that has a
->  non-ASCII character. That includes things like European names.
-> +
-> +HacKerMaiL (TUI)
-> +****************
-> +
-> +HacKerMaiL (hkml) is a public-inbox based simple mails management tool that
-> +doesn't require subscription of mailing lists.  It is developed and maintained
-> +by the DAMON maintainer and aims to support simple development workflows for
-> +DAMON and general kernel subsystems.  Refer to the README
-> +(https://github.com/sjp38/hackermail/blob/master/README.md) for details.
+                        Geert
 
--- 
-~Randy
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
