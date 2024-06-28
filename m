@@ -1,79 +1,94 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C4A71DDE9;
-	Fri, 28 Jun 2024 14:52:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DB181E50B;
+	Fri, 28 Jun 2024 18:32:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719586361; cv=none; b=RQSIr/Wcq872lT0bQIJ+ER3BTDifu8dbohfD4UBXCQ7+N+Ggtyag2amQ/6w/bCnYzI5LxYe71CI8od6v0W+NUz/88BuSGeuPJozFNzUa1UQE/cvATguRp2Px/JZNBRREoZwSmgzizd4L3xieHLTs4+D3QqVNlTssiNhinsuMTVE=
+	t=1719599548; cv=none; b=g2J7rl7kTNJm1wjS4HbP2r3oALqesFEcJ2fv6YGsPOmOHm/fHcr6Xva9ptf9KgglIKrgy/a2UWrUW9vjtRZlShAZDxWM8iMKqCBKiE1bUyHRNTmsCNbG04wFPvvjrDyfo5NEqlPaMhj5alAv2F+9Tkh0gqmBnHBQxwf3xsuqiOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719586361; c=relaxed/simple;
-	bh=vZ0Gd1cDcY3qQgSgEEFxAnyHcWcTbNetGH8Pbn/F+Co=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kCzDa2gk/8rKr8+Dk52Htx8XpqjtTIFn+BD/RWnr0pgY4XSDBwVODb83uRRo4BAvy+GW39JK/A8dmN1V8lKzE0DIYaeSFWsUyhO0L+Ur757G1/fUm0U3hDywJ9SMkx7mV099m20YHHkr/p9VsCG91M5UjSPx0aelutS5oD6F+Gg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=LkkUJSL4; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LkkUJSL4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7062C116B1;
-	Fri, 28 Jun 2024 14:52:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1719586360;
-	bh=vZ0Gd1cDcY3qQgSgEEFxAnyHcWcTbNetGH8Pbn/F+Co=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LkkUJSL4BYMLJYkIhLyd0kRePbat2G4F7GxYVmxfA6CpmlVPnXrmEp21xnmJyz+I7
-	 GcPeeji+WGmtHkazMOImbWzGoofNsaFFpu/9CFrkfoWi2KIr3Ve//wvAhGjW6IKE08
-	 8V+2Gy/lGfpOIxShWqc7cdUgnzYm1YQ/ldEO4onA=
-Date: Fri, 28 Jun 2024 10:52:37 -0400
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Kees Cook <kees@kernel.org>, Carlos Bilbao <carlos.bilbao.osdev@gmail.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	ksummit@lists.linux.dev
+	s=arc-20240116; t=1719599548; c=relaxed/simple;
+	bh=xmAHf1q3wfr6LlUw9tXkd1fc2eHakw/YNd7upQANybk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fwRfc9RbteTFxbX7J4EMsvuUrClXVU6+6rnroqMlwZjf4Qhfq+vOItpLOYLiIdmGCkVXkjalzNEpE3R4C9thpBkaKSk9pkPU2sUppqynXZ6DO0rwmQxaCL82HQLLXro6zywyo/04QzvrrcYbOlKi0jTi64Mn7cekaolQf32nQo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2938DC116B1;
+	Fri, 28 Jun 2024 18:32:26 +0000 (UTC)
+Date: Fri, 28 Jun 2024 14:32:24 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc: Thorsten Leemhuis <linux@leemhuis.info>, Randy Dunlap
+ <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>, Kees Cook
+ <kees@kernel.org>, Carlos Bilbao <carlos.bilbao.osdev@gmail.com>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
+ Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ ksummit@lists.linux.dev
 Subject: Re: [PATCH v2 2/2] Documentation: best practices for using Link
  trailers
-Message-ID: <20240628-mindful-jackal-of-education-95059f@lemur>
+Message-ID: <20240628143224.6fb67dfd@rorschach.local.home>
+In-Reply-To: <20240628-mindful-jackal-of-education-95059f@lemur>
 References: <20240619-docs-patch-msgid-link-v2-0-72dd272bfe37@linuxfoundation.org>
- <20240619-docs-patch-msgid-link-v2-2-72dd272bfe37@linuxfoundation.org>
- <202406211355.4AF91C2@keescook>
- <20240621-amorphous-topaz-cormorant-cc2ddb@lemur>
- <87cyo3fgcb.fsf@trenco.lwn.net>
- <4709c2fa-081f-4307-bc9e-eef928255c08@infradead.org>
- <62647fab-b3d4-48ac-af4c-78c655dcff26@leemhuis.info>
+	<20240619-docs-patch-msgid-link-v2-2-72dd272bfe37@linuxfoundation.org>
+	<202406211355.4AF91C2@keescook>
+	<20240621-amorphous-topaz-cormorant-cc2ddb@lemur>
+	<87cyo3fgcb.fsf@trenco.lwn.net>
+	<4709c2fa-081f-4307-bc9e-eef928255c08@infradead.org>
+	<62647fab-b3d4-48ac-af4c-78c655dcff26@leemhuis.info>
+	<20240628-mindful-jackal-of-education-95059f@lemur>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <62647fab-b3d4-48ac-af4c-78c655dcff26@leemhuis.info>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jun 27, 2024 at 05:51:47AM GMT, Thorsten Leemhuis wrote:
-> I thought it was documented, but either I was wrong or can't find it.
-> But I found process/5.Posting.rst, which provides this example:
+On Fri, 28 Jun 2024 10:52:37 -0400
+Konstantin Ryabitsev <konstantin@linuxfoundation.org> wrote:
+
+> On Thu, Jun 27, 2024 at 05:51:47AM GMT, Thorsten Leemhuis wrote:
+> > I thought it was documented, but either I was wrong or can't find it.
+> > But I found process/5.Posting.rst, which provides this example:
+> > 
+> >         Link: https://example.com/somewhere.html  optional-other-stuff
+> > 
+> > So no "# " there. So to avoid inconsistencies I guess this should not be
+> > applied, unless that document is changed as well.  
 > 
->         Link: https://example.com/somewhere.html  optional-other-stuff
+> This is inconsistent with every other trailer that includes comments.
+> Currently, there are two mechanisms to provide comments with trailers:
 > 
-> So no "# " there. So to avoid inconsistencies I guess this should not be
-> applied, unless that document is changed as well.
+> 1:
+> 
+>     | Trailer-name: trailer-content # trailer-comment
+> 
+> 2:
+> 
+>     | Trailer-name: trailer-content
+>     | [trailer-comment]
 
-This is inconsistent with every other trailer that includes comments.
-Currently, there are two mechanisms to provide comments with trailers:
+Where do you see that?
 
-1:
+Whenever I do the second one, it has nothing to do with the tag, but
+what I have done to the patch/commit.
 
-    | Trailer-name: trailer-content # trailer-comment
+    Signed-off-by: Random Developer <rdevelop@company.com>
+    [ Fixed formatting ]
+    Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 
-2:
+That is, if I do any modification of the original submission, I
+document it this way.
 
-    | Trailer-name: trailer-content
-    | [trailer-comment]
+-- Steve
 
-For the sake of consistency, all trailers, including Link, should use one of
-these two mechanisms for "optional-other-stuff".
 
--K
+> 
+> For the sake of consistency, all trailers, including Link, should use one of
+> these two mechanisms for "optional-other-stuff".
+> 
+> -K
+
