@@ -1,74 +1,98 @@
-Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9020918C05
-	for <workflows@vger.kernel.org>; Wed,  3 Jul 2024 17:20:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B35C4964E;
+	Wed,  3 Jul 2024 23:04:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720027258; cv=none; b=LicpaPG5gKmweIdqbdv/cAtQXrsvd2SMyK/ew1IcaIBLddXMNbpnjX3/56b4sBfqNJNiZiLjSHU/fd0v3i048HjBI9OHK0cR4J7ODojsedFvJYUS/k+oEIdr1j0gtgBJKRsTuMz/Dj9bPEXigrHBG+KLI7mkDf6pfUCT7mT0uhQ=
+	t=1720047870; cv=none; b=hX9UZIsGafgUqX2cWM6DhAp2BGYIY01eMBSc7MOB7aEbCRLN59T86fDxUmrrat8Ta3J8vTAlx8A8xEIn1om5tOkZd6sbe1YWSEtZunXiw4XweLJfKh+Bz10yFDLWW/U6w5UTLp1VL9cQ90VdTiY0bt5Bm+BA7yMn2dH2pXuCFe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720027258; c=relaxed/simple;
-	bh=PMZ8fXfFqcesgh4os0cEpNSLQicO4IEGRrW58SumQa8=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=dzdOY5gt9cF2DqBOto73mc1sEQ2l+kw4m+SBljFNjymPuZyJCmqdP+wRrvH4LcAmS45EXqkcNzqDHBhVSO/PGpSyFJzY6+l8/vpDFZzCWthCd/LIvbWYY7GssQTulfxhs94mca3yYBEkiZIccCsnRhKcVXpSu0JtpgfUT83UOIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=metaspace.dk; spf=pass smtp.mailfrom=metaspace.dk; dkim=pass (2048-bit key) header.d=metaspace.dk header.i=@metaspace.dk header.b=T17HPMPY; arc=none smtp.client-ip=185.70.43.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=metaspace.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=metaspace.dk
+	s=arc-20240116; t=1720047870; c=relaxed/simple;
+	bh=sjUlk2dyanMoOOvqU/NU0Qw0qLzZxQECvFTWbr3HFx0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=KKXsP4fWYkH08g9DBDWpZo7IPn97T8Ssf6ClQQG4RHi/1aCwA2/qLoEQhsZ9BuaA+gWxDYBvqlmV51+dBuvp6QAC9dQ54u9W6qokIxnAeNX+HW8U8bxtCeBCJ2qOOfMbUcITksxeBY04PvXszawaTKm654MkubFVGKA5Qw3hgPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=foN6g2Aw; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=metaspace.dk header.i=@metaspace.dk header.b="T17HPMPY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=metaspace.dk;
-	s=protonmail; t=1720027243; x=1720286443;
-	bh=ndDGJ5uXrO4sGpkfcf5wznWFZi4Q7sy1VDuTcL5Kfro=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=T17HPMPYGDYS9yM7ZcV0UBuiTcwJVUuq7V6Juxt/NEvEJQW29YcPTdfs+oKQ6jt+2
-	 1zA7jrKPpg2Ig+P+YyRMIkexstlNFnXJ/5D95ENZhLQQOr17yKj33RTbpK2N4aTt6F
-	 q9PUCdp04UKuCcwbLurE0Q3ym1JaRlSqTAInXDaCrqHWEZzKiG63A8UIuJVlkBm9au
-	 DH7DhmvuNHbfoeZ2yCNAtuyJrEgVyLffU/4P0XDhypEm8npkFxri336xC8hV0M3B0i
-	 78Ex0hFUm8+MMEhg1CwECLvGSOFDNrd4aW+pfPqDzIpU9sT7wCKK3jctuaIRXIalza
-	 q3ZKg9uiD+pBg==
-Date: Wed, 03 Jul 2024 17:20:37 +0000
-To: Miguel Ojeda <ojeda@kernel.org>
-From: Andreas Hindborg <nmi@metaspace.dk>
-Cc: Wedson Almeida Filho <wedsonaf@gmail.com>, Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl <aliceryhl@google.com>, rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, patches@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 06/13] rust: start supporting several compiler versions
-Message-ID: <87ed8a8ka3.fsf@metaspace.dk>
-Feedback-ID: 113830118:user:proton
-X-Pm-Message-ID: cb700748314eafeccfd6719d4fa10cbf2e19f93c
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="foN6g2Aw"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 491D74189E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1720047868; bh=YTLOx/1o2O6vgLftzil18tbHX7AAy8OKyo+xBns4TL8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=foN6g2Awy5eiKZju1LPimmtXOR26SvHVLj3GQfBqu75Gzkyb2rCX4/C9CLU0E9Scn
+	 25gOIiHYzDk+1wKQFy24VU/7F1d0eBMctpd+BfpUBJ9X5Uk4xIH87HaczPT4wLhjDE
+	 2kA2efk/k+pm4mvDW2bffK229qejCmKvk3CseEWzwSg2V6BKe674vCJepuzP7OXUHB
+	 ALwDATik/GzfLBsi1VIVIuNhfVBQqN2jrQerInqOxDPBJnNp0t/bVeUn80NIQsONG3
+	 VSAiHzfOqEYvarluqY1xD6t5yh+JcBhpWnwt0sB3R9JSUkBctTWBx+huc1oueKTEFu
+	 6FHk79eTvoCIg==
+Received: from localhost (c-24-9-249-71.hsd1.co.comcast.net [24.9.249.71])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 491D74189E;
+	Wed,  3 Jul 2024 23:04:28 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>, Carlos Bilbao
+ <carlos.bilbao.osdev@gmail.com>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, Konstantin Ryabitsev
+ <konstantin@linuxfoundation.org>, Dan Williams <dan.j.williams@intel.com>,
+ ksummit@lists.linux.dev
+Subject: Re: [PATCH v2 0/2] Documentation: update information for mailing lists
+In-Reply-To: <20240619-docs-patch-msgid-link-v2-0-72dd272bfe37@linuxfoundation.org>
+References: <20240619-docs-patch-msgid-link-v2-0-72dd272bfe37@linuxfoundation.org>
+Date: Wed, 03 Jul 2024 17:04:27 -0600
+Message-ID: <87y16irsas.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Miguel Ojeda <ojeda@kernel.org> writes:
+Konstantin Ryabitsev <konstantin@linuxfoundation.org> writes:
 
-[...]
+> There have been some important changes to the mailing lists hosted at
+> kernel.org, most importantly that vger.kernel.org was migrated from
+> majordomo+zmailer to mlmmj and is now being served from the unified
+> mailing list platform called "subspace" [1].
+>
+> This series updates many links pointing at obsolete locations, but also
+> makes the following changes:
+>
+> - drops the recommendation to use /r/ subpaths in lore.kernel.org links
+> (it has been unnecessary for a number of years)
+> - adds some detail on how to reference specific Link trailers from
+> inside the commit message
+>
+> Some of these changes are the result of discussions on the ksummit
+> mailing list [2].
+>
+> Link: https://subspace.kernel.org # [1]
+> Link: https://lore.kernel.org/20240617-arboreal-industrious-hedgehog-5b84ae@meerkat/ # [2]
+> Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+> ---
+> Changes in v2:
+> - Minor wording changes to text and commit messages based on feedback.
+> - Link to v1: https://lore.kernel.org/r/20240618-docs-patch-msgid-link-v1-0-30555f3f5ad4@linuxfoundation.org
+>
+So I have gone ahead and applied this.  There are some important changes
+here that shouldn't miss the merge window, and we can argue about the #
+marking with it in-tree.
 
-> diff --git a/scripts/rust_is_available.sh b/scripts/rust_is_available.sh
-> index 117018946b57..67cb900124cc 100755
-> --- a/scripts/rust_is_available.sh
-> +++ b/scripts/rust_is_available.sh
-> @@ -117,14 +117,6 @@ if [ "$rust_compiler_cversion" -lt "$rust_compiler_m=
-in_cversion" ]; then
->  =09echo >&2 "***"
->  =09exit 1
->  fi
-> -if [ "$rust_compiler_cversion" -gt "$rust_compiler_min_cversion" ]; then
-> -=09echo >&2 "***"
-> -=09echo >&2 "*** Rust compiler '$RUSTC' is too new. This may or may not =
-work."
-> -=09echo >&2 "***   Your version:     $rust_compiler_version"
-> -=09echo >&2 "***   Expected version: $rust_compiler_min_version"
-> -=09echo >&2 "***"
-> -=09warning=3D1
-> -fi
+I am rather amused, though, that b4 added a few extra tag lines:
 
-This does not set a max version. Will older versions of the kernel
-always compile with newer releases of `rustc`?
+> Link: https://example.com/somewhere.html  optional-other-stuff
+> Signed-off-by: Random Developer <rdevelop@company.com>
+>      [ Fixed formatting ]
+> Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 
-Best regards,
-Andreas
+I do believe I'll amend the changelog before pushing this one :)
 
+Thanks,
+
+jon
