@@ -1,98 +1,151 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B35C4964E;
-	Wed,  3 Jul 2024 23:04:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D02E1AB8EC;
+	Thu,  4 Jul 2024 13:48:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720047870; cv=none; b=hX9UZIsGafgUqX2cWM6DhAp2BGYIY01eMBSc7MOB7aEbCRLN59T86fDxUmrrat8Ta3J8vTAlx8A8xEIn1om5tOkZd6sbe1YWSEtZunXiw4XweLJfKh+Bz10yFDLWW/U6w5UTLp1VL9cQ90VdTiY0bt5Bm+BA7yMn2dH2pXuCFe8=
+	t=1720100918; cv=none; b=cry5HKXkKdNkhxEE2RyXdYcOsOyomk2JZPVW2KZduaili6JbaPdXn2JDoDi99r+cJXAFszNAzncZxm8ppQ6l1ZhmQQ8dGZsr4tW9mnv7uHg48urerjZQb0Iuc8XRXrv6w8wU139IqsfFNdJdj4U5RQ3zef+/euU3YybwX3fhFzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720047870; c=relaxed/simple;
-	bh=sjUlk2dyanMoOOvqU/NU0Qw0qLzZxQECvFTWbr3HFx0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=KKXsP4fWYkH08g9DBDWpZo7IPn97T8Ssf6ClQQG4RHi/1aCwA2/qLoEQhsZ9BuaA+gWxDYBvqlmV51+dBuvp6QAC9dQ54u9W6qokIxnAeNX+HW8U8bxtCeBCJ2qOOfMbUcITksxeBY04PvXszawaTKm654MkubFVGKA5Qw3hgPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=foN6g2Aw; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1720100918; c=relaxed/simple;
+	bh=ObGG99YV3Pwkwhl/5zKzk6upTQesHksgHPQdb/eaq0U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b7McFux4/seEUf2bK9fa1PLhx9ffNWU6cEUetJDMrIqDBg9ZG/Hm+HKYiC4NhJFvUZcQAfIn4SKHJlJit7ylr8rEKjpx3qo0BxyO/enMgB0cyeMTdkbeVSvQq0JrCCKUkYugEo/Uq6yK5H9yLUpKo7phRh1yV7didq9YJd5fG1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RNFV6lM/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="foN6g2Aw"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 491D74189E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1720047868; bh=YTLOx/1o2O6vgLftzil18tbHX7AAy8OKyo+xBns4TL8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=foN6g2Awy5eiKZju1LPimmtXOR26SvHVLj3GQfBqu75Gzkyb2rCX4/C9CLU0E9Scn
-	 25gOIiHYzDk+1wKQFy24VU/7F1d0eBMctpd+BfpUBJ9X5Uk4xIH87HaczPT4wLhjDE
-	 2kA2efk/k+pm4mvDW2bffK229qejCmKvk3CseEWzwSg2V6BKe674vCJepuzP7OXUHB
-	 ALwDATik/GzfLBsi1VIVIuNhfVBQqN2jrQerInqOxDPBJnNp0t/bVeUn80NIQsONG3
-	 VSAiHzfOqEYvarluqY1xD6t5yh+JcBhpWnwt0sB3R9JSUkBctTWBx+huc1oueKTEFu
-	 6FHk79eTvoCIg==
-Received: from localhost (c-24-9-249-71.hsd1.co.comcast.net [24.9.249.71])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 491D74189E;
-	Wed,  3 Jul 2024 23:04:28 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>, Carlos Bilbao
- <carlos.bilbao.osdev@gmail.com>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, Konstantin Ryabitsev
- <konstantin@linuxfoundation.org>, Dan Williams <dan.j.williams@intel.com>,
- ksummit@lists.linux.dev
-Subject: Re: [PATCH v2 0/2] Documentation: update information for mailing lists
-In-Reply-To: <20240619-docs-patch-msgid-link-v2-0-72dd272bfe37@linuxfoundation.org>
-References: <20240619-docs-patch-msgid-link-v2-0-72dd272bfe37@linuxfoundation.org>
-Date: Wed, 03 Jul 2024 17:04:27 -0600
-Message-ID: <87y16irsas.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RNFV6lM/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 113E8C3277B;
+	Thu,  4 Jul 2024 13:48:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720100917;
+	bh=ObGG99YV3Pwkwhl/5zKzk6upTQesHksgHPQdb/eaq0U=;
+	h=From:To:Cc:Subject:Date:From;
+	b=RNFV6lM/+XjGCHyW7HXZcQr8Y7KnLj3ltOXT/EZwhLf7xSdqGvJbX8fT6LMXYU471
+	 rRGjzLjUSxmqhIY4r8XPofo9EfRYFhqwF5EFhsDD4da+/LAjAHXjZMmxqgpHJd8lj0
+	 JqcIUsK2nLj5Shw1cQLkCKg0TwF0QUYAdbDYTaPz0R2OFr8jH/437hkYGCa3jIhZIm
+	 Jlj457BLquSwdxu8sy2Ph9icYgrAAJWFwfQ4F7z5brCKSxf0+5msmw0PgBRbi7y+RQ
+	 +x+3y4jLX40lu/cDXk7Gb8g3UhapytlcC1/4mP0DFBz78anQz2wA2N5mLpB+4q4VpW
+	 YSLAEmNHf1WkA==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	linux-doc@vger.kernel.org,
+	workflows@vger.kernel.org
+Subject: [PATCH 1/3] kbuild: raise the minimum GNU Make requirement to 4.0
+Date: Thu,  4 Jul 2024 22:47:55 +0900
+Message-ID: <20240704134812.1511315-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Konstantin Ryabitsev <konstantin@linuxfoundation.org> writes:
+RHEL/CentOS 7, popular distributions that install GNU Make 3.82, reached
+EOM/EOL on June 30, 2024. While you may get extended support, it is a
+good time to raise the minimum GNU Make version.
 
-> There have been some important changes to the mailing lists hosted at
-> kernel.org, most importantly that vger.kernel.org was migrated from
-> majordomo+zmailer to mlmmj and is now being served from the unified
-> mailing list platform called "subspace" [1].
->
-> This series updates many links pointing at obsolete locations, but also
-> makes the following changes:
->
-> - drops the recommendation to use /r/ subpaths in lore.kernel.org links
-> (it has been unnecessary for a number of years)
-> - adds some detail on how to reference specific Link trailers from
-> inside the commit message
->
-> Some of these changes are the result of discussions on the ksummit
-> mailing list [2].
->
-> Link: https://subspace.kernel.org # [1]
-> Link: https://lore.kernel.org/20240617-arboreal-industrious-hedgehog-5b84ae@meerkat/ # [2]
-> Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-> ---
-> Changes in v2:
-> - Minor wording changes to text and commit messages based on feedback.
-> - Link to v1: https://lore.kernel.org/r/20240618-docs-patch-msgid-link-v1-0-30555f3f5ad4@linuxfoundation.org
->
-So I have gone ahead and applied this.  There are some important changes
-here that shouldn't miss the merge window, and we can argue about the #
-marking with it in-tree.
+The new requirement, GNU Make 4.0, was released in October, 2013.
 
-I am rather amused, though, that b4 added a few extra tag lines:
+I did not touch the Makefiles under tools/ because I do not know the
+requirements for building tools. I do not find any GNU Make version
+checks under tools/.
 
-> Link: https://example.com/somewhere.html  optional-other-stuff
-> Signed-off-by: Random Developer <rdevelop@company.com>
->      [ Fixed formatting ]
-> Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-I do believe I'll amend the changelog before pushing this one :)
+ Documentation/process/changes.rst |  4 ++--
+ Makefile                          | 22 +++-------------------
+ scripts/Kbuild.include            |  2 +-
+ 3 files changed, 6 insertions(+), 22 deletions(-)
 
-Thanks,
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index 5685d7bfe4d0..415ac8eeb46c 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -33,7 +33,7 @@ GNU C                  5.1              gcc --version
+ Clang/LLVM (optional)  13.0.1           clang --version
+ Rust (optional)        1.78.0           rustc --version
+ bindgen (optional)     0.65.1           bindgen --version
+-GNU make               3.82             make --version
++GNU make               4.0              make --version
+ bash                   4.2              bash --version
+ binutils               2.25             ld -v
+ flex                   2.5.35           flex --version
+@@ -111,7 +111,7 @@ It depends on ``libclang``.
+ Make
+ ----
+ 
+-You will need GNU make 3.82 or later to build the kernel.
++You will need GNU make 4.0 or later to build the kernel.
+ 
+ Bash
+ ----
+diff --git a/Makefile b/Makefile
+index 06aa6402b385..c90d408c825e 100644
+--- a/Makefile
++++ b/Makefile
+@@ -11,8 +11,8 @@ NAME = Baby Opossum Posse
+ # Comments in this file are targeted only to the developer, do not
+ # expect to learn how to build the kernel reading this file.
+ 
+-ifeq ($(filter undefine,$(.FEATURES)),)
+-$(error GNU Make >= 3.82 is required. Your Make version is $(MAKE_VERSION))
++ifeq ($(filter output-sync,$(.FEATURES)),)
++$(error GNU Make >= 4.0 is required. Your Make version is $(MAKE_VERSION))
+ endif
+ 
+ $(if $(filter __%, $(MAKECMDGOALS)), \
+@@ -93,15 +93,7 @@ endif
+ 
+ # If the user is running make -s (silent mode), suppress echoing of
+ # commands
+-# make-4.0 (and later) keep single letter options in the 1st word of MAKEFLAGS.
+-
+-ifeq ($(filter 3.%,$(MAKE_VERSION)),)
+-short-opts := $(firstword -$(MAKEFLAGS))
+-else
+-short-opts := $(filter-out --%,$(MAKEFLAGS))
+-endif
+-
+-ifneq ($(findstring s,$(short-opts)),)
++ifneq ($(findstring s,$(firstword -$(MAKEFLAGS))),)
+ quiet=silent_
+ override KBUILD_VERBOSE :=
+ endif
+@@ -201,14 +193,6 @@ ifneq ($(words $(subst :, ,$(abs_srctree))), 1)
+ $(error source directory cannot contain spaces or colons)
+ endif
+ 
+-ifneq ($(filter 3.%,$(MAKE_VERSION)),)
+-# 'MAKEFLAGS += -rR' does not immediately become effective for GNU Make 3.x
+-# We need to invoke sub-make to avoid implicit rules in the top Makefile.
+-need-sub-make := 1
+-# Cancel implicit rules for this Makefile.
+-$(this-makefile): ;
+-endif
+-
+ export sub_make_done := 1
+ 
+ endif # sub_make_done
+diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
+index faf37bafa3f8..ed8a7493524b 100644
+--- a/scripts/Kbuild.include
++++ b/scripts/Kbuild.include
+@@ -68,7 +68,7 @@ kbuild-file = $(or $(wildcard $(src)/Kbuild),$(src)/Makefile)
+ # Read a file, replacing newlines with spaces
+ #
+ # Make 4.2 or later can read a file by using its builtin function.
+-ifneq ($(filter-out 3.% 4.0 4.1, $(MAKE_VERSION)),)
++ifneq ($(filter-out 4.0 4.1, $(MAKE_VERSION)),)
+ read-file = $(subst $(newline),$(space),$(file < $1))
+ else
+ read-file = $(shell cat $1 2>/dev/null)
+-- 
+2.43.0
 
-jon
