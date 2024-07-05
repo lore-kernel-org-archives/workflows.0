@@ -1,96 +1,116 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C2081AED31;
-	Thu,  4 Jul 2024 15:26:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F20AB143C6C;
+	Fri,  5 Jul 2024 06:19:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720106809; cv=none; b=f3hoBWHenIWOozvfgvIKYq/hM/IeTtJSt4XJ0OAc1VBKLOrv/o5Jtxl2kN6OlIAaD59zWDtYET06ILNl73EKlP/+FQvr9+g3mf9acxrmxQNbt7i+EQz5hJNed+oe/W9B1D2r9UbWizGne+XaWkb3TDDOkxo8Aul8AhGBK48xmFY=
+	t=1720160346; cv=none; b=ZyJR3+oYsrWvm3U4vZOqTX9XJ1VQJqgVCqxSJBZ3vtSCooucblfmY3YzTX+FJjc5XdSJprd5TD3vwittDCJkSuxKCioQufCAq5gdyRIhuY5+R+viyzxepWulubExFZxTvBEy45zWYc7N+8eokuMoQ1Ow8Qk7F7rt6B2QfIzcrJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720106809; c=relaxed/simple;
-	bh=MSME/Bhyf+gYGe96NNTB+BN2oAnq+gcEg2DaDsIkQ6k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BXjziM+b13K7VLP73QayZ245b/UO0CdiPHgoo4B1PHOtQNi0GO9eilWTMuQGXdnCfV5EeBcree0fl87rT3iNUx8jXRSkALIuQT2opGpJa1c8Ohfpb6yI6bMGsk2n04YXGpPWq1Bnj01DvEZ3WzsrpXYXCKmKQPYsFUpOHPj1eQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cGhj3S83; arc=none smtp.client-ip=209.85.216.52
+	s=arc-20240116; t=1720160346; c=relaxed/simple;
+	bh=YvKG9q2xL++Pot6DpoW89EfPEWqDOPrpX/PWSKVl0/s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jFdUWdn0MQz+dajm5hyn89bj5M7SQc12xlSaK6xJTp0A+GrS7RY45AY6WIwpgFW85bFDZx40K96NBq25vXZYNgqfqDZIBSNbuq0ets75F4RT72qYzsMHugXV8GuT7Q9nNfyEu3N+0/MuzDj++gLvDxmkIMsO26ix4WdN70x3baw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Il9nIFuH; arc=none smtp.client-ip=209.85.208.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cGhj3S83"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2c927152b4bso550560a91.2;
-        Thu, 04 Jul 2024 08:26:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Il9nIFuH"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-57cbc66a0a6so2238565a12.1;
+        Thu, 04 Jul 2024 23:19:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720106807; x=1720711607; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MSME/Bhyf+gYGe96NNTB+BN2oAnq+gcEg2DaDsIkQ6k=;
-        b=cGhj3S83tUm2OovpcQBrIjc4dAarTrFbygb86B3v9DNHpQAQFPNzQ5FnzJzm5lqtNZ
-         yY87lFOVy4dNFz6hb9X33Fz3rgTvxbxZUDgYWzsnyS7CRX+BhXYNyKbkP0QyoGRFpGEV
-         qHGSY7HVzMeDIpnzC6YDlXqmu6XFTHML+xcdK6Wdc1mddqdFTV9p+p4igxyIsyrrwrO6
-         bdBdUClql1dHs5T9c7qz9+f+ztDZcFQ2K+ebKAfWOSn/uUvuNS7vd9xha1FDCpKGBEwc
-         V9fB99BiM2hYYsWHlNm3Jn561Xi1uu+o8u4OY3OS0VSKFmywX/S7NyFfErUpEbHR1yiu
-         CsDA==
+        d=gmail.com; s=20230601; t=1720160343; x=1720765143; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=G+Wq4Dg6ZPYZPbtDaC82FkKemLA+7PBLo2xay7aB0Wg=;
+        b=Il9nIFuHLfb171EP66/qtWm9tBEzemx9lONEACVZ099SA9ZZlDVHnBKWSWDEw8toSY
+         AH7e1zniv6f6G5zv/pF7N5+y+YNNa1027bvK1aja/ANHWJP7wCk4h+p42gS1S0HwJ+96
+         xO66IrA53Gw5kBnIUfBGS7O4Qf6p7AAgH8OVHZ5bK4X+MR2NzChLtTwTCcD8kX01qNM7
+         s/wg/OyzrWWgRBXnw5lg+SyxNqjEEUDfZaCO2hJn8KkDlsseiTywexpU09/MimoUKa4u
+         SHhiAY8hyzgZc9NPssQ1+sO6htZFSZvvosBeFcaG/rlDbYeOTCBAmvGaTxFkEJzPNLvZ
+         lCug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720106807; x=1720711607;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MSME/Bhyf+gYGe96NNTB+BN2oAnq+gcEg2DaDsIkQ6k=;
-        b=jgi0Fxj9hJ3Ny9ZBU3euj18cbXzgvyfNMKrq7rLpki3pD8Nio6ilan+nVBd8JoWFzA
-         AvPtU4VnNzeaeQX/AAebsr1sr25mZhHks+sE1JQVTx8jOVc7NvB2ycVB06pRUsN/TvMo
-         9vXglxpQp9PxBsvT3E5yoyTlsG/onyQ8BEssTjSXTh0cvJgFFOSo3g6ngbFOF8KuSuhJ
-         ULZYPNdoprtWOlQc4qfCdYzji9Ml3BZrzKy085Zvoaw3NxKZLlatrY/mGi8PdU19F4Z2
-         isixId8KnRCQyDuvk6ESS4Of22CAureTeXfdOAs5vgrUAiNtq7zCgjWAcK+ekeXQt+L9
-         UZwg==
-X-Forwarded-Encrypted: i=1; AJvYcCUOLo01VAcu19Lb15yTEoBE2bhnYpsqiRrmNuqsVmLe76OFNPMhBMmg1HP8h2gzY3EPBh1fnpJv956XcyitwtNapJUR43/mX1qJFYdLb12g7q0AARWgsw0meJlGzFcuDn6di/gYyVSozsFEdEM6tZohdLicTvYm/K/3wEfjKfVOrMUMrXnjU8J0XK0tCkULWTeTFg6HMYOwhwBHHoHZyAV9R0A=
-X-Gm-Message-State: AOJu0YzgTkHAbi6I0euDBqAkIKLlUbpyrH4sfWJtrlTyzYDjGFVBmWfA
-	onj1UO1y4cbm3hwntVmf6sRN+XJdC0rVbkQM5NEapmTmSKTj8XEAJghyv7Urv510N9vLZWf+FTB
-	17mUz9t8KnW5GF/8vMOQkUskA2ao=
-X-Google-Smtp-Source: AGHT+IEkUFA3sOH4ngyuIImRoRx17p6zqMQ7VBlnOblzn2dve9nvHTgy9+zJPLllYLzX1QFWuCt41+GDCTfChLoPZSQ=
-X-Received: by 2002:a17:90a:b88d:b0:2c9:98c2:f6d7 with SMTP id
- 98e67ed59e1d1-2c99c502d4dmr1502962a91.5.1720106807206; Thu, 04 Jul 2024
- 08:26:47 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1720160343; x=1720765143;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=G+Wq4Dg6ZPYZPbtDaC82FkKemLA+7PBLo2xay7aB0Wg=;
+        b=n0tWbboOXP8hAd8b6ujE9dRz0YCXFhAhVYZoujWAWLgOfb26R2TVVeAYQgfSksy8ua
+         IKUpI8WaqeqL6zGQW7Hm2+tIqUinzkAJ72P+5FVw9PWIdtBuvfHLZ9x9oPzKbD9e7LMT
+         +9lEQ6qjvcZpotzG8ywsIX0lRSLML0sKm+Y7S/zfrbBlSTlgC/FPtZOMS4JnCYjgIPPm
+         zmgZE+Qvat6QIzJoDdcmRn8mZqW9zqqZPIuqByncaUpVCyMBe62QKuVI+ZKr7jpsqNL1
+         elRsj8fZPNARMkYW9ZOeynRD+2YeKE7X2j/DdhNfwwYt5t7nMH8W0Ni60bYrVD++J7cb
+         IGgA==
+X-Forwarded-Encrypted: i=1; AJvYcCW9Bfvc55/xkE2aBRSIJU5D+KJ7pk9HuujLZX0TOpICDoz/Eii2rDDBnfDKnezFqm5nusVk6kYnlNLlyHT2rXGt4olOltfEawdJKKiotRvz1O78v1+R744Dus3TdpEYRVyW1hwk51RILXC1PyshJZWaMaCA3hH7toStRFVhKlcpUvkochD49Mz4zfLJE11ZBkTRYN7biqx2E6FKo44OJzRQbd0=
+X-Gm-Message-State: AOJu0YwsSeGfLDUektsd5bjymkC2n2MQY0a4rHo6fKyzg8TEpCb+kMxs
+	ShjUST55ZhAmFViwp+y42jTVJ0I0XXoTizA5HVpHsWn3KjSQxTVTNPAlYmM=
+X-Google-Smtp-Source: AGHT+IFrY7Z+uxnj1eNgnw5yoecoECUL4t10Z+SLuYa0KtqVJpHhYmqVAjCavTKPjWkykYPPtxZ1NQ==
+X-Received: by 2002:a05:6402:350b:b0:57c:bec1:ff4b with SMTP id 4fb4d7f45d1cf-58e7b2111dbmr2517727a12.10.1720160342980;
+        Thu, 04 Jul 2024 23:19:02 -0700 (PDT)
+Received: from localhost (host-79-17-25-43.retail.telecomitalia.it. [79.17.25.43])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-58d97c6d26fsm2398945a12.61.2024.07.04.23.19.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jul 2024 23:19:02 -0700 (PDT)
+Date: Fri, 5 Jul 2024 08:19:01 +0200
+From: Andrea Righi <righi.andrea@gmail.com>
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@samsung.com>,
+	Alice Ryhl <aliceryhl@google.com>, rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+	Jan Alexander Steffens <heftig@archlinux.org>,
+	Johannes =?iso-8859-1?Q?L=F6thberg?= <johannes@kyriasis.com>,
+	Fabian =?iso-8859-1?Q?Gr=FCnbichler?= <debian@fabian.gruenbichler.email>,
+	Josh Stone <jistone@redhat.com>,
+	Randy Barlow <randy@electronsweatshop.com>,
+	Anna Figueiredo Gomes <navi@vlhl.dev>,
+	Matoro Mahri <matoro_gentoo@matoro.tk>,
+	Ryan Scheel <ryan.havvy@gmail.com>, figsoda <figsoda@pm.me>,
+	=?iso-8859-1?Q?J=F6rg?= Thalheim <joerg@thalheim.io>,
+	Theodore Ni <43ngvg@masqt.com>, Winter <nixos@winter.cafe>,
+	William Brown <wbrown@suse.de>,
+	Xiaoguang Wang <xiaoguang.wang@suse.com>,
+	Zixing Liu <zixing.liu@canonical.com>,
+	Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 13/13] docs: rust: quick-start: add section on Linux
+ distributions
+Message-ID: <ZoeQVYda-AZN6PYy@gpd>
+References: <20240701183625.665574-1-ojeda@kernel.org>
+ <20240701183625.665574-14-ojeda@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240701183625.665574-1-ojeda@kernel.org> <20240701183625.665574-7-ojeda@kernel.org>
- <70F3F3DD-AAE6-445A-AC16-C71A06C4EA06@kloenk.dev>
-In-Reply-To: <70F3F3DD-AAE6-445A-AC16-C71A06C4EA06@kloenk.dev>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Thu, 4 Jul 2024 17:26:34 +0200
-Message-ID: <CANiq72m4Js+ym4Tuq2sNfVGyxPqx=pZ4VK455dfocd8OuuZUxA@mail.gmail.com>
-Subject: Re: [PATCH 06/13] rust: start supporting several compiler versions
-To: Finn Behrens <me@kloenk.dev>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Alice Ryhl <aliceryhl@google.com>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev, 
-	Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240701183625.665574-14-ojeda@kernel.org>
 
-On Thu, Jul 4, 2024 at 4:45=E2=80=AFPM Finn Behrens <me@kloenk.dev> wrote:
->
-> One idea below, but fine with or without it.
->
-> Reviewed-by: Finn Behrens <me@kloenk.dev>
+On Mon, Jul 01, 2024 at 08:36:23PM +0200, Miguel Ojeda wrote:
+..
+> +Debian
+> +******
+> +
+> +Debian Unstable (Sid), outside of the freeze period, provides recent Rust
+> +release and thus it should generally work out of the box, e.g.::
+> +
+> +	apt install rustc rust-src bindgen rustfmt rust-clippy
 
-Thanks Finn!
+This implicitly covers Ubuntu, since packages are sync'ed with Debian.
 
-> Would it make sense to not advise the min version but the =E2=80=9Cmax=E2=
-=80=9D or just latest stable version? Min version should work as well lates=
-t could potentially be a bit more optimised if both work either way?
+In addition to that Ubuntu also provides versioned packages (such as
+rustc-1.74, bindgen-0.65, etc.), so in case of special requirements
+(e.g., older kernels) users should be able to install the required
+version(s) using the packages provided by the distro.
 
-Yeah, that is a good idea -- we could just say `stable` there.
+Maybe it's worth mentioning as a little note, so that users are aware of
+these extra packages.
 
-In fact, it makes more sense, because this is using `rustup`, i.e. the
-Rust-provided binaries, and the Rust project only supports the latest
-version (so far -- there are proposals about LTSs there).
-
-Cheers,
-Miguel
+Thanks,
+-Andrea
