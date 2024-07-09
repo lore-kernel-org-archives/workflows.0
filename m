@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5584B19EEC6;
-	Tue,  9 Jul 2024 16:06:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D38119E7EA;
+	Tue,  9 Jul 2024 16:07:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720541212; cv=none; b=SMT5AJ6mC6gCGJ5XhTkcZf2o48Wng/gUFDJA8/gM6pKzgd9Jf7G7A1uhqiuqPAkzYz2aL3hy9crXPwgksyRALmzj+rWoXx0pKllkxybOlOb721Cm8ew5/brsZZ4LChydV3z1FMkuLvvNwoytvp+ABZfwDLISW8vy/ZhcukdGaqw=
+	t=1720541247; cv=none; b=tiY/ZzkzA8rNnQrDjNWmdANZFF+G+BFreLrAKumJJCMKdEXUx7n/X5gb98dyhWFWD+znxk2aGchf3KLa+l0aGkioHPjiF2FAhuNBHr5cpfrQGxX0tAZQWN6JQ9Hz1AW59+4Z5Pae4WQs1rdO2p1U0iZvF00gsLpqpVjZxiDglD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720541212; c=relaxed/simple;
-	bh=rvmuyTxepfmz99vfRXC8fLJLMvFHtkNIrTdX5AFdE58=;
+	s=arc-20240116; t=1720541247; c=relaxed/simple;
+	bh=BxoAN4lmNQraAC4bAp0pAC8a0CH5i0ji8ZhUUmuXkBo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qdIe6qOlS+CSFNfXE7EwtpbZp3RLggpJdM6yNW1GbLVzkwYQgd/TXTOW4Sai4os2xzDUsUkMD6rjYqC8p3RPaCdzBVd20ukRCIFhym/dr8g7FrvDOWPsMy3jWDsbInSppJ5epGvQ2ovT18rrWo5/QEn4GO+nfF0PVMH/0F4CMBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kJMvw+Q8; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=fRPy8VP/Vj7lz2gEZiHBFhE2YKz8REDEvluU9zS+tCYvAW3Lbm+iCD8TVjIDmazTNxKW3g/2HMShDcPI4C+OZ00XFG/xt5UtFIwgkZCoBxqraJPu5cayK93oflt+rBLrm48yCjUTaQycaly+bP79jeJ4m3MpkNNucKF1iZe8q30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uytXYJoJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kJMvw+Q8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0E91C4AF07;
-	Tue,  9 Jul 2024 16:06:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uytXYJoJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BF19C32782;
+	Tue,  9 Jul 2024 16:07:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720541212;
-	bh=rvmuyTxepfmz99vfRXC8fLJLMvFHtkNIrTdX5AFdE58=;
+	s=k20201202; t=1720541247;
+	bh=BxoAN4lmNQraAC4bAp0pAC8a0CH5i0ji8ZhUUmuXkBo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kJMvw+Q8VFdtdLXob3hO0x1hjFi5cMrfAfmQaDv847G3YNfBiSUhulxal1TALXFLO
-	 4jVSShhOe21jP+bEHCECeDUrIr0D8jdAXtIcqLnOXLg/mTNiPCXUw4TQ1ew2Is/ZMZ
-	 5dYcatfr9/+OAKK6ntR69UTjzzxwgq8jipC/6Z+7WIQigp/aAyhPhgIzyRTvK7LjKN
-	 lGo50jLC+KAiCINUyHFAR9ZcvTOlxl/aeo+2+VcI/3uiHkP8dNtYciO70SBQ0Fx5kr
-	 knwbwgBuxGVoK/v27OTV7mCw+0lYQRFdECdj9hu/swRC4tSkZ7qlpVtd8shpPnhrhI
-	 SLCc8fcPIf7Bg==
+	b=uytXYJoJ4AIiXMWikKweXsRNX704B1h4UhYGtfh68aQTJJgiwVgH+8E+3xJhOa68c
+	 WnHu6YdoPBgmOzoKnmbRpHjplfcw5/J0zbyyKYg3CXe5Pzka+v/cPsa+5lIVEi3Tq/
+	 imjD4RGTJqomWV904le3VnL4I5FD02f68dwrFnM4WQtrkxkvp8SjATwpoplj9Un+8K
+	 FYBnaHZAL2llssw1Gi3i+VadZTvC7MmGunR5ksMexCfHv94ventKGNUuMGRpM2lvtM
+	 QWeBV2eLmXzhgxGOh+Ah2iNdCaeGIPl4k6OttyiiRTJnu2hULKpGIk2ois1QrML5H6
+	 yuBPHDigsyrwg==
 From: Miguel Ojeda <ojeda@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Wedson Almeida Filho <wedsonaf@gmail.com>,
@@ -39,13 +39,29 @@ Cc: Boqun Feng <boqun.feng@gmail.com>,
 	rust-for-linux@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	patches@lists.linux.dev,
-	Finn Behrens <me@kloenk.dev>,
+	Jan Alexander Steffens <heftig@archlinux.org>,
+	=?UTF-8?q?Johannes=20L=C3=B6thberg?= <johannes@kyriasis.com>,
+	=?UTF-8?q?Fabian=20Gr=C3=BCnbichler?= <debian@fabian.gruenbichler.email>,
+	Josh Stone <jistone@redhat.com>,
+	Randy Barlow <randy@electronsweatshop.com>,
+	Anna Figueiredo Gomes <navi@vlhl.dev>,
+	Matoro Mahri <matoro_gentoo@matoro.tk>,
+	Ryan Scheel <ryan.havvy@gmail.com>,
+	figsoda <figsoda@pm.me>,
+	=?UTF-8?q?J=C3=B6rg=20Thalheim?= <joerg@thalheim.io>,
+	Theodore Ni <43ngvg@masqt.com>,
+	Winter <nixos@winter.cafe>,
+	William Brown <wbrown@suse.de>,
+	Xiaoguang Wang <xiaoguang.wang@suse.com>,
+	Andrea Righi <andrea.righi@canonical.com>,
+	Zixing Liu <zixing.liu@canonical.com>,
+	Nathan Chancellor <nathan@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
 	workflows@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH v2 06/13] rust: start supporting several compiler versions
-Date: Tue,  9 Jul 2024 18:06:01 +0200
-Message-ID: <20240709160615.998336-7-ojeda@kernel.org>
+Subject: [PATCH v2 13/13] docs: rust: quick-start: add section on Linux distributions
+Date: Tue,  9 Jul 2024 18:06:08 +0200
+Message-ID: <20240709160615.998336-14-ojeda@kernel.org>
 In-Reply-To: <20240709160615.998336-1-ojeda@kernel.org>
 References: <20240709160615.998336-1-ojeda@kernel.org>
 Precedence: bulk
@@ -54,149 +70,193 @@ List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-It is time to start supporting several Rust compiler versions and thus
-establish a minimum Rust version.
+Now that we are starting to support several Rust compiler and `bindgen`
+versions, there is a good chance some Linux distributions work out of
+the box.
 
-We may still want to upgrade the minimum sometimes in the beginning since
-there may be important features coming into the language that improve
-how we write code (e.g. field projections), which may or may not make
-sense to support conditionally.
+Thus, provide some instructions on how to set the toolchain up for a
+few major Linux distributions. This simplifies the setup users need to
+build the kernel.
 
-We will start with a window of two stable releases, and widen it over
-time. Thus this patch does not move the current minimum (1.78.0), but
-instead adds support for the recently released 1.79.0.
+In addition, add an introduction to the document so that it is easier
+to understand its structure and move the LLVM+Rust kernel.org toolchains
+paragraph there (removing "depending on the Linux version"). We may want
+to reorganize the document or split it in the future, but I wanted to
+focus this commit on the new information added about each particular
+distribution.
 
-This should already be enough for kernel developers in distributions that
-provide recent Rust compiler versions routinely, such as Arch Linux,
-Debian Unstable (outside the freeze period), Fedora Linux, Gentoo
-Linux (especially the testing channel), Nix (unstable) and openSUSE
-Tumbleweed. See the documentation patch about it later in this series.
+Finally, remove the `rustup`'s components mention in `changes.rst` since
+users do not need it if they install the toolchain via the distributions
+(and anyway it was too detailed for that main document).
 
-In addition, Rust for Linux is now being built-tested in Rust's pre-merge
-CI [1]. That is, every change that is attempting to land into the Rust
-compiler is tested against the kernel, and it is merged only if it passes
--- thanks to the Rust project for that!
-
-Thus, with the pre-merge CI in place, both projects hope to avoid
-unintentional changes to Rust that break the kernel. This means that,
-in general, apart from intentional changes on their side (that we will
-need to workaround conditionally on our side), the upcoming Rust compiler
-versions should generally work.
-
-For instance, currently, the beta (1.80.0) and nightly (1.81.0) branches
-work as well.
-
-Of course, the Rust for Linux CI job in the Rust toolchain may still need
-to be temporarily disabled for different reasons, but the intention is
-to help bring Rust for Linux into stable Rust.
-
-Link: https://github.com/rust-lang/rust/pull/125209 [1]
-Reviewed-by: Finn Behrens <me@kloenk.dev>
+Cc: Jan Alexander Steffens <heftig@archlinux.org>
+Cc: Johannes Löthberg <johannes@kyriasis.com>
+Cc: Fabian Grünbichler <debian@fabian.gruenbichler.email>
+Cc: Josh Stone <jistone@redhat.com>
+Cc: Randy Barlow <randy@electronsweatshop.com>
+Cc: Anna (navi) Figueiredo Gomes <navi@vlhl.dev>
+Cc: Matoro Mahri <matoro_gentoo@matoro.tk>
+Cc: Ryan Scheel <ryan.havvy@gmail.com>
+Cc: figsoda <figsoda@pm.me>
+Cc: Jörg Thalheim <joerg@thalheim.io>
+Cc: Theodore Ni <43ngvg@masqt.com>
+Cc: Winter <nixos@winter.cafe>
+Cc: William Brown <wbrown@suse.de>
+Cc: Xiaoguang Wang <xiaoguang.wang@suse.com>
+Cc: Andrea Righi <andrea.righi@canonical.com>
+Cc: Zixing Liu <zixing.liu@canonical.com>
+Cc: Nathan Chancellor <nathan@kernel.org>
 Tested-by: Benno Lossin <benno.lossin@proton.me>
 Tested-by: Andreas Hindborg <a.hindborg@samsung.com>
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
 v2:
-  - Update suggested `rustup` command to just install `stable`. (Finn)
-  - Update suggested command for installing manually the Rust standard
-    library sources with the version that `rustc` reports, rather than
-    the minimum (since now the user may have installed e.g. stable).
+  - Add openSUSE Slowroll.
+  - Update openSUSE docs: both Slowroll and Tumbleweed now provide
+    `rustfmt`, Clippy and the Rust standard library sources, so the
+    comment about those can be dropped. (William)
+  - I ended up leaving the Debian/Ubuntu docs as-is for the time being.
+    Happy to get a patch for that later. We should definitely add them
+    if they start working for the current kernel (currently: Ubuntu's
+    latest versioned package is 1.76, and Debian's `web` one is 1.70).
+    (Andrea, Fabian)
+  - Move the LLVM+Rust kernel.org toolchains paragraph to the
+    introduction that this commit adds, now that we have access to that
+    paragraph since the series is rebased on top of `rust-next`.
+  - Use plural for "release".
 
- Documentation/process/changes.rst  |  4 +---
- Documentation/rust/quick-start.rst | 15 +++++++--------
- scripts/rust_is_available.sh       |  8 --------
- scripts/rust_is_available_test.py  |  5 -----
- 4 files changed, 8 insertions(+), 24 deletions(-)
+ Documentation/process/changes.rst  |  5 --
+ Documentation/rust/quick-start.rst | 93 ++++++++++++++++++++++++++----
+ 2 files changed, 81 insertions(+), 17 deletions(-)
 
 diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 5685d7bfe4d0..0d0b7120792b 100644
+index 0d0b7120792b..0ce96ae2588c 100644
 --- a/Documentation/process/changes.rst
 +++ b/Documentation/process/changes.rst
-@@ -88,9 +88,7 @@ docs on :ref:`Building Linux with Clang/LLVM <kbuild_llvm>`.
- Rust (optional)
- ---------------
+@@ -90,11 +90,6 @@ Rust (optional)
 
--A particular version of the Rust toolchain is required. Newer versions may or
--may not work because the kernel depends on some unstable Rust features, for
--the moment.
-+A recent version of the Rust compiler is required.
+ A recent version of the Rust compiler is required.
 
- Each Rust toolchain comes with several "components", some of which are required
- (like ``rustc``) and some that are optional. The ``rust-src`` component (which
+-Each Rust toolchain comes with several "components", some of which are required
+-(like ``rustc``) and some that are optional. The ``rust-src`` component (which
+-is optional) needs to be installed to build the kernel. Other components are
+-useful for developing.
+-
+ Please see Documentation/rust/quick-start.rst for instructions on how to
+ satisfy the build requirements of Rust support. In particular, the ``Makefile``
+ target ``rustavailable`` is useful to check why the Rust toolchain may not
 diff --git a/Documentation/rust/quick-start.rst b/Documentation/rust/quick-start.rst
-index ac2f16288458..89bbfde8c96c 100644
+index 66cefbab8f9a..d06a36106cd4 100644
 --- a/Documentation/rust/quick-start.rst
 +++ b/Documentation/rust/quick-start.rst
-@@ -36,16 +36,15 @@ if that is the case.
- rustc
- *****
+@@ -5,24 +5,93 @@ Quick Start
 
--A particular version of the Rust compiler is required. Newer versions may or
--may not work because, for the moment, the kernel depends on some unstable
--Rust features.
-+A recent version of the Rust compiler is required.
+ This document describes how to get started with kernel development in Rust.
 
- If ``rustup`` is being used, enter the kernel build directory (or use
--``--path=<build-dir>`` argument to the ``set`` sub-command) and run::
-+``--path=<build-dir>`` argument to the ``set`` sub-command) and run,
-+for instance::
++There are a few ways to install a Rust toolchain needed for kernel development.
++A simple way is to use the packages from your Linux distribution if they are
++suitable -- the first section below explains this approach. An advantage of this
++approach is that, typically, the distribution will match the LLVM used by Rust
++and Clang.
++
++Another way is using the prebuilt stable versions of LLVM+Rust provided on
++`kernel.org <https://kernel.org/pub/tools/llvm/rust/>`_. These are the same slim
++and fast LLVM toolchains from :ref:`Getting LLVM <getting_llvm>` with versions
++of Rust added to them that Rust for Linux supports. Two sets are provided: the
++"latest LLVM" and "matching LLVM" (please see the link for more information).
++
++Alternatively, the next two "Requirements" sections explain each component and
++how to install them through ``rustup``, the standalone installers from Rust
++and/or building them.
++
++The rest of the document explains other aspects on how to get started.
++
++
++Distributions
++-------------
++
++Arch Linux
++**********
++
++Arch Linux provides recent Rust releases and thus it should generally work out
++of the box, e.g.::
++
++	pacman -S rust rust-src rust-bindgen
++
++
++Debian
++******
++
++Debian Unstable (Sid), outside of the freeze period, provides recent Rust
++releases and thus it should generally work out of the box, e.g.::
++
++	apt install rustc rust-src bindgen rustfmt rust-clippy
++
++
++Fedora Linux
++************
++
++Fedora Linux provides recent Rust releases and thus it should generally work out
++of the box, e.g.::
++
++	dnf install rust rust-src bindgen-cli rustfmt clippy
++
++
++Gentoo Linux
++************
++
++Gentoo Linux (and especially the testing branch) provides recent Rust releases
++and thus it should generally work out of the box, e.g.::
++
++	USE='rust-src rustfmt clippy' emerge dev-lang/rust dev-util/bindgen
++
++``LIBCLANG_PATH`` may need to be set.
++
++
++Nix
++***
++
++Nix (unstable channel) provides recent Rust releases and thus it should
++generally work out of the box, e.g.::
++
++	{ pkgs ? import <nixpkgs> {} }:
++	pkgs.mkShell {
++	  nativeBuildInputs = with pkgs; [ rustc rust-bindgen rustfmt clippy ];
++	  RUST_LIB_SRC = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
++	}
++
++
++openSUSE
++********
++
++openSUSE Slowroll and openSUSE Tumbleweed provide recent Rust releases and thus
++they should generally work out of the box, e.g.::
++
++	zypper install rust rust1.79-src rust-bindgen clang
++
 
--	rustup override set $(scripts/min-tool-version.sh rustc)
-+	rustup override set stable
+ Requirements: Building
+ ----------------------
 
--This will configure your working directory to use the correct version of
-+This will configure your working directory to use the given version of
- ``rustc`` without affecting your default toolchain.
+ This section explains how to fetch the tools needed for building.
 
- Note that the override applies to the current working directory (and its
-@@ -72,9 +71,9 @@ version later on requires re-adding the component.
- Otherwise, if a standalone installer is used, the Rust source tree may be
- downloaded into the toolchain's installation folder::
-
--	curl -L "https://static.rust-lang.org/dist/rust-src-$(scripts/min-tool-version.sh rustc).tar.gz" |
-+	curl -L "https://static.rust-lang.org/dist/rust-src-$(rustc --version | cut -d' ' -f2).tar.gz" |
- 		tar -xzf - -C "$(rustc --print sysroot)/lib" \
--		"rust-src-$(scripts/min-tool-version.sh rustc)/rust-src/lib/" \
-+		"rust-src-$(rustc --version | cut -d' ' -f2)/rust-src/lib/" \
- 		--strip-components=3
-
- In this case, upgrading the Rust compiler version later on requires manually
-diff --git a/scripts/rust_is_available.sh b/scripts/rust_is_available.sh
-index 117018946b57..67cb900124cc 100755
---- a/scripts/rust_is_available.sh
-+++ b/scripts/rust_is_available.sh
-@@ -117,14 +117,6 @@ if [ "$rust_compiler_cversion" -lt "$rust_compiler_min_cversion" ]; then
- 	echo >&2 "***"
- 	exit 1
- fi
--if [ "$rust_compiler_cversion" -gt "$rust_compiler_min_cversion" ]; then
--	echo >&2 "***"
--	echo >&2 "*** Rust compiler '$RUSTC' is too new. This may or may not work."
--	echo >&2 "***   Your version:     $rust_compiler_version"
--	echo >&2 "***   Expected version: $rust_compiler_min_version"
--	echo >&2 "***"
--	warning=1
--fi
-
- # Check that the Rust bindings generator is suitable.
- #
-diff --git a/scripts/rust_is_available_test.py b/scripts/rust_is_available_test.py
-index 57613fe5ed75..a255f79aafc2 100755
---- a/scripts/rust_is_available_test.py
-+++ b/scripts/rust_is_available_test.py
-@@ -193,11 +193,6 @@ else:
-         result = self.run_script(self.Expected.FAILURE, { "RUSTC": rustc })
-         self.assertIn(f"Rust compiler '{rustc}' is too old.", result.stderr)
-
--    def test_rustc_new_version(self):
--        rustc = self.generate_rustc("rustc 1.999.0 (a8314ef7d 2099-06-27)")
--        result = self.run_script(self.Expected.SUCCESS_WITH_WARNINGS, { "RUSTC": rustc })
--        self.assertIn(f"Rust compiler '{rustc}' is too new. This may or may not work.", result.stderr)
+-Some of these requirements might be available from Linux distributions
+-under names like ``rustc``, ``rust-src``, ``rust-bindgen``, etc. However,
+-at the time of writing, they are likely not to be recent enough unless
+-the distribution tracks the latest releases.
 -
-     def test_bindgen_nonexecutable(self):
-         result = self.run_script(self.Expected.FAILURE, { "BINDGEN": self.nonexecutable })
-         self.assertIn(f"Running '{self.nonexecutable}' to check the Rust bindings generator version failed with", result.stderr)
+-Prebuilt stable versions of LLVM+Rust are provided on `kernel.org
+-<https://kernel.org/pub/tools/llvm/rust/>`_. These are the same slim and fast
+-LLVM toolchains from :ref:`Getting LLVM <getting_llvm>` with versions of Rust
+-added to them that Rust for Linux supports, depending on the Linux version. Two
+-sets are provided: the "latest LLVM" and "matching LLVM" (please see the link
+-for more information).
+-
+ To easily check whether the requirements are met, the following target
+ can be used::
+
 --
 2.45.2
