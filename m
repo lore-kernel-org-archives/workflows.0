@@ -1,262 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D38119E7EA;
-	Tue,  9 Jul 2024 16:07:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C18583A17;
+	Wed, 10 Jul 2024 09:04:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720541247; cv=none; b=tiY/ZzkzA8rNnQrDjNWmdANZFF+G+BFreLrAKumJJCMKdEXUx7n/X5gb98dyhWFWD+znxk2aGchf3KLa+l0aGkioHPjiF2FAhuNBHr5cpfrQGxX0tAZQWN6JQ9Hz1AW59+4Z5Pae4WQs1rdO2p1U0iZvF00gsLpqpVjZxiDglD0=
+	t=1720602293; cv=none; b=HmeYxsBFWAZEYod9eHAblptXM1IEOZbP81+8QTizbwyCxZTM3Hao3UZjm1jXvDakOB314CisakyvJT1mS0xZmfjcoAIcCKQru4R4ZYP1f/UdDY21ZRrAlAysn8h2E4wUrP4vYgF3TTCWcCPHgk+K+ldqv1h87Z3lfEX0adyCjR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720541247; c=relaxed/simple;
-	bh=BxoAN4lmNQraAC4bAp0pAC8a0CH5i0ji8ZhUUmuXkBo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fRPy8VP/Vj7lz2gEZiHBFhE2YKz8REDEvluU9zS+tCYvAW3Lbm+iCD8TVjIDmazTNxKW3g/2HMShDcPI4C+OZ00XFG/xt5UtFIwgkZCoBxqraJPu5cayK93oflt+rBLrm48yCjUTaQycaly+bP79jeJ4m3MpkNNucKF1iZe8q30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uytXYJoJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720602293; c=relaxed/simple;
+	bh=DLL1xT0k5HfjitQkuRMZipxTQ7kPrbtJ5x/exRvIFJE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Yz+GS3Q1rw1yBwba2EkK2pN6jBy+Svc/HiEQ/ghWSg26TNkdcD2k2tBWoPHfLtHdNAQoRhhQTxakdZpyevYBMh/lNn5LOaMNWm17/EpbwFHDzUzFann5DDXT23tZfOU8pWCV3kS1dLRs5RhtMARp9otxgAHBBm5nmb+EO6XQ4BU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T3l4VhBK; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uytXYJoJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BF19C32782;
-	Tue,  9 Jul 2024 16:07:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720541247;
-	bh=BxoAN4lmNQraAC4bAp0pAC8a0CH5i0ji8ZhUUmuXkBo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=uytXYJoJ4AIiXMWikKweXsRNX704B1h4UhYGtfh68aQTJJgiwVgH+8E+3xJhOa68c
-	 WnHu6YdoPBgmOzoKnmbRpHjplfcw5/J0zbyyKYg3CXe5Pzka+v/cPsa+5lIVEi3Tq/
-	 imjD4RGTJqomWV904le3VnL4I5FD02f68dwrFnM4WQtrkxkvp8SjATwpoplj9Un+8K
-	 FYBnaHZAL2llssw1Gi3i+VadZTvC7MmGunR5ksMexCfHv94ventKGNUuMGRpM2lvtM
-	 QWeBV2eLmXzhgxGOh+Ah2iNdCaeGIPl4k6OttyiiRTJnu2hULKpGIk2ois1QrML5H6
-	 yuBPHDigsyrwg==
-From: Miguel Ojeda <ojeda@kernel.org>
-To: Miguel Ojeda <ojeda@kernel.org>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>
-Cc: Boqun Feng <boqun.feng@gmail.com>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@samsung.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	patches@lists.linux.dev,
-	Jan Alexander Steffens <heftig@archlinux.org>,
-	=?UTF-8?q?Johannes=20L=C3=B6thberg?= <johannes@kyriasis.com>,
-	=?UTF-8?q?Fabian=20Gr=C3=BCnbichler?= <debian@fabian.gruenbichler.email>,
-	Josh Stone <jistone@redhat.com>,
-	Randy Barlow <randy@electronsweatshop.com>,
-	Anna Figueiredo Gomes <navi@vlhl.dev>,
-	Matoro Mahri <matoro_gentoo@matoro.tk>,
-	Ryan Scheel <ryan.havvy@gmail.com>,
-	figsoda <figsoda@pm.me>,
-	=?UTF-8?q?J=C3=B6rg=20Thalheim?= <joerg@thalheim.io>,
-	Theodore Ni <43ngvg@masqt.com>,
-	Winter <nixos@winter.cafe>,
-	William Brown <wbrown@suse.de>,
-	Xiaoguang Wang <xiaoguang.wang@suse.com>,
-	Andrea Righi <andrea.righi@canonical.com>,
-	Zixing Liu <zixing.liu@canonical.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v2 13/13] docs: rust: quick-start: add section on Linux distributions
-Date: Tue,  9 Jul 2024 18:06:08 +0200
-Message-ID: <20240709160615.998336-14-ojeda@kernel.org>
-In-Reply-To: <20240709160615.998336-1-ojeda@kernel.org>
-References: <20240709160615.998336-1-ojeda@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T3l4VhBK"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-75fe9e62048so3329630a12.0;
+        Wed, 10 Jul 2024 02:04:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1720602292; x=1721207092; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DLL1xT0k5HfjitQkuRMZipxTQ7kPrbtJ5x/exRvIFJE=;
+        b=T3l4VhBKP2VaFnNQkBAV2kGcT+x1IzYV1siWfb+Ojyqk2yNkve8u3vUW9RXfnh8HU9
+         LTvXHikvkRVPl7Gx8poRMrM4qFF9tufbutit3UD5Yl1RkHQLYU5ay42XQrB2r13J2byL
+         VGlR8TFXZyg6+cVNb3EVstd2u2Evqpg/zrj1lhj4WQEP6wM6wqJcpulGbqLRbXMhoHL+
+         D5dGqvt9BNP4nhHygHjUEfjvOe7XX03RWo/btaB5e+t8H1e02D0kjfxd7m1x5k/hQ4Xr
+         vbejDSgv3ZE2N8y+JnZWkhce1d/omV2Ff99brC1AfR4264gVxJhRIbRFV/bTvN3dzcBO
+         /ejA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720602292; x=1721207092;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DLL1xT0k5HfjitQkuRMZipxTQ7kPrbtJ5x/exRvIFJE=;
+        b=q+4LeuLKtReZpqLLfSbjlIqloLm4V6SqEodxPGmBjhTyCeB+OOpfm+nG27fgaaWa66
+         jlmnj+r2K2n6PtXbW5TCoEGBQwOoQ779wE+5pauIjm+ZtiJQ/UcuTA4sG1iG3WjRApF+
+         cB+kdTgK/8UBZFdrv/W0KqjXSLzzdRQyVDPuSiBQcIj4EgCz+XZTIinRwlCZThlPhV1K
+         YE7m5OOtL05Sy6jJRs+GqmRSChbPwMwWOBvXXCLs9GIZtfbs4rlQi4bDzGU0o6TPN4PV
+         WtDh8ZhTB/SC9c4nMHHrDzPeGCxGR3iLen1GAlCkM0QQ6svkE4NBchvk0cGOiD2zbEMj
+         +d6w==
+X-Forwarded-Encrypted: i=1; AJvYcCXHlrvq6ML4vfZZgkuoobhy1s9hH5qXOzNm+Az3BJOak+Uoc+EoYhMgv9IZRdJc3XThGv3zbKuQQtaBTXh68Vy/CXTfAKOV1MEKDfyAMHao3FDkPXPban5TuB2KRelhokwFy05ipoYytkhCJnP+bi8ZgI2nP13NqptrA1z0oXYZSvv97KJbT8We+s6s2eSoBCW908/Ztnpq29YNf53DhQm7RqZsY7xZDyqFyXrXZLUcX0Bz0/YV3Z4FKPMKefzdv1U=
+X-Gm-Message-State: AOJu0Yz0OwyKjNTSv21Y6mU23TXJQNWHwLr23xkPg9Q7Due9ov9YRFLh
+	SbjXqq4Zq4beUWtAFj7599L/uYZZQhafoM2pyCLuxsMM/49YAhRKnmow7lL2Z/0vQidfODHqpMd
+	04MormovuVfaUGA2k0o2uFnYLQwc=
+X-Google-Smtp-Source: AGHT+IGd/ocnQeH814AHjmzEOnDp2IpB57VMlUlLakN67CAmTn7bF++fqYN7Y9GbomXoia+gsVx4qX4rLya4UThHdk0=
+X-Received: by 2002:a05:6a21:3285:b0:1be:cea:d381 with SMTP id
+ adf61e73a8af0-1c298226c3amr5645713637.18.1720602291779; Wed, 10 Jul 2024
+ 02:04:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240709160615.998336-1-ojeda@kernel.org>
+In-Reply-To: <20240709160615.998336-1-ojeda@kernel.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 10 Jul 2024 11:04:39 +0200
+Message-ID: <CANiq72k9C2NY4nYyRQ_KKPbNsDvdaSG7vPQ-fzo+2J1x_-prLg@mail.gmail.com>
+Subject: Re: [PATCH v2 00/13] Support several Rust toolchain versions
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Wedson Almeida Filho <wedsonaf@gmail.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
+	Alice Ryhl <aliceryhl@google.com>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, patches@lists.linux.dev, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Now that we are starting to support several Rust compiler and `bindgen`
-versions, there is a good chance some Linux distributions work out of
-the box.
+On Tue, Jul 9, 2024 at 6:06=E2=80=AFPM Miguel Ojeda <ojeda@kernel.org> wrot=
+e:
+>
+> A few things improved here and there, and rebased on top of `rust-next`.
+>
+> The changelog is attached to each patch.
+>
+> I kept the `Tested-by`s since most of the changes are on documentation
+> or comments, though I did remove them on the patch that changed the most
+> just in case (even for that one, I think Benno's and Andreas' setup
+> would not have made a difference).
+>
+> I plan to put this series into `rust-next` very soon so that it goes
+> into the merge window.
 
-Thus, provide some instructions on how to set the toolchain up for a
-few major Linux distributions. This simplifies the setup users need to
-build the kernel.
+Applied into `rust-next` -- thanks everyone!
 
-In addition, add an introduction to the document so that it is easier
-to understand its structure and move the LLVM+Rust kernel.org toolchains
-paragraph there (removing "depending on the Linux version"). We may want
-to reorganize the document or split it in the future, but I wanted to
-focus this commit on the new information added about each particular
-distribution.
-
-Finally, remove the `rustup`'s components mention in `changes.rst` since
-users do not need it if they install the toolchain via the distributions
-(and anyway it was too detailed for that main document).
-
-Cc: Jan Alexander Steffens <heftig@archlinux.org>
-Cc: Johannes Löthberg <johannes@kyriasis.com>
-Cc: Fabian Grünbichler <debian@fabian.gruenbichler.email>
-Cc: Josh Stone <jistone@redhat.com>
-Cc: Randy Barlow <randy@electronsweatshop.com>
-Cc: Anna (navi) Figueiredo Gomes <navi@vlhl.dev>
-Cc: Matoro Mahri <matoro_gentoo@matoro.tk>
-Cc: Ryan Scheel <ryan.havvy@gmail.com>
-Cc: figsoda <figsoda@pm.me>
-Cc: Jörg Thalheim <joerg@thalheim.io>
-Cc: Theodore Ni <43ngvg@masqt.com>
-Cc: Winter <nixos@winter.cafe>
-Cc: William Brown <wbrown@suse.de>
-Cc: Xiaoguang Wang <xiaoguang.wang@suse.com>
-Cc: Andrea Righi <andrea.righi@canonical.com>
-Cc: Zixing Liu <zixing.liu@canonical.com>
-Cc: Nathan Chancellor <nathan@kernel.org>
-Tested-by: Benno Lossin <benno.lossin@proton.me>
-Tested-by: Andreas Hindborg <a.hindborg@samsung.com>
-Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
----
-v2:
-  - Add openSUSE Slowroll.
-  - Update openSUSE docs: both Slowroll and Tumbleweed now provide
-    `rustfmt`, Clippy and the Rust standard library sources, so the
-    comment about those can be dropped. (William)
-  - I ended up leaving the Debian/Ubuntu docs as-is for the time being.
-    Happy to get a patch for that later. We should definitely add them
-    if they start working for the current kernel (currently: Ubuntu's
-    latest versioned package is 1.76, and Debian's `web` one is 1.70).
-    (Andrea, Fabian)
-  - Move the LLVM+Rust kernel.org toolchains paragraph to the
-    introduction that this commit adds, now that we have access to that
-    paragraph since the series is rebased on top of `rust-next`.
-  - Use plural for "release".
-
- Documentation/process/changes.rst  |  5 --
- Documentation/rust/quick-start.rst | 93 ++++++++++++++++++++++++++----
- 2 files changed, 81 insertions(+), 17 deletions(-)
-
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 0d0b7120792b..0ce96ae2588c 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -90,11 +90,6 @@ Rust (optional)
-
- A recent version of the Rust compiler is required.
-
--Each Rust toolchain comes with several "components", some of which are required
--(like ``rustc``) and some that are optional. The ``rust-src`` component (which
--is optional) needs to be installed to build the kernel. Other components are
--useful for developing.
--
- Please see Documentation/rust/quick-start.rst for instructions on how to
- satisfy the build requirements of Rust support. In particular, the ``Makefile``
- target ``rustavailable`` is useful to check why the Rust toolchain may not
-diff --git a/Documentation/rust/quick-start.rst b/Documentation/rust/quick-start.rst
-index 66cefbab8f9a..d06a36106cd4 100644
---- a/Documentation/rust/quick-start.rst
-+++ b/Documentation/rust/quick-start.rst
-@@ -5,24 +5,93 @@ Quick Start
-
- This document describes how to get started with kernel development in Rust.
-
-+There are a few ways to install a Rust toolchain needed for kernel development.
-+A simple way is to use the packages from your Linux distribution if they are
-+suitable -- the first section below explains this approach. An advantage of this
-+approach is that, typically, the distribution will match the LLVM used by Rust
-+and Clang.
-+
-+Another way is using the prebuilt stable versions of LLVM+Rust provided on
-+`kernel.org <https://kernel.org/pub/tools/llvm/rust/>`_. These are the same slim
-+and fast LLVM toolchains from :ref:`Getting LLVM <getting_llvm>` with versions
-+of Rust added to them that Rust for Linux supports. Two sets are provided: the
-+"latest LLVM" and "matching LLVM" (please see the link for more information).
-+
-+Alternatively, the next two "Requirements" sections explain each component and
-+how to install them through ``rustup``, the standalone installers from Rust
-+and/or building them.
-+
-+The rest of the document explains other aspects on how to get started.
-+
-+
-+Distributions
-+-------------
-+
-+Arch Linux
-+**********
-+
-+Arch Linux provides recent Rust releases and thus it should generally work out
-+of the box, e.g.::
-+
-+	pacman -S rust rust-src rust-bindgen
-+
-+
-+Debian
-+******
-+
-+Debian Unstable (Sid), outside of the freeze period, provides recent Rust
-+releases and thus it should generally work out of the box, e.g.::
-+
-+	apt install rustc rust-src bindgen rustfmt rust-clippy
-+
-+
-+Fedora Linux
-+************
-+
-+Fedora Linux provides recent Rust releases and thus it should generally work out
-+of the box, e.g.::
-+
-+	dnf install rust rust-src bindgen-cli rustfmt clippy
-+
-+
-+Gentoo Linux
-+************
-+
-+Gentoo Linux (and especially the testing branch) provides recent Rust releases
-+and thus it should generally work out of the box, e.g.::
-+
-+	USE='rust-src rustfmt clippy' emerge dev-lang/rust dev-util/bindgen
-+
-+``LIBCLANG_PATH`` may need to be set.
-+
-+
-+Nix
-+***
-+
-+Nix (unstable channel) provides recent Rust releases and thus it should
-+generally work out of the box, e.g.::
-+
-+	{ pkgs ? import <nixpkgs> {} }:
-+	pkgs.mkShell {
-+	  nativeBuildInputs = with pkgs; [ rustc rust-bindgen rustfmt clippy ];
-+	  RUST_LIB_SRC = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
-+	}
-+
-+
-+openSUSE
-+********
-+
-+openSUSE Slowroll and openSUSE Tumbleweed provide recent Rust releases and thus
-+they should generally work out of the box, e.g.::
-+
-+	zypper install rust rust1.79-src rust-bindgen clang
-+
-
- Requirements: Building
- ----------------------
-
- This section explains how to fetch the tools needed for building.
-
--Some of these requirements might be available from Linux distributions
--under names like ``rustc``, ``rust-src``, ``rust-bindgen``, etc. However,
--at the time of writing, they are likely not to be recent enough unless
--the distribution tracks the latest releases.
--
--Prebuilt stable versions of LLVM+Rust are provided on `kernel.org
--<https://kernel.org/pub/tools/llvm/rust/>`_. These are the same slim and fast
--LLVM toolchains from :ref:`Getting LLVM <getting_llvm>` with versions of Rust
--added to them that Rust for Linux supports, depending on the Linux version. Two
--sets are provided: the "latest LLVM" and "matching LLVM" (please see the link
--for more information).
--
- To easily check whether the requirements are met, the following target
- can be used::
-
---
-2.45.2
+Cheers,
+Miguel
