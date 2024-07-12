@@ -1,105 +1,114 @@
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 569C017333C
-	for <workflows@vger.kernel.org>; Fri, 12 Jul 2024 15:42:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 234FC1DFD2;
+	Fri, 12 Jul 2024 18:12:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720798930; cv=none; b=gljKh0gZWsfiCoevPhJQ+i8IwYyU6sZyFQsIjHgF4AOpiGSN3VmKhf8cvioIjUT01vYbcSSeQyoGhkMdyBRrWHUPHbO4U0xOyo6LXaJfZJgroOvPjxurUCg9MuuM8gwpFLMdXwfzdWerPhYIJd0RL+6f+RXFQFhad6Ub4XxPF7U=
+	t=1720807922; cv=none; b=YdaElfX1QO/9alzeAUO5qvzE6yWJU4GPH2y9dPADyt39fWi4t4QKfTYVRHPWM10wYGsQ7XrUn3d9bUF1q7p2TF4fUVgdHhAkmRNu6vz2IMdZe3nvuLx2eYIky6NYyt+tuSLjrIsP8rqEoyW/Fkoqfo4q1m430ImEW3mg8UbICAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720798930; c=relaxed/simple;
-	bh=PerLQsGPOdcki+rb2BaRmqqQZG5Ep3UsYnanpIb/RXM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VNPnD2lOb/ye6OVrzOY3VM8hObpiMStW+7SRXRuYxGkrhjs6EMAZGiJdIip9T2nKD9Pk71uA9wdz631Nj5rZUuLuOVVwGRvDHN5p+vsmhlSuAgeFBQFakcwIENCN983ZdNniAn6dusKUGHMZCP9z9eo1Vgcx/KGiC5OpFpaLWaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Pk8sEcrY; arc=none smtp.client-ip=209.85.166.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1720807922; c=relaxed/simple;
+	bh=lUavLk1QqNbkhDsolfXZxLlW3avOJgYqwuEkxCmZj7c=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DVLm4Xh3iqoSF7s6p60TAr60j7mIRMiTI38ZAMFIsgcSJI9eZeRKvs7nRqMxhZJg6psjILLC8iyuNr8FvF105VDWewX+rM48M7yWSNxjOotaOR9F+RMdUM9HPTZ0amtazdsFvqhYOalqIL1wMVsdBLO+lbRwn99Hg6Vv2VJNNL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eRR6MviD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Pk8sEcrY"
-Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-389cb8f18beso777665ab.0
-        for <workflows@vger.kernel.org>; Fri, 12 Jul 2024 08:42:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1720798928; x=1721403728; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cjkN5xvRxpA+4//2McOOt0YG0g1G/uYU5qxby58CkC4=;
-        b=Pk8sEcrY3wV4yMwjMuSdAXEfi5DkqI/SWJrQ5QSmZDcJDdvY0paQdliWdpTYDplZGB
-         70T4SZ1agdtM5TCa7C1qVQJu+WdYaA46rjbOx+CFhaZ/XqS94hA/V4Tk1Q88Dtn8njUW
-         X3BrL2faT2FqG9ypWagkmOe7RcecVgFbcjVMA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720798928; x=1721403728;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cjkN5xvRxpA+4//2McOOt0YG0g1G/uYU5qxby58CkC4=;
-        b=MfAQVPz55Y3kC7HPgmwKOY9QSfjfy4PO3yE4Je5XeDtDE/+OPqZTIv0NYV7nNn7Fqg
-         QNJzZqjS4q/P/kdW1IqBnupYGF2ncVJDg1pBFjkZ9daB8k1OPkG9ty62v1NQtuEsm/Md
-         WuaNBcE9bstqw2bTNmZGjK9NuHI0KZ6s++nNEmHJ7FZFSUP2pUvog6Hg7iOHirgSow75
-         6BNpv48ebm04GWHyTuY51hEPllK327Dz2fkN1kZIedcB3+6/yFInuj93U+BWJ1YCxI7g
-         V0YwGJ1N1WbsJvJi9elIGbsHs782toC6BTHmd7yL+BTufkE4gkhgv8ItYyA/Gx21fPvm
-         VJNw==
-X-Forwarded-Encrypted: i=1; AJvYcCVhkP6i++1uIy8WVdP429wJBuM58RknvutIn1qE6YPBk0omCoLGdx6MuU/uGiQv6Rhj3ZePF47O90lAkd157KjfH5TglkrgxABU
-X-Gm-Message-State: AOJu0YwOJakcTA5fI58cTg9thYCxnysoZoCL/0y7ONivXvEDYF/6swuG
-	tjlcSVljLAzqxpyJ+RKwxrNZ/5hNTmiaCzB6PbrVEesuMc5e2Hznh9ZcrmSU9jc=
-X-Google-Smtp-Source: AGHT+IF2tvOoxiKqghI/PPmQklZQCJjZvrhtFAoLzyGcPRDRiTKTeFnjG27jQywyvWPycFPKhSSoSg==
-X-Received: by 2002:a05:6602:737:b0:80a:4582:be31 with SMTP id ca18e2360f4ac-80a4582be67mr160405139f.3.1720798928396;
-        Fri, 12 Jul 2024 08:42:08 -0700 (PDT)
-Received: from [192.168.1.128] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4c0b1af8229sm2481237173.7.2024.07.12.08.42.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Jul 2024 08:42:08 -0700 (PDT)
-Message-ID: <1a30aea2-e8e4-487d-81e4-dda5c1e8665e@linuxfoundation.org>
-Date: Fri, 12 Jul 2024 09:42:07 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eRR6MviD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 291C4C4AF07;
+	Fri, 12 Jul 2024 18:11:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720807921;
+	bh=lUavLk1QqNbkhDsolfXZxLlW3avOJgYqwuEkxCmZj7c=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=eRR6MviD29mZz/RL8Z3TJcV2Rzi0jqHm62TsZj2fgA8g8tUSA1AG8JqHnk9JRZdCo
+	 ld/FOBFZyhxdFyxzB4JG6yDJtNRF8uir+X2OsoZCQ/BlOzvr0t9lxQlI+R3xWfdEmx
+	 3vmHlrXlNcGaY6BYR4gfZpJmF9jiVVe/qIiG4MC5yncN53QdolzsOzY0bKALBOVQ8v
+	 4jeiIOZxC3TE5MzK/EE9O+lMSUtB2pp9WDWAyDKrcvkgXIeKMMhfQS2IfLjm8gEzjr
+	 Qbd5uC+M1ou5x7Pgwgl/2OXC4hruS6wvIoeOGxUJqSKADGUlDpcM6OhxKgT247QSC+
+	 R0XaCi5Xe6b2Q==
+Date: Fri, 12 Jul 2024 20:11:56 +0200
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: maintainer: discourage taking conversations
+ off-list
+Message-ID: <20240712201156.1413e80e@foz.lan>
+In-Reply-To: <1a30aea2-e8e4-487d-81e4-dda5c1e8665e@linuxfoundation.org>
+References: <20240712144903.392284-1-kuba@kernel.org>
+	<7570937c-ead6-40bc-b17f-4ade34a2acf6@sirena.org.uk>
+	<1a30aea2-e8e4-487d-81e4-dda5c1e8665e@linuxfoundation.org>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: maintainer: discourage taking conversations
- off-list
-To: Mark Brown <broonie@kernel.org>, Jakub Kicinski <kuba@kernel.org>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20240712144903.392284-1-kuba@kernel.org>
- <7570937c-ead6-40bc-b17f-4ade34a2acf6@sirena.org.uk>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <7570937c-ead6-40bc-b17f-4ade34a2acf6@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 7/12/24 09:25, Mark Brown wrote:
-> On Fri, Jul 12, 2024 at 07:49:03AM -0700, Jakub Kicinski wrote:
-> 
->> +Open development
->> +----------------
->> +
->> +Discussions about user reported issues, and development of new code
->> +should be conducted in a manner typical for the larger subsystem.
->> +It is common for development within a single company to be conducted
->> +behind closed doors. However, maintainers must not redirect discussions
->> +and development related to the upstream code from the upstream mailing lists
->> +to closed forums or private conversations. Reasonable exceptions to this
->> +guidance include discussions about security related issues.
-> 
-> Reviewed-by: Mark Brown <broonie@kernel.org>
-> 
-> I do think it's fine for people to have open places like github as an
-> option as well, so long as they're optional for contributors and things
-> pass through the lists in a normal fashion at some point.  Directing
-> people towards existing relevant discussions/reviews can work well.  The
-> main issues are taking things out of all visibility and blocking
-> contributors.
+Em Fri, 12 Jul 2024 09:42:07 -0600
+Shuah Khan <skhan@linuxfoundation.org> escreveu:
 
-+1 It is important to point out the prior open conversations if any
-that took place when patches go through reviews on kernel mailing
-lists. This is the practice for the most part for work stemming from
-discussions at conferences such as LPC.
+> On 7/12/24 09:25, Mark Brown wrote:
+> > On Fri, Jul 12, 2024 at 07:49:03AM -0700, Jakub Kicinski wrote:
+> >   
+> >> +Open development
+> >> +----------------
+> >> +
+> >> +Discussions about user reported issues, and development of new code
+> >> +should be conducted in a manner typical for the larger subsystem.
+> >> +It is common for development within a single company to be conducted
+> >> +behind closed doors.
 
-Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+True. So what?
 
-thanks,
--- Shuah
+> >> However, maintainers must not redirect discussions
+> >> +and development related to the upstream code from the upstream mailing lists
+> >> +to closed forums or private conversations. Reasonable exceptions to this
+> >> +guidance include discussions about security related issues.  
+
+Not sure what this somewhat obscure message wants to accomplish.
+
+It is quite common to have developers and maintainers discussing 
+outside public forums and internally at the companies they're working 
+for. There are lots of reasonable exceptions besides security. On my
+years of experience, the reasons I've seen more often are:
+
+1. language and/or cultural barriers;
+2. teaching and mentoring new developers to start contributing upstream;
+3. need to have internal discussions in the light of some IP protected
+   material.
+
+(1) and (2) are very common for non-native English speakers
+and for newbies, and we do want to have more contributions from
+them. (3) is unavoidable, as discussions related to protected
+IP can't be disclosed due to legal reasons.
+
+Also, if you take it to the letter, have discussions on LPC, 
+summits BoFs, other events handled by the open source community 
+and wall conversations are "closed forums/private conversations".
+I've seen a lot of good results produced on such private
+conversations that solved relevant conflicts and got
+materialized as great contributions.
+
+There's nothing wrong with that, provided that the outcoming of
+such internal discussions are reflected publicly as patches,
+summit minutes, LWN articles, etc.
+
+The only issues I see with such talks is that the work when
+co-authored should be properly marked as such and that 
+reviewews/acks taken behind doors don't have the same meaning
+as an upstream review, as they may be due to some internal 
+formalities.
+
+IMO, the best would instead to give a positive message. E. g.
+something like:
+
+	Maintainers must encourage discussions and reviews to happen
+	at public mailing lists, avoiding whenever possible to have
+	internal discussions.
+
+Regards,
+Mauro
