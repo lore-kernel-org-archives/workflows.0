@@ -1,41 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD1313E88B;
-	Sat, 13 Jul 2024 23:23:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A1F44C7B;
+	Sat, 13 Jul 2024 23:29:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720913038; cv=none; b=hctoub7PCP5k/OgBWQ+yEwTHLYfVwSl+roP/FpflEs/3lIwknrom6I7wDhQcsptm8jf6GFufq9MLfHp2+AHGWrHaWbg5YLWQ0AUYeph0aVvYjd+3PGDMqwXIzHf3dCc1jJ0FgZtnI0kzdMuy/+z3Li7jQSV3WdCbP/2HBcF8qa0=
+	t=1720913354; cv=none; b=BTJjIisMK4xrwB+T3LYvMycvSKDiHXwoKqd6dbK701iofgrEKkw6/4jjaxeWVmqDFxlmDtQTqFH9iDOq8OYX2FsxYBpGT1srgvXfkkj7Utn0w3Vyj6tuB1CRb4A4ltx3x0ehTDY/PhUwY6BGsQrRj+1wrA2vfYyC/d91g1eFLhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720913038; c=relaxed/simple;
-	bh=ityQgdQqfrknym32A92KO3J7icAtNRHb62wGaHf34iQ=;
+	s=arc-20240116; t=1720913354; c=relaxed/simple;
+	bh=9YsAbIlpdz/tuyrdaEXBXa6p9dTowDSrz88F4VMwlIE=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=q8eXDIRMcCnRMQVGQUBmjhd9t0dOdMdo638POBfaMqZ2MxfcgTgRxPzfP0TueIaDCQRWGlrI5HWRCs/kr6uy7WV5Wtq6K7OnnW6/db+ZCp2t4EMc+oq9W/PozjoQB8xkh+mIrTk098E8fGkF+LKqGH8VqnwPPh9qNLBxc78JDuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J4ubhPpZ; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=e89Gn1hbfi0GXMNM9kn3XayZK1MpkNc8EL32UXVoAJNgngcpsBZBZNxOGoq6sarZTDKLVn4CKrRk13kzThfiUl+O60xDbXUskXKDQM/oAXJAC5GyEwE0YqVmpH/U1lDWfVkeJ4+4uGS9KGv5c3KPDmWM3YnKR353nbbMpCsQ8t8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hbNbQ1Ih; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J4ubhPpZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA4ADC32781;
-	Sat, 13 Jul 2024 23:23:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hbNbQ1Ih"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33F55C32781;
+	Sat, 13 Jul 2024 23:29:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720913037;
-	bh=ityQgdQqfrknym32A92KO3J7icAtNRHb62wGaHf34iQ=;
+	s=k20201202; t=1720913353;
+	bh=9YsAbIlpdz/tuyrdaEXBXa6p9dTowDSrz88F4VMwlIE=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=J4ubhPpZqFiN7Avr6Ua6pW93vUjUJOYNI1vy2MG3gwyF4VmM226CSpR/svOm3HPMR
-	 oZAINz5r56zaONAEzMIphJ7NLk8Td4njYEOHuhUCIMW3WofdE+Yi9sHFVeeqNxJ7/b
-	 a6fstWJr4U+OMxcTw7gEdAKkffUkouyxNtTINq2CdwjvMIrT+r6jkrVXARotyulSKS
-	 MTzHEKGPX9ve2bWNYH2yyHvFzUNTwdCvx8QcS1S5dVcfkEtKKVfcyzrOcBqJiqIJMH
-	 VtD1swqc3T2vwBwC4iy3nA7LqneYIi3WeDmicOWWUjeST1F2GGG7Xk7Cv345//uYf3
-	 YpZ2rzdgwvJgw==
-Date: Sat, 13 Jul 2024 16:23:56 -0700
+	b=hbNbQ1IhwYDcVCgvy81O1+XK/9W2BkrXtx49AjtE1qQGaxm+d+m7QMpOxbsKE5pIC
+	 VlN04WdYzEjB1A939FWeou3FpFSnx3/GK6QISL6XmjiPkdYvWHVmPwQjvYZkx6vfzI
+	 0PEpcj0DJpBbqCUwYtGI37qY+MTrbp9xgEOXTZrSuaTHBwW/fUT0GyiRiquMu4+0tz
+	 DyuVRcgDlhtW1gvDXOd4phpcFbeB3BMaQWbb1kWhJHv75a+X9+goI7GzRCZVh8I9aR
+	 rBXaOA6DQznl7Wqg1Dxc3UZrIwtJenEhVZSRrrmbQvFjyNSqFaua81q6MvF1QAb6Ba
+	 Wua6pyL57gmIw==
+Date: Sat, 13 Jul 2024 16:29:11 -0700
 From: Jakub Kicinski <kuba@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Dan Williams
+ <dan.j.williams@intel.com>, corbet@lwn.net, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org
 Subject: Re: [PATCH] docs: maintainer: discourage taking conversations
  off-list
-Message-ID: <20240713162356.506ad50f@kernel.org>
-In-Reply-To: <20240713142651.GI10946@pendragon.ideasonboard.com>
+Message-ID: <20240713162911.3973696a@kernel.org>
+In-Reply-To: <20240713180725.32972358@foz.lan>
 References: <20240712144903.392284-1-kuba@kernel.org>
-	<20240713142651.GI10946@pendragon.ideasonboard.com>
+	<669179424b589_1a77429479@dwillia2-xfh.jf.intel.com.notmuch>
+	<20240712170558.50c89238@kernel.org>
+	<20240713101328.72734cb0@foz.lan>
+	<20240713141956.GH10946@pendragon.ideasonboard.com>
+	<20240713180725.32972358@foz.lan>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -45,43 +51,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Sat, 13 Jul 2024 17:26:51 +0300 Laurent Pinchart wrote:
-> > +Open development
-> > +----------------
-> > +
-> > +Discussions about user reported issues, and development of new code
-> > +should be conducted in a manner typical for the larger subsystem.
-> > +It is common for development within a single company to be conducted
-> > +behind closed doors. However, maintainers must not redirect discussions
-> > +and development related to the upstream code from the upstream mailing lists
-> > +to closed forums or private conversations. Reasonable exceptions to this
-> > +guidance include discussions about security related issues.  
+On Sat, 13 Jul 2024 18:07:25 +0200 Mauro Carvalho Chehab wrote:
+> That's basically what I said: such things happen top/down and not at
+> developer/maintainer level. Sure having it documented somewhere, on
+> some document that management would actually read can be useful on
+> discussions, specially when companies hire a third party company to
+> help with their upstream process.
 > 
-> Overall I think this is fine, but I'm a bit concerned it could be
-> interpreted too broadly. Brainstorming on mailing lists is hard, and
-> kernel communities often conduct technical discussions face to face, in
-> conferences or other events. Sometimes those discussions are as private
-> as they can get, I've found myself cycling multiple times to the office
-> of a fellow developer who happens to work close to my place in order to
-> discuss kernel API design in front of a white board. We did our best to
-> publish brainstorming notes on mailing lists, and patches are then of
-> course reviewed and further discussed in public. Is this a behaviour you
-> want to discourage, or is this considered fine ?
+> The point is: a developer-focused document - or even a submission
+> document process won't affect how companies do their inner source
 
-That's fine. 
+It's not a developer-focused document, Mauro.
+I said that the document should *ALSO*, not exclusively inform
+contributors that delay tactics and dismissing external contributors 
+is not okay in Linux.
 
-I hope in the context of the rest of the doc the new section makes
-sense. The doc is aimed at less upstream-savvy driver maintainers.
-The section before says "you must respond to bug reports" and the
-section after says "the person selected as maintainer should be a
-developer not a manager".
+> development: companies that have internally heavy development teams
+> will basically keep running their own internal development cycle,
+> being concerned about upstream only when their product managers
+> authorize them to publicly disclosure patches.
+> 
+> If the goal is to create a management awareness about how to better
+> cope with upstream, then my suggestion is to write a new document
+> from scratch [1] focusing specifically on that, containing a list of
+> best practices with focus on orienting management inside companies 
+> about how to deal with developers and maintainers working on
+> upstream.
+> 
+> [1] there is a document there already that seems to be focused at
+>     management style, but it doesn't cover any best practices
+>     with regards to innersource/upstream:
+> 
+> 	Documentation/process/management-style.rst
 
-I hope when reading in that context it is fairly clear that these are
-not "rules of Linux". More pointing out where folks more familiar with
-corporate environment get tripped up.
-
-I was planning to add this guidance to maintainer-netdev, but folks
-pushed back saying that the guidance is generally applicable.
-
-I semi-quoted some example situation we're aiming at here:
-https://lore.kernel.org/all/20240712164504.76b15e31@kernel.org/
+Like multiple members of the TAB I did have a stab at rewriting
+management style at some point. It's not easy. Don't let perfect 
+be the enemy of good.
