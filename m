@@ -1,46 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAE8818C38;
-	Sat, 13 Jul 2024 16:07:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F18AE18C38;
+	Sat, 13 Jul 2024 16:25:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720886851; cv=none; b=cTSlVR9Mc8zvPPuph3I5BIvkCZvzuITKXJBltEavZaoYyGtMeiCq/MWhiPZUo70ouTgfk+ggZ6CKnrSJpkMKnW/R27+do9ICWd8hMlOnnC7MOJtWOWM0ldgYlRiYzA9+I4QSoSYTraiiyHxK73+XbYmVTOPsTZXbkZ4OJpMbNsQ=
+	t=1720887939; cv=none; b=N5ZtgjCAZNl5rPWPpSMfooGTES7K2S9zIRU60UkR7KPnbXaTEXUdNtFuSvCw8vjiikcl3vpKWv/YFknINOWttLbDIJvNVviZnrGUFJXQa+9+17qbkWF9k4C33QaxtyUFGE+W+f8XtEcXWN3NWg4NQeg+QDE4xXoKJE3g6sl+saw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720886851; c=relaxed/simple;
-	bh=PWvmxgKjj1D3AF0vQs5mzbcaGMlbhae522A9PeBSmkA=;
+	s=arc-20240116; t=1720887939; c=relaxed/simple;
+	bh=U36GibEpQ7+ccoy0M1dj5OjLjmRM3/2Yit4ZWOZ9Mr4=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RuYzW7vCCTaLYPDwZy5v27hESQ8GMkUhKF4LMYFZk4khhUOnAKn7jCqRnoQIfLKINB0KverbWEP21tqI2+slNP7CqLxxQ8bpc2Lm2xDmJIw4+16vKEF7TP83vMJ/J5inSjN9sb8SzqJO88vtRNTC8R155QhQIItZuVPDIHMUh40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MIkaN5bf; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=M6FLAfSraRKvVm5egokm/0l6Q6Db+kJrZSQ98e9D5mcSPI3/AmKlEjaq6BBlud0/jMWrUZJJJhXHdXZcZOYsOzd59dcUUQaNm/v7FQG72xymuncNYkgryEBiy17Q/KdjKC3TwJN5EppvqESR8L+jcRqZJh5JKH6uiQfzzJ3szEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H5t81GWU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MIkaN5bf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7057DC32781;
-	Sat, 13 Jul 2024 16:07:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H5t81GWU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E695C32781;
+	Sat, 13 Jul 2024 16:25:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720886851;
-	bh=PWvmxgKjj1D3AF0vQs5mzbcaGMlbhae522A9PeBSmkA=;
+	s=k20201202; t=1720887938;
+	bh=U36GibEpQ7+ccoy0M1dj5OjLjmRM3/2Yit4ZWOZ9Mr4=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=MIkaN5bfI/BgGdRvV4rTeOMcaGE8vpEECKwJE+X2cXpmGfpXtrLi2C4nWdLxBDIMC
-	 VuRZBFnSwb66cAUdScYhy0BMYmKomX0B1hFf32pKzlw5LaHyyipygvxT4JdpnGxKvc
-	 CKGi+7H5VGR+kTuIgcZqrrd5g3j07ZyiSeQyiswI31ZjtyxZrkyjuKOy5igIWVa7z1
-	 iWfqW30g0aFpJxGtxspG0YOeLJVvT6zS1DO8LTqFgkaa6eig+thlPQSYVw83EKuRR+
-	 WIwwUYrQYduBh1NfX9YFQYVM/H1s3pM+TlVsG8QSYXAB3bAPwCr/xCUG8F9hVoN6Z/
-	 QSV2iMjzKQM6Q==
-Date: Sat, 13 Jul 2024 18:07:25 +0200
+	b=H5t81GWUz/B4OhTaQZ9hadMXaABTz6Amr9ZdkeZW9vbsY5nCJf0me7vnQsaVvaMm7
+	 /AJvAh7QYc/pHPgY05U7APO7zMNl2zA2ncwODOXXIxmFFL837LgJl2UcEmvqsYKsxp
+	 BMjcNoa2MMxXxNXNcvvbYRojY47Q6WLO1dyLDSWZWpr7Exsh00pDocu4eLlPkAAm6R
+	 UEel1Riz1jCiavGsJh+LHvA9nmYcwJbMRtAp03CF5wG/pmh3HOmK3p4EHFBkjPd48Z
+	 RllFzhxICZaynB6Y7Vvx7rgXOF0gn3NJZgzRZIwQWrGp7Lzi6EJjX2g794DMsA+j3U
+	 Tm9uFvOdupJww==
+Date: Sat, 13 Jul 2024 18:25:33 +0200
 From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Jakub Kicinski
- <kuba@kernel.org>, Dan Williams <dan.j.williams@intel.com>, corbet@lwn.net,
+To: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+Cc: Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net,
+ laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
  workflows@vger.kernel.org, linux-doc@vger.kernel.org
 Subject: Re: [PATCH] docs: maintainer: discourage taking conversations
  off-list
-Message-ID: <20240713180725.32972358@foz.lan>
-In-Reply-To: <20240713141956.GH10946@pendragon.ideasonboard.com>
+Message-ID: <20240713182533.6aeb2eb7@foz.lan>
+In-Reply-To: <70562aa0-a0bc-4a10-a2ef-6ba64245a752@gmail.com>
 References: <20240712144903.392284-1-kuba@kernel.org>
-	<669179424b589_1a77429479@dwillia2-xfh.jf.intel.com.notmuch>
-	<20240712170558.50c89238@kernel.org>
-	<20240713101328.72734cb0@foz.lan>
-	<20240713141956.GH10946@pendragon.ideasonboard.com>
+	<70562aa0-a0bc-4a10-a2ef-6ba64245a752@gmail.com>
 X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
@@ -51,143 +48,93 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Em Sat, 13 Jul 2024 17:19:56 +0300
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
+Em Sat, 13 Jul 2024 09:28:31 -0500
+Carlos Bilbao <carlos.bilbao.osdev@gmail.com> escreveu:
 
-> On Sat, Jul 13, 2024 at 10:13:28AM +0200, Mauro Carvalho Chehab wrote:
-> > Em Fri, 12 Jul 2024 17:05:58 -0700 Jakub Kicinski escreveu:  
-> > > On Fri, 12 Jul 2024 11:43:14 -0700 Dan Williams wrote:  
-> > > > This reads as a vague ambiguous quasi-threat with no actionable way to
-> > > > enforce it. In contrast, successful maintainers already have a sense of
-> > > > the benefits of pushing discussions to the list as much as possible.
-> > > > 
-> > > > For new and growing maintainers, which I assume are the audience for
-> > > > this guidance, that are unaware of the pitfalls of taking conversations
-> > > > off-list, they likely need help understanding the *benefits* of open
-> > > > development.    
-> > > 
-> > > I don't think so. If your boss comes to you and says "Dan, from now on
-> > > try not to reply to customers on the list, open a ticket first and only
-> > > reply once tickets is resolved". Is it more useful to you to be able to
-> > > extol the benefits of open source process; or to tell them "this is not
-> > > allowed, here's a link to a quasi-threat"?  
-> > 
-> > No matter what you write, between your text and their boss's directive,
-> > I bet the latter will be a lot more effective.  
+> On 7/12/24 09:49, Jakub Kicinski wrote:
 > 
-> I don't agree with this. I have found clear written rules valuable
-> personally when discussing with management. Being able to point to
-> upstream policies and tell "this is not allowed" helped change internal
-> processes. It will obviously not have a 100% success rate, but it's not
-> useless.
-
-That's basically what I said: such things happen top/down and not at
-developer/maintainer level. Sure having it documented somewhere, on
-some document that management would actually read can be useful on
-discussions, specially when companies hire a third party company to
-help with their upstream process.
-
-The point is: a developer-focused document - or even a submission
-document process won't affect how companies do their inner source
-development: companies that have internally heavy development teams
-will basically keep running their own internal development cycle,
-being concerned about upstream only when their product managers
-authorize them to publicly disclosure patches.
-
-If the goal is to create a management awareness about how to better
-cope with upstream, then my suggestion is to write a new document
-from scratch [1] focusing specifically on that, containing a list of
-best practices with focus on orienting management inside companies 
-about how to deal with developers and maintainers working on
-upstream.
-
-[1] there is a document there already that seems to be focused at
-    management style, but it doesn't cover any best practices
-    with regards to innersource/upstream:
-
-	Documentation/process/management-style.rst
-
-> > > > So if this goes in as is, so be it, but it feels like a missed
-> > > > opportunity to extoll the virtues of open development. The benefits are
-> > > > in the same vector as the "release early, release often" guidance where
-> > > > the urge to polish a solution in private is a common trait of newcomers.
-> > > > Lets document some tribal knowledge of how one moves past that first
-> > > > instinct.    
-> > > 
-> > > Hm, the disconnect may be that you think this happens with maintainers
-> > > without upstream experience. So we can train them up to be better.  
-> > 
-> > No, that's the case where you can still "fix" maintainer's behaviors.
-> >   
-> > > In most cases it happens to folks with experience who are good
-> > > maintainers. They just get 2 orders of magnitudes more patches from
-> > > inside the company that outside. Then a contribution comes from outside,
-> > > the maintainer is overworked, and tries to shoehorn the patch into the
-> > > existing, internal-only process.  
-> > 
-> > It seems unavoidable that internal patches have higher priorities even
-> > if the maintainer is not overloaded.
-> > 
-> > Even on a perfect world, the degree of confidence on internal patches is 
-> > usually orders of magnitude higher, as internal devs have access to internal
-> > product documentation, future line of products that will re-use the same
-> > driver and, on larger projects, will also be already tested by internal
-> > CI-based regression tests.
-> > 
-> > The external patches won't have that, so they need to be reviewed by
-> > an internal developer, checked against internal docs and then submitted to 
-> > the company's internal CI regression test infra to achieve the same degree
-> > of confidence.  
+> > Multiple vendors seem to prefer taking discussions off list, and
+> > ask contributors to work with them privately rather than just send
+> > patches to the list. I'd imagine this is because it's hard to fit in
+> > time for random developers popping up with features to review into
+> > packed schedule. From what I've seen "work in private" usually means
+> > someone on the company side will be assigned to handle the interaction,
+> > possibly months later. In worst case, the person scheduled to help
+> > the contributor takes over and writes the code themselves.
+> > This is not how the community is supposed to work.  
 > 
-> We don't seem to live in the same (perfect or imperfect) world. In my
-> experience, contributions from external kernel developers are often
-> better than patches originating from within a company. External
-> contributors are more used to follow proper upstream review processes.
+> 
+> So this is completely unenforceable, but as Mauro mentioned, it's an
+> opportunity to talk about this.
+> For starters, let's be clear about what the kernel community is actually
+> losing from closed-door discussions. 
 
-It is not about being better/worse. It is about fitting inside the
-innersource processes related to quality ensurance (QA). 
+Makes sense to me, but IMO it should also be describing what companies
+are losing with closed-door discussions: money and time to market. 
 
-Vendors that see their Linux driver as part of their product delivery have 
-such processes and won't be willing to accept patches that don't pass on
-their processes.
+The usual excuse for innersource development practices is that this speeds
+up product development. In practice, this is often a false premise.
 
-So, all patches (internal or external ones) need to be submitted to
-their QA processes, effectively meaning that someone inside such 
-companies should be responsible for reviewing the patch.
+Investing on closed door discussions and then send patch series only
+when internal development is done has two major drawbacks from company PoV:
 
-Heh, you can see this even on distributions like Debian, Ubuntu, 
-Fedora, openSUSE - and even on open source userspace projects:
-if you submit a bug report or a patch, someone will handle
-the ticket, reviewing your patch and/or writing their own patches
-to solve the issues.
+- Other companies with faster/better upstream companies may end having
+  solutions merged upstream quicker, reducing or eliminating company market 
+  competitive advantages. Also, it means that the internal development will
+  need to restart from the beginning, to follow the kAPI interfaces that
+  were  proposed/added by other vendors;
 
-Inside companies (in special big ones), it usually means that a 
-manager or a triage team will pick the bug report/issue and then 
-delegate it to an internal developer, who will be internally
-owning the upstream patch set, doing tests, reviews and running
-it on the company's CI tools.
+- Even if the company is the first to upstream, maintainers may not
+  agree with the developed solution, requiring substantial changes,
+  and delaying product delivery.
 
-Smaller companies, companies that are starting now with their
-upstream process and companies where Linux is not their main focus
-usually delegate it to third party companies, who will be handling
-it on their behalf or have small open source teams. Those are the
-ones where changing processes are easier. 
+> E.g., if a company wants to fix their
+> driver, and an employee suggests approach A in an internal discussion, but
+> someone else prefers approach B, which is then shared publicly on the
+> mailing lists--is the real issue that the community did not get a chance to
+> learn about approach A? To discuss it, weigh the pros and cons, and share
+> opinions? If so, we should note that for published patches preceded by an
+> internal debate, it's encouraged to include some context in the cover
+> letters about why different approaches were _not_taken.
+> >
+> > Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> > ---
+> > CC: workflows@vger.kernel.org
+> > CC: linux-doc@vger.kernel.org
+> > ---
+> >  .../maintainer/feature-and-driver-maintainers.rst     | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> >
+> > diff --git a/Documentation/maintainer/feature-and-driver-maintainers.rst b/Documentation/maintainer/feature-and-driver-maintainers.rst
+> > index f04cc183e1de..ac7798280201 100644
+> > --- a/Documentation/maintainer/feature-and-driver-maintainers.rst
+> > +++ b/Documentation/maintainer/feature-and-driver-maintainers.rst
+> > @@ -83,6 +83,17 @@ bugs as well, if the report is of reasonable quality or indicates a
+> >  problem that might be severe -- especially if they have *Supported*
+> >  status of the codebase in the MAINTAINERS file.
+> >  
+> > +Open development
+> > +----------------
+> > +
+> > +Discussions about user reported issues, and development of new code
+> > +should be conducted in a manner typical for the larger subsystem.
+> > +It is common for development within a single company to be conducted
+> > +behind closed doors. However, maintainers must not redirect discussions
+> > +and development related to the upstream code from the upstream mailing lists
+> > +to closed forums or private conversations. Reasonable exceptions to this
+> > +guidance include discussions about security related issues.
+> > +
+> >  Selecting the maintainer
+> >  ========================
+> >    
+> 
+> 
+> Thanks,
+> 
+> Carlos
+> 
 
-Bigger companies have more complex development processes. Among those,
-there are the ones where Linux is part of their products. They
-are usually responsible for a vast amount of Kernel patches[1].
-Changing their process is hard and takes a lot of time/efforts.
 
-[1] Looking at https://lwn.net/Articles/972605/, it can be seen
-that: 7.4% is unknown, 6.8% is none and 2.0% consulting, meaning
-that more than 80% is credited to "direct" contribution.
-Granted, part of those were actually be done by third parties
-(or with their help). Still, just the top 17 companies listed there
-are responsible for more than 50% of the upstream changes. I bet
-that almost all of those (if not all) have their own internal 
-innersource processes, and patches are only accepted once the
-company developers/maintainers handled external patches and have
-them passed though their QA systems.
 
 Thanks,
 Mauro
