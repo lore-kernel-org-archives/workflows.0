@@ -1,80 +1,73 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 969D0749C
-	for <workflows@vger.kernel.org>; Wed, 17 Jul 2024 19:30:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A122C1E507;
+	Mon, 22 Jul 2024 14:29:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721244643; cv=none; b=fYWD/riJh8qk2l9kIGphEzzWDJ2LGzKMuZTXrNmidjRbvCFnsyaOcB5I++z9mr8gFwwEN4i5eDnQ6LK+0aWDluBRpCIZkqi422Bq5jd8M5LdBFFL6QDOpUiXlk3d1Tke1mlS5oidQJqcehPmdFXSBjaV6nzS0firjlQiZKdo5gE=
+	t=1721658560; cv=none; b=fG2qUhPdDsNQaeCFwCK6s0+uMIiusAHNAyhD6RukMeuvOtsecwidkPhNjxzQrs2evarNI+0trcoC2o4JWDnyi7Dv/xjjSt5aZaoBSuCJrorGOrNTqktYi6bibp1NBlEJnAmQ6ed0H9eCo+qIGb8E3qbXiFERVRIraXajPJuaej0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721244643; c=relaxed/simple;
-	bh=CXzRmAXmqcameja/Lomnn48tEOl2g3NX9vHg4ntpq6c=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:CC:Content-Type; b=ORNb2OrO0WtfKTnTqk5JMwb8796p1Uii4Olq68/tWaki2zDHRtsB0HfFi4v+iGfIKOF7WiU5PAkS4Wm22Lee8mvz089wH2loggpYoO++bW9LeEGHGr3CHOyzDbdkcoJTAGBUqUYKVrKMMbj06I6YhxFpZpJYAC4bhQPrWFRNMH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=EJffZerf; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1721658560; c=relaxed/simple;
+	bh=nawEJ/cnK+iSS/sgAlnLxcMlOynnOMFPfCdkNDsifak=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H1wr1wij3nSHIxBrUkdXCFHDEYVmI30NFk1rbOBS8b+5s7BREVzKi58/g3SEOh7xN9Z4jEHHBu0RPv/GU/8AJYWNOKgvi6Ob0lHFuOFwAZedsvPfpLyeiou1d0p39zPwi0dmFJxQpFE6nYtj5/JRVuoxoR9r24dw3OgXwSXjT28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nWSXgA3x; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="EJffZerf"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46HFJvau012796;
-	Wed, 17 Jul 2024 19:30:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=CXzRmAXmqcameja/Lomnn4
-	8tEOl2g3NX9vHg4ntpq6c=; b=EJffZerff8fbsCLx/RJZrOoEKTbjJtWnlT6N8W
-	3GPWmZ9+34kWX3UpHTtd1yZdzJfmZh2W2FouH2JBNqwJ5fmtrlRAl01tHJF506ul
-	fp24ASusxX1tf37Ma+XiIdwla8Ivr1iaRPoA8eLkV1db82LWYk/AL7HTGau1YGc5
-	sv6V2vWaBcD8HGP2BdmsVTRYYxzX9ikMJX3slgN4Viv9oEeFsdb0YwXEFigL/gBx
-	6hRMK3Lj7SgY5y/mWS+MLdQTUCjrH5I8xtt6OvWNpW00Jn+oJ5MZb1DtSkn9eVgC
-	107wTSpQ4JH/FbxX4z+ow4GEnwzZ72wJj79AoTuDTppEauag==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40dwfwbfq2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 17 Jul 2024 19:30:18 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 46HJUHiU027162
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 17 Jul 2024 19:30:17 GMT
-Received: from [10.48.247.102] (10.49.16.6) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 17 Jul
- 2024 12:30:16 -0700
-Message-ID: <1bcfbc51-18bb-4a5c-8a1e-a2de794ff00f@quicinc.com>
-Date: Wed, 17 Jul 2024 12:30:15 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nWSXgA3x"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1589FC116B1;
+	Mon, 22 Jul 2024 14:29:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721658560;
+	bh=nawEJ/cnK+iSS/sgAlnLxcMlOynnOMFPfCdkNDsifak=;
+	h=From:To:Cc:Subject:Date:From;
+	b=nWSXgA3xRAz/MCfk1RLJ+jPvazzf0rgDA01B8eLfTx4eaV2+jRgeZENlOxxGSB5Fh
+	 08ufh+cDCWypD1qdPIy8ExOqzS8WjXBCYKBa56sxQxoT04f8hGuFg9lcf5aBEk3EG8
+	 ngKU5JvYA+5o4o64MNzkLO8sfQpkpK25jxLBrCDOpxFod2mVx/eTXAhY5P3hLWBMFF
+	 XVXJOU3dM7yIzZohiDT99MMK6Jb6M5NmAPkNEyizDFOQ4IM5poR0kiYA59zwO483fI
+	 9j+nesZMmw9Y2z8WD64YS0dZj49zcYa2h96tgpWaK82AmEASg01/VfSXp6fL7nmF2y
+	 ZCZg51/FxNqIg==
+From: Jakub Kicinski <kuba@kernel.org>
+To: corbet@lwn.net
+Cc: workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>
+Subject: [PATCH] MAINTAINERS: add Documentation/dev-tools/ to workflows@
+Date: Mon, 22 Jul 2024 07:29:13 -0700
+Message-ID: <20240722142913.1709594-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Content-Language: en-US
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-Subject: Is there an integrated b4 + patchwork guide for maintainers?
-CC: <workflows@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: VIQ1uVWqjKSdmVaNt-8C098y1jFBfrjU
-X-Proofpoint-ORIG-GUID: VIQ1uVWqjKSdmVaNt-8C098y1jFBfrjU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-17_14,2024-07-17_02,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
- mlxscore=0 mlxlogscore=382 impostorscore=0 priorityscore=1501 bulkscore=0
- spamscore=0 clxscore=1015 malwarescore=0 lowpriorityscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2407110000
- definitions=main-2407170148
+Content-Transfer-Encoding: 8bit
 
-I'm in the process of taking over ath.git maintainer activities from Kalle. He
-has shared his workflow, but much of it is based upon using Stacked Git (STG)
-and a patchwork script he authored. I seems like many (most?) maintainers are
-now using b4, and Kalle fully supports me using it, so I just want to see if
-there is a guide or sample workflow for using b4 along with patchwork. I'd
-like to adopt a proven workflow rather than stumbling around on my own.
+The goal of the workloads@ mailing list was to make it easier for
+maintainers who don't use lore+lei to subscribe to topics related
+to process changes. In other words it should cover changes to Documentation
+files which most maintainers should know about. Recent changes from Kees [1]
+to provide guidelines on naming KUnit files did not fall under workflows@
+since Documentation/dev-tools/ isn't covered. The patch volume for
+dev-tools isn't huge and most of the changes are interesting. Add it.
 
-/jeff
+Link: https://lore.kernel.org/20240720165441.it.320-kees@kernel.org/ # [1]
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ec6904cbfd1f..a85234de4fd0 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6680,6 +6680,7 @@ DOCUMENTATION PROCESS
+ M:	Jonathan Corbet <corbet@lwn.net>
+ L:	workflows@vger.kernel.org
+ S:	Maintained
++F:	Documentation/dev-tools/
+ F:	Documentation/maintainer/
+ F:	Documentation/process/
+ 
+-- 
+2.45.2
+
