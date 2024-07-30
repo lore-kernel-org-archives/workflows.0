@@ -1,86 +1,129 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3102B18D4A4;
-	Mon, 29 Jul 2024 21:29:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 569ED183CDF;
+	Tue, 30 Jul 2024 16:12:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722288590; cv=none; b=PIDIvHKM/5iKjHGT1a0E4t7dr8XUmEmpLEVFHj/WJBZQ0rMG5uCpXX5CEg2EFaFZmrNSB1p0jXwRvUcxpA6rcZI8au9gMGCgV/auv5JeqRuU8MgnBaRGaVm99MN8bRbxkzmw/Id75Q9mMMy8vOzCMa0ulB/7UpUefI2j15S5Lg8=
+	t=1722355963; cv=none; b=nW1HiL1MuOp2hBS6KaRO+sDh4qIOnXuHgYCjo7b50SW0SKRHy8/KOMhkfIX7NySQrNaOtHIAuN4MLSXzE3qeQQ1wL2FVaEATvdcOCPs18I0U1I9RsqBkycQWuiGoXJV6H/hjAMvisErIx3yTo+rsqF8UtM1QdYkRTVSJfilzUV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722288590; c=relaxed/simple;
-	bh=2iMagjZ8kd5wc6bgYk4OUvAHwq0LMmGJR8udnTpRzX0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=QY2leT3sM0BRhGZYdUVAoB/BYjvJSdyuNc9oHhJ3mGTFfa9I8EDMsb6w1UMEeu3+BGPFfotygojG7wmbFIK2XXxiDthgjJjF6+qfstKEWnGyvSeGfIvchYlj2NRQFDUClXPAZJ9sIv9K9S11DBmP5eVTmeKhxoGLBxYOPyiPXJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=D+TE6+ak; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1722355963; c=relaxed/simple;
+	bh=s++80n9+rmfOboCZ7B8NazDEUVsaeUfjIsEJqeBwIyM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eKkvIzgDgok0oOlDpIV0YfvdT9W++k8/CiBzX75Mv67jWCd0ijiANZGG/lZAX3V7aqKi/1G2QWTkYpL92tqyRJKYgY9J/x3luU8ZFswugKlvFIrHfE42NU7CdbNcKQzJonCheVqLjckX1dRz3JifJCWCK7zgDuuwbhKD+DfyHfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CPmxrc49; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="D+TE6+ak"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 653F8418A0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1722288588; bh=B0v130neJyBEkQ0tb0/n3A4kTf3KPRdmFCY6jKivjuo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=D+TE6+akk2jZYeZ5eF8zNiTpF0Xsb5pkWlA5gWG9kzLKQPoOiK5TpHE+yE4USK9+z
-	 4G1UrA3QN//qLsExvNfyL/MfuE+usrPtdWwTAMwbXlh0ndV/y8dsBhU2lkcO350nbc
-	 i1UyOaxG4ZlJPMLFO90WrDn/mkxh+9doi9SgW0KFHrzHNFQXK6TIFUUU66ZTKgMMMQ
-	 BYdFYTBGr9wF8OSHW90HQb32gkBhVA7tgTGC56qbIql19e+kUibga378966Zvgyvuv
-	 mTb3lBn765XHAi5h+QwMfVrkRVySoxJSvKnpGX+k8rDf3QzQwlgg45ZMisqwGJqZn2
-	 NW1LdHg63XFKw==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 653F8418A0;
-	Mon, 29 Jul 2024 21:29:48 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, Jakub Kicinski
- <kuba@kernel.org>, Kees Cook <kees@kernel.org>
-Subject: Re: [PATCH v2] MAINTAINERS: add Documentation/dev-tools/ to workflows@
-In-Reply-To: <20240723223258.2197852-1-kuba@kernel.org>
-References: <20240723223258.2197852-1-kuba@kernel.org>
-Date: Mon, 29 Jul 2024 15:29:47 -0600
-Message-ID: <87ttg7999w.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CPmxrc49"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFACBC32782;
+	Tue, 30 Jul 2024 16:12:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1722355963;
+	bh=s++80n9+rmfOboCZ7B8NazDEUVsaeUfjIsEJqeBwIyM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=CPmxrc49DOFV1+sBzDSH7No3LR9Pr0EFc2j9sPVIBaIPKHEHfSSbRTS6Kzj+GJOul
+	 BrId1mlkjqbRczONu/pe05OEIEoWlEiBAMS5tRgYgY/S0IcjviDNLND11f4w5rR8k/
+	 pSinCd1QklHXLfG9J1bySVCwFsdonXpXmZfE7VEc=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: corbet@lwn.net
+Cc: workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Michael Dolan <mdolan@linuxfoundation.org>
+Subject: [PATCH 2/2] Documentation: embargoed-hardware-issues.rst: add a section documenting the "early access" process
+Date: Tue, 30 Jul 2024 18:09:32 +0200
+Message-ID: <2024073035-bagel-vertigo-e0dd@gregkh>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <2024073032-outsource-sniff-e8ea@gregkh>
+References: <2024073032-outsource-sniff-e8ea@gregkh>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3824; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=s++80n9+rmfOboCZ7B8NazDEUVsaeUfjIsEJqeBwIyM=; b=owGbwMvMwCRo6H6F97bub03G02pJDGkrBeyFuefarT5yjmfpl7igs7/W7pyok3y4Kzdpnb+wq /D5CX3tHbEsDIJMDLJiiixftvEc3V9xSNHL0PY0zBxWJpAhDFycAjCRKZMZFpxf8aj8yyS1rUus 5POOxsaKn5hnEMkwP2q1QtVs+512QUc3B4Uy1H68xXN7MQA=
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Jakub Kicinski <kuba@kernel.org> writes:
+Over the past years there have been many "misunderstandings" and
+"confusion" as to who is, and is not, allowed early access to the
+changes created by the members of the embargoed hardware issue teams
+working on a specific problem.
 
-> The goal of the workflows@ mailing list was to make it easier for
-> maintainers who don't use lore+lei to subscribe to topics related
-> to process changes. In other words it should cover changes to Documentation
-> files which most maintainers should know about. Recent changes from Kees [1]
-> to provide guidelines on naming KUnit files did not fall under workflows@
-> since Documentation/dev-tools/ isn't covered. The patch volume for
-> dev-tools isn't huge and most of the changes are interesting. Add it.
->
-> Link: https://lore.kernel.org/20240720165441.it.320-kees@kernel.org/ # [1]
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> Reviewed-by: Kees Cook <kees@kernel.org>
-> ---
-> v2:
->  - s/workloads/workflows/
-> v1: https://lore.kernel.org/all/20240722142913.1709594-1-kuba@kernel.org/
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index ec6904cbfd1f..a85234de4fd0 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6680,6 +6680,7 @@ DOCUMENTATION PROCESS
->  M:	Jonathan Corbet <corbet@lwn.net>
->  L:	workflows@vger.kernel.org
->  S:	Maintained
-> +F:	Documentation/dev-tools/
->  F:	Documentation/maintainer/
+The current process, while it does work, is "difficult" for many
+companies to understand and agree with.  Because of this, there has been
+numerous attempts by many companies to work around the process by lies,
+subterfuge, and other side channels sometimes involving unsuspecting
+lawyers.  Cut all of that out, and put the responsibility of
+distributing code on the silicon vendor affected, as they already have
+legal agreements in place that cover this type of distribution.  When
+this distribution happens, the developers involved MUST be notified of
+this happening, to be kept aware of the situation at all times.
 
-Applied, thanks.
+The wording here has been hashed out by many different companies and
+lawyers involved in the process, as well as community members and
+everyone now agrees that the proposed change here should work better
+than what is currently happening.
 
-jon
+This change has been approved by a review from a large number of
+different open source legal members, representing the companies involved
+in this process.
+
+Co-developed-by: Thomas Gleixner <tglx@linutronix.de>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Co-developed-by: Michael Dolan <mdolan@linuxfoundation.org>
+Signed-off-by: Michael Dolan <mdolan@linuxfoundation.org>
+Co-developed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ .../process/embargoed-hardware-issues.rst     | 31 +++++++++++++++++++
+ 1 file changed, 31 insertions(+)
+
+diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
+index 2b34bb6b7cda..daebce49cfdf 100644
+--- a/Documentation/process/embargoed-hardware-issues.rst
++++ b/Documentation/process/embargoed-hardware-issues.rst
+@@ -219,6 +219,37 @@ List participants may not communicate about the issue outside of the
+ private mailing list. List participants may not use any shared resources
+ (e.g. employer build farms, CI systems, etc) when working on patches.
+ 
++Early access
++""""""""""""
++
++The patches discussed and developed on the list can neither be distributed
++to any individual who is not a member of the response team nor to any other
++organization.
++
++To allow the affected silicon vendors to work with their internal teams and
++industry partners on testing, validation, and logistics, the following
++exception is provided:
++
++	Designated representatives of the affected silicon vendors are
++	allowed to hand over the patches at any time to the silicon
++	vendor’s response team. The representative must notify the kernel
++	response team about the handover. The affected silicon vendor must
++	have and maintain their own documented security process for any
++	patches shared with their response team that is consistent with
++	this policy.
++
++	The silicon vendor’s response team can distribute these patches to
++	their industry partners and to their internal teams under the
++	silicon vendor’s documented security process. Feedback from the
++	industry partners goes back to the silicon vendor and is
++	communicated by the silicon vendor to the kernel response team.
++
++	The handover to the silicon vendor’s response team removes any
++	responsibility or liability from the kernel response team regarding
++	premature disclosure, which happens due to the involvement of the
++	silicon vendor’s internal teams or industry partners. The silicon
++	vendor guarantees this release of liability by agreeing to this
++	process.
+ 
+ Coordinated release
+ """""""""""""""""""
+-- 
+2.45.2
+
