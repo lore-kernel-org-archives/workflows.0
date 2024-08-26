@@ -1,105 +1,64 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A32915B13A;
-	Mon, 26 Aug 2024 12:06:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A2E881E;
+	Mon, 26 Aug 2024 21:07:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724674016; cv=none; b=ADJIdgbLHeHu7Lec1wft6kkRDFRO787Bt0DjAc3ebbjSExj5O69w4miCdXjPYCGTP/VwQJF/V7Nc9ab0OEZDTUskEwYVu0x6Nb6O44pK8W/KGViXCzFZounN8AuQRj63/nAvu6+ueCTB4ldT+R8b1wUfwZzo7CmwYPebUUdmLGo=
+	t=1724706473; cv=none; b=OvtrB7kN8x/yEkUfz/+s3h/aUwqHgOISj1dnercZdlDMmQnPXS0ev1Tvt0HOLo1RDEIti5I9JjBBdxSS7qkJ9RLp1jMzgGRJuURMJiSc48yYmrRcSjNX5TJ9RNooZoJDgas4YRmiuBboHOr1di6D/RoTvCQDrZY0sXf4UaHsmS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724674016; c=relaxed/simple;
-	bh=TnVYqFx8iidahUDrnDilYvKd1NQU38KVQJIeCmFEZdA=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pagmjcrfoXqM1kP57pepL2AjXLhRjbeksUnauGYNF1mZlJsDk2XA13YZ6weKsxa3PP879+T1G/h66G6cpU4WW0YoIAN0vGzx7io58xrodVUDP0YIRa3FdxDBPKO0ZeP3Ue8vdFmWVrwrz1m6JIM/ZEk1ysLcQWaiRah7i3hLPeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AYKugEnG; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1724706473; c=relaxed/simple;
+	bh=0EWEuJcdwdIyzNP12HmlUHMkhgWA6mZVV/NN/fG5VKc=;
+	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=SO2hS3YEs+ltykf1uHIrBP9tkcZ9I10x3dCReTiMFPqJJtBbnCF5YwpTGD9FtDKE1fFWciswuEaz25Oz97EsvS8IBLHCXeTBNDB5NYuCQdPZbNMgwh2cXRMdnQk6oaHV6imgj6B1uTMhJhN5F+2/tGh1JbMtLGY8JwOK9Q+uhsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=dzGBTuOF; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AYKugEnG"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-20223b5c1c0so35895235ad.2;
-        Mon, 26 Aug 2024 05:06:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724674014; x=1725278814; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TnVYqFx8iidahUDrnDilYvKd1NQU38KVQJIeCmFEZdA=;
-        b=AYKugEnGc1aRTT3M6FMk//h23EVA+jIrw8EcA7KRDtvCVOmoraiOBW1Q+tMDEDJnsn
-         X9agJ05uYyVv7ZZlbgLAJKTzzoMhvxD+hiFI/pN6SxNcb35XdohfTqPj9vDsci8pSUuJ
-         ihfyz0U9ZVzf8hOcVoWPISsJ2SR9tY889I/fadpU7XmjivO1cFvM/IoFmSGrNF9hDMYz
-         I0EUEcP930GoHqqlfOBvONK+H1M94kzhJ+RabNh+g9Q3dp5T+n2hJQM4bPE8R8dl73t5
-         VhSRkZ/1Bz2BUF4iYwo7xsdaZn3KRvdoYjQbyOGT4DXjCIfbevUgbvbDok1KPUCG2Vao
-         ZzaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724674014; x=1725278814;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TnVYqFx8iidahUDrnDilYvKd1NQU38KVQJIeCmFEZdA=;
-        b=m8j4j+pnsxNp4qpPIi0qzWqA1On862B7GBQGyw1SmPk5c4dMCauPEWs42nuxmSiadv
-         Z84Kk/41kIvQLF7ijj5/62edKziDDeMFaCfLMFDy6vmh0H597Vje2A63ocUSVtB+OMca
-         PyayFMv3yRYL8uQ1zPEe/xdd/8Arr9RmpYblvCZeTHmP+zDmWi1GpuQq9xlSdqNe5Rdx
-         He8fBie/Bx4zAQdbJ/HOF/krundxQzQUYMC7V/LR7VVRWTdNqrCQ+E/Tq0seoZAA5x7x
-         0rrrNjvBN+m57yEcOXtHkmj4GQDL720vp78JHS09NLEnShZAskC50tRhJe5IEARY1l4B
-         +x8A==
-X-Forwarded-Encrypted: i=1; AJvYcCUPDFK0mA09Ic2eEqGsvjw3JgsVI4N95+qFVPY9X2MnHRm2QYdNyJbu7+5JODxf3Ex9IfyLUl48lDg=@vger.kernel.org, AJvYcCVWBP008GU5OOPYbOTN+IG+EqovuDolbkRbzCr8HJqYvbo53RIUwlHlfM2S+Yo56kVU4c7ptsZNxKISOoyw@vger.kernel.org, AJvYcCViFCqRund+yLL4fwunQrjW7IBgnio/GoqSykR1LFOnwnl8dS1QS1Tw6Rxj2NChY7P0tes6X8pSM14M@vger.kernel.org
-X-Gm-Message-State: AOJu0YwxokdyOyD4t4mq1OUlh3AwDgqQx/KEBZ33ePXUWYRrISZNne4W
-	G87j2UEd9wNHT1o847avtGe8r+pamFnvF7PN82mj3uUQYtyg7/Uu
-X-Google-Smtp-Source: AGHT+IEQMgmfsNtXw28+xuRExp75piWl7tqAWS65ZBXAc9S3z8Buaz9ERqRlQD/RUI0oQs6uHaqALw==
-X-Received: by 2002:a17:902:ecd2:b0:1fc:6901:9c35 with SMTP id d9443c01a7336-2039e4d875dmr78754185ad.20.1724674013823;
-        Mon, 26 Aug 2024 05:06:53 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20391b7faadsm58553345ad.195.2024.08.26.05.06.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Aug 2024 05:06:53 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id A005948D2E95; Mon, 26 Aug 2024 19:06:50 +0700 (WIB)
-Date: Mon, 26 Aug 2024 19:06:50 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Aryabhatta Dey <aryabhattadey35@gmail.com>, corbet@lwn.net,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="dzGBTuOF"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4E13741AB9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1724706463; bh=7BfkKSZi/7KMqOZYo+q/HR6MkuZYJQFCXk7/jN/sUAU=;
+	h=From:To:Subject:In-Reply-To:References:Date:From;
+	b=dzGBTuOFkv4ezZ+Lrrq507biq2o+lR7aY3PV7JV9mKlQ0ODi0CN+2+pEelNQs9ZkW
+	 EjkHc7S48M+PvmPAK5bl27GgMx6A5dcJqPg8hO1pEjMczMwQSchaI4i35k67YNnfEQ
+	 6GRVQwSTOCwNEb2Fx9iQJ5WQKivc+x3bm6dQpwL5Wg9KqLtVuqNweGh0JqUsk6zWaX
+	 pzZiGl2hCULVZ2638+qit7jiAf0Qsdaoh1BiW600WuplJaMjfQSmSIc8CV2skUhsqA
+	 XadlCVpJhFg/Np7ZTB5Xqys6RfNgvmcWK0eceWfz08nvT3uNc+RGz5qlA++PNEtZGY
+	 nRgtn/RUPpZrA==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 4E13741AB9;
+	Mon, 26 Aug 2024 21:07:43 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Aryabhatta Dey <aryabhattadey35@gmail.com>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] docs: process: fix typos in
  Documentation/process/backporting.rst
-Message-ID: <Zsxv2gilh-zfZbb3@archie.me>
+In-Reply-To: <rd2vu7z2t23ppafto4zxc6jge5mj7w7xnpmwywaa2e3eiojgf2@poicxprsdoks>
 References: <rd2vu7z2t23ppafto4zxc6jge5mj7w7xnpmwywaa2e3eiojgf2@poicxprsdoks>
+Date: Mon, 26 Aug 2024 15:07:42 -0600
+Message-ID: <87r0ab6li9.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="PtfwvYqb3epCZ1qV"
-Content-Disposition: inline
-In-Reply-To: <rd2vu7z2t23ppafto4zxc6jge5mj7w7xnpmwywaa2e3eiojgf2@poicxprsdoks>
+Content-Type: text/plain
 
+Aryabhatta Dey <aryabhattadey35@gmail.com> writes:
 
---PtfwvYqb3epCZ1qV
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sun, Aug 25, 2024 at 05:03:40PM +0530, Aryabhatta Dey wrote:
 > Change 'submiting' to 'submitting', 'famliar' to 'familiar' and
 > 'appared' to 'appeared'.
->=20
+>
+> Signed-off-by: Aryabhatta Dey <aryabhattadey35@gmail.com>
+> ---
+>  Documentation/process/backporting.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
-LGTM, thanks!
+Applied, thanks.
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---PtfwvYqb3epCZ1qV
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZsxv1AAKCRD2uYlJVVFO
-o0g2AQCKuw0SRpzN4Byp3EYjPPIjzcxbfsBvmFvBtlCRAgLiwgEAtsTT4/BtRb0l
-10fGTV8TtXdiIr7euP2REfiYI7pDcgY=
-=R5Js
------END PGP SIGNATURE-----
-
---PtfwvYqb3epCZ1qV--
+jon
