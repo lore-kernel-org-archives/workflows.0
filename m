@@ -1,42 +1,42 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B60E814A4EA;
-	Fri, 30 Aug 2024 17:45:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B5A19C56C;
+	Mon,  2 Sep 2024 12:56:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725039933; cv=none; b=mH5Ml162IwaM8DsLVqeKDGSnOBNALRAiHHcFoLHjjdd7ng8ElSuOYjbI5XIdtnDBaebRBF5FmYe++/+FuNTo+49MKSYNk079SAxSDyelgfPvNbwDnZ2VCdAkqTPYknTyHRSjkkeu0V2BLRKs0FqQtotqRjI6Lv57T2u/4hALiAc=
+	t=1725281775; cv=none; b=dAdvx3lUftmi75SDaPp2mr6hIZLqfYrl8Wv7kdeWdiIibND/YsIEI0bWVyFfzr22RhftTEbtPpndOGIiL0Mlwx8t4I8VA399RNOE5NFiAoQRYkzjNHOm3tj+MN2+fGSqLkh8MgWyHj2TtYZZpVlW44WUCcVn3JIUKkvdxsfiT28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725039933; c=relaxed/simple;
-	bh=H6v7jm8h5hfRb3v+lAm1pXHhGBpj+JrE9BRz0vYnb/c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Ib3nBlec84MKOKd3U1/QLnETXqP7IwtTet75OWYYUz8B9384775w2Bf8w+cob4PbHeCquT0JsIII+55wp02fNBb3beZAMyk4zBdbjrXgczRL6kBB+y42S0M2t4rXwetBbERN9GzME0DEya5ZYy7qISgdm4qF6DZrX69kAtrLVFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.48
+	s=arc-20240116; t=1725281775; c=relaxed/simple;
+	bh=Cvmn/MxRHMteSCvHfVIVw9TsmLnSkdvoBYquXqAFVSw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=K0BHoktOGoWfMqLQlLvju3xoDaHDKIv/xcw0xxcy/ZDJyyM9u8MNvgEBj8uDtP8UUqjXNdSnSXbIG1bJB7i2UjF6RuuNb/TONqYPQhlCQeGGtMctzgBicJA0Zcslh3WL3olfnTE9enQoKzpk0DIwmIsHaVHRcPVkMmVzZcyKnCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5a10835487fso2973137a12.1;
-        Fri, 30 Aug 2024 10:45:30 -0700 (PDT)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5c260b19f71so808991a12.1;
+        Mon, 02 Sep 2024 05:56:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725039929; x=1725644729;
+        d=1e100.net; s=20230601; t=1725281768; x=1725886568;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RnZkGG6tFFqZHr9rhA3TLUCRsYIViIT5p6kZmniNmPk=;
-        b=NAQAoFISVifPMgnSsGQR/DI8HntzNAoXLSGHxKrLiYY9PGbN7RN8GXhjvVws/BJHKT
-         uqiRdObe6Q5ZLo6las8tKPTKzP+mwQtayBomgjafKiWg6PX3WCvRLdLOeLoqOc4QnDl7
-         SZ3G6tb5DuqRiaRTnJtiULzg5CFjXaV5+P7Ip5G/6UU9LOJRfaX1v/Z4XDEgUlujwyaD
-         2tnb/GKPduPQTMlr9UkYJ/BEmUAepnRtoGn51fHA8NXfX9AJBQNBWOnBTomtOA6rxWop
-         S0SKyMGKYj6DsnWLph5dLyOsI5PUmYuDBQSSuKcngwmKzhbyFhQ3gawMcOY4PdCJDRRq
-         aE1g==
-X-Forwarded-Encrypted: i=1; AJvYcCUNUz+uSjBGtHHmGjPrBWLAUD4EloOd+a1Jyzv1IPBKgMRPr3s0YYqgckM4+Xy3t6HC/yypfZdELA8G7w==@vger.kernel.org, AJvYcCVCMQE/MYkQmHCdxdFfa3CM7AKbGXli69JLV5wQxJFt6RAtlhSs65uCbD3L+TuC9LR/QFUObp6OhKuO@vger.kernel.org, AJvYcCVfIC3Iv5jmACsSm64o1fxwbgz+HK5Sq7ba0Sj+yPK2g0hxwrjogvAIBWN32bd7R8hS+MJohWCVyxet@vger.kernel.org, AJvYcCWVaqOtMf1SZF9yC8wp7dJ8eM3q/fRGSVjTQWsDC3b3xkW2PWmbbibS2K8Wew8SjeOAFhGconDoaeDHC4zN@vger.kernel.org, AJvYcCWoarrCRGq6wa4s2xbAtbo8yY5Ns0rwEoJJ+z9M1ibbIAQU1wQ31XgVgg+EvyC/ExGxb4nmba8pTqPmbv8=@vger.kernel.org, AJvYcCXcBwrkB6brJLWTIHMlJwMv9wYGW7tpWi7aYo0Vpd3UceEi5uRaguUKIvmtBe5q/1tCmpPoRg5CKzFQ@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyo4xJsTJ0ODW7b/XIXrvQCBJhLVupul90nk22I8YHfJT9gSXE8
-	VaL12squHN31UkLRPakHbCnozrXSF2syAdzw3EuXgOgTPz05662w
-X-Google-Smtp-Source: AGHT+IHF18U4cThRvtCY+Qi/lmawS6UQFrVSSNsI3eTucdL9UMdNK6PIdf7rrxwGqd3Ezs2iOYJTvg==
-X-Received: by 2002:a05:6402:3506:b0:5be:fc0b:9a6a with SMTP id 4fb4d7f45d1cf-5c21eda2c64mr6241777a12.32.1725039928258;
-        Fri, 30 Aug 2024 10:45:28 -0700 (PDT)
-Received: from localhost (fwdproxy-lla-009.fbsv.net. [2a03:2880:30ff:9::face:b00c])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c226ccf406sm2154707a12.59.2024.08.30.10.45.27
+        bh=AulFetis4hJ4nBZpqnAuP4LAKnJB+TKmCm7LCByyUks=;
+        b=QEkSYTgriPOzL+KcLXKoBire/NibH5z6gK9m6OHzNW9mLr6MlHadhzCtKny60vy5ev
+         nQ+2IqX+PNA5XmCHgzvnfpbxYz0QJK9z2pS8SAqjLTFhh4g1ISi29csDxkw8/Jj0lgWE
+         kwr+lPIutpflHLyUzhYe5LcvkZCvi4uaYCpg1/bvQmP/gPfmNWkZNU3e2xt5SIG2XBwQ
+         n0PMSG8hFiz13zF+Y6P5332uJdH8y6bvlEQMAApc9XalzMbocdJ8q8WuH5kcmw2Uv6H5
+         H2leq7Gy1/8VVJaei4GUqX0u9VdTecC7NP9fMx4PvDjOMntpN2xw6RothtuTwWSvF2lL
+         /7Pw==
+X-Forwarded-Encrypted: i=1; AJvYcCUJ9W79ggLWg8nit+IQc/goUO0dpDR/FhsIiQUKZ7y4/qKFE3kLjMqwpVPpwED3O3rspr+IqyL3UZmLJIQ=@vger.kernel.org, AJvYcCUuMoQbSCx4suIS1sefSSiT6pmjd+sh5Oa29bbnRPfFKLQbBItIw7KH60hZV6kqCBpv0Vn9kdWdXPn3@vger.kernel.org, AJvYcCXEr7ZBMqFJWvYaj7CwXWcoG5ihlNipgkokIeZzfoR/P+Kv0O15AITyPf3bchDREdSVSlnBF+wx++U+jw==@vger.kernel.org, AJvYcCXP+cuKE0TF049McR+nqnbJyI24/cdUfvK1ntJwhVXWsV6xRXHRQ5yI9CI5vNt+UTjkcGPh4kDRt27f@vger.kernel.org, AJvYcCXR8AenZPU6vibNjf/iJ553Le8Hoq3xguxwBuGWikdpPtzNSIv6ZKd+GDUAyJQ8UmNeePvhT7yRzkLb@vger.kernel.org, AJvYcCXUmB2u0lB3kjQenZ2+28rQAoKC7Lf99PuynafDrsUpsGlxvA6KrSUBj2Hh2/SSQSxMa5RNMCrtN903lbZy@vger.kernel.org
+X-Gm-Message-State: AOJu0YxLPvCZ1NVk18752w0ZtWBcgRmM3Gdyn4FYg1J9IoNX5gacYFar
+	6u+qDF3fgCDj6H+oaISjS0rh4yHG0sS3EBbqlpMGdfVyE9lka4Xx
+X-Google-Smtp-Source: AGHT+IGCS78pvxIBdvjRBXHwluMlTuEf25Ac7vqcWSYoAo8knsAvDiU3YKvjT6NaTY3ZnyYh3nukxQ==
+X-Received: by 2002:a05:6402:35d2:b0:5c2:43bd:8d3d with SMTP id 4fb4d7f45d1cf-5c243bd90eamr5092738a12.15.1725281767568;
+        Mon, 02 Sep 2024 05:56:07 -0700 (PDT)
+Received: from localhost (fwdproxy-lla-112.fbsv.net. [2a03:2880:30ff:70::face:b00c])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c226c7c1f7sm5242435a12.42.2024.09.02.05.56.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Aug 2024 10:45:27 -0700 (PDT)
+        Mon, 02 Sep 2024 05:56:06 -0700 (PDT)
 From: Breno Leitao <leitao@debian.org>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Akinobu Mita <akinobu.mita@gmail.com>,
@@ -60,27 +60,25 @@ To: Jonathan Corbet <corbet@lwn.net>,
 Cc: leit@meta.com,
 	"Paul E. McKenney" <paulmck@kernel.org>,
 	Thomas Huth <thuth@redhat.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
 	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Thomas Gleixner <tglx@linutronix.de>,
 	Xiongwei Song <xiongwei.song@windriver.com>,
 	Ard Biesheuvel <ardb@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	SeongJae Park <sj@kernel.org>,
 	John Moon <john@jmoon.dev>,
 	Vegard Nossum <vegard.nossum@oracle.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	SeongJae Park <sj@kernel.org>,
 	"Ran.Park" <ranpark@foxmail.com>,
 	Tiezhu Yang <yangtiezhu@loongson.cn>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
 	Remington Brasga <rbrasga@uci.edu>,
 	Damien Le Moal <dlemoal@kernel.org>,
 	Hannes Reinecke <hare@suse.de>,
-	Johannes Thumshirn <johannes.thumshirn@wdc.com>,
 	Chaitanya Kulkarni <kch@nvidia.com>,
+	Johannes Thumshirn <johannes.thumshirn@wdc.com>,
 	Zhu Yanjun <yanjun.zhu@linux.dev>,
-	Chengming Zhou <zhouchengming@bytedance.com>,
 	John Garry <john.g.garry@oracle.com>,
+	Chengming Zhou <zhouchengming@bytedance.com>,
 	Yu Kuai <yukuai3@huawei.com>,
 	"Shin'ichiro Kawasaki" <shinichiro.kawasaki@wdc.com>,
 	Vlastimil Babka <vbabka@suse.cz>,
@@ -90,9 +88,9 @@ Cc: leit@meta.com,
 	linux-block@vger.kernel.org (open list:BLOCK LAYER),
 	linux-scsi@vger.kernel.org (open list:UNIVERSAL FLASH STORAGE HOST CONTROLLER DRIVER),
 	linux-arch@vger.kernel.org (open list:GENERIC INCLUDE/ASM HEADER FILES)
-Subject: [PATCH] docs: Move fault injection section to dev-tools
-Date: Fri, 30 Aug 2024 10:43:52 -0700
-Message-ID: <20240830174502.3732959-1-leitao@debian.org>
+Subject: [PATCH v2] docs: Move fault injection section to dev-tools
+Date: Mon,  2 Sep 2024 05:53:11 -0700
+Message-ID: <20240902125421.569668-1-leitao@debian.org>
 X-Mailer: git-send-email 2.43.5
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
@@ -109,6 +107,16 @@ section.
 Suggested-by: Jonathan Corbet <corbet@lwn.net>
 Signed-off-by: Breno Leitao <leitao@debian.org>
 ---
+Changelog:
+
+v2:
+  * Fixed a remaining file pointing to the wrong file, as reported by
+    kernel test robot:
+	* https://lore.kernel.org/all/202408312350.DEf53QzI-lkp@intel.com/ 
+
+v1:
+  * https://lore.kernel.org/all/20240830174502.3732959-1-leitao@debian.org/
+
  Documentation/admin-guide/kernel-parameters.txt              | 2 +-
  .../{ => dev-tools}/fault-injection/fault-injection.rst      | 0
  Documentation/{ => dev-tools}/fault-injection/index.rst      | 0
@@ -135,9 +143,9 @@ Signed-off-by: Breno Leitao <leitao@debian.org>
  drivers/ufs/core/ufs-fault-injection.c                       | 2 +-
  include/asm-generic/error-injection.h                        | 5 +++--
  include/linux/fault-inject.h                                 | 2 +-
- lib/Kconfig.debug                                            | 2 +-
+ lib/Kconfig.debug                                            | 4 ++--
  tools/testing/fault-injection/failcmd.sh                     | 2 +-
- 28 files changed, 24 insertions(+), 23 deletions(-)
+ 28 files changed, 25 insertions(+), 24 deletions(-)
  rename Documentation/{ => dev-tools}/fault-injection/fault-injection.rst (100%)
  rename Documentation/{ => dev-tools}/fault-injection/index.rst (100%)
  rename Documentation/{ => dev-tools}/fault-injection/notifier-error-inject.rst (100%)
@@ -439,9 +447,18 @@ index 354413950d34..9b10e50155a6 100644
  struct fault_attr {
  	unsigned long probability;
 diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index a30c03a66172..98ba0847b994 100644
+index a30c03a66172..a0e66c01042e 100644
 --- a/lib/Kconfig.debug
 +++ b/lib/Kconfig.debug
+@@ -2019,7 +2019,7 @@ config FAULT_INJECTION
+ 	depends on DEBUG_KERNEL
+ 	help
+ 	  Provide fault-injection framework.
+-	  For more details, see Documentation/fault-injection/.
++	  For more details, see Documentation/dev-tools/fault-injection/.
+ 
+ config FAILSLAB
+ 	bool "Fault-injection capability for kmalloc"
 @@ -2225,7 +2225,7 @@ config LKDTM
  	called lkdtm.
  
