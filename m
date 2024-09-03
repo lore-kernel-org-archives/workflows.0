@@ -1,61 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F4F52A1D6;
-	Tue,  3 Sep 2024 15:50:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8418C186E30;
+	Tue,  3 Sep 2024 22:36:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725378619; cv=none; b=g2s+sNb8HcXGfPGPYIXXVCBo3h4W5Rqna4TG8YpJ2pAuKUiZLAfg/RaXcxSjCpIwqGvwbzFCAKmfxi0Pdb8cOaZ/b80TTwU390W+yQOgztWVmOeQtyptB4HcEYcrXubc7rfYcGHMZVoRQfw7EdzWWJpm2YnjvKVN7Nj9RIRvJz8=
+	t=1725402980; cv=none; b=rWIJAAQtNGGakbrFMrEaZZYkS5AAQZBZBtkk3JLWHv7Cuv1KDeGdDTQXRjF/C8yWBod6WSikD8VB0IkUlpwkHb3+j4G8Pdhi6EU1FV1ofk00aCnHWFgM61nbA6ENJf99dMtv21c8ZQ45Bx7xHASjsMVje78NMxmwCE+VCnpaCuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725378619; c=relaxed/simple;
-	bh=TtjIUZZE5FgqS/EpHIHpt9Y9fP+E0Y06nqTjuHq5Qds=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aPUwdsxnBDCdpmRhwjQrsvFGhQSp8aak0BMcigGF0kEX7lfdprVQeDhucEmHCEKxieFNzrwiKvbySfJ2uPvdvWGyZSaiak+eudH+rPWnKqpEuPTt7sL4U5rMIoRvkXjL7GRs6l/l6rD0HNVW86UAFNJ3w9JApZuqHsmlSTB4IjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GVKykKki; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725402980; c=relaxed/simple;
+	bh=w/F5Gln/VAy+w+5IKZ0bm6juyWi5rGx8h9yXwrhxeU8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=CFGrH3IvPadOYdGlQCvSb6AoB85PGBcv50Hkwf/XILmLUz/LMRbn5sG1+FvImHxNDxs1yVh63aubDei6/gqIaRrdQg5viBlIE03kbnL34mSJu6ZvIt/6cLUY1zkPe5iKqmlWXXESnuJ/ve5IPv6nOtKRNbELDXwohfvhruPHkYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t5R+NXJS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GVKykKki"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8B9BC4CEC4;
-	Tue,  3 Sep 2024 15:50:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t5R+NXJS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4352C4CEC8;
+	Tue,  3 Sep 2024 22:36:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725378619;
-	bh=TtjIUZZE5FgqS/EpHIHpt9Y9fP+E0Y06nqTjuHq5Qds=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=GVKykKkiyfoYgpKtnWfiTb/VXofT4/82oemLmE0hNrmIv+SGixsc49R0eHqyCNdgv
-	 6t6wO4FHgo4HSy9jgH5SZLXi3igLwVWMd6kLM7wwUbG7w4GXPEct26QjPW8BB0vnFH
-	 BV4KWBKlXzBLfEi6+hR6CDIHxwYu+r56EGnlBbRUWGfSZgD9NKUQ7nUtfcQMfX5Cun
-	 JXEwTAPfuJsSBpQ2kb9RH8egb3ocRfYToD8xv4l1LIAmqVP+ZbcyZSwMWZRK/hYzc8
-	 taGTsnDX2rk3EQePy+koyxpCioH9CXj1LhjY2EsjUVfnxxdW3DhCwWFNP/VLnRb0ey
-	 K+pWPfmlTyipg==
-Date: Tue, 3 Sep 2024 08:50:17 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Steven Davis <goldside000@outlook.com>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: maintainer: Improve grammar in mailing
- list participation section
-Message-ID: <20240903085017.6dadfd4d@kernel.org>
-In-Reply-To: <SJ2P223MB1026BD1839CFD474395FACDEF7932@SJ2P223MB1026.NAMP223.PROD.OUTLOOK.COM>
-References: <SJ2P223MB1026BD1839CFD474395FACDEF7932@SJ2P223MB1026.NAMP223.PROD.OUTLOOK.COM>
+	s=k20201202; t=1725402980;
+	bh=w/F5Gln/VAy+w+5IKZ0bm6juyWi5rGx8h9yXwrhxeU8=;
+	h=From:Date:Subject:To:Cc:From;
+	b=t5R+NXJS7ceShRs5loYLB1GbvWLXbsTSNwqzcUeDuydzHOh7yXDdEjWCVIk/w6I5C
+	 /gmhl6SklRud24waZ0HbxfJCHGjV88AcA9RhIEMrlA+mbbY92TdWOpwCCXS4mQWXp/
+	 e0YX2AkrQ2HMId9xKxOe1C6gxvod6kDEsfeaLBpemCwWBSrwV6XMO4Wlqs6Sml0wdi
+	 exY1zDRT0KU+Jwjqta8a8eFtmSs9Q+cn1UGua9vxKBnACT8ehM87khBi1rReo6P16U
+	 gkE8OKVzDL0o6iSNCmBZonoH3cm9PufHX7+h34nWTQd5/ZL8rAVeMRk3nydUB6shiK
+	 Dq2eXldJs9bpA==
+From: Mark Brown <broonie@kernel.org>
+Date: Tue, 03 Sep 2024 23:36:02 +0100
+Subject: [PATCH] docs: submitting-patches: Advertise b4
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20240903-documentation-b4-advert-v1-1-fefda9564f6e@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAFGP12YC/x2MSQqAMAwAvyI5G2ituH1FPFQTNQertFUE8e8Wj
+ wMz80BgLxygyx7wfEmQ3SXQeQbTat3CKJQYClWUqlUGaZ/OjV20MZk4lmjpYh9RN0pX3BiqqYV
+ UH55nuf9zP7zvB0Jgfv1pAAAA
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>, 
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.15-dev-37811
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1308; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=w/F5Gln/VAy+w+5IKZ0bm6juyWi5rGx8h9yXwrhxeU8=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBm149hGmuOSz86kPMz+k+68HRFxU7pTuCXgJZNW/bF
+ jfGhiMyJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZtePYQAKCRAk1otyXVSH0EJ3B/
+ wLEanakrcIqqBQ+MCRwUOAboiatcaAx++AoH3bJPKIA7bBUfKIzyLWb9CCi6EdsMJahDPYfoNTLtxt
+ kwQ3VUa4ujOoe+xVz9tngXnuWHABvMhaEbTjImjmYIU20rH3QhkxiVGMCQ8UiLxeEMIK4xiNqeoY0m
+ aI9Ru0VBU/ZKHe8n9xo3BphKw7+WFpSIuZymfv3MEgqByK0O1KCQi0Tl/m9JziIMPrX1C/bs3VWQZi
+ v8cAN+tvrfydUL83MqTn0aYwRVhlUTRHFnL2SyigvCiwSCuTFBgtvpZoNCKfkT2e8oHNz2nOW6huio
+ OGY1r8QpYsc9JMaUn7wH4r/tEfbw0C
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue,  3 Sep 2024 11:19:25 -0400 Steven Davis wrote:
-> In the section "Mailing list participation", the first few
-> lines had grammatical errors and overall was not clear.
+b4 is now widely used and is quite helpful for a lot of the things that
+submitting-patches covers, let's advertise it to submitters to try to make
+their lives easier and reduce the number of procedural issues maintainers
+see.
 
-Not clear in what way?
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ Documentation/process/submitting-patches.rst | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-> I fixed this by adding "The" before "Linux kernel" and
-> specifying that the mailing list is for developers.
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index f310f2f36666..4b6904184ad1 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -842,6 +842,16 @@ Make sure that base commit is in an official maintainer/mainline tree
+ and not in some internal, accessible only to you tree - otherwise it
+ would be worthless.
+ 
++
++Tooling
++-------
++
++Many of the technical aspects of this process can be automated using
++b4, documented at <https://b4.docs.kernel.org/en/latest/>. This can
++help with things like tracking dependencies, running checkpatch and
++with formatting and sending mails.
++
++
+ References
+ ----------
+ 
 
-That's not correct, the mailing lists are for all sorts of
-communication, not limited to developers.
+---
+base-commit: 7c626ce4bae1ac14f60076d00eafe71af30450ba
+change-id: 20240903-documentation-b4-advert-18016e83d7d9
 
-Ack for adding the missing definite article but please don't
-"clarify" the text in ways which make it less correct.
+Best regards,
+-- 
+Mark Brown <broonie@kernel.org>
+
