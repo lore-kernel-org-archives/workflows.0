@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61677186E30;
-	Tue,  3 Sep 2024 22:38:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC34168D0;
+	Tue,  3 Sep 2024 22:42:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725403092; cv=none; b=B779atL8rPDm7SvVLwklQQEfr5MeI0RYhxunYI5epMH2q30Lh0PUD2alo8CtPIwBBLDfLmNfE19pFAwV80SeF+de4Oj4eK/j/K3dqsoJlG9uL/+KC00AxwF792+y9Vwy0RVB/mqxrWaXycnXAbyCzhQOrbr+kyYxTZyoiw3hb84=
+	t=1725403331; cv=none; b=BM2gnAyzIFtgzh6OtpHqPOzceHdZERbCBkVJZwgl+vtuC+xWkIhvvtY7jYFZW2oGNiql0QX5bOAaeL/XmTS8SMYchdUz2L7Lb0mTkeyVG0Q3P9naMQxxLB2dKdkz44fb8v4TJEgcuOeeDwPUiBHKIDvaMJEqJpdi0GnvERte3BM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725403092; c=relaxed/simple;
+	s=arc-20240116; t=1725403331; c=relaxed/simple;
 	bh=w/F5Gln/VAy+w+5IKZ0bm6juyWi5rGx8h9yXwrhxeU8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=HFEugnVhqlyrs1L+OZFrhwKddlu/CsR9LoBKvvAykrpB2a1O7zSQT5PH08QO4am/iTsVP6encdW2mB8WkQc+KFt4BC0MvUGSpPMU8oJNNeykQ/mYaz0wgTN2A8EH5Tm7I/vAi1W0jDyLt8Pxdw7C1OqCCPM/2X1NbPL6ytc2d/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Js9mVu9a; arc=none smtp.client-ip=10.30.226.201
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=J759adQN41UJkfuDjGn+48MpYeZgexQV+bdIR+y+a/7jw13hJR7/IsmJm6rEzBKeNdj1p48N+IUGgc1o57Mu6qD06J61Q/VJzqf+cMAulcZLnulSSP4YFa0vj8xdIpzHdQEUYojxrignZiOvdkddKlAsBMMyPccxZlfmrnnJ75k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hWecsFhK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Js9mVu9a"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB091C4CEC4;
-	Tue,  3 Sep 2024 22:38:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hWecsFhK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9B0CC4CEC4;
+	Tue,  3 Sep 2024 22:42:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725403091;
+	s=k20201202; t=1725403331;
 	bh=w/F5Gln/VAy+w+5IKZ0bm6juyWi5rGx8h9yXwrhxeU8=;
 	h=From:Date:Subject:To:Cc:From;
-	b=Js9mVu9a8u/+cmujqFR7xOPBihvqEnPyK693pFRW3cU+NuDq3UxLuQaL4TYJlPl0y
-	 fNW81TQr5B7TJ20NM5annc2UVTM3z5c1GJon5kSjRPqdNTQcXM/lNCqHGQiiTWcoMp
-	 DsmjnRmk850ICIf0qRWk8kNRGApiNi73r4skBMmpZQAnlcmO69TscQs58BmYo6ytVZ
-	 WznTpRH6bDkQ7nV7XbcDoHgBNbivrRYqLr4sdFlT4kw5DvAeyNtsgJJr8wes6dpx5q
-	 dFizdK15jr6t5PAdEFAdGM+xGT4dijqyMTj0O4HtzTeVqXv+MxB2NQVqek4L36xhfO
-	 6m7Sj+6pfUduQ==
+	b=hWecsFhKcb5hKgr2Zbf39waj0EsKyDgVOOeWXR2uIPL0OVr134JSU0VfJZHP5luMZ
+	 h06w/ooMqXh40aWOy7cA7WbpJgMpVylmD0FpASmD2VbQzqG4PlucqI6MaFgDmVhZZk
+	 ezTMDBGTMIHskuazWFAZD+Lqincu6pCXWNDHOGwuE5v4MJv85APLIIYspLsJjTSbLw
+	 8WB9iS1YiOtbUZAhodZCdzFBiJ6MasnN0l7mX0sENUDrecqHitUEGTDgR8OtdEIZAe
+	 l1lVE2gV3Q8AENsENJKwQn5YOk3akqm4n9B1GNr2mOtec/E5tzXT/El+GR0/kwGXhG
+	 DWX+VDhN/WVlQ==
 From: Mark Brown <broonie@kernel.org>
-Date: Tue, 03 Sep 2024 23:38:06 +0100
+Date: Tue, 03 Sep 2024 23:42:04 +0100
 Subject: [PATCH] docs: submitting-patches: Advertise b4
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
@@ -36,24 +36,24 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240903-documentation-b4-advert-v1-1-7415cdd74813@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAM2P12YC/x2MSQqAMAwAvyI5G2ituH1FPFQTNQertFUE8e8Wj
+Message-Id: <20240903-documentation-b4-advert-v1-1-c89d6f5db7b1@kernel.org>
+X-B4-Tracking: v=1; b=H4sIALuQ12YC/x2MSQqAMAwAvyI5G2ituH1FPFQTNQertFUE8e8Wj
  wMz80BgLxygyx7wfEmQ3SXQeQbTat3CKJQYClWUqlUGaZ/OjV20MZk4lmjpYh9RN0pX3BiqqYV
  UH55nuf9zP7zvB0Jgfv1pAAAA
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>, 
  workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.15-dev-37811
+X-Mailer: b4 0.15-dev-99b12
 X-Developer-Signature: v=1; a=openpgp-sha256; l=1308; i=broonie@kernel.org;
  h=from:subject:message-id; bh=w/F5Gln/VAy+w+5IKZ0bm6juyWi5rGx8h9yXwrhxeU8=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBm14/RatF8H8chJ2oOyOjfR1PuV/tTK+c79PSfzLSx
- tA8jTeyJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZteP0QAKCRAk1otyXVSH0CiZB/
- 9EIt50HFKQFbJFNGFAX3ENCezy0hpdKlq6eDsiMAX0HPgrgie8LNy52qPsNwQgZvEr//GXy3rD2IdZ
- +NLFtPV7AdFBw7Tv2fZD+NYq2ErTjbNqFJFWSYVppiQZL+ghTjQetA/g6AScHuZbOEKZvCkvOkdPnE
- BG8nzwoN0oUqRkSI3ITMmfHzKFtqa8MkzbsngQ7rD+b5vJuflcTQ97zD9Rt76k0Y5MgUDw59qm/W7V
- yGCm3voD3djFHV9TxyZhxLwX7bjB4vJbsDyBC2edzc7EAlauxZvfxnV+WG/5htibuFtODTqwSPRyaB
- Y1Zx/q7CnAfz16AJN/lI15SAbtPy0e
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBm15DA3V3WbIDzC9rF85dCB+Znhf+FJAR45OkRk0vB
+ ODoQ2VyJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZteQwAAKCRAk1otyXVSH0GN4B/
+ 9xrtwhXmGjLg7TkmgsxfZksOG/aXyW6USgt0CDqcHV9Wxspv4npmdbcXtVbVdHy5CoRN5C5orP4Qqs
+ 9YJdoxI7lUjmrKzKRaK8jPOtTd1z0Vq9aSyF0C9OR78ZqQvpY5DmIFrtX+mVclouwChHQQF4CC0XnL
+ ucM4NPbMAyh/wTDcyu76VN/DGfkbiJELZOWOQfk67PjZepPt34AIjdyhj/e1NrFkVDosYh22dCd/0B
+ cJot9+R2eSOs0rEiUnI7Us9Du4Frwrq3qCj8Y23UJlcInY/brYIVB19F8uHQLQMUY2tDZGl73vYa23
+ MW0GocFYfqr5coe0SouJCChDF+7+Qh
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
