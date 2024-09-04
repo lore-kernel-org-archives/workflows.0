@@ -1,99 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31BEA4776E;
-	Wed,  4 Sep 2024 02:44:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A25F05B1E0;
+	Wed,  4 Sep 2024 11:30:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725417896; cv=none; b=O8wZt0PDNWI/hBrSREjPOrZD0d2QzwJONAf1CCUKO1dIUyN148wQ0BX28p8iyI3jW0dRiVifaFimLgWqY7NOEOlQkREg1ejEQFMk1sHQk/DR5G5CLS/r9cz/sdJqKMWDtudqV8BkgGqPGcWLZVrsg7p/wXduF9livs2eXWB0gto=
+	t=1725449433; cv=none; b=BbbLzrhhDFW/pQBRRGkd70ijuphVdtTFJmcLXnycjJyK8HAtSK6UzIWkGMxs8TNUUbicl5SXAb54687A4K1xVKk5uA2IUdYINIGOwgu2wv/faHSxyZhSQs6vagtt3vhqe0cylI5bMW+vuxUEW5ER3wjCG0ZdrpK5gpiE4xzsHrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725417896; c=relaxed/simple;
-	bh=fogaHN6CdraCTRrLn2ZBcDH/1HrT2GkkyolQ0HFX2y8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jrMbpwrYdaOdgz0tpRVdqbNUi9G1IU8VdEwhZgs7pUQyv4+D3G2pRVi/ptN63ATUMkrpTzVFlqG2PKWgq8w3Nke19shIpJb0HiBbCjat2Qif5JsukwtDrMBE4jAhMaXtvJzQaXAF+96dxfoygETE9qseLKKitya7eRfm3dQB8qU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qa9fJ624; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725449433; c=relaxed/simple;
+	bh=5Aj+Yl/rXBgCGweDXox10GeE9CAueq0f0fU8ZeIbr1Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cPlCxm7XXR5ZWljyxOenPjLCrdAm0LLu9rsj6u6GtBaE5XF0fCFcNGUDezuF6vHcupCKef/2kMbcBTLAlrttmUusLBFnQpPPFcbgEn9IpqNbMXHKVQlTETS3X4wZvOnaoYfOrzoM/op9JP4f9FNPQURz2fIcibnUnME8r7/gjG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vEMRaWvE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qa9fJ624"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D099C4CEC4;
-	Wed,  4 Sep 2024 02:44:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vEMRaWvE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA969C4CEC2;
+	Wed,  4 Sep 2024 11:30:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725417895;
-	bh=fogaHN6CdraCTRrLn2ZBcDH/1HrT2GkkyolQ0HFX2y8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Qa9fJ624Gk6q+EjFrmYrV3XNJB2+gocAFRpoa7IqCDl0ONsHEZFMYai0KE0ny51Hs
-	 s/Wf5lMWF6LD9Swe+Fv7X7lw9Qc4Cagg2avCCrb9O5rbbj0JKORJeTh7TRmia3iCIT
-	 gcOJWZShZEkoNzUhJvkGy28hHJmhybCO4mfXTC2G4fgUJSjPPhW3Ku+Sgy85EfgSK7
-	 bWMmBlDia34SNrh5ggoZVYsDkJ+bixmoBy1EDmrYjf4zhVlgCW1Ryiy2tboWeBr12C
-	 DxQMjuF2GlokUqgukcyUMdTfBPYCy5WxZZeUSaU4rr8ZDG4woXOIxJCq377DojUUNK
-	 p7WSVUUPGQA4Q==
-Date: Wed, 4 Sep 2024 04:44:51 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Konstantin Ryabitsev
- <konstantin@linuxfoundation.org>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+	s=k20201202; t=1725449433;
+	bh=5Aj+Yl/rXBgCGweDXox10GeE9CAueq0f0fU8ZeIbr1Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vEMRaWvEgpMx1JiXXMbipWn7gT/SWrsvX834OdcJnZ8wMadYaGYPBTiO9+p8tPEAE
+	 qXkj0XD32K/6wc01wlrwIh2u7KjmnK5X4nJdEhwbCvMqqNIq5NhNbXqNTywDF+dSEm
+	 IxPHUMKOw1R3NzBl/IRFAAOmd6K9FFQ00KmE5cfejxNKEPBs4a3BoGcl3sLWHNiBvI
+	 +B5BqW9MDovr3IV3Y1xzNql+ICypBxyLR3yXNgO5rOG4af0/mHORJvka7wZ/BitjFg
+	 Y/+K6zHo6lDgOTrugMvolroZHNSuElel6EUkFgv4Foy3mACDoB6Sabu5+2QNfzvcDE
+	 CuTYX0uD/50jA==
+Date: Wed, 4 Sep 2024 12:30:28 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] docs: submitting-patches: Advertise b4
-Message-ID: <20240904044443.309aabb1@foz.lan>
-In-Reply-To: <20240903-documentation-b4-advert-v1-1-c89d6f5db7b1@kernel.org>
+Message-ID: <bbe54c4e-dd0c-488c-bffd-f9dddf6b13f8@sirena.org.uk>
 References: <20240903-documentation-b4-advert-v1-1-c89d6f5db7b1@kernel.org>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+ <20240904044443.309aabb1@foz.lan>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-
-Em Tue, 03 Sep 2024 23:42:04 +0100
-Mark Brown <broonie@kernel.org> escreveu:
-
-> b4 is now widely used and is quite helpful for a lot of the things that
-> submitting-patches covers, let's advertise it to submitters to try to make
-> their lives easier and reduce the number of procedural issues maintainers
-> see.
-> 
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
->  Documentation/process/submitting-patches.rst | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> index f310f2f36666..4b6904184ad1 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -842,6 +842,16 @@ Make sure that base commit is in an official maintainer/mainline tree
->  and not in some internal, accessible only to you tree - otherwise it
->  would be worthless.
->  
-> +
-> +Tooling
-> +-------
-> +
-> +Many of the technical aspects of this process can be automated using
-> +b4, documented at <https://b4.docs.kernel.org/en/latest/>. This can
-> +help with things like tracking dependencies, running checkpatch and
-> +with formatting and sending mails.
-> +
-> +
-
-No need for two blank lines (yeah, there's a mix on this file of using
-one or two blank lines for paragraphs).
-
-I would also add quick example(s) on how to use it for common workflows.
-
->  References
->  ----------
->  
-> 
-> ---
-> base-commit: 7c626ce4bae1ac14f60076d00eafe71af30450ba
-> change-id: 20240903-documentation-b4-advert-18016e83d7d9
-> 
-> Best regards,
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="fmW3RxZUn8nqYSox"
+Content-Disposition: inline
+In-Reply-To: <20240904044443.309aabb1@foz.lan>
+X-Cookie: Linux is obsolete
 
 
+--fmW3RxZUn8nqYSox
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thanks,
-Mauro
+On Wed, Sep 04, 2024 at 04:44:51AM +0200, Mauro Carvalho Chehab wrote:
+> Mark Brown <broonie@kernel.org> escreveu:
+
+> > +Tooling
+> > +-------
+
+> > +Many of the technical aspects of this process can be automated using
+> > +b4, documented at <https://b4.docs.kernel.org/en/latest/>. This can
+> > +help with things like tracking dependencies, running checkpatch and
+> > +with formatting and sending mails.
+> > +
+> > +
+
+> No need for two blank lines (yeah, there's a mix on this file of using
+> one or two blank lines for paragraphs).
+
+I have to say that the double lines between sections do help with
+native readability of the document.
+
+> I would also add quick example(s) on how to use it for common workflows.
+
+The b4 documentation is already pretty good and the submitter side is
+focused on a single task so it's much easier for people to navigate
+than something like git where there's a lot of flexibility, I'm not sure
+rewriting an abbreviated version is a great idea.  Someone with a better
+idea of what would be useful could always follow up and add that.
+
+--fmW3RxZUn8nqYSox
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbYRNQACgkQJNaLcl1U
+h9AKXAf/QfT66Emr7d698Cu3+HT2XqcZ6wCEE3BdchyCYPCaEUMbjC5Bb9QosL2U
++/lcM6MnBZ/4j9w0UktlzKiduYVnhwi5pbls8EJAgB65pERpCJ8wLqSG6rI+hkn5
+Ge/X3m1VTHZ/i/ChgRGd4LmzmTxfSQHxazCXq0jvw5kmBqeM/Rb8y4P85eek7c+m
+XF3A+4dmNxRRaGVlrkBWll4wXqy0S3uSAqTFtTsDqimWcmipZlP3nsBx6T9t6f9o
+wWq8Jb6KjTD6Sqwy+QOmYL6kN/kWqsUsOpbajjeHfFtRdzFN9IvYGY4HHKfXelr9
+crf5HyEDFWelacDK15Co3G/fbwp3Xg==
+=cTQF
+-----END PGP SIGNATURE-----
+
+--fmW3RxZUn8nqYSox--
