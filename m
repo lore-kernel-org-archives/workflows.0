@@ -1,48 +1,74 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A2E7464;
-	Thu,  5 Sep 2024 18:03:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F0518890F;
+	Thu,  5 Sep 2024 19:40:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725559398; cv=none; b=iAQtSY4w8gAUJCA/kyc0fE3s8y5szP0pDAxs3pd1ZUpCHCw+6SuGnCZUhNUq6Ul286BzXEMZKw/ilXYs1rLSEvOAgrDeDzsIHNV0y2n6CwLWY9pskdctxslgYqiISu77aAhNtgrgRgBCH68gHRIFOTGF2td/LWhK/zYpo4NRP2g=
+	t=1725565221; cv=none; b=UEwTyskL7FprcxzjN7aHcFczKhQsFGzqLRKr+eCKIiTyA4EFSPhWp4/73J8/l1x2Q4KmTp2DmmHmqaDz77VR5bJPcHJM5G5l8M8K2Zdk2vqbu8dXbG4Pn2+UnVkrf1E2Q+eQwd2pWJC2god80yF+R86wt3CF0fs4UEmxWFEOXWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725559398; c=relaxed/simple;
-	bh=mKcvdx+iWVZ2zzidPNlMM6ss5Oo+nEsUbCeSr4gp4Uc=;
+	s=arc-20240116; t=1725565221; c=relaxed/simple;
+	bh=0njpqKLWluBDQGSUtohgju6AwFF6RyWPG2G9QwxX11E=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=aEi4/PNBzozWKyhQwdoqN5+SNspoZeKQnNx1uTwCwg4844TxDaoRn7w/msztquPBseri/msZjdByoPuHASuplaDDh5b2oGe75jlMBi9t4MLCMb+FG0CY6ZisCWlQJf2+vDkbMkAqbzjPe/ieHj5CunO8/Cd8s/R/1n7PQ0ARmPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=UD83NBa1; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=l3ptDT4BJv0Q1jTupFwpoUj7R86+Z+3GlJEw2G8i+Yq7X/k2ABEYTwgtM3THGWhI1UXXI1LrLKQiN5cakqsfoV17r71ALo+URObzn57giA8YWf26sSsd4+ekcUaXGMaGFwMp3NWi4WT8f4U27zt+DgJKqq2AbADk+zloxTZscPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=qQrJHv8j; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="UD83NBa1"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 925CF42B25
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="qQrJHv8j"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 88C4142B25
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1725559395; bh=mKcvdx+iWVZ2zzidPNlMM6ss5Oo+nEsUbCeSr4gp4Uc=;
+	t=1725565218; bh=SnvYuQFqEXegO9CMT7NfIUI17BcZjbXywADJx++0xlk=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=UD83NBa1ghmdmu3ZcT4z941To/hfiS1IQ0A8zFwxRc5xPtCSxXnh/Z4TSpcIT8Hyx
-	 t77Wrwzpler5QfC9acQaiQGXJnL1vRk55KcPXvjS9/jzz0QCOBcTjZsYx6JYNDciRZ
-	 7IGWiCphDS/30ntFv2KIUKS5+ZmtydJ6OjqCh5PTL/PyVTNJpsb9yWoEhJHB/MeG1P
-	 o1biDkfYeCY4jtQ7OkcAvveghwn4j4nM7pxcsTwZccyZPUZDOaKXHtsE1Ws9vW0fKQ
-	 X9TdQfNmrI0FCSwHJRZAHVM+AsFcChd8PWSGZAc7mqCI7Mzgxs+TYqdvbEOdCMTsw+
-	 RFBJ++obnUGdQ==
+	b=qQrJHv8jJYXwnnNG96FjPs0wS9EbXRw4l5iA8mYHJmyllP6iLyoNaMv5vVMMiVwNJ
+	 /Qw7Y3bKI+Hr+mMVGQT0hEllXkDkIjRXxCv3i7LqWe6XhScGnb0c++SpAWdpCOP6S8
+	 zCBsukWUjHd1nK3cfxKy2IM387n2tGR/tVfW2SZeh+lEkqasTj/2OZgwSq2XgHh0FZ
+	 LUmXMEBm247jfwVHOxOSPa2Q+jgedXckqvmAxJ4A+8YlfxoylPviuNSJOso3yBlKwb
+	 /6sDf/N6NJQxCZcku9VBfYvcnP/Vj8lCMy2MO71i28Fkj8Hk31itQvdChAPb/4cfx/
+	 UNZdcqJKtOEXg==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 925CF42B25;
-	Thu,  5 Sep 2024 18:03:15 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 88C4142B25;
+	Thu,  5 Sep 2024 19:40:18 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Mark Brown <broonie@kernel.org>
-Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>, Mark
- Brown <broonie@kernel.org>
-Subject: Re: [PATCH v2] docs: submitting-patches: Advertise b4
-In-Reply-To: <20240905-documentation-b4-advert-v2-1-24d686ba4117@kernel.org>
-References: <20240905-documentation-b4-advert-v2-1-24d686ba4117@kernel.org>
-Date: Thu, 05 Sep 2024 12:03:14 -0600
-Message-ID: <87a5gmj7vh.fsf@trenco.lwn.net>
+To: Breno Leitao <leitao@debian.org>, Akinobu Mita <akinobu.mita@gmail.com>,
+ Federico Vaga <federico.vaga@vaga.pv.it>, Akira Yokosawa
+ <akiyks@gmail.com>, Carlos Bilbao <carlos.bilbao.osdev@gmail.com>, Avadhut
+ Naik <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>, Yanteng Si
+ <siyanteng@loongson.cn>, Hu Haowen <2023002089@link.tyut.edu.cn>, Jens
+ Axboe <axboe@kernel.dk>, Kees Cook <kees@kernel.org>, Arnd Bergmann
+ <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alim
+ Akhtar <alim.akhtar@samsung.com>, Avri Altman <avri.altman@wdc.com>, Bart
+ Van Assche <bvanassche@acm.org>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, "Martin K. Petersen"
+ <martin.petersen@oracle.com>, Andrew Morton <akpm@linux-foundation.org>
+Cc: leit@meta.com, "Paul E. McKenney" <paulmck@kernel.org>, Thomas Huth
+ <thuth@redhat.com>, "Borislav Petkov (AMD)" <bp@alien8.de>, Thomas
+ Gleixner <tglx@linutronix.de>, Xiongwei Song
+ <xiongwei.song@windriver.com>, Ard Biesheuvel <ardb@kernel.org>, John Moon
+ <john@jmoon.dev>, Vegard Nossum <vegard.nossum@oracle.com>, Miguel Ojeda
+ <ojeda@kernel.org>, Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ SeongJae Park <sj@kernel.org>, "Ran.Park" <ranpark@foxmail.com>, Tiezhu
+ Yang <yangtiezhu@loongson.cn>, Remington Brasga <rbrasga@uci.edu>, Damien
+ Le Moal <dlemoal@kernel.org>, Hannes Reinecke <hare@suse.de>, Chaitanya
+ Kulkarni <kch@nvidia.com>, Johannes Thumshirn
+ <johannes.thumshirn@wdc.com>, Zhu Yanjun <yanjun.zhu@linux.dev>, John
+ Garry <john.g.garry@oracle.com>, Chengming Zhou
+ <zhouchengming@bytedance.com>, Yu Kuai <yukuai3@huawei.com>, Shin'ichiro
+ Kawasaki <shinichiro.kawasaki@wdc.com>, Vlastimil Babka <vbabka@suse.cz>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list
+ <linux-kernel@vger.kernel.org>, "open list:DOCUMENTATION PROCESS"
+ <workflows@vger.kernel.org>, "open list:BLOCK LAYER"
+ <linux-block@vger.kernel.org>, "open list:UNIVERSAL FLASH STORAGE HOST
+ CONTROLLER DRIVER" <linux-scsi@vger.kernel.org>, "open list:GENERIC
+ INCLUDE/ASM HEADER FILES" <linux-arch@vger.kernel.org>
+Subject: Re: [PATCH v2] docs: Move fault injection section to dev-tools
+In-Reply-To: <20240902125421.569668-1-leitao@debian.org>
+References: <20240902125421.569668-1-leitao@debian.org>
+Date: Thu, 05 Sep 2024 13:40:17 -0600
+Message-ID: <87ttethota.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -51,20 +77,58 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Mark Brown <broonie@kernel.org> writes:
+Breno Leitao <leitao@debian.org> writes:
 
-> b4 is now widely used and is quite helpful for a lot of the things that
-> submitting-patches covers, let's advertise it to submitters to try to make
-> their lives easier and reduce the number of procedural issues maintainers
-> see.
+> Fault injection is a development tool, and should be under dev-tools
+> section.
 >
-> Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
-> Signed-off-by: Mark Brown <broonie@kernel.org>
+> Suggested-by: Jonathan Corbet <corbet@lwn.net>
+> Signed-off-by: Breno Leitao <leitao@debian.org>
 > ---
-> Changes in v2:
-> - Remove some blank lines.
-> - Link to v1: https://lore.kernel.org/r/20240903-documentation-b4-advert-v1-1-c89d6f5db7b1@kernel.org
-> ---
+> Changelog:
+>
+> v2:
+>   * Fixed a remaining file pointing to the wrong file, as reported by
+>     kernel test robot:
+> 	* https://lore.kernel.org/all/202408312350.DEf53QzI-lkp@intel.com/ 
+>
+> v1:
+>   * https://lore.kernel.org/all/20240830174502.3732959-1-leitao@debian.org/
+>
+>  Documentation/admin-guide/kernel-parameters.txt              | 2 +-
+>  .../{ => dev-tools}/fault-injection/fault-injection.rst      | 0
+>  Documentation/{ => dev-tools}/fault-injection/index.rst      | 0
+>  .../fault-injection/notifier-error-inject.rst                | 0
+>  .../{ => dev-tools}/fault-injection/nvme-fault-injection.rst | 0
+>  .../{ => dev-tools}/fault-injection/provoke-crashes.rst      | 0
+>  Documentation/dev-tools/index.rst                            | 1 +
+>  Documentation/index.rst                                      | 1 -
+>  Documentation/process/4.Coding.rst                           | 2 +-
+>  Documentation/process/submit-checklist.rst                   | 2 +-
+>  Documentation/translations/it_IT/process/4.Coding.rst        | 2 +-
+>  .../translations/it_IT/process/submit-checklist.rst          | 2 +-
+>  Documentation/translations/ja_JP/SubmitChecklist             | 2 +-
+>  .../translations/sp_SP/process/submit-checklist.rst          | 2 +-
+>  Documentation/translations/zh_CN/index.rst                   | 2 +-
+>  Documentation/translations/zh_CN/process/4.Coding.rst        | 2 +-
+>  .../translations/zh_CN/process/submit-checklist.rst          | 2 +-
+>  Documentation/translations/zh_TW/index.rst                   | 2 +-
+>  Documentation/translations/zh_TW/process/4.Coding.rst        | 2 +-
+>  .../translations/zh_TW/process/submit-checklist.rst          | 2 +-
+>  MAINTAINERS                                                  | 2 +-
+>  drivers/block/null_blk/main.c                                | 2 +-
+>  drivers/misc/lkdtm/core.c                                    | 2 +-
+>  drivers/ufs/core/ufs-fault-injection.c                       | 2 +-
+>  include/asm-generic/error-injection.h                        | 5 +++--
+>  include/linux/fault-inject.h                                 | 2 +-
+>  lib/Kconfig.debug                                            | 4 ++--
+>  tools/testing/fault-injection/failcmd.sh                     | 2 +-
+>  28 files changed, 25 insertions(+), 24 deletions(-)
+>  rename Documentation/{ => dev-tools}/fault-injection/fault-injection.rst (100%)
+>  rename Documentation/{ => dev-tools}/fault-injection/index.rst (100%)
+>  rename Documentation/{ => dev-tools}/fault-injection/notifier-error-inject.rst (100%)
+>  rename Documentation/{ => dev-tools}/fault-injection/nvme-fault-injection.rst (100%)
+>  rename Documentation/{ => dev-tools}/fault-injection/provoke-crashes.rst (100%)
 
 Applied, thanks.
 
