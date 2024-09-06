@@ -1,85 +1,140 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941521A2C3D;
-	Thu,  5 Sep 2024 20:36:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09FE11553BC;
+	Fri,  6 Sep 2024 08:16:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725568600; cv=none; b=Xm5jOJiEozpH9lKP58U3OttscqA5KVfIj3J1QejVVisxsqa0u8VKqGB1f6hFYLYMnfqqniGWHLqaKn/MTJCxOT6LJC7mx0k5Dlrs0SX7mLnMuMDLGuRzZfNAzkwcIcXQRB4SJlLWr/d0i3ydEv/w5w3M3UWuCsaxrFm4LlFuMhU=
+	t=1725610586; cv=none; b=LrDexGgp9QXxhJWzz42CWY6fmQ+ZIYp+GRXiUupEVI1MYvi2A23tkNXNpUxy+N7C0SXSOjQYDTyGRd//fHG7kK6X5lKhM5jQaQCMX4YixsvCCa2tUmom4qjUCWI1nclh4X+fIDOE+9U4EAY5ER8Pwsug5SYeqAFT4il6J6opLxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725568600; c=relaxed/simple;
-	bh=JM2T45xkDtlvthbGkhpdgiyICNhya4XmwB99ESMCAZM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=es847T94wnYmcrMlswq7JOATi8dRIVQrQ0JBOQj8NbjtHO5q19AlU7cPSICtjMh2rScwtYJu5KGDDDQ8tVTqCWtesS3mAxMR3ZUdS66r1s/Z1WiXjYBGiNl/eIrTrhMDj2LhCtKZ9Y5tkxlHOLsfkUkchPOjP6K3Nd+w0KGc/oQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=h0zoMm50; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1725610586; c=relaxed/simple;
+	bh=TuREpq7BTAb3IENow9dze2WvGtSTj7JqbOGPFQvBi/Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CICK+ph9fUaJihUEVqsA6XsEubBN9uv7Iw32/fEGFzH8qCfA3HhTyjCbfBY9S/wlZlKr7cOGDTeIJrsEWfrkcjBVqjJBlAqFgKVji66OOkRyjA9eU1t5AoW2x0SHmLyiCOJaN4uz/pvdubvCA2LDH/8kyN2yJFzr2vhU5EJrKYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rzs76j9R; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="h0zoMm50"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8461E42B25
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1725568598; bh=xNa+Q8PSCW7m4DRccVXfDl/4+sYRB5egVm1KwZDSX3o=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=h0zoMm502MrG8P+tHBYLhudhoCbq24HA1qpkZtuUbwUtZTwObc1fXJaRRAVp8FhcR
-	 nWvUYpxqk7s1CCA6d4ZAu87f2KG0CbR/VnnoPVuk9lrJafWcQ1J34H85Lvl6QXMctk
-	 KLTGOAz5vZsqRLCTwY9a6AuRjwhTz367BjTSMbmRf5Iv/RsBJPWZ45b6pQ4Mlc2N5P
-	 vKT+2Shk+oU/VZ6d+wxHOr8TVRNEzFrKQFe2xrVDnNqA1EOotMhzWEag/bPIy+p1na
-	 7RliLaleNk/AA3A5S6ceD25TJtqPxGrLtpWu453Kgj/JqRPvQXrzr0sGXm5eSVPugh
-	 nVaTWsMGo1sYA==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 8461E42B25;
-	Thu,  5 Sep 2024 20:36:38 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Amit Vadhavana <av2082000@gmail.com>, linux-doc@vger.kernel.org,
- ricardo@marliere.net
-Cc: av2082000@gmail.com, linux-kernel-mentees@lists.linux.dev,
- skhan@linuxfoundation.org, amelie.delaunay@foss.st.com,
- mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
- catalin.marinas@arm.com, will@kernel.org, mpe@ellerman.id.au,
- npiggin@gmail.com, christophe.leroy@csgroup.eu, naveen@kernel.org,
- paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- bhelgaas@google.com, conor.dooley@microchip.com, costa.shul@redhat.com,
- dmaengine@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, workflows@vger.kernel.org
-Subject: Re: [PATCH V2] Documentation: Fix spelling mistakes
-In-Reply-To: <20240817072724.6861-1-av2082000@gmail.com>
-References: <20240817072724.6861-1-av2082000@gmail.com>
-Date: Thu, 05 Sep 2024 14:36:37 -0600
-Message-ID: <87ttetg7my.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rzs76j9R"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3787f30d892so966459f8f.0;
+        Fri, 06 Sep 2024 01:16:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725610583; x=1726215383; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kyJxyBiz3f5QLJaKCcHAt8OoCSqkmVPwET3QnPgH6/U=;
+        b=Rzs76j9RoooDlSMqKpW8LZ+Z1qKBO1jy4ib5Vf+UmlTvOzuaEYppbTc9pHSE2m2qrt
+         pYmmX4hERQ9OuzH20/o5pgzePx4TRrtzxX4/pR4fHbilUqQCdmetXHSnEl9BZECI0J2O
+         0f31pL33sRLJW0hN4PH7GaQha8nHB7M9tVaMRuYZILYK4JREoOJf4Z0dH1NSw4ChsrB6
+         u109KJL+peofo+llEQoEeqqcCAx7VQTa7uZYxmP15hHmmSlgPGTEfQdoVP/gmEWgaN5t
+         IcxNwmonYTkfS5DtGQ7sw9P+bxwsiBbS+IaEH4V1pUA99ySW5WTt5NDDj9iycYcCQ2A4
+         j/1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725610583; x=1726215383;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kyJxyBiz3f5QLJaKCcHAt8OoCSqkmVPwET3QnPgH6/U=;
+        b=w5q3iDzKjocOkN8B4nVWFfNkLJA9wgZFuNkq4IFhQzvcSmyOOmPSJfgbFtA2rCbjEL
+         tzeDJU8R3ODLjVqLU3RKgZC2FgnB7e34BpZSkTuiw8EXUsVvuA179rZyUBR9CYfXZJxY
+         8igcpTtzDBDMscorEunDki17Lxmxo9SRQk5ubAhWzLcQwfpXo9TsZzrpif/sZbDbmL8M
+         SMfiP39PYC9KgXfKFZbRWecdZqOA1UiLlyv6aMMbCziUQYAA/HZii8JOdSNvLbWhmjVb
+         2ZPp2JMB40L2vruW+6TUr2FOZSTOj3AWopx4A2xaTYzOS3cdhLNrTEbqV8qPCk6cLGbs
+         duEg==
+X-Forwarded-Encrypted: i=1; AJvYcCUI4+Xx0tsjwVQDKuleEDR4lFroS35Est9T4V3q05xaniutup0dYJr10mKH4CBBS8KXQWaxX0nvjpJfOVdD@vger.kernel.org, AJvYcCVccfPVYSyJ6zbcYnQqJaYNPwQnIhk7GWR5Aq05r6H0YabHxfUGDXKlQTp6yLjVw3/RPuv2lYW+fKA2F1sN4+I=@vger.kernel.org, AJvYcCWVlNl6TbUgdBhaTOJBpBmVr7XtWfZFNBwAln42dpMqPIx8zwgmWg4Zbkwi8cHPZz2Cf9/GLkdC5NEe@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywh8oLXGwXf9LGw+KmkAg+tZRl9dGcB5c0vgE+1DAhEOIFqN5hK
+	nNOOFNuMJ4TZILWDWTGuXA5TpklIC8qS+cJeerzURXOfy1B6dEUlrbVFJ34n
+X-Google-Smtp-Source: AGHT+IF6OgIRORTRWzlKDz5iZX4iJn8NPzFliVBue5P0ozE9PN+alTjgVr8zP8Ad7RbUuZF7hJ18Hw==
+X-Received: by 2002:a5d:4109:0:b0:371:9395:9c2d with SMTP id ffacd0b85a97d-378896c797cmr996898f8f.55.1725610582336;
+        Fri, 06 Sep 2024 01:16:22 -0700 (PDT)
+Received: from void.void ([141.226.13.165])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ca05d8617sm12193625e9.34.2024.09.06.01.16.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Sep 2024 01:16:22 -0700 (PDT)
+From: Andrew Kreimer <algonell@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Andrew Kreimer <algonell@gmail.com>
+Subject: [PATCH] docs/process: fix typos
+Date: Fri,  6 Sep 2024 11:16:05 +0300
+Message-ID: <20240906081615.5409-1-algonell@gmail.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Amit Vadhavana <av2082000@gmail.com> writes:
+Fix typos in documentation.
 
-> Correct spelling mistakes in the documentation to improve readability.
->
-> Signed-off-by: Amit Vadhavana <av2082000@gmail.com>
-> ---
-> V1: https://lore.kernel.org/all/20240810183238.34481-1-av2082000@gmail.com
-> V1 -> V2:
-> - Write the commit description in imperative mode.
-> - Fix grammer mistakes in the sentence.
-> ---
->  Documentation/arch/arm/stm32/stm32-dma-mdma-chaining.rst | 4 ++--
->  Documentation/arch/arm64/cpu-hotplug.rst                 | 2 +-
->  Documentation/arch/powerpc/ultravisor.rst                | 2 +-
->  Documentation/arch/riscv/vector.rst                      | 2 +-
->  Documentation/arch/x86/mds.rst                           | 2 +-
->  Documentation/arch/x86/x86_64/fsgs.rst                   | 4 ++--
->  Documentation/process/backporting.rst                    | 6 +++---
->  7 files changed, 11 insertions(+), 11 deletions(-)
->
+Signed-off-by: Andrew Kreimer <algonell@gmail.com>
+---
+ Documentation/process/backporting.rst    | 6 +++---
+ Documentation/process/coding-style.rst   | 2 +-
+ Documentation/process/maintainer-tip.rst | 2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
-Applied, thanks.
+diff --git a/Documentation/process/backporting.rst b/Documentation/process/backporting.rst
+index e1a6ea0a1e8a..a71480fcf3b4 100644
+--- a/Documentation/process/backporting.rst
++++ b/Documentation/process/backporting.rst
+@@ -73,7 +73,7 @@ Once you have the patch in git, you can go ahead and cherry-pick it into
+ your source tree. Don't forget to cherry-pick with ``-x`` if you want a
+ written record of where the patch came from!
+ 
+-Note that if you are submiting a patch for stable, the format is
++Note that if you are submitting a patch for stable, the format is
+ slightly different; the first line after the subject line needs tobe
+ either::
+ 
+@@ -147,7 +147,7 @@ divergence.
+ It's important to always identify the commit or commits that caused the
+ conflict, as otherwise you cannot be confident in the correctness of
+ your resolution. As an added bonus, especially if the patch is in an
+-area you're not that famliar with, the changelogs of these commits will
++area you're not that familiar with, the changelogs of these commits will
+ often give you the context to understand the code and potential problems
+ or pitfalls with your conflict resolution.
+ 
+@@ -197,7 +197,7 @@ git blame
+ Another way to find prerequisite commits (albeit only the most recent
+ one for a given conflict) is to run ``git blame``. In this case, you
+ need to run it against the parent commit of the patch you are
+-cherry-picking and the file where the conflict appared, i.e.::
++cherry-picking and the file where the conflict appeared, i.e.::
+ 
+     git blame <commit>^ -- <path>
+ 
+diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+index 8e30c8f7697d..19d2ed47ff79 100644
+--- a/Documentation/process/coding-style.rst
++++ b/Documentation/process/coding-style.rst
+@@ -986,7 +986,7 @@ that can go into these 5 milliseconds.
+ 
+ A reasonable rule of thumb is to not put inline at functions that have more
+ than 3 lines of code in them. An exception to this rule are the cases where
+-a parameter is known to be a compiletime constant, and as a result of this
++a parameter is known to be a compile time constant, and as a result of this
+ constantness you *know* the compiler will be able to optimize most of your
+ function away at compile time. For a good example of this later case, see
+ the kmalloc() inline function.
+diff --git a/Documentation/process/maintainer-tip.rst b/Documentation/process/maintainer-tip.rst
+index ba312345d030..349a27a53343 100644
+--- a/Documentation/process/maintainer-tip.rst
++++ b/Documentation/process/maintainer-tip.rst
+@@ -154,7 +154,7 @@ Examples for illustration:
+ 
+     We modify the hot cpu handling to cancel the delayed work on the dying
+     cpu and run the worker immediately on a different cpu in same domain. We
+-    donot flush the worker because the MBM overflow worker reschedules the
++    do not flush the worker because the MBM overflow worker reschedules the
+     worker on same CPU and scans the domain->cpu_mask to get the domain
+     pointer.
+ 
+-- 
+2.46.0
 
-jon
