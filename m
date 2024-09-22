@@ -1,101 +1,127 @@
-Received: from fout5-smtp.messagingengine.com (fout5-smtp.messagingengine.com [103.168.172.148])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A399F9DF
-	for <workflows@vger.kernel.org>; Sat, 21 Sep 2024 09:08:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF9B7B652;
+	Sun, 22 Sep 2024 15:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726909687; cv=none; b=PoikYLvkdHV4YA6UfbWDcIdRy1XlBjL6sutElKfBB1br8y/PUAL81h+WLBo1sJSljrwa3X++DG1zincuiyWr5hC76kCkckgkvRW1B7YjYjegYcODNvGHSja8fbZ+eY+xmYJ6JKvznASWzueE2GScADT1UoiHW5YXWEefAaNn4/8=
+	t=1727018580; cv=none; b=MvI3srfMXLQ1fLAw22an3mvcT/4otMTzC40Wt+FBbZBSrrpi5bMg6awRPKlkZA1oBP8BMXJTCp5kHmh+6d0od2kFM5ujbghuu5/0QOd8GcYXO6QasrNRLZ+ifOWDuYXrmdtvdI0FR1fIwfpva+sBj6elNsSvMr1BjEvV7ZK/3Xo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726909687; c=relaxed/simple;
-	bh=ica5c3tMZEbwUKRNKjFoBa9IJbO5Szm1dAqtHzTkUMY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uyyBIPjc6ANwomQYZffYEmlqQFa0e5UUWCoZlPwtr61sHsKiHwCTBVf9Lrj9qtMBvaWOVuQr7j5ZhAFuOdnupUc6pl5a4MN7g5zzrqpD5omDZk/piHL3bCwXX8asR1iNfRC7ExDZttEa7Di5VxHyMg7U4oUX0KysApOi/gQiy3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=YTHR6MYM; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=qK4BHhsM; arc=none smtp.client-ip=103.168.172.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+	s=arc-20240116; t=1727018580; c=relaxed/simple;
+	bh=vEks30XG+J2MzciQrA/QX7ue128ALxFN/tguqw4FM2M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=G/h6ws7zahXCaKrwIciuSQlpL4orit1QBTCIVrj5/7ZhdThNcJA9g3Z+SYlwRsYV8EDAvA8hSxT5rurK57rNBrNa4t244XzwYROMrEVU0mrQ/KrVae7ckP8h3cZBlIDwzaNAacInKYm/ooQQu9vHjeGhfKXNVKpi1QNp/qE4/lA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EQ4kosgc; arc=none smtp.client-ip=209.85.210.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="YTHR6MYM";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="qK4BHhsM"
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
-	by mailfout.phl.internal (Postfix) with ESMTP id 0765B1380272;
-	Sat, 21 Sep 2024 05:08:05 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-10.internal (MEProxy); Sat, 21 Sep 2024 05:08:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1726909685; x=1726996085; bh=LjSQhCGZp3
-	Z6n2Lq9pOdzNecDdh5l7JVIV2xue6p7f8=; b=YTHR6MYMbit7GoVLh8c/9P8jCj
-	kiZQ/eG2u25bN8AJH596TEQa96Vz/luTIb2zRlmF35HQY6grO/f6HFRIWmsGiik6
-	epAWjzx/CNJbg6qRUVf44pve1+Wx3QAKmVAgiX3Ud+3qYOcWZgXrEuC5KgAg1uKd
-	9vE4EjwfikXXUbUbHIybikHa3ah18Xhh2tZT6/XV33MzKFc7XtOCk/fMMEm1S0r8
-	USQGrg6QD+Cq63qO56Iyc05LXMf8Jrm0LGF/50/MSvYp2aAuPrnorYqEbvUPdY4g
-	J9kyEIao3FXyw1+EauJJNuX08+gPirRstZbHIUErIhVzQHy4fT81DSdIpFkA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1726909685; x=1726996085; bh=LjSQhCGZp3Z6n2Lq9pOdzNecDdh5
-	l7JVIV2xue6p7f8=; b=qK4BHhsMYUkwpDI6LDKoCbTQKfq0d/OPN1jzlsZqSM9z
-	OVqu9w9RK0up9Df4NbynTRRD19yWWu6w5BtrI0t6Ab5zLkvapnFNL0i6scQulvoB
-	iJ6xZnY2B+i7qyetAYDDu4rMKKX9YNSl03B+Pw6AI888Av8AqfNyFEig4985qLXE
-	x/OpWGdIjs3H33/Q9Wnszp0ONVA5+9m3lhqHwCo7Pl4J7Wg5ufn0h2La+84jGKSp
-	J+dQvbD7MUtRHFHE+23zQOcpKCUEHCn/PlZOFDpfCEoH3Wd24cagN4CPqnSdueOu
-	F1vDZX8qn4WKQlrCvl7j7fTPemMXaY7X6gjKUY7mrg==
-X-ME-Sender: <xms:9IzuZmEmKQiJY3Z1bjxA78H2PcYEjNDru4myS22-77SyOod87fLw6g>
-    <xme:9IzuZnWZYjk4Zi5dW8SmTmy9XE1m9ejijoqQTBmWjOI0i32qgFbgVmhERDDWoglGa
-    3CoJVVxuKXSSg>
-X-ME-Received: <xmr:9IzuZgLNFuqwoy-FpEUptjhewfJJVEeNxeXosDQOyN2T-lQV0QBUTwM5wWo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudelhedguddvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvden
-    ucfhrhhomhepifhrvghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrf
-    grthhtvghrnhepheegvdevvdeljeeugfdtudduhfekledtiefhveejkeejuefhtdeufefh
-    gfehkeetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epghhrvghgsehkrhhorghhrdgtohhmpdhnsggprhgtphhtthhopeegpdhmohguvgepshhm
-    thhpohhuthdprhgtphhtthhopehquhhitggpjhhjohhhnhhsohhnsehquhhitghinhgtrd
-    gtohhmpdhrtghpthhtohepfihorhhkfhhlohifshesvhhgvghrrdhkvghrnhgvlhdrohhr
-    gh
-X-ME-Proxy: <xmx:9IzuZgGCoCatsgzBtkyV-ePt3B2BcsZmbHGyQ2PpRtA2zhlQGX8lVQ>
-    <xmx:9IzuZsUEVJpMU7qNrS7odMPzHiucoHedu4IZ8Y2gxe7B0K_7G3Kywg>
-    <xmx:9IzuZjOike77E2dAqq0Q4kgni7BGFdbBXu46F9CERMnyxIKI2z3JvQ>
-    <xmx:9IzuZj1zXZ8dLmrtiaqrfkP3TFCw4YVg7THpze0ZAs8b3dkZ4dmlhA>
-    <xmx:9IzuZqxMYXV93MRdsnad5mjms7bLHq85wtZ12Hg9CSSMLcYl2TM-bSw7>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 21 Sep 2024 05:08:04 -0400 (EDT)
-Date: Sat, 21 Sep 2024 11:08:03 +0200
-From: Greg KH <greg@kroah.com>
-To: Jeff Johnson <quic_jjohnson@quicinc.com>
-Cc: workflows@vger.kernel.org
-Subject: Re: Are multiple Fixes Tags OK?
-Message-ID: <2024092121-portside-impotent-2120@gregkh>
-References: <1e86dfd8-8b69-4e51-8e39-524765a7b355@quicinc.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EQ4kosgc"
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-713aebfe8b8so295672a34.1;
+        Sun, 22 Sep 2024 08:22:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727018578; x=1727623378; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=o0rK5v0Q5x3GJhtFt709TlT+VjbeaoHoLjvE3G3gB9o=;
+        b=EQ4kosgcIP29jkqqGgcLkJ0Wq5ZRasN/N58rY9KvDQKiboT8P9n63rx0AREqNF7eCy
+         TIU+ncGat3iMwsRktrG7cDoZcu1w57MGAPmpuxKqyzyGzgUHG+8Udu8Wi627Fzu6loWa
+         HbGBagT7zQTrLApWXR4d4OtHcLVl6cp1Y21pwOlRfunOvkEy3eHRKwZ1u/svPmMU3ciq
+         jUsePvM6oG7i61IUzMKjz0jDrCSSw3Mobm8tOSWt6G/0aIP9Df7PPhR1Grv7JXVsFqIC
+         BbISJLGovaXxlcf23APWhtWFCE8znRicFiSooi5OZv9JPfNI2C/1k7SeiaJsNrorC/G6
+         NczQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727018578; x=1727623378;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=o0rK5v0Q5x3GJhtFt709TlT+VjbeaoHoLjvE3G3gB9o=;
+        b=CuqpxGhFSTg608ufrrLP2xj0YILbkDxfdkz6zanTx3O2CpXBUWKLZhQtkTpaxldWyJ
+         W/RcnbXgLAWzoHcD6Yi0svC/ttj7d/agUqLjjNF3yDRUpZzh/0RbmjPNJga4DKDO0Pb4
+         k+TRE0NOaadBKQUPR+Fkw1QRZd5vkGjcQQUJhsi9hu7pR5f8JwIktXv7vKJyrflBpYZM
+         q7PnQpl14lZfNzqgc4YoI+Ru2K0/M2hrYfgxQIWsWE6g8ej1Cuw0QCAnfFo7xU2/a+Sc
+         Ku+n5P4uaPC4/SNCxiUjJlyBW4aw+SAk5nt6H5Hp/pCFyy/Tz2DJ+Xlcr75thkFjCNe2
+         DikQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUfm/mXwczk692SOk0aud0buOcZQmqkS2XXMNErSLZVfkdwiqt10sxIQlWwCL69h9Qk8pJF6JbuYIJmBkrz@vger.kernel.org, AJvYcCUr/uKxiF5Wdb0hi5eq1kDxVL6JUslWhwcCUPRBoQdERiKgjx3fJ8qe2JN650XkyQd3vsZ6Amj6hRfXHctshSA=@vger.kernel.org, AJvYcCUrqFRveh4PcsX7wV3/5+1YzmVH0Z841LKTuzye4sHKCm+XNHERldhwCe/WNsxeuXu6lAhZ4zu1KcQ=@vger.kernel.org, AJvYcCXAUTTKN3idRNfsa8zblUFOAZZCKY+1D4HF14sh2sfMoVORbpO4wJ8zVsF1pj6WBP3XB13CzR6KP7mw@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy7t5dlI4BEh2cGJKtrJDbMqSP9nNGxQ7AVZW5aLnLKF+88+9HC
+	7plm2H9+6gAltSEzTaJt6qD1OUR1PGJ+Y5Mn7tDDgxTl4luvwDjU
+X-Google-Smtp-Source: AGHT+IENQHPBnNnxGrZL657GF5Q0NATAuF6B3WDHGqqmXLVTCWJK8uRt0HBsBkTQVDSfIAt1300t3w==
+X-Received: by 2002:a05:6830:4124:b0:704:470d:a470 with SMTP id 46e09a7af769-71393557ff2mr4484784a34.28.1727018577674;
+        Sun, 22 Sep 2024 08:22:57 -0700 (PDT)
+Received: from ?IPV6:2603:8080:7400:36da:dff5:4180:2562:4c1e? ([2603:8080:7400:36da:dff5:4180:2562:4c1e])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-71389bb318csm1646334a34.59.2024.09.22.08.22.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 22 Sep 2024 08:22:56 -0700 (PDT)
+Message-ID: <f6fd25ce-5eb0-4c3c-927c-ac6022b3c21f@gmail.com>
+Date: Sun, 22 Sep 2024 10:22:55 -0500
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1e86dfd8-8b69-4e51-8e39-524765a7b355@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] kernel-docs: Add new section for Rust learning
+ materials
+To: Dirk Behme <dirk.behme@de.bosch.com>, corbet@lwn.net, ojeda@kernel.org
+Cc: alex.gaynor@gmail.com, boqun.feng@gmail.com, gary@garyguo.net,
+ benno.lossin@proton.me, a.hindborg@samsung.com, aliceryhl@google.com,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, bilbao@vt.edu
+References: <20240913153824.161150-1-carlos.bilbao.osdev@gmail.com>
+ <3a421753-07fa-451a-90fa-e04d1a731b1a@de.bosch.com>
+Content-Language: en-US
+From: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+In-Reply-To: <3a421753-07fa-451a-90fa-e04d1a731b1a@de.bosch.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 19, 2024 at 08:07:56AM -0700, Jeff Johnson wrote:
-> I'm reviewing an internal change that is fixing a memory leak of the same
-> object in two different error paths. However each of the two error paths were
-> introduced in separate commits, so there would be two Fixes: tags if both of
-> these are fixed with the same patch.
-> 
-> So is there any guidance on whether this should be one or two patches?
+On 9/16/24 00:33, Dirk Behme wrote:
 
-Ideally 2, if it's two different changes in the diff.  But we have
-patches with multiple Fixes: tags all the time, it's not unusual and if
-it works for you, no objection.
+> On 13.09.2024 17:38, Carlos Bilbao wrote:
+>> Include a new section in the Index of Further Kernel Documentation with
+>> resources to learn Rust. Reference it in the Rust index.
+>>
+>> Signed-off-by: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+>
+> Many thanks!
+>
+> Two minor things below. With these:
+>
+> Reviewed-by: Dirk Behme <dirk.behme@de.bosch.com>
 
-thanks,
 
-greg k-h
+Thanks! will add fixes in v3.
+
+
+>
+> Dirk
+>
+>
+>> ---
+>>
+>> Changes since v1:
+>>   - Added two more Rust blogs proposed by Dirk Behme.
+>>
+>> ---
+>>   Documentation/process/kernel-docs.rst | 131 +++++++++++++++++++++++---
+>>   Documentation/rust/index.rst          |   3 +
+>>   2 files changed, 123 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/Documentation/process/kernel-docs.rst b/Documentation/process/kernel-docs.rst
+>> index 55552ec4b043..b56c2adcb954 100644
+>> --- a/Documentation/process/kernel-docs.rst
+>> +++ b/Documentation/process/kernel-docs.rst
+>> @@ -72,17 +72,6 @@ On-line docs
+> ...
+>> +    * Title: **Learning Rust the Dangerous Way**
+> It looks to me the that it is called "Learn" and not "Learning"?
+>
+> ...
+>> +    * Name: **Linux Plumbers (LPC) Rust presentations**
+> Here I would add the year "2024" somewhere. There have been previous 
+> LPCs and most probably there will be some in the next years ;)
+
+
+Thanks, Carlos
+
