@@ -1,75 +1,77 @@
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CFC9EEDB;
-	Sun, 22 Sep 2024 16:04:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF56F149C54
+	for <workflows@vger.kernel.org>; Tue, 24 Sep 2024 13:08:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727021057; cv=none; b=GImSk5BfjUJwh1X56RWxGch6N9OzB4i4SeKKonfgTvuO4w4yHC/YBFk/2cXoCKukBQYyNS5O/2vQgEJ996cO7I2N/SPYdcz3EicX2R240qh868YcxtXE/NNP3vounMoTT75nnzbC+E7e1Vd4t94wM0bQqDQLKs7Exwy2Ret1Y7I=
+	t=1727183337; cv=none; b=qeUaLeNFJs8DGNLprYIPn0fPI+qudCe+r2UcHiRxbGXp9oePlv9s8YwWbPN468EVDZxbBHe3Ziipdip9mpmUPdqJLIgSEyytjEfHVJT7sKezZerJkOpTImNsoCzk8peULxWTuRv4wwyt4UMqTmAuu5ug/dmXPaZOF054pnzJmDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727021057; c=relaxed/simple;
-	bh=v47I497c9099S7GRuyki8vzh9uGwxmnc3vs0DCyoe/g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Zvp902W50sbJ/M6iCVoBGtqZsXCyTGY4jTqo2otVUY69dOq+LT07sPDdeRr7hetQG8Ayh+pFolrGA24krvRoCzyT5BLxiUpu2Dactsc2qkC65vpy1P9BeWp9BvR1n1LoN9gFc2Li5AR3mYWEeY6Blax/NuMHGKRwrFlKrFhyJjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nimBSNCH; arc=none smtp.client-ip=209.85.161.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727183337; c=relaxed/simple;
+	bh=20VESlFAgLL/DdDPQj1cUy8T9pMhfk2LyD0wWgYxzK8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=aprDY1HHA+DiYaJmUk+AMF7KqeN/1Q2NrEy0XdMEMLgfFRN6x/UTpTKXBxJ2d86VeqjuIB6fZVlxboqVGDFOHyevyrF+gvpZ2QMkO46MjbpwbLj7sVNUtjBb2jCFp9ukh2aJztUdqIFsfqg293piIeOmxKM7rN52vnhSlPJkE1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Wu/BQr0R; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nimBSNCH"
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5e1b35030aeso2193608eaf.3;
-        Sun, 22 Sep 2024 09:04:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Wu/BQr0R"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a8713b00219so74753866b.0
+        for <workflows@vger.kernel.org>; Tue, 24 Sep 2024 06:08:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727021054; x=1727625854; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1727183334; x=1727788134; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=I+gNyCaAD+TOTnrO/NBqECrEAJIs7LcLi9tZJZGskPE=;
-        b=nimBSNCHwtkVQupHa7LSS0eIEzNiP+sg07sXaLAQ3Sk6EYHxvuhPY9AlcTo0vS5oCv
-         rgzDfLX1fxYm7V5g7tH0Y7IjgLXV9e8WZpvII7QGnxk3lHR+80qKjPPHWhTCeVwBf3WA
-         7lyNS5VCK1pGjH6t60tAQSEqWvKs7nlTuMSLCEy7ZexCo6mxCPAZqmltel+YHP+oASP+
-         7VkEmT4N/OW4tw4mD/qKQIn3bZNjHUzZ5RXotMvX2zepSBe8jck/R1Bf9m5p94PYRqv3
-         85gFcmhdZ/UZwrRPATQ9HWiYuV6Jt447ufT02QqR0hHybMkr771BY22xPugu2DTmsgzk
-         97HA==
+        bh=bBqAdCr/Tagnq8w6gUFIkMYJLmwI/sDayqKEKgevhjY=;
+        b=Wu/BQr0RfeIYKgOXvOStMxolcZCPwKfFVaXknUs5/qUfucm8PwanGI9X2Vzus6PxV7
+         Qe/vIZMT4nYMaEez9ToG6NDA3ShmGfOXyaJGadc8vNAMgTvECmwAgFUljVllhgYDhGWW
+         ZFxAiM2lhZ3aX9ldR9Rr6Sjdck/kCRHSkBvUo2C6eHXfljFJRh9k1tJ4txaExK9zM3HL
+         GJqzu6p1gkkF+bXQKG+H12oo4DuY1Ga8TPxqpqLvJPA1TOdZV3EPo/TT0U63MPpyrN52
+         nTDluP5Q9G+zFtbGmhXE4m34tVjqBvqGMMdkq0qt4yj+y31ZAJ63qQI3tNGIeJ4UO2t4
+         8/5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727021054; x=1727625854;
+        d=1e100.net; s=20230601; t=1727183334; x=1727788134;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=I+gNyCaAD+TOTnrO/NBqECrEAJIs7LcLi9tZJZGskPE=;
-        b=McNqLI/BuFpqPPfFadSefQV1KEb/o3Zqy84xjXqfzbodvInLq5C1QCghY4GNMCqT5y
-         niMu7flZNBW0ioHPS8UmFK9JPN3pKAmu9im+vM36uysWg22lCdTpWrm45t2hjqZeFqig
-         JQCWJhlEO1pf59q89yY7SZ3V7iSkpcpCxVfCitucA6a3KH6Dto7Tsh7cSI6Kbf00dNjC
-         dwO+52p4eEUktJNMnylQseH2WAEjIYTluJQ1Sp1aBK15gGfMSbDlvAnX/vUpqRNqHNL7
-         aSEiJLY/qXgHHy1w1x59fm43annC99bNhi3+yoaw/GNEHrMDguY1nBGFzu8mH5WBju6S
-         iGcg==
-X-Forwarded-Encrypted: i=1; AJvYcCUUtIWi5JsRF0Z9qSZXwF9uqaw2x+bvp/reD5tqnXFmImEGZQ+yQqsYXbysmTVnirpV+oFjrK7SS1c/Z9Eb@vger.kernel.org, AJvYcCV577LQaSeVZfPK9aAT39oNXbtm3R3fgTijozf9XWJqD/Ji3yH3s4rCInNdE58HpM+AN8OoJjKTNRA=@vger.kernel.org, AJvYcCXIC/zNHwfmPj1NVwdpaH2F6b3ryu7nW4FvEGMt2T9LM4Vuo/LWnoo///GVjZHH41dQSrSzFcnVo0BU@vger.kernel.org, AJvYcCXY2UmK/shTD85aSz+NVjQmSvfsfAlY4/PKzXfK27PKm4Cx2583ZVEOfmc0eC/qS7OgWTue7SieKSrXAM/s458=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyfiNv1qDkay96pbp9PzJN1pFGE7L9IaOrdr4WnmAVaRquMK1vt
-	oDR5eORENZZP6p/pHHysufzAJC/jCRoGXeBHl9I9zY8C3kHz+ARL
-X-Google-Smtp-Source: AGHT+IEAEakKH/ljxA/oUObGAy7miHpcONk2WzcXaRVIh3octTpny8DSbw1yQWXwtKfv82nEkGXFDw==
-X-Received: by 2002:a05:6820:1628:b0:5e1:dcbc:218c with SMTP id 006d021491bc7-5e58d1b0c39mr3563032eaf.7.1727021054137;
-        Sun, 22 Sep 2024 09:04:14 -0700 (PDT)
-Received: from pipaware.tx.rr.com ([2603:8080:7400:36da:dff5:4180:2562:4c1e])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-71389bb2dd3sm1679107a34.51.2024.09.22.09.04.12
+        bh=bBqAdCr/Tagnq8w6gUFIkMYJLmwI/sDayqKEKgevhjY=;
+        b=qEMIphOcr/z2+mf89DZ3wZK2T4kviya9mn5sUIcRAiz+j4CvVMnAUJl0u4RUZlp4Kh
+         82dO3YZZlfH9LP+7RA/6ysxxOwCuQHjOkE85iP3PDew6RwqGikmjkupmBlcQESCb/XmS
+         5tMegwUTCoJh1hpAOm8gXJxbtdhcbRJZsDpBa7CYfOOfAQ6N6xQ16ZEVoqbVT/TsY1M7
+         KsjMSly0eeDHslMHL0epuEqzB38ddsKwG4WHG9ISj4vOpwqFlybiI/OuJq+VPoMyMamU
+         jjhA2AHo9Z+lA4ErjpVyspYY2KOxyK0lDipGySTLjVSVQd0nvJjM7VWbEOoYQYVExeGA
+         R2xA==
+X-Forwarded-Encrypted: i=1; AJvYcCVND4v2Kd1gO3K0PluMkG8gNif35+E60HQl/NpOEiL+L1OXE5mwbVoOMrRFFQ3BGHKndC2t/MF5GME=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5o9dlj6t4nwx3kC+a9zEcqVh0XHSs6ROfODubHp3e2OeLzvTz
+	dJHVc9c6VfOWiqEQyNoFbmBnGb7gwyfLtW7diMdeEdYANyvPvWRa8gxKWuoo3Ww=
+X-Google-Smtp-Source: AGHT+IG141L2UlovN7HIS3we1HyzW+NcX2RskLqTWDHr34a9VPY4jl2ref868d0s1ndXxBhKwv/sJA==
+X-Received: by 2002:a17:906:dc8f:b0:a8d:2de6:cb59 with SMTP id a640c23a62f3a-a90d4fc3661mr716363766b.3.1727183333891;
+        Tue, 24 Sep 2024 06:08:53 -0700 (PDT)
+Received: from krzk-bin.. ([178.197.211.167])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93930f8440sm82236666b.182.2024.09.24.06.08.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Sep 2024 09:04:13 -0700 (PDT)
-From: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-To: corbet@lwn.net,
-	ojeda@kernel.org,
-	dirk.behme@de.bosch.com
-Cc: alex.gaynor@gmail.com,
-	boqun.feng@gmail.com,
-	gary@garyguo.net,
-	benno.lossin@proton.me,
-	a.hindborg@samsung.com,
-	aliceryhl@google.com,
+        Tue, 24 Sep 2024 06:08:53 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Arnd Bergmann <arnd@arndb.de>,
+	Olof Johansson <olof@lixom.net>,
+	soc@kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-arm-kernel@lists.infradead.org,
 	workflows@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	bilbao@vt.edu,
-	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-Subject: [PATCH v3] kernel-docs: Add new section for Rust learning materials
-Date: Sun, 22 Sep 2024 11:04:10 -0500
-Message-ID: <20240922160411.274949-1-carlos.bilbao.osdev@gmail.com>
-X-Mailer: git-send-email 2.43.5
+	linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Will Deacon <will@kernel.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Conor Dooley <conor@kernel.org>,
+	=?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>
+Subject: [PATCH] Documentation/process: maintainer-soc: clarify submitting patches
+Date: Tue, 24 Sep 2024 15:08:31 +0200
+Message-ID: <20240924130831.38861-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -79,222 +81,101 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Include a new section in the Index of Further Kernel Documentation with
-resources to learn Rust. Reference it in the Rust index. The resources
-are a product of a survey among assistants to the conference Kangrejos'24.
+Patches for SoCs are expected to be picked up by SoC submaintainers.
+The main SoC maintainers should be addressed only in few cases.
 
-Signed-off-by: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-Reviewed-by: Dirk Behme <dirk.behme@de.bosch.com>
+Rewrite the section about maintainer handling to document above
+expectation.
+
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Kevin Hilman <khilman@baylibre.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Conor Dooley <conor@kernel.org>
+Cc: Heiko Stübner <heiko@sntech.de>
+
 ---
 
-Changes since v2:
-  - Fix wrong title and added date of LPC talks.
-  - Add more resources proposed by Miguel Ojeda.
-  - Add review tag of Dirk Behme.
+During our LPC ad-hoc BoF, we discussed improving Maintainer SoC docs
+and I think I volunteered to write something.  The trouble is that
+whatever I won't write in my notes, escapes my memory.
 
-Changes since v1:
-  - Added two more Rust blogs proposed by Dirk Behme.
-
+I believe this is what we discussed.  Was there anything more to
+write/document?
 ---
- Documentation/process/kernel-docs.rst | 163 ++++++++++++++++++++++++--
- Documentation/rust/index.rst          |   3 +
- 2 files changed, 155 insertions(+), 11 deletions(-)
+ Documentation/process/maintainer-soc.rst | 42 +++++++++++++++++++++---
+ 1 file changed, 37 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/process/kernel-docs.rst b/Documentation/process/kernel-docs.rst
-index 55552ec4b043..3b5b5983fea8 100644
---- a/Documentation/process/kernel-docs.rst
-+++ b/Documentation/process/kernel-docs.rst
-@@ -72,17 +72,6 @@ On-line docs
-         programming. Lots of examples. Currently the new version is being
-         actively maintained at https://github.com/sysprog21/lkmpg.
+diff --git a/Documentation/process/maintainer-soc.rst b/Documentation/process/maintainer-soc.rst
+index 12637530d68f..dc0136e8d852 100644
+--- a/Documentation/process/maintainer-soc.rst
++++ b/Documentation/process/maintainer-soc.rst
+@@ -30,10 +30,13 @@ tree as a dedicated branch covering multiple subsystems.
+ The main SoC tree is housed on git.kernel.org:
+   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git/
  
--    * Title: **Rust for Linux**
--
--      :Author: various
--      :URL: https://rust-for-linux.com/
--      :Date: rolling version
--      :Keywords: glossary, terms, linux-kernel.
--      :Description: From the website: "Rust for Linux is the project adding
--        support for the Rust language to the Linux kernel. This website is
--        intended as a hub of links, documentation and resources related to
--        the project".
--
- Published books
- ---------------
++Maintainers
++-----------
++
+ Clearly this is quite a wide range of topics, which no one person, or even
+ small group of people are capable of maintaining.  Instead, the SoC subsystem
+-is comprised of many submaintainers, each taking care of individual platforms
+-and driver subdirectories.
++is comprised of many submaintainers (platform maintainers), each taking care of
++individual platforms and driver subdirectories.
+ In this regard, "platform" usually refers to a series of SoCs from a given
+ vendor, for example, Nvidia's series of Tegra SoCs.  Many submaintainers operate
+ on a vendor level, responsible for multiple product lines.  For several reasons,
+@@ -43,14 +46,43 @@ MAINTAINERS file.
  
-@@ -220,6 +209,158 @@ Miscellaneous
-         other original research and content related to Linux and software
-         development.
+ Most of these submaintainers have their own trees where they stage patches,
+ sending pull requests to the main SoC tree.  These trees are usually, but not
+-always, listed in MAINTAINERS.  The main SoC maintainers can be reached via the
+-alias soc@kernel.org if there is no platform-specific maintainer, or if they
+-are unresponsive.
++always, listed in MAINTAINERS.
  
-+Rust
-+----
-+
-+    * Title: **Rust for Linux**
-+
-+      :Author: various
-+      :URL: https://rust-for-linux.com/
-+      :Date: rolling version
-+      :Keywords: glossary, terms, linux-kernel, rust.
-+      :Description: From the website: "Rust for Linux is the project adding
-+        support for the Rust language to the Linux kernel. This website is
-+        intended as a hub of links, documentation and resources related to
-+        the project".
-+
-+    * Title: **Learn Rust the Dangerous Way**
-+
-+      :Author: Cliff L. Biffle
-+      :URL: https://cliffle.com/p/dangerust/
-+      :Date: Accessed Sep 11 2024
-+      :Keywords: rust, blog.
-+      :Description: From the website: "LRtDW is a series of articles
-+        putting Rust features in context for low-level C programmers who
-+        maybe don’t have a formal CS background — the sort of people who
-+        work on firmware, game engines, OS kernels, and the like.
-+        Basically, people like me.". It illustrates line-by-line
-+        conversions from C to Rust.
-+
-+    * Title: **The Rust Book**
-+
-+      :Author: Steve Klabnik and Carol Nichols, with contributions from the
-+        Rust community
-+      :URL: https://doc.rust-lang.org/book/
-+      :Date: Accessed Sep 11 2024
-+      :Keywords: rust, book.
-+      :Description: From the website: "This book fully embraces the
-+        potential of Rust to empower its users. It’s a friendly and
-+        approachable text intended to help you level up not just your
-+        knowledge of Rust, but also your reach and confidence as a
-+        programmer in general. So dive in, get ready to learn—and welcome
-+        to the Rust community!".
-+
-+    * Title: **Rust for the Polyglot Programmer**
-+
-+      :Author: Ian Jackson
-+      :URL: https://www.chiark.greenend.org.uk/~ianmdlvl/rust-polyglot/index.html
-+      :Date: December 2022
-+      :Keywords: rust, blog, tooling.
-+      :Description: From the website: "There are many guides and
-+        introductions to Rust. This one is something different: it is
-+        intended for the experienced programmer who already knows many
-+        other programming languages. I try to be comprehensive enough to be
-+        a starting point for any area of Rust, but to avoid going into too
-+        much detail except where things are not as you might expect. Also
-+        this guide is not entirely free of opinion, including
-+        recommendations of libraries (crates), tooling, etc.".
-+
-+    * Title: **Fasterthanli.me**
-+
-+      :Author: Amos Wenger
-+      :URL: https://fasterthanli.me/
-+      :Date: Accessed Sep 11 2024
-+      :Keywords: rust, blog, news.
-+      :Description: From the website: "I make articles and videos about how
-+        computers work. My content is long-form, didactic and exploratory
-+        — and often an excuse to teach Rust!".
-+
-+    * Title: **Comprehensive Rust**
-+
-+      :Author: Android team at Google
-+      :URL: https://google.github.io/comprehensive-rust/
-+      :Date: Accessed Sep 13 2024
-+      :Keywords: rust, blog.
-+      :Description: From the website: "The course covers the full spectrum
-+        of Rust, from basic syntax to advanced topics like generics and
-+        error handling".
-+
-+    * Title: **The Embedded Rust Book**
-+
-+      :Author: Multiple contributors, mostly Jorge Aparicio
-+      :URL: https://docs.rust-embedded.org/book/
-+      :Date: Accessed Sep 13 2024
-+      :Keywords: rust, blog.
-+      :Description: From the website: "An introductory book about using
-+        the Rust Programming Language on "Bare Metal" embedded systems,
-+        such as Microcontrollers".
-+
-+   * Title: **Experiment: Improving the Rust Book**
-+
-+      :Author: Cognitive Engineering Lab at Brown University
-+      :URL: https://rust-book.cs.brown.edu/
-+      :Date: Accessed Sep 22 2024
-+      :Keywords: rust, blog.
-+      :Description: From the website: "The goal of this experiment is to
-+        evaluate and improve the content of the Rust Book to help people
-+        learn Rust more effectively.".
-+
-+   * Title: **New Rustacean** (podcast)
-+
-+      :Author: Chris Krycho
-+      :URL: https://newrustacean.com/
-+      :Date: Accessed Sep 22 2024
-+      :Keywords: rust, podcast.
-+      :Description: From the website: "This is a podcast about learning
-+        the programming language Rust—from scratch! Apart from this spiffy
-+        landing page, all the site content is built with Rust's own
-+        documentation tools.".
-+
-+   * Title: **Opsem-team** (repository)
-+
-+      :Author: Operational semantics team
-+      :URL: https://github.com/rust-lang/opsem-team/tree/main
-+      :Date: Accessed Sep 22 2024
-+      :Keywords: rust, repository.
-+      :Description: From the README: "The opsem team is the successor of
-+        the unsafe-code-guidelines working group and responsible for
-+        answering many of the difficult questions about the semantics of
-+        unsafe Rust".
-+
-+    * Title: **You Can't Spell Trust Without Rust**
-+
-+      :Author: Alexis Beingessner
-+      :URL: https://repository.library.carleton.ca/downloads/1j92g820w?locale=en
-+      :Date: 2015
-+      :Keywords: rust, master, thesis.
-+      :Description: This thesis focuses on Rust's ownership system, which
-+        ensures memory safety by controlling data manipulation and
-+        lifetime, while also highlighting its limitations and comparing it
-+        to similar systems in Cyclone and C++.
-+
-+    * Name: **Linux Plumbers (LPC) 2024 Rust presentations**
-+
-+      :Title: Rust microconference
-+      :URL: https://lpc.events/event/18/sessions/186/#20240918
-+      :Title: Rust for Linux
-+      :URL: https://lpc.events/event/18/contributions/1912/
-+      :Title: Journey of a C kernel engineer starting a Rust driver project
-+      :URL: https://lpc.events/event/18/contributions/1911/
-+      :Title: Crafting a Linux kernel scheduler that runs in user-space
-+        using Rust
-+      :URL: https://lpc.events/event/18/contributions/1723/
-+      :Title: openHCL: A Linux and Rust based paravisor
-+      :URL: https://lpc.events/event/18/contributions/1956/
-+      :Keywords: rust, lpc, presentations.
-+      :Description: A number of LPC talks related to Rust.
-+
-+    * Name: **The Rustacean Station Podcast**
-+
-+      :URL: https://rustacean-station.org/
-+      :Keywords: rust, podcasts.
-+      :Description: A community project for creating podcast content for
-+        the Rust programming language.
-+
- -------
+ What the SoC tree is not, however, is a location for architecture-specific code
+ changes.  Each architecture has its own maintainers that are responsible for
+ architectural details, CPU errata and the like.
  
- This document was originally based on:
-diff --git a/Documentation/rust/index.rst b/Documentation/rust/index.rst
-index 46d35bd395cf..01f09216c229 100644
---- a/Documentation/rust/index.rst
-+++ b/Documentation/rust/index.rst
-@@ -42,6 +42,9 @@ configurations.
-     arch-support
-     testing
- 
-+You can also find learning materials for Rust in its section in
-+:doc:`../process/kernel-docs`.
++Submitting Patches for Given SoC
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
- .. only::  subproject and html
++All usual platform related patches should be sent via SoC submaintainers
++(platform-specific maintainers.  This includes also changes to per-platform or
++shared defconfigs (scripts/get_maintainer.pl might not provide correct
++addresses in such case).
++
++Submitting Patches to the Main SoC Maintainers
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++The main SoC maintainers can be reached via the alias soc@kernel.org only in
++following cases:
++
++1. There are no platform-specific maintainers.
++
++2. Platform-specific maintainers are unresponsive.
++
++3. Introducing a completely new SoC platform after community review.  Such new
++   SoC work should be sent first to common mailing lists, pointed out by
++   scripts/get_maintainer.pl, for community review.  After positive community
++   review, work should be sent in one patchset containing new arch/foo/Kconfig
++   entry, DTS files, MAINTAINERS file entry and optionally initial drivers with
++   their Devicetree bindings.  The MAINTAINERS file entry should list new
++   platform-specific maintainers, who are going to be responsible for handling
++   patches for the platform from now on.
++
++Note that the soc@kernel.org is not a place to discuss the patches, thus work
++sent to this address should be already considered as acceptable by the
++community.
++
+ Information for (new) Submaintainers
+ ------------------------------------
  
-    Indices
 -- 
-2.43.5
+2.43.0
 
