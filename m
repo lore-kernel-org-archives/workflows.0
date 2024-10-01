@@ -1,100 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6245A4D8CB;
-	Thu, 26 Sep 2024 13:10:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B20519D88F;
+	Tue,  1 Oct 2024 08:35:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727356206; cv=none; b=W72ZjhMs+aMrXTbHeXBvnvZ+m0MQ9HW1EOzA6sLfUveKRfxvPZrIEOR9wAAS55Vu1jyFKL2O/cJZOqNg3pHefBB38i/HiKZ4G2quXA3t2MfvpmTHSvH8vgoY4IU1OC20sbHNwSsxDyB5T6S8aKwv0KpqWtcI+s4uTWg1U689GZI=
+	t=1727771761; cv=none; b=UvJn/EY9Xh+luZ9TNeKkgGYwaiohtdIR4CVqyGavYapTOLrOWEbNue+p3/4czmXC8hamdyAMr9O3Yxm2acB7efCigrjRnRITmkuxbzS3+iv7DXJLl2WVJ68B8FhTNl+iXa8VZDXejwcAhNl+SjQAcxyZl5jCDeHQg+eeyOvk+tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727356206; c=relaxed/simple;
-	bh=SHX+7v7SktiuB0uZn4VwUt3KDDPOqnx7xJ+2a231HrE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=YRkpvza5ZUiHirx0Cp/TD3swr7ttN0dPwbDEzEEsIP3Pat4pL8zwFH7YvDmlcMrAGvVVa30/d+Egi5mV8ILxGOuweHE3xL85/9UdtuQ+Jtq5xH5VQu6i1z+FWV+nkeRZi8G4r4QDWPVpPCXCJWIXsaRAZVWG1IHQs8MsSZ3oLIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TnmiKbqo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1727771761; c=relaxed/simple;
+	bh=Rxok55OIaYMRCkr7w+pJrrsuiNoA+XVp+wHCdOMwtME=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=c3c1G7oWnOr0MmzXED+vDGJw8ijlCfi2E8d4oTMz01mHv1nIeM0KEezDQKo9A1Y+1DQVxzGTJD8nm7zXLLOkQU1zi8wcONjG9ftljeeaAmjMdkrdC7yCtq0csvfOAefqZ6bs0dnPHgC4B/6CmWSimxzWt+R9OikCrFZ9Ea8dmcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=dsy9ZxI6; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TnmiKbqo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D747C4CEC5;
-	Thu, 26 Sep 2024 13:10:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727356206;
-	bh=SHX+7v7SktiuB0uZn4VwUt3KDDPOqnx7xJ+2a231HrE=;
-	h=From:Date:Subject:To:Cc:From;
-	b=TnmiKbqol6VurRRhqBcAjWIBvTWt6ZNxVT3alq7PbuoGXRUU4KuguWPnlVWvFQMIS
-	 1JwSnRKd2KL3q9SbuQym5uAbquMmoP8U2pbdf0XE7Rx+uBxm0ukmLZPY/uaqYWeW5L
-	 pmxtpglb3OnK5i7BEb4JNX0umjGzpw0Ro7T5kaYBzMxS59GC5zKQImOU1i/fzB/A4f
-	 0mlnXEMO5y6MM5cR6PSi7F0hfWwfwCtmdgsXtFIRXNs6eQgpEvfyx8/hpyuoPCJCCM
-	 k8NyGhYXol4hXZ5QjQWZWwccjUz8B6NLkzmjMXB8zIL77/dsOM8jAALU8AK0qR0dNt
-	 xzoVV64U+r3lQ==
-From: "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
-Date: Thu, 26 Sep 2024 15:09:58 +0200
-Subject: [PATCH doc] docs: gcov: fix link to LCOV website
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="dsy9ZxI6"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4911uLjA021667;
+	Tue, 1 Oct 2024 08:35:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
+	message-id:date:subject:to:cc:references:from:in-reply-to
+	:content-type:content-transfer-encoding:mime-version; s=pp1; bh=
+	Iwpj7p1XD+qmm68moM44LorMqFof/3LSSa1cf5DjdHA=; b=dsy9ZxI6vgwKywf/
+	NHTqb+qtT7HnbiBErUggmuHUK2vCS3Lzuzt+duj0jEgdeHcxGjUXFo8ZBav5O2xV
+	QIQk+Qy3D8ffFH6RnZZ/bmRXo0VYDu8JLsqhp30rzFVopKdDrNzXLJMNj9ltIrez
+	NOoxOFCZsFcqL+SpiosAt1D/Fe8Q+LJpQagRDMRrx2H+pkSOehyzvRucabJ5Q97o
+	/1RYTbY6MsmxB1re2NoMOz/71d2JPcijV2bX/qk7Syz2tKD1UNtdB+Cu4qGlzJ7P
+	5nGy57VLSiyMOSOH90nskaSCC2yH48H+EAXLA9JeGhaQAa1kwUu71xdARhtd7k+8
+	kr8oig==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 41x9hb6j51-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 01 Oct 2024 08:35:47 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4917JE12002356;
+	Tue, 1 Oct 2024 08:35:46 GMT
+Received: from smtprelay04.dal12v.mail.ibm.com ([172.16.1.6])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 41xxu12vsh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 01 Oct 2024 08:35:46 +0000
+Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
+	by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4918Zk1d42009078
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 1 Oct 2024 08:35:46 GMT
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1E93358052;
+	Tue,  1 Oct 2024 08:35:46 +0000 (GMT)
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3290E5805A;
+	Tue,  1 Oct 2024 08:35:45 +0000 (GMT)
+Received: from [9.152.212.241] (unknown [9.152.212.241])
+	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Tue,  1 Oct 2024 08:35:45 +0000 (GMT)
+Message-ID: <e352b1db-8288-4f98-a66b-955f8753b927@linux.ibm.com>
+Date: Tue, 1 Oct 2024 10:35:39 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH doc] docs: gcov: fix link to LCOV website
+To: "Matthieu Baerts (NGI0)" <matttbe@kernel.org>, mptcp@lists.linux.dev,
+        Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20240926-doc-fix-lcov-link-v1-1-46f250cb7173@kernel.org>
+Content-Language: en-US
+From: Peter Oberparleiter <oberpar@linux.ibm.com>
+In-Reply-To: <20240926-doc-fix-lcov-link-v1-1-46f250cb7173@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: EDWsRrhGCzSh8doaz5MyNmk-QhFAQXVi
+X-Proofpoint-ORIG-GUID: EDWsRrhGCzSh8doaz5MyNmk-QhFAQXVi
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240926-doc-fix-lcov-link-v1-1-46f250cb7173@kernel.org>
-X-B4-Tracking: v=1; b=H4sIACVd9WYC/x2MWwqAIBAArxL73YLZg+oq0YfpVkuhoSBBdPeWP
- gdm5oFEkSnBWDwQKXPi4AWqsgC7G78RshMGrXSjBt2hCxZXvvG0IePJ/kC1rLY1fW2qhUC6K5I
- I/3MC0WF+3w/xeP+baAAAAA==
-X-Change-ID: 20240926-doc-fix-lcov-link-0bfc5a83a1be
-To: mptcp@lists.linux.dev, Peter Oberparleiter <oberpar@linux.ibm.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1286; i=matttbe@kernel.org;
- h=from:subject:message-id; bh=SHX+7v7SktiuB0uZn4VwUt3KDDPOqnx7xJ+2a231HrE=;
- b=owEBbQKS/ZANAwAIAfa3gk9CaaBzAcsmYgBm9V0re4YpjGSaLmMu4AWrXLyEuvOotm10oCt+G
- sxsMZe7gPOJAjMEAAEIAB0WIQToy4X3aHcFem4n93r2t4JPQmmgcwUCZvVdKwAKCRD2t4JPQmmg
- c23KD/9GnTA3ewEKkTex4xhVP1CtknQt+d+7SSULMx1k2Y2XJSqrOJqRkOY5xE2DkmgAMwgGIVX
- 2uMv/ZoSSChZTmZSqSMtoDC2ZrrrywGbxHIMLnI0AyiX1I+VzhCyDpI6nvFVkZhzDlUfPlHOe9+
- 5an0T+cnwhRxDtPXS4NtGqLoMpwa/J2H3O7OQCjrR8/n+kciNpOrM9C6u3riERt4ZIZ8VO2d9yB
- +UdpaBRzQ3K6dZSX0u4mT87eLSABfjJ66qKx5Vm8EmClIT/LiBnNn3YYw7FuW7s+40U6C37pKsl
- F3ZfzA38dVPqJz9JP0/zVxMd3GRLap4FO8648O0kO3DxfchrlkjrdgYmMR91jZ8iTzNx6tYgOuu
- +gEE0VM0YTfgfJas7ou4+IAWwJz4ts//hsAQI7VWAh4Oghy/7mX5lLL1Cp/APa2NXDhaQKl1zKb
- IlBfn4/TeDQ7SdJtIVvv+oj7JLEx93jqneRvs2L5iEYv3eiAoQRM+rP8CbcSRYmkgTMVywmTXJ4
- 5c5TXdq7hT2qtqj52ZkDjvzf3/CU/m/u9/fmZSzoBJJXXe1CvBqQUkJO1aYcG0E8Ni5fVlGX9nM
- h+3nnfhuuJFrPsQaoBk/2K2OMXpqY8TtqtrRyoytatTWUGiOe+fwU7zGb1ACYuGTFlFzh3WAI7T
- q+ggk4ozbw3mLMg==
-X-Developer-Key: i=matttbe@kernel.org; a=openpgp;
- fpr=E8CB85F76877057A6E27F77AF6B7824F4269A073
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-01_05,2024-09-30_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
+ priorityscore=1501 clxscore=1011 suspectscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=721 bulkscore=0 spamscore=0 phishscore=0 lowpriorityscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2410010055
 
-The previous website hosted on SourceForge is no longer available since
-January 2024 according to archive.org [1].
+On 26.09.2024 15:09, Matthieu Baerts (NGI0) wrote:
+> The previous website hosted on SourceForge is no longer available since
+> January 2024 according to archive.org [1].
+> 
+> It looks like the website has been officially moved to GitHub in June
+> 2022 [2]. Best to redirect readers to the new location then.
+> 
+> Link: https://web.archive.org/web/20240105235756/https://ltp.sourceforge.net/coverage/lcov.php [1]
+> Link: https://github.com/linux-test-project/lcov/commit/6da8399c7a7a [2]
+> Signed-off-by: Matthieu Baerts (NGI0) <matttbe@kernel.org>
 
-It looks like the website has been officially moved to GitHub in June
-2022 [2]. Best to redirect readers to the new location then.
+Yes, let's update the link.
 
-Link: https://web.archive.org/web/20240105235756/https://ltp.sourceforge.net/coverage/lcov.php [1]
-Link: https://github.com/linux-test-project/lcov/commit/6da8399c7a7a [2]
-Signed-off-by: Matthieu Baerts (NGI0) <matttbe@kernel.org>
----
- Documentation/dev-tools/gcov.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Acked-by: Peter Oberparleiter <oberpar@linux.ibm.com>
 
-diff --git a/Documentation/dev-tools/gcov.rst b/Documentation/dev-tools/gcov.rst
-index 5fce2b06f22954c3ac6e7d7118064f015624c4a9..53a85ffebcea9fc99484296c5193df7ab5ec4e3e 100644
---- a/Documentation/dev-tools/gcov.rst
-+++ b/Documentation/dev-tools/gcov.rst
-@@ -23,7 +23,7 @@ Possible uses:
-   associated code is never run?)
- 
- .. _gcov: https://gcc.gnu.org/onlinedocs/gcc/Gcov.html
--.. _lcov: http://ltp.sourceforge.net/coverage/lcov.php
-+.. _lcov: https://github.com/linux-test-project/lcov
- 
- 
- Preparation
 
----
-base-commit: 052f172ef127e3b76f31e11f71e957e552cdb94d
-change-id: 20240926-doc-fix-lcov-link-0bfc5a83a1be
-
-Best regards,
 -- 
-Matthieu Baerts (NGI0) <matttbe@kernel.org>
-
+Peter Oberparleiter
+Linux on IBM Z Development - IBM Germany R&D
