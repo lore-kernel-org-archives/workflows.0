@@ -1,155 +1,114 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F61C1C8FD5;
-	Tue,  1 Oct 2024 15:44:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 232821CDFBE;
+	Tue,  1 Oct 2024 20:10:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727797454; cv=none; b=acRKYjZC4Fty4lNBV+SpXjtXULJj1GwkedN/0VKnZpZlmjdxe80HvcrEx+ooitZmAJJlkAUaScFj9rOlkkDv0g3aqicIJeT9Rk0NUtEOZCoY9c+6qczyoWQEcrVNuvDpBquV7dz2+TyJOMnvvoo5WGmqcxmWeZcwIS3CkVvGBt0=
+	t=1727813440; cv=none; b=aGq5C/dFeAoZl65G/aDgZzcLKSNryIA1aB51NN4MQbiaTq/sMnYDWmnN70YZa/wGOpTo6LeEAxlrbzHWiHqV9ock2zVCqbOuaWuy+VZ7b6/BwOMH8VHDs9JKP2bWUO1uuGFQAlZNfaCCWYxjLj0bC7dPVQcdyqDussWVSl5mazA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727797454; c=relaxed/simple;
-	bh=uh9EhIRmTQfFlAsmyL3OVDGo/q51it5ueX+NO09uEbc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=smLZKm1oDd3SaLMz0UeQ+xTBgxX/Mr6j2I7ntA3PvbtQ52c7F21MGA/ylZAP/6QTzhBebbEJYBQv3FH7zoEFylQE/wSFrDCsLhAKhjfp+ysNFaC9FD+UsJBjSr/7fapVfP+NnTq61S9h867s2l46Dv3wCnNEPl7WDYw3GaW5mXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=T4xJxuhW; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1727813440; c=relaxed/simple;
+	bh=kYoy/bMd8xJK/HDyrM7sBCBrw1B9vPKyP8cEGp8fmI8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qcwF0yDNSQXjQ+egASUJ3uUg25x+X+54MoTjOAi+C/KHSNM/fzqzCmptpgtPSgeq8nDnWV6xlJFxrlupVTFnjbh2i7TJAUvHiUtL3vh6TYjt1cazAQHwrUGds2lWtmqLnkg6q3J2K1YsHEjCNBUwT/2eimt+osUKhbTFcaFcj0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iHCaeVgY; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="T4xJxuhW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1727797451;
-	bh=uh9EhIRmTQfFlAsmyL3OVDGo/q51it5ueX+NO09uEbc=;
-	h=From:Date:Subject:To:Cc:From;
-	b=T4xJxuhWZDmr4RQw/qGKq8YoSdDeaRZSKIJ7crVtLTibbNqgnVmCCQXMIL7s7cxN7
-	 SM2GZadJykWIgbjaosM4l6L6HrcNbx1FK7xzd4OPpbafP22gYF9vAnwSN/yemHtom/
-	 nN68JbmHn/mMLS5gtOcMfGW9e+msWXsRjVMfs7mXZbUfDjGcxBRYUYlipeKXgd1XfQ
-	 MdsldGQz1qxgly7N0Z7k+d366fX7iP1ApsQqX7j5DgfhezKeWIjIO1OUTPe2mzT7Vv
-	 5MLVFYLpPMJmYZRP9FaDkEDY5iEfI30XgsRHlSJDMthv5hBToonOa9SBU3Emx1tXJr
-	 /EJWSIr5UnPFg==
-Received: from [192.168.1.33] (pool-100-2-116-133.nycmny.fios.verizon.net [100.2.116.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nfraprado)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 62CEC17E0FE4;
-	Tue,  1 Oct 2024 17:44:10 +0200 (CEST)
-From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
-Date: Tue, 01 Oct 2024 11:43:23 -0400
-Subject: [PATCH] docs: dev-tools: Add documentation for the device focused
- kselftests
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iHCaeVgY"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-71797e61d43so284454b3a.2;
+        Tue, 01 Oct 2024 13:10:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727813437; x=1728418237; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kGVulOrDpVkAQcbZN4VP65YN6nxFMIm3dGc0Up0BqtM=;
+        b=iHCaeVgYQupMJxnHh7ug9MM7h2J35MOWc9ET6SJ9vwhiolDET0SIwjM1mtL8j7dhBQ
+         AUJOM4HQqpwY4Oxlms52s7s8AFaLAcIKxME25jK1wZAs6WT2+sodWut2vhLGzymYPe4/
+         lg5dPGwlqENAhHiJFoBq0MJjVJzv6TrYu6YiQQNHBEpZDAWiEko/La7bjnNkBgQ8ZpNZ
+         U7I+w+c/K3gTKdawsZ22/cV8JoB8lQyrTS/JhQ72y/r9Zfhv2PY8BW5oAd6tR8blW8NH
+         durErRYC1i/tZLOMT8Dq6aQT1+vnfl8dlpecAaxGIXyuVHx3GApIiLS9/Y5Ghg/7IwFk
+         NQxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727813437; x=1728418237;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kGVulOrDpVkAQcbZN4VP65YN6nxFMIm3dGc0Up0BqtM=;
+        b=PYnRsSQjBkpNy9gEWSsA4ElGlLjsHO/1dFQyxagHYF/i9hiQuL5UMGDykLHpXZc9YU
+         KXKUbxfj3G5adNWBN7UW0w7Nsd11qMpFVhSK0qxyMG6TJZbaTMEdYYiubdGkTYStjiRP
+         +Q93cMhQ/tqR2JEqN3xafFZJrkubapRDDcSCYkXf9Sxbi6OtyINSuwfV/zVhCKfp4oAh
+         RBE/I/pWKK+ptOwNN3I6vPbsJhqC9+DEmUY3FhU5ggm4lc5iCDWwgpMQjw0i5BZdITbD
+         g5Ccxj49Al5BJxB1mOwnqExRAsDkT/852V5pVWMjsidFxf8ZFE3bI4dLdA/oPEtSh4S3
+         KYIg==
+X-Forwarded-Encrypted: i=1; AJvYcCUX3/ELl1qS/RSuJP29MTykJDKZuTNxCFglkHi3lUeLBrfwg3SWkYiD7K6LLUnm7KnD0Fdlpc+8F+d6hk98@vger.kernel.org, AJvYcCUXASWaQ/ez2w7FVM/IFNDwntvnzAqU9wo6GfSeXF06nkx3LDYUrj7pE5CKlC+9PRz2k6t3hs6ZRrk=@vger.kernel.org, AJvYcCXGuwyHOJ9HSFHT53OPTyrkDwXXd9E5SaeqsIxXtJpOHsLn2936QzB/B5GToSi+mmhRKCOBeV8uoDSXzee+lDw=@vger.kernel.org, AJvYcCXvBk8wVFmht94svDNQvZc0BfNNM1dHF1yQgY8eGpMpVRJbAMSW+9QTtud6cJqP45AVkvJkYQZnuaoP@vger.kernel.org
+X-Gm-Message-State: AOJu0YySda31UVHswO+LZasiAJFn79SYt8EsxQ+RbgBSMqs+k3P4ev0J
+	1yYQZtC2Et5jq66KK7u2nN/yltgsTF7CRxCUbtp7fOdn95vNTAeVVbsqSBEur4YUB8LzEP7AmRr
+	ZZmr/d4AT+3c7SbRxaGApTMEWiSo=
+X-Google-Smtp-Source: AGHT+IHe4cKDdHANdRNDm2TbpCihzt1NUCN01E7a+72PsxqWx9wAfuXjuHQOo7cfvTqVtYQhjg9c3FrJ6b7M6dZiStE=
+X-Received: by 2002:a05:6a20:7483:b0:1cf:4dc7:e4fc with SMTP id
+ adf61e73a8af0-1d5db121f1amr761477637.2.1727813437289; Tue, 01 Oct 2024
+ 13:10:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20241001-kselftest-device-docs-v1-1-be28b70dd855@collabora.com>
-X-B4-Tracking: v=1; b=H4sIAJoY/GYC/x2M0QpAQBAAf0X7bOtWCL8iD9wtNjq6ldTl310ep
- 2YmgnIQVuiyCIFvUTl8AsozsOvoF0ZxiaEwRUnGEG7K+3yxXuiSbhndYRVr24wlEZl2qiC1Z+B
- Znv/bD+/7ARsAJ4ZnAAAA
-To: Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: kernel@collabora.com, linux-kselftest@vger.kernel.org, 
- workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, kernelci@lists.linux.dev, 
- =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
-X-Mailer: b4 0.14.1
+References: <20240922160411.274949-1-carlos.bilbao.osdev@gmail.com>
+In-Reply-To: <20240922160411.274949-1-carlos.bilbao.osdev@gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 1 Oct 2024 22:10:24 +0200
+Message-ID: <CANiq72=MnCfj_y_dSPZ4Mwyxq1WnuPmw-FQ0H8THLS6kZ8fNOA@mail.gmail.com>
+Subject: Re: [PATCH v3] kernel-docs: Add new section for Rust learning materials
+To: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+Cc: corbet@lwn.net, ojeda@kernel.org, dirk.behme@de.bosch.com, 
+	alex.gaynor@gmail.com, boqun.feng@gmail.com, gary@garyguo.net, 
+	benno.lossin@proton.me, a.hindborg@samsung.com, aliceryhl@google.com, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, bilbao@vt.edu
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add documentation for the kselftests focused on testing devices and
-point to it from the kselftest documentation. There are multiple tests
-in this category so the aim of this page is to make it clear when to run
-each test.
+On Sun, Sep 22, 2024 at 6:04=E2=80=AFPM Carlos Bilbao
+<carlos.bilbao.osdev@gmail.com> wrote:
+>
+> +   * Title: **Experiment: Improving the Rust Book**
+> +
+> +      :Author: Cognitive Engineering Lab at Brown University
+> +      :URL: https://rust-book.cs.brown.edu/
+> +      :Date: Accessed Sep 22 2024
+> +      :Keywords: rust, blog.
+> +      :Description: From the website: "The goal of this experiment is to
+> +        evaluate and improve the content of the Rust Book to help people
+> +        learn Rust more effectively.".
 
-Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
----
-This patch depends on patch "kselftest: devices: Add test to detect
-missing devices" [1], since this patch documents that test.
+Perhaps this could go closer to the Rust book entry since it is a variant o=
+f it.
 
-[1] https://lore.kernel.org/all/20240928-kselftest-dev-exist-v2-1-fab07de6b80b@collabora.com
----
- Documentation/dev-tools/kselftest.rst       |  9 ++++++
- Documentation/dev-tools/testing-devices.rst | 47 +++++++++++++++++++++++++++++
- 2 files changed, 56 insertions(+)
+Or are these sorted in a particular way?
 
-diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
-index f3766e326d1e..fdb1df86783a 100644
---- a/Documentation/dev-tools/kselftest.rst
-+++ b/Documentation/dev-tools/kselftest.rst
-@@ -31,6 +31,15 @@ kselftest runs as a userspace process.  Tests that can be written/run in
- userspace may wish to use the `Test Harness`_.  Tests that need to be
- run in kernel space may wish to use a `Test Module`_.
- 
-+Documentation on the tests
-+==========================
-+
-+For documentation on the kselftests themselves, see:
-+
-+.. toctree::
-+
-+   testing-devices
-+
- Running the selftests (hotplug tests are run in limited mode)
- =============================================================
- 
-diff --git a/Documentation/dev-tools/testing-devices.rst b/Documentation/dev-tools/testing-devices.rst
-new file mode 100644
-index 000000000000..ab26adb99051
---- /dev/null
-+++ b/Documentation/dev-tools/testing-devices.rst
-@@ -0,0 +1,47 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. Copyright (c) 2024 Collabora Ltd
-+
-+=============================
-+Device testing with kselftest
-+=============================
-+
-+
-+There are a few different kselftests available for testing devices generically,
-+with some overlap in coverage and different requirements. This document aims to
-+give an overview of each one.
-+
-+Note: Paths in this document are relative to the kselftest folder
-+(``tools/testing/selftests``).
-+
-+Device oriented kselftests:
-+
-+* Devicetree (``dt``)
-+
-+  * **Coverage**: Probe status for devices described in Devicetree
-+  * **Requirements**: None
-+
-+* Error logs (``devices/error_logs``)
-+
-+  * **Coverage**: Error (or more critical) log messages presence coming from any
-+    device
-+  * **Requirements**: None
-+
-+* Discoverable bus (``devices/probe``)
-+
-+  * **Coverage**: Presence and probe status of USB or PCI devices that have been
-+    described in the reference file
-+  * **Requirements**: Manually describe the devices that should be tested in a
-+    YAML reference file (see ``devices/probe/boards/google,spherion.yaml`` for
-+    an example)
-+
-+* Exist (``devices/exist``)
-+
-+  * **Coverage**: Presence of all devices
-+  * **Requirements**: Generate the reference (see ``devices/exist/README.rst``
-+    for details) on a known-good kernel
-+
-+Therefore, the suggestion is to enable the error log and devicetree tests on all
-+(DT-based) platforms, since they don't have any requirements. Then to greatly
-+improve coverage, generate the reference for each platform and enable the exist
-+test. The discoverable bus test can be used to verify the probe status of
-+specific USB or PCI devices, but is probably not worth it for most cases.
+> +   * Title: **Opsem-team** (repository)
+> +
+> +      :Author: Operational semantics team
+> +      :URL: https://github.com/rust-lang/opsem-team/tree/main
 
----
-base-commit: cea5425829f77e476b03702426f6b3701299b925
-change-id: 20241001-kselftest-device-docs-6c8a411109b5
+Nit: I think you can remove the `/tree/main` part of the URL to simplify.
 
-Best regards,
--- 
-Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> +      :Date: Accessed Sep 22 2024
 
+Since these are repositories, and elsewhere you say "rolling version",
+should that one have a concrete date, or should some of these ones
+have a rolling date too?
+
+One more that I remembered and that we could have here if we have
+other videos/podcasts/... is Crust of Rust (and probably the book from
+the same author).
+
+In any case, I think it looks good, thanks!
+
+Acked-by: Miguel Ojeda <ojeda@kernel.org>
+
+Cheers,
+Miguel
