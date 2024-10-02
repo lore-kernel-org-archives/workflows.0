@@ -1,114 +1,101 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 232821CDFBE;
-	Tue,  1 Oct 2024 20:10:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE94B19750B
+	for <workflows@vger.kernel.org>; Wed,  2 Oct 2024 13:02:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727813440; cv=none; b=aGq5C/dFeAoZl65G/aDgZzcLKSNryIA1aB51NN4MQbiaTq/sMnYDWmnN70YZa/wGOpTo6LeEAxlrbzHWiHqV9ock2zVCqbOuaWuy+VZ7b6/BwOMH8VHDs9JKP2bWUO1uuGFQAlZNfaCCWYxjLj0bC7dPVQcdyqDussWVSl5mazA=
+	t=1727874137; cv=none; b=Ki4oQ5Vy5ckSu9i2sjffHoOKKkrLHV+ewKMDTUtJlnRlX6RnBdC+ogIZ9ytZ4+Yfe9d6IKtZlJLNTzwFJaP1gQWDoDai/YrgvAD/+/1du9xz8g+L3Bs/UK14VmfZrlEPbhzgEaM98LnA7Q1hd9BDFW3jfccvJ3TYoAa96ASnzUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727813440; c=relaxed/simple;
-	bh=kYoy/bMd8xJK/HDyrM7sBCBrw1B9vPKyP8cEGp8fmI8=;
+	s=arc-20240116; t=1727874137; c=relaxed/simple;
+	bh=V6+ZpVKOYtob9yUnS+bSJltLOmlfDPMLjeiE2IeEK+E=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qcwF0yDNSQXjQ+egASUJ3uUg25x+X+54MoTjOAi+C/KHSNM/fzqzCmptpgtPSgeq8nDnWV6xlJFxrlupVTFnjbh2i7TJAUvHiUtL3vh6TYjt1cazAQHwrUGds2lWtmqLnkg6q3J2K1YsHEjCNBUwT/2eimt+osUKhbTFcaFcj0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iHCaeVgY; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=O7mVxyxDqu8OO9t1D4VG1M2iCJqhEssiqJ/luj13RyqoGHovHgiMy9KQRvWh1oZ5kFOx/FM3Vj3H/FBq600rknxsvla3jojstXrFlIep7O0kTveAOlzbYbSpCh0YKAOGvMXo1RdCMYDhMa8HcLk2vAIUlU4zwGM/P0O4dydF0pY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=P2A08OY2; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iHCaeVgY"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-71797e61d43so284454b3a.2;
-        Tue, 01 Oct 2024 13:10:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="P2A08OY2"
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2facf481587so30292551fa.1
+        for <workflows@vger.kernel.org>; Wed, 02 Oct 2024 06:02:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727813437; x=1728418237; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1727874134; x=1728478934; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kGVulOrDpVkAQcbZN4VP65YN6nxFMIm3dGc0Up0BqtM=;
-        b=iHCaeVgYQupMJxnHh7ug9MM7h2J35MOWc9ET6SJ9vwhiolDET0SIwjM1mtL8j7dhBQ
-         AUJOM4HQqpwY4Oxlms52s7s8AFaLAcIKxME25jK1wZAs6WT2+sodWut2vhLGzymYPe4/
-         lg5dPGwlqENAhHiJFoBq0MJjVJzv6TrYu6YiQQNHBEpZDAWiEko/La7bjnNkBgQ8ZpNZ
-         U7I+w+c/K3gTKdawsZ22/cV8JoB8lQyrTS/JhQ72y/r9Zfhv2PY8BW5oAd6tR8blW8NH
-         durErRYC1i/tZLOMT8Dq6aQT1+vnfl8dlpecAaxGIXyuVHx3GApIiLS9/Y5Ghg/7IwFk
-         NQxw==
+        bh=V6+ZpVKOYtob9yUnS+bSJltLOmlfDPMLjeiE2IeEK+E=;
+        b=P2A08OY2rgft/g10dgu+hU7F62V8IGNH7U0FdXMh5OZaXWElQHrrwa8x+rp6j92VQU
+         ZT0c0S5bUiL2VihLsjVy/DOt/0unKfwwyLsx0L3uwZ39E5Ul8KjcI01llsiPoAZs6xb+
+         ei9cv+o5Po6JtT7J2heGiK9kpG23onz0dy+9O1T4i3isrO/uDj1AWDxCMc+19kMTU5Mw
+         rpKEYLpUUDr8rIgdkoSZ+2ExJ313tdxTBkXpDhfMmK87+1UfGTCPiFFZbiZVV5Z4bV5y
+         Agk/Wfp+I34MiFXax84h60Nq3IAXW8+Pvp6aq5/RUXs6gNhokqYnpyC2qT/CB2Y/V3Ui
+         35aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727813437; x=1728418237;
+        d=1e100.net; s=20230601; t=1727874134; x=1728478934;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kGVulOrDpVkAQcbZN4VP65YN6nxFMIm3dGc0Up0BqtM=;
-        b=PYnRsSQjBkpNy9gEWSsA4ElGlLjsHO/1dFQyxagHYF/i9hiQuL5UMGDykLHpXZc9YU
-         KXKUbxfj3G5adNWBN7UW0w7Nsd11qMpFVhSK0qxyMG6TJZbaTMEdYYiubdGkTYStjiRP
-         +Q93cMhQ/tqR2JEqN3xafFZJrkubapRDDcSCYkXf9Sxbi6OtyINSuwfV/zVhCKfp4oAh
-         RBE/I/pWKK+ptOwNN3I6vPbsJhqC9+DEmUY3FhU5ggm4lc5iCDWwgpMQjw0i5BZdITbD
-         g5Ccxj49Al5BJxB1mOwnqExRAsDkT/852V5pVWMjsidFxf8ZFE3bI4dLdA/oPEtSh4S3
-         KYIg==
-X-Forwarded-Encrypted: i=1; AJvYcCUX3/ELl1qS/RSuJP29MTykJDKZuTNxCFglkHi3lUeLBrfwg3SWkYiD7K6LLUnm7KnD0Fdlpc+8F+d6hk98@vger.kernel.org, AJvYcCUXASWaQ/ez2w7FVM/IFNDwntvnzAqU9wo6GfSeXF06nkx3LDYUrj7pE5CKlC+9PRz2k6t3hs6ZRrk=@vger.kernel.org, AJvYcCXGuwyHOJ9HSFHT53OPTyrkDwXXd9E5SaeqsIxXtJpOHsLn2936QzB/B5GToSi+mmhRKCOBeV8uoDSXzee+lDw=@vger.kernel.org, AJvYcCXvBk8wVFmht94svDNQvZc0BfNNM1dHF1yQgY8eGpMpVRJbAMSW+9QTtud6cJqP45AVkvJkYQZnuaoP@vger.kernel.org
-X-Gm-Message-State: AOJu0YySda31UVHswO+LZasiAJFn79SYt8EsxQ+RbgBSMqs+k3P4ev0J
-	1yYQZtC2Et5jq66KK7u2nN/yltgsTF7CRxCUbtp7fOdn95vNTAeVVbsqSBEur4YUB8LzEP7AmRr
-	ZZmr/d4AT+3c7SbRxaGApTMEWiSo=
-X-Google-Smtp-Source: AGHT+IHe4cKDdHANdRNDm2TbpCihzt1NUCN01E7a+72PsxqWx9wAfuXjuHQOo7cfvTqVtYQhjg9c3FrJ6b7M6dZiStE=
-X-Received: by 2002:a05:6a20:7483:b0:1cf:4dc7:e4fc with SMTP id
- adf61e73a8af0-1d5db121f1amr761477637.2.1727813437289; Tue, 01 Oct 2024
- 13:10:37 -0700 (PDT)
+        bh=V6+ZpVKOYtob9yUnS+bSJltLOmlfDPMLjeiE2IeEK+E=;
+        b=fJv5eclp2CAU6I7NK/yPCQbCrwpxB9rv0YY4G+4FdtxGEKxOM6mQzrHW4+iRco45bl
+         OrxtCw2IZnNaHGmlvLGe1rVgaG2N8QznFXm3jNroQATL1BtDowl/nAXyQaJO0UACLjN5
+         4BNRZM1j/RxxkhxCYqx+HTrbxDIBF1Dx+7GQmgjrAVUsDV/BDUXGdXjbD77lArE+IQcG
+         KcX/m4Csd0f8L8v30QtP8GUQQxDW0GkrNFiJj6YL+Uh0cPLP1CLB6F8IeFDYip4vLpyp
+         +XYNeW8GRULG4TJriGCATm+fHEW2WKXZaps/5TcmOqFC++3yTry5iQO1y0qjiT/ZfJof
+         B6og==
+X-Forwarded-Encrypted: i=1; AJvYcCWkJklewizY35rr84jJ+JYxkSWYr1VZKMGHMPnoe3v5YPe3BNUw/idXE/0nwo3M/+hbO257oEhuStw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8pElBu7Kpz/sDn1miwFgY/NtRVvagHsU351U6JNYLGOFl32n6
+	d2R4Myypqa7NLNCecw9rbvUCuqeeCoVU+NoXySddLi6iJa6YyTpfCnPVHN+dzYG3pmrZEdlXLAG
+	S02Dj06F+2rilTioa7ldQC6uI5pi2HYTDeLZ2EQ==
+X-Google-Smtp-Source: AGHT+IE17VRzgHlUxgYGy7U0/MRfvq2+ZgvbaqzRxZ67LxJlM2/ueQxV3YOwhvf1FBPYjEvmw9ciY4+lbofbyCL4t5Y=
+X-Received: by 2002:a2e:d02:0:b0:2fa:e0c4:f08b with SMTP id
+ 38308e7fff4ca-2fae109c4b1mr15001981fa.36.1727874133833; Wed, 02 Oct 2024
+ 06:02:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240922160411.274949-1-carlos.bilbao.osdev@gmail.com>
-In-Reply-To: <20240922160411.274949-1-carlos.bilbao.osdev@gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 1 Oct 2024 22:10:24 +0200
-Message-ID: <CANiq72=MnCfj_y_dSPZ4Mwyxq1WnuPmw-FQ0H8THLS6kZ8fNOA@mail.gmail.com>
-Subject: Re: [PATCH v3] kernel-docs: Add new section for Rust learning materials
-To: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-Cc: corbet@lwn.net, ojeda@kernel.org, dirk.behme@de.bosch.com, 
-	alex.gaynor@gmail.com, boqun.feng@gmail.com, gary@garyguo.net, 
-	benno.lossin@proton.me, a.hindborg@samsung.com, aliceryhl@google.com, 
+References: <20240925095635.30452-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20240925095635.30452-1-krzysztof.kozlowski@linaro.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 2 Oct 2024 15:02:02 +0200
+Message-ID: <CACRpkdYLvt-fz2zxEwTeahGkR_iLQzioQTGwUuMc52=E33HnQQ@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation/process: maintainer-soc: clarify
+ submitting patches
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>, soc@kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, linux-arm-kernel@lists.infradead.org, 
 	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, bilbao@vt.edu
+	linux-kernel@vger.kernel.org, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Will Deacon <will@kernel.org>, 
+	Kevin Hilman <khilman@baylibre.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Conor Dooley <conor@kernel.org>, 
+	=?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Sep 22, 2024 at 6:04=E2=80=AFPM Carlos Bilbao
-<carlos.bilbao.osdev@gmail.com> wrote:
+On Wed, Sep 25, 2024 at 11:56=E2=80=AFAM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+
+> Patches for SoCs are expected to be picked up by SoC submaintainers.
+> The main SoC maintainers should be addressed only in few cases.
 >
-> +   * Title: **Experiment: Improving the Rust Book**
-> +
-> +      :Author: Cognitive Engineering Lab at Brown University
-> +      :URL: https://rust-book.cs.brown.edu/
-> +      :Date: Accessed Sep 22 2024
-> +      :Keywords: rust, blog.
-> +      :Description: From the website: "The goal of this experiment is to
-> +        evaluate and improve the content of the Rust Book to help people
-> +        learn Rust more effectively.".
+> Rewrite the section about maintainer handling to document above
+> expectation.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Kevin Hilman <khilman@baylibre.com>
+> Cc: Palmer Dabbelt <palmer@dabbelt.com>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Conor Dooley <conor@kernel.org>
+> Cc: Heiko St=C3=BCbner <heiko@sntech.de>
 
-Perhaps this could go closer to the Rust book entry since it is a variant o=
-f it.
+Very nice and to the point document.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-Or are these sorted in a particular way?
-
-> +   * Title: **Opsem-team** (repository)
-> +
-> +      :Author: Operational semantics team
-> +      :URL: https://github.com/rust-lang/opsem-team/tree/main
-
-Nit: I think you can remove the `/tree/main` part of the URL to simplify.
-
-> +      :Date: Accessed Sep 22 2024
-
-Since these are repositories, and elsewhere you say "rolling version",
-should that one have a concrete date, or should some of these ones
-have a rolling date too?
-
-One more that I remembered and that we could have here if we have
-other videos/podcasts/... is Crust of Rust (and probably the book from
-the same author).
-
-In any case, I think it looks good, thanks!
-
-Acked-by: Miguel Ojeda <ojeda@kernel.org>
-
-Cheers,
-Miguel
+Yours,
+Linus Walleij
