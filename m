@@ -1,182 +1,94 @@
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2A91D0F7F
-	for <workflows@vger.kernel.org>; Wed,  2 Oct 2024 18:00:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4840D1946B9;
+	Wed,  2 Oct 2024 21:21:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727892015; cv=none; b=eTt2OfCZF2BM7PtQ+TQlz5hAcBFQUUw9gMUVhtGYCZJqAiE4NgvtyuMbyqJXy/gRkxMwdC9aGslfp3p95K/ur+aOMxIFdXnpAmzy/J6/pweiHVvmzU3ln63SsaB3rhvnuYK3jjHNSZN6CCzLBT/nOmFFKW3EfvFFYi60F8AmTlI=
+	t=1727904118; cv=none; b=asQSdSe1Ttk1eWwL23jmv9h6BgnJM8sfWZKoTsVIOScYQ2x6wkIVkzrOJ6sj1guTDjUdMfYdqp39YSDppbnK4lJGDvs37ki5GGtjpnhkZVBRfQJYnE1LsLLS3yRTsrMy1vHwzt3rG64/wcKg3BXVuSbaf1G2TR8HBDmc+zG0Ffk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727892015; c=relaxed/simple;
-	bh=VXOOUNdnAEhPqciXyVZksZiXTp0bQQtRDANzdI1gkBA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SyTzyjt8jU9l91tN84/1VLkdQcrEjPy8Z0dWU+YK0BwHTWLfa9r3tQ/vADTim0srP1QkIdcbPYcmWqcF7X3chycjOM4DGmn0NHrvAqTC41MX/qfv2HBrmCkkDoqY2JsllBPPwA2hsxvdgmiqblgRat6u/FCB/lBKExRpd4+kYkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=epDG35Aj; arc=none smtp.client-ip=209.85.166.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1727904118; c=relaxed/simple;
+	bh=Dh1HetinBC3Lp7wkQg3iq1yNhuwzKnogtmJMg0IpHFs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RWpvt+FqYe2walvCY4JJWdxFwvqk7r093H2rFgpmO7C0vhzh6yy8zwqhk1tlDVmLjYTZkBPp7L+JHIcQXKuIKgxGa4iwogJjsevv6B9xMNzlytsyfEhIcW8Sckk3Rd7B2yOjVb8FvHVcmCNnP+Sf9TsIFj5zHwEogvZFLNTuhDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QW8cEODp; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="epDG35Aj"
-Received: by mail-il1-f176.google.com with SMTP id e9e14a558f8ab-3a1f1ef7550so294535ab.1
-        for <workflows@vger.kernel.org>; Wed, 02 Oct 2024 11:00:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QW8cEODp"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-42cb58d810eso8237215e9.0;
+        Wed, 02 Oct 2024 14:21:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1727892013; x=1728496813; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=h2ii6GPB8LbcDkdZtu/vEyeCXjQrhQgW3fBbVs7hZZg=;
-        b=epDG35AjWOTR3ZFt2UlUdU+I4KpFz+LfzyeqB6CdD/KXyxZ3f9DWXq33XR9yDNsN3D
-         4BsYR7Lvr9rL+DKqEK10qyqPk4rCJQ3uz60fZ+B/jtwWgwFFivuyiTQdyb0V/DakKww/
-         jGmgy0oroINrUs29ocEuxqfAYlFTjSxoH84nc=
+        d=gmail.com; s=20230601; t=1727904116; x=1728508916; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kxVheSzFlnS80SxE0njZ5VOYQVUqoAMG0WXxzYHDWdg=;
+        b=QW8cEODpKvrP73VfMqQKdHEdXXcAfS3Ev8S+vap/0B91NrpKPxxX/7t/24imaQAZpR
+         2LU3C6R3sxEQPBqRu1ppIEDmLk8Vac3Ra3PHG8LPSo4XBofbRCIzdvn5pBw33vJB/lZy
+         GYcWi2DQJwkxAedAaDTyJOTgVpIjmIQTh7FEV1HbQHZwzCXjSR0OjHKecfxd5dS/3gk+
+         QkV+Ng5Jp0Ovi/fYEPMqNeLp04vzv+vq4oQCP3fet5eAkkot5xCo3xJaIqaok47DdCZH
+         zzhq5hfWIolGaQeN5o+TFD9XzZHn05CBGaRjF3pQsb4PB89OFASMDauOl1E4Q+tlJs0L
+         ZjSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727892013; x=1728496813;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=h2ii6GPB8LbcDkdZtu/vEyeCXjQrhQgW3fBbVs7hZZg=;
-        b=kAiGFT4h3DwU5pKilP/1QR03Mt+5qBTTo2/U9YIXo3K6raA9JdegBlKvoDDB5qyRRz
-         8p11qCAlccQr2iQ6QV9vCDsToJ0qNJrCnduQyzCNWO68eXHAKGdr4uC7YwmZGKtF5FHi
-         80gTbhxMNW0rYfls8cAkNeUQYncfJyTj5nAkxSaJGchTJPs0avYIWFTS5+fWMSMwjQD5
-         K6Cuu1h3utHytPyEjNHVrNxtSnAsdtF4XtbHqQJHaSWydgDLkGGOvjHh0776226IsTNg
-         loV8GxSgojSA62TgAoJAekK0DDzfN+UAMtFPX9CNcDs/0EO6TAkhh+ktbd4JOvhBK32h
-         6BIA==
-X-Forwarded-Encrypted: i=1; AJvYcCXNex8cwGyJXOt6eEz4xlnO6CFvTi89bFokhq/wsV3OrjphLrqhuUpQWYNrZbIpvE6vbagzx7OWlmw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzlmtopysjL6+4J3Nhh/Wb6TS+h/pqC72hi7hroBvD6K19ELZmO
-	7KN9B0UaE8iPh3ZQMP0EqAstuefLdz4xKX7L96PIC54gXWZExoiO1jVv1Jp+atU=
-X-Google-Smtp-Source: AGHT+IFZG+oK4eRQhMYCZ+1EA/WngOtJ5AXbNw+nKvg+PAQy26l2faeXkJTKlKwWhIU/wZbdksh8gQ==
-X-Received: by 2002:a05:6e02:1a6c:b0:3a0:9026:3b65 with SMTP id e9e14a558f8ab-3a365954e63mr38914205ab.25.1727892012800;
-        Wed, 02 Oct 2024 11:00:12 -0700 (PDT)
-Received: from [192.168.1.128] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4d888835090sm3187850173.15.2024.10.02.11.00.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Oct 2024 11:00:11 -0700 (PDT)
-Message-ID: <0040a842-de9c-4f9c-9d61-c1bfbd010470@linuxfoundation.org>
-Date: Wed, 2 Oct 2024 12:00:10 -0600
+        d=1e100.net; s=20230601; t=1727904116; x=1728508916;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kxVheSzFlnS80SxE0njZ5VOYQVUqoAMG0WXxzYHDWdg=;
+        b=OJgyXem1Ug7O6VPGrD7kcRe7BWFV2vxC8Pk1bjjUQCQ1ucVO39QsGS68xKXiTRQUIU
+         saDdAGsLjYM2690lhlXHi3u7lkaz2VdtjdNXRmOSQPbZ+T2ej+6ApQSJKdUjaeiIUfEK
+         K6b5a8yLy4JRsl5TUbX9V4yaHnHWl+WX7vSy2eA0LGF0K/d/fm0oQgp1GEDcLDMFEHtm
+         jeU9h9rUDO4mxwgyw0XBeaxsM5YXofTqSTBXPjBOoN0jTNvac80UW8WSEZz44/w6M+yx
+         1GrxFLtkGWjpZ0PeW7BS257NFW6jBPuZL26bmECxiw+g/y6yBhBZTLO1myQKg00WApP+
+         wNhw==
+X-Forwarded-Encrypted: i=1; AJvYcCWDCXoIlvcG6oOTexEJZgMchPFOYDf4m/kTGqWu9dN+FEqe4fC9qR+Nl/qf7eubuFMZZWm82PPMFhc0zM7/sFY=@vger.kernel.org, AJvYcCWnFY7FeZmDahQ+fcR3U+qSWvZVKikH23z53CFnA6OiomTMW0Va5xvI4du1FN8xiiaVkRrOfxf3serjSAvS@vger.kernel.org, AJvYcCXOGAurUzJgOMLiUFLISU+4vXwwPgJq1pD4CgNIxUJeBxekZtbxy2h7qaLEoHAbqu9+XJZ+gkHkAUnu@vger.kernel.org
+X-Gm-Message-State: AOJu0YxAklHyKJj2jEO+Z5HdlM1i6uCnugvNfhzcGVFokFsG550o9jtf
+	d5yDZajTdQNezac4MJWLEC1HYf3Kh31RdKWJ70txF5mwVlVnuWin4UsB0pak
+X-Google-Smtp-Source: AGHT+IHdWqJLb/hFvPXvXZ+iqQx5fuwToMwyCpxkNMK+eLJRTemU9rsbmWqBGKs3AQVuEiFjWxw17A==
+X-Received: by 2002:a5d:524a:0:b0:371:6fc7:d45d with SMTP id ffacd0b85a97d-37d049dd551mr580117f8f.2.1727904115408;
+        Wed, 02 Oct 2024 14:21:55 -0700 (PDT)
+Received: from void.void ([141.226.9.42])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d04e29280sm516323f8f.27.2024.10.02.14.21.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Oct 2024 14:21:55 -0700 (PDT)
+From: Andrew Kreimer <algonell@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Andrew Kreimer <algonell@gmail.com>
+Subject: [PATCH] docs: backporting: fix a typo
+Date: Thu,  3 Oct 2024 00:21:50 +0300
+Message-Id: <20241002212150.11159-1-algonell@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: dev-tools: Add documentation for the device focused
- kselftests
-To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: kernel@collabora.com, linux-kselftest@vger.kernel.org,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernelci@lists.linux.dev,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20241001-kselftest-device-docs-v1-1-be28b70dd855@collabora.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20241001-kselftest-device-docs-v1-1-be28b70dd855@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 10/1/24 09:43, Nícolas F. R. A. Prado wrote:
-> Add documentation for the kselftests focused on testing devices and
-> point to it from the kselftest documentation. There are multiple tests
-> in this category so the aim of this page is to make it clear when to run
-> each test.
-> 
-> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-> ---
-> This patch depends on patch "kselftest: devices: Add test to detect
-> missing devices" [1], since this patch documents that test.
-> 
-> [1] https://lore.kernel.org/all/20240928-kselftest-dev-exist-v2-1-fab07de6b80b@collabora.com
-> ---
->   Documentation/dev-tools/kselftest.rst       |  9 ++++++
->   Documentation/dev-tools/testing-devices.rst | 47 +++++++++++++++++++++++++++++
+Fix a typo in documentation.
 
-The new file needs to be added to Documentation/dev-tools/index.rst
+Signed-off-by: Andrew Kreimer <algonell@gmail.com>
+---
+ Documentation/process/backporting.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Docs make should have warned about this?
+diff --git a/Documentation/process/backporting.rst b/Documentation/process/backporting.rst
+index a71480fcf3b4..18e41e76ecba 100644
+--- a/Documentation/process/backporting.rst
++++ b/Documentation/process/backporting.rst
+@@ -74,7 +74,7 @@ your source tree. Don't forget to cherry-pick with ``-x`` if you want a
+ written record of where the patch came from!
+ 
+ Note that if you are submitting a patch for stable, the format is
+-slightly different; the first line after the subject line needs tobe
++slightly different; the first line after the subject line needs to be
+ either::
+ 
+     commit <upstream commit> upstream
+-- 
+2.39.5
 
->   2 files changed, 56 insertions(+)
-> 
-> diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
-> index f3766e326d1e..fdb1df86783a 100644
-> --- a/Documentation/dev-tools/kselftest.rst
-> +++ b/Documentation/dev-tools/kselftest.rst
-> @@ -31,6 +31,15 @@ kselftest runs as a userspace process.  Tests that can be written/run in
->   userspace may wish to use the `Test Harness`_.  Tests that need to be
->   run in kernel space may wish to use a `Test Module`_.
->   
-> +Documentation on the tests
-> +==========================
-> +
-> +For documentation on the kselftests themselves, see:
-> +
-> +.. toctree::
-> +
-> +   testing-devices
-> +
->   Running the selftests (hotplug tests are run in limited mode)
->   =============================================================
->   
-> diff --git a/Documentation/dev-tools/testing-devices.rst b/Documentation/dev-tools/testing-devices.rst
-> new file mode 100644
-> index 000000000000..ab26adb99051
-> --- /dev/null
-> +++ b/Documentation/dev-tools/testing-devices.rst
-> @@ -0,0 +1,47 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. Copyright (c) 2024 Collabora Ltd
-> +
-> +=============================
-> +Device testing with kselftest
-> +=============================
-> +
-
-Get rid of the extra blank line.
-
-> +
-> +There are a few different kselftests available for testing devices generically,
-> +with some overlap in coverage and different requirements. This document aims to
-> +give an overview of each one.
-> +
-> +Note: Paths in this document are relative to the kselftest folder
-> +(``tools/testing/selftests``).
-> +
-> +Device oriented kselftests:
-> +
-> +* Devicetree (``dt``)
-> +
-> +  * **Coverage**: Probe status for devices described in Devicetree
-> +  * **Requirements**: None
-> +
-> +* Error logs (``devices/error_logs``)
-> +
-> +  * **Coverage**: Error (or more critical) log messages presence coming from any
-> +    device
-> +  * **Requirements**: None
-> +
-> +* Discoverable bus (``devices/probe``)
-> +
-> +  * **Coverage**: Presence and probe status of USB or PCI devices that have been
-> +    described in the reference file
-> +  * **Requirements**: Manually describe the devices that should be tested in a
-> +    YAML reference file (see ``devices/probe/boards/google,spherion.yaml`` for
-> +    an example)
-> +
-> +* Exist (``devices/exist``)
-> +
-> +  * **Coverage**: Presence of all devices
-> +  * **Requirements**: Generate the reference (see ``devices/exist/README.rst``
-> +    for details) on a known-good kernel
-> +
-> +Therefore, the suggestion is to enable the error log and devicetree tests on all
-> +(DT-based) platforms, since they don't have any requirements. Then to greatly
-> +improve coverage, generate the reference for each platform and enable the exist
-> +test. The discoverable bus test can be used to verify the probe status of
-> +specific USB or PCI devices, but is probably not worth it for most cases.
-> 
-> ---
-> base-commit: cea5425829f77e476b03702426f6b3701299b925
-> change-id: 20241001-kselftest-device-docs-6c8a411109b5
-> 
-> Best regards,
-
-thanks,
--- Shuah
