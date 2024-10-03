@@ -1,148 +1,106 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73C141AAE3F
-	for <workflows@vger.kernel.org>; Thu,  3 Oct 2024 18:12:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FF4A1AB50C
+	for <workflows@vger.kernel.org>; Thu,  3 Oct 2024 18:20:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727979146; cv=none; b=clmR4higKtL80E5Btw1T9nId1czZQIOBeXEOw4uLaGjXKWGbxE9D9an0q3ALUh6N0j7d/+FbX4j0oyCQRLXlqlaYt+1Afropu7G3ZkbTHPJwENpcrzEH7/A1DhMScujXri2FKAfQTq7ppMzoGa7q9TtcQBrozD33Hyx9/pUQ5vA=
+	t=1727979632; cv=none; b=DI6m/IAPwe0a9h1kEU4vsKWKcCfaordR8x5AhGmhdjxzYnCa88FhIQnJkXr+YEkhGdufOlit4x1da1hsrpwgVTfQ2m/qgt3F1BfYukwHVJE5agjv0RCBjlYcHQkUy1pLrSQQPMp5/t+oO+43hRvRffTywzgei008xobwUb76e6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727979146; c=relaxed/simple;
-	bh=5a2tijohiLVme4B81WJKwbCbxlmvbAe8DVOHQqZRmVk=;
+	s=arc-20240116; t=1727979632; c=relaxed/simple;
+	bh=OPHzpIyuAEVyuENdRsgtRgBjbI78VqztnMoMxs6v4zo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iGitM2WoWS97ifHQygQKBiaFztM2mqWShlrW1E8k7xfktYvr58vzhSK79bnaS/QDVbcPjlSjGotNjQ3o0U3mMKSnHRSTGJlBKqR694gqGaMh1L/ZTnq9slhOOhPbhXACx8UuO73VsUGKrHeCIm5cUhcJRQ/4/Reg3ZGVXP/wcw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=2HsVzdta; arc=none smtp.client-ip=209.85.214.180
+	 To:Cc:Content-Type; b=XqanMni0rfcsSjnXnVubgZyrFCeztO6LDBQIr25dN8kWw4eScoit0X+H4S7cg0nN5PZtkYy68hM1rCVcWqcp5MbgXloN69bcQpC+GN+OoCad4/75PEGnePecgLecsTUuPT+Qz5az3fEoPwJ0dGfml7R8MJqai37frwEvSOJaEn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ClGcGw1p; arc=none smtp.client-ip=209.85.160.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2HsVzdta"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-20b40c7fd8eso25195ad.0
-        for <workflows@vger.kernel.org>; Thu, 03 Oct 2024 11:12:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ClGcGw1p"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4582fa01090so34711cf.0
+        for <workflows@vger.kernel.org>; Thu, 03 Oct 2024 11:20:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1727979145; x=1728583945; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1727979629; x=1728584429; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=syNQyjz3hsStKfZP5tLeqIERuCdmwlRMJEaOyM/R5+k=;
-        b=2HsVzdtalQm463KtDqrTPgIaa/Gbl/w/KTlTyADp9NyEKSDLqXzU1+OloFQnKMjbze
-         l/rcXhl71sOAkYxGjydZIO/V3pbGTkwniD6VsH8EkWgrrr4LqCtlwBntH7k/pk4v8a4F
-         OLaiaWOgj6DfDis5EWthmt5fjk7qLVZ7BbdReZFdSCRqK6j1xFJznD3VYq5BmXSqU7bV
-         x0wXUqxUdoPtRh68oTIqXeyYilp6E2p6Nnbz0xpv/JCguU3X3YZUdV3k3ucFmOgAZQ9T
-         XjrCVFwdwF48BqD4guaUiCiTuOv2bQLfxN1q96PNVt88SNVHJH8yQlEHvMv5cdgFb3mC
-         allg==
+        bh=OPHzpIyuAEVyuENdRsgtRgBjbI78VqztnMoMxs6v4zo=;
+        b=ClGcGw1p0bf1ArtsX7OK/wC0c9Bx8FL0YNtsf/Go1BxFWpP9Y82VMGn/lgdNr6aX7T
+         mSS6YHsoUkZRTP9Rw57FLtY9zl3e9r0Sf1L8Zd+/afWCfCpZwWvITUJnS/JuFjujh+sB
+         KuBKSVUDSG80czxLY28ki+7eXH2Fk7/38BjwriS2XPX/VAWgeB5sj7dz/yGC2+4mACsV
+         fsY2HDLIDCa5iZwXKk0JbOgLAr5qgkqs/fa2MlczJZL8Ap89irZRsWfObDYPRzg6ilRj
+         tH0FKXBZT7QBKvlgaXW9n10cOuoaceYgdtx8FK9OO22X6jcVWWYaZ6BVjVWhd6pirlmc
+         inqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727979145; x=1728583945;
+        d=1e100.net; s=20230601; t=1727979629; x=1728584429;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=syNQyjz3hsStKfZP5tLeqIERuCdmwlRMJEaOyM/R5+k=;
-        b=Nckw/+g73PGjk7vdGqu+HzFW3x5W2KujXVZXMkgNBk+e9fnqdewYruFLgbWN5Bzt+E
-         NUY3PuRVp024EtusWyJ3M4sZ6ZnccuzbLmx6I+GUKwoiPFxJWq2BbL+lPPE4F3dZmGKw
-         kXXnN7Ox0Socixqp7y+veUpOS6R97+hddgLIGXOaZkBs2KZqvD9I0rysq5Asf2Y3SyFm
-         yQIDGHMMmtB0be3NdIx7gI7FShksMVgy/jk0sjwyO/VgftuuLj+r7M8q4ch4n8yetS9q
-         vN/ORoFePkuNmihab2dnm/Cu4zDSlICltIxVe2Cm92N479Tjh2HdeBcKC9l/EeuLJmkC
-         bINA==
-X-Forwarded-Encrypted: i=1; AJvYcCVdpXCnRvNrZ/qgpE51QSW97gCEHltKs+E28vhbXZQ6EgY3npNVa1X+4zVi1PXjwWjWrG+BuxeK1Ag=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJVsiqdjuhMnAnG953OQQId2GeUv+fXROvOW5V1toH/XuIdau9
-	4CNrpyZ+WQRBFvWecUylsVDYvYtJuQvtXLf7URxtXkoaiS/xsvEeiWY/6P3NyhMwMFL0HMAdci2
-	PGHLFijwstCJJmRNm9xORt0jdtbGjpszMLyNH
-X-Google-Smtp-Source: AGHT+IH5yghVliv8i5uMVnyYn/6sNZ6wwE1O58ua+GMRxVeV0bDpveNuEgjNhVoacK3O8EaGvYqh0OWpeboBBbQa/co=
-X-Received: by 2002:a17:902:f681:b0:20b:a6f5:2770 with SMTP id
- d9443c01a7336-20bff35cf7amr46035ad.6.1727979144391; Thu, 03 Oct 2024 11:12:24
- -0700 (PDT)
+        bh=OPHzpIyuAEVyuENdRsgtRgBjbI78VqztnMoMxs6v4zo=;
+        b=RqAHlYBEpxVAxwg4qWhKll6TfJrGa7/UzuLxn4cSL1GKSZbN/SfIeP8clbTYGDQQoD
+         218IYn1tCBpfGR+d62EGjSi4jpT2yzWqlllzA5fNTBX6gOtlzhvpJIjCtVwqP1+BiZJw
+         D9fyALrL9TbnsfWqysfeweXDmaONO9zeyAdfpbjZR6Kd0ZiOSLDo0G8Uj2eOpAWrkuI6
+         ZROffG3ZNwfOYcTN8+gzuEnaY3ZUMep4X9QSrHpPTbwFdngOKKRRyOJhE0LQh9UjFez+
+         pBAU3RTZgjOSQMuyMegEb3Wqy7bDLHhRk1HmZy5o9ttAeI5QK2ryPAmSeowMx8j/5OtB
+         vOOw==
+X-Forwarded-Encrypted: i=1; AJvYcCWDNwFPUhK27glPw2w2Yz4jh4Z0Il8oXPMvJ4Z8MZICsnHM71hopbaTZxH8ScTZY7BXKajoiXzdCQ0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzZDD1jZgolmiDdC6v9NfHCU2hIbzxDR4dG5wkCuofLEhjwOO5B
+	Vt3scxQYzVxBUD2WkfSU5jVR74h8lDFge92dt/nvriNHirYDY7ebFOuR/DXCiRLpCj7nnv3+3NR
+	qJRnXV8UVCfcPtPSE6KcetHBc4NQZg/rdNKDb
+X-Google-Smtp-Source: AGHT+IHGZSKF56BASKK8GozB2yF2V8PIyDPsPS4fr3yQFHFDS0HG9quwxCeJ5MiYAd0srYGtlNnDajEe0HNMh2na5RM=
+X-Received: by 2002:a05:622a:5687:b0:44f:e12e:3015 with SMTP id
+ d75a77b69052e-45d9b947144mr205851cf.25.1727979629144; Thu, 03 Oct 2024
+ 11:20:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241002233409.2857999-1-xur@google.com> <20241002233409.2857999-4-xur@google.com>
- <20241003154320.GX5594@noisy.programming.kicks-ass.net>
-In-Reply-To: <20241003154320.GX5594@noisy.programming.kicks-ass.net>
+References: <20241002233409.2857999-1-xur@google.com> <20241002233409.2857999-2-xur@google.com>
+ <20241003154143.GW5594@noisy.programming.kicks-ass.net> <CAKwvOdnS-vyTXHaGm4XiLMtg4rsTuUTJ6ao7Ji-fUobZjdBVLw@mail.gmail.com>
+ <20241003160309.GY5594@noisy.programming.kicks-ass.net> <CAKwvOd=CRiHitKeYtHH=tmT8yfDa2RSALbYn5uCC8nRq8ud79g@mail.gmail.com>
+ <20241003161257.GZ5594@noisy.programming.kicks-ass.net>
+In-Reply-To: <20241003161257.GZ5594@noisy.programming.kicks-ass.net>
 From: Rong Xu <xur@google.com>
-Date: Thu, 3 Oct 2024 11:12:10 -0700
-Message-ID: <CAF1bQ=TTfjh1UukJNZ2bbovagXFmS3i78=ALwDt+qfVe3wr7Vg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/6] Change the symbols order when --ffuntion-sections
- is enabled
+Date: Thu, 3 Oct 2024 11:20:17 -0700
+Message-ID: <CAF1bQ=RAizpP-T_sRGpE2-Kjsk_RZD3r_iz_dpn25W+uDzpWOw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/6] Add AutoFDO support for Clang build
 To: Peter Zijlstra <peterz@infradead.org>
-Cc: Han Shen <shenhan@google.com>, Sriraman Tallam <tmsriram@google.com>, 
-	David Li <davidxl@google.com>, Krzysztof Pszeniczny <kpszeniczny@google.com>, 
-	Alice Ryhl <aliceryhl@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, 
-	Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
+Cc: Nick Desaulniers <ndesaulniers@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Han Shen <shenhan@google.com>, Sriraman Tallam <tmsriram@google.com>, David Li <davidxl@google.com>, 
+	Krzysztof Pszeniczny <kpszeniczny@google.com>, Alice Ryhl <aliceryhl@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, Breno Leitao <leitao@debian.org>, 
+	Brian Gerst <brgerst@gmail.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>, 
+	Jann Horn <jannh@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
 	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, linux-arch@vger.kernel.org, 
 	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
 	Masahiro Yamada <masahiroy@kernel.org>, "Mike Rapoport (IBM)" <rppt@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Nicolas Schier <nicolas@fjasle.eu>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Samuel Holland <samuel.holland@sifive.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org, x86@kernel.org, 
-	"Xin Li (Intel)" <xin@zytor.com>
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Samuel Holland <samuel.holland@sifive.com>, 
+	Thomas Gleixner <tglx@linutronix.de>, Wei Yang <richard.weiyang@gmail.com>, 
+	workflows@vger.kernel.org, x86@kernel.org, "Xin Li (Intel)" <xin@zytor.com>, 
+	Stephane Eranian <eranian@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-In principle, I don't see a problem using the new order unconditionally.
-
-This new ordering of sections (.text.unlikely, .text.hot, then .text)
-differs from the typical user-space ordering when no link-script is
-used. Usually, the order is .text, .text.hot, and then .text.unlikely
-(when -z keep-text-section-prefix is used).
-
-However, for normal kernel builds that don't use FDO (iFDO and
-AutoFDO), this change has minimal impact. This is because the
-.text.unlikely section is very small, containing only functions
-specifically annotated as cold by the user.
-
-When using FDO, either with iFDO or AutoFDO, this new section ordering
-(.text.unlikely, .text.hot, then .text) should be used. These builds
-should enable -ffunction-sections and use the new order for
-function-level grouping.
-
-This new ordering also affects the placement of ASan and TSan code.
-While I expect that this change won't cause issues for them, sanitizer
-developers should confirm this.
-
-We've tested this new ordering with iFDO (PGO), AutoFDO, and standard
-non-FDO builds. But I think more extensive testing is needed before
-using it unconditionally.
+Writing the doc with all these code-blocks was not fun either.
+We are happy to change if there is a better way for this.
 
 -Rong
 
-On Thu, Oct 3, 2024 at 8:43=E2=80=AFAM Peter Zijlstra <peterz@infradead.org=
+On Thu, Oct 3, 2024 at 9:13=E2=80=AFAM Peter Zijlstra <peterz@infradead.org=
 > wrote:
 >
-> On Wed, Oct 02, 2024 at 04:34:02PM -0700, Rong Xu wrote:
-> > When the -ffunction-sections compiler option is enabled, each function
-> > is placed in a separate section named .text.function_name rather than
-> > putting all functions in a single .text section.
-> >
-> > However, using -function-sections can cause problems with the
-> > linker script. The comments included in include/asm-generic/vmlinux.lds=
-.h
-> > note these issues.:
-> >   =E2=80=9CTEXT_MAIN here will match .text.fixup and .text.unlikely if =
-dead
-> >    code elimination is enabled, so these sections should be converted
-> >    to use ".." first.=E2=80=9D
-> >
-> > It is unclear whether there is a straightforward method for converting
-> > a suffix to "..". This patch modifies the order of subsections within t=
-he
-> > text output section when the -ffunction-sections flag is enabled.
-> > Specifically, it repositions sections with certain fixed patterns (for
-> > example .text.unlikely) before TEXT_MAIN, ensuring that they are groupe=
-d
-> > and matched together.
-> >
-> > Note that the limitation arises because the linker script employs glob
-> > patterns instead of regular expressions for string matching. While ther=
-e
-> > is a method to maintain the current order using complex patterns, this
-> > significantly complicates the pattern and increases the likelihood of
-> > errors.
+> On Thu, Oct 03, 2024 at 09:11:34AM -0700, Nick Desaulniers wrote:
 >
-> Is there a down-side to using the new order unconditionally?
+> > > It makes it absolute crap for all of us who 'render' text documents
+> > > using less or vi.
+> >
+> > "It hurts when I punch myself in the face."
+>
+> Weirdly enough I have a job that entails staring at text documents in
+> text editors all day every day :-) sorry for thinking that's a sane
+> thing to do.
