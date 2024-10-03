@@ -1,102 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F2819C56A;
-	Thu,  3 Oct 2024 16:02:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B163C19C56A;
+	Thu,  3 Oct 2024 16:03:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727971355; cv=none; b=VIVh2HZg9woQpbEL+2CocSx1JAPEJagBGhc48xl0o00pvlH4vjya7PlMfI9tENFBolW324IYQFmUmBOvKFC4uruwAKCD2Ydt6YdZZtJQ3723tQxPlhz4zcSljQQX1Xc5skBvzLxz2xTQx2Vu73dDe+pgOjcUuSP9hl/l18ELdVo=
+	t=1727971409; cv=none; b=VxLXDr1Chs/S2Zf0maZN8bQNOoa/GFcgsAuvwXjusevskoiqWzp/vXv7zgjSGMIqGU6+7KA3nIjuN/wX3pjzLQ3Q0E+kTj2eltXwev+PS6UqpwSMvoh4LsbspZzk0F5GIG1EbYRb3R2RK9q9xrR5I231gG696fwzh+AQP52FRjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727971355; c=relaxed/simple;
-	bh=Y71mbrna8xlCnax0uZFatRiHGYRfpFpahKmjPE5G5ZI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=D9h7B5/wixDgJjdeiGMJGD9QEINtdD/6uzkBS8bC1yDVaBiKKInK7GMnD18Of+CkhayvufNQXaPcjO20A5FxWVylUE/zxEUUHKZL0dvgaNrLOfn1kXWLlfmzH+SnYJ8Wk7BZD6Vr/Fp1RnWaq4AlzT6yru67++9f6BP7ZmAndj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RubMBB26; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1727971409; c=relaxed/simple;
+	bh=61qEN/YCscHNOig6i20As7XWTvl9SxCymkBybXoPYVs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jx/129Onb/NurK7BY7u3p5+pIfY2G6Nt6LrfRmhNd3HO8WwTzH/2t4Mm05UwvQacaUpeAZsDY/WgwZU8c1sliPJBmbiqj21Pr5iu+uA9QAfR8BryZwEDNY2ELJLGkSr+kWyfSJHL3ZezKfT/QSs+bbJU2T9ddN+fo46snHI/2qM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=RPVqJf8w; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RubMBB26"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A50CC4CEC5;
-	Thu,  3 Oct 2024 16:02:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727971354;
-	bh=Y71mbrna8xlCnax0uZFatRiHGYRfpFpahKmjPE5G5ZI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=RubMBB26C2QwTsQjmJIZrHKxSCvTLbsI5CAqrMxuoVibNdF0Tcj5Y2IeAvT+hMDqQ
-	 yvowSyQfH+EF6OvHkDGqgfbITK19AOJY09N711DMmkKPNvUXtHWyPhDF3Q8sx6y+WE
-	 VlkEp4l9eXDD/1geyUwJdzaNdgUtrfHgWZfcKKokxvSq59VVPVq9xmzqv2SUgNYGEw
-	 rtuh3TWT04Yzbkwh6C1+9vFpvAxWpvqAa1jFqBlzuw7UYhiGvkdGfQZuZdRE6ZUTjC
-	 5JDy/EGA16Po5UsUszUBXHc9wT2+9jeiH+8qbz+GFLR2NGSmFtQ8kHuF0kQQuChgeo
-	 Qvj/9U/E2Pgfw==
-Date: Thu, 3 Oct 2024 09:02:33 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: "Bird, Tim" <Tim.Bird@sony.com>
-Cc: "shuah@kernel.org" <shuah@kernel.org>, "linux-kselftest@vger.kernel.org"
- <linux-kselftest@vger.kernel.org>, "workflows@vger.kernel.org"
- <workflows@vger.kernel.org>
-Subject: Re: [RFC] MAINTAINERS: split kselftest entry into 'framework' and
- 'all'
-Message-ID: <20241003090233.11d24c66@kernel.org>
-In-Reply-To: <MW5PR13MB5632FECA88BE3F0711032738FD712@MW5PR13MB5632.namprd13.prod.outlook.com>
-References: <20241003142328.622730-1-kuba@kernel.org>
-	<MW5PR13MB5632FECA88BE3F0711032738FD712@MW5PR13MB5632.namprd13.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="RPVqJf8w"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=gpd5V+d+CGGGVKU2lsWnOPdzNPm+k/zF8I9UOAIh1g4=; b=RPVqJf8w7F9hXykHPNDPquHHS1
+	VJg/35Evvgx5Ec0UO85NIYbZSBpkvyppu6p0CT1o4I17+5/COs0iVj2vqHyL34UCt6rvHAzYcv9Pq
+	fZ5maKa8MHD/Ci06FS38QjqhTn+3y81adapd3VrvyvsKySrvVcwychRDhdMFyyUpUoe1FJfqNnRZV
+	ZoVnsvkH0f+sAHGKfsPi1km4ujK73+4WW5GAU0y7ykgq3mCzM9slk+omHnDYhi60HEZW/Hxi7HfFV
+	6hy3x5uVwh3xM+tZG69jB+hVNyrtKRF5aRJb7IebZxqoAsnNkSWPOjJCNWv3T/yVcRPPb35AWn8Bc
+	rbyOUKaw==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1swOII-00000003iT8-1hAy;
+	Thu, 03 Oct 2024 16:03:10 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 9DF4630083E; Thu,  3 Oct 2024 18:03:09 +0200 (CEST)
+Date: Thu, 3 Oct 2024 18:03:09 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Nick Desaulniers <ndesaulniers@google.com>
+Cc: Rong Xu <xur@google.com>, Han Shen <shenhan@google.com>,
+	Sriraman Tallam <tmsriram@google.com>,
+	David Li <davidxl@google.com>,
+	Krzysztof Pszeniczny <kpszeniczny@google.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>,
+	Borislav Petkov <bp@alien8.de>, Breno Leitao <leitao@debian.org>,
+	Brian Gerst <brgerst@gmail.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+	Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Juergen Gross <jgross@suse.com>,
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, Masahiro Yamada <masahiroy@kernel.org>,
+	"Mike Rapoport (IBM)" <rppt@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org,
+	x86@kernel.org, "Xin Li (Intel)" <xin@zytor.com>,
+	Stephane Eranian <eranian@google.com>
+Subject: Re: [PATCH v2 1/6] Add AutoFDO support for Clang build
+Message-ID: <20241003160309.GY5594@noisy.programming.kicks-ass.net>
+References: <20241002233409.2857999-1-xur@google.com>
+ <20241002233409.2857999-2-xur@google.com>
+ <20241003154143.GW5594@noisy.programming.kicks-ass.net>
+ <CAKwvOdnS-vyTXHaGm4XiLMtg4rsTuUTJ6ao7Ji-fUobZjdBVLw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKwvOdnS-vyTXHaGm4XiLMtg4rsTuUTJ6ao7Ji-fUobZjdBVLw@mail.gmail.com>
 
-On Thu, 3 Oct 2024 15:05:06 +0000 Bird, Tim wrote:
-> > Create a new ML for "all" of kselftests (tests and framework),
-> > replacing the old list. Use the old list for framework changes
-> > only. It would cause less churn to create a ML for just the
-> > framework, but I prefer to use the shorter name for the list
-> > which has much more practical use.  
+On Thu, Oct 03, 2024 at 08:51:51AM -0700, Nick Desaulniers wrote:
+> On Thu, Oct 3, 2024 at 8:42 AM Peter Zijlstra <peterz@infradead.org> wrote:
+> >
+> > On Wed, Oct 02, 2024 at 04:34:00PM -0700, Rong Xu wrote:
+> > > +6) Rebuild the kernel using the AutoFDO profile file with the same config as step 1,
+> > > +    (Note CONFIG_AUTOFDO_CLANG needs to be enabled):
+> > > +
+> > > +      .. code-block:: sh
+> > > +
+> > > +         $ make LLVM=1 CLANG_AUTOFDO_PROFILE=<profile_file
+> > > +
+> >
+> >
+> > Can this be done without the endless ... code-block nonsense?
 > 
-> I'm not a fan of this split.
+> Dunno, I think it looks pretty nice once rendered. Makes it
 
-Not a fan of the split or of reusing the existing list for core?
-
-> The approach taken seems like it would create a lot of churn.
-> You have 2 kinds of developers - a) developers of the framework
-> and b) developers of the tests themselves.
-
-Are you viewing the two groups "kernel-wide"? My subjective experience
-is that tests for larger subsystems only get reviewed within their
-subsystem. My mental model is not people who write tests vs people who
-create framework. For networking a lot of people write tests when they
-develop features and fixes, a small subset of those people also care
-about the framework. But they/we do not care about non-networking tests.
-
-So it's (a) people who write tests but also care about framework and
-need cross-subsystem forum vs (b) people who just write tests within
-their subsystem.
-
-Slight sidebar but the concept of "framework developer" scares me.
-I've seen "framework developers" in my corporate life too often
-creating complex and unmaintainable software that has to be rewritten
-from scratch every 2 years.. Maybe just my experience, but normal SW
-engineers tend to produce better results.
-
->  Are you trying to shield
-> framework developers from discussions about tests, or test developers
-> from discussions about the framework?  It seems like framework developers
-> would be interested in seeing discussions about tests, and vice-versa.
-
-Not exactly. I can't think of a single case where netdev tests got
-meaningful feedback from the kselftest ML. I'm probably forgetting
-something but it's very very rare.
-
-Every now and then we'd appreciate comments or a discussion with 
-the broader community. I'm guessing current list doesn't serve this
-purpose because the occasional framework change gets drowned out 
-by a lot of pure tests getting posted.
-
-I'd myself subscribe to a ML with framework changes and discussions.
-
-> I'm not sure a new list is needed, but if the discussion needs to be split,
-> I think it would be better to  create a new list for framework-only
-> discussions, and leave the old list handling all (both framework and tests).
-> 
-> Like maybe have the new list be something like "linux-kselftest-core@vger.kernel.org"?
+It makes it absolute crap for all of us who 'render' text documents
+using less or vi.
