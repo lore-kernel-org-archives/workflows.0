@@ -1,93 +1,97 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF1B21CAD5;
-	Fri,  4 Oct 2024 18:29:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 156751D9688
+	for <workflows@vger.kernel.org>; Fri,  4 Oct 2024 19:21:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728066555; cv=none; b=CYFT8xnSAm9fSN7QATCLrzOm04oKsxFjGcXLKX3+QkHA2iEdTrPvYrdEz67KR1vSl2Kz48nzzxwQhh4EdN+bC2Mxw9YZEPgqQaRBWQoj84cvEGA2AH/HQFc9iAQhmaUojMW6NYK1pWVIaZRUXFs/ZX5cCngREw5n3b8X5mGg9XQ=
+	t=1728069690; cv=none; b=Uv5ICUvxGG4p8EnxMXaVUQvJhDf8VngoeeRSyKE5RA63TFO8mwcQPW+kaVCebWFECi8N1Rp6VQNTFe+jLYETP55HUv+J1SWsEO+unexz1x8OCT1+ixLAX9kMCJ54Z+lO+XFX/4Txy6sguVzbBp+69fMvtf3LQIAlC/9Cm9hPbrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728066555; c=relaxed/simple;
-	bh=6lBCjiRF4B46nhbZCs3k/e4Z0301LBosumkSAIOX6LI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EarPHt+fL0R3x/3UtggcW6zIqjMSUdXaClxx94kkrF1a1iwsjZdt9+4rbYX5D7eRMt/BxIjpHqe0/6uzhDKgOaBPjY8Hcll5eQSHDzFau3YXV9K6UfPzKH6VFRk9jYcuEJkX5PMhNmcJIBXOGvW9ASzW0ABfM+hUxttyyE617sk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=cnnSoO+x; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1728069690; c=relaxed/simple;
+	bh=fVEBfxSyDVlc0EpJfy5QcSEdCXKTPrX7H/6owJNViQ4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Iox7udfUTgyTzxBPN8AWPM/RG6qh7WtW2Ca58/Z6D/AqacigvT+b/srx7VOZEP9o8SKehYnJQRmT5YfOrzDT/abIWNRnb2y+C4YTEJG9g6YWhZDjhoG/IlZU+vq3KlIxys/9lImUPEtx4VXKM5Pj3qqNakK6jfdRgzg6X1QNcp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=JxnUpHg+; arc=none smtp.client-ip=209.85.166.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cnnSoO+x"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=fOb9M6ZRjRfvVCqDlasosWrUHjFjp7Hur2fhf3PBfgg=; b=cnnSoO+x6ifbk2XZl8GRTZm8Kf
-	Co4+zcisD6SR3lxix0PIP9Jh4m4Pv+xHhyh7i2N1aWvSENqf735ZdKFu3jV/Op1hKu+/Amc1ebVpQ
-	jzzYwasH3PDPVdgZCCQih6N9/3qgQOsoEPOyQUPkwg8MBeG3NG6FoWaZg7GOEnzU8ASije6iYVn0g
-	QKj1o/K7Cbv1VL5d4ApJkG4PMbtD+Br/8f2CgUZJMzqUnkSSngEuptT7K4ADE3JVoUFSkEUADU0bB
-	++C4Mvx4vGExNnCMtNMO2zc0LYl7AMLUxTHioVqT8B7lqCBpqBrLdFdRgsXe7z6FX7Sp7Wav/lN3c
-	mMDTiZbA==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1swn2l-0000000B26f-1O0A;
-	Fri, 04 Oct 2024 18:28:48 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 94FA230083E; Fri,  4 Oct 2024 20:28:47 +0200 (CEST)
-Date: Fri, 4 Oct 2024 20:28:47 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Kees Cook <kees@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Rong Xu <xur@google.com>, Han Shen <shenhan@google.com>,
-	Sriraman Tallam <tmsriram@google.com>,
-	David Li <davidxl@google.com>,
-	Krzysztof Pszeniczny <kpszeniczny@google.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>,
-	Borislav Petkov <bp@alien8.de>, Breno Leitao <leitao@debian.org>,
-	Brian Gerst <brgerst@gmail.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-	Jann Horn <jannh@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
-	Juergen Gross <jgross@suse.com>,
-	Justin Stitt <justinstitt@google.com>, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	"Mike Rapoport (IBM)" <rppt@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org,
-	x86@kernel.org, "Xin Li (Intel)" <xin@zytor.com>,
-	Stephane Eranian <eranian@google.com>
-Subject: Re: [PATCH v2 1/6] Add AutoFDO support for Clang build
-Message-ID: <20241004182847.GU18071@noisy.programming.kicks-ass.net>
-References: <20241002233409.2857999-1-xur@google.com>
- <20241002233409.2857999-2-xur@google.com>
- <20241003154143.GW5594@noisy.programming.kicks-ass.net>
- <202410041106.6C1BC9BDA@keescook>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="JxnUpHg+"
+Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-82aa3f65864so109633939f.2
+        for <workflows@vger.kernel.org>; Fri, 04 Oct 2024 12:21:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1728069688; x=1728674488; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=c5m87vTHE++8UIJNUrbgN2K2EeqcMpq6wjqepk0fGDo=;
+        b=JxnUpHg+xTEqIWQcF5HmEOh6FkvOBfuDT08TFoCUKFQ/x9OSBIQKnaPULfBaY0vlqa
+         fdCQKgzizZcdewhdHIM0NJGUj+ybYp+y5WDeALfO762PXlsN7jblXoKYVobMJIYLh72l
+         9zgcfYhwUxYwNl8SRWDPMr08pnJSSyibWs8t4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728069688; x=1728674488;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=c5m87vTHE++8UIJNUrbgN2K2EeqcMpq6wjqepk0fGDo=;
+        b=XwKylW69XOBCfUNOvrMN1sWiR8JOC87hSittDz768oKt4HqEMvv/MXZA/vlkmmoMOS
+         uEF3/WUbU51paeDUCI8VzbFsunH9TKC83wcqG0Y4f9Yya5N32YLRn2plqYcSgax7AyLw
+         uOPwCTu4avyCDhoh9p5iuQeYHQKy/TIvsKb3GbepQNQFUax0NATPCc1re48Jo7MRiXs1
+         WNQh1yHMV64+Rd5T0zkng77OqsMvd/wEF3uZP5l4jGjsur3b3prhO5Byg/FAR1GvGMpK
+         hNVei4sUKucNV5VCMz6U3TkCKRat6zD4Gb1fpDeguWA1nuqFtYXBFUGv6EkWvwMY4mbr
+         RNPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWFjM00EjtUGUkKANxqYBlwRZn9qPBctdPrzSeE2l4Kz2xmwHjHyFPKf6VOff4INI16Ma4/vB1D9Fo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzhvHz9VDXpAIKLN9YqnwEC7Ny0DLI81cVB7JJriouEgzedilEf
+	rOtbOcJkHZjD3Fl0HRofv4GWr7B11aZYqxWqV/Y4bRiwLSxdfn/d25K66sWGDdY=
+X-Google-Smtp-Source: AGHT+IHB9Cfcv2Wdm+1ezrAxG7L3TnJZuWABNHgrPxjVCcI+GkBmPYJoLNEarQtWr0dK+x5QB4T06A==
+X-Received: by 2002:a05:6e02:1561:b0:39f:5521:2cd4 with SMTP id e9e14a558f8ab-3a375bf8c2fmr41012735ab.26.1728069688147;
+        Fri, 04 Oct 2024 12:21:28 -0700 (PDT)
+Received: from [192.168.1.128] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3a37a87510csm942265ab.79.2024.10.04.12.21.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Oct 2024 12:21:27 -0700 (PDT)
+Message-ID: <f5e004d8-3b90-4697-a2db-4f9dc29b70e9@linuxfoundation.org>
+Date: Fri, 4 Oct 2024 13:21:26 -0600
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202410041106.6C1BC9BDA@keescook>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: dev-tools: Add documentation for the device focused
+ kselftests
+To: Jonathan Corbet <corbet@lwn.net>,
+ =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>
+Cc: Shuah Khan <shuah@kernel.org>, kernel@collabora.com,
+ linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kernelci@lists.linux.dev, Shuah Khan <skhan@linuxfoundation.org>
+References: <20241001-kselftest-device-docs-v1-1-be28b70dd855@collabora.com>
+ <0040a842-de9c-4f9c-9d61-c1bfbd010470@linuxfoundation.org>
+ <ef428a44-783c-43c3-81c6-9abf88ae8949@notapiano>
+ <e3602786-d656-40ae-9e22-0e8195d33f0f@linuxfoundation.org>
+ <87ldz33h3g.fsf@trenco.lwn.net>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <87ldz33h3g.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 04, 2024 at 11:10:04AM -0700, Kees Cook wrote:
-
-> +Configure the kernel with::(make)
-> +
-> +     CONFIG_AUTOFDO_CLANG=y
+On 10/4/24 11:36, Jonathan Corbet wrote:
+> Shuah Khan <skhan@linuxfoundation.org> writes:
 > 
-> Then we could avoid the extra 2 lines but still gain the rendered language
-> highlights?
+>> Jon, Let me know if you would like me to take this through kselftest
+>> tree.
+> 
+> I'm happy either way - go ahead and grab it if you like, just let me
 
-The whole double-colon thing is already a pain to read; you're making it
-worse again.
+> know.
+> 
+> Thanks,
+> 
+> jon
+
+Applied to linux-kselftest next for Linux 6.13-rc1.
+
+thanks,
+-- Shuah
