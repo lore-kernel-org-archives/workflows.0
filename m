@@ -1,70 +1,114 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16CF51E376C;
-	Fri,  4 Oct 2024 17:37:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B3347F5F;
+	Fri,  4 Oct 2024 18:10:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728063431; cv=none; b=chwsZPg4E8uZFvI+t0tEYUG40D2bRcCH0+sQewHof/xPfuwupbz53206EzjYTSmXxcx9sTFUYcOlxMV9tsAzXZ1s0maGVAxJ7WimlEFnlWVrv2Jx7T0Mrz+2Z5AK6Zpne1/toQQ5fvtcdXXQ75Uycvw8f9Kr3z39K6iJ9z1T4RM=
+	t=1728065408; cv=none; b=E6ZlvYmkSZcWqx+yp8jbhnz9x0VzXbnaraC/g/ROBgcrSWYuiqyggdEBW55+WCzacPOWmX9J2hFWlka5wBwmzDl193fyF1q1As20FyVQKJY2nHCGrknYgaMnlOi/WMIGIbvJLU4wpzGG0LI08LxozB0ZmAQUBNFGbSvSpcheTnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728063431; c=relaxed/simple;
-	bh=Rp57pMGyAcU9nt9TEmfZs9lMFXdF3AL13y1sIqxt0jw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=qZTGB6EmIPhk+wc4nwIkLHaEpWjcLAhtRPVEcQBP2D6vgqnuEiZPHl8vl3JFw44BZujEH68Pk3H0I1auOQRS4gZaYVGcHCZ8+28UmpRE4JaoM4580fGTDhV2oJxef4balb4IKpC0ojCcGMZ5RoHrp4y9y03+HMredpVDjKsiAGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Mhj16Aad; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1728065408; c=relaxed/simple;
+	bh=6D0M6NhojlShPMbBJLqf1wXJNIY9zP3vx504RxRB9sA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KkWqC5i/B5CfnhnkBf81i9pJBJIYmgSEXBzpEFfecZav9h1i6w104M7Exx6+jHUXa6mR3f0arwQAuinbJ04TQSzYuMrzAFZFJdgO6te2AYFzpfDsFltSq+1vglVueNDAAi/2aTi3RsFP35JTA4tgF5ThEPMAHDCQLJDh4YbAjd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dqNXB/lO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Mhj16Aad"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4963841043
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1728063423; bh=Rp57pMGyAcU9nt9TEmfZs9lMFXdF3AL13y1sIqxt0jw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Mhj16AadZP7RomdIpj5dg+10RMHWhF8r7BbPSO2sBURlkqPLBIi9hdu3Zk35Rr7HG
-	 ogjKSp1JC9n93TMEglqicv9/j9+7EQ0pwzCij8mhisUmQoFZS8BPQglx28baH3v9JO
-	 pFB5Pe5zHPsNiihluDVq65AVCCV5MSEQnx6VonvFe3La+7dBpRZ+FZbUcUXu6hdw3h
-	 5eZQ73jQhC0ocQUAk3D88kndYPt9RKOJ+KY022z9waveHuhRkHZafVzXrpa+YSRnEG
-	 bwKV+WGFvLPleDbqhxdiQEJDMiCcNv80Jr/esR5KOvi0BoESRCJy/maF5SZ+e5fnTO
-	 Xp8gmM4A8G2MA==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 4963841043;
-	Fri,  4 Oct 2024 17:37:00 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Shuah Khan <skhan@linuxfoundation.org>, =?utf-8?Q?N=C3=ADcolas_F=2E_R?=
- =?utf-8?Q?=2E_A=2E_Prado?=
- <nfraprado@collabora.com>
-Cc: Shuah Khan <shuah@kernel.org>, kernel@collabora.com,
- linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernelci@lists.linux.dev, Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH] docs: dev-tools: Add documentation for the device
- focused kselftests
-In-Reply-To: <e3602786-d656-40ae-9e22-0e8195d33f0f@linuxfoundation.org>
-References: <20241001-kselftest-device-docs-v1-1-be28b70dd855@collabora.com>
- <0040a842-de9c-4f9c-9d61-c1bfbd010470@linuxfoundation.org>
- <ef428a44-783c-43c3-81c6-9abf88ae8949@notapiano>
- <e3602786-d656-40ae-9e22-0e8195d33f0f@linuxfoundation.org>
-Date: Fri, 04 Oct 2024 11:36:51 -0600
-Message-ID: <87ldz33h3g.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dqNXB/lO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAA92C4CEC6;
+	Fri,  4 Oct 2024 18:10:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728065407;
+	bh=6D0M6NhojlShPMbBJLqf1wXJNIY9zP3vx504RxRB9sA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dqNXB/lODPEFSxQXd7qtZRUef9oRXGv+8YQZJkKGC6MMGh6S9N5fClU6CcWfTekn1
+	 ubYLyo9c3f/HPE/b18eAWO2bDerUbgwA9e6nArDudBzooJ7I5oVDNfOqxq5Q/AIq5s
+	 d3WLbEbvsmtw+xkQKiT+1BXkzkd6V3K6uLRMGrrZ+BzqZufVfPGzaYTtx8pUToj1Em
+	 Yy2E0I+FKZX9E5H4up8mQavhax2iVvPl5xhUYzC2JlgTv8iDp1/DVMJasHElultN0Z
+	 JPj5YXVzaw7boFF2+js7pqHirg6I7ztczt2wQs1arNZKEpKiCG7sFcCZjcVMbqnunY
+	 S7mDL7OA4hADQ==
+Date: Fri, 4 Oct 2024 11:10:04 -0700
+From: Kees Cook <kees@kernel.org>
+To: Peter Zijlstra <peterz@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Rong Xu <xur@google.com>
+Cc: Han Shen <shenhan@google.com>, Sriraman Tallam <tmsriram@google.com>,
+	David Li <davidxl@google.com>,
+	Krzysztof Pszeniczny <kpszeniczny@google.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>,
+	Borislav Petkov <bp@alien8.de>, Breno Leitao <leitao@debian.org>,
+	Brian Gerst <brgerst@gmail.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+	Jann Horn <jannh@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
+	Juergen Gross <jgross@suse.com>,
+	Justin Stitt <justinstitt@google.com>, linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	"Mike Rapoport (IBM)" <rppt@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org,
+	x86@kernel.org, "Xin Li (Intel)" <xin@zytor.com>,
+	Stephane Eranian <eranian@google.com>
+Subject: Re: [PATCH v2 1/6] Add AutoFDO support for Clang build
+Message-ID: <202410041106.6C1BC9BDA@keescook>
+References: <20241002233409.2857999-1-xur@google.com>
+ <20241002233409.2857999-2-xur@google.com>
+ <20241003154143.GW5594@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241003154143.GW5594@noisy.programming.kicks-ass.net>
 
-Shuah Khan <skhan@linuxfoundation.org> writes:
+On Thu, Oct 03, 2024 at 05:41:43PM +0200, Peter Zijlstra wrote:
+> On Wed, Oct 02, 2024 at 04:34:00PM -0700, Rong Xu wrote:
+> > +Preparation
+> > +===========
+> > +
+> > +Configure the kernel with:
+> > +
+> > +   .. code-block:: make
+> > +
+> > +      CONFIG_AUTOFDO_CLANG=y
+> > +
+> > +
+> [...]
+> > +    With a configuration that with LLVM enabled, use the following command:
+> > +
+> > +      .. code-block:: sh
+> > +
+> > +         $ scripts/config -e AUTOFDO_CLANG
+> [...]
+> 
+> Can this be done without the endless ... code-block nonsense?
 
-> Jon, Let me know if you would like me to take this through kselftest
-> tree.
+The tradition in kernel .rst is to do this with the trailing "::", e.g.:
 
-I'm happy either way - go ahead and grab it if you like, just let me
-know.
++Configure the kernel with::
++
++     CONFIG_AUTOFDO_CLANG=y
 
-Thanks,
+This loses the language-specific highlighting when rendered. Perhaps the
+"::" extension can be further extended?
 
-jon
++Configure the kernel with::(make)
++
++     CONFIG_AUTOFDO_CLANG=y
+
+Then we could avoid the extra 2 lines but still gain the rendered language
+highlights?
+
+-- 
+Kees Cook
