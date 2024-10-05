@@ -1,117 +1,123 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD98F14A4C6;
-	Fri,  4 Oct 2024 23:44:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9482213DBBC;
+	Sat,  5 Oct 2024 09:20:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728085485; cv=none; b=OqUF81ojvO3tD8PKpHzL5HUqsx1IZw9efL8y7QWY0af+UvNkE+ALZAkvFLpz5HLFfm0elbnR1cZD2D8W4UhhKlMJJzhVLvfwmgiFzJ27mWTG2Y9kycupYqCySL8dzTem/iTSKii3AU6t8Y/ssj5CrrNkOCyuaKJcTZf4d/u1vwI=
+	t=1728120009; cv=none; b=dvpkkGrUxeC+y+JqWnjS/+PrpqPpC2fOVxqH+fbxpQURoRpuzxqHYQP4RU75RaMe+pT8noVy/Tm3vDT1nXqijVFU7CAVvylrF3ERfmxKLz0+U0KadFA4vr+xHXu3ymk7NDYMo92a00zZvMi67CVHAheNPlaxkSex2tNtH9kk3lw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728085485; c=relaxed/simple;
-	bh=SpO/zZwBSjf3Q5q55AHmxIk5M1/0FtKYET1fT+0cAb0=;
+	s=arc-20240116; t=1728120009; c=relaxed/simple;
+	bh=8veT0QNhSPCY9Nh/UKPKh526+6YL6QgmSZfnBmzx/Ng=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CENYcQjImgdPpyYHFaz/oHm6vi3yEWJ/zc7Yhvqqr+MQD1BJUWyGCROmzVQTUb+SqlhUokEMp/nJDhiAQsgor0TlAs2MW23E+mS4Wf/c83RC8gT4xlQhQJ4sTKArVjCZm7jxA6tnDOXf9vr81Yk4knWRV3xpXhnjrn0BaSkG5IU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O33HY5vj; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=IGJztfaYfplcc85q34VamLCNRS4w0F9RCI0xzPYqKCYeOwbiCZa2CC+Sm/qnjUvI8Y1NeOWkmEWX1pU+bjJ8Ny3LmjjHPbHKqGXMoZbXA/KVlWSO/lHXV7CvUek85LBxYmSHaRlgiKoPkF0Rb46TP0CBiXVD+684YT6Wnc71QkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=QEJ4ZM4d; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O33HY5vj"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-20b78ee6298so17284245ad.2;
-        Fri, 04 Oct 2024 16:44:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728085483; x=1728690283; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=SpO/zZwBSjf3Q5q55AHmxIk5M1/0FtKYET1fT+0cAb0=;
-        b=O33HY5vjaUO3Hq3YLPLTaad+Bg9Ob7o0p7NFzSnSLcQ/dw6ezFoJWIsGWhbiq3Hml4
-         c14z1rN6psa1GSYQfk1l7DXoav5/ag0x51JNM//Jn1aH7PxoXM+YnhKzTsz9OkCYbHgL
-         fQlSBcgo6S0K/spFtmGKfNNZOynf+gpsIvQJebPHuWQsyzyhW63Udc/OUm3+ZAhdfnvj
-         W8lPZumJPCzlYunVbJweNkKPimjX/J1LD9iys6iuEdd6iqPoLSSReSizY8I548gOCNjO
-         22rult1pMlJrH10eTd4quS3QPWMAmCxs13RuCFWZY2HjxLgGS4I9QH4Chp0L4/uQln4r
-         09Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728085483; x=1728690283;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SpO/zZwBSjf3Q5q55AHmxIk5M1/0FtKYET1fT+0cAb0=;
-        b=bQmEa8zJuNP5sbXCyMZeHIkcbC4P12W5GGhMDOnLzSHwinq3gsV5zF9kQmviGWBAWH
-         ft+SRpm6ZE5FzuQ7I0i7zDhPg9I2A3qKv9D+3mCi0XelfUFZiXvpPthjwxV4jYcc17Vq
-         BMo4kBzia4fHYgpEe7Jxh/87xLI4jGyqRArUKoeCJ5Y9f0+NbK6kmTHrY6Tz8CgoqGTM
-         v8PZ3Z1w/LKHaCld+XlOXDNauHdrQXlzO9ASHqTygWdtvsLsCmP0nydjKx7pvoGuA+W/
-         2QV819r5v3ml96VcbM8FMbuRnRjXTsmAuaLc05TSQPO65PxGrPYXsWyak8sqfUW8dKmr
-         rP7g==
-X-Forwarded-Encrypted: i=1; AJvYcCUsmJeD5oS+3x/Yp6MBAo78MnROAL36c0N32fQ02G6Dq3pmg0Uo6T9TkY3OCnRAnxfn0yRLPMqsgkfDr3xb@vger.kernel.org, AJvYcCUvTZXvOGfwVv5Rvmi8vco+tZVlKgx66cDs1wC9oKBC6ZbZcYCFq+MnhqChILFxSsHA6sUz8XYghnA=@vger.kernel.org, AJvYcCWJhDZiYSGT6kw3TEe2LNuR1QglevfmsOxQXTBQMNN95nrcS+WSY/hMu1aibDosfYrV9Me0gEm7f2K/@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1sjP99AHeDMbGEjw4+iNMjAqen/PVPteSxco07W0rOdUGBYtA
-	tpyHA4gUGDb6uN12VsywY3L17Zxm5McLUcw6Dfvwzi2bdolweaq0
-X-Google-Smtp-Source: AGHT+IFM15MphvgGrAhx7X2A+C1nlm/ncINA+fx+b2vwyY8aSwIN+yvAHcvyDhUHMl6Pw78hK0ed7Q==
-X-Received: by 2002:a17:903:208b:b0:20b:8ef2:c84a with SMTP id d9443c01a7336-20bff0663bdmr50277645ad.53.1728085482962;
-        Fri, 04 Oct 2024 16:44:42 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20c138b1ab5sm3851645ad.48.2024.10.04.16.44.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Oct 2024 16:44:42 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 298C341406D9; Sat, 05 Oct 2024 06:44:37 +0700 (WIB)
-Date: Sat, 5 Oct 2024 06:44:36 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-	soc@kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	linux-arm-kernel@lists.infradead.org, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Will Deacon <will@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Conor Dooley <conor@kernel.org>,
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>
-Subject: Re: [PATCH v2] Documentation/process: maintainer-soc: clarify
- submitting patches
-Message-ID: <ZwB95FxdgqAtuc7z@archie.me>
-References: <20240925095635.30452-1-krzysztof.kozlowski@linaro.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QEJ4ZM4d"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=jqf+BGdpvvy+YWR5SN7t8AeW8rPkRc4+Wr0JX3T/rfg=; b=QEJ4ZM4dWWx+5bkZO9NtSSWDHj
+	CkTQW41Tl8riYYkTVwXnDd8gF1TE9+TcIOZQiO8zYNxX4CWNXRRtkCnvijVdZ5XI0aE0ASkt2m/lC
+	au2srZGgaXsIPlA3cTK/ws9r3z/7wgBk4+Fq4s+CuXbgqGdmKPFrETjIPQsA4Cw18jhWbrEuOYD3L
+	aKEIHrWyzzEvEMWod+ZKKF+LmWTXeGMSSmq0xVbU1mzzQB0JI+45nOMdP7KleL84/+INGss5Hm3xS
+	ofw/BBI5qheIkpeYbBHjUogr7aP0Y46fmqlDb9Ag/T40rxNCvLXzqCHBldJKp/3S3Zp/z0fCte1rL
+	zDU0LQ2Q==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1sx0wn-000000041sI-4AsE;
+	Sat, 05 Oct 2024 09:19:34 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id C9CD5300777; Sat,  5 Oct 2024 11:19:32 +0200 (CEST)
+Date: Sat, 5 Oct 2024 11:19:32 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Justin Stitt <justinstitt@google.com>
+Cc: Kees Cook <kees@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Rong Xu <xur@google.com>, Han Shen <shenhan@google.com>,
+	Sriraman Tallam <tmsriram@google.com>,
+	David Li <davidxl@google.com>,
+	Krzysztof Pszeniczny <kpszeniczny@google.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>,
+	Borislav Petkov <bp@alien8.de>, Breno Leitao <leitao@debian.org>,
+	Brian Gerst <brgerst@gmail.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+	Jann Horn <jannh@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
+	Juergen Gross <jgross@suse.com>, linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	"Mike Rapoport (IBM)" <rppt@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org,
+	x86@kernel.org, "Xin Li (Intel)" <xin@zytor.com>,
+	Stephane Eranian <eranian@google.com>
+Subject: Re: [PATCH v2 1/6] Add AutoFDO support for Clang build
+Message-ID: <20241005091932.GW18071@noisy.programming.kicks-ass.net>
+References: <20241002233409.2857999-1-xur@google.com>
+ <20241002233409.2857999-2-xur@google.com>
+ <20241003154143.GW5594@noisy.programming.kicks-ass.net>
+ <202410041106.6C1BC9BDA@keescook>
+ <20241004182847.GU18071@noisy.programming.kicks-ass.net>
+ <CAFhGd8rPLoufNx4BMV993c+S_6psLGU6Ow49Frc9s88cStcuCQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="1a1trQhGb4xvmPcH"
-Content-Disposition: inline
-In-Reply-To: <20240925095635.30452-1-krzysztof.kozlowski@linaro.org>
-
-
---1a1trQhGb4xvmPcH
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFhGd8rPLoufNx4BMV993c+S_6psLGU6Ow49Frc9s88cStcuCQ@mail.gmail.com>
 
-On Wed, Sep 25, 2024 at 11:56:35AM +0200, Krzysztof Kozlowski wrote:
-> Patches for SoCs are expected to be picked up by SoC submaintainers.
-> The main SoC maintainers should be addressed only in few cases.
->=20
-> Rewrite the section about maintainer handling to document above
-> expectation.
->=20
+On Fri, Oct 04, 2024 at 02:23:45PM -0700, Justin Stitt wrote:
+> On Fri, Oct 4, 2024 at 11:29 AM Peter Zijlstra <peterz@infradead.org> wrote:
+> >
+> > On Fri, Oct 04, 2024 at 11:10:04AM -0700, Kees Cook wrote:
+> >
+> > > +Configure the kernel with::(make)
+> > > +
+> > > +     CONFIG_AUTOFDO_CLANG=y
+> > >
+> > > Then we could avoid the extra 2 lines but still gain the rendered language
+> > > highlights?
+> >
+> > The whole double-colon thing is already a pain to read; you're making it
+> > worse again.
+> 
+> Lots of people read docs on the web and having code blocks with
+> monospaced fonts (+syntax highlighting) makes them easier to read
+> there.
+> 
+> Configure the kernel with:
+> 
+>      CONFIG_AUTOFDO_CLANG=y
+> 
+> --versus--
+> 
+> Configure the kernel with::
+> 
+>      CONFIG_AUTOFDO_CLANG=y
+> 
+> This renders better for html through Sphinx and really can't be that
+> bad to read in vim, can it?
 
-LGTM, thanks!
+It's weird; but I've gotten sorta used to it. I was more or less
+commenting on Kees' proposal of making it:
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+  Configure the kernel with::(make)
 
---=20
-An old man doll... just what I always wanted! - Clara
-
---1a1trQhGb4xvmPcH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZwB92wAKCRD2uYlJVVFO
-owDjAQCAqBT6xfOfmpsFrV0KReTF4lm++5Z5wjWziDPTEBNcNwEAuYNYhah94RXs
-xTDgYUpDlGAy2q1t24sck949Q6PTFQU=
-=UuTB
------END PGP SIGNATURE-----
-
---1a1trQhGb4xvmPcH--
+Which is definitely harder to read since it insta triggers a syntax
+error exception in my head.
