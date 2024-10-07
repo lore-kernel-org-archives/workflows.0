@@ -1,99 +1,86 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A270E81ACA;
-	Sat,  5 Oct 2024 14:43:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103611D88A0;
+	Mon,  7 Oct 2024 15:24:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728139383; cv=none; b=Z12UEcqMyzp86hqESBEFnM6aUQrS5meN6LB/dhXqVUFaV6y8bY3ra/MPBGHGEJ3CEeSw9ydOqyD+sKTCRIkYEbe9JGDcIkyCh+G56h1xPyJhgxZfUTudJrhPN/D8DseqqDxsOl4xu5xBByrKxqmTUqz5C2IPxJ44AnBRP4nE8uI=
+	t=1728314673; cv=none; b=iZLAtGz5Lkd/vLCClZLu+xdxRzCnkvG9hQ8udv8ymuNmTWqy4g1N08p/34QFgc9heFf2JdFTlNd+HL00/gVGMIWBrf+jyZ/IotaXNMSHFFEP5tiZzmV+bEwC6AiRHoQav+L3Y7Nbgof4edVcCHN47THTFaqcEHg6r8YqgApJTrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728139383; c=relaxed/simple;
-	bh=kpSHQEms/Rvttwa5HYtYs+uKlFsj7N1NRyTtQWRzz+w=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=QVncdAhe4JVBFDjQpZxGZCNglzb6ydKJUZ7yrUpYOdoXORfWsvSIBhZD45C4OLXSRPRP02Qv5dI4YiY/C6jvPdlXiM8ZQOTTRqWyyGtz1pGsYRTCf+OCNK0NDYpQB49UKt4EFjHWOikTJmGHbhE0qFEYHLhRjJjcRSQa0Jwb3+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=nNC+sglF; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1728314673; c=relaxed/simple;
+	bh=TVuCt0qwnEPcydariZZBtobhPmzaUn8ER/x+RkqX4+A=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cIeT+BhpY7Hf3FgVD3RJf888l6pq8nkbzp6NvHPGT0yNhs3c7Id5qbOEgELNHP+oD8TRYfN0RCdIR8TVtA1bo+aXAvsvBhLZ7gMxok2QckUMjHDlLyR7IZwe66HdBjIJRtXGXw8pFtqjk2lLc9JJP0OumqB7sIJf9OGynzIVRWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sCnt3dxZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="nNC+sglF"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A660842B27
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1728139380; bh=1ghV5ihBKvKi7oCgzNLT9Q+CxNIVkuQosbBZs1PkcUo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=nNC+sglFQb2Y113jOnT5t5kTMDuqUx+XpA3Zb6KK1nYum8ML5G0LTRgPsA9frC1jN
-	 xg29VbvIKi2p47ooHcbkrHB4Tb/xibn4nya7hI36tWGMD2gC/8zPoktH7b8SALzXpX
-	 nWs3Y5qljNe6qbb15oSlGv1AjBRQKeDLMbNBUmlBoH0owKQZhejfNxXuaNVDHtf7Bt
-	 Rz7BPvlWZGSyFlZxAleTE2/C8vB3N7laoKq0qtxxKSIJY2py9EPUyVjbUbuPo53eaV
-	 rOBT1KiwPx5+OXdZeXT9nhSDArYsvA+2mWhi3q3FL4yNcxlGUXJH+osk9a1tR9SI5T
-	 jTNRR8Nf1KB+g==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id A660842B27;
-	Sat,  5 Oct 2024 14:43:00 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Kees Cook <kees@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Nick
- Desaulniers <ndesaulniers@google.com>, Rong Xu <xur@google.com>
-Cc: Han Shen <shenhan@google.com>, Sriraman Tallam <tmsriram@google.com>,
- David Li <davidxl@google.com>, Krzysztof Pszeniczny
- <kpszeniczny@google.com>, Alice Ryhl <aliceryhl@google.com>, Andrew Morton
- <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>, Bill Wendling
- <morbo@google.com>, Borislav Petkov <bp@alien8.de>, Breno Leitao
- <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, Dave Hansen
- <dave.hansen@linux.intel.com>, Heiko Carstens <hca@linux.ibm.com>, "H.
- Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>, Jann Horn
- <jannh@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross
- <jgross@suse.com>, Justin Stitt <justinstitt@google.com>,
- linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- llvm@lists.linux.dev, Masahiro Yamada <masahiroy@kernel.org>, "Mike
- Rapoport (IBM)" <rppt@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas@fjasle.eu>, "Paul E. McKenney"
- <paulmck@kernel.org>, Samuel Holland <samuel.holland@sifive.com>, Thomas
- Gleixner <tglx@linutronix.de>, Wei Yang <richard.weiyang@gmail.com>,
- workflows@vger.kernel.org, x86@kernel.org, "Xin Li (Intel)"
- <xin@zytor.com>, Stephane Eranian <eranian@google.com>
-Subject: Re: [PATCH v2 1/6] Add AutoFDO support for Clang build
-In-Reply-To: <202410041106.6C1BC9BDA@keescook>
-References: <20241002233409.2857999-1-xur@google.com>
- <20241002233409.2857999-2-xur@google.com>
- <20241003154143.GW5594@noisy.programming.kicks-ass.net>
- <202410041106.6C1BC9BDA@keescook>
-Date: Sat, 05 Oct 2024 08:42:59 -0600
-Message-ID: <87setapq4s.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sCnt3dxZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40241C4CEC6;
+	Mon,  7 Oct 2024 15:24:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728314671;
+	bh=TVuCt0qwnEPcydariZZBtobhPmzaUn8ER/x+RkqX4+A=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=sCnt3dxZJCQ7uEkg34+5KBKkFC+woj4zhHnAxOCA57C9CC8q14XDMAUIDt1LJ+9aM
+	 knS168yVmCjdcLnDeC8TTi4ZsKwLcIYKQUBXG71CFRlAoCIKAvIbj0IoAPXytatZxI
+	 78IkwKTvf1B8lbomZewt/vh60s81KjfURNNL0n98DKhKLRpyMcbdcikRUm30xiI0Q7
+	 sNMUClNblUq1dprMBGodhsmHFsFmjKwz8MajIQ/1fAj/YfEvykFSmitqN0WNK58ZfA
+	 erZZfV76wy5WKyjP9J7SDo+tFGl9QJwVCOcmGjOExfIVw3BEtblx4peyJNGxIzlfW3
+	 32ELPhy8n50Xg==
+Date: Mon, 7 Oct 2024 08:24:30 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Simon Horman <horms@kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
+ <corbet@lwn.net>, netdev@vger.kernel.org, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH RFC net] docs: netdev: document guidance on cleanup
+ patches
+Message-ID: <20241007082430.21de3848@kernel.org>
+In-Reply-To: <20241004-doc-mc-clean-v1-1-20c28dcb0d52@kernel.org>
+References: <20241004-doc-mc-clean-v1-1-20c28dcb0d52@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Kees Cook <kees@kernel.org> writes:
+On Fri, 04 Oct 2024 10:49:53 +0100 Simon Horman wrote:
+> The purpose of this section is to document what is the current practice
+> regarding clean-up patches which address checkpatch warnings and similar
+> problems. I feel there is a value in having this documented so others
+> can easily refer to it.
+> 
+> Clearly this topic is subjective. And to some extent the current
+> practice discourages a wider range of patches than is described here.
+> But I feel it is best to start somewhere, with the most well established
+> part of the current practice.
+> 
+> --
+> I did think this was already documented. And perhaps it is.
+> But I was unable to find it after a quick search.
 
-> The tradition in kernel .rst is to do this with the trailing "::", e.g.:
->
-> +Configure the kernel with::
-> +
-> +     CONFIG_AUTOFDO_CLANG=y
->
-> This loses the language-specific highlighting when rendered. Perhaps the
-> "::" extension can be further extended?
->
-> +Configure the kernel with::(make)
-> +
-> +     CONFIG_AUTOFDO_CLANG=y
->
-> Then we could avoid the extra 2 lines but still gain the rendered language
-> highlights?
+Thanks a lot for documenting it, this is great!
+All the suggestions below are optional, happy to merge as is.
 
-The :: notation is standard Sphinx, not an extension we have done.  So
-the proposed syntax would have to be done from the beginning, I'm not
-sure how easy or hard that would be, or whether it would be worth it.
-But then, I've always seen relatively little value in the highlighting;
-others clearly differ.
+> +Clean-Up Patches
+> +~~~~~~~~~~~~~~~~
 
-Thanks,
+nit: other sections use sentence-like capitalization (only capitalizing
+the first word), is that incorrect? Or should we ay "Clean-up patches"
+here?
 
-jon
+> +Netdev discourages patches which perform simple clean-ups, which are not in
+> +the context of other work. For example addressing ``checkpatch.pl``
+> +warnings, or :ref:`local variable ordering<rcs>` issues. This is because it
+> +is felt that the churn that such changes produce comes at a greater cost
+> +than the value of such clean-ups.
+
+Should we add "conversions to managed APIs"? It's not a recent thing,
+people do like to post patches doing bulk conversions which bring very
+little benefit.
+
+On the opposite side we could mention that spelling fixes are okay.
+Not sure if that would muddy the waters too much..
