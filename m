@@ -1,82 +1,98 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 876F84206B;
-	Mon,  7 Oct 2024 17:16:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 619481DB546;
+	Mon,  7 Oct 2024 17:18:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728321383; cv=none; b=T04N09YMj8QW6n/anuQy9DUOPtsQXm3NfJsm3sjdPpHaTmu5AVe2Fbn8QRis299eiIGyvefnXfgOXXKnlUbeDY2IFq/a8caLvQ//en+Cec4NeWZKxXiA0Hkf1dZ7omDzh65DeThuFrIqabigxoNmnZLOcxLGFVfGyIOJXJR+KiI=
+	t=1728321512; cv=none; b=IQ9Lcd7jO+QJ4Wc5qGLERSck0ClZwoKPL0OLAaPIegkI/Um784GTgVtjzPufF7hCnhORst3XmfPdkV1FNjsbQCOhCRT9Lktk38WnOihEkW2nWBUIFNZ1sN9fm/FVKWqoF00HO1ft7STtyrKFKNfwIOz4rxOB/tY7aSrqee005Vo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728321383; c=relaxed/simple;
-	bh=CniX1cx7M1vGsPsPWMs6+B7FzHXU+prUUDK3W0pB53o=;
+	s=arc-20240116; t=1728321512; c=relaxed/simple;
+	bh=3LTfuYu4ptTly0D1CFUPRibsKkUxyUcKs8NYOTFP0rI=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=jTQiqXoT/0cuyJbM7uAi6cUTetss5NuCdy1KlYDH4/LyyyAYBK41cqMIifu5u4dXMBfjz7Bg3HFPQNKuTEyjnN7C3Phrqc7EWtdLo8nnyusnhEEjI5OfqTYJQkrMrq4PTb6IPPSsihpw9vw4lK/U8lHrZVyNav2CuaP13+5lZHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=c1IXQdZ7; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=EWN7EDpnTWyZuT939Kf2mVvhCUZnIYLXpqrRRMp6x/KUaJxF87NwQZnOqqdNbAo3ydUiQruRWKy+v5WoeRTdzA0HuaRwKT2fr6+3LxKMDhOXowy95/wKeaPUlCAudBLo8L2Q9TQ3TIahst7pyhYsvfAhT1nZ4tOMnebqge0o14Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=PcpK827L; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="c1IXQdZ7"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AF17B42B38
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="PcpK827L"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7CD7A42B38
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1728321381; bh=RqT6aehZHZFeYR2cjNnWIgOZ+bE1Xkjzgc5OKkRND6A=;
+	t=1728321510; bh=hTbYvMb5tsOMwHIvNP75oAkkBAxDjbl5tpz5FI0uoao=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=c1IXQdZ7MmPFJEhiFl7cJMUPnLfEmZbUtXvtB7mV0++ZqPvvfsOgVMQeRhibTntB4
-	 arOuAp7/pTEuQ/pYJb1Rcpi/Cy58Agk7UU/j8NswFIt8PU5YmPv3FHgVvCgIdp8GC/
-	 80qN5xTCZXdN5oUZTzQSYNxx6+euoHasFPsOdlTBDMgA7+foCf1GojJljL0LqNHJ4r
-	 iVbsn7JbXi18U5z9O2+NdNcxeCH62kaH1q/1AAv1cRvYUjCxPgFvcrVt+owDQ9vwdI
-	 gx4U5LulEt6TJnRfgLY5R1Jdb+Ro2LbK9Z2KbXekzZkeA13ZMGxvyRH/23Jbi6aT7b
-	 Uya+67ZuNJlcA==
+	b=PcpK827LXbljCvRrtxo/YFpiG2+smBE9A0zL0H5alTUYXd793HZuZclsmUraUExtn
+	 YJ1Rscr0agWY8voEngovTM8f3bmUUziMfBZCp+ZQytTcDBUsO64i30I2Lc7EapRGbx
+	 h5BXMzomm5cvwHlJSBIC0ExUNQfJD2REkTR02JgJvDCJ6YLLZLsi6jU+Xk30kUTFbl
+	 CW9u3Dlj5uF1Gxy8OdNHB5KHrYI+uIVwoVVeBlkhylEdulmhgpMAqAAQ10f2TSdqz0
+	 kHSS74EeZUITZRkjF0invso2Bn0UOgS4cQ0LGOwp+8UAOiI3z4Vd4UO+VUpkGgF1pA
+	 MAWS5i9nLCi6Q==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id AF17B42B38;
-	Mon,  7 Oct 2024 17:16:21 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 7CD7A42B38;
+	Mon,  7 Oct 2024 17:18:30 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: "Matthieu Baerts (NGI0)" <matttbe@kernel.org>, mptcp@lists.linux.dev,
- Peter Oberparleiter <oberpar@linux.ibm.com>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, "Matthieu Baerts (NGI0)"
- <matttbe@kernel.org>
-Subject: Re: [PATCH doc] docs: gcov: fix link to LCOV website
-In-Reply-To: <20240926-doc-fix-lcov-link-v1-1-46f250cb7173@kernel.org>
-References: <20240926-doc-fix-lcov-link-v1-1-46f250cb7173@kernel.org>
-Date: Mon, 07 Oct 2024 11:16:20 -0600
-Message-ID: <871q0rkf4r.fsf@trenco.lwn.net>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Arnd Bergmann
+ <arnd@arndb.de>, Olof Johansson <olof@lixom.net>, soc@kernel.org,
+ linux-arm-kernel@lists.infradead.org, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Linus Walleij
+ <linus.walleij@linaro.org>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Will Deacon <will@kernel.org>, Kevin
+ Hilman <khilman@baylibre.com>, Palmer Dabbelt <palmer@dabbelt.com>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, Conor Dooley <conor@kernel.org>,
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>
+Subject: Re: [PATCH v2] Documentation/process: maintainer-soc: clarify
+ submitting patches
+In-Reply-To: <20240925095635.30452-1-krzysztof.kozlowski@linaro.org>
+References: <20240925095635.30452-1-krzysztof.kozlowski@linaro.org>
+Date: Mon, 07 Oct 2024 11:18:29 -0600
+Message-ID: <87wmijj0gq.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-"Matthieu Baerts (NGI0)" <matttbe@kernel.org> writes:
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> writes:
 
-> The previous website hosted on SourceForge is no longer available since
-> January 2024 according to archive.org [1].
+> Patches for SoCs are expected to be picked up by SoC submaintainers.
+> The main SoC maintainers should be addressed only in few cases.
 >
-> It looks like the website has been officially moved to GitHub in June
-> 2022 [2]. Best to redirect readers to the new location then.
+> Rewrite the section about maintainer handling to document above
+> expectation.
 >
-> Link: https://web.archive.org/web/20240105235756/https://ltp.sourceforge.net/coverage/lcov.php [1]
-> Link: https://github.com/linux-test-project/lcov/commit/6da8399c7a7a [2]
-> Signed-off-by: Matthieu Baerts (NGI0) <matttbe@kernel.org>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Kevin Hilman <khilman@baylibre.com>
+> Cc: Palmer Dabbelt <palmer@dabbelt.com>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Conor Dooley <conor@kernel.org>
+> Cc: Heiko St=C3=BCbner <heiko@sntech.de>
+>
 > ---
->  Documentation/dev-tools/gcov.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/Documentation/dev-tools/gcov.rst b/Documentation/dev-tools/gcov.rst
-> index 5fce2b06f22954c3ac6e7d7118064f015624c4a9..53a85ffebcea9fc99484296c5193df7ab5ec4e3e 100644
-> --- a/Documentation/dev-tools/gcov.rst
-> +++ b/Documentation/dev-tools/gcov.rst
-> @@ -23,7 +23,7 @@ Possible uses:
->    associated code is never run?)
->  
->  .. _gcov: https://gcc.gnu.org/onlinedocs/gcc/Gcov.html
-> -.. _lcov: http://ltp.sourceforge.net/coverage/lcov.php
-> +.. _lcov: https://github.com/linux-test-project/lcov
->  
+> During our LPC ad-hoc BoF, we discussed improving Maintainer SoC docs
+> and I think I volunteered to write something.  The trouble is that
+> whatever I won't write in my notes, escapes my memory.
+>
+> I believe this is what we discussed.  Was there anything more to
+> write/document?
+>
+> Changes in v2:
+> 1. Fix missing closing ) (Conor).
+> 2. Style changes (in point 3.).
+> 3. Soften note that soc@kernel is not for discussing ("is usually not").
+> ---
+>  Documentation/process/maintainer-soc.rst | 42 +++++++++++++++++++++---
+>  1 file changed, 37 insertions(+), 5 deletions(-)
+
 Applied, thanks.
 
 jon
