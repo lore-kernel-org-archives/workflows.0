@@ -1,70 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD071D9673;
-	Mon,  7 Oct 2024 16:54:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D681DC721;
+	Mon,  7 Oct 2024 17:07:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728320053; cv=none; b=KQ6z4N/l8zD/fBaHO+CfDXDY9l0SSWex97fAfDabz32HpE93yeIfejnr5GI5heLHyPjv2Acfu6NZ49XjbzufjkTWS2OuvdYQuoz1XTS7kg4Y9SWamgDhSNxIfPfjK7Qtl7/ypYg8iuVDXhl7n6vJLZ9U5zCyMUlfDzZS2nHO6BU=
+	t=1728320845; cv=none; b=FL8uESq3U0cfsqjpF6u0sf8GPSTGBBX+lCkE2+lLhJ+tnS/OqTYX5v2LHC6+wCbirJsfbafWnnBwDJ8b1GCUsrWoa4REr6zJ27azz7OGF64feGoFFAc6hMugggpgVp7gAHeC3G3W78jz7SLOFrN+80DVHae7l2vyZxNBrr6Y2SA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728320053; c=relaxed/simple;
-	bh=Z55+alHHbN75NJWr2PUTisn4u0T5tliMseWxml0Kkis=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=i2d/xSW8/UvW7B/cHQ5otXVOPvDnTfwZeJfR/u5jR8Z6pFuHcypwk4C94vCwxO0H1RFAvWv9fQ5PGErZKkeof/zP4hX/EpeB0gB9d0ELUKwgsMW82cUbUv6qI++YZvE7maCDCxteR19tULLpu4BdaE4wRclWyIRenClWC51tvAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RugleReU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728320845; c=relaxed/simple;
+	bh=OgKd8s6EFJ2msOFVt10PHZsFWvUTkWBcj8TgWznSyhQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Re2y330KvYWGIxdq88+JJvuxsbAx7/2bjSRj/k13jOtjretYqVU2SEMrpLlqz/EOzsf3T8MKuPNb95HjQNyt/OMigKTiXx2iLHkwQigluvAtpW5D6u/hODdT/O8WtEOjwMzneGXhMaJMp6A9UU4rrkhtqDqUb78GH2wRLeySDeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Sx/M9Q+p; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RugleReU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 475E6C4CEC6;
-	Mon,  7 Oct 2024 16:54:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728320053;
-	bh=Z55+alHHbN75NJWr2PUTisn4u0T5tliMseWxml0Kkis=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=RugleReUCcPaIBW6jMPb3QzJw6yIz+PPaz8YuCS7xqA3FSP1J6BG7vMaa8QQGkAo8
-	 umXBPeAJr3M2+XOF6dg3UE4anqoP/B4ofUpaeY+Z/eXzx3C6iPdp38UHiKa7RfZ77h
-	 NmPcS4xYTjrxPuIAF/PEM9hW7jPEJoA+7B6vEXNX07Oio7e6YoAx+N4M7eHTJRNGZW
-	 aCR7CEkU9NBKBlufd6Wd14bmmyZa+vjIcW6eps7LUiNc/Hlh6ZPUvE9TzWEZ5FTvwU
-	 4LWRIZIlg7547A7OEvJjRAgsvQkpkjPktPa0Nj549kh0lCpKlF6Xb7RjMADFGP15cF
-	 p/7WjScPOJEvw==
-Date: Mon, 7 Oct 2024 09:54:12 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Simon Horman <horms@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, netdev@vger.kernel.org, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH RFC net] docs: netdev: document guidance on cleanup
- patches
-Message-ID: <20241007095412.5a2a6e2c@kernel.org>
-In-Reply-To: <20241007161501.GJ32733@kernel.org>
-References: <20241004-doc-mc-clean-v1-1-20c28dcb0d52@kernel.org>
-	<20241007082430.21de3848@kernel.org>
-	<20241007155521.GI32733@kernel.org>
-	<20241007090828.05c3f0da@kernel.org>
-	<20241007161501.GJ32733@kernel.org>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Sx/M9Q+p"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2300742C0D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1728320843; bh=oJU7EABAt2KsVj2EIm8/2tYtzj/bx+DV1mQWP+T51B8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Sx/M9Q+pDv1G925eerwGf+0GY4leEAn58FlhLPvoZhAC0UDRF4WFz2RikOL15obHg
+	 lFv2jdZbFmQkQ7+3qeqNvkU3aIvIOCCvQYSpPrLrm7W9zzp82+LnVtzv1e0vgc8Xip
+	 2HzSnDU/D4Jhr5sJ7zhiymki9VQQTpRD4PU5yaC555C3Fx3GgbdfaGPm9XNCkGUc07
+	 DRhzNPlEGkwF+jpxmD64J9orjOKbR30OP203UEV/olmnHALQgukTZy14KT/X3Bhweo
+	 oJBLSOQSXa4aKTn0v5hsI9HyLRviZ+8IZSTe0D98IA45CdvVfos9Ngk6wDCczUvgtP
+	 3rkKZPF5Wz8BA==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 2300742C0D;
+	Mon,  7 Oct 2024 17:07:23 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Andrew Kreimer <algonell@gmail.com>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, Andrew
+ Kreimer <algonell@gmail.com>
+Subject: Re: [PATCH] docs: backporting: fix a typo
+In-Reply-To: <20241002212150.11159-1-algonell@gmail.com>
+References: <20241002212150.11159-1-algonell@gmail.com>
+Date: Mon, 07 Oct 2024 11:07:22 -0600
+Message-ID: <87msjfkfjp.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On Mon, 7 Oct 2024 17:15:01 +0100 Simon Horman wrote:
-> > > We could merge or otherwise rearrange that section with the one proposed by
-> > > this patch. But I didn't feel it was necessary last week.  
-> > 
-> > Somewhat, we don't push back on correct use of device-managed APIs.
-> > But converting ancient drivers to be device-managed just to save 
-> > 2 or 3 LoC is pointless churn. Which in my mind falls squarely
-> > under the new section, the new section is intended for people sending
-> > trivial patches.  
-> 
-> Thanks, I can try and work with that. Do you want to call out older drivers
-> too? I was intentionally skipping that for now. But I do agree it should
-> be mentioned at some point.
+Andrew Kreimer <algonell@gmail.com> writes:
 
-What is and isn't considered old may be hard to determine. I hope that
-your existing "not part of other work" phrasing will give us the same
-effect, as there's usually no other work for old drivers.
+> Fix a typo in documentation.
+>
+> Signed-off-by: Andrew Kreimer <algonell@gmail.com>
+> ---
+>  Documentation/process/backporting.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/process/backporting.rst b/Documentation/process/backporting.rst
+> index a71480fcf3b4..18e41e76ecba 100644
+> --- a/Documentation/process/backporting.rst
+> +++ b/Documentation/process/backporting.rst
+> @@ -74,7 +74,7 @@ your source tree. Don't forget to cherry-pick with ``-x`` if you want a
+>  written record of where the patch came from!
+>  
+>  Note that if you are submitting a patch for stable, the format is
+> -slightly different; the first line after the subject line needs tobe
+> +slightly different; the first line after the subject line needs to be
+>  either::
+
+Applied, thanks.
+
+jon
