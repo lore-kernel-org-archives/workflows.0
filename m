@@ -1,123 +1,79 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4230413B797
-	for <workflows@vger.kernel.org>; Mon,  7 Oct 2024 19:22:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BAA41B81CC;
+	Tue,  8 Oct 2024 12:30:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728328927; cv=none; b=L210Te84W2+sbf11Z7QzLpIIDS4mI0YGs1N87EoJ3RTemL7emQkQGqQKPHA0twqyAzmolVoTl2WOc9Rn7zOnpL8YkXkwzkPLRCx3MF7SvOWyGt6pbbKHUiqDxUO38/5UCKlvd/8GSA+wvBZALat7xIoB1Q5pmcEUIcjRCvVpoB0=
+	t=1728390629; cv=none; b=JloORmRr3RtXY1uhe8PTQfCHDxXo1DjMhq1ueQHPzw8FDQc1dXRsS3lIXGbAVCZYIMh0rguKlUnluh6Mj4jbodICBA2IewKfc4mIM4cze0a/FoJonE7mZv7lWW32gToDAH8GR4jvE2v5ue1/uQxZHXc3VcGa62XAoziIa/Z2P7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728328927; c=relaxed/simple;
-	bh=UBceWOcwbLap1fCOhukpD4Mo5RG5YgxK5J16S8Ai3Ik=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=trEwhT2ow3gxr0NOlBr7eUuG+br//MHvICUpKgQfUNHZgNgFLyUEhcgCoZ8oX+9V+Em8t43c7k3LRX787mb6AoHgPg4lCKweux8szRLMkGsryNfTdB9qT3f5aF/c/MJ7I/w6QPdN4MVAK13s9PZmh0d8awNrRCcMSgmnsGEDEVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lwciJ3fA; arc=none smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1728390629; c=relaxed/simple;
+	bh=UBn42Kzmqtwl/Zw+7YmF058K/118U9jbdKDtGk8qNk8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DgX9Sy4r7w5yV78rdrAN4tgL7D8v5sJWFe2PiDbtc3O0Lutbbun8jaYuvQ8781TnJ0KCteh+dW9L7vTBisvY7w49pVkKttqdp3vPINCnS3xNLm+v7TUZ99qkQse0ZBL4zYAjqe1PLt3Y9wtwrPvk9zPrH8wV/tkzv2VJkrbdmks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VH/9Cne5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lwciJ3fA"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4581cec6079so62861cf.0
-        for <workflows@vger.kernel.org>; Mon, 07 Oct 2024 12:22:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1728328925; x=1728933725; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c52BAD3vzPw3xxGKfNNAH/Yruho8GrfSNRqDdGOTxvI=;
-        b=lwciJ3fAOfiEmpzuGEmZbS4bTh0ssgjsWBR5v+cjvbmquTjH0FUiMxoKvRQgQk7lYq
-         6oY6j52HLbK9jHUSkSf1qnUC/vmiSAP0PQJdEShPNXI1ZbJcA+gCQkS8vVlun8a2phci
-         8SMSImOfG4pykQCRex/YTzC3xInGBLKmfkN3UQmYwLBX8Cpw8jTJFddP9/SEz34DuTpY
-         UkxTxpCrXg1t/8bjX+miMpyz7/oYhuaN82u+XuDNBcniidHlDlu22HA2x2hUCaD7IwOL
-         FMCattmCYDjwpZS97938V1GDLayiIVUqtvl/UwAPrbGb05mW7HtujaD4710Zgv7R+Y8K
-         9nnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728328925; x=1728933725;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=c52BAD3vzPw3xxGKfNNAH/Yruho8GrfSNRqDdGOTxvI=;
-        b=YlAWl3YxYqTY1W2NMhS3ofqs24IhGM4d5bP4ojDw6X7/HpBXxTTvaU2DVOMiLM5mzl
-         8fXPq71EUnF0qZ977qcioDvHJVxzNhmu1a8ViS1C6gb++zScIJprWbzMIb/UfeBCoX/Y
-         H2oUSg8cYn1fiD9K469nh+0Vk/wspDeBwzwtmLa70YcvE3XZnwrW8y+vUEgOVHltI8MU
-         er06y1+ehOdi7MpIJtb1hSzFZ+biMshpmpc4MVqa0BSi8+t7KEu5IPg/kENy87oWhAOa
-         WkOMDQ8RBQvu03Oy0lh1ifs8s6tQ5AgMAVn5W4vZkRsTderCy+pCX12zxXbWEVL7QTTD
-         PWkA==
-X-Forwarded-Encrypted: i=1; AJvYcCU6PEXZ9utzLmLo/ezWrwOF/ifdzilgSLy9QnlMYJHtmjgZjj3sJsO69/iIldeB1Ezpz+NU/CTZEos=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzTOcr8CDYosnqcowtnezBvVn3DWJXrr5QYzFEwfMBA2NZD+e7k
-	1f2boXD+M69Rxrxe6k+H4Mb2Y9OGF8DoaCp2VqnANUweT/wsr4NT0crEQ9KSF/WSv71SBqAGiBS
-	YSyTwCQEDx6OLZaduF7ljfzzoj5NcCMUtkTyO
-X-Google-Smtp-Source: AGHT+IH7a2e4lsSgI4DFA4CW4H450JT8FmNGOQK1jt/YIR4/ypVzFlvPFzdBRbm39KDlJueZQ9ohBhaDeFALD+cZzbQ=
-X-Received: by 2002:a05:622a:458b:b0:447:e59b:54eb with SMTP id
- d75a77b69052e-45e173ab174mr577261cf.26.1728328925088; Mon, 07 Oct 2024
- 12:22:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VH/9Cne5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 961B4C4CEC7;
+	Tue,  8 Oct 2024 12:30:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728390629;
+	bh=UBn42Kzmqtwl/Zw+7YmF058K/118U9jbdKDtGk8qNk8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VH/9Cne5w9ggAdLciDnXCEHB5k6ekrEsyUY9o9pbJ8w1JFgbLF7TD7FkPhvXwR/Xw
+	 +Qywf3VJRsX/n1guHLQN4sL88MRG2PZSKHSMDS6afC+d31CO+GqqmZMFcuqpX+MclB
+	 fo98CMBmi37ADza2syoaR8vVeaWxF6YmhGUkW0XS54pDlUpFjiCwEt02UoOdhYnKWp
+	 SyZky7z4j3Ghvj2E4ms22l2sffb32oJGWn26D6oEATwfY7KHwkobaGAqXpsw762zTf
+	 W7HLNCPfYhjqS5p8hXfsLXCMIkOWAiAFaUQbL87mZI+lCwLa9/Qu3IELFj/MDDDAUu
+	 cz5fhdRHpZd7A==
+Date: Tue, 8 Oct 2024 13:30:25 +0100
+From: Simon Horman <horms@kernel.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH RFC net] docs: netdev: document guidance on cleanup
+ patches
+Message-ID: <20241008123025.GL32733@kernel.org>
+References: <20241004-doc-mc-clean-v1-1-20c28dcb0d52@kernel.org>
+ <20241007082430.21de3848@kernel.org>
+ <20241007155521.GI32733@kernel.org>
+ <20241007090828.05c3f0da@kernel.org>
+ <20241007161501.GJ32733@kernel.org>
+ <20241007095412.5a2a6e2c@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241002233409.2857999-1-xur@google.com> <20241002233409.2857999-2-xur@google.com>
- <20241003154143.GW5594@noisy.programming.kicks-ass.net> <202410041106.6C1BC9BDA@keescook>
- <87setapq4s.fsf@trenco.lwn.net> <CAF1bQ=S7HfvXw+hczmQrSYcBf_DHsZo2k59JSL8T_9J9HitHuQ@mail.gmail.com>
- <CANiq72m7dkcy=0+ut=rM6Heo4tQSNyUrejBDWCvtwGQVVvLhWw@mail.gmail.com>
-In-Reply-To: <CANiq72m7dkcy=0+ut=rM6Heo4tQSNyUrejBDWCvtwGQVVvLhWw@mail.gmail.com>
-From: Rong Xu <xur@google.com>
-Date: Mon, 7 Oct 2024 12:21:50 -0700
-Message-ID: <CAF1bQ=S8PzBGDy1uF+4GrvoVtMSFjUjeByhLmqSdY_zDEyY4=g@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] Add AutoFDO support for Clang build
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Kees Cook <kees@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Han Shen <shenhan@google.com>, Sriraman Tallam <tmsriram@google.com>, David Li <davidxl@google.com>, 
-	Krzysztof Pszeniczny <kpszeniczny@google.com>, Alice Ryhl <aliceryhl@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, Breno Leitao <leitao@debian.org>, 
-	Brian Gerst <brgerst@gmail.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>, 
-	Jann Horn <jannh@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
-	Justin Stitt <justinstitt@google.com>, linux-arch@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	Masahiro Yamada <masahiroy@kernel.org>, "Mike Rapoport (IBM)" <rppt@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Samuel Holland <samuel.holland@sifive.com>, 
-	Thomas Gleixner <tglx@linutronix.de>, Wei Yang <richard.weiyang@gmail.com>, 
-	workflows@vger.kernel.org, x86@kernel.org, "Xin Li (Intel)" <xin@zytor.com>, 
-	Stephane Eranian <eranian@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241007095412.5a2a6e2c@kernel.org>
 
-On Mon, Oct 7, 2024 at 11:33=E2=80=AFAM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> On Mon, Oct 7, 2024 at 8:04=E2=80=AFPM Rong Xu <xur@google.com> wrote:
-> >
-> > I removed the "code-block" directives from the rst files,
-> > and used "::" suggested by Jonathan. The rst files themselves are now
->
-> I think it was Mike.
+On Mon, Oct 07, 2024 at 09:54:12AM -0700, Jakub Kicinski wrote:
+> On Mon, 7 Oct 2024 17:15:01 +0100 Simon Horman wrote:
+> > > > We could merge or otherwise rearrange that section with the one proposed by
+> > > > this patch. But I didn't feel it was necessary last week.  
+> > > 
+> > > Somewhat, we don't push back on correct use of device-managed APIs.
+> > > But converting ancient drivers to be device-managed just to save 
+> > > 2 or 3 LoC is pointless churn. Which in my mind falls squarely
+> > > under the new section, the new section is intended for people sending
+> > > trivial patches.  
+> > 
+> > Thanks, I can try and work with that. Do you want to call out older drivers
+> > too? I was intentionally skipping that for now. But I do agree it should
+> > be mentioned at some point.
+> 
+> What is and isn't considered old may be hard to determine. I hope that
+> your existing "not part of other work" phrasing will give us the same
+> effect, as there's usually no other work for old drivers.
 
-Sorry for mixing up the names.
+I agree that would be very subjective. And your point about
+the presence of other work is well made.
 
->
-> > (1) The text that was previously in code-block no longer indents. It al=
-igns
-> >       with the preceding text, regardless of how many spaces I add.
->
-> Did you try with a tab? At least in Doc/rust/ all those three ways
-> (i.e. `::`, `.. code-block::` and a single `:` for indented non-code)
-> seem to work fine, e.g. the following document uses all of them:
->
->     https://docs.kernel.org/rust/coding-guidelines.html
+I'll work on v2 based on this short discussion.
 
-I looked at run/coding-guidelines.html generated by "make htmldocs".
-It has the same issue
-of indentation for "::" text. I also tried tab, nothing changed for me.
-
--Rong
-
->
-> I hope that helps!
->
-> Cheers,
-> Miguel
+Thanks.
