@@ -1,79 +1,113 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BAA41B81CC;
-	Tue,  8 Oct 2024 12:30:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62753189F55;
+	Wed,  9 Oct 2024 09:12:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728390629; cv=none; b=JloORmRr3RtXY1uhe8PTQfCHDxXo1DjMhq1ueQHPzw8FDQc1dXRsS3lIXGbAVCZYIMh0rguKlUnluh6Mj4jbodICBA2IewKfc4mIM4cze0a/FoJonE7mZv7lWW32gToDAH8GR4jvE2v5ue1/uQxZHXc3VcGa62XAoziIa/Z2P7Y=
+	t=1728465151; cv=none; b=CyoFNYfIu+wuy2vW10K5dUdUQ+n1V3vXJ6GTXzqK0Ui4gl4Xpl0h+XNSsxAEX3qK172COBVsm8Oo4jFxadDCedPrPWzPTfBoIsNsRSX/cWD4Sw5AxsyXvD4XOwFnJOm3LKlj2vezTgWOIsmAkWuxr5+7tK/BG2mv72J7/jRVlqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728390629; c=relaxed/simple;
-	bh=UBn42Kzmqtwl/Zw+7YmF058K/118U9jbdKDtGk8qNk8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DgX9Sy4r7w5yV78rdrAN4tgL7D8v5sJWFe2PiDbtc3O0Lutbbun8jaYuvQ8781TnJ0KCteh+dW9L7vTBisvY7w49pVkKttqdp3vPINCnS3xNLm+v7TUZ99qkQse0ZBL4zYAjqe1PLt3Y9wtwrPvk9zPrH8wV/tkzv2VJkrbdmks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VH/9Cne5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728465151; c=relaxed/simple;
+	bh=FEBmVHNV/Na9j044i78gzDI5htibytqSBw9g3ISvbHA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=BVBuaI7ear3VLje37Nk+3HMy75oSyk47ZpPeHsJQQJFn1oafS33Uw2S/ojvCrHO3cNI7SxPn90Wpl60+IZePVFXOpPkt1yoR92a+6GdpAb/XTSGnvw8XiU9RTsR+yty2K0U5TASC+mmf9xphZqBaCVc1QYgADRv6SzzQ0tXoBe0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lxzonjCg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VH/9Cne5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 961B4C4CEC7;
-	Tue,  8 Oct 2024 12:30:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lxzonjCg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70A4FC4CEC5;
+	Wed,  9 Oct 2024 09:12:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728390629;
-	bh=UBn42Kzmqtwl/Zw+7YmF058K/118U9jbdKDtGk8qNk8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VH/9Cne5w9ggAdLciDnXCEHB5k6ekrEsyUY9o9pbJ8w1JFgbLF7TD7FkPhvXwR/Xw
-	 +Qywf3VJRsX/n1guHLQN4sL88MRG2PZSKHSMDS6afC+d31CO+GqqmZMFcuqpX+MclB
-	 fo98CMBmi37ADza2syoaR8vVeaWxF6YmhGUkW0XS54pDlUpFjiCwEt02UoOdhYnKWp
-	 SyZky7z4j3Ghvj2E4ms22l2sffb32oJGWn26D6oEATwfY7KHwkobaGAqXpsw762zTf
-	 W7HLNCPfYhjqS5p8hXfsLXCMIkOWAiAFaUQbL87mZI+lCwLa9/Qu3IELFj/MDDDAUu
-	 cz5fhdRHpZd7A==
-Date: Tue, 8 Oct 2024 13:30:25 +0100
+	s=k20201202; t=1728465151;
+	bh=FEBmVHNV/Na9j044i78gzDI5htibytqSBw9g3ISvbHA=;
+	h=From:Date:Subject:To:Cc:From;
+	b=lxzonjCggDN4pwWrNz4kZfdJKYesiWdTg5bHSBhj0dRjbBE3HcH47NvYgQ1L6fIu3
+	 Rd0dWueSiLzAHzlDzQ6TVwkcxHZgm1+0CyEmDiOhdtRuCp29iJPP++c8VQlnVDLW4p
+	 VPBkei7a0SDe4Mw5QrKd0+ql+SJJ84V4bi4NZXFmcud8ChsrIpPEJj0hu2EpX1LtRu
+	 HsFRItPCCbd+Aw73JiYeYYQF7a4BGY4ldO2UvIn4t8lZ5qi5LD6FZXnYj9T4nNWz8N
+	 CT4XewvSJm3U6KA11q7ssQ59qyIYwcZOC1Q7LVWsqw2KjqMgx4fGPKqDdPr3+PeQBM
+	 LYBlg3dJRLHwg==
 From: Simon Horman <horms@kernel.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH RFC net] docs: netdev: document guidance on cleanup
- patches
-Message-ID: <20241008123025.GL32733@kernel.org>
-References: <20241004-doc-mc-clean-v1-1-20c28dcb0d52@kernel.org>
- <20241007082430.21de3848@kernel.org>
- <20241007155521.GI32733@kernel.org>
- <20241007090828.05c3f0da@kernel.org>
- <20241007161501.GJ32733@kernel.org>
- <20241007095412.5a2a6e2c@kernel.org>
+Date: Wed, 09 Oct 2024 10:12:19 +0100
+Subject: [PATCH net v2] docs: netdev: document guidance on cleanup patches
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241007095412.5a2a6e2c@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241009-doc-mc-clean-v2-1-e637b665fa81@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAPJIBmcC/22NwQ7CIBBEf6XZs2tgBWM8+R+mB4S1JVZooCGah
+ n+XcPb4ZjJvdsicPGe4DjskLj77GBrQYQA7mzAxetcYSJCSQih00eLbol3YBGRt1Enos2NiaJM
+ 18dN/uu4OgTcYWzj7vMX07RdF9uq/rUiUSMLSxdmHcJpuL06Bl2NME4y11h9vmyBcrgAAAA==
+To: "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: netdev@vger.kernel.org, workflows@vger.kernel.org, 
+ linux-doc@vger.kernel.org
+X-Mailer: b4 0.14.0
 
-On Mon, Oct 07, 2024 at 09:54:12AM -0700, Jakub Kicinski wrote:
-> On Mon, 7 Oct 2024 17:15:01 +0100 Simon Horman wrote:
-> > > > We could merge or otherwise rearrange that section with the one proposed by
-> > > > this patch. But I didn't feel it was necessary last week.  
-> > > 
-> > > Somewhat, we don't push back on correct use of device-managed APIs.
-> > > But converting ancient drivers to be device-managed just to save 
-> > > 2 or 3 LoC is pointless churn. Which in my mind falls squarely
-> > > under the new section, the new section is intended for people sending
-> > > trivial patches.  
-> > 
-> > Thanks, I can try and work with that. Do you want to call out older drivers
-> > too? I was intentionally skipping that for now. But I do agree it should
-> > be mentioned at some point.
-> 
-> What is and isn't considered old may be hard to determine. I hope that
-> your existing "not part of other work" phrasing will give us the same
-> effect, as there's usually no other work for old drivers.
+The purpose of this section is to document what is the current practice
+regarding clean-up patches which address checkpatch warnings and similar
+problems. I feel there is a value in having this documented so others
+can easily refer to it.
 
-I agree that would be very subjective. And your point about
-the presence of other work is well made.
+Clearly this topic is subjective. And to some extent the current
+practice discourages a wider range of patches than is described here.
+But I feel it is best to start somewhere, with the most well established
+part of the current practice.
 
-I'll work on v2 based on this short discussion.
+--
+I did think this was already documented. And perhaps it is.
+But I was unable to find it after a quick search.
 
-Thanks.
+Signed-off-by: Simon Horman <horms@kernel.org>
+---
+Changes in v2:
+- Drop RFC designation
+- Correct capitalisation of heading
+- Add that:
+  + devm_ conversions are also discouraged, outside the context of other work
+  + Spelling and grammar fixes are not discouraged
+- Reformat text accordingly
+- Link to v1: https://lore.kernel.org/r/20241004-doc-mc-clean-v1-1-20c28dcb0d52@kernel.org
+---
+ Documentation/process/maintainer-netdev.rst | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
+index c9edf9e7362d..1ae71e31591c 100644
+--- a/Documentation/process/maintainer-netdev.rst
++++ b/Documentation/process/maintainer-netdev.rst
+@@ -355,6 +355,8 @@ just do it. As a result, a sequence of smaller series gets merged quicker and
+ with better review coverage. Re-posting large series also increases the mailing
+ list traffic.
+ 
++.. _rcs:
++
+ Local variable ordering ("reverse xmas tree", "RCS")
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+@@ -391,6 +393,21 @@ APIs and helpers, especially scoped iterators. However, direct use of
+ ``__free()`` within networking core and drivers is discouraged.
+ Similar guidance applies to declaring variables mid-function.
+ 
++Clean-up patches
++~~~~~~~~~~~~~~~~
++
++Netdev discourages patches which perform simple clean-ups, which are not in
++the context of other work. For example:
++
++* Addressing ``checkpatch.pl`` warnings
++* Addressing :ref:`Local variable ordering<rcs>` issues
++* Conversions to device-managed APIs (``devm_`` helpers)
++
++This is because it is felt that the churn that such changes produce comes
++at a greater cost than the value of such clean-ups.
++
++Conversely, spelling and grammar fixes are not discouraged.
++
+ Resending after review
+ ~~~~~~~~~~~~~~~~~~~~~~
+ 
+
