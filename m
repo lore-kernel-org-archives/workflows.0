@@ -1,96 +1,79 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 913D4199E8C;
-	Wed,  9 Oct 2024 12:50:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 106DB1CDFC2;
+	Thu, 10 Oct 2024 16:10:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728478225; cv=none; b=MkKxRgtahLnoCd92h4RXx/rpp1gFbNpaWbKo40OJtL5WE+IiN5yqedpsLKurhMrdtF1WleLPlXa5z7rphn30Z3oXzARYAEwMlDbIIwPHamL7Pyu8TGpKN6phbBcJu229Tp5ahbwUYkC44W2HkV4g9VLXX2CeWBaxNf336VM0RVk=
+	t=1728576632; cv=none; b=ZlRrFtJvTgRwgqeY4TeTRE13Y7AMeOJmVq6+x8HgFgFRX+0N56HFhxYvK3IF8HPssE/oRbN0Hhlzl6F/1ykNOuaqZCHzaxjeD+PG+AKJvJewmpsZ1dUxBognMlQ27MWpVAd+cEwLlBoR39NFOIWcERGFvC7OlM7ksm1RG4sGsiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728478225; c=relaxed/simple;
-	bh=yvNe98Z7L5t99Iq3TS1CIPsDhczn7uicq7Rg6gMTksA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I3yPM7zLwgjFgvPE9FFfszzLwTe/8/ZKLnGKe+SJVvE1+AtU6P0JQtjOIcOM00MFTq4ZRaifQYnIod6n6rJe2gOP0AOOZ/xrbm/h1wGimQ9SaAmT0MQtP9+gmtLExf1IdwNf7HVUsCQJmhrX56nnqhoJAmz32H+biKN/sdcfsJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N5niaz9h; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728576632; c=relaxed/simple;
+	bh=uQm+WZq0kH+rlnxfvHfkn4jKpR8cUV7xWscv3PVh85I=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=oLXq+seb8g1mIm20FotI0TAzHb9RGJWhfCCGkvLwI+4+7R68NavK4hzosV2ew3LwL5sshs4s0bbU4mEGerDhwlrOQJAnWEsWG1i2OjctOdTEOO9LsX00x9kugJM/rPmqG8j86oAT3x9STFxo/2JuV0VHjCh/JUsb4zIT5f4lEY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=adH927+b; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N5niaz9h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BE7FC4CEC5;
-	Wed,  9 Oct 2024 12:50:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="adH927+b"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90ADAC4CECE;
+	Thu, 10 Oct 2024 16:10:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728478225;
-	bh=yvNe98Z7L5t99Iq3TS1CIPsDhczn7uicq7Rg6gMTksA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N5niaz9h1SMc8Ggb1E/Jq7F8qVs8Hq0wDWXLIp1bOBJqpNqz84OIG0p6xBV5mlnZT
-	 1+inNEMCsVUAwALouSqOMzOGECoC3ylw0l05/FM1egEsA6pzX6Bh7zK8eSzzXZ4lO1
-	 Oze9mm0YfhpHWwYfXc6+Ll09Tu1S5d7feaZhv1Io2KIEQFuNNKGZIfYWiE//XSsxyX
-	 VjUebrK7aLpCO04NYwJx+0ThZsWw9iWhkD7VG7N+8wtqzZlx0BdqtW6/l+jRfhPlVv
-	 BLpf5RTE4XSGnWdcutQxgLx2/IRSarTv941e0RE7+iBiwycjHErui5ml4WqsFJ7n8u
-	 i97P1IuH9uTLw==
-Date: Wed, 9 Oct 2024 13:50:21 +0100
-From: Simon Horman <horms@kernel.org>
-To: Przemek Kitszel <przemyslaw.kitszel@intel.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	Tony Nguyen <anthony.l.nguyen@intel.com>
-Subject: Re: [PATCH net v2] docs: netdev: document guidance on cleanup patches
-Message-ID: <20241009125021.GU99782@kernel.org>
-References: <20241009-doc-mc-clean-v2-1-e637b665fa81@kernel.org>
- <01c97823-d560-4f89-b757-752e18940f31@intel.com>
+	s=k20201202; t=1728576631;
+	bh=uQm+WZq0kH+rlnxfvHfkn4jKpR8cUV7xWscv3PVh85I=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=adH927+blgDzPzV/zy0fvtrNkUMCXocTbr29w2q4bFnwPdaxWuoazUXR3PClvYpWh
+	 3zHwkwU1NcN6HBF45fwvZeVfZWPRFbc6Eq5ozARN9oaYJsrDoSHfGnH74EPla1Xg6A
+	 6VE4kAEPV+dInQOg5ADHbDS/JgNTOP2DfNiMNXFLsF1lFHZwvPX2FxDCijTVt24Puz
+	 Ahj1VGIN7XsqaE89/g3u0QAN3wlXFIG7e4Ciz3wD0/cifRhiUgVpuFk4ELcK0V8vhz
+	 AGkfn4v0zjjIPhDNbP3XzAQqr9Q0VRnmTnDIrqwHAlX24gBXx67uMme4IxZ0KfG4T3
+	 O2tKQXuQRCh8Q==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3482E3803263;
+	Thu, 10 Oct 2024 16:10:37 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <01c97823-d560-4f89-b757-752e18940f31@intel.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net v2] docs: netdev: document guidance on cleanup patches
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <172857663575.2081951.7702587935908581266.git-patchwork-notify@kernel.org>
+Date: Thu, 10 Oct 2024 16:10:35 +0000
+References: <20241009-doc-mc-clean-v2-1-e637b665fa81@kernel.org>
+In-Reply-To: <20241009-doc-mc-clean-v2-1-e637b665fa81@kernel.org>
+To: Simon Horman <horms@kernel.org>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, corbet@lwn.net, netdev@vger.kernel.org,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org
 
-On Wed, Oct 09, 2024 at 11:42:14AM +0200, Przemek Kitszel wrote:
-> On 10/9/24 11:12, Simon Horman wrote:
-> > The purpose of this section is to document what is the current practice
-> > regarding clean-up patches which address checkpatch warnings and similar
-> > problems. I feel there is a value in having this documented so others
-> > can easily refer to it.
-> > 
-> > Clearly this topic is subjective. And to some extent the current
-> > practice discourages a wider range of patches than is described here.
-> > But I feel it is best to start somewhere, with the most well established
-> > part of the current practice.
-> > 
-> > --
-> > I did think this was already documented. And perhaps it is.
-> > But I was unable to find it after a quick search.
-> > 
-> > Signed-off-by: Simon Horman <horms@kernel.org>
+Hello:
+
+This patch was applied to netdev/net.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Wed, 09 Oct 2024 10:12:19 +0100 you wrote:
+> The purpose of this section is to document what is the current practice
+> regarding clean-up patches which address checkpatch warnings and similar
+> problems. I feel there is a value in having this documented so others
+> can easily refer to it.
 > 
-> Looks like you wanted to say "please don't submit autogenerated clenups"
-
-:)
-
-> > ---
-> > Changes in v2:
-> > - Drop RFC designation
-> > - Correct capitalisation of heading
-> > - Add that:
-> >    + devm_ conversions are also discouraged, outside the context of other work
+> Clearly this topic is subjective. And to some extent the current
+> practice discourages a wider range of patches than is described here.
+> But I feel it is best to start somewhere, with the most well established
+> part of the current practice.
 > 
-> devm_ is generally discouraged in netdev, so much that I will welcome
-> the opposite cleanup :)
-> 
-> Your write-up on this is correct, no objections.
-> 
-> Perhaps we could say more about the status of the code that is fixed -
-> Maintained/Odd fixes/Orphaned - I would don't touch anything below
-> "Maintained" for good reason
+> [...]
 
-I agree that there is room to expand on that.  But I would rather defer on
-that, because, as mentioned by Jakub in his review of v1, that quickly
-becomes quite subjective.
+Here is the summary with links:
+  - [net,v2] docs: netdev: document guidance on cleanup patches
+    https://git.kernel.org/netdev/net/c/aeb218d900e3
 
-IOW, let's start with something and improve on it later.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-...
+
