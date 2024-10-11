@@ -1,591 +1,155 @@
-Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 000E11E3771
-	for <workflows@vger.kernel.org>; Thu, 10 Oct 2024 19:24:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDE5A1BE857
+	for <workflows@vger.kernel.org>; Fri, 11 Oct 2024 12:40:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728588260; cv=none; b=F8Q1StlotFySGI8CSkcPTwg49pLUT01ehqf6qrdL+B8afGRIRrJTWXbJu9v/MtWm9ajBx0sFsMMH6sBPdyHMCrbkMvFEP9WvCrmicZxLlQTFRiAR+Uz0AfBlo75RatFuY7rL+XLO6Dncr8uLZpFT87t3EykfKWzRE/P8zEiaLdM=
+	t=1728650408; cv=none; b=uq8uP44Wh45rERELV6OhCnnCDKAxwA8vgVaQH4FsQvp8u1DDuqWNdtPxQNn2VGaEaQZFJ9RVjfrgUb6wZJ0SCRNWOFhAAt3EWV0Sy8YahVWHJmX/Y0GEbjDs16waddwn9apWEKYWgfY8lAG1egei90t3yeb8sPUZ4QQn93n2iAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728588260; c=relaxed/simple;
-	bh=9E0liJxCpmlS5aOXNfbBO6uFs+bNG8FjVuC7X5ymlNU=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=FP7LBuUNgXMdYceUpahOxQprTs0dF1vJV0x/Wj58BzMhsqvPm0FkDLFi44LVaHSfYrKDD6iZXU3YFzeVvjTpHjjAhlpoZftbi0wOgt26lKBKd3+Rv1dRCcu6AQPeIM1yegaIa4thu1dVhm1vEp2LjrIj5yJCSWRGlHIqvedwDQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--xur.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xxT8ZrAn; arc=none smtp.client-ip=209.85.128.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--xur.bounces.google.com
+	s=arc-20240116; t=1728650408; c=relaxed/simple;
+	bh=5IlAh9eaa066hhQGOnvYY5FSh2X/uES0NpOXBYT3ads=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=n/DvZezSGV0f48GWcQ3f32nVXE4IyT37ul598bkeCi3YYOYPmgaJW06d7TmWGsViYWxZCVgaapwqaPWG97lXTQcYcMhKB9WUUKirNGi48ZwvHapFpPf0auC3fWHg7rEkPSg+jwTAzkJTGykO57XboJskpN5embDNi6abAY8+6yA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HaNC17lq; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xxT8ZrAn"
-Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-6e32e8436adso20767477b3.0
-        for <workflows@vger.kernel.org>; Thu, 10 Oct 2024 12:24:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HaNC17lq"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4312484334eso11905e9.0
+        for <workflows@vger.kernel.org>; Fri, 11 Oct 2024 05:40:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1728588256; x=1729193056; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Hk6fAtuHbaC8EX1j2qoTsmRqhh2KQ8nox4P5fnjnegY=;
-        b=xxT8ZrAn/66Prjvcbu+OVDr/bRou1BGehXafu1oxARyaYqg/qZaU4OAM0kk4t9x7e5
-         7zxQdcXmwFsrsBhDscd3Gkp8/FVg5sB4F5tzauktt9ehvSCBT/vVbeAKcyj3r7yIiwXF
-         SOJTp7Gzbmlw2t+GHR2DwoARgXQzwk+KrzX32zijCDo4kGJTzx1lptO+I5nT9eyKKK5U
-         FzyWEGoy96DtCoC4z65MHbUTSVA8Kny9CezfNDb4J9dPWmQC2REZZfm0CHEIXQf7WLGS
-         mSg8U9cs2v6/mLa7uFR1DdAoEZY1z7mXNiKqjgIy1MrRbhdma0LUaM+PO1ZfW0+mgo1S
-         MKDg==
+        d=linaro.org; s=google; t=1728650405; x=1729255205; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=jjSlbY9SswHqtzN6SDsrxPeSXsZrtE+q4odZyT6wrQ8=;
+        b=HaNC17lquVkRGtHUaF6tD43govv1FJI6NmceO1zgDgJZ+U9UYChndAG9uTkanrhzVS
+         1WnBwDPIYveqwFQ0yguMoRuo10pFQwrjudKOHi3Nr2FIZKn6893R9G2RoQKlJJ6hTdkB
+         wHdU/2zYr2g5w9GP8wlhg4o7FFjtUsstPa4Z8CNDBdVP72WEGxujGGtVY2c4O0Bfp3oV
+         TNVo0GOWtxYTVkmMUOEBCbQ1wsogqrACeqJ2J1Mh7I77tNw1whrWZSaj+fYG6aAPvKLT
+         ioWqgrJ6CtGjORZ6N4nkgwN/U4cjQplbMCau7StPMLxmByijBEJiuDZahtykg1gyWuIv
+         kdDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728588256; x=1729193056;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Hk6fAtuHbaC8EX1j2qoTsmRqhh2KQ8nox4P5fnjnegY=;
-        b=Nx+rV2KraU6Dzol11/AQyHHKPKdSKZGsnMW7F8RsLDbDppibGSMjIMjenKpMTlh1jX
-         Ckm+08ENYwch9QSzNaXjhdxNC0N121U1YnP9XrPSrYvNIzM3XDw9DxWAfpWPsAspZzKk
-         LbyRbw/4A684t5+SrWYA3Bq77cPS6BVEzDfPaAChWOcthgBJP8kbubA7NdRbIqCorYz7
-         8aLtQ51TSJIVmELahsz4nCNWEHVWkHZzb8KaDssAPXEFrZf1xtZHEAIqdEUVrLY7cEN1
-         R06Wv4RyRDAqcsdkjmy0EtWwpJNepMVOC/sgsq2WpXzmWb9LkTRw0eDNiyclht1M4iN5
-         rk4g==
-X-Forwarded-Encrypted: i=1; AJvYcCXuTztNTIqN93V0FTRtpMzcJwOCzwobi89gMCqYeDe2+Rbale9Iokn6kPnayJvuivvVFxSdl2+8wHQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxNA62TO9ZiA/8wOCIlal7l2J44nRrFSSm7qiwDZA9rY4FomHW7
-	3I8/h11eh9Xj3ZXDH7Vwv/WiVAdc7t6nrur5aJxQGUS546J67c35POx2yKQjxJFqbA==
-X-Google-Smtp-Source: AGHT+IHSNMGekjiTKTKxih5YxbXCag9dv8Q/k6Q02RfV9JEZtmfvz4QEahWbmrMjbYAYZOE3VqnfVfM=
-X-Received: from xur.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:2330])
- (user=xur job=sendgmr) by 2002:a05:690c:424a:b0:6e3:f12:1ad3 with SMTP id
- 00721157ae682-6e3224d30b8mr248907b3.6.1728588255760; Thu, 10 Oct 2024
- 12:24:15 -0700 (PDT)
-Date: Thu, 10 Oct 2024 12:23:58 -0700
-In-Reply-To: <20241010192400.451187-1-xur@google.com>
+        d=1e100.net; s=20230601; t=1728650405; x=1729255205;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jjSlbY9SswHqtzN6SDsrxPeSXsZrtE+q4odZyT6wrQ8=;
+        b=jgfFYobC6xoEICwvmDxJFv3HuuD31xH19rPx+w7bSJKJkG5v4wEdNMZMpLkHLxnw7P
+         0YZKa5tm1hdYDbj0OGrIcC3n6BEz4XUNTWi7eCXBPtz6N7nh/9VuhJ/H5O0lw/OjPDbO
+         shhy+cLfw+CullYYhXRo4NV38blH2u1wgMiWPV2eje4ed2bGoXwLezQ9yZKTDz89XC1U
+         Q7Zkh47Y5IXS7Q4Li1peR1w+SSMsKzc7ITN+ye5nURxNrm1FS5KKFtj1beOStm+SPiyP
+         RQyxMngSZBgIPM76aMju4sU8fPd9NAQrBQQdtNhTJvdYjJHcKNwCCTxLpa+bpuAaE0pG
+         p7WA==
+X-Forwarded-Encrypted: i=1; AJvYcCVWBLaB4BKm0QoVTE8Hf75LJ9+JDcg7oEPeg0HclkdzPznKH5jC2Yw4nxD9oJBwr6APEhssSkA2Q00=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzqWkk4YId4h63kP60bUOggeTZFE+zc15Vs/g0/BVlvBsfj26gD
+	Hp/YSXU1Y4x58RG4mWfPqDRLke59GQtfa/2q72kwoiU9QicQ7WiSx4J9PIEcb3A=
+X-Google-Smtp-Source: AGHT+IEhQe5IOJxNuBhL2yrdbI7RCfIGYUA3aoA9RB8lzlagQHDT1wAq80U2DkWwx3uw87ra1cXEqQ==
+X-Received: by 2002:a05:600c:1c18:b0:42c:ba61:d20b with SMTP id 5b1f17b1804b1-4311ded5e0emr9405775e9.3.1728650405221;
+        Fri, 11 Oct 2024 05:40:05 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.211.167])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b6cf960sm3833902f8f.63.2024.10.11.05.40.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Oct 2024 05:40:04 -0700 (PDT)
+Message-ID: <f7829230-79d1-4282-902d-ae2ac2477dc5@linaro.org>
+Date: Fri, 11 Oct 2024 14:40:02 +0200
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20241010192400.451187-1-xur@google.com>
-X-Mailer: git-send-email 2.47.0.rc1.288.g06298d1525-goog
-Message-ID: <20241010192400.451187-7-xur@google.com>
-Subject: [PATCH v3 6/6] Add Propeller configuration for kernel build.
-From: Rong Xu <xur@google.com>
-To: Alice Ryhl <aliceryhl@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, 
-	Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>, 
-	Han Shen <shenhan@google.com>, Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
-	Masahiro Yamada <masahiroy@kernel.org>, "Mike Rapoport (IBM)" <rppt@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Nicolas Schier <nicolas@fjasle.eu>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Rong Xu <xur@google.com>, 
-	Sami Tolvanen <samitolvanen@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org, 
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Maksim Panchenko <max4bolt@gmail.com>
-Cc: x86@kernel.org, linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, Sriraman Tallam <tmsriram@google.com>, 
-	Krzysztof Pszeniczny <kpszeniczny@google.com>, Stephane Eranian <eranian@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] Documentation/process: maintainer-soc: clarify
+ submitting patches
+To: Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>,
+ soc@kernel.org
+Cc: linux-kernel@vger.kernel.org, workflows@vger.kernel.org,
+ Olof Johansson <olof@lixom.net>, Linus Walleij <linus.walleij@linaro.org>,
+ linux-doc@vger.kernel.org, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Will Deacon <will@kernel.org>,
+ Kevin Hilman <khilman@baylibre.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Conor Dooley
+ <conor@kernel.org>, =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ linux-arm-kernel@lists.infradead.org
+References: <20240925095635.30452-1-krzysztof.kozlowski@linaro.org>
+ <87wmijj0gq.fsf@trenco.lwn.net>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <87wmijj0gq.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Add the build support for using Clang's Propeller optimizer. Like
-AutoFDO, Propeller uses hardware sampling to gather information
-about the frequency of execution of different code paths within a
-binary. This information is then used to guide the compiler's
-optimization decisions, resulting in a more efficient binary.
+On 07/10/2024 19:18, Jonathan Corbet wrote:
+>>
+>> ---
+>>
+>> During our LPC ad-hoc BoF, we discussed improving Maintainer SoC docs
+>> and I think I volunteered to write something.  The trouble is that
+>> whatever I won't write in my notes, escapes my memory.
+>>
+>> I believe this is what we discussed.  Was there anything more to
+>> write/document?
+>>
+>> Changes in v2:
+>> 1. Fix missing closing ) (Conor).
+>> 2. Style changes (in point 3.).
+>> 3. Soften note that soc@kernel is not for discussing ("is usually not").
+>> ---
+>>  Documentation/process/maintainer-soc.rst | 42 +++++++++++++++++++++---
+>>  1 file changed, 37 insertions(+), 5 deletions(-)
+> 
+> Applied, thanks.
 
-The support requires a Clang compiler LLVM 19 or later, and the
-create_llvm_prof tool
-(https://github.com/google/autofdo/releases/tag/v0.30.1). This
-submission is limited to x86 platforms that support PMU features
-like LBR on Intel machines and AMD Zen3 BRS.
+Thanks Jon and Arnd. I got now notification that this was also applied
+to soc tree, so it seems it got applied twice.
 
-For Arm, we plan to send patches for SPE-based Propeller when
-AutoFDO for Arm is ready.
-
-Here is an example workflow for building an AutoFDO+Propeller
-optimized kernel:
-
-1) Build the kernel on the HOST machine, with AutoFDO and Propeller
-   build config
-      CONFIG_AUTOFDO_CLANG=3Dy
-      CONFIG_PROPELLER_CLANG=3Dy
-   then
-      $ make LLVM=3D1 CLANG_AUTOFDO_PROFILE=3D<autofdo_profile>
-
-=E2=80=9C<autofdo_profile>=E2=80=9D is the profile collected when doing a n=
-on-Propeller
-AutoFDO build. This step builds a kernel that has the same optimization
-level as AutoFDO, plus a metadata section that records basic block
-information. This kernel image runs as fast as an AutoFDO optimized
-kernel.
-
-2) Install the kernel on test/production machines.
-
-3) Run the load tests. The '-c' option in perf specifies the sample
-   event period. We suggest using a suitable prime number,
-   like 500009, for this purpose.
-   For Intel platforms:
-      $ perf record -e BR_INST_RETIRED.NEAR_TAKEN:k -a -N -b -c <count> \
-        -o <perf_file> -- <loadtest>
-   For AMD platforms:
-      The supported system are: Zen3 with BRS, or Zen4 with amd_lbr_v2
-      # To see if Zen3 support LBR:
-      $ cat proc/cpuinfo | grep " brs"
-      # To see if Zen4 support LBR:
-      $ cat proc/cpuinfo | grep amd_lbr_v2
-      # If the result is yes, then collect the profile using:
-      $ perf record --pfm-events RETIRED_TAKEN_BRANCH_INSTRUCTIONS:k -a \
-        -N -b -c <count> -o <perf_file> -- <loadtest>
-
-4) (Optional) Download the raw perf file to the HOST machine.
-
-5) Generate Propeller profile:
-   $ create_llvm_prof --binary=3D<vmlinux> --profile=3D<perf_file> \
-     --format=3Dpropeller --propeller_output_module_name \
-     --out=3D<propeller_profile_prefix>_cc_profile.txt \
-     --propeller_symorder=3D<propeller_profile_prefix>_ld_profile.txt
-
-   =E2=80=9Ccreate_llvm_prof=E2=80=9D is the profile conversion tool, and a=
- prebuilt
-   binary for linux can be found on
-   https://github.com/google/autofdo/releases/tag/v0.30.1 (can also build
-   from source).
-
-   "<propeller_profile_prefix>" can be something like
-   "/home/user/dir/any_string".
-
-   This command generates a pair of Propeller profiles:
-   "<propeller_profile_prefix>_cc_profile.txt" and
-   "<propeller_profile_prefix>_ld_profile.txt".
-
-6) Rebuild the kernel using the AutoFDO and Propeller profile files.
-      CONFIG_AUTOFDO_CLANG=3Dy
-      CONFIG_PROPELLER_CLANG=3Dy
-   and
-      $ make LLVM=3D1 CLANG_AUTOFDO_PROFILE=3D<autofdo_profile> \
-        CLANG_PROPELLER_PROFILE_PREFIX=3D<propeller_profile_prefix>
-
-Co-developed-by: Han Shen <shenhan@google.com>
-Signed-off-by: Han Shen <shenhan@google.com>
-Signed-off-by: Rong Xu <xur@google.com>
-Suggested-by: Sriraman Tallam <tmsriram@google.com>
-Suggested-by: Krzysztof Pszeniczny <kpszeniczny@google.com>
-Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
-Suggested-by: Stephane Eranian <eranian@google.com>
----
- Documentation/dev-tools/index.rst     |   1 +
- Documentation/dev-tools/propeller.rst | 161 ++++++++++++++++++++++++++
- MAINTAINERS                           |   7 ++
- Makefile                              |   1 +
- arch/Kconfig                          |  22 ++++
- arch/x86/Kconfig                      |   1 +
- arch/x86/kernel/vmlinux.lds.S         |   4 +
- include/asm-generic/vmlinux.lds.h     |  10 +-
- scripts/Makefile.lib                  |  10 ++
- scripts/Makefile.propeller            |  28 +++++
- tools/objtool/check.c                 |   1 +
- 11 files changed, 241 insertions(+), 5 deletions(-)
- create mode 100644 Documentation/dev-tools/propeller.rst
- create mode 100644 scripts/Makefile.propeller
-
-diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/in=
-dex.rst
-index 6945644f7008..3c0ac08b2709 100644
---- a/Documentation/dev-tools/index.rst
-+++ b/Documentation/dev-tools/index.rst
-@@ -35,6 +35,7 @@ Documentation/dev-tools/testing-overview.rst
-    checkuapi
-    gpio-sloppy-logic-analyzer
-    autofdo
-+   propeller
-=20
-=20
- .. only::  subproject and html
-diff --git a/Documentation/dev-tools/propeller.rst b/Documentation/dev-tool=
-s/propeller.rst
-new file mode 100644
-index 000000000000..a217354e0f95
---- /dev/null
-+++ b/Documentation/dev-tools/propeller.rst
-@@ -0,0 +1,161 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+Using Propeller with the Linux kernel
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+This enables Propeller build support for the kernel when using Clang
-+compiler. Propeller is a profile-guided optimization (PGO) method used
-+to optimize binary executables. Like AutoFDO, it utilizes hardware
-+sampling to gather information about the frequency of execution of
-+different code paths within a binary. Unlike AutoFDO, this information
-+is then used right before linking phase to optimize (among others)
-+block layout within and across functions.
-+
-+A few important notes about adopting Propeller optimization:
-+
-+#. Although it can be used as a standalone optimization step, it is
-+   strongly recommended to apply Propeller on top of AutoFDO,
-+   AutoFDO+ThinLTO or Instrument FDO. The rest of this document
-+   assumes this paradigm.
-+
-+#. Propeller uses another round of profiling on top of
-+   AutoFDO/AutoFDO+ThinLTO/iFDO. The whole build process involves
-+   "build-afdo - train-afdo - build-propeller - train-propeller -
-+   build-optimized".
-+
-+#. Propeller requires LLVM 19 release or later for Clang/Clang++
-+   and the linker(ld.lld).
-+
-+#. In addition to LLVM toolchain, Propeller requires a profiling
-+   conversion tool: https://github.com/google/autofdo with a release
-+   after v0.30.1: https://github.com/google/autofdo/releases/tag/v0.30.1.
-+
-+The Propeller optimization process involves the following steps:
-+
-+#. Initial building: Build the AutoFDO or AutoFDO+ThinLTO binary as
-+   you would normally do, but with a set of compile-time / link-time
-+   flags, so that a special metadata section is created within the
-+   kernel binary. The special section is only intend to be used by the
-+   profiling tool, it is not part of the runtime image, nor does it
-+   change kernel run time text sections.
-+
-+#. Profiling: The above kernel is then run with a representative
-+   workload to gather execution frequency data. This data is collected
-+   using hardware sampling, via perf. Propeller is most effective on
-+   platforms supporting advanced PMU features like LBR on Intel
-+   machines. This step is the same as profiling the kernel for AutoFDO
-+   (the exact perf parameters can be different).
-+
-+#. Propeller profile generation: Perf output file is converted to a
-+   pair of Propeller profiles via an offline tool.
-+
-+#. Optimized build: Build the AutoFDO or AutoFDO+ThinLTO optimized
-+   binary as you would normally do, but with a compile-time /
-+   link-time flag to pick up the Propeller compile time and link time
-+   profiles. This build step uses 3 profiles - the AutoFDO profile,
-+   the Propeller compile-time profile and the Propeller link-time
-+   profile.
-+
-+#. Deployment: The optimized kernel binary is deployed and used
-+   in production environments, providing improved performance
-+   and reduced latency.
-+
-+Preparation
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+Configure the kernel with::
-+
-+   CONFIG_AUTOFDO_CLANG=3Dy
-+   CONFIG_PROPELLER_CLANG=3Dy
-+
-+Customization
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+You can enable or disable Propeller build for individual file and
-+directories by adding a line similar to the following to the
-+respective kernel Makefile:
-+
-+- For enabling a single file (e.g. foo.o)::
-+
-+   PROPELLER_PROFILE_foo.o :=3D y
-+
-+- For enabling all files in one directory::
-+
-+   PROPELLER_PROFILE :=3D y
-+
-+- For disabling one file::
-+
-+   PROPELLER_PROFILE_foo.o :=3D n
-+
-+- For disabling all files in one directory::
-+
-+   PROPELLER__PROFILE :=3D n
-+
-+
-+Workflow
-+=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+Here is an example workflow for building an AutoFDO+Propeller kernel:
-+
-+1) Assuming an AutoFDO profile is already collected following
-+   instructions in the AutoFDO document, build the kernel on the HOST
-+   machine, with AutoFDO and Propeller build configs ::
-+
-+      CONFIG_AUTOFDO_CLANG=3Dy
-+      CONFIG_PROPELLER_CLANG=3Dy
-+
-+   and ::
-+
-+      $ make LLVM=3D1 CLANG_AUTOFDO_PROFILE=3D<autofdo-profile-name>
-+
-+2) Install the kernel on the TEST machine.
-+
-+3) Run the load tests. The '-c' option in perf specifies the sample
-+   event period. We suggest using a suitable prime number, like 500009,
-+   for this purpose.
-+
-+   - For Intel platforms::
-+
-+      $ perf record -e BR_INST_RETIRED.NEAR_TAKEN:k -a -N -b -c <count> -o=
- <perf_file> -- <loadtest>
-+
-+   - For AMD platforms::
-+
-+      $ perf record --pfm-event RETIRED_TAKEN_BRANCH_INSTRUCTIONS:k -a -N =
--b -c <count> -o <perf_file> -- <loadtest>
-+
-+   Note you can repeat the above steps to collect multiple <perf_file>s.
-+
-+4) (Optional) Download the raw perf file(s) to the HOST machine.
-+
-+5) Use the create_llvm_prof tool (https://github.com/google/autofdo) to
-+   generate Propeller profile. ::
-+
-+      $ create_llvm_prof --binary=3D<vmlinux> --profile=3D<perf_file>
-+                         --format=3Dpropeller --propeller_output_module_na=
-me
-+                         --out=3D<propeller_profile_prefix>_cc_profile.txt
-+                         --propeller_symorder=3D<propeller_profile_prefix>=
-_ld_profile.txt
-+
-+   "<propeller_profile_prefix>" can be something like "/home/user/dir/any_=
-string".
-+
-+   This command generates a pair of Propeller profiles:
-+   "<propeller_profile_prefix>_cc_profile.txt" and
-+   "<propeller_profile_prefix>_ld_profile.txt".
-+
-+   If there are more than 1 perf_file collected in the previous step,
-+   you can create a temp list file "<perf_file_list>" with each line
-+   containing one perf file name and run::
-+
-+      $ create_llvm_prof --binary=3D<vmlinux> --profile=3D@<perf_file_list=
->
-+                         --format=3Dpropeller --propeller_output_module_na=
-me
-+                         --out=3D<propeller_profile_prefix>_cc_profile.txt
-+                         --propeller_symorder=3D<propeller_profile_prefix>=
-_ld_profile.txt
-+
-+6) Rebuild the kernel using the AutoFDO and Propeller
-+   profiles. ::
-+
-+      CONFIG_AUTOFDO_CLANG=3Dy
-+      CONFIG_PROPELLER_CLANG=3Dy
-+
-+   and ::
-+
-+      $ make LLVM=3D1 CLANG_AUTOFDO_PROFILE=3D<profile_file> CLANG_PROPELL=
-ER_PROFILE_PREFIX=3D<propeller_profile_prefix>
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1b8db863031f..f4cc6dd6c4d8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18560,6 +18560,13 @@ S:	Maintained
- F:	include/linux/psi*
- F:	kernel/sched/psi.c
-=20
-+PROPELLER BUILD
-+M:	Rong Xu <xur@google.com>
-+M:	Han Shen <shenhan@google.com>
-+S:	Supported
-+F:	Documentation/dev-tools/propeller.rst
-+F:	scripts/Makefile.propeller
-+
- PRINTK
- M:	Petr Mladek <pmladek@suse.com>
- R:	Steven Rostedt <rostedt@goodmis.org>
-diff --git a/Makefile b/Makefile
-index bbb6ec68f5dc..2d2f688c21c6 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1019,6 +1019,7 @@ include-$(CONFIG_UBSAN)		+=3D scripts/Makefile.ubsan
- include-$(CONFIG_KCOV)		+=3D scripts/Makefile.kcov
- include-$(CONFIG_RANDSTRUCT)	+=3D scripts/Makefile.randstruct
- include-$(CONFIG_AUTOFDO_CLANG)	+=3D scripts/Makefile.autofdo
-+include-$(CONFIG_PROPELLER_CLANG)	+=3D scripts/Makefile.propeller
- include-$(CONFIG_GCC_PLUGINS)	+=3D scripts/Makefile.gcc-plugins
-=20
- include $(addprefix $(srctree)/, $(include-y))
-diff --git a/arch/Kconfig b/arch/Kconfig
-index 5e9604960cbb..fdeb5f173a10 100644
---- a/arch/Kconfig
-+++ b/arch/Kconfig
-@@ -831,6 +831,28 @@ config AUTOFDO_CLANG
-=20
- 	  If unsure, say N.
-=20
-+config ARCH_SUPPORTS_PROPELLER_CLANG
-+	bool
-+
-+config PROPELLER_CLANG
-+	bool "Enable Clang's Propeller build"
-+	depends on ARCH_SUPPORTS_PROPELLER_CLANG
-+	depends on AUTOFDO_CLANG
-+	depends on CC_IS_CLANG && CLANG_VERSION >=3D 190000
-+	help
-+	  This option enables Clang=E2=80=99s Propeller build which
-+	  is on top of AutoFDO build. When the Propeller profiles
-+	  is specified in variable CLANG_PROPELLER_PROFILE_PREFIX
-+	  during the build process, Clang uses the profiles to
-+	  optimize the kernel.
-+
-+	  If no profile is specified, Proepller options are
-+	  still passed to Clang to facilitate the collection
-+	  of perf data for creating the Propeller profiles in
-+	  subsequent builds.
-+
-+	  If unsure, say N.
-+
- config ARCH_SUPPORTS_CFI_CLANG
- 	bool
- 	help
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 503a0268155a..da47164bfddc 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -127,6 +127,7 @@ config X86
- 	select ARCH_SUPPORTS_LTO_CLANG_THIN
- 	select ARCH_SUPPORTS_RT
- 	select ARCH_SUPPORTS_AUTOFDO_CLANG
-+	select ARCH_SUPPORTS_PROPELLER_CLANG    if X86_64
- 	select ARCH_USE_BUILTIN_BSWAP
- 	select ARCH_USE_CMPXCHG_LOCKREF		if X86_CMPXCHG64
- 	select ARCH_USE_MEMTEST
-diff --git a/arch/x86/kernel/vmlinux.lds.S b/arch/x86/kernel/vmlinux.lds.S
-index 6726be89b7a6..7ecc21c569be 100644
---- a/arch/x86/kernel/vmlinux.lds.S
-+++ b/arch/x86/kernel/vmlinux.lds.S
-@@ -442,6 +442,10 @@ SECTIONS
-=20
- 	STABS_DEBUG
- 	DWARF_DEBUG
-+#ifdef CONFIG_PROPELLER_CLANG
-+	.llvm_bb_addr_map : { *(.llvm_bb_addr_map) }
-+#endif
-+
- 	ELF_DETAILS
-=20
- 	DISCARDS
-diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinu=
-x.lds.h
-index 20e46c0917db..5986dd4cfb14 100644
---- a/include/asm-generic/vmlinux.lds.h
-+++ b/include/asm-generic/vmlinux.lds.h
-@@ -95,14 +95,14 @@
-  * With LTO_CLANG, the linker also splits sections by default, so we need
-  * these macros to combine the sections during the final link.
-  *
-- * With LTO_CLANG, the linker also splits sections by default, so we need
-- * these macros to combine the sections during the final link.
-+ * CONFIG_AUTOFD_CLANG and CONFIG_PROPELLER_CLANG will also split text sec=
-tions
-+ * and cluster them in the linking time.
-  *
-  * RODATA_MAIN is not used because existing code already defines .rodata.x
-  * sections to be brought in with rodata.
-  */
- #if defined(CONFIG_LD_DEAD_CODE_DATA_ELIMINATION) || defined(CONFIG_LTO_CL=
-ANG) || \
--defined(CONFIG_AUTOFDO_CLANG)
-+defined(CONFIG_AUTOFDO_CLANG) || defined(CONFIG_PROPELLER_CLANG)
- #define TEXT_MAIN .text .text.[0-9a-zA-Z_]*
- #else
- #define TEXT_MAIN .text
-@@ -556,7 +556,7 @@ defined(CONFIG_AUTOFDO_CLANG)
- 		__cpuidle_text_end =3D .;					\
- 		__noinstr_text_end =3D .;
-=20
--#ifdef CONFIG_AUTOFDO_CLANG
-+#if defined(CONFIG_AUTOFDO_CLANG) || defined(CONFIG_PROPELLER_CLANG)
- #define TEXT_HOT							\
- 		__hot_text_start =3D .;					\
- 		*(.text.hot .text.hot.*)				\
-@@ -584,7 +584,7 @@ defined(CONFIG_AUTOFDO_CLANG)
-  * first when in these builds.
-  */
- #if defined(CONFIG_LD_DEAD_CODE_DATA_ELIMINATION) || defined(CONFIG_LTO_CL=
-ANG) || \
--defined(CONFIG_AUTOFDO_CLANG)
-+defined(CONFIG_AUTOFDO_CLANG) || defined(CONFIG_PROPELLER_CLANG)
- #define TEXT_TEXT							\
- 		ALIGN_FUNCTION();					\
- 		*(.text.asan.* .text.tsan.*)				\
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index e85d6ac31bd9..60354c476956 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -201,6 +201,16 @@ _c_flags +=3D $(if $(patsubst n%,, \
- 	$(CFLAGS_AUTOFDO_CLANG))
- endif
-=20
-+#
-+# Enable Clang's Propeller build flags for a file or directory depending o=
-n
-+# variables AUTOFDO_PROPELLER_obj.o and PROPELLER_PROFILE.
-+#
-+ifeq ($(CONFIG_PROPELLER_CLANG),y)
-+_c_flags +=3D $(if $(patsubst n%,, \
-+	$(AUTOFDO_PROFILE_$(target-stem).o)$(AUTOFDO_PROFILE)$(PROPELLER_PROFILE)=
-)$(is-kernel-object), \
-+	$(CFLAGS_PROPELLER_CLANG))
-+endif
-+
- # $(src) for including checkin headers from generated source files
- # $(obj) for including generated headers from checkin source files
- ifeq ($(KBUILD_EXTMOD),)
-diff --git a/scripts/Makefile.propeller b/scripts/Makefile.propeller
-new file mode 100644
-index 000000000000..344190717e47
---- /dev/null
-+++ b/scripts/Makefile.propeller
-@@ -0,0 +1,28 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+# Enable available and selected Clang Propeller features.
-+ifdef CLANG_PROPELLER_PROFILE_PREFIX
-+  CFLAGS_PROPELLER_CLANG :=3D -fbasic-block-sections=3Dlist=3D$(CLANG_PROP=
-ELLER_PROFILE_PREFIX)_cc_profile.txt -ffunction-sections
-+  KBUILD_LDFLAGS +=3D --symbol-ordering-file=3D$(CLANG_PROPELLER_PROFILE_P=
-REFIX)_ld_profile.txt --no-warn-symbol-ordering
-+else
-+  CFLAGS_PROPELLER_CLANG :=3D -fbasic-block-sections=3Dlabels
-+endif
-+
-+# Propeller requires debug information to embed module names in the profil=
-es.
-+# If CONFIG_DEBUG_INFO is not enabled, set -gmlt option. Skip this for Aut=
-oFDO,
-+# as the option should already be set.
-+ifndef CONFIG_DEBUG_INFO
-+  ifndef CONFIG_AUTOFDO_CLANG
-+    CFLAGS_PROPELLER_CLANG +=3D -gmlt
-+  endif
-+endif
-+
-+ifdef CONFIG_LTO_CLANG_THIN
-+  ifdef CLANG_PROPELLER_PROFILE_PREFIX
-+    KBUILD_LDFLAGS +=3D --lto-basic-block-sections=3D$(CLANG_PROPELLER_PRO=
-FILE_PREFIX)_cc_profile.txt
-+  else
-+    KBUILD_LDFLAGS +=3D --lto-basic-block-sections=3Dlabels
-+  endif
-+endif
-+
-+export CFLAGS_PROPELLER_CLANG
-diff --git a/tools/objtool/check.c b/tools/objtool/check.c
-index 4c5229991e1e..05a0fb4a3d1a 100644
---- a/tools/objtool/check.c
-+++ b/tools/objtool/check.c
-@@ -4558,6 +4558,7 @@ static int validate_ibt(struct objtool_file *file)
- 		    !strcmp(sec->name, "__mcount_loc")			||
- 		    !strcmp(sec->name, ".kcfi_traps")			||
- 		    !strcmp(sec->name, ".llvm.call-graph-profile")	||
-+		    !strcmp(sec->name, ".llvm_bb_addr_map")		||
- 		    strstr(sec->name, "__patchable_function_entries"))
- 			continue;
-=20
---=20
-2.47.0.rc1.288.g06298d1525-goog
+Best regards,
+Krzysztof
 
