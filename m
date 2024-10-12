@@ -1,155 +1,101 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDE5A1BE857
-	for <workflows@vger.kernel.org>; Fri, 11 Oct 2024 12:40:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 411ED1E892;
+	Sat, 12 Oct 2024 14:25:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728650408; cv=none; b=uq8uP44Wh45rERELV6OhCnnCDKAxwA8vgVaQH4FsQvp8u1DDuqWNdtPxQNn2VGaEaQZFJ9RVjfrgUb6wZJ0SCRNWOFhAAt3EWV0Sy8YahVWHJmX/Y0GEbjDs16waddwn9apWEKYWgfY8lAG1egei90t3yeb8sPUZ4QQn93n2iAI=
+	t=1728743129; cv=none; b=l7fvrn6wL0+CpETt1wC6/x7APvkqEDKeQdnQxZuuK1pISniNCtd2dgmpaSXayCKwAvwS0nZR4voKzK1eTWniZ5GcqF3ewVAtzFfAqbKLaJOhI2ThYnXtVJmApuvxbVxTziWnUjt1Ui21pd0QHvMAD6kaJe5tTEwaeppUkL1md/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728650408; c=relaxed/simple;
-	bh=5IlAh9eaa066hhQGOnvYY5FSh2X/uES0NpOXBYT3ads=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=n/DvZezSGV0f48GWcQ3f32nVXE4IyT37ul598bkeCi3YYOYPmgaJW06d7TmWGsViYWxZCVgaapwqaPWG97lXTQcYcMhKB9WUUKirNGi48ZwvHapFpPf0auC3fWHg7rEkPSg+jwTAzkJTGykO57XboJskpN5embDNi6abAY8+6yA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HaNC17lq; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1728743129; c=relaxed/simple;
+	bh=6s4+dR6F8h+e6rFroGl/EsRq5g/Wtl+duEVvAzC3/js=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=AxsfBfYE/iD6UUUA/rm2h8AFIXQ8iiUQwrjNvYhqA+d04Z43gVRQ5pOQKzro1S+toopRXGf+k1DkcpDke/R6JdMsomVsdAPTcT/FkelfpyY/XanD5xR0Eu18i000naZeGAbw+70MFW9rlPpCPRPe15t0iw/kKDRMwjZYPr3ggEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jIxO+UAn; arc=none smtp.client-ip=209.85.215.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HaNC17lq"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4312484334eso11905e9.0
-        for <workflows@vger.kernel.org>; Fri, 11 Oct 2024 05:40:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jIxO+UAn"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-7ea64af4bbbso123661a12.1;
+        Sat, 12 Oct 2024 07:25:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728650405; x=1729255205; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=jjSlbY9SswHqtzN6SDsrxPeSXsZrtE+q4odZyT6wrQ8=;
-        b=HaNC17lquVkRGtHUaF6tD43govv1FJI6NmceO1zgDgJZ+U9UYChndAG9uTkanrhzVS
-         1WnBwDPIYveqwFQ0yguMoRuo10pFQwrjudKOHi3Nr2FIZKn6893R9G2RoQKlJJ6hTdkB
-         wHdU/2zYr2g5w9GP8wlhg4o7FFjtUsstPa4Z8CNDBdVP72WEGxujGGtVY2c4O0Bfp3oV
-         TNVo0GOWtxYTVkmMUOEBCbQ1wsogqrACeqJ2J1Mh7I77tNw1whrWZSaj+fYG6aAPvKLT
-         ioWqgrJ6CtGjORZ6N4nkgwN/U4cjQplbMCau7StPMLxmByijBEJiuDZahtykg1gyWuIv
-         kdDg==
+        d=gmail.com; s=20230601; t=1728743127; x=1729347927; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=K2nX2QwjAQ13tayvjTv+QasYt7kFsy2YDA8StTcMPVk=;
+        b=jIxO+UAnVem6UpNlB5ud3fXeKfawMZtC0AtGu4/QOp0iJbfONSbWv8ktK6RMb5ky93
+         XIF8uxgow/q5xQ87jOZ/7/1gYB5k57Qpq2GW7E0bRX376gBI2UbVVq/5iNw3fbkyLrJ2
+         85XA7C0O91iDEqBvWRVSMvjxeiQSLzpVK1rcZ5IzdOoIxKvaLn0ggnA3i2CNkmY4ZAu+
+         znPHrwQbgw+kq7cJ4x4eD2mN57g9hd+5HFrQ2L8JCvij8yKZaTd1jJ35o5pyEcNTmDI8
+         ZjPUWuEZR1L/nTZohTQGATdrlDkjXUp7CRRVtwpkQKlNq0AeZiO4EO1sg9HoNlbWwseY
+         7v4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728650405; x=1729255205;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1728743127; x=1729347927;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jjSlbY9SswHqtzN6SDsrxPeSXsZrtE+q4odZyT6wrQ8=;
-        b=jgfFYobC6xoEICwvmDxJFv3HuuD31xH19rPx+w7bSJKJkG5v4wEdNMZMpLkHLxnw7P
-         0YZKa5tm1hdYDbj0OGrIcC3n6BEz4XUNTWi7eCXBPtz6N7nh/9VuhJ/H5O0lw/OjPDbO
-         shhy+cLfw+CullYYhXRo4NV38blH2u1wgMiWPV2eje4ed2bGoXwLezQ9yZKTDz89XC1U
-         Q7Zkh47Y5IXS7Q4Li1peR1w+SSMsKzc7ITN+ye5nURxNrm1FS5KKFtj1beOStm+SPiyP
-         RQyxMngSZBgIPM76aMju4sU8fPd9NAQrBQQdtNhTJvdYjJHcKNwCCTxLpa+bpuAaE0pG
-         p7WA==
-X-Forwarded-Encrypted: i=1; AJvYcCVWBLaB4BKm0QoVTE8Hf75LJ9+JDcg7oEPeg0HclkdzPznKH5jC2Yw4nxD9oJBwr6APEhssSkA2Q00=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzqWkk4YId4h63kP60bUOggeTZFE+zc15Vs/g0/BVlvBsfj26gD
-	Hp/YSXU1Y4x58RG4mWfPqDRLke59GQtfa/2q72kwoiU9QicQ7WiSx4J9PIEcb3A=
-X-Google-Smtp-Source: AGHT+IEhQe5IOJxNuBhL2yrdbI7RCfIGYUA3aoA9RB8lzlagQHDT1wAq80U2DkWwx3uw87ra1cXEqQ==
-X-Received: by 2002:a05:600c:1c18:b0:42c:ba61:d20b with SMTP id 5b1f17b1804b1-4311ded5e0emr9405775e9.3.1728650405221;
-        Fri, 11 Oct 2024 05:40:05 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.211.167])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b6cf960sm3833902f8f.63.2024.10.11.05.40.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Oct 2024 05:40:04 -0700 (PDT)
-Message-ID: <f7829230-79d1-4282-902d-ae2ac2477dc5@linaro.org>
-Date: Fri, 11 Oct 2024 14:40:02 +0200
+        bh=K2nX2QwjAQ13tayvjTv+QasYt7kFsy2YDA8StTcMPVk=;
+        b=ZwhqpR0GRUaHTixcHFyOn6Y5BdZLLutZtiQBRPveyHQmNFj9A9eir0m6vTosUFGW5A
+         6L40eHkt/1MowgzIbdeagiBQAUdqfLTUV0ZvXwWdjs8XDq83vcoz8e64ACPQ2mXtT3Bl
+         2X94yI5UBSNr8X+gwDq5rBEQZkFV8GTJkIzCjzHOVAnaxHv/MAh+bAmDpg1E5/LBPobp
+         jVrO4p401tdtEqNlXz6x7fvyTgJ/T2eYzrc4cjbzyP3MUeJPL77MabKqYh14emKn9IUO
+         72dJHWaRL+QZu8tgzEmXMHaQm8lziDlqRx15xRARnneXpisNzE9Nk2UBCLOGRAInRJJH
+         I2PQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV5LQxwletbeLN0r1Ixfj1ZMQ39bK+PDHS5tgLU+rIixubQjlrPmeDerS75+z7oRWid0e5FlcPODi4=@vger.kernel.org, AJvYcCW8NdV9MAm2QrbpkceM68x3OjANmbdGhS3nvtPA7EY2IOeTYZB3bibVlSfXHtEoos20kYKlDvQ1APwWQbg1@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyv2xT/bUwwoaL717Oo8bw9Az5mkpNee/Zmzv1ngWqhy6lgvxHQ
+	SPX8tXyw+kUl2jQya5BJAyFl54Cufdp3cZb/7nxn6FMPWZPOCAfQcEhlYu8pBbw=
+X-Google-Smtp-Source: AGHT+IHv+vHrBtdpveO9ZnYW27upHTDCr/ovYCldf0BlIuPbzgrXjgySGiUZ3ouPGeCiKQnVNotpfQ==
+X-Received: by 2002:a05:6a00:3e1d:b0:714:2051:89ea with SMTP id d2e1a72fcca58-71e37e25dedmr4098848b3a.1.1728743127353;
+        Sat, 12 Oct 2024 07:25:27 -0700 (PDT)
+Received: from ice.. ([171.76.87.218])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71e2aa9394csm4192999b3a.123.2024.10.12.07.25.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 12 Oct 2024 07:25:27 -0700 (PDT)
+From: Nihar Chaithanya <niharchaithanya@gmail.com>
+To: corbet@lwn.net
+Cc: workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	Nihar Chaithanya <niharchaithanya@gmail.com>
+Subject: [PATCH] docs:process:changes: fix version command for btrfs-progs
+Date: Sat, 12 Oct 2024 19:44:28 +0530
+Message-Id: <20241012141425.11852-1-niharchaithanya@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Documentation/process: maintainer-soc: clarify
- submitting patches
-To: Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>,
- soc@kernel.org
-Cc: linux-kernel@vger.kernel.org, workflows@vger.kernel.org,
- Olof Johansson <olof@lixom.net>, Linus Walleij <linus.walleij@linaro.org>,
- linux-doc@vger.kernel.org, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Will Deacon <will@kernel.org>,
- Kevin Hilman <khilman@baylibre.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Conor Dooley
- <conor@kernel.org>, =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- linux-arm-kernel@lists.infradead.org
-References: <20240925095635.30452-1-krzysztof.kozlowski@linaro.org>
- <87wmijj0gq.fsf@trenco.lwn.net>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <87wmijj0gq.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 07/10/2024 19:18, Jonathan Corbet wrote:
->>
->> ---
->>
->> During our LPC ad-hoc BoF, we discussed improving Maintainer SoC docs
->> and I think I volunteered to write something.  The trouble is that
->> whatever I won't write in my notes, escapes my memory.
->>
->> I believe this is what we discussed.  Was there anything more to
->> write/document?
->>
->> Changes in v2:
->> 1. Fix missing closing ) (Conor).
->> 2. Style changes (in point 3.).
->> 3. Soften note that soc@kernel is not for discussing ("is usually not").
->> ---
->>  Documentation/process/maintainer-soc.rst | 42 +++++++++++++++++++++---
->>  1 file changed, 37 insertions(+), 5 deletions(-)
-> 
-> Applied, thanks.
+The command given in the changes.rst document to check the version of
+btrfs-progs is:
+-> btrfsck
+which does not output the version, and according to manual page of the
+btrfs-progs the command to check the version of btrfs-progs is:
+-> btrfs --version
 
-Thanks Jon and Arnd. I got now notification that this was also applied
-to soc tree, so it seems it got applied twice.
+Add a fix changing the command to check the version of btrfs-progs.
 
-Best regards,
-Krzysztof
+Signed-off-by: Nihar Chaithanya <niharchaithanya@gmail.com>
+---
+ Documentation/process/changes.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index 00f1ed7c59c3..82b5e378eebf 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -46,7 +46,7 @@ jfsutils               1.1.3            fsck.jfs -V
+ reiserfsprogs          3.6.3            reiserfsck -V
+ xfsprogs               2.6.0            xfs_db -V
+ squashfs-tools         4.0              mksquashfs -version
+-btrfs-progs            0.18             btrfsck
++btrfs-progs            0.18             btrfs --version
+ pcmciautils            004              pccardctl -V
+ quota-tools            3.09             quota -V
+ PPP                    2.4.0            pppd --version
+-- 
+2.34.1
 
