@@ -1,55 +1,55 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2891A184F;
-	Tue, 15 Oct 2024 01:18:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6236C1E907D;
+	Tue, 15 Oct 2024 10:52:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728955120; cv=none; b=psmOU6mTRKvbNbaUjiV5E29Sxo28Cxwz/IcAgWZwep624unWo2umdYaPVLrJiiZN1pCQstgTJqUaqgY2eU+3auchdwKqThxFHiXvgqryzqeNsd1WfsgVgTREWMU+gSN2As9hVI3+8s8c2He/T2jftxtO/ILEJzwhb5rsUoNJ0zM=
+	t=1728989564; cv=none; b=eCzI+UfBFqt4awjhEfTU1j0sIPSbiK+JXy7VGqvXCP+Zcg2fmB42+8lX7yAdsSIqWhq2hYT2Wl6MGV61HLAZxkAOkn+tYk6w7Ks8cav75Ktjtj1Lqe9DylrSDMTrlvBgAqIX2r/cdbAQt+gFZI+TI67sQ6hKjAkfJAGN3KX5JpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728955120; c=relaxed/simple;
-	bh=5/bXP3m0Q4mEvUmx0OmjCLIQItF8jOXbfM/6ldYROco=;
+	s=arc-20240116; t=1728989564; c=relaxed/simple;
+	bh=yP9CszACK6W66/sJ4yrRaQAUlEJn3RPG/6aWepyCiHg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AC6VuvhmLuEXkCGXab+aREjTRs6/Mlk56U3Oox6/h0G7vKjI471Ei+udb57WCkvAi73oR9jaGXQ080bc6MouTuPh4xZhD9ozIi4G6idJBUnaCY4Wrch5NQ8SD+qlpIhD2MmZHnYajujghcWZwNs92Yd/wLZLxXUI2In10It2HXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LS2E9u4n; arc=none smtp.client-ip=209.85.221.46
+	 To:Cc:Content-Type; b=hYfRJBqiZSD3CCncU9sACX19E+zAfCYtWvvvdlLg4MejLtY4WKrChZD25gvaTXBkkIEAf/kvIm9tF6WsX5I8m1JJs86TAI6LKfY0SB9zBB+cc3vfhRU3LUWa8QZ+nNiu7T0luQGMtbozf/v83RmdtMUgoadS1M9+p8q9KhX4MqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HV0MAFmJ; arc=none smtp.client-ip=209.85.208.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LS2E9u4n"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-37d473c4bb6so3753043f8f.3;
-        Mon, 14 Oct 2024 18:18:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HV0MAFmJ"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5c903f5bd0eso7912279a12.3;
+        Tue, 15 Oct 2024 03:52:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728955117; x=1729559917; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1728989561; x=1729594361; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5/bXP3m0Q4mEvUmx0OmjCLIQItF8jOXbfM/6ldYROco=;
-        b=LS2E9u4nx/UxpAfn6tJXxep7QVKrqmT5cJ8+UzlNhFRo/XIaDnP+79014a5p1bvovd
-         ZpiftTK7G18FPMhPbA2gOUxdtC07FjrCdTeMzkq5qihwQnB1NB/cWomxIz3q1UcOuWTb
-         Xp2WCwOVBC6riWmawZK/JEDhvUTh9/dX1XKDUASRnBOspAxfwUiDcMVyle/q0Y9rR513
-         4RAk4suu1aCtIToJ4g9o6IHRvDNYsKEw73Q4Fus5CkMkRMB6aW0YbUq1WxIYhgckmJ/P
-         qA13wEvJ6yO/QQzKmKBVhA/M7tZ4n+7Gw3CPI92ra3gIOh9kqsvJefXoFdYMpmaOZrTF
-         xZtw==
+        bh=miCofaLTCliOiaggNDs4P5r/0poFiwum/y0l9beo+ZU=;
+        b=HV0MAFmJaB59oeGlt5WAZDVBAu/N9kQD9sS0m459QnKiG/v9gczzAW8swrIZdYnUHv
+         CNJaywA95ue46RNzkjhtT4yZpFjfR/P+SMqElq6RpDqV8xKxdX767IQfx8KYrmAFiYq6
+         tSCsnLSfGsGoxmbb4cPAsNIAkXdRj0OF6fuklOH6Zh3a6nLZR8PF8EN+i5Sy8Rr6++U7
+         m8FCNY3T+GsSKl2f6OQiJ7II1MH4gD1UFllV0Yue+DVpGADy9exMAFcC48xZAH0u0b+H
+         hRkl6RnrxxOGarYgixAoUmx1425iA223jpew++PrbNgc2Vpa2YwscZEuyHRftpBaaOjy
+         OPLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728955117; x=1729559917;
+        d=1e100.net; s=20230601; t=1728989561; x=1729594361;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5/bXP3m0Q4mEvUmx0OmjCLIQItF8jOXbfM/6ldYROco=;
-        b=cfpJyjuZTJwLBPWdM60VGkjC2Rdysy2cUI70jDoSbyLl+V5hqxzVqXrC8HSrvps7sz
-         1CJEN/YbvgRpIRRAF23qoed1X4bw47F+s3cfnqIOhX3sIh97TcePUPRvEIYQsOxxliJL
-         EBFeWpEmHQ3gUsfew1Dv8vc7HN9YJQ9dcUkz7gUs1plSkzGRSH09Ff3sWtUZHtIqtXJg
-         kytUAwVqDsM4Hozh5+Iu6746m78E4zj28MQI9qV/hUtwFpATnRIEScMFJyuyVuVhprLO
-         Wat3f2taTYBRGaySVCDZi/6merDcIILfMwvdZCRo67aQQcA4GnksQ+AGO90Jgo/7umL3
-         FaRw==
-X-Forwarded-Encrypted: i=1; AJvYcCVRdhWmuE6Jop+6yU+dUxsl+pp9eboRJ46kWjgN++HFTSIQpnQejdTP8GpqXnF9MSPsM7RcTtP946k=@vger.kernel.org, AJvYcCXBPqBBxIOXPgvTZSucnSwddCWhyHzfGX0zaGA7rm6gUoZ3Ebes7SFv3mdPdG93W0WFUbDT/+qclNrH@vger.kernel.org, AJvYcCXVl4+wE2z2Lzzj9nkH3Gig5mrUkmOPYV1R8YUZpgdKEdqr7KiDiBxQEddp4evyLrCoKEQ4U18U+ZEsjpyX@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+V3dteyANDtso1uK6VfxE5ne9RBlqjoHug52xboUiB9MX5aFs
-	m8f9EZgqmwgjRZGS74M4Do3xnqD9shK9Nin/Z31XexM5Z2GiNbQYnovTrIyDwcCo93GbnmHkhZ6
-	cFHSgFpkN4KCVL6UmIXMJypKIylk=
-X-Google-Smtp-Source: AGHT+IFtf+x855A/MZb6mMCgpyufRS4x7cJapnTn+jP4Vzfg2f1CrWh7r7FOxPwBA+jr7T5wHmBHsDAzKLxh7gY5SMA=
-X-Received: by 2002:a05:6000:459f:b0:37d:4eeb:7366 with SMTP id
- ffacd0b85a97d-37d5ff27c30mr7704415f8f.4.1728955117170; Mon, 14 Oct 2024
- 18:18:37 -0700 (PDT)
+        bh=miCofaLTCliOiaggNDs4P5r/0poFiwum/y0l9beo+ZU=;
+        b=gtC+/LqGbMNvwHNguTqqSCgudez8M+fkOJrfaVpYuQzNxohBdNMYEw7trJggtS3ZI1
+         tWXRdwDJ9vlhUfU0myRaw+7oWIjnpSRUqpu9xlJK91rkOQrGSPdsmsEAJMoB2hI40Xlr
+         RVS+MwKWohx/p/x6F4mlgp+PIjCqtsyEX6p1q1d0odq3Ktiiw4IVbr/bx3iQrZ2sRgq0
+         v7/wFowuv+/THHEfnEAUm5VF0NVsNhzlSOueJgPwS6ofG2hNE1nhztLLc4blZMMBe9BB
+         NS8aH+hvbaPh20DnL1GDFbKbT/yv8CyHou/WmAXRl5FWl5vZW4veLmE/yU3l4/2H2Kyr
+         3dkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUVjQBfzFhJfvmJ96sLtn1BvfJD1EnDYJ1U2rKgtKw1IHFQKJC7jnNgi9PXKBp0XLVCwJR7EBoaGB7hN/U4@vger.kernel.org, AJvYcCUlc6YjuC2VVsm6dJ1ibqOJeY76VRUa2CSzCsvBjqdOdarF5BEi/O/eNLLDKEGRC6qrVOhwVBazdo0=@vger.kernel.org, AJvYcCVbXPQVfzIVmwSRjdh0z3ynwTRpSxoFTib18FBYcG9BT8j7K3CUG6bLwmTiB3jg1PgXSfbOYe/xZ9Cw@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQ4NnCH+V28KyeOMn4wkjfCwy1VKQOtcdkuj7Ta0Hn2dDwIltR
+	xX07s+8BHlKHX4bkWxME05huQTIPU+nON61KD1gpD7+kHnUKMxgzCnB5A+AUnTyUlYn9NBgWkOQ
+	2mwNWm/ILvj6wilv8ORYbD1wtd+I=
+X-Google-Smtp-Source: AGHT+IFk7BXffNv4e/2AjFYfCrgZ4ShdR5CLjDEp47QaCgk8TG/YKWt1pCpDQM8SNHkK1aqMaNGsGE8gyTU8KU9g23E=
+X-Received: by 2002:a05:6402:5188:b0:5c9:59e6:e908 with SMTP id
+ 4fb4d7f45d1cf-5c959e6f56amr9476072a12.6.1728989560452; Tue, 15 Oct 2024
+ 03:52:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -58,41 +58,100 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <CA+fCnZcyrGf5TBdkaG4M+r9ViKDwdCHZg12HUeeoTV3UNZnwBg@mail.gmail.com>
  <20241014025701.3096253-1-snovitoll@gmail.com> <20241014025701.3096253-3-snovitoll@gmail.com>
- <20241014161042.885cf17fca7850b5bbf2f8e5@linux-foundation.org>
-In-Reply-To: <20241014161042.885cf17fca7850b5bbf2f8e5@linux-foundation.org>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Tue, 15 Oct 2024 03:18:26 +0200
-Message-ID: <CA+fCnZcwoL3qWhKsmgCCPDeAW0zpKGn=H7F8w8Fmsg+7-Y8p3g@mail.gmail.com>
+ <20241014161042.885cf17fca7850b5bbf2f8e5@linux-foundation.org> <CA+fCnZcwoL3qWhKsmgCCPDeAW0zpKGn=H7F8w8Fmsg+7-Y8p3g@mail.gmail.com>
+In-Reply-To: <CA+fCnZcwoL3qWhKsmgCCPDeAW0zpKGn=H7F8w8Fmsg+7-Y8p3g@mail.gmail.com>
+From: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
+Date: Tue, 15 Oct 2024 15:53:35 +0500
+Message-ID: <CACzwLxgJaOL9RXkhAZEosmFDzp-D4=gGfhSh3d5scBRBaq76pw@mail.gmail.com>
 Subject: Re: [PATCH RESEND v3 2/3] kasan: migrate copy_user_test to kunit
-To: Andrew Morton <akpm@linux-foundation.org>, Sabyrzhan Tasbolatov <snovitoll@gmail.com>
-Cc: 2023002089@link.tyut.edu.cn, alexs@kernel.org, corbet@lwn.net, 
-	dvyukov@google.com, elver@google.com, glider@google.com, 
-	kasan-dev@googlegroups.com, linux-doc@vger.kernel.org, 
+To: Andrey Konovalov <andreyknvl@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 2023002089@link.tyut.edu.cn, 
+	alexs@kernel.org, corbet@lwn.net, dvyukov@google.com, elver@google.com, 
+	glider@google.com, kasan-dev@googlegroups.com, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-mm@kvack.org, ryabinin.a.a@gmail.com, 
 	siyanteng@loongson.cn, vincenzo.frascino@arm.com, workflows@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 15, 2024 at 1:10=E2=80=AFAM Andrew Morton <akpm@linux-foundatio=
-n.org> wrote:
->
-> On Mon, 14 Oct 2024 07:57:00 +0500 Sabyrzhan Tasbolatov <snovitoll@gmail.=
+On Tue, Oct 15, 2024 at 6:18=E2=80=AFAM Andrey Konovalov <andreyknvl@gmail.=
 com> wrote:
 >
-> > Migrate the copy_user_test to the KUnit framework to verify out-of-boun=
-d
-> > detection via KASAN reports in copy_from_user(), copy_to_user() and
-> > their static functions.
+> On Tue, Oct 15, 2024 at 1:10=E2=80=AFAM Andrew Morton <akpm@linux-foundat=
+ion.org> wrote:
 > >
-> > This is the last migrated test in kasan_test_module.c, therefore delete
-> > the file.
+> > On Mon, 14 Oct 2024 07:57:00 +0500 Sabyrzhan Tasbolatov <snovitoll@gmai=
+l.com> wrote:
 > >
->
-> x86_64 allmodconfig produces:
->
-> vmlinux.o: warning: objtool: strncpy_from_user+0x8a: call to __check_obje=
-ct_size() with UACCESS enabled
+> > > Migrate the copy_user_test to the KUnit framework to verify out-of-bo=
+und
+> > > detection via KASAN reports in copy_from_user(), copy_to_user() and
+> > > their static functions.
+> > >
+> > > This is the last migrated test in kasan_test_module.c, therefore dele=
+te
+> > > the file.
+> > >
+> >
+> > x86_64 allmodconfig produces:
+> >
+> > vmlinux.o: warning: objtool: strncpy_from_user+0x8a: call to __check_ob=
+ject_size() with UACCESS enabled
 
-Too bad. I guess we have to duplicate both kasan_check_write and
-check_object_size before both do_strncpy_from_user calls in
-strncpy_from_user.
+I've missed this warning during x86_64 build, sorry.
+
+>
+> Too bad. I guess we have to duplicate both kasan_check_write and
+> check_object_size before both do_strncpy_from_user calls in
+> strncpy_from_user.
+
+Shall we do it once in strncpy_from_user() as I did in v1?
+Please let me know as I've tested in x86_64 and arm64 -
+there is no warning during kernel build with the diff below.
+
+These checks are for kernel pointer *dst only and size:
+   kasan_check_write(dst, count);
+   check_object_size(dst, count, false);
+
+And there are 2 calls of do_strncpy_from_user,
+which are implemented in x86 atm per commit 2865baf54077,
+and they are relevant to __user *src address, AFAIU.
+
+long strncpy_from_user()
+   if (can_do_masked_user_access()) {
+      src =3D masked_user_access_begin(src);
+      retval =3D do_strncpy_from_user(dst, src, count, count);
+      user_read_access_end();
+   }
+
+   if (likely(src_addr < max_addr)) {
+      if (user_read_access_begin(src, max)) {
+         retval =3D do_strncpy_from_user(dst, src, count, max);
+         user_read_access_end();
+
+---
+diff --git a/lib/strncpy_from_user.c b/lib/strncpy_from_user.c
+index 989a12a6787..6dc234913dd 100644
+--- a/lib/strncpy_from_user.c
++++ b/lib/strncpy_from_user.c
+@@ -120,6 +120,9 @@ long strncpy_from_user(char *dst, const char
+__user *src, long count)
+        if (unlikely(count <=3D 0))
+                return 0;
+
++       kasan_check_write(dst, count);
++       check_object_size(dst, count, false);
++
+        if (can_do_masked_user_access()) {
+                long retval;
+
+@@ -142,8 +145,6 @@ long strncpy_from_user(char *dst, const char
+__user *src, long count)
+                if (max > count)
+                        max =3D count;
+
+-               kasan_check_write(dst, count);
+-               check_object_size(dst, count, false);
+                if (user_read_access_begin(src, max)) {
+                        retval =3D do_strncpy_from_user(dst, src, count, ma=
+x);
+                        user_read_access_end();
