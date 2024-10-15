@@ -1,86 +1,111 @@
-Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 656FF1B2197;
-	Tue, 15 Oct 2024 14:02:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.79.184
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54BD91AF0DF;
+	Tue, 15 Oct 2024 14:11:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729000958; cv=none; b=byxAqbLJx1izBMGofwCfV8uRxrNOCWiyITekxsl/mruikchS47F4YtyGWqLYSUeLYu6wmDORzYmQ69/qzNaLS16Hcg3YGYdrm7iHahSWB2gqij//pkl7eCFZdDpUutWRwKeyXf43OHyszGUM/6Kww4VCnhPlkJ5cxhOple01UyQ=
+	t=1729001464; cv=none; b=MGOS84mVSe5E3fkgpBg/VZyYBj6XP5Y4k014ERtycX14c/ttnBYo1ggadtJrCaSgR/7EpqZp/f9dAGZZrxOIZAitwCHlemYL50ew43GAGaluyQejYX8Fvi1VTFCwyPDga+WdjjY5USnD1G4eYRd56nlTD+S6ivWoj1zYUjv83lA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729000958; c=relaxed/simple;
-	bh=WCIixjPVUsi5A6a0hBxdzf3+ZO1NSQkbn7E+fmOCPTQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=q9b9Pc83QfVHZa0ralIe859OddZ2PwIPK11yUboFCBh5JkY6UBcYCFTVljgAYIj1ui4hwhyHBaWcWiJUEUIXEKWgfQgvII9wdKIOLXE/lT5DObB5Ijdu0lWXuEa5sUH8UII2PuLM0m2M9QfJbXChNzcayw/GXCGvRFDngqZMoNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=206.189.79.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app2 (Coremail) with SMTP id HwEQrAAHsBTzdQ5nAAkRAQ--.36771S2;
-	Tue, 15 Oct 2024 22:02:27 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.12.177.116])
-	by gateway (Coremail) with SMTP id _____wAXIULydQ5nxbFIAA--.32737S2;
-	Tue, 15 Oct 2024 22:02:27 +0800 (CST)
-From: Haoyang Liu <tttturtleruss@hust.edu.cn>
-To: Alexander Potapenko <glider@google.com>,
-	Marco Elver <elver@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: hust-os-kernel-patches@googlegroups.com,
-	Haoyang Liu <tttturtleruss@hust.edu.cn>,
-	kasan-dev@googlegroups.com,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/dev-tools: fix a typo
-Date: Tue, 15 Oct 2024 22:01:59 +0800
-Message-Id: <20241015140159.8082-1-tttturtleruss@hust.edu.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1729001464; c=relaxed/simple;
+	bh=hFYqIA0hGGtzf239HaOGXHnxOyrXYhfyUMPpWEoSETk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lwX0wYls6um6sadOmC+4ISxCWM56Gij8eQgcuNIuaR5iffPjDeXw+UVBb0fn5v8kPUxzvprHNtO7sQoXe7SaNDBQ2b8AzmywFeBGS1Qt6kj58CLreImwaHHAp0zrgWgw4zdt9uiVV4iiQfk/hEfX5+k3hEQuaFppgOc+G+M6DQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BJSfsARD; arc=none smtp.client-ip=209.85.161.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BJSfsARD"
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-5d5eec95a74so2477832eaf.1;
+        Tue, 15 Oct 2024 07:11:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729001462; x=1729606262; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yU7SIHnP46WmT+FWC/zVEM9bHxNRFsvDbjjWknoaYZI=;
+        b=BJSfsARDf4pDkrs60VHBJnLZNt+fGQ7fQBhAKMMy4//21rlU9hSGDhnkus2mXgbY5C
+         wqnH8UKp8La+Y4EwCIGuXOEV+3vzntRnOHzs8zczsvoTZL7+HObE0lAoFOtygVJdSCrY
+         USYwPEODbsv7J2giL/L+8u+07g1rFGHsBXdIAtiNobBLSzaDeM2k1vwgiNuHINgwcQWl
+         ZzxFyskoHPVqWNZFbT9xPLNt3BKeaLbZczIdJc83PjINUY3Kx428wn5imi/fbrkbrPdz
+         HCUdLgcZ4Qu/9E1G3APD8ss7Vv+TFO0WLfdG85u0SzO4CuzpjuZ1+xvYHTg2Ku5cwfT1
+         KQ5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729001462; x=1729606262;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yU7SIHnP46WmT+FWC/zVEM9bHxNRFsvDbjjWknoaYZI=;
+        b=TcoVYOcF8Ln7FCfNyHVUPgzoHeIj6FA/rvfgYD7OCD0v83YQfJ2IBUhWoA+n2BeF+U
+         a6MxMxC/2JZ/Ba8EHPNWMSDtzj30uBnuPxXFSEipCQ7FiUKF1o8VFVn25W9nKT9ClSEh
+         KkNc8LsLb9jgL08EAECASNbu77KwCmbH4E0gLl9Grf2UAOpdrSUeJLVZt4HJ7rdC4Qtm
+         wa8ult5SXtYs6OtnNl8zSNH7nZgTtmtUZAH1Hj3vWG2E+gnxqDll+erxpUSSn71zoF2e
+         T1yM1c3r10v0q3eatHuqB4G+VlGcoPAGXnTlQ1LUVgJ8MTx8N5ukk6SPNnGuR2fQ2eF0
+         F5Mw==
+X-Forwarded-Encrypted: i=1; AJvYcCVyiVElNsUtqvSkQGa21Kxul9t0TeqlnvB2UBNEoGC8fdtAwzUOP3SuyvLW5SHoo9h+v305MEL1L1gH@vger.kernel.org, AJvYcCWtlzD7/QvBULv1CRPRTr44BquhMLRz+I91AqbD7WjW526fDfT7I5BJZR9kYfwardnCIdy45LjskDofxWpE@vger.kernel.org, AJvYcCXgy4jkNMn4Ivw81yIcxGh8TzXyxecDbcrKRojhss/8SApi7YByIxWH+c/zj+bJvy3TclTCO5ZHp58=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyz5HENpd4JB4glndvqARRTA5TaEqTgXINHbMMVdWgwlW8DPgeN
+	xvvvxNyNOpkbFzxLxRQLPhaPui+PLaZyDKDLdH6g75cD9LFqUv344vxIa/gW+DKY/zkiy9V5+E0
+	A/HPREj3caKjHbtvBH2UHnUwodMo=
+X-Google-Smtp-Source: AGHT+IG+aX9tgn9yna2FiY5Sm8AUzbZwsX8KxALnzkDdrtouHEhubIt7dztuPzDYw19in5mE73KB9z9keGZs1cEZkJ8=
+X-Received: by 2002:a05:6870:ac87:b0:288:666b:9c5e with SMTP id
+ 586e51a60fabf-2886dd70e90mr10741729fac.17.1729001462320; Tue, 15 Oct 2024
+ 07:11:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HwEQrAAHsBTzdQ5nAAkRAQ--.36771S2
-Authentication-Results: app2; spf=neutral smtp.mail=tttturtleruss@hust
-	.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvdXoW7Gry3WFWrWFyDGFy7Xr4Dtwb_yoWfKFbEyF
-	WIqa1DAr98AF90qr40yrs7Xr1Svw4rWF1rCayfArW5G3sFywsxJF9Fvws0qr4Uuw47uFnr
-	Crs3Zr9xtw13KjkaLaAFLSUrUUUU8b8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbkAYjsxI4VWxJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
-	s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
-	8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM28EF7xvwVC2
-	z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2kKe7AKxVWUXV
-	WUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40E
-	FcxC0VAKzVAqx4xG6I80ewAv7VACjcxG62k0Y48FwI0_Cr0_Gr1UMcIj6x8ErcxFaVAv8V
-	W8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1UMcvjeVCFs4IE7xkEbVWUJVW8JwAC
-	jcxG0xvY0x0EwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxGrwCF04k20x
-	vE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_
-	Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1V
-	AY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAI
-	cVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42
-	IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIev
-	Ja73UjIFyTuYvjxUFa9aDUUUU
-X-CM-SenderInfo: rxsqjiqrssiko6kx23oohg3hdfq/1tbiAQgLAmcN5cAjpwAFsO
+References: <20241015140159.8082-1-tttturtleruss@hust.edu.cn>
+In-Reply-To: <20241015140159.8082-1-tttturtleruss@hust.edu.cn>
+From: Dongliang Mu <mudongliangabcd@gmail.com>
+Date: Tue, 15 Oct 2024 22:10:35 +0800
+Message-ID: <CAD-N9QWdqPaZSh=Xi_CWcKyNmxCS0WOteAtRvwHLZf16fab3eQ@mail.gmail.com>
+Subject: Re: [PATCH] docs/dev-tools: fix a typo
+To: Haoyang Liu <tttturtleruss@hust.edu.cn>
+Cc: Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	hust-os-kernel-patches@googlegroups.com, kasan-dev@googlegroups.com, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-fix a typo in dev-tools/kmsan.rst
+On Tue, Oct 15, 2024 at 10:09=E2=80=AFPM Haoyang Liu <tttturtleruss@hust.ed=
+u.cn> wrote:
+>
+> fix a typo in dev-tools/kmsan.rst
+>
+> Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
+> ---
+>  Documentation/dev-tools/kmsan.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/dev-tools/kmsan.rst b/Documentation/dev-tools/=
+kmsan.rst
+> index 6a48d96c5c85..0dc668b183f6 100644
+> --- a/Documentation/dev-tools/kmsan.rst
+> +++ b/Documentation/dev-tools/kmsan.rst
+> @@ -133,7 +133,7 @@ KMSAN shadow memory
+>  -------------------
+>
+>  KMSAN associates a metadata byte (also called shadow byte) with every by=
+te of
+> -kernel memory. A bit in the shadow byte is set iff the corresponding bit=
+ of the
+> +kernel memory. A bit in the shadow byte is set if the corresponding bit =
+of the
 
-Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
----
- Documentation/dev-tools/kmsan.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This is not a typo. iff is if and only if
 
-diff --git a/Documentation/dev-tools/kmsan.rst b/Documentation/dev-tools/kmsan.rst
-index 6a48d96c5c85..0dc668b183f6 100644
---- a/Documentation/dev-tools/kmsan.rst
-+++ b/Documentation/dev-tools/kmsan.rst
-@@ -133,7 +133,7 @@ KMSAN shadow memory
- -------------------
- 
- KMSAN associates a metadata byte (also called shadow byte) with every byte of
--kernel memory. A bit in the shadow byte is set iff the corresponding bit of the
-+kernel memory. A bit in the shadow byte is set if the corresponding bit of the
- kernel memory byte is uninitialized. Marking the memory uninitialized (i.e.
- setting its shadow bytes to ``0xff``) is called poisoning, marking it
- initialized (setting the shadow bytes to ``0x00``) is called unpoisoning.
--- 
-2.25.1
+Dongliang Mu
 
+>  kernel memory byte is uninitialized. Marking the memory uninitialized (i=
+.e.
+>  setting its shadow bytes to ``0xff``) is called poisoning, marking it
+>  initialized (setting the shadow bytes to ``0x00``) is called unpoisoning=
+.
+> --
+> 2.25.1
+>
+>
