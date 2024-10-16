@@ -1,60 +1,61 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE0516C687
-	for <workflows@vger.kernel.org>; Wed, 16 Oct 2024 18:00:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3031416DEAC
+	for <workflows@vger.kernel.org>; Wed, 16 Oct 2024 18:02:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729101629; cv=none; b=sAlG2+uY+Uo4tPzoItqevM1+lupgSwym7q4e18R6+pEYOmGKZ4WKmF0HmiPCY7Q9gglGnQXy47eaTDNROu+hTejN66TFgkM2E5p8OkbcHEIZGePqcAJSQ+cNhG8l+v9KbIsAtuCgws2a4L9ETUbaIye+fY29PQbYucFdLhDkJS4=
+	t=1729101751; cv=none; b=oPTvr5nDF8SxmIY+3fCy7+JoYACJSqZWHcHrONBpgpES0J4PM6uJw9CVs6YiJLCvaLwMKBF3lqpxi/8X5BczQwPPTLoWZq2fwCq+fqrx4fWQXjNzC/kt7EfLhj00zoA/0OsUhbCum9NUimExQXlZPOJulTnDXQSc3AF2MNDOeSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729101629; c=relaxed/simple;
-	bh=r+DmvFoNHV+CnJHYXI7gzPRgz+47XKtZj3xP2+kaweE=;
+	s=arc-20240116; t=1729101751; c=relaxed/simple;
+	bh=pi9H4WMd9SM5eDGDfTbd2w4J6yN+KVgePTHA6Uemi7U=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ui5jMjuApabEkH2QlQb06D8g/V61yQHHDsm/w9+bWL4JCIyC2239JfGJZIXhj24fegoHVjlMIMZUBQXJPWc/6qeGGfVVAfJ3VSemudiU5PH1zH1MDD22eTr9iGHAtjZYb1Y0yxKjo5iCMhbE+Fj3e1VHLOF7TiGp3ve/2lc3r14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cC1a+lZ0; arc=none smtp.client-ip=170.10.129.124
+	 To:Cc:Content-Type; b=bjNX29x/6n/7tfUyZEhT1FpIKje96tFOYZ+o6U4ND/AqbDTyQDUZNwW+qZ9KfjRpdyFzwsyYIAB2BkRyxOQW5Uky0eVt0+oBURY1uiymG8wE+ML7qrKQPVqyjR92cpG8yMJSF11Wj07gEP4HlnWuQKL8xZWlEy3BnocAXK4mTm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=W2V2yK56; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cC1a+lZ0"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="W2V2yK56"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1729101627;
+	s=mimecast20190719; t=1729101747;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qvuMUB+YxlmDY/Zh8jIKyjbgFDGsxUZWuqMUa3pIvIg=;
-	b=cC1a+lZ0IBKxBx1hKPUV8zhgtjK7A3yA4Wq09UBGwmAkY95eP5/iGM3Cc6xV1XbGfG4DCj
-	oZRt1bEkDDkYhFYdFjAG9CgoDgTVLqsVZfdNvexDZLXmnYInYVFU+iYVPYnS6mJ1ff/DwR
-	UlUMY2byxg07nimQPk/gKRgJ+9bMJE0=
-Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
- [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=pm8JXLoAKsq/UPs87DRA42ZRFshFvHDgnF3dqmUbVPs=;
+	b=W2V2yK56EAji18W2SKo0fzOZ1wj4ZK6p3Umi79n/PmcZzR/9CWRiieCewCzIfN7glXwa5v
+	AFuqozYGV4+723T2x6iAYYD8rBr9h3ddTPJ51iRLer1xA1cn7+Q4xqs98v4fvPvC0v7Gn5
+	taQgkCwYGj/ny0n/rE6E01wbhJ2lkKU=
+Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com
+ [209.85.160.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-317-BolaCDiOPkW5Nl_qoVaJcQ-1; Wed, 16 Oct 2024 14:00:25 -0400
-X-MC-Unique: BolaCDiOPkW5Nl_qoVaJcQ-1
-Received: by mail-yw1-f200.google.com with SMTP id 00721157ae682-6e3d660a1afso3772847b3.0
-        for <workflows@vger.kernel.org>; Wed, 16 Oct 2024 11:00:25 -0700 (PDT)
+ us-mta-50-ey_61g-yOyqiQBORbtJcww-1; Wed, 16 Oct 2024 14:02:25 -0400
+X-MC-Unique: ey_61g-yOyqiQBORbtJcww-1
+Received: by mail-oa1-f71.google.com with SMTP id 586e51a60fabf-288485b2358so56942fac.3
+        for <workflows@vger.kernel.org>; Wed, 16 Oct 2024 11:02:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729101625; x=1729706425;
+        d=1e100.net; s=20230601; t=1729101745; x=1729706545;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qvuMUB+YxlmDY/Zh8jIKyjbgFDGsxUZWuqMUa3pIvIg=;
-        b=fhO+2ipZKht5wEhMyxUaFGObJt5elZXHBX7+9TnD2x5ZFj0em6u0BcbdZezof2yssM
-         z3etuYpPHgayQdbtRucyd6SNwVNg9nBYYdmdxp7H48MRTrisYOhdT3+P19dUBEGWXJkx
-         uLQJPsmsIAHoIn4aEgsgr3CArpNfkr7LlU8Koanugvi2gza95C/EXPJHZ81zDU6JveSb
-         XCQD/DroHcP5bnhgT2J1udVN9/ulptrkvIVa8G2xQbcDaLk0rujftcxmT0L7CgwIFYlI
-         G9J5S1oJ8OCrAlP3mtQYohLfPf2p0Dyb9jTzhi5T6IQo2Ar5yVXwLsFT4gy+1eiCkdbP
-         syLQ==
-X-Gm-Message-State: AOJu0YyWHq7t4eAalOChf5ccdoA6aEvwAkEbxpdwE040tNl3ZSeOD22k
-	66aSrJQ7Wqi0OedOEYXqT5RfPxv8x+NuU53XZlJY6+4HO1XiAwv11DvsenOYBMM72I92Gmz3xxq
-	SPwGEoVfwMRz25/eSaGWn7Jys3T/blRFJESZoH6u0J9U3TASKK3BSCMIMAY2PkWdA5Nvi/xirxh
-	/hHcSJGdfd0KlTGIa4bzq4yFi4cplaZL0e
-X-Received: by 2002:a05:6902:c0f:b0:e29:27d:5ef3 with SMTP id 3f1490d57ef6-e2931dff424mr14365266276.49.1729101625247;
-        Wed, 16 Oct 2024 11:00:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEhz8e+7URFfxiW/PklUAF5rnrkDwYncm2dP2uHkzA3LG2V9PbPovLITgY/L/70RBjZGAhZeCG/lR9PRW6v/GQ=
-X-Received: by 2002:a05:6902:c0f:b0:e29:27d:5ef3 with SMTP id
- 3f1490d57ef6-e2931dff424mr14365229276.49.1729101624915; Wed, 16 Oct 2024
- 11:00:24 -0700 (PDT)
+        bh=pm8JXLoAKsq/UPs87DRA42ZRFshFvHDgnF3dqmUbVPs=;
+        b=n9GNE3qkSQL+N0zr1XjstRbk/Xr6oucnPOHBK/8CP4QDYdDQEy1qqTHAMT+Nl+JE+S
+         mC+UcySMrt8q86oNC/LcA2l0YWZ/ZFjH2EDUaRO7y6/dbEamcpkzglJ6LpuOtWzYsVaB
+         b0xBN0trZwguq+uF1X11890d01crJi58EFCBUVJDZfwNwXyGhO7zxD4yPGNU3SeGLKcQ
+         9beImtoVcKbP3wouRo9VT0xKUIMwug7NycUS0oQSKwXivDJKjNjbJhqdZkJ414L2jtuU
+         7Qtiowa1T9lOD7MAkj8xjwjtUKlIE52YPSFK0gJlnSFpLCeJKhTM69HvjJZDW57PktjV
+         x/bA==
+X-Forwarded-Encrypted: i=1; AJvYcCVGasKW6Y1aza0cq536+j8gh0qotvAQcTh+ayzUJoy1bdXCYw2GV2ZO4KhNag6juVV12Fbj80yucjI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwBlkm0sZHwXq0wxvIBsCBzVaQXI+tsH4TJ3porSmbSAOCp5uwP
+	GV2SNclbejunIk3GweKEceJ6X1QWzxi2fFTrlKoBnX1qdMsjaP2qYaNIfWSW7lWcEZ0Jsj6TI8K
+	cIVyHCf6CvlNN39G82xNBlYIn798BEVZt6B2qKqlE9dd7yV78hjbfPubHvd3GZq0nq5v3vivSVt
+	s7gzkFJ2iwe/CzgfqBYYVSaV0IPS1GiVOymoiHL5p0
+X-Received: by 2002:a05:6870:c1d4:b0:277:db7f:cfb2 with SMTP id 586e51a60fabf-2886dd7375cmr15544360fac.14.1729101744973;
+        Wed, 16 Oct 2024 11:02:24 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFDNQLSYZavey/MCZZTTF4pekCcu5Qvgrv7LS/txIy8CC0Uej3nbZiDkCn/5iIUKyyCta1WoXvJIzg7cctLQX8=
+X-Received: by 2002:a05:6870:c1d4:b0:277:db7f:cfb2 with SMTP id
+ 586e51a60fabf-2886dd7375cmr15544335fac.14.1729101744699; Wed, 16 Oct 2024
+ 11:02:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -63,13 +64,15 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <CAK18DXYitS7hL1mA3QsPLmW9-R0q6Kin0C5Uv9fj=uS90WSnxA@mail.gmail.com>
  <MW5PR13MB5632C443F9D7E658168BC77DFD452@MW5PR13MB5632.namprd13.prod.outlook.com>
-In-Reply-To: <MW5PR13MB5632C443F9D7E658168BC77DFD452@MW5PR13MB5632.namprd13.prod.outlook.com>
+ <Zw-7Tydnaaj3XAQo@yuki.lan>
+In-Reply-To: <Zw-7Tydnaaj3XAQo@yuki.lan>
 From: Donald Zickus <dzickus@redhat.com>
-Date: Wed, 16 Oct 2024 14:00:14 -0400
-Message-ID: <CAK18DXZ64XwjgeMEJSBPE+Sunq-fK3TupcOw=5ynpzdTL5H6vg@mail.gmail.com>
+Date: Wed, 16 Oct 2024 14:02:13 -0400
+Message-ID: <CAK18DXYDxfd3cqUdUjLvzMMxvkCma-H6qWbgmAgqyRTNb00TWA@mail.gmail.com>
 Subject: Re: [Automated-testing] [RFC] Test catalog template
-To: "Bird, Tim" <Tim.Bird@sony.com>
-Cc: "workflows@vger.kernel.org" <workflows@vger.kernel.org>, 
+To: Cyril Hrubis <chrubis@suse.cz>
+Cc: Tim Bird <tim.bird@sony.com>, 
+	"workflows@vger.kernel.org" <workflows@vger.kernel.org>, 
 	"automated-testing@lists.yoctoproject.org" <automated-testing@lists.yoctoproject.org>, 
 	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, kernelci <kernelci@lists.linux.dev>, 
 	Nikolai Kondrashov <nkondras@redhat.com>, Gustavo Padovan <gustavo.padovan@collabora.com>, 
@@ -78,149 +81,40 @@ Cc: "workflows@vger.kernel.org" <workflows@vger.kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Tim,
+Hi Cyril,
 
-On Tue, Oct 15, 2024 at 12:01=E2=80=AFPM Bird, Tim <Tim.Bird@sony.com> wrot=
+On Wed, Oct 16, 2024 at 9:11=E2=80=AFAM Cyril Hrubis <chrubis@suse.cz> wrot=
 e:
 >
-> > -----Original Message-----
-> > From: automated-testing@lists.yoctoproject.org <automated-testing@lists=
-.yoctoproject.org> On Behalf Of Don Zickus
-> > Hi,
-> >
-> > At Linux Plumbers, a few dozen of us gathered together to discuss how
-> > to expose what tests subsystem maintainers would like to run for every
-> > patch submitted or when CI runs tests.  We agreed on a mock up of a
-> > yaml template to start gathering info.  The yaml file could be
-> > temporarily stored on kernelci.org until a more permanent home could
-> > be found.  Attached is a template to start the conversation.
-> >
-> Don,
+> Hi!
+> > Just saying "LTP" is not granular enough.  LTP has hundreds of individu=
+al
+> > test programs, and it would be useful to specify the individual tests
+> > from LTP that should be run per sub-system.
 >
-> I'm interested in this initiative.  Is discussion going to be on a kernel=
- mailing
-> list, or on this e-mail, or somewhere else?
-
-I was going to keep it on this mailing list.  Open to adding other
-lists or moving it.
-
+> A few thousand tests to be more precise, and also the content tend to
+> change between releases, be it test additions or removal and I do not
+> think this level of changes is somehing that makes sense to be tracked
+> in such database.
 >
-> See a few comments below.
+> It may be better to have more generic description of LTP subsets, there
+> are a few obvious e.g. "SysV IPC" or "Timers", and have the LTP
+> testrunner map that to actual testcases. The hard task here is to figure
+> out which groups would be useful and keep the set reasonably small.
 >
-> > Longer story.
-> >
-> > The current problem is CI systems are not unanimous about what tests
-> > they run on submitted patches or git branches.  This makes it
-> > difficult to figure out why a test failed or how to reproduce.
-> > Further, it isn't always clear what tests a normal contributor should
-> > run before posting patches.
-> >
-> > It has been long communicated that the tests LTP, xfstest and/or
-> > kselftests should be the tests  to run.
-> Just saying "LTP" is not granular enough.  LTP has hundreds of individual
-> test programs, and it would be useful to specify the individual tests
-> from LTP that should be run per sub-system.
+> I can move this forward in LTP reasonably quickly we get small list of
+> useful groups from kernel develpers.
 
-Agreed.  Just reiterating what Greg has told me.
-
->
-> I was particularly intrigued by the presentation at Plumbers about
-> test coverage.  It would be nice to have data (or easily replicable
-> methods) for determining the code coverage of a test or set of
-> tests, to indicate what parts of the kernel are being missed
-> and help drive new test development.
-
-It would be nice.  I see that as orthogonal to this effort for now.
-But I think this might be a good step towards that idea.
-
->
-> > However, not all maintainers
-> > use those tests for their subsystems.  I am hoping to either capture
-> > those tests or find ways to convince them to add their tests to the
-> > preferred locations.
-> >
-> > The goal is for a given subsystem (defined in MAINTAINERS), define a
-> > set of tests that should be run for any contributions to that
-> > subsystem.  The hope is the collective CI results can be triaged
-> > collectively (because they are related) and even have the numerous
-> > flakes waived collectively  (same reason) improving the ability to
-> > find and debug new test failures.  Because the tests and process are
-> > known, having a human help debug any failures becomes easier.
-> >
-> > The plan is to put together a minimal yaml template that gets us going
-> > (even if it is not optimized yet) and aim for about a dozen or so
-> > subsystems.  At that point we should have enough feedback to promote
-> > this more seriously and talk optimizations.
->
-> Sounds like a good place to start.  Do we have some candidate sub-systems
-> in mind?  Has anyone volunteered to lead the way?
-
-At our meeting, someone suggested Kunit as it was easy to understand
-for starters and then add a few other volunteer systems in.  I know we
-have a few maintainers who can probably help us get started.  I think
-arm and media were ones thrown about at our meeting.
-
->
-> >
-> > Feedback encouraged.
-> >
-> > Cheers,
-> > Don
-> >
-> > ---
-> > # List of tests by subsystem
-> > #
-> > # Tests should adhere to KTAP definitions for results
-> > #
-> > # Description of section entries
-> > #
-> > #  maintainer:    test maintainer - name <email>
-> > #  list:                mailing list for discussion
-> > #  version:         stable version of the test
-> > #  dependency: necessary distro package for testing
-> > #  test:
-> > #    path:            internal git path or url to fetch from
-> > #    cmd:            command to run; ability to run locally
-> > #    param:         additional param necessary to run test
-> > #  hardware:      hardware necessary for validation
->
-> Is this something new in MAINTAINERS, or is it a separate file?
-
-For now a separate file.  It isn't clear where this could go long
-term.  The thought was to gather data to see what is necessary first.
-Long term it will probably stay a separate file. *shrugs*
-
->
-> > #
-> > # Subsystems (alphabetical)
-> >
-> > KUNIT TEST:
-> >   maintainer:
-> >     - name: name1
-> >       email: email1
-> >     - name: name2
-> >       email: email2
-> >   list:
-> >   version:
-> >   dependency:
-> >     - dep1
-> >     - dep2
-> >   test:
-> >     - path: tools/testing/kunit
-> >       cmd:
-> >       param:
-> >     - path:
-> >       cmd:
-> >       param:
-> >   hardware: none
->
-> Looks OK so far - it'd be nice to have a few concrete examples.
-
-Fair enough.  Let me try and work on some.
+Thanks!  The thought was if we wanted to encourage contributors to run
+these tests before submitting, does running the whole LTP testsuite
+make sense or like you said a targeted set would be much better?
 
 Cheers,
 Don
 
->  -- Tim
+>
+> --
+> Cyril Hrubis
+> chrubis@suse.cz
 >
 
