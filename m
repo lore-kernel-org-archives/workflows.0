@@ -1,151 +1,146 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A589912E75;
-	Wed, 16 Oct 2024 13:11:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729901E531;
+	Wed, 16 Oct 2024 13:17:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729084304; cv=none; b=RbwXuEK6U3ihtW8wse9T6bxKbj7YGRJXvHE+fvZBOEtl6MlsM4ySKdxMm3/tZW4vG2a/eKAjJLkfta2JVDJW6cH0HovXpGM9Z4uZkGjfTHpCxWHJgXLeu9cxUaSebicbbTBWJ6DwuqaMjGHUx+YkBhKZADiFF8zWt3o2LkmFQ0U=
+	t=1729084637; cv=none; b=TnE9g6n4tQ3zY3i1Oi/T1e4cmlY2+Ps+zo5uVcB/R06ydOGPBFpiBPkJm/wSEVxAYvENEDZHr29D5fSmLwtC1koqhAq3AlW5dfuREhMBPHZB7CuL3CfV7avfffEeN6GXTHF43q6uybaPJnarCMTPdhGd/y5tSXo3VVgplG7MSWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729084304; c=relaxed/simple;
-	bh=JwgwUuW9UqgmJsnCCUolNRBTWYiD175LKq9EREDLbQo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AKM3J+sH6o/Dy7P+tp5+a00hDgtQFp4dQ3kuOcKahSyejGJXdkFjvUIV6ghIXi1pqmlyOHPHAqI7mmZRKH8sBS1mmQ1t0jYS/TQmHfxc+1lIyMaucSXv7BW3Emg9s1Cl6zrTLRLO+A8sTwgrFMXZ0KHZCbF8vbYCPishrFdFQrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=KWZnJlc4; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=GlEzHQCF; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=KWZnJlc4; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=GlEzHQCF; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1729084637; c=relaxed/simple;
+	bh=MiFNYGa03TMX/greiqrSbpJSzn/s/pXxkhHTNHM2m8M=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=WHQ+vruy0evJt6WlX978l1059JdVeiF163UmYHqpT4WAUdvrOS86owwljMQdriopb2n2bSw/GUTOdMgBeP+VWokzW+QiwkeGq8a4aj+vQzmSH46FBRLUtMIgjFgEXiym6P9FiPnlux3IWd1YhcCVSogvUyuYCqv1JrfkRnnRAso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gu9qdpfE; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="KWZnJlc4";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="GlEzHQCF";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="KWZnJlc4";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="GlEzHQCF"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C3AD71FC30;
-	Wed, 16 Oct 2024 13:11:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1729084300; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=n32mPKBUY3kuUCODYzOed7T+MxJXcOwK00CoK5L3D7A=;
-	b=KWZnJlc4QiuubChmjsI5ww787rFppvfdrspXkd41c6i9EwUbCmRx1iB0TbGnOmeoj9TDnz
-	/eQ5lnINl/O2AllHrKCGHVdNVpo7zRPcwCvohztqb8xnc33b7rNRS+QlJRk5aBSZRbJvIX
-	MiEdYbXyHdREWvQfiUsLLTw9SFkgQS4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1729084300;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=n32mPKBUY3kuUCODYzOed7T+MxJXcOwK00CoK5L3D7A=;
-	b=GlEzHQCFRaop9SluV4HwZsp1cb5d9jo9yAFpEIgVNiXBqrLSuAUVV6PS5oxj2Nn+z7wqje
-	RvHjefghKKYG7vAQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=KWZnJlc4;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=GlEzHQCF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1729084300; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=n32mPKBUY3kuUCODYzOed7T+MxJXcOwK00CoK5L3D7A=;
-	b=KWZnJlc4QiuubChmjsI5ww787rFppvfdrspXkd41c6i9EwUbCmRx1iB0TbGnOmeoj9TDnz
-	/eQ5lnINl/O2AllHrKCGHVdNVpo7zRPcwCvohztqb8xnc33b7rNRS+QlJRk5aBSZRbJvIX
-	MiEdYbXyHdREWvQfiUsLLTw9SFkgQS4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1729084300;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=n32mPKBUY3kuUCODYzOed7T+MxJXcOwK00CoK5L3D7A=;
-	b=GlEzHQCFRaop9SluV4HwZsp1cb5d9jo9yAFpEIgVNiXBqrLSuAUVV6PS5oxj2Nn+z7wqje
-	RvHjefghKKYG7vAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AF0271376C;
-	Wed, 16 Oct 2024 13:11:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2PWCKYy7D2eCBAAAD6G6ig
-	(envelope-from <chrubis@suse.cz>); Wed, 16 Oct 2024 13:11:40 +0000
-Date: Wed, 16 Oct 2024 15:10:39 +0200
-From: Cyril Hrubis <chrubis@suse.cz>
-To: Tim Bird <tim.bird@sony.com>
-Cc: Don Zickus <dzickus@redhat.com>,
-	"workflows@vger.kernel.org" <workflows@vger.kernel.org>,
-	"automated-testing@lists.yoctoproject.org" <automated-testing@lists.yoctoproject.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	kernelci <kernelci@lists.linux.dev>,
-	Nikolai Kondrashov <nkondras@redhat.com>,
-	Gustavo Padovan <gustavo.padovan@collabora.com>,
-	kernelci-members <kernelci-members@groups.io>,
-	"laura.nao@collabora.com" <laura.nao@collabora.com>
-Subject: Re: [Automated-testing] [RFC] Test catalog template
-Message-ID: <Zw-7Tydnaaj3XAQo@yuki.lan>
-References: <CAK18DXYitS7hL1mA3QsPLmW9-R0q6Kin0C5Uv9fj=uS90WSnxA@mail.gmail.com>
- <MW5PR13MB5632C443F9D7E658168BC77DFD452@MW5PR13MB5632.namprd13.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gu9qdpfE"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-539e7e73740so3563891e87.3;
+        Wed, 16 Oct 2024 06:17:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729084633; x=1729689433; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=odeLQxQfk7QzT/fVHpJdy7CnXL/SLaCfPU2fty6lRDo=;
+        b=Gu9qdpfEbDCeBs+m/ryzxzaJyH3Nx125t7+3uDK7rCv51xd7dVjzSgvyQ0kY45rw3A
+         XOgVYIawCGKV5ONngu53reflqP+DtQgGiCTRrbOa1/yJU50vo/hP32yY5wh1r1OUvBc+
+         VyX25jUKjKGoJaWwR+N8h7bZxAHHWkNPOdIPZye7TCNwOn+oibO9UrXhP+IIXUQwnAnG
+         4g5bbGtNePvraktSEIe3WzSHdS8i/IHgeJJGvPrSzmTYlNNgVmas6ZwUUTDMhTHEf6sM
+         /SF+A/ifBUePzpVhkY78TRIYs5mQwiHLWHYhP4fbHdJC8FPQWPpsr2XgDcM3aE/+HtQh
+         iKpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729084633; x=1729689433;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=odeLQxQfk7QzT/fVHpJdy7CnXL/SLaCfPU2fty6lRDo=;
+        b=FHMexObD0Crr6CdmGZyCE004PGjXcz39WjFQ4xXa5QXT981TfzlEqxA8q0qnpjPOqJ
+         qtxM+eVo4SkyVKPTdEb4kVTzc9WRdh+B8wGj08rIhje38kbwmrVB+eqhH1AzNlCFHXEZ
+         QsOoTpV62CeMEQHXoAOHAhEzeHpsgysrAq7A63BDSDYFGVT22HYJYDR8tDZINnV3NV0C
+         77WVs9prceUmBFB3YMv15FOe2EGYn2rqTiGjxCStQChTO+5zDePyVtD/WbTHkQCpVjLM
+         cmvXwvRVGDHRkvkdvuyskAe5pK1mYRFvQdKcTIPbEjIN2usNF2Eef/31iPF20kOtl49S
+         KVBA==
+X-Forwarded-Encrypted: i=1; AJvYcCU8qjsyJ2XiVHd2yV5gt2+RirQgSeX9ZrsgYSiVozzMEiRdmaGhLKl7NMK5g4KaYPjJp8+tkRNbr3g=@vger.kernel.org, AJvYcCUq8pXJHEc4XgOIKwZg8iwpmHJeLbUwgsuDDCve0HXvIQ3INldNTEQkNcZRtu6vvJGMFhvJPZcfpzIRO2Y/@vger.kernel.org, AJvYcCW3pnQGZ59oDi9J4FveuFKh3IUUFH+6+u5XUG1sklKgNmkxdgiLFPwMxPoAkElfYAB5NWtlWFGOkl7B@vger.kernel.org
+X-Gm-Message-State: AOJu0YwgisM0/EgEqXzNqWSAb213zqPH7Wf5XNMY95CsKnRUzuG38U9b
+	wzanWFk9QT3ispmw+bfKSdt1cDKRt4/3pozuIHEXFUgJxcg9PkHw
+X-Google-Smtp-Source: AGHT+IHbAwDtQQ/CePOTLFY1DTPJVEhyXlGJ0iT/Vy6GEFP6uk0rDiPXmfCHhYye2Su8f2pzIuZ2ww==
+X-Received: by 2002:a05:6512:1090:b0:539:e651:5d97 with SMTP id 2adb3069b0e04-539e6515f25mr7976274e87.50.1729084633262;
+        Wed, 16 Oct 2024 06:17:13 -0700 (PDT)
+Received: from work.. (2.133.25.254.dynamic.telecom.kz. [2.133.25.254])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4313f5698aesm49612825e9.11.2024.10.16.06.17.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Oct 2024 06:17:12 -0700 (PDT)
+From: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
+To: andreyknvl@gmail.com
+Cc: 2023002089@link.tyut.edu.cn,
+	akpm@linux-foundation.org,
+	alexs@kernel.org,
+	corbet@lwn.net,
+	dvyukov@google.com,
+	elver@google.com,
+	glider@google.com,
+	kasan-dev@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	ryabinin.a.a@gmail.com,
+	siyanteng@loongson.cn,
+	snovitoll@gmail.com,
+	vincenzo.frascino@arm.com,
+	workflows@vger.kernel.org
+Subject: [PATCH v4 0/3] kasan: migrate the last module test to kunit
+Date: Wed, 16 Oct 2024 18:17:59 +0500
+Message-Id: <20241016131802.3115788-1-snovitoll@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <CA+fCnZf8YRH=gkmwU8enMLnGi7hHfVP4DSE2TLrmmVsHT10wRQ@mail.gmail.com>
+References: <CA+fCnZf8YRH=gkmwU8enMLnGi7hHfVP4DSE2TLrmmVsHT10wRQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <MW5PR13MB5632C443F9D7E658168BC77DFD452@MW5PR13MB5632.namprd13.prod.outlook.com>
-X-Rspamd-Queue-Id: C3AD71FC30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -4.51
-X-Spam-Flag: NO
+Content-Transfer-Encoding: 8bit
 
-Hi!
-> Just saying "LTP" is not granular enough.  LTP has hundreds of individual
-> test programs, and it would be useful to specify the individual tests
-> from LTP that should be run per sub-system.
+copy_user_test() is the last KUnit-incompatible test with
+CONFIG_KASAN_MODULE_TEST requirement, which we are going to migrate to KUnit
+framework and delete the former test and Kconfig as well.
 
-A few thousand tests to be more precise, and also the content tend to
-change between releases, be it test additions or removal and I do not
-think this level of changes is somehing that makes sense to be tracked
-in such database.
+In this patch series:
 
-It may be better to have more generic description of LTP subsets, there
-are a few obvious e.g. "SysV IPC" or "Timers", and have the LTP
-testrunner map that to actual testcases. The hard task here is to figure
-out which groups would be useful and keep the set reasonably small.
+	- [1/3] move kasan_check_write() and check_object_size() to
+		do_strncpy_from_user() to cover with KASAN checks with
+		multiple conditions	in strncpy_from_user().
 
-I can move this forward in LTP reasonably quickly we get small list of
-useful groups from kernel develpers.
+	- [2/3] migrated copy_user_test() to KUnit, where we can also test
+		strncpy_from_user() due to [1/4].
+
+		KUnits have been tested on:
+		- x86_64 with CONFIG_KASAN_GENERIC. Passed
+		- arm64 with CONFIG_KASAN_SW_TAGS. 1 fail. See [1]
+		- arm64 with CONFIG_KASAN_HW_TAGS. 1 fail. See [1]
+		[1] https://lore.kernel.org/linux-mm/CACzwLxj21h7nCcS2-KA_q7ybe+5pxH0uCDwu64q_9pPsydneWQ@mail.gmail.com/
+
+	- [3/3] delete CONFIG_KASAN_MODULE_TEST and documentation occurrences.
+
+Changes v3 -> v4:
+- moved checks from do_strncpy_from_user to strncpy_from_user
+  due to "call to __check_object_size() with UACCESS enabled" warning,
+  during the kernel build.
+
+Changes v2 -> v3:
+- added in [1/3] Reviewed-by: Andrey Konovalov.
+- added a long string in usermem for strncpy_from_user. Suggested by Andrey.
+- applied Andrey's patch to modify further kasan.rst.
+
+Changes v1 -> v2:
+- moved the sanitization to do_strncpy_from_user and as the separate commit
+per Andrey's review.
+- deleted corresponding entries of kasan_test_module.o in Makefile
+- deleted CONFIG_KASAN_MODULE_TEST at all with the documentation in separate
+  commit.
+- added Documentation maintainers in CC.
+
+Sabyrzhan Tasbolatov (3):
+  kasan: move checks to do_strncpy_from_user
+  kasan: migrate copy_user_test to kunit
+  kasan: delete CONFIG_KASAN_MODULE_TEST
+
+ Documentation/dev-tools/kasan.rst             |  9 +--
+ .../translations/zh_CN/dev-tools/kasan.rst    |  6 +-
+ .../translations/zh_TW/dev-tools/kasan.rst    |  6 +-
+ lib/Kconfig.kasan                             |  7 --
+ lib/strncpy_from_user.c                       |  5 +-
+ mm/kasan/Makefile                             |  2 -
+ mm/kasan/kasan.h                              |  2 +-
+ mm/kasan/kasan_test_c.c                       | 39 +++++++++
+ mm/kasan/kasan_test_module.c                  | 81 -------------------
+ mm/kasan/report.c                             |  2 +-
+ 10 files changed, 48 insertions(+), 111 deletions(-)
+ delete mode 100644 mm/kasan/kasan_test_module.c
 
 -- 
-Cyril Hrubis
-chrubis@suse.cz
+2.34.1
+
