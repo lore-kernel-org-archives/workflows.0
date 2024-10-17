@@ -1,160 +1,183 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A081CFEA8;
-	Thu, 17 Oct 2024 11:02:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E36DD1D45F2;
+	Thu, 17 Oct 2024 12:31:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729162950; cv=none; b=sxzyaf7pdxxPnR8XdQnxiBcXLUfGNFdcNC8OynsCJYjC6BupU2M6df4ys82eGrlqodxt1GiElKxltULOjoGqqZPnSqPrjgMUebiv0M8FVoJqxvF1okfnzrX3YZfARSFO2U32whjzQ6x2LDFepAO6NAmZ4arBWggF1Oa/qnugcvE=
+	t=1729168323; cv=none; b=sEKMflGn+0OIPwI9fnrzBvKasWpTvkHCXbzAbrIF4i2fyjNC//+kFWDRVYJ3JCjKfStLTaGet6ennOcsBAAs6d74JUVFHzEa5ME11ajF+AW7INgWBlijceTgaqqd2fNgHTcdTt5HudJiXXEVlfX99JIuf14diycmdHL5XNDkUjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729162950; c=relaxed/simple;
-	bh=Zti17zEdTPMWDKHNIdgZCRrvFCHtrP8wvz5ruYvdQyQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FGVnI/jQ+r3S5j4H2rHMKjM7FIh6PWYvLbFLLZ3pkrOauynlpGfPYLleJX/+rQq83QJ5WOrwE3ft7a8qXR+rPEfIQ7P1f2uiKTOhUlBThfR6bNpC3XYZRN1Mj7yw8yinA62leNKECOTAAXIXTJCc9vGLUuz+u2WG7xCxAdsp4HY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=zlIkPS/R; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=RmtiCc1w; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=YPZpQ/v8; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=DXWS2Ayl; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1729168323; c=relaxed/simple;
+	bh=pyv973UZ3xzegnLyzwZvScQ3I1W3XFX01CqLo7sMXkY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=lFqyPTaqdqJLIy4c/YIw6D+AlzRzBKXDp+Ymc7Oc4AtSVnTVTJC+Tf31fcMDg60cJ4shxfaEAy+r1XQpPhLJxgU7uf8C5PYTvFI4XHjmGLcfJ3tzhz/faE/uaQdFZs2kTH70Ze6AVaMwCi3+eUQsPxLfCykOycd0Q9UKWRjshH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=yhEl1Jkz; arc=none smtp.client-ip=198.47.19.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="zlIkPS/R";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="RmtiCc1w";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="YPZpQ/v8";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="DXWS2Ayl"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A6CA01FF00;
-	Thu, 17 Oct 2024 11:02:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1729162945; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PsimjDXOtmZTun9KLOezGQKKRdNWogA3OVHTwBEzwu4=;
-	b=zlIkPS/R6usbDO65DmcVwA66S8cPLQeNbQ1kcUHph5TMso/Qn/6BokgYvPvH+FvpHFOtJl
-	VJ9x5WDugKf6IwfN5/ZHFujE5nqTfLqx5ytXTfwgTysK3i8ZUAdI1XVTCWCEVpZVjNBfTp
-	ypEU4DIBGV+B802Nj1wmEAIyrMF1/1c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1729162945;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PsimjDXOtmZTun9KLOezGQKKRdNWogA3OVHTwBEzwu4=;
-	b=RmtiCc1wVjpXgQg7brD3wXwC+b4zfdnYyH/YKG2hbUVRYEbfeaiJWHWmCauLVhWFX1xnJZ
-	WyaJIC31zrXNMzCQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="YPZpQ/v8";
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=DXWS2Ayl
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1729162944; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PsimjDXOtmZTun9KLOezGQKKRdNWogA3OVHTwBEzwu4=;
-	b=YPZpQ/v8FssDMx3Z1V0hiHZ3hA2Pcg01dpK28MHM8e6Iln7pkeW19GJe1aqxf61nQZTzhk
-	iYLmk9oj7lEDTWMYM6i9LkaIKihIORVEJaILWif5Cw667a97Dd/WPSyW2r05StrMuZ40hW
-	mcAKJpqE6xj6K6JvGLpTxQmzECaeN9g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1729162944;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PsimjDXOtmZTun9KLOezGQKKRdNWogA3OVHTwBEzwu4=;
-	b=DXWS2AylRJvBGs15UXEyi1B9f7q2JLWsq/v4RSde+zNqsxDj+DwdUpQ3IcCsyAS3kzYJhj
-	BeR8f7baSBnntLCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 939F213A42;
-	Thu, 17 Oct 2024 11:02:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 1DS5I8DuEGdMZgAAD6G6ig
-	(envelope-from <chrubis@suse.cz>); Thu, 17 Oct 2024 11:02:24 +0000
-Date: Thu, 17 Oct 2024 13:01:19 +0200
-From: Cyril Hrubis <chrubis@suse.cz>
-To: Donald Zickus <dzickus@redhat.com>
-Cc: Tim Bird <tim.bird@sony.com>,
-	"workflows@vger.kernel.org" <workflows@vger.kernel.org>,
-	"automated-testing@lists.yoctoproject.org" <automated-testing@lists.yoctoproject.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	kernelci <kernelci@lists.linux.dev>,
-	Nikolai Kondrashov <nkondras@redhat.com>,
-	Gustavo Padovan <gustavo.padovan@collabora.com>,
-	kernelci-members <kernelci-members@groups.io>,
-	"laura.nao@collabora.com" <laura.nao@collabora.com>
-Subject: Re: [Automated-testing] [RFC] Test catalog template
-Message-ID: <ZxDufyLOPSjDxB6A@yuki.lan>
-References: <CAK18DXYitS7hL1mA3QsPLmW9-R0q6Kin0C5Uv9fj=uS90WSnxA@mail.gmail.com>
- <MW5PR13MB5632C443F9D7E658168BC77DFD452@MW5PR13MB5632.namprd13.prod.outlook.com>
- <Zw-7Tydnaaj3XAQo@yuki.lan>
- <CAK18DXYDxfd3cqUdUjLvzMMxvkCma-H6qWbgmAgqyRTNb00TWA@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="yhEl1Jkz"
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 49HCVip3012524;
+	Thu, 17 Oct 2024 07:31:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1729168304;
+	bh=aWWv4FkoudrEgZFR46LHW8u/ldBpL6xyV6QvYWrbXpg=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=yhEl1JkzA6Tv/hFIvOBtrZHPRph0iSeQ0jkAgz89OWVQqp88rgRVAWhqdzcQ0G2zv
+	 LcVOCqdD/CkbIEo6XKeTHUU+i3CtcbOb1aQDOTitf9L5pjZcmA8aavsoaEykrNjokX
+	 EcsTkxqFV2tdJzHYU168RB/MbXNBfF6wVZOnH3EU=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTP id 49HCVi0Y043490;
+	Thu, 17 Oct 2024 07:31:44 -0500
+Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 17
+ Oct 2024 07:31:44 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Thu, 17 Oct 2024 07:31:44 -0500
+Received: from [128.247.81.151] (uda0271612.dhcp.ti.com [128.247.81.151])
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 49HCViG2097740;
+	Thu, 17 Oct 2024 07:31:44 -0500
+Message-ID: <6366eab3-4318-7b8b-686e-f9d5d320badb@ti.com>
+Date: Thu, 17 Oct 2024 07:31:44 -0500
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK18DXYDxfd3cqUdUjLvzMMxvkCma-H6qWbgmAgqyRTNb00TWA@mail.gmail.com>
-X-Rspamd-Queue-Id: A6CA01FF00
-X-Spam-Score: -4.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.cz:dkim];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [RFC] Test catalog template
+To: Donald Zickus <dzickus@redhat.com>, <workflows@vger.kernel.org>,
+        <automated-testing@lists.yoctoproject.org>,
+        <linux-kselftest@vger.kernel.org>, kernelci <kernelci@lists.linux.dev>
+CC: Nikolai Kondrashov <nkondras@redhat.com>,
+        Gustavo Padovan
+	<gustavo.padovan@collabora.com>,
+        kernelci-members
+	<kernelci-members@groups.io>,
+        <laura.nao@collabora.com>
+References: <CAK18DXYitS7hL1mA3QsPLmW9-R0q6Kin0C5Uv9fj=uS90WSnxA@mail.gmail.com>
+Content-Language: en-US
+From: Minas Hambardzumyan <minas@ti.com>
+In-Reply-To: <CAK18DXYitS7hL1mA3QsPLmW9-R0q6Kin0C5Uv9fj=uS90WSnxA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-Hi!
-> > A few thousand tests to be more precise, and also the content tend to
-> > change between releases, be it test additions or removal and I do not
-> > think this level of changes is somehing that makes sense to be tracked
-> > in such database.
-> >
-> > It may be better to have more generic description of LTP subsets, there
-> > are a few obvious e.g. "SysV IPC" or "Timers", and have the LTP
-> > testrunner map that to actual testcases. The hard task here is to figure
-> > out which groups would be useful and keep the set reasonably small.
-> >
-> > I can move this forward in LTP reasonably quickly we get small list of
-> > useful groups from kernel develpers.
+On 10/14/24 15:32, Donald Zickus wrote:
+> Hi,
 > 
-> Thanks!  The thought was if we wanted to encourage contributors to run
-> these tests before submitting, does running the whole LTP testsuite
-> make sense or like you said a targeted set would be much better?
+> At Linux Plumbers, a few dozen of us gathered together to discuss how
+> to expose what tests subsystem maintainers would like to run for every
+> patch submitted or when CI runs tests.  We agreed on a mock up of a
+> yaml template to start gathering info.  The yaml file could be
+> temporarily stored on kernelci.org until a more permanent home could
+> be found.  Attached is a template to start the conversation.
+> 
+> Longer story.
+> 
+> The current problem is CI systems are not unanimous about what tests
+> they run on submitted patches or git branches.  This makes it
+> difficult to figure out why a test failed or how to reproduce.
+> Further, it isn't always clear what tests a normal contributor should
+> run before posting patches.
+> 
+> It has been long communicated that the tests LTP, xfstest and/or
+> kselftests should be the tests  to run.  However, not all maintainers
+> use those tests for their subsystems.  I am hoping to either capture
+> those tests or find ways to convince them to add their tests to the
+> preferred locations.
+> 
+> The goal is for a given subsystem (defined in MAINTAINERS), define a
+> set of tests that should be run for any contributions to that
+> subsystem.  The hope is the collective CI results can be triaged
+> collectively (because they are related) and even have the numerous
+> flakes waived collectively  (same reason) improving the ability to
+> find and debug new test failures.  Because the tests and process are
+> known, having a human help debug any failures becomes easier.
+> 
+> The plan is to put together a minimal yaml template that gets us going
+> (even if it is not optimized yet) and aim for about a dozen or so
+> subsystems.  At that point we should have enough feedback to promote
+> this more seriously and talk optimizations.
+> 
+> Feedback encouraged.
+> 
+> Cheers,
+> Don
+> 
+> ---
+> # List of tests by subsystem
+> #
+> # Tests should adhere to KTAP definitions for results
+> #
+> # Description of section entries
+> #
+> #  maintainer:    test maintainer - name <email>
+> #  list:                mailing list for discussion
+> #  version:         stable version of the test
+> #  dependency: necessary distro package for testing
+> #  test:
+> #    path:            internal git path or url to fetch from
+> #    cmd:            command to run; ability to run locally
+> #    param:         additional param necessary to run test
+> #  hardware:      hardware necessary for validation
+> #
+> # Subsystems (alphabetical)
+> 
+> KUNIT TEST:
+>    maintainer:
+>      - name: name1
+>        email: email1
+>      - name: name2
+>        email: email2
+>    list:
+>    version:
+>    dependency:
+>      - dep1
+>      - dep2
+>    test:
+>      - path: tools/testing/kunit
+>        cmd:
+>        param:
+>      - path:
+>        cmd:
+>        param:
+>    hardware: none
+> 
+> 
 
-The best answer is "it depends". The whole LTP run can take hours on
-slower hardware and may not even test the code you wanted to test, e.g.
-if you did changes to compat code you have to build LTP with -m32 to
-actually excercise the 32bit emulation layer. If you changed kernel core
-it may make sense to run whole LTP, on the other hand changes isolated
-to a certain subsystems e.g. SysV IPC, Timers, Cgroups, etc. could be
-tested fairly quickly with a subset of LTP. So I think that we need some
-kind of mapping or heuristics so that we can map certain usecases to a
-subsets of tests.
+Don,
 
--- 
-Cyril Hrubis
-chrubis@suse.cz
+thanks for initiating this! I have a few questions/suggestions:
+
+I think the root element in a section (`KUNIT TEST` in your example) is 
+expected to be a container of multiple test definitions ( so there will 
+be one for LTP, KSelfTest, etc) -- can you confirm?
+
+Assuming above is correct and `test` is a container of multiple test 
+definitions, can we add more properties to each:
+   * name -- would be a unique name id for each test
+   * description -- short description of the test.
+   * arch -- applicable platform architectures
+   * runtime -- This is subjective as it can be different for different 
+systems. but maybe we can have some generic names, like 'SHORT', 
+'MEDIUM', 'LONG', etc and each system may scale the timeout locally?
+
+I see you have a `Subsystems` entry in comments section, but not in the 
+example. Do you expect it to be part of this file, or will there be a 
+file per each subsystem?
+
+Can we define what we mean by a `test`? For me this is a group of one or 
+more individual testcases that can be initiated with a single 
+command-line, and is expected to run in a 'reasonable' time. Any other 
+thoughts?
+
+Thanks!
+Minas
+
+
