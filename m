@@ -1,183 +1,84 @@
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E36DD1D45F2;
-	Thu, 17 Oct 2024 12:31:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683C01DE8B5;
+	Thu, 17 Oct 2024 15:41:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729168323; cv=none; b=sEKMflGn+0OIPwI9fnrzBvKasWpTvkHCXbzAbrIF4i2fyjNC//+kFWDRVYJ3JCjKfStLTaGet6ennOcsBAAs6d74JUVFHzEa5ME11ajF+AW7INgWBlijceTgaqqd2fNgHTcdTt5HudJiXXEVlfX99JIuf14diycmdHL5XNDkUjE=
+	t=1729179671; cv=none; b=T0wgy+buWipRkeaxrWY1kR4klywmHSPkWLOgZSYYOq9b8yI6faGDA98X4IrBlv33lZVsJZDI9uy8QDXKwULJuvfqEr7eS7IJ+rINtTbmnaa8/Whzs3FFA5yuGEbThSKdvWX5aGOyHcNSNXSgTHDQc+/ZBFT8RypI/ehv96BBQGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729168323; c=relaxed/simple;
-	bh=pyv973UZ3xzegnLyzwZvScQ3I1W3XFX01CqLo7sMXkY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=lFqyPTaqdqJLIy4c/YIw6D+AlzRzBKXDp+Ymc7Oc4AtSVnTVTJC+Tf31fcMDg60cJ4shxfaEAy+r1XQpPhLJxgU7uf8C5PYTvFI4XHjmGLcfJ3tzhz/faE/uaQdFZs2kTH70Ze6AVaMwCi3+eUQsPxLfCykOycd0Q9UKWRjshH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=yhEl1Jkz; arc=none smtp.client-ip=198.47.19.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1729179671; c=relaxed/simple;
+	bh=3OtfS+9pjWgMSRx1hX4zM69LB7omqJUVAJX5E2ISKwc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=EENhUU8w9EYQREhEIGvYTEeVF0tF2F8D+aqinbsTCCwGkMZrLIQpw/8CeAkIVwv2y+Q2Li7YbZwTgy5EUkmaZj96OJq9VJD2YZV8/04kup4ztxBBSWmSYVN56GFEcLMJSDBw4VQNx4u76FFEMqpahvueryHmueYbWibxp6ZLD9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=q4+UuIux; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="yhEl1Jkz"
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 49HCVip3012524;
-	Thu, 17 Oct 2024 07:31:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1729168304;
-	bh=aWWv4FkoudrEgZFR46LHW8u/ldBpL6xyV6QvYWrbXpg=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=yhEl1JkzA6Tv/hFIvOBtrZHPRph0iSeQ0jkAgz89OWVQqp88rgRVAWhqdzcQ0G2zv
-	 LcVOCqdD/CkbIEo6XKeTHUU+i3CtcbOb1aQDOTitf9L5pjZcmA8aavsoaEykrNjokX
-	 EcsTkxqFV2tdJzHYU168RB/MbXNBfF6wVZOnH3EU=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTP id 49HCVi0Y043490;
-	Thu, 17 Oct 2024 07:31:44 -0500
-Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 17
- Oct 2024 07:31:44 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE110.ent.ti.com
- (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 17 Oct 2024 07:31:44 -0500
-Received: from [128.247.81.151] (uda0271612.dhcp.ti.com [128.247.81.151])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 49HCViG2097740;
-	Thu, 17 Oct 2024 07:31:44 -0500
-Message-ID: <6366eab3-4318-7b8b-686e-f9d5d320badb@ti.com>
-Date: Thu, 17 Oct 2024 07:31:44 -0500
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="q4+UuIux"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AC72142C26
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1729179665; bh=2vTKYvDLIpk92xWltrYyN1gsLxo8fC23LDEQoGs8f8g=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=q4+UuIuxmYYYAet+TP5fxIPaIZThwMVfZBmzLh3M9T24mk91iGtkUOVmxBL/oGXpG
+	 imz2VFhs0DCP/tQ/JiRYdZF4pOpA97sndPHovoy4TGZDiaU+7rUfZ3jY4T8c6/CYR7
+	 8jO6GUN9G08n+PBQbW/ZZRtHvQQ0cqiIYvTcvV8L/e9zlVM2c17zHBl3CfDfVPPl/m
+	 /tCziMQXBZo1ewDk7EMH7fivKNzQbdlSGqt3PohXB7tOv5nPKeI60gjaHj0XPrl1md
+	 LEh1ZHE33xkOvW51qkc4P8MmzlK5B/jtHqCweFQvD1wklrWMsJMzIsBrTuzJP7B4x1
+	 yk7fzh6hCYs6Q==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id AC72142C26;
+	Thu, 17 Oct 2024 15:41:05 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Haoyang Liu <tttturtleruss@hust.edu.cn>, Alexander Potapenko
+ <glider@google.com>, Marco Elver <elver@google.com>, Dmitry Vyukov
+ <dvyukov@google.com>
+Cc: hust-os-kernel-patches@googlegroups.com, Haoyang Liu
+ <tttturtleruss@hust.edu.cn>, kasan-dev@googlegroups.com,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs/dev-tools: fix a typo
+In-Reply-To: <20241015140159.8082-1-tttturtleruss@hust.edu.cn>
+References: <20241015140159.8082-1-tttturtleruss@hust.edu.cn>
+Date: Thu, 17 Oct 2024 09:41:04 -0600
+Message-ID: <877ca63ffz.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [RFC] Test catalog template
-To: Donald Zickus <dzickus@redhat.com>, <workflows@vger.kernel.org>,
-        <automated-testing@lists.yoctoproject.org>,
-        <linux-kselftest@vger.kernel.org>, kernelci <kernelci@lists.linux.dev>
-CC: Nikolai Kondrashov <nkondras@redhat.com>,
-        Gustavo Padovan
-	<gustavo.padovan@collabora.com>,
-        kernelci-members
-	<kernelci-members@groups.io>,
-        <laura.nao@collabora.com>
-References: <CAK18DXYitS7hL1mA3QsPLmW9-R0q6Kin0C5Uv9fj=uS90WSnxA@mail.gmail.com>
-Content-Language: en-US
-From: Minas Hambardzumyan <minas@ti.com>
-In-Reply-To: <CAK18DXYitS7hL1mA3QsPLmW9-R0q6Kin0C5Uv9fj=uS90WSnxA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain
 
-On 10/14/24 15:32, Donald Zickus wrote:
-> Hi,
-> 
-> At Linux Plumbers, a few dozen of us gathered together to discuss how
-> to expose what tests subsystem maintainers would like to run for every
-> patch submitted or when CI runs tests.  We agreed on a mock up of a
-> yaml template to start gathering info.  The yaml file could be
-> temporarily stored on kernelci.org until a more permanent home could
-> be found.  Attached is a template to start the conversation.
-> 
-> Longer story.
-> 
-> The current problem is CI systems are not unanimous about what tests
-> they run on submitted patches or git branches.  This makes it
-> difficult to figure out why a test failed or how to reproduce.
-> Further, it isn't always clear what tests a normal contributor should
-> run before posting patches.
-> 
-> It has been long communicated that the tests LTP, xfstest and/or
-> kselftests should be the tests  to run.  However, not all maintainers
-> use those tests for their subsystems.  I am hoping to either capture
-> those tests or find ways to convince them to add their tests to the
-> preferred locations.
-> 
-> The goal is for a given subsystem (defined in MAINTAINERS), define a
-> set of tests that should be run for any contributions to that
-> subsystem.  The hope is the collective CI results can be triaged
-> collectively (because they are related) and even have the numerous
-> flakes waived collectively  (same reason) improving the ability to
-> find and debug new test failures.  Because the tests and process are
-> known, having a human help debug any failures becomes easier.
-> 
-> The plan is to put together a minimal yaml template that gets us going
-> (even if it is not optimized yet) and aim for about a dozen or so
-> subsystems.  At that point we should have enough feedback to promote
-> this more seriously and talk optimizations.
-> 
-> Feedback encouraged.
-> 
-> Cheers,
-> Don
-> 
+Haoyang Liu <tttturtleruss@hust.edu.cn> writes:
+
+> fix a typo in dev-tools/kmsan.rst
+>
+> Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
 > ---
-> # List of tests by subsystem
-> #
-> # Tests should adhere to KTAP definitions for results
-> #
-> # Description of section entries
-> #
-> #  maintainer:    test maintainer - name <email>
-> #  list:                mailing list for discussion
-> #  version:         stable version of the test
-> #  dependency: necessary distro package for testing
-> #  test:
-> #    path:            internal git path or url to fetch from
-> #    cmd:            command to run; ability to run locally
-> #    param:         additional param necessary to run test
-> #  hardware:      hardware necessary for validation
-> #
-> # Subsystems (alphabetical)
-> 
-> KUNIT TEST:
->    maintainer:
->      - name: name1
->        email: email1
->      - name: name2
->        email: email2
->    list:
->    version:
->    dependency:
->      - dep1
->      - dep2
->    test:
->      - path: tools/testing/kunit
->        cmd:
->        param:
->      - path:
->        cmd:
->        param:
->    hardware: none
-> 
-> 
+>  Documentation/dev-tools/kmsan.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/dev-tools/kmsan.rst b/Documentation/dev-tools/kmsan.rst
+> index 6a48d96c5c85..0dc668b183f6 100644
+> --- a/Documentation/dev-tools/kmsan.rst
+> +++ b/Documentation/dev-tools/kmsan.rst
+> @@ -133,7 +133,7 @@ KMSAN shadow memory
+>  -------------------
+>  
+>  KMSAN associates a metadata byte (also called shadow byte) with every byte of
+> -kernel memory. A bit in the shadow byte is set iff the corresponding bit of the
+> +kernel memory. A bit in the shadow byte is set if the corresponding bit of the
+>  kernel memory byte is uninitialized. Marking the memory uninitialized (i.e.
+>  setting its shadow bytes to ``0xff``) is called poisoning, marking it
+>  initialized (setting the shadow bytes to ``0x00``) is called unpoisoning.
 
-Don,
+So I have applied this, since "iff" is clearly confusing to a lot of
+readers even iff it's correct.
 
-thanks for initiating this! I have a few questions/suggestions:
+Thanks,
 
-I think the root element in a section (`KUNIT TEST` in your example) is 
-expected to be a container of multiple test definitions ( so there will 
-be one for LTP, KSelfTest, etc) -- can you confirm?
-
-Assuming above is correct and `test` is a container of multiple test 
-definitions, can we add more properties to each:
-   * name -- would be a unique name id for each test
-   * description -- short description of the test.
-   * arch -- applicable platform architectures
-   * runtime -- This is subjective as it can be different for different 
-systems. but maybe we can have some generic names, like 'SHORT', 
-'MEDIUM', 'LONG', etc and each system may scale the timeout locally?
-
-I see you have a `Subsystems` entry in comments section, but not in the 
-example. Do you expect it to be part of this file, or will there be a 
-file per each subsystem?
-
-Can we define what we mean by a `test`? For me this is a group of one or 
-more individual testcases that can be initiated with a single 
-command-line, and is expected to run in a 'reasonable' time. Any other 
-thoughts?
-
-Thanks!
-Minas
-
-
+jon
