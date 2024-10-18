@@ -1,149 +1,133 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E246E13C8E2;
-	Fri, 18 Oct 2024 14:23:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729261415; cv=pass; b=ZfkBl+/p7LHKLImpV+bAGVnO6ZkyBOHc0XruddjKKcbQZkgEz8eeW2q/k3jiUfFyVDnAiOe8F5nSlM6F4qWMlCIfoSKGc0LFXLrEnvcJGgN8CjCfFEji5BQrCpH4ZfMpk6mKxk7D2oGqC4Rs2vpD+jir8tgqqIx/mtEBtNT/nmk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729261415; c=relaxed/simple;
-	bh=fwm6F1waUYlZmpjON4M0/tCzSIvM2BeoAkSP9zIsXrk=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=E/9nc5nKQMULRMZzZRO+pKhnBb6mX9hNkTEGwkjadvRvSTPTMjCnt5yLPPfp81uEk982MI8RgYFZ/Zp3HQfbFJMigMq8Tx5RD3+LQcoLpjyQeLbero6JPwdenB9ngoxNDepy1vgCUetxQaSds36fRW+OhfV8pViq/Py3hqLivIM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=gustavo.padovan@collabora.com header.b=SdVbTYML; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7EF81EE03D;
+	Fri, 18 Oct 2024 14:36:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729262185; cv=none; b=jyk4TK1d7oskGBWtY3CtbjQyLbS0MM0R3vp8E0zYzWDuyMJT39RCFUeeiRKFYBvbcb+MjpOEM1rLY1MJzTHKle87JlLcFNfXB6PXlzElMZyAvVJ1MkwXkPANeV8UNfHWv7hYMtXN5ZL2Umg5f/WBxbKRqTmCVLoiYRxYgNfWsr8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729262185; c=relaxed/simple;
+	bh=5epDjfiMaa9pin4fteE1kp57LURHkEYKH2wIKIdpUfA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WVLg6b3ynfQXjNXcFXxRaLo+ZZ1nrL1ST2fsmgIyJTDt7mkgifjLm2x6gv7kv9EHbBL5bf/r/AJqCJBMD3fK5Cg0urHi55ThOlmfllngPdKLnIeQCpu2la6HyDqz55nhCMpxium31dUvogNA8JFtz+MWl/HOdT7jygURiXWzYPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=FZ/8VTLh; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=XZqiu3DN; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=c7LBj9iz; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=7aUq1Maz; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=gustavo.padovan@collabora.com header.b="SdVbTYML"
-ARC-Seal: i=1; a=rsa-sha256; t=1729261402; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=KIAyqUQN30RwIjlwXi20mKsI54vVnEuAng+Y8CaGIai+bz4Nr/F01424pAMQx3oBw8KFPw27W9c4UoqXL3YoD7qxxJCOzSn+4BU1UTUNrhOonqmBc/kXmr8aKRsnwYtD7hCspnmqZwTjVWobawDZIDQ8cKyfGCGxMvGBPyfbiys=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1729261402; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=QIAhrezxUtXF4gEkgEiGP9TNMCNjCrJRts1YkaKxqFI=; 
-	b=WGJ1SKvsO+nCHjc1P1osPTV1J5b9BWqdj9aEX7dw2bxj+bQ1IzCxugEoDGlRT3YBm87qR+g3BNEEuEfVBOrT7JpJcKKuQ/S1FiWq2c1FXp/CjbpHQ2B6mRizLwVY1HEio56jpIU6nRLo/ve7PywZj0dkwAbHYJ2KZWaF+aSBg4A=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=gustavo.padovan@collabora.com;
-	dmarc=pass header.from=<gustavo.padovan@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1729261402;
-	s=zohomail; d=collabora.com; i=gustavo.padovan@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=QIAhrezxUtXF4gEkgEiGP9TNMCNjCrJRts1YkaKxqFI=;
-	b=SdVbTYMLJyJzgRy0P4SqEXPiv9stROswwkByYJp7uSSheCpliLqk/wfyAZoHqu1B
-	WA27D2/AC4xpbTw8InZ7fHG5WYg/zJvm6nkSG0FRhf3Bh+k2+3O3SWKtagr0gB8PFLf
-	DcpoZMIOH8OhRz50Awbd+26fJY9UJ2rymdSMRcTo=
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1729261399679794.5165976461445; Fri, 18 Oct 2024 07:23:19 -0700 (PDT)
-Date: Fri, 18 Oct 2024 11:23:19 -0300
-From: Gustavo Padovan <gustavo.padovan@collabora.com>
-To: "David Gow" <davidgow@google.com>
-Cc: "Donald Zickus" <dzickus@redhat.com>,
-	"workflows" <workflows@vger.kernel.org>,
-	"automated-testing" <automated-testing@lists.yoctoproject.org>,
-	"linux-kselftest" <linux-kselftest@vger.kernel.org>,
-	"kernelci" <kernelci@lists.linux.dev>,
-	"Nikolai Kondrashov" <nkondras@redhat.com>,
-	"kernelci-members" <kernelci-members@groups.io>,
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="FZ/8VTLh";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="XZqiu3DN";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="c7LBj9iz";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="7aUq1Maz"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E75A421C99;
+	Fri, 18 Oct 2024 14:36:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1729262182; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oHIFS1nc3HCPUMjfKrnrHIzz1FD8QGBIt1PbxMnXDK8=;
+	b=FZ/8VTLh9hhjSGX/ggH4bkuGSThJ15elA2jjpi/2PLOcpbcDCJtFPUP049A/4fsvQ8cWRw
+	vFs+EQ+JdT3mKeHd+BB7Dt/TN9KiTuYRT4a/KdzMaMj9Co+VSH3Zlw/wjqiIROa8G9sc9g
+	YoCgt6ESMaTPNc0M2HJvohKODs96xws=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1729262182;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oHIFS1nc3HCPUMjfKrnrHIzz1FD8QGBIt1PbxMnXDK8=;
+	b=XZqiu3DNxmNf3ZuLYZsv2hr+dgoGNeyX1zJfe53USgGGiSmHs5uayprjq9GwU1VgbMMjqS
+	GaCCUPJEAbLvzfAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1729262181; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oHIFS1nc3HCPUMjfKrnrHIzz1FD8QGBIt1PbxMnXDK8=;
+	b=c7LBj9izEUAe5MMBGWhAwHDnZSeCxA9I9wkvjM7EEY2GIchIjTN6rEUle4lYKcixo5vITE
+	TgA1jVKEOb5CKUFkf4RN9OrwvcTFAtEJu0cm9cwTKLydyxMBlo+Z+rfft6mZ96Jc/uDVXM
+	t2MqceH17yRT+frK0GcvgQeqUzs+TUY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1729262181;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oHIFS1nc3HCPUMjfKrnrHIzz1FD8QGBIt1PbxMnXDK8=;
+	b=7aUq1Maz5v/FiBDI0Hxuc5jcRsGtniJpGplmX/MOt33BqWtENWPglkwcV8qloanHb+ZqxC
+	mICagdqMeAGsJMDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D4E6613A85;
+	Fri, 18 Oct 2024 14:36:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Ckf/MmVyEmf4OQAAD6G6ig
+	(envelope-from <chrubis@suse.cz>); Fri, 18 Oct 2024 14:36:21 +0000
+Date: Fri, 18 Oct 2024 16:35:21 +0200
+From: Cyril Hrubis <chrubis@suse.cz>
+To: Gustavo Padovan <gustavo.padovan@collabora.com>
+Cc: David Gow <davidgow@google.com>, Donald Zickus <dzickus@redhat.com>,
+	workflows <workflows@vger.kernel.org>,
+	automated-testing <automated-testing@lists.yoctoproject.org>,
+	linux-kselftest <linux-kselftest@vger.kernel.org>,
+	kernelci <kernelci@lists.linux.dev>,
+	Nikolai Kondrashov <nkondras@redhat.com>,
+	kernelci-members <kernelci-members@groups.io>,
 	"laura.nao" <laura.nao@collabora.com>
-Message-ID: <192a002ee68.e1e6c6282027214.1199547115557464780@collabora.com>
-In-Reply-To: <CABVgOSk1ng46scbJc-3qPZUhkn+0KrZsFDe-UYnw0q-XksP_2Q@mail.gmail.com>
-References: <CAK18DXYitS7hL1mA3QsPLmW9-R0q6Kin0C5Uv9fj=uS90WSnxA@mail.gmail.com> <CABVgOSk1ng46scbJc-3qPZUhkn+0KrZsFDe-UYnw0q-XksP_2Q@mail.gmail.com>
-Subject: Re: [RFC] Test catalog template
+Subject: Re: [Automated-testing] [RFC] Test catalog template
+Message-ID: <ZxJyKZD9vcKnwG0n@yuki.lan>
+References: <CAK18DXYitS7hL1mA3QsPLmW9-R0q6Kin0C5Uv9fj=uS90WSnxA@mail.gmail.com>
+ <CABVgOSk1ng46scbJc-3qPZUhkn+0KrZsFDe-UYnw0q-XksP_2Q@mail.gmail.com>
+ <192a002ee68.e1e6c6282027214.1199547115557464780@collabora.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <192a002ee68.e1e6c6282027214.1199547115557464780@collabora.com>
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-Hello,
+Hi!
+> Then there are other perspectives that crosses this. For example, many of the LTP and
+> kselftests will just fail, but there is no accumulated knowledge on what the result of
+> each test means. So understanding what is expected to pass/fail for each platform is
+> a sort of dependance in this extensive documentation effort we are set ourselves for.
 
+We are spending quite a lot of time to make sure LTP tests do not fail
+unless there is a reason to. If you see LTP tests failing and you think
+that they shouldn't just report it on the LTP mailing list and we will
+fix that.
 
----- On Fri, 18 Oct 2024 04:21:58 -0300 David Gow  wrote ---
-
- > Hi Don, 
- >  
- > Thanks for putting this together: the discussion at Plumbers was very useful. 
- >  
- > On Tue, 15 Oct 2024 at 04:33, Donald Zickus dzickus@redhat.com> wrote: 
- > > 
- > > Hi, 
- > > 
- > > At Linux Plumbers, a few dozen of us gathered together to discuss how 
- > > to expose what tests subsystem maintainers would like to run for every 
- > > patch submitted or when CI runs tests.  We agreed on a mock up of a 
- > > yaml template to start gathering info.  The yaml file could be 
- > > temporarily stored on kernelci.org until a more permanent home could 
- > > be found.  Attached is a template to start the conversation. 
- > > 
- >  
- > I think that there are two (maybe three) separate problems here: 
- > 1. What tests do we want to run (for a given patch/subsystem/environment/etc)? 
- > 2. How do we describe those tests in such a way that running them can 
- > be automated? 
- > 3. (Exactly what constitutes a 'test'? A single 'test', a whole suite 
- > of tests, a test framework/tool? What about the environment: is, e.g., 
- > KUnit on UML different from KUnit on qemu-x86_64 different from KUnit 
- > on qemu-arm64?) 
- >  
- > My gut feeling here is that (1) is technically quite easy: worst-case 
- > we just make every MAINTAINERS entry link to a document describing 
- > what tests should be run. Actually getting people to write these 
- > documents and then run the tests, though, is very difficult. 
- >  
- > (2) is the area where I think this will be most useful. We have some 
- > arbitrary (probably .yaml) file which describes a series of tests to 
- > run in enough detail that we can automate it. My ideal outcome here 
- > would be to have a 'kunit.yaml' file which I can pass to a tool 
- > (either locally or automatically on some CI system) which will run all 
- > of the checks I'd run on an incoming patch. This would include 
- > everything from checkpatch, to test builds, to running KUnit tests and 
- > other test scripts. Ideally, it'd even run these across a bunch of 
- > different environments (architectures, emulators, hardware, etc) to 
- > catch issues which only show up on big-endian or 32-bit machines. 
- >  
- > If this means I can publish that yaml file somewhere, and not only 
- > give contributors a way to check that those tests pass on their own 
- > machine before sending a patch out, but also have CI systems 
- > automatically run them (so the results are ready waiting before I 
- > manually review the patch), that'd be ideal. 
-
-This though makes sense to me. It will be very interesting for CI systems to be
-able to figure out which tests to run for a set of folder/file changes. 
-
-However, I also feel that a key part of the work is actually convincing people
-to write (and maintain!) these specs. Only automation through CI we may be able
-to show the value of this tasks, prompting maintainers to keep their files
-updated, otherwise we are going create a sea of specs that will just be outdated
-pretty quickly.
-
-In the new KernelCI maestro, we started with only a handful of tests, so we could
-actually look at the results, find regressions and report them. Maybe we could
-start in the same way with a few tests. Eg kselftest-dt and kselftests-acpi. It
-should be relatively simple to make something that will decide on testing probe
-of drivers based on which files are being changed.
-
-There needs to be a sort of cultural shift on how we track tests first. Just documenting
-our current tests may not take us far, but starting small with a comprehensive process
-from test spec to CI automation to clear ways of deliverying results is the game changer.
-
-Then there are other perspectives that crosses this. For example, many of the LTP and
-kselftests will just fail, but there is no accumulated knowledge on what the result of
-each test means. So understanding what is expected to pass/fail for each platform is
-a sort of dependance in this extensive documentation effort we are set ourselves for.
-
-Best,
-
-- Gus
-
-
-
-
-
+-- 
+Cyril Hrubis
+chrubis@suse.cz
