@@ -1,394 +1,149 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF6E188730
-	for <workflows@vger.kernel.org>; Fri, 18 Oct 2024 07:22:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729236135; cv=none; b=taRHGcQKvrDDzInVI0ILKo2CnnAMOm8ohUQK/0gMHsl+ib2RULe7wKXKx+ihVt20eJk3ErmKi5MfFuwTv754rMdGo/vXBeVYx4EGUbI9PzxvNqRTm9/uMjIwGputyghaLsf6+PBidUg9fVgOlmv5aWjjUNz0agGkXN447EroxPk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729236135; c=relaxed/simple;
-	bh=VgPkArnVUyVrISK4/+dy3T5TLeT55U/CMHvQqV4ZVwk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=p0T4rPvsPoJpFAUj/N/COShWLyo+a0sdn4A1HWcm+7Y/tuJ9ufhP/7tEaeIxK1X/9S78QHCj2oOUiB6GwPJNZ2MIcT3PJOd3Nj4CtSoEE7dW0W52QARM1FjPp1cBff3j2VrqZDs8lUyjHKi1oHERLBIQlrHr5BHNM3dUB7zLjyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kBRZvx4J; arc=none smtp.client-ip=209.85.219.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E246E13C8E2;
+	Fri, 18 Oct 2024 14:23:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729261415; cv=pass; b=ZfkBl+/p7LHKLImpV+bAGVnO6ZkyBOHc0XruddjKKcbQZkgEz8eeW2q/k3jiUfFyVDnAiOe8F5nSlM6F4qWMlCIfoSKGc0LFXLrEnvcJGgN8CjCfFEji5BQrCpH4ZfMpk6mKxk7D2oGqC4Rs2vpD+jir8tgqqIx/mtEBtNT/nmk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729261415; c=relaxed/simple;
+	bh=fwm6F1waUYlZmpjON4M0/tCzSIvM2BeoAkSP9zIsXrk=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=E/9nc5nKQMULRMZzZRO+pKhnBb6mX9hNkTEGwkjadvRvSTPTMjCnt5yLPPfp81uEk982MI8RgYFZ/Zp3HQfbFJMigMq8Tx5RD3+LQcoLpjyQeLbero6JPwdenB9ngoxNDepy1vgCUetxQaSds36fRW+OhfV8pViq/Py3hqLivIM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=gustavo.padovan@collabora.com header.b=SdVbTYML; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kBRZvx4J"
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-6cc2ea27a50so22789756d6.0
-        for <workflows@vger.kernel.org>; Fri, 18 Oct 2024 00:22:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729236132; x=1729840932; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=W1QCDMrJ/AQOyhCMUs+HJx+I9p4FP2if7qoqFJUqlSc=;
-        b=kBRZvx4JSJVHSEXPSh7M4u8NNhUmgyw4BzykuMeo3lOK0Nf4l/FtfzwhXzuSZNAnud
-         7wjIRQIZSo2p2/7jhbvqR5m6cHBqTC7hxgOXacpVK6D+ECx+l7OGjaz5hPqIB+xNHU1t
-         7ew4LckLOcU0UZNewF2aM+Xgq5MBJckNhnHQD+8QUps8LhSEhbt7qNTX1KD53zZITg3J
-         xXg633pNWGxlT0MbLHpyDQnGIE5xxvzbFtq9KEOrX7cPBtxVre3N+qFwK1TBRIDCB5Ik
-         EJM/ZyqkHbx3ngE6ZKmieJnyqFuTqKg1VWdnQT3Y9wMGIfNlwAT03A8+hZy8UlgT3cej
-         MCeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729236132; x=1729840932;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=W1QCDMrJ/AQOyhCMUs+HJx+I9p4FP2if7qoqFJUqlSc=;
-        b=MJ+ROApAZK6sot2uOXdcgRnT7n2FjAErHzX5CWnKt9OeP2EfsvEiWQjq9a7wi9KAXq
-         0M98yVzICKhYW1LfXPd6uia+sl+JXh863Ao007cRKN/sNz/kx8krG6QhTFgTg1YHnWW5
-         Vb8BAmXxY2BbaeLHNWqQDtlJNrPBqcqLGhj2Nnyvv/n5uWyqo7QVn/SUgBptHUPHGkp6
-         8k0x2qzvkvehLYE62QPZfT8VkBd2uq+lh2tVi3f+2nT1n/vo6UVNPPZmxl0YBgidOvdm
-         5wbrJcysdWkjJ76gqNwzZELUapZU6vhMydOGtlVz7YWXwmcXCCQ9KcfDxLgZUF35351+
-         Vq4g==
-X-Gm-Message-State: AOJu0YxryW5M3xWWhG1mI+dnFe1bGmKfoSSrWz8LYrKK0VRwLpiACcb/
-	pRFIzEbwTrDLU4LXLpvrZZQWTQLc2Xwkk08GOhpNy9EbLrjHtAvA/r3/TUkjD+NJH1X6he9Nd44
-	xcu+e16iJ3fBoFsQGdIbEv6PsPQcATuD7lLgQ
-X-Google-Smtp-Source: AGHT+IG1Zvkbwfkuhxl8fKJd/u0AMJQZuO+Ar+SYemvp/HST5jke0TlUDbABt0L4kdMzkRg4nVRAZiFYNwrLgfxMqzU=
-X-Received: by 2002:a05:6214:e83:b0:6c3:6344:d4e1 with SMTP id
- 6a1803df08f44-6cc378ab19dmr98067196d6.20.1729236131893; Fri, 18 Oct 2024
- 00:22:11 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=gustavo.padovan@collabora.com header.b="SdVbTYML"
+ARC-Seal: i=1; a=rsa-sha256; t=1729261402; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=KIAyqUQN30RwIjlwXi20mKsI54vVnEuAng+Y8CaGIai+bz4Nr/F01424pAMQx3oBw8KFPw27W9c4UoqXL3YoD7qxxJCOzSn+4BU1UTUNrhOonqmBc/kXmr8aKRsnwYtD7hCspnmqZwTjVWobawDZIDQ8cKyfGCGxMvGBPyfbiys=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1729261402; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=QIAhrezxUtXF4gEkgEiGP9TNMCNjCrJRts1YkaKxqFI=; 
+	b=WGJ1SKvsO+nCHjc1P1osPTV1J5b9BWqdj9aEX7dw2bxj+bQ1IzCxugEoDGlRT3YBm87qR+g3BNEEuEfVBOrT7JpJcKKuQ/S1FiWq2c1FXp/CjbpHQ2B6mRizLwVY1HEio56jpIU6nRLo/ve7PywZj0dkwAbHYJ2KZWaF+aSBg4A=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=gustavo.padovan@collabora.com;
+	dmarc=pass header.from=<gustavo.padovan@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1729261402;
+	s=zohomail; d=collabora.com; i=gustavo.padovan@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=QIAhrezxUtXF4gEkgEiGP9TNMCNjCrJRts1YkaKxqFI=;
+	b=SdVbTYMLJyJzgRy0P4SqEXPiv9stROswwkByYJp7uSSheCpliLqk/wfyAZoHqu1B
+	WA27D2/AC4xpbTw8InZ7fHG5WYg/zJvm6nkSG0FRhf3Bh+k2+3O3SWKtagr0gB8PFLf
+	DcpoZMIOH8OhRz50Awbd+26fJY9UJ2rymdSMRcTo=
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 1729261399679794.5165976461445; Fri, 18 Oct 2024 07:23:19 -0700 (PDT)
+Date: Fri, 18 Oct 2024 11:23:19 -0300
+From: Gustavo Padovan <gustavo.padovan@collabora.com>
+To: "David Gow" <davidgow@google.com>
+Cc: "Donald Zickus" <dzickus@redhat.com>,
+	"workflows" <workflows@vger.kernel.org>,
+	"automated-testing" <automated-testing@lists.yoctoproject.org>,
+	"linux-kselftest" <linux-kselftest@vger.kernel.org>,
+	"kernelci" <kernelci@lists.linux.dev>,
+	"Nikolai Kondrashov" <nkondras@redhat.com>,
+	"kernelci-members" <kernelci-members@groups.io>,
+	"laura.nao" <laura.nao@collabora.com>
+Message-ID: <192a002ee68.e1e6c6282027214.1199547115557464780@collabora.com>
+In-Reply-To: <CABVgOSk1ng46scbJc-3qPZUhkn+0KrZsFDe-UYnw0q-XksP_2Q@mail.gmail.com>
+References: <CAK18DXYitS7hL1mA3QsPLmW9-R0q6Kin0C5Uv9fj=uS90WSnxA@mail.gmail.com> <CABVgOSk1ng46scbJc-3qPZUhkn+0KrZsFDe-UYnw0q-XksP_2Q@mail.gmail.com>
+Subject: Re: [RFC] Test catalog template
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAK18DXYitS7hL1mA3QsPLmW9-R0q6Kin0C5Uv9fj=uS90WSnxA@mail.gmail.com>
-In-Reply-To: <CAK18DXYitS7hL1mA3QsPLmW9-R0q6Kin0C5Uv9fj=uS90WSnxA@mail.gmail.com>
-From: David Gow <davidgow@google.com>
-Date: Fri, 18 Oct 2024 15:21:58 +0800
-Message-ID: <CABVgOSk1ng46scbJc-3qPZUhkn+0KrZsFDe-UYnw0q-XksP_2Q@mail.gmail.com>
-Subject: Re: [RFC] Test catalog template
-To: Donald Zickus <dzickus@redhat.com>
-Cc: workflows@vger.kernel.org, automated-testing@lists.yoctoproject.org, 
-	linux-kselftest@vger.kernel.org, kernelci <kernelci@lists.linux.dev>, 
-	Nikolai Kondrashov <nkondras@redhat.com>, Gustavo Padovan <gustavo.padovan@collabora.com>, 
-	kernelci-members <kernelci-members@groups.io>, laura.nao@collabora.com
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="00000000000068c1b40624bb292a"
-
---00000000000068c1b40624bb292a
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
 
-Hi Don,
+Hello,
 
-Thanks for putting this together: the discussion at Plumbers was very useful.
 
-On Tue, 15 Oct 2024 at 04:33, Donald Zickus <dzickus@redhat.com> wrote:
->
-> Hi,
->
-> At Linux Plumbers, a few dozen of us gathered together to discuss how
-> to expose what tests subsystem maintainers would like to run for every
-> patch submitted or when CI runs tests.  We agreed on a mock up of a
-> yaml template to start gathering info.  The yaml file could be
-> temporarily stored on kernelci.org until a more permanent home could
-> be found.  Attached is a template to start the conversation.
->
+---- On Fri, 18 Oct 2024 04:21:58 -0300 David Gow  wrote ---
 
-I think that there are two (maybe three) separate problems here:
-1. What tests do we want to run (for a given patch/subsystem/environment/etc)?
-2. How do we describe those tests in such a way that running them can
-be automated?
-3. (Exactly what constitutes a 'test'? A single 'test', a whole suite
-of tests, a test framework/tool? What about the environment: is, e.g.,
-KUnit on UML different from KUnit on qemu-x86_64 different from KUnit
-on qemu-arm64?)
+ > Hi Don, 
+ >  
+ > Thanks for putting this together: the discussion at Plumbers was very useful. 
+ >  
+ > On Tue, 15 Oct 2024 at 04:33, Donald Zickus dzickus@redhat.com> wrote: 
+ > > 
+ > > Hi, 
+ > > 
+ > > At Linux Plumbers, a few dozen of us gathered together to discuss how 
+ > > to expose what tests subsystem maintainers would like to run for every 
+ > > patch submitted or when CI runs tests.  We agreed on a mock up of a 
+ > > yaml template to start gathering info.  The yaml file could be 
+ > > temporarily stored on kernelci.org until a more permanent home could 
+ > > be found.  Attached is a template to start the conversation. 
+ > > 
+ >  
+ > I think that there are two (maybe three) separate problems here: 
+ > 1. What tests do we want to run (for a given patch/subsystem/environment/etc)? 
+ > 2. How do we describe those tests in such a way that running them can 
+ > be automated? 
+ > 3. (Exactly what constitutes a 'test'? A single 'test', a whole suite 
+ > of tests, a test framework/tool? What about the environment: is, e.g., 
+ > KUnit on UML different from KUnit on qemu-x86_64 different from KUnit 
+ > on qemu-arm64?) 
+ >  
+ > My gut feeling here is that (1) is technically quite easy: worst-case 
+ > we just make every MAINTAINERS entry link to a document describing 
+ > what tests should be run. Actually getting people to write these 
+ > documents and then run the tests, though, is very difficult. 
+ >  
+ > (2) is the area where I think this will be most useful. We have some 
+ > arbitrary (probably .yaml) file which describes a series of tests to 
+ > run in enough detail that we can automate it. My ideal outcome here 
+ > would be to have a 'kunit.yaml' file which I can pass to a tool 
+ > (either locally or automatically on some CI system) which will run all 
+ > of the checks I'd run on an incoming patch. This would include 
+ > everything from checkpatch, to test builds, to running KUnit tests and 
+ > other test scripts. Ideally, it'd even run these across a bunch of 
+ > different environments (architectures, emulators, hardware, etc) to 
+ > catch issues which only show up on big-endian or 32-bit machines. 
+ >  
+ > If this means I can publish that yaml file somewhere, and not only 
+ > give contributors a way to check that those tests pass on their own 
+ > machine before sending a patch out, but also have CI systems 
+ > automatically run them (so the results are ready waiting before I 
+ > manually review the patch), that'd be ideal. 
 
-My gut feeling here is that (1) is technically quite easy: worst-case
-we just make every MAINTAINERS entry link to a document describing
-what tests should be run. Actually getting people to write these
-documents and then run the tests, though, is very difficult.
+This though makes sense to me. It will be very interesting for CI systems to be
+able to figure out which tests to run for a set of folder/file changes. 
 
-(2) is the area where I think this will be most useful. We have some
-arbitrary (probably .yaml) file which describes a series of tests to
-run in enough detail that we can automate it. My ideal outcome here
-would be to have a 'kunit.yaml' file which I can pass to a tool
-(either locally or automatically on some CI system) which will run all
-of the checks I'd run on an incoming patch. This would include
-everything from checkpatch, to test builds, to running KUnit tests and
-other test scripts. Ideally, it'd even run these across a bunch of
-different environments (architectures, emulators, hardware, etc) to
-catch issues which only show up on big-endian or 32-bit machines.
+However, I also feel that a key part of the work is actually convincing people
+to write (and maintain!) these specs. Only automation through CI we may be able
+to show the value of this tasks, prompting maintainers to keep their files
+updated, otherwise we are going create a sea of specs that will just be outdated
+pretty quickly.
 
-If this means I can publish that yaml file somewhere, and not only
-give contributors a way to check that those tests pass on their own
-machine before sending a patch out, but also have CI systems
-automatically run them (so the results are ready waiting before I
-manually review the patch), that'd be ideal.
+In the new KernelCI maestro, we started with only a handful of tests, so we could
+actually look at the results, find regressions and report them. Maybe we could
+start in the same way with a few tests. Eg kselftest-dt and kselftests-acpi. It
+should be relatively simple to make something that will decide on testing probe
+of drivers based on which files are being changed.
 
-> Longer story.
->
-> The current problem is CI systems are not unanimous about what tests
-> they run on submitted patches or git branches.  This makes it
-> difficult to figure out why a test failed or how to reproduce.
-> Further, it isn't always clear what tests a normal contributor should
-> run before posting patches.
->
-> It has been long communicated that the tests LTP, xfstest and/or
-> kselftests should be the tests  to run.  However, not all maintainers
-> use those tests for their subsystems.  I am hoping to either capture
-> those tests or find ways to convince them to add their tests to the
-> preferred locations.
->
-> The goal is for a given subsystem (defined in MAINTAINERS), define a
-> set of tests that should be run for any contributions to that
-> subsystem.  The hope is the collective CI results can be triaged
-> collectively (because they are related) and even have the numerous
-> flakes waived collectively  (same reason) improving the ability to
-> find and debug new test failures.  Because the tests and process are
-> known, having a human help debug any failures becomes easier.
->
-> The plan is to put together a minimal yaml template that gets us going
-> (even if it is not optimized yet) and aim for about a dozen or so
-> subsystems.  At that point we should have enough feedback to promote
-> this more seriously and talk optimizations.
->
-> Feedback encouraged.
->
-> Cheers,
-> Don
->
-> ---
-> # List of tests by subsystem
+There needs to be a sort of cultural shift on how we track tests first. Just documenting
+our current tests may not take us far, but starting small with a comprehensive process
+from test spec to CI automation to clear ways of deliverying results is the game changer.
 
-I think we should split this up into several files, partly to avoid
-merge conflicts, partly to make it easy to maintain custom collections
-of tests separately.
+Then there are other perspectives that crosses this. For example, many of the LTP and
+kselftests will just fail, but there is no accumulated knowledge on what the result of
+each test means. So understanding what is expected to pass/fail for each platform is
+a sort of dependance in this extensive documentation effort we are set ourselves for.
 
-For example, fs.yaml could contain entries for both xfstests and fs
-KUnit and selftests.
+Best,
 
-It's also probably going to be necessary to have separate sets of
-tests for different use-cases. For example, there might be a smaller,
-quicker set of tests to run on every patch, and a much longer, more
-expensive set which only runs every other day. So I don't think
-there'll even be a 1:1 mapping between 'test collections' (files) and
-subsystems. But an automated way of running "this collection of tests"
-would be very useful, particularly if it's more user-friendly than
-just writing a shell script (e.g., having nicely formatted output,
-being able to run things in parallel or remotely, etc).
-
-> #
-> # Tests should adhere to KTAP definitions for results
-> #
-> # Description of section entries
-> #
-> #  maintainer:    test maintainer - name <email>
-> #  list:                mailing list for discussion
-> #  version:         stable version of the test
-> #  dependency: necessary distro package for testing
-> #  test:
-> #    path:            internal git path or url to fetch from
-> #    cmd:            command to run; ability to run locally
-> #    param:         additional param necessary to run test
-> #  hardware:      hardware necessary for validation
-> #
-> # Subsystems (alphabetical)
->
-> KUNIT TEST:
-
-For KUnit, it'll be interesting to draw the distinction between KUnit
-overall and individual KUnit suites.
-I'd lean towards having a separate entry for each subsystem's KUnit
-tests (including one for KUnit's own tests)
-
->   maintainer:
->     - name: name1
->       email: email1
->     - name: name2
->       email: email2
->   list:
-
-How important is it to have these in the case where they're already in
-the MAINTAINERS file? I can see it being important for tests which
-live elsewhere, though eventually, I'd still prefer the subsystem
-maintainer to take some responsibility for the tests run for their
-subsystems.
-
->   version:
-
-This field is probably unnecessary for test frameworks which live in
-the kernel tree.
-
->   dependency:
->     - dep1
->     - dep2
-
-If we want to automate this in any way, we're going to need to work
-out a way of specifying these. Either we'd have to pick a distro's
-package names, or have our own mapping.
-
-(A part of me really likes the idea of having a small list of "known"
-dependencies: python, docker, etc, and trying to limit tests to using
-those dependencies. Though there are plenty of useful tests with more
-complicated dependencies, so that probably won't fly forever.)
-
->   test:
->     - path: tools/testing/kunit
->       cmd:
->       param:
->     - path:
->       cmd:
->       param:
-
-Is 'path' here supposed to be the path to the test binary, the working
-directory, etc?
-Maybe there should be 'working_directory', 'cmd', 'args', and 'env'.
-
->   hardware: none
+- Gus
 
 
 
-For KUnit, I'd imagine having a kunit.yaml, with something like this,
-including the KUnit tests in the 'kunit' and 'example' suites, and the
-'kunit_tool_test.py' test script:
 
----
-KUnit:
-  maintainer:
-    - name: David Gow
-      email: davidgow@google.com
-    - name: Brendan Higgins
-      email: brendan.higgins@linux.dev
-  list: kunit-dev@googlegroups.com
-  dependency:
-    - python3
-  test:
-    - path: .
-      cmd: tools/testing/kunit.py
-      param: run kunit
-    - path: .
-      cmd: tools/testing/kunit.py
-      param: run example
-  hardware: none
-KUnit Tool:
-  maintainer:
-    - name: David Gow
-      email: davidgow@google.com
-    - name: Brendan Higgins
-      email: brendan.higgins@linux.dev
-  list: kunit-dev@googlegroups.com
-  dependency:
-    - python3
-  test:
-    - path: .
-      cmd: tools/testing/kunit_tool_test.py
-      param:
-  hardware: none
----
 
-Obviously there's still some redundancy there, and I've not actually
-tried implementing something that could run it. It also lacks any
-information about the environment. In practice, I have about 20
-different kunit.py invocations which run the tests with different
-configs and on different architectures. Though that might make sense
-to keep in a separate file to only run if the simpler tests pass. And
-equally, it'd be nice to have a 'common.yaml' file with basic patch
-and build tests which apply to almost everything (checkpatch, make
-defconfig, maybe even make allmodconfig, etc).
-
-Cheers,
--- David
-
---00000000000068c1b40624bb292a
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-MIIUqgYJKoZIhvcNAQcCoIIUmzCCFJcCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-ghIEMIIGkTCCBHmgAwIBAgIQfofDAVIq0iZG5Ok+mZCT2TANBgkqhkiG9w0BAQwFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSNjETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMzA0MTkwMzUzNDdaFw0zMjA0MTkwMDAwMDBaMFQxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
-IFI2IFNNSU1FIENBIDIwMjMwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQDYydcdmKyg
-4IBqVjT4XMf6SR2Ix+1ChW2efX6LpapgGIl63csmTdJQw8EcbwU9C691spkltzTASK2Ayi4aeosB
-mk63SPrdVjJNNTkSbTowej3xVVGnYwAjZ6/qcrIgRUNtd/mbtG7j9W80JoP6o2Szu6/mdjb/yxRM
-KaCDlloE9vID2jSNB5qOGkKKvN0x6I5e/B1Y6tidYDHemkW4Qv9mfE3xtDAoe5ygUvKA4KHQTOIy
-VQEFpd/ZAu1yvrEeA/egkcmdJs6o47sxfo9p/fGNsLm/TOOZg5aj5RHJbZlc0zQ3yZt1wh+NEe3x
-ewU5ZoFnETCjjTKz16eJ5RE21EmnCtLb3kU1s+t/L0RUU3XUAzMeBVYBEsEmNnbo1UiiuwUZBWiJ
-vMBxd9LeIodDzz3ULIN5Q84oYBOeWGI2ILvplRe9Fx/WBjHhl9rJgAXs2h9dAMVeEYIYkvW+9mpt
-BIU9cXUiO0bky1lumSRRg11fOgRzIJQsphStaOq5OPTb3pBiNpwWvYpvv5kCG2X58GfdR8SWA+fm
-OLXHcb5lRljrS4rT9MROG/QkZgNtoFLBo/r7qANrtlyAwPx5zPsQSwG9r8SFdgMTHnA2eWCZPOmN
-1Tt4xU4v9mQIHNqQBuNJLjlxvalUOdTRgw21OJAFt6Ncx5j/20Qw9FECnP+B3EPVmQIDAQABo4IB
-ZTCCAWEwDgYDVR0PAQH/BAQDAgGGMDMGA1UdJQQsMCoGCCsGAQUFBwMCBggrBgEFBQcDBAYJKwYB
-BAGCNxUGBgkrBgEEAYI3FQUwEgYDVR0TAQH/BAgwBgEB/wIBADAdBgNVHQ4EFgQUM7q+o9Q5TSoZ
-18hmkmiB/cHGycYwHwYDVR0jBBgwFoAUrmwFo5MT4qLn4tcc1sfwf8hnU6AwewYIKwYBBQUHAQEE
-bzBtMC4GCCsGAQUFBzABhiJodHRwOi8vb2NzcDIuZ2xvYmFsc2lnbi5jb20vcm9vdHI2MDsGCCsG
-AQUFBzAChi9odHRwOi8vc2VjdXJlLmdsb2JhbHNpZ24uY29tL2NhY2VydC9yb290LXI2LmNydDA2
-BgNVHR8ELzAtMCugKaAnhiVodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL3Jvb3QtcjYuY3JsMBEG
-A1UdIAQKMAgwBgYEVR0gADANBgkqhkiG9w0BAQwFAAOCAgEAVc4mpSLg9A6QpSq1JNO6tURZ4rBI
-MkwhqdLrEsKs8z40RyxMURo+B2ZljZmFLcEVxyNt7zwpZ2IDfk4URESmfDTiy95jf856Hcwzdxfy
-jdwx0k7n4/0WK9ElybN4J95sgeGRcqd4pji6171bREVt0UlHrIRkftIMFK1bzU0dgpgLMu+ykJSE
-0Bog41D9T6Swl2RTuKYYO4UAl9nSjWN6CVP8rZQotJv8Kl2llpe83n6ULzNfe2QT67IB5sJdsrNk
-jIxSwaWjOUNddWvCk/b5qsVUROOuctPyYnAFTU5KY5qhyuiFTvvVlOMArFkStNlVKIufop5EQh6p
-jqDGT6rp4ANDoEWbHKd4mwrMtvrh51/8UzaJrLzj3GjdkJ/sPWkDbn+AIt6lrO8hbYSD8L7RQDqK
-C28FheVr4ynpkrWkT7Rl6npWhyumaCbjR+8bo9gs7rto9SPDhWhgPSR9R1//WF3mdHt8SKERhvtd
-NFkE3zf36V9Vnu0EO1ay2n5imrOfLkOVF3vtAjleJnesM/R7v5tMS0tWoIr39KaQNURwI//WVuR+
-zjqIQVx5s7Ta1GgEL56z0C5GJoNE1LvGXnQDyvDO6QeJVThFNgwkossyvmMAaPOJYnYCrYXiXXle
-A6TpL63Gu8foNftUO0T83JbV/e6J8iCOnGZwZDrubOtYn1QwggWDMIIDa6ADAgECAg5F5rsDgzPD
-hWVI5v9FUTANBgkqhkiG9w0BAQwFADBMMSAwHgYDVQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBS
-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
-erg7AgMBAAGjggHgMIIB3DAeBgNVHREEFzAVgRNkYXZpZGdvd0Bnb29nbGUuY29tMA4GA1UdDwEB
-/wQEAwIFoDAdBgNVHSUEFjAUBggrBgEFBQcDBAYIKwYBBQUHAwIwHQYDVR0OBBYEFKFQnbTpSq0q
-cOYnlrbegXJIIvA6MFgGA1UdIARRME8wCQYHZ4EMAQUBAjBCBgorBgEEAaAyCgMDMDQwMgYIKwYB
-BQUHAgEWJmh0dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQC
-MAAwgZoGCCsGAQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWdu
-LmNvbS9jYS9nc2F0bGFzcjZzbWltZWNhMjAyMzBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5n
-bG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NhdGxhc3I2c21pbWVjYTIwMjMuY3J0MB8GA1UdIwQYMBaA
-FDO6vqPUOU0qGdfIZpJogf3BxsnGMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFs
-c2lnbi5jb20vY2EvZ3NhdGxhc3I2c21pbWVjYTIwMjMuY3JsMA0GCSqGSIb3DQEBCwUAA4ICAQBR
-nRJBmUP+IpudtmSQ/R55Sv0qv8TO9zHTlIdsIf2Gc/zeCi0SamUQkFWb01d7Q+20kcpxNzwV6M7y
-hDRk5uuVFvtVxOrmbhflCo0uBpD9vz/symtfJYZLNyvSDi1PIVrwGNpyRrD0W6VQJxzzsBTwsO+S
-XWN3+x70+QDf7+zovW7KF0/y8QYD6PIN7Y9LRUXct0HKhatkHmO3w6MSJatnqSvsjffIwpNecUMo
-h10c6Etz17b7tbGdxdxLw8njN+UnfoFp3v4irrafB6jkArRfsR5TscZUUKej0ihl7mXEKUBmClkP
-ndcbXHFxS6WTkpjvl7Jjja8DdWJSJmdEWUnFjnQnDrqLqvYjeVMS/8IBF57eyT6yEPrMzA+Zd+f5
-hnM7HuBSGvVHv+c/rlHVp0S364DBGXj11obl7nKgL9D59QwC5/kNJ1whoKwsATUSepanzALdOTn3
-BavXUVE38e4c90il44T1bphqtLfmHZ1T5ZwxjtjzNMKy0Mb9j/jcFxfibCISYbnk661FBe38bhYj
-0DhqINx2fw0bwhpfFGADOZDe5DVhI7AIW/kEMHuIgAJ/HPgyn1+tldOPWiFLQbTNNBnfGv9sDPz0
-hWV2vSAXq35i+JS06BCkbGfE5ci6zFy4pt8fmqMGKFH/t3ELCTYo116lqUTDcVC8DAWN8E55aDGC
-AmowggJmAgEBMGgwVDELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYtc2ExKjAo
-BgNVBAMTIUdsb2JhbFNpZ24gQXRsYXMgUjYgU01JTUUgQ0EgMjAyMwIQAZ6Vqszmp/3gGFW0sCFu
-eDANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQgAsTmar5zr9rV081sfPx08FGA39Wu
-zbQgJL50ngZzUZcwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjQx
-MDE4MDcyMjEyWjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
-YIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBCjALBgkqhkiG9w0BAQcwCwYJYIZIAWUD
-BAIBMA0GCSqGSIb3DQEBAQUABIIBAEdIwi/SkyL6UoAH+8nnnu1wa7iGR1UJUpT9k6OcDXmzH8Ml
-Izs4xgiXEaA2nJObkqLEZaO6hZwzYOFxcZ7Cpk7sMv3zQ/N0xKcmsEV8EXwGmQwLvoIbzSFJkSgh
-53HiDPlQIEbvfhEsqiNuDhJkp5KuOpjRxEALWQ6IvxwboEJMS8m/ljjiMHvPEi3IzDl3ai+cjYIx
-m1sILQAjYq0wWwd+AYxDVJKDx3PdDf28PxekEff6UkV1rXtFdk772GpgZYm7NFnM78xICPNhe8A/
-41c7JwmcXcMxjTVM6/natglMBee9VZzxKQcBLoBdSQKftRqmeHbqnR4VUnWQ5huSIUU=
---00000000000068c1b40624bb292a--
