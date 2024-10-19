@@ -1,397 +1,307 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 386A618801F
-	for <workflows@vger.kernel.org>; Fri, 18 Oct 2024 20:17:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC341D47BC
+	for <workflows@vger.kernel.org>; Sat, 19 Oct 2024 06:20:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729282654; cv=none; b=AVMb0iR+Q+vebyaBzsA+/pbYh7okE62cCTcvqlykrxFQBjUZ39kOF4X9Jpi6HC36Jz7d5NxWFqp1P1+5MMftzJHKQJzvAp48R0o6a63iFZ2XBYkdp2jn07ldv+wSdyNQWCv1jvheFN9HKIWArCnVZsdD601m7xmQT49WjTOwoPs=
+	t=1729318820; cv=none; b=avrDSOfV+xqPugscSosWHyXMPH2XWGBnpyDcA5/A1l6Pb5tU2HJnnilY0FfrYhQgV87pL66M92Fyb70oNks11Y8wVEqFPGy1+xHytrKSo/xv6M35TDzhilZ13hmENIYRw3buVyiHHspHDJvmSfAT94ZPipGZLd4XldLxgEnnA+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729282654; c=relaxed/simple;
-	bh=yhbjXMciGwC8kCtt68DLHeWJh2KGB6zIn4NSga0I7OY=;
+	s=arc-20240116; t=1729318820; c=relaxed/simple;
+	bh=j8X+5Qa3BA6yYydwwDfAN46CjuG+Ig56cU764oIme4g=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rhCT+bgtHvmlkQ3wiz1i/WYwjsuLZiko29yAcIFOBiGQ5uCn0jDPKUa2k+Ch7vvuqyeqhFpwKf9LvRY03JM080bIof/fXFytdLoKArrHBFjIrc14AAKQ9fQaAy0CrN+D76dRkpY/sbcLcAD8rxl5hSGa8NQOfdQYT7S1cIKN+uI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BQMO/zEY; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 To:Cc:Content-Type; b=vBe2FjiKrdWcmeD3niB17hOnI/PALId5FZ38Ep19gNdaRzwRRibN9fhZxh9Pwl07ye1I12sZY8u+RDocTq4Xhjh57VQzChqx4Qlnqf8ldyOZr4VxrA7FdFNs4xN1r1V+PJRiw+Ms09jTyXrOQ6bqy67M+CjClu9kAw3aMeqMLoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=koOVeV/2; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BQMO/zEY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1729282651;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TbnmlN4w8zqivsHbL3mw7REsYVzkigS6r5daWEI1haQ=;
-	b=BQMO/zEYlgO0neCUOXx7a/GgODogjg355aEh3Foh2/pvYef6yT1PMC7Mn1L+0/f73XZLur
-	MJrW/0HMeYeqiI2C7FOaJAMyHWSNYyhrBEnLG9W2zE9TB92815WYBGdXhZR9+yegD6Vepy
-	Rbk9GPuQHEZUgqLsgMc55B8s8/i6L74=
-Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
- [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-259-DArHwYAfPDyZmsSzCqQGvA-1; Fri, 18 Oct 2024 16:17:29 -0400
-X-MC-Unique: DArHwYAfPDyZmsSzCqQGvA-1
-Received: by mail-yw1-f199.google.com with SMTP id 00721157ae682-6e383ba6763so44519757b3.3
-        for <workflows@vger.kernel.org>; Fri, 18 Oct 2024 13:17:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="koOVeV/2"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-20c87b0332cso57465ad.1
+        for <workflows@vger.kernel.org>; Fri, 18 Oct 2024 23:20:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1729318817; x=1729923617; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kG5Ji9yk+5OB5vhrjsIZYD53kBt4ULitiVGV3je8U3M=;
+        b=koOVeV/28avkrcvKtwoIXjAsxxtrn+kJi/CPBUVzagYx5YBSlnxaYA6mH9GasgK4V/
+         wgpfjInWfthZN6QjpgsJSCamGkTCPdGysAo1X/TkI5Hsrz5RjIWV9O0ys4MGpVXOvi79
+         RdFz14T4v9JZ04BmvEsxcsZhhHBBUM6ndSxtpNYNlSUh2lj8ZYV7KnIBMrhDU3xOP8K8
+         sGnf9MKPRpPlTRTYM47cjQ5FfAL0Pb98Icv2K+rqYdzV7fvAhlTLYH5t6ljO6Pm1LPQf
+         cy4vWjHss0YZS+BF55TAt+e1gS6p67s8ZKW/40mBJS90pz/NHaBznDHOEb+E2RxH/24g
+         nQrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729282649; x=1729887449;
+        d=1e100.net; s=20230601; t=1729318817; x=1729923617;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TbnmlN4w8zqivsHbL3mw7REsYVzkigS6r5daWEI1haQ=;
-        b=pT5y1xpEW3a1AateuG8ClDuW1z5kRXP2TegjDApLlotJBPRZOPRDU79AS6Lw05sKM4
-         4RIV+pyDzFLA4iCYrsVPsilOPv4KbhNSDi1NDpQLABH/qpz0s5wzdoAF+xHZvbFXDKWl
-         Rjejbr7xtQOTKFmeFbGdSb+ZPk3LV03OyB8aOrhZduNA0+sOTNSFF9JDsj9fQcHzHl3/
-         PIFGo/uG6pdWUoaYICCpku+Hc5IV9JFfQuaIvqDozk569GHN66hSIpV6IPc+hgpXPJsl
-         nM6cpiuMgCTkgZjr37qpp9U0QIBABZGSzIIhAdkZHRnCrJVJ7ZnkOp4n1LbkBK7rFVkN
-         ArWw==
-X-Gm-Message-State: AOJu0YxPqowF1z8KVdwbCjqs8zhTZwqV+cpCbaA8anbfLCFafiOh5FFg
-	uMq3jndJ0GLu8WJW2lYoaZUwtvX/0TVsQ9n79glD0Gc38MOCcBK/Q7kGva5RjARy7ZpZ3U0579t
-	6EErJl81Q6kswZJh0lTe6bUgsRBw5CtQM23L3FTxn+vVlmaEmd2KJobs6SnxNvhtgv4nZv7axvP
-	8Fz8dxgWG1h3vMQc5nSjOP9xVdm5CckzJH
-X-Received: by 2002:a05:690c:102:b0:6b2:28c3:b706 with SMTP id 00721157ae682-6e5bfd4e9a8mr30874427b3.34.1729282648694;
-        Fri, 18 Oct 2024 13:17:28 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGowxvJ0ukN32Bngs1BmEaLRkLlyu3um1V4EwoDJhFP9p93Rj0yIlNx1nP5A5pFV3GehApCp89fAT9p50wOdGs=
-X-Received: by 2002:a05:690c:102:b0:6b2:28c3:b706 with SMTP id
- 00721157ae682-6e5bfd4e9a8mr30874117b3.34.1729282648217; Fri, 18 Oct 2024
- 13:17:28 -0700 (PDT)
+        bh=kG5Ji9yk+5OB5vhrjsIZYD53kBt4ULitiVGV3je8U3M=;
+        b=dXqmHtysgrm/AXfDqoXjsMpgeUbcjxZTnXV+3pWMNfXn/maul28Dk0g0akRAEPo9e2
+         zWR7b/oEWBC+iEuqDVX+bdnXu3ctJaqUc1MYadY/VmINvpNSbDURyphz+5tv8v0zt2mx
+         A2Z03dHZfGdmf5O7v9shIYvwxDVb8NFCgBxQyRvpodboDn9nNh+baRybZPFr0AtjZgoA
+         g0vq8bvdkSNDyXXHUPnHu35ftFjAUO7UeSaRkpyzZahx2x8DHrmWLaWSh2f7vdNQvfzE
+         9iiCHt3ia0+UVFa4O3cLDv9rgZhIYwP1tIlb5yx7IrDh1jFOs29XWzn41zTYdH3SIvaA
+         IKcg==
+X-Forwarded-Encrypted: i=1; AJvYcCUsqMKZnmJsenA9dBs/BaoajMVhiyHMSYD4VU5J1WNS2YwcZBh6VWNkjySyS+sT9xYfeIkLVY4ikXA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz2jxFTnqcBTjPNn9YWmkT/HRKVpL4A/Qfal3wBfV51pt7/vYXs
+	wbn7HDUbZ0p1mhtIpG2DDy2VPGD5abbf9YfYd5KcZu44wbLquMm7Zbn3T9Ezfi1m29t1W9syPAq
+	C6vVdGzRcCNS9vAwHYzrJvWTuWaQfLn/K2jFZ
+X-Google-Smtp-Source: AGHT+IG/g1ICUcu3rMMFd5HdtPGKTgkMSGD7b99oCotrAl3M1kzzZpBn3dX2gQQlRRZDdwAveuHP6VBuhszFxOLUudA=
+X-Received: by 2002:a17:902:d484:b0:20c:e262:2570 with SMTP id
+ d9443c01a7336-20e72b77977mr1489885ad.8.1729318815966; Fri, 18 Oct 2024
+ 23:20:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAK18DXYitS7hL1mA3QsPLmW9-R0q6Kin0C5Uv9fj=uS90WSnxA@mail.gmail.com>
- <CABVgOSk1ng46scbJc-3qPZUhkn+0KrZsFDe-UYnw0q-XksP_2Q@mail.gmail.com>
-In-Reply-To: <CABVgOSk1ng46scbJc-3qPZUhkn+0KrZsFDe-UYnw0q-XksP_2Q@mail.gmail.com>
-From: Donald Zickus <dzickus@redhat.com>
-Date: Fri, 18 Oct 2024 16:17:16 -0400
-Message-ID: <CAK18DXZtBdxQdYY06X+Q=vYybnkCLBQBioCLqvSfkYZ21jBSWg@mail.gmail.com>
-Subject: Re: [RFC] Test catalog template
-To: David Gow <davidgow@google.com>
-Cc: workflows@vger.kernel.org, automated-testing@lists.yoctoproject.org, 
-	linux-kselftest@vger.kernel.org, kernelci <kernelci@lists.linux.dev>, 
-	Nikolai Kondrashov <nkondras@redhat.com>, Gustavo Padovan <gustavo.padovan@collabora.com>, 
-	kernelci-members <kernelci-members@groups.io>, laura.nao@collabora.com
+References: <20241014213342.1480681-1-xur@google.com>
+In-Reply-To: <20241014213342.1480681-1-xur@google.com>
+From: Rong Xu <xur@google.com>
+Date: Fri, 18 Oct 2024 23:20:02 -0700
+Message-ID: <CAF1bQ=SQ9rFdwRk_waQvn4PW7x6T1uJmJ8qNqj04oRKmujkCQw@mail.gmail.com>
+Subject: Re: [PATCH v4 0/6] Add AutoFDO and Propeller support for Clang build
+To: Alice Ryhl <aliceryhl@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, 
+	Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>, 
+	Han Shen <shenhan@google.com>, Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, 
+	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, "Mike Rapoport (IBM)" <rppt@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Nicolas Schier <nicolas@fjasle.eu>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Rong Xu <xur@google.com>, 
+	Sami Tolvanen <samitolvanen@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org, 
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Maksim Panchenko <max4bolt@gmail.com>, 
+	Yonghong Song <yonghong.song@linux.dev>, Yabin Cui <yabinc@google.com>
+Cc: x86@kernel.org, linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 18, 2024 at 3:22=E2=80=AFAM David Gow <davidgow@google.com> wro=
-te:
+Thanks to all for the feedback and suggestions! We are ready to make any fu=
+rther
+changes needed. Is there anything else we can address for this patch?
+
+Also, we know it's not easy to test this patch, but if anyone has had a cha=
+nce
+to try building AutoFDO/Propeller kernels with it, we'd really appreciate y=
+our
+input here. Any confirmation that it works as expected would be very helpfu=
+l.
+
+-Rong
+
+On Mon, Oct 14, 2024 at 2:33=E2=80=AFPM Rong Xu <xur@google.com> wrote:
 >
-> Hi Don,
+> Hi,
 >
-> Thanks for putting this together: the discussion at Plumbers was very use=
-ful.
+> This patch series is to integrate AutoFDO and Propeller support into
+> the Linux kernel. AutoFDO is a profile-guided optimization technique
+> that leverages hardware sampling to enhance binary performance.
+> Unlike Instrumentation-based FDO (iFDO), AutoFDO offers a user-friendly
+> and straightforward application process. While iFDO generally yields
+> superior profile quality and performance, our findings reveal that
+> AutoFDO achieves remarkable effectiveness, bringing performance close
+> to iFDO for benchmark applications.
 >
-> On Tue, 15 Oct 2024 at 04:33, Donald Zickus <dzickus@redhat.com> wrote:
-> >
-> > Hi,
-> >
-> > At Linux Plumbers, a few dozen of us gathered together to discuss how
-> > to expose what tests subsystem maintainers would like to run for every
-> > patch submitted or when CI runs tests.  We agreed on a mock up of a
-> > yaml template to start gathering info.  The yaml file could be
-> > temporarily stored on kernelci.org until a more permanent home could
-> > be found.  Attached is a template to start the conversation.
-> >
+> Propeller is a profile-guided, post-link optimizer that improves
+> the performance of large-scale applications compiled with LLVM. It
+> operates by relinking the binary based on an additional round of runtime
+> profiles, enabling precise optimizations that are not possible at
+> compile time.  Similar to AutoFDO, Propeller too utilizes hardware
+> sampling to collect profiles and apply post-link optimizations to improve
+> the benchmark=E2=80=99s performance over and above AutoFDO.
 >
-> I think that there are two (maybe three) separate problems here:
-> 1. What tests do we want to run (for a given patch/subsystem/environment/=
-etc)?
-
-My thinking is this is maintainer's choice.  What would they like to
-see run on a patch to verify its correctness?  I would like to think
-most maintainers already have scripts they run before commiting
-patches to their -next branch.  All I am trying to do is expose what
-is already being done I believe.
-
-
-> 2. How do we describe those tests in such a way that running them can
-> be automated?
-
-This is the tricky part.  But I am going to assume that if most
-maintainers run tests before committing patches to their -next branch,
-then there is a good chance those tests are scripted and command line
-driven (this is the kernel community, right :-) ).  So if we could
-expose those scripts and make the copy-and-pastable such that
-contributors or testers (including CI bots) can just copy and run
-them.  Some maintainers have more complex environments and separating
-command line driven tests from the environment scripts might be
-tricky.
-
-Does that sound reasonable?
-
-> 3. (Exactly what constitutes a 'test'? A single 'test', a whole suite
-> of tests, a test framework/tool? What about the environment: is, e.g.,
-> KUnit on UML different from KUnit on qemu-x86_64 different from KUnit
-> on qemu-arm64?)
+> Our empirical data demonstrates significant performance improvements
+> with AutoFDO and Propeller, up to 10% on microbenchmarks and up to 5%
+> on large warehouse-scale benchmarks. This makes a strong case for their
+> inclusion as supported features in the upstream kernel.
 >
-> My gut feeling here is that (1) is technically quite easy: worst-case
-> we just make every MAINTAINERS entry link to a document describing
-> what tests should be run. Actually getting people to write these
-> documents and then run the tests, though, is very difficult.
-
-Well if I look at kunit or kselftest, really all you are doing as a
-subsystem maintainer is asking contributors or testers to run a 'make'
-command right?  Everything else is already documented I think.
-
+> Background
 >
-> (2) is the area where I think this will be most useful. We have some
-> arbitrary (probably .yaml) file which describes a series of tests to
-> run in enough detail that we can automate it. My ideal outcome here
-> would be to have a 'kunit.yaml' file which I can pass to a tool
-> (either locally or automatically on some CI system) which will run all
-> of the checks I'd run on an incoming patch. This would include
-> everything from checkpatch, to test builds, to running KUnit tests and
-> other test scripts. Ideally, it'd even run these across a bunch of
-> different environments (architectures, emulators, hardware, etc) to
-> catch issues which only show up on big-endian or 32-bit machines.
+> A significant fraction of fleet processing cycles (excluding idle time)
+> from data center workloads are attributable to the kernel. Ware-house
+> scale workloads maximize performance by optimizing the production kernel
+> using iFDO (a.k.a instrumented PGO, Profile Guided Optimization).
 >
-> If this means I can publish that yaml file somewhere, and not only
-> give contributors a way to check that those tests pass on their own
-> machine before sending a patch out, but also have CI systems
-> automatically run them (so the results are ready waiting before I
-> manually review the patch), that'd be ideal.
-
-Yes, that is exactly the goal of this exercise.  :-) but instead of a
-kunit.yaml file, it is more of a test.yaml file with hundreds of
-subystems inside it (and probably a corresponding get_tests.pl
-script)[think how MAINTAINERS file operates and this is a sister
-file].
-
-Inside the 'KUNIT' section would be a container of tests that would be
-expected to run (like you listed).  Each test has its own command line
-and params.
-
-
+> iFDO can significantly enhance application performance but its use
+> within the kernel has raised concerns. AutoFDO is a variant of FDO that
+> uses the hardware=E2=80=99s Performance Monitoring Unit (PMU) to collect
+> profiling data. While AutoFDO typically yields smaller performance
+> gains than iFDO, it presents unique benefits for optimizing kernels.
 >
-> > Longer story.
-> >
-> > The current problem is CI systems are not unanimous about what tests
-> > they run on submitted patches or git branches.  This makes it
-> > difficult to figure out why a test failed or how to reproduce.
-> > Further, it isn't always clear what tests a normal contributor should
-> > run before posting patches.
-> >
-> > It has been long communicated that the tests LTP, xfstest and/or
-> > kselftests should be the tests  to run.  However, not all maintainers
-> > use those tests for their subsystems.  I am hoping to either capture
-> > those tests or find ways to convince them to add their tests to the
-> > preferred locations.
-> >
-> > The goal is for a given subsystem (defined in MAINTAINERS), define a
-> > set of tests that should be run for any contributions to that
-> > subsystem.  The hope is the collective CI results can be triaged
-> > collectively (because they are related) and even have the numerous
-> > flakes waived collectively  (same reason) improving the ability to
-> > find and debug new test failures.  Because the tests and process are
-> > known, having a human help debug any failures becomes easier.
-> >
-> > The plan is to put together a minimal yaml template that gets us going
-> > (even if it is not optimized yet) and aim for about a dozen or so
-> > subsystems.  At that point we should have enough feedback to promote
-> > this more seriously and talk optimizations.
-> >
-> > Feedback encouraged.
-> >
-> > Cheers,
-> > Don
-> >
-> > ---
-> > # List of tests by subsystem
+> AutoFDO eliminates the need for instrumented kernels, allowing a single
+> optimized kernel to serve both execution and profile collection. It also
+> minimizes slowdown during profile collection, potentially yielding
+> higher-fidelity profiling, especially for time-sensitive code, compared
+> to iFDO. Additionally, AutoFDO profiles can be obtained from production
+> environments via the hardware=E2=80=99s PMU whereas iFDO profiles require
+> carefully curated load tests that are representative of real-world
+> traffic.
 >
-> I think we should split this up into several files, partly to avoid
-> merge conflicts, partly to make it easy to maintain custom collections
-> of tests separately.
+> AutoFDO facilitates profile collection across diverse targets.
+> Preliminary studies indicate significant variation in kernel hot spots
+> within Google=E2=80=99s infrastructure, suggesting potential performance =
+gains
+> through target-specific kernel customization.
 >
-> For example, fs.yaml could contain entries for both xfstests and fs
-> KUnit and selftests.
-
-I am not opposed to the idea.  But I am a fan of the user experience.
-So while an fs.yaml might sound good, is it obvious to a contributor
-or tester that given a patch, do they know if fs.yaml is the correct
-yaml file to parse when running tests?  How do you map a patch to a
-yaml file?  I was trying to use subsystems like MAINTAINERS (and
-get_maintainers.pl) as my mapping.  Open to better suggestions.
-
+> Furthermore, other advanced compiler optimization techniques, including
+> ThinLTO and Propeller can be stacked on top of AutoFDO, similar to iFDO.
+> ThinLTO achieves better runtime performance through whole-program
+> analysis and cross module optimizations. The main difference between
+> traditional LTO and ThinLTO is that the latter is scalable in time and
+> memory.
 >
-> It's also probably going to be necessary to have separate sets of
-> tests for different use-cases. For example, there might be a smaller,
-> quicker set of tests to run on every patch, and a much longer, more
-> expensive set which only runs every other day. So I don't think
-> there'll even be a 1:1 mapping between 'test collections' (files) and
-> subsystems. But an automated way of running "this collection of tests"
-> would be very useful, particularly if it's more user-friendly than
-> just writing a shell script (e.g., having nicely formatted output,
-> being able to run things in parallel or remotely, etc).
-
-I don't disagree.  I am trying to start small to get things going and
-some momentum.  I proposed a container of tests section.  I would like
-to think adding another field in each individual test area like
-(short, medium, long OR mandatory, performance, nice-to-have) would be
-easy to add to the yaml file overall and attempt to accomplish what
-you are suggesting.  Thoughts?
-
-
+> This patch series adds AutoFDO and Propeller support to the kernel. The
+> actual solution comes in six parts:
 >
-> > #
-> > # Tests should adhere to KTAP definitions for results
-> > #
-> > # Description of section entries
-> > #
-> > #  maintainer:    test maintainer - name <email>
-> > #  list:                mailing list for discussion
-> > #  version:         stable version of the test
-> > #  dependency: necessary distro package for testing
-> > #  test:
-> > #    path:            internal git path or url to fetch from
-> > #    cmd:            command to run; ability to run locally
-> > #    param:         additional param necessary to run test
-> > #  hardware:      hardware necessary for validation
-> > #
-> > # Subsystems (alphabetical)
-> >
-> > KUNIT TEST:
+> [P 1] Add the build support for using AutoFDO in Clang
 >
-> For KUnit, it'll be interesting to draw the distinction between KUnit
-> overall and individual KUnit suites.
-> I'd lean towards having a separate entry for each subsystem's KUnit
-> tests (including one for KUnit's own tests)
-
-KUNIT may not have been the best 'common' test example due to its
-complexities across other subsystems. :-/
-
+>       Add the basic support for AutoFDO build and provide the
+>       instructions for using AutoFDO.
 >
-> >   maintainer:
-> >     - name: name1
-> >       email: email1
-> >     - name: name2
-> >       email: email2
-> >   list:
+> [P 2] Fix objtool for bogus warnings when -ffunction-sections is enabled
 >
-> How important is it to have these in the case where they're already in
-> the MAINTAINERS file? I can see it being important for tests which
-> live elsewhere, though eventually, I'd still prefer the subsystem
-> maintainer to take some responsibility for the tests run for their
-> subsystems.
-
-I wasn't sure if all subsystem maintainers actually want to maintain
-the tests too or just point someone else at it.  I look at LTP as an
-example here.  But I could be wrong.
-
+> [P 3] Change the subsection ordering when -ffunction-sections is enabled
 >
-> >   version:
+> [P 4] Enable =E2=80=93ffunction-sections for the AutoFDO build
 >
-> This field is probably unnecessary for test frameworks which live in
-> the kernel tree.
-
-Possibly.  It was brought up at Plumbers, so I included it for completeness=
-.
-
+> [P 5] Enable Machine Function Split (MFS) optimization for AutoFDO
 >
-> >   dependency:
-> >     - dep1
-> >     - dep2
+> [P 6] Add Propeller configuration to the kernel build
 >
-> If we want to automate this in any way, we're going to need to work
-> out a way of specifying these. Either we'd have to pick a distro's
-> package names, or have our own mapping.
-
-Agreed.  I might lean on what 'perf' outputs.  They do dependency
-detection and output suggested missing packages.  Their auto detection
-of already included deps is rather complicated though.
-
+> Patch 1 provides basic AutoFDO build support. Patches 2 to 5 further
+> enhance the performance of AutoFDO builds and are functionally dependent
+> on Patch 1. Patch 6 enables support for Propeller and is dependent on
+> patch 2 and patch 3.
 >
-> (A part of me really likes the idea of having a small list of "known"
-> dependencies: python, docker, etc, and trying to limit tests to using
-> those dependencies. Though there are plenty of useful tests with more
-> complicated dependencies, so that probably won't fly forever.)
-
-Hehe.  For Fedora/RHEL at least, python has hundreds of smaller
-library packages.  That is tricky.  And further some tests like to
-compile, which means a bunch of -devel packages.  Each distro has
-different names for their -devel packages. :-/
-But a side goal of this effort is to define some community standards.
-Perhaps we can influence things here to clean up this problem??
-
+> Caveats
 >
-> >   test:
-> >     - path: tools/testing/kunit
-> >       cmd:
-> >       param:
-> >     - path:
-> >       cmd:
-> >       param:
+> AutoFDO is compatible with both GCC and Clang, but the patches in this
+> series are exclusively applicable to LLVM 17 or newer for AutoFDO and
+> LLVM 19 or newer for Propeller. For profile conversion, two different
+> tools could be used, llvm_profgen or create_llvm_prof. llvm_profgen
+> needs to be the LLVM 19 or newer, or just the LLVM trunk. Alternatively,
+> create_llvm_prof v0.30.1 or newer can be used instead of llvm-profgen.
 >
-> Is 'path' here supposed to be the path to the test binary, the working
-> directory, etc?
-> Maybe there should be 'working_directory', 'cmd', 'args', and 'env'.
-
-The thought was the command to copy-n-paste to run the test after
-installing it.  I am thinking most tests might be a git-clone or
-exploded tarball, leaving the path to be from the install point.  So
-maybe working_directory is more descriptive.
-
+> Additionally, the build is only supported on x86 platforms equipped
+> with PMU capabilities, such as LBR on Intel machines. More
+> specifically:
+>  * Intel platforms: works on every platform that supports LBR;
+>    we have tested on Skylake.
+>  * AMD platforms: tested on AMD Zen3 with the BRS feature. The kernel
+>    needs to be configured with =E2=80=9CCONFIG_PERF_EVENTS_AMD_BRS=3Dy", =
+To
+>    check, use
+>    $ cat /proc/cpuinfo | grep =E2=80=9C brs=E2=80=9D
+>    For the AMD Zen4, AMD LBRV2 is supported, but we suspect a bug with
+>    AMD LBRv2 implementation in Genoa which blocks the usage.
 >
-> >   hardware: none
+> Experiments and Results
+>
+> Experiments were conducted to compare the performance of AutoFDO-optimize=
+d
+> kernel images (version 6.9.x) against default builds.. The evaluation
+> encompassed both open source microbenchmarks and real-world production
+> services from Google and Meta. The selected microbenchmarks included Nepe=
+r,
+> a network subsystem benchmark, and UnixBench which is a comprehensive sui=
+te
+> for assessing various kernel operations.
+>
+> For Neper, AutoFDO optimization resulted in a 6.1% increase in throughput
+> and a 10.6% reduction in latency. Unixbench saw a 2.2% improvement in its
+> index score under low system load and a 2.6% improvement under high syste=
+m
+> load.
+>
+> For further details on the improvements observed in Google and Meta's
+> production services, please refer to the LLVM discourse post:
+> https://discourse.llvm.org/t/optimizing-the-linux-kernel-with-autofdo-inc=
+luding-thinlto-and-propeller/79108
+>
+> Thanks,
+>
+> Rong Xu and Han Shen
+>
+> Change-Logs in V2:
+> Rebased the source to e32cde8d2bd7 (Merge tag 'sched_ext-for-6.12-rc1-fix=
+es-1')
+> 1. Cover-letter: moved the Propeller description to the top (Peter Zijlst=
+ra)
+> 2. [P 1]: (1) Makefile: fixed file order (Masahiro Yamada)
+>           (2) scripts/Makefile.lib: used is-kernel-object to exclude
+>               files (Masahiro Yamada)
+>           (3) scripts/Makefile.autofdo: improved the code (Masahiro Yamad=
+a)
+>           (4) scripts/Makefile.autofdo: handled when DEBUG_INFO disabled =
+(Nick Desaulniers)
+> 3. [P 2]: tools/objtool/elf.c: updated the comments (Peter Zijlstra)
+> 4. [P 3]: include/asm-generic/vmlinux.lds.h:
+>           (1) explicit set cold text function aligned (Peter Zijlstra and=
+ Peter Anvin)
+>           (2) set hot-text page aligned
+> 5. [P 6]: (1) include/asm-generic/vmlinux.lds.h: made Propeller not depen=
+ding
+>               on AutoFDO
+>           (2) Makefile: fixed file order (Masahiro Yamada)
+>           (3) scripts/Makefile.lib: used is-kernel-object to exclude
+>               files (Masahiro Yamada). This removed the change in
+>               arch/x86/platform/efi/Makefile,
+>               drivers/firmware/efi/libstub/Makefile, and
+>               arch/x86/boot/compressed/Makefile.
+>               And this also addressed the comment from Arnd Bergmann rega=
+rding
+>               arch/x86/purgatory/Makefile.
+>           (4) scripts/Makefile.propeller: improved the code (Masahiro Yam=
+ada)
+>
+> Change-Logs in V3:
+> Rebased the source to eb952c47d154 (Merge tag 'for-6.12-rc2-tag').
+> 1. [P 1]: autofdo.rst: removed code-block directives and used "::" (Mike =
+Rapoport)
+> 2. [P 6]: propeller.rst: removed code-block directives and use "::" (Mike=
+ Rapoport)
+>
+> Change-Logs in V4:
+> 1. [P 1]: autofdo.rst: fixed a typo for create_llvm_prof commmand.
+>
+> Rong Xu (6):
+>   Add AutoFDO support for Clang build
+>   objtool: Fix unreachable instruction warnings for weak funcitons
+>   Change the symbols order when --ffuntion-sections is enabled
+>   AutoFDO: Enable -ffunction-sections for the AutoFDO build
+>   AutoFDO: Enable machine function split optimization for AutoFDO
+>   Add Propeller configuration for kernel build.
+>
+>  Documentation/dev-tools/autofdo.rst   | 165 ++++++++++++++++++++++++++
+>  Documentation/dev-tools/index.rst     |   2 +
+>  Documentation/dev-tools/propeller.rst | 161 +++++++++++++++++++++++++
+>  MAINTAINERS                           |  14 +++
+>  Makefile                              |   2 +
+>  arch/Kconfig                          |  42 +++++++
+>  arch/x86/Kconfig                      |   2 +
+>  arch/x86/kernel/vmlinux.lds.S         |   4 +
+>  include/asm-generic/vmlinux.lds.h     |  54 +++++++--
+>  scripts/Makefile.autofdo              |  25 ++++
+>  scripts/Makefile.lib                  |  20 ++++
+>  scripts/Makefile.propeller            |  28 +++++
+>  tools/objtool/check.c                 |   2 +
+>  tools/objtool/elf.c                   |  15 ++-
+>  14 files changed, 524 insertions(+), 12 deletions(-)
+>  create mode 100644 Documentation/dev-tools/autofdo.rst
+>  create mode 100644 Documentation/dev-tools/propeller.rst
+>  create mode 100644 scripts/Makefile.autofdo
+>  create mode 100644 scripts/Makefile.propeller
 >
 >
+> base-commit: eb952c47d154ba2aac794b99c66c3c45eb4cc4ec
+> --
+> 2.47.0.rc1.288.g06298d1525-goog
 >
-> For KUnit, I'd imagine having a kunit.yaml, with something like this,
-> including the KUnit tests in the 'kunit' and 'example' suites, and the
-> 'kunit_tool_test.py' test script:
->
-> ---
-> KUnit:
->   maintainer:
->     - name: David Gow
->       email: davidgow@google.com
->     - name: Brendan Higgins
->       email: brendan.higgins@linux.dev
->   list: kunit-dev@googlegroups.com
->   dependency:
->     - python3
->   test:
->     - path: .
->       cmd: tools/testing/kunit.py
->       param: run kunit
->     - path: .
->       cmd: tools/testing/kunit.py
->       param: run example
->   hardware: none
-> KUnit Tool:
->   maintainer:
->     - name: David Gow
->       email: davidgow@google.com
->     - name: Brendan Higgins
->       email: brendan.higgins@linux.dev
->   list: kunit-dev@googlegroups.com
->   dependency:
->     - python3
->   test:
->     - path: .
->       cmd: tools/testing/kunit_tool_test.py
->       param:
->   hardware: none
-> ---
->
-> Obviously there's still some redundancy there, and I've not actually
-> tried implementing something that could run it. It also lacks any
-> information about the environment. In practice, I have about 20
-> different kunit.py invocations which run the tests with different
-> configs and on different architectures. Though that might make sense
-> to keep in a separate file to only run if the simpler tests pass. And
-> equally, it'd be nice to have a 'common.yaml' file with basic patch
-> and build tests which apply to almost everything (checkpatch, make
-> defconfig, maybe even make allmodconfig, etc).
-
-Nice, thanks for the more detailed example.
-
-Cheers,
-Don
-
->
-> Cheers,
-> -- David
-
