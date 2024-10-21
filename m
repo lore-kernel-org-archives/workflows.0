@@ -1,69 +1,69 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01DA91E22FC
-	for <workflows@vger.kernel.org>; Mon, 21 Oct 2024 21:12:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8C3B2CA9
+	for <workflows@vger.kernel.org>; Mon, 21 Oct 2024 22:43:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729545154; cv=none; b=go3P3FRvPSHjVTg/LEQmx0dkk0nl+JLJfkYcgvfk8wcUc4+/PxWGfIAoZKUq1388QTfQDhW7GLVGzArawbqM/HYK1mmLm64b7GVFGN/MkHaOgWV67vM7wKdY2pEIu9T+84IESD0pSyTJd3aKLNKm0XXtEYlH+yy3JUElvYhJ3bc=
+	t=1729550618; cv=none; b=HcVbCOGau2AGMBfXbOliIP9CiC87DeO7I4JZRwaNKZ5GzZcOFIxty6jvgqAqFclgRKo98TnopXDMAQ2AoYgQ9Al2GEHMgEApMaVHiavtz4qKePH53ENUDEYAbUCz6imdKGYoMz5U2IvwaZFvWxlLrZVyjwOSXcnBOMWciVrQp/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729545154; c=relaxed/simple;
-	bh=vT8uNYu+6v08jfCmB1LZB7EQjXInFV7mAuG4Z1WlmKM=;
+	s=arc-20240116; t=1729550618; c=relaxed/simple;
+	bh=18SuxrItI+6f+tfrvR4g2u78bJrgXnBh0EqpwvVjrEg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tl9Gbv4l6cQ2kIryfEjdVoEly68NkyrQM32CUCnORIYP9udbnYibtT+ewIrtajriQUDTM3BqvZGvTeVeszt1reqOtRcqq1vTkdTyaoQvyiR0ThY3oS+HjFXmB45zHBSNjTt88anRfky52IytDqdJsa4qA42SFQ11qMsfpS5he1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Bal5nmP/; arc=none smtp.client-ip=209.85.160.181
+	 To:Cc:Content-Type; b=P90cXZ3/XsxxpAGIVztAnsnW9kE5LpwhovxHaHk4bbopJM2IkdBY20TG8hFbLYHCC9eXKdhoGBTPq5QkaQmw+jHVua4x2Jop8cNmEtteEzBgALhGBSgK3FkgMHfj0/qPcSNJuuNNZglRCaHCNyIXv6quaPbfp9miAVY8FXQhYmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UWncrZaY; arc=none smtp.client-ip=209.85.166.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Bal5nmP/"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-460a8d1a9b7so42741cf.1
-        for <workflows@vger.kernel.org>; Mon, 21 Oct 2024 14:12:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UWncrZaY"
+Received: by mail-il1-f171.google.com with SMTP id e9e14a558f8ab-3a3bd5a273bso43855ab.1
+        for <workflows@vger.kernel.org>; Mon, 21 Oct 2024 15:43:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729545152; x=1730149952; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1729550615; x=1730155415; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=V9SgtYJ7ruMEHetOUIPlHgPbj24nHZho9hMlB1OIKsU=;
-        b=Bal5nmP/YDOeazS02HBKQj3po7eam9fM35N8ckRv4t2eyayKGLV+lSqXxmcWz/oZvg
-         u3hbY20J9awjnSvboLN1O8SejIlXPKKQRjoMidML7pGfk2JbZ02JI3HQTnYNYWGVwl39
-         5bHywUf4Q+/nxjJxu+cbvw4uUmYScZUk6y1MYfs+Jo+pgDRi98CatUHOgGfahlIDiGNK
-         OKzBiof0s8oAfist9aaeWMHFCCDSmwZgj0czFKewjBXOVhtIzStgI8vtVQTc6lfp8fqt
-         HZFVQbpPydYYDdD/c6ohM5u+XRjOS6v2URl7wvMV4mFct31jJWyZ75SUELNLOGlDAZJ+
-         zlsA==
+        bh=yovHp8/4KQS/SjRw8rzJ2RWtyZhJZCAGgSQbJZaDAus=;
+        b=UWncrZaY9hUbvqNviMND55QvslQ7k3erHzT24fSS4U6U+PyeCjgO+fLTHuZR6Kb0JI
+         pxBLjBuNKYeg+an90FewLvDzGSf4AlgE2kh5DmPp+VBYtyBUBDBnh2ZTkzn2gH84/MCG
+         VELzUbJOBjcJiZwzj7Fa6CI+cJxccUcc9AlsEOFaLaSf4PFIV5mw4N9EkoiQzvpQlwj9
+         0OpRdCKJzH2RdPecKe5A0Z2xqTDaBGNLJlxQwqh/60xO40+40RXy75l+oxDoGEhcAtL3
+         +G1jzQlIEWUMOlj+hlJj31Qp5E7LGzzzF+GSO/sklNnTB+BFrC6zGKcBxdTdfIMjRIc6
+         I0UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729545152; x=1730149952;
+        d=1e100.net; s=20230601; t=1729550615; x=1730155415;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=V9SgtYJ7ruMEHetOUIPlHgPbj24nHZho9hMlB1OIKsU=;
-        b=sSrOwyWbrtgLb1dIOuC7iD9SR8Zsn4R/uAiO2qqujUhBaMrI0/ah6r+D5Eu/01T13Z
-         sy0d41FMrUwFwVQQoQJRwWrVNZtaz+PabrlLZInMh8TKZ+2xAuSgLCXHShHxGmpTR5wz
-         5vBnZXZe2VDYdHHvZx9sb/KEk05rgbpKcEJKZkRTuDLEsT3UxRxGEyteLVfnu4G6BbTG
-         lpowicHaWG9elY8AX0rDJtHipEyYpxWC8nLIDwfK+2P+9swKXQJC4n4dmSRYNRHs1Tve
-         jMJnhN8NSEkvW8mGSc59OG8O78AviGu5hiW1cCZ6/48hEmZf1zHssMzqHaxxfUetCXPc
-         QmPg==
-X-Forwarded-Encrypted: i=1; AJvYcCXNW+WLJ4hsezoOlSFEO/ZxOydsAHCKtaAtzoCT0d2UVrSZ3DHp9ruRkE9nyXz++kFN2QnBcl28FWk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzTUNbb4o34U9lc+mwmk/9wfSHpiZGoNf2pi2Ha66Bs5fEk3C0Z
-	Va68kK4K0rfpL4AJzJVNbbruQSlMVm9dcphG8uOdUXSosnh6aWq91C5JGfMG6jwusrXJ1cVDErE
-	/dwMjb10I03YyPQIn9aq842o9SxWAMO8190M4
-X-Google-Smtp-Source: AGHT+IGzo2TISqKT3Jl9CfeQZcohbh2s1lnUXzilu8k+T0K2sU2TWbK8wa3xZAwv92x9q/+t8oEme9GGEjWaFA3FT2U=
-X-Received: by 2002:a05:622a:4b08:b0:460:afbd:4101 with SMTP id
- d75a77b69052e-46100a7fcd1mr1133581cf.4.1729545151682; Mon, 21 Oct 2024
- 14:12:31 -0700 (PDT)
+        bh=yovHp8/4KQS/SjRw8rzJ2RWtyZhJZCAGgSQbJZaDAus=;
+        b=EyudJ1pge6K5oAFU4AdUapPES0a3hcORQCPB/lB04Q544r+hFg7nYi4A3l+6lAhuOF
+         gqlWlzvPROh6xOYL+9Fk6ptzfeeIteqmmXF82kmH11Sh+gjL5Z/9Vuy5zTz1lqmUVMDD
+         wCMGt+aTcQNy8eFq2bVHM89OMgdkTs5IXY2Afv47tZxESUSOzpo87Px8tFYil4NntwgV
+         cMQaDK3TP0cN1Ui8JxwjoMBn0MYw8jkM5r0bL7KXIEgPWNKCSJBtnATusWxm3GC6KdSw
+         G7DLum422EWNXK+9BG/7X5+LQtoe9Jao1/uAmPjljm0+A+hAHRVUZxrfR4rsRCb5B9PG
+         MguA==
+X-Forwarded-Encrypted: i=1; AJvYcCUnrRWBGsbEbRPeHgNWR0dEPCYGApO2uKbcAgI7SaFTEFNV+NpwNj9p6Qgs1vK4K2IkgWYFXiTveNc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw//SM2t9TJdEP3i/TAs4lRSh+DW2t+lgxNd63lUbl8qwM6On8g
+	KxC7Bhc/YrBeoj/pOTuZB2rJ7JwtvRv9xrB5kTwrKNTNcsGpJvSzQQx8pwy+/UMEXHVQ5m2WnBw
+	gyDMUyYmjTMle+p2tbBLM7lTXzX3FPHdUSMXH
+X-Google-Smtp-Source: AGHT+IH0HVg3fvyt1+QDr1YQLUpP3z4mO+u5A4ersGEMt75VHmDTieIO3qGEubKhoWD+zxsaZ/P7FpluFK6JQL6j+ro=
+X-Received: by 2002:a05:6e02:148d:b0:3a2:6d54:33f1 with SMTP id
+ e9e14a558f8ab-3a4cc972f72mr1555125ab.16.1729550614610; Mon, 21 Oct 2024
+ 15:43:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241014213342.1480681-1-xur@google.com> <CAF1bQ=SQ9rFdwRk_waQvn4PW7x6T1uJmJ8qNqj04oRKmujkCQw@mail.gmail.com>
- <20241020032523.GA3652325@thelio-3990X>
-In-Reply-To: <20241020032523.GA3652325@thelio-3990X>
+References: <20241014213342.1480681-1-xur@google.com> <20241014213342.1480681-2-xur@google.com>
+ <CAK7LNAQ5yNKvZDtJuvo9Lt4rZwLSv0UN4=Ff=WcCDy1CCEpQ7Q@mail.gmail.com>
+In-Reply-To: <CAK7LNAQ5yNKvZDtJuvo9Lt4rZwLSv0UN4=Ff=WcCDy1CCEpQ7Q@mail.gmail.com>
 From: Rong Xu <xur@google.com>
-Date: Mon, 21 Oct 2024 14:12:19 -0700
-Message-ID: <CAF1bQ=QYnC+0EREWcp1-NXCtCC6KqJf7k0LRxqaTY7fxWSOZ8A@mail.gmail.com>
-Subject: Re: [PATCH v4 0/6] Add AutoFDO and Propeller support for Clang build
-To: Nathan Chancellor <nathan@kernel.org>, Stephane Eranian <eranian@google.com>
+Date: Mon, 21 Oct 2024 15:43:22 -0700
+Message-ID: <CAF1bQ=Syxi46xnGbpZWhYfqKhQZqrBPPh5FGaqzmJTg6MMDJSA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/6] Add AutoFDO support for Clang build
+To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: Alice Ryhl <aliceryhl@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
 	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, 
 	Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, 
@@ -72,67 +72,186 @@ Cc: Alice Ryhl <aliceryhl@google.com>, Andrew Morton <akpm@linux-foundation.org>
 	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
 	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
 	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
-	Masahiro Yamada <masahiroy@kernel.org>, "Mike Rapoport (IBM)" <rppt@kernel.org>, 
+	"Mike Rapoport (IBM)" <rppt@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
 	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
 	"Paul E. McKenney" <paulmck@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
 	Sami Tolvanen <samitolvanen@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
 	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org, 
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Maksim Panchenko <max4bolt@gmail.com>, 
-	Yonghong Song <yonghong.song@linux.dev>, Yabin Cui <yabinc@google.com>, x86@kernel.org, 
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Maksim Panchenko <max4bolt@gmail.com>, x86@kernel.org, 
 	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
 	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev
+	llvm@lists.linux.dev, Sriraman Tallam <tmsriram@google.com>, 
+	Krzysztof Pszeniczny <kpszeniczny@google.com>, Stephane Eranian <eranian@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Oct 19, 2024 at 8:25=E2=80=AFPM Nathan Chancellor <nathan@kernel.or=
-g> wrote:
->
-> Hi Rong,
->
-> On Fri, Oct 18, 2024 at 11:20:02PM -0700, Rong Xu wrote:
-> > Thanks to all for the feedback and suggestions! We are ready to make an=
-y further
-> > changes needed. Is there anything else we can address for this patch?
->
-> I will reply in a separate thread for visibility but I think one of the
-> biggest open questions at the moment is trying to find someone to
-> shepherd this code into mainline.
->
-> > Also, we know it's not easy to test this patch, but if anyone has had a=
- chance
-> > to try building AutoFDO/Propeller kernels with it, we'd really apprecia=
-te your
-> > input here. Any confirmation that it works as expected would be very he=
-lpful.
->
-> I went to take this series for a spin in a virtual machine first as a
-> smoke test before attempting to boot on bare metal. This was done on a
-> server with an Intel Xeon Gold 6314U. The kernel booted fine but when I
-> went to run the command to generate the perf data from the
-> documentation, I get an error.
->
->   $ perf record -e BR_INST_RETIRED.NEAR_TAKEN:k -a -N -b -c 500009 -o /tm=
-p/perf.data -- make -j$(nproc) O=3Dout mrproper defconfig all
->   Error:
->   BR_INST_RETIRED.NEAR_TAKEN:k: PMU Hardware or event type doesn't suppor=
-t branch stack sampling.
->
-> Do you know if this is expected for a virtual machine setup? I will
-> attempt to test the series on real hardware here soon, it is currently
-> tied up with investigating a regression in -next at the moment.
+Thanks for the detailed suggestions! My comments are inlined below.
 
-We have never tested this patch in a KVM setup.
+Best regards,
 
-As far as we know, LBR support in KVM is currently limited, and varies
-depending on the PMU virtualization model:
-(1) For legacy mode, LBR profiling might work under LBR virtualization
-(VLBR). However, we have not tested this.
-(2) For the new "Mediated vPMU passthru' mode, there is no LBR
-virtualization support at this point. So LBR profiling is not working.
+-Rong
 
-I've included Stephance here. He should have more expertise on this topic.
+On Sun, Oct 20, 2024 at 9:33=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
+>
+> On Tue, Oct 15, 2024 at 6:33=E2=80=AFAM Rong Xu <xur@google.com> wrote:
+>
+>
+> > +Customization
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +You can enable or disable AutoFDO build for individual file and direct=
+ories by
+> > +adding a line similar to the following to the respective kernel Makefi=
+le:
+>
+>
+> Perhaps, it might be worth mentioning that kernel space objects are
+> covered by default.
+>
+> Then, people would understand ':=3D y' will be less common than ':=3D n'.
+>
+
+Good point! How about I change to the following:
+"
+The default CONFIG_AUTOFDO_CLANG setting covers kernel space objects for
+AutoFDO builds. One can, however, enable or disable AutoFDO build for
+individual file and directories by adding a line similar to the following
+to the respective kernel Makefile ...
 
 >
-> Cheers,
-> Nathan
+>
+>
+> > +
+> > +- For enabling a single file (e.g. foo.o) ::
+> > +
+> > +   AUTOFDO_PROFILE_foo.o :=3D y
+> > +
+> > +- For enabling all files in one directory ::
+> > +
+> > +   AUTOFDO_PROFILE :=3D y
+> > +
+> > +- For disabling one file ::
+> > +
+> > +   AUTOFDO_PROFILE_foo.o :=3D n
+> > +
+> > +- For disabling all files in one directory ::
+> > +
+> > +   AUTOFDO_PROFILE :=3D n
+> > +
+>
+>
+>
+>
+> > +3) Run the load tests. The '-c' option in perf specifies the sample
+> > +   event period. We suggest using a suitable prime number, like 500009=
+,
+> > +   for this purpose.
+> > +
+> > +   - For Intel platforms::
+> > +
+> > +      $ perf record -e BR_INST_RETIRED.NEAR_TAKEN:k -a -N -b -c <count=
+> -o <perf_file> -- <loadtest>
+> > +
+> > +   - For AMD platforms: For Intel platforms:
+>
+>
+> I guess this is a copy-paste mistake.
+>
+>
+> For AMD platforms: For Intel platforms:
+>
+>    ->
+>
+> For AMD platforms:
+
+Thanks for catching this! Will fix this.
+
+>
+>
+>
+>
+>
+>
+> > +   (https://github.com/google/autofdo),  version v0.30.1 or later.
+>
+>
+> Please one space instead of two after the comma.
+>
+
+Will fix it.
+
+>
+>
+>
+>
+>
+>
+> > diff --git a/scripts/Makefile.autofdo b/scripts/Makefile.autofdo
+> > new file mode 100644
+> > index 000000000000..1c9f224bc221
+> > --- /dev/null
+> > +++ b/scripts/Makefile.autofdo
+> > @@ -0,0 +1,23 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +
+> > +# Enable available and selected Clang AutoFDO features.
+> > +
+> > +CFLAGS_AUTOFDO_CLANG :=3D -fdebug-info-for-profiling -mllvm -enable-fs=
+-discriminator=3Dtrue -mllvm -improved-fs-discriminator=3Dtrue
+> > +
+> > +# If CONFIG_DEBUG_INFO is not enabled, set -gmlt option.
+>
+>
+> Meaningless comment. It explains too obvious code.
+
+Will remove this line of comment.
+
+>
+>
+> > +ifndef CONFIG_DEBUG_INFO
+> > +  CFLAGS_AUTOFDO_CLANG +=3D -gmlt
+> > +endif
+>
+>
+>
+>
+> > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> > index 01a9f567d5af..e85d6ac31bd9 100644
+> > --- a/scripts/Makefile.lib
+> > +++ b/scripts/Makefile.lib
+> > @@ -191,6 +191,16 @@ _c_flags +=3D $(if $(patsubst n%,, \
+> >         -D__KCSAN_INSTRUMENT_BARRIERS__)
+> >  endif
+> >
+> > +#
+> > +# Enable Clang's AutoFDO build flags for a file or directory depending=
+ on
+> > +# variables AUTOFDO_PROFILE_obj.o and AUTOFDO_PROFILE.
+> > +#
+>
+>
+> This comment would give the wrong understanding that this flag is opt-in.
+>
+>
+> The comment for KASAN correctly describes that it is enabled by default,
+> and can be opted out using KASAN_SANITIZE_*.
+>
+
+I can change to use KASAN's expression:
+"
+# Enable Clang's AutoFDO build flags for kernel except some files or direct=
+ories
+# we don't want to enable (depends on variables AUTOFDO_PROFILE_obj.o
+and AUTOFDO_PROFILE)
+"
+
+>
+>
+>
+>
+> --
+> Best Regards
+>
+>
+> Masahiro Yamada
