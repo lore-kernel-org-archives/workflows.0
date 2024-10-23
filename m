@@ -1,41 +1,55 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4D0153BF8;
-	Wed, 23 Oct 2024 07:29:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C061CACEF
+	for <workflows@vger.kernel.org>; Wed, 23 Oct 2024 16:23:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729668561; cv=none; b=sS6K3ew5zsrH55i+JnDZ7asOpqyna12Yg4hquq2R4urQKxJqLKF7PYflHSYJBmtgWErnjjic7/R0bWvOz2cig6Y0BeySV7YP6yDD7ijmFOh0ZA15roEC4gKv+77tn/YCdjDh+fSny15R8t/JLOzPCcW+C6VGAB8SvF8tHyS6jPg=
+	t=1729700611; cv=none; b=UW4Fl3vPeKihZH8qX2TCeSY3Sew2Lc3HK8ouRg70lFiHxtu4H+pswK9YJI+tmYJM/sDbp4sD5r9Dt5bIY0Dj4u85wmVsrXN6DdWImDDrQDuguEpwEeb/dbi3Wlc4Fhh2sP9kFaQT9uzyscM6Z+UfAsU17u5Z0CIQ06dCk7S+kpY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729668561; c=relaxed/simple;
-	bh=0cjxPN3gVvAN5DsaYQ7B4tJsV1CxyxDi0m1/lvLw0r8=;
+	s=arc-20240116; t=1729700611; c=relaxed/simple;
+	bh=+F9vNJ1/djrWjsipasBD8bhmQbboSFemBhQbuVC0gTg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LcI4qAPcFiXpu85MAr/LkFnErQd9mjQURdKgmfCZ+9QMGFK43zyPxeQThn/kNlrVeBr1lGz8tkweJslilShI8DSLoK1czPPD4+0F6HYWtsBf7tEKY0zSXeMixdvHtVcit1nyRK41LeT7Mg+5gYgHWTbA+2vAmsTMpoJMhjxhDQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gxw3CcUJ; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=mhdTf1vVHOzSAd4v3RimLEyCeWBvYAoZzfjrlh8awwu2VQsNUy1VeW0jLSu4/9lEMAh/UP1naHO50slDUpQY+mty/IyoSmWzm6KeDnB7hgfEG8v9QdVHYtBar6sqd2XZlAau7TsrxWDFq8K6Tjgv4/hSOghQLSOSWaN9UKfVa5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FKtQ4dhe; arc=none smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gxw3CcUJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D72B3C4CEC6;
-	Wed, 23 Oct 2024 07:29:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729668560;
-	bh=0cjxPN3gVvAN5DsaYQ7B4tJsV1CxyxDi0m1/lvLw0r8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Gxw3CcUJg5oP58z7MrQd8UIGeHCddRvn1YusmHPBAl+ImMbVUrsCml6oz8px54bek
-	 qXGvhlPnJjSdvGWYhKjxNComu9zaBxtL4XgiCQC5pnWk6hKSde6qbqtQRdaAA699tW
-	 Dlh/9FAkbWLGdEenSMra/dnJliOIUEhT+6ligXbWNvunr1iT9uSN+KVDyN74aD5uzD
-	 v0fXJQNPkDM7ri7gaID5ooPyDJ0uVFQrCkAoM7m+SUao7lNISM7fwNwoHTsCZPQJiB
-	 mgvH8WV0fYapQ5uloEQ0CieMa4T+pQT9OrXjP9MOWeZJGv/bJEYhs/Lub0xS6nlmms
-	 H8Yb6hZwNfeqw==
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-539fb49c64aso9094431e87.0;
-        Wed, 23 Oct 2024 00:29:20 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU5r/AY1MRJRC5cus2kh/PI4MWCNUvQKgasU43ZmFaZm8rzkCpKQ40cYYDZxtsvkJ5cesdSIN9VbNBQ@vger.kernel.org, AJvYcCVGNEw+xJvREhdxfuzil2flMu8/OBXRpUyPNWtO2YF8MiRED+4f74MpTghfKgDBlbKr0ROLpU3EMdgT@vger.kernel.org, AJvYcCVVpEOOMmnUNhr2woyX9EDxfLfzmzn+C9TLkBYkom6FcSI5qChUaVRQ/M1383aS9ifzboIUFE6fFJ4y@vger.kernel.org, AJvYcCW2uy1pB7pNgdypkl3ggfrAGBpq3Nc6GCpO3uXCflz6YIn6u9e0znOYZTACCHv1n6FbUtTj4ZmS9hlgfqcU@vger.kernel.org, AJvYcCXz206Ib5QHifrRjxL7XjC6xrvln/LpaHrsv9DhaYJIdRgTI/daRoxxKuwwzlxliMft6tmvlUg+phu/A8Ok@vger.kernel.org
-X-Gm-Message-State: AOJu0YzpTM929TmGSpfKkr94ZsWsmvnqDvIqOy53HSVb/Xd/NLVe7OrN
-	eeWGYCLVqgg6VBFT3HWN8yLFU3bZSMsH4c9nLgFDtysjOhWiwmwwVXkw5S8jxvK/QmPUYazfgLP
-	D/RX2dhIujKrEJ/nJaPMMy1roSyQ=
-X-Google-Smtp-Source: AGHT+IFRea2Ijszif9VG8m68iTuteEaOPa/SvXFPAj+mSpGZe25TCijKQGifGZl6tE77eNXwEgasc4gRFeTgNxcsDso=
-X-Received: by 2002:a05:6512:3d09:b0:536:7377:7d23 with SMTP id
- 2adb3069b0e04-53b1a39b073mr1285874e87.40.1729668559599; Wed, 23 Oct 2024
- 00:29:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FKtQ4dhe"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-460a8d1a9b7so276151cf.1
+        for <workflows@vger.kernel.org>; Wed, 23 Oct 2024 09:23:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1729700609; x=1730305409; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=o9BznJlsEbHz6OZfmqFHe4r9gEp0tOVcj12rfA//KDE=;
+        b=FKtQ4dheu9v73f/dgGQZvoEqZdIsRfdeC+1RPyNegiA88oR3l8LZdegLlKC5MaE7xg
+         8a7VsjyzPwAyr/sjEVWRwQn8XblEHSBagI7Kr2Q0cmv8wKGOKdlQQsMeNAiv1ejI6vIV
+         sU6nNUDiSWbT8NrXkoPCzD72A/cbJMY6MtEnObQOzC72ftkviUMVFjscqHEsUlQWHL/n
+         X0p428EAnK5e8StpDo/Q4Nqa2KerCqH0O3rUDnuwbncolgIVEqarhyZP0bMqVNiMdpcO
+         BUMaPOUQdyXLfF9PPAomzPpj2Yw0YWMRunfHUJpwaPjVmuEk2FAsDQ1f2RGj92ag+QJX
+         9gpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729700609; x=1730305409;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=o9BznJlsEbHz6OZfmqFHe4r9gEp0tOVcj12rfA//KDE=;
+        b=TCVnepxQN3w/9BjO2GWxQX9fg4KbwvyYWxJZer/R3V9SRgNQLaTLJPb9LAxdPKT2X4
+         +igUbtogvDegzNQ9cdLs/DHlfSHLHC22Uo8z8kJZY5rZBt9hvH2Js5Iq7HIv6lcEXdtb
+         38UWGqh5MOUIcLH7hJ76yK+G2gXg0XgrzztPYLe0iZMUuqxue1ZbYbJki8q9PZnE5jea
+         Nv0PD2Kd4fv+iYDH9WPfm/hvYAv187exFVNDEKH1rl60L3UbqHkbj07L8IVBjAjvTK7X
+         jii8q1xHUi+SsfmXX2nCsrk/jkMZW6zGdhm1uz2kWURYfyRA6JW6IAn+nUTe3UlfMkC3
+         PpUg==
+X-Forwarded-Encrypted: i=1; AJvYcCXE5JeMhRq36nYswJo2aw0h+ZlWiFxy7sODkQPSl/UhR3u5x3G521BHF0j7IV5d/E4tLRChNTqQkaM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1R2WjJcMyRKgu+preirBqwqiP4GwifmaIocZ6EkkoAlvtAndS
+	utgYz0ufURIKrQS2Fvt1Q/GauUHRrICljC2RlqpN9TAry79vklR1Kt6EE9ypN/Mrfn32ytKF5sq
+	1SRnf9EaVY/1prRhpRCdWgYlkiGzI5a/BDCWk
+X-Google-Smtp-Source: AGHT+IG1FMKW9jEoP384sXUW7ke85OPpn1MSvATc3a4GObiTP9bSiG7WRlmZKZlcz1ig7syTvhf9DR79c1H5TXpjIHs=
+X-Received: by 2002:a05:622a:1347:b0:460:46a8:9e67 with SMTP id
+ d75a77b69052e-46113afc61emr4399981cf.10.1729700608716; Wed, 23 Oct 2024
+ 09:23:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -45,15 +59,15 @@ MIME-Version: 1.0
 References: <20241014213342.1480681-1-xur@google.com> <20241014213342.1480681-7-xur@google.com>
  <CAK7LNARfm7HBx-wLCak1w0sfH7LML1ErWO=2sLj4ovR38RsnTA@mail.gmail.com>
  <CAF1bQ=Qi9hyKbc5H3N36W=MukT3321rZMCas0ndpRf0YszAfOA@mail.gmail.com>
- <CAK7LNAQr_EusZyy-dPcV=5o9UckStaUfXLSCQh7APbYh15NC3w@mail.gmail.com> <a38a883e-d887-4d79-bb52-f28f5efc99a8@app.fastmail.com>
-In-Reply-To: <a38a883e-d887-4d79-bb52-f28f5efc99a8@app.fastmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 23 Oct 2024 16:28:43 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATfdxBvFxhAQhAuWhVfqfFptCXvjRS2xcWmFFqYo8Qp-w@mail.gmail.com>
-Message-ID: <CAK7LNATfdxBvFxhAQhAuWhVfqfFptCXvjRS2xcWmFFqYo8Qp-w@mail.gmail.com>
+ <CAK7LNAQr_EusZyy-dPcV=5o9UckStaUfXLSCQh7APbYh15NC3w@mail.gmail.com>
+ <a38a883e-d887-4d79-bb52-f28f5efc99a8@app.fastmail.com> <CAK7LNATfdxBvFxhAQhAuWhVfqfFptCXvjRS2xcWmFFqYo8Qp-w@mail.gmail.com>
+In-Reply-To: <CAK7LNATfdxBvFxhAQhAuWhVfqfFptCXvjRS2xcWmFFqYo8Qp-w@mail.gmail.com>
+From: Rong Xu <xur@google.com>
+Date: Wed, 23 Oct 2024 09:23:14 -0700
+Message-ID: <CAF1bQ=Rc_0xwq+7njaTf1EdsO0fyyKhcvMkC9AqcMf0mFsOt8Q@mail.gmail.com>
 Subject: Re: [PATCH v4 6/6] Add Propeller configuration for kernel build.
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Rong Xu <xur@google.com>, Alice Ryhl <aliceryhl@google.com>, 
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Alice Ryhl <aliceryhl@google.com>, 
 	Andrew Morton <akpm@linux-foundation.org>, Bill Wendling <morbo@google.com>, 
 	Borislav Petkov <bp@alien8.de>, Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, 
 	Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>, 
@@ -74,41 +88,54 @@ Cc: Rong Xu <xur@google.com>, Alice Ryhl <aliceryhl@google.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 23, 2024 at 4:25=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote=
-:
+While Propeller often works best with AutoFDO (or the instrumentation
+based FDO), it's not required. One can use Propeller (or similar
+post-link-optimizer, like Bolt) on plain kernel builds.
+
+So I will remove "depends on AUTOFDO_CLANG". I will not use "imply" --
+simpler is better here.
+
+-Rong
+
+On Wed, Oct 23, 2024 at 12:29=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.=
+org> wrote:
 >
-> On Wed, Oct 23, 2024, at 07:06, Masahiro Yamada wrote:
-> > On Tue, Oct 22, 2024 at 9:00=E2=80=AFAM Rong Xu <xur@google.com> wrote:
+> On Wed, Oct 23, 2024 at 4:25=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wro=
+te:
 > >
-> >> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >> > > +
-> >> > > +Configure the kernel with::
-> >> > > +
-> >> > > +   CONFIG_AUTOFDO_CLANG=3Dy
-> >> >
-> >> >
-> >> > This is automatically met due to "depends on AUTOFDO_CLANG".
-> >>
-> >> Agreed. But we will remove the dependency from PROPELlER_CLANG to AUTO=
-FDO_CLANG.
-> >> So we will keep the part.
+> > On Wed, Oct 23, 2024, at 07:06, Masahiro Yamada wrote:
+> > > On Tue, Oct 22, 2024 at 9:00=E2=80=AFAM Rong Xu <xur@google.com> wrot=
+e:
+> > >
+> > >> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > >> > > +
+> > >> > > +Configure the kernel with::
+> > >> > > +
+> > >> > > +   CONFIG_AUTOFDO_CLANG=3Dy
+> > >> >
+> > >> >
+> > >> > This is automatically met due to "depends on AUTOFDO_CLANG".
+> > >>
+> > >> Agreed. But we will remove the dependency from PROPELlER_CLANG to AU=
+TOFDO_CLANG.
+> > >> So we will keep the part.
+> > >
+> > >
+> > > You can replace "depends on AUTOFDO_CLANG" with
+> > > "imply AUTOFDO_CLANG" if it is sensible.
+> > >
+> > > Up to you.
 > >
-> >
-> > You can replace "depends on AUTOFDO_CLANG" with
-> > "imply AUTOFDO_CLANG" if it is sensible.
-> >
-> > Up to you.
+> > I don't think we should ever encourage the use of 'imply'
+> > because it is almost always used incorrectly.
 >
-> I don't think we should ever encourage the use of 'imply'
-> because it is almost always used incorrectly.
-
-If we are able to delete the 'imply' keyword, Kconfig would be a bit cleane=
-r.
-
-In most cases, it can be replaced with 'default'.
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+> If we are able to delete the 'imply' keyword, Kconfig would be a bit clea=
+ner.
+>
+> In most cases, it can be replaced with 'default'.
+>
+>
+>
+> --
+> Best Regards
+> Masahiro Yamada
