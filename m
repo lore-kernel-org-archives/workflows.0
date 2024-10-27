@@ -1,73 +1,102 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2059E1CD2C;
-	Sun, 27 Oct 2024 17:07:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42E19188A15;
+	Sun, 27 Oct 2024 22:17:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730048880; cv=none; b=KMuh0HeD0i5hT0MjMNQ1kmGAn2QoVInALmLZdQg0AlXKevWyhxD6dFapTgmx8Fm4h9Jk+ktEwnVQNoE700BwbmpGiPfcjygF1VvNiK+9D3gvljbvKfgWVbYPAz4l9jRslu+gW/HK2u5xZVNrAy0qFLCT9WgahMoWMs6lH+6Vy6Q=
+	t=1730067427; cv=none; b=LdSDgvfP9DDFF8N22A3PHlJGGtyncHeSJYfXD8L2VHQI3N4a/s15BwLtMu8FMBbYOxYfudl0MWlnb6NVTmg48osQxQDlAbAWxO3JJi7OvtNFf8Fg4H85Atdnqglw8b1bB5+mOS9nRoexaoDd261uDb6BADrMwM9iD7tjVmAyj8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730048880; c=relaxed/simple;
-	bh=e8axfX2mpFWjV8vbK0WZRMJNOcFQ5bvgWv4zQwxfIRE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=m0D2kc0RZsppRHv1dztWxJr74GX0VEAynlZNAE4bMKmEE3IAy7cSzLMt+6ANlBQDAYTu5cbVA9+y4JNNkBVTR4CYU4aLvzzG2izhGqpbjaEMTisl4xOtFXIW6b/sUsvX/nGUKw+OdhEuJ4pMQXaFltOsV+liASAjFVwKcSt8hJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=PTrhxT/V; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1730067427; c=relaxed/simple;
+	bh=An0q1B1Vy5t3+lo7yESq7Pk4FRbEi09xmS9o/s3wurI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VPt0UPGVZhzCsNUTSM/JIgHV268whJbJGQzrtEAnWpdV4YxAVVGsdiEQZL88s8LeICbGCejv26oq+YuzUcQmqwbMF0h9FbFt/TELd3+RJ6L7AtJ1yVpmGR5dO46rC1fYj1oJp4Kj6uwdUb5pzzS9757fFSOX5X0Hwjuk6/iRzMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eyjPVR9h; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="PTrhxT/V"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=MOV7G635ZHeO21+UFSbHL9SdIS44+C3yBqOBuyrwsQY=; b=PTrhxT/Vc2+t4y/tf671Ex1O0W
-	XuIy6aUbbL3Zp2X4NO5TlRJb24fRH3ycqCJP+hxfCtbBwEAhOGdDNVzs0zGwvvQtwwR5XKitT9Axp
-	axtn0UCUdyUgsDmgqNUha+bX+RMkLCqeRmDU6icjJvNpUtECRPHAR8FqnbaqBjGszv6C7L2cZd0Ap
-	vLpxZ6OCGEajo4KaObBjg8whHyA3VYAtQEWYy48wQoJHBW2hPPHsJdHFqhcICc7k8XCk7lN/DSutE
-	uN92M298UnuqriO0Vt10IX0/huJ1hhNvaAK0hTzlnx6y9WqLaObpum9fBVdNZj4Juq0tYhOhlonFw
-	O+eIZ1xw==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1t56k3-00000007PgR-2Qq1;
-	Sun, 27 Oct 2024 17:07:52 +0000
-Message-ID: <933b175b-6b0e-43ba-bfcf-2148b76916f1@infradead.org>
-Date: Sun, 27 Oct 2024 10:07:46 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eyjPVR9h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AE3CC4CEC3;
+	Sun, 27 Oct 2024 22:17:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730067426;
+	bh=An0q1B1Vy5t3+lo7yESq7Pk4FRbEi09xmS9o/s3wurI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eyjPVR9hc8nObYdbxO+giY8LhlLmm6nS5/JBgfEyBXJeMrmd3+KWtt7qfaBKjwJDK
+	 8xQiNB+6BkkGNszcAE8j2FGtOjh9U2zUtZGpmsrKG7gzl4WqNGihjYMBTUHctf7oAA
+	 NL9fg2+fHaGRsFTOHvtChlFzqLSDjJ22GfcLq1hzoeif9lEjpMpdaBx5qdl0fK/6e9
+	 3JZJMU8xH2cTIo0siIc1qGm6CuT673DC9ooimzgNk2O3nyjaDCypmC4i8zfWJ9/CXU
+	 yk636+8ykOsPj4NFOL12SkfxOu8r1yPUEKFnGTqiPbbz3V+KZjq5TbwbLX8NkOr8kj
+	 ObFeWm4T+TNRg==
+Date: Sun, 27 Oct 2024 15:17:02 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Rong Xu <xur@google.com>
+Cc: Alice Ryhl <aliceryhl@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>,
+	Borislav Petkov <bp@alien8.de>, Breno Leitao <leitao@debian.org>,
+	Brian Gerst <brgerst@gmail.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Li <davidxl@google.com>, Han Shen <shenhan@google.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+	Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Juergen Gross <jgross@suse.com>,
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	"Mike Rapoport (IBM)" <rppt@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org,
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+	Maksim Panchenko <max4bolt@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	Yabin Cui <yabinc@google.com>,
+	Krzysztof Pszeniczny <kpszeniczny@google.com>,
+	Sriraman Tallam <tmsriram@google.com>,
+	Stephane Eranian <eranian@google.com>, x86@kernel.org,
+	linux-arch@vger.kernel.org, sparclinux@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v6 0/7] Add AutoFDO and Propeller support for Clang build
+Message-ID: <20241027221702.GD2755311@thelio-3990X>
+References: <20241026051410.2819338-1-xur@google.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation/maintainer-tip: Fix typos
-To: Andrew Kreimer <algonell@gmail.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-References: <20241027125712.19141-1-algonell@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20241027125712.19141-1-algonell@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241026051410.2819338-1-xur@google.com>
 
-LGTM. Thanks.
+Hi Rong,
 
-I would  have copied the tip maintainers also, but they don't seem
-to identify themselves.
+I tested this series by following the documentation added in the series
+using Clang 19 and my standard distribution configuration on an Intel
+platform with the combinations of
 
+  * AutoFDO
+  * AutoFDO + ThinLTO
+  * AutoFDO + Propeller
+  * AutoFDO + ThinLTO + Propeller
 
-On 10/27/24 5:57 AM, Andrew Kreimer wrote:
-> Fix typos in documentation: a -> an.
-> 
-> Signed-off-by: Andrew Kreimer <algonell@gmail.com>
-> ---
->  Documentation/process/maintainer-tip.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
+and I noticed no issues (it would be great to see create_llvm_prof
+somewhere in LLVM upstream for ease of access but that's a small
+complaint).
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+I did not do any real benchmarking to see if those combinations were
+actually quicker but I think it is pretty clear from the cover letter
+that any sort of gains are going to depend on the profiling and test
+case so for time's sake, I did not bother.
 
+Tested-by: Nathan Chancellor <nathan@kernel.org>
 
--- 
-~Randy
-
+Cheers,
+Nathan
