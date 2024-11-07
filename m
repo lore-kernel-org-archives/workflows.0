@@ -1,109 +1,109 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC24E16419;
-	Thu,  7 Nov 2024 06:19:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABA62212164;
+	Thu,  7 Nov 2024 14:17:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730960359; cv=none; b=ofUMO6rgzn1sLCaduw+AZE0D788POSQ9mrUxWA8qMqPf0n3JnLze0HA2njVJlkNDa1wbV3EeGlgi1MjtPGj/h5nMU4jkA9HqK6Z6Hxpo+QSzdmO6AG9qUe2YtR3oqlp7FEwrYUJLQBPxI24J+5qwCap1PowNByrCM0sutcbRsHU=
+	t=1730989068; cv=none; b=idmuE0nPuTmpopWG9il4Ada4+QaiA/B6cy7Uy1BWtxmTRrMw6kroMwSPUCXye5RZIuarEOdkNXjwcbJHfXW5fatF/rvUeL2VU+k0OsRhJUTnqPv3wNO4+30niW1Ttnf/+Uoxc/SO7Wh3RMYrxmN3orAfkSh0cXvLU7GTprBfQ4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730960359; c=relaxed/simple;
-	bh=ANxD13YAGSTYC6cNRZS2MistrSwi7MUahJbAyk88Auw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=M1iRxb0cu36f9BxS10jTXOb7ppCouVr/m2f/kgFtXsKJwybtmz81ds3lNFMNhDo0Ih/8i/RwOxiRXzpbkUkZ4E1xUabr5xo77EOweLEVzYOYeB/bVWunhRYem+s/NB6lUut0kJyF8UUeN2vqC3LP0ppJsjZKjbJaUs9Cr8FcfsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DpbhpSjD; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730989068; c=relaxed/simple;
+	bh=Fm1zpy+fNmmSrwiAXW+famhfnfU9ILSbYobTRaQC/ys=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=fCFgOGE7Or2zlY0QWHj+8x41vhG/skBkTrxMDb6BNDKBtismPYB7GqgUz7/gHaBOB+L7QC6GMCnEdIfmRXcfDwJ7N3MJ/oRteds2pSy5CFbEGflNgH7isGm+vlVEoDvnTi5tu1fqhAc03PlGSpF9vCAOrFvLWeCioMeIu7hmXhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=QetVRRgG; arc=none smtp.client-ip=116.203.91.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DpbhpSjD"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7203c431f93so435621b3a.1;
-        Wed, 06 Nov 2024 22:19:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730960356; x=1731565156; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2+AhCXqAG1kLEFq3qc9uec/6rupnmZiZFxA7GdB80Lg=;
-        b=DpbhpSjDsVbOsaOb5pKjtXPqyIds0EOqdkyxhczRGAr+gWB0p0ia7tX2QHIIzkkzgL
-         +RXX3/zJ/yl5D6CdG33ELVmWy2WEhOxrIh6eh018v6UcGu8Uc9IR5UNqN1wV3RO35tJm
-         +HJHscdY5JnV5BQbKlFUJykGxXJDj8s3WORKGZrOp6+X9dUGcZ1uMjlsLiVjvO+WEbUQ
-         dVidUqZtx8gnKAeFJP2xBWPL4rk76KAswGjniUtbNzHKKSHiB9yEyDKkTyrQSZkQz4Wo
-         GfyDs3z/8aa4c0b1hqfrPO8AY1BBJLcyEiSULKXKNMV8nbTa0Vq9MT9/iW90ld3qp+dO
-         ZXyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730960356; x=1731565156;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2+AhCXqAG1kLEFq3qc9uec/6rupnmZiZFxA7GdB80Lg=;
-        b=a+xFbwJbWDdGhpTJOTnCdk9PEe7oHEqc6NiX4k0ZA1v2CmeTOAKm/ePrw0EenGduID
-         NslvlliNUFdXJuSvOLV1ce3VTCsqfZQG4vyJgpi6tHeCFn+u6HXkjSM4DaA77Xhm32vH
-         XLnkmjZRbzS0ZbE+cHxKXFYGPojEB0BhWEUM6Pm7JFOdBGmPjGbf2o9IUWpxGztyQ5+E
-         DsYtdszoEKEjSbvkG8m/204AcnGmIli4/+m1rB0v7npwpYZY6FBeXnJEK6zcFcJRRXQg
-         lBpvB7EMmvhjwy+QLyx3amZ81Xl/OrPzc0nb2JwWPFUAOlZkPaGvaqEJlK1SE1PWFi71
-         TeQA==
-X-Forwarded-Encrypted: i=1; AJvYcCUIIbvZiBmlHUW7Pkxn6CIeRwiR4YtKAeReglKDfMn5/4+zablMHZg1z2D12OZZ1PmIWKawz4FEGIgBsuQv@vger.kernel.org, AJvYcCWwiS0HISDv/oMACCLyFJxtjBtZV2bibf1WhFU7sSQT/OBb4hFJ+2VjMvb3s/k2XYFox+5bMmW5ACs/@vger.kernel.org, AJvYcCX5GIhE5NQ/cyVpXuLJGDgPtgVl09/6rAV8DbaCRV2+YPnP7ifIEwAWvfG+8sqYz5OMU1T4BM4V74k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YycMrBLC1m1yU2xGno9CZT8+KyeD8Ad8CrHCZti2xBmmeCat4Et
-	d/5/mTAnn2hDgWGeY1l7QMleIDZUmRKT4dOwCYkXeoQZBkuEwxr1jgLNcTLc
-X-Google-Smtp-Source: AGHT+IGNBcdEGIHkv+fNvnfYUh3MUw696z8lIVcstfD0ZkGTSBmAMs23W89m3QsQO5uwBr67WzaqIg==
-X-Received: by 2002:a05:6a00:803:b0:71e:4930:162c with SMTP id d2e1a72fcca58-724080b01afmr1146788b3a.6.1730960355859;
-        Wed, 06 Nov 2024 22:19:15 -0800 (PST)
-Received: from 1337.tail8aa098.ts.net (ms-studentunix-nat0.cs.ucalgary.ca. [136.159.16.20])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7240785ffc2sm676523b3a.25.2024.11.06.22.19.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2024 22:19:15 -0800 (PST)
-From: Abhinav Saxena <xandfury@gmail.com>
-To: linux-kernel-mentees@lists.linuxfoundation.org,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Abhinav Saxena <xandfury@gmail.com>
-Subject: [PATCH] docs: fix typos and whitespace in Documentation/process/backporting.rst
-Date: Wed,  6 Nov 2024 23:19:11 -0700
-Message-Id: <20241107061911.106040-1-xandfury@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="QetVRRgG"
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+	t=1730988545;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nfCiWb167VnGXmqmnUWRqEBySAPrNU+qdZTF1ehmBTg=;
+	b=QetVRRgGq8wyM3ZZpQE1NvypY1a8AGGzAav+vWhxsadpLFvHi5bLwjxpp7UuBNJDYUwT2Y
+	yIV16FY+JQ2RoCzPPKbJPiE2H0pREpT/ZEYUwlzH+GGZ74OX5nSI7BrWlr8X3Rxup/opgY
+	lqNFpz2hnG90ZjG95wMaMUKt5xvaQmcHnSUGN5Tr4elt34959hOqnU6WaRQ2r/LbOuUm+N
+	4XovsGG25b8+QjwSdArzQJAQdSB7uxMSnVIrqLopwItK4gr4BCM1P7sO36gD/ULUEWF20W
+	cIaiei/TxDLcHodIx50xsG7F4CzS6SepeVKwMNUD8Dk1GOVGgvnxK613d2Ebjg==
+Date: Thu, 07 Nov 2024 15:09:02 +0100
+From: Dragan Simic <dsimic@manjaro.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: apw@canonical.com, joe@perches.com, dwaipayanray1@gmail.com,
+ lukas.bulwahn@gmail.com, workflows@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, wens@csie.org
+Subject: Re: [PATCH v2 0/3] Make Helped-by tag supported
+In-Reply-To: <87h68k4esb.fsf@trenco.lwn.net>
+References: <cover.1730874296.git.dsimic@manjaro.org>
+ <87h68k4esb.fsf@trenco.lwn.net>
+Message-ID: <cabfa180845df30bfb7a541a701a57e9@manjaro.org>
+X-Sender: dsimic@manjaro.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 
-- Fix repeated word "when" in backporting documentation
-- Remove trailing whitespace after '$' character
+Hello Jonathan,
 
-These issues were reported by checkpatch.pl. No functional changes.
+On 2024-11-06 15:28, Jonathan Corbet wrote:
+> Dragan Simic <dsimic@manjaro.org> writes:
+> 
+>> This is a short series that adds Helped-by tag to the list of accepted
+>> tags in scripts/checkpatch.pl, and describes the intended use of this 
+>> new
+>> tag in Documentation/process/submitting-patches.rst.
+>> 
+>> The proposed Helped-by tag fits well to indicate someone had helped 
+>> with
+>> the development of a patch, to the level that doesn't warrant 
+>> providing
+>> a Co-developed-by tag, but is much more than it would've been 
+>> indicated
+>> by providing a Suggested-by tag.
+> 
+> The documentation is meant to cover our existing conventions, rather
+> than to drive new ones - usually, at least.  There are exactly 11
+> commits in the history with Helped-by, suggesting we're not really at 
+> an
+> established convention at this point.  Given that there has been some
+> resistance to inventing new tags, are we sure that we want this one?
 
-Signed-off-by: Abhinav Saxena <xandfury@gmail.com>
----
- Documentation/process/backporting.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Thanks for your response.
 
-diff --git a/Documentation/process/backporting.rst b/Documentation/process/backporting.rst
-index a71480fcf3b4..5e15adc34799 100644
---- a/Documentation/process/backporting.rst
-+++ b/Documentation/process/backporting.rst
-@@ -553,7 +553,7 @@ Submitting backports to stable
- ==============================
- 
- As the stable maintainers try to cherry-pick mainline fixes onto their
--stable kernels, they may send out emails asking for backports when when
-+stable kernels, they may send out emails asking for backports when
- encountering conflicts, see e.g.
- <https://lore.kernel.org/stable/2023101528-jawed-shelving-071a@gregkh/>.
- These emails typically include the exact steps you need to cherry-pick
-@@ -563,9 +563,9 @@ One thing to make sure is that your changelog conforms to the expected
- format::
- 
-   <original patch title>
--  
-+
-   [ Upstream commit <mainline rev> ]
--  
-+
-   <rest of the original changelog>
-   [ <summary of the conflicts and their resolutions> ]
-   Signed-off-by: <your name and email>
--- 
-2.34.1
+Of course, the documentation would be updated only if the first patch
+in this series becomes accepted, i.e. if Helped-by becomes supported
+in checkpatch.pl.  I'm sorry if I wasn't clear enough.
 
+It's usually said that necessity is mother of invention, which is the
+case here.  In a few words, I've got another patch pending merging [1]
+that a couple of people helped me with.  What they did is more than
+what Suggested-by tags would indicate, but doesn't really warrant
+Co-developed-by + Signed-off-by pairs or tags.  Having Helped-by tags
+provided for both of them would fit pretty much perfectly.
+
+It was very similar, if not the same, when it comes to the development
+that led to a few commits already containing Helped-by tags. [2]  Sure,
+that isn't a whole lot of such commits, but this may be a good point
+to decide what to do with Helped-by tags in the future.
+
+I'm fully aware that we may be reluctant to supporting additional tags,
+because we may then end up with a whole bunch of strange tags that might
+be a bit hard to understand and use properly, but I think that adding
+Helped-by to the supported tag list may actually be a good thing to do.
+As described above, Helped-by fits very well between the Suggested-by
+tag and the Co-developed-by + Signed-off-by pair of tags, and I think
+that providing the right level of attribution may be beneficial.
+
+[1] 
+https://lore.kernel.org/linux-sunxi/129f0c754d071cca1db5d207d9d4a7bd9831dff7.1726773282.git.dsimic@manjaro.org/T/#u
+[2] 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/?qt=grep&q=Helped-by
