@@ -1,182 +1,132 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84052170C2
-	for <workflows@vger.kernel.org>; Thu,  7 Nov 2024 21:54:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FE5B1BD9DB;
+	Fri,  8 Nov 2024 16:18:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731016461; cv=none; b=SoZFwXDNuCUP3EJZTV4YqWOWbN2G1ISKqD5TpU79L+auwvVMuf7TQ4M3cJMtUQdPa1UV6Xj0fURTnc2fDOcvEJFJCfo+C0Xp2D4XpmlHuFl7C6DY/vFrp24ucCtIl7rfshpn2rFGAj3yr4VB0FQKRfpzmomjCeh6nGpCUxgSsqs=
+	t=1731082737; cv=none; b=MFs1t8Ou7ExwmPzcLsQEMdAnIIqx6RhJkVZGBWuZNSd7mgZgwnAKtSo/biY/jHS5qQmg0xqbJvNS0hWCIufmsoFNXpQJxA+DSrVYA0t/MwojaBq77hnbUnD8+VERoIE47GpZcd/XeLJMb0WLLsjOFct51etxC+OrYl5cte9chUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731016461; c=relaxed/simple;
-	bh=L2z5Im7eApEYnSF6VAAS12BUcltczp7EaP9nsBPNtgU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HZf/zU/mscLrCsXz2zbk2Vjs8oSQNxmH2I3Jn6go2TH0X3b/kTPhvsDMsjk9WoSxwp9ZLhaU6kENSH5n2PltwNdNfmYUzD8kBC4jyZW6VW0BO7L70i+nGuKzdCVX4rfosL8qzVtADG2hxeSlo6QjRByVVkEHTm17L1v2FD71pcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BQ0ookEI; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1731082737; c=relaxed/simple;
+	bh=5fmDrDaI733DzNBUuUddNJBVI9S5jMQGEEa6zN6Z2Fg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LlcbsJHSl/zoCyrQ5Nvg9EpkmvM09SwvjDEpvXe85sIL2CnFquJI7b/zKmpk0S2CtsdizVmbQpbnyHmaYZ4DVSVIg32piRmf9NPtVq52LgxokIrlrt15slKBo3S4LKvrpr6HzOFuxquEJl5DuT5sEDBt69F+IvW1uG9I2QtwQx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=LS/MR9sZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BQ0ookEI"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4608dddaa35so88771cf.0
-        for <workflows@vger.kernel.org>; Thu, 07 Nov 2024 13:54:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1731016459; x=1731621259; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PXyRMpyA+Wotd0AmuT5vj1vIpPFJGkQFHScvE/Azn4Q=;
-        b=BQ0ookEIX3hz8qB0+WTx3crlIJ/BaR1qbqucW2T4SDddVR0ckxwtuNhYEXj563QkxY
-         AGaHJRubLcHlSvCoZjPI6zHAOkUP3jhieIyKyjUFXgCqckT4ClEVBUSbQnMOxe+CGNCQ
-         QO4esPxA09ImVMnrdQYrwiGQvtYXpWmy/sizV49Y5jo6lXIMIpApZiEPZJSrwOp74uLl
-         mYjrV3H/NDDWfOijAUFu2ZjtJJVp0eNQ31Umrysqcupo30+AN4pd4rQXLTUCup+0WtVG
-         AyTCph81uuGplCW2JqZftYaBnNksG2cQ03t9CGbDe5TYXxOYkNdQv+jtQYlne2TV0dUa
-         3KIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731016459; x=1731621259;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PXyRMpyA+Wotd0AmuT5vj1vIpPFJGkQFHScvE/Azn4Q=;
-        b=Ts3RhmcaH2ioPIEOmTS4qpyv0wf/v7VrUEcUbp7fMkeOplc86a7GVd7fBVdF3ShUNR
-         rocwzKR4cvrnlBQawVe3vsNoKmbDLULw+0Ph5lsU/2cEPdNGL8sgXTmWXGzWnL6N2D3H
-         muH2fBkZmxoZC6PgWenRVMiIim0HtQ/xF3LfljqHz4Ys/wx38t6LOd1f8vHhBiXpq7/F
-         ijvsaFSKW9AZdJGWF7/b6pw07fRWwySXJzcTCDzE5UokpH6f1J3Frl/lBwdJdSuCDWMG
-         OqhIu/Nwqsrz4bS0Zk3qYjf472mC9wmW2mRSYcQ3gcV69KnyzkVFNv8xQK9QwNW1NIf4
-         WmvA==
-X-Forwarded-Encrypted: i=1; AJvYcCVMPiwjlTTzu3+UWg2OJcm4xp+8A00SJPVSS+WWwUJty+u8kf/gWr+HwaEiyvS8AtWOfRdUMV+jc/U=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwpFvfpVm9rp1ETNsILpO7FBuo4LIWQHWYf7pmPN6PyDmsahc2a
-	h+TPVRsX99oSpsoz1t1Um/hVoiFzizsunSogSaqTGuffpy2rin3EzDPCzE+5HwQWtR28JvxS427
-	hiNYHhnHDW+M2LvY3RPPaPCkPWonON+Sf4H8A
-X-Gm-Gg: ASbGncslGCIfHKzeoQVxjEfMbaL9DBlDEp1hAnJtMOvusbnfBWfCsTI+WNREXibTQt8
-	LsLuMX5sizcYDND/qJfc2hazklkIhb6hwN4LaNMDlIvgLw5c+sDvbD3sw3naE
-X-Google-Smtp-Source: AGHT+IFdkSoHyavqa/rWYWexCV5GeErWCgxte9R1lHiqNRFVJXCyk2W6mdtD7fnvhuSYzrquH11z1oepbqTe6XTTqdc=
-X-Received: by 2002:ac8:5f06:0:b0:462:ad94:3555 with SMTP id
- d75a77b69052e-462fa646403mr5858781cf.25.1731016458594; Thu, 07 Nov 2024
- 13:54:18 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LS/MR9sZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E746C4CECD;
+	Fri,  8 Nov 2024 16:18:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1731082737;
+	bh=5fmDrDaI733DzNBUuUddNJBVI9S5jMQGEEa6zN6Z2Fg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=LS/MR9sZWlWh5bk47vCMHWuKknjXZVYtqz3R5VS8w0ultVXKzTNQWz/tiJ96w+zuu
+	 y+7oN1l6Tg78EyPDMJ7cEuP1pVXqIhOGWYvjjzcJOxPWcjIoBGhCeVQ3sn6H4zTu7y
+	 JegmedANk+DDjcvjseIJ5kfQUgtdkEVEqTLCeJ2M=
+From: Shuah Khan <skhan@linuxfoundation.org>
+To: gregkh@linuxfoundation.org,
+	corbet@lwn.net
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Dan Williams <dan.j.williams@intel.com>
+Subject: [PATCH] Documentation/CoC: spell out enforcement for unacceptable behaviors
+Date: Fri,  8 Nov 2024 09:18:53 -0700
+Message-Id: <20241108161853.12325-1-skhan@linuxfoundation.org>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241102175115.1769468-1-xur@google.com> <20241102175115.1769468-8-xur@google.com>
- <20241107204504.GA3432398@thelio-3990X>
-In-Reply-To: <20241107204504.GA3432398@thelio-3990X>
-From: Rong Xu <xur@google.com>
-Date: Thu, 7 Nov 2024 13:54:06 -0800
-Message-ID: <CAF1bQ=TNOs7shXMbgY3UYzDZyF3ge=6hUdfEJvHV4LOo--tqVA@mail.gmail.com>
-Subject: Re: [PATCH v7 7/7] Add Propeller configuration for kernel build
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Alice Ryhl <aliceryhl@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, 
-	Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>, 
-	Han Shen <shenhan@google.com>, Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
-	Masahiro Yamada <masahiroy@kernel.org>, "Mike Rapoport (IBM)" <rppt@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Sami Tolvanen <samitolvanen@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org, 
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Maksim Panchenko <max4bolt@gmail.com>, 
-	"David S. Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, 
-	Yonghong Song <yonghong.song@linux.dev>, Yabin Cui <yabinc@google.com>, 
-	Krzysztof Pszeniczny <kpszeniczny@google.com>, Sriraman Tallam <tmsriram@google.com>, 
-	Stephane Eranian <eranian@google.com>, x86@kernel.org, linux-arch@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Thanks Nathan for finding this out!
+The Code of Conduct committee's goal first and foremost is to bring about
+change to ensure our community continues to foster respectful discussions.
 
-We changed the propeller option with this patch:
-https://github.com/llvm/llvm-project/pull/110039
+In the interest of transparency, the CoC enforcement policy is formalized
+for unacceptable behaviors.
 
-Currently, this patch is only in the ToT clang (v20) and not yet
-released in v19.
-I'll add a compiler version check to the patch: if the clang version >=3D 2=
-0,
-use the new option.
+Update the Code of Conduct Interpretation document with the enforcement
+information.
 
-If this patch is later released in v19.x clang, I'll have to update the che=
-ck
-accordingly.
+Acked-by: Linus Torvalds <torvalds@linux-foundation.org>
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Acked-by: Miguel Ojeda <ojeda@kernel.org>
+Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
+Acked-by: Jonathan Corbet <corbet@lwn.net>
+Acked-by: Steven Rostedt <rostedt@goodmis.org>
+Acked-by: Dan Williams <dan.j.williams@intel.com>
+Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+---
+ .../code-of-conduct-interpretation.rst        | 52 +++++++++++++++++++
+ 1 file changed, 52 insertions(+)
 
-If I don't hear objections, I'll send a fixup on top of Masahiro's branch.
+diff --git a/Documentation/process/code-of-conduct-interpretation.rst b/Documentation/process/code-of-conduct-interpretation.rst
+index 66b07f14714c..21dd1cd871d2 100644
+--- a/Documentation/process/code-of-conduct-interpretation.rst
++++ b/Documentation/process/code-of-conduct-interpretation.rst
+@@ -156,3 +156,55 @@ overridden decisions including complete and identifiable voting details.
+ Because how we interpret and enforce the Code of Conduct will evolve over
+ time, this document will be updated when necessary to reflect any
+ changes.
++
++Enforcement for Unacceptable Behavior Code of Conduct Violations
++----------------------------------------------------------------
++
++The Code of Conduct committee works to ensure that our community continues
++to be inclusive and fosters diverse discussions and viewpoints, and works
++to improve those characteristics over time. The Code of Conduct committee
++takes measures to restore productive and respectful collaboration when an
++unacceptable behavior has negatively impacted that relationship.
++
++Seek public apology for the violation
++*************************************
++
++The Code of Conduct Committee publicly calls out the behavior in the
++setting in which the violation has taken place, seeking public apology
++for the violation.
++
++A public apology for the violation is the first step towards rebuilding
++the trust. Trust is essential for the continued success and health of the
++community which operates on trust and respect.
++
++Remedial measures if there is no public apology for the violation
++*****************************************************************
++
++The Code of Conduct Committee determines the next course of action
++to restore the healthy collaboration by recommending remedial measure(s)
++to the TAB for approval.
++
++- Ban violator from participating in the kernel development process for
++  a period of up to a full kernel development cycle. The Code of Conduct
++  Committtee could require public apology as a condition for lifting the
++  ban.
++
++The scope of the ban for a period of time could include:
++
++    a. denying patch contributions and pull requests
++    b. pausing collaboration with the violator by ignoring their
++       contributions and/or blocking their email account(s)
++    c. blocking their access to kernel.org accounts and mailing lists
++
++Once the TAB approves one or more of the measures outlined in the scope of
++the ban by a two-thirds vote, the Code of Conduct Committee will enforce
++the TAB approved measure(s) in collaboration with the community, maintainers,
++sub-maintainers, and kernel.org administrators.
++
++The effectiveness of the remedial measure(s) approved by the TAB depends
++on the trust and cooperation from the community, maintainers, sub-maintainers,
++and kernel.org administrators in enforcing them.
++
++The Code of Conduct Committee sincerely hopes that unacceptable behaviors
++that require seeking public apologies continue to be exceedingly rare
++occurrences in the future.
+-- 
+2.40.1
 
-Thanks,
-
--Rong
-
-On Thu, Nov 7, 2024 at 12:45=E2=80=AFPM Nathan Chancellor <nathan@kernel.or=
-g> wrote:
->
-> Hi Rong,
->
-> On Sat, Nov 02, 2024 at 10:51:14AM -0700, Rong Xu wrote:
-> > diff --git a/scripts/Makefile.propeller b/scripts/Makefile.propeller
-> > new file mode 100644
-> > index 0000000000000..344190717e471
-> > --- /dev/null
-> > +++ b/scripts/Makefile.propeller
-> > @@ -0,0 +1,28 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +
-> > +# Enable available and selected Clang Propeller features.
-> > +ifdef CLANG_PROPELLER_PROFILE_PREFIX
-> > +  CFLAGS_PROPELLER_CLANG :=3D -fbasic-block-sections=3Dlist=3D$(CLANG_=
-PROPELLER_PROFILE_PREFIX)_cc_profile.txt -ffunction-sections
-> > +  KBUILD_LDFLAGS +=3D --symbol-ordering-file=3D$(CLANG_PROPELLER_PROFI=
-LE_PREFIX)_ld_profile.txt --no-warn-symbol-ordering
-> > +else
-> > +  CFLAGS_PROPELLER_CLANG :=3D -fbasic-block-sections=3Dlabels
-> > +endif
->
-> It appears that '-fbasic-block-sections=3Dlabels' has been deprecated in
-> the main branch of LLVM, as I see a warning repeated over and over when
-> building allmodconfig:
->
->   clang: warning: argument '-fbasic-block-sections=3Dlabels' is deprecate=
-d, use '-fbasic-block-address-map' instead [-Wdeprecated]
->
-> https://github.com/llvm/llvm-project/commit/7b7747dc1d3da1a829503ea9505b4=
-cecce4f5bda
->
-> Sorry that I missed this during testing, as I was only using clang-19 at
-> the time.
->
-> I think you can send a fixup on top of Masahiro's branch:
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.gi=
-t/log/?h=3Dkbuild
->
-> > +# Propeller requires debug information to embed module names in the pr=
-ofiles.
-> > +# If CONFIG_DEBUG_INFO is not enabled, set -gmlt option. Skip this for=
- AutoFDO,
-> > +# as the option should already be set.
-> > +ifndef CONFIG_DEBUG_INFO
-> > +  ifndef CONFIG_AUTOFDO_CLANG
-> > +    CFLAGS_PROPELLER_CLANG +=3D -gmlt
-> > +  endif
-> > +endif
-> > +
-> > +ifdef CONFIG_LTO_CLANG_THIN
-> > +  ifdef CLANG_PROPELLER_PROFILE_PREFIX
-> > +    KBUILD_LDFLAGS +=3D --lto-basic-block-sections=3D$(CLANG_PROPELLER=
-_PROFILE_PREFIX)_cc_profile.txt
-> > +  else
-> > +    KBUILD_LDFLAGS +=3D --lto-basic-block-sections=3Dlabels
->
-> I think this might have a similar problem but I have not tested.
->
-> > +  endif
-> > +endif
-> > +
-> > +export CFLAGS_PROPELLER_CLANG
->
-> Cheers,
-> Nathan
