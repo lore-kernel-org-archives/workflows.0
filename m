@@ -1,90 +1,80 @@
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2AD96A8D2;
-	Sat,  9 Nov 2024 03:10:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB4294D8AD
+	for <workflows@vger.kernel.org>; Sat,  9 Nov 2024 03:59:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731121817; cv=none; b=ElQaRIGZD87crdtbrLdZav8oCmMdi3M8M2SNRc40A/4Tf7i7cY8s3Keu+diXIqA6i5gmvt6Pon3r71+c8M6tuPTPR0qBMc5/0PwPjlN5htM6CqvV/5iCub8GFywptizFc6gwTboHl2obi40g9lUEC6sU+PwogSbRNblXouEK9tM=
+	t=1731124767; cv=none; b=VxuGvh+8si0Vpmdes4nVIt7WVNiVgCdUuL9GB2nbTb64AwzYy7d+BCFt9z19iq/VWvpsp0TqKQ4flkVTpKLg0rGxrZHxP6mLnocyCOfBNRLckL3nWZXOtK2XbdbZu3EUyKNUmWBAdHcnvdm+Mk94iDVwsNkUhamuoyra3855FkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731121817; c=relaxed/simple;
-	bh=wye8iv6GBUqV4RPPtL9lLvmKw7jZ1JuvjzMoEbBOM9I=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=NDPyVxgT7wPUYHGLMQbg1JSb9+h+tQkfiJZsk9F087HpfWlrJ5XmvDtrIye+E3UeOuWZuRWFBCJxWITABbB3eFnQFP/6ZXtQBAm+IZUqjnNNJk/6YCAvYJHKzP5CAAyOk7EljPTUAa6IBjG6KA52IUF90Ow4FC8UmfE4jK+xe68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=CuTvR9qC; arc=none smtp.client-ip=116.203.91.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
+	s=arc-20240116; t=1731124767; c=relaxed/simple;
+	bh=MuUHmXGr8JXXU11U0zA3AH5ebUBQtLudPHAX4pJOYAI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cGc2WsOqFEEtkW5gmRcm+cfuAXozX+oopX+7yr1gFgAVCczNyZVBzC0WEfgtOFrKoI2eaRiJVbO0Q+wAvvDCHCO4hzDfUIBe7VU6Uo2ejHvLs5J6DjWD0MUwtopE1yFqp+pfu9WZw5Jq21A+RWb+sxu1b3di4k2SBw4Mo8nW5pA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=VU0/KTrC; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="CuTvR9qC"
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="VU0/KTrC"
+Received: from cwcc.thunk.org (pool-173-48-82-224.bstnma.fios.verizon.net [173.48.82.224])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 4A93x4wg010849
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 8 Nov 2024 22:59:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1731124747; bh=816N1sk5E3DW7glLrjhiANpEjK5lmhpur2scZjvvw/I=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=VU0/KTrCBOp+nuWiJj1E9sqmkR0ZfOEGE6f6m6D58SBbLNewrwuRv2+1KwAeEn6Zq
+	 LLH9AhjSrtYS1GFaaWXCAESDw3pEmr9Af1qx3tAZZX9SPjuwoWWTfAQIBF/d7xNwHX
+	 X/0Kh73JTSOcwy7Bm2QzVESF5FLXGtKwAbGs94dnP9zrVb89kDWUyWwPwQrqCMxK8z
+	 iEsmiLgr/LxFvE2HySe2RLyi+snopc+CZcVhuHRHchtReMSkpg7lDIVp9g/GgWiahg
+	 2KZNh6XQlDnoCf0PqSRlTJWkyzMqPMKkH/sN8Wz2pUaJ5wcZLeoiES5Zr0b12aSD6U
+	 DaRs6EFti7r/Q==
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+	id 10E0315C02BF; Fri, 08 Nov 2024 22:59:04 -0500 (EST)
+Date: Fri, 8 Nov 2024 22:59:04 -0500
+From: "Theodore Ts'o" <tytso@mit.edu>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: gregkh@linuxfoundation.org, corbet@lwn.net, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Dan Williams <dan.j.williams@intel.com>
+Subject: Re: [PATCH] Documentation/CoC: spell out enforcement for
+ unacceptable behaviors
+Message-ID: <20241109035904.GA21941@mit.edu>
+References: <20241108161853.12325-1-skhan@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1731121812;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=N3cjnRRWgeotFHH4xSamuV9Ko4ExVM2WbLvuwDlVztQ=;
-	b=CuTvR9qCXexvU5xxshnqYneebcIOmWZdoRFWurnOhbmvAvolA7/N8McvUm4bU96NurxlTb
-	/We9NJrTckaXUNBvr8MQYXii2VyQde1w0/C8A03sNFlRvu/4wBxHMmYcCNuk5cC/Oqg5GB
-	c/OQRqdqOpNz4wig9M8XOZTXc2teQbnuvXWthVcX9u4KhGNem9zlRBdrETmo9qEdWlL2Im
-	SkV7pdQiXu7jqK2yHMTEs3LhuLQfA4bK+iAQ57/j6fhlqK5vYaZw28IYiL/vEHa5c4Q01S
-	hMMO8kCeVMZdRCzP4xji1GGzNrWViEtz7TY4hOU7UqrdlEOiqRKzYzZaJGMl2A==
-Date: Sat, 09 Nov 2024 04:10:11 +0100
-From: Dragan Simic <dsimic@manjaro.org>
-To: Dan Williams <dan.j.williams@intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, apw@canonical.com, joe@perches.com,
- dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, workflows@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, wens@csie.org
-Subject: Re: [PATCH v2 0/3] Make Helped-by tag supported
-In-Reply-To: <672e628111eb0_10bc629436@dwillia2-xfh.jf.intel.com.notmuch>
-References: <cover.1730874296.git.dsimic@manjaro.org>
- <87h68k4esb.fsf@trenco.lwn.net>
- <cabfa180845df30bfb7a541a701a57e9@manjaro.org>
- <672e628111eb0_10bc629436@dwillia2-xfh.jf.intel.com.notmuch>
-Message-ID: <28c0a0ecc2e2880e4cb98449767e2842@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241108161853.12325-1-skhan@linuxfoundation.org>
 
-Hello Dan,
-
-On 2024-11-08 20:12, Dan Williams wrote:
-> Dragan Simic wrote:
->> I'm fully aware that we may be reluctant to supporting additional 
->> tags,
->> because we may then end up with a whole bunch of strange tags that 
->> might
->> be a bit hard to understand and use properly, but I think that adding
->> Helped-by to the supported tag list may actually be a good thing to 
->> do.
->> As described above, Helped-by fits very well between the Suggested-by
->> tag and the Co-developed-by + Signed-off-by pair of tags, and I think
->> that providing the right level of attribution may be beneficial.
+On Fri, Nov 08, 2024 at 09:18:53AM -0700, Shuah Khan wrote:
+> The Code of Conduct committee's goal first and foremost is to bring about
+> change to ensure our community continues to foster respectful discussions.
 > 
-> Patch attribution is separate from giving thanks. I would much rather
-> someone take the time to say "Thanks" in the changelog with some
-> supporting text rather than boil down all the myriad ways to be 
-> thankful
-> into a generic tag. "git log --grep=Thanks" often yields valuable
-> details, beyond just attribution, on how people have helped each other
-> develop this global project of ours. If the introduction of Helped-by
-> would replace even one authentic "Thank you" note with a generic tag
-> then it is a net loss for the community.
+> In the interest of transparency, the CoC enforcement policy is formalized
+> for unacceptable behaviors.
+> 
+> Update the Code of Conduct Interpretation document with the enforcement
+> information.
+> 
+> Acked-by: Linus Torvalds <torvalds@linux-foundation.org>
+> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Acked-by: Miguel Ojeda <ojeda@kernel.org>
+> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
+> Acked-by: Jonathan Corbet <corbet@lwn.net>
+> Acked-by: Steven Rostedt <rostedt@goodmis.org>
+> Acked-by: Dan Williams <dan.j.williams@intel.com>
+> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
 
-I do agree that writing "Thanks John for helping with..." in a patch
-description would be nice, but unfortunately I've seen multiple times
-that people don't enjoy writing their patch descriptions at all, and
-just want to "get them out the door" as quickly as possible.
+Acked-by: Theodore Ts'o <tytso@mit.edu>
 
-With that in mind, making Helped-by tags supported would allow such
-people to at least quickly mention someone they're thankful to, which
-actually wouldn't prevent anyone from saying the same more verbosely
-in a patch description.
