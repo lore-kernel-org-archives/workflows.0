@@ -1,218 +1,235 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 690641ABEA3
-	for <workflows@vger.kernel.org>; Mon, 11 Nov 2024 20:07:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7E698468
+	for <workflows@vger.kernel.org>; Mon, 11 Nov 2024 20:44:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731355655; cv=none; b=sn4efKvz9/Loxd/FF7DSYvyPYRvx62fxXGq8QTzlglJK6PtfmblL/OS9ACRcBNEzZxsx0DNVXSAoC8KJkIyL+IB/RBNzK617h5DKxZXIBN9ZU42YATvqMvDLTTZQOmgRvS6gkXC0zf1kneNUTZxvYT1i/qUAgTBM36sNNmnpOLU=
+	t=1731357850; cv=none; b=m7aaei86koziCkavjR/5uc/N+Zj8Sd1lMyS6rPgvL5vw/VHwWbQUZUd5asKllpf/6LHGyoBEu84hp+qhnOc1OwBNmF3H9x16ai4bG38H+7BC1Z9WGJtQMnssFij9fJwo6VxbbsDCH4RLGhGE+Pu2shssZgmVBNLA3MneDf8abrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731355655; c=relaxed/simple;
-	bh=nloYtyyyY7jDqjdQx/OCWTxNKzkTw3BEJn06frFfVP8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i5JHTTPk+dYh/Bo/8eC3TD6TyfxQbLEeezkT3ooNwWxZoTIzmwFGjkws1bQ7GAHDi3XXIlhyfAcR84JgsitdzwwRb7a4a21bTTOcBne3gUyjkeq97kHQAjQg+pL0oxQxvu1J/fYGitaLBSSQxWReKIX3FA53xs/QeshoOrB+nqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=eULhFvzt; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+	s=arc-20240116; t=1731357850; c=relaxed/simple;
+	bh=pu1bE2oQyz4PIzvOKsfMnSgcPR/vFs7LU5lLf0wlKVk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=S+ZbuA4LiwJWZJk3LBAn2ULW2enYQ+sEx/5sMeFUcQj7MzkIMKXOaMFJwA/hu+V9mAJCDuLft6dg3jK8eUZfUf58mm7exnABcx3pAgBSuObZXct7HuGwADDRcyMJc540JOrFPvOmYAryeAJOoG0A95luQnW2wcBDTuCZaiaLD0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=th4JP1D9; arc=none smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="eULhFvzt"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-37d47eff9acso2936277f8f.3
-        for <workflows@vger.kernel.org>; Mon, 11 Nov 2024 12:07:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="th4JP1D9"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-460969c49f2so60081cf.0
+        for <workflows@vger.kernel.org>; Mon, 11 Nov 2024 12:44:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1731355652; x=1731960452; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WIIKZQ88bUAJO/72aCrm40fHZEJ1K+otj2uYdeOXD1c=;
-        b=eULhFvztVYoPnlCH2Jl/7O0x+1k9XedxGk2dt27A02XD4GkFSBvg1gg/OR0b9I2qbc
-         FWL/1i/qjjv4E4JAne4zZoY8YREE6NOQez65k35iTXwA9UdBm2u4rwq0jLl1xGfAT57e
-         iEJzmOd2aMWsXi9w4oPcD6fcsD1r5tJYfRhtQ=
+        d=google.com; s=20230601; t=1731357847; x=1731962647; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wJ6uFcLfCmrIfQWM4xw2qYGBJMJQRq1denWE0S9O56A=;
+        b=th4JP1D92CK3cfrjBEFzfpzxnrBrwJZUBTJIbHXzUfJkZ5RmdqnaEnn+3K2ZvNLqgs
+         qIIr9Yos1Y8AxPSEJCov1/XvepIiV2VZqbMykG2K3XF7pK3pK/7wYXHBqrYHX9/hkMZI
+         Jb0krIPMLBExfk3O6+Jgj0vVk/61RghT0qh8e42Mz033A/k3DaWdTAvZDVs131T/ZLrD
+         kvTMZhmeIDKunUCd1VqnGp6t0zvRAk9QHiUFaRPHYuDBL3kEJooHwZFEKrguq4PLkNBi
+         B0vbK/mloWngKj8P4pPBx53Exj761aTLx4+FOLhKsQ+bet60Tcid9Uu2JTfvizeEI+jl
+         uIrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731355652; x=1731960452;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WIIKZQ88bUAJO/72aCrm40fHZEJ1K+otj2uYdeOXD1c=;
-        b=GKU+zgmF3L3mkoB9q3S6wAt3qbbUPlKdlPaMusb5m/i2j9I9z8HmhNTorhqt1I8IRJ
-         e99EYS+sq1HHmBPR1OGxeBLShUpdSWU+n6cq0F8gWo67ylfw+YihxsNFxAXSJfS6wo1W
-         HjPbJSzWMTpPs93i+vtEQ5kwMSo4lR7qQ6d7qPahWwbW779VaMIehlqjPT6y7a9xU9CU
-         z3m/zZM5yHeJPtr6Ahg9pvZyyeB3qXBtBoa08ilqCokS86hoCMNP9qYlfWyvsicBHH7t
-         4flXSwAL9ROOjB0IZIlGhmUg21jyCQ1PdTcPtbTJlSrVIwjnVAqh8Z5nG5s6Vu+W6nVa
-         qzpA==
-X-Forwarded-Encrypted: i=1; AJvYcCWKQN2DwguydBrNg5TxJUagXo0TJktVcmI2DrKY25UZ9hfaRne0zy6CRkrBtNbcF9PASnCqsFu0EMw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyrUhL6k4xhR1TeFaxIjvwHv3XOpA5JkDEvkcVsufJaJpl34h8/
-	i69fCb2tw0VnxFhfi8MebUS0LqTvQuymyCtvCZP5SmZQSa/I/vawEdq5+9m6urA=
-X-Google-Smtp-Source: AGHT+IGmEyPx4cRoIIS5T3WK6yz/WPGsLjicH5l8YqImtQtFJq8OsUj0ZfrEZw+hmKFHtESQBiAbGQ==
-X-Received: by 2002:a5d:47ac:0:b0:37d:5134:fe1 with SMTP id ffacd0b85a97d-381f1866a6fmr11691276f8f.17.1731355651582;
-        Mon, 11 Nov 2024 12:07:31 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381ed970e18sm13558728f8f.10.2024.11.11.12.07.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2024 12:07:31 -0800 (PST)
-Date: Mon, 11 Nov 2024 21:07:28 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: gregkh@linuxfoundation.org, corbet@lwn.net, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Dave Airlie <airlied@gmail.com>,
-	DRI Development <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH] Documentation/CoC: spell out enforcement for
- unacceptable behaviors
-Message-ID: <ZzJkAJEjKidV8Fiz@phenom.ffwll.local>
-Mail-Followup-To: Shuah Khan <skhan@linuxfoundation.org>,
-	gregkh@linuxfoundation.org, corbet@lwn.net,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Dave Airlie <airlied@gmail.com>,
-	DRI Development <dri-devel@lists.freedesktop.org>
-References: <20241108161853.12325-1-skhan@linuxfoundation.org>
+        d=1e100.net; s=20230601; t=1731357847; x=1731962647;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wJ6uFcLfCmrIfQWM4xw2qYGBJMJQRq1denWE0S9O56A=;
+        b=A6i5/Yg5rDlGQCvV1I1GFQ/D0T5IZgoO+UgpFjeQAPdgyaJxOWX3Cj0VWqdHZbwOMf
+         rHmTbt8GYC6uTag7PjFhtdw07//Lh2rPzpalKLbC8DIphTCbUFIsChgbUA9YqLS+tdaP
+         2O3kie2+fUzllMz8DrWDSMnj74SKhnmsotcgGGsp+m23SpIZMRc/yuB9uCC6Ead72gHs
+         u2ZF1Tr1YM2cbf+tzK+bY9aaw47KOJLFR6Vw2ZP5XD4gZVX3qxhVuZaJXEXbmK9CjbIV
+         dt7FB3JI1SsWFqQB/uxQ6AuUuya/zrC7LcdK47Y14zPkhaLpxvRFn//yObccAFtKh3Tq
+         MfdA==
+X-Forwarded-Encrypted: i=1; AJvYcCU8x7CEByQcaMMU/SgTk/CKKAMITZF0YTIP7stOR8AV7tXFtneoLCIMYMMMLxTLYx+k4a96YqeN7x8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwYx5nvKnLuqy/SBdy39B9jRrqyBJjQy60F4mLkRPSc4BMhGXvL
+	3lupyaBpSfRokVYhsloSdOTCSUnV7/pyCEF5v8B6WWgsw9Es9JyGAHSr/Ewus3meVqbqLogqjd0
+	49IbD8J3lXoewqQbr9ok9hLxZM7WjdJVUMMM0
+X-Gm-Gg: ASbGnctuXcUNkAXJ3+pyAXg4kpcyH/Ufihnv7Xvp8o/VAppLtw0OHdVtCX4dzbRT+b7
+	xkSTx2bOIbGBMC1pgeuZg1U+r+E4/eAnkzUi7sO4WRUBLC/QDXuNpk4JoYiVlVw==
+X-Google-Smtp-Source: AGHT+IHN/VTkEzYYSUDWzDF6ttzYMfgpvSZeOr4oSBlM+xWBr13kyerRjwvS3iVYPd8P6qhTDE91E+q+P0S+4DZZ1Yw=
+X-Received: by 2002:ac8:57cb:0:b0:462:c961:ab88 with SMTP id
+ d75a77b69052e-4633f2ba6b3mr499291cf.13.1731357846333; Mon, 11 Nov 2024
+ 12:44:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241108161853.12325-1-skhan@linuxfoundation.org>
-X-Operating-System: Linux phenom 6.10.6-amd64
+References: <20241026051410.2819338-1-xur@google.com> <20241026051410.2819338-4-xur@google.com>
+ <44193ca7-9d31-4b58-99cc-3300a6ad5289@gmail.com>
+In-Reply-To: <44193ca7-9d31-4b58-99cc-3300a6ad5289@gmail.com>
+From: Rong Xu <xur@google.com>
+Date: Mon, 11 Nov 2024 12:43:54 -0800
+Message-ID: <CAF1bQ=ShjoEQZGPjDoy_B6wZdD_jr-RevVXwEDPA_-o-Ba0Omg@mail.gmail.com>
+Subject: Re: [PATCH v6 3/7] Adjust symbol ordering in text output section
+To: Klara Modin <klarasmodin@gmail.com>
+Cc: Alice Ryhl <aliceryhl@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, 
+	Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>, 
+	Han Shen <shenhan@google.com>, Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, 
+	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, "Mike Rapoport (IBM)" <rppt@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Nicolas Schier <nicolas@fjasle.eu>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Sami Tolvanen <samitolvanen@google.com>, 
+	Thomas Gleixner <tglx@linutronix.de>, Wei Yang <richard.weiyang@gmail.com>, 
+	workflows@vger.kernel.org, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
+	Maksim Panchenko <max4bolt@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Yonghong Song <yonghong.song@linux.dev>, 
+	Yabin Cui <yabinc@google.com>, Krzysztof Pszeniczny <kpszeniczny@google.com>, 
+	Sriraman Tallam <tmsriram@google.com>, Stephane Eranian <eranian@google.com>, x86@kernel.org, 
+	linux-arch@vger.kernel.org, sparclinux@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 08, 2024 at 09:18:53AM -0700, Shuah Khan wrote:
-> The Code of Conduct committee's goal first and foremost is to bring about
-> change to ensure our community continues to foster respectful discussions.
-> 
-> In the interest of transparency, the CoC enforcement policy is formalized
-> for unacceptable behaviors.
-> 
-> Update the Code of Conduct Interpretation document with the enforcement
-> information.
-> 
-> Acked-by: Linus Torvalds <torvalds@linux-foundation.org>
-> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Acked-by: Miguel Ojeda <ojeda@kernel.org>
-> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
-> Acked-by: Jonathan Corbet <corbet@lwn.net>
-> Acked-by: Steven Rostedt <rostedt@goodmis.org>
-> Acked-by: Dan Williams <dan.j.williams@intel.com>
-> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+Thanks for reporting this issue!
 
-I think it's really good to document these details. The freedesktop coc
-team is going through the same process, we've also done a talk at XDC
-about all these changes, and I think this helps a lot in transparency and
-accountability in practice. With that, some thoughts below.
+I'm assuming your kernel build enables dead code elimination and
+uses the --ffunction-sections compiler flag. Without this patch, all
+the functions
+-- I think there are only .text.unlikely.* and .text.* are grouped
+together in the
+final vmlinux. This patch modifies the linker script to place
+.text.unlikely.* functions
+ before .text.* functions. I've examined arch/mips/kernel/vmlinux.lds.S, an=
+d
+haven't found any obvious issue.
 
-> ---
->  .../code-of-conduct-interpretation.rst        | 52 +++++++++++++++++++
->  1 file changed, 52 insertions(+)
-> 
-> diff --git a/Documentation/process/code-of-conduct-interpretation.rst b/Documentation/process/code-of-conduct-interpretation.rst
-> index 66b07f14714c..21dd1cd871d2 100644
-> --- a/Documentation/process/code-of-conduct-interpretation.rst
-> +++ b/Documentation/process/code-of-conduct-interpretation.rst
-> @@ -156,3 +156,55 @@ overridden decisions including complete and identifiable voting details.
->  Because how we interpret and enforce the Code of Conduct will evolve over
->  time, this document will be updated when necessary to reflect any
->  changes.
-> +
-> +Enforcement for Unacceptable Behavior Code of Conduct Violations
-> +----------------------------------------------------------------
-> +
-> +The Code of Conduct committee works to ensure that our community continues
-> +to be inclusive and fosters diverse discussions and viewpoints, and works
-> +to improve those characteristics over time. The Code of Conduct committee
-> +takes measures to restore productive and respectful collaboration when an
-> +unacceptable behavior has negatively impacted that relationship.
-> +
-> +Seek public apology for the violation
-> +*************************************
-> +
-> +The Code of Conduct Committee publicly calls out the behavior in the
-> +setting in which the violation has taken place, seeking public apology
-> +for the violation.
-> +
-> +A public apology for the violation is the first step towards rebuilding
-> +the trust. Trust is essential for the continued success and health of the
-> +community which operates on trust and respect.
+Can you send me the following?
+(1) the kernel build command
+(2) System.map without the patch
+(3) System.map with the patch
 
-Personal take, but I think a forced public apology as the primary or at
-least initial coc enforcement approach is one of the worst.
+Best regards,
 
-First, a ban or temporary suspension seems too mechanical and not in
-proportion with the offence of failing to apologize. In my enforcement
-thus far as maintainer and now also freedesktop.org CoC member we only use
-punishment if behavior has failed to change _and_ we need to protect the
-community from further harm. Usually it takes years to get to that point,
-unless in extremely severe cases (like public harrassment campaigns) or
-when the person stated that they refuse to even consider changing behavior
-at all.
+-Rong
 
-Public means you're amping up the stakes and massively increase the odds
-of people being afraid of their reputation and losing face. In my
-experience people are a lot more reasonable when you discuss their
-behavior and what needs to change in private. This even includes the case
-where a temporary suspension had to be put in place already first, to
-protect others.
-
-Lastly, a forced apology puts any victim into the awkward position that
-they're forced to decide whether they want to accept the apology, or
-reject it. This essentially offloads part of the CoC enforcement work onto
-victims, which often are not the ones with the power to actually stand up
-to problematic behavior.
-
-Note that I don't see this as a nack, just a heads up that there's a
-potential conflict. I'm not worried though since Dave and me know pretty
-much everyone involved in both CoC teams. I'm sure if this ever becomes a
-real issue we can bridge things and figure out a solution.
-
-Cheers, Sima
-
-> +
-> +Remedial measures if there is no public apology for the violation
-> +*****************************************************************
-> +
-> +The Code of Conduct Committee determines the next course of action
-> +to restore the healthy collaboration by recommending remedial measure(s)
-> +to the TAB for approval.
-> +
-> +- Ban violator from participating in the kernel development process for
-> +  a period of up to a full kernel development cycle. The Code of Conduct
-> +  Committtee could require public apology as a condition for lifting the
-> +  ban.
-> +
-> +The scope of the ban for a period of time could include:
-> +
-> +    a. denying patch contributions and pull requests
-> +    b. pausing collaboration with the violator by ignoring their
-> +       contributions and/or blocking their email account(s)
-> +    c. blocking their access to kernel.org accounts and mailing lists
-> +
-> +Once the TAB approves one or more of the measures outlined in the scope of
-> +the ban by a two-thirds vote, the Code of Conduct Committee will enforce
-> +the TAB approved measure(s) in collaboration with the community, maintainers,
-> +sub-maintainers, and kernel.org administrators.
-> +
-> +The effectiveness of the remedial measure(s) approved by the TAB depends
-> +on the trust and cooperation from the community, maintainers, sub-maintainers,
-> +and kernel.org administrators in enforcing them.
-> +
-> +The Code of Conduct Committee sincerely hopes that unacceptable behaviors
-> +that require seeking public apologies continue to be exceedingly rare
-> +occurrences in the future.
-> -- 
-> 2.40.1
-> 
-
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+On Sat, Nov 9, 2024 at 7:39=E2=80=AFAM Klara Modin <klarasmodin@gmail.com> =
+wrote:
+>
+> Hi,
+>
+> On 2024-10-26 07:14, Rong Xu wrote:
+> > When the -ffunction-sections compiler option is enabled, each function
+> > is placed in a separate section named .text.function_name rather than
+> > putting all functions in a single .text section.
+> >
+> > However, using -function-sections can cause problems with the
+> > linker script. The comments included in include/asm-generic/vmlinux.lds=
+.h
+> > note these issues.:
+> >    =E2=80=9CTEXT_MAIN here will match .text.fixup and .text.unlikely if=
+ dead
+> >     code elimination is enabled, so these sections should be converted
+> >     to use ".." first.=E2=80=9D
+> >
+> > It is unclear whether there is a straightforward method for converting
+> > a suffix to "..".
+> >
+> > This patch modifies the order of subsections within the text output
+> > section. Specifically, it repositions sections with certain fixed patte=
+rns
+> > (for example .text.unlikely) before TEXT_MAIN, ensuring that they are
+> > grouped and matched together. It also places .text.hot section at the
+> > beginning of a page to help the TLB performance.
+> >
+> > Note that the limitation arises because the linker script employs glob
+> > patterns instead of regular expressions for string matching. While ther=
+e
+> > is a method to maintain the current order using complex patterns, this
+> > significantly complicates the pattern and increases the likelihood of
+> > errors.
+> >
+> > This patch also changes vmlinux.lds.S for the sparc64 architecture to
+> > accommodate specific symbol placement requirements.
+>
+> With this patch (622240ea8d71a75055399fd4b3cc2b190e44d2e2 in
+> next-20241108) my Edgerouter 6P hangs on boot (Cavium Octeon III,
+> mips64, running in big endian). It's using device tree passed from the
+> vendored u-boot (attached in case it's relevant).
+>
+> Disabling dead code elimination does not fix the issue.
+>
+> Please let me know if there's anything else you need.
+>
+> Regards,
+> Klara Modin
+>
+> >
+> > Co-developed-by: Han Shen <shenhan@google.com>
+> > Signed-off-by: Han Shen <shenhan@google.com>
+> > Signed-off-by: Rong Xu <xur@google.com>
+> > Suggested-by: Sriraman Tallam <tmsriram@google.com>
+> > Suggested-by: Krzysztof Pszeniczny <kpszeniczny@google.com>
+> > Tested-by: Yonghong Song <yonghong.song@linux.dev>
+> > Tested-by: Yabin Cui <yabinc@google.com>
+> > Change-Id: I5202d40bc7e24f93c2bfb2f0d987e9dc57dec1b1
+> > ---
+> >   arch/sparc/kernel/vmlinux.lds.S   |  5 +++++
+> >   include/asm-generic/vmlinux.lds.h | 19 ++++++++++++-------
+> >   2 files changed, 17 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/arch/sparc/kernel/vmlinux.lds.S b/arch/sparc/kernel/vmlinu=
+x.lds.S
+> > index d317a843f7ea9..f1b86eb303404 100644
+> > --- a/arch/sparc/kernel/vmlinux.lds.S
+> > +++ b/arch/sparc/kernel/vmlinux.lds.S
+> > @@ -48,6 +48,11 @@ SECTIONS
+> >       {
+> >               _text =3D .;
+> >               HEAD_TEXT
+> > +             ALIGN_FUNCTION();
+> > +#ifdef CONFIG_SPARC64
+> > +             /* Match text section symbols in head_64.S first */
+> > +             *head_64.o(.text)
+> > +#endif
+> >               TEXT_TEXT
+> >               SCHED_TEXT
+> >               LOCK_TEXT
+> > diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vm=
+linux.lds.h
+> > index eeadbaeccf88b..fd901951549c0 100644
+> > --- a/include/asm-generic/vmlinux.lds.h
+> > +++ b/include/asm-generic/vmlinux.lds.h
+> > @@ -553,19 +553,24 @@
+> >    * .text section. Map to function alignment to avoid address changes
+> >    * during second ld run in second ld pass when generating System.map
+> >    *
+> > - * TEXT_MAIN here will match .text.fixup and .text.unlikely if dead
+> > - * code elimination is enabled, so these sections should be converted
+> > - * to use ".." first.
+> > + * TEXT_MAIN here will match symbols with a fixed pattern (for example=
+,
+> > + * .text.hot or .text.unlikely) if dead code elimination or
+> > + * function-section is enabled. Match these symbols first before
+> > + * TEXT_MAIN to ensure they are grouped together.
+> > + *
+> > + * Also placing .text.hot section at the beginning of a page, this
+> > + * would help the TLB performance.
+> >    */
+> >   #define TEXT_TEXT                                                   \
+> >               ALIGN_FUNCTION();                                       \
+> > +             *(.text.asan.* .text.tsan.*)                            \
+> > +             *(.text.unknown .text.unknown.*)                        \
+> > +             *(.text.unlikely .text.unlikely.*)                      \
+> > +             . =3D ALIGN(PAGE_SIZE);                                  =
+ \
+> >               *(.text.hot .text.hot.*)                                \
+> >               *(TEXT_MAIN .text.fixup)                                \
+> > -             *(.text.unlikely .text.unlikely.*)                      \
+> > -             *(.text.unknown .text.unknown.*)                        \
+> >               NOINSTR_TEXT                                            \
+> > -             *(.ref.text)                                            \
+> > -             *(.text.asan.* .text.tsan.*)
+> > +             *(.ref.text)
+> >
+> >
+> >   /* sched.text is aling to function alignment to secure we have same
