@@ -1,253 +1,194 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77B4B61FD7;
-	Tue, 12 Nov 2024 05:18:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 495892038CF
+	for <workflows@vger.kernel.org>; Tue, 12 Nov 2024 05:39:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731388730; cv=none; b=C/eb/eenrwu4OHQn9qA5HVh5LZng/zXObpWQoQ/oLoVrqi3NBFYsPL2Fm7qlsMAPy6EFd6Fx3/7t1Sqhqe4b8zmZrGowmfZpqpTNJY6MjP3+0weDeljN9vdSQzZjcRj2q5InU7F8JTrs9G6xOhJsNSDeocL+KYDBX8ZUf7OxubQ=
+	t=1731389953; cv=none; b=qry88Hrb/pRJJ5H5QXN3xSE5ECH2onlLL5i7ZpIdfMZ82VLo88bu0/q/M9gdsuIgNLsnrz4slDVKiS6d3reRIMEAiyO1Ii+C4sk5ajhaybBhs/aAFajsUGXMkMlYUy6IEuA/K0QeW43D6wB3WfPhrOKhqky3MNdQMZqqqWBmb70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731388730; c=relaxed/simple;
-	bh=VEM7Vv4Gy+cVuCgvX9hJ7azFAPZBLTKEPDqPxtkXXFQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WAiMfsc7xBZ4hu8SGfkFimH+ARnOWgJ1syRtkpkpnLe6SJ+BfxAHqqnR6JXboLdiLdsLrraN7toySBkcCekCPe2dwIBLJ8AqsRls9kMHxcW0ukU5Pj4XUfUSdq9so9vXYT8C/6VjWW7p/mgnPu+jLCcgvw7HyvnPIneHNyOdWhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Dx9SMsPv; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1731389953; c=relaxed/simple;
+	bh=uPqiSb8byFUHmsowxYv/8nM0c5ourBGwRMRpZWMY6HE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=plWa3NEC7dbFYzJd4LiOoQ/4Tf+NSk2qlTvVymbLp1/NLHbcU5px/VG0zeFMiOg5z8c29KYBW5j/RTjwtPJysrytlLLbDqCjB2/GTOAd0G/2Uk8gaHv9W5CVE+DP5XRqKGwySunSRgFNLFyCr5h0dtknAqZia475ztLLbJbvfPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qH4ebDfP; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Dx9SMsPv"
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DC811512;
-	Tue, 12 Nov 2024 06:18:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1731388713;
-	bh=VEM7Vv4Gy+cVuCgvX9hJ7azFAPZBLTKEPDqPxtkXXFQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Dx9SMsPv/lQyPMyTNgpXW/NTR2o6UKdFswmvlpW42WM841tpnO4tl3yy1vaJMzsxM
-	 5VgKQGuVNwnYxen4J76jG+vH1RCaXZCdasDt2MVu4Wdz77I25c35vwHKoo5oZ1WpOj
-	 0i2/+Hj07YlebZLZvLTvUK+Z51RKZZrDrkjPEudg=
-Date: Tue, 12 Nov 2024 07:18:36 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: gregkh@linuxfoundation.org, corbet@lwn.net, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Dave Airlie <airlied@gmail.com>,
-	DRI Development <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH] Documentation/CoC: spell out enforcement for
- unacceptable behaviors
-Message-ID: <20241112051836.GF17916@pendragon.ideasonboard.com>
-References: <20241108161853.12325-1-skhan@linuxfoundation.org>
- <ZzJkAJEjKidV8Fiz@phenom.ffwll.local>
- <ba3d5492-e774-452f-9fe0-e68b743c6b0d@linuxfoundation.org>
- <20241111223538.GD17916@pendragon.ideasonboard.com>
- <7d14de47-119a-42e4-a911-f8accae4abf1@linuxfoundation.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qH4ebDfP"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-20c87b0332cso76655ad.1
+        for <workflows@vger.kernel.org>; Mon, 11 Nov 2024 21:39:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1731389950; x=1731994750; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=55eFBaAwUzqb5NuE4EUBIHlElwP7vcU1g64jX0opSSs=;
+        b=qH4ebDfP6ijqYgnuViO6dxQZ1g5HT0JMc6WfG7oeyAReFbvJmPewjIBI8zXgjP12n+
+         4hR9BaHgXwuLNsunJ7vWkt0k/ogRKxc3zsmX7NVYWuYuZ2JaIM5aLJPd8D78F7JSBQ2X
+         MM1Ns9wop/HsMXVq6O3WgJwiLbvoHYqY74xSb2TO9FPOUZ9Q1bXtHQAB73/he06JPma9
+         BznC2rCQHEHPJtyUtzRUkYwsf5GpSMDYQeIN2RHOlhciQVSTVJPAAOYyyEEuP2iFV/XK
+         1Gd67jbVXblgwcBEyxfrMjiwPyPwPFoNGeoiFcD6BArPXaHGzD7GNKr2grz5bmSL51uP
+         VjzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731389950; x=1731994750;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=55eFBaAwUzqb5NuE4EUBIHlElwP7vcU1g64jX0opSSs=;
+        b=g0Sga7laAudyayXBj50VrCf8pk/VOwQKwNc979TJ5ZFF+aBFXF49UxPsZWS+0546Sf
+         WGW3my5X/6vUNq88DYkAqTkNNyndyErcIL1S6CETg8b9oECF4EnlJFtRNv4ge2BrqZMx
+         ikOSGlFvB9H1qRvNFmwHbwKhPRdMeSZF6jcijFBtUzxAMhT8hufU//Vx6kAHhFrLT8iQ
+         eLjupzfbJ4hpl2FXvEoTE8yudCCePXDCYSji0Abuh3405InvMQu2t755BQQpGT+MDR7J
+         2HFEL3AvDZrh6l6/3Qp41ePaHAKaGVqAgnsfuBMyOU2AKXtjZchwSPqc0X2OvJ4ER5Xr
+         mijA==
+X-Forwarded-Encrypted: i=1; AJvYcCWt7CQqTSqPaGZTb7JOgYOM3YEfu/KO2f2Y3jpUAjowCHDRxxFYv0LfR7JlgpBZjqBOimi/Qm2CuyI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YycseG01PDEE0CbdAGGTlBEvKIRbkv5ep+YudJBKDB9hmmGgr7i
+	LEENCP6ESWaU6IUbfa71f2zruUuhuXgMzsWJlphK/UHkYdrwueO5tun89PrDq5dypVy1hcmB0Wb
+	WgNYnimV/4gdq3KWKQv+EAkJY+Zd2cSj2hV5y
+X-Gm-Gg: ASbGncvxFX++/PEMUTLdVfdvKLyfKHSEUHGtnNP+EppobuEIcgC1eCYZgw8EMuJGJG+
+	gATyPYkUWI6kbA5uyhfeoYHXpYouV7Mc9IsRH77zl8GCgV2glbVhnc6XGILM=
+X-Google-Smtp-Source: AGHT+IFsphJ8eFdvWIvqWQJAgfm/UGMVMERlMSqtsqzVfe10VnOKJwtxRF+0T1N3Dqc2Vm4wT9mbQhx6mGE7tRGz4Fc=
+X-Received: by 2002:a17:902:d2cc:b0:1fc:548f:6533 with SMTP id
+ d9443c01a7336-211ace77d55mr809315ad.3.1731389949340; Mon, 11 Nov 2024
+ 21:39:09 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <7d14de47-119a-42e4-a911-f8accae4abf1@linuxfoundation.org>
+References: <20241026051410.2819338-1-xur@google.com> <20241026051410.2819338-4-xur@google.com>
+ <44193ca7-9d31-4b58-99cc-3300a6ad5289@gmail.com> <CAF1bQ=ShjoEQZGPjDoy_B6wZdD_jr-RevVXwEDPA_-o-Ba0Omg@mail.gmail.com>
+ <e7cd2746-0ad8-452f-aa12-e3a37e8a9288@gmail.com> <CAF1bQ=SYeeKLUTfbqw-KH1rHJCj_CfJBuk+mZUrnnb7aDjRV2A@mail.gmail.com>
+In-Reply-To: <CAF1bQ=SYeeKLUTfbqw-KH1rHJCj_CfJBuk+mZUrnnb7aDjRV2A@mail.gmail.com>
+From: Rong Xu <xur@google.com>
+Date: Mon, 11 Nov 2024 21:38:57 -0800
+Message-ID: <CAF1bQ=R18HLC2vjCGj+M=VYidrVzz3RT=U8cckXgpgrxc0kG0Q@mail.gmail.com>
+Subject: Re: [PATCH v6 3/7] Adjust symbol ordering in text output section
+To: Klara Modin <klarasmodin@gmail.com>
+Cc: Alice Ryhl <aliceryhl@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, 
+	Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>, 
+	Han Shen <shenhan@google.com>, Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, 
+	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, "Mike Rapoport (IBM)" <rppt@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Nicolas Schier <nicolas@fjasle.eu>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Sami Tolvanen <samitolvanen@google.com>, 
+	Thomas Gleixner <tglx@linutronix.de>, Wei Yang <richard.weiyang@gmail.com>, 
+	workflows@vger.kernel.org, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
+	Maksim Panchenko <max4bolt@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Yonghong Song <yonghong.song@linux.dev>, 
+	Yabin Cui <yabinc@google.com>, Krzysztof Pszeniczny <kpszeniczny@google.com>, 
+	Sriraman Tallam <tmsriram@google.com>, Stephane Eranian <eranian@google.com>, x86@kernel.org, 
+	linux-arch@vger.kernel.org, sparclinux@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 11, 2024 at 05:35:11PM -0700, Shuah Khan wrote:
-> On 11/11/24 15:35, Laurent Pinchart wrote:
-> > On Mon, Nov 11, 2024 at 02:50:45PM -0700, Shuah Khan wrote:
-> >> On 11/11/24 13:07, Simona Vetter wrote:
-> >>> On Fri, Nov 08, 2024 at 09:18:53AM -0700, Shuah Khan wrote:
-> >>>> The Code of Conduct committee's goal first and foremost is to bring about
-> >>>> change to ensure our community continues to foster respectful discussions.
-> >>>>
-> >>>> In the interest of transparency, the CoC enforcement policy is formalized
-> >>>> for unacceptable behaviors.
-> >>>>
-> >>>> Update the Code of Conduct Interpretation document with the enforcement
-> >>>> information.
-> >>>>
-> >>>> Acked-by: Linus Torvalds <torvalds@linux-foundation.org>
-> >>>> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> >>>> Acked-by: Miguel Ojeda <ojeda@kernel.org>
-> >>>> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
-> >>>> Acked-by: Jonathan Corbet <corbet@lwn.net>
-> >>>> Acked-by: Steven Rostedt <rostedt@goodmis.org>
-> >>>> Acked-by: Dan Williams <dan.j.williams@intel.com>
-> >>>> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
-> >>>
-> >>> I think it's really good to document these details. The freedesktop coc
-> >>> team is going through the same process, we've also done a talk at XDC
-> >>> about all these changes, and I think this helps a lot in transparency and
-> >>> accountability in practice. With that, some thoughts below.
-> > 
-> > I've been thinking about replying to this patch for a few days now. I
-> > think I managed to sleep over it enough to make that possible.
-> > 
-> > I share Sima's opinion here. There is FUD around the CoC and its
-> > enforcement process due to lack of transparency, so I believe
-> > documenting the goals and means is important and will help.
-> 
-> Thank you for your feedback.
-> 
-> >> Thank you Simona for your review and feedback.
-> >>
-> >>>> ---
-> >>>>    .../code-of-conduct-interpretation.rst        | 52 +++++++++++++++++++
-> >>>>    1 file changed, 52 insertions(+)
-> >>>>
-> >>>> diff --git a/Documentation/process/code-of-conduct-interpretation.rst b/Documentation/process/code-of-conduct-interpretation.rst
-> >>>> index 66b07f14714c..21dd1cd871d2 100644
-> >>>> --- a/Documentation/process/code-of-conduct-interpretation.rst
-> >>>> +++ b/Documentation/process/code-of-conduct-interpretation.rst
-> >>>> @@ -156,3 +156,55 @@ overridden decisions including complete and identifiable voting details.
-> >>>>    Because how we interpret and enforce the Code of Conduct will evolve over
-> >>>>    time, this document will be updated when necessary to reflect any
-> >>>>    changes.
-> >>>> +
-> >>>> +Enforcement for Unacceptable Behavior Code of Conduct Violations
-> >>>> +----------------------------------------------------------------
-> >>>> +
-> >>>> +The Code of Conduct committee works to ensure that our community continues
-> >>>> +to be inclusive and fosters diverse discussions and viewpoints, and works
-> >>>> +to improve those characteristics over time. The Code of Conduct committee
-> >>>> +takes measures to restore productive and respectful collaboration when an
-> >>>> +unacceptable behavior has negatively impacted that relationship.
-> >>>> +
-> >>>> +Seek public apology for the violation
-> >>>> +*************************************
-> >>>> +
-> >>>> +The Code of Conduct Committee publicly calls out the behavior in the
-> >>>> +setting in which the violation has taken place, seeking public apology
-> >>>> +for the violation.
-> >>>> +
-> >>>> +A public apology for the violation is the first step towards rebuilding
-> >>>> +the trust. Trust is essential for the continued success and health of the
-> >>>> +community which operates on trust and respect.
-> >>>
-> >>> Personal take, but I think a forced public apology as the primary or at
-> >>> least initial coc enforcement approach is one of the worst.
-> >>
-> >> Seeking public apology is in response to unacceptable behaviors which are
-> >> serious in nature. These incidents are exceedingly rare. When these incidents
-> >> happen, they usually resolve when another developer/community member points
-> >> out the behavior. The individual responds with a voluntary apology to
-> >> mend fences and repair harm.
-> >>
-> >> The CoC  gets involved only when it receives a report which is the case
-> >> when normal paths such as peers pointing out the behavior to repair the
-> >> harm haven't been successful.
-> >>
-> >> This document isn't intended to be a complete summary of all actions the
-> >> CoC takes in response to reports. There is a lot of back and forth with
-> >> the individuals to bring about change before the CoC asks for an apology.
-> 
-> See below clarification on above use of "actions"
-> 
-> >> The CoC seeks public apology only when it is essential to repair the harm.
-> > 
-> > Limiting the CoC committee to seeking public apology, due to what it
-> > means in terms of both process and goal, would deprive the committee
-> > from many useful courses of action. I was expecting you were not limited
-> > to this, and I appreciate that you are stating it clearly here. It is
-> > not however clear from this patch, and I believe it would benefit the
-> > whole community if this was explained better in the document. A more
-> > detailed description of the different means of action and outcomes would
-> > help balance the fact that the proceedings of the CoC committe are not
-> > public.
+I compared the System.map files from Klara Modin. The linker script is
+doing what I expected: relocating the unlikely executed functions to the
+beginning of the .text section.
+
+However, the problem is with the _stext symbol. It belongs to the
+.text section, so
+it is positioned after the unlikely (or hot) functions. But it really
+needs to be
+the start of the text section.
+
+I checked all vmlinux.lds.S in arch/, I found that most archs
+explicitly assign _stext to the same address as _text, with the
+following 3 exceptions:
+  arch/sh/kernel/vmlinux.lds.S
+  arch/mips/kernel/vmlinux.lds.S
+  arch/sparc/kernel/vmlinux.lds.S
+
+Note that we already partially handled arch/sparc/kernel/vmlinux.lds.S
+for sparc64.
+But we need to handle sparc32 also.
+
+Additionally, the boot/compressed/vmlinux.lds.S also the TEXT_TEXT
+template. However,
+I presume these files do not generate the .text.unlikely. or
+.text.hot.* sections.
+
+I sent the following patch to Klara because I don't have an
+environment to build and test.
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+diff --git a/arch/mips/kernel/vmlinux.lds.S b/arch/mips/kernel/vmlinux.lds.=
+S
+index 9ff55cb80a64..5f130af44247 100644
+--- a/arch/mips/kernel/vmlinux.lds.S
++++ b/arch/mips/kernel/vmlinux.lds.S
+@@ -61,6 +61,7 @@ SECTIONS
+        /* read-only */
+        _text =3D .;      /* Text and read-only data */
+        .text : {
++               _stext =3D .;
+                TEXT_TEXT
+                SCHED_TEXT
+                LOCK_TEXT
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+If Klara confirms the fix, I will send the patch for review.
+
+Thanks,
+
+-Rong
+
+
+On Mon, Nov 11, 2024 at 2:39=E2=80=AFPM Rong Xu <xur@google.com> wrote:
 >
-> The actions CoC takes prior asking for a public apology are working
-> with the individual to bring about change in their understanding the
-> importance to repair damage caused by the behavior.
-> 
-> Since these are measures to bring about change, the document doesn't
-> go into the details about the logistics.
-
-I think that's where it falls short. The private proceedings policy that
-governs the CoC committee (I'm not interested here to debate whether
-that is good or not, the question is out of scope) needs in my opinion
-to be offset by more transparency in the procedures documentation to
-avoid the "secret court" image that many attach to the CoC committee. I
-do understand this is not a trivial exercise, as any policy documented
-in writing can have a limiting impact on the actions the CoC committee
-can take, but I believe that this patch, as it stands, gives a wrong and
-possibly damaging impression of the committee's work.
-
-> If you have other possible courses of action in mind, please do state
-> them.
->   
-> > I would like to add that I appreciate the emphasis on rebuilding trust
-> > as a goal, as I also believe trust and respect are essential. This
-> > includes trust that victims will receive the support and protection they
-> > need, trust that authors of behaviour deemed unfit by the community will
-> > be treated fairly, and trust that the community will continuously work
-> > on improving inclusiveness. All three aspects are needed to avoid
-> > driving current and prospective community members away.
-> > 
-> >>> First, a ban or temporary suspension seems too mechanical and not in
-> >>> proportion with the offence of failing to apologize. In my enforcement
-> >>> thus far as maintainer and now also freedesktop.org CoC member we only use
-> >>> punishment if behavior has failed to change _and_ we need to protect the
-> >>> community from further harm. Usually it takes years to get to that point,
-> >>> unless in extremely severe cases (like public harrassment campaigns) or
-> >>> when the person stated that they refuse to even consider changing behavior
-> >>> at all.
-> >>
-> >> Please see above. Public apology is necessary to repair and restore the
-> >> health of the community in these rare cases when an individual doesn't
-> >> understand that their behavior could cause harm. The CoC tries to get
-> >> the individual to realize that offering a public apology is necessary
-> >> to repair the harm and resume respectful and productive discussions.
-> >>
-> >>> Public means you're amping up the stakes and massively increase the odds
-> >>> of people being afraid of their reputation and losing face. In my
-> >>> experience people are a lot more reasonable when you discuss their
-> >>> behavior and what needs to change in private. This even includes the case
-> >>> where a temporary suspension had to be put in place already first, to
-> >>> protect others.
-> >>
-> >> Please see above. The CoC works with the individual prior to taking the step
-> >> of asking for an apology. It is a balancing act between repairing
-> >> the harm caused to the individuals at the receiving end of the public
-> >> unacceptable behavior and working with the individual to understand the
-> >> harm done by such a behavior.
-> >>
-> >> The CoC is mindful of the negative impact of seeking public apology and
-> >> instituting ban could have on individuals.
-> > 
-> > It could also be worth adding that, as Sima pointed out below, public
-> > apology is sometimes not the best option for the victim.
-> 
-> The CoC takes these into consideration during the investigation,
-> before determining the best course of action.
-> 
-> Some people may
-> > be afraid to report bad behaviours if they thought that the story would
-> > be made public by a requirement to apologize publicly. I have total
-> > confidence that the CoC committee will consult with the victim to
-> > determine the best course of action, and that is worth documenting
-> > explicitly.
-> 
-> Thank you for your confidence in the CoC.
-> 
-> Please note that the CoC has the obligation to keep the reports
-> and individual information private. This public apology is specific
-> to a public violation that has taken place on a public email list.
-> The information and details are already public.
-> 
-> The CoC could receive reports from a community member who could be
-> an observer and not the victim. The CoC has the responsibility to
-> investigate all such public violations.
-> 
-> The CoC has the obligation to keep the reports privates. The public
-> part is where the individual who violated the agreed upon Code of
-> Conduct is asked to apologize to in response to the thread in which
-> the violation has taken place.
-
--- 
-Regards,
-
-Laurent Pinchart
+> In the new System.map, we have:
+> ffffffff81112400 T _stext
+>
+> This looks wrong. It should point to the beginning of the text, like
+> ffffffff81100400 T _stext
+>
+> I'll do some debugging on this.
+>
+> -Rong
+>
+> On Mon, Nov 11, 2024 at 1:32=E2=80=AFPM Klara Modin <klarasmodin@gmail.co=
+m> wrote:
+> >
+> > On 2024-11-11 21:43, Rong Xu wrote:
+> > > Thanks for reporting this issue!
+> > >
+> > > I'm assuming your kernel build enables dead code elimination and
+> > > uses the --ffunction-sections compiler flag. Without this patch, all
+> > > the functions
+> > > -- I think there are only .text.unlikely.* and .text.* are grouped
+> > > together in the
+> > > final vmlinux. This patch modifies the linker script to place
+> > > .text.unlikely.* functions
+> > >   before .text.* functions. I've examined arch/mips/kernel/vmlinux.ld=
+s.S, and
+> > > haven't found any obvious issue.
+> > >
+> > > Can you send me the following?
+> > > (1) the kernel build command
+> > > (2) System.map without the patch
+> > > (3) System.map with the patch
+> > >
+> > > Best regards,
+> > >
+> > > -Rong
+> > >
+> > I don't set -ffunction-sections explicitly but it seems to be used when
+> > I look at the .cmd files. The build command is nothing fancy, I just se=
+t
+> > ARCH=3Dmips CROSS_COMPILE=3Dmips64-unknown-linux-gnuabin32- and build w=
+ith
+> > make -j24.
+> >
+> > I've attached the System.map, built on next-20241111 as well as it with
+> > this series reverted.
+> >
+> > Regards,
+> > Klara Modin
