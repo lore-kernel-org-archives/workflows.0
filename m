@@ -1,141 +1,161 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B575218305;
-	Tue, 12 Nov 2024 19:37:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ED8020B7F2
+	for <workflows@vger.kernel.org>; Tue, 12 Nov 2024 20:13:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731440228; cv=none; b=FlNfRkZeNVC2WRmWwR8noO3AEHc0z/IK8a+/4o1kKagXhSpGQDVtKirSH5+fmArtqjQnhI7UrYHky6Hv1cwb7Nti16Jet59POIK2b9s+WeCQnp5q3sOcxoG2nixB53qu4rF+F4kUtrTeboKK7tVJxcFeTWBn1Meve85+zdUOiPs=
+	t=1731442419; cv=none; b=jjT3DrXUoRWwrxw7Sz38TREhIq0g+lkmr+1gaStv+QFvoDfx0iUru+sR+P6HbQLnDpxK52/fBoGTuA23gTcaWlCvI31E82gHiNn+hUfyoHemnQ6JEe+wkZthecfaU+BoObgVOm0lQ8li1Wz6TdTR4Oe7LNeWOClKZKTwmu/xLOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731440228; c=relaxed/simple;
-	bh=MvA842wnxtbDTsYGnJXaHsPdoSkQmdfaFgGZqeExLMU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oZB8GVVy6oEtJDR583qFDqIFfjDW3xs7AwAVFzopNeFLcGB8NVt0ehPTBofYYGTRPWKTQQbntayoUZkAmH1dv2mmLONCOsLPtjkWGFI0d6B0n5GFhJra0/vVANfF3arzbCZDcK9fYZCjpaPdT5fN5xdMEyNIzYx7PnUYVuTUAiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DeU6DOEV; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1731442419; c=relaxed/simple;
+	bh=QY+lZkSp4pEMsOH5ViLZZ71ACCvNupC89gqwzm36rVk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=c5Dp27qErD4Br03WKbpC4/BqJ3YAd1pCV+v0kxeenNFAVnB5s+87UgAsIELq0SimQYXEdsIsUfkXSfklnLvwdENP+QXipCRW7xC8+Eenpgv7HVn+DycvFRSbzBE5waw6N0CYE9btfiwZu9nMO68Qj/Hj3Cg9zwjol/GJTKBmjJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OdO18lPB; arc=none smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DeU6DOEV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731440227; x=1762976227;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=MvA842wnxtbDTsYGnJXaHsPdoSkQmdfaFgGZqeExLMU=;
-  b=DeU6DOEVQmKyyRt/bsAshQkx3BD5dP0qC2tddI/vF5zaXCWH7WCkNLr0
-   X1spFQnsn0EeJtsXkFTt3j8DgkAgYOCV1xRbqtOdtuyzKFxwpBKerHx9E
-   ADi64hjjh8mzExVTQB+8Tne3OdXpcVT2LZnOFmNAu4WwjQlrcVLoHb3dm
-   XJKdYHN58ZWmb4i83FPSHWl5PS9zlHMoXRp6SkTqcDHocufe8Fl1foGrt
-   zjWdMBv0NpusiOPMpktOoQDNyeP0m3Cg0XKIsVhgjxszyyWfSqOWT1mC2
-   EJCqBxjS6jolfpQ3IrM3smjsCc1sNO5EEOR6rB2MP4npt+sum52oQdlwT
-   A==;
-X-CSE-ConnectionGUID: d/QiJitaTZqhHiEL+esTyQ==
-X-CSE-MsgGUID: vG7RBO5KQ0mWGCn3OH/9Yg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="34165509"
-X-IronPort-AV: E=Sophos;i="6.12,149,1728975600"; 
-   d="scan'208";a="34165509"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 11:37:06 -0800
-X-CSE-ConnectionGUID: OzCMgQwtTH69KUudK9Lpjg==
-X-CSE-MsgGUID: J0qTqPYrQl68JqnO1KFuCA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,149,1728975600"; 
-   d="scan'208";a="88045687"
-Received: from jairdeje-mobl1.amr.corp.intel.com (HELO [10.124.220.61]) ([10.124.220.61])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 11:37:05 -0800
-Message-ID: <a1863858-a209-4b59-9161-5e57acb566d5@intel.com>
-Date: Tue, 12 Nov 2024 11:37:04 -0800
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OdO18lPB"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4608dddaa35so50521cf.0
+        for <workflows@vger.kernel.org>; Tue, 12 Nov 2024 12:13:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1731442415; x=1732047215; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ok3qcHy+me2Jj8oTM9OE18MgpCpWLeklNFe0Xu3psIY=;
+        b=OdO18lPBo5qORwZj/3PVqK06R8y3jZZ8+yIx6rAIojUQdnvwzHf09Fbhw/UUkIk3dV
+         dWXwNP3Xkhi3z4sVkW3KudtMhWrBJz4ZtVra3Zmawx8zNO5lTyzkcYrRDA9hCtrBdthR
+         /SAKmtiA1IETUMkg4nt0LrmB+gYpchqCaVcEWxMrJVnbWVYYSHusxI0Iy3mS2mEGD7/b
+         h+F7Ylwu1aTKwBT0U6bHRvLM0fAuSWN72IgICbhMD4saSHFl3bPpZHeusFLLB/4IsHzv
+         iptWosQ1aiDYT7jBk4oDWYR4eAGUMw2Er0rSqCy2JAg9qI9zcK+g3NTLiBHxoB7HgRoX
+         mfeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731442415; x=1732047215;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ok3qcHy+me2Jj8oTM9OE18MgpCpWLeklNFe0Xu3psIY=;
+        b=SpCrnLwo/quPtRaLZiACAKJqCVixbZx5h2t0netkFLCutBJMy4lHK7dLTDB9jjmhhL
+         r9p7WWBWCxFOEk9oMCO1D76JPElpqAu6pK2+J8nM41DHmkatyYmRnI84ZUEAQlcB/o8B
+         YvjWxg4FoKWD6TR+FY5FCkWwGcUHSmT5w33kYCuZsUQ5f5jAkx3ZVEP/gXE89rr3Ih+/
+         tH2tferFYd+6vsr7fO6bx8Ma8tDsVYusghoYbEWyFlG/6FYEaw3jrg/2dL42Sko3XEA9
+         gH3PheY8r8+QCfCc+6zEm0VdfDG6c/+aeSIM+OgS9V8DjXKCwR/Jwm2yveTPbDoXyhFu
+         YDHg==
+X-Forwarded-Encrypted: i=1; AJvYcCXrjJBgG2p3m5Kyo6L/ahbn1F42Sm5O4QyATsKvLu6KDQAIBfC2/SzNDzaFojX9ifIIim4Oq0y254c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YztOOk2FmcQkVT5kTamyTOfxQma2YegB3eeTkHGBsEjK2IV3k5W
+	JMWonIPKuxxWGPaz1f6Fea+PgSa+sBuJ0ZxLVF79a4rSW6Mzt1FXgDHp9LeutVG2263M7qFL33c
+	gxHF51xstgS2nc/CSAE8KxXf8Gb42z2YR0okX
+X-Gm-Gg: ASbGncuPog/MWWG0EKPpTf5ZskuUuEZ6MYuoySa5XRS6IoTw4sTn90igPpL6lgPCyOD
+	eXxY8I2rE09pZzcV59dVDDHblI5h2ChEMwvaL8+FiNQE/45PL1XepiAIi+GGG
+X-Google-Smtp-Source: AGHT+IHEhri+khloSfLyc9f+kn+S0I//KWGpBCIikR491QgXS5ZsJTa+TGjEAvCX7DRA5b9a6+qU8vYdidxIcZgIBaA=
+X-Received: by 2002:a05:622a:47c6:b0:461:679f:f1ba with SMTP id
+ d75a77b69052e-4634bca4e56mr371601cf.20.1731442415109; Tue, 12 Nov 2024
+ 12:13:35 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Documentation/CoC: spell out enforcement for
- unacceptable behaviors
-To: Daniel Vetter <daniel@ffwll.ch>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: gregkh@linuxfoundation.org, corbet@lwn.net, workflows@vger.kernel.org,
- rdunlap@infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Linus Torvalds
- <torvalds@linux-foundation.org>, Miguel Ojeda <ojeda@kernel.org>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Steven Rostedt <rostedt@goodmis.org>, Dan Williams
- <dan.j.williams@intel.com>, Theodore Ts'o <tytso@mit.edu>
-References: <20241111163723.9002-1-skhan@linuxfoundation.org>
- <CAKMK7uGS3FJVp690She5d+XbQV5x7yQFPozta4cfnzga-BYAOQ@mail.gmail.com>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <CAKMK7uGS3FJVp690She5d+XbQV5x7yQFPozta4cfnzga-BYAOQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20241026051410.2819338-1-xur@google.com> <20241026051410.2819338-4-xur@google.com>
+ <44193ca7-9d31-4b58-99cc-3300a6ad5289@gmail.com> <CAF1bQ=ShjoEQZGPjDoy_B6wZdD_jr-RevVXwEDPA_-o-Ba0Omg@mail.gmail.com>
+ <e7cd2746-0ad8-452f-aa12-e3a37e8a9288@gmail.com> <CAF1bQ=SYeeKLUTfbqw-KH1rHJCj_CfJBuk+mZUrnnb7aDjRV2A@mail.gmail.com>
+ <CAF1bQ=R18HLC2vjCGj+M=VYidrVzz3RT=U8cckXgpgrxc0kG0Q@mail.gmail.com> <70772ce5-9dca-418e-9714-80ba4ae28959@gmail.com>
+In-Reply-To: <70772ce5-9dca-418e-9714-80ba4ae28959@gmail.com>
+From: Rong Xu <xur@google.com>
+Date: Tue, 12 Nov 2024 12:13:22 -0800
+Message-ID: <CAF1bQ=QycziM6GQoTWSMQCGWPkZEDmAHMLfokoJ6k-vn7rCA=g@mail.gmail.com>
+Subject: Re: [PATCH v6 3/7] Adjust symbol ordering in text output section
+To: Klara Modin <klarasmodin@gmail.com>
+Cc: Alice Ryhl <aliceryhl@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, 
+	Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>, 
+	Han Shen <shenhan@google.com>, Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, 
+	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, "Mike Rapoport (IBM)" <rppt@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Nicolas Schier <nicolas@fjasle.eu>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Sami Tolvanen <samitolvanen@google.com>, 
+	Thomas Gleixner <tglx@linutronix.de>, Wei Yang <richard.weiyang@gmail.com>, 
+	workflows@vger.kernel.org, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
+	Maksim Panchenko <max4bolt@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Yonghong Song <yonghong.song@linux.dev>, 
+	Yabin Cui <yabinc@google.com>, Krzysztof Pszeniczny <kpszeniczny@google.com>, 
+	Sriraman Tallam <tmsriram@google.com>, Stephane Eranian <eranian@google.com>, x86@kernel.org, 
+	linux-arch@vger.kernel.org, sparclinux@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 11/12/24 11:21, Daniel Vetter wrote:
-> Also, if a maintainer refuses to implement an enforcement decision,
-> will they be sanctioned too? Since this is all an entirely new section
-> and does not touch any of the existing sections I'm also not clear on
-> when one or the other rules apply, and how they interact.
+I sent the following patch for review:
+https://lkml.org/lkml/2024/11/12/1565
 
-I don't think this is or _should_ take away any ability for a maintainer
-to manage their subsystem.  It's not special at all, actually.
+Thanks!
 
-Let's say the CoC committee recommends "denying patch contributions and
-pull requests". I as a maintainer either actively ignore the
-recommendation or didn't notice the recommendation in my normal email
-flood. I integrate a patch and send it along to the upstream maintainer.
-The upstream maintainer looks over the pull request and like normal
-either pulls it or says no.
+-Rong
 
-If I intentionally disregarded the CoC committee recommendation for good
-reason, I'd be a smart maintainer to note that in the pull request, just
-like any other anomaly.
-
-But either way, just like _any_ patch or pull request: there are few
-absolute rules. Breaking userspace is highly discouraged, but allowed in
-some cases.  Going against a CoC recommendation is also discouraged but
-I don't think there should be absolute prohibition against it.
-
-In the end, the upstream maintainer gets to decide what to do.
+On Mon, Nov 11, 2024 at 11:45=E2=80=AFPM Klara Modin <klarasmodin@gmail.com=
+> wrote:
+>
+> On 2024-11-12 06:38, Rong Xu wrote:
+> > I compared the System.map files from Klara Modin. The linker script is
+> > doing what I expected: relocating the unlikely executed functions to th=
+e
+> > beginning of the .text section.
+> >
+> > However, the problem is with the _stext symbol. It belongs to the
+> > .text section, so
+> > it is positioned after the unlikely (or hot) functions. But it really
+> > needs to be
+> > the start of the text section.
+> >
+> > I checked all vmlinux.lds.S in arch/, I found that most archs
+> > explicitly assign _stext to the same address as _text, with the
+> > following 3 exceptions:
+> >    arch/sh/kernel/vmlinux.lds.S
+> >    arch/mips/kernel/vmlinux.lds.S
+> >    arch/sparc/kernel/vmlinux.lds.S
+> >
+> > Note that we already partially handled arch/sparc/kernel/vmlinux.lds.S
+> > for sparc64.
+> > But we need to handle sparc32 also.
+> >
+> > Additionally, the boot/compressed/vmlinux.lds.S also the TEXT_TEXT
+> > template. However,
+> > I presume these files do not generate the .text.unlikely. or
+> > .text.hot.* sections.
+> >
+> > I sent the following patch to Klara because I don't have an
+> > environment to build and test.
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > diff --git a/arch/mips/kernel/vmlinux.lds.S b/arch/mips/kernel/vmlinux.=
+lds.S
+> > index 9ff55cb80a64..5f130af44247 100644
+> > --- a/arch/mips/kernel/vmlinux.lds.S
+> > +++ b/arch/mips/kernel/vmlinux.lds.S
+> > @@ -61,6 +61,7 @@ SECTIONS
+> >          /* read-only */
+> >          _text =3D .;      /* Text and read-only data */
+> >          .text : {
+> > +               _stext =3D .;
+> >                  TEXT_TEXT
+> >                  SCHED_TEXT
+> >                  LOCK_TEXT
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >
+> > If Klara confirms the fix, I will send the patch for review.
+> >
+> > Thanks,
+> >
+> > -Rong
+> >
+>
+> This does indeed fix the issue for me.
+>
+> Thanks,
+> Tested-by: Klara Modin <klarasmodin@gmail.com>
