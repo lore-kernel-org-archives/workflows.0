@@ -1,227 +1,188 @@
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727DA1F95E;
-	Wed, 13 Nov 2024 13:59:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4434718C01F;
+	Wed, 13 Nov 2024 23:25:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731506394; cv=none; b=Q+QhYe78aG2RDPN10XV3T75vLNAPOJYrpGYzPx2rUX9NLrTaDPW7KyoTB61IoXvdX4TXOGlzjq0G5eA8/PKe4eq/ckzq+5vJcUdhBBcHxul08qDhUwFBZlkHu72eyiQc52UoK28Tx3Ct0lqROjVI9n1A+wBUwqTpxgU9yPOWpF4=
+	t=1731540360; cv=none; b=S9l/DlKScMrqeFft4KEbKjvo9ICJ8kVQqkbuPfrN1G3tallQq8TxZ61lv6ni8FBERBCaUgqq/g2CyTAHUSAuggTL/qzEmEz42a4hQsG6T+4xYOahu7x04JrTrx1U7OCaFwWLFSjhkFoyU5XitqGjGpjLozBywWBd/ZbRyEboSBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731506394; c=relaxed/simple;
-	bh=EQ4nVMInWjLVVvk7ZDimpUUnfo2RMlK6Z948pBnM2BI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pZXUBEM0RZXQMPGP2uGBJTcVw/D6XIWBbSjo3U8txTZ8XYm2g5mcL8c1YHlRbxtBpVSOq/f3FPdWKVpGrwBHd9VHGDkHkCe6+xNDIVKXnpjAJtCFeWCQhGfjIOU//cbKKtYEkfuhXePCCdjnKArLQWbasB2juZ4sGUcf++px5C4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e30d517c82fso6695227276.1;
-        Wed, 13 Nov 2024 05:59:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731506391; x=1732111191;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=l8Bi9gNLJSRkT6EmXrrthSS9+B4UxawvP0DH0yPwwpo=;
-        b=CVACxMtjvMJ8fiZ/8JpeMsZO4tKeosXlN4ZCom35mq5KZhyouhMonFnzJKGvgG5Gi6
-         Tz755YQLirunmBLYQx1ftWu3r6onz0UPUoEMJizno6PE8tGdTpq8ae8KgiC3Mgg2L9Rc
-         giPKF1WVcRsoYY5r4B1a+bwrTeb7xWppR/8g0hIeHejeC6E0dPoPGYO5CfDF7DOoicU/
-         lLfMn84Oa1WP7/5IvjqeXrlVmeg3PmX7u73SUmPRPU237+1TgBo+YLQM1JRGJLyO0CUC
-         7OjlVKwdDQKJn8cpfZSROSf1YHI5aeb3lA7X27kPOzQYXBuhsTggxneF55+gbZnW/jco
-         9n1w==
-X-Forwarded-Encrypted: i=1; AJvYcCXM+TL+dCFVQgL6GRHVQjB7EcXPbrXw8SSkItWY2qaGJZOzvzgASw+3OyySWdfN7y0tE31Rvx7el0vpPvtG@vger.kernel.org, AJvYcCXl75i+DuBssovmFE8/reupURq05hoZ9rWc8r6y0vsLLivkB6srSoSnI5Vwmq87RCfMI3CEZ5TfWaA=@vger.kernel.org, AJvYcCXz5v4P1c3l1xM9RWAMnD1ZPr66mJLP903KqDU6CoGZU97TC/i8n6zCHm51HAjL7bCl4xOVIvA+4/vM@vger.kernel.org
-X-Gm-Message-State: AOJu0YxCxuDCXDx7k+yVLdO10QZGTQBPKrqjkFionTuG//pP0MSTkbYv
-	RiFQi+Lbg/m6zUvTIN8pVmRzmiTAWm9+afZvAUrS6MdBukG7X5xIRvUJwWJK
-X-Google-Smtp-Source: AGHT+IGMLhmockcIPuGmsCRiGZ4Agz5Q3LdWi/ZvaHo8ORNVQbwUV+MiBnsSEC1EvkNs7ruW+o+jJg==
-X-Received: by 2002:a05:6902:300b:b0:e25:d21b:715a with SMTP id 3f1490d57ef6-e35dc5e4bc6mr6278822276.36.1731506390613;
-        Wed, 13 Nov 2024 05:59:50 -0800 (PST)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e336f1ba728sm3291967276.42.2024.11.13.05.59.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Nov 2024 05:59:50 -0800 (PST)
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-e30cef4ac5dso6676070276.0;
-        Wed, 13 Nov 2024 05:59:50 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUaVo7v641qHmB6PbuwSLIWHfVL+9A6El2OGpEQfOUboniuSj4eKONVQ+0/rxZz59hqak3Gt6L95zSDsCdO@vger.kernel.org, AJvYcCVRiJHY3P16GU5OFiy5Fm7gU0+1hIeVVz2uTlSYpoe1ow94rCQLcWboUglWHh1fMU73296+Vc8KYI0u@vger.kernel.org, AJvYcCXE51YJD8Q05Xlt6UX5ZPtQ1cXii5R0GrqriJnVa9sWahV15sDSytF49uJlNOMIvHw1JrHQQ/VkL3A=@vger.kernel.org
-X-Received: by 2002:a05:690c:6ac3:b0:6e2:12e5:35a2 with SMTP id
- 00721157ae682-6eca4643368mr67104007b3.4.1731506389814; Wed, 13 Nov 2024
- 05:59:49 -0800 (PST)
+	s=arc-20240116; t=1731540360; c=relaxed/simple;
+	bh=m+OGWa1oLTF8Q5wntzM+Lm392qhyyLzPvMTj+FgRcnE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=X4e6ux8pctOtYK0Bw/3k97aexAGq48qetJZsMBEmccsEQK8GQYit7g24lXAf0uHHOWyh/yBHY+TzS9ehWlLOnzS+sEFY6/GYF5uwqQInC1bVECKjgccimVVlE0CyU3brTVu4MI0gHOnqTYJumK7RoxmHiywfZWUUC3MqxmET770=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=tbKf4q9d; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="tbKf4q9d"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3562EC4CEC3;
+	Wed, 13 Nov 2024 23:25:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1731540359;
+	bh=m+OGWa1oLTF8Q5wntzM+Lm392qhyyLzPvMTj+FgRcnE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=tbKf4q9dI5UQ4ZCFAs8Bkx9Y4K0rhu6yxKTZXGZVJ8E7trYZ2SzX503MOS1x2VQLs
+	 ZymFmLS9hui1glz8YhEDFTiY81kfoog21VW4NOFOND8A3KOOw14T3sXAVG9cboG/1O
+	 7/RJcWAl3kme8XSGtOWSwJ7vxsXI3svMsmjQ9T0k=
+From: Shuah Khan <skhan@linuxfoundation.org>
+To: gregkh@linuxfoundation.org,
+	corbet@lwn.net
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	rdunlap@infradead.org,
+	daniel@ffwll.ch,
+	laurent.pinchart@ideasonboard.com,
+	broonie@kernel.org,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Theodore Ts'o <tytso@mit.edu>
+Subject: [PATCH v3] Documentation/CoC: spell out enforcement for unacceptable behaviors
+Date: Wed, 13 Nov 2024 16:25:57 -0700
+Message-Id: <20241113232557.29854-1-skhan@linuxfoundation.org>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <f5bc0639a20d6fac68062466d5e3dd0519588d08.1731486825.git.linux@leemhuis.info>
- <20241113102619.GC29944@pendragon.ideasonboard.com> <b160f728-b34f-433d-8cc4-677605990936@leemhuis.info>
- <CAKMK7uGwK0OYu+cVJnUVd5nMZRG8jJBXJUuo0xFXdyrubJFW4g@mail.gmail.com>
- <20241113113650.GA31681@pendragon.ideasonboard.com> <20241113141112.10bde770@foz.lan>
-In-Reply-To: <20241113141112.10bde770@foz.lan>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 13 Nov 2024 14:59:38 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXKBfKhKdm-HvF8H4BPVH5k9n08YViuK8i9f5bmOj0v+g@mail.gmail.com>
-Message-ID: <CAMuHMdXKBfKhKdm-HvF8H4BPVH5k9n08YViuK8i9f5bmOj0v+g@mail.gmail.com>
-Subject: Re: [PATCH v1] docs: reminder to not expose potentially private email addresses
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Simona Vetter <simona.vetter@ffwll.ch>, Thorsten Leemhuis <linux@leemhuis.info>, 
-	Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 13, 2024 at 2:20=E2=80=AFPM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
-> Em Wed, 13 Nov 2024 13:36:50 +0200
-> Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
-> > On Wed, Nov 13, 2024 at 11:59:39AM +0100, Simona Vetter wrote:
-> > > On Wed, 13 Nov 2024 at 11:55, Thorsten Leemhuis <linux@leemhuis.info>=
- wrote:
-> > > > On 13.11.24 11:26, Laurent Pinchart wrote:
-> > > > > On Wed, Nov 13, 2024 at 09:35:03AM +0100, Thorsten Leemhuis wrote=
-:
-> > > > >> Remind developers to not expose private email addresses, as some=
- people
-> > > > >> become upset if their addresses end up in the lore archives or t=
-he Linux
-> > > > >> git tree.
-> > > > >>
-> > > > >> While at it, explicitly mention the dangers of our bugzilla inst=
-ance
-> > > > >> here, as it makes it easy to forget that email addresses visible=
- there
-> > > > >> are only shown to logged-in users.
-> > > > >>
-> > > > >> These are not a theoretical issues, as one maintainer mentioned =
-that
-> > > > >> his employer received a EU GDPR (general data protection regulat=
-ion)
-> > > > >> complaint after exposuring a email address used in bugzilla thro=
-ugh a
-> > > > >> tag in a patch description.
-> > > > >>
-> > > > >> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
-> > > > >> ---
-> > > > >> Note: this triggers a few checkpatch.pl complaints that are irre=
-levant
-> > > > >> when when ti comes to changes like this.
-> > > > >>
-> > > > >> v1:
-> > > > >> - initial version
-> > > > >> ---
-> > > > >>  Documentation/process/5.Posting.rst          | 17 +++++++++---
-> > > > >>  Documentation/process/submitting-patches.rst | 27 +++++++++++++=
-++++---
-> > > > >>  2 files changed, 36 insertions(+), 8 deletions(-)
-> > > > >>
-> > > > >> diff --git a/Documentation/process/5.Posting.rst b/Documentation=
-/process/5.Posting.rst
-> > > > >> index b3eff03ea2491c..1f6942948db349 100644
-> > > > >> --- a/Documentation/process/5.Posting.rst
-> > > > >> +++ b/Documentation/process/5.Posting.rst
-> > > > >> @@ -264,10 +264,19 @@ The tags in common use are:
-> > > > >>   - Cc: the named person received a copy of the patch and had th=
-e
-> > > > >>     opportunity to comment on it.
-> > > > >>
-> > > > >> -Be careful in the addition of tags to your patches, as only Cc:=
- is appropriate
-> > > > >> -for addition without the explicit permission of the person name=
-d; using
-> > > > >> -Reported-by: is fine most of the time as well, but ask for perm=
-ission if
-> > > > >> -the bug was reported in private.
-> > > > >> +Note, remember to respect other people's privacy when adding th=
-ese tags:
-> > > > >> +
-> > > > >> + - Only specify email addresses, if owners explicitly permitted=
- their use or
-> > > > >> +   are fine with exposing them to the public based on previous =
-actions found in
-> > > > >> +   the lore archives. In practice you therefore often will be u=
-nable to hastily
-> > > > >> +   specify addresses for users of bug trackers, as those usuall=
-y do expose the
-> > > > >> +   email addresses at all or only to logged in users. The latte=
-r is the case
-> > > > >> +   for bugzilla.kernel.org, whose privacy policy explicitly sta=
-tes that 'your
-> > > > >> +   email address will never be displayed to logged out users'.
-> > > > >> +
-> > > > >> + - Only Cc: is appropriate for addition without the explicit pe=
-rmission of the
-> > > > >
-> > > > > Isn't Cc: as problematic as any other tag, is it ends up in both =
-the git
-> > > > > history and the lore archive ?
-> > > >
-> > > > Hmmm. Good point, thx for bringing this up. And of course it is. Bu=
-t
-> > > > it's the second point in a list and thus should not overrule the fi=
-rst
-> > > > one. But I can see that it could be read like that. :-/ Up to some =
-point
-> > > > I even was aware of it, as the added "given the above constraints" =
-later
-> > > > in that point shows. But I guess I wanted to stay close to the prev=
-ious
-> > > > text and that is not sufficient.
-> > > >
-> > > > Hmmm. So how about writing the second point like this:
-> > > >
-> > > > """
-> > > > Even if the email address is free to use in tags, it is only approp=
-riate
-> > > > to use in Cc: without explicit permission of the person named; usin=
-g it
-> > > > in Reported-by: likewise is often appropriate as well, but ask for
-> > > > permission for bugs reported in private.
-> > > > """
-> > > >
-> > > > Hope that "likewise" is sufficient here...
-> > >
-> > > I think these two points are fairly unrelated. The first is about
-> > > using the email address, for privacy concerns. The second point is
-> > > about adding the tag at all, which you're not allowed to do except fo=
-r
-> > > Cc: tags. Because forging reviewed/acked/tested-by tags is really not
-> > > good. Putting the "no tag forgeries" rule under the privacy section i=
-s
-> > > I think what's confusing here.
-> >
-> > Reviewed-by, Acked-by, Tested-by or Signed-off-by clearly must never be
-> > forged, and that's indeed unrelated to privacy. Separating the privacy
-> > concerns and the no-forgery concerns sounds like it would make the
-> > document clearer.
-> >
-> > It's not just tag forgery though. I can imagine that some people would
-> > be fine with their e-mail address appearing in lore, but wouldn't when
-> > to be listed in any tag in the git history.
->
-> I can't imagine that. This is for sure an exceptional case, on which
-> people should explicitly notify.
->
-> > I try to ask permission
-> > before adding a Reported-by or Co-developed-by tag, even if the person
-> > has participated in public discussions on mailing lists.
->
-> If someone reports a problem publicly, IMO the right thing to do is
-> to just add a reported-by to credit who reported the issue, except
-> if, while doing the report, someone explicitly asks not to do so.
-> Personally, I never faced such case, though.
+The Code of Conduct committee's goal first and foremost is to bring about
+change to ensure our community continues to foster respectful discussions.
 
-And nowadays scripts/checkpatch.pl will instruct you to add a
-Closes:-tag too.  Perhaps it should recommend to double-check
-if no public report is available?
+In the interest of transparency, the CoC enforcement policy is formalized
+for unacceptable behaviors.
 
-Gr{oetje,eeting}s,
+Update the Code of Conduct Interpretation document with the enforcement
+information.
 
-                        Geert
+Acked-by: Linus Torvalds <torvalds@linux-foundation.org>
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Acked-by: Miguel Ojeda <ojeda@kernel.org>
+Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
+Acked-by: Jonathan Corbet <corbet@lwn.net>
+Acked-by: Steven Rostedt <rostedt@goodmis.org>
+Acked-by: Dan Williams <dan.j.williams@intel.com>
+Acked-by: Theodore Ts'o <tytso@mit.edu>
+Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+---
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Changes since v2:
+- Adds details on the process leading up to the proposed
+  measures to seek public apology and bans for serious
+  unacceptable behaviors.
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+- Hope this addresses your comments, Daniel Vetter,
+  Laurent Pinchart, and Mark Brown.
+
+- Would like to get this into 6.12 if at all possible.
+
+Changes since v1:
+- Updates Acks with Ted's ack.
+- Fixes subsection formatting as per Randy's suggestion.
+- Fixes a spelling error.
+
+ .../code-of-conduct-interpretation.rst        | 86 +++++++++++++++++++
+ 1 file changed, 86 insertions(+)
+
+diff --git a/Documentation/process/code-of-conduct-interpretation.rst b/Documentation/process/code-of-conduct-interpretation.rst
+index 66b07f14714c..3727abdf4916 100644
+--- a/Documentation/process/code-of-conduct-interpretation.rst
++++ b/Documentation/process/code-of-conduct-interpretation.rst
+@@ -156,3 +156,89 @@ overridden decisions including complete and identifiable voting details.
+ Because how we interpret and enforce the Code of Conduct will evolve over
+ time, this document will be updated when necessary to reflect any
+ changes.
++
++Enforcement for Unacceptable Behavior Code of Conduct Violations
++----------------------------------------------------------------
++
++The Code of Conduct committee works to ensure that our community continues
++to be inclusive and fosters diverse discussions and viewpoints, and works
++to improve those characteristics over time. A majority of the reports the
++Code of Conduct Committee receives stem from incorrect understanding regarding
++the development process and maintainers' roles, responsibilities, and their
++right to make decisions on code acceptance. These are resolved through
++clarification of the development process and the scope of the Code of Conduct.
++
++Unacceptable behaviors could interrupt respectful collaboration for a short
++period of time and negatively impact the health of the community longer term.
++Unacceptable behaviors often get resolved when individuals acknowledge their
++behavior and make amends for it in the setting the violation has taken place.
++
++The Code of Conduct Committee receives reports about unacceptable behaviors
++when they don't get resolved through community discussions. The Code of
++Conduct committee takes measures to restore productive and respectful
++collaboration when an unacceptable behavior has negatively impacted that
++relationship.
++
++The Code of Conduct Committee has the obligation to keep the reports and
++reporters' information private. Reports could come from injured parties
++and community members who are observers of unacceptable behaviors. The
++Code of Conduct Committee has the responsibility to investigate and resolve
++these reports, working with all involved parties.
++
++The Code of Conduct Committee works with the individual to bring about
++change in their understanding of the importance to repair the damage caused
++by their behavior to the injured party and the long term negative impact
++on the community.
++
++The goal is to reach a resolution which is agreeable to all parties. If
++working with the individual fails to bring about the desired outcome, the
++Code of Conduct Committee will evaluate other measures such as seeking
++public apology to repair the damage.
++
++Seek public apology for the violation
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++The Code of Conduct Committee publicly calls out the behavior in the
++setting in which the violation has taken place, seeking public apology
++for the violation.
++
++A public apology for the violation is the first step towards rebuilding
++the trust. Trust is essential for the continued success and health of the
++community which operates on trust and respect.
++
++Remedial measures if there is no public apology for the violation
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++The Code of Conduct Committee determines the next course of action to restore
++the healthy collaboration by recommending remedial measure(s) to the TAB for
++approval.
++
++- Ban violator from participating in the kernel development process for
++  a period of up to a full kernel development cycle. The Code of Conduct
++  Committee could require public apology as a condition for lifting the
++  ban.
++
++The scope of the ban for a period of time could include:
++
++    a. denying patch contributions and pull requests
++    b. pausing collaboration with the violator by ignoring their
++       contributions and/or blocking their email account(s)
++    c. blocking their access to kernel.org accounts and mailing lists
++
++Once the TAB approves one or more of the measures outlined in the scope of
++the ban by a two-thirds vote, the Code of Conduct Committee will enforce
++the TAB approved measure(s) in collaboration with the community, maintainers,
++sub-maintainers, and kernel.org administrators.
++
++The Code of Conduct Committee is mindful of the negative impact of seeking
++public apology and instituting ban could have on individuals. It is also
++mindful of the longer term harm to the community that could result from
++not taking action when such serious public violations occur.
++
++The effectiveness of the remedial measure(s) approved by the TAB depends
++on the trust and cooperation from the community, maintainers, sub-maintainers,
++and kernel.org administrators in enforcing them.
++
++The Code of Conduct Committee sincerely hopes that unacceptable behaviors
++that require seeking public apologies continue to be exceedingly rare
++occurrences in the future.
+-- 
+2.40.1
+
