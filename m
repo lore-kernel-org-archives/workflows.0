@@ -1,76 +1,114 @@
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B705018FC92;
-	Fri, 15 Nov 2024 11:11:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD5317E010;
+	Fri, 15 Nov 2024 20:09:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731669120; cv=none; b=r7OG7yJM1CSAuLVvrOQ2gvXD4s8Z38kif4SgQM1Z3Hb276JQ94ytrUg9/YeGeurLDHwxgSVe2nE4oh1I1/F6JLEewoCPbjKI9UustRDKJVspyhZ2qIMeB/xjvcUcIINnjPE+78AFcdWBj5uptNRwaOfs7gqXF7SFps538B6aVkI=
+	t=1731701355; cv=none; b=J6lNBoazJLofRyHum1aRYtGYtJ0t5VvFnj+WgRX+1reTib1/BLf1Pxbg9+lyjDHSR2yR3meN+AvhkyqFKmMdunk+JZyLcG/HNS5nVgaC6CBYbmD+gwpHia25DYYdZvpmut9rRm2InCt4HlMXeDm/6HfPO1RxmLCuwvZNs9cijY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731669120; c=relaxed/simple;
-	bh=OHnVyO7UOQh4Loqrg+RCr6IzM4VC4Q9TApvlvp6AwMo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XmSIfA4bibYXIj93EP3aTr6mqcHxLvodZbRRxzzMjiTrWV6DyKc2gU2M1MlSWXGVxxS7dnOzNULfBuanoqkhpwbKO0hZxqpfH29uh/k/ZZy8ch+9xqI0Yumb6aX+YLAfFyx5+Y7Ivp4PlqQpMPleqgn6zSZFCXY/u7/fj3jcGro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=LzcdeSTj; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+	s=arc-20240116; t=1731701355; c=relaxed/simple;
+	bh=pK5WVxfgrltfpybPUrLPkaOXRpy/Q/5O2c4tVehDSP4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WOLWmxw3/n/VKANpaapAjRJgcJyYbyKWAC3BWvul9HFEsz/KunKOhRZh8+/1ePQp5QCLPcrJILS856zPJ+YOyk6ca+NSfx8fiAmQNPiE52MD1SNpm448bhoQUJ6/XBksJWM75xzKSLDgPpAM9bimKHv6tsLA4UXw5P72/mjt4Ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nf/iozw7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="LzcdeSTj"
-Received: from [192.168.42.96] (p5de457db.dip0.t-ipconnect.de [93.228.87.219])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 5097E2FC0057;
-	Fri, 15 Nov 2024 12:11:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1731669114;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OHnVyO7UOQh4Loqrg+RCr6IzM4VC4Q9TApvlvp6AwMo=;
-	b=LzcdeSTjGz/B63rdmfERn24TiHGEdie+RsQXx8Z+/1NUNW7yQ5JNnd6HoKKfdAOql+8Mbc
-	r1u2F3sLRAMN0Mn9XGJ4Os6WUnY1XRw74n4xGRqoOXzPmmkhk0R6vNDbHZ0HcfA1HepdOV
-	T9Apaz/9+3VAPGlRwmP9W/7GsVsgQLE=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <635639b1-bb61-49dd-84b6-b2db82b7c24f@tuxedocomputers.com>
-Date: Fri, 15 Nov 2024 12:11:54 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nf/iozw7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 180E3C4CECF;
+	Fri, 15 Nov 2024 20:09:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731701355;
+	bh=pK5WVxfgrltfpybPUrLPkaOXRpy/Q/5O2c4tVehDSP4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Nf/iozw7ey7EFZNXtRRmoxCPSb/b1RWbDFpPDWncu1nFE8AncrwqUNs6w5V6KCt+/
+	 g+oh6qbVX6Ms1JyXGsRs+yuIiZ3OryQOEC/qENIR91ow1CHH0zC4p74YD1vPNpPprk
+	 eZJP5tZUgjGvb7zo2bU4hHZLyxA91CjfjUDrBfXA/ZHSVraIBNEk+/BujjSrxby/5V
+	 8WPUB4QIq+v9ZbnKZeid1Ygvr1PSA0B2UfyXPMRlmNY+5/hdhY3N5xahXVjgOh/fsk
+	 k2LivqzPzZOZTT5NbeC+av7CILwdFRVDJRVysLUJAit1jLHJN6o0fddP2EJQ5nasrD
+	 +DvELTEGvlkOA==
+From: Jakub Kicinski <kuba@kernel.org>
+To: shuah@kernel.org
+Cc: Jakub Kicinski <kuba@kernel.org>,
+	Tim.Bird@sony.com,
+	linux-kselftest@vger.kernel.org,
+	workflows@vger.kernel.org
+Subject: [RFC v2] MAINTAINERS: split kselftest entry into 'framework' and 'all'
+Date: Fri, 15 Nov 2024 12:09:12 -0800
+Message-ID: <20241115200912.1009680-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs/licensing: Clarify wording about "GPL" and
- "Proprietary"
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-spdx@vger.kernel.org, workflows@vger.kernel.org
-References: <20241115103842.585207-2-ukleinek@kernel.org>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <20241115103842.585207-2-ukleinek@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hi,
+The testing effort is increasing throughout the community.
+The tests are generally merged into the subsystem trees,
+and are of relatively narrow interest. The patch volume on
+linux-kselftest@vger.kernel.org makes it hard to follow
+the changes to the framework, and discuss proposals.
 
-Am 15.11.24 um 11:38 schrieb Uwe Kleine-König:
-> There are currently some doubts about out-of-tree kernel modules licensed
-> under GPLv3 and if they are supposed to be able to use symbols exported
-> using EXPORT_SYMBOL_GPL.
->
-> Clarify that "Proprietary" means anything non-GPL2 even though the
-> license might be an open source license. Also disambiguate "GPL
-> compatible" to "GPLv2 compatible".
->
-> Signed-off-by: Uwe Kleine-König <ukleinek@kernel.org>
+Create a new ML focused on the framework of kselftests,
+which will hopefully be similarly low volume to the workflows@
+mailing list.
 
-Thanks for adding this clarification.
+From the responses to v1 I gather that the preference is to
+keep the existing list for all (or create an alias to it);
+the framework-only section should be the one to have a new
+list created.
 
-Kind regards,
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+Sorry for the delay, the responses to v1 weren't super positive
+but I keep thinking this would be very useful :) Or at the very
+least I find workflows@ very useful and informative as a maintainer.
 
-Werner Sembach
+Posting as an RFC because we need to create the new ML.
+
+v1: https://lore.kernel.org/20241003142328.622730-1-kuba@kernel.org
+
+CC: shuah@kernel.org
+CC: Tim.Bird@sony.com
+CC: linux-kselftest@vger.kernel.org
+CC: workflows@vger.kernel.org
+---
+ MAINTAINERS | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f245573722ef..345a0657ba1d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12395,7 +12395,7 @@ S:	Supported
+ F:	Documentation/admin-guide/reporting-regressions.rst
+ F:	Documentation/process/handling-regressions.rst
+ 
+-KERNEL SELFTEST FRAMEWORK
++KERNEL SELFTEST
+ M:	Shuah Khan <shuah@kernel.org>
+ M:	Shuah Khan <skhan@linuxfoundation.org>
+ L:	linux-kselftest@vger.kernel.org
+@@ -12405,6 +12405,19 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git
+ F:	Documentation/dev-tools/kselftest*
+ F:	tools/testing/selftests/
+ 
++KERNEL SELFTEST FRAMEWORK
++M:	Shuah Khan <shuah@kernel.org>
++M:	Shuah Khan <skhan@linuxfoundation.org>
++L:	linux-kselftest-core@vger.kernel.org
++S:	Maintained
++F:	Documentation/dev-tools/kselftest*
++F:	tools/testing/selftests/kselftest/
++F:	tools/testing/selftests/lib/
++F:	tools/testing/selftests/lib.mk
++F:	tools/testing/selftests/Makefile
++F:	tools/testing/selftests/*.sh
++F:	tools/testing/selftests/*.h
++
+ KERNEL SMB3 SERVER (KSMBD)
+ M:	Namjae Jeon <linkinjeon@kernel.org>
+ M:	Steve French <sfrench@samba.org>
+-- 
+2.47.0
 
