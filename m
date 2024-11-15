@@ -1,178 +1,130 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 965F6A32
-	for <workflows@vger.kernel.org>; Fri, 15 Nov 2024 07:02:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8125818FDCE;
+	Fri, 15 Nov 2024 10:38:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731654170; cv=none; b=hVClMv/xAyyCpiN8UYpZmYbU/IFM8Q2u1ilvfx7ND1qYpBDodFuKJJ6YawcGsNV5WilGjKp+su11aQz3if0iQyiZ6bAnYIXNERzUKAcmGIHOIAyK6sO8ciA/4U1jk7l0Cz+fIj6fj3UkRxafxclCfN0rQcw8oicZSDyS7WbDSF0=
+	t=1731667131; cv=none; b=jGoMUGfHjUUCb8d4GUO/WiNSLezLpDVtGg6BHDy+Ze5GFOA9QrjjGXDQ9UlzUvW4F7LlfO6zyHnt9kg/i2ht549SFh3Lx184aIw9LPj4Anhg42w9YP0ct8Eh3Xgd+/l5lyJWbXeT2hVgvm9oAOyo3Za6n2nzk8WkEb7+KDU7ri4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731654170; c=relaxed/simple;
-	bh=ucRdI4zZiJOb3gsW2929kn/SeFGdDlj7BOd7CP512xk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AJVwVXqvmCHd4X9Z/xGvpCrhKZKS/v6u2Ym55p8YIiPUWR1HDi538d8hFglvuPrIvSai8jr5t9WuTow4iB72/3o83HypOXEBTlLyzxszKMeTEVoRZuK/JMftEmkHUoys18OR9GEpgVH+saRpelY2y4qDpvms10vYFe83boPuJ20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=geka36FB; arc=none smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1731667131; c=relaxed/simple;
+	bh=shVHcw3WNIa3pbYlKTq7wOJKs+PhQDB4a8mCLOg2BaY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ewrqPegETMzdiCevapJ8QNEVnrFEIKavFG00pzN32LbCK5/U57LftxUQ7zCB17D/g1/OnHx2yLFjmt2QKHb2njf9zxUNxfN6mLEWZlIPsYm4gurSbRnl+WrJgXOCixIWZulK/pV1X33SLc30A5md50g4NuWY2hHADhJmzn1XfK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SSVQ41T+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="geka36FB"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4608dddaa35so213151cf.0
-        for <workflows@vger.kernel.org>; Thu, 14 Nov 2024 23:02:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1731654167; x=1732258967; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qdhHbTzTKc3SMetmKy+wNf6PkpzJgq0XFpQInOkKr7k=;
-        b=geka36FBVdjkQkOTpftKAenFdiw65FRCEsmWPdlmgqzGFvGcZ3yTBRMc9gw9svZwNo
-         b6PNE1yrjYVvBLCWxtsCMoeOU8+elTiQGsKAgcYWQZpxJKjURXqZMJJNSfsbr/3dHaPl
-         JK6nNLjHwlXhy91w0FVMfeTgsWO13E6EneYqWb260asFykoKZwuBehhBNpH1fp03cOuE
-         8b95l5KjIQe2XMQ2BFF1MgViYDuLzhDCYs2uGfD10OIEqOlm5LOlbJGn7EKuBIWODMGd
-         Q11AI5VtqisqiKCVBzvoIKH3yEyHORahexlYPwdYI5YpGdAn+W6cslhVPQw3o5NYsV8N
-         nkxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731654167; x=1732258967;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qdhHbTzTKc3SMetmKy+wNf6PkpzJgq0XFpQInOkKr7k=;
-        b=f7lqNFq7l/zmjDV5PWb3tVutc7QdWq0LiJMUwyrU3Q0ffCuMA4wK9tvEVd1/nAk3+d
-         aRePcPbY++5o4ssokmYdZ3AwtcVYN/z0Oaw5KBhUV9esHMlvopHt8f+dk3QxA6urZLH1
-         3JTpWI4yMnTbiJfDZ6ieNJOKmCmBXkUCMdbGr42LLNiUbWfStFJML2BoI35t2SDaAvSj
-         pKT6vhGEQce+elhWVYsS3S/CagFuGgkjtX4sUA90RXKDpfNKQyD9eW0nMsivNRUzINH1
-         CzWqoKVZg4ygaoqq79hNKwho/NU8LyuEcFw7r5lbBTBv1w/z5yoxyTY13E6aAgOZMGdv
-         Pn3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVhfZLlcT30SY1yE6C/IyFbDNCpvEULRbrOUfB9nYnqB+xIqS62azK5EtWGsFmtiX55VczN4ZNDzc8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YycoiPDb1Z9tUz6r+lBYdq3ZjWtnWl8w4Ng+xOQdX9WXBjpXJiq
-	u6MtIJS5IuYpHu3mY9IRe438JBa0B98MV+xBzWg7/ehllaMtikXxII6bv48PkipMZaPf3QI1Adh
-	wZ+qjniN4Ycxc+inVvyrtsZOJy6F3FQr9+igMq8UUtVwjljgApH7AObw=
-X-Gm-Gg: ASbGncsn1aHUrU4eENdv1qLbcPIxUJIbLbGynThlGRxyVNFrLOzyTLvQTA1xLaVkrAk
-	86OEo4SNKHpmDjNWmiwa5s72yVyyPhw==
-X-Google-Smtp-Source: AGHT+IEZQumBx9rAByuSeR05qYBdTIlqZ++eXdNrS2altRO43l1pCrcUxa66OFIF831o8TKPmzacL49GHPpAP9FS1l8=
-X-Received: by 2002:a05:622a:47ce:b0:461:32e9:c5f1 with SMTP id
- d75a77b69052e-463637282c0mr2202191cf.10.1731654167227; Thu, 14 Nov 2024
- 23:02:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SSVQ41T+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98440C4CECF;
+	Fri, 15 Nov 2024 10:38:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731667131;
+	bh=shVHcw3WNIa3pbYlKTq7wOJKs+PhQDB4a8mCLOg2BaY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=SSVQ41T+CC4JUHAGFK2hW1yUmu3t+OJ4Os7//NeOkhAFeM76XpvDPPpfl2ZmRztwi
+	 s7RN5YmYuZp6gUBXQyq81PDHEDIX8CwwnwGtSbYDdIiomFBwwpNCXvT1q5SMrPP2rK
+	 sdy/qqYPyfJ52+zLTxG0pMdHrwNqwHbAncoRAnZ10TMAb6kJHEPh/fnt1UDG6AGMRe
+	 XfOfQvQmD70XNZFjV1W64ZmFX97ruBIGwS1z1vOVBWZlFJkzqVL6Zp3xgeTOiOvjmS
+	 sw4Dp3kaRnXCQ0H3WGaLUnphGT9JnKaF76b0s8CfSIt+fmktInwNIix3+iT8Jw5rbK
+	 W7jkgtbwvixiA==
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Werner Sembach <wse@tuxedocomputers.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-spdx@vger.kernel.org,
+	workflows@vger.kernel.org
+Subject: [PATCH] docs/licensing: Clarify wording about "GPL" and "Proprietary"
+Date: Fri, 15 Nov 2024 11:38:41 +0100
+Message-ID: <20241115103842.585207-2-ukleinek@kernel.org>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241115051107.3374417-1-yabinc@google.com>
-In-Reply-To: <20241115051107.3374417-1-yabinc@google.com>
-From: Rong Xu <xur@google.com>
-Date: Thu, 14 Nov 2024 23:02:35 -0800
-Message-ID: <CAF1bQ=R=481iZu1Zp8p42zvGd_oLrU-K9UHtSe9TbZUDkS8Qkw@mail.gmail.com>
-Subject: Re: [PATCH] arm64: Allow CONFIG_AUTOFDO_CLANG to be selected
-To: Yabin Cui <yabinc@google.com>
-Cc: Han Shen <shenhan@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3724; i=ukleinek@kernel.org; h=from:subject; bh=shVHcw3WNIa3pbYlKTq7wOJKs+PhQDB4a8mCLOg2BaY=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBnNySyhNbpd9jNbMictTcNY8WBTJ5+Z3udDEZqi 0KaVRgcvzuJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZzcksgAKCRCPgPtYfRL+ TrUeB/9Vlim6gusugJu/VZJG8BKbQUqk3EzSXlFWscPwPby6BU1/P5mdWh/hL3gMGX51efnhtA4 AewxlPJS2gY+Jh/r8kPpq/8VkNB8ndtcjSSHxxzSJ/J9aSVFdxvpNQZFmkG7mjs4kCVYJpSVGKd Q/Ms1HFovOe+wBBsV8U9SsFkc6o8QCT6hWEI9ANm3qExjCBkXrSY+nJStaLLmsTF4bzIcyTp5xD i/HTkGeLUOfltaBgjEwXqhHLURc/f7ne/zL59mAMpgxQSnH9JrRGu3RleS047GPmjrMeCv4MeVG nGf1c2EBkMM7p4o3cj2IyzS3bh6Tjraw6QutHVugVmP4toJO
+X-Developer-Key: i=ukleinek@kernel.org; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 
-Hi Yabin,
+There are currently some doubts about out-of-tree kernel modules licensed
+under GPLv3 and if they are supposed to be able to use symbols exported
+using EXPORT_SYMBOL_GPL.
 
-Thanks for working to enable this on ARM64 and test the performance on Andr=
-oid!
-Please see my comments below.
+Clarify that "Proprietary" means anything non-GPL2 even though the
+license might be an open source license. Also disambiguate "GPL
+compatible" to "GPLv2 compatible".
 
-Thanks,
+Signed-off-by: Uwe Kleine-König <ukleinek@kernel.org>
+---
+Hello,
 
--Rong
+these are the locations that I found by a quick grep. If you spot a
+document that needs similar updating, please tell.
 
-On Thu, Nov 14, 2024 at 9:11=E2=80=AFPM Yabin Cui <yabinc@google.com> wrote=
-:
->
-> Select ARCH_SUPPORTS_AUTOFDO_CLANG to allow AUTOFDO_CLANG to be
-> selected.
->
-> On ARM64, ETM traces can be recorded and converted to AutoFDO profiles.
-> Experiments on Android show 4% improvement in cold app startup time
-> and 13% improvement in binder benchmarks.
->
-> Signed-off-by: Yabin Cui <yabinc@google.com>
-> ---
->  Documentation/dev-tools/autofdo.rst | 18 +++++++++++++++++-
->  arch/arm64/Kconfig                  |  1 +
->  2 files changed, 18 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/dev-tools/autofdo.rst b/Documentation/dev-tool=
-s/autofdo.rst
-> index 1f0a451e9ccd..f0952e3e8490 100644
-> --- a/Documentation/dev-tools/autofdo.rst
-> +++ b/Documentation/dev-tools/autofdo.rst
-> @@ -55,7 +55,7 @@ process consists of the following steps:
->     workload to gather execution frequency data. This data is
->     collected using hardware sampling, via perf. AutoFDO is most
->     effective on platforms supporting advanced PMU features like
-> -   LBR on Intel machines.
-> +   LBR on Intel machines, ETM traces on ARM machines.
->
->  #. AutoFDO profile generation: Perf output file is converted to
->     the AutoFDO profile via offline tools.
-> @@ -141,6 +141,22 @@ Here is an example workflow for AutoFDO kernel:
->
->        $ perf record --pfm-events RETIRED_TAKEN_BRANCH_INSTRUCTIONS:k -a =
--N -b -c <count> -o <perf_file> -- <loadtest>
->
-> +   - For ARM platforms:
+The change in license-rules.rst looks bigger than it actually is due to
+changing where the line wrappings occur. With `git diff --word-diff` it
+reduces to:
 
-The instructions for SPE might be different. Can we change to "- For
-ARM platforms with ETM trace:"
+    "Proprietary"                 The module is under a proprietary license.
+                                  {+"Proprietary" is to be understood only as+}
+{+                                "The license is not compatible to GPLv2".+}
+                                  This string is solely for [-proprietary-]{+non-GPL2 compatible+}
+                                  third party modules and cannot be used for
 
-> +
-> +     Follow the instructions in the `Linaro OpenCSD document
-> +     https://github.com/Linaro/OpenCSD/blob/master/decoder/tests/auto-fd=
-o/autofdo.md`_
-> +     to record ETM traces for AutoFDO::
-> +
-> +      $ perf record -e cs_etm/@tmc_etr0/k -a -o <etm_perf_file> -- <load=
-test>
-> +      $ perf inject -i <etm_perf_file> -o <perf_file> --itrace=3Di500009=
-il
-> +
-> +     For ARM platforms running Android, follow the instructions in the
-> +     `Android simpleperf document
-> +     <https://android.googlesource.com/platform/system/extras/+/main/sim=
-pleperf/doc/collect_etm_data_for_autofdo.md>`_
-> +     to record ETM traces for AutoFDO::
+Best regards
+Uwe
 
-The instructions in "Step 3: Convert ETM data to AutoFDO profile"
-currently use create_llvm_prof to generate
- a "binary" profile format. This is incompatible with the default
-FSAFDO format used for the kernel, which
- requires an "extbinary" format.
+ Documentation/kernel-hacking/hacking.rst |  2 +-
+ Documentation/process/license-rules.rst  | 18 ++++++++++--------
+ 2 files changed, 11 insertions(+), 9 deletions(-)
 
-To correct this, please update the instructions to include the flag
-"-format extbinary" in the
-create_llvm_prof command.
+diff --git a/Documentation/kernel-hacking/hacking.rst b/Documentation/kernel-hacking/hacking.rst
+index 1717348a4404..0042776a9e17 100644
+--- a/Documentation/kernel-hacking/hacking.rst
++++ b/Documentation/kernel-hacking/hacking.rst
+@@ -587,7 +587,7 @@ Defined in ``include/linux/export.h``
+ 
+ Similar to :c:func:`EXPORT_SYMBOL()` except that the symbols
+ exported by :c:func:`EXPORT_SYMBOL_GPL()` can only be seen by
+-modules with a :c:func:`MODULE_LICENSE()` that specifies a GPL
++modules with a :c:func:`MODULE_LICENSE()` that specifies a GPLv2
+ compatible license. It implies that the function is considered an
+ internal implementation issue, and not really an interface. Some
+ maintainers and developers may however require EXPORT_SYMBOL_GPL()
+diff --git a/Documentation/process/license-rules.rst b/Documentation/process/license-rules.rst
+index 2ef44ada3f11..59a7832df7d0 100644
+--- a/Documentation/process/license-rules.rst
++++ b/Documentation/process/license-rules.rst
+@@ -471,14 +471,16 @@ _`MODULE_LICENSE`
+ 				  source files.
+ 
+     "Proprietary"		  The module is under a proprietary license.
+-				  This string is solely for proprietary third
+-				  party modules and cannot be used for modules
+-				  which have their source code in the kernel
+-				  tree. Modules tagged that way are tainting
+-				  the kernel with the 'P' flag when loaded and
+-				  the kernel module loader refuses to link such
+-				  modules against symbols which are exported
+-				  with EXPORT_SYMBOL_GPL().
++				  "Proprietary" is to be understood only as
++				  "The license is not compatible to GPLv2".
++                                  This string is solely for non-GPL2 compatible
++                                  third party modules and cannot be used for
++                                  modules which have their source code in the
++                                  kernel tree. Modules tagged that way are
++                                  tainting the kernel with the 'P' flag when
++                                  loaded and the kernel module loader refuses
++                                  to link such modules against symbols which
++                                  are exported with EXPORT_SYMBOL_GPL().
+     ============================= =============================================
+ 
+ 
 
-Using a non-FSAFDO profile with FSAFDO can negatively impact performance.
-Therefore, I recommend rerunning the test with the updated flag to
-potentially achieve better results.
+base-commit: 28955f4fa2823e39f1ecfb3a37a364563527afbc
+-- 
+2.45.2
 
-> +
-> +      $ simpleperf record -e cs-etm:k -a -o <perf_file> -- <loadtest>
-> +
->  4) (Optional) Download the raw perf file to the host machine.
->
->  5) To generate an AutoFDO profile, two offline tools are available:
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index fd9df6dcc593..c3814df5e391 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -103,6 +103,7 @@ config ARM64
->         select ARCH_SUPPORTS_PER_VMA_LOCK
->         select ARCH_SUPPORTS_HUGE_PFNMAP if TRANSPARENT_HUGEPAGE
->         select ARCH_SUPPORTS_RT
-> +       select ARCH_SUPPORTS_AUTOFDO_CLANG
->         select ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH
->         select ARCH_WANT_COMPAT_IPC_PARSE_VERSION if COMPAT
->         select ARCH_WANT_DEFAULT_BPF_JIT
-> --
-> 2.47.0.338.g60cca15819-goog
->
