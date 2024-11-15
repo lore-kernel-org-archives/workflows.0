@@ -1,114 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD5317E010;
-	Fri, 15 Nov 2024 20:09:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 977C21BF311;
+	Fri, 15 Nov 2024 20:44:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731701355; cv=none; b=J6lNBoazJLofRyHum1aRYtGYtJ0t5VvFnj+WgRX+1reTib1/BLf1Pxbg9+lyjDHSR2yR3meN+AvhkyqFKmMdunk+JZyLcG/HNS5nVgaC6CBYbmD+gwpHia25DYYdZvpmut9rRm2InCt4HlMXeDm/6HfPO1RxmLCuwvZNs9cijY4=
+	t=1731703464; cv=none; b=K2ouHBjWsUKySuSsVUvoVM3Al9gHJEOBo1LIClI51s73wYFwsVxXVCFhIne+8R6lgdlH+Ca5SiP35whbaKtHfIualfoXegzmwJA46RE3SMnLEQtIKc4vaL5KUz0qtHLUAZHQq11u3eOt82i+Pjeaoa58m9K8lJwmBYlC5gXtDSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731701355; c=relaxed/simple;
-	bh=pK5WVxfgrltfpybPUrLPkaOXRpy/Q/5O2c4tVehDSP4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WOLWmxw3/n/VKANpaapAjRJgcJyYbyKWAC3BWvul9HFEsz/KunKOhRZh8+/1ePQp5QCLPcrJILS856zPJ+YOyk6ca+NSfx8fiAmQNPiE52MD1SNpm448bhoQUJ6/XBksJWM75xzKSLDgPpAM9bimKHv6tsLA4UXw5P72/mjt4Ow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nf/iozw7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731703464; c=relaxed/simple;
+	bh=YKv8qlR50k2LC5KO7h2NGGsnEnAHMHmkAu5g9BMeZww=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lb2fqzPiD12iSTuLzmpEK+mYvN0fG/NJrxmTHO0rE1DaPIl5PoZaVxitH4VYrcJ2OvhXDP+aPow9qGt97mWXqw1PNsFk6lbBJ7Hf1C/hYPiBzBT81B/smFGEzMVm4oAyYh+3povrR8Z68Ry/c/ZlFyqekD578sZvrzq7n0sNqAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IDo2lpXH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nf/iozw7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 180E3C4CECF;
-	Fri, 15 Nov 2024 20:09:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IDo2lpXH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FC4EC4CECF;
+	Fri, 15 Nov 2024 20:44:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731701355;
-	bh=pK5WVxfgrltfpybPUrLPkaOXRpy/Q/5O2c4tVehDSP4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Nf/iozw7ey7EFZNXtRRmoxCPSb/b1RWbDFpPDWncu1nFE8AncrwqUNs6w5V6KCt+/
-	 g+oh6qbVX6Ms1JyXGsRs+yuIiZ3OryQOEC/qENIR91ow1CHH0zC4p74YD1vPNpPprk
-	 eZJP5tZUgjGvb7zo2bU4hHZLyxA91CjfjUDrBfXA/ZHSVraIBNEk+/BujjSrxby/5V
-	 8WPUB4QIq+v9ZbnKZeid1Ygvr1PSA0B2UfyXPMRlmNY+5/hdhY3N5xahXVjgOh/fsk
-	 k2LivqzPzZOZTT5NbeC+av7CILwdFRVDJRVysLUJAit1jLHJN6o0fddP2EJQ5nasrD
-	 +DvELTEGvlkOA==
-From: Jakub Kicinski <kuba@kernel.org>
-To: shuah@kernel.org
-Cc: Jakub Kicinski <kuba@kernel.org>,
-	Tim.Bird@sony.com,
-	linux-kselftest@vger.kernel.org,
-	workflows@vger.kernel.org
-Subject: [RFC v2] MAINTAINERS: split kselftest entry into 'framework' and 'all'
-Date: Fri, 15 Nov 2024 12:09:12 -0800
-Message-ID: <20241115200912.1009680-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.47.0
+	s=k20201202; t=1731703464;
+	bh=YKv8qlR50k2LC5KO7h2NGGsnEnAHMHmkAu5g9BMeZww=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IDo2lpXHwzAlFdbUb+A9UooiqxzmOF6PwauIWM6BDnkuNPLs0UUH9jjoGWx54/nwK
+	 pcB/9x2oYASh5C7VxwhyTUfs6Lxd3GU7/3ytLHdoIvk+vkjhalBd4va7EWTVfTdt+9
+	 CvFtZUSXtKGyPdnjUoQl2rFtCCSFypcEKUKMZjaDGsiA7g6MUboKOI7+EaG4h8O//u
+	 Zr9KC/RuXbpIH3Wx+y3HMZqan2++JP7MW3cFAkBgFfSr1udnGHU4iUYb9ZPenQvSqG
+	 1tbyQNuSkoFZnKsogs9WVbb1MCyxujp1YTbGnE1R2uCHUCUI52Kft7SeiYClfihJzd
+	 rEQiDvaj22PCw==
+Date: Fri, 15 Nov 2024 12:44:20 -0800
+From: Kees Cook <kees@kernel.org>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: gregkh@linuxfoundation.org, corbet@lwn.net, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	rdunlap@infradead.org, daniel@ffwll.ch,
+	laurent.pinchart@ideasonboard.com, broonie@kernel.org,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Subject: Re: [PATCH v4] Documentation/CoC: spell out enforcement for
+ unacceptable behaviors
+Message-ID: <202411151244.CD2F8AC9A@keescook>
+References: <20241114205649.44179-1-skhan@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241114205649.44179-1-skhan@linuxfoundation.org>
 
-The testing effort is increasing throughout the community.
-The tests are generally merged into the subsystem trees,
-and are of relatively narrow interest. The patch volume on
-linux-kselftest@vger.kernel.org makes it hard to follow
-the changes to the framework, and discuss proposals.
+On Thu, Nov 14, 2024 at 01:56:49PM -0700, Shuah Khan wrote:
+> The Code of Conduct committee's goal first and foremost is to bring about
+> change to ensure our community continues to foster respectful discussions.
+> 
+> In the interest of transparency, the CoC enforcement policy is formalized
+> for unacceptable behaviors.
+> 
+> Update the Code of Conduct Interpretation document with the enforcement
+> information.
+> 
+> Acked-by: Linus Torvalds <torvalds@linux-foundation.org>
+> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Acked-by: Miguel Ojeda <ojeda@kernel.org>
+> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
+> Acked-by: Jonathan Corbet <corbet@lwn.net>
+> Acked-by: Steven Rostedt <rostedt@goodmis.org>
+> Acked-by: Dan Williams <dan.j.williams@intel.com>
+> Acked-by: Theodore Ts'o <tytso@mit.edu>
+> Acked-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
 
-Create a new ML focused on the framework of kselftests,
-which will hopefully be similarly low volume to the workflows@
-mailing list.
+Thanks for working on this!
 
-From the responses to v1 I gather that the preference is to
-keep the existing list for all (or create an alias to it);
-the framework-only section should be the one to have a new
-list created.
+Acked-by: Kees Cook <kees@kernel.org>
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
----
-Sorry for the delay, the responses to v1 weren't super positive
-but I keep thinking this would be very useful :) Or at the very
-least I find workflows@ very useful and informative as a maintainer.
-
-Posting as an RFC because we need to create the new ML.
-
-v1: https://lore.kernel.org/20241003142328.622730-1-kuba@kernel.org
-
-CC: shuah@kernel.org
-CC: Tim.Bird@sony.com
-CC: linux-kselftest@vger.kernel.org
-CC: workflows@vger.kernel.org
----
- MAINTAINERS | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f245573722ef..345a0657ba1d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12395,7 +12395,7 @@ S:	Supported
- F:	Documentation/admin-guide/reporting-regressions.rst
- F:	Documentation/process/handling-regressions.rst
- 
--KERNEL SELFTEST FRAMEWORK
-+KERNEL SELFTEST
- M:	Shuah Khan <shuah@kernel.org>
- M:	Shuah Khan <skhan@linuxfoundation.org>
- L:	linux-kselftest@vger.kernel.org
-@@ -12405,6 +12405,19 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git
- F:	Documentation/dev-tools/kselftest*
- F:	tools/testing/selftests/
- 
-+KERNEL SELFTEST FRAMEWORK
-+M:	Shuah Khan <shuah@kernel.org>
-+M:	Shuah Khan <skhan@linuxfoundation.org>
-+L:	linux-kselftest-core@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/dev-tools/kselftest*
-+F:	tools/testing/selftests/kselftest/
-+F:	tools/testing/selftests/lib/
-+F:	tools/testing/selftests/lib.mk
-+F:	tools/testing/selftests/Makefile
-+F:	tools/testing/selftests/*.sh
-+F:	tools/testing/selftests/*.h
-+
- KERNEL SMB3 SERVER (KSMBD)
- M:	Namjae Jeon <linkinjeon@kernel.org>
- M:	Steve French <sfrench@samba.org>
 -- 
-2.47.0
-
+Kees Cook
