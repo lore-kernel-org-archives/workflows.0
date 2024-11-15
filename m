@@ -1,195 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60FA8193408;
-	Thu, 14 Nov 2024 20:56:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4FAA16C684
+	for <workflows@vger.kernel.org>; Fri, 15 Nov 2024 05:11:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731617812; cv=none; b=RRvoaVVdbcvvxlYlbGO0/3sLHIkXEpfd7L8f4F+hYISOK0+VLpLv9RYo1UCENqZCCQNfe/KHy6uZ8wrpozCbqzfFsqD1ztzgCpU0YOUM0ujbxVjczkMb0m6Jptz/U4WBcIXj7EsCvL9efFSjL7/Vw9RzPCyN46Iy7mNEezSnqTw=
+	t=1731647479; cv=none; b=O7WUm3Q8dPy4W339CgA28m/GaaFO9OhQcEHkd8/UE/QpKT27HSj4H9pYW9zzv84Czzinb2yYtD/ek6LGYcXKWMlWA5gIvHCtRWHgKs5O8dKcLtjRdJ+X9tArjglCKykV0d4DGVetXTxCi0OTEmb2lHwlLZbx8A/5JurPt/YtxgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731617812; c=relaxed/simple;
-	bh=UEJ9qgWaqC/iEifFpMeUYbkWkTFjt5SgaUOgSfjFowY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sSq516oWLtBwLbcQlxLD7aK5A7oeuf4TorMbb4KSC7TpD6uoSJBBpJD+gS+tkuvKavhxoQ5d1P3ZSB+zy+/SDyzmlRKV7MtpuP9rCFzVreEXsTcf5u6tq7/3yNDlO4Pcxbdo8Ep1xtf9CvZQaYn5sFM/t6ISx/IqQzPgMrYH5M4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Qb03l6Vm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731647479; c=relaxed/simple;
+	bh=t0NFyPDJ5iY3sgDsKD5D8OzIdcHNaj0YG+OyWJPZUuQ=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=DPnmtx1wsl3RKQIklSHAIhAgrlliBLp2bJxIKDY0PND+HRhXxHzkaQx9KrEp22D4JlIwZOQTYFu1N7eJ9ZUI1UUwZzY5F3TWRFC43UqcTti6cTLguqqmOpBpYHEUl1CWgPsJ7ZKuMfzf9SgaC0mtgC1pIhEO+mtW3DOCqY/V38w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--yabinc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uLh4zNRs; arc=none smtp.client-ip=209.85.128.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--yabinc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Qb03l6Vm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47AE9C4CECD;
-	Thu, 14 Nov 2024 20:56:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1731617811;
-	bh=UEJ9qgWaqC/iEifFpMeUYbkWkTFjt5SgaUOgSfjFowY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Qb03l6VmlPh7eZvVmqZ3DfEwUCKnqM2Vv4M3qK9MW1y6RStzvEZc0gDQXAfL/g/Ur
-	 YxaNsBy1b827n3ao1PFx4VzBoh5fI1zcuB2Ac7r7l/hXNKVUHgwilWUw5JN5QbUQYl
-	 uqB2qhq4oJ/uuhSLUjDW2OBSREOgw63pRiiaAvUs=
-From: Shuah Khan <skhan@linuxfoundation.org>
-To: gregkh@linuxfoundation.org,
-	corbet@lwn.net
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	rdunlap@infradead.org,
-	daniel@ffwll.ch,
-	laurent.pinchart@ideasonboard.com,
-	broonie@kernel.org,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Theodore Ts'o <tytso@mit.edu>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Subject: [PATCH v4] Documentation/CoC: spell out enforcement for unacceptable behaviors
-Date: Thu, 14 Nov 2024 13:56:49 -0700
-Message-Id: <20241114205649.44179-1-skhan@linuxfoundation.org>
-X-Mailer: git-send-email 2.40.1
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uLh4zNRs"
+Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-6ee3fc1090cso20961867b3.0
+        for <workflows@vger.kernel.org>; Thu, 14 Nov 2024 21:11:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1731647477; x=1732252277; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=1wwGpDZ5iudS5LM+KuL+hNLzM54ZC3CXNotEma4ON0U=;
+        b=uLh4zNRsXRCu/pbEHWn6YBuXRABeLHl+6oCscmklt9JQoFateBmx/zHpQlFQjqWrsN
+         jr/b3Xp6RmldzbNtowaK4NRuUQ2rSDwwLESIDwj2GKaJeMOHFKRWI9IJvVT67QWTAcSS
+         WXbpxLRgpxWm5Og8EHFoMHZXNRQbqz6XsT7gPL/LwjXVTdJcizjRtbt2vke8gibJU8UT
+         rxR68PbSu7vJM6AORka+5W+Me6Zv0u/+FqlHEMuOHsZYSFoVOI+UDutwr210+c1GoCAO
+         PLghGn+WFijWNsNFR5Tsh2llUQzVktx+a4wgWr8ApTNjFp7rN4m6h6uHfmQ16MBTgzYI
+         RLlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731647477; x=1732252277;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1wwGpDZ5iudS5LM+KuL+hNLzM54ZC3CXNotEma4ON0U=;
+        b=jx2ml/CEGq9nZZixcJ4jnzRn3hpaOhZeus3u7fW/k8K0E2XifU5tUP5pmeHvjW7xUO
+         ZBXprPjcejMkVaf3wXPIWoDlWuSd4nTxmReMNgsRNfJdVurt8P19+MITLaloF4ZAYPo+
+         KLYPRC91NPc0g5R9PTLzk3DB0ZibtZ23wS/JaFZUhH/TgPultndz7oTia93ms0Eh1vtm
+         Z7/FvDqZEavU0Y+QNi7HwpTMbPgmSWYXPv3ocFPzdG70lLHuxWjIBwlZOUCigoQ2caqp
+         abmVHp8iUSkDQxBivRnfNPmPeD0HQQhyhLwGKv75CK2u2nar6txMUvgfaRagOxI7lyTC
+         r1FQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXRVyhSMV07tZ6YVH/tbWmWMH4329JkhK4aLRp3guKwABsyVyWE6cgZffzav+Wv0mJWujECttt9/2M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZ3QNLbBGENN3OVz3cDbsAv9SI/kl0vSCcu+bhBbIcoclpyM4f
+	vg67oe0MLTKzE/qv/FStG4JAPE9cRqEUZPsnUzFkUpGRCU/TF6wRfH/e42CTs5Y4r4iR3o8XVQB
+	a
+X-Google-Smtp-Source: AGHT+IGz3q4DCIJt57K3asfgvwzEbv+NGkaDrw/vPNLXCsgnnxFJTN6ZZqOGNQ9YDpPKAjLF646BkA9aZ54=
+X-Received: from yabinc-desktop.mtv.corp.google.com ([2a00:79e0:2e3f:8:5172:b594:baa2:7cb2])
+ (user=yabinc job=sendgmr) by 2002:a05:690c:4348:b0:6e3:c4cb:689b with SMTP id
+ 00721157ae682-6ee3d6eac31mr497447b3.4.1731647476326; Thu, 14 Nov 2024
+ 21:11:16 -0800 (PST)
+Date: Thu, 14 Nov 2024 21:11:06 -0800
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
+Message-ID: <20241115051107.3374417-1-yabinc@google.com>
+Subject: [PATCH] arm64: Allow CONFIG_AUTOFDO_CLANG to be selected
+From: Yabin Cui <yabinc@google.com>
+To: Rong Xu <xur@google.com>, Han Shen <shenhan@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org
+Cc: Yabin Cui <yabinc@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-The Code of Conduct committee's goal first and foremost is to bring about
-change to ensure our community continues to foster respectful discussions.
+Select ARCH_SUPPORTS_AUTOFDO_CLANG to allow AUTOFDO_CLANG to be
+selected.
 
-In the interest of transparency, the CoC enforcement policy is formalized
-for unacceptable behaviors.
+On ARM64, ETM traces can be recorded and converted to AutoFDO profiles.
+Experiments on Android show 4% improvement in cold app startup time
+and 13% improvement in binder benchmarks.
 
-Update the Code of Conduct Interpretation document with the enforcement
-information.
-
-Acked-by: Linus Torvalds <torvalds@linux-foundation.org>
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Acked-by: Miguel Ojeda <ojeda@kernel.org>
-Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
-Acked-by: Jonathan Corbet <corbet@lwn.net>
-Acked-by: Steven Rostedt <rostedt@goodmis.org>
-Acked-by: Dan Williams <dan.j.williams@intel.com>
-Acked-by: Theodore Ts'o <tytso@mit.edu>
-Acked-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+Signed-off-by: Yabin Cui <yabinc@google.com>
 ---
+ Documentation/dev-tools/autofdo.rst | 18 +++++++++++++++++-
+ arch/arm64/Kconfig                  |  1 +
+ 2 files changed, 18 insertions(+), 1 deletion(-)
 
-Changes since v3:
-- Modifies kernel.org actions as per Konstantin's comments
-- Adds Konstantin's Ack
-
-Changes since v2:
-- Adds details on the process leading up to the proposed
-  measures to seek public apology and bans for serious
-  unacceptable behaviors.
-
-- Hope this addresses your comments, Daniel Vetter,
-  Laurent Pinchart, and Mark Brown.
-
-- Would like to get this into 6.12 if at all possible.
-
-Changes since v1:
-- Updates Acks with Ted's ack.
-- Fixes subsection formatting as per Randy's suggestion.
-- Fixes a spelling error.
-
- .../code-of-conduct-interpretation.rst        | 87 +++++++++++++++++++
- 1 file changed, 87 insertions(+)
-
-diff --git a/Documentation/process/code-of-conduct-interpretation.rst b/Documentation/process/code-of-conduct-interpretation.rst
-index 66b07f14714c..1d1150954be3 100644
---- a/Documentation/process/code-of-conduct-interpretation.rst
-+++ b/Documentation/process/code-of-conduct-interpretation.rst
-@@ -156,3 +156,90 @@ overridden decisions including complete and identifiable voting details.
- Because how we interpret and enforce the Code of Conduct will evolve over
- time, this document will be updated when necessary to reflect any
- changes.
+diff --git a/Documentation/dev-tools/autofdo.rst b/Documentation/dev-tools/autofdo.rst
+index 1f0a451e9ccd..f0952e3e8490 100644
+--- a/Documentation/dev-tools/autofdo.rst
++++ b/Documentation/dev-tools/autofdo.rst
+@@ -55,7 +55,7 @@ process consists of the following steps:
+    workload to gather execution frequency data. This data is
+    collected using hardware sampling, via perf. AutoFDO is most
+    effective on platforms supporting advanced PMU features like
+-   LBR on Intel machines.
++   LBR on Intel machines, ETM traces on ARM machines.
+ 
+ #. AutoFDO profile generation: Perf output file is converted to
+    the AutoFDO profile via offline tools.
+@@ -141,6 +141,22 @@ Here is an example workflow for AutoFDO kernel:
+ 
+       $ perf record --pfm-events RETIRED_TAKEN_BRANCH_INSTRUCTIONS:k -a -N -b -c <count> -o <perf_file> -- <loadtest>
+ 
++   - For ARM platforms:
 +
-+Enforcement for Unacceptable Behavior Code of Conduct Violations
-+----------------------------------------------------------------
++     Follow the instructions in the `Linaro OpenCSD document
++     https://github.com/Linaro/OpenCSD/blob/master/decoder/tests/auto-fdo/autofdo.md`_
++     to record ETM traces for AutoFDO::
 +
-+The Code of Conduct committee works to ensure that our community continues
-+to be inclusive and fosters diverse discussions and viewpoints, and works
-+to improve those characteristics over time. A majority of the reports the
-+Code of Conduct Committee receives stem from incorrect understanding regarding
-+the development process and maintainers' roles, responsibilities, and their
-+right to make decisions on code acceptance. These are resolved through
-+clarification of the development process and the scope of the Code of Conduct.
++      $ perf record -e cs_etm/@tmc_etr0/k -a -o <etm_perf_file> -- <loadtest>
++      $ perf inject -i <etm_perf_file> -o <perf_file> --itrace=i500009il
 +
-+Unacceptable behaviors could interrupt respectful collaboration for a short
-+period of time and negatively impact the health of the community longer term.
-+Unacceptable behaviors often get resolved when individuals acknowledge their
-+behavior and make amends for it in the setting the violation has taken place.
++     For ARM platforms running Android, follow the instructions in the
++     `Android simpleperf document
++     <https://android.googlesource.com/platform/system/extras/+/main/simpleperf/doc/collect_etm_data_for_autofdo.md>`_
++     to record ETM traces for AutoFDO::
 +
-+The Code of Conduct Committee receives reports about unacceptable behaviors
-+when they don't get resolved through community discussions. The Code of
-+Conduct committee takes measures to restore productive and respectful
-+collaboration when an unacceptable behavior has negatively impacted that
-+relationship.
++      $ simpleperf record -e cs-etm:k -a -o <perf_file> -- <loadtest>
 +
-+The Code of Conduct Committee has the obligation to keep the reports and
-+reporters' information private. Reports could come from injured parties
-+and community members who are observers of unacceptable behaviors. The
-+Code of Conduct Committee has the responsibility to investigate and resolve
-+these reports, working with all involved parties.
-+
-+The Code of Conduct Committee works with the individual to bring about
-+change in their understanding of the importance to repair the damage caused
-+by their behavior to the injured party and the long term negative impact
-+on the community.
-+
-+The goal is to reach a resolution which is agreeable to all parties. If
-+working with the individual fails to bring about the desired outcome, the
-+Code of Conduct Committee will evaluate other measures such as seeking
-+public apology to repair the damage.
-+
-+Seek public apology for the violation
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+The Code of Conduct Committee publicly calls out the behavior in the
-+setting in which the violation has taken place, seeking public apology
-+for the violation.
-+
-+A public apology for the violation is the first step towards rebuilding
-+the trust. Trust is essential for the continued success and health of the
-+community which operates on trust and respect.
-+
-+Remedial measures if there is no public apology for the violation
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+The Code of Conduct Committee determines the next course of action to restore
-+the healthy collaboration by recommending remedial measure(s) to the TAB for
-+approval.
-+
-+- Ban violator from participating in the kernel development process for
-+  a period of up to a full kernel development cycle. The Code of Conduct
-+  Committee could require public apology as a condition for lifting the
-+  ban.
-+
-+The scope of the ban for a period of time could include:
-+
-+    a. denying patch contributions and pull requests
-+    b. pausing collaboration with the violator by ignoring their
-+       contributions and/or blocking their email account(s)
-+    c. restricting their ability to communicate via kernel.org platforms,
-+       such as mailing lists and social media sites
-+
-+Once the TAB approves one or more of the measures outlined in the scope of
-+the ban by a two-thirds vote, the Code of Conduct Committee will enforce
-+the TAB approved measure(s) in collaboration with the community, maintainers,
-+sub-maintainers, and kernel.org administrators.
-+
-+The Code of Conduct Committee is mindful of the negative impact of seeking
-+public apology and instituting ban could have on individuals. It is also
-+mindful of the longer term harm to the community that could result from
-+not taking action when such serious public violations occur.
-+
-+The effectiveness of the remedial measure(s) approved by the TAB depends
-+on the trust and cooperation from the community, maintainers, sub-maintainers,
-+and kernel.org administrators in enforcing them.
-+
-+The Code of Conduct Committee sincerely hopes that unacceptable behaviors
-+that require seeking public apologies continue to be exceedingly rare
-+occurrences in the future.
+ 4) (Optional) Download the raw perf file to the host machine.
+ 
+ 5) To generate an AutoFDO profile, two offline tools are available:
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index fd9df6dcc593..c3814df5e391 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -103,6 +103,7 @@ config ARM64
+ 	select ARCH_SUPPORTS_PER_VMA_LOCK
+ 	select ARCH_SUPPORTS_HUGE_PFNMAP if TRANSPARENT_HUGEPAGE
+ 	select ARCH_SUPPORTS_RT
++	select ARCH_SUPPORTS_AUTOFDO_CLANG
+ 	select ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH
+ 	select ARCH_WANT_COMPAT_IPC_PARSE_VERSION if COMPAT
+ 	select ARCH_WANT_DEFAULT_BPF_JIT
 -- 
-2.40.1
+2.47.0.338.g60cca15819-goog
 
