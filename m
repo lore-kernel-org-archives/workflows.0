@@ -1,130 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8125818FDCE;
-	Fri, 15 Nov 2024 10:38:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B705018FC92;
+	Fri, 15 Nov 2024 11:11:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731667131; cv=none; b=jGoMUGfHjUUCb8d4GUO/WiNSLezLpDVtGg6BHDy+Ze5GFOA9QrjjGXDQ9UlzUvW4F7LlfO6zyHnt9kg/i2ht549SFh3Lx184aIw9LPj4Anhg42w9YP0ct8Eh3Xgd+/l5lyJWbXeT2hVgvm9oAOyo3Za6n2nzk8WkEb7+KDU7ri4=
+	t=1731669120; cv=none; b=r7OG7yJM1CSAuLVvrOQ2gvXD4s8Z38kif4SgQM1Z3Hb276JQ94ytrUg9/YeGeurLDHwxgSVe2nE4oh1I1/F6JLEewoCPbjKI9UustRDKJVspyhZ2qIMeB/xjvcUcIINnjPE+78AFcdWBj5uptNRwaOfs7gqXF7SFps538B6aVkI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731667131; c=relaxed/simple;
-	bh=shVHcw3WNIa3pbYlKTq7wOJKs+PhQDB4a8mCLOg2BaY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ewrqPegETMzdiCevapJ8QNEVnrFEIKavFG00pzN32LbCK5/U57LftxUQ7zCB17D/g1/OnHx2yLFjmt2QKHb2njf9zxUNxfN6mLEWZlIPsYm4gurSbRnl+WrJgXOCixIWZulK/pV1X33SLc30A5md50g4NuWY2hHADhJmzn1XfK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SSVQ41T+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731669120; c=relaxed/simple;
+	bh=OHnVyO7UOQh4Loqrg+RCr6IzM4VC4Q9TApvlvp6AwMo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XmSIfA4bibYXIj93EP3aTr6mqcHxLvodZbRRxzzMjiTrWV6DyKc2gU2M1MlSWXGVxxS7dnOzNULfBuanoqkhpwbKO0hZxqpfH29uh/k/ZZy8ch+9xqI0Yumb6aX+YLAfFyx5+Y7Ivp4PlqQpMPleqgn6zSZFCXY/u7/fj3jcGro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=LzcdeSTj; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SSVQ41T+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98440C4CECF;
-	Fri, 15 Nov 2024 10:38:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731667131;
-	bh=shVHcw3WNIa3pbYlKTq7wOJKs+PhQDB4a8mCLOg2BaY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=SSVQ41T+CC4JUHAGFK2hW1yUmu3t+OJ4Os7//NeOkhAFeM76XpvDPPpfl2ZmRztwi
-	 s7RN5YmYuZp6gUBXQyq81PDHEDIX8CwwnwGtSbYDdIiomFBwwpNCXvT1q5SMrPP2rK
-	 sdy/qqYPyfJ52+zLTxG0pMdHrwNqwHbAncoRAnZ10TMAb6kJHEPh/fnt1UDG6AGMRe
-	 XfOfQvQmD70XNZFjV1W64ZmFX97ruBIGwS1z1vOVBWZlFJkzqVL6Zp3xgeTOiOvjmS
-	 sw4Dp3kaRnXCQ0H3WGaLUnphGT9JnKaF76b0s8CfSIt+fmktInwNIix3+iT8Jw5rbK
-	 W7jkgtbwvixiA==
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Werner Sembach <wse@tuxedocomputers.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-spdx@vger.kernel.org,
-	workflows@vger.kernel.org
-Subject: [PATCH] docs/licensing: Clarify wording about "GPL" and "Proprietary"
-Date: Fri, 15 Nov 2024 11:38:41 +0100
-Message-ID: <20241115103842.585207-2-ukleinek@kernel.org>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="LzcdeSTj"
+Received: from [192.168.42.96] (p5de457db.dip0.t-ipconnect.de [93.228.87.219])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 5097E2FC0057;
+	Fri, 15 Nov 2024 12:11:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1731669114;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OHnVyO7UOQh4Loqrg+RCr6IzM4VC4Q9TApvlvp6AwMo=;
+	b=LzcdeSTjGz/B63rdmfERn24TiHGEdie+RsQXx8Z+/1NUNW7yQ5JNnd6HoKKfdAOql+8Mbc
+	r1u2F3sLRAMN0Mn9XGJ4Os6WUnY1XRw74n4xGRqoOXzPmmkhk0R6vNDbHZ0HcfA1HepdOV
+	T9Apaz/9+3VAPGlRwmP9W/7GsVsgQLE=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <635639b1-bb61-49dd-84b6-b2db82b7c24f@tuxedocomputers.com>
+Date: Fri, 15 Nov 2024 12:11:54 +0100
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3724; i=ukleinek@kernel.org; h=from:subject; bh=shVHcw3WNIa3pbYlKTq7wOJKs+PhQDB4a8mCLOg2BaY=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBnNySyhNbpd9jNbMictTcNY8WBTJ5+Z3udDEZqi 0KaVRgcvzuJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZzcksgAKCRCPgPtYfRL+ TrUeB/9Vlim6gusugJu/VZJG8BKbQUqk3EzSXlFWscPwPby6BU1/P5mdWh/hL3gMGX51efnhtA4 AewxlPJS2gY+Jh/r8kPpq/8VkNB8ndtcjSSHxxzSJ/J9aSVFdxvpNQZFmkG7mjs4kCVYJpSVGKd Q/Ms1HFovOe+wBBsV8U9SsFkc6o8QCT6hWEI9ANm3qExjCBkXrSY+nJStaLLmsTF4bzIcyTp5xD i/HTkGeLUOfltaBgjEwXqhHLURc/f7ne/zL59mAMpgxQSnH9JrRGu3RleS047GPmjrMeCv4MeVG nGf1c2EBkMM7p4o3cj2IyzS3bh6Tjraw6QutHVugVmP4toJO
-X-Developer-Key: i=ukleinek@kernel.org; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs/licensing: Clarify wording about "GPL" and
+ "Proprietary"
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-spdx@vger.kernel.org, workflows@vger.kernel.org
+References: <20241115103842.585207-2-ukleinek@kernel.org>
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <20241115103842.585207-2-ukleinek@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-There are currently some doubts about out-of-tree kernel modules licensed
-under GPLv3 and if they are supposed to be able to use symbols exported
-using EXPORT_SYMBOL_GPL.
+Hi,
 
-Clarify that "Proprietary" means anything non-GPL2 even though the
-license might be an open source license. Also disambiguate "GPL
-compatible" to "GPLv2 compatible".
+Am 15.11.24 um 11:38 schrieb Uwe Kleine-König:
+> There are currently some doubts about out-of-tree kernel modules licensed
+> under GPLv3 and if they are supposed to be able to use symbols exported
+> using EXPORT_SYMBOL_GPL.
+>
+> Clarify that "Proprietary" means anything non-GPL2 even though the
+> license might be an open source license. Also disambiguate "GPL
+> compatible" to "GPLv2 compatible".
+>
+> Signed-off-by: Uwe Kleine-König <ukleinek@kernel.org>
 
-Signed-off-by: Uwe Kleine-König <ukleinek@kernel.org>
----
-Hello,
+Thanks for adding this clarification.
 
-these are the locations that I found by a quick grep. If you spot a
-document that needs similar updating, please tell.
+Kind regards,
 
-The change in license-rules.rst looks bigger than it actually is due to
-changing where the line wrappings occur. With `git diff --word-diff` it
-reduces to:
-
-    "Proprietary"                 The module is under a proprietary license.
-                                  {+"Proprietary" is to be understood only as+}
-{+                                "The license is not compatible to GPLv2".+}
-                                  This string is solely for [-proprietary-]{+non-GPL2 compatible+}
-                                  third party modules and cannot be used for
-
-Best regards
-Uwe
-
- Documentation/kernel-hacking/hacking.rst |  2 +-
- Documentation/process/license-rules.rst  | 18 ++++++++++--------
- 2 files changed, 11 insertions(+), 9 deletions(-)
-
-diff --git a/Documentation/kernel-hacking/hacking.rst b/Documentation/kernel-hacking/hacking.rst
-index 1717348a4404..0042776a9e17 100644
---- a/Documentation/kernel-hacking/hacking.rst
-+++ b/Documentation/kernel-hacking/hacking.rst
-@@ -587,7 +587,7 @@ Defined in ``include/linux/export.h``
- 
- Similar to :c:func:`EXPORT_SYMBOL()` except that the symbols
- exported by :c:func:`EXPORT_SYMBOL_GPL()` can only be seen by
--modules with a :c:func:`MODULE_LICENSE()` that specifies a GPL
-+modules with a :c:func:`MODULE_LICENSE()` that specifies a GPLv2
- compatible license. It implies that the function is considered an
- internal implementation issue, and not really an interface. Some
- maintainers and developers may however require EXPORT_SYMBOL_GPL()
-diff --git a/Documentation/process/license-rules.rst b/Documentation/process/license-rules.rst
-index 2ef44ada3f11..59a7832df7d0 100644
---- a/Documentation/process/license-rules.rst
-+++ b/Documentation/process/license-rules.rst
-@@ -471,14 +471,16 @@ _`MODULE_LICENSE`
- 				  source files.
- 
-     "Proprietary"		  The module is under a proprietary license.
--				  This string is solely for proprietary third
--				  party modules and cannot be used for modules
--				  which have their source code in the kernel
--				  tree. Modules tagged that way are tainting
--				  the kernel with the 'P' flag when loaded and
--				  the kernel module loader refuses to link such
--				  modules against symbols which are exported
--				  with EXPORT_SYMBOL_GPL().
-+				  "Proprietary" is to be understood only as
-+				  "The license is not compatible to GPLv2".
-+                                  This string is solely for non-GPL2 compatible
-+                                  third party modules and cannot be used for
-+                                  modules which have their source code in the
-+                                  kernel tree. Modules tagged that way are
-+                                  tainting the kernel with the 'P' flag when
-+                                  loaded and the kernel module loader refuses
-+                                  to link such modules against symbols which
-+                                  are exported with EXPORT_SYMBOL_GPL().
-     ============================= =============================================
- 
- 
-
-base-commit: 28955f4fa2823e39f1ecfb3a37a364563527afbc
--- 
-2.45.2
+Werner Sembach
 
