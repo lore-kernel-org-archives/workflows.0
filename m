@@ -1,92 +1,159 @@
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC2B824BD;
-	Sat, 16 Nov 2024 11:38:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA895372;
+	Sat, 16 Nov 2024 11:50:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731757119; cv=none; b=ZRFo/x9unrnKysTkqDurW8CrgE7m372M/JQ8prAo6XcZChQQ2rGRKzqjPVHM0dIcsNo5Sj5YRcP9ctzgrsudF67Vot9M1JW4OEx038sq2md62fbNfF/J8HBXrtBLfdBXEbINl+n4vI/iDAkE+UhPct2H7kfKBWZIssfFl1CX0lo=
+	t=1731757810; cv=none; b=WNafVx1rp6omIteQ0e1ZLsbXgBAUXQqXUfeqr/2SIFyMONkkhGEBUFqIPLUy82lRJ9AbyRz0/gIN45glKoV3s8qlrON1dQV2atZJyaSeZFM8OyaakjnhpIo2VIX5cIDbM2sq2SwXfI6pkxtPYt8w7xGTGZW5xA713n8/SlQhNF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731757119; c=relaxed/simple;
-	bh=Zap2aep+vNFM220ijcUpwGFHEFymziwZf09SUSqZnRQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AJ5vyxy8vqlHOqkNlFSkCV8F2B4UXpkght7qZeFrlnECi7M86LuD0IeV8FVojPDht+oM/UchrqwyczIsXtTe2xlBpnWNZ4iv9nmfwOoHLb4RJR65ZhEp1Z+cgQRvpQsHqBs73Uv2jJ2oLP+M0dtuXpwOZgoxyTz83IRzUUAlLjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-e3808e94734so2615930276.1;
-        Sat, 16 Nov 2024 03:38:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731757115; x=1732361915;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EDhWc4gXFzI9mAEerZZdD8NdXzb6q6RtVPXmYGUYyVI=;
-        b=xNCupFupJEGvL4cat30rODmDnOihNB/Q4moUjKYicNbV7PuqoylocJWmeVHyqP7aDx
-         YpDnMstHdCZszIQm0u5QixwR/SJODwslj90x6AEWpWPFfT1kcnoLRpUCQfNb0qrTaHiP
-         OB3ID5I4Mut+a/2iiPhfdcUpa9I75WfuweVrGA+LKKqsXeiltUL43IG/RIbdku986TQw
-         aDXAsxr8TlNYdOhJsopLOWVGGtU5/Mt/LtpUCEcYZf14vzBn0Ll4F8t5Bp/CZzKeiqrR
-         cYbq9y6ePQpjDmZPnMnd3G/yoe5tSsLHGvFZKvhJ5pjwMipi+YX0QMJgfiEyQeAsQJYl
-         TorA==
-X-Forwarded-Encrypted: i=1; AJvYcCUCBROiKl3wTxO23NjKSQKDFlYoNP5nyZ3zZDuKmzGJmaPY6wKIDdiU0J0QoW4/lrgci/XCmNt1jLZc@vger.kernel.org, AJvYcCVXyBh52Pp6VrwMZuPZFizx5n+rvO2b/jWaPwd2m9SHZpsCans9VMUxGXoi9tEKmKqn+mI+AuRRSjFneTCX@vger.kernel.org, AJvYcCXKFzrTgB8baOu9eWH1SbsygZrWmk55MYlYF4focMzuG9Pt9bdJipiFF9qNLeW9Hqa+2R2a2kcqR64=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDrx0DgDMmIZxhbxkHl3SfMERyKR/dMJRGpIhM3suD3KG73GFv
-	AXgDec7kS/78sLv0lTV6dOPzuuNK1o4YJzYn8w30etaq4/ReTw62V18HdKni
-X-Google-Smtp-Source: AGHT+IFs41NNri/CgIMxcxXPkX4syZ/3ZmXwPBvKIjHvkZgva9GmqFvzKNizs9/QHF610uJMeSXW9A==
-X-Received: by 2002:a05:6902:240e:b0:e38:1233:e9bf with SMTP id 3f1490d57ef6-e38263a8dd6mr3798625276.42.1731757115192;
-        Sat, 16 Nov 2024 03:38:35 -0800 (PST)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e387ea609b7sm411729276.52.2024.11.16.03.38.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 16 Nov 2024 03:38:33 -0800 (PST)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-6ea0b25695dso23413357b3.2;
-        Sat, 16 Nov 2024 03:38:33 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCURBHqHZLIBMlanJ3WvunCxcyILVre6nhnqoTP8tWUFbP2iVLjhPO2Dkxc6O3g//t9tGg58Wd7hDkQS@vger.kernel.org, AJvYcCV+UNwpw5vU5snPGUlghif0b3AYD1REBYGz5ZNN5M2z2oBLkkx5sOLZpm4hrbjTK3YN467iq0Ahujk=@vger.kernel.org, AJvYcCVrR0qSQ3zhuu0EmwXUbQHeAUNqrLEIYZSs7etLfxhpq0PcPLnKlu+c7UxxnnRr2fO6YGxlb8kVHq56yKbZ@vger.kernel.org
-X-Received: by 2002:a05:690c:6386:b0:6ea:8647:d616 with SMTP id
- 00721157ae682-6ee55bee948mr67382427b3.15.1731757113344; Sat, 16 Nov 2024
- 03:38:33 -0800 (PST)
+	s=arc-20240116; t=1731757810; c=relaxed/simple;
+	bh=dP6CG9uq94TTrjRd6ucgv3kA63Z8FNi1KHL8K1mYr4o=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=okiZH0pDTpSSU9yhRaCeg3lzjMjcLch7pF6xnn4YG4R9TTAkt3YB6ZlR1hHzItjuclOhaIduYf8Y0vZj7r1L0RLTy8zsYSN2Hcm1w6gHy7tA3kd7XAUTY+IZw83CipnzL8n66TyPK/n9LpdinX70v8KJ0BUs2Nguu6IPNjkdIgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pakccu1+; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pakccu1+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86B6CC4CEC3;
+	Sat, 16 Nov 2024 11:50:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731757809;
+	bh=dP6CG9uq94TTrjRd6ucgv3kA63Z8FNi1KHL8K1mYr4o=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Pakccu1+MNi2jBcKI+WuuyQyF4NneSkZnID71gTDi7FNmxqoXcTMa4YyXnKt6Kj48
+	 uRUR/FYWTJKW9YG5xxW5wmlqwQBdmZl1PlSkDhtv1uMuOs5S4cV8II45lzaRWABxSZ
+	 oKcHdwPPXqN8D8/oH6B5Qs+d1kBMJj38x9Hj+YClUCdvAREtVPnVfiptsyeDXa5xjK
+	 NkL04lE/onOZfNeg8NZKSg6LbQ2Cg+MpHJW/I/4cDVHaOU80lWwb+Q/Og3Nqk5ZICA
+	 8IsO2CCltw8spi9qbIHhAkfNyy6BBlrRnAazDAR3zuk8Op31Ih7nR/RdzFy+ZKUi70
+	 RMi+S4jTi8Ucg==
+Date: Sat, 16 Nov 2024 12:50:03 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Thorsten Leemhuis <linux@leemhuis.info>, Jonathan Corbet
+ <corbet@lwn.net>, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Subject: Re: [PATCH v2 2/2] docs: clarify rules wrt tagging other people
+Message-ID: <20241116125003.43bf305c@foz.lan>
+In-Reply-To: <2024111651-slather-blabber-857f@gregkh>
+References: <cover.1731749544.git.linux@leemhuis.info>
+	<b7dce8b22a391c2f8f0d5a47bf23bc852eca4e71.1731749544.git.linux@leemhuis.info>
+	<2024111651-slather-blabber-857f@gregkh>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1731749544.git.linux@leemhuis.info> <b7dce8b22a391c2f8f0d5a47bf23bc852eca4e71.1731749544.git.linux@leemhuis.info>
-In-Reply-To: <b7dce8b22a391c2f8f0d5a47bf23bc852eca4e71.1731749544.git.linux@leemhuis.info>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Sat, 16 Nov 2024 12:38:23 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU5fsLDvwf6-cQhvpNB_7e+KZRrqj1UOMz7YjXRv0cZTg@mail.gmail.com>
-Message-ID: <CAMuHMdU5fsLDvwf6-cQhvpNB_7e+KZRrqj1UOMz7YjXRv0cZTg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] docs: clarify rules wrt tagging other people
-To: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Thorsten,
+Em Sat, 16 Nov 2024 11:42:06 +0100
+Greg KH <gregkh@linuxfoundation.org> escreveu:
 
-On Sat, Nov 16, 2024 at 10:39=E2=80=AFAM Thorsten Leemhuis <linux@leemhuis.=
-info> wrote:
-> The latter is not a theoretical issue, as one maintainer mentioned that
-> his employer received a EU GDPR (general data protection regulation)
-> complaint after exposing a email address used in bugzilla through a tag
-> in a patch description.
+> On Sat, Nov 16, 2024 at 10:33:59AM +0100, Thorsten Leemhuis wrote:
+> > Point out that explicit permission is usually needed to tag other people
+> > in changes, but mention that implicit permission can be sufficient in
+> > certain cases. This fixes slight inconsistencies between Reported-by:
+> > and Suggested-by: and makes the usage more intuitive.
+> > 
+> > While at it, explicitly mention the dangers of our bugzilla instance, as
+> > it makes it easy to forget that email addresses visible there are only
+> > shown to logged-in users.
+> > 
+> > The latter is not a theoretical issue, as one maintainer mentioned that
+> > his employer received a EU GDPR (general data protection regulation)
+> > complaint after exposing a email address used in bugzilla through a tag
+> > in a patch description.
+> > 
+> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Cc: Simona Vetter <simona.vetter@ffwll.ch>
+> > Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+> > ---
+> > Note: this triggers a few checkpatch.pl complaints that are irrelevant
+> > when when to comes to changes like this.
+> > 
+> > v2:
+> > - Retry differently. This slightly hardens the rule for Reported-by:
+> >   while slightly lessening it for Suggested-by:. Those in the end are
+> >   quite similar, so it does not make much sense to apply different ones.
+> >   I considered using an approach along the lines of "if you reported it
+> >   in pubic by mail, implicit permission to use in a tag is granted"; but
+> >   I abstained from it, as I assume there are good reasons for the
+> >   existing approach regarding Suggested-by:.
+> > - CC all the people that provided feedback on the text changes in v1
+> > 
+> > v1: https://lore.kernel.org/all/f5bc0639a20d6fac68062466d5e3dd0519588d08.1731486825.git.linux@leemhuis.info/
+> > - initial version
+> > ---
+> >  Documentation/process/5.Posting.rst          | 17 ++++++--
+> >  Documentation/process/submitting-patches.rst | 44 ++++++++++++++------
+> >  2 files changed, 45 insertions(+), 16 deletions(-)
+> > 
+> > diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
+> > index dbb763a8de901d..b45c4f6d65ca95 100644
+> > --- a/Documentation/process/5.Posting.rst
+> > +++ b/Documentation/process/5.Posting.rst
+> > @@ -268,10 +268,19 @@ The tags in common use are:
+> >   - Cc: the named person received a copy of the patch and had the
+> >     opportunity to comment on it.
+> >  
+> > -Be careful in the addition of tags to your patches, as only Cc: is appropriate
+> > -for addition without the explicit permission of the person named; using
+> > -Reported-by: is fine most of the time as well, but ask for permission if
+> > -the bug was reported in private.
+> > +Be careful in the addition of tags to your patches, as nearly all of them need
+> > +explicit permission of the person named.
+> > +
+> > +The only exceptions are Cc:, Reported-by:, and Suggested-by:, as for them  
+> 
+> I don't understand what you mean by "only exceptions" here.  Exceptions
+> to what?
+> 
+> > +implicit permission is sufficient under the following circumstances: when the
+> > +person named according to the lore archives or the commit history regularly
+> > +contributes to the Linux kernel using that name and email address -- 
 
-And once it's upstream there is not much we can do about that anymore,
-right?
+Note that get_maintainer.pl doesn't use a concept of "regularly", and it
+doesn't really matter if one has just one or dozens of patches, once it 
+has a patch merged with his address, it is now public, as git log will
+keep it forever.
 
-Gr{oetje,eeting}s,
+Also, if a patch authored by "John Doe <john@doe>" causes a regression, 
+a patch fixing the regression should be Cc: to him, even it it was his
+first contribution.
 
-                        Geert
+So, having a single patch accepted is enough to have other patches
+with meta-tag pointing to a name/email.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+So, this would be better:
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+	... or the git commit history contains that name and email address
+
+> > and in
+> > +case of Reported-by: and Suggested-by: did the reporting or suggestion in
+> > +public. For all other situations explicit permission is required to among
+> > +others prevent exposing email addresses considered private. Especially ask for
+> > +permission when it comes to bug trackers, as most only show addresses to logged
+> > +in users; that includes bugzilla.kernel.org, whose privacy policy explicitly
+> > +states that 'your email address will never be displayed to logged out users'.
+> 
+> How about makeing this much simpler, basically "any public reference can
+> be used, but please note, email addresses in bugzilla.kernel.org are not
+> public.  Anything offered in private should probably not be referenced."
+
+This works too.
+
+> or something like that?
+> 
+> thanks,
+> 
+> greg k-h
+> 
+
+
+
+Thanks,
+Mauro
