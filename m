@@ -1,104 +1,63 @@
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DD4150981
-	for <workflows@vger.kernel.org>; Mon, 18 Nov 2024 21:02:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A06155C94;
+	Mon, 18 Nov 2024 21:23:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731963753; cv=none; b=N4ON+0cuq19cqzVR8Hf7ZfpFVsktUDyARBMGGrjm2FZy839ONhlWHcpYB0ZsTbsrJSYvYeOR5Q1lK0gsu69AbDLl570Rx4VqTM1HcEvn95iNegmm2FNVBJbM6R70YxlBfnDWdhXzuSLeN5v9J9TwxAPgK/kHullPySK2htk8Pcw=
+	t=1731965006; cv=none; b=qdAsiauZIHvkSiHyP2p4OfEa/UVP1Xf/9vCm2dsmXdDDamKy/PEFlkJrn3JW4YC9Oduwpiqnf9oQA5z6Y04SkVdYDXYReqVxE4U7zgLh9S2lFWTATy5b1kyzFzg1UCtOaE9+9scm/tb4wMWVreJWb3y0XeTJsDb/dn8Skx3nq6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731963753; c=relaxed/simple;
-	bh=le42+9rIC7jVhHk3YIfqZ0r8CFuKznluHsTDmmkohNU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tGKNCKOcS3eRFVrFUnq1UCtk9933Ee9WBoTaF7wuK8ydl+yNufQJTz9FCHBCFhrTqseVYNHvgeLq8gw5gx45br0sAm9/Zs4F1KhPTXH5BbXyPICxzs+MEhz5RdvUIqbcOznmwymDE3CfSfCgkjuMy88iCkCTJwHH0Cm3bziWtv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=DBwnCjhc; arc=none smtp.client-ip=209.85.166.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1731965006; c=relaxed/simple;
+	bh=jqiM9xMmvt4BUKSPqx4li3rFh9ip4ahCeoRzbo0AJk4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Ac1QHWGAStNnNnkYuJr6JJDcWaHMFb4HF3Blq3NFIJ2MsvVNMrIyV3hG68dRSiTk3XLrgUh7ZwC6RK5VTt/DUtBPqvNN27BmoSKyxfpjcq9rr3TI8uK5X29IomkanvTZPdAPponBEFXzS96EG7iPdGTozXkDkNARZopdtVFFmqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WyICigaq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="DBwnCjhc"
-Received: by mail-io1-f46.google.com with SMTP id ca18e2360f4ac-83e90e1d00dso62622039f.3
-        for <workflows@vger.kernel.org>; Mon, 18 Nov 2024 13:02:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1731963751; x=1732568551; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PPakNa8rDNXMFXl7df49PWizHvmHvh2swC8PsPfcVic=;
-        b=DBwnCjhc17xGMj9PjORY0doTpnuoauMa+tnagCTF/TvEGEaR8dZUxjqzVWgUrV/AXO
-         wOPaqN9N+LQup8E0+nFv8356OaNqj6UwRcD+fU8I/85KpQrqqyfrp8KeSkRy9vbjNId0
-         kjoTi+1/HLNkl/5ldPzNf/rMHfF4ZKa8GFUYo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731963751; x=1732568551;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PPakNa8rDNXMFXl7df49PWizHvmHvh2swC8PsPfcVic=;
-        b=JpIAmXOf3yJdtxwB8XC96qHdrImLSdQrU/Jgns5jN8dP77m6s4GAK2iAiQ9WKvDt7w
-         2Mv59aS2+r0LwUEeoa/5pMZDFHeqv+pt7qOFpi6l5ieCFh1Ra4Li0UWIqDoi9ieWeXRP
-         bi7KgyKxQ0mSGnisbNA/K/WhLWdp8JtO9ywQmaGjFH19ucHaE9mG/JC4n4T8/IFsCRL2
-         aRyAFK9FUvDnZ1M9O10RorIumP2Zb/lNiEeNOFuB9RTR0ugqZB1S+YyGnY4svoKk6m7v
-         DOO3eXG0XZT6wMtWurTjiuQoPu+KAFLm2ATmcfWtGveBn4abfQ89B5JGVuFgTrd8/X7w
-         FXVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWmwiTpTEbFweSY2J4V2uTT4LFfDqKKleiTzPMCx3SAx4CVDpVIoQNVkYyXvXqN5j1ao/9MOxk/YTI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZOz4PlVfYTJ6PbBhs9rLmUy8mVBptwF3Jf2dwDhdtf70JDc53
-	/JIgF2eObwY/9zTP/xRUC1nrI1jIeIow9uWO7P+XmUP5o9jbG5AXTEBCupPVGd0=
-X-Google-Smtp-Source: AGHT+IF+sCKjlMGjaxiRWqQqQ08wQz1xdtaU0837PJltssoRgIjIr8COb5aZYtInwwUQd92ByUOmlg==
-X-Received: by 2002:a05:6602:1406:b0:837:7f8e:dfe2 with SMTP id ca18e2360f4ac-83e6c09e713mr1462530639f.2.1731963750734;
-        Mon, 18 Nov 2024 13:02:30 -0800 (PST)
-Received: from [192.168.1.128] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4e06d6ea1c1sm2415897173.21.2024.11.18.13.02.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Nov 2024 13:02:30 -0800 (PST)
-Message-ID: <8192e307-b2b9-4c48-87e2-31073c084218@linuxfoundation.org>
-Date: Mon, 18 Nov 2024 14:02:29 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WyICigaq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D989BC4CED6;
+	Mon, 18 Nov 2024 21:23:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731965006;
+	bh=jqiM9xMmvt4BUKSPqx4li3rFh9ip4ahCeoRzbo0AJk4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=WyICigaqzrwm5Fq9Z5CtOV9O5lD2I/7WBbJ4vBnehYLIHF1s2Wb4Q63ZqcHeabkOJ
+	 ffW3DfoYq4bAuT5fc1/fmzSf0Itxgm+tt9N9eo/e57bwDus020r2w52SLLbbYXsFsn
+	 0Uq1jgEF2PzRUuHFTRGmD6J74mOv88mo2Dhk/z9pmbjClyUpYOddvuD+ZSnKhOAUKx
+	 8OrFsZ3neSnVvppzko7GPA7zl8+2rZAfRgnyndTdx4ccxsi9zDHV5Vp2wwZbTCQByF
+	 jond1lueO5eIDhPGK/Rya+oDdmnSJ2mRg8JzLd+NtSJrGoMvip0fdbjWSfbraM5CNr
+	 se88gHghvHAjQ==
+Date: Mon, 18 Nov 2024 13:23:24 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: shuah@kernel.org, Tim.Bird@sony.com, linux-kselftest@vger.kernel.org,
+ workflows@vger.kernel.org
+Subject: Re: [RFC v2] MAINTAINERS: split kselftest entry into 'framework'
+ and 'all'
+Message-ID: <20241118132324.3248c97d@kernel.org>
+In-Reply-To: <8192e307-b2b9-4c48-87e2-31073c084218@linuxfoundation.org>
+References: <20241115200912.1009680-1-kuba@kernel.org>
+	<8192e307-b2b9-4c48-87e2-31073c084218@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v2] MAINTAINERS: split kselftest entry into 'framework' and
- 'all'
-To: Jakub Kicinski <kuba@kernel.org>, shuah@kernel.org
-Cc: Tim.Bird@sony.com, linux-kselftest@vger.kernel.org,
- workflows@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <20241115200912.1009680-1-kuba@kernel.org>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20241115200912.1009680-1-kuba@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 11/15/24 13:09, Jakub Kicinski wrote:
-> The testing effort is increasing throughout the community.
-> The tests are generally merged into the subsystem trees,
-> and are of relatively narrow interest. The patch volume on
-> linux-kselftest@vger.kernel.org makes it hard to follow
-> the changes to the framework, and discuss proposals.
+On Mon, 18 Nov 2024 14:02:29 -0700 Shuah Khan wrote:
+> > Sorry for the delay, the responses to v1 weren't super positive
+> > but I keep thinking this would be very useful :) Or at the very
+> > least I find workflows@ very useful and informative as a maintainer.
+> > 
+> > Posting as an RFC because we need to create the new ML.  
+> I have to repeat the same thing I said when you sent RFC v1
+> It is going to add the confusion - people don't cc the one
+> mailing list we have now.
 > 
-> Create a new ML focused on the framework of kselftests,
-> which will hopefully be similarly low volume to the workflows@
-> mailing list.
-> 
->  From the responses to v1 I gather that the preference is to
-> keep the existing list for all (or create an alias to it);
-> the framework-only section should be the one to have a new
-> list created.
-> 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
-> Sorry for the delay, the responses to v1 weren't super positive
-> but I keep thinking this would be very useful :) Or at the very
-> least I find workflows@ very useful and informative as a maintainer.
-> 
-> Posting as an RFC because we need to create the new ML.
-I have to repeat the same thing I said when you sent RFC v1
-It is going to add the confusion - people don't cc the one mailing list
-we have now.
+> I am going to have to say no. Sorry.
 
-I am going to have to say no. Sorry.
-
-thanks,
--- Shuah
-
+To me the dissonance between your admission that people don't CC the
+current list (IOW status quo isn't great) and the resistance to change
+is fairly apparent. But it is obviously your call.
