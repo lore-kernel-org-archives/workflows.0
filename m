@@ -1,67 +1,170 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617041DED7B
-	for <workflows@vger.kernel.org>; Mon, 18 Nov 2024 22:38:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1561953A2
+	for <workflows@vger.kernel.org>; Mon, 18 Nov 2024 23:49:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731969515; cv=none; b=nnxC0UYwJNvOdoxh54YsRF0Jiphz6fS/y63ATBAeDQavPc4GTMVCJyVBxJ09ffW8VCxr1BvOa/+juGO0/i3161FWaEqO06JYRGR1SSc5fAz7BDX6fQgrxu6mj/2SXPBIyMPyAqDxtRU+QvzMJ30lNRzLowoKfLsQc7friGOHTro=
+	t=1731973790; cv=none; b=CGahOfuiN8Z7KQXs/d/1d01HPQWezQD4JM2MEISCYh/Y6kS8GTCvFchlMtacBgsvaQa9X3uXXkdPEoeD1oVKUKw9ipv98V0vZ/4X1zj4Aa3s8IQXcJZWH6nfbVi9rlvypRd8LyMht6nArKeu/h8NGRPnKNQNo+quWA7oisM96Oo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731969515; c=relaxed/simple;
-	bh=mqk98GP19dZ+Ay7HEP68kLZER2bT/NkIqYTu8jMJ4BE=;
-	h=From:Message-ID:To:Subject:Date:MIME-Version:Content-Type; b=GwiF8oCyB4MAHvm5d0eOyl/Snpdhz/TM1LynjkO0GkjJ8Ze41Tnga+1kF38rJvSL5McES5LPvRkk5xXK6dFYdfU03TIhMZKwKW2hh53M+qRpazi6rCmEJrVwCaqhW8p2flf2pCm/o0rtgFGvifiQg/XHAGPU/Tye+w0vfydUG28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HCtRX3c1; arc=none smtp.client-ip=209.85.128.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1731973790; c=relaxed/simple;
+	bh=5KhDUPPzU93GbFnSsCpuzV6Iz+SPNky6RTbpDz23aII=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=l5mcluqqZqZD9dvU/UF54fh/efeHmqoFDu9rZRJ7ngoWPZt0p2TyDim8EYpF1ZbBLrAJVLv66fHUMbcljpCc8ttk7vIdrg6sw0N3euNmyVVZfOgQp/HAhAiLXLYvpeZOJyc5Mp/47etKr+o4N33zxXbrcXcBIq+wrDfVM5lXvko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NOfPtLdL; arc=none smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HCtRX3c1"
-Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-4315e62afe0so2092865e9.1
-        for <workflows@vger.kernel.org>; Mon, 18 Nov 2024 14:38:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NOfPtLdL"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4635b03a3cdso41141cf.1
+        for <workflows@vger.kernel.org>; Mon, 18 Nov 2024 15:49:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731969512; x=1732574312; darn=vger.kernel.org;
-        h=mime-version:date:subject:to:reply-to:message-id:from:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mqk98GP19dZ+Ay7HEP68kLZER2bT/NkIqYTu8jMJ4BE=;
-        b=HCtRX3c18sI3aPa9XCz5vRxJTdq6Uo9eSakbcAgMUv4nTaDNUIdAUIkAqYGjr0SsCE
-         qmrR5WntmWna2E0U/qXPW0jAfPwCpo9xO+BcpSWh85WazYbqOKtxgVlk7FyyOYMbyoNp
-         uotAKoP4b9zOL1TGhCDDfMv0m93EM9+QLHdYLgxqv5X+yV5KvsBrhy8CoRzHUujncIX/
-         VHyg3mYDl5RHEeLKIFRQqShvOfZT9wGw1Dwbmp+P/EPUCt0rXMinzYuzNFKWD0YIWneJ
-         KG6Ksetsu2+a7MSYdfeFZ5+FCj7zX2R/3OdaULsmFuFI4tpe0GWCriyYXPAfZimNxnu8
-         3A8Q==
+        d=google.com; s=20230601; t=1731973787; x=1732578587; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lK6bzE8aI/V2pC6nlWjgg4fvEcS2VY0hiKfSVmi168k=;
+        b=NOfPtLdL/BaN6W7Z3TmBfuuHoIgeEsK1ByyQWo1odZjjk+vESJarwAWezxkNua8xlZ
+         5YRZyYF7eKGMUCh0/6pAIbpEIIBs4uEgii460SAxYkm7t505SIJN1VXhTydrSBZT2D3i
+         le7O+yV/kF5GPzYgesA8/Jq++nKcZQnkVXlq5UjSTF5rn/m6fWz/IH0hnz+AGcm0yFzO
+         smFSRPhd26MxpE8DVSq8pyqPAgSIG6CpGCFhlzkpLz9QHhv/lo79l0KCydTHm/NRg3F9
+         mtCXTvQmqTqSPAQtIIsMuAvwJQrqLJ9zOkcUQY8xG2BwN0axAp4EGzZxZFCGvAG6oGwA
+         deuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731969512; x=1732574312;
-        h=mime-version:date:subject:to:reply-to:message-id:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mqk98GP19dZ+Ay7HEP68kLZER2bT/NkIqYTu8jMJ4BE=;
-        b=EEa3eMpAljvYV8N3sUSjzjDOR9AYzxavN2UT0mv678j+CzWVKnQZFzPgob4vHbIjov
-         /JwGov6vwbzI/UBWC5jFXmIwRjaDpXqNlZPn8snX+Q7LX/5M+0gS4sDY32WmzPJ2KJ5d
-         S1LY1cjCsL6kg1NYKoiNuYCJ/ePJtDnS/yF1qRU3fHXGqSuKOA+9BnvNYm10eu1QagJE
-         QEFG45/9tHUqNWrpdKzo7lPhlujzEN62vpmCZDNiTVGgCi5RGIYTdjpNTfe1jhQKgsQE
-         G6Hnuc4hdN0b6gJN/b75+hIlFAlZOyayeLIDq9ayoZp3VlK0U0jaxInLbVyrGWTexSZb
-         6uMA==
-X-Gm-Message-State: AOJu0Yzf9Aj1PiVRbYtAM3kUOeYDYNup/TL7fxujMOL2gPR8TSRPTeXp
-	nGUcW5IxhtoY0KRLQXVRIEtPRh6GSDsgirVjZ9mqKSd0nRuysLzdUYsRqJA+
-X-Google-Smtp-Source: AGHT+IGzjj9heN4kpn14cBAy/8nl3HyXQtqtQ5V5LF/VkIf08BjUShwqP2iD34gSUmarT0bocRcxxA==
-X-Received: by 2002:a05:600c:a16:b0:426:5269:1a50 with SMTP id 5b1f17b1804b1-432df728fb6mr117844265e9.11.1731969512328;
-        Mon, 18 Nov 2024 14:38:32 -0800 (PST)
-Received: from [87.120.84.56] ([87.120.84.56])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432dab807d4sm169886065e9.21.2024.11.18.14.38.30
-        for <workflows@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 18 Nov 2024 14:38:31 -0800 (PST)
-From: William Cheung <eshansarma772@gmail.com>
-X-Google-Original-From: William Cheung <info@gmail.com>
-Message-ID: <eb794d26956c1fc6866f99da54ea8f6a23c71cfd4d9b36e824fdd83cd313ed7e@mx.google.com>
-Reply-To: willchg@hotmail.com
-To: workflows@vger.kernel.org
-Subject: A Proposal
-Date: Mon, 18 Nov 2024 14:38:19 -0800
+        d=1e100.net; s=20230601; t=1731973787; x=1732578587;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lK6bzE8aI/V2pC6nlWjgg4fvEcS2VY0hiKfSVmi168k=;
+        b=EJ3gdlfUpYEOgMvr4EQyDnJfMqtKix/7eLYx0Et01JGdDxJu7gC7F+SHmwqbHsECbo
+         +XdHT0l9nc8RwtYZSmRxMj8ZxYZOxHsjQSxC8bLe7w72TWQwVl1djvVcDWkaAmirtL8F
+         hl7pV2e4DlBqyD2sGf5Kawti/s45Nx36tPFzbI3zQvd2GGUVx52kRIiUh5FzUw6QeIOB
+         a3741OxnUJn9l1qSSNWV0P8JlvOhB5ukaYenMxqnPRc2EJDuodLelKyk3+t9ZCVVyfDG
+         BFuEzs2/K7DoL2jG4pdseyeHT2+81/+RXpLXRWEF05XhqZZq5EDnfwV/wq6UiQ05IqJl
+         mefw==
+X-Forwarded-Encrypted: i=1; AJvYcCUXvl+M19y8gw6Peiws2zGSju5RvQFfWTyVYyny8lpTNRFHzXkfF0zYVZF4EdU3wT4MLw6ktDNqh4k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzWsLJY9dg6QTTADwdHQ1C1WO3JCEPRMqvunDOZpO9c0/iSWkF2
+	GVdTrbaSSwTW6EqNVGU5tvsSSCnav/eB2wIPBskbq0suPzVS4XdMqzz6b31VRtlrMWc8J9jkzHL
+	rimSbfbU4Qu9WuMldevwK6P1taZBgy+Zb+Cc9
+X-Gm-Gg: ASbGnct8o+TRH92ZSc6WE8hG/WIdFwnRy4XY9d+G/iLmUijoFQmVf0AgI1vngGgWgwE
+	zGwR6cMwh7l8+ndu2mIH5XzneaMaSA4BwFyRyOkWml449hZX2/eT3w3Hx8pOiWQ==
+X-Google-Smtp-Source: AGHT+IFZwt76OGyj44JQnW6JI/5s2J93C6DIK6J7wzakmW8yqQSea3vMGSHEwAzZUnUOrt5xqan1wN37RWPJqIC6h2Q=
+X-Received: by 2002:ac8:59d0:0:b0:460:463d:78dd with SMTP id
+ d75a77b69052e-463937a8f55mr1170181cf.4.1731973787136; Mon, 18 Nov 2024
+ 15:49:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+References: <20241118222540.27495-1-yabinc@google.com>
+In-Reply-To: <20241118222540.27495-1-yabinc@google.com>
+From: Rong Xu <xur@google.com>
+Date: Mon, 18 Nov 2024 15:49:35 -0800
+Message-ID: <CAF1bQ=SwtGDpOJeQwhbnO6Md=kFbcmkM4iVgXUgjzNXu+d8cEA@mail.gmail.com>
+Subject: Re: [PATCH v2] arm64: Allow CONFIG_AUTOFDO_CLANG to be selected
+To: Yabin Cui <yabinc@google.com>
+Cc: Han Shen <shenhan@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I have a lucratuve proposal for you, reply for more info.
+This patch looks good to me.
+
+I assume the profile format change in the Android doc will be submitted soo=
+n.
+Since "extbinary" is a superset of "binary", using the "extbinary"
+format profile
+in Android shouldn't cause any compatibility issues.
+
+Reviewed-by: Rong Xu <xur.google.com>
+
+-Rong
+
+On Mon, Nov 18, 2024 at 2:25=E2=80=AFPM Yabin Cui <yabinc@google.com> wrote=
+:
+>
+> Select ARCH_SUPPORTS_AUTOFDO_CLANG to allow AUTOFDO_CLANG to be
+> selected.
+>
+> On ARM64, ETM traces can be recorded and converted to AutoFDO profiles.
+> Experiments on Android show 4% improvement in cold app startup time
+> and 13% improvement in binder benchmarks.
+>
+> Signed-off-by: Yabin Cui <yabinc@google.com>
+> ---
+>
+> Change-Logs in V2:
+>
+> 1. Use "For ARM platforms with ETM trace" in autofdo.rst.
+> 2. Create an issue and a change to use extbinary format in instructions:
+>    https://github.com/Linaro/OpenCSD/issues/65
+>    https://android-review.googlesource.com/c/platform/system/extras/+/336=
+2107
+>
+>  Documentation/dev-tools/autofdo.rst | 18 +++++++++++++++++-
+>  arch/arm64/Kconfig                  |  1 +
+>  2 files changed, 18 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/dev-tools/autofdo.rst b/Documentation/dev-tool=
+s/autofdo.rst
+> index 1f0a451e9ccd..a890e84a2fdd 100644
+> --- a/Documentation/dev-tools/autofdo.rst
+> +++ b/Documentation/dev-tools/autofdo.rst
+> @@ -55,7 +55,7 @@ process consists of the following steps:
+>     workload to gather execution frequency data. This data is
+>     collected using hardware sampling, via perf. AutoFDO is most
+>     effective on platforms supporting advanced PMU features like
+> -   LBR on Intel machines.
+> +   LBR on Intel machines, ETM traces on ARM machines.
+>
+>  #. AutoFDO profile generation: Perf output file is converted to
+>     the AutoFDO profile via offline tools.
+> @@ -141,6 +141,22 @@ Here is an example workflow for AutoFDO kernel:
+>
+>        $ perf record --pfm-events RETIRED_TAKEN_BRANCH_INSTRUCTIONS:k -a =
+-N -b -c <count> -o <perf_file> -- <loadtest>
+>
+> +   - For ARM platforms with ETM trace:
+> +
+> +     Follow the instructions in the `Linaro OpenCSD document
+> +     https://github.com/Linaro/OpenCSD/blob/master/decoder/tests/auto-fd=
+o/autofdo.md`_
+> +     to record ETM traces for AutoFDO::
+> +
+> +      $ perf record -e cs_etm/@tmc_etr0/k -a -o <etm_perf_file> -- <load=
+test>
+> +      $ perf inject -i <etm_perf_file> -o <perf_file> --itrace=3Di500009=
+il
+> +
+> +     For ARM platforms running Android, follow the instructions in the
+> +     `Android simpleperf document
+> +     <https://android.googlesource.com/platform/system/extras/+/main/sim=
+pleperf/doc/collect_etm_data_for_autofdo.md>`_
+> +     to record ETM traces for AutoFDO::
+> +
+> +      $ simpleperf record -e cs-etm:k -a -o <perf_file> -- <loadtest>
+> +
+>  4) (Optional) Download the raw perf file to the host machine.
+>
+>  5) To generate an AutoFDO profile, two offline tools are available:
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index fd9df6dcc593..c3814df5e391 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -103,6 +103,7 @@ config ARM64
+>         select ARCH_SUPPORTS_PER_VMA_LOCK
+>         select ARCH_SUPPORTS_HUGE_PFNMAP if TRANSPARENT_HUGEPAGE
+>         select ARCH_SUPPORTS_RT
+> +       select ARCH_SUPPORTS_AUTOFDO_CLANG
+>         select ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH
+>         select ARCH_WANT_COMPAT_IPC_PARSE_VERSION if COMPAT
+>         select ARCH_WANT_DEFAULT_BPF_JIT
+> --
+> 2.47.0.338.g60cca15819-goog
+>
