@@ -1,77 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D7B018AEA;
-	Fri, 22 Nov 2024 17:29:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 512731DE3CF;
+	Fri, 22 Nov 2024 17:45:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732296579; cv=none; b=iAr/RlFhg2TTEYns5vZuZbnUt/7HQM0zjqGbCI8La+eZvCj8+GmC98c24mdYvAYzBLFDpmWiQTeuxNkPmWs3/nWj9lYVuWjMjZtyF+wXfnwuqSTW/WUBcjVQaebANp4i0koMzBc0HmGDXry1ljeIDHfxGJKWtsGs/DfD91QlBaw=
+	t=1732297546; cv=none; b=hJprXxAgL15+90RT5I2NvCeNxGBipy+iiWTGk9wn3HkElhHS+dSMNg02HoP5G7iPIFrBdlwr/9Yxak2TCg62HRfuiGPgr2yA07FFnHO8m02GyA1j6YVseRFQdV5y8Z40gw5VBdcn3wKiQTgBGRRUtmSRYnZkJlir9f/eY724zik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732296579; c=relaxed/simple;
-	bh=KQkPFztCcDV7zdWXKgZKGZBN8iACqDcgshPTqQ6/mtM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bBJMAf2kQWVzIpxMlEoYmKTZg2sVWlYgGWKSV6cuKIKSlmdthu7r6wV3xIVdS8/aO/j+jtTQCCOcQRna5v2WiyeyIZbyHiXMXGe4VtHMPNE/izqDzi7NF3aXKisEA7mvMBsNBIH3UKkW61X1r4rzhWM1P9eAhKqAdtLJiWPXDsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VEV7aYQs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732297546; c=relaxed/simple;
+	bh=vo5DD1G4HjAe0fJgN8P4fzE9QAvxxL7XdNWAXnMCSD0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=o9s/yGKPr3DRgsd8MiQItYLqA7oNEOD8o/VHfAqLybhWGfwUQWw3/WANugsXYWuyTW9v2AJDR9PMO7izxYTuUGmUcrMEgQhm1tc5af+hKJbn+3ebYpwH1AIGFFuo63V4HB0w24a4M6nV/+OcVLcx4NN6KuWX6NC67/UD2fyNI+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=dViaIwAC; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VEV7aYQs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5892C4CECE;
-	Fri, 22 Nov 2024 17:29:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732296578;
-	bh=KQkPFztCcDV7zdWXKgZKGZBN8iACqDcgshPTqQ6/mtM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=VEV7aYQsjkdF7yNiLEGZTq8gM+OuaHI3MaiW3+Uh6B/pxUAbSEPp9PkS4gB7KgXzw
-	 ae80qO17LuJPdMtL9vqGj3pWlH+AYyGpH0qV2p61DPKWlPBtSHKIwRs//8Lrm2Luv6
-	 mcN0GpzhK0SYnHzqtGg8B+lASd19mDUIES2j3IilHHElzL9vEsJoYxGi+HZtBjT87A
-	 kmziBNwfQQmCo341Td6v3Iguy01GA5ASUFq9l4qv9TlurswPLB0EkZEOrz3z+sDysP
-	 utUvrTrBdaVcTYRpgjI+K/CU6GDSQ6hn1A3/H52k2RRY58iGM0d6LCIXeQXBbq8Vlx
-	 H1/5jJydzC8OA==
-Date: Fri, 22 Nov 2024 09:29:37 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Shuah <shuah@kernel.org>
-Cc: Tim.Bird@sony.com, linux-kselftest@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="dViaIwAC"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6D11A403E5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1732297544; bh=WPSuqGBXOdJi9AKpOIzbIVnx/Y85j5L193AofJsBr74=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=dViaIwACZ70Y65Lmsog2t5yeJ0Mq2lNfO3SwoYHD8C27nX8XDrUrsXAdbTK3S2HHS
+	 pmo3KNSDOEgHAkxq1wf0xmpDA01ZZymg4/FS+2fcyrLoKglZNyb+CtrfOxg+EStfYM
+	 ZNEolV/MFyph83DKhyN7upaBlbYM/+kUAwN+HmWcKI3lKfnhI84gdJbesT8LLsHIAt
+	 Lqni9luRvm4hL9ULMtwlci8q4A1LR+Z1ALxzynhZJsR4B35uFFPH14cInmcK8WFnHF
+	 W3tzhWWg/V/glcDS2XdOQzbfTa1IfaUTn0NCSxUllahBq/Gfi9wGG2hWkdfMG8FBUn
+	 /iylAglaH68TA==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 6D11A403E5;
+	Fri, 22 Nov 2024 17:45:44 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, Thomas Gleixner
+ <tglx@linutronix.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Werner Sembach <wse@tuxedocomputers.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-spdx@vger.kernel.org,
  workflows@vger.kernel.org
-Subject: Re: [RFC v2] MAINTAINERS: split kselftest entry into 'framework'
- and 'all'
-Message-ID: <20241122092937.6e63d488@kernel.org>
-In-Reply-To: <cb5d1253-6b52-4c77-9022-7f4e6e50377c@kernel.org>
-References: <20241115200912.1009680-1-kuba@kernel.org>
-	<8192e307-b2b9-4c48-87e2-31073c084218@linuxfoundation.org>
-	<20241118132324.3248c97d@kernel.org>
-	<cb5d1253-6b52-4c77-9022-7f4e6e50377c@kernel.org>
+Subject: Re: [PATCH] docs/licensing: Clarify wording about "GPL" and
+ "Proprietary"
+In-Reply-To: <20241115103842.585207-2-ukleinek@kernel.org>
+References: <20241115103842.585207-2-ukleinek@kernel.org>
+Date: Fri, 22 Nov 2024 10:45:43 -0700
+Message-ID: <87iksf2md4.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 22 Nov 2024 07:56:25 -0700 Shuah wrote:
-> > To me the dissonance between your admission that people don't CC the
-> > current list (IOW status quo isn't great) and the resistance to change
-> > is fairly apparent. But it is obviously your call.  
-> My thinking is that people don't seem to CC the one mailing list
-> we have and adding one more would add to the problem.
-> 
-> Are there other ways to solve the problem by using prefix like
-> we do now for subsystem tests: selftests:framework?
+Uwe Kleine-K=C3=B6nig <ukleinek@kernel.org> writes:
 
-I think the ideal solution would be to let people subscribe to code
-paths rather the deal with mailing lists in the first place :(
-That way we can fix this on the "mailing list backend" rather than
-expecting people who submit code to do the right thing.
+> There are currently some doubts about out-of-tree kernel modules licensed
+> under GPLv3 and if they are supposed to be able to use symbols exported
+> using EXPORT_SYMBOL_GPL.
+>
+> Clarify that "Proprietary" means anything non-GPL2 even though the
+> license might be an open source license. Also disambiguate "GPL
+> compatible" to "GPLv2 compatible".
+>
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <ukleinek@kernel.org>
+> ---
+> Hello,
+>
+> these are the locations that I found by a quick grep. If you spot a
+> document that needs similar updating, please tell.
+>
+> The change in license-rules.rst looks bigger than it actually is due to
+> changing where the line wrappings occur. With `git diff --word-diff` it
+> reduces to:
+>
+>     "Proprietary"                 The module is under a proprietary licen=
+se.
+>                                   {+"Proprietary" is to be understood onl=
+y as+}
+> {+                                "The license is not compatible to GPLv2=
+".+}
+>                                   This string is solely for [-proprietary=
+-]{+non-GPL2 compatible+}
+>                                   third party modules and cannot be used =
+for
+>
+> Best regards
+> Uwe
+>
+>  Documentation/kernel-hacking/hacking.rst |  2 +-
+>  Documentation/process/license-rules.rst  | 18 ++++++++++--------
+>  2 files changed, 11 insertions(+), 9 deletions(-)
 
-Konstantin did some work on auto-CC based on get_maintainer output,
-whether vger would just fill in the missing CCs, but AFAIR he got stuck
-on the need to modify headers which would break DKIM.
+There seem to be no objections, so I've applied this.
 
-I should mention that lore/lei does support filtering / subscribing 
-to paths etc, but from experience bringing folks into upstream
-reviews - running lore/lei doesn't work for everyone. I also don't 
-use it because it doesn't support the mbox format of my MUA :(
+Thanks,
 
-At the current state of affairs, since we can't fix the "receiver" side
-easily, we have to shift the responsibility on the "sender" side.
-Hope people run get_maintainer, and have well defined lists..
+jon
