@@ -1,109 +1,137 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04C1341C94;
-	Thu, 28 Nov 2024 19:08:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593E01C4A09;
+	Thu, 28 Nov 2024 21:27:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732820908; cv=none; b=gOwshKTx3Jh71eagpx34JHgUoNhcvFC0MrjNH7Zj5/w1pZy0SWAKXixJFFhiktxQf+mQwcRWR4wZ04WHltXIfDs13gFHn6F/W+1x1m8vqYG3wBgeF/Kp12fVOVfIMQjv1eDqP00w9QTjh2HjjLGJIGVEx9av+lXFZQyE2fHUtxU=
+	t=1732829246; cv=none; b=NmhNEMpZIR/gs7RhBMkl2WnZWuEVf9kxX2m5Dobk0HD+NtlICbjDQMKz2qv7pDFVLReyaOyptG34qHENsJem2aSzsH28DrXYEuzopZ3iumDoxWkPUl9/A8JGW7sfWpQFCsVzjMwJqd8op8Xz8g0NSEvVg61wLbp3EmsbJwCOlKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732820908; c=relaxed/simple;
-	bh=v43Kz8r13RWCJirCrv+vtT1SrjfkAKhEyLOpYc4BXcg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lFn8Ue6ZN5uugYnKAYFsrLhDfnbIvgeiJ27UFtb94Zzb2/6xCWcu0veOTFeyDcy2udk96r1397YhPdfY+LYi6jbmb37dvienPtHBGD2GHgM70KHJ9v1LWzV2VzJQzp0ZEO5/i4/F49eqOFJR70Gyg+JtoNIaNq1dYwJzFSIzZdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fYYEtnTO; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1732829246; c=relaxed/simple;
+	bh=s+VcTU5fuPZKU8olrgmoGGpranj3388WNP5HiwpP3Hk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=cf7uAZ2W7lWFlVmK4iLx9WTGDpmYDvbkTL9taGikolVSDHBfRMQUkuyC0wSh71QkeaQMabtCh4X+5rV5ZAFuIsIBXtVZq0nmKkkJhgLVzfkWIFqPtTqaCywqMyWP4NzL2dAZWb1rmY96wRJeyxTtG9rNaT2HN+LP16R8KFZFeKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FB7HtqZ2; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fYYEtnTO"
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6CDB2526;
-	Thu, 28 Nov 2024 20:08:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1732820881;
-	bh=v43Kz8r13RWCJirCrv+vtT1SrjfkAKhEyLOpYc4BXcg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fYYEtnTOfC2tpd3x1H6Eek9ICxq+KMsk4O+bBbe+0MkQWMYtvhTki2Ilw4nSfdq3u
-	 Y8yFev68FKeIlZ9khqK2zru9+cs1xAfYGv6N8503QvGZUYleHQdX4XVRbLiM8iFXEK
-	 sN3jAD+n4NNa4groR35EVt31V13cuHGIFGjMqwU0=
-Date: Thu, 28 Nov 2024 21:08:13 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FB7HtqZ2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732829244; x=1764365244;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=s+VcTU5fuPZKU8olrgmoGGpranj3388WNP5HiwpP3Hk=;
+  b=FB7HtqZ2xPRdDFCIXrJnFDzRKoB32m44xSt+dPDlVGKMP1/LYYH3NPGK
+   8psaF/irEVrIf9HhzuG9WwXGWOM1jVykqljIHeF9oTsw8M7mrnVGOhWJP
+   zINse0raVR5UKdafxXoYUH99aRRF3RCcxI/or9a9KZr5QA6YhgBH0b3pu
+   WqfFVN8dB5kMJqSQO5Fhf0j1likfBP7vOTcUh2xE/cPyypxiFL31SIdpl
+   fHzWUjxSOGJ+g5p1TXK2WIBI4mSdhaUILSX0711RDxDRJWjmWrFDlIzqN
+   NIzx15HlSIRAItEiwV1DxR1rYFgN3YytBuHZcUaCm0gdeISmvRju3YVmi
+   w==;
+X-CSE-ConnectionGUID: iGZ4Z6PGTseeQgnxnrFuXQ==
+X-CSE-MsgGUID: 9OYGOmyORGm9p7Vhwg3u/w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="32929821"
+X-IronPort-AV: E=Sophos;i="6.12,193,1728975600"; 
+   d="scan'208";a="32929821"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 13:27:15 -0800
+X-CSE-ConnectionGUID: Ao3IuNX5SI+PJIXiwIkb7A==
+X-CSE-MsgGUID: V1Su/k2tRme7ZsCtGIrBig==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,193,1728975600"; 
+   d="scan'208";a="97424569"
+Received: from mklonows-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.199])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 13:27:08 -0800
+From: Jani Nikula <jani.nikula@intel.com>
 To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Simona Vetter <simona.vetter@ffwll.ch>, linux-media@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, workflows@vger.kernel.org,
-	Hans Verkuil <hverkuil@xs4ll.nl>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org, Jonathan
+ Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, workflows@vger.kernel.org, Hans Verkuil
+ <hverkuil@xs4ll.nl>
 Subject: Re: [PATCH] docs: media: document media multi-committers rules and
  process
-Message-ID: <20241128190813.GB13852@pendragon.ideasonboard.com>
+In-Reply-To: <20241128194758.7d2e7656@foz.lan>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <6a3e19d75e504ebbf9cd9212faad12c005dfdfb8.1732541337.git.mchehab+huawei@kernel.org>
  <20241126151930.GA5493@pendragon.ideasonboard.com>
  <20241127103948.501b5a05@foz.lan>
  <20241127111901.GG31095@pendragon.ideasonboard.com>
  <CAKMK7uFZsc+-Os+Pb9MHHbdt1K5Pj+D069d-+FvsDeeWgeZASw@mail.gmail.com>
- <20241128192842.0ce29c88@foz.lan>
+ <87iks7wqi3.fsf@intel.com> <20241128194758.7d2e7656@foz.lan>
+Date: Thu, 28 Nov 2024 23:27:04 +0200
+Message-ID: <87v7w76od3.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241128192842.0ce29c88@foz.lan>
+Content-Type: text/plain
 
-On Thu, Nov 28, 2024 at 07:28:42PM +0100, Mauro Carvalho Chehab wrote:
-> Em Wed, 27 Nov 2024 15:48:10 +0100 Simona Vetter escreveu:
-> 
-> > Jumping in the middle here with some clarifications.
-> > 
-> > On Wed, 27 Nov 2024 at 12:19, Laurent Pinchart wrote:
-> > > On Wed, Nov 27, 2024 at 10:39:48AM +0100, Mauro Carvalho Chehab wrote:  
-> > > > It is somewhat similar to drm-intel and drm-xe, where reviews are part
-> > > > of the acceptance criteria to become committers.  
-> > >
-> > > Those are corporate trees, so it's easier to set such rules.  
-> > 
-> > Imo it's the other way round, because it's corporate you need stricter
-> > rules and spell them all out clearly - managers just love to apply
-> > pressure on their engineers too much otherwise "because it's our own
-> > tree". Totally forgetting that it's still part of the overall upstream,
-> > and that they don't own upstream.
-> > 
-> > So that's why the corporate trees are stricter than drm-misc, but the
-> > goals are still exactly the same:
-> > 
-> > - peer review is required in a tit-for-tat market, but not more.
-> > 
-> > - committers push their own stuff, that's all. Senior committers often
-> >   also push other people's work, like for smaller work they just reviewed
-> >   or of people they mentor, but it's not required at all.
-> > 
-> > - maintainership duties, like sending around pr, making sure patches dont
-> >   get lost and things like that, is separate from commit rights. In my
-> >   opinion, if you tie commit rights to maintainership you're doing
-> >   something else than drm and I'd more call it a group maintainership
-> >   model, not a commit rights model for landing patches.
-> 
-> Right now, our focus is for driver maintainers to become committers,
-> so they all have maintainership duties as well.
+On Thu, 28 Nov 2024, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> We used to have a low bar for entry on our past multi-committers
+> model (back in 2005-2007). It was a disaster, as one of the
+> committer did very evil things. He was blocked, but that didn't
+> prevent some of us to be threatened with physical violence - and 
+> some people even reported death threats.
 
-Mauro, that may be your focus, but it's not "ours".
+While I understand the hesitation, I don't think it's fair towards
+potential future collaborators to distrust them based on a bad actor
+from nearly 20 years ago.
 
-> The requirement we're adding is to ensure that they're doing a
-> good work as committers/maintainers, reviewing patches from others,
-> as otherwise nobody will do that.
-> 
-> Now, once we start getting drivers with lots of developers working
-> on them without maintainership status, we can start including
-> them, but this is not our reality, as usually, there is usually
-> only one or, at most a couple of developers per driver.
-> 
-> > Anyway just figured I'll clarify what we do over at drm. I haven't looked
-> > at all the details of this proposal here and the already lengthy
-> > discussion, plus it's really not on me to chime in since I'm not involved.
+>> Frankly, I'm not fond of the invite-only model. You need to be careful
+>> to not lose transparency.
+>
+> The intent is to be as transparent as possible without violating regulations
+> like GPDR.
+
+I have no idea how GDPR would be relevant here. We don't collect data,
+other than what's in git.
+
+>> I think it's also important to define merge criteria. A set of rules by
+>> which a committer can commit. And it's not really about technical
+>> checkboxes. For example, in drm it really boils down to two things: at
+>> least two people have been involved, and there are no open issues.
+>
+> That's the same criteria we're aiming for. We'll start without
+> two people reviewing, as there won't be enough committers at the
+
+It's not two reviewers for us either; it's typically author+reviewer and
+either author or reviewer commits. Two sets of eyeballs in total.
+
+> beginning for that, but maintainers may revert/rebase the tree in
+> case they don't agree with changes.
+
+Not sure if you really mean it, but saying it like that doesn't really
+breed trust, IMO. Sure, there have been patches merged to i915 that I
+didn't "agree" with. But bad enough to warrant a revert? Very few and
+far between, and always for clear and concrete reasons rather than
+anything subjective.
+
+Side note, we don't do rebases in the development branches.
+
+> Currently, for most of the drivers, the number of committers per driver
+> is equal to the number of maintainers for the same driver.
+
+FWIW, I think that pretty much matches how it was for most drivers in
+drm before the committer model.
+
+> So, on this stage, we're aiming on get maintainers commit rights,
+> starting with the ones that are long time contributors and regularly
+> participate at the media summits.
+>
+> Once the "slow start" phase finishes, we can review the process and
+> start thinking on getting more developers and committers.
+
+Just saying, it's easier to convince people to become committers with no
+strings attached than (co-)maintainers with a bunch of responsibilities,
+such as review or travel obligations.
+
+
+BR,
+Jani.
 
 -- 
-Regards,
-
-Laurent Pinchart
+Jani Nikula, Intel
