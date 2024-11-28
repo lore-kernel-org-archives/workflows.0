@@ -1,141 +1,187 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D576E823D1;
-	Thu, 28 Nov 2024 18:01:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 990C0219FC;
+	Thu, 28 Nov 2024 18:15:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732816876; cv=none; b=mnjWRvSJfeW1XADVoo2q+hemgu3o8OKiv4Pz6BGUrw0C0tddgtmd7shP5LyoqL24h5bzfd79iGjg8u0htIyYD3n6OJiL147jSUfi0jSrIxd45xK2TbAyxR7C8s7XKZHpu7kT6gICAaMHyWkQTN6oWWeAdYkWYv46VjclUQ0QASA=
+	t=1732817748; cv=none; b=heQbX4YbxItz8YAfA7kAcawCKolgnip3fzSG7IhTTydO1HRMUpFubwVldSpi/+nrOwasFR9/3+EOgs5tRrN7X4Ktz7jV2Yz1pyNs5a9JZwS8dDwW1ZHLtZ+i4MCKp4P74mD1rG/6tMSYNrUVKn1BHIERdb01a6MA2wkhAlB6V0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732816876; c=relaxed/simple;
-	bh=VGzkK9Cx19+Iy7XTjKQudNjexsmrszWcJ1wKOMd4NmI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=MQOAn5yj9CsTfdAsEjWL3V4hZSE2pjdIgzX5ICo7VCxJ/ALoBEEoxFiOc/sa/LfAONxkG5rDTGOvmLsBqzeb/gEzVPdu1USf4A50kZWXoZFY4OIfA4INfxKjSaW8Ka5zMxuaCfJlmZ0n8QqCGP17quBWMb/W/+1Xnn3IHrDrcQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HiC8pk6s; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732817748; c=relaxed/simple;
+	bh=Eu9FwrAWUKsyE6upa7JN4vuD23D3xn+45MhvwxN8S58=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=iodIyO75z0r7/lEjhb62iIh/fa8utb19108T92zz2uDoo2cH8erQP8CjQnWqKVU6zaEBjPHwsDwV+tPHoQSsN36MF4ggqljRDCl+L+vr5lvVQi6sAVUInnn4tUxG0wLzyzkicz5GbercDa1qMCB4yObUHhFQnpydYwmc96cSuGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NuuxC9Bl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HiC8pk6s"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 49D6AC4CECE;
-	Thu, 28 Nov 2024 18:01:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NuuxC9Bl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8693FC4CECE;
+	Thu, 28 Nov 2024 18:15:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732816874;
-	bh=VGzkK9Cx19+Iy7XTjKQudNjexsmrszWcJ1wKOMd4NmI=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=HiC8pk6sSX+uewaE3GlthXb85b3F6f2rAFw+XikhzwLM3KQtrsp+t1bAB2oK4+jd9
-	 CsiUniYmZoYSxcziFvFPTH0gvq1sPMgYDapnfpYCaPmOT7rm7mI6BRCZt8tLrVXjiS
-	 2KQuEUzFrNIORaT+zYsafva+NGndNYe5fze0bTReXmMq/zlG1gDJ+Nb0yfDHf7enuu
-	 9ONRExsuZuxS8vKAVtDeHSXZPSRTuOG9mxCEl3ocarNVoG8ANPs1x2ZhibaDQyEoUm
-	 G6CU49pxMcDO9hl2mKXdHhJojHVVqaSEESXcC9QlEpC/p4NzKM0/3c0nkM/+h0R63+
-	 pi9nZKuS+9R+g==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23848D70DEB;
-	Thu, 28 Nov 2024 18:01:14 +0000 (UTC)
-From: Manas via B4 Relay <devnull+manas18244.iiitd.ac.in@kernel.org>
-Date: Thu, 28 Nov 2024 23:31:01 +0530
-Subject: [PATCH] scripts: checkpatch: add check for simplifying Result<()>
- in Rust
+	s=k20201202; t=1732817748;
+	bh=Eu9FwrAWUKsyE6upa7JN4vuD23D3xn+45MhvwxN8S58=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=NuuxC9Bltht6kUhzKhC3ijBBeXzq66Ovo0eDmoGPz8IOiZ+TtjnkkckVKezh6WcpH
+	 cWgygv9zKYSyaFhk1RMtSTkxqsPHBeVJa0A1HY2kxEV6Z/qypYlGURqzNoWkEekEkF
+	 lewOVTa4+Y/acShBRt9wL0PNhwx3JfYtG2MfyHCpBw9eCrriCC/G5g+7KNy8i0guqT
+	 ePLA13LJWRjcOiBlQqNxn4fkZTSN0o8ZcKyMNMhXLKtfWhwueFPXzRFlO+lMAqUJCh
+	 5/vKjEqOX94UkmFjuY3dMSYdfp3C2YaRWNWQ1NkI4bjwMSgCKVKrkytbGL20i++6Hy
+	 y69oTYue69L9w==
+Date: Thu, 28 Nov 2024 19:15:43 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, Jonathan
+ Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Subject: Re: [PATCH] docs: media: document media multi-committers rules and
+ process
+Message-ID: <20241128191543.289f0d84@foz.lan>
+In-Reply-To: <20241127132515.GH31095@pendragon.ideasonboard.com>
+References: <6a3e19d75e504ebbf9cd9212faad12c005dfdfb8.1732541337.git.mchehab+huawei@kernel.org>
+	<20241126151930.GA5493@pendragon.ideasonboard.com>
+	<e0535e20-6e97-437f-8565-53fd257c7618@xs4all.nl>
+	<20241127132515.GH31095@pendragon.ideasonboard.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241128-add-checkpatch-result-simplify-v1-1-973603191d71@iiitd.ac.in>
-X-B4-Tracking: v=1; b=H4sIANyvSGcC/x3NQQqDMBBA0avIrB0wIZbUqxQXIZk0Q9WGjJaKe
- HeDy7f5/wChwiQwNAcU+rHwd6lQbQM+ueVNyKEadKeNUrpHFwL6RP6T3eoTFpJtWlF4zhPHHW2
- gaIx9dMY+oUZyocj/e/Aaz/MCOd8+qXAAAAA=
-X-Change-ID: 20241125-add-checkpatch-result-simplify-8def44860489
-To: Dwaipayan Ray <dwaipayanray1@gmail.com>, 
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>, 
- Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>, 
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <benno.lossin@proton.me>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Trevor Gross <tmgross@umich.edu>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, 
- Anup Sharma <anupnewsmail@gmail.com>, workflows@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, Manas <manas18244@iiitd.ac.in>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1732816872; l=2172;
- i=manas18244@iiitd.ac.in; s=20240813; h=from:subject:message-id;
- bh=Yhg0Ax2bzUaeocHIPB521o3yw72SKvbWMASGFnH7NM4=;
- b=7pdOmFPyTmRUpXH4SlrO2kU0eAmnIH4h6ivizmdAaUlwcZXhvpaFmQin5AAFXfxiqwxDAcvQK
- U27/BjXyUknCyY2ygzRyg/raLgXHDrGZc+SVGtL6d3jgsK4+cVnoyzR
-X-Developer-Key: i=manas18244@iiitd.ac.in; a=ed25519;
- pk=pXNEDKd3qTkQe9vsJtBGT9hrfOR7Dph1rfX5ig2AAoM=
-X-Endpoint-Received: by B4 Relay for manas18244@iiitd.ac.in/20240813 with
- auth_id=196
-X-Original-From: Manas <manas18244@iiitd.ac.in>
-Reply-To: manas18244@iiitd.ac.in
 
-From: Manas <manas18244@iiitd.ac.in>
+Em Wed, 27 Nov 2024 15:25:15 +0200
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 
-The type Result<()> can be rewritten simply as Result, as default type
-parameters are unit `()` and `Error` types already. Thus keep usage of
-`Result` consistent throughout codebase.
+> > > I think this goes a bit backward, and mixes things up a bit. On the
+> > > mixing side, the expectation of timely reviews comes from maintainer
+> > > status. Having commit rights is orthogonal to that.
+> > > 
+> > > The goal of direct commit access is to speed up maintenance, to get
+> > > patches reviewed and merged quicker. Are we saying here that if someone
+> > > has commit rights they will lose them if they take too long to review
+> > > code ? That would then slow down maintenance even more, which seems
+> > > counterproductive.  
+> > 
+> > Someone with commit rights is also a maintainer, since that's how you
+> > gain the trust to get those rights. If you do a poor job of reviewing
+> > patches relevant for you as maintainer, then you loose that trust.  
+> 
+> This is I think the point where our expectations are the least aligned.
+> I'm considering "committer" based on what is done in drm-misc. A
+> committer is essentially a developer who has demonstrated they can
+> follow a documented process to push their own patches. They are given
+> push access as a shortcut, which frees time for the subsystem
+> maintainers who don't have to pick patches manually from the list (or
+> handle pull requests). That's the official side of it. The barrier to
+> entry is intentionally kept very low to ensure that committers won't
+> decide to use the legacy workflow due to expectations of additional work
+> load. Committers are not required or even asked to take any extra work.
+> It's still a win-win situation: subsystem maintainers have less work,
+> and committers can get their patches upstream more easily.
+> 
+> Then there's the other "secret" goal: through handing out committer
+> rights, the maintainers hoped that a subset of the committers would
+> become more involved, grow more knowledge about the subsystem, pick up
+> third party patches, review or cross-review code, ... And that worked,
+> DRM has grown an active community of developers who go beyond their
+> personal needs and help with maintenance more broadly. Dave and Sima
+> deliberately decided to favour the carrot over the stick, and I think
+> the events that followed proved it was the right decision.
+> 
+> This is what I would like to see replicated in the media subsystem. Even
+> if a committer only handles the single driver they're interested in and
+> push their own patches, it's still a win for everybody involved. By
+> making the barrier to entry low, we will make it possible for people who
+> would have been scared of volunteering to become part of the community,
+> and over time handle more responsibilities. Setting a higher barrier to
+> entry will scare those people away. Even myself, if I'm expected to do
+> more than what I do today to get commit rights, I won't request them.
+> Everybody will lose, I will have to keep sending pull requests, and you
+> will have to keep handling them. Both of us will lose time that we could
+> otherwise use for reviews or other tasks beneficial to the subsystem.
+> 
+> More importantly than the exact wording, it's the core principle of the
+> committers model that we need to agree on. If we don't have the same
+> expectations it will clearly not work.
 
-Suggested-by: Miguel Ojeda <ojeda@kernel.org>
-Link: https://github.com/Rust-for-Linux/linux/issues/1128
-Not-yet-signed-off-by: Manas <manas18244@iiitd.ac.in>
----
-Note: The blockage due to my Signed-off-by tag is being resolved in
-private. For now I am adding Not-yet-signed-off-by tag.
----
- Documentation/dev-tools/checkpatch.rst | 10 ++++++++++
- scripts/checkpatch.pl                  |  9 +++++++++
- 2 files changed, 19 insertions(+)
+The reality on media is *very* different from DRM. With DRM, most
+drivers have multiple developers working on it, and the more important
+drivers typically have dozens of committers. The vast majority of such
+committers aren't listed at MAINTAINERS file for the drm drivers they
+commit patches.
 
-diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index abb3ff6820766ee0c29112b256bcc44ce41fffba..7bf1fc7d4d7b490b32b8863365afe12a6732d6c1 100644
---- a/Documentation/dev-tools/checkpatch.rst
-+++ b/Documentation/dev-tools/checkpatch.rst
-@@ -1018,6 +1018,16 @@ Functions and Variables
- 
-       return bar;
- 
-+  **SIMPLIFIED_RESULT**
-+    simplifies Result<()> in Rust codebase as Result because default type
-+    parameters are unit and Error types::
-+
-+      fn foo(x: Result<()>) -> Result<()> {}
-+
-+    can be rewritten as::
-+
-+      fn foo(x: Result) -> Result {}
-+
- 
- Permissions
- -----------
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 9eed3683ad76caffbbb2418e5dbea7551d374406..ddc943fd4a62d58cee92f8723e7634af4ca69e32 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -3574,6 +3574,15 @@ sub process {
- 			}
- 		}
- 
-+# Check for Result<()> usage in Rust code
-+    if ($realfile =~ /\.rs$/ &&
-+        $sline =~ /^\+.*Result<\(\)>/) {
-+      $check = 1;
-+      if (CHK("SIMPLIFIED_RESULT", "Result<()> can be rewritten simply as Result\n" . $herecurr) && $fix) {
-+        $fixed[$fixlinenr] =~ s/Result<\(\)>/Result/g;
-+      }
-+    }
-+
- # ignore non-hunk lines and lines being removed
- 		next if (!$hunk_line || $line =~ /^-/);
- 
+On media, there's usually just one person that maintains the driver
+who will become a committer if they want.
 
----
-base-commit: 1dc707e647bc919834eff9636c8d00b78c782545
-change-id: 20241125-add-checkpatch-result-simplify-8def44860489
+Right now, my expectation is that *all* committers will also be
+a maintainer, e. g. they'll all be listed at MAINTAINERS file,
+being responsible by one or more driver.
 
-Best regards,
--- 
-Manas <manas18244@iiitd.ac.in>
+Besides that, the multi-committers will replace the current
+sub-maintainers workflow.
 
+We also need to do a slow start to ensure that media-ci, patchwork,
+CI integration with patchwork, etc will work properly.
 
+With that in mind, every committer has duties of reviewing other
+developer's patches submitted for the drivers that they're listed as
+a maintainer at the MAINTAINERS file entries.
+
+> > >> +If you are doing such tasks and have become a valued developer, an
+> > >> +existing committer can nominate you to the media subsystem maintainers.  
+> > > 
+> > > https://drm.pages.freedesktop.org/maintainer-tools/committer/commit-access.html#access-request:
+> > > 
+> > > "Maintainers and committers should encourage contributors to request
+> > > commit rights, especially junior contributors tend to underestimate
+> > > their skills."  
+> > 
+> > In drm is it the contributors that request commit rights? Or is it those
+> > who already have commit rights that invite others? Currently the plan for
+> > the media subsystem is the second method. Although that might change in the
+> > future, of course.  
+> 
+> The process is documented in
+> https://drm.pages.freedesktop.org/maintainer-tools/committer/commit-access.html#access-request.
+> It requires explicit action from the candidate, as they have to create a
+> gitlab.fdo account, and request commit access by fiing an issue in
+> gitlab. You can see the issue template at
+> https://gitlab.freedesktop.org/drm/misc/kernel/-/issues/new?issue[title]=Request%20for%20Commit%20Rights&issuable_template=commit_access,
+> which is roughly speaking the equivalent of the mail template in this
+> document. In practice, as mentioned in the documentation, people often
+> underestimate their skills and lack confidence to ask for committer
+> access. That's why the documentation states that maintainers and
+> committers should encourage contributors to request access.
+> 
+> I like that model because it requires an explicit action from the
+> contributor to show that they have an interest, and it also makes it
+> possible for people to request access without having been nominated. It
+> doesn't mean that access will be automatically granted, there are still
+> acceptance criteria, and it's a maintainer decision at the end of the
+> day.
+> 
+> Stating as done in this patch that an existing committer can nominate
+> someone implies that contributors have to wait until they get notified
+> they can join The Chosen Few. It's not very welcoming, and given how
+> busy everybody is, valuable contributors may need to wait for longer
+> than they should before someone thinks about nominating them.
+> 
+> I wouldn't expect a change of wording to result in any practical change
+> in the process, it is only about being more inclusive and welcoming in
+> the document. If we want to create a vibrant community, people should
+> feel not just welcome, but also desired and valued.
+
+The model we're implementing is that the action of becoming a
+committer will also have a step where the contributor will show
+that they have an interest.
+
+Yet, right now the goal is to implement the model starting with
+active media maintainers.
+
+Once we get there, and after a couple of kernel releases to test
+that everything is working as expected, we may aim to carefully
+expand it.
+
+Thanks,
+Mauro
