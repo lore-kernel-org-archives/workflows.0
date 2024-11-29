@@ -1,52 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA5642AA5;
-	Fri, 29 Nov 2024 02:21:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F4D155753;
+	Fri, 29 Nov 2024 10:29:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732846916; cv=none; b=b2coK/YGIArXjgEfkLa9x/91wwwUc5pEtJEC306MM8olzuDYSdNKPvD1emr48qrLNr3O5djvBKLDVQBPrZpi1KAuZKc6T2orm+mDjL9p7pk7R7oWiJIiF9xeIk1REqLgdbHPjRqFGTevVYgrRtTTpCpGjJhSUwQ2zQ45qcEquug=
+	t=1732876198; cv=none; b=aZvwgGLemEcXXF3iISRHi63gG4W5t8rAce1i7sfI4swkEKS8Ti+BPyfcm41JEaiaRIDCkoFUzMuRMU00CqYjBUI6WO6j3hvHAnJsm934PDlmxhIcAMHMe6YE4rTMF5hGub92RfVBHE6FQichpVwx2OHqPy153JS31n5XQkuGIgo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732846916; c=relaxed/simple;
-	bh=D2eNR7QoPIRfVwbCKv0vY6hJVxA4cBJQNFHhr6OqimA=;
+	s=arc-20240116; t=1732876198; c=relaxed/simple;
+	bh=HV+KcdHMNiDCGNGg2MmmAJ5nak2w5W33ipZ4Sc1GXhw=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Sw7l7F2CxlpSsNXsa3xnnTIFB/oV6h1GV+ggJSarfMmpiUY2KAZUXd+gN7IjtKMtrKL9TuZNGXzRjTd56yx0mvU1etoSvVAcyTQcWSMTtQKaBgMVgvXq/jtTGJGMXsACv3OVr5JEiI1tcJxn2JZkTcU5pJEXq/6ZH1/8VGNH3+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gk7Rj3AO; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=KTvjNdxcMxiWL9asILWMIrEWr6VDFWZ837YShkE7LiRqO33unIK9zo+UE3iLEduiYkL32bf0UYQMIpytX0K3Q0txQyMOi+k95aYyJbo6ce63KC9vZw7G/aTvGicfCiy2gB+oKnoFtR6pwOt9fNLg6PoyRlv1BBeo8+gRPiVbWv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=juN9ka5C; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gk7Rj3AO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66E45C4CECE;
-	Fri, 29 Nov 2024 02:21:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="juN9ka5C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEC5AC4CECF;
+	Fri, 29 Nov 2024 10:29:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732846915;
-	bh=D2eNR7QoPIRfVwbCKv0vY6hJVxA4cBJQNFHhr6OqimA=;
+	s=k20201202; t=1732876196;
+	bh=HV+KcdHMNiDCGNGg2MmmAJ5nak2w5W33ipZ4Sc1GXhw=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=gk7Rj3AO0gPgtfeJWQnKvkIpcF+YaumdwyUH73X+JSf1vNvtIU4l0Ito6n68BhX+r
-	 U8KGEJmCzp6f9t7okZyqgEhgYL9UqJMNCHkQKPQl1sm6XiecniQrCxVU248SD+fRjR
-	 2dskdMCKA81ndm7SwcWodtSbGJreUV/t83TnC5SYLV9ETJUxO60ZHW2px26R2OQBrj
-	 b7wN0ngtTaBas6duCzKD2JwkKJaUStR6Mvutqi5pIu9NazkZ7OChjuJtDSpJ4S61nc
-	 He7wir4Yj8Qo4ux5zm3lbs7AYywGCkPma395VFPE7PS/XRYaB94ioGE2Qnwe3pPkXZ
-	 oMOYG7zz1AIeQ==
-Date: Fri, 29 Nov 2024 03:21:50 +0100
+	b=juN9ka5CxUFx4jWCoyz+a+vgTGVvpJuN0wzxdCjdGfSsVolHoByTNIfj7EcZZ3N1n
+	 6cr3NOBJrhIKR7LhxSBI/V0Odqm690D9Pf6ZGjvTPqKw2ZMBjz4YvUdsVlUIq7EWTr
+	 ASAkYYw9/iunDsp8g3OOocJv6qgClxtQLj377c89+4fW9shwClGYpYhNq1YXy9Koi2
+	 Ll2qQPCyFFsUHMrApjZ7UMRa5j1su5lCoG9a0TxbkRhcoi+1hRpqr5HV4AzP44i/+9
+	 5srfxsk1HLh0tBqn0enJ8ARB6D63Dr+tcph+l8cmQfYdEeg5SG9l+6sh4klw5gfmrt
+	 lz6+DuGLdBz5g==
+Date: Fri, 29 Nov 2024 11:29:52 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@intel.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org, Jonathan
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, Jonathan
  Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, workflows@vger.kernel.org, Hans Verkuil
- <hverkuil@xs4ll.nl>
+ linux-kernel@vger.kernel.org, workflows@vger.kernel.org
 Subject: Re: [PATCH] docs: media: document media multi-committers rules and
  process
-Message-ID: <20241129032150.13f8aa35@foz.lan>
-In-Reply-To: <CAKMK7uEJyTwSULjJ4Qv9vDtm5BkHwiFUSY=iihpHQMvE+a=6og@mail.gmail.com>
+Message-ID: <20241129112952.1f0c9222@foz.lan>
+In-Reply-To: <20241128190707.GA13852@pendragon.ideasonboard.com>
 References: <6a3e19d75e504ebbf9cd9212faad12c005dfdfb8.1732541337.git.mchehab+huawei@kernel.org>
 	<20241126151930.GA5493@pendragon.ideasonboard.com>
-	<20241127103948.501b5a05@foz.lan>
-	<20241127111901.GG31095@pendragon.ideasonboard.com>
-	<CAKMK7uFZsc+-Os+Pb9MHHbdt1K5Pj+D069d-+FvsDeeWgeZASw@mail.gmail.com>
-	<87iks7wqi3.fsf@intel.com>
-	<20241128194758.7d2e7656@foz.lan>
-	<87v7w76od3.fsf@intel.com>
-	<CAKMK7uEJyTwSULjJ4Qv9vDtm5BkHwiFUSY=iihpHQMvE+a=6og@mail.gmail.com>
+	<e0535e20-6e97-437f-8565-53fd257c7618@xs4all.nl>
+	<20241127132515.GH31095@pendragon.ideasonboard.com>
+	<20241128191543.289f0d84@foz.lan>
+	<20241128190707.GA13852@pendragon.ideasonboard.com>
 X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
@@ -57,89 +52,102 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Em Thu, 28 Nov 2024 22:52:38 +0100
-Simona Vetter <simona.vetter@ffwll.ch> escreveu:
+Em Thu, 28 Nov 2024 21:07:07 +0200
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 
-> On Thu, 28 Nov 2024 at 22:27, Jani Nikula <jani.nikula@intel.com> wrote:
-> > On Thu, 28 Nov 2024, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:  
-> > > We used to have a low bar for entry on our past multi-committers
-> > > model (back in 2005-2007). It was a disaster, as one of the
-> > > committer did very evil things. He was blocked, but that didn't
-> > > prevent some of us to be threatened with physical violence - and
-> > > some people even reported death threats.  
-> >
-> > While I understand the hesitation, I don't think it's fair towards
-> > potential future collaborators to distrust them based on a bad actor
-> > from nearly 20 years ago.  
+> > With that in mind, every committer has duties of reviewing other
+> > developer's patches submitted for the drivers that they're listed as
+> > a maintainer at the MAINTAINERS file entries.  
 > 
-> Yeah this sounds a lot more like a CoC issue (which of course could
-> result in a very swift removal of commit rights and suspend from all
-> access to gitlab and mailing lists). Aside from reference the CoC
-> we've left these things out of scope of the commit rights processes
-> and merge criteria.
->
-> My key takeaway over the last decade more of maintainering is that
-> assuming that people want to do the right thing and building a process
-> optimized for that works really well. And then handle the toxic people
-> entirely separately through solid conduct enforcement.
->
-
-Community has evolved and CoC may help, but it is still it is dozen
-times more painful to remove grants than to not add rights for people
-that aren't ready yet to become committers. 
-
-The migration to the new model is already complex enough with experienced
-people having troubles with the new CI engine and new process.
-With just to people testing the new process, basically every time we 
-committed something, we discovered one or more issues with the CI that 
-would end denying merges and cause frustration and more work to
-maintainers.
-
-> > >> I think it's also important to define merge criteria. A set of rules by
-> > >> which a committer can commit. And it's not really about technical
-> > >> checkboxes. For example, in drm it really boils down to two things: at
-> > >> least two people have been involved, and there are no open issues.  
-> > >
-> > > That's the same criteria we're aiming for. We'll start without
-> > > two people reviewing, as there won't be enough committers at the  
-> >
-> > It's not two reviewers for us either; it's typically author+reviewer and
-> > either author or reviewer commits. Two sets of eyeballs in total.
-> >  
-> > > beginning for that, but maintainers may revert/rebase the tree in
-> > > case they don't agree with changes.  
-> >
-> > Not sure if you really mean it, but saying it like that doesn't really
-> > breed trust, IMO. Sure, there have been patches merged to i915 that I
-> > didn't "agree" with. But bad enough to warrant a revert? Very few and
-> > far between, and always for clear and concrete reasons rather than
-> > anything subjective.
-> >
-> > Side note, we don't do rebases in the development branches.  
+> I'm sorry but that's not a multi-committer model, it's a co-maintenance
+> model. If that's what you really want we can reopen the discussion and
+> start anew, but I don't think it's a good idea.
 > 
-> Yeah, if I don't forget anything I remember a grand total of three
-> rebases by maintainers, and this over 8 years or so of doing this:
+> As I said before, if it increases my work load, I don't want commit
+> rights. I'll keep sending pull requests, you'll have to keep processing
+> them, and patches will be merged slower. It will be a lose-lose
+> situation for everybody, you, me, contributors and users.
 > 
-> - Someone pushed their entire development tree by accident. We
-> obviously had to back that out and improved the tooling to catch these
-> better.
-> - Someone who pushed an entire pile of work (I think 30 patches or so)
-> that missed the merge window into -fixes for a late -rc1.
-> - Someone who lost trust with upstream maintainers because they
-> refused to listen for way too long to engineering direction and
-> consensus. The last big push of development work was backed out again.
-> 
-> There might have been some other things, but I think those were more
-> maintainers screwing things up than committers pushing stuff, and on
-> trees that are handled with the more classic group maintainer model.
-> 
-> It's really an extremely rare event that we rebase out patches.
+> Starting with a situation where we are understaffed and trying to solve
+> it by putting more work on the few people who currently keep the
+> subsystem alive doesn't sound like a winning strategy. 
 
-Rebases should be rare, and we do avoid doing that, but it depends
-on what happens and how the merged tree is tested. We hope that
-the workflow we're implementing with CI testing everything will
-prevent them, but we need to run it for a few kernel cycles to
-be sure that what is there is good enough.
+After sleeping over it, I agree that you're partially right on this.
 
-Regards,
+Doing timely reviews is orthogonal of being a committer. What defines
+if you need to do timely reviews is if you're listed or not at the
+MAINTANERS file as "M:" - e.g. if the developer is a maintainer
+(on its broader sense) or not. This applies for both PR and MR workflows.
+
+Still, if one is not fulfilling its duty as maintainer, he may end
+losing maintainership status and the corresponding committer rights.
+
+I wrote a separate patch to make it clear. See below.
+
+Thanks,
 Mauro
+
+---
+
+[PATCH] docs: media: profile: make it clearer about maintainership duties
+
+During the review of the media committes profile, it was noticed
+that the responsibility for timely review patches was not clear:
+such review is expected that all developers listed at MAINTAINERS
+with the "M:" tag (e.g. "maintainers" on its broad sense).
+
+This is orthogonal of being a media committer or not. Such duty
+is implied at:
+
+	Documentation/admin-guide/reporting-issues.rst
+
+and at the MAINTAINERS header, when it says that even when the
+status is "odd fixes", the patches will flow in.
+
+So, let make it explicit at the maintainer-entry-profile that
+maintainers need to do timely reviews.
+
+Also, while right now our focus is on granting committer rights to
+maintainers, the media-committer model may evolve in the future to
+accept other committers that don't have such duties.
+
+So, make it clear at the media-committer.rst that the duties
+related to reviewing patches from others are for the drivers
+they are maintainers as well.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
+index 650803c30c41..6daf71bc72c1 100644
+--- a/Documentation/driver-api/media/maintainer-entry-profile.rst
++++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
+@@ -147,6 +147,11 @@ b. Committers' workflow: patches are handled by media committers::
+ On both workflows, all patches shall be properly reviewed at
+ linux-media@vger.kernel.org before being merged at media-committers.git.
+ 
++Such patches will be timely-reviewed by developers listed as maintainers at
++the MAINTAINERS file. Such maintainers will follow one of the above
++workflows, e. g. they will either send a pull request or merge patches
++directly at the media-committers tree.
++
+ When patches are picked by patchwork and when merged at media-committers,
+ CI bots will check for errors and may provide e-mail feedback about
+ patch problems. When this happens, the patch submitter must fix them
+diff --git a/Documentation/driver-api/media/media-committer.rst b/Documentation/driver-api/media/media-committer.rst
+index 1756a7af6353..a873ef84fbca 100644
+--- a/Documentation/driver-api/media/media-committer.rst
++++ b/Documentation/driver-api/media/media-committer.rst
+@@ -87,9 +87,9 @@ be delegating part of their maintenance tasks.
+ Due to that, to become a committer or a core committer, a consensus between
+ all subsystem maintainers is required, as they all need to trust a developer
+ well enough to be delegated the responsibility to maintain part of the code
+-and to properly review patches from third parties, in a timely manner and
+-keeping the status of the reviewed code at https://patchwork.linuxtv.org
+-updated.
++and to properly review patches from third parties for the drivers they are
++maintainers in a timely manner and keeping the status of the reviewed code
++at https://patchwork.linuxtv.org updated.
+ 
+ .. Note::
+ 
+
