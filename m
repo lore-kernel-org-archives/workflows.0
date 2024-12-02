@@ -1,154 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CC4D205AA7;
-	Mon,  2 Dec 2024 14:45:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58F5E210FB;
+	Mon,  2 Dec 2024 15:00:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733150735; cv=none; b=uLd0O7keXYfhDvnF25rSOJvPdWWk87vi6k5Llz05BCEHJqDqQ74JHuoAibJQ7UkM1WC2UzruXkEREWyDURNRneAxuUVviQOqga6HXhlrOnc+u4Qh7aqMQdTbjeDT0jjKUxXgZAKgEMXC5w7gDs7pDeWLofpMU9TTLxvi4386ArE=
+	t=1733151651; cv=none; b=lcK0CK8zy5/0J8ThmZjKqEEvuHIp79LAnDxhW8Bees3dFddxjuudDEhpWt5xPgEIRBhmVjO+772lXUt+y3g4sONkCPaxm93H7/CJaflrl8J+czmUb/GRfQ5bb0bAQGuE5eM4TZVGdgWzx68RUYdMuzqDH3/lMf9a6C9pscmf0zM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733150735; c=relaxed/simple;
-	bh=e2rrDEvywhWQ4EYBH710HTQ+e9cR3+UR3KpwBFubgGw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aYy1O2b+EXy90Z0cqQHnayK7hEMM+nKV72tohLHdlUoIwCoB0dtEGWIgL3TEl9wWBRLSPOdpD+lSmZDNKRLN+XXrblBElNjH+vrZWINao4YK1fupViatHwOtyHiNKazfIrUHYCf9SUivBpA7SaYBWHgV/agiBmIr2ahLaM1gBEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SMXUSJXN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733151651; c=relaxed/simple;
+	bh=mHVrlQwCK5GGIIPaEC5wD4VmNpf8hz3vNgwxVhbJUE8=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=JnyPfr06ogZyHzOcpFgpRtN7AZYbIvg8av1tOiPEhKBVhQ0KdRex4mMICpimvmhabEC5XZcmNevnhQUFvjWfG4InUQXOJvaKdwL3feFIyY09OLowPibAvdo4J34v8qSHUiTmn6Uhnw8Z/YuPXunEa4aPOOLnhT1tZpgASDNn3Lg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=BdmelBZj; arc=none smtp.client-ip=116.203.91.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SMXUSJXN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C01C2C4CED1;
-	Mon,  2 Dec 2024 14:45:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733150733;
-	bh=e2rrDEvywhWQ4EYBH710HTQ+e9cR3+UR3KpwBFubgGw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=SMXUSJXN1sJprPP/MAKp26mqjC9wMzmY0Uxt2Y2UdAB/VSnFvr54zgl+YPoNxnXgI
-	 m2w8OrW6lrIuDDbzBnCmDWqN0rsAqrfeEXTpb5QvTIUuvb4RAQNYzNaFbDaxZZmOZs
-	 vfyR2I2exHKSi5Ax/QenpaSef4f3XH+7/YoQCoz+jzaUAa3Uxml17IyIzN3vtPXv+b
-	 eIM2DAqEZC0SjQaIRc2w5pEDS9caK69qva2Mv4roOOD3OYm24/Rrle9+Ujch3l7hwp
-	 nzPBboiG00zkUL7EQ+0dJ9fP4Ybmtd59Y+AmDNCDTSFUEuoPyTXO9k/rAng/pcI2tu
-	 7CkZgp/xRSx3A==
-Date: Mon, 2 Dec 2024 15:45:28 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Simona Vetter
- <simona.vetter@ffwll.ch>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v3 DONOTMERGE] docs: clarify rules wrt tagging other
- people
-Message-ID: <20241202154528.7949e7cb@foz.lan>
-In-Reply-To: <d8cae2d3-d855-404b-8991-f81c979486ce@leemhuis.info>
-References: <c29ef5fa12e37c3a289e46d4442b069af94e5b05.1733127212.git.linux@leemhuis.info>
-	<20241202092857.7d197995@foz.lan>
-	<20241202110210.5e56d69e@foz.lan>
-	<d8cae2d3-d855-404b-8991-f81c979486ce@leemhuis.info>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="BdmelBZj"
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+	t=1733151648;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ke9HAWyIyVMoy4+WbUMo76Pv7napvRkCfz+Fo70nZbI=;
+	b=BdmelBZjJaF/FJzybOwiZVaUEMz5LH7q6ikTjzxddzayZYFLlwjdx9RkYSiTS2Cb7imZGr
+	Xhm5jxRZO6wnSuQ01XZUiAddXhCvdcDhqpfEyNZjU8UZ77auSBoMdzELvuaFrziQrf3n1P
+	zbX/rR1wcivLdzgzqkuMzZY1jxReQeE0wtnUDePLtmJI/vIWR1RFy3mgZJzhWSRXoAh3K6
+	LH/aWFf6ghmcWPvCe525daReXlhV80A3zxkgmWGHYCFBVBF+KP5yPrmDyr8CpDZEfx/o+M
+	gAD2NIcNPJ1DqLWSMRWDGp0JJlxCwvKq67jkM/U360O11vdC89MXWsshcH8LAw==
+Date: Mon, 02 Dec 2024 16:00:47 +0100
+From: Dragan Simic <dsimic@manjaro.org>
+To: Dan Williams <dan.j.williams@intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, apw@canonical.com, joe@perches.com,
+ dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, workflows@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, wens@csie.org
+Subject: Re: [PATCH v2 0/3] Make Helped-by tag supported
+In-Reply-To: <28c0a0ecc2e2880e4cb98449767e2842@manjaro.org>
+References: <cover.1730874296.git.dsimic@manjaro.org>
+ <87h68k4esb.fsf@trenco.lwn.net>
+ <cabfa180845df30bfb7a541a701a57e9@manjaro.org>
+ <672e628111eb0_10bc629436@dwillia2-xfh.jf.intel.com.notmuch>
+ <28c0a0ecc2e2880e4cb98449767e2842@manjaro.org>
+Message-ID: <9ae99d14dcd8867333fceacfaaa4430a@manjaro.org>
+X-Sender: dsimic@manjaro.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 
-Em Mon, 2 Dec 2024 14:54:56 +0100
-Thorsten Leemhuis <linux@leemhuis.info> escreveu:
+On 2024-11-09 04:10, Dragan Simic wrote:
+> On 2024-11-08 20:12, Dan Williams wrote:
+>> Dragan Simic wrote:
+>>> I'm fully aware that we may be reluctant to supporting additional 
+>>> tags,
+>>> because we may then end up with a whole bunch of strange tags that 
+>>> might
+>>> be a bit hard to understand and use properly, but I think that adding
+>>> Helped-by to the supported tag list may actually be a good thing to 
+>>> do.
+>>> As described above, Helped-by fits very well between the Suggested-by
+>>> tag and the Co-developed-by + Signed-off-by pair of tags, and I think
+>>> that providing the right level of attribution may be beneficial.
+>> 
+>> Patch attribution is separate from giving thanks. I would much rather
+>> someone take the time to say "Thanks" in the changelog with some
+>> supporting text rather than boil down all the myriad ways to be 
+>> thankful
+>> into a generic tag. "git log --grep=Thanks" often yields valuable
+>> details, beyond just attribution, on how people have helped each other
+>> develop this global project of ours. If the introduction of Helped-by
+>> would replace even one authentic "Thank you" note with a generic tag
+>> then it is a net loss for the community.
+> 
+> I do agree that writing "Thanks John for helping with..." in a patch
+> description would be nice, but unfortunately I've seen multiple times
+> that people don't enjoy writing their patch descriptions at all, and
+> just want to "get them out the door" as quickly as possible.
+> 
+> With that in mind, making Helped-by tags supported would allow such
+> people to at least quickly mention someone they're thankful to, which
+> actually wouldn't prevent anyone from saying the same more verbosely
+> in a patch description.
 
-> On 02.12.24 11:02, Mauro Carvalho Chehab wrote:
-> > Em Mon, 2 Dec 2024 09:28:57 +0100
-> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
-> >  =20
-> >>> +Tagging people requires permission
-> >>> +----------------------------------
-> >>> +
-> >>> +Be careful in the addition of tags to your patches, as all except fo=
-r Cc:,
-> >>> +Reported-by:, and Suggested-by: need explicit permission of the pers=
-on named.
-> >>> +For the three aforementioned ones implicit permission is sufficient =
-if the
-> >>> +person contributed to the Linux kernel using that name and email add=
-ress
-> >>> +according to the lore archives or the commit history -- and in case =
-of
-> >>> +Reported-by: and Suggested-by: did the reporting or suggestion in pu=
-blic.
-> >>> +Note, bugzilla.kernel.org is a public place in this sense, but email=
- addresses
-> >>> +used there are private; so do not expose them in tags, unless the pe=
-rson used
-> >>> +them in earlier contributions. =20
->=20
-> First: thx for your Review-by given earlier!
->=20
-> > Hmm... There is another tag that we use without requiring explicit perm=
-issions:
-> >=20
-> > 	Requested-by:
-> >=20
-> > There are currently 376 occurrences on 6.13-rc1.
-> >=20
-> > This is used when a maintainer or reviewer publicly requests some chang=
-es to
-> > be added on a patch series. =20
->=20
-> Hmmm, that is one of those "grey area" tags[1], as it's not documented
-> yet afaics ('grep -ir Requested-by Documentation/
-> scripts/get_maintainer.pl' gave nothing).=20
-
-> Documenting it would make it
-> official; I'm not sure if that is wanted and say that is something that
-> should be done independently if somebody wants to make it official.
-
-No, my intention is not to make requested-by (or its variant suggested-by)
-official.
-
-The issue is that, when it is said there that
-"all except CC/Reported-by/reviewed-by", plus considering other
-other hunks of this patch like:
-
-	"is one of only three tags you might be able to use without
-	 explicit permission"
-
-You're basically requesting explicit permission for any "non-official"
-tags as well, including reviewed-by. This is not what it is wanted here.
-
-See, if we run:
-
-	$ git log --pretty=3D"%b" 1da177e4c3f4..v6.13-rc1 |grep -Ei "^[a-z\-]+: .*=
-@.*"|cut -d: -f 1|tr A-Z a-z |sort|uniq -c|wc -l
-	764
-
-There are 764 tags (and 764 ones, for the last 2 years) that are e-mails=20
-r e-mail related tags. Among them, there are several ones that comes
-from the message-id (which may disclose the hostname that was used
-during patch development).
-
-The top 20 being:
-
-    185 debugged-by
-    240 co-authored-by
-    367 requested-by			# doesn't need explicit ack
-    563 reviewed-and-tested-by
-   1505 to				# doesn't need explicit ack
-   1757 author				# doesn't need explicit ack
-   2857 closes				# with message IDs?
-   3204 reported-and-tested-by
-   3451 from				# doesn't need explicit ack
-   5106 lkml-reference			# with message IDs?
-   6616 message-id			# message IDs
-   6858 co-developed-by
-  18996 suggested-by			# doesn't need explicit ack
-  64529 reported-by
-  72321 tested-by
- 213673 acked-by
- 310825 link				# with message IDs?
- 367140 reviewed-by
- 739926 cc
-2446984 signed-off-by
-
-=46rom that, besides the 3 you mentioned, at least 5 don't seem to require
-an explicit ack: author, from, to, requested-by, suggested-by.
-
-Thanks,
-Mauro
+Just checking, are there any further thoughts on this patch?
