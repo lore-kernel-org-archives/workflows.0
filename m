@@ -1,165 +1,141 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 163B4F9EC;
-	Mon,  2 Dec 2024 10:24:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DB9AD5E;
+	Mon,  2 Dec 2024 13:55:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733135081; cv=none; b=iAwx3RuFS2TGhbEpesKtK0AEXNW2SlHS6RV6TtideiuwXVHCig86TlkoPKN1wsn2qNJy2RnRHNSACmtpP/5dVNDRnKY0b2hQSG6TShD+YcS+8hmMa8Bt7woAIGO/VjoEuwG9gfCkwRA3azExHcBqbDRyQP2tpgJbxu0xDK7SOR4=
+	t=1733147707; cv=none; b=orkNGl8Wf/XUSy/+Y9BvxKqd5H7VYOtPi8gg/y/mjIeBnOhLZdyxLzfYhgAhHbhhLDh1dRRuOgVKzq2kLm/ywmLX8W9x2KFxPy4R8Qyp4EgqxTBqbxTvRKSnCrcKhoPocbht9uAVORPDKmO8FApvckLJU8GHYXTGAH7YkzI0VF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733135081; c=relaxed/simple;
-	bh=8zDgyIk2rYgZYlwF0QZb1Fo7aWXlagn21y/+c7/vosQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TVZG38Rak/kMn06LAGLv6CFJC82EDRX3k9Jxp6NrNyXjcSASgLOGa0GzzXOVUdOfj/S8aDM7BjAhGeQExntmY0fo/c+l7sSKTdINidcPFOukvCjevtJitxLkZP3fZvCLXFjLEE1V3DIkfO0PerasaO7UZncghvdnhyrOtnvAlzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZZIOM5iC; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1733147707; c=relaxed/simple;
+	bh=izyswtXaUFaJLA1t1f6foRBEGUAFbk8xyAbYnl6xJkg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UsdTrViRcsP9HnJnWIBZjKYpmQYHmK28956rwUMszlzJ9/ieYuwn1ygOynTIGSl6JeMdXv4nAVhrLRmm+j/p/qwlqWUBc2bJmTyMRV5Rx+jxAqG4UYSxkh9YFF+UBbJ/CwpcN4zXbce/EN1WHsU0ct+CYZeVKAOyIf54CN1OBkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=wLbYIF48; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZZIOM5iC"
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8A6014C7;
-	Mon,  2 Dec 2024 11:24:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1733135049;
-	bh=8zDgyIk2rYgZYlwF0QZb1Fo7aWXlagn21y/+c7/vosQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZZIOM5iCcBO4MgdfOcSBsnvPt23JDch/y5CgvAX8NxGNRSedvdLvG9B0wmbpa0l+E
-	 quvK4Fi5P2CzcgcYQkdRqVQjKEDo/0AM4KLCiZeVmw5UvyZq5+lrj7eFwH9yNTE5WN
-	 cRtyLlZuyiNC8B75AcAyUoqCeHqanPZ7YkI5bLno=
-Date: Mon, 2 Dec 2024 12:24:25 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
-Subject: Re: [PATCH] docs: media: document media multi-committers rules and
- process
-Message-ID: <20241202102425.GD16635@pendragon.ideasonboard.com>
-References: <6a3e19d75e504ebbf9cd9212faad12c005dfdfb8.1732541337.git.mchehab+huawei@kernel.org>
- <20241126151930.GA5493@pendragon.ideasonboard.com>
- <e0535e20-6e97-437f-8565-53fd257c7618@xs4all.nl>
- <20241127132515.GH31095@pendragon.ideasonboard.com>
- <20241128191543.289f0d84@foz.lan>
- <20241128190707.GA13852@pendragon.ideasonboard.com>
- <20241129112952.1f0c9222@foz.lan>
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="wLbYIF48"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=xBKXczlMG4zChraxJoDpsaIAIjy2ItwcWwnHqM95oWc=; t=1733147705;
+	x=1733579705; b=wLbYIF48tyCF+oaY8qljD4XIxxJI+1evbUc1IERRYvQz6Tjdf6nU5iw5MBSpe
+	k/ZekFrVTPe0qaiG3JE0WPslNo6pDD11mt85tjCR2i4M5GSd5gRPJez+KSS57n0bkFPHBCkPEA3FV
+	i9BJ/rTOZnZ+W4VbtB3R6f4GRoLZq1kz/UVCkiRFAYTWnkbTTKVciMdSbms+fGxWpPfDGh2N/uwRo
+	wjaYETtla8nVVKh4bocmnFpH1/nKwjZr5+877EIFsMrA+mbzJxCw1d9+BTatV6piyq7eNltCv9a4B
+	7/J6MTuyWTlhpcppfacR/xnQLeh2+WPPH98swOQ8IFLJC3s5gw==;
+Received: from [2a02:8108:8980:2478:87e9:6c79:5f84:367d]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128)
+	id 1tI6t8-002QCY-01;
+	Mon, 02 Dec 2024 14:54:58 +0100
+Message-ID: <d8cae2d3-d855-404b-8991-f81c979486ce@leemhuis.info>
+Date: Mon, 2 Dec 2024 14:54:56 +0100
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241129112952.1f0c9222@foz.lan>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 DONOTMERGE] docs: clarify rules wrt tagging other
+ people
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <c29ef5fa12e37c3a289e46d4442b069af94e5b05.1733127212.git.linux@leemhuis.info>
+ <20241202092857.7d197995@foz.lan> <20241202110210.5e56d69e@foz.lan>
+From: Thorsten Leemhuis <linux@leemhuis.info>
+Content-Language: en-MW
+Autocrypt: addr=linux@leemhuis.info; keydata=
+ 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 n7RI
+In-Reply-To: <20241202110210.5e56d69e@foz.lan>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1733147705;6268fcdf;
+X-HE-SMSGID: 1tI6t8-002QCY-01
 
-Hi Mauro,
+On 02.12.24 11:02, Mauro Carvalho Chehab wrote:
+> Em Mon, 2 Dec 2024 09:28:57 +0100
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+> 
+>>> +Tagging people requires permission
+>>> +----------------------------------
+>>> +
+>>> +Be careful in the addition of tags to your patches, as all except for Cc:,
+>>> +Reported-by:, and Suggested-by: need explicit permission of the person named.
+>>> +For the three aforementioned ones implicit permission is sufficient if the
+>>> +person contributed to the Linux kernel using that name and email address
+>>> +according to the lore archives or the commit history -- and in case of
+>>> +Reported-by: and Suggested-by: did the reporting or suggestion in public.
+>>> +Note, bugzilla.kernel.org is a public place in this sense, but email addresses
+>>> +used there are private; so do not expose them in tags, unless the person used
+>>> +them in earlier contributions.
 
-On Fri, Nov 29, 2024 at 11:29:52AM +0100, Mauro Carvalho Chehab wrote:
-> Em Thu, 28 Nov 2024 21:07:07 +0200 Laurent Pinchart escreveu:
-> 
-> > > With that in mind, every committer has duties of reviewing other
-> > > developer's patches submitted for the drivers that they're listed as
-> > > a maintainer at the MAINTAINERS file entries.  
-> > 
-> > I'm sorry but that's not a multi-committer model, it's a co-maintenance
-> > model. If that's what you really want we can reopen the discussion and
-> > start anew, but I don't think it's a good idea.
-> > 
-> > As I said before, if it increases my work load, I don't want commit
-> > rights. I'll keep sending pull requests, you'll have to keep processing
-> > them, and patches will be merged slower. It will be a lose-lose
-> > situation for everybody, you, me, contributors and users.
-> > 
-> > Starting with a situation where we are understaffed and trying to solve
-> > it by putting more work on the few people who currently keep the
-> > subsystem alive doesn't sound like a winning strategy. 
-> 
-> After sleeping over it, I agree that you're partially right on this.
+First: thx for your Review-by given earlier!
 
-\o/
+> Hmm... There is another tag that we use without requiring explicit permissions:
+> 
+> 	Requested-by:
+> 
+> There are currently 376 occurrences on 6.13-rc1.
+> 
+> This is used when a maintainer or reviewer publicly requests some changes to
+> be added on a patch series.
 
-You should sleep more often :-D
+Hmmm, that is one of those "grey area" tags[1], as it's not documented
+yet afaics ('grep -ir Requested-by Documentation/
+scripts/get_maintainer.pl' gave nothing). Documenting it would make it
+official; I'm not sure if that is wanted and say that is something that
+should be done independently if somebody wants to make it official.
 
-> Doing timely reviews is orthogonal of being a committer. What defines
-> if you need to do timely reviews is if you're listed or not at the
-> MAINTANERS file as "M:" - e.g. if the developer is a maintainer
-> (on its broader sense) or not. This applies for both PR and MR workflows.
-> 
-> Still, if one is not fulfilling its duty as maintainer, he may end
-> losing maintainership status and the corresponding committer rights.
-> 
-> I wrote a separate patch to make it clear. See below.
-> 
-> Thanks,
-> Mauro
-> 
-> ---
-> 
-> [PATCH] docs: media: profile: make it clearer about maintainership duties
-> 
-> During the review of the media committes profile, it was noticed
-> that the responsibility for timely review patches was not clear:
-> such review is expected that all developers listed at MAINTAINERS
-> with the "M:" tag (e.g. "maintainers" on its broad sense).
-> 
-> This is orthogonal of being a media committer or not. Such duty
-> is implied at:
-> 
-> 	Documentation/admin-guide/reporting-issues.rst
-> 
-> and at the MAINTAINERS header, when it says that even when the
-> status is "odd fixes", the patches will flow in.
-> 
-> So, let make it explicit at the maintainer-entry-profile that
-> maintainers need to do timely reviews.
-> 
-> Also, while right now our focus is on granting committer rights to
-> maintainers, the media-committer model may evolve in the future to
-> accept other committers that don't have such duties.
-> 
-> So, make it clear at the media-committer.rst that the duties
-> related to reviewing patches from others are for the drivers
-> they are maintainers as well.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Ciao, Thorsten
 
-I'll comment on this on v3 of the series.
-
-> diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
-> index 650803c30c41..6daf71bc72c1 100644
-> --- a/Documentation/driver-api/media/maintainer-entry-profile.rst
-> +++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
-> @@ -147,6 +147,11 @@ b. Committers' workflow: patches are handled by media committers::
->  On both workflows, all patches shall be properly reviewed at
->  linux-media@vger.kernel.org before being merged at media-committers.git.
->  
-> +Such patches will be timely-reviewed by developers listed as maintainers at
-> +the MAINTAINERS file. Such maintainers will follow one of the above
-> +workflows, e. g. they will either send a pull request or merge patches
-> +directly at the media-committers tree.
-> +
->  When patches are picked by patchwork and when merged at media-committers,
->  CI bots will check for errors and may provide e-mail feedback about
->  patch problems. When this happens, the patch submitter must fix them
-> diff --git a/Documentation/driver-api/media/media-committer.rst b/Documentation/driver-api/media/media-committer.rst
-> index 1756a7af6353..a873ef84fbca 100644
-> --- a/Documentation/driver-api/media/media-committer.rst
-> +++ b/Documentation/driver-api/media/media-committer.rst
-> @@ -87,9 +87,9 @@ be delegating part of their maintenance tasks.
->  Due to that, to become a committer or a core committer, a consensus between
->  all subsystem maintainers is required, as they all need to trust a developer
->  well enough to be delegated the responsibility to maintain part of the code
-> -and to properly review patches from third parties, in a timely manner and
-> -keeping the status of the reviewed code at https://patchwork.linuxtv.org
-> -updated.
-> +and to properly review patches from third parties for the drivers they are
-> +maintainers in a timely manner and keeping the status of the reviewed code
-> +at https://patchwork.linuxtv.org updated.
->  
->  .. Note::
->  
-
--- 
-Regards,
-
-Laurent Pinchart
+[1] like "Reported-and-tested-by", which according to
+Documentation/process/maintainer-tip.rst should not be used.
