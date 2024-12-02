@@ -1,84 +1,87 @@
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F3F200120;
-	Mon,  2 Dec 2024 14:13:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733148830; cv=pass; b=rH+bGFVHiqDnQsraPe5hCbJyYgvqPXzayJCwpp8lvH+aLu4LHaB94+4dVt8eQcDX72m0NY89jV1UvJ6dc2laEZsm8gwFSLht0s0xqHeHTqfpQcIDfx4gUwFI+iJ48F80QBb19SMTMim1MDm/kD+EGOU2q+/3NUyCjdOaJDyOv/o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733148830; c=relaxed/simple;
-	bh=aHaljGztwLvv3GiC1TrqH8Z9Wj3uI9c3mclzu0PV5wE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WOcLUneTmnWxMFkSjNjbACn859WvSp7G7D3pH/ZIDsV/mArmOEtBE7zph5db2F07wW8zSfFfXXuAY71CnCsdbNBVWddZIGOYZ8ALcUPWGdQSV0QDeGQgNIE5vrUqJ71BsVXQy851ICIprOou82iJ6i5I67bOph9331T+T/UDOXA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=dmxBLNG2; arc=pass smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="dmxBLNG2"
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4Y25P25NSBzySM;
-	Mon,  2 Dec 2024 16:13:42 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1733148824;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5AjGOzxtPOyTgpkFbm+AVAUbNuo+PnJ1SZc853VpgAw=;
-	b=dmxBLNG2OXVdmJKW8sg3TodHOZzk49rvV65wCXXNiPw2AwiQePY/t43gDoDOMd3yRB1ulW
-	7WGJy5BZqKnU9VXClh20dUWp52irPvgjYhUEo1Y4KuGAFVLzhCXXVWM0T0I+4HYekAaBbA
-	r9U3ZnO7EvKc1+VINMPKwBoGI5Xuw7I=
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1733148824; a=rsa-sha256; cv=none;
-	b=vGsW/T2ojLUNx/awOHQiG4bsAbROsx4mG3M40pyaRtYFC1RCVhBpF4yC7Yz7hqsL5TTEca
-	j6er09mjACBO3j1NGWy9zUJS2rnlD0Tr/oNsXyELk1COi/4wyKiAOycGteD932us0GUNlu
-	C+3JL6XJQOPlpGDjk73SW2CWpWKd44M=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1733148824;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5AjGOzxtPOyTgpkFbm+AVAUbNuo+PnJ1SZc853VpgAw=;
-	b=X6TjM4GHkLE+Zhpe93uDRjEzNSsM8ifjZd4bcwXBVsWtfHd0ku+EnsZthjI/THOC5LE7hF
-	0GzhHv6Rszq770P1f2DOmKoDK6G9Pd7hWkpC5RTTjBBFJkFVxUNiQhQDtf09al9jfntmAL
-	KU/V75LXJzK2wwUf1ZitRoFkBB7DnFo=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 4A6BD634C93;
-	Mon,  2 Dec 2024 16:13:42 +0200 (EET)
-Date: Mon, 2 Dec 2024 14:13:42 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org, Hans Verkuil <hverkuil@xs4ll.nl>,
-	Ricardo Ribalda <ribalda@chromium.org>
-Subject: Re: [PATCH v3 2/3] docs: media: document media multi-committers
- rules and process
-Message-ID: <Z03Alg5lNTTDiFcF@valkosipuli.retiisi.eu>
-References: <cover.1733131405.git.mchehab+huawei@kernel.org>
- <49cdca2d2b3b5422c34506bfe2c91173e847ea1f.1733131405.git.mchehab+huawei@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C71F203718;
+	Mon,  2 Dec 2024 14:37:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733150225; cv=none; b=D0tzs3y8yHszgLUdiD8v122raqK+DUq4dw4WjVIa3E99acAr/fvbBn+9PD6kINh970gP1Tz4K3gtSyrthCdwGS9IOXp0G1K9YvkRySSMMx8oSAP/i8/sxRmQDTGP3fWGUp+vAK9AJRTbq1Ye7VIb1r0lMYpV28NMo4frvTtNvdE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733150225; c=relaxed/simple;
+	bh=nCovjcUAmhhIWti/fkqH+fv0IoWSq+b8q/24niJLpnw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PWgHCjgkeHvlOkSmhJF0sm6J9Am7edBn91JhaG1CwtsMQNupSqe45HVporQNwxpNNQzQMaxGbXUTI02S8MuRHjfBbOJenYJSgZKBGzRx2VO+V9Uu0bioPWS4J1Ebj9nn5gvdzoU7iuKJ+aGJpcuzxxLkga3burAYXrM4e6k9p2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B75DEC4CED1;
+	Mon,  2 Dec 2024 14:37:02 +0000 (UTC)
+Message-ID: <4295a38c-b2db-48ee-b9ca-d6f792b79fd7@xs4all.nl>
+Date: Mon, 2 Dec 2024 15:37:01 +0100
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/3] docs: media: document media multi-committers rules
+ and process
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ linux-media@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, workflows@vger.kernel.org,
+ Hans Verkuil <hverkuil@xs4ll.nl>, Ricardo Ribalda <ribalda@chromium.org>
+References: <cover.1733131405.git.mchehab+huawei@kernel.org>
+ <49cdca2d2b3b5422c34506bfe2c91173e847ea1f.1733131405.git.mchehab+huawei@kernel.org>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
 In-Reply-To: <49cdca2d2b3b5422c34506bfe2c91173e847ea1f.1733131405.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Mauro,
-
-On Mon, Dec 02, 2024 at 10:26:20AM +0100, Mauro Carvalho Chehab wrote:
+On 02/12/2024 10:26, Mauro Carvalho Chehab wrote:
 > As the media subsystem will experiment with a multi-committers model,
 > update the Maintainer's entry profile to the new rules, and add a file
 > documenting the process to become a committer and to maintain such
@@ -86,6 +89,9 @@ On Mon, Dec 02, 2024 at 10:26:20AM +0100, Mauro Carvalho Chehab wrote:
 > 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > Signed-off-by: Hans Verkuil <hverkuil@xs4ll.nl>
+
+Same typo in my email.
+
 > Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
 >  Documentation/driver-api/media/index.rst      |   1 +
@@ -116,6 +122,9 @@ On Mon, Dec 02, 2024 at 10:26:20AM +0100, Mauro Carvalho Chehab wrote:
 >  conduct.
 >  
 > +More details about media commiters' roles and responsibilities can be
+
+commiters -> committers
+
 > +found here: Documentation/driver-api/media/media-committer.rst.
 > +
 >  Media development tree
@@ -127,7 +136,13 @@ On Mon, Dec 02, 2024 at 10:26:20AM +0100, Mauro Carvalho Chehab wrote:
 >  
 > +With the committers' workflow, this is ensured at the time merge request
 > +rights will be granted to the gitlab instance used by media-committers.git
+
+by -> by the
+
 > +tree, after receiving the e-mail documented at
+
+at -> in
+
 > +:ref:`media-committer-agreement`.
 > +
 >  For more details about PGP sign, please read
@@ -143,17 +158,9 @@ On Mon, Dec 02, 2024 at 10:26:20AM +0100, Mauro Carvalho Chehab wrote:
 > +================
 > +
 > +What is a media committer?
-
-"What" refers to a "thing" but developers generally are humans.
-
 > +--------------------------
 > +
 > +A media committer is a developer who can push patches from other developers
-
-s/can/has been granted commit access to/
-
-?
-
 > +and their own patches to the
 > +`media-committers <https://gitlab.freedesktop.org/linux-media/media-committers>`_
 > +tree.
@@ -165,24 +172,9 @@ s/can/has been granted commit access to/
 > +cycle, and, if accepted, applying them at the media committer's tree.
 > +
 > +These commit rights are granted with some expectation of responsibility:
-
-s/some //
-
 > +committers are people who care about the Linux Kernel as a whole and
 > +about the Linux media subsystem and want to help its development. It
-
-s/help/advance/
-
-?
-
 > +is also based on a trust relationship between the rest of the committers,
-
-s/also//
-s/between the rest of/among/
-
-I wonder if we should add here some expectation on being reachable on
-#linux-media.
-
 > +maintainers and the Linux Media community[1].
 > +
 > +As such, a media committer is not just someone who is capable of creating
@@ -197,15 +189,9 @@ I wonder if we should add here some expectation on being reachable on
 > +      responsibility to correct that as soon as possible. Typically the
 > +      patch is either reverted, or an additional patch is committed that
 > +      fixes the regression;
-
-s/that fixes/to fix/
-
 > +   2. if patches are fixing bugs against already released Kernels, including
 > +      the reverts above mentioned, the media committer shall add the needed
 > +      tags. Please see :ref:`Media development workflow` for more details.
-
-Does this reference work?
-
 > +
 > +[1] The Linux Media community, also called LinuxTV community, has its primary
 > +    site at https://linuxtv.org.
@@ -215,14 +201,15 @@ Does this reference work?
 > +
 > +The most important aspect of volunteering to be a committer is that you have
 > +demonstrated the ability to give good code reviews. So we are looking for
-
-I wonder if we should add some kind of an expectation of demonstrating
-common sense? :-)
-
 > +whether or not we think you will be good at doing that.
 > +
 > +As such, potential committers must earn enough credibility and trust from the
 > +LinuxTV community. To do that, developers shall be familiar with the open
+
+LinuxTV -> Linux Media
+
+Please do a search-and-replace.
+
 > +source model and have been active in the Linux Kernel community for some time,
 > +and, in particular, in the media subsystem.
 > +
@@ -237,15 +224,9 @@ common sense? :-)
 > +
 > +  - the Kernel development process:
 > +    Documentation/process/index.rst
-
-:ref:`the Kernel development process <process_index>`
-
 > +
 > +  - the Media development profile:
 > +    Documentation/driver-api/media/maintainer-entry-profile.rst
-
-Could you add a label to the title and refer to it directly?
-
 > +
 > +- understanding of the projects' code base and coding style;
 > +- ability to provide feedback to the patch authors;
@@ -253,14 +234,8 @@ Could you add a label to the title and refer to it directly?
 > +- ability to write good code (last but certainly not least).
 > +
 > +Developers that intend to become committers are encouraged to participate
-
-s/intend/yearn/
-
 > +at the yearly Linux Media Summit, typically co-located with another Linux
 > +conference.
-
-s/another Linux/a Linux related/
-
 > +
 > +If you are doing such tasks and have become a valued developer, an
 > +existing committer can nominate you to the media subsystem maintainers.
@@ -269,9 +244,6 @@ s/another Linux/a Linux related/
 > +the subsystem's maintainers. The committers must earn a trust relationship
 > +with all subsystem maintainers, as, by granting you commit rights, they will
 > +be delegating part of their maintenance tasks.
-
-s/delegating\K/ a/
-
 > +
 > +Due to that, to become a committer or a core committer, a consensus between
 > +all subsystem maintainers is required, as they all need to trust a developer
@@ -286,6 +258,10 @@ s/delegating\K/ a/
 > +   rights granted, denied or removed as well as the subsystem maintainers who
 > +   have the task to accept or deny commit rights, all communication related to
 > +   nominating a committer, preserving commit rights or leaving such function
+
+I'd simplify this and just say: all communication related to changing commit rights
+should happen in private as much as possible.
+
 > +   should happen in private as much as possible.
 > +
 > +.. _media-committer-agreement:
@@ -330,16 +306,28 @@ s/delegating\K/ a/
 > +
 > +   I am aware that the Kernel development rules change over time.
 > +   By doing a new push to media-commiter tree, I understand that I agree
+
+commiter -> committer (do a search if there are more occurrences of the same typo)
+
 > +   with the rules in effect at the time of the commit.
 > +
 > +Such e-mail shall be signed with a PGP key cross signed by other Kernel and
+
+Such -> That
+
 > +media developers. As described at :ref:`media-developers-gpg`, the PGP
 > +signature, together with the gitlab user security are fundamental components
 > +that ensure the authentity of the merge requests that will happen at the
+
+authentity -> authenticity
+
 > +media-committer.git tree.
 > +
 > +In case the kernel development process changes, by merging new commits
 > +in the
+
+in -> to
+
 > +`media-committer tree <https://gitlab.freedesktop.org/linux-media/media-committers>`_,
 > +the media committer implicitly declares their agreement with the latest
 > +version of the documented process including the contents of this file.
@@ -347,9 +335,6 @@ s/delegating\K/ a/
 > +.. note::
 > +
 > +   1. Changes to the kernel media development process should be announced in
-
-s/should/shall/ ?
-
 > +      the media-committers mailinglist with a reasonable review period. All
 > +      committers are automatically subscribed to that mailinglist;
 > +   2. Due to the distributed nature of the Kernel development, it is
@@ -424,6 +409,11 @@ s/should/shall/ ?
 > +
 > +If a media committer decides to retire, it is the committer's duty to
 > +notify the subsystem maintainers about that decision.
+
+I wonder if this short paragraph doesn't belong to the "Media committer's agreement"
+section above. It's a weird thing to talk about here, you would expect it in
+the section talking about commit rights.
+
 > +
 > +.. Note::
 > +
@@ -448,12 +438,21 @@ s/should/shall/ ?
 > +to become a media committer comes from a consensus between subsystem
 > +maintainers, a single subsystem maintainer not trusting the media committer
 > +anymore is enough to revoke committer's grants.
+
+committer's grants -> the commit rights
+
 > +
 > +If a committer is inactive for more than a couple of Kernel cycles,
 > +maintainers will try to reach you via e-mail. If not possible, they may
 > +revoke your committer grants and update MAINTAINERS file entries
+
+committer grants -> commit rights
+
 > +accordingly. If you wish to resume contributing later on, then contact
 > +the subsystem maintainers to ask if your rights can be restored.
+
+rights -> commit rights
+
 > +
 > +A previous committer that had their commit rights revoked can keep
 > +contributing to the subsystem via the pull request workflow as documented
@@ -482,7 +481,6 @@ s/should/shall/ ?
 >  --------------------------------------------
 >  
 
--- 
-Kind regards,
+Regards,
 
-Sakari Ailus
+	Hans
