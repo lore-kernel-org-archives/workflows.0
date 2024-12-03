@@ -1,47 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3E11DFD9E;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7A81DFDA7;
 	Tue,  3 Dec 2024 09:35:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733218558; cv=none; b=TFNXovEsmZbmDQfwaNjDa+auBCS7R9VE80CaBBZiidiubTukry4R3gRe80lR8aQeOFnSldNUChJqhcGgejrDEI3+VENPcszM3y/XAigzfEHBhoIhVLx8VuLc9JtEsLZ5P7ksXnSQ4lwCMz2kyYR0q4cH02NTprMnfP6bauvSxmc=
+	t=1733218558; cv=none; b=MlPFlKEDpdV2Bj1pGWZ7j2BATmopR1dQYPgyasYdQY8M2locVDxNBpWMsIKWHCiont9UIPugWnmJ/GyRqyPLwQSOQGFQbDt5wI8aVhKeJuXu4A3zojl69UtTZ3XUWSGfWUvBnT2tP2qfcg/n6VNN5pHD/sfvzImtyxTV2izVD4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1733218558; c=relaxed/simple;
-	bh=UlqrgZNX32gBjaTFgYtp4qGVc28pfjxVMRY2vOsdL3k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b+j++AmolsV5D2vz/9Eddn9SgXFP1AQwzDKgcsMWa4qkIS1I087aBA9F5v46gHcHhhqsC9tuxQqwvG0eA/XwkAiDmTOXdPdCdZjwQcZLNJ+zQMOA0nlFOv60Kb8Mb4H3Dh1KS6u6CAJmGdl06gKDqA5b9OYml/xE9q4ReFDDVVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fX4woRI3; arc=none smtp.client-ip=10.30.226.201
+	bh=hGg97z1aGvCJyLpg/DxEFMXyC9lrOMhGN2xRMCry7xc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=lyrh+hQkbpTVXF51e5u6655Eqc8kv3N8mACxbqemr+Mnxr/+T3x9JQAzxOfJTbXlbexcloVE3yiNxQJr61MUSDagdekE7TxBfN9s3hmWP64iIjNbAOr2iHdIb7PN90kn/K/bgmuyTvZ80AZlE9msGMz5XIhGcwViYe2FXjgFK4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZXmMLJQQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fX4woRI3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7BD8C4CECF;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZXmMLJQQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0CE7C4CED9;
 	Tue,  3 Dec 2024 09:35:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733218557;
-	bh=UlqrgZNX32gBjaTFgYtp4qGVc28pfjxVMRY2vOsdL3k=;
-	h=From:To:Cc:Subject:Date:From;
-	b=fX4woRI37SkUiB//HD3HvzxP7c46UEffoVuQW1F3MlOxvi/z2zD64YkuFpmUSV807
-	 eSc3BX+bjMqbaf26bUaY/D43qSOUBzNnLn4ot8qxoIEd8HXnh/Ac1NRXX9l1MLWdIx
-	 DO43gkm9e33B1F4stGu+KyueeweVDs/FUTFcA8Zxlbfdh0UwoEZnqwniBQPUm6XpTs
-	 5rnenbyFMfsNRiV7BqP71URDGzWgK8M7E87KqjNFZe8k5a21vj+CK7jSStO3NiegJv
-	 cHkf6GdVa5VtDvNPCA175yQ+oQKTfigLlSU7xIX1zDLiqvafXyi6O6pANxL5dcZMSq
-	 JAnkuLiahJW5A==
+	s=k20201202; t=1733218558;
+	bh=hGg97z1aGvCJyLpg/DxEFMXyC9lrOMhGN2xRMCry7xc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ZXmMLJQQoQS/rNS8wJYPYrOPBQEPyQZ8wS4l/okhL0L1v3EEf2d/+KJbX8eFP2rgC
+	 jH9h8+tCxoncxhPbAklnu+XVLhk/3XDSRL493IscNPt564R9BdBpilbrEETt9u0Fjc
+	 i96jLMGu/O0KUYUbhMd0AtawIYejRdnCgHAhVAhZrBlXqExZkZFu5ektF9qRI6KWWy
+	 4tFX637IOBBE4pWGPkk33/tc8ubDPO4tG9EAYMzMRE2gw5uSoWkGNh0ilnAltJIQPj
+	 4qGCk1Qw4g6hhEgWJwsll+TIbpXrstjw1m5Kvw6fxhI3JB5ePQiY9Lfe0G0GDFg3Yx
+	 uMx+qoYXrg3DQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1tIPK0-00000002ZIf-0kUw;
+	id 1tIPK0-00000002ZIi-0rjD;
 	Tue, 03 Dec 2024 10:35:56 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: 
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
 	workflows@vger.kernel.org
-Subject: [PATCH v4 0/5]Document the new media-committer's model
-Date: Tue,  3 Dec 2024 10:35:44 +0100
-Message-ID: <cover.1733218348.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v4 1/5] docs: maintainer-pgp-guide.rst: add a reference for kernel.org sign
+Date: Tue,  3 Dec 2024 10:35:45 +0100
+Message-ID: <8f663390c31d6c0c7acec3f39a4a7bf334a01309.1733218348.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.47.1
+In-Reply-To: <cover.1733218348.git.mchehab+huawei@kernel.org>
+References: <cover.1733218348.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -51,68 +52,27 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The media subsystem used to have a multi-commiter's model in the
-past, but things didn't go well on that time, and we had to move to
-a centralized model.
+The media profile documentation will point to kernel.org sign.
+Add a link to it.
 
-As the community has evolved, and as there are now new policies in
-place like CoC, let's experiment with a multi-committers again.
-
-The model we're using was inspired by the DRM multi-committers
-model. Yet, media subsystem is different on several aspects, so the
-model is not exactly the same.
-
-The implementation will be in phases. For this phase, the goal is that 
-all committers will be people listed at MAINTAINERS.
-
-On this series:
-
-patch 1 adds a reference for PGP kernel keychain, in preparation for
-links to it;
-
-patch 2 fix two issues at the media MAINTAINERS file (S: and P:) tags;
-
-patch 3: updates the  media maintainer's entry profile and adds the
-workflow that will be used with the new model;
-
-patch 4: adds a new document focused at the new maintainers
-process. Its target is for developers that will be granted with
-commit rights at the new media-maintainers.git tree. It also
-contains a reference tag addition to kernel.org PGP chain
-at process/maintainer-pgp-guide.rst.
-
-patch 5: make documents cleared about maintainership duties.
-
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
-v4:
-- patches 1 and 2 were split from other patches;
-- minor editorial changes as proposed by Hans, Sakari and Ricardo.
+ Documentation/process/maintainer-pgp-guide.rst | 2 ++
+ 1 file changed, 2 insertions(+)
 
-v3:
-- added patch 3;
-- addressed nits pointed by Ricardo during his review;
-- did minor editorial changes to improve Sphinx html output.
-
-v2: I tried to address most of the suggestions where there was an agreement
-from Laurent's review and further comments. As there were several changes,
-on separate threads, I could have missed something.
-
-Mauro Carvalho Chehab (5):
-  docs: maintainer-pgp-guide.rst: add a reference for kernel.org sign
-  MAINTAINERS: fix a couple issues at media input infrastructure
-  docs: media: update maintainer-entry-profile for multi-committers
-  docs: media: document media multi-committers rules and process
-  docs: media: profile: make it clearer about maintainership duties
-
- Documentation/driver-api/media/index.rst      |   1 +
- .../media/maintainer-entry-profile.rst        | 252 ++++++++++++----
- .../driver-api/media/media-committer.rst      | 280 ++++++++++++++++++
- .../process/maintainer-pgp-guide.rst          |   2 +
- MAINTAINERS                                   |   3 +-
- 5 files changed, 486 insertions(+), 52 deletions(-)
- create mode 100644 Documentation/driver-api/media/media-committer.rst
-
+diff --git a/Documentation/process/maintainer-pgp-guide.rst b/Documentation/process/maintainer-pgp-guide.rst
+index f5277993b195..795ef8d89271 100644
+--- a/Documentation/process/maintainer-pgp-guide.rst
++++ b/Documentation/process/maintainer-pgp-guide.rst
+@@ -903,6 +903,8 @@ the new default in GnuPG v2). To set it, add (or modify) the
+ 
+     trust-model tofu+pgp
+ 
++.. _kernel_org_trust_repository:
++
+ Using the kernel.org web of trust repository
+ --------------------------------------------
+ 
 -- 
 2.47.1
-
 
