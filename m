@@ -1,230 +1,113 @@
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F317813D890;
-	Tue,  3 Dec 2024 10:03:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733220212; cv=pass; b=a3YNnf1B0b7ZaOZNxqn8b0hJZat6UDpnNa0oJoG4uNoHhE267dbdAdvRJjivcxhe3+sdN0n7Q43asL0omF4igzvJ7VfqJ9BUtEkN+T+hi2NUEv4GrKs8IcFjfdmFjG3QGZlYCEC+O/1Iqv/xO+MViAx94796RPTsyXp3ym1UCJI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733220212; c=relaxed/simple;
-	bh=7JpRyPUnNfuTEpfwoJb8MzSzIUfy+wB/PWtcu4sT2Xk=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136B52E3EE;
+	Tue,  3 Dec 2024 11:22:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733224945; cv=none; b=CQD29Gil0uL51EcHMe1oNfD6BmVBQSWmISg1+5cf48OpWP/yUccofU6eR7a2ngSStJP4Dg+Q1AEqoZOgdcoKD933kJzDdOe8yqBRLRFcK4ZcCNFvz1jzf+IKmtg3IYAq/N/AXQXfegrL2pM8gN9fphn6HzGmh+epIVG6chubkOY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733224945; c=relaxed/simple;
+	bh=BBk+zjcEC0uJhKJnCdpNziMigOnPauW1WG4uQsbCtQs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cEiM2xs41l0T0oUTxKgrY3bdRmmqMlewaZcaHXHAc2pCcDVrg6l+jSbrGrKqxcA+YwlJ4dEK1It/ACPbvNrE3+Fgxoe7+TDNxQxrWIAEKNlqdvcMO3nVh8WT9c3ydkTXGRuxQ6ayN7dwZtufoqHbSYFBxH4Ol105x/E9fl9C6A0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=n8ffWfRR; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q/N47Wsh6oMq1ZxneRFYQyfvfjIUGLPxDg1X3o/Mybuiw3jMiAmSXPb3l7RTk1Opfm7oTT2d37+dfn2jvdYlCozKlPcfO31s9KfCwp/bZm1fwCfkOcxPItazdxMXQIRpb8SMZLuPTqJonSiImYW9ufWn1whyQYQkIcim461tf4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=a0YCYzSL; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="n8ffWfRR"
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Y2bnn2bNjz49Q5b;
-	Tue,  3 Dec 2024 12:03:24 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1733220207;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8vDu/zLIwB79Ur5c+5zOhVcRD15ca/NXI1us4RVANQM=;
-	b=n8ffWfRRnA9/XL0KQAesGa+LlZ4dyhd6Y6MasEwNMfnk2vMdDroHhyuBlhh6+W39JwIEKH
-	wxFzJw23EJkr7xRJrr7fPW39YK8ecGM4W1aG8l2uVz+u1mj5HSV7zHFcw3PRHg9XFkkmRA
-	n2nFpdgEigKh1UkdI6AtPv7PbZFqubxS0VFUNpSxNjESZiEhljYHqvi16L1xjnx9e3R0IX
-	WsrUcsGfHHe0pFy/9D3yh9qyO4lILNLnwRt6g4g84mowXVnUn5+nvoN23j/l3U/L2tzJEW
-	epfSwdmSVXe5DJFRcabn2xYSjf47Rdo0e1K/Plr9pFseiaoMZ1rz0bPv+u2W/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1733220207;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8vDu/zLIwB79Ur5c+5zOhVcRD15ca/NXI1us4RVANQM=;
-	b=Ml0gbQunrlhrRZ/BGZDY+QR6PTQHirTqGnHoB+aPneXvg4umBVDoNApPDB9K3HN9pvpsOr
-	FYqV4c/d1adXi/sD1NfF0uUE1mC6qFIU4sceVTCfpYGJY22C6ToTjbCENxL8re3dJTmL7B
-	7s++rtzs6T9GiuiSe9g4KJUxsMQ8SuCqivKE8hi2MiEYZhr9FRk9Jn6k5R7k2ditwBBvb9
-	PX3bVqnvUux1Ogr3ty3/88qyFNkROyobbBYqre4smocqCLXgIVpcy8mg+5SDIHHfNMWqJ+
-	F46dafynqCsFtug2PseGy7/Np+4rlcci1GeIvGr1oDPoSjd8Wr84UO6Qld0aKw==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1733220207; a=rsa-sha256;
-	cv=none;
-	b=qF8+9tm+8eAiLVSVyJ4cLUiDAmsSrX091OcAdhtPvyxMUWJm0bM4DSoGMs5bBNKmo3+A+2
-	dX2VCiYEqvZFtK1Tb+yjXpXoc5AexLnw9X9RkhuLBjql/GXIOHFnOKCylEOyzL+QvSM/1H
-	mxFTT3wVi6LeD6jjGaVewm1BGa5CCE2bFSGk9xNpJXZtG2FJx9OJTEcgDZ6kK+zMVtCMDb
-	MEL4pLPVpF22WF8Z27njn1RjyEE2ulDdvHF/pjHgjSE6g9TJsYy4rQWZ1ODnnkHbfuRijY
-	V73UJ9bCV8fSujXMPVwf4KLQ8jGJeXcoYgVLPIR94/en1YwQUi8a+1PQ7xW1WQ==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 686F7634C94;
-	Tue,  3 Dec 2024 12:03:23 +0200 (EET)
-Date: Tue, 3 Dec 2024 10:03:23 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="a0YCYzSL"
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EECFAB2B;
+	Tue,  3 Dec 2024 12:21:53 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1733224914;
+	bh=BBk+zjcEC0uJhKJnCdpNziMigOnPauW1WG4uQsbCtQs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a0YCYzSL2NbWGkhkPiJJSrDdBozc2h/7EDTYLjklSs7Q/3adJl8YqfBCSnmZX7Ipx
+	 lEa1xTSzVPJQ6ZHc6aVUkID00a56jNwxKc2geWhTMwHDRJnquHVvWohcJNPhvh7gxV
+	 DR71a0qM6yB1V5IkV7IIthtbEkllpzPL5lx1zoqc=
+Date: Tue, 3 Dec 2024 13:22:09 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org, Hans Verkuil <hverkuil@xs4ll.nl>,
-	Ricardo Ribalda <ribalda@chromium.org>
-Subject: Re: [PATCH v3 2/3] docs: media: document media multi-committers
- rules and process
-Message-ID: <Z07Xawtb_JpH_upp@valkosipuli.retiisi.eu>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Subject: Re: [PATCH v3 0/3] Document the new media-committer's model
+Message-ID: <20241203112209.GR10736@pendragon.ideasonboard.com>
 References: <cover.1733131405.git.mchehab+huawei@kernel.org>
- <49cdca2d2b3b5422c34506bfe2c91173e847ea1f.1733131405.git.mchehab+huawei@kernel.org>
- <Z03Alg5lNTTDiFcF@valkosipuli.retiisi.eu>
- <20241203092613.4e7b3a21@foz.lan>
+ <b0843e80-c46c-4344-b9f1-1d3b57dd2bbe@xs4all.nl>
+ <20241203081958.6c186835@foz.lan>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241203092613.4e7b3a21@foz.lan>
+In-Reply-To: <20241203081958.6c186835@foz.lan>
 
-Hi Mauro,
-
-On Tue, Dec 03, 2024 at 09:26:13AM +0100, Mauro Carvalho Chehab wrote:
-> > > +is also based on a trust relationship between the rest of the committers,  
+On Tue, Dec 03, 2024 at 08:19:58AM +0100, Mauro Carvalho Chehab wrote:
+> Em Mon, 2 Dec 2024 16:03:45 +0100 Hans Verkuil escreveu:
+> > On 02/12/2024 10:26, Mauro Carvalho Chehab wrote:
+> > > The media subsystem used to have a multi-commiter's model in the
+> > > past, but things didn't go well on that time, and we had to move to
+> > > a centralized model.
+> > > 
+> > > As the community has evolved, and as there are now new policies in
+> > > place like CoC, let's experiment with a multi-committers again.
+> > > 
+> > > The model we're using was inspired by the DRM multi-committers
+> > > model. Yet, media subsystem is different on several aspects, so the
+> > > model is not exactly the same.
+> > > 
+> > > The implementation will be in phases. For this phase, the goal is that 
+> > > all committers will be people listed at MAINTAINERS.
+> > > 
+> > > On this series,:
+> > > 
+> > > patch 1: updates the  media maintainer's entry profile and adds the
+> > > workflow that will be used with the new model. While here, it also
+> > > adds a missing "P:" tag at the MAINTAINERS file, pointing to it;
+> > > 
+> > > patch 2: adds a new document focused at the new maintainers
+> > > process. Its target is for developers that will be granted with
+> > > commit rights at the new media-maintainers.git tree. It also
+> > > contains a reference tag addition to kernel.org PGP chain
+> > > at process/maintainer-pgp-guide.rst.
+> > > 
+> > > patch 3: make documents cleared about maintainership duties.  
 > > 
-> > s/also//
-> > s/between the rest of/among/
+> > At least from my perspective, v3 is close to being ready and I hope
+> > that v4 will be good enough to be merged.
 > > 
-> > I wonder if we should add here some expectation on being reachable on
-> > #linux-media.
-> 
-> I'll add it at the note about linuxtv.org:
-> 
-> 	These commit rights are granted with expectation of responsibility:
-> 	committers are people who care about the Linux Kernel as a whole and
-> 	about the Linux media subsystem and want to advance its development. It
-> 	is also based on a trust relationship among other committers, maintainers
-> 	and the Linux Media community[1].
-> 
-> 	...
-> 
-> 
-> 	[1] The Linux Media Community, also called LinuxTV Community, has its primary
-> 	    site at https://linuxtv.org.
-> 	
-> 	    Media committers and developers are reachable via the #linux-media
-> 	    IRC channel at OFTC.
-
-Looks good, thanks!
-
-> 
-> > > +maintainers and the Linux Media community[1].
-> > > +
-> > > +As such, a media committer is not just someone who is capable of creating
-> > > +code, but someone who has demonstrated their ability to collaborate
-> > > +with the team, get the most knowledgeable people to review code,
-> > > +contribute high-quality code, and follow through to fix issues (in code
-> > > +or tests).
-> > > +
-> > > +.. Note::
-> > > +
-> > > +   1. If a patch introduces a regression, then it is the media committer's
-> > > +      responsibility to correct that as soon as possible. Typically the
-> > > +      patch is either reverted, or an additional patch is committed that
-> > > +      fixes the regression;  
+> > That said, what is missing in all this is that there is nothing here
+> > that explains why you would want to become a media committer. It is all
+> > very dry stuff, lots of 'shall's, and 'rights' and 'trust' and obligations,
+> > but nothing about the satisfaction you get when you get the responsibility
+> > of a part of the kernel and being able to guide the development of that
+> > area.
 > > 
-> > s/that fixes/to fix/
+> > It's good enough to get the multi-committer process off the ground, but
+> > it definitely needs more work to make it more inviting to become a media
+> > committer. Because right now it is as dry as dust.
 > 
-> Ok.
+> Agreed. We focused on getting a document describing what it is expected
+> by committers, in order to start with the model. My view is that it works
+> fine for such purpose. I also feel that we're close to the final document.
 > 
-> > 
-> > > +   2. if patches are fixing bugs against already released Kernels, including
-> > > +      the reverts above mentioned, the media committer shall add the needed
-> > > +      tags. Please see :ref:`Media development workflow` for more details.  
-> > 
-> > Does this reference work?
+> I'm sending today a v4 addressing the comments since last review.
 > 
-> Yes. Tested on Sphinx 6.2.0.
-> 
-> > > +[1] The Linux Media community, also called LinuxTV community, has its primary
-> > > +    site at https://linuxtv.org.
-> > > +
-> > > +Becoming a media committer
-> > > +--------------------------
-> > > +
-> > > +The most important aspect of volunteering to be a committer is that you have
-> > > +demonstrated the ability to give good code reviews. So we are looking for  
-> > 
-> > I wonder if we should add some kind of an expectation of demonstrating
-> > common sense? :-)
-> 
-> Could you propose some text for that?
+> Once we get people that are already interested and ready to be on board,
+> and we know that the model and infrastructure works properly, we may implement
+> a phase 2 focusing on allowing more committers. For such purpose, we need to 
+> document the benefits/satisfaction of becoming a new committer. Depending how
+> it goes, either on phase 2 or on phase 3, we can change the model from 
+> invitation-only to volunteer-requests.
 
-How about:
-
-The most important aspects of volunteering to be a committer are that you
-have demonstrated the ability to give good code reviews, interacting with
-others in the community as well as common sense. These are what we're
-looking for when we're judging whether you'd be a good Media committer.
-
-> 
-> > > +whether or not we think you will be good at doing that.
-> > > +
-> > > +As such, potential committers must earn enough credibility and trust from the
-> > > +LinuxTV community. To do that, developers shall be familiar with the open
-> > > +source model and have been active in the Linux Kernel community for some time,
-> > > +and, in particular, in the media subsystem.
-> > > +
-> > > +So, in addition to actually making the code changes, you are basically
-> > > +demonstrating your:
-> > > +
-> > > +- commitment to the project;
-> > > +- ability to collaborate with the team and communicate well;
-> > > +- understand of how upstream and the LinuxTV community work
-> > > +  (policies, processes for testing, code review, ...)
-> > > +- reasonable knowledge about:
-> > > +
-> > > +  - the Kernel development process:
-> > > +    Documentation/process/index.rst  
-> > 
-> > :ref:`the Kernel development process <process_index>`
-> 
-> No need. a Sphinx converts all *.rst into references automatically.
-> 
-> Better to use RST files at the text, as makes easier for people
-> reading the text file directly.
-
-Ack.
-
-> 
-> > > +
-> > > +  - the Media development profile:
-> > > +    Documentation/driver-api/media/maintainer-entry-profile.rst  
-> > 
-> > Could you add a label to the title and refer to it directly?
-> 
-> Same as above.
-> 
-> > > +
-> > > +- understanding of the projects' code base and coding style;
-> > > +- ability to provide feedback to the patch authors;
-> > > +- ability to judge when a patch might be ready for review and to submit;
-> > > +- ability to write good code (last but certainly not least).
-> > > +
-> > > +Developers that intend to become committers are encouraged to participate  
-> > 
-> > s/intend/yearn/
-> 
-> Heh, I had to go to the dictionary to seek for "yearn" meaning ;-)
-> 
-> Let's use a simpler language, as most developers are not native-English
-> speakers. I did:
-> 
-> 	s/intend/desire/
-> 
-> which is a synonym.
-
-Works for me.
+What's phase 3 ?
 
 -- 
-Kind regards,
+Regards,
 
-Sakari Ailus
+Laurent Pinchart
