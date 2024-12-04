@@ -1,48 +1,49 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74DB08827;
-	Wed,  4 Dec 2024 13:43:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6583E193404;
+	Wed,  4 Dec 2024 22:17:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733319811; cv=none; b=UQCu0vJrTBXvOr8WwUXLj+BOZAm7Pojsnwpw3ENQL6W8DBkr66lYRylmLd6j1yJL0BhEOHIPGzlL3XTm1NUqeRuoLA3QGXnAsHJtqePETleC1I9GpFI9bpQSdBCh/bcVnA1LJGPN/sZsD1+osCRqdydnol7TLl8/lgKjjOGP9nc=
+	t=1733350655; cv=none; b=rhyXxYBTaFPH0BesLlz8sYiWpuI6/cWgCaTCbgQylYfyzmAj5NSzbpK2F7cXW9NE2vnVS17tUPGOWsLBrUcDiV43g/lyRZ1B5TS/7gGd/zPKFFXnjSfEhD2045m/QQGfNHISSBwLWcWeHyjl9Pun/4AQhGLgI4H7iP46Z6lju6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733319811; c=relaxed/simple;
-	bh=R8NnzOD7JNZldivMHQfAB8tX/PLuUz0jZaal8sPcNtU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nFlOVJid0mVdBpZNSm2IZDQvz5377KlX8A4tI5zApR3PYT8OTbH/suchDD2lZgBv44p9dpNMoV3g0PqoVBxfGBFL41YDpfAz+QOkx3YodjnrM6RTWAw2tyUnMQ7HSnfV69dEdIubT0k4fIbxn2dMurn+cPD52B8XkSOL6mnQ5PU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DWaz5Bkn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733350655; c=relaxed/simple;
+	bh=4YhsW/+XTII94Jgnvz7Bi53+EzmtwOXWe7T1y0CEgCY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uKbVszft01h6z1EZs7MdC9/6ur74d4iUb/QcnBC1sqz3FUOXZ3DGTzGLf1ckbykAt8X0iuZvil0RlvHVmozGe9Csqyr5LTPGEE2eXT2FsOcUBWi+9nMWZkuARP2QpqxDrw1weO5CdQ4E8FLr0Wb8m23D0tpeK2Ee/S8IaDoa96M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=fWSY74hJ; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DWaz5Bkn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4573C4CED1;
-	Wed,  4 Dec 2024 13:43:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733319810;
-	bh=R8NnzOD7JNZldivMHQfAB8tX/PLuUz0jZaal8sPcNtU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DWaz5BknugmXJa1L9oLaDxnb2e5o2Z7cGn3bwnI1aZNEg9OATozXbe3OARvF9CXO+
-	 ZmsImDChURizGvV1SwgHqTDiYxA4YBH6U52kmgslhGIolm9Y+wgiW3dQyoD3VyLb7l
-	 x40c07+9U5NeodxZfVot30r38bw7WWGnygYcozwEBLhxsdORWYMmauGAte2/7c3Cli
-	 C87F1kXGYSf6yHGpbeAaIci/DQf+0zfoTKhjA+TN8F0a3n5h5Xy5sEdF+XanjfKcY4
-	 AaMeG6nf2+SkkVVvcedVzuVcOMFsMGfPIMaSbqh5nI1L89E6AkIykEdRvt7JkFnRvM
-	 jqMCMlhPIcuGQ==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1tIpf6-00000004ebt-3HxX;
-	Wed, 04 Dec 2024 14:43:28 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: linux-media@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="fWSY74hJ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=u8qbnsGP9NFtkMH+s5X60nr73aUy5sVw5uUZ2Liwlgg=; b=fWSY74hJyxX7HFxQzaWiyMTukm
+	nq4RkrIAg50eh3k4Ei3S5EmnI6md+ZIzA/qTW1eAwAdjBUyRSD0nY/895j4nv0ufQJBnHnG6A6iCg
+	egoS5tTmp5bn3dPaHecC5FVIwetCEleXTskc5Lc8Y6+2MAe/Mo+VlWdJ2Grx2/LP6eyILGxBTjhcD
+	hhSOpX601BYly8HjAYJzW4iUPp1ezLtIogubGWvgbv7nn6XXWNm8XNuAI9MH7iD00gBQn8P9nBZpg
+	us8Mvw0Vg8W0brrkgfQP7ivlWvrW+0mhEg4zz1hY6VmiFqu8xxQl2kU3mgIbgiEj99ePAmqqb98TT
+	A67Xpl2Q==;
+Received: from [50.53.2.24] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tIxgX-0000000E0LX-2tF2;
+	Wed, 04 Dec 2024 22:17:29 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-doc@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org
-Subject: [PATCH v4 1/5] docs: maintainer-pgp-guide.rst: add a reference for kernel.org sign
-Date: Wed,  4 Dec 2024 14:43:02 +0100
-Message-ID: <8f663390c31d6c0c7acec3f39a4a7bf334a01309.1733319659.git.mchehab+huawei@kernel.org>
+	workflows@vger.kernel.org,
+	Jason Wessel <jason.wessel@windriver.com>,
+	Daniel Thompson <danielt@kernel.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	linux-debuggers@vger.kernel.org,
+	kgdb-bugreport@lists.sourceforge.net
+Subject: [PATCH] Documentation: move dev-tools debugging files to process/debugging/
+Date: Wed,  4 Dec 2024 14:17:20 -0800
+Message-ID: <20241204221720.66146-1-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.47.1
-In-Reply-To: <cover.1733218348.git.mchehab+huawei@kernel.org>
-References: <cover.1733218348.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -50,33 +51,73 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The media profile documentation will point to kernel.org sign.
-Add a link to it.
+Move gdb and kgdb debugging documentation to the dedicated
+debugging directory (Documentation/process/debugging/).
+Adjust the index.rst files to follow the file movement.
+Update location of kgdb.rst in MAINTAINERS file.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Sebastian Fricke <sebastian.fricke@collabora.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org
+Cc: Jason Wessel <jason.wessel@windriver.com>
+Cc: Daniel Thompson <danielt@kernel.org>
+Cc: Douglas Anderson <dianders@chromium.org>
+Cc: linux-debuggers@vger.kernel.org
+Cc: kgdb-bugreport@lists.sourceforge.net
 ---
+ Documentation/dev-tools/index.rst                                       | 2 --
+ Documentation/{dev-tools => process/debugging}/gdb-kernel-debugging.rst | 0
+ Documentation/process/debugging/index.rst                               | 2 ++
+ Documentation/{dev-tools => process/debugging}/kgdb.rst                 | 0
+ MAINTAINERS                                                             | 2 +-
+ 5 files changed, 3 insertions(+), 3 deletions(-)
 
-Patch resent, as linux-media was not on its Cc list.
-
-
- Documentation/process/maintainer-pgp-guide.rst | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/Documentation/process/maintainer-pgp-guide.rst b/Documentation/process/maintainer-pgp-guide.rst
-index f5277993b195..795ef8d89271 100644
---- a/Documentation/process/maintainer-pgp-guide.rst
-+++ b/Documentation/process/maintainer-pgp-guide.rst
-@@ -903,6 +903,8 @@ the new default in GnuPG v2). To set it, add (or modify) the
+diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
+index 3c0ac08b2709..c1e73e75f551 100644
+--- a/Documentation/dev-tools/index.rst
++++ b/Documentation/dev-tools/index.rst
+@@ -27,8 +27,6 @@ Documentation/dev-tools/testing-overview.rst
+    kmemleak
+    kcsan
+    kfence
+-   gdb-kernel-debugging
+-   kgdb
+    kselftest
+    kunit/index
+    ktap
+diff --git a/Documentation/dev-tools/gdb-kernel-debugging.rst b/Documentation/process/debugging/gdb-kernel-debugging.rst
+similarity index 100%
+rename from Documentation/dev-tools/gdb-kernel-debugging.rst
+rename to Documentation/process/debugging/gdb-kernel-debugging.rst
+diff --git a/Documentation/process/debugging/index.rst b/Documentation/process/debugging/index.rst
+index f6e4a00dfee3..bc4a816e3d32 100644
+--- a/Documentation/process/debugging/index.rst
++++ b/Documentation/process/debugging/index.rst
+@@ -12,6 +12,8 @@ general guides
  
-     trust-model tofu+pgp
+    driver_development_debugging_guide
+    userspace_debugging_guide
++   gdb-kernel-debugging
++   kgdb
  
-+.. _kernel_org_trust_repository:
-+
- Using the kernel.org web of trust repository
- --------------------------------------------
+ .. only::  subproject and html
  
--- 
-2.47.1
-
+diff --git a/Documentation/dev-tools/kgdb.rst b/Documentation/process/debugging/kgdb.rst
+similarity index 100%
+rename from Documentation/dev-tools/kgdb.rst
+rename to Documentation/process/debugging/kgdb.rst
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 1e930c7a58b1..1753fe792d04 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12809,7 +12809,7 @@ L:	kgdb-bugreport@lists.sourceforge.net
+ S:	Maintained
+ W:	http://kgdb.wiki.kernel.org/
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/jwessel/kgdb.git
+-F:	Documentation/dev-tools/kgdb.rst
++F:	Documentation/process/debugging/kgdb.rst
+ F:	drivers/misc/kgdbts.c
+ F:	drivers/tty/serial/kgdboc.c
+ F:	include/linux/kdb.h
