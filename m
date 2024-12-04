@@ -1,102 +1,82 @@
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A53E746E
-	for <workflows@vger.kernel.org>; Wed,  4 Dec 2024 01:06:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74DB08827;
+	Wed,  4 Dec 2024 13:43:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733274420; cv=none; b=YzRP765KRwDVXUPJ/BqgMqOE+4mjCLcfj/4vaDEoI9DviX71rUpv5k6D/5iNFO6AdL5VF+au1Y4o/feBJOIJkr6eKLW287CncwcEqLmk6lO5Ez6Xt8l/u4Z4Cs2FnX+m/JfzKRlzvExjQ/RxIICrBBeYfOzlm4U6KuRLNNci5cc=
+	t=1733319811; cv=none; b=UQCu0vJrTBXvOr8WwUXLj+BOZAm7Pojsnwpw3ENQL6W8DBkr66lYRylmLd6j1yJL0BhEOHIPGzlL3XTm1NUqeRuoLA3QGXnAsHJtqePETleC1I9GpFI9bpQSdBCh/bcVnA1LJGPN/sZsD1+osCRqdydnol7TLl8/lgKjjOGP9nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733274420; c=relaxed/simple;
-	bh=MC7AljCRogbPP7nv98cOsHc26oZBN/K1ecZLTmoeVsw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dODCCeOej9WFV03yPyEd+A5XsiQcRUN0rGrPEWv562QlITGjOiYYnTHh90ks9WEbsH75cc603B3I+JY4YBuiEYuGoggrwaCgj9KhvUWlAWp+jW2uSlJyc070Wj2aICxKx7vda69Kmm6/AAhnPzPhf2tgZ13KGQWRDfqygjCPVFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=B05DU6Hq; arc=none smtp.client-ip=209.85.166.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1733319811; c=relaxed/simple;
+	bh=R8NnzOD7JNZldivMHQfAB8tX/PLuUz0jZaal8sPcNtU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=nFlOVJid0mVdBpZNSm2IZDQvz5377KlX8A4tI5zApR3PYT8OTbH/suchDD2lZgBv44p9dpNMoV3g0PqoVBxfGBFL41YDpfAz+QOkx3YodjnrM6RTWAw2tyUnMQ7HSnfV69dEdIubT0k4fIbxn2dMurn+cPD52B8XkSOL6mnQ5PU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DWaz5Bkn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="B05DU6Hq"
-Received: by mail-il1-f177.google.com with SMTP id e9e14a558f8ab-3a777c67c45so1413285ab.1
-        for <workflows@vger.kernel.org>; Tue, 03 Dec 2024 17:06:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1733274418; x=1733879218; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=B+Jz/Q6nlrwZViX03mS36dj9lZ7L1D6LvW4jUlY+Okc=;
-        b=B05DU6HqnqBBJLf6glsXGpUEC92uhrH7rTNlFwJfRapv3NrWeod43g/BUjrNg84P8a
-         UwKM2humEP6TCRRRxAvyhDzeVMAApYgs4PWYps3vEjcATqARIqJEZgKYMw40wMz9IRqC
-         0NX4n20/MnnErBNMyKCu01gLZag2vVDpdF/xA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733274418; x=1733879218;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=B+Jz/Q6nlrwZViX03mS36dj9lZ7L1D6LvW4jUlY+Okc=;
-        b=HJfwg0MQKETTICJrh9fqlJS/2WGscwLmXz49VMpmJ+nk8MMxHUfYma2r7GXWgZDD7t
-         +cyEnNRS6JBAhUFW/YkzNd2yaIJkJJVkYcWyDm51BL5+lc4D6GxXE/HVyJN98e6GNaB/
-         eygxAj07x/u8zcjfY46UspdglUx1fWJkbMmYHFAPiIMsCsT1DviZiiCA5elDZ7ulyAPG
-         hlKwm8FnCOwB2x78HU3/loouDaqSQoqECeJWF7I1j39Hj1P8LtuVBcfvoCpI/GkgVEJU
-         U5vFk0om0WJe0F1XbHmFauFtmCd24NCfzB37FlI0i9fULPISYD8OJ5OpKZvetXN+MmvT
-         eSKQ==
-X-Gm-Message-State: AOJu0YwSKYDGYhTrNoqaKuvBYB0cse1phLuC/MiuA0rqA3cRMkssdWsy
-	7URS73fv3eibv2gudGq7mgvBjvTw3ZhlXKqjucfl3R/3x7l8vSZzetrJ0o2oMik=
-X-Gm-Gg: ASbGncueC/+XbeqhbwUL2d+/7IpbmuehszaXqh3DtMhJ+KZjPzl59uC7AixRyZ0N4eF
-	4q/BilMcsxNNRtz10YGRq06ND3jGvY/h74faSFbjgK8Lzbb2K8IwNBAsS3xG3R5HKbF82FSr/Lr
-	3Yvn8wKwISiK5BnOVAfzZUvELAObkdSax0mGRcG5+M6HW26gp7UsN+OqITNfa9PtqzPq7o0AXEf
-	z/4yqOPhoe9X/APyjObrC+z1C2CoppmHIeabY5HEL5TiGiPw8PF7LYPcjmUMA==
-X-Google-Smtp-Source: AGHT+IFF+W8l62dy02x+rstW26StonwY7Oe2+iYejLd+cAhPUZAboveR614K5+yughF75bXFV6i5tQ==
-X-Received: by 2002:a05:6e02:1c2a:b0:3a7:ea2e:3992 with SMTP id e9e14a558f8ab-3a7ea2e3b09mr117670445ab.3.1733274417755;
-        Tue, 03 Dec 2024 17:06:57 -0800 (PST)
-Received: from [192.168.1.128] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4e230da8ea7sm2809030173.32.2024.12.03.17.06.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Dec 2024 17:06:56 -0800 (PST)
-Message-ID: <e6b160f0-88f8-415a-9734-2ba659619688@linuxfoundation.org>
-Date: Tue, 3 Dec 2024 18:06:55 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DWaz5Bkn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4573C4CED1;
+	Wed,  4 Dec 2024 13:43:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733319810;
+	bh=R8NnzOD7JNZldivMHQfAB8tX/PLuUz0jZaal8sPcNtU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=DWaz5BknugmXJa1L9oLaDxnb2e5o2Z7cGn3bwnI1aZNEg9OATozXbe3OARvF9CXO+
+	 ZmsImDChURizGvV1SwgHqTDiYxA4YBH6U52kmgslhGIolm9Y+wgiW3dQyoD3VyLb7l
+	 x40c07+9U5NeodxZfVot30r38bw7WWGnygYcozwEBLhxsdORWYMmauGAte2/7c3Cli
+	 C87F1kXGYSf6yHGpbeAaIci/DQf+0zfoTKhjA+TN8F0a3n5h5Xy5sEdF+XanjfKcY4
+	 AaMeG6nf2+SkkVVvcedVzuVcOMFsMGfPIMaSbqh5nI1L89E6AkIykEdRvt7JkFnRvM
+	 jqMCMlhPIcuGQ==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1tIpf6-00000004ebt-3HxX;
+	Wed, 04 Dec 2024 14:43:28 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: linux-media@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org
+Subject: [PATCH v4 1/5] docs: maintainer-pgp-guide.rst: add a reference for kernel.org sign
+Date: Wed,  4 Dec 2024 14:43:02 +0100
+Message-ID: <8f663390c31d6c0c7acec3f39a4a7bf334a01309.1733319659.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <cover.1733218348.git.mchehab+huawei@kernel.org>
+References: <cover.1733218348.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 DONOTMERGE] docs: clarify rules wrt tagging other
- people
-To: Thorsten Leemhuis <linux@leemhuis.info>, Jonathan Corbet <corbet@lwn.net>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <c29ef5fa12e37c3a289e46d4442b069af94e5b05.1733127212.git.linux@leemhuis.info>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <c29ef5fa12e37c3a289e46d4442b069af94e5b05.1733127212.git.linux@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On 12/2/24 01:14, Thorsten Leemhuis wrote:
-> Point out that explicit permission is usually needed to tag other people
-> in changes, but mention that implicit permission can be sufficient in
-> certain cases. This fixes slight inconsistencies between Reported-by:
-> and Suggested-by: and makes the usage more intuitive.
-> 
-> While at it, explicitly mention the dangers of our bugzilla instance, as
-> it makes it easy to forget that email addresses visible there are only
-> shown to logged-in users.
-> 
-> The latter is not a theoretical issue, as one maintainer mentioned that
-> his employer received a EU GDPR (general data protection regulation)
+The media profile documentation will point to kernel.org sign.
+Add a link to it.
 
-Thank you for taking care of this.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
 
-Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
-
-thanks,
--- Shuah
+Patch resent, as linux-media was not on its Cc list.
 
 
+ Documentation/process/maintainer-pgp-guide.rst | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/process/maintainer-pgp-guide.rst b/Documentation/process/maintainer-pgp-guide.rst
+index f5277993b195..795ef8d89271 100644
+--- a/Documentation/process/maintainer-pgp-guide.rst
++++ b/Documentation/process/maintainer-pgp-guide.rst
+@@ -903,6 +903,8 @@ the new default in GnuPG v2). To set it, add (or modify) the
+ 
+     trust-model tofu+pgp
+ 
++.. _kernel_org_trust_repository:
++
+ Using the kernel.org web of trust repository
+ --------------------------------------------
+ 
+-- 
+2.47.1
 
