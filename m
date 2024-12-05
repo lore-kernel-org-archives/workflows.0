@@ -1,106 +1,149 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93EBB33997;
-	Thu,  5 Dec 2024 11:49:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAADFF4E2;
+	Thu,  5 Dec 2024 17:09:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733399380; cv=none; b=PnfO7ChCCGtS11nDXaZ3vbN5uCvpTULndOl7F3FQAsAu/JB9SZqX2XmG6njxqtW+Tamq7v56Cua8Cw+AuivO5+1+XiKIasgRC/Bppzrz/1dra7dB5tik7S/qIYJXQp5hKdexBB2BSlhZEg0Ot54LqrHlDryvX3GE3jyCF0CHFDY=
+	t=1733418556; cv=none; b=Xmg0Hwz1TV6LGB0GOPZHp7PaNC7cV+I5vCzKUa1/6e8t6DAIX+pQqa3Pi06mVVVfPOkDmJAIo2B1Dz8oriELu/DrDgQ+n7JHJTXY31eWEm8khTPsflrFmHc6IE5WotnAiqyemCTmHfCjETZREhXw80lIEJzh4WHWAAD4GYXk44I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733399380; c=relaxed/simple;
-	bh=ANoOfkEq9siRl1UYE3y6K707AQeoCp3gbZJa2JeC834=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=tYh/XJtyDpjmChvjQUsLY4/3jlcwv5gRXSTUG/sQhca03ce7ly68avaEBZ0xjfqB3MXKR8iiUm4uQp8imlooJvglYxD5o6DN6pJDwcA4kx/R9JxT/iqgUdebi2mdWl7eKkYEgkYbB2kMsYJpPJT2KuGqpcZik74xaBzkp0bYuh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dKseGfJe; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1733418556; c=relaxed/simple;
+	bh=7x9CwVTWR1TPl/K7NFhs2U/Qb8MN7HvrHX6e/o3XLN8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aX6ZAIJPEhU4SIGyXdysT9v5IsGXgVcYTvBM5YtZZOIl+mr0PojQQ6Wv8AEZ2FDUFCzvtme1LfUE8LIMHczKKofOMzoF0QD4nmUlFp8I6xRZjoeG90XjtGOCzw5cEWZj3HsedNOBrSzBMbVPQD1oTpCwUtTZdT63td/bfgARDw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=P3wLQoIj; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dKseGfJe"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-215b45a40d8so6507775ad.1;
-        Thu, 05 Dec 2024 03:49:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733399378; x=1734004178; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gSb55hgaIF6sPbuy7Sr7FEE6i7EQgiEZMQZaE58gR1s=;
-        b=dKseGfJeOXiouJtwUnCfdLSkD2ROrJv6+CeGPGFApFqYe+Har+Bk6C6s/l4cyihrrQ
-         JjUe64JEYs6dZ+gVrH/rMWeu+U9WwsvBPw3bmB3AGYRZJqBEzqOtcRXiHhhtIThutSXn
-         hlQFYDTfP527Vb8LIwDeA355qnAur6fqFcAvar3MOa2XpMju5DwO48SKxxF6I+pMOIhl
-         g+bP46g9J9CGiZ9Q7OfVFOnJDJw3XxYJUNZQ2lIo8YNVXLaZIZiYcFVMOFH88RFqu0px
-         X31uUqisq/sHq8d02wf8yM36r9QOf07QDtTHQHhjJxOiUAKhGIehfZAmUIJvRNWrfeo/
-         ioUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733399378; x=1734004178;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gSb55hgaIF6sPbuy7Sr7FEE6i7EQgiEZMQZaE58gR1s=;
-        b=iheM0248sv88M5FuzWKiS0ZMkBtYN+jfbY/aSq2Zd+EGQF3HErZ1iQEsUs8brYOIM+
-         QPEujxpooSopy7kCKLs+YWkg0oSaKzBn+Jftkh8B9aQbA/KANki1/8ZqSZNb3df88PWL
-         fE6OCCJh/bgtcwJLljDC/kOcx8NOD2lHEo9ruOJYKtvgbOMrwnXvCFIcvlnRCmFa9xEV
-         os06+VcTwqKoxdqjPceJDvyzZj+IZW5CTKmDy6rE8DOTpuwsl2YTVTADn5aLyQ2JrKMU
-         4X3L85xeB+Xia76PsF9O7juWO+MfDz0XDz6JrCZ92ml1Dk2qtJ5ddRMM0oakdeEMtWx+
-         zA8A==
-X-Forwarded-Encrypted: i=1; AJvYcCVG6lS5HmApArq4fYq3ty40FD1ySVcc0TFTcTg6GHLsdN5VhUMV1OZEepEA31knrqCqTwKoadQ/0II=@vger.kernel.org, AJvYcCVLRZ+Gxub0R30dAHJQhRvgWTtJouWMcL5Pu8NmuGyJpaW0Mj9yogaVzo0k+8u5855W5uL2tPAkR984@vger.kernel.org, AJvYcCWMSJLhqcfnn55OQkDsx4lDvRv3bmdNeRpAK5NUeQLGfvmD+RGJ4HBWHexdqXxxfA1ZUQtKWWDOn9kzhEdvpUs0@vger.kernel.org
-X-Gm-Message-State: AOJu0YyvZENEOx2Uc08VkywEZ5UvTX8pSm6H/bvnMWULlg+FTSCkb73q
-	BFrqSyrnlvNh4B2wQ8zOmfpdIpOFq/97AwapTPhP6uENNRdQOZj5
-X-Gm-Gg: ASbGncu52K0DbP2cqJz3w4yETAciYJ/ZVX9paIdb0eDls6e8TEKjFBV6j9BFI4LlRwY
-	2ya1GM5V9MWx24JV3gkNxc9sKjP9SuAz9lsaAPs7+Gb1lcx6saUQrrW697ECx9K9CCl4NShFS6T
-	NDN9Cgw3wCjAV0sbnx+qutq8Arb+dB17CcDWCT/4bWXohCigbHWDj+rGDGcHDZx/O+XQ/D2tf5L
-	OpjpgbuVVsvYR7PHlP1dEd79bzw5DPw/+Met08n+mJsjgYUhZGTMqtq1Jainh+yLXB/VLXOALM=
-X-Google-Smtp-Source: AGHT+IFi3AxSklvusir1J2r+A5L//3GqGHVOGLBLMA10fIfD5qPloXXEdzaJ5qgUCzqR2EorPo2/sA==
-X-Received: by 2002:a17:903:98f:b0:215:8c36:9ce with SMTP id d9443c01a7336-215bd0f6349mr128165095ad.30.1733399377846;
-        Thu, 05 Dec 2024 03:49:37 -0800 (PST)
-Received: from BiscuitBobby.am.students.amrita.edu ([123.63.2.2])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-215f8e41e52sm10965545ad.3.2024.12.05.03.49.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Dec 2024 03:49:37 -0800 (PST)
-From: Siddharth Menon <simeddon@gmail.com>
-To: simeddon@gmail.com,
-	shuah@kernel.org,
-	corbet@lwn.net
-Cc: mbenes@suse.cz,
-	linux-kselftest@vger.kernel.org,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 1/3] docs/kselftests: Explain the usage of TEST_CONFIG_DEPS
-Date: Thu,  5 Dec 2024 17:17:55 +0530
-Message-Id: <20241205114757.5916-2-simeddon@gmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20241205114757.5916-1-simeddon@gmail.com>
-References: <20241205114757.5916-1-simeddon@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="P3wLQoIj"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=+qJf5Q6Eld3EBOT/qf+hwJg4g1YOizrbg7xTLfswxlE=; b=P3wLQoIjFeVD+btfbNE+DbucDt
+	sJimhkl12CQr6KNZYt3maAUojCYSSU95lNWp17vOvQ8bGgMqwBYQi6bbcUEWXT/ZWoDAzM/KjACB6
+	sW/INyYFUMEgD1PzIIsU8fOLuEgIFoWbz/rP0HIw9txoubV3IqDZyhHnecsr0DiK2YB0zCwOJXb5a
+	vL+0wKfT/Io723kp6wbB2fuCEk4p3qwdtXGeLonLVPMyZriWehkirWqc1UdR15QrZ7QLnqcwkMPV9
+	5aNkr78eVqHvSZlqJEfe7vgSG4hK1UWAKMlUoS31qexZl7zlJuKFb2iPu3Bdm3HSVK3iQLWuS978B
+	cvV3riTQ==;
+Received: from [50.53.2.24] (helo=[192.168.254.17])
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tJFLd-00000002x1e-0eJC;
+	Thu, 05 Dec 2024 17:09:05 +0000
+Message-ID: <cf29b196-5376-4fdf-88b5-28b1d0da9c8c@infradead.org>
+Date: Thu, 5 Dec 2024 09:08:58 -0800
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: move dev-tools debugging files to
+ process/debugging/
+To: Sebastian Fricke <sebastian.fricke@collabora.com>
+Cc: Doug Anderson <dianders@chromium.org>, linux-doc@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+ Jason Wessel <jason.wessel@windriver.com>,
+ Daniel Thompson <danielt@kernel.org>, linux-debuggers@vger.kernel.org,
+ kgdb-bugreport@lists.sourceforge.net
+References: <20241204221720.66146-1-rdunlap@infradead.org>
+ <CAD=FV=WhQFxUNr6vyMVBn9CmZPnnntDP2nH=Tp1Rm=xH+YsE2w@mail.gmail.com>
+ <e3e78060-0939-4078-989c-acd7ca1c90d2@infradead.org>
+ <20241205090914.h34rhyzhhazas6l4@basti-XPS-13-9310>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20241205090914.h34rhyzhhazas6l4@basti-XPS-13-9310>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Update documentation to explain the TEST_CONFIG_DEPS flag in lib.mk.
-TEST_CONFIG_DEPS is used to validate the presence of required config flags
-specified in the selftest makefile before compiling or running a test.
 
-Signed-off-by: Siddharth Menon <simeddon@gmail.com>
----
- Documentation/dev-tools/kselftest.rst | 3 +++
- 1 file changed, 3 insertions(+)
 
-diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
-index fdb1df86783a..e816b282363f 100644
---- a/Documentation/dev-tools/kselftest.rst
-+++ b/Documentation/dev-tools/kselftest.rst
-@@ -301,6 +301,9 @@ Contributing new tests (details)
- 
-    e.g: tools/testing/selftests/android/config
- 
-+ * Use TEST_CONFIG_DEPS to specify required config options to be enabled 
-+   before a test is allowed to run or compile.
-+
-  * Create a .gitignore file inside test directory and add all generated objects
-    in it.
- 
+On 12/5/24 1:09 AM, Sebastian Fricke wrote:
+> Greetings!
+> 
+> On 04.12.2024 15:09, Randy Dunlap wrote:
+>>
+>>
+>> On 12/4/24 3:07 PM, Doug Anderson wrote:
+>>> Hi,
+>>>
+>>> On Wed, Dec 4, 2024 at 2:17 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+>>>>
+>>>> Move gdb and kgdb debugging documentation to the dedicated
+>>>> debugging directory (Documentation/process/debugging/).
+>>>> Adjust the index.rst files to follow the file movement.
+>>>> Update location of kgdb.rst in MAINTAINERS file.
+>>>>
+>>>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>>>> Cc: Sebastian Fricke <sebastian.fricke@collabora.com>
+>>>> Cc: Jonathan Corbet <corbet@lwn.net>
+>>>> Cc: workflows@vger.kernel.org
+>>>> Cc: Jason Wessel <jason.wessel@windriver.com>
+>>>> Cc: Daniel Thompson <danielt@kernel.org>
+>>>> Cc: Douglas Anderson <dianders@chromium.org>
+>>>> Cc: linux-debuggers@vger.kernel.org
+>>>> Cc: kgdb-bugreport@lists.sourceforge.net
+>>>> ---
+>>>>  Documentation/dev-tools/index.rst                                       | 2 --
+>>>>  Documentation/{dev-tools => process/debugging}/gdb-kernel-debugging.rst | 0
+>>>
+>>> After applying your patch and doing `git grep
+>>> gdb-kernel-debugging.rst`, I still see several references to the old
+>>> location. Those should be updated as part of this patch, right?
+>>>
+>>>
+>>>
+>>>>  Documentation/process/debugging/index.rst                               | 2 ++
+>>>>  Documentation/{dev-tools => process/debugging}/kgdb.rst                 | 0
+>>>
+>>> Similarly `git grep kgdb.rst` still has several references to the old location.
+>>
+>>
+>> Thanks. I should have done that.  :(
+>>
+>>>>  MAINTAINERS                                                             | 2 +-
+>>>>  5 files changed, 3 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
+>>>> index 3c0ac08b2709..c1e73e75f551 100644
+>>>> --- a/Documentation/dev-tools/index.rst
+>>>> +++ b/Documentation/dev-tools/index.rst
+>>>> @@ -27,8 +27,6 @@ Documentation/dev-tools/testing-overview.rst
+>>>>     kmemleak
+>>>>     kcsan
+>>>>     kfence
+>>>> -   gdb-kernel-debugging
+>>>> -   kgdb
+>>>>     kselftest
+>>>>     kunit/index
+>>>>     ktap
+>>>> diff --git a/Documentation/dev-tools/gdb-kernel-debugging.rst b/Documentation/process/debugging/gdb-kernel-debugging.rst
+>>>> similarity index 100%
+>>>> rename from Documentation/dev-tools/gdb-kernel-debugging.rst
+>>>> rename to Documentation/process/debugging/gdb-kernel-debugging.rst
+>>>> diff --git a/Documentation/process/debugging/index.rst b/Documentation/process/debugging/index.rst
+>>>> index f6e4a00dfee3..bc4a816e3d32 100644
+>>>> --- a/Documentation/process/debugging/index.rst
+>>>> +++ b/Documentation/process/debugging/index.rst
+>>>> @@ -12,6 +12,8 @@ general guides
+>>>>
+>>>>     driver_development_debugging_guide
+>>>>     userspace_debugging_guide
+>>>> +   gdb-kernel-debugging
+>>>> +   kgdb
+>>>
+>>> Should the list above be kept alphabetical. The list you removed these
+>>> entries from was _almost_ alphabetical...
+>>
+>> Not that I know of.  I'll listen for other opinions though.
+> 
+> I'd say it is easy enough for us to do, so I'd advocate for making the
+> list alphabetical (.. even though I forgot to do that in my initial list 😅)
+
+OK, will do.
+Thanks.
+
 -- 
-2.39.5
+~Randy
 
