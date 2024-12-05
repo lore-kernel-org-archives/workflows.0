@@ -1,149 +1,162 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [195.130.137.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAADFF4E2;
-	Thu,  5 Dec 2024 17:09:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA5B21C199
+	for <workflows@vger.kernel.org>; Thu,  5 Dec 2024 18:16:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733418556; cv=none; b=Xmg0Hwz1TV6LGB0GOPZHp7PaNC7cV+I5vCzKUa1/6e8t6DAIX+pQqa3Pi06mVVVfPOkDmJAIo2B1Dz8oriELu/DrDgQ+n7JHJTXY31eWEm8khTPsflrFmHc6IE5WotnAiqyemCTmHfCjETZREhXw80lIEJzh4WHWAAD4GYXk44I=
+	t=1733422617; cv=none; b=P6fkU18gOJS8amVZ2blq2o7CrTQ92h7TtCxohiwTeJPvExIBQZrH3I9LrIFVKugCZZfH073r7slSf7fTu7t6crN6SktfuysPrUxR9N75GJANpHy294ILxM0ggW7vX0IS7cK3x4j2/IjRvcyzgk4JiS8VhLobknS16nv0xe3qvfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733418556; c=relaxed/simple;
-	bh=7x9CwVTWR1TPl/K7NFhs2U/Qb8MN7HvrHX6e/o3XLN8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aX6ZAIJPEhU4SIGyXdysT9v5IsGXgVcYTvBM5YtZZOIl+mr0PojQQ6Wv8AEZ2FDUFCzvtme1LfUE8LIMHczKKofOMzoF0QD4nmUlFp8I6xRZjoeG90XjtGOCzw5cEWZj3HsedNOBrSzBMbVPQD1oTpCwUtTZdT63td/bfgARDw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=P3wLQoIj; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="P3wLQoIj"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=+qJf5Q6Eld3EBOT/qf+hwJg4g1YOizrbg7xTLfswxlE=; b=P3wLQoIjFeVD+btfbNE+DbucDt
-	sJimhkl12CQr6KNZYt3maAUojCYSSU95lNWp17vOvQ8bGgMqwBYQi6bbcUEWXT/ZWoDAzM/KjACB6
-	sW/INyYFUMEgD1PzIIsU8fOLuEgIFoWbz/rP0HIw9txoubV3IqDZyhHnecsr0DiK2YB0zCwOJXb5a
-	vL+0wKfT/Io723kp6wbB2fuCEk4p3qwdtXGeLonLVPMyZriWehkirWqc1UdR15QrZ7QLnqcwkMPV9
-	5aNkr78eVqHvSZlqJEfe7vgSG4hK1UWAKMlUoS31qexZl7zlJuKFb2iPu3Bdm3HSVK3iQLWuS978B
-	cvV3riTQ==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tJFLd-00000002x1e-0eJC;
-	Thu, 05 Dec 2024 17:09:05 +0000
-Message-ID: <cf29b196-5376-4fdf-88b5-28b1d0da9c8c@infradead.org>
-Date: Thu, 5 Dec 2024 09:08:58 -0800
+	s=arc-20240116; t=1733422617; c=relaxed/simple;
+	bh=tOE7FoZbj2of2iSrM9k6O7Bi5zwn703dH6gxug1gaGk=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=TUCURGo5VybMuCwqxtcn5+CFSFrH8S3bWJ3r+A/9jRQwIJCRnG87hCgYHvK6rSb4VrflE6Oo6wchCnBCR5RQKJGQ/o/jBjYvR7pLYpvhIdc8wkP4NN3dftSk0Qgic4Nsmhx/rCEjhHLO/PPbJd5uFA3fHxqEkcmVEcpavs+uyvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:b16a:6561:fa1:2b32])
+	by michel.telenet-ops.be with cmsmtp
+	id l6Gf2D00D3EEtj2066Gf3k; Thu, 05 Dec 2024 19:16:46 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tJGP0-000LwV-9e;
+	Thu, 05 Dec 2024 19:16:39 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tJGP1-00EUTT-16;
+	Thu, 05 Dec 2024 19:16:39 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Joe Perches <joe@perches.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Thorsten Leemhuis <linux@leemhuis.info>,
+	Andy Whitcroft <apw@canonical.com>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@corigine.com>,
+	Simon Horman <horms@kernel.org>,
+	Conor Dooley <conor@kernel.org>,
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Junio C Hamano <gitster@pobox.com>,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2 1/2] Align git commit ID abbreviation guidelines and checks
+Date: Thu,  5 Dec 2024 19:16:34 +0100
+Message-Id: <1c244040bf6ce304656e31036e5178b4b9dfb719.1733421037.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1733421037.git.geert+renesas@glider.be>
+References: <cover.1733421037.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: move dev-tools debugging files to
- process/debugging/
-To: Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc: Doug Anderson <dianders@chromium.org>, linux-doc@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
- Jason Wessel <jason.wessel@windriver.com>,
- Daniel Thompson <danielt@kernel.org>, linux-debuggers@vger.kernel.org,
- kgdb-bugreport@lists.sourceforge.net
-References: <20241204221720.66146-1-rdunlap@infradead.org>
- <CAD=FV=WhQFxUNr6vyMVBn9CmZPnnntDP2nH=Tp1Rm=xH+YsE2w@mail.gmail.com>
- <e3e78060-0939-4078-989c-acd7ca1c90d2@infradead.org>
- <20241205090914.h34rhyzhhazas6l4@basti-XPS-13-9310>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20241205090914.h34rhyzhhazas6l4@basti-XPS-13-9310>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+The guidelines for git commit ID abbreviation are inconsistent: some
+places state to use 12 characters exactly, while other places recommend
+12 characters or more.  The same issue is present in the checkpatch.pl
+script.
 
+E.g. Documentation/dev-tools/checkpatch.rst says:
 
-On 12/5/24 1:09 AM, Sebastian Fricke wrote:
-> Greetings!
-> 
-> On 04.12.2024 15:09, Randy Dunlap wrote:
->>
->>
->> On 12/4/24 3:07 PM, Doug Anderson wrote:
->>> Hi,
->>>
->>> On Wed, Dec 4, 2024 at 2:17 PM Randy Dunlap <rdunlap@infradead.org> wrote:
->>>>
->>>> Move gdb and kgdb debugging documentation to the dedicated
->>>> debugging directory (Documentation/process/debugging/).
->>>> Adjust the index.rst files to follow the file movement.
->>>> Update location of kgdb.rst in MAINTAINERS file.
->>>>
->>>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->>>> Cc: Sebastian Fricke <sebastian.fricke@collabora.com>
->>>> Cc: Jonathan Corbet <corbet@lwn.net>
->>>> Cc: workflows@vger.kernel.org
->>>> Cc: Jason Wessel <jason.wessel@windriver.com>
->>>> Cc: Daniel Thompson <danielt@kernel.org>
->>>> Cc: Douglas Anderson <dianders@chromium.org>
->>>> Cc: linux-debuggers@vger.kernel.org
->>>> Cc: kgdb-bugreport@lists.sourceforge.net
->>>> ---
->>>>  Documentation/dev-tools/index.rst                                       | 2 --
->>>>  Documentation/{dev-tools => process/debugging}/gdb-kernel-debugging.rst | 0
->>>
->>> After applying your patch and doing `git grep
->>> gdb-kernel-debugging.rst`, I still see several references to the old
->>> location. Those should be updated as part of this patch, right?
->>>
->>>
->>>
->>>>  Documentation/process/debugging/index.rst                               | 2 ++
->>>>  Documentation/{dev-tools => process/debugging}/kgdb.rst                 | 0
->>>
->>> Similarly `git grep kgdb.rst` still has several references to the old location.
->>
->>
->> Thanks. I should have done that.  :(
->>
->>>>  MAINTAINERS                                                             | 2 +-
->>>>  5 files changed, 3 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
->>>> index 3c0ac08b2709..c1e73e75f551 100644
->>>> --- a/Documentation/dev-tools/index.rst
->>>> +++ b/Documentation/dev-tools/index.rst
->>>> @@ -27,8 +27,6 @@ Documentation/dev-tools/testing-overview.rst
->>>>     kmemleak
->>>>     kcsan
->>>>     kfence
->>>> -   gdb-kernel-debugging
->>>> -   kgdb
->>>>     kselftest
->>>>     kunit/index
->>>>     ktap
->>>> diff --git a/Documentation/dev-tools/gdb-kernel-debugging.rst b/Documentation/process/debugging/gdb-kernel-debugging.rst
->>>> similarity index 100%
->>>> rename from Documentation/dev-tools/gdb-kernel-debugging.rst
->>>> rename to Documentation/process/debugging/gdb-kernel-debugging.rst
->>>> diff --git a/Documentation/process/debugging/index.rst b/Documentation/process/debugging/index.rst
->>>> index f6e4a00dfee3..bc4a816e3d32 100644
->>>> --- a/Documentation/process/debugging/index.rst
->>>> +++ b/Documentation/process/debugging/index.rst
->>>> @@ -12,6 +12,8 @@ general guides
->>>>
->>>>     driver_development_debugging_guide
->>>>     userspace_debugging_guide
->>>> +   gdb-kernel-debugging
->>>> +   kgdb
->>>
->>> Should the list above be kept alphabetical. The list you removed these
->>> entries from was _almost_ alphabetical...
->>
->> Not that I know of.  I'll listen for other opinions though.
-> 
-> I'd say it is easy enough for us to do, so I'd advocate for making the
-> list alphabetical (.. even though I forgot to do that in my initial list 😅)
+  **GIT_COMMIT_ID**
+    The proper way to reference a commit id is:
+    commit <12+ chars of sha1> ("<title line>")
 
-OK, will do.
-Thanks.
+However, scripts/checkpatch.pl has two different checks: one warning
+check accepting 12 characters exactly:
 
+    # Check Fixes: styles is correct
+    Please use correct Fixes: style 'Fixes: <12 chars of sha1> (\"<title line>\")'
+
+and a second error check accepting 12-40 characters:
+
+    # Check for git id commit length and improperly formed commit descriptions
+    # A correctly formed commit description is:
+    #    commit <SHA-1 hash length 12+ chars> ("Complete commit subject")
+    Please use git commit description style 'commit <12+ chars of sha1>
+
+Hence patches containing commit IDs with more than 12 characters are
+flagged by checkpatch, and sometimes rejected by maintainers or
+reviewers.  This is becoming more important with the growth of the
+repository, as git may decide to use more characters in case of local
+conflicts.
+
+Fix this by settling on at least 12 characters, in both the
+documentation and in the checkpatch.pl script.
+
+Fixes: bd17e036b495bebb ("checkpatch: warn for non-standard fixes tag style")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+v2:
+  - Rebase on top of commit 2f07b652384969f5 ("checkpatch: always parse
+    orig_commit in fixes tag") in v6.13-rc1,
+  - Update documentation, too.
+---
+ Documentation/process/maintainer-tip.rst     | 2 +-
+ Documentation/process/submitting-patches.rst | 8 ++++----
+ scripts/checkpatch.pl                        | 4 ++--
+ 3 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/Documentation/process/maintainer-tip.rst b/Documentation/process/maintainer-tip.rst
+index e374b67b3277ac54..41d5855700cd4f83 100644
+--- a/Documentation/process/maintainer-tip.rst
++++ b/Documentation/process/maintainer-tip.rst
+@@ -270,7 +270,7 @@ Ordering of commit tags
+ To have a uniform view of the commit tags, the tip maintainers use the
+ following tag ordering scheme:
+ 
+- - Fixes: 12char-SHA1 ("sub/sys: Original subject line")
++ - Fixes: 12+char-SHA1 ("sub/sys: Original subject line")
+ 
+    A Fixes tag should be added even for changes which do not need to be
+    backported to stable kernels, i.e. when addressing a recently introduced
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index 1518bd57adab501f..f3508b5aa4ebab96 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -143,10 +143,10 @@ also track such tags and take certain actions. Private bug trackers and
+ invalid URLs are forbidden.
+ 
+ If your patch fixes a bug in a specific commit, e.g. you found an issue using
+-``git bisect``, please use the 'Fixes:' tag with the first 12 characters of
+-the SHA-1 ID, and the one line summary.  Do not split the tag across multiple
+-lines, tags are exempt from the "wrap at 75 columns" rule in order to simplify
+-parsing scripts.  For example::
++``git bisect``, please use the 'Fixes:' tag with at least the first 12
++characters of the SHA-1 ID, and the one line summary.  Do not split the tag
++across multiple lines, tags are exempt from the "wrap at 75 columns" rule in
++order to simplify parsing scripts.  For example::
+ 
+ 	Fixes: 54a4f0239f2e ("KVM: MMU: make kvm_mmu_zap_page() return the number of pages it actually freed")
+ 
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index dbb9c3c6fe30f906..5b57f0306a50046d 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -3230,7 +3230,7 @@ sub process {
+ 			my $tag_case = not ($tag eq "Fixes:");
+ 			my $tag_space = not ($line =~ /^fixes:? [0-9a-f]{5,40} ($balanced_parens)/i);
+ 
+-			my $id_length = not ($orig_commit =~ /^[0-9a-f]{12}$/i);
++			my $id_length = not ($orig_commit =~ /^[0-9a-f]{12,40}$/i);
+ 			my $id_case = not ($orig_commit !~ /[A-F]/);
+ 
+ 			my $id = "0123456789ab";
+@@ -3240,7 +3240,7 @@ sub process {
+ 			if ($ctitle ne $title || $tag_case || $tag_space ||
+ 			    $id_length || $id_case || !$title_has_quotes) {
+ 				if (WARN("BAD_FIXES_TAG",
+-				     "Please use correct Fixes: style 'Fixes: <12 chars of sha1> (\"<title line>\")' - ie: 'Fixes: $cid (\"$ctitle\")'\n" . $herecurr) &&
++				     "Please use correct Fixes: style 'Fixes: <12+ chars of sha1> (\"<title line>\")' - ie: 'Fixes: $cid (\"$ctitle\")'\n" . $herecurr) &&
+ 				    $fix) {
+ 					$fixed[$fixlinenr] = "Fixes: $cid (\"$ctitle\")";
+ 				}
 -- 
-~Randy
+2.34.1
 
