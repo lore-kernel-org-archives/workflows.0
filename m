@@ -1,72 +1,79 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A131206295;
-	Fri,  6 Dec 2024 16:42:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9D4C148827;
+	Fri,  6 Dec 2024 23:57:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733503375; cv=none; b=BTJFvXrvS1IzXa0KTrobH+2SDhH0vc/ZXu6qdz0uK54aLvRCsfmhEiQfH8JI8N8rZy3qYfIBAN/30gef5zzzoL+6xpseIuYiyOOSEDs2OcB5s5CSkfmlVs8DsxqPYm/I90MuPXuzyRlHmitU0/PqHxt59MsyimlhLQXnCgvJZOE=
+	t=1733529460; cv=none; b=b8Yzb6Sh3Jzb2gw58fVlEW2GbjUO1dpyXgE3UWaVmF9ga5yG6zF554YcSRmGxFWTfCOZUa+1zB+IOdea4j00wZFDu/wdHGO24IPZooxTN5Azz/IB8P5Rm6B9nh9ZNbe28qIXJvHaHY6UETO6vXYx/bwsWhhrqdyZWEdaT3Z5Obg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733503375; c=relaxed/simple;
-	bh=YFJntjVduFMosRnOUJmWz/Q3qwcuF61r05QeDp1Yqbo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=CWQG/aiKLfcQOpCi1lV1Y9p7yGYPhxg4A1ugk1Dq+MVN6HdlOunER40UfTkEjuV+MADjtAXw3bMTOvEbPqcvYEgrlHiMfGsf1YbgzY8QqImWkPhwiSQPKu/DM20ImEkINHhu8WmXQhB2b6W5/bybMTcuGoWeqnwanh51Y3P/Ug8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=eIL85Int; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1733529460; c=relaxed/simple;
+	bh=8xtOFjJOMqstJ1JxEUce+LCHopOQXxr3HAsCwYfULAY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LCJHkdqe1GvD43sMhgafGTkamKICzkIqDvdQpIVCd1n8Dlc5NZ7kJdg1xLa4FT1eh5wDwqOlCfECki1xUb/uSvyvMW1b80jiBT5E7hh/3XaqxjZuGguubAYfQAsXjKtES1Cn0CcITJS7ycV0DpYftQrUAptpF/a6Y0lyDN9nOzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=J2qxaBQw; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="eIL85Int"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A993840409
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1733503372; bh=UINKQnGuti1paPKzepiCObIdtamjzJZLCF6YAKVJ/jQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=eIL85IntrzzxoH5/fyF+qn7pp0RaIKQ3SOWWEt89cyv2XRy2d2d/CniJfvQ1kouUV
-	 c4CVVIoyqpyjtC7VZZdOsxkthShVZJMnLFFCye4GhnDx0vHUqcnaYImt47aAQzIiWo
-	 rxOEAsDI83DnLs+VBQTCuD6eevD83nxuKZ94XcDkkrFGAtY858F5slWMoybkP6dlam
-	 PECKv5qHcAJfEQs5CQ+ZPawoW+WDnKE7vIx1l/0O5tcFQqiDx3qzTEmMWbHAqeRv7C
-	 wJPEGxEASxFOJ+iXMzTElF7l5k9tG4OGUB3HTnMKOVvUZDOa+1kZzilgHKpSKzg88c
-	 2te7SLDKrtF+Q==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id A993840409;
-	Fri,  6 Dec 2024 16:42:52 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v3] docs: 5.Posting: mentioned Suggested-by: tag
-In-Reply-To: <fbebad6605b02e372b24c2cfa1e05f789fed43d1.1733127086.git.linux@leemhuis.info>
-References: <fbebad6605b02e372b24c2cfa1e05f789fed43d1.1733127086.git.linux@leemhuis.info>
-Date: Fri, 06 Dec 2024 09:42:51 -0700
-Message-ID: <87cyi4u5is.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="J2qxaBQw"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description;
+	bh=6CVT3fCHjW+EtyEf2snrM4FnEMzCe5lxg9d7lhPV0Rg=; b=J2qxaBQwDrpKlVwIU9ymGvxU35
+	5YDgdNS+IoQkxYyvLoGdRs32vmsDUHm/A9bEE8GlhhVwHG/003I9lVcSYDc6trCJdokqP1QBoDBUX
+	O9iRHaXf9gRLslH0f94zcVHKl6fTubWkK4dRB3+3ZRH8S8SuekAneHbN1ZFgdVqUHx+O03AuGffl8
+	pgVnkyTy46ZSe6ddkV5snAuEi0BbfZLnJRc2GkqR+czqBTvCNWhb3tpFsKnI5jnQ4ywcq3Rh3LAP6
+	qRsSaEa70wLlLoq/FMVrrJnwuNBeePaPtQCug4hZpN0Egl66tj8VLKq5A0cWu+1jQGkYgKVURKyBC
+	B9MtveZA==;
+Received: from [50.53.2.24] (helo=[192.168.254.17])
+	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tJiCR-0000000FAy7-0nVv;
+	Fri, 06 Dec 2024 23:57:33 +0000
+Message-ID: <0e5dbbbe-4cd8-49d2-a440-7e1acd7d40e9@infradead.org>
+Date: Fri, 6 Dec 2024 15:57:26 -0800
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: move dev-tools debugging files to
+ process/debugging/
+To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc: Sebastian Fricke <sebastian.fricke@collabora.com>,
+ workflows@vger.kernel.org, Jason Wessel <jason.wessel@windriver.com>,
+ Daniel Thompson <danielt@kernel.org>,
+ Douglas Anderson <dianders@chromium.org>, linux-debuggers@vger.kernel.org,
+ kgdb-bugreport@lists.sourceforge.net
+References: <20241204221720.66146-1-rdunlap@infradead.org>
+ <87h67gu5q1.fsf@trenco.lwn.net>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <87h67gu5q1.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Thorsten Leemhuis <linux@leemhuis.info> writes:
 
-> Mention the Suggested-by: tag in 5.Posting.rst in a way similar to
-> submitting-patches.rst, which according to the header of the latter is
-> the less detailed document of the two.
->
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
-> ---
-> v3:
-> - first version, split out from another patch-set that was at v2:
->   https://lore.kernel.org/all/1609d461030094b294f08d0b4e208d32993ac799.1731749544.git.linux@leemhuis.info/
-> - add Reviewed-by: from Greg
-> ---
->  Documentation/process/5.Posting.rst | 4 ++++
->  1 file changed, 4 insertions(+)
 
-Applied, thanks.
+On 12/6/24 8:38 AM, Jonathan Corbet wrote:
+> Randy Dunlap <rdunlap@infradead.org> writes:
+> 
+>> Move gdb and kgdb debugging documentation to the dedicated
+>> debugging directory (Documentation/process/debugging/).
+>> Adjust the index.rst files to follow the file movement.
+>> Update location of kgdb.rst in MAINTAINERS file.
+>>
+>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> 
+> So ... since these are indeed development tools, I wonder if we should
+> leave a reference behind in case people are looking for them there?
 
-jon
+As far as I'm concerned, all debug tools are development tools, so I'm back
+to all of /process/debugging/ should be somewhere else.  ;)
+
+cheers.
+-- 
+~Randy
+
