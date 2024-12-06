@@ -1,143 +1,73 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21EF5149C51
-	for <workflows@vger.kernel.org>; Fri,  6 Dec 2024 15:27:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6467E20626A;
+	Fri,  6 Dec 2024 16:36:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733498829; cv=none; b=B0vLffsJqCINihHyJ/Sro8BZw6fRW17pmRjP2CdtpJsWWga2H08lQ6ueGfac3ep6ZY81f+iPzmsQxJs9UCQKFXziHi82ncPcMwFVh/EGpuDR9ycIWPD3vFqwEV6n4fEM1oy69pBV8RbZJe/mX+jUGAxwqB/D+e5aRmHR/sXXcKw=
+	t=1733502999; cv=none; b=OsfB3ZgRdosygKdVbW/xtUYj7x/l4BYQwdEcqCI2QMQc1Q8CXS5tEl8m4ay03pi5TUMGCa69cdtcEJvVyQxQeEd9VIfr+NLWsMVKhIPkgkSx3Uhr84CjD453Jk47JsJgSkVga85/doqlPIpDwazJOZHdtt/rAGWkehrHTGb9BZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733498829; c=relaxed/simple;
-	bh=DZ4iBJ/iWM8KSa7H29avWC680AIZt2rf5AWA6M/3SAs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Umaq3skmvVYTMAVC0ybcwsSArQoKGEUfPwYWR+1BHm6HNeiGRJIZw6ouiqU+nG2ZpBiprq7QzVf3JfOWOr6Wq/VJV9lBdWFJGnkDIcz/+vftXLCR+3TdZZzQAsPUly6Y8Wm5yrgZ8UMnrlGUDaNlJmzdERlU46E7R4fQAGGOIik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=lWc1IZGV; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1733502999; c=relaxed/simple;
+	bh=UT/s6Z+qXoJK9X///j9ZNhlZGMn6BtvYjOz52KRCCww=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=uWMCCeAUUjlUM7FQOpJaRksFYATq/YjkVBviL8d4Rax28o6FfLrPI8vE7WDe2BDVSJWVu2P8y3pxJiFWHp1tcbKFlMm46LHig1yqA33VhoQ8VLW7On1au3QTXugjhINNH+07C15kdGEMc3co+gX/sxGHZSR6D/IdixWu3E6R5OE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=f7gYNgkj; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="lWc1IZGV"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-53de771c5ebso2084196e87.2
-        for <workflows@vger.kernel.org>; Fri, 06 Dec 2024 07:27:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1733498823; x=1734103623; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tZUn4bZBalbJgAp7xW/bITYcNU46rh/GtC4lpWqRHs4=;
-        b=lWc1IZGVzgOULjBdDUf0VtaAnKBv0FVAimNIfEeHXlM2QTWDx2jh6GPeqb0pXGqnfv
-         xh6ReG38HIO5eZf3Yp6EncXUJEBwcu3jKSiuirc7LRnqmeJ9F9k2W5MejbCY9ETw1i1Z
-         52yzARay2ZoyTNtsbHW/ZGDChD5OxraA+1o/s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733498823; x=1734103623;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tZUn4bZBalbJgAp7xW/bITYcNU46rh/GtC4lpWqRHs4=;
-        b=ste8SEkg6LLLpqvbnsUpDitNWykBdW1OBzd/mIN+u/8dp17RtsKt5WhN4r17ojbKKt
-         pNRZKwVX4cQcx9H6qYjPw+FwesQsTZY4u6LZZGPfi5R3GEIEekXzv2SjEEOuTEinOoAM
-         7zVWFyoMGfzqV0/+ZD+xK8rUDanzz929/PAbmepaEgmz5bYmLtDCqKBVx1EXqi1SQVkR
-         JiTgo+RdRCmGQv6xjFmxD5caXBQEnWFPytkGPODaq2Zeg+8Eud2QOO4b6miU6w58wHBs
-         /IRJZUd3ATpbKwxx73wOw9glMEzo4reVzJ/C5YxROIlcOF5SUyYc+zuldTvhBxLjRNXd
-         1Osw==
-X-Forwarded-Encrypted: i=1; AJvYcCWJ7v0PxLUrk3eBkO7wCbXmr+jrlTx3Rt9kTALXL7pyMdkKPZ2OTfcl6QWtc/9yQGbJIa2p0celZ1Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzqbg+9mspMYmuZt91aJ72PbEEcqnV1UGiIkF/JUNdu/R+T1bpr
-	GSFLIaNDXQPFP5Q1+UGchdN/fx6hsJEdRWTgjKq6AbjzB+we2xDcNV7CFUIzIhWMapbyJJMOfAn
-	3QA==
-X-Gm-Gg: ASbGnctrI01IT2dAp2rojz1ebG5cVfS1aiMyr4v5Wvlj2zHMopoeuM4B3v9CxyzIpG1
-	gM4JoL/k/J1dajQuYKBRGSNKFU8YNh9Z7BT7LgrMWiUA9RSluQdtaof0vjfl46Oa6faGdVXjNxX
-	8WCff+qCe4u8znvmILMbmRzc1DQOcWTcBGMUZlKHY5ROtNCGc5HHSZepc537BGHJ1JCxhSFOABA
-	FC9JF6WpEQNam84POgpnkEHLeczZIRxI9L3eEAyy/NWCAvkWI8cS7dopmwkXg9OrWNZixvM45vd
-	0UP2efvRW2L2IWY6fw==
-X-Google-Smtp-Source: AGHT+IFoY5A9t93eN7C1ygoSL7xit5ohX9lhb+Q+vPKqroi4bNkdz0qJ3Qb2lUSJo8I+X3c82pvWXQ==
-X-Received: by 2002:a05:6512:12c8:b0:53e:368c:ac4b with SMTP id 2adb3069b0e04-53e368cad34mr678108e87.1.1733498823085;
-        Fri, 06 Dec 2024 07:27:03 -0800 (PST)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com. [209.85.208.178])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53e2294734bsm528970e87.51.2024.12.06.07.27.02
-        for <workflows@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Dec 2024 07:27:02 -0800 (PST)
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2ffc81cee68so17478091fa.0
-        for <workflows@vger.kernel.org>; Fri, 06 Dec 2024 07:27:02 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWav/+U2l5Yd5n9FeiO8pBtGsUnxFXIEiGqce8Cd2r9qTgJpxaAQy2EWbvdJjn24UtB1GRk2B2NpTA=@vger.kernel.org
-X-Received: by 2002:a05:651c:2119:b0:300:18ed:4313 with SMTP id
- 38308e7fff4ca-3002f8bd5ecmr10190331fa.9.1733498821759; Fri, 06 Dec 2024
- 07:27:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="f7gYNgkj"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5E130403E1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1733502997; bh=JwIAgTfyF70TLKWq3TFDEXub86tWAYVvyzoSVJbrCTI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=f7gYNgkjB9VNlZtVuokBTczWhranSGQ24lZog8uT16DV5v8w6TFsqWy62vucvYoTl
+	 IX66nnvlWFDCPwOC5sQznTq0+STam4iKokb+Ba0hvITrmEWb9IdIAVnOncmnLRLd5d
+	 o0ryrPpI96OVGXwZzDJndp/m42fCNy+b3cku6f5VsME1n5GRfRuTlacdncpgjD6W5V
+	 QCIZOhfNVxvxVhKE2ThXNIJnXC3C24prVnZworQNqRWL+rEz/CY26LdbiTUpKWebY2
+	 TOTnbDXKirbq1y8NsVzWZxcz7BN+nbah7UR6erFSAgGdLBgi6hXbs+j9lFQ+2q1E3w
+	 cw1NYdwRo/y/Q==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 5E130403E1;
+	Fri,  6 Dec 2024 16:36:37 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>, Sebastian Fricke
+ <sebastian.fricke@collabora.com>, linux-doc@vger.kernel.org, Johannes Berg
+ <johannes@sipsolutions.net>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, workflows@vger.kernel.org
+Subject: Re: [PATCH] docs: debugging: add more info about devcoredump
+In-Reply-To: <20241130081107.552503-1-rdunlap@infradead.org>
+References: <20241130081107.552503-1-rdunlap@infradead.org>
+Date: Fri, 06 Dec 2024 09:36:36 -0700
+Message-ID: <87ldwsu5t7.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241206003100.38142-1-rdunlap@infradead.org>
-In-Reply-To: <20241206003100.38142-1-rdunlap@infradead.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 6 Dec 2024 07:26:50 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=WzC=AA7MVX_qN1fsPL3Y8JA__0_cL5UWGoea0kJj5PVQ@mail.gmail.com>
-Message-ID: <CAD=FV=WzC=AA7MVX_qN1fsPL3Y8JA__0_cL5UWGoea0kJj5PVQ@mail.gmail.com>
-Subject: Re: [PATCH v2] Documentation: move dev-tools debugging files to process/debugging/
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org, 
-	Sebastian Fricke <sebastian.fricke@collabora.com>, Jonathan Corbet <corbet@lwn.net>, 
-	workflows@vger.kernel.org, Jason Wessel <jason.wessel@windriver.com>, 
-	Daniel Thompson <danielt@kernel.org>, linux-debuggers@vger.kernel.org, 
-	kgdb-bugreport@lists.sourceforge.net, Alex Shi <alexs@kernel.org>, 
-	Yanteng Si <siyanteng@loongson.cn>, Hu Haowen <2023002089@link.tyut.edu.cn>, 
-	Andrew Morton <akpm@linux-foundation.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-serial@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Hi,
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-On Thu, Dec 5, 2024 at 4:31=E2=80=AFPM Randy Dunlap <rdunlap@infradead.org>=
- wrote:
+> Correct a few small things in the devcoredump synopsis and then add
+> the devcoredump APIs to it.
 >
-> Move gdb and kgdb debugging documentation to the dedicated
-> debugging directory (Documentation/process/debugging/).
-> Adjust the index.rst files to follow the file movement.
-> Adjust files that refer to these moved files to follow the file movement.
-> Update location of kgdb.rst in MAINTAINERS file.
->
-> Note: translations are not updated.
->
+> Fixes: a037699da0a1 ("docs: Add debugging section to process")
 > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 > Cc: Sebastian Fricke <sebastian.fricke@collabora.com>
 > Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: workflows@vger.kernel.org
-> Cc: Jason Wessel <jason.wessel@windriver.com>
-> Cc: Daniel Thompson <danielt@kernel.org>
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: linux-debuggers@vger.kernel.org
-> Cc: kgdb-bugreport@lists.sourceforge.net
-> Cc: Doug Anderson <dianders@chromium.org>
-> Cc: Alex Shi <alexs@kernel.org>
-> Cc: Yanteng Si <siyanteng@loongson.cn>
-> Cc: Hu Haowen <2023002089@link.tyut.edu.cn>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Johannes Berg <johannes@sipsolutions.net>
 > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: linux-serial@vger.kernel.org
+> Cc: workflows@vger.kernel.org
 > ---
-> v2: Make process/debugging/index alpha by filename.
->     Update references to the moved files.
->
->  Documentation/admin-guide/README.rst                                  | =
-4 ++--
->  Documentation/dev-tools/index.rst                                     | =
-2 --
->  .../{dev-tools =3D> process/debugging}/gdb-kernel-debugging.rst         =
-| 0
->  Documentation/process/debugging/index.rst                             | =
-2 ++
->  Documentation/{dev-tools =3D> process/debugging}/kgdb.rst               =
-| 0
->  MAINTAINERS                                                           | =
-2 +-
->  include/linux/tty_driver.h                                            | =
-2 +-
->  lib/Kconfig.debug                                                     | =
-2 +-
->  lib/Kconfig.kgdb                                                      | =
-2 +-
->  9 files changed, 8 insertions(+), 8 deletions(-)
+>  Documentation/process/debugging/driver_development_debugging_guide.rst |   20 ++++++++--
+>  1 file changed, 16 insertions(+), 4 deletions(-)
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Applied, thanks.
+
+jon
