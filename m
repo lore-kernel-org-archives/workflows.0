@@ -1,102 +1,105 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B46E17E0;
-	Sat,  7 Dec 2024 23:13:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1311754918;
+	Mon,  9 Dec 2024 08:15:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733613192; cv=none; b=LaNdORHk6Qqt4AWcZ2lma1ZwCvVnhN786piomOSy8iwTp6lT14WtHhNZPhdlbMokea96uakULF6M3Z2/OnzCTzWBzGJv4A5wePVGhl11vi9pTyTWhXJUwvlFOSTsZ9iMIIEdg9LzVQ8dr0oHE2yOlalfYEARshxQHb/cjxvfea8=
+	t=1733732155; cv=none; b=rpv2VfFzdD5fjKMJdbkmYUf+DomiLhV97DzDl6AKxCOc2ZIf/DudQvto7e+PzlLP4UiWsf342tI2I1/RUA0G3RSevfm/FtNiFG269qLC9RZfg5aT2i+aLSADjVhRvvljRn5BZFWqL+1P8d+ClaW+2kLSjVeSbQS5q2m8IqWJIKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733613192; c=relaxed/simple;
-	bh=lmL0QP1IYR23G/1RG4er1oLXWCOXW+nlVLbHGcMeDwA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fIKoSweUzp1Pcap5sHk4Y+be6axzi67GkHOWf3idVXs6WEKFHnaz98P9jR9vEL0FFJLjglGjKtsTB7LDsnh/YsIqViUXHKHJVEpudSW6YvKbSlkC86tIkAW68qUGsstoLRugjfoedKFsslIekEE1+5J3taidh/78NmDiDDtlr4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rQK3ofmJ; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1733732155; c=relaxed/simple;
+	bh=OcV2xYxRXTCXMuX1ekCAw7NyTEEuqu99/Vs5cwe1gBs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bIkV0e7LPdqnSyREiy0yR7tDUH4Z9JoxO5VdknOfHbvI/1DadkBMEdCoWNE0uiWsJBy4VAFqqPszv1NzaxsmdWR4FAjnWdk/L4noIHBpv7smMw9Gc4vMPRWwBoWU6pYUmB1Dx9rTBecUbf16ZG+00uov1hY5tUPe7q0ted4FEBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jjmr385a; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rQK3ofmJ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=HspVnKDKVVVr7FO7xa5uCzBXD24/tOGH2qwRon8BIpU=; b=rQK3ofmJb75Hfz2E1lOQespsUR
-	QDpOJ2tK1AMKVFw85EpB4psjJG3phra4wX5gvWtyEMqKXB8Keu63sN7isqaxDXKKPi8/1vUdL+0gk
-	/bVRDqphIyVOTFOOFJGNo1ECRMe4Q2/bWqg7eJUYQ1uZB/ZxmYX1M6Q4ZKz0XtnOKOJXdtpJYAnsr
-	xh6+qfPWLTHApJdKiTA0YsEWjOJME2X8MdhTetdiOitN8JTxWCBBYMiriyvlD+0m1XvAjZMjk8+2E
-	8YN+lyjh/b8aFyZlxlnZsBO5GRRQZ5ZJAOTVw9mbjd+QQS4uPZ+7aH9T66wHCHwMK+Tg76WKERZhW
-	T9kMnRCQ==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tK3xs-00000003Kza-2PJJ;
-	Sat, 07 Dec 2024 23:12:54 +0000
-Message-ID: <3be10d6b-e19e-4965-bac9-9af8b74fb566@infradead.org>
-Date: Sat, 7 Dec 2024 15:11:48 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jjmr385a"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13641C4CED1;
+	Mon,  9 Dec 2024 08:15:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733732154;
+	bh=OcV2xYxRXTCXMuX1ekCAw7NyTEEuqu99/Vs5cwe1gBs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Jjmr385a0JB0QLKCV/1CcCyNl02f9Avzzglhdh2HISXHY4xizV709sTTiHPmzBjlE
+	 8lKa0lPqozeC8liJOK4qXeE5HDqpENxW0BywmqYb3uVQ9wHtTonD8aIo1y/fj+7elZ
+	 wjFl4XcD97VFB8M4GcoC38L4I+VLPMLYnsB7ikDpVqnMqi4MrvhQbVC0TurwWpG4L0
+	 eSkiC+wg23NIEzgtYC6687X2pb6HWADK7NZcLHHaM7llgO6gkpxDUU9IzIxnhKIPwR
+	 p1oidmBeylmrWGzgN6ibcqc6v4J6nw3o+FsYNdHHAxJtmB1m/rghR9DRFceHSEnraL
+	 6B+BzFaNG3grg==
+Date: Mon, 9 Dec 2024 09:15:48 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, Jonathan
+ Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Subject: Media committers model postponed to 6.14 - Was: Re: [PATCH v3 0/3]
+ Document the new media-committer's model
+Message-ID: <20241209091548.165e5152@foz.lan>
+In-Reply-To: <20241203140712.57daa65f@foz.lan>
+References: <cover.1733131405.git.mchehab+huawei@kernel.org>
+	<b0843e80-c46c-4344-b9f1-1d3b57dd2bbe@xs4all.nl>
+	<20241203081958.6c186835@foz.lan>
+	<20241203112209.GR10736@pendragon.ideasonboard.com>
+	<20241203140712.57daa65f@foz.lan>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: move dev-tools debugging files to
- process/debugging/
-To: Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- workflows@vger.kernel.org, Jason Wessel <jason.wessel@windriver.com>,
- Daniel Thompson <danielt@kernel.org>,
- Douglas Anderson <dianders@chromium.org>, linux-debuggers@vger.kernel.org,
- kgdb-bugreport@lists.sourceforge.net
-References: <20241204221720.66146-1-rdunlap@infradead.org>
- <87h67gu5q1.fsf@trenco.lwn.net>
- <0e5dbbbe-4cd8-49d2-a440-7e1acd7d40e9@infradead.org>
- <20241207085056.fcnoqov3kd5rjqft@basti-XPS-13-9310>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20241207085056.fcnoqov3kd5rjqft@basti-XPS-13-9310>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+Em Tue, 3 Dec 2024 14:07:12 +0100
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-
-On 12/7/24 12:50 AM, Sebastian Fricke wrote:
-> Hey Randy,
 > 
-> On 06.12.2024 15:57, Randy Dunlap wrote:
->>
->>
->> On 12/6/24 8:38 AM, Jonathan Corbet wrote:
->>> Randy Dunlap <rdunlap@infradead.org> writes:
->>>
->>>> Move gdb and kgdb debugging documentation to the dedicated
->>>> debugging directory (Documentation/process/debugging/).
->>>> Adjust the index.rst files to follow the file movement.
->>>> Update location of kgdb.rst in MAINTAINERS file.
->>>>
->>>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->>>
->>> So ... since these are indeed development tools, I wonder if we should
->>> leave a reference behind in case people are looking for them there?
->>
->> As far as I'm concerned, all debug tools are development tools, so I'm back
->> to all of /process/debugging/ should be somewhere else.  ;)
+> The idea is to gradually open media-committers to more people, as each
+> phase succeeds, addressing infra, procedures, etc.
 > 
-> I mean this is where things just simply overlap, because debugging is
-> part of the development process and all debugging tools are development
-> tools, so I think the question is not whether one of the two places is
-> the "correct" but instead the user should be able to find the necessary
-> information by navigating to any of the two places.
-> So I would say, lets add a reference in the index of the development
-> tools that highlights the documentation of the debugging tools which are
-> found in the development process documentation.
+> My rough idea is to do:
 > 
+> - Phase 0.99: beta testers;
+> - Phase 1 is to invite people that regularly submit PRs;
+> - Phase 2 is to invite other active maintainers;
+> - Phase 3 (or 2?, TBD) to open for non-maintainers.
+> 
+> We shouldn't rush it, as there are a lot to be done before opening it
+> broadly. So, I would say that:
+> - phase 0.99 would start in -rc2 (if things go well during this week); 
+> - phase 1 may still happen on this merge window, but as there will be
+>   only a few weeks between -rc2 and -rc6, and people usually get
+>   holidays in Dec/Jan, it is more likely that it will start for
+>   6.14-rc1, again if we didn't notice big issues on phase 0.99.
+> 
+>   We should wait at least for a couple of releases on phase 1,
+>   again to cleanup process and fine-tune infra. If things go well, 
+>   we can move to phase 2.
 
-Hi,
+After some discussions with Hans, we decided to postpone the
+beta testers phase to the next kernel cycle. There are a couple of
+reasons for that:
 
-Sure, I will add entries in dev-tools/index.
+- This should give us more time to come up with a final version of 
+  the media-committers documentation and agreement;
 
-Thanks.
+- This would also work better with regards to end of year's vacations,
+  as they'll be affecting at least 2/3 -rc versions. Plus, we all have
+  things to finish before such vacations. So, better to start fresh next
+  year;
 
--- 
-~Randy
+- Media CI still had issues with a patch series I submitted, as it picked
+  the wrong baseline, causing CI to not test two patches that were
+  applied on the top of media-committers/next branch. This was fixed
+  by Ricardo, but it means that we may still need to polish CI before
+  granting more people righs there.
 
+With that, if we want to start the media committers for 6.14, we should
+aim to close review this document by -rc6, or, at most, -rc7, getting 
+the patches merged during the next merge window.
+
+Regard
+
+Thanks,
+Mauro
