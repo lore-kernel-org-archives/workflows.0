@@ -1,146 +1,211 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BF4A19F489
-	for <workflows@vger.kernel.org>; Mon,  9 Dec 2024 23:51:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 499BCA934;
+	Tue, 10 Dec 2024 00:00:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733788309; cv=none; b=nDjGfOlDwkdA1672yCbVrjcBThAmwzHKQEfcg9yfPkjcxNFBBexdosbCWp79GYX9t1tqydoCwv8O0nrn0YsAud99G0JMFCasrdUNBDkJWcmd0wXNAnR+W1pmoOiRONA8IfWR+QEigdIjv4MUXp3kLBJI1T8GnZwLyG2iBb53CB0=
+	t=1733788849; cv=none; b=uk5l/5jzFKxP0aAtCMXfgNhfj27mdchkg0x8qTKcjjCTYfNtj/3iykMEo+ChIzl4l36/fP0MoFutzWlkLcRzwN5S3rPVCE3q9VIAYWSQ14//3GwodcWAvGQHu1ZYSlk5omCj90likAMDBIkJHS2fTxNmAYKSZ+/yJNoINnohu5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733788309; c=relaxed/simple;
-	bh=4Nn+t2Yjyce34wgCQ3ETEjPe8rZLcWfxBP8EUFN0Dy8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AKEGuRAvB8jrXMZFfedhoxyHXIWFPMQXyJKgYQ/7rs5RTd8K+nr6xLgQbN3PI3V462W1WyrC7hNqjIMQV7i5yWv0Cmsx9G/MptRFCikIDMEpyH760GZxarjY6ul23+8OL3dL7HWsvF/66YVAJX9uW9gMer4OWTVDWtMFe42BfsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aDwfwm+3; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1733788849; c=relaxed/simple;
+	bh=h3uBjElatKr0hPl6/PqFIk1FIlumz86KPe43ygUTTV8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pkeMTeEUJvmiKwQolLDSq4oq7xZ3CTXb7OW21lz9cgNWEUh5B30lk/lzn9ph7My8gKtR7XOCpNTf8eMvpQFPmg+9ice4PN//V7vgPRicYiLTYkcwWAFxPlU5vln26FcG1B/RZQlIFSqxLor+MRZ+hR4k1vn4SsKav3zkmdTIVW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=jxd9eSFB; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aDwfwm+3"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2ee6c2d6db0so4404093a91.1
-        for <workflows@vger.kernel.org>; Mon, 09 Dec 2024 15:51:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1733788307; x=1734393107; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SSUQjXvXCX7n0zlIPB3T1YFCaCdLs1ofM4KWIMrWBKg=;
-        b=aDwfwm+3OsDJ+hy8Yi+maopD92U+iq0Z6QXOZqANjwd6n669vFFVzlPoWRW/0jVQhY
-         SCCEBweGkwc8VMyZRzsQu0Hk2ZBndjIbEyWkAbEzeqdNY138WjEQjvdaB2shwOqwVNHM
-         dFZDRFhOlBnncBM/tK/w5BhXccL9RfamfIMy7RrJS0z5EyjJm0G42BX44Z3WV8Yttnu2
-         i+9cZYl25pvQpmpvn84R3oVANouhiaNIahg+ff1Nl+jA+Alj7MmhVNoqCgFMueuYHaI8
-         ejNunuELGOHp/lGILu0zicsTZWwRp3x6561ivktOwFxl/YZp2UB/2sYiv5S40qh4P+1v
-         PQ/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733788307; x=1734393107;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SSUQjXvXCX7n0zlIPB3T1YFCaCdLs1ofM4KWIMrWBKg=;
-        b=PvNLeKCzVxV6d7+GJme7b6WPu9zX52lwTnmG/dJ6NHCqVdxq84V6aZ9fwtKOJUXDUR
-         nHXP7qQjT0FD/TMdOjmQ0lje9/zhpAsR/rXjKZOqS+qlUzmCaPE3MwZEuZLtlJ5MKz5q
-         A0kZbDUHMmmSHYBr3I/z5wH0N2Z8HhZyTgnXnu/gLMdX+aIZ+Q1y9Jk40UTODQUQfk58
-         gpe62plKjedQAnTZsN+UBNVWhfK7CTuW5MaW15QoZCiiEtbytNPEAd0cM/MNc4uBeqRv
-         CK27pMrH9tmfpvC/SLfDAH9whi36LWwqGsC1J/SLF/DXyosbrA2maOxfZKk/YWG9VvjB
-         PfNg==
-X-Forwarded-Encrypted: i=1; AJvYcCXYj5ePYYEzqmtk4x8ZXfVsmkPV0uFOjZ/7kHS+XkD3wnzRFySd+W8OWTL+rfEnHmYb5uKQuvexd8M=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0WSjKMQE4oyAfe7NYyrzhe52aNz82m4QJ+GMaJV0bCFP18b83
-	8emyibu5ecVASt7JojN7ba4blsommRXGqfer2Tzs121pMNmtg5rUnmlIqzjgoOgQDlrZ3PXFZsT
-	PrzMuFhclDH9PWohlDA2b/fzHBBxmQazKmsBvGev2A5VNA+g7zq9uyw==
-X-Gm-Gg: ASbGncuIGrYB1mMN8DjNA8TTqhGURv1ncWXc0MwX9tcTtv0N1W20bTE0S253KQkw5kz
-	pEL9y7dehQfEErLDTtVM0JkV59O12r4IvHAbK/x60rd9jPT6VCPy1XoSzeoKWaGrs
-X-Google-Smtp-Source: AGHT+IH/zZbQB//HIrX1JNipWnHUi43H4PwqcC6flKakC4Wp5vy64rAYnKcCmJw4Ryeyp5nKhAclTMf/QPAcT0muhIo=
-X-Received: by 2002:a17:90b:4cce:b0:2ea:696d:732f with SMTP id
- 98e67ed59e1d1-2efcf29a179mr3714478a91.29.1733788307107; Mon, 09 Dec 2024
- 15:51:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jxd9eSFB"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=PBXruUUq7CFnP5baKZ7oFYfGkNPXA/nLTilEYn4xNxQ=; b=jxd9eSFB8O7Bg0AfXpNa7MfiD1
+	kzUy8ZVQXBLehc9K2sr80w8/4pklxtkLIDpDj1KY3GawCwZ2Y884+0sM6YQL+v3qTUPimhdfEDGRk
+	DKlCu2csdL92kq85vCYOCb2doThNFQK1zG9zIcm69+Mq1z9iQdQl9DL2gbwM//zzuMPqWIkYjj9tH
+	1vNN97oq9QTOWzMiJ2MgDjM800Jzs5FZIrBaqGGd4zVRtZuB7eUuefjmCbi1myuqFban3TYhbRmq6
+	ggj1AmmlX5zw6qu/fQl1U5inxiW7eksB0PCeF8PaFeCVm/nGjY6SKa0BFUCJl01ZjeW6jUXrGLNi9
+	crp1Jcmw==;
+Received: from [50.53.2.24] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tKngD-00000009dUD-10C1;
+	Tue, 10 Dec 2024 00:00:45 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-doc@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	workflows@vger.kernel.org,
+	Jason Wessel <jason.wessel@windriver.com>,
+	Daniel Thompson <danielt@kernel.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	linux-debuggers@vger.kernel.org,
+	kgdb-bugreport@lists.sourceforge.net,
+	Alex Shi <alexs@kernel.org>,
+	Hu Haowen <2023002089@link.tyut.edu.cn>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-serial@vger.kernel.org
+Subject: [PATCH v3] Documentation: move dev-tools debugging files to process/debugging/
+Date: Mon,  9 Dec 2024 16:00:41 -0800
+Message-ID: <20241210000041.305477-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241118222540.27495-1-yabinc@google.com> <20241209162028.GD12428@willie-the-truck>
- <CAF1bQ=SiHi8oCyo5YnXGpQGofM1zAsnBdqSEet1mS-BYNKVU8A@mail.gmail.com> <20241209185623.GA13084@willie-the-truck>
-In-Reply-To: <20241209185623.GA13084@willie-the-truck>
-From: Yabin Cui <yabinc@google.com>
-Date: Mon, 9 Dec 2024 15:51:34 -0800
-X-Gm-Features: AZHOrDkYQ4V69Y7vLhOpgw-bfrlmqVn8MSQhz800aNeQq_Tq1k4ujC1njQBPuGU
-Message-ID: <CALJ9ZPNfUFF8OrpvziTnTvGU7OxEgyy9ZTc3aF-NhZ5hMbp7RQ@mail.gmail.com>
-Subject: Re: [PATCH v2] arm64: Allow CONFIG_AUTOFDO_CLANG to be selected
-To: Will Deacon <will@kernel.org>
-Cc: Rong Xu <xur@google.com>, Han Shen <shenhan@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
- On Mon, Dec 9, 2024 at 10:56=E2=80=AFAM Will Deacon <will@kernel.org> wrot=
-e:
->
-> (Aside: please try to avoid top-posting on the public lists as it messes =
-up
-> the flow of conversation; I'll try to piece this back together.)
->
-> On Mon, Dec 09, 2024 at 09:30:50AM -0800, Rong Xu wrote:
-> > On Mon, Dec 9, 2024 at 8:20=E2=80=AFAM Will Deacon <will@kernel.org> wr=
-ote:
-> > > On Mon, Nov 18, 2024 at 02:25:40PM -0800, Yabin Cui wrote:
-> > > > diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> > > > index fd9df6dcc593..c3814df5e391 100644
-> > > > --- a/arch/arm64/Kconfig
-> > > > +++ b/arch/arm64/Kconfig
-> > > > @@ -103,6 +103,7 @@ config ARM64
-> > > >       select ARCH_SUPPORTS_PER_VMA_LOCK
-> > > >       select ARCH_SUPPORTS_HUGE_PFNMAP if TRANSPARENT_HUGEPAGE
-> > > >       select ARCH_SUPPORTS_RT
-> > > > +     select ARCH_SUPPORTS_AUTOFDO_CLANG
-> > > >       select ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH
-> > > >       select ARCH_WANT_COMPAT_IPC_PARSE_VERSION if COMPAT
-> > > >       select ARCH_WANT_DEFAULT_BPF_JIT
-> > >
-> > > After this change, both arm64 and x86 select this option unconditiona=
-lly
-> > > and with no apparent support code being added. So what is actually
-> > > required in order to select ARCH_SUPPORTS_AUTOFDO_CLANG and why isn't
-> > > it just available for all architectures instead?
+Move gdb and kgdb debugging documentation to the dedicated
+debugging directory (Documentation/process/debugging/).
+Adjust the index.rst files to follow the file movement.
+Adjust files that refer to these moved files to follow the file movement.
+Update location of kgdb.rst in MAINTAINERS file.
+Add a link from dev-tools/index to process/debugging/index.
 
-I think it's similar to ARCH_SUPPORTS_LTO_CLANG, which also doesn't need an=
-y
-support code but requires testing to ensure it works on a specific architec=
-ture.
+Note: translations are not updated.
 
->
-> > Enabling an AutoFDO build requires users to explicitly set CONFIG_AUTOF=
-DO_CLANG.
-> > The support code is in Commit 315ad8780a129e82 (kbuild: Add AutoFDO
-> > support for Clang build).
->
-> Yes, that is precisely my point. The user has to enable
-> CONFIG_AUTOFDO_CLANG anyway, so what is the point in having
-> ARCH_SUPPORTS_AUTOFDO_CLANG. Why would an architecture _not_ want to
-> select that?
->
-> > We are not enabling this for all architectures because AutoFDO's optimi=
-zed build
-> > relies on Last Branch Records (LBR) which aren't available on all archi=
-tectures.
->
-> So? ETM isn't available on all arm64 machines and I doubt whether LBR is
-> available on _all_ x86 machines either. So there's a runtime failure
-> mode that needs to be handled anyway and I don't think the arch-specific
-> Kconfig option is really doing anything useful.
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Sebastian Fricke <sebastian.fricke@collabora.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org
+Cc: Jason Wessel <jason.wessel@windriver.com>
+Cc: Daniel Thompson <danielt@kernel.org>
+Cc: Douglas Anderson <dianders@chromium.org>
+Cc: linux-debuggers@vger.kernel.org
+Cc: kgdb-bugreport@lists.sourceforge.net
+Cc: Doug Anderson <dianders@chromium.org>
+Cc: Alex Shi <alexs@kernel.org>
+Cc: Hu Haowen <2023002089@link.tyut.edu.cn>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-serial@vger.kernel.org
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Acked-by: Daniel Thompson <danielt@kernel.org>
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
+---
+v3: add link to process/debugging/index from dev-tools/index.
 
-My understanding of the benefits of ARCH_SUPPORTS_AUTOFDO_CLANG is:
-1. Generally, we don't prefer to collect an AutoFDO profile on one
-architecture and use it to build the kernel for another architecture.
-This is because the profile misses data for architecture-dependent
-code. ARCH_SUPPORTS_AUTOFDO_CLANG can partially prevent this from
-happening.
+@Andrew, please drop v2 of this patch.
 
-2. Building a kernel with an AutoFDO profile involves using new
-optimization flags for clang.  Having ARCH_SUPPORTS_AUTOFDO_CLANG=3Dy
-for one architecture means someone has tested building a kernel with
-an AutoFDO profile on this architecture.
->
-> Will
+ Documentation/admin-guide/README.rst                                 | 4 ++--
+ Documentation/dev-tools/index.rst                                    | 5 +++--
+ .../{dev-tools => process/debugging}/gdb-kernel-debugging.rst        | 0
+ Documentation/process/debugging/index.rst                            | 2 ++
+ Documentation/{dev-tools => process/debugging}/kgdb.rst              | 0
+ MAINTAINERS                                                          | 2 +-
+ include/linux/tty_driver.h                                           | 2 +-
+ lib/Kconfig.debug                                                    | 2 +-
+ lib/Kconfig.kgdb                                                     | 2 +-
+ 9 files changed, 11 insertions(+), 8 deletions(-)
+
+
+diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
+index f2bebff6a733..eb9452668909 100644
+--- a/Documentation/admin-guide/README.rst
++++ b/Documentation/admin-guide/README.rst
+@@ -356,5 +356,5 @@ instructions at 'Documentation/admin-guide/reporting-issues.rst'.
+ 
+ Hints on understanding kernel bug reports are in
+ 'Documentation/admin-guide/bug-hunting.rst'. More on debugging the kernel
+-with gdb is in 'Documentation/dev-tools/gdb-kernel-debugging.rst' and
+-'Documentation/dev-tools/kgdb.rst'.
++with gdb is in 'Documentation/process/debugging/gdb-kernel-debugging.rst' and
++'Documentation/process/debugging/kgdb.rst'.
+diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
+index 3c0ac08b2709..65c54b27a60b 100644
+--- a/Documentation/dev-tools/index.rst
++++ b/Documentation/dev-tools/index.rst
+@@ -10,6 +10,9 @@ whole; patches welcome!
+ A brief overview of testing-specific tools can be found in
+ Documentation/dev-tools/testing-overview.rst
+ 
++Tools that are specific to debugging can be found in
++Documentation/process/debugging/index.rst
++
+ .. toctree::
+    :caption: Table of contents
+    :maxdepth: 2
+@@ -27,8 +30,6 @@ Documentation/dev-tools/testing-overview.rst
+    kmemleak
+    kcsan
+    kfence
+-   gdb-kernel-debugging
+-   kgdb
+    kselftest
+    kunit/index
+    ktap
+diff --git a/Documentation/dev-tools/gdb-kernel-debugging.rst b/Documentation/process/debugging/gdb-kernel-debugging.rst
+similarity index 100%
+rename from Documentation/dev-tools/gdb-kernel-debugging.rst
+rename to Documentation/process/debugging/gdb-kernel-debugging.rst
+diff --git a/Documentation/process/debugging/index.rst b/Documentation/process/debugging/index.rst
+index f6e4a00dfee3..387d33d16f5e 100644
+--- a/Documentation/process/debugging/index.rst
++++ b/Documentation/process/debugging/index.rst
+@@ -11,6 +11,8 @@ general guides
+    :maxdepth: 1
+ 
+    driver_development_debugging_guide
++   gdb-kernel-debugging
++   kgdb
+    userspace_debugging_guide
+ 
+ .. only::  subproject and html
+diff --git a/Documentation/dev-tools/kgdb.rst b/Documentation/process/debugging/kgdb.rst
+similarity index 100%
+rename from Documentation/dev-tools/kgdb.rst
+rename to Documentation/process/debugging/kgdb.rst
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 1e930c7a58b1..1753fe792d04 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12809,7 +12809,7 @@ L:	kgdb-bugreport@lists.sourceforge.net
+ S:	Maintained
+ W:	http://kgdb.wiki.kernel.org/
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/jwessel/kgdb.git
+-F:	Documentation/dev-tools/kgdb.rst
++F:	Documentation/process/debugging/kgdb.rst
+ F:	drivers/misc/kgdbts.c
+ F:	drivers/tty/serial/kgdboc.c
+ F:	include/linux/kdb.h
+diff --git a/include/linux/tty_driver.h b/include/linux/tty_driver.h
+index dd4b31ce6d5d..d4cdc089f6c3 100644
+--- a/include/linux/tty_driver.h
++++ b/include/linux/tty_driver.h
+@@ -320,7 +320,7 @@ struct serial_struct;
+  *
+  * @poll_init: ``int ()(struct tty_driver *driver, int line, char *options)``
+  *
+- *	kgdboc support (Documentation/dev-tools/kgdb.rst). This routine is
++ *	kgdboc support (Documentation/process/debugging/kgdb.rst). This routine is
+  *	called to initialize the HW for later use by calling @poll_get_char or
+  *	@poll_put_char.
+  *
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index f3d723705879..d2cf74cbbe70 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -433,7 +433,7 @@ config GDB_SCRIPTS
+ 	  build directory. If you load vmlinux into gdb, the helper
+ 	  scripts will be automatically imported by gdb as well, and
+ 	  additional functions are available to analyze a Linux kernel
+-	  instance. See Documentation/dev-tools/gdb-kernel-debugging.rst
++	  instance. See Documentation/process/debugging/gdb-kernel-debugging.rst
+ 	  for further details.
+ 
+ endif # DEBUG_INFO
+diff --git a/lib/Kconfig.kgdb b/lib/Kconfig.kgdb
+index 537e1b3f5734..8336b1a489a3 100644
+--- a/lib/Kconfig.kgdb
++++ b/lib/Kconfig.kgdb
+@@ -19,7 +19,7 @@ menuconfig KGDB
+ 	  CONFIG_FRAME_POINTER to aid in producing more reliable stack
+ 	  backtraces in the external debugger.  Documentation of
+ 	  kernel debugger is available at http://kgdb.sourceforge.net
+-	  as well as in Documentation/dev-tools/kgdb.rst.  If
++	  as well as in Documentation/process/debugging/kgdb.rst.  If
+ 	  unsure, say N.
+ 
+ if KGDB
