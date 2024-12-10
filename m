@@ -1,140 +1,124 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C9623DEAC;
-	Tue, 10 Dec 2024 10:15:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13D2778F24;
+	Tue, 10 Dec 2024 11:31:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733825729; cv=none; b=QCu36XYSqyM7eV6qPPs0g+j/d5NmUQnyUIBDicy07vega8RlcMSqPM1veukuIRaDXO7wiK3i3+CxMj8J25zS51nYHyGFt7oeaWqJOLyyi8+I4eJDkx+QJk14SIhqaHhX9BCk9xdGkpmZ0BWxqbZ4i4Ps+BpFbPpPtWNzyarmLKs=
+	t=1733830297; cv=none; b=gqFBVhGrEs/lwIDfCU359sBxQENjhk498kHhAj/H2kkponFhwzIQML7JCscNZ1SqWL60K7Gq+9hq7me4wtMRhkYwSgNHY3U4c4+2hI6z0MCIVZXWdudedMxZCuIO0iz7tRYJTtgf71OfwnhjbyMaztacq7u+K7eoWxPUEYSBOmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733825729; c=relaxed/simple;
-	bh=roBXrszXjh2S99f6sjaU0YjTX9NYD/tnCV6ZlGoI6hE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gdpgGsBb9BPCdUqkc+0YDJJQ94FhcsH5UrnZsZRstW0A9MuAH7B6wBy8D58hjMtdHdWHN7JNoauDTdOcBrwIq1Hly5ZPgkga3rf5145hHDghdEnksdzB4psKOSNPmZydSj2IVi6G/6oY2yIW0FJIktTjxWJsrxn3xF999e6VaHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=C0Z2tk+e; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+	s=arc-20240116; t=1733830297; c=relaxed/simple;
+	bh=c0/Kvxahxgc5BU9+Agj9zRUQoG8xPGH+UnRBmIDO2fs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s5kbgZlAflWk7JTlwuf4CT83c3fritfqBey/xvHSa0RtzIcxlPXcggG2geMX4teIe/XsuNPhModcKxeCJC+8KEokUCQyqXiYy9hpwMENIS1vr9K+gOpLxZMXaQsHqZpI2Wslc+tKRQCBjotyLDU4GO0xgQVLOB0qhbs/otxupR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CAdMLYgh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="C0Z2tk+e"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:From:Sender:
-	Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=R7HvXsLtjprjhd51NOldorbZLoyGDwY4IMtpLQ/3spM=; t=1733825727;
-	x=1734257727; b=C0Z2tk+eXQamGo6CdSOHywocg8urcSDrEnpcC8Ln1h43AqaTMc4ymnUDsJYLt
-	BmBsqGl98XQpiqP5GpGzF2qJslgJ0kYzWdOxJieTezIvBv7TUJokQpyaT6+0dBC0uWSXZqnqtUPg6
-	y0cjSnQGNEaUrp0t/c7ezaugA09cUFew7BYJqT5R2x3dsnRIxpjIwscsds4xY6wknVb32gDyxfNBG
-	vBYMI/bBS60Y8jIOWPjAHZAMrsBtX5z55du3rBQCv91S7E8Kjf9sg+S1kIBVtu2km53upb6lgjdw0
-	NA69jgw66nnWZ6rgjcdPhsj/2puG2ju/PDmZmhwm8I7Dc01KDw==;
-Received: from ip4d148da6.dynamic.kabel-deutschland.de ([77.20.141.166] helo=truhe.fritz.box); authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	id 1tKxGv-002jXf-0g;
-	Tue, 10 Dec 2024 11:15:17 +0100
-From: Thorsten Leemhuis <linux@leemhuis.info>
-To: Jonathan Corbet <corbet@lwn.net>,
-	workflows@vger.kernel.org,
-	regressions@lists.linux.dev,
-	linux-doc@vger.kernel.org
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Greg KH <gregkh@linuxfoundation.org>
-Subject: [PATCH v1 3/6] docs: 6.Followthrough.rst: interaction with stable wrt to regressions
-Date: Tue, 10 Dec 2024 11:15:12 +0100
-Message-ID: <d7793d2e788e7d98a67e90f85a77d42dab1b8da1.1733825632.git.linux@leemhuis.info>
-X-Mailer: git-send-email 2.45.0
-In-Reply-To: <cover.1733825632.git.linux@leemhuis.info>
-References: <cover.1733825632.git.linux@leemhuis.info>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CAdMLYgh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62F14C4CEE5;
+	Tue, 10 Dec 2024 11:31:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733830296;
+	bh=c0/Kvxahxgc5BU9+Agj9zRUQoG8xPGH+UnRBmIDO2fs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CAdMLYghmzGQESB8O/bG766ua3RwnQDvvUeRtidNiGqJ8TlfbCRElx/sTeRq75czU
+	 3zlwVL9q8G9hLadJBjJc3Rzko3FyKGRlMKDUUrDkuIDBwim+hOFfQiTMsxay+QCkZq
+	 dsAC5FAP+jV0quE80qwA4ol9lMd5AF1UYhgaFu0CgsD57mHGPWxDN0Lgy+Uf9C1yYt
+	 Dg0oxBHwR6mgEPdoiAY4JcR5TsCFu1Eq1lL52AnYyWlIjgOSlqqnlk0lbeACf2gCBs
+	 UmJzUF7qGAXH4lEvPtw1K9GFhr6Mau3FXLNvwd+UUKOWYgUWWpbaXc0eBl6N8ftV0s
+	 ezm7ttxPwaAkw==
+Date: Tue, 10 Dec 2024 11:31:31 +0000
+From: Will Deacon <will@kernel.org>
+To: Yabin Cui <yabinc@google.com>
+Cc: Rong Xu <xur@google.com>, Han Shen <shenhan@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2] arm64: Allow CONFIG_AUTOFDO_CLANG to be selected
+Message-ID: <20241210113129.GB14735@willie-the-truck>
+References: <20241118222540.27495-1-yabinc@google.com>
+ <20241209162028.GD12428@willie-the-truck>
+ <CAF1bQ=SiHi8oCyo5YnXGpQGofM1zAsnBdqSEet1mS-BYNKVU8A@mail.gmail.com>
+ <20241209185623.GA13084@willie-the-truck>
+ <CALJ9ZPNfUFF8OrpvziTnTvGU7OxEgyy9ZTc3aF-NhZ5hMbp7RQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1733825727;175a7289;
-X-HE-SMSGID: 1tKxGv-002jXf-0g
+In-Reply-To: <CALJ9ZPNfUFF8OrpvziTnTvGU7OxEgyy9ZTc3aF-NhZ5hMbp7RQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-Add a few notes on how the interaction with the stable team works when
-it comes to mainline regressions that also affect stable series.
+On Mon, Dec 09, 2024 at 03:51:34PM -0800, Yabin Cui wrote:
+>  On Mon, Dec 9, 2024 at 10:56 AM Will Deacon <will@kernel.org> wrote:
+> >
+> > (Aside: please try to avoid top-posting on the public lists as it messes up
+> > the flow of conversation; I'll try to piece this back together.)
+> >
+> > On Mon, Dec 09, 2024 at 09:30:50AM -0800, Rong Xu wrote:
+> > > On Mon, Dec 9, 2024 at 8:20 AM Will Deacon <will@kernel.org> wrote:
+> > > > On Mon, Nov 18, 2024 at 02:25:40PM -0800, Yabin Cui wrote:
+> > > > > diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> > > > > index fd9df6dcc593..c3814df5e391 100644
+> > > > > --- a/arch/arm64/Kconfig
+> > > > > +++ b/arch/arm64/Kconfig
+> > > > > @@ -103,6 +103,7 @@ config ARM64
+> > > > >       select ARCH_SUPPORTS_PER_VMA_LOCK
+> > > > >       select ARCH_SUPPORTS_HUGE_PFNMAP if TRANSPARENT_HUGEPAGE
+> > > > >       select ARCH_SUPPORTS_RT
+> > > > > +     select ARCH_SUPPORTS_AUTOFDO_CLANG
+> > > > >       select ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH
+> > > > >       select ARCH_WANT_COMPAT_IPC_PARSE_VERSION if COMPAT
+> > > > >       select ARCH_WANT_DEFAULT_BPF_JIT
+> > > >
+> > > > After this change, both arm64 and x86 select this option unconditionally
+> > > > and with no apparent support code being added. So what is actually
+> > > > required in order to select ARCH_SUPPORTS_AUTOFDO_CLANG and why isn't
+> > > > it just available for all architectures instead?
+> 
+> I think it's similar to ARCH_SUPPORTS_LTO_CLANG, which also doesn't need any
+> support code but requires testing to ensure it works on a specific architecture.
+> 
+> >
+> > > Enabling an AutoFDO build requires users to explicitly set CONFIG_AUTOFDO_CLANG.
+> > > The support code is in Commit 315ad8780a129e82 (kbuild: Add AutoFDO
+> > > support for Clang build).
+> >
+> > Yes, that is precisely my point. The user has to enable
+> > CONFIG_AUTOFDO_CLANG anyway, so what is the point in having
+> > ARCH_SUPPORTS_AUTOFDO_CLANG. Why would an architecture _not_ want to
+> > select that?
+> >
+> > > We are not enabling this for all architectures because AutoFDO's optimized build
+> > > relies on Last Branch Records (LBR) which aren't available on all architectures.
+> >
+> > So? ETM isn't available on all arm64 machines and I doubt whether LBR is
+> > available on _all_ x86 machines either. So there's a runtime failure
+> > mode that needs to be handled anyway and I don't think the arch-specific
+> > Kconfig option is really doing anything useful.
+> 
+> My understanding of the benefits of ARCH_SUPPORTS_AUTOFDO_CLANG is:
+> 1. Generally, we don't prefer to collect an AutoFDO profile on one
+> architecture and use it to build the kernel for another architecture.
+> This is because the profile misses data for architecture-dependent
+> code. ARCH_SUPPORTS_AUTOFDO_CLANG can partially prevent this from
+> happening.
 
-This removes equivalent paragraphs from a section in
-Documentation/process/handling-regressions.rst, which will become mostly
-obsolete through this and follow-up changes.
+Hmm, not really. Once more than one architecture selects the option, you
+have the possibility of the mismatch you're trying to avoid.
 
-Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
----
- Documentation/process/6.Followthrough.rst     | 22 +++++++++++++++++++
- .../process/handling-regressions.rst          | 19 ----------------
- 2 files changed, 22 insertions(+), 19 deletions(-)
+> 2. Building a kernel with an AutoFDO profile involves using new
+> optimization flags for clang.  Having ARCH_SUPPORTS_AUTOFDO_CLANG=y
+> for one architecture means someone has tested building a kernel with
+> an AutoFDO profile on this architecture.
 
-diff --git a/Documentation/process/6.Followthrough.rst b/Documentation/process/6.Followthrough.rst
-index f9ae3a86ee0c49..763a80d21240f0 100644
---- a/Documentation/process/6.Followthrough.rst
-+++ b/Documentation/process/6.Followthrough.rst
-@@ -234,6 +234,28 @@ On procedure:
-    requests again should ideally come directly from maintainers or happen in
-    accordance with them.
- 
-+Regarding stable and longterm series:
-+
-+ - You are free to leave handling regressions to the stable team if the problem
-+   at no point in time occurred with mainline or was fixed there already.
-+
-+ - When receiving reports about regressions in recent stable or longterm kernel
-+   series, consider evaluating at least briefly if the issue might happen in
-+   current mainline as well -- and if that seems likely, take hold of the
-+   report.  If in doubt, ask the reporter to check mainline.
-+
-+ - Fix regressions quickly in mainline, whenever you want to swiftly resolve one
-+   that recently made it into a mainline, stable, or longterm release; in urgent
-+   cases hence involve Linus to fast-track fixes (see above).  This route is
-+   required, as the stable team normally does neither revert nor fix any changes
-+   in their trees, as long as they cause the same problem in mainline.
-+
-+ - In case of urgent fixes for regression affecting a recent mainline, stable,
-+   or longterm release, you might want to ensure prompt backporting by dropping
-+   the stable team a note once the fix was mainlined; this is especially
-+   advisable during merge windows and shortly thereafter, as the fix otherwise
-+   might land at the end of a huge patch queue.
-+
- 
- Other things that can happen
- -----------------------------
-diff --git a/Documentation/process/handling-regressions.rst b/Documentation/process/handling-regressions.rst
-index c020418499f6a2..cfb44a9928d450 100644
---- a/Documentation/process/handling-regressions.rst
-+++ b/Documentation/process/handling-regressions.rst
-@@ -198,30 +198,11 @@ On procedure:
- 
- Regarding stable and longterm kernels:
- 
-- * You are free to leave regressions to the stable team, if they at no point in
--   time occurred with mainline or were fixed there already.
--
-  * If a regression made it into a proper mainline release during the past
-    twelve months, ensure to tag the fix with "Cc: stable@vger.kernel.org", as a
-    "Fixes:" tag alone does not guarantee a backport. Please add the same tag,
-    in case you know the culprit was backported to stable or longterm kernels.
- 
-- * When receiving reports about regressions in recent stable or longterm kernel
--   series, please evaluate at least briefly if the issue might happen in current
--   mainline as well -- and if that seems likely, take hold of the report. If in
--   doubt, ask the reporter to check mainline.
--
-- * Whenever you want to swiftly resolve a regression that recently also made it
--   into a proper mainline, stable, or longterm release, fix it quickly in
--   mainline; when appropriate thus involve Linus to fast-track the fix (see
--   above). That's because the stable team normally does neither revert nor fix
--   any changes that cause the same problems in mainline.
--
-- * In case of urgent regression fixes you might want to ensure prompt
--   backporting by dropping the stable team a note once the fix was mainlined;
--   this is especially advisable during merge windows and shortly thereafter, as
--   the fix otherwise might land at the end of a huge patch queue.
--
- On patch flow:
- 
-  * Developers, when trying to reach the time periods mentioned above, remember
--- 
-2.45.0
+On the flip side, allowing all architectures to select the option
+actually increases your test coverage.
 
+Will
