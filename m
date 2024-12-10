@@ -1,54 +1,49 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 499BCA934;
-	Tue, 10 Dec 2024 00:00:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A4C91DC989;
+	Tue, 10 Dec 2024 10:15:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733788849; cv=none; b=uk5l/5jzFKxP0aAtCMXfgNhfj27mdchkg0x8qTKcjjCTYfNtj/3iykMEo+ChIzl4l36/fP0MoFutzWlkLcRzwN5S3rPVCE3q9VIAYWSQ14//3GwodcWAvGQHu1ZYSlk5omCj90likAMDBIkJHS2fTxNmAYKSZ+/yJNoINnohu5U=
+	t=1733825727; cv=none; b=dAHuzcN7tSCLmqlJ+Eyq+MJPuQsKNH5pW5OyowB3DxTv1clgOM1B6zTodomjCw41bXbUqJ4n3QyCqolTDra2ruHFB75ft3E3TAlhaR0N43NYXeBM9/DPpF1ALNqxEB/9Uu6+tiOrEHC8y6B1w2Q9gi0suA9OQkc2yxHHHY2mozU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733788849; c=relaxed/simple;
-	bh=h3uBjElatKr0hPl6/PqFIk1FIlumz86KPe43ygUTTV8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pkeMTeEUJvmiKwQolLDSq4oq7xZ3CTXb7OW21lz9cgNWEUh5B30lk/lzn9ph7My8gKtR7XOCpNTf8eMvpQFPmg+9ice4PN//V7vgPRicYiLTYkcwWAFxPlU5vln26FcG1B/RZQlIFSqxLor+MRZ+hR4k1vn4SsKav3zkmdTIVW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=jxd9eSFB; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1733825727; c=relaxed/simple;
+	bh=D+c+B1bUmif0wxj8xZAKocXpxGOP/o3Po/5OqpW1i8c=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=TyPOzK1gqm/3gkMD6ggVFZ1BSoFZkE6HMrxXE3lhrxvgFjgCxmph2qb36Qz1mNKVGsdHqDX5WMo0crBdgHTMkAgy+I5JUYMQSx4hp54O/zt1zgRnjkwV16ie3nRHSMntCkwcnKQobG9/dTfB2HEH9HMD2DL5m/yi+V+6rEoqRVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=2bGRM4aW; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jxd9eSFB"
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="2bGRM4aW"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=PBXruUUq7CFnP5baKZ7oFYfGkNPXA/nLTilEYn4xNxQ=; b=jxd9eSFB8O7Bg0AfXpNa7MfiD1
-	kzUy8ZVQXBLehc9K2sr80w8/4pklxtkLIDpDj1KY3GawCwZ2Y884+0sM6YQL+v3qTUPimhdfEDGRk
-	DKlCu2csdL92kq85vCYOCb2doThNFQK1zG9zIcm69+Mq1z9iQdQl9DL2gbwM//zzuMPqWIkYjj9tH
-	1vNN97oq9QTOWzMiJ2MgDjM800Jzs5FZIrBaqGGd4zVRtZuB7eUuefjmCbi1myuqFban3TYhbRmq6
-	ggj1AmmlX5zw6qu/fQl1U5inxiW7eksB0PCeF8PaFeCVm/nGjY6SKa0BFUCJl01ZjeW6jUXrGLNi9
-	crp1Jcmw==;
-Received: from [50.53.2.24] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKngD-00000009dUD-10C1;
-	Tue, 10 Dec 2024 00:00:45 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-doc@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Jonathan Corbet <corbet@lwn.net>,
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:From:Sender:
+	Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=aL3zdlxnh3xuBBMynI0Qftj1Z4ZH3rJVNTYyucHAgKA=; t=1733825725;
+	x=1734257725; b=2bGRM4aWJvocLL/Sh7p+g7ZA22B+tzF+H0TzMDLBoBASuHqpRwHyZV0AaJHtH
+	e9MZhfk/+vOzoRJbFr1Du5z/S79io9cj5BQvQHV+0HxMbCQX5kpy5amJoljFxJPj0qCLbWEKBVjCY
+	J5jEH7PDe6ZH2dQJPoIIMMsMAlPl4+MQHvDdqsZIF2eqsUk+HPK95xgrbO1m0QxzApujwxWS1uMKz
+	OIfFRcfkixT7GbC8eefGLW6sWIcdqiVvu2/oUwBW0szNNCOnJs1WbFjKrZXiSKAA2bBK/jiHJX+6P
+	rKBDKGRmoHz8ckihZU9owhxTvrhl7tNgVWWh/HQILs7wJmkdUw==;
+Received: from ip4d148da6.dynamic.kabel-deutschland.de ([77.20.141.166] helo=truhe.fritz.box); authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	id 1tKxGu-002jXf-2X;
+	Tue, 10 Dec 2024 11:15:16 +0100
+From: Thorsten Leemhuis <linux@leemhuis.info>
+To: Jonathan Corbet <corbet@lwn.net>,
 	workflows@vger.kernel.org,
-	Jason Wessel <jason.wessel@windriver.com>,
-	Daniel Thompson <danielt@kernel.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	linux-debuggers@vger.kernel.org,
-	kgdb-bugreport@lists.sourceforge.net,
-	Alex Shi <alexs@kernel.org>,
-	Hu Haowen <2023002089@link.tyut.edu.cn>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-serial@vger.kernel.org
-Subject: [PATCH v3] Documentation: move dev-tools debugging files to process/debugging/
-Date: Mon,  9 Dec 2024 16:00:41 -0800
-Message-ID: <20241210000041.305477-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.47.1
+	regressions@lists.linux.dev,
+	linux-doc@vger.kernel.org
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Greg KH <gregkh@linuxfoundation.org>
+Subject: [PATCH v1 2/6] docs: 6.Followthrough.rst: when to involved Linus in regressions
+Date: Tue, 10 Dec 2024 11:15:11 +0100
+Message-ID: <9344b8bf12ce5ebe838d154d5c4f1baf515a9452.1733825632.git.linux@leemhuis.info>
+X-Mailer: git-send-email 2.45.0
+In-Reply-To: <cover.1733825632.git.linux@leemhuis.info>
+References: <cover.1733825632.git.linux@leemhuis.info>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -56,156 +51,80 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1733825725;57c6ae47;
+X-HE-SMSGID: 1tKxGu-002jXf-2X
 
-Move gdb and kgdb debugging documentation to the dedicated
-debugging directory (Documentation/process/debugging/).
-Adjust the index.rst files to follow the file movement.
-Adjust files that refer to these moved files to follow the file movement.
-Update location of kgdb.rst in MAINTAINERS file.
-Add a link from dev-tools/index to process/debugging/index.
+Add a few notes on when to involve Linus in regressions. Part of this
+spells out slightly obvious things infrequent developers might not be
+aware of, while others are based on a recent statement from Linus[1].
 
-Note: translations are not updated.
+This removes equivalent paragraphs from a section in
+Documentation/process/handling-regressions.rst, which will become mostly
+obsolete through this and follow-up changes.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: workflows@vger.kernel.org
-Cc: Jason Wessel <jason.wessel@windriver.com>
-Cc: Daniel Thompson <danielt@kernel.org>
-Cc: Douglas Anderson <dianders@chromium.org>
-Cc: linux-debuggers@vger.kernel.org
-Cc: kgdb-bugreport@lists.sourceforge.net
-Cc: Doug Anderson <dianders@chromium.org>
-Cc: Alex Shi <alexs@kernel.org>
-Cc: Hu Haowen <2023002089@link.tyut.edu.cn>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-serial@vger.kernel.org
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Acked-by: Daniel Thompson <danielt@kernel.org>
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Link: https://lore.kernel.org/all/CAHk-=wis_qQy4oDNynNKi5b7Qhosmxtoj1jxo5wmB6SRUwQUBQ@mail.gmail.com/ [1]
+Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
 ---
-v3: add link to process/debugging/index from dev-tools/index.
+ Documentation/process/6.Followthrough.rst      | 17 +++++++++++++++++
+ Documentation/process/handling-regressions.rst | 17 -----------------
+ 2 files changed, 17 insertions(+), 17 deletions(-)
 
-@Andrew, please drop v2 of this patch.
-
- Documentation/admin-guide/README.rst                                 | 4 ++--
- Documentation/dev-tools/index.rst                                    | 5 +++--
- .../{dev-tools => process/debugging}/gdb-kernel-debugging.rst        | 0
- Documentation/process/debugging/index.rst                            | 2 ++
- Documentation/{dev-tools => process/debugging}/kgdb.rst              | 0
- MAINTAINERS                                                          | 2 +-
- include/linux/tty_driver.h                                           | 2 +-
- lib/Kconfig.debug                                                    | 2 +-
- lib/Kconfig.kgdb                                                     | 2 +-
- 9 files changed, 11 insertions(+), 8 deletions(-)
-
-
-diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
-index f2bebff6a733..eb9452668909 100644
---- a/Documentation/admin-guide/README.rst
-+++ b/Documentation/admin-guide/README.rst
-@@ -356,5 +356,5 @@ instructions at 'Documentation/admin-guide/reporting-issues.rst'.
+diff --git a/Documentation/process/6.Followthrough.rst b/Documentation/process/6.Followthrough.rst
+index ed5e32348f2403..f9ae3a86ee0c49 100644
+--- a/Documentation/process/6.Followthrough.rst
++++ b/Documentation/process/6.Followthrough.rst
+@@ -217,6 +217,23 @@ On procedure:
+    on the fix and the alignment with pull requests it might be beneficial to
+    have them in there for a day or two.
  
- Hints on understanding kernel bug reports are in
- 'Documentation/admin-guide/bug-hunting.rst'. More on debugging the kernel
--with gdb is in 'Documentation/dev-tools/gdb-kernel-debugging.rst' and
--'Documentation/dev-tools/kgdb.rst'.
-+with gdb is in 'Documentation/process/debugging/gdb-kernel-debugging.rst' and
-+'Documentation/process/debugging/kgdb.rst'.
-diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
-index 3c0ac08b2709..65c54b27a60b 100644
---- a/Documentation/dev-tools/index.rst
-+++ b/Documentation/dev-tools/index.rst
-@@ -10,6 +10,9 @@ whole; patches welcome!
- A brief overview of testing-specific tools can be found in
- Documentation/dev-tools/testing-overview.rst
- 
-+Tools that are specific to debugging can be found in
-+Documentation/process/debugging/index.rst
++ - If a regression seems tangly, precarious, or urgent, consider CCing Linus on
++   discussions and patch reviews; do the same if the responsible maintainers
++   are suspected to be unavailable.
 +
- .. toctree::
-    :caption: Table of contents
-    :maxdepth: 2
-@@ -27,8 +30,6 @@ Documentation/dev-tools/testing-overview.rst
-    kmemleak
-    kcsan
-    kfence
--   gdb-kernel-debugging
--   kgdb
-    kselftest
-    kunit/index
-    ktap
-diff --git a/Documentation/dev-tools/gdb-kernel-debugging.rst b/Documentation/process/debugging/gdb-kernel-debugging.rst
-similarity index 100%
-rename from Documentation/dev-tools/gdb-kernel-debugging.rst
-rename to Documentation/process/debugging/gdb-kernel-debugging.rst
-diff --git a/Documentation/process/debugging/index.rst b/Documentation/process/debugging/index.rst
-index f6e4a00dfee3..387d33d16f5e 100644
---- a/Documentation/process/debugging/index.rst
-+++ b/Documentation/process/debugging/index.rst
-@@ -11,6 +11,8 @@ general guides
-    :maxdepth: 1
++ - For urgent fixes, consider asking Linus to pick them up straight from the
++   mailing list: he is totally fine with that for occasional and uncontroversial
++   fixes.  Such requests should ideally come directly from maintainers or happen
++   in accordance with them.
++
++ - In case you are unsure if a fix is worth the risk applying just days before
++   a new mainline release, send Linus a mail with the usual lists, developers,
++   and maintainers in CC; in it, summarize the situation while asking him to
++   consider picking up the fix straight from the list as he sees fit.  Linus
++   then can make the call and when appropriate even postpone the release.  Such
++   requests again should ideally come directly from maintainers or happen in
++   accordance with them.
++
  
-    driver_development_debugging_guide
-+   gdb-kernel-debugging
-+   kgdb
-    userspace_debugging_guide
+ Other things that can happen
+ -----------------------------
+diff --git a/Documentation/process/handling-regressions.rst b/Documentation/process/handling-regressions.rst
+index 62ecc5c5c0765f..c020418499f6a2 100644
+--- a/Documentation/process/handling-regressions.rst
++++ b/Documentation/process/handling-regressions.rst
+@@ -196,23 +196,6 @@ On procedure:
+    regressions to be handled like those from the current cycle, unless fixing
+    bears unusual risks.
  
- .. only::  subproject and html
-diff --git a/Documentation/dev-tools/kgdb.rst b/Documentation/process/debugging/kgdb.rst
-similarity index 100%
-rename from Documentation/dev-tools/kgdb.rst
-rename to Documentation/process/debugging/kgdb.rst
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1e930c7a58b1..1753fe792d04 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12809,7 +12809,7 @@ L:	kgdb-bugreport@lists.sourceforge.net
- S:	Maintained
- W:	http://kgdb.wiki.kernel.org/
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/jwessel/kgdb.git
--F:	Documentation/dev-tools/kgdb.rst
-+F:	Documentation/process/debugging/kgdb.rst
- F:	drivers/misc/kgdbts.c
- F:	drivers/tty/serial/kgdboc.c
- F:	include/linux/kdb.h
-diff --git a/include/linux/tty_driver.h b/include/linux/tty_driver.h
-index dd4b31ce6d5d..d4cdc089f6c3 100644
---- a/include/linux/tty_driver.h
-+++ b/include/linux/tty_driver.h
-@@ -320,7 +320,7 @@ struct serial_struct;
-  *
-  * @poll_init: ``int ()(struct tty_driver *driver, int line, char *options)``
-  *
-- *	kgdboc support (Documentation/dev-tools/kgdb.rst). This routine is
-+ *	kgdboc support (Documentation/process/debugging/kgdb.rst). This routine is
-  *	called to initialize the HW for later use by calling @poll_get_char or
-  *	@poll_put_char.
-  *
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index f3d723705879..d2cf74cbbe70 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -433,7 +433,7 @@ config GDB_SCRIPTS
- 	  build directory. If you load vmlinux into gdb, the helper
- 	  scripts will be automatically imported by gdb as well, and
- 	  additional functions are available to analyze a Linux kernel
--	  instance. See Documentation/dev-tools/gdb-kernel-debugging.rst
-+	  instance. See Documentation/process/debugging/gdb-kernel-debugging.rst
- 	  for further details.
+- * Consider CCing Linus on discussions or patch review, if a regression seems
+-   tangly. Do the same in precarious or urgent cases -- especially if the
+-   subsystem maintainer might be unavailable. Also CC the stable team, when you
+-   know such a regression made it into a mainline, stable, or longterm release.
+-
+- * For urgent regressions, consider asking Linus to pick up the fix straight
+-   from the mailing list: he is totally fine with that for uncontroversial
+-   fixes. Ideally though such requests should happen in accordance with the
+-   subsystem maintainers or come directly from them.
+-
+- * In case you are unsure if a fix is worth the risk applying just days before
+-   a new mainline release, send Linus a mail with the usual lists and people in
+-   CC; in it, summarize the situation while asking him to consider picking up
+-   the fix straight from the list. He then himself can make the call and when
+-   needed even postpone the release. Such requests again should ideally happen
+-   in accordance with the subsystem maintainers or come directly from them.
+-
+ Regarding stable and longterm kernels:
  
- endif # DEBUG_INFO
-diff --git a/lib/Kconfig.kgdb b/lib/Kconfig.kgdb
-index 537e1b3f5734..8336b1a489a3 100644
---- a/lib/Kconfig.kgdb
-+++ b/lib/Kconfig.kgdb
-@@ -19,7 +19,7 @@ menuconfig KGDB
- 	  CONFIG_FRAME_POINTER to aid in producing more reliable stack
- 	  backtraces in the external debugger.  Documentation of
- 	  kernel debugger is available at http://kgdb.sourceforge.net
--	  as well as in Documentation/dev-tools/kgdb.rst.  If
-+	  as well as in Documentation/process/debugging/kgdb.rst.  If
- 	  unsure, say N.
- 
- if KGDB
+  * You are free to leave regressions to the stable team, if they at no point in
+-- 
+2.45.0
+
