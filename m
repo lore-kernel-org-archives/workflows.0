@@ -1,208 +1,79 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 297551AC8B9;
-	Fri, 13 Dec 2024 11:31:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24FB984039;
+	Fri, 13 Dec 2024 16:14:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734089497; cv=none; b=RaMt4T5j3/0z/f7Ocp4/y9sNNmFM9nOSRZylewt8LaWuU/+y3hS9O9vjAmHQ6n8TLOkBH74P66CYHczQplTDJakuCgFko4C6BgsQ1ztO5VM7OBYfrYIKdnrmD5xsxW4t3vYqrn6d9+mGiNDu8fQ3mpxQRt/uFjTa25+ldUn0nBk=
+	t=1734106493; cv=none; b=QcJNGtAsy9Us27J9ZhlwsNdwCDMu6rPam+v5C+LwsNdUokGPZB1gyNNLT4zQgBHG7a90YJi9NSei8AowS3FJBNfeV+gLf+4RQeNCIWusSeM+Ok4j+6pGXa2PXPo3vWC+m8MaNNcOz3VVdjMWMV6l9lKZHSZYXOXz/j1o/Sx1PmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734089497; c=relaxed/simple;
-	bh=2kZDUN0oXZxDltOM76SVSzHfd2+bJipUkD4hmTp2BeE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OYqoH6moUfKUPi1wpoKCkINMFBZW0dAp3zHBvzP6GHcpYFx8AbfRP8PrRF0kRzGuxanmJq5ZSai4z7T30Mb0dKFyR2cfaLewmsvk/ZuC6vArtGTkhis8vYXWE1ZEgBBc8LrGhdfX+r4w4sNNqqg27f1SWP2U52aNLJk+5bvNTY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=J9TzfDFQ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=0Nvrmho5; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=J9TzfDFQ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=0Nvrmho5; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1734106493; c=relaxed/simple;
+	bh=x7lwD+mrt5JjAxRXerCJyGSk5TUHCt49xsw/U2O91Jw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=JeVgdCs4bQ2Cvt5AdqBumOPlcKkN1IfcOmYQPIH7rdDIL7dlCHtOsU9yih2EnnjPJhwRXzfKJhDVKqzuGCjF+msIznvGqRH/5hf0PH9RKIY4pSD9rz52YhmtEp+kpHRDi8nnN9OLUxFF2BbmJR/lpKKQuLP4j9N7j+moMNmxLHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=T6G2F/8E; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="J9TzfDFQ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="0Nvrmho5";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="J9TzfDFQ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="0Nvrmho5"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="T6G2F/8E"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 507A9403FA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1734106491; bh=hz+uPLbCXHfkagOv/3/QLncBIXVL2PUgXiHHOfdp8J4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=T6G2F/8EL5T0/QERFYTgNzryWi7awAEMtwmkj2jCUzW0wS6kgGlsiHfib+5Sovaog
+	 T2wpDyIO0ocElZ74vDxF0AzzzhxssElVPm0Cdy+XImdhuN9oIpBNRI+x+DCJYWmAVz
+	 xgpq2ki3zfHN27DwWDN2FVvS1h0t6rSArnBuOLXYgGIxCqcnyPPUMohrsDQ0PphOKd
+	 qoIe1DSSu3egab8Z7WDctbCL0OVwRknKYhzyCuIONABfPt67e9KHMBQf5eXB4vg61g
+	 drJgdCCFJTyOilmQrieANgnq+0FPg11wlpTgOQM9MoIb0paogj8DIsQ6W5DSwJCecw
+	 MS/zzH6I4FRfg==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2BB4B2118F;
-	Fri, 13 Dec 2024 11:31:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1734089493; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=3Otja/V8iVkjpbxSaRwfSQ2uR5NuRiE8gnzz4GB7804=;
-	b=J9TzfDFQJaQGpszKnpoeWtB9HMxPxbkUZwXtyC/yqZA1c6gWsVemNteLK9oaMKXy0DjEZS
-	rxEL9V++NAQLoiNPHnmvImav4+YcFNQZ7Q1BtCWpxOkiSg7pxqV0pw14Eean/kdJI+KQ21
-	dZ4w80/dxKU7VPqcDSgGuBB3ddln0Hw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1734089493;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=3Otja/V8iVkjpbxSaRwfSQ2uR5NuRiE8gnzz4GB7804=;
-	b=0Nvrmho5UfUG22FOsPdU1jkCeeDFix5kXjVD4X1H080PPvSnp0bVKSiOYbWCI7iKXv/ls7
-	rzfQVdjOCUsJaFDQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1734089493; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=3Otja/V8iVkjpbxSaRwfSQ2uR5NuRiE8gnzz4GB7804=;
-	b=J9TzfDFQJaQGpszKnpoeWtB9HMxPxbkUZwXtyC/yqZA1c6gWsVemNteLK9oaMKXy0DjEZS
-	rxEL9V++NAQLoiNPHnmvImav4+YcFNQZ7Q1BtCWpxOkiSg7pxqV0pw14Eean/kdJI+KQ21
-	dZ4w80/dxKU7VPqcDSgGuBB3ddln0Hw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1734089493;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=3Otja/V8iVkjpbxSaRwfSQ2uR5NuRiE8gnzz4GB7804=;
-	b=0Nvrmho5UfUG22FOsPdU1jkCeeDFix5kXjVD4X1H080PPvSnp0bVKSiOYbWCI7iKXv/ls7
-	rzfQVdjOCUsJaFDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1113213927;
-	Fri, 13 Dec 2024 11:31:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id pJ7ZAxUbXGdfYAAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Fri, 13 Dec 2024 11:31:33 +0000
-From: Vlastimil Babka <vbabka@suse.cz>
-To: Joe Perches <joe@perches.com>,
-	workflows@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Vlastimil Babka <vbabka@suse.cz>,
-	"Theodore Ts'o" <tytso@mit.edu>,
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
-	Thorsten Leemhuis <linux@leemhuis.info>
-Subject: [RFC PATCH] get_maintainer: decouple subsystem status from maintainer role
-Date: Fri, 13 Dec 2024 12:29:22 +0100
-Message-ID: <20241213112921.180978-2-vbabka@suse.cz>
-X-Mailer: git-send-email 2.47.1
+	by ms.lwn.net (Postfix) with ESMTPSA id 507A9403FA;
+	Fri, 13 Dec 2024 16:14:51 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Thorsten Leemhuis <linux@leemhuis.info>, workflows@vger.kernel.org,
+ regressions@lists.linux.dev, linux-doc@vger.kernel.org
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Greg KH
+ <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v1 1/6] docs: more detailed instructions on handling
+ regressions
+In-Reply-To: <aed019088599c6dc8aab8879dfda35785e01d316.1733825632.git.linux@leemhuis.info>
+References: <cover.1733825632.git.linux@leemhuis.info>
+ <aed019088599c6dc8aab8879dfda35785e01d316.1733825632.git.linux@leemhuis.info>
+Date: Fri, 13 Dec 2024 09:14:50 -0700
+Message-ID: <87msgzwoed.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Score: -2.80
-X-Spam-Flag: NO
+Content-Type: text/plain
 
-The script currently uses the subystem's status (S: field) to change how
-maintainers are reported. One prominent example is when the status is
-Supported, the maintainers are reported as "(supporter:SUBSYSTEM)".
+Thorsten Leemhuis <linux@leemhuis.info> writes:
 
-This is misleading, as the Supported status defined as "Someone is
-actually paid to look after this." may not in fact apply to everyone
-listed as a maintainer, but only to some of them.
+> Add a few more specific guidelines on handling regressions to the
+> kernel's two most prominent guides about contributing to Linux, as
+> developers apparently work with quite different interpretations of what
+> Linus expects.
+>
+> Changes like this were asked for during the Maintainers Summit 2024. The
+> four rules of thumb spelled out are all closely based on statements
+> Linus made there; LWN documented all except "Expedite fixing regressions
+> that reached a release deemed for end users.." in their coverage [1].
 
-It has also been confusing people to what "supporter" means and has
-required updates to the documentation [1].
+"deemed" used in this way is a bit strange.  "intended" perhaps?
 
-Thus stop applying the subsystem status to change "maintainer:" to
-anything else, as maintainers are maintainers. Instead, if the subsystem
-status is not the most common one (Maintained), indicate it as part of
-the subsystem name. So for example, instead of "(supporter:SUBSYSTEM)"
-report "(maintainer:SUBSYSTEM [supported])".
+> +On timing:
+> +
+> + - Expedite fixing regressions that reached releases deemed for end users
+> +   through new mainline releases or stable backports during the past year.
 
-[1] https://lore.kernel.org/all/20221006162413.858527-1-bryan.odonoghue@linaro.org/
+Here too.
 
-Cc: "Theodore Ts'o" <tytso@mit.edu>
-Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-Cc: Thorsten Leemhuis <linux@leemhuis.info>
-Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
----
-I have been confused myself in the past seeing "supporter" and have seen
-somebody recently wondering what it means as well.
+That little nit is all I can find to complain about in this one, though
+:)
 
-I have read the threads from 2022 that in the end resulted in adjusting
-documentation only [1]. I very much agree with Ted's points about taking
-the subsystem status and applying it to all maintainers being wrong [2].
-
-The attempt to modify get_maintainer output was retracted after Joe
-objected that the status becomes not reported at all [3]. This RFC
-attempts to address that by reporting the status (unless it's the most
-common one) as part of the subsystem.
-
-The patch is not perfect, as with this approach, the logical thing would
-be to do the same also for reviewers and mailing lists. In fact,
-subsystems with a status of Orphan typically only have some catch-all
-mailing list and no maintainers, so the "(orphan minder:SUBSYSTEM)"
-would never be currently reported by checkpatch. It would be thus
-logical to report the status in the same way for lists (and reviewers).
-
-But I didn't attempt a full implementation as I'm not fluent in Perl and
-would like to see if we can get a consensus first. If we do, I don't
-insist in this particular "SUBSYSTEM [status]" syntax nor on
-implementing the full solution myself - I would be happy if somebody
-else did. My main point is that maintainer is a maintainer and the
-subsystem status should be indicated for the subsystem, not for the
-maintainer.
-
-[1] https://lore.kernel.org/all/20221006162413.858527-1-bryan.odonoghue@linaro.org/
-[2] https://lore.kernel.org/all/Yzen4X1Na0MKXHs9@mit.edu/
-[3] https://lore.kernel.org/all/30776fe75061951777da8fa6618ae89bea7a8ce4.camel@perches.com/
-
- scripts/get_maintainer.pl | 20 +++++---------------
- 1 file changed, 5 insertions(+), 15 deletions(-)
-
-diff --git a/scripts/get_maintainer.pl b/scripts/get_maintainer.pl
-index 5ac02e198737..a2f578f2d93b 100755
---- a/scripts/get_maintainer.pl
-+++ b/scripts/get_maintainer.pl
-@@ -1286,6 +1286,7 @@ sub get_maintainer_role {
- 
-     my $role = "unknown";
-     my $subsystem = get_subsystem_name($index);
-+    my $substatus = "";
- 
-     for ($i = $start + 1; $i < $end; $i++) {
- 	my $tv = $typevalue[$i];
-@@ -1299,21 +1300,10 @@ sub get_maintainer_role {
-     }
- 
-     $role = lc($role);
--    if      ($role eq "supported") {
--	$role = "supporter";
--    } elsif ($role eq "maintained") {
--	$role = "maintainer";
--    } elsif ($role eq "odd fixes") {
--	$role = "odd fixer";
--    } elsif ($role eq "orphan") {
--	$role = "orphan minder";
--    } elsif ($role eq "obsolete") {
--	$role = "obsolete minder";
--    } elsif ($role eq "buried alive in reporters") {
--	$role = "chief penguin";
--    }
--
--    return $role . ":" . $subsystem;
-+    if ($role ne "maintained") {
-+	$substatus = " [" . $role . "]";
-+    }
-+    return "maintainer:" . $subsystem . $substatus;
- }
- 
- sub get_list_role {
--- 
-2.47.1
-
+jon
