@@ -1,140 +1,87 @@
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 481511EF0B6;
-	Fri, 13 Dec 2024 19:41:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F6CC522F;
+	Sat, 14 Dec 2024 16:03:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734118894; cv=none; b=MHGsFD7CeZI11pSPKxbH0F0hcE3lKXPfb7QBnCYTcc7Fsnu8MfL+dg7dUd8+lW5Ve0Nyq/NvyZS+lArxiHHEOZCt2jvpfP9oXVVaV0JGfUmDbG8sEcn5454NLNyTGUEBeJSYUBQ5ZWSAU5V5HNInRhm94I2TC8uSEuqWoh8FAEE=
+	t=1734192218; cv=none; b=Egjuoxldot7Qf5a6XJo7Y20fW19kwnc2oR3NPZrn0P5AmjwGz3/9PQQ9wHMlQFRgiZWyBKsyNsLuDAcoRV1V4VLCNIRTODOyZJi4Gm7IN8F9UIPp7PcG3ap4MWz1qIsOVAzCSGFwx/re4z0Tbkv/hRpUFqwdAKrjFyjNN0+UuZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734118894; c=relaxed/simple;
-	bh=WcmpwK8L+1rdyFXu6+ygLABocvmTT9mSI/qvmMxq1vM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mZ0L3IOTlDbNgI4TxvuM9UdLXD+3wBmubqxq4xp3YXCtGGD1GX9lnQfI/PgPMED2/G8WWcQydFvi/wfHWYlh0wUJ0mQyfx8JZAWdZAcAMyxMN8KMRxUXZCk1ZzIMvdDvUCukkSGZbw5djrW4k//x200n4LP7I9UvzPD8PJQnovI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-4afe7429d37so566307137.2;
-        Fri, 13 Dec 2024 11:41:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734118890; x=1734723690;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+NNjRUZHM5uucEv6fy+3ktXfQNKuRR8mDXFkC5X+CBM=;
-        b=RFnmQNynqw2NkXPjp2Oxh1PFKpHWp4l5XbMt9oNEqlFGAKRMCmjKvp0x74wC8iU4TY
-         8I+wTmdvLuRg/anGQroRUDd/QVpod4Sk/9cYQG/hcUS55WWfjjCAr+CIJoo2o8VLiPbv
-         ikuuZaFGyeG025b/4TGDyJq9JOUYCVkRLcWxwsW9jRCX7mUnb46o6a63BXLFtZyzrW66
-         Zr0GM+6q01glgeR8BQ/hmo396+Ch/6dD3YcaSqxFs+hEACZHOOqWleGruFIqcZOw9hdn
-         sFOT9xgqnNwvijaHuHwbYbqxWEXIrjcj+shQZJgImvE30AocBDrruVWGvjEFkZB2FQHZ
-         mY7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVU5OmT03P4fKTcllopWB6R+ywd4bLrVFPdhFo5n8ssO8DC32Oq0sI0dPxz61Gmm4m/lHyfObV0K1s=@vger.kernel.org, AJvYcCXJvhrbkvALItaYbFrPhAVbFZQYxWLZkVdd+xAG1reqV8ciuMweZUPNvrgE2SLqEowwAR0eq/IbvmiNJ2tG@vger.kernel.org, AJvYcCXM/5sp5xsWOt6/g+MfTGQEyiH/RfqVR6HhFAoD9sVq/TKAeHGAvaiRtdGjF38LKOqnJmT8AJGJ8o27@vger.kernel.org
-X-Gm-Message-State: AOJu0YzyO+l9R4zlpoQXXFujI97DqHq/LLT+d6D8Jg/LyQ+63xUoDpct
-	HHbk8ZxskbLfs5S67FuX3KNkAdTfUm7eGIKk3jopC+jA55QEPJi7EPZa9t5H
-X-Gm-Gg: ASbGncvqFJZR4Dm5mVDoiXroNppDDsWJC0NMoZ2jzmyXD5VwhuzalT5ORxqeVtT7O4r
-	shw/17bjpy3Rt+YUc0QYdHpoZC6L12jxDep+cbz8jYqbSHYcNxre3hgH7W/sxDU3e/EkEBHkIP6
-	XcQMjwwGW4taFBmXwD+hzjyUe6y9RxjUwjYoJRSFbRhc6XPqyC3FIl4rDylv8c6zWsjtrx1mhHB
-	1Ep47kq7ihsnn/GWGxHvK2IB32GaUTN6TYc1Dap/F1Q8jnVl6CE/tkA11Db8uQlwcYBQV6rKFCe
-	ch8hhbp1I5abJDcIB/wwBUA=
-X-Google-Smtp-Source: AGHT+IE3FUP7NwkHryvGs8lB8qPl/CWB38xrqMRXss3js+pZWDS09s6TBZKB8TtM0W2KSNW6VLFQug==
-X-Received: by 2002:a05:6102:2082:b0:4b2:5de5:faea with SMTP id ada2fe7eead31-4b25de60878mr4448666137.0.1734118890041;
-        Fri, 13 Dec 2024 11:41:30 -0800 (PST)
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com. [209.85.221.175])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-860ab71683csm9134241.34.2024.12.13.11.41.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Dec 2024 11:41:29 -0800 (PST)
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-5187f6f7bcaso568486e0c.3;
-        Fri, 13 Dec 2024 11:41:29 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVdrqF02k7dB2jqHrlU6h4Y3Wh5Sj/DkJc8XEfmdH/IsA30Kt/AVAVgR9mnM3uTIrNANp67Rzl6AJU=@vger.kernel.org, AJvYcCVxeJf3PpGKIQrecpYuQZ911/cXI8KXUwLFE7tWXsF41oSla6bGX0yGJmYEJi6Yufcfk01k+huH8KUi@vger.kernel.org, AJvYcCX4+/fbcBQNy+KUnXD9xzyOgo+tEojo6ONUC18DiCxJ7Uomx/STtC9OG2xuAg/B9wAIJNDs4uPixwIzh7YL@vger.kernel.org
-X-Received: by 2002:a05:6122:3290:b0:517:4fb0:74bc with SMTP id
- 71dfb90a1353d-518ca369a45mr5040949e0c.3.1734118889186; Fri, 13 Dec 2024
- 11:41:29 -0800 (PST)
+	s=arc-20240116; t=1734192218; c=relaxed/simple;
+	bh=xxXLyGOyZnGpaJ4mvshI9zCtsAP5miyU2OJKnkGTl/Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j8hmUvctRZu0W64PEFItcdE2RNphsVfVw6IgsCnPmpOImW7QvEm9t/FZIxU1xriGqnXwLrfKGHK26LvpSPTmQlgWQrfSaFBZLgIQGGDto+n1dMETeJ556lZF9cK1CF0hv7yimcZeVS+UG0nlZwIMkgiscOGTKbyp7OyiuByJqxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=IGfeNfO/; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="IGfeNfO/"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=T1A5Dyhd0EpXiTSnjGvcbnHEdmDZiOrAmCbzr/JLCnI=; b=IGfeNfO/3qoDbUQQYKjPvkjxLU
+	1yHvQ52/YlqK1M5KJVUSL4qFTXj5/vO8qtpBp2QYTwrXPAeysrDYW9U8EWVyHSyivZgyDFgSm06V8
+	C7vnSyKZjmALsfLPoQXvJFtlFnpPzRJApwvEQgdTdwgRS/7ChtNju5ZKY2p6Si9WoCzNckrmgMMIu
+	XHAxY11W2HVz7w1zKsTf0+nPG1JZAk5Hm73ZC/+DpspbJ+218n54P+Y/73EwnHPlfNsPuipGne/BE
+	79uyK9UtnDr4fyzJglMmXW2AYb0EefKCd5yniukpxZgNPL68r2FQw8lQb+cq2+BLxQU7bn6HTw1C4
+	C24vAs0w==;
+Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
+	id 1tMUbx-00000003cyB-3EVu;
+	Sat, 14 Dec 2024 16:03:21 +0000
+Date: Sat, 14 Dec 2024 16:03:21 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>,
+	Thorsten Leemhuis <linux@leemhuis.info>,
+	Andy Whitcroft <apw@canonical.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@corigine.com>,
+	Simon Horman <horms@kernel.org>, Conor Dooley <conor@kernel.org>,
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+	Junio C Hamano <gitster@pobox.com>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] Increase minimum git commit ID abbreviation to 16
+ characters
+Message-ID: <Z12sScjRHpB1d0nO@casper.infradead.org>
+References: <cover.1733421037.git.geert+renesas@glider.be>
+ <46b320b91b8d86fade3c1b1c72ef94da85b45d0d.1733421037.git.geert+renesas@glider.be>
+ <CAHk-=wiwAz3UgPOWK3RdGXDnTRHcwVbxpuxCQt_0SoAJC-oGXQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1733421037.git.geert+renesas@glider.be> <46b320b91b8d86fade3c1b1c72ef94da85b45d0d.1733421037.git.geert+renesas@glider.be>
- <CAHk-=wiwAz3UgPOWK3RdGXDnTRHcwVbxpuxCQt_0SoAJC-oGXQ@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <CAHk-=wiwAz3UgPOWK3RdGXDnTRHcwVbxpuxCQt_0SoAJC-oGXQ@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 13 Dec 2024 20:41:17 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXxqRRePJ_HHo---6ayjRnQcDRE--mx0kUDg0ceDELG9g@mail.gmail.com>
-Message-ID: <CAMuHMdXxqRRePJ_HHo---6ayjRnQcDRE--mx0kUDg0ceDELG9g@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] Increase minimum git commit ID abbreviation to 16 characters
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
-	Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Thorsten Leemhuis <linux@leemhuis.info>, Andy Whitcroft <apw@canonical.com>, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@corigine.com>, 
-	Simon Horman <horms@kernel.org>, Conor Dooley <conor@kernel.org>, 
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Junio C Hamano <gitster@pobox.com>, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Linus,
+On Thu, Dec 05, 2024 at 11:19:18AM -0800, Linus Torvalds wrote:
+> Why do I care? Because long git commit IDs are actually detrimental to
+> legibility. I try to make commit messages legible, and that very much
+> is the *point* of the short format. It's for people, not machinery.
+> 
+> Yes, the basic git machinery doesn't do object type disambiguation
+> (and if you do "git show", you can give it blob IDs etc, so git itself
+> may not know about the proper type to use disambiguate at all). And
+> git also doesn't know about the whole "we also put the first line of
+> the commit message" thing.
+> 
+> But honestly, I'm claiming that something like
+> 
+>     Fixes: 48bcda684823 ("tracing: Remove definition of trace_*_rcuidle()")
 
-On Thu, Dec 5, 2024 at 8:19=E2=80=AFPM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
-> On Thu, 5 Dec 2024 at 10:16, Geert Uytterhoeven <geert+renesas@glider.be>=
- wrote:
-> > Hence according to the Birthday Paradox, collisions of 12-chararacter
-> > git commit IDs are imminent, or already happening.
->
-> Note that ambiguous commit IDs are not even remotely as scary as this imp=
-lies.
->
-> Yes, the current kernel tree has over ten million objects, and when
-> you look at stable trees etc, you can easily see more.
->
-> But commits are only a fraction (about 1/8th) of the total objects. My
-> tree is at about 1.3M commits, so we're basically an order of
-> magnitude off the point where collisions start being an issue wrt
-> commit IDs.
->
-> Can you find collisions by looking at all objects? Yes. Git will do
-> that for you, and tell you their types. But to take one recent
-> example, let's do the 6.12 commit:
-> adc218676eef25575469234709c2d87185ca223a. To get an ambiguous ID, you
-> have to go down to 6 characters, and even then git will tell you
-> there's only one object that is a commit, ie
->
->    $ git show adc218
->
-> results in
->
->   error: short object ID adc218 is ambiguous
->   hint: The candidates are:
->   hint:   adc218676eef commit 2024-11-17 - Linux 6.12
->   hint:   adc2184009c5 blob
->
-> so right now you have a collision in six digits for that commit, but
-> even then it's actually still entirely unambiguous once you know
-> you're talking about a commit.
+I have wondered about using a different encoding for the sha1.
+Classic Ascii85 encoding is no good; it uses characters like '"\<
+which interact poorly with every shell.  RFC1924 is somewhat better,
+but still uses characters that interact poorly with shell.
 
-That's true for the basic command line tools...
+Base36 (ie 0-9a-z) would take 10 characters to represent as many bits
+as 12 characters in base16.  Base62 (0-9a-zA-Z) gives us 8 characters
+to represent _almost_ 48 bits.  We could do Base64 (RFC 4648) which
+uses + and /, and is common enough.  Good enough to be worth the
+additional complexity?
 
-> Make the tools deal with the cases we already have, and you'll find
-> that the shortening is a complete non-issue.
-
-FTR, cgit can use some improvements, as
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?=
-id=3Dadc218
-just tells you "Bad object id: adc218".
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
