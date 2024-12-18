@@ -1,92 +1,116 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DC1A1D89EC;
-	Tue, 17 Dec 2024 20:56:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DAB615383E;
+	Wed, 18 Dec 2024 05:48:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734469008; cv=none; b=hgcWJJu/Gv/o39y8hSs/GvhuiUC5yLzFRE73GFLekP1CXeyX1rluFQ46fu6PEd0R8HHxs/paf5ARqotb0k330njf2D2PoT7dTt7WsAsIqJnY1xRqo7teZ1ok94C/cMLeGfyTAKRX6H7cTmRiEXW/7U4cbGACB+iixwIm/l7Cor4=
+	t=1734500935; cv=none; b=BKjDP4F2W6fRftZqMau26530pZe1M94w4iafMrKWbk9M7+BIKr63Jkn5WxuSuMr7Z/Yn9eE+n5h4+sAU0ywRTifLPpBpT7DuqQh6qmRUd5gUB695Y4jiCceNYNMirSo+d0F2vXAcDViGxzeouOkeyL3xu/+do0MNmPAb+wzVFIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734469008; c=relaxed/simple;
-	bh=Af2KRLSoFf+h0DNrrfx2oP5nBa7sAKsH5w+CNA5GRKA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=tlf/502JHZp/BePVRXfJGlnQhx0mSddcnU3gVVsqiF/T3pzTnNiYlo0gi1XNYZLKslbKIyJVRMNku68vewhOKE+ugjNYwiyB0SlatwpdZruwsVmUXS0zu7qXXeCnOg24fU6RNJ6dMYlLilJDijYz59VuaHf+1hHaAZAEFIPHGcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=FhFChqsV; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1734500935; c=relaxed/simple;
+	bh=NfOzcv2g2e22rFhh5JdjNDAg7xnFUQiOwMHTqgGfvww=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kJdVE0V6++y6QApCZtYZDMD/QSajx5D1E2/WCVft9ulc2+ekoR427OsWAKank+OrL/a/WkIK3tld6ZAr1VKXIXKgAtLRjNQN5QvrlKpa+7if8PpLYT71QIOdtk3zNGV5GUM6jhDYMkw0e9HoAmGRRLMxvf0iIP8asYhG1CLkHrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DakzdjZs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="FhFChqsV"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 14D7B4040A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1734468999; bh=Af2KRLSoFf+h0DNrrfx2oP5nBa7sAKsH5w+CNA5GRKA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=FhFChqsVo58DDf/5cU6Ond1qs+My1/peYw3PcMt/6HdMjBhnMUY7lzhZwkoknrAG6
-	 90tt7cwenOllriVj5vsBXdmZfbhyDBcZ8+M4AAGmV4ItbCrAOe1nDPEw7FeYZYxdfw
-	 To0mMBH57OOqNrhd8VWL+Rx3AV4b4ZLqeA3ZkAhJ6h5IcduvATIuwhqSCNev5Qvwyc
-	 idPT7Qps3EC7JcfYtWJ9lGYTRX3QEqwJEsaiYmug9R447qHKdAYv3g7HKYi/fqmD/z
-	 E3KVQpx+wdhkgEL3w6t4AlS0Wvmfvi1hxtzcUHJoULwZ88vqQe9g9btWR64NoOvOAZ
-	 MwBmCfcN9k9Gw==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625:67c:16ff:fe81:5f9b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 14D7B4040A;
-	Tue, 17 Dec 2024 20:56:39 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>, Sebastian Fricke
- <sebastian.fricke@collabora.com>, workflows@vger.kernel.org, Jason Wessel
- <jason.wessel@windriver.com>, Daniel Thompson <danielt@kernel.org>,
- Douglas Anderson <dianders@chromium.org>, linux-debuggers@vger.kernel.org,
- kgdb-bugreport@lists.sourceforge.net, Alex Shi <alexs@kernel.org>, Hu
- Haowen <2023002089@link.tyut.edu.cn>, Andrew Morton
- <akpm@linux-foundation.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-serial@vger.kernel.org
-Subject: Re: [PATCH v3] Documentation: move dev-tools debugging files to
- process/debugging/
-In-Reply-To: <20241210000041.305477-1-rdunlap@infradead.org>
-References: <20241210000041.305477-1-rdunlap@infradead.org>
-Date: Tue, 17 Dec 2024 13:56:38 -0700
-Message-ID: <87seqmt4e1.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DakzdjZs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3683C4CECE;
+	Wed, 18 Dec 2024 05:48:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734500934;
+	bh=NfOzcv2g2e22rFhh5JdjNDAg7xnFUQiOwMHTqgGfvww=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DakzdjZsMFD43Uo8hVb9nBy6z/CFsx+GcsCYypcgDxlKzOJmBV4rmchNglfzF+Cb9
+	 3zli7HQYXcn9F+VRyEzbYDeWrn22GPdfBTqy4WV/904kSsvaJXj6/T43OXMYbXLRgv
+	 mcsmzrnTc7Y9WvTPQY0j5RVvsgqxRaMASuyVYAz7Ic8JgmzsaVsnA3H43QX5BTP729
+	 tU4v2yzcPVKyZzjG3BSRs1mFO01nY6EqXeEQ7fcqntWoDMGrG4K91Kl1ufW+n2ofZL
+	 Sn8TvcnbE+0B1Av7i0pqyho5syvLHkqqiKgRJ2LltYh0kpvOsZlmaApV1il+4Ppyeq
+	 Wjkwv+wNZq7dw==
+Date: Tue, 17 Dec 2024 21:48:51 -0800
+From: Kees Cook <kees@kernel.org>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Joe Perches <joe@perches.com>, workflows@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [RFC PATCH] get_maintainer: decouple subsystem status from
+ maintainer role
+Message-ID: <202412172145.78ED0178@keescook>
+References: <20241213112921.180978-2-vbabka@suse.cz>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241213112921.180978-2-vbabka@suse.cz>
 
-Randy Dunlap <rdunlap@infradead.org> writes:
+On Fri, Dec 13, 2024 at 12:29:22PM +0100, Vlastimil Babka wrote:
+> The script currently uses the subystem's status (S: field) to change how
+> maintainers are reported. One prominent example is when the status is
+> Supported, the maintainers are reported as "(supporter:SUBSYSTEM)".
+> 
+> This is misleading, as the Supported status defined as "Someone is
+> actually paid to look after this." may not in fact apply to everyone
+> listed as a maintainer, but only to some of them.
+> 
+> It has also been confusing people to what "supporter" means and has
+> required updates to the documentation [1].
+> 
+> Thus stop applying the subsystem status to change "maintainer:" to
+> anything else, as maintainers are maintainers. Instead, if the subsystem
+> status is not the most common one (Maintained), indicate it as part of
+> the subsystem name. So for example, instead of "(supporter:SUBSYSTEM)"
+> report "(maintainer:SUBSYSTEM [supported])".
+> 
+> [1] https://lore.kernel.org/all/20221006162413.858527-1-bryan.odonoghue@linaro.org/
+> 
+> Cc: "Theodore Ts'o" <tytso@mit.edu>
+> Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+> Cc: Thorsten Leemhuis <linux@leemhuis.info>
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 
-> Move gdb and kgdb debugging documentation to the dedicated
-> debugging directory (Documentation/process/debugging/).
-> Adjust the index.rst files to follow the file movement.
-> Adjust files that refer to these moved files to follow the file movement.
-> Update location of kgdb.rst in MAINTAINERS file.
-> Add a link from dev-tools/index to process/debugging/index.
->
-> Note: translations are not updated.
->
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Sebastian Fricke <sebastian.fricke@collabora.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: workflows@vger.kernel.org
-> Cc: Jason Wessel <jason.wessel@windriver.com>
-> Cc: Daniel Thompson <danielt@kernel.org>
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: linux-debuggers@vger.kernel.org
-> Cc: kgdb-bugreport@lists.sourceforge.net
-> Cc: Doug Anderson <dianders@chromium.org>
-> Cc: Alex Shi <alexs@kernel.org>
-> Cc: Hu Haowen <2023002089@link.tyut.edu.cn>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: linux-serial@vger.kernel.org
-> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Acked-by: Daniel Thompson <danielt@kernel.org>
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Reviewed-by: Kees Cook <kees@kernel.org>
+
 > ---
+> I have been confused myself in the past seeing "supporter" and have seen
+> somebody recently wondering what it means as well.
+> 
+> I have read the threads from 2022 that in the end resulted in adjusting
+> documentation only [1]. I very much agree with Ted's points about taking
+> the subsystem status and applying it to all maintainers being wrong [2].
+> 
+> The attempt to modify get_maintainer output was retracted after Joe
+> objected that the status becomes not reported at all [3]. This RFC
+> attempts to address that by reporting the status (unless it's the most
+> common one) as part of the subsystem.
+> 
+> The patch is not perfect, as with this approach, the logical thing would
+> be to do the same also for reviewers and mailing lists. In fact,
+> subsystems with a status of Orphan typically only have some catch-all
+> mailing list and no maintainers, so the "(orphan minder:SUBSYSTEM)"
+> would never be currently reported by checkpatch. It would be thus
+> logical to report the status in the same way for lists (and reviewers).
+> 
+> But I didn't attempt a full implementation as I'm not fluent in Perl and
+> would like to see if we can get a consensus first. If we do, I don't
+> insist in this particular "SUBSYSTEM [status]" syntax nor on
+> implementing the full solution myself - I would be happy if somebody
+> else did. My main point is that maintainer is a maintainer and the
+> subsystem status should be indicated for the subsystem, not for the
+> maintainer.
+> 
+> [1] https://lore.kernel.org/all/20221006162413.858527-1-bryan.odonoghue@linaro.org/
+> [2] https://lore.kernel.org/all/Yzen4X1Na0MKXHs9@mit.edu/
+> [3] https://lore.kernel.org/all/30776fe75061951777da8fa6618ae89bea7a8ce4.camel@perches.com/
 
-Applied, thanks.
+Do we want to change "Supported" to "Funded" to help clear up the
+meaning? (But yes, I agree, that the subsystem status should be applied
+to the subsystem, not the individual contacts.)
 
-jon
+-Kees
+
+-- 
+Kees Cook
