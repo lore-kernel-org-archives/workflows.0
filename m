@@ -1,15 +1,16 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ADA01A83FE
-	for <workflows@vger.kernel.org>; Fri, 20 Dec 2024 09:09:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34A511A8417
+	for <workflows@vger.kernel.org>; Fri, 20 Dec 2024 09:10:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734685798; cv=none; b=jC0lHedanhqWdhbWzk0h1pyNDRbhQudmUJPAXlDjY3Lk1UF/mWSG9QjM0MhfLBK+HL9Goo6ZL3ZUxsEqDD0NZhFpGjZqSN05c0UxIPuAIBcCNederTVcgPET8KoDmkOhhos8xJ6hbPm5NQFUq0VBgJlGhwGT96zCbZP5Vh/ySMI=
+	t=1734685806; cv=none; b=pdpD5jQ1AHkpzppd5N0EvBl74iS+zjGHLi8BPCkmBmBBv6jt4Hse7SSwDcbGc5imdDh8kSJ+7GMskyVxyEIOLXc+TKFi1ty6UZu7dY0dbjjmBkUnJB7Szk63ZHzgV/+g4ndQ+yG9Tb7sw/8PtP6aNotJN1Q1hPwsKX8avMfQepU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734685798; c=relaxed/simple;
-	bh=Pf1/Y95QfoHBWFZt23A81iwIFZjskYZP7erWkvJfJAw=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=XeXoestzAsnIA7Wn+Hoym+yWwPJwvFQP5s05s1sLgiCE7VeypraTimkYK+1OYI0WSXEpJQPtVsJfADcx4UGyVxELctYicC+wUWwBmcGqnWvPMniE4sQTWUSUcWtNnSLRAJRHZ+WK5WInICd9nbLI+eNAcK3/Bestby4HYKe0QkQ=
+	s=arc-20240116; t=1734685806; c=relaxed/simple;
+	bh=gHiGdDoFkBP7qlbsiA+qG4qxkEBIY0sSiY7ZcKKmu8c=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=KdoMxAFuXXTkkaA+ENlmcuI2yUIf64jM7pQCJczGmIkTs2VVM8Lp3hM6oo1JBefX9bJs+rhzpnKIrnqtUKVbbbXp/Mkh6QhGogQfZCm95pL0FN0iV/Cq7LmX562VZo3Cga/WUFu8ZvGrm9ZZH2JyGIctd0QVBx56GMm5VwwkNeU=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -17,23 +18,22 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1tOZ10-0001DY-CR; Fri, 20 Dec 2024 10:09:46 +0100
+	id 1tOZ10-0001DZ-CS; Fri, 20 Dec 2024 10:09:46 +0100
 Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1tOZ0z-004LrA-0l;
+	id 1tOZ0z-004LrC-0l;
 	Fri, 20 Dec 2024 10:09:46 +0100
 Received: from localhost ([::1] helo=dude05.red.stw.pengutronix.de)
 	by dude05.red.stw.pengutronix.de with esmtp (Exim 4.96)
 	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1tOZ0z-00HILv-31;
+	id 1tOZ0z-00HILv-33;
 	Fri, 20 Dec 2024 10:09:45 +0100
 From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-Subject: [PATCH RFC 0/2] docs: process: submitting-patches: clarify
+Date: Fri, 20 Dec 2024 10:09:35 +0100
+Subject: [PATCH RFC 2/2] docs: process: submitting-patches: clarify
  imperative mood suggestion
-Date: Fri, 20 Dec 2024 10:09:33 +0100
-Message-Id: <20241220-submitting-patches-imperative-v1-0-ee874c1859b3@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -42,10 +42,9 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAE00ZWcC/x3MsQrCMBAG4FcpN3vgxYDVVfABuopD2p7tPzSGX
- CxC6bsbHL/l28g0Q42uzUZZVxjesUIODQ1ziJMyxmpyR+fFyYXt0y8oBXHiFMowqzGWpDkUrMr
- Ot15O51bGXqgeKesL3///oO5+o+e+/wDAa62mdAAAAA==
-X-Change-ID: 20241219-submitting-patches-imperative-248413781db1
+Message-Id: <20241220-submitting-patches-imperative-v1-2-ee874c1859b3@pengutronix.de>
+References: <20241220-submitting-patches-imperative-v1-0-ee874c1859b3@pengutronix.de>
+In-Reply-To: <20241220-submitting-patches-imperative-v1-0-ee874c1859b3@pengutronix.de>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Borislav Petkov <bp@suse.de>, 
@@ -57,34 +56,86 @@ X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: workflows@vger.kernel.org
 
-Many commit message bodies start off with some background information,
-before explaining how they address the situation. This can be arguably
-easier to follow than having the imperative in the commit message title
-be followed directly by another differently worded or more verbose
-imperative in the commit message body and then at the end an
-", because ..." with an explanation why things were done this way.
+While we expect commit message titles to use the imperative mood,
+it's ok for commit message bodies to first include a blurb describing
+the background of the patch, before delving into what's being done
+to address the situation.
 
-Yet, while the documentation talks about use of imperative mood, it does
-not fully explain why, which IMO makes it prone to misunderstanding[1][2].
+Make this clearer by adding a clarification after the imperative mood
+suggestion as well as listing Rob Herring's commit 52bb69be6790
+("dt-bindings: ata: pata-common: Add missing additionalProperties on
+child nodes") as a good example commit message.
 
-Therefore adapt the documentation to clarify the intent of the imperative
-mood and give an example for how a good commit message can look like.
-
-[1]: https://lore.kernel.org/all/f085aa33-f0b7-49e7-bbfc-d3728d3e3e8c@pengutronix.de/#t
-[2]: https://lore.kernel.org/all/Z2RzA5S%2Fch1YDdUD@lizhi-Precision-Tower-5810/
-
+Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
 ---
-Ahmad Fatoum (2):
-      docs: process: submitting-patches: split canonical patch format section
-      docs: process: submitting-patches: clarify imperative mood suggestion
+I liked Rob's commit message, because:
 
- Documentation/process/submitting-patches.rst | 74 +++++++++++++++++++---------
- 1 file changed, 52 insertions(+), 22 deletions(-)
+  - It has multiple subsystem prefixes
+  - Uses imperative mood in the commit message title
+  - Doesn't use it in the commit message body showing that it's
+    not a hard requirement
+  - Is short and gives a succinct background
+  - Explains not only why to do the change, but also why it's ok
+    to do it
+
+Admittedly though, a C example may be easier to grok for a general
+audience. I can search for one if that's preferred (or maybe someone
+has a suitable commit already they wish to suggest?)
 ---
-base-commit: 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8
-change-id: 20241219-submitting-patches-imperative-248413781db1
+ Documentation/process/submitting-patches.rst | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-Best regards,
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index 1474c84b3ac562f5806d85e8ef5b6e9d23572e59..b10534e460aa30f2751208bd1eca242841ba5edb 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -96,6 +96,11 @@ instead of "[This patch] makes xyzzy do frotz" or "[I] changed xyzzy
+ to do frotz", as if you are giving orders to the codebase to change
+ its behaviour.
+ 
++The goal of the imperative mood is to make especially commit message
++titles (the :ref:`patch_subject_line`) succinct and to the point.
++The explanation body should be more detailed and take care to explain
++the background motivating the change. (see :ref:`patch_explanation_body`).
++
+ If you want to refer to a specific commit, don't just refer to the
+ SHA-1 ID of the commit. Please also include the oneline summary of
+ the commit, to make it easier for reviewers to know what it is about.
+@@ -610,6 +615,8 @@ that, if you have your patches stored in a ``git`` repository, proper patch
+ formatting can be had with ``git format-patch``.  The tools cannot create
+ the necessary text, though, so read the instructions below anyway.
+ 
++.. _patch_subject_line:
++
+ Subject Line
+ ^^^^^^^^^^^^
+ 
+@@ -699,6 +706,8 @@ patch in the permanent changelog.  If the ``from`` line is missing,
+ then the ``From:`` line from the email header will be used to determine
+ the patch author in the changelog.
+ 
++.. _patch_explanation_body:
++
+ Explanation Body
+ ^^^^^^^^^^^^^^^^
+ 
+@@ -717,6 +726,15 @@ _all_ of the compile failures; just enough that it is likely that
+ someone searching for the patch can find it. As in the ``summary
+ phrase``, it is important to be both succinct as well as descriptive.
+ 
++Here is one example of a good commit message::
++
++  dt-bindings: ata: pata-common: Add missing additionalProperties on child nodes
++
++  The PATA child node schema is missing constraints to prevent unknown
++  properties. As none of the users of this common binding extend the child
++  nodes with additional properties, adding "additionalProperties: false"
++  here is sufficient.
++
+ .. _backtraces:
+ 
+ Backtraces in commit messages
+
 -- 
-Ahmad Fatoum <a.fatoum@pengutronix.de>
+2.39.5
 
