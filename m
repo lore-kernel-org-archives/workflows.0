@@ -1,223 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF96F1F1307;
-	Fri, 27 Dec 2024 16:19:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF03745005;
+	Fri, 27 Dec 2024 18:33:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735316371; cv=none; b=efFAyvB2VMGxZxyCZUbo8K9K6fp1pVoD9TeuRTIfQ6GVXWXulQiga343VZbB9a7vMrFQzCyKh0ttxqn9ThMjPeFmYHpPjdgseKsOKmowGExhIYDf4rtJcdi1WrRBKFObyS2CdD6wf5X+xsYdssEuH4pVOkNtQMWABSSTLPrGhJs=
+	t=1735324427; cv=none; b=kKDQjkOIhW1bRcPx3yQrLSsMwQDybMREgzd63MZ61xw+B42FCfuZJ1YpUl2tcG7kA4N4/AXP6A8ZR7SHv4Hzjvl+FXklln/14Zl76T/ZTG7e1SNebPEIURnFrX/GsmNcdm83EzkKQVtM6Wzi26mq5d97yL58YQkDrc2D9SrEax4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735316371; c=relaxed/simple;
-	bh=Ym+Dt1ptnCi9AzASufh4Np73zfjVjRwO0prNtz4f8Dk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GfREdjWBjBxK2aC8dnFexli3mEDy4mNipww/LoZiwosC0Qs4vU3Ayk11ojeV9P5eqdM8g8WYVxf3xIIq8WBob4xCwWZ3R/rKiQglHubN5B4NXGR4OmWd7XML8zjyNROzJL/XwTqRTOFG7dfAAj5DoKwg1BJ9IZcrigaR6Onm6ro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rcYhcvdy; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rcYhcvdy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F19EC4CED6;
-	Fri, 27 Dec 2024 16:19:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735316371;
-	bh=Ym+Dt1ptnCi9AzASufh4Np73zfjVjRwO0prNtz4f8Dk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rcYhcvdym7I+tdTLH5M3PxSBTzuVomniXIrkUP91Oxg+xDOgFslTj8GQ2fidVRL8n
-	 Xt+MiM+rNcufGh48K2KyOBfOKAr478TRDkni2r/ZLqm8M+hCS8tkJ9W+4OVwJDVJCr
-	 QnpOX7jYGPuFVxS7BuKZhRNe47wQomEb2lzE/M6favjA9JVNqxRWPdTOu8FubhmfAP
-	 yOQ54rmVEyxWc4lYI6pnB4EbIEYoy0T6Hh73o1NZMIJRhkTvM7q8RofkUgXrlMSNac
-	 oTQuvaYUEnpf6i2b5wzK3pNPXUbrzRbUQ8wszAxwzeH2l0C6QxJsayt5XSwuHG7PqH
-	 PKr2PW/CQ9VFA==
-Date: Fri, 27 Dec 2024 11:19:29 -0500
-From: Sasha Levin <sashal@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: apw@canonical.com, conor@kernel.org, corbet@lwn.net,
-	dwaipayanray1@gmail.com, geert+renesas@glider.be, gitster@pobox.com,
-	horms@kernel.org, joe@perches.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux@leemhuis.info,
-	lukas.bulwahn@gmail.com, miguel.ojeda.sandonis@gmail.com,
-	niklas.soderlund@corigine.com, willy@infradead.org,
-	workflows@vger.kernel.org, kees@kernel.org
-Subject: Re: [PATCH] git-disambiguate: disambiguate shorthand git ids
-Message-ID: <Z27TkUSmM1sCTslO@lappy>
-References: <20241226220555.3540872-1-sashal@kernel.org>
- <Z23ZmVwgS2ErX-dj@lappy>
- <CAHk-=wiPNpQ=zmGvPoZRMFZ7a7mm2pzSoOsuQPdDRaSF7gbw9w@mail.gmail.com>
- <Z237CwC_YKhoZubs@lappy>
- <CAHk-=wiH=HH9CfFFuBwAwDdfZAjCzN=yAhzWehCAR8bg_-2CAA@mail.gmail.com>
+	s=arc-20240116; t=1735324427; c=relaxed/simple;
+	bh=DSTiftUs8qF1/6Wr752qm3Y0VS1FLtxBd9NtQKkmyCQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=keUpjD9RgpdmKeZ4VmxqOx2yoancr8aK4ZEYZSmQuyA6rVMYwY/676i62oE0SlVGZ8ZZ6jy0nB2QS51s1b95V51vFsWRBiYS6LfGvuy+EF+A1Rfaoa2kgrpb9C2dzCEY0PI/buCQYmeNeydC4HwI311xKJ+NsIUKmh2TbGDwdok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-4afdd15db60so1976665137.1;
+        Fri, 27 Dec 2024 10:33:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1735324423; x=1735929223;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Md4pV1r9X3VCMc00BOlMTRYThFiWZ5TnfPwGhk1/R7o=;
+        b=q6lEj93umRqCkh02whjA00ctdqlPe9qQtAujlrGrSqyoq7bW15vUSYW3Si7ei20GMK
+         sPIgW3qs4O58bhjlyJiwl37jLzxdKbRNqV3NyDXTWlGqYEc+tMoQM7YZCeax7Ez683Uo
+         W/TpCK/LMOkZ30CMsHV33ArEBDVMbCA28Ysos0R6IxXmd5+SMkd9er0Px5BRfeeqAOmx
+         Kl4zAqPZpEGk2gJcbpvtE3etbUh+mlAXcnnXwjl3KzEp/4hL9Y8nWovnH93mJJdEZC7L
+         PgOnYF4SbBq7msH/L6Y3yStW8jCX5e6he1pxtaerZMfuQjiHbv5wtbZdYLtXQK4ABfwI
+         ErGg==
+X-Forwarded-Encrypted: i=1; AJvYcCUGLHz3PlYs6FE30fnqbCikmIjpGPVznWPZ8kRWjdIgB0hN9kFsfN//mExW0roDOX5NtCwZ9VDRP7o=@vger.kernel.org, AJvYcCWI1oIZQrjSqn7gmqgb7EcUJAovc904svP3KkNtrlnaSKCik/YAoxN0HK0q1hRigT+6MyFqf6KTdW+fdGVc@vger.kernel.org, AJvYcCX+2k7FFdJOEWBlRK8fXwFI7AEBcB2OJtPlqAJD/myf2wUQrh/o1TuzjRdbCSYbqYDkCr99D3WaJw2a@vger.kernel.org
+X-Gm-Message-State: AOJu0YzT9c1T3tEYQUuKSYYv8LQs94g/SZ8BMma/kzhV0rvxjwqIvnY0
+	6Ikq35hqGJQ6k3Np78ICJwEHABgzU6cRuDJQhOC7SNoCTS6upeUd1jE2TUoY
+X-Gm-Gg: ASbGncvM577w1kVbUen5Hhb0QVOf1SkFBUZa6Yte8wFk3NxfUthyGEs/H6cYBwA0k1a
+	yuuta/oXT99uensa665ljrOSxjj4xwKACek/fKkq0P83mGcV4FPUAzE1qkJeU5I8Ij3wSdwO4LL
+	vDbNuEKR/ogr/viLGOaiOszlTfLcwsbfpY9k44MPDFM19qZ2PNT3c59lqmYSMz1I6Yr6xGwO4nQ
+	1RTkh4tr+hXYATFznZL2OO99eVClAqsTk3zvYGwmWNee8Dy6DIvxNuQ4PKGzKJ6SI/8D6f9/Gd3
+	hmNa19XoVDKS1a9D8ts=
+X-Google-Smtp-Source: AGHT+IFDZEwD2HH1KFQSCT+Qw8UcIH7qSulRt4V8pZ0gsLEsLsDjlP1HZbHQ6ZFK/HYYE8e78TOOtQ==
+X-Received: by 2002:a05:6102:fa5:b0:4b2:4877:2de1 with SMTP id ada2fe7eead31-4b2cc456fa0mr26613612137.17.1735324423447;
+        Fri, 27 Dec 2024 10:33:43 -0800 (PST)
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com. [209.85.217.49])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-8610ac6b800sm3126062241.15.2024.12.27.10.33.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Dec 2024 10:33:43 -0800 (PST)
+Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-4afe4f1ce18so2078738137.3;
+        Fri, 27 Dec 2024 10:33:42 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVHj9y2CXEClxsurK0Oyz2B8KBP5AHhp9H4qQ/kFaEjC2tH1NOyeEXNSEHo84xvRS8SBhqVF05MjnLC@vger.kernel.org, AJvYcCWnTbi8XfM/RBBN8Lf+Kck35rhAUio9wKKU5J0xVZX7zRSkoBd7snOCxP1obbJ2FIq1sDaLlIfHwg3MduSh@vger.kernel.org, AJvYcCXkBxoWB2lnAJnN+pZwygaFc6n/VwHEjZoLgsCjAZgvZTB3c7XGBZFRmlWBvv/MX91/ssUDbIa/Pos=@vger.kernel.org
+X-Received: by 2002:a05:6102:3707:b0:4af:f6ab:9f9c with SMTP id
+ ada2fe7eead31-4b2cc487ca5mr19322059137.23.1735324422583; Fri, 27 Dec 2024
+ 10:33:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wiH=HH9CfFFuBwAwDdfZAjCzN=yAhzWehCAR8bg_-2CAA@mail.gmail.com>
+References: <20241226220555.3540872-1-sashal@kernel.org> <Z23ZmVwgS2ErX-dj@lappy>
+ <CAHk-=wiPNpQ=zmGvPoZRMFZ7a7mm2pzSoOsuQPdDRaSF7gbw9w@mail.gmail.com>
+ <Z237CwC_YKhoZubs@lappy> <CAHk-=wiH=HH9CfFFuBwAwDdfZAjCzN=yAhzWehCAR8bg_-2CAA@mail.gmail.com>
+ <Z27TkUSmM1sCTslO@lappy>
+In-Reply-To: <Z27TkUSmM1sCTslO@lappy>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 27 Dec 2024 19:33:30 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUT0ZBwVZMPMuJnHy+-DS0zqLV3t4MRhSQVpLjEsNuHgw@mail.gmail.com>
+Message-ID: <CAMuHMdUT0ZBwVZMPMuJnHy+-DS0zqLV3t4MRhSQVpLjEsNuHgw@mail.gmail.com>
+Subject: Re: [PATCH] git-disambiguate: disambiguate shorthand git ids
+To: Sasha Levin <sashal@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, apw@canonical.com, conor@kernel.org, 
+	corbet@lwn.net, dwaipayanray1@gmail.com, gitster@pobox.com, horms@kernel.org, 
+	joe@perches.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux@leemhuis.info, lukas.bulwahn@gmail.com, miguel.ojeda.sandonis@gmail.com, 
+	niklas.soderlund@corigine.com, willy@infradead.org, workflows@vger.kernel.org, 
+	kees@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 26, 2024 at 05:50:22PM -0800, Linus Torvalds wrote:
->On Thu, 26 Dec 2024 at 16:55, Sasha Levin <sashal@kernel.org> wrote:
->>
->> What got me worried originally is the example Kees provided which
->> creates a collision of a 12-character abbreviated commit ID:
->
->Note that you can always create short ambiguous cases.
->
->And in fact, since the way you create them is to just put noise in the
->right place and brute-force things, you can also always make sure that
->the one-liner short commit name will match the target commit too.
->
->In other words: just accept the fact that a short hash is simply not a
->secure hash. That's very very fundamental. It's just inherent in the
->whole "we have shortened things to be legible".
->
->And once you just accept that it's fundamental to any short hash, you
->can relax and just live with it as just a fact of life.
->
->> So sure, we don't have a collision right now, but going from 0 to 1 is
->> going to be painful.
->
->I disagree. You need to just own up to how it is, and more importantly
->that you WILL NEVER EVER BE ABLE TO FIX IT.
->
->There is no way to disambiguate the active malicious case, because the
->active malicious case will just be able to handle any disambiguation
->you throw at it too.
->
->So the fix is to not *rely* on disambiguation, and to just accept it.
->Don't fight reality. You'll just lose.
->
->> Are we going to be actively watching for someone trying to sneak in a
->> commit like that, or should we just handle that case properly?
->
->See above. There is no "properly". There is only reality.
->
->Git internally uses the full hashes. And any reasonably usefully
->shortened hashes *cannot* be disambiguated in the face of an active
->malicious person.
->
->If you have some tool that you rely on absolutely to give you the "One
->Correct Answer", then you are already broken. If thats' the goal, then
->all you can do is give up and pray to some random $deity.
->
->Or, as my argument is, DON'T DO THAT THEN.
->
->Don't rely on some absolute thing. Accept the fact that a short hash
->will always possibly refer to multiple things, and that you will
->*always* need to have a human that actually *THINKS* about it, not
->mindless automation.
->
->The best the tools can do is say "there are multiple options here"
->(or, more commonly, "I found no options at all, but maybe it meant
->XYZ").
->
->Literally.
->
->To summarize: If you are aiming for anything else, you are bound to be
->disappointed.
+Hi Sasha,
 
-The script in the original mail will handle two important cases for me:
+On Fri, Dec 27, 2024 at 5:19=E2=80=AFPM Sasha Levin <sashal@kernel.org> wro=
+te:
+> No, it's not a problem. In my mind, I figured we could use shorter
+> hashes in mail message to make it easier to communicate.
+>
+> It doesn't have to be formal, but for example if we exchange mails about
+> an issue, and I end up referring to '1d1a ("arm64/sme: ...")' it both
+> makes the mail more readable, but still someone who doesn't have context
+> can still easily get to the commit I was referring to.
 
-1. The "wrong ID" case, where the the provided commit ID doesn't exist
-and we need to look at the subject line to figure out what the actual ID
-is.
+Is that 1d1a commit something in your local tree? I don't seem to have it.
 
-2. The case where we either get a too-short commit ID that has a
-collision, or we just got unlucky and finally ended up with a 12-char
-collision, but the subject line is enough to automatically resolve to
-the correct ID.
+A few other comments:
+  1. Please add support for --help. It took me a while to find out I
+     need to call the script without parameters to get the help.
+  2. The passed commit-subject needs to be the full commit subject.
+     It would be nice to support abbreviations, too.
 
-We're disagreeing over the remaining <0.0001% of cases.
+BTW, I am a heavy user of looking up commits (recent and old ;-)
+My .vimrc has:
 
->So aim for that simple "let me know about multiple choices", with the
->knowledge that they are going to be EXCEEDINGLY rare.
->
->And then if we have somebody who actively acts badly and works to make
->that "it's going to be EXCEEDINGLY rare" be much more common than it
->is supposed to be, we deal with that *person* by just not working with
->them any more.
->
->See? The solution is not some kind of "this cannot happen". The
->solution is "stop accepting shit from evil people".
+    noremap ;gs "zyiw:exe "new \| setlocal buftype=3Dnofile
+bufhidden=3Dhide noswapfile syntax=3Dgit \| 0r ! git show ".@z."" \|
+:0<CR><CR>
 
-Not necessarily "evil", but consider something similar to the UMN saga
-where we get "researchers" trying to sneak in commits that create a
-collision. Once these make it in, it will be difficult walking them back
-out.
+So I can move the cursor to a git commit ID, and type ";gs" to open
+the commit in a throw-away split window.
+Adding full support for commit-subjects may be challenging, especially
+if they are split across multiple lines (i.e. not Fixes: tags, but
+mentioned in the description).
 
->Which, btw, is not a new thing. This is how open source works. It's
->actually way more work to create collisions in short hashes, when you
->can much more easily just send a bad patch that wastes peoples time
->without any hash collision at all - just by virtue of writing bad
->code.
+Thanks!
 
-No, but it makes for a "good" undergrad research paper...
+Gr{oetje,eeting}s,
 
->So thinking that the short hash is some kind of special problem is wrong.
->
->It's in fact a particularly *easy* problem to deal with, because at
->least the whole "somebody did something malicious" is something git
->will balk at, simply because the basic git tools will refuse to touch
->the ambiguous hash.
->
->So *your* tooling should concentrate on one thing, and one thing only:
->making it easier for a *THINKING*HUMAN* to decide what a bad hash
->means.
->
->But you need to do it with the up-front understanding that it requires
->that thinking human, and is not mindless automation.
->
->And as mentioned, the most common case of bad hashes BY FAR is the
->"oh, that doesn't match anything I know about at all", as opposed to
->"oh, that matches two or more different commits".
->
->> >and my point is that this is really not about "disambiguating short
->> >SHA1 IDs". Because those "ambiguous" SHA1's to a very close
->> >approximation simply DO NOT EXIST.
->> >
->> >But the completely wrong ones? They are plentiful.
->>
->> Is the concern mostly around the term "disambiguate"? Would
->> git-sanitize.sh work better?
->
->No, my main worry is that you talk about short hashes (and talked
->about shortening our existing ones even more).
->
->When I really think that the size isn't the main problem at all.
+                        Geert
 
-No, it's not a problem. In my mind, I figured we could use shorter
-hashes in mail message to make it easier to communicate.
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-It doesn't have to be formal, but for example if we exchange mails about
-an issue, and I end up referring to '1d1a ("arm64/sme: ...")' it both
-makes the mail more readable, but still someone who doesn't have context
-can still easily get to the commit I was referring to.
-
-To me, it's a nice (minor) improvement.
-
->"disambiguate" is a fine word, but only if you use it in the context
->of "I have a bad hash". Not just a short one. Because the hash being
->too short is simply not the main case worth worrying about.
->
->And hey, just to really hit this same argument home: I can absolutely
->guarantee that you have a much more insidious problem of "wrong hash",
->namely the "oh, it's actually a valid commit hash, but the Fixes: line
->simply got the wrong commit:".
->
->Because that's a mistake I see regularly: somebody simply blames the
->wrong commit. I've most definitely done that very thing myself.
->Sometimes it's people reading the history wrong, and not realizing
->that the bug actually happened before the blamed change too. Or the
->bug ends up being a combination of factors, and people didn't realize
->that the commit they blamed was just one part of it.
->
->So my complaint really ends up being that anybody who trusts those
->hashes mindlessly is going to have mistakes, and the actual hash
->collision case MUST NOT be the primary worry.
->
->Because as long as that hash size is all you care about, you're
->barking up the wrong tree.
->
->               Linus
-
--- 
-Thanks,
-Sasha
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
