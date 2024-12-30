@@ -1,114 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 693005733A;
-	Fri, 27 Dec 2024 19:07:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FCD7183CA9;
+	Mon, 30 Dec 2024 18:38:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735326455; cv=none; b=GysPZWcakjEkM5RotlYjjbEdElkCRsFmyHDTJNtM/x78bcz/bvWt1JG2Sr09/nOXsF+FXW1SXGfLgvU1uFci3fjCZm3ek+fU4szAqayIoSxRXkmU81ukHECiBum6fbd7hAkHTP902/gOWBw3cFIlPzpnIR0Whpa9+8PmuJ2vbfQ=
+	t=1735583941; cv=none; b=p4rPmjVqYjQnJL9R6MBt8xp750CVUw1JB6k0/qNMy/81NV8dBRcH3MLGAEHXYDIn/F7yUojc7WMs7dzjJ4y7rP41PkgKHqB3/wniCj+0D8BFBWSoJtWeEInxhjR6psvlZdaG7Ka08eWFJ1ym64uzyhdcCSQaJdKLz6teAlXs5Wk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735326455; c=relaxed/simple;
-	bh=T4wPkBmJyPTPHQLq/9VVaSy5gMu/3w+J0UtAPBlMdPg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sWZDOkgDEq0HT88qV16hdAABXkBMCYDhOe9Y4+leZ0ZyDfsg+Jyux1nJh7khBSGV/TRwq+P7iZMBxf7OdgTqCKT2gV87dA891Tdec6l6F5Tecv9gJdD/7pHBcQdvrxgwB/Gss/WttUQrDb8WADixOj1XWZxGPUlvTXMO+efsogA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tib3X07e; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1735583941; c=relaxed/simple;
+	bh=mJ3hO+/hNEcjLZMHpuTU7RRZO+8DxR085NK+5Q1/eyA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=KXoszFkI2/LwPaKY510tvTal+ZVdS9klkGy21VCAVNCF+asb8vASKHVkliG85ejG55q9yHLK1/wPoHBhMJhnLKF04TuVnWYY1+zFrUyAqcDjwMx8P2W6iba8Rh+tHJGjaKLrTgHvTIsIyaRFVIoGZhL7e0ea54I3Qlamc2Z2284=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=AuEa57ES; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tib3X07e"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0B74C4CED0;
-	Fri, 27 Dec 2024 19:07:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735326455;
-	bh=T4wPkBmJyPTPHQLq/9VVaSy5gMu/3w+J0UtAPBlMdPg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tib3X07esJ7wVfGCmnrfB90F8kr+lHX8qTwXwCPk2lEE6x46YlJq4/Tfd+iSLDUqI
-	 62aRcWr7oBLXU/t9HLBZ03sHsgHeSYhqEciHvNpzDzwZMf8g7UZv1oPTc3FvSgzz0X
-	 MFxkGYFrqBJD7L98u98CHZw3P4jGQm9ZW1cMK5KO9ps6j5Q7qZQwHMdzT8+0msgLYn
-	 DZsxB0CYl48iziZzvd2U2dK8DVUZwElkL2ArUSGLOujM91QdoaUYBN+ZtDu4lsc6AA
-	 Uup9OkCEzMi5V/UlCMTdrKFAnDriLkDj/tfqPSkW9u48oINcywjRVt/6ea8xWIjk0y
-	 i7A94zi7BZLhQ==
-Date: Fri, 27 Dec 2024 14:07:33 -0500
-From: Sasha Levin <sashal@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, apw@canonical.com,
-	conor@kernel.org, corbet@lwn.net, dwaipayanray1@gmail.com,
-	gitster@pobox.com, horms@kernel.org, joe@perches.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux@leemhuis.info, lukas.bulwahn@gmail.com,
-	miguel.ojeda.sandonis@gmail.com, niklas.soderlund@corigine.com,
-	willy@infradead.org, workflows@vger.kernel.org, kees@kernel.org
-Subject: Re: [PATCH] git-disambiguate: disambiguate shorthand git ids
-Message-ID: <Z2769aUCgYzyuKO4@lappy>
-References: <20241226220555.3540872-1-sashal@kernel.org>
- <Z23ZmVwgS2ErX-dj@lappy>
- <CAHk-=wiPNpQ=zmGvPoZRMFZ7a7mm2pzSoOsuQPdDRaSF7gbw9w@mail.gmail.com>
- <Z237CwC_YKhoZubs@lappy>
- <CAHk-=wiH=HH9CfFFuBwAwDdfZAjCzN=yAhzWehCAR8bg_-2CAA@mail.gmail.com>
- <Z27TkUSmM1sCTslO@lappy>
- <CAMuHMdUT0ZBwVZMPMuJnHy+-DS0zqLV3t4MRhSQVpLjEsNuHgw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="AuEa57ES"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5C58B403FA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1735583939; bh=aLvJZd+tGLr7n9SyTfg/Xg28I2zAT6gjuMV8tzitAyo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=AuEa57ESpXKP2xWu4TKdtVPYiEEnoc5CVfFOoL0lBiUfLI9iDHCrOI/ZioiDdJ12L
+	 kJ0UFf/sCuXR79CL0dDl4LtYCRohPRVEnVmkDDf02aI9b5APFL0goHlWNqA0RSmc3a
+	 apPngVg1j2/xGDB/seADELF0q0iELidrmCHuhARDBLkNBuTzuRRfeOQp82O+VoEUc5
+	 dLx742UGd8pPEBKTpnI0hdXJOkIUuMtKhNAzW8ISEV2r1TmNktr2XuSK9yV0R0nzgh
+	 CeBC2JVAIuGg5b5zHmAy5YXq+S3pO/unPTOEqLYt6SlAMCCCj4ahrC15Znqc9+RWnn
+	 1zaO4JdWyprgQ==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 5C58B403FA;
+	Mon, 30 Dec 2024 18:38:59 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Borislav Petkov <bp@suse.de>, Rob Herring
+ <robh@kernel.org>, Frank Li <Frank.li@nxp.com>, kernel@pengutronix.de,
+ Ahmad Fatoum <a.fatoum@pengutronix.de>
+Subject: Re: [PATCH RFC 1/2] docs: process: submitting-patches: split
+ canonical patch format section
+In-Reply-To: <20241220-submitting-patches-imperative-v1-1-ee874c1859b3@pengutronix.de>
+References: <20241220-submitting-patches-imperative-v1-0-ee874c1859b3@pengutronix.de>
+ <20241220-submitting-patches-imperative-v1-1-ee874c1859b3@pengutronix.de>
+Date: Mon, 30 Dec 2024 11:38:58 -0700
+Message-ID: <87v7v110e5.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdUT0ZBwVZMPMuJnHy+-DS0zqLV3t4MRhSQVpLjEsNuHgw@mail.gmail.com>
+Content-Type: text/plain
 
-On Fri, Dec 27, 2024 at 07:33:30PM +0100, Geert Uytterhoeven wrote:
->Hi Sasha,
+Ahmad Fatoum <a.fatoum@pengutronix.de> writes:
+
+> To make it easier to reference specific parts of the patch format,
+> let's add some headings for different parts.
 >
->On Fri, Dec 27, 2024 at 5:19 PM Sasha Levin <sashal@kernel.org> wrote:
->> No, it's not a problem. In my mind, I figured we could use shorter
->> hashes in mail message to make it easier to communicate.
->>
->> It doesn't have to be formal, but for example if we exchange mails about
->> an issue, and I end up referring to '1d1a ("arm64/sme: ...")' it both
->> makes the mail more readable, but still someone who doesn't have context
->> can still easily get to the commit I was referring to.
+> Doing that, it becomes clear that backtraces in commit message is out of
+> place being after Reply-To Headers, so move it next to the commit
+> message body subsubsection.
 >
->Is that 1d1a commit something in your local tree? I don't seem to have it.
+> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+> ---
+>  Documentation/process/submitting-patches.rst | 56 +++++++++++++++++-----------
+>  1 file changed, 34 insertions(+), 22 deletions(-)
 
-Heh, yeah, I wanted to pick a random commit with a longer subject line
-and ended up landing on something local...
+This seems like an improvement - I've applied it, thanks.
 
-1d1a ("Merge tag 'mlx5-updates-2018-02-23' ...") works just as well :)
-
->A few other comments:
->  1. Please add support for --help. It took me a while to find out I
->     need to call the script without parameters to get the help.
-
-Ack
-
->  2. The passed commit-subject needs to be the full commit subject.
->     It would be nice to support abbreviations, too.
-
-It does it with ellipsis (I picked it up from sfr).
-
-$ ./git-disambiguate.sh 1d1ab1ae6970 '("Merge tag 'mlx5-updates-2018-02-23' of git://git.kernel.org/pub/scm/linux/kernel/git/mellanox/linux into k.o/wip/dl-for-next")'
-1d1ab1ae69701d813993af40cf3ee39781ec4d6f
-
-$ ./git-disambiguate.sh 1d1a '("Merge tag...")'
-1d1ab1ae69701d813993af40cf3ee39781ec4d6f
-
-Which was what I was trying to show off in the example above :)
-
->BTW, I am a heavy user of looking up commits (recent and old ;-)
->My .vimrc has:
->
->    noremap ;gs "zyiw:exe "new \| setlocal buftype=nofile
->bufhidden=hide noswapfile syntax=git \| 0r ! git show ".@z."" \|
->:0<CR><CR>
->
->So I can move the cursor to a git commit ID, and type ";gs" to open
->the commit in a throw-away split window.
->Adding full support for commit-subjects may be challenging, especially
->if they are split across multiple lines (i.e. not Fixes: tags, but
->mentioned in the description).
-
-Hyperlink git commits, eh? :)
-
--- 
-Thanks,
-Sasha
+jon
