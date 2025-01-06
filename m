@@ -1,64 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57CE95227
-	for <workflows@vger.kernel.org>; Tue, 31 Dec 2024 01:07:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 264E4433CB
+	for <workflows@vger.kernel.org>; Mon,  6 Jan 2025 14:51:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735607262; cv=none; b=G7rfVXSmfofdDrzZ8OO8Nw8C74gf9S0QClLuXwPy2ivqQPzGN5iRT/Uu8ACXHUDatH08FsdWdap7rPoIArTgrPBXlZnzGwSrGpWz93FmIvy3wqm3GcH9kPpNroSz7hkJVdaKSaBxsMS58hTQ0PZ+/uO3P9jfBlbNzp+YpDplSHI=
+	t=1736175111; cv=none; b=SyPeJtDKX08zoab4OTYj3oJ1r/CFca2WIAzpDBVJIxSwTYP1BAefd40snIEdBHMwBHgfJJuWhOAVHvXOsY2WfyNsSIpWixHARRswkCT6cnk0uh/uGyqC5ehlPed/ulq5bfW5WWPSqC0eXU/nHya9hXLKqot6nC7cLYVkc6tJl50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735607262; c=relaxed/simple;
-	bh=KX0E+g+P5KAViNFdHEGauM6GcAYWF9VHstWQ8ZM+VWg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rFjLvKtCOmMIKSkIe7XURnrtcCZYPZf/4nyxoyt6awYgN3z8sYaHRuOmPw8xJYHB/P+DZg5GjO1+j2EG1mCMXijQmOvhZVMlPDMLs2fpjELyUyu/HIv050MYlmfWZk5eHjtbCXAYdbvRCvOfL9bpk7GXXTam4cCOY0V2S+aZwd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tLoFFZ9u; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tLoFFZ9u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7D67C4CED0;
-	Tue, 31 Dec 2024 01:07:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735607262;
-	bh=KX0E+g+P5KAViNFdHEGauM6GcAYWF9VHstWQ8ZM+VWg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=tLoFFZ9uV7T0hjKie82dcQpZPwL+b1zLbahYNqH3o7jEePqLsZ+uf3T2TL14Ia2Bf
-	 aOc6NUarNbAPzUoeeqYCRecC4WlcpKubGW63VKP5UGr3VSrxvXgDTZ9uggkrjKsw8R
-	 qJwBBJVSPLZqHbrCUigy6JT04G1O63SkdBUGJkecdnWmTTolqBY4anhvJfBuV91JMm
-	 6cyf0GpVj9JNX1EhVES4ciEfa3FQz3i/DKB8Br6Ogq25Ngq6wcT6HjhiihU3qmZU1Z
-	 Sh26vRHvIFWAc/yI3Vt30YoZKwTwo39A6lBvZv5l+Gwj/btbKXrgEkTXcxhTj0DiDT
-	 1hMYiIUFO/Rqg==
-Date: Mon, 30 Dec 2024 17:07:40 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc: users@kernel.org, workflows@vger.kernel.org, choypoy@linuxfoundation.org
-Subject: Re: Putting my maintainer support hat on
-Message-ID: <20241230170740.64f6e5e1@kernel.org>
-In-Reply-To: <20241230-loyal-jumping-marmoset-0bde8f@lemur>
-References: <20241230-loyal-jumping-marmoset-0bde8f@lemur>
+	s=arc-20240116; t=1736175111; c=relaxed/simple;
+	bh=AYH/DfLSVgqLvfrtVkQLR326FQZjIqBODaw1Gcw5CHA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iPjZ2oDF/U1TkHZ6ctey8UDByjHQbmAqzk0v/rGojJPQd7gGrh15mEOvJ4JKwT91pnOojKozfKrTiUZZ7rOXg+CKQH98npKL4BZ3TIiOh4FWgZ8pBzNP/K37eSoef6/DJQcBfMt9G3ic3ryHhSuPQzHN9QjVFWwjgNM8x6DS7u0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <a.fatoum@pengutronix.de>)
+	id 1tUoSJ-0002GT-91; Mon, 06 Jan 2025 15:51:47 +0100
+Message-ID: <adf12374-30e1-48bd-9f73-fabc5a8c2357@pengutronix.de>
+Date: Mon, 6 Jan 2025 15:51:46 +0100
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 2/2] docs: process: submitting-patches: clarify
+ imperative mood suggestion
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Borislav Petkov <bp@suse.de>,
+ Rob Herring <robh@kernel.org>, Frank Li <Frank.li@nxp.com>,
+ kernel@pengutronix.de
+References: <20241220-submitting-patches-imperative-v1-0-ee874c1859b3@pengutronix.de>
+ <20241220-submitting-patches-imperative-v1-2-ee874c1859b3@pengutronix.de>
+ <87r05p10bt.fsf@trenco.lwn.net>
+Content-Language: en-US
+From: Ahmad Fatoum <a.fatoum@pengutronix.de>
+In-Reply-To: <87r05p10bt.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: workflows@vger.kernel.org
 
-On Mon, 30 Dec 2024 17:01:16 -0500 Konstantin Ryabitsev wrote:
-> I'd like to semi-formally announce that everything is finally in place for me
-> to take a more official "Linux maintainer support" role at the Linux
-> Foundation. I know we've talked about it multiple times before and I brought
-> it up at several maintainer summits, but it took a while to officially mold it
-> into something tangible. I would like to thank the Linux Foundation TAB for
-> making this possible.
+Hello Jon,
 
-Excellent news! Looking forward to all the cool work :)
+On 30.12.24 19:40, Jonathan Corbet wrote:
+> Ahmad Fatoum <a.fatoum@pengutronix.de> writes:
+> 
+>> While we expect commit message titles to use the imperative mood,
+>> it's ok for commit message bodies to first include a blurb describing
+>> the background of the patch, before delving into what's being done
+>> to address the situation.
+>>
+>> Make this clearer by adding a clarification after the imperative mood
+>> suggestion as well as listing Rob Herring's commit 52bb69be6790
+>> ("dt-bindings: ata: pata-common: Add missing additionalProperties on
+>> child nodes") as a good example commit message.
+>>
+>> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+> 
+> I'm rather less convinced about this one.  We already have a whole
+> section on describing changes.  Given that this crucial document is
+> already long and hard enough to get through, I don't really think that
+> adding some duplicate information - and the noise of more labels - is
+> going to improve things.
 
-> Plus whatever feedback I get from maintainers -- my goal is to work on things
-> that bug you most, not what I think is cool. :)
+Do you agree with the content of the patch in principle?
 
-AFAICT your definition of "cool" includes "useful" so we're in safe
-hands either way, but since you mentioned feedback.. Perhaps one of 
-the first steps would be setting up some system where people can post
-and upvote pain points / problems to solve? I think Jim Z suggested /
-agreed to open up LF's Jira to use for this sort of tracking (simpler
-and more open systems likely exist, but no preference).
+My changes were motivated by a disagreement about the necessity of having
+to use the imperative mood throughout as I described in my cover letter,
+so I still think think that a clarification is appropriate.
+
+Would a v2 without the example at the end be acceptable?
+
+Thanks,
+Ahmad
+
+
+
+
+> 
+> Thanks,
+> 
+> jon
+> 
+
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
