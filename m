@@ -1,196 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7DAE14A8B;
-	Sun, 12 Jan 2025 02:58:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C5C1465A5;
+	Sun, 12 Jan 2025 10:54:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736650700; cv=none; b=EQKHsfIbMB81648xQr9Z1BXnVpwyqd90eIc9AfHKj+j39X9z+MvYzsjTzJUS5xjTA5eoRgVNr0E4veELTrrEJ1ByUpuo0jV4PPnFgnftzn0PnwhqDTQkCuXe3uh3XDeffqgKeWsIsOHYI8OtmW6Z7j2wlkHP/bOijOqUtZZbi2U=
+	t=1736679277; cv=none; b=rw02grCfbWqhQuzf/hESWjX8gVLeS2KCDKPYuO6Sv3nqgSwhq438XXRpTQejDHsbtrQqMuK1bpwYgC0a/LJYunxyyzmgoQgdtKNN/iMPFxGUE2A8LG2zcGBgrRkpG1t+vtGh1dnISKLgp3vgo3fLYkJWBRIwsD3zG5IvR7cLhD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736650700; c=relaxed/simple;
-	bh=IxEiiB3f0xJ4EWEPemzriMdc3QLi6o48eQiRZ3IMPnI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P20JEuFvDTV4Hk4nP/4+fwdPgn1BXGwss2QReP/HiimTn3tqMmmMpSbwe91JnGkplafTKEGMZmHU8Nywi6iZEjZt64X47WyEphbW5l6Y0tTkxRi3fw66muDCpFI2mN91CPd5eVZxNjvKXlEEkCPB1DbOlcUDrfEnrdiCnHQmGQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RVUKIneM; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RVUKIneM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736650698; x=1768186698;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IxEiiB3f0xJ4EWEPemzriMdc3QLi6o48eQiRZ3IMPnI=;
-  b=RVUKIneM4iojvxHupYknEl+6klQEmTVMj6leoQt53U8krEATq/NJ90Xo
-   S6NoNkZZlCMYZjILXbP1Q9rPW8VRx/DHHfXENEY9alYt9ZMC4mkA4ygp5
-   bdk81yizeBLunVqRAzNn6Ng2HnTFOqrX9e+/dvwJihnu647ZENkskvBdN
-   VYotSSr2r9WRvG/3ukEAIETWbuBvEEW6x+i76AtKYaT0OcMlVbhYqEEy3
-   E8DwyYgHQgcbpK03D8F1zRJh8VfOuyyoK9/x9uuQ5H5ewOvpdnhTeXTP1
-   yycmy2hSZBrMp5DWW6ttmKRLtaDlRB5lsJI2BJVeQka06yvJy0StAMduT
-   w==;
-X-CSE-ConnectionGUID: cM+BXA2mRsWCQEgKHz6FRQ==
-X-CSE-MsgGUID: oUJVA9SgRpWbeYWOmGAtTA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11312"; a="47567872"
-X-IronPort-AV: E=Sophos;i="6.12,308,1728975600"; 
-   d="scan'208";a="47567872"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2025 18:58:18 -0800
-X-CSE-ConnectionGUID: 9W+LehN2Q+ybaFdfBxKJFg==
-X-CSE-MsgGUID: Ji1haj5NSwahhisAC/YH0w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="141387404"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 11 Jan 2025 18:58:12 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tWoAy-000LVl-38;
-	Sun, 12 Jan 2025 02:58:08 +0000
-Date: Sun, 12 Jan 2025 10:57:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Joey Jiao <quic_jiangenj@quicinc.com>, dvyukov@google.com,
-	andreyknvl@gmail.com, corbet@lwn.net, akpm@linux-foundation.org,
-	gregkh@linuxfoundation.org, nogikh@google.com, elver@google.com,
-	pierre.gondois@arm.com, cmllamas@google.com,
-	quic_zijuhu@quicinc.com, richard.weiyang@gmail.com,
-	tglx@linutronix.de, arnd@arndb.de, catalin.marinas@arm.com,
-	will@kernel.org, dennis@kernel.org, tj@kernel.org, cl@linux.com,
-	ruanjinjie@huawei.com, colyli@suse.de,
-	andriy.shevchenko@linux.intel.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, kernel@quicinc.com,
-	quic_likaid@quicinc.com, kasan-dev@googlegroups.com,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH] kcov: add unique cover, edge, and cmp modes
-Message-ID: <202501121036.JNteuRXG-lkp@intel.com>
-References: <20250110073056.2594638-1-quic_jiangenj@quicinc.com>
+	s=arc-20240116; t=1736679277; c=relaxed/simple;
+	bh=tsu/pUIVQMSANOGKXx/ye25i/RfVf9ppAdxgP3tlJJ0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hl9eCyouxvBp3rUE/4RG2gnSWtHyix9AfxiNRsPq4yD+srMXIHpoTsYLIGDEzXltcc1gEWkMS+4FTa/Fj6ez4rf1JvTJZpbxS4FoWc9cAbrYYYAzyDX35ghwS32aKQkPoNc7fTpYTDQhuTHnKzvXspe/kEWqbWQVs4pX93A3KQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-85ba92b3acfso1580772241.1;
+        Sun, 12 Jan 2025 02:54:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736679274; x=1737284074;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vRgOV65ZBzyKNAloWHfMUJcB+IW/ajMq0Yt82HQb7B0=;
+        b=Y1mPi0vP8O3rAMNs6trcVB/USMoiHY8883EYOVFZg5xvIJ+VQeTy45ORdUnRTP0psX
+         4ic3AI+qm279C5EjVWWskRCv34Ij9ib8Yn3MD19axclQ5VjwZtJ1346imAQfpb8htOZp
+         Smi2Gi40gf6Gbyn37QNjbieE89fNZz4lXymv/qN9tXlcv7xNXMIqcvhEc5KV7wG9B/qL
+         Q1NI+EsXWnXb7xixP0tBil5Pu6fqgn1jWElGU6LwFbTTTxX3owJ9INrJPy7Wl5LV/5wf
+         zEt2XhXYjY5dowH2eK6qd8qvFGdf49TQLnznxViKz92QPpptP2DbigIpVcVl9OglCtFo
+         ZGFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUDi/gRKMN7hrjNb8UH7lDqQGu8DEgRNKOqWyfTr/RiW+Gxu83OwQnCc8Ss16Lv94j8As4VQpiMyHuTjzRO@vger.kernel.org, AJvYcCW+q6odZmVm/cb7YAyf65VA+0DcqMJXbL7xwMc5qCSVQYsXlU2HQI9/8s1FZuPtDZamPfNmKmv/6D0=@vger.kernel.org, AJvYcCX51xBVgWcZUrTOuvVFtd3JNzZ1+jDE6DlTbcfvC2UFP3rthsNaWx8aSY8OIy24nqoERAPhKf9c2pmz@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3gcOu5lsZNZskbm2Nl3GL7uE5C+lIVdnSdUn73vDwlZI8Ugpk
+	IeH93WU7ZQfzRXIfjzjY084gO/an/ONt573+7s2msAdk+c8xFB090z/ELiL3
+X-Gm-Gg: ASbGnctvgaklkRdPgnXmc0ETlJWRh1QdZ0UiO3K1rXb+CMClkdKbrZew/lPFu43mHfI
+	GwmLd4iXgRNuYD42+AcjSjeNIIbSElAO/3h9T2TiVoGKDnNiLS+laTqzTjU/U2vajbokqa96Kct
+	iLIqPvi+j5/5k7sGDJElMtAK1cKcEx+iDIkQQbPChgq1Zi24jkqDLyXfTxDIIsac/TuDhErETln
+	Sp36M5xmfd8xdsrO1YMtyqNVoDTVqtrdA5cpm2H6+2wP/Zyq3RXTsx91rptAnzclCEVeKcUV0px
+	dHcJPlIEfw1l10GfBNJcicI=
+X-Google-Smtp-Source: AGHT+IE/PCWsD0QjFga2NeWyXkubnzhjEhUFCTZDGGxV7by+nqx19h5myQzusmntGjaaXFib4bRtJg==
+X-Received: by 2002:a05:6102:38c8:b0:4b2:5ca3:f82a with SMTP id ada2fe7eead31-4b3d0dd08b6mr15826988137.7.1736679273719;
+        Sun, 12 Jan 2025 02:54:33 -0800 (PST)
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com. [209.85.221.175])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4b608f86a63sm3741758137.16.2025.01.12.02.54.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 12 Jan 2025 02:54:33 -0800 (PST)
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-5189105c5f5so2112714e0c.0;
+        Sun, 12 Jan 2025 02:54:33 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCW7LCXL/k3fAi782k0+X+oZrVTF6B4T27JjkbSuMGZyYjoiRKY4DOwffHIK6M4zIKy6VLcGqd36mB2x2d+h@vger.kernel.org, AJvYcCWLWa6hi+2dBonwV2peT+BY0fbQ8wZHhfoBU3KK22NeBBMnCP4YoCdaOOi2i9dk4sSZORbteCA1Bhc=@vger.kernel.org, AJvYcCWxZUz19WAz6+N/r45HmD57uh81NG3PvMviGacp6uV8C83CiScMzqLNID5HTTf+FYvJpIMnnZ9okoeq@vger.kernel.org
+X-Received: by 2002:a05:6102:38c8:b0:4b2:5ca3:f82a with SMTP id
+ ada2fe7eead31-4b3d0dd08b6mr15826979137.7.1736679272990; Sun, 12 Jan 2025
+ 02:54:32 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250110073056.2594638-1-quic_jiangenj@quicinc.com>
+References: <tencent_6CF6E720909156A227D23AE8CFE4F9BA5D05@qq.com>
+ <tencent_F8CFC8ED723F6E8103B4AF3D98D63D7F1F08@qq.com> <20250110080331.04645768@gandalf.local.home>
+ <52541f79-ba1c-49c9-a576-45c3472d1c79@intel.com> <20250111120935.769ab9a3@gandalf.local.home>
+In-Reply-To: <20250111120935.769ab9a3@gandalf.local.home>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Sun, 12 Jan 2025 11:54:21 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU095ySTFJEs7bvX8kN2kBcnnUkec3hbUxUbJBGf8B=pA@mail.gmail.com>
+X-Gm-Features: AbW1kvZA6Tb8TFzuviqQnF-fwAUNvyH5HZEKrzD7_oBtcZOXXyKMxvDdqMHE6SA
+Message-ID: <CAMuHMdU095ySTFJEs7bvX8kN2kBcnnUkec3hbUxUbJBGf8B=pA@mail.gmail.com>
+Subject: Re: [PATCH] Add short author date to Fixes tag
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Jacob Keller <jacob.e.keller@intel.com>, Yeking@red54.com, kuba@kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, "Theodore Ts'o" <tytso@mit.edu>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andy Whitcroft <apw@canonical.com>, 
+	Joe Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>, 
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, tech-board-discuss@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Joey,
+Hi Steven,
 
-kernel test robot noticed the following build errors:
+On Sat, Jan 11, 2025 at 6:08=E2=80=AFPM Steven Rostedt <rostedt@goodmis.org=
+> wrote:
+> On Fri, 10 Jan 2025 16:21:35 -0800
+> Jacob Keller <jacob.e.keller@intel.com> wrote:
+>
+> > I personally find the date helpful as it can help place a commit withou=
+t
+> > needing to take the extra time to do a lookup.
+>
+> I've never found dates to be meaningful. I'm always more concerned about
+> when a commit was added to mainline. Thus the version where the commit wa=
+s
+> added is very important for me. This is why I keep a bare clone of Linus'=
+s
+> tree and commonly do:
+>
+>  $ git describe --contains fd3040b9394c
+> v5.19-rc1~159^2~154^2
+>  $ git describe --contains a76053707dbf
+> v5.15-rc1~157^2~376^2~4
+>
+> I can easily see that a76053707dbf was added in 5.15 and fd3040b9394c was
+> added in 5.19. The amount of work needed to add dates to Fixes tags would
+> greatly exceed the amount of added work someone would need to do to do th=
+e
+> above operations if they wanted to know the order of commits.
 
-[auto build test ERROR on 9b2ffa6148b1e4468d08f7e0e7e371c43cac9ffe]
+FTR, while I do not support adding dates to Fixes-tags, I would just
+need to make a small modification to my fixes alias:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Joey-Jiao/kcov-add-unique-cover-edge-and-cmp-modes/20250110-153559
-base:   9b2ffa6148b1e4468d08f7e0e7e371c43cac9ffe
-patch link:    https://lore.kernel.org/r/20250110073056.2594638-1-quic_jiangenj%40quicinc.com
-patch subject: [PATCH] kcov: add unique cover, edge, and cmp modes
-config: um-randconfig-002-20250112 (https://download.01.org/0day-ci/archive/20250112/202501121036.JNteuRXG-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project f5cd181ffbb7cb61d582fe130d46580d5969d47a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250112/202501121036.JNteuRXG-lkp@intel.com/reproduce)
+$ git help fixes
+'fixes' is aliased to 'show --format=3D'Fixes: %h ("%s")' -s'
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501121036.JNteuRXG-lkp@intel.com/
+Gr{oetje,eeting}s,
 
-All errors (new ones prefixed by >>):
+                        Geert
 
->> kernel/kcov.c:309:41: error: no member named 'type' in 'struct kcov_entry'
-     309 |                         if (entry->ent == ent->ent && entry->type == ent->type &&
-         |                                                       ~~~~~  ^
-   kernel/kcov.c:309:54: error: no member named 'type' in 'struct kcov_entry'
-     309 |                         if (entry->ent == ent->ent && entry->type == ent->type &&
-         |                                                                      ~~~  ^
->> kernel/kcov.c:310:15: error: no member named 'arg1' in 'struct kcov_entry'
-     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
-         |                             ~~~~~  ^
-   kernel/kcov.c:310:28: error: no member named 'arg1' in 'struct kcov_entry'
-     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
-         |                                            ~~~  ^
->> kernel/kcov.c:310:43: error: no member named 'arg2' in 'struct kcov_entry'
-     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
-         |                                                         ~~~~~  ^
-   kernel/kcov.c:310:56: error: no member named 'arg2' in 'struct kcov_entry'
-     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
-         |                                                                        ~~~  ^
-   kernel/kcov.c:343:29: error: no member named 'type' in 'struct kcov_entry'
-     343 |                         area[start_index] = ent->type;
-         |                                             ~~~  ^
-   kernel/kcov.c:344:33: error: no member named 'arg1' in 'struct kcov_entry'
-     344 |                         area[start_index + 1] = ent->arg1;
-         |                                                 ~~~  ^
-   kernel/kcov.c:345:33: error: no member named 'arg2' in 'struct kcov_entry'
-     345 |                         area[start_index + 2] = ent->arg2;
-         |                                                 ~~~  ^
-   9 errors generated.
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-
-vim +309 kernel/kcov.c
-
-   290	
-   291	static notrace inline void kcov_map_add(struct kcov_map *map, struct kcov_entry *ent,
-   292						struct task_struct *t, unsigned int mode)
-   293	{
-   294		struct kcov *kcov;
-   295		struct kcov_entry *entry;
-   296		unsigned int key = hash_key(ent);
-   297		unsigned long pos, start_index, end_pos, max_pos, *area;
-   298	
-   299		kcov = t->kcov;
-   300	
-   301		if ((mode == KCOV_MODE_TRACE_UNIQ_PC ||
-   302		     mode == KCOV_MODE_TRACE_UNIQ_EDGE))
-   303			hash_for_each_possible_rcu(map->buckets, entry, node, key) {
-   304				if (entry->ent == ent->ent)
-   305					return;
-   306			}
-   307		else
-   308			hash_for_each_possible_rcu(map->buckets, entry, node, key) {
- > 309				if (entry->ent == ent->ent && entry->type == ent->type &&
- > 310				    entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
-   311					return;
-   312				}
-   313			}
-   314	
-   315		entry = (struct kcov_entry *)gen_pool_alloc(map->pool, 1 << MIN_POOL_ALLOC_ORDER);
-   316		if (unlikely(!entry))
-   317			return;
-   318	
-   319		barrier();
-   320		memcpy(entry, ent, sizeof(*entry));
-   321		hash_add_rcu(map->buckets, &entry->node, key);
-   322	
-   323		if (mode == KCOV_MODE_TRACE_UNIQ_PC || mode == KCOV_MODE_TRACE_UNIQ_CMP)
-   324			area = t->kcov_area;
-   325		else
-   326			area = kcov->map_edge->area;
-   327	
-   328		pos = READ_ONCE(area[0]) + 1;
-   329		if (mode == KCOV_MODE_TRACE_UNIQ_PC || mode == KCOV_MODE_TRACE_UNIQ_EDGE) {
-   330			if (likely(pos < t->kcov_size)) {
-   331				WRITE_ONCE(area[0], pos);
-   332				barrier();
-   333				area[pos] = ent->ent;
-   334			}
-   335		} else {
-   336			start_index = 1 + (pos - 1) * KCOV_WORDS_PER_CMP;
-   337			max_pos = t->kcov_size * sizeof(unsigned long);
-   338			end_pos = (start_index + KCOV_WORDS_PER_CMP) * sizeof(u64);
-   339			if (likely(end_pos <= max_pos)) {
-   340				/* See comment in __sanitizer_cov_trace_pc(). */
-   341				WRITE_ONCE(area[0], pos);
-   342				barrier();
-   343				area[start_index] = ent->type;
-   344				area[start_index + 1] = ent->arg1;
-   345				area[start_index + 2] = ent->arg2;
-   346				area[start_index + 3] = ent->ent;
-   347			}
-   348		}
-   349	}
-   350	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
