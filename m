@@ -1,55 +1,55 @@
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEF6B1FBBE7
-	for <workflows@vger.kernel.org>; Mon, 13 Jan 2025 16:04:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E20C20AF89
+	for <workflows@vger.kernel.org>; Mon, 13 Jan 2025 16:04:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736784282; cv=none; b=RwcihyKMaFnlPD0U4N1+D72OpDWw2aE4Q+Ie/YnBdXLxP7n6STz552vM11B2XLIWMgYhnWmcMxgyy+XxOgqsk47QtVX8KDZ+azsSlVsyquhsFWOuw06PMgfbimG6OIYYWBodKeg/3rNsorq/ldRStYzyqrbw7/iJLtLnWl+VGy0=
+	t=1736784284; cv=none; b=A9hOT+ODnp8Zxeev5659jul+2YEjQo9KFgcPTmD8394VV0javM/oYfcrTRvPn0f5pCfNrotgL6e9KeywVjA1Vs9sorZZ6kKKsoOTITf2ylYItfxD+Mse3frUgX5/9q+CIrScl6+ihW/B/5Ynd6AGzwjgJ951Yvz7pp2AxdwLqiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736784282; c=relaxed/simple;
-	bh=fjoK8HDLW422WKVfz9YDN5UtTY/6nLQ7+L3SwllBF+s=;
+	s=arc-20240116; t=1736784284; c=relaxed/simple;
+	bh=898AJi3XrEHjuykKfEu9B2Ef2aNDlj/0p6BNqdRz0q0=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=VseqGgfCAZQetrSwB6QLH8uUvNINTt5sQJcO4j7y06+CBW+Jjn3oJ62burscd2+lpb66N2HpoCX+BOBfr9fgdc07OlGMqLa8TktNJJC/nwt/fo0E9JjsN/k20Ln3b+hh4tSVVqcqGKqP+sNk14wV9Xh7d34Aix6qFcyC5CU9JMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NHa8PAov; arc=none smtp.client-ip=209.85.128.74
+	 To:Cc:Content-Type; b=CQnwWnkChAk2tkB3ko+ZhgRzofDHHXT0rCB/YWT1fr0CTOYhwQDbVw/fTr2SMxl/yYbtLYKvrgHqRVIeJAFcTcG+1inPdiHUQzxwku2+hPexUmVsusXspzYsrvDH4HOAYmIiJhYT/wLaihY0OCKHxG80HaOWIj7OTl8de1moLzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jkOruu3K; arc=none smtp.client-ip=209.85.128.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NHa8PAov"
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-43621907030so10158625e9.1
-        for <workflows@vger.kernel.org>; Mon, 13 Jan 2025 08:04:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jkOruu3K"
+Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-4362b9c15d8so24255105e9.3
+        for <workflows@vger.kernel.org>; Mon, 13 Jan 2025 08:04:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736784279; x=1737389079; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1736784281; x=1737389081; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=S8y1PZN0G4pk+w7VtcCO+G6q3QRt0PKx+t9418hnYUk=;
-        b=NHa8PAovyeokZwDeIqUvpXzaP4+5Fs5LfvLnxKGPuDscPrapZY+tXKtSAQo2fGU5OH
-         WNR7xaX18R7uwKDZtULkNUBB6XGcyTrBKL4VMCGmolEbiFMR0J5NrezPo6mFNanDNEfO
-         /8iI63sWEfvUrd/8uS/ciemSUxeSc3C/quz99SsMsOnli84fRiFbJVSQGW01gbo1CXNd
-         mD6u7XfAuvfhhvO9z20LQA0/6dX0QmhgnyHdMYURLj6sS2aqtrS2x7t1SDLLHBHurt8K
-         XxDL/tAzXHTzeYsRCae4ieV5Iwppf4uK77xDzg3K0qZYpDmKSl1/NgRZsTPHj6U0oz2x
-         Ql3Q==
+        bh=8iJsjt13iOc51/UXedpaSuh8SQXuFRCMoVOy4eFkEaY=;
+        b=jkOruu3KqlqT7jpsuSztzLdO/RoHSiBtGCuCAZUR0Dbm3E/eQSGkH94PE9Sd6gFYS2
+         0hkpMJnBpIh4CJ4qaNGue5YUaSimTohh25aTtXB4DOqKH3EwWZcsqOcTaoqZzqwcnGuI
+         WzuQnq231j3tbpMfkhCvRxbnvrtEjglvWAVXoNGhI9qpgYSPi6kPHjERoP1v+AmGLTIM
+         vF/P23+hdK7o1A+81PshO6o9kv9h+aH5pdVVjLjx1ztjvJrB/UqHNvh0IM9fOP2USXWm
+         mtA5ECHqx+mFVSihLpnUFrCX5hOOSUenNWHyk6xKB5zppDkOy52MAj85GoHU4mOwGxEb
+         B07A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736784279; x=1737389079;
+        d=1e100.net; s=20230601; t=1736784281; x=1737389081;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=S8y1PZN0G4pk+w7VtcCO+G6q3QRt0PKx+t9418hnYUk=;
-        b=P/IhikfwoQ4S2UnE1zd631XzszancyYIrE2Gp9rOhwovKVbq8li2Hfp0Z2li0IbXfZ
-         c+HdT1nhqVF6zuH0bdteoeQ2wthLA+3C2YZDqBVe2QsdD91vuxxUDpaWauXxFKEZCjSc
-         9B8NPtIIBRwL6Bnc6jiRuqJfso8L/NX2wx55JLI9CxrVBDCVUeISaf+xL1L5bI3sQKiP
-         gPXXEFrM41ddycWaxoIyNMKEBbwBszCU1qK28TYdYqBSV3ARLwc163M4wx/rE6QQGdTy
-         9KtYv+2xCDPuDOaKK0GVf0uqtdvQc5lWuWpMo2X3h/vlyzBbdPrio9NznknKl5BTIU5W
-         Kh7A==
-X-Forwarded-Encrypted: i=1; AJvYcCUghBlcllsZrYozFozFFH+0aNbrOQfTu92oKLX45cuKMy2ocKq3B8uJVokfjaDUMR6YzRp6Ncopjqk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwgR7APBqLEDQiVpgpTeWnqPJ9w/4dUQ2WgKfDPvVgPhS38XJYk
-	Nli4ChciyBDyEXgrrmg9MdBTCK4CPdiSWSj9p8Wdp6Zg55R4xpiYqKh590wmKPeQTAobSjlj9a1
-	Z6PuGaY4RNA==
-X-Google-Smtp-Source: AGHT+IFYcZCoaeUHv6rBIzCBnC3FVVEjyVmDlqKB5Jndi+mfmsYTXA3gI+zZzg3vJ6Zix8ZVZx9PvMSnBG4kaw==
-X-Received: from wmjv9.prod.google.com ([2002:a7b:cb49:0:b0:434:f173:a51])
+        bh=8iJsjt13iOc51/UXedpaSuh8SQXuFRCMoVOy4eFkEaY=;
+        b=K2lFsqRYzMfHWO/Ny/+vtkrE/SZTOzPodAIS8TzRPuOwQjMVSWRqN79NOlFWnLG3fP
+         pfuUkrUrTXBaQDfryrHhSsjAhbirRsrk9b7aW0K2NG7tLkglzBAdwR84b7C4BgtlXqnO
+         nOg70MS/OQSz+kf53xCRWaPnrqGT+yfctKZbmGAiMrj9C4f9/8JYzHQ6eYdxUOdyreu2
+         dWLMNkSwvY+Y2exvCgyXr5B2zTyGbaPVkr94aWHZDDPdGfz8Ylgy++TpDNaYNMAG4XM1
+         V96ZTvcZJYFvG73/e3B+7rSr+jlSAcWWRLdFNvteop88gfjT/jZCbN81zGkxB2XwpHd6
+         TuPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVsij67fHH3YGbc6yKhMvwutMjMTPeJ7Ow5WB+VTGsLn1H+LQq7yH1Xg3Biyfano5dd51HkjIBEl44=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwSipLn8erj8n6yw9fsvKio4q+xiw5oC8zfwleGBtyFeanvrJo
+	pN0XRZ3UWgTzzCrGrNSc+svKbCeQZx+J9amFn+ioce0xwrMZWOmD17ke6IbrBBadNvJZVVWUbrR
+	EHFziKuuGyA==
+X-Google-Smtp-Source: AGHT+IH8/v9AOfqbaB+ul74RwUnP2y2VXUgVGbH+j4c+1CzZN8TUArYCxCFU+cwMJLC/Yo+TCWKG3KPZcq5Y1A==
+X-Received: from wrbee8.prod.google.com ([2002:a05:6000:2108:b0:38b:d7a4:7ee])
  (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:54c5:b0:431:557e:b40c with SMTP id 5b1f17b1804b1-436e3fb231cmr176144475e9.27.1736784279343;
- Mon, 13 Jan 2025 08:04:39 -0800 (PST)
-Date: Mon, 13 Jan 2025 16:04:22 +0000
+ 2002:a5d:6d03:0:b0:385:e3b8:f331 with SMTP id ffacd0b85a97d-38a873035c5mr19303672f8f.14.1736784281542;
+ Mon, 13 Jan 2025 08:04:41 -0800 (PST)
+Date: Mon, 13 Jan 2025 16:04:23 +0000
 In-Reply-To: <20250113-checkpatch-ignore-v1-0-63a7a740f568@google.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20250113-checkpatch-ignore-v1-0-63a7a740f568@google.com>
 X-Mailer: b4 0.15-dev
-Message-ID: <20250113-checkpatch-ignore-v1-1-63a7a740f568@google.com>
-Subject: [PATCH 1/2] checkpatch: Add support for Checkpatch-ignore patch footer
+Message-ID: <20250113-checkpatch-ignore-v1-2-63a7a740f568@google.com>
+Subject: [PATCH 2/2] docs: checkpatch: Document Checkpatch-ignore patch footer
 From: Brendan Jackman <jackmanb@google.com>
 To: Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, 
 	Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
@@ -69,79 +69,44 @@ Cc: linux-kernel@vger.kernel.org, workflows@vger.kernel.org,
 	linux-doc@vger.kernel.org, Brendan Jackman <jackmanb@google.com>
 Content-Type: text/plain; charset="utf-8"
 
-Checkpatch sometimes has false positives. This makes it less useful for
-automatic usage: tools like b4 [0] can run checkpatch on all of your
-patches and give you a quick overview. When iterating on a branch, it's
-tiresome to manually re-check that any errors are known false positives.
-
-This patch adds a feature to record in the commit message that a patch
-might produce a certain checkpatch error, and that this is an expected
-false positive. Recording this information in the patch itself can also
-highlight it to reviewers, so they can make a judgment as to whether
-it's appropriate to ignore.
-
-To avoid significant reworks to the Perl code, this is implemented by
-mutating a global variable while processing each patch. (The variable
-name refers to a patch as a "file" for consistency with other code).
-
-This feature is immediately adopted for this commit itself, which
-falls afoul of EMAIL_SUBJECT due to the word "checkpatch" appearing in
-the "Checkpatch-ignore" reference in the title - a good example of a
-false positive.
-
-[0] b4 - see "--check" arg
-    https://b4.docs.kernel.org/en/latest/contributor/prep.html
+If included in patch descriptions, this will function much like the
+--ignore flag.
 
 Checkpatch-ignore: EMAIL_SUBJECT
+
 Signed-off-by: Brendan Jackman <jackmanb@google.com>
 ---
- scripts/checkpatch.pl | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ Documentation/dev-tools/checkpatch.rst | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 9eed3683ad76caffbbb2418e5dbea7551d374406..1a2ae442068d870903d46bd2dc63b757609e142d 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -53,7 +53,10 @@ my %debug;
- my %camelcase = ();
- my %use_type = ();
- my @use = ();
-+# Error types to ignore during the whole invocation.
- my %ignore_type = ();
-+# Error types to be ignored in the present "file" (i.e. patch).
-+my %file_ignore_type = ();
- my @ignore = ();
- my $help = 0;
- my $configuration_file = ".checkpatch.conf";
-@@ -2329,7 +2332,7 @@ sub show_type {
+diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+index abb3ff6820766ee0c29112b256bcc44ce41fffba..b1d5616c72029d3d8c8c236cd8d05bb839018c0a 100644
+--- a/Documentation/dev-tools/checkpatch.rst
++++ b/Documentation/dev-tools/checkpatch.rst
+@@ -10,8 +10,12 @@ also be run on file contexts and without the kernel tree.
  
- 	return defined $use_type{$type} if (scalar keys %use_type > 0);
+ Checkpatch is not always right. Your judgement takes precedence over checkpatch
+ messages.  If your code looks better with the violations, then its probably
+-best left alone.
++best left alone.  If you do that, consider adding the Checkpatch-ignore patch
++footer to record this decision.
  
--	return !defined $ignore_type{$type};
-+	return !defined $ignore_type{$type} && !defined $file_ignore_type{$type};
- }
- 
- sub report {
-@@ -2701,6 +2704,8 @@ sub process {
- 
- 	my $checklicenseline = 1;
- 
-+	%file_ignore_type = ();
++For example::
 +
- 	sanitise_line_reset();
- 	my $line;
- 	foreach my $rawline (@rawlines) {
-@@ -2778,6 +2783,10 @@ sub process {
- 		if ($setup_docs && $line =~ /^\+/) {
- 			push(@setup_docs, $line);
- 		}
-+
-+		if ($line =~ /^Checkpatch-ignore:\s+(.*)/) {
-+			hash_save_array_words(\%file_ignore_type, [$1]);
-+		}
- 	}
++  Checkpatch-ignore: EMAIL_SUBJECT,MACRO_ARG_REUSE
  
- 	$prefix = '';
+ Options
+ =======
+@@ -114,6 +118,9 @@ Available options:
+ 
+    Checkpatch will not emit messages for the specified types.
+ 
++   Note that violations can also be permanently disabled using the
++   Checkpatch-ignore patch footer.
++
+    Example::
+ 
+      ./scripts/checkpatch.pl mypatch.patch --ignore EMAIL_SUBJECT,BRACES
 
 -- 
 2.47.1.613.gc27f4b7a9f-goog
