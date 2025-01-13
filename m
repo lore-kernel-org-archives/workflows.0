@@ -1,93 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34A861C5D63;
-	Mon, 13 Jan 2025 15:36:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D380414A0A3
+	for <workflows@vger.kernel.org>; Mon, 13 Jan 2025 16:04:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736782609; cv=none; b=F9AHLDwXGJZZcHgZb3pxmqahk2z803ADt6oBMpo2BAr1DRQ90tcqIac82dUnBlqJfEw67wDJXoY3vROlP2mMC/uTOISyGU0GD5f5I6/eYfZkM9Q3ESWwOlX+yJTv4td+MpngiWgIkPl/PomwX5My59ZEsrSylBY/NfDf8t+CsHE=
+	t=1736784280; cv=none; b=MWho5/H4HvEktknijPEwO1WLd5pndpGE5ra+t7Px6DkxNgs05Dipshkw+DKemVGsKLcTL+HfnL042Q5jGEA0B92+5hv5qMB/j4vj8l1yPuIUCHaWK7CkBBeCz9r7lrl0Yg9IfVFpZCpvo9okYgcmJWnVlmMsdK/73w1E/oDKkHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736782609; c=relaxed/simple;
-	bh=aTaFsOVTUvhaciB6oEEHAAJtRFXGI0RHnENI65tSv+o=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dK9mY/bxJrCL03vkukiuj/n8kksVnfTctxdxys+0TymicLHys2bxFrC1SvqHuP9FxNMHU0DCZvg3ZHLDVKLVJ58qYvTqxv2VMV7zzYgiwVIJYxiDKfsB/Q7hALmJzpGAcSXgtS/LFERmKReyMYuHXwijHBaisNX9ycgWT6fdJnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C2EAC4CEE4;
-	Mon, 13 Jan 2025 15:36:46 +0000 (UTC)
-Date: Mon, 13 Jan 2025 10:36:45 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: "Theodore Ts'o" <tytso@mit.edu>
-Cc: Neal Gompa <neal@gompa.dev>, Miguel Ojeda <ojeda@kernel.org>, Jonathan
- Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- patches@lists.linux.dev, Sami Tolvanen <samitolvanen@google.com>, Masahiro
- Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
- tech-board@groups.linuxfoundation.org, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Linus Torvalds
- <torvalds@linux-foundation.org>, Dan Williams <dan.j.williams@intel.com>,
- Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH 3/3] docs: submitting-patches: clarify that signers may
- use their discretion on tags
-Message-ID: <20250113103645.1f23b3b7@gandalf.local.home>
-In-Reply-To: <20250113142227.GE1514771@mit.edu>
-References: <20250112152946.761150-1-ojeda@kernel.org>
-	<20250112152946.761150-4-ojeda@kernel.org>
-	<CAEg-Je-Knta8BtYSbZgX8cZ9Gd-2cpDAUE83dCJZbTbqmSfcKA@mail.gmail.com>
-	<20250113142227.GE1514771@mit.edu>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1736784280; c=relaxed/simple;
+	bh=ejY/FXwjCIB6xyMF5XTLUDGrT7TheE4P7/oHl1wT5d4=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=P38nMNtC58cZelx2CgMZzBlKg5a4HzosyG8Qad6YZof+LAdkahbSt5N0niWIDDITzd/Epe6MBFmQHyeDL6HEXQ5/Ewh6WfetoBJ6152J6RZD8kCH5olJqk8C5wJdVdJE0agWvcOK/wYH+kBH4ijKDdy/pKg4h1zaSkAjc1dXE7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=m6H6q3Ko; arc=none smtp.client-ip=209.85.128.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="m6H6q3Ko"
+Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-436723bf7ffso10158035e9.3
+        for <workflows@vger.kernel.org>; Mon, 13 Jan 2025 08:04:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1736784277; x=1737389077; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ui6u4x0QgcB8oB+XWMeJsER8HEYwKN9Ik+pWeVNFcaI=;
+        b=m6H6q3KopSMWZ9IPKe3zIwzjYrAVxxDCGOY+jzdeiJSHoCBN7XuY/j4nqViaN1lDDP
+         LAYiG/gYWJvE09+xPjLEdJFvK4W65lh5A8Z4O/wpHIdb8nox5uZ+gDWCj8jT3xA6PdgC
+         T/gTl3r+HOdCIINGjxmdsQwlp/zFz/xT9nrEQsh9Oh4yMliNcF44dhUXfukmd+dyvPcJ
+         KHoeoXCwljjqqF7NXvt0RXa12SbuewqzB3ZvWsRCiy/f6fk6LipiAQqNMd9pCXkohU8+
+         Hg+jYoXDAnLWigLVyztBDZhY9i0c8p7NF2UpVL1G6+3ML+nWzlP9w/58+gcc/ThEE1ap
+         BxsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736784277; x=1737389077;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ui6u4x0QgcB8oB+XWMeJsER8HEYwKN9Ik+pWeVNFcaI=;
+        b=Mnpo3+UqFja7ULq4+4KjRwofxBC4uE0yE8fgvHVu9WbGf30VC89NYqQ497BCC90RIQ
+         WSp1SKrWZoeLsCWNx7kV4ijLIOXZKV2+ongg4gI9mfNask78iYEfHzrY0Z7QVV1AFJu1
+         Y5bfnxVjXdy/6q2j9y/UIyU+RToSpuFFpefZ5sDtIJatLc26S3QvJt7I4OmJJzJ1wDqk
+         wwM1dzjw8zY+aLD66pQOQX6z664VU+EHINWSeufsF8O/DGzDhcMUJjacQ/FshTteoAAa
+         i7eDm+BgrcpWySK3LiYgR3SKACfrEs63DroqCvIgOvha/Dd3haSbopGP+e5wX7KPB8Lv
+         ju1w==
+X-Forwarded-Encrypted: i=1; AJvYcCWf/Z5lKim7ZptcDkPF98bziPlnjD9aTmAQtiB1Go2pQJRSKOWmS18tdk13Z9pY+GilEO3q2Z/C9+s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3lSPcrhxgEK6ZNTC5GMQpSHQ9dfDbgNZ9n+B3ZjJO9ZCVGNMJ
+	i4adj7OB0GqxavGIHHhvEeKNyfQl669U5aEUCjKYWkHhm13WHPy1w5QKZeuVbrmcab7tjYxKRbv
+	sUjVYZuYFjA==
+X-Google-Smtp-Source: AGHT+IHtuN3mlivsTwCTx/unsLTvMDz9YF7emflhWTPUs9zYdan+s5bTYff0igmdpn0dlOBVVMlpMDKTE8gCkg==
+X-Received: from wmer3.prod.google.com ([2002:a05:600c:4343:b0:434:9de6:413a])
+ (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:1c8b:b0:434:a852:ba77 with SMTP id 5b1f17b1804b1-436e26a7e1emr215250365e9.15.1736784277426;
+ Mon, 13 Jan 2025 08:04:37 -0800 (PST)
+Date: Mon, 13 Jan 2025 16:04:21 +0000
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAIU5hWcC/x3MQQqAIBBA0avErBOcssiuEi3MphwCDY0IpLsnL
+ d/i/wyJIlOCscoQ6ebEwRdgXYF1xu8keC2GRjadRGyFdWSP01zWCd59iCRQ6l6jGpSiBUp3Rtr 4+Z/T/L4fzHs39WMAAAA=
+X-Change-Id: 20250113-checkpatch-ignore-1096914844eb
+X-Mailer: b4 0.15-dev
+Message-ID: <20250113-checkpatch-ignore-v1-0-63a7a740f568@google.com>
+Subject: [PATCH 0/2] checkpatch: Add support for Checkpatch-ignore patch footer
+From: Brendan Jackman <jackmanb@google.com>
+To: Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, 
+	Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kernel@vger.kernel.org, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Brendan Jackman <jackmanb@google.com>
+Content-Type: text/plain; charset="utf-8"
 
-On Mon, 13 Jan 2025 09:22:27 -0500
-"Theodore Ts'o" <tytso@mit.edu> wrote:
+Checkpatch sometimes has false positives. This makes it less useful for
+automatic usage: tools like b4 [0] can run checkpatch on all of your
+patches and give you a quick overview. When iterating on a branch, it's
+tiresome to manually re-check that any errors are known false positives.
 
-> On Sun, Jan 12, 2025 at 10:47:02AM -0500, Neal Gompa wrote:
-> > 
-> > A tag must not be dropped without the tag submitter's authorization.
-> > Otherwise it doesn't matter what you write here, the submitter *will*
-> > feel unwelcome.
-> > 
-> > It is rude and discouraging to do so without their acceptance of doing so.  
-> 
-> In some cases, if the reviewer hasn't taken the less than subtle hints
-> that their reviews are unwelcome and are discouraging patch
-> submitters, as far as I'm concerned, if they feel unwelcome, that is a
-> *feature* and not a *bug*.
-> 
-> I'm not saying that is the case for you, but there are reviewers that
-> add negative value in the ecosystem.  The assumption that all tag
-> submitters are people that need to feel welcome might mostly true, but
-> it is not always the case.  This is why it MUST ultimately be up to
-> the maintainer.  I do not want the rules that force me to reward
-> people that should be discouraged, not encouraged.
+This patch adds a feature to record in the commit message that a patch
+might produce a certain checkpatch error, and that this is an expected
+false positive. Recording this information in the patch itself can also
+highlight it to reviewers, so they can make a judgment as to whether
+it's appropriate to ignore.
 
-I try to add all tags that are meaningful, but a lot of times I already
-pulled in the patch, and there's been several times tags came in after I
-did a pull request to Linus! (for fixes patches). Once I do a pull request to
-Linus, only Linus can have me change that commit (if there's an issue with
-it).
+Signed-off-by: Brendan Jackman <jackmanb@google.com>
+---
+Brendan Jackman (2):
+      checkpatch: Add support for Checkpatch-ignore patch footer
+      docs: checkpatch: Document Checkpatch-ignore patch footer
 
-For linux-next, I will add tags, even when Linus told me to avoid doing so.
+ Documentation/dev-tools/checkpatch.rst |  9 ++++++++-
+ scripts/checkpatch.pl                  | 11 ++++++++++-
+ 2 files changed, 18 insertions(+), 2 deletions(-)
+---
+base-commit: eae581be230bec00287807017839b3b2cd83f9ff
+change-id: 20250113-checkpatch-ignore-1096914844eb
 
-That said, I have ignored several "Reviewed-by" tags when they appear
-random. If you send a "Reviewed-by" without a single comment, and I don't
-know you, it is meaningless to me, and I will not add it.
+Best regards,
+-- 
+Brendan Jackman <jackmanb@google.com>
 
-Now for people I don't know, if they came in and found an issue with a
-patch which requires another revision, I will most definitely add their
-Reviewed-by for the next version (if they send one), and will likely take
-Reviewed-by tags from them in the future without comments (up to a point).
-
-There's also been several cases that someone sent a Reviewed-by tag and
-when I take a look at the patch I find an obvious bug. That will cause me
-to ignore that reviewer in the future. Adding that tag comes with
-responsibilities. As I mentioned in another thread, if I give a Reviewed-by
-and a bug happens on that commit, I will spend time to help fix it.
-
--- Steve
