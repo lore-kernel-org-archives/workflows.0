@@ -1,101 +1,79 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B6C91FBBF8;
-	Mon, 13 Jan 2025 15:08:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1029A240234;
+	Mon, 13 Jan 2025 15:15:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736780901; cv=none; b=jpsHrH8ZfPTxm+4GztN4F1jIN3rrRMDleuW58wHMvx4OOecUmTYLHlIogv07Jq7U91VtnS8t1TMqmMGN3w1SD7oY0eqXB3beXeyaJkAPwieqjKMluJG0pQdQpMPJUkAjyG/Fo9HPAOu96F827WDWTC7ALUSdYp3KExTLV+IDI0k=
+	t=1736781348; cv=none; b=e+BXtQdXumN54gwPs1siRDeERc1izlA5wL6DVEY4JIfspSZ2GvvHk1jBzAjnP+F3ibpc9H2bXHBBXIoWbSOa6KA3qdMm89BKXFTqJmQ6ORME+eIj3vdIKizLu0vN6GfbWrzA5/CxHP8Cyxgavq8PWYhaMc2wCxtMPg7IcWSXWIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736780901; c=relaxed/simple;
-	bh=6y+oBv9S2BUslPSzeI80pmT5oduPbD/vM8DxlkPZNh4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ovUCNtQSd2lTvZZhITQIgFVTCxWfZPElYL9i6D3oY/zWjV+n4JdiXAYOohFCtO5gn7wWHvVK0xBQUgVqocJdswhbZPfK5jV6E07lFhYgmtgLGY3iBS4B4G4R2CDHev27f8CuTqodKj4YiTU5EYvSkAUnvJwuuDqTdcVo4nE7mxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=imTy6qLd; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="imTy6qLd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03298C4CED6;
-	Mon, 13 Jan 2025 15:08:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736780901;
-	bh=6y+oBv9S2BUslPSzeI80pmT5oduPbD/vM8DxlkPZNh4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=imTy6qLdvla+UTBjz2oyAOnycMZfP9f/aCRp82bDz3ra84prbLoIiKdzNUOsj0jsR
-	 W3aSp82Tjn2gpN9pJ6xE9dy+HUeES+2vwfYvq8BhtwWfDBv7refkSmRJtDkJDrwh+X
-	 Ivn7HjWMwGJtwxMxEVesXztG1LmTZaVOJzwVV0Fso8/QVSxWlQBgpc3A2YoSrePElM
-	 5WaboXO2nyAHkBbpJ2imtlsR0zZ3AxtyKCFZQxWepoBcMcUGpDoNrNV1+/0+vdWU1D
-	 FBsVZ6ejhdulIJ//3OkhgoJjHrAw/ZUZwS3y3wgh2/OsEOCe9VOvssIP2zygF8ZvT3
-	 eqKz3lJEd+y+g==
-Date: Mon, 13 Jan 2025 15:08:15 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
-	Jacob Keller <jacob.e.keller@intel.com>, Yeking@red54.com,
-	kuba@kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	Theodore Ts'o <tytso@mit.edu>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
-	Dwaipayan Ray <dwaipayanray1@gmail.com>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, tech-board-discuss@lists.linux.dev
-Subject: Re: [PATCH] Add short author date to Fixes tag
-Message-ID: <f2ea6923-60dd-445d-8534-03e80c21bf5b@sirena.org.uk>
-References: <tencent_6CF6E720909156A227D23AE8CFE4F9BA5D05@qq.com>
- <tencent_F8CFC8ED723F6E8103B4AF3D98D63D7F1F08@qq.com>
- <20250110080331.04645768@gandalf.local.home>
- <52541f79-ba1c-49c9-a576-45c3472d1c79@intel.com>
- <20250111120935.769ab9a3@gandalf.local.home>
- <CAMuHMdU095ySTFJEs7bvX8kN2kBcnnUkec3hbUxUbJBGf8B=pA@mail.gmail.com>
- <20250113095101.4e0fff91@gandalf.local.home>
+	s=arc-20240116; t=1736781348; c=relaxed/simple;
+	bh=tOsr0u6YI6rJI+UIEQnPUVOnfKu2wPIvBt2tMwFgtQQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XtnmSIQDSUWdJcpHxd7bJBU8nMX5SxJAw9nrHYjEz3+RJsLf35C1Z2uaSbbVYusdd7qOT7XTtmaTAjypuf5XDWc9gorMjUgk/bVBt4sIkQRMPlFwhr/9l/hbXyTfOlcsuoBdt/XP1t7Y5ryOKcnwhaHIhjFnfXd8avSrhPZxqq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1FE2C4CED6;
+	Mon, 13 Jan 2025 15:15:45 +0000 (UTC)
+Date: Mon, 13 Jan 2025 10:15:44 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: Neal Gompa <neal@gompa.dev>, Miguel Ojeda <ojeda@kernel.org>, Jonathan
+ Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ patches@lists.linux.dev, Sami Tolvanen <samitolvanen@google.com>, Masahiro
+ Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
+ tech-board@groups.linuxfoundation.org, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Linus Torvalds
+ <torvalds@linux-foundation.org>, Shuah Khan <skhan@linuxfoundation.org>,
+ Dan Williams <dan.j.williams@intel.com>, "Darrick J. Wong"
+ <djwong@kernel.org>
+Subject: Re: [PATCH 2/3] docs: submitting-patches: clarify difference
+ between Acked-by and Reviewed-by
+Message-ID: <20250113101544.527e157f@gandalf.local.home>
+In-Reply-To: <87ikqij3dj.fsf@intel.com>
+References: <20250112152946.761150-1-ojeda@kernel.org>
+	<20250112152946.761150-3-ojeda@kernel.org>
+	<CAEg-Je81VAYecajUjYVJKBJUT+YqKemWsWEoWFgOcF=vtfPRPw@mail.gmail.com>
+	<87ikqij3dj.fsf@intel.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="4F5stZyCrItxBpcC"
-Content-Disposition: inline
-In-Reply-To: <20250113095101.4e0fff91@gandalf.local.home>
-X-Cookie: You will outgrow your usefulness.
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Mon, 13 Jan 2025 14:38:00 +0200
+Jani Nikula <jani.nikula@intel.com> wrote:
 
---4F5stZyCrItxBpcC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> As a maintainer, I mostly use Acked-by for two slightly different cases:
+> 
+> 1) I've seen the patch. I have no objections to it being merged, I
+>    approve of it. I haven't done a detailed review of it. Additionally,
+>    I may indicate whether a detailed review (by someone else) is
+>    required, or whether I think the ack is sufficient for merging.
+> 
+> 2) I'm fine with the patch to the area I maintain being merged via some
+>    other maintainers' repositories. I may or may not have also given my
+>    Reviewed-by in this case, which alone is not an approval to merge via
+>    other trees.
 
-On Mon, Jan 13, 2025 at 09:51:01AM -0500, Steven Rostedt wrote:
-> Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+Interesting. When I give a Reviewed-by: to a patch, I am most definitely
+letting it be merged into other trees. For anything I pull in, I don't add
+a Reviewed-by and will strip any tag that says I did review it as my
+Signed-off-by includes that I reviewed the patch.
 
-> > $ git help fixes
-> > 'fixes' is aliased to 'show --format='Fixes: %h ("%s")' -s'
+The difference I give between Acked-by and Reviewed-by is that my Acked-by
+is "I don't see anything wrong with the idea of the change, and it can go
+via another tree", where as a Reviewed-by is "I took time to understand the
+change itself, and have not found anything wrong with it".
 
-> Hmm, I've just been manually adding the Fixes tags ;-) That's because when
-> I add a fixes tag, I also do a more in depth analysis to make sure the
-> commit being tagged is really the cause of the problem. A lot of my fixes
-> tags are due to very subtle bugs, and a lot of times its a combination of
-> event that happened.
+Basically, an Acked-by is "I took a quick look, and I'm OK with it, but if
+it breaks something of mine, I expect you to fix it." and Reviewed-by is "I
+took a deeper look, and if it breaks something of mine, I hold myself at
+fault, and will fix it myself". ;-)
 
-> That said, maybe one day I'll use a script or alias in the future.
+-- Steve
 
-I use an alias like that for manually adding fixes tags, to get
-everything in the right format.
-
---4F5stZyCrItxBpcC
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmeFLF4ACgkQJNaLcl1U
-h9CiWQf/Q14orlO9byNgI7u1kMFBpooTg9Sx/cg4WFe/j2dfxVi4rdExRIS1Hl8I
-dSlYcns14j2UL1YzWIegwAR7WmJY9vdd6eo6KV1aOUmpy9eqb46EZv7C2A+jjLq8
-MbEqXjKPs1y1UL1A36v1oMH7Fc10+qD+3DxSjCyw3jIKoA8oz+uqFVpsscs3+c2A
-UFfIHtkGdZ1OoF8J+z3721785vo0RytIrwb5+qWf1n0bgbDve8qPRNvoKsTi3omM
-PKiq7rE7d+P8jhygajsTck6n5iw/89OVccQ7W6pZC12CBVhy6nEHpATEY7+whULU
-YF6368jum1NghQx0g5F97PCJAA0YGA==
-=TDJF
------END PGP SIGNATURE-----
-
---4F5stZyCrItxBpcC--
