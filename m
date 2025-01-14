@@ -1,56 +1,56 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C43234D11
-	for <workflows@vger.kernel.org>; Tue, 14 Jan 2025 11:42:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10043234D0E
+	for <workflows@vger.kernel.org>; Tue, 14 Jan 2025 11:43:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736854972; cv=none; b=RLepqk6G/2TzYnwkFkZgkwMPqHG+0Fav387VQYiylIMSA+Zk/VDFVk5PqQkGBGne1sgPfBLM3vbXCDNg9ObCtefOWkshtCGfaHirw2DZaHHMcNerFfE/Wc4XMtiA8t14p31M9TOIvb+JEHy4ZFcGZLLbLeWJJYxNDY2W9coTJlM=
+	t=1736855018; cv=none; b=JncG48Y/e8iUfMOjqwQuM0fLF1X11qwWQashxDYaZuenWgCEVz/2Hnd5oUdDuqfV/oH+Zykb2fn+YmZ745g6fy5Jwpd5W5Bx6THcPWDVtzaZmXgSsbIUWAyH3drswez1g++P1bTXak1x7Ggh8puqzUexo/orGHdhScGRF6JxNyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736854972; c=relaxed/simple;
-	bh=+uspVXU2ZDiusAOxtXBa2fGMjWTPAxrClAQyrfIyd3k=;
+	s=arc-20240116; t=1736855018; c=relaxed/simple;
+	bh=LXE4XKNa8L3P9SwTug30J68ExN46IM7a0UR4tXbjKOs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sHv1aar+SSeGm2awdZHg8c+qY0f/GJCtoOBOdkUIcuQ6hzsKwEhcZxF4ELjfwzwlClyAHPVdp6yOwPkm4AGPTIRxDaDosNfQ/hZNWX/6hlOFVcVKyZ8w5EjmqIsiCJYCODCBksj55FOCYXm0+8lLb9H06q9dX23H4Yk1gGQ+aZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=m4PyjiLD; arc=none smtp.client-ip=209.85.160.180
+	 To:Cc:Content-Type; b=VUM/yNhRB7zvsvJ0qEeYd+ms500P46a1gWdT0uBbv/KewhqB0TZd2dnHCqpjGCJbgfRQB3R/YVBB1G05iMklddSa1bPXi4cjRMeA6jNf19smMtLn7Dy6dS6DJ3EBbM3ZHwVQfj5uMFnbbE0X9/4rD8V6zgjNyYSjziXgc0iLdcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LmKoxFQw; arc=none smtp.client-ip=209.85.160.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="m4PyjiLD"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4678c9310afso155871cf.1
-        for <workflows@vger.kernel.org>; Tue, 14 Jan 2025 03:42:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LmKoxFQw"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-467abce2ef9so200851cf.0
+        for <workflows@vger.kernel.org>; Tue, 14 Jan 2025 03:43:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736854970; x=1737459770; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1736855016; x=1737459816; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+uspVXU2ZDiusAOxtXBa2fGMjWTPAxrClAQyrfIyd3k=;
-        b=m4PyjiLDC8rZFu/rxQ1sKIVvjyRPIQw064Z5KFTZBWFkaEmYHzuxZQRcSOkrTV/HHW
-         /HviSEMmicAxREs30DucCjbnX0BN5JfBQCABMnm7zYS/grb2/zpVY1d+Gn2xCAz994dD
-         1VaBIOkl/eitBwWLAC6Lh9Dvsu81CWgYBsq/R/9xDoHumr2ixvqAvfx81RUS4fEUTUKD
-         ooHiSp+JQJYfbde/zps3AQ6Ol6gtBhT+WbH0Itg7vOMIIwCQ+TNkgZp1qf/8Rx2UG3m/
-         cNIZOxEJGj9u2Tfvi8BuwB4kbKA05O3JgxSQwRRmNkSIyTMyjZUmwgdYpDjR9ZcfgOx8
-         Dq0Q==
+        bh=LXE4XKNa8L3P9SwTug30J68ExN46IM7a0UR4tXbjKOs=;
+        b=LmKoxFQwX4ybBwJjR4oz4qMuWHwGZ93TqBgwd0dtpdhF2Tn9MqihoAnwWZ6XBegxiQ
+         kMWn2Ikf2FCED0pc7GiPLDEsqUrfyT30nhRg3FnussoIPvUMsYkI1gU0fcLDKjU2QLNh
+         lw/LvJXNWoM0A7HHBs/ti77IpQiGr37dLQ558nG3oc+69nkFYVqEPcd1tb0xbstmW0Kl
+         crL/fvQD/GoMGKwCU3nVfBM0AiCby5OEbIMaZ+XCIEXmvVsWWo1pITCBwLhVwqq0EN0G
+         Tts2a0du/5N/pDJSeCD3ldXBj0o++N56y5tHF7edIP9eh+qVck04xMQBavB9bJT9RIcj
+         qgAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736854970; x=1737459770;
+        d=1e100.net; s=20230601; t=1736855016; x=1737459816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+uspVXU2ZDiusAOxtXBa2fGMjWTPAxrClAQyrfIyd3k=;
-        b=YKDsFc5Y3O7nAi1/NPZsIfLu5JLZkU/K8zmRtJg/RppZWDRtjg4hpU7nGyyjAyPUkh
-         VvUu0BEAd1o2dVkCeTScCaLSuhzToD099eFY2VcwCc2+NZECrTqnXIinrNORT6QTTjzf
-         MHcQYN6NbQYLEU4kZjXWEo6CAibUME9TixCk4t1bVPmg/5Q/1FfjOvEfJqpn5AqYzPbV
-         cjttQgNCXlBI8WfF9AaMs7yH19lKbYG9yZ+oGAf8QL2PHgKgfUnNzEQ3IgFk/imzCqtt
-         mKI98ovYsfEQg2DNT4cGCU6jbDtxccxGdHEUg+NiRYwUPkVmRYbW+d8pacDPtK6kPgMa
-         1siA==
-X-Forwarded-Encrypted: i=1; AJvYcCUDDrIkZpPjtmLJSIXp23gEeRts8kbhlZAfHm0tUFWLHilfP6Qt0IBzGA63T8AgrODp9bjs7pmqVSg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyclggP/OLDvyLCUb6reiQ5jR1sIHDdzMW47mo2RUR6JDRIkGJx
-	898wYpQgJoVXuA8Cl2IUYahFnBPHCLajDckSk662wQPgoZ70uID2JW99BQDJEOXMRjqwzxVc0Ri
-	qtatNoymVoQA/1kKhIn1ekwpM6NykNQlg0eS9Q1XUlFFb9pmLT7r1OoA=
-X-Gm-Gg: ASbGnct/yn6iLNK1BuSFLO1gzQPQm38Wnr2ZGLkJaVzcAg4ebutZ8mRDtZAZ4ddw9nC
-	lO9I8UEfDVX5fB+xxh2tK7q6NbrIIFyUPVJT12r7NHCsZ1iQV7QVktUMJSNQEvxpizhc=
-X-Google-Smtp-Source: AGHT+IE+BzXnKsADctv0Lzt3s1gudsJx0ESLCW406jW3C6rWvqA+lwuaVs6VXnvbjcQHILOUxDSndm9ahHL6pdb38vs=
-X-Received: by 2002:a05:622a:4c0c:b0:46d:f29d:4173 with SMTP id
- d75a77b69052e-46df29d41b4mr53371cf.16.1736854969835; Tue, 14 Jan 2025
- 03:42:49 -0800 (PST)
+        bh=LXE4XKNa8L3P9SwTug30J68ExN46IM7a0UR4tXbjKOs=;
+        b=peB627J189FOpZhTlfzVraE8sNOEuGBx5LwGmMyXGViOcWVY7kphh999SBN71AlG4/
+         Mdt1HdJsFjrvZL+XJtNltAN92PQb9zdFweN8fpB7S3OA4JBcUJKzInlksv57pKwj/4h4
+         hsuBjmstBlmI+KiOFsNOQrLAV+WkwWpO51T8UgL6L2KkYlL/t0REVjhGZiSX3h5Lmpcg
+         NR8DVMtVekqv5c6ShrSot16oD6e8WThypIiegGYEOMOHvAiON/CdnNS/fruirs6/rCyE
+         adE0Mq7OyIitnXjoy+1oBsCaJPBoAcYDdYQ1ZTZQRGkDqBpps6c++xYAdqcbuV8c6OSn
+         /nEA==
+X-Forwarded-Encrypted: i=1; AJvYcCXYiRnJ3b2h4oHEAmsPAJkby3PixyGO1ANdBzXq4PpzE4CNRvvHZR/jOKN5rGCkZMP6C3NnNlEx0As=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxM8Fikg5kUUEQJTOHtrK6qFuMcaOFpNb7V02chZ/NUvAxWLlyF
+	imooCKYEInHtLihTPu1MNLWYwUFYpTZ7lvMf4hsca2Z9vxxCwMx3UaNrjiEvZn3F7svITzF01yl
+	j064zQ4lruFjsIMVA3+THdiChcRjs5MVrIUDL
+X-Gm-Gg: ASbGncv729TGTzbkXFSyGTTfvk9dabWeM9xMxyd8DDOBe/h7A39bpIukkTW/TJEtU7K
+	qLa6brgFtySKjGHdPEbvamoySddsHGmzpb154oxCncXkv17aMXZo6qYRbBPOPKifgr7k=
+X-Google-Smtp-Source: AGHT+IGJJMlSoD3S43FurdEHk746IWgMVUhVsKFJdCUrPmUWMtLyQRwdIt/JLjgUvhP0zzjiPtJYsSfP0jOTwfZPTIY=
+X-Received: by 2002:ac8:5acd:0:b0:466:9660:18a2 with SMTP id
+ d75a77b69052e-46de96eac52mr2532261cf.16.1736855015819; Tue, 14 Jan 2025
+ 03:43:35 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -59,11 +59,12 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250113-checkpatch-ignore-v1-0-63a7a740f568@google.com>
  <20250113-checkpatch-ignore-v1-1-63a7a740f568@google.com> <a1071d5d3dbfaa0e9e54b359d7b889d84d063804.camel@perches.com>
-In-Reply-To: <a1071d5d3dbfaa0e9e54b359d7b889d84d063804.camel@perches.com>
+ <CA+i-1C23hyQJmRQXM2OgCcxRm3ci9b+fK=EkbtFoZj0WpTh7Xg@mail.gmail.com>
+In-Reply-To: <CA+i-1C23hyQJmRQXM2OgCcxRm3ci9b+fK=EkbtFoZj0WpTh7Xg@mail.gmail.com>
 From: Brendan Jackman <jackmanb@google.com>
-Date: Tue, 14 Jan 2025 12:42:38 +0100
-X-Gm-Features: AbW1kvaF7Sb1tGiwE_COp-0rxs31ACZ8kLXsQz0Wlnyyh-eLJNH1HHBmYb-vdh4
-Message-ID: <CA+i-1C23hyQJmRQXM2OgCcxRm3ci9b+fK=EkbtFoZj0WpTh7Xg@mail.gmail.com>
+Date: Tue, 14 Jan 2025 12:43:24 +0100
+X-Gm-Features: AbW1kvaJWyrDh22H89zudZwSLg8b3lMw4MVOcda0Xkly1SxU22OYE28Y9Xk5um0
+Message-ID: <CA+i-1C1URFUoasjfNUZM-h0=hJOyft3OGtJFRC6i8XdrcOo7cQ@mail.gmail.com>
 Subject: Re: [PATCH 1/2] checkpatch: Add support for Checkpatch-ignore patch footer
 To: Joe Perches <joe@perches.com>
 Cc: Andy Whitcroft <apw@canonical.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>, 
@@ -72,32 +73,7 @@ Cc: Andy Whitcroft <apw@canonical.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>,
 	linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 13 Jan 2025, 20:15 Joe Perches, <joe@perches.com> wrote:
->
-> On Mon, 2025-01-13 at 16:04 +0000, Brendan Jackman wrote:
-> > Checkpatch sometimes has false positives. This makes it less useful for
-> > automatic usage: tools like b4 [0] can run checkpatch on all of your
-> > patches and give you a quick overview. When iterating on a branch, it's
-> > tiresome to manually re-check that any errors are known false positives.
->
-> If you do this, and perhaps it's not particularly necessary at all,
-> I suggest using something like the message-id or branch name for an
-> ignored types file and have the script auto-write the found types
-> into that file.
+On Tue, 14 Jan 2025 at 12:42, Brendan Jackman <jackmanb@google.com> wrote:
+> I think that's a downgrade from the Checkpatch-args approach
 
-Do you mean to say the problem is better solved in b4 instead of checkpatch?
-
-I think that's a downgrade from the Checkpatch-args approach, because
-b4 is just one of many many tools that wrap checkpatch. I think it's
-nice to solve the problem for everyone.
-
-Also, having the config in the commit message means it's there for
-everyone instead of just the patch author. Running checkpatch on other
-people's patches is not something I have much interest in doing
-deliberately, but I'm sure there are those who do it. Maybe there are
-even maintainers who would like to have their -next branch entirely
-checkpatch-clean if that was an option.
-
-Plus I bet there are just cases where it's interesting to know the
-difference between "this author doesn't care about checkpatch" and
-"this author disagrees with checkpatch on this patch".
+(Sorry I mean Checkpatch-ignore of course)
