@@ -1,193 +1,103 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D33362253F0
-	for <workflows@vger.kernel.org>; Tue, 14 Jan 2025 11:02:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C43234D11
+	for <workflows@vger.kernel.org>; Tue, 14 Jan 2025 11:42:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736852567; cv=none; b=ZA9mvOdCwRxBNNoKD5BKAoOdtHmzAKq3p9N7eoDcfRCDNUOd/iI0XtFCb9d/kpGavJsJqqeNgU+FJ2HChtpgWBKUqJdZQRsh1f93UVZ0PkmEUFCpkrjeQBfMAUxKyPjAgGA0cD3MNnU4MdbZBosPVJgSQABBt4bBeBF4A1LXFVI=
+	t=1736854972; cv=none; b=RLepqk6G/2TzYnwkFkZgkwMPqHG+0Fav387VQYiylIMSA+Zk/VDFVk5PqQkGBGne1sgPfBLM3vbXCDNg9ObCtefOWkshtCGfaHirw2DZaHHMcNerFfE/Wc4XMtiA8t14p31M9TOIvb+JEHy4ZFcGZLLbLeWJJYxNDY2W9coTJlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736852567; c=relaxed/simple;
-	bh=YyrHRr9KL+dw87bI1dBhLWyuCGiu4LuJi8gnhLwG43s=;
+	s=arc-20240116; t=1736854972; c=relaxed/simple;
+	bh=+uspVXU2ZDiusAOxtXBa2fGMjWTPAxrClAQyrfIyd3k=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aEG+KhnO+Jf2Gm4cOFjksHSXx86eltdQYeVLsiBCcsAISDmm8W/jYZZd4BBui2E6Ies7s8R5JMKFAn5+UVLhNdINMma7lbqR4U8CSYjFMuk95l+xqJNuaJSYCbNmcoyscgSW6hihDaBr94Y0ZM5goMk5ZMF+uiGz8tuj5icAnBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=L2gvvhaE; arc=none smtp.client-ip=209.85.167.46
+	 To:Cc:Content-Type; b=sHv1aar+SSeGm2awdZHg8c+qY0f/GJCtoOBOdkUIcuQ6hzsKwEhcZxF4ELjfwzwlClyAHPVdp6yOwPkm4AGPTIRxDaDosNfQ/hZNWX/6hlOFVcVKyZ8w5EjmqIsiCJYCODCBksj55FOCYXm0+8lLb9H06q9dX23H4Yk1gGQ+aZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=m4PyjiLD; arc=none smtp.client-ip=209.85.160.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="L2gvvhaE"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-54252789365so6216146e87.0
-        for <workflows@vger.kernel.org>; Tue, 14 Jan 2025 03:02:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="m4PyjiLD"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4678c9310afso155871cf.1
+        for <workflows@vger.kernel.org>; Tue, 14 Jan 2025 03:42:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736852564; x=1737457364; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1736854970; x=1737459770; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=tkDcNJulp0KAE0ecW8Wxpxi/6ej7l7BU9iILAcZFrUc=;
-        b=L2gvvhaEOpinXD5LzCP6xAnnq3o26ckvUEASPsbamVJi0HjVq3p+LMT7xsCtjhxnB5
-         mgCVwcck6LtKDxry+L5ocBY9e2EQlVJ4yL6yhSaBIQOA0O9/79iTuEBTmM06sxtltEJs
-         NqTJIXKVmLtDoBTzZeC3fjGOIxfx6JpmH0yIYrmkDgjetbWhnUb4XljUqOM74wzoKnaR
-         v8FSS/aO11uybi7nBgrgNhZTXCs2mK7ZvGbU2fZIofO2NEfUhF2wN2LljOOhqAIOT14y
-         7PpkRN7YwVLF+0B/VyinXMJ1fZUuCMS2T9C19e+/YXcvEU6SrjyoOg3bkKLEIEhzlTVJ
-         krGg==
+        bh=+uspVXU2ZDiusAOxtXBa2fGMjWTPAxrClAQyrfIyd3k=;
+        b=m4PyjiLDC8rZFu/rxQ1sKIVvjyRPIQw064Z5KFTZBWFkaEmYHzuxZQRcSOkrTV/HHW
+         /HviSEMmicAxREs30DucCjbnX0BN5JfBQCABMnm7zYS/grb2/zpVY1d+Gn2xCAz994dD
+         1VaBIOkl/eitBwWLAC6Lh9Dvsu81CWgYBsq/R/9xDoHumr2ixvqAvfx81RUS4fEUTUKD
+         ooHiSp+JQJYfbde/zps3AQ6Ol6gtBhT+WbH0Itg7vOMIIwCQ+TNkgZp1qf/8Rx2UG3m/
+         cNIZOxEJGj9u2Tfvi8BuwB4kbKA05O3JgxSQwRRmNkSIyTMyjZUmwgdYpDjR9ZcfgOx8
+         Dq0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736852564; x=1737457364;
+        d=1e100.net; s=20230601; t=1736854970; x=1737459770;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=tkDcNJulp0KAE0ecW8Wxpxi/6ej7l7BU9iILAcZFrUc=;
-        b=tkAV6pU9Z8X9G2P2LKjWcilmdmhbIWKEFu/5ljj3SW4rwhkDkTGUpst+oiukkyGlzJ
-         dvikyylfEv4xikGPlRgN2cAlFmND6amGBnYV+lPFNPwyFtabLFjkMV1HID4rLm1uiGK6
-         F0KEi0Y42Wef4XfjSFkHy3POO/yJ0TD+LPLoMe1ElJHhOeXRiuiB/qT7r6NyegqBL5Gw
-         GhozKPY49+bqA6JVHZ6PcZEA7S2R2Ne/DSUQ273a5cqaqVJI9OOJ3yZTUxYwNsCOdelA
-         H3Ej9H5HW9Va7lZjfGd5XFfdsQGTLOq/k53t/ssdy3/ixrBItTHSXxSZVaJWTC9SEof4
-         fuXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWyUH0D/FpwblAFdv7yoTZHlDqE20zEoAru0Bog53C+VxGN4DaXfkFaEyoon/K0Eezdj8LXLaQCtm4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzhWkToNuNdamRXbO8QLOxAPktZyWHfznAs0Ieo9+9chmR/hKTg
-	rHOYItBhbj2BusaTP5JTqhPzA0jtHELJ6rKx4jpzPqOKIWPzXouWFXbZ+9ZW1oMWYwVEoLiKpqS
-	Lb59/SxVMe32vvEfWbYp6KP4txC1ZVrZ4jcET
-X-Gm-Gg: ASbGncul9mRtqGF6JNsUNuC/K9J+Qm8C8brB24p9I8QfNIEQ56bKF5hlWiQaHUlTtEp
-	Rd2r+ORVn/JetKmPGzQRPCsElSUnmLfzpJWghhWhviHgS3L1FVH3go98kKqktzK9OZrp+
-X-Google-Smtp-Source: AGHT+IFf7P01M57Y+Gqy83yzIJ8jPqDjZgPJXvExL+TT5lSQl/qu1v6b8b1aedUzQTWqMr/JTwypkmUtqg6Oh/W0giE=
-X-Received: by 2002:a05:6512:238e:b0:542:97b9:89e8 with SMTP id
- 2adb3069b0e04-54297b98aa9mr3302952e87.23.1736852563653; Tue, 14 Jan 2025
- 03:02:43 -0800 (PST)
+        bh=+uspVXU2ZDiusAOxtXBa2fGMjWTPAxrClAQyrfIyd3k=;
+        b=YKDsFc5Y3O7nAi1/NPZsIfLu5JLZkU/K8zmRtJg/RppZWDRtjg4hpU7nGyyjAyPUkh
+         VvUu0BEAd1o2dVkCeTScCaLSuhzToD099eFY2VcwCc2+NZECrTqnXIinrNORT6QTTjzf
+         MHcQYN6NbQYLEU4kZjXWEo6CAibUME9TixCk4t1bVPmg/5Q/1FfjOvEfJqpn5AqYzPbV
+         cjttQgNCXlBI8WfF9AaMs7yH19lKbYG9yZ+oGAf8QL2PHgKgfUnNzEQ3IgFk/imzCqtt
+         mKI98ovYsfEQg2DNT4cGCU6jbDtxccxGdHEUg+NiRYwUPkVmRYbW+d8pacDPtK6kPgMa
+         1siA==
+X-Forwarded-Encrypted: i=1; AJvYcCUDDrIkZpPjtmLJSIXp23gEeRts8kbhlZAfHm0tUFWLHilfP6Qt0IBzGA63T8AgrODp9bjs7pmqVSg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyclggP/OLDvyLCUb6reiQ5jR1sIHDdzMW47mo2RUR6JDRIkGJx
+	898wYpQgJoVXuA8Cl2IUYahFnBPHCLajDckSk662wQPgoZ70uID2JW99BQDJEOXMRjqwzxVc0Ri
+	qtatNoymVoQA/1kKhIn1ekwpM6NykNQlg0eS9Q1XUlFFb9pmLT7r1OoA=
+X-Gm-Gg: ASbGnct/yn6iLNK1BuSFLO1gzQPQm38Wnr2ZGLkJaVzcAg4ebutZ8mRDtZAZ4ddw9nC
+	lO9I8UEfDVX5fB+xxh2tK7q6NbrIIFyUPVJT12r7NHCsZ1iQV7QVktUMJSNQEvxpizhc=
+X-Google-Smtp-Source: AGHT+IE+BzXnKsADctv0Lzt3s1gudsJx0ESLCW406jW3C6rWvqA+lwuaVs6VXnvbjcQHILOUxDSndm9ahHL6pdb38vs=
+X-Received: by 2002:a05:622a:4c0c:b0:46d:f29d:4173 with SMTP id
+ d75a77b69052e-46df29d41b4mr53371cf.16.1736854969835; Tue, 14 Jan 2025
+ 03:42:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250114-kcov-v1-0-004294b931a2@quicinc.com> <CANpmjNPUFnxvY-dnEAv09-qB5d0LY_vmyxhb3ZPJV-T9V9Q6fg@mail.gmail.com>
-In-Reply-To: <CANpmjNPUFnxvY-dnEAv09-qB5d0LY_vmyxhb3ZPJV-T9V9Q6fg@mail.gmail.com>
-From: Dmitry Vyukov <dvyukov@google.com>
-Date: Tue, 14 Jan 2025 12:02:31 +0100
-X-Gm-Features: AbW1kvbVjib7z1JcHA7nqt52tIMjbajYXxACvsKxzNI1Rng2SxsEsnkK92Vh8CA
-Message-ID: <CACT4Y+badwgw=ku--uJRWA94SA6bGXdtT+J9eO_VQxqWDxGheg@mail.gmail.com>
-Subject: Re: [PATCH 0/7] kcov: Introduce New Unique PC|EDGE|CMP Modes
-To: Marco Elver <elver@google.com>
-Cc: "Jiao, Joey" <quic_jiangenj@quicinc.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, 
-	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, kasan-dev@googlegroups.com, 
-	linux-kernel@vger.kernel.org, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	linux-arm-kernel@lists.infradead.org, kernel@quicinc.com
+References: <20250113-checkpatch-ignore-v1-0-63a7a740f568@google.com>
+ <20250113-checkpatch-ignore-v1-1-63a7a740f568@google.com> <a1071d5d3dbfaa0e9e54b359d7b889d84d063804.camel@perches.com>
+In-Reply-To: <a1071d5d3dbfaa0e9e54b359d7b889d84d063804.camel@perches.com>
+From: Brendan Jackman <jackmanb@google.com>
+Date: Tue, 14 Jan 2025 12:42:38 +0100
+X-Gm-Features: AbW1kvaF7Sb1tGiwE_COp-0rxs31ACZ8kLXsQz0Wlnyyh-eLJNH1HHBmYb-vdh4
+Message-ID: <CA+i-1C23hyQJmRQXM2OgCcxRm3ci9b+fK=EkbtFoZj0WpTh7Xg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] checkpatch: Add support for Checkpatch-ignore patch footer
+To: Joe Perches <joe@perches.com>
+Cc: Andy Whitcroft <apw@canonical.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>, 
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	LKML <linux-kernel@vger.kernel.org>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 14 Jan 2025 at 11:43, Marco Elver <elver@google.com> wrote:
-> On Tue, 14 Jan 2025 at 06:35, Jiao, Joey <quic_jiangenj@quicinc.com> wrote:
-> >
-> > Hi,
-> >
-> > This patch series introduces new kcov unique modes:
-> > `KCOV_TRACE_UNIQ_[PC|EDGE|CMP]`, which are used to collect unique PC, EDGE,
-> > CMP information.
-> >
-> > Background
-> > ----------
-> >
-> > In the current kcov implementation, when `__sanitizer_cov_trace_pc` is hit,
-> > the instruction pointer (IP) is stored sequentially in an area. Userspace
-> > programs then read this area to record covered PCs and calculate covered
-> > edges.  However, recent syzkaller runs show that many syscalls likely have
-> > `pos > t->kcov_size`, leading to kcov overflow. To address this issue, we
-> > introduce new kcov unique modes.
+On Mon, 13 Jan 2025, 20:15 Joe Perches, <joe@perches.com> wrote:
 >
-> Overflow by how much? How much space is missing?
+> On Mon, 2025-01-13 at 16:04 +0000, Brendan Jackman wrote:
+> > Checkpatch sometimes has false positives. This makes it less useful for
+> > automatic usage: tools like b4 [0] can run checkpatch on all of your
+> > patches and give you a quick overview. When iterating on a branch, it's
+> > tiresome to manually re-check that any errors are known false positives.
 >
-> > Solution Overview
-> > -----------------
-> >
-> > 1. [P 1] Introduce `KCOV_TRACE_UNIQ_PC` Mode:
-> >    - Export `KCOV_TRACE_UNIQ_PC` to userspace.
-> >    - Add `kcov_map` struct to manage memory during the KCOV lifecycle.
-> >      - `kcov_entry` struct as a hashtable entry containing unique PCs.
-> >      - Use hashtable buckets to link `kcov_entry`.
-> >      - Preallocate memory using genpool during KCOV initialization.
-> >      - Move `area` inside `kcov_map` for easier management.
-> >    - Use `jhash` for hash key calculation to support `KCOV_TRACE_UNIQ_CMP`
-> >      mode.
-> >
-> > 2. [P 2-3] Introduce `KCOV_TRACE_UNIQ_EDGE` Mode:
-> >    - Save `prev_pc` to calculate edges with the current IP.
-> >    - Add unique edges to the hashmap.
-> >    - Use a lower 12-bit mask to make hash independent of module offsets.
-> >    - Distinguish areas for `KCOV_TRACE_UNIQ_PC` and `KCOV_TRACE_UNIQ_EDGE`
-> >      modes using `offset` during mmap.
-> >    - Support enabling `KCOV_TRACE_UNIQ_PC` and `KCOV_TRACE_UNIQ_EDGE`
-> >      together.
-> >
-> > 3. [P 4] Introduce `KCOV_TRACE_UNIQ_CMP` Mode:
-> >    - Shares the area with `KCOV_TRACE_UNIQ_PC`, making these modes
-> >      exclusive.
-> >
-> > 4. [P 5] Add Example Code Documentation:
-> >    - Provide examples for testing different modes:
-> >      - `KCOV_TRACE_PC`: `./kcov` or `./kcov 0`
-> >      - `KCOV_TRACE_CMP`: `./kcov 1`
-> >      - `KCOV_TRACE_UNIQ_PC`: `./kcov 2`
-> >      - `KCOV_TRACE_UNIQ_EDGE`: `./kcov 4`
-> >      - `KCOV_TRACE_UNIQ_PC|KCOV_TRACE_UNIQ_EDGE`: `./kcov 6`
-> >      - `KCOV_TRACE_UNIQ_CMP`: `./kcov 8`
-> >
-> > 5. [P 6-7] Disable KCOV Instrumentation:
-> >    - Disable instrumentation like genpool to prevent recursive calls.
-> >
-> > Caveats
-> > -------
-> >
-> > The userspace program has been tested on Qemu x86_64 and two real Android
-> > phones with different ARM64 chips. More syzkaller-compatible tests have
-> > been conducted. However, due to limited knowledge of other platforms,
-> > assistance from those with access to other systems is needed.
-> >
-> > Results and Analysis
-> > --------------------
-> >
-> > 1. KMEMLEAK Test on Qemu x86_64:
-> >    - No memory leaks found during the `kcov` program run.
-> >
-> > 2. KCSAN Test on Qemu x86_64:
-> >    - No KCSAN issues found during the `kcov` program run.
-> >
-> > 3. Existing Syzkaller on Qemu x86_64 and Real ARM64 Device:
-> >    - Syzkaller can fuzz, show coverage, and find bugs. Adjusting `procs`
-> >      and `vm mem` settings can avoid OOM issues caused by genpool in the
-> >      patches, so `procs:4 + vm:2GB` or `procs:4 + vm:2GB` are used for
-> >      Qemu x86_64.
-> >    - `procs:8` is kept on Real ARM64 Device with 12GB/16GB mem.
-> >
-> > 4. Modified Syzkaller to Support New KCOV Unique Modes:
-> >    - Syzkaller runs fine on both Qemu x86_64 and ARM64 real devices.
-> >      Limited `Cover overflows` and `Comps overflows` observed.
-> >
-> > 5. Modified Syzkaller + Upstream Kernel Without Patch Series:
-> >    - Not tested. The modified syzkaller will fall back to `KCOV_TRACE_PC`
-> >      or `KCOV_TRACE_CMP` if `ioctl` fails for Unique mode.
-> >
-> > Possible Further Enhancements
-> > -----------------------------
-> >
-> > 1. Test more cases and setups, including those in syzbot.
-> > 2. Ensure `hash_for_each_possible_rcu` is protected for reentrance
-> >    and atomicity.
-> > 3. Find a simpler and more efficient way to store unique coverage.
-> >
-> > Conclusion
-> > ----------
-> >
-> > These patches add new kcov unique modes to mitigate the kcov overflow
-> > issue, compatible with both existing and new syzkaller versions.
->
-> Thanks for the analysis, it's clearer now.
->
-> However, the new design you introduce here adds lots of complexity.
-> Answering the question of how much overflow is happening, might give
-> better clues if this is the best design or not. Because if the
-> overflow amount is relatively small, a better design (IMHO) might be
-> simply implementing a compression scheme, e.g. a simple delta
-> encoding.
+> If you do this, and perhaps it's not particularly necessary at all,
+> I suggest using something like the message-id or branch name for an
+> ignored types file and have the script auto-write the found types
+> into that file.
 
-Joey, do you have corresponding patches for syzkaller? I wonder how
-the integration looks like, in particular when/how these maps are
-cleared.
+Do you mean to say the problem is better solved in b4 instead of checkpatch?
+
+I think that's a downgrade from the Checkpatch-args approach, because
+b4 is just one of many many tools that wrap checkpatch. I think it's
+nice to solve the problem for everyone.
+
+Also, having the config in the commit message means it's there for
+everyone instead of just the patch author. Running checkpatch on other
+people's patches is not something I have much interest in doing
+deliberately, but I'm sure there are those who do it. Maybe there are
+even maintainers who would like to have their -next branch entirely
+checkpatch-clean if that was an option.
+
+Plus I bet there are just cases where it's interesting to know the
+difference between "this author doesn't care about checkpatch" and
+"this author disagrees with checkpatch on this patch".
