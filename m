@@ -1,82 +1,82 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 528681C3BFC;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51DB31C2337;
 	Tue, 14 Jan 2025 09:01:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736845271; cv=none; b=Q/2xkQnS4JkPzulRQO41yx+AijT4oGhtwSrNKrv1GjXff4tRxu5THLjRh5DbaWSEQbuDAE6MDEt7wqGbDheFjMbGZWNEvn8jKHW0Qeo7KH4pyvzBaQbs7TjB4BKdCGC0wYLWhG3xYwLZ73K6SnZWzoY9Cy48jV3Bex1bfUzBSo0=
+	t=1736845272; cv=none; b=AXB65t4tyMYwzLD5C0bwNLbcXDYzm5I47crO4pSwGSZgXEH9eNuIRsFudY99w0dmcH3Py5YktGlEYQp+bQYh1Sp+OMeAQwvxSdCxFrthDHJPh8CN5KMgUtiTbSBfszMojjCUt/9ZyQbnSMQPLJwKjIXlJf10PD6OmcWFydCrhAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736845271; c=relaxed/simple;
-	bh=Qafce4lxG3QvgdaPmTVdG7H4KBbnhHVimKNE3MWbx/Y=;
+	s=arc-20240116; t=1736845272; c=relaxed/simple;
+	bh=WFZWHIv2JNqgv4OoNpZlHIZEGEwWZ+p/WPZAl/LLJRg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=fQl0ovVe5VoxX/VIPHh8Pvahq7jB7eEEqhD+hFzd4VbG2Or/VEEIO0pIlh5YWOJwsgC+I4Gd4ANUd3ctbvyj3F5SO9btfX3JI2FBsiGkInIDBg/Ib+NpSktAIzGiMUFJvMv30r0tVJg7afv6WhP2Wo6pR22vEo7K7yh/SfCpPIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=eSbHD62F; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=gxjOHjZp; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=tqTtd79+; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=w/Desbwr; arc=none smtp.client-ip=195.135.223.131
+	 In-Reply-To:To:Cc; b=T+xrRspP4k0jqDshMk5nLIbHTke35xk2mtP8n3BAJeKkTbRIajwfaAbzMtCUrmczDDJ7v/eS/mdgBdnT/SNuWQu2SzQbG4CoOtlh9jAYQ0ZfmzPaQFPoiTEwzGkUJ/MKKIbWN3e1B6lG105lmTEUgsX4c5HYYpaGeDap5C+qheU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=puHzgKGj; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=XT1amNvm; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=r3N2vzT5; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=OW0TYyts; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="eSbHD62F";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="gxjOHjZp";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="tqTtd79+";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="w/Desbwr"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="puHzgKGj";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="XT1amNvm";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="r3N2vzT5";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="OW0TYyts"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5BDDB1F395;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 68F7521195;
 	Tue, 14 Jan 2025 09:01:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
 	t=1736845267; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wG0H5aGfvKUFJFFS7s9hwalOmOlJj5zejgLcL4kqYbw=;
-	b=eSbHD62FNClly6U0xIlIgszH7SUaVrbBgLZdwItpvK8QHkNI/OQ+vpceXiR1905DGoXdiM
-	mwep0eXHD6CsnA8XMGRqFaM0u8XlLW24atzrLHkj1h0vR56c+GWdXfd0lJB1lwWXTUeueV
-	C/gSVlKGrZogVSNnGAK76cwbPANlHOA=
+	bh=VPAosxHOw81gzf7NQiU8vkvgOucWFUtk3cREATsF1ZM=;
+	b=puHzgKGjB9CJqWLpM9ACNswhut1rUM9AhZyvPr0d1reeYM5JJiFcRiki0EgRNlmbb0xIhl
+	DOjGn/ILD0LiIYVAzq2VC42QXI1JuLaccK3VnpeHjR/cP2oeJnfCvuv9jdwA8oSikKXkqY
+	fdAQ5n+lKdoYM3ZjhHSfO2Feqm2hybE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
 	s=susede2_ed25519; t=1736845267;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wG0H5aGfvKUFJFFS7s9hwalOmOlJj5zejgLcL4kqYbw=;
-	b=gxjOHjZp6qmFx0Ecfc74qzx726O+xR21+qw3DGYRZ7mfDcxDTmmejmINpNJCirM+laI5rG
-	y8jiBOkTbOE9EeAw==
-Authentication-Results: smtp-out2.suse.de;
+	bh=VPAosxHOw81gzf7NQiU8vkvgOucWFUtk3cREATsF1ZM=;
+	b=XT1amNvmBCfiP15YGngCpD+YP7jbd0CQbZbAtIV1U+Hcqe4ucjC5ud9XXG1e1V8C0SvyKh
+	ll1Vw1snFlHIxcBg==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
 	t=1736845266; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wG0H5aGfvKUFJFFS7s9hwalOmOlJj5zejgLcL4kqYbw=;
-	b=tqTtd79+7JN/8njNA/ASrGdRRCWBbv5AS04UAk0iYiFbsKqyF/zVw9QAFr/Rha0LTaK9as
-	Bf5GG6eLNLXlNvOCM1HhpF6NRPX2C7Wv3Q157vmSR+BYaIcldNBeR22fw80YcAUjPoRg/Y
-	Gl8wceSz/OH1OXudtTv3ITeapivTpX4=
+	bh=VPAosxHOw81gzf7NQiU8vkvgOucWFUtk3cREATsF1ZM=;
+	b=r3N2vzT5sgofI4M98kB7ZBKjTycj2TF+QBT00iyrZolDoxbyqBpPFpKIzAyeK4rk/13EHq
+	F6bfgytYVTBBrC54ri9YFCsVWWLetgCYW93Rnlhbq5Ubdm91KM8NfWiD1Ksts7I9oFbEUb
+	5T9IxSV40o5+oVjh6sZ/A0hluqnFVLs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
 	s=susede2_ed25519; t=1736845266;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wG0H5aGfvKUFJFFS7s9hwalOmOlJj5zejgLcL4kqYbw=;
-	b=w/DesbwrD0gguIc0NQbhrP5zmRcgbmuq224N5gQ8K3+cv8cL/x01B4/svul2e/oX0HALQ3
-	umbQJiK9ir6yFhAA==
+	bh=VPAosxHOw81gzf7NQiU8vkvgOucWFUtk3cREATsF1ZM=;
+	b=OW0TYytsvM77GZPC140Xc4DF2YveKSf1fuGRe7c3pIYMn2KTVhTTYFWdUge/C/gUUht3V5
+	C+85WuVmis6mJUBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 47D6213A86;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5563C13A98;
 	Tue, 14 Jan 2025 09:01:06 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 0P9BEdInhmf9bgAAD6G6ig
+	id kO2VFNInhmf9bgAAD6G6ig
 	(envelope-from <vbabka@suse.cz>); Tue, 14 Jan 2025 09:01:06 +0000
 From: Vlastimil Babka <vbabka@suse.cz>
-Date: Tue, 14 Jan 2025 09:57:54 +0100
-Subject: [PATCH 1/2] get_maintainer: decouple subsystem status from
- maintainer role
+Date: Tue, 14 Jan 2025 09:57:55 +0100
+Subject: [PATCH 2/2] get_maintainer: print subsystem status also for
+ reviewers and lists
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -85,7 +85,7 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250114-b4-get_maintainer-v1-1-ecf40f0d032d@suse.cz>
+Message-Id: <20250114-b4-get_maintainer-v1-2-ecf40f0d032d@suse.cz>
 References: <20250114-b4-get_maintainer-v1-0-ecf40f0d032d@suse.cz>
 In-Reply-To: <20250114-b4-get_maintainer-v1-0-ecf40f0d032d@suse.cz>
 To: Joe Perches <joe@perches.com>
@@ -94,22 +94,22 @@ Cc: workflows@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
  Thorsten Leemhuis <linux@leemhuis.info>, Kees Cook <kees@kernel.org>, 
  linux-kernel@vger.kernel.org, Vlastimil Babka <vbabka@suse.cz>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2628; i=vbabka@suse.cz;
- h=from:subject:message-id; bh=Qafce4lxG3QvgdaPmTVdG7H4KBbnhHVimKNE3MWbx/Y=;
- b=owEBbQGS/pANAwAIAbvgsHXSRYiaAcsmYgBnhifMHlN6KR7aAwiEO744WP/9OWORsIbmCY3Jn
- 84iWeYpepyJATMEAAEIAB0WIQR7u8hBFZkjSJZITfG74LB10kWImgUCZ4YnzAAKCRC74LB10kWI
- mszVB/9Z0p/mM0l1fbfgYgnQ5xxIJd08o+1QMacwIBIFI1PhUxmJHRimBphKCmOzntbZxhfGran
- Ji6Ru2ZM3OYUL/XqvTihoUefbl81kLqa6jUfiH3SsnvFXOmwmRvsM4mOSVZKKsJQtdJ829cauHH
- TtkvWwTj1nWCrTqZ4llWuEjqk5Uui04+YGZ6kgVgK+7kAWAbJ8lhStbSULKScnmXJ2jjAUntZo/
- uUxL9RKkXFNJZjWgvSHEP95hqqf4OC4V5A0Ql0Jmzhn6rX1IinjffOzC67H7vC39ZnBJF+ARgB7
- 3G4y6ezL5SEDbroLR5x6SQjaIrlbofy68q+wMoTQrk2TpzQJ
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3679; i=vbabka@suse.cz;
+ h=from:subject:message-id; bh=WFZWHIv2JNqgv4OoNpZlHIZEGEwWZ+p/WPZAl/LLJRg=;
+ b=owEBbQGS/pANAwAIAbvgsHXSRYiaAcsmYgBnhifP2cel0Ig9doQ9Hs2uAen0SFlFblD2sW9vJ
+ l89BB/ANkaJATMEAAEIAB0WIQR7u8hBFZkjSJZITfG74LB10kWImgUCZ4YnzwAKCRC74LB10kWI
+ mkYaB/4/lrNmlES8SwTb8XFph17347iSXNqj1shfPzMN1bu5932khNNcja6aYwmcYjSsSCJviZM
+ jB2T3i5ffMNcMVI72Xui41Fa8Z3rvaAhY6pp1LcjAKUiUn7UujnBgBHY7wMq9Jp67ALKTz1BYZr
+ WiFO2kP2PHXQXwotd2M9z/G/RfgahvNiOcraoGKc9/S5zbeqRL5qO96flmD1KGiRCfu9AT+qjNT
+ pKeY1NXkP6tNpEzavNW02t8hoMoVqHD3dVROpFw5kOvujr0GVlSoXnPLy7mg1HGKtcQ456BHBD6
+ 9iiZlntMXfOlHgLS0IIwww6KD5FHArCVnDarYRKu18OYOfkK
 X-Developer-Key: i=vbabka@suse.cz; a=openpgp;
  fpr=A940D434992C2E8E99103D50224FA7E7CC82A664
-X-Spam-Score: -4.30
+X-Spam-Level: 
 X-Spamd-Result: default: False [-4.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	NEURAL_HAM_SHORT(-0.20)[-0.997];
 	MIME_GOOD(-0.10)[text/plain];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[8];
@@ -124,80 +124,130 @@ X-Spamd-Result: default: False [-4.30 / 50.00];
 	FROM_EQ_ENVFROM(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:mid,suse.cz:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.cz:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -4.30
 X-Spam-Flag: NO
-X-Spam-Level: 
 
-The script currently uses the subystem's status (S: field in
-MAINTAINERS) to change how maintainers are reported. One prominent
-example is when the status is Supported, the maintainers are reported as
-"(supporter:SUBSYSTEM)".
+When reporting maintainers, the subsystem information includes its
+status (S: entry from MAINTAINERS) whenever it's not the most common one
+(Maintained). However this status information is missing for reviewers
+and especially for mailing lists, which may be often the only kind of
+e-mail address reported for subsystems that are of Orphan status.
 
-This is misleading, as the Supported status defined as "Someone is
-actually paid to look after this." may not in fact apply to everyone
-listed as a maintainer, but only to a subset.
+For completeness, include the status information also for reviewers and
+lists in the same way as for maintainers. Implementation-wise, factor
+out obtaining the subsystem status from get_maintainer_role to a new
+function get_subsystem_status.
 
-It has also been confusing people about what "supporter" means and has
-required updates to the documentation [1].
+For the catch-all LKML L: entry defined in "THE REST" section, the
+"subsystem" is kept ommitted and thus also its status "Buried alive in
+reporters" is not reported.
 
-Thus stop applying the subsystem status to change "maintainer:" to
-anything else, as maintainers are maintainers. Instead, if the subsystem
-status is not the most common one (Maintained), indicate it as part of
-the subsystem name. So for example, instead of "(supporter:SUBSYSTEM)"
-report "(maintainer:SUBSYSTEM [supported])".
-
-The only exception not changed here is the status "Buried alive in
-reporters" used only in "THE REST" section and reported as "chief
-penguin" because the script uses the same terminology also for the
-corresponding (non-default) command line option.
-
-[1] https://lore.kernel.org/all/20221006162413.858527-1-bryan.odonoghue@linaro.org/
-
-Reviewed-by: Kees Cook <kees@kernel.org>
 Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 ---
- scripts/get_maintainer.pl | 17 ++++++-----------
- 1 file changed, 6 insertions(+), 11 deletions(-)
+ scripts/get_maintainer.pl | 61 ++++++++++++++++++++++++++++-------------------
+ 1 file changed, 37 insertions(+), 24 deletions(-)
 
 diff --git a/scripts/get_maintainer.pl b/scripts/get_maintainer.pl
-index 5ac02e19873722d0f5bf3ac8de8374338c7bddc3..82a0032f4d4c7dad876afeb601b5f1957d1a838f 100755
+index 82a0032f4d4c7dad876afeb601b5f1957d1a838f..c9373a21da2537181f5c9eb09bb901d1981cb0dc 100755
 --- a/scripts/get_maintainer.pl
 +++ b/scripts/get_maintainer.pl
-@@ -1286,6 +1286,7 @@ sub get_maintainer_role {
+@@ -1263,6 +1263,28 @@ sub find_ending_index {
+     return $index;
+ }
  
-     my $role = "unknown";
-     my $subsystem = get_subsystem_name($index);
-+    my $substatus = "";
++sub get_subsystem_status {
++    my ($index) = @_;
++
++    my $i;
++    my $start = find_starting_index($index);
++    my $end = find_ending_index($index);
++
++    my $status = "unknown";
++    for ($i = $start + 1; $i < $end; $i++) {
++	my $tv = $typevalue[$i];
++	if ($tv =~ m/^([A-Z]):\s*(.*)/) {
++	    my $ptype = $1;
++	    my $pvalue = $2;
++	    if ($ptype eq "S") {
++		$status = $pvalue;
++	    }
++	}
++    }
++
++    return lc($status);
++}
++
+ sub get_subsystem_name {
+     my ($index) = @_;
  
-     for ($i = $start + 1; $i < $end; $i++) {
- 	my $tv = $typevalue[$i];
-@@ -1299,21 +1300,15 @@ sub get_maintainer_role {
-     }
+@@ -1280,44 +1302,31 @@ sub get_subsystem_name {
+ sub get_maintainer_role {
+     my ($index) = @_;
  
-     $role = lc($role);
--    if      ($role eq "supported") {
--	$role = "supporter";
--    } elsif ($role eq "maintained") {
-+    if ($role eq "maintained") {
- 	$role = "maintainer";
--    } elsif ($role eq "odd fixes") {
--	$role = "odd fixer";
--    } elsif ($role eq "orphan") {
--	$role = "orphan minder";
--    } elsif ($role eq "obsolete") {
--	$role = "obsolete minder";
-     } elsif ($role eq "buried alive in reporters") {
- 	$role = "chief penguin";
-+    } else {
-+	$substatus = " [" . $role . "]";
-+	$role = "maintainer";
-     }
+-    my $i;
+-    my $start = find_starting_index($index);
+-    my $end = find_ending_index($index);
 -
--    return $role . ":" . $subsystem;
-+    return $role . ":" . $subsystem . $substatus;
+-    my $role = "unknown";
++    my $role = "maintainer";
+     my $subsystem = get_subsystem_name($index);
+-    my $substatus = "";
+-
+-    for ($i = $start + 1; $i < $end; $i++) {
+-	my $tv = $typevalue[$i];
+-	if ($tv =~ m/^([A-Z]):\s*(.*)/) {
+-	    my $ptype = $1;
+-	    my $pvalue = $2;
+-	    if ($ptype eq "S") {
+-		$role = $pvalue;
+-	    }
+-	}
+-    }
++    my $status = get_subsystem_status($index);
+ 
+-    $role = lc($role);
+-    if ($role eq "maintained") {
+-	$role = "maintainer";
+-    } elsif ($role eq "buried alive in reporters") {
++    if ($status eq "maintained") {
++	$status = "";
++    } elsif ($status eq "buried alive in reporters") {
++	$status = "";
+ 	$role = "chief penguin";
+     } else {
+-	$substatus = " [" . $role . "]";
+-	$role = "maintainer";
++	$status = " [" . $status . "]";
+     }
+-    return $role . ":" . $subsystem . $substatus;
++    return $role . ":" . $subsystem . $status;
  }
  
  sub get_list_role {
+     my ($index) = @_;
+ 
+     my $subsystem = get_subsystem_name($index);
++    my $status = get_subsystem_status($index);
+ 
+     if ($subsystem eq "THE REST") {
+ 	$subsystem = "";
++    } elsif ($status ne "maintained") {
++	$subsystem .= " [" . $status . "]";
+     }
+ 
+     return $subsystem;
+@@ -1382,6 +1391,10 @@ sub add_categories {
+ 	    } elsif ($ptype eq "R") {
+ 		if ($email_reviewer) {
+ 		    my $subsystem = get_subsystem_name($i);
++		    my $status = get_subsystem_status($i);
++		    if ($status ne "maintained") {
++			$subsystem .= " [" . $status . "]";
++		    }
+ 		    push_email_addresses($pvalue, "reviewer:$subsystem" . $suffix);
+ 		}
+ 	    } elsif ($ptype eq "T") {
 
 -- 
 2.47.1
