@@ -1,114 +1,97 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F5E288A2
-	for <workflows@vger.kernel.org>; Thu, 23 Jan 2025 15:47:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE4C170817;
+	Thu, 23 Jan 2025 18:04:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737647235; cv=none; b=o2qpilbkFDsgxzm5X5+8qaD/7F5/OR7j4/cwZAPQ9TOHIpzrRUXguYBrK/D+ZM/Y8yAosJ+vm5O4E5nysCRBwZ69gHWmNUdp9MGy7CPYINEHaml8BAXDGdNshj2ag6mYUCnpEXFMQvaHyyA5qFHn07taFPAOVdYOQ7SSUYZdck8=
+	t=1737655460; cv=none; b=su7Ngjn4qRZMmwLmUMQBc6z1fR2iiNp8PQiPiyDSkX8f6fH5PFOn6uNVg0L5ZJPnRHB51vCk4n97JsrlWoQfT2o8uZBhdm+BxlrabxKi6FFpzMIu+hfzz68ovjmFm2P+/ZoOqkw0dsVUE9WvoxKKScQBfnoYZOJHc9RVVvTcfy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737647235; c=relaxed/simple;
-	bh=C+6VTFf4oQZgdC2iMUDsKcOtxuNkydWnEcm+CAZfMB4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Y2yRQstUSJWI1n6yuXrRBHNNOPA5eELtuL+57jZQPclJW9uGSMMG29gfqS0BaLpMsLmqupVZz3xMCfdJNmix/PIdan+oSK/ML9fkMG09zhzu5jLFZZ9/8WG8Nf7BbtHZ9Jsr+DUhTmA7R1Gj8SBplDrnKMkudzygEMpoXntCIag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=XgwUvteX; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1737655460; c=relaxed/simple;
+	bh=eTuapbwK/KdvI8diNR5eurIEYnCZRL8MW3R/4gjq+6w=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Sq+VBDDnl8se8ZcYTMLh/+FEGnmSr3C83VgVLoaQ/BkF2ZUvH+ab+nSdHMd70qKWoyFlTP5KeNOuqXPBqn6617UtZiHcmhBw4qc2+Xmv8tbaSp6Hc4fJuKVeP7hrTloH8iVNioJSDud6NlW9EyQqxP637ZbiW1T/kcg5FZIC85U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=dN6XkPpg; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="XgwUvteX"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-aaedd529ba1so164880066b.1
-        for <workflows@vger.kernel.org>; Thu, 23 Jan 2025 07:47:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1737647231; x=1738252031; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5c1ACikcoZvFxPEfQa5a/N07yqND3XkMMWgBnWWCeno=;
-        b=XgwUvteXRQXORHyTrN6ibgDej71OcLscyRYksK6SYAqhCr3FDqaj/YjO8Imq/p5LZB
-         AjbO3xV7jNSnDAoO+p2zgKQe9EAftwR/gb21WeXPyYnEB5uIy6APPrQ6T6/RmOPt4KiY
-         fEOVzW6yUn/hTnTC3M0VGhZ2chUlLUdOIPoSU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737647231; x=1738252031;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5c1ACikcoZvFxPEfQa5a/N07yqND3XkMMWgBnWWCeno=;
-        b=RhReSayxnGCVK256jUrLgycIeVG81QfmhF1i3KIHomyvOjIxf1g0a9VxJQ1Ga2fw0R
-         7jLPGWxm/SwjW7X9XjTOQmnQwvLFN44oQqUFyI09TQVEPewDgpl0JEQsrDZVtCwg3mqX
-         FYwPpU4v1Rb55hEvrdl9e9QTczyFaB5rWtvmn2Jm3r+QTlgmGsUhpKJrdsZylTnWc1Kq
-         sF2IMW3tEmnkFquNtMorWBXIPWexW2rXRqBq5TcehBeDfnhkzptBZo96Hsbh51OUv2K5
-         UGZSrzCBT6q4jkhObcPZJ9dyHU8XlZFRLEqfq1bssdupZFrrMBel38DTpHXDqT0l4qfu
-         JnOw==
-X-Forwarded-Encrypted: i=1; AJvYcCUQ4O6YAzTPS1N7mmc/2chtM6P7pg5tO4VtISfmWUZXhcEe8xZ/0jdZinqsZ44N1y690HWYKPKAt1w=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/cmP9PVxN3dXiohbYQvqCFvlTjswlLfVjQJuxyKVMeQbssIHE
-	zMp/R5WehVuS9bGyK4zVJ5mJX2UZwW3uTgQ7tseVCl8pPX276GAjgtD0xiSq0VK5I2j+W4Lv/q8
-	GNoA=
-X-Gm-Gg: ASbGncuYFAT6SBD2q9s1TgK1MqZ+THqDPDsP5erlFNIJLnGIz02bfk+1P9goxhPv6+d
-	ieCYKMFUCJlHeA+uWFSEjkKFMayB9bZP+VWuWWym/GQh2uEqfRfU+cIkdsfg24d5m57NKVbx6Qa
-	6eouq8I5HHs9wjZewM+jm9srNp0K4UCol/sS42O9F2ZgrxQLcOjj7J1/E8Rjep7miBEVONmBW1h
-	DGb3oiYdyOofVH0pqySeXVJiMbk30jgUEiVf4X1DknK6V7SsPbs3ljA4STIZf9hu6Mkd/hJirtD
-	FVetuKDHalrXYpI0BeEAkpJpSekM+bKR4GpUZoiGKSZU0Yv6chsL6w==
-X-Google-Smtp-Source: AGHT+IF/1QPegf+vOQ+H6CseIxzhkMJa0qOzfZ4dLDapoc5aJb2loJeg7M2vKvLEob0BG2Qvl3RPYQ==
-X-Received: by 2002:a05:6402:1ed1:b0:5db:f423:19cf with SMTP id 4fb4d7f45d1cf-5dbf4231ae1mr16545154a12.9.1737647231618;
-        Thu, 23 Jan 2025 07:47:11 -0800 (PST)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com. [209.85.218.43])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab384d2caf0sm1078620566b.80.2025.01.23.07.47.11
-        for <workflows@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Jan 2025 07:47:11 -0800 (PST)
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-aaedd529ba1so164878066b.1
-        for <workflows@vger.kernel.org>; Thu, 23 Jan 2025 07:47:11 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUf/SfAB4MYOo7fxsa34VsLtrSeLy2ilHTupEq/+Wa/gsO/ekoKkyOrAEKdbawYX+pMp4qKBVKAWJQ=@vger.kernel.org
-X-Received: by 2002:a05:6402:3595:b0:5db:f4fc:8a08 with SMTP id
- 4fb4d7f45d1cf-5dbf4fc8bf6mr18353711a12.6.1737647230858; Thu, 23 Jan 2025
- 07:47:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="dN6XkPpg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1737655456;
+	bh=eTuapbwK/KdvI8diNR5eurIEYnCZRL8MW3R/4gjq+6w=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=dN6XkPpgjABscLcR3nYIXAz0bQMLNZxgbT67jyUfEivcJlWdPP2fqMzeJqdRFhXDA
+	 FXaNasNNERyvl9jd3XW1t8+71Fl8VY/aeR33vSFgsEwpu6mqU180G5g+5ZkKWTeCgk
+	 7Kq7Odd/pvaQzv52RtaphR1dxl6ib0q3x5fnXwG6xvOefakPg8ByZ7IUrAKDb0yPQd
+	 zvjwg5lBe78jQX2NVh+K60iQSBLPW/bFnkWSyyf7PCzz2tTyEhg43478l7lUUF18/7
+	 u9esbGiOIdgxqzhHPLljK3iNRG8S+j6P0H48nKAnX8efHquACXBRBMvVGCA1i32LvY
+	 m2pigY9OxoHMA==
+Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:11:e976::7a9])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 5892917E0E48;
+	Thu, 23 Jan 2025 19:04:12 +0100 (CET)
+Message-ID: <ae9d345c71e99ac56b935a18f02c2c01fc87b9e0.camel@collabora.com>
+Subject: Re: [PATCH v2 5/5] kci-gitlab: docs: Add images
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Linus Torvalds <torvalds@linuxfoundation.org>, Vignesh Raman
+	 <vignesh.raman@collabora.com>
+Cc: kernelci@lists.linux.dev, linuxtv-ci@linuxtv.org,
+ dave.pigott@collabora.com, 	mripard@kernel.org,
+ linux-kernel@vger.kernel.org, 	dri-devel@lists.freedesktop.org,
+ linux-kselftest@vger.kernel.org, 	gustavo.padovan@collabora.com,
+ pawiecz@collabora.com, spbnick@gmail.com, 	tales.aparecida@gmail.com,
+ workflows@vger.kernel.org, skhan@linuxfoundation.org, 
+	kunit-dev@googlegroups.com, nfraprado@collabora.com, davidgow@google.com, 
+	cocci@inria.fr, Julia.Lawall@inria.fr, laura.nao@collabora.com, 
+	kernel@collabora.com, gregkh@linuxfoundation.org, daniels@collabora.com, 
+	helen.koike@collabora.com, shreeya.patel@collabora.com,
+ denys.f@collabora.com, 	louis.chauvet@bootlin.com, hamohammed.sa@gmail.com,
+ melissa.srw@gmail.com, 	simona@ffwll.ch, airlied@gmail.com,
+ Tim.Bird@sony.com, 	laurent.pinchart@ideasonboard.com, broonie@kernel.org,
+ leobras.c@gmail.com, 	groeck@google.com, rdunlap@infradead.org,
+ geert@linux-m68k.org, 	michel.daenzer@mailbox.org, sakari.ailus@iki.fi,
+ jarkko@kernel.org
+Date: Thu, 23 Jan 2025 13:04:11 -0500
+In-Reply-To: <CAHk-=wiWcw-aPcMvWYqJDqxopPYXnPnVgFYAUSkvkRPTjO83uQ@mail.gmail.com>
+References: <20250123135342.1468787-1-vignesh.raman@collabora.com>
+	 <20250123135342.1468787-6-vignesh.raman@collabora.com>
+	 <CAHk-=wiWcw-aPcMvWYqJDqxopPYXnPnVgFYAUSkvkRPTjO83uQ@mail.gmail.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250123135342.1468787-1-vignesh.raman@collabora.com> <20250123135342.1468787-6-vignesh.raman@collabora.com>
-In-Reply-To: <20250123135342.1468787-6-vignesh.raman@collabora.com>
-From: Linus Torvalds <torvalds@linuxfoundation.org>
-Date: Thu, 23 Jan 2025 07:46:53 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wiWcw-aPcMvWYqJDqxopPYXnPnVgFYAUSkvkRPTjO83uQ@mail.gmail.com>
-X-Gm-Features: AWEUYZkvzfVO2hileHLKdeINWEzbU9zhoxsfXAWcm9kmxXjIcn6s0um9krEKyaE
-Message-ID: <CAHk-=wiWcw-aPcMvWYqJDqxopPYXnPnVgFYAUSkvkRPTjO83uQ@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] kci-gitlab: docs: Add images
-To: Vignesh Raman <vignesh.raman@collabora.com>
-Cc: kernelci@lists.linux.dev, linuxtv-ci@linuxtv.org, 
-	dave.pigott@collabora.com, mripard@kernel.org, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org, 
-	gustavo.padovan@collabora.com, pawiecz@collabora.com, spbnick@gmail.com, 
-	tales.aparecida@gmail.com, workflows@vger.kernel.org, 
-	skhan@linuxfoundation.org, kunit-dev@googlegroups.com, 
-	nfraprado@collabora.com, davidgow@google.com, cocci@inria.fr, 
-	Julia.Lawall@inria.fr, laura.nao@collabora.com, kernel@collabora.com, 
-	gregkh@linuxfoundation.org, daniels@collabora.com, helen.koike@collabora.com, 
-	shreeya.patel@collabora.com, denys.f@collabora.com, 
-	nicolas.dufresne@collabora.com, louis.chauvet@bootlin.com, 
-	hamohammed.sa@gmail.com, melissa.srw@gmail.com, simona@ffwll.ch, 
-	airlied@gmail.com, Tim.Bird@sony.com, laurent.pinchart@ideasonboard.com, 
-	broonie@kernel.org, leobras.c@gmail.com, groeck@google.com, 
-	rdunlap@infradead.org, geert@linux-m68k.org, michel.daenzer@mailbox.org, 
-	sakari.ailus@iki.fi, jarkko@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, 23 Jan 2025 at 05:56, Vignesh Raman <vignesh.raman@collabora.com> wrote:
->
->  Documentation/ci/gitlab-ci/images/drm-vkms.png | Bin 0 -> 73810 bytes
->  .../ci/gitlab-ci/images/job-matrix.png         | Bin 0 -> 20000 bytes
->  .../ci/gitlab-ci/images/new-project-runner.png | Bin 0 -> 607737 bytes
->  .../ci/gitlab-ci/images/pipelines-on-push.png  | Bin 0 -> 532143 bytes
->  .../ci/gitlab-ci/images/the-pipeline.png       | Bin 0 -> 62464 bytes
->  .../ci/gitlab-ci/images/variables.png          | Bin 0 -> 277518 bytes
+Le jeudi 23 janvier 2025 à 07:46 -0800, Linus Torvalds a écrit :
+> On Thu, 23 Jan 2025 at 05:56, Vignesh Raman <vignesh.raman@collabora.com> wrote:
+> > 
+> >  Documentation/ci/gitlab-ci/images/drm-vkms.png | Bin 0 -> 73810 bytes
+> >  .../ci/gitlab-ci/images/job-matrix.png         | Bin 0 -> 20000 bytes
+> >  .../ci/gitlab-ci/images/new-project-runner.png | Bin 0 -> 607737 bytes
+> >  .../ci/gitlab-ci/images/pipelines-on-push.png  | Bin 0 -> 532143 bytes
+> >  .../ci/gitlab-ci/images/the-pipeline.png       | Bin 0 -> 62464 bytes
+> >  .../ci/gitlab-ci/images/variables.png          | Bin 0 -> 277518 bytes
+> 
+> 
+> This seems excessive.
+> 
+> We have a few images in the tree, but they tend to be either the
+> penguin logo or various source SVGs.
+> 
+> Not a set of random screenshots or whatever.
 
+I can only agree.
 
-This seems excessive.
+Nicolas
 
-We have a few images in the tree, but they tend to be either the
-penguin logo or various source SVGs.
+> 
+>          Linus
 
-Not a set of random screenshots or whatever.
-
-         Linus
