@@ -1,79 +1,196 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B36C3594D;
-	Fri, 24 Jan 2025 12:16:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED9B621B8E1;
+	Fri, 24 Jan 2025 12:27:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737721017; cv=none; b=TtT2o7p0j8OhbS6hxToNQIVTm5OK802Lg/OW+J4glf9/ERs6xVqwcxosX+RG5MroY0T72iRLmQ1Fg6Fy9KwqI6fUwn9GvnMwpwhC6TVhHzby34qY/7J1Vh/7pxNzHEgRpMB6L+DAvTTyhpuwQM0J7jvmU8GejqrsjgCAXH6i1bo=
+	t=1737721665; cv=none; b=f/C1YMWBrsafBqVXxNM3PPx1x9chcY25t2Inj5FnPdH038nJ8aMiziL1oRnQKHuFjyJlTi8LagKSYIbAnOyDD1aeycQICrFHZGpFn5MuIgUXMTR3TeN/Qi4MNeDN2DY+K1dUiZ4ekFyReQJdLm3u9e1RAvukt55BSNNvfMdWxBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737721017; c=relaxed/simple;
-	bh=9/zDMqN6hhaBomecOPelO7rWtXLPgec1udymjzwGahE=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=QcrTLObIqTqsff0fNDoyX6geCMJ6PfXM5pin+X892YNR28Q0nyF6CRbvcjSK/oCc54tVP5HvgxxD7s7NpQpbaxYIYW/0ow2SGBED4Vi+2DCQbtORSmDdca+K/jvPMg2vyCl/4DPlI89xos0DfGD8MTK5lkaBBCAjzwzL/7cOk2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eWQQv3Ug; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1737721665; c=relaxed/simple;
+	bh=9oBt5eh8mlxIfH1UK0nPtYWTn/a4BrjpdPj9YsykCGU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JDidayQQ1/8FCI7pBMAXg2D+M01bROA3gJxMkPLbhnZsFRSLmOeRnFr146Gs7B19T2Mtp4v+hb7AeAZFRa9Q7f0wrI8EjnNlAuZHZeQ6WyQnM5xuAJkmGP1ehKRsj3i7lJ+5gGiZ22THZnsTV2nUAL9OyxNDLbRQcjcGoyoflWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PDAnucqU; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eWQQv3Ug"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67084C4CED2;
-	Fri, 24 Jan 2025 12:16:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737721017;
-	bh=9/zDMqN6hhaBomecOPelO7rWtXLPgec1udymjzwGahE=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=eWQQv3Ugf4xoyIoBxAR8/sos283LO4tfdtueimw31HSVDOwgMGB2kNZZjf66Dh0hz
-	 a6I1ULEjZyhOvrOUc6AeIeqjkUJNyN1XggtE5/hweH1G/K00T8rfWPCVrcG7yaIRPA
-	 x6u3EX8rgtXrld9535e+lpZovv6mPWAHhz+p9KKX3xEGzGgW66k4DaL+AU/wyGeIBG
-	 d8ukAc8lExSOcWXjbHtFdQ1e7We3n4HIl24sN4qcJNDa+BdbKRAIKXlK31y52ODIq9
-	 IA5m48dT88TqN7E8sRAKrgIRUrPcpk7CXYyYrKvjz6WQYrhTeeORinbGugexmKmiGa
-	 d0joC22bDyNIw==
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PDAnucqU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737721663; x=1769257663;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9oBt5eh8mlxIfH1UK0nPtYWTn/a4BrjpdPj9YsykCGU=;
+  b=PDAnucqUMltE6oXGK240JcxcMzI1rIlJ9YTKwZMMqkYLl5HqYCESOf0r
+   /m/eF/MwmGcz+L1xOC2LaixJNK/2bPvJnVRGUzIE16xEPgF2Ed+JOhsjy
+   3al0mWcT6lhuj4xWt9EZbuQsiJ16eodUIrrBRdc03svoMHUD2raQK/aGl
+   eKf2xA8RVcQ7cOj6TO8her1zuYf5lwEqdfA1feSMgt8SmQ7OFfb+D+F8O
+   n3mvGBQE5+SCCLtvapqFSYqXVCOEih6JehRD8vNJpQnd0Xhc/0wl0ArFi
+   Dt+uEkOwvSDolZIlLRYR7jsBPhfzJU507+u8/7AIjRRHoWrR7oXN0UXFL
+   g==;
+X-CSE-ConnectionGUID: /R1hThV6RMKvt1K7vlZ70A==
+X-CSE-MsgGUID: oC//J+NQQKGkRYjwzoGFIg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11325"; a="37458577"
+X-IronPort-AV: E=Sophos;i="6.13,231,1732608000"; 
+   d="scan'208";a="37458577"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2025 04:27:42 -0800
+X-CSE-ConnectionGUID: TcKqrqbOStiT63Vx3rUJ8g==
+X-CSE-MsgGUID: 5YTnTvwzTZiG18df72xk5Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="112390003"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 24 Jan 2025 04:27:38 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tbImd-000cfL-38;
+	Fri, 24 Jan 2025 12:27:35 +0000
+Date: Fri, 24 Jan 2025 20:26:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Jiao, Joey" <quic_jiangenj@quicinc.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
+	Christoph Lameter <cl@linux-foundation.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, kernel@quicinc.com
+Subject: Re: [PATCH 4/7] kcov: introduce new kcov KCOV_TRACE_UNIQ_CMP mode
+Message-ID: <202501242043.KmrFufhL-lkp@intel.com>
+References: <20250114-kcov-v1-4-004294b931a2@quicinc.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 24 Jan 2025 14:16:52 +0200
-Message-Id: <D7AAOSNDJV11.AXVF80Z934BK@kernel.org>
-Cc: "Vignesh Raman" <vignesh.raman@collabora.com>,
- <kernelci@lists.linux.dev>, <linuxtv-ci@linuxtv.org>,
- <dave.pigott@collabora.com>, <mripard@kernel.org>,
- <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kselftest@vger.kernel.org>, <gustavo.padovan@collabora.com>,
- <pawiecz@collabora.com>, <spbnick@gmail.com>, <tales.aparecida@gmail.com>,
- <workflows@vger.kernel.org>, <skhan@linuxfoundation.org>,
- <kunit-dev@googlegroups.com>, <nfraprado@collabora.com>,
- <davidgow@google.com>, <cocci@inria.fr>, <Julia.Lawall@inria.fr>,
- <laura.nao@collabora.com>, <kernel@collabora.com>,
- <torvalds@linuxfoundation.org>, <gregkh@linuxfoundation.org>,
- <daniels@collabora.com>, <helen.koike@collabora.com>,
- <shreeya.patel@collabora.com>, <denys.f@collabora.com>,
- <nicolas.dufresne@collabora.com>, <louis.chauvet@bootlin.com>,
- <hamohammed.sa@gmail.com>, <melissa.srw@gmail.com>, <simona@ffwll.ch>,
- <airlied@gmail.com>, <Tim.Bird@sony.com>, <broonie@kernel.org>,
- <groeck@google.com>, <rdunlap@infradead.org>, <geert@linux-m68k.org>,
- <michel.daenzer@mailbox.org>, <sakari.ailus@iki.fi>
-Subject: Re: [PATCH v2 0/5] kci-gitlab: Introducing GitLab-CI Pipeline for
- Kernel Testing
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
- =?utf-8?q?Leonardo_Br=C3=A1s?= <leobras.c@gmail.com>
-X-Mailer: aerc 0.18.2
-References: <20250123135342.1468787-1-vignesh.raman@collabora.com>
- <f779c9af4133629f724e366241fab7421d13d227.camel@gmail.com>
- <20250124081250.GA24731@pendragon.ideasonboard.com>
-In-Reply-To: <20250124081250.GA24731@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250114-kcov-v1-4-004294b931a2@quicinc.com>
 
-On Fri Jan 24, 2025 at 10:12 AM EET, Laurent Pinchart wrote:
-> Gitlab as an open-source software project (the community edition) is one
-> thing, but can we please avoid advertising specific proprietary services
-> in the kernel documentation ?
+Hi Joey,
 
-I don't think we should have any of this in the mainline kernel.
+kernel test robot noticed the following build errors:
 
-One angle is that "no regressions rule" applies also to the shenanigans.
+[auto build test ERROR on 9b2ffa6148b1e4468d08f7e0e7e371c43cac9ffe]
 
-Do we really spend energy on this proprietary crap to the eternity?
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiao-Joey/kcov-introduce-new-kcov-KCOV_TRACE_UNIQ_PC-mode/20250114-133713
+base:   9b2ffa6148b1e4468d08f7e0e7e371c43cac9ffe
+patch link:    https://lore.kernel.org/r/20250114-kcov-v1-4-004294b931a2%40quicinc.com
+patch subject: [PATCH 4/7] kcov: introduce new kcov KCOV_TRACE_UNIQ_CMP mode
+config: x86_64-randconfig-001-20250124 (https://download.01.org/0day-ci/archive/20250124/202501242043.KmrFufhL-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501242043.KmrFufhL-lkp@intel.com/reproduce)
 
-BR, Jarkko
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501242043.KmrFufhL-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> kernel/kcov.c:309:41: error: no member named 'type' in 'struct kcov_entry'
+     309 |                         if (entry->ent == ent->ent && entry->type == ent->type &&
+         |                                                       ~~~~~  ^
+   kernel/kcov.c:309:54: error: no member named 'type' in 'struct kcov_entry'
+     309 |                         if (entry->ent == ent->ent && entry->type == ent->type &&
+         |                                                                      ~~~  ^
+>> kernel/kcov.c:310:15: error: no member named 'arg1' in 'struct kcov_entry'
+     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
+         |                             ~~~~~  ^
+   kernel/kcov.c:310:28: error: no member named 'arg1' in 'struct kcov_entry'
+     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
+         |                                            ~~~  ^
+>> kernel/kcov.c:310:43: error: no member named 'arg2' in 'struct kcov_entry'
+     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
+         |                                                         ~~~~~  ^
+   kernel/kcov.c:310:56: error: no member named 'arg2' in 'struct kcov_entry'
+     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
+         |                                                                        ~~~  ^
+   kernel/kcov.c:343:29: error: no member named 'type' in 'struct kcov_entry'
+     343 |                         area[start_index] = ent->type;
+         |                                             ~~~  ^
+   kernel/kcov.c:344:33: error: no member named 'arg1' in 'struct kcov_entry'
+     344 |                         area[start_index + 1] = ent->arg1;
+         |                                                 ~~~  ^
+   kernel/kcov.c:345:33: error: no member named 'arg2' in 'struct kcov_entry'
+     345 |                         area[start_index + 2] = ent->arg2;
+         |                                                 ~~~  ^
+   9 errors generated.
+
+
+vim +309 kernel/kcov.c
+
+   290	
+   291	static notrace inline void kcov_map_add(struct kcov_map *map, struct kcov_entry *ent,
+   292						struct task_struct *t, unsigned int mode)
+   293	{
+   294		struct kcov *kcov;
+   295		struct kcov_entry *entry;
+   296		unsigned int key = hash_key(ent);
+   297		unsigned long pos, start_index, end_pos, max_pos, *area;
+   298	
+   299		kcov = t->kcov;
+   300	
+   301		if ((mode == KCOV_MODE_TRACE_UNIQ_PC ||
+   302		     mode == KCOV_MODE_TRACE_UNIQ_EDGE))
+   303			hash_for_each_possible_rcu(map->buckets, entry, node, key) {
+   304				if (entry->ent == ent->ent)
+   305					return;
+   306			}
+   307		else
+   308			hash_for_each_possible_rcu(map->buckets, entry, node, key) {
+ > 309				if (entry->ent == ent->ent && entry->type == ent->type &&
+ > 310				    entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
+   311					return;
+   312				}
+   313			}
+   314	
+   315		entry = (struct kcov_entry *)gen_pool_alloc(map->pool, 1 << MIN_POOL_ALLOC_ORDER);
+   316		if (unlikely(!entry))
+   317			return;
+   318	
+   319		barrier();
+   320		memcpy(entry, ent, sizeof(*entry));
+   321		hash_add_rcu(map->buckets, &entry->node, key);
+   322	
+   323		if (mode == KCOV_MODE_TRACE_UNIQ_PC || mode == KCOV_MODE_TRACE_UNIQ_CMP)
+   324			area = t->kcov_area;
+   325		else
+   326			area = kcov->map_edge->area;
+   327	
+   328		pos = READ_ONCE(area[0]) + 1;
+   329		if (mode == KCOV_MODE_TRACE_UNIQ_PC || mode == KCOV_MODE_TRACE_UNIQ_EDGE) {
+   330			if (likely(pos < t->kcov_size)) {
+   331				WRITE_ONCE(area[0], pos);
+   332				barrier();
+   333				area[pos] = ent->ent;
+   334			}
+   335		} else {
+   336			start_index = 1 + (pos - 1) * KCOV_WORDS_PER_CMP;
+   337			max_pos = t->kcov_size * sizeof(unsigned long);
+   338			end_pos = (start_index + KCOV_WORDS_PER_CMP) * sizeof(u64);
+   339			if (likely(end_pos <= max_pos)) {
+   340				/* See comment in __sanitizer_cov_trace_pc(). */
+   341				WRITE_ONCE(area[0], pos);
+   342				barrier();
+   343				area[start_index] = ent->type;
+   344				area[start_index + 1] = ent->arg1;
+   345				area[start_index + 2] = ent->arg2;
+   346				area[start_index + 3] = ent->ent;
+   347			}
+   348		}
+   349	}
+   350	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
