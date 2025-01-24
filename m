@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EEF2770E2;
-	Fri, 24 Jan 2025 16:32:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2572189F5C;
+	Fri, 24 Jan 2025 16:36:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737736332; cv=none; b=RqHhbbw5PE56z2nQYaWV3yf6d7wNkaGMtaf2EU9iCm8OwCBCc6RCwkMmBOun37GjrWZTEECMJP5uk7TBE6hqBTFQg6yRNa5WRZWxA4SJ2z3m7/bsw2+jRGbN7idAUjNVUjka6pFaL1qgOg07CEbIsEtlw0wHSeEuEZhYhqWk+Wg=
+	t=1737736565; cv=none; b=QtkTP8qEeMLk5Mz8npwVR3I/h9dWLWqBEiGS45XPaCYmKo+3+Eo6cuLf4tZgIYpmx37paBTIGn/okeK/7p/VS5DMsZVdlqRmmN/LI/KmcsxHnu9EGCM7WB9QP7AUOot082dxMnzOTc2v2Q77FX9HZMC7JXr9pAcAzXUf9aGMkYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737736332; c=relaxed/simple;
-	bh=buj9ZenxsIQ69t/K1EE7HtMo+2bG/oWLj5fvcapjxUA=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=j1IRybHV9GCKeimuTu0TUddEngahQbzqSIfI9s6RHeZXaiL2VUF09lheYr7pUw7pcVdKhdw9lm/zxqK26erhhd0SGelWymIaJwvSM21cUqzQAL2RwwHpsA9ZrrcZmKfFEBtiTc4tZ6Pqta4UiZmWOF4wmd5MNmwnpk2l+ioLGaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H3I7/p6q; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1737736565; c=relaxed/simple;
+	bh=qw9sL4e2WHFO0R0bwxLwz5BJzMvwrz0O7pdsb4Warso=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=k5jUf8hqPqjuBfWitec2J1bFpPwQkb/wv38P7JaVr8xZ5VJ3VwGPl/o66OYlMK6XwWzZPnlFmwVg7s4a+Z/SB9nNID/lxaLZqHm6eiO9gYCsdIDz+RNoeRvBIqoX48beUiaTThIJL0jGmxIU8/uz6WOdrehjxuAPTEnqbOWl1r0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gFwlYNS7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H3I7/p6q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BEBBC4CED2;
-	Fri, 24 Jan 2025 16:32:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gFwlYNS7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CCC5C4CED2;
+	Fri, 24 Jan 2025 16:36:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737736332;
-	bh=buj9ZenxsIQ69t/K1EE7HtMo+2bG/oWLj5fvcapjxUA=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=H3I7/p6qOiDIGiOoQBAUG1hcJ+tysCWHdaFE1PaW4uhteDjw3pR+npaF06v/zkBW0
-	 MbvWEMBlbFZTbRdpQOSZ68zcmPDZrOiZ9D7DatPBA7aTco5xScRGmKpAsIm6Eo5fdW
-	 GpjiAmKQyF+VYkNffdKZzHpx24g4AW9KqM++lgiw363/TI+q3ftRqDzId4liHJLawe
-	 rANWO2Bs/y4K8MRmrCdmYTG11Hr08TVlZ6+7BRBcDxwtI4KHFazipsaMAhAk4FNAZh
-	 8rCH0ZYiySGZMj8kltBgr6JzKJc5dxzmUi5mCX2w5sd1uJxWVGjvc8cNNU39uUUqD/
-	 93AnUorFuJvJA==
+	s=k20201202; t=1737736565;
+	bh=qw9sL4e2WHFO0R0bwxLwz5BJzMvwrz0O7pdsb4Warso=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gFwlYNS7WTqSyyFtbpCZIYRS4wxfdkhkik45LEbaja2oWiiHOVSr3lLU5QUHdps/c
+	 YMxmJksb+X1EJNVHdXthjkzKisj8OYFz5p0Z+3ky2onBSyb1ZxUuzjvCcaGmKhrpzz
+	 5YGV+vbi3WNvxzAVeCOUqOOcV/pqw+alJ5YtglEKhI3YljsaolQcpHI2Km7o04lFYA
+	 6N/uwwJ+nlehU77Ug0DAfqGHUCwN0MDEfOpIGh5wHxFPbkN+SoAK3lP8aIpU0jaqNG
+	 7m3Sl0W69hRFPDyILQFu2mS63n/ZrKTyKx1dOnaWoqNKym1aOY2dBpxyPTwOunk1Os
+	 12nC4dVCjtpRQ==
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -34,13 +34,18 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 24 Jan 2025 18:32:07 +0200
-Message-Id: <D7AG4810MH9U.3SA2YT8ZPY6QF@kernel.org>
-Cc: <linuxtv-ci@linuxtv.org>, <dave.pigott@collabora.com>,
- <mripard@kernel.org>, <linux-kernel@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kselftest@vger.kernel.org>,
- <gustavo.padovan@collabora.com>, <pawiecz@collabora.com>,
- <spbnick@gmail.com>, <tales.aparecida@gmail.com>,
+Date: Fri, 24 Jan 2025 18:36:00 +0200
+Message-Id: <D7AG776AI2EQ.KLG13BCOXBJL@kernel.org>
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: "Nikolai Kondrashov" <Nikolai.Kondrashov@redhat.com>, "Laurent Pinchart"
+ <laurent.pinchart@ideasonboard.com>, =?utf-8?q?Leonardo_Br=C3=A1s?=
+ <leobras.c@gmail.com>
+Cc: "Vignesh Raman" <vignesh.raman@collabora.com>,
+ <kernelci@lists.linux.dev>, <linuxtv-ci@linuxtv.org>,
+ <dave.pigott@collabora.com>, <mripard@kernel.org>,
+ <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kselftest@vger.kernel.org>, <gustavo.padovan@collabora.com>,
+ <pawiecz@collabora.com>, <spbnick@gmail.com>, <tales.aparecida@gmail.com>,
  <workflows@vger.kernel.org>, <skhan@linuxfoundation.org>,
  <kunit-dev@googlegroups.com>, <nfraprado@collabora.com>,
  <davidgow@google.com>, <cocci@inria.fr>, <Julia.Lawall@inria.fr>,
@@ -50,99 +55,52 @@ Cc: <linuxtv-ci@linuxtv.org>, <dave.pigott@collabora.com>,
  <shreeya.patel@collabora.com>, <denys.f@collabora.com>,
  <nicolas.dufresne@collabora.com>, <louis.chauvet@bootlin.com>,
  <hamohammed.sa@gmail.com>, <melissa.srw@gmail.com>, <simona@ffwll.ch>,
- <airlied@gmail.com>, <Tim.Bird@sony.com>,
- <laurent.pinchart@ideasonboard.com>, <broonie@kernel.org>,
- <leobras.c@gmail.com>, <groeck@google.com>, <rdunlap@infradead.org>,
- <geert@linux-m68k.org>, <michel.daenzer@mailbox.org>, <sakari.ailus@iki.fi>
+ <airlied@gmail.com>, <Tim.Bird@sony.com>, <broonie@kernel.org>,
+ <groeck@google.com>, <rdunlap@infradead.org>, <geert@linux-m68k.org>,
+ <michel.daenzer@mailbox.org>, <sakari.ailus@iki.fi>
 Subject: Re: [PATCH v2 0/5] kci-gitlab: Introducing GitLab-CI Pipeline for
  Kernel Testing
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: "Nikolai Kondrashov" <Nikolai.Kondrashov@redhat.com>, "Vignesh Raman"
- <vignesh.raman@collabora.com>, <kernelci@lists.linux.dev>
 X-Mailer: aerc 0.18.2
 References: <20250123135342.1468787-1-vignesh.raman@collabora.com>
- <D79RU9MHGKJ8.1HG89ZJS4Q5FC@kernel.org>
- <a77f2eea-1793-4e83-92b0-92b5bbd23a5e@redhat.com>
-In-Reply-To: <a77f2eea-1793-4e83-92b0-92b5bbd23a5e@redhat.com>
+ <f779c9af4133629f724e366241fab7421d13d227.camel@gmail.com>
+ <20250124081250.GA24731@pendragon.ideasonboard.com>
+ <D7AAOSNDJV11.AXVF80Z934BK@kernel.org>
+ <298675d0-ba19-4c87-b00d-57a5e31b05b6@redhat.com>
+In-Reply-To: <298675d0-ba19-4c87-b00d-57a5e31b05b6@redhat.com>
 
-On Fri Jan 24, 2025 at 2:58 PM EET, Nikolai Kondrashov wrote:
-> Hi Jarkko,
->
-> On 1/23/25 11:30 PM, Jarkko Sakkinen wrote:
-> > On Thu Jan 23, 2025 at 3:53 PM EET, Vignesh Raman wrote:
-> >> We are working towards creating a generic, upstream GitLab-CI pipeline
-> >> (kci-gitlab) that will replace DRM-CI [1]. The proposed GitLab-CI pipe=
-line
-> >> is designed with a distributed infrastructure model, making it possibl=
-e
-> >> to run on any gitLab instance. We plan to leverage KernelCI [2] as the
-> >> backend, utilizing its hardware, rootfs, test plans, and KCIDB [3]
-> >> integration.
+On Fri Jan 24, 2025 at 3:00 PM EET, Nikolai Kondrashov wrote:
+> On 1/24/25 2:16 PM, Jarkko Sakkinen wrote:
+> > On Fri Jan 24, 2025 at 10:12 AM EET, Laurent Pinchart wrote:
+> >> Gitlab as an open-source software project (the community edition) is o=
+ne
+> >> thing, but can we please avoid advertising specific proprietary servic=
+es
+> >> in the kernel documentation ?
 > >=20
-> > Why can't you keep the next version of your great pipeline outside the
-> > kernel tree?
+> > I don't think we should have any of this in the mainline kernel.
 > >=20
-> > If there is a legit motivation for doing that, why it needs to be bound
-> > to Gitlab? Why can't you make script callable from any CI?
+> > One angle is that "no regressions rule" applies also to the shenanigans=
+.
+> >=20
+> > Do we really spend energy on this proprietary crap to the eternity?
 >
-> Greetings from the (today's) sunny Espoo!
->
-> Of course we could keep it outside the kernel tree. However, the point of=
- this
-> contribution is to provide kernel maintainers and developers with an easy=
- way
-> to setup their CI pipeline on a GitLab instance (the main one, FreeDeskto=
-p
-> one, or any other). Basically this is like a template or a library, if yo=
-u
-> wish, which helps you do that. Approved by Linus too.
+> This is not getting included into the kernel itself, the contributed code=
+ is,
+> of course, open-source. And yes it would execute just fine on the fully
+> open-source community-edition GitLab. I don't think "no regressions rule"
+> should apply here. This is for developers only, and is a template for mak=
+ing
+> your own pipeline mostly, with pieces which can be reused.
 
-With all due respect, "approved by Linus" is not an argument :-) I get
-that Linus can make the "ultimate decision" but in argumentation I'm not
-a strong believer of authority based decision making process. Not
-downplaying this more than that I knowingly ignore this comment.
+Ah, OK then it is fine. It was a kernel list so I assumed it was for
+kernel.=20
 
-> Why GitLab? Because it's one of the best, if not *the* best CI system the=
-se
-> days, with lots of flexibility, and it's Open-Source too (well, at least
-> open-core, which is still very capable). And also because a number of
-> maintainers and companies are already using it.
+Then: I don't care about this ;-) I use a different testing tool
+(BuildRoot) and a different CI (Woodpecker in my local server).
 
-There's also Github Runners and Woodpecker CI used by Codeberg. To add,
-some companies and other organizations prefer Jenkins. This one fit for
-all strategy is somewhat short-sighted.
-
-Also running Gitlab tasks locally is possible but is heavy-lifting.
-
-Can we then agree that any CI changes can be sent untested to LKML if
-a patch set needs to reflect on those? It's not reasonable to except
-local runs Gitlab from individuals for patch sets. It makes our lives
-more difficult, not easier.
-
-All maintainers I know test their patches for the most part with
-BuildRoot, distro VM's and stuff like that. Not claiming that they
-don't exist, but never heard of kernel maintainer who uses Gitlab
-as their main kernel testing tool.
-
-> Sure, a script could be contributed too, but the value of this contributi=
-on is
-> a ready-made integration. And we want to make it easily discoverable, and
-> easily contributed to.
-
-This is definitely NOT "lots of flexibility".
-
-Are you dead seriously claiming that DevOps engineers could not handle
-well defined CI scripts and bind to whatever CI makes sense to them?
-o_O
+So go ahead and do what you like...
 
 >
-> BTW, here's the talk we gave at last year's LPC regarding current use of
-> GitLab in the kernel and surrounding community:
->
-> https://lpc.events/event/18/contributions/1728/
-
-This patch set should make the case, not an old presentation.
-
 > Nick
 
 BR, Jarkko
