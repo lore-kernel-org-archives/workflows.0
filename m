@@ -1,200 +1,274 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C5814E2E8;
-	Mon, 27 Jan 2025 16:23:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A9341096F;
+	Mon, 27 Jan 2025 19:05:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737995037; cv=none; b=GbTKKKPxuxCjFoa8lrOaMp3GeFxrFHRxaCfiHV4OFqBp5PGqbD6iV9ugTGnDT4qTodCfTcgsD2FIPC7/oZayl65XygA9OhIjUG44WT8ZEZgOswX8SoN1YcMV0OTgpVOftyH4mskTfOtuFK1RJaf217A8sysb4Z0bvFsnqAHo9nI=
+	t=1738004760; cv=none; b=R9LRm7KD4uXA++e3Nh+7x0pOQxzy4NHcM5C6N5c1nbREYUtzBCB18AmX52FxS96wGXPjPrMs2CnQsLa/OG2jQzdEMf8q5Y7Ywx+nONToJxdGlf+ddwMeCfKe5P4/sIpM7ZYfql3Zwm7RoNd2sWIapI+hRicafxZfzRMKgCEpadM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737995037; c=relaxed/simple;
-	bh=6zUwpmXcP9sqo9jb0I0ccycMtTDmbn6zwGoPKCJgbxU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hscut3oR75fW0ZFUYgggApLA/cXZ3zSUTzfiQZ0xdsc37eCYQJmf4n309+1NH5oheZjQnnGL/T1cG8B1GPWPsr1nL7Fpx4IDva4mCGdqWkIId8NNL3yr/klfJOYgqNqt2tR6DZ+XkdG/qoIKfhjiLDRih3RLvPQXcrCscYBSQYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qSVoiWHZ; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1738004760; c=relaxed/simple;
+	bh=HnTMoUG4dF2vVS5CZSVNz97wU/G3QgT1IJKqTX1YryY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=q23vp+qRyf6mQLjGkD2UNCjj0wVOuAK7yOeEu22+hcs5BoIuQLRc6Nu7L4Ih018mQ7+9qTsXXe6Jt/xeB9AFfRL+PrrzOc4d8FbIqkutQZ6mBQh5f38y5Z/LrWoZnGjetnt9Yc+T1Hz2Lzf76vCLvWtoi2Nm/Yb+C012q4F0n6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AC44m1zd; arc=none smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qSVoiWHZ"
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C0798675;
-	Mon, 27 Jan 2025 17:22:46 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1737994967;
-	bh=6zUwpmXcP9sqo9jb0I0ccycMtTDmbn6zwGoPKCJgbxU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qSVoiWHZLYNNorgTiyJ1vOgJPJAa9OsIjHTRl1SWNLQSSjxNtKu9J1Ofc4h9RPPtj
-	 wJYCPVvWdVeLtDZTshLC4hJ2ldaKE55SD2vMgXUvqN92OQSra4vs2nxJilw2ShoYsY
-	 KU82qfPJhqGEpMn72MGPJH+e0q8qr0T9xCdCB7h0=
-Date: Mon, 27 Jan 2025 18:23:42 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: Leonardo =?utf-8?B?QnLDoXM=?= <leobras.c@gmail.com>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Vignesh Raman <vignesh.raman@collabora.com>,
-	kernelci@lists.linux.dev, linuxtv-ci@linuxtv.org,
-	dave.pigott@collabora.com, mripard@kernel.org,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-kselftest@vger.kernel.org, pawiecz@collabora.com,
-	tales.aparecida@gmail.com, workflows@vger.kernel.org,
-	kunit-dev@googlegroups.com, nfraprado@collabora.com,
-	davidgow@google.com, cocci@inria.fr, Julia.Lawall@inria.fr,
-	kernel@collabora.com, torvalds@linuxfoundation.org,
-	gregkh@linuxfoundation.org, daniels@collabora.com,
-	shreeya.patel@collabora.com, denys.f@collabora.com,
-	louis.chauvet@bootlin.com, hamohammed.sa@gmail.com,
-	melissa.srw@gmail.com, simona@ffwll.ch, airlied@gmail.com,
-	Tim.Bird@sony.com, broonie@kernel.org, groeck@google.com,
-	rdunlap@infradead.org, geert@linux-m68k.org,
-	michel.daenzer@mailbox.org, sakari.ailus@iki.fi, jarkko@kernel.org
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AC44m1zd"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2f78a4ca5deso6445554a91.0;
+        Mon, 27 Jan 2025 11:05:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738004757; x=1738609557; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=FgpSNPeAjFZp+XVJ99wWjxWH+/lWeKYYdQIoeMWl0ls=;
+        b=AC44m1zdx5SqUNnqB9tkzEJNEE324Fvq2ugIcZu59oxIQYN1f/QJWHey05QO0RCLUt
+         /P61jMioFTd/Sw2lG4/le6MKvv6aCv2OHJSMr/KNXS9+GbpBXfZ5fzEJv1Vvn2jZtv0b
+         jq1geHfb7Sv9Y37F/yR7dSTdHqAHJqn9JO+kmWRB/ikDg/DMCS7170nsLxUkiz2uNuDc
+         UUNF2gOPLbKL+QCTQj4A7tV7DQaTDdwul0B9qdpV1kTx96YCSl9+Vg52ZEg+s19a8q4A
+         K7femSgG4By7rk8pBFQxlpfI5rLqRz2bd01rm+EUZFmMclPMbzi81rFbZs4i86HzV4cn
+         b0dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738004757; x=1738609557;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FgpSNPeAjFZp+XVJ99wWjxWH+/lWeKYYdQIoeMWl0ls=;
+        b=MkPgAKQmDKjCc7w2eLmT+AlK3u+yW0L/BT3zkNGarpQzSucwxFbzK+LwBhryRyJGjl
+         W552WKI7biDZGPa4RGCONfyhzjBu7TtvE30cSpj2ltJ1Akiw5eGY6xZfkttoLYpvYi+y
+         zDmsExZLxz2htJD18lx401CrGb9T9j7U6ScZrApnt+CRJ5E/XFAAWnKtQmu01QL8g/gV
+         vMGjY36Y8VQdqV7+h9QFNp6zsHZxzc+ysPW43TDuD+7WtFMFirbBoQEhJwvtIkP7Wz4h
+         Gvj27Dciex9Km9TAJ+PlyrRUuXvAAF4CrR9EK27psWUj50/i/BEO+E+EyqGEiWIZbEhn
+         GGgA==
+X-Forwarded-Encrypted: i=1; AJvYcCUSWtZXtE1Hja+wIwgBhBR259MFH9mFiSckdoAukEyB7Z+KGvwueOT3JtJkQuUkKe0vzQg48b1p87mI@vger.kernel.org, AJvYcCWbsOTfeXtjE3nHPnXOCNBBGUbyEjSp3VwTRadqnMIO0jm/H+/PHE1E2owDU60R1vmPbo3lmXr4DZbtUXOyOSiB@vger.kernel.org, AJvYcCXK6hmBNiCOOr5bryYiW9/uF0j/Xn10kAGP4eiMAwoIczNU0EJoSgDkeCLRLFHWN6afnnMUVocjIAT1vPA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxT9vLcIWfkKtCNNUhn7U3JHYpGBo4Gj8wvq8fpYMYhM/D9F0VO
+	fQgmd1oE3SLki+O5wzNBZsX90R8OR1EwFECpn6UsE9oy/W6rjjhL
+X-Gm-Gg: ASbGncsbn61NjqjvfY9oLKsXoHTU/FD1hO1tobOR6d7e09a3o1ANP3I9iGyW5St9X4k
+	953vc6o+495zCPoxTBOJsZHcMl+536B4ZuHMsdBOtOrVY7SkRkDoA2eQzD6o4CmpV9e3vMZCpRc
+	j1AUUR8xx2St+Qtp0YaolqwMXSYiYqgPzs12sU5SMpPsz0WEe1t/bagawK/jeMdLPtoFz2ZbMbN
+	HHDclLSf8BDqBKjEVerKhBCnHev8nZqnouMdEZWJ4mLdz4M95xi1FghgiIsxcVGvy1tOe7VTEfD
+	TYtLftcjYxpxxSEhS5SYPgkWUF9tjAi4D94iqcOM1Q3qM3Oek50=
+X-Google-Smtp-Source: AGHT+IGV7gPf93QQO1WJVtV/nW0FDXYUQssyR5CStDGifbGwwzQP3dnpV8mOxs8Y4y2sm2ikFERqIA==
+X-Received: by 2002:a17:90a:d648:b0:2ee:3cc1:793a with SMTP id 98e67ed59e1d1-2f782d8c178mr8304612a91.29.1738004757474;
+        Mon, 27 Jan 2025 11:05:57 -0800 (PST)
+Received: from ?IPv6:2804:1b3:a801:16c4:2e00:3d86:8f34:c7fb? ([2804:1b3:a801:16c4:2e00:3d86:8f34:c7fb])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f7ffaf8f03sm7546423a91.39.2025.01.27.11.05.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jan 2025 11:05:57 -0800 (PST)
+Message-ID: <a6816a68e5e9aeb1d330b68f6a73decd2233c164.camel@gmail.com>
 Subject: Re: [PATCH v2 0/5] kci-gitlab: Introducing GitLab-CI Pipeline for
  Kernel Testing
-Message-ID: <20250127162342.GJ17899@pendragon.ideasonboard.com>
+From: Leonardo =?ISO-8859-1?Q?Br=E1s?= <leobras.c@gmail.com>
+To: Vignesh Raman <vignesh.raman@collabora.com>, Laurent Pinchart
+	 <laurent.pinchart@ideasonboard.com>
+Cc: kernelci@lists.linux.dev, linuxtv-ci@linuxtv.org,
+ dave.pigott@collabora.com, 	mripard@kernel.org,
+ linux-kernel@vger.kernel.org, 	dri-devel@lists.freedesktop.org,
+ linux-kselftest@vger.kernel.org, 	gustavo.padovan@collabora.com,
+ pawiecz@collabora.com, spbnick@gmail.com, 	tales.aparecida@gmail.com,
+ workflows@vger.kernel.org, skhan@linuxfoundation.org, 
+	kunit-dev@googlegroups.com, nfraprado@collabora.com, davidgow@google.com, 
+	cocci@inria.fr, Julia.Lawall@inria.fr, laura.nao@collabora.com, 
+	kernel@collabora.com, torvalds@linuxfoundation.org,
+ gregkh@linuxfoundation.org, 	daniels@collabora.com,
+ helen.koike@collabora.com, shreeya.patel@collabora.com, 
+	denys.f@collabora.com, nicolas.dufresne@collabora.com,
+ louis.chauvet@bootlin.com, 	hamohammed.sa@gmail.com, melissa.srw@gmail.com,
+ simona@ffwll.ch, airlied@gmail.com, 	Tim.Bird@sony.com, broonie@kernel.org,
+ groeck@google.com, rdunlap@infradead.org, 	geert@linux-m68k.org,
+ michel.daenzer@mailbox.org, sakari.ailus@iki.fi, 	jarkko@kernel.org
+Date: Mon, 27 Jan 2025 16:05:47 -0300
+In-Reply-To: <6ebd1551-017f-4b31-b235-829b2735d78f@collabora.com>
 References: <20250123135342.1468787-1-vignesh.raman@collabora.com>
- <f779c9af4133629f724e366241fab7421d13d227.camel@gmail.com>
- <20250124081250.GA24731@pendragon.ideasonboard.com>
- <20250124135203.040d0852@foz.lan>
- <20250124130021.GA6853@pendragon.ideasonboard.com>
- <f1c73327073c98ade56dfeabf629e2f9cd7d1663.camel@collabora.com>
- <bd37528d1c704951cb86a751a5c81e4c76962f51.camel@gmail.com>
- <20250127060738.GA16795@pendragon.ideasonboard.com>
- <c08e5bd0e55b7d9f87ba007455e92da553284dfb.camel@collabora.com>
+	 <f779c9af4133629f724e366241fab7421d13d227.camel@gmail.com>
+	 <20250124081250.GA24731@pendragon.ideasonboard.com>
+	 <6ebd1551-017f-4b31-b235-829b2735d78f@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c08e5bd0e55b7d9f87ba007455e92da553284dfb.camel@collabora.com>
 
-Hi Nicolas,
+On Mon, 2025-01-27 at 13:02 +0530, Vignesh Raman wrote:
+> Hi Leo,
+>=20
+> On 24/01/25 13:42, Laurent Pinchart wrote:
+> > On Fri, Jan 24, 2025 at 02:11:26AM -0300, Leonardo Br=C3=A1s wrote:
+> > > On Thu, 2025-01-23 at 19:23 +0530, Vignesh Raman wrote:
+> > > > This patch series introduces "kci-gitlab," a GitLab CI pipeline
+> > > > specifically designed for kernel testing. It provides kernel
+> > > > developers with an integrated, efficient, and flexible testing
+> > > > framework using GitLab's CI/CD capabilities. This patch includes
+> > > > a .gitlab-ci file in the tools/ci/gitlab-ci/ folder, along with
+> > > > additional YAML and script files, to define a basic test pipeline
+> > > > triggered by code pushes to a GitLab-CI instance.
+> > > > The initial version implements:
+> > > >     =20
+> > > > - Static checks: Includes checkpatch and smatch for code validation=
+.
+> > > > - Build tests: Covers various architectures and configurations.
+> > > > - Boot tests: Utilizes virtme for basic boot testing.
+> > > >=20
+> > > > Additionally, it introduces a flexible "scenarios" mechanism to
+> > > > support subsystem-specific extensions.
+> > > >=20
+> > > > This series also introduces a drm scenario that adds a job to run I=
+GT
+> > > > tests for vkms. This scenario includes helper scripts to build deqp=
+-runner
+> > > > and IGT, leveraging approaches from the drm-ci/mesa-ci project.
+> > > >=20
+> > > > We are working towards creating a generic, upstream GitLab-CI pipel=
+ine
+> > > > (kci-gitlab) that will replace DRM-CI [1]. The proposed GitLab-CI p=
+ipeline
+> > > > is designed with a distributed infrastructure model, making it poss=
+ible
+> > > > to run on any gitLab instance. We plan to leverage KernelCI [2] as =
+the
+> > > > backend, utilizing its hardware, rootfs, test plans, and KCIDB [3]
+> > > > integration.
+> > > >=20
+> > > > For an example of a fully executed pipeline with drm scenario set,
+> > > > including documentation generation,
+> > > > see: https://gitlab.freedesktop.org/vigneshraman/kernel/-/pipelines=
+/1350262
+> > > >=20
+> > > > Please refer to the documentation included in the patch, or check t=
+he
+> > > > rendered version, here:
+> > > > https://vigneshraman.pages.freedesktop.org/-/kernel/-/jobs/69787927=
+/artifacts/artifacts/Documentation-output/ci/gitlab-ci/gitlab-ci.html
+> > > >=20
+> > > > Differences from v1 to v2:
+> > > > - moved to tools/ci as suggested by Linus on the previous version
+> > > > - add arm64 containers for native compilation
+> > > > - added boot tests using virtme: this is the base structure for boo=
+t tests,
+> > > >    next steps would be adding other tests such as kselftests/kunit =
+tests
+> > > > - added DRM scenario testing on vkms: this should replace current v=
+kms test
+> > > >    in drm-ci. This work shows how a test scenario can be used by di=
+fferent
+> > > >    subsystems to add their tests.
+> > > > - update documentation
+> > > >=20
+> > > > For more details on the motivation behind this work, please refer t=
+o the
+> > > > cover letter of v1: https://patchwork.kernel.org/project/linux-ksel=
+ftest/cover/20240228225527.1052240-1-helen.koike@collabora.com/
+> > > >=20
+> > > > [1] https://www.collabora.com/news-and-blog/blog/2024/02/08/drm-ci-=
+a-gitlab-ci-pipeline-for-linux-kernel-testing/
+> > > > [2] https://kernelci.org/
+> > > > [3] https://docs.kernelci.org/kcidb/
+> > > >=20
+> > > > Helen Koike (3):
+> > > >    kci-gitlab: Introducing GitLab-CI Pipeline for Kernel Testing
+> > > >    kci-gitlab: Add documentation
+> > > >    kci-gitlab: docs: Add images
+> > > >=20
+> > > > Vignesh Raman (2):
+> > > >    MAINTAINERS: Add an entry for ci automated testing
+> > > >    kci-gitlab: Add drm scenario
+> > >=20
+> > > Hi Vignesh Raman,
+> > > I am very happy to see this project going forward :)
+> > >=20
+> > > It's been a few years since I first thought on finding a good way of =
+helping
+> > > kernel developers testing their patches, while making use of the free=
+ runner
+> > > minutes Gitlab offers. It can greatly simplify the testing for people=
+ who are
+> > > new to kernel development, or students trying to understand it better=
+.
+> > >=20
+> > > And this patchset allows that to happen :)
+>=20
+> Thanks for testing the patch and providing feedback.
 
-On Mon, Jan 27, 2025 at 09:43:23AM -0500, Nicolas Dufresne wrote:
-> Le lundi 27 janvier 2025 à 08:07 +0200, Laurent Pinchart a écrit :
-> > On Fri, Jan 24, 2025 at 06:12:24PM -0300, Leonardo Brás wrote:
-> > > On Fri, 2025-01-24 at 10:45 -0500, Nicolas Dufresne wrote:
-> > > > Le vendredi 24 janvier 2025 à 15:00 +0200, Laurent Pinchart a écrit :
-> > > > > On Fri, Jan 24, 2025 at 01:52:03PM +0100, Mauro Carvalho Chehab wrote:
-> > > > > > Em Fri, 24 Jan 2025 10:12:50 +0200 Laurent Pinchart escreveu:
-> > > > > > 
-> > > > > > > > It's been a few years since I first thought on finding a good way of helping
-> > > > > > > > kernel developers testing their patches, while making use of the free runner
-> > > > > > > > minutes Gitlab offers. It can greatly simplify the testing for people who are
-> > > > > > > > new to kernel development, or students trying to understand it better.
-> > > > > > > > 
-> > > > > > > > And this patchset allows that to happen :)
-> > > > > > > > 
-> > > > > > > > Actually, I spoke to Helen last year, and to enable it to run on the free
-> > > > > > > > Gitlab-CI runners, there is a small extra patch which is needed:
-> > > > > > > > 
-> > > > > > > > https://lore.kernel.org/all/20240327013055.139494-2-leobras@redhat.com/  
-> > > > > > 
-> > > > > > Sounds interesting!
-> > > > > > 
-> > > > > > > Gitlab as an open-source software project (the community edition) is one
-> > > > > > > thing, but can we please avoid advertising specific proprietary services
-> > > > > > > in the kernel documentation ?
-> > > > > > 
-> > > > > > Every time Gitlab is mentioned, the brand of the company that
-> > > > > > developed it and has been providing proprietary services is also
-> > > > > > advertised. If you're not happy with that, you should move to use
-> > > > > > a git forge developed by some open source community.
-> > > > > 
-> > > > > I'm fine mentioning the gitlab community edition, I'm not fine
-> > > > > advertising gitlab.com SaaS in the kernel source tree.
-> > > 
-> > > Hello Laurent,
-> > > 
-> > > I see your point, and I see no issue on removing the two last lines of CI_TAGS
-> > > documentation.
-> > > 
-> > > I just added this information on documentation because the default runner used
-> > > for the Free Tier of Gitlab does not work for this CI, as it needs more
-> > > resources to run. This information can be added on some other place, but at the
-> > > time I thought it would be ok to let it be there. 
-> > > This other runner I mentioned in the patch is also available on the Free Tier
-> > > (free as in beer).
-> > > 
-> > > I would like to make it clear that I have no connection/affiliation to Gitlab,
-> > > other than a free account in their system, which I use for some CI. I have no
-> > > interest on advertising anything from them.
-> > > 
-> > > My only objective is to make it easier to hobbyists/beginners to use those
-> > > available free minutes to test some change before sending the patch, if they
-> > > think that's valuable.
-> > 
-> > Given the 400 free computes minute per month, and the fact that the
-> > saas-linux-medium-amd64 runner consumers two minutes per minute, how
-> > many of the proposed CI runs would be available per month ?
-> > 
-> > CI pipeline runs always compile the kernel from scratch as far as  can
-> > see. This may not be an issue for final testing before submission of a
-> > patch series, but it just won't work for incremental testing of changes.
-> > Think of how inefficient it would be to run a full pipeline just to get
-> > the checkpatch.pl output for instance. This is why I believe tests
-> > should focus first and foremost on ease of use in developers' local
-> > environments. A standardized, from-scratch, comprehensive test run as a
-> > gate keeper for integration has value as well, but that won't help
-> > beginners much.
-> 
-> Perhaps we can provide pointers how to run a private gitlab runner on your local
-> computer. My experience is that this take few minutes, unlike figuring all the
-> foreign bash scripts dependency, and debugging issues related to some tools not
-> having the right version, which inevitably lead to folks criticizing distro
-> choices and other counter productive discussions. Of course, it can only work if
-> that process is used and tested.
+:)
 
-I've run that before. It's not necessarily extremely complicated
-(we of course all know that in IT "a few minutes" means at least half a
-day - the rule of thumb is to multiple any time estimate by two and bump
-to the next unit :-)), but it will still take a massive amount of CPU
-time to run CI loads designed for a large number of powerful runners on
-a development laptop. As I said before, it has its uses, but mostly as a
-last check before merging (or sending patches), and not as an iterative
-process during development. And yes, if we run a gitlab runner locally
-we could also set up a cache that makes builds incremental, but that
-will only work if incremental builds are supported as a first class
-citizen by the CI pipeline developers. I don't see that happening very
-often.
+>=20
+> > >=20
+> > > Actually, I spoke to Helen last year, and to enable it to run on the =
+free
+> > > Gitlab-CI runners, there is a small extra patch which is needed:
+> > >=20
+> > > https://lore.kernel.org/all/20240327013055.139494-2-leobras@redhat.co=
+m/
+>=20
+> Thanks for the patch.
 
-The point I'm trying to make is that I believe it would be more valuable
-for beginners (and also more experienced developers) if we could provide
-them with the ability to run individual tests incrementally with the
-lowest overheard, even if the setup time is a bit longer.
+Thank you for most of the work, it sure will be useful :)
 
-> > > > I've just looked attentively, the intention is just to explain you may need to
-> > > > set gitlab variable in your project fork in order to select correctly sized
-> > > > sized runners in your own instance.
-> > > 
-> > > That's correct
-> > > 
-> > > >  Its is not strictly about commercial gitlab.com instance. 
-> > > 
-> > > Exactly, the change is about being able to choose the runner you want.
-> > > 
-> > > > The default only works with the original project used
-> > > > instance (which is not gitlab.com as far as I know), but the comment refer to
-> > > > companies that will choose gitlab.com internally to reduce their IT cost.
-> > > 
-> > > Correct.
-> > > Companies can benefit on that, but my focus was on hobbyist (or begginers) who
-> > > may want to test their patches on free CI before sending them to the ML.
-> > > 
-> > > > Its quite a stretch to call this "advertisement", that makes it looks very
-> > > > dramatic. I personally believe its quite ahead of most other gitlab CI to take
-> > > > into consideration running these pipelines on foreign (to the project)
-> > > > instances.
-> > > > 
-> > > > > > The way I see, the best would be if the CI integration could work
-> > > > > > with more than one type of forge and being able to use any
-> > > > > > free Git??b-CI runners that would be available for developers to
-> > > > > > use, as this would allow testing more subsystems with CI, thus
-> > > > > > increasing code quality.
+>=20
+> We can keep the variable name as KCI_CI_TAGS (like other variables) and=
+=20
+> add it in variables with default empty string.
 
--- 
-Regards,
+Just tested, if it's an empty string, it will just be ignored, as it won't =
+match
+anything (that is not an empty string)
 
-Laurent Pinchart
+>=20
+> >=20
+> > Gitlab as an open-source software project (the community edition) is on=
+e
+> > thing, but can we please avoid advertising specific proprietary service=
+s
+> > in the kernel documentation ?
+>=20
+> Agree. We could remove the lines which mentions gitlab.com SaaS in
+> commit message and documentation.
+
+Done :)
+Added a generic reason for needing better instance
+
+>=20
+> >=20
+> > > Could you please apply it on top of your tree?
+> > > Some stuff changed places, but I can send a v2 with that fix if you w=
+ant.
+>=20
+> I will test your patch and we can add this for v3.
+
+Thanks!
+That's the v2 with the required changes:
+
+https://lore.kernel.org/all/20250127185849.34131-1-leobras@redhat.com/T/#u
+
+Please let me know if any further change is needed.
+
+Thanks!
+Leo
+
+>=20
+> Regards,
+> Vignesh
+>=20
+> > >=20
+> > >=20
+> > > While I have yet to review this v2 patchset, I applied it on my repo =
+for
+> > > testing,=C2=A0and cherry-picked the patch on above link, triggering a=
+ Pipeline:
+> > >=20
+> > > https://gitlab.com/linux-kernel/linux/-/pipelines/1638955600
+> > >=20
+> > > It seems to be working fine, please check it, as you may be more used=
+ to the
+> > > results.
+> > >=20
+> > > Thanks!
+> > > Leo
+> >=20
+
