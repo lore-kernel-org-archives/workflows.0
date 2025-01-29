@@ -1,75 +1,91 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C25B814830F;
-	Wed, 29 Jan 2025 15:58:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB7B1DEFE3;
+	Wed, 29 Jan 2025 16:09:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738166297; cv=none; b=PePGb/qbGGTsxcivvMVEghe2KV5QLf5PVJAlbNa3v8uUzXeYkZyJVxIvga5oriLRsD24XeCF5z014OeKR67Ef/PKI6zx/DbjPzbnRGRi1c8xwzLH8wkRDo+T3Cgg74hNuEfrZGjbdgz7FL51dgJNDlX9w8i4tp4Eo7R6sESnC8U=
+	t=1738167000; cv=none; b=nbaecTZQ0aId2wgb2rZL5oYYGOkS4b5834K+gRoNTQ9STatcCttUBRYZ4kPUo5kTv3rZZ5Bh+INPJz1igWe8/Kn8o+DQsJ3DAPGbqqMU7GbQdvmvLWZm3EzKZgsSSx06za/cHF3gmY1nAtlD4am+OoCsYXA8Q0Yl5nx9PcuKrvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738166297; c=relaxed/simple;
-	bh=eCxsbEQuSkMB6650vlttl6iRdetXk47XxeyoDararOI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=WMUpS0nE+feQZT0P2dxs67bd7UTmlq4RA4zTMtf/ixf6buG3FgNgnDH/JswhlOmzLUVit99vGePfpiLmj2fQ4KyrTUQxzOC9HGbPsiyGOJ6VwHyJQQjx0OEESuLpkHpE8XUNXfGKga9SSU1q7aOdvqj97dCg8Q6giY38pV7C5mQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=EUvyeNef; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1738167000; c=relaxed/simple;
+	bh=srHijyQOosizcjglctE3PuWbAhpV+PjxpF0lhRZID9Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=WeLAV9XWoLuT2nTtAB1zA4pD+vXILnZne8Ee1upRvjSMrBNaxolXpfvWgnakH98kpNqCtimeHGKzdOyqedPi4vZmIiIqLGBPShh5rQA/VTtVBlbCZzaSeyxMTojmgWKz/XH3GMjcUUvyOSYvQF9QDzcAB5/PTAj1gro+42yH8Lw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JpXDgiA+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="EUvyeNef"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B9E3E403FA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1738166294; bh=tjfdSmbQZktN5AnxF530CGf5ncUa+GaO91f0NTTVYT8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=EUvyeNefOLOVUnMaofBK1H3VrSTLnaSlL87jx7p1D8vCpTe//kPARa/vTp8vnI9eh
-	 ZcG53tpMFiswUuYASOHls3F6Vg5XW9ch6xNSsazTupEasEYPFW2nOxt8Ri1SOg0qfC
-	 cSwBXy7FWpxJvTRK+yKEISaHvGCbkKNyRXvpdUVR/Rpkf6uDT7Io/vRbNDEnkIiO4D
-	 PV60yuvuSfVyxJctDKDNc+e/lbPZncho4w6bcVdj29uUH8jLc9KZnRB9LTDvIw7oe2
-	 mxBi4mFGEzdiqrwARkBYV5Gts0IDzSHT0Em/bRXG67PywB1R9Lrhr6sg6omcQPSl2O
-	 ryOWxxYoG1cWw==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id B9E3E403FA;
-	Wed, 29 Jan 2025 15:58:14 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- bpf@vger.kernel.org, coresight@lists.linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
- linux-f2fs-devel@lists.sourceforge.net, linux-hardening@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
- workflows@vger.kernel.org
-Subject: Re: [RFC v2 00/38] Improve ABI documentation generation
-In-Reply-To: <20250129164157.3c7c072d@foz.lan>
-References: <cover.1738020236.git.mchehab+huawei@kernel.org>
- <87h65i7e87.fsf@trenco.lwn.net> <20250129164157.3c7c072d@foz.lan>
-Date: Wed, 29 Jan 2025 08:58:13 -0700
-Message-ID: <87a5b96296.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JpXDgiA+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C2D0C4AF0B;
+	Wed, 29 Jan 2025 16:09:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738166999;
+	bh=srHijyQOosizcjglctE3PuWbAhpV+PjxpF0lhRZID9Q=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=JpXDgiA+T8LR2BKVRZW2oMMY4WtYjN76lw64PNv5n4QmvKlV7HLwsRdHfJCDGJQKc
+	 0NGi5dBMFcXpvCVwekXycs/FhSiW6/f47N6ucXjcrIBdWPr6kYEtxO5vwzTWMIld5W
+	 E3GiX5NTuiE1wPKDbd1K9HNNnCTRK3le7C/J54WEN6YrnnH4wCkc6YCStA1SmLWsPR
+	 LTqo8KbADxOipWMdIB98i5R6etlzvSKTLesDZN2fs846lAQRZRkeFey8SUuEbISiDe
+	 CdxBt6huuwAlvqqrQU6NVLiWFXNtAjqAWHr4L4M7yIM6AOIjEw0bn/CCWYkZ/+SIOX
+	 5m9q5Uc63s3DA==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1tdAdZ-00000004PEa-26En;
+	Wed, 29 Jan 2025 17:09:57 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	"Jonathan Corbet" <corbet@lwn.net>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org
+Subject: [RFC 5/6] docs: changes: update Sphinx minimal version to 3.4.3
+Date: Wed, 29 Jan 2025 17:09:36 +0100
+Message-ID: <0285c3815208649148b32b3842e1c18975ef5c71.1738166451.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <cover.1738166451.git.mchehab+huawei@kernel.org>
+References: <cover.1738166451.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+Doing that allows us to get rid of all backward-compatible code.
 
-> So, I'm proposing to change the minimal requirements to:
-> 	- Sphinx 3.4.3;
-> 	- Python 3.9
->
-> By setting Sphinx minimal version to 3.4.3, we can get rid of all
-> Sphinx backward-compatible code.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/conf.py             | 2 +-
+ Documentation/process/changes.rst | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-That's certainly a nice thought.
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 0c2205d536b3..3dad1f90b098 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -47,7 +47,7 @@ from load_config import loadConfig
+ # -- General configuration ------------------------------------------------
+ 
+ # If your documentation needs a minimal Sphinx version, state it here.
+-needs_sphinx = '2.4.4'
++needs_sphinx = '3.4.3'
+ 
+ # Add any Sphinx extension module names here, as strings. They can be
+ # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index 82b5e378eebf..012d2b715c2a 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -58,7 +58,7 @@ mcelog                 0.6              mcelog --version
+ iptables               1.4.2            iptables -V
+ openssl & libcrypto    1.0.0            openssl version
+ bc                     1.06.95          bc --version
+-Sphinx\ [#f1]_         2.4.4            sphinx-build --version
++Sphinx\ [#f1]_         3.4.3            sphinx-build --version
+ cpio                   any              cpio --version
+ GNU tar                1.28             tar --version
+ gtags (optional)       6.6.5            gtags --version
+-- 
+2.48.1
 
-With regard to Python ... are all reasonable distributions at 3.9 at
-least?  CentOS 9 seems to be there, and Debian beyond it.  So probably
-that is a reasonable floor to set?
-
-jon
