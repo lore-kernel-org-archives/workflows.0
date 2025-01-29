@@ -1,227 +1,237 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BF1E17C68;
-	Wed, 29 Jan 2025 01:45:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4810855887;
+	Wed, 29 Jan 2025 09:33:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738115125; cv=none; b=tBVLu49wQREp6CA51HPPi8LA9d/MRURrEs3ikIDAZgcf7FDgOhJG8kp9bTcgfK74ZBRUiq+koJULjZZnJESQmWE5ZHvHGrUL3LwfMXNGMGb9SEXvLBAjhPJ0c8aMeGSe2uTRR5OEl0NpAqyfU8GRGfBOdTqkU13S6i1UtYlw6ec=
+	t=1738143192; cv=none; b=K19j228ec56wlWECeejt1OdtTh7EgwSgmLoU4x+nZJqzAi7yKNDFTzZU6OPJpoT1BIQ+JP6kFihPahe4hjzBpUGxqJXoEpwimdr9wgV4l/gAfhfpgHABP3wbCF91qSx1x9Bl0bFSzAGh8Vs8IyjurUq+nuaZbDvge7zDWlTvHCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738115125; c=relaxed/simple;
-	bh=CWzXW0bIMSURgr0c3IY4/tvstyV6bj1ozJj9dzgjU1s=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aQ8mgffPWoD32Lu22oMBWebvQ2Opc3pRRPkcfWU4MTd7mQztYihgKse+eYhQgQY3tNqSwA/vHyXkY0AABoxQCV23q2gQkjSbsntQKJ9WbgK/u1A7N8/YIhIYnWL3EtWaBrq0GPyhepP6/1FpQZj0C83h31L8UekJYKpcIDGjX/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tJt4ZVW0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738143192; c=relaxed/simple;
+	bh=rF2QEfMpgRURa/Nr9ID5fEOyfE/6x7j6OMBvAS0duAE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uUUI6NK/lHN6+vhxU85wzHTj0ANmJu13s2nBmZTPmOdfdsm7MZSQvZ0G1JECodjYkH+Gor6pIbIwuPdfI1kPnlCRYI+BZIwHYKWYXSa4JG80AR0h3cO5431YxbN+G2gd2Hox76X7Nh8rXazUNFfnEb6UR6SMMilllDQDm28TaJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=huxgjh8M; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tJt4ZVW0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3927EC4CED3;
-	Wed, 29 Jan 2025 01:45:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738115124;
-	bh=CWzXW0bIMSURgr0c3IY4/tvstyV6bj1ozJj9dzgjU1s=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=tJt4ZVW0p8weQsSPDZjLgTUab4flB9ZDeO3oV5MFy7mrenPn2R71XljjJYKAkhnrm
-	 UCkaqQqT+OZAhF0CZcDf6w+z1Qt+gQsQ5OCNAxgM1rmArls+WMymb4Mq830RmFCoKO
-	 +qFwvjNxZ5/w+Tx4QkGkdy0DNTUbSSpw6PslUzb5XdvZf0l8UzSKbhwOCZjyb+SnY9
-	 q6L5Zj8WJL2S1/bLsi4d6YQV8UUltZT+eHdIQb3MT8SpdgDLFwbf9U5bSybrLtzkIN
-	 sufR1bq3uvCWQSqMly5wDlwj2bsOCg3IPtP8q6yZFB3HIxEpMDKVAt03sxW/8L9VE6
-	 rHgpPPhwR2yMg==
-Date: Wed, 29 Jan 2025 02:45:18 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- bpf@vger.kernel.org, coresight@lists.linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
- linux-f2fs-devel@lists.sourceforge.net, linux-hardening@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
- workflows@vger.kernel.org
-Subject: Re: [RFC v2 00/38] Improve ABI documentation generation
-Message-ID: <20250129024518.69c0be81@foz.lan>
-In-Reply-To: <87h65i7e87.fsf@trenco.lwn.net>
-References: <cover.1738020236.git.mchehab+huawei@kernel.org>
-	<87h65i7e87.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="huxgjh8M"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1738143188;
+	bh=rF2QEfMpgRURa/Nr9ID5fEOyfE/6x7j6OMBvAS0duAE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=huxgjh8MA2s8jdfqP46FkoeTWT6nNkC3K/UUPZYFld3yHhBrdBtFj99lDEv/xUKUn
+	 Lq7mAU9zMnCIsvM02zBTExclPzvc7RYKFN2WShLcOFVh1xMC6utFbw5eREhvmZ4Mb7
+	 9hmFkScaDZbSybDqeNV4W+AIBbQ8LyNoFeen8bbGxvEwdP2dn7aBEcjAe+txsdPvD+
+	 tQXIxBdBWaoT5KxFCJ9QOkzYgiIJ0INW+8GQRffX0YSR6fFF8bBlonZcr/OqOBsd7m
+	 Jfwq1ocHDX3bn1NIIdFUEwg0JlooV6KmoxPxKTeL/s/3wyBf7razJQHr3IJJnO7CEI
+	 YQv6GdN1dOTdQ==
+Received: from [192.168.50.250] (unknown [171.76.83.215])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: vignesh)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id C07B317E00F6;
+	Wed, 29 Jan 2025 10:33:00 +0100 (CET)
+Message-ID: <446c3583-ba95-4021-83ca-1e112edf5b22@collabora.com>
+Date: Wed, 29 Jan 2025 15:02:51 +0530
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/5] kci-gitlab: Introducing GitLab-CI Pipeline for
+ Kernel Testing
+To: =?UTF-8?Q?Leonardo_Br=C3=A1s?= <leobras.c@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: kernelci@lists.linux.dev, linuxtv-ci@linuxtv.org,
+ dave.pigott@collabora.com, mripard@kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org,
+ gustavo.padovan@collabora.com, pawiecz@collabora.com, spbnick@gmail.com,
+ tales.aparecida@gmail.com, workflows@vger.kernel.org,
+ skhan@linuxfoundation.org, kunit-dev@googlegroups.com,
+ nfraprado@collabora.com, davidgow@google.com, cocci@inria.fr,
+ Julia.Lawall@inria.fr, laura.nao@collabora.com, kernel@collabora.com,
+ torvalds@linuxfoundation.org, gregkh@linuxfoundation.org,
+ daniels@collabora.com, helen.koike@collabora.com,
+ shreeya.patel@collabora.com, denys.f@collabora.com,
+ nicolas.dufresne@collabora.com, louis.chauvet@bootlin.com,
+ hamohammed.sa@gmail.com, melissa.srw@gmail.com, simona@ffwll.ch,
+ airlied@gmail.com, Tim.Bird@sony.com, broonie@kernel.org, groeck@google.com,
+ rdunlap@infradead.org, geert@linux-m68k.org, michel.daenzer@mailbox.org,
+ sakari.ailus@iki.fi, jarkko@kernel.org
+References: <20250123135342.1468787-1-vignesh.raman@collabora.com>
+ <f779c9af4133629f724e366241fab7421d13d227.camel@gmail.com>
+ <20250124081250.GA24731@pendragon.ideasonboard.com>
+ <6ebd1551-017f-4b31-b235-829b2735d78f@collabora.com>
+ <a6816a68e5e9aeb1d330b68f6a73decd2233c164.camel@gmail.com>
+Content-Language: en-US
+From: Vignesh Raman <vignesh.raman@collabora.com>
+In-Reply-To: <a6816a68e5e9aeb1d330b68f6a73decd2233c164.camel@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Em Tue, 28 Jan 2025 15:42:00 -0700
-Jonathan Corbet <corbet@lwn.net> escreveu:
+Hi Leo,
 
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+On 28/01/25 00:35, Leonardo Brás wrote:
+> On Mon, 2025-01-27 at 13:02 +0530, Vignesh Raman wrote:
+>> Hi Leo,
+>>
+>> On 24/01/25 13:42, Laurent Pinchart wrote:
+>>> On Fri, Jan 24, 2025 at 02:11:26AM -0300, Leonardo Brás wrote:
+>>>> On Thu, 2025-01-23 at 19:23 +0530, Vignesh Raman wrote:
+>>>>> This patch series introduces "kci-gitlab," a GitLab CI pipeline
+>>>>> specifically designed for kernel testing. It provides kernel
+>>>>> developers with an integrated, efficient, and flexible testing
+>>>>> framework using GitLab's CI/CD capabilities. This patch includes
+>>>>> a .gitlab-ci file in the tools/ci/gitlab-ci/ folder, along with
+>>>>> additional YAML and script files, to define a basic test pipeline
+>>>>> triggered by code pushes to a GitLab-CI instance.
+>>>>> The initial version implements:
+>>>>>       
+>>>>> - Static checks: Includes checkpatch and smatch for code validation.
+>>>>> - Build tests: Covers various architectures and configurations.
+>>>>> - Boot tests: Utilizes virtme for basic boot testing.
+>>>>>
+>>>>> Additionally, it introduces a flexible "scenarios" mechanism to
+>>>>> support subsystem-specific extensions.
+>>>>>
+>>>>> This series also introduces a drm scenario that adds a job to run IGT
+>>>>> tests for vkms. This scenario includes helper scripts to build deqp-runner
+>>>>> and IGT, leveraging approaches from the drm-ci/mesa-ci project.
+>>>>>
+>>>>> We are working towards creating a generic, upstream GitLab-CI pipeline
+>>>>> (kci-gitlab) that will replace DRM-CI [1]. The proposed GitLab-CI pipeline
+>>>>> is designed with a distributed infrastructure model, making it possible
+>>>>> to run on any gitLab instance. We plan to leverage KernelCI [2] as the
+>>>>> backend, utilizing its hardware, rootfs, test plans, and KCIDB [3]
+>>>>> integration.
+>>>>>
+>>>>> For an example of a fully executed pipeline with drm scenario set,
+>>>>> including documentation generation,
+>>>>> see: https://gitlab.freedesktop.org/vigneshraman/kernel/-/pipelines/1350262
+>>>>>
+>>>>> Please refer to the documentation included in the patch, or check the
+>>>>> rendered version, here:
+>>>>> https://vigneshraman.pages.freedesktop.org/-/kernel/-/jobs/69787927/artifacts/artifacts/Documentation-output/ci/gitlab-ci/gitlab-ci.html
+>>>>>
+>>>>> Differences from v1 to v2:
+>>>>> - moved to tools/ci as suggested by Linus on the previous version
+>>>>> - add arm64 containers for native compilation
+>>>>> - added boot tests using virtme: this is the base structure for boot tests,
+>>>>>     next steps would be adding other tests such as kselftests/kunit tests
+>>>>> - added DRM scenario testing on vkms: this should replace current vkms test
+>>>>>     in drm-ci. This work shows how a test scenario can be used by different
+>>>>>     subsystems to add their tests.
+>>>>> - update documentation
+>>>>>
+>>>>> For more details on the motivation behind this work, please refer to the
+>>>>> cover letter of v1: https://patchwork.kernel.org/project/linux-kselftest/cover/20240228225527.1052240-1-helen.koike@collabora.com/
+>>>>>
+>>>>> [1] https://www.collabora.com/news-and-blog/blog/2024/02/08/drm-ci-a-gitlab-ci-pipeline-for-linux-kernel-testing/
+>>>>> [2] https://kernelci.org/
+>>>>> [3] https://docs.kernelci.org/kcidb/
+>>>>>
+>>>>> Helen Koike (3):
+>>>>>     kci-gitlab: Introducing GitLab-CI Pipeline for Kernel Testing
+>>>>>     kci-gitlab: Add documentation
+>>>>>     kci-gitlab: docs: Add images
+>>>>>
+>>>>> Vignesh Raman (2):
+>>>>>     MAINTAINERS: Add an entry for ci automated testing
+>>>>>     kci-gitlab: Add drm scenario
+>>>>
+>>>> Hi Vignesh Raman,
+>>>> I am very happy to see this project going forward :)
+>>>>
+>>>> It's been a few years since I first thought on finding a good way of helping
+>>>> kernel developers testing their patches, while making use of the free runner
+>>>> minutes Gitlab offers. It can greatly simplify the testing for people who are
+>>>> new to kernel development, or students trying to understand it better.
+>>>>
+>>>> And this patchset allows that to happen :)
+>>
+>> Thanks for testing the patch and providing feedback.
 > 
-> > Hi Jon/Greg,
-> >
-> > That's the second version of my RFC patches meant to modenize the ABI
-> > parser that I wrote in Perl.  
+> :)
 > 
-> I have a couple of minor comments on the individual patches, but overall
-> I do like this direction.
+>>
+>>>>
+>>>> Actually, I spoke to Helen last year, and to enable it to run on the free
+>>>> Gitlab-CI runners, there is a small extra patch which is needed:
+>>>>
+>>>> https://lore.kernel.org/all/20240327013055.139494-2-leobras@redhat.com/
+>>
+>> Thanks for the patch.
 > 
-> It would be nice, though, if the code were a bit more extensively
-> commented.  Parts of it get into the "twistly maze of regexes" mode that
-> can be awfully hard to follow.
-
-The regex code is indeed complex, but documenting it is not an easy task.
-Btw, they are (about) the same that the Perl script does. imported also
-the documentation for there. I did some extra cleanups/optimizations there,
-though, after checking the results of some expressions.
-
-The big issue is that we don't have an uniform way of defining What: 
-expressions. So, each subsystem (and/or author) document it in different
-ways.
-
-There are even some ABI symbols with:
-
-	$(readlink)/sys/...
-
-(I intend to send a patch for those later on)
-
-and:
-
-	What: /sys/something/...
-
-	What: .../something_else
-
-(I guess ".../" means "/sys/something/...", but I can't be sure, as this
-is on one driver for a hardware I don't have - so, if I send a patch,
-I may end breaking it)
-
-If you want to understand how the whole set of regexes work, you can
-run:
-
-	$ ./scripts/get_abi.py -d 16 undefined --dry-run >/dev/null
-...
-	[DEBUG] /sys/kernel/mm/damon/admin/kdamonds/\w+/contexts/\w+/schemes/\w+/quotas/goals/\w+/current_value <== /sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/quotas/goals/<G>/current_value
-	[DEBUG] /sys/kernel/mm/damon/admin/kdamonds/\w+/contexts/\w+/schemes/\w+/quotas/goals/\w+/target_metric <== /sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/quotas/goals/<G>/target_metric
-	[DEBUG] /sys/kernel/mm/damon/admin/kdamonds/\w+/contexts/\w+/schemes/\w+/quotas/goals/\w+/target_value <== /sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/quotas/goals/<G>/target_value
-	[DEBUG] /sys/kernel/mm/damon/admin/kdamonds/\w+/contexts/\w+/schemes/\w+/quotas/goals/nr_goals     <== /sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/quotas/goals/nr_goals
-	[DEBUG] /sys/kernel/mm/damon/admin/kdamonds/\w+/contexts/\w+/schemes/\w+/quotas/ms                 <== /sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/quotas/ms
-	[DEBUG] /sys/kernel/mm/damon/admin/kdamonds/\w+/contexts/\w+/schemes/\w+/quotas/reset_interval_ms  <== /sys/kernel/mm/
-...
-
-This will place at stderr all regular expressions that are currently
-parsed (they're currently used only for /sys symbols).
-
-Yet, instead of spending too much time documenting them, IMO we shold
-do the do the reverse: use the AbiRegex class to convert "What:" into
-a new tag (like "Regex:") and use it as much as possible (we'll still
-need "What:" for some things that aren't devnodes), as, with regular
-expressions, symbols can be clearly documented. As on python match groups
-can be named with:
-
-	(?P<name>...)
-
-this could be used to better describe some arguments, e.g. (picking an
-easy case):
-
-	What: /sys/module/<MODULENAME>/srcversion
-
-could be described, instead, as:
-
-	Regex: /sys/module/(?P<MODULENAME>[\w\-]+)/srcversion
-
-The Kernel_abi extension (actually AbiParser class) can either display it
-as-is (my personal preference), or even replace:
-	(?P<MODULENAME>[\w\-]+)
-with:
-	MODULENAME
-
-and still output this at html/pdf output as before, e. g.:
-
-	What: /sys/module/<MODULENAME>/srcversion
-
-Yet, doing it on a consistent way.
-
-This is easier said than done, as if we do some automatic conversion,
-subsystem reviewers/maintainers will need to double-check if the
-converted expressions make sense.
-
-
-> > On this series we have:
-> >
-> > patches 1 to 11: several bug fixes addressing issues at ABI symbols;  
+> Thank you for most of the work, it sure will be useful :)
 > 
-> 1-3 aren't needed - it seems you already upstreamed #2?
+>>
+>> We can keep the variable name as KCI_CI_TAGS (like other variables) and
+>> add it in variables with default empty string.
 > 
-> For the rest, is there any reason to not apply them right away?  They
-> just seem like worthwhile fixes.
+> Just tested, if it's an empty string, it will just be ignored, as it won't match
+> anything (that is not an empty string)
+
+Ack. Adding it to variables will allow us pass KCI_CI_TAGS when manually 
+creating a pipeline without changing the CI/CD settings, but we can 
+ignore this for now.
+
 > 
-> > patch 12: a fix for scripts/documentation-file-ref-check
-> > patches 13-15: create new script with rest and search logic and 
-> >   minimally integrate with kernel_abi Sphinx extension(phase 1);
-> > patches 16-19: implement phase 2: class integration (phase 2);
-> > patch 20: fix a bug at kernel_abi: the way it splits lines is buggy;
-> > patches  21-24: rewrite kernel_abi logic to make it simpler and more
-> >   robust;
-> > patches 25-27: add cross-reference support at automarkup;
-> > patches 28-36: several ABI cleanups to cope with the improvements;
-> > patch 37: implement undefined command;
-> > patch 38: get rid of the old Perl script.
-> >
-> > To make it easier to review/apply, I may end breaking the next version
-> > on a couple of different patchsets. Still it would be nice to have more
-> > people testing it and providing some feedback.  
+
+>>
+>>>
+>>> Gitlab as an open-source software project (the community edition) is one
+>>> thing, but can we please avoid advertising specific proprietary services
+>>> in the kernel documentation ?
+>>
+>> Agree. We could remove the lines which mentions gitlab.com SaaS in
+>> commit message and documentation.
 > 
-> I've looked over everything, though with limited depth. 
+> Done :)
+> Added a generic reason for needing better instance
+> 
+>>
+>>>
+>>>> Could you please apply it on top of your tree?
+>>>> Some stuff changed places, but I can send a v2 with that fix if you want.
+>>
+>> I will test your patch and we can add this for v3.
+> 
+> Thanks!
+> That's the v2 with the required changes:
+> 
+> https://lore.kernel.org/all/20250127185849.34131-1-leobras@redhat.com/T/#u
+> 
+> Please let me know if any further change is needed.
 
-> My testing hasn't turned up any problems.  
 
-Great!
+Thanks for the patch. We will pick this for v3.
 
-> I've only tested with current Sphinx,
-> have you tried this with the more ancient versions we support?
+Regards,
+Vignesh
 
-Not yet, but I double-checked at Sphinx documentation to be sure that
-I won't be using any newer methods: I just kept using the same Sphinx
-API as used by other extensions at the Kernel.
-
-For instance this loop:
-
-    def do_parse(self, content, node):
-        with switch_source_input(self.state, content):
-            self.state.nested_parse(content, 0, node, match_titles=1)
-
-was changed on Sphinx 7.4[1], and even nested_parse(match_titles=1) is
-not the recommended code for versions < 7.4, as there is this 
-replacement function:
-
-	nested_parse_with_titles()
-
-Yet, as they're working fine at least up to version 8.1.3, we can
-keep using the old way.
-
-In any case, I'll do a test before sending the final version to see if
-it works fine with our minimal version.
-
-[1] See: https://www.sphinx-doc.org/en/master/extdev/markupapi.html
-
-- 
-
-On a separate discussion, I noticed one potential compatibility issue
-we may have with future Python versions, due to some ascii texts
-formatted as unicode. I'll send later a patch fixing them.
-
-Additionally, automarkup has backward-compatible code with Python 2.7.
- Can I send patches dropping 2.7 support from Sphinx extensions?
-
-> [It's probably time to raise our minimum version again, especially now
-> that current Sphinx has better performance.]
-
-Agreed. 
-
-IMO, we should also increase Python's minimal version.
-
-> I don't see a whole lot of reasons not to apply this set shortly after
-> the merge window; anybody disagree?
-
-Thanks,
-Mauro
+> 
+> Thanks!
+> Leo
+> 
+>>
+>> Regards,
+>> Vignesh
+>>
+>>>>
+>>>>
+>>>> While I have yet to review this v2 patchset, I applied it on my repo for
+>>>> testing, and cherry-picked the patch on above link, triggering a Pipeline:
+>>>>
+>>>> https://gitlab.com/linux-kernel/linux/-/pipelines/1638955600
+>>>>
+>>>> It seems to be working fine, please check it, as you may be more used to the
+>>>> results.
+>>>>
+>>>> Thanks!
+>>>> Leo
+>>>
+> 
