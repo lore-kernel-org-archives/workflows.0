@@ -1,76 +1,52 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86921BC065;
-	Thu, 30 Jan 2025 11:24:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6951E1BB6BC;
+	Thu, 30 Jan 2025 14:36:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738236249; cv=none; b=JdTI7itO1r6G+5A5j81G3+xUKGpXZOCZmhf/9kuJ993BGSsVTX2fk+ohyQ+/d0a26titABF93t1buUOyJLxWHJf8ks/wtumed1xhCVxIsLzyFh+sOVaRDe6aV0aV6I14vYulnMsVF2u2piK9/6Pmwb5srTLBEmfTS3iIQvofPhc=
+	t=1738247816; cv=none; b=dspOR5N9gv9ROE2y7s4DLT8tmbh4xSh5p6XBGrnMHutFoTODGggfbic3xa3EIHkbfWRBF/J6sxnxyZZfoNMToQEeXH+8TsKG+8lyzVqg3HnyGT8+O9SVgbyDC2t/x+V4sCQvjhKcewILdH9arLjYCiG5RxyWv5Q/5hOwpfSMkww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738236249; c=relaxed/simple;
-	bh=wDl2kfGArafP0t3yD1cDiGvh5wGA0nD57PSF/Ozc0fU=;
-	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
-	 MIME-Version:Content-Type; b=cs7iKwVZWv1vDOAoAF9xl9BZFgbRnHjtfWWwOniHxTgzFBYBDCB5SfWpe3H6mYk+I4lgHNVDtaYyzWWdosMiQTsBqfCqMDcinq4W5jREVZV+LbXkl5eJF7mHXAOCvd3iPU024E/XixNmFWPxdKHGGlyMGE+S15PCjfUbGhFLmOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gsQspPtZ; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738247816; c=relaxed/simple;
+	bh=w4zTxfa4CCDrQAqGDdWlBpCt/2B8kWrn1L7k7sZwIxw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Sr8QbhO9sA14/AMJsFleFefqK7aLmFnPbnhPJxJTdT70fv1WTS7R0Jgy2w3Gk35WYxUJfxfAyc8BfYr+PToiVnIhNsS9tZ1ANgoCkh+z6CqxBiT2r4/782/lShni0C1SApDjCmksFVzzOC2yJ2Wm5NXWAIswkYReQ3a0kPjbJq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=sKEKC6A5; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gsQspPtZ"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4361815b96cso4447655e9.1;
-        Thu, 30 Jan 2025 03:24:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738236244; x=1738841044; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0Id92T0AVX6JDwaxiz3z7oRBD6wW+GTifuBoqUY0sTA=;
-        b=gsQspPtZ81aBimV9bj/pdPd8nM6yfXJ8NADl+XtoGPZt1NXM5W2TbNm0yJUG6BQa8S
-         kJuI2A6nDUXH9XoCVZNcOwjwwTmYmHKA5bxs8oAw8VX86pQXQAsF48ySHqhPust3b2YN
-         0JY+rv+WXJNHcbWY9LBTIhabj9RqVOg1dMyp2oa82KWBD/yu8ow8xk2X/2CB3D5QUO4F
-         S7mlBQ6gRd0fbzVNijIFrgVlk2aezeNHC2Yzk2OZW54qgko5wJDOuC9UH2589o4hyXgU
-         gxwCRSfsPmLYkgCrmkjzXGLu4mMjAqo3F8bbr4tB9rZiK6gkSNttHOtip5S3C7Hazy1i
-         k2Ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738236244; x=1738841044;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0Id92T0AVX6JDwaxiz3z7oRBD6wW+GTifuBoqUY0sTA=;
-        b=MLBZ5AAwACWnGzvAjUzQu+mrKXOtv2EeHNNrO++WELB5Ofu1AiViAcaQhgS9vR+XeU
-         LoOhQpdEh5rn5Duv7ooAFwuhpYFNfYwItaagYY07oepf1xX59pHD8DDAy4D5BG19pvch
-         69fTR98XJEg8nqH0+3Ft9Hikph1q9HpfxQ/JX/hGZfDDHqGiylipJMhk00zVJg4cQk7L
-         F6kHHrCNaMajBEYv/fbYWWwSKNSixzTLu0FR/Ukxl7lcyYhVT7kHrtS95IVXNWp8P+Ga
-         8Fx+kpiWOczYUuPTQjaud0sk1J8XhURgB0rB+jyHOTBW2/Je0PfISiMMbRuVSg5nmqcX
-         y7qA==
-X-Forwarded-Encrypted: i=1; AJvYcCUgPXzyinkNz6DxIOK7lUP3B15wVgWJRAwnGFMGorx2qWm+xF8evWC8xvp19y2S8ghhOZA=@vger.kernel.org, AJvYcCWLJHOJ0NzTAGO061tTm/TPFJiQfN7DxTTTIu9hDBrIr0N7ho/9iqZ0LbdB80TiSq3lYOvuh1oHcuLeqS7E@vger.kernel.org, AJvYcCXzi80VCHmIY+Bewu15DtrVc3D5lnezUoTi+ztelujOlDN5VW6ZJNwYyO8jzCl4/vCdMDWUaHd/T2wD@vger.kernel.org
-X-Gm-Message-State: AOJu0YzE8J5oRE3p78IiqfmkpZpyfAD0ujDjlsbwILWeX1OFuC45MOkE
-	/n9MXr9ZGzGxT0kZzmdOrCshbc/LLFTWLh+h9Tj5EuZmvKT69stHhKO1CA==
-X-Gm-Gg: ASbGncv3UeEDJOnUKylOljseL3QUc0IkzHrLmgd2Rt5+Od7j1Hxs3ypnG8yASTYaEg3
-	2HEQf4kfuci/BLELPisAPL8MPgNi+qdgLIXyBMh4MGFnfrQW/tyrZ5j/IYN8OM6rumD73Dt3BkZ
-	k5BdXGCezWUcpRNnyKvLvnXHDJ3oz1EiszXFCFfld4btvD47iuPINAx98eQVSyy52kBfAr4/DbW
-	4g1pQQoOB1HeEUiForKlY+U3LtvZjnW5jVwsS9VdnjagCdxbAdOtZRBtAsTPv/w+riOA9vxAMzY
-	uwEyddreNwKJtxFfS0z5fdCewG15
-X-Google-Smtp-Source: AGHT+IGn3W76KCgmgMIkQT/WdD1sCcWCm5LqI+wFsAmXytxdLRcHtMo25bA2WjiLnRFQbbwNF4GiZg==
-X-Received: by 2002:a05:600c:3494:b0:434:a315:19c with SMTP id 5b1f17b1804b1-438dc3a85b3mr56757135e9.3.1738236244282;
-        Thu, 30 Jan 2025 03:24:04 -0800 (PST)
-Received: from imac ([2a02:8010:60a0:0:846f:7c2d:e5a5:73a3])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438d75de282sm49377315e9.2.2025.01.30.03.24.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jan 2025 03:24:03 -0800 (PST)
-From: Donald Hunter <donald.hunter@gmail.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,  "Jonathan Corbet"
- <corbet@lwn.net>,  linux-kernel@vger.kernel.org,  Bill Wendling
- <morbo@google.com>,  Justin Stitt <justinstitt@google.com>,  Nick
- Desaulniers <ndesaulniers@google.com>,  bpf@vger.kernel.org,
-  llvm@lists.linux.dev,  workflows@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="sKEKC6A5"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2A488411A9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1738247474; bh=o6c9Xty8LBnNCjw4IIteZjg2Dft0pgS1FqTeBELLb/s=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=sKEKC6A5mJNrWh2OnYdq4XrzlSBVffqzWdJUguTsQbBj9drsXtFOgeef3xmLeJ4lg
+	 /PjJl21/gpJUMJcSlyoXz4wFPT5XDnIcqabEboDohTJeSD0N/MfB7WMqkGWTIS7Rcy
+	 OdwEOZI8s7lHDnUmCsPWv2hkfgANWG5YaoqVMpVDiqq/zBgs1t86wEURsyuYWeOxwq
+	 DCzAjUgxGr+l3ZThZ45iElLUMPxwPJmLa6d/E+S7QRpN+O0OoPytaxBrAxtTyGVA4I
+	 GhkQXOyCZymZcfdaKhZnERHVIT5HC1AE/yqk7CauHk3/AfrlNZnuMxWIRveSQykYgD
+	 xUI2FJhDNiPiA==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 2A488411A9;
+	Thu, 30 Jan 2025 14:31:14 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Donald Hunter <donald.hunter@gmail.com>, Mauro Carvalho Chehab
+ <mchehab+huawei@kernel.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, Bill Wendling <morbo@google.com>, Justin
+ Stitt <justinstitt@google.com>, Nick
+ Desaulniers <ndesaulniers@google.com>, bpf@vger.kernel.org,
+ llvm@lists.linux.dev, workflows@vger.kernel.org
 Subject: Re: [RFC 0/6] Raise the bar with regards to Python and Sphinx
  requirements
-In-Reply-To: <cover.1738166451.git.mchehab+huawei@kernel.org> (Mauro Carvalho
-	Chehab's message of "Wed, 29 Jan 2025 17:09:31 +0100")
-Date: Thu, 30 Jan 2025 09:33:30 +0000
-Message-ID: <m2zfj87ij9.fsf@gmail.com>
+In-Reply-To: <m2zfj87ij9.fsf@gmail.com>
 References: <cover.1738166451.git.mchehab+huawei@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+ <m2zfj87ij9.fsf@gmail.com>
+Date: Thu, 30 Jan 2025 07:31:13 -0700
+Message-ID: <87jzac2x1q.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -79,23 +55,28 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+Donald Hunter <donald.hunter@gmail.com> writes:
 
-> This series comes after https://lore.kernel.org/linux-doc/87a5b96296.fsf@trenco.lwn.net/T/#t
-> It  increases the minimal requirements for Sphinx and Python.
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 >
-> Sphinx release dates:
+>> This series comes after https://lore.kernel.org/linux-doc/87a5b96296.fsf@trenco.lwn.net/T/#t
+>> It  increases the minimal requirements for Sphinx and Python.
+>>
+>> Sphinx release dates:
+>>
+>> 	Release 2.4.0 (released Feb 09, 2020)
+>> 	Release 2.4.4 (released Mar 05, 2020) (current minimal requirement)
+>> 	Release 3.4.0 (released Dec 20, 2020)
+>> 	Release 3.4.3 (released Jan 08, 2021)
+>>
+>> 	(https://www.sphinx-doc.org/en/master/changes/index.html)
 >
-> 	Release 2.4.0 (released Feb 09, 2020)
-> 	Release 2.4.4 (released Mar 05, 2020) (current minimal requirement)
-> 	Release 3.4.0 (released Dec 20, 2020)
-> 	Release 3.4.3 (released Jan 08, 2021)
+> It's worth mentioning here that my fix for the C performance regression
+> landed in Sphinx 7.4.0. All versions from 3.0.0 to 7.3.x are much slower
+> for building the kernel docs. See #12162 here:
 >
-> 	(https://www.sphinx-doc.org/en/master/changes/index.html)
+> https://www.sphinx-doc.org/en/master/changes/7.4.html#id7
 
-It's worth mentioning here that my fix for the C performance regression
-landed in Sphinx 7.4.0. All versions from 3.0.0 to 7.3.x are much slower
-for building the kernel docs. See #12162 here:
+Indeed, we have noticed the speedup - much appreciated, thank you!
 
-https://www.sphinx-doc.org/en/master/changes/7.4.html#id7
-
+jon
