@@ -1,104 +1,102 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF2315383A;
-	Mon,  3 Feb 2025 18:52:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D6A41D47AD;
+	Mon,  3 Feb 2025 19:50:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738608729; cv=none; b=sk0/8IgMeMam3tCOt365STa0pvUAN+QISOK0mg3pjmyCGs2CbSETYZhSV5GcAZkTNKKl9RYK0PGsZpYxWjyJVZb3Fqkqg5EaeLnmGgU7At+EnMs460uJFP84jzjETPUZB5JrHq4Ne45HS1qrSnBz/FMhdksM6tP8TaF9gp4WcV0=
+	t=1738612245; cv=none; b=rzN6ylXgNo8e/2wD9FN3OIPXblXzmsQyQ+veFIoJbqbQF7vqeIN3ZToRKBinzCkZ8DdaVg0pA3SiT+fUX8siqLfgGKhfw9hqDUlS1TZu1HLD0BWVazrf1PafuaBjhJixPVMYRNiT7wDeoPX/2L/Opmc1vlwTDcmpv/f3vghJOF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738608729; c=relaxed/simple;
-	bh=+ARQPFnKVwmy9ajJ2GiTXPpjLc7E7Czv7/uNI3NNyT8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=e2/lqc3z9FTAR0qYuWLOo5q0E5Eu9Kudk3xTwmQ4r983etiUdO8mAHrGg1+bPaf7GMpWkPd+88BqEzCg3wlkgaDtjM1J2Ah98kX3rIMk3jZ6jWhPIBqJg6/ARtKNFy23LKeZLw7zPFmP0sh/ioLfb6WsIqhV3uaRSw5YYblwc7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=c3+p2s2L; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1738612245; c=relaxed/simple;
+	bh=MJrx9uVTcVkOLBd3RaCKPYEE0+j9fIK//E/nrWrG6SE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=oxvt1J605m2K+17+OiLCeOTgrJIl9TSSFN5h1TTP5j1TSk2bDo3nxO7YNh5R/4s4fzm+98/7nPf6XgxNUh9w5yICds+3HqNi6fxX9KbxP+R+FmGFqKQgdypGGxYkGN46cRnCUaRfV0BTYuhnT1sC4t/YEF3CFuVmQtk8MSrHuyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WKy03jQs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="c3+p2s2L"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=YTbN/a3nvE+dze/X4n8jk+rd+TndEpXCvl/gOnToy2Y=; b=c3+p2s2LwoWj/3fvwytdsWDpJ1
-	DUXXHRIul3P0scp3nbYHCaMxU1z/snV9LSe9wVVbTa953KTYFwOgDT+ZmGm/op1IoQadQf5Yo7+zc
-	P2aTKQn47AY3oyGgEm1v4QPjQmjA0+8a4CqwUit8tvUZuB/RYcw7Ek7m88U1pURJIqArnwNsp67tK
-	0O5k/fMz8slyYrPzD3bT7IsActeAXeuTdfECcbC3lBdwm7dLsgjvXSfccpwHcHk6I9umT93syboT9
-	pq8wHKE1gYlkXQubqGYefuTyfVn+C4wNkmqSf7JfQYAkueuWez1OekIgh+VUUsYE77g4ifInkxiBR
-	4t+T4i3A==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tf1Y1-00000001VQy-3o6G;
-	Mon, 03 Feb 2025 18:51:54 +0000
-Message-ID: <f3600acf-63d9-4504-8b11-7b0c8ca4c3f3@infradead.org>
-Date: Mon, 3 Feb 2025 10:51:49 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WKy03jQs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9959DC4CED2;
+	Mon,  3 Feb 2025 19:50:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738612244;
+	bh=MJrx9uVTcVkOLBd3RaCKPYEE0+j9fIK//E/nrWrG6SE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=WKy03jQsC8BgN3JGxKIz0b884E/gV7TxOp/8Fqb2zwHiDSu+5dJXTtASjGq4CDxfi
+	 TjQIUkHLnfwjBRWhYnKd+p84fuUQTtnSn9ZfIqHJ31NJ7NspHv8h+f8iq5NeJ94slS
+	 zuLh+LmOg/BA3D3y7a7mnwO/eaCqHzXAg0Tc2duQCnkKaa4q/CL988ZiPm2igrEY1D
+	 dN6t0k6aOJb8TRpQsbGv38ox+wK3bfbAJsOqyh46fEjZw1+ug/ecaCK+DG3skO5i9p
+	 uqCC2jLACGCi6l4PBi59GKNZiLylsgoEJZXaapnqgN57rE9ViLHZO75as4M48ufXQU
+	 hhM+wbQFT4KIw==
+Date: Mon, 3 Feb 2025 20:50:39 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Simon Horman <horms@kernel.org>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Alexandre Ferrieux
+ <alexandre.ferrieux@gmail.com>, netdev@vger.kernel.org,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net] docs: netdev: Document guidance on inline functions
+Message-ID: <20250203205039.15964b2f@foz.lan>
+In-Reply-To: <874j1bt6mv.fsf@trenco.lwn.net>
+References: <20250203-inline-funk-v1-1-2f48418e5874@kernel.org>
+	<874j1bt6mv.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net] docs: netdev: Document guidance on inline functions
-To: Simon Horman <horms@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: Alexandre Ferrieux <alexandre.ferrieux@gmail.com>,
- netdev@vger.kernel.org, workflows@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250203-inline-funk-v1-1-2f48418e5874@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250203-inline-funk-v1-1-2f48418e5874@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Hi Simon,
+Em Mon, 03 Feb 2025 08:00:56 -0700
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-Another nit:
-
-On 2/3/25 5:59 AM, Simon Horman wrote:
-> Document preference for non inline functions in .c files.
-> This has been the preference for as long as I can recall
-> and I was recently surprised to discover that it is undocumented.
+> Simon Horman <horms@kernel.org> writes:
 > 
-> Reported-by: Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
-> Closes: https://lore.kernel.org/all/9662e6fe-cc91-4258-aba1-ab5b016a041a@orange.com/
-> Signed-off-by: Simon Horman <horms@kernel.org>
-> ---
->  Documentation/process/maintainer-netdev.rst | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+> > Document preference for non inline functions in .c files.
+> > This has been the preference for as long as I can recall
+> > and I was recently surprised to discover that it is undocumented.
+> >
+> > Reported-by: Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
+> > Closes: https://lore.kernel.org/all/9662e6fe-cc91-4258-aba1-ab5b016a041a@orange.com/
+> > Signed-off-by: Simon Horman <horms@kernel.org>
+> > ---
+> >  Documentation/process/maintainer-netdev.rst | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> >
+> > diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
+> > index e497729525d5..1fbb8178b8cd 100644
+> > --- a/Documentation/process/maintainer-netdev.rst
+> > +++ b/Documentation/process/maintainer-netdev.rst
+> > @@ -408,6 +408,17 @@ at a greater cost than the value of such clean-ups.
+> >  
+> >  Conversely, spelling and grammar fixes are not discouraged.
+> >  
+> > +Inline functions
+> > +----------------
+> > +
+> > +The use of static inline functions in .c file is strongly discouraged
+> > +unless there is a demonstrable reason for them, usually performance
+> > +related. Rather, it is preferred to omit the inline keyword and allow the
+> > +compiler to inline them as it sees fit.
+
+You should probably point to chapter (12) of Documentation/process/coding-style.rst
+where it mentions that inline for function prototypes and as a way to
+replace macros are OK.
+
+> > +
+> > +This is a stricter requirement than that of the general Linux Kernel
+> > +:ref:`Coding Style<codingstyle>`  
 > 
-> diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
-> index e497729525d5..1fbb8178b8cd 100644
-> --- a/Documentation/process/maintainer-netdev.rst
-> +++ b/Documentation/process/maintainer-netdev.rst
-> @@ -408,6 +408,17 @@ at a greater cost than the value of such clean-ups.
->  
->  Conversely, spelling and grammar fixes are not discouraged.
->  
-> +Inline functions
-> +----------------
-> +
-> +The use of static inline functions in .c file is strongly discouraged
-> +unless there is a demonstrable reason for them, usually performance
-> +related. Rather, it is preferred to omit the inline keyword and allow the
-> +compiler to inline them as it sees fit.
-> +
-> +This is a stricter requirement than that of the general Linux Kernel
-> +:ref:`Coding Style<codingstyle>`
+> I have no objection to this change, but I do wonder if it does indeed
+> belong in the central coding-style document.  I don't think anybody
+> encourages use of "inline" these days...?
 
-Is there an ending period (full stop) after that sentence?
-Could/should there be?
+Indeed IMO this belongs to the coding style. I would place it close
+to chapter (12) at Documentation/process/coding-style.rst.
 
-Thanks.
+Regards,
 
-> +
->  Resending after review
->  ~~~~~~~~~~~~~~~~~~~~~~
->  
-> 
-> 
-
--- 
-~Randy
-
+Thanks,
+Mauro
