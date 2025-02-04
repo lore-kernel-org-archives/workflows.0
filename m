@@ -1,67 +1,92 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 494DB20CCE6;
-	Tue,  4 Feb 2025 13:25:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66AAA213E69;
+	Tue,  4 Feb 2025 15:18:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738675521; cv=none; b=ZBbBIFOkdy5T9s5YKaoyevPfdw0djlk4zw3BQDtrs2jqyI0AFdB8VWiTXU39T31+1xjweAHeuyKOP9pLzgTtBlQ8od7CxHdacj1CBMiDz4Lwu37DK3Tq64UwYiedq5QPvhxcrIG+NmxMrrl6SjCyCtHnb+1YzBEAfz+4zCFlQDY=
+	t=1738682316; cv=none; b=I+mfhuXWOB83gLqsSopmVMGhok45I/YOafwJaoCI+56o9Fy658xhTq3IGLe13RRHpbOUxAJRDvCBb50GjjJaiaasFGc45vslPIWidq/TnFkpapOZu51P8FEXtvNWYr5El9AwN5KRGz7Fp9h8FaOwr8JBgNJDLk7bV+exl/rQcmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738675521; c=relaxed/simple;
-	bh=KXErA1Z10wN53fMN9l+gTf0NXOxQj75p+H91zUNyAQQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CyijoCF691MP54ZkW9mEW2/yZGTMfiA7d/yTiHUdiKhZT7lrPY6o26uK1n2TFpCfR+6ZL8KzavLbc4AnOQzycaaR8iU0UjK9+v9H2uGVlbaLbxYb9O0hmfI5fJsQ3njTJ/bCzqmYid26+o4/RvsiK5jIbrYIry/SaNwMyR4CQEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=2zFzisSX; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1738682316; c=relaxed/simple;
+	bh=C1wEET4W9frq7tAraVpaRPTGZ0k+8q0D2i/BA4JIUWA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KPTaIyFrUE6dIETnEeIdei4UibjO4QXq+sTNEc0LNUsbIyVE0MgfRqsNPg6IZmvDAoPF1o8tNxpEeGRWAwFA4cEJgHdbaHJCnL37ncT8tPtna+ztlnCTIm2I7gGU8Wm7xpy/RVbKDCipFqJHf/NaKY6vQBl/YGx+2QaUb2Mw7SI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hovBtUJt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="2zFzisSX"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=tONImgsZBFCRForerTmlmeGunNv/sZwoa1eaSkXh+mc=; b=2zFzisSXwqfHPQ34Ne/nudwNgE
-	JOLehRzweCGO74P23+ZVKqb6XFDggVlCazJOp/Ws0ndQcNzq7Vn0knOFZ2UGS2AZWLXP3+22YNJmv
-	qZwv9Ue+8bEzaykYR+oFBznvfhm1bxKH+YwVrqGGNveSUHv+2QYPb7T3uYcxOBVsIALI=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1tfIvL-00ArLk-CM; Tue, 04 Feb 2025 14:25:07 +0100
-Date: Tue, 4 Feb 2025 14:25:07 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Simon Horman <horms@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Alexandre Ferrieux <alexandre.ferrieux@gmail.com>,
-	netdev@vger.kernel.org, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH net] docs: netdev: Document guidance on inline functions
-Message-ID: <de8d372b-0f2e-4c42-9d6b-8aecbb4645ef@lunn.ch>
-References: <20250203-inline-funk-v1-1-2f48418e5874@kernel.org>
- <874j1bt6mv.fsf@trenco.lwn.net>
- <20250203205039.15964b2f@foz.lan>
- <20250204115410.GW234677@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hovBtUJt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B082C4CEDF;
+	Tue,  4 Feb 2025 15:18:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738682315;
+	bh=C1wEET4W9frq7tAraVpaRPTGZ0k+8q0D2i/BA4JIUWA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=hovBtUJtLWbzicHrNYJ832PORnwq0cMg+47bhL4H+enycneJgBy5XQOjnAblPZW0D
+	 s7q3TIhxtijkGDqi7HNPK+RCVi0/OxyPso8zRWn4K4I1wbx/V9G5V6aRGbL8Mf2LoG
+	 7aBd/37QQFBP/rqrgSBbTi8UnYeBFR7lNS38pxHKcKcsI0ZviTInZrFM5FaOYIBAiN
+	 o5JQ8Ac4kLxB9mRTc4WUjtL/Gi9MiLr0L6wIZf+P6Cjy65ZIlviMEzm4HNvXvNWyDl
+	 WOcnuzd9abHPu7KEBoometEb1kSgLOJQHtIBfVRGbB56YGZYeKwIkTnR1uohfMLTNX
+	 BiJCIzaE7ZAgw==
+Date: Tue, 4 Feb 2025 07:18:34 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: submitting-patches: document the format for
+ affiliation
+Message-ID: <20250204071834.78e0ffb1@kernel.org>
+In-Reply-To: <CAMuHMdXXNkpWjkKvMLd-MF=npzqJXMtnXkaba60JY7hCzyjz7g@mail.gmail.com>
+References: <20250203174626.1131225-1-kuba@kernel.org>
+	<CAMuHMdXXNkpWjkKvMLd-MF=npzqJXMtnXkaba60JY7hCzyjz7g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250204115410.GW234677@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-> Thanks, perhaps something like this would help:
-> 
->   Using inline in .h files is fine and is encouraged in place of macros
->   [reference section 12].
+On Tue, 4 Feb 2025 08:59:28 +0100 Geert Uytterhoeven wrote:
+> You probably also want to document the other popular[*] solution:
+>=20
+>     From: Patch Author <author+company@example.com>
+>=20
+> [*] Statistics for v6.0..v6.14-rc1:
+>       - "(Company): 3430
+>       - "+company": 2871
 
-The other major use of them in headers is for stub functions when an
-API implementation has a Kconfig option. The question is, do we really
-want to start creating such a list, and have people wanting to add to
-it?
+Hm, I mostly associate that format with MAINTAINERS entries where
+people want email classification. But you're right there are some=20
+uses, only 3 of them look like companies, tho.
 
-	Andrew
+$ git log --format=3D'%ae' v6.0..v6.14-rc1 | grep '+' | sed -e 's/.*+\(.*\)=
+@.*/\1/' | sort | uniq -c | awk '{if ($1 > 5) print;}'
+     18 huawei
+    464 kernel
+     46 lin
+    742 linaro
+      8 publicgit
+   1646 renesas
+
+$ git log --format=3D'%an' v6.0..v6.14-rc1 | sed -n 's/.*(\(.*\))/\1/p' | s=
+ort | uniq -c | awk '{if ($1 > 5) print;}'
+    177 AMD
+    210 Arm
+     29 Dent Project
+     37 eBPF Foundation
+    547 Google
+     13 Hanghong Ma
+    132 IBM
+     46 Intel
+     38 Microsoft
+     18 Ming Qiang Wu
+    155 NGI0
+     26 NXP OSS
+   1487 Oracle
+     19 OSS
+      7 Som
+     70 Sony
+    353 SUSE
+      9 tencent
+     24 VMware
+      8 =E8=BE=9B=E5=AE=89=E6=96=87
+
