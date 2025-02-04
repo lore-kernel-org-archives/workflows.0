@@ -1,118 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 801001D47AD;
-	Mon,  3 Feb 2025 19:53:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E062205E3B;
+	Tue,  4 Feb 2025 07:59:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738612399; cv=none; b=pzDA9NUEBgIw4p5zP1W2thF9jd+GQBDvOcebmDT1RT6hjpE+ewtOQXZjQ1BmHdEBozKYVwL8ktp2zy9DtvyuFlTdZWnt2Lxbec2IHHrB6SkI2SpvXc0agXKHYFsFl+u8RRa4S39+0bJ2i5cc6ZTu8ZN1kiRw5L0k7d6F6RCfDEg=
+	t=1738655985; cv=none; b=kSof+w7Fe5npFmiPOzPZLt3QLMX5cuJ2vWuVhydbMxTxJqiDRQ2MygsH7KgPdMgiXRQ0fqmVSzRIG4W4YmUrlO5AFKDz5FlKxtwtxcpnzg7tCi1BRshhg8Kjrag0fdOVv/Fg5dfsXXWzJGJfnXL+0WI4jdwJZCUQofEWfntWyHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738612399; c=relaxed/simple;
-	bh=txxsPm2nXmynDqW7wkBqaMmMRBITIsKevGT/NX9df0Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=REF0n8gRu/zs0f+fSqGVsBMqmSIWJ10n5bz9/kQNtPvHo3YVMIH0sd1cidesDiSPD0ge4pgGeSeuaZphJtqmvFRV7o2kcnYnLKWwMXjiw/IqC6kv/DmoVY1pKCO+rn1SW8dpxYbHbvQ6w8zfry5WkdsCPcpQMaL7R3GJN6hWStk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IY2xBCd+; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IY2xBCd+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFD45C4CED2;
-	Mon,  3 Feb 2025 19:53:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738612397;
-	bh=txxsPm2nXmynDqW7wkBqaMmMRBITIsKevGT/NX9df0Q=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=IY2xBCd+gBh411tPAi9ArCrwUIjzfc3+b2I/L0iyGE9JvvxKmcYVO6Nowcoa84fER
-	 0Sd5z3G3DHv6zd3fv6WTl696hudKy4clON6BrW03tElItiT/07MnqquWH3U6zwc/Bj
-	 99FN0Au1UqvuoEahKqLG1jugExYFcEj6+2HCLHz38KUii0FUuuR7zjQERdd1zYf8tt
-	 OMVlckfy1aIbwIuXeK84WIkNvAu7BBU8UZQuK7oaO325UVbAY0SofX5McnK1xjKqho
-	 nO3Qwzyg7ZvAhns3+tity636aVOlCepQH4Jg/hNNQEof0voEUmCS5acWo3Lh4pBP6/
-	 MHb22j8+TtD5w==
-Date: Mon, 3 Feb 2025 20:53:12 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Simon Horman <horms@kernel.org>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Alexandre Ferrieux
- <alexandre.ferrieux@gmail.com>, netdev@vger.kernel.org,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net] docs: netdev: Document guidance on inline functions
-Message-ID: <20250203205312.74339d30@foz.lan>
-In-Reply-To: <20250203205039.15964b2f@foz.lan>
-References: <20250203-inline-funk-v1-1-2f48418e5874@kernel.org>
-	<874j1bt6mv.fsf@trenco.lwn.net>
-	<20250203205039.15964b2f@foz.lan>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1738655985; c=relaxed/simple;
+	bh=LCrDNv0z0MBAANgVRulP500OUmz+jroCzD8JSrqy63w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ol/HNRAnIGf6cv2s65zEVGbM3q6mR/dDaYoZlP/D5XqkxIMdccenyKRfcjSF2IEyPYfHrJNduLGwNorn2jigermx3pIEANuSDXg5gNPe5VHCipCJs9AHD0FMPYhH8Rikb035i/liTz7pl5sf+0XjOnIHQo7TTrqyJlIOOP5odq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-4afefc876c6so1519016137.2;
+        Mon, 03 Feb 2025 23:59:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738655981; x=1739260781;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dDsdvKAM48wMU0DaDVaeE43n4VrWLg2mOANZPQ5dnv8=;
+        b=WGdrW0k5qQJZ/c5f4n1dyTOgFm3z9PDh7ACMntzRrRrmiDgUHX39oIXQTtIdCHeRY2
+         g2WEF2iUaY3NuOxmnyUYTY7rqtOc42g+AC50nnXH2UbYnwzZcgr/HL+4hXgMDumdyfGt
+         3Lfz5+iKAUiKMhzkWcyb9EzL8PS/r2zYMPCv6StAWeG87ipOrdOMtneQ2IGKyeFBJv97
+         loawiU6LBwM1VPb5ivWYxGpzpwUb71aBPigwIYu8Fw+S7QM3twpukyMI7N0GDQ25rwWB
+         rGk8PaL4VxZqLgrLD2iLSMRs2VF0Mhee0eq7NiQZA/Qh/Qf6E2VTd/2uHnnZGU5xDBru
+         hbtA==
+X-Forwarded-Encrypted: i=1; AJvYcCWDgsLVfEtn/dle1nxQCRYFKRz6rNSAguSf9LvSlaRDlG73NKg0napgT9C/twFLdJ+d+vZmIGn7Cg70@vger.kernel.org, AJvYcCXMTrZYhccL9uBYAb7p5CshgMp06Sg2Qwjy1s9adBwztAVXXMrgYemWaq1xM8pvLJ+QPyb4jtTX7bc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywsyqz0wt4b8POpmAWaiFOi1k/z89esu6+z23k+iUt2KI8V20ZG
+	pfxg2an3OPtKXFiou8pEVX/nns+Ilxsg90sw7NTL/qpg9Npl3L9NmHgd6SFJ
+X-Gm-Gg: ASbGnctRSma4d43iLK/QbNz286+U8iEoS+Es77126RCIDnJt+Lp4e+UVxRUGgx21F52
+	cBNqS2MDpYynsxb2pU+3dbP5peNkrD77JczIPbSLymSBaZ7mqJ4r6/h/sqldBGbTCJigZnk5v2R
+	aJCpGOAW/c1MF7InRcz102H+IdankZG07rggQgYuc1rG7ANt0GeLLozCVOxcNzy5zhg2/dn7FVz
+	143hN1jEytOizPArRbKFySD57LrAb1jCvspv8qsUMNskw9dUc4ZOjnezRGhOdCxjJMYNPCNs1dg
+	fCh1mL7WQBp10l/DZV+LP8O4fyA2h5aM1NmCZxae0uBQCgutIhPwag==
+X-Google-Smtp-Source: AGHT+IHjIT6vtnqf9oXtbBh5MFs7ChcbPFQcVBy9mTSXOKfsEhK/zaGjnivH1GavljnVTTtZX1CeHw==
+X-Received: by 2002:a05:6102:d88:b0:4af:dcbe:4767 with SMTP id ada2fe7eead31-4b9a4f14e0amr18424020137.10.1738655980987;
+        Mon, 03 Feb 2025 23:59:40 -0800 (PST)
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com. [209.85.217.54])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4b9baccb66bsm1862368137.20.2025.02.03.23.59.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Feb 2025 23:59:40 -0800 (PST)
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-4affd0fb6adso1708138137.1;
+        Mon, 03 Feb 2025 23:59:40 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVz7nlhTtkitIjCsffYZCoetHzf7IxzcmSKnmIdd0F5Eub8Lw1LT6mUI52ef6vlt4YdMQ4181ZCVCI=@vger.kernel.org, AJvYcCWvUgbQB/N1kAMYUMeMrtiyPzvRMM8IpuxHSxKAnAls9CM4q/divQunE7InjSf9nqD47PZlcCW9B6qy@vger.kernel.org
+X-Received: by 2002:a05:6102:3e15:b0:4b2:5c2a:cc9d with SMTP id
+ ada2fe7eead31-4b9a5230b82mr19139572137.16.1738655980520; Mon, 03 Feb 2025
+ 23:59:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20250203174626.1131225-1-kuba@kernel.org>
+In-Reply-To: <20250203174626.1131225-1-kuba@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 4 Feb 2025 08:59:28 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXXNkpWjkKvMLd-MF=npzqJXMtnXkaba60JY7hCzyjz7g@mail.gmail.com>
+X-Gm-Features: AWEUYZktvGKQzKXDfyoMEtemz2PtqJdRX60VTsjDpLFC8EJTKDZMqnYWQSoIzIY
+Message-ID: <CAMuHMdXXNkpWjkKvMLd-MF=npzqJXMtnXkaba60JY7hCzyjz7g@mail.gmail.com>
+Subject: Re: [PATCH] docs: submitting-patches: document the format for affiliation
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Em Mon, 3 Feb 2025 20:50:39 +0100
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+Hi Jakub,
 
-> Em Mon, 03 Feb 2025 08:00:56 -0700
-> Jonathan Corbet <corbet@lwn.net> escreveu:
-> 
-> > Simon Horman <horms@kernel.org> writes:
-> > 
-> > > Document preference for non inline functions in .c files.
-> > > This has been the preference for as long as I can recall
-> > > and I was recently surprised to discover that it is undocumented.
-> > >
-> > > Reported-by: Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
-> > > Closes: https://lore.kernel.org/all/9662e6fe-cc91-4258-aba1-ab5b016a041a@orange.com/
-> > > Signed-off-by: Simon Horman <horms@kernel.org>
-> > > ---
-> > >  Documentation/process/maintainer-netdev.rst | 11 +++++++++++
-> > >  1 file changed, 11 insertions(+)
-> > >
-> > > diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
-> > > index e497729525d5..1fbb8178b8cd 100644
-> > > --- a/Documentation/process/maintainer-netdev.rst
-> > > +++ b/Documentation/process/maintainer-netdev.rst
-> > > @@ -408,6 +408,17 @@ at a greater cost than the value of such clean-ups.
-> > >  
-> > >  Conversely, spelling and grammar fixes are not discouraged.
-> > >  
-> > > +Inline functions
-> > > +----------------
-> > > +
-> > > +The use of static inline functions in .c file is strongly discouraged
-> > > +unless there is a demonstrable reason for them, usually performance
-> > > +related. Rather, it is preferred to omit the inline keyword and allow the
-> > > +compiler to inline them as it sees fit.
-> 
-> You should probably point to chapter (12) of Documentation/process/coding-style.rst
-> where it mentions that inline for function prototypes and as a way to
-> replace macros are OK.
+On Mon, 3 Feb 2025 at 18:46, Jakub Kicinski <kuba@kernel.org> wrote:
+> Adding company name in round brackets to From/SoB lines
+> is fairly common, but I don't see it documented anywhere.
+> Every now and then people try to add the sponsorship lines
+> to the commit message, fun example from this merge window:
+>
+>   Sponsored by:   The FreeBSD Foundation
+>
+> from commit 2ce67f8bf1ce ("wifi: iwlwifi: mvm: fix iwl_ssid_exist()
+> check"). Better format would be:
+>
+>   Author: Miri Korenblit (FreeBSD Foundation) <...
+>
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 
-Heh, I hit enter too quickly...
+Thanks for your patch!
 
-I mean:
-	"inline for function prototypes and as a way to replace macros on
-	 header files (*.h) are OK."
+> --- a/Documentation/process/submitting-patches.rst
+> +++ b/Documentation/process/submitting-patches.rst
+> @@ -717,6 +717,12 @@ patch in the permanent changelog.  If the ``from`` line is missing,
+>  then the ``From:`` line from the email header will be used to determine
+>  the patch author in the changelog.
+>
+> +The author may indicate their affiliation or the sponsor of the work
+> +by adding the name of an organization to the ``from`` and ``SoB`` lines,
+> +e.g.:
+> +
+> +       From: Patch Author (Company) <author@example.com>
+> +
 
-> 
-> > > +
-> > > +This is a stricter requirement than that of the general Linux Kernel
-> > > +:ref:`Coding Style<codingstyle>`  
-> > 
-> > I have no objection to this change, but I do wonder if it does indeed
-> > belong in the central coding-style document.  I don't think anybody
-> > encourages use of "inline" these days...?
-> 
-> Indeed IMO this belongs to the coding style. I would place it close
-> to chapter (12) at Documentation/process/coding-style.rst.
-> 
-> Regards,
-> 
-> Thanks,
-> Mauro
+You probably also want to document the other popular[*] solution:
 
+    From: Patch Author <author+company@example.com>
 
+[*] Statistics for v6.0..v6.14-rc1:
+      - "(Company): 3430
+      - "+company": 2871
 
-Thanks,
-Mauro
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
