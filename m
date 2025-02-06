@@ -1,133 +1,224 @@
-Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08626224B1B
-	for <workflows@vger.kernel.org>; Thu,  6 Feb 2025 08:21:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D2C23644D;
+	Thu,  6 Feb 2025 14:47:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738830117; cv=none; b=KAXQ7shHdymt2CL4jNsm3bvAQCfa+9mwF4L4Y2wFMR9tJPPSQAzyzqScWj9g/Kh/B0LQAnCueco1SPYwtCkg5hPMndB5XAzUBHmDP/oXJfJrTpmHWRKRC00Ue8CubHx7DKZWlweAmolJkGY6xfmzQULEXX8MD4RUpacN3nHIaho=
+	t=1738853223; cv=none; b=p1Tmhl2/4aHAECPpnmhdnvjbOM6qTVXhiNCdZyNdGyxrPcajY5kujdGbgF1H/Y7at+ArGPv4vVjJyvySLV1/FOTQ7Vaw8PJdEAdsUYrPlDt5i36FIM1sRg0MqPh6ulCE1x2Zq4PEF30lovnV1M9M7TQj7TbvGjoaNeYw37t2btQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738830117; c=relaxed/simple;
-	bh=D7ocIBVm3Vh+NWU+uqfVknsfVUORThdKT392ZTVe+Pc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:Cc:
-	 In-Reply-To:Content-Type; b=kv/rBQQ30sOPkbIPkX7AP25eZUXpqwzb9psak/6E0YXirWbKWTqbi2qdqZczXFguRk9Yyr+KDoFYox5gjQUeLHsQmc8+/H75fZZ3pQJFE3ahd/JDGGWxkC37gtoaWP9rCmUgvPniTVJ7P3ubOXMyuuhXyHiV+FSbpxYZ1WozD5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=BJVI8ttc; arc=none smtp.client-ip=95.215.58.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1738853223; c=relaxed/simple;
+	bh=BEO2KJS5XZoEhfdp2Sdo2BYa4e1Ky164SYHEhGEyQ3g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tekzni5k02UwA1PG70K046cXuqmmtyvQ4RpFHJwp2ytvTJok3yt1kOtcgUf+n4RQWySoAsdiHRr0vYvAWWOfurKOcV5+/7IbeG+vOaKW2a6lnkl8Q+r35hx/6yrJoeCiJQoYfZKC1y4S58J7EYIQrl/Y4/ih33Plyn2sqMDsor8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=nkP/qXhw; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="BJVI8ttc"
-Message-ID: <7bcc5cd8-dd19-46a5-9f27-b81c14eefe3f@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1738830113;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9uGFZgtcxOdnMiNqjQSuJLSwBbw65wJx+/OE0TA5hzc=;
-	b=BJVI8ttcZeZnYJ3tU+6JBJmgaeN9CGsW8IQh1HbqrU89fpOGGev1GNq8MC9Say8PTvcv9x
-	zwbZeo/8ug8kZU3SYeIEek0cePbp2otX785Z+kfYFjfpdGcSS5Sh01K/gYxnwIb4qxOIdo
-	27PeuVxpkDsgRuOBeFYgxlBJvuDR/Hs=
-Date: Thu, 6 Feb 2025 16:21:47 +0800
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="nkP/qXhw"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:MIME-Version:
+	Message-ID:Date:Subject:Cc:To:From:From:Sender:Reply-To:Subject:Date:
+	Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=2MKzDAWIHrqoLoPImA1+pvUzX0z2r66l7z8LOxhCvOE=; t=1738853220; x=1739285220; 
+	b=nkP/qXhwtkZxqlWBQlA8tK2yKB2meNX7lt7nDKP+wn8T9cTgh+8Hhr1QszRU+W81SdpAr4FfSIC
+	VV/8pgmQ100RcJDXtPvxRUSILKyW9nL+uI516IcqBlEA+f8dIxDlOQaNMlbjIaVOtNVA0EcCfV9zh
+	2kyYxhsdkG8M5EokeWmy7zovWZ/aZp1UZf3iyTQdR91IT80es97d5aZPWITYWvIVZ/3io4O4S+zhf
+	0gyCqoVU6ZJpQDOXWk6wUTGKYqsB4PQkBJAvVedgeyId6eHsmpFPPUhBWFOf29Lf78AxAV75w4SH1
+	52D8Ia4fPAkWN7U6Jxj96YVRVsz3P+ZuvjvQ==;
+Received: from ip4d148d89.dynamic.kabel-deutschland.de ([77.20.141.137] helo=truhe.fritz.box); authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	id 1tg2tP-006f3e-2V;
+	Thu, 06 Feb 2025 15:30:12 +0100
+From: Thorsten Leemhuis <linux@leemhuis.info>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: [PATCH v4] docs: clarify rules wrt tagging other people
+Date: Thu,  6 Feb 2025 15:30:10 +0100
+Message-ID: <588cf2763baa8fea1f4825f4eaa7023fe88bb6c1.1738852082.git.linux@leemhuis.info>
+X-Mailer: git-send-email 2.45.0
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] docs: submitting-patches: document the format for
- affiliation
-To: Krzysztof Kozlowski <krzk@kernel.org>
-References: <20250203174626.1131225-1-kuba@kernel.org>
- <0b68e534-df14-4496-802a-bc0437469720@linux.dev>
- <d3cdc752-fd61-41cc-a76c-7848d27a6802@kernel.org>
- <64202cd3-fe83-41af-a9de-ec6eef5f4c21@linux.dev>
- <65c2c9d3-e173-4475-a58e-168aa087b889@kernel.org>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yanteng Si <si.yanteng@linux.dev>
-Cc: linux-doc@vger.kernel.org, workflows@vger.kernel.org
-In-Reply-To: <65c2c9d3-e173-4475-a58e-168aa087b889@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1738853220;fd75dc04;
+X-HE-SMSGID: 1tg2tP-006f3e-2V
 
-Sorry, I accidentally sent an HTML email because I just
+Point out that explicit permission is usually needed to tag other people
+in changes, but mention that implicit permission can be sufficient in
+certain cases. This fixes slight inconsistencies between Reported-by:
+and Suggested-by: and makes the usage more intuitive.
 
-reset my production environment. I'm resending it to
+While at it, explicitly mention the dangers of our bugzilla instance, as
+it makes it easy to forget that email addresses visible there are only
+shown to logged-in users.
 
-the mailing list now. If the recipients of the previous
+The latter is not a theoretical issue, as one maintainer mentioned that
+his employer received a EU GDPR (general data protection regulation)
+complaint after exposing a email address used in bugzilla through a tag
+in a patch description.
 
-email have subscribed to the mailing list, they may
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+---
 
-receive two emails. Apologies for the inconvenience.
+Jonathan, what do you think of this? I felt somewhat unsure about this a
+few weeks ago, but I guess I was overly careful. If you think this
+change is fine and shouldn't cause any trouble for anyone, feel free to
+merge this. And if not, please speak up.
 
->>>>>
->>>>> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
->>>>> index 8fdc0ef3e604..12ed28b3d113 100644
->>>>> --- a/Documentation/process/submitting-patches.rst
->>>>> +++ b/Documentation/process/submitting-patches.rst
->>>>> @@ -717,6 +717,12 @@ patch in the permanent changelog.  If the ``from`` line is missing,
->>>>>     then the ``From:`` line from the email header will be used to determine
->>>>>     the patch author in the changelog.
->>>>>     
->>>>> +The author may indicate their affiliation or the sponsor of the work
->>>>> +by adding the name of an organization to the ``from`` and ``SoB`` lines,
->>>>> +e.g.:
->>>>> +
->>>>> +	From: Patch Author (Company) <author@example.com>
->>>>> +
->>>> It looks great, but I'm a bit worried that it could be misused,
->>>> which might cause trouble for some companies. Even without
->>>> this patch, there's no way to prevent the misuse.
->>>> Consider the following situation:
->>>>
->>>> From: Yanteng Si (linux foundation) <si.yanteng@linux.dev>
->>>>
->>>> Obviously, I'm not a member of the Linux Foundation.
->>> Nothing stops you from doing this now, because mentioned format is
->>> already accepted.
->>>
->>>> This might seem a bit absurd, but I think it could actually happen,
->>>> especially with some driver code. Hardware manufacturers would
->>>> prefer to upstream their code under the guidance of their companies,
->>>> considering subsequent hardware iterations. However, if some
->>>> enthusiasts pretend to be company employees, and the maintainer,
->>>> trusting the tag, actively applies the patches, it could disrupt the
->>>> rhythm of the hardware manufacturers and is not conducive to code
->>>> maintenance in the long run.
->>> We trust people, not companies, so I think it does not matter for the
->>> trust what is written in ().
->>>
->>>
->>>> How about we add one more part: The organization name in
->>>> the parentheses doesn't necessarily represent the developer's
->>>> relationship with that organization, especially when it doesn't
->>>> match the email domain name. Maintainers should be cautious
->>>> and verify carefully before applying patches.
->>> Sorry, but how? First, maintainers have already a lot on their plate and
->>> you want to ask them to do some more checks? And how would these checks
->>> look like? Shall I ask people to give me certificates of employement or
->>> their contracts?
->> That's not necessary. Just ignore the content inside the parentheses
->>
->> during the review. This will instead reduce the workload of the maintainers.
-> Hm? You said submitting patches document should instruct maintainers to
-> "verify carefully". Verify what?
-If the maintainer ignores the content in the brackets,
-there is no need for verification. If the maintainer unavoidably
-takes into account the content in the brackets while reviewing
-the code, then the maintainer can ask the developer to contact
-the organization mentioned in the brackets to help review the patch.
->
-> We all ignore the content inside the parentheses, because it is not
-> relevant to the code. I don't understand what sort of problem you want
-> to solve with proposed text.
+Note: this triggers a few checkpatch.pl complaints that are irrelevant
+when when to comes to changes like this.
 
-My original intention was to clarify this matter in the form of a document.
+v4:
+- slight wording change to make a implicity aspect explicit, as pointed
+  out by Mauro
+- Add reviewed-bys from Mauro and Shuah
+- The number of reviewed-bys is still smal, nevertheless drop the
+  DONOTMERGE and hole that Jonathan will speak up if he thinks this is
+  a stupid move.
 
+v3: https://lore.kernel.org/all/c29ef5fa12e37c3a289e46d4442b069af94e5b05.1733127212.git.linux@leemhuis.info/
+- try yet again from a slightly different angle which loosens the rules
+  slightly. This from review feedback to earlier versions is apparently
+  what other developers want and from their "no lawyer" perspective
+  consider to be okay. As IANAL myself I don't feel totally comfortable
+  with this and have no idea if this legally is sound, so tag patch with
+  "DONOTMERGE" for now; will remove this for v4 if enough people add a
+  "Reviewed-by". Otherwise the story of this patch might end here, unless
+  someone else submits it for inclusion (you are free to do so!).
+- remote patch adding Suggested-by: tag to 5.Posting and submit it
+  separately
 
-Thanks,
+v2: https://lore.kernel.org/all/cover.1731749544.git.linux@leemhuis.info/
+- Retry differently. This slightly hardens the rule for Reported-by:
+  while slightly lessening it for Suggested-by:. Those in the end are
+  quite similar, so it does not make much sense to apply different ones.
+  I considered using an approach along the lines of "if you reported it
+  in pubic by mail, implicit permission to use in a tag is granted"; but
+  I abstained from it, as I assume there are good reasons for the
+  existing approach regarding Suggested-by:.
+- CC all the people that provided feedback on the text changes in v1
 
-Yanteng
+v1: https://lore.kernel.org/all/f5bc0639a20d6fac68062466d5e3dd0519588d08.1731486825.git.linux@leemhuis.info/
+- initial version
+---
+ Documentation/process/5.Posting.rst          | 13 +++++--
+ Documentation/process/submitting-patches.rst | 39 ++++++++++++++------
+ 2 files changed, 36 insertions(+), 16 deletions(-)
 
+diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
+index dbb763a8de901d..22fa925353cf54 100644
+--- a/Documentation/process/5.Posting.rst
++++ b/Documentation/process/5.Posting.rst
+@@ -268,10 +268,15 @@ The tags in common use are:
+  - Cc: the named person received a copy of the patch and had the
+    opportunity to comment on it.
+ 
+-Be careful in the addition of tags to your patches, as only Cc: is appropriate
+-for addition without the explicit permission of the person named; using
+-Reported-by: is fine most of the time as well, but ask for permission if
+-the bug was reported in private.
++Be careful in the addition of the aforementioned tags to your patches, as all
++except for Cc:, Reported-by:, and Suggested-by: need explicit permission of the
++person named. For those three implicit permission is sufficient if the person
++contributed to the Linux kernel using that name and email address according
++to the lore archives or the commit history -- and in case of Reported-by:
++and Suggested-by: did the reporting or suggestion in public. Note,
++bugzilla.kernel.org is a public place in this sense, but email addresses
++used there are private; so do not expose them in tags, unless the person
++used them in earlier contributions.
+ 
+ 
+ Sending the patch
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index 8fdc0ef3e604f4..72f6de419ccc4c 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -495,10 +495,10 @@ list archives.  A "# Suffix" may also be used in this case to clarify.
+ 
+ If a person has had the opportunity to comment on a patch, but has not
+ provided such comments, you may optionally add a ``Cc:`` tag to the patch.
+-This is the only tag which might be added without an explicit action by the
+-person it names - but it should indicate that this person was copied on the
+-patch.  This tag documents that potentially interested parties
+-have been included in the discussion.
++This tag documents that potentially interested parties have been included in
++the discussion. Note, this is one of only three tags you might be able to use
++without explicit permission of the person named (see 'Tagging people requires
++permission' below for details).
+ 
+ Co-developed-by: states that the patch was co-created by multiple developers;
+ it is used to give attribution to co-authors (in addition to the author
+@@ -544,9 +544,9 @@ hopefully inspires them to help us again in the future. The tag is intended for
+ bugs; please do not use it to credit feature requests. The tag should be
+ followed by a Closes: tag pointing to the report, unless the report is not
+ available on the web. The Link: tag can be used instead of Closes: if the patch
+-fixes a part of the issue(s) being reported. Please note that if the bug was
+-reported in private, then ask for permission first before using the Reported-by
+-tag.
++fixes a part of the issue(s) being reported. Note, the Reported-by tag is one
++of only three tags you might be able to use without explicit permission of the
++person named (see 'Tagging people requires permission' below for details).
+ 
+ A Tested-by: tag indicates that the patch has been successfully tested (in
+ some environment) by the person named.  This tag informs maintainers that
+@@ -596,11 +596,11 @@ Usually removal of someone's Tested-by or Reviewed-by tags should be mentioned
+ in the patch changelog (after the '---' separator).
+ 
+ A Suggested-by: tag indicates that the patch idea is suggested by the person
+-named and ensures credit to the person for the idea. Please note that this
+-tag should not be added without the reporter's permission, especially if the
+-idea was not posted in a public forum. That said, if we diligently credit our
+-idea reporters, they will, hopefully, be inspired to help us again in the
+-future.
++named and ensures credit to the person for the idea: if we diligently credit
++our idea reporters, they will, hopefully, be inspired to help us again in the
++future. Note, this is one of only three tags you might be able to use without
++explicit permission of the person named (see 'Tagging people requires
++permission' below for details).
+ 
+ A Fixes: tag indicates that the patch fixes an issue in a previous commit. It
+ is used to make it easy to determine where a bug originated, which can help
+@@ -618,6 +618,21 @@ Finally, while providing tags is welcome and typically very appreciated, please
+ note that signers (i.e. submitters and maintainers) may use their discretion in
+ applying offered tags.
+ 
++.. _tagging_people:
++
++Tagging people requires permission
++----------------------------------
++
++Be careful in the addition of the aforementioned tags to your patches, as all
++except for Cc:, Reported-by:, and Suggested-by: need explicit permission of the
++person named. For those three implicit permission is sufficient if the person
++contributed to the Linux kernel using that name and email address according
++to the lore archives or the commit history -- and in case of Reported-by:
++and Suggested-by: did the reporting or suggestion in public. Note,
++bugzilla.kernel.org is a public place in this sense, but email addresses
++used there are private; so do not expose them in tags, unless the person
++used them in earlier contributions.
++
+ .. _the_canonical_patch_format:
+ 
+ The canonical patch format
+
+base-commit: e8bcda12176c47f2ce6c5104955845d028a640e8
+-- 
+2.45.0
 
