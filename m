@@ -1,236 +1,151 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C951D7E41;
-	Fri,  7 Feb 2025 09:05:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222A41DF260;
+	Fri,  7 Feb 2025 11:54:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738919128; cv=none; b=CgYv5Z7F9gc0GFYn64c/SWAut8n25WBjHqB4Sx7uciwZJjZs7CK0KdiUJhLGsYTMdUs13TvKOgjq8zCfKRbsaJtD6uSXuDNzgD5SLNBZgxM0Hfnhww9l2xuqZdYwYpEG4NAKRf99LeymR4thzr1L8qwZ3fsiSUOQDScbctGebVU=
+	t=1738929296; cv=none; b=ODLtM7nMufDGqojAdQFNZOFIHfLbNRaib7Fj5Wxtcbev6K2l2M56gtTJQ64riChUUNNX+FBK2KB6y7RYkVcJHHTGuZFMTquf0U4VzSD8vu8MEn8dgAZpl0zprlHeg77M0PxI1SfUkljCVPfLmXF1uYwup8hpGChq/ZZzU1+uOFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738919128; c=relaxed/simple;
-	bh=HDV2XgWZWGOLz7GUhH/TJiTek9PEyoDKgc7XS8kOcu0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PQLXN9bDxOgomECFv59OHqYWfD2abNcysjVsu5RvnFmSKVlz2XdCrZmNXwZMQ8xgAVEJpgMaz8jc0d07GXLveMSaqLk+FCbg1yYfjYHAGp5WLzUhDAsewLfd4JattU7KGDiSkH9lk4aw6pHGxxLocwBoGvSISAFSx2+waYn93UU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rWqnbIbx; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rWqnbIbx"
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1ADAF2BA;
-	Fri,  7 Feb 2025 10:04:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1738919050;
-	bh=HDV2XgWZWGOLz7GUhH/TJiTek9PEyoDKgc7XS8kOcu0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rWqnbIbxXL9V47iBpD9vejgoCdnRi0MxEe7QGTvyQQY/zC4DHRW4Y+e/Ipoqh2K1U
-	 UCqtBTQvNZeLsr7R1uDEN7FuYQTUbsWJuJDNqX9a8MO7CbjAfPzAJ4id00JZSeB+wU
-	 QDu2NEN4YqiwZQi1C/3selmQkJce498ECtgQcMv4=
-Date: Fri, 7 Feb 2025 11:05:18 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v4] docs: clarify rules wrt tagging other people
-Message-ID: <20250207090518.GE24886@pendragon.ideasonboard.com>
-References: <588cf2763baa8fea1f4825f4eaa7023fe88bb6c1.1738852082.git.linux@leemhuis.info>
+	s=arc-20240116; t=1738929296; c=relaxed/simple;
+	bh=8SQg7TcF5hpBJJpgIKj3oXoAnUub+FtPN3W5PtDxUQA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TfuoR9D15IQB3L678DbTjJsQiZvGloWZFRrzwdol8zWQdcdcV/WdCCsNHTZFv+/jglc1U6jBrem08fAxEToFxispwo1sZlq0VvUUVcA98RbLwO/nNMaX5Z1JFLObJAy3J/lICd2K3lQ5XcVPU9t+NcclbrpT47zHtjq5UNWC3aI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EAB7C4CED1;
+	Fri,  7 Feb 2025 11:54:54 +0000 (UTC)
+Message-ID: <d22d2f35-bf04-4d0c-a94c-70dcc08a945e@xs4all.nl>
+Date: Fri, 7 Feb 2025 12:54:52 +0100
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <588cf2763baa8fea1f4825f4eaa7023fe88bb6c1.1738852082.git.linux@leemhuis.info>
+User-Agent: Mozilla Thunderbird
+Subject: Re: Media committers model postponed to 6.14 - Was: Re: [PATCH v3
+ 0/3] Document the new media-committer's model
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ workflows@vger.kernel.org
+References: <cover.1733131405.git.mchehab+huawei@kernel.org>
+ <b0843e80-c46c-4344-b9f1-1d3b57dd2bbe@xs4all.nl>
+ <20241203081958.6c186835@foz.lan>
+ <20241203112209.GR10736@pendragon.ideasonboard.com>
+ <20241203140712.57daa65f@foz.lan> <20241209091548.165e5152@foz.lan>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20241209091548.165e5152@foz.lan>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Thorsten,
+On 09/12/2024 09:15, Mauro Carvalho Chehab wrote:
+> Em Tue, 3 Dec 2024 14:07:12 +0100
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+> 
+>>
+>> The idea is to gradually open media-committers to more people, as each
+>> phase succeeds, addressing infra, procedures, etc.
+>>
+>> My rough idea is to do:
+>>
+>> - Phase 0.99: beta testers;
+>> - Phase 1 is to invite people that regularly submit PRs;
+>> - Phase 2 is to invite other active maintainers;
+>> - Phase 3 (or 2?, TBD) to open for non-maintainers.
+>>
+>> We shouldn't rush it, as there are a lot to be done before opening it
+>> broadly. So, I would say that:
+>> - phase 0.99 would start in -rc2 (if things go well during this week); 
+>> - phase 1 may still happen on this merge window, but as there will be
+>>   only a few weeks between -rc2 and -rc6, and people usually get
+>>   holidays in Dec/Jan, it is more likely that it will start for
+>>   6.14-rc1, again if we didn't notice big issues on phase 0.99.
+>>
+>>   We should wait at least for a couple of releases on phase 1,
+>>   again to cleanup process and fine-tune infra. If things go well, 
+>>   we can move to phase 2.
+> 
+> After some discussions with Hans, we decided to postpone the
+> beta testers phase to the next kernel cycle. There are a couple of
+> reasons for that:
+> 
+> - This should give us more time to come up with a final version of 
+>   the media-committers documentation and agreement;
 
-Thank you for the patch.
+Where are we with this? I haven't seen any updates since this post.
 
-On Thu, Feb 06, 2025 at 03:30:10PM +0100, Thorsten Leemhuis wrote:
-> Point out that explicit permission is usually needed to tag other people
-> in changes, but mention that implicit permission can be sufficient in
-> certain cases. This fixes slight inconsistencies between Reported-by:
-> and Suggested-by: and makes the usage more intuitive.
-> 
-> While at it, explicitly mention the dangers of our bugzilla instance, as
-> it makes it easy to forget that email addresses visible there are only
-> shown to logged-in users.
-> 
-> The latter is not a theoretical issue, as one maintainer mentioned that
-> his employer received a EU GDPR (general data protection regulation)
-> complaint after exposing a email address used in bugzilla through a tag
-> in a patch description.
-> 
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Simona Vetter <simona.vetter@ffwll.ch>
-> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
-> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
-> ---
-> 
-> Jonathan, what do you think of this? I felt somewhat unsure about this a
-> few weeks ago, but I guess I was overly careful. If you think this
-> change is fine and shouldn't cause any trouble for anyone, feel free to
-> merge this. And if not, please speak up.
-> 
-> Note: this triggers a few checkpatch.pl complaints that are irrelevant
-> when when to comes to changes like this.
-> 
-> v4:
-> - slight wording change to make a implicity aspect explicit, as pointed
->   out by Mauro
-> - Add reviewed-bys from Mauro and Shuah
-> - The number of reviewed-bys is still smal, nevertheless drop the
->   DONOTMERGE and hole that Jonathan will speak up if he thinks this is
->   a stupid move.
-> 
-> v3: https://lore.kernel.org/all/c29ef5fa12e37c3a289e46d4442b069af94e5b05.1733127212.git.linux@leemhuis.info/
-> - try yet again from a slightly different angle which loosens the rules
->   slightly. This from review feedback to earlier versions is apparently
->   what other developers want and from their "no lawyer" perspective
->   consider to be okay. As IANAL myself I don't feel totally comfortable
->   with this and have no idea if this legally is sound, so tag patch with
->   "DONOTMERGE" for now; will remove this for v4 if enough people add a
->   "Reviewed-by". Otherwise the story of this patch might end here, unless
->   someone else submits it for inclusion (you are free to do so!).
-> - remote patch adding Suggested-by: tag to 5.Posting and submit it
->   separately
-> 
-> v2: https://lore.kernel.org/all/cover.1731749544.git.linux@leemhuis.info/
-> - Retry differently. This slightly hardens the rule for Reported-by:
->   while slightly lessening it for Suggested-by:. Those in the end are
->   quite similar, so it does not make much sense to apply different ones.
->   I considered using an approach along the lines of "if you reported it
->   in pubic by mail, implicit permission to use in a tag is granted"; but
->   I abstained from it, as I assume there are good reasons for the
->   existing approach regarding Suggested-by:.
-> - CC all the people that provided feedback on the text changes in v1
-> 
-> v1: https://lore.kernel.org/all/f5bc0639a20d6fac68062466d5e3dd0519588d08.1731486825.git.linux@leemhuis.info/
-> - initial version
-> ---
->  Documentation/process/5.Posting.rst          | 13 +++++--
->  Documentation/process/submitting-patches.rst | 39 ++++++++++++++------
->  2 files changed, 36 insertions(+), 16 deletions(-)
-> 
-> diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
-> index dbb763a8de901d..22fa925353cf54 100644
-> --- a/Documentation/process/5.Posting.rst
-> +++ b/Documentation/process/5.Posting.rst
-> @@ -268,10 +268,15 @@ The tags in common use are:
->   - Cc: the named person received a copy of the patch and had the
->     opportunity to comment on it.
->  
-> -Be careful in the addition of tags to your patches, as only Cc: is appropriate
-> -for addition without the explicit permission of the person named; using
-> -Reported-by: is fine most of the time as well, but ask for permission if
-> -the bug was reported in private.
-> +Be careful in the addition of the aforementioned tags to your patches, as all
-> +except for Cc:, Reported-by:, and Suggested-by: need explicit permission of the
-> +person named. For those three implicit permission is sufficient if the person
-> +contributed to the Linux kernel using that name and email address according
-> +to the lore archives or the commit history -- and in case of Reported-by:
-> +and Suggested-by: did the reporting or suggestion in public. Note,
-> +bugzilla.kernel.org is a public place in this sense, but email addresses
-> +used there are private; so do not expose them in tags, unless the person
-> +used them in earlier contributions.
+Personally, I think the CI is ready for more committers, so it would be
+nice if we can get some experience with that.
 
-I like this text very much, it's concise and clear. My only possible
-concern is that "explicit permission" isn't defined. I assume that
-someone sendubg a Reviewed-by or Acked-by tag in a public mail thread
-counts as permission, but strictly speaking it's not explicit.
-
-Regardless of that, I think we can clarify what explicit permission
-means in a follow-up patch. If you would like to merge this one as-is,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-You have my explicit permission to include this tag in the commit :-D
-
->  Sending the patch
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> index 8fdc0ef3e604f4..72f6de419ccc4c 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -495,10 +495,10 @@ list archives.  A "# Suffix" may also be used in this case to clarify.
->  
->  If a person has had the opportunity to comment on a patch, but has not
->  provided such comments, you may optionally add a ``Cc:`` tag to the patch.
-> -This is the only tag which might be added without an explicit action by the
-> -person it names - but it should indicate that this person was copied on the
-> -patch.  This tag documents that potentially interested parties
-> -have been included in the discussion.
-> +This tag documents that potentially interested parties have been included in
-> +the discussion. Note, this is one of only three tags you might be able to use
-> +without explicit permission of the person named (see 'Tagging people requires
-> +permission' below for details).
->  
->  Co-developed-by: states that the patch was co-created by multiple developers;
->  it is used to give attribution to co-authors (in addition to the author
-> @@ -544,9 +544,9 @@ hopefully inspires them to help us again in the future. The tag is intended for
->  bugs; please do not use it to credit feature requests. The tag should be
->  followed by a Closes: tag pointing to the report, unless the report is not
->  available on the web. The Link: tag can be used instead of Closes: if the patch
-> -fixes a part of the issue(s) being reported. Please note that if the bug was
-> -reported in private, then ask for permission first before using the Reported-by
-> -tag.
-> +fixes a part of the issue(s) being reported. Note, the Reported-by tag is one
-> +of only three tags you might be able to use without explicit permission of the
-> +person named (see 'Tagging people requires permission' below for details).
->  
->  A Tested-by: tag indicates that the patch has been successfully tested (in
->  some environment) by the person named.  This tag informs maintainers that
-> @@ -596,11 +596,11 @@ Usually removal of someone's Tested-by or Reviewed-by tags should be mentioned
->  in the patch changelog (after the '---' separator).
->  
->  A Suggested-by: tag indicates that the patch idea is suggested by the person
-> -named and ensures credit to the person for the idea. Please note that this
-> -tag should not be added without the reporter's permission, especially if the
-> -idea was not posted in a public forum. That said, if we diligently credit our
-> -idea reporters, they will, hopefully, be inspired to help us again in the
-> -future.
-> +named and ensures credit to the person for the idea: if we diligently credit
-> +our idea reporters, they will, hopefully, be inspired to help us again in the
-> +future. Note, this is one of only three tags you might be able to use without
-> +explicit permission of the person named (see 'Tagging people requires
-> +permission' below for details).
->  
->  A Fixes: tag indicates that the patch fixes an issue in a previous commit. It
->  is used to make it easy to determine where a bug originated, which can help
-> @@ -618,6 +618,21 @@ Finally, while providing tags is welcome and typically very appreciated, please
->  note that signers (i.e. submitters and maintainers) may use their discretion in
->  applying offered tags.
->  
-> +.. _tagging_people:
-> +
-> +Tagging people requires permission
-> +----------------------------------
-> +
-> +Be careful in the addition of the aforementioned tags to your patches, as all
-> +except for Cc:, Reported-by:, and Suggested-by: need explicit permission of the
-> +person named. For those three implicit permission is sufficient if the person
-> +contributed to the Linux kernel using that name and email address according
-> +to the lore archives or the commit history -- and in case of Reported-by:
-> +and Suggested-by: did the reporting or suggestion in public. Note,
-> +bugzilla.kernel.org is a public place in this sense, but email addresses
-> +used there are private; so do not expose them in tags, unless the person
-> +used them in earlier contributions.
-> +
->  .. _the_canonical_patch_format:
->  
->  The canonical patch format
-> 
-> base-commit: e8bcda12176c47f2ce6c5104955845d028a640e8
-
--- 
 Regards,
 
-Laurent Pinchart
+	Hans
+
+> 
+> - This would also work better with regards to end of year's vacations,
+>   as they'll be affecting at least 2/3 -rc versions. Plus, we all have
+>   things to finish before such vacations. So, better to start fresh next
+>   year;
+> 
+> - Media CI still had issues with a patch series I submitted, as it picked
+>   the wrong baseline, causing CI to not test two patches that were
+>   applied on the top of media-committers/next branch. This was fixed
+>   by Ricardo, but it means that we may still need to polish CI before
+>   granting more people righs there.
+> 
+> With that, if we want to start the media committers for 6.14, we should
+> aim to close review this document by -rc6, or, at most, -rc7, getting 
+> the patches merged during the next merge window.
+> 
+> Regard
+> 
+> Thanks,
+> Mauro
+> 
+
