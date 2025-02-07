@@ -1,254 +1,146 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF954133987;
-	Fri,  7 Feb 2025 01:42:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BBC61A5B99;
+	Fri,  7 Feb 2025 08:25:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738892547; cv=none; b=FaX2pU6SvikUKcv1/OF7AuDMwxnQ/RIxly61Pl6SZaxBOMHg5dvu1XCLojNLJ3kgPRYNCmqiF9PybpEO+O4Lh4xM6nTyCFWT4+MsyWhl23M4c+7dJnRSqN4py39Ozg2rVabDkxvVAxCNa5eHqQqyaESVJzCKjOrNKSvbhOeSu8M=
+	t=1738916708; cv=none; b=bXlaaGrL9Z+aNA7xUnnUsdIwtZ29z2oArMbt3Tw1FQlDqB6a523B80l3rOOKixpb533RBtQdJSfnrHCUmxasH5EuVMiMYVWN/cYx/ACvwe7Ozt1EFiF1ws9iyR8yY+l0IIPKSzUsJLDkEqDS7zvsU5fAb9qgx8FMRAXcmEr9+78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738892547; c=relaxed/simple;
-	bh=k43Z5zQYXMDziBkOvYiUcPMfe3Io+6ARNvUn9Kruakk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TwidWx4J/B1ZCYiftiEXXDSfvqBR6pTfqEpYEBS97t3EB97upqO3f4PYPu9mdgJA1IxDYjisy0CebWNvE0lIXBF31ZAdzezRvGJ0d4iPT1n43UZXlNXMpT0L2Yw8WP/HqanM2mVM7Fr+WPCRSNqJiKXaSg5Bq42N6efoRDdSAPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QaJZkbZr; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738916708; c=relaxed/simple;
+	bh=hJLVXqvjKTcx4i+0lAyUvFrmQTS/nX702Oo1KTBKN5Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iKgVGUEKDLWw21DrUGASr3tOfYcRuFPs2w3lOZ860OnM/MNuEEyUq7JVwldcKTBscRbz/ZhY+WjZubqaiL9MNYQVAY+FmGoshZgez2PNwT/oVnWL8PAvPblPGcBhywfpJNHzDGDueaPGbK4STRHdwE3bc9QvQDkRudX2IhdjRHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=F9eSYVKQ; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QaJZkbZr"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-21f20666e72so33047935ad.1;
-        Thu, 06 Feb 2025 17:42:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738892545; x=1739497345; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iCB+UDvr+o1SyUgsR9HsOtoX0gQumnxAJYb/vLwqtqw=;
-        b=QaJZkbZrWZqcleMZ05KJLzLSfRGjWW1p1NWICgR+A5pln6XzhPk5wW770fMrg5oRvD
-         R1e5AopGSeoTwTFi0OrjlLVBRY2qZ6zPHxzt81TgjFxfG2+KR4t2ucsGIZvit8R6qHcs
-         KVM0HBZy1jg9MpTXWhpne/JqUrTHL0+C14ybT4a9IEEkdjq81i4KGQ8kvvtF6q4UlVXB
-         ar5lDtGGV/dXxZ5rTAa8NUvQbR09sp5/iZHI0Hqr/n6aHAqxFYIiMqn0HBzv+KsSInrW
-         kOssjS+vpos2mavOf4UJW1TPVoqUx5pZniiyvYTeO+XrtgdbaSPvhdSTAXjXfCaAsQSk
-         1/jA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738892545; x=1739497345;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iCB+UDvr+o1SyUgsR9HsOtoX0gQumnxAJYb/vLwqtqw=;
-        b=p5N88bveOtOiFK1QmMrOB9pXV3Jl+OP73s5zox+zCXjnRAe9D+FyWOEz54IdPJhq5b
-         Yjg7W06/bwGBeFugQKJyy1jKTHzFkzaqrRvxWRX0Nfaky82Vi72Sz5LHT4zjQ/1CpnyR
-         q59UcvpEubrAcBA1W2CGvRlzPoHtB9kZzQBxPOYIwUwy0OQ/rskBgNCUvVogHIJyMBQL
-         bPrNsfs8dJTzznwBT5lwwiCtH3xvv1aPVAHxBNEq4xFBHH5HSfN2g5C01Uw47xJvv6aN
-         fdBZyICiHj2FK+xzj+fwxPAdEPem8XTw1bzKkBGeRRvyw4lH0VQ6/vLJVW791ZXqTihN
-         vQAw==
-X-Forwarded-Encrypted: i=1; AJvYcCW5YGrdw4Oc4bK9AUNFdDowb3GNZzm2qu+/soTY2Hx0laoL2Mb7XLkTH7LYQKlewZuiF0opwIqsM3xH0j/e@vger.kernel.org, AJvYcCWLu8D42Fz+njxZ/IlHZrE37+mjbAXpJl0Q9ecSZidM+MC1+Zp7XgPzdYYxOYuZIozBQdkC9cqJ3rE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzQY0BRgJAf4arV6XahuNAx5GIUIfTZWvTgywXSSd98cIHusWp3
-	pw8Z8EjBBDyH6PrZsy2+iGzWIEx4M64tU01bnOHqf+DoHTLcJG90
-X-Gm-Gg: ASbGncsV/UH6F6LUkQSWJr551K9bPzwGTw7unR/nbK9xR+3l+h2Oc2aYoLNTThlHSq2
-	cLqYzQBiIR7uViO+e8pX7gTm51vo8HalGEUYlIGSKyJNO8LDBsUMWpDlwXz4fx0mEKkvdEMY82D
-	FmTsfzOFZfc5PmDRyG8Em0B8a67FG0+yXGJ7K4UCWhUxnOthwf7f6Fkhxbn00m8vOepwzW+F5BA
-	Z1sq2jp0hGXtHIv2wi81/Kju5HrO8kc8H6spAD8Ww1Rss3KSmFbFYUqJIhHLxMeHozW4iYvAWKc
-	6u7gREj/c3L9g1o=
-X-Google-Smtp-Source: AGHT+IF3V6aRkJmvBMUyGn28OZdzyd9mfmHLPCK5NSACkkmLi9GELXLragQ10mugsV/1WBn6R3f45A==
-X-Received: by 2002:a05:6a00:1a93:b0:728:9d19:d2ea with SMTP id d2e1a72fcca58-7305d4adb54mr2015174b3a.13.1738892544911;
-        Thu, 06 Feb 2025 17:42:24 -0800 (PST)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ad51af78034sm1698885a12.67.2025.02.06.17.42.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Feb 2025 17:42:23 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id A30A04208FB2; Fri, 07 Feb 2025 08:42:19 +0700 (WIB)
-Date: Fri, 7 Feb 2025 08:42:19 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Thorsten Leemhuis <linux@leemhuis.info>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v4] docs: clarify rules wrt tagging other people
-Message-ID: <Z6Vk-7OgDB3DM7Yb@archie.me>
-References: <588cf2763baa8fea1f4825f4eaa7023fe88bb6c1.1738852082.git.linux@leemhuis.info>
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="F9eSYVKQ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=bZo4JzV3biBnI57yFwGhIjJMsOzxqtbKpf+oi6zDBxo=; t=1738916706;
+	x=1739348706; b=F9eSYVKQ7TPhnfHdqi7G9fjSNeL6k9i67VPfgD92x0TGNVdKq63cJEFU58gJ4
+	ExEDVuCpwHNi8YjMDpY38G1ER8H7u/bS3PZcTFP3xLR4+rHSgcJtbx3HZLC3556LCXChrE6dOpT68
+	aZF0jfzEtxOJS48iTiDyu7ufRpA3/LdsgNu4r3ulOR0cKkKnKT0lniMOE38pLgyz0la2/qm37cDHp
+	mK3XO+Vfwx/F4+Q/QjHSeJQY7jqCJL/VOj+SQtkpe1tSdoeSWfKXf7oZFM9kVQIPemUGTS7KFClI4
+	ELwql2wp5imDR2JJLUAYXcy6PK0EpMUiRd0bRGX2yQBB929OYQ==;
+Received: from [2a02:8108:8984:1d00:a0cf:1912:4be:477f]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128)
+	id 1tgJfY-00A7NV-18;
+	Fri, 07 Feb 2025 09:25:00 +0100
+Message-ID: <559e84cc-4da3-45a5-9ff0-2283d2c53d0a@leemhuis.info>
+Date: Fri, 7 Feb 2025 09:24:56 +0100
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="C6onUu6KEVPlj5WK"
-Content-Disposition: inline
-In-Reply-To: <588cf2763baa8fea1f4825f4eaa7023fe88bb6c1.1738852082.git.linux@leemhuis.info>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] docs: clarify rules wrt tagging other people
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <588cf2763baa8fea1f4825f4eaa7023fe88bb6c1.1738852082.git.linux@leemhuis.info>
+ <Z6Vk-7OgDB3DM7Yb@archie.me>
+From: Thorsten Leemhuis <linux@leemhuis.info>
+Content-Language: de-DE, en-US
+Autocrypt: addr=linux@leemhuis.info; keydata=
+ xsFNBFJ4AQ0BEADCz16x4kl/YGBegAsYXJMjFRi3QOr2YMmcNuu1fdsi3XnM+xMRaukWby47
+ JcsZYLDKRHTQ/Lalw9L1HI3NRwK+9ayjg31wFdekgsuPbu4x5RGDIfyNpd378Upa8SUmvHik
+ apCnzsxPTEE4Z2KUxBIwTvg+snEjgZ03EIQEi5cKmnlaUynNqv3xaGstx5jMCEnR2X54rH8j
+ QPvo2l5/79Po58f6DhxV2RrOrOjQIQcPZ6kUqwLi6EQOi92NS9Uy6jbZcrMqPIRqJZ/tTKIR
+ OLWsEjNrc3PMcve+NmORiEgLFclN8kHbPl1tLo4M5jN9xmsa0OZv3M0katqW8kC1hzR7mhz+
+ Rv4MgnbkPDDO086HjQBlS6Zzo49fQB2JErs5nZ0mwkqlETu6emhxneAMcc67+ZtTeUj54K2y
+ Iu8kk6ghaUAfgMqkdIzeSfhO8eURMhvwzSpsqhUs7pIj4u0TPN8OFAvxE/3adoUwMaB+/plk
+ sNe9RsHHPV+7LGADZ6OzOWWftk34QLTVTcz02bGyxLNIkhY+vIJpZWX9UrfGdHSiyYThHCIy
+ /dLz95b9EG+1tbCIyNynr9TjIOmtLOk7ssB3kL3XQGgmdQ+rJ3zckJUQapLKP2YfBi+8P1iP
+ rKkYtbWk0u/FmCbxcBA31KqXQZoR4cd1PJ1PDCe7/DxeoYMVuwARAQABzSdUaG9yc3RlbiBM
+ ZWVtaHVpcyA8bGludXhAbGVlbWh1aXMuaW5mbz7CwZQEEwEKAD4CGwMFCwkIBwMFFQoJCAsF
+ FgIDAQACHgECF4AWIQSoq8a+lZZX4oPULXVytubvTFg9LQUCX31PIwUJFmtPkwAKCRBytubv
+ TFg9LWsyD/4t3g4i2YVp8RoKAcOut0AZ7/uLSqlm8Jcbb+LeeuzjY9T3mQ4ZX8cybc1jRlsL
+ JMYL8GD3a53/+bXCDdk2HhQKUwBJ9PUDbfWa2E/pnqeJeX6naLn1LtMJ78G9gPeG81dX5Yq+
+ g/2bLXyWefpejlaefaM0GviCt00kG4R/mJJpHPKIPxPbOPY2REzWPoHXJpi7vTOA2R8HrFg/
+ QJbnA25W55DzoxlRb/nGZYG4iQ+2Eplkweq3s3tN88MxzNpsxZp475RmzgcmQpUtKND7Pw+8
+ zTDPmEzkHcUChMEmrhgWc2OCuAu3/ezsw7RnWV0k9Pl5AGROaDqvARUtopQ3yEDAdV6eil2z
+ TvbrokZQca2808v2rYO3TtvtRMtmW/M/yyR233G/JSNos4lODkCwd16GKjERYj+sJsW4/hoZ
+ RQiJQBxjnYr+p26JEvghLE1BMnTK24i88Oo8v+AngR6JBxwH7wFuEIIuLCB9Aagb+TKsf+0c
+ HbQaHZj+wSY5FwgKi6psJxvMxpRpLqPsgl+awFPHARktdPtMzSa+kWMhXC4rJahBC5eEjNmP
+ i23DaFWm8BE9LNjdG8Yl5hl7Zx0mwtnQas7+z6XymGuhNXCOevXVEqm1E42fptYMNiANmrpA
+ OKRF+BHOreakveezlpOz8OtUhsew9b/BsAHXBCEEOuuUg87BTQRSeAENARAAzu/3satWzly6
+ +Lqi5dTFS9+hKvFMtdRb/vW4o9CQsMqL2BJGoE4uXvy3cancvcyodzTXCUxbesNP779JqeHy
+ s7WkF2mtLVX2lnyXSUBm/ONwasuK7KLz8qusseUssvjJPDdw8mRLAWvjcsYsZ0qgIU6kBbvY
+ ckUWkbJj/0kuQCmmulRMcaQRrRYrk7ZdUOjaYmjKR+UJHljxLgeregyiXulRJxCphP5migoy
+ ioa1eset8iF9fhb+YWY16X1I3TnucVCiXixzxwn3uwiVGg28n+vdfZ5lackCOj6iK4+lfzld
+ z4NfIXK+8/R1wD9yOj1rr3OsjDqOaugoMxgEFOiwhQDiJlRKVaDbfmC1G5N1YfQIn90znEYc
+ M7+Sp8Rc5RUgN5yfuwyicifIJQCtiWgjF8ttcIEuKg0TmGb6HQHAtGaBXKyXGQulD1CmBHIW
+ zg7bGge5R66hdbq1BiMX5Qdk/o3Sr2OLCrxWhqMdreJFLzboEc0S13BCxVglnPqdv5sd7veb
+ 0az5LGS6zyVTdTbuPUu4C1ZbstPbuCBwSwe3ERpvpmdIzHtIK4G9iGIR3Seo0oWOzQvkFn8m
+ 2k6H2/Delz9IcHEefSe5u0GjIA18bZEt7R2k8CMZ84vpyWOchgwXK2DNXAOzq4zwV8W4TiYi
+ FiIVXfSj185vCpuE7j0ugp0AEQEAAcLBfAQYAQoAJgIbDBYhBKirxr6Vllfig9QtdXK25u9M
+ WD0tBQJffU8wBQkWa0+jAAoJEHK25u9MWD0tv+0P/A47x8r+hekpuF2KvPpGi3M6rFpdPfeO
+ RpIGkjQWk5M+oF0YH3vtb0+92J7LKfJwv7GIy2PZO2svVnIeCOvXzEM/7G1n5zmNMYGZkSyf
+ x9dnNCjNl10CmuTYud7zsd3cXDku0T+Ow5Dhnk6l4bbJSYzFEbz3B8zMZGrs9EhqNzTLTZ8S
+ Mznmtkxcbb3f/o5SW9NhH60mQ23bB3bBbX1wUQAmMjaDQ/Nt5oHWHN0/6wLyF4lStBGCKN9a
+ TLp6E3100BuTCUCrQf9F3kB7BC92VHvobqYmvLTCTcbxFS4JNuT+ZyV+xR5JiV+2g2HwhxWW
+ uC88BtriqL4atyvtuybQT+56IiiU2gszQ+oxR/1Aq+VZHdUeC6lijFiQblqV6EjenJu+pR9A
+ 7EElGPPmYdO1WQbBrmuOrFuO6wQrbo0TbUiaxYWyoM9cA7v7eFyaxgwXBSWKbo/bcAAViqLW
+ ysaCIZqWxrlhHWWmJMvowVMkB92uPVkxs5IMhSxHS4c2PfZ6D5kvrs3URvIc6zyOrgIaHNzR
+ 8AF4PXWPAuZu1oaG/XKwzMqN/Y/AoxWrCFZNHE27E1RrMhDgmyzIzWQTffJsVPDMQqDfLBhV
+ ic3b8Yec+Kn+ExIF5IuLfHkUgIUs83kDGGbV+wM8NtlGmCXmatyavUwNCXMsuI24HPl7gV2h n7RI
+In-Reply-To: <Z6Vk-7OgDB3DM7Yb@archie.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1738916706;e136261b;
+X-HE-SMSGID: 1tgJfY-00A7NV-18
+
+On 07.02.25 02:42, Bagas Sanjaya wrote:
+> On Thu, Feb 06, 2025 at 03:30:10PM +0100, Thorsten Leemhuis wrote:
+>> diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
+>> index dbb763a8de901d..22fa925353cf54 100644
+>> --- a/Documentation/process/5.Posting.rst
+>> +++ b/Documentation/process/5.Posting.rst
+>> @@ -268,10 +268,15 @@ The tags in common use are:
+>>   - Cc: the named person received a copy of the patch and had the
+>>     opportunity to comment on it.
+>>  
+>> -Be careful in the addition of tags to your patches, as only Cc: is appropriate
+>> -for addition without the explicit permission of the person named; using
+>> -Reported-by: is fine most of the time as well, but ask for permission if
+>> -the bug was reported in private.
+>> +Be careful in the addition of the aforementioned tags to your patches, as all
+>> +except for Cc:, Reported-by:, and Suggested-by: need explicit permission of the
+>> +person named. For those three implicit permission is sufficient if the person
+>> +contributed to the Linux kernel using that name and email address according
+>> +to the lore archives or the commit history -- and in case of Reported-by:
+>> +and Suggested-by: did the reporting or suggestion in public. Note,
+>> +bugzilla.kernel.org is a public place in this sense, but email addresses
+>> +used there are private; so do not expose them in tags, unless the person
+>> +used them in earlier contributions.
+> 
+> So for example I can only include Tested-by: when a contributor who tested
+> my patch explicitly offer the tag by replying to it i.e. with the tag, right?
+
+At some point a text must leave the interpretation up to the reader. I
+would say a "yes, that's okay" to the question "is it okay to add a
+'tested-by' tag in the patch description; note, your name and email
+address will then end up in the commit history and can not be removed
+there" is sufficient "permission" as well.
+
+> The wording looks OK.
+> 
+> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+Thx!
+
+Ciao, Thorsten
 
 
---C6onUu6KEVPlj5WK
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Feb 06, 2025 at 03:30:10PM +0100, Thorsten Leemhuis wrote:
-> diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/=
-5.Posting.rst
-> index dbb763a8de901d..22fa925353cf54 100644
-> --- a/Documentation/process/5.Posting.rst
-> +++ b/Documentation/process/5.Posting.rst
-> @@ -268,10 +268,15 @@ The tags in common use are:
->   - Cc: the named person received a copy of the patch and had the
->     opportunity to comment on it.
-> =20
-> -Be careful in the addition of tags to your patches, as only Cc: is appro=
-priate
-> -for addition without the explicit permission of the person named; using
-> -Reported-by: is fine most of the time as well, but ask for permission if
-> -the bug was reported in private.
-> +Be careful in the addition of the aforementioned tags to your patches, a=
-s all
-> +except for Cc:, Reported-by:, and Suggested-by: need explicit permission=
- of the
-> +person named. For those three implicit permission is sufficient if the p=
-erson
-> +contributed to the Linux kernel using that name and email address accord=
-ing
-> +to the lore archives or the commit history -- and in case of Reported-by:
-> +and Suggested-by: did the reporting or suggestion in public. Note,
-> +bugzilla.kernel.org is a public place in this sense, but email addresses
-> +used there are private; so do not expose them in tags, unless the person
-> +used them in earlier contributions.
-
-So for example I can only include Tested-by: when a contributor who tested
-my patch explicitly offer the tag by replying to it i.e. with the tag, righ=
-t?
-
-> =20
-> =20
->  Sending the patch
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation=
-/process/submitting-patches.rst
-> index 8fdc0ef3e604f4..72f6de419ccc4c 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -495,10 +495,10 @@ list archives.  A "# Suffix" may also be used in th=
-is case to clarify.
-> =20
->  If a person has had the opportunity to comment on a patch, but has not
->  provided such comments, you may optionally add a ``Cc:`` tag to the patc=
-h.
-> -This is the only tag which might be added without an explicit action by =
-the
-> -person it names - but it should indicate that this person was copied on =
-the
-> -patch.  This tag documents that potentially interested parties
-> -have been included in the discussion.
-> +This tag documents that potentially interested parties have been include=
-d in
-> +the discussion. Note, this is one of only three tags you might be able t=
-o use
-> +without explicit permission of the person named (see 'Tagging people req=
-uires
-> +permission' below for details).
-> =20
->  Co-developed-by: states that the patch was co-created by multiple develo=
-pers;
->  it is used to give attribution to co-authors (in addition to the author
-> @@ -544,9 +544,9 @@ hopefully inspires them to help us again in the futur=
-e. The tag is intended for
->  bugs; please do not use it to credit feature requests. The tag should be
->  followed by a Closes: tag pointing to the report, unless the report is n=
-ot
->  available on the web. The Link: tag can be used instead of Closes: if th=
-e patch
-> -fixes a part of the issue(s) being reported. Please note that if the bug=
- was
-> -reported in private, then ask for permission first before using the Repo=
-rted-by
-> -tag.
-> +fixes a part of the issue(s) being reported. Note, the Reported-by tag i=
-s one
-> +of only three tags you might be able to use without explicit permission =
-of the
-> +person named (see 'Tagging people requires permission' below for details=
-).
-> =20
->  A Tested-by: tag indicates that the patch has been successfully tested (=
-in
->  some environment) by the person named.  This tag informs maintainers that
-> @@ -596,11 +596,11 @@ Usually removal of someone's Tested-by or Reviewed-=
-by tags should be mentioned
->  in the patch changelog (after the '---' separator).
-> =20
->  A Suggested-by: tag indicates that the patch idea is suggested by the pe=
-rson
-> -named and ensures credit to the person for the idea. Please note that th=
-is
-> -tag should not be added without the reporter's permission, especially if=
- the
-> -idea was not posted in a public forum. That said, if we diligently credi=
-t our
-> -idea reporters, they will, hopefully, be inspired to help us again in the
-> -future.
-> +named and ensures credit to the person for the idea: if we diligently cr=
-edit
-> +our idea reporters, they will, hopefully, be inspired to help us again i=
-n the
-> +future. Note, this is one of only three tags you might be able to use wi=
-thout
-> +explicit permission of the person named (see 'Tagging people requires
-> +permission' below for details).
-> =20
->  A Fixes: tag indicates that the patch fixes an issue in a previous commi=
-t. It
->  is used to make it easy to determine where a bug originated, which can h=
-elp
-> @@ -618,6 +618,21 @@ Finally, while providing tags is welcome and typical=
-ly very appreciated, please
->  note that signers (i.e. submitters and maintainers) may use their discre=
-tion in
->  applying offered tags.
-> =20
-> +.. _tagging_people:
-> +
-> +Tagging people requires permission
-> +----------------------------------
-> +
-> +Be careful in the addition of the aforementioned tags to your patches, a=
-s all
-> +except for Cc:, Reported-by:, and Suggested-by: need explicit permission=
- of the
-> +person named. For those three implicit permission is sufficient if the p=
-erson
-> +contributed to the Linux kernel using that name and email address accord=
-ing
-> +to the lore archives or the commit history -- and in case of Reported-by:
-> +and Suggested-by: did the reporting or suggestion in public. Note,
-> +bugzilla.kernel.org is a public place in this sense, but email addresses
-> +used there are private; so do not expose them in tags, unless the person
-> +used them in earlier contributions.
-> +
->  .. _the_canonical_patch_format:
-> =20
->  The canonical patch format
->=20
-> base-commit: e8bcda12176c47f2ce6c5104955845d028a640e8
-
-The wording looks OK.
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---C6onUu6KEVPlj5WK
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ6Vk+wAKCRD2uYlJVVFO
-o5glAP44+tawF8z7wtEt+DIrZa5CIvAEEOKGpIiDllIt9liccAEAxYfTO/Zl3U98
-Y11LKwZ1AOgDaQdN7XXWB6DqGApB6wc=
-=Xisa
------END PGP SIGNATURE-----
-
---C6onUu6KEVPlj5WK--
