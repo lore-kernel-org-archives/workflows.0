@@ -1,21 +1,38 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222A41DF260;
-	Fri,  7 Feb 2025 11:54:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E462D13EFE3;
+	Sat,  8 Feb 2025 15:37:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738929296; cv=none; b=ODLtM7nMufDGqojAdQFNZOFIHfLbNRaib7Fj5Wxtcbev6K2l2M56gtTJQ64riChUUNNX+FBK2KB6y7RYkVcJHHTGuZFMTquf0U4VzSD8vu8MEn8dgAZpl0zprlHeg77M0PxI1SfUkljCVPfLmXF1uYwup8hpGChq/ZZzU1+uOFY=
+	t=1739029023; cv=none; b=bBylhiZrG88T182129gaDKJRlgPPvhAb0Yzj5YyTfkWu1T87dbBx10qZh+/8MWf+pA2kOKvF0fHDdccTH3WZUy5qerWOE/WvCxWKUkbYBXNwoaFJLPqvh+OjkFiO/oBnFWRMcn+H6LEfZ5djfBP2F8XVJMw+iHxndcS802YJ38E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738929296; c=relaxed/simple;
-	bh=8SQg7TcF5hpBJJpgIKj3oXoAnUub+FtPN3W5PtDxUQA=;
+	s=arc-20240116; t=1739029023; c=relaxed/simple;
+	bh=edP5cnZdsXNLdZyaPPqteFAjfe6jOmR4Y4nreqkkx8s=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TfuoR9D15IQB3L678DbTjJsQiZvGloWZFRrzwdol8zWQdcdcV/WdCCsNHTZFv+/jglc1U6jBrem08fAxEToFxispwo1sZlq0VvUUVcA98RbLwO/nNMaX5Z1JFLObJAy3J/lICd2K3lQ5XcVPU9t+NcclbrpT47zHtjq5UNWC3aI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EAB7C4CED1;
-	Fri,  7 Feb 2025 11:54:54 +0000 (UTC)
-Message-ID: <d22d2f35-bf04-4d0c-a94c-70dcc08a945e@xs4all.nl>
-Date: Fri, 7 Feb 2025 12:54:52 +0100
+	 In-Reply-To:Content-Type; b=JMqhTQUdH4c+dR8GV3DKXEO6p6v3bWerTjoa51uRXqJpIhonWvUVQ8bVCfKDtjM1K0pEIcoawS0FYM+KE2gpKh/vEE5ROUdCuDV1FiTYcx/WV5tQ+++0kE7dXaHIX68ntavYKHoPifMprxljm4ebRmligJa3UBdZmOclbeI41wQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=k15sMw4O; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="k15sMw4O"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=sReTgSh8cyWWQXGCpKo6cPSEOhWgPQHHXye7J9k/w6g=; t=1739029021;
+	x=1739461021; b=k15sMw4OXE4nBpmZDaFtjk6EsyrOeyrgYTNXowC7zssFtnLvLjws/QSjFrFoi
+	SceQzdg3ZKGTjkMN4QJwdVeshvcOj5Hx5IL8lgIjrpqHA+tzNrFGKp/9gAoTmpSy3EOyXmXnaWehn
+	OVHVqdPAlzG/i1TN5GVaT7w1vQUp+z/PAPLR/4pcWv49ByMZcO5L1jbAw3EY+fagrcAGxKvG+zY4u
+	tEUwqGvi4jsJ1Zx9TgfKGf8bCMyaAtwCwR3SniIQrWpY9FTFVeaO2iQS1WMf9Ph6wXYfaGFeBkGiB
+	M1rFD1wiJO8mXuvvCaURroErpOiK1hCsO01X3wFPPbY+t0HGdQ==;
+Received: from [2a02:8108:8984:1d00:a0cf:1912:4be:477f]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128)
+	id 1tgmsy-00FzLO-1o;
+	Sat, 08 Feb 2025 16:36:48 +0100
+Message-ID: <f50c7b22-2b31-47d2-8353-41d80f5241c1@leemhuis.info>
+Date: Sat, 8 Feb 2025 16:36:47 +0100
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -23,129 +40,126 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: Media committers model postponed to 6.14 - Was: Re: [PATCH v3
- 0/3] Document the new media-committer's model
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+Subject: Re: [PATCH v4] docs: clarify rules wrt tagging other people
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org
-References: <cover.1733131405.git.mchehab+huawei@kernel.org>
- <b0843e80-c46c-4344-b9f1-1d3b57dd2bbe@xs4all.nl>
- <20241203081958.6c186835@foz.lan>
- <20241203112209.GR10736@pendragon.ideasonboard.com>
- <20241203140712.57daa65f@foz.lan> <20241209091548.165e5152@foz.lan>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20241209091548.165e5152@foz.lan>
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <588cf2763baa8fea1f4825f4eaa7023fe88bb6c1.1738852082.git.linux@leemhuis.info>
+ <20250207090518.GE24886@pendragon.ideasonboard.com>
+From: Thorsten Leemhuis <linux@leemhuis.info>
+Content-Language: de-DE, en-US
+Autocrypt: addr=linux@leemhuis.info; keydata=
+ xsFNBFJ4AQ0BEADCz16x4kl/YGBegAsYXJMjFRi3QOr2YMmcNuu1fdsi3XnM+xMRaukWby47
+ JcsZYLDKRHTQ/Lalw9L1HI3NRwK+9ayjg31wFdekgsuPbu4x5RGDIfyNpd378Upa8SUmvHik
+ apCnzsxPTEE4Z2KUxBIwTvg+snEjgZ03EIQEi5cKmnlaUynNqv3xaGstx5jMCEnR2X54rH8j
+ QPvo2l5/79Po58f6DhxV2RrOrOjQIQcPZ6kUqwLi6EQOi92NS9Uy6jbZcrMqPIRqJZ/tTKIR
+ OLWsEjNrc3PMcve+NmORiEgLFclN8kHbPl1tLo4M5jN9xmsa0OZv3M0katqW8kC1hzR7mhz+
+ Rv4MgnbkPDDO086HjQBlS6Zzo49fQB2JErs5nZ0mwkqlETu6emhxneAMcc67+ZtTeUj54K2y
+ Iu8kk6ghaUAfgMqkdIzeSfhO8eURMhvwzSpsqhUs7pIj4u0TPN8OFAvxE/3adoUwMaB+/plk
+ sNe9RsHHPV+7LGADZ6OzOWWftk34QLTVTcz02bGyxLNIkhY+vIJpZWX9UrfGdHSiyYThHCIy
+ /dLz95b9EG+1tbCIyNynr9TjIOmtLOk7ssB3kL3XQGgmdQ+rJ3zckJUQapLKP2YfBi+8P1iP
+ rKkYtbWk0u/FmCbxcBA31KqXQZoR4cd1PJ1PDCe7/DxeoYMVuwARAQABzSdUaG9yc3RlbiBM
+ ZWVtaHVpcyA8bGludXhAbGVlbWh1aXMuaW5mbz7CwZQEEwEKAD4CGwMFCwkIBwMFFQoJCAsF
+ FgIDAQACHgECF4AWIQSoq8a+lZZX4oPULXVytubvTFg9LQUCX31PIwUJFmtPkwAKCRBytubv
+ TFg9LWsyD/4t3g4i2YVp8RoKAcOut0AZ7/uLSqlm8Jcbb+LeeuzjY9T3mQ4ZX8cybc1jRlsL
+ JMYL8GD3a53/+bXCDdk2HhQKUwBJ9PUDbfWa2E/pnqeJeX6naLn1LtMJ78G9gPeG81dX5Yq+
+ g/2bLXyWefpejlaefaM0GviCt00kG4R/mJJpHPKIPxPbOPY2REzWPoHXJpi7vTOA2R8HrFg/
+ QJbnA25W55DzoxlRb/nGZYG4iQ+2Eplkweq3s3tN88MxzNpsxZp475RmzgcmQpUtKND7Pw+8
+ zTDPmEzkHcUChMEmrhgWc2OCuAu3/ezsw7RnWV0k9Pl5AGROaDqvARUtopQ3yEDAdV6eil2z
+ TvbrokZQca2808v2rYO3TtvtRMtmW/M/yyR233G/JSNos4lODkCwd16GKjERYj+sJsW4/hoZ
+ RQiJQBxjnYr+p26JEvghLE1BMnTK24i88Oo8v+AngR6JBxwH7wFuEIIuLCB9Aagb+TKsf+0c
+ HbQaHZj+wSY5FwgKi6psJxvMxpRpLqPsgl+awFPHARktdPtMzSa+kWMhXC4rJahBC5eEjNmP
+ i23DaFWm8BE9LNjdG8Yl5hl7Zx0mwtnQas7+z6XymGuhNXCOevXVEqm1E42fptYMNiANmrpA
+ OKRF+BHOreakveezlpOz8OtUhsew9b/BsAHXBCEEOuuUg87BTQRSeAENARAAzu/3satWzly6
+ +Lqi5dTFS9+hKvFMtdRb/vW4o9CQsMqL2BJGoE4uXvy3cancvcyodzTXCUxbesNP779JqeHy
+ s7WkF2mtLVX2lnyXSUBm/ONwasuK7KLz8qusseUssvjJPDdw8mRLAWvjcsYsZ0qgIU6kBbvY
+ ckUWkbJj/0kuQCmmulRMcaQRrRYrk7ZdUOjaYmjKR+UJHljxLgeregyiXulRJxCphP5migoy
+ ioa1eset8iF9fhb+YWY16X1I3TnucVCiXixzxwn3uwiVGg28n+vdfZ5lackCOj6iK4+lfzld
+ z4NfIXK+8/R1wD9yOj1rr3OsjDqOaugoMxgEFOiwhQDiJlRKVaDbfmC1G5N1YfQIn90znEYc
+ M7+Sp8Rc5RUgN5yfuwyicifIJQCtiWgjF8ttcIEuKg0TmGb6HQHAtGaBXKyXGQulD1CmBHIW
+ zg7bGge5R66hdbq1BiMX5Qdk/o3Sr2OLCrxWhqMdreJFLzboEc0S13BCxVglnPqdv5sd7veb
+ 0az5LGS6zyVTdTbuPUu4C1ZbstPbuCBwSwe3ERpvpmdIzHtIK4G9iGIR3Seo0oWOzQvkFn8m
+ 2k6H2/Delz9IcHEefSe5u0GjIA18bZEt7R2k8CMZ84vpyWOchgwXK2DNXAOzq4zwV8W4TiYi
+ FiIVXfSj185vCpuE7j0ugp0AEQEAAcLBfAQYAQoAJgIbDBYhBKirxr6Vllfig9QtdXK25u9M
+ WD0tBQJffU8wBQkWa0+jAAoJEHK25u9MWD0tv+0P/A47x8r+hekpuF2KvPpGi3M6rFpdPfeO
+ RpIGkjQWk5M+oF0YH3vtb0+92J7LKfJwv7GIy2PZO2svVnIeCOvXzEM/7G1n5zmNMYGZkSyf
+ x9dnNCjNl10CmuTYud7zsd3cXDku0T+Ow5Dhnk6l4bbJSYzFEbz3B8zMZGrs9EhqNzTLTZ8S
+ Mznmtkxcbb3f/o5SW9NhH60mQ23bB3bBbX1wUQAmMjaDQ/Nt5oHWHN0/6wLyF4lStBGCKN9a
+ TLp6E3100BuTCUCrQf9F3kB7BC92VHvobqYmvLTCTcbxFS4JNuT+ZyV+xR5JiV+2g2HwhxWW
+ uC88BtriqL4atyvtuybQT+56IiiU2gszQ+oxR/1Aq+VZHdUeC6lijFiQblqV6EjenJu+pR9A
+ 7EElGPPmYdO1WQbBrmuOrFuO6wQrbo0TbUiaxYWyoM9cA7v7eFyaxgwXBSWKbo/bcAAViqLW
+ ysaCIZqWxrlhHWWmJMvowVMkB92uPVkxs5IMhSxHS4c2PfZ6D5kvrs3URvIc6zyOrgIaHNzR
+ 8AF4PXWPAuZu1oaG/XKwzMqN/Y/AoxWrCFZNHE27E1RrMhDgmyzIzWQTffJsVPDMQqDfLBhV
+ ic3b8Yec+Kn+ExIF5IuLfHkUgIUs83kDGGbV+wM8NtlGmCXmatyavUwNCXMsuI24HPl7gV2h n7RI
+In-Reply-To: <20250207090518.GE24886@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1739029021;64fc3945;
+X-HE-SMSGID: 1tgmsy-00FzLO-1o
 
-On 09/12/2024 09:15, Mauro Carvalho Chehab wrote:
-> Em Tue, 3 Dec 2024 14:07:12 +0100
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
-> 
+On 07.02.25 10:05, Laurent Pinchart wrote:
+> Thank you for the patch.
+
+Thx for saying that!
+
+> On Thu, Feb 06, 2025 at 03:30:10PM +0100, Thorsten Leemhuis wrote:
+>> Point out that explicit permission is usually needed to tag other people
+>> in changes, but mention that implicit permission can be sufficient in
+>> certain cases. This fixes slight inconsistencies between Reported-by:
+>> and Suggested-by: and makes the usage more intuitive.
 >>
->> The idea is to gradually open media-committers to more people, as each
->> phase succeeds, addressing infra, procedures, etc.
+>> While at it, explicitly mention the dangers of our bugzilla instance, as
+>> it makes it easy to forget that email addresses visible there are only
+>> shown to logged-in users.
 >>
->> My rough idea is to do:
->>
->> - Phase 0.99: beta testers;
->> - Phase 1 is to invite people that regularly submit PRs;
->> - Phase 2 is to invite other active maintainers;
->> - Phase 3 (or 2?, TBD) to open for non-maintainers.
->>
->> We shouldn't rush it, as there are a lot to be done before opening it
->> broadly. So, I would say that:
->> - phase 0.99 would start in -rc2 (if things go well during this week); 
->> - phase 1 may still happen on this merge window, but as there will be
->>   only a few weeks between -rc2 and -rc6, and people usually get
->>   holidays in Dec/Jan, it is more likely that it will start for
->>   6.14-rc1, again if we didn't notice big issues on phase 0.99.
->>
->>   We should wait at least for a couple of releases on phase 1,
->>   again to cleanup process and fine-tune infra. If things go well, 
->>   we can move to phase 2.
+>> The latter is not a theoretical issue, as one maintainer mentioned that
+>> his employer received a EU GDPR (general data protection regulation)
+>> complaint after exposing a email address used in bugzilla through a tag
+>> in a patch description.
+> [...]
+>> -Be careful in the addition of tags to your patches, as only Cc: is appropriate
+>> -for addition without the explicit permission of the person named; using
+>> -Reported-by: is fine most of the time as well, but ask for permission if
+>> -the bug was reported in private.
+>> +Be careful in the addition of the aforementioned tags to your patches, as all
+>> +except for Cc:, Reported-by:, and Suggested-by: need explicit permission of the
+>> +person named. For those three implicit permission is sufficient if the person
+>> +contributed to the Linux kernel using that name and email address according
+>> +to the lore archives or the commit history -- and in case of Reported-by:
+>> +and Suggested-by: did the reporting or suggestion in public. Note,
+>> +bugzilla.kernel.org is a public place in this sense, but email addresses
+>> +used there are private; so do not expose them in tags, unless the person
+>> +used them in earlier contributions.
 > 
-> After some discussions with Hans, we decided to postpone the
-> beta testers phase to the next kernel cycle. There are a couple of
-> reasons for that:
-> 
-> - This should give us more time to come up with a final version of 
->   the media-committers documentation and agreement;
+> I like this text very much, it's concise and clear.
 
-Where are we with this? I haven't seen any updates since this post.
+Glad to hear!
 
-Personally, I think the CI is ready for more committers, so it would be
-nice if we can get some experience with that.
+> My only possible
+> concern is that "explicit permission" isn't defined. I assume that
+> someone sendubg a Reviewed-by or Acked-by tag in a public mail thread
+> counts as permission, but strictly speaking it's not explicit.
+> 
+> Regardless of that, I think we can clarify what explicit permission
+> means in a follow-up patch. If you would like to merge this one as-is,
 
-Regards,
+Hmmmm. Not totally sure that I exactly understand what you mean, but I
+think I see it. But I'm not sure how to solve that. Would simply
+dropping the "explicit" solve this? Or should I start the section like this:
 
-	Hans
+""
+Be careful in the addition of the aforementioned tags to your patches,
+almost all need permission by the person named; one can be assumed if
+the person provided that tag in a reply or acknowledged its inclusion
+after being made aware that name and email address will end up in public
+places where they can't be removed.
 
-> 
-> - This would also work better with regards to end of year's vacations,
->   as they'll be affecting at least 2/3 -rc versions. Plus, we all have
->   things to finish before such vacations. So, better to start fresh next
->   year;
-> 
-> - Media CI still had issues with a patch series I submitted, as it picked
->   the wrong baseline, causing CI to not test two patches that were
->   applied on the top of media-committers/next branch. This was fixed
->   by Ricardo, but it means that we may still need to polish CI before
->   granting more people righs there.
-> 
-> With that, if we want to start the media committers for 6.14, we should
-> aim to close review this document by -rc6, or, at most, -rc7, getting 
-> the patches merged during the next merge window.
-> 
-> Regard
-> 
-> Thanks,
-> Mauro
-> 
+The tags Cc:, Reported-by:, and Suggested-by: are an exception: for
+those three implicit permission is sufficient, ...
+"""
 
+Ciao, Thorsten
