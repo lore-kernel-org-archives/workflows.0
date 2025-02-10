@@ -1,76 +1,69 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E02C1C5D7C;
-	Mon, 10 Feb 2025 11:15:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 495082580C8;
+	Mon, 10 Feb 2025 16:17:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739186114; cv=none; b=eLbEmW7cBhDmtIs1Q7/iOSSRDMLDZPiM27be47z75VNo3/llFQOas6v9to1MEFeDh6bxyD0/j/YLAnE3LKR0Mj1QlJrh5Ty6GLs+hzul58nDdw56uiyMtUiEKuPISapI99N9TNtZd1XOzbSDVeckJlqQUuN4Hhqj11PF2b1DQ14=
+	t=1739204229; cv=none; b=WHU9vUXUl6jYTIHBfDjVr1dtzD8bi4sRLeZOacmNtSF5GUs3WbtP9oMg6uuA8iu1KaY+EKYcEaKTki0F3FlXFDtnAhCHMTgO+ISbj934NxcJU5DRRkVXM7MN9wUDi5iDTr6O5rvVi0FjBlYExIj3dbp/nUV4MacdJcqA2RvfJ10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739186114; c=relaxed/simple;
-	bh=5CBqDfYk0oFqMBufkZckF4ZUcwXX+m/vSHvF0rrzvWQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZOHaUGhlZEsOfY5oa3U4r+8RDks9e7LrzFkrnICLGNVIf5+eePev4DlgqPEpZp5uoGzm5+M6+uB6xD3rTlJZfnYJiU90+VyDxvnSAC9+P74uVxYLU12yL/MEMAa90f8o7+egC8iLi549tdKd/73/u1c6WQRVsSJKd+Ji/99XIL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cw61DjqK; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1739204229; c=relaxed/simple;
+	bh=LBFXb/q8egi7aIgS1a/3CHKLjebuCXgihE4lRbZKC3k=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=p99Or570wt/1MuLmDkMnU0IJjxUoMmADRvLLWqCstna0GkFWW4xfmxWrlrWAnl1qawsGb/TDMaI9NRpDhPAKigqAUx1n/Ryqe7K/Xj3QjX7PB/dz4OUo7MB1HCpVeEzAG7oZGzbtb/xMoLS5eEpzW8Tt1VD+82USESeItZc/Nb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hieS5rm5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cw61DjqK"
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 14815352;
-	Mon, 10 Feb 2025 12:13:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1739186034;
-	bh=5CBqDfYk0oFqMBufkZckF4ZUcwXX+m/vSHvF0rrzvWQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cw61DjqKaw7PXxQCCiwrbqPgnn0D4nalMo8V9cnkjFNi432mQszqyzPYk7e3j9lxB
-	 XUGZnn6e5C/vQO5o8wC3GAYdgCntxcHhq+e3Rlzjy0xred0b+g+R/PB0U0tbUU/8Ty
-	 4zgRXFAk/VrrIni2ntTpQyHuQJBP9raAD2P6hOOk=
-Date: Mon, 10 Feb 2025 13:15:01 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hieS5rm5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD704C4CEF0;
+	Mon, 10 Feb 2025 16:17:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739204228;
+	bh=LBFXb/q8egi7aIgS1a/3CHKLjebuCXgihE4lRbZKC3k=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=hieS5rm5ILhtBNITlfSOIS2HNBE7LoGeT1ZcLDYwxLHkBXszSXF85vadt/qgxJk6p
+	 un1Ngt+H/xPFt0DbdYMlcqKhG6hmqpISHLeSQT/X94pWMPYJrMHcWI+xyuohziJE9H
+	 dwMPnSgdl4S/ShJg5LQm7zauiJpxIdepytkvpdOf7A7ZPE2np3CXMe9wkOBu9urCQM
+	 ZwX/+18vnohSZAUQZwLiYYXvCG3cOXaoJgB6yJFn++4dmBF2HjpGwlthB8ecX1345t
+	 RuhaBBoSzY77jr6YKluok+GZKMAJFr394VUMUVHcX+nIEMaaLeEi7dsXdUAGLOVldk
+	 lWfGHNQbcHxqQ==
+Date: Mon, 10 Feb 2025 17:16:58 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Simona Vetter
+ <simona.vetter@ffwll.ch>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Shuah Khan <skhan@linuxfoundation.org>
 Subject: Re: [PATCH v4] docs: clarify rules wrt tagging other people
-Message-ID: <20250210111501.GF2966@pendragon.ideasonboard.com>
+Message-ID: <20250210171658.5eb4dc2e@sal.lan>
+In-Reply-To: <559e84cc-4da3-45a5-9ff0-2283d2c53d0a@leemhuis.info>
 References: <588cf2763baa8fea1f4825f4eaa7023fe88bb6c1.1738852082.git.linux@leemhuis.info>
- <20250207090518.GE24886@pendragon.ideasonboard.com>
- <f50c7b22-2b31-47d2-8353-41d80f5241c1@leemhuis.info>
+	<Z6Vk-7OgDB3DM7Yb@archie.me>
+	<559e84cc-4da3-45a5-9ff0-2283d2c53d0a@leemhuis.info>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <f50c7b22-2b31-47d2-8353-41d80f5241c1@leemhuis.info>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sat, Feb 08, 2025 at 04:36:47PM +0100, Thorsten Leemhuis wrote:
-> On 07.02.25 10:05, Laurent Pinchart wrote:
-> > Thank you for the patch.
-> 
-> Thx for saying that!
-> 
-> > On Thu, Feb 06, 2025 at 03:30:10PM +0100, Thorsten Leemhuis wrote:
-> >> Point out that explicit permission is usually needed to tag other people
-> >> in changes, but mention that implicit permission can be sufficient in
-> >> certain cases. This fixes slight inconsistencies between Reported-by:
-> >> and Suggested-by: and makes the usage more intuitive.
-> >>
-> >> While at it, explicitly mention the dangers of our bugzilla instance, as
-> >> it makes it easy to forget that email addresses visible there are only
-> >> shown to logged-in users.
-> >>
-> >> The latter is not a theoretical issue, as one maintainer mentioned that
-> >> his employer received a EU GDPR (general data protection regulation)
-> >> complaint after exposing a email address used in bugzilla through a tag
-> >> in a patch description.
-> > [...]
+Em Fri, 7 Feb 2025 09:24:56 +0100
+Thorsten Leemhuis <linux@leemhuis.info> escreveu:
+
+> On 07.02.25 02:42, Bagas Sanjaya wrote:
+> > On Thu, Feb 06, 2025 at 03:30:10PM +0100, Thorsten Leemhuis wrote:  
+> >> diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
+> >> index dbb763a8de901d..22fa925353cf54 100644
+> >> --- a/Documentation/process/5.Posting.rst
+> >> +++ b/Documentation/process/5.Posting.rst
+> >> @@ -268,10 +268,15 @@ The tags in common use are:
+> >>   - Cc: the named person received a copy of the patch and had the
+> >>     opportunity to comment on it.
+> >>  
 > >> -Be careful in the addition of tags to your patches, as only Cc: is appropriate
 > >> -for addition without the explicit permission of the person named; using
 > >> -Reported-by: is fine most of the time as well, but ask for permission if
@@ -83,51 +76,25 @@ On Sat, Feb 08, 2025 at 04:36:47PM +0100, Thorsten Leemhuis wrote:
 > >> +and Suggested-by: did the reporting or suggestion in public. Note,
 > >> +bugzilla.kernel.org is a public place in this sense, but email addresses
 > >> +used there are private; so do not expose them in tags, unless the person
-> >> +used them in earlier contributions.
+> >> +used them in earlier contributions.  
 > > 
-> > I like this text very much, it's concise and clear.
-> 
-> Glad to hear!
-> 
-> > My only possible
-> > concern is that "explicit permission" isn't defined. I assume that
-> > someone sendubg a Reviewed-by or Acked-by tag in a public mail thread
-> > counts as permission, but strictly speaking it's not explicit.
-> > 
-> > Regardless of that, I think we can clarify what explicit permission
-> > means in a follow-up patch. If you would like to merge this one as-is,
-> 
-> Hmmmm. Not totally sure that I exactly understand what you mean, but I
-> think I see it.
+> > So for example I can only include Tested-by: when a contributor who tested
+> > my patch explicitly offer the tag by replying to it i.e. with the tag, right?  
+> At some point a text must leave the interpretation up to the reader. I
+> would say a "yes, that's okay" to the question "is it okay to add a
+> 'tested-by' tag in the patch description; note, your name and email
+> address will then end up in the commit history and can not be removed
+> there" is sufficient "permission" as well.
 
-What I meant is that I interpret "explicit" as requiring an explicit
-mention of permission (e.g. "You can add my tag to the commit"), while
-replying to a patch with a tag on a public list seems to me to convey an
-implicit permission instead.
+For me, it sounds reasonable to accept a public reply about someone
+testing a patch as a reason to add a tested-by tag. Yet, I don't add 
+tested-by myself based on replies. What I do when someone sends 
+a reply saying that the patch was tested is to request the tester to 
+reply with a tested-by with a short description about the test scenario.
 
-> But I'm not sure how to solve that. Would simply
-> dropping the "explicit" solve this? Or should I start the section like this:
+IMO it is important to ask it to the tester, not only to have an explicit
+tag, but also because as a simple tested-by without a test scenario is 
+usually not very useful. 
 
-Dropping "explicit" seems to be the simplest solution, but the next
-sentence mentions "implicit permission" which would then sound weird.
-
-> ""
-> Be careful in the addition of the aforementioned tags to your patches,
-> almost all need permission by the person named; one can be assumed if
-> the person provided that tag in a reply or acknowledged its inclusion
-
-"in a reply to a public list"
-
-> after being made aware that name and email address will end up in public
-> places where they can't be removed.
-> 
-> The tags Cc:, Reported-by:, and Suggested-by: are an exception: for
-> those three implicit permission is sufficient, ...
-> """
-
-This sounds good to me.
-
--- 
 Regards,
-
-Laurent Pinchart
+Mauro
