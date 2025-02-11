@@ -1,62 +1,131 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9080179A7;
-	Mon, 10 Feb 2025 18:45:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDB1C26BD8B;
+	Tue, 11 Feb 2025 06:19:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739213153; cv=none; b=A1aJtdNg1n6xH+zK+bsN8TkELAMxYxHiPGOuv0bQ9P8RwnhQ+9zKTuIH77mcXvTQcTQEK6SB+qRQ49if83gfyO71Cr7ZUh4mBgGt3wwgEphju7kPYuUBEge5JdA+XvLyuhuklfmmPQTTGg9YX+/5dWjcJZqI70gw/P6NVZnikmc=
+	t=1739254775; cv=none; b=Qj+Xv55rpUsXgrlmMot8+Z4ZqUJtRSub0Rqp/LbvOB+yQ7EImAc/p0FEaZl/fWTg1cbUMcX4lIA8Z35FYNksgRyeqhfgWwQC0V3PBYj30UbX9TjaTU85Bh7Pj6KOXnl4I11nmH7fzAPJoFTKKRGhBrOP6dRz9j9h6/vTH6/TA38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739213153; c=relaxed/simple;
-	bh=OxufUJ2o8T+Klj4kZfDcOK7+unCwgJzZhMweXndRD0k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DoL4ukS1LjoWzp8IFglqMajcnLWakwb6BqK501DCErkWvJO0n6UffxO4oQvhb92I8NJqWiqJUyFno/7HNvreu12cqVX8bwVqiadRogUHfIBJAtqGhK/PlYYdt+mVtUbR9Vwc8Z3o7W5U8psWs1gyQQCKPRibkV1ZxZBiu3IegfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=h8ui4Wzg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739254775; c=relaxed/simple;
+	bh=9gUKRbIH8PW7un4AbT4YS+PykDeaoCnYPWliu3YmUt4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gUIlZq765QtH23qTrgI7ks8tZ4kE7hZBPcET7YXFynFlEgN1BcZVSG1WYZ0Wk0PxprRw76pfBs48ph+isZk4VlmmPYm/eQfhLjKJJJ++soohK7i8uldS8xRmBybAPdSxKdb79ImOG8FSSZAAW9RmX83RT9NutDcx6EAEIzB3g7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TImFix7B; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="h8ui4Wzg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33E3EC4CEE6;
-	Mon, 10 Feb 2025 18:45:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1739213152;
-	bh=OxufUJ2o8T+Klj4kZfDcOK7+unCwgJzZhMweXndRD0k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=h8ui4WzgSvRoxWZZuq8i1g+IsdmdYp7SPqvWQFSMPTmytq6CA0BBLZg7F1V0QEXJb
-	 BvnnbuC9R0hqDaSMQ2DtZ7pmAUBku2rZxZR5I2gB+DmNvcVoSsRXLCAcDfFC0tt9M/
-	 bIzqvHoSgXT550nitTT6i6NfZTxaVMHYjHYyuFMc=
-Date: Mon, 10 Feb 2025 13:45:48 -0500
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Jakub Kicinski <kuba@kernel.org>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: submitting-patches: document the format for
- affiliation
-Message-ID: <20250210-judicious-inquisitive-guppy-6deea5@meerkat>
-References: <20250203174626.1131225-1-kuba@kernel.org>
- <87cyfpzlu1.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TImFix7B"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CACCC4CEDD;
+	Tue, 11 Feb 2025 06:19:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739254774;
+	bh=9gUKRbIH8PW7un4AbT4YS+PykDeaoCnYPWliu3YmUt4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=TImFix7B7nuVRUHCPpzaAxs6MfItH/mdJHmyl2+Cw3KmsJy7IBTGnrgMDmTfWMPFw
+	 8a3BjgdWSUwRFoSooUum4L+BfpifJyOxWBotIJNbKvpdgcdBFqG59UrQemNfsqjxYY
+	 jMdk6iihzNFqf9e3GxakkOkwb/rEsPfi7O4N7pgDYahde+8rpvchAHvV04onrklxsR
+	 PPVY5KHbN7hKtXZPKsjosgJe2+Kmju4/XJd7UkcdOK/Etmtqi8lXNHNczYI6jCTOnd
+	 uqnehqkQUrtjyl5rCvfVqSv9YMqB2lk1NOJpW1u+vRtQgFR9EaYU1QQ+veOF48WQnE
+	 SfKwqnTh778Fw==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1thjcK-00000008Y6S-1mT1;
+	Tue, 11 Feb 2025 07:19:32 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	bpf@vger.kernel.org,
+	llvm@lists.linux.dev,
+	workflows@vger.kernel.org
+Subject: [PATCH 0/4] Raise the bar with regards to Python and Sphinx requirements
+Date: Tue, 11 Feb 2025 07:19:00 +0100
+Message-ID: <cover.1739254187.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87cyfpzlu1.fsf@trenco.lwn.net>
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On Mon, Feb 10, 2025 at 11:38:46AM -0700, Jonathan Corbet wrote:
-> So, despite all the conversation, I didn't see any real opposition to
-> adding this change, so I've applied it.
-> 
-> Amusingly, b4 helpfully picked up these tags from the conversation:
-> 
->  + Signed-off-by: John Doe <jdoe@example.com> (✓DKIM/infradead.org)
->  + Signed-off-by: Mr Maintainer <jdoe@example.com> (✓DKIM/kernel.org)
->  + Signed-off-by: Jane Maintainer <jdoe@example.com>
-> 
-> Tempting as it was to leave them in, I took them out :)
+This series  increases the minimal requirements for Sphinx and Python, and
+drop some backward-compatible code from Sphinx extension.
 
-We should probably have something like "neverdomains" that includes
-"example\..*", so I'm going to make a note of this.
+Looking at Sphinx release dates:
 
--K
+	Release 2.4.0 (released Feb 09, 2020)
+	Release 2.4.4 (released Mar 05, 2020) (current minimal requirement)
+	Release 3.4.0 (released Dec 20, 2020)
+	Release 3.4.3 (released Jan 08, 2021)
+
+	(https://www.sphinx-doc.org/en/master/changes/index.html)
+
+And Python release dates, we have:
+
+	Python	Release date 
+	3.5	2015-09-13    (current minimal requirement)
+	3.6	2016-12-23
+	3.7 	2018-06-27
+	3.8 	2019-10-14
+	3.9 	2020-10-05
+	3.10	2021-10-04
+
+	(according with https://en.wikipedia.org/w/index.php?title=History_of_Python)
+
+The new minimal requirements are now compatible with the toolset available on Jan, 2021,
+e.g.:
+	- Sphinx 3.4.3;
+	- Python 3.9
+
+The new Sphinx minimal requirement allows dropping all backward-compatible code
+we have at kernel-doc and at Sphinx extensions.
+
+The new Python minimal requirement also matches the current required level for
+almost  all scripts (*).
+
+Those matches a 4-years old toolchain, which sounds a reasonable period
+of time, as Python/Sphinx aren't required for the Kernel build.
+
+(*) Except for a couple scripts inside tools that require python 3.10:
+
+    $ vermin -v $(git ls-files '*.py')|grep 3.10
+    !2, 3.10     tools/net/sunrpc/xdrgen/generators/__init__.py
+    !2, 3.10     tools/net/sunrpc/xdrgen/generators/program.py
+    !2, 3.10     tools/net/sunrpc/xdrgen/subcmds/source.py
+    !2, 3.10     tools/net/sunrpc/xdrgen/xdr_ast.py
+    !2, 3.10     tools/perf/scripts/python/mem-phys-addr.py
+    !2, 3.10     tools/power/cpupower/bindings/python/test_raw_pylibcpupower.py
+
+Such scripts aren't required for Kernel builds, so it should be OK to set minimal
+python version to 3.9.
+
+Mauro Carvalho Chehab (4):
+  docs: changes: update Sphinx minimal version to 3.4.3
+  docs: changes: update Python minimal version
+  docs: extensions: don't use utf-8 syntax for descriptions
+  scripts/kernel-doc: drop Sphinx version check
+
+ Documentation/conf.py                       |   2 +-
+ Documentation/process/changes.rst           |   4 +-
+ Documentation/sphinx/cdomain.py             |   7 +-
+ Documentation/sphinx/kernel_abi.py          |   6 +-
+ Documentation/sphinx/kernel_feat.py         |   4 +-
+ Documentation/sphinx/kernel_include.py      |   4 +-
+ Documentation/sphinx/kerneldoc.py           |   5 -
+ Documentation/sphinx/kfigure.py             |  10 +-
+ Documentation/sphinx/load_config.py         |   2 +-
+ Documentation/sphinx/maintainers_include.py |   4 +-
+ Documentation/sphinx/rstFlatTable.py        |  10 +-
+ scripts/kernel-doc                          | 129 +++-----------------
+ 12 files changed, 41 insertions(+), 146 deletions(-)
+
+-- 
+2.48.1
+
+
