@@ -1,38 +1,38 @@
 Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 275421EA7F1;
-	Tue, 11 Feb 2025 08:45:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D641B1EE7B7;
+	Tue, 11 Feb 2025 08:48:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739263531; cv=none; b=ft73wtVoqcbR3mS1k1YXXuBVnx6P2FDEJmaTG7+aOJgyqOChxBF0BBEgmBbvuPo89Y0RLMOPZrTiqRlqCKDCoqUHm93rfNtkAFdSF8W+dkpv9YzZiqSn63SaHRWfZbjFKhAxnPRfpBrEPPuMTgguGOBrQueYPNG07DvrOO1i/50=
+	t=1739263721; cv=none; b=E+eQNDKJfFO9iT/pnrOWGj5vYBGnlegM3ZXjerV9mFHxkqRac7FQdnAzvJpHz95hBWsiF7YeUvVdMUxVeC3wRtNcYRSLcwJt/jTsf6uZ73tkNpupkmNB+1jgLkpTUkON+siu02I/ufWEcTJVFGOS2FtrwTQJaVJu5Snr3NcRLxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739263531; c=relaxed/simple;
-	bh=r7i5OIfvpHIuCNrkrP5o+cryO3m3MlIt3NKg50L9zZ8=;
+	s=arc-20240116; t=1739263721; c=relaxed/simple;
+	bh=aJjZbm/TVVYULmFdNknqyvYMz98ycVAYskAOxthr1DM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=k3EKDc00pNK2sUsUuSAD4NfDUNeana/iinnNn9ZfX5pDnFmwcs9/UcYzu3OproGveGD89OmI0dFxTuL6H1sEgW+hjNOmwNCWrQ1EhiMj4mbqr2KcxiMo4uhbIDIuJeBI01WgBVP5brM2xJXqsN3PU+TRPxl0Zs/8URhJJX0ICZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=oY0RyXno; arc=none smtp.client-ip=80.237.130.52
+	 In-Reply-To:Content-Type; b=FbGkFVAwd6/HiWsYAkBnklU4z5zQreQpjfFDaVj3r+WM02koRmy1xhIjGPYDx3E2gwpRvOM2I9olGiFTuZqmX5Xla/TRMQwtv8eZsv1jT4OIiq/Mm0gbM7vUjwkin2PcbwmDzopoJhS5x6OAqm3Mdjkn+54nC91j8kr7ZrSjrRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=L2HN/ohs; arc=none smtp.client-ip=80.237.130.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="oY0RyXno"
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="L2HN/ohs"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
 	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:
 	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
 	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=5LUJh4mH74sc3fYsMDckuN3SVRfckVBlLGA6/IRgs3M=; t=1739263529;
-	x=1739695529; b=oY0RyXnovFVhX2cuignDMNcmTvuk4+6JvyqxlGvj0FiIamxDt9xDYTAWOyKQt
-	KUkokHcWqzKDZtpglRJGWmWLGY/8/JqsbvBrvibnfoi9XMIb7WJGLW9BRfCVJssM4OjgOmVFue6N1
-	1A+bA6IPtqzcWcGW+Uos+UNIH+htFXnFgC3vzaWk5b4xyQqbncyyw94mOM30kfkCpCkZzn9icNP6V
-	+UvgoW3P+JOsHqEy3eKgc8ejlTP1TASA5/nJ1TJJVhw9XqCXuKlUVKAryDQZ3CzlcO0+RcTyHEtnR
-	i0kZqvnckIAWwFKFn0gJcaAkUrSbAW0Zi7KNhDyADz6NZwF2TA==;
+	References; bh=wYaN1C80ulJlmrPA976aztO+qWkAhsYsZRG2qTlgq+g=; t=1739263719;
+	x=1739695719; b=L2HN/ohs0gurnjnOhuJJ3fP/qd2HMt7fGLshTApro2YuLZbStLT1JUa24sOTz
+	ma3NxTbzRs68R854sWdX8lpd5sP52VTUy7/b05RTY5NEZtNBXpC5uBqgdpjmNSbydmTBhV7LKb2eS
+	dDkTgPEQhJgSCt7GxvAYLNM1mdKhVQOlsuM16RnoQx/3hfH91HhyY0WytirbvGZYWDd6XTXN7oxAE
+	aHxop5pDQZeg5jgKkNSSUA2fB70QNmcbvLIqg8YF0TtxuZi3QV5h8P8giCYC1VGMS7OJMIv9MBTyK
+	H8eGRFXkfxUbMisXWQTsIyEPdYhAUzxOLdUXMrTFVcgRHzd7RQ==;
 Received: from [2a02:8108:8984:1d00:a0cf:1912:4be:477f]; authenticated
 	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128)
-	id 1thltU-00AzLL-0U;
-	Tue, 11 Feb 2025 09:45:24 +0100
-Message-ID: <e56d7767-d222-43d9-be2c-4ab5135ccacd@leemhuis.info>
-Date: Tue, 11 Feb 2025 09:45:23 +0100
+	id 1thlwb-00B08d-0j;
+	Tue, 11 Feb 2025 09:48:37 +0100
+Message-ID: <8b87b297-b68b-4276-95ae-e04650c3360f@leemhuis.info>
+Date: Tue, 11 Feb 2025 09:48:36 +0100
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -41,18 +41,16 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v4] docs: clarify rules wrt tagging other people
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Simona Vetter <simona.vetter@ffwll.ch>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Shuah Khan <skhan@linuxfoundation.org>
 References: <588cf2763baa8fea1f4825f4eaa7023fe88bb6c1.1738852082.git.linux@leemhuis.info>
- <Z6Vk-7OgDB3DM7Yb@archie.me>
- <559e84cc-4da3-45a5-9ff0-2283d2c53d0a@leemhuis.info>
- <20250210171658.5eb4dc2e@sal.lan>
+ <87y0ydzn1q.fsf@trenco.lwn.net>
 From: Thorsten Leemhuis <linux@leemhuis.info>
 Content-Language: de-DE, en-US
 Autocrypt: addr=linux@leemhuis.info; keydata=
@@ -98,62 +96,84 @@ Autocrypt: addr=linux@leemhuis.info; keydata=
  ysaCIZqWxrlhHWWmJMvowVMkB92uPVkxs5IMhSxHS4c2PfZ6D5kvrs3URvIc6zyOrgIaHNzR
  8AF4PXWPAuZu1oaG/XKwzMqN/Y/AoxWrCFZNHE27E1RrMhDgmyzIzWQTffJsVPDMQqDfLBhV
  ic3b8Yec+Kn+ExIF5IuLfHkUgIUs83kDGGbV+wM8NtlGmCXmatyavUwNCXMsuI24HPl7gV2h n7RI
-In-Reply-To: <20250210171658.5eb4dc2e@sal.lan>
+In-Reply-To: <87y0ydzn1q.fsf@trenco.lwn.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1739263529;fd106dbe;
-X-HE-SMSGID: 1thltU-00AzLL-0U
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1739263719;97e15bf5;
+X-HE-SMSGID: 1thlwb-00B08d-0j
 
-On 10.02.25 17:16, Mauro Carvalho Chehab wrote:
-> Em Fri, 7 Feb 2025 09:24:56 +0100
-> Thorsten Leemhuis <linux@leemhuis.info> escreveu:
+On 10.02.25 19:12, Jonathan Corbet wrote:
+> Thorsten Leemhuis <linux@leemhuis.info> writes:
+>> Point out that explicit permission is usually needed to tag other people
+>> in changes, but mention that implicit permission can be sufficient in
+>> certain cases. This fixes slight inconsistencies between Reported-by:
+>> and Suggested-by: and makes the usage more intuitive.
+>>
+>> While at it, explicitly mention the dangers of our bugzilla instance, as
+>> it makes it easy to forget that email addresses visible there are only
+>> shown to logged-in users.
+>>
+>> The latter is not a theoretical issue, as one maintainer mentioned that
+>> his employer received a EU GDPR (general data protection regulation)
+>> complaint after exposing a email address used in bugzilla through a tag
+>> in a patch description.
+> [...]
+>> Jonathan, what do you think of this? I felt somewhat unsure about this a
+>> few weeks ago, but I guess I was overly careful. If you think this
+>> change is fine and shouldn't cause any trouble for anyone, feel free to
+>> merge this. And if not, please speak up.
 > 
->> On 07.02.25 02:42, Bagas Sanjaya wrote:
->>> On Thu, Feb 06, 2025 at 03:30:10PM +0100, Thorsten Leemhuis wrote:  
->>>> diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
->>>> index dbb763a8de901d..22fa925353cf54 100644
->>>> --- a/Documentation/process/5.Posting.rst
->>>> +++ b/Documentation/process/5.Posting.rst
->>>> @@ -268,10 +268,15 @@ The tags in common use are:
->>>>   - Cc: the named person received a copy of the patch and had the
->>>>     opportunity to comment on it.
->>>>  
->>>> -Be careful in the addition of tags to your patches, as only Cc: is appropriate
->>>> -for addition without the explicit permission of the person named; using
->>>> -Reported-by: is fine most of the time as well, but ask for permission if
->>>> -the bug was reported in private.
->>>> +Be careful in the addition of the aforementioned tags to your patches, as all
->>>> +except for Cc:, Reported-by:, and Suggested-by: need explicit permission of the
->>>> +person named. For those three implicit permission is sufficient if the person
->>>> +contributed to the Linux kernel using that name and email address according
->>>> +to the lore archives or the commit history -- and in case of Reported-by:
->>>> +and Suggested-by: did the reporting or suggestion in public. Note,
->>>> +bugzilla.kernel.org is a public place in this sense, but email addresses
->>>> +used there are private; so do not expose them in tags, unless the person
->>>> +used them in earlier contributions.  
->>>
->>> So for example I can only include Tested-by: when a contributor who tested
->>> my patch explicitly offer the tag by replying to it i.e. with the tag, right?  
->> At some point a text must leave the interpretation up to the reader. I
->> would say a "yes, that's okay" to the question "is it okay to add a
->> 'tested-by' tag in the patch description; note, your name and email
->> address will then end up in the commit history and can not be removed
->> there" is sufficient "permission" as well.
+> I have a couple of thoughts, neither of which is sufficient for me to
+> oppose the change if there is consensus for it:
 > 
-> For me, it sounds reasonable to accept a public reply about someone
-> testing a patch as a reason to add a tested-by tag. Yet, I don't add 
-> tested-by myself based on replies. What I do when someone sends 
-> a reply saying that the patch was tested is to request the tester to 
-> reply with a tested-by with a short description about the test scenario.
-> 
-> IMO it is important to ask it to the tester, not only to have an explicit
-> tag, but also because as a simple tested-by without a test scenario is 
-> usually not very useful. 
+> - You're saying that people need to grep email addresses out of the git
+>   history before crediting them in a tag; that's not a step we have
+>   required of people before and seems like a bit much..?
 
-I see your point, but I'd say it is useful enough: if that patch causes
-a regression you immediately know whom to CC to test a fix for that
-regression.
+Do I? I don't think so. The phrase used is "name and email address
+according to the lore archives *or* the commit history". I'd say that is
+no extra work in most cases, as developers frequently interact with the
+same set of people. And when not: most development happens by mail, so
+all that is needed is a simply simple "is some list archived on lore
+among the recipients". But sure, if you deal with someone in bugzilla or
+say gitlab.freedesktop.org it becomes somewhat harder.
 
-But maybe my view is just biased here. ;-)
+
+> - It would be awfully nice if we could provide this advice in exactly
+>   one place in the document.  This is one of our most important docs,
+>   and it is far too long to expect new contributors to read through and
+>   absorb.  Avoiding making it longer and more repetitive would be
+>   better, if we can.
+
+Well, in 5.Posting.rst that was possible. In submitting-patches.rst that
+conflicted with existing text in three areas, so some changes were
+needed; in one case the new text even got a little shorter, but overall
+those changes did not add a single new line.
+
+But sure, the new paragraph added a few lines. And it is identical in
+both documents. But that is a more complex and existing situation this
+patch can't solve. But of course I could avoid adding the new paragraph
+to submitting-patches.rst and change the "(see 'Tagging people requires
+permission' below for details)" added there already into "(see 'Tagging
+people requires permission' in Documentation/process/5.Posting.rst for
+details)". Given that people requested a even more detailed paragraph
+(see the other reply I just sent to Laurent) that might be wise; OTOH
+submitting-patches.rst right now AFAICS tries to be stand-alone, so it
+feels wrong at the same time.
+
+IOW: both is fine for me. Could you let me please know what you prefer?
+
+> - I wonder if it would make sense to say that, if an implicit-permission
+>   tag has been added, the person named in it should get at least one
+>   copy of the change before it is merged?
+
+Hah, that is where I'd start to say "that seems like a bit much". And it
+does not help, as the cat is out of the bag once that copy is out, as
+the name and the email address someone might prefer to keep private
+would have made it to mailing list archives then already.
+
+> OK, three thoughts, you know what they say about off-by-one errors :)
+
+:-D
 
 Ciao, Thorsten
