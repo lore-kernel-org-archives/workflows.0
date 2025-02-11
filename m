@@ -1,225 +1,209 @@
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 954251E5726
-	for <workflows@vger.kernel.org>; Tue, 11 Feb 2025 10:32:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74811C5D40;
+	Tue, 11 Feb 2025 10:48:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739269948; cv=none; b=WK6bUkaN7oQp7H9VGHRe5p1xcq8/iNIp7CZCj5gbpj2Fi257YMZ/lBhIMQuREuDwvQcwRmnJzsVhQlnwV6cB/DAHU0mZ3N7mAOD/istvaq4CyJlrpKbsY0hvWwGIN/yAsFS2nGLkoXgkn807JJG+SuZWeYs+5OtaRm9mxdeql9Y=
+	t=1739270911; cv=none; b=kH8RDNmV18b9ciSMOB0aDBGALJF2azXcA3SBTMo0D9XXHUT4YxHiisuq0LD6JwcVEHLP32GagR8tNrNxI1dk56Y69/YhI12/JbwDzDaN3gBR/gZTY4xIldG3jeP7REnGXCsddQXGgx56llOOZwgPYwrpzDSuHBIq/TES4BNGYG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739269948; c=relaxed/simple;
-	bh=w63Y7CdySXiNEBrlXLpVDv44ltZ/eunR/96BkjIzWl8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EXHiuBmauLf/NSw+FTMdoNQk/m7cjhsCkuh2Rg8hRcJTYGROMKGLKueumb5pSXbCZxsrPF0qr46P+jZakUBnrzQut39uYvQmSJLImsiejV0G2jwMpo/RUEhqP3b6xparUFvmgejwHmg0lNS0vPfQxCCEsKzigxtgiS5GtO1QyyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=E5gZY1Os; arc=none smtp.client-ip=209.85.218.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="E5gZY1Os"
-Received: by mail-ej1-f66.google.com with SMTP id a640c23a62f3a-ab7e9254bb6so29721966b.1
-        for <workflows@vger.kernel.org>; Tue, 11 Feb 2025 02:32:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1739269944; x=1739874744; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=M0yLasoamk0iZKc/1URT52HRA1WbzmjHTzzeFRUfCcY=;
-        b=E5gZY1Os651frAidogXScvoRhhTseaSx2LrGW0fpt/NQ4Nti02Z/NoGBOkzcMr4vw+
-         6ficVC1kPpCVlhvVtVMfDjG2SO8WqyQzS2v1662kMJhO3tmXXHApXnCHNuCJ6ToY6l+i
-         0wkXvTP3CZ6eSRao+57FfxxzUW2mkKxu1FJez2Uti0Sg1L8dD6w5di1FnR5kKuwD6IwW
-         e5ogPFwKPTHrVLBeMKX0WZqeEqJdA+osC9yrh2nGptwTLgXOFpgbAk9egyr8ITfmG4eM
-         3tTdBoSHYA1POZ4V0Vr22Bxs7iGdsONAzfUlNUCJTOOsbhtVtWwK96LT3xuqvPboJLVK
-         gjwA==
+	s=arc-20240116; t=1739270911; c=relaxed/simple;
+	bh=UerPirAcW+nkYfZL4ZWlBNq/4Xh35eAiYuHhOLWAPos=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Di/PiyDSV2uNQv213/zYdhDnaqKnJElGFkMkq2yokHcMjRyE0YOc3yv6U24s/dwRn5Tv1Tk0ypwyH8OxAc2pXG6BZfi+yJ1qTq0qbKETVtOsk85MkLqr28QRA6HT320+Mkr7gC0mD4E8exLpZNR4KRbjfa3tfLYa1ak0JQ/4ttg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-4bbe470bc3fso338083137.0;
+        Tue, 11 Feb 2025 02:48:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739269944; x=1739874744;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=M0yLasoamk0iZKc/1URT52HRA1WbzmjHTzzeFRUfCcY=;
-        b=cNkJJtqDNEvYdtDYDK1laRDyC5wgfPf126B4bCwhvQgd3gAZJBxkxaMimjGyIgTqwx
-         2hrRnPfXtyepNAHuCpKItACIUwMj7NOnDM2FHbphd+AldXHGkkWl9MKMvPzGqEYvOZwQ
-         b4SDhPcg7zCozxI/o1gd0LXr+pb7DYM3nXcgokjgE+h1QdjYsW9cJlgvgm3tqIGw3PdC
-         XgAoDht8LqtchrXHzm5zqe7Lgn3BevbbRPiYkqqfiIc5SDU3oTtBGozABuw9kfCthmeR
-         fER4Urmj1f/gFgi9y9ivs4g5tqDLvKKti779BJyMlJAVzwRMdVwhWgeIJYDDmenGcz+b
-         0J3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXzwAGUmIj2CuoiI3iYPZ5CbU/P2zlopEMyKEJvuX1t1VWUM4k9BSJ6HJS2B+vwd4rAxUIZPrxHiRw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4/W+HlB1DTEqb/Zx1ISPDs8d5CyHRbIsZFU7J4iBWARdbOxd7
-	TqosVDp7cGEGiyasQ/Y7weHEIOO7ELcUC5VghtM5/5uJs60lIYeiHxJ4ZsvzvIE=
-X-Gm-Gg: ASbGncsvqz8SY0/yMcyw07RQgtAfrbuyrWiA/rsckzBFbXfUfN2eEbQ1W2UdkpZXInE
-	nqw/FoUTvG37QWvShppuPyr02uJjkeDtEFXsGvNM+EUDyoKx4hLilD70BLciW4qGf3CCf8aRxXt
-	r9188kW68Npc7U5fww4GLGTE58iHBd0fLb9i3UJWFdk19QD7UJ5LzF3v880OMkhKCCZPWBZesY9
-	4ZPz+eouVCNDx2Pty6Lab+SmWOxVeOdL4CBk/pYgSY4mV7qQcNp4UjuDEG5oiRXV9tYoS7+KCIx
-	s9kIlqkdSQbOn85uy+fBYwt5Q2HltPfP7E/nZOWdDgvRmUs/HQNAryZI7w==
-X-Google-Smtp-Source: AGHT+IGMf65w2KZ71XB7DG3+IsqQbafXRMHudaXgA2XcbRe3nKeXX4+v4pxIqUh75A9POaOb6Z8Wvg==
-X-Received: by 2002:a17:907:3da7:b0:ab3:a18f:fe7f with SMTP id a640c23a62f3a-ab789aeacd7mr1759262266b.28.1739269943684;
-        Tue, 11 Feb 2025 02:32:23 -0800 (PST)
-Received: from localhost (p200300f65f018b0400000000000001b9.dip0.t-ipconnect.de. [2003:f6:5f01:8b04::1b9])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab7ced6fe0dsm254720166b.179.2025.02.11.02.32.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Feb 2025 02:32:23 -0800 (PST)
-Date: Tue, 11 Feb 2025 11:32:21 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Joe Perches <joe@perches.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, workflows@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>, 
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Thorsten Leemhuis <linux@leemhuis.info>, 
-	Kees Cook <kees@kernel.org>, linux-kernel@vger.kernel.org, regressions@lists.linux.dev
-Subject: Re: [PATCH v2 1/2] get_maintainer: add --substatus for reporting
- subsystem status
-Message-ID: <7aodxv46lj6rthjo4i5zhhx2lybrhb4uknpej2dyz3e7im5w3w@w23bz6fx3jnn>
-References: <20250203-b4-get_maintainer-v2-0-83ba008b491f@suse.cz>
- <20250203-b4-get_maintainer-v2-1-83ba008b491f@suse.cz>
+        d=1e100.net; s=20230601; t=1739270907; x=1739875707;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KKBYxCaYYpe4xFUvgehK9MXy/sIDCvhlqBo2hvhtNmc=;
+        b=nFB04ttGU7LSkoue9f4JX1u7XPb76voMnznNsMLbQvJjgp8fMCPLG58S0ShsJr+jI5
+         6H9x7sh+/TXg/ucU3uGNgBnOaCqiDX4TqCp1UQt/vZb/2bXwRguNIKIkrJB4ncneXTok
+         7lafObtbJF3ss3bapRdpoxpsHKRnY9fcHXjIH8XxhxOEw+asZ+IKf2tytSu2KVg4AKZU
+         KujgYqRqAZ4UVYOjNIn6sE8gpLj7fQVudLlQ1G0hYiksxhuF54tMyaO0je6La32SCR4v
+         lcVWjN8uPSe6UuDicaKnqYiBEutLf+z96Q7D8A8WhfiZg7lzKaSWy0MbHuQiJNltLRSF
+         i8fw==
+X-Forwarded-Encrypted: i=1; AJvYcCVxNdevwSZmWUejsUOW2pu0efc92FEZ4ad/Ahvv87OzaI8haVIpwDnW8Tv7J+j+MNcHhYdfDTyA2siE@vger.kernel.org, AJvYcCWVR0yOBB2DEDZxhXQCCRJDG98Ptn3inbvIpHsukoAW998g8F7iJ4XiHlXv2IjPXD30bwZ0SyE+cw/l0Jg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxb/TxSa7Fypt0mSp9z0WTSR4qCthzszu9VS9SlVURp9C2tWFuj
+	h3Ij1hJAOeB9SLTYPzt095vo9R3gES8s43UQymvD/W3ZO5Dy3qo5YBI8HeRT98A=
+X-Gm-Gg: ASbGncvYk9RPBl4Gt42Q2NCQAiZe5hlotPCYKAhX1NDETySQ7aSVrWMr1DxxBk+URdH
+	rrGm/F4ZZ6ibw2aQyPBCfNyg07nYAQW7IGHnwROt/a3bzT5OneOJSB8Ri56r6WJktJDNv2xKGwX
+	Bdh1V0RZjX0+CdSLxTKcT2sCwYqr4Cop7s+K5eU1hsTU6/MDwWPyv3yaZkhLZQLdkrAA8usXuoL
+	2FALdug7EtTjdn/ruKv3iPVtqDYyf+CbPT6FugZ2WeRBCSdR0b0zSmDGuPWx7gRIENVITpsFLmu
+	yI0ki3BDntB5/Kf9l+W+MeeQ2BxJr6UucvbPEeSbcE20+SMb0B0+wQ==
+X-Google-Smtp-Source: AGHT+IEqWAwrHiFYR5epPqIkauCxj7JOZX1C1ABxJ0syOBvyg/RYW67pqK6fAWSOgOJ9OPaT0U7G5g==
+X-Received: by 2002:a05:6102:205c:b0:4ba:99b5:60f5 with SMTP id ada2fe7eead31-4ba99b567d4mr5800830137.23.1739270907176;
+        Tue, 11 Feb 2025 02:48:27 -0800 (PST)
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com. [209.85.222.51])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4bbcf5660c0sm592849137.18.2025.02.11.02.48.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Feb 2025 02:48:26 -0800 (PST)
+Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-867129fdb0aso2249019241.1;
+        Tue, 11 Feb 2025 02:48:25 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUVqIJus5G4PWtiHawxnHPvTV2Zw0ByCLAFuH/T2fXsbojCeJKB/T6K7OroAwGHBKu7Z2IbO1gw7v0DRKs=@vger.kernel.org, AJvYcCWvY49de1+E+hmhHlFVkoi892Rnw0E/JxsnlwgJED5mpVbxYhJEYEIXb8Nxuugf1DGIj24cT4hUt6js@vger.kernel.org
+X-Received: by 2002:a05:6102:2ac7:b0:4bb:c8e5:aa6d with SMTP id
+ ada2fe7eead31-4bbc8e5ad50mr4378402137.17.1739270905440; Tue, 11 Feb 2025
+ 02:48:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="oui4r6js4wl7mw6b"
-Content-Disposition: inline
-In-Reply-To: <20250203-b4-get_maintainer-v2-1-83ba008b491f@suse.cz>
-
-
---oui4r6js4wl7mw6b
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+References: <20250203-b4-get_maintainer-v2-0-83ba008b491f@suse.cz>
+ <20250203-b4-get_maintainer-v2-1-83ba008b491f@suse.cz> <7aodxv46lj6rthjo4i5zhhx2lybrhb4uknpej2dyz3e7im5w3w@w23bz6fx3jnn>
+In-Reply-To: <7aodxv46lj6rthjo4i5zhhx2lybrhb4uknpej2dyz3e7im5w3w@w23bz6fx3jnn>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 11 Feb 2025 11:48:13 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVeMe++0_hOx7ug0eRXD2cOWMRZsuHUee3KPjBE5FxjNQ@mail.gmail.com>
+X-Gm-Features: AWEUYZlRIwnbJ4xR6KQkMkb3NhTJ5vBwKhACfgor7fj8riEEVlYdsOTpWfe2clE
+Message-ID: <CAMuHMdVeMe++0_hOx7ug0eRXD2cOWMRZsuHUee3KPjBE5FxjNQ@mail.gmail.com>
 Subject: Re: [PATCH v2 1/2] get_maintainer: add --substatus for reporting
  subsystem status
-MIME-Version: 1.0
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Vlastimil Babka <vbabka@suse.cz>, Joe Perches <joe@perches.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, workflows@vger.kernel.org, 
+	"Theodore Ts'o" <tytso@mit.edu>, "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, 
+	Thorsten Leemhuis <linux@leemhuis.info>, Kees Cook <kees@kernel.org>, linux-kernel@vger.kernel.org, 
+	regressions@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+Hi Uwe,
 
-On Mon, Feb 03, 2025 at 12:13:16PM +0100, Vlastimil Babka wrote:
-> The subsystem status is currently reported with --role(stats) by
-> adjusting the maintainer role for any status different from Maintained.
-> This has two downsides:
->=20
-> - if a subsystem has only reviewers or mailing lists and no maintainers,
->   the status is not reported (i.e. typically, Orphan subsystems have no
->   maintainers)
->=20
-> - the Supported status means that someone is paid for maintaining, but
->   it is reported as "supporter" for all the maintainers, which can be
->   incorrect. People have been also confused about what "supporter"
->   means.
->=20
-> This patch introduces a new --substatus option and functionality aimed
-> to report the subsystem status separately, without adjusting the
-> reported maintainer role. After the e-mails are output, the status of
-> subsystems will follow, for example:
->=20
-> ...
-> linux-kernel@vger.kernel.org (open list:LIBRARY CODE)
-> LIBRARY CODE status: Supported
->=20
-> In order to allow replacing the role rewriting seamlessly, the new
-> option works as follows:
->=20
-> - it is automatically enabled when --email and --role are enabled
->   (the defaults include --email and --rolestats which implies --role)
->=20
-> - usages with --norolestats e.g. for git's --cc-cmd will thus need no
->   adjustments
->=20
-> - the most common Maintained status is not reported at all, to reduce
->   unnecessary noise
->=20
-> - THE REST catch-all section (contains lkml) status is not reported
->=20
-> - the existing --subsystem and --status options are unaffected so their
->   users will need no adjustments
->=20
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-
-This patch is in next as c1565b6f7b53ea1ea3e757538832e12d7d13d949. It
-breaks one of my scripts that I use to semi-automatically determine
-recipents for patch series.
-
-It works as follows:
-
-	$ batch-add-recipents audin-patch-v1/0001-ASoC-meson-HACK-let-AIU-export-i=
-ts-clocks-through-cl.patch
-	#!/bin/sh
-
-	addrecipent \
-	-t "Rob Herring <robh@kernel.org>" $(: maintainer:OPEN FIRMWARE AND FLATTE=
-NED DEVICE TREE BINDINGS) \
-	-t "Krzysztof Kozlowski <krzk+dt@kernel.org>" $(: maintainer:OPEN FIRMWARE=
- AND FLATTENED DEVICE TREE BINDINGS) \
-	-t "Conor Dooley <conor+dt@kernel.org>" $(: maintainer:OPEN FIRMWARE AND F=
+On Tue, 11 Feb 2025 at 11:32, Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@baylibre.com> wrote:
+> On Mon, Feb 03, 2025 at 12:13:16PM +0100, Vlastimil Babka wrote:
+> > The subsystem status is currently reported with --role(stats) by
+> > adjusting the maintainer role for any status different from Maintained.
+> > This has two downsides:
+> >
+> > - if a subsystem has only reviewers or mailing lists and no maintainers=
+,
+> >   the status is not reported (i.e. typically, Orphan subsystems have no
+> >   maintainers)
+> >
+> > - the Supported status means that someone is paid for maintaining, but
+> >   it is reported as "supporter" for all the maintainers, which can be
+> >   incorrect. People have been also confused about what "supporter"
+> >   means.
+> >
+> > This patch introduces a new --substatus option and functionality aimed
+> > to report the subsystem status separately, without adjusting the
+> > reported maintainer role. After the e-mails are output, the status of
+> > subsystems will follow, for example:
+> >
+> > ...
+> > linux-kernel@vger.kernel.org (open list:LIBRARY CODE)
+> > LIBRARY CODE status: Supported
+> >
+> > In order to allow replacing the role rewriting seamlessly, the new
+> > option works as follows:
+> >
+> > - it is automatically enabled when --email and --role are enabled
+> >   (the defaults include --email and --rolestats which implies --role)
+> >
+> > - usages with --norolestats e.g. for git's --cc-cmd will thus need no
+> >   adjustments
+> >
+> > - the most common Maintained status is not reported at all, to reduce
+> >   unnecessary noise
+> >
+> > - THE REST catch-all section (contains lkml) status is not reported
+> >
+> > - the existing --subsystem and --status options are unaffected so their
+> >   users will need no adjustments
+> >
+> > Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+>
+> This patch is in next as c1565b6f7b53ea1ea3e757538832e12d7d13d949. It
+> breaks one of my scripts that I use to semi-automatically determine
+> recipents for patch series.
+>
+> It works as follows:
+>
+>         $ batch-add-recipents audin-patch-v1/0001-ASoC-meson-HACK-let-AIU=
+-export-its-clocks-through-cl.patch
+>         #!/bin/sh
+>
+>         addrecipent \
+>         -t "Rob Herring <robh@kernel.org>" $(: maintainer:OPEN FIRMWARE A=
+ND FLATTENED DEVICE TREE BINDINGS) \
+>         -t "Krzysztof Kozlowski <krzk+dt@kernel.org>" $(: maintainer:OPEN=
+ FIRMWARE AND FLATTENED DEVICE TREE BINDINGS) \
+>         -t "Conor Dooley <conor+dt@kernel.org>" $(: maintainer:OPEN FIRMW=
+ARE AND FLATTENED DEVICE TREE BINDINGS) \
+>         -t "Neil Armstrong <neil.armstrong@linaro.org>" $(: maintainer:AR=
+M/Amlogic Meson SoC support) \
+>         -t "Kevin Hilman <khilman@baylibre.com>" $(: maintainer:ARM/Amlog=
+ic Meson SoC support) \
+>         -c "Jerome Brunet <jbrunet@baylibre.com>" $(: reviewer:ARM/Amlogi=
+c Meson SoC support) \
+>         -c "Martin Blumenstingl <martin.blumenstingl@googlemail.com>" $(:=
+ reviewer:ARM/Amlogic Meson SoC support) \
+>         -t "Liam Girdwood <lgirdwood@gmail.com>" $(: supporter:SOUND - SO=
+C LAYER / DYNAMIC AUDIO POWER MANAGEM...) \
+>         -t "Mark Brown <broonie@kernel.org>" $(: supporter:SOUND - SOC LA=
+YER / DYNAMIC AUDIO POWER MANAGEM...) \
+>         -t "Jaroslav Kysela <perex@perex.cz>" $(: maintainer:SOUND) \
+>         -t "Takashi Iwai <tiwai@suse.com>" $(: maintainer:SOUND) \
+>         -c "devicetree@vger.kernel.org" $(: open list:OPEN FIRMWARE AND F=
 LATTENED DEVICE TREE BINDINGS) \
-	-t "Neil Armstrong <neil.armstrong@linaro.org>" $(: maintainer:ARM/Amlogic=
- Meson SoC support) \
-	-t "Kevin Hilman <khilman@baylibre.com>" $(: maintainer:ARM/Amlogic Meson =
-SoC support) \
-	-c "Jerome Brunet <jbrunet@baylibre.com>" $(: reviewer:ARM/Amlogic Meson S=
-oC support) \
-	-c "Martin Blumenstingl <martin.blumenstingl@googlemail.com>" $(: reviewer=
-:ARM/Amlogic Meson SoC support) \
-	-t "Liam Girdwood <lgirdwood@gmail.com>" $(: supporter:SOUND - SOC LAYER /=
- DYNAMIC AUDIO POWER MANAGEM...) \
-	-t "Mark Brown <broonie@kernel.org>" $(: supporter:SOUND - SOC LAYER / DYN=
-AMIC AUDIO POWER MANAGEM...) \
-	-t "Jaroslav Kysela <perex@perex.cz>" $(: maintainer:SOUND) \
-	-t "Takashi Iwai <tiwai@suse.com>" $(: maintainer:SOUND) \
-	-c "devicetree@vger.kernel.org" $(: open list:OPEN FIRMWARE AND FLATTENED =
-DEVICE TREE BINDINGS) \
-	-c "linux-arm-kernel@lists.infradead.org" $(: moderated list:ARM/Amlogic M=
-eson SoC support) \
-	-c "linux-amlogic@lists.infradead.org" $(: open list:ARM/Amlogic Meson SoC=
- support) \
-	-c "linux-kernel@vger.kernel.org" $(: open list) \
-	-c "linux-sound@vger.kernel.org" $(: open list:SOUND - SOC LAYER / DYNAMIC=
- AUDIO POWER MANAGEM...) \
-	audin-patch-v1/0001-ASoC-meson-HACK-let-AIU-export-its-clocks-through-cl.p=
-atch
+>         -c "linux-arm-kernel@lists.infradead.org" $(: moderated list:ARM/=
+Amlogic Meson SoC support) \
+>         -c "linux-amlogic@lists.infradead.org" $(: open list:ARM/Amlogic =
+Meson SoC support) \
+>         -c "linux-kernel@vger.kernel.org" $(: open list) \
+>         -c "linux-sound@vger.kernel.org" $(: open list:SOUND - SOC LAYER =
+/ DYNAMIC AUDIO POWER MANAGEM...) \
+>         audin-patch-v1/0001-ASoC-meson-HACK-let-AIU-export-its-clocks-thr=
+ough-cl.patch
 
-the output is usually redirected to a file that I edit before running
-it. The additional line in the output of
+Hey, that looks familiar ;-)
 
-	scripts/get_maintainer.pl audin-patch-v1/0001-ASoC-meson-HACK-let-AIU-expo=
-rt-its-clocks-through-cl.patch
+> the output is usually redirected to a file that I edit before running
+> it. The additional line in the output of
+>
+>         scripts/get_maintainer.pl audin-patch-v1/0001-ASoC-meson-HACK-let=
+-AIU-export-its-clocks-through-cl.patch
+>
+> with your change breaks that script.
 
-with your change breaks that script.
+You forgot to list the additional output?
 
-#regzbot introduced: c1565b6f7b53ea1ea3e757538832e12d7d13d949
-#regzbot title: get_maintainer's subsystem status output breaks custom scri=
-pt
+I gave it a try with my script, and with one of my own patches.
+Example additional output is:
 
-I can cope with it, but still wanted to let you know that people use
-get_maintainers for `git --cc-cmd`-like usages without --norolestats.
+     --cc "ARM/Microchip" $(: AT91] SoC support status: Supported \
+    --cc "QAT DRIVER status: Supported \
+    --cc "ARM/ASPEED MACHINE SUPPORT status: Supported \
+    --cc "MELEXIS MLX90614 DRIVER status: Supported \
+    --cc "ARM/NUVOTON MA35 ARCHITECTURE status: Supported \
+    --cc "ARM/RISC-V/RENESAS ARCHITECTURE status: Supported \
 
-Given that I use scripts/get_maintainer.pl from the tree I currently
-work at and sometimes that is based on next, sometimes on linus/master
-or -rc1 and sometimes even older trees (e.g. stable), the introduced
-`--no-substatus` option doesn't help me because when run from a tree
-without your change I get:
+Iff this extra output is good to have, why not include it in the comment
+next to the existing entries with the email addresses, so it will be
+handled automatically by all scripting on top?
 
-	$ scripts/get_maintainer.pl --no-substatus audin-patch-v1/0001-ASoC-meson-=
-HACK-let-AIU-export-its-clocks-through-cl.patch
-	Unknown option: no-substatus
-	scripts/get_maintainer.pl: invalid argument - use --help if necessary
+Now, as both Uwe and I edit our generated scripts before running them,
+we can delete the unwanted lines, but it's more work...
+Thanks!
 
-so I cannot use that option easily until all the trees I care about get
-your change. :-\
+Gr{oetje,eeting}s,
 
-Best regards
-Uwe
+                        Geert
 
---oui4r6js4wl7mw6b
-Content-Type: application/pgp-signature; name="signature.asc"
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmerJzIACgkQj4D7WH0S
-/k5YVQf7BAdWhLgXujonyzFFsaUOISFGzCkJyJvs50VgUIBiTkZ5JbdWlS1L7qmB
-N7/9b+VwK0Kl2lDY29kaVk7VmzfcragO919FOrNdHBXl3oWArj164euH0v4lNo1S
-8K3jL3QbFxcqzih2MlBzZh8kzwYhs6A8C9sfbh7XVsb1KmFddS5v3+CbUsZXYiUl
-dDDID96hhkyXN3Vbfray7mYCfHbRcdEUSTLEYhOFjNf0/opHNYVnqGA4zGJq01n1
-opI/4grFdZ+hHKQbFhT/e9cqRNg5UO71bE14kmGCJsJS/NKKTQjSdv4Y68Zv+taS
-IZRag81HuVa6dcm3OnFUf6Q4P5bA1A==
-=/Bv0
------END PGP SIGNATURE-----
-
---oui4r6js4wl7mw6b--
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
