@@ -1,69 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1EC71E5B66;
-	Tue, 11 Feb 2025 06:23:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EF941E990D;
+	Tue, 11 Feb 2025 06:23:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739254995; cv=none; b=bptohdqSzKNYrGZsWhya4KaGo5qVB6xDL8rMrt+P3Vk7Y14t5LFQrddyXOY0Iar9I+vfPs2vpaHPC3slSn/hhpwkvBhZgJQN48SozAK/tsUI9Offevkmo1SV4Jc4VSLhFYc8NicfgIoRPFwEJm/5K9G1KMp8wqAnAXBzL00jWEc=
+	t=1739254995; cv=none; b=Br15EXORL8urjL77XRY6vDADUh+k1PjLOps89rBrSddUSbEFlTHSIuSwTGANMWobuPFLQrPWCUNYRKUpr2uJntwoBxmRjHgL0e3/7czJROal/MK063Dkcj8bYU0o63iFelnQ9zGJ8ps4zNaZIM7tTB0cytv+1sd72WNxNLDO0R0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1739254995; c=relaxed/simple;
-	bh=OO6X48oMD1uFUOD5elmk8YCfoS/Rml763B+Am/9mOOc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lPxmSF2DPx7DaGYOIHKy6GysOrp+Zv2aGHSqCWKinRc30H0tQxtjADjisM1ZI+Uh5dHNFnN9pTPnpqPuXbh88rjpkFLxQN5bOKUv06zzfcg8o/VSSwVlKiKcGrUDo0ngYdLqy9cw4hkK9xijw76D7fAbItWMrggBLFsXwRGMdjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iyPX0pA5; arc=none smtp.client-ip=10.30.226.201
+	bh=PV0mWqmAdYMvl5Hv3e7UkT26+zH8oclaLfygrOMSOZ0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=DT91AZAhRdocJ29pqICmpMo3QQNHB2Y94Qx7bW9E4oRC2uUNbPazeauI9vyI1Ojr1BFwJa3SKA02OjYXbb+5K0jQXvdz+S0eJND1vewaPzBjCYRAX6J2+Q5UF9D43ME6pUc1nghUonrhlp/e2yc53Lsd620lGUuiiKwGGhea9kU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P4bmxKBN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iyPX0pA5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FE8DC4CEDD;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P4bmxKBN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A83E1C4CEED;
 	Tue, 11 Feb 2025 06:23:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1739254994;
-	bh=OO6X48oMD1uFUOD5elmk8YCfoS/Rml763B+Am/9mOOc=;
-	h=From:To:Cc:Subject:Date:From;
-	b=iyPX0pA5AG6JuBzDJhoXbZm+u09Ly/vfgxYiqyrlnGOKVFWTfN0tWWiye88LDOJmE
-	 c8JfHUTrSEZmaEtOvb/llUXNoV2N1SOezBdAxjaxY9MWPyYTi7d1a/ZJk4hCw5MV0y
-	 f+ESJmKKg+iFde9Y624LY1xVA0zJCa7XK+SO6clqtDSfwIcScP3r4rg0nLgaheFUKg
-	 +JU00b3Xt7KGFVF/+alS8Y5/JgNy7eBzsy+E3IdHJdCPGpK1f1K6aTwfofhNil67UR
-	 gqEmNdJH7Tpyg22fEsFX4yPqk9j9y5quz3jbQjxqM/ctDs0YsMovmUbLJESmPvJd8m
-	 nX60ELz6H60WQ==
+	bh=PV0mWqmAdYMvl5Hv3e7UkT26+zH8oclaLfygrOMSOZ0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=P4bmxKBN1vTjyVRt/N5Uo0Yjtg8QrDXmWSiGFhUKn2cumXe1O5K82V9rbBNUbEIFY
+	 nS7E9fRwKgg9FeGgTGBiZTZI3QDTWr9vVasF9aymyxBiipBbuj18dT6OF9Mq4J+uaR
+	 eg61ThuqSXLx13D5svElPqISs/NcLz1FGE2UPtIEMn1s+Tqbg4Phjm1EQPKrwhiICB
+	 7w+CMg3oFeFK3nNO3eUa2L54c3myxiRmqW80VcMcw8ib/us63l7TIGTB8TClLWXWPg
+	 Fl9iXiDmgv4d/V9fQ83eVzG/BqpPht9DA0fVP3KKv2UyfnPbLZ7UCkQwRAZ2Vq2o5f
+	 ALe/PSGDWIOQg==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1thjfs-00000008YBE-2xQJ;
+	id 1thjfs-00000008YBj-3t4i;
 	Tue, 11 Feb 2025 07:23:12 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Alex Shi <mchehab+huawei@kernel.org>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Avadhut Naik <avadhut.naik@amd.com>,
-	Carlos Bilbao <mchehab+huawei@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Hu Haowen <2023002089@link.tyut.edu.cn>,
-	Jakub Kicinski <mchehab+huawei@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Jamet <michael.jamet@intel.com>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Sean Young <sean@mess.org>,
-	Simon Horman <mchehab+huawei@kernel.org>,
-	Will Deacon <mchehab+huawei@kernel.org>,
-	William Breathitt Gray <mchehab+huawei@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-iio@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org,
 	workflows@vger.kernel.org
-Subject: [PATCH 0/9] Extend automarkup support for ABI symbols
-Date: Tue, 11 Feb 2025 07:22:54 +0100
-Message-ID: <cover.1739254867.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 8/9] docs: submit-checklist: Allow creating cross-references for ABI README
+Date: Tue, 11 Feb 2025 07:23:02 +0100
+Message-ID: <76e60ee8717551f3d15d7c92b9c93bbf2ca8cff3.1739254867.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.48.1
+In-Reply-To: <cover.1739254867.git.mchehab+huawei@kernel.org>
+References: <cover.1739254867.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -73,36 +52,27 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Now that ABI creates a python dictionary, use automarkup to create cross
-references for ABI symbols as well. 
+Now that Documentation/ABI is processed by automarkup, let it
+generate cross-references for the ABI README file.
 
-Mauro Carvalho Chehab (9):
-  docs: media: Allow creating cross-references for RC ABI
-  docs: automarkup: drop legacy support
-  docs: thunderbolt: Allow creating cross-references for ABI
-  docs: arm: asymmetric-32bit: Allow creating cross-references for ABI
-  docs: arm: generic-counter: Allow creating cross-references for ABI
-  docs: iio: Allow creating cross-references ABI
-  docs: networking: Allow creating cross-references statistics ABI
-  docs: submit-checklist: Allow creating cross-references for ABI README
-  docs: translations: Allow creating cross-references for ABI README
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/process/submit-checklist.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- Documentation/admin-guide/thunderbolt.rst     |  2 +-
- Documentation/arch/arm64/asymmetric-32bit.rst |  2 +-
- Documentation/driver-api/generic-counter.rst  |  4 +-
- Documentation/driver-api/iio/core.rst         |  2 +-
- Documentation/iio/iio_devbuf.rst              |  2 +-
- Documentation/networking/statistics.rst       |  2 +-
- Documentation/process/submit-checklist.rst    |  2 +-
- Documentation/sphinx/automarkup.py            | 47 ++++++++-----------
- .../it_IT/process/submit-checklist.rst        |  2 +-
- .../sp_SP/process/submit-checklist.rst        |  2 +-
- .../zh_CN/process/submit-checklist.rst        |  2 +-
- .../zh_TW/process/submit-checklist.rst        |  2 +-
- .../userspace-api/media/rc/rc-sysfs-nodes.rst |  2 +-
- 13 files changed, 32 insertions(+), 41 deletions(-)
-
+diff --git a/Documentation/process/submit-checklist.rst b/Documentation/process/submit-checklist.rst
+index 88b6358258d7..2abf8831cf74 100644
+--- a/Documentation/process/submit-checklist.rst
++++ b/Documentation/process/submit-checklist.rst
+@@ -52,7 +52,7 @@ Provide documentation
+ 4) All new module parameters are documented with ``MODULE_PARM_DESC()``
+ 
+ 5) All new userspace interfaces are documented in ``Documentation/ABI/``.
+-   See ``Documentation/ABI/README`` for more information.
++   See Documentation/ABI/README for more information.
+    Patches that change userspace interfaces should be CCed to
+    linux-api@vger.kernel.org.
+ 
 -- 
 2.48.1
-
 
