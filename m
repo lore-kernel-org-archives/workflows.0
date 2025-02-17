@@ -1,55 +1,55 @@
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EEC6229B28
-	for <workflows@vger.kernel.org>; Mon, 17 Feb 2025 17:32:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1FD922A1D1
+	for <workflows@vger.kernel.org>; Mon, 17 Feb 2025 17:32:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739813542; cv=none; b=RgI7+M9AnmAvB+Ka3/8gzdG6e9NpPQrIkzt5wdQTmaB+g6wwaL3a00xEhh8DUhyhji3wRnqJO5eddqFz9un6Z2PKzFEolsxtjo5syuhnq0LqfhAKK7uFydlV6vRZFzeXr5gqvBiUbc4QNwu/t5Hfsry/h/vSwtakvu3MCj3qgtY=
+	t=1739813543; cv=none; b=mXFxYA/wpaZ7prbLdCi6MssyjnxRVkL56uIKG8y3vti///YDmvAf4twUT0ZSATlAudwKEVCv4ewRleC5Owi23P7WLtHKjKvyEWVJIYO2qMWd75jlfYYRf3C/fImrY/ixqbZvAK3PHfqBhVCPdemsEKaZr0+gA63hek7usvnbCYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739813542; c=relaxed/simple;
-	bh=DReRhrowuGJ6F7esY0PIoPCMimVeHSEknrzipK8NeUQ=;
+	s=arc-20240116; t=1739813543; c=relaxed/simple;
+	bh=fvmuqW/ZJcAD4hBEbeETgZmg0Ls+GSH5bz6gAvA8Kl8=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=XFRf8iMAbzilFhzNd0Dy4Oy1tMbw7r6yd7wver6/OEzxE2ckn/5rYQBC2gn2babjhlJxRA3ElLniYej6phYw5P4abOCaySxXpcP94gUDAoylhknwpHmz5QRm4tBQdMrWxH1NbOtRZ4XCIZI5TlVvIhc3aZd1Rtqz/iWv3qNQmQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JzG9JX9S; arc=none smtp.client-ip=209.85.128.73
+	 To:Cc:Content-Type; b=QttbFiGign+1Z5411I+ei42RScH/0pansSO3JLZldYppRQwGS6eJrMMtbRsj9r3UoDIBsJKi5EUp3aEMqlOWqlRs7nEWi04hfSor1fDWz86U47+gYYisp1wTkPasa+2BpkhaokfD25Xxl25M2zS9kkLylQeGcE3pDWu5jkuEs+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Jj9vFBkG; arc=none smtp.client-ip=209.85.128.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JzG9JX9S"
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-4398e841963so3339935e9.3
-        for <workflows@vger.kernel.org>; Mon, 17 Feb 2025 09:32:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Jj9vFBkG"
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-438e4e9a53fso34032015e9.1
+        for <workflows@vger.kernel.org>; Mon, 17 Feb 2025 09:32:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1739813537; x=1740418337; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1739813540; x=1740418340; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MI9JNAR2L7fxFiEkMgTVN/fDOoWyqDwpe8zjyVjLNrQ=;
-        b=JzG9JX9SzliUlJD0XhcrP+kWWn4oIwSHAeEgvTlehcK1rNkWOCRsRLQphY1KB4dSxv
-         laJs8aMhcZuCYLldGEJ9N7I/FhAPvVn1m6VNEYeD7WjIobcZwwf9I95W3rG/A+3kwJf6
-         QLv4udPtfD/7Y3uW4l2h2p98AktjZBI9UWx9cFYHL9Cce0dfCweNpKEdSEoSC1bICjJo
-         k/TdvSiifuhZdfZ59vrJwZo+uniO7ThHXWEE/cYri9W5pIGw5GAKAWyUxc4dWiP/KY4z
-         9cH9uygZd7SkxR/CeqycHAU7DNdVY8rBz8/JxltfGKaTSSSryjqxoByq+8oh6arg6jfe
-         vZLA==
+        bh=ic6fNEiwqUaErdD71Z2ghM25Q6o0kdjhWc5qDhK+hac=;
+        b=Jj9vFBkG3dFcGvZ3+/S9loRQ1r7eBExmhORc0aZApkv4zWo2Hvxv2MKjY00QC1RpyB
+         qIvvNMPY5UMK//ke8YezsXod5dtEUcrxpQMaINQbl3VVETlOBOPEToRxqFemxoLhPsHd
+         7aLYKU5c2pvuVJf84e3SlKZhvAxRblmvBvXmrbRHlRFJsdW6RaHoD+NmOAm6GNBU5ZZc
+         ycnrRSm1ddo+XRQjZ+i2urrPKjU/bRM1REp7O3p4iu9HEqPldzDyaKmXkXZrEIZ30kZC
+         C9h6XV/gyNGr9uIL8BCp+qqSjYLYk8yizJj5VbAfIG+2AU1h7EPAFJkG29Glu0Oa8zLN
+         CAAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739813537; x=1740418337;
+        d=1e100.net; s=20230601; t=1739813540; x=1740418340;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MI9JNAR2L7fxFiEkMgTVN/fDOoWyqDwpe8zjyVjLNrQ=;
-        b=Q1QGu4UCvtoH1I8ObL332UH3xU2/Gs4T13X5YGokNhPivrVxklyw+Ozf2m4KsyZ47p
-         eO2hPYkPRHheQfSh7uRYNNShmPU1ZeJ+3ikkhXGUSDKp6yOV/35KXOZn+9NaVv2vqxg4
-         wSdDsN6baR2157gNFDcFWKQH/a8gWyhR1QPukMnp/gEINhVlMeprHEDyF4sEwxnN1HtP
-         kkj/IY6ancCKIu5ZKkwN0C7akfdMu8OEVjXtkRfnGWkKuMncN2uCFG68r03UOVR8D1sA
-         f7Tyl5sLh1xcML613PCidArfpRAvRCTSjibjo7//p/LzxV+BH3/pCSxFWz42btPo8DBJ
-         Z1/A==
-X-Forwarded-Encrypted: i=1; AJvYcCUUM17MqiNKyu5kygjtFVEuYynt8xArJq8UXBNMEgI6ThAOfUlVjFKkwENFd1ZJIQH1NNOskCwo8aY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yym9zQQo8dK0760Rsfcex+lzO8ilVxJ2aROlrX9EwY/QDuD7ZjR
-	UK2jJeXqBlTP6YNgjVhtvIT7mdtpbA0PX04VNs9INS0WG1qP+ck1Gs1N4Gj1eR9v86BVTapcahq
-	GO+XXFIXAOA==
-X-Google-Smtp-Source: AGHT+IGxwdKDsj39DSw/LfYL4Gf3CqZqqOiGdgJBzDbiG5yRGgSE0Wz3KuRh78eMj5ueC9b1JjK4sFp9W5rOSA==
-X-Received: from wmbfl26.prod.google.com ([2002:a05:600c:b9a:b0:439:7f3e:39c6])
+        bh=ic6fNEiwqUaErdD71Z2ghM25Q6o0kdjhWc5qDhK+hac=;
+        b=cVubFAAnEJm5BjvY//chZ3TcBN3AUt6faUaJ+fKyIBo3xXLXWk7VGIC9i19qs0pJVN
+         kTRaV6lb5hwnG0xqLILey1sFz+vLdC/hnp7JtHmobYPLL3Uas06j8iqcBjThK0mwZ9dT
+         RI6/lxRwr0Bpkvn/Jhe7XMax/pY9zoa0IA7Rx1L6wuY5LI5ERMYjKI/FtHKSDn55rpTe
+         NKm3HoeRdrw9q+Q0MHmdfMSmJ7dCbQXFmES7HQQAIcLcnOnDMEYcQmcMgA5vZy7Zrb10
+         MkbX7lUBJS9WOlaqoT4yKyInkywt2esHVeiCuM21/bT+5uO5Lz3ovfqModXMFamjLFWq
+         dW5A==
+X-Forwarded-Encrypted: i=1; AJvYcCWNDNJyrStU+n29qOX8ifEhpn9kaZySAaTyJPqX53AXA5Kz1z4Iwucf5gQSOJR0q26AqKK/QebA5CU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxWQzTeZgc39kef3W2vjO6ObPqF7vxJjDq/1ruw8xaqsNLuE58q
+	1TMPI+4F1S38eVTWokm4SjrrFfaK8XTjIneC0HfLc5RsibT0uZ2RSY9dik2BdTjrmLJoD5Dm8TR
+	yoXB7TO9haw==
+X-Google-Smtp-Source: AGHT+IEUB5VYAl8bmIXMGqW69eXtwaGsaDWcb614PTtxJRb1TT3XkkKinci/ZFXonR2CvEBlhUlN4vZ1Hw9fow==
+X-Received: from wmbay14.prod.google.com ([2002:a05:600c:1e0e:b0:439:5f8f:6597])
  (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:5254:b0:439:38a1:e49 with SMTP id 5b1f17b1804b1-4396e6d7c38mr105342225e9.6.1739813537787;
- Mon, 17 Feb 2025 09:32:17 -0800 (PST)
-Date: Mon, 17 Feb 2025 17:32:10 +0000
+ 2002:a05:600c:1906:b0:439:6dba:adfc with SMTP id 5b1f17b1804b1-4396e70a3e0mr100329665e9.13.1739813540086;
+ Mon, 17 Feb 2025 09:32:20 -0800 (PST)
+Date: Mon, 17 Feb 2025 17:32:11 +0000
 In-Reply-To: <20250217-checkpatch-ignore-v2-0-ecfb50e03bb0@google.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20250217-checkpatch-ignore-v2-0-ecfb50e03bb0@google.com>
 X-Mailer: b4 0.15-dev
-Message-ID: <20250217-checkpatch-ignore-v2-1-ecfb50e03bb0@google.com>
-Subject: [PATCH RESEND v2 1/2] checkpatch: Add support for checkpatch-ignore notes
+Message-ID: <20250217-checkpatch-ignore-v2-2-ecfb50e03bb0@google.com>
+Subject: [PATCH RESEND v2 2/2] docs: checkpatch: Document checkpatch-ignore feature
 From: Brendan Jackman <jackmanb@google.com>
 To: Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, 
 	Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
@@ -69,131 +69,81 @@ Cc: linux-kernel@vger.kernel.org, workflows@vger.kernel.org,
 	linux-doc@vger.kernel.org, Brendan Jackman <jackmanb@google.com>
 Content-Type: text/plain; charset="utf-8"
 
-Checkpatch sometimes has false positives. This makes it less useful for
-automatic usage: tools like b4 [0] can run checkpatch on all of your
-patches and give you a quick overview. When iterating on a branch, it's
-tiresome to manually re-check that any errors are known false positives.
+If included in patch descriptions, this will function much like the
+--ignore flag.
 
-This patch adds a mechanism to record alongside the patch that it might
-produce certain checkpatch errors, and that these are expected false
-positives. There are two aspects to this mechanism:
-
-1. If a block like:
-
-   Notes (checkpatch-ignore):
-     FOO,BAR
-     BAZ
-
-   Is found before the diff in the patch content, FOO, BAR and BAZ error
-   types are ignored while processing this file.
-
-   Its expected that users put this in the "graveyard" i.e. the region
-   between the --- and the beginning of the diff.
-
-2. --notes=checkpatch-ignore is added to the `git format-patch`
-   command that checkpatch.pl uses in --git mode, so that if the commit
-   being inspected has a note [1] under the checkpatch-ignore ref, it
-   will be formatted into a block like the one above.
-
-To avoid significant reworks to the Perl code, this is implemented by
-mutating a global variable while processing each patch. (The variable
-name refers to a patch as a "file" for consistency with other code).
-
-Because the main loop in process() begins to emit errors before it has
-necessarily processed the checkpatch-ignore block, this parsing is done
-separately in its own loop.
-
-[0] b4 - see "--check" arg
-    https://b4.docs.kernel.org/en/latest/contributor/prep.html
-
-[1] https://git-scm.com/docs/git-notes
+It requires some rather obscure Git features to take advantage of
+this, so provide some examples of how to do that.
 
 Signed-off-by: Brendan Jackman <jackmanb@google.com>
 ---
- scripts/checkpatch.pl | 34 ++++++++++++++++++++++++++++++++--
- 1 file changed, 32 insertions(+), 2 deletions(-)
+ Documentation/dev-tools/checkpatch.rst | 46 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 46 insertions(+)
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 9eed3683ad76caffbbb2418e5dbea7551d374406..ce6914a845ec3f936ad656fa123f58aa85ce4b2f 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -53,7 +53,10 @@ my %debug;
- my %camelcase = ();
- my %use_type = ();
- my @use = ();
-+# Error types to ignore during the whole invocation.
- my %ignore_type = ();
-+# Error types to be ignored in the present "file" (i.e. patch).
-+my %file_ignore_type = ();
- my @ignore = ();
- my $help = 0;
- my $configuration_file = ".checkpatch.conf";
-@@ -1306,7 +1309,7 @@ for my $filename (@ARGV) {
- 	my $oldfile = $file;
- 	$file = 1 if ($is_git_file);
- 	if ($git) {
--		open($FILE, '-|', "git format-patch -M --stdout -1 $filename") ||
-+		open($FILE, '-|', "git format-patch --notes=checkpatch-ignore -M --stdout -1 $filename") ||
- 			die "$P: $filename: git format-patch failed - $!\n";
- 	} elsif ($file) {
- 		open($FILE, '-|', "diff -u /dev/null $filename") ||
-@@ -2329,7 +2332,7 @@ sub show_type {
+diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+index abb3ff6820766ee0c29112b256bcc44ce41fffba..6215b24b25b36709c815cf08de33f1609c80c0c7 100644
+--- a/Documentation/dev-tools/checkpatch.rst
++++ b/Documentation/dev-tools/checkpatch.rst
+@@ -12,6 +12,49 @@ Checkpatch is not always right. Your judgement takes precedence over checkpatch
+ messages.  If your code looks better with the violations, then its probably
+ best left alone.
  
- 	return defined $use_type{$type} if (scalar keys %use_type > 0);
- 
--	return !defined $ignore_type{$type};
-+	return !defined $ignore_type{$type} && !defined $file_ignore_type{$type};
- }
- 
- sub report {
-@@ -2624,6 +2627,29 @@ sub exclude_global_initialisers {
- 		$realfile =~ m@/bpf/.*\.bpf\.c$@;
- }
- 
-+# Parse the "Notes (checkpatch-ignore):" block in the region before the diff,
-+# and set file_ignore_type accordingly.
-+sub parse_checkpatch_ignore {
-+	my $linesRef = shift;
-+	my $in_checkpatch_ignore = 0;
++Inoring violations
++==================
 +
-+	foreach my $line (@$linesRef) {
-+		# have we reached the actual diff?
-+		if ($line =~ /^diff --git.*?(\s+)$/ || $line =~ /^\+\+\+\s+(\s+)/) {
-+			last;
-+		}
++As well as the --ignore flag documented below, violation types can be ignored
++for a specific patch by including a block after the "---" in the following
++format::
 +
-+		if ($in_checkpatch_ignore) {
-+			if ($line =~ /^\s*$/) {
-+				last;
-+			}
-+			hash_save_array_words(\%file_ignore_type, [$line]);
-+		} elsif ($line =~ /^Notes \(checkpatch-ignore\):\s*/) {
-+			$in_checkpatch_ignore = 1;
-+		}
-+	}
-+}
++  Notes(checkpatch-ignore):
++    TYPE_1,TYPE_2
++    TYPE_3
 +
- sub process {
- 	my $filename = shift;
- 
-@@ -2701,6 +2727,8 @@ sub process {
- 
- 	my $checklicenseline = 1;
- 
-+	%file_ignore_type = ();
++If using Git, you can store that information alongside your commit using
++`notes <https://git-scm.com/docs/git-notes>`_. To set this up:
 +
- 	sanitise_line_reset();
- 	my $line;
- 	foreach my $rawline (@rawlines) {
-@@ -2780,6 +2808,8 @@ sub process {
- 		}
- 	}
- 
-+	parse_checkpatch_ignore(\@lines);
++1. Configure git to include the `checkpatch-ignore` notes ref in formatted
++   patches::
 +
- 	$prefix = '';
++     git config set format.notes checkpatch-ignore
++
++   If you use checkpatch in `--git` mode, this isn't necessary, it will include
++   the `checkpatch-ignore` note regardless.
++
++2. Configure git to persist notes across amends and rebases::
++
++     git config set notes.rewriteRef "refs/notes/checkpatch-ignore"
++
++   (To enable this behaviour for _all_ notes, set `refs/notes/**` instead).
++
++   Also ensure that `notes.rewrite.rebase` and `notes.rewrite.amend` have not
++   been set to `false`.
++
++3. Now, to set the note on the HEAD commit, use a command like::
++
++     git notes --ref checkpatch-ignore add -m "TYPE_1,TYPE_2"
++
++   Beware that blank lines terminate the `checkpatch-ignore` block, so if you
++   use `git notes append` to ignore additional types, you'll need to also set
++   `--no-separator`::
++
++     git notes --ref checkpatch-ignore append -m "TYPE_3" --no-separator
++
++To see the names of the error type in checkpatch output, set the `--show-types`
++option.
  
- 	$realcnt = 0;
+ Options
+ =======
+@@ -114,6 +157,9 @@ Available options:
+ 
+    Checkpatch will not emit messages for the specified types.
+ 
++   Note that violations can also be permanently disabled using the
++   Checkpatch-ignore patch footer.
++
+    Example::
+ 
+      ./scripts/checkpatch.pl mypatch.patch --ignore EMAIL_SUBJECT,BRACES
 
 -- 
 2.48.1.601.g30ceb7b040-goog
