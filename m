@@ -1,52 +1,69 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 645521CEAD3;
-	Tue, 18 Feb 2025 20:42:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC8D2862B4;
+	Tue, 18 Feb 2025 20:52:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739911327; cv=none; b=osaLmoIZik2A2USW5NkZ5yVq5jR+hLvV+Cr0vP6zTpjQAmiZCLCHDm1V+M3ucaiWkS537W2GcablT/JaZYq/BXrQVfiln9wp7i5OYhJWuEOKVjFB05q/Z2r5Xew0h/lRMRnlnXkwNV0DHcGEHstnmh+0eYqkzfnPJM0Te5wxSCg=
+	t=1739911964; cv=none; b=bA7WKtHMCjq1LkTljYn0VnwqRRakl9ESv9yZi0KQUsJAOb8XOpHOUrzhRbdONuaXelFI22eJBersJbP4GIeml11SG6xSIwNnw/EGuHFMb98Mx57eLV7mNGbsjV0VK8McxHniGbOavnIluynE44Cqq1naxiM8qD37162IToMfBEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739911327; c=relaxed/simple;
-	bh=jlnMhgUBn+KNGwTcDq1KyRwfwnwlN5Aid3j7yRTC4RM=;
+	s=arc-20240116; t=1739911964; c=relaxed/simple;
+	bh=8jNMU8ip6rBeSpqlISiaPJWQQi8raU32gK6jMCIpWKM=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=R9sv/3jPTnhs7M8763RYGYjlRtlv235qtG4QNjPpNUDdAK807LWsB1sUUC6hdoWSnmcqJHi8B7RYQDN2KixTa2/1+k81f486TSoP3JuxW3jjoNGBk3GzFTRIT+0enCtlTeoeljr5YZg7hEblaiYvU7i/tCG6PLHkPINfxy04IDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=X0kRO6ZZ; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=mOzZE91ff0fL7yzajQXFyNNt32ylrN5L0hi9bghGGwUwMKjDweh1Wp4XY629p4/SIGuEnpQKYnyVCbq53D729Iyh79q4ZnHyh9jOGZCY8t2zoMosmg1aDucKIY99lRcLtnTQzN5ZNYmV6+aP8SRPK8phjvSaWbgHZ7JNc84FC1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=RGZ+lDda; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="X0kRO6ZZ"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2F9E1411AF
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="RGZ+lDda"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 41147411AF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1739911324; bh=Ki8gRBbGB/KJNSGpL6x6nHmueMOkGwWkGW1LfR0GGKg=;
+	t=1739911962; bh=8jNMU8ip6rBeSpqlISiaPJWQQi8raU32gK6jMCIpWKM=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=X0kRO6ZZMUtOMpeGVKzpbSc84sVBIWeqsCn3KUgpuNlFgYrhpCyk46N5ZplGVwvOu
-	 m3ybIDw1VzcMESZrOFLGMH3Q05faA2Gv3kMgrNg9oZ/upAMVD3k7/ke3qWK4f/yLII
-	 NhjKe+frievIehY3xosL9QCPmki6y57Ma4HG57PnIgXRU7emtAbxIxhfumkzzvRwWv
-	 HEtoPPZ6bMM37a4tQyLpTp5FqFRfbd3BOaspDxT0nXPgZR73Yc6L2PDqPyxCPVm07a
-	 vKweP6Xfrs5/dRmXKUcRq5SDM9gnyDhz7RbFOIdXBZvh33D7fjcpMGplWGCxrdxicK
-	 Wwtue9A6ZHpNQ==
+	b=RGZ+lDdax8qjIOiB5ZacnAgWnZTgsFpylEbMW51u+P/MIZ4iyhn77FaRGI2dDgZ/7
+	 PSdVV5Ab40gE18mE/GC17G4zDapRXyDnjvtMyLX/X1z8KjuhPso6bXPWo8AreECp1G
+	 98znlH/rTluOQYNBlOJ3zgZgHPpYqLWuZudgxDv3yJkDcFhOdWhqo1YhFEhOHIeY4A
+	 VAIzOxV+UDEcDyE8DFXCRzajUWTxsxZbIOIWZNKLrJ8usY8w0570cRguzaHptPlgAX
+	 T0ovBK0bp9qEs6SV4ZG5qi7exbun4747718D6XGCFauEWi9SsploIuqSqI6XFFY4zS
+	 3PACaipur3xJQ==
 Received: from localhost (unknown [IPv6:2601:280:4600:2d7f::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 2F9E1411AF;
-	Tue, 18 Feb 2025 20:42:04 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 41147411AF;
+	Tue, 18 Feb 2025 20:52:42 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Simona Vetter
- <simona.vetter@ffwll.ch>, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v4] docs: clarify rules wrt tagging other people
-In-Reply-To: <8b87b297-b68b-4276-95ae-e04650c3360f@leemhuis.info>
-References: <588cf2763baa8fea1f4825f4eaa7023fe88bb6c1.1738852082.git.linux@leemhuis.info>
- <87y0ydzn1q.fsf@trenco.lwn.net>
- <8b87b297-b68b-4276-95ae-e04650c3360f@leemhuis.info>
-Date: Tue, 18 Feb 2025 13:42:03 -0700
-Message-ID: <875xl7nfxg.fsf@trenco.lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Bagas Sanjaya
+ <bagasdotme@gmail.com>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+ Andreas Noever <andreas.noever@gmail.com>, Avadhut
+ Naik <avadhut.naik@amd.com>, Catalin Marinas <catalin.marinas@arm.com>,
+ Eric Dumazet <edumazet@google.com>, Hu Haowen
+ <2023002089@link.tyut.edu.cn>, Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Jamet <michael.jamet@intel.com>, Mika Westerberg
+ <mika.westerberg@linux.intel.com>, Paolo Abeni <pabeni@redhat.com>, Sean
+ Young <sean@mess.org>, Yanteng Si <si.yanteng@linux.dev>, Yehezkel Bernat
+ <YehezkelShB@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, Michael
+ Ellerman <mpe@ellerman.id.au>, Shrikanth Hegde <sshegde@linux.ibm.com>,
+ "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, Pawan Gupta
+ <pawan.kumar.gupta@linux.intel.com>, James Morse <james.morse@arm.com>,
+ "Nysal Jan K.A" <nysal@linux.ibm.com>, Tom Lendacky
+ <thomas.lendacky@amd.com>, Sourabh Jain <sourabhjain@linux.ibm.com>,
+ Stephen Rothwell <sfr@canb.auug.org.au>, Frederic Barrat
+ <fbarrat@linux.ibm.com>, Andrew Donnellan <ajd@linux.ibm.com>, Madhavan
+ Srinivasan <maddy@linux.ibm.com>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>, Naveen N Rao
+ <naveen@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+ workflows@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH 0/9] Extend automarkup support for ABI symbols
+In-Reply-To: <20250212135808.58d2f032@foz.lan>
+References: <cover.1739254867.git.mchehab+huawei@kernel.org>
+ <Z6yFG_NntQfkwYli@archie.me> <20250212135808.58d2f032@foz.lan>
+Date: Tue, 18 Feb 2025 13:52:41 -0700
+Message-ID: <871pvvnffq.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -55,50 +72,18 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Sorry, fell behind on things again...
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-Thorsten Leemhuis <linux@leemhuis.info> writes:
-
->> - It would be awfully nice if we could provide this advice in exactly
->>   one place in the document.  This is one of our most important docs,
->>   and it is far too long to expect new contributors to read through and
->>   absorb.  Avoiding making it longer and more repetitive would be
->>   better, if we can.
+>> WARNING: Documentation/ABI/testing/sysfs-class-cxl not found
 >
-> Well, in 5.Posting.rst that was possible. In submitting-patches.rst that
-> conflicted with existing text in three areas, so some changes were
-> needed; in one case the new text even got a little shorter, but overall
-> those changes did not add a single new line.
->
-> But sure, the new paragraph added a few lines. And it is identical in
-> both documents. But that is a more complex and existing situation this
-> patch can't solve. But of course I could avoid adding the new paragraph
-> to submitting-patches.rst and change the "(see 'Tagging people requires
-> permission' below for details)" added there already into "(see 'Tagging
-> people requires permission' in Documentation/process/5.Posting.rst for
-> details)". Given that people requested a even more detailed paragraph
-> (see the other reply I just sent to Laurent) that might be wise; OTOH
-> submitting-patches.rst right now AFAICS tries to be stand-alone, so it
-> feels wrong at the same time.
->
-> IOW: both is fine for me. Could you let me please know what you prefer?
+> I need to double-check verify this one, as it didn't appear on
+> my tests. Are you getting it against docs-next or linux-next?
 
-Adding more cross references certainly won't help, I guess we'll leave
-it as-is for now.
+I get this one too, FWIW.
 
->> - I wonder if it would make sense to say that, if an implicit-permission
->>   tag has been added, the person named in it should get at least one
->>   copy of the change before it is merged?
->
-> Hah, that is where I'd start to say "that seems like a bit much". And it
-> does not help, as the cat is out of the bag once that copy is out, as
-> the name and the email address someone might prefer to keep private
-> would have made it to mailing list archives then already.
+I've gone ahead and applied the series, but this would be nice to get
+cleaned up.
 
-The cat is out of the bag but not in the repository; the thought was
-that it's polite to give the person involved a heads-up that their name
-is being taken in vain.  Certainly I've seen enough "what, no, I don't
-want that tag there" reactions over the years to think it would
-occasionally head off a use that the owner of the name doesn't want.
+Thanks,
 
 jon
