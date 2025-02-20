@@ -1,89 +1,131 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC8D2862B4;
-	Tue, 18 Feb 2025 20:52:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A68F14A82;
+	Thu, 20 Feb 2025 15:44:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739911964; cv=none; b=bA7WKtHMCjq1LkTljYn0VnwqRRakl9ESv9yZi0KQUsJAOb8XOpHOUrzhRbdONuaXelFI22eJBersJbP4GIeml11SG6xSIwNnw/EGuHFMb98Mx57eLV7mNGbsjV0VK8McxHniGbOavnIluynE44Cqq1naxiM8qD37162IToMfBEU=
+	t=1740066258; cv=none; b=j13d3QmZRtDntcHGe7ritx1aJY3nszj6XVbPKP/0ftCOsE2k6bxNqhmAitDv7xuFGJ3smssexkpQqhVv/Lc6TLC7CBHWLyJRyBGEf4vbPqq/3ZwMxSU+LjIvzJCmpeuVeDB/7cFfKcML0j/SSZ6FT5sv7X0fA70vov5/F4FkBsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739911964; c=relaxed/simple;
-	bh=8jNMU8ip6rBeSpqlISiaPJWQQi8raU32gK6jMCIpWKM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=mOzZE91ff0fL7yzajQXFyNNt32ylrN5L0hi9bghGGwUwMKjDweh1Wp4XY629p4/SIGuEnpQKYnyVCbq53D729Iyh79q4ZnHyh9jOGZCY8t2zoMosmg1aDucKIY99lRcLtnTQzN5ZNYmV6+aP8SRPK8phjvSaWbgHZ7JNc84FC1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=RGZ+lDda; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1740066258; c=relaxed/simple;
+	bh=vixLLi9/2+puAuThU6rLYYKbOilkcMeTe2mtRtu1ry0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=BW60Pla/nSbScETmM70sj98eURxqgMBifhh8Gu5EBeLpaP/k5s9qBckOZtz/j2pdVc/kvvd0rHGvG54YmljDaEPF3NVh+PWfBeDIGM078gcXFVGULiqowrqb1LUrxR31a4sE71XPBcmszjZRYOHnAevhgr2EHBGJc3biescbLmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Aoz/HXuK; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=9ZwgEiOj; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="RGZ+lDda"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 41147411AF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1739911962; bh=8jNMU8ip6rBeSpqlISiaPJWQQi8raU32gK6jMCIpWKM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=RGZ+lDdax8qjIOiB5ZacnAgWnZTgsFpylEbMW51u+P/MIZ4iyhn77FaRGI2dDgZ/7
-	 PSdVV5Ab40gE18mE/GC17G4zDapRXyDnjvtMyLX/X1z8KjuhPso6bXPWo8AreECp1G
-	 98znlH/rTluOQYNBlOJ3zgZgHPpYqLWuZudgxDv3yJkDcFhOdWhqo1YhFEhOHIeY4A
-	 VAIzOxV+UDEcDyE8DFXCRzajUWTxsxZbIOIWZNKLrJ8usY8w0570cRguzaHptPlgAX
-	 T0ovBK0bp9qEs6SV4ZG5qi7exbun4747718D6XGCFauEWi9SsploIuqSqI6XFFY4zS
-	 3PACaipur3xJQ==
-Received: from localhost (unknown [IPv6:2601:280:4600:2d7f::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 41147411AF;
-	Tue, 18 Feb 2025 20:52:42 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Bagas Sanjaya
- <bagasdotme@gmail.com>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
- Andreas Noever <andreas.noever@gmail.com>, Avadhut
- Naik <avadhut.naik@amd.com>, Catalin Marinas <catalin.marinas@arm.com>,
- Eric Dumazet <edumazet@google.com>, Hu Haowen
- <2023002089@link.tyut.edu.cn>, Lars-Peter Clausen <lars@metafoo.de>,
- Michael Jamet <michael.jamet@intel.com>, Mika Westerberg
- <mika.westerberg@linux.intel.com>, Paolo Abeni <pabeni@redhat.com>, Sean
- Young <sean@mess.org>, Yanteng Si <si.yanteng@linux.dev>, Yehezkel Bernat
- <YehezkelShB@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, Michael
- Ellerman <mpe@ellerman.id.au>, Shrikanth Hegde <sshegde@linux.ibm.com>,
- "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, Pawan Gupta
- <pawan.kumar.gupta@linux.intel.com>, James Morse <james.morse@arm.com>,
- "Nysal Jan K.A" <nysal@linux.ibm.com>, Tom Lendacky
- <thomas.lendacky@amd.com>, Sourabh Jain <sourabhjain@linux.ibm.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>, Frederic Barrat
- <fbarrat@linux.ibm.com>, Andrew Donnellan <ajd@linux.ibm.com>, Madhavan
- Srinivasan <maddy@linux.ibm.com>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>, Naveen N Rao
- <naveen@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
- linux-usb@vger.kernel.org, netdev@vger.kernel.org,
- workflows@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH 0/9] Extend automarkup support for ABI symbols
-In-Reply-To: <20250212135808.58d2f032@foz.lan>
-References: <cover.1739254867.git.mchehab+huawei@kernel.org>
- <Z6yFG_NntQfkwYli@archie.me> <20250212135808.58d2f032@foz.lan>
-Date: Tue, 18 Feb 2025 13:52:41 -0700
-Message-ID: <871pvvnffq.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Aoz/HXuK";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="9ZwgEiOj"
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1740066255;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=OHflafuFF2Pw7sS+fLkXEz/wfs4sGDW5pqwQpGcmZvk=;
+	b=Aoz/HXuKARD+BSUAkVRzBBuwn0VC36Uwr4MY7dRAP5Cdkd18jyso/mOxNxzCGtk8pVcMQd
+	p1tHmmKpTB6gpwIn0OOHqbBOgsGnLfGE8UKHAlmd9IJLIgLvYump5xTHKdata51aLD08Zc
+	cqontCvWedLVqSGcOQhE3GT45NzOLy+iACLU+Cf44OUBXpH9QvJPLfYaEp1degZsuvIYv0
+	5EcdubQAVTEsLPMBdyqRpn7RBeWZyvHaLXIsjav2iryghqJUVyNwm+G2aNtmKrNhXv/APm
+	IMpALywQCtZcOBkhoRwdo9gAzmEXFQRfL7egNaHkO6xJxaxHZv1c0sOzlAlulQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1740066255;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=OHflafuFF2Pw7sS+fLkXEz/wfs4sGDW5pqwQpGcmZvk=;
+	b=9ZwgEiOjXJyYuSoCDdOXInelSIoDz6uuSh93n06oiFdmwF3oBJeWewP8zMSmezPuReqKyf
+	QP/8TVF43JrsATCA==
+Date: Thu, 20 Feb 2025 16:44:01 +0100
+Subject: [PATCH] kunit: tool: Implement listing of available architectures
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20250220-kunit-list-v1-1-40b9d56417ee@linutronix.de>
+X-B4-Tracking: v=1; b=H4sIAMBNt2cC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDIyMD3ezSvMwS3ZzM4hJdU1OjRIvklGQDQ8NUJaCGgqLUtMwKsGHRsbW
+ 1AHF4kspcAAAA
+X-Change-ID: 20250220-kunit-list-552a8cdc011e
+To: Brendan Higgins <brendan.higgins@linux.dev>, 
+ David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+ linux-kernel@vger.kernel.org, workflows@vger.kernel.org, 
+ linux-doc@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1740066254; l=2540;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=vixLLi9/2+puAuThU6rLYYKbOilkcMeTe2mtRtu1ry0=;
+ b=vVUhFFM57xUFzYiiVYock3MuTo5MshhsELAJxfl7/MKPQIhRDbL+qYmDqYDUtGr2o07/50sQ0
+ oYpG7/lqXvrDlgydmgcjWLOJ8PIB0LXHFtVXeOH48/8aqpBSLchE2nb
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+To implement custom scripting around kunit.py it is useful to get a list of
+available architectures. While it is possible to manually inspect
+tools/testing/kunit/qemu_configs/, this is annoying to implement and
+introduces a dependency on a kunit.py implementation detail.
 
->> WARNING: Documentation/ABI/testing/sysfs-class-cxl not found
->
-> I need to double-check verify this one, as it didn't appear on
-> my tests. Are you getting it against docs-next or linux-next?
+Introduce 'kunit.py run --arch help' which lists all known architectures
+in an easy to parse list. This is equivalent on how QEMU implements
+listing of possible argument values.
 
-I get this one too, FWIW.
+Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+---
+ Documentation/dev-tools/kunit/run_wrapper.rst | 2 ++
+ tools/testing/kunit/kunit_kernel.py           | 8 ++++++++
+ 2 files changed, 10 insertions(+)
 
-I've gone ahead and applied the series, but this would be nice to get
-cleaned up.
+diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/dev-tools/kunit/run_wrapper.rst
+index 19ddf5e07013314c608b570e297a8ff79a8efe7f..6697c71ee8ca020b8ac7e91b46e29ab082d9dea0 100644
+--- a/Documentation/dev-tools/kunit/run_wrapper.rst
++++ b/Documentation/dev-tools/kunit/run_wrapper.rst
+@@ -182,6 +182,8 @@ via UML. To run tests on qemu, by default it requires two flags:
+   is ignored), the tests will run via UML. Non-UML architectures,
+   for example: i386, x86_64, arm and so on; run on qemu.
+ 
++  ``--arch help`` lists all valid ``--arch`` values.
++
+ - ``--cross_compile``: Specifies the Kbuild toolchain. It passes the
+   same argument as passed to the ``CROSS_COMPILE`` variable used by
+   Kbuild. As a reminder, this will be the prefix for the toolchain
+diff --git a/tools/testing/kunit/kunit_kernel.py b/tools/testing/kunit/kunit_kernel.py
+index d30f90eae9a4237e85910fd36f7f1c731d952319..e04195b135edc8f1aabe21d094b276e47c4f6848 100644
+--- a/tools/testing/kunit/kunit_kernel.py
++++ b/tools/testing/kunit/kunit_kernel.py
+@@ -14,6 +14,7 @@ import os
+ import shlex
+ import shutil
+ import signal
++import sys
+ import threading
+ from typing import Iterator, List, Optional, Tuple
+ from types import FrameType
+@@ -201,6 +202,13 @@ def _default_qemu_config_path(arch: str) -> str:
+ 		return config_path
+ 
+ 	options = [f[:-3] for f in os.listdir(QEMU_CONFIGS_DIR) if f.endswith('.py')]
++
++	if arch == 'help':
++		print('um')
++		for option in options:
++			print(option)
++		sys.exit()
++
+ 	raise ConfigError(arch + ' is not a valid arch, options are ' + str(sorted(options)))
+ 
+ def _get_qemu_ops(config_path: str,
 
-Thanks,
+---
+base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+change-id: 20250220-kunit-list-552a8cdc011e
 
-jon
+Best regards,
+-- 
+Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+
