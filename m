@@ -1,131 +1,161 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A68F14A82;
-	Thu, 20 Feb 2025 15:44:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D01E22D057
+	for <workflows@vger.kernel.org>; Sat, 22 Feb 2025 00:23:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740066258; cv=none; b=j13d3QmZRtDntcHGe7ritx1aJY3nszj6XVbPKP/0ftCOsE2k6bxNqhmAitDv7xuFGJ3smssexkpQqhVv/Lc6TLC7CBHWLyJRyBGEf4vbPqq/3ZwMxSU+LjIvzJCmpeuVeDB/7cFfKcML0j/SSZ6FT5sv7X0fA70vov5/F4FkBsw=
+	t=1740183816; cv=none; b=QemaNy9PTrxMMyp07JITxpxRL9kmLo7B0WeEPKxUibMkulIomiMvN6W20rI7xGPfl4RQXo0Eh18YH83a4wcoHh7NYMwFRSulqJrY2CdgQrTtqn4MALJUYPs5rTa4wggr+iEmf1Gt+4DD5z6KZ54CwBz7wnrDzPIrBVnwwLi9yvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740066258; c=relaxed/simple;
-	bh=vixLLi9/2+puAuThU6rLYYKbOilkcMeTe2mtRtu1ry0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=BW60Pla/nSbScETmM70sj98eURxqgMBifhh8Gu5EBeLpaP/k5s9qBckOZtz/j2pdVc/kvvd0rHGvG54YmljDaEPF3NVh+PWfBeDIGM078gcXFVGULiqowrqb1LUrxR31a4sE71XPBcmszjZRYOHnAevhgr2EHBGJc3biescbLmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Aoz/HXuK; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=9ZwgEiOj; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1740183816; c=relaxed/simple;
+	bh=uWGj/ghDVjddUIymJroVvjH/8Eeew7Akh55VEKldi0I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kjF/bOwG5WZ1QQfKjjV+ghxr84AmYcL7ydXkXidlhD26N67msK9siF/RPJGt9hqL48odNjHXV0IdGcAwDbPsyCNjblPsmPhQ0cBpSvy+OgyuI/OjfROsouGU1zMwlk0D8MthAd6rvY0DS3pV2+r76vJ+n9TEQKjd6U//x4bgmTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ftTjcCjm; arc=none smtp.client-ip=209.85.219.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Aoz/HXuK";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="9ZwgEiOj"
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1740066255;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=OHflafuFF2Pw7sS+fLkXEz/wfs4sGDW5pqwQpGcmZvk=;
-	b=Aoz/HXuKARD+BSUAkVRzBBuwn0VC36Uwr4MY7dRAP5Cdkd18jyso/mOxNxzCGtk8pVcMQd
-	p1tHmmKpTB6gpwIn0OOHqbBOgsGnLfGE8UKHAlmd9IJLIgLvYump5xTHKdata51aLD08Zc
-	cqontCvWedLVqSGcOQhE3GT45NzOLy+iACLU+Cf44OUBXpH9QvJPLfYaEp1degZsuvIYv0
-	5EcdubQAVTEsLPMBdyqRpn7RBeWZyvHaLXIsjav2iryghqJUVyNwm+G2aNtmKrNhXv/APm
-	IMpALywQCtZcOBkhoRwdo9gAzmEXFQRfL7egNaHkO6xJxaxHZv1c0sOzlAlulQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1740066255;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=OHflafuFF2Pw7sS+fLkXEz/wfs4sGDW5pqwQpGcmZvk=;
-	b=9ZwgEiOjXJyYuSoCDdOXInelSIoDz6uuSh93n06oiFdmwF3oBJeWewP8zMSmezPuReqKyf
-	QP/8TVF43JrsATCA==
-Date: Thu, 20 Feb 2025 16:44:01 +0100
-Subject: [PATCH] kunit: tool: Implement listing of available architectures
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ftTjcCjm"
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-6e66b4607d2so12228476d6.3
+        for <workflows@vger.kernel.org>; Fri, 21 Feb 2025 16:23:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1740183814; x=1740788614; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bSzQcTJF5xLPZTvWx3iP/k+uVIkdYz50MFGnhN54B4k=;
+        b=ftTjcCjm1k1zfpnaap8hCLBJy00DKY0HtrXdKThR2yPM47EMDOSztXfrx3+TNn1Nl3
+         TE6ifyYxGZadqPi+t222T2i24K3dNtPau25/rzx634qGJpSROoE+GHxUbOrFQ+NQEnbr
+         OV4JAFNGU5XLI5L3fBHBnGskA9yCqDht10YIbVDcBLAqrVAixNX2QR4yyEaFvYw5ERNY
+         Khx1IU5YdGcG0Uci1zkipyLWio/33BZfcOkBSsf9nh3IjCZTPci+2lUsHMhDnxMYsEQF
+         2n5F6xkg2M9eq6sdRJQ/ZE5Pyf5fkjsQ1y0KtiCjGJ2Uqh3+MIvgTAnhgEVe0ezpQIwP
+         vGsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740183814; x=1740788614;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bSzQcTJF5xLPZTvWx3iP/k+uVIkdYz50MFGnhN54B4k=;
+        b=K+YMjQ1uH3DPEhrTn5OFqDUopoNMv9nOK31R9z2CJ990PeqRptaTLVB4ORHSmZa2h0
+         f8aiXAvEZnZ7DbUCcHG/cswC/xLkXdzVnCInLgjvEAW6w1zriLcXVXA6hHNM31QL2KCc
+         fS3cWDNfIRyCc5HT+7IbqyFMkz8fwXObjRJiOVzBQWNXQCO89GxK5dcqm7MTDc/wQTFz
+         7EHzAEiD3USQsh2KKkQzjSczURUMzxM4PkQhfv9dKNw5mqbV8Kp41qBduCCJcyQKXifB
+         zLX9CPXpmGxMRPjPwLkcD6GvNnR5HjwloI/Ee6Oq/XWVdMQUva+zlz0Upxrj7IunFB0c
+         S6Qg==
+X-Forwarded-Encrypted: i=1; AJvYcCW1Q4bMkI/9f/nfwiN6IturdUOzAzb7qfMn3S7Y2zYlp/AKvBSqNyK+ZRDDQq+saOIzIIQPK7vncpE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8oGbCPTFnmHQMIWBaQ5sRWqiTA0hRYt2N5hVH0HIvUKue0W4N
+	vFX3mcEB1PV1WRMobB1FbiLBdrnXRiBxJxD1MfNy3Bat0ls2oeECjuNTG/I1KLnfR3gYVBrTKmo
+	FWL7NEVvl464y0ESUmeOaEMQklLTuQRbVLLaE
+X-Gm-Gg: ASbGncvBiahchAg5hlEuD+403AQizkMbycfOVzOpCHTFOnsXgygiKQQmm32UpwKMjxG
+	p9TVgJAn/0ZoU0YdtI0eEy3ha/oMZgDiqV4y1ZXLQGxU/wyl2TgjQSdIxcQId+1dDYs1teuaLF9
+	p0AZd+adaTU+LWrD8BMs5KBx93T4lKZvAz5ACCgKujtA==
+X-Google-Smtp-Source: AGHT+IGuQ0EvmHyfKG5oNm+O437XGsKsIWjy7D69nwbmU+BvrwdeCAVThohimbQuZ5UbFbSqz6k2XiLKMUmXP/PvzrA=
+X-Received: by 2002:a05:6214:29e8:b0:6d4:b1e:5418 with SMTP id
+ 6a1803df08f44-6e6ae995a51mr75420156d6.33.1740183813487; Fri, 21 Feb 2025
+ 16:23:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250220-kunit-list-v1-1-40b9d56417ee@linutronix.de>
-X-B4-Tracking: v=1; b=H4sIAMBNt2cC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDIyMD3ezSvMwS3ZzM4hJdU1OjRIvklGQDQ8NUJaCGgqLUtMwKsGHRsbW
- 1AHF4kspcAAAA
-X-Change-ID: 20250220-kunit-list-552a8cdc011e
-To: Brendan Higgins <brendan.higgins@linux.dev>, 
- David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
- linux-kernel@vger.kernel.org, workflows@vger.kernel.org, 
- linux-doc@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1740066254; l=2540;
- i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=vixLLi9/2+puAuThU6rLYYKbOilkcMeTe2mtRtu1ry0=;
- b=vVUhFFM57xUFzYiiVYock3MuTo5MshhsELAJxfl7/MKPQIhRDbL+qYmDqYDUtGr2o07/50sQ0
- oYpG7/lqXvrDlgydmgcjWLOJ8PIB0LXHFtVXeOH48/8aqpBSLchE2nb
-X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
- pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
+References: <20250220-kunit-list-v1-1-40b9d56417ee@linutronix.de>
+In-Reply-To: <20250220-kunit-list-v1-1-40b9d56417ee@linutronix.de>
+From: Rae Moar <rmoar@google.com>
+Date: Fri, 21 Feb 2025 19:23:21 -0500
+X-Gm-Features: AWEUYZmnGvGuhAJ-WPSpg1m6Yg9Ho5W4SXQsSKmnp-R-4-C-DrR6attW40T2wKY
+Message-ID: <CA+GJov590t3N5NgsPTan2yR2150Y41wotPzW1RojTC6CEd_O1A@mail.gmail.com>
+Subject: Re: [PATCH] kunit: tool: Implement listing of available architectures
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+Cc: Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-kselftest@vger.kernel.org, 
+	kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-To implement custom scripting around kunit.py it is useful to get a list of
-available architectures. While it is possible to manually inspect
-tools/testing/kunit/qemu_configs/, this is annoying to implement and
-introduces a dependency on a kunit.py implementation detail.
+On Thu, Feb 20, 2025 at 10:44=E2=80=AFAM Thomas Wei=C3=9Fschuh
+<thomas.weissschuh@linutronix.de> wrote:
+>
+> To implement custom scripting around kunit.py it is useful to get a list =
+of
+> available architectures. While it is possible to manually inspect
+> tools/testing/kunit/qemu_configs/, this is annoying to implement and
+> introduces a dependency on a kunit.py implementation detail.
+>
+> Introduce 'kunit.py run --arch help' which lists all known architectures
+> in an easy to parse list. This is equivalent on how QEMU implements
+> listing of possible argument values.
+>
+> Signed-off-by: Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
 
-Introduce 'kunit.py run --arch help' which lists all known architectures
-in an easy to parse list. This is equivalent on how QEMU implements
-listing of possible argument values.
+Hello,
 
-Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
----
- Documentation/dev-tools/kunit/run_wrapper.rst | 2 ++
- tools/testing/kunit/kunit_kernel.py           | 8 ++++++++
- 2 files changed, 10 insertions(+)
+This patch looks good to me.
 
-diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/dev-tools/kunit/run_wrapper.rst
-index 19ddf5e07013314c608b570e297a8ff79a8efe7f..6697c71ee8ca020b8ac7e91b46e29ab082d9dea0 100644
---- a/Documentation/dev-tools/kunit/run_wrapper.rst
-+++ b/Documentation/dev-tools/kunit/run_wrapper.rst
-@@ -182,6 +182,8 @@ via UML. To run tests on qemu, by default it requires two flags:
-   is ignored), the tests will run via UML. Non-UML architectures,
-   for example: i386, x86_64, arm and so on; run on qemu.
- 
-+  ``--arch help`` lists all valid ``--arch`` values.
-+
- - ``--cross_compile``: Specifies the Kbuild toolchain. It passes the
-   same argument as passed to the ``CROSS_COMPILE`` variable used by
-   Kbuild. As a reminder, this will be the prefix for the toolchain
-diff --git a/tools/testing/kunit/kunit_kernel.py b/tools/testing/kunit/kunit_kernel.py
-index d30f90eae9a4237e85910fd36f7f1c731d952319..e04195b135edc8f1aabe21d094b276e47c4f6848 100644
---- a/tools/testing/kunit/kunit_kernel.py
-+++ b/tools/testing/kunit/kunit_kernel.py
-@@ -14,6 +14,7 @@ import os
- import shlex
- import shutil
- import signal
-+import sys
- import threading
- from typing import Iterator, List, Optional, Tuple
- from types import FrameType
-@@ -201,6 +202,13 @@ def _default_qemu_config_path(arch: str) -> str:
- 		return config_path
- 
- 	options = [f[:-3] for f in os.listdir(QEMU_CONFIGS_DIR) if f.endswith('.py')]
-+
-+	if arch == 'help':
-+		print('um')
-+		for option in options:
-+			print(option)
-+		sys.exit()
-+
- 	raise ConfigError(arch + ' is not a valid arch, options are ' + str(sorted(options)))
- 
- def _get_qemu_ops(config_path: str,
+Reviewed-by: Rae Moar <rmoar@google.com>
 
----
-base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
-change-id: 20250220-kunit-list-552a8cdc011e
+Thanks!
 
-Best regards,
--- 
-Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+-Rae
 
+> ---
+>  Documentation/dev-tools/kunit/run_wrapper.rst | 2 ++
+>  tools/testing/kunit/kunit_kernel.py           | 8 ++++++++
+>  2 files changed, 10 insertions(+)
+>
+> diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentatio=
+n/dev-tools/kunit/run_wrapper.rst
+> index 19ddf5e07013314c608b570e297a8ff79a8efe7f..6697c71ee8ca020b8ac7e91b4=
+6e29ab082d9dea0 100644
+> --- a/Documentation/dev-tools/kunit/run_wrapper.rst
+> +++ b/Documentation/dev-tools/kunit/run_wrapper.rst
+> @@ -182,6 +182,8 @@ via UML. To run tests on qemu, by default it requires=
+ two flags:
+>    is ignored), the tests will run via UML. Non-UML architectures,
+>    for example: i386, x86_64, arm and so on; run on qemu.
+>
+> +  ``--arch help`` lists all valid ``--arch`` values.
+> +
+>  - ``--cross_compile``: Specifies the Kbuild toolchain. It passes the
+>    same argument as passed to the ``CROSS_COMPILE`` variable used by
+>    Kbuild. As a reminder, this will be the prefix for the toolchain
+> diff --git a/tools/testing/kunit/kunit_kernel.py b/tools/testing/kunit/ku=
+nit_kernel.py
+> index d30f90eae9a4237e85910fd36f7f1c731d952319..e04195b135edc8f1aabe21d09=
+4b276e47c4f6848 100644
+> --- a/tools/testing/kunit/kunit_kernel.py
+> +++ b/tools/testing/kunit/kunit_kernel.py
+> @@ -14,6 +14,7 @@ import os
+>  import shlex
+>  import shutil
+>  import signal
+> +import sys
+>  import threading
+>  from typing import Iterator, List, Optional, Tuple
+>  from types import FrameType
+> @@ -201,6 +202,13 @@ def _default_qemu_config_path(arch: str) -> str:
+>                 return config_path
+>
+>         options =3D [f[:-3] for f in os.listdir(QEMU_CONFIGS_DIR) if f.en=
+dswith('.py')]
+> +
+> +       if arch =3D=3D 'help':
+> +               print('um')
+> +               for option in options:
+> +                       print(option)
+> +               sys.exit()
+> +
+>         raise ConfigError(arch + ' is not a valid arch, options are ' + s=
+tr(sorted(options)))
+>
+>  def _get_qemu_ops(config_path: str,
+>
+> ---
+> base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+> change-id: 20250220-kunit-list-552a8cdc011e
+>
+> Best regards,
+> --
+> Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
+>
