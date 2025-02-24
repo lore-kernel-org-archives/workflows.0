@@ -1,161 +1,146 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D01E22D057
-	for <workflows@vger.kernel.org>; Sat, 22 Feb 2025 00:23:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B45189F36
+	for <workflows@vger.kernel.org>; Mon, 24 Feb 2025 19:09:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740183816; cv=none; b=QemaNy9PTrxMMyp07JITxpxRL9kmLo7B0WeEPKxUibMkulIomiMvN6W20rI7xGPfl4RQXo0Eh18YH83a4wcoHh7NYMwFRSulqJrY2CdgQrTtqn4MALJUYPs5rTa4wggr+iEmf1Gt+4DD5z6KZ54CwBz7wnrDzPIrBVnwwLi9yvk=
+	t=1740424149; cv=none; b=ecP6L/TpIqHChgqVD6Re0dGWuL74xAW+7gMowBjKNiYV6NhLuRExYlVIzxnKBuYa3iS0ykQxiYHpog3HD73BYo4e4CCleVMDXDm7JisXtXlYaCZOB6LfCPrRhYn0BvKoVRB6ODUmN2Hq86N5+Q9kRrrzAjLvxQtavNWwEscbNDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740183816; c=relaxed/simple;
-	bh=uWGj/ghDVjddUIymJroVvjH/8Eeew7Akh55VEKldi0I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kjF/bOwG5WZ1QQfKjjV+ghxr84AmYcL7ydXkXidlhD26N67msK9siF/RPJGt9hqL48odNjHXV0IdGcAwDbPsyCNjblPsmPhQ0cBpSvy+OgyuI/OjfROsouGU1zMwlk0D8MthAd6rvY0DS3pV2+r76vJ+n9TEQKjd6U//x4bgmTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ftTjcCjm; arc=none smtp.client-ip=209.85.219.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1740424149; c=relaxed/simple;
+	bh=bCr8vR9eIpvmjDP2ky0jg3Mz8hl842I/M1iMYHRf9/s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lb31Hp1bsyMJl2NoSXT16vqbvEQJyNADEsMCy5lddjlsqtc8uMt4CEPsXMXP1rhQgIUH6GQO8IsAVmHkGoAGYQ+koEBgoCdE8Cgd9Rxoakk2FhoblP4PqMxqThKaftK6VhL4InFCmIMCr/ky3hv9HSw9pWXeT6tC1e24nlj1WzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ie63vOzC; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ftTjcCjm"
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-6e66b4607d2so12228476d6.3
-        for <workflows@vger.kernel.org>; Fri, 21 Feb 2025 16:23:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1740183814; x=1740788614; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bSzQcTJF5xLPZTvWx3iP/k+uVIkdYz50MFGnhN54B4k=;
-        b=ftTjcCjm1k1zfpnaap8hCLBJy00DKY0HtrXdKThR2yPM47EMDOSztXfrx3+TNn1Nl3
-         TE6ifyYxGZadqPi+t222T2i24K3dNtPau25/rzx634qGJpSROoE+GHxUbOrFQ+NQEnbr
-         OV4JAFNGU5XLI5L3fBHBnGskA9yCqDht10YIbVDcBLAqrVAixNX2QR4yyEaFvYw5ERNY
-         Khx1IU5YdGcG0Uci1zkipyLWio/33BZfcOkBSsf9nh3IjCZTPci+2lUsHMhDnxMYsEQF
-         2n5F6xkg2M9eq6sdRJQ/ZE5Pyf5fkjsQ1y0KtiCjGJ2Uqh3+MIvgTAnhgEVe0ezpQIwP
-         vGsg==
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ie63vOzC"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51OI13dO004412
+	for <workflows@vger.kernel.org>; Mon, 24 Feb 2025 19:09:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	zavfbH1zR/1Hpjz69wllzxoWL+BaXWGYetefdcl5eoY=; b=ie63vOzCZ1O5web1
+	y34A/gcZOBLTWM7sX+71F1kllAlZ/z9IBPx1gEE0nLWuvnv8vjJH2wrkJAk3SXJY
+	vkqLeaCz3/GQQWxWF1WflBTpyX+ajBn/b3R/ihGAKumaf3ANILsmYDFwWmQLYxqc
+	TJnu9gMPKHHur543bb/rKNJLGaYLmQGhZgDsiizpcFkGwOdHszHoKBkWMEApGuAw
+	23z5lAGZ5J59dC98p/fOdPs0BAmYeQRIxMjQdKnj3uxrcntScJOHS5MXWzYq2HCF
+	6xGV5bfp2Z7AzkRjGMXzU6swerVk9rTx6Ax4j6FyZOUmhNTivqSyor/nayogqNLA
+	1oKpCA==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44y3xnegxh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <workflows@vger.kernel.org>; Mon, 24 Feb 2025 19:09:06 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-220fb031245so81339025ad.3
+        for <workflows@vger.kernel.org>; Mon, 24 Feb 2025 11:09:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740183814; x=1740788614;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bSzQcTJF5xLPZTvWx3iP/k+uVIkdYz50MFGnhN54B4k=;
-        b=K+YMjQ1uH3DPEhrTn5OFqDUopoNMv9nOK31R9z2CJ990PeqRptaTLVB4ORHSmZa2h0
-         f8aiXAvEZnZ7DbUCcHG/cswC/xLkXdzVnCInLgjvEAW6w1zriLcXVXA6hHNM31QL2KCc
-         fS3cWDNfIRyCc5HT+7IbqyFMkz8fwXObjRJiOVzBQWNXQCO89GxK5dcqm7MTDc/wQTFz
-         7EHzAEiD3USQsh2KKkQzjSczURUMzxM4PkQhfv9dKNw5mqbV8Kp41qBduCCJcyQKXifB
-         zLX9CPXpmGxMRPjPwLkcD6GvNnR5HjwloI/Ee6Oq/XWVdMQUva+zlz0Upxrj7IunFB0c
-         S6Qg==
-X-Forwarded-Encrypted: i=1; AJvYcCW1Q4bMkI/9f/nfwiN6IturdUOzAzb7qfMn3S7Y2zYlp/AKvBSqNyK+ZRDDQq+saOIzIIQPK7vncpE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8oGbCPTFnmHQMIWBaQ5sRWqiTA0hRYt2N5hVH0HIvUKue0W4N
-	vFX3mcEB1PV1WRMobB1FbiLBdrnXRiBxJxD1MfNy3Bat0ls2oeECjuNTG/I1KLnfR3gYVBrTKmo
-	FWL7NEVvl464y0ESUmeOaEMQklLTuQRbVLLaE
-X-Gm-Gg: ASbGncvBiahchAg5hlEuD+403AQizkMbycfOVzOpCHTFOnsXgygiKQQmm32UpwKMjxG
-	p9TVgJAn/0ZoU0YdtI0eEy3ha/oMZgDiqV4y1ZXLQGxU/wyl2TgjQSdIxcQId+1dDYs1teuaLF9
-	p0AZd+adaTU+LWrD8BMs5KBx93T4lKZvAz5ACCgKujtA==
-X-Google-Smtp-Source: AGHT+IGuQ0EvmHyfKG5oNm+O437XGsKsIWjy7D69nwbmU+BvrwdeCAVThohimbQuZ5UbFbSqz6k2XiLKMUmXP/PvzrA=
-X-Received: by 2002:a05:6214:29e8:b0:6d4:b1e:5418 with SMTP id
- 6a1803df08f44-6e6ae995a51mr75420156d6.33.1740183813487; Fri, 21 Feb 2025
- 16:23:33 -0800 (PST)
+        d=1e100.net; s=20230601; t=1740424145; x=1741028945;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zavfbH1zR/1Hpjz69wllzxoWL+BaXWGYetefdcl5eoY=;
+        b=gyO+cc8idcAcf9ncdMHSqXYrK7BewOYbhG9+2mCHSo7Rg/MNCXjHsf/375jRbE7m7Q
+         J5/BgL6BGd0kh7uc6qApD62r8JW/lXVqXnl/ibsc/SboAj1OhlJjZaer9LajWMEa/Fsg
+         G78ejQ7Slu79tD337YQXQr5b43gK2bgq6QmrVaG+sxmW1hBRs5J6UZg3xpyo2m+aDPxR
+         odY+sHCM0tqglKS9OujiKkA4Wyg3zt6u/8KStK8X2rXoBhUR+5Hrh71ZS6/5/Fi6EaK3
+         MamGVEMQDp2Hc47Fqe918qlmafg9ColCcsPkBJEDwE9jNTr4ru+auznBehMkXc5bZdcV
+         Fg0w==
+X-Forwarded-Encrypted: i=1; AJvYcCXG13fY2K6sF+bcUBxY9hTL2j2+jVKHBC42tGNIfRmZtFmhFsiYvEp/OVbVwVfqi+R5BYtcZgLpItc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5xOMmU5AbE2cB12apBn6xoPlfxxFE4vSth1ptO4STuz6F+SLb
+	VElxiFRpcHQG/MJzPhW6ZTFeVtB+UoEENnKOE13dI/E2w6MkTsU42Y3i50Z6YtDLLA7Cv2cuahw
+	AAHN9T3j9pTupdDEock4aohSLqhred1XUOOXK9+6hESn2LcgpsVZ8jWx5Xb8=
+X-Gm-Gg: ASbGncty+8MR+tG9Yyeoevq0S6Ax+dhhhPWZ52P3Uw6jiNseJ+RnluS+hE25rs8n9rP
+	W9Ne0f/L+IHZLmuboemDDY4Spb4sdjLOAVqZL8s7Q6ruDiaWTcooQE0omKlWUn4NE+5pXMl4vFV
+	qmJKP9KOECk8ciz+syn1MmYgj8yH6Ab+XG1g01PkbH7UhgifkN96frxnMPy/L5HUiHrunfLTOxd
+	ODplB1xFYSodz5I7DY4Q4tSk0oYLjHx4DvLrOBj74+KFIWw+NuDisj6UD2CzQY+XP8EfWxl5LoM
+	gLjXHPSoSPfAvBU1a3YiZfGPhZvVf6K8pXxBTyy2ZwjFIJmXovMvQo6VxYcIkr161RbGlAp8h9I
+	v+9J597pj
+X-Received: by 2002:a17:902:d485:b0:216:4c88:d939 with SMTP id d9443c01a7336-221a001566bmr251110715ad.38.1740424144823;
+        Mon, 24 Feb 2025 11:09:04 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGcdxrqY3Lyk9CkgTZBMPvmDZreZBBgsyz9s8m4CzkH23FajmfKJsLRld5cYoHmaSFvTzGfDw==
+X-Received: by 2002:a17:902:d485:b0:216:4c88:d939 with SMTP id d9443c01a7336-221a001566bmr251110365ad.38.1740424144434;
+        Mon, 24 Feb 2025 11:09:04 -0800 (PST)
+Received: from [192.168.1.111] (c-73-202-227-126.hsd1.ca.comcast.net. [73.202.227.126])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d6fa9b75sm181348775ad.199.2025.02.24.11.09.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Feb 2025 11:09:04 -0800 (PST)
+Message-ID: <763bd905-6f1a-42a9-9f81-acecd98131a4@oss.qualcomm.com>
+Date: Mon, 24 Feb 2025 11:09:02 -0800
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250220-kunit-list-v1-1-40b9d56417ee@linutronix.de>
-In-Reply-To: <20250220-kunit-list-v1-1-40b9d56417ee@linutronix.de>
-From: Rae Moar <rmoar@google.com>
-Date: Fri, 21 Feb 2025 19:23:21 -0500
-X-Gm-Features: AWEUYZmnGvGuhAJ-WPSpg1m6Yg9Ho5W4SXQsSKmnp-R-4-C-DrR6attW40T2wKY
-Message-ID: <CA+GJov590t3N5NgsPTan2yR2150Y41wotPzW1RojTC6CEd_O1A@mail.gmail.com>
-Subject: Re: [PATCH] kunit: tool: Implement listing of available architectures
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-Cc: Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-kselftest@vger.kernel.org, 
-	kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/2] checkpatch: Add support for checkpatch-ignore note
+To: Brendan Jackman <jackmanb@google.com>, Andy Whitcroft
+ <apw@canonical.com>,
+        Joe Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20250115-checkpatch-ignore-v2-0-8467750bf713@google.com>
+From: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <20250115-checkpatch-ignore-v2-0-8467750bf713@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: 2YebJuReN71148h-ljE7mg1dEvcg91Ms
+X-Proofpoint-GUID: 2YebJuReN71148h-ljE7mg1dEvcg91Ms
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-24_09,2025-02-24_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 bulkscore=0
+ suspectscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0 clxscore=1011
+ priorityscore=1501 spamscore=0 malwarescore=0 phishscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2502100000
+ definitions=main-2502240124
 
-On Thu, Feb 20, 2025 at 10:44=E2=80=AFAM Thomas Wei=C3=9Fschuh
-<thomas.weissschuh@linutronix.de> wrote:
->
-> To implement custom scripting around kunit.py it is useful to get a list =
-of
-> available architectures. While it is possible to manually inspect
-> tools/testing/kunit/qemu_configs/, this is annoying to implement and
-> introduces a dependency on a kunit.py implementation detail.
->
-> Introduce 'kunit.py run --arch help' which lists all known architectures
-> in an easy to parse list. This is equivalent on how QEMU implements
-> listing of possible argument values.
->
-> Signed-off-by: Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
+On 1/15/2025 7:33 AM, Brendan Jackman wrote:
+> Checkpatch sometimes has false positives. This makes it less useful for
+> automatic usage: tools like b4 [0] can run checkpatch on all of your
+> patches and give you a quick overview. When iterating on a branch, it's
+> tiresome to manually re-check that any errors are known false positives.
+> 
+> This patch adds a feature to record in the patch "graveyard" (after the
+> "---" that a patch might produce a certain checkpatch error, and that
+> this is an expected false positive.
+> 
+> Note, for Git users this will require some configuration changes to
+> adopt (see documentation patch), and not all tools that wrap Checkpatch
+> will automatically be able to take advantage. Changes are required for
+> `b4 prep --check` to work [0], I'll send that separately if this patch
+> is accepted.
+> 
+> [0] https://github.com/bjackman/b4/tree/checkpatch-ignore
 
-Hello,
+While this addresses one issue with checkpatch, it doesn't solve what I
+consider to be a bigger issue, namely to have a way for checkpatch to ignore
+false positives (or deliberate use of non-compliant code) when run with the -f
+flag.
 
-This patch looks good to me.
+I don't know how many times I've seen new kernel contributors try to "fix"
+checkpatch issues as their first commit, and contribute broken code in the
+process. This is especially true when trying to "fix" macros.
 
-Reviewed-by: Rae Moar <rmoar@google.com>
+So IMO what would be more useful is to have some way to document these
+overrides in the tree so that they could be honored both when processing
+patches as well as when processing files.
 
-Thanks!
+Note that thanks to Kalle's work, the wireless/ath drivers have their own way
+of doing this, but of course that only works if you run the scripts.
+checkpatch run normally would still flag the issues.
 
--Rae
+more surgical:
+<https://github.com/qca/qca-swiss-army-knife/blob/master/tools/scripts/ath12k/ath12k-check>
 
-> ---
->  Documentation/dev-tools/kunit/run_wrapper.rst | 2 ++
->  tools/testing/kunit/kunit_kernel.py           | 8 ++++++++
->  2 files changed, 10 insertions(+)
->
-> diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentatio=
-n/dev-tools/kunit/run_wrapper.rst
-> index 19ddf5e07013314c608b570e297a8ff79a8efe7f..6697c71ee8ca020b8ac7e91b4=
-6e29ab082d9dea0 100644
-> --- a/Documentation/dev-tools/kunit/run_wrapper.rst
-> +++ b/Documentation/dev-tools/kunit/run_wrapper.rst
-> @@ -182,6 +182,8 @@ via UML. To run tests on qemu, by default it requires=
- two flags:
->    is ignored), the tests will run via UML. Non-UML architectures,
->    for example: i386, x86_64, arm and so on; run on qemu.
->
-> +  ``--arch help`` lists all valid ``--arch`` values.
-> +
->  - ``--cross_compile``: Specifies the Kbuild toolchain. It passes the
->    same argument as passed to the ``CROSS_COMPILE`` variable used by
->    Kbuild. As a reminder, this will be the prefix for the toolchain
-> diff --git a/tools/testing/kunit/kunit_kernel.py b/tools/testing/kunit/ku=
-nit_kernel.py
-> index d30f90eae9a4237e85910fd36f7f1c731d952319..e04195b135edc8f1aabe21d09=
-4b276e47c4f6848 100644
-> --- a/tools/testing/kunit/kunit_kernel.py
-> +++ b/tools/testing/kunit/kunit_kernel.py
-> @@ -14,6 +14,7 @@ import os
->  import shlex
->  import shutil
->  import signal
-> +import sys
->  import threading
->  from typing import Iterator, List, Optional, Tuple
->  from types import FrameType
-> @@ -201,6 +202,13 @@ def _default_qemu_config_path(arch: str) -> str:
->                 return config_path
->
->         options =3D [f[:-3] for f in os.listdir(QEMU_CONFIGS_DIR) if f.en=
-dswith('.py')]
-> +
-> +       if arch =3D=3D 'help':
-> +               print('um')
-> +               for option in options:
-> +                       print(option)
-> +               sys.exit()
-> +
->         raise ConfigError(arch + ' is not a valid arch, options are ' + s=
-tr(sorted(options)))
->
->  def _get_qemu_ops(config_path: str,
->
-> ---
-> base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
-> change-id: 20250220-kunit-list-552a8cdc011e
->
-> Best regards,
-> --
-> Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
->
+less surgical:
+<https://github.com/qca/qca-swiss-army-knife/blob/master/tools/scripts/ath11k/ath11k-check>
+<https://github.com/qca/qca-swiss-army-knife/blob/master/tools/scripts/ath10k/ath10k-check>
+
+/jeff
