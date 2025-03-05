@@ -1,63 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C88424A067;
-	Wed,  5 Mar 2025 15:30:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ACC619D06A;
+	Wed,  5 Mar 2025 20:09:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741188613; cv=none; b=dCmzJx4x0f7ycMbSZZUMLOMwns+ftOrQMFPJ7fd48BbMzEGsZ6x5x+jMxMoOT8qkyGjV1BrO2DgR3fqFr1qDPxE65O6+S5x+xYS6z3gSVcj7y8Gku7Eqht1Qb+1WzZ845QFvhamBg1YoNqMWgl73/tMMiILEo+xR74yXzRiQ1Gw=
+	t=1741205344; cv=none; b=SnZQjAV6qI+Qf/0nLNZh8U2OmHtq1rVTwJQGKcfwOVGsYJPxs1wC6R0Pi8dKfduS5QNtMqNUWIlcqmJrq1ZDgqLNLhyHiWYf9fb66UyjiOj8OkGfeNuibSaj1mT7I9TXCDRfwjrjy79jGQTo8DUWc5NntDDWF/qcHNPnj1Bjc2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741188613; c=relaxed/simple;
-	bh=/C+McU4v1umcl0Ys6cBPzqL+uPU8wosa8nl6yfiPRZg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Moejf1snI+tLEUc8K1dCfnIH0V5W4/AOSJPVn4WCHm69nU2unCT2U6g/ivqifgnl12AsIRf+pufPPaGIuWbShNdilf/tg0VmLQnV5wm1Ab9Rys174WBCm7uCqBiTUIjmCZKJ2Vb3vgYa6rSQD2hb3NrflRvfiVvVM/9vjCzXrOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2DE4C4CED1;
-	Wed,  5 Mar 2025 15:30:11 +0000 (UTC)
-Date: Wed, 5 Mar 2025 10:31:08 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: Shuah Khan <shuah@kernel.org>, gregkh@linuxfoundation.org,
- corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, conduct@kernel.org, tab@lists.linux.dev,
- Miguel Ojeda <ojeda@kernel.org>
-Subject: Re: [PATCH] Documentation/CoC: Spell out the TAB role in
- enforcement decisions
-Message-ID: <20250305103108.4943e301@gandalf.local.home>
-In-Reply-To: <87h647yf8r.fsf@intel.com>
-References: <20250304194813.11049-1-shuah@kernel.org>
-	<87h647yf8r.fsf@intel.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1741205344; c=relaxed/simple;
+	bh=3GEXo0R3oi/i957HgbWWMqT94pZhKmcGNV8yUuiPhGY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Cvg03almkfb5O82XKYQGCxAK/gMiwg4nCB7gjXlNnTzCmYBiVmnu82k1JHln4sWg+acnWNDQ1XTb9wWgdo8N/y4fIeNxlGm6PVNO08bmLvMv5qlZNV8Te2cH+MiaPVzYG32nrn6wkdr0rTCefslfwvCTeZ1FH07UOm+KZsxbnZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kC8w/wzV; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kC8w/wzV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46F5DC4CED1;
+	Wed,  5 Mar 2025 20:09:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741205343;
+	bh=3GEXo0R3oi/i957HgbWWMqT94pZhKmcGNV8yUuiPhGY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=kC8w/wzVrOeI+eaIoh+n2wfbPqxzUEDR4IFvOqOpHP7xW1Bbt4+RlNrFiPoRWDSlw
+	 Vp72Y9UKlZHt9R5C7Db3lbRKbFrANwLiXSjnqbWvQZHNiwLzDCaBvs1LyMa+S0QD1m
+	 VSx3283CCG++gn4F4N1Xvj4DhL5D03QUVak3sC7fR2uvonbTagTpkMHnGC+kANYtgU
+	 2iUmPy9wqj5SblPyJMOfsNQpNXALNJ/gIlF6ajNREQUd+RHb/fhdB8aVJ7gi2G5Zgi
+	 0b0fqQ3q4W+ueiB/U663TT2rE8cbOac2X7r0Yufwe8nM54WOSbBdea1SiDtxkZ9wcW
+	 5HDiKvyX2A0PQ==
+Message-ID: <5a284bee-c332-4af2-b7ad-56296e419e18@kernel.org>
+Date: Wed, 5 Mar 2025 13:08:51 -0700
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation/CoC: Spell out the TAB role in enforcement
+ decisions
+To: Steven Rostedt <rostedt@goodmis.org>, Jani Nikula <jani.nikula@intel.com>
+Cc: Shuah Khan <shuah@kernel.org>, gregkh@linuxfoundation.org,
+ corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, conduct@kernel.org, tab@lists.linux.dev,
+ Miguel Ojeda <ojeda@kernel.org>
+References: <20250304194813.11049-1-shuah@kernel.org>
+ <87h647yf8r.fsf@intel.com> <20250305103108.4943e301@gandalf.local.home>
+Content-Language: en-US
+From: Shuah <shuah@kernel.org>
+In-Reply-To: <20250305103108.4943e301@gandalf.local.home>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Wed, 05 Mar 2025 11:54:28 +0200
-Jani Nikula <jani.nikula@intel.com> wrote:
-
-> 2/3 actually means 7/10 for the TAB.
+On 3/5/25 08:31, Steven Rostedt wrote:
+> On Wed, 05 Mar 2025 11:54:28 +0200
+> Jani Nikula <jani.nikula@intel.com> wrote:
 > 
-> Except two of the CoC committee members currently serve on the TAB, and
-> will not vote. Assuming they will also not count for the total, 2/3
-> means 6/8 = 75%.
+>> 2/3 actually means 7/10 for the TAB.
+>>
+>> Except two of the CoC committee members currently serve on the TAB, and
+>> will not vote. Assuming they will also not count for the total, 2/3
+>> means 6/8 = 75%.
+>>
+>> All of a sudden you actually need 3/4 majority in the TAB to approve any
+>> CoC measures.
+>>
+>> Perhaps consider using a simple majority instead? The numbers become
+>> 6/10 and 5/8.
 > 
-> All of a sudden you actually need 3/4 majority in the TAB to approve any
-> CoC measures.
+> I'm a TAB member but I'm speaking for myself and not on behalf of the TAB.
 > 
-> Perhaps consider using a simple majority instead? The numbers become
-> 6/10 and 5/8.
+> I rather keep it as is and not move it to a simple majority. If the TAB is
+> going to make a decision that may affect the ability of a developer to get
+> their work done, the issue had better be substantial where it should have no
+> problem getting to 75%. Ideally, it should even be unanimous, but there are
+> cases where a member may be involved, and decides to abstain.
+> 
 
-I'm a TAB member but I'm speaking for myself and not on behalf of the TAB.
+I am in total agreement with Steve on this. The way the document reads now
+with this change allows for oversight when the CoC, the TAB and the community
+is forced to make tough decisions that impact developer's ability to participate
+in the development process.
 
-I rather keep it as is and not move it to a simple majority. If the TAB is
-going to make a decision that may affect the ability of a developer to get
-their work done, the issue had better be substantial where it should have no
-problem getting to 75%. Ideally, it should even be unanimous, but there are
-cases where a member may be involved, and decides to abstain.
-
--- Steve
+thanks,
+-- Shuah
