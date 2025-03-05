@@ -1,96 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A7B20899B;
-	Wed,  5 Mar 2025 09:54:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C88424A067;
+	Wed,  5 Mar 2025 15:30:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741168478; cv=none; b=Rqs10A95SGHrs1ndKbTcxpBtYxKNBjiA0M1PpxJok5o/Bqo4+OydvZH3t+/d7WdJMFQRSVrOLIzfjUjg/IDbzsUguxDYFJ6PlAbdaKQO/vH4Xl0pvp2e4JmdFhXn6I9l+h/I5rc08JP6blcxRgOtYNfmL5cuGIFpy2Jp8timBC8=
+	t=1741188613; cv=none; b=dCmzJx4x0f7ycMbSZZUMLOMwns+ftOrQMFPJ7fd48BbMzEGsZ6x5x+jMxMoOT8qkyGjV1BrO2DgR3fqFr1qDPxE65O6+S5x+xYS6z3gSVcj7y8Gku7Eqht1Qb+1WzZ845QFvhamBg1YoNqMWgl73/tMMiILEo+xR74yXzRiQ1Gw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741168478; c=relaxed/simple;
-	bh=IWfs6yzKVI4Ccxc4IRO+UnK1ZSpJVL7z+ettaycFGio=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=S9HeQjg1vOPhpWcmSgkYEJfeNqvbO2IfymYe9k09C5xH98Mi0eIT3SKvbdVa87E9BLV4u+VQEqFGW9lTEB3cp0lx8Q4LHk4b+fQIKO7Sezi/LHbYeGkcYvikIiibKOyLtgJky6hsmSY516ef6L01o/1dWzcJuwSp88vCbLcgOzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QH+GqAE8; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QH+GqAE8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741168476; x=1772704476;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=IWfs6yzKVI4Ccxc4IRO+UnK1ZSpJVL7z+ettaycFGio=;
-  b=QH+GqAE8hhVJq9a3BkSAi94ln3Ie2qgOMWshmrGOcqP+eZaAMu+5ZHmC
-   dITc8FzS1vaVTOdc8uhWoT15PL2/k+aFnqknjG+6MqXaZNZsnYo7XVHmL
-   eVn4G8d2YFIyb5wJ7dG1Godus/FIRtDSvobAXwTgSQkIsqoaJVjpwz47p
-   gPtlsSivwwv4b8k7eQiTuhueWCp+S1EGTBXD8M4NKYyq9Ne0l96ZDNO2L
-   OdogPEywmkc2n3pyMYJoNI5QjbLXaoKpnvPAePeAGAzG3wmKc6UqH3Kki
-   pls66Tk0+aABcu7fzDN9jzfl5S8tC71HtME6ukuLQhB/74hxrjb93Ktxy
-   w==;
-X-CSE-ConnectionGUID: QRpaNJ/KQb23KslOdOD6cw==
-X-CSE-MsgGUID: 2SLQAHBMQyeIr5OXJca2KA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="42146539"
-X-IronPort-AV: E=Sophos;i="6.14,222,1736841600"; 
-   d="scan'208";a="42146539"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 01:54:35 -0800
-X-CSE-ConnectionGUID: NjveLfVgQTqYF8JmmVY09Q==
-X-CSE-MsgGUID: xK+hVwDbS0OgxhSnkrxgcA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="119144939"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.49])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 01:54:31 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Shuah Khan <shuah@kernel.org>, gregkh@linuxfoundation.org, corbet@lwn.net
-Cc: Shuah Khan <shuah@kernel.org>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- conduct@kernel.org, tab@lists.linux.dev, Miguel Ojeda <ojeda@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>
+	s=arc-20240116; t=1741188613; c=relaxed/simple;
+	bh=/C+McU4v1umcl0Ys6cBPzqL+uPU8wosa8nl6yfiPRZg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Moejf1snI+tLEUc8K1dCfnIH0V5W4/AOSJPVn4WCHm69nU2unCT2U6g/ivqifgnl12AsIRf+pufPPaGIuWbShNdilf/tg0VmLQnV5wm1Ab9Rys174WBCm7uCqBiTUIjmCZKJ2Vb3vgYa6rSQD2hb3NrflRvfiVvVM/9vjCzXrOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2DE4C4CED1;
+	Wed,  5 Mar 2025 15:30:11 +0000 (UTC)
+Date: Wed, 5 Mar 2025 10:31:08 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: Shuah Khan <shuah@kernel.org>, gregkh@linuxfoundation.org,
+ corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, conduct@kernel.org, tab@lists.linux.dev,
+ Miguel Ojeda <ojeda@kernel.org>
 Subject: Re: [PATCH] Documentation/CoC: Spell out the TAB role in
  enforcement decisions
-In-Reply-To: <20250304194813.11049-1-shuah@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Message-ID: <20250305103108.4943e301@gandalf.local.home>
+In-Reply-To: <87h647yf8r.fsf@intel.com>
 References: <20250304194813.11049-1-shuah@kernel.org>
-Date: Wed, 05 Mar 2025 11:54:28 +0200
-Message-ID: <87h647yf8r.fsf@intel.com>
+	<87h647yf8r.fsf@intel.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, 04 Mar 2025, Shuah Khan <shuah@kernel.org> wrote:
->  Any decisions regarding enforcement recommendations will be brought to
->  the TAB for implementation of enforcement with the relevant maintainers
-> -if needed.  A decision by the Code of Conduct Committee can be overturned
-> -by the TAB by a two-thirds vote.
-> +if needed.  Once the TAB approves one or more of the measures outlined
-> +in the scope of the ban by two-thirds of the members voting for the
-> +measures, the Code of Conduct Committee will enforce the TAB approved
-> +measures.  Any Code of Conduct Committee members serving on the TAB will
-> +not vote on the measures.
+On Wed, 05 Mar 2025 11:54:28 +0200
+Jani Nikula <jani.nikula@intel.com> wrote:
 
-2/3 actually means 7/10 for the TAB.
+> 2/3 actually means 7/10 for the TAB.
+> 
+> Except two of the CoC committee members currently serve on the TAB, and
+> will not vote. Assuming they will also not count for the total, 2/3
+> means 6/8 = 75%.
+> 
+> All of a sudden you actually need 3/4 majority in the TAB to approve any
+> CoC measures.
+> 
+> Perhaps consider using a simple majority instead? The numbers become
+> 6/10 and 5/8.
 
-Except two of the CoC committee members currently serve on the TAB, and
-will not vote. Assuming they will also not count for the total, 2/3
-means 6/8 = 75%.
+I'm a TAB member but I'm speaking for myself and not on behalf of the TAB.
 
-All of a sudden you actually need 3/4 majority in the TAB to approve any
-CoC measures.
+I rather keep it as is and not move it to a simple majority. If the TAB is
+going to make a decision that may affect the ability of a developer to get
+their work done, the issue had better be substantial where it should have no
+problem getting to 75%. Ideally, it should even be unanimous, but there are
+cases where a member may be involved, and decides to abstain.
 
-Perhaps consider using a simple majority instead? The numbers become
-6/10 and 5/8.
-
-
-BR,
-Jani.
-
-
--- 
-Jani Nikula, Intel
+-- Steve
