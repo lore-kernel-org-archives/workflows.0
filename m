@@ -1,82 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282FF1DED5E;
-	Tue, 11 Mar 2025 22:48:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31221EE7A7;
+	Wed, 12 Mar 2025 22:32:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741733289; cv=none; b=SlQ6XjGN5z1PI27WvUbGe8QCjdu0aA602UzJOBUxBVpupl9yRrbLHaELfW2iuewAVapbovMyAVVuX+7IufVq2vbSfmZv8Hb9UtHrY1vrixjzc5p/zKgkBg/Up/6+x0F7BaF4GSbHLKhHLix46XHfzGDES8Hf5zg8o1aVGhMLIGo=
+	t=1741818746; cv=none; b=U8ZyJpOe14jiJ6ndnm0BjMF8KvZKxIayU+RYaChzkUZM2uA09ajqb0ez4wmgSq8vEzvzgWstvvqMgBvjWmjdbPv+IQu6ftQ3C4IsnY9UN4bBg23xvB1l3rPFvz8N1JKv4mVAs6YQXyL39Ks6uEbfGJ3qUX6ppRNcJa9eqiXIinw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741733289; c=relaxed/simple;
-	bh=KONszdF6fxH7KxSwnwfukcwgFVVhCiCZ8EpbrmLPJxI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pCR6q/FXe7PfF4dvuC+QFc4X2rLW3yPaqSon0c3axagJyfNBYNgLewlrEMQcnfIUlhUW8705Cju4gMgJeOg7SXlngq1OqrIfSD+Ne1YylANY/W0y21Rjpt+DWxquzDosmhafeWkspCQfoV7bUqrR4oHFpe2QLVV60WPp1+wUlyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uevlgbQS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741818746; c=relaxed/simple;
+	bh=KtI76n+O5O6nhKuTHqvqGNopnOGA1LLkaAn30RddlLQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=RkiBTCZH2FZn2iqVMkW78IJgR2Ye72/1wjFq5dabpvwNo5aJ050atEVx3o/pEcRWcY+wx6lw5RmJocKJqBmlOctrKj11dBxkEwtDQw2MhjDyLoT1VoXTusMFh/H0lITk+XjVGY769xb5qE26IJ8/ahO1GkwStDeIOPrlwr8ZDLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=lJQh7nHi; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uevlgbQS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70967C4CEE9;
-	Tue, 11 Mar 2025 22:48:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741733288;
-	bh=KONszdF6fxH7KxSwnwfukcwgFVVhCiCZ8EpbrmLPJxI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uevlgbQS6Ph9XcIY9+OKa49fwIDOeAxNdLYzizimLVsZrFaPt+IM8kmaOPDklrVWE
-	 E5txlMTHMfdH1B6wSvb0HvvmBfq12ouUMMRrsondP1loRVd2t2nfItuPAIzyXbJUiv
-	 H/2P+KiaQRXAPFqT+tvNIQs/aERgU751mIfIQT9M9pHCEFfWhWXDRisr6ClqEJ+oS1
-	 Vy8XKC+7/hwvbWGq1U5TwEFV0tL7lurOeLA0C4Rx9ojdRbpnNB7HXtXTAcs654Ewd+
-	 tkEwc98B6In1gd3izCutEArz6ROdQAtceEPWGic2Rq2acVUpJBf+a9WY6wNRqUg7+K
-	 TONBvC2tKRtIg==
-Date: Tue, 11 Mar 2025 15:48:04 -0700
-From: Kees Cook <kees@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: workflows@vger.kernel.org, apw@canonical.com, conor@kernel.org,
-	corbet@lwn.net, dwaipayanray1@gmail.com, geert+renesas@glider.be,
-	gitster@pobox.com, horms@kernel.org, joe@perches.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux@leemhuis.info, lukas.bulwahn@gmail.com,
-	miguel.ojeda.sandonis@gmail.com, niklas.soderlund@corigine.com,
-	torvalds@linux-foundation.org, willy@infradead.org
-Subject: Re: [PATCH] scripts: Add git-resolve tool for full SHA-1 resolution
-Message-ID: <202503111547.1DDFF8E4E@keescook>
-References: <20250311165336.248120-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="lJQh7nHi"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BE8E041063
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1741818743; bh=e5YZ8Buzyw07M50JDdwKBmHUBpDcOOl4aappK64F9Rg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=lJQh7nHiwXIF6WVpGa1a2HdXAk/o6hYWfRrNkEX/4mwYWZjC16lTCIJaoIxD+LQX/
+	 +fbn4l8b6hh1FASQkZJZ6C+j5m99svDyNzhdNbTspVF1JPw9aNpk2eha8u4ohLIM+H
+	 4/8OxjgPrrd68VEFGdBDWkBOStZ6fDx6l4Uc7YRfYVphLCi5XSmyYWJZU9dM+fpIaK
+	 EDP45YxYJtuLLxnybxmtDJI7YQG4Wjr6zPjjtRXsPonYBUu9tEx9tY4V7v34lfJ14/
+	 lEYTbz3FM9w9iQ8USBeo8ySwe0NSCOENjXrDlSbUm3aPOsDUSTyrvgUQiJjxAPZluV
+	 iECx3+ulqJ8Vg==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id BE8E041063;
+	Wed, 12 Mar 2025 22:32:23 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <shuah@kernel.org>, gregkh@linuxfoundation.org
+Cc: Shuah Khan <shuah@kernel.org>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ conduct@kernel.org, tab@lists.linux.dev, Miguel Ojeda <ojeda@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH v2] Documentation/CoC: Spell out the TAB role in
+ enforcement decisions
+In-Reply-To: <20250306211231.13154-1-shuah@kernel.org>
+References: <20250306211231.13154-1-shuah@kernel.org>
+Date: Wed, 12 Mar 2025 16:32:22 -0600
+Message-ID: <87senhlw21.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250311165336.248120-1-sashal@kernel.org>
+Content-Type: text/plain
 
-On Tue, Mar 11, 2025 at 12:53:36PM -0400, Sasha Levin wrote:
-> Introduce git-resolve.sh, a tool that resolves short git commit IDs to their
-> full SHA-1 hash. This is particularly useful for navigating references in commit
-> messages and verifying Fixes tags.
-> 
-> When faced with ambiguous commit IDs or imprecise references in messages,
-> this tool can help by resolving commit hashes based on not just the ID
-> itself but also the commit subject, making it more robust than standard
-> git rev-parse.
-> 
-> This is especially valuable for maintainers who need to verify Fixes tags
-> or cross-reference commits. Unlike proposals to add dates to Fixes tags
-> (which would break existing tooling), this script provides a way to
-> disambiguate commits without changing the established tag format.
-> 
-> The script includes several features:
-> - Resolves short commit IDs to full SHA-1 hashes
-> - Uses commit subjects to disambiguate between multiple potential matches
-> - Supports wildcard patterns in subjects with ellipsis (...)
-> - Provides a force mode to attempt resolution by subject when ID lookup fails
-> - Includes comprehensive self-tests
-> 
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
+Shuah Khan <shuah@kernel.org> writes:
 
-Nice! Thanks for incorporating the features from akpm's scripts, I think
-that'll help a lot when resolving weird stuff. :)
+> Updates the document to clearly describe the scope and role the TAB plays
+> in making decisions on unresolved violations. If and when the CoC has to
+> make a call on instituting a ban, it doesn't act without the TAB's approval
+> and only when the TAB approves it with 2/3 vote in favor of the measure.
+>
+> These changes ensure that the TAB role and its oversight on CoC measures
+> is consistently described throughout the document.
+>
+> Fixes: c818d5c64c9a8cc1 ("Documentation/CoC: spell out enforcement for unacceptable behaviors")
+>
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Acked-by: Miguel Ojeda <ojeda@kernel.org>
+> Acked-by: Steven Rostedt <rostedt@goodmis.org>
+> Acked-by: Jonathan Corbet <corbet@lwn.net>
+> Signed-off-by: Shuah Khan <shuah@kernel.org>
+> ---
+> v1 - v2:
+> - Reword change log to better describe the changes and updates.
+> - Add Fixes tag
+>
+>  .../process/code-of-conduct-interpretation.rst  | 17 +++++++++++------
+>  1 file changed, 11 insertions(+), 6 deletions(-)
 
-Reviewed-by: Kees Cook <kees@kernel.org>
+I have applied this, thanks.
 
--- 
-Kees Cook
+jon
