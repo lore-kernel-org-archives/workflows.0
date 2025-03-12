@@ -1,50 +1,54 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE7AA1F0E42;
-	Wed, 12 Mar 2025 22:36:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 198A91DE3A4;
+	Wed, 12 Mar 2025 22:39:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741818982; cv=none; b=m71wcSuDB6o06XGUx6v7xnY0ldo5tf+EfafrD7lMeVWj4ZwcOTUzqklY3uqI26awqmrCOKgMFpVVvKOMPKgq1+SI1xupdhJhx1CZqm5o5s96eq7mFoO7Aaab08+DxuQPgtkkuO8bItZCdTD6jHwuQO7RkbYldfiN5BQRGY72Ij0=
+	t=1741819168; cv=none; b=u8rs0+BZ+X0Exnlk6Kuj6nF8ExQNv5Q1i22ZBnM9VsfRekZ8w5tykaLaea6iepIPpP1sxJQ1AoSBiQ6lv5mn+3jmObtvGwyanpKFi5m9/jeSSi11thd94bsnZsNw8cWmwyiITutwDhf6B/K4fnQ6l7W3rofLzFHpJsnXgQAmW0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741818982; c=relaxed/simple;
-	bh=BaVWbSQENie34pWfic/pbRF/wriQKKMjAg34hMpBRvY=;
+	s=arc-20240116; t=1741819168; c=relaxed/simple;
+	bh=d04iKHxYq/E+Li+Qvs0unn3jinJpPrAAf2uTXuzu75s=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=J8TpyL8zRuYrPN1U9PJYwz8jjFYTboXrjC8SRNGIJgfE0jSWZkrepdMk0MhfcUY9HFw4czVD7RL8mVdXYq30sqoJjvoXlQ88+fCV+KqJ7LWFuFCNo+DXo+VN41gCKzrAfdtcYpZhbNJPuniMaXdzcoJMzq/DtXs54PvAkNPctF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=mCGKV3ac; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=iLhnuQY3mvFHL+6QIQ64o3Bal2TxTOgu2UDS4HWFXVQdY3rYjONHevwlu3h9Yu2hH9xp75QYf1KLnT3sMTn+VyrQAkEl7CbqrZHawXAWrN0hWaj9jQm0Jbj0MnQgXEhRIWIqjKjW1in+eXzfrJbY+K15Xg11NhePhuIq7D78Cig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=CtQyC/Oy; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="mCGKV3ac"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0FB7E41063
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="CtQyC/Oy"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 274A541063
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1741818980; bh=GTMfbvfPe3rGQpfvz+NRGN74Tvu8HffllNDpfQa9owA=;
+	t=1741819166; bh=lEWiaTjCAZsdNeiF0YFPEvCb61ta87WaMFTY3JjLgJc=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=mCGKV3acK+jLSNTwFG4FSzwiDSq690fcbkqEMydifNSaBFsaxZPO6dPWlKhLMmIib
-	 yFOIUY7n9Z2bwDy9Jn5D+4eB+A13pMdkkTB19Ii9WgmL/Rl++ppWhTuS+vMCrDJXtb
-	 FTXCQEb34bWO73R7fO+Vzos7qbgGRrrKENjNBoJN06yJtO1TpcP/wAuCXgBq8FyWxm
-	 sQQPgsR6oA3oeHZ9dvJ1gUJFtZUQmjjCEhk12rqGeR6QtRfKlrDEOWVLuNquvmMKst
-	 /+P8M4UAUQ+QTtmjf5tBNXiFSiy4NemJeMaOiSC49TNSuxHDfMQNbCGotIIbAHvYZy
-	 KP8ino3r31b+g==
+	b=CtQyC/OyOMOJmuBK8/FXYPVreNI76fmqAJ8dx2kiqh3CVaBryfdR6fthOWFwPqmZO
+	 vFxKQv++IoHRA0OpeNr9RgYGdG69nJXVa3xPunVXD1GQG9HCFgZeeWMIvjn+pbv1hj
+	 bL8sAv4JPJFQRbL4iPhBAmfkPAMYKZE6SheXIia7egAzGTSe8JyWLpZYZI0gmIQqii
+	 Nvge7Cd1iCLRjeYV5OVsE9C03u9LL9reanbzLcgVyazqcmGIKGLM7PbUr0ZwfBLkig
+	 t5CeurSebBCmV/J3322ipZTt1sYVIVDjipBy+D3JJ0VGseUe7k8DmDaId3FoeKKYrG
+	 hWdKlpnUd4mJg==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 0FB7E41063;
-	Wed, 12 Mar 2025 22:36:20 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 274A541063;
+	Wed, 12 Mar 2025 22:39:26 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Ignacio Encinas <ignacio@iencinas.com>,
- linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, Marco
- Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>
-Cc: kasan-dev@googlegroups.com, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Ignacio Encinas
- <ignacio@iencinas.com>
-Subject: Re: [PATCH] Documentation: kcsan: fix "Plain Accesses and Data
- Races" URL in kcsan.rst
-In-Reply-To: <20250306-fix-plain-access-url-v1-1-9c653800f9e0@iencinas.com>
-References: <20250306-fix-plain-access-url-v1-1-9c653800f9e0@iencinas.com>
-Date: Wed, 12 Mar 2025 16:36:19 -0600
-Message-ID: <87o6y5lvvg.fsf@trenco.lwn.net>
+To: Thorsten Leemhuis <linux@leemhuis.info>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Simona Vetter
+ <simona.vetter@ffwll.ch>, Mauro Carvalho Chehab
+ <mchehab+huawei@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v4] docs: clarify rules wrt tagging other people
+In-Reply-To: <431b3825-8ed6-4da2-af9d-4f95e9d08606@leemhuis.info>
+References: <588cf2763baa8fea1f4825f4eaa7023fe88bb6c1.1738852082.git.linux@leemhuis.info>
+ <87y0ydzn1q.fsf@trenco.lwn.net>
+ <8b87b297-b68b-4276-95ae-e04650c3360f@leemhuis.info>
+ <875xl7nfxg.fsf@trenco.lwn.net>
+ <431b3825-8ed6-4da2-af9d-4f95e9d08606@leemhuis.info>
+Date: Wed, 12 Mar 2025 16:39:25 -0600
+Message-ID: <87jz8tlvqa.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -53,38 +57,53 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Ignacio Encinas <ignacio@iencinas.com> writes:
+Thorsten Leemhuis <linux@leemhuis.info> writes:
 
-> Make the URL point to the "Plain Accesses and Data Races" section again
-> and prevent it from becoming stale by adding a commit id to it.
+> On 18.02.25 21:42, Jonathan Corbet wrote:
+>> Sorry, fell behind on things again...
 >
-> Signed-off-by: Ignacio Encinas <ignacio@iencinas.com>
-> ---
-> I noticed this while reviewing the documentation.
+> No worries at all. And fun fact: I put this aside myself for some time
+> as I was unsure about the way forward...
 >
-> The "fix" isn't perfect as the link might become stale because it points
-> to a fixed commit. Alternatively, we could lose the line number
-> altogether.
-> ---
->  Documentation/dev-tools/kcsan.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>> Thorsten Leemhuis <linux@leemhuis.info> writes:
+>> [...]
+>> Adding more cross references certainly won't help, I guess we'll leave
+>> it as-is for now.
 >
-> diff --git a/Documentation/dev-tools/kcsan.rst b/Documentation/dev-tools/kcsan.rst
-> index d81c42d1063eab5db0cba1786de287406ca3ebe7..8575178aa87f1402d777af516f5c0e2fc8a3379d 100644
-> --- a/Documentation/dev-tools/kcsan.rst
-> +++ b/Documentation/dev-tools/kcsan.rst
-> @@ -203,7 +203,7 @@ they happen concurrently in different threads, and at least one of them is a
->  least one is a write. For a more thorough discussion and definition, see `"Plain
->  Accesses and Data Races" in the LKMM`_.
->  
-> -.. _"Plain Accesses and Data Races" in the LKMM: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/memory-model/Documentation/explanation.txt#n1922
-> +.. _"Plain Accesses and Data Races" in the LKMM: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/memory-model/Documentation/explanation.txt?id=8f6629c004b193d23612641c3607e785819e97ab#n2164
->  
+> +1
+>
+>>>> - I wonder if it would make sense to say that, if an implicit-permission
+>>>>   tag has been added, the person named in it should get at least one
+>>>>   copy of the change before it is merged?
+>>>
+>>> Hah, that is where I'd start to say "that seems like a bit much". And it
+>>> does not help, as the cat is out of the bag once that copy is out, as
+>>> the name and the email address someone might prefer to keep private
+>>> would have made it to mailing list archives then already.
+>> 
+>> The cat is out of the bag but not in the repository; the thought was
+>> that it's polite to give the person involved a heads-up that their name
+>> is being taken in vain.  Certainly I've seen enough "what, no, I don't
+>> want that tag there" reactions over the years to think it would
+>> occasionally head off a use that the owner of the name doesn't want.
+>
+> Hmmm, have a point there. How about a "s/contributed/routinely
+> contributes/" in this sentence:
+>
+> """
+> For those three implicit permission is sufficient if the person
+> contributed to the Linux kernel using that name and email address
+> according to the lore archives or the commit history
+> """
 
-This seems like an improvement over what we have, so I've applied it.
+Sorry for being slow ... but also, I guess, for not communicating my
+point very well.  My concern wasn't about somebody not wanting to appear
+in the repository at all; it was more with somebody not wanting their
+tag in a specific patch where they had not offered it.
 
-It would be best, of course, to get the memory-model documentation
-properly into our built docs...someday...
+It seems I'm the only one who is worried about this, though.  It seems
+like we should go ahead and get this change in before the merge window
+hits.
 
 Thanks,
 
