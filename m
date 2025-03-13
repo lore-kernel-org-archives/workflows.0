@@ -1,73 +1,42 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1338269AF5
-	for <workflows@vger.kernel.org>; Thu, 13 Mar 2025 16:15:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01AFD12CD88;
+	Thu, 13 Mar 2025 17:28:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741882514; cv=none; b=YZf1DXP3EwrLkSMAw/fIh2gN6f3fFnmstW/zUDO1G2pwcq0KWGxEYArrgw9GdAPBMjsctx3Q+VjyeR7Fw/Aus84/+LSyJODwrw5rw8djSZCtwKaJ4LRRVs1oZvvVegRU7+XJwP5tdV0i8SxJlU/UKPel2r/LVaJ/KxJKEFxQYeY=
+	t=1741886939; cv=none; b=akdWVFGE36tFFRXuGjDQz9nobRABRxkOSX2rTwVTY+mvkQ9WaHOTsWxJisoTZRc5OsYbDPEYI0Zjk1H8dgk/J60sc7PqW2PpOhGQuvShPCOahALKUK3rWGTj/hcD9tpLtQn0uoWG6aNqWjqqxPyP36WE2eBykQjuz+pfXeLzBtQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741882514; c=relaxed/simple;
-	bh=zmD7MNim/3VQcYsraUusSjJsXZ6QwmA46ppNX6yBUok=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bZx90PVSQSs+0AeyeFP4MQevrPYURPMIIzR7/neSqeKU8Nib20wTLLttNsJnUmGcrvkoSuRA2IIYki8VVYQoYGmi05HrRNZtvBhRCfGdaCy4HSymFKH8Tep8L6qCXwD1uUDAWIvaLtlDn+aIrN5Oo1k/HowQG33kjWl3RB4KyRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=YzbL2TXj; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1741886939; c=relaxed/simple;
+	bh=pCKx8h4RdPEXnrliEof7w9TGctCJ+lkyJAvPxZvj8as=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=liW8s5H1NxzBeCRiIcQJdhCxAjugRR2ma55gP5ZLu5BPx0W8jO47KebiC4Lh6Yn9BaMynJtavHE6ut1qHkym9j1Le3oUD8+W4h+ZYOvnHcZwq6iMyHJNI1laGUP9pqVJPm2xvuS9L8S9eJIVSt78TzFoob3/E3VwT54e7pBdYZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WsiJ1vS4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="YzbL2TXj"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43cf06eabdaso10996175e9.2
-        for <workflows@vger.kernel.org>; Thu, 13 Mar 2025 09:15:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1741882510; x=1742487310; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=zmD7MNim/3VQcYsraUusSjJsXZ6QwmA46ppNX6yBUok=;
-        b=YzbL2TXjNxPC1MpOJKPZbWgVRSsHHkX7SjRF8BsSFzNDRw7TIP6B+xE8/UbkRBObNF
-         OR4t8OkADAf2zWYNZAfw3lQslpr0/Axkabj7znVOCem3qAAViw4IpuXylXXOgxFh2xI0
-         HIQziRZCP9RVPCiintT97RjXKhTC7+Kvwc5kvbC/mf+6qEBojh0dylkWH+nvuc0iZBJ4
-         NMkkVSnDTt6l4MEBRz3t7gXsWzoANAEQB9WgNKEGcPax7WXdXv8X1Clbzsg6Z+hzZRdK
-         o0vrM3UR26YE43kVQOdBzkjE7T9+4o41BLpuq9xDzEbqtUfU77c2DdkaguVPc5qDzzNJ
-         FjeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741882510; x=1742487310;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zmD7MNim/3VQcYsraUusSjJsXZ6QwmA46ppNX6yBUok=;
-        b=trQ3NiORam5hNxKk6uz8t3rVCcC6XYQwWEWXUuVY7On9eMtWMPgadyaR5kuF2uiFvA
-         tJKhtBWRCn/Sxorvu+/WQKyB+YON47q7AFUSOtfVndLYY8dPvKqbpRcjXH+yzPCfbbJm
-         0SI2oOBpO9bcfdUvg9AFlBNokqRCAMVJxLYViAVTg1hRRUEqpXShAMrBb2rVbbbnDyr2
-         ICQ6sc0kPctSDFwe8VAWr1VXTalLlEwrsBzZ3MXo4NF8NOJt9SMnYGaMPTuo7FBxOz2p
-         ISN6RdQbOKr9rY4WkBJIgRTBIhMH43WRZA4vrO1TBOVu4T4kvsJXqi2EnjksxmstcYtq
-         XmUw==
-X-Forwarded-Encrypted: i=1; AJvYcCVjyY11HEwjDGXbxf6rmtOmJa4rc5RNAwvGMPlQ6Ad0RTN/rsoQioUxSrVQUVrClTe6NJWP/FUa+s4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YztcRc+DMsWvo3/xQWNRZuLN8laLn5x9wJRBdVOTwUvituGg8H2
-	IHZigO0jm8No+bf8AgKH99C9ZoXjH6ZWkPVS8JyOLlGxT9gyv/OOU2PiXwZ+kt8=
-X-Gm-Gg: ASbGncvdGQTILWKvNj0q9oTCzkW43rWBHFfWplkeidTVwRFX3rL6vvfkrVl3euvJ+j+
-	zHpvUco9JuCaPSC/m296CfrmAKxRlNGSlCnKlWahkhCLGXsgiCP+w5SjKf7U2suWpzZ3fJwgRDF
-	SVGcawAp1YZPgoc6aWLk3I9aUZMapDyBEtayGYFKPKow9NVL+I4qCUuLzIFK39ForrXdoIIEciJ
-	kz2jDJGGLBDq+EHLtLsFXDvzlJDGoUnVvB6reICUFqMeJypAfbV/GtWzqgKTtAB/uagGILfCTP7
-	NdOn4xWoRC87LRtxPvBGfGpnElDSn6dWAxJs6VtHKQxo1R0=
-X-Google-Smtp-Source: AGHT+IFjIwacJKCHP0dnkNtlm25kdYN3UhdeehaflwmpbcpOVEH+KkVK3wJpO9PY4hmEX1fJPFgkvw==
-X-Received: by 2002:a05:600c:3146:b0:43c:fd72:f039 with SMTP id 5b1f17b1804b1-43d1d8afa48mr3000805e9.11.1741882510053;
-        Thu, 13 Mar 2025 09:15:10 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d188b0cc7sm25704255e9.3.2025.03.13.09.15.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Mar 2025 09:15:09 -0700 (PDT)
-Date: Thu, 13 Mar 2025 17:15:07 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: Tamir Duberstein <tamird@gmail.com>, Kees Cook <kees@kernel.org>
-Cc: Arpitha Raghunandan <98.arpi@gmail.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WsiJ1vS4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78296C4CEDD;
+	Thu, 13 Mar 2025 17:28:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741886938;
+	bh=pCKx8h4RdPEXnrliEof7w9TGctCJ+lkyJAvPxZvj8as=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=WsiJ1vS4VkmRkEQ91gUkBcXJpHCkjiQdXuKiOQrrIiFFBXTiyzWC1lNxpbasmhUpq
+	 3JfyOHYn+nAM5kLaFI7eKKMk0HVf0PYt9MfKkoBJ8D20YQKw1ngGTv9SXVphquEE2h
+	 5FlTV4pustJ2ITwpRF1Mfnt55HA7MhFAT/DH8k8bfDg8uSfYhcoZzDsRwQ4++FKCuA
+	 ot/lfD8WMiYADiTKuF+3761zflCg4viKvvK9vcUUI5qt7A6AsUxSPP/q9N2rzjlyFr
+	 zE/pTffZvM1VqP7YEYZUp20FKgVv5uizsSJhZI1T/0EIjucCggWl2hxTSmb3uw6p4S
+	 9WKQ0vOSUIRTA==
+From: Kees Cook <kees@kernel.org>
+To: Arpitha Raghunandan <98.arpi@gmail.com>,
 	David Gow <davidgow@google.com>,
+	Petr Mladek <pmladek@suse.com>,
 	Steven Rostedt <rostedt@goodmis.org>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	Sergey Senozhatsky <senozhatsky@chromium.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Geert Uytterhoeven <geert@linux-m68k.org>,
 	Madhavan Srinivasan <maddy@linux.ibm.com>,
 	Michael Ellerman <mpe@ellerman.id.au>,
@@ -75,65 +44,50 @@ Cc: Arpitha Raghunandan <98.arpi@gmail.com>,
 	Christophe Leroy <christophe.leroy@csgroup.eu>,
 	Naveen N Rao <naveen@kernel.org>,
 	Brendan Higgins <brendan.higgins@linux.dev>,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-	linuxppc-dev@lists.ozlabs.org, workflows@vger.kernel.org
+	Tamir Duberstein <tamird@gmail.com>
+Cc: Kees Cook <kees@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org,
+	linuxppc-dev@lists.ozlabs.org,
+	workflows@vger.kernel.org
 Subject: Re: [PATCH v6 0/3] printf: convert self-test to KUnit
-Message-ID: <Z9MEi-hWiGf9W4gi@pathway.suse.cz>
+Date: Thu, 13 Mar 2025 10:28:50 -0700
+Message-Id: <174188692856.3317505.16138391415680640168.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250307-printf-kunit-convert-v6-0-4d85c361c241@gmail.com>
 References: <20250307-printf-kunit-convert-v6-0-4d85c361c241@gmail.com>
- <202503072046.34DAF614E6@keescook>
- <CAJ-ks9kTO-u+Wqp0K-vdMLAs08fBeoovSeb_pGkMjSHFnBKysA@mail.gmail.com>
- <CAJ-ks9=zHBmOApsqa=UZcKtg1cH0tp34Kt9_5AEJ7vzwt2QeOA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJ-ks9=zHBmOApsqa=UZcKtg1cH0tp34Kt9_5AEJ7vzwt2QeOA@mail.gmail.com>
 
-On Sat 2025-03-08 07:52:49, Tamir Duberstein wrote:
-> On Sat, Mar 8, 2025 at 7:51 AM Tamir Duberstein <tamird@gmail.com> wrote:
-> >
-> > On Fri, Mar 7, 2025 at 11:49 PM Kees Cook <kees@kernel.org> wrote:
-> > >
-> > > On Fri, Mar 07, 2025 at 05:08:55PM -0500, Tamir Duberstein wrote:
-> > > > This is one of just 3 remaining "Test Module" kselftests (the others
-> > > > being bitmap and scanf), the rest having been converted to KUnit.
-> > > >
-> > > > I tested this using:
-> > > >
-> > > > $ tools/testing/kunit/kunit.py run --arch arm64 --make_options LLVM=1 printf
-> > > >
-> > > > I have also sent out a series converting scanf[0].
-> > > >
-> > > > Link: https://lore.kernel.org/all/20250204-scanf-kunit-convert-v3-0-386d7c3ee714@gmail.com/T/#u [0]
-> > > >
-> > > > Signed-off-by: Tamir Duberstein <tamird@gmail.com>
-> > > > ---
-> > > > Changes in v6:
-> > > > - Use __printf correctly on `__test`. (Petr Mladek)
-> > > > - Rebase on linux-next.
-> > >
-> > > Thanks for doing this!
-> > >
-> > > If Petr, Rasmus, Andy, and/or others Ack this I can carry it in my
-> > > "lib/ kunit tests move to lib/tests/" tree, as that's where all the
-> > > infrastructure in lib/tests/ exists.
-> >
-> > I think the plan is to take it through the printk tree.
+On Fri, 07 Mar 2025 17:08:55 -0500, Tamir Duberstein wrote:
+> This is one of just 3 remaining "Test Module" kselftests (the others
+> being bitmap and scanf), the rest having been converted to KUnit.
+> 
+> I tested this using:
+> 
+> $ tools/testing/kunit/kunit.py run --arch arm64 --make_options LLVM=1 printf
+> 
+> [...]
 
-It would be much easier when Kees takes it together with the move
-to lib/texts. It causes several conflicts...
+Applied to for-next/move-kunit-tests, thanks!
 
-Kees, could you take it, please?
+[1/3] printf: convert self-test to KUnit
+      https://git.kernel.org/kees/c/7a79e7daa84e
+[2/3] printf: break kunit into test cases
+      https://git.kernel.org/kees/c/81a03aa9b88c
+[3/3] printf: implicate test line in failure messages
+      https://git.kernel.org/kees/c/034bee685fd4
 
-Note that %pGg test currently fails in linux-next. It is a regression caused
-by a change in tracing code and should be fixed in the tracing code,
-see https://lore.kernel.org/all/Z9L5HsVzQ0bVZtjp@pathway.suse.cz/
+Take care,
 
-Best Regards,
-Petr
+-- 
+Kees Cook
+
