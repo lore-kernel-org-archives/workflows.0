@@ -1,64 +1,65 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07AB62690C9
-	for <workflows@vger.kernel.org>; Thu, 13 Mar 2025 16:06:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1338269AF5
+	for <workflows@vger.kernel.org>; Thu, 13 Mar 2025 16:15:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741881967; cv=none; b=Hzezr3bZJ1kvcjZDOCKtQuYht+KggIinGj725L1F2ywtRNMYWUAd4MR9/DONEykW0gPqsWYmfk8LtdtFJpSmN0ctD4l/mnsdmduLCa8P6IwJeVam04dJ6Stgt9kZBiw21oaX3kVQmpOsoLveUrmL3+iQyCqV1Yy4VLNeSyyMrWs=
+	t=1741882514; cv=none; b=YZf1DXP3EwrLkSMAw/fIh2gN6f3fFnmstW/zUDO1G2pwcq0KWGxEYArrgw9GdAPBMjsctx3Q+VjyeR7Fw/Aus84/+LSyJODwrw5rw8djSZCtwKaJ4LRRVs1oZvvVegRU7+XJwP5tdV0i8SxJlU/UKPel2r/LVaJ/KxJKEFxQYeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741881967; c=relaxed/simple;
-	bh=9Qz1HoeN3eOou3Eoi4V3CxaJyhSdwyst6GwzX+KW2lM=;
+	s=arc-20240116; t=1741882514; c=relaxed/simple;
+	bh=zmD7MNim/3VQcYsraUusSjJsXZ6QwmA46ppNX6yBUok=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DXL93vhQy7RhdRqOfxA43+Wp4D2RDJjBy08RrS+yTWVm3jAKYrr3B6PrRp2VZjmEk7N5jGqWk24bRSM337TBiAh6jepXrjCPo3VdM1dYo3VPdMs9XboJeUbTTuY8vht+aFyxmXX/V9jpq7uZoYykYHsXk92vJSYQRV5Lk+qTfpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=RrIcgm0G; arc=none smtp.client-ip=209.85.128.52
+	 Content-Type:Content-Disposition:In-Reply-To; b=bZx90PVSQSs+0AeyeFP4MQevrPYURPMIIzR7/neSqeKU8Nib20wTLLttNsJnUmGcrvkoSuRA2IIYki8VVYQoYGmi05HrRNZtvBhRCfGdaCy4HSymFKH8Tep8L6qCXwD1uUDAWIvaLtlDn+aIrN5Oo1k/HowQG33kjWl3RB4KyRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=YzbL2TXj; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="RrIcgm0G"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43cf0d787eeso10625595e9.3
-        for <workflows@vger.kernel.org>; Thu, 13 Mar 2025 09:06:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="YzbL2TXj"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43cf06eabdaso10996175e9.2
+        for <workflows@vger.kernel.org>; Thu, 13 Mar 2025 09:15:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1741881963; x=1742486763; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3HZvPdaIqRtWzMsbUSWcLTIHwxLYbx+aQlE3dkPDF7Q=;
-        b=RrIcgm0GAEoDkeid0sM0ynGRD/6cj50mS4il9bx/pzyblnCwK806eD0kv+c8fLNFyb
-         jmSIdIYOfAsMRe32uOEx/YNmVaToedT4uFMX1Gaw0p+znMf7L6XAD8D2z55bCCz+0gD8
-         9tsJkpgk0rWpNYFHtjC5ydrXFNnE9dSwdrOjDdR5UpMPE0uhj5pKfUFScZ6e1ktu9Ixb
-         So+I262nCDnip4iyhyGHp4ojQJIlsVmivsMhnD06CwNJx2XYBUFsQRVzOhfdpKTifQW0
-         RGDJ3aXudlvw1fGiJ5QIp++82KgNISagfIbv7PoTKc5tWnk6yJHAXZco63UYyMGfEKJJ
-         QGFQ==
+        d=suse.com; s=google; t=1741882510; x=1742487310; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=zmD7MNim/3VQcYsraUusSjJsXZ6QwmA46ppNX6yBUok=;
+        b=YzbL2TXjNxPC1MpOJKPZbWgVRSsHHkX7SjRF8BsSFzNDRw7TIP6B+xE8/UbkRBObNF
+         OR4t8OkADAf2zWYNZAfw3lQslpr0/Axkabj7znVOCem3qAAViw4IpuXylXXOgxFh2xI0
+         HIQziRZCP9RVPCiintT97RjXKhTC7+Kvwc5kvbC/mf+6qEBojh0dylkWH+nvuc0iZBJ4
+         NMkkVSnDTt6l4MEBRz3t7gXsWzoANAEQB9WgNKEGcPax7WXdXv8X1Clbzsg6Z+hzZRdK
+         o0vrM3UR26YE43kVQOdBzkjE7T9+4o41BLpuq9xDzEbqtUfU77c2DdkaguVPc5qDzzNJ
+         FjeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741881963; x=1742486763;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3HZvPdaIqRtWzMsbUSWcLTIHwxLYbx+aQlE3dkPDF7Q=;
-        b=k8j2ofZpBET5cQqXLKFUhfgFy7RnfDuCc7ShOfMeCnWrmV/AgujQQd3TVSYdYTXoUy
-         oRng6doORjLce/zX62iCqUSwLmYrQAvzxnmsYuhnMwZNo7EZ+bYjCjGDyN5cnk6EpV5A
-         fRX1rSd1HGYj9Ph4uE8xh83fvYcRfTd5QAcimTufe07ojj8Je+ueW8xnkaHL5MFyT6tm
-         pW5bUrlwHoy2NVY6YFTkDUATKjvmJU+IkEUgexIa0iU2BGrDPSaKUDwvITBolXP49WjA
-         ebK9kfyoDVFmMOa/dPtP16WXPphManUD8hUVA77CE1UlagwhoT7ZlZin6dAiSmlxptIg
-         sQnw==
-X-Forwarded-Encrypted: i=1; AJvYcCVCKV4cnMv4VLPPRujgMnPquInsT9uHgp1F9fVzaKLTpRR9lJN1j75ezEP/2ihlZK69a6AW7ucDd54=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwgFiALZIwlEJ+2gCXOEKgDGDn8FgxyXmc2TyiFbt/Q8Kjzeskq
-	/Gm5I7sjZwjbI45AsQ5jl2V7h+AHFH6E2I0dWw/nYCzdU6fp+vg6knX02QuIVYw=
-X-Gm-Gg: ASbGncvvzwiidsxq7CFcYgAC7PhUu7yjR+RlkrXacawuNHZfCLtvElRwXPZqJGpYWQQ
-	3skPEnzB0hGS5ANSgXJu9iOZ6WpGYOqUS+oJs3UcbdYAgXBVEcgrr+Dx/oAx3wItMjc4j1m9R8I
-	/F75ilL9XAx98MDrJGxxeISeU2iHCpJvLFJrmZCk8hjP2v+GVE+GEsQjrQwuuU/OFqDXF4i+Uw3
-	hSBSSpHiaGWkTYfv6/2qBwo0ceNZJv9kRV8dQi9wuAUB/aeAWdpMxAXCa/ReVhEVdPkEp7xWXqh
-	VU4Z4IHOMwuGS34Of9uhy80ndkhNdn72uejC3Zmj5Ji90yXrCq67kSwR4w==
-X-Google-Smtp-Source: AGHT+IEQgvgSedwxIKGl9SiZ4df69QimUI+L/qJr9u7Y58J1gpKQcf9TTsptlOEMUHLXVau4Wsbqng==
-X-Received: by 2002:a05:600c:1f81:b0:43c:f895:cb4e with SMTP id 5b1f17b1804b1-43d1d8cb061mr1985145e9.17.1741881963106;
-        Thu, 13 Mar 2025 09:06:03 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1741882510; x=1742487310;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zmD7MNim/3VQcYsraUusSjJsXZ6QwmA46ppNX6yBUok=;
+        b=trQ3NiORam5hNxKk6uz8t3rVCcC6XYQwWEWXUuVY7On9eMtWMPgadyaR5kuF2uiFvA
+         tJKhtBWRCn/Sxorvu+/WQKyB+YON47q7AFUSOtfVndLYY8dPvKqbpRcjXH+yzPCfbbJm
+         0SI2oOBpO9bcfdUvg9AFlBNokqRCAMVJxLYViAVTg1hRRUEqpXShAMrBb2rVbbbnDyr2
+         ICQ6sc0kPctSDFwe8VAWr1VXTalLlEwrsBzZ3MXo4NF8NOJt9SMnYGaMPTuo7FBxOz2p
+         ISN6RdQbOKr9rY4WkBJIgRTBIhMH43WRZA4vrO1TBOVu4T4kvsJXqi2EnjksxmstcYtq
+         XmUw==
+X-Forwarded-Encrypted: i=1; AJvYcCVjyY11HEwjDGXbxf6rmtOmJa4rc5RNAwvGMPlQ6Ad0RTN/rsoQioUxSrVQUVrClTe6NJWP/FUa+s4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YztcRc+DMsWvo3/xQWNRZuLN8laLn5x9wJRBdVOTwUvituGg8H2
+	IHZigO0jm8No+bf8AgKH99C9ZoXjH6ZWkPVS8JyOLlGxT9gyv/OOU2PiXwZ+kt8=
+X-Gm-Gg: ASbGncvdGQTILWKvNj0q9oTCzkW43rWBHFfWplkeidTVwRFX3rL6vvfkrVl3euvJ+j+
+	zHpvUco9JuCaPSC/m296CfrmAKxRlNGSlCnKlWahkhCLGXsgiCP+w5SjKf7U2suWpzZ3fJwgRDF
+	SVGcawAp1YZPgoc6aWLk3I9aUZMapDyBEtayGYFKPKow9NVL+I4qCUuLzIFK39ForrXdoIIEciJ
+	kz2jDJGGLBDq+EHLtLsFXDvzlJDGoUnVvB6reICUFqMeJypAfbV/GtWzqgKTtAB/uagGILfCTP7
+	NdOn4xWoRC87LRtxPvBGfGpnElDSn6dWAxJs6VtHKQxo1R0=
+X-Google-Smtp-Source: AGHT+IFjIwacJKCHP0dnkNtlm25kdYN3UhdeehaflwmpbcpOVEH+KkVK3wJpO9PY4hmEX1fJPFgkvw==
+X-Received: by 2002:a05:600c:3146:b0:43c:fd72:f039 with SMTP id 5b1f17b1804b1-43d1d8afa48mr3000805e9.11.1741882510053;
+        Thu, 13 Mar 2025 09:15:10 -0700 (PDT)
 Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d0a74cdedsm60150725e9.11.2025.03.13.09.06.02
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d188b0cc7sm25704255e9.3.2025.03.13.09.15.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Mar 2025 09:06:02 -0700 (PDT)
-Date: Thu, 13 Mar 2025 17:06:00 +0100
+        Thu, 13 Mar 2025 09:15:09 -0700 (PDT)
+Date: Thu, 13 Mar 2025 17:15:07 +0100
 From: Petr Mladek <pmladek@suse.com>
-To: Tamir Duberstein <tamird@gmail.com>
+To: Tamir Duberstein <tamird@gmail.com>, Kees Cook <kees@kernel.org>
 Cc: Arpitha Raghunandan <98.arpi@gmail.com>,
 	David Gow <davidgow@google.com>,
 	Steven Rostedt <rostedt@goodmis.org>,
@@ -78,36 +79,61 @@ Cc: Arpitha Raghunandan <98.arpi@gmail.com>,
 	linux-doc@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
 	linuxppc-dev@lists.ozlabs.org, workflows@vger.kernel.org
 Subject: Re: [PATCH v6 0/3] printf: convert self-test to KUnit
-Message-ID: <Z9MCaPagUM7KC26x@pathway.suse.cz>
+Message-ID: <Z9MEi-hWiGf9W4gi@pathway.suse.cz>
 References: <20250307-printf-kunit-convert-v6-0-4d85c361c241@gmail.com>
+ <202503072046.34DAF614E6@keescook>
+ <CAJ-ks9kTO-u+Wqp0K-vdMLAs08fBeoovSeb_pGkMjSHFnBKysA@mail.gmail.com>
+ <CAJ-ks9=zHBmOApsqa=UZcKtg1cH0tp34Kt9_5AEJ7vzwt2QeOA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250307-printf-kunit-convert-v6-0-4d85c361c241@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJ-ks9=zHBmOApsqa=UZcKtg1cH0tp34Kt9_5AEJ7vzwt2QeOA@mail.gmail.com>
 
-On Fri 2025-03-07 17:08:55, Tamir Duberstein wrote:
-> This is one of just 3 remaining "Test Module" kselftests (the others
-> being bitmap and scanf), the rest having been converted to KUnit.
-> 
-> I tested this using:
-> 
-> $ tools/testing/kunit/kunit.py run --arch arm64 --make_options LLVM=1 printf
-> 
-> I have also sent out a series converting scanf[0].
-> 
-> Link: https://lore.kernel.org/all/20250204-scanf-kunit-convert-v3-0-386d7c3ee714@gmail.com/T/#u [0]
-> 
-> Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+On Sat 2025-03-08 07:52:49, Tamir Duberstein wrote:
+> On Sat, Mar 8, 2025 at 7:51 AM Tamir Duberstein <tamird@gmail.com> wrote:
+> >
+> > On Fri, Mar 7, 2025 at 11:49 PM Kees Cook <kees@kernel.org> wrote:
+> > >
+> > > On Fri, Mar 07, 2025 at 05:08:55PM -0500, Tamir Duberstein wrote:
+> > > > This is one of just 3 remaining "Test Module" kselftests (the others
+> > > > being bitmap and scanf), the rest having been converted to KUnit.
+> > > >
+> > > > I tested this using:
+> > > >
+> > > > $ tools/testing/kunit/kunit.py run --arch arm64 --make_options LLVM=1 printf
+> > > >
+> > > > I have also sent out a series converting scanf[0].
+> > > >
+> > > > Link: https://lore.kernel.org/all/20250204-scanf-kunit-convert-v3-0-386d7c3ee714@gmail.com/T/#u [0]
+> > > >
+> > > > Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+> > > > ---
+> > > > Changes in v6:
+> > > > - Use __printf correctly on `__test`. (Petr Mladek)
+> > > > - Rebase on linux-next.
+> > >
+> > > Thanks for doing this!
+> > >
+> > > If Petr, Rasmus, Andy, and/or others Ack this I can carry it in my
+> > > "lib/ kunit tests move to lib/tests/" tree, as that's where all the
+> > > infrastructure in lib/tests/ exists.
+> >
+> > I think the plan is to take it through the printk tree.
 
-For the entire patchset:
+It would be much easier when Kees takes it together with the move
+to lib/texts. It causes several conflicts...
 
-Reviewed-by: Petr Mladek <pmladek@suse.com>
-Tested-by: Petr Mladek <pmladek@suse.com>
+Kees, could you take it, please?
+
+Note that %pGg test currently fails in linux-next. It is a regression caused
+by a change in tracing code and should be fixed in the tracing code,
+see https://lore.kernel.org/all/Z9L5HsVzQ0bVZtjp@pathway.suse.cz/
 
 Best Regards,
 Petr
