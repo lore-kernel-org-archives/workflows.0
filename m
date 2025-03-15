@@ -1,122 +1,98 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72AB7176AC5;
-	Sat, 15 Mar 2025 02:41:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B43A91F5847
+	for <workflows@vger.kernel.org>; Sat, 15 Mar 2025 12:21:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742006470; cv=none; b=aQT/S4RIVDZdrAQcex/EVb2YMIst7RmZ6fCv9VB+4IwmWgBOoGBoO4LE30SxymzakzN1NFoDmC0GzXMxtencXutyTT8NqUv8T8wpSx5tjLLJxN3BgGjinDaim0ppinY5akoph6YIksoJXSH+TVQBvEVPYSZf0u3QWduI0H0Zhlg=
+	t=1742041313; cv=none; b=X5WhV8f0uyYjNQrsljPvTPxcH8y39y6Dlj+bTxiNjzk77Ce/RdJ5oMmCmMQ7+3yJ/OqkhS2wJgfjEjSdrff+CrZnbLk5SxeTJ/DWCIXy38GHweTQ6U21/V+ws7ILgcXdVIH27mQnJgp+oQrpariuXugw1tG46ad6Pwpnsqfl6TA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742006470; c=relaxed/simple;
-	bh=B2CEDEhFdSbK5+6Qq7Xbe3jgxhR1ZYSO6nxrloEY2NU=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=qhGUjV5dubtXcpO1H6pf7CIWd3/e8XOoOIa/pRscDImYbjRQSvPm8zkWxsvnEft2CSMWD4PujvDcXO+7ynxUqvhT4vdIeUO5AFFg2k3d7GAUTq/A6q2jwwsvJBrZJ6cRNkw0lLq+9HW1DUhID9i4nmJnC1pYNfD51yWN6/pprGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=beEPWjiZ; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1742041313; c=relaxed/simple;
+	bh=wy6c20spWXmcS2DWIuXkVaGyvR3S8hTMEupyMxN48h0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cjA8kjkGbXWlj3FGnTCokbF2k4TcTZq8huWTZ5Hg8Pmg4OqWT49KI8JIt3P+MxNoVVsEG9buDCR3FGyTZWepXMXspyp1qsEA63XzfDiVq59zfn353EgaGcpSkeaIze+JPObhb/57eDWTfoWmxH1OuMtTq2+7IBLXZJC3z0kXPqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com; spf=pass smtp.mailfrom=iencinas.com; dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b=lcEMBs7h; arc=none smtp.client-ip=91.218.175.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iencinas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="beEPWjiZ"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-22401f4d35aso52834385ad.2;
-        Fri, 14 Mar 2025 19:41:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742006468; x=1742611268; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=15gdaJdchlrAww0ZPYIU2PXFNpF4h7zH7gWYODgucLk=;
-        b=beEPWjiZyrZm03q1pxZVD2JcqxcrxrI2BIqVe4XpadEOPmrRMnwOOW5fMG2YAA2sJs
-         xeKVPMQh3PaAM+Yyr6noCuQa+8+0lDDzSHRErwSJPZWSKUcT06qyKS88MACVCkjmFlKQ
-         oNVhn9yrncj9HFJV7ju9QYIYa0JeNoTtFmhIbMi+F/mliPgs6x7Uunna7+3I8iPigB33
-         bPvyE4IfRVmMss/zoIIMjNNDW5US8mVjIXj5yTG7cXRtt8WcS6jBoPLVajG43ln0FrAj
-         KIVvvoDZzBPzvH1T1+lspjDsr/t/Uzu0Jn1cTFUVzzhSlaAyhKbUuf18+b+h8+nDdssT
-         kE2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742006468; x=1742611268;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=15gdaJdchlrAww0ZPYIU2PXFNpF4h7zH7gWYODgucLk=;
-        b=aJgEqjNCB3Lb8/cXhC8EIVreQx7i/XOtf3MWWMARYfCbO/6zzDiiO+KhTHdFWcbAxb
-         Wa2oURCzxHlrj0BylaFYJUKo69O5H57kaR4Dgt4oq1SEl0xR0fmkAaqfN24ovpW/9x8J
-         +LfAgqAMSsVDPD4OwrkPmfMe5qmDgDOagAgkI73bqzR2cQLzYJH50pzhmnWeaHD6CiwB
-         OIs/2cHg+RHIYIELBDK+r75xaZbTpNQstJeXBCk9kNGldqc3A53iJGJ6HAj6ku7714Np
-         7jtAepSqK8g9X3rZWXk7H0gMVL56DCZEr6nIaZ450RIer/5UvvN9hpIJSTXhSaMLB5lA
-         ZbtA==
-X-Forwarded-Encrypted: i=1; AJvYcCVIl4EqAPCksVeoXbLCIiZhjE9b7337QKqhs/lHZFZU6C2hL8WGwZ7GfXuO2u5UMJWmGzGOeZk0Bsk=@vger.kernel.org, AJvYcCXUBsOI5cJ0IOfe4jKqo34pfghJB6KnnjPp16vgx/iBfgh/aqN2lAifCQtDhnQvQ2L43zTE3898bYVl+0cu@vger.kernel.org, AJvYcCXqHOPnvbchMXbCRJiXa1QP5qNFa7DYH0dFhLr4dso7VZyArR5fBJfsHIReMyWo46rcAvhX7mNaFYhX@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUvyPtf8QkRn+tkJNpONZOdiwJx7lCzJqXgg8Gbc7WncEjOzPu
-	vj/OKzHx+CTAE/y7pK19n1xFCQ3GUVRrJls+/iHlk5o6kIMOkSPv
-X-Gm-Gg: ASbGncv0JnaUqpSz3kt0TE9kpABvWYGgNyYTVW0lQg7RY37yjnXc00VpLBqbwSiBA4i
-	5zARNJC9piTlNhbNxMRyxvfHrH7zbVnv8s/XGGxlWW/YnCU5AJL+enigC2IYmCgh/nemGWuwlED
-	b6pR4EHk3qIEXvx8rDIUDg1QDys5qo7x2SS4pQ58sz6cmANLd+r0ngzW5pWpx86UUPZ7+3o8KuI
-	IurL0YogjtsETgB4FgZGrBV4CAQk6KubCvEyEFdcxqAKDS1GTcNUyNt36B0G18O3C3LoiscMapz
-	7vjhD+yDExzC2E0jDH5ljj1bw1FzuuxgRrT6TU5CYZah/urP8q0BH7geqCpwlc6iiD4zCr3PXwf
-	9qoHKns8ZcIr7XH8=
-X-Google-Smtp-Source: AGHT+IFaFRZP4GF2msqauqXMGAobEitpbtIOLAfjlGUx0Lcd1m68pCYkXYMSC7iLEn+TyVaHIjArSA==
-X-Received: by 2002:a17:903:2b0f:b0:223:49cb:5eaa with SMTP id d9443c01a7336-225e0aeeaadmr76664625ad.35.1742006467666;
-        Fri, 14 Mar 2025 19:41:07 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6ba740bsm35410785ad.122.2025.03.14.19.41.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Mar 2025 19:41:07 -0700 (PDT)
-Message-ID: <c6a697af-281a-4a91-8885-a4478dfe2cef@gmail.com>
-Date: Sat, 15 Mar 2025 11:41:03 +0900
+	dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b="lcEMBs7h"
+Message-ID: <9c6298a2-4efa-4f77-81c0-b2132f48c1b0@iencinas.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iencinas.com;
+	s=key1; t=1742041308;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4pHhzfXW24TF1t1FOgMUb4yg/TvgoSuq5by1lc39Sis=;
+	b=lcEMBs7hDHnSc0+QfxLmeZDIERK/dJY68x+llhQSLKp9G00S01R84WKw83XJyuvTMYeLMB
+	8DF9YfNP5+MXAwlcgypmjk+GSuo93jaqX21XnnJ5xxx00ldRX8dqrFfwQK9NM0DJM2m0Mj
+	DeygCKkWiBcK7/TouZY26iJWUm139hA1mbL9gi4YCxjIw4W0pz7kaE09y+KhAMebA1qPli
+	2IWYBaEHlNcZBkuFC53V0susnEgNklY23VZgOffvT+FXiLUGSZfp+WIJhesX2iBbGCEPcH
+	OlutoqHPbk9V0BZZtlNBrNLpKkywoHqByp09B6sMGS2jY7PU2iVNl63jS1ZLtg==
+Date: Sat, 15 Mar 2025 13:21:43 +0100
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: ignacio@iencinas.com
+Subject: Re: [PATCH] Documentation: kcsan: fix "Plain Accesses and Data Races"
+ URL in kcsan.rst
+To: Akira Yokosawa <akiyks@gmail.com>
 Cc: corbet@lwn.net, dvyukov@google.com, elver@google.com,
  kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
  linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, workflows@vger.kernel.org,
- Akira Yokosawa <akiyks@gmail.com>
+ skhan@linuxfoundation.org, workflows@vger.kernel.org
 References: <1d66a62e-faee-4604-9136-f90eddcfa7c0@iencinas.com>
-Subject: Re: [PATCH] Documentation: kcsan: fix "Plain Accesses and Data Races"
- URL in kcsan.rst
+ <c6a697af-281a-4a91-8885-a4478dfe2cef@gmail.com>
 Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <1d66a62e-faee-4604-9136-f90eddcfa7c0@iencinas.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Ignacio Encinas Rubio <ignacio@iencinas.com>
+In-Reply-To: <c6a697af-281a-4a91-8885-a4478dfe2cef@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Hello,
-
-Ignacio Encinas Rubio wrote:
-> On 12/3/25 23:36, Jonathan Corbet wrote:
->> It would be best, of course, to get the memory-model documentation
->> properly into our built docs...someday...
+On 15/3/25 3:41, Akira Yokosawa wrote:
+> This might be something Jon would like to keep secret, but ...
 > 
-> I hadn't thought about this. If this sentiment is shared by the LKMM
-> people I would be happy to work on this. Has this ever been
-> proposed/discussed before?
->
+> See the message and the thread it belongs at:
+> 
+>     https://lore.kernel.org/lkml/Pine.LNX.4.44L0.1907310947340.1497-100000@iolanthe.rowland.org/
+> 
+> It happened in 2019 responding to Mauro's attempt to conversion of
+> LKMM docs.
+> 
+> I haven't see any change in sentiment among LKMM maintainers since.
 
-This might be something Jon would like to keep secret, but ...
+Thanks for the information!
 
-See the message and the thread it belongs at:
+> Your way forward would be to keep those .txt files *pure plain text"
+> and to convert them on-the-fly into reST.  Of course only if such an
+> effort sounds worthwhile to you.
 
-    https://lore.kernel.org/lkml/Pine.LNX.4.44L0.1907310947340.1497-100000@iolanthe.rowland.org/
+With this you mean producing a .rst from the original .txt file using an 
+script before building the documentation, right? I'm not sure how hard 
+this is, but I can look into it.
 
-It happened in 2019 responding to Mauro's attempt to conversion of
-LKMM docs.
+> Another approach might be to include those docs literally.
+> Similar approach has applied to
+> 
+>     Documentation/
+> 	atomic_t.txt
+> 	atomic_bitops.txt
+>         memory-barriers.txt
 
-I haven't see any change in sentiment among LKMM maintainers since.
+Right, I got to [1]. 
 
-Your way forward would be to keep those .txt files *pure plain text"
-and to convert them on-the-fly into reST.  Of course only if such an
-effort sounds worthwhile to you.
+It looks like there are several options here:
 
-Another approach might be to include those docs literally.
-Similar approach has applied to
+  A) Include the text files like in [1]
+  B) Explore the "on-the-fly" translation
+  C) Do A) and then B)
 
-    Documentation/
-	atomic_t.txt
-	atomic_bitops.txt
-        memory-barriers.txt
+Does any of the above sound good, Jon?
 
-Regards,
-Akira
+Thank you both for your time
 
+[1] https://lore.kernel.org/all/20220927160559.97154-7-corbet@lwn.net/
