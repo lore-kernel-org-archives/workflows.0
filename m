@@ -1,98 +1,162 @@
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B43A91F5847
-	for <workflows@vger.kernel.org>; Sat, 15 Mar 2025 12:21:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B5D31DFF8;
+	Sun, 16 Mar 2025 13:24:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742041313; cv=none; b=X5WhV8f0uyYjNQrsljPvTPxcH8y39y6Dlj+bTxiNjzk77Ce/RdJ5oMmCmMQ7+3yJ/OqkhS2wJgfjEjSdrff+CrZnbLk5SxeTJ/DWCIXy38GHweTQ6U21/V+ws7ILgcXdVIH27mQnJgp+oQrpariuXugw1tG46ad6Pwpnsqfl6TA=
+	t=1742131464; cv=none; b=HGTRctO0XJa/az1+xXHR2aA7n4wN8D3GbnnMdStVZDFNqWbKz0hvzcK7AbiYWBy0Keq/5tmDJvv+3ZYx50CoiAW/+KkZBNUD6rH/HzlHqaynwFQZHYie17X1xvcxtitnETXVa7deGbKXBpVS+vdumVr1ZRJ/AE4MmvaQYiqSVo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742041313; c=relaxed/simple;
-	bh=wy6c20spWXmcS2DWIuXkVaGyvR3S8hTMEupyMxN48h0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cjA8kjkGbXWlj3FGnTCokbF2k4TcTZq8huWTZ5Hg8Pmg4OqWT49KI8JIt3P+MxNoVVsEG9buDCR3FGyTZWepXMXspyp1qsEA63XzfDiVq59zfn353EgaGcpSkeaIze+JPObhb/57eDWTfoWmxH1OuMtTq2+7IBLXZJC3z0kXPqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com; spf=pass smtp.mailfrom=iencinas.com; dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b=lcEMBs7h; arc=none smtp.client-ip=91.218.175.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iencinas.com
+	s=arc-20240116; t=1742131464; c=relaxed/simple;
+	bh=3GkrF1TybAcnY2XTemxFhmvRgQl9tkQV+cB2pR4rYjA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WQdJuFw+33xY2wIaWd7GK/kLn8kZ7AA/hjD6i49wd2m9mwhKILFhwsLYFb+OpkUhuFSIq9OqQvYHIETblLFvIr0B1JCJ+n9f100vRylT6dLIFFFnabpof0yz3T3aUTe65YVOP4quXC3BQDZpCsUY61G+Tnd355DzZeKHwDsMiHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aC/Exgjh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b="lcEMBs7h"
-Message-ID: <9c6298a2-4efa-4f77-81c0-b2132f48c1b0@iencinas.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iencinas.com;
-	s=key1; t=1742041308;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4pHhzfXW24TF1t1FOgMUb4yg/TvgoSuq5by1lc39Sis=;
-	b=lcEMBs7hDHnSc0+QfxLmeZDIERK/dJY68x+llhQSLKp9G00S01R84WKw83XJyuvTMYeLMB
-	8DF9YfNP5+MXAwlcgypmjk+GSuo93jaqX21XnnJ5xxx00ldRX8dqrFfwQK9NM0DJM2m0Mj
-	DeygCKkWiBcK7/TouZY26iJWUm139hA1mbL9gi4YCxjIw4W0pz7kaE09y+KhAMebA1qPli
-	2IWYBaEHlNcZBkuFC53V0susnEgNklY23VZgOffvT+FXiLUGSZfp+WIJhesX2iBbGCEPcH
-	OlutoqHPbk9V0BZZtlNBrNLpKkywoHqByp09B6sMGS2jY7PU2iVNl63jS1ZLtg==
-Date: Sat, 15 Mar 2025 13:21:43 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aC/Exgjh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6A28C4CEDD;
+	Sun, 16 Mar 2025 13:24:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742131463;
+	bh=3GkrF1TybAcnY2XTemxFhmvRgQl9tkQV+cB2pR4rYjA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aC/Exgjh0Pt4R5I2940Q8WL9NoojmjEymT2KAQAW8MnFKLIhE3cQf1CjLyNi+k7e5
+	 cxllYdOzyxUpcZcrzcnUTU1BjElOTYUqT2pHhiDn2DF571/GAGpcjp6ZLd9F0UBy2Q
+	 kW/RIbWiKUSxlRMyWH72THvQI03cGS8602ypbeQhEn+NRS/sWgQRadpwhLZbpxRSiu
+	 LP/0jpvVAMelO+wzZQ5z3NVtqKIchY0JxVE+iKJR2efgsd/D7f+DnbJ/13YH+EXakD
+	 wiVDfCmi6rgI2LOpL58B9ONhnbKLJjMMtMICxOb6OW2M5VXnaogPndxb/xupWtV8di
+	 8CYotOI+USiTQ==
+Date: Sun, 16 Mar 2025 13:24:17 +0000
+From: Simon Horman <horms@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: workflows@vger.kernel.org, apw@canonical.com, conor@kernel.org,
+	corbet@lwn.net, dwaipayanray1@gmail.com, geert+renesas@glider.be,
+	gitster@pobox.com, joe@perches.com, kees@kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux@leemhuis.info, lukas.bulwahn@gmail.com,
+	miguel.ojeda.sandonis@gmail.com, niklas.soderlund@corigine.com,
+	torvalds@linux-foundation.org, willy@infradead.org
+Subject: Re: [PATCH] scripts: Add git-resolve tool for full SHA-1 resolution
+Message-ID: <20250316132417.GC4159220@kernel.org>
+References: <20250311165336.248120-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] Documentation: kcsan: fix "Plain Accesses and Data Races"
- URL in kcsan.rst
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: corbet@lwn.net, dvyukov@google.com, elver@google.com,
- kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, workflows@vger.kernel.org
-References: <1d66a62e-faee-4604-9136-f90eddcfa7c0@iencinas.com>
- <c6a697af-281a-4a91-8885-a4478dfe2cef@gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ignacio Encinas Rubio <ignacio@iencinas.com>
-In-Reply-To: <c6a697af-281a-4a91-8885-a4478dfe2cef@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250311165336.248120-1-sashal@kernel.org>
 
-On 15/3/25 3:41, Akira Yokosawa wrote:
-> This might be something Jon would like to keep secret, but ...
+On Tue, Mar 11, 2025 at 12:53:36PM -0400, Sasha Levin wrote:
+> Introduce git-resolve.sh, a tool that resolves short git commit IDs to their
+> full SHA-1 hash. This is particularly useful for navigating references in commit
+> messages and verifying Fixes tags.
 > 
-> See the message and the thread it belongs at:
+> When faced with ambiguous commit IDs or imprecise references in messages,
+> this tool can help by resolving commit hashes based on not just the ID
+> itself but also the commit subject, making it more robust than standard
+> git rev-parse.
 > 
->     https://lore.kernel.org/lkml/Pine.LNX.4.44L0.1907310947340.1497-100000@iolanthe.rowland.org/
+> This is especially valuable for maintainers who need to verify Fixes tags
+> or cross-reference commits. Unlike proposals to add dates to Fixes tags
+> (which would break existing tooling), this script provides a way to
+> disambiguate commits without changing the established tag format.
 > 
-> It happened in 2019 responding to Mauro's attempt to conversion of
-> LKMM docs.
+> The script includes several features:
+> - Resolves short commit IDs to full SHA-1 hashes
+> - Uses commit subjects to disambiguate between multiple potential matches
+> - Supports wildcard patterns in subjects with ellipsis (...)
+> - Provides a force mode to attempt resolution by subject when ID lookup fails
+> - Includes comprehensive self-tests
 > 
-> I haven't see any change in sentiment among LKMM maintainers since.
-
-Thanks for the information!
-
-> Your way forward would be to keep those .txt files *pure plain text"
-> and to convert them on-the-fly into reST.  Of course only if such an
-> effort sounds worthwhile to you.
-
-With this you mean producing a .rst from the original .txt file using an 
-script before building the documentation, right? I'm not sure how hard 
-this is, but I can look into it.
-
-> Another approach might be to include those docs literally.
-> Similar approach has applied to
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+>  scripts/git-resolve.sh | 199 +++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 199 insertions(+)
+>  create mode 100755 scripts/git-resolve.sh
 > 
->     Documentation/
-> 	atomic_t.txt
-> 	atomic_bitops.txt
->         memory-barriers.txt
+> diff --git a/scripts/git-resolve.sh b/scripts/git-resolve.sh
 
-Right, I got to [1]. 
+...
 
-It looks like there are several options here:
+> +git_resolve_commit() {
+> +	local force=0
+> +	if [ "$1" = "--force" ]; then
+> +		force=1
+> +		shift
+> +	fi
+> +
+> +	# Split input into commit ID and subject
+> +	local input="$*"
+> +	local commit_id="${input%% *}"
+> +	local subject=""
+> +
+> +	# Extract subject if present (everything after the first space)
+> +	if [[ "$input" == *" "* ]]; then
+> +		subject="${input#* }"
+> +		# Strip the ("...") quotes if present
+> +		subject="${subject#*(\"}"
+> +		subject="${subject%\")*}"
+> +	fi
+> +
+> +	# Get all possible matching commit IDs
+> +	local matches
+> +	readarray -t matches < <(git rev-parse --disambiguate="$commit_id" 2>/dev/null)
+> +
+> +	# Return immediately if we have exactly one match
+> +	if [ ${#matches[@]} -eq 1 ]; then
+> +		echo "${matches[0]}"
+> +		return 0
+> +	fi
+> +
+> +	# If no matches and not in force mode, return failure
+> +	if [ ${#matches[@]} -eq 0 ] && [ $force -eq 0 ]; then
+> +		return 1
+> +	fi
+> +
+> +	# If we have a subject, try to find a match with that subject
+> +	if [ -n "$subject" ]; then
+> +		# Convert subject with possible ellipsis to grep pattern
+> +		local grep_pattern
+> +		grep_pattern=$(convert_to_grep_pattern "$subject")
+> +
+> +		# In force mode with no ID matches, use git log --grep directly
+> +		if [ ${#matches[@]} -eq 0 ] && [ $force -eq 1 ]; then
+> +			# Use git log to search, but filter to ensure subject matches exactly
+> +			local match
 
-  A) Include the text files like in [1]
-  B) Explore the "on-the-fly" translation
-  C) Do A) and then B)
+I suppose it doesn't matter in practice, but it seems somewhat inconsistent
+to declare match as local here...
 
-Does any of the above sound good, Jon?
+> +			match=$(git log --format="%H %s" --grep="$grep_pattern" --perl-regexp -10 | \
+> +					while read -r hash subject; do
+> +						if echo "$subject" | grep -qP "$grep_pattern"; then
+> +							echo "$hash"
+> +							break
+> +						fi
+> +					done)
+> +			if [ -n "$match" ]; then
+> +				echo "$match"
+> +				return 0
+> +			fi
+> +		else
+> +			# Normal subject matching for existing matches
 
-Thank you both for your time
+... but not here.
 
-[1] https://lore.kernel.org/all/20220927160559.97154-7-corbet@lwn.net/
+> +			for match in "${matches[@]}"; do
+> +				if git log -1 --format="%s" "$match" | grep -qP "$grep_pattern"; then
+> +					echo "$match"
+> +					return 0
+> +				fi
+> +			done
+> +		fi
+> +	fi
+> +
+> +	# No match found
+> +	return 1
+> +}
+
+...
