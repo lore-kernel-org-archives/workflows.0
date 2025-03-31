@@ -1,85 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from wiki.archlinuxcn.org (wiki.archlinuxcn.org [104.245.9.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B4C81DED45;
-	Thu, 27 Mar 2025 21:57:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C11AB21018F;
+	Mon, 31 Mar 2025 13:05:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=104.245.9.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743112671; cv=none; b=GAIsXX3/hHT2FF1SSUrip23/8Dyt8rvWPaiZu0rw7z6Z2xtHnpM/kfSkQAygiZxJRdviZdBo7rQNr+X5HfKHdbtPFbPfmpzLxLKXJB9mBQGh2vmeEHwi6gOEyPgfBxPMYZ2kYa/O3x4fXgYbQa7JaFWxa4SiTqd6SIl29oNk4T8=
+	t=1743426362; cv=none; b=SXYq44noB92WhT2O+pXONnys3aAObR7LMt6lI1y51v7oRAQrIq24DxMs8JuS6eM2DTk4bYtNUEkFRgXdA2ymceSuaCA8+RJ2ayySyaww3oGF6+bpGXEgwzogQos4uTgp0qIeF8AnwJSiZkJXsi+oZFF5nzhLz5STWsdtIg9m27s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743112671; c=relaxed/simple;
-	bh=2JaAn98f3WVVTUV4zPmAkU4cOoVTOpFjAd0eloNL26s=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=YJ5vre7eXNJFfEvNwaT+5miCpoKrVIgUV8UR+OrPDhGH6UVNrMQe1SW1EewZlee7yan9tI228JVc6EGGysZqONndwPlcTXeOyaoYB7EcFiIkr0wOPRGXWlascJANjD+uqmm+CdF+xW2J2jdK3kT0XHjyvOqz82NwWtBqC8ywoSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B6COfFjl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743426362; c=relaxed/simple;
+	bh=RxzHI0qL1+9jbviZe+8M+OWWl+pVirNRAHWQwUX2b+k=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=iboF++W2iioieUjwfgk/sGnOBgLlhHmHAiPkhkLoCo6TB2+GnAokaTdD9IDWW2YxIzHd29W0lZYzyPaREw700qAmwo7E6hRIu/oENTQwJrDJIti4j8s+pn1pv1v1WSaRMUPAhG2uONFXfKZYU3cD8G+nVbK7gcdUftjKHUa+pwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=archlinuxcn.org; spf=pass smtp.mailfrom=archlinuxcn.org; dkim=pass (2048-bit key) header.d=archlinuxcn.org header.i=@archlinuxcn.org header.b=un7+B9A0; arc=none smtp.client-ip=104.245.9.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=archlinuxcn.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=archlinuxcn.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B6COfFjl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0BF0C4CEDD;
-	Thu, 27 Mar 2025 21:57:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743112670;
-	bh=2JaAn98f3WVVTUV4zPmAkU4cOoVTOpFjAd0eloNL26s=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=B6COfFjlmv44H/k8P+/lDonPywmqiVsjydXWYBGmwJNHXItK56LsIYYCHHQsNCi4m
-	 c8rDyU3SMmrjRXWXb4ZOTIUkAjf05A0hKeJKoHpRLXReBDGuzUUW/eZaSoDTyRK3BK
-	 Khjkc7cJSoPNhaOvjjnbXbD02ffpLYPlRS6fC9xq8J88o17qUC+1K/ophEYU+IZCQJ
-	 iv1KIjQaCTnZm+pVc/Q5fL2DhtGYEeQcDDS7ejfsxW3Ab5DPvDhRvhFhRTA17cABWY
-	 KgAGz2fwz++ipPkeXUlTM6Vzuk/lcC0EZZ4SLuQabCgAHXkMoLioP57G+iE7wt0m0Z
-	 +AB0AExum5kcA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7109C380AAFD;
-	Thu, 27 Mar 2025 21:58:28 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=archlinuxcn.org header.i=@archlinuxcn.org header.b="un7+B9A0"
+DKIM-Signature: a=rsa-sha256; bh=XX5S4zih43gG9gjv8zt0auyXHPYRDaaZJku9IVAXD3Q=;
+ c=relaxed/relaxed; d=archlinuxcn.org;
+ h=Subject:Subject:Sender:To:To:Cc:Cc:From:From:Date:Date:MIME-Version:MIME-Version:Content-Type:Content-Type:Content-Transfer-Encoding:Content-Transfer-Encoding:Reply-To:In-Reply-To:Message-Id:Message-Id:References:Autocrypt:Openpgp;
+ i=@archlinuxcn.org; s=default; t=1743426351; v=1; x=1743858351;
+ b=un7+B9A0zWvS/D0GuUBVayjIWOwxleXgPc9xnRbP06l0IRMCeQ9nnerL0UyX9YQQdSqvvrNz
+ u8X35+5FS0qRVpz8n3Gz3RGm/KkEp/vzDVjno4UaEx5h30SzaqFdSShw3fIdhRvh86JWws/xC0E
+ 0kygj5kstcGnmbhg/C3PdSDA2QpE8AcBlpw+rjjm+9624aYqKPUn8nhywIQF4UeCuY4JwZqIT/m
+ 71ooV7sJe/pWuO6E8sjAKxlURajhPa2H8k5aMQ86XUARxsLl2uoZ2GFOKJa1z0caCiurWQ18Db8
+ sz7G0SfTQk89xf9GM/NW+swVDUpkg8BSZUSIjrE6YBIPQ==
+Received: by wiki.archlinuxcn.org (envelope-sender
+ <integral@archlinuxcn.org>) with ESMTPS id 595a6484; Mon, 31 Mar 2025
+ 21:05:51 +0800
+Message-ID: <eb1abac9-d6d2-4dce-a5f6-d0702ceca103@archlinuxcn.org>
+Date: Mon, 31 Mar 2025 21:05:49 +0800
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: corbet@lwn.net
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ ziyao@disroot.org, integral@archlinuxcn.org, workflows@vger.kernel.org
+From: Integral <integral@archlinuxcn.org>
+Subject: A contradiction of "summary phrase" definition in
+ process/submitting-patches.rst
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Subject: Re: [f2fs-dev] [RFC v2 00/38] Improve ABI documentation generation
-From: patchwork-bot+f2fs@kernel.org
-Message-Id: 
- <174311270700.2230226.6627341491675246186.git-patchwork-notify@kernel.org>
-Date: Thu, 27 Mar 2025 21:58:27 +0000
-References: <cover.1738020236.git.mchehab+huawei@kernel.org>
-In-Reply-To: <cover.1738020236.git.mchehab+huawei@kernel.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: linux-doc@vger.kernel.org, corbet@lwn.net, gregkh@linuxfoundation.org,
- linux-pm@vger.kernel.org, netdev@vger.kernel.org, coresight@lists.linaro.org,
- linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
- linux-block@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-hardening@vger.kernel.org, workflows@vger.kernel.org,
- bpf@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
 
-Hello:
+Hello,
 
-This patch was applied to jaegeuk/f2fs.git (dev)
-by Jonathan Corbet <corbet@lwn.net>:
 
-On Tue, 28 Jan 2025 01:05:49 +0100 you wrote:
-> Hi Jon/Greg,
-> 
-> That's the second version of my RFC patches meant to modenize the ABI
-> parser that I wrote in Perl.
-> 
-> I originally started it due to some issues I noticed when searching for
-> ABI symbols. While I could just go ahead and fix the already existing
-> script, I noticed that the script maintainance didn't have much care over
-> all those years, probably because it is easier to find Python programmers
-> those days.
-> 
-> [...]
+I found a contradiction in process/submitting-patches.rst:
 
-Here is the summary with links:
-  - [f2fs-dev,RFC,v2,10/38] ABI: sysfs-fs-f2fs: fix date tags
-    https://git.kernel.org/jaegeuk/f2fs/c/90800df0da78
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+The canonical patch subject line is::
+     Subject: [PATCH 001/123] subsystem: summary phrase
+
+
+The ``summary phrase`` may be prefixed by tags enclosed in square
+brackets: "Subject: [PATCH <tag>...] <summary phrase>".
+
+
+The former means "summary phrase" doesn't include "subsystem", while the 
+latter means "summary phrase" includes "subsystem".
+
+So, which one is correct?
+
+
+--
+
+Integral
+
+
+
 
 
