@@ -1,91 +1,123 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAEEA2750FD;
-	Tue, 29 Apr 2025 22:50:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02685215764
+	for <workflows@vger.kernel.org>; Tue, 29 Apr 2025 23:33:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745967007; cv=none; b=Pu0DbSViR0nWB2xDczh8eVXEzjdmK5t2hJr/D4EJ93NTk51yJSyFowXnqz7GR/kKhOPXftju2rwclilkHbNemG+OpBrME5sZ2aScMwonxfHwe7iHy7ebrLbahD7mzsDrHCUwFivOP8tY2sHMPvojow+WFB48b2LdGFzIOoUA1Go=
+	t=1745969590; cv=none; b=QkobT65ltfu6DwVkddXcvFPTo5kZN7WyQ+flfV4V2Yf9V1VLJn+3p1SgvqlOjUEw7Ew/3W8d70wRXvf/2EpkD3rc7+nkiBAjYRpXmxnkDCBAIuiYej2kYUvIypK8Vr4J+GnQWLp4VPtFAaRHXDiCLNk1NMfC0ZD48OAytBKvNlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745967007; c=relaxed/simple;
-	bh=12FpjxI1vHDZ9XAvULM/y/zG2aDe5mmphDUUNP/SSYU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ZE4D+FxmpT9L8OwuyDf/Vuk6Ovu5uVd3Vucs27/agAoI32XD4mp3+JSmA8jsEXXoeM70a20s6E2ZUUlsDtGNDrGMYkT/j1ILXhSqRDcoTjkqWAKm41emP0wM/3iM0+apD7/PmaS+3ZkaFaTwIJpFoaG5v/ioyEn/j/oQ/5bmvzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=QJ17l7+y; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1745969590; c=relaxed/simple;
+	bh=91lQyvhQ0vUeR2C5rjMPbLayVwhJTn0+N8ztV6/O+FE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=syNUTtVSreZNPQWM/w5zqvhOkl9UXqPRkroSSaefmkZWm++Q2n62hR6c/MT5V2o+3sUufzQTps4In+0mt+Piw5kbkOgaMNXI8sbj9+gGJlXyloORbATXHCDuhWMxo+14thzinYxr+38pCuJH9E9OWGTmpkXDIS0Kh6FwID8t3Mk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=XvOjz2Z6; arc=none smtp.client-ip=209.85.166.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="QJ17l7+y"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 151324040B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1745966999; bh=f/1keQGvuVDmtVa5ntSFTTf2hNXSSFSwNLhCT8dvpEA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=QJ17l7+yOWELeBFPGR0nuT+ercDASavHWP1Eh57InondtNP8tSqbArNEYkQ5DpmON
-	 AzCypqgVolSF83KCb5G333RyMUeq7AlDkgfiGYdQkUDtl3t1lOrhdRtHilTuXEOXOD
-	 QDF/98uwmV19UR3m1b5Hd8uJ2nGGkMHi13PmSN76qHefT8EjoFW9W57q3a1LdEIbYp
-	 1YevsfJJinupUu+JC5588/2NjUzba/gyIIsWORAat0VY03YSFep0znc5kup4vde2Eq
-	 7SYsNoqKFVzh7I3n8EM+6Xpk8pUxleXtbIPHUKIHHzY+LBUyTjPekj7iZ6j5bH0B3n
-	 BpFnYagDWNUqg==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 151324040B;
-	Tue, 29 Apr 2025 22:49:58 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Shuah Khan <skhan@linuxfoundation.org>, brendan.higgins@linux.dev,
- davidgow@google.com, rmoar@google.com
-Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-kselftest@vger.kernel.org,
- kunit-dev@googlegroups.com, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] kunit: add tips to clean source tree to build help
- message
-In-Reply-To: <dc8f4035a8d493be9ddc0e868a3ffd67626cca00.1745965121.git.skhan@linuxfoundation.org>
-References: <cover.1745965121.git.skhan@linuxfoundation.org>
- <dc8f4035a8d493be9ddc0e868a3ffd67626cca00.1745965121.git.skhan@linuxfoundation.org>
-Date: Tue, 29 Apr 2025 16:49:57 -0600
-Message-ID: <87selqlh0q.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="XvOjz2Z6"
+Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-3d93deba52fso17480685ab.0
+        for <workflows@vger.kernel.org>; Tue, 29 Apr 2025 16:33:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1745969587; x=1746574387; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=57VBGGVBY85MK2UKVXxeo+EoMCdb9fTe1GaMwG8NQ00=;
+        b=XvOjz2Z62vKzRHJ1GfxUhlkG3jS/VRjAY2VIOgqSyZilWjplmYeE53Db7viuRjL6c6
+         eOrcu5fM+5unfQ4ty9Dm6OYlI7J3C/eej/8cKvYjx4CF9TIB/OlO1S5/mg5bQYdPLW8h
+         UZZ9khG30C3crwfmvY8SunPMacIi1jDIV+TA0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745969587; x=1746574387;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=57VBGGVBY85MK2UKVXxeo+EoMCdb9fTe1GaMwG8NQ00=;
+        b=u7GFqqiETMzy86b6FCVeISzsESWpac1Y+M8p/scyef1Us2t8hnF2KakK3+YOO7FWr2
+         Qv7832tJFGSlS/t02ofbzaF2nbDcv3qqFBXtUB30rjY6t6Ju+kCt2Y1hI09itKQaUjTl
+         RFXkSNuXFCkGF8Np56UUy/fyT3iccb8+X7yunPwD1k+OcgxHz8AmO0X/pU1tZoK7wltM
+         UFX0n6/wmPzvVlGKcM1Y3RVQ9uQvrRhcSc3Njwa4gL+tMZzbvgcKm7eS+Ge/iZJC+Hu5
+         j+CSk4CUdA5+WfXpeDw57VDnONjdofe8H8Nz40N+KuWp9x5hQKyDDnCkpxZg255dfbyq
+         B28Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUxBcykao/InUQR5AIzCDmGzxdbcr9dJYSX4NUiimHG1NBWNyLRf7PAfc9819U8nrwWZGRiO68Y75k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxcIWtEYXdb9b/OKSRKsYKfOJ0lR3YMBqPp/LXh/5PKUTh3J0ei
+	1n5AFTlSWbxMvkv73xf4bVfwDD+hoIyrnFkRiMPb7G6Pho6WbBMKglSXJGhTT6g=
+X-Gm-Gg: ASbGncvMXSOSSmyL/gkpTYM3HPYRcuuoN/epfmjMGbxXQ+Dn/TPc7+QY4mlnoKtfOhZ
+	niZH4RGAhLhrY7W7s/EKAQsXPdFS5ujR/ia79V26MCzW8tWRmb3RzB4SXRg5yva0MVJUB3tHj8I
+	LnfcIp6DAi6mukwq4JhPLS5+1pjEkZwvEmzZkNLt93VpxtnHCaQ9lbFCF2MVbCBhIZZYGNVPQ25
+	WAOon4bosQg/0z+ElGtQLpFxhSlsbaif67Acp6WvVVQydl+lEQKU7gYY/n5QkUtS6KHzgcohGEe
+	IvcTTSaQuoOzC58gHJqq2eGrugYI5hR8n0f+yvtUMqO1R8SGjG4=
+X-Google-Smtp-Source: AGHT+IGmi1rtml3AlLb1Q65Dbn3WTPaIc0r44Elktf5kpSPRnHKwm8fFiAMDfsyaGULJj9rb9LE01w==
+X-Received: by 2002:a05:6e02:2502:b0:3d6:d145:3006 with SMTP id e9e14a558f8ab-3d968009f6amr4296895ab.20.1745969587055;
+        Tue, 29 Apr 2025 16:33:07 -0700 (PDT)
+Received: from [192.168.1.14] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3d95f476892sm5211075ab.65.2025.04.29.16.33.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Apr 2025 16:33:06 -0700 (PDT)
+Message-ID: <589336a3-4df5-4f58-a627-2b75716f7b61@linuxfoundation.org>
+Date: Tue, 29 Apr 2025 17:33:05 -0600
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] doc: kunit: add information about cleaning source
+ trees
+To: Randy Dunlap <rdunlap@infradead.org>, brendan.higgins@linux.dev,
+ davidgow@google.com, rmoar@google.com, corbet@lwn.net
+Cc: linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+References: <cover.1745965121.git.skhan@linuxfoundation.org>
+ <7104475f60568f6a580b03d84e61abe311d63e46.1745965121.git.skhan@linuxfoundation.org>
+ <c3333ef9-f266-4260-8f75-0da65bcff1da@infradead.org>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <c3333ef9-f266-4260-8f75-0da65bcff1da@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Shuah Khan <skhan@linuxfoundation.org> writes:
+On 4/29/25 16:29, Randy Dunlap wrote:
+> 
+> 
+> On 4/29/25 3:27 PM, Shuah Khan wrote:
+>> If kunit run happens in a tree in which a x86_64 kernel was built,
+>> the source tree could be dirty.
+>>
+>> "make ARCH=um mrproper" will not clean the x86_64 build artifacts.
+>> Running "make ARCH=x86_64 mrproper" is necessary to clean them.
+>>
+>> Add this information to the documentation.
+>>
+>> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+>> ---
+>>   Documentation/dev-tools/kunit/start.rst | 12 ++++++++++++
+>>   1 file changed, 12 insertions(+)
+>>
+>> diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-tools/kunit/start.rst
+>> index a98235326bab..568e29aebd6e 100644
+>> --- a/Documentation/dev-tools/kunit/start.rst
+>> +++ b/Documentation/dev-tools/kunit/start.rst
+>> @@ -39,6 +39,18 @@ can run kunit_tool:
+>>   	``make ARCH=um mrproper``, just be aware that this will delete the
+>>   	current configuration and all generated files.
+>>   
+>> +	You may see the following error if a prior build leaves behind
+>> +	header files which 'make ARCH=um mrproper' fails to clean:
+>> +
+>> +	"undefined symbol sev_es_trampoline_start referenced ..."
+>> +
+>> +	This is special case scenario when a prior x86_64 build populates
+>> +	the source tree with arch/x86/realmode/rm/pasyms.h. This header
+>> +	will not be cleaned by 'make ARCH=um mrproper'
+>> +
+>> +	If you encouter this problem, run 'make ARCH=x86_64 mrproper' to
+> 
+> 	       encounter
 
-> Add tips to clean source tree to build help message. When user run
-> kunit.py after building another kernel for ARCH=foo, it is necessary
-> to run 'make ARCH=foo mrproper' to remove all build artifacts generated
-> during the build. In such cases, kunit build could fail.
->
-> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
-> ---
->  tools/testing/kunit/kunit.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/tools/testing/kunit/kunit.py b/tools/testing/kunit/kunit.py
-> index 7f9ae55fd6d5..db86a396ed33 100755
-> --- a/tools/testing/kunit/kunit.py
-> +++ b/tools/testing/kunit/kunit.py
-> @@ -583,7 +583,7 @@ def main(argv: Sequence[str]) -> None:
->  						'the options in .kunitconfig')
->  	add_common_opts(config_parser)
->  
-> -	build_parser = subparser.add_parser('build', help='Builds a kernel with KUnit tests')
-> +	build_parser = subparser.add_parser('build', help='Builds a kernel with KUnit tests. Successful build depends on a clean source tree. Run mrproper to clean generated artifcats for prior ARCH=foo kernel build. Run 'make ARCH=foo mrproper')
->  	add_common_opts(build_parser)
+Thank you. Will fix it.
 
-Nit: could perhaps that line be broken in a bit more readable way?
-
-  	build_parser = subparser.add_parser('build',
-        	help='Builds a kernel with KUnit tests. '
-                  'Successful build depends on a clean source tree. '
-                  'Run mrproper to clean generated artifacts for prior '
-                  'ARCH=foo kernel build. '
-                  'Run "make ARCH=foo mrproper"')
-
-(fixed "artifacts" while I was in the neighborhood :)
-
-jon
+thanks,
+-- Shuah
