@@ -1,69 +1,75 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A4F163;
-	Tue, 15 Apr 2025 17:09:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C10DE270ED5;
+	Tue, 29 Apr 2025 22:27:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744736992; cv=none; b=dnx9gYfse2br56zyUdw3m5BRLfz+rFH7P8gUxOCJATyavQVHh4gOMuHZlbx5MUqi3iBe11dBemmahGLhue3eaqwBicUunh5bJyEUbPukauyJgouUt/QCNJA9fqDhGP3cLK1bojn+EcJ+922eIxL2UFxOLU3Wua3Cf2R5CrK6U58=
+	t=1745965636; cv=none; b=l65X0mCNFez37KBdlsrtDkicQOkZP4WpsC/29atjM0bXrn4GiUVEx8AlbLS6LFarsHUKBgUhSDbJHHeHSxzsE+xlIi20VKn0+cHhDzuPCp5uTNANll1GdwQJN9V1gI8favDarL/W+Hxrk0bpo2rmgLAoBkcMeyJofXZVVY3Nmrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744736992; c=relaxed/simple;
-	bh=MTxGoC4BpioZcRWG/zm7Kk5SqdnGqA04/C85BpU85ZE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EqRKvNswDuO1dGguWPgrTb18qQCjE+HoHL0IkR+EFRxL+1J0GgM4QarWteHGuP7rhrjTQmr/vtJ4UKJvEG3tjqgARsgLS49dE9TsB60gd02rknmRx71CXqBB5qa/y5Y6vWLmje+dr2TFqwAc9XoTZ8n4gM5h7KD1Ricgf2ibiGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MASYSJPz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745965636; c=relaxed/simple;
+	bh=PLlpYUkKComDCwpdqOUw7vnutWpdX1yZK6ZOSdelAvo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rybhNzHbeBTK8nGnLGRr3lfXnU12nNWMZnonVdwmnDS28dLdOF1fN1k/wJfFeQNWTEQaycd5/T9cflScQmdV0TLucQ+qu2gmI2ONGDlzmmwmMm/b7EFyZpxvTz9GR3G46pvAJgkS+wIBbf61x9i9q4EAOVq7PYnYiYLN7h9gOlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=i+pIAioK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MASYSJPz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BB59C4CEE9;
-	Tue, 15 Apr 2025 17:09:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744736991;
-	bh=MTxGoC4BpioZcRWG/zm7Kk5SqdnGqA04/C85BpU85ZE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MASYSJPz+lAlRc2CEVdeSjmxxQarSAxWrd8v5UVp202CkYT1f79ktOgjOefk/q1cO
-	 rs8qyM+ROx9RuuhnKnEi7E2U0CrwXITzDEB2+fh+N7wo3O6qe2Sm84PVEGBI5Tt8Nx
-	 ptuZpYp+YPXIA6smMj7AMsr3BOuBBGAa+Y/pHzmUulW9TGCZFtXpv+vOWF8getNtgI
-	 06uW5sQxSJ9y/AM++RQa/VRWwO+f49a0TEbszOc8py9gOtk+uF+yTVlbghjY/dVzdM
-	 Uw4/sqCbxj4tGkIiHI2ZXCkwUT6on/XezwRAchoCo1Mb9biKdpC/mkKUFv9tYZ2W+Z
-	 FTCIGOlAWxnng==
-Date: Tue, 15 Apr 2025 10:09:48 -0700
-From: Kees Cook <kees@kernel.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
-Cc: Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kselftest@vger.kernel.org,
-	kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] kunit: tool: Implement listing of available
- architectures
-Message-ID: <202504151009.DC4EBC7BE4@keescook>
-References: <20250415-kunit-list-v2-1-aa452cd317ae@linutronix.de>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="i+pIAioK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AEAEC4CEE3;
+	Tue, 29 Apr 2025 22:27:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1745965634;
+	bh=PLlpYUkKComDCwpdqOUw7vnutWpdX1yZK6ZOSdelAvo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=i+pIAioKwTOZ0ItbRsivCpMpA24tv8H01yzMrsxybI6CImOmgTR6BVpwvoGtn1j/5
+	 jFYMGF/RmJYwpgeOa8g5nXpaMcYwmvhrmww1PjNhWpMcCy8saJ97BR+42S5FaxA/uR
+	 fxjnVhzhYUlw+HwjyeCnGahnPt+OCZgJ1Axig1rE=
+From: Shuah Khan <skhan@linuxfoundation.org>
+To: brendan.higgins@linux.dev,
+	davidgow@google.com,
+	rmoar@google.com,
+	corbet@lwn.net
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kselftest@vger.kernel.org,
+	kunit-dev@googlegroups.com,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] Update kunit doc and tool with tips to build errors
+Date: Tue, 29 Apr 2025 16:27:10 -0600
+Message-ID: <cover.1745965121.git.skhan@linuxfoundation.org>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250415-kunit-list-v2-1-aa452cd317ae@linutronix.de>
 
-On Tue, Apr 15, 2025 at 09:03:06AM +0200, Thomas Weiﬂschuh wrote:
-> To implement custom scripting around kunit.py it is useful to get a list of
-> available architectures. While it is possible to manually inspect
-> tools/testing/kunit/qemu_configs/, this is annoying to implement and
-> introduces a dependency on a kunit.py implementation detail.
-> 
-> Introduce 'kunit.py run --arch help' which lists all known architectures
-> in an easy to parse list. This is equivalent on how QEMU implements
-> listing of possible argument values.
-> 
-> Signed-off-by: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
+kunit kernel build could fail if there are ny build artifacts from a
+prior kernel build. These can be hard to debug if the build artifact
+happens to be generated header file. It took me a while to debug kunit
+build fail on ARCH=x86_64 in a tree which had a generated header file
+arch/x86/realmode/rm/pasyms.h
 
-Oh nice; I like it! :)
+make ARCH=um mrproper will not clean the tree. It is necessary to run
+make ARCH=x86_64 mrproper
 
-Reviewed-by: Kees Cook <kees@kernel.org>
+Example work-flow that could lead to this:
+
+        make allmodconfig (x86_64)
+        make
+        ./tools/testing/kunit/kunit.py run
+
+Add this to the documentation and kunit.py build help message.
+
+Shuah Khan (2):
+  doc: kunit: add information about cleaning source trees
+  kunit: add tips to clean source tree to build help message
+
+ Documentation/dev-tools/kunit/start.rst | 12 ++++++++++++
+ tools/testing/kunit/kunit.py            |  2 +-
+ 2 files changed, 13 insertions(+), 1 deletion(-)
 
 -- 
-Kees Cook
+2.47.2
+
