@@ -1,80 +1,57 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32CDB24BBF3;
-	Tue,  6 May 2025 13:01:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C95722D790;
+	Tue,  6 May 2025 14:22:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746536467; cv=none; b=odeNpqUpakElcjJQOKic6RFYPiLKzUMV3w6OPAsjcbcxTuddGIc6By4vgqCSJ4Gs0bzZk+MXlK8L4wF419cwvv07HQDrBTeh3cGuE0NLWI3an5dBIJjO+29COeFJO6onEnOxlLaPUfFIwUao05AwdhipF43N8DsI8Qy1jHNFva4=
+	t=1746541321; cv=none; b=B+2w/bF5i1XroP4Daog37HqGJ54IDWqIy6kiUjOSmZiFo3C7EAM9XcdOc1jgtm8cmN6ZBSAN97otiWAKfE3ZIoRi8Rg5HbShVRUoUbWnFqaYLgsaV26JIhAU1g546PGcAF0I4Oerc5laY4PfGM8CB3VA7jGXxUWEazT+WYL1Izs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746536467; c=relaxed/simple;
-	bh=h6xZS9dC7e4iNV3fhXey6pp7M5IToS1iWD8Re0zXhy0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=mhmnzaT+WsCQ08gDewVYQLx2BNb4ts0iFT+u6gX7pvh/N9bcR+BqTvFIisHSbONL2hCMnW+zUUszPrElHzWdL6mKc/D7pTwDokkIUKeU4xXmvVTFG1Sjs6LJGuJxnT3Y2A4YrxzbYcSLg2q50YiM3XIMNZXPb2erpgc/HyX7gNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=qPnSFf1N; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1746541321; c=relaxed/simple;
+	bh=Ie/sO3/eff9V0WMmH8p0giRXqNQeCItCAyv/TN8xzEM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Wx3OL2OVgs1ZgO0/fTg1P7cPcVc4fNZ2HeQF9Csk2KdUtiugL1rJaE6vcj9fidE5X3iZrTVYMtQtR83HTEqMB7xM4DjST8qCSuDP2oHdRziiRzHCR5n8SVoAsmF9KKEeq7J6bOwJRHCFEOiJ7qpUxCIoqfmi6TpImwGE2+r/yZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uSPR8wSl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="qPnSFf1N"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7517A403A7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1746536465; bh=Z8cvL+fbKoL0avjcHP6hxGrJDr4rR6GnALatRgdPlck=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=qPnSFf1NLh7OOxzLpm3gHnahPBmFUWq5Oh77IVkeP3uo5vHCiAcl0zNzV/Uuj7YZc
-	 xufrYaHyWZOruRW/Ih4Pnjs+kyTyLFSpcR9phzgt35w//eZezUUQXwOVDNXLtchZjC
-	 /+2QYeqtFfgvph9Qi/P79u69uox73V0E8wjjyn3lhyGjSYtk+W80yOY4PmrLokPVB5
-	 P+zJrvP/hbuiwIbHkmXqs/brsyvxSKXsa2v98iGXgV87BUGytvaE9K7KG6P6Vvqv5D
-	 DtcLuH41emOiUi8feh4He1kdQ0qmwoZfMiJDdvjOr+VlvVfb2Z2sEWXJhbSxJBwhmX
-	 anMdjwmIa0P7g==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 7517A403A7;
-	Tue,  6 May 2025 13:01:04 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Jesung Yang <y.j3ms.n@gmail.com>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jesung Yang <y.j3ms.n@gmail.com>
-Subject: Re: [PATCH] docs: align with scripts/syscall.tbl migration
-In-Reply-To: <20250504093351.2134552-1-y.j3ms.n@gmail.com>
-References: <20250504093351.2134552-1-y.j3ms.n@gmail.com>
-Date: Tue, 06 May 2025 07:01:01 -0600
-Message-ID: <87v7qdx59u.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uSPR8wSl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE76FC4CEE4;
+	Tue,  6 May 2025 14:22:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746541321;
+	bh=Ie/sO3/eff9V0WMmH8p0giRXqNQeCItCAyv/TN8xzEM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=uSPR8wSlUKvmAukA7pNhCBERWwcJ7ejEEwPFsBCvfnwSKJRnqfg1ekgWgAMjG2tJC
+	 Q/QnCaD9vCpq4HG4cispG0/ZL2gpxupdsM8PJg8ZN3p6agpMRdAVEk+b9qOvRSC8Gq
+	 uXBxtA/FhuDrE3O5EK9f94OUzEIVrzY7UUSZJjAQE8f1h/mYQwzhz5lDbDDTWW+lhM
+	 AJV/pijwqgoSQHvRN8P/mfV47p3Df6K3tWcw3p8xL/7h58Z9DNBhXfgY+fOeehDekR
+	 Ar0+CpzSIJpvtYwwtPFmoyIaYpS8FkBBe/+DG17Fy9OSiSVgsbQuqqwB1eUPlmiTj2
+	 pd/jMBpnpEHgA==
+Date: Tue, 6 May 2025 07:21:59 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: stable@vger.kernel.org, workflows@vger.kernel.org
+Subject: Re: [ANNOUNCE] AUTOSEL: Modern AI-powered Linux Kernel Stable
+ Backport Classifier
+Message-ID: <20250506072159.520ff0d5@kernel.org>
+In-Reply-To: <aBj_SEgFTXfrPVuj@lappy>
+References: <aBj_SEgFTXfrPVuj@lappy>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Jesung Yang <y.j3ms.n@gmail.com> writes:
+On Mon, 5 May 2025 14:11:20 -0400 Sasha Levin wrote:
+> - Detailed explanations of backporting decisions
 
-> Update the documentation to reflect the migration of the following
-> architectures to the centralized syscall table format:
->
->   arc, arm64, csky, hexagon, loongarch, nios2, openrisc, riscv
->
-> As of commit 3db80c999debbad ("riscv: convert to generic syscall table"),
-> these architectures no longer rely on include/uapi/asm-generic/unistd.h.
-> Instead, syscall table headers (syscall_table_{32,64}.h) are generated by
-> scripts/syscalltbl.sh based on entries in scripts/syscall.tbl, with ABIs
-> specified in arch/*/kernel/Makefile.syscalls.
->
-> For the convenience of developers working with older kernel versions, the
-> original documentation is fully retained, with new sections added to
-> cover the scripts/syscall.tbl approach.
->
-> Verified with `make htmldocs`.
->
-> Signed-off-by: Jesung Yang <y.j3ms.n@gmail.com>
-> Link: https://lore.kernel.org/lkml/20240704143611.2979589-1-arnd@kernel.org
+Are those available publicly or just to the person running the tool?
+I was scratching my hard quite a bit on the latest batch.
 
-So this seems fine to me, but I would feel a bit better about it if the
-relevant architecture maintainers and lists had been copied.  Could I
-convince you to repost with those addresses included?
+> - Extensive test coverage and validation
 
-Thanks,
-
-jon
+Would be great to hear more. My very subjective feeling is that 
+the last batch of AUTOSEL is much worse than the previous.
+Easily 50% of false positives.
