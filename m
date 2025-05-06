@@ -1,92 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 427D026E15F;
-	Mon,  5 May 2025 18:11:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32CDB24BBF3;
+	Tue,  6 May 2025 13:01:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746468685; cv=none; b=LyMtUlhrSYq7knldKOF5tbKxxZDKiivXyI1Y6H15sP8LxsTNyYpgqmhJUAfQ2ozXHwBM848UJZVxPzifkINA4lcUyz7nPBx6I0lsngUvIwFtpS6Z+mIii65MfIumQEgH9jobiL/qcIXrf637XcbUgILkJahP1P4jROOmvBIBDLw=
+	t=1746536467; cv=none; b=odeNpqUpakElcjJQOKic6RFYPiLKzUMV3w6OPAsjcbcxTuddGIc6By4vgqCSJ4Gs0bzZk+MXlK8L4wF419cwvv07HQDrBTeh3cGuE0NLWI3an5dBIJjO+29COeFJO6onEnOxlLaPUfFIwUao05AwdhipF43N8DsI8Qy1jHNFva4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746468685; c=relaxed/simple;
-	bh=W1ueBdjzvtcPTR7EMcZ9r0VXqmz0pOyWvCci9BiX3W8=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ke5AiXI/kb+QuiuHHUYzvcyiOZ1Q3U4CRuEeL61Wv3MTH8OOep2WYuYbU3keqZDacL+Vls4kO1YEn2bzgr4awDfNZOQjTScO6POzXsxbUEmgyXZReynyRQXN2Wz3vXwwPHZJHmkNqCQpjVEONFM8sV4gk2VhOkDJfA2nwo5NACI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aLv7B0b0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746536467; c=relaxed/simple;
+	bh=h6xZS9dC7e4iNV3fhXey6pp7M5IToS1iWD8Re0zXhy0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=mhmnzaT+WsCQ08gDewVYQLx2BNb4ts0iFT+u6gX7pvh/N9bcR+BqTvFIisHSbONL2hCMnW+zUUszPrElHzWdL6mKc/D7pTwDokkIUKeU4xXmvVTFG1Sjs6LJGuJxnT3Y2A4YrxzbYcSLg2q50YiM3XIMNZXPb2erpgc/HyX7gNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=qPnSFf1N; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aLv7B0b0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7908CC4CEE4;
-	Mon,  5 May 2025 18:11:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746468684;
-	bh=W1ueBdjzvtcPTR7EMcZ9r0VXqmz0pOyWvCci9BiX3W8=;
-	h=Date:From:To:Subject:From;
-	b=aLv7B0b0aIX7v9pWXJxSatLPQu2BavklkcYFrn1fZjUibMc2OodkB1C7oWkX+/MAp
-	 LOIvBepZ7RjAgUIe2FuWtBG/W4xlv9y/fJ1vudQ5x/zGSyfo3WdoOymWn8euJg5HM8
-	 nkI70a7ko+qib9vXzR+NuihYC1QhwTBPG2DEDGa9NqLd18V034pDve0mHQ5XRbiUyb
-	 GB7sw7mVZPk2eBr0wqSVtKQKsI/kbhvvPOqbv/RJMWTb7uW2qb7gnT/vZYMR6cUdPp
-	 88zGoqjOgq1muCxZNeJcZHX1gP3vD/uEU3Qn3+A8VjYkaa6Vl8ZrNoYDsAv3Rmvq7j
-	 3K1HKokxGzeDA==
-Date: Mon, 5 May 2025 14:11:20 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: stable@vger.kernel.org, workflows@vger.kernel.org
-Subject: [ANNOUNCE] AUTOSEL: Modern AI-powered Linux Kernel Stable Backport
- Classifier
-Message-ID: <aBj_SEgFTXfrPVuj@lappy>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="qPnSFf1N"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7517A403A7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1746536465; bh=Z8cvL+fbKoL0avjcHP6hxGrJDr4rR6GnALatRgdPlck=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=qPnSFf1NLh7OOxzLpm3gHnahPBmFUWq5Oh77IVkeP3uo5vHCiAcl0zNzV/Uuj7YZc
+	 xufrYaHyWZOruRW/Ih4Pnjs+kyTyLFSpcR9phzgt35w//eZezUUQXwOVDNXLtchZjC
+	 /+2QYeqtFfgvph9Qi/P79u69uox73V0E8wjjyn3lhyGjSYtk+W80yOY4PmrLokPVB5
+	 P+zJrvP/hbuiwIbHkmXqs/brsyvxSKXsa2v98iGXgV87BUGytvaE9K7KG6P6Vvqv5D
+	 DtcLuH41emOiUi8feh4He1kdQ0qmwoZfMiJDdvjOr+VlvVfb2Z2sEWXJhbSxJBwhmX
+	 anMdjwmIa0P7g==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 7517A403A7;
+	Tue,  6 May 2025 13:01:04 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Jesung Yang <y.j3ms.n@gmail.com>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Jesung Yang <y.j3ms.n@gmail.com>
+Subject: Re: [PATCH] docs: align with scripts/syscall.tbl migration
+In-Reply-To: <20250504093351.2134552-1-y.j3ms.n@gmail.com>
+References: <20250504093351.2134552-1-y.j3ms.n@gmail.com>
+Date: Tue, 06 May 2025 07:01:01 -0600
+Message-ID: <87v7qdx59u.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
+Content-Type: text/plain
 
-Hello folks,
+Jesung Yang <y.j3ms.n@gmail.com> writes:
 
-I'm pleased to announce the release of AUTOSEL, a complete rewrite of the
-stable kernel patch selection tool that Julia Lawall and I presented back in
-2018[1].  Unlike the previous version that relied on word statistics and older
-neural network techniques, AUTOSEL leverages modern large language models and
-embedding technology to provide significantly more accurate recommendations.
+> Update the documentation to reflect the migration of the following
+> architectures to the centralized syscall table format:
+>
+>   arc, arm64, csky, hexagon, loongarch, nios2, openrisc, riscv
+>
+> As of commit 3db80c999debbad ("riscv: convert to generic syscall table"),
+> these architectures no longer rely on include/uapi/asm-generic/unistd.h.
+> Instead, syscall table headers (syscall_table_{32,64}.h) are generated by
+> scripts/syscalltbl.sh based on entries in scripts/syscall.tbl, with ABIs
+> specified in arch/*/kernel/Makefile.syscalls.
+>
+> For the convenience of developers working with older kernel versions, the
+> original documentation is fully retained, with new sections added to
+> cover the scripts/syscall.tbl approach.
+>
+> Verified with `make htmldocs`.
+>
+> Signed-off-by: Jesung Yang <y.j3ms.n@gmail.com>
+> Link: https://lore.kernel.org/lkml/20240704143611.2979589-1-arnd@kernel.org
 
-## What is AUTOSEL?
+So this seems fine to me, but I would feel a bit better about it if the
+relevant architecture maintainers and lists had been copied.  Could I
+convince you to repost with those addresses included?
 
-AUTOSEL automatically analyzes Linux kernel commits to determine whether they
-should be backported to stable kernel trees. It examines commit messages, code
-changes, and historical backporting patterns to make intelligent recommendations.
-
-This is a complete rewrite of the original tool[1], with several major improvements:
-
-1. Uses large language models (Claude, OpenAI, NVIDIA models) for semantic understanding
-2. Implements embeddings-based similar commit retrieval for better context
-3. Provides detailed explanations for each recommendation
-4. Supports batch processing for efficient analysis of multiple commits
-
-## Key Features
-
-- Support for multiple LLM providers (Claude, OpenAI, NVIDIA)
-- Self-contained embeddings using Candle
-- Optional CUDA acceleration for faster analysis
-- Detailed explanations of backporting decisions
-- Extensive test coverage and validation
-
-## Getting Started
-
-```
-git clone https://git.sr.ht/~sashal/autosel
-cd autosel
-cargo build --release
-```
-
-To analyze a specific commit:
-```
-./target/release/autosel --kernel-repo ~/linux --models claude --commit <SHA>
-```
-
-For more information, see the README.md file in the repository.
-
-[1] https://lwn.net/Articles/764647/
-
--- 
 Thanks,
-Sasha
+
+jon
