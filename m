@@ -1,117 +1,156 @@
-Received: from e240-9.smtp-out.eu-north-1.amazonses.com (e240-9.smtp-out.eu-north-1.amazonses.com [23.251.240.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68181E25F8;
-	Fri,  9 May 2025 20:40:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.251.240.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE0AC23BF91;
+	Fri,  9 May 2025 21:44:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746823217; cv=none; b=jW55zAsKBwlQAEnXFgs6EfpE6MVDVyuwm0TBiFkjvtX4fT9ykJroITgllgSEGDejyJ2EXuEEPNLAPbtGBEBlLjY7tSirTyQ2W/EaEJyacrDHnurQGqW687j33YZM04vBHWUxutli8HBBP3IdOgcL3ObP68TdgCbDRZpkiWyBsQg=
+	t=1746827092; cv=none; b=oiE6Flc0QpB4iDbGPkA8+rM5zY+HRruEJfB+pdT/Ny9SAb0LaKPzlz/h+rUW7R+HlAfZy0GiseH69Lg/2TWYdpy6IiWESQaGTA6N7RS7J3LA7/09Uq79Hvw2emRI3rsfvuewlstopdSkoevf1KD8GPYhIPFTRJ02rwAY4whXTvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746823217; c=relaxed/simple;
-	bh=3LomidA6G5RjtKPeXX6J3KBSUJmiCMfwhmYfs3b0Me8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UP2izGiHHa9uEg4CgkA4oSOr+0MuGg/7B6UMLNAH9BroVDx43fT+JiHfepB9PM8kzcmBU51oTV32a4M51z3mtIbRINSkRbg0rj7MIRJq1X5Cfg0vJViIhD99D1S/CYstT9jVbb3fLqyqlxqrpxLsY08uaoOrAay15u41Zx5nNwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goosey.org; spf=pass smtp.mailfrom=eu-north-1.amazonses.com; dkim=pass (2048-bit key) header.d=goosey.org header.i=@goosey.org header.b=cbqDRNl4; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=zfohqNG4; arc=none smtp.client-ip=23.251.240.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goosey.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=eu-north-1.amazonses.com
+	s=arc-20240116; t=1746827092; c=relaxed/simple;
+	bh=ZQJPUtFwkixY7pMzGPDnOsK4+dBWxrmYnqSkzFl4BPk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=f2vBPcp1lAqOwLcHvi2QsX/6lhzAPTaHfmB9NPmOWEPDgkORVCjsHEfQm/sfJU/LW40x6vkdsmKa26PZmAvUkjiuOng3BC2uvTdrps1N7AAMMJYdy3IgvhM0orQ6ngqyPSqueWZ173ksxf4NevCSycGZN5t19IjpHnabHJ0s9As=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FNeFPHKg; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=goosey.org header.i=@goosey.org header.b="cbqDRNl4";
-	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="zfohqNG4"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=iuunfi4kzpbzwuqjzrd5q2mr652n55fx; d=goosey.org; t=1746823213;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=3LomidA6G5RjtKPeXX6J3KBSUJmiCMfwhmYfs3b0Me8=;
-	b=cbqDRNl4DvDvKAGP3p+4EthN6EXOeEQwiWcelrmqoTV28jE3az+ghoZtLdXkAwl3
-	YOmO7a5KAAFiyPaoXOoQen7BTapoZaJp+BJYSzZ0gvsDnSQXEw00I9YjFT858w7WhEb
-	8R8M31xmGqvPRnqFo2FHQBQWzh3hRF2EFlqVN/H+po8diKaBJPEoRQKLE+NDUPec+GZ
-	vj9OQjLDGD1WTFsHDGWjsB39BmbsHnSniJu45cIVgODUgsVJhrUx0EuN0h9bAt3Y1B/
-	8ULYeUAe/wXvSklqGCYgNg4lbzuzQP09pNsCEn63I9zLf4hMDDNWhgq/sy7VlvwuSHf
-	UG5AFQPdLw==
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=bw45wyq3hkghdoq32obql4uyexcghmc7; d=amazonses.com; t=1746823213;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding:Feedback-ID;
-	bh=3LomidA6G5RjtKPeXX6J3KBSUJmiCMfwhmYfs3b0Me8=;
-	b=zfohqNG4SuN4huP01sOqw4pADGfi6JTYxYu/SOfOD1ccPwQ77E3qTBhuxXJr9f4s
-	Yc+KLaZnnBPk2h7RgVBMFDWvSM/hUo3VpJsCAJNJrDDY0+D4/h8MAM4oE8J3TOmJ/iF
-	uc+VJiTNh5GpkZpFqmIA2a8ZT/2e7sUKp5zH2Fng=
-X-Forwarded-Encrypted: i=1; AJvYcCU3C+mEiKadWL3HKK61EU0ICYUcy64YF3j+pIo1gumnf13VlkgDLTx7jgpwWuDEzpo0x1xsr41Q42fYMh4=@vger.kernel.org, AJvYcCWxDkYgW+5b8XJ0Yni20eHFPPPZYSMjyiqGwT9J9K9QccgYEMHYC+1N3WvRMHgT2+Tpm276UYwEqhNH@vger.kernel.org
-X-Gm-Message-State: AOJu0YxXKiq1nqtUwac+PPl0qfbaOmXjsC2y2cEclZJ2JnI5Prn5IrE+
-	tZ+MzYwVnBzepb5BmB1aE2z4ENuBapmgGj6l9WkJuT/TjoG8Izg3z2aZisSTUawAg+ipf7lOicN
-	UCZNDt8yx7GJl6uhhhlNg+U1ba4k=
-X-Google-Smtp-Source: AGHT+IGVq3i239wek8IKLEaNnIbRTcNddfEHFGsWuxwOmrCoyO5WOAU/lEVl5fhrtNsdg19944Y3lfshAfSb24UJ5Io=
-X-Received: by 2002:a17:903:1904:b0:21b:d105:26b8 with SMTP id
- d9443c01a7336-22fc8affe3fmr61614245ad.7.1746823200851; Fri, 09 May 2025
- 13:40:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FNeFPHKg"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=OWVYsUIAExeYrgYEnP29MrWeFmitpmwgyrZUuJbMqMo=; b=FNeFPHKgpgiLJl6Wv/+Rur/F0S
+	oUm2iVq2v7/4t0neRIY3navG5l6T7lp4r+tcQXasfnWpT7/7O0c7aao06d/5at7RUiSqoFZcSGAoO
+	qUX+CpZzBk3p2zgOsjn3j9skY4Ek886nc0wX/soR3RTcN/ZJOY54kkzeGt927cNgDB3+B/W2aCRal
+	fiYYLvjV0QpmBQKrl6SGt5o0ArDQDId8Np0tM3mbTMYc4NgQLK8ffkOZOnkzL+OYjOGHQNNq8xuba
+	Z+h6ulCRExhmel1COJ2t6kGxo92mOPLz4z4oFhYkvK2Bre78JtxX5sVqLAQ5AYTCnhaEbUT7T2BH9
+	3Za371MA==;
+Received: from [50.39.124.201] (helo=[192.168.254.17])
+	by desiato.infradead.org with esmtpsa (Exim 4.98.1 #2 (Red Hat Linux))
+	id 1uDVWM-0000000GMaL-0yYG;
+	Fri, 09 May 2025 21:44:43 +0000
+Message-ID: <1a03fcbd-151f-4bba-828f-d6aaf40e4116@infradead.org>
+Date: Fri, 9 May 2025 14:44:31 -0700
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 9/9] CodingStyle: flip the rule about curlies
+To: Alexey Dobriyan <adobriyan@gmail.com>, corbet@lwn.net
+Cc: workflows@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20250509203430.3448-1-adobriyan@gmail.com>
-In-Reply-To: <20250509203430.3448-1-adobriyan@gmail.com>
-From: Ozgur Kara <ozgur@goosey.org>
-Date: Fri, 9 May 2025 20:40:13 +0000
-X-Gmail-Original-Message-ID: <CADvZ6ErFnL59beXeXyqHzb4EtztF2N7hxQGEnjV+U-YURZOBhw@mail.gmail.com>
-X-Gm-Features: ATxdqUFulZDgWzdscdTT0SKhmSq-Wu3ATehyZIt9Q7iAbbkGwvQtqwhlXhx5BtE
-Message-ID: <01100196b6c6f293-4e0c53f4-3e50-426c-9519-3040faac2eaa-000000@eu-north-1.amazonses.com>
-Subject: Re: [PATCH 1/9] CodingStyle: make Documentation/CodingStyle into symlink
-To: Alexey Dobriyan <adobriyan@gmail.com>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Feedback-ID: ::1.eu-north-1.jZlAFvO9+f8tc21Z4t7ANdAU3Nw/ALd5VHiFFAqIVOg=:AmazonSES
-X-SES-Outgoing: 2025.05.09-23.251.240.9
+ <20250509203430.3448-9-adobriyan@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250509203430.3448-9-adobriyan@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Alexey Dobriyan <adobriyan@gmail.com>, 9 May 2025 Cum, 23:35 tarihinde
-=C5=9Funu yazd=C4=B1:
->
-> Every time I open Documentation/CodingStyle it says the party moved
-> somewhere else. :-(
->
 
-Hello,
 
-I dont understand, this already exists so when you look in
-Documentation/CodingStyle file it will guide you?
-
-$ cat Documentation/CodingStyle
-This file has moved to process/coding-style.rst
-
-$ cat Documentation/process/coding-style.rst
-
-This was processed for .rst file.
-
-Regards
-
-Ozgur
-
-> Of course, I forget where it moved to by the next time.
->
+On 5/9/25 1:34 PM, Alexey Dobriyan wrote:
+> Require set of curlies {} in all if/else branches and all loops
+> not matter how simple.
+> 
+> The rationale is that maintaining curlies increases churn and make
+> patches bigger when those if/else branches grow and shrink so it is
+> easier to always add them.
+> 
+> There are more important things in life than herding curlies.
+> 
 > Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
 > ---
->  Documentation/CodingStyle | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  mode change 100644 =3D> 120000 Documentation/CodingStyle
->
-> diff --git a/Documentation/CodingStyle b/Documentation/CodingStyle
-> deleted file mode 100644
-> index 320983ca114e..000000000000
-> --- a/Documentation/CodingStyle
-> +++ /dev/null
-> @@ -1 +0,0 @@
-> -This file has moved to process/coding-style.rst
-> diff --git a/Documentation/CodingStyle b/Documentation/CodingStyle
-> new file mode 120000
-> index 000000000000..b4a9864269eb
-> --- /dev/null
-> +++ b/Documentation/CodingStyle
-> @@ -0,0 +1 @@
-> +process/coding-style.rst
-> \ No newline at end of file
-> --
-> 2.49.0
->
->
->
->
+>  Documentation/process/coding-style.rst | 57 +++++++++++++++-----------
+>  1 file changed, 32 insertions(+), 25 deletions(-)
+> 
+> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+> index 494ab3201112..dc18ff40ebf2 100644
+> --- a/Documentation/process/coding-style.rst
+> +++ b/Documentation/process/coding-style.rst
+> @@ -280,43 +280,50 @@ supply of new-lines on your screen is not a renewable resource (think
+>  25-line terminal screens here), you have more empty lines to put
+>  comments on.
+>  
+> -Do not unnecessarily use braces where a single statement will do.
+> +All ``if``, ``for``, ``do``-``while``, ``switch`` and ``while`` statements
+> +use braces even when C grammar allows to omit them:
+>  
+>  .. code-block:: c
+>  
+> -	if (condition)
+> -		action();
+> -
+> -and
+> -
+> -.. code-block:: c
+> -
+> -	if (condition)
+> -		do_this();
+> -	else
+> -		do_that();
+> -
+> -This does not apply if only one branch of a conditional statement is a single
+> -statement; in the latter case use braces in both branches:
+> +	if (cond) {
+> +		t();
+> +	}
+>  
+> -.. code-block:: c
+> +	if (cond) {
+> +		t();
+> +	} else {
+> +		f();
+> +	}
+>  
+> -	if (condition) {
+> -		do_this();
+> -		do_that();
+> +	if (cond1) {
+> +		t1();
+> +	} else if (cond2) {
+> +		t2();
+>  	} else {
+> -		otherwise();
+> +		f();
+>  	}
+>  
+> -Also, use braces when a loop contains more than a single simple statement:
+> +	for (int i = 0; i < N; i += 1) {
+> +		f(i);
+> +	}
+>  
+> -.. code-block:: c
+> +	do {
+> +		g();
+> +	} while (0);
+>  
+> -	while (condition) {
+> -		if (test)
+> -			do_something();
+> +	switch (x) {
+> +	case X1:
+> +		f();
+>  	}
+>  
+> +	while (1) {
+> +		f();
+> +	}
+> +
+> +In the future, code will be added and deleted but braces stay untouched.
+> +Maitaining them when if branches, loop bodies grow and shrink is useless
+
+   Maintaining
+
+> +busywork not even worthy of discussion.
+> +
+>  Spaces
+>  ******
+>  
+
+-- 
+~Randy
+
