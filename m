@@ -1,60 +1,71 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80BB71A841A;
-	Sat, 10 May 2025 06:22:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86B2C18DF8D;
+	Sat, 10 May 2025 10:05:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746858166; cv=none; b=XuqIszgQ9AWmjflq+fgm/NYQuBVKcUaq9yG9DKsADWh0dV57NnSEvZKeOLrXC1qSg9Qb4PE8SCKfioDpYQyUq8RUnuByAIkr+9BQ83zVVrajKam/M0IIcXgQGueb9/Bdqbkv3k7XgwhZ+ZlnrDBTXVTnGkoMEsaVKoOR04RwPkw=
+	t=1746871542; cv=none; b=IuEvCpqrwoO5mPx6fbnaf/yS8umtRBc4MP5XkD7dz7+57HUm+uKdJJal035kobn+TfFXBiwBEu5AnmqkYGnPqIcKy3E5VxSJ+BqJIlr71UteTnvzWBjJB6vhWDB3+EweUBOT5j5KMWyo2jkBYZMSj2ko0/oGvaXxlzhHmWxbf5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746858166; c=relaxed/simple;
-	bh=tdehS8bdWnrtuiNPph3XA6VufIvfMgwvXF6t6gpSaHU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UuIQxe8FHl/SpCfSVR0lh/5YAbEzodoSFZ4r/Usouw8MOCG7KPD/+QZfsTZJlzhVhiafGQdGVK0EVN+f8O04W1nK3f1CukTNDdlIoiK+rOTs8fq1FUagGTYcwAaGn574KSsvUnkggODwV2/q9S3oTeKx2uQV21cqyx6hOuuIlls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=I0SlfZh7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746871542; c=relaxed/simple;
+	bh=nCg5dTq3OdqIAS+Cl59freLTg2I/khLS4trUZ7wl8+g=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=h5octX1AvQIZaGlJ3SxioFE4IZBJpH5Lbpr1EISdbSoJCtvUZMeruiGWJ/+0psxKutA4v39TeK4n59ZlQ3kPIaNYxp5nkbBwhcurL3qe57nlsME4gh7jbdAJM7BjkS/sU8TCHQD6IG73grvlVEZ6Jri/SKihnyOi16qr72ZHDSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=lYr2mgJ6; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="I0SlfZh7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8E60C4CEE2;
-	Sat, 10 May 2025 06:22:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1746858166;
-	bh=tdehS8bdWnrtuiNPph3XA6VufIvfMgwvXF6t6gpSaHU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=I0SlfZh7LGvSVM9+gwQL25U1V9SDUlNAFDa4yovv6e9dERkhgvXnqWv0tnQyhR5Md
-	 o+hf+UifL/C1iWhnSjTpOgSzufbBnPl7LG+0t5/Aw4S8NWdswP2MbQ2jeAYSLlKBpt
-	 fl+UgcpYGxo21UyGduWm/iAe6A1B/jc0Oy+1LaqM=
-Date: Sat, 10 May 2025 08:21:01 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="lYr2mgJ6"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4068341080
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1746871534; bh=nCg5dTq3OdqIAS+Cl59freLTg2I/khLS4trUZ7wl8+g=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=lYr2mgJ6qGVYEx6+p/cIs1CIN8mPg7NT6QgMaqIRRJ4IBLrnd0/l7gE9ksWO20JGM
+	 AAgWMWa0jTYU6AH+6JSLOjbz++zbuTZ8szStTrQQK/xNIKD6V6tnKaR3HM1myRlVwZ
+	 WO5ANi8PSKOJ0X+7SkoLDiSDZByu6fbfrhEbW4q9B+8huGEp6C9WWWPHfo2gqnHgeC
+	 We9HQahhV8JHWuxFB39dRVxVCiFdJhhCDEC5hfdxZHTFwlkHcV7GknzBMvxeLikvb9
+	 qspUgUcLV+lN3/+PPVRMGrPO9b235Xs2h9Pt8BszoY/ms72Byvsrm0T99l0RNR1kx9
+	 7JnXAoQo+vrSQ==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 4068341080;
+	Sat, 10 May 2025 10:05:33 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
 To: Alexey Dobriyan <adobriyan@gmail.com>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 6/9] CodingStyle: recommend static_assert/_Static_assert
-Message-ID: <2025051046-epidemic-broadways-d3cf@gregkh>
+Cc: workflows@vger.kernel.org, linux-kernel@vger.kernel.org, Alexey Dobriyan
+ <adobriyan@gmail.com>
+Subject: Re: [PATCH 1/9] CodingStyle: make Documentation/CodingStyle into
+ symlink
+In-Reply-To: <20250509203430.3448-1-adobriyan@gmail.com>
 References: <20250509203430.3448-1-adobriyan@gmail.com>
- <20250509203430.3448-6-adobriyan@gmail.com>
+Date: Sat, 10 May 2025 04:05:29 -0600
+Message-ID: <87frhcsrva.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250509203430.3448-6-adobriyan@gmail.com>
+Content-Type: text/plain
 
-On Fri, May 09, 2025 at 11:34:27PM +0300, Alexey Dobriyan wrote:
-> Linux's BUG_ON is done backwards (condition is inverted).
-> But it is a long story.
-> 
-> However C11/C23 allow to partially transition to what all normal
-> programmers are used to, namely assert().
-> 
-> Deprecate BUILD_BUG_ON, recommend static_assert/_Static_assert.
-> And then some day BUG_ON will be flipped as well.
+Alexey Dobriyan <adobriyan@gmail.com> writes:
 
-Odd, why are you attempting to make all of these mandates without
-actually changing the code itself first?  That's just asking for major
-churn for no good reason...
+> Every time I open Documentation/CodingStyle it says the party moved
+> somewhere else. :-(
+>
+> Of course, I forget where it moved to by the next time.
+>
+> Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
+> ---
 
-Sorry, but this series makes no sense to me.
+No 0/9 cover letter?
 
-greg k-h
+Just FYI, I won't apply coding-style patches without a strong sense that
+there is a consensus behind them...I suspect that could prove to be a
+high bar here.
+
+Thanks,
+
+jon
