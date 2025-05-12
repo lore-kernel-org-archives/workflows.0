@@ -1,39 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD88246794;
-	Mon, 12 May 2025 16:57:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CCF323C4EA;
+	Mon, 12 May 2025 16:59:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747069073; cv=none; b=JUJ5hAbZ5q4VgYpz6Y6mifoG7s+shYxSdlOfw2vQ8Y7XRBAI0W8S2V+SwjPwr4gTHKccOh1Ahc+UDZHRHb2nd8gjKYEzsVN5YZmJYrb3hM7ywJvwyiXo29EsGVeOtrRvw7mNjs7oF5lcvH8ZZJ3GDW92ICfHzUidcapxDyD2wPE=
+	t=1747069169; cv=none; b=HZomGIoP9NH8BWfoOY8g8jq0YOxqNrQp1T82puw5YqUUxvjwWRGq7AfKKKl79zft2VzjqALkvdwKgq55QKCarsm9lEcxrJG+6rS6poTF9NUGoNhFCvUmwGHs+sH6S+Lp8BQXB/rm4V1cF524Zr7TSWybKAolZuz/nCJ6kYBxMRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747069073; c=relaxed/simple;
-	bh=jtmhvy+igoWarO8PIdZ3LGqvMhYkNDTKVtMcVaaeYnM=;
+	s=arc-20240116; t=1747069169; c=relaxed/simple;
+	bh=Wq80m5q5Px4bcqigue9JimLJdgSCi2I32BoHv1eBu5k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RNYnEW6W8mTj8vv0FZKc+Ed/bTZP7dFYtdQjGwHc1mh/F/Cze4cJAv//Ad1w9KcJDKNJ9tTVobRyus7Vk6DYgoo3zmhRYcXc0WE3WoxZtSmsmturOQmRWZfc8Hum/NLmCNkv57usFQbVt0iyqBjspxLJkOAfimWXv2PXtj87Yns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=USwPZBGa; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ERf/RZ11XtJHBfG++nbrLzWfaFuzAvQyeDEh/oNiwtRvB+QCTtGneTR1WsuymDWcK9dh/Eoe2NARPdYxImwrBIRKpCivy2fr/cTLzDs/RhcpGIsvcCEzZJTGpLq0/UNSLfDFmJDphG2Z2cQ2K7AnwnYI3/azvcIk9CxjSo0KJkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=dnU9WAb3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="USwPZBGa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F318C4CEE7;
-	Mon, 12 May 2025 16:57:52 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="dnU9WAb3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CA0AC4CEE7;
+	Mon, 12 May 2025 16:59:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1747069072;
-	bh=jtmhvy+igoWarO8PIdZ3LGqvMhYkNDTKVtMcVaaeYnM=;
+	s=korg; t=1747069168;
+	bh=Wq80m5q5Px4bcqigue9JimLJdgSCi2I32BoHv1eBu5k=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=USwPZBGaCrF4OOrhmuZAcAHI13eVshZ3/K0bwJ6RiKOQGGFWJfhh5EF/FT895MSwQ
-	 niVRzkI8AudeQY5kJfVVvHZgYtIwLWNvA8SCFkMY26EKM6n+b7akU5WeJ89rD63Mr+
-	 0j/gkbhG4jaPkEpglku421lkT2l/AWzkBt+3/bO4=
-Date: Mon, 12 May 2025 18:57:49 +0200
+	b=dnU9WAb3AkQPLhYGXlySAlIQRFbACvqpQffV1dz+aUnw2dQ1FQUMvXNBKKYQNBPbI
+	 u0Aoa1AapfZYerPUl/7IeOG+5QVyfcvak7x7XPiBNSLMPTfzlnykcvv0NNlOFjVc6K
+	 OgILiZ5Z/dxfNGVxeN9yy5D9LOncXbtG3fJAim9o=
+Date: Mon, 12 May 2025 18:59:25 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Alexey Dobriyan <adobriyan@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/9] CodingStyle: make Documentation/CodingStyle into
- symlink
-Message-ID: <2025051203-secluded-emphases-1c76@gregkh>
+Cc: David Laight <david.laight.linux@gmail.com>, corbet@lwn.net,
+	workflows@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 8/9] CodingStyle: tell people how to split long "for"
+ loops
+Message-ID: <2025051216-flammable-lubricant-59a2@gregkh>
 References: <20250509203430.3448-1-adobriyan@gmail.com>
- <87frhcsrva.fsf@trenco.lwn.net>
- <77f03295-df5d-4bc0-9a61-5be829969662@p183>
+ <20250509203430.3448-8-adobriyan@gmail.com>
+ <20250510195603.37279af3@pumpkin>
+ <cefe24b6-c1a1-4fe4-826d-e08a856aa8e0@p183>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -42,34 +43,47 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <77f03295-df5d-4bc0-9a61-5be829969662@p183>
+In-Reply-To: <cefe24b6-c1a1-4fe4-826d-e08a856aa8e0@p183>
 
-On Mon, May 12, 2025 at 07:08:53PM +0300, Alexey Dobriyan wrote:
-> On Sat, May 10, 2025 at 04:05:29AM -0600, Jonathan Corbet wrote:
-> > Alexey Dobriyan <adobriyan@gmail.com> writes:
+On Mon, May 12, 2025 at 07:20:23PM +0300, Alexey Dobriyan wrote:
+> On Sat, May 10, 2025 at 07:56:03PM +0100, David Laight wrote:
+> > On Fri,  9 May 2025 23:34:29 +0300
+> > Alexey Dobriyan <adobriyan@gmail.com> wrote:
 > > 
-> > > Every time I open Documentation/CodingStyle it says the party moved
-> > > somewhere else. :-(
-> > >
-> > > Of course, I forget where it moved to by the next time.
-> > >
 > > > Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
 > > > ---
+> > >  Documentation/process/coding-style.rst | 16 +++++++++++++++-
+> > >  1 file changed, 15 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+> > > index e17de69845ff..494ab3201112 100644
+> > > --- a/Documentation/process/coding-style.rst
+> > > +++ b/Documentation/process/coding-style.rst
+> > > @@ -183,7 +183,21 @@ Descendants are always substantially shorter than the parent and
+> > >  are placed substantially to the right.  A very commonly used style
+> > >  is to align descendants to a function open parenthesis.
+> > >  
+> > > -These same rules are applied to function headers with a long argument list.
+> > > +These same rules are applied to function prototypes with a long argument list.
+> > > +
+> > > +Very long ``for`` loops are split at the ``;`` characters making it easier
+> > > +to see which code goes to which clause:
+> > > +
+> > > +.. code-block:: c
+> > > +
+> > > +	for (int i = 0;
+> > > +	     i < N;
+> > > +	     i += 1)
+> > > +	{
+> > > +	}
+> > > +
+> > > +Opening curly is placed on a separate line then to make it easier to tell
+> > > +loop body from iteration clause.
 > > 
-> > No 0/9 cover letter?
+> > Is that actually the style - I don't remember seeing it.
 > 
-> Not really. Cover letter would be very short:
-> 
-> 	Tweak coding style to add things I've learned over the years of
-> 	Linux/C programming.
-> 
-> 	And stop making kernel devs look like aliens from another Universe
-> 	(see static_assert() rule and especially(!) "declare ALAP" rule)
+> Check include/linux/list.h.
 
-Both of those are not valid reasons to change coding style, sorry.
-Again, learn about _why_ we have one, don't get bogged down in the
-details of _what_ it is.
-
-sorry,
+That is a complex #define, not a "normal" for loop.
 
 greg k-h
