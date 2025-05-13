@@ -1,126 +1,100 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 251032BE7C0;
-	Tue, 13 May 2025 19:26:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD1932BFC63;
+	Tue, 13 May 2025 19:40:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747164377; cv=none; b=LHyOAmxlW+qDSZ5kaTyX1K2L6tMqh4cX8I1o/umaIWY0b59f3JJ7tYhhVJizB2J3tXG57I4XxfIFVjPrjwkahMUjpc5CEwu8JRIvQVs3j28/QPLCYxUKiYLKj3Fz1JW2T55j8NDV17X/kT0zBmgnG4z4gmTv0OnNFyLk1p2aPnQ=
+	t=1747165242; cv=none; b=PrESXY+thO/6mEkKmVXcSMkGSSLxfqTiSfb/35X7eVKI9/N71HzVznY0WJn04VqexOLet9E42qaa0+OG3XkAQN167lVIudiN/rlaGk/dyPLbStj4bP0FYAkdSoLKn5w0Snq7tElaR0r3cuCiWdKwvPUvRSk9YwrcpdgwrjJ+mM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747164377; c=relaxed/simple;
-	bh=RKDG4ggmfAhUs/yqnjs5vHKHQdE7nfQdUCwHC1FIHNM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dpis0OEmekcEAIYFQxi6+ptaLQH/WKz3n/JdiP8DSw8JLpy0D3W9EqASpSSmf0eBBm+USL//D98EOaCu9zh4BqfH5Fsje0wjdVYMmAheIMNbczJp0Yvk4AKaX4b7wnHUWnUu+MY4tp9wscI7eQ5sw9zsHLLMaJkOY/mxoB+IoO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Af4ukGz4; arc=none smtp.client-ip=209.85.218.47
+	s=arc-20240116; t=1747165242; c=relaxed/simple;
+	bh=iuaXUFkdXRZwH25Aaato396egM7lKXerTYhIHS5xkvA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YKpJmhWV50RcPuyEoSVpojnan5bxCl0/4FKbWe5XToDUdwx3RXeHYgL58+dyxfW6Y70rB0RSzTmzzAIn7+TuLecRnOrGauV8yiAi1h+aelCfxwS6axpjBDWuma0SyJSdzeD+E6V8pqz2oZ3lOkqkNVy6X/9LUwZpC5268A0gSU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g2SeAb0a; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Af4ukGz4"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-ad212f4030aso871582966b.2;
-        Tue, 13 May 2025 12:26:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g2SeAb0a"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-441d1ed82faso42310915e9.0;
+        Tue, 13 May 2025 12:40:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747164374; x=1747769174; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6aCY/0HEzR6jdJQTZkp+sBoLM3YKZJzgLvNBNO2LNkU=;
-        b=Af4ukGz4nDbdK4l9CBOUHUKnififM23xxqDCzy3epFSk4nfnqYe2nlFrhCYoORv2+w
-         KYLqzdd3kEVC9MWX/b56AEnx0niPPj6ejfmy9/iie15E4ht7Y0CBKHqWu/7jSHmEA8Ui
-         360C87hvQ2uLYNtA3It8EDMmk0EvYneJqwMMjs/YiwnFsPlnxKS7vWKHqAm3CoYR+Yfx
-         j/Zg/Mrfk8ajEXVmWLYEQWCs/ACHyO0lUnUX3JwZP0QPTc7UiCnf8iNVY2AkgKHMzIDq
-         wJHCPMgKo0DAaDJq5hX18I5EtK+s+PytZQQ0QgVxHg/0x6UXuPVI/pbDmO7NY001cskZ
-         2KCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747164374; x=1747769174;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1747165239; x=1747770039; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6aCY/0HEzR6jdJQTZkp+sBoLM3YKZJzgLvNBNO2LNkU=;
-        b=fX7WXF/7vnrybEX/eEMHzXccGHiSSsZ+yK7ls2CriPqwLRkY35gsxhZ4i9/jrg8uPA
-         7P9Gy5zkG5OsRJ8vtcPX8vyOSIv9LxkeSvZB2AchBtN4g8FBNvBa5myRm+K1YRuAogl6
-         o5VXKXlSdZ7hw+tU8xBpt0DRC5k8nGh2O2REGh/8oUDx+3Ksb7QrFiezzzUnh/O5yko8
-         l2j7PBef6+shWHhGGr0DTo2FXBtlOZ8V1AJ3lncC2uJJm/bzKWK8Z+oqw3/A+ep9tJTE
-         DxVeUc8sFl1PnjH3JqgC5LuIYEHlTwi68+Yi1jD2Ym9BCfJ6hLMu1MokfJsprBS+cn05
-         pDQg==
-X-Forwarded-Encrypted: i=1; AJvYcCWRNydH+BEco2vrj2Zq27AU2aJHk7FTa06GJraDo84cTELFHnaBhTDnf4L+BOZ6Gt+OjKuNp8G6Va7dYjc=@vger.kernel.org, AJvYcCWym4+Ya8gqHS5Us6KWaJYkuCzJ9OHC9+sUKfnLgMmCgc3GAuTrvls52CLYJS07qDo4aMWrm5t92WY1@vger.kernel.org
-X-Gm-Message-State: AOJu0YwY7EfVYrPzLUD9VCjRcy8QrvSvGFwTN6+ra7yyGfTKAWN3VOOa
-	/+AjvDFPSnTozlu1GlgFYzwDoE3ziDlwpZW/FP+7OCBdowDsYoM=
-X-Gm-Gg: ASbGncsf+q5kZeq0QqfHDXZ1HTytVumpOxuBjv4VB2lgmatCnU89uZuWjbNAtqH2Szd
-	OvfoVUqm42Pvgajo+FSPPCKCqbl7MQO02I+i9WyjY/5g++OZpbzcAZ+dGNG95NaIMNc7wNhU7rd
-	KkIb/Ci8JLCrPeXrzb3MoirPPEPC3hvMLT6xuxFYFuoP7rCnwaULeN+ID+PurMK0YMW78RKOXq0
-	7kFoG9qy4PvAZd7FXArCtAcy6WoLr7MflqBuS6NgCYfIGIUyG1EBQ2lFIxCJxvyJ9V2p2sESTNT
-	Al4KSyYklPhNRx4x8bPaA3ULaNdCXMzO+bNTEA==
-X-Google-Smtp-Source: AGHT+IHN/ZbAtYxfjZ3dG2Ebs6Z6vnVEDlTVNPBRqnQoQMwdzIhe3JDqR2kNomkhNXUYKwLfJtx2Fw==
-X-Received: by 2002:a17:906:730a:b0:ad2:1b5e:c008 with SMTP id a640c23a62f3a-ad4f712b339mr87172866b.14.1747164374171;
-        Tue, 13 May 2025 12:26:14 -0700 (PDT)
-Received: from p183 ([46.53.251.33])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad2197bd37dsm818953466b.124.2025.05.13.12.26.13
+        bh=Ge/ru0EIxCZg8y7oNNgrAg2dL5AXcq2Pmu81/bUcIDU=;
+        b=g2SeAb0aAmLathJ8EzPnTwp7IpP4yl9EqSM1K4MmKZBhkVyKeY/NB4AhrVZOtkqSmz
+         Amm0JNnFvSg1nKp9DLOzAQ61XUwT9W9vZw+ykWKxfaqIZGIDY7SPxmM9bPEPsHipenMI
+         45zwpBjG2LkBh3h2KbHpMD6xaZAu2Xt5KwLnRcLDxQ4Iv1HKwBHhBVblBkqty/WKXVAm
+         5/X0DterGcgXCKhC9EkPYyStKhtA03i19lyQnqZ5jnwPiFxlK4UFuvvo/7KJwlxjtqtr
+         Nnl3nGq1uYGkYxdgWeAleV51TJraK6KkVA0W+4xvA4+DNk5UX47upVzMzMC3g+BQ4/tC
+         07aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747165239; x=1747770039;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ge/ru0EIxCZg8y7oNNgrAg2dL5AXcq2Pmu81/bUcIDU=;
+        b=XspRKfcnsXQxii1MSur96tSHW8kEP5PuLeYrRCkh4uev2LD+pRZUkmnZ0inn+W67xe
+         e3Ck3RxqJeTdVXlBCsQTnEFfvX5mmmiRwxyozWPeY40csZNh7HImw3czoN6SoYLNXN9u
+         kV6ZZDumT03G2GaHweeK3y1O9PNabUZNSU0qoM6UCv3p9sXeyVXZm2ZQfj5l05WRZbMK
+         CKaPLOsWNRYpvmo45EwuOOA6IitrQVjAvOzsFWod+lQ7Tl1RjKebm1cKvv5BTuRqWtN6
+         SMZyaCSgFH+5/M3mjzlrfVdYyRHfGEuzVxeteKi2VBqw1CmZYd0xxXqknNWP/PHcwDEU
+         j8Gw==
+X-Forwarded-Encrypted: i=1; AJvYcCUT+ZmXxOrBCOfAeh/ecVPSKiZZp33nk3dzvBRoRIZ0rHEmmCRliuiND/tOe2x2Dm+j8FZ5rtAa0TSBwFQ=@vger.kernel.org, AJvYcCX2Mt3kYy30Ac9jaD+gn9D2ky8qF/GHZk2eD9mT5lmx2Fxgu6kBg0ymr/l1+HsZ2Wz2aqdEFPWC6bBx@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFUAU/qIq4PpECTOylQ2QX8knYE9ihtaizmMhaybSjyUYir36o
+	q6XovXd5h1TKymENX/ZevKh9YO88w2yXms/b6LywEXwBV7M0IJZ0
+X-Gm-Gg: ASbGncsG1bwmHwDJnn9Mj29nikKBSB9qTVcwK+Jc89BBzJ8O5WerlXkF2DhoGXQpoNw
+	qs00CJPDowrZb5NX2MDBjfqIsEopYqRUlPq0jOoZhBcm7HGgQQdvMbPpORsPbcLDUNySp+dw1yS
+	/TtxC+lyYlvHJOg6WH+FrGWi45nA0u+wUTNlTaqR+PdVYHwCtNQikYbeex9PRIZXkIzm0Su205J
+	eKoSjx9AGyrhIGbvAKvK2+rcgSHGUzxX26rVqqF3BB+fGM6q+PUGlf15W3wUKKKC8UGdhvOuYv6
+	7+oJvDFu5TAwrinjsv12KQJJ9ePSLXMVSl89EM6OVwj1YqZpf6e+ZZAdT3OM+rdh8dMdD+a6jHN
+	va263qrQ+fi2IoA==
+X-Google-Smtp-Source: AGHT+IHpoKX2J3ZRgVCXEBwGRUBbn2eTk4NSfffmKZLSzChL9Pphfa0iLpwQENfg4auVKKfGgLscfw==
+X-Received: by 2002:a05:600c:8507:b0:440:9b1a:cd78 with SMTP id 5b1f17b1804b1-442f20da0b5mr6159205e9.10.1747165238893;
+        Tue, 13 May 2025 12:40:38 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442d685c2d7sm177560815e9.30.2025.05.13.12.40.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 May 2025 12:26:13 -0700 (PDT)
-Date: Tue, 13 May 2025 22:26:12 +0300
-From: Alexey Dobriyan <adobriyan@gmail.com>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/9] CodingStyle: make Documentation/CodingStyle into
- symlink
-Message-ID: <da087640-494a-4803-b770-10758393bd80@p183>
+        Tue, 13 May 2025 12:40:38 -0700 (PDT)
+Date: Tue, 13 May 2025 20:40:31 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Alexey Dobriyan <adobriyan@gmail.com>
+Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 6/9] CodingStyle: recommend static_assert/_Static_assert
+Message-ID: <20250513204031.26f50209@pumpkin>
+In-Reply-To: <20250509203430.3448-6-adobriyan@gmail.com>
 References: <20250509203430.3448-1-adobriyan@gmail.com>
- <87frhcsrva.fsf@trenco.lwn.net>
- <77f03295-df5d-4bc0-9a61-5be829969662@p183>
- <20250513041249.GF2023217@ZenIV>
- <0e43117a-d92c-4563-ad2d-de6cbd02e986@p183>
- <20250513190429.GH2023217@ZenIV>
+	<20250509203430.3448-6-adobriyan@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250513190429.GH2023217@ZenIV>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, May 13, 2025 at 08:04:29PM +0100, Al Viro wrote:
-> On Tue, May 13, 2025 at 09:33:34PM +0300, Alexey Dobriyan wrote:
-> > On Tue, May 13, 2025 at 05:12:49AM +0100, Al Viro wrote:
-> > > On Mon, May 12, 2025 at 07:08:53PM +0300, Alexey Dobriyan wrote:
-> > > 
-> > > > I split them like referendum ballots to see where the consensus at and
-> > > > not have big single discussion thread.
-> > > 
-> > > Just in case - consensus would look like a lot of replies in support and not
-> > > simply the lack of replies, right?
-> > 
-> > Well, it is l-k, so absence of NAKs counts as OK.
+On Fri,  9 May 2025 23:34:27 +0300
+Alexey Dobriyan <adobriyan@gmail.com> wrote:
+
+> Linux's BUG_ON is done backwards (condition is inverted).
+> But it is a long story.
 > 
-> In your reality - perhaps...
+> However C11/C23 allow to partially transition to what all normal
+> programmers are used to, namely assert().
+> 
+> Deprecate BUILD_BUG_ON, recommend static_assert/_Static_assert.
+> And then some day BUG_ON will be flipped as well.
 
-Well, if nobody objects strongly, and maintainer agrees, then patch goes in.
-And if patch went in, then it everyone else's problem to undo it?
+_Static_assert() is broken by design and only usable for trival tests.
+clang also output the entire expansion of the conditional (even when
+a message is specified) which can lead to very very very very long lines.
 
-Right?
+It isn't at all suitable for many of the checks in the kernel.
 
-> So absense of NAKs on l-k may or may not count as "OK" from your point of
-> view, but it does not mean that there is any kind of consensus.  
+Look at the signedness test in min() as an example.
 
-Sure, but I can't force everyone to reply or vote so it is always
-blurry.
-
-Right now it is clear that Greg objects but I personally think
-his counter-argument is weak.
-
-He is basically saying that LOC count is too much so Linux should stick
-to how things were always have been even if "old style" is objectively
-inferior.
-
-> More to the point, if your... suggestions would go into D/CodingStyle,
-> replying to objections along the lines of "where the hell has that come
-> from and when have I agreed to that?" with "why haven't you replied
-> when I posted them to l-k?" is *NOT* likely to be well-received.
-
-Al, this is not Debian where they vote so everyone knows when and
-how everyone agreed to something.
-
-If you wake up one day and see "struct inode" renamed to "Inode",
-you have all the rights in the world to be upset about everything up
-to and including not being in Cc.
+	David
