@@ -1,121 +1,76 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F1A12BE7BC;
-	Tue, 13 May 2025 19:41:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68AA92C033F;
+	Tue, 13 May 2025 19:50:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747165279; cv=none; b=DL828aw8BnPZjuJ+WggwbDcIxEHqEO0NKmXP3JfxibbJjYz5i9VIjFV/ihEZ1fNkEgg2BgGEIrBaWU+L4jRyvNO2KuRzNs7rwp1aV4maamuMfmxYU3aWuxEmYPKcAjXTULOOK/CK78yqoq7ZF2IcWdGuwgAjHdkRmgSVzSvtq3o=
+	t=1747165821; cv=none; b=X2Y1DJ6HC4LvVqSapU2Zc+/9xz2WaVEbRsvHByoJ4hUIrz3KSu0pn2juBYOUAMrOETZWiSw00i5oKXbEbXHKqS5zFYsjoYGFc8ciCNwW+SaiANAhI3XEY/x51xPmCYyMmj3L1VTJ2OjD4wE20wyhhHgcovkDglKjSmP9m6IpLMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747165279; c=relaxed/simple;
-	bh=+pSQYegmEUMgJGjBrWUxL9mPYUVEcN+wZY7WzAg8kJk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KrtQcseoo1eR6PDQEUinSs+VdnTxEfdEwC6HE/nMCVt1x4QsZnTHno6e0fc3iWbmIj9P0TCQvBaJOEgz93Tl1OaW/ZP5hWelZYhm+/wAJyblxcWC3bGQecbOZjpyhDWpVa1VNBCtx2hxUeeLORy44mFM+ZBX2yOETRj5Zcz1SSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VuKDhJ2u; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1747165821; c=relaxed/simple;
+	bh=BdiAPi41+n6IgIprGo+gdL28FCyx4j/abNEqeyMMNcg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cdaB59DfV/g3VYcxvK78xGhmbXWaLkhHhsmHvXR8w9whAskPr6TngSXJ4PJbtQ0nOgVJXJ7Jhz38B9wwoHCT2gVdrNDcqJoAX4YCzpXQVjNKU8ySXWz9mtSDN30TnkYC81P0ZImpFyEKVhyp56EXoACSMY+NNwAKWXZno2ukB70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=nm2zaUZm; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VuKDhJ2u"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-441d1ed82faso42314455e9.0;
-        Tue, 13 May 2025 12:41:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747165275; x=1747770075; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GgvuCLuNl1tiz13KaAOrnWhuDLoAd0NoLp8DJJN3BJU=;
-        b=VuKDhJ2ucYkBDsUFWPrL7ItJz+Bvot10WQVSirMTAQLBO8gP3pu9vCOV6gXK+oSMFu
-         a6zrXhxffZiNqnFB1MUg/z5yY/5b4nIa5v3f1rVVrGUr2dpFW+qKmqpMHocRCl3rzXBC
-         SInsOcZfTBd4qoEbGWj0YKOfZMo9cZtHjJCGeBcOQPf6+B+1ev0vGgenFTAgDZva5BeY
-         QCyUUHfNsbTldPekxNjPwVK30+fyaIYMOY0/KZCzek6avIP2Of816yBLAZMve4iUHuR7
-         n9BeEmhejToRHG+/Jkw90CKmiFVzdRDaw2dy1PAYesLt/W6WGaCNx8hooUT1zj7mXMTM
-         g+fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747165275; x=1747770075;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GgvuCLuNl1tiz13KaAOrnWhuDLoAd0NoLp8DJJN3BJU=;
-        b=qYIeyrTPzfJc2+DzNQC6iAUBI3EMElCfUhx09oFnfc6nPW4T4oX1ZGOksTLvm2hppy
-         9la0bYfyF5uWeh6fPuN0kV8S3NiIi6RuF/XTIY+DGqDjWJ1dCge6A7S75a5P5KtTg4Bp
-         PF6Snwmj7qRub+i6+mL3e3zudl3inE94CpOYU19UVkU8Yhkc2cZjoUvrzD4wcx+vUFIE
-         ovsA4hyk+zQuz/09GYAeodcvE4JqC39DRooP3BHFACed52LSt1hAog5ScRohkkxrCRBJ
-         OPNGIe99t6sa0GZiIIlXEHzf711wNx69JeBO6w7bXyQl9tNccaYoR5nimm7JY+Ip5QOa
-         UU0w==
-X-Forwarded-Encrypted: i=1; AJvYcCWsJB6tcRnYjdhFFr+wuVFrfD9hgltmnp9J9l8oehS3Dfe03xRDcnZ7Bwlw01PsPD88Qcr9Dw+NPv3EKSs=@vger.kernel.org, AJvYcCWxkFXkq5w8t50AdvYlu9u6YaMWtQCAQqiX3h8gKabs1loZUr24Admk71AQHoPu1k5wP9slmz409ccx@vger.kernel.org
-X-Gm-Message-State: AOJu0YxONeTVbpcGUD2uPUgIHQWJ+mdmhHvBVVPrGRFVFY8ye6kwsLzT
-	qFfpuqu/vmZooFr1lGL/6B0aafZJf+WT/NPC/kxX0zSqMUeZwqqr
-X-Gm-Gg: ASbGncumN1CS5yZ2P+Dxlg71gFDlXj2C2P9s8/IsnwsqZMCDYUq+IO5ZKiXux4MSTN9
-	sNV3Ce6ucH66M9kRye/ashbPh2kQLG2xi7slw7Hx8RY/CAM4kWrtI+cAa90TO6jB+ptXW3VVQ14
-	m26+gVzMh75FEIyGOe3+tFDuYp23WCrhFjAYPzAS4sQQPKczNvdvuieLT0jTQP/rZXUsb1gstIP
-	H0yiX3hvm6CXkm0gkj8Uk3+0qo8noSotySOMg81rMjgRDedj0QkK9sVUxHDnGZgoeiRfNF33OT+
-	vrzR4tv5ghCjIu4SQvPpYHau5eXl/GfgBPzEUiMkGDO3qURl+HYQ0BcUCWaiTQ56Nn5mI59Z4oU
-	M5I4vvnRrM1ps6w==
-X-Google-Smtp-Source: AGHT+IEpBPW1Zx74L+ly56vyRO65e3y1nWluvYbh3HoLs2O7xgU4T+cxcvqi4RBPExIKrME2FSkouA==
-X-Received: by 2002:a05:600c:a09:b0:43c:f513:958a with SMTP id 5b1f17b1804b1-442f20d65f9mr4406515e9.13.1747165275045;
-        Tue, 13 May 2025 12:41:15 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442d67efd26sm178698935e9.23.2025.05.13.12.41.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 May 2025 12:41:14 -0700 (PDT)
-Date: Tue, 13 May 2025 20:41:13 +0100
-From: David Laight <david.laight.linux@gmail.com>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="nm2zaUZm"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=xBX3BVNMa6IV68uHVwNRfoDz3Q9NSwuileV1QH3idjE=; b=nm2zaUZmSYQ6iFHiM1DiYQrIQw
+	elZ10i2Ag1jNkQ+2pOe5tWtkf+cdgME+a7OPup9AvmvYL84mwtVBA5BMJ2yhdXhAY5qi+jRK7tWjK
+	Yl71pO+HlBryIab1CuMICHVlffprDYZBrGz++ntdm2avM5bMTstB+bIHJuBMQWB+tkyCzb24YgOiE
+	8HEx0c2bieByL5mDpU/X0o5K1WOfgI7UwZJMxmg7rxcQkNHG6y7QpqVASPeNwtfdCVu5ytwL+wv94
+	CZUN2LiraalbB7Lm/rGkyPqQNHt5mAgV+NfXyW2ZoxFlpUCaI05H19hYwufg3PJM3u824CUjzT/qR
+	d3n4EcOQ==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uEvdo-00000004Byz-279G;
+	Tue, 13 May 2025 19:50:16 +0000
+Date: Tue, 13 May 2025 20:50:16 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
 To: Alexey Dobriyan <adobriyan@gmail.com>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/9] CodingStyle: institute better inline assembly
- formatting
-Message-ID: <20250513204113.1e4a738d@pumpkin>
-In-Reply-To: <20250509203430.3448-5-adobriyan@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/9] CodingStyle: make Documentation/CodingStyle into
+ symlink
+Message-ID: <20250513195016.GI2023217@ZenIV>
 References: <20250509203430.3448-1-adobriyan@gmail.com>
-	<20250509203430.3448-5-adobriyan@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+ <87frhcsrva.fsf@trenco.lwn.net>
+ <77f03295-df5d-4bc0-9a61-5be829969662@p183>
+ <20250513041249.GF2023217@ZenIV>
+ <0e43117a-d92c-4563-ad2d-de6cbd02e986@p183>
+ <20250513190429.GH2023217@ZenIV>
+ <da087640-494a-4803-b770-10758393bd80@p183>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <da087640-494a-4803-b770-10758393bd80@p183>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Fri,  9 May 2025 23:34:26 +0300
-Alexey Dobriyan <adobriyan@gmail.com> wrote:
+On Tue, May 13, 2025 at 10:26:12PM +0300, Alexey Dobriyan wrote:
 
-> Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
-> ---
->  Documentation/process/coding-style.rst | 40 +++++++++++++++++++++-----
->  1 file changed, 33 insertions(+), 7 deletions(-)
+> Right now it is clear that Greg objects but I personally think
+> his counter-argument is weak.
 > 
-> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-> index 5c5902a0f897..63c41125e713 100644
-> --- a/Documentation/process/coding-style.rst
-> +++ b/Documentation/process/coding-style.rst
-> @@ -1159,16 +1159,42 @@ You may need to mark your asm statement as volatile, to prevent GCC from
->  removing it if GCC doesn't notice any side effects.  You don't always need to
->  do so, though, and doing so unnecessarily can limit optimization.
->  
-> -When writing a single inline assembly statement containing multiple
-> -instructions, put each instruction on a separate line in a separate quoted
-> -string, and end each string except the last with ``\n\t`` to properly indent
-> -the next instruction in the assembly output:
-> +Inline assembly statements are formatted as follows:
->  
->  .. code-block:: c
->  
-> -	asm ("magic %reg1, #42\n\t"
-> -	     "more_magic %reg2, %reg3"
-> -	     : /* outputs */ : /* inputs */ : /* clobbers */);
-> +	asm [volatile] (
-> +		"insn1 r0, r1, r2\n\t"
-> +		"insn2 r0, 1\n\t"
-> +		: /* possibly empty output list */
-> +		: /* possibly empty input list */
-> +		: /* possibly empty clobber list */
-> +		[: goto label list]
-> +	);
-> +
-> +All keywords are placed on a single line.
+> He is basically saying that LOC count is too much so Linux should stick
+> to how things were always have been even if "old style" is objectively
+> inferior.
 
-Have you been reading too many Microsoft documents?
+Objectively by which metrics?  You are trying to force your personal
+preferences upon everybody else, doing that on a list most of us
+are not even subscribed to.
 
-	David
+You are trying to change an equivalent of build artifact, without
+bothering to change the source it is derived from.  That file is
+*not* a mechanism for changing reality; it codifies the existing
+general agreement between the states of wetware in developers.
+And if you are interested in changing these states of wetware,
+l-k is the wrong place for that.
