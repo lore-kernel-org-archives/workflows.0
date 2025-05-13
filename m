@@ -1,105 +1,86 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7248C2BFC89;
-	Tue, 13 May 2025 18:41:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A41451A072C;
+	Tue, 13 May 2025 19:04:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747161678; cv=none; b=LPcDAg87UfhpZV/5AF9b96YSTL39ZlShl/LMxS9NynHeev85mxaun58RkRl+8D617y8yjGDaoDfz+tTi5qPiBsAaS4fVChCTnEn7K6pIx/CvwfmPAC6o5I1gGRibEWFDhzizjBhG5D2O9Uuyx9dFu7HzsAYvblWrvdzrkkz5Lj4=
+	t=1747163077; cv=none; b=GsJkgN2PLGCiYLz1pQwdswWud0ufXLvG8TyNeOkcfx1SgAo0ZCNHu1pWggU6RF8EiBPou4qyRdp+8gknUAhdh+AwahfKaNpEioeJJUJbeQeambssRNdYyYOb4KpAVuZ0Z6EWSMWybtV8p7qAHj52V/v36iIRhu8VcDfJ/Xrukt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747161678; c=relaxed/simple;
-	bh=0Vx0RGr5U2h01qOU8kmTQ32BV8c1gQpHnYULlCyFrKQ=;
+	s=arc-20240116; t=1747163077; c=relaxed/simple;
+	bh=sDuHo93isYghiiBYv+xqLuH+UyDBbRsgyEi0EpzCMko=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tnvprfLQzyNrYAb4qJ6o5Nn4iVzHGV2ysOQDvZ9wQkAW+WRrkvgTA1eyHYUAqO4ctak1wRUkJWwBKmszgLhIGduSTBPLtdOp8/UkRzWc5RR1HieBr2lAJJM4pWBuyfOdzqGyrinDV4Jx2xCwLhwcUgRHaBSS95y1Buk7ktoMy/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NGol99JP; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=WMQYke+yRdhab2wnH1JAIkKr/7IRAoK5Yojo4U/z0aYfUCviGd4PZV1VD4upc0ByDV4QlS2XtttXyRxUOCJpDOia8KOTOn+7xCstw7HGsKSQk9xCQKrxWgNyoCuzrpXUQX/1eld9JX0Si5qQTuBqVjX57cJQ8E6NMh2r3xjb7wk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=X/25d2Ts; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NGol99JP"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-ad243cdbe98so555789666b.0;
-        Tue, 13 May 2025 11:41:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747161675; x=1747766475; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FS499Fn7cHcQwCrrxOMu/9J8ZlAq0sxjeTj28CB5LpQ=;
-        b=NGol99JP8UV/vbAsQg3dPzbbPlOsyqK7NkHC7THA7bd8hnFw08heTIR1jEv+7Q7TSn
-         XvXiWpWOyfnL6vsp/2zFFrJATBAsW/OXPyLbGEfSXPYMls7EnycxP0dKBMToIUoGfFH9
-         sMmKsZsdl/DIPNNOdM3zfSrG6EcfgFqQZaFiw532jtboPHW0oGo3oM6VasS37+K5+/bv
-         xSWevKteSs5wcblYF5pMn/OBl65fDFR3X+I/WI/5y3nVxb1Tl2r1BJ/WvPvboKGLYPdV
-         fAfmmLZVbi+VurFUmmA+REAIq5WNZjLv7rN6SfIDGDMEwFd8oHw4n0T5zWkwutG0D97w
-         unfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747161675; x=1747766475;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FS499Fn7cHcQwCrrxOMu/9J8ZlAq0sxjeTj28CB5LpQ=;
-        b=O/1Dm3DK+gJ4D5CPVWlQsZky5wHJ1GY7uzXUt93Z7kRsTAz7AnI0x2SwbgXMKtUM4h
-         tKwMjr9orzM1lKRqOUVJOU0oWSi1IRN4zKELOs/7OceMCciVrGvLIvCoHq2HIfktfJDu
-         +8liqccOtb3sPMeYSeBxOd/6F0F6Pq8ELhEgOr1MtDcXX8yLfkPwRnCJfzsXgG8ArEy/
-         9mkoMoDeCd/l/K9nf0/b55veTOkysZnIdzie4ycnH/PJ509+TfGnlRVpCULOlkXPzF68
-         dBh5JCorSX5weL/yPvspYWWAcX8ILom/zhb6xELsYaAoEagYtYTf+8x6PPfkk9H9DSp0
-         Mfwg==
-X-Forwarded-Encrypted: i=1; AJvYcCW/kePY65PjSwMT0G/C1w+wraN61HvHAPy6u65N5JLN8t2FpyLNQy38mBVw6U2/NUB+DZJi6i8Zos88@vger.kernel.org, AJvYcCW/xzEp8bY/RoF3Ff2YGqvbUAuRz1Tx1a6iSQk1kp+LrY0tem/M1VAVcD1ZfhtBTLQ/L1LnBWsEEorj5VI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxHYrUlPDYMP/FX9QE5bzqnCHNSiPnfrETk9tvgMaagxsouXmZ8
-	0JoWMJzeYezNRHddad12E+e+/A44WdVoWzshSvj6jJiBBjb9fIEO8QuX
-X-Gm-Gg: ASbGnctvht8Vm2EDLlr6WPI0hKc0x9PIyTr7653w5dZG9peIalaqYhivKwCspgtmjQU
-	oTDPyPM0JjUjA5eJHcWXq4ra5L9RwAe/Z0lVxeVJMDeizdfA0nD5yG6R/azzzEVQxds15j6uGgo
-	cHGY1+CAYeHW9D4q8shotDsw9OHzSqirj56vswZ3mesKgtUix2YxSJts9lNKEe6M6oLohMKBx+b
-	3ILZz4n0rGR/YubAllPJT/wQa8rX3kcMVfYc4G0PjVpSYeNUAS6NFqBDLl1XosJafDs09UD0YZH
-	aME53bWoJQDTyyeqRVQlOumfZtxywrgpudJXeA==
-X-Google-Smtp-Source: AGHT+IH3PPd9ftO39AWMLttPZb75S1WDHXts0rqYRxjlvJH1YaH7n0nG5Om9DTphFy6TaK663YRLfg==
-X-Received: by 2002:a17:907:1819:b0:ad2:2146:3b64 with SMTP id a640c23a62f3a-ad4f7517c86mr62823666b.39.1747161674514;
-        Tue, 13 May 2025 11:41:14 -0700 (PDT)
-Received: from p183 ([46.53.251.33])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad253036b37sm383736466b.7.2025.05.13.11.41.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 May 2025 11:41:14 -0700 (PDT)
-Date: Tue, 13 May 2025 21:41:12 +0300
-From: Alexey Dobriyan <adobriyan@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 6/9] CodingStyle: recommend static_assert/_Static_assert
-Message-ID: <109fc6a3-0a7f-4439-8f66-48987809d333@p183>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="X/25d2Ts"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=EBnofz+eGN9yhf1pLEiuUA0D374b3jLSqxG9c+iVTrg=; b=X/25d2TsutOp5hIOpE4y4FroYq
+	7EPlPDA473wZMu/twwo1zDWCRPIhbMKaoG8/qBG9tpRQnoncOCw0m0zQrUJ+2w4R5TbgfOy1v61MZ
+	Y7UZz8fAi/Vagg9wgD1vcZYGyxV/3rkFlyNKbokYGvTZUmZFBjMjJGYIx+8SEocOOs6ItmMmU1XAq
+	//6TGLBIM9wXc+1CVMRfRo7/WvBALWZIlW2FrHGBHOaIMutltOM3wOhhp8snFO5HcPR8cOKTke7BL
+	AugyBGN2S5Y6WlTV4fZmxufzeWgYvfSqpYbMDLGdVjsX5Wd8GgIEZMQiw7suNVPI4TgmhW+aEhxxM
+	faN8AY+A==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uEuvV-000000041rc-3rGi;
+	Tue, 13 May 2025 19:04:30 +0000
+Date: Tue, 13 May 2025 20:04:29 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Alexey Dobriyan <adobriyan@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/9] CodingStyle: make Documentation/CodingStyle into
+ symlink
+Message-ID: <20250513190429.GH2023217@ZenIV>
 References: <20250509203430.3448-1-adobriyan@gmail.com>
- <20250509203430.3448-6-adobriyan@gmail.com>
- <2025051046-epidemic-broadways-d3cf@gregkh>
+ <87frhcsrva.fsf@trenco.lwn.net>
+ <77f03295-df5d-4bc0-9a61-5be829969662@p183>
+ <20250513041249.GF2023217@ZenIV>
+ <0e43117a-d92c-4563-ad2d-de6cbd02e986@p183>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2025051046-epidemic-broadways-d3cf@gregkh>
+In-Reply-To: <0e43117a-d92c-4563-ad2d-de6cbd02e986@p183>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Sat, May 10, 2025 at 08:21:01AM +0200, Greg KH wrote:
-> On Fri, May 09, 2025 at 11:34:27PM +0300, Alexey Dobriyan wrote:
-> > Linux's BUG_ON is done backwards (condition is inverted).
-> > But it is a long story.
+On Tue, May 13, 2025 at 09:33:34PM +0300, Alexey Dobriyan wrote:
+> On Tue, May 13, 2025 at 05:12:49AM +0100, Al Viro wrote:
+> > On Mon, May 12, 2025 at 07:08:53PM +0300, Alexey Dobriyan wrote:
 > > 
-> > However C11/C23 allow to partially transition to what all normal
-> > programmers are used to, namely assert().
+> > > I split them like referendum ballots to see where the consensus at and
+> > > not have big single discussion thread.
 > > 
-> > Deprecate BUILD_BUG_ON, recommend static_assert/_Static_assert.
-> > And then some day BUG_ON will be flipped as well.
+> > Just in case - consensus would look like a lot of replies in support and not
+> > simply the lack of replies, right?
 > 
-> Odd, why are you attempting to make all of these mandates without
-> actually changing the code itself first?
+> Well, it is l-k, so absence of NAKs counts as OK.
 
-If I do source code first, some people or checkpatch.pl will say code is
-not conformant!
+In your reality - perhaps...
 
-I want to codify rules so my patches don't rejected due to silly
-reasons, due to the rules which don't make sense.
+BTW, somebody ought to inject a bit of reality into the ridiculous wikipedia
+page on LKML.  Starting with
+	* a lot of developers are not and had not been subscribed to it
+for decades.  That includes Linus, among other people.
+	* those of us who still are subscribed to it have to choose between
+reading through literally thousands of postings and dropping most of them
+unread.
+	* an l-k posting not Cc'd to saner lists and/or specific people 
+is quite likely to be missed.
 
-> That's just asking for major churn for no good reason...
+So absense of NAKs on l-k may or may not count as "OK" from your point of
+view, but it does not mean that there is any kind of consensus.  
 
-Reason is there.
-
-static_assert() is better because it is in the standard, and
-Linux convention of inverting condition never made any sense.
-
-> Sorry, but this series makes no sense to me.
+More to the point, if your... suggestions would go into D/CodingStyle,
+replying to objections along the lines of "where the hell has that come
+from and when have I agreed to that?" with "why haven't you replied
+when I posted them to l-k?" is *NOT* likely to be well-received.
