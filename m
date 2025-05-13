@@ -1,71 +1,70 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67AAB1A23AD;
-	Tue, 13 May 2025 18:37:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7248C2BFC89;
+	Tue, 13 May 2025 18:41:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747161457; cv=none; b=jVnnNnzkmQcaymSUU/e5nV6TgQMjYL4tLAb7NJyUbPWXWn4YC/q7Ty38awwqSIMeS8+d/96758+hXWLU5VTi/RTEQ9sg1P8b+v7SC3HwdoKzToWlv9kHuHgHV9WSZNjEF0OCjuduSnKlYYO/Q4SJNLz26eVhHxa2WmEwlluBgXQ=
+	t=1747161678; cv=none; b=LPcDAg87UfhpZV/5AF9b96YSTL39ZlShl/LMxS9NynHeev85mxaun58RkRl+8D617y8yjGDaoDfz+tTi5qPiBsAaS4fVChCTnEn7K6pIx/CvwfmPAC6o5I1gGRibEWFDhzizjBhG5D2O9Uuyx9dFu7HzsAYvblWrvdzrkkz5Lj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747161457; c=relaxed/simple;
-	bh=AOMIXJ6sg6RkoZaOgzu0aWNysKuQo7Ln1sTD/WCWmpY=;
+	s=arc-20240116; t=1747161678; c=relaxed/simple;
+	bh=0Vx0RGr5U2h01qOU8kmTQ32BV8c1gQpHnYULlCyFrKQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LpIpTRWroTf5S02DbrLheMoj946jhoG1CQggF3yHwQJR9z033QpEfIJZUKMRsTgK0wxAoDcZ6j2sQuV18eTNOUc7A4+Xxe+pN9vtvn3TzCWDXFx4x/OWF8LxhdA+y9F/w19aFe0xNVYO8DAFcnADXacITrd7GwtMcYhxpbD2UIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X1IRZBCF; arc=none smtp.client-ip=209.85.208.52
+	 Content-Type:Content-Disposition:In-Reply-To; b=tnvprfLQzyNrYAb4qJ6o5Nn4iVzHGV2ysOQDvZ9wQkAW+WRrkvgTA1eyHYUAqO4ctak1wRUkJWwBKmszgLhIGduSTBPLtdOp8/UkRzWc5RR1HieBr2lAJJM4pWBuyfOdzqGyrinDV4Jx2xCwLhwcUgRHaBSS95y1Buk7ktoMy/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NGol99JP; arc=none smtp.client-ip=209.85.218.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X1IRZBCF"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5efe8d9ebdfso11048032a12.3;
-        Tue, 13 May 2025 11:37:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NGol99JP"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-ad243cdbe98so555789666b.0;
+        Tue, 13 May 2025 11:41:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747161453; x=1747766253; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1747161675; x=1747766475; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0SkrdnzhHsgGD2HspL2L7iQoMddChCO9cFvTBg9IxN4=;
-        b=X1IRZBCF0P29YujwKSrjnNAFF7D5We42rgZOfWmILQYVQtN0hnht3wymRDh+ijEmUp
-         w4rNzxixRHljZzdspau+E315nF2CFzCSDDarMt6Vu+18ZdGHIaW5Vrgt9EQHVlrI7WXb
-         OE67PYvs2f2zAGaR2fQF8whsGnKtJjzqQrgcaVYaMKo/apy/HIS9GJENNMOYfu1sOiJD
-         umXmflo9iucb/4xz/zQTM2PYVIKPhjeja4TrHOiw3r6uHV9baH4AdggsF1L5U89Ah5st
-         izHi64nWxZGm8eSEfid7fVFKcIB4kOttYjGy8lE53AaLJ8CI3XiWroWzEcZGJ9I5DQeJ
-         yytw==
+        bh=FS499Fn7cHcQwCrrxOMu/9J8ZlAq0sxjeTj28CB5LpQ=;
+        b=NGol99JP8UV/vbAsQg3dPzbbPlOsyqK7NkHC7THA7bd8hnFw08heTIR1jEv+7Q7TSn
+         XvXiWpWOyfnL6vsp/2zFFrJATBAsW/OXPyLbGEfSXPYMls7EnycxP0dKBMToIUoGfFH9
+         sMmKsZsdl/DIPNNOdM3zfSrG6EcfgFqQZaFiw532jtboPHW0oGo3oM6VasS37+K5+/bv
+         xSWevKteSs5wcblYF5pMn/OBl65fDFR3X+I/WI/5y3nVxb1Tl2r1BJ/WvPvboKGLYPdV
+         fAfmmLZVbi+VurFUmmA+REAIq5WNZjLv7rN6SfIDGDMEwFd8oHw4n0T5zWkwutG0D97w
+         unfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747161453; x=1747766253;
+        d=1e100.net; s=20230601; t=1747161675; x=1747766475;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0SkrdnzhHsgGD2HspL2L7iQoMddChCO9cFvTBg9IxN4=;
-        b=nNCsgLm4d7xidXogWfXcPUqiXYcTYT4MZ0a/kIhx0pL1rWwQqLNuoGM1YNK4YuSeD6
-         QgM3QmvN7UHvIZmwjuDi3fEt5NbgqHS7R4C0aImpl3GOCz4a0g58D2jU8SWH55CErqdg
-         zdrk1AXhv9DZliucU0VwZ5uUY8kLhj3QYx6txQEAtlcQ9AB80///cmZ1CZNYP1zqoec7
-         I8/sjjA+HwCGp2wDVQ7kAp/kJz1VO7AsnQbqttHad2FwLc9Jv4LUEsACDN7+pRaD3q1p
-         OHbv7QYHjxSOi6am9lrX+oRqtDus0G7nUaqjnGTIIYsrLdI5wYDxdwj0t8u9WF0EDAqW
-         9G8g==
-X-Forwarded-Encrypted: i=1; AJvYcCVhvZwadbdKE8qawMmfU3WY7HvKOdTMNfFvDMVjIRYr5VxsTVKyAi0oMVX6JfzIUJgawemN1bsUULy8@vger.kernel.org, AJvYcCX5FTDmm12BRp2T0e5+4zVaaNyRYyInOCtWNj7dXOaOgASnctgRW4zV8p/gPFfmN927ba4LogeBK6I4IEw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YySkhn6GyfOvtlVd5d+KE9HKYD/6TcQ80bmCXpUCWqyCIbjqoqm
-	O19611Wo8BEPdQihtw4GEd6M9e0GXsWhLXHjqVTrLElL8gWS/q1BVR24
-X-Gm-Gg: ASbGncuGUsTCGYyKMYNCVx3dj3ne6srjD2+7xh/al6jVT9hzO2AphjTyj35QZnUj3w4
-	Bb3rJ3mvsHGwiQyKzGOHaykTQ5ZzW9f2n72MKSCNGnCpFWHWEENyRDR1UZ1zKTtdydNqkLzayGY
-	I4GgfVUU2eH+1B+5NLBem32TMyEhj+0b/ni3LEZuHbmQX/7yaDugmeVIijQ+oZmnZ3iftIjk6KT
-	KXIFC0qZgCHv0Ag+7d9mDlo1MPHILn5a7uhn90uG9uVvODXh3F+jajf0ducRqBHDvFRXSVcqmHb
-	2BjyFKoahXy5vCUR93vbeEfPeFysp1QzM7BHQ1Rsrxpoich0
-X-Google-Smtp-Source: AGHT+IFWjjoYqwpLRezhDI8g0Ya8/aMAwC96Ibj66AcEjYWU7XpNFgB0Q5w2c4AbN7v0tOlsQLqCrw==
-X-Received: by 2002:a17:907:3d8c:b0:ad2:15c4:e251 with SMTP id a640c23a62f3a-ad4f7116e19mr66477166b.24.1747161453377;
-        Tue, 13 May 2025 11:37:33 -0700 (PDT)
+        bh=FS499Fn7cHcQwCrrxOMu/9J8ZlAq0sxjeTj28CB5LpQ=;
+        b=O/1Dm3DK+gJ4D5CPVWlQsZky5wHJ1GY7uzXUt93Z7kRsTAz7AnI0x2SwbgXMKtUM4h
+         tKwMjr9orzM1lKRqOUVJOU0oWSi1IRN4zKELOs/7OceMCciVrGvLIvCoHq2HIfktfJDu
+         +8liqccOtb3sPMeYSeBxOd/6F0F6Pq8ELhEgOr1MtDcXX8yLfkPwRnCJfzsXgG8ArEy/
+         9mkoMoDeCd/l/K9nf0/b55veTOkysZnIdzie4ycnH/PJ509+TfGnlRVpCULOlkXPzF68
+         dBh5JCorSX5weL/yPvspYWWAcX8ILom/zhb6xELsYaAoEagYtYTf+8x6PPfkk9H9DSp0
+         Mfwg==
+X-Forwarded-Encrypted: i=1; AJvYcCW/kePY65PjSwMT0G/C1w+wraN61HvHAPy6u65N5JLN8t2FpyLNQy38mBVw6U2/NUB+DZJi6i8Zos88@vger.kernel.org, AJvYcCW/xzEp8bY/RoF3Ff2YGqvbUAuRz1Tx1a6iSQk1kp+LrY0tem/M1VAVcD1ZfhtBTLQ/L1LnBWsEEorj5VI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxHYrUlPDYMP/FX9QE5bzqnCHNSiPnfrETk9tvgMaagxsouXmZ8
+	0JoWMJzeYezNRHddad12E+e+/A44WdVoWzshSvj6jJiBBjb9fIEO8QuX
+X-Gm-Gg: ASbGnctvht8Vm2EDLlr6WPI0hKc0x9PIyTr7653w5dZG9peIalaqYhivKwCspgtmjQU
+	oTDPyPM0JjUjA5eJHcWXq4ra5L9RwAe/Z0lVxeVJMDeizdfA0nD5yG6R/azzzEVQxds15j6uGgo
+	cHGY1+CAYeHW9D4q8shotDsw9OHzSqirj56vswZ3mesKgtUix2YxSJts9lNKEe6M6oLohMKBx+b
+	3ILZz4n0rGR/YubAllPJT/wQa8rX3kcMVfYc4G0PjVpSYeNUAS6NFqBDLl1XosJafDs09UD0YZH
+	aME53bWoJQDTyyeqRVQlOumfZtxywrgpudJXeA==
+X-Google-Smtp-Source: AGHT+IH3PPd9ftO39AWMLttPZb75S1WDHXts0rqYRxjlvJH1YaH7n0nG5Om9DTphFy6TaK663YRLfg==
+X-Received: by 2002:a17:907:1819:b0:ad2:2146:3b64 with SMTP id a640c23a62f3a-ad4f7517c86mr62823666b.39.1747161674514;
+        Tue, 13 May 2025 11:41:14 -0700 (PDT)
 Received: from p183 ([46.53.251.33])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad226f2466asm729401166b.143.2025.05.13.11.37.32
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad253036b37sm383736466b.7.2025.05.13.11.41.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 May 2025 11:37:33 -0700 (PDT)
-Date: Tue, 13 May 2025 21:37:31 +0300
+        Tue, 13 May 2025 11:41:14 -0700 (PDT)
+Date: Tue, 13 May 2025 21:41:12 +0300
 From: Alexey Dobriyan <adobriyan@gmail.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Greg KH <gregkh@linuxfoundation.org>
 Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/9] CodingStyle: mention "typedef struct S {} S;" if
- typedef is used
-Message-ID: <6513ce31-bb0f-4692-bc98-75232ce2ee70@p183>
+Subject: Re: [PATCH 6/9] CodingStyle: recommend static_assert/_Static_assert
+Message-ID: <109fc6a3-0a7f-4439-8f66-48987809d333@p183>
 References: <20250509203430.3448-1-adobriyan@gmail.com>
- <20250509203430.3448-4-adobriyan@gmail.com>
- <20250510124711.6b5d8b9a@foz.lan>
+ <20250509203430.3448-6-adobriyan@gmail.com>
+ <2025051046-epidemic-broadways-d3cf@gregkh>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -74,42 +73,33 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250510124711.6b5d8b9a@foz.lan>
+In-Reply-To: <2025051046-epidemic-broadways-d3cf@gregkh>
 
-On Sat, May 10, 2025 at 12:47:19PM +0200, Mauro Carvalho Chehab wrote:
-> Em Fri,  9 May 2025 23:34:25 +0300
-> Alexey Dobriyan <adobriyan@gmail.com> escreveu:
-> 
-> > Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
-> > ---
-> >  Documentation/process/coding-style.rst | 14 ++++++++++++++
-> >  1 file changed, 14 insertions(+)
+On Sat, May 10, 2025 at 08:21:01AM +0200, Greg KH wrote:
+> On Fri, May 09, 2025 at 11:34:27PM +0300, Alexey Dobriyan wrote:
+> > Linux's BUG_ON is done backwards (condition is inverted).
+> > But it is a long story.
 > > 
-> > diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-> > index ac9c1dbe00b7..5c5902a0f897 100644
-> > --- a/Documentation/process/coding-style.rst
-> > +++ b/Documentation/process/coding-style.rst
-> > @@ -443,6 +443,20 @@ EVER use a typedef unless you can clearly match one of those rules.
-> >  In general, a pointer, or a struct that has elements that can reasonably
-> >  be directly accessed should **never** be a typedef.
-> >  
-> > +If you must use ``typedef`` consider using identical names for both the type
-> > +and its alias so that the type can be forward declared if necessary:
+> > However C11/C23 allow to partially transition to what all normal
+> > programmers are used to, namely assert().
+> > 
+> > Deprecate BUILD_BUG_ON, recommend static_assert/_Static_assert.
+> > And then some day BUG_ON will be flipped as well.
 > 
-> Better not, as symbols with duplicated names will generate a Sphinx warning (*). 
-> 
-> (*) It shouldn't, but there is a pending issue on Sphinx since version 3.1
->     still not addressed:
-> 
-> 	https://github.com/sphinx-doc/sphinx/pull/8313
+> Odd, why are you attempting to make all of these mandates without
+> actually changing the code itself first?
 
-OMG, so we are at mercy of static checkers _and_ documentation system? now
+If I do source code first, some people or checkpatch.pl will say code is
+not conformant!
 
-I've realised, changelog is bady worded:
+I want to codify rules so my patches don't rejected due to silly
+reasons, due to the rules which don't make sense.
 
-Some people invent styles when typedef'ing struct/union:
+> That's just asking for major churn for no good reason...
 
-	typedef struct xxx_s {} xxx;
-	typedef struct _xxx {} xxx;
+Reason is there.
 
-There is no reason to do that, just typedef to exact same name.
+static_assert() is better because it is in the standard, and
+Linux convention of inverting condition never made any sense.
+
+> Sorry, but this series makes no sense to me.
