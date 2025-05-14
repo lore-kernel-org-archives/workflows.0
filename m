@@ -1,76 +1,65 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68AA92C033F;
-	Tue, 13 May 2025 19:50:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCD7527A914;
+	Wed, 14 May 2025 18:55:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747165821; cv=none; b=X2Y1DJ6HC4LvVqSapU2Zc+/9xz2WaVEbRsvHByoJ4hUIrz3KSu0pn2juBYOUAMrOETZWiSw00i5oKXbEbXHKqS5zFYsjoYGFc8ciCNwW+SaiANAhI3XEY/x51xPmCYyMmj3L1VTJ2OjD4wE20wyhhHgcovkDglKjSmP9m6IpLMY=
+	t=1747248925; cv=none; b=TMX3JUVxt9PiBC6vBIFhtz7cMdNMuOvRV4pB4UbnrgYVndQU1Dr0IpsqOch748rtBr3Y6VtpFNE0w8SZoRExzcuVINHDYHqLqhV8I/JcnB5QWumae9Tf22FDF9HVz89NukqdjKxI8GjQ+JUr+OTS1c5QgxZR2zQZS+qOnlaY6W8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747165821; c=relaxed/simple;
-	bh=BdiAPi41+n6IgIprGo+gdL28FCyx4j/abNEqeyMMNcg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cdaB59DfV/g3VYcxvK78xGhmbXWaLkhHhsmHvXR8w9whAskPr6TngSXJ4PJbtQ0nOgVJXJ7Jhz38B9wwoHCT2gVdrNDcqJoAX4YCzpXQVjNKU8ySXWz9mtSDN30TnkYC81P0ZImpFyEKVhyp56EXoACSMY+NNwAKWXZno2ukB70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=nm2zaUZm; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	s=arc-20240116; t=1747248925; c=relaxed/simple;
+	bh=Dd1AbBJnN/eobVfbg16kvz/0BKo+XOYNcMxSAbROsnU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=MeCR59k+5yzpV//yVobdomUKxVfiIhDRF9xt6xJ6rffMklKAicrnnWD1VH/ZyuEr0ggudi/XOPkWXsKm4il2Lx/+3hlv4yKH8JMQJZv+Uvvcp17jJiUJsC3zSuvTBtY6RhDe5mXh8y+xGUAx4R6RF43ehY05NXWz0mcj7JDU8pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=CoxdR9vO; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="nm2zaUZm"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=xBX3BVNMa6IV68uHVwNRfoDz3Q9NSwuileV1QH3idjE=; b=nm2zaUZmSYQ6iFHiM1DiYQrIQw
-	elZ10i2Ag1jNkQ+2pOe5tWtkf+cdgME+a7OPup9AvmvYL84mwtVBA5BMJ2yhdXhAY5qi+jRK7tWjK
-	Yl71pO+HlBryIab1CuMICHVlffprDYZBrGz++ntdm2avM5bMTstB+bIHJuBMQWB+tkyCzb24YgOiE
-	8HEx0c2bieByL5mDpU/X0o5K1WOfgI7UwZJMxmg7rxcQkNHG6y7QpqVASPeNwtfdCVu5ytwL+wv94
-	CZUN2LiraalbB7Lm/rGkyPqQNHt5mAgV+NfXyW2ZoxFlpUCaI05H19hYwufg3PJM3u824CUjzT/qR
-	d3n4EcOQ==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uEvdo-00000004Byz-279G;
-	Tue, 13 May 2025 19:50:16 +0000
-Date: Tue, 13 May 2025 20:50:16 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Alexey Dobriyan <adobriyan@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
-	linux-kernel@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="CoxdR9vO"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7688B4107B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1747248914; bh=qusa+C5EMMyC7j+Dkx9wlnXabaGtwDCwcq+bgHcJ2YE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=CoxdR9vOfNppadw8zY6V1IiRBCzhQKTiEWiU5qwtYHqnJjIC+8olI8FSjQE/vpCmf
+	 Qb6dtKVgd0XFTXU41YtWx6xfl4JLtCOX5j61t2VzJ2V39dcT90Sk2+oP8Cn0CSj/fb
+	 PVQ/X9FXzARIh29dRawtxGKyR55d3UMVyaQh/Sa43JBG7tWklseGmmCajEs/aBBDbV
+	 DK6WRTeknzumAI3qQe84XbeMIVZ084tM+FKgQdYqDsHn0jN/d4TA/PEzIlZw5oRvYG
+	 kdWITstrgbo0vIEq0roAsMwF2+u6fk2gryuWPNETak8JSgVJGPlwqpE5OT+aHL8ndT
+	 qkAtmekorzbSg==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 7688B4107B;
+	Wed, 14 May 2025 18:55:13 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Alexey Dobriyan <adobriyan@gmail.com>, Greg KH <gregkh@linuxfoundation.org>
+Cc: workflows@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 1/9] CodingStyle: make Documentation/CodingStyle into
  symlink
-Message-ID: <20250513195016.GI2023217@ZenIV>
+In-Reply-To: <d5b360c6-1ef4-4344-9ad5-91ba5d962183@p183>
 References: <20250509203430.3448-1-adobriyan@gmail.com>
  <87frhcsrva.fsf@trenco.lwn.net>
  <77f03295-df5d-4bc0-9a61-5be829969662@p183>
- <20250513041249.GF2023217@ZenIV>
- <0e43117a-d92c-4563-ad2d-de6cbd02e986@p183>
- <20250513190429.GH2023217@ZenIV>
- <da087640-494a-4803-b770-10758393bd80@p183>
+ <2025051203-secluded-emphases-1c76@gregkh>
+ <d5b360c6-1ef4-4344-9ad5-91ba5d962183@p183>
+Date: Wed, 14 May 2025 12:55:10 -0600
+Message-ID: <87sel7nhtd.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <da087640-494a-4803-b770-10758393bd80@p183>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+Content-Type: text/plain
 
-On Tue, May 13, 2025 at 10:26:12PM +0300, Alexey Dobriyan wrote:
+Alexey Dobriyan <adobriyan@gmail.com> writes:
 
-> Right now it is clear that Greg objects but I personally think
-> his counter-argument is weak.
-> 
-> He is basically saying that LOC count is too much so Linux should stick
-> to how things were always have been even if "old style" is objectively
-> inferior.
+> I never liked cover letters because they don't get captured in
+> the commit messages so why bother.
 
-Objectively by which metrics?  You are trying to force your personal
-preferences upon everybody else, doing that on a list most of us
-are not even subscribed to.
+FWIW, if a cover letter contains useful information, I capture it in a
+merge commit that brings in the rest.  I think I'm far from the only one
+who does that...
 
-You are trying to change an equivalent of build artifact, without
-bothering to change the source it is derived from.  That file is
-*not* a mechanism for changing reality; it codifies the existing
-general agreement between the states of wetware in developers.
-And if you are interested in changing these states of wetware,
-l-k is the wrong place for that.
+jon
