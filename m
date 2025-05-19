@@ -1,96 +1,81 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF1DA281346;
-	Mon, 19 May 2025 15:40:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D9B2857C3;
+	Mon, 19 May 2025 16:21:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747669222; cv=none; b=QurPCTXyk/LC8lOYms/CYCT/+IE2Xat8FpeAQ859EVLDoCHj8UYuNq3kVFZSUOUTaS+J+u8gvW5x1CVC/hlrSxaBVxEFfcWMZb9nRj2osEfN7Dw9q/pu0VpwLJdy27xRia2hDmz3PTToSlAlB+pahthwbEq9h+vcgi+TaBDunlA=
+	t=1747671704; cv=none; b=bltwMfCoUClc5xaFkv2/YvcsJMQIbKCRWV5/QSxTJ0tvQwAWXVNrfYLZ1ZvIn1LpkYvxx71aizLvrOSEiKaPcZQ7dlEbnB8ImEVFM1vSpEiolisRJd7MTywb7Fq4xgBkapcLJ5C2lHh7llHr9ZyqKFq2u+i7L38aGoWS73WUkS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747669222; c=relaxed/simple;
-	bh=BM/Dl5qWCkMnJg16IPiFKB0N4stAnTqyudz0G2oBd3Q=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=pA9e0f2RDtLHu8xnABNNQs56LoW+DcyF/ZUJpbjmrmg6wxhxpTbpjLYTwcMuQcVwPUmjABA+GcSBCOm4S6HXwzw8hOYlj+ZAWjG/an4o4OVCKX+RA60hkSEicjWSNJ7l5dAmyEYKc7MnnR73jw0ZYnsfrAGh0Yoy/yHRFBAFvLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=XIqp4KIr; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1747671704; c=relaxed/simple;
+	bh=VInuVxcHwPkz/3rVki/CCNmblsxxZS2pzFG4ZLTvkfY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sjmMF95V+TLegD/o7DxjNJuxBsBheoIBRWyBWGQ6M0lapeL9Pb76JiA41gcyZiz3HL3Coe90cZcF9uA0mB0s7j+//v9E7ESO3MdmxxXL3kUfL3F4EAF0s1GqqbnV+53+x/VRLelp2Yxy/2XpvPbhTl2xE2z7+EWP2r2UqKuWK2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=DoYgTQGj; arc=none smtp.client-ip=46.255.230.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="XIqp4KIr"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 61B3D41AA1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1747669219; bh=NsIpsnCHMaMX+L15e7tjvSysbCwRgG5P+DOALl6smkY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=XIqp4KIrZbxWevhvMsGnazsroPPopIYmYQ4Zp9YyfirCSncs81GyuxYz1djcggK5T
-	 U0vTUgwiADRBmVVqZkVVF4JDwtg0TcmUsPn3gWNUy7b4cK0Y6kmZhAToo/TuLfR/Ha
-	 TRhxzxWOPQu7zLmfZOqSSOHQluSk8D5coBz6oW7ePMXtaXaX32JIiuc0OalkEHSGMM
-	 1JwVon9qVfrjkkWeT72fDD6Q6RyLqsnfbJhQUHvfkFntRmYAZhV5f+vKtfdVp63lJw
-	 yHT/EAA8VeKjQzlYblZ+O5zbmS/sdgINTkI9QJorwZ/2XNWmHyEtuejRvdC+D3Igfk
-	 flbFcoIS7Q2bg==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 61B3D41AA1;
-	Mon, 19 May 2025 15:40:18 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Jesung Yang <y.j3ms.n@gmail.com>
-Cc: Vineet Gupta <vgupta@kernel.org>, Catalin Marinas
- <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Guo Ren
- <guoren@kernel.org>, Brian Cain <bcain@kernel.org>, Huacai Chen
- <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, Dinh Nguyen
- <dinguyen@kernel.org>, Jonas Bonn <jonas@southpole.se>, Stefan
- Kristiansson <stefan.kristiansson@saunalahti.fi>, Stafford Horne
- <shorne@gmail.com>, Paul Walmsley <paul.walmsley@sifive.com>, Palmer
- Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Alexandre
- Ghiti <alex@ghiti.fr>, linux-snps-arc@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
- linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev,
- linux-openrisc@vger.kernel.org, linux-riscv@lists.infradead.org,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jesung Yang <y.j3ms.n@gmail.com>
-Subject: Re: [PATCH] docs: align with scripts/syscall.tbl migration
-In-Reply-To: <20250506194841.1567737-1-y.j3ms.n@gmail.com>
-References: <20250506194841.1567737-1-y.j3ms.n@gmail.com>
-Date: Mon, 19 May 2025 09:40:15 -0600
-Message-ID: <87ldqsip7k.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="DoYgTQGj"
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id B628F1C00B7; Mon, 19 May 2025 18:21:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+	t=1747671697;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HWwaHvjFJlGD6FtSXE8yeGvDNlM+86IPHd8IM0I6STQ=;
+	b=DoYgTQGjzUXSkEY6XQuM9kyyEqs1fCYu2uTIpvz2cXpMTDhr5fiO0JzeuiVkxz8N4liub5
+	czyLLH2mJ/pOLZsvIggNpu9HpmrV/chQl1/Nm51wkTyGJf3IbB/vn4yeX0GvUiztDGV6yk
+	NOvMiePUvb+7cEhKtCFyuBHN7sRISF0=
+Date: Mon, 19 May 2025 18:21:37 +0200
+From: Pavel Machek <pavel@ucw.cz>
+To: Alexey Dobriyan <adobriyan@gmail.com>
+Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/9] CodingStyle: make Documentation/CodingStyle into
+ symlink
+Message-ID: <aCtakfXonUfWZmgp@duo.ucw.cz>
+References: <20250509203430.3448-1-adobriyan@gmail.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="0vljEvlxngayie8T"
+Content-Disposition: inline
+In-Reply-To: <20250509203430.3448-1-adobriyan@gmail.com>
 
-Jesung Yang <y.j3ms.n@gmail.com> writes:
 
-> Update the documentation to reflect the migration of the following
-> architectures to the centralized syscall table format:
->
->   arc, arm64, csky, hexagon, loongarch, nios2, openrisc, riscv
->
-> As of commit 3db80c999debbad ("riscv: convert to generic syscall table"),
-> these architectures no longer rely on include/uapi/asm-generic/unistd.h.
-> Instead, syscall table headers (syscall_table_{32,64}.h) are generated by
-> scripts/syscalltbl.sh based on entries in scripts/syscall.tbl, with ABIs
-> specified in arch/*/kernel/Makefile.syscalls.
->
-> For the convenience of developers working with older kernel versions, the
-> original documentation is fully retained, with new sections added to
-> cover the scripts/syscall.tbl approach.
->
-> Verified with `make htmldocs`.
->
-> Signed-off-by: Jesung Yang <y.j3ms.n@gmail.com>
-> Link: https://lore.kernel.org/lkml/20240704143611.2979589-1-arnd@kernel.org
+--0vljEvlxngayie8T
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I'm not sure anybody has looked at this ... but nobody has complained,
-anyway.
+Hi!
 
-I have applied it but ... it seems like this document needs a more
-thorough refresh rather than just adding some "actually, don't do it
-that way on these architectures" notes?  Hopefully somebody will find
-the energy to do that at some point.
+> Every time I open Documentation/CodingStyle it says the party moved
+> somewhere else. :-(
+>=20
+> Of course, I forget where it moved to by the next time.
 
-Thanks,
+Yes please. I was hiting this way too often, too.
 
-jon
+Best regards,
+								Pavel
+
+--=20
+I don't work for Nazis and criminals, and neither should you.
+Boycott Putin, Trump, and Musk!
+
+--0vljEvlxngayie8T
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCaCtakQAKCRAw5/Bqldv6
+8mgdAJ9rHUrToat27+SEFf6kl9TlywAW+wCfaXNHCQN0uMAdBJ9vspHCowwaK/w=
+=69lp
+-----END PGP SIGNATURE-----
+
+--0vljEvlxngayie8T--
