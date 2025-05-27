@@ -1,73 +1,77 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF1F8267F41;
-	Tue, 20 May 2025 11:05:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3421F27A445;
+	Tue, 27 May 2025 14:47:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747739110; cv=none; b=lO5QsjRazacNMNGw1gz7jgfzCjDX/rIg9xhWx9JLup4Xi8uertVCAUHhlsLtSQYAp66NsK0Z/0nICLHmo8zsQe2706nInv+Fc8SobMWIOGPYgGoJXYqxb5eLwra4t1rbFDV0ZvWfZwE9xxDJntGhj2Q8+QFGGDK4eIBMhxNu9jY=
+	t=1748357228; cv=none; b=IXW+cnOFIqCyYddeao0koMkOTOGQKPXcm6d9WNh9rkNJ7RdnHyScxswWyLoGjawOdaf4bdrJ8QgSPolvEfxDWPd6r0+9PwuLUUt78C3Pknsu/7WWe42PchyADPykaZLKU4pV+K17qbpqGrRHGBOtmY3vNCyoQTYaHg+9cMLp0h0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747739110; c=relaxed/simple;
-	bh=dqzHqbI45drYiJcBhZWpXVC3zrDHhjThfa+aqxLgwrc=;
+	s=arc-20240116; t=1748357228; c=relaxed/simple;
+	bh=XHiQNryj9BFMoumMwUMPDSLBU9xZL9NqwRMbbTEPV6A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kovNdDB1ea6VUCzQfmZIiUziKP7EU05FDmY3I6VP0oZCBSBo6yCp7I5H0TAmNRpHADYypyesUb8djiiy0KP4u1KhXoaKvVW5mrnj7ixiIGqfr9uDh7V2Rqu2VhDOX7/XW5D2n/Ts6RwOgOVWHxOcaLdkp2Y1BAsHRJy/ONCDz70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=nrgUP7hf; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=FKn1TZ52xqYThh7CZ4Hb17cG0vUgrKO8y7yJ4+QYpfx9m/WwvL9yhyySx4YOo1hIrVHaffYBeGYuQ+lQwXU3yYuulTw18xqzKkA1l2uYD4M8JYWGeN45gMDTeusNFcfp18KZOulRTzKd9SxiSmMqaDDtTKQtSVvPdcAabzSAagI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c2ikbRu0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nrgUP7hf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF75FC4CEE9;
-	Tue, 20 May 2025 11:05:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1747739109;
-	bh=dqzHqbI45drYiJcBhZWpXVC3zrDHhjThfa+aqxLgwrc=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c2ikbRu0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79845C4CEE9;
+	Tue, 27 May 2025 14:47:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748357227;
+	bh=XHiQNryj9BFMoumMwUMPDSLBU9xZL9NqwRMbbTEPV6A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nrgUP7hfhz5mXv2m1/f+QzqIHK72xfHiTHCMO0Sau8GbC1B5LyHb3dOKygYBk3yjF
-	 1WAGBWIES+DRDo7d8Xq6AcTD6DeCUf1iL55Y7j5jxHkR/L1Sd7loUjy5zMwYHIit8t
-	 wV8YCDAakvMjTrDzrVTlYo3C24SCx1kf71Ce/rHc=
-Date: Tue, 20 May 2025 13:05:05 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Michael Ellerman <mpe@ellerman.id.au>
-Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	maddy@linux.ibm.com, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH] Documentation: embargoed-hardware-issues.rst: Remove
- myself
-Message-ID: <2025052056-disarray-blitz-acb2@gregkh>
-References: <8734czh8yg.fsf@mpe.ellerman.id.au>
+	b=c2ikbRu0h+FE2ziSXK1ro9BV9F9IizP78bgaiECnmIliQJGBHXG88+zTZDNb3tpdA
+	 w9SQrFH5CYFKcAB/BU7fLk6jV0dGvAZ6soH9aZ6gfe0qT/kNNag4SId+Qe2LMaoab3
+	 zmjnP3nAFbaJZ1uNZ7Y4hZGycwrOlt/yyZJd/trkmCleevdS7kMLZWh4NOL/QlnNm8
+	 VlqHOBBV3mEB/rBfFN23aazgyXpEYRCuCJztMNVozA77DGW2rQfA97/2iIu0BY5CTT
+	 Y4k4yYCa63d68uVItWnFnpv1ncWsjtTs8NIa1yM4EVIbxgILsZKSnKigqdt48xKIuB
+	 Dko1SVrd9g2Vw==
+Date: Tue, 27 May 2025 10:47:06 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: stable@vger.kernel.org, workflows@vger.kernel.org
+Subject: Re: [ANNOUNCE] AUTOSEL: Modern AI-powered Linux Kernel Stable
+ Backport Classifier
+Message-ID: <aDXQaq-bq5BMMlce@lappy>
+References: <aBj_SEgFTXfrPVuj@lappy>
+ <20250506072159.520ff0d5@kernel.org>
+ <aBt3D3z0Ayn6R_YO@lappy>
+ <20250507085421.7fefd093@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <8734czh8yg.fsf@mpe.ellerman.id.au>
+In-Reply-To: <20250507085421.7fefd093@kernel.org>
 
-On Tue, May 20, 2025 at 08:28:55PM +1000, Michael Ellerman wrote:
-> I'm no longer able to perform this role since I left IBM.
-> 
-> Signed-off-by: Michael Ellerman <mpe@ellerman.id.au>
-> ---
->  Documentation/process/embargoed-hardware-issues.rst | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
-> index 0e19d2f0d6bb..da6bf0f6d01e 100644
-> --- a/Documentation/process/embargoed-hardware-issues.rst
-> +++ b/Documentation/process/embargoed-hardware-issues.rst
-> @@ -290,7 +290,6 @@ an involved disclosed party. The current ambassadors list:
->    AMD		Tom Lendacky <thomas.lendacky@amd.com>
->    Ampere	Darren Hart <darren@os.amperecomputing.com>
->    ARM		Catalin Marinas <catalin.marinas@arm.com>
-> -  IBM Power	Michael Ellerman <ellerman@au.ibm.com>
->    IBM Z		Christian Borntraeger <borntraeger@de.ibm.com>
->    Intel		Tony Luck <tony.luck@intel.com>
->    Qualcomm	Trilok Soni <quic_tsoni@quicinc.com>
-> -- 
-> 2.47.1
-> 
-> 
+On Wed, May 07, 2025 at 08:54:21AM -0700, Jakub Kicinski wrote:
+>On Wed, 7 May 2025 11:06:55 -0400 Sasha Levin wrote:
+>> On Tue, May 06, 2025 at 07:21:59AM -0700, Jakub Kicinski wrote:
+>> >On Mon, 5 May 2025 14:11:20 -0400 Sasha Levin wrote:
+>> >> - Detailed explanations of backporting decisions
+>> >
+>> >Are those available publicly or just to the person running the tool?
+>> >I was scratching my hard quite a bit on the latest batch.
+>>
+>> Yup, it presents it to the person running the tool. In theory you can
+>> always go back and re-run whatever commit you'd like with the same query
+>> and get a very similar explanation, so I didn't consider storing the
+>> results.
+>
+>Injecting the explanation under the --- separator in the AUTOSEL email
+>would be ideal, but not sure how hard that is to arrange.
 
-Thanks for the patch, I'll take this through my tree.
+This made a lot of sense, and so I've improved my scripts to do that.
 
-greg k-h
+You should see the AUTOSEL review series starting with the 6.16 merge
+window material coming out with the explanation injected under the
+seperator line.
+
+Thanks!
+
+-- 
+Thanks,
+Sasha
