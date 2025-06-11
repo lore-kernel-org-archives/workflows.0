@@ -1,99 +1,78 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 020F426529B;
-	Wed, 11 Jun 2025 09:36:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A6C727FD49
+	for <workflows@vger.kernel.org>; Wed, 11 Jun 2025 13:53:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749634610; cv=none; b=N+qmMTBfeJxjej+dzVEvdY/Ks069n3HWaKMvflHlNeIyonU2gxO6pndMHeEQu0G+ByvcTdxr3zTNo8xVGVUZHq8b42GH6w+kSGJcgZNgGg4+8BQkd0FBl1Lt+utzU8AJKd3zSsNL1x0U4t1npJ0dwm/iH/T6vPxjuFZ4XVp04r0=
+	t=1749650006; cv=none; b=f6r2N3GUZBPqo/HBzjgYECDbGnUn0gchTmuHdDj6mCHuTSXPI2vHs0IKpQOpe+6M1hbQrk0vQwJZrl31xuFkfuZiHkDgv0bZGYmPfeOP0C2TbgtxnJSaCtJjiS4TWwt8x0zR9DGDTeyxxLnwTwTaicIHbfihVXkl7BNW80a+ilk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749634610; c=relaxed/simple;
-	bh=mVfyXIP9JLUrBFl7GsD5f1SXSqA4+C74McYsvCIxMFg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=VsT7o4tEbVgNxHB5FUGmWPJlkckn8zmHQa7CQEFaoqlog10eTOcMiOGBKQMAuoI7gJfSukA1QhIfigZbE+VLrI5Q7dbwpvHVHxP7VHfT2poH/4Ri5y7xVE/kihfdtuSujWlIk9Uf0wL0P8+m/CJRcDRfB9HSDjOMWc6oZ3MuRaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FdeFSPUb; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=XEs1E128; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1749650006; c=relaxed/simple;
+	bh=9SIdAh840g6tydo2JznT4GeDVA5YXlZf24fa0jmn9oM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RKmlIbJnpmVo1xJ978+Mlil6fPN+sZMftpyKJCMcATu+8/W8eTBXnJ+sxx4oX5o+/a2/fFfSh8GIWZHAqBbNN8Yx1KntTYYKxYHcZSVWECwoj1pfTyRYYR87cRzisi68aNR3BR+yrVc4owaf1XG4vXyxJfFS1woWX6Ox5PU4Rnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=WYdAW6iz; arc=none smtp.client-ip=91.218.175.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FdeFSPUb";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="XEs1E128"
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1749634607;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="WYdAW6iz"
+Date: Wed, 11 Jun 2025 15:52:59 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1749649990;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=GFksH9LPMmP7bYyfX4IW1QhQb97MRGe7VJvXQH5Qf8E=;
-	b=FdeFSPUbQlIjY88c25kRBegK96msaEAPvepPEoyamCBClJGY9Oycct/bzJGK6BmgLVkYM0
-	LyE/Q7wHK+5ICZwADHqv7FQ1crjnD3M+eWbGlh9AQcB61C1ptdS6QTvnV3TePXi4E4jo3+
-	xWFKmaDksVQQ65uqqc1/5Dg47cexbY0vjJm5mU0eTd+WW/kcR1Bzs/tPbZaw8byIsgOYgE
-	X+nfiWMO/EhZHpdPfTjeYeSYPiIn6UWG0X+kP9k2E5d5ZJyypv7Ow/WMR6ZQ9MUyeFyCd9
-	vmF5uj8Ij4RC7oG9eNiDtYN5+lOI/bxc1DqT1o/D6qI2H+tK8FWY3F9moqK4lA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1749634607;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=GFksH9LPMmP7bYyfX4IW1QhQb97MRGe7VJvXQH5Qf8E=;
-	b=XEs1E128R+ew11J/9X4/Dg7rMJNr6Mga4qU9oa91HKqgncmbaeIrB7zt+2mtr+l4V5Jyqj
-	OAY1ey/tJipwEPCQ==
-Date: Wed, 11 Jun 2025 11:36:35 +0200
-Subject: [PATCH] Documentation: kunit: fix argument of MODULE_IMPORT_NS()
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4zq30Zx1gm5+DnliSP1IJP9mnbwAcrHCYpwo6PmyzBc=;
+	b=WYdAW6izimj/1gDUnPW+moaf3Nr5+ezwcwuLHSc4IvraMglv8YBB9VUujsatvLjE7apE7p
+	u9v5WzRBHxvmN01qtvUkfX2q9urcqWHuzQ2J9T3qKK3D1YvTQTqQ18DDnJz95VqMnpFJVF
+	LrIlkoskO2W4MhCJ1lY8fuv0ZUIvBeA=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Nicolas Schier <nicolas.schier@linux.dev>
+To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
+	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
+	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+	workflows@vger.kernel.org
+Subject: Re: [PATCH v3 01/16] kbuild: userprogs: avoid duplicating of flags
+ inherited from kernel
+Message-ID: <20250611-overjoyed-vengeful-goshawk-0aaf8c@l-nschier-aarch64>
+References: <20250611-kunit-kselftests-v3-0-55e3d148cbc6@linutronix.de>
+ <20250611-kunit-kselftests-v3-1-55e3d148cbc6@linutronix.de>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250611-kunit-example-v1-1-cf2a1a80518f@linutronix.de>
-X-B4-Tracking: v=1; b=H4sIACJOSWgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDM0ND3ezSvMwS3dSKxNyCnFTdFENL01QTw2SDJGMTJaCegqLUtMwKsHn
- RsbW1AGflkKhfAAAA
-X-Change-ID: 20250611-kunit-example-d195e41c0b34
-To: Brendan Higgins <brendan.higgins@linux.dev>, 
- David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
- workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1749634606; l=1138;
- i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=mVfyXIP9JLUrBFl7GsD5f1SXSqA4+C74McYsvCIxMFg=;
- b=VPkKhJXccGFHvBS/kfawZMHVmi0l4KnKzIRjNgp8MsiNCqbezdx9nHFfBFaHE+m2nMW0wzW4F
- zK1q8ktwjAACw60SLIrhyPnWJdze9N82/a858uSM0yWefP4Pyed4okv
-X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
- pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
+In-Reply-To: <20250611-kunit-kselftests-v3-1-55e3d148cbc6@linutronix.de>
+Organization: AVM GmbH
+X-Migadu-Flow: FLOW_OUT
 
-The argument to MODULE_IMPORT_NS() should be a string literal.
-See commit cdd30ebb1b9f ("module: Convert symbol namespace to string literal")
+On Wed, Jun 11, 2025 at 09:38:07AM +0200, Thomas Weißschuh wrote:
+> The duplication makes maintenance harder. Changes need to be done in two
+> places and the lines will grow overly long.
+> 
+> Use an intermediary variable instead.
+> 
+> Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+> ---
+>  Makefile | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
 
-Fixes: d208025db6d6 ("Documentation: kunit: improve example on testing static functions")
-Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
----
- Documentation/dev-tools/kunit/usage.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
-index 038f480074fd7aaa1f8e1b344bc74bf3426cc173..066ecda1dd98e73a01d50545e79c38a99a3e05a2 100644
---- a/Documentation/dev-tools/kunit/usage.rst
-+++ b/Documentation/dev-tools/kunit/usage.rst
-@@ -699,7 +699,7 @@ the template below.
- 	#include <kunit/visibility.h>
- 	#include <my_file.h>
- 	...
--	MODULE_IMPORT_NS(EXPORTED_FOR_KUNIT_TESTING);
-+	MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING");
- 	...
- 	// Use do_interesting_thing() in tests
- 
-
----
-base-commit: f09079bd04a924c72d555cd97942d5f8d7eca98c
-change-id: 20250611-kunit-example-d195e41c0b34
-
-Best regards,
--- 
-Thomas Weißschuh <thomas.weissschuh@linutronix.de>
-
+Reviewed-by: Nicolas Schier <n.schier@avm.de>
