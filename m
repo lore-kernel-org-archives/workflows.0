@@ -1,32 +1,32 @@
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
+Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F3C628937E
-	for <workflows@vger.kernel.org>; Wed, 11 Jun 2025 13:53:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DF972882A0
+	for <workflows@vger.kernel.org>; Wed, 11 Jun 2025 14:04:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749650038; cv=none; b=HqT044N9/QlsL8ckoBSgZOvdRthJZUwpQyPbmR9t1f4iO3sfditjeSamW6xqlSP9isg+1Ub+7TyoMVJwmuMTe3hDoltsmwPKa8y2/vRPfNnOih9sRxb1yaUOUQBV3R7+eBmU0LTUx6cvT426h4dEh3bb2hYRKS0Wdl6OcsTztWY=
+	t=1749650695; cv=none; b=CjykdKoMOd7o2FtKhHfqOdxwcaWt9uq0XsBXTHH5xGOYMwb0fT7cFRmFZvafY63ihWJ9TIpu+/XtngLhnFHPvItQaA7t39zuyXEpMm8KiBzXpHqf1L8bpZw0I8u/ZMn6PBovJvFCGyUDzab/v6CjOJTNst7dFhfaoFRPe4vi86w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749650038; c=relaxed/simple;
-	bh=h1PDRLhqEnrJFYahNzGdjg30s+fyktyia3E7Sju9114=;
+	s=arc-20240116; t=1749650695; c=relaxed/simple;
+	bh=rfoDfSY9BodSaLrtYekBqaMvqcOHnjl0fyfcQsXJChA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bw0gw+/5n8cFNi1d4gOap7zNjJ8yyNur4/+9k/ChhAJkNnSX8kbZr4eeG8fn9dh/eMOLIg4zwIrOAObCYOHg1OA1NCS7DGZvOAfHy6gaPhPPSjwHKuMtmzOJwElqaLF7q7g4LYMaPZGy+jUwn1H4myALBPtW7Yfu96cf0GVA7IY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=rVRrJ6dd; arc=none smtp.client-ip=91.218.175.180
+	 Content-Type:Content-Disposition:In-Reply-To; b=P7kGO+9VjeEhnOKw7ukn+kY7ILBvI7L81B4LgqIezGQyuzKOpLhCZcy5j7F+Nnlpc4LMVYcHb7r1P1G9sLUDmyjqSFVMG48BiEWVtuvwLIH0Sz15ZVB4iE/V1K1udFiSc8rLFizJbEvJlYTz5IZj+ZlW2CGghnbXR8WY45gRto4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=wk0ZcISF; arc=none smtp.client-ip=91.218.175.186
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="rVRrJ6dd"
-Date: Wed, 11 Jun 2025 15:53:50 +0200
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="wk0ZcISF"
+Date: Wed, 11 Jun 2025 16:04:37 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1749650033;
+	t=1749650681;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6SmcMnYbOWQzWCVt53CcxqUoekdqiVe1d0Bbrj8p7r4=;
-	b=rVRrJ6ddkczAocQzeJy62uoVW+EqUuHoTzfGHO5VbnuDz9oOhPOeaJjbfQbD5g34I1uOk0
-	DBgaDtqveDXWm46GpekqL+ncbR80suUOjuTnOaGqyClK5eQEMIGLbCykN5aWjyEk4vKgpa
-	VZyORSDLkWqG6ZBbMc63a+OIr1KFqrs=
+	bh=txq23bJazbIYagctbPRu50Tm0ZoM/NcejOe7Q1liC8k=;
+	b=wk0ZcISFpG7EdDimklFUqd02SAESZEZcA+KDyXAEHqt10vo2jUvcEe/cO2Yq6tJFVV4dAc
+	L0GmmiPNFoYcR8pSaqlrip1ZkN7z2ZbLbzI7BC9ZgVP4yZxnkyM3JZqpIJm+9YnviJndsI
+	lMKJEV+PHU+WLAtw4eKKZD49/eTtZCU=
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Nicolas Schier <nicolas.schier@linux.dev>
 To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
@@ -45,11 +45,10 @@ Cc: Masahiro Yamada <masahiroy@kernel.org>,
 	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
 	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
 	workflows@vger.kernel.org
-Subject: Re: [PATCH v3 02/16] kbuild: userprogs: also inherit byte order and
- ABI from kernel
-Message-ID: <20250611-celadon-buzzard-of-wholeness-d8c0ce@l-nschier-aarch64>
+Subject: Re: [PATCH v3 03/16] init: re-add CONFIG_CC_CAN_LINK_STATIC
+Message-ID: <20250611-nostalgic-terrestrial-armadillo-eecfec@l-nschier-aarch64>
 References: <20250611-kunit-kselftests-v3-0-55e3d148cbc6@linutronix.de>
- <20250611-kunit-kselftests-v3-2-55e3d148cbc6@linutronix.de>
+ <20250611-kunit-kselftests-v3-3-55e3d148cbc6@linutronix.de>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -59,20 +58,19 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250611-kunit-kselftests-v3-2-55e3d148cbc6@linutronix.de>
+In-Reply-To: <20250611-kunit-kselftests-v3-3-55e3d148cbc6@linutronix.de>
 Organization: AVM GmbH
 X-Migadu-Flow: FLOW_OUT
 
-On Wed, Jun 11, 2025 at 09:38:08AM +0200, Thomas Weißschuh wrote:
-> Make sure the byte order and ABI of the userprogs matches the one of the
-> kernel, similar to how the bit size is handled.
-> Otherwise the userprogs may not be executable.
-> This happens for example on powerpc little endian, or riscv32.
+On Wed, Jun 11, 2025 at 09:38:09AM +0200, Thomas Weißschuh wrote:
+> For the kunit UAPI functionality this feature is needed.
+> 
+> This reverts commit d1b99cdf22e0 ("init: remove unused CONFIG_CC_CAN_LINK_STATIC")
 > 
 > Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
 > ---
->  Makefile | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  init/Kconfig | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
 
-Reviewed-by: Nicolas Schier <n.schier@avm.de>
+Acked-by: Nicolas Schier <n.schier@avm.de>
