@@ -1,46 +1,43 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF92242D9D;
-	Wed, 11 Jun 2025 07:38:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 020F426529B;
+	Wed, 11 Jun 2025 09:36:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749627522; cv=none; b=od3NPQ1Gj9rNuXPqRdKtMN88LUJGR/E6MuqFc6NDt1QIWjl6UuQgeh7oIh8ngyWkujnBE5EdbZc10qGTAUk3fxuvKycKo+DpL4WjkCbIDxnTSP3Wniki8UP9bufNU+d9cpZtv45UP1qHFc91clgd6IgYISkvXyLTSbAI96j3RB8=
+	t=1749634610; cv=none; b=N+qmMTBfeJxjej+dzVEvdY/Ks069n3HWaKMvflHlNeIyonU2gxO6pndMHeEQu0G+ByvcTdxr3zTNo8xVGVUZHq8b42GH6w+kSGJcgZNgGg4+8BQkd0FBl1Lt+utzU8AJKd3zSsNL1x0U4t1npJ0dwm/iH/T6vPxjuFZ4XVp04r0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749627522; c=relaxed/simple;
-	bh=bI9Z3Z4OikY2vHRcbYfX3N2odvEeMwzFe2AM1aXY+bg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Aw7K3iCfDIucYGuoieIGqkNGvY1NgfSBTLjJyqsyvbNStJWUhpXdomV76KJ/UdW5kM2wymU1vLLoNAIzF2F/+dvy452vo+ui5ResupgypezRDkiKdQ35cqP/kO39IyfZvw+tJlZR96Zt63wzLlTF6WhMuxs+oIeL6Dme7fvEc8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=oZwKLG8I; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Wu9FsCQI; arc=none smtp.client-ip=193.142.43.55
+	s=arc-20240116; t=1749634610; c=relaxed/simple;
+	bh=mVfyXIP9JLUrBFl7GsD5f1SXSqA4+C74McYsvCIxMFg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=VsT7o4tEbVgNxHB5FUGmWPJlkckn8zmHQa7CQEFaoqlog10eTOcMiOGBKQMAuoI7gJfSukA1QhIfigZbE+VLrI5Q7dbwpvHVHxP7VHfT2poH/4Ri5y7xVE/kihfdtuSujWlIk9Uf0wL0P8+m/CJRcDRfB9HSDjOMWc6oZ3MuRaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FdeFSPUb; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=XEs1E128; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="oZwKLG8I";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Wu9FsCQI"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FdeFSPUb";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="XEs1E128"
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1749627518;
+	s=2020; t=1749634607;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dTxmS6W6qZRqdjglNd/91xq5t0Sf7lvKNn22lds3tBg=;
-	b=oZwKLG8IUYTuUtRD28FKxeMMdCaTX/U77iFBOswUdySXxbVT0aDEE12rgFAxHJCdJ7Tm2U
-	j6NkHDdUdtsgxon12m0mDq8uGHOm6NbZH9Wbi8QU0k7qSuW6trogSG6s6qz86EhOh1od19
-	EGXzQh4JsW4Y2bflXKGr3DuGTzNmqMU8nmrZQ4ve6JTaAL5koDWhDLxSwQPz3bSPy63zFR
-	MTqLMd0CNemfTcflrIwpcgZj/z0ITqLcGZ4FSTgUhKXBbpB4/m9EQJ+v34ck3A4Bg9hqbq
-	x0QK8ENEZh104a9oRpzVdBpWgJKwvbgWBntL+tJDDmxIYSks5Dw6ZfZ9TtiB9Q==
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=GFksH9LPMmP7bYyfX4IW1QhQb97MRGe7VJvXQH5Qf8E=;
+	b=FdeFSPUbQlIjY88c25kRBegK96msaEAPvepPEoyamCBClJGY9Oycct/bzJGK6BmgLVkYM0
+	LyE/Q7wHK+5ICZwADHqv7FQ1crjnD3M+eWbGlh9AQcB61C1ptdS6QTvnV3TePXi4E4jo3+
+	xWFKmaDksVQQ65uqqc1/5Dg47cexbY0vjJm5mU0eTd+WW/kcR1Bzs/tPbZaw8byIsgOYgE
+	X+nfiWMO/EhZHpdPfTjeYeSYPiIn6UWG0X+kP9k2E5d5ZJyypv7Ow/WMR6ZQ9MUyeFyCd9
+	vmF5uj8Ij4RC7oG9eNiDtYN5+lOI/bxc1DqT1o/D6qI2H+tK8FWY3F9moqK4lA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1749627518;
+	s=2020e; t=1749634607;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dTxmS6W6qZRqdjglNd/91xq5t0Sf7lvKNn22lds3tBg=;
-	b=Wu9FsCQIrzyRPV9W4FVqoM9fMCPZfkB3SrqeMepwTJ5K0yPoPDHGsRbu3xfz8QlRFhndmH
-	eC2CiW8jpb6AobAw==
-Date: Wed, 11 Jun 2025 09:38:22 +0200
-Subject: [PATCH v3 16/16] kunit: uapi: Validate usability of /proc
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=GFksH9LPMmP7bYyfX4IW1QhQb97MRGe7VJvXQH5Qf8E=;
+	b=XEs1E128R+ew11J/9X4/Dg7rMJNr6Mga4qU9oa91HKqgncmbaeIrB7zt+2mtr+l4V5Jyqj
+	OAY1ey/tJipwEPCQ==
+Date: Wed, 11 Jun 2025 11:36:35 +0200
+Subject: [PATCH] Documentation: kunit: fix argument of MODULE_IMPORT_NS()
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -49,94 +46,54 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250611-kunit-kselftests-v3-16-55e3d148cbc6@linutronix.de>
-References: <20250611-kunit-kselftests-v3-0-55e3d148cbc6@linutronix.de>
-In-Reply-To: <20250611-kunit-kselftests-v3-0-55e3d148cbc6@linutronix.de>
-To: Masahiro Yamada <masahiroy@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, 
- Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
- Brendan Higgins <brendan.higgins@linux.dev>, 
+Message-Id: <20250611-kunit-example-v1-1-cf2a1a80518f@linutronix.de>
+X-B4-Tracking: v=1; b=H4sIACJOSWgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDM0ND3ezSvMwS3dSKxNyCnFTdFENL01QTw2SDJGMTJaCegqLUtMwKsHn
+ RsbW1AGflkKhfAAAA
+X-Change-ID: 20250611-kunit-example-d195e41c0b34
+To: Brendan Higgins <brendan.higgins@linux.dev>, 
  David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
- Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Nicolas Schier <nicolas.schier@linux.dev>, 
- Paul Walmsley <paul.walmsley@sifive.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
- Alexandre Ghiti <alex@ghiti.fr>, Nicolas Schier <nicolas.schier@linux.dev>
-Cc: Christophe Leroy <christophe.leroy@csgroup.eu>, 
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
- linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, 
- workflows@vger.kernel.org, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1749627510; l=1609;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1749634606; l=1138;
  i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=bI9Z3Z4OikY2vHRcbYfX3N2odvEeMwzFe2AM1aXY+bg=;
- b=BvsjK8jQfTlN3RKliodcN6Wpr2QQ8UHWYzK87A9Ed7LZXQp5P1ASKEUXcxymrizK7ceed/oo0
- tW6g6ftHi92ABxOyphlY05wObpqRI2GKkfZjkxgZImTBYuS2FOV2ylS
+ bh=mVfyXIP9JLUrBFl7GsD5f1SXSqA4+C74McYsvCIxMFg=;
+ b=VPkKhJXccGFHvBS/kfawZMHVmi0l4KnKzIRjNgp8MsiNCqbezdx9nHFfBFaHE+m2nMW0wzW4F
+ zK1q8ktwjAACw60SLIrhyPnWJdze9N82/a858uSM0yWefP4Pyed4okv
 X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
  pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-Show that the selftests are executed from a fairly "normal"
-userspace context.
+The argument to MODULE_IMPORT_NS() should be a string literal.
+See commit cdd30ebb1b9f ("module: Convert symbol namespace to string literal")
 
+Fixes: d208025db6d6 ("Documentation: kunit: improve example on testing static functions")
 Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
 ---
- lib/kunit/kunit-example-uapi.c | 34 +++++++++++++++++++++++++++++++++-
- 1 file changed, 33 insertions(+), 1 deletion(-)
+ Documentation/dev-tools/kunit/usage.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/lib/kunit/kunit-example-uapi.c b/lib/kunit/kunit-example-uapi.c
-index 4ce657050dd4a576632a41ca0309c4cb5134ce14..5e7a0f3b68f182c42b03e667567e66f02d8c2b86 100644
---- a/lib/kunit/kunit-example-uapi.c
-+++ b/lib/kunit/kunit-example-uapi.c
-@@ -8,13 +8,45 @@
-  * This is *userspace* code.
-  */
+diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
+index 038f480074fd7aaa1f8e1b344bc74bf3426cc173..066ecda1dd98e73a01d50545e79c38a99a3e05a2 100644
+--- a/Documentation/dev-tools/kunit/usage.rst
++++ b/Documentation/dev-tools/kunit/usage.rst
+@@ -699,7 +699,7 @@ the template below.
+ 	#include <kunit/visibility.h>
+ 	#include <my_file.h>
+ 	...
+-	MODULE_IMPORT_NS(EXPORTED_FOR_KUNIT_TESTING);
++	MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING");
+ 	...
+ 	// Use do_interesting_thing() in tests
  
-+#include <fcntl.h>
-+#include <unistd.h>
-+#include <string.h>
-+
- #include "../../tools/testing/selftests/kselftest.h"
- 
-+static void test_procfs(void)
-+{
-+	char buf[256];
-+	ssize_t r;
-+	int fd;
-+
-+	fd = open("/proc/self/comm", O_RDONLY);
-+	if (fd == -1) {
-+		ksft_test_result_fail("procfs: open() failed: %s\n", strerror(errno));
-+		return;
-+	}
-+
-+	r = read(fd, buf, sizeof(buf));
-+	close(fd);
-+
-+	if (r == -1) {
-+		ksft_test_result_fail("procfs: read() failed: %s\n", strerror(errno));
-+		return;
-+	}
-+
-+	if (r != 16 || strncmp("kunit-example-u\n", buf, 16) != 0) {
-+		ksft_test_result_fail("procfs: incorrect comm\n");
-+		return;
-+	}
-+
-+	ksft_test_result_pass("procfs\n");
-+}
-+
- int main(void)
- {
- 	ksft_print_header();
- 	ksft_set_plan(4);
--	ksft_test_result_pass("userspace test 1\n");
-+	test_procfs();
- 	ksft_test_result_pass("userspace test 2\n");
- 	ksft_test_result_skip("userspace test 3: some reason\n");
- 	ksft_test_result_pass("userspace test 4\n");
 
+---
+base-commit: f09079bd04a924c72d555cd97942d5f8d7eca98c
+change-id: 20250611-kunit-example-d195e41c0b34
+
+Best regards,
 -- 
-2.49.0
+Thomas Weißschuh <thomas.weissschuh@linutronix.de>
 
