@@ -1,114 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3169482FF;
-	Mon, 16 Jun 2025 15:38:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D428A22AE7A
+	for <workflows@vger.kernel.org>; Mon, 16 Jun 2025 21:39:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750088340; cv=none; b=dfmEYV+cIlTML12wRgSO9OiO6dv3bhHVGZ3E5mGFRe7iWeF2n2i3DjOZEgi3EAyCG2DAFbA+zXfob4Vfl03IRKKYjvT2iigyqtkMmYUPeCDIFdluoEXpoQtPlJ5kAaP3Xfg3UVlKj47YhK01QB7dyS0qcLvjP8Ho8lprIE3tYHA=
+	t=1750109986; cv=none; b=MUgm5G3TfyLb5ZkTnKOGp1ISYokr/G9ZeQUYmGDL02AZaZzBtmxJ41zyDYhWip7BgcSghaGou9Zfzqm5HIrGng4JTTMPsM2RnBpoZ1TWaeJB7k4YmYT/28+Ei6H2bF1VUQsP2dzp9jvhq7x2U4XfgzazAxHMdNnIh5G2lfWHQYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750088340; c=relaxed/simple;
-	bh=F8BcwaM+WtE8oZEsemH+lZITn+Dw3YFdoAc5CYBdnNE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TH0jP/djQ8ETNdghJpxdMTpPItkwxrQBxVX2C6nypnIOsjFnkxInn8XAmOkVGfzUUkcD58++BH2eTNB80PFHnSShWFNUax6rbTwpq+ZUb3/ewC/P8vdilQh5iIPBKUD9qNfNSVtF6tPx1Ba/kxv7iiszF7NFCy0lBZTGnmYybnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GY6g8jwg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750109986; c=relaxed/simple;
+	bh=QzEAQtt+aGVKhfuj29JZWjtEC6tULjxy17FvlP6qNUE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=JKUZTouTDVVod9pLuGAFav8S8J42Kmr4PiHtUOir0hDPJCNCp4iNlzwsSTokPRuaaNq2OdBtdJbBGCzdyngJnRm+JBK7zAmu1zwwg3dEnRDsSkVNEerFJYrwMvuOqHQGm+2zYIi1xHouxRmtKFoVOaQcD+Sfc/FxKR8EZ+o9CNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cId8Zf9U; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GY6g8jwg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75272C4CEED;
-	Mon, 16 Jun 2025 15:38:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750088339;
-	bh=F8BcwaM+WtE8oZEsemH+lZITn+Dw3YFdoAc5CYBdnNE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=GY6g8jwgBkalDRzhuY6Q7GoyO/bK8noe5AsFFZJQ7QZTjKrP3+zAxpbGtx+e+A93c
-	 fL8cH0GciSbiWBveHx8K0E23kBGiRZcUQyFIImWyNTgKZ8okKyIEtIVvX8H5UPP1mF
-	 7f24hRRGWkgmGqAhBdPXEp4l1zpssO9s1XHbrxk1Vqk7zRxMZ4S3/qdw6uUHryhysD
-	 g3da3XEQ9egt6qr/Ept1i6nYSPu4t49uN90tTirtRnju6S1a8aIgUM9xHsuETT5H+F
-	 iWvcxexMypYWygOAqXEYNoeNmlLLjXgQHrLDQoEILQIUNMR/z8rW9tQDh3lrfyVdH+
-	 OJY9hp5tW9OqQ==
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5533a86a134so4091329e87.3;
-        Mon, 16 Jun 2025 08:38:59 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUNniLXmBTvhe8h4niXogvzA8QWp09CR7U5SgWwt144FxFqcvczcSzS7dPDHmEh4FK/hfbfmAiAWUNW@vger.kernel.org, AJvYcCX2GzlY1WZH1m0iWVvkS7vuxave5eAU5HJpWTwM6K+MPj/Y3E1uvamS6QPg2J0eIez69vTcwr8xzk0oAT0jg6Q5@vger.kernel.org, AJvYcCX7HPP6BlfrupB1ZBNfWh6YREEIJbatmFotSB6H0JL9Ld5OplSSyBdNSxHuoEm2ol/AAn1CLVc4LmU=@vger.kernel.org, AJvYcCXQ6QxeXsgvYbW3OCDwY6NboUHu8W8KPMsBDYuyb2ukmGItFKUT+v468STrt42Ia3/k92a1WGc2eWHr1eVQ@vger.kernel.org, AJvYcCXYXDDcX1/zd9CFi1KxxTozqOGtUHChBnpWPMxMhNngG/RIEvPES5Z1pKdWmsvMvxRNl4wIgFPAdxSSa+Rh@vger.kernel.org
-X-Gm-Message-State: AOJu0YyE2XLvY1Rs47JT8prTFZbmfaMnVyGfGR5tvSpeKZsS5OdIiTdH
-	oJL/1uWbcwYmPv0idegPcoQiat1hbRXgbPqYpENs8kTZE7ZFA1IYCId1f3ZCBvfkIo3rogBZNJA
-	XJ1/HW3qClSr8OGKFhxkNvB5/Q5C4H5k=
-X-Google-Smtp-Source: AGHT+IEi914yNdf7ItDxIuKSAhzqs66BT0pQ2P1yp+Fi9zjJkYGAgGwLeuM43Lf6chAvKr1xpfz1JcNzMuKSRXlMjL4=
-X-Received: by 2002:a05:6512:b9e:b0:553:28f1:66ec with SMTP id
- 2adb3069b0e04-553b6f2a05fmr2377754e87.31.1750088338110; Mon, 16 Jun 2025
- 08:38:58 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cId8Zf9U"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1750109981;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=85/1d0wMBmqSkLyQ+YALVO6DwSoPhRMSYMFI4xK3lME=;
+	b=cId8Zf9UdmzDsNYNO0ukM5phIJwAoYTh/mrxywJcX9sVcTvwlUaBkot/w/RJN0bVkXHKHk
+	2lAQG+Tz+ShtsBpsh1g9hSmqy1oQy4e46+vpN/BnwcpErcnRh5aAu/7A8sXAYAXDC/dALO
+	UN6xjPv4Vrbe8haEg0hHUR3aVkFELwE=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-375-pNs-wQ-kNM-C4ozlsqgRlA-1; Mon,
+ 16 Jun 2025 17:39:37 -0400
+X-MC-Unique: pNs-wQ-kNM-C4ozlsqgRlA-1
+X-Mimecast-MFC-AGG-ID: pNs-wQ-kNM-C4ozlsqgRlA_1750109976
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4B9E51956089;
+	Mon, 16 Jun 2025 21:39:36 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.45.224.8])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 24E5C30001B1;
+	Mon, 16 Jun 2025 21:39:33 +0000 (UTC)
+From: Florian Weimer <fweimer@redhat.com>
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-kernel@vger.kernel.org,  linux-api@vger.kernel.org,
+  workflows@vger.kernel.org,  tools@kernel.org
+Subject: Re: [RFC 08/19] exec: add API specification for execve
+In-Reply-To: <20250614134858.790460-9-sashal@kernel.org> (Sasha Levin's
+	message of "Sat, 14 Jun 2025 09:48:47 -0400")
+References: <20250614134858.790460-1-sashal@kernel.org>
+	<20250614134858.790460-9-sashal@kernel.org>
+Date: Mon, 16 Jun 2025 23:39:31 +0200
+Message-ID: <87ikkvv018.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250611-kunit-kselftests-v3-0-55e3d148cbc6@linutronix.de> <20250611-kunit-kselftests-v3-7-55e3d148cbc6@linutronix.de>
-In-Reply-To: <20250611-kunit-kselftests-v3-7-55e3d148cbc6@linutronix.de>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 17 Jun 2025 00:38:21 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARYXKq9KyCczcY_VjwQG3QWEufV1McayHDnavvuU+JEhQ@mail.gmail.com>
-X-Gm-Features: AX0GCFuUsGD9ADF5sHGYl1AePploex53t0fNoReQCDpmZEypT0Ao3cb2BMm8rbs
-Message-ID: <CAK7LNARYXKq9KyCczcY_VjwQG3QWEufV1McayHDnavvuU+JEhQ@mail.gmail.com>
-Subject: Re: [PATCH v3 07/16] kbuild: introduce blob framework
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-Cc: Nathan Chancellor <nathan@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Willy Tarreau <w@1wt.eu>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
-	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
-	Rae Moar <rmoar@google.com>, Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Nicolas Schier <nicolas.schier@linux.dev>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-On Wed, Jun 11, 2025 at 4:38=E2=80=AFPM Thomas Wei=C3=9Fschuh
-<thomas.weissschuh@linutronix.de> wrote:
->
-> Various subsystems embed non-code build artifacts into the kernel,
-> for example the initramfs, /proc/config.gz, vDSO image, etc.
-> Currently each user has their own implementation for that.
->
-> Add a common "blob" framework to provide this functionality.
-> It provides standard kbuild and C APIs to embed and later access non-code
-> build artifacts into the kernel image or modules.
->
-> Reviewed-by: Nicolas Schier <n.schier@avm.de>
-> Signed-off-by: Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
+* Sasha Levin:
 
-Kbuild provides only a small set of syntaxes, yet it's flexible enough
-to allow each Makefile to implement what it needs.
-I aim to keep Kbuild scripts as simple as possible and avoid over-engineeri=
-ng.
+> +	KAPI_RETURN("long", "Does not return on success; returns -1 on error")
+> +		.type = KAPI_TYPE_INT,
+> +		.check_type = KAPI_RETURN_ERROR_CHECK,
+> +	KAPI_RETURN_END
 
-Instead, you can implement this in lib/kunit/Makefile.kunit-uapi or somewhe=
-re.
-That way, I do not have to be worried about what you do.
+Is the -1 part correct?
 
-Also, your separate blob approach looks questionable to me.
-In your approach, the blob (kunit-example-uapi.blob.o)
-and the entry point (kunit-example-test.o) can be separate modules.
-The entry point would be a small amount of boilerplate.
-I would keep the user-program blob and its entry point in the same C file.
-(and I may consider writing a macro for populating a blob + knit entry)
+Many later errors during execve are not recoverable and result in execve
+succeeding (nominally) and a fatal signal being delivered to the process
+instead.  Not sure if the description covers that.
 
+What about the effect of unblocking a parent thread that has vfork'ed?
 
+Thanks,
+Florian
 
-> ---
-> Due to its closeness to kbuild this is currently added to its MAINTAINER =
-entry.
-> But I can also maintain it on its own.
-
-Or, maybe do not add this.
-
-
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
