@@ -1,138 +1,94 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55AC028ECCD;
-	Tue, 17 Jun 2025 07:59:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A9F2D9EDE;
+	Tue, 17 Jun 2025 12:08:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750147151; cv=none; b=nzpRFkFMYZeWjba0C+U4Z6ghAmg6I3+O5CV9E/IwckRdRoQBIA8Sit6QF8uYgfbty+FUoGhVMM/8cCxQFP3Nqc96Ja/V4QaRJgCWtheMuqTp+FttPXept50jd4G35EjqNpzkFw5mKvqeyPFkYhGicPkXT3ZJrmAlv/fJkgAqL6Y=
+	t=1750162135; cv=none; b=DfVyZJ5YS8e95CAv0HLwdRI9d7OhLf+11UAwDkhWkPIkvZSZ8Y7sW2S3e6UBnXB47LPQAme81uVfpKVzdVIq37zTQJrHvdqSbRv205TwnNuB1nDyhnW2nsLiFJltKeUANXG5KqYew8WdJPdGEDKh7XdqqyMWyOboB+XfTibryhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750147151; c=relaxed/simple;
-	bh=NIgJ6S2IMm67sNgLluaxm/t93R9SpN5EK5tTKzscYko=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rg8UqNTLUtGw/5zPkUs1SpKD2yxfxptljTPMIbHfOgIUbBzA1fj9ASL6FfJCkH6m9EtZ5o71AeT1Bbn8b9ecoV5Qa9keC+5QdC19TTKDdqC+hKVgZj0sMFhnmGwwdkl6ryuyUx56+8NpSfL1EfAF1yylnBVCSwqAvnu02gPaQVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=riuj8blw; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=3dlU8pnc; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1750162135; c=relaxed/simple;
+	bh=hol8Y4KAFEPlWLZf5l4HrmnpL7xNmLx4AE9JLBSvKLo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Za/sb7TJL0WlFfYUPRhCzV0Vst7Se4oTD2mRGyzRGEbLQ6lhoatzuelGEBADQWN5PR8i4iUYOygSEiTI/LUc6TZF2b7+3mCos1whEezz5a+dc7lXZvmBy2ZXJL4O50Q6MdeQevdNbXsHnN0XbSGLW0Eev2ZXOMjO+Ht2JodYD4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kB70X7OK; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="riuj8blw";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="3dlU8pnc"
-Date: Tue, 17 Jun 2025 09:59:08 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1750147148;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hj2LJB5Pz+vjWi8da/Iv2JkklxNhs1V6axP5pIrqxJM=;
-	b=riuj8blwvDOsP6wUDdP3Ci9HXHbVoAlg32Weak2qNVuiCsD1ol6m/pAdmc6Wz+nOKmmqKg
-	3IeYSlbgY2321vJgf0z88CN2TJeN2qF5hfUcRL4jBlVM2dUs3HE7qD16NAvAmHP/2Q0Tiu
-	Bv4zf2GgxWNfyv3tMCpI3wG2QM2gYLo0w2MiidaFYgj1M6iVe1g6wxrJ1VTkOJvr9Jf1rH
-	cXvYeuXURM43LbebVBKLsOIftA5ESr5OIcgKGY3NSdHi38sICPCCjfkEXkqUUNYg//cVI+
-	+91Qelw5eKrsAUCwxPXvtbH9iLIk+rBeQm+lUtOKp6N02yrLbZppHMyNUJ3vEQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1750147148;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hj2LJB5Pz+vjWi8da/Iv2JkklxNhs1V6axP5pIrqxJM=;
-	b=3dlU8pncy0paXbKmJi5ztkGhzw3FggNzV5ZHCn4tYoW6SfRQ/nfHyS2G+ZITRQ05Cj+PIu
-	F15f2+z9rzshWKDQ==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
-	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, Brendan Higgins <brendan.higgins@linux.dev>, 
-	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, Shuah Khan <shuah@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, linux-doc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, workflows@vger.kernel.org
-Subject: Re: [PATCH v3 04/16] kbuild: userprogs: add nolibc support
-Message-ID: <20250617095102-d3df1c46-3d51-4f77-af0a-8299f5e71ad9@linutronix.de>
-References: <20250611-kunit-kselftests-v3-0-55e3d148cbc6@linutronix.de>
- <20250611-kunit-kselftests-v3-4-55e3d148cbc6@linutronix.de>
- <CAK7LNAQUN3hWYh_1=LMzVp1Ddbq3W=yGHZ5__LbcfBajfuhscg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kB70X7OK"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-442e9c00bf4so48982935e9.3;
+        Tue, 17 Jun 2025 05:08:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750162132; x=1750766932; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yr8tf490dLZcrTR7ZRtUOPxPJ+C3QiVC034zaGj7oxY=;
+        b=kB70X7OKz4bzu3EEv9bZZ4V4Bh+SVncjy3ie24fjmH1ziD5DIHPkUHrz9hLTJDTDUH
+         XN7ivPotv5C1pdWbjtN0hAJ/+g7Lg4usFKMm4HXenYb3D4RpPTSK5PkbBYHpgYIBfubS
+         f/Aut/Sm4HJnwtnVA3bB8BFz2PqNcWQDadkE9e2VYqgp/WH/GKSZbRnCfH6yoWp/P34v
+         FNMUTDbxxIvxELDOWmgDr9c1Cs7igAA4liqut7Qn2m/YJnN8P6zFuc+o+6YuIXIN1U8F
+         iqrN6iBEFAlp5qtVBJv3NHAELC2hWzdMa4F9w1WIHsY7L8P+7XqxI3lzgYiKnKou1xe8
+         Gi1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750162132; x=1750766932;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yr8tf490dLZcrTR7ZRtUOPxPJ+C3QiVC034zaGj7oxY=;
+        b=sbg0NUIZIHjETwhX6Qj/IZJuKIHB7m3LpL11p/OZDomc6b2UoGGqfM73PTBFmQOzeo
+         Cee6cxaR8zXqlffCX7Xv6N2/umT8BS2A9/z8dmlf0nhPbnxV+vmkCKrOw4KQ7pIz5aSp
+         kGjmdfkBrM8SjuHbJuB7nffC3MuQlxNMgV9Ubwb6x86F6LtCJDMGh/kiXswhxvem7o8d
+         96VzXInETTONEU6CESDmudYHd35eLANA3VmOpdHWYneq02npM3wM1w2E2805erZKZ9sZ
+         gWtNFj6w+s79UGby/RsgjMi4cR+OdRKBP2aXH1mWyDjW1WaRUYco45Smc2miYP8p7K/G
+         0AAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUOarPpPeYmkqyYms9bC0xS5dVBudzDsxHjMl+nrhLNdzK5OzXr/yIwbYsLB0dm1LBT6/CKPROjpIxX@vger.kernel.org, AJvYcCWnAFM5vSaehI3iHKaWCkCM7srQqs+2hWlwI+tljzdwqmGwEnLwaJGirI28VNCVMdsltJ3/9DRb9sA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzSCegKrYianyRoyztqASdwAw/v+XokcBpRbGDRyUXiteWXUBUB
+	jKKTm2Yo00Z6wCwM2mG2jJRFTRMnJlvWunG/xIDGznf5b9OYZOnEvbm0Uu+akA==
+X-Gm-Gg: ASbGncu1HNz2gABIYhHtoBbJklPSmEtnRuKfGlakBhz5efTk4cpec3JhPDWckjg38hj
+	/L9efRgkmJr+rpsZbRn9pxYG4yA1WEq0jj/WM0s6uzC5GpF2lHCVluovoWeX3OEKk4vr7SdzrDU
+	SDkHmlCfavCsXVgRSq2SxDmwz1wOnNAGgmyReSibW+iqGjgab5rZ6DkDmQw6evuApyApL9vh5Iq
+	Rxz9ZftK7QMWvYw1piWeFJeuWzapgCC9u1Py1nTOhSq6zwhe0tYoMGADgNHdD39fXQyCRTRYvyB
+	gRjRqoJJ5Gz/WQo3CJstgJhA0BR0eb+MBj/bTbGB/9XAtwQP2JQRl8D5duweJkitRsJGnHO2avh
+	l1KZCLOabMyKPbiu5HRtYlH1W
+X-Google-Smtp-Source: AGHT+IEIOX1GzSo473MBZ+UaEARhaHXuzm5oUIXccFwfpiU+QMAiIUkNa3q26+k+e/fOeO+ip3BxCA==
+X-Received: by 2002:a05:600c:630f:b0:440:9b1a:cd78 with SMTP id 5b1f17b1804b1-4533ca8b32fmr156454475e9.10.1750162131655;
+        Tue, 17 Jun 2025 05:08:51 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532e22460bsm183509415e9.6.2025.06.17.05.08.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Jun 2025 05:08:51 -0700 (PDT)
+Date: Tue, 17 Jun 2025 13:08:50 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+ workflows@vger.kernel.org, tools@kernel.org
+Subject: Re: [RFC 00/19] Kernel API Specification Framework
+Message-ID: <20250617130850.4f558701@pumpkin>
+In-Reply-To: <20250614134858.790460-1-sashal@kernel.org>
+References: <20250614134858.790460-1-sashal@kernel.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNAQUN3hWYh_1=LMzVp1Ddbq3W=yGHZ5__LbcfBajfuhscg@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jun 17, 2025 at 12:35:07AM +0900, Masahiro Yamada wrote:
-> On Wed, Jun 11, 2025 at 4:38 PM Thomas Weißschuh
-> <thomas.weissschuh@linutronix.de> wrote:
-> >
-> > Userprogs are built with the regular kernel compiler $CC.
-> > A kernel compiler does not necessarily contain a libc which is required
-> > for a normal userspace application.
-> > However the kernel tree does contain a minimal libc implementation
-> > "nolibc" which can be used to build userspace applications.
-> >
-> > Introduce support to build userprogs against nolibc instead of the
-> > default libc of the compiler, which may not exist.
-> >
-> > Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
-> >
-> > ---
-> > This could probably be moved out of the generic kbuild makefiles.
-> > I think the ergonimics would suffer and this functionality could be
-> > used by other users of userprogs.
-> >
-> > Also this does currently not support out-of-tree builds.
-> > For that tools/include/nolibc/*.h and usr/include/*.h would need to be
-> > installed into the build directory.
+On Sat, 14 Jun 2025 09:48:39 -0400
+Sasha Levin <sashal@kernel.org> wrote:
 
-<snip>
+> This patch series introduces a framework for formally specifying kernel
+> APIs, addressing the long-standing challenge of maintaining stable
+> interfaces between the kernel and user-space programs. As outlined in
+> previous discussions about kernel ABI stability, the lack of
+> machine-readable API specifications has led to inadvertent breakages and
+> inconsistent validation across system calls and IOCTLs.
 
-> > --- a/scripts/Makefile.userprogs
-> > +++ b/scripts/Makefile.userprogs
-> > @@ -16,10 +16,17 @@ user-csingle        := $(addprefix $(obj)/, $(user-csingle))
-> >  user-cmulti    := $(addprefix $(obj)/, $(user-cmulti))
-> >  user-cobjs     := $(addprefix $(obj)/, $(user-cobjs))
-> >
-> > +user_nolibc_ccflags := -nostdlib -nostdinc -static -fno-ident -fno-asynchronous-unwind-tables \
-> > +                     -ffreestanding -fno-stack-protector \
-> > +                     -isystem $(objtree)/usr/include -include $(srctree)/tools/include/nolibc/nolibc.h -isystem $(srctree)/tools/include/nolibc/
-> 
-> The tools/ directory is a different world, and Kbuild scripts do not know
-> anything about it.
+Ugg, looks horrid.
+Going to be worse than things like doxygen for getting out of step with
+the actual code and grep searches are going to hit the comment blocks.
 
-Ack.
-
-How does this statement affect the next patch which creates
-tools/include/nolibc/Kconfig.nolibc ?
-Is it fine to create the Kconfig file in tools/ or should I move it?
-I do want to maintain this file as part of nolibc and not KUnit.
-The possibilities I see are init/Kconfig.nolibc or lib/Kconfig.nolibc.
-
-> And, you do not need to implement this in scripts/Makefile.userprogs
-> because you can move this to lib/kunit/Makefile.kunit-uapi or somewhere.
-
-Understood. This is not unexpected, as hinted in the commit message.
-
-> > +user_nolibc_ldflags := -nostdlib -nostdinc -static
-> > +
-> >  user_ccflags   = -Wp,-MMD,$(depfile) $(KBUILD_USERCFLAGS) $(userccflags) \
-> > -                       $($(target-stem)-userccflags)
-> > -user_ldflags   = $(KBUILD_USERLDFLAGS) $(userldflags) $($(target-stem)-userldflags)
-> > -user_ldlibs    = $(userldlibs) $($(target-stem)-userldlibs)
-> > +                       $($(target-stem)-userccflags) $(if $($(target-stem)-nolibc),$(user_nolibc_ccflags))
-> > +user_ldflags   = $(KBUILD_USERLDFLAGS) $(userldflags) $($(target-stem)-userldflags) \
-> > +                       $(if $($(target-stem)-nolibc),$(user_nolibc_ldflags))
-> > +user_ldlibs    = $(userldlibs) $($(target-stem)-userldlibs) \
-> > +                       $(if $($(target-stem)-nolibc),$(user_nolibc_ldlibs))
-> >
-> >  # Create an executable from a single .c file
-> >  quiet_cmd_user_cc_c = CC [U]  $@
-
-
-Thomas
+	David
