@@ -1,105 +1,116 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E6D428C5C7
-	for <workflows@vger.kernel.org>; Tue, 17 Jun 2025 07:13:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE9C7289803;
+	Tue, 17 Jun 2025 07:39:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750144438; cv=none; b=YLnD7FL/gm0eA0kOoN4jof4oK+IwIhEr2BrSX7XuExPeeFv7CyIsY+cn5zIY76srIbJ33xB37zS+12lLnbSZ317NkvSLb/0Q4KTHsfd2Zz1Ha6GsmEhAqTb7XNxaapPiotCp4V2wOAowDqfaOW/FmyQZivUvUiyDLSBdMbZ81XA=
+	t=1750145955; cv=none; b=TjXaIInNeAChWc1ptTG7ZULLuhezTwZgTSF2tCJs390jYF+KKZoihDcjzeYJX6djgoP2Bo5lMnFvzcQfjVyubE7s2mKgmDay2cCJDGAs+xpBi+Cux4Z/EXrehfNSCwQ5q8NBqJYo9qVENaT7kiOIp3K3LQ/A/tY1Jt2ibuBsa5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750144438; c=relaxed/simple;
-	bh=qJY8bj9CtbYWcniHkdEgxnX7+YzcTn7+I2xj0uZMQIg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=k/sn0rabq2eVuDnlTaizbe4hQBH9HNb7coIwx6mCYAz9D7iYF3au8LaAHPwpsb9udzgXR228RHZGAr9MXhkPkhmqLWrvRl+GvtdpHtDsektY44FFd+rMqftbS6rRlZwsKnjhysRMY9HV69CudYehKusv8LN0qPHCFz0BBwboTjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FFDbRdnR; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1750145955; c=relaxed/simple;
+	bh=ZqChbIHl8eFApjqdf88u+0LzeRDCHv9CNT33A4cC8W8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hwT+UoRo/7MM9Fc16UCySaqh78fOrAaIbkuzMOwSS1OHZ4wnx+yAuI8VQJDLiXoHsR74YtVeIGdrOAdWaFmqORqbCEK7esakg6oXGpMUdgd2RNqIjJOd330oc0ax4TtZU0oHo8wfW1s0dj/hiM6HMmAjXAecGT05/jwehJDLEA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=LQqR6ibE; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FHtGhuDp; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FFDbRdnR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1750144435;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="LQqR6ibE";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FHtGhuDp"
+Date: Tue, 17 Jun 2025 09:39:11 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1750145952;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=OPf5/BotB2xeNpXMqUEi097upqbb8LBKJ2dT9gWuPvU=;
-	b=FFDbRdnRu0Y4S0cU8UXP2jn8GXDYo7jsWe5XLd/sYArKqBXG3xIzK3FTE4TYNoVUpOEKFz
-	dGAStDZPMFTKwH1O7ao6hI37UHqJpXvPyxysvGAeUoDjAzzlOkuJ44rlE27K8sHtFSQjIT
-	Y3RGkWTDfie3NZ1HnNNS3tHHbhuCFaE=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-179-5rCRh91LPYOqx456wpzUNA-1; Tue,
- 17 Jun 2025 03:13:51 -0400
-X-MC-Unique: 5rCRh91LPYOqx456wpzUNA-1
-X-Mimecast-MFC-AGG-ID: 5rCRh91LPYOqx456wpzUNA_1750144430
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 609A71809C80;
-	Tue, 17 Jun 2025 07:13:50 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.45.224.8])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 604C01956094;
-	Tue, 17 Jun 2025 07:13:48 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: linux-kernel@vger.kernel.org,  linux-api@vger.kernel.org,
-  workflows@vger.kernel.org,  tools@kernel.org
-Subject: Re: [RFC 08/19] exec: add API specification for execve
-In-Reply-To: <aFDKHhaqB75Qi212@lappy> (Sasha Levin's message of "Mon, 16 Jun
-	2025 21:51:26 -0400")
-References: <20250614134858.790460-1-sashal@kernel.org>
-	<20250614134858.790460-9-sashal@kernel.org>
-	<87ikkvv018.fsf@oldenburg.str.redhat.com> <aFDKHhaqB75Qi212@lappy>
-Date: Tue, 17 Jun 2025 09:13:44 +0200
-Message-ID: <87y0tqu9g7.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	bh=AUjG6+JFxLZDStRNnT8ioKp8RqTOmg0bGcH75TxHJOo=;
+	b=LQqR6ibEuyBEC7uwHHtnbVzvvooJNrTvO3oXqLrInJhDVXhZtr/gNdtPqVlrTxlenvdbRZ
+	RnHN7iVlyBuYyZiSaE1AIArJAPtizX2fRnqAhJe6uiUXXlFZOQ729I9/gS4GVU7O7ePnd6
+	Brh+HSm4WXshRLvZoWd5xxBzlMQKduMd/6lGt5nw6MqflQ2v4FTgWVregP7xTNLP+Yuzc+
+	ybhMgXXRgjtX5mfxmcebXoLmfXe1IgbHqGynqe6AGe/XwzUdMLF35HWuR/RCpmEnyerE6H
+	aO31q/Nd9xiou/f5+oOoRBHfBajKMQfD+n3V5gkOUNEUDwQTphRJe5Pr2eYMig==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1750145952;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AUjG6+JFxLZDStRNnT8ioKp8RqTOmg0bGcH75TxHJOo=;
+	b=FHtGhuDpN/5Xuy91ovmc3tSQjnTi2R4gYX20+L0rJCOATaiEhbU7vlEdMIy3pGCokkZDf5
+	Tyyjyt1nxeTJX1Ag==
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
+	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, Brendan Higgins <brendan.higgins@linux.dev>, 
+	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, Shuah Khan <shuah@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, linux-doc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, workflows@vger.kernel.org
+Subject: Re: [PATCH v3 02/16] kbuild: userprogs: also inherit byte order and
+ ABI from kernel
+Message-ID: <20250617093523-e7f54d95-96d0-4411-92d6-dd80fe84ee98@linutronix.de>
+References: <20250611-kunit-kselftests-v3-0-55e3d148cbc6@linutronix.de>
+ <20250611-kunit-kselftests-v3-2-55e3d148cbc6@linutronix.de>
+ <CAK7LNATuk_tpDAq07e5oSU4FptRO_88Oxh2=W=3YmBotbGuU5g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNATuk_tpDAq07e5oSU4FptRO_88Oxh2=W=3YmBotbGuU5g@mail.gmail.com>
 
-* Sasha Levin:
+On Mon, Jun 16, 2025 at 11:49:41PM +0900, Masahiro Yamada wrote:
+> On Wed, Jun 11, 2025 at 4:38 PM Thomas Weißschuh
+> <thomas.weissschuh@linutronix.de> wrote:
+> >
+> > Make sure the byte order and ABI of the userprogs matches the one of the
+> > kernel, similar to how the bit size is handled.
+> > Otherwise the userprogs may not be executable.
+> > This happens for example on powerpc little endian, or riscv32.
+> >
+> > Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+> > ---
+> >  Makefile | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/Makefile b/Makefile
+> > index c4293cf91e968ca8ee64452841fb266e24df63f6..b9aa1058321dabd3b3dd5610e45a2807dfa257f4 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -1129,8 +1129,8 @@ ifneq ($(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS),)
+> >  LDFLAGS_vmlinux        += --emit-relocs --discard-none
+> >  endif
+> >
+> > -# Align the bit size of userspace programs with the kernel
+> > -USERFLAGS_FROM_KERNEL := -m32 -m64 --target=%
+> > +# Align the bit size, byte order and architecture of userspace programs with the kernel
+> > +USERFLAGS_FROM_KERNEL := -m32 -m64 -mlittle-endian -mbig-endian --target=% -march=% -mabi=%
+> >  KBUILD_USERCFLAGS  += $(filter $(USERFLAGS_FROM_KERNEL), $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS))
+> >  KBUILD_USERLDFLAGS += $(filter $(USERFLAGS_FROM_KERNEL), $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS))
+> 
+> 
+> Why didn't you do like this?
+> 
+> USERFLAGS_FROM_KERNEL := $(filter -m32 -m64 -mlittle-endian
+> -mbig-endian --target=% -march=% -mabi=%, $(KBUILD_CPPFLAGS)
+> $(KBUILD_CFLAGS))
+> KBUILD_USERCFLAGS  += $(USERFLAGS_FROM_KERNEL)
+> KBUILD_USERLDFLAGS += $(USERFLAGS_FROM_KERNEL)
 
-> On Mon, Jun 16, 2025 at 11:39:31PM +0200, Florian Weimer wrote:
->>* Sasha Levin:
->>
->>> +	KAPI_RETURN("long", "Does not return on success; returns -1 on error")
->>> +		.type = KAPI_TYPE_INT,
->>> +		.check_type = KAPI_RETURN_ERROR_CHECK,
->>> +	KAPI_RETURN_END
->>
->>Is the -1 part correct?
->
-> Maybe :) That's one of the things I wasn't sure about: we're documenting
-> the execve syscall rather than the function itself. A user calling
-> execve() will end up with -1 on failure, and errno set with the error
-> code.
+The idea was to keep the USERFLAGS_FROM_KERNEL line free of clutter, as it is
+probably going to change more often. To improve reviewability and gain some
+available horizontal space in case it should be needed at some point.
 
-Well, it doesn't say execve, it says sys_execve.
+If you prefer the other layout I'll be happy to switch it around.
 
-> You could argue that it's libc that sets errno and we're trying to spec
-> the kernel here, not the userspace interface to it.
 
-And I think this would be appropriate.
-
-Note that in the future, the glibc version of execve will not be a
-straightforward system call wrapper because we need to obtain a
-consistent snapshot of the environment array.  That is actually pretty
-hard because we cannot atomically replace the process image, unblock
-signals, and unmap a copy of the environment.
-
-So I think it's best for the kernel to stick with the system call
-interface and not try to document what libcs are doing.
-
-An even more thorny example are the setuid family of system calls, where
-the kernel is extremely far away from what POSIX requires, and we have
-to fix it in userspace.
-
-Thanks,
-Florian
-
+Thomas
