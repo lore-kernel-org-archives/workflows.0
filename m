@@ -1,94 +1,127 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A9F2D9EDE;
-	Tue, 17 Jun 2025 12:08:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 732E9220F34;
+	Tue, 17 Jun 2025 22:58:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750162135; cv=none; b=DfVyZJ5YS8e95CAv0HLwdRI9d7OhLf+11UAwDkhWkPIkvZSZ8Y7sW2S3e6UBnXB47LPQAme81uVfpKVzdVIq37zTQJrHvdqSbRv205TwnNuB1nDyhnW2nsLiFJltKeUANXG5KqYew8WdJPdGEDKh7XdqqyMWyOboB+XfTibryhg=
+	t=1750201114; cv=none; b=K9WgMtvLdn8pnNw9NRjCAgim1GOuLqFmZRMymBuCEbLWoWdOa1QyuFGFZmZ6PzWqVrJ9ISy/iF7RCEdTfAY/88tMqB6kX8eN0EbTp2oPnZrYg1aG/p1gkzlloWCWDD15KF7bWPqQJXrgPQMQFCdMW3JzNilXHC8344eeG9kccNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750162135; c=relaxed/simple;
-	bh=hol8Y4KAFEPlWLZf5l4HrmnpL7xNmLx4AE9JLBSvKLo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Za/sb7TJL0WlFfYUPRhCzV0Vst7Se4oTD2mRGyzRGEbLQ6lhoatzuelGEBADQWN5PR8i4iUYOygSEiTI/LUc6TZF2b7+3mCos1whEezz5a+dc7lXZvmBy2ZXJL4O50Q6MdeQevdNbXsHnN0XbSGLW0Eev2ZXOMjO+Ht2JodYD4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kB70X7OK; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750201114; c=relaxed/simple;
+	bh=BdwoZeNM5/0Ep9Pp4VW6C4HoCuzrt5Y/V9ouutt5P94=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RJCehXunarD6LlPiLA5cETRwG47FaEU+9OVyyDOh/8exjQcvi/sSy8GgtuxyqjGBAxAz3k2uXuQdIu2yG/oUF9OFlhouf5dOYs9kcj7CmAdxgGs8Ls8mJKtahYNHWJeWd3SFxJQF5cCvoxQQIRzLepdS+JJfM61jnaGBxvJA4uM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mBkrJwz9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kB70X7OK"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-442e9c00bf4so48982935e9.3;
-        Tue, 17 Jun 2025 05:08:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750162132; x=1750766932; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yr8tf490dLZcrTR7ZRtUOPxPJ+C3QiVC034zaGj7oxY=;
-        b=kB70X7OKz4bzu3EEv9bZZ4V4Bh+SVncjy3ie24fjmH1ziD5DIHPkUHrz9hLTJDTDUH
-         XN7ivPotv5C1pdWbjtN0hAJ/+g7Lg4usFKMm4HXenYb3D4RpPTSK5PkbBYHpgYIBfubS
-         f/Aut/Sm4HJnwtnVA3bB8BFz2PqNcWQDadkE9e2VYqgp/WH/GKSZbRnCfH6yoWp/P34v
-         FNMUTDbxxIvxELDOWmgDr9c1Cs7igAA4liqut7Qn2m/YJnN8P6zFuc+o+6YuIXIN1U8F
-         iqrN6iBEFAlp5qtVBJv3NHAELC2hWzdMa4F9w1WIHsY7L8P+7XqxI3lzgYiKnKou1xe8
-         Gi1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750162132; x=1750766932;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yr8tf490dLZcrTR7ZRtUOPxPJ+C3QiVC034zaGj7oxY=;
-        b=sbg0NUIZIHjETwhX6Qj/IZJuKIHB7m3LpL11p/OZDomc6b2UoGGqfM73PTBFmQOzeo
-         Cee6cxaR8zXqlffCX7Xv6N2/umT8BS2A9/z8dmlf0nhPbnxV+vmkCKrOw4KQ7pIz5aSp
-         kGjmdfkBrM8SjuHbJuB7nffC3MuQlxNMgV9Ubwb6x86F6LtCJDMGh/kiXswhxvem7o8d
-         96VzXInETTONEU6CESDmudYHd35eLANA3VmOpdHWYneq02npM3wM1w2E2805erZKZ9sZ
-         gWtNFj6w+s79UGby/RsgjMi4cR+OdRKBP2aXH1mWyDjW1WaRUYco45Smc2miYP8p7K/G
-         0AAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUOarPpPeYmkqyYms9bC0xS5dVBudzDsxHjMl+nrhLNdzK5OzXr/yIwbYsLB0dm1LBT6/CKPROjpIxX@vger.kernel.org, AJvYcCWnAFM5vSaehI3iHKaWCkCM7srQqs+2hWlwI+tljzdwqmGwEnLwaJGirI28VNCVMdsltJ3/9DRb9sA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzSCegKrYianyRoyztqASdwAw/v+XokcBpRbGDRyUXiteWXUBUB
-	jKKTm2Yo00Z6wCwM2mG2jJRFTRMnJlvWunG/xIDGznf5b9OYZOnEvbm0Uu+akA==
-X-Gm-Gg: ASbGncu1HNz2gABIYhHtoBbJklPSmEtnRuKfGlakBhz5efTk4cpec3JhPDWckjg38hj
-	/L9efRgkmJr+rpsZbRn9pxYG4yA1WEq0jj/WM0s6uzC5GpF2lHCVluovoWeX3OEKk4vr7SdzrDU
-	SDkHmlCfavCsXVgRSq2SxDmwz1wOnNAGgmyReSibW+iqGjgab5rZ6DkDmQw6evuApyApL9vh5Iq
-	Rxz9ZftK7QMWvYw1piWeFJeuWzapgCC9u1Py1nTOhSq6zwhe0tYoMGADgNHdD39fXQyCRTRYvyB
-	gRjRqoJJ5Gz/WQo3CJstgJhA0BR0eb+MBj/bTbGB/9XAtwQP2JQRl8D5duweJkitRsJGnHO2avh
-	l1KZCLOabMyKPbiu5HRtYlH1W
-X-Google-Smtp-Source: AGHT+IEIOX1GzSo473MBZ+UaEARhaHXuzm5oUIXccFwfpiU+QMAiIUkNa3q26+k+e/fOeO+ip3BxCA==
-X-Received: by 2002:a05:600c:630f:b0:440:9b1a:cd78 with SMTP id 5b1f17b1804b1-4533ca8b32fmr156454475e9.10.1750162131655;
-        Tue, 17 Jun 2025 05:08:51 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532e22460bsm183509415e9.6.2025.06.17.05.08.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jun 2025 05:08:51 -0700 (PDT)
-Date: Tue, 17 Jun 2025 13:08:50 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Sasha Levin <sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mBkrJwz9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5B6DC4CEE3;
+	Tue, 17 Jun 2025 22:58:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750201114;
+	bh=BdwoZeNM5/0Ep9Pp4VW6C4HoCuzrt5Y/V9ouutt5P94=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mBkrJwz9hXYFjh2NDc3FKTXk24TTZXmrUGleW3w75JH2Qr4XxotNWoPo0gdOUk4J3
+	 zvM2xe1JtKF5j8glSdx6uCstHtjJHhmi9CnF7yFKILpb6J2k2z+Muy5B2gUOytjgwF
+	 3ciCKG6iQ5Hsp8R82WGd3kygik5Px5FjgV9SlgcdFuoeG2pDJBYGtbMJMg+1k+jDxf
+	 fElbEUgGVM2q7tseIuIs35KgO5tw+VxCNK2Nz9bSrKAL8QC9b0/6MfWYxdMr0OHBWX
+	 nWm4SRSq7sSJbT0MkNILVc8PKsDrqFaruFrb9Ykz8m4fry0LzbcuPc0a6Z5pIJztrw
+	 VgYNcZsCSyW5A==
+Date: Tue, 17 Jun 2025 18:58:32 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Florian Weimer <fweimer@redhat.com>
 Cc: linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
- workflows@vger.kernel.org, tools@kernel.org
-Subject: Re: [RFC 00/19] Kernel API Specification Framework
-Message-ID: <20250617130850.4f558701@pumpkin>
-In-Reply-To: <20250614134858.790460-1-sashal@kernel.org>
+	workflows@vger.kernel.org, tools@kernel.org
+Subject: Re: [RFC 08/19] exec: add API specification for execve
+Message-ID: <aFHzGBsf5RAQtttc@lappy>
 References: <20250614134858.790460-1-sashal@kernel.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+ <20250614134858.790460-9-sashal@kernel.org>
+ <87ikkvv018.fsf@oldenburg.str.redhat.com>
+ <aFDKHhaqB75Qi212@lappy>
+ <87y0tqu9g7.fsf@oldenburg.str.redhat.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <87y0tqu9g7.fsf@oldenburg.str.redhat.com>
 
-On Sat, 14 Jun 2025 09:48:39 -0400
-Sasha Levin <sashal@kernel.org> wrote:
+On Tue, Jun 17, 2025 at 09:13:44AM +0200, Florian Weimer wrote:
+>* Sasha Levin:
+>
+>> On Mon, Jun 16, 2025 at 11:39:31PM +0200, Florian Weimer wrote:
+>>>* Sasha Levin:
+>>>
+>>>> +	KAPI_RETURN("long", "Does not return on success; returns -1 on error")
+>>>> +		.type = KAPI_TYPE_INT,
+>>>> +		.check_type = KAPI_RETURN_ERROR_CHECK,
+>>>> +	KAPI_RETURN_END
+>>>
+>>>Is the -1 part correct?
+>>
+>> Maybe :) That's one of the things I wasn't sure about: we're documenting
+>> the execve syscall rather than the function itself. A user calling
+>> execve() will end up with -1 on failure, and errno set with the error
+>> code.
+>
+>Well, it doesn't say execve, it says sys_execve.
+>
+>> You could argue that it's libc that sets errno and we're trying to spec
+>> the kernel here, not the userspace interface to it.
+>
+>And I think this would be appropriate.
+>
+>Note that in the future, the glibc version of execve will not be a
+>straightforward system call wrapper because we need to obtain a
+>consistent snapshot of the environment array.  That is actually pretty
+>hard because we cannot atomically replace the process image, unblock
+>signals, and unmap a copy of the environment.
+>
+>So I think it's best for the kernel to stick with the system call
+>interface and not try to document what libcs are doing.
 
-> This patch series introduces a framework for formally specifying kernel
-> APIs, addressing the long-standing challenge of maintaining stable
-> interfaces between the kernel and user-space programs. As outlined in
-> previous discussions about kernel ABI stability, the lack of
-> machine-readable API specifications has led to inadvertent breakages and
-> inconsistent validation across system calls and IOCTLs.
+I hear you - it sounds like the "right" solution technically.
 
-Ugg, looks horrid.
-Going to be worse than things like doxygen for getting out of step with
-the actual code and grep searches are going to hit the comment blocks.
 
-	David
+Switching back to signals, how does something like the below look as far
+as expanding the execve() spec:
+
++       /* SIGSEGV sent on point of no return failure */
++       KAPI_SIGNAL(9, SIGSEGV, "SIGSEGV", KAPI_SIGNAL_SEND, KAPI_SIGNAL_ACTION_COREDUMP)
++               KAPI_SIGNAL_TARGET("Current process")
++               KAPI_SIGNAL_CONDITION("Exec fails after point of no return")
++               KAPI_SIGNAL_DESC("If exec fails after the point of no return (when the old "
++                                "process image has been destroyed), force_fatal_sig(SIGSEGV) "
++                                "is called to terminate the process since it cannot continue.")
++               KAPI_SIGNAL_TIMING(KAPI_SIGNAL_TIME_EXIT)
++               KAPI_SIGNAL_PRIORITY(0)
++               KAPI_SIGNAL_STATE_FORBID(KAPI_SIGNAL_STATE_ZOMBIE | KAPI_SIGNAL_STATE_DEAD)
++       KAPI_SIGNAL_END
++
++       /* Signal mask preserved */
++       KAPI_SIGNAL(10, 0, "SIGNAL_MASK", KAPI_SIGNAL_HANDLE, KAPI_SIGNAL_ACTION_CUSTOM)
++               KAPI_SIGNAL_CONDITION("Process has blocked signals")
++               KAPI_SIGNAL_DESC("The signal mask (blocked signals) is preserved across exec. "
++                                "This allows processes to block signals before exec and have "
++                                "them remain blocked in the new program.")
++               KAPI_SIGNAL_TIMING(KAPI_SIGNAL_TIME_DURING)
++       KAPI_SIGNAL_END
++
++       /* Realtime signal queues cleared */
++       KAPI_SIGNAL(11, 0, "REALTIME_SIGNALS", KAPI_SIGNAL_HANDLE, KAPI_SIGNAL_ACTION_DISCARD)
++               KAPI_SIGNAL_CONDITION("Realtime signals queued")
++               KAPI_SIGNAL_DESC("All queued realtime signals (SIGRTMIN to SIGRTMAX) are "
++                                "discarded during exec. The realtime signal queue is cleared.")
++               KAPI_SIGNAL_TIMING(KAPI_SIGNAL_TIME_DURING)
++               KAPI_SIGNAL_QUEUE(KAPI_SIGNAL_QUEUE_REALTIME)
++       KAPI_SIGNAL_END
+
+What's missing for me is that while we now go into more detail, we
+should also check this during runtime, but I'm still trying to come up
+with something that is not ugly.
+
+-- 
+Thanks,
+Sasha
