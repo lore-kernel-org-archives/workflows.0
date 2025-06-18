@@ -1,127 +1,138 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 732E9220F34;
-	Tue, 17 Jun 2025 22:58:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BD7CF9C1;
+	Wed, 18 Jun 2025 01:14:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750201114; cv=none; b=K9WgMtvLdn8pnNw9NRjCAgim1GOuLqFmZRMymBuCEbLWoWdOa1QyuFGFZmZ6PzWqVrJ9ISy/iF7RCEdTfAY/88tMqB6kX8eN0EbTp2oPnZrYg1aG/p1gkzlloWCWDD15KF7bWPqQJXrgPQMQFCdMW3JzNilXHC8344eeG9kccNU=
+	t=1750209286; cv=none; b=n77lBI2LqHivJWsyCmf+zRQ/iwQ2oJ1gK76zCIGQ2T/xDQFEkowhHjdnUkTpTFvhTG1pt5WCoVst3XfBiWl0lpxqKMM+6zX5S7GuomTsM8iJcnnJ4eM9m6QttXqKQ3To+ULGXJmHhArgoam1UAnkr633CK84xJ0tDgAI/2s+CzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750201114; c=relaxed/simple;
-	bh=BdwoZeNM5/0Ep9Pp4VW6C4HoCuzrt5Y/V9ouutt5P94=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RJCehXunarD6LlPiLA5cETRwG47FaEU+9OVyyDOh/8exjQcvi/sSy8GgtuxyqjGBAxAz3k2uXuQdIu2yG/oUF9OFlhouf5dOYs9kcj7CmAdxgGs8Ls8mJKtahYNHWJeWd3SFxJQF5cCvoxQQIRzLepdS+JJfM61jnaGBxvJA4uM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mBkrJwz9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750209286; c=relaxed/simple;
+	bh=h2YputM22TLsFmaGuZOmTSbK7C6G8IcXF/esgzdBeMU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HJrfryJUWY0hP4fs2idSyMZFKHCbt6UrEXclohaVUK0gevQLVrLsibDxV2RZKVMHY0TUY99LGnw7U10JycMp1DNcXMVHbH0WsBaf9/QAybuaZy3tgheYFK1eiIBxjM1kPuDfFVVeUVyhXVRbXgxYwsSpN1/0COlhETkg8/2TLqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h2ORsYPK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mBkrJwz9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5B6DC4CEE3;
-	Tue, 17 Jun 2025 22:58:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h2ORsYPK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77AAFC4CEF6;
+	Wed, 18 Jun 2025 01:14:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750201114;
-	bh=BdwoZeNM5/0Ep9Pp4VW6C4HoCuzrt5Y/V9ouutt5P94=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mBkrJwz9hXYFjh2NDc3FKTXk24TTZXmrUGleW3w75JH2Qr4XxotNWoPo0gdOUk4J3
-	 zvM2xe1JtKF5j8glSdx6uCstHtjJHhmi9CnF7yFKILpb6J2k2z+Muy5B2gUOytjgwF
-	 3ciCKG6iQ5Hsp8R82WGd3kygik5Px5FjgV9SlgcdFuoeG2pDJBYGtbMJMg+1k+jDxf
-	 fElbEUgGVM2q7tseIuIs35KgO5tw+VxCNK2Nz9bSrKAL8QC9b0/6MfWYxdMr0OHBWX
-	 nWm4SRSq7sSJbT0MkNILVc8PKsDrqFaruFrb9Ykz8m4fry0LzbcuPc0a6Z5pIJztrw
-	 VgYNcZsCSyW5A==
-Date: Tue, 17 Jun 2025 18:58:32 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Florian Weimer <fweimer@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	workflows@vger.kernel.org, tools@kernel.org
-Subject: Re: [RFC 08/19] exec: add API specification for execve
-Message-ID: <aFHzGBsf5RAQtttc@lappy>
-References: <20250614134858.790460-1-sashal@kernel.org>
- <20250614134858.790460-9-sashal@kernel.org>
- <87ikkvv018.fsf@oldenburg.str.redhat.com>
- <aFDKHhaqB75Qi212@lappy>
- <87y0tqu9g7.fsf@oldenburg.str.redhat.com>
+	s=k20201202; t=1750209285;
+	bh=h2YputM22TLsFmaGuZOmTSbK7C6G8IcXF/esgzdBeMU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=h2ORsYPKEf7Szaa3wjBCMWTtOLGDSCQvsfp9Bq5p3ne+H0+0t9jML5uuyaThHtceQ
+	 Au5EvYAGNKSbukyDT5ZaoQXt92ToLL6dDSd+kVocG9cg3OtLfHAOj8WwGZ6tp2Mjx3
+	 7DpgnMHpCU4SPSGkMwRC7AlzbZfuwYfEGHlCmUDvRSxL649gwsEjx61Jrujheo7rTp
+	 qJ0m/s1OPMMJKW0Fm8sMTLdBFtzIuia2f/5YFBxLoaFla3VMVr7uCX2/29W+xwpeQU
+	 QpXYUNz+RV2tVCo4jZsHYSPpdOFbcRPkh9Tj8SiJnNt/iCCptbBmLINW2ONw5bxPOp
+	 1fkWuhAiISscA==
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-553ba7f11cbso3944634e87.1;
+        Tue, 17 Jun 2025 18:14:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUr463HkX/HFYWwmWqS9woWwzRcfspfxJGBzDFoTNMr1n9KmFmsL5LAmHlsCvdjlhr23CLZOVs352I=@vger.kernel.org, AJvYcCVHYO9OFxaaWHNM2cauB42818Tf5UM9hjbPUPnOAlULCLwu+yObuaiHci9Mnir0pQ9pFcd6A5Uz9eQr4bw1@vger.kernel.org, AJvYcCVXn/MClVqyT8Z/lbfxbg8IlqMJ9hWroVt9Mk/s1AakhDr4jwFMDWXnpiqJfzTiJ6KgiRzcQBiXuoXx@vger.kernel.org, AJvYcCWI83DaMlda8JCbKF5uUHekLmd35JG5OtjdWZ3tAcEc4bZMOgek9REvUutjf2+lD9dM48I/GNnmFqQ2bEDA@vger.kernel.org, AJvYcCWRoOya3tyvJo7A+Tz2okzmOP0lvAI3ZcMB06GLWCnfPAsLdRjGDqsN22kYeWKaTBxyb7ORfrvTlnLUDRNMHVmG@vger.kernel.org
+X-Gm-Message-State: AOJu0YzV5cPXBQIMDBwCM8sPhmFBRfYaoIbjN+a7xWfqrLzzOCyQQCZt
+	QKV1WHTD0nuUkvli++1I6sHye9V+sBFLi4CLDWyJ5D/PjdlVhvjukZqMdvP9ILp8yVtz51+uGE9
+	6BmBg+R/aYSrZZwoUxEJDUQzhbJ8cbNI=
+X-Google-Smtp-Source: AGHT+IE7MRJL1Yw0xIAiT0g6qe8cPzPnAw/z8vD2sHRVWPnU9T42hH7IJfTK5kp8NNXpkwOUOaUNXTzluaBXDYEml0s=
+X-Received: by 2002:a05:6512:3b8b:b0:553:2ed1:ab1e with SMTP id
+ 2adb3069b0e04-553b6f4cc5cmr3710057e87.46.1750209284091; Tue, 17 Jun 2025
+ 18:14:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <87y0tqu9g7.fsf@oldenburg.str.redhat.com>
+References: <20250611-kunit-kselftests-v3-0-55e3d148cbc6@linutronix.de>
+ <20250611-kunit-kselftests-v3-2-55e3d148cbc6@linutronix.de>
+ <CAK7LNATuk_tpDAq07e5oSU4FptRO_88Oxh2=W=3YmBotbGuU5g@mail.gmail.com> <20250617093523-e7f54d95-96d0-4411-92d6-dd80fe84ee98@linutronix.de>
+In-Reply-To: <20250617093523-e7f54d95-96d0-4411-92d6-dd80fe84ee98@linutronix.de>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Wed, 18 Jun 2025 10:14:07 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARr-ypWkNR52-my2WJFQ3b26EGV===J8b1MROLuf31oRw@mail.gmail.com>
+X-Gm-Features: AX0GCFv7u6eSzDMgQ1fz3QLMoGrvpETTxg10qNUIysrWURln8hEL4ilzYDnFugA
+Message-ID: <CAK7LNARr-ypWkNR52-my2WJFQ3b26EGV===J8b1MROLuf31oRw@mail.gmail.com>
+Subject: Re: [PATCH v3 02/16] kbuild: userprogs: also inherit byte order and
+ ABI from kernel
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+Cc: Nathan Chancellor <nathan@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Willy Tarreau <w@1wt.eu>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
+	Rae Moar <rmoar@google.com>, Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Ghiti <alex@ghiti.fr>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 17, 2025 at 09:13:44AM +0200, Florian Weimer wrote:
->* Sasha Levin:
+On Tue, Jun 17, 2025 at 4:39=E2=80=AFPM Thomas Wei=C3=9Fschuh
+<thomas.weissschuh@linutronix.de> wrote:
 >
->> On Mon, Jun 16, 2025 at 11:39:31PM +0200, Florian Weimer wrote:
->>>* Sasha Levin:
->>>
->>>> +	KAPI_RETURN("long", "Does not return on success; returns -1 on error")
->>>> +		.type = KAPI_TYPE_INT,
->>>> +		.check_type = KAPI_RETURN_ERROR_CHECK,
->>>> +	KAPI_RETURN_END
->>>
->>>Is the -1 part correct?
->>
->> Maybe :) That's one of the things I wasn't sure about: we're documenting
->> the execve syscall rather than the function itself. A user calling
->> execve() will end up with -1 on failure, and errno set with the error
->> code.
+> On Mon, Jun 16, 2025 at 11:49:41PM +0900, Masahiro Yamada wrote:
+> > On Wed, Jun 11, 2025 at 4:38=E2=80=AFPM Thomas Wei=C3=9Fschuh
+> > <thomas.weissschuh@linutronix.de> wrote:
+> > >
+> > > Make sure the byte order and ABI of the userprogs matches the one of =
+the
+> > > kernel, similar to how the bit size is handled.
+> > > Otherwise the userprogs may not be executable.
+> > > This happens for example on powerpc little endian, or riscv32.
+> > >
+> > > Signed-off-by: Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de=
 >
->Well, it doesn't say execve, it says sys_execve.
+> > > ---
+> > >  Makefile | 4 ++--
+> > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/Makefile b/Makefile
+> > > index c4293cf91e968ca8ee64452841fb266e24df63f6..b9aa1058321dabd3b3dd5=
+610e45a2807dfa257f4 100644
+> > > --- a/Makefile
+> > > +++ b/Makefile
+> > > @@ -1129,8 +1129,8 @@ ifneq ($(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS),)
+> > >  LDFLAGS_vmlinux        +=3D --emit-relocs --discard-none
+> > >  endif
+> > >
+> > > -# Align the bit size of userspace programs with the kernel
+> > > -USERFLAGS_FROM_KERNEL :=3D -m32 -m64 --target=3D%
+> > > +# Align the bit size, byte order and architecture of userspace progr=
+ams with the kernel
+> > > +USERFLAGS_FROM_KERNEL :=3D -m32 -m64 -mlittle-endian -mbig-endian --=
+target=3D% -march=3D% -mabi=3D%
+> > >  KBUILD_USERCFLAGS  +=3D $(filter $(USERFLAGS_FROM_KERNEL), $(KBUILD_=
+CPPFLAGS) $(KBUILD_CFLAGS))
+> > >  KBUILD_USERLDFLAGS +=3D $(filter $(USERFLAGS_FROM_KERNEL), $(KBUILD_=
+CPPFLAGS) $(KBUILD_CFLAGS))
+> >
+> >
+> > Why didn't you do like this?
+> >
+> > USERFLAGS_FROM_KERNEL :=3D $(filter -m32 -m64 -mlittle-endian
+> > -mbig-endian --target=3D% -march=3D% -mabi=3D%, $(KBUILD_CPPFLAGS)
+> > $(KBUILD_CFLAGS))
+> > KBUILD_USERCFLAGS  +=3D $(USERFLAGS_FROM_KERNEL)
+> > KBUILD_USERLDFLAGS +=3D $(USERFLAGS_FROM_KERNEL)
 >
->> You could argue that it's libc that sets errno and we're trying to spec
->> the kernel here, not the userspace interface to it.
+> The idea was to keep the USERFLAGS_FROM_KERNEL line free of clutter, as i=
+t is
+> probably going to change more often. To improve reviewability and gain so=
+me
+> available horizontal space in case it should be needed at some point.
 >
->And I think this would be appropriate.
->
->Note that in the future, the glibc version of execve will not be a
->straightforward system call wrapper because we need to obtain a
->consistent snapshot of the environment array.  That is actually pretty
->hard because we cannot atomically replace the process image, unblock
->signals, and unmap a copy of the environment.
->
->So I think it's best for the kernel to stick with the system call
->interface and not try to document what libcs are doing.
-
-I hear you - it sounds like the "right" solution technically.
+> If you prefer the other layout I'll be happy to switch it around.
 
 
-Switching back to signals, how does something like the below look as far
-as expanding the execve() spec:
+$(filter ... $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS))
 
-+       /* SIGSEGV sent on point of no return failure */
-+       KAPI_SIGNAL(9, SIGSEGV, "SIGSEGV", KAPI_SIGNAL_SEND, KAPI_SIGNAL_ACTION_COREDUMP)
-+               KAPI_SIGNAL_TARGET("Current process")
-+               KAPI_SIGNAL_CONDITION("Exec fails after point of no return")
-+               KAPI_SIGNAL_DESC("If exec fails after the point of no return (when the old "
-+                                "process image has been destroyed), force_fatal_sig(SIGSEGV) "
-+                                "is called to terminate the process since it cannot continue.")
-+               KAPI_SIGNAL_TIMING(KAPI_SIGNAL_TIME_EXIT)
-+               KAPI_SIGNAL_PRIORITY(0)
-+               KAPI_SIGNAL_STATE_FORBID(KAPI_SIGNAL_STATE_ZOMBIE | KAPI_SIGNAL_STATE_DEAD)
-+       KAPI_SIGNAL_END
-+
-+       /* Signal mask preserved */
-+       KAPI_SIGNAL(10, 0, "SIGNAL_MASK", KAPI_SIGNAL_HANDLE, KAPI_SIGNAL_ACTION_CUSTOM)
-+               KAPI_SIGNAL_CONDITION("Process has blocked signals")
-+               KAPI_SIGNAL_DESC("The signal mask (blocked signals) is preserved across exec. "
-+                                "This allows processes to block signals before exec and have "
-+                                "them remain blocked in the new program.")
-+               KAPI_SIGNAL_TIMING(KAPI_SIGNAL_TIME_DURING)
-+       KAPI_SIGNAL_END
-+
-+       /* Realtime signal queues cleared */
-+       KAPI_SIGNAL(11, 0, "REALTIME_SIGNALS", KAPI_SIGNAL_HANDLE, KAPI_SIGNAL_ACTION_DISCARD)
-+               KAPI_SIGNAL_CONDITION("Realtime signals queued")
-+               KAPI_SIGNAL_DESC("All queued realtime signals (SIGRTMIN to SIGRTMAX) are "
-+                                "discarded during exec. The realtime signal queue is cleared.")
-+               KAPI_SIGNAL_TIMING(KAPI_SIGNAL_TIME_DURING)
-+               KAPI_SIGNAL_QUEUE(KAPI_SIGNAL_QUEUE_REALTIME)
-+       KAPI_SIGNAL_END
+is duplicated in the two lines.
 
-What's missing for me is that while we now go into more detail, we
-should also check this during runtime, but I'm still trying to come up
-with something that is not ugly.
+That is the reason for my suggestion.
 
--- 
-Thanks,
-Sasha
+
+
+--=20
+Best Regards
+Masahiro Yamada
