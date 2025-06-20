@@ -1,71 +1,71 @@
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ED5A283FCC
-	for <workflows@vger.kernel.org>; Fri, 20 Jun 2025 09:37:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6818283FCA
+	for <workflows@vger.kernel.org>; Fri, 20 Jun 2025 09:37:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750412263; cv=none; b=fLc4sCmMJ6gRuJoKDS4GmmbBojtk91d3wz5C4qI2r55PE7AerqXSDxIRiuWv/YtwQsOrmF+ORuNyG/yvj3/Dca018yLXyDIAvg4fric2aVUMjyp21vFGv8JroBvgNAGpJOhgs0AZbZhuWEGutcBbG6QX+Icg60bGjkfECVggaR8=
+	t=1750412276; cv=none; b=Z088LH0Ngt87L4aQwJ3swgY4GxrIf7YD+xeaYkWLSahnJKSR8G1z1ik0ehmX9EHtVH0DEqLsm+pMEVO7V2FzPGyIusmiGR8k4fSQjGjZkp2cG33pU4Gg+bMc0R06shiuWDqp7sSY3jCkR/h5JU+ipaj/RVe2cgO29tBsa85pmrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750412263; c=relaxed/simple;
-	bh=VZSf1Z3ENR35JsuNelK0Av37FjFjjlQGJ7BqiamU2Qk=;
+	s=arc-20240116; t=1750412276; c=relaxed/simple;
+	bh=zimhAh0CDhkHW+DAwMYKzTiBBtVXLE7TN7mv3rlvEiw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=k6yWXjU7746gnu2UI0Rr/I0v+gtbObjodU2mDZDQ0/7RgDyXVu8mGPAGcxL2/robeLdBKud3S5gjhYPl0ACcT5UHE85xeqEuAoQhMVQTO/jGA+ipLiFIMsKtnw/QfETU6CDPstlMs6XLZFJwgcxu0ufazBgIqI0U04BjcSV/tH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=s3t32D+j; arc=none smtp.client-ip=209.85.219.53
+	 To:Cc:Content-Type; b=jg9W4qdBCSWbj9EHssyCWtK4RAmz7jqB46U9+m/38wPGx+sOo29ohVkbVkfcwhHPYNXsYMV09M6egGLY47VjO0zcyPDXTP/hE0iE5V5vRE0bho+bVMqsMmeJ8twWWwqIVP8+9463I6ruZ+lAUttiV05oTURekIS1agRKa7PgkLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tOI2WM/i; arc=none smtp.client-ip=209.85.219.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="s3t32D+j"
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6face1d58dcso25817996d6.2
-        for <workflows@vger.kernel.org>; Fri, 20 Jun 2025 02:37:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tOI2WM/i"
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6fafd3cc8f9so24170516d6.3
+        for <workflows@vger.kernel.org>; Fri, 20 Jun 2025 02:37:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1750412259; x=1751017059; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1750412273; x=1751017073; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=84PXXCuE10KWp1LNw5q2JDiCQOeorytodfFeGKros0o=;
-        b=s3t32D+jE0AEX3Cfz86MfznZmvsUCs7HBRq5omJ+XfYlIWLrrbrMnqye8xPdh2AIg4
-         ExMx2ko/ZuB/cpOq1CXJPrIFSfVxJn/eecc9nFwe5pqL5r228eq2GMIPR0ReT8VFJjWR
-         TQrX1+ytmGO7FFT4UT/o4hVhqna1Pn1cH0Lj773/u4NShIngxwZpQachh/ar1R8sUUWn
-         NTZ03OuLnVpwkaq0AfABuUdu6g9w2vDHePPOM42lUqn1doK0dCfDpbcrqdrXBLgQXSQO
-         Nsj+idlQ869qLaZ5qsqC19Stji/233tSMwH2wB1PiR6koO45LefEXAF6FKKfxcrmfNxl
-         tWhA==
+        bh=NRHEAwCKGc6Z4B6UlbrXIr4LSSh4IIOa6usi5MjJUvU=;
+        b=tOI2WM/iHcKUKt1mlv95bwlTacLTMR4Mexr/dS/Cnw1uu6UYC7YyEYg51J1JF/mQKh
+         HxhV5DzmAqgn9PWrgrmEG/FDPEHxL6L8WYBvGrGy+6N32PDq5F+9SwqfFzFH02wevWGd
+         kYMhx/0S0Y2rpn4Si4QwidNr346r86m1DIgUUwPkrogNIa8zZvT79X6N0ujnD0Z7t+pw
+         ZRjttWWf3TzSLuvlE8Gm03IsX6vP0MFGROulKIwZpE6UNYOPUtP71NJEF6fk76ZAezIL
+         OefjRuitWG8678eQsbNlbPmPOPPg6/8c16s7ULvL2TZMdeFwyU72kwjhN/Ix8+CiVQwc
+         fq5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750412259; x=1751017059;
+        d=1e100.net; s=20230601; t=1750412273; x=1751017073;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=84PXXCuE10KWp1LNw5q2JDiCQOeorytodfFeGKros0o=;
-        b=SDdyJFETV15TGo0+BNPqPLq0h+uuDCsmiloO0PRG/jjzmmmbzpjpLduHNx9aSdn9Q/
-         UqpN8hBVI3HpH/hjXd40iHziSuAeplLkmq2vJZBzcp0vC6Wdtc80H1ldv4nGBCvZhJDW
-         OGltbl+UUhwirRVbdw+sYWVuCn9UmYgQU4cqwOyE74aGZvqJr8HxUnd5+vhYZY5in+By
-         mKsdu883V3kcULNrjPeSq5fn9WA9bvOUvNhzFT5M5CdkHZgAdlabzdkVpplj41l6E7mn
-         m97zAVTwVgXAw2erdchoBOEjprmfGwgncHjF16dtRZSgpzsZt3aACon2bri1yS+G73Co
-         AR2g==
-X-Forwarded-Encrypted: i=1; AJvYcCXdSAN7EI7xAm33X5MRs7BPSaNsKZ3g9PbK8oG6jjpsOnM1xgsBh2A0Q2p7PfXX4/MAWJNGY8blT2A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzSbANNplvG1/yd7Q//MNHTGr9v9/MidksZOwMDeGj9sH/lRBuQ
-	A7zx0lLMkkrd/zOXHalHOK9kjhgnyDYIjIjj+YKEjCN3wWqSbAPbqJmCwiCtF/OzXOr0MDKbQXo
-	dzMGtFMv8C5aFPGpTyOe8sIfc6gWgfWqU88joMxgA
-X-Gm-Gg: ASbGncvqZg+qHedoM4iagm9xDJergCc9+DXi+P6xhOdR7PyoYuBrCZPrv+1cZUyjRA7
-	4SjrmBuzbbKOoha0pnjCVOXdoJO6r9KcnroAjPkYzfj+DMQ+Uek7F2pw97KNnJix3OWRr3JzYJM
-	E6yRP4I03+AZd2ONc8vfLGd/ez1Xb3/PYQT12Kpe5asXWuhwmUig1mnyU7fvxMSLYA4OhzcoEke
-	L6FuA==
-X-Google-Smtp-Source: AGHT+IErJ+/IXvkNnmleNXee0uB9y1ieMYz+cxmjWnlEKMqOuBGTR5sDOb9IWM/kUNvAZoqG36Mzii4wmQOUVHjs+rY=
-X-Received: by 2002:a05:6214:194f:b0:6fa:ccff:352a with SMTP id
- 6a1803df08f44-6fd0a5714cdmr30186986d6.37.1750412258699; Fri, 20 Jun 2025
- 02:37:38 -0700 (PDT)
+        bh=NRHEAwCKGc6Z4B6UlbrXIr4LSSh4IIOa6usi5MjJUvU=;
+        b=YknIyntYneCtMKZVLVEXZaENufDFgeOEV03oZ+HMQeFa9atlacXDIeBYsJzcR1yLVD
+         4xIupOF9NIU2W449jFMMwqdAHhw9onX+YBwwZGt6U+Z33ezIqXhusqha/3NZ3ORI3+dv
+         /PNDby4J+KZot4HPdcNKGohB32MPVlrcWAnYDI5XkM4FBSitPHCD9qmsOSqLcrg/MvwC
+         j6gollx/F7Efju9UvpdITVupjMz5ZZfwGXYG5N1E+o+NiFZ4R84a6xBtYLvT9HWNoA19
+         98qre0qmbl0zSByuB1/cULsKxRCkZ84Wi8QQOZkqN6LMeYJg4Z/PKOrtXzfJGoCc1C22
+         Pd/g==
+X-Forwarded-Encrypted: i=1; AJvYcCWcDrLqSRzGr70SWZhLsAhcyMGsF/HdqqACr53bttaFQ4gOqvpZ2EDELvOHja8IGgDvUM2S5ap8JLs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHKLPANG63X5jHjUZ8bfJvkLOSUlpjiAi5f5LutugnUWCX8HyB
+	KGT0kA5FthrsSGyT6fQxkx7u8CSpuxDhC/W0FKyNkSSTtqd+fJv9LJ41RkuE/SYx3kiB5PsFXg8
+	I77ovqz0EUYKixNn/pFnptJMLnZnZL2F8Ayjd+FuX
+X-Gm-Gg: ASbGnct8jFgkWOSsiZ2aLDisvu+QidZp5Xj73pUJzMiLPcZjtoR2igpMgn0tm/K6WCJ
+	v1fP55RLzkF6TTS6DG7idYVFabjm3OCgCsweh4FlVLTfTsbKs6DP9CwbjqYxwn1RfukBHMcatCz
+	wA1UBkD6UCO/oK76eBUGh5q3qfl2WGujAl8Z4LFytaGXehQs8J97IabPeCKWiW2pFrCmyQGEC0+
+	C2vsg==
+X-Google-Smtp-Source: AGHT+IGZxIM7GPvbTY2arqggUTYoxEzuDTKoZd1O0OeIn+P1sXE7k2iSVc4RNw1PQjsj+kGF4CBMgdAc2GFdvv4jfkM=
+X-Received: by 2002:ad4:5b87:0:b0:6fa:c67f:5e66 with SMTP id
+ 6a1803df08f44-6fd0a5ce768mr36464426d6.39.1750412273339; Fri, 20 Jun 2025
+ 02:37:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250611-kunit-kselftests-v3-0-55e3d148cbc6@linutronix.de>
-In-Reply-To: <20250611-kunit-kselftests-v3-0-55e3d148cbc6@linutronix.de>
+References: <20250611-kunit-kselftests-v3-0-55e3d148cbc6@linutronix.de> <20250611-kunit-kselftests-v3-8-55e3d148cbc6@linutronix.de>
+In-Reply-To: <20250611-kunit-kselftests-v3-8-55e3d148cbc6@linutronix.de>
 From: David Gow <davidgow@google.com>
-Date: Fri, 20 Jun 2025 17:37:24 +0800
-X-Gm-Features: Ac12FXx28olkUyVElK3tsWSDMtkeXemtFUwtYOQJLlznDr2PS8RYZiAf4PgYcC4
-Message-ID: <CABVgOSn+530YJ3OPNJQncLDQNbd9JEDtZ04Amyyxk57jOVYUyQ@mail.gmail.com>
-Subject: Re: [PATCH v3 00/16] kunit: Introduce UAPI testing framework
+Date: Fri, 20 Jun 2025 17:37:39 +0800
+X-Gm-Features: Ac12FXysTtBwTRgfCeStH5aPi1JCg-30YJ-6ps7Ea_pLEOgRICtacFRUZcAUy6A
+Message-ID: <CABVgOSmTXj_t0_nJyjhc=mvpPkGGW5D4qGd0WajmVgVyMgd_Hg@mail.gmail.com>
+Subject: Re: [PATCH v3 08/16] kunit: tool: Add test for nested test result reporting
 To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
 Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
 	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
@@ -80,235 +80,104 @@ Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org
 	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, 
 	workflows@vger.kernel.org
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000f170e80637fd9c98"
+	boundary="000000000000ccd57b0637fd9d57"
 
---000000000000f170e80637fd9c98
+--000000000000ccd57b0637fd9d57
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Wed, 11 Jun 2025 at 15:38, Thomas Wei=C3=9Fschuh
 <thomas.weissschuh@linutronix.de> wrote:
 >
-> Currently testing of userspace and in-kernel API use two different
-> frameworks. kselftests for the userspace ones and Kunit for the
-> in-kernel ones. Besides their different scopes, both have different
-> strengths and limitations:
->
-> Kunit:
-> * Tests are normal kernel code.
-> * They use the regular kernel toolchain.
-> * They can be packaged and distributed as modules conveniently.
->
-> Kselftests:
-> * Tests are normal userspace code
-> * They need a userspace toolchain.
->   A kernel cross toolchain is likely not enough.
-> * A fair amout of userland is required to run the tests,
->   which means a full distro or handcrafted rootfs.
-> * There is no way to conveniently package and run kselftests with a
->   given kernel image.
-> * The kselftests makefiles are not as powerful as regular kbuild.
->   For example they are missing proper header dependency tracking or more
->   complex compiler option modifications.
->
-> Therefore kunit is much easier to run against different kernel
-> configurations and architectures.
-> This series aims to combine kselftests and kunit, avoiding both their
-> limitations. It works by compiling the userspace kselftests as part of
-> the regular kernel build, embedding them into the kunit kernel or module
-> and executing them from there. If the kernel toolchain is not fit to
-> produce userspace because of a missing libc, the kernel's own nolibc can
-> be used instead.
-> The structured TAP output from the kselftest is integrated into the
-> kunit KTAP output transparently, the kunit parser can parse the combined
-> logs together.
->
-> Further room for improvements:
-> * Call each test in its completely dedicated namespace
-> * Handle additional test files besides the test executable through
->   archives. CPIO, cramfs, etc.
-> * Compatibility with kselftest_harness.h (in progress)
-> * Expose the blobs in debugfs
-> * Provide some convience wrappers around compat userprogs
-> * Figure out a migration path/coexistence solution for
->   kunit UAPI and tools/testing/selftests/
->
-> Output from the kunit example testcase, note the output of
-> "example_uapi_tests".
->
-> $ ./tools/testing/kunit/kunit.py run --kunitconfig lib/kunit example
-> ...
-> Running tests with:
-> $ .kunit/linux kunit.filter_glob=3Dexample kunit.enable=3D1 mem=3D1G cons=
-ole=3Dtty kunit_shutdown=3Dhalt
-> [11:53:53] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D example=
- (10 subtests) =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> [11:53:53] [PASSED] example_simple_test
-> [11:53:53] [SKIPPED] example_skip_test
-> [11:53:53] [SKIPPED] example_mark_skipped_test
-> [11:53:53] [PASSED] example_all_expect_macros_test
-> [11:53:53] [PASSED] example_static_stub_test
-> [11:53:53] [PASSED] example_static_stub_using_fn_ptr_test
-> [11:53:53] [PASSED] example_priv_test
-> [11:53:53] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D exam=
-ple_params_test  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> [11:53:53] [SKIPPED] example value 3
-> [11:53:53] [PASSED] example value 2
-> [11:53:53] [PASSED] example value 1
-> [11:53:53] [SKIPPED] example value 0
-> [11:53:53] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D [PASSED] example=
-_params_test =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> [11:53:53] [PASSED] example_slow_test
-> [11:53:53] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D (4 subtests) =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-> [11:53:53] [PASSED] procfs
-> [11:53:53] [PASSED] userspace test 2
-> [11:53:53] [SKIPPED] userspace test 3: some reason
-> [11:53:53] [PASSED] userspace test 4
-> [11:53:53] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D [PASSED] exam=
-ple_uapi_test =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> [11:53:53] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D [PASSED] example =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> [11:53:53] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> [11:53:53] Testing complete. Ran 16 tests: passed: 11, skipped: 5
-> [11:53:53] Elapsed time: 67.543s total, 1.823s configuring, 65.655s build=
-ing, 0.058s running
->
-> Based on v6.15-rc1.
+> Currently there is no test validating the result reporting from nested
+> tests. Add one, it will also be used to validate upcoming changes to the
+> nested test parsing.
 >
 > Signed-off-by: Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
 > ---
-> Changes in v3:
-> - Reintroduce CONFIG_CC_CAN_LINK_STATIC
-> - Enable CONFIG_ARCH_HAS_NOLIBC for m68k and SPARC
-> - Properly handle 'clean' target for userprogs
-> - Use ramfs over tmpfs to reduce dependencies
-> - Inherit userprogs byte order and ABI from kernel
-> - Drop now unnecessary "#ifndef NOLIBC"
-> - Pick up review tags
-> - Drop usage of __private in blob.h,
->   sparse complains and it is not really necessary
-> - Fix execution on loongarch when using clang
-> - Drop userprogs libgcc handling, it was ugly and is not yet necessary
-> - Link to v2: https://lore.kernel.org/r/20250407-kunit-kselftests-v2-0-45=
-4114e287fd@linutronix.de
->
-> Changes in v2:
-> - Rebase onto v6.15-rc1
-> - Add documentation and kernel docs
-> - Resolve invalid kconfig breakages
-> - Drop already applied patch "kbuild: implement CONFIG_HEADERS_INSTALL fo=
-r Usermode Linux"
-> - Drop userprogs CONFIG_WERROR integration, it doesn't need to be part of=
- this series
-> - Replace patch prefix "kconfig" with "kbuild"
-> - Rename kunit_uapi_run_executable() to kunit_uapi_run_kselftest()
-> - Generate private, conflict-free symbols in the blob framework
-> - Handle kselftest exit codes
-> - Handle SIGABRT
-> - Forward output also to kunit debugfs log
-> - Install a fd=3D0 stdin filedescriptor
-> - Link to v1: https://lore.kernel.org/r/20250217-kunit-kselftests-v1-0-42=
-b4524c3b0a@linutronix.de
->
-> ---
 
+This looks good, modulo a couple of minor suggestions below.
 
-Thanks very much for persisting with this, and sorry for the delayed respon=
-se.
-
-I've taken quite a liking to it: it'd definitely have made my life
-easier more than once.
-
-As a more general wrapping of selftests in KUnit tests, I do think
-that there's still some risk of confusion as to when a KUnit UAPI test
-makes sense versus a simple selftest. The UAPI tests are definitely
-(IMO) easier to build and run, but won't be easier to debug, or to run
-on an existing, non-test system as a part of troubleshooting (which
-has been a complaint when selftests have been ported to KUnit in the
-past).
-
-Nevertheless, I'm pretty happy to have this be a part of KUnit, though
-I have three slight reservations:
-1. There's no real _user_ of this yet -- save for the small test of
-/proc/self/comm in the example -- I'd like to see a real-world test
-using this.
-2. There's a fair bit of complexity here, and we're already a bit
-behind with KUnit reviews. I'd love it if you could commit to helping
-maintain the KUnit parts of this in MAINTAINERS.
-3. We need to make sure that there's a clear understanding of when to
-use this, versus in-kernel KUnit tests, versus kselftest. This'll
-probably involve (a) making sure Shuah is on board -- or at least not
-strongly opposed, and (b) updating
-Documentation/dev-tools/testing-overview.rst.
-
-But thanks very much -- it's working well in my testing here, and
-running the tests is very pleasant.
+Regardless,
+Reviewed-by: David Gow <davidgow@google.com>
 
 Cheers,
 -- David
 
-
-> Thomas Wei=C3=9Fschuh (16):
->       kbuild: userprogs: avoid duplicating of flags inherited from kernel
->       kbuild: userprogs: also inherit byte order and ABI from kernel
->       init: re-add CONFIG_CC_CAN_LINK_STATIC
->       kbuild: userprogs: add nolibc support
->       kbuild: introduce CONFIG_ARCH_HAS_NOLIBC
->       kbuild: doc: add label for userprogs section
->       kbuild: introduce blob framework
->       kunit: tool: Add test for nested test result reporting
->       kunit: tool: Don't overwrite test status based on subtest counts
->       kunit: tool: Parse skipped tests from kselftest.h
->       kunit: Always descend into kunit directory during build
->       kunit: qemu_configs: loongarch: Enable LSX/LSAX
->       kunit: Introduce UAPI testing framework
->       kunit: uapi: Add example for UAPI tests
->       kunit: uapi: Introduce preinit executable
->       kunit: uapi: Validate usability of /proc
->
->  Documentation/dev-tools/kunit/api/index.rst        |   5 +
->  Documentation/dev-tools/kunit/api/uapi.rst         |  12 +
->  Documentation/kbuild/makefiles.rst                 |  38 ++-
->  MAINTAINERS                                        |   2 +
->  Makefile                                           |   7 +-
->  include/kunit/uapi.h                               |  24 ++
->  include/linux/blob.h                               |  31 +++
->  init/Kconfig                                       |   7 +
->  lib/Makefile                                       |   4 -
->  lib/kunit/Kconfig                                  |  10 +
->  lib/kunit/Makefile                                 |  20 +-
->  lib/kunit/kunit-example-test.c                     |  15 ++
->  lib/kunit/kunit-example-uapi.c                     |  54 ++++
->  lib/kunit/uapi-preinit.c                           |  63 +++++
->  lib/kunit/uapi.c                                   | 294 +++++++++++++++=
+>  tools/testing/kunit/kunit_tool_test.py                           | 9 +++=
 ++++++
->  scripts/Makefile.blobs                             |  19 ++
->  scripts/Makefile.build                             |   6 +
->  scripts/Makefile.clean                             |   2 +-
->  scripts/Makefile.userprogs                         |  13 +-
->  scripts/blob-wrap.c                                |  27 ++
->  tools/include/nolibc/Kconfig.nolibc                |  15 ++
->  tools/testing/kunit/kunit_parser.py                |  13 +-
->  tools/testing/kunit/kunit_tool_test.py             |   9 +
->  tools/testing/kunit/qemu_configs/loongarch.py      |   2 +
->  .../test_is_test_passed-failure-nested.log         |  10 +
->  .../test_data/test_is_test_passed-kselftest.log    |   3 +-
->  26 files changed, 686 insertions(+), 19 deletions(-)
-> ---
-> base-commit: f07a3558c4a5d76f3fea004075e5151c4516d055
-> change-id: 20241015-kunit-kselftests-56273bc40442
+>  .../kunit/test_data/test_is_test_passed-failure-nested.log       | 7 +++=
+++++
+>  2 files changed, 16 insertions(+)
 >
-> Best regards,
+> diff --git a/tools/testing/kunit/kunit_tool_test.py b/tools/testing/kunit=
+/kunit_tool_test.py
+> index bbba921e0eacb18663abfcabb2bccf330d8666f5..691cde9b030f7729128490c1b=
+db42ccee1967ad6 100755
+> --- a/tools/testing/kunit/kunit_tool_test.py
+> +++ b/tools/testing/kunit/kunit_tool_test.py
+> @@ -165,6 +165,15 @@ class KUnitParserTest(unittest.TestCase):
+>                 self.assertEqual(kunit_parser.TestStatus.FAILURE, result.=
+status)
+>                 self.assertEqual(result.counts.errors, 0)
+>
+> +       def test_parse_failed_nested_tests_log(self):
+> +               nested_log =3D test_data_path('test_is_test_passed-failur=
+e-nested.log')
+> +               with open(nested_log) as file:
+> +                       result =3D kunit_parser.parse_run_tests(file.read=
+lines(), stdout)
+> +               self.assertEqual(kunit_parser.TestStatus.FAILURE, result.=
+status)
+> +               self.assertEqual(result.counts.failed, 2)
+> +               self.assertEqual(kunit_parser.TestStatus.FAILURE, result.=
+subtests[0].status)
+
+Is it worth also testing the value of the nested test's result here? i.e.,
+self.assertEqual(kunit_parser.TestStatus.FAILURE,
+result.subtests[0].subtests[0].status)
+
+
+> +               self.assertEqual(kunit_parser.TestStatus.FAILURE, result.=
+subtests[1].status)
+> +
+>         def test_no_header(self):
+>                 empty_log =3D test_data_path('test_is_test_passed-no_test=
+s_run_no_header.log')
+>                 with open(empty_log) as file:
+> diff --git a/tools/testing/kunit/test_data/test_is_test_passed-failure-ne=
+sted.log b/tools/testing/kunit/test_data/test_is_test_passed-failure-nested=
+.log
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..835816e0a07715a514f5f5afa=
+b1b6250037feaf4
+> --- /dev/null
+> +++ b/tools/testing/kunit/test_data/test_is_test_passed-failure-nested.lo=
+g
+> @@ -0,0 +1,7 @@
+> +KTAP version 1
+> +1..2
+> +not ok 1 subtest 1
+> +    KTAP version 1
+> +    1..1
+> +        not ok 1 test 1
+> +not ok 2 subtest 2
+
+Having these named 'subtest 1' and 'test 1' is a bit confusing to me
+(as it implies the outer tests are subtests of the inner ones, which
+isn't right).
+
+Could we either swap 'subtest' and 'test' here, or -- if we want to
+preserve the match between 'subtest' here and the subtest in the
+python code -- label the inner one something like 'subsubtest'?
+
+
+>
 > --
-> Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
+> 2.49.0
 >
 
---000000000000f170e80637fd9c98
+--000000000000ccd57b0637fd9d57
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -398,13 +267,13 @@ Vumvw5QTHe29TYxSiusovM6OD5y0I+4zaIaYDx/AtF0mMOFXb1MDyynf1CDxhtkgnrBUseHSOU2e
 MYs7IqzRap5xsgpJS+t7cp/P8fdlCNvsXss9zZa279tKwaxR0U2IzGxRGsWKGxDysn1HT6pqMDGC
 Al0wggJZAgEBMGgwVDELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYtc2ExKjAo
 BgNVBAMTIUdsb2JhbFNpZ24gQXRsYXMgUjYgU01JTUUgQ0EgMjAyMwIQAUXA7LnOuRz2DvkWTeMc
-0TANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQgfgLrF6e8xjqqjbqwmahPbSkIMUKo
-ka+6Zf2gbhWRhJYwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUw
-NjIwMDkzNzM5WjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
+0TANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQggNQMI9VgOK4DKFNnhpsiBJAMkbPU
+q1GhLRXSzR78870wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUw
+NjIwMDkzNzUzWjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
 YIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcN
-AQEBBQAEggEADraqfMRGTNuly9iDyzGlZO4dpKx9d65OdOwEFjz8zgVuEte+5rAtYKwGRCqUCR5O
-GsxZRtOaIUK2jn1dCPL5wEEBu023LznNlYHVQ50kFbl7L3Fp+I3hY83OcNe61U5ztcG4KOhLilYR
-w6692cO2SpWe/L5VnOyhMBhcmYiVWevdkghHXN0W/twqXQLXv7e/uwruRmaSdZcPCBquXlOZTCpN
-015GvFcMgrzQx1UsBYqp8UDjDcPpiKCUyfM3r6mhuQ/rzG/3xuNDfgwBz8e6mNNkz616AN8iijjk
-9tBG7QsynxP14yAWShr0IcvADqOjQKRv2AdwTKLfHVK7GZilxw==
---000000000000f170e80637fd9c98--
+AQEBBQAEggEAhMrQJsuW3pv8TUPGx0imPUzkuz7UiR4jnY3PWkYHVaNhxRpSoq9vH3py7+v4DeHA
+czfwGOYYhUm4O/M3Cn+TK0QOhhd8EO1+u/FwsUJwcSkAHy4n2sc4GK7uNqlQuwnVmTMTJ7aTu6a6
+DMIBv+etslpLrkdR7rNLm1N1ibK3YdobJYglAy6vr5O8krTN7dt2s5T9Imo9BQfUqrFDfQOIrgKX
+V+qlC6dlp7z+oRbe2pDS7x7H7QCBBgo0c/A7gWcAnZd2LiZVl3wyjra0y3U4IGSL4OGMc6ud2W5G
+2CBwkpN/E2mlDP4CYbKb/psa8m9bblxnp6PUwDuFR9DiVTbF4Q==
+--000000000000ccd57b0637fd9d57--
