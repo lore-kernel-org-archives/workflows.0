@@ -1,71 +1,72 @@
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6818283FCA
-	for <workflows@vger.kernel.org>; Fri, 20 Jun 2025 09:37:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9074F284B2F
+	for <workflows@vger.kernel.org>; Fri, 20 Jun 2025 09:37:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750412276; cv=none; b=Z088LH0Ngt87L4aQwJ3swgY4GxrIf7YD+xeaYkWLSahnJKSR8G1z1ik0ehmX9EHtVH0DEqLsm+pMEVO7V2FzPGyIusmiGR8k4fSQjGjZkp2cG33pU4Gg+bMc0R06shiuWDqp7sSY3jCkR/h5JU+ipaj/RVe2cgO29tBsa85pmrY=
+	t=1750412280; cv=none; b=H7+ctRQd9uvWR66pUNCgdr9qmQd3DICgkBx11TO6z60geWkXV4KcVB3j0t19JS2ZT+HOjVE6KtKWlIgFLH4+NFKCIjFw+UlRpPXACwsCWsEMXW66kiPhvLIEMib3ow/aeo8y3E2KIvL6bHkrUmK+pfdQM0aKaE8jz5Bp9S0X7xI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750412276; c=relaxed/simple;
-	bh=zimhAh0CDhkHW+DAwMYKzTiBBtVXLE7TN7mv3rlvEiw=;
+	s=arc-20240116; t=1750412280; c=relaxed/simple;
+	bh=9RjSF8oQ26Td2cTiS0CT+vEvN4kNaCjfOxP2k/6530c=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jg9W4qdBCSWbj9EHssyCWtK4RAmz7jqB46U9+m/38wPGx+sOo29ohVkbVkfcwhHPYNXsYMV09M6egGLY47VjO0zcyPDXTP/hE0iE5V5vRE0bho+bVMqsMmeJ8twWWwqIVP8+9463I6ruZ+lAUttiV05oTURekIS1agRKa7PgkLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tOI2WM/i; arc=none smtp.client-ip=209.85.219.45
+	 To:Cc:Content-Type; b=qy2YBeLrwHfEOrxScEh6y7v9i5OIi0juLStxhzFQ1VUjF0ZY1B58Jstr9ndiUGs6nmOIvH3/fIPCry2csb+r28s9LvzV7x5gunmVGMrbXa4YAlQStI2svriLinj9lafS+l+1+vbMs+3vQjgZRtKYstNA265YywGyBpgImThc4g8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XYrasv6T; arc=none smtp.client-ip=209.85.219.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tOI2WM/i"
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6fafd3cc8f9so24170516d6.3
-        for <workflows@vger.kernel.org>; Fri, 20 Jun 2025 02:37:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XYrasv6T"
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6facacf521eso16182336d6.3
+        for <workflows@vger.kernel.org>; Fri, 20 Jun 2025 02:37:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1750412273; x=1751017073; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1750412277; x=1751017077; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=NRHEAwCKGc6Z4B6UlbrXIr4LSSh4IIOa6usi5MjJUvU=;
-        b=tOI2WM/iHcKUKt1mlv95bwlTacLTMR4Mexr/dS/Cnw1uu6UYC7YyEYg51J1JF/mQKh
-         HxhV5DzmAqgn9PWrgrmEG/FDPEHxL6L8WYBvGrGy+6N32PDq5F+9SwqfFzFH02wevWGd
-         kYMhx/0S0Y2rpn4Si4QwidNr346r86m1DIgUUwPkrogNIa8zZvT79X6N0ujnD0Z7t+pw
-         ZRjttWWf3TzSLuvlE8Gm03IsX6vP0MFGROulKIwZpE6UNYOPUtP71NJEF6fk76ZAezIL
-         OefjRuitWG8678eQsbNlbPmPOPPg6/8c16s7ULvL2TZMdeFwyU72kwjhN/Ix8+CiVQwc
-         fq5w==
+        bh=i4siYtxx7eOtYXGKtkNYaOmlmQEndpRlI391pGEs+nY=;
+        b=XYrasv6TKjBvI0EF/CUUxwL3Voerfjg5R2fQyyBbx/Vay96ANo7ZwsyxEzeiW7yloG
+         RuhmNbk71eT+7xJxJ4XgbtLs55VhMNnC+B1T4xj6BFo1Q0zEeWiL0kjGpNLRVJSYZ8mG
+         xcNM3RqM7oG8Iw/oqs0fD92I5SNS46Z2J8V+v863SK1WpORsii0C5RFKDuX9kbG5Me4Y
+         fsCY0sl4qGS3lsSghkiMHMZmXOeJLAVhmjqGJmKI8PD02dXEmIjg6O6e23ufANNtyPTh
+         USB36ZpSuvW0YasDnQCUvlbKvV1uQzTImF0jszTPQuUpychSGCDwNa+MZIm6Fkroe86I
+         llNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750412273; x=1751017073;
+        d=1e100.net; s=20230601; t=1750412277; x=1751017077;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NRHEAwCKGc6Z4B6UlbrXIr4LSSh4IIOa6usi5MjJUvU=;
-        b=YknIyntYneCtMKZVLVEXZaENufDFgeOEV03oZ+HMQeFa9atlacXDIeBYsJzcR1yLVD
-         4xIupOF9NIU2W449jFMMwqdAHhw9onX+YBwwZGt6U+Z33ezIqXhusqha/3NZ3ORI3+dv
-         /PNDby4J+KZot4HPdcNKGohB32MPVlrcWAnYDI5XkM4FBSitPHCD9qmsOSqLcrg/MvwC
-         j6gollx/F7Efju9UvpdITVupjMz5ZZfwGXYG5N1E+o+NiFZ4R84a6xBtYLvT9HWNoA19
-         98qre0qmbl0zSByuB1/cULsKxRCkZ84Wi8QQOZkqN6LMeYJg4Z/PKOrtXzfJGoCc1C22
-         Pd/g==
-X-Forwarded-Encrypted: i=1; AJvYcCWcDrLqSRzGr70SWZhLsAhcyMGsF/HdqqACr53bttaFQ4gOqvpZ2EDELvOHja8IGgDvUM2S5ap8JLs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHKLPANG63X5jHjUZ8bfJvkLOSUlpjiAi5f5LutugnUWCX8HyB
-	KGT0kA5FthrsSGyT6fQxkx7u8CSpuxDhC/W0FKyNkSSTtqd+fJv9LJ41RkuE/SYx3kiB5PsFXg8
-	I77ovqz0EUYKixNn/pFnptJMLnZnZL2F8Ayjd+FuX
-X-Gm-Gg: ASbGnct8jFgkWOSsiZ2aLDisvu+QidZp5Xj73pUJzMiLPcZjtoR2igpMgn0tm/K6WCJ
-	v1fP55RLzkF6TTS6DG7idYVFabjm3OCgCsweh4FlVLTfTsbKs6DP9CwbjqYxwn1RfukBHMcatCz
-	wA1UBkD6UCO/oK76eBUGh5q3qfl2WGujAl8Z4LFytaGXehQs8J97IabPeCKWiW2pFrCmyQGEC0+
-	C2vsg==
-X-Google-Smtp-Source: AGHT+IGZxIM7GPvbTY2arqggUTYoxEzuDTKoZd1O0OeIn+P1sXE7k2iSVc4RNw1PQjsj+kGF4CBMgdAc2GFdvv4jfkM=
-X-Received: by 2002:ad4:5b87:0:b0:6fa:c67f:5e66 with SMTP id
- 6a1803df08f44-6fd0a5ce768mr36464426d6.39.1750412273339; Fri, 20 Jun 2025
- 02:37:53 -0700 (PDT)
+        bh=i4siYtxx7eOtYXGKtkNYaOmlmQEndpRlI391pGEs+nY=;
+        b=wSwuQw9LnOSESKzLL3rLcTgj2gdwqk0MBBvYnsil6pamp5B9H6p2RS1bI7UroavOWc
+         rm9xnemBrBgE1UtLIHTWqVe6CGATRwBWkeQr9x+KsUxYSER0SAJdz/IUJeqvvJ4IqcrM
+         /TuAXHZzZDrMzmvrJrJKSIqi3Cfe5E0FRg00zQxdj3F6avVmgDmwxNIx9Piz9pzIlYRm
+         aT5YQ7trKzUu0uRUp7h60v7vwmQNrmf9jqFP1TauPfOQBF8cEbHNxOY9crs58oDQVN/K
+         zfop5+4v7Jj6oxv7Z1X9nEGaKWQLwVVgRyz6VK9/bsHhpJ+PhTYr/T/bxjCH8H+tz8QF
+         yY6g==
+X-Forwarded-Encrypted: i=1; AJvYcCVSWdcnfr6v1GkB3Mm81eWZpuAcjHTnYy+m4eSVPkfeBoxNwrlrCgC994IiZnzdSu1GjuYWMyBgA/U=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4IbD357oOyw9026mrpg2KAtXS7E8MxFCqRcQ6NaMEfWWx0juT
+	Dke0CN7CpJj1ft3eWDSc3AJzu3iyBsoFZxpb+0D58DjlT9OgNaFlGnwK6uwTCEguCqjpfFYBKHk
+	vi4Mp+YgXYHV5hVSOjPefIJYlCWSbKniPXMGR8koc
+X-Gm-Gg: ASbGncuMBTalWyjCLl5oQAhpuY6vgP47C1Gqt0igr2FJmqCqXmKqZ4buVE890YB1OeT
+	xnczx+47mXuCLi5X2jctns20uojD+hw3K9saaS5kwPQYVVd/oVuYtHl2YUzm42har4TnZM6Kx4I
+	XSXB6QyOlwAboCpBpVPv4JA/k5cjjGnbegnhLHRBBBtLAv272TsW+QOkR5E8MCDmAyNkeNbz0s+
+	UC/0g==
+X-Google-Smtp-Source: AGHT+IH1TD7sFLVLxLNDZ8cOfYRjL/tT2kVxcg2PElAyBtkqeDrdZR4VhtKx2gcfBWmyNH4WFLtTAKj4ScRPvS1jgHY=
+X-Received: by 2002:a05:6214:124d:b0:6fa:c697:97a5 with SMTP id
+ 6a1803df08f44-6fd0a46f07fmr36390116d6.15.1750412277186; Fri, 20 Jun 2025
+ 02:37:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250611-kunit-kselftests-v3-0-55e3d148cbc6@linutronix.de> <20250611-kunit-kselftests-v3-8-55e3d148cbc6@linutronix.de>
-In-Reply-To: <20250611-kunit-kselftests-v3-8-55e3d148cbc6@linutronix.de>
+References: <20250611-kunit-kselftests-v3-0-55e3d148cbc6@linutronix.de> <20250611-kunit-kselftests-v3-9-55e3d148cbc6@linutronix.de>
+In-Reply-To: <20250611-kunit-kselftests-v3-9-55e3d148cbc6@linutronix.de>
 From: David Gow <davidgow@google.com>
-Date: Fri, 20 Jun 2025 17:37:39 +0800
-X-Gm-Features: Ac12FXysTtBwTRgfCeStH5aPi1JCg-30YJ-6ps7Ea_pLEOgRICtacFRUZcAUy6A
-Message-ID: <CABVgOSmTXj_t0_nJyjhc=mvpPkGGW5D4qGd0WajmVgVyMgd_Hg@mail.gmail.com>
-Subject: Re: [PATCH v3 08/16] kunit: tool: Add test for nested test result reporting
+Date: Fri, 20 Jun 2025 17:37:44 +0800
+X-Gm-Features: Ac12FXwRaH3OfJhCzT5AZcyk8RCDXf0-Z1aDXf_aau98Tkhf8caX_HLkU_59kY8
+Message-ID: <CABVgOSkG3dY3THo5DQOvWj1xX8XFFnnk7CXvVE2opQJZg4nwXg@mail.gmail.com>
+Subject: Re: [PATCH v3 09/16] kunit: tool: Don't overwrite test status based
+ on subtest counts
 To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
 Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
 	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
@@ -80,104 +81,125 @@ Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org
 	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, 
 	workflows@vger.kernel.org
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000ccd57b0637fd9d57"
+	boundary="0000000000000663d20637fd9e70"
 
---000000000000ccd57b0637fd9d57
+--0000000000000663d20637fd9e70
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Wed, 11 Jun 2025 at 15:38, Thomas Wei=C3=9Fschuh
 <thomas.weissschuh@linutronix.de> wrote:
 >
-> Currently there is no test validating the result reporting from nested
-> tests. Add one, it will also be used to validate upcoming changes to the
-> nested test parsing.
+> If a subtest itself reports success, but the outer testcase fails,
+> the whole testcase should be reported as a failure.
+> However the status is recalculated based on the test counts,
+> overwriting the outer test result.
+> Synthesize a failed test in this case to make sure the failure is not
+> swallowed.
 >
 > Signed-off-by: Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
 > ---
 
-This looks good, modulo a couple of minor suggestions below.
+Hmm... this is definitely a nasty edge-case. I don't completely like
+this solution, but none of the other options seem drastically better.
 
-Regardless,
+I think the more obvious options are either to _always_ count tests
+alongside their subtests, or to _never_ do so, but acknowledge that
+"test failed, but failure count is 0" is a valid option. But neither
+of those are especially satisfying, either greatly inflating test
+counts, or creating obvious contradictions.
+
+So I'm tentatively in favour of this, but if anyone has a nicer way of
+doing it, I'm all ears.
+
+The implementation looks good. If we can add the explicit checks for
+the sub(sub)test results as mentioned in the previous patch, that'd be
+even better.
+
 Reviewed-by: David Gow <davidgow@google.com>
 
-Cheers,
--- David
-
->  tools/testing/kunit/kunit_tool_test.py                           | 9 +++=
-++++++
->  .../kunit/test_data/test_is_test_passed-failure-nested.log       | 7 +++=
-++++
->  2 files changed, 16 insertions(+)
+>  tools/testing/kunit/kunit_parser.py                                  | 5=
+ +++++
+>  tools/testing/kunit/kunit_tool_test.py                               | 2=
+ +-
+>  tools/testing/kunit/test_data/test_is_test_passed-failure-nested.log | 3=
+ +++
+>  3 files changed, 9 insertions(+), 1 deletion(-)
 >
+> diff --git a/tools/testing/kunit/kunit_parser.py b/tools/testing/kunit/ku=
+nit_parser.py
+> index c176487356e6c94882046b19ea696d750905b8d5..2478beb28fc3db825855ad462=
+00340e884da7df1 100644
+> --- a/tools/testing/kunit/kunit_parser.py
+> +++ b/tools/testing/kunit/kunit_parser.py
+> @@ -686,6 +686,11 @@ def bubble_up_test_results(test: Test) -> None:
+>                 counts.add_status(status)
+>         elif test.counts.get_status() =3D=3D TestStatus.TEST_CRASHED:
+>                 test.status =3D TestStatus.TEST_CRASHED
+> +       if not test.ok_status():
+> +               for t in subtests:
+> +                       if not t.ok_status():
+> +                               counts.add_status(t.status)
+> +                               break
+>
+>  def parse_test(lines: LineStream, expected_num: int, log: List[str], is_=
+subtest: bool, printer: Printer) -> Test:
+>         """
 > diff --git a/tools/testing/kunit/kunit_tool_test.py b/tools/testing/kunit=
 /kunit_tool_test.py
-> index bbba921e0eacb18663abfcabb2bccf330d8666f5..691cde9b030f7729128490c1b=
-db42ccee1967ad6 100755
+> index 691cde9b030f7729128490c1bdb42ccee1967ad6..c25f52650837e83325b06bddd=
+2aa665fd29f91d9 100755
 > --- a/tools/testing/kunit/kunit_tool_test.py
 > +++ b/tools/testing/kunit/kunit_tool_test.py
-> @@ -165,6 +165,15 @@ class KUnitParserTest(unittest.TestCase):
+> @@ -170,7 +170,7 @@ class KUnitParserTest(unittest.TestCase):
+>                 with open(nested_log) as file:
+>                         result =3D kunit_parser.parse_run_tests(file.read=
+lines(), stdout)
 >                 self.assertEqual(kunit_parser.TestStatus.FAILURE, result.=
 status)
->                 self.assertEqual(result.counts.errors, 0)
->
-> +       def test_parse_failed_nested_tests_log(self):
-> +               nested_log =3D test_data_path('test_is_test_passed-failur=
-e-nested.log')
-> +               with open(nested_log) as file:
-> +                       result =3D kunit_parser.parse_run_tests(file.read=
-lines(), stdout)
-> +               self.assertEqual(kunit_parser.TestStatus.FAILURE, result.=
-status)
-> +               self.assertEqual(result.counts.failed, 2)
-> +               self.assertEqual(kunit_parser.TestStatus.FAILURE, result.=
+> -               self.assertEqual(result.counts.failed, 2)
+> +               self.assertEqual(result.counts.failed, 3)
+>                 self.assertEqual(kunit_parser.TestStatus.FAILURE, result.=
 subtests[0].status)
 
-Is it worth also testing the value of the nested test's result here? i.e.,
-self.assertEqual(kunit_parser.TestStatus.FAILURE,
+Could we add:
+self.assertEqual(kunit_parser.TestStatus.SUCCESS,
 result.subtests[0].subtests[0].status)
 
-
-> +               self.assertEqual(kunit_parser.TestStatus.FAILURE, result.=
+>                 self.assertEqual(kunit_parser.TestStatus.FAILURE, result.=
 subtests[1].status)
-> +
->         def test_no_header(self):
->                 empty_log =3D test_data_path('test_is_test_passed-no_test=
-s_run_no_header.log')
->                 with open(empty_log) as file:
+
+and
+
+self.assertEqual(kunit_parser.TestStatus.FAILURE,
+result.subtests[1].subtests[0].status)
+
+
+>
 > diff --git a/tools/testing/kunit/test_data/test_is_test_passed-failure-ne=
 sted.log b/tools/testing/kunit/test_data/test_is_test_passed-failure-nested=
 .log
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..835816e0a07715a514f5f5afa=
-b1b6250037feaf4
-> --- /dev/null
+> index 835816e0a07715a514f5f5afab1b6250037feaf4..cd9033c464792e6294905a567=
+6346684182874ad 100644
+> --- a/tools/testing/kunit/test_data/test_is_test_passed-failure-nested.lo=
+g
 > +++ b/tools/testing/kunit/test_data/test_is_test_passed-failure-nested.lo=
 g
-> @@ -0,0 +1,7 @@
-> +KTAP version 1
-> +1..2
-> +not ok 1 subtest 1
+> @@ -1,5 +1,8 @@
+>  KTAP version 1
+>  1..2
 > +    KTAP version 1
 > +    1..1
-> +        not ok 1 test 1
-> +not ok 2 subtest 2
-
-Having these named 'subtest 1' and 'test 1' is a bit confusing to me
-(as it implies the outer tests are subtests of the inner ones, which
-isn't right).
-
-Could we either swap 'subtest' and 'test' here, or -- if we want to
-preserve the match between 'subtest' here and the subtest in the
-python code -- label the inner one something like 'subsubtest'?
-
-
+> +        ok 1 test 1
+>  not ok 1 subtest 1
+>      KTAP version 1
+>      1..1
 >
 > --
 > 2.49.0
 >
 
---000000000000ccd57b0637fd9d57
+--0000000000000663d20637fd9e70
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -267,13 +289,13 @@ Vumvw5QTHe29TYxSiusovM6OD5y0I+4zaIaYDx/AtF0mMOFXb1MDyynf1CDxhtkgnrBUseHSOU2e
 MYs7IqzRap5xsgpJS+t7cp/P8fdlCNvsXss9zZa279tKwaxR0U2IzGxRGsWKGxDysn1HT6pqMDGC
 Al0wggJZAgEBMGgwVDELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYtc2ExKjAo
 BgNVBAMTIUdsb2JhbFNpZ24gQXRsYXMgUjYgU01JTUUgQ0EgMjAyMwIQAUXA7LnOuRz2DvkWTeMc
-0TANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQggNQMI9VgOK4DKFNnhpsiBJAMkbPU
-q1GhLRXSzR78870wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUw
-NjIwMDkzNzUzWjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
+0TANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQgD3zuI9iU4DB2wbGfklbpYijAIovy
+hOAXyvOCGLVDNOgwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUw
+NjIwMDkzNzU3WjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
 YIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcN
-AQEBBQAEggEAhMrQJsuW3pv8TUPGx0imPUzkuz7UiR4jnY3PWkYHVaNhxRpSoq9vH3py7+v4DeHA
-czfwGOYYhUm4O/M3Cn+TK0QOhhd8EO1+u/FwsUJwcSkAHy4n2sc4GK7uNqlQuwnVmTMTJ7aTu6a6
-DMIBv+etslpLrkdR7rNLm1N1ibK3YdobJYglAy6vr5O8krTN7dt2s5T9Imo9BQfUqrFDfQOIrgKX
-V+qlC6dlp7z+oRbe2pDS7x7H7QCBBgo0c/A7gWcAnZd2LiZVl3wyjra0y3U4IGSL4OGMc6ud2W5G
-2CBwkpN/E2mlDP4CYbKb/psa8m9bblxnp6PUwDuFR9DiVTbF4Q==
---000000000000ccd57b0637fd9d57--
+AQEBBQAEggEAk424lyjHkVMODpnptIS1uEWFky04fRHhprsSPrXGp9cLUVyFUa/mqVhutk/W8gEp
+oJ4DcPJOjyIemXr3xyPmfeBCqA1V0SC8MKAKtbRPxTLLDbJw2FKQ+LO5Q8ZnUjtps38cnVLlyzAU
+pCww4YB2eFodo9qAryoHfeB8RpVY0uWsPeKdvwnKky1iDMfse8ffuAiRpcAceh89WStzAxrgmR6c
+CJXFN+xEbzTbOzXz/eXkHJytuCN3IwveVis0rWv+Kg/9c7q1IJICTf68R89aeh1sS/wUMCrOenhH
+IZ5XJipV6nHg0K2D+ZPSxMwDpN9spvIRlocSwZiWkOlP13uO6Q==
+--0000000000000663d20637fd9e70--
