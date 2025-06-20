@@ -1,71 +1,71 @@
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87754285042
-	for <workflows@vger.kernel.org>; Fri, 20 Jun 2025 09:48:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4093A28469B
+	for <workflows@vger.kernel.org>; Fri, 20 Jun 2025 09:48:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750412900; cv=none; b=G92GT+T89kxOH8LlfmbuR0TagPgqXah4/5PO+bEaBZLPNV8/frozKNCw98hkLO7hMfR3dV73Aikjl2bkm/Ty0exW0Ags4NVUsWoIOI+vnYcjLRh4JcUgsg+kKL4vm2ea+HBDzXDL44lagQauz31sAVUBEbHnArRBp3GSX95ZHJ8=
+	t=1750412903; cv=none; b=XPI02E2OwnCfW126giV7MQDY0sxwysudBZnc1GfoZgXb4n9cWfK3YiJ5xu8GCFKesyp5Q111oCgys7ebNs3eXfnkRu0heV4INNAmIHO3EEhmlOxHRD5R/Go2Y3BmoKFodlB40+f0wD6PNs+M+j/wX9YZnv8pfwzmZBFoOg8fHUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750412900; c=relaxed/simple;
-	bh=dP3qw/Q/DuR7Vzhry0KdHuVF/ibAfVFG/uBp92oI3dU=;
+	s=arc-20240116; t=1750412903; c=relaxed/simple;
+	bh=N8D5Lb6u8IUSVMy/sEDCfWwEw81i8mOoylBxKMJuzrs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NxSpio1pRaZwq151749Zu/xVcgkNE3zkLZ8d/JwjT+8RA6776WFTDXJAeIu5WQEoRvvUnUm030qJKLdlH6F/FUfMQFlEDW9CELZl3wRH0ZlnYVKjUBRxclOdzcsKasMa2M/xgnYPCgqC83/soM4n4GHto+mo12Cl1twpzY7jyKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ooJD1j7n; arc=none smtp.client-ip=209.85.219.47
+	 To:Cc:Content-Type; b=Pqk3+Z8qlMeTjlFjQHDqJL8CMMSL/zCFdE3vpe5aE3omX+GLiQD2BB35h84sbwgwl/2BAphpjn6XXQo0pE7QuYF6Iocu+NsEXLbw+/uEhEqQ3cGrTTmid1w4ny1XR2ucFRbxGRWSduzVshUe4FES2Bs6isN+tKUFG2fK88aNWKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NmEkEMRi; arc=none smtp.client-ip=209.85.222.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ooJD1j7n"
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6facf4d8ea8so15601696d6.0
-        for <workflows@vger.kernel.org>; Fri, 20 Jun 2025 02:48:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NmEkEMRi"
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7d21f21baf7so191738285a.0
+        for <workflows@vger.kernel.org>; Fri, 20 Jun 2025 02:48:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1750412897; x=1751017697; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1750412901; x=1751017701; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=NpdBVp6KUPrUw16AA7VNdULFb5MA+N2sofhjnGA0LhE=;
-        b=ooJD1j7nXU65patPLVJfOmePibuy0FggZnzcdWxGJYaLwnTX/F+l6Io5mj0irshVsf
-         1hilL5q7wKN/LJp86FJMow0FFWGzQKMI11B25I1C0f+trJgptVF+ACKXh9+kWXxBTod+
-         xUkDUqO8gfF5QNEMvggVXihGHVVDWKEkjtSLdZzHB+aAVb+Hkpn+v85Rb5jcRkjE+EV7
-         8pRPtOOm7+E5+e0dhLe/FYwmhdqdET8SylPp56+CQShBeA7RWr0nXU8X0K8OkflZLFMx
-         VGUJzFzYWx8XxWeif6JBb0hdVgHB3ctF3v9gEycPYcpZp1YJi8i4OVVXkTrTS3NMQJEo
-         glxA==
+        bh=hpEC7Cw1g8cm75zJhl02XDNNnFHoM7ED0Nq7Nes3iKc=;
+        b=NmEkEMRitGibM32ARe6HPT8LZDS3nhc1cH9pKctE+TXuhlFR2zWuAFJCxnuF6c8nCx
+         1t79i43cS1deBJ3RR5pyQog/0Vsx0zoJAlIrEAWxitABePs52hXsKcof0icbF1vOSavO
+         w29X2nC/FiYHGusxieJTLiZOxfLzmt1DQ2Qld6D9tXh2TMQyqP3OcU51LfdfxiKUlVIy
+         5hYhQURKwfR8+CeNAuHpuodIpSsK1ZybuxJNxEeqT11h1hhAgAfWlXsMCaCiUAgL6S+Y
+         K604to4KhYZYEqSk3hzYLT6g1kYvdp+/I+weEml+mQaOuR/I/1Cv6ISwbcL994FpQPWZ
+         Xesg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750412897; x=1751017697;
+        d=1e100.net; s=20230601; t=1750412901; x=1751017701;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NpdBVp6KUPrUw16AA7VNdULFb5MA+N2sofhjnGA0LhE=;
-        b=MZdiPIl/OydPtDhbazSINQ8hiOYjgRcuajbc6OaDjcRoi7SJXCwdOh6/NAvh9ZdNIa
-         cuiTPpueHDmwEtJp8189StxH+URNsJgXbq0bzpQiwp6M5GxSsfwxKYAcZXtE3MNtoIH/
-         5jIuu0hwffWzqxxNaxw9FsDt2Z0GXvji4S/bsUH4vuiiO7O5WZavHtK6iTwmgR5WYFAi
-         /ncI5zI+8I9jtAnPVLBx9AquMzaLzQN1eZPXh4p/TqxWtnLaqJWUuN7Yqthd3SYXAAaS
-         D273KSH8m4aT8VMW5zt8C28DGhJBeG2BTbv3Zs6AJSUacsOe0EJ+RqahDoCz0ZyQRtRY
-         ULgw==
-X-Forwarded-Encrypted: i=1; AJvYcCWE5iKfQXmyScJmTQm9g7j9mNBa6JBGmfG210q0LH8LqFfYTdAHuYEOk7+VolvjwNIgjdmT6aT+nQU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyn9E9g2Jb3wczCBuT2Q+++IpJhbhKiv53bvZXRXIxOm5RESaIu
-	HyiuLD2Uk6r80mF4L4N5UcBUin6aLx1TzYwdMOAlCbauA4vo9ZDfkeAudN7aiI9BJuqcMFvcJPg
-	9msHofCp/cUtFOVfMC4SGanmT6KT3rwyVN5F1nEEz
-X-Gm-Gg: ASbGncuwAXMPfiU/muKj392bIV0jKwBpjpaFVU1cdvFWZRSmTGLIBm5rvgf84XaDMyj
-	ZVGdwvVEkUm/VYcxRcwenyZpG8V3E5dAzrq3o1MjbyNQprMxYQZbEXi3S1Mbu39Qut3D/frJLNT
-	GoG3j32sqMvD9Fnle+gfD4hj5nBZOBXIuKCtIJ4+0yH9xPSL7/hoytOItErq118cXgiQNj2jQ/z
-	BAFuA==
-X-Google-Smtp-Source: AGHT+IGYGP7SnLkzjM9/T5Xsy95Slyh2NxtweHTH1rWExcw2f5G76TAZn3tbXeICLUNovXsgPwORkl23aK2y+Ng0l78=
-X-Received: by 2002:a05:6214:19cd:b0:6fa:a0af:7644 with SMTP id
- 6a1803df08f44-6fd0a53189cmr39225806d6.27.1750412897416; Fri, 20 Jun 2025
- 02:48:17 -0700 (PDT)
+        bh=hpEC7Cw1g8cm75zJhl02XDNNnFHoM7ED0Nq7Nes3iKc=;
+        b=upPmJa8Sp56fqGzczjmBs6VtSaLrnAtS6N5Du2C8XPohP9FflbKqBmnxE8sbvl4uvG
+         2qy7R1Z7WQplAN/mnUFtH+SJkl44ztFzilJBIolyX9Aa3ejXgGhMxXHw2zkJ0wGA4LfZ
+         JyhL2Q9uPz2uppzWFJLDV9ZgeBZmYTJnfXykBVfLBjKGa7hbp7DQ4D/Kdr74qNuzufdC
+         m17rVxr+R8/gdqn8fRmu3XZN/Vv3w4VjGGV9UtKI54iLES+qtunGvG3p6D9Dh4tAHD5L
+         NWxB6LCnwd5uMRY64XQAN/W1tkIj+3Q7SYQAXVt12rtivUdWbAsYj/2aH4PfNWIJhZ+5
+         hVKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVFsMuJWmqLPMbkEUDAy5u8wNsI+kikrroQekB12UBmCNrhIZqXR82HEz/VXpScjqeM3yFNUCdoKj8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwxcQ6fHlOHnyOWxJq5ILswAUjtJp0dPshaaI4jYY0uLXmD8zeq
+	za0+kmXXTU0m6X/mUIjpgl1fnfdseKJu6JuU5wezcuemNsa0JlOPSO/iidlswmp8iFMsySpWbnD
+	amh5bcgdjCjsoDIdZwpinmfpzm/pzRdXS+XPQPQyn
+X-Gm-Gg: ASbGncufBOR7Ahk9Jh71FtEtQUrUSuOooEIKebq4zbZXTIvAob69ROUPiM5ecZr8PjE
+	EJ7SZwYXMQQ3t+o0/PiTWZcIahnKujdIQ1B1K8/lk6M4WO8ZZFx5U8vKKA5++ZO9w9gIpREaMiA
+	rXMdkrervif+dU4GRNcX5n/DwZDkNd/3c976otAmYTYcR6Yiam4qB6sHPA9jVddq++1CCasVJw3
+	Aki/w==
+X-Google-Smtp-Source: AGHT+IG9l5kxV+1Ma4bC/Ch21pNSqqetHy75BeA92GPqCkiA+bQJbD7IsIRL0I1y9bQPx2uEdJUuoJ0+0CcL4GfInSI=
+X-Received: by 2002:a05:6214:d65:b0:6fa:fbb4:6408 with SMTP id
+ 6a1803df08f44-6fd0a468d1bmr39369366d6.7.1750412900984; Fri, 20 Jun 2025
+ 02:48:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250611-kunit-kselftests-v3-0-55e3d148cbc6@linutronix.de> <20250611-kunit-kselftests-v3-15-55e3d148cbc6@linutronix.de>
-In-Reply-To: <20250611-kunit-kselftests-v3-15-55e3d148cbc6@linutronix.de>
+References: <20250611-kunit-kselftests-v3-0-55e3d148cbc6@linutronix.de> <20250611-kunit-kselftests-v3-16-55e3d148cbc6@linutronix.de>
+In-Reply-To: <20250611-kunit-kselftests-v3-16-55e3d148cbc6@linutronix.de>
 From: David Gow <davidgow@google.com>
-Date: Fri, 20 Jun 2025 17:48:03 +0800
-X-Gm-Features: Ac12FXw0vvK0kNUL8PLM_I85MLksd3wdHePhrJe7vZL6QWot_OYNXjXBHL8Pg2A
-Message-ID: <CABVgOSmr_0rDxC-K96o0RzfppXQiEjSWO-e8xj+0i1kUtVo8CQ@mail.gmail.com>
-Subject: Re: [PATCH v3 15/16] kunit: uapi: Introduce preinit executable
+Date: Fri, 20 Jun 2025 17:48:07 +0800
+X-Gm-Features: Ac12FXziy84ZitrRyNjPJ5X18Rn5RbIW_PxLqeeotLRQa3GNSMkRr034RqGPbsU
+Message-ID: <CABVgOSkzpY8327ePSjuLcbz2jWZkavJvJfF7eehCsS0uzkB65g@mail.gmail.com>
+Subject: Re: [PATCH v3 16/16] kunit: uapi: Validate usability of /proc
 To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
 Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
 	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
@@ -80,192 +80,113 @@ Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org
 	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, 
 	workflows@vger.kernel.org
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000fe38130637fdc282"
+	boundary="000000000000353fd40637fdc31f"
 
---000000000000fe38130637fdc282
+--000000000000353fd40637fdc31f
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Wed, 11 Jun 2025 at 15:38, Thomas Wei=C3=9Fschuh
 <thomas.weissschuh@linutronix.de> wrote:
 >
-> UAPI selftests may expect a "normal" userspace environment.
-> For example the normal kernel API pseudo-filesystems should be mounted.
-> This could be done from kernel code but it is non-idiomatic.
->
-> Add a preinit userspace executable which performs these setup steps
-> before running the final test executable.
-> This preinit executable is only ever run from the kernel.
-> Give it access to autoconf.h and kconfig.h to adapt itself to the
-> tested kernel.
+> Show that the selftests are executed from a fairly "normal"
+> userspace context.
 >
 > Signed-off-by: Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
 > ---
 
-Looks good and works here.
+This is good. I'm not 100% sure the example test is the best place for
+it, though.
+
+Would it make more sense to either have this:
+- in the main kunit test (since it's really _verifying_ the KUnit
+environment, rather than documenting it)
+- in a separate kunit-uapi test (if we want to keep some separation
+between the UAPI and entirely in-kernel tests)
+- in a separate procfs test (since it tests procfs functionality as
+much as it's testing the KUnit environment)
+
+Personally, my gut feeling is the main kunit-test is the best place
+for this, even if it means spinning up a separate file is best here.
+
+As for the actual implementation, though, that looks fine to me. A few
+small comments below, but nothing particularly important.
 
 Reviewed-by: David Gow <davidgow@google.com>
-
-(Although, personally, _I wish_ it were more idiomatic to mount things
-from kernelspace.)
 
 Cheers,
 -- David
 
-
->  lib/kunit/Makefile       |  9 ++++++-
->  lib/kunit/uapi-preinit.c | 63 ++++++++++++++++++++++++++++++++++++++++++=
-++++++
->  lib/kunit/uapi.c         | 11 +++++++--
->  3 files changed, 80 insertions(+), 3 deletions(-)
+>  lib/kunit/kunit-example-uapi.c | 34 +++++++++++++++++++++++++++++++++-
+>  1 file changed, 33 insertions(+), 1 deletion(-)
 >
-> diff --git a/lib/kunit/Makefile b/lib/kunit/Makefile
-> index e406a31df1df834a87961663de0b7921b59481c2..19493ec320c61e2ccbb58e8b2=
-e943e9a4ec447e2 100644
-> --- a/lib/kunit/Makefile
-> +++ b/lib/kunit/Makefile
-> @@ -12,7 +12,14 @@ kunit-objs +=3D                                test.o =
-\
->                                         device.o \
->                                         platform.o
+> diff --git a/lib/kunit/kunit-example-uapi.c b/lib/kunit/kunit-example-uap=
+i.c
+> index 4ce657050dd4a576632a41ca0309c4cb5134ce14..5e7a0f3b68f182c42b03e6675=
+67e66f02d8c2b86 100644
+> --- a/lib/kunit/kunit-example-uapi.c
+> +++ b/lib/kunit/kunit-example-uapi.c
+> @@ -8,13 +8,45 @@
+>   * This is *userspace* code.
+>   */
 >
-> -kunit-$(CONFIG_KUNIT_UAPI) +=3D          uapi.o
-> +userprogs +=3D                           uapi-preinit
-> +uapi-preinit-nolibc :=3D                 $(CONFIG_ARCH_HAS_NOLIBC)
-> +uapi-preinit-userccflags +=3D            -static \
-> +                                       -include include/generated/autoco=
-nf.h \
-> +                                       -include $(srctree)/tools/include=
-/linux/kconfig.h
-> +blobs +=3D                               uapi-preinit.blob.o
-> +uapi-preinit.blob-symbol :=3D            kunit_uapi_preinit
-> +kunit-$(CONFIG_KUNIT_UAPI) +=3D          uapi.o uapi-preinit.blob.o
+> +#include <fcntl.h>
+> +#include <unistd.h>
+> +#include <string.h>
+> +
+>  #include "../../tools/testing/selftests/kselftest.h"
 >
->  ifeq ($(CONFIG_KUNIT_DEBUGFS),y)
->  kunit-objs +=3D                          debugfs.o
-> diff --git a/lib/kunit/uapi-preinit.c b/lib/kunit/uapi-preinit.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..81182039965a8c93aebb2d5d7=
-6f4113bfef277a6
-> --- /dev/null
-> +++ b/lib/kunit/uapi-preinit.c
-> @@ -0,0 +1,63 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * KUnit Userspace environment setup.
-> + *
-> + * Copyright (C) 2025, Linutronix GmbH.
-> + * Author: Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
-> + *
-> + * This is *userspace* code.
-> + */
-> +
-> +#include <sys/mount.h>
-> +#include <sys/stat.h>
-> +
-> +#include "../../tools/testing/selftests/kselftest.h"
-> +
-> +static int setup_api_mount(const char *target, const char *fstype)
+> +static void test_procfs(void)
 > +{
-> +       int ret;
+> +       char buf[256];
+> +       ssize_t r;
+> +       int fd;
 > +
-> +       ret =3D mkdir(target, 0755);
-> +       if (ret && errno !=3D EEXIST)
-> +               return -errno;
-> +
-> +       ret =3D mount("none", target, fstype, 0, NULL);
-> +       if (ret && errno !=3D EBUSY)
-> +               return -errno;
-> +
-> +       return 0;
-> +}
-> +
-> +static void exit_failure(const char *stage, int err)
-> +{
-> +       /* If preinit fails synthesize a failed test report. */
-> +       ksft_print_header();
-> +       ksft_set_plan(1);
-> +       ksft_test_result_fail("Failed during test setup: %s: %s\n", stage=
-, strerror(-err));
-> +       ksft_finished();
-> +}
-> +
-> +int main(int argc, char **argv, char **envp)
-> +{
-> +       int ret;
-> +
-> +       ret =3D setup_api_mount("/proc", "proc");
-> +       if (ret)
-> +               exit_failure("mount /proc", ret);
-> +
-> +       ret =3D setup_api_mount("/sys", "sysfs");
-> +       if (ret)
-> +               exit_failure("mount /sys", ret);
-> +
-> +       if (IS_ENABLED(CONFIG_DEVTMPFS)) {
-> +               ret =3D setup_api_mount("/dev", "devtmpfs");
-> +               if (ret)
-> +                       exit_failure("mount /dev", ret);
+> +       fd =3D open("/proc/self/comm", O_RDONLY);
+> +       if (fd =3D=3D -1) {
+> +               ksft_test_result_fail("procfs: open() failed: %s\n", stre=
+rror(errno));
+> +               return;
 > +       }
 > +
-> +       ret =3D execve(argv[0], argv, envp);
-> +       if (ret)
-> +               exit_failure("execve", ret);
+> +       r =3D read(fd, buf, sizeof(buf));
+> +       close(fd);
 > +
-> +       return 0;
+> +       if (r =3D=3D -1) {
+> +               ksft_test_result_fail("procfs: read() failed: %s\n", stre=
+rror(errno));
+> +               return;
+> +       }
+> +
+
+Do we want to use TASK_COMM_LEN rather than hardcoding 16 below?
+
+(And, if so, do we need something more complicated in case it's not 16?)
+
+
+> +       if (r !=3D 16 || strncmp("kunit-example-u\n", buf, 16) !=3D 0) {
+> +               ksft_test_result_fail("procfs: incorrect comm\n");
+> +               return;
+> +       }
+> +
+> +       ksft_test_result_pass("procfs\n");
 > +}
-> diff --git a/lib/kunit/uapi.c b/lib/kunit/uapi.c
-> index 121146dda533b3f90aca37c20bd0e7a1d20cb3b5..bccc081a6538507724c1ef340=
-203cfd147170dc4 100644
-> --- a/lib/kunit/uapi.c
-> +++ b/lib/kunit/uapi.c
-> @@ -139,7 +139,7 @@ static int kunit_uapi_user_mode_thread_init(void *dat=
-a)
->         kernel_sigaction(SIGABRT, SIG_DFL);
->
->         complete(&ctx->setup_done);
-> -       ctx->exec_err =3D kernel_execve(ctx->executable, argv, NULL);
-> +       ctx->exec_err =3D kernel_execve(kbasename(BLOB(kunit_uapi_preinit=
-)->path), argv, NULL);
->         if (!ctx->exec_err)
->                 return 0;
->         do_exit(0);
-> @@ -239,6 +239,7 @@ static int kunit_uapi_run_executable_in_mount(struct =
-kunit *test, const char *ex
->
->  static int kunit_uapi_run_executable(struct kunit *test, const struct bl=
-ob *executable)
->  {
-> +       const struct blob *preinit =3D BLOB(kunit_uapi_preinit);
->         const char *exe_name =3D kbasename(executable->path);
->         struct vfsmount *mnt;
->         int err;
-> @@ -247,7 +248,13 @@ static int kunit_uapi_run_executable(struct kunit *t=
-est, const struct blob *exec
->         if (IS_ERR(mnt))
->                 return PTR_ERR(mnt);
->
-> -       err =3D kunit_uapi_write_file(mnt, exe_name, 0755, executable->da=
-ta, blob_size(executable));
-> +       err =3D kunit_uapi_write_file(mnt, kbasename(preinit->path), 0755=
-,
-> +                                   preinit->data,
-> +                                   blob_size(preinit));
 > +
-> +       if (!err)
-> +               err =3D kunit_uapi_write_file(mnt, exe_name, 0755,
-> +                                           executable->data, blob_size(e=
-xecutable));
->
->         if (!err)
->                 err =3D kunit_uapi_run_executable_in_mount(test, exe_name=
-, mnt);
+>  int main(void)
+>  {
+>         ksft_print_header();
+>         ksft_set_plan(4);
+> -       ksft_test_result_pass("userspace test 1\n");
+> +       test_procfs();
+>         ksft_test_result_pass("userspace test 2\n");
+>         ksft_test_result_skip("userspace test 3: some reason\n");
+>         ksft_test_result_pass("userspace test 4\n");
 >
 > --
 > 2.49.0
 >
 
---000000000000fe38130637fdc282
+--000000000000353fd40637fdc31f
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -355,13 +276,13 @@ Vumvw5QTHe29TYxSiusovM6OD5y0I+4zaIaYDx/AtF0mMOFXb1MDyynf1CDxhtkgnrBUseHSOU2e
 MYs7IqzRap5xsgpJS+t7cp/P8fdlCNvsXss9zZa279tKwaxR0U2IzGxRGsWKGxDysn1HT6pqMDGC
 Al0wggJZAgEBMGgwVDELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYtc2ExKjAo
 BgNVBAMTIUdsb2JhbFNpZ24gQXRsYXMgUjYgU01JTUUgQ0EgMjAyMwIQAUXA7LnOuRz2DvkWTeMc
-0TANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQgs4VcxKYjtKh6NTZuUwJLHTBnO1Um
-GVIEtaLUncX1XocwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUw
-NjIwMDk0ODE3WjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
+0TANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQgu2eBGmuTuVNQyj0fEcKWKy+6sQHD
+prtlLXAqTM7vqCYwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUw
+NjIwMDk0ODIxWjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
 YIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcN
-AQEBBQAEggEAIWzJZQOQEcyCknyZ2DOVAfbXx3LURsX9h4sbV2IiAUN5cW8NWUMo/jl/i/zX592l
-z74sta1itA8W5zi2vC9HSjVVZFnyVtrs8ISB8p/J14zLSS1RSc1Mp1tlt03MLaJF5i/xl/1UKb2W
-RrmxuH+p1h1gHnzCuZqwM29rnYWuhfKMf/YcKeQKzuKuzTGF4Iqlr6/BMfIIwrW4sUI0qlpNKP8f
-2i70xkgvrWv3XtKxniHudv8d9EEdIiVldfg7qRQVrFhu+YsTp377WL+b0eaXeG7E+BgSPqE2e+Bw
-uC/lxKmmyH/MnlFz+7seKkqinivq2t0uPurADJwllM4wz7d8VQ==
---000000000000fe38130637fdc282--
+AQEBBQAEggEAA8GMaESfCverlSr922Cc5gnmckCdXsyPkEv7ljJqN+lbIVNc8Gt8do9EWyJMrQC8
+gv2CUVxje2e1g66VViPK/1BmnyRZjGBVtpA2dNSj7JT9Xn9yVl/klYtfJXT8kpvPbFVIXO74733i
+phaosOZ/b4D9HibxoNGOnaUzh/A7j5aX+qgRpOaDTlh7Ps5t+iD/38tTW4IhXvNn1RYgNNcfA1x9
+QHVEsV4Xu2R9nDJMov0lX+uHigF8nob3+3VAmjoMSCgn9atjOLnfkGLDbbQlvFdWBgjgATig2aFv
+5npsXmRQ+UDFLV+mq1hNPthR7D5/HxENELLX+JzrN77msd5lTQ==
+--000000000000353fd40637fdc31f--
