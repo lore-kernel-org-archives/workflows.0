@@ -1,194 +1,166 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DEB82C3274
-	for <workflows@vger.kernel.org>; Tue, 24 Jun 2025 14:05:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 418531A2630
+	for <workflows@vger.kernel.org>; Tue, 24 Jun 2025 14:30:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750773955; cv=none; b=rWw3cbB9Wp+ph337KsCkD0ugsNusgBs8dtTHAsZPi/u6jwhHnvMIY2eAkYCs9OKdQ+0zTglyCFj67hjWt252E0KOKZpqo/8eY39QX11+twxgl7KqfgV55iIu6THCZiilWiOsMdUnFN8n8jUazM9oLLkvS2A5qeDsOFaTiV/451g=
+	t=1750775439; cv=none; b=YnUJoJX/w6v80Y+T3z8cc7MPWFhAFrbV0MRlkQ/yI45g3zEIcAnJo8Crjj5y4esf6cNOZPJqI2HbhwLGpJR64DRvb5Txe6oQmAfJjTRDWoyz3p+F3KmdNBIW/A0kxBVXZdnANy4v7tNeYRRtRVn4StzwCt9Dr6uN7Lv2c7EkaW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750773955; c=relaxed/simple;
-	bh=b82Sl48i4HaD9mfydXB7+D4f/xFkM7JWCjfJ/FznMvI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xo19+LOV0/NQbhytRm6BUgqFNSxeGIMzPD4I19vRbvZ4IQymXrnGlZvZ6kdHX0jgMeCAd5ZJ5HmgW9tTjpklBC/opf2FDfn+avxyoaAKaxnBHXnD404iyMJOcotCXKVQci0GI93uBhaVYGHvhKPf8C1dxap7uw3Ts+q/+cm5LQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=lNrOrHnV; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=QAr11eEI; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=lNrOrHnV; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=QAr11eEI; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1750775439; c=relaxed/simple;
+	bh=nD6d1oQU0U6CEQ1PjJb3tKi1fzkMIlIjezBHP9gjyFE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sHJLWQ4w+XRqy9MEzLQmYNtNnJ2hXrIlcMPnDlyRUibJuQIIBbfD+fBm6NQAtynbswPk+K9b8RxdiF513M9ygdblSXZkRQgzXoBfZdOxviYfyh2GeM2RS9wmC2zNx8Cep3+HUFBNPSv/YpwBZ6aJboLmIxaTVrPFv1YbBdG/9cs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pVXza9or; arc=none smtp.client-ip=209.85.166.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="lNrOrHnV";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="QAr11eEI";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="lNrOrHnV";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="QAr11eEI"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 483FC1F444;
-	Tue, 24 Jun 2025 14:05:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1750773952; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IFQH2JgdAPVFzEwVQ4z26a3AfD97xOT2djRZ/ji3+L4=;
-	b=lNrOrHnVnIa7wAHKfjbC7taRu2dDmbTchDvDF6lTwdNMe3+MJNigzqZoiLN53OoIrXIQZw
-	a88u2h2HVrWAYJO6tcWutQA+UKZxIBC6cEVPrp5PJUWb6ipcpgHWwNRcMgNLnmCp6Q1/Cw
-	Y351ixvev2IUmP3CI14cKBXeeopJ8l4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1750773952;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IFQH2JgdAPVFzEwVQ4z26a3AfD97xOT2djRZ/ji3+L4=;
-	b=QAr11eEIQwDDlZeah0/BKey83ySm9x395yNpy7eoXQo/VfVD8wxFNsM2fmuGrU1/zYm1vC
-	d8oRQNJ7152rz1Dw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1750773952; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IFQH2JgdAPVFzEwVQ4z26a3AfD97xOT2djRZ/ji3+L4=;
-	b=lNrOrHnVnIa7wAHKfjbC7taRu2dDmbTchDvDF6lTwdNMe3+MJNigzqZoiLN53OoIrXIQZw
-	a88u2h2HVrWAYJO6tcWutQA+UKZxIBC6cEVPrp5PJUWb6ipcpgHWwNRcMgNLnmCp6Q1/Cw
-	Y351ixvev2IUmP3CI14cKBXeeopJ8l4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1750773952;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IFQH2JgdAPVFzEwVQ4z26a3AfD97xOT2djRZ/ji3+L4=;
-	b=QAr11eEIQwDDlZeah0/BKey83ySm9x395yNpy7eoXQo/VfVD8wxFNsM2fmuGrU1/zYm1vC
-	d8oRQNJ7152rz1Dw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3637A13751;
-	Tue, 24 Jun 2025 14:05:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id vFrEC8CwWmgedgAAD6G6ig
-	(envelope-from <chrubis@suse.cz>); Tue, 24 Jun 2025 14:05:52 +0000
-Date: Tue, 24 Jun 2025 16:06:31 +0200
-From: Cyril Hrubis <chrubis@suse.cz>
-To: Dmitry Vyukov <dvyukov@google.com>
-Cc: sashal@kernel.org, kees@kernel.org, elver@google.com,
-	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-	tools@kernel.org, workflows@vger.kernel.org
-Subject: Re: [RFC 00/19] Kernel API Specification Framework
-Message-ID: <aFqw5-PO4MjsEdYU@yuki.lan>
-References: <aFNYQkbEctT6N0Hb@lappy>
- <20250623132803.26760-1-dvyukov@google.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pVXza9or"
+Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-8762a0866a3so14217539f.2
+        for <workflows@vger.kernel.org>; Tue, 24 Jun 2025 07:30:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1750775437; x=1751380237; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=nD6d1oQU0U6CEQ1PjJb3tKi1fzkMIlIjezBHP9gjyFE=;
+        b=pVXza9orz/i1vTC6WD5SzWZ+9Z3/DY5r2DSictTUKkTInwmPH5OnYzr5WG6eQIcW4W
+         odMhv0h8vNFRwKNkNlNS+U0C02sBlt5TwnjM+exmHAKBF6+EEAbMPKZulwWcpMHZMqkO
+         Qo703bL29SunEIMVfZO3e0PM0e55g3w8kCeWzjTvsjR2Vd2A7XcdQqPZd9MLfj0wK4bT
+         PoFYQckPL6q/xJo9uuoxq2yeVcWVPRiWhyZoYoH1iJfMgO2liLA+f1uoo6t4LIAYMiyV
+         vZSDkZ+caPSH9YMUfYueiQrC1xdi+wyQeKIU9L/0J7eLrPqvdtPEkyAb/SHP0Ti4NAjX
+         97/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750775437; x=1751380237;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nD6d1oQU0U6CEQ1PjJb3tKi1fzkMIlIjezBHP9gjyFE=;
+        b=b9Ejm2DSkXcCj1HD8Rv2ImtPsQHT4o3/Yz0+cMkK6G4I8vuQEJQgSc9i1T08BGX+rB
+         MDZooRuY2Z76yrt5mEzBBVdkgrIJsHSGqfRs+Qjm058jU/NI5OfwPEg1NBDkOf4ehwm6
+         Xu6MnQyz8zfmM5Q2S9ylBpeR6TgroonDTH4ppDv1nRHgiaES+iQxaBhNqgZu774XQhf4
+         UaCSa14Tatmla/+RHqCZfju0LmuJ6bUB+fxxwiWKAuZLD67q6pRqBxM0HwVkxYBLNP1X
+         Gr0WPS4B4U2uAoRx77TQr8aO3LIFdH3C2+6h67knAQALPliqo3VL+bTnFBMnYtPj8CFM
+         P7JA==
+X-Forwarded-Encrypted: i=1; AJvYcCXRuz0EaOX/qZ9hd8r3r2OpYGKeJGfvp5zTKyWTGpkGvwUUVojhAf9h2sP48/tPMxO4AtfYUTn8xtk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzqKXSb7KkfnQX01LQNnxEB7jL+r1T/rAnOjggN2f7LLkHxQNUp
+	ylYBPfunx9T2hOwsZcRG2zE958E1/dRqKTDVwrgTGS0r5xjKc9NNYQeUQn+E4NL63tpEJeebm0T
+	j0ZWvQYAYrSw8y7f6bYD+t+JiZ++mx2l8NZmQWgqt
+X-Gm-Gg: ASbGncsmrY+6erAW6I/d1mDU+3lJ/UrVoPqnILRFxCd5W/ziYNEWPC/fg2iYTwW7V23
+	1p21ow77pUSbe1ZSlJww8j7HT9unnrXLrZuRztn9IyHsWXTBG2p7wIyOxe1iVeY7vCxBQcEVdKy
+	Pwf/ttcEndMLbdIgfD6vZ9LX9B7T+ESbOdVRGZSnZxb8yjPAK86+0lpC/DA7mMjFmY66E50Ttt
+X-Google-Smtp-Source: AGHT+IEHixcelKr3ZDZkYGsXMHko5Eg4schrz3wOXp27EKQA6K+fy348hW6r2MyxxJ0URo5kPr2rZaqYfCP2unLWoUs=
+X-Received: by 2002:a92:ca0e:0:b0:3dd:bfba:ff9c with SMTP id
+ e9e14a558f8ab-3de38ca2a44mr177442515ab.11.1750775436923; Tue, 24 Jun 2025
+ 07:30:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250623132803.26760-1-dvyukov@google.com>
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
+References: <aFNYQkbEctT6N0Hb@lappy> <20250623132803.26760-1-dvyukov@google.com>
+ <aFqw5-PO4MjsEdYU@yuki.lan>
+In-Reply-To: <aFqw5-PO4MjsEdYU@yuki.lan>
+From: Dmitry Vyukov <dvyukov@google.com>
+Date: Tue, 24 Jun 2025 16:30:23 +0200
+X-Gm-Features: AX0GCFsbVHjLUySg8qRCEV1aKqnjgETI6fmZpybrMY1RcxRtsY4qbFVJBY3VhYg
+Message-ID: <CACT4Y+Youc3M0z0U9arrTgyOC1+UKytav4zObhjUXn8-RLThMQ@mail.gmail.com>
+Subject: Re: [RFC 00/19] Kernel API Specification Framework
+To: Cyril Hrubis <chrubis@suse.cz>
+Cc: sashal@kernel.org, kees@kernel.org, elver@google.com, 
+	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org, tools@kernel.org, 
+	workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi!
-> 6. What's the goal of validation of the input arguments?
-> Kernel code must do this validation anyway, right.
-> Any non-trivial validation is hard, e.g. even for open the validation function
-> for file name would need to have access to flags and check file precense for
-> some flags combinations. That may add significant amount of non-trivial code
-> that duplicates main syscall logic, and that logic may also have bugs and
-> memory leaks.
+On Tue, 24 Jun 2025 at 16:05, Cyril Hrubis <chrubis@suse.cz> wrote:
+>
+> Hi!
+> > 6. What's the goal of validation of the input arguments?
+> > Kernel code must do this validation anyway, right.
+> > Any non-trivial validation is hard, e.g. even for open the validation function
+> > for file name would need to have access to flags and check file precense for
+> > some flags combinations. That may add significant amount of non-trivial code
+> > that duplicates main syscall logic, and that logic may also have bugs and
+> > memory leaks.
+>
+> I was looking at that part and thinking that we could generate (at least
+> some) automated conformance tests based on this information. We could
+> make sure that invalid parameters are properly rejected. For open(),
+> some combinations would be difficuilt to model though, e.g. for
+> O_DIRECTORY the pathname is supposed to be a path to a directory and
+> also the file descriptor returned has different properties. Also O_CREAT
+> requires third parameter and changes which kinds of filepaths are
+> invalid. Demultiplexing syscalls like this is going to be difficult to
+> get right.
+>
+> As for testing purposes, most of the time it would be enough just to say
+> something as "this parameter is an existing file". If we have this
+> information in a machine parseable format we can generate automatic
+> tests for various error conditions e.g. ELOOP, EACESS, ENAMETOOLONG,
+> ENOENT, ...
+>
+> For paths we could have something as:
+>
+> file:existing
+> file:notexisting
+> file:replaced|nonexisting
+> file:nonexisting|existing
+> dir:existing
+> dir:nonexisting
+>
+> Then for open() syscall we can do:
+>
+> flags=O_DIRECTORY path=dir:existing
+> flags=O_CREAT path=file:nonexisting|existing
+> flags=O_CREAT|O_EXCL path=file:nonexisting
+> ...
+>
+> You may wonder if such kind of tests are useful at all, since quite a
+> few of these errors are checked for and generated from a common
+> functions. There are at least two cases I can think of. First of all it
+> makes sure that errors are stable when particular function/subsystem is
+> rewritten. And it can also make sure that errors are consistent across
+> different implementation of the same functionality e.g. filesystems. I
+> remember that some of the less used FUSE filesystems returned puzzling
+> errors in certain corner cases.
 
-I was looking at that part and thinking that we could generate (at least
-some) automated conformance tests based on this information. We could
-make sure that invalid parameters are properly rejected. For open(),
-some combinations would be difficuilt to model though, e.g. for
-O_DIRECTORY the pathname is supposed to be a path to a directory and
-also the file descriptor returned has different properties. Also O_CREAT
-requires third parameter and changes which kinds of filepaths are
-invalid. Demultiplexing syscalls like this is going to be difficult to
-get right.
+I am not following how this is related to the validation part of the
+patch series. Can you elaborate?
 
-As for testing purposes, most of the time it would be enough just to say
-something as "this parameter is an existing file". If we have this
-information in a machine parseable format we can generate automatic
-tests for various error conditions e.g. ELOOP, EACESS, ENAMETOOLONG,
-ENOENT, ...
+Generation of such conformance tests would need info about parameter
+types and their semantic meaning, not the validation part.
+The conformance tests should test that actual syscall checking of
+arguments, not the validation added by this framework.
 
-For paths we could have something as:
 
-file:existing
-file:notexisting
-file:replaced|nonexisting
-file:nonexisting|existing
-dir:existing
-dir:nonexisting
+> Maybe it would be more useful to steer this towards a system that
+> annotates better the types for the syscall parameters and return values.
+> Something that would be an extension to a C types with a description on
+> how particular string or integer is interpreted.
 
-Then for open() syscall we can do:
++1
 
-flags=O_DIRECTORY path=dir:existing
-flags=O_CREAT path=file:nonexisting|existing
-flags=O_CREAT|O_EXCL path=file:nonexisting
-...
 
-You may wonder if such kind of tests are useful at all, since quite a
-few of these errors are checked for and generated from a common
-functions. There are at least two cases I can think of. First of all it
-makes sure that errors are stable when particular function/subsystem is
-rewritten. And it can also make sure that errors are consistent across
-different implementation of the same functionality e.g. filesystems. I
-remember that some of the less used FUSE filesystems returned puzzling
-errors in certain corner cases.
+> > Side-effects specification potentially can be used to detect logical kernel bugs,
+> > e.g. if a syscall does not claim to change fs state, but it does, it's a bug.
+> > Though, a more useful check should be failure/concurrency atomicity.
+> > Namely, if a syscall claims to not alter state on failure, it shouldn't do so.
+> > Concurrency atomicity means linearizability of concurrent syscalls
+> > (side-effects match one of 2 possible orders of syscalls).
+> > But for these we would need to add additional flags to the descriptions
+> > that say that a syscall supports failure/concurrency atomicity.
+> >
+> > 8. It would be useful to have a mapping of file_operations to actual files in fs.
+> > Otherwise the exposed info is not very actionable, since there is no way to understand
+> > what actual file/fd the ioctl's can be applied to.
+>
+> +1 There are many different kinds of file descriptors and they differ
+> wildy in what operations they support.
+>
+> Maybe we would need a subclass for a file descriptor, something as:
+>
+> fd:file
+> fd:timerfd
+> fd:pidfs
 
-Maybe it would be more useful to steer this towards a system that
-annotates better the types for the syscall parameters and return values.
-Something that would be an extension to a C types with a description on
-how particular string or integer is interpreted.
-
-> Side-effects specification potentially can be used to detect logical kernel bugs,
-> e.g. if a syscall does not claim to change fs state, but it does, it's a bug.
-> Though, a more useful check should be failure/concurrency atomicity.
-> Namely, if a syscall claims to not alter state on failure, it shouldn't do so.
-> Concurrency atomicity means linearizability of concurrent syscalls
-> (side-effects match one of 2 possible orders of syscalls).
-> But for these we would need to add additional flags to the descriptions
-> that say that a syscall supports failure/concurrency atomicity.
-> 
-> 8. It would be useful to have a mapping of file_operations to actual files in fs.
-> Otherwise the exposed info is not very actionable, since there is no way to understand
-> what actual file/fd the ioctl's can be applied to.
-
-+1 There are many different kinds of file descriptors and they differ
-wildy in what operations they support.
-
-Maybe we would need a subclass for a file descriptor, something as:
-
-fd:file
-fd:timerfd
-fd:pidfs
-...
-
--- 
-Cyril Hrubis
-chrubis@suse.cz
+FWIW syzkaller has this for the purpose of automatic generation of test inputs.
