@@ -1,58 +1,58 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ADD98C0E
-	for <workflows@vger.kernel.org>; Wed, 25 Jun 2025 08:49:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43ECA279DCD
+	for <workflows@vger.kernel.org>; Wed, 25 Jun 2025 08:53:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750841363; cv=none; b=iwQPb+/g+hR+yHn84VY77yxTBnvp5I3XokPoKHMXQPqjdk7bjcCfRuaDT6evinY+h1POGNSQgxZhtEADeDC4R3UM5dAzgvf/+OL1Qz0Xz1mXZrLzi7UvBA1VoYnKsR/JqL3Y7pkn/SBWZE3Z+I+omCZr+ENGffHL/MvF/ufSvco=
+	t=1750841582; cv=none; b=A8X+HEix6AaiCNvI5ffXS2WQfr5QcfJPixnIOIXNhQP1Zi/DPdeYyO8qaAimWV+tbfljoI3IsD/lzLlii+YW1cADXi9pnaImDpnB8XxxotpzZw6Z3HwSoroeZdAFdf2XvetiiFFnsVYVI/j+HKjVsH2G15YuJEpA9cR9vbAnV3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750841363; c=relaxed/simple;
-	bh=nvqiVYP05gkX+45rgrHxV9tn7/eugPV0r4GU2p4dxOo=;
+	s=arc-20240116; t=1750841582; c=relaxed/simple;
+	bh=/aGMiSWgswdb3PxpszlBovn3np9bIPgjxtNCoeUpgjw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=A+rJWlBg6xZamqiSKOpqs2Ewsx3LRV2CFA/xII0P9gD4TEUEDaMAED/0r1v1R5jYENB8gyHxYin7tbEiAsBts46ou00bFm/t0xvoeXaig5ukSCiL6O6a2QzXk73pcmQr532DE+TOI09fSX10O4uJleOCemP3CkD8UE8xn4RReXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rB4k84ZB; arc=none smtp.client-ip=209.85.167.49
+	 To:Cc:Content-Type; b=JGxHkDjP7C/58Iveyqfl0rpIf2YLj+2gmCvGIflJd5C3yqQvGGzFNpwMbVjloilDNRn7J0I42Z1q3VJDP6yEqzwT19uTxtrj+wcmTssVx42uiB16Wv5JWqdg2rAmqkTdRivjsmi+K+WW2fzSfgf3l7K8K4pO7JKL4YheBt1kGLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=yNvBUzm7; arc=none smtp.client-ip=209.85.208.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rB4k84ZB"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-553e5df44f8so4790071e87.3
-        for <workflows@vger.kernel.org>; Wed, 25 Jun 2025 01:49:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="yNvBUzm7"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-32addf54a01so13588141fa.3
+        for <workflows@vger.kernel.org>; Wed, 25 Jun 2025 01:52:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1750841360; x=1751446160; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1750841578; x=1751446378; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=nvqiVYP05gkX+45rgrHxV9tn7/eugPV0r4GU2p4dxOo=;
-        b=rB4k84ZBTiQuHqnZzWMlBeIhSbnPol3w6We6JJyc6A36GIsVpwN9sLH0SbFOuLRFoP
-         UW6nlTRyXiTO8E5M6L054uwBsnFulRn3F/ElMHYGEqf0EFSLUkko4pxjOZ6aXeaDVgh2
-         zTLmGMkaevW9ua2NK7cVfItN8iPbj7pLldaFDSZki7KkE2eHvFlUipNH3vDLL98x7v9n
-         ntAKlx9Pawb9eDUQYG5Q3fdIQv7UvDEyUybXClkyOk7HShEOOit42nBzABH4yNncWrFt
-         aYGOk1w/U8HspIveNqEbLm0kHBLkM7p407FX8p/U8exeb2NQytEbMRNX9Xt2D4qKJ1iO
-         h+3w==
+        bh=/aGMiSWgswdb3PxpszlBovn3np9bIPgjxtNCoeUpgjw=;
+        b=yNvBUzm7HQioAxHvUAItpxKH1RAv/arKTA+stNrfkSkTJkbZIuAk095lskBmUla+B6
+         2UQUpfSej9VRX9QLEeFidWzhkHGIRzcrcVff2ri79PHCtz2r3Mmm4Zo1pOfXvsX4PwAY
+         4dKY8mqX8SF5/sTlmrkb2EuCbJPvTJmGijpOLmsMg3SZv/5xJ+8g7wsoRAzqOZsF+Qnk
+         GZJQa2wVPm5gwARjgYIuBPNLGCtywSxkAIS2DX2HD0YIuiGtm3bRx62ER1oz8J4vMZbh
+         o4CJM0I4O6kPtYTE0XjJ81ut61unA/Cu9KDEGE5MKZBOlDYa8Tr9EUk9nCu8iHOa42QZ
+         Hepg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750841360; x=1751446160;
+        d=1e100.net; s=20230601; t=1750841578; x=1751446378;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=nvqiVYP05gkX+45rgrHxV9tn7/eugPV0r4GU2p4dxOo=;
-        b=m0RwMgPfoC3YbAEyHP+coFCCCSL5UeWvfD/95o+/QrNZhqSpD+eSDoK0za6vnONolT
-         +6J3xqfPDYTLB+ZI0EaPdoMYMX7GR4/mlalVM52r0aLYyzCG4SD+Av47HsiW/VPi9AED
-         QTRy2cp9HxNM19tvRAKDIm+2y27zwkcX4ME4wVFV1ugay/RkTTbemE65MPWKSJXf/ke0
-         OoZMd4W5odFNyw5BCSt82FvFMmC+wQ1kbg18AqUFPpFOBMyBTJUG/9zyPRKTm980QJkw
-         +4+KTW2dJ0uH/wPXSyIEuYikJAGc+DjEc47OmOdFmRYYfJG3aLMuFq/YRZjLl/YzZenA
-         wlCA==
-X-Forwarded-Encrypted: i=1; AJvYcCV9wtOeME3RsTbh709+PE1LUamz29kZ9l/yRR3juBJv7LT2dNCmcaPxPXmshjVRuDvyS4FLuJs0XSs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyeom02AvY+BxyVgRNmDIqhpOf2ZhNOSqgWO6esSM4wmq7o9sfj
-	91EctR1jsY7rTEWJdAgSBXi/312OCOllLfjNJfhNwhQinLUixu70k6Oxu8cBm84ddTSu+e7w85e
-	hQ73gTY+wzCKaxQZwHV6oHBFRUKG73Pcnp+Qr+M9x
-X-Gm-Gg: ASbGncvGUlQ8gDxJVScoK/H9uqLP7FWmi1MZHZaC618s1VEaRwIOSM1px8CS0tybLyL
-	/Sgfa50fvSQTHgHwO6hJxYlTwHY6art1IEcbmarQDfG7ctaPw1+Youks0kj2Lnz1ddxiXk03T0P
-	2Krw7mQUQ0Q3hlzxQsGZJh4FpAEATPXbSEz+Ms9MNldC7QZi5Wil7sycuxBW8XmqByf0q0vvTq5
-	CkT
-X-Google-Smtp-Source: AGHT+IH4sD/iS/Fz3AfqY3JjQJ0QSUCwWLiwTVvoLWsrtxEtv0ZKRiY1/QvBZtg02yo3iOHVwYxluGoF+g3P5vNH4Zk=
-X-Received: by 2002:a05:6512:334b:b0:553:288e:149 with SMTP id
- 2adb3069b0e04-554fdd1b64cmr554545e87.27.1750841359942; Wed, 25 Jun 2025
- 01:49:19 -0700 (PDT)
+        bh=/aGMiSWgswdb3PxpszlBovn3np9bIPgjxtNCoeUpgjw=;
+        b=UIZlGzMMl7Dq8MoCDjhM21ZC8wtyqQP8OnEi4fyIW6jZONKbz/Tu/8ufQRMtO+f6Ad
+         GSeDbz0+zN3yHAs87SnoRoE0Lb3/6m7BzmAZsidWj5pswBMaA4Yy6geymkWFyNwC4mK5
+         EgRU8/uDgcDYbsti+TeidDtHbLKngkDnVq6b1DGFWlGyI/VCOzqUk1PeON+3T6gZWjAH
+         OE62mVDgk61uGjOIkjJ8uD6o4D3Hs/GRLA4GxZrB3SCOp1VpmnowOSxCH3d2XxOHYmhC
+         3KMFszkIS9YiW46+1V5sT42WXG7KHJvCPTYi4SJE1ncyq0C8U9Sd0tXS7gGO+ag2mcQN
+         L9TQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUIcEflUBtrFbrr/JuqQeTLId87K6GT5Hm8EnOejz3wWV9Z9dgudVEbrQMh/srqP53m7f7BgCF2k0w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YznAJ+l0vzA7em1RjjCo0an3ivmYSjgGnRUoNXTwAbNgB2QOM+/
+	AHjc2r8ZIhOmjcwdb0f4u4CqcTm8UbC6TYiPMOVE8uL+LXRsdiJaYlrj6ewYrEO/Rv2QHfVC5G4
+	4WAM2RFr7qXTpsvzeFlxFJ5K+sbtJ9SqOWeDqobS5
+X-Gm-Gg: ASbGncsudRRXh4Ey/TdCCDdNlEro3uV8G43o95ci0lNBFnYpCX6rZmhMgfNlCxGWKEN
+	GKpJN99qVfGlmZMogBbvMidBElsQ9P2I2sTc3FFnzpjFh7JrncasYuXgTLU25+kH3dYd1tbztzr
+	9cI2yuxpnUZZ+CycVtiqeiPJo2jWZ6i14blqhOXEYWfVj7BsswlocCyOsv2yTsGv5vRpPmhH8hG
+	xcy
+X-Google-Smtp-Source: AGHT+IHn5jN08ujo8GoOIZXJyGKEDPnWbpxEqhAfrT8jEIaoiQ0R+LhHX8niQOlMCvkzPsyqSYJbSovaD/ar3ODPJFY=
+X-Received: by 2002:a2e:bb98:0:b0:32c:bc69:e918 with SMTP id
+ 38308e7fff4ca-32cc641db52mr4677001fa.1.1750841578106; Wed, 25 Jun 2025
+ 01:52:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -63,9 +63,9 @@ References: <aFNYQkbEctT6N0Hb@lappy> <20250623132803.26760-1-dvyukov@google.com>
  <aFsE0ogdbKupvt7o@lappy>
 In-Reply-To: <aFsE0ogdbKupvt7o@lappy>
 From: Dmitry Vyukov <dvyukov@google.com>
-Date: Wed, 25 Jun 2025 10:49:08 +0200
-X-Gm-Features: Ac12FXxVCyTc9FCprJeDUTUo0n_vww4UVwL3_j6F7uN0V-VcezTdw6FnkszO8VA
-Message-ID: <CACT4Y+Y_RQX55fNTLAjEQJYp3TY5a1yYZjx42BYu=vfObWzTBQ@mail.gmail.com>
+Date: Wed, 25 Jun 2025 10:52:46 +0200
+X-Gm-Features: Ac12FXzXBIFSLBsUnXVDMCaUxIQVjV8jup_taqhSUWe1Psb2MF0u58GMi7noczg
+Message-ID: <CACT4Y+Y04JC359J3DnLzLzhMRPNLem11oj+u04GoEazhpmzWTw@mail.gmail.com>
 Subject: Re: [RFC 00/19] Kernel API Specification Framework
 To: Sasha Levin <sashal@kernel.org>
 Cc: kees@kernel.org, elver@google.com, linux-api@vger.kernel.org, 
@@ -74,29 +74,20 @@ Content-Type: text/plain; charset="UTF-8"
 
 On Tue, 24 Jun 2025 at 22:04, Sasha Levin <sashal@kernel.org> wrote:
 
-> >3. To reduce duplication we could use more type information, e.g. I was always
-> >frustrated that close is just:
-> >
-> >SYSCALL_DEFINE1(close, unsigned int, fd)
-> >
-> >whereas if we would do:
-> >
-> >typedef int fd_t;
-> >SYSCALL_DEFINE1(close, fd_t, fd)
-> >
-> >then all semantic info about the arg is already in the code.
+> >6. What's the goal of validation of the input arguments?
+> >Kernel code must do this validation anyway, right.
+> >Any non-trivial validation is hard, e.g. even for open the validation function
+> >for file name would need to have access to flags and check file precense for
+> >some flags combinations. That may add significant amount of non-trivial code
+> >that duplicates main syscall logic, and that logic may also have bugs and
+> >memory leaks.
 >
-> Yup. It would also be great if we completely drop the SYSCALL_DEFINE()
-> part and have it be automatically generated by the spec itself, but I
-> couldn't wrap my head around doing this in C macro just yet.
+> Mostly to catch divergence from the spec: think of a scenario where
+> someone added a new param/flag/etc but forgot to update the spec - this
+> will help catch it.
 
-At some point I was looking at boost.pp library as the source of info
-on how to do things. It provides a set of containers and algorithms on
-them:
-https://www.boost.org/doc/libs/latest/libs/preprocessor/doc/index.html
-
-Sequences may be the most appealing b/c they support variable number
-of elements, and don't need specifying number of elements explicitly:
-https://www.boost.org/doc/libs/latest/libs/preprocessor/doc/data/sequences.html
-A sequence then allows generating multiple things from it using
-foreach over elements.
+How exactly is this supposed to work?
+Even if we run with a unit test suite, a test suite may include some
+incorrect inputs to check for error conditions. The framework will
+report violations on these incorrect inputs. These are not bugs in the
+API specifications, nor in the test suite (read false positives).
