@@ -1,97 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3859D25C6EF;
-	Wed, 25 Jun 2025 16:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C7B2264B8;
+	Thu, 26 Jun 2025 06:10:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750868602; cv=none; b=b6NocsqaSw5wKWpRzrWmZ9DvBYsmZePEyy4dkymajZuT8/NCfLBelh2CIKBW7NqAlg+1MMjePUdhdHS8EwgSHRcqwrvXBPJfzkln5V3TtG8CHI5mKqsmVA05uDAnh9JhfmE4QvUVE4lCkAceo7vGYYWGDj74KN7O8ujuEExBebM=
+	t=1750918221; cv=none; b=I+M7sq6qZP1+AYDIN+mRapTbeaDH6r5sp0ftNad1Nbr2esUBrFmC03J3skHCPgvntUzw5jGwDohFMT2AvvhQosZVlnPD2IOiCQCRyecmEGCt2mtwLA80D8HSp2jFLmnQEu6cGkSIEAKS6VYgfgntAK3pKDaRcLjE0T1SZRNVh78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750868602; c=relaxed/simple;
-	bh=5NEw5Y4/fL/U+B2YQeTnXJ4pW5OuGA13BjtZEU3aPwo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nOZ2i1v6U9ctLVTEU6wRaw3PFb4gHGOtZYUXpBDtn/24yrekxhLmh8DrGe4bjyNedSvVM3PArhPIi5b/DS37UGub3cCN8yrrF958c/AEoqAxXWTFZrTdhovCaUVV8iDMqLNOybJ6szo10oms6wGHD/ipQFREUYCwXmlUaCaLnyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HWgUjIe0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750918221; c=relaxed/simple;
+	bh=VQxsVor9ejvNkW+zMsNv6ylbSNC6UWshMp7dNSJXIGU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=cCBZbfoir/sdPfje+jpfusPScJQm5kwGay+6vSkxg+5EkenNrn16mFdqfuD0CkUC1L+gv2y5PZlfPAdntCUAHMQzRIKwj2CQj5gY+jukFAMc4fbgDVz5FdFS8eEbfZplU7fzNy0OuCFWFppwGuXQlLlLwd52FjJQjM8Xo6ILXI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=BZPfXKem; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=kbHAUoSn; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HWgUjIe0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADD81C4CEEA;
-	Wed, 25 Jun 2025 16:23:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750868601;
-	bh=5NEw5Y4/fL/U+B2YQeTnXJ4pW5OuGA13BjtZEU3aPwo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HWgUjIe0i59ri+N4z4OA1Dc3OsR6hq2+pIFS65hgsHrWKfbOktC87/VQ0fIujf7xJ
-	 5SdKmvSq0HQgQtlLcwsRnNXSdohLVxfalPKqPPnSsQ2IOZzJMDyG6OV8bEcYOTtOXj
-	 6wfNZC8mqLTJJCuzpxJvr4zE4faOnlUHq3W4JulnASPVcb0pvMCEqMDgIMnRQS+yQ7
-	 7lSW/WsssS23dtBrVy+esBMCoEEjB3TjCoXiWzdo0GUrbgJKCFQCRmI46j20cXr9LI
-	 adHE0KLpyUpgMgOIrm+fLe2NFQ0dDNjjUHkaXtGgRYHH9hmSZBUSbKvMIdDDORtOch
-	 QpXLigoRtzlQw==
-Date: Wed, 25 Jun 2025 12:23:19 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Dmitry Vyukov <dvyukov@google.com>
-Cc: kees@kernel.org, elver@google.com, linux-api@vger.kernel.org,
-	linux-kernel@vger.kernel.org, tools@kernel.org,
-	workflows@vger.kernel.org
-Subject: Re: [RFC 00/19] Kernel API Specification Framework
-Message-ID: <aFwid-sUdAbp9gmQ@lappy>
-References: <aFNYQkbEctT6N0Hb@lappy>
- <20250623132803.26760-1-dvyukov@google.com>
- <aFsE0ogdbKupvt7o@lappy>
- <CACT4Y+bV-3HgNOAd+f7W0RBU2-qoocpMCepKhLEb+BcyiJM5Mg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="BZPfXKem";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="kbHAUoSn"
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1750918217;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Glf9QqUKGXuoDH6daia/H7DqVosWzcrmQsY661kVE2s=;
+	b=BZPfXKem4GMLd72sR9kF+JfCnKidqQpdIZIUmKXtGteC8kRiCYgxWo9OT6C4wyVL6swhDd
+	km3AmxdnPFTVG+jYbNGhxbnUQJqMRUjVBW+idNjfvaaV0VMn51IJQpnOO3zDM7lItiztaP
+	iLk8xK4Kh4h3Rbu+WjMJio2lWcdQF84jKrzkWyZ+YXf6hOQfkIa8akJgSLLs7+oPDy1utE
+	V/3BnkQGKYl6vK7XntcFaHTI6tbos2nXJKGxgtxaKLzl32GclaR+rhvhxkbaTzgaAv6Lxe
+	KNXIs9RRgPnXna2m8xLi1KtbWENQS9X+k4pp6eFKj6fm9uN9/93gAEnazzyN9Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1750918217;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Glf9QqUKGXuoDH6daia/H7DqVosWzcrmQsY661kVE2s=;
+	b=kbHAUoSnrWMlRUChL9teVwyAdMmhNZzrCNBCGLIK9guS53cfwvYkdFmGZDU+jv2DD6L55U
+	ZH/ovbQx2o/MbCBw==
+Date: Thu, 26 Jun 2025 08:10:09 +0200
+Subject: [PATCH v4 01/15] kbuild: userprogs: avoid duplication of flags
+ inherited from kernel
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CACT4Y+bV-3HgNOAd+f7W0RBU2-qoocpMCepKhLEb+BcyiJM5Mg@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20250626-kunit-kselftests-v4-1-48760534fef5@linutronix.de>
+References: <20250626-kunit-kselftests-v4-0-48760534fef5@linutronix.de>
+In-Reply-To: <20250626-kunit-kselftests-v4-0-48760534fef5@linutronix.de>
+To: Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+ Brendan Higgins <brendan.higgins@linux.dev>, 
+ David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
+ Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Nicolas Schier <nicolas.schier@linux.dev>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>, 
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+ linux-doc@vger.kernel.org, workflows@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1750918216; l=1184;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=VQxsVor9ejvNkW+zMsNv6ylbSNC6UWshMp7dNSJXIGU=;
+ b=DiOoPDI4CefA9sIOkV5GE9zeB3R/ajtwPY4A++qOT427a7uO6gy/mj89YznvhGL79N/TRjUch
+ CFGD0XKTgSrDmhjgjLwjeuT4KIwMLcEHCa8/IPDjXul4bISUop78vnc
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-On Wed, Jun 25, 2025 at 10:56:04AM +0200, Dmitry Vyukov wrote:
->On Tue, 24 Jun 2025 at 22:04, Sasha Levin <sashal@kernel.org> wrote:
->> >9. I see that syscalls and ioctls say:
->> >KAPI_CONTEXT(KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE)
->> >Can't we make this implicit? Are there any other options?
->>
->> Maybe? I wasn't sure how we'd describe somthing like getpid() which
->> isn't supposed to sleep.
->>
->> >Similarly an ioctl description says it releases a mutex (.released = true,),
->> >all ioctls/syscalls must release all acquired mutexes, no?
->> >Generally, the less verbose the descriptions are, the higher chances of their survival.
->> >+Marco also works static compiler-enforced lock checking annotations,
->> >I wonder if they can be used to describe this in a more useful way.
->>
->> I was thinking about stuff like futex or flock which can return with a
->> lock back to userspace.
->
->I see, this makes sense. Then I would go with explicitly specifying
->rare uncommon cases instead, and require 99% of common cases be the
->default that does not require saying anything.
->
->E.g. KAPI_CTX_NON_SLEEPABLE, .not_released = true.
->
->KAPI_CTX_NON_SLEEPABLE looks useful, since it allows easy validation:
->set current flag, and BUG on any attempt to sleep when the flag is set
->(lockdep probably already has required pieces for this).
+The duplication makes maintenance harder. Changes need to be done in two
+places and the lines will grow overly long.
 
-Yup, that makes sense. One of the reason I wrapped all the field
-assignments with macros is that we can easily customize them based on
-usage, so instead of:
+Use an intermediary variable instead.
 
-	#define KAPI_LOCK_ACQUIRED \
-         	        .acquired = true,
+Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+---
+ Makefile | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-	#define KAPI_LOCK_RELEASED \
-         	        .released = true,
-
-We can add:
-
-	#define KAPI_LOCK_USED \
-			.acquired = true, \
-			.released = true,
+diff --git a/Makefile b/Makefile
+index 35e6e5240c61a8a329011929fcd0352b881dccdc..c4293cf91e968ca8ee64452841fb266e24df63f6 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1130,8 +1130,9 @@ LDFLAGS_vmlinux	+= --emit-relocs --discard-none
+ endif
+ 
+ # Align the bit size of userspace programs with the kernel
+-KBUILD_USERCFLAGS  += $(filter -m32 -m64 --target=%, $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS))
+-KBUILD_USERLDFLAGS += $(filter -m32 -m64 --target=%, $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS))
++USERFLAGS_FROM_KERNEL := -m32 -m64 --target=%
++KBUILD_USERCFLAGS  += $(filter $(USERFLAGS_FROM_KERNEL), $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS))
++KBUILD_USERLDFLAGS += $(filter $(USERFLAGS_FROM_KERNEL), $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS))
+ 
+ # userspace programs are linked via the compiler, use the correct linker
+ ifeq ($(CONFIG_CC_IS_CLANG)$(CONFIG_LD_IS_LLD),yy)
 
 -- 
-Thanks,
-Sasha
+2.50.0
+
