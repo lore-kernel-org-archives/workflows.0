@@ -1,222 +1,111 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE1125E461;
-	Thu, 26 Jun 2025 06:10:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6105728FFD0
+	for <workflows@vger.kernel.org>; Thu, 26 Jun 2025 08:32:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750918234; cv=none; b=nNitNmTiqQzNHaRuEu4e3Tv2IkR8yoop0knE+NAxie2FAk3E+VdkKiaMc7rV9vpflGXYDDD1eWAdUILYiP0gNx8IWR6i8kjdt8eRgAKiIx+lcy77NzrGJPJqMl6MzQKUM0vxh2HtrT4iXrRzrK5IXuFEoENiOkZNL5vaud7K5zI=
+	t=1750926780; cv=none; b=BLbAb8RKR5N0qmkoACFecNZ6gVFhL8o+RmWOhjivUkIHGjAynigepS/byY8kUvdXxSW1PUgBk9QqwEi1sz1i4TAqC8jId05YC80zXGgsXTEWzllVARzeUqRhbf9tjKOtiVfwzbO7shn556Ku1k9q14UayRYj11gZEdUN6lDk5TM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750918234; c=relaxed/simple;
-	bh=/QnMka8GtzcWlJyc1k0qKztnRSdiplVDLyPIydh5NqE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mMGG43JQbFfVdyXcGLhlBMwcOAfcPWRZWFXAMX2oMmAT+6+tXP1EybxPw0Jfef8k61IO/A8Bj44WYgj0uzcwlpYLnUUBhBnYRbl951Pe8RrXDhxfGpcc4aDs3wS9yLUVgBtVmknm2glkPasY4dmItB58Y83alK2yauCp4uQVRXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=GopqWVnX; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=hvv9muUm; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1750926780; c=relaxed/simple;
+	bh=/EXnmyDqhgwhNubqEJ+Z7XqtbTMhvh+9M0BZvcE+S0c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eS6AkOidRr21fE4389Uxgcwm/ci7QPliqBqajeyrhHJRAwNcbH8JEMU3N1FkpP+VxHmD9lJQVSx+NVUuE1hbw1IXSITkwmQHDjahhWf1wE9jTo31T5H7K7fz8OQhW/M/iKXL194hN6ub+aou0ayxyxf5De1nhulgbQAo7ELE9fE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FJLM/NFG; arc=none smtp.client-ip=209.85.208.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="GopqWVnX";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="hvv9muUm"
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1750918229;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Wcd1PIYjhMZuamuSudKPI/n6bo0/ENxSUBBB9QoiuyI=;
-	b=GopqWVnX6xFlQ7Kx9LSfHAgcfO1bXVmMzglHMjTN5SiIw7UlhYURTvAEuSuT+AxPq3k4oU
-	3JFfGoVPS4m6RQjL3VjsmLrrBcx2WLx9xgWrxZyEotk36T9mgYsf56JWIoNVRQhe0MKi6i
-	eZCJr7kiNonUUR1AOAj81Z9eKsvG9/VKh7hVXelMamD/4VusIN2JS31i3aaYuGmgYs1ZLn
-	7xeUp1R9K3fzzyYp/OQ+luAEGlQunqtPK9tO+C+UVBoHHiASArPOAnTjE1fUrM0tb1ZFqx
-	zvAuCYrZdXVVpvp4qvUq/j4AgT3cGr8HB6e+ac2KAvB0IytDj77RMe83pHaMKg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1750918229;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Wcd1PIYjhMZuamuSudKPI/n6bo0/ENxSUBBB9QoiuyI=;
-	b=hvv9muUmMjT3RoOZ2ahvBTns7AYlFJQVgiBCUCOxaASmznc+IOeTQZZwURS4JcQ1mKrAr7
-	RlqvovE88eiPVdDA==
-Date: Thu, 26 Jun 2025 08:10:23 +0200
-Subject: [PATCH v4 15/15] kunit: uapi: Validate usability of /proc
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FJLM/NFG"
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-32addf54a01so7286261fa.3
+        for <workflows@vger.kernel.org>; Thu, 26 Jun 2025 01:32:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1750926776; x=1751531576; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=tZyqW6LTgx3qQCdMf7DVmwLH6L5ZjexEcMKkRJNzkQg=;
+        b=FJLM/NFGEiPONX4FrdSZ0hI/cQk82eO+Lo5YVkchHl8WweUn2tSD6hRktRnJ8QG3vo
+         vTJolU3CiS6Cy/pbdjy14FvlPP2Kli+M+DptWSEI/w0U4sem0vUwh1eUvq5kGAYIYvzX
+         O8JseJRSOyvj4mqXPvxoSv31hO8QB7HK0gWaImazyNXVnceVZd4E1fYedMkLj1srp10I
+         0pej8WZrfLXOJ2fMKlViXyXGNXbe8Lf9ViRgjzppBCSI14J/f+hJxdgsrInoUvTnYufR
+         kFVgkbqHWPIgD7tBdjSK0WMLLhnE7YBhuGjSKfnqUnRCf/DC/GT/tGNf9yo/pdRwoy3h
+         vqCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750926776; x=1751531576;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tZyqW6LTgx3qQCdMf7DVmwLH6L5ZjexEcMKkRJNzkQg=;
+        b=qdagxpLlst536+wFHpdPXX+l8K0w4h3E4W418zJW6u1iRuOmXaGcFnctWKSrU0J5Jo
+         u6sdLh4UwkG/oKgqeRpM4A4ppOJxJPLhQboRMqiGSeBC6jEfHPvGEwV25p9omRQ/WPv7
+         uDe7BS5HmJH7F/Igo+IKaAwawRT0xK1TGlVzATRwnUasTQY/aydx9Hr6H7eC3M94lb3j
+         itqcMbPtVqFWPKEV8IqJOFeqUJc3PJwv9LuXyQlB6jr/vBmKYvDjpLY71C//kh9BSnAY
+         a9MSx3aQWX+avKvZwjA0R3GrfS4uo1V3NAuZHLmPKOK2BK0umU2gq2xq+I8Sbe4A1BfC
+         mk1w==
+X-Forwarded-Encrypted: i=1; AJvYcCU/Scp858k/l7S2kRrrfueEqP0MFrvMUE9+OYFv+CFOMj50rejfEmKP2exi8Fe5hW0JVYfx4whiFLA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzDWy4sNDmA2EmRiH8RGuKzl3izPhXokkbTY0NUXz4+YYNhFX+b
+	DhwFHsSi3t0XBgqRDqM4h3ammE2tckX8Hek4nB8RoGcmzcoBeMZqAAFKgUqlnWq0wDRXY3ZDI5m
+	aXtxJLM388zizdBnx9jmzS9q7J8RvPAQ09jsyxgch
+X-Gm-Gg: ASbGnctNA11z4bbOLEYIqT8oXSjoEhi5TApzQzJ+mreUQ7eT5thacDNrVcr4fMU11Ig
+	2f+0sJ9KViBj7y9qwQnpztctZJ+Fc+8izA9KVSR9/QweeZuzw50GrO5jQEknOW2rouuM+ZfGANC
+	NeVRsXXF6A6driOuUJQaZ4+Lnvn9Yw9dSZY6ppE9pAiGgSgh9L2e1Zfx4wtAabnOc5qhflWsnv0
+	vFy
+X-Google-Smtp-Source: AGHT+IETo+L/oV+R/tmnVYW2Qg4rA4aBv5GWRJ/qPp97+u4UznXO8eCK5nvO+CRrEHedFW1CDFl6j9Mm6w/bd2AvpQI=
+X-Received: by 2002:a2e:9059:0:b0:32b:5eb3:280 with SMTP id
+ 38308e7fff4ca-32ccfa91d8emr7830071fa.29.1750926776245; Thu, 26 Jun 2025
+ 01:32:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250626-kunit-kselftests-v4-15-48760534fef5@linutronix.de>
-References: <20250626-kunit-kselftests-v4-0-48760534fef5@linutronix.de>
-In-Reply-To: <20250626-kunit-kselftests-v4-0-48760534fef5@linutronix.de>
-To: Masahiro Yamada <masahiroy@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, 
- Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
- Brendan Higgins <brendan.higgins@linux.dev>, 
- David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
- Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Nicolas Schier <nicolas.schier@linux.dev>
-Cc: Christophe Leroy <christophe.leroy@csgroup.eu>, 
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
- linux-doc@vger.kernel.org, workflows@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1750918216; l=4198;
- i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=/QnMka8GtzcWlJyc1k0qKztnRSdiplVDLyPIydh5NqE=;
- b=xB7u5Cp2e4wdBmPvNIDKeczWzFIIV/jDR6yOyqYbQ1SH8M4HoZCTC+imqTH8D829DAdmzvkAY
- mXqCdf6nCfYABbD4IU+hZPge6uh7tTqbdBktUUvhy/GR2tq5/hV3xZ/
-X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
- pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
+References: <aFNYQkbEctT6N0Hb@lappy> <20250623132803.26760-1-dvyukov@google.com>
+ <aFsE0ogdbKupvt7o@lappy> <CACT4Y+Y04JC359J3DnLzLzhMRPNLem11oj+u04GoEazhpmzWTw@mail.gmail.com>
+ <aFwb_3EE2VMEV_tf@lappy>
+In-Reply-To: <aFwb_3EE2VMEV_tf@lappy>
+From: Dmitry Vyukov <dvyukov@google.com>
+Date: Thu, 26 Jun 2025 10:32:45 +0200
+X-Gm-Features: Ac12FXwPRCYLCXOzZA2k06HmxFcMR3fWIsqQHlWuGEU7Sh27__v25jmGtwOdH6Q
+Message-ID: <CACT4Y+b9u6_wx9BU0hH0L6ogGKN_+R5T7OsgJVFAWm8yeD0E7Q@mail.gmail.com>
+Subject: Re: [RFC 00/19] Kernel API Specification Framework
+To: Sasha Levin <sashal@kernel.org>
+Cc: kees@kernel.org, elver@google.com, linux-api@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, tools@kernel.org, workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Show that the selftests are executed from a fairly "normal"
-userspace context.
+On Wed, 25 Jun 2025 at 17:55, Sasha Levin <sashal@kernel.org> wrote:
+>
+> On Wed, Jun 25, 2025 at 10:52:46AM +0200, Dmitry Vyukov wrote:
+> >On Tue, 24 Jun 2025 at 22:04, Sasha Levin <sashal@kernel.org> wrote:
+> >
+> >> >6. What's the goal of validation of the input arguments?
+> >> >Kernel code must do this validation anyway, right.
+> >> >Any non-trivial validation is hard, e.g. even for open the validation function
+> >> >for file name would need to have access to flags and check file precense for
+> >> >some flags combinations. That may add significant amount of non-trivial code
+> >> >that duplicates main syscall logic, and that logic may also have bugs and
+> >> >memory leaks.
+> >>
+> >> Mostly to catch divergence from the spec: think of a scenario where
+> >> someone added a new param/flag/etc but forgot to update the spec - this
+> >> will help catch it.
+> >
+> >How exactly is this supposed to work?
+> >Even if we run with a unit test suite, a test suite may include some
+> >incorrect inputs to check for error conditions. The framework will
+> >report violations on these incorrect inputs. These are not bugs in the
+> >API specifications, nor in the test suite (read false positives).
+>
+> Right now it would be something along the lines of the test checking for
+> an expected failure message in dmesg, something along the lines of:
+>
+>         https://github.com/linux-test-project/ltp/blob/0c99c7915f029d32de893b15b0a213ff3de210af/testcases/commands/sysctl/sysctl02.sh#L67
+>
+> I'm not opposed to coming up with a better story...
 
-Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
----
- MAINTAINERS                 |  1 +
- lib/kunit/Makefile          |  8 +++++++
- lib/kunit/kunit-test-uapi.c | 51 +++++++++++++++++++++++++++++++++++++++++++++
- lib/kunit/kunit-test.c      | 23 +++++++++++++++++++-
- 4 files changed, 82 insertions(+), 1 deletion(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e81dfa180ab374ef91c7a45e546e6e9a8f454fa7..d86e8e0bfee75acecfeb9569d53ea8ea99727985 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13545,6 +13545,7 @@ M:	Thomas Weißschuh <thomas.weissschuh@linutronix.de>
- S:	Maintained
- F:	include/kunit/uapi.h
- F:	lib/kunit/kunit-example-uapi.c
-+F:	lib/kunit/kunit-test-uapi.c
- F:	lib/kunit/kunit-uapi.c
- F:	lib/kunit/uapi-preinit.c
- 
-diff --git a/lib/kunit/Makefile b/lib/kunit/Makefile
-index b50f3bc8bc7f3ade03be4900d9163d7a0d96863c..25384e5c3c4cd1f92e4ec2c3830e0be1c6732ac1 100644
---- a/lib/kunit/Makefile
-+++ b/lib/kunit/Makefile
-@@ -30,6 +30,14 @@ endif
- obj-$(if $(CONFIG_KUNIT),y) +=		hooks.o
- 
- obj-$(CONFIG_KUNIT_TEST) +=		kunit-test.o
-+
-+userprogs +=				kunit-test-uapi
-+kunit-test-uapi-userccflags :=		-static $(NOLIBC_USERCFLAGS)
-+
-+ifdef CONFIG_KUNIT_UAPI
-+$(obj)/kunit-test.o: $(obj)/kunit-test-uapi
-+endif
-+
- obj-$(CONFIG_KUNIT_TEST) +=		platform-test.o
- 
- # string-stream-test compiles built-in only.
-diff --git a/lib/kunit/kunit-test-uapi.c b/lib/kunit/kunit-test-uapi.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..ec5395d809ee2a4bd3c47a573a576e2f98ef5c1b
---- /dev/null
-+++ b/lib/kunit/kunit-test-uapi.c
-@@ -0,0 +1,51 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * KUnit Userspace selftest.
-+ *
-+ * Copyright (C) 2025, Linutronix GmbH.
-+ * Author: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
-+ *
-+ * This is *userspace* code.
-+ */
-+
-+#include <fcntl.h>
-+#include <unistd.h>
-+#include <string.h>
-+
-+#include "../../tools/testing/selftests/kselftest.h"
-+
-+static void test_procfs(void)
-+{
-+	char buf[256];
-+	ssize_t r;
-+	int fd;
-+
-+	fd = open("/proc/self/comm", O_RDONLY);
-+	if (fd == -1) {
-+		ksft_test_result_fail("procfs: open() failed: %s\n", strerror(errno));
-+		return;
-+	}
-+
-+	r = read(fd, buf, sizeof(buf));
-+	close(fd);
-+
-+	if (r == -1) {
-+		ksft_test_result_fail("procfs: read() failed: %s\n", strerror(errno));
-+		return;
-+	}
-+
-+	if (r != 16 || strncmp("kunit-test-uapi\n", buf, 16) != 0) {
-+		ksft_test_result_fail("procfs: incorrect comm\n");
-+		return;
-+	}
-+
-+	ksft_test_result_pass("procfs\n");
-+}
-+
-+int main(void)
-+{
-+	ksft_print_header();
-+	ksft_set_plan(1);
-+	test_procfs();
-+	ksft_finished();
-+}
-diff --git a/lib/kunit/kunit-test.c b/lib/kunit/kunit-test.c
-index d9c781c859fde1f3623eb71b6829e82aa4803762..03972a3cb172d4af61bec17be800ddfb4bbd7268 100644
---- a/lib/kunit/kunit-test.c
-+++ b/lib/kunit/kunit-test.c
-@@ -8,6 +8,7 @@
- #include "linux/gfp_types.h"
- #include <kunit/test.h>
- #include <kunit/test-bug.h>
-+#include <kunit/uapi.h>
- 
- #include <linux/device.h>
- #include <kunit/device.h>
-@@ -868,10 +869,30 @@ static struct kunit_suite kunit_current_test_suite = {
- 	.test_cases = kunit_current_test_cases,
- };
- 
-+static void kunit_uapi_test(struct kunit *test)
-+{
-+	KUNIT_UAPI_EMBED_BLOB(kunit_test_uapi, "kunit-test-uapi");
-+
-+	if (IS_ENABLED(CONFIG_KUNIT_UAPI))
-+		kunit_uapi_run_kselftest(test, &kunit_test_uapi);
-+	else
-+		kunit_skip(test, "CONFIG_KUNIT_UAPI is not enabled");
-+}
-+
-+static struct kunit_case kunit_uapi_test_cases[] = {
-+	KUNIT_CASE(kunit_uapi_test),
-+	{}
-+};
-+
-+static struct kunit_suite kunit_uapi_test_suite = {
-+	.name = "kunit_uapi",
-+	.test_cases = kunit_uapi_test_cases,
-+};
-+
- kunit_test_suites(&kunit_try_catch_test_suite, &kunit_resource_test_suite,
- 		  &kunit_log_test_suite, &kunit_status_test_suite,
- 		  &kunit_current_test_suite, &kunit_device_test_suite,
--		  &kunit_fault_test_suite);
-+		  &kunit_fault_test_suite, &kunit_uapi_test_suite);
- 
- MODULE_DESCRIPTION("KUnit test for core test infrastructure");
- MODULE_LICENSE("GPL v2");
-
--- 
-2.50.0
-
+Oh, you mean special tests for this framework (rather than existing tests).
+I don't think this is going to work in practice. Besides writing all
+these specifications, we will also need to write dozens of tests per
+each specification (e.g. for each fd arg one needs at least 3 tests:
+-1, valid fd, inclid fd; an enum may need 5 various inputs of
+something; let alone netlink specifications).
