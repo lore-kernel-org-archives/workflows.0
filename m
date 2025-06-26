@@ -1,132 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sipsolutions.net (s3.sipsolutions.net [168.119.38.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26F5A20AF62;
-	Thu, 26 Jun 2025 16:23:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47C052EBDFF;
+	Thu, 26 Jun 2025 18:11:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.38.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750955020; cv=none; b=ewlVG/D7KwYJ40QFatZt6R8A1zz94P68TU1KL+spSTnxt1ipLmdOdk7NZHEIJsiW0Se8FKW8BdUzawwFSBrNTDjCMLd+dECP9TKOjtjUJZMJg5MuPnEk/Ne0iAsbkNl83frbHXrEbKRFaLcKLu6fuGJ8NYrhjXbRwAHiA11LD3I=
+	t=1750961505; cv=none; b=H3uaQp4ATu/hFPbsE4gPVLLKEPcL0T3KcBJ1PI0nxNxpncwouSTQ7mAvFKSWfXG/JfhEL9SD5yW3LH1satWkXJzzeZyETD/3eCRCwJE/ivCzp+WDmW6Gh2DK0GoRi9andvTsdHLpHccFIXqkDvSM1vz9Wxk4IwNWIOJ84H+99q0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750955020; c=relaxed/simple;
-	bh=AL/ayqffGwaOW7aWfAzxONsmdVg4IhQmQQ3LDroZ/n8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k0oOcIWt6oueISPvRwcNVJKlrdHCeT1t6jDaH9JyDToChkgVmxlaAYwKi5ijqiQOGun+ONNN0uJRmsiWebb23SWIVNBGEH0S1cGkgrVCDzATK9ziJeFkt7+CGOHs09M4fSrqDTOUFelI3iMz8Rfo4i6Xt+zqkwhXDly/oxubEx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HZWOSUBy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750961505; c=relaxed/simple;
+	bh=/vTqsWsQnnD6PxS8RqEp3lyYDah0D1sXXjxJyrumqZI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Ec7J+ni/qAGXvVECmbHv2sjzZ21ThBMVMkw9GPUdFi5KhtQUz1Y1PJjr/GCZUeSx9cmLU911P1HFc64/b104/I7UCTQlTlQ1KmQwrHK+j/60AdKnT/gWW8i7SPU7LmgNlQPOdL4mnP0Ax1AQaaHp30L1HGTUxMKp9Xy29CVizec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net; spf=pass smtp.mailfrom=sipsolutions.net; dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b=BaKoARYI; arc=none smtp.client-ip=168.119.38.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sipsolutions.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HZWOSUBy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5A7BC4CEEB;
-	Thu, 26 Jun 2025 16:23:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750955019;
-	bh=AL/ayqffGwaOW7aWfAzxONsmdVg4IhQmQQ3LDroZ/n8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HZWOSUBy299in7RzwFOlzWIeKnbZ/oojfsiofevfcFNiv8PgZceL8LfAbLKWExolB
-	 4qGpmC6eoEa9GK+WyhQUzj/VEDrn9faCr1NZH35UPKbJ9fiVH6Yb3uXND2v6Rn4uKV
-	 3/puAXBpvkRuSTCE1ckgo7zzUpho3T8h+7eGgAxHUEM81y8AtNiG+pYHhMP7U1z24p
-	 FITvVnRIskxPdAMZpaQKeFkHfmAUD8//rmS/R/SkqzoC5ChQUges+CzavJud2SNPP2
-	 6+mKlEttw3EeQCiZzRHEoasfguKmbcJ+Z3IjNpqMpba44mTtzhmorycRgJL7cZRqXb
-	 oHFP6YZ25FYZQ==
-Date: Thu, 26 Jun 2025 12:23:38 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Dmitry Vyukov <dvyukov@google.com>
-Cc: kees@kernel.org, elver@google.com, linux-api@vger.kernel.org,
-	linux-kernel@vger.kernel.org, tools@kernel.org,
-	workflows@vger.kernel.org
-Subject: Re: [RFC 00/19] Kernel API Specification Framework
-Message-ID: <aF10Cu0GI092Sjr3@lappy>
-References: <aFNYQkbEctT6N0Hb@lappy>
- <20250623132803.26760-1-dvyukov@google.com>
- <aFsE0ogdbKupvt7o@lappy>
- <CACT4Y+Y04JC359J3DnLzLzhMRPNLem11oj+u04GoEazhpmzWTw@mail.gmail.com>
- <aFwb_3EE2VMEV_tf@lappy>
- <CACT4Y+b9u6_wx9BU0hH0L6ogGKN_+R5T7OsgJVFAWm8yeD0E7Q@mail.gmail.com>
- <CACT4Y+b1Sou9bzhsuJ_LAjwCtynWN1iNRnaUkkTecNWxLUfMUw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b="BaKoARYI"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+	Resent-Cc:Resent-Message-ID; bh=LjE007gYCBpNBo6Eo9JKv1OoWp0a2hHAJM79jEQpxYM=;
+	t=1750961504; x=1752171104; b=BaKoARYIsnp2GemovybvRVesCARYXGR+IxR4WQ23I33x54b
+	txL/HgjWJCb3Az/E66dzyqMvF4y9R6jKAAPdeV1Ypbak2jy6qvR7GvQg2Rvyud1Luibd6zYnSGxye
+	O7METzP8/y88iCv3cTTPbsl9Eoc91/YH/SsypUVgrs+PKO+MKE7H94pfsilIvVoZVm7fqxkFrlebf
+	N6R77B69gqwzJIkyB73bLIp4gEy1i9rc6LAtSxa5w6yrRRIIXkITwwrvu9fNPq1FBQgIxp+KeSLA+
+	gnqr0/mJIb3mANZ4wEKRJ4w4YSUekfqQEfDfKgnBepTutTtaQ5JsiEN+rAJWWyTg==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.98.2)
+	(envelope-from <benjamin@sipsolutions.net>)
+	id 1uUr4B-0000000BuZ7-2DCz;
+	Thu, 26 Jun 2025 20:11:19 +0200
+Message-ID: <66deaafe1974c989e949975bafe3ab0b2ae3f5ff.camel@sipsolutions.net>
+Subject: Re: [PATCH v4 12/15] kunit: Introduce UAPI testing framework
+From: Benjamin Berg <benjamin@sipsolutions.net>
+To: Thomas =?ISO-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>, 
+ Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
+ <nathan@kernel.org>, Andrew Morton	 <akpm@linux-foundation.org>, Willy
+ Tarreau <w@1wt.eu>, Thomas =?ISO-8859-1?Q?Wei=DFschuh?=	
+ <linux@weissschuh.net>, Brendan Higgins <brendan.higgins@linux.dev>, David
+ Gow	 <davidgow@google.com>, Rae Moar <rmoar@google.com>, Shuah Khan
+ <shuah@kernel.org>,  Jonathan Corbet	 <corbet@lwn.net>, Nicolas Schier
+ <nicolas.schier@linux.dev>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+	linux-doc@vger.kernel.org, workflows@vger.kernel.org, Kees Cook
+ <kees@kernel.org>,  Alexander Viro <viro@zeniv.linux.org.uk>, Christian
+ Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 	linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org
+Date: Thu, 26 Jun 2025 20:11:17 +0200
+In-Reply-To: <20250626-kunit-kselftests-v4-12-48760534fef5@linutronix.de> (sfid-20250626_081057_904093_DFB49A53)
+References: <20250626-kunit-kselftests-v4-0-48760534fef5@linutronix.de>
+	 <20250626-kunit-kselftests-v4-12-48760534fef5@linutronix.de>
+	 (sfid-20250626_081057_904093_DFB49A53)
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CACT4Y+b1Sou9bzhsuJ_LAjwCtynWN1iNRnaUkkTecNWxLUfMUw@mail.gmail.com>
+X-malware-bazaar: not-scanned
 
-On Thu, Jun 26, 2025 at 10:37:33AM +0200, Dmitry Vyukov wrote:
->On Thu, 26 Jun 2025 at 10:32, Dmitry Vyukov <dvyukov@google.com> wrote:
->>
->> On Wed, 25 Jun 2025 at 17:55, Sasha Levin <sashal@kernel.org> wrote:
->> >
->> > On Wed, Jun 25, 2025 at 10:52:46AM +0200, Dmitry Vyukov wrote:
->> > >On Tue, 24 Jun 2025 at 22:04, Sasha Levin <sashal@kernel.org> wrote:
->> > >
->> > >> >6. What's the goal of validation of the input arguments?
->> > >> >Kernel code must do this validation anyway, right.
->> > >> >Any non-trivial validation is hard, e.g. even for open the validation function
->> > >> >for file name would need to have access to flags and check file precense for
->> > >> >some flags combinations. That may add significant amount of non-trivial code
->> > >> >that duplicates main syscall logic, and that logic may also have bugs and
->> > >> >memory leaks.
->> > >>
->> > >> Mostly to catch divergence from the spec: think of a scenario where
->> > >> someone added a new param/flag/etc but forgot to update the spec - this
->> > >> will help catch it.
->> > >
->> > >How exactly is this supposed to work?
->> > >Even if we run with a unit test suite, a test suite may include some
->> > >incorrect inputs to check for error conditions. The framework will
->> > >report violations on these incorrect inputs. These are not bugs in the
->> > >API specifications, nor in the test suite (read false positives).
->> >
->> > Right now it would be something along the lines of the test checking for
->> > an expected failure message in dmesg, something along the lines of:
->> >
->> >         https://github.com/linux-test-project/ltp/blob/0c99c7915f029d32de893b15b0a213ff3de210af/testcases/commands/sysctl/sysctl02.sh#L67
->> >
->> > I'm not opposed to coming up with a better story...
->
->If the goal of validation is just indirectly validating correctness of
->the specification itself, then I would look for other ways of
->validating correctness of the spec.
->Either removing duplication between specification and actual code
->(i.e. generating it from SYSCALL_DEFINE, or the other way around) ,
->then spec is correct by construction. Or, cross-validating it with
->info automatically extracted from the source (using
->clang/dwarf/pahole).
->This would be more scalable (O(1) work, rather than thousands more
->manually written tests).
->
->> Oh, you mean special tests for this framework (rather than existing tests).
->> I don't think this is going to work in practice. Besides writing all
->> these specifications, we will also need to write dozens of tests per
->> each specification (e.g. for each fd arg one needs at least 3 tests:
->> -1, valid fd, inclid fd; an enum may need 5 various inputs of
->> something; let alone netlink specifications).
+Hi Thomas,
 
-I didn't mean just for the framework: being able to specify the APIs in
-machine readable format will enable us to automatically generate
-exhaustive tests for each such API.
+I ran into two minor issues trying out the patches, see inline.
 
-I've been playing with the kapi tool (see last patch) which already
-supports different formatters. Right now it outputs human readable
-output, but I have proof-of-concept code that outputs testcases for
-specced APIs.
+On Thu, 2025-06-26 at 08:10 +0200, Thomas Wei=C3=9Fschuh wrote:
+> Enable running UAPI tests as part of kunit.
+> The selftests are embedded into the kernel image and their output is
+> forwarded to kunit for unified reporting.
+>=20
+> The implementation reuses parts of usermode drivers and usermode
+> helpers. However these frameworks are not used directly as they make it
+> impossible to retrieve a thread's exit code.
+>=20
+> Signed-off-by: Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
+>=20
+> [SNIP]
+> +/**
+> + * KUNIT_UAPI_EMBED_BLOB() - Embed another build artifact into the kerne=
+l
+> + * @_name: The name of symbol under which the artifact is embedded.
+> + * @_path: Path to the artifact on disk.
+> + *
+> + * Embeds a build artifact like a userspace executable into the kernel o=
+r current module.
+> + * The build artifact is read from disk and needs to be already built.
+> + */
+> +#define KUNIT_UAPI_EMBED_BLOB(_name, _path)					\
+> +	asm (									\
+> +	"	.pushsection .rodata, \"a\"				\n"	\
+> +	"	.global " __stringify(CONCATENATE(_name, _data)) "	\n"	\
+> +	__stringify(CONCATENATE(_name, _data)) ":			\n"	\
+> +	"	.incbin " __stringify(_path) "				\n"	\
+> +	"	.size " __stringify(CONCATENATE(_name, _data)) ", "		\
+> +			". - " __stringify(CONCATENATE(_name, _data)) "	\n"	\
+> +	"	.global " __stringify(CONCATENATE(_name, _end)) "	\n"	\
+> +	__stringify(CONCATENATE(_name, _end)) ":			\n"	\
+> +	"	.popsection						\n"	\
+> +	);									\
+> +										\
+> +	extern const char CONCATENATE(_name, _data)[];				\
+> +	extern const char CONCATENATE(_name, _end)[];				\
+> +										\
+> +	static const struct kunit_uapi_blob _name =3D {				\
+> +		.path	=3D _path,						\
+> +		.data	=3D CONCATENATE(_name, _data),				\
+> +		.end	=3D CONCATENATE(_name, _end),				\
+> +	}									\
 
-The dream here is to be able to automatically generate
-hundreds/thousands of tests for each API in an automated fashion, and
-verify the results with:
+For me, the compiler could not find the files for the ".incbin" unless
+I added an include path. i.e. adding
+  ccflags-y :=3D -I$(obj)
+to lib/kunit/Makefile fixed the problem for me.
 
-1. Simply checking expected return value.
+> [SNIP]
+> +static int kunit_uapi_run_executable_in_mount(struct kunit *test, const =
+char *executable,
+> +						=C2=A0=C2=A0 struct vfsmount *mnt)
+> +{
+> +	struct kunit_uapi_user_mode_thread_ctx ctx =3D {
+> +		.setup_done	=3D COMPLETION_INITIALIZER_ONSTACK(ctx.setup_done),
+> +		.executable	=3D executable,
+> +		.pwd		=3D {
+> +			.mnt	=3D mnt,
+> +			.dentry	=3D mnt->mnt_root,
+> +		},
+> +	};
+> +	int forward_err, wait_err, ret;
 
-2. Checking that the actual action happened (i.e. we called close(fd),
-verify that `fd` is really closed).
+ret needs to be initialized to zero here as the kernel_wait function
+will only set "ret" if wo.wo_stat is non-zero.
 
-3. Check for side effects (i.e. close(fd) isn't supposed to allocate
-memory - verify that it didn't allocate memory).
+Benjamin
 
-4. Code coverage: our tests are supposed to cover 100% of the code in
-that APIs call chain, do we have code that didn't run (missing/incorrect
-specs).
+> [SNIP]
 
--- 
-Thanks,
-Sasha
