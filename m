@@ -1,146 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E1DA2777FC;
-	Tue,  1 Jul 2025 15:25:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40FF5192D83;
+	Tue,  1 Jul 2025 19:01:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751383534; cv=none; b=FGG5QXkjoR0W2tn3LmNcLnz9j3CgqXAnO6oNIIL8vgAMKfAtv3qus545OUGgoBpIW7ybPOZFj5uP6bTrHE6qP/rkdej+EHPCpaF08+c/lAjaAMWptHHSqIO7L+PUFpxxq1EHIhA4lixBi61V03OE7LxdcQ1SlK8PUKDDJ2bjgGU=
+	t=1751396490; cv=none; b=u5eqMoO5dcrRe8IER1O8I9H3Sgrkkuu1fqtmQuBUtUA/dvRPo/Vp7YpRKet5Rnvrru6TV/FnSVVHCsvhCblfp/WzpBNMMjpT/b/zA5bhuj7LxqgkO6Hq9Kh/3coyA+LxFjCpMOPBhkn2YwlnMAcZ/7ioERxCklzKrWwGNGKbS+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751383534; c=relaxed/simple;
-	bh=DIA69QI1E2BrYc+r2/ZtTjhWU3b//5pH+ynl6jTsDVY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=N98JsZiEnW+s3m80cm8tnzcChU2EZAa7iabkZRGgwbJ0T82AfY7eEa+xlJm1MEqMB40spaZ/Cz3czQajjrssWkQ01SqAiOmETGx0rOl6VjipT2BJY5vK1Y2QenjoD1zyFEYDK5HxZsSRRfDOQ4FEeKl9Bbt7oVwA3MB0oJg+1R0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aK8Qo6eA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751396490; c=relaxed/simple;
+	bh=RJaVPtGb3C3lD2/oNj9Z+/nGEwvMchUXnR403nuVrDU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=bQ4+7l3HAfP0GxdBI9+vnaYyJBpZCSQ37V8D0H4V5XNn98VOmpXkcjCowqHDw7iX2n2n73T5Hj2jATNTLm7LC/2g58ZDm+aKurifzZnQC014fe22NSGIWqGVmIFb9MOYuUKzsU5BR79KHvtxIZl2fKEp9cpeHehzLJwafq7Y2FU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=iTIHb/n0; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aK8Qo6eA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23963C4CEEB;
-	Tue,  1 Jul 2025 15:25:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751383533;
-	bh=DIA69QI1E2BrYc+r2/ZtTjhWU3b//5pH+ynl6jTsDVY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=aK8Qo6eAJR/z7niGBhdup+2w8j7tc9w4vStYDQKRZbfm5lY2tw8IEJ5Vbzn5Pxa/Z
-	 IP9Bgy8jA0RvDhH0nxjirtELANGofmKOJiMUZJXZ208uh1DH+u9PXhVEUbQ+ulku/W
-	 7MAUlUpxSoUyWmClDX94IoGQ3pKISWMFA5qjk1DD+6qoOvX4n3ZYOSQYoiSHQ11J0H
-	 l1N8iSAmIDwB+0inds9d9kfL4OQhoUDq0InomACOTZG9e/pS+aYJ+lPdCRaf5KXIZy
-	 1mp/wZoN4j6NTwB30RCGMSMIVJzg8quVwgKpG2SWweijScQTQpSB0qUajmighDMjEh
-	 lk/OPqPC9G6Lg==
-Date: Tue, 1 Jul 2025 17:25:27 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-api@vger.kernel.org,
- workflows@vger.kernel.org, tools@kernel.org
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="iTIHb/n0"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3313A406FC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1751396488; bh=AKQMQgwVK0BBJcKy+Wwq7VmMjNSf6AqvL851J0rFTV0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=iTIHb/n0YM9EyHbvYBXHGYEsxHvqtJEmFF8WE3+PCYcGwdNAPtYmR+X1V31fGLCtO
+	 BEPQtK+bSzI2yfNs31QrghhzokrGDjzTCiEM9l5J/UXCPGgCSymW0tN3vZADa0Xvxn
+	 E5XdJA/vao9W0QB8NUjgnsQP/267slptelxaMPRGxquMw+1je5GlYxSejVeFII7s95
+	 lHSNFQuA0uIyuakn3gYRva/XyLvYzW8g0WkyxgzAryL8qaARhkPfE1iGvOlr03I/QR
+	 jbxzLEcpi9S0BykP8lEj+E75yubRMHewCnk9ByFGonSwAw43jy6qntjc7N13drLdxn
+	 WrIVZATyDhHPA==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 3313A406FC;
+	Tue,  1 Jul 2025 19:01:28 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Sasha Levin <sashal@kernel.org>, Mauro Carvalho Chehab
+ <mchehab+huawei@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-api@vger.kernel.org, workflows@vger.kernel.org, tools@kernel.org,
+ Kate Stewart <kstewart@linuxfoundation.org>, Gabriele Paoloni
+ <gpaoloni@redhat.com>, Chuck Wolber <chuckwolber@gmail.com>
 Subject: Re: [RFC v2 01/22] kernel/api: introduce kernel API specification
  framework
-Message-ID: <20250701172527.5adde449@sal.lan>
 In-Reply-To: <aGPvR-Mj6aR4Y8B5@lappy>
 References: <20250624180742.5795-1-sashal@kernel.org>
-	<20250624180742.5795-2-sashal@kernel.org>
-	<874ivxuht8.fsf@trenco.lwn.net>
-	<20250701002058.1cae5a7e@foz.lan>
-	<aGPvR-Mj6aR4Y8B5@lappy>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+ <20250624180742.5795-2-sashal@kernel.org> <874ivxuht8.fsf@trenco.lwn.net>
+ <20250701002058.1cae5a7e@foz.lan> <aGPvR-Mj6aR4Y8B5@lappy>
+Date: Tue, 01 Jul 2025 13:01:27 -0600
+Message-ID: <8734bfspko.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Em Tue, 1 Jul 2025 10:23:03 -0400
-Sasha Levin <sashal@kernel.org> escreveu:
+[Adding some of the ELISA folks, who are working in a related area and
+might have thoughts on this.  You can find the patch series under
+discussion at:
 
-> On Tue, Jul 01, 2025 at 12:20:58AM +0200, Mauro Carvalho Chehab wrote:
-> >Em Mon, 30 Jun 2025 13:53:55 -0600
-> >Jonathan Corbet <corbet@lwn.net> escreveu:
-> > =20
-> >> Sasha Levin <sashal@kernel.org> writes:
-> >> =20
-> >> > Add a comprehensive framework for formally documenting kernel APIs w=
-ith
-> >> > inline specifications. This framework provides:
-> >> >
-> >> > - Structured API documentation with parameter specifications, return
-> >> >   values, error conditions, and execution context requirements
-> >> > - Runtime validation capabilities for debugging (CONFIG_KAPI_RUNTIME=
-_CHECKS)
-> >> > - Export of specifications via debugfs for tooling integration
-> >> > - Support for both internal kernel APIs and system calls
-> >> >
-> >> > The framework stores specifications in a dedicated ELF section and
-> >> > provides infrastructure for:
-> >> > - Compile-time validation of specifications
-> >> > - Runtime querying of API documentation
-> >> > - Machine-readable export formats
-> >> > - Integration with existing SYSCALL_DEFINE macros
-> >> >
-> >> > This commit introduces the core infrastructure without modifying any
-> >> > existing APIs. Subsequent patches will add specifications to individ=
-ual
-> >> > subsystems.
-> >> >
-> >> > Signed-off-by: Sasha Levin <sashal@kernel.org>
-> >> > ---
-> >> >  Documentation/admin-guide/kernel-api-spec.rst |  507 ++++++ =20
-> >>
-> >> You need to add that file to index.rst in that directory or it won't be
-> >> pulled into the docs build.
-> >>
-> >> Wouldn't it be nice to integrate all this stuff with out existing
-> >> kerneldoc mechanism...? :) =20
-> >
-> >+1
-> >
-> >Having two different mechanisms (kapi and kerneldoc) makes a lot harder
-> >to maintain kAPI. =20
->=20
-> I hated the idea of not reusing kerneldoc.
->=20
-> My concern with kerneldoc was that I can't manipulate the
-> information it stores in the context of a kernel build. So for example,
-> I wasn't sure how I can expose information stored within kerneldoc via
-> debugfs on a running system (or how I can store it within the vmlinux
-> for later extraction from the binary built kernel).
->=20
-> I did some research based on your proposal, and I think I was incorrect
-> with the assumption above. I suppose we could do something like the
-> following:
->=20
+  https://lore.kernel.org/all/20250624180742.5795-1-sashal@kernel.org
+
+]
+
+Sasha Levin <sashal@kernel.org> writes:
+
 > 1. Add new section patterns to doc_sect regex in to include API
 > specification sections: api-type, api-version, param-type, param-flags,
 > param-constraint, error-code, capability, signal, lock-req, since...
->  =20
+
+Easily enough done - you can never have too many regexes :)
+
 > 2. Create new output module (scripts/lib/kdoc/kdoc_apispec.py?) to
 > generate C macro invocations from parsed data.
->=20
+>
 > Which will generate output like:
->=20
+>
 >     DEFINE_KERNEL_API_SPEC(function_name)
->         KAPI_DESCRIPTION("...")=20
+>         KAPI_DESCRIPTION("...") 
 >         KAPI_PARAM(0, "name", "type", "desc")
 >             KAPI_PARAM_TYPE(KAPI_TYPE_INT)
 >             KAPI_PARAM_FLAGS(KAPI_PARAM_IN)
 >         KAPI_PARAM_END
->     KAPI_END_SPEC=20
+>     KAPI_END_SPEC 
 
-> 3. And then via makefile we can:=20
+Also shouldn't be all that hard.
+
+> 3. And then via makefile we can: 
 >     - Generate API specs from kerneldoc comments
->     - Include generated specs conditionally based on CONFIG_KERNEL_API_SP=
-EC
->=20
+>     - Include generated specs conditionally based on CONFIG_KERNEL_API_SPEC
+>
 > Allowing us to just have these in the relevant source files:
 >     #ifdef CONFIG_KERNEL_API_SPEC
 >     #include "socket.apispec.h"
 >     #endif
->=20
->=20
+
+...seems like it should work.
+
 > In theory, all of that will let us have something like the following in
 > kerneldoc:
->=20
+>
 > - @api-type: syscall
 > - @api-version: 1
 > - @context-flags: KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE
@@ -149,63 +108,30 @@ EC
 > - @param-range: family, 0, 45
 > - @param-mask: type, SOCK_TYPE_MASK | SOCK_CLOEXEC | SOCK_NONBLOCK
 > - @error-code: -EAFNOSUPPORT, "Address family not supported"
-> - @error-condition: -EAFNOSUPPORT, "family < 0 || family >=3D NPROTO"
+> - @error-condition: -EAFNOSUPPORT, "family < 0 || family >= NPROTO"
 > - @capability: CAP_NET_RAW, KAPI_CAP_GRANT_PERMISSION
 > - @capability-allows: CAP_NET_RAW, "Create SOCK_RAW sockets"
 > - @since: 2.0
 > - @return-type: KAPI_TYPE_FD
 > - @return-check: KAPI_RETURN_ERROR_CHECK
->=20
+>
 > How does it sound? I'm pretty excited about the possiblity to align this
 > with kerneldoc. Please poke holes in the plan :)
 
-Sounds like a plan!
+I think we could do it without all the @signs.  We'd also want to see
+how well we could integrate that information with the minimal structure
+we already have: getting the return-value information into the Returns:
+section, for example, and tying the parameter constraints to the
+parameter descriptions we already have.
 
-We did something somewhat similar on IGT.=20
+The other thing I would really like to see, to the extent we can, is
+that a bunch of patches adding all this data to the source will actually
+be accepted by the relevant maintainers.  It would be a shame to get all
+this infrastructure into place, then have things stall out due to
+maintainer pushback.  Maybe you should start by annotating the
+scheduler-related system calls; if that works the rest should be a piece
+of cake :)
 
-The python classes there were written with the goal to document
-tests, so its examples are related to test docs, but I wrote it
-to be generic.
+Thanks,
 
-There, all fields comes form a JSON file like this:
-
-	https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/blob/master/tests/intel=
-/xe_test_config.json?ref_type=3Dheads
-
-which describes what fields will be used. It also lists file
-patterns that will use it. The fields allow hierarchical
-grouping, with could be interesting for some types of fields.
-
-=46rom the json example (I dropped the optional field description
-from the example, to make it cleaner):
-
-	"Category": {
-	    "Mega feature": {
-            	"Sub-category": {},
-	    }
-	...
- 	"Test category": {},
-	"Issue": {},
-	...
-
-The hierarchical part is useful to properly order kapi content
-without the need to add multiple Sphinx markups to manually reorder
-the output inside the .rst files.
-
-(*) I would avoid hardcoding the fields/structures, as eventually
-    we may need more flexibility to add fields and/or having some
-    fields that are specific, for instance, to debugfs or sysfs.
-
-The python class it uses is at:
-	https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/blob/master/scripts/tes=
-t_list.py?ref_type=3Dheads
-
-and caller is at:
-	https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/blob/master/scripts/igt=
-_doc.py?ref_type=3Dheads
-
-Eventually you may find something useful there. If so, feel free to
-pick from it.
-
-Regards,
-Mauro
+jon
