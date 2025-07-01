@@ -1,137 +1,252 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40FF5192D83;
-	Tue,  1 Jul 2025 19:01:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CA322F236D
+	for <workflows@vger.kernel.org>; Tue,  1 Jul 2025 21:12:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751396490; cv=none; b=u5eqMoO5dcrRe8IER1O8I9H3Sgrkkuu1fqtmQuBUtUA/dvRPo/Vp7YpRKet5Rnvrru6TV/FnSVVHCsvhCblfp/WzpBNMMjpT/b/zA5bhuj7LxqgkO6Hq9Kh/3coyA+LxFjCpMOPBhkn2YwlnMAcZ/7ioERxCklzKrWwGNGKbS+s=
+	t=1751404334; cv=none; b=Yq4D/JMYC49vuXMl0vxI+rLEGPPETds96JTs6GQS7D89ZhTMhdpIGjg7O/ff9ZKAmHcpHz1xMQdektfn36i+KWrK6VVNGqg7Ls42jB7R0TGbABSEF073Bj+V5VKLivCpnndn78jQWzf2+8QhHN6ZH6fMYnNI8lElmcZaaxNKXOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751396490; c=relaxed/simple;
-	bh=RJaVPtGb3C3lD2/oNj9Z+/nGEwvMchUXnR403nuVrDU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=bQ4+7l3HAfP0GxdBI9+vnaYyJBpZCSQ37V8D0H4V5XNn98VOmpXkcjCowqHDw7iX2n2n73T5Hj2jATNTLm7LC/2g58ZDm+aKurifzZnQC014fe22NSGIWqGVmIFb9MOYuUKzsU5BR79KHvtxIZl2fKEp9cpeHehzLJwafq7Y2FU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=iTIHb/n0; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1751404334; c=relaxed/simple;
+	bh=qBtZSmm2R4iCXjvzCaQg+eHFsA8g7clWudabrggPz4E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iqNcqUIjNEwg6LRR2aODGfRV1Bx6yAihY8hX7Rm8G+55tqwHr/Oe5IVKLJTqYsFtPCgqJ0AhyNPxuYnlnRgiwdV2AqCe8ggjNPjuOMHxOJZJZt0eREeAFlhEbnI2a92foLtsg2B6S0Jei29IgFUY0SsBF5FMe7Vp02c5dVGj46c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=AcpR2GyF; arc=none smtp.client-ip=209.85.219.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="iTIHb/n0"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3313A406FC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1751396488; bh=AKQMQgwVK0BBJcKy+Wwq7VmMjNSf6AqvL851J0rFTV0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=iTIHb/n0YM9EyHbvYBXHGYEsxHvqtJEmFF8WE3+PCYcGwdNAPtYmR+X1V31fGLCtO
-	 BEPQtK+bSzI2yfNs31QrghhzokrGDjzTCiEM9l5J/UXCPGgCSymW0tN3vZADa0Xvxn
-	 E5XdJA/vao9W0QB8NUjgnsQP/267slptelxaMPRGxquMw+1je5GlYxSejVeFII7s95
-	 lHSNFQuA0uIyuakn3gYRva/XyLvYzW8g0WkyxgzAryL8qaARhkPfE1iGvOlr03I/QR
-	 jbxzLEcpi9S0BykP8lEj+E75yubRMHewCnk9ByFGonSwAw43jy6qntjc7N13drLdxn
-	 WrIVZATyDhHPA==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 3313A406FC;
-	Tue,  1 Jul 2025 19:01:28 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Sasha Levin <sashal@kernel.org>, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-api@vger.kernel.org, workflows@vger.kernel.org, tools@kernel.org,
- Kate Stewart <kstewart@linuxfoundation.org>, Gabriele Paoloni
- <gpaoloni@redhat.com>, Chuck Wolber <chuckwolber@gmail.com>
-Subject: Re: [RFC v2 01/22] kernel/api: introduce kernel API specification
- framework
-In-Reply-To: <aGPvR-Mj6aR4Y8B5@lappy>
-References: <20250624180742.5795-1-sashal@kernel.org>
- <20250624180742.5795-2-sashal@kernel.org> <874ivxuht8.fsf@trenco.lwn.net>
- <20250701002058.1cae5a7e@foz.lan> <aGPvR-Mj6aR4Y8B5@lappy>
-Date: Tue, 01 Jul 2025 13:01:27 -0600
-Message-ID: <8734bfspko.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AcpR2GyF"
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6fd1b2a57a0so56105826d6.1
+        for <workflows@vger.kernel.org>; Tue, 01 Jul 2025 14:12:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1751404331; x=1752009131; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fjs28VW5+FZErUTPed61OdD+0y2hdWgedPzyPoSbu9Q=;
+        b=AcpR2GyF4B1TfsNOcdqbdDzSpFuDSHgo254Y4BMYjwBaK0ZKYDyzAzyWxfvO9Ca+XC
+         v2yYMChhmz2HPUWeYtNKz+4DDbubfvQXy61jR5gU9OIbwWlVQSmuV5hiOeRnlnCP0uKU
+         ukX7XIhFEllCaGIkAs3FdJtSPgJWMtU6w+1Y9TvY/bch/YIPEcfYg9gzD55ie9Aa/Yp8
+         WkL526LRWILl01YCytX8lzTFYkP5Yq3D/A0jaK5wQ/tw4gtEsNP0HdDbtwadNeNQj8ou
+         WP+ERx5BciWFhZ5lKwIeVKm1TSRc3jOP37hW37I/DVGN+0nmVVhBmZlvUckBF585yP9t
+         I8pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751404331; x=1752009131;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fjs28VW5+FZErUTPed61OdD+0y2hdWgedPzyPoSbu9Q=;
+        b=YxidZ9VZVo1Akt4tdkSWcZ0grV2VwSNHBloaK1/BBEvrV9scxwmAmcRejyXwnfSQ2Z
+         IuKEH1JXh4wfD4CqcJVnkIWVhiaYkUshbxMNt+mjfFbQbF2BE6DtVAiwDqNyknUNMcgd
+         MHLkhhY2zN245TnW2yQbjA3dpvhqXdifdvmmOt9lnuYQ3NgmjWc9B3wS69SHIt4twIkY
+         kPt0WZfGCVwDqaa2ju3VN0VuCRcqOpyQ4jMf+JqRO9Zh/wpgSIYvnjkmrQoUm0eP3ok0
+         h1mdBrH0XSl1N9oCGKR7+unR4Q8IcmhWwGBp3ObDVEt2D9O7W35fECS2LY7f4+cmVv91
+         Ir4g==
+X-Forwarded-Encrypted: i=1; AJvYcCUz8Wre7DlVJWW6BmBSryFR7Upfp6/65KMgTm7W5QjsVNvh9u16RGVTMF/M943jxn6MBIQ43KjkWjU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzrmXsOUtZl/umLvdniKsmEdq3/BnGPuFsaT891dBXVtyenwTaO
+	BhhgRomtqp6ryap05HaNtIhl7NM0qX/H3TEBYlXwehNxqUHQBmueyyEZU3A37ZKpv+Swo0dOjOC
+	1ViMuGBs9kherQIBpYeKOdnSJArR5h5eHLyDG1BrY
+X-Gm-Gg: ASbGncsX0wA3YbBSIlZAHn2PtTrdvii8oL7+ZKn0NQm1bBvl+918MLSfiGeW+rExmKr
+	2SCEUcEQNyNxmI6Z5u3uWGsRYDondMkIHvqKoOEJqULQMDMme6m2jsRt+ZdIuuK+MmT+uB5AadE
+	MmJFzAE2LvznpHGa1keyOm8Gvb6xaATvc5p5ShHJ9xMziUzlmmlFkI5tpKuPJ7LROGjxS9jooEc
+	g==
+X-Google-Smtp-Source: AGHT+IGTbnT2z3OUimiYbvvSRJZHyO7+NTUm+CPbvwarqnp3tnVnFXsJiBtY1W/8vqhPCZSa3CP2wtLxEfAWF5KoW3c=
+X-Received: by 2002:a05:6214:5f02:b0:6fd:7298:a36f with SMTP id
+ 6a1803df08f44-702b1b3c530mr1824386d6.21.1751404330971; Tue, 01 Jul 2025
+ 14:12:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20250626-kunit-kselftests-v4-0-48760534fef5@linutronix.de> <20250626-kunit-kselftests-v4-8-48760534fef5@linutronix.de>
+In-Reply-To: <20250626-kunit-kselftests-v4-8-48760534fef5@linutronix.de>
+From: Rae Moar <rmoar@google.com>
+Date: Tue, 1 Jul 2025 17:11:59 -0400
+X-Gm-Features: Ac12FXz7A5rV9E83a27nT7mq-MXVyxBMZkeIzUekc3ETv1a6ZI2Tbu3oWaYgD3I
+Message-ID: <CA+GJov45CF67nKJ7AC=g0fPL68pLdJbvJBwG8ecn9OUZ7hCewA@mail.gmail.com>
+Subject: Re: [PATCH v4 08/15] kunit: tool: Don't overwrite test status based
+ on subtest counts
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
+	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
+	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+	linux-doc@vger.kernel.org, workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[Adding some of the ELISA folks, who are working in a related area and
-might have thoughts on this.  You can find the patch series under
-discussion at:
-
-  https://lore.kernel.org/all/20250624180742.5795-1-sashal@kernel.org
-
-]
-
-Sasha Levin <sashal@kernel.org> writes:
-
-> 1. Add new section patterns to doc_sect regex in to include API
-> specification sections: api-type, api-version, param-type, param-flags,
-> param-constraint, error-code, capability, signal, lock-req, since...
-
-Easily enough done - you can never have too many regexes :)
-
-> 2. Create new output module (scripts/lib/kdoc/kdoc_apispec.py?) to
-> generate C macro invocations from parsed data.
+On Thu, Jun 26, 2025 at 2:10=E2=80=AFAM Thomas Wei=C3=9Fschuh
+<thomas.weissschuh@linutronix.de> wrote:
 >
-> Which will generate output like:
+> If a subtest itself reports success, but the outer testcase fails,
+> the whole testcase should be reported as a failure.
+> However the status is recalculated based on the test counts,
+> overwriting the outer test result.
+> Synthesize a failed test in this case to make sure the failure is not
+> swallowed.
+
+Hello!
+
+This is a very exciting patch series! However, I have a few concerns
+with this patch.
+
+When I parse the following KTAP with this change:
+
+KTAP version 1
+1..2
+    KTAP version 1
+    1..2
+        ok 1 test 1
+        not ok 2 test 2
+not ok 1 subtest 1
+    KTAP version 1
+    1..1
+        not ok 1 subsubtest 1
+not ok 2 subtest 2
+
+The output is:
+
+[20:54:12] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+[20:54:12] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D (2 subtests) =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+[20:54:12] [PASSED] test 1
+[20:54:12] [FAILED] test 2
+[20:54:12] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D [FA=
+ILED] subtest 1 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+[20:54:12] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D (1 subtest) =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+[20:54:12] [FAILED] subsubtest 1
+[20:54:12] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D [FA=
+ILED] subtest 2 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+[20:54:12] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+[20:54:12] Testing complete. Ran 6 tests: passed: 1, failed: 5
+
+This reports a total of 6 tests, which is not equivalent to the three
+subtests plus the two suites. I believe this is because the change to
+bubble_up_test_results below double counts the failed test case.
+
+Historically, the KUnit parser only counts the results of test cases,
+not the suites. I would like to stay as close to this as possible so
+as to not inflate existing testing numbers. However, I believe the
+main concern here is the case where if there is a suite reporting
+failure but all subtests pass, it will not appear in the summary line.
+For example,
+
+KTAP version 1
+1..1
+    KTAP version 1
+    1..1
+        ok 1 test 1
+not ok 1 subtest 1
+
+Reporting: All passing: Tests run: 1, passed: 1
+
+This is absolutely an important edge case to cover. Therefore, we
+should add 1 failure count to the suite count if the bubbled up
+results indicate it should instead pass.
+
+Thanks!
+-Rae
+
 >
->     DEFINE_KERNEL_API_SPEC(function_name)
->         KAPI_DESCRIPTION("...") 
->         KAPI_PARAM(0, "name", "type", "desc")
->             KAPI_PARAM_TYPE(KAPI_TYPE_INT)
->             KAPI_PARAM_FLAGS(KAPI_PARAM_IN)
->         KAPI_PARAM_END
->     KAPI_END_SPEC 
-
-Also shouldn't be all that hard.
-
-> 3. And then via makefile we can: 
->     - Generate API specs from kerneldoc comments
->     - Include generated specs conditionally based on CONFIG_KERNEL_API_SPEC
+> Signed-off-by: Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
+> Reviewed-by: David Gow <davidgow@google.com>
+> ---
+>  tools/testing/kunit/kunit_parser.py                                  | 5=
+ +++++
+>  tools/testing/kunit/kunit_tool_test.py                               | 3=
+ ++-
+>  tools/testing/kunit/test_data/test_is_test_passed-failure-nested.log | 3=
+ +++
+>  3 files changed, 10 insertions(+), 1 deletion(-)
 >
-> Allowing us to just have these in the relevant source files:
->     #ifdef CONFIG_KERNEL_API_SPEC
->     #include "socket.apispec.h"
->     #endif
+> diff --git a/tools/testing/kunit/kunit_parser.py b/tools/testing/kunit/ku=
+nit_parser.py
+> index c176487356e6c94882046b19ea696d750905b8d5..2478beb28fc3db825855ad462=
+00340e884da7df1 100644
+> --- a/tools/testing/kunit/kunit_parser.py
+> +++ b/tools/testing/kunit/kunit_parser.py
+> @@ -686,6 +686,11 @@ def bubble_up_test_results(test: Test) -> None:
+>                 counts.add_status(status)
+>         elif test.counts.get_status() =3D=3D TestStatus.TEST_CRASHED:
+>                 test.status =3D TestStatus.TEST_CRASHED
+> +       if not test.ok_status():
+> +               for t in subtests:
+> +                       if not t.ok_status():
+> +                               counts.add_status(t.status)
+> +                               break
 
-...seems like it should work.
+Here instead I recommend checking if not test.ok_status() and
+test.counts.get_status() =3D=3D TestStatus.SUCCESS and if so
+counts.add_status(status)
 
-> In theory, all of that will let us have something like the following in
-> kerneldoc:
 >
-> - @api-type: syscall
-> - @api-version: 1
-> - @context-flags: KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE
-> - @param-type: family, KAPI_TYPE_INT
-> - @param-flags: family, KAPI_PARAM_IN
-> - @param-range: family, 0, 45
-> - @param-mask: type, SOCK_TYPE_MASK | SOCK_CLOEXEC | SOCK_NONBLOCK
-> - @error-code: -EAFNOSUPPORT, "Address family not supported"
-> - @error-condition: -EAFNOSUPPORT, "family < 0 || family >= NPROTO"
-> - @capability: CAP_NET_RAW, KAPI_CAP_GRANT_PERMISSION
-> - @capability-allows: CAP_NET_RAW, "Create SOCK_RAW sockets"
-> - @since: 2.0
-> - @return-type: KAPI_TYPE_FD
-> - @return-check: KAPI_RETURN_ERROR_CHECK
+>  def parse_test(lines: LineStream, expected_num: int, log: List[str], is_=
+subtest: bool, printer: Printer) -> Test:
+>         """
+> diff --git a/tools/testing/kunit/kunit_tool_test.py b/tools/testing/kunit=
+/kunit_tool_test.py
+> index b74dc05fc2fe5b3ff629172fc7aafeb5c3d29fb3..48a0dd0f9c87caf9f018aade1=
+61db90a613fc407 100755
+> --- a/tools/testing/kunit/kunit_tool_test.py
+> +++ b/tools/testing/kunit/kunit_tool_test.py
+> @@ -170,8 +170,9 @@ class KUnitParserTest(unittest.TestCase):
+>                 with open(nested_log) as file:
+>                         result =3D kunit_parser.parse_run_tests(file.read=
+lines(), stdout)
+>                 self.assertEqual(kunit_parser.TestStatus.FAILURE, result.=
+status)
+> -               self.assertEqual(result.counts.failed, 2)
+> +               self.assertEqual(result.counts.failed, 3)
+>                 self.assertEqual(kunit_parser.TestStatus.FAILURE, result.=
+subtests[0].status)
+> +               self.assertEqual(kunit_parser.TestStatus.SUCCESS, result.=
+subtests[0].subtests[0].status)
+>                 self.assertEqual(kunit_parser.TestStatus.FAILURE, result.=
+subtests[1].status)
+>                 self.assertEqual(kunit_parser.TestStatus.FAILURE, result.=
+subtests[1].subtests[0].status)
 >
-> How does it sound? I'm pretty excited about the possiblity to align this
-> with kerneldoc. Please poke holes in the plan :)
-
-I think we could do it without all the @signs.  We'd also want to see
-how well we could integrate that information with the minimal structure
-we already have: getting the return-value information into the Returns:
-section, for example, and tying the parameter constraints to the
-parameter descriptions we already have.
-
-The other thing I would really like to see, to the extent we can, is
-that a bunch of patches adding all this data to the source will actually
-be accepted by the relevant maintainers.  It would be a shame to get all
-this infrastructure into place, then have things stall out due to
-maintainer pushback.  Maybe you should start by annotating the
-scheduler-related system calls; if that works the rest should be a piece
-of cake :)
-
-Thanks,
-
-jon
+> diff --git a/tools/testing/kunit/test_data/test_is_test_passed-failure-ne=
+sted.log b/tools/testing/kunit/test_data/test_is_test_passed-failure-nested=
+.log
+> index 2e528da39ab5b2be0fca6cf9160c10929fba3c9e..5498dfd0b0db24663e1a1e9bf=
+78c587de6746522 100644
+> --- a/tools/testing/kunit/test_data/test_is_test_passed-failure-nested.lo=
+g
+> +++ b/tools/testing/kunit/test_data/test_is_test_passed-failure-nested.lo=
+g
+> @@ -1,5 +1,8 @@
+>  KTAP version 1
+>  1..2
+> +    KTAP version 1
+> +    1..1
+> +        ok 1 test 1
+>  not ok 1 subtest 1
+>      KTAP version 1
+>      1..1
+>
+> --
+> 2.50.0
+>
+> --
+> You received this message because you are subscribed to the Google Groups=
+ "KUnit Development" group.
+> To unsubscribe from this group and stop receiving emails from it, send an=
+ email to kunit-dev+unsubscribe@googlegroups.com.
+> To view this discussion visit https://groups.google.com/d/msgid/kunit-dev=
+/20250626-kunit-kselftests-v4-8-48760534fef5%40linutronix.de.
