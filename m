@@ -1,221 +1,191 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E873B281531;
-	Tue,  1 Jul 2025 21:12:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9511A246348
+	for <workflows@vger.kernel.org>; Tue,  1 Jul 2025 21:22:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751404369; cv=none; b=XpT6cuBcjZkJslZ+wtCVsN9kHWQoCQU6ZQfscyp3qiya4e/xC4xJhRUkCSvjhPZTftvOckK2Wya4oVGRwZpKAApuiuD6sTrUgqfvbd53wy9hPtF9EGCt8Vrhk3u2T8LQPuRmykT1MFDcuIWTwBlwIpGPUmhUjejCkGs2mH7k8mU=
+	t=1751404942; cv=none; b=sg4GBKgY44iUZD7jzeNPzib8jcjDmz1MXSTMr9DBKYp7oxqf7pYybaoo7VQkC25S52UDeF37wgGNw40qFrKdvpWZUBWPYiFrCylzD/C/MuVOo2dsjy5uZAb61P4yzAIIh21zzxbOU/VGH9MQNSmytjs/TI4TTTgqMo6ZoB+23L8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751404369; c=relaxed/simple;
-	bh=2VQNHtAFW203Lh7ygCI+rqhuOSRLMZnXZaMW/rALbxQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k/EEgOOZnPy/Xl1Sbnm+DpSL4VInDw+JINeJ+TDJC6SnmDy0Ixmin31gBJK0K8GD//ytgqZePay3ys94/yMMiEYXK/Rnp0psYNacAIfMS7CFwONBwcZ55+M5sUkSuFsnLtalGSugEngFIVpEcaN77SDu4+evgMzvNCABo/psd4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=djIUcdPn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751404942; c=relaxed/simple;
+	bh=IQsUpICLC0Qn6KFzSllS3OJTDp11NskuLuL9MVU2vEQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ITfps3zkPMgZYYnGuQVNYRhCDrOOp0wknX1IePg0UNasJIcuYL4gop3aMkgdRAE3ZQGvD50JMMaqvZn3jH1C2RKVO1uxiSGKiRZfLiO6VE65ay56+ho1vrbUYtICI0RcKg+ylCWz6+WMZ6F3HlA7m/2Ae+RZD2qE/VQ0KMdsgi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dwelXPZw; arc=none smtp.client-ip=209.85.222.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="djIUcdPn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8612C4CEEB;
-	Tue,  1 Jul 2025 21:12:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751404368;
-	bh=2VQNHtAFW203Lh7ygCI+rqhuOSRLMZnXZaMW/rALbxQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=djIUcdPnTWv6WkqOHsMBAycrGrqMBKFDjdQP0A5+yjKVE5tf0e2aCM20zMqgUpf3g
-	 20btQlGOgkau6hGF3EPKOHqXfKz4iUPrGPoCwKx3Q5YrOB3sbRO8pfTRUN+UioFekj
-	 pQjv5Lhn0mlepVORCVZNDCwojAHSduKAdtSFrKWsZUBPQeUZO/adLJ239n5DR+8IUu
-	 Mho4ncuy9e25FvXorp03/4i8EwraAlnjCn3h3RVtFXCdiep1ZG+6lVXt6roLzO4ByL
-	 2Ke+9BMbzsu0jOmPlyP2j2lfL4xEQh/KXvfXWl6G1feOX0qbDBmiFNGX63XNLEJ0Uv
-	 S3wURF5CNy37w==
-Date: Tue, 1 Jul 2025 16:50:42 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-api@vger.kernel.org, workflows@vger.kernel.org,
-	tools@kernel.org, Kate Stewart <kstewart@linuxfoundation.org>,
-	Gabriele Paoloni <gpaoloni@redhat.com>,
-	Chuck Wolber <chuckwolber@gmail.com>
-Subject: Re: [RFC v2 01/22] kernel/api: introduce kernel API specification
- framework
-Message-ID: <aGRKIuR6hgW0YLc_@lappy>
-References: <20250624180742.5795-1-sashal@kernel.org>
- <20250624180742.5795-2-sashal@kernel.org>
- <874ivxuht8.fsf@trenco.lwn.net>
- <20250701002058.1cae5a7e@foz.lan>
- <aGPvR-Mj6aR4Y8B5@lappy>
- <8734bfspko.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dwelXPZw"
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7d425fc4e5fso508042585a.0
+        for <workflows@vger.kernel.org>; Tue, 01 Jul 2025 14:22:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1751404938; x=1752009738; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EHboM4UpkCkMBxv0QKQdIr00wQYxWyHLFiPmTEgGje8=;
+        b=dwelXPZwdzxdNgkLjbtauFbzh8zsySzD1594E1GDlKTEYIQsS3Oq0quNbhNhD2+PtK
+         3XYN2VT5s9Z5d2l1kmsc4Aw5SLlX2bkKhum77I0T3lIQ6KmcgAWobHNMkYJr9S5xEFL7
+         r6NaTKyXX6q2R3/vtzv0nn8uU1eqYXvuvrzMGFzxMkKkPAdoSUTfZcwOxGZkE5jfdXj6
+         xN255gy61s0cT/FEn9pK3CXEx7WAaK/V6lNHJTne1qjj5e4RYTRUUXR3su3Yhi/ZNrxb
+         fV1d2R1o+rs6WKBXcVN4Z6oJfgJVbUZRlLRIfehwzGoptU0pan0AuRFgZHvLS7Sh0898
+         aBmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751404938; x=1752009738;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EHboM4UpkCkMBxv0QKQdIr00wQYxWyHLFiPmTEgGje8=;
+        b=rxb/bJjb26aRdqL+HBXg2b1SzsJj0qUAxbtdDOUgKVbthRKZL+l6DtVP1cNLkuLLL7
+         ObglKoEz6P7ufzc2GqyPNWWDCrsAV60iMaS8iVwNjGYH8utBBbJijh9jsL63SRIii4gD
+         f33nQyEUeH8LDMcIyJyMDhu7hxc3u9uc2sBDz3VhTqEI+Ry7GwDpNJUjaeFJ3y4u8clE
+         TuXsyIoxmOc5N6iMixMKO151TCXpZ+cBLE61WggStN0PwTwj4Tp4PRvPMO6GaEfRin9o
+         WP8WQfc2jYZV3/gLUnLphsWv1TjH408UR6UfS7b3xsEhFIyNzFdC24BgQ5QQzLALHoW7
+         vgvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXbGxlAO+fPfYiJZWAbkkLVCPRNJboO3dgvZSdUCaKQ2soRNiT4kaH2uSgGF91nmZHOA1s2PqaJjGo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2a41wKd8PnPfjrYErAgLmebTAX2pbSYCSvOvIpVLk7n74faDv
+	Uhfa/iZiip/7tqGKqzIpg+rCF+vMPQGwQg9fOGDoNG+PlRX/vg0JPDKuTIu26W9HVp/kj3/D19P
+	7IGu+sdtPGgQbCgOSKYii3DzdBT3AYqfUL0qpENqP
+X-Gm-Gg: ASbGncs1T7VjVKfdAYgfJTW5frxI4EVBP4oZsbMY3vMhfueLN37F1jjXuynGykmT6bg
+	1GFWx68Q3xZtpQUI0ZTe2UKE7LEN2ZAEXpVgcW5O6XV7H93Y84jqc1x+JSinFRgRoKoZlZpfhUm
+	iYktJmO+nbbB3zpTjZFUHso6pQu2Op0zk6jw5xXqqV3NBWA+zEoVKe+9AHwE+3NnghA3isw1cHL
+	eGte1l7bO3m
+X-Google-Smtp-Source: AGHT+IEISF1QT4Q3DhFyDLlEp2grcYtzw1GO9CPfuuylOwB608K+J/Xck3XOEu6IYHeQRTW4WmPjWPyLFdsrU12p1QI=
+X-Received: by 2002:a05:620a:d86:b0:7ce:e010:88b9 with SMTP id
+ af79cd13be357-7d5c4687e50mr74973985a.13.1751404938244; Tue, 01 Jul 2025
+ 14:22:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <8734bfspko.fsf@trenco.lwn.net>
+References: <20250626-kunit-kselftests-v4-0-48760534fef5@linutronix.de> <20250626-kunit-kselftests-v4-9-48760534fef5@linutronix.de>
+In-Reply-To: <20250626-kunit-kselftests-v4-9-48760534fef5@linutronix.de>
+From: Rae Moar <rmoar@google.com>
+Date: Tue, 1 Jul 2025 17:22:07 -0400
+X-Gm-Features: Ac12FXwuhX6Y-a6woLFeyYnBFFiy1ubYG3C7qlWEGs2OnKsfK-jEArzFm1EN8hs
+Message-ID: <CA+GJov7HN_HTVOygyF6SW12DeghW6BYc4KxEz8Ktub=QBqv0oQ@mail.gmail.com>
+Subject: Re: [PATCH v4 09/15] kunit: tool: Parse skipped tests from kselftest.h
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
+	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
+	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+	linux-doc@vger.kernel.org, workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 01, 2025 at 01:01:27PM -0600, Jonathan Corbet wrote:
->[Adding some of the ELISA folks, who are working in a related area and
->might have thoughts on this.  You can find the patch series under
->discussion at:
+On Thu, Jun 26, 2025 at 2:10=E2=80=AFAM Thomas Wei=C3=9Fschuh
+<thomas.weissschuh@linutronix.de> wrote:
 >
->  https://lore.kernel.org/all/20250624180742.5795-1-sashal@kernel.org
-
-Yup, we all met at OSS and reached the conclusion that we should lean
-towards a machine readable spec, which we thought was closer to my
-proposal than the kerneldoc work.
-
-However, with your suggestion, I think it makes more sense to go back to
-kerneldoc as that can be made machine readable.
-
->> In theory, all of that will let us have something like the following in
->> kerneldoc:
->>
->> - @api-type: syscall
->> - @api-version: 1
->> - @context-flags: KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE
->> - @param-type: family, KAPI_TYPE_INT
->> - @param-flags: family, KAPI_PARAM_IN
->> - @param-range: family, 0, 45
->> - @param-mask: type, SOCK_TYPE_MASK | SOCK_CLOEXEC | SOCK_NONBLOCK
->> - @error-code: -EAFNOSUPPORT, "Address family not supported"
->> - @error-condition: -EAFNOSUPPORT, "family < 0 || family >= NPROTO"
->> - @capability: CAP_NET_RAW, KAPI_CAP_GRANT_PERMISSION
->> - @capability-allows: CAP_NET_RAW, "Create SOCK_RAW sockets"
->> - @since: 2.0
->> - @return-type: KAPI_TYPE_FD
->> - @return-check: KAPI_RETURN_ERROR_CHECK
->>
->> How does it sound? I'm pretty excited about the possiblity to align this
->> with kerneldoc. Please poke holes in the plan :)
+> Skipped tests reported by kselftest.h use a different format than KTAP,
+> there is no explicit test name. Normally the test name is part of the
+> free-form string after the SKIP keyword:
 >
->I think we could do it without all the @signs.  We'd also want to see
->how well we could integrate that information with the minimal structure
->we already have: getting the return-value information into the Returns:
->section, for example, and tying the parameter constraints to the
->parameter descriptions we already have.
+>         ok 3 # SKIP test: some reason
+>
+> Extend the parser to handle those correctly. Use the free-form string as
+> test name instead.
 
-Right!
+Hello!
 
-So I have a proof of concept which during the build process creates
-.apispec.h which are generated from kerneldoc and contain macros
-identical to the ones in my RFC.
+I am happy to see that the kunit_parser will be used to parse
+kselftest.h patches!
 
-Here's an example of sys_mlock() spec:
+This patch looks pretty good to me! However, I do have one concern
+where it does cause the parser to break.
 
-/**
-  * sys_mlock - Lock pages in memory
-  * @start: Starting address of memory range to lock
-  * @len: Length of memory range to lock in bytes
-  *
-  * Locks pages in the specified address range into RAM, preventing them from
-  * being paged to swap. Requires CAP_IPC_LOCK capability or RLIMIT_MEMLOCK
-  * resource limit.
-  *
-  * long-desc: Locks pages in the specified address range into RAM, preventing
-  *   them from being paged to swap. Requires CAP_IPC_LOCK capability
-  *   or RLIMIT_MEMLOCK resource limit.
-  * context-flags: KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE
-  * param-type: start, KAPI_TYPE_UINT
-  * param-flags: start, KAPI_PARAM_IN
-  * param-constraint-type: start, KAPI_CONSTRAINT_NONE
-  * param-constraint: start, Rounded down to page boundary
-  * param-type: len, KAPI_TYPE_UINT
-  * param-flags: len, KAPI_PARAM_IN
-  * param-constraint-type: len, KAPI_CONSTRAINT_RANGE
-  * param-range: len, 0, LONG_MAX
-  * param-constraint: len, Rounded up to page boundary
-  * return-type: KAPI_TYPE_INT
-  * return-check-type: KAPI_RETURN_ERROR_CHECK
-  * return-success: 0
-  * error-code: -ENOMEM, ENOMEM, Address range issue,
-  *   Some of the specified range is not mapped, has unmapped gaps,
-  *   or the lock would cause the number of mapped regions to exceed the limit.
-  * error-code: -EPERM, EPERM, Insufficient privileges,
-  *   The caller is not privileged (no CAP_IPC_LOCK) and RLIMIT_MEMLOCK is 0.
-  * error-code: -EINVAL, EINVAL, Address overflow,
-  *   The result of the addition start+len was less than start (arithmetic overflow).
-  * error-code: -EAGAIN, EAGAIN, Some or all memory could not be locked,
-  *   Some or all of the specified address range could not be locked.
-  * error-code: -EINTR, EINTR, Interrupted by signal,
-  *   The operation was interrupted by a fatal signal before completion.
-  * error-code: -EFAULT, EFAULT, Bad address,
-  *   The specified address range contains invalid addresses that cannot be accessed.
-  * since-version: 2.0
-  * lock: mmap_lock, KAPI_LOCK_RWLOCK
-  * lock-acquired: true
-  * lock-released: true
-  * lock-desc: Process memory map write lock
-  * signal: FATAL
-  * signal-direction: KAPI_SIGNAL_RECEIVE
-  * signal-action: KAPI_SIGNAL_ACTION_RETURN
-  * signal-condition: Fatal signal pending
-  * signal-desc: Fatal signals (SIGKILL) can interrupt the operation at two points:
-  *   when acquiring mmap_write_lock_killable() and during page population
-  *   in __mm_populate(). Returns -EINTR. Non-fatal signals do NOT interrupt
-  *   mlock - the operation continues even if SIGINT/SIGTERM are received.
-  * signal-error: -EINTR
-  * signal-timing: KAPI_SIGNAL_TIME_DURING
-  * signal-priority: 0
-  * signal-interruptible: yes
-  * signal-state-req: KAPI_SIGNAL_STATE_RUNNING
-  * examples: mlock(addr, 4096);  // Lock one page
-  *   mlock(addr, len);   // Lock range of pages
-  * notes: Memory locks do not stack - multiple calls on the same range can be
-  *   undone by a single munlock. Locks are not inherited by child processes.
-  *   Pages are locked on whole page boundaries. Commonly used by real-time
-  *   applications to prevent page faults during time-critical operations.
-  *   Also used for security to prevent sensitive data (e.g., cryptographic keys)
-  *   from being written to swap. Note: locked pages may still be saved to
-  *   swap during system suspend/hibernate.
-  *
-  *   Tagged addresses are automatically handled via untagged_addr(). The operation
-  *   occurs in two phases: first VMAs are marked with VM_LOCKED, then pages are
-  *   populated into memory. When checking RLIMIT_MEMLOCK, the kernel optimizes
-  *   by recounting locked memory to avoid double-counting overlapping regions.
-  * side-effect: KAPI_EFFECT_MODIFY_STATE | KAPI_EFFECT_ALLOC_MEMORY, process memory, Locks pages into physical memory, preventing swapping, reversible=yes
-  * side-effect: KAPI_EFFECT_MODIFY_STATE, mm->locked_vm, Increases process locked memory counter, reversible=yes
-  * side-effect: KAPI_EFFECT_ALLOC_MEMORY, physical pages, May allocate and populate page table entries, condition=Pages not already present, reversible=yes
-  * side-effect: KAPI_EFFECT_MODIFY_STATE | KAPI_EFFECT_ALLOC_MEMORY, page faults, Triggers page faults to bring pages into memory, condition=Pages not already resident
-  * side-effect: KAPI_EFFECT_MODIFY_STATE, VMA splitting, May split existing VMAs at lock boundaries, condition=Lock range partially overlaps existing VMA
-  * state-trans: memory pages, swappable, locked in RAM, Pages become non-swappable and pinned in physical memory
-  * state-trans: VMA flags, unlocked, VM_LOCKED set, Virtual memory area marked as locked
-  * capability: CAP_IPC_LOCK, KAPI_CAP_BYPASS_CHECK, CAP_IPC_LOCK capability
-  * capability-allows: Lock unlimited amount of memory (no RLIMIT_MEMLOCK enforcement)
-  * capability-without: Must respect RLIMIT_MEMLOCK resource limit
-  * capability-condition: Checked when RLIMIT_MEMLOCK is 0 or locking would exceed limit
-  * capability-priority: 0
-  * constraint: RLIMIT_MEMLOCK Resource Limit, The RLIMIT_MEMLOCK soft resource limit specifies the maximum bytes of memory that may be locked into RAM. Unprivileged processes are restricted to this limit. CAP_IPC_LOCK capability allows bypassing this limit entirely. The limit is enforced per-process, not per-user.
-  * constraint-expr: RLIMIT_MEMLOCK Resource Limit, locked_memory + request_size <= RLIMIT_MEMLOCK || CAP_IPC_LOCK
-  * constraint: Memory Pressure and OOM, Locking large amounts of memory can cause system-wide memory pressure and potentially trigger the OOM killer. The kernel does not prevent locking memory that would destabilize the system.
-  * constraint: Special Memory Areas, Some memory types cannot be locked or are silently skipped: VM_IO/VM_PFNMAP areas (device mappings) are skipped; Hugetlb pages are inherently pinned and skipped; DAX mappings are always present in memory and skipped; Secret memory (memfd_secret) mappings are skipped; VM_DROPPABLE memory cannot be locked and is skipped; Gate VMA (kernel entry point) is skipped; VM_LOCKED areas are already locked. These special areas are silently excluded without error.
-  *
-  * Context: Process context. May sleep. Takes mmap_lock for write.
-  *
-  * Return: 0 on success, negative error code on failure
-  */
+Thanks!
+-Rae
 
->The other thing I would really like to see, to the extent we can, is
->that a bunch of patches adding all this data to the source will actually
->be accepted by the relevant maintainers.  It would be a shame to get all
->this infrastructure into place, then have things stall out due to
->maintainer pushback.  Maybe you should start by annotating the
->scheduler-related system calls; if that works the rest should be a piece
->of cake :)
+>
+> Signed-off-by: Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
+> Reviewed-by: David Gow <davidgow@google.com>
+> ---
+>  tools/testing/kunit/kunit_parser.py                             | 8 ++++=
++---
+>  tools/testing/kunit/test_data/test_is_test_passed-kselftest.log | 3 ++-
+>  2 files changed, 7 insertions(+), 4 deletions(-)
+>
+> diff --git a/tools/testing/kunit/kunit_parser.py b/tools/testing/kunit/ku=
+nit_parser.py
+> index 2478beb28fc3db825855ad46200340e884da7df1..4599d23c79b79f0e219d655c7=
+053c8c3b34f8152 100644
+> --- a/tools/testing/kunit/kunit_parser.py
+> +++ b/tools/testing/kunit/kunit_parser.py
+> @@ -352,9 +352,9 @@ def parse_test_plan(lines: LineStream, test: Test) ->=
+ bool:
+>         lines.pop()
+>         return True
+>
+> -TEST_RESULT =3D re.compile(r'^\s*(ok|not ok) ([0-9]+) (- )?([^#]*)( # .*=
+)?$')
+> +TEST_RESULT =3D re.compile(r'^\s*(ok|not ok) ([0-9]+)? ?(- )?([^#]*)( # =
+.*)?$')
+>
+> -TEST_RESULT_SKIP =3D re.compile(r'^\s*(ok|not ok) ([0-9]+) (- )?(.*) # S=
+KIP(.*)$')
+> +TEST_RESULT_SKIP =3D re.compile(r'^\s*(ok|not ok) ([0-9]+)? ?(- )?(.*) #=
+ SKIP ?(.*)$')
 
-In the RFC I've sent out I've specced out API from different subsystems
-to solicit some feedback on those, but so fair it's been quiet.
+My concern with this patch is that this makes the test number optional
+([0-9]+) -> ([0-9]+)? for both the test result regex matches. But if I
+do pass in KTAP containing a line where the test number is missing, it
+causes the parser to crash because other lines of the code rely on the
+match with the test number.
 
-I'll resend a "lean" RFC v3 with just the base macro spec infra +
-kerneldoc support + "tricker" sched API + "trickier" mm API.
+I would prefer if we keep the test number as required. This is
+integral to the KTAP specification and seems to be largely shared by
+different frameworks test output.
 
-I'm thinking that if it's still quiet in a month or two I'll propose a
-talk at LPC around it, or maybe try and feedback/consensus during
-maintainer's summit.
-
-But yes, it doesn't make sense to take it in until we have an ack from a
-few larger subsystems.
-
--- 
-Thanks,
-Sasha
+>
+>  def peek_test_name_match(lines: LineStream, test: Test) -> bool:
+>         """
+> @@ -379,6 +379,8 @@ def peek_test_name_match(lines: LineStream, test: Tes=
+t) -> bool:
+>         if not match:
+>                 return False
+>         name =3D match.group(4)
+> +       if not name:
+> +               return False
+>         return name =3D=3D test.name
+>
+>  def parse_test_result(lines: LineStream, test: Test,
+> @@ -416,7 +418,7 @@ def parse_test_result(lines: LineStream, test: Test,
+>
+>         # Set name of test object
+>         if skip_match:
+> -               test.name =3D skip_match.group(4)
+> +               test.name =3D skip_match.group(4) or skip_match.group(5)
+>         else:
+>                 test.name =3D match.group(4)
+>
+> diff --git a/tools/testing/kunit/test_data/test_is_test_passed-kselftest.=
+log b/tools/testing/kunit/test_data/test_is_test_passed-kselftest.log
+> index 65d3f27feaf22a3f47ed831c4c24f6f11c625a92..30d9ef18bcec177067288d524=
+2771236f29b7d56 100644
+> --- a/tools/testing/kunit/test_data/test_is_test_passed-kselftest.log
+> +++ b/tools/testing/kunit/test_data/test_is_test_passed-kselftest.log
+> @@ -1,5 +1,5 @@
+>  TAP version 13
+> -1..2
+> +1..3
+>  # selftests: membarrier: membarrier_test_single_thread
+>  # TAP version 13
+>  # 1..2
+> @@ -12,3 +12,4 @@ ok 1 selftests: membarrier: membarrier_test_single_thre=
+ad
+>  # ok 1 sys_membarrier available
+>  # ok 2 sys membarrier invalid command test: command =3D -1, flags =3D 0,=
+ errno =3D 22. Failed as expected
+>  ok 2 selftests: membarrier: membarrier_test_multi_thread
+> +ok 3 # SKIP selftests: membarrier: membarrier_test_multi_thread
+>
+> --
+> 2.50.0
+>
