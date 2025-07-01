@@ -1,204 +1,155 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59508242909
-	for <workflows@vger.kernel.org>; Tue,  1 Jul 2025 06:12:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E70DF49;
+	Tue,  1 Jul 2025 14:23:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751350325; cv=none; b=dNs7bqvsSaXGhlNfnIrAM45b5IPM6CW76zMg/By3xnnk8EJ2A0WTqteAOf94WNP2TwSI4gSSF4exv56RAuARSlJbiO6FBWFHSomVhy1q4PFuYWOlxcjhNYZx8U/046YDowaWIjlWC2UrrSsFgM/0m15bx45ruDBzSXJspvNoBPE=
+	t=1751379785; cv=none; b=EDUniGrPUmX/f6u/CCX2Qa/VV2nT4W8G62+wDo8YXVGB7ekr4v8Ek3obfIpedb2Fw0dLzMB/FlmTaEeLCiRLAulem5Hy8oHN4BtRW6nmcEy/Yo/U3/3StpeUo/PBoN8sZd9sBv0GINjW6fX1YamS6MALXIyZSdlWDaxx6hUTx1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751350325; c=relaxed/simple;
-	bh=saN4FxID72MK9O70x5ti6Buh6RDRMJlJSXECDvQTY9M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qoY6gvE3NvRL/g0x19us2Q1miI48Jidsd0TCTkqqTr4dHwxzyBkyFXaXLNZ5cUitqJZty6p15EZndl8BQ76Xpn5NfS9NO0dNs2s9v2nOXtxdMPzbsEAMOubc26a6P2L14r0r1UGNGNTSQrqXIjFJHmv96IjlzcUkTtTwljNX1pA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SIkQ5H1R; arc=none smtp.client-ip=209.85.208.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1751379785; c=relaxed/simple;
+	bh=19HqR+S7DS9HWEs5GXmKKrr14rS+lQ2AvqDBzeElGvE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZTlBZX6fBmdsGAIpCY7yMfy72jSRoBLl3ez130dIAWscSbRTidWRSTG1Rfp99/ceXWKdbZugVKvFuGwwU0vJExTOBh4hPbI7Zt8NvwA1PbklVK8utawsfsBJlXin0oASpgFg7pbwdDGXk3w9aakxA0XYUY3SQIK3ddMupKSL4d0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cvrmez41; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SIkQ5H1R"
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-32b2f5d91c8so23811171fa.0
-        for <workflows@vger.kernel.org>; Mon, 30 Jun 2025 23:12:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1751350321; x=1751955121; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ao18p5od/1iKc/hQOC+lL7oiE1L5SXGy87urySsFyrI=;
-        b=SIkQ5H1Rw9yzBCXXvdPrinXemDaYeh8AU6yUj5vMgepGi48XWoMfjZvpcI6Wze+OGw
-         oE987DrginEy3F1mOH5JrdSa0RkrB2duyPfHxbAYuVqeDoYjNOhBRmgXyRBofIm2KBrA
-         GzTdCa2wwNotCOO/tg7UgLMhKcCp4SnyobiC51jANBZopRZMTmlHQ00rRHpk5ydcq3Zt
-         ykNJ0T3aYCJybtYgoa3CPpWC9uPP8smLUbrtHMo3Kin2vRqoF0A6RDUJZGMjGb/DbZWJ
-         pMJq4rV8jwawkZnBOYnq1BiJnn2j+APi3QiyC2IzYBhvY3Br5ktcf0y/CB5a+ZTx2huO
-         8FZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751350321; x=1751955121;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ao18p5od/1iKc/hQOC+lL7oiE1L5SXGy87urySsFyrI=;
-        b=VlmmsVzxX8UbRO3TryM4SSRcO/ehcgPcFaqdivH9MTKzxvLEShR/j/JCi1Fdsqinbk
-         aX5EkoML3e2qZN+EaDsa0iBxSqXrRu2MGxnr9xGQGsmanoTwVwzq0xPg8ROebGjJsRJQ
-         p8AbrarQD0x9IXFXim66+TWBsUJD+wURaWoVgEE1Eb5jg3wsVExptO8j4XT0/MBia0Uf
-         Gtv5HOLC8Je+4JLLdYjkgQWDvJNIoax1xXnhwUzzPDFuWbjh5mr02Bp2rH0kZE/DHhTt
-         zUV5KzD40kW4McoReBX/cB0oYx5HRjriOPR3pPoRDebWq3pOuv3vPUdI8Fz0fdQYlXzH
-         gCbw==
-X-Forwarded-Encrypted: i=1; AJvYcCWk8fqink2dVya+ipEuSSQraoX/0+ZgZNxg3AvVTskwRbynIYpZBkc2aOwDFxujp00pfmCthE5m/XQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyD7LtA8CRlhthlCuOsM0Rm3jYx0bgPkn6EWG1g+Bv8yojcHhuj
-	W44aPsJFbcpd+7MfTeTtOKC4was1TtMUk30tiwmaqx+YMfKwE8w+vB/lbI+cHIohP2gDV8dLMgN
-	wmU1xI8YSH8HMju22yEM3IVpOpX9g6lqWVePkJPmJ
-X-Gm-Gg: ASbGnctT4tlbs2RzK/dJHLTQIcEdz2N74ce58dqKS1SUrStJLPlgXDCTsWf4SoOwrtg
-	IgFwoXnhYCCfbj34bVo8ejcwLoasibwtVMiXuvs2fO8SkiF8WkwhpDm/+ElSBZgzrEAXMjhlPE8
-	xAcU71W3Dzih/APGg7QbvVZm8J/YDvD+wXR6dFI6cMgvRleK/3shrj03fOWjLFmree/s8UucwpA
-	FSP
-X-Google-Smtp-Source: AGHT+IEvB4D58+tkf5rop7CMmq3G6FucfUhW2iS3Dw6SxvYKxxvFGeBBOI0b4ItoAaYTUMcZ6iDgiWlyV/2Yq11rqBY=
-X-Received: by 2002:a2e:a015:0:b0:32a:8035:3f65 with SMTP id
- 38308e7fff4ca-32cdc54d82emr37145731fa.36.1751350320870; Mon, 30 Jun 2025
- 23:12:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cvrmez41"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33D87C4CEEB;
+	Tue,  1 Jul 2025 14:23:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751379785;
+	bh=19HqR+S7DS9HWEs5GXmKKrr14rS+lQ2AvqDBzeElGvE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Cvrmez41qnkAH4K2wnjByJW22VMfh7vqEHdljJD1cnJpJfew8eYrvMAgzrBGpSvpH
+	 cM9Ydck+E//ShuSKBu9pruEb9+H7QhUtBsB+dBl00FOjh8bbASF60fmybGfWR7FxBj
+	 HQYxQCSgCK6YaYZd6w1Vol4LS2EUfzHuwC4tSXYrc51/SFur1rKPW33Z4cHVNWEj7q
+	 e+jAKAZueqk9uhdMRJnwBD5kTHxPyl4mZMCWExP1F1zfKNTcrZTy7GGwZ/d2+FERwD
+	 yw8slrHclpblB1giCbUxLFGXiIGFxFV3gFAlraKiWIlPAsonBtEjIalBykzv7RYDo6
+	 uaN25wCemp11Q==
+Date: Tue, 1 Jul 2025 10:23:03 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-api@vger.kernel.org,
+	workflows@vger.kernel.org, tools@kernel.org
+Subject: Re: [RFC v2 01/22] kernel/api: introduce kernel API specification
+ framework
+Message-ID: <aGPvR-Mj6aR4Y8B5@lappy>
+References: <20250624180742.5795-1-sashal@kernel.org>
+ <20250624180742.5795-2-sashal@kernel.org>
+ <874ivxuht8.fsf@trenco.lwn.net>
+ <20250701002058.1cae5a7e@foz.lan>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <aFNYQkbEctT6N0Hb@lappy> <20250623132803.26760-1-dvyukov@google.com>
- <aFsE0ogdbKupvt7o@lappy> <CACT4Y+Y04JC359J3DnLzLzhMRPNLem11oj+u04GoEazhpmzWTw@mail.gmail.com>
- <aFwb_3EE2VMEV_tf@lappy> <CACT4Y+b9u6_wx9BU0hH0L6ogGKN_+R5T7OsgJVFAWm8yeD0E7Q@mail.gmail.com>
- <CACT4Y+b1Sou9bzhsuJ_LAjwCtynWN1iNRnaUkkTecNWxLUfMUw@mail.gmail.com>
- <aF10Cu0GI092Sjr3@lappy> <CACT4Y+ZB45ovD0hX3xX_yTUVSRDc1UCXnVDB57jxyWPPc7k=MA@mail.gmail.com>
- <aGKe0bcv1mzBnnQr@lappy>
-In-Reply-To: <aGKe0bcv1mzBnnQr@lappy>
-From: Dmitry Vyukov <dvyukov@google.com>
-Date: Tue, 1 Jul 2025 08:11:49 +0200
-X-Gm-Features: Ac12FXz_-0__3GT-RPYMP6RFV8zTX8Js5F_ec8oO48aqoqzeHNOQv7m_uFBpLC8
-Message-ID: <CACT4Y+ZsVGXg4S=ufZ3yWwKPJ_-dG_bLCaPrKHOXCVgZQd9R6A@mail.gmail.com>
-Subject: Re: [RFC 00/19] Kernel API Specification Framework
-To: Sasha Levin <sashal@kernel.org>
-Cc: kees@kernel.org, elver@google.com, linux-api@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, tools@kernel.org, workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20250701002058.1cae5a7e@foz.lan>
 
-On Mon, 30 Jun 2025 at 16:27, Sasha Levin <sashal@kernel.org> wrote:
+On Tue, Jul 01, 2025 at 12:20:58AM +0200, Mauro Carvalho Chehab wrote:
+>Em Mon, 30 Jun 2025 13:53:55 -0600
+>Jonathan Corbet <corbet@lwn.net> escreveu:
 >
-> On Fri, Jun 27, 2025 at 08:23:41AM +0200, Dmitry Vyukov wrote:
-> >On Thu, 26 Jun 2025 at 18:23, Sasha Levin <sashal@kernel.org> wrote:
-> >>
-> >> On Thu, Jun 26, 2025 at 10:37:33AM +0200, Dmitry Vyukov wrote:
-> >> >On Thu, 26 Jun 2025 at 10:32, Dmitry Vyukov <dvyukov@google.com> wrote:
-> >> >>
-> >> >> On Wed, 25 Jun 2025 at 17:55, Sasha Levin <sashal@kernel.org> wrote:
-> >> >> >
-> >> >> > On Wed, Jun 25, 2025 at 10:52:46AM +0200, Dmitry Vyukov wrote:
-> >> >> > >On Tue, 24 Jun 2025 at 22:04, Sasha Levin <sashal@kernel.org> wrote:
-> >> >> > >
-> >> >> > >> >6. What's the goal of validation of the input arguments?
-> >> >> > >> >Kernel code must do this validation anyway, right.
-> >> >> > >> >Any non-trivial validation is hard, e.g. even for open the validation function
-> >> >> > >> >for file name would need to have access to flags and check file precense for
-> >> >> > >> >some flags combinations. That may add significant amount of non-trivial code
-> >> >> > >> >that duplicates main syscall logic, and that logic may also have bugs and
-> >> >> > >> >memory leaks.
-> >> >> > >>
-> >> >> > >> Mostly to catch divergence from the spec: think of a scenario where
-> >> >> > >> someone added a new param/flag/etc but forgot to update the spec - this
-> >> >> > >> will help catch it.
-> >> >> > >
-> >> >> > >How exactly is this supposed to work?
-> >> >> > >Even if we run with a unit test suite, a test suite may include some
-> >> >> > >incorrect inputs to check for error conditions. The framework will
-> >> >> > >report violations on these incorrect inputs. These are not bugs in the
-> >> >> > >API specifications, nor in the test suite (read false positives).
-> >> >> >
-> >> >> > Right now it would be something along the lines of the test checking for
-> >> >> > an expected failure message in dmesg, something along the lines of:
-> >> >> >
-> >> >> >         https://github.com/linux-test-project/ltp/blob/0c99c7915f029d32de893b15b0a213ff3de210af/testcases/commands/sysctl/sysctl02.sh#L67
-> >> >> >
-> >> >> > I'm not opposed to coming up with a better story...
-> >> >
-> >> >If the goal of validation is just indirectly validating correctness of
-> >> >the specification itself, then I would look for other ways of
-> >> >validating correctness of the spec.
-> >> >Either removing duplication between specification and actual code
-> >> >(i.e. generating it from SYSCALL_DEFINE, or the other way around) ,
-> >> >then spec is correct by construction. Or, cross-validating it with
-> >> >info automatically extracted from the source (using
-> >> >clang/dwarf/pahole).
-> >> >This would be more scalable (O(1) work, rather than thousands more
-> >> >manually written tests).
-> >> >
-> >> >> Oh, you mean special tests for this framework (rather than existing tests).
-> >> >> I don't think this is going to work in practice. Besides writing all
-> >> >> these specifications, we will also need to write dozens of tests per
-> >> >> each specification (e.g. for each fd arg one needs at least 3 tests:
-> >> >> -1, valid fd, inclid fd; an enum may need 5 various inputs of
-> >> >> something; let alone netlink specifications).
-> >>
-> >> I didn't mean just for the framework: being able to specify the APIs in
-> >> machine readable format will enable us to automatically generate
-> >> exhaustive tests for each such API.
-> >>
-> >> I've been playing with the kapi tool (see last patch) which already
-> >> supports different formatters. Right now it outputs human readable
-> >> output, but I have proof-of-concept code that outputs testcases for
-> >> specced APIs.
-> >>
-> >> The dream here is to be able to automatically generate
-> >> hundreds/thousands of tests for each API in an automated fashion, and
-> >> verify the results with:
-> >>
-> >> 1. Simply checking expected return value.
-> >>
-> >> 2. Checking that the actual action happened (i.e. we called close(fd),
-> >> verify that `fd` is really closed).
-> >>
-> >> 3. Check for side effects (i.e. close(fd) isn't supposed to allocate
-> >> memory - verify that it didn't allocate memory).
-> >>
-> >> 4. Code coverage: our tests are supposed to cover 100% of the code in
-> >> that APIs call chain, do we have code that didn't run (missing/incorrect
-> >> specs).
-> >
-> >
-> >This is all good. I was asking the argument verification part of the
-> >framework. Is it required for any of this? How?
+>> Sasha Levin <sashal@kernel.org> writes:
+>>
+>> > Add a comprehensive framework for formally documenting kernel APIs with
+>> > inline specifications. This framework provides:
+>> >
+>> > - Structured API documentation with parameter specifications, return
+>> >   values, error conditions, and execution context requirements
+>> > - Runtime validation capabilities for debugging (CONFIG_KAPI_RUNTIME_CHECKS)
+>> > - Export of specifications via debugfs for tooling integration
+>> > - Support for both internal kernel APIs and system calls
+>> >
+>> > The framework stores specifications in a dedicated ELF section and
+>> > provides infrastructure for:
+>> > - Compile-time validation of specifications
+>> > - Runtime querying of API documentation
+>> > - Machine-readable export formats
+>> > - Integration with existing SYSCALL_DEFINE macros
+>> >
+>> > This commit introduces the core infrastructure without modifying any
+>> > existing APIs. Subsequent patches will add specifications to individual
+>> > subsystems.
+>> >
+>> > Signed-off-by: Sasha Levin <sashal@kernel.org>
+>> > ---
+>> >  Documentation/admin-guide/kernel-api-spec.rst |  507 ++++++
+>>
+>> You need to add that file to index.rst in that directory or it won't be
+>> pulled into the docs build.
+>>
+>> Wouldn't it be nice to integrate all this stuff with out existing
+>> kerneldoc mechanism...? :)
 >
-> Specifications without enforcement are just documentation :)
+>+1
 >
-> In my mind, there are a few reasons we want this:
->
-> 1. For folks coding against the kernel, it's a way for them to know that
-> the code they're writing fits within the spec of the kernel's API.
+>Having two different mechanisms (kapi and kerneldoc) makes a lot harder
+>to maintain kAPI.
 
-How is this different from just running the kernel normally? Running
-the kernel normally is simpler, faster, and more precise.
+I hated the idea of not reusing kerneldoc.
 
-> 2. Enforcement around kernel changes: think of a scenario where a flag
-> is added to a syscall - the author of that change will have to also
-> update the spec because otherwise the verification layer will complain
-> about the new flag. This helps prevent divergence between the code and
-> the spec.
+My concern with kerneldoc was that I can't manipulate the
+information it stores in the context of a kernel build. So for example,
+I wasn't sure how I can expose information stored within kerneldoc via
+debugfs on a running system (or how I can store it within the vmlinux
+for later extraction from the binary built kernel).
 
-It may be more useful to invoke verification, but does not return
-early on verification errors, but instead memorize the result, and
-still always run the actual syscall normally. Then if verification
-produced an error, but the actual syscall has not returned the same
-error, then WARN loudly.
+I did some research based on your proposal, and I think I was incorrect
+with the assumption above. I suppose we could do something like the
+following:
 
-This should provide the same value. But also does not rely on
-correctly marked manually written tests to test the specification. It
-will work automatically with any fuzzing/randomized testing, which I
-assume will be more valuable for specification testing.
+1. Add new section patterns to doc_sect regex in to include API
+specification sections: api-type, api-version, param-type, param-flags,
+param-constraint, error-code, capability, signal, lock-req, since...
+  
+2. Create new output module (scripts/lib/kdoc/kdoc_apispec.py?) to
+generate C macro invocations from parsed data.
 
-But then, as Cyril mentioned, this verification layer does not really
-need to live in the kernel. Once the kernel has exported the
-specification in machine-usable form, the same verification can be
-done in user-space. Which is always a good idea.
+Which will generate output like:
+
+    DEFINE_KERNEL_API_SPEC(function_name)
+        KAPI_DESCRIPTION("...") 
+        KAPI_PARAM(0, "name", "type", "desc")
+            KAPI_PARAM_TYPE(KAPI_TYPE_INT)
+            KAPI_PARAM_FLAGS(KAPI_PARAM_IN)
+        KAPI_PARAM_END
+    KAPI_END_SPEC 
+
+3. And then via makefile we can: 
+    - Generate API specs from kerneldoc comments
+    - Include generated specs conditionally based on CONFIG_KERNEL_API_SPEC
+
+Allowing us to just have these in the relevant source files:
+    #ifdef CONFIG_KERNEL_API_SPEC
+    #include "socket.apispec.h"
+    #endif
 
 
-> 3. Extra layer of security: we can choose to enable this as an
-> additional layer to protect us from missing checks in our userspace
-> facing API.
+In theory, all of that will let us have something like the following in
+kerneldoc:
 
-This will have additional risks, and performance overhead. Such
-mitigations are usually assessed with % of past CVEs this could
-prevent. That would allow us to assess cost/benefit.
-Intuitively this does not look like worth doing to me.
+- @api-type: syscall
+- @api-version: 1
+- @context-flags: KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE
+- @param-type: family, KAPI_TYPE_INT
+- @param-flags: family, KAPI_PARAM_IN
+- @param-range: family, 0, 45
+- @param-mask: type, SOCK_TYPE_MASK | SOCK_CLOEXEC | SOCK_NONBLOCK
+- @error-code: -EAFNOSUPPORT, "Address family not supported"
+- @error-condition: -EAFNOSUPPORT, "family < 0 || family >= NPROTO"
+- @capability: CAP_NET_RAW, KAPI_CAP_GRANT_PERMISSION
+- @capability-allows: CAP_NET_RAW, "Create SOCK_RAW sockets"
+- @since: 2.0
+- @return-type: KAPI_TYPE_FD
+- @return-check: KAPI_RETURN_ERROR_CHECK
+
+How does it sound? I'm pretty excited about the possiblity to align this
+with kerneldoc. Please poke holes in the plan :)
+
+-- 
+Thanks,
+Sasha
