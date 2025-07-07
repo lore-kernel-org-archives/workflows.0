@@ -1,98 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1306230278;
-	Fri,  4 Jul 2025 21:56:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A9DC1A23B5;
+	Mon,  7 Jul 2025 18:18:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751666196; cv=none; b=X9SwXQ+5SwspoAVsoHKgR/SYaVpbU+sl0tRvILy/Ms1jvz8RZwDUQMRE+Uzy/Q9pX52UdkJT0b7m6iqDonBSKKxaiuMYfcaUvzCXyXLHiqbwjbmDoYNuHdARQlvSeWHBSt/oYy82jTRDpgSQSqjJNyigPyLhdBcp8+bTrC03edY=
+	t=1751912290; cv=none; b=pWd0wWvo4DcVL0DuvVxrB9f0oqWk3PFojVeW0jqtbnt4Ldvt2tODWS+5upCdu5C5qJ9IWASM8KT5yjOSZaaampzWHbDOTZMWfz8UcH6NvVAau97T4OJq3lLEVxIDcZDRTmTBvzOXOGVjjxvg2VgexAKnXzURuSvlOSHF9em+QIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751666196; c=relaxed/simple;
-	bh=Y4dP4R0COLDEO9XOwXP8MqcGxLifElXto/WM/FyiYcM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pjTUaF2BtWmghqwgrk1Tx6A4KxVQuziiT6qG/ZY3OL7IG5hKC/vesiZ08XlVJK7MSFWTLE1R/E25gN1mlAKi2rkFIKxP2UVFwaeJfwaiSg+JAvP9NH/PSxT9SQ6QGLnGi4uAOc3NJfhFfqMEkgmMtxeex/cT66fPAEInjWvY31Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dbo23xrG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751912290; c=relaxed/simple;
+	bh=pDI+5V6KgP/ER5J++RWkkIYIk4xybHsObqeJLJdlzjU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Yt9j3d5sqn/nkT4e52PjsjpANYuZ6AxBLUM/QtQDzbEovIilVsLUnvM2dO8d6g7cj2iClSsPGygacFbDhKLU61wU/zl8pMr8AsEyd6CRBu+6edNp5WdhLC+h4FQsXUCcnWdD9c/WyTinP6XPEIYtGy5icJLICh9rPWDWxywygOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=hJYAdNUA; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dbo23xrG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 669A7C4CEE3;
-	Fri,  4 Jul 2025 21:56:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751666195;
-	bh=Y4dP4R0COLDEO9XOwXP8MqcGxLifElXto/WM/FyiYcM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Dbo23xrG5ByYRVbASAUjR43dkkWMtWth1KbfXWQ0lXDitgB6Osq8mIiWxeCv2ta2j
-	 CP9iJ/AtLTCBV8QhzsIr7dl6I16YgS4SMv0lZ0j0EeK4ILG/oTuqbPUWHVMYB+IcoV
-	 Zdb7aQYzwKdVMdE66pBH62baQWg0Rt3ec0DqR6JmEdZhg4q0JMJLt2ILvksHqE2wQP
-	 NvSFQrL/oXMU7HjgHHqVn855zDAM9B+SoNGjmZxaaP9ZTSMSJi0AGtGl4nbuGShSHA
-	 ePwwaeidWEKFAfK1hiRmeW+ERfnndFWkymS/ezbMgayeZktz30vShMBs0E1v0H7TSU
-	 s6dIlIp371o3g==
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-32adebb15c5so10048961fa.3;
-        Fri, 04 Jul 2025 14:56:35 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV8F8upAT2IivQStJnw+AoD4avSQB17ki/qyXdQWUw/QTHRU/p1w/FwBHsY1tifG2SNPFXnZWKbEYObxtF9@vger.kernel.org, AJvYcCVFoGUX0Nrw2/Lz6cZr9ogCa9J8Xx9MvXuUqT+90pmUeGFcT3lOk1owRuH1TJczXTj2fJbuHhd4cJEE@vger.kernel.org, AJvYcCVZigzeOWfQVYdIDpSADDneWakMsnxEh4/y1/bpzzuU5Dh6RQ86MY7rv+wu0uomeKKcD0bpRQ0MLfc0usWm@vger.kernel.org, AJvYcCVkPGx7TpwaWFAf4einAxtIaatt26XPBWUTOO5CBYDJW2eTC52+7w+37aZdJJqKxw4MjHdUATKeoOo=@vger.kernel.org, AJvYcCWmYtKE+BBfsLsiysegIGGRwXiI/GbMTDH0FMDXjTJLSC+AVRNxqdnXav2d9tEOD2pb7f1yliPkn2GRfugS7Dh4@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJ+IiWuN+/V40soYSxCZ75KleSSJTH8tVTpJOWd9fASTDmajLW
-	QRnBk9dmqykCTaY4gfhgwL6/mUVulLpH3RIWXhuQRJA4gxyoPLKb4M0QMoGblken2nByKE9vo+Z
-	Msl1mS3BSJybAOby2TfaFJBK6rJSS3zU=
-X-Google-Smtp-Source: AGHT+IGVZoDUL4hlVPhvud7l5bcj+GhwWkCdlk8b33LW3OzhrN3d/HzeMnr/omzaDFlVqDxqjw12uE9q9dhxriRfEeI=
-X-Received: by 2002:a05:651c:4018:b0:32b:7356:94cb with SMTP id
- 38308e7fff4ca-32f092c6cc3mr7970301fa.19.1751666194115; Fri, 04 Jul 2025
- 14:56:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="hJYAdNUA"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3373C40AA9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1751912282; bh=pDI+5V6KgP/ER5J++RWkkIYIk4xybHsObqeJLJdlzjU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=hJYAdNUA3WXbfI4RZNUgS9ytEoN0KkPOarsSKgEl7K7RrcVHNlo4FLXpOIs5PDSTE
+	 HTjtL0r8U8v/TZgFjVXTzVZD55+R75D5TD88SLbcLQjjZUFUYOMOwSUa5jw2SI86cw
+	 RzbTcBTqTBKoq9GIDmg3GJAlu86SGS6dCIdCzPM7Sd/YfEW2jbH1KEXbnu4DtlOT60
+	 G76ahmENyj0VZQQ+UZ0NhyGMKuRsHl7YtbudnGn8MK3JfmyS9SwtBgQ5YPT4QXVFrZ
+	 U+d//OQTI+KvSPIaFvnlIKBSFmBIJs2nLBzb2YZYQmYtrVmsrUMirWDA7jMiH+ExBe
+	 SFwU5I7pC+Tlw==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 3373C40AA9;
+	Mon,  7 Jul 2025 18:18:02 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+ Masahiro Yamada
+ <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Andrew
+ Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, Thomas
+ =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, Brendan Higgins
+ <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, Rae Moar
+ <rmoar@google.com>, Shuah Khan <shuah@kernel.org>, Nicolas Schier
+ <nicolas.schier@linux.dev>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+ linux-doc@vger.kernel.org, workflows@vger.kernel.org, Thomas =?utf-8?Q?We?=
+ =?utf-8?Q?i=C3=9Fschuh?=
+ <thomas.weissschuh@linutronix.de>, Kees Cook <kees@kernel.org>, Alexander
+ Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ Jan Kara <jack@suse.cz>, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v4 00/15] kunit: Introduce UAPI testing framework
+In-Reply-To: <20250626-kunit-kselftests-v4-0-48760534fef5@linutronix.de>
+References: <20250626-kunit-kselftests-v4-0-48760534fef5@linutronix.de>
+Date: Mon, 07 Jul 2025 12:18:01 -0600
+Message-ID: <87qzyr7tly.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250626-kunit-kselftests-v4-0-48760534fef5@linutronix.de> <20250626-kunit-kselftests-v4-3-48760534fef5@linutronix.de>
-In-Reply-To: <20250626-kunit-kselftests-v4-3-48760534fef5@linutronix.de>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 5 Jul 2025 06:55:57 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARz6-7s_pV9X-XcfU55s-AUs_y0Sm6YUgey+Q1=-QkZpw@mail.gmail.com>
-X-Gm-Features: Ac12FXwnNIDkk4V1pS1bMlMnoRbXLTf3Hf3er3XEcmiWfxGzkmEMLQCUYkde3EI
-Message-ID: <CAK7LNARz6-7s_pV9X-XcfU55s-AUs_y0Sm6YUgey+Q1=-QkZpw@mail.gmail.com>
-Subject: Re: [PATCH v4 03/15] kbuild: doc: add label for userprogs section
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-Cc: Nathan Chancellor <nathan@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Willy Tarreau <w@1wt.eu>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
-	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
-	Rae Moar <rmoar@google.com>, Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Nicolas Schier <nicolas.schier@linux.dev>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	linux-doc@vger.kernel.org, workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 26, 2025 at 3:10=E2=80=AFPM Thomas Wei=C3=9Fschuh
-<thomas.weissschuh@linutronix.de> wrote:
->
-> Some upcoming new documentation should link directly to the userprogs sec=
-tion.
->
-> Add a label to the section so it can be referenced.
->
-> Signed-off-by: Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
-> ---
->  Documentation/kbuild/makefiles.rst | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/ma=
-kefiles.rst
-> index 8aef3650c1f32b6b197e0dc777e26775d371a081..c14c1f632f6069c8751c8388a=
-35bef539e19f9e8 100644
-> --- a/Documentation/kbuild/makefiles.rst
-> +++ b/Documentation/kbuild/makefiles.rst
-> @@ -891,6 +891,8 @@ This is possible in two ways:
->      This will tell kbuild to build lxdialog even if not referenced in
->      any rule.
->
-> +.. _kbuild_userprogs:
-> +
->  Userspace Program support
+Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de> writes:
 
+> This series aims to combine kselftests and kunit, avoiding both their
+> limitations. It works by compiling the userspace kselftests as part of
+> the regular kernel build, embedding them into the kunit kernel or module
+> and executing them from there.
 
-Acked-by: Masahiro Yamada <masahiroy@kernel.org>
+Please forgive the possibly dumb question but ... this series sets up
+the framework, but doesn't actually integrate the kselftests, right?
+Will it be necessary to write a little KUnit glue function for each
+kselftest, or is there some other scheme in mind here?
 
+Thanks,
 
---=20
-Best Regards
-Masahiro Yamada
+jon
