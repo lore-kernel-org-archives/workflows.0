@@ -1,96 +1,95 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0952A645;
-	Tue,  8 Jul 2025 05:51:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAD772FB2;
+	Sat, 12 Jul 2025 08:33:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751953870; cv=none; b=q/KWeTWTbMXB8Y/SI6N4Jm8AWcduWy3l2nrgiL4hfrpa+fAbUJz0sf0Oqh4JXCgQ2WgapygpvSpHp2/c6uQfmWx4IKWnOUZhTmXFFkcavfVkGbQYY32N8ynLU+xImO0/soPOfXX+a144SlnffKBdyQz9q5r2aYshBrnQJ4qwpJ0=
+	t=1752309218; cv=none; b=d3Zoto/Nz5Pr/VlBE/g9ehSiHxNfT772qPHMAnJGPiwMJKfcI7pGGSFNVrVsgaR62d3X8jXdfrcVFcUtbRDEfihS9i1ITuvLp6WPStAlCgodOlEYBhRMeZ6tc//iJ+87KzYe6+rhmo5+YJ4yIrbPkkVNXxaLqdSAuuZoV3ow4CM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751953870; c=relaxed/simple;
-	bh=JNXE1M1GfAKMAx2fUOYQYN/tMN4M5F8WF2dNBw1efi4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SXq9ic/8B6chehkwdabvQKrRMPUbCX+mnG/NRwLa2dXXN8XNtJrHp4t7wRqJNmp9y//5oteC/U5+h1Om2CNC89QJ17uOZHMiNgTXmMaUhmy6m2toJPqzJSs8pPpXWjpVnmClFU9WO5b2m3sdzfx9g08ZMLB/MABVaXfeRvua9lY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=n8n0lnY/; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=INR+2vDk; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1752309218; c=relaxed/simple;
+	bh=6VWw+bBtOU9U2/e33hN+xWFLVR6yatLAPxZzl7SbJNQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=tVM7y7we2Qs/twPdAd/fH5CJwUVANzS8FIu8HbjyoRTrrIKDEhhi9/lb5YOgBB6Fz+9LmK4JWUsPpiwYYCZ4CVK6FIDOKydV1tH/MH9uIVI3l11PgfofB1jj2YXzqrY2/t7aYX9khuiH9UGvlBa9qjwQe6aejlnTvQLoOlgSCAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BLrBtGJW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="n8n0lnY/";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="INR+2vDk"
-Date: Tue, 8 Jul 2025 07:51:06 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1751953867;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1yXuyD2y1tDDXkXTAWSlgEy9p6IqbbB6Wt8X6nTw+yw=;
-	b=n8n0lnY/41yNWuVFmE+/ybyOP7pjLAwdANsDu25x71x2iLUxcY2j98kP0F8IoS9FeO7nIB
-	IuiHyWSc18jAP1if6ai8eCvUJoqp6CvshYC8CvvYwGDJa/9Lus7SuGLTN3VaxQED5YS/Ex
-	VH0w/KUQm1QaF+ubfS0VOA/r/kxzFMCpcKkme3lLmILlBhEaFfgQEMrJgudahurUvcDd32
-	plT7rsth56Fi+OXvHRJqFLgcpYBS+JVcRwVJHZfrnPsmrZCaQJ+LHIAfbXV0D72IsEmGQC
-	c2dZgSOa1FTNz121Sb7dtf1zTY16SqPNYIvjpINbMX6TtDWuODLeHDozG8UaZA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1751953867;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1yXuyD2y1tDDXkXTAWSlgEy9p6IqbbB6Wt8X6nTw+yw=;
-	b=INR+2vDkhbgRjXvWu5PX2SOpL4900BafsvNCjtbJR9vEisIi3Sh4QioImKSLts6+T+8tX3
-	bWVpeAke5ucjk+Dg==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Willy Tarreau <w@1wt.eu>, Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
-	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
-	Shuah Khan <shuah@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, linux-doc@vger.kernel.org, 
-	workflows@vger.kernel.org, Kees Cook <kees@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v4 00/15] kunit: Introduce UAPI testing framework
-Message-ID: <20250708073940-c2e9ee11-549b-4ef0-a480-942d86821f41@linutronix.de>
-References: <20250626-kunit-kselftests-v4-0-48760534fef5@linutronix.de>
- <87qzyr7tly.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BLrBtGJW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 681C1C4CEEF;
+	Sat, 12 Jul 2025 08:33:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752309217;
+	bh=6VWw+bBtOU9U2/e33hN+xWFLVR6yatLAPxZzl7SbJNQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=BLrBtGJWr8t8EuUuF1KitSwtsdhjcVkm7yA3/9/v0SPnsfWTGsgArG0c37KqNC5FZ
+	 Z37V4hCTuE2wtvT5T+1lKkmEWide4h7GDLgNjmYmZGscJgAPABaYhvWKq8fs8dGG68
+	 hCNpNVmeFhYdndohsRc8K1MDbvyXuxyd4JuN6z+QWhxVTH1EI9cKdCTeBPzViN+dy1
+	 Wf7EhAxuECXW4VY00z2WWJtOB4yLLOH86VsdFfZZGEE2Kxjh72zulx41D1Ey5THtmp
+	 NRAuSk5U6nVqcUZ6FcbAX4k9NePoy4l0WMLB8nUrypDr0OqhZzWYcmYJ9EVs/Jbh0g
+	 y9zTO6eQRTGTQ==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1uaVfr-0000000GsSz-1qLn;
+	Sat, 12 Jul 2025 10:33:35 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"Jonathan Corbet" <corbet@lwn.net>,
+	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org,
+	Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH v2 3/2] docs: changes: better document Python needs
+Date: Sat, 12 Jul 2025 10:32:38 +0200
+Message-ID: <58c0cfb40e600af697b1665ffbc8e5bb3d859bb5.1752309145.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.50.0
+In-Reply-To: <cover.1752307866.git.mchehab+huawei@kernel.org>
+References: <cover.1752307866.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87qzyr7tly.fsf@trenco.lwn.net>
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On Mon, Jul 07, 2025 at 12:18:01PM -0600, Jonathan Corbet wrote:
-> Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de> writes:
-> 
-> > This series aims to combine kselftests and kunit, avoiding both their
-> > limitations. It works by compiling the userspace kselftests as part of
-> > the regular kernel build, embedding them into the kunit kernel or module
-> > and executing them from there.
-> 
-> Please forgive the possibly dumb question but ... this series sets up
-> the framework, but doesn't actually integrate the kselftests, right?
+Python is listed as an optional dependency, but this is not
+true, as kernel-doc is called during compilation when DRM is
+enabled. Better document that.
 
-Correct.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/process/changes.rst | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-> Will it be necessary to write a little KUnit glue function for each
-> kselftest, or is there some other scheme in mind here?
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index bccfa19b45df..6a7d7c1ee274 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -61,7 +61,7 @@ Sphinx\ [#f1]_         3.4.3            sphinx-build --version
+ GNU tar                1.28             tar --version
+ gtags (optional)       6.6.5            gtags --version
+ mkimage (optional)     2017.01          mkimage --version
+-Python (optional)      3.9.x            python3 --version
++Python                 3.9.x            python3 --version
+ GNU AWK (optional)     5.1.0            gawk --version
+ ====================== ===============  ========================================
+ 
+@@ -154,6 +154,13 @@ Perl
+ You will need perl 5 and the following modules: ``Getopt::Long``,
+ ``Getopt::Std``, ``File::Basename``, and ``File::Find`` to build the kernel.
+ 
++Python
++------
++
++At least Python 2.7 or 3.4 is required if CONFIG_DRM is selected to avoid
++breaking compilation. Documentation build and kernel-doc won't produce
++valid results if version is below 3.7.
++
+ BC
+ --
+ 
+-- 
+2.50.0
 
-With the current framework it is necessary to write some glue code:
-* A stub .c file which #includes the existing kselftest source
-* A kbuild userprog Makefile
-* A custom KUnit function which calls kunit_uapi_run_kselftest()
 
-A more high-level scheme may come later, but so far I have not worked on that.
-It would be nice for example to build and run the tests for all ABIs supported
-by a kernel without a lot of manual code duplication.
-And maybe have some higher level helpers around declaring the tests.
-
-
-Thomas
