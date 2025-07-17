@@ -1,145 +1,131 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46BFF5D8F0;
-	Sun, 13 Jul 2025 09:27:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BDFF1D7984;
+	Thu, 17 Jul 2025 08:49:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752398866; cv=none; b=VY+0TvV6Eh/t6XSKOeq3kHSRH5I6Yy/fSf7lTrh8A0v2+HTOYO7sLUayGAI2zfZ+hEI8EYXTQtdtSFXcxI7TVMT1aTI9Nl/tWne8xRJx0o7wOXCGeOJ2WCj0/Xzj4Ee2r/1RKuyDgSz51jI8TTQCjrNSpIKg3/JvsI7anmJYCqk=
+	t=1752742145; cv=none; b=n6GYna89k3t9YzElwNva/No5YgrR1ytr4FwwY70DNPfzgDaO5/5/JR1WdbuyEW10GBTpVtlFZb80JiLduKNkp3b3qRpfF/uDwmK1iT+zo1hYONBAi2EI6bSNyWtprYQv90FogZ9YU1aQKLuzAlkYDH7qbHTDplgYa5M+82JWls8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752398866; c=relaxed/simple;
-	bh=T42cfsc+7VU7rLmZUluCFiFQFi4Cq1hv3QS+DPaGt1g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ucomEX48mRubfMv5SdOrH9F4vjCnrT60324HlspYl+NuTN1L+T+4vvXCrBEuhKmCxn+Nou3zIvtPUYVsIJY6FFnVYDvYjQXesgC0HZ7rpA36hhIHjYBLtI+mnguJMU/vGE0PYS6bBTlnQau0GNRhNzNNDnhk1D5tkmNxkHQn57E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CWxr3Rr4; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1752742145; c=relaxed/simple;
+	bh=yVjZBovVFYRelPKtg1fQMKDDpGxbxaYJbTiXbrwq7Ao=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=iFyZCUnASBft5A/EY8p8FBn+qVik9Fi/NIdg5D4nFXoywC63IEZjY9XIG5YkGJ0cDB8V/TtsZD5Lfla8IAnyZbVQhaXgucUxlK2apAUxS5A8JiPWfXQaAQVCST39TCLT7YgK9Pyfz5KsCYS+sp06+49Q4PM5vHf4CkJ4++d5L6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=c4InLabs; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ddBrI2MT; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CWxr3Rr4"
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 3712C3DC;
-	Sun, 13 Jul 2025 11:27:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1752398831;
-	bh=T42cfsc+7VU7rLmZUluCFiFQFi4Cq1hv3QS+DPaGt1g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CWxr3Rr4jzTDt/oGy6ek/20W0/eajivzHVs21lcz7NbtdmnDQlxDsql5ocKADhg6I
-	 fg49idYEN60XhBIO0AH5fB7LJRNcVt4jHXHvlc97l7Orp97hI30OwqIx/lZnKBQP53
-	 zE564JaUOQpyRlFzICngTAaDZ2qUcybkq8SvKMN8=
-Date: Sun, 13 Jul 2025 12:27:10 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH v2 3/2] docs: changes: better document Python needs
-Message-ID: <20250713092710.GB22640@pendragon.ideasonboard.com>
-References: <cover.1752307866.git.mchehab+huawei@kernel.org>
- <58c0cfb40e600af697b1665ffbc8e5bb3d859bb5.1752309145.git.mchehab+huawei@kernel.org>
- <20250712163155.GA22640@pendragon.ideasonboard.com>
- <20250713002517.7f52b0e9@foz.lan>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="c4InLabs";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ddBrI2MT"
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1752742136;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=28EngJ2RMDboH1kPF4R/YHxhFvguWtCe6+9usWrMNYU=;
+	b=c4InLabsGxInUfJEVc4VHN+M7m9gY7FaVq4Fh87mEtQeVsGS7aGcVw2ftFFcKW7J26QtV5
+	hDXIK95Ot9w5B2rQxkIOiYwLuMgRNlFbB4EmiB+LBeU4Px9dNLsNmXXxEKsYkn3Ny/7g/7
+	Dq5fIk6EIxiHUkTcWTN7al+Dd7zZeNkqSxAFFXXrtwPCwbH6DoqGphJebGJXOcsqo2a2Ze
+	K7EYYttIQnUMPv2q6CVmYxbYS/96TPEHXbBY9p03Ngq2W/06oIlYrRD3dq6/twUF99qo3v
+	2c0ZTBOYO1th581QFz2mXoHZ55KTwlqTb7n/W+/uCSk/rNH4rkWr2ldCz3zJnw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1752742136;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=28EngJ2RMDboH1kPF4R/YHxhFvguWtCe6+9usWrMNYU=;
+	b=ddBrI2MT61kbAKq9OFyxCJ9PR3IsugoRkN2Y0EuYU4DRHe3S4fOgCdN+H2GdaeBRbmaACo
+	onKl+M/WN/9jDmAg==
+Date: Thu, 17 Jul 2025 10:48:09 +0200
+Subject: [PATCH v5 07/15] kunit: tool: Add test for nested test result
+ reporting
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250713002517.7f52b0e9@foz.lan>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20250717-kunit-kselftests-v5-7-442b711cde2e@linutronix.de>
+References: <20250717-kunit-kselftests-v5-0-442b711cde2e@linutronix.de>
+In-Reply-To: <20250717-kunit-kselftests-v5-0-442b711cde2e@linutronix.de>
+To: Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+ Brendan Higgins <brendan.higgins@linux.dev>, 
+ David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
+ Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Nicolas Schier <nicolas.schier@linux.dev>, Kees Cook <kees@kernel.org>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Christoph Hellwig <hch@lst.de>, Luis Chamberlain <mcgrof@kernel.org>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>, 
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+ linux-doc@vger.kernel.org, workflows@vger.kernel.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+ Nicolas Schier <nicolas.schier@linux.dev>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1752742130; l=2264;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=yVjZBovVFYRelPKtg1fQMKDDpGxbxaYJbTiXbrwq7Ao=;
+ b=4Rrhad+4zQdJ2WFKLGxo3krskqwms12O3XlbFK00zw7rCvDGjBSyqv5SNZW3aB1Xu4ynOqiRl
+ xpmXlFDkWVhAaEiQgCJwSMO3zlaMRuGoxR6q/z+TdQfJMmqfa8aXr4J
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-On Sun, Jul 13, 2025 at 12:25:17AM +0200, Mauro Carvalho Chehab wrote:
-> Em Sat, 12 Jul 2025 19:31:55 +0300 Laurent Pinchart escreveu:
-> 
-> > Hi Mauro,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Sat, Jul 12, 2025 at 10:32:38AM +0200, Mauro Carvalho Chehab wrote:
-> > > Python is listed as an optional dependency, but this is not
-> > > true, as kernel-doc is called during compilation when DRM is
-> > > enabled. Better document that.
-> > > 
-> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
-> > 
-> > Isn't it only when CONFIG_DRM_HEADER_TEST is enabled ? That option
-> > depends on EXPERT && BROKEN, so I wouldn't expect it to be widely
-> > enabled. A quick grep shows that CONFIG_DRM_I915_WERROR does the same
-> > (with a dependency on EXPERT but not BROKEN though).
-> 
-> Well, EXPERT is currently enabled on several distros. The three ones I have
-> it handy all have it:
-> 
-> Fedora 42:
-> 	$ grep CONFIG_EXPERT /boot/config*
-> 	/boot/config-6.14.9-300.fc42.x86_64:CONFIG_EXPERT=y
-> 	/boot/config-6.15.3-200.fc42.x86_64:CONFIG_EXPERT=y
-> 	/boot/config-6.15.4-200.fc42.x86_64:CONFIG_EXPERT=y
-> 
-> Ubuntu 24.10:
-> 	$ grep CONFIG_EXPERT /boot/config*
-> 	/boot/config-6.11.0-26-generic:CONFIG_EXPERT=y
-> 	/boot/config-6.8.0-60-generic:CONFIG_EXPERT=y
-> 
-> Debian 12:
-> 	$ grep CONFIG_EXPERT /boot/config*
-> 	/boot/config-6.1.0-34-amd64:CONFIG_EXPERT=y
-> 	/boot/config-6.1.0-37-amd64:CONFIG_EXPERT=y
-> 	/boot/config-6.1.0-37-rt-amd64:CONFIG_EXPERT=y
-> 
-> So, expert on distros seem quite common those days.
+Currently there is a lack of tests validating the result reporting from
+nested tests. Add one, it will also be used to validate upcoming changes
+to the nested test parsing.
 
-But not CONFIG_BROKEN, right ? That would leave only
-CONFIG_DRM_I915_WERROR.
+Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+Reviewed-by: David Gow <davidgow@google.com>
+Reviewed-by: Rae Moar <rmoar@google.com>
+---
+ tools/testing/kunit/kunit_tool_test.py                         | 10 ++++++++++
+ .../kunit/test_data/test_is_test_passed-failure-nested.log     |  7 +++++++
+ 2 files changed, 17 insertions(+)
 
-> Fedora has it enabled for a long time. On Fedora 42:
-> 
-> 	$ grep CONFIG_DRM_WERROR /boot/config*
-> 	/boot/config-6.14.9-300.fc42.x86_64:CONFIG_DRM_WERROR=y
-> 	/boot/config-6.15.3-200.fc42.x86_64:CONFIG_DRM_WERROR=y
-> 	/boot/config-6.15.4-200.fc42.x86_64:CONFIG_DRM_WERROR=y
-> 
-> I would expect to have it enabled on other distros as well.
-
-CONFIG_DRM_WERROR doesn't seem related to running kernel-doc though, is
-it ?
-
-> > Is there something else in DRM that invokes kernel-doc ?
-> > 
-> > > ---
-> > >  Documentation/process/changes.rst | 9 ++++++++-
-> > >  1 file changed, 8 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-> > > index bccfa19b45df..6a7d7c1ee274 100644
-> > > --- a/Documentation/process/changes.rst
-> > > +++ b/Documentation/process/changes.rst
-> > > @@ -61,7 +61,7 @@ Sphinx\ [#f1]_         3.4.3            sphinx-build --version
-> > >  GNU tar                1.28             tar --version
-> > >  gtags (optional)       6.6.5            gtags --version
-> > >  mkimage (optional)     2017.01          mkimage --version
-> > > -Python (optional)      3.9.x            python3 --version
-> > > +Python                 3.9.x            python3 --version
-> > >  GNU AWK (optional)     5.1.0            gawk --version
-> > >  ====================== ===============  ========================================
-> > >  
-> > > @@ -154,6 +154,13 @@ Perl
-> > >  You will need perl 5 and the following modules: ``Getopt::Long``,
-> > >  ``Getopt::Std``, ``File::Basename``, and ``File::Find`` to build the kernel.
-> > >  
-> > > +Python
-> > > +------
-> > > +
-> > > +At least Python 2.7 or 3.4 is required if CONFIG_DRM is selected to avoid
-> > > +breaking compilation. Documentation build and kernel-doc won't produce
-> > > +valid results if version is below 3.7.
-> 
-> Maybe I can place instead CONFIG_DRM_I915_WERROR.
-
-I think that's better. I also wouldn't consider CONFIG_DRM_I915_WERROR
-to make Python "required".
+diff --git a/tools/testing/kunit/kunit_tool_test.py b/tools/testing/kunit/kunit_tool_test.py
+index bbba921e0eacb18663abfcabb2bccf330d8666f5..b74dc05fc2fe5b3ff629172fc7aafeb5c3d29fb3 100755
+--- a/tools/testing/kunit/kunit_tool_test.py
++++ b/tools/testing/kunit/kunit_tool_test.py
+@@ -165,6 +165,16 @@ class KUnitParserTest(unittest.TestCase):
+ 		self.assertEqual(kunit_parser.TestStatus.FAILURE, result.status)
+ 		self.assertEqual(result.counts.errors, 0)
+ 
++	def test_parse_failed_nested_tests_log(self):
++		nested_log = test_data_path('test_is_test_passed-failure-nested.log')
++		with open(nested_log) as file:
++			result = kunit_parser.parse_run_tests(file.readlines(), stdout)
++		self.assertEqual(kunit_parser.TestStatus.FAILURE, result.status)
++		self.assertEqual(result.counts.failed, 2)
++		self.assertEqual(kunit_parser.TestStatus.FAILURE, result.subtests[0].status)
++		self.assertEqual(kunit_parser.TestStatus.FAILURE, result.subtests[1].status)
++		self.assertEqual(kunit_parser.TestStatus.FAILURE, result.subtests[1].subtests[0].status)
++
+ 	def test_no_header(self):
+ 		empty_log = test_data_path('test_is_test_passed-no_tests_run_no_header.log')
+ 		with open(empty_log) as file:
+diff --git a/tools/testing/kunit/test_data/test_is_test_passed-failure-nested.log b/tools/testing/kunit/test_data/test_is_test_passed-failure-nested.log
+new file mode 100644
+index 0000000000000000000000000000000000000000..2e528da39ab5b2be0fca6cf9160c10929fba3c9e
+--- /dev/null
++++ b/tools/testing/kunit/test_data/test_is_test_passed-failure-nested.log
+@@ -0,0 +1,7 @@
++KTAP version 1
++1..2
++not ok 1 subtest 1
++    KTAP version 1
++    1..1
++        not ok 1 subsubtest 1
++not ok 2 subtest 2
 
 -- 
-Regards,
+2.50.0
 
-Laurent Pinchart
