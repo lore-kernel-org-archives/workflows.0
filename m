@@ -1,82 +1,101 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 570BB20012B;
-	Thu, 24 Jul 2025 19:43:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A9042E371D;
+	Thu, 24 Jul 2025 20:45:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753386197; cv=none; b=bZ1unCG6nr2Glyrrn6Tf002MDPU7GbgzPtckToo7ruePZOe+TMSp8SYHyty+/9fkFQWMQTujGw615oD3FOTETGSWkb2XjZT6QXne2eEeqQ5wKKrSh2lrAYRxJ6vet1KQPHmlaA91ef9VJdV0xM4iBglr1ozA82z0a1kY0tREuUU=
+	t=1753389939; cv=none; b=o3VJ6Ll8fNNlsN9+TsK3CkdpLzYUP5G4KqIhOm1uEIEzZXmro75frbjC3A0WTXhtPBzcvRIgXvaf16FMcmSjVaLs4fka2InsyCQMD2xwLJD88leqYxbMxDRJbN2TIb0rdAAmfLMlwONr6FHz7ma78V2PnIqdvxHfcP4eYSi8QpY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753386197; c=relaxed/simple;
-	bh=BId8e81gEFbSFqQY1v7cyxqjQV93EVWZIRUWU0ayerY=;
+	s=arc-20240116; t=1753389939; c=relaxed/simple;
+	bh=1UNUrxh+JabgrDadw88PFPT8Lr9IBivQWKHbmIolFrk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L1K5j/JT7hvTTt+a2NDxLbOcOZGjXMCvm7FxIQ7/9gK203eTP4qTCLD9BI3jUO5LD5mz+LTOYfHfLdbb1axtrFSGjc0XqxEj/xA0VA1Gj1OzbcWhMK3+8LWtqfn4huHxwEjIE2dogh5+BgWnPOCJql7xuTMCqDujrtnJTLcaYzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=iAqnqtNz; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=faCZowCfFxunKOStIodL7dgVm9D0bVBsFHmdT8JS4SrSop4GK1jNP1n5HXcesVuK2diTZC4CnfL0Yu7hVegN/E1s0ChgZtbNfFV4IZamOdmZ6AOxzx1/420dbRcd5a03/l+Z51m0W2P94aEdHzRCoBR2J5RuzoMLxnehils6WH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=blFm6qFx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="iAqnqtNz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA45BC4CEED;
-	Thu, 24 Jul 2025 19:43:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1753386196;
-	bh=BId8e81gEFbSFqQY1v7cyxqjQV93EVWZIRUWU0ayerY=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="blFm6qFx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D8DFC4CEED;
+	Thu, 24 Jul 2025 20:45:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753389936;
+	bh=1UNUrxh+JabgrDadw88PFPT8Lr9IBivQWKHbmIolFrk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iAqnqtNz1uRqNS23At5/mUzFZeS8mUM207bmCXhN4Un2PnfkiSL3yhMXeuFlyuwyT
-	 WaYmwFnLtFHlA5eXbRrfSBrFP4Myi6wOdTB68tAB/UkOzyymPtMpe5SfYT7X5/ZYfD
-	 j7wE1SDdg+sgN0CCa22Lvacy3zIG5m3Ow7hhKJE0=
-Date: Thu, 24 Jul 2025 15:43:15 -0400
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
-Cc: dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, joe@perches.com, 
-	corbet@lwn.net, apw@canonical.com, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linux.dev, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	b=blFm6qFxbbU/JXfhg/hhAS7wPJQ0vyWJkow+GO6XN3jYDgRac7yxvAgwEJzeh/zr2
+	 iTCBBcdMgU83QUBp+vxJhIBGp+fM/jgg12n7tJ4tNGqW54cdMcIszcJhdTbyIHPKQ3
+	 Lx8tDjxl99pTy0erofm640EjF2C/Ap+hQKgvqGnoc1tSepXk6bpmFYK6gnbXeNXjHs
+	 M7T+PY9qXai9LAFsVpk4CqQO+TXmkBYWWVmHetgyHCmhT26KOa2cYW1imM/geOS7jU
+	 jwFlKMJNB1oY04LRlAWxlsB+L8SkI+T5MeFPhmT7WubXNIgFzjYJfwL8kyupTtkCFb
+	 lYt3DUXmm9GIw==
+Date: Thu, 24 Jul 2025 13:45:35 -0700
+From: Kees Cook <kees@kernel.org>
+To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc: linux@treblig.org, corbet@lwn.net, workflows@vger.kernel.org,
+	josh@joshtriplett.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] checkpatch: validate commit tag ordering
-Message-ID: <20250724-rapid-auk-of-wind-f6d94a@lemur>
-References: <20250724072032.118554-1-hendrik.hamerlinck@hammernet.be>
+Subject: Re: [RFC PATCH] docs: submitting-patches: (AI?) Tool disclosure tag
+Message-ID: <202507241337.F9595E1D@keescook>
+References: <20250724175439.76962-1-linux@treblig.org>
+ <20250724-alluring-fuzzy-tanuki-6e8282@lemur>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250724072032.118554-1-hendrik.hamerlinck@hammernet.be>
+In-Reply-To: <20250724-alluring-fuzzy-tanuki-6e8282@lemur>
 
-On Thu, Jul 24, 2025 at 09:20:32AM +0200, Hendrik Hamerlinck wrote:
-> Modified the checkpatch script to ensure that commit tags (e.g.,
-> Signed-off-by, Reviewed-by, Acked-by, Tested-by, etc.) appear in the
-> correct order according to kernel conventions [1].
+On Thu, Jul 24, 2025 at 03:07:17PM -0400, Konstantin Ryabitsev wrote:
+> On Thu, Jul 24, 2025 at 06:54:39PM +0100, linux@treblig.org wrote:
+> > From: "Dr. David Alan Gilbert" <linux@treblig.org>
+> > 
+> > It seems right to require that code which is automatically
+> > generated is disclosed in the commit message.
+> 
+> I'm not sure that's the case. There is a lot of automatically generated
+> content being added to the kernel all the time -- such as auto-formatted code,
+> documentation, and unit tests generated by non-AI tooling. We've not required
+> indicating this usage before, so I'm not sure it makes sense to start doing it
+> now.
+> 
+> Furthermore, merely indicating the tool doesn't really say anything about how
+> it was used (e.g. what version, what prompt, what context, etc.) If anything,
+> this information needs to live in the cover letter of the submission. I would
+> suggest we investigate encouraging contributors to disclose this there, e.g.:
+> 
+> | ---
+> | This patch series was partially generated with "InsensitiveClod o4 Hokus"
+> | and then heavily modified to remove the parts where it went completely off
+> | the deep end.
+> 
+> I am also not opposed to having a more standard cover letter footer that would
+> allow an easier way to query this information via public-inbox services, e.g.:
+> 
+> | generated-by: insensitive clod o4 hokus
+> 
+> However, I don't really think this belongs in the commit trailers.
 
-As already indicated, this is the convention used by the TIP tree and is not
-universal. Moreover, there is a lot more nuance to how trailers are used, with
-many other subsystems strongly preferring chain-of-custody boundaries. For
-example, the following trailers indicate a history of how the patch was
-reviewed:
+I agree; I'm not sure I see a benefit in creating a regularized trailer
+for this. What automation/tracking is going to key off of it? It's
+a detail of patch creation methodology, so the commentary about how
+something was created is best put in the prose areas, like we already
+do for Coccinelle or other scripts. It's a bit buried in the Researcher
+Guidelines[1], but we have explicitly asked for details about tooling:
 
-| Suggested-by: Sug Gester <sug@example.com>
-| Signed-off-by: Alex Dev <alex@example.com>          -- boundary 1
-| Acked-by: Acker Mack <acker@example.com>
-| Tested-by: Test Rogen <test@example.com>
-| Signed-off-by: Sub Maintainer <sub@example.com>     -- boundary 2
-| Reviewed-by: Rev Yewer <rev@example.com>
-| Tested-by: Integration Bot <int@example.com>
-| Link: https://patch.msgid.link/foomsgid@exmple.com
-| Signed-off-by: Main Tainer <main@example.com>       -- boundary 3
+  When sending patches produced from research, the commit logs should
+  contain at least the following details, so that developers have
+  appropriate context for understanding the contribution.
+  ...
+  Specifically include details about any testing, static or dynamic
+  analysis programs, and any other tools or methods used to perform the
+  work.
 
-There are three chain of custody boundaries in the example above and in the
-chain-of-custody scenario the trailers should NOT be moved around between
-these boundaries, because each of the boundaries indicates what each
-signed-off-by person is claiming as their responsibility.
+Maybe that needs to be repeated in SubmittingPatches?
 
-Everything above boundary 1 is claimed by Alex Dev; all trailers above
-boundary 2 were collected and applied by Sub Maintainer; all trailers
-above boundary 3 were collected and applied by Main Tainer. Alex Dev has no
-responsibility for the tag provided by the Integration Bot, so moving their
-signed-off-by to the bottom of this series of trailer would imply that they
-are.
+-Kees
 
-I would leave the trailer order entirely alone and out of tools like
-checkpatch, so this is a gentle but firm NACK from me.
+[1] https://docs.kernel.org/process/researcher-guidelines.html
 
--K
+-- 
+Kees Cook
