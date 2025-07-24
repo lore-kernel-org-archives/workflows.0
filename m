@@ -1,108 +1,77 @@
-Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDF4323505F;
-	Thu, 24 Jul 2025 23:46:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 679CF22B8C5;
+	Thu, 24 Jul 2025 23:54:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753400764; cv=none; b=ZnIJhTj3NdHgCwxMJ2ym2qbwEE8xBAlz4zPe6oAD55JDBdSAaaEjc1M6myhhTDng7DI6rqkfvrjdYyADAEwPuvAF7jRaMG9RfWFJhDly+movtXN++u3uXV8lfLkiGxT1xGSIv7J2tR/Byku9VkENiayRqWTeELjMPNvZWTC6Nsw=
+	t=1753401252; cv=none; b=qr6O6B4lSlGmvaXKJ5+C4AtSl8QKkRLAFE/Zob0VHfDOC0gfmGTUrUafP+O+QQWy50TCSU9atQRgrnZ0ImYSJoL2ujpzI2hQd4OdWY7rz+Wk1m+/CY6CkjnGYCH9RQ+8lpSUxnwS/KC+mzCKKkpB/OfdiWxkMgpO8WOVa8PiMeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753400764; c=relaxed/simple;
-	bh=9YsPgnjWiFE8FdaTddixtOAuCO18p0RNAZIkar0SXDQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GJq3c9+to4+fjhUJFA+h8gqaJjqj84Cr0DsBaYYlxxA9mJyXbETs2rlGU010KTdS6VIl4OdWF6MzA8nPk5+a2dSO1gPSr+3POG/MWtKQw7K36sfnaCm0iSrBnLhdoMMqFpXlCSYgw5DQrDhQwHH50An9VQu85CJzSOA1QtNvPLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf06.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay04.hostedemail.com (Postfix) with ESMTP id 3EE581A0555;
-	Thu, 24 Jul 2025 23:45:55 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf06.hostedemail.com (Postfix) with ESMTPA id 564AA2000E;
-	Thu, 24 Jul 2025 23:45:53 +0000 (UTC)
-Date: Thu, 24 Jul 2025 19:45:56 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Kees Cook <kees@kernel.org>
-Cc: "Dr. David Alan Gilbert" <linux@treblig.org>, Konstantin Ryabitsev
- <konstantin@linuxfoundation.org>, corbet@lwn.net,
- workflows@vger.kernel.org, josh@joshtriplett.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+	s=arc-20240116; t=1753401252; c=relaxed/simple;
+	bh=Q9jh7CkBbhldMF1J1smRrxzkFS3p/4ns7ni/1yXL+gQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t/8OBs8tZQCX3iZS7eDW7QYbGBMPLQPb5NkfJtqW/kqZhy8+S6tfIyxrE9VGZ0sEJWRWM/voUZ1IaTGbTOzJeQHQHLChRZDubo9XHBKkCNDIEbEj13dxflDV6z3tDg9ThJ6ZG6CpBBzYWylILh5hgziUjsOhT41tMvcSorZzTyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VAp72SLD; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VAp72SLD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A1ECC4CEED;
+	Thu, 24 Jul 2025 23:54:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753401252;
+	bh=Q9jh7CkBbhldMF1J1smRrxzkFS3p/4ns7ni/1yXL+gQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VAp72SLDWjoJQolLVXqmG89HQuXI4rOyYoT/r7/OmhpCUYd3IVuD/mPrCpYWwKkNF
+	 LEbV3b2QQhWgssePkS/zTeBB+ng03J+rOQGTOZpBxI8GxxFAR2+ChFaVstdP6Mb8Yn
+	 xv4OmBCg7EyZLF2/skP2LRXrcItJ5ABYURm7kRkMVBFg6f9v8s2XSEz6Xb6qcwCOb+
+	 pR+eHV8HgqkUoJucQ/7EODEKIASEaxRqB0EbcLqC9yVjGy10BoXl6/oPZQpYkHmnuz
+	 7WqMpSL88i8Sk29xWaqzC3ldqwH9xYcjAjglXQOMAQhUQaVMX8VlTvSqvDhbI60wuV
+	 Ncne9e7ef+GLA==
+Date: Thu, 24 Jul 2025 16:54:11 -0700
+From: Kees Cook <kees@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: "Dr. David Alan Gilbert" <linux@treblig.org>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	corbet@lwn.net, workflows@vger.kernel.org, josh@joshtriplett.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [RFC PATCH] docs: submitting-patches: (AI?) Tool disclosure tag
-Message-ID: <20250724194556.105803db@gandalf.local.home>
-In-Reply-To: <202507241418.34AFD28C@keescook>
+Message-ID: <202507241651.5E9C803C70@keescook>
 References: <20250724175439.76962-1-linux@treblig.org>
-	<20250724-alluring-fuzzy-tanuki-6e8282@lemur>
-	<202507241337.F9595E1D@keescook>
-	<aIKhvubVqgeXIlrj@gallifrey>
-	<202507241418.34AFD28C@keescook>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ <20250724-alluring-fuzzy-tanuki-6e8282@lemur>
+ <202507241337.F9595E1D@keescook>
+ <aIKhvubVqgeXIlrj@gallifrey>
+ <202507241418.34AFD28C@keescook>
+ <20250724194556.105803db@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout04
-X-Rspamd-Queue-Id: 564AA2000E
-X-Stat-Signature: jcmte6d8p7mnsf3r15shzxhp6q18wgfc
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1+yNO9VbZbkVyeRZNPi2XKXi8bwscADxmE=
-X-HE-Tag: 1753400753-595998
-X-HE-Meta: U2FsdGVkX19PziNYj9FSpPojIyDzoh8bU6QlLhFo+pNW3MfsqwxWIOojJmLaAjiovssyW07wjHEfRrDHqbQu+DUCY/F1jFPeCK0nF5ZFHkAGivFhHAksQEhB+ufD9I0b77VfqG1Ji5ge69PP7hMqHaKd3eKgaw5kILDXzdrhZFlEgk8QmnWmKmpjW1mw9t3GiZIu9sut8FHTGdfI8yw6F21e4/ivmhiajbm7iN7VevVEdk0d/wvK8wzRD1pBGr0VFoWcEn/aMMSla3/+uxOZ4QIoHRT2xgq+RqZpn8UQEvp8UGjbhnigpYafhaGmHD4qkSBFTiukJRqNx8lmtvwq/DlR42Y8q++rM0T3fqMEIybsPUJM3LelVl8RwgKrVHA9ojACsbod+eIQEWGDOlMwdg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250724194556.105803db@gandalf.local.home>
 
-On Thu, 24 Jul 2025 14:20:03 -0700
-Kees Cook <kees@kernel.org> wrote:
-
-> On Thu, Jul 24, 2025 at 09:12:30PM +0000, Dr. David Alan Gilbert wrote:
-> > * Kees Cook (kees@kernel.org) wrote:  
-> > > [...]
-> > > do for Coccinelle or other scripts. It's a bit buried in the Researcher
-> > > Guidelines[1], but we have explicitly asked for details about tooling:
-> > > 
-> > >   When sending patches produced from research, the commit logs should
-> > >   contain at least the following details, so that developers have
-> > >   appropriate context for understanding the contribution.
-> > >   ...
-> > >   Specifically include details about any testing, static or dynamic
-> > >   analysis programs, and any other tools or methods used to perform the
-> > >   work.
-> > > 
-> > > Maybe that needs to be repeated in SubmittingPatches?  
-> > 
-> > 'produced from research' is narrowing things down a bit too much I think
-> > when it's people using the tools as their normal way of working.  
-
-So I did bring this up in the last TAB meeting. I brought it up because I
-found out from reading an LWN[1] article that I received a patch fully
-written in AI without knowledge that it was written with AI. If I had known,
-I would have examined the patch a little more thoroughly, and would have
-discovered a very minor mistake in the patch.
-
+On Thu, Jul 24, 2025 at 07:45:56PM -0400, Steven Rostedt wrote:
+> My thought is to treat AI as another developer. If a developer helps you
+> like the AI is helping you, would you give that developer credit for that
+> work? If so, then you should also give credit to the tooling that's helping
+> you.
 > 
-> Right -- as currently written we have the explicit guideline for
-> "produced from research" and kind of an unwritten rule to detail any
-> complex tools involved for regular development (e.g. Coccinelle,
-> syzkaller, etc). We could generalize the existing statement and repeat
-> it in a better location?
+> I suggested adding a new tag to note any tool that has done non-trivial
+> work to produce the patch where you give it credit if it has helped you as
+> much as another developer that you would give credit to.
 
-When a patch is generated by Coccinelle, checkpatch or any other tool, it
-should most definitely be mentioned in the change log.
+We've got tags to choose from already in that case:
 
-I strongly believe the same goes for AI. Now the argument is where do we
-draw the line? If you are using AI that helps write your code, do you need
-to disclose it every time?
+Suggested-by: LLM
 
-My thought is to treat AI as another developer. If a developer helps you
-like the AI is helping you, would you give that developer credit for that
-work? If so, then you should also give credit to the tooling that's helping
-you.
+or
 
-I suggested adding a new tag to note any tool that has done non-trivial
-work to produce the patch where you give it credit if it has helped you as
-much as another developer that you would give credit to.
+Co-developed-by: LLM <not@human.with.legal.standing>
+Signed-off-by: LLM <not@human.with.legal.standing>
 
--- Steve
+The latter seems ... not good, as it implies DCO SoB from a thing that
+can't and hasn't acknowledged the DCO.
 
-
-[1] https://lwn.net/Articles/1026558/
+-- 
+Kees Cook
