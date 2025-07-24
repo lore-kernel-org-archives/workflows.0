@@ -1,40 +1,41 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B96711F4CAC;
-	Thu, 24 Jul 2025 21:06:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B5411F4CAC;
+	Thu, 24 Jul 2025 21:12:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753391177; cv=none; b=tduda29I6U6oOBX7eSdbzRkpPbikY5XLeQ9dUtYU+pq8Do7z7j6sVMnDswUaD5VO55HsWPzpGWOfh+kn3qNs2czs71RkQtvQ/eSYcynjVOs7tLOq+E7q4xm1k8gWwnBUEwiolnNcClb2G0HWe7w4LzCyTFv7VEwwhj9Vcfh8dGo=
+	t=1753391558; cv=none; b=VosO5f2RblnunxE1E8au0i+6plWh0U8NpZ01cHcW68ZFwLkoYgX2XEYNj0QrWCmvceK1jwy7IYB17arDsSFqeoNCXnc4X3eFitM8CpwxAhb1VcRtb/1t0++7N8ewLfeVEsyq496Yqr204RnXOH/xetKFfuO4ausVq/JJK5pMxYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753391177; c=relaxed/simple;
-	bh=hwHpG5+mA3GHqkMcpxYmK0TqGblHIbLo8bnBZnxuY2g=;
+	s=arc-20240116; t=1753391558; c=relaxed/simple;
+	bh=RAsT+EipAPFwnVzfEL+LJX93TjioLFvlmfyGC6AfhEU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GBnk9jAr+U3vMF2IMFC0LmLm7HJk/tnSBuU/myznXWCusuJaRK/xbTzOk4X2W4PrACMYWvvYibDBCMHqPjAo0wKSFoZrDIM3l+mRXf22iQZVb+t6bb+KNjpBmd1Xf+O4fQz3GNx/ozykwZZEpi1+4vJ5b9QRe27FLCE/pnEdMdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=AOitiZAq; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=ElRQ1M2a6UmB54vyQPWxg+7GvjknQqjIOlsekjom0yBIyCrmwzjPk2973Aop/OYyQzK5nLb008HPFFMOE9epyXKzijRu8rYFIMkDUkzgdg2GnJYtku6KLado0s8fCzvuzj1wavOg8ihEOlDU5hO6N6rkTtUzMlm2Tc0YAaQIFMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=iuaYitFV; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AOitiZAq"
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 248EE228;
-	Thu, 24 Jul 2025 23:05:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1753391134;
-	bh=hwHpG5+mA3GHqkMcpxYmK0TqGblHIbLo8bnBZnxuY2g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AOitiZAqc5TmklBmqM9X4ljeYRfK6bJnZoK4uJEnHVQlBI693r/6UoltoXhb4NKfX
-	 btCTTXy/ETrWEobdfuFWu9O5wjflnnAaHycyRtdoktk5EPd7r0EYfFFOpoxyplOxpf
-	 fuiHdvERFK41XnGmwkGD7s/46IlyBRQhogDJ0APE=
-Date: Fri, 25 Jul 2025 00:06:09 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="iuaYitFV"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
+	:Subject; bh=q4MIXRYdHVTBldEpo8YFmzXRjyv4svAN8Y2p5eLBULU=; b=iuaYitFVdECidE7n
+	1QIZ0WCtVB9ofN+Bc1JdFqzd1vaHK2egE65ck8zFs7wkAN7oeXRH2VU3ymrZnpqNFs0r+vdF5bW4r
+	egGtzrkQEHbQ9Q8JlalFO4Cs6xQbVJksxAVEIQmA96GH5No2XQqjYb7kLQhYdrmj9Y3lf3RvNQHJC
+	AThGx5odWsgpc/p4PUdb8fEqoG7ff4tUbS+hB2M/ioVa0oB6km1gJyBJHTxg4PhrLDp4uXuajpPWT
+	R4rhcii4uWk0SbzvrchhXrjqClQDWQsOojQszBAxLD+tQmvTVCLc+q8zpVaM5vgQo+Lk3hkS5XvUk
+	c2iIKgEBsgF7JNOd9A==;
+Received: from dg by mx.treblig.org with local (Exim 4.96)
+	(envelope-from <dg@treblig.org>)
+	id 1uf3Es-000Ujl-2p;
+	Thu, 24 Jul 2025 21:12:30 +0000
+Date: Thu, 24 Jul 2025 21:12:30 +0000
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
 To: Kees Cook <kees@kernel.org>
-Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-	linux@treblig.org, corbet@lwn.net, workflows@vger.kernel.org,
-	josh@joshtriplett.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
+Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>, corbet@lwn.net,
+	workflows@vger.kernel.org, josh@joshtriplett.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [RFC PATCH] docs: submitting-patches: (AI?) Tool disclosure tag
-Message-ID: <20250724210609.GV11202@pendragon.ideasonboard.com>
+Message-ID: <aIKhvubVqgeXIlrj@gallifrey>
 References: <20250724175439.76962-1-linux@treblig.org>
  <20250724-alluring-fuzzy-tanuki-6e8282@lemur>
  <202507241337.F9595E1D@keescook>
@@ -44,11 +45,15 @@ List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 In-Reply-To: <202507241337.F9595E1D@keescook>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/6.1.0-34-amd64 (x86_64)
+X-Uptime: 20:58:09 up 88 days,  5:11,  1 user,  load average: 0.01, 0.00, 0.00
+User-Agent: Mutt/2.2.12 (2023-09-09)
 
-On Thu, Jul 24, 2025 at 01:45:35PM -0700, Kees Cook wrote:
+* Kees Cook (kees@kernel.org) wrote:
 > On Thu, Jul 24, 2025 at 03:07:17PM -0400, Konstantin Ryabitsev wrote:
 > > On Thu, Jul 24, 2025 at 06:54:39PM +0100, linux@treblig.org wrote:
 > > > From: "Dr. David Alan Gilbert" <linux@treblig.org>
@@ -78,35 +83,34 @@ On Thu, Jul 24, 2025 at 01:45:35PM -0700, Kees Cook wrote:
 > > | generated-by: insensitive clod o4 hokus
 > > 
 > > However, I don't really think this belongs in the commit trailers.
-
-I think there's often value in having the information in individual
-patches instead of (or in addition to) the cover letter though, as it's
-common for different patches in a series to be generated differently.
-Standardizing on one option or the other may be overkill at this point
-though. Especially when it comes to code generated by LLMs, how (and if)
-to report that information should be governed by the issues we want to
-address, and I don't think there's a consensus on those yet.
-
-One issue that is often mentioned is copyright infringement. We go to
-great length today to ensure that code is fit for inclusion in the
-kernel from a legal point of view with the certificate of origin and the
-SoB line. It would seem to make sense to then also report if code was
-geenrated by an LLM per-commit if we want to extend the copyright paper
-trail (for whatever purpose it will be used later).
-
+> 
 > I agree; I'm not sure I see a benefit in creating a regularized trailer
-> for this. What automation/tracking is going to key off of it?
+> for this. What automation/tracking is going to key off of it? It's
+> a detail of patch creation methodology,
 
-We may find/invent use cases for automation later, in which case we can
-revisit usage of a standardized trailer. I however see an important
-manual use case for the information already: knowing how a patch was
-created helps reviewers. If I'm told a patch was generated by coccinelle
-(especially if the semantic patch is included in the commit message
-too), I will pay attention to different types of mistakes than for a
-manually written patch.
+My logic here is something like:
+   a) Some people worry about various issues on AI such as copyright;
+so it feels like it should be trackable.
+   b) The teams that develop tools that work well deserve credit, so
+formalising it seems to make that easier to see; be they AI etc.
+   c) There's a general worry about people sending patches without
+acknowledging their use of AI, and then not (carefully) checking
+the output.  Calling out the need to record it might help get
+people to at least acknowledge it.
+   d) (a) and (c) are really only about AI, but our previous chat
+was wondering if all tools needed it, but calling out anything where
+it's code generation seemed to be a reasonable line to me.
+   e) If one tool tended to be particularly bad at missing one type
+of check, with a tag you could track down what we have from it.
+   f) Related to (a), some large open source projects are explicitly
+disallowing AI generated contributions; life will get messy for them
+if people import kernel code with a compatible license that was
+generated by AI.
 
-> It's
-> a detail of patch creation methodology, so the commentary about how
+(I didn't really want to get into the question of whether the use of
+AI was good or bad; but people worrying about it isn't unreasonable)
+
+> so the commentary about how
 > something was created is best put in the prose areas, like we already
 > do for Coccinelle or other scripts. It's a bit buried in the Researcher
 > Guidelines[1], but we have explicitly asked for details about tooling:
@@ -120,12 +124,20 @@ manually written patch.
 >   work.
 > 
 > Maybe that needs to be repeated in SubmittingPatches?
-> 
+
+'produced from research' is narrowing things down a bit too much I think
+when it's people using the tools as their normal way of working.
+
+Dave
+
 > -Kees
 > 
 > [1] https://docs.kernel.org/process/researcher-guidelines.html
-
+> 
+> -- 
+> Kees Cook
 -- 
-Regards,
-
-Laurent Pinchart
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
