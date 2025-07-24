@@ -1,54 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80D141E7C38;
-	Thu, 24 Jul 2025 11:47:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD35C241CB6;
+	Thu, 24 Jul 2025 14:43:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753357656; cv=none; b=cH0Z6ZAENAcvA/pQEbNMx9jVZnFraFxFU5nNMjLl8qFjt7RAMtuO76wJbJV9wQDlbYpRDGJsdbLvFMpx4cEDWINFvIaSVxFmir/N23c6aFYLI9WQvPOC7Ih1D+Bqz/DsCqvohCIvwZlTOA3ykmfLYS4/p/TgAcnqr/tO0ttb5ZM=
+	t=1753368181; cv=none; b=j9TfSelgdyr5KbKVCFh2rCqsZGbu1ytbNQLSRp+H2/8rdbvYv+lTJke2lUEcVziQRlxOcl000LJKRxQKcgN8wliH/MZVG4lJwcxwHG+nvw+17/HkAudy/MkLNOeHlegB0XEHTxHJUmNZ3BEx2ItN5u96OcbbbH6xyFI01ZgQhbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753357656; c=relaxed/simple;
-	bh=/6HaErehx7k1WhU8/s1erU3/KkyrpEUlVpdYu82fI6Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cVEfZCJDkkUxQhhzZg04hF3JH1z/i+j+jNDMGFfIAKA0lRNPQ5jxHmUEIvJJb+fKQpmmSGK8YVuV4G5DLCraRfGHeBgi0dQnChw6ud/hJSTNqMteO+7oxW2zKU6NfgEmFYF4gamfe8Na2iPtuB+xUNhqWaN8NohV26RSe7gXLVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=bXHG3Ahe; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753368181; c=relaxed/simple;
+	bh=gWdqwwJRWgCCHxAKLC3KVDPQamVK6Ux+vM+aaJDtuQ4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=VQkm94cjKFrbJLMsrq7+YU2+jqeSHuur5asxokfefnXOQRPAOZZ8f/Qk4fopsNu7jjtHzBw9vSTrsA9osAIG61aR85t1e7mknGWKlL2GWesUv3hCd4qiB8CHRbNif4qoAwXfM+h0F5onhDks8+VU5+UR2eekAACpbLkVxJQ3okY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=WkMCGVKO; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="bXHG3Ahe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 970BDC4CEED;
-	Thu, 24 Jul 2025 11:47:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1753357655;
-	bh=/6HaErehx7k1WhU8/s1erU3/KkyrpEUlVpdYu82fI6Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bXHG3AhemQ2+IgI8Z5upFn4HNvw5Lm8PWOtg/OES8vdjSeRyTBF6lfkTAxrxMm04h
-	 QP5lYmxem3jSbyeFjIU26jWFI6IO17DJ4UYIcxzXGeOVnvj73yPgBmDc/ZjfBXcxsp
-	 YbhYCy9Jv+CO1Wi6+XzPhrkh7bINqgXSRynTxzXI=
-Date: Thu, 24 Jul 2025 13:47:29 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Aditya Garg <gargaditya08@live.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: mention MIT license as a compatible license with
- GPLv2
-Message-ID: <2025072411-provable-frying-9a53@gregkh>
-References: <PN3PR01MB95977C87764A556FFD49FB72B85EA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <2025072459-tweezers-dingbat-b748@gregkh>
- <PN3PR01MB95978770C2DC8D5CDB28426FB85EA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="WkMCGVKO"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E709C40AA9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1753368180; bh=dLLKTqBJqEdbTUtFmPcwiPVYUCE8arLRWG95PAklrHk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=WkMCGVKOXRXlvlnmNg3/3aJ5gA+P/XFvRQDw784XBR4GGC0AgEOI2Qfy3RsFw7pwm
+	 acXhnl2jvlBf6ez1TaaeNI/nOdF+icmSMSBhV3bJoF2k/F0pmow5zNZNU8v/ouCwiB
+	 ujXWqcQQ79pinGUlD1psPxC6DNrkSluiq+vPPaNCuIMZY1kHqP1ojBT6IHyqi4y5eG
+	 TRG8L6dcjZhbuEjEex4D61lMbnGiWgZ82V+1s4GdUj0cWUuHPiLuqktOG6z6J+nOjs
+	 kVFAnZdQ2yiiAlEp1GBcsL3aG4/Q9fuYg54WArMfQaRE5HFb12vaIGwbIoFOswsPE1
+	 z/OaE9IwaymMg==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id E709C40AA9;
+	Thu, 24 Jul 2025 14:42:59 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, workflows@vger.kernel.org, Akira Yokosawa
+ <akiyks@gmail.com>
+Subject: Re: [PATCH v2 3/2] docs: changes: better document Python needs
+In-Reply-To: <20250713002517.7f52b0e9@foz.lan>
+References: <cover.1752307866.git.mchehab+huawei@kernel.org>
+ <58c0cfb40e600af697b1665ffbc8e5bb3d859bb5.1752309145.git.mchehab+huawei@kernel.org>
+ <20250712163155.GA22640@pendragon.ideasonboard.com>
+ <20250713002517.7f52b0e9@foz.lan>
+Date: Thu, 24 Jul 2025 08:42:59 -0600
+Message-ID: <875xfhabv0.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PN3PR01MB95978770C2DC8D5CDB28426FB85EA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Content-Type: text/plain
 
-On Thu, Jul 24, 2025 at 04:11:57PM +0530, Aditya Garg wrote:
-> >> +versions of the GPL), the three-clause BSD license or the MIT license.
-> > 
-> > You forgot a ',' anyway :(
-> 
-> While it is no longer relevant, I wonder where you wanted the comma. Maybe you meant "the three-clause BSD license, or the MIT license"?
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-Yup!
+> Maybe I can place instead CONFIG_DRM_I915_WERROR.
+
+I've held off on this series on the expectation that a new version would
+come.  I guess, at this point, it will be a post-merge-window thing?
+
+Thanks,
+
+jon
