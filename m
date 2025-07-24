@@ -1,101 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A9042E371D;
-	Thu, 24 Jul 2025 20:45:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B96711F4CAC;
+	Thu, 24 Jul 2025 21:06:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753389939; cv=none; b=o3VJ6Ll8fNNlsN9+TsK3CkdpLzYUP5G4KqIhOm1uEIEzZXmro75frbjC3A0WTXhtPBzcvRIgXvaf16FMcmSjVaLs4fka2InsyCQMD2xwLJD88leqYxbMxDRJbN2TIb0rdAAmfLMlwONr6FHz7ma78V2PnIqdvxHfcP4eYSi8QpY=
+	t=1753391177; cv=none; b=tduda29I6U6oOBX7eSdbzRkpPbikY5XLeQ9dUtYU+pq8Do7z7j6sVMnDswUaD5VO55HsWPzpGWOfh+kn3qNs2czs71RkQtvQ/eSYcynjVOs7tLOq+E7q4xm1k8gWwnBUEwiolnNcClb2G0HWe7w4LzCyTFv7VEwwhj9Vcfh8dGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753389939; c=relaxed/simple;
-	bh=1UNUrxh+JabgrDadw88PFPT8Lr9IBivQWKHbmIolFrk=;
+	s=arc-20240116; t=1753391177; c=relaxed/simple;
+	bh=hwHpG5+mA3GHqkMcpxYmK0TqGblHIbLo8bnBZnxuY2g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=faCZowCfFxunKOStIodL7dgVm9D0bVBsFHmdT8JS4SrSop4GK1jNP1n5HXcesVuK2diTZC4CnfL0Yu7hVegN/E1s0ChgZtbNfFV4IZamOdmZ6AOxzx1/420dbRcd5a03/l+Z51m0W2P94aEdHzRCoBR2J5RuzoMLxnehils6WH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=blFm6qFx; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=GBnk9jAr+U3vMF2IMFC0LmLm7HJk/tnSBuU/myznXWCusuJaRK/xbTzOk4X2W4PrACMYWvvYibDBCMHqPjAo0wKSFoZrDIM3l+mRXf22iQZVb+t6bb+KNjpBmd1Xf+O4fQz3GNx/ozykwZZEpi1+4vJ5b9QRe27FLCE/pnEdMdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=AOitiZAq; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="blFm6qFx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D8DFC4CEED;
-	Thu, 24 Jul 2025 20:45:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753389936;
-	bh=1UNUrxh+JabgrDadw88PFPT8Lr9IBivQWKHbmIolFrk=;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AOitiZAq"
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 248EE228;
+	Thu, 24 Jul 2025 23:05:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1753391134;
+	bh=hwHpG5+mA3GHqkMcpxYmK0TqGblHIbLo8bnBZnxuY2g=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=blFm6qFxbbU/JXfhg/hhAS7wPJQ0vyWJkow+GO6XN3jYDgRac7yxvAgwEJzeh/zr2
-	 iTCBBcdMgU83QUBp+vxJhIBGp+fM/jgg12n7tJ4tNGqW54cdMcIszcJhdTbyIHPKQ3
-	 Lx8tDjxl99pTy0erofm640EjF2C/Ap+hQKgvqGnoc1tSepXk6bpmFYK6gnbXeNXjHs
-	 M7T+PY9qXai9LAFsVpk4CqQO+TXmkBYWWVmHetgyHCmhT26KOa2cYW1imM/geOS7jU
-	 jwFlKMJNB1oY04LRlAWxlsB+L8SkI+T5MeFPhmT7WubXNIgFzjYJfwL8kyupTtkCFb
-	 lYt3DUXmm9GIw==
-Date: Thu, 24 Jul 2025 13:45:35 -0700
-From: Kees Cook <kees@kernel.org>
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc: linux@treblig.org, corbet@lwn.net, workflows@vger.kernel.org,
+	b=AOitiZAqc5TmklBmqM9X4ljeYRfK6bJnZoK4uJEnHVQlBI693r/6UoltoXhb4NKfX
+	 btCTTXy/ETrWEobdfuFWu9O5wjflnnAaHycyRtdoktk5EPd7r0EYfFFOpoxyplOxpf
+	 fuiHdvERFK41XnGmwkGD7s/46IlyBRQhogDJ0APE=
+Date: Fri, 25 Jul 2025 00:06:09 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Kees Cook <kees@kernel.org>
+Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	linux@treblig.org, corbet@lwn.net, workflows@vger.kernel.org,
 	josh@joshtriplett.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Subject: Re: [RFC PATCH] docs: submitting-patches: (AI?) Tool disclosure tag
-Message-ID: <202507241337.F9595E1D@keescook>
+Message-ID: <20250724210609.GV11202@pendragon.ideasonboard.com>
 References: <20250724175439.76962-1-linux@treblig.org>
  <20250724-alluring-fuzzy-tanuki-6e8282@lemur>
+ <202507241337.F9595E1D@keescook>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250724-alluring-fuzzy-tanuki-6e8282@lemur>
+In-Reply-To: <202507241337.F9595E1D@keescook>
 
-On Thu, Jul 24, 2025 at 03:07:17PM -0400, Konstantin Ryabitsev wrote:
-> On Thu, Jul 24, 2025 at 06:54:39PM +0100, linux@treblig.org wrote:
-> > From: "Dr. David Alan Gilbert" <linux@treblig.org>
+On Thu, Jul 24, 2025 at 01:45:35PM -0700, Kees Cook wrote:
+> On Thu, Jul 24, 2025 at 03:07:17PM -0400, Konstantin Ryabitsev wrote:
+> > On Thu, Jul 24, 2025 at 06:54:39PM +0100, linux@treblig.org wrote:
+> > > From: "Dr. David Alan Gilbert" <linux@treblig.org>
+> > > 
+> > > It seems right to require that code which is automatically
+> > > generated is disclosed in the commit message.
 > > 
-> > It seems right to require that code which is automatically
-> > generated is disclosed in the commit message.
-> 
-> I'm not sure that's the case. There is a lot of automatically generated
-> content being added to the kernel all the time -- such as auto-formatted code,
-> documentation, and unit tests generated by non-AI tooling. We've not required
-> indicating this usage before, so I'm not sure it makes sense to start doing it
-> now.
-> 
-> Furthermore, merely indicating the tool doesn't really say anything about how
-> it was used (e.g. what version, what prompt, what context, etc.) If anything,
-> this information needs to live in the cover letter of the submission. I would
-> suggest we investigate encouraging contributors to disclose this there, e.g.:
-> 
-> | ---
-> | This patch series was partially generated with "InsensitiveClod o4 Hokus"
-> | and then heavily modified to remove the parts where it went completely off
-> | the deep end.
-> 
-> I am also not opposed to having a more standard cover letter footer that would
-> allow an easier way to query this information via public-inbox services, e.g.:
-> 
-> | generated-by: insensitive clod o4 hokus
-> 
-> However, I don't really think this belongs in the commit trailers.
+> > I'm not sure that's the case. There is a lot of automatically generated
+> > content being added to the kernel all the time -- such as auto-formatted code,
+> > documentation, and unit tests generated by non-AI tooling. We've not required
+> > indicating this usage before, so I'm not sure it makes sense to start doing it
+> > now.
+> > 
+> > Furthermore, merely indicating the tool doesn't really say anything about how
+> > it was used (e.g. what version, what prompt, what context, etc.) If anything,
+> > this information needs to live in the cover letter of the submission. I would
+> > suggest we investigate encouraging contributors to disclose this there, e.g.:
+> > 
+> > | ---
+> > | This patch series was partially generated with "InsensitiveClod o4 Hokus"
+> > | and then heavily modified to remove the parts where it went completely off
+> > | the deep end.
+> > 
+> > I am also not opposed to having a more standard cover letter footer that would
+> > allow an easier way to query this information via public-inbox services, e.g.:
+> > 
+> > | generated-by: insensitive clod o4 hokus
+> > 
+> > However, I don't really think this belongs in the commit trailers.
 
-I agree; I'm not sure I see a benefit in creating a regularized trailer
-for this. What automation/tracking is going to key off of it? It's
-a detail of patch creation methodology, so the commentary about how
-something was created is best put in the prose areas, like we already
-do for Coccinelle or other scripts. It's a bit buried in the Researcher
-Guidelines[1], but we have explicitly asked for details about tooling:
+I think there's often value in having the information in individual
+patches instead of (or in addition to) the cover letter though, as it's
+common for different patches in a series to be generated differently.
+Standardizing on one option or the other may be overkill at this point
+though. Especially when it comes to code generated by LLMs, how (and if)
+to report that information should be governed by the issues we want to
+address, and I don't think there's a consensus on those yet.
 
-  When sending patches produced from research, the commit logs should
-  contain at least the following details, so that developers have
-  appropriate context for understanding the contribution.
-  ...
-  Specifically include details about any testing, static or dynamic
-  analysis programs, and any other tools or methods used to perform the
-  work.
+One issue that is often mentioned is copyright infringement. We go to
+great length today to ensure that code is fit for inclusion in the
+kernel from a legal point of view with the certificate of origin and the
+SoB line. It would seem to make sense to then also report if code was
+geenrated by an LLM per-commit if we want to extend the copyright paper
+trail (for whatever purpose it will be used later).
 
-Maybe that needs to be repeated in SubmittingPatches?
+> I agree; I'm not sure I see a benefit in creating a regularized trailer
+> for this. What automation/tracking is going to key off of it?
 
--Kees
+We may find/invent use cases for automation later, in which case we can
+revisit usage of a standardized trailer. I however see an important
+manual use case for the information already: knowing how a patch was
+created helps reviewers. If I'm told a patch was generated by coccinelle
+(especially if the semantic patch is included in the commit message
+too), I will pay attention to different types of mistakes than for a
+manually written patch.
 
-[1] https://docs.kernel.org/process/researcher-guidelines.html
+> It's
+> a detail of patch creation methodology, so the commentary about how
+> something was created is best put in the prose areas, like we already
+> do for Coccinelle or other scripts. It's a bit buried in the Researcher
+> Guidelines[1], but we have explicitly asked for details about tooling:
+> 
+>   When sending patches produced from research, the commit logs should
+>   contain at least the following details, so that developers have
+>   appropriate context for understanding the contribution.
+>   ...
+>   Specifically include details about any testing, static or dynamic
+>   analysis programs, and any other tools or methods used to perform the
+>   work.
+> 
+> Maybe that needs to be repeated in SubmittingPatches?
+> 
+> -Kees
+> 
+> [1] https://docs.kernel.org/process/researcher-guidelines.html
 
 -- 
-Kees Cook
+Regards,
+
+Laurent Pinchart
