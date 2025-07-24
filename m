@@ -1,108 +1,71 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42CAA2EB5D1;
-	Thu, 24 Jul 2025 17:29:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01D0F2EAD09;
+	Thu, 24 Jul 2025 17:43:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753378202; cv=none; b=Qkiw1HODwkZYx/Oo3Wg6TlcrBz2y5Y10/f7AvdeHi8npX00WHFiV23HwQk8/hvmtNZ6GAgjgcKJOmIvrBSHfij0LcbA3BC73GD27SN3+qSNmbuQVuC5uu3hZcMwmaUz2vm4NQ27gVdt1TRfno7NGlBQlc/Vrt4Oj2KeZWpI0qN4=
+	t=1753378991; cv=none; b=aUBQIgHcHbS4G3L3JKwNHFbecZfIzA/gw0qfIvu1AitzFcHt/9pki+0+A+uTgcrUeumzGe8AdB3Ni0uiDGQKlEY+t7lJmoXMhxauHu4zunTMfeKniUxdrbO3TKCQ+ZtUCVS0e7rYOC+PxyWPXuNYMlDg6+jaqyre+ihsEk0cGkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753378202; c=relaxed/simple;
-	bh=rQfYK/pFckju0/m5ZMT8YpMb/ONrLOdCFi/xBbvE/uA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tiXTMbLMpjpuEzqE4k5pm0f1DgzpNzV3Vd4WBQoisgczN90EiMztGGV4jOYB7YlXaKHzKjc4QLcxt8fYho6c8NH9DRRMr1UJGsTW5mxTLyXLWpUC/sp9vk4B19/mUMvH8r4ETemPggQL4T2+8PRngH/pvtnt36qaT6bYmtaDdQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Wv1vfFm2; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1753378991; c=relaxed/simple;
+	bh=XBj+J3IHgG7t/JlO+SdMmc57hogwgLS7tgmyXFVGizY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=o5XQ5Tqi905P8n3VzzsSn7oz2B7y1QZf8+2XXVwFCr1O3OeAclw0WAZF7HwgBfl9wbG+f9CtHl6iw3NmvNsYerFPJx609H9xfbbA2xCugAInBfcVdzCmd6PJ7CXO80wbNySKntHIrbxvbCrhD/cFxfo9lyv+G/9z3TuufK4vanI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B8d55PVo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Wv1vfFm2"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=Po5cQ5B/7KTWzepFKNX6CQz+apgwh63MuU5rCZ6VX0c=; b=Wv1vfFm2JPt52XUREKd070yyYY
-	dhdxbyMhkHeGmeswXVjXfJ8nru4JdQUlggRKS6XIpXdDk6VJ39UpEZHkigZ2R6GZe4GFRJUAFnuJA
-	2V8QaLXb3sPybGmrQORiid1/Qo3LZtjLLbqYJ5SGsDtWe8dcu9ivnUhSUTWzgRYUARJ2P98HUQU7g
-	p1+l4NC9gDJ9iiujLfD/HE6duEGwUObgilSFLKp9tQlgVXJB8UOwIxUf7feiMdlf0iSGu/VvJf/iD
-	AOwphfU29eHKmsqXFO0k7NnmnEuv0JOKB64RqW0kx4FVBZd3L3vyKvaE/NXOS0VVOfgQpUQYW5SL/
-	IDwGvdEQ==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uezlW-000000088OB-2C3D;
-	Thu, 24 Jul 2025 17:29:58 +0000
-Message-ID: <dfb7415f-130f-4581-88b9-ee18c9ef8518@infradead.org>
-Date: Thu, 24 Jul 2025 10:29:56 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B8d55PVo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26D58C4CEF1;
+	Thu, 24 Jul 2025 17:43:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753378990;
+	bh=XBj+J3IHgG7t/JlO+SdMmc57hogwgLS7tgmyXFVGizY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=B8d55PVoNTDXwnsE32+FlMm64ukVfbED/wo28dwad5w/vHUCiIJVqvNN0Xz86ABiy
+	 cnpjoCHZPdhzyt0S9bq29ejP4cPvXeWQ1lU3WvJBLe2p/wcjibkEtwpfkY7H1s+e8M
+	 Geg0uaShbuxDndvVXu0Fog5iVI4h+vFl9kfRZyF9ggTAu9xY/vHewaA4Cs+/RVBn1k
+	 wxRJx7TlRGp25VpBZyMjvMim+kN4f9sO4++D5woNayeAYn9Ry4ohebe/Qr5LItm5iW
+	 12sOpDmXYvEUUGsmIJ2h6w+A1PNQ8utxxotcsk+dUoyt5u2mzkKSB9Tj9pm+29WR3r
+	 udQZZb9imEOew==
+Date: Thu, 24 Jul 2025 19:43:06 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Linux Doc Mailing
+ List <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org,
+ workflows@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH v2 3/2] docs: changes: better document Python needs
+Message-ID: <20250724194306.27b98194@foz.lan>
+In-Reply-To: <875xfhabv0.fsf@trenco.lwn.net>
+References: <cover.1752307866.git.mchehab+huawei@kernel.org>
+	<58c0cfb40e600af697b1665ffbc8e5bb3d859bb5.1752309145.git.mchehab+huawei@kernel.org>
+	<20250712163155.GA22640@pendragon.ideasonboard.com>
+	<20250713002517.7f52b0e9@foz.lan>
+	<875xfhabv0.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: mention MIT license as a compatible license with
- GPLv2
-To: Aditya Garg <gargaditya08@live.com>, Greg KH <gregkh@linuxfoundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <PN3PR01MB95977C87764A556FFD49FB72B85EA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <2025072459-tweezers-dingbat-b748@gregkh>
- <PN3PR01MB95978770C2DC8D5CDB28426FB85EA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <PN3PR01MB95978770C2DC8D5CDB28426FB85EA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
+Em Thu, 24 Jul 2025 08:42:59 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-
-On 7/24/25 3:41 AM, Aditya Garg wrote:
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 > 
+> > Maybe I can place instead CONFIG_DRM_I915_WERROR.
 > 
-> On 24/07/25 4:08 pm, Greg KH wrote:
->> On Thu, Jul 24, 2025 at 10:03:41AM +0000, Aditya Garg wrote:
->>> MIT is a widely used permissive free software license that is compatible
->>> with the GPLv2 license. This change adds it to the list of compatible
->>> licenses with GPLv2 in the kernel documentation.
->>
->> No, please don't.  This isn't a proper place for talking about the
->> different license interactions.
-> 
-> Ohk
-> 
->>
->>>
->>> Signed-off-by: Aditya Garg <gargaditya08@live.com>
->>> ---
->>>  Documentation/process/1.Intro.rst | 6 +++---
->>>  1 file changed, 3 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/Documentation/process/1.Intro.rst b/Documentation/process/1.Intro.rst
->>> index 25ca49f7a..c3465e3aa 100644
->>> --- a/Documentation/process/1.Intro.rst
->>> +++ b/Documentation/process/1.Intro.rst
->>> @@ -235,9 +235,9 @@ code must be compatible with version 2 of the GNU General Public License
->>>  (GPLv2), which is the license covering the kernel distribution as a whole.
->>>  In practice, that means that all code contributions are covered either by
->>>  GPLv2 (with, optionally, language allowing distribution under later
->>> -versions of the GPL) or the three-clause BSD license.  Any contributions
->>> -which are not covered by a compatible license will not be accepted into the
->>> -kernel.
->>> +versions of the GPL), the three-clause BSD license or the MIT license.
->>
->> You forgot a ',' anyway :(
-> 
-> While it is no longer relevant, I wonder where you wanted the comma. Maybe you meant "the three-clause BSD license, or the MIT license"?
+> I've held off on this series on the expectation that a new version would
+> come.  I guess, at this point, it will be a post-merge-window thing?
 
-In general we accept the use of the series/serial/Oxford comma (", or") or not using it,
-but I suppose that $maintainers can determine otherwise.
+Feel free to postpone. I have already a new version of it here somewhere on
+my branches, but I had to take some days off. So, I ended not sending you
+the (probably) final version.
 
-from Documentation/doc-guide/contributing.rst:
+I intend to send what I have here during the merge window for you to
+review and apply post-merge-window.
 
- - The question of whether a period should be followed by one or two spaces
-   is not to be debated in the context of kernel documentation.  Other
-   areas of rational disagreement, such as the "Oxford comma", are also
-   off-topic here.
-
--- 
-~Randy
-
+Thanks,
+Mauro
