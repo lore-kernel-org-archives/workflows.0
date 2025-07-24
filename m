@@ -1,65 +1,37 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01899255240;
-	Thu, 24 Jul 2025 15:04:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42CAA2EB5D1;
+	Thu, 24 Jul 2025 17:29:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753369502; cv=none; b=kRFhm9i6dAX0Jt7qRAPP833hKEOcXyL09ZYk6Q/1g180yAWQ2OQSUC43n83Yn+V3X8AQSdpD4pav8hpK2EyTyO4pFpELoXcz7g3AW7TPzc1ht4QL5AnlTDwss6sDFHylqPYUe7VwxbxSSWeGkbqSD0btuWPMEx/6siWhVa0Sp6c=
+	t=1753378202; cv=none; b=Qkiw1HODwkZYx/Oo3Wg6TlcrBz2y5Y10/f7AvdeHi8npX00WHFiV23HwQk8/hvmtNZ6GAgjgcKJOmIvrBSHfij0LcbA3BC73GD27SN3+qSNmbuQVuC5uu3hZcMwmaUz2vm4NQ27gVdt1TRfno7NGlBQlc/Vrt4Oj2KeZWpI0qN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753369502; c=relaxed/simple;
-	bh=ktDkf4ooHaeISTi4kJC16b6ncEGl//z4yaOeiADDyeY=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=oL5QcDf9vsilhJ/9a4+eU9z4TQdab46K3xKSlMa8ZHskBh3yYegAVAYtcWDz2x/4dHAnieDLx4jn0nfI2DEY7wd5+w+tvUetPzPiAAM3prS9naUFwkQbKX9OjjH2VNyIBJ5BpM64kvs9PJ393IG+8JAcJ3Q50ST7cc7AMB1ujR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HnV/xDzd; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1753378202; c=relaxed/simple;
+	bh=rQfYK/pFckju0/m5ZMT8YpMb/ONrLOdCFi/xBbvE/uA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tiXTMbLMpjpuEzqE4k5pm0f1DgzpNzV3Vd4WBQoisgczN90EiMztGGV4jOYB7YlXaKHzKjc4QLcxt8fYho6c8NH9DRRMr1UJGsTW5mxTLyXLWpUC/sp9vk4B19/mUMvH8r4ETemPggQL4T2+8PRngH/pvtnt36qaT6bYmtaDdQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Wv1vfFm2; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HnV/xDzd"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-b26f7d2c1f1so1530509a12.0;
-        Thu, 24 Jul 2025 08:04:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753369498; x=1753974298; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4VJi2cu4pu/Zp2p6DZkzJlLQR50cjtH6rzu4mo7OPz4=;
-        b=HnV/xDzdPSjgz6XW7rmiOQOgp7Rx5gugtslpL49IxAA7zeSD6f0ls1TbCZX6JrvBAE
-         o4gnMvMuTfpay01qmM5iHzMCGCY8c1/48utdShaEZ62So04joEiK9SW2V2TE1+DdGFG/
-         f7jrbjz8lNLVyRSRF0dFFCU5RSUOXRWyykItBaq/jSJiMeXWA6mdZ7K4wuixK7ljfQmj
-         1NN7owO0RpG2klSQ0X1mRKcJy5vyL4HB99zCf1yO24p7NsiQ1ZgoIHjBpxsYwXipeGvR
-         bQ76sKBHS3LbKNztOQBK2TPpgCOfugrvm69H79AP8XMkUjAU8iXV6n0Lib/E1Gu6x1Og
-         /Q4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753369498; x=1753974298;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4VJi2cu4pu/Zp2p6DZkzJlLQR50cjtH6rzu4mo7OPz4=;
-        b=YYW8MuO0vAoo+QmqKVU+vt+P/yJTI2XY4Yv0PUKbLDdluixqZkv4WulA25JMCI4XYk
-         kYcm8ZPeBtuexD1FDr/5sIxyjnHHGVTH6lDBGfvC+JxdjFY/QvHYGXlEoKqEvnVVhRaa
-         FVg2CJEN/+jeu/2rKTIinvmpMtH/cYURHYXK9OTheaW7+ovbAWQaQBWfpXV/fL30Qh63
-         fPN56fhFg46N3rE2WwTmCHpDnLu5fLrHM4iAIxcv3FJFP6n2DNOXNU9oiwCmgMpNxXUa
-         IatBqHz+AkFRUCw++LEcXDzYM1zMXdugqsXL5awni1ccHgsG2xh3vZGcvyWXVlvjORic
-         x7dQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUGoRAJiokQTnH8fjoiJRYnm0V5e2rBtqU4QXHFBflF0LfK50yODGmAXlBv3b5OW0h2SlE6AflIv5N7@vger.kernel.org, AJvYcCUidaJR+AZnE6igZbIyQQ8+CrP1E65j1zreHo8o+LEQsAwUCciKOpEPKeIFnFIVjAMz8cxFd2tntnw=@vger.kernel.org, AJvYcCVKKCN+NIBwP70CIR2YxkaQ8hm40NJkrfXX8yoJXQlR45mjL0pAQiI5wBIP6gALVmZMtn0PCm8n28WoEyd9@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywosedo83UzqotlcDmhUbycX8ZTgGdXg5Ct/fkfWDC0I4UjClhV
-	tAgsxEcVkdkEt78ME0UWQPK8J5Rmj1fRPDWEZU9qW2nXpBZ3aa5BEGvE
-X-Gm-Gg: ASbGnctIKB9SvgmqNmFbNq9YylieDl9aOBO/ZjlQuLh+QVrR7e6qlFlYxRrwABGu+Ja
-	aMNun7khZbJDVOEvN9+14kLu4ghgroMmxz0foeBIMeJ7wEk7acfXWB+SwuTBnCYwxfVCCcm736n
-	1nKvDsf4qtJ47ZStTGmPwPmdnr8e/4+cQ/PRkateGamTGCZXL1EX/2cteK6BycreyROnAS7xiUp
-	Jd7WLrTja9mQGo7bC2szRwmvLBGgSr0Yh57yJcpJ744Y2/mnPGbpkqhQtsbNAgCW6JMZBqrmBVY
-	v1zXL/xJnpsDa/xKQUtn6wBJMBhDYHofg4/aV1wgd7QT7wYeXQgR+f54sN8/Z4B56/4alY3B+AK
-	tmY3ZO7jjo3VJMJL8QpY1UeNcrGAnh7PU4BUMFfL8PFs/aCLoWxmd+8bPBUCbn77g2lFE
-X-Google-Smtp-Source: AGHT+IH9cx1cvRD3IQY4uOu1d+OFFXg/UeSuSp7C6i2Hu8/kishvHcv8Nd2SqaZW2O0pJXbOH+sNHw==
-X-Received: by 2002:a17:903:46c4:b0:234:d292:be95 with SMTP id d9443c01a7336-23f981b6379mr104279395ad.42.1753369498157;
-        Thu, 24 Jul 2025 08:04:58 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fa48bc73dsm17772735ad.89.2025.07.24.08.04.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Jul 2025 08:04:57 -0700 (PDT)
-Message-ID: <8a88e6e7-c1f8-4ec7-87d4-c64714085a69@gmail.com>
-Date: Fri, 25 Jul 2025 00:04:54 +0900
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Wv1vfFm2"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=Po5cQ5B/7KTWzepFKNX6CQz+apgwh63MuU5rCZ6VX0c=; b=Wv1vfFm2JPt52XUREKd070yyYY
+	dhdxbyMhkHeGmeswXVjXfJ8nru4JdQUlggRKS6XIpXdDk6VJ39UpEZHkigZ2R6GZe4GFRJUAFnuJA
+	2V8QaLXb3sPybGmrQORiid1/Qo3LZtjLLbqYJ5SGsDtWe8dcu9ivnUhSUTWzgRYUARJ2P98HUQU7g
+	p1+l4NC9gDJ9iiujLfD/HE6duEGwUObgilSFLKp9tQlgVXJB8UOwIxUf7feiMdlf0iSGu/VvJf/iD
+	AOwphfU29eHKmsqXFO0k7NnmnEuv0JOKB64RqW0kx4FVBZd3L3vyKvaE/NXOS0VVOfgQpUQYW5SL/
+	IDwGvdEQ==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uezlW-000000088OB-2C3D;
+	Thu, 24 Jul 2025 17:29:58 +0000
+Message-ID: <dfb7415f-130f-4581-88b9-ee18c9ef8518@infradead.org>
+Date: Thu, 24 Jul 2025 10:29:56 -0700
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -67,52 +39,70 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: hendrik.hamerlinck@hammernet.be
-Cc: apw@canonical.com, corbet@lwn.net, dwaipayanray1@gmail.com,
- joe@perches.com, linux-doc@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
- lukas.bulwahn@gmail.com, skhan@linuxfoundation.org, workflows@vger.kernel.org
-References: <20250724072032.118554-1-hendrik.hamerlinck@hammernet.be>
-Subject: Re: [PATCH] checkpatch: validate commit tag ordering
+Subject: Re: [PATCH] docs: mention MIT license as a compatible license with
+ GPLv2
+To: Aditya Garg <gargaditya08@live.com>, Greg KH <gregkh@linuxfoundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <PN3PR01MB95977C87764A556FFD49FB72B85EA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <2025072459-tweezers-dingbat-b748@gregkh>
+ <PN3PR01MB95978770C2DC8D5CDB28426FB85EA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
 Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20250724072032.118554-1-hendrik.hamerlinck@hammernet.be>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <PN3PR01MB95978770C2DC8D5CDB28426FB85EA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hello,
 
-On Thu, 24 Jul 2025 09:20:32 +0200, Hendrik Hamerlinck wrote:
-> Modified the checkpatch script to ensure that commit tags (e.g.,
-> Signed-off-by, Reviewed-by, Acked-by, Tested-by, etc.) appear in the
-> correct order according to kernel conventions [1].
+
+On 7/24/25 3:41 AM, Aditya Garg wrote:
 > 
-> checkpatch.pl will now emit a BAD_TAG_ORDER warning when tags are out of
-> the expected sequence. Multiple tags of the same type are allowed, but
-> they must also follow the order. 'Link:' tags in the changelog are still
-> allowed before the tag sequence begins, but once the sequence has started,
-> any 'Link:' tags must follow the ordered commit tags. 
 > 
-> Link: https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#ordering-of-commit-tags # [1]
->
+> On 24/07/25 4:08 pm, Greg KH wrote:
+>> On Thu, Jul 24, 2025 at 10:03:41AM +0000, Aditya Garg wrote:
+>>> MIT is a widely used permissive free software license that is compatible
+>>> with the GPLv2 license. This change adds it to the list of compatible
+>>> licenses with GPLv2 in the kernel documentation.
+>>
+>> No, please don't.  This isn't a proper place for talking about the
+>> different license interactions.
+> 
+> Ohk
+> 
+>>
+>>>
+>>> Signed-off-by: Aditya Garg <gargaditya08@live.com>
+>>> ---
+>>>  Documentation/process/1.Intro.rst | 6 +++---
+>>>  1 file changed, 3 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/Documentation/process/1.Intro.rst b/Documentation/process/1.Intro.rst
+>>> index 25ca49f7a..c3465e3aa 100644
+>>> --- a/Documentation/process/1.Intro.rst
+>>> +++ b/Documentation/process/1.Intro.rst
+>>> @@ -235,9 +235,9 @@ code must be compatible with version 2 of the GNU General Public License
+>>>  (GPLv2), which is the license covering the kernel distribution as a whole.
+>>>  In practice, that means that all code contributions are covered either by
+>>>  GPLv2 (with, optionally, language allowing distribution under later
+>>> -versions of the GPL) or the three-clause BSD license.  Any contributions
+>>> -which are not covered by a compatible license will not be accepted into the
+>>> -kernel.
+>>> +versions of the GPL), the three-clause BSD license or the MIT license.
+>>
+>> You forgot a ',' anyway :(
+> 
+> While it is no longer relevant, I wonder where you wanted the comma. Maybe you meant "the three-clause BSD license, or the MIT license"?
 
-So, you are citing ordering rules specific to the "tip" tree.
+In general we accept the use of the series/serial/Oxford comma (", or") or not using it,
+but I suppose that $maintainers can determine otherwise.
 
-I don't think there is any wider consensus with regard to such strict
-rules.
+from Documentation/doc-guide/contributing.rst:
 
-I have to say that your change will make a lot of unneeded noise for
-most contributors.
+ - The question of whether a period should be followed by one or two spaces
+   is not to be debated in the context of kernel documentation.  Other
+   areas of rational disagreement, such as the "Oxford comma", are also
+   off-topic here.
 
-If such warnings are only shown when the user opted in to the tip rule,
-say, by using a "--tip" flag or something, they might be helpful.
-
-BR, Akira
-
-> Signed-off-by: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
-> ---
->  Documentation/dev-tools/checkpatch.rst |  6 ++++
->  scripts/checkpatch.pl                  | 40 ++++++++++++++++++++++++++
->  2 files changed, 46 insertions(+)
-[...]
+-- 
+~Randy
 
