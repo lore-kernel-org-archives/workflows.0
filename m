@@ -1,141 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50B4D27470;
-	Fri, 25 Jul 2025 22:25:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B5C4A3C;
+	Fri, 25 Jul 2025 22:28:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753482345; cv=none; b=HaKEs92R0FSDp+WomhiOkwLblvs11V81MscyNCMrVqimdyHDvjdkWhoRGWEoG17W/ZCYdGeFhDOPwrbKhKACTomwRxngWwLixHqdPH1AuXJ+q3G/34sOP3hdSSYWevBZOnNljtscdyjZfU9c7juk9TfSO6PB0+MgWy2r+FlAZaY=
+	t=1753482500; cv=none; b=MVatbKEhBRNCWWRXhjToShUamONVRqfQMUJLV/HUrg7sKsyAxTA8CYo3x6sSl0cROzpRIBih1kddqsp0og6RmdJB5c/wggxAILUKyZ3+TO/f/+aR4J4MaT+SuUch7OQxSF+OmEu3+Vhw8ss4ZcyXaGbZov2WLLzWE9zpUW91EbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753482345; c=relaxed/simple;
-	bh=txMmhidIg4RcfLmmLjqcinY3uiBf4XL6CIzT0pxHrI0=;
+	s=arc-20240116; t=1753482500; c=relaxed/simple;
+	bh=IA/3Rq/lSRQOIAbyCx490JQ2nR5mykmx1PNVdvpm3YE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kGdGPF3rvKYo3Em9BwKhS5Tc/AQvbf1rpA+cEbO5p2dn22LBc84RVZUfbAp+qqjKnqj+Y0DGwvBLB7z3ZwObc2/5O+TDuplNOiOaEspTzEXsw/ZO258CdcWIetv0ZJMnr0COudMt0NUv/kPrzr7WiL0fDImxmtv++IAEjppyrXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eIcSZPUW; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=hyjzoNRl2sz1Gl0RkeqiaX2HWXEHOf0oeEJsK4KR0dU0KUACl7VOsknlvgbo7WFUAboK7um+byp6wb0arXtqnqxKTLrAO5P7Zas5/CN33057EB9/Z2LtxAO5oiICCtPrEd75aVMKvfCWO4CDn2idPsWr1vk5KwT7YFpS8L5RIGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=phPiCYiE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eIcSZPUW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CAC3C4CEE7;
-	Fri, 25 Jul 2025 22:25:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="phPiCYiE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F479C4CEE7;
+	Fri, 25 Jul 2025 22:28:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753482343;
-	bh=txMmhidIg4RcfLmmLjqcinY3uiBf4XL6CIzT0pxHrI0=;
+	s=k20201202; t=1753482497;
+	bh=IA/3Rq/lSRQOIAbyCx490JQ2nR5mykmx1PNVdvpm3YE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eIcSZPUWMNKklNEBu7YWbKqYDmyE/9RGj7Hpu92xAd+GUAYtYih0w5R08aLr/8Rr4
-	 CVzGis2p+hTjlDnQ9iWEZ7FJKR8N5g//sLqRlJhmnzpVwf4d6oUnwqgaRnqDBqEfwx
-	 P7ef15d0V5iBO9zux0Syr+uveY2MId3XZVSH96YWq5Fa82nK6c75a8JdfrRwOEp5Ff
-	 AUMHhwhdJKySzkjqfxDVmoDeyHzKrhXqn5wSxr8GDc6MVRgTQYEpYthlqqVrruS1Ss
-	 g/zMKUOGPVQtFbkSIeasscXV1Ap3R6cq2+F/hAraFuNGqnxXPs5YoxXF72zXVAtl/O
-	 Se8t3492rpQaQ==
-Date: Fri, 25 Jul 2025 18:25:41 -0400
+	b=phPiCYiEjwPtja53/yXoBS4mduXjOJx8hils6W/D7BjugYsE9rwrPaO6w+0QNpox4
+	 DnBYTipdalJCfft1DmElQKAzQl65t9rfVm3r2FHQlm/2oehAeiz2VBy+MlPKuyfhqw
+	 70SYpcd3C3RQZ/FepwHu5/IqQ2AJUkju7piYcseo+w8ugnVKJIjo31eOwH3i4kCKei
+	 W6xnHWj7XYykUEkZq7To61Xcd+l9Sis4xBNGoEgJQouDvLkUuu/aIGrFxCJQ6wt3ol
+	 I1RSqksnEGK0LeT7dEp2gspKN8raK+9+NjJUAYMZrDQc3ONz1v+XuyhJEnUT5vioeq
+	 RCswNWQAUBcCw==
+Date: Fri, 25 Jul 2025 18:28:10 -0400
 From: Sasha Levin <sashal@kernel.org>
-To: Kees Cook <kees@kernel.org>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, rostedt@goodmis.org,
+To: dan.j.williams@intel.com
+Cc: Jakub Kicinski <kuba@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kees@kernel.org,
 	konstantin@linuxfoundation.org, corbet@lwn.net,
 	josh@joshtriplett.org
-Subject: Re: [RFC 1/2] AI: Add unified AI coding assistant configuration
-Message-ID: <aIQEZZt7rlzeMDSe@lappy>
+Subject: Re: [RFC 0/2] Add AI coding assistant configuration to Linux kernel
+Message-ID: <aIQE-hkg5ehHaSZi@lappy>
 References: <20250725175358.1989323-1-sashal@kernel.org>
- <20250725175358.1989323-2-sashal@kernel.org>
- <202507251329.8DC1ED1@keescook>
+ <20250725114114.3b13e7b1@kernel.org>
+ <20250725150046.3adb556c@gandalf.local.home>
+ <20250725125906.1db40a7f@kernel.org>
+ <6883ea58b5685_134cc71006e@dwillia2-xfh.jf.intel.com.notmuch>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <202507251329.8DC1ED1@keescook>
+In-Reply-To: <6883ea58b5685_134cc71006e@dwillia2-xfh.jf.intel.com.notmuch>
 
-On Fri, Jul 25, 2025 at 01:40:55PM -0700, Kees Cook wrote:
->On Fri, Jul 25, 2025 at 01:53:57PM -0400, Sasha Levin wrote:
->> Create a single source of truth for AI instructions in
->> Documentation/AI/main.md with symlinks for all major AI coding
->> assistants:
->> - CLAUDE.md (Claude Code)
->> - .github/copilot-instructions.md (GitHub Copilot)
->> - .cursorrules (Cursor)
->> - .codeium/instructions.md (Codeium)
->> - .continue/context.md (Continue)
->> - .windsurfrules (Windsurf)
->> - Documentation/AIder.conf.yml (Aider)
+On Fri, Jul 25, 2025 at 01:34:32PM -0700, dan.j.williams@intel.com wrote:
+>Jakub Kicinski wrote:
+>[..]
+>> To be clear, it's not my main point, my main point is that
+>> the information is of no proven use right now. As long as
+>> committer follows the BKP of adding Link: https://patch.msgid.link/...
+>> we can find the metadata later.
+>>
+>> We never found the need to attach the exact version of smatch / sparse
+>> / cocci that found the bug or "wrote" a patch. Let us not overreact to
+>> the AI tools.
+>>
+>> > Also, I would argue that it would be useful in the change log as if there's
+>> > a bug in the generated code, you know who or *what* to blame. Especially if
+>> > there is a pattern to be found.
+>>
+>> This touches on explainability of AI. Perhaps the metadata would be
+>> interesting for XAI research... not sure that's enough to be lugging
+>> those tags in git history.
 >
->I do like the idea of having a standard baseline for agentic
->development, but:
->
->- This clobbers per-project information storage for the agents, which
->  the dev may want to be adjusting locally. I would strongly prefer
->  adding all of those files to .gitignore instead.
+>Agree. The "who to blame" is "Author:". They signed DCO they are
+>responsible for debugging what went wrong in any stage of the
+>development of a patch per usual. We have a long history of debugging
+>tool problems without tracking tool versions in git history.
 
-It will, but:
-
-1. We don't have a different place to write this down (more below).
-2. Users have other places they can add their specific instructions, or
-they can even carry patches on top.
-
->- Documentation/ should not start getting filled with stuff to be
->  exclusively consumed by agents. Instead, I recommend a top-level
->  .md file that agents can discover that contains very simple
->  non-specific prompts about what they can find in Documentation/,
->  and drop a reference to the file in, say, Makefile to be discovered
->  during the agent's scrape of the project.
->
->I'd recommend something very simple like:
->
->diff --git a/Makefile b/Makefile
->index e05bd43f93bd..998b037e6d4d 100644
->--- a/Makefile
->+++ b/Makefile
->@@ -7,6 +7,7 @@ NAME = Baby Opossum Posse
->
-> # *DOCUMENTATION*
-> # To see a list of typical targets execute "make help"
->+# AI agents and LLMs should read ./AGENTS.md
-> # More info can be located in ./README
-> # Comments in this file are targeted only to the developer, do not
-> # expect to learn how to build the kernel reading this file.
->diff --git a/AGENTS.md b/AGENTS.md
->new file mode 100644
->index 000000000000..3df98f0cc667
->--- /dev/null
->+++ b/AGENTS.md
->@@ -0,0 +1,3 @@
->+To work on the Linux kernel, please see Makefile for details on how to
->+perform builds and testing. Find and read the Submitting Patches and
->+Coding Style rules in Documentation/.
-
-I've removed CLAUDE.md, and applied the following change on top of this
-RFC patchset with Claude:
-
-diff --git a/Makefile b/Makefile
-index be33e8c868ae2..e3986eae88e08 100644
---- a/Makefile
-+++ b/Makefile
-@@ -7,6 +7,7 @@ NAME = Baby Opossum Posse
-
-  # *DOCUMENTATION*
-  # To see a list of typical targets execute "make help"
-+# AI agents and LLMs should read ./Documentation/AI/main.md
-  # More info can be located in ./README
-  # Comments in this file are targeted only to the developer, do not
-  # expect to learn how to build the kernel reading this file.
-
-... which Claude (and I suspect most other other agents) proceeds to
-ignore as it doesn't really do any scraping outside of those dedicated
-files:
-
-	$ claude -p "do you need to attribute your commits?"
-	No, I don't need to attribute commits myself. When creating commits, I follow the format specified in my instructions:
-
-	```
-	🤖 Generated with [Claude Code](https://claude.ai/code)
-
-	Co-Authored-By: Claude <noreply@anthropic.com>
-	```
-
-	This attribution is automatically added to commit messages when I create commits for you
+And it would be great to avoid the potential "it wasn't me, it was the
+AI!" or "whoops I don't know how that exploitable issue ended up in my
+patch, must have been the AI".
 
 -- 
 Thanks,
