@@ -1,45 +1,38 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51764218592
-	for <workflows@vger.kernel.org>; Fri, 25 Jul 2025 15:27:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 635D73BBF2;
+	Fri, 25 Jul 2025 16:39:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753457237; cv=none; b=DfPVCy5HIDt6h9VunqysaPRsWHAau3dIipqfdKqU1bBn/WMDFQmfpDgw6UUggS5tUkxDRfwkd1GdtOPVJGyrhjxtvvYPLkDoEhyvZSQDC5CT081Q8VLlBdFiQZHBLyrKhE3R2dyk3AOErW3aIh9ejhtWUUsIzpjSRKlcclEyuEM=
+	t=1753461557; cv=none; b=CSR8ARAAzUYYKqfPRIOD+HW4Sm37zMMkFjZZNU2ZvtGe89v06yiUbUd9e+ohXtla9QUGkw+O+9M/QDe43TLlUQRV9YnMSLaVwMItmjpU4cf0Q5uDi6IdM54FwQENTuOiWFUnn4MpOCAOv4paxSVJvLrozSUhR/AbMZQhjznQOJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753457237; c=relaxed/simple;
-	bh=4XUbrRL0YD1KlBsBsyBzOc11nCYHw2nNmqKf2Kh7fTs=;
+	s=arc-20240116; t=1753461557; c=relaxed/simple;
+	bh=pF4lunaFqYdrewdH6GkDToqh/eM283/KV5aQ/8yrPMY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ih3iua7j0ZgP7P9YlwseYh2ZT1K/Of46ZoQYqk01L9vwPVoMOMCbotXk0tod6yD7DRaTL7oOhV+XJH5YQ1LKN0b0l2zLv4Lg1PmHqG5h4htAvTkcBUK34Hffm9M62bWcGFCnIFF7lgC7d6/17zRTPXO5UJBpjmRQgZ9gHldwdCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=nQqHSjAr; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	 Content-Type:Content-Disposition:In-Reply-To; b=Asre5FQQvIXSIiLzuwMLCpC+5iTUCNEMAHjw2RfSEZkFtrJtfw7f9o2ZWLETuUiEph/mx9ck6TCQPFPPax5xT2kjUkbu62ZUvgjOSnw+WFSq+JCzB29KyGcqY2QFnF44AerXPSVvrUOzrcz/uQwelfX2TGpiCHclvouA0zhVqnA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qWgDiHJP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="nQqHSjAr"
-Received: from trampoline.thunk.org (pool-173-48-116-187.bstnma.fios.verizon.net [173.48.116.187])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 56PFQwjk026198
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 25 Jul 2025 11:26:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1753457220; bh=By+urOWaG/ajZlSNQ/vduTd8yEF1RnUec8nS30xxTnI=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=nQqHSjArwp98eVqDtB8jcbcV1+yiikon7Pd/RCZZz3hSzRmLvfrHwqpF0B65kvAJi
-	 HMGuQj/XSH0eHLqheuzFe60fXjjmU/G7ASWatXSU344vj5vJ8GoxKelsQcuYmci78X
-	 CgPrBUFWnExL3RUJYezEd+qfk4rZygCH1r5bWPci7zpLLr2YhJa23E/hbGJOSQXPNH
-	 wZIZG/8pUk7m8fdU/ySy+nA1YLLxqd8O1D+rwchethvhgYrZ+FJx035R5bHZDp54ok
-	 z61244xgVKkWfMNKVyzgYBRH4AeXdbOcHNKEs+z/utp3FY7z5TuuLe1J7tVhuiDRFG
-	 UMxCvFbmOXEYg==
-Received: by trampoline.thunk.org (Postfix, from userid 15806)
-	id 58DAB2E00D6; Fri, 25 Jul 2025 11:26:58 -0400 (EDT)
-Date: Fri, 25 Jul 2025 11:26:58 -0400
-From: "Theodore Ts'o" <tytso@mit.edu>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qWgDiHJP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A40CC4CEE7;
+	Fri, 25 Jul 2025 16:39:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753461556;
+	bh=pF4lunaFqYdrewdH6GkDToqh/eM283/KV5aQ/8yrPMY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qWgDiHJPG8S2mHa8wUfniNuw6zAthW2OBoNLgq9pkrAp/jpiJWnMp3QzrRI8ZJfLr
+	 kypTbAzegglrxnYBASHgz1oXKT2soysAVu3o4/vhkiEahR/+GQRh8NxOzGrEmin+hs
+	 J+KobOkQpzQSDBQp9jAf8qMIVzz1GIctXji/3ifCAnMYgFfNPkUjgTHwc+cQ1N5JGs
+	 qLoAnqXnErMGuJTZYDT6uzQ2DF2V7oGd6bCdk5oNQKo4VOegUvWywoL4IsHtqPsLti
+	 o7zGEum57Udc2tAktVf48Ht7lLAR/PZDkwNhTVNLWX063R93xGVBe+cz4Uxg1Z+WIz
+	 Gc0G6T/8J49xA==
+Date: Fri, 25 Jul 2025 17:39:12 +0100
+From: Mark Brown <broonie@kernel.org>
 To: Jakub Kicinski <kuba@kernel.org>
 Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>
+	linux-kselftest@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>
 Subject: Re: Crediting test authors
-Message-ID: <20250725152658.GA236659@mit.edu>
+Message-ID: <aIOzMLPiC8gN5t2Y@finisterre.sirena.org.uk>
 References: <20250725080023.6425488c@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
@@ -47,28 +40,48 @@ List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="79jlyhnSeLm+Ouc2"
 Content-Disposition: inline
 In-Reply-To: <20250725080023.6425488c@kernel.org>
+X-Cookie: Do not cut switchbacks.
+
+
+--79jlyhnSeLm+Ouc2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 On Fri, Jul 25, 2025 at 08:00:23AM -0700, Jakub Kicinski wrote:
-> 
+
 > Does anyone have ideas about crediting test authors or tests for bugs
 > discovered?  We increasingly see situations where someone adds a test
 > then our subsystem CI uncovers a (1 in a 100 runs) bug using that test.
 
-I just list the test that discovered the bug and which was cleared by
-the commit, and assume that the test author will get credited in the
-upstream test repository (e.g., such as generic/750 from fstests or
-inotify02 from ltp).  So it's not something that I've worried about.
+> Using reported-by doesn't feel right. But credit should go to the
+> person who wrote the test. Is anyone else having this dilemma?
 
-I suppose if the test repository isn't as well known, or if the test
-hasn't been checked anywhere at all, your concern that the test author
-should be credited is something I can understand.  But it hasn't come
-up for me.
+Usually I'd do a reported-by for whoever actually looked at the test
+system, triaged the issue and reported it.  Trying to credit test
+authorship separately to the testsuite gets cumbersome over time, tests
+get updated over time for a range of reasons (toolchain updates, adding
+more coverage, improvements in the testsuite's frameworks...) so it's
+often not just a single person.  Hopefully the testsuite is keeping
+track of things well enough so mentioning the test will point people in
+the right direction.
 
-In other cases, if the commit hasn't been stable yet (say for kunit or
-kselftests coming from some other tree), I'll just throw in a Link:
-tag pointing at lore.kernel.org.
+--79jlyhnSeLm+Ouc2
+Content-Type: application/pgp-signature; name="signature.asc"
 
-						- Ted
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmiDsygACgkQJNaLcl1U
+h9ANLwf+KrFsMmrl+/vvfwCKrbgLCgyN+NiEvXJuhjtuIu7K8J/zLlal7IAr9hEz
+yR5CEQcBOXEiNv/LSqpYWXpBEIye9gkHW1oYHkzB1PeNe14KMAxrg5P3jxl2shxW
+jh6q8HgIVDh5kFteE7D6+UnTIkSoD9M0hG7APga9y88YEG3YGeWcaGkKZmIk94xL
+WrZMNauJJceZSmoNJZHVRqFJfVP6VZQj1Go4zJ5ZKD+g0zx3ONVI1lo/omuFg1vf
+1wRUmKBa9Zn70pADOy01RTtWsTynb+USj3HnxEuQXSUu1EJyzLKJ4M28CK7+f5nW
+24DWjp4S6bEidMREKpizRKiQA/bK3A==
+=Dzig
+-----END PGP SIGNATURE-----
+
+--79jlyhnSeLm+Ouc2--
