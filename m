@@ -1,77 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 679CF22B8C5;
-	Thu, 24 Jul 2025 23:54:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD99BA3D;
+	Fri, 25 Jul 2025 00:55:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753401252; cv=none; b=qr6O6B4lSlGmvaXKJ5+C4AtSl8QKkRLAFE/Zob0VHfDOC0gfmGTUrUafP+O+QQWy50TCSU9atQRgrnZ0ImYSJoL2ujpzI2hQd4OdWY7rz+Wk1m+/CY6CkjnGYCH9RQ+8lpSUxnwS/KC+mzCKKkpB/OfdiWxkMgpO8WOVa8PiMeE=
+	t=1753404941; cv=none; b=FZAbRtChTuN36Nyht6ZFbC9Vr1PDQN1zoRG12QWM5qTP1WSNhHfMHDarRzW55s+hBzNp8/iCPSxOal+ZVrNnAu8Pqw9GrqMDnAZpAIG9tk2YbIoB4VIKJfdJbaLF8AEqw3E1zj6cNR7sGy0myFA8XD9uFaoRSk7AvDBnrbuYP5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753401252; c=relaxed/simple;
-	bh=Q9jh7CkBbhldMF1J1smRrxzkFS3p/4ns7ni/1yXL+gQ=;
+	s=arc-20240116; t=1753404941; c=relaxed/simple;
+	bh=KvxN5DHjZGSXEwli5Su3Qm7vJiM8XvRrYqw6i3BZUkQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t/8OBs8tZQCX3iZS7eDW7QYbGBMPLQPb5NkfJtqW/kqZhy8+S6tfIyxrE9VGZ0sEJWRWM/voUZ1IaTGbTOzJeQHQHLChRZDubo9XHBKkCNDIEbEj13dxflDV6z3tDg9ThJ6ZG6CpBBzYWylILh5hgziUjsOhT41tMvcSorZzTyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VAp72SLD; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=YDJiPLaAfHLD6/K0OTjawtb3wYw6cO8jnvzCB2uX9iQuIY5QE+G9c2M+cbnUZM22Mp5LsJ8NGyoQPORyxpgNrgjaCqjBDrwEhEA2Mp4pqr747mjIhWBYH+g10AuCvd/e9nLga6Mp6YKlyRRYtCeW4TRcz4+Tq2T/P0vjd5wv0Pk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=T9iFiWIa; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VAp72SLD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A1ECC4CEED;
-	Thu, 24 Jul 2025 23:54:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753401252;
-	bh=Q9jh7CkBbhldMF1J1smRrxzkFS3p/4ns7ni/1yXL+gQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VAp72SLDWjoJQolLVXqmG89HQuXI4rOyYoT/r7/OmhpCUYd3IVuD/mPrCpYWwKkNF
-	 LEbV3b2QQhWgssePkS/zTeBB+ng03J+rOQGTOZpBxI8GxxFAR2+ChFaVstdP6Mb8Yn
-	 xv4OmBCg7EyZLF2/skP2LRXrcItJ5ABYURm7kRkMVBFg6f9v8s2XSEz6Xb6qcwCOb+
-	 pR+eHV8HgqkUoJucQ/7EODEKIASEaxRqB0EbcLqC9yVjGy10BoXl6/oPZQpYkHmnuz
-	 7WqMpSL88i8Sk29xWaqzC3ldqwH9xYcjAjglXQOMAQhUQaVMX8VlTvSqvDhbI60wuV
-	 Ncne9e7ef+GLA==
-Date: Thu, 24 Jul 2025 16:54:11 -0700
-From: Kees Cook <kees@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: "Dr. David Alan Gilbert" <linux@treblig.org>,
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="T9iFiWIa"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
+	:Subject; bh=StlREuo1scS0BfmCy3StaAeIUyCF5tPTsycVVaKcV94=; b=T9iFiWIagMi1C/Et
+	gM5OuOyS+mMLiTMpLXVy/Qq4acvvgpRuwIiZCX6tEUSHgEeW2JA7f9gIJhOXXYgct4xOPzOhG9d7r
+	FIfobPC6NrE5FHXJLlY4YbnKbQrO94NmDu+HqdjC3oTiOtJNgjuLmsvWczVoY62ziePsTOWjxVOOH
+	UWNUsdlAJDg1Gt0clsjjx/Fpav8+UWOTRQI43YD4Zc76/CmG2mY0jKYc3ALgNCPgkff60OktqBMfH
+	OeSYxHIkpAjRV+DlouvgOtU2CN9CW6soAJ0yaXjGBI8STCqTP5DSXLrXZGkVayFf+jlYPjltBhBxQ
+	NeOQ9dgdYkzISq5rLw==;
+Received: from dg by mx.treblig.org with local (Exim 4.96)
+	(envelope-from <dg@treblig.org>)
+	id 1uf6ie-000WVV-0z;
+	Fri, 25 Jul 2025 00:55:28 +0000
+Date: Fri, 25 Jul 2025 00:55:28 +0000
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
+To: Kees Cook <kees@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>,
 	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
 	corbet@lwn.net, workflows@vger.kernel.org, josh@joshtriplett.org,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [RFC PATCH] docs: submitting-patches: (AI?) Tool disclosure tag
-Message-ID: <202507241651.5E9C803C70@keescook>
+Message-ID: <aILWAELwozskfIgj@gallifrey>
 References: <20250724175439.76962-1-linux@treblig.org>
  <20250724-alluring-fuzzy-tanuki-6e8282@lemur>
  <202507241337.F9595E1D@keescook>
  <aIKhvubVqgeXIlrj@gallifrey>
  <202507241418.34AFD28C@keescook>
  <20250724194556.105803db@gandalf.local.home>
+ <202507241651.5E9C803C70@keescook>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250724194556.105803db@gandalf.local.home>
+In-Reply-To: <202507241651.5E9C803C70@keescook>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/6.1.0-34-amd64 (x86_64)
+X-Uptime: 00:53:00 up 88 days,  9:06,  1 user,  load average: 0.00, 0.00, 0.00
+User-Agent: Mutt/2.2.12 (2023-09-09)
 
-On Thu, Jul 24, 2025 at 07:45:56PM -0400, Steven Rostedt wrote:
-> My thought is to treat AI as another developer. If a developer helps you
-> like the AI is helping you, would you give that developer credit for that
-> work? If so, then you should also give credit to the tooling that's helping
-> you.
+* Kees Cook (kees@kernel.org) wrote:
+> On Thu, Jul 24, 2025 at 07:45:56PM -0400, Steven Rostedt wrote:
+> > My thought is to treat AI as another developer. If a developer helps you
+> > like the AI is helping you, would you give that developer credit for that
+> > work? If so, then you should also give credit to the tooling that's helping
+> > you.
+> > 
+> > I suggested adding a new tag to note any tool that has done non-trivial
+> > work to produce the patch where you give it credit if it has helped you as
+> > much as another developer that you would give credit to.
 > 
-> I suggested adding a new tag to note any tool that has done non-trivial
-> work to produce the patch where you give it credit if it has helped you as
-> much as another developer that you would give credit to.
+> We've got tags to choose from already in that case:
+> 
+> Suggested-by: LLM
 
-We've got tags to choose from already in that case:
+For me, 'Suggested-by:' seems fine for where an LLM has
+responded to a 'suggest improvements to this function'.
 
-Suggested-by: LLM
+> or
+> 
+> Co-developed-by: LLM <not@human.with.legal.standing>
+> Signed-off-by: LLM <not@human.with.legal.standing>
+> 
+> The latter seems ... not good, as it implies DCO SoB from a thing that
+> can't and hasn't acknowledged the DCO.
 
-or
+Yeh, the Co-developed-by:  isn't terrible,  but in both that and the
+Suggested-by: is there a standard for how you would refer to the tool?
+IMHO it should not have an email address there otherwise it'll confuse tools 
+into cc'ing them.
 
-Co-developed-by: LLM <not@human.with.legal.standing>
-Signed-off-by: LLM <not@human.with.legal.standing>
+Dave
 
-The latter seems ... not good, as it implies DCO SoB from a thing that
-can't and hasn't acknowledged the DCO.
-
+> 
+> -- 
+> Kees Cook
+> 
 -- 
-Kees Cook
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
