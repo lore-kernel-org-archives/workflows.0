@@ -1,52 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53DCD1FC8;
-	Fri, 25 Jul 2025 17:20:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89621DE3AC;
+	Fri, 25 Jul 2025 17:45:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753464039; cv=none; b=dZ9zaDtgaBm3Er/28pSXN7kTWbtd9XIjsds3Ze4jDQ/WUwzY5+1DpF9yALZwL+Xe4QQXQqZLS2d7AWHzfnDYeKD0MLMXNDqw+LoEv/gZ73YrlmZhAAaDP0nizvm2QzktZ0DJUpUeNRzipoAzua2TdueED0rb1itcGr7AfuSyMHc=
+	t=1753465543; cv=none; b=rBVHLkmomI1upgnyV5rTwFqDb2+GLohYzmMOoyiHy1i8YbQqV0JP6NRwb1W/gxTdXK0W5LMh59lEiBnC13UX2prJw97M06Vz6KuWuRsMFjrKHsMrzCXj8Ck36vTst1Bu+kz2V6EW3CmcYWBBWmo66MP/wkxl0kQGOqhPlDGxp+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753464039; c=relaxed/simple;
-	bh=HIKxRtuEADT61vpZ22r6SOsprmqG8Jn7ATscClrH5YY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hsRrbhIJ98YuCMRy9vaPdXxZMGjSQyk1eEoLILdx7JhBaokTvMj5aDd9uJNslD0TWsdDhuq4C2xg2e7a7CPegh79kt+ME72jm18Dngf5serVjWem5J63ZeTmlXGVdmO8h/5ltX3A8vSGSUvFm7IBYX5C9qmH7oBudw4yn6G0fa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cl1ze9IA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753465543; c=relaxed/simple;
+	bh=RsPRgmZCOqun/rYWmkkcvg3T55MIka5uyEZQyaWsRkE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VJL0yWbraX+wJO96sYDIIzsIipY6xzcILBzrwQ+DFqPKx7F9ZZtyAiSVidm3Z8+XBoTAEzGAPGfBCWWPA/2YPDodVD4QxIjRpJGtlosyEKTt9p5GLKi2RfasncxOhRqZrRDiNSP5Ai3O5Z8i7UnWdk+k6JA/c/Slxc+MlgWkWFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=Z8Dmf4cu; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cl1ze9IA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 011EFC4CEE7;
-	Fri, 25 Jul 2025 17:20:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753464039;
-	bh=HIKxRtuEADT61vpZ22r6SOsprmqG8Jn7ATscClrH5YY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Cl1ze9IAETlkY7AdHFID+G1hK6MykPOqlXzTCQ2KxQDuVMkdt279jLdzT4udN9NAp
-	 Yj79RuEQCoEOQSd1D0bP2bpOQyynDOLfIikqgZ6nE7eeCIZy0U6wHUbKTiRn4HfCZX
-	 HVPfvE19VQ4f7OPU1xcVVnoxw9zqTo9haxl1oGnGCIssAO155vVvClcag4WMx7Aaj/
-	 pN+TTjA31bS2rBJ4JgRuXy0kvo8LqipVQMKhGhiTdNtzcuyzUJOMWFao6TqPnbk8Xy
-	 vjwkke6HZEBQF5n0QNgjolhXqyYUc7LMouOnp/OZlBJmD0BoFtZ7aiHQaVvmNnufAB
-	 kIwbnQlqA8Bnw==
-Date: Fri, 25 Jul 2025 10:20:38 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: <dan.j.williams@intel.com>
-Cc: <workflows@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-kselftest@vger.kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Subject: Re: Crediting test authors
-Message-ID: <20250725102038.403c4338@kernel.org>
-In-Reply-To: <20250725102019.7add0be0@kernel.org>
-References: <20250725080023.6425488c@kernel.org>
-	<6883b3046b640_134cc7100ad@dwillia2-xfh.jf.intel.com.notmuch>
-	<20250725102019.7add0be0@kernel.org>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="Z8Dmf4cu"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=aFcxMrKl/6T2lCcVEBxTm5V2wzGAihXJCOqriV8fm94=; b=Z8Dmf4cumnntEeo5nL2SBVupqO
+	uuRfw4qxLnTOyYnHa1kYFr2LA36AL0Fz4+xjJHgISL3o1xGfykd3Thk+bADxSaQ4A0Lm9W16rmzjY
+	11klNXhNQAu1s5Ir/3RXTclatNHM2HBO7nSoc09m3AebUtoY3MWIBuuCBgXWyy4xrCoEFV0SIodCi
+	lwMghsM9ry8itRwqKg8xQUUGMCbiwr2N+/KBuJBvacGzjNHwLZjlhkDT3pgt8N+sEPwqpKn2+04ke
+	+I+ThogCsyXD5jyvX2wnWqc0/JvSr9pAJ8RrI3Orb2KGFqj/lvxcHgxnfRn9V5BkKbmeku0MlqB4S
+	xUrLwYJg==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1ufMUA-00000000Ebq-0OON;
+	Fri, 25 Jul 2025 17:45:34 +0000
+Date: Fri, 25 Jul 2025 18:45:34 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: "Dr. David Alan Gilbert" <linux@treblig.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Sasha Levin <sashal@kernel.org>, Kees Cook <kees@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	corbet@lwn.net, workflows@vger.kernel.org, josh@joshtriplett.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] docs: submitting-patches: (AI?) Tool disclosure tag
+Message-ID: <20250725174534.GY2580412@ZenIV>
+References: <aIKhvubVqgeXIlrj@gallifrey>
+ <202507241418.34AFD28C@keescook>
+ <20250724194556.105803db@gandalf.local.home>
+ <202507241651.5E9C803C70@keescook>
+ <aILYj62tF_1mDjDO@lappy>
+ <aILb-zDiDr4b9u9S@gallifrey>
+ <aILjTKk_v8NPxlVJ@lappy>
+ <aINqjTAwbQ_xnAw6@gallifrey>
+ <20250725113702.GD11202@pendragon.ideasonboard.com>
+ <aINvLgwaKZsKOibE@gallifrey>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aINvLgwaKZsKOibE@gallifrey>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Fri, 25 Jul 2025 10:20:19 -0700 Jakub Kicinski wrote:
-> Reproducer: test.case.path # 001122aabb (optimal) commit of the test case
+On Fri, Jul 25, 2025 at 11:49:02AM +0000, Dr. David Alan Gilbert wrote:
 
-s/optimal/optional/
+> > Except from a copyright point of view. The situation is quite clear for
+> > deterministic code generation, it's less so for LLMs.
+> 
+> As long as you'd acknowledged the use of the LLM in all cases, it seems to
+> me right to say to what degree you use it (i.e. the 1..3) above.
+> I think even most people worried about copright issues would worry
+> less if an LLM had just told you about a problem (1) and you fixed it.
+> (Although obviously IANAL)
+
+s/told you about a problem/told you that <location> has triggered some
+heuristics and might or might not be worth looking into/, really...
