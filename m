@@ -1,36 +1,43 @@
-Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF7023AB81;
-	Fri, 25 Jul 2025 19:00:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 124811FC3;
+	Fri, 25 Jul 2025 19:59:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753470047; cv=none; b=PPJwm2GSUaOwE+k4Z5Ch4EZgC0mCMHMfG6dQzg3B5njGGrSWYwTmKDDNr54R5LNTxowP0U3Dkjv6Cvw6SBrGFU9KIVzAuZ6LVcrIMIH9n6Og6o3v3yatNWmCaw7cNalCP2rtvjxmR/++NnklED6nLhQ7WG46/ZWk+lod6hAH8vE=
+	t=1753473548; cv=none; b=F2U+TBP4XA+rcPXejnezZirsCm3QQZIBEJ11jo7EPQOtqVvhHoA3Js6NPxwbaS97WfxWKz3ec6/SH3bamQiVYUZHq0Ymu6jYXUbDkAx3oAeiAHo9/y0Ex8XNxqTWn3OnClRKvIcuBSf4gQSwepyWwWFD7OCRo7R3PYvmPo/kCdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753470047; c=relaxed/simple;
-	bh=rolM9Fh4xhjDBW1j55qxL3OQCNBUWWXddekh5/zeYkw=;
+	s=arc-20240116; t=1753473548; c=relaxed/simple;
+	bh=SEHfoYAYS7TSO9WYmdMXMA3PCP9Gw9vwFqw8aUosFRw=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Lp1L1S9thBePIPG0ISr4CJg2Wize3jYd6DA+oW80nIynIzZRX9+sZcn+5yeH7iTe6GnfOsNJU2UTidgMoTiQ8MEjxmZ0gyZnfq7aKav9/dGR37nJp1sQC7SyttSV1wChxGF40FQP8C4thLSbA3N2rrcFZg1tpO/AQeO2ksSLQ1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf05.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay10.hostedemail.com (Postfix) with ESMTP id E5EB1C08FC;
-	Fri, 25 Jul 2025 19:00:42 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf05.hostedemail.com (Postfix) with ESMTPA id B410420015;
-	Fri, 25 Jul 2025 19:00:40 +0000 (UTC)
-Date: Fri, 25 Jul 2025 15:00:46 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Jakub Kicinski <kuba@kernel.org>
+	 MIME-Version:Content-Type; b=VaO5AZaU0tmgmhuqfur8CNgeSYLJgIpOVWGoWWqKqBVs0RIT+yt+2oOk8N7TtlOUvl9Cf8t+s5UG057D23hZBeOyQe8rmxDnayMED8DgUMx69uKpleYM88I9Vt+IolzGuTH1Ws2MGO4o4Lt0riRb0jDa6LQrPfuO7+O38nB30Gw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GUdaBZGm; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GUdaBZGm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 420E2C4CEE7;
+	Fri, 25 Jul 2025 19:59:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753473547;
+	bh=SEHfoYAYS7TSO9WYmdMXMA3PCP9Gw9vwFqw8aUosFRw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=GUdaBZGmRaQHDllmOrirRXuWqOyfCz/2DWMMe/nSFRXD/dGWp8Z9nIL/h1RCxceXU
+	 C+gfJm0R1XnPkjEvNws9QbvGerXuJGD9Aw2u3SgQD1JLSN/UhxPF1KErNNcd/LjUz3
+	 UTf4QA6u/TNxJfIAJbnOD4dqRwxHO9ic1Gf2/qJFF6ueLTTXtBi/n+zHB6OTKp9GND
+	 72hbkHSKrevMsW1g7mrap+86EXj4QTx5mwUQT0ModfFcEMXEnw58Ou50tOeKTVnKOn
+	 HxUh81GKkzPJVeVUlSwFN50Uytkuqu+mavTsXRVBb1LM+qB6nT9k6sGkCP5GRX46oI
+	 +/QFu5+MlwmTg==
+Date: Fri, 25 Jul 2025 12:59:06 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>
 Cc: Sasha Levin <sashal@kernel.org>, workflows@vger.kernel.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kees@kernel.org,
  konstantin@linuxfoundation.org, corbet@lwn.net, josh@joshtriplett.org
 Subject: Re: [RFC 0/2] Add AI coding assistant configuration to Linux kernel
-Message-ID: <20250725150046.3adb556c@gandalf.local.home>
-In-Reply-To: <20250725114114.3b13e7b1@kernel.org>
+Message-ID: <20250725125906.1db40a7f@kernel.org>
+In-Reply-To: <20250725150046.3adb556c@gandalf.local.home>
 References: <20250725175358.1989323-1-sashal@kernel.org>
 	<20250725114114.3b13e7b1@kernel.org>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	<20250725150046.3adb556c@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -39,33 +46,37 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Stat-Signature: fmz7i37e5pxadctrfciz93yz9bmrq6wr
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: B410420015
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX18fXoPrB/9Dotk+WPCFpST4AQh9ntyhxh4=
-X-HE-Tag: 1753470040-314681
-X-HE-Meta: U2FsdGVkX18fudNanEemXMwTSjOwezHAZdNll4urqq9R10tLVOKpVbTK99ICaX3aHHc8PjXxrahMWwn0J3PBzao7lUwiktJqt4CoCerHr7I9wQ+Ez0vMWqgIKo1XLZBG8IknpPZB/Up6JeWG7zEOiPrGlSQWxD60QLzZUFmqrazuxT3SQgv5Vdox2cEJ/Py7Al5w63AVNKO/yK7J3B5EV9tzCwSWK97ORkpjlGIfHS3R+/2ajqp6nkqeKomt2NMFLtSRqxuhaBw8GvF/9GgKeiu0xNhEJAe30rqD/1mVdoJ5dtDwUyE0kYnWOF+SaxSZ8OqmuXVSfuBCsymGzLN5JnqChjkOAkOt
 
-On Fri, 25 Jul 2025 11:41:14 -0700
-Jakub Kicinski <kuba@kernel.org> wrote:
-
-> On Fri, 25 Jul 2025 13:53:56 -0400 Sasha Levin wrote:
-> > 	Co-developed-by: Claude claude-opus-4-20250514
-> > 	---
-> > 	 Documentation/power/opp.rst | 2 +-
-> > 	 1 file changed, 1 insertion(+), 1 deletion(-)  
+On Fri, 25 Jul 2025 15:00:46 -0400 Steven Rostedt wrote:
+> On Fri, 25 Jul 2025 11:41:14 -0700
+> Jakub Kicinski <kuba@kernel.org> wrote:
+> > On Fri, 25 Jul 2025 13:53:56 -0400 Sasha Levin wrote:  
+> > > 	Co-developed-by: Claude claude-opus-4-20250514
+> > > 	---
+> > > 	 Documentation/power/opp.rst | 2 +-
+> > > 	 1 file changed, 1 insertion(+), 1 deletion(-)    
+> > 
+> > I think we should suggest that the tag is under --- ?
+> > It's only relevant during the review. Once the patch is committed 
+> > whether the code was organic or generated by Corp XYZ's Banana AI
+> > is just free advertising..  
 > 
-> I think we should suggest that the tag is under --- ?
-> It's only relevant during the review. Once the patch is committed 
-> whether the code was organic or generated by Corp XYZ's Banana AI
-> is just free advertising..
+> What's the difference between that and others using their corporate email?
+> I even add (Google) to my SoB to denote who is paying me to do the work.
 
-What's the difference between that and others using their corporate email?
-I even add (Google) to my SoB to denote who is paying me to do the work.
+To be clear, it's not my main point, my main point is that 
+the information is of no proven use right now. As long as
+committer follows the BKP of adding Link: https://patch.msgid.link/...
+we can find the metadata later.
 
-Also, I would argue that it would be useful in the change log as if there's
-a bug in the generated code, you know who or *what* to blame. Especially if
-there is a pattern to be found.
+We never found the need to attach the exact version of smatch / sparse
+/ cocci that found the bug or "wrote" a patch. Let us not overreact to
+the AI tools.
 
--- Steve
+> Also, I would argue that it would be useful in the change log as if there's
+> a bug in the generated code, you know who or *what* to blame. Especially if
+> there is a pattern to be found.
+
+This touches on explainability of AI. Perhaps the metadata would be
+interesting for XAI research... not sure that's enough to be lugging
+those tags in git history.
