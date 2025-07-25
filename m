@@ -1,42 +1,41 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD99BA3D;
-	Fri, 25 Jul 2025 00:55:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631A318BBAE;
+	Fri, 25 Jul 2025 01:06:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753404941; cv=none; b=FZAbRtChTuN36Nyht6ZFbC9Vr1PDQN1zoRG12QWM5qTP1WSNhHfMHDarRzW55s+hBzNp8/iCPSxOal+ZVrNnAu8Pqw9GrqMDnAZpAIG9tk2YbIoB4VIKJfdJbaLF8AEqw3E1zj6cNR7sGy0myFA8XD9uFaoRSk7AvDBnrbuYP5M=
+	t=1753405586; cv=none; b=jmvUzVmjpumVDgdM/6TEYBfHG05OmDZqrMTFbzTvYQoqmUC5nYDmd8/fuwByCx+81mW4o6mQnwhZQgPIPg+TM44PqQ8uovGdTZHm1cJJfuP2FPiglwOZptFjfGT43LZw5Hly1XIsERY4foxtD+ZYmD2ZIur9XaWz1WfzUqxLvs0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753404941; c=relaxed/simple;
-	bh=KvxN5DHjZGSXEwli5Su3Qm7vJiM8XvRrYqw6i3BZUkQ=;
+	s=arc-20240116; t=1753405586; c=relaxed/simple;
+	bh=XRod0fl1x5YkTgo5sRuAN3KnxoLUBTn38asgNRfFLg8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YDJiPLaAfHLD6/K0OTjawtb3wYw6cO8jnvzCB2uX9iQuIY5QE+G9c2M+cbnUZM22Mp5LsJ8NGyoQPORyxpgNrgjaCqjBDrwEhEA2Mp4pqr747mjIhWBYH+g10AuCvd/e9nLga6Mp6YKlyRRYtCeW4TRcz4+Tq2T/P0vjd5wv0Pk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=T9iFiWIa; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=cEAU4oOj/kFf5iOHWBGj8vBlt7lVFGNyt6a/bva+owPad1xiU4VFs7ZJNkAb/OYHRtfaxRv+hNiZyAeE+NTm6bubmvVUxcIEFZdvf5t+ydHwsFum8qi8QbhoP+cuXRy0FzzAYEVw1P6WuQ7UTzXcX8cmogWm1GTtBd663kTm+G8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l9PMn74V; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="T9iFiWIa"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
-	:Subject; bh=StlREuo1scS0BfmCy3StaAeIUyCF5tPTsycVVaKcV94=; b=T9iFiWIagMi1C/Et
-	gM5OuOyS+mMLiTMpLXVy/Qq4acvvgpRuwIiZCX6tEUSHgEeW2JA7f9gIJhOXXYgct4xOPzOhG9d7r
-	FIfobPC6NrE5FHXJLlY4YbnKbQrO94NmDu+HqdjC3oTiOtJNgjuLmsvWczVoY62ziePsTOWjxVOOH
-	UWNUsdlAJDg1Gt0clsjjx/Fpav8+UWOTRQI43YD4Zc76/CmG2mY0jKYc3ALgNCPgkff60OktqBMfH
-	OeSYxHIkpAjRV+DlouvgOtU2CN9CW6soAJ0yaXjGBI8STCqTP5DSXLrXZGkVayFf+jlYPjltBhBxQ
-	NeOQ9dgdYkzISq5rLw==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
-	(envelope-from <dg@treblig.org>)
-	id 1uf6ie-000WVV-0z;
-	Fri, 25 Jul 2025 00:55:28 +0000
-Date: Fri, 25 Jul 2025 00:55:28 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l9PMn74V"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B63AC4CEED;
+	Fri, 25 Jul 2025 01:06:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753405585;
+	bh=XRod0fl1x5YkTgo5sRuAN3KnxoLUBTn38asgNRfFLg8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=l9PMn74VGXda+ufmUKF1tASCMGoOASBy2/J9Wbj2ntkUHcAjkwFIfmC7NxjSo5fcB
+	 Vhe2yZJvVczzXpiU86tyq8s7R1McsbeBeo7MBQwGtBwrHtsWA/85obea/sgqMqVv73
+	 VUxpGDWULHfpMiN2Mhs/pdGc8bt2Cit/y+jSIycpACkJ1JmUl+6c268SA2ILUS6z52
+	 NG+HC0i0O+U8L1ZTge0gqR9W34ENfsKk61SRDUwxhSu0cm/5XqjA32D2f3mBT94+iM
+	 HZJP2QgOaL48OGjM7VWo/D2NzuaB68Si4ECuSalFxivhgXUxg3jMPFt9XxQe6NUVva
+	 EfpMzgIO2pRPQ==
+Date: Thu, 24 Jul 2025 21:06:23 -0400
+From: Sasha Levin <sashal@kernel.org>
 To: Kees Cook <kees@kernel.org>
 Cc: Steven Rostedt <rostedt@goodmis.org>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
 	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
 	corbet@lwn.net, workflows@vger.kernel.org, josh@joshtriplett.org,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [RFC PATCH] docs: submitting-patches: (AI?) Tool disclosure tag
-Message-ID: <aILWAELwozskfIgj@gallifrey>
+Message-ID: <aILYj62tF_1mDjDO@lappy>
 References: <20250724175439.76962-1-linux@treblig.org>
  <20250724-alluring-fuzzy-tanuki-6e8282@lemur>
  <202507241337.F9595E1D@keescook>
@@ -50,53 +49,53 @@ List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
 In-Reply-To: <202507241651.5E9C803C70@keescook>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-34-amd64 (x86_64)
-X-Uptime: 00:53:00 up 88 days,  9:06,  1 user,  load average: 0.00, 0.00, 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
 
-* Kees Cook (kees@kernel.org) wrote:
-> On Thu, Jul 24, 2025 at 07:45:56PM -0400, Steven Rostedt wrote:
-> > My thought is to treat AI as another developer. If a developer helps you
-> > like the AI is helping you, would you give that developer credit for that
-> > work? If so, then you should also give credit to the tooling that's helping
-> > you.
-> > 
-> > I suggested adding a new tag to note any tool that has done non-trivial
-> > work to produce the patch where you give it credit if it has helped you as
-> > much as another developer that you would give credit to.
-> 
-> We've got tags to choose from already in that case:
-> 
-> Suggested-by: LLM
+On Thu, Jul 24, 2025 at 04:54:11PM -0700, Kees Cook wrote:
+>On Thu, Jul 24, 2025 at 07:45:56PM -0400, Steven Rostedt wrote:
+>> My thought is to treat AI as another developer. If a developer helps you
+>> like the AI is helping you, would you give that developer credit for that
+>> work? If so, then you should also give credit to the tooling that's helping
+>> you.
+>>
+>> I suggested adding a new tag to note any tool that has done non-trivial
+>> work to produce the patch where you give it credit if it has helped you as
+>> much as another developer that you would give credit to.
+>
+>We've got tags to choose from already in that case:
+>
+>Suggested-by: LLM
+>
+>or
+>
+>Co-developed-by: LLM <not@human.with.legal.standing>
+>Signed-off-by: LLM <not@human.with.legal.standing>
+>
+>The latter seems ... not good, as it implies DCO SoB from a thing that
+>can't and hasn't acknowledged the DCO.
 
-For me, 'Suggested-by:' seems fine for where an LLM has
-responded to a 'suggest improvements to this function'.
+In my mind, "any tool" would also be something like gcc giving you a
+"non-trivial" error (think something like a buffer overflow warning that
+could have been a security issue).
 
-> or
-> 
-> Co-developed-by: LLM <not@human.with.legal.standing>
-> Signed-off-by: LLM <not@human.with.legal.standing>
-> 
-> The latter seems ... not good, as it implies DCO SoB from a thing that
-> can't and hasn't acknowledged the DCO.
+In that case, should we encode the entire toolchain used for developing
+a patch?
 
-Yeh, the Co-developed-by:  isn't terrible,  but in both that and the
-Suggested-by: is there a standard for how you would refer to the tool?
-IMHO it should not have an email address there otherwise it'll confuse tools 
-into cc'ing them.
+Maybe...
 
-Dave
+Some sort of semi-standardized shorthand notation of the tooling used to
+develop a patch could be interesting not just for plain disclosure, but
+also to be able to trace back issues with patches ("oh! the author
+didn't see a warning because they use gcc 13 while the warning was added
+in gcc 14!").
 
-> 
-> -- 
-> Kees Cook
-> 
+Signed-off-by: John Doe <jd@example.com> # gcc:14.1;ccache:1.2;sparse:4.7;claude-code:0.5
+
+This way some of it could be automated via git hooks and we can recommend
+a relevant string to add with checkpatch.
+
 -- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+Thanks,
+Sasha
