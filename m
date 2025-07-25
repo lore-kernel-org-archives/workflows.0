@@ -1,189 +1,51 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40684238C3A;
-	Fri, 25 Jul 2025 11:49:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E0BE2ED85A;
+	Fri, 25 Jul 2025 15:00:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753444154; cv=none; b=V0G5Ag+vFHmD3wGgOoHl4tGNJpST/Y6BRR73NODas91ZrqucKiCUsYH5yCno6QGkuZATSuk6nJ6T2J18HkSHRje1og+jhRfutQzcKZ+Ejgz4tj4B3/n5vERYfyAyLkS9nZxpRelXLH2b05wUhP+xc+n9dPAU/w5lwIaYvVu/SO8=
+	t=1753455624; cv=none; b=al0hml4vL8Lg+pPA3aLffO7FolstzaSBlJ2pwqQCXCMFlDs4XguxKB6u0d1Aldf0UA5C4LHu2UMmpr1239uj24m2JQIEwUXd85AJoIG+b2LsWWgzZ+72meypJmPJEjn5nFKz1l9kg0ICNDAVOR9oZ2NJTmeVz/15BmXikRwZ08Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753444154; c=relaxed/simple;
-	bh=D2ivzNJuaDVX9C5eOi3hZ8Kr8x1lFAqdeFEb9V6jXtY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fWGojjQ7Q/esCltwXVW3XZbhaxYKJLG6FW5jF3tvi+flXHwxIvyz7OHUApP93XI+w8rANL2pNvt0qeoOYNul+JGcJ2Pb1bgqPzKhOmD25xOaCp8Cg2+7xnU/uk5Kmme/m3quP75QqM71A9BmRBOHNZ6Oj1D9ac1bO7y9RSOFSes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=C1fRJ6sf; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	s=arc-20240116; t=1753455624; c=relaxed/simple;
+	bh=ddruXDerdALydeB5uaYdZPQX0TkNkBLMTVvS4Le1FOk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=iNi1shh1j38TlgmurGvUCXD4U6vK4yMKoSKgwmddmI6jCrmSRbqzSPIjgmOum/G4YME6SSwDuz3vdmMOH0VC0XlmOJomBPQdZJlVIYrZTIEyFCat05Jm9m81GhOfteBrmdCXYDpnI1nQlGx71+3r2gyjpha/zA2Ae1L6hkPWgQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WEeIP7Dt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="C1fRJ6sf"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
-	:Subject; bh=k0dqcf75EGGfL16WYYDaJ5XQjo4w6DRgcCALzNEwqmA=; b=C1fRJ6sfMTLwadKH
-	G2f1zfqX776s+ng43cehav+bn/Ahf7/TDy+X/6yUI9qDyo+tlfficejHX+Zry9RX4/jgTHuasBdya
-	A1ALDi7d77B9cq6NZs8PcAzHOnNg8CLxcxBZCIwqw6QmK6tFkYZv+mbvHaC0D5mK16+KKcvrkR+Q8
-	MQoHqNRuiuvVfN9WBP6GrN8QhAT8Wlh1qUjsO6wv1F+ItgzisoL6wicSclpKLYfo2JdJlnzx523L8
-	FY7fzfNf+0yNk3dAGrrX827Epb7p7urWEERkQ5s2m+9aEXI1nsmi+uVNDNJxuUx1CXde68xI1VVIc
-	JgpVThDzOStKvArTlA==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
-	(envelope-from <dg@treblig.org>)
-	id 1ufGv8-000baf-2h;
-	Fri, 25 Jul 2025 11:49:02 +0000
-Date: Fri, 25 Jul 2025 11:49:02 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sasha Levin <sashal@kernel.org>, Kees Cook <kees@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-	corbet@lwn.net, workflows@vger.kernel.org, josh@joshtriplett.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] docs: submitting-patches: (AI?) Tool disclosure tag
-Message-ID: <aINvLgwaKZsKOibE@gallifrey>
-References: <202507241337.F9595E1D@keescook>
- <aIKhvubVqgeXIlrj@gallifrey>
- <202507241418.34AFD28C@keescook>
- <20250724194556.105803db@gandalf.local.home>
- <202507241651.5E9C803C70@keescook>
- <aILYj62tF_1mDjDO@lappy>
- <aILb-zDiDr4b9u9S@gallifrey>
- <aILjTKk_v8NPxlVJ@lappy>
- <aINqjTAwbQ_xnAw6@gallifrey>
- <20250725113702.GD11202@pendragon.ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WEeIP7Dt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF675C4CEEB;
+	Fri, 25 Jul 2025 15:00:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753455624;
+	bh=ddruXDerdALydeB5uaYdZPQX0TkNkBLMTVvS4Le1FOk=;
+	h=Date:From:To:Cc:Subject:From;
+	b=WEeIP7DtSKVaOuVOdmP1lhXEXKiIoDt7W5DivcrwWB/6Z4Tm8nti1hoQAb/cfRRgE
+	 dBTTLnCk0yinnBIesNCZ1a8x22tJiK48EHFtu+GXy8FKQ8zZNRLadtrmyofGtYKnfj
+	 jK713gYYUM+obHDAk5dvcwxbsjJui+WrdgtXfDB3kAT0Ief9a7ObWi135qAKPwo2V6
+	 14EkIVjBoNhd2C+UenepEzdbCOU5bpOd6vnBIXguWurZ4RznchVJGPbrmjBexSy+HF
+	 +LJsuTXER+UK54qs0qBwO1BjfAK0t+sEYYbpPtrMrMLiNW7n7t45RxilaXCZMaiv6L
+	 979cOr3JiTecg==
+Date: Fri, 25 Jul 2025 08:00:23 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+Cc: Paolo Abeni <pabeni@redhat.com>
+Subject: Crediting test authors
+Message-ID: <20250725080023.6425488c@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <20250725113702.GD11202@pendragon.ideasonboard.com>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-34-amd64 (x86_64)
-X-Uptime: 11:42:35 up 88 days, 19:56,  1 user,  load average: 0.00, 0.00, 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-* Laurent Pinchart (laurent.pinchart@ideasonboard.com) wrote:
-> On Fri, Jul 25, 2025 at 11:29:17AM +0000, Dr. David Alan Gilbert wrote:
-> > * Sasha Levin (sashal@kernel.org) wrote:
-> > > On Fri, Jul 25, 2025 at 01:20:59AM +0000, Dr. David Alan Gilbert wrote:
-> > > > * Sasha Levin (sashal@kernel.org) wrote:
-> > > > > On Thu, Jul 24, 2025 at 04:54:11PM -0700, Kees Cook wrote:
-> > > > > > On Thu, Jul 24, 2025 at 07:45:56PM -0400, Steven Rostedt wrote:
-> > > > > > > My thought is to treat AI as another developer. If a developer helps you
-> > > > > > > like the AI is helping you, would you give that developer credit for that
-> > > > > > > work? If so, then you should also give credit to the tooling that's helping
-> > > > > > > you.
-> > > > > > >
-> > > > > > > I suggested adding a new tag to note any tool that has done non-trivial
-> > > > > > > work to produce the patch where you give it credit if it has helped you as
-> > > > > > > much as another developer that you would give credit to.
-> > > > > >
-> > > > > > We've got tags to choose from already in that case:
-> > > > > >
-> > > > > > Suggested-by: LLM
-> > > > > >
-> > > > > > or
-> > > > > >
-> > > > > > Co-developed-by: LLM <not@human.with.legal.standing>
-> > > > > > Signed-off-by: LLM <not@human.with.legal.standing>
-> > > > > >
-> > > > > > The latter seems ... not good, as it implies DCO SoB from a thing that
-> > > > > > can't and hasn't acknowledged the DCO.
-> > > > > 
-> > > > > In my mind, "any tool" would also be something like gcc giving you a
-> > > > > "non-trivial" error (think something like a buffer overflow warning that
-> > > > > could have been a security issue).
-> > > > > 
-> > > > > In that case, should we encode the entire toolchain used for developing
-> > > > > a patch?
-> > > > > 
-> > > > > Maybe...
-> > > > > 
-> > > > > Some sort of semi-standardized shorthand notation of the tooling used to
-> > > > > develop a patch could be interesting not just for plain disclosure, but
-> > > > > also to be able to trace back issues with patches ("oh! the author
-> > > > > didn't see a warning because they use gcc 13 while the warning was added
-> > > > > in gcc 14!").
-> > > > > 
-> > > > > Signed-off-by: John Doe <jd@example.com> # gcc:14.1;ccache:1.2;sparse:4.7;claude-code:0.5
-> > > > > 
-> > > > > This way some of it could be automated via git hooks and we can recommend
-> > > > > a relevant string to add with checkpatch.
-> > > > 
-> > > > For me there are two separate things:
-> > > >  a) A tool that found a problem
-> > > >  b) A tool that wrote a piece of code.
-> > > > 
-> > > > I think the cases you're referring to are all (a), where as I'm mostly
-> > > > thinking here about (b).
-> > > > In the case of (a) it's normally _one_ of those tools that found it,
-> > > > e.g. I see some:
-> > > >   Found by gcc -fanalyzer
-> > > 
-> > > I think that the line between (a) and (b) gets very blurry very fast, so
-> > > I'd rather stay out of trying to define it.
-> > > 
-> > > Running "cargo clippy" on some code might generate a warning as follows:
-> > > 
-> > > warning: variables can be used directly in the `format!` string
-> > >   --> dyad/src/kernel/sha_processing.rs:20:13
-> > >    |
-> > > 20 |             debug!("git sha {} could not be validated, attempting a second way...", git_sha);
-> > >    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > >    |
-> > >    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#uninlined_format_args
-> > >    = note: `#[warn(clippy::uninlined_format_args)]` on by default
-> > > help: change this to
-> > >    |
-> > > 20 -             debug!("git sha {} could not be validated, attempting a second way...", git_sha);
-> > > 20 +             debug!("git sha {git_sha} could not be validated, attempting a second way...");
-> > > 
-> > > As you see, it proposes a fix at the bottom. Should I attribute "cargo
-> > > clippy" in my commit message as it wrote some code?
-> > > 
-> > > Would your answer change if I run "cargo clippy --fix" which would
-> > > automatically apply the fix on it's own?
-> > > 
-> > > We'll be hitting these issues all over the place if we try and draw a
-> > > line... For example, with more advances autocompletion: where would you
-> > > draw the line between completing variable names and writing an entire
-> > > function based on a comment I've made?
-> > 
-> > Fuzzy isn't it!
-> > 
-> > There's at least 3 levels as I see it:
-> >   1) Reported-by:
-> >     That's a lot of tools, that generate an error or warning.
-> >   2) Suggested-by:
-> >     That covers your example above (hmm including --fix ????)
-> >   3) Co-authored-by:
-> >     Where a tool wrote code based on your more abstract instructions
-> > 
-> > (1) & (2) are taking some existing code and finding errors or light
-> > improvements;  I don't think it matters whether the tool is a good
-> > old chunk of C or an LLM that's doing it, but how much it's originating.
-> 
-> Except from a copyright point of view. The situation is quite clear for
-> deterministic code generation, it's less so for LLMs.
+Hi!
 
-As long as you'd acknowledged the use of the LLM in all cases, it seems to
-me right to say to what degree you use it (i.e. the 1..3) above.
-I think even most people worried about copright issues would worry
-less if an LLM had just told you about a problem (1) and you fixed it.
-(Although obviously IANAL)
+Does anyone have ideas about crediting test authors or tests for bugs
+discovered?  We increasingly see situations where someone adds a test
+then our subsystem CI uncovers a (1 in a 100 runs) bug using that test.
 
-Dave
-
-> > (Now I'm leaning more towards Kees's style of using existing tags
-> > if we could define a way to do it cleanly).
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> 
--- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+Using reported-by doesn't feel right. But credit should go to the
+person who wrote the test. Is anyone else having this dilemma?
