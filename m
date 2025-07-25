@@ -1,46 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B5C4A3C;
-	Fri, 25 Jul 2025 22:28:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31478248C;
+	Fri, 25 Jul 2025 22:40:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753482500; cv=none; b=MVatbKEhBRNCWWRXhjToShUamONVRqfQMUJLV/HUrg7sKsyAxTA8CYo3x6sSl0cROzpRIBih1kddqsp0og6RmdJB5c/wggxAILUKyZ3+TO/f/+aR4J4MaT+SuUch7OQxSF+OmEu3+Vhw8ss4ZcyXaGbZov2WLLzWE9zpUW91EbE=
+	t=1753483215; cv=none; b=EXp3rDpB4ntP/+lrqwtu+vqFjsDdkbHB74/Fpm/5jOglMo85nzIo0wEWAbhtNmT3cZmUPbdqvdwT+mNmkH/jufwLnVApS5nHBrJ9X8af46SFMuh4+nC3xkpWQIo0xitfWU9HZjNd9Pr5/bfz/A+xFfaHjiHgeqmbb7lGXDqhD+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753482500; c=relaxed/simple;
-	bh=IA/3Rq/lSRQOIAbyCx490JQ2nR5mykmx1PNVdvpm3YE=;
+	s=arc-20240116; t=1753483215; c=relaxed/simple;
+	bh=O+fK2dv6CyWJ8Rnub9DUVEpnBGD3XCj7Bnp/APJN8t0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hyjzoNRl2sz1Gl0RkeqiaX2HWXEHOf0oeEJsK4KR0dU0KUACl7VOsknlvgbo7WFUAboK7um+byp6wb0arXtqnqxKTLrAO5P7Zas5/CN33057EB9/Z2LtxAO5oiICCtPrEd75aVMKvfCWO4CDn2idPsWr1vk5KwT7YFpS8L5RIGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=phPiCYiE; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wxq1abfoN4PYJS3PiH9lc8tYLtguXHitxnvY0Nn8Nnmk0Di1Gfi6forK/zexxtx0g9kueRxkVAjs8d7FA9RtDoMuJjnB9wBDldaQMElxXb8ksY9NtjqUqryskHx6u4KAIuKJGvtxWYX4FTMOVINuXMc4f8LeowT2WqQ0xtxv+sA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=as0IwcM6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="phPiCYiE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F479C4CEE7;
-	Fri, 25 Jul 2025 22:28:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="as0IwcM6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32EF7C4CEE7;
+	Fri, 25 Jul 2025 22:40:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753482497;
-	bh=IA/3Rq/lSRQOIAbyCx490JQ2nR5mykmx1PNVdvpm3YE=;
+	s=k20201202; t=1753483215;
+	bh=O+fK2dv6CyWJ8Rnub9DUVEpnBGD3XCj7Bnp/APJN8t0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=phPiCYiEjwPtja53/yXoBS4mduXjOJx8hils6W/D7BjugYsE9rwrPaO6w+0QNpox4
-	 DnBYTipdalJCfft1DmElQKAzQl65t9rfVm3r2FHQlm/2oehAeiz2VBy+MlPKuyfhqw
-	 70SYpcd3C3RQZ/FepwHu5/IqQ2AJUkju7piYcseo+w8ugnVKJIjo31eOwH3i4kCKei
-	 W6xnHWj7XYykUEkZq7To61Xcd+l9Sis4xBNGoEgJQouDvLkUuu/aIGrFxCJQ6wt3ol
-	 I1RSqksnEGK0LeT7dEp2gspKN8raK+9+NjJUAYMZrDQc3ONz1v+XuyhJEnUT5vioeq
-	 RCswNWQAUBcCw==
-Date: Fri, 25 Jul 2025 18:28:10 -0400
+	b=as0IwcM6n/PoVrGFty+1x/U/xl7TSv1MnxmTUkdBswkI9ItvNOdEQL1jHa17OSV8D
+	 AwW0xlzBGaNmGkX3fALuNr5R9qHnb9pIQdqg4ERM71Crh93YEbMAb92S+fpiN8EtN1
+	 rjRMRX6LgirH4sO2JdGW1l/lmqnUMqfjD+GzpkY0CmjcMAhspSjtirHB4DzmiCBcn4
+	 5QKgrlkmnu6/MF+oS7gMhxeEjAkNpvObwVjpsPnPE+Lrte+JM8xdJZPRgkl9vTDhcu
+	 WrlVDxqOQWJDoNr02BDP5S7+dohmAPr8RhqgwgRZbJ8TgHLyxqCMoSnlP+y033KbqP
+	 384S5bNeOeSFQ==
+Date: Fri, 25 Jul 2025 18:40:13 -0400
 From: Sasha Levin <sashal@kernel.org>
-To: dan.j.williams@intel.com
-Cc: Jakub Kicinski <kuba@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kees@kernel.org,
-	konstantin@linuxfoundation.org, corbet@lwn.net,
-	josh@joshtriplett.org
-Subject: Re: [RFC 0/2] Add AI coding assistant configuration to Linux kernel
-Message-ID: <aIQE-hkg5ehHaSZi@lappy>
-References: <20250725175358.1989323-1-sashal@kernel.org>
- <20250725114114.3b13e7b1@kernel.org>
- <20250725150046.3adb556c@gandalf.local.home>
- <20250725125906.1db40a7f@kernel.org>
- <6883ea58b5685_134cc71006e@dwillia2-xfh.jf.intel.com.notmuch>
+To: "Dr. David Alan Gilbert" <linux@treblig.org>
+Cc: Kees Cook <kees@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	corbet@lwn.net, workflows@vger.kernel.org, josh@joshtriplett.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] docs: submitting-patches: (AI?) Tool disclosure tag
+Message-ID: <aIQHzWOkWYCGX4Xg@lappy>
+References: <20250724-alluring-fuzzy-tanuki-6e8282@lemur>
+ <202507241337.F9595E1D@keescook>
+ <aIKhvubVqgeXIlrj@gallifrey>
+ <202507241418.34AFD28C@keescook>
+ <20250724194556.105803db@gandalf.local.home>
+ <202507241651.5E9C803C70@keescook>
+ <aILYj62tF_1mDjDO@lappy>
+ <aILb-zDiDr4b9u9S@gallifrey>
+ <aILjTKk_v8NPxlVJ@lappy>
+ <aINqjTAwbQ_xnAw6@gallifrey>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -49,36 +53,119 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <6883ea58b5685_134cc71006e@dwillia2-xfh.jf.intel.com.notmuch>
+In-Reply-To: <aINqjTAwbQ_xnAw6@gallifrey>
 
-On Fri, Jul 25, 2025 at 01:34:32PM -0700, dan.j.williams@intel.com wrote:
->Jakub Kicinski wrote:
->[..]
->> To be clear, it's not my main point, my main point is that
->> the information is of no proven use right now. As long as
->> committer follows the BKP of adding Link: https://patch.msgid.link/...
->> we can find the metadata later.
+On Fri, Jul 25, 2025 at 11:29:17AM +0000, Dr. David Alan Gilbert wrote:
+>* Sasha Levin (sashal@kernel.org) wrote:
+>> On Fri, Jul 25, 2025 at 01:20:59AM +0000, Dr. David Alan Gilbert wrote:
+>> > * Sasha Levin (sashal@kernel.org) wrote:
+>> > > On Thu, Jul 24, 2025 at 04:54:11PM -0700, Kees Cook wrote:
+>> > > > On Thu, Jul 24, 2025 at 07:45:56PM -0400, Steven Rostedt wrote:
+>> > > > > My thought is to treat AI as another developer. If a developer helps you
+>> > > > > like the AI is helping you, would you give that developer credit for that
+>> > > > > work? If so, then you should also give credit to the tooling that's helping
+>> > > > > you.
+>> > > > >
+>> > > > > I suggested adding a new tag to note any tool that has done non-trivial
+>> > > > > work to produce the patch where you give it credit if it has helped you as
+>> > > > > much as another developer that you would give credit to.
+>> > > >
+>> > > > We've got tags to choose from already in that case:
+>> > > >
+>> > > > Suggested-by: LLM
+>> > > >
+>> > > > or
+>> > > >
+>> > > > Co-developed-by: LLM <not@human.with.legal.standing>
+>> > > > Signed-off-by: LLM <not@human.with.legal.standing>
+>> > > >
+>> > > > The latter seems ... not good, as it implies DCO SoB from a thing that
+>> > > > can't and hasn't acknowledged the DCO.
+>> > >
+>> > > In my mind, "any tool" would also be something like gcc giving you a
+>> > > "non-trivial" error (think something like a buffer overflow warning that
+>> > > could have been a security issue).
+>> > >
+>> > > In that case, should we encode the entire toolchain used for developing
+>> > > a patch?
+>> > >
+>> > > Maybe...
+>> > >
+>> > > Some sort of semi-standardized shorthand notation of the tooling used to
+>> > > develop a patch could be interesting not just for plain disclosure, but
+>> > > also to be able to trace back issues with patches ("oh! the author
+>> > > didn't see a warning because they use gcc 13 while the warning was added
+>> > > in gcc 14!").
+>> > >
+>> > > Signed-off-by: John Doe <jd@example.com> # gcc:14.1;ccache:1.2;sparse:4.7;claude-code:0.5
+>> > >
+>> > > This way some of it could be automated via git hooks and we can recommend
+>> > > a relevant string to add with checkpatch.
+>> >
+>> > For me there are two separate things:
+>> >  a) A tool that found a problem
+>> >  b) A tool that wrote a piece of code.
+>> >
+>> > I think the cases you're referring to are all (a), where as I'm mostly
+>> > thinking here about (b).
+>> > In the case of (a) it's normally _one_ of those tools that found it,
+>> > e.g. I see some:
+>> >   Found by gcc -fanalyzer
 >>
->> We never found the need to attach the exact version of smatch / sparse
->> / cocci that found the bug or "wrote" a patch. Let us not overreact to
->> the AI tools.
+>> I think that the line between (a) and (b) gets very blurry very fast, so
+>> I'd rather stay out of trying to define it.
 >>
->> > Also, I would argue that it would be useful in the change log as if there's
->> > a bug in the generated code, you know who or *what* to blame. Especially if
->> > there is a pattern to be found.
+>> Running "cargo clippy" on some code might generate a warning as follows:
 >>
->> This touches on explainability of AI. Perhaps the metadata would be
->> interesting for XAI research... not sure that's enough to be lugging
->> those tags in git history.
+>> warning: variables can be used directly in the `format!` string
+>>   --> dyad/src/kernel/sha_processing.rs:20:13
+>>    |
+>> 20 |             debug!("git sha {} could not be validated, attempting a second way...", git_sha);
+>>    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>>    |
+>>    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#uninlined_format_args
+>>    = note: `#[warn(clippy::uninlined_format_args)]` on by default
+>> help: change this to
+>>    |
+>> 20 -             debug!("git sha {} could not be validated, attempting a second way...", git_sha);
+>> 20 +             debug!("git sha {git_sha} could not be validated, attempting a second way...");
+>>
+>> As you see, it proposes a fix at the bottom. Should I attribute "cargo
+>> clippy" in my commit message as it wrote some code?
+>>
+>> Would your answer change if I run "cargo clippy --fix" which would
+>> automatically apply the fix on it's own?
+>>
+>> We'll be hitting these issues all over the place if we try and draw a
+>> line... For example, with more advances autocompletion: where would you
+>> draw the line between completing variable names and writing an entire
+>> function based on a comment I've made?
 >
->Agree. The "who to blame" is "Author:". They signed DCO they are
->responsible for debugging what went wrong in any stage of the
->development of a patch per usual. We have a long history of debugging
->tool problems without tracking tool versions in git history.
+>Fuzzy isn't it!
+>
+>There's at least 3 levels as I see it:
+>  1) Reported-by:
+>    That's a lot of tools, that generate an error or warning.
+>  2) Suggested-by:
+>    That covers your example above (hmm including --fix ????)
+>  3) Co-authored-by:
+>    Where a tool wrote code based on your more abstract instructions
+>
+>(1) & (2) are taking some existing code and finding errors or light
+>improvements;  I don't think it matters whether the tool is a good
+>old chunk of C or an LLM that's doing it, but how much it's originating.
 
-And it would be great to avoid the potential "it wasn't me, it was the
-AI!" or "whoops I don't know how that exploitable issue ended up in my
-patch, must have been the AI".
+So let's say I'm using github copilot, and I go:
+
+	/* Iterate over pointers in KEY_TYPE_extent: */
+	#define extent_ptr_next(_e, _ptr) <tab> <tab>
+
+and copilot completes the code with "__bkey_ptr_next(_ptr, extent_entry_last(_e))".
+
+Was my instruction abstract? Was it within the realm of something we
+consider a trivial change, or should we attribute the agent? :)
+
+Why tackle any of this to begin with?
 
 -- 
 Thanks,
