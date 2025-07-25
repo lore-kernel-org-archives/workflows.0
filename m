@@ -1,82 +1,96 @@
-Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282ED846F;
-	Fri, 25 Jul 2025 02:02:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C4BB3A8F7;
+	Fri, 25 Jul 2025 02:39:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753408965; cv=none; b=ojKEYOTNNEt3enQBlDkLfNXr63MFrXQCGzFabjx/cFreziKr9ljkYoxxS+EYAiswACDWpdESupS2CiD9jt+SnstStgimEgfKVnT72mtzlaJFqTmH+GXk3CJJwLaQl91Ka4RCeezslymFM+p6G3LqxwbXALLdQW+JrhZn6cVXxBI=
+	t=1753411185; cv=none; b=NdX+OoqBrRhfg5LBOafPyT2cDW0R6+qr4KOk6KPCJ6ZyEjnaO/sQ0oQq7CytE/MN6jN3CodPgM7c7irsjB1+Njy7FmM5nOrJWHaE5uxqYbphasTWpsXIW2LlJn2KhDmflWgan9Sfx3S3GN7MPJBQJq+hzUa6+t3xnEHLZbLd1Bo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753408965; c=relaxed/simple;
-	bh=3cRKfrXsa9jaPJsgqsVdoZOsC1n6LemlOno3OpcailA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ephnkiSwdtfjUkKwiefh46d9f765yXMou+9qIMUrrthGSEAYvpO8xVcqP+FiyYuyhUg7bnN6XSyl8+mOp8MD2DawXrjHL8So+PFltlqPma1dotov7xNw78a9+iIq6BvhiyhGsalv65BbFMtO+GxpY7ltWhn0cw4OgRw86Yw3qE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf11.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay10.hostedemail.com (Postfix) with ESMTP id 6FC18C05B7;
-	Fri, 25 Jul 2025 02:02:40 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf11.hostedemail.com (Postfix) with ESMTPA id 4C33420029;
-	Fri, 25 Jul 2025 02:02:38 +0000 (UTC)
-Date: Thu, 24 Jul 2025 22:02:41 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: "Dr. David Alan Gilbert" <linux@treblig.org>, Kees Cook
- <kees@kernel.org>, Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- corbet@lwn.net, workflows@vger.kernel.org, josh@joshtriplett.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+	s=arc-20240116; t=1753411185; c=relaxed/simple;
+	bh=Ow3KMkXlS1cfsNBNVW27FA6tZxf1vHi8wn/vQ24Yy2Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UAUxYxZDYbLANXZPKwFnHnmagIbuU5z1dEy2aviDbpnB2Qfd8inwimbmlADrvFvKXjeuosDXCYGRoCByPj5oXovTIRVEeZZrgDH7RlTiSGf88k+cOVLFyf/P6O0QHQ5ZFM0e6tm/B7CyPqowstQbY7RjuvTACNXENQ42rz8tnQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UGB7kjpM; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UGB7kjpM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E778C4CEED;
+	Fri, 25 Jul 2025 02:39:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753411183;
+	bh=Ow3KMkXlS1cfsNBNVW27FA6tZxf1vHi8wn/vQ24Yy2Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UGB7kjpMtTrnJmR1Gy7RDi4tAvvYOh9XZt9Q7lLsa1ziTie/R7yUrIhdNPJ9+01zA
+	 GQBb3ATO4KASaCiivQdXKXK5HPwre9Um3r2GEO+4Dc41KXboaq0o7cfahTLAhG46C9
+	 +n+/K5QCOHkE/vvJkh/juLqe0QXKQLxxjsbiiDrj6W9neh7EmKuR42v0EVarCNeNIW
+	 7pMzDDq3BKhOojce8qD7AeHtpdg3i61RuZwS0nizjwjARDfgXfQgMrPZE6PFF5JmQe
+	 gyRYgdYdhiVDCUqxvaS/OyGP8rRTAk87YLC6boN32KTQWFCXjgoE37NYcGaAvGo3S3
+	 i5x3nomtYMZJA==
+Date: Thu, 24 Jul 2025 22:39:41 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: "Dr. David Alan Gilbert" <linux@treblig.org>,
+	Kees Cook <kees@kernel.org>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	corbet@lwn.net, workflows@vger.kernel.org, josh@joshtriplett.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [RFC PATCH] docs: submitting-patches: (AI?) Tool disclosure tag
-Message-ID: <20250724220241.21b5d5f8@gandalf.local.home>
-In-Reply-To: <aILjTKk_v8NPxlVJ@lappy>
-References: <20250724175439.76962-1-linux@treblig.org>
-	<20250724-alluring-fuzzy-tanuki-6e8282@lemur>
-	<202507241337.F9595E1D@keescook>
-	<aIKhvubVqgeXIlrj@gallifrey>
-	<202507241418.34AFD28C@keescook>
-	<20250724194556.105803db@gandalf.local.home>
-	<202507241651.5E9C803C70@keescook>
-	<aILYj62tF_1mDjDO@lappy>
-	<aILb-zDiDr4b9u9S@gallifrey>
-	<aILjTKk_v8NPxlVJ@lappy>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Message-ID: <aILubaRfgKCHBzPH@lappy>
+References: <20250724-alluring-fuzzy-tanuki-6e8282@lemur>
+ <202507241337.F9595E1D@keescook>
+ <aIKhvubVqgeXIlrj@gallifrey>
+ <202507241418.34AFD28C@keescook>
+ <20250724194556.105803db@gandalf.local.home>
+ <202507241651.5E9C803C70@keescook>
+ <aILYj62tF_1mDjDO@lappy>
+ <aILb-zDiDr4b9u9S@gallifrey>
+ <aILjTKk_v8NPxlVJ@lappy>
+ <20250724220241.21b5d5f8@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: 9mibxyub3yw64j91cdk7wjis55kugoxr
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: 4C33420029
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1/oiVXXCzn6/1YhEPT1jSKAJ3g0h9XWi/U=
-X-HE-Tag: 1753408958-551538
-X-HE-Meta: U2FsdGVkX18J859E8qHyoBgkeko0UrnjHCIKccztKYdtWljsiswuGtbPupmMjUd06wR1KqAJEyXsp6NcKcCJaoaQuqdUQpkGVgKegJC8jFtnuvcSYz4mZWn81yRbExzwAj9d0znw6AU+hhKI58UoHNT8kfwn9RaIeufh4oAFdWkQJ14e7VlggnVkshrTXJTqcd54e2gABZDDx0oZxEs+c5WGjT03RDhN0s2XsrILBlrVBIxu+XtAy/xfa+gV9B6/hvEKc0pq3wk26YPPD1pLRYzUmXcz9puf6anGjfwiSxsmHBli/71m8DYui7op/fGF5S/6zfIoka41gjK4MhezhG08t8bkjQCr
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20250724220241.21b5d5f8@gandalf.local.home>
 
-On Thu, 24 Jul 2025 21:52:12 -0400
-Sasha Levin <sashal@kernel.org> wrote:
+On Thu, Jul 24, 2025 at 10:02:41PM -0400, Steven Rostedt wrote:
+>On Thu, 24 Jul 2025 21:52:12 -0400
+>Sasha Levin <sashal@kernel.org> wrote:
+>
+>> We'll be hitting these issues all over the place if we try and draw a
+>> line... For example, with more advances autocompletion: where would you
+>> draw the line between completing variable names and writing an entire
+>> function based on a comment I've made?
+>
+>It's not much different than the "copyright" issue. How much code do I have
+>to copy before I start infringing on someone's copyright?
+>
+>But if you start using tooling to come up with algorithms that you would
+>not think of on your own, then you definitely should document it.
+>
+>Heck, I do it now even for algorithms I get from a book. I'll credit Knuth
+>on stuff all the time. Same should happen if you get something from AI.
+>
+>It's one thing if it finds a bug or formatting issue, it's something
+>completely different if it starts coming up with the algorithms for you.
+>
+>And even if it is trivial, if you had it do most of the work, you most
+>definitely should disclose it.
 
-> We'll be hitting these issues all over the place if we try and draw a
-> line... For example, with more advances autocompletion: where would you
-> draw the line between completing variable names and writing an entire
-> function based on a comment I've made?
+Steve, I'm advocating for disclosing more, not less :)
 
-It's not much different than the "copyright" issue. How much code do I have
-to copy before I start infringing on someone's copyright?
+I think that if we try to draw a line, we have no way of doing it
+without it being vague and blurry (and quickly become outdated as tech
+around us keeps moving).
 
-But if you start using tooling to come up with algorithms that you would
-not think of on your own, then you definitely should document it.
+Adding metadata for the relevant toolchain bits (let them be the
+compiler I use, the kernel-specific tooling I ran on the patch, or the
+LLM that was used to generate code) has benefits beyond just LLM
+disclosure.
 
-Heck, I do it now even for algorithms I get from a book. I'll credit Knuth
-on stuff all the time. Same should happen if you get something from AI.
-
-It's one thing if it finds a bug or formatting issue, it's something
-completely different if it starts coming up with the algorithms for you.
-
-And even if it is trivial, if you had it do most of the work, you most
-definitely should disclose it.
-
--- Steve
+-- 
+Thanks,
+Sasha
