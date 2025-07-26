@@ -1,196 +1,117 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D35F257AF9;
-	Fri, 25 Jul 2025 23:29:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86413204598
+	for <workflows@vger.kernel.org>; Sat, 26 Jul 2025 07:34:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753486169; cv=none; b=sdFn/5PuK9IYgrfDkW1JJaGARVeyvDoWnoSHKK/f5IeY6prk04Jk1tyeVoUi6X8lUngTlrEHscUBtBHhF6WEh6q43YrRCJW5tY8gQcY+90GwMwrOOu60ffQEAKnUox/KgjXm0RW054DdNVRQSFqyLr6HjorOaR2vYVuyT7k+NKE=
+	t=1753515287; cv=none; b=uc7/sSh0XiPu5VJR2ayKcFm/o4wE8OMjnEZqYK3MX/iNZZp8Tb6VKiqClQjacxrs4GALHLDQvgCz3hOnvtW4+7gXYigTKgUHYq59HzPWeurvB5ljkv8egPYOw+MqwfKa2XY57MTzhPYJ8e6mrAZ5gYaUl3dkJMal3MfpYkfSU1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753486169; c=relaxed/simple;
-	bh=R5l3oFGTLukSK9sw1k0scbzU39GzzcxcQt3mDJLyyV8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ASBlYF40ry6Dz4dYhM7ZKwZqEFOkjzTBHDXhtUddv8PIBzatCXcDfwsXF7tAsmtRtW3cJR891Y0drMwE0P+x1ANezniHKdyXwoYJ+ku7qp0JP0+s8MTUAURHbkVZ+IzZ3Fq1xYj88lEhdm6xz9/zYOiT665Tv0V6dQsTige8yOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=avQz/70D; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	s=arc-20240116; t=1753515287; c=relaxed/simple;
+	bh=FMNmStjOUWVtt7cOwV8Qlv+tumSg3tiV3l++SO5dGx4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nTJSoZJIPBfMVLhbceo/bjC1bsVqfCzHyosIjeaerzLmTdOcX+uLu9+iwBVqzUoN53wdKV6vnQAWr3kQC9P25SQ8+kYCEYTXWu32lcBkx/Hu6wzuFryAhGRU65tJj7DGfe2XZzTA3Raa9fBf68HlItvdk0/mOyLlYWaYMochayc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be; spf=fail smtp.mailfrom=hammernet.be; dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b=khI36g8W; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=hammernet.be
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="avQz/70D"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
-	:Subject; bh=7/6Mvp/HmKwTR0veXV11IQkg7Afl723Mtblk3lghe6k=; b=avQz/70DpiVW9trH
-	uABTdYfxwBkb/GrXfruN1zoWHOwIydZIZ+34tP8SsUCYarCTAxaTKfcuWkebZQoHyhGhpy04SB229
-	VNUw/LI3bWVEFOYNl0rap4fytrbwEqY6pipIStcPnbYQ+orJPFUqpx5iPx9hqCNRXLXiR8GF9dpqX
-	es0zizv6jd9vCMyoSW6ay/fB1xRrevIpvZXiDBvqx9z8fVWOM98egkSwEc38B5J3Sa/j9utJTK3rz
-	3J8NDKxMc0OGQ0JkVl9ShCqaEA1t4Qm8sPus7dqkDp8HuDbmyeoBvN/Sj6o/MKIUEgik1DHZQUjRW
-	YDeebWfsbvAZ5atcdQ==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
-	(envelope-from <dg@treblig.org>)
-	id 1ufRqp-000iOj-2y;
-	Fri, 25 Jul 2025 23:29:19 +0000
-Date: Fri, 25 Jul 2025 23:29:19 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: Kees Cook <kees@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-	corbet@lwn.net, workflows@vger.kernel.org, josh@joshtriplett.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] docs: submitting-patches: (AI?) Tool disclosure tag
-Message-ID: <aIQTT6Gaf1WhxRX7@gallifrey>
-References: <202507241337.F9595E1D@keescook>
- <aIKhvubVqgeXIlrj@gallifrey>
- <202507241418.34AFD28C@keescook>
- <20250724194556.105803db@gandalf.local.home>
- <202507241651.5E9C803C70@keescook>
- <aILYj62tF_1mDjDO@lappy>
- <aILb-zDiDr4b9u9S@gallifrey>
- <aILjTKk_v8NPxlVJ@lappy>
- <aINqjTAwbQ_xnAw6@gallifrey>
- <aIQHzWOkWYCGX4Xg@lappy>
+	dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b="khI36g8W"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3a522224582so1367751f8f.3
+        for <workflows@vger.kernel.org>; Sat, 26 Jul 2025 00:34:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=hammernet-be.20230601.gappssmtp.com; s=20230601; t=1753515283; x=1754120083; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FMNmStjOUWVtt7cOwV8Qlv+tumSg3tiV3l++SO5dGx4=;
+        b=khI36g8WBD5L5T58SbErP3gsvmWIvDAjpf/72tHfCOG+ZWf8GUkTHOIxZ/yP1k9mg4
+         1bG9x1mQOcsv6SKbEVWOn2dt71k3a5+Aax43Wts+R73VAviGHQ7SXLF1h6gqwa8VfBvJ
+         V4OpcUUxMQ/o6ZhN3FeZWix7X9LJ7nxL6mrBVZ48OhCWwS1f89ZCV0raWbW53QbwEWUX
+         Bg+wxxlFMdZyczs8JFXFR8Y0gm2I7JVhM/fe3866H4qC7Cst6jGqSQg52I4PIt5P6XOK
+         XnznRJfbtV30s6EjYxnx0v16twlEvT9tGgGrkvAL+rUnBeFrPkopntpaUuGuWlTsj/Sp
+         Ea4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753515283; x=1754120083;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FMNmStjOUWVtt7cOwV8Qlv+tumSg3tiV3l++SO5dGx4=;
+        b=KhUsbCpAQc8bGzZfXl0+qiYMXbll63nvf+TJ9Ov0ALMuXGRZODxSPAuzAdAn/4FwSJ
+         Z8OO8ENBhq09jslQawehAClcMVivRPZ+hxz5QsDLcviu4Ui9PD2qeDcnweJm6/C//0B9
+         MZS1lIdrcLGSvQ4EelnEruA+0vjS/kNxbikS0NuDUgv8+Dir+6vzJBXNUF8ekJzkcoG8
+         jy6uB6MYrUWsNNlKNo8Sdo6ZE2B4fPoeB15BjuE8ljJh0s5XQT/6J6UNXjBkhLpSEeiO
+         9nWCGQPGDxqP1sMaht7VbieMLXjWV35hJCXFWf6jzeUNK60itYymCYGpzn6rAYOv33as
+         p84w==
+X-Forwarded-Encrypted: i=1; AJvYcCXPO+zWjY2aBTAhmr6b04bxBndTFIA8o/XVL1M+phFAmLJYu3pwmKZeRRJqvlmNL6x3byjvEZkyqvI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzx1ZS9s3nAg1r+Cq0/em36vwBp5Cebs1J0Xi4h4vMAZjrbJGvE
+	/nW522CuCAypx41VWiKYFUyTI2txS+BlO6EkscAgVirrqnEEOen84wb7pkKm3XzT06k=
+X-Gm-Gg: ASbGncs992Z4eFePQvrElOX93GejzCa9EsXs4cpdnFZS/Q6O7C1ab9OF1o5qA7mSFl4
+	bqXj7SjFrmradfNevmYOZRLbflC+pNd44kcS9kuaZ2+dzwda8YXKW6eCxajkjfhKF/Bc3Zo0kD1
+	OQKpT2d47k4pftIOa+6uX07bhMEIohaPuhS44b0IDhSBcCEyc/slEh6HZtQ9Jk0zZqTxuoL80m3
+	oIUw4GD8CEvGt07e+aXC4OfwChlUovVDbJH4YpHloLT6gWG8nhwuPYlbx9Okn1ERyzTnLVj10Yy
+	aIGLZcBIa1RLTaLlz9Sjwg2M4qBD3IuMne5kBjx/R39jhiqP5KfIqSgwn24xTAmuqz9B8KDI/kb
+	xwHajsrYhq/2E4wvVOpg+LNLKACwJUPe33xZJ1XPjA6j0ImfjKbthPro5SfUn8j1mo4n8Kilz4K
+	Ga+u58pO8mb38A5qIlcjkj
+X-Google-Smtp-Source: AGHT+IGS1R1BLd51LhebYLPR71ELpRpxxT4MPtlRkigqh7295cnHvdHNyjtNpQNmAZYcVC1/uPyNUw==
+X-Received: by 2002:a5d:588e:0:b0:3a4:d9fa:f1ed with SMTP id ffacd0b85a97d-3b776728f9dmr3020420f8f.13.1753515283332;
+        Sat, 26 Jul 2025 00:34:43 -0700 (PDT)
+Received: from ?IPV6:2a02:1807:2a00:3400:aad:4a11:7705:31c4? ([2a02:1807:2a00:3400:aad:4a11:7705:31c4])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b778f1e760sm1991506f8f.69.2025.07.26.00.34.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 26 Jul 2025 00:34:42 -0700 (PDT)
+Message-ID: <bbe1ea08-23bf-43dc-960d-bb8a214b65fa@hammernet.be>
+Date: Sat, 26 Jul 2025 09:34:41 +0200
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <aIQHzWOkWYCGX4Xg@lappy>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-34-amd64 (x86_64)
-X-Uptime: 23:20:11 up 89 days,  7:33,  1 user,  load average: 0.00, 0.00, 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] checkpatch: validate commit tag ordering
+To: dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, joe@perches.com,
+ corbet@lwn.net, apw@canonical.com
+Cc: skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, jeff.johnson@oss.qualcomm.com,
+ akiyks@gmail.com, konstantin@linuxfoundation.org, krzk@kernel.org
+References: <20250724072032.118554-1-hendrik.hamerlinck@hammernet.be>
+Content-Language: en-US
+From: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
+In-Reply-To: <20250724072032.118554-1-hendrik.hamerlinck@hammernet.be>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-* Sasha Levin (sashal@kernel.org) wrote:
-> On Fri, Jul 25, 2025 at 11:29:17AM +0000, Dr. David Alan Gilbert wrote:
-> > * Sasha Levin (sashal@kernel.org) wrote:
-> > > On Fri, Jul 25, 2025 at 01:20:59AM +0000, Dr. David Alan Gilbert wrote:
-> > > > * Sasha Levin (sashal@kernel.org) wrote:
-> > > > > On Thu, Jul 24, 2025 at 04:54:11PM -0700, Kees Cook wrote:
-> > > > > > On Thu, Jul 24, 2025 at 07:45:56PM -0400, Steven Rostedt wrote:
-> > > > > > > My thought is to treat AI as another developer. If a developer helps you
-> > > > > > > like the AI is helping you, would you give that developer credit for that
-> > > > > > > work? If so, then you should also give credit to the tooling that's helping
-> > > > > > > you.
-> > > > > > >
-> > > > > > > I suggested adding a new tag to note any tool that has done non-trivial
-> > > > > > > work to produce the patch where you give it credit if it has helped you as
-> > > > > > > much as another developer that you would give credit to.
-> > > > > >
-> > > > > > We've got tags to choose from already in that case:
-> > > > > >
-> > > > > > Suggested-by: LLM
-> > > > > >
-> > > > > > or
-> > > > > >
-> > > > > > Co-developed-by: LLM <not@human.with.legal.standing>
-> > > > > > Signed-off-by: LLM <not@human.with.legal.standing>
-> > > > > >
-> > > > > > The latter seems ... not good, as it implies DCO SoB from a thing that
-> > > > > > can't and hasn't acknowledged the DCO.
-> > > > >
-> > > > > In my mind, "any tool" would also be something like gcc giving you a
-> > > > > "non-trivial" error (think something like a buffer overflow warning that
-> > > > > could have been a security issue).
-> > > > >
-> > > > > In that case, should we encode the entire toolchain used for developing
-> > > > > a patch?
-> > > > >
-> > > > > Maybe...
-> > > > >
-> > > > > Some sort of semi-standardized shorthand notation of the tooling used to
-> > > > > develop a patch could be interesting not just for plain disclosure, but
-> > > > > also to be able to trace back issues with patches ("oh! the author
-> > > > > didn't see a warning because they use gcc 13 while the warning was added
-> > > > > in gcc 14!").
-> > > > >
-> > > > > Signed-off-by: John Doe <jd@example.com> # gcc:14.1;ccache:1.2;sparse:4.7;claude-code:0.5
-> > > > >
-> > > > > This way some of it could be automated via git hooks and we can recommend
-> > > > > a relevant string to add with checkpatch.
-> > > >
-> > > > For me there are two separate things:
-> > > >  a) A tool that found a problem
-> > > >  b) A tool that wrote a piece of code.
-> > > >
-> > > > I think the cases you're referring to are all (a), where as I'm mostly
-> > > > thinking here about (b).
-> > > > In the case of (a) it's normally _one_ of those tools that found it,
-> > > > e.g. I see some:
-> > > >   Found by gcc -fanalyzer
-> > > 
-> > > I think that the line between (a) and (b) gets very blurry very fast, so
-> > > I'd rather stay out of trying to define it.
-> > > 
-> > > Running "cargo clippy" on some code might generate a warning as follows:
-> > > 
-> > > warning: variables can be used directly in the `format!` string
-> > >   --> dyad/src/kernel/sha_processing.rs:20:13
-> > >    |
-> > > 20 |             debug!("git sha {} could not be validated, attempting a second way...", git_sha);
-> > >    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > >    |
-> > >    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#uninlined_format_args
-> > >    = note: `#[warn(clippy::uninlined_format_args)]` on by default
-> > > help: change this to
-> > >    |
-> > > 20 -             debug!("git sha {} could not be validated, attempting a second way...", git_sha);
-> > > 20 +             debug!("git sha {git_sha} could not be validated, attempting a second way...");
-> > > 
-> > > As you see, it proposes a fix at the bottom. Should I attribute "cargo
-> > > clippy" in my commit message as it wrote some code?
-> > > 
-> > > Would your answer change if I run "cargo clippy --fix" which would
-> > > automatically apply the fix on it's own?
-> > > 
-> > > We'll be hitting these issues all over the place if we try and draw a
-> > > line... For example, with more advances autocompletion: where would you
-> > > draw the line between completing variable names and writing an entire
-> > > function based on a comment I've made?
-> > 
-> > Fuzzy isn't it!
-> > 
-> > There's at least 3 levels as I see it:
-> >  1) Reported-by:
-> >    That's a lot of tools, that generate an error or warning.
-> >  2) Suggested-by:
-> >    That covers your example above (hmm including --fix ????)
-> >  3) Co-authored-by:
-> >    Where a tool wrote code based on your more abstract instructions
-> > 
-> > (1) & (2) are taking some existing code and finding errors or light
-> > improvements;  I don't think it matters whether the tool is a good
-> > old chunk of C or an LLM that's doing it, but how much it's originating.
-> 
-> So let's say I'm using github copilot, and I go:
-> 
-> 	/* Iterate over pointers in KEY_TYPE_extent: */
-> 	#define extent_ptr_next(_e, _ptr) <tab> <tab>
-> 
-> and copilot completes the code with "__bkey_ptr_next(_ptr, extent_entry_last(_e))".
-> 
-> Was my instruction abstract? Was it within the realm of something we
-> consider a trivial change, or should we attribute the agent? :)
 
-Heck, I don't know either!   I mean there are places & projects that ban even
-that level of use, but I'd agree that the 'more abstract' doesn't fit there.
 
-> Why tackle any of this to begin with?
+On 7/24/25 09:20, Hendrik Hamerlinck wrote:
+> Modified the checkpatch script to ensure that commit tags (e.g.,
+> Signed-off-by, Reviewed-by, Acked-by, Tested-by, etc.) appear in the
+> correct order according to kernel conventions [1].
+Hello all,
 
-It seemed to me appropriate to identify use of AI which some might
-object to, or which wouldn't be allowed in their project, or which
-might indicate the need to look for different type of errors than
-humans normally make.  At the same time it seemed appropriate to
-acknowledge things that worked.
+Thank you for the feedback. I wasn’t aware that the tag ordering
+conventions used in the TIP tree are not universally followed across all
+kernel subsystems.
 
-Dave
+My motivation for this change came from a recent mistake I made in a patch
+submission, where I incorrectly placed a Fixes: tag after the
+Signed-off-by: line. I realized that checkpatch.pl didn’t flag this, and I
+thought a warning might be helpful, especially for newer contributors like
+myself.
 
-> -- 
-> Thanks,
-> Sasha
-> 
--- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+I now realize that my approach is too strict by trying to enforce an order
+for all tags. However, I still believe that a targeted warning could be
+useful. Another mentee I work with recently made the same mistake, so it
+may be a common pitfall.
+
+Is there a general consensus on placing the first Fixes: tag at the start
+of the tag sequence? If so, a warning might be helpful for newer
+contributors?
+
+I was still using checkpatch as that was how I initially learned it. I'll
+definitely look into using b4 as well.
+
+Kind regards,
+Hendrik
+
