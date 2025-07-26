@@ -1,88 +1,107 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66E9F4685;
-	Sat, 26 Jul 2025 11:53:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117511F1527;
+	Sat, 26 Jul 2025 16:36:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753530838; cv=none; b=skw6vv9GkaHhdEQUU1aUee4oKBqgl+irgISB5+NXMj2Y/k9R54ge4jQKe5Ght0Liloez0Ld/w7iraRXRcK9dvJ46DouaL7352UjUVn5lfEyW8IFaJzsKPyDGLOzMw4EORiRRg9RHKiU0FwQIsrKX1lYiCU+whwumuEUiZWB/YSg=
+	t=1753547773; cv=none; b=nAY9BlbCf+GST7yNUBeWSow1NBn5xhT/8Sv9g7/LxRQ1x8/2s+N+wzEm9kGayS8PSsi0b6QYoM210J8rE+kK/evpUgoo7rNBQtILbEJhe0s7ru2+yMlQUolUYJSgfxFc51BSkaTipn+HGlERQ+gTYZvlD1Q2iBYNFUzBObEeR+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753530838; c=relaxed/simple;
-	bh=RPbKDYis5DkvlyPdor/z+HmZWvr23l4AQ2Sr+Rikcg4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SqgjX1nFXDWw//+ohhywP0b4Cff6tEOPz99KezOzghsvEVoAla8jWA/5SkKMWzY6Lba08ugEBJiwQZXoRPRH0rBctofk4YntFGffoH9QsNtzvoNxUM6MKDMrQyku35IEtrPdCxJEoeoqYbmV6p0c3i8L2+VQ8P6VEX9T9maRcyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TveVSDjN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753547773; c=relaxed/simple;
+	bh=SZcp93tNtxNW4dMkEKDGLpDI0WwjltYtCcdV+PyeY6o=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=VFiB2lfSFJeHNaNPvmzazgbPiFiwRdSQxLOWYJbO+DhbosqyM7KrHI7iRQf68nIP8bmJDt5GwpGr7COtI+ptzmjVCOIzkWcy4Q8vvEZn/OiftUhTxOnXG/puPXvnQpFD0uf5s17w3Ol0HB/xQJp6Qyc2MQKH5podNiNqOtpprwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b6ItUpFQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TveVSDjN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85F68C4CEED;
-	Sat, 26 Jul 2025 11:53:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b6ItUpFQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94D71C4CEED;
+	Sat, 26 Jul 2025 16:36:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753530837;
-	bh=RPbKDYis5DkvlyPdor/z+HmZWvr23l4AQ2Sr+Rikcg4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TveVSDjNmVPETGaHZkDyj3OYbKnb5RsjGpCiNJEZFqTLOf0xJizoBQjvswXp98MMa
-	 pVuh+kPcYHeXvjEdSnhIH5RaHgDUva6iqhmfhbGxRRfYP4h/AjBgnQDBFT5HggwyZ7
-	 kA2VLuWB7BMCPifuT3NIJiWOB62vnw5SeIBTh7AC2WyQGo/cnDjLhiCSftjC5Q1Hgc
-	 dobWlQbWaonZPpevfmzUkTO9CrZGvdSlzcF+gfO9HezaUAg+MpxM3nzEsNzfth0g9h
-	 AhvwEXzkATxNkhCiMtBnq6t6cwpkGbEhmWe0jOxLkIcdCBH1SY9OOE4ZKFpK3wAMte
-	 h3t0zvJj0B55Q==
-Date: Sat, 26 Jul 2025 07:53:55 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Mario Limonciello <superm1@kernel.org>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, rostedt@goodmis.org, kees@kernel.org,
-	konstantin@linuxfoundation.org, corbet@lwn.net,
-	josh@joshtriplett.org
+	s=k20201202; t=1753547772;
+	bh=SZcp93tNtxNW4dMkEKDGLpDI0WwjltYtCcdV+PyeY6o=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=b6ItUpFQdF5kpPAD4ayJR/SDIlh436iFEHsDWcg0b2yNBcIYluzyJRhVIqYFFHxCZ
+	 GePCiSZsG8JWgvyhZ/5CiWZqr8QkrQ7vS9M5MJ6JcctHlal00HduqGZSaL9U6DpMNy
+	 H0w4aG5Bx7/jHmURfmmhiU3Ort18ohwA9Qn4vTrSHCtBOMUldIBw3qdjz7y7RFHdJs
+	 lFJZpvI8TWpXFxuNuoUehCBvZe+AG/Q/Y5UHfm5zgTnoqMatROJQuPvX9F3EGN9Bm+
+	 BM+Jd1mqRpQ/MevrQAplsp+YNWR0Hgo5Mq10/8Wp6J7w9h4K/YJUrjo4CT8DMqxCta
+	 tLWwbetsIirXw==
+Date: Sat, 26 Jul 2025 09:36:08 -0700
+From: Kees Cook <kees@kernel.org>
+To: Mario Limonciello <superm1@kernel.org>, Sasha Levin <sashal@kernel.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+CC: rostedt@goodmis.org, konstantin@linuxfoundation.org, corbet@lwn.net,
+ josh@joshtriplett.org
 Subject: Re: [RFC 0/2] Add AI coding assistant configuration to Linux kernel
-Message-ID: <aITB009h39D3-Otn@lappy>
-References: <20250725175358.1989323-1-sashal@kernel.org>
- <77782f57-6131-4968-95dc-088329cc50f7@kernel.org>
+User-Agent: K-9 Mail for Android
+In-Reply-To: <77782f57-6131-4968-95dc-088329cc50f7@kernel.org>
+References: <20250725175358.1989323-1-sashal@kernel.org> <77782f57-6131-4968-95dc-088329cc50f7@kernel.org>
+Message-ID: <48E7949A-F137-4412-8F96-B4BC2F915206@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <77782f57-6131-4968-95dc-088329cc50f7@kernel.org>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jul 26, 2025 at 04:07:40AM -0500, Mario Limonciello wrote:
->>Example patch creation with Claude Code:
->>
->>	$ claude -p "Fix the dont -> don't typo in @Documentation/power/opp.rst. Commit the result"
->>	Done! The typo has been fixed and committed.
+
+
+On July 26, 2025 2:07:40 AM PDT, Mario Limonciello <superm1@kernel=2Eorg> =
+wrote:
+>> Example patch creation with Claude Code:
+>>=20
+>> 	$ claude -p "Fix the dont -> don't typo in @Documentation/power/opp=2E=
+rst=2E Commit the result"
+>> 	Done! The typo has been fixed and committed=2E
 >
->Is this actually how people use AI agents?  I've never thought of 
->asking an agent to write a whole patch and commit the result.
+>Is this actually how people use AI agents?  I've never thought of asking =
+an agent to write a whole patch and commit the result=2E
 
-Yup, there are a bunch of usecases for this, and while this is an
-oversimplified example (that's why I picked a simple spelling fix that
-the agent could get right "the first time").
+Yeah! I've been using the interactive modes (e=2Eg=2E just the "claude" co=
+mmand)=2E The insight by a friend of mine is to have the agent update its o=
+wn knowledge base regularly=2E For example, for a first time session, using=
+ Claude I would run "claude" in the root of the kernel tree, and then write=
+:
 
-See Kees' post at https://hachyderm.io/@kees/114907228284590439 , in
-particular the buffer overflow fix where he logged his prompts.
 
->The way that I've seen it is things like Github Copilot within VScode 
->where there are inline suggestions.  It's kinda like clangd except it 
->suggests corrections to your mistakes instead of just underlining them 
->with red squiggles.
->
->Like if you messed up the argument and passed a pointer when it was 
->supposed to be a pointer to a pointer it will give you a little 
->tooltip correction.  But this is long before you would be ready to 
->actually commit a patch, heck it's before even testing it (obviously).
->
->The actual committing action would be by running 'git commit'.  So I 
->don't see how these tags could end up in there.
+/init
+Find and read the coding style and submitting patches documentation in the=
+ Documentation/ directory
+Always use a build output directory, like "claude-build"=2E This must alwa=
+ys be specified with the O=3D option for make
+This is a big build machine, so also always use the -j128 option for make
+Perform a build of the kernel
+Save anything new you've learned in your CLAUDE=2Emd file
+Keep all new =2Emd files and temp files in the agentic/ directory
+Examine git history of commits by Kees Cook over the last 5 years and writ=
+e out a new =2Emd file that describes his commit log writing style
+Use this for any commit messages we write
+Figure out how to run KUnit tests, the docs are in Documentation/
+Run the fortify KUnit tests
+Update your CLAUDE=2Emd with anything new you've learned
 
-Even vscode has a commit feature which can help write commit
-messages and actually commit them for you:
-https://code.visualstudio.com/docs/sourcecontrol/overview
 
-But yes, if you choose to manually handle the committing aspect then you
-should also be manually attributing the agent :)
+(Note that I run the agent as an entirely separate user in a Docker contai=
+ner=2E)
 
--- 
-Thanks,
-Sasha
+The agent acts like an intern who reads VERY quickly, but forgets things r=
+egularly=2E So it has to be both reminded to save new stuff it learns (I br=
+eak things into separate =2Emd files), and then read them back again after =
+it starts forgetting=2E
+
+It still needs extensive hand-holding, and it's rare that I'm happy with i=
+ts commit logs, but it is pretty helpful so far=2E That said I've been focu=
+sing on some smaller refactoring work just to feel out how to use it=2E I h=
+ave some hints that it would struggle with doing very large scale refactori=
+ng on its own, but it's nice to toss it at a huge patch I generated via Coc=
+cinelle and say "build this across all our configured archs and fix any com=
+pilation failures you encounter" and then go have lunch=2E ;)
+
+-Kees
+
+--=20
+Kees Cook
