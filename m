@@ -1,66 +1,33 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86413204598
-	for <workflows@vger.kernel.org>; Sat, 26 Jul 2025 07:34:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8494820B800;
+	Sat, 26 Jul 2025 09:07:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753515287; cv=none; b=uc7/sSh0XiPu5VJR2ayKcFm/o4wE8OMjnEZqYK3MX/iNZZp8Tb6VKiqClQjacxrs4GALHLDQvgCz3hOnvtW4+7gXYigTKgUHYq59HzPWeurvB5ljkv8egPYOw+MqwfKa2XY57MTzhPYJ8e6mrAZ5gYaUl3dkJMal3MfpYkfSU1w=
+	t=1753520866; cv=none; b=ULj6Oys7J3l9qYYLZJGujG0LT1x6R/+3dXhah507oYXtppFH27AIYP2coj5QeB8iWb4mu4bg4JuCW4FLK1eIcdxWJqqmei1ofCm3kFOZE38aYphCiApMaMB8Wn79xWklSt4akyCA9rW5TgURQ4yYo3DdFrLEb+wsLwQFDJ4DKmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753515287; c=relaxed/simple;
-	bh=FMNmStjOUWVtt7cOwV8Qlv+tumSg3tiV3l++SO5dGx4=;
+	s=arc-20240116; t=1753520866; c=relaxed/simple;
+	bh=nUm5f+HIfQ5kJzv0Fhs6FqpF4LCLcs6h304oDTKklmU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nTJSoZJIPBfMVLhbceo/bjC1bsVqfCzHyosIjeaerzLmTdOcX+uLu9+iwBVqzUoN53wdKV6vnQAWr3kQC9P25SQ8+kYCEYTXWu32lcBkx/Hu6wzuFryAhGRU65tJj7DGfe2XZzTA3Raa9fBf68HlItvdk0/mOyLlYWaYMochayc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be; spf=fail smtp.mailfrom=hammernet.be; dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b=khI36g8W; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=hammernet.be
+	 In-Reply-To:Content-Type; b=NVbEsOYUaCYnq6oiv4vd6uzV225FvxLwx0YbGMIt2jRPJsbAQ4gSjzzrjip5pdvdzehX2uOgf5NO2Mgza92zghxVUZ02eCVOuRkwlpJFdCIV59ddcHOcho5jbc4LtIe9yxfu8JTJPKONlzcRZnP2b3DzgUgTA2N/BuCNWiEWqzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I1YSyJXh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b="khI36g8W"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3a522224582so1367751f8f.3
-        for <workflows@vger.kernel.org>; Sat, 26 Jul 2025 00:34:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=hammernet-be.20230601.gappssmtp.com; s=20230601; t=1753515283; x=1754120083; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FMNmStjOUWVtt7cOwV8Qlv+tumSg3tiV3l++SO5dGx4=;
-        b=khI36g8WBD5L5T58SbErP3gsvmWIvDAjpf/72tHfCOG+ZWf8GUkTHOIxZ/yP1k9mg4
-         1bG9x1mQOcsv6SKbEVWOn2dt71k3a5+Aax43Wts+R73VAviGHQ7SXLF1h6gqwa8VfBvJ
-         V4OpcUUxMQ/o6ZhN3FeZWix7X9LJ7nxL6mrBVZ48OhCWwS1f89ZCV0raWbW53QbwEWUX
-         Bg+wxxlFMdZyczs8JFXFR8Y0gm2I7JVhM/fe3866H4qC7Cst6jGqSQg52I4PIt5P6XOK
-         XnznRJfbtV30s6EjYxnx0v16twlEvT9tGgGrkvAL+rUnBeFrPkopntpaUuGuWlTsj/Sp
-         Ea4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753515283; x=1754120083;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FMNmStjOUWVtt7cOwV8Qlv+tumSg3tiV3l++SO5dGx4=;
-        b=KhUsbCpAQc8bGzZfXl0+qiYMXbll63nvf+TJ9Ov0ALMuXGRZODxSPAuzAdAn/4FwSJ
-         Z8OO8ENBhq09jslQawehAClcMVivRPZ+hxz5QsDLcviu4Ui9PD2qeDcnweJm6/C//0B9
-         MZS1lIdrcLGSvQ4EelnEruA+0vjS/kNxbikS0NuDUgv8+Dir+6vzJBXNUF8ekJzkcoG8
-         jy6uB6MYrUWsNNlKNo8Sdo6ZE2B4fPoeB15BjuE8ljJh0s5XQT/6J6UNXjBkhLpSEeiO
-         9nWCGQPGDxqP1sMaht7VbieMLXjWV35hJCXFWf6jzeUNK60itYymCYGpzn6rAYOv33as
-         p84w==
-X-Forwarded-Encrypted: i=1; AJvYcCXPO+zWjY2aBTAhmr6b04bxBndTFIA8o/XVL1M+phFAmLJYu3pwmKZeRRJqvlmNL6x3byjvEZkyqvI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzx1ZS9s3nAg1r+Cq0/em36vwBp5Cebs1J0Xi4h4vMAZjrbJGvE
-	/nW522CuCAypx41VWiKYFUyTI2txS+BlO6EkscAgVirrqnEEOen84wb7pkKm3XzT06k=
-X-Gm-Gg: ASbGncs992Z4eFePQvrElOX93GejzCa9EsXs4cpdnFZS/Q6O7C1ab9OF1o5qA7mSFl4
-	bqXj7SjFrmradfNevmYOZRLbflC+pNd44kcS9kuaZ2+dzwda8YXKW6eCxajkjfhKF/Bc3Zo0kD1
-	OQKpT2d47k4pftIOa+6uX07bhMEIohaPuhS44b0IDhSBcCEyc/slEh6HZtQ9Jk0zZqTxuoL80m3
-	oIUw4GD8CEvGt07e+aXC4OfwChlUovVDbJH4YpHloLT6gWG8nhwuPYlbx9Okn1ERyzTnLVj10Yy
-	aIGLZcBIa1RLTaLlz9Sjwg2M4qBD3IuMne5kBjx/R39jhiqP5KfIqSgwn24xTAmuqz9B8KDI/kb
-	xwHajsrYhq/2E4wvVOpg+LNLKACwJUPe33xZJ1XPjA6j0ImfjKbthPro5SfUn8j1mo4n8Kilz4K
-	Ga+u58pO8mb38A5qIlcjkj
-X-Google-Smtp-Source: AGHT+IGS1R1BLd51LhebYLPR71ELpRpxxT4MPtlRkigqh7295cnHvdHNyjtNpQNmAZYcVC1/uPyNUw==
-X-Received: by 2002:a5d:588e:0:b0:3a4:d9fa:f1ed with SMTP id ffacd0b85a97d-3b776728f9dmr3020420f8f.13.1753515283332;
-        Sat, 26 Jul 2025 00:34:43 -0700 (PDT)
-Received: from ?IPV6:2a02:1807:2a00:3400:aad:4a11:7705:31c4? ([2a02:1807:2a00:3400:aad:4a11:7705:31c4])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b778f1e760sm1991506f8f.69.2025.07.26.00.34.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 26 Jul 2025 00:34:42 -0700 (PDT)
-Message-ID: <bbe1ea08-23bf-43dc-960d-bb8a214b65fa@hammernet.be>
-Date: Sat, 26 Jul 2025 09:34:41 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I1YSyJXh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC5FDC4CEED;
+	Sat, 26 Jul 2025 09:07:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753520865;
+	bh=nUm5f+HIfQ5kJzv0Fhs6FqpF4LCLcs6h304oDTKklmU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=I1YSyJXhQiLSHym5NWf45j0U/U4sIcT+/LhUdHmYSGY4ezidiXOHPTldN7mT6q+tp
+	 RQbhSgSu/dUSQAVKAaOD5dIaUCiHKK/VnUvkLFAHqkhnatOBaY25MJZEZ6qr7llqmD
+	 cSk24ODDrStU/4pN6gYLTP/1gbDgiH0errulwyF1VmDA3zzTSgeSxTKW3yYvsdPB//
+	 GqQOcQpGsB9obDtdqpT49Ki2gFMZsNL8MDipe5ezAu+6AIAccEeqLtyRXix30ppzxN
+	 Qkerm0yiur5RZQ8aaLw18e5lnpNvHCuUn+h4basnkYDv5z7u7ApFP/Fyf9x2LzEJPU
+	 tfhYkK7IWFTDQ==
+Message-ID: <77782f57-6131-4968-95dc-088329cc50f7@kernel.org>
+Date: Sat, 26 Jul 2025 04:07:40 -0500
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -68,50 +35,78 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] checkpatch: validate commit tag ordering
-To: dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, joe@perches.com,
- corbet@lwn.net, apw@canonical.com
-Cc: skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, jeff.johnson@oss.qualcomm.com,
- akiyks@gmail.com, konstantin@linuxfoundation.org, krzk@kernel.org
-References: <20250724072032.118554-1-hendrik.hamerlinck@hammernet.be>
+Subject: Re: [RFC 0/2] Add AI coding assistant configuration to Linux kernel
+To: Sasha Levin <sashal@kernel.org>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: rostedt@goodmis.org, kees@kernel.org, konstantin@linuxfoundation.org,
+ corbet@lwn.net, josh@joshtriplett.org
+References: <20250725175358.1989323-1-sashal@kernel.org>
 Content-Language: en-US
-From: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
-In-Reply-To: <20250724072032.118554-1-hendrik.hamerlinck@hammernet.be>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Mario Limonciello <superm1@kernel.org>
+Autocrypt: addr=superm1@gmail.com; keydata=
+ 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
+In-Reply-To: <20250725175358.1989323-1-sashal@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+> Example patch creation with Claude Code:
+> 
+> 	$ claude -p "Fix the dont -> don't typo in @Documentation/power/opp.rst. Commit the result"
+> 	Done! The typo has been fixed and committed.
 
+Is this actually how people use AI agents?  I've never thought of asking 
+an agent to write a whole patch and commit the result.
 
-On 7/24/25 09:20, Hendrik Hamerlinck wrote:
-> Modified the checkpatch script to ensure that commit tags (e.g.,
-> Signed-off-by, Reviewed-by, Acked-by, Tested-by, etc.) appear in the
-> correct order according to kernel conventions [1].
-Hello all,
+The way that I've seen it is things like Github Copilot within VScode 
+where there are inline suggestions.  It's kinda like clangd except it 
+suggests corrections to your mistakes instead of just underlining them 
+with red squiggles.
 
-Thank you for the feedback. I wasn’t aware that the tag ordering
-conventions used in the TIP tree are not universally followed across all
-kernel subsystems.
+Like if you messed up the argument and passed a pointer when it was 
+supposed to be a pointer to a pointer it will give you a little tooltip 
+correction.  But this is long before you would be ready to actually 
+commit a patch, heck it's before even testing it (obviously).
 
-My motivation for this change came from a recent mistake I made in a patch
-submission, where I incorrectly placed a Fixes: tag after the
-Signed-off-by: line. I realized that checkpatch.pl didn’t flag this, and I
-thought a warning might be helpful, especially for newer contributors like
-myself.
-
-I now realize that my approach is too strict by trying to enforce an order
-for all tags. However, I still believe that a targeted warning could be
-useful. Another mentee I work with recently made the same mistake, so it
-may be a common pitfall.
-
-Is there a general consensus on placing the first Fixes: tag at the start
-of the tag sequence? If so, a warning might be helpful for newer
-contributors?
-
-I was still using checkpatch as that was how I initially learned it. I'll
-definitely look into using b4 as well.
-
-Kind regards,
-Hendrik
-
+The actual committing action would be by running 'git commit'.  So I 
+don't see how these tags could end up in there.
