@@ -1,107 +1,107 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117511F1527;
-	Sat, 26 Jul 2025 16:36:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A922521C160;
+	Sat, 26 Jul 2025 21:44:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753547773; cv=none; b=nAY9BlbCf+GST7yNUBeWSow1NBn5xhT/8Sv9g7/LxRQ1x8/2s+N+wzEm9kGayS8PSsi0b6QYoM210J8rE+kK/evpUgoo7rNBQtILbEJhe0s7ru2+yMlQUolUYJSgfxFc51BSkaTipn+HGlERQ+gTYZvlD1Q2iBYNFUzBObEeR+A=
+	t=1753566274; cv=none; b=gIrudvQsUK3j2CieVfJ2/njw7q5XJJu8vW0B+Ap8TDXHcKoriUEliwD9sGFj82VINVFx6vpIR+E9bDJYMBbHSDVvcNkj/QA+Ke1JM1DRi4WJcD2BPMHaMHIVJ6997yP9UT3TTIHQ5Z4Qe2UShEssVNZNkpGUpvQWx6EOKMpFrgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753547773; c=relaxed/simple;
-	bh=SZcp93tNtxNW4dMkEKDGLpDI0WwjltYtCcdV+PyeY6o=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=VFiB2lfSFJeHNaNPvmzazgbPiFiwRdSQxLOWYJbO+DhbosqyM7KrHI7iRQf68nIP8bmJDt5GwpGr7COtI+ptzmjVCOIzkWcy4Q8vvEZn/OiftUhTxOnXG/puPXvnQpFD0uf5s17w3Ol0HB/xQJp6Qyc2MQKH5podNiNqOtpprwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b6ItUpFQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753566274; c=relaxed/simple;
+	bh=5HWLFwqXBTQ60dZq3V7io5uEommZHIlp3IPinC8aaCQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lSA3Mex+qQk5snlpphPtSo1eBFtxuAaaXgfsdtvRLqjECzYLKIdViN1HvtA64d0H2UxXtiS1LXv2ksz6w/BC4fUg5yRB7dtWFHmU6xqRCh0kUHwr6K7WL1XW6PFndfbxlz1l0luDcMNYbm/ClyYdV9j+T7wXSI4dhpI0aRGtvUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rSmXsEkU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b6ItUpFQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94D71C4CEED;
-	Sat, 26 Jul 2025 16:36:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rSmXsEkU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91AE9C4CEED;
+	Sat, 26 Jul 2025 21:44:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753547772;
-	bh=SZcp93tNtxNW4dMkEKDGLpDI0WwjltYtCcdV+PyeY6o=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=b6ItUpFQdF5kpPAD4ayJR/SDIlh436iFEHsDWcg0b2yNBcIYluzyJRhVIqYFFHxCZ
-	 GePCiSZsG8JWgvyhZ/5CiWZqr8QkrQ7vS9M5MJ6JcctHlal00HduqGZSaL9U6DpMNy
-	 H0w4aG5Bx7/jHmURfmmhiU3Ort18ohwA9Qn4vTrSHCtBOMUldIBw3qdjz7y7RFHdJs
-	 lFJZpvI8TWpXFxuNuoUehCBvZe+AG/Q/Y5UHfm5zgTnoqMatROJQuPvX9F3EGN9Bm+
-	 BM+Jd1mqRpQ/MevrQAplsp+YNWR0Hgo5Mq10/8Wp6J7w9h4K/YJUrjo4CT8DMqxCta
-	 tLWwbetsIirXw==
-Date: Sat, 26 Jul 2025 09:36:08 -0700
-From: Kees Cook <kees@kernel.org>
-To: Mario Limonciello <superm1@kernel.org>, Sasha Levin <sashal@kernel.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-CC: rostedt@goodmis.org, konstantin@linuxfoundation.org, corbet@lwn.net,
- josh@joshtriplett.org
-Subject: Re: [RFC 0/2] Add AI coding assistant configuration to Linux kernel
-User-Agent: K-9 Mail for Android
-In-Reply-To: <77782f57-6131-4968-95dc-088329cc50f7@kernel.org>
-References: <20250725175358.1989323-1-sashal@kernel.org> <77782f57-6131-4968-95dc-088329cc50f7@kernel.org>
-Message-ID: <48E7949A-F137-4412-8F96-B4BC2F915206@kernel.org>
+	s=k20201202; t=1753566274;
+	bh=5HWLFwqXBTQ60dZq3V7io5uEommZHIlp3IPinC8aaCQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rSmXsEkUDjluym09uhQZWivmOAMaeX2l5LHEx4RjucbdtXPuzLm26z8xa69Hryxxb
+	 +sHEahu9hQ7jpC52V6FVNhGLetHi1Pl7BmO0sB+24Armm8q+OTq25WCNmVvmAMV9Cp
+	 vgSMuwiJQxutTwtlApJCaqAshM7N+arEns04PQ/O4crJC64qVfj1U6Rfvgsp4vON6C
+	 iQbMOQ9xyiU+Dl15afnunJ5vOH3LkDBWGRhpwgs0ldoXLPnt2//EoZKmK0bE6DGl2D
+	 W0op7rfykPOES6E9NZb05YLE821VOemA2jGmQOZ6bTEGKRshPSu3jIpeUTYvfC5gXh
+	 WIC/i2h5Dv1wA==
+Date: Sat, 26 Jul 2025 22:44:29 +0100
+From: Mark Brown <broonie@kernel.org>
+To: dan.j.williams@intel.com
+Cc: Jakub Kicinski <kuba@kernel.org>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>, Donald Zickus <dzickus@redhat.com>,
+	Gustavo Padovan <gustavo.padovan@collabora.com>
+Subject: Re: Crediting test authors
+Message-ID: <aIVMPbZcmAvG9z2o@finisterre.sirena.org.uk>
+References: <20250725080023.6425488c@kernel.org>
+ <6883b3046b640_134cc7100ad@dwillia2-xfh.jf.intel.com.notmuch>
+ <20250725102019.7add0be0@kernel.org>
+ <6883ced97d944_134cc7100fa@dwillia2-xfh.jf.intel.com.notmuch>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="lSJ5+sUpAZPI4LqF"
+Content-Disposition: inline
+In-Reply-To: <6883ced97d944_134cc7100fa@dwillia2-xfh.jf.intel.com.notmuch>
+X-Cookie: Do not cut switchbacks.
+
+
+--lSJ5+sUpAZPI4LqF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
+On Fri, Jul 25, 2025 at 11:37:13AM -0700, dan.j.williams@intel.com wrote:
+> Jakub Kicinski wrote:
 
+> > So a tag would be ideal. But it's a hard nut to crack. Best I can come
+> > up with would be:
 
-On July 26, 2025 2:07:40 AM PDT, Mario Limonciello <superm1@kernel=2Eorg> =
-wrote:
->> Example patch creation with Claude Code:
->>=20
->> 	$ claude -p "Fix the dont -> don't typo in @Documentation/power/opp=2E=
-rst=2E Commit the result"
->> 	Done! The typo has been fixed and committed=2E
->
->Is this actually how people use AI agents?  I've never thought of asking =
-an agent to write a whole patch and commit the result=2E
+> > Reproducer: test.case.path # 001122aabb (optimal) commit of the test ca=
+se
 
-Yeah! I've been using the interactive modes (e=2Eg=2E just the "claude" co=
-mmand)=2E The insight by a friend of mine is to have the agent update its o=
-wn knowledge base regularly=2E For example, for a first time session, using=
- Claude I would run "claude" in the root of the kernel tree, and then write=
-:
+> That's true, more than a few times I have had distro folks reach out to
+> ask "how do I verify this backport" and end up manually pointing to the
+> new unit test that backstops a fix.
 
+> Although, from that tag I would not know where to get the commit. Maybe:
+>=20
+> Test: <git url>
+>=20
+> ...as a new Link: type?
 
-/init
-Find and read the coding style and submitting patches documentation in the=
- Documentation/ directory
-Always use a build output directory, like "claude-build"=2E This must alwa=
-ys be specified with the O=3D option for make
-This is a big build machine, so also always use the -j128 option for make
-Perform a build of the kernel
-Save anything new you've learned in your CLAUDE=2Emd file
-Keep all new =2Emd files and temp files in the agentic/ directory
-Examine git history of commits by Kees Cook over the last 5 years and writ=
-e out a new =2Emd file that describes his commit log writing style
-Use this for any commit messages we write
-Figure out how to run KUnit tests, the docs are in Documentation/
-Run the fortify KUnit tests
-Update your CLAUDE=2Emd with anything new you've learned
+It seems like there's some overlap here with the work that people have
+been intermittently trying to do on test cataloging, eg:
 
+   https://lore.kernel.org/workflows/CAK18DXYitS7hL1mA3QsPLmW9-R0q6Kin0C5Uv=
+9fj=3DuS90WSnxA@mail.gmail.com/
 
-(Note that I run the agent as an entirely separate user in a Docker contai=
-ner=2E)
+That's been approached more from the "what tests should I run?" end of
+things since it's been driven by people interested in testing and CI,
+but it feels like there's a lot of overlap with the describing the
+suites part of things.  It'd be a lot easier to write and read tags like
+the above if we could define some more compact names than git URLs for
+suites/tests.
 
-The agent acts like an intern who reads VERY quickly, but forgets things r=
-egularly=2E So it has to be both reminded to save new stuff it learns (I br=
-eak things into separate =2Emd files), and then read them back again after =
-it starts forgetting=2E
+--lSJ5+sUpAZPI4LqF
+Content-Type: application/pgp-signature; name="signature.asc"
 
-It still needs extensive hand-holding, and it's rare that I'm happy with i=
-ts commit logs, but it is pretty helpful so far=2E That said I've been focu=
-sing on some smaller refactoring work just to feel out how to use it=2E I h=
-ave some hints that it would struggle with doing very large scale refactori=
-ng on its own, but it's nice to toss it at a huge patch I generated via Coc=
-cinelle and say "build this across all our configured archs and fix any com=
-pilation failures you encounter" and then go have lunch=2E ;)
+-----BEGIN PGP SIGNATURE-----
 
--Kees
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmiFTDwACgkQJNaLcl1U
+h9BTBAf/Wg40Hu3hkEcBN+rbAsYasDqcG+2s/6NTIlhao2RdgdjqnaU6ygN0EdPN
+fClkSm+JP+uOdVzcbirTiqTY5c/MulfjamZQmEphMVcFGIployqsSZhvsMsaD4xV
+MBbGlEMVWgj07jiWJBWK0A2UIL2UpdbyCn3jHiNUgrbjIeYJK5R4Ni/SExj21uqW
+PpDNv+0ZCfj5tTDrwHKWnK1KbB/sO393r9IdaNPLXOY6c5dXaeaYYi1aGX7M0/DG
+BW8SCXsDSBZioRN16chRGav+JfiC2xec/vwrLtfhr0pHZAEWN2tz8o6iDIYj+YVH
+bKTMxCMcSCqkejJLhV7H35mwFy10lQ==
+=HB/M
+-----END PGP SIGNATURE-----
 
---=20
-Kees Cook
+--lSJ5+sUpAZPI4LqF--
