@@ -1,107 +1,100 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A922521C160;
-	Sat, 26 Jul 2025 21:44:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A78DA1799F;
+	Sun, 27 Jul 2025 02:24:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753566274; cv=none; b=gIrudvQsUK3j2CieVfJ2/njw7q5XJJu8vW0B+Ap8TDXHcKoriUEliwD9sGFj82VINVFx6vpIR+E9bDJYMBbHSDVvcNkj/QA+Ke1JM1DRi4WJcD2BPMHaMHIVJ6997yP9UT3TTIHQ5Z4Qe2UShEssVNZNkpGUpvQWx6EOKMpFrgc=
+	t=1753583052; cv=none; b=ByKo+tS+W4w4IVMm3KnKzupBMm5kY3fx4j5RjlXCpIz07xjvI4HPlC/RHi6Gx4mvNnQJC1rB8I6OQytOr3lCnMn3qJSr42FsgaEDFbi9oNjb1ruzE9q7EP/GmTYrpTnBPL6u/npmgNPcLXJGdGhMGzQTMHuQF/F7GZoz0h9ThNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753566274; c=relaxed/simple;
-	bh=5HWLFwqXBTQ60dZq3V7io5uEommZHIlp3IPinC8aaCQ=;
+	s=arc-20240116; t=1753583052; c=relaxed/simple;
+	bh=EhG7SyaJKYTJTFEhZaaKH54gJ/aHq6MkbV9qkVdt+es=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lSA3Mex+qQk5snlpphPtSo1eBFtxuAaaXgfsdtvRLqjECzYLKIdViN1HvtA64d0H2UxXtiS1LXv2ksz6w/BC4fUg5yRB7dtWFHmU6xqRCh0kUHwr6K7WL1XW6PFndfbxlz1l0luDcMNYbm/ClyYdV9j+T7wXSI4dhpI0aRGtvUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rSmXsEkU; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y4JyC8RF2xK3BAopVxivuX2Fa10mvQe5ySHg9JEoYFPRqxTBVz1I01wviU2kYts7MfXb+szNApqG5hZfUTcARTV4u06vP3mTw+52/nEEFeXtxkfsNGy1fHAP2E+U05WqOohH4huMmnBkuE2aGcFS2Yv2MEW5dVVQ30EZsY6RjTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZIxzi64s; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rSmXsEkU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91AE9C4CEED;
-	Sat, 26 Jul 2025 21:44:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZIxzi64s"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B46E0C4CEED;
+	Sun, 27 Jul 2025 02:24:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753566274;
-	bh=5HWLFwqXBTQ60dZq3V7io5uEommZHIlp3IPinC8aaCQ=;
+	s=k20201202; t=1753583052;
+	bh=EhG7SyaJKYTJTFEhZaaKH54gJ/aHq6MkbV9qkVdt+es=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rSmXsEkUDjluym09uhQZWivmOAMaeX2l5LHEx4RjucbdtXPuzLm26z8xa69Hryxxb
-	 +sHEahu9hQ7jpC52V6FVNhGLetHi1Pl7BmO0sB+24Armm8q+OTq25WCNmVvmAMV9Cp
-	 vgSMuwiJQxutTwtlApJCaqAshM7N+arEns04PQ/O4crJC64qVfj1U6Rfvgsp4vON6C
-	 iQbMOQ9xyiU+Dl15afnunJ5vOH3LkDBWGRhpwgs0ldoXLPnt2//EoZKmK0bE6DGl2D
-	 W0op7rfykPOES6E9NZb05YLE821VOemA2jGmQOZ6bTEGKRshPSu3jIpeUTYvfC5gXh
-	 WIC/i2h5Dv1wA==
-Date: Sat, 26 Jul 2025 22:44:29 +0100
-From: Mark Brown <broonie@kernel.org>
-To: dan.j.williams@intel.com
-Cc: Jakub Kicinski <kuba@kernel.org>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>, Donald Zickus <dzickus@redhat.com>,
-	Gustavo Padovan <gustavo.padovan@collabora.com>
-Subject: Re: Crediting test authors
-Message-ID: <aIVMPbZcmAvG9z2o@finisterre.sirena.org.uk>
-References: <20250725080023.6425488c@kernel.org>
- <6883b3046b640_134cc7100ad@dwillia2-xfh.jf.intel.com.notmuch>
- <20250725102019.7add0be0@kernel.org>
- <6883ced97d944_134cc7100fa@dwillia2-xfh.jf.intel.com.notmuch>
+	b=ZIxzi64saD/+/jDjElCB6XFTOcjW2WzDsWm6zIVcPhepfFksYVZEMiHVYaPzjBE3H
+	 UhQeSC2HR67P1Xx/LXJbU2KrfSWHaMqrj1X3K/wl97zAkggym7vy2O5Eruedyzj4lz
+	 2MgHPdKVGc6zPH+AcWF+y/V4U+SouW6hD+/4pa5bta6k4wHGQqWWzqL1rV3FLYzKHW
+	 RTf4D7TwyvUtN4lqcph6INEMecqiGP+Hig2gx6z+Fc28l9bwgvMwrcS7RCJC1MOHGD
+	 zTJw4hhSscSWQqUkuKI3PN51Nkp53rbt9mflg766Y+FKbywKzDjcaE37J2VQhZuADq
+	 gnc+iZNy2Ihcw==
+Date: Sat, 26 Jul 2025 22:24:08 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, rostedt@goodmis.org, kees@kernel.org,
+	konstantin@linuxfoundation.org, josh@joshtriplett.org
+Subject: Re: [RFC 1/2] AI: Add unified AI coding assistant configuration
+Message-ID: <aIWNyPMYHXSmJ5qT@lappy>
+References: <20250725175358.1989323-1-sashal@kernel.org>
+ <20250725175358.1989323-2-sashal@kernel.org>
+ <87wm7w5dnd.fsf@trenco.lwn.net>
+ <aIQCBQgh0XiDf2dv@lappy>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="lSJ5+sUpAZPI4LqF"
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <6883ced97d944_134cc7100fa@dwillia2-xfh.jf.intel.com.notmuch>
-X-Cookie: Do not cut switchbacks.
+In-Reply-To: <aIQCBQgh0XiDf2dv@lappy>
 
+On Fri, Jul 25, 2025 at 06:15:33PM -0400, Sasha Levin wrote:
+>On Fri, Jul 25, 2025 at 12:27:50PM -0600, Jonathan Corbet wrote:
+>>Sasha Levin <sashal@kernel.org> writes:
+>>
+>>>Create a single source of truth for AI instructions in
+>>>Documentation/AI/main.md with symlinks for all major AI coding
+>>>assistants:
+>>>- CLAUDE.md (Claude Code)
+>>>- .github/copilot-instructions.md (GitHub Copilot)
+>>>- .cursorrules (Cursor)
+>>>- .codeium/instructions.md (Codeium)
+>>>- .continue/context.md (Continue)
+>>>- .windsurfrules (Windsurf)
+>>>- Documentation/AIder.conf.yml (Aider)
+>>>
+>>>Signed-off-by: Sasha Levin <sashal@kernel.org>
+>>>---
+>>> .aider.conf.yml                 | 1 +
+>>> .codeium/instructions.md        | 1 +
+>>> .continue/context.md            | 1 +
+>>> .cursorrules                    | 1 +
+>>> .github/copilot-instructions.md | 1 +
+>>> .windsurfrules                  | 1 +
+>>> CLAUDE.md                       | 1 +
+>>> Documentation/AI/main.md        | 5 +++++
+>>
+>>So I'm gonna ignore (for now) the substantive issues here to ask: do we
+>>*really* need to introduce Markdown into Documentation/?  Are these
+>>things really unable to understand RST?  Why not add a file that can be
+>>part of the docs build so people can see the instructions that are being
+>>provided?
+>
+>From my understanding, most of the agents out there expect a markdown
+>file ("CLAUDE.md", ".github/copilot-instructions.md", etc).
+>
+>All the documentation and examples I can find online insist on
+>markdown... I suspect that they will also understand RST, but then we'll
+>be doing something "unsupported".
+>
+>Though in this scenario, maybe even just plain text will be enough?
 
---lSJ5+sUpAZPI4LqF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I've tested providing a RST file instead of markdown to Claude, Copilot,
+and Cursor. All 3 seemed to be okay with it and followed the
+instructions in it.
 
-On Fri, Jul 25, 2025 at 11:37:13AM -0700, dan.j.williams@intel.com wrote:
-> Jakub Kicinski wrote:
+I'll switch to RST.
 
-> > So a tag would be ideal. But it's a hard nut to crack. Best I can come
-> > up with would be:
-
-> > Reproducer: test.case.path # 001122aabb (optimal) commit of the test ca=
-se
-
-> That's true, more than a few times I have had distro folks reach out to
-> ask "how do I verify this backport" and end up manually pointing to the
-> new unit test that backstops a fix.
-
-> Although, from that tag I would not know where to get the commit. Maybe:
->=20
-> Test: <git url>
->=20
-> ...as a new Link: type?
-
-It seems like there's some overlap here with the work that people have
-been intermittently trying to do on test cataloging, eg:
-
-   https://lore.kernel.org/workflows/CAK18DXYitS7hL1mA3QsPLmW9-R0q6Kin0C5Uv=
-9fj=3DuS90WSnxA@mail.gmail.com/
-
-That's been approached more from the "what tests should I run?" end of
-things since it's been driven by people interested in testing and CI,
-but it feels like there's a lot of overlap with the describing the
-suites part of things.  It'd be a lot easier to write and read tags like
-the above if we could define some more compact names than git URLs for
-suites/tests.
-
---lSJ5+sUpAZPI4LqF
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmiFTDwACgkQJNaLcl1U
-h9BTBAf/Wg40Hu3hkEcBN+rbAsYasDqcG+2s/6NTIlhao2RdgdjqnaU6ygN0EdPN
-fClkSm+JP+uOdVzcbirTiqTY5c/MulfjamZQmEphMVcFGIployqsSZhvsMsaD4xV
-MBbGlEMVWgj07jiWJBWK0A2UIL2UpdbyCn3jHiNUgrbjIeYJK5R4Ni/SExj21uqW
-PpDNv+0ZCfj5tTDrwHKWnK1KbB/sO393r9IdaNPLXOY6c5dXaeaYYi1aGX7M0/DG
-BW8SCXsDSBZioRN16chRGav+JfiC2xec/vwrLtfhr0pHZAEWN2tz8o6iDIYj+YVH
-bKTMxCMcSCqkejJLhV7H35mwFy10lQ==
-=HB/M
------END PGP SIGNATURE-----
-
---lSJ5+sUpAZPI4LqF--
+-- 
+Thanks,
+Sasha
