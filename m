@@ -1,103 +1,121 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987844A33;
-	Sun, 27 Jul 2025 15:45:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C301B1A2643;
+	Sun, 27 Jul 2025 19:58:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753631153; cv=none; b=tJradgoOqc7c5H9TURbDAyoTBbBtbQ3ZSwvUW3IaDuCfVVVUqsiEFwuSff0ldtKKpRga/o5BduVtb4bU/K1ZNbEYExeOi0xGifUBpXdzCb0jPXsT01fxE6SwY6fmIdfDOTfBadX0UPUR3a5aRhc06F3Ily0DFAMi+bJIqBcz0NA=
+	t=1753646298; cv=none; b=BXtQqgsud8ReYfgbKtAcvc8CiDSPnuYc3vH9T3wNtccRC2+pq643Omqw/2UgxThk7BlkPasY8ZJcNOgnN5DWmMgAwVJXyE8e7owPEd7vsA6Qm+5Gw3FUk4RWOC5riCYSbZiHKISqLLNoN9Q2h6KRzLF8jtmi//MqwzWeDowgcpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753631153; c=relaxed/simple;
-	bh=Nx21Y2DmhvfADZ/RHwGwoASysh8U+aJewA5Rlqxh83A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jJh/dvbjn/xfGD8Mo4GkQi+kdXwLHV5qhDLgziEfh3TAxxubnUIJ1L7y2Xil/ZKmRSI7K8xn42tZ0yagQiAeNvUJdDuyX3Es84paNbt0l8S23d/5R1EZ8IP0kJ1YUlk38PW0UgRnTQD6jdVBzvlUK2PXxKCj7926RErjVpuaGho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=qcIWYj2X; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	s=arc-20240116; t=1753646298; c=relaxed/simple;
+	bh=WaGOigLlcybWzA2W2kYUu0sGcXX4U2ZEgX+oVOLjV9U=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=O4jhvCYly9fHADnz3XK4JXaiBWdT/ZoPSrAWYuhjZww3NMZP4Vo1ulSOa7GDxNBudboaXC+/NcWArnwrIXropxSl6v6QYCHh1+ooH+PU1wb9EkHxKNHDptc1kyg8D46+IQ8FP/7EqP7tkkb4Ol/ADnaCy+mFrAM6zSFNpnzGhD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qzRupWNK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="qcIWYj2X"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
-	:Subject; bh=3fxOLzWgOAR/+T3F8n9Mjej5S8eRwkPAUZo9dLFoDEw=; b=qcIWYj2XBgTEAk9R
-	L1UsQGa+/Mc5XBkgRtzArY7VkXGj25i/aTPimjDCAZ3zIamSBdR1G2KohDBcol3nNuJ31Yq3xwCqQ
-	CUYk3R+FApZvOOor8In1KXxoiyMZu+MMFQMB1PuWHf2Az6BMcqjf3XAyeqTPtJiFdFJOKBo7JJF2/
-	L1+p16uZ2WVBbdwQRLV5U+D6kVeQtAgsoBzLmzKJveUFFGzzzGx0h1ZHP9C5oJnIhIdXvbdQKNTuB
-	no3iyZz/T4Tr9jo6yaiVScw+aYtEijcDGlcBxRs5fhr6MhZCYBvj4tsNvYWu9W64al+sTkECP+SuI
-	f85Ij9MoRSL4NzRAQw==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
-	(envelope-from <dg@treblig.org>)
-	id 1ug3ZG-000pTt-0C;
-	Sun, 27 Jul 2025 15:45:42 +0000
-Date: Sun, 27 Jul 2025 15:45:42 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: Kees Cook <kees@kernel.org>
-Cc: Sabyrzhan Tasbolatov <snovitoll@gmail.com>,
-	Sasha Levin <sashal@kernel.org>, workflows@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qzRupWNK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1F20C4CEEB;
+	Sun, 27 Jul 2025 19:58:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753646297;
+	bh=WaGOigLlcybWzA2W2kYUu0sGcXX4U2ZEgX+oVOLjV9U=;
+	h=From:To:Cc:Subject:Date:From;
+	b=qzRupWNKceaqQVDurrnLl7lY/Xz+a9oT4Zx2QLLNN1Gat06XvfoYEnSCyzwvgETCN
+	 v5z5jbYvPdf+6ZIsLlbIKL48aJWNhScZRUI5yqCmdRp6VJWqWgwtq6PlWW3tODYB7r
+	 vxjyD2N2s0DZyo6nVkXBsMs01pWRlsZqRNDPXcultstBY86/pftKlhDWNrYVwtV3cF
+	 Y1tQzUNULuQRexd6GM94eHuwGqKO1J7FJJDqVolhOuMOrFptpQ3dVKnnQZGkdQGYku
+	 vo7IoIe1KoCQV/uJIoBB3A2//ZQ72B43ZigVPCiUcYv0bW9nLcoHmx3sTdpcQ9hWIp
+	 h/g+3JS4nKOpg==
+From: Sasha Levin <sashal@kernel.org>
+To: corbet@lwn.net,
 	linux-doc@vger.kernel.org,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	rostedt@goodmis.org, konstantin@linuxfoundation.org, corbet@lwn.net,
-	josh@joshtriplett.org
-Subject: Re: [RFC 0/2] Add AI coding assistant configuration to Linux kernel
-Message-ID: <aIZJppabYBCDBhYJ@gallifrey>
-References: <CACzwLxg=vQeQKA1mPiYV9biu=swo7QDmjB3i=UhYmv+fGRBA4Q@mail.gmail.com>
- <053939E0-5BAB-483A-9FE4-92BF35201A4C@kernel.org>
+	workflows@vger.kernel.org
+Cc: sashal@kernel.org,
+	josh@joshtriplett.org,
+	kees@kernel.org,
+	konstantin@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	rostedt@goodmis.org
+Subject: [PATCH 0/4] Add agent coding assistant configuration to Linux kernel
+Date: Sun, 27 Jul 2025 15:57:58 -0400
+Message-Id: <20250727195802.2222764-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <053939E0-5BAB-483A-9FE4-92BF35201A4C@kernel.org>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-34-amd64 (x86_64)
-X-Uptime: 15:37:30 up 90 days, 23:51,  1 user,  load average: 0.00, 0.00, 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
+Content-Transfer-Encoding: 8bit
 
-* Kees Cook (kees@kernel.org) wrote:
-> 
-> 
-...
+This patch series adds unified configuration and documentation for coding
+agents working with the Linux kernel codebase. As coding agents
+become increasingly common in software development, it's important to
+establish clear guidelines for their use in kernel development.
 
-> I'm hoping to add runtime testing, but the hurdles for getting it to sanely interact with a qemu instance is tricky.
+The series consists of four patches:
 
-When doing qemu dev, I frequently run it in a tmux, and start it with
-'-nographic' which gets you a single stream with both serial and monitor in it;
-alternatively you can get one pane with the serial output and one with the
-monitor, that takes a little more setup;
+1. The first patch adds unified configuration files for various coding
+agents (Claude, GitHub Copilot, Cursor, Codeium, Continue,
+Windsurf, and Aider). These are all symlinked to a central documentation
+file to ensure consistency across tools.
 
-anyway, then I can do :
+2. The second patch adds core development references that guide
+agents to essential kernel development documentation including how
+to do kernel development, submitting patches, and the submission
+checklist.
 
-tmux -L $SESS send-keys -t srcqemu "cd /mnt" enter
+3. The third patch adds coding style documentation and explicit rules
+that agents must follow, including the 80 character line limit
+and no trailing whitespace requirements.
 
-and have a wait function that waits until a string is displayed:
-# pane string command
-function waitstr {
-  PANE=$1
-  STR=$2
-  CMD="$3"
-  until [ -n "$(tmux -L $SESS capture-pane -p -t $PANE | grep "$STR" )" ]; do
-    $CMD
-    sleep 1
-  done;
-}
+4. The fourth patch adds legal requirements and agent attribution
+guidelines. All agents are required to identify themselves in
+commits using Co-developed-by tags, ensuring full transparency about
+agent involvement in code development.
 
-so do:
-waitstr srcqemu "root@localhost" "sleep 1"
+Example agent attribution in commits:
 
-it feels like it should be fairly easy to wrap some of those for tests.
-(Beware the 'send-keys' command is a bit touchy about what strings it takes,
-but it has some flags to help).
-
-Dave
+    Co-developed-by: Claude claude-opus-4-20250514
 
 
-> -- 
-> Kees Cook
-> 
+Changes since RFC:
+- Switch from markdown to RST
+- Break up into multiple files
+- Simplify instructions (we can always bikeshed those later)
+- AI => Agents
+
+Sasha Levin (4):
+  agents: add unified agent coding assistant configuration
+  agents: add core development references
+  agents: add coding style documentation and rules
+  agents: add legal requirements and agent attribution guidelines
+
+ .aider.conf.yml                       |  1 +
+ .codeium/instructions.md              |  1 +
+ .continue/context.md                  |  1 +
+ .cursorrules                          |  1 +
+ .github/copilot-instructions.md       |  1 +
+ .windsurfrules                        |  1 +
+ CLAUDE.md                             |  1 +
+ Documentation/agents/coding-style.rst | 35 ++++++++++++++++++++++
+ Documentation/agents/core.rst         | 28 ++++++++++++++++++
+ Documentation/agents/index.rst        | 13 +++++++++
+ Documentation/agents/legal.rst        | 42 +++++++++++++++++++++++++++
+ Documentation/agents/main.rst         | 22 ++++++++++++++
+ 12 files changed, 147 insertions(+)
+ create mode 120000 .aider.conf.yml
+ create mode 120000 .codeium/instructions.md
+ create mode 120000 .continue/context.md
+ create mode 120000 .cursorrules
+ create mode 120000 .github/copilot-instructions.md
+ create mode 120000 .windsurfrules
+ create mode 120000 CLAUDE.md
+ create mode 100644 Documentation/agents/coding-style.rst
+ create mode 100644 Documentation/agents/core.rst
+ create mode 100644 Documentation/agents/index.rst
+ create mode 100644 Documentation/agents/legal.rst
+ create mode 100644 Documentation/agents/main.rst
+
 -- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+2.39.5
+
