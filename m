@@ -1,112 +1,73 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 097F429405;
-	Mon, 28 Jul 2025 05:00:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 420B41482E7;
+	Mon, 28 Jul 2025 05:02:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753678840; cv=none; b=jYvsRLGScqY3GNaVH+Mn/1N5WRuN9Zmq11S+ZJj/vUsTzDO62GzwRXCQZ+98c1Xxqzzz1LYhhYJO8RYqAEJL8FTIRMg0Ld7bXWm11Bws+oq04qho1NhfZGVdZP1z8FKSqAw6bVD/d71bHtPZMxAVl/Uw48ktMkoKkNcyvg7aTTs=
+	t=1753678961; cv=none; b=NVluwOUytseGOu1UPgKsRsV7c7NkaBNOHT2qXUpcAqHO1qMlmeHOFTODZFObbeyHXvwyYWgQH5wZrLjn3TYrsPXtkHU9Nf2f5yvluYJKLR++3n01uSiX5d7yikm6cWaDfy/q3MeszZq6Uhvruwpqnh96hnA5r/SZ2q6B6FQf96k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753678840; c=relaxed/simple;
-	bh=LzL5Ag5PNrHKY/Mp40yf7knkdNLYeopazYhALz7eskI=;
+	s=arc-20240116; t=1753678961; c=relaxed/simple;
+	bh=L9PzLfyCXvKlm2QI40VeVwFfnjlEJsJwTN+gdfR8XJM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pcuPjNe5K0iuS2bPaXKn0xvVR+k/DmcysTXPmVDeUS44nbSgHf875VhN40jf6MEg/6DLlwfKxBw5OfeXhlV7e9Mth4di0Z2tZ8T182lJ4+CzqT4tbAAmKpQ/7chCnCH+EMdHmNP4SkvtgInEfYR6AyeoKaQiSxJ+YHOV7WDeb1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PLyYl+t6; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Evk1ygQxd0BpADe4r3yLQRqBQWaMCuSRn8raBSUjhPFEuD8juQbALUrfDIW/hEpjt2BG2r8kqWJ6c+JHJUvXrK37VHrSzYE3LhBRtqLcyPbxMMhXabnx/abKae0Y9XlVn3WZ78SyoLTzUQ2UkWslcGRVTzD83K+m8Gr8XLWYEHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UlXSQHhy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PLyYl+t6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 251BDC4CEE7;
-	Mon, 28 Jul 2025 05:00:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UlXSQHhy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE7DBC4CEE7;
+	Mon, 28 Jul 2025 05:02:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753678839;
-	bh=LzL5Ag5PNrHKY/Mp40yf7knkdNLYeopazYhALz7eskI=;
+	s=k20201202; t=1753678959;
+	bh=L9PzLfyCXvKlm2QI40VeVwFfnjlEJsJwTN+gdfR8XJM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PLyYl+t6jVNUnrCGmNqFdKbe5Eb1T3djSsixkZOuQ/ooUcIFhZ+qdBfTz4ncRZXOK
-	 UzbOS4J+4eXHkdYANWohSlZWFO3zGt7KHhCf3x7kQQ1ipV1Unzwts4GGSwEc3I+Ld3
-	 qhP0bcCpkFenejylErCTBgNOOjDsKQ1CODcssEdAsUCinFj2O5SesoRQHaPkWccN+M
-	 cmwvCRGx9zMP5/9cDOWMrad9XCbG4w9cgocIJ+eUCwAPDvbcSN1VGiDhkDFEmwWSDi
-	 PSmN7i1pHJVpuZKBl+EsPxanEbruxGe/0CgXvdcgEwQ28arGDOrCpIbClpkWB1bZ7w
-	 Q9+eEEeMrRHDA==
-Date: Mon, 28 Jul 2025 01:00:37 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Kees Cook <kees@kernel.org>
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org, workflows@vger.kernel.org,
+	b=UlXSQHhylEKWK7GxDue/UFWDCSnwJLSqqVcrhThgscHRbiSOZPKAnf8dN4qIAvdzD
+	 Rk4+0huwAklS1gE5p+j1uIvYn7h3PpII3qW3p5xBV49XyDBG72jSryJQjmYTfuHMuK
+	 ndm8XYAJ4oF3rLaczXzRcjCg2kPWjyRhMNuys4acMXXjyDPCtjGGPAJ5AkJlsVY0Jz
+	 U1n37vCdwR2fFi8trN5m2AxqXOUuLwmASJ9hhFQjDT3EtemBYmKFz5Y4I390MwYZ7K
+	 hPa5SvQYSB3IqlkF6N1CUBHV3y8/LWYbLqqkoPryIIeiuASFKBs35Ab7DcBJgs/QHN
+	 bwyl97W0rc5KQ==
+Date: Sun, 27 Jul 2025 22:02:39 -0700
+From: Kees Cook <kees@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: Greg KH <gregkh@linuxfoundation.org>, corbet@lwn.net,
+	linux-doc@vger.kernel.org, workflows@vger.kernel.org,
 	josh@joshtriplett.org, konstantin@linuxfoundation.org,
 	linux-kernel@vger.kernel.org, rostedt@goodmis.org
 Subject: Re: [PATCH 2/4] agents: add core development references
-Message-ID: <aIcD9f_52tlLgE-e@lappy>
+Message-ID: <202507272201.56FF81C25@keescook>
 References: <20250727195802.2222764-1-sashal@kernel.org>
  <20250727195802.2222764-3-sashal@kernel.org>
- <202507271937.EC44B39@keescook>
+ <2025072825-gotten-cupbearer-449a@gregkh>
+ <aIcCBZ6MVX1OHKpw@lappy>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <202507271937.EC44B39@keescook>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aIcCBZ6MVX1OHKpw@lappy>
 
-On Sun, Jul 27, 2025 at 07:39:06PM -0700, Kees Cook wrote:
->On Sun, Jul 27, 2025 at 03:58:00PM -0400, Sasha Levin wrote:
->> Signed-off-by: Sasha Levin <sashal@kernel.org>
->> ---
->>  Documentation/agents/core.rst  | 28 ++++++++++++++++++++++++++++
->>  Documentation/agents/index.rst |  3 ++-
->>  Documentation/agents/main.rst  |  5 +++++
->>  3 files changed, 35 insertions(+), 1 deletion(-)
->>  create mode 100644 Documentation/agents/core.rst
->>
->> diff --git a/Documentation/agents/core.rst b/Documentation/agents/core.rst
->> new file mode 100644
->> index 000000000000..da171dde1f9d
->> --- /dev/null
->> +++ b/Documentation/agents/core.rst
->> @@ -0,0 +1,28 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +========================================
->> +Core Linux Kernel Development References
->> +========================================
->> +
->> +Essential documentation for Linux kernel development:
->> +
->> +How to do Linux kernel development
->> +----------------------------------
->> +
->> +The comprehensive guide for becoming a Linux kernel developer and learning to work with the kernel development community.
->> +
->> +See :ref:`Documentation/process/howto.rst <process_howto>`
->> +
->> +Submitting patches
->> +------------------
->> +
->> +The essential guide to getting your code into the kernel, covering everything from patch formatting to the submission process.
->> +
->> +See :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
->> +
->> +Submission checklist
->> +--------------------
->> +
->> +A checklist of items to review before submitting code to ensure patches are accepted more quickly.
->> +
->> +See :ref:`Documentation/process/submit-checklist.rst <submitchecklist>`
->
->If an Agent needs the above list, then so does a human. Everything above
->should already be discoverable by the Agent. If it's not, then we need a
->better summary document _for humans_ that reads like the above.
+On Mon, Jul 28, 2025 at 12:52:21AM -0400, Sasha Levin wrote:
+> An an example, look at the wiki page for LF's kernel mentorship
+> program[1]. The first step it lists is:
+> 
+> 	Complete the project prerequisite tasks assigned to you when you apply for the project:
+> 	Step 1: You should have completed the A Beginner’s Guide to
+> 	Linux Kernel Development e-course during the planning phase.
+> 	Upload the certificate of completion.
+> 
+> Where the course is basically going over all the processes and rules
+> around kernel development ("This course is intended for developers who
+> need to know about the Linux kernel development process and the explicit
+> and implicit “rules of the road”.").
+> 
+> This patchset is effectively the equivalent of the course for agents :)
 
-Why would an agent read those docs unless we tell it to?
-
-Similarily, why would a human read those docs unless we tell it to? :)
-
-It's all there, it's all discoverable, but unless the agent magically
-knows it needs to know something from there then it won't be looking for
-it to begin with.
-
-Just like with humans, the better context and background you give them
-the better of a result you'll get out of it.
+But this just reinforces my point: if we need this for humans, write it
+for humans, and the agents can follow it.
 
 -- 
-Thanks,
-Sasha
+Kees Cook
