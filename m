@@ -1,44 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A57572E3708;
-	Mon, 28 Jul 2025 05:16:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07E4829405;
+	Mon, 28 Jul 2025 05:21:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753679793; cv=none; b=lTJXymIYRsCYmpBI2NoLj7ZHXemVF1vJB/KJf3qOFJ7ljo4DD3E8FBvPXHJsbrR8jR7yxLTmFYvJrcpYXXdqo2q3R/iVPtwwCH7odi6zusyYXiwfO55isfQq8ixcOrwLd+UEkewRh8FG5zTbNDWxo/JHyNCnBmizkh0LTZKm1ns=
+	t=1753680101; cv=none; b=rL1vRa42/+Ziu6JHw6FDNYjGhAcfs8c0nC09koOTkwRQ0cBquNUc3dMpP7QNLS9x6BcQQdPv2cYNhIva/FvvzOeu3do+cMbAqU83P5qERTsAQWTe0ZqgjC9+YSKYLyIbu/XRh19jWAa/KoAmOVNd9KcYnIaU4WnDhDo0/85ze84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753679793; c=relaxed/simple;
-	bh=qDx1ZZBo1UzQGdbqP1eOsZx6AQniOsrKTheh7dQ0KWE=;
+	s=arc-20240116; t=1753680101; c=relaxed/simple;
+	bh=zKqo6s0uP0m/eJSU28JeyvlFsZxsc++2K/tJff8xD4k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gvZaZ9YeylpvuhShQcE5T0h2zuvElTuqkZQIu1IrlZgMwSxaqydD5op9NFrFvT+Ie3bC1a02ZBpUkzocCJN8Xu+mhPaNPLRn+QtVM6yxKwvYx51CE/dUtdz3JaKFft4V8p64GwWNOuYOSxVS8GigvMPSnvj+LtzLCXc+TDaGrhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uBHwKt8Y; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=FeX5o5SxaqSJ5kDumFq7SoRjJdglki9AYKlNw3Sl/wozLe1UIDocUoCECE08z3e1JpNAgcGMP+93WI43n72BcNwelM0W4OrBha5rFJFAPybgq0Y5DKes+aybGX0HcgHyHlTgeRncOT1IOCnnYuj5/a9v77duPh+qBvJkBOK0n08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XcQ3ZzV0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uBHwKt8Y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36ADFC4CEE7;
-	Mon, 28 Jul 2025 05:16:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XcQ3ZzV0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1DD6C4CEE7;
+	Mon, 28 Jul 2025 05:21:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753679793;
-	bh=qDx1ZZBo1UzQGdbqP1eOsZx6AQniOsrKTheh7dQ0KWE=;
+	s=k20201202; t=1753680100;
+	bh=zKqo6s0uP0m/eJSU28JeyvlFsZxsc++2K/tJff8xD4k=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uBHwKt8YkXgqU5WcQS8B8y1kLGmpBI0IeapO8CHJ+Vi7y1LYoB59vJiY0f5dYne0F
-	 8QS0iR1xht/8/hg3DbNcm8qBHWVVFGElIavUKQA8+yQWiEmXGvulcO8Mco14ICs6AC
-	 bJ1RlCR68Fl4mBBv5xV1Fr1YmPCNBDy9aky1zG6EVNs3o3NV00eD8jC0IDdTOt6F1R
-	 6v4mKuSe9i7pQ2D6GRMbcO8rH4yVOowBKkyuZi0nu0EqJ6gstj/6yk/0CZHJuuTSeI
-	 dWAeAzDUEenrB65nABdW3tufjRYmpq7isyKy6d+Lt+TdvczzKMlXl3pHYf2xkwr0CX
-	 8nezvnZVGndnw==
-Date: Sun, 27 Jul 2025 22:16:32 -0700
+	b=XcQ3ZzV0mutTxCY3Hl1kk/5AFyx6wDjq0/dAT/Juq4NjhuaLgaJwHL6RXe6zLtn5r
+	 X63V3kB9rL/v06jd1gZpvTV9eCWAxZNoDuQSNVzZC0KmGTIOFyWJ5Tl5JkHx0kMl0B
+	 xoOTdh8TtU1hhcybVQzsntU71Rm4x0U/kY52p1WYDARe6zPuhqi5X8ICd1V13S6UmR
+	 DDyTLxaCuP7VkYv8CGq2OXH1Q8AbYxWt/kaPFhvlvWgQeYlzLgwLz6mjnGcSsGlbui
+	 8hMjJtRYKmvDwqQmkYIq/wkcXP4TfXBi/1DtsiLZg65jJDsUS+aTKPsXA5quhDuBpF
+	 +TRqIrHIUj7zg==
+Date: Sun, 27 Jul 2025 22:21:40 -0700
 From: Kees Cook <kees@kernel.org>
 To: Sasha Levin <sashal@kernel.org>
 Cc: corbet@lwn.net, linux-doc@vger.kernel.org, workflows@vger.kernel.org,
 	josh@joshtriplett.org, konstantin@linuxfoundation.org,
 	linux-kernel@vger.kernel.org, rostedt@goodmis.org
-Subject: Re: [PATCH 1/4] agents: add unified agent coding assistant
- configuration
-Message-ID: <202507272210.E8E64F6C@keescook>
+Subject: Re: [PATCH 3/4] agents: add coding style documentation and rules
+Message-ID: <202507272219.4BF02B6@keescook>
 References: <20250727195802.2222764-1-sashal@kernel.org>
- <20250727195802.2222764-2-sashal@kernel.org>
- <202507271934.68E1F0C728@keescook>
- <aIcACJhaU-NElyHC@lappy>
+ <20250727195802.2222764-4-sashal@kernel.org>
+ <202507271939.D78EC559@keescook>
+ <aIcGQR8tjmjr8dlb@lappy>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -47,44 +46,30 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aIcACJhaU-NElyHC@lappy>
+In-Reply-To: <aIcGQR8tjmjr8dlb@lappy>
 
-On Mon, Jul 28, 2025 at 12:43:52AM -0400, Sasha Levin wrote:
-> On Sun, Jul 27, 2025 at 07:37:31PM -0700, Kees Cook wrote:
-> > On Sun, Jul 27, 2025 at 03:57:59PM -0400, Sasha Levin wrote:
-> > > Create a single source of truth for agent instructions in
-> > > Documentation/AI/main.md with symlinks for all major coding
-> > > agents:
-> > > - CLAUDE.md (Claude Code)
-> > > - .github/copilot-instructions.md (GitHub Copilot)
-> > > - .cursorrules (Cursor)
-> > > - .codeium/instructions.md (Codeium)
-> > > - .continue/context.md (Continue)
-> > > - .windsurfrules (Windsurf)
-> > > - .aider.conf.yml (Aider)
-> > 
-> > I *really* don't like this. I use the CLAUDE.md file as my instructions
-> > for my agent. I think all of these should be .gitignore entries.
+On Mon, Jul 28, 2025 at 01:10:25AM -0400, Sasha Levin wrote:
+> On Sun, Jul 27, 2025 at 07:40:36PM -0700, Kees Cook wrote:
+> > On Sun, Jul 27, 2025 at 03:58:01PM -0400, Sasha Levin wrote:
+> > > +**80 character line limit**
+> > > +  The preferred limit on the length of a single line is 80 columns.
+>
+> Hrm, it is?
 > 
-> Sorry, I might have misunderstood you: how does it play out if we add
-> these to .gitignore?
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/coding-style.rst#n104
+> claims:
+> 
+> 	The preferred limit on the length of a single line is 80 columns.
+> 
+> 	Statements longer than 80 columns should be broken into sensible chunks,
+> 	unless exceeding 80 columns significantly increases readability and does
+> 	not hide information.
 
-Then what claude learns about my workflows and preference can be
-correctly stored in CLAUDE.me (which is how claude is designed to work).
-I would think of it like why we don't ship a debian/ package build tree:
-it's going to be different for everyone. And if you look in .gitignore
-you can already see that /debian/ is there. :) These agent files are for
-developer-specific use, and adding them to .gitignore is the right
-approach (at least for Claude and Gemini). Which reminds me, please
-also include GEMINI.md in your list. :)
+That's true, it's not called out well enough. 80 is "preferred
+limit" but not the hard limit, which is 100. See commit bdc48fa11e46
+("checkpatch/coding-style: deprecate 80-column warning")
 
-> The tool will just end replacing whatever we put in there with something
-> customized that doesn't necessarily correspond to what the community
-> will consider a "standard" set of rules for agents?
-
-Right, and then it will always be a git diff delta and cause pain. For
-the agents that are designed to _write_ to their files, then it needs
-to be in .gitignore.
+-Kees
 
 -- 
 Kees Cook
