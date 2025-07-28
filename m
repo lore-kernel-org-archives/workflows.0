@@ -1,109 +1,121 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7D8B19E96D;
-	Mon, 28 Jul 2025 10:56:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BFC0218858;
+	Mon, 28 Jul 2025 11:57:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753700206; cv=none; b=QboT1mV+M8yUd8T/tGc0eq07/GdhyifRywd1AgAntn5MfznxPOa9Sxv1uj48KuaSSGDOA6hlhjlWkZpUJV+R10vOldnWb3Tj8qOPa+qHoz+MaT6+AWUg+sZ3jvZ0DZc9qN/e7fEv11NYUkgJ7SV2syazC32+oY/aXPXTy4g8cHM=
+	t=1753703842; cv=none; b=RMHeEu46aFf5iVo4r3TwJ1XMcNN3siYsIlKBK7wHOaDAxeCovRFSOnj5OUijQVQ5BzVkfrryWW3uud8NbxTUrES0Y9io3+3KFR4UYHJj3JIxOChu5sBDYwP846EPDwI8DiKqOUaHqq0KLBUa9iS9F8SRSJ98Uk+UK+ti6oNwfuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753700206; c=relaxed/simple;
-	bh=6v5l+SGws6eU5rcGvZDcWB3QUuuC6ppDE6v+bXjfM24=;
+	s=arc-20240116; t=1753703842; c=relaxed/simple;
+	bh=KwknBtm3rG8DZ9E+8sUrsu3OOrib3fyBjqPLFr4ycAs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OoiWak8l5d+E8hD4uvqkzf5VWx7torpIAp3kVNCGYXaSIHREcc2bwsQozbXVgKr01ZCFWQugjVRhop8X9b7bgqxoLntHc6RPSjXPAW/Wycdijib2vcKU32Z05uAik4wIrphuoWp/r2QqGi8Q8bOIc6ydu066mRaO7jJHdsq6x18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qirASrLX; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=iNGHeH2t9hG1N0/KT2dCW3xi8n7OTIoToO+JSnRk2jQKmx5GyIpVsnRuiOrmhvejga+VtLccbsRGDqHbJWgsm2NacWPb2E6rNgqwyE2CgGlhvsXXR97qJ4bRuYz/naLSgDFrdCsvy0fzURYcgXbkAxoSnsIn4ep6aEGNam0eHiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RqfwJbyi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qirASrLX"
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 7EFB7446;
-	Mon, 28 Jul 2025 12:55:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1753700159;
-	bh=6v5l+SGws6eU5rcGvZDcWB3QUuuC6ppDE6v+bXjfM24=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RqfwJbyi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A28FC4CEE7;
+	Mon, 28 Jul 2025 11:57:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753703838;
+	bh=KwknBtm3rG8DZ9E+8sUrsu3OOrib3fyBjqPLFr4ycAs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qirASrLXDOxyLp7/oYBYjS1pQt9kZP4oX9eMvJcyGOfoiBB5mVW516RWU2ZG18UbD
-	 VbV6UXQSuZQXVeEDpqSEjJHW6MIdzcGM8ZtQ29L1XpfZ2yyOt7zuDh9mulsx//I17t
-	 IVewpsqdEUkXOhiCcLtRpxhtnR4XEIzrhfKQ83Qg=
-Date: Mon, 28 Jul 2025 13:56:34 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Greg KH <greg@kroah.com>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
-	linux-doc@vger.kernel.org, workflows@vger.kernel.org,
+	b=RqfwJbyixeU0CGFFCnQZPxoYw0lIQjtYHTfeCRbeKA4fVeubMfZRtZOMK5vibGMIi
+	 ZAhwSX2tIHBJlEebJNoQONALCqV4XQXU4EhG1TmAyee9dGXtbIflgBrVE1tUG7aIK+
+	 YltsV8lPTR5rKPj1EGlsoYzgIegsz0/kAlCC9yNIAw2/0LtibcC71eDLVF/8hK7YzM
+	 E4xsh27AI2ipBu12xiyMTmdvpuQf0VMOta3+t5kAxZPd1tKONDtMDHq4WVcrvBBc9U
+	 FUczJ2bVLW8egOnL6VpKUvhB6od74ihSwOv+Xwoif3T2umZMdU05z10s+X6MVbzTRP
+	 sjoA9F7Jyxgmw==
+Date: Mon, 28 Jul 2025 07:57:16 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org, workflows@vger.kernel.org,
 	josh@joshtriplett.org, kees@kernel.org,
 	konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	rostedt@goodmis.org, Linus Torvalds <torvalds@linux-foundation.org>
+	rostedt@goodmis.org
 Subject: Re: [PATCH 0/4] Add agent coding assistant configuration to Linux
  kernel
-Message-ID: <20250728105634.GF787@pendragon.ideasonboard.com>
+Message-ID: <aIdlnHcNHvOxVxGF@lappy>
 References: <20250727195802.2222764-1-sashal@kernel.org>
- <7e7f485e-93ad-4bc4-9323-f154ce477c39@lucifer.local>
- <2025072854-earthen-velcro-8b32@gregkh>
+ <75d86e96-cb18-4996-998c-da7ac0e97468@suse.cz>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <2025072854-earthen-velcro-8b32@gregkh>
+In-Reply-To: <75d86e96-cb18-4996-998c-da7ac0e97468@suse.cz>
 
-On Mon, Jul 28, 2025 at 12:35:02PM +0200, Greg KH wrote:
-> On Mon, Jul 28, 2025 at 09:42:27AM +0100, Lorenzo Stoakes wrote:
-> > +cc Linus
-> > 
-> > On Sun, Jul 27, 2025 at 03:57:58PM -0400, Sasha Levin wrote:
-> > > This patch series adds unified configuration and documentation for coding
-> > > agents working with the Linux kernel codebase. As coding agents
-> > > become increasingly common in software development, it's important to
-> > > establish clear guidelines for their use in kernel development.
-> > 
-> > Hi Sasha,
-> > 
-> > I feel like we need to take a step back here and consider some of the
-> > non-technical consqeuences of this change.
-> > 
-> > Firstly, there is no doubt whatsoever that, were this series to land, there
-> > would be significant press which would amount to (whether you like it or
-> > not) 'Linux kernel welcomes AI patches'.
-> > 
-> > I don't feel that a change of this magnitude which is likely to have this
-> > kind of impact should be RFC'd quietly and then, after a weekend, submitted
-> > ready to merge.
-> > 
-> > This change, whether you like it or not - amounts to (or at the very least,
-> > certainly will be perceived to be) kernel policy. And, AFAIK, we don't have
-> > an AI kernel policy doc yet.
-> > 
-> > So to me:
-> > 
-> > - We should establish an official kernel AI policy document.
-> 
-> Steven Rostedt is working on this right now, hopefully he has something
-> "soon".
-> 
-> > - This should be discussed at the maintainers summit before proceeding.
-> 
-> Sounds reasonable as well.
-> 
-> But I think that Kees and my earlier points of "the documentation should
-> be all that an agent needs" might aleviate many of these concerns, if
-> our documentation can be tweaked in a way to make it easier for
-> everyone, humans and bots, to understand.  That should cut down on the
-> "size" of this patch series a lot overall.
-> 
-> > In addition, it's concerning that we're explicitly adding configs for
-> > specific, commercial, products. This might be seen as an endorsement
-> > whether intended or not.
-> 
-> Don't we already have that for a few things already, like .editorconfig?
+On Mon, Jul 28, 2025 at 09:58:44AM +0200, Vlastimil Babka wrote:
+>On 7/27/25 21:57, Sasha Levin wrote:
+>> This patch series adds unified configuration and documentation for coding
+>> agents working with the Linux kernel codebase. As coding agents
+>> become increasingly common in software development, it's important to
+>> establish clear guidelines for their use in kernel development.
+>
+>Hi,
+>
+>this series seems to me somewhat premature. I think we first need a clear
+>policy wrt LLM usage for the *humans* to follow. It seemed this thread [1]
+>was going into that direction wrt usage disclosure. BTW I was quite shocked
+>by Steven's reply there [2] that he learned from the LWN coverage of a
+>conference talk that he had received a patch fully written by LLM without
+>any such indication. Now I'm not naive to believe that it's not been
+>happening already from e.g. first-time contributors, but if that coverage
+>was accurate, the patch came from a very seasoned kernel contributor and I
+>really wouldn't expect that to happen.
 
-We do, but isn't .editorconfig a vendor-neutral solution ?
+You mean that you had a concern that the same person who wrote
+hashtable.h was using tooling to convert open coded implementations of a
+hashtable to the API provided by hashtable.h?
+
+I've been doing this since 2012 (see 42f8570f437b ("workqueue: use new
+hashtable implementation")) with the various tools that the we have for
+mechanical transmormations of code.
+
+I understand Steve's point of view on this, and this series is here to
+tackle the concerns raised both by him and the rest of the community.
+
+>Also I don't know e.g. the copyright and licensing implications of LLM usage
+>beyond, say, a smarter automplete are clear? (again, such as writing the
+>full patch?) The thread [1] touched on it somewhat but not completely. If
+>that's clear already (IANAL), I'd hope that to be also part of such policy.
+
+The LF already has guidance
+(https://www.linuxfoundation.org/legal/generative-ai) for this type of
+contributions that was created by LF's lawyers.
+
+Clearly we can override, expand, or affirm it if we want to, but just
+like you, IANAL.
+
+>I know that your series has patch 4, but that seems to be part of what the
+>LLM is supposed to include for its prompt (does it make sense to call it
+>"legal requirements" then?). If it fails to e.g. add the "Co-developed-by:"
+>there seems to be nothing saying the human should check these things in the
+>output.
+
+Right - as pointed to later in the thread, that part is already in
+progress.
+
+The approach in this series would be to cover the technical aspects of
+supporting whatever policy we end up with.
+
+>So without such policy first, I fear just merging this alone would send the
+>message that the kernel is now officially accepting contributions done with
+>coding assistants, and those assistants will do the right things based on
+>these configuration files, and the developers using the assistants don't
+>need to concern themselves with anything more, as it's all covered by the
+>configuration.
+
+Note that at the current state of our policies and documentation, if you
+were to pretend to be a developer completely unfamiliar with the Linux
+Kernel project, the conclusion you'd reach is that the project
+"officially" accepts contributions that are in line with LF's policies.
+
+If anything, this series clamps down on that.
 
 -- 
-Regards,
-
-Laurent Pinchart
+Thanks,
+Sasha
