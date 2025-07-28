@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63B62111A8;
-	Mon, 28 Jul 2025 02:40:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FFC328F1;
+	Mon, 28 Jul 2025 02:43:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753670439; cv=none; b=AVVy8IKBdj5TboLID0KkbyVEAs6D6pVv9bMZJsSeRRORjIKNnDGFsZkcHqrtjSrTFhJTBvom8N8bpNkMIkRk/6Q3bAzYFBtIqAsreslg9su6uDhuL3HYcj/mfoTvFJuff1AeShLjv+zvx9VzB2Pgbv3veasUyZQd1Vk347ixA9M=
+	t=1753670613; cv=none; b=stNwvWxrjkavE3mzIFi3/ES3yV1bqD79z0vcGeQQc96VmHvbQwAGkW6rBOLZGFpVkGtMs8MelAEz9CJsZmIzAUlWEv41o3KQPKgt1ZFdrsplx0L0dsCrmngxiNl7+NKZkKfaRApMTUkUXvb6nuLJ4wT1YTvF17VVMoECvoCbbps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753670439; c=relaxed/simple;
-	bh=i6+ML5W5kVTFWibxcd3Cgc9dad/0Q1oDR4om9+5KkAI=;
+	s=arc-20240116; t=1753670613; c=relaxed/simple;
+	bh=wPCRh84URnm5Khcxtue6Vk8f5gPlQczxtLDvFPHTc/Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ESBQeRPwEBRIcK+ojdkAi7ZGdBCwkJVmneVneMKuSiZ/mHLwDXZ78LjFtmbG9JkTNejw+2LPAJ/3oUqkXOIWSQ4MQORswLiFHk9VtInbT0+H8lkQtcLbLLKkr+YBi9yJJTpspBB+okewLby3Aw6N9YLk1/EC1FeLaFfB2BaVndU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wyd0E5b4; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=i/ZCcL3eUAdlWemBhXFYmUP1/Fvi+cFwm5E158fOR73wy0k9FMhpM57iBGZZjemtPcRxnyhAFCaw8DwmAwcZrZ1MKMFTurSQaZSBoLqzAQ450V8LuK43Z7c5Srvk15QykZrgYAUTtPm0eKJCiPIEAbYArdoRg7/XWGv/n6enAL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AeWcY8GD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wyd0E5b4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1207C4CEEB;
-	Mon, 28 Jul 2025 02:40:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AeWcY8GD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB648C4CEEB;
+	Mon, 28 Jul 2025 02:43:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753670436;
-	bh=i6+ML5W5kVTFWibxcd3Cgc9dad/0Q1oDR4om9+5KkAI=;
+	s=k20201202; t=1753670612;
+	bh=wPCRh84URnm5Khcxtue6Vk8f5gPlQczxtLDvFPHTc/Q=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Wyd0E5b43yvCrBytp8SZkndpkUriwWz2/CC13eBLrd1dwO4Oa0BuPH7gOWQkqlOBd
-	 F4ZiUsOiII4FUNaQhtcQxEQ+8QPoz7+jRLxYO0U8BY5qOI9YoWHBwjEVqVZGW1b4Ly
-	 a/moaTBIjJ9DsUJcPknt5+7W/hvKOlDOiIuSMn/jDcOcwTF4HcoXTLf212Fh4pm4+g
-	 fJJ52jlHifhiZ3iIpAohQ0TPznarr9Ej67SJ48e+So0hfgCOhyhD/jDWuRW/HRB+Am
-	 mJ6KTT6t5t5B9WvhWnS/nzCx39etfj9Udwv5eI+Ncxl/zcucgy7Dv9AFfMa33jPsf+
-	 wksNYJEfY+UzA==
-Date: Sun, 27 Jul 2025 19:40:36 -0700
+	b=AeWcY8GDtJTZhYHHIrXEkxdKxxEsoBtzTlm7rtyjwLQNMGcTzxI3pd0dN29AEEb/k
+	 9JX5YXI5GESib8miDB+hDeQ9gst/sqg29/0FmCZGeL/VnM/SiAl+LzDMnqKTZY4Tks
+	 0uKGQU45GlHOeXSNJQDTDfPjDgKQDWY76XTejc976pPjza9V2l+Ponn+PUyMoCXUbp
+	 wQzEG6mrtHh2PMEQJmzita/Z24Q4sBiNkkl6aCyvhPSeAZf9Q78L4DXQov/waQHVIT
+	 7L8BmJkdmI/2kZj2If8XZbv04UzjBufVQ2ZdhiE6a4EaJtSU94vVOGZnFZrOJJkMn4
+	 3RfjJmaiOUEmQ==
+Date: Sun, 27 Jul 2025 19:43:32 -0700
 From: Kees Cook <kees@kernel.org>
 To: Sasha Levin <sashal@kernel.org>
 Cc: corbet@lwn.net, linux-doc@vger.kernel.org, workflows@vger.kernel.org,
 	josh@joshtriplett.org, konstantin@linuxfoundation.org,
 	linux-kernel@vger.kernel.org, rostedt@goodmis.org
-Subject: Re: [PATCH 3/4] agents: add coding style documentation and rules
-Message-ID: <202507271939.D78EC559@keescook>
+Subject: Re: [PATCH 4/4] agents: add legal requirements and agent attribution
+ guidelines
+Message-ID: <202507271940.F70685B2A9@keescook>
 References: <20250727195802.2222764-1-sashal@kernel.org>
- <20250727195802.2222764-4-sashal@kernel.org>
+ <20250727195802.2222764-5-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -44,23 +45,56 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250727195802.2222764-4-sashal@kernel.org>
+In-Reply-To: <20250727195802.2222764-5-sashal@kernel.org>
 
-On Sun, Jul 27, 2025 at 03:58:01PM -0400, Sasha Levin wrote:
-> +++ b/Documentation/agents/coding-style.rst
+On Sun, Jul 27, 2025 at 03:58:02PM -0400, Sasha Levin wrote:
+> +Licensing Requirements
+> +----------------------
+> +
+> +**GPL-2.0 License**
+> +  The Linux kernel is licensed under GPL-2.0 only with a syscall exception. Coding agents MUST follow this licensing rule with no exceptions. Any code contributed must be compatible with this license.
+> +
+> +**SPDX License Identifiers**
+> +  All files must have proper SPDX license identifiers. For most kernel source files, this should be the first line of the file in the appropriate comment format:
+> +
+> +  - For C source/header files: ``// SPDX-License-Identifier: GPL-2.0``
+> +  - For scripts: ``# SPDX-License-Identifier: GPL-2.0``
+> +  - For documentation: ``.. SPDX-License-Identifier: GPL-2.0``
 
-All of this is redundant.
+Again, all of this is redundant. And if the SPDX stuff *isn't*
+redundant, it needs to be listed somewhere else for humans.
 
-> +**No trailing whitespaces**
-> +  Never leave whitespace at the end of lines. Git will warn about patches that introduce trailing whitespace.
+> +Signed-off-by Restriction
+> +-------------------------
+> +
+> +Coding assistants **MUST NOT** add a ``Signed-off-by`` tag pointing to themselves. The ``Signed-off-by`` tag represents a legal certification by a human developer that they have the right to submit the code under the open source license.
+> +
+> +Only the human user running the coding assistant should add their ``Signed-off-by`` tag to commits. The agent's contribution is acknowledged through the ``Co-developed-by`` tag as described below.
 
-If this isn't covered elsewhere in Documentation/, it should be. :)
-Also, "all files end with a newline"
+This is unique to Agents. Yes, this is fine.
 
-> +**80 character line limit**
-> +  The preferred limit on the length of a single line is 80 columns. Statements longer than 80 columns should be broken into sensible chunks, unless exceeding 80 columns significantly increases readability and does not hide information.
+> +Agent Attribution Requirement
+> +-----------------------------
+> +
+> +When creating commits, coding agents **MUST** identify themselves by including the following tag in the commit message::
+> +
+> +    Co-developed-by: $AGENT_NAME $AGENT_MODEL $AGENT_VERSION
+> +
+> +Examples:
+> +
+> +- ``Co-developed-by: Claude claude-3-opus-20240229``
+> +- ``Co-developed-by: GitHub-Copilot GPT-4 v1.0.0``
+> +- ``Co-developed-by: Cursor gpt-4-turbo-2024-04-09``
+> +
+> +This transparency helps maintainers and reviewers understand that a coding agent was involved in the development process.
 
-And this is why redundancy is bad: our line limit is 100, not 80.
+This is fine too.
+
+But like I said before, you must update checkpatch.pl to not complain
+about Co-developed-by missing S-o-b when C-d-b lacks email address,
+and it should be part of this series.
+
+-Kees
 
 -- 
 Kees Cook
