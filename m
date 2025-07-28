@@ -1,79 +1,132 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E15EA1D7995;
-	Mon, 28 Jul 2025 06:03:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F6521FF5F;
+	Mon, 28 Jul 2025 06:18:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753682622; cv=none; b=enmBZdRQp1KdW/JwmuoNkCnda/qdsPwvSQlabUtHy2ycaxl/Vn6QfnXopqlwgySk/5DPu0nDGycA0FA6Kkg64TnvL2zQC9RFl4Q5B2TZYkuuCm39OmRLNP6H002UTHhRYp89clxe6J4IFWJOTSOBfkF/m0xuQymdhedWVp+3jYY=
+	t=1753683495; cv=none; b=mRhcBosAIPvcyB5Tl3Ql0yIWc6MI2khrvMrOVaCUB8iHd4qmrtstIdL0QNHbHROx4sYybWuIKkiIq3i9vg5lzC9A3VB4pnvK6O8a7r+gr3tQGZwBZ6F/vn56qrdkfVcW0iTQPLVjvjQ/9JANRr3b67NmOvsy2hPrCCrshs1/8sw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753682622; c=relaxed/simple;
-	bh=czqJMhn87F/tucJUQVgRrsbciq1urHkmWQ+o5DbBMJc=;
+	s=arc-20240116; t=1753683495; c=relaxed/simple;
+	bh=mj6YFtApUwRJm2aUwGfuTmS6+sBTcHv6G/guOCuRyCo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uFUNV+i1zMHIyxbM87YOzWBboTLgjorqJ582bpWjqlhB0QFYP2eauwW/8831iB8dFxvQMgzgjpdYM0EIuftqK2h2UgOQrY+ityA+EJrHf9uYjiMDBLeghGRh+Dr4NKP7BnZKT1nWPWkdxlhJfJbRA5WOAPycThZXJCxwseUrdRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e+gI9whl; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=IIAv2K8RehDsnAm7ivL45za+JkZ/C8xiCRwIepwOHi/B3HUZFoS1UI4WZNvNefARo3f9l7aOg9UEi/zRzC0ui+qZpTz/MbHIYDKW47FwVtFtsYW2EglodL1gwI2nqKhlSqz2i7VAIG4QxQJZ0drYIGiHHGhKeAx+7Bc1SA6xb2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wgd0OZeu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e+gI9whl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21745C4CEE7;
-	Mon, 28 Jul 2025 06:03:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wgd0OZeu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74882C4CEF7;
+	Mon, 28 Jul 2025 06:18:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753682621;
-	bh=czqJMhn87F/tucJUQVgRrsbciq1urHkmWQ+o5DbBMJc=;
+	s=k20201202; t=1753683494;
+	bh=mj6YFtApUwRJm2aUwGfuTmS6+sBTcHv6G/guOCuRyCo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e+gI9whl6LciXeVZ6nH6nerYU2QNfNG/AzM0cHJGiyyJLe+K8IkJsAfYw6HaeDfuh
-	 4mlxhj4SB71p7K1kEyrvpeZJF/bhSCrDp7RtAIwx6wB9ZLG6E05s4cFUzVf19kuZY5
-	 31SvKDjATwVyYPbJrBlk6dVJWNAsWuUj6AYby44p8rCWu2ca+IAXnHHRi5Is+Hf4ez
-	 OISLqC17QfxBop6levPMfGMVcEpyYYauhI3SoIeQbNBCxK92P7gn0uBvVz7z6X6qk5
-	 eyor7mrK3B3g0ryv3Oay9CQWw/ZTCiMe6EA8yABF/7+WC65fig/SS5tfaC2yMEV8yC
-	 uDybEAq0ZlxQg==
-Date: Mon, 28 Jul 2025 02:03:39 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Kees Cook <kees@kernel.org>
+	b=Wgd0OZeuMsPoOiMLipwFdiCGc0tfZXIoOIhT0T19r8wdELitTnbw+lB622keOnQur
+	 vez/7Xky0JnNTvMVdUcX7bjAcYB14L5CRv3vN7O+1UkUxSuNsVbidY4CBO4TKDK1u0
+	 uSQltxfGK3RDdWRBgU7WKOrJaB04XBkLoxL/e+BxHKHlGN2AJIKdGfmAoGpSMCmLOh
+	 b16dMu27OJldhYTrVy7rz1Ws9bprebg5FDTQ+EtXzoCo0ANZVV4CxxfO0lFONsAGB4
+	 yxhqg9Yjgb+uGB8+InEO19kdbpEoPuczIFQhcGNlA8j5nooyiTIhZvCbbtWriPk+/j
+	 PTBetomro2wvw==
+Date: Sun, 27 Jul 2025 23:18:14 -0700
+From: Kees Cook <kees@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
 Cc: corbet@lwn.net, linux-doc@vger.kernel.org, workflows@vger.kernel.org,
 	josh@joshtriplett.org, konstantin@linuxfoundation.org,
 	linux-kernel@vger.kernel.org, rostedt@goodmis.org
-Subject: Re: [PATCH 3/4] agents: add coding style documentation and rules
-Message-ID: <aIcSu3LidOqoaVOS@lappy>
+Subject: Re: [PATCH 2/4] agents: add core development references
+Message-ID: <202507272310.FCB96F5E93@keescook>
 References: <20250727195802.2222764-1-sashal@kernel.org>
- <20250727195802.2222764-4-sashal@kernel.org>
- <202507271939.D78EC559@keescook>
- <aIcGQR8tjmjr8dlb@lappy>
- <202507272219.4BF02B6@keescook>
+ <20250727195802.2222764-3-sashal@kernel.org>
+ <202507271937.EC44B39@keescook>
+ <aIcD9f_52tlLgE-e@lappy>
+ <202507272203.BECE244@keescook>
+ <aIcRzndNUdh-9R18@lappy>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <202507272219.4BF02B6@keescook>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aIcRzndNUdh-9R18@lappy>
 
-On Sun, Jul 27, 2025 at 10:21:40PM -0700, Kees Cook wrote:
->On Mon, Jul 28, 2025 at 01:10:25AM -0400, Sasha Levin wrote:
->> On Sun, Jul 27, 2025 at 07:40:36PM -0700, Kees Cook wrote:
->> > On Sun, Jul 27, 2025 at 03:58:01PM -0400, Sasha Levin wrote:
->> > > +**80 character line limit**
->> > > +  The preferred limit on the length of a single line is 80 columns.
->>
->> Hrm, it is?
->>
->> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/coding-style.rst#n104
->> claims:
->>
->> 	The preferred limit on the length of a single line is 80 columns.
->>
->> 	Statements longer than 80 columns should be broken into sensible chunks,
->> 	unless exceeding 80 columns significantly increases readability and does
->> 	not hide information.
->
->That's true, it's not called out well enough. 80 is "preferred
->limit" but not the hard limit, which is 100. See commit bdc48fa11e46
->("checkpatch/coding-style: deprecate 80-column warning")
+On Mon, Jul 28, 2025 at 01:59:42AM -0400, Sasha Levin wrote:
+> Thing is, agents won't read the README on their own: they need to be
+> prompted to do it.
 
-Sadly it doesn't look like I'm the only one who's confused here:
-https://lore.kernel.org/all/?q=%22checkpatch%2Fcoding-style%3A+deprecate+80-column+warning%22
+Claude does:
+
+ > /init
+
+● I'll analyze the codebase and create a CLAUDE.md file to help future
+  instances of Claude Code work effectively in this repository.
+
+● Update Todos
+  ⎿  ☐ Analyze codebase structure and files
+     ☐ Check for existing CLAUDE.md file
+     ☐ Look for build/test/lint configuration files
+     ☐ Create CLAUDE.md file
+     ☐ Examine README and other documentation
+     ☐ Check for Cursor/Copilot rules
+...
+● Read(Makefile)
+  ⎿  Read 50 lines (ctrl+r to expand)
+...
+
+Even before having read any file at all, Claude calls out README as a
+place to look.
+
+And in the resulting CLAUDE.md:
+
+## Documentation
+
+Primary documentation is in Documentation/ directory:
+- **Documentation/admin-guide/**: System administration
+- **Documentation/driver-api/**: Device driver APIs
+- **Documentation/core-api/**: Core kernel APIs
+- **Documentation/process/**: Development process guidelines
+
+
+> I'm assuming we both agree that we need to give the agent some entry
+> point which they will automatically process without any user prompts,
+> even if it's just saying "Please read the README file!"?
+
+I'm saying any agent that can be expected to work on Linux should already
+be trying to read the README. But regardless, both Makefile comments and
+"make help" output say to read the README, so we should fix it for
+humans too.
+
+> I think it'll be hard to find a common path that works here. README is
+> pretty generic because there are different humans that might read it:
+> 
+>  - A university researcher who should be pointed to researcher-guidelines.rst
+>  - A security researcher who should be pointed to security-bugs.rst or embargoed-hardware-issues.rst
+>  - A newbie trying to set up his mail client and needs to be pointed to email-clients.rst
+>  - A coding agent that doesn't care about none of the above.
+> 
+> So we can clean up README and try to make it an entry point that will
+> fit most of it's potential readers, but I worry that at the end it will
+> end fitting none of them.
+
+I think the above list is perfect contents for the README. Yes, please
+make that an entry point, or point to some other .rst entry point that
+will have a list of roles like that, with some common starting points.
+And yes, a line for agents in there seems fine. Maybe "If you are a
+coding agent, also see ... for agent-specific details."
+
+> Without crafting something more specific for agents, I also worry that
+> we'll be stuffing the limited context they already have with information
+> that will only hurt their performance (just like humans: there's only so
+> much we can remember at a time).
+
+Sure, but these things will only get better, and I'd rather spend the
+time making the docs better for humans. Each agent will latch on to
+different things it assumes is important -- the developer will need to
+correct them no matter what. An agent isn't going to be acting alone
+(yet).
+
+-Kees
 
 -- 
-Thanks,
-Sasha
+Kees Cook
