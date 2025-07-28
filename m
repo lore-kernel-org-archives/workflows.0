@@ -1,120 +1,149 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BFC0218858;
-	Mon, 28 Jul 2025 11:57:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D548E6EB79;
+	Mon, 28 Jul 2025 12:35:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753703842; cv=none; b=RMHeEu46aFf5iVo4r3TwJ1XMcNN3siYsIlKBK7wHOaDAxeCovRFSOnj5OUijQVQ5BzVkfrryWW3uud8NbxTUrES0Y9io3+3KFR4UYHJj3JIxOChu5sBDYwP846EPDwI8DiKqOUaHqq0KLBUa9iS9F8SRSJ98Uk+UK+ti6oNwfuQ=
+	t=1753706144; cv=none; b=rU0SU5gkI4KBNdxDV3ONP2N64XauEQGJ4FO3sGR/erlv7yttCe4VXdsFMHgGh3IsFK0lZ+Stsoi7NlmexWZ/6IjgI3VyaHV3dzYkWbOI+m6gmDgVRQ50qV4qT8PIz/mlXcfqqawBc5Zk3pRPwyQPJ27hO9rADsoA5SRPM7iv4N4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753703842; c=relaxed/simple;
-	bh=KwknBtm3rG8DZ9E+8sUrsu3OOrib3fyBjqPLFr4ycAs=;
+	s=arc-20240116; t=1753706144; c=relaxed/simple;
+	bh=o8eZs36uMwbLt2BUAEIAM068UV589WXxCIFQXsvIgxw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iNGHeH2t9hG1N0/KT2dCW3xi8n7OTIoToO+JSnRk2jQKmx5GyIpVsnRuiOrmhvejga+VtLccbsRGDqHbJWgsm2NacWPb2E6rNgqwyE2CgGlhvsXXR97qJ4bRuYz/naLSgDFrdCsvy0fzURYcgXbkAxoSnsIn4ep6aEGNam0eHiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RqfwJbyi; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=JgXs6vgtyFR9ZPSFbRATaeXxOejRUcMKZEuhlReJ4i4gqaZbud3O+AJhjAnXJKfp96szdGHRHXWPyxwoYHW0/UOBGrP+KPUSxl0+veiN6+uqvPC6BsSfBZAviuK5+NS3vlkDrAK/SZC/7fFsmzNZOgU2BdlTRDfYd43JwLRrylU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pKNsmfXf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RqfwJbyi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A28FC4CEE7;
-	Mon, 28 Jul 2025 11:57:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pKNsmfXf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28DE5C4CEE7;
+	Mon, 28 Jul 2025 12:35:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753703838;
-	bh=KwknBtm3rG8DZ9E+8sUrsu3OOrib3fyBjqPLFr4ycAs=;
+	s=k20201202; t=1753706142;
+	bh=o8eZs36uMwbLt2BUAEIAM068UV589WXxCIFQXsvIgxw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RqfwJbyixeU0CGFFCnQZPxoYw0lIQjtYHTfeCRbeKA4fVeubMfZRtZOMK5vibGMIi
-	 ZAhwSX2tIHBJlEebJNoQONALCqV4XQXU4EhG1TmAyee9dGXtbIflgBrVE1tUG7aIK+
-	 YltsV8lPTR5rKPj1EGlsoYzgIegsz0/kAlCC9yNIAw2/0LtibcC71eDLVF/8hK7YzM
-	 E4xsh27AI2ipBu12xiyMTmdvpuQf0VMOta3+t5kAxZPd1tKONDtMDHq4WVcrvBBc9U
-	 FUczJ2bVLW8egOnL6VpKUvhB6od74ihSwOv+Xwoif3T2umZMdU05z10s+X6MVbzTRP
-	 sjoA9F7Jyxgmw==
-Date: Mon, 28 Jul 2025 07:57:16 -0400
+	b=pKNsmfXfJSpatoHENS6oF9FumDsyEvw49ea6rZNlrCqSP0f0OfuZcFLLGB1zsxDN6
+	 vsaWG9Lk8DHlTJAPfF8H1HwcEE8wyCvy3oG1YwR08fMXZa++n8slKCdQaxjermbZsG
+	 ONP/Mdx0sKMLFio8Mtx4RGGrtK9uVXzi7Oa8moc3d/87skOMYdHqVOANLr/p8Q+Rrh
+	 HBqy2waiYMO+ZnDZYpjv6lipZHUpr3DnsKyYUyKOeQFobuhXivscTMRviwYp2KMmxY
+	 5YpQvE+LDJNsLEqA4Hsc4qNytKOGhq9P/0+u517RLbvDidF4Pz2KcuDQcICVHP/mBo
+	 slojZ160G9P6g==
+Date: Mon, 28 Jul 2025 08:35:40 -0400
 From: Sasha Levin <sashal@kernel.org>
-To: Vlastimil Babka <vbabka@suse.cz>
+To: Kees Cook <kees@kernel.org>
 Cc: corbet@lwn.net, linux-doc@vger.kernel.org, workflows@vger.kernel.org,
-	josh@joshtriplett.org, kees@kernel.org,
-	konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	rostedt@goodmis.org
-Subject: Re: [PATCH 0/4] Add agent coding assistant configuration to Linux
- kernel
-Message-ID: <aIdlnHcNHvOxVxGF@lappy>
+	josh@joshtriplett.org, konstantin@linuxfoundation.org,
+	linux-kernel@vger.kernel.org, rostedt@goodmis.org
+Subject: Re: [PATCH 2/4] agents: add core development references
+Message-ID: <aIdunK1e4I_jq_lI@lappy>
 References: <20250727195802.2222764-1-sashal@kernel.org>
- <75d86e96-cb18-4996-998c-da7ac0e97468@suse.cz>
+ <20250727195802.2222764-3-sashal@kernel.org>
+ <202507271937.EC44B39@keescook>
+ <aIcD9f_52tlLgE-e@lappy>
+ <202507272203.BECE244@keescook>
+ <aIcRzndNUdh-9R18@lappy>
+ <202507272310.FCB96F5E93@keescook>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <75d86e96-cb18-4996-998c-da7ac0e97468@suse.cz>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <202507272310.FCB96F5E93@keescook>
 
-On Mon, Jul 28, 2025 at 09:58:44AM +0200, Vlastimil Babka wrote:
->On 7/27/25 21:57, Sasha Levin wrote:
->> This patch series adds unified configuration and documentation for coding
->> agents working with the Linux kernel codebase. As coding agents
->> become increasingly common in software development, it's important to
->> establish clear guidelines for their use in kernel development.
+On Sun, Jul 27, 2025 at 11:18:14PM -0700, Kees Cook wrote:
+>On Mon, Jul 28, 2025 at 01:59:42AM -0400, Sasha Levin wrote:
+>> Thing is, agents won't read the README on their own: they need to be
+>> prompted to do it.
 >
->Hi,
+>Claude does:
 >
->this series seems to me somewhat premature. I think we first need a clear
->policy wrt LLM usage for the *humans* to follow. It seemed this thread [1]
->was going into that direction wrt usage disclosure. BTW I was quite shocked
->by Steven's reply there [2] that he learned from the LWN coverage of a
->conference talk that he had received a patch fully written by LLM without
->any such indication. Now I'm not naive to believe that it's not been
->happening already from e.g. first-time contributors, but if that coverage
->was accurate, the patch came from a very seasoned kernel contributor and I
->really wouldn't expect that to happen.
+> > /init
+>
+>● I'll analyze the codebase and create a CLAUDE.md file to help future
+>  instances of Claude Code work effectively in this repository.
+>
+>● Update Todos
+>  ⎿  ☐ Analyze codebase structure and files
+>     ☐ Check for existing CLAUDE.md file
+>     ☐ Look for build/test/lint configuration files
+>     ☐ Create CLAUDE.md file
+>     ☐ Examine README and other documentation
+>     ☐ Check for Cursor/Copilot rules
+>...
+>● Read(Makefile)
+>  ⎿  Read 50 lines (ctrl+r to expand)
+>...
+>
+>Even before having read any file at all, Claude calls out README as a
+>place to look.
+>
+>And in the resulting CLAUDE.md:
+>
+>## Documentation
+>
+>Primary documentation is in Documentation/ directory:
+>- **Documentation/admin-guide/**: System administration
+>- **Documentation/driver-api/**: Device driver APIs
+>- **Documentation/core-api/**: Core kernel APIs
+>- **Documentation/process/**: Development process guidelines
+>
+>
+>> I'm assuming we both agree that we need to give the agent some entry
+>> point which they will automatically process without any user prompts,
+>> even if it's just saying "Please read the README file!"?
+>
+>I'm saying any agent that can be expected to work on Linux should already
+>be trying to read the README. But regardless, both Makefile comments and
+>"make help" output say to read the README, so we should fix it for
+>humans too.
 
-You mean that you had a concern that the same person who wrote
-hashtable.h was using tooling to convert open coded implementations of a
-hashtable to the API provided by hashtable.h?
+But my point is that calling /init is a prompt (just one hidden behide
+the scenes).
 
-I've been doing this since 2012 (see 42f8570f437b ("workqueue: use new
-hashtable implementation")) with the various tools that the we have for
-mechanical transmormations of code.
+Without an explicit /init call and no CLAUDE.md (or the copilot/cursor
+equivalents which I've tested), nothing reads README.
 
-I understand Steve's point of view on this, and this series is here to
-tackle the concerns raised both by him and the rest of the community.
+>> I think it'll be hard to find a common path that works here. README is
+>> pretty generic because there are different humans that might read it:
+>>
+>>  - A university researcher who should be pointed to researcher-guidelines.rst
+>>  - A security researcher who should be pointed to security-bugs.rst or embargoed-hardware-issues.rst
+>>  - A newbie trying to set up his mail client and needs to be pointed to email-clients.rst
+>>  - A coding agent that doesn't care about none of the above.
+>>
+>> So we can clean up README and try to make it an entry point that will
+>> fit most of it's potential readers, but I worry that at the end it will
+>> end fitting none of them.
+>
+>I think the above list is perfect contents for the README. Yes, please
+>make that an entry point, or point to some other .rst entry point that
+>will have a list of roles like that, with some common starting points.
+>And yes, a line for agents in there seems fine. Maybe "If you are a
+>coding agent, also see ... for agent-specific details."
+>
+>> Without crafting something more specific for agents, I also worry that
+>> we'll be stuffing the limited context they already have with information
+>> that will only hurt their performance (just like humans: there's only so
+>> much we can remember at a time).
+>
+>Sure, but these things will only get better, and I'd rather spend the
+>time making the docs better for humans. Each agent will latch on to
+>different things it assumes is important -- the developer will need to
+>correct them no matter what. An agent isn't going to be acting alone
+>(yet).
 
->Also I don't know e.g. the copyright and licensing implications of LLM usage
->beyond, say, a smarter automplete are clear? (again, such as writing the
->full patch?) The thread [1] touched on it somewhat but not completely. If
->that's clear already (IANAL), I'd hope that to be also part of such policy.
+Oh, this is interesting!
 
-The LF already has guidance
-(https://www.linuxfoundation.org/legal/generative-ai) for this type of
-contributions that was created by LF's lawyers.
+Do you see it being as something like "Common kernel usage usecases" and
+then some sort of a tree of docs/blurb related to those uses?
 
-Clearly we can override, expand, or affirm it if we want to, but just
-like you, IANAL.
+Sort of like a meta-index that indexes the docs by purpose rather than
+their location in the directory?
 
->I know that your series has patch 4, but that seems to be part of what the
->LLM is supposed to include for its prompt (does it make sense to call it
->"legal requirements" then?). If it fails to e.g. add the "Co-developed-by:"
->there seems to be nothing saying the human should check these things in the
->output.
-
-Right - as pointed to later in the thread, that part is already in
-progress.
-
-The approach in this series would be to cover the technical aspects of
-supporting whatever policy we end up with.
-
->So without such policy first, I fear just merging this alone would send the
->message that the kernel is now officially accepting contributions done with
->coding assistants, and those assistants will do the right things based on
->these configuration files, and the developers using the assistants don't
->need to concern themselves with anything more, as it's all covered by the
->configuration.
-
-Note that at the current state of our policies and documentation, if you
-were to pretend to be a developer completely unfamiliar with the Linux
-Kernel project, the conclusion you'd reach is that the project
-"officially" accepts contributions that are in line with LF's policies.
-
-If anything, this series clamps down on that.
+Do you see it as being just links to existing docs or should it have
+some blurb in addition to the links?
 
 -- 
 Thanks,
