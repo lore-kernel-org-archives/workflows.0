@@ -1,149 +1,97 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D548E6EB79;
-	Mon, 28 Jul 2025 12:35:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7702B13D51E;
+	Mon, 28 Jul 2025 12:45:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753706144; cv=none; b=rU0SU5gkI4KBNdxDV3ONP2N64XauEQGJ4FO3sGR/erlv7yttCe4VXdsFMHgGh3IsFK0lZ+Stsoi7NlmexWZ/6IjgI3VyaHV3dzYkWbOI+m6gmDgVRQ50qV4qT8PIz/mlXcfqqawBc5Zk3pRPwyQPJ27hO9rADsoA5SRPM7iv4N4=
+	t=1753706722; cv=none; b=gdSzBy2y2wSq6QfFOOdQ4DXukQGTayV1UJUgtdfpJVRMKAIjbXgDPmHkO61ws++sXhCZdbxt/KgU8VERjOch4UegwCfimCETPJk0YyLXKWW2c8TvFlsApSn1t94FcVY5q46k5yP5PA+1VTldyUltV8NON0mSOcbjfNSBOFb1ZaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753706144; c=relaxed/simple;
-	bh=o8eZs36uMwbLt2BUAEIAM068UV589WXxCIFQXsvIgxw=;
+	s=arc-20240116; t=1753706722; c=relaxed/simple;
+	bh=GugSHvy+IJFFREl/nAn10zyTSudtGXDdHs192vJUo3M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JgXs6vgtyFR9ZPSFbRATaeXxOejRUcMKZEuhlReJ4i4gqaZbud3O+AJhjAnXJKfp96szdGHRHXWPyxwoYHW0/UOBGrP+KPUSxl0+veiN6+uqvPC6BsSfBZAviuK5+NS3vlkDrAK/SZC/7fFsmzNZOgU2BdlTRDfYd43JwLRrylU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pKNsmfXf; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=cA32a2/k/Z8Bv02Erkv5u8qCrRWkWhFHFnbDtBEOMUWaW1rvIc1RY5+tlFxNOmIzX+EzkM5OTjIcVFYpxcF22HjT+PdYt9d49b3siK9Djuuc7ypI5LTzcnv6SLIqhXz09XsEY+aLztKeyGMtfRng6q3/TnYB2V0CNw0ZQfSa3Vs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J/FcKi+h; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pKNsmfXf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28DE5C4CEE7;
-	Mon, 28 Jul 2025 12:35:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J/FcKi+h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4175CC4CEE7;
+	Mon, 28 Jul 2025 12:45:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753706142;
-	bh=o8eZs36uMwbLt2BUAEIAM068UV589WXxCIFQXsvIgxw=;
+	s=k20201202; t=1753706721;
+	bh=GugSHvy+IJFFREl/nAn10zyTSudtGXDdHs192vJUo3M=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pKNsmfXfJSpatoHENS6oF9FumDsyEvw49ea6rZNlrCqSP0f0OfuZcFLLGB1zsxDN6
-	 vsaWG9Lk8DHlTJAPfF8H1HwcEE8wyCvy3oG1YwR08fMXZa++n8slKCdQaxjermbZsG
-	 ONP/Mdx0sKMLFio8Mtx4RGGrtK9uVXzi7Oa8moc3d/87skOMYdHqVOANLr/p8Q+Rrh
-	 HBqy2waiYMO+ZnDZYpjv6lipZHUpr3DnsKyYUyKOeQFobuhXivscTMRviwYp2KMmxY
-	 5YpQvE+LDJNsLEqA4Hsc4qNytKOGhq9P/0+u517RLbvDidF4Pz2KcuDQcICVHP/mBo
-	 slojZ160G9P6g==
-Date: Mon, 28 Jul 2025 08:35:40 -0400
+	b=J/FcKi+hjv9Iqn2RYaI04kXyLfzYaJ0EgCdEefTIVQYhMRE4SG64xA2v937xYdk2/
+	 A6bibL8mGIajh5Hmaoket1pqclZACy7UljY7IhoFvs9MsYHJD50c9F4PJPHJ066ghF
+	 1iT+HlVnom4L8fCYSKvY1JicpPLt3rToYizVt/mla6cTyXiwrlZQnsXLJEIKkU7AAh
+	 RzJx3e/IiE0H6dexSi+y3Syq9vgMdhf6drHB/jrhntmHY2OydFJTUrFxDKsuAnAl2I
+	 /9IeKbTDPjfYIFAEOO5g1dwCzor1jFw1+DjiXEnJp1LWpSsDJ60jdPyJ1sMASF06Po
+	 crjPWKqWJIh3g==
+Date: Mon, 28 Jul 2025 08:45:19 -0400
 From: Sasha Levin <sashal@kernel.org>
-To: Kees Cook <kees@kernel.org>
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org, workflows@vger.kernel.org,
-	josh@joshtriplett.org, konstantin@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, rostedt@goodmis.org
-Subject: Re: [PATCH 2/4] agents: add core development references
-Message-ID: <aIdunK1e4I_jq_lI@lappy>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Greg KH <greg@kroah.com>, corbet@lwn.net, linux-doc@vger.kernel.org,
+	workflows@vger.kernel.org, josh@joshtriplett.org, kees@kernel.org,
+	konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	rostedt@goodmis.org, Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH 0/4] Add agent coding assistant configuration to Linux
+ kernel
+Message-ID: <aIdw3-G04QQPvJtU@lappy>
 References: <20250727195802.2222764-1-sashal@kernel.org>
- <20250727195802.2222764-3-sashal@kernel.org>
- <202507271937.EC44B39@keescook>
- <aIcD9f_52tlLgE-e@lappy>
- <202507272203.BECE244@keescook>
- <aIcRzndNUdh-9R18@lappy>
- <202507272310.FCB96F5E93@keescook>
+ <7e7f485e-93ad-4bc4-9323-f154ce477c39@lucifer.local>
+ <2025072854-earthen-velcro-8b32@gregkh>
+ <df188552-c2dd-4cb7-9f6a-74e05e677dfc@lucifer.local>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <202507272310.FCB96F5E93@keescook>
+In-Reply-To: <df188552-c2dd-4cb7-9f6a-74e05e677dfc@lucifer.local>
 
-On Sun, Jul 27, 2025 at 11:18:14PM -0700, Kees Cook wrote:
->On Mon, Jul 28, 2025 at 01:59:42AM -0400, Sasha Levin wrote:
->> Thing is, agents won't read the README on their own: they need to be
->> prompted to do it.
->
->Claude does:
->
-> > /init
->
->● I'll analyze the codebase and create a CLAUDE.md file to help future
->  instances of Claude Code work effectively in this repository.
->
->● Update Todos
->  ⎿  ☐ Analyze codebase structure and files
->     ☐ Check for existing CLAUDE.md file
->     ☐ Look for build/test/lint configuration files
->     ☐ Create CLAUDE.md file
->     ☐ Examine README and other documentation
->     ☐ Check for Cursor/Copilot rules
->...
->● Read(Makefile)
->  ⎿  Read 50 lines (ctrl+r to expand)
->...
->
->Even before having read any file at all, Claude calls out README as a
->place to look.
->
->And in the resulting CLAUDE.md:
->
->## Documentation
->
->Primary documentation is in Documentation/ directory:
->- **Documentation/admin-guide/**: System administration
->- **Documentation/driver-api/**: Device driver APIs
->- **Documentation/core-api/**: Core kernel APIs
->- **Documentation/process/**: Development process guidelines
->
->
->> I'm assuming we both agree that we need to give the agent some entry
->> point which they will automatically process without any user prompts,
->> even if it's just saying "Please read the README file!"?
->
->I'm saying any agent that can be expected to work on Linux should already
->be trying to read the README. But regardless, both Makefile comments and
->"make help" output say to read the README, so we should fix it for
->humans too.
+On Mon, Jul 28, 2025 at 11:52:47AM +0100, Lorenzo Stoakes wrote:
+>One thing to note is that I struggled to get an LLM to read MAINTAINERS
+>properly recently (it assured me, with absolute confidence, that the SLAB
+>ALLOCATOR section was in fact 'SLAB ALLOCATORS' + provided me with
+>completely incorrect contents, and told me that if I didn't believe it I
+>should go check :)
 
-But my point is that calling /init is a prompt (just one hidden behide
-the scenes).
+Heh, I wouldn't trust LLM with anything more than mechanical
+transformations or test writing at this point :)
 
-Without an explicit /init call and no CLAUDE.md (or the copilot/cursor
-equivalents which I've tested), nothing reads README.
+>So at all times I think ensuring the human element is aware that they need
+>to do some kind of checking/filtering is key.
+>
+>But that can be handled by a carefully worded policy document.
 
->> I think it'll be hard to find a common path that works here. README is
->> pretty generic because there are different humans that might read it:
+Right. The prupose of this series is not to create a new LLM policy but
+rather try and enforce our existing set of policies on LLMs.
+
+Right now the "official" policy of our project is that we accept agent
+generated contributions without any requirements beyond what applies to
+regular humans, which most LLMs promptly skip reading and go do their
+own thing...
+
+So I wanted to at least force LLMs to go RTFM before writing code.
+
 >>
->>  - A university researcher who should be pointed to researcher-guidelines.rst
->>  - A security researcher who should be pointed to security-bugs.rst or embargoed-hardware-issues.rst
->>  - A newbie trying to set up his mail client and needs to be pointed to email-clients.rst
->>  - A coding agent that doesn't care about none of the above.
+>> > In addition, it's concerning that we're explicitly adding configs for
+>> > specific, commercial, products. This might be seen as an endorsement
+>> > whether intended or not.
 >>
->> So we can clean up README and try to make it an entry point that will
->> fit most of it's potential readers, but I worry that at the end it will
->> end fitting none of them.
+>> Don't we already have that for a few things already, like .editorconfig?
 >
->I think the above list is perfect contents for the README. Yes, please
->make that an entry point, or point to some other .rst entry point that
->will have a list of roles like that, with some common starting points.
->And yes, a line for agents in there seems fine. Maybe "If you are a
->coding agent, also see ... for agent-specific details."
+>Right, but I think it's a whole other level when it's a subscription
+>service. I realise we have to be practical, but it's just something to be
+>aware of.
 >
->> Without crafting something more specific for agents, I also worry that
->> we'll be stuffing the limited context they already have with information
->> that will only hurt their performance (just like humans: there's only so
->> much we can remember at a time).
->
->Sure, but these things will only get better, and I'd rather spend the
->time making the docs better for humans. Each agent will latch on to
->different things it assumes is important -- the developer will need to
->correct them no matter what. An agent isn't going to be acting alone
->(yet).
+>Perhaps an entry in the AI doc along the lines of 'provision of
+>configuration for a service is not advocating for that service, it is
+>simply provided for convenience' or similar might help.
 
-Oh, this is interesting!
-
-Do you see it being as something like "Common kernel usage usecases" and
-then some sort of a tree of docs/blurb related to those uses?
-
-Sort of like a meta-index that indexes the docs by purpose rather than
-their location in the directory?
-
-Do you see it as being just links to existing docs or should it have
-some blurb in addition to the links?
+It also gives us the option of dropping some of these if we find them to
+be either horrible at their job or just being abused.
 
 -- 
 Thanks,
