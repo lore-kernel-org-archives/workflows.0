@@ -1,101 +1,118 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288F21C36;
-	Mon, 28 Jul 2025 04:24:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DFDD7DA73;
+	Mon, 28 Jul 2025 04:43:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753676693; cv=none; b=oEuwLBL+Ncfanl/AM1LbYk3OE0szYtKI9ubhuuKiOh+EdDTTRCqBCcT3+GJFu+l+ws2NCNR9j/FQJFnHBlJkSy5a44wNvvtiT5UHH5PJiXsUAPbu/M2KrxbQmuW7AYvMYzC5QE7pJ+lIg+X/Qr/OSJWI8R7hm3CLMyQ+Xz9JzwA=
+	t=1753677836; cv=none; b=HVDx3qUKHMRxgVvLM8JaDI8i5VhfdjzpI24dixCW+w5yz1UDliByvq9IQ9OXg1hBwNzYc9yuYHK9QUVZqyGdnvMaL6O+/btmpSyj/Ly0etjN15szcKJLzju5+vcmhWPZNPg8qZC8fwy4Eta8C9cOVdHG6yv9T8nZgatPgiZVFFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753676693; c=relaxed/simple;
-	bh=wIs6UTtylqnFTXYKYzkqoiC66IXr0qN9GkHXwam0AYY=;
+	s=arc-20240116; t=1753677836; c=relaxed/simple;
+	bh=mUCxvSTRCDEpiiql5k4HQsjRgZR5GnyT10fpLFbTvw4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bqk7FL5/pkSuXXvyfejMnLPCr4RtT2Pfg2vk3UBFmA73tEn9jr1KHEbRhva4m4Vd+VWfkYUxb6vtkkfsXgWXQrvLaCEEj02wxsD7KR5u1eBm73bjeUG5vxrOt7gcaro0akU4gdtv3PaA2hRYhUiLypvoYfP52y15YTlSAdPFbLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Ezpkl/hn; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=sxrwZPHqnH5h19qi2HWPXYf3tTiy964r1QYhVdrhE/8lTbOWW1dtD64xrI2sCp24FjK26qnqdzg8/APilcsFVS2CMGuVPVaNE6rpphbPhvE1Ccl82fsej8Pkd2moUVixehEguTS9wwtngUdutb88FkNb7X1sg8jTV21e2hwJJ2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kom+2/9V; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Ezpkl/hn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05964C4CEE7;
-	Mon, 28 Jul 2025 04:24:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1753676692;
-	bh=wIs6UTtylqnFTXYKYzkqoiC66IXr0qN9GkHXwam0AYY=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kom+2/9V"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8460FC4CEE7;
+	Mon, 28 Jul 2025 04:43:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753677834;
+	bh=mUCxvSTRCDEpiiql5k4HQsjRgZR5GnyT10fpLFbTvw4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ezpkl/hnOzuPh7IyQANeZuw+AO2fKWmwTwzqBfQA8TTP7C1QSkbA7CVvIjN47xrrQ
-	 xbCiWdu6PJNtwYAVua6KLg1zQsRE0ad+WDxOKGwbZtKeQoO36LEJ7EBLGNWcLswBfT
-	 01TEbSPMKtCSZAn7D9Royift0LBhzSu/uVeU3GuU=
-Date: Mon, 28 Jul 2025 06:24:44 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Sasha Levin <sashal@kernel.org>
+	b=Kom+2/9VLWh+L8XRpkBzEyshQoDtImaEas94vLO9SdTDAeWCzJA2GHFvx2hqA7c8O
+	 AUVNj/y89fXViIRqmZDLwnewPpqAuPxVBQ71S8vCc3zdoEO/NYIrrMxq0bWh/4rmzE
+	 xsdzoqIZbZCXZTq2m1NAU9gU2xR2HVKhIyXMwGVkvZdnbG3hzN+5D2OYqwJym62TK8
+	 qRm6DNWvSEn0kX2BTES4WpLIqExwRtfuXRBUsuTy1MhllogUkxb+PI/4Ve9nLMPs9B
+	 /qNYf0lCtbtTtWAmPm9jpvaZwD//0y/kcSztcIxQBccC/JJoCazOlD6p/83KmWBcyH
+	 oupPUoiWlkkGA==
+Date: Mon, 28 Jul 2025 00:43:52 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Kees Cook <kees@kernel.org>
 Cc: corbet@lwn.net, linux-doc@vger.kernel.org, workflows@vger.kernel.org,
-	josh@joshtriplett.org, kees@kernel.org,
-	konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	rostedt@goodmis.org
-Subject: Re: [PATCH 2/4] agents: add core development references
-Message-ID: <2025072825-gotten-cupbearer-449a@gregkh>
+	josh@joshtriplett.org, konstantin@linuxfoundation.org,
+	linux-kernel@vger.kernel.org, rostedt@goodmis.org
+Subject: Re: [PATCH 1/4] agents: add unified agent coding assistant
+ configuration
+Message-ID: <aIcACJhaU-NElyHC@lappy>
 References: <20250727195802.2222764-1-sashal@kernel.org>
- <20250727195802.2222764-3-sashal@kernel.org>
+ <20250727195802.2222764-2-sashal@kernel.org>
+ <202507271934.68E1F0C728@keescook>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20250727195802.2222764-3-sashal@kernel.org>
+In-Reply-To: <202507271934.68E1F0C728@keescook>
 
-On Sun, Jul 27, 2025 at 03:58:00PM -0400, Sasha Levin wrote:
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
->  Documentation/agents/core.rst  | 28 ++++++++++++++++++++++++++++
->  Documentation/agents/index.rst |  3 ++-
->  Documentation/agents/main.rst  |  5 +++++
->  3 files changed, 35 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/agents/core.rst
+On Sun, Jul 27, 2025 at 07:37:31PM -0700, Kees Cook wrote:
+>On Sun, Jul 27, 2025 at 03:57:59PM -0400, Sasha Levin wrote:
+>> Create a single source of truth for agent instructions in
+>> Documentation/AI/main.md with symlinks for all major coding
+>> agents:
+>> - CLAUDE.md (Claude Code)
+>> - .github/copilot-instructions.md (GitHub Copilot)
+>> - .cursorrules (Cursor)
+>> - .codeium/instructions.md (Codeium)
+>> - .continue/context.md (Continue)
+>> - .windsurfrules (Windsurf)
+>> - .aider.conf.yml (Aider)
+>
+>I *really* don't like this. I use the CLAUDE.md file as my instructions
+>for my agent. I think all of these should be .gitignore entries.
 
-I know I can't take patches without any changelog text, maybe the
-documentation maintainer is more lenient?  :)
+Sorry, I might have misunderstood you: how does it play out if we add
+these to .gitignore?
 
-> 
-> diff --git a/Documentation/agents/core.rst b/Documentation/agents/core.rst
-> new file mode 100644
-> index 000000000000..da171dde1f9d
-> --- /dev/null
-> +++ b/Documentation/agents/core.rst
-> @@ -0,0 +1,28 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +========================================
-> +Core Linux Kernel Development References
-> +========================================
-> +
-> +Essential documentation for Linux kernel development:
-> +
-> +How to do Linux kernel development
-> +----------------------------------
-> +
-> +The comprehensive guide for becoming a Linux kernel developer and learning to work with the kernel development community.
-> +
-> +See :ref:`Documentation/process/howto.rst <process_howto>`
-> +
-> +Submitting patches
-> +------------------
-> +
-> +The essential guide to getting your code into the kernel, covering everything from patch formatting to the submission process.
-> +
-> +See :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
-> +
-> +Submission checklist
-> +--------------------
-> +
-> +A checklist of items to review before submitting code to ensure patches are accepted more quickly.
-> +
-> +See :ref:`Documentation/process/submit-checklist.rst <submitchecklist>`
+The tool will just end replacing whatever we put in there with something
+customized that doesn't necessarily correspond to what the community
+will consider a "standard" set of rules for agents?
 
-Why isn't the agent already reading all of this in the documentation
-tree?  Why must it be told to read it again?  Do we not properly index
-this well enough in our documentation tree already?
+>> diff --git a/Documentation/agents/index.rst b/Documentation/agents/index.rst
+>> new file mode 100644
+>> index 000000000000..109266ca91ec
+>> --- /dev/null
+>> +++ b/Documentation/agents/index.rst
+>> @@ -0,0 +1,10 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>> +======
+>> +Agents
+>> +======
+>> +
+>> +.. toctree::
+>> +   :maxdepth: 1
+>> +
+>> +   main
+>> \ No newline at end of file
+>> diff --git a/Documentation/agents/main.rst b/Documentation/agents/main.rst
+>> new file mode 100644
+>> index 000000000000..98aa8250be9d
+>> --- /dev/null
+>> +++ b/Documentation/agents/main.rst
+>> @@ -0,0 +1,7 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>> +=====================================
+>> +Linux Kernel Development Agent Instructions
+>> +=====================================
+>> +
+>> +This is the Linux kernel repository. When working with this codebase, you must follow the Linux kernel development processes and coding standards.
+>
+>And now I start my "this is redundant, why do we have to repeat it in a
+>new place?" part of my review comments. :)
+>
+>I *really* think Agent instructions should only be about stuff specific
+>to the agent. It is _supposed_ to be able to find the rest of it on its
+>own.
 
-thanks,
+Right - I trimmed down most of these specific callouts, but I left a few
+that I found necessary since in my testing the agent would sometime
+forget about those. I'll comment more on the rest of your review.
 
-greg k-h
+-- 
+Thanks,
+Sasha
