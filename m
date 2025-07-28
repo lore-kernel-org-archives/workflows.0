@@ -1,83 +1,209 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC43A26FA60;
-	Mon, 28 Jul 2025 14:54:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC539270557;
+	Mon, 28 Jul 2025 15:33:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753714477; cv=none; b=Oc3I0hf+6TBgMagFIGwj91tDLbeqE/dqqGrGVe1DLBDMJOumz7I7jm5xa1yAYm9xgiGTZYAxg2FqDdzarODi1mLb/o+IKnS5+l8vNZOkz09ZdiJBZZ6jY3it4p0qY2kLtH83xUhJF+yi0eVBQoLcnpx+61OW2L5N+ICIGXwaWKM=
+	t=1753716792; cv=none; b=fY2guuv0g3pA3JCWkjadltk/2TOcklXqnz8mkTJfbusxxuBrHsVWe4G8+Z+9Szuo+v4BVbW+Oy0aMAvNuWLmQJpnDsRjKfitDFQnY65mnZhtyBnxWSMPv7tz/XkZAR4snlMyP/4BAlvczx8ARmcC66JfMmzNffU57X4K7FxqYhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753714477; c=relaxed/simple;
-	bh=sxDzrgIHM3tBUoaq9l8USZTn0mdRWSqJI4AE6VfR1lM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=M82hMXiHGnpUNsqCUiwvk0zfKHJDK0zE0wPhftDcvG+XsynKH/BMXT4aVQah3HN896DNZYQUY7n8m5JPrDCc85idbsf0+Uoa4K6TRZCZv09Znsbqm/aO5QczDi6ZRVW58eP2GIlsWFH+se6wy1qwiax8hDdxr7f/KOleFpOHF9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aVmDOMfo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753716792; c=relaxed/simple;
+	bh=rmQ5Dpw7q70m/bVWkQP+hcMEHhICjmYLdatn19PTQ/Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=i6IZ3co1UupEcwdDzAJsi4zALvtXtB3PmErsa9qp5w0a4g1Q4d+hGYTagGJPm4O/KUt7MPM+qRuRqcHQUoyfKxhbtkWZndcVgJL8+H3iDLioklhiC1ZLhO9ihE9RztK9jdZkJo7lmrl3TD97QzsrWzFCdIFSkgfeiaLtiaHdyJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DnRyA2wt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aVmDOMfo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71E2FC4CEF7;
-	Mon, 28 Jul 2025 14:54:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DnRyA2wt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72029C4CEE7;
+	Mon, 28 Jul 2025 15:33:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753714477;
-	bh=sxDzrgIHM3tBUoaq9l8USZTn0mdRWSqJI4AE6VfR1lM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=aVmDOMfoZ2AyOmXXmkrMvEHRuq3UJd/lZiZpTdoFER5s6eo3X0y/4kow8ST69ps46
-	 LBU/qHZYGTbbwdaxu171SXY5ASx2ixp9uTgNpLpA+SH3Kj772TimNKZT1x5ifvbBFU
-	 OeBsKIAtIvIsAPNhqVwCDNECsAK2swVQvFsoaw/XR+kIcBjD9hrkHnMsuC+wLMVjB5
-	 gp8/tbWLDKfoUZoj1oa/7uYNFfzLd4xa1WbNaAuO08R8bWJxTA+LtRZ0ExoqD8zHAf
-	 HldLhTYHdmYM1m50I2SaVilGeWNd0srjKkMJ+fCzblb+jYvVTImBX6pOO0PDIgc04z
-	 dfHuJ0nCSacrA==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab@kernel.org>)
-	id 1ugPFK-00000000G5N-2T2G;
-	Mon, 28 Jul 2025 16:54:34 +0200
+	s=k20201202; t=1753716791;
+	bh=rmQ5Dpw7q70m/bVWkQP+hcMEHhICjmYLdatn19PTQ/Y=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=DnRyA2wtst7FjybA3WjyxHI22SvQoXzZiI86OVKatHrIt7Olm5fnPZjRE4opCIAqw
+	 zUgZalyUSlTjwpP+H2/zLcQ/RsPdG3MIvpdO5ilFzoMWIIZbxMeL4UlQD/Eg38ZwU6
+	 rxBp7tOE2o6FtxmSgeqpec1esN9AfeLJKUa7PfPG3t5Mk+Tm4/lAV416R3lU1bYvGq
+	 vqfPcqSR1UdYFuREWbDxPyCcsTqoceGOvCfOmbeHyodSak5v4noX4I3dA4LlE1mPIs
+	 0hXJxqKOMAsp62MG6nyDGhn25MB6GhzrSbyUnJlS2rfeyb84AMTxKeia1/4Ez+Zv/J
+	 cloEW07gK0iFw==
+Date: Mon, 28 Jul 2025 17:33:06 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	workflows@vger.kernel.org
-Subject: [PATCH 0/2] Better handle and document Python needs for Kernel build
-Date: Mon, 28 Jul 2025 16:54:27 +0200
-Message-ID: <cover.1753713955.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.49.0
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Linux Doc Mailing List
+ <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org,
+ workflows@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH v2 3/2] docs: changes: better document Python needs
+Message-ID: <20250728173306.2ab1409a@sal.lan>
+In-Reply-To: <83d12d5293e23c622ae390204fed8fd4453014b1@intel.com>
+References: <cover.1752307866.git.mchehab+huawei@kernel.org>
+	<58c0cfb40e600af697b1665ffbc8e5bb3d859bb5.1752309145.git.mchehab+huawei@kernel.org>
+	<20250712163155.GA22640@pendragon.ideasonboard.com>
+	<20250713002517.7f52b0e9@foz.lan>
+	<875xfhabv0.fsf@trenco.lwn.net>
+	<20250724194306.27b98194@foz.lan>
+	<83d12d5293e23c622ae390204fed8fd4453014b1@intel.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jon,
+Em Mon, 28 Jul 2025 12:28:45 +0300
+Jani Nikula <jani.nikula@intel.com> escreveu:
 
-As promised, I'm sending you the missing patches from the
-python backward-compatibility series. They're not urgent,
-IMO it should be OK to have them merged for 6.17.
+> On Thu, 24 Jul 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wr=
+ote:
+> > Em Thu, 24 Jul 2025 08:42:59 -0600
+> > Jonathan Corbet <corbet@lwn.net> escreveu:
+> >
+> >> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+> >>=20
+> >> > Maybe I can place instead CONFIG_DRM_I915_WERROR.
+> >>=20
+> >> I've held off on this series on the expectation that a new version wou=
+ld
+> >> come.  I guess, at this point, it will be a post-merge-window thing?
+> >
+> > Feel free to postpone. I have already a new version of it here somewher=
+e on
+> > my branches, but I had to take some days off. So, I ended not sending y=
+ou
+> > the (probably) final version.
+> >
+> > I intend to send what I have here during the merge window for you to
+> > review and apply post-merge-window.
+>=20
+> I think the main questions here are 1) how to handle optional build tool
+> dependencies, and 2) whether Python is an optional or required
+> dependency.
 
-The first patch fix process/changes.rst. Currently, it makes one 
-think that Python is optional. While not having python may work
-on some environments, there are some python scripts called 
-during Kernel build time that require python.
+with regards to (2), besides doc build and kernel-doc --none, there is
+at least another place at the building system requiring Python:=20
+scripts/Makefile.vmlinux_o: There, it has:
 
-Document them. 
+	quiet_cmd_gen_initcalls_lds =3D GEN     $@
+	      cmd_gen_initcalls_lds =3D \
+	        $(PYTHON3) $(srctree)/scripts/jobserver-exec \
+	        $(PERL) $(real-prereqs) > $@
 
-Also, in order to avoid breaking compilation, make kernel-doc's
-main script executable with elder Python versions. 
+	.tmp_initcalls.lds: $(srctree)/scripts/generate_initcall_order.pl \
+	                vmlinux.a $(KBUILD_VMLINUX_LIBS) FORCE
+	        $(call if_changed,gen_initcalls_lds)
 
-Backward-compatibility tested with Python 2.7 and 3.4 (although
-it may work since 3.2).  On elder versions, it would emit a 
-warning and do nothing, as the actual code depends on features
-at 3.6 (f-strings) and 3.7 (ordered dict).
+	targets :=3D .tmp_initcalls.lds
 
-Mauro Carvalho Chehab (2):
-  docs: kernel-doc: avoid script crash on ancient Python
-  docs: changes: better document Python needs
+	ifdef CONFIG_LTO_CLANG
+	initcalls-lds :=3D .tmp_initcalls.lds
+	endif
 
- Documentation/process/changes.rst | 13 ++++++++++-
- scripts/kernel-doc.py             | 37 ++++++++++++++++++++++---------
- 2 files changed, 38 insertions(+), 12 deletions(-)
+Now, I didn't check exactly what conditions trigger
+.tmp_initcalls.lds, but there are some places that use
+select:
 
--- 
-2.49.0
+	arch/Kconfig:   select LTO_CLANG
 
+On a quick look, it sounds that some archs will select this
+automatically when built with clang.
+
+I didn't check if other parts of the building system requires it.
+
+In any case, on its current state, I'd say that currently this
+is not optional.
+
+> It might be nice to be able to have an actual Kconfig and dependency for
+> optional tools. "depends on TOOL_PYTHON" or something. Enable the
+> option, and you should have Python.
+
+That would be an option. The question is: is it worth spending
+time on it?
+
+> This in turn raises the question for allyesconfig. It's cumbersome
+> (though not impossible) to add config options that you actually have to
+> enable manually.
+
+IMO it doesn't make sense to manually enable something with *config.
+If they depend on Python, be it: for such targets, Python is
+mandatory.
+
+>=20
+> The header test stuff really isn't required to actually build the kernel
+> or drm, however DRM_MSM does depend on Python for building the driver.
+
+Good to know. It means that, for those *config targets:
+
+	arch/arm/configs/imx_v6_v7_defconfig:CONFIG_DRM_MSM=3Dy
+	arch/arm/configs/multi_v7_defconfig:CONFIG_DRM_MSM=3Dm
+	arch/arm/configs/qcom_defconfig:CONFIG_DRM_MSM=3Dm
+
+(plus all{mod|yes}config)
+
+Python is mandatory. As multi_v7_defconfig is one of them, we
+may assume, that, o practical cases, Python 2.7 or 3.2+ is=20
+mandatory for arm support. The current requirement is:
+
+	$ vermin -v --no-tips ./drivers/gpu/drm/msm/registers/gen_header.py
+	Detecting python files..
+	Analyzing using 8 processes..
+	2.7, 3.2     /new_devel/v4l/docs/drivers/gpu/drm/msm/registers/gen_header.=
+py
+	Minimum required versions: 2.7, 3.2
+
+Heh, looking for files that end with .py at Makefile (not all
+Python scripts at the Kernel end with such extension), it seems
+that there are more:
+
+	grep \\\.py $(git ls-files|grep Makefile|grep -v tools)
+
+
+	Makefile:KERNELDOC       =3D $(srctree)/scripts/kernel-doc.py
+	Makefile:		  vmlinux-gdb.py \
+	Makefile:	$(Q)ln -fsn $(abspath $(srctree)/scripts/gdb/vmlinux-gdb.py)
+	Makefile:compile_commands.json: $(srctree)/scripts/clang-tools/gen_compile=
+_commands.py \
+	Makefile:      cmd_clang_tools =3D $(PYTHON3) $(srctree)/scripts/clang-too=
+ls/run-clang-tools.py $@ $<
+	drivers/gpu/drm/msm/Makefile:      cmd_headergen =3D mkdir -p $(obj)/gener=
+ated && $(PYTHON3) $(src)/registers/gen_header.py \
+	drivers/gpu/drm/msm/Makefile:		$(src)/registers/gen_header.py \
+	drivers/gpu/drm/msm/Makefile:		$(src)/registers/gen_header.py \
+	drivers/tty/vt/Makefile:#GENERATE_UCS_TABLES :=3D 2  # invokes gen_ucs_rec=
+ompose_table.py with --full
+	drivers/tty/vt/Makefile:$(obj)/ucs_width_table.h: $(src)/gen_ucs_width_tab=
+le.py
+	drivers/tty/vt/Makefile:$(obj)/ucs_recompose_table.h: $(src)/gen_ucs_recom=
+pose_table.py
+	drivers/tty/vt/Makefile:$(obj)/ucs_fallback_table.h: $(src)/gen_ucs_fallba=
+ck_table.py
+	rust/Makefile:	$(Q)MAKEFLAGS=3D $(srctree)/scripts/generate_rust_analyzer.=
+py \
+	scripts/Makefile.lib:MAKE_FIT :=3D $(srctree)/scripts/make_fit.py
+	scripts/gdb/linux/Makefile:symlinks :=3D $(patsubst $(src)/%,%,$(wildcard =
+$(src)/*.py))
+	scripts/gdb/linux/Makefile:always-y +=3D constants.py
+	scripts/gdb/linux/Makefile:$(obj)/constants.py: $(src)/constants.py.in FOR=
+CE
+	scripts/gdb/linux/Makefile:clean-files :=3D *.pyc *.pyo
+
+(that not including tools/*)
+
+Some seem false positives, but on the other hand, looking for tools,
+several scripts seem to be executed by non-tools Makefiles. I didn't
+check if any of them are written in python, though.
+
+Considering the above, for me it seems that the bus already=20
+departed: there are several cases where Python is required during
+build time. So, adding a "depends on TOOL_PYTHON" doesn't seem
+to be trivial.
+
+=46rom my side, I don't mind much about that, as this is something
+that affects only the Kernel build. I would very much prefer to
+have things like config BPF optional.
+
+Regards,
+Mauro
 
