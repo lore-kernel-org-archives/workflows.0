@@ -1,42 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FFC328F1;
-	Mon, 28 Jul 2025 02:43:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288F21C36;
+	Mon, 28 Jul 2025 04:24:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753670613; cv=none; b=stNwvWxrjkavE3mzIFi3/ES3yV1bqD79z0vcGeQQc96VmHvbQwAGkW6rBOLZGFpVkGtMs8MelAEz9CJsZmIzAUlWEv41o3KQPKgt1ZFdrsplx0L0dsCrmngxiNl7+NKZkKfaRApMTUkUXvb6nuLJ4wT1YTvF17VVMoECvoCbbps=
+	t=1753676693; cv=none; b=oEuwLBL+Ncfanl/AM1LbYk3OE0szYtKI9ubhuuKiOh+EdDTTRCqBCcT3+GJFu+l+ws2NCNR9j/FQJFnHBlJkSy5a44wNvvtiT5UHH5PJiXsUAPbu/M2KrxbQmuW7AYvMYzC5QE7pJ+lIg+X/Qr/OSJWI8R7hm3CLMyQ+Xz9JzwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753670613; c=relaxed/simple;
-	bh=wPCRh84URnm5Khcxtue6Vk8f5gPlQczxtLDvFPHTc/Q=;
+	s=arc-20240116; t=1753676693; c=relaxed/simple;
+	bh=wIs6UTtylqnFTXYKYzkqoiC66IXr0qN9GkHXwam0AYY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i/ZCcL3eUAdlWemBhXFYmUP1/Fvi+cFwm5E158fOR73wy0k9FMhpM57iBGZZjemtPcRxnyhAFCaw8DwmAwcZrZ1MKMFTurSQaZSBoLqzAQ450V8LuK43Z7c5Srvk15QykZrgYAUTtPm0eKJCiPIEAbYArdoRg7/XWGv/n6enAL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AeWcY8GD; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bqk7FL5/pkSuXXvyfejMnLPCr4RtT2Pfg2vk3UBFmA73tEn9jr1KHEbRhva4m4Vd+VWfkYUxb6vtkkfsXgWXQrvLaCEEj02wxsD7KR5u1eBm73bjeUG5vxrOt7gcaro0akU4gdtv3PaA2hRYhUiLypvoYfP52y15YTlSAdPFbLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Ezpkl/hn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AeWcY8GD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB648C4CEEB;
-	Mon, 28 Jul 2025 02:43:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753670612;
-	bh=wPCRh84URnm5Khcxtue6Vk8f5gPlQczxtLDvFPHTc/Q=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Ezpkl/hn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05964C4CEE7;
+	Mon, 28 Jul 2025 04:24:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1753676692;
+	bh=wIs6UTtylqnFTXYKYzkqoiC66IXr0qN9GkHXwam0AYY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AeWcY8GDtJTZhYHHIrXEkxdKxxEsoBtzTlm7rtyjwLQNMGcTzxI3pd0dN29AEEb/k
-	 9JX5YXI5GESib8miDB+hDeQ9gst/sqg29/0FmCZGeL/VnM/SiAl+LzDMnqKTZY4Tks
-	 0uKGQU45GlHOeXSNJQDTDfPjDgKQDWY76XTejc976pPjza9V2l+Ponn+PUyMoCXUbp
-	 wQzEG6mrtHh2PMEQJmzita/Z24Q4sBiNkkl6aCyvhPSeAZf9Q78L4DXQov/waQHVIT
-	 7L8BmJkdmI/2kZj2If8XZbv04UzjBufVQ2ZdhiE6a4EaJtSU94vVOGZnFZrOJJkMn4
-	 3RfjJmaiOUEmQ==
-Date: Sun, 27 Jul 2025 19:43:32 -0700
-From: Kees Cook <kees@kernel.org>
+	b=Ezpkl/hnOzuPh7IyQANeZuw+AO2fKWmwTwzqBfQA8TTP7C1QSkbA7CVvIjN47xrrQ
+	 xbCiWdu6PJNtwYAVua6KLg1zQsRE0ad+WDxOKGwbZtKeQoO36LEJ7EBLGNWcLswBfT
+	 01TEbSPMKtCSZAn7D9Royift0LBhzSu/uVeU3GuU=
+Date: Mon, 28 Jul 2025 06:24:44 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
 To: Sasha Levin <sashal@kernel.org>
 Cc: corbet@lwn.net, linux-doc@vger.kernel.org, workflows@vger.kernel.org,
-	josh@joshtriplett.org, konstantin@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, rostedt@goodmis.org
-Subject: Re: [PATCH 4/4] agents: add legal requirements and agent attribution
- guidelines
-Message-ID: <202507271940.F70685B2A9@keescook>
+	josh@joshtriplett.org, kees@kernel.org,
+	konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	rostedt@goodmis.org
+Subject: Re: [PATCH 2/4] agents: add core development references
+Message-ID: <2025072825-gotten-cupbearer-449a@gregkh>
 References: <20250727195802.2222764-1-sashal@kernel.org>
- <20250727195802.2222764-5-sashal@kernel.org>
+ <20250727195802.2222764-3-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -45,56 +42,60 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250727195802.2222764-5-sashal@kernel.org>
+In-Reply-To: <20250727195802.2222764-3-sashal@kernel.org>
 
-On Sun, Jul 27, 2025 at 03:58:02PM -0400, Sasha Levin wrote:
-> +Licensing Requirements
-> +----------------------
-> +
-> +**GPL-2.0 License**
-> +  The Linux kernel is licensed under GPL-2.0 only with a syscall exception. Coding agents MUST follow this licensing rule with no exceptions. Any code contributed must be compatible with this license.
-> +
-> +**SPDX License Identifiers**
-> +  All files must have proper SPDX license identifiers. For most kernel source files, this should be the first line of the file in the appropriate comment format:
-> +
-> +  - For C source/header files: ``// SPDX-License-Identifier: GPL-2.0``
-> +  - For scripts: ``# SPDX-License-Identifier: GPL-2.0``
-> +  - For documentation: ``.. SPDX-License-Identifier: GPL-2.0``
+On Sun, Jul 27, 2025 at 03:58:00PM -0400, Sasha Levin wrote:
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+>  Documentation/agents/core.rst  | 28 ++++++++++++++++++++++++++++
+>  Documentation/agents/index.rst |  3 ++-
+>  Documentation/agents/main.rst  |  5 +++++
+>  3 files changed, 35 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/agents/core.rst
 
-Again, all of this is redundant. And if the SPDX stuff *isn't*
-redundant, it needs to be listed somewhere else for humans.
+I know I can't take patches without any changelog text, maybe the
+documentation maintainer is more lenient?  :)
 
-> +Signed-off-by Restriction
-> +-------------------------
+> 
+> diff --git a/Documentation/agents/core.rst b/Documentation/agents/core.rst
+> new file mode 100644
+> index 000000000000..da171dde1f9d
+> --- /dev/null
+> +++ b/Documentation/agents/core.rst
+> @@ -0,0 +1,28 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 > +
-> +Coding assistants **MUST NOT** add a ``Signed-off-by`` tag pointing to themselves. The ``Signed-off-by`` tag represents a legal certification by a human developer that they have the right to submit the code under the open source license.
+> +========================================
+> +Core Linux Kernel Development References
+> +========================================
 > +
-> +Only the human user running the coding assistant should add their ``Signed-off-by`` tag to commits. The agent's contribution is acknowledged through the ``Co-developed-by`` tag as described below.
+> +Essential documentation for Linux kernel development:
+> +
+> +How to do Linux kernel development
+> +----------------------------------
+> +
+> +The comprehensive guide for becoming a Linux kernel developer and learning to work with the kernel development community.
+> +
+> +See :ref:`Documentation/process/howto.rst <process_howto>`
+> +
+> +Submitting patches
+> +------------------
+> +
+> +The essential guide to getting your code into the kernel, covering everything from patch formatting to the submission process.
+> +
+> +See :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
+> +
+> +Submission checklist
+> +--------------------
+> +
+> +A checklist of items to review before submitting code to ensure patches are accepted more quickly.
+> +
+> +See :ref:`Documentation/process/submit-checklist.rst <submitchecklist>`
 
-This is unique to Agents. Yes, this is fine.
+Why isn't the agent already reading all of this in the documentation
+tree?  Why must it be told to read it again?  Do we not properly index
+this well enough in our documentation tree already?
 
-> +Agent Attribution Requirement
-> +-----------------------------
-> +
-> +When creating commits, coding agents **MUST** identify themselves by including the following tag in the commit message::
-> +
-> +    Co-developed-by: $AGENT_NAME $AGENT_MODEL $AGENT_VERSION
-> +
-> +Examples:
-> +
-> +- ``Co-developed-by: Claude claude-3-opus-20240229``
-> +- ``Co-developed-by: GitHub-Copilot GPT-4 v1.0.0``
-> +- ``Co-developed-by: Cursor gpt-4-turbo-2024-04-09``
-> +
-> +This transparency helps maintainers and reviewers understand that a coding agent was involved in the development process.
+thanks,
 
-This is fine too.
-
-But like I said before, you must update checkpatch.pl to not complain
-about Co-developed-by missing S-o-b when C-d-b lacks email address,
-and it should be part of this series.
-
--Kees
-
--- 
-Kees Cook
+greg k-h
