@@ -1,88 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B36E1746E;
-	Tue, 29 Jul 2025 15:04:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A3EA295DBD;
+	Tue, 29 Jul 2025 16:44:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753801493; cv=none; b=ApMf/HNMwwik4CnPYDHb4ocIwjHIrAnEJpBClbBMN+wClNvgoA5125r7reG8NAZa+CKE5Pt2NmWlD9ZEm2cbpewOoY0HXzMtQmGTdn2PIgSirhdjgwfTr15mdjvWiDqIBbJQwDJJTFHNkv3soq/OJ3PPPnIVOurkJi5l9s8gpcU=
+	t=1753807445; cv=none; b=qYYI5Yo0mVEHUI4xHXg8+bQMfrTZqOTFsv6B+Ggv2zKB+ZDKln9+NpfbfowRAmrrm6R474ZdHDpQOlnx13gNtg5xTPzA1Df2cVxZXFtL+YVm8Km/a9+UkHh2Vr+CGoCO0htUxrQqUOlzBcpD7ddXUEeRxMRmx0ZR24BGJN8geZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753801493; c=relaxed/simple;
-	bh=aQ+43kvtdWDOizoWPKmefgnCVdEt6FTWqKjZuLuJgJE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=pvFUh+WsctIbk5IeQZXgXDXvpSC68hr+I8yRxI8N1j8Hu1OMy9IKmUUYBITyXli+Ukk64P2/0g7iOxYqVezgxC9+VIOXKDmPxET4uhIktTNbCYJOxMDlWxFm+AAEhOM49GBmjdLwVeD2kLVaTEECF+nh4g1rT148pjKqiZlOAU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JYO6xcbl; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1753807445; c=relaxed/simple;
+	bh=lOU+N6iFtUxmqWL6eqLxeLa6+vrLLwnK+Ndej65rQCk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=UDJnOAJ23N0p14UUayMTfSXv5A0M41vSveAQtrFvG+tJXZrjhbElFjipMXoc1Ph1puIPqmuExEuAqjMS6nq0I7Ph8t98YTkMuTuvlOJNalMwHyhpTh3zexTGk40q2+pWKNLvcc9gKQmlDGQbEHI+GXPvQUNMA+LUHkw74hzUsWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S2z2aTR0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JYO6xcbl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753801492; x=1785337492;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=aQ+43kvtdWDOizoWPKmefgnCVdEt6FTWqKjZuLuJgJE=;
-  b=JYO6xcblofdX7BBxR8qZmn314BRp+n6E7bRNSP7z2f50lMkiF2d6Ns8V
-   Ec0hn+sI7PrSsb3FLy9zB1uMg37HOnvuzrI7U1AWS4l8DJbHyTsIpu34m
-   /seqY2ZiqBsgQkHf2RoguB9O1BzaJSa0hkRCN8rT4Gb9+j/4xeCN7w/l4
-   xv0PRXvesMZ5L4ihHYz73Vy6tcS1USdIY2HpFp46t9gb3B9BfMATjEQ6+
-   uI22+vl01iMzjeL4PX/YN1r9BIsqQgF45K+KlSI6UUpmf0/ef71nQI09V
-   EHcIORLOPDGsUU0KtNzS9dDk/Rgq/X+3OyONGaCSkXvrxoBMPihMEvPTB
-   w==;
-X-CSE-ConnectionGUID: FNXFaidbSb6hLAcJJ9S8+w==
-X-CSE-MsgGUID: VQDKQ9w1TNWaIuZaDT1xlg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="67512504"
-X-IronPort-AV: E=Sophos;i="6.16,349,1744095600"; 
-   d="scan'208";a="67512504"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 08:04:52 -0700
-X-CSE-ConnectionGUID: n0T4/5DqR+SRBpjQDi3s5A==
-X-CSE-MsgGUID: zq7TZndwTJeEH5eSED3chA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,349,1744095600"; 
-   d="scan'208";a="167215188"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.246.22])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 08:04:48 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH v2 3/2] docs: changes: better document Python needs
-In-Reply-To: <20250729154437.6cbd2788@sal.lan>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1752307866.git.mchehab+huawei@kernel.org>
- <58c0cfb40e600af697b1665ffbc8e5bb3d859bb5.1752309145.git.mchehab+huawei@kernel.org>
- <20250712163155.GA22640@pendragon.ideasonboard.com>
- <20250713002517.7f52b0e9@foz.lan> <875xfhabv0.fsf@trenco.lwn.net>
- <20250724194306.27b98194@foz.lan>
- <83d12d5293e23c622ae390204fed8fd4453014b1@intel.com>
- <20250728173306.2ab1409a@sal.lan>
- <fd1372a9fb57a1372db5b3c0992a929f90183f83@intel.com>
- <20250729154437.6cbd2788@sal.lan>
-Date: Tue, 29 Jul 2025 18:04:45 +0300
-Message-ID: <9dc14f4a5adda5a8a40220404648457d56212cca@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S2z2aTR0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9469C4CEF5;
+	Tue, 29 Jul 2025 16:44:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753807445;
+	bh=lOU+N6iFtUxmqWL6eqLxeLa6+vrLLwnK+Ndej65rQCk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=S2z2aTR0ykKrDlA70tWXjh22sefKXYcctAXlQbLqXv+QhgVyANlVEEb69tPCNJjaE
+	 jG+q7zpAT+3Gr2HdQE7YAHOzDfW7VPMD/4NzKMm/D9f+n3LjRbHZp0EgZkho7g9KeZ
+	 Qm7/soE9Mptjt18kwAx/jdPZ90gRkQhldAybOPMYI0yjOtKaEKO8yf69HD4nr//q+e
+	 ABEyMZ+qyyYutK6j3oMX2tH1gT0/XIcWdZx4y6KuUVc8iPk7q3wML4L/iaq/qCEcgD
+	 bePU0mD8htFGw4ieiXXLviEB/o+IJXxy77w1tSdIARlYEN+tLgvtPlR/EP2K92rARp
+	 uqJNq+iuOUpeg==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab@kernel.org>)
+	id 1ugnQo-00000000Liz-1dmP;
+	Tue, 29 Jul 2025 18:44:02 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org
+Subject: [PATCH v2 2/2] docs: changes: better document Python needs
+Date: Tue, 29 Jul 2025 18:43:04 +0200
+Message-ID: <b03b95b8d09358e81e4f27942839191f49b0ba80.1753806485.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <cover.1753806485.git.mchehab+huawei@kernel.org>
+References: <cover.1753806485.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-On Tue, 29 Jul 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> I don't think we should do much effort to support Python 2, but it comes
-> almost for free: only shebang needs to be different, and, if the comments
-> inside the doc contains non-utf8 chars, an encoding line.
+Python is listed as an optional dependency, but this is not
+true, as:
 
-As said in the other thread, changing the shebang is not a trivial
-thing. I don't have 'python' installed, haven't had for years, just
-'python3'.
+1) arm (multi_v7_defconfig and other defconfigs) and arm64 defconfig
+   needs it due to DRM_MSM dependencies;
 
-BR,
-Jani.
+2) CONFIG_LTO_CLANG runs a python script at scripts/Makefile.vmlinux_o;
 
+3) kernel-doc is called during compilation when some DRM options
+   like CONFIG_DRM_I915_WERROR are enabled;
 
+4) allyesconfig/allmodconfig will enable CONFIG_* dependencies
+   that needs it;
+
+5) besides DRM, other subsystems seem to have logic calling *.py
+   scripts.
+
+So, better document that and change the dependency from optional
+to mandatory to reflect the current needs.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/process/changes.rst | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index bccfa19b45df..4c9088e429c8 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -61,7 +61,7 @@ Sphinx\ [#f1]_         3.4.3            sphinx-build --version
+ GNU tar                1.28             tar --version
+ gtags (optional)       6.6.5            gtags --version
+ mkimage (optional)     2017.01          mkimage --version
+-Python (optional)      3.9.x            python3 --version
++Python                 3.9.x            python3 --version
+ GNU AWK (optional)     5.1.0            gawk --version
+ ====================== ===============  ========================================
+ 
+@@ -154,6 +154,13 @@ Perl
+ You will need perl 5 and the following modules: ``Getopt::Long``,
+ ``Getopt::Std``, ``File::Basename``, and ``File::Find`` to build the kernel.
+ 
++Python
++------
++
++Several config options require it: it is required for arm/arm64
++default configs, CONFIG_LTO_CLANG, some DRM optional configs,
++the kernel-doc tool, and docs build (Sphinx), among others.
++
+ BC
+ --
+ 
 -- 
-Jani Nikula, Intel
+2.49.0
+
