@@ -1,47 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A3EA295DBD;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 738D52980C4;
 	Tue, 29 Jul 2025 16:44:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753807445; cv=none; b=qYYI5Yo0mVEHUI4xHXg8+bQMfrTZqOTFsv6B+Ggv2zKB+ZDKln9+NpfbfowRAmrrm6R474ZdHDpQOlnx13gNtg5xTPzA1Df2cVxZXFtL+YVm8Km/a9+UkHh2Vr+CGoCO0htUxrQqUOlzBcpD7ddXUEeRxMRmx0ZR24BGJN8geZk=
+	t=1753807445; cv=none; b=nRuYTahDl6Z22CNfG0watNMKwJ1Ye3Bop5zwd7IrbaGrkdIkPD2aVqdETjyjcFg9ECW59zcuQppt2Y5wF3HwQJ9+TuBVS0tlkdByiw87zXCkqJcaCXlRpGFEcS3wlheqsGCAPpkL7UNqWd3HcgbMYPbiqkAkJGG+90523qumS2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1753807445; c=relaxed/simple;
-	bh=lOU+N6iFtUxmqWL6eqLxeLa6+vrLLwnK+Ndej65rQCk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UDJnOAJ23N0p14UUayMTfSXv5A0M41vSveAQtrFvG+tJXZrjhbElFjipMXoc1Ph1puIPqmuExEuAqjMS6nq0I7Ph8t98YTkMuTuvlOJNalMwHyhpTh3zexTGk40q2+pWKNLvcc9gKQmlDGQbEHI+GXPvQUNMA+LUHkw74hzUsWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S2z2aTR0; arc=none smtp.client-ip=10.30.226.201
+	bh=ZnxXmZRWsS/uKbUuoGgQ3H2tPqexH5/pzA5JKQMi1do=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h5aiaVX8/gZB4rm55iWei9/ASOnG+B5ySEdYaW7xHALXTsJGmkzJF1Wu5kd4qaUs0P7rsbm5Yz0yA4OHbQieN8gVaHo0LNP5TtZ7qixQ6AmBQK/RwIh1yLk5Dk3Fn985cE6hbcYgEQOUqQn7ifb/jCIn7tfQSHtLm2XvKDe6vXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rcXuhf+/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S2z2aTR0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9469C4CEF5;
-	Tue, 29 Jul 2025 16:44:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rcXuhf+/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C866C4CEFA;
+	Tue, 29 Jul 2025 16:44:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1753807445;
-	bh=lOU+N6iFtUxmqWL6eqLxeLa6+vrLLwnK+Ndej65rQCk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=S2z2aTR0ykKrDlA70tWXjh22sefKXYcctAXlQbLqXv+QhgVyANlVEEb69tPCNJjaE
-	 jG+q7zpAT+3Gr2HdQE7YAHOzDfW7VPMD/4NzKMm/D9f+n3LjRbHZp0EgZkho7g9KeZ
-	 Qm7/soE9Mptjt18kwAx/jdPZ90gRkQhldAybOPMYI0yjOtKaEKO8yf69HD4nr//q+e
-	 ABEyMZ+qyyYutK6j3oMX2tH1gT0/XIcWdZx4y6KuUVc8iPk7q3wML4L/iaq/qCEcgD
-	 bePU0mD8htFGw4ieiXXLviEB/o+IJXxy77w1tSdIARlYEN+tLgvtPlR/EP2K92rARp
-	 uqJNq+iuOUpeg==
+	bh=ZnxXmZRWsS/uKbUuoGgQ3H2tPqexH5/pzA5JKQMi1do=;
+	h=From:To:Cc:Subject:Date:From;
+	b=rcXuhf+/NiWoXW08oJAjPOuU+1k/I0Cl0ZBKcquoeVsqVRROaUAoEj3RE7C5/awLp
+	 eCXL03ejE0D+ejGPxVn/Hp8op7gm6+JupcoHF3m3az/IGJ6aRRA+sgaMBYJuxqeT1d
+	 acv+0SPGUG8yU21oZr0jUJWSpRJpCG6C3hMN6wpwmuiOrwcpUEuY8qBfcEcirQqmcv
+	 wL/dlKGphKTz0+VYaF4zGTR0L7PYZQB22zhjhG2A9S51cvckKqyBpEhlfe7Fqdvbe+
+	 CktV6Z6eEUYo/ILdOn2sqgGZqcRNwCUWab1Ns2Wbp9lK9JU4Q3x/YrMVBNFpA7Kv4H
+	 opSoify/sAk8g==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1ugnQo-00000000Liz-1dmP;
+	id 1ugnQo-00000000Lit-1U7e;
 	Tue, 29 Jul 2025 18:44:02 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org,
+	Akira Yokosawa <akiyks@gmail.com>,
 	workflows@vger.kernel.org
-Subject: [PATCH v2 2/2] docs: changes: better document Python needs
-Date: Tue, 29 Jul 2025 18:43:04 +0200
-Message-ID: <b03b95b8d09358e81e4f27942839191f49b0ba80.1753806485.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 0/2] Better handle and document Python needs for Kernel build
+Date: Tue, 29 Jul 2025 18:43:02 +0200
+Message-ID: <cover.1753806485.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <cover.1753806485.git.mchehab+huawei@kernel.org>
-References: <cover.1753806485.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -51,58 +49,51 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-Python is listed as an optional dependency, but this is not
-true, as:
+Hi Jon,
 
-1) arm (multi_v7_defconfig and other defconfigs) and arm64 defconfig
-   needs it due to DRM_MSM dependencies;
+It follows the second version of this small series. It contains
+missing patches from the python backward-compatibility series.
 
-2) CONFIG_LTO_CLANG runs a python script at scripts/Makefile.vmlinux_o;
+I dropped support for 2.7 and did some changes at changes.rst
+per Akira's request.
 
-3) kernel-doc is called during compilation when some DRM options
-   like CONFIG_DRM_I915_WERROR are enabled;
+They're not urgent, IMO it should be OK to have them merged for 6.17.
 
-4) allyesconfig/allmodconfig will enable CONFIG_* dependencies
-   that needs it;
+The first patch ensures that kernel-doc won't crash with version
+3.2 (tested on 3.4, as 3.2 is like an unicorn: docker containers v1
+don't run anymore on Fedora, building is broken since at least
+Fedora 32, Anaconda doesn't have it anymore).
 
-5) besides DRM, other subsystems seem to have logic calling *.py
-   scripts.
+With this change, on elder versions, it would emit a warning and
+do nothing, as the actual code depends on features at 3.6 (f-strings)
+and 3.7 (ordered dict).
 
-So, better document that and change the dependency from optional
-to mandatory to reflect the current needs.
+The second patch changes process/changes.rst. Currently, it makes
+one  think that Python is optional. While not having python may
+work on some cases, it breaks on arm/arm64 with defconfigs.
+It also breaks with allyesconfig/almodconfig (at least on x86/x86_64),
+with clang (on some archs) and apparently on some other
+subsystems that I didn't care enough to identify, as for me,
+breaking on arm/arm64 with defconfigs, and on x86/x86_64
+with allyesconfig/allmodconfig is enough evidence that this
+is mandatory nowadays.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+So, remove optional from Python and add a quick description
+about where it is required, leaving it open to one's imagination
+that it could break with other configs we didn't map.
+
 ---
- Documentation/process/changes.rst | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+v2: drop support for 2.7, updated a comment and updated changes.rst.
 
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index bccfa19b45df..4c9088e429c8 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -61,7 +61,7 @@ Sphinx\ [#f1]_         3.4.3            sphinx-build --version
- GNU tar                1.28             tar --version
- gtags (optional)       6.6.5            gtags --version
- mkimage (optional)     2017.01          mkimage --version
--Python (optional)      3.9.x            python3 --version
-+Python                 3.9.x            python3 --version
- GNU AWK (optional)     5.1.0            gawk --version
- ====================== ===============  ========================================
- 
-@@ -154,6 +154,13 @@ Perl
- You will need perl 5 and the following modules: ``Getopt::Long``,
- ``Getopt::Std``, ``File::Basename``, and ``File::Find`` to build the kernel.
- 
-+Python
-+------
-+
-+Several config options require it: it is required for arm/arm64
-+default configs, CONFIG_LTO_CLANG, some DRM optional configs,
-+the kernel-doc tool, and docs build (Sphinx), among others.
-+
- BC
- --
- 
+Mauro Carvalho Chehab (2):
+  docs: kernel-doc: avoid script crash on ancient Python
+  docs: changes: better document Python needs
+
+ Documentation/process/changes.rst |  9 +++++++-
+ scripts/kernel-doc.py             | 34 ++++++++++++++++++++++---------
+ 2 files changed, 32 insertions(+), 11 deletions(-)
+
 -- 
 2.49.0
+
 
