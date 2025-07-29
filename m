@@ -1,94 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23B5029D0D;
-	Tue, 29 Jul 2025 13:44:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B36E1746E;
+	Tue, 29 Jul 2025 15:04:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753796684; cv=none; b=FAA/Lg1P6SW3KQNdYDahcLL0ooANlmg1Gp0TJT9Biya0+1zDRn9YyDWmEnDzuJYLCy8BBKcPdfTikDd/HhvakFslK2lITgvtbp9+Ogjg30ga5B+17yxskeCJt5luH0kmhT4MoPq2TLHKKP+fCgzmJ+1pJB+sg3LhvnfYxyQcB+w=
+	t=1753801493; cv=none; b=ApMf/HNMwwik4CnPYDHb4ocIwjHIrAnEJpBClbBMN+wClNvgoA5125r7reG8NAZa+CKE5Pt2NmWlD9ZEm2cbpewOoY0HXzMtQmGTdn2PIgSirhdjgwfTr15mdjvWiDqIBbJQwDJJTFHNkv3soq/OJ3PPPnIVOurkJi5l9s8gpcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753796684; c=relaxed/simple;
-	bh=VZdbrG5fpMlMUtdUV+2Oi1rJl1JV2TJ0vNDU+akmrKk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mXs1LAOkwxJL/AlnrYolIbGGlk7x87114WjAoFgK3ugYR6kYGA45P1MV4VZn6lDiQHkvp8dUXqtfKOEY0Yn632sstZRdwyW151t0dKgu13EOoEBQo+cGaIjEJL8LIA4PiBoIoZpWGBabNx8HaIlro+ogM2lq5bNhM2QEWwDkIZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gzQTY4MM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753801493; c=relaxed/simple;
+	bh=aQ+43kvtdWDOizoWPKmefgnCVdEt6FTWqKjZuLuJgJE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=pvFUh+WsctIbk5IeQZXgXDXvpSC68hr+I8yRxI8N1j8Hu1OMy9IKmUUYBITyXli+Ukk64P2/0g7iOxYqVezgxC9+VIOXKDmPxET4uhIktTNbCYJOxMDlWxFm+AAEhOM49GBmjdLwVeD2kLVaTEECF+nh4g1rT148pjKqiZlOAU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JYO6xcbl; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gzQTY4MM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1398C4CEEF;
-	Tue, 29 Jul 2025 13:44:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753796683;
-	bh=VZdbrG5fpMlMUtdUV+2Oi1rJl1JV2TJ0vNDU+akmrKk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=gzQTY4MMZQO6OJdtoyM5Ldojem3RmzZgNFua4t8TLdnbHQT8aPlHUF2VGENZ9TUgJ
-	 2jo0PLjI7p+owHc1lQRbP0hsWf7bIMDi8sFpCCu96mcGH8TZMZqkhJNe+O4LNWFQR7
-	 NsGYUfNILYMKzj4kZeI9KJxc//W11nU4+xTtIzl9sVoP2omaMWQ3j3zxsecsDIRQvi
-	 5pNzInUcpbJXicpn7/ZAwerEW85RTXsAkeg0+8fPkRuyNRaS2Yle6JGYaapC0O+iwn
-	 sZ7Ew8yKnvR53KbsV4OS9yqepzpSze9oJToqK4UYuvCxfi19N71b72A5JsREyK5PGY
-	 fV3v08U8+kaEQ==
-Date: Tue, 29 Jul 2025 15:44:37 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jani Nikula <jani.nikula@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JYO6xcbl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753801492; x=1785337492;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=aQ+43kvtdWDOizoWPKmefgnCVdEt6FTWqKjZuLuJgJE=;
+  b=JYO6xcblofdX7BBxR8qZmn314BRp+n6E7bRNSP7z2f50lMkiF2d6Ns8V
+   Ec0hn+sI7PrSsb3FLy9zB1uMg37HOnvuzrI7U1AWS4l8DJbHyTsIpu34m
+   /seqY2ZiqBsgQkHf2RoguB9O1BzaJSa0hkRCN8rT4Gb9+j/4xeCN7w/l4
+   xv0PRXvesMZ5L4ihHYz73Vy6tcS1USdIY2HpFp46t9gb3B9BfMATjEQ6+
+   uI22+vl01iMzjeL4PX/YN1r9BIsqQgF45K+KlSI6UUpmf0/ef71nQI09V
+   EHcIORLOPDGsUU0KtNzS9dDk/Rgq/X+3OyONGaCSkXvrxoBMPihMEvPTB
+   w==;
+X-CSE-ConnectionGUID: FNXFaidbSb6hLAcJJ9S8+w==
+X-CSE-MsgGUID: VQDKQ9w1TNWaIuZaDT1xlg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="67512504"
+X-IronPort-AV: E=Sophos;i="6.16,349,1744095600"; 
+   d="scan'208";a="67512504"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 08:04:52 -0700
+X-CSE-ConnectionGUID: n0T4/5DqR+SRBpjQDi3s5A==
+X-CSE-MsgGUID: zq7TZndwTJeEH5eSED3chA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,349,1744095600"; 
+   d="scan'208";a="167215188"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.246.22])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 08:04:48 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc: Jonathan Corbet <corbet@lwn.net>, Laurent Pinchart
  <laurent.pinchart@ideasonboard.com>, Linux Doc Mailing List
  <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org,
  workflows@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 Subject: Re: [PATCH v2 3/2] docs: changes: better document Python needs
-Message-ID: <20250729154437.6cbd2788@sal.lan>
-In-Reply-To: <fd1372a9fb57a1372db5b3c0992a929f90183f83@intel.com>
+In-Reply-To: <20250729154437.6cbd2788@sal.lan>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <cover.1752307866.git.mchehab+huawei@kernel.org>
-	<58c0cfb40e600af697b1665ffbc8e5bb3d859bb5.1752309145.git.mchehab+huawei@kernel.org>
-	<20250712163155.GA22640@pendragon.ideasonboard.com>
-	<20250713002517.7f52b0e9@foz.lan>
-	<875xfhabv0.fsf@trenco.lwn.net>
-	<20250724194306.27b98194@foz.lan>
-	<83d12d5293e23c622ae390204fed8fd4453014b1@intel.com>
-	<20250728173306.2ab1409a@sal.lan>
-	<fd1372a9fb57a1372db5b3c0992a929f90183f83@intel.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+ <58c0cfb40e600af697b1665ffbc8e5bb3d859bb5.1752309145.git.mchehab+huawei@kernel.org>
+ <20250712163155.GA22640@pendragon.ideasonboard.com>
+ <20250713002517.7f52b0e9@foz.lan> <875xfhabv0.fsf@trenco.lwn.net>
+ <20250724194306.27b98194@foz.lan>
+ <83d12d5293e23c622ae390204fed8fd4453014b1@intel.com>
+ <20250728173306.2ab1409a@sal.lan>
+ <fd1372a9fb57a1372db5b3c0992a929f90183f83@intel.com>
+ <20250729154437.6cbd2788@sal.lan>
+Date: Tue, 29 Jul 2025 18:04:45 +0300
+Message-ID: <9dc14f4a5adda5a8a40220404648457d56212cca@intel.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-Em Tue, 29 Jul 2025 13:45:26 +0300
-Jani Nikula <jani.nikula@intel.com> escreveu:
+On Tue, 29 Jul 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> I don't think we should do much effort to support Python 2, but it comes
+> almost for free: only shebang needs to be different, and, if the comments
+> inside the doc contains non-utf8 chars, an encoding line.
 
-> On Mon, 28 Jul 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> > Considering the above, for me it seems that the bus already departed:
-> > there are several cases where Python is required during build time.  
-> 
-> FWIW, if it was up to me, I'd make Python 3+ a non-optional build
-> dependency. I'd also forget about any Python 2 backward compat stuff.
+As said in the other thread, changing the shebang is not a trivial
+thing. I don't have 'python' installed, haven't had for years, just
+'python3'.
 
-I don't think we should do much effort to support Python 2, but it comes
-almost for free: only shebang needs to be different, and, if the comments
-inside the doc contains non-utf8 chars, an encoding line.
+BR,
+Jani.
 
-The current tools during Kernel build currently supports it (again,
-except for shebang).
 
-Anyway, from my side I'm happy either way.
-
-> I would find it very useful for code/header generation during build
-> time, instead of having to resort to C hostprogs. Similar to what MSM is
-> doing.
-> 
-> That said, I know there's going to be people vehemently opposed.
-
-Fine from my side ;-) There are some precedents here, so I guess it
-should be up to each subsystem to decide using it or not.
-
-> > So, adding a "depends on TOOL_PYTHON" doesn't seem to be trivial.  
-> 
-> Agreed. Forget about that idea.
-> 
-> 
-> BR,
-> Jani.
-> 
-> 
+-- 
+Jani Nikula, Intel
