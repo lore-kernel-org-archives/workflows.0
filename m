@@ -1,28 +1,28 @@
-Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
+Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D42B82D839C;
-	Wed, 30 Jul 2025 17:25:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0092E090C;
+	Wed, 30 Jul 2025 17:32:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753896316; cv=none; b=E57vljAP7vxejezHUogIaAPhoEr0ssjE3XvYoxPV4LFD8vO4jxZf3UTqgbc8Nm2zqXXSH3Oc7oJkUyuy/CzidD7sq1DPxZqHUQUM7AfsqiIRCbwO8Qqqqrqu5FYihR6trCZD4U1mtK+qgvctI7Fs/sQKkTFqibsRQkW5NkZTI/A=
+	t=1753896736; cv=none; b=ljGR8I8JEDS9ltsutl1tNujMqAwpquvN2iyQQCViMN/4j0zG3qECW1r0mASisYxB9DkBbJHyV93R1wv7r3W/6NRZ9k1+hNaU7iNI8+G+kX1qHgxVbhWxTrWTteozk6ifvvhGWSitceNOkBSNCIdJwTHH9l/O/VZv0/zI7AjQR/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753896316; c=relaxed/simple;
-	bh=HN4Bnc+XS/4uRHJ4LG6byKEC41w6L+dxSrVLaFVeh+Q=;
+	s=arc-20240116; t=1753896736; c=relaxed/simple;
+	bh=NinQQys2498qyiNBRGcS8/lpTf8W0uQhxhbbIBHawyI=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ixTw5X4vOK10UgvpnCgmxaZa6WwI4O0+uM9QUDrvzM+24yI7GxzV85/uoYP14LYwNV+JSt67bSYhhwnUAXROte0xbgwCMZuOFYyD69ah4B1b7kHh0QqObd3ibrMNGDkDCTchBaUapgHWPX+ETsMoUYWxxAXVeeVOXo7QTQAJNsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.16
+	 MIME-Version:Content-Type; b=uxQgFCtIFu6XM+myjVEaSt+WC2/Tm5fakl8qS64+v6QkRPBPz9VdgO75h/7CLmtvSBjeBDIqezqwJeaVLUpS4u9kfewe8Y30XEirLgU4/JGPBs82V081XQi6mb5vT1nNFt1jvkrd8E9VcOFB831yBgvy6ZFtSb6QfpTHdieD6DU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf15.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay10.hostedemail.com (Postfix) with ESMTP id C62D8C04D3;
-	Wed, 30 Jul 2025 17:25:12 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf15.hostedemail.com (Postfix) with ESMTPA id 4E0C417;
-	Wed, 30 Jul 2025 17:25:10 +0000 (UTC)
-Date: Wed, 30 Jul 2025 13:25:27 -0400
+Received: from omf13.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay01.hostedemail.com (Postfix) with ESMTP id 748831DB81A;
+	Wed, 30 Jul 2025 17:32:06 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf13.hostedemail.com (Postfix) with ESMTPA id E77F32000D;
+	Wed, 30 Jul 2025 17:32:03 +0000 (UTC)
+Date: Wed, 30 Jul 2025 13:32:20 -0400
 From: Steven Rostedt <rostedt@goodmis.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Greg KH <greg@kroah.com>,
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Sasha Levin <sashal@kernel.org>, Greg KH <greg@kroah.com>,
  corbet@lwn.net, linux-doc@vger.kernel.org, workflows@vger.kernel.org,
  josh@joshtriplett.org, kees@kernel.org, konstantin@linuxfoundation.org,
  linux-kernel@vger.kernel.org, Linus Torvalds
@@ -30,8 +30,8 @@ Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Greg KH <greg@kroah.com>,
  <linux@treblig.org>
 Subject: Re: [PATCH 0/4] Add agent coding assistant configuration to Linux
  kernel
-Message-ID: <20250730132527.69617dbb@gandalf.local.home>
-In-Reply-To: <aIpSlhPTC9G1AqvO@lappy>
+Message-ID: <20250730133220.6e7e9370@gandalf.local.home>
+In-Reply-To: <eaf1366f-4b28-4312-a820-1cd04796ff1d@lucifer.local>
 References: <20250727195802.2222764-1-sashal@kernel.org>
 	<7e7f485e-93ad-4bc4-9323-f154ce477c39@lucifer.local>
 	<2025072854-earthen-velcro-8b32@gregkh>
@@ -42,6 +42,7 @@ References: <20250727195802.2222764-1-sashal@kernel.org>
 	<aIpKCXrc-k2Dx43x@lappy>
 	<a1022055-52bd-4948-9399-908b29ca140a@lucifer.local>
 	<aIpSlhPTC9G1AqvO@lappy>
+	<eaf1366f-4b28-4312-a820-1cd04796ff1d@lucifer.local>
 X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
@@ -51,36 +52,64 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Stat-Signature: 7e6m3o8nyktxpyg4bszjcr6fyy7w7gs5
-X-Rspamd-Server: rspamout08
-X-Rspamd-Queue-Id: 4E0C417
+X-Rspamd-Queue-Id: E77F32000D
+X-Stat-Signature: 6b5x577wte8ozgpt6i5917esadg8nq8t
+X-Rspamd-Server: rspamout06
 X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1+Sm1A2oNr8D5y7oXE8FmPulswLzRKNYMc=
-X-HE-Tag: 1753896310-682708
-X-HE-Meta: U2FsdGVkX1+jfJjTvt95jotAeAoHH+CvCbGu0cU/czd+4TVXLZqpyAGVrDuztR6dLLjDiMBhrwylw6AOX4WDlPipodqmbuDVBsNYejgWQ0azdM8g9pVWt/CgWinD+xkA6lcxHK7pHnmui02s9AFu/hTkheLHZjYU58qG1uWjYJEQHaDMNZHrNSvNyOBSOGVVlEck3LTOrPcFieDtJqeos4hw4tC8qFsi/oEjf0VdeMqyND3y3KmhxUw8MmD8bT/XS2S8P0lUzuOaexXpfP9WV6l/MzP3KXETUgyLDHveYfHdUwi2x00QZ7H5IKl/t9nxidbdNpcpkHttwmJ/TeFfbNhzvgvhKHQF
+X-Session-ID: U2FsdGVkX19LcGNo0LjgW2Ekbt8lrE84SyalwtrTsMY=
+X-HE-Tag: 1753896723-530352
+X-HE-Meta: U2FsdGVkX19fG+MKAppCGtg6IG+I+Tb+G4lC6YsQJXtiTB7Xuv+xearwLeAEfIzNXYTaWMc3S1wyBmF6w7Sfd6otwJjRxk5bR8ujSpW0J5rFd2VP/Lwr5L7rJ5iExHFogjRI2prpmTTICcDVY0fvU6jTKoYYWfFyBMAmMTD31gTENq4wtN8HcOwDzgv9/nA0I14rjDNuKigFwi11iWcQYrFl0taFAG8fvGWMapZkjd79XdSgDjIyIPTL5o5x9gUsM/S2n35JFBWnlhw34VLYVkG/bfPIK03WwMrYrnN7l3jTSv0Awj8hjyGCMKnK1lEIMOy2BD2l9Pxf3apZywURFv+o9os3PA6W
 
-On Wed, 30 Jul 2025 13:12:54 -0400
-Sasha Levin <sashal@kernel.org> wrote:
+On Wed, 30 Jul 2025 18:23:14 +0100
+Lorenzo Stoakes <lorenzo.stoakes@oracle.com> wrote:
 
-> >>
-> >> Some sort of a "traffic light" system:
-> >>
-> >>  1. Green: the subsystem is happy to receive patches from any source.
-> >>
-> >>  2. Yellow: "If you're unfamiliar with the subsystem and using any
-> >>  tooling to generate your patches, please have a reviewed-by from a
-> >>  trusted developer before sending your patch".
-> >>
-> >>  3. No tool-generated patches without prior maintainer approval.  
-> >
+> > I don't think we should (or can) set a policy here for other
+> > maintainers. Right now we allow tool-assisted contributions - flipping
+> > this would mean we need to get an ack from at least a majority of the
+> > MAINTAINERS folks.  
+> 
+> Sasha, with respect this is totally crazy.
 
-Actually, I'm not sure I care for the above, because honestly, I wouldn't
-know which to set my subsystem to. It would be a case by case basis.
-Sometimes I'm fine with the automated tooling as I can tell that the one
-using it knows what they are doing and use it as a tool.
+I'll somewhat defend Sasha on this.
 
-But I have refused patches from people where it was obvious that they had
-no idea of what they were doing and just submitted something because
-"checkpatch" or "coccinelle" said so.
+> 
+> Assuming every maintainer accepts AI patches unless explicitly opted out is
+> very clearly not something that will be acceptable to people.
+
+You can opt out when you receive your first AI patch ;-)
+
+> 
+> Assuming an LF policy most maintainers won't be aware of applies with the
+> kind of ramifications this will inevitably have seems very unreasonable to
+> me.
+
+This is why the policy should just be "It's up to the maintainer to decide
+if they will take the patch or not".
+
+If the maintainer starts getting too many submissions, then they can update
+the MAINTAINERS file to say "stop all AI patches to me!". Just like we have
+an opt-in for to not be part of the get_maintainer.pl "touched this file"
+with the .get_maintainer.ignore script.
+
+
+> 
+> You might suggest presuming a policy for maintainers is inappropriate, but
+> you are doing so wrt the LF policy on the assumption everybody is aware and
+> agrees with it.
+> 
+> That same document says individual projects can _override_ this as they
+> please. So the introduction of this document can very well override that.
+> 
+> We at the very least need this to be raised at the maintainers summit with
+> a very clear decision on opt-in vs. opt-out, with the decision being
+> communicated clearly.
+
+Agreed.
+
+> 
+> It's maintainers like me that'll have to deal with the consequences of
+> this.
+
+And you may be the first to opt-in ;-)
 
 -- Steve
