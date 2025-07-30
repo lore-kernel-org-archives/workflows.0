@@ -1,101 +1,100 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C51D92DECD4;
-	Wed, 30 Jul 2025 16:33:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB0D2DEA7E;
+	Wed, 30 Jul 2025 16:36:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753893231; cv=none; b=XuGod01lvRjjUrRq46exREzaC1l4GqIfDCYGeJFD+sNPuqFvGtIeicNIAhkfpKftlAHSDz/4G6s+RjnjMs8wt3tHMz0aupaWdg3FAznBysghPBiuGlfy1MrWod1mv0U7JdDN2bNBisil+J0i+MoldQT0pHLUP54Om07uJyFzFxA=
+	t=1753893388; cv=none; b=OCJIOC7smTJUTG7PnA5/RqrrjWC41nS/vlxBDWE3OTNF+AALaEXzwUYFfo28iRMDSXd+r8HhcuT8YOMDJ5xc90D5c7aNz6tNkerN5ziR78IBO+EAZc0xxw+GZMh3ZookA2n9NwKOyjvgiPyJdkg8lpUzOaWGBQBNv938tDvXchY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753893231; c=relaxed/simple;
-	bh=2Z1q2Q3cKj2SU4XUe/21zdB7IBgP9YP5AJAJKrYNAg8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=j09a0sMnDIDUuaYsSoUB+qluJ7jwLydSbQatODZsbhldz+AbzUtlJgusOobJpiNJAvIJZYlAIdgQLSz0TjECm9YJ82cWklWoi/SnWUCAGqJaX8ekFxRwnczJkDFapZv4cuW3QzsxP8r++NAoz0k2O+ddQ+xxBjnSYHI5afgvUDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WGpm6w9Z; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753893388; c=relaxed/simple;
+	bh=EbzS9qxr4044gou9sOfKn3+VkxrbSWebgv8HUG3wG/c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z3JU96lnaBajI7zNTgLnzwX+rInCu80fBkWMcVb82hDYmzL1HFoxh42/H6/nQxaM4W5sp1vcQFTtMYp2OPZLJS/7nCF6+CGFiUkca3n5ljGoz3M+yQIU5+YGMOIB0vKTPqGfN3nqXH5K7G6Xp7HnEij20/D2fgj1brbit9nBuKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iIEgK7+q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WGpm6w9Z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79102C4CEE7;
-	Wed, 30 Jul 2025 16:33:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iIEgK7+q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24F1DC4CEE3;
+	Wed, 30 Jul 2025 16:36:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753893231;
-	bh=2Z1q2Q3cKj2SU4XUe/21zdB7IBgP9YP5AJAJKrYNAg8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=WGpm6w9ZE8yPlBMH6mVsa3wfTJtVtiNujYiGpdgGuOX+RlH0UR+v0+GLyfsgYJgFM
-	 /P16WDIb2XGcNNt6Vh/MoEwC/oo0JZM1ffl95DA+i8jU9X64O4gTVvY2FWOyQPRXlb
-	 NH5k+2gxEyUzs1dELN4msM6b3AdeGiTO5vv7fb/ZVqfJ8lA5DYg+ay3+J/WEXGlGag
-	 KbAdVn6Ib2Lbq0bJIp14+fcoT+HaoQd90eVHAmt553/SOEboVFBYIgsxc53IV96iSA
-	 bpfD9S+pArck3wfRr1+H/Wh2cwuT9a/LzXPZgMnoBGfSB+o9aXUe64BzWUNudyP2Q4
-	 EEDycF4g166aw==
-Date: Wed, 30 Jul 2025 18:33:45 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+	s=k20201202; t=1753893387;
+	bh=EbzS9qxr4044gou9sOfKn3+VkxrbSWebgv8HUG3wG/c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iIEgK7+quxrKcwAsvi8hcCC3oU39CNB9ww/ykBMJgWiRNBQg/54dRleiiINGqsQju
+	 t7icxMM66oH/18cP2sr0pAgOnlqk1/nxW/WMz6a32k/eDVct6b046NMtDNnyDub/ah
+	 2WLYxnzg3X4zeM2g2TfGTfWWHa1owT9oUWLBgkZsEe/pY2oObax8anqmrJnj4LWoUW
+	 wNFvhQ0IPQ3E9uQl3REJp/MnpO8fArfxOJCioDQE2Wkvu26Gq4zLswGqZVdmJ6bv5x
+	 WLvZ2r2sWZ1R2h8gFCwsf42SA88lPQZLSL+Z4EBPqAfx52zzJSL9+Uc0Wf7/M5jor3
+	 vU8oVoPT2f9hw==
+Date: Wed, 30 Jul 2025 12:36:25 -0400
+From: Sasha Levin <sashal@kernel.org>
 To: Steven Rostedt <rostedt@goodmis.org>
 Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Greg KH <greg@kroah.com>,
- Sasha Levin <sashal@kernel.org>, corbet@lwn.net, linux-doc@vger.kernel.org,
- workflows@vger.kernel.org, josh@joshtriplett.org, kees@kernel.org,
- konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org, Linus
- Torvalds <torvalds@linux-foundation.org>, "Dr. David Alan Gilbert"
- <linux@treblig.org>
+	corbet@lwn.net, linux-doc@vger.kernel.org,
+	workflows@vger.kernel.org, josh@joshtriplett.org, kees@kernel.org,
+	konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>
 Subject: Re: [PATCH 0/4] Add agent coding assistant configuration to Linux
  kernel
-Message-ID: <20250730183337.6c60db4f@foz.lan>
-In-Reply-To: <20250730121829.0c89228d@gandalf.local.home>
+Message-ID: <aIpKCXrc-k2Dx43x@lappy>
 References: <20250727195802.2222764-1-sashal@kernel.org>
-	<7e7f485e-93ad-4bc4-9323-f154ce477c39@lucifer.local>
-	<2025072854-earthen-velcro-8b32@gregkh>
-	<df188552-c2dd-4cb7-9f6a-74e05e677dfc@lucifer.local>
-	<20250730112753.17f5af13@gandalf.local.home>
-	<158707d7-6729-4bb6-bc72-7556d11bfaef@lucifer.local>
-	<20250730121829.0c89228d@gandalf.local.home>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+ <7e7f485e-93ad-4bc4-9323-f154ce477c39@lucifer.local>
+ <2025072854-earthen-velcro-8b32@gregkh>
+ <df188552-c2dd-4cb7-9f6a-74e05e677dfc@lucifer.local>
+ <20250730112753.17f5af13@gandalf.local.home>
+ <158707d7-6729-4bb6-bc72-7556d11bfaef@lucifer.local>
+ <20250730121829.0c89228d@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20250730121829.0c89228d@gandalf.local.home>
 
-Em Wed, 30 Jul 2025 12:18:29 -0400
-Steven Rostedt <rostedt@goodmis.org> escreveu:
+On Wed, Jul 30, 2025 at 12:18:29PM -0400, Steven Rostedt wrote:
+>On Wed, 30 Jul 2025 16:34:28 +0100
+>Lorenzo Stoakes <lorenzo.stoakes@oracle.com> wrote:
+>
+>> > Which looked like someone else (now Cc'd on this thread) took it public,
+>> > and I wanted to see where that ended. I didn't want to start another
+>> > discussion when there's already two in progress.
+>>
+>> OK, but having a document like this is not in my view optional - we must
+>> have a clear, stated policy and one which ideally makes plain that it's
+>> opt-in and maintainers may choose not to take these patches.
+>
+>That sounds pretty much exactly as what I was stating in our meeting. That
+>is, it is OK to submit a patch written with AI but you must disclose it. It
+>is also the right of the Maintainer to refuse to take any patch that was
+>written in AI. They may feel that they want someone who fully understands
 
-> On Wed, 30 Jul 2025 16:34:28 +0100
-> Lorenzo Stoakes <lorenzo.stoakes@oracle.com> wrote:
-> 
-> > > Which looked like someone else (now Cc'd on this thread) took it public,
-> > > and I wanted to see where that ended. I didn't want to start another
-> > > discussion when there's already two in progress.    
-> > 
-> > OK, but having a document like this is not in my view optional - we must
-> > have a clear, stated policy and one which ideally makes plain that it's
-> > opt-in and maintainers may choose not to take these patches.  
-> 
-> That sounds pretty much exactly as what I was stating in our meeting. That
-> is, it is OK to submit a patch written with AI but you must disclose it. It
-> is also the right of the Maintainer to refuse to take any patch that was
-> written in AI. They may feel that they want someone who fully understands
-> what that patch does, and AI can cloud the knowledge of that patch from the
-> author.
-> 
-> I guess a statement in submitting-patches.rst would suffice, or should it
-> be a separate standalone document?
+This should probably be a stronger statement if we don't have it in the
+docs yet: a maintainer can refuse to take any patch, period.
 
-As you pointed earlier on this thread, I think something like this is good
-enough:
-	https://lore.kernel.org/lkml/20250724175439.76962-1-linux@treblig.org/
+>what that patch does, and AI can cloud the knowledge of that patch from the
+>author.
 
-E.g. just a couple of paragraphs at submitting-patches should work.
-Now, if we end adding an AI-focused instruction set like what it
-was proposed here:
+Maybe we should unify this with the academic research doc we already
+have?
 
-	https://lore.kernel.org/lkml/20250725175358.1989323-1-sashal@kernel.org/
+This way we can extend MAINTAINERS to indicate which subsystems are
+more open to research work (drivers/staging/ comes to mind) vs ones that
+aren't.
 
-I would add a mention and change the text to ask the ones developing
-patches with AI/LLM to ensure that AI accessed the ruleset when
-possible(*).
+Some sort of a "traffic light" system:
 
-(*) sometimes, AI may not have direct access to the internet and/or
-    may be using old caches.
+  1. Green: the subsystem is happy to receive patches from any source.
 
+  2. Yellow: "If you're unfamiliar with the subsystem and using any
+  tooling to generate your patches, please have a reviewed-by from a
+  trusted developer before sending your patch".
+
+  3. No tool-generated patches without prior maintainer approval.
+
+-- 
 Thanks,
-Mauro
+Sasha
