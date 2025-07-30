@@ -1,91 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B02A29;
-	Wed, 30 Jul 2025 18:10:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B4E01E008B;
+	Wed, 30 Jul 2025 18:18:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753899028; cv=none; b=iA0FVbApznrlMWYPBWK9ut1ZOwAs8lp+Nlu3yaWLTB88Qe5dQQF2iW/Ar484ItZMtjLRqkk35oAr+lWJSwx7piZIehK7HlGCeb/7vBZ9IvXnGIUq+t9OjLiLvpt/O6B4hITnHQN/4265nWCi3Bawl+Qwv/JFDQzBbReQ7udf5JY=
+	t=1753899534; cv=none; b=nUKJiy2b7OqO+BE/3og/nxUGre2am10HSL3F3/xJ6ras65FEl55RlddlL+uRPBLRb9Kyt2Yq+Ery1oJnQRRntUSFiWjum3g3iW6XzdUwr+UfvR/UhouQuhL18KUnJc60i6bhY18yrF7Nm2jajQIqrO9R/69B3L8kWKzi0gE+BrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753899028; c=relaxed/simple;
-	bh=2+R6QBBiXLtCm2dPQUTelWWWq1hY2KaY+Tb24j6CjyY=;
+	s=arc-20240116; t=1753899534; c=relaxed/simple;
+	bh=pdAvMwpvm91DYiVphrOrZSu9el5utbHnedDxb6Z8GgI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NcqKoJyQMKVXVPiMc1JBB6BeDfX11HOwlfvDFVLDDETHu2dBlgO10uFMNIRFYNiqQgIVT9kYGknWdst5rMfj1syKllqJ2kWsOEzh0jG+dpthVk12VnUts2QnqBpd/kOoqLtBmMQGKt6pi+sR8YAPBDgm6NGRm2p3+u7l+KUc+Hk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ar0QA19a; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=DcuS/5SF9XimAFT/CIiuQABdToHGKu86TIiTzkKoh+WZqBK9SwzT9HV3xcKt9EvVVRIXdxZL0xMUvb3br2ERNZ/pjffv49/RuAwm02fXQDaUE3Oho7bxSWl82jjUc77tE0ktLRxudrsN8heiXeASePWrn1eyhzQZggmz1wDFWi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=kk5zI3TQ; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ar0QA19a"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20FEEC4CEE3;
-	Wed, 30 Jul 2025 18:10:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753899028;
-	bh=2+R6QBBiXLtCm2dPQUTelWWWq1hY2KaY+Tb24j6CjyY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ar0QA19asK/AQNJyoyOQ2w/sGosbf8SDpOd/P132AXVm+m7DJ9+LvKA0CavfA+2Hh
-	 0isWY5jr6KLguy1gIVuiyWzN38cXhaXhFmTwTweWT2C5sSGNyAP0AHM9ruveKQnzfH
-	 oad9ZbTEt/uka09a/9LAqWHtGP+J20Zb2P2Thz3jHt2OXVoLICf2v/p752KFREAcII
-	 BfJvCrr8C+2rTagHHhu0aZE4/7N7nsuRK6TViK1Sz5YKrBtXASMfoo5R4CjSsYzIL2
-	 NdxQaq7nO0dg2bguxXJU0uLe6xY1uUJfUxnK37Ve+k1iGZdghO8xeFqYC9ErnH4C/S
-	 CGn+aNo5ErIVg==
-Date: Wed, 30 Jul 2025 14:10:26 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Greg KH <greg@kroah.com>, corbet@lwn.net, linux-doc@vger.kernel.org,
-	workflows@vger.kernel.org, josh@joshtriplett.org, kees@kernel.org,
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kk5zI3TQ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=QHhTpKKFcgtw5jZt/mXeVe5e9s9XUDKiPgrgps6lPME=; b=kk5zI3TQSxOAJ2dyCoQjwez1sj
+	O+aJk68jYjTmak2p6nmAFl5RvehpzNpsQf7q85evkj6yTsnxVgeE4RUC3GMytKLWFO5Q5ShFHizFZ
+	f6/UfV5yUX33t7WPo7yP9TzkCN9BdOwCff6QeA3tOV9wNUQnAIztTxeTtL16G2wY4RgWzZY1WLcjO
+	jpMIEUsYDZ4+SlvyzCDefT8UZPVYwmAHdF5iPKuTBs4iQYo+v+xDrpOqWkUblxJZUcAwJw3wBvBVm
+	/tGjg3bFM1y4US3by70gnhzg+BTO+r7whxrAwJVYl9oV+z+CmoORSsKP0K5FUvlw6qBv8S7tRt0F/
+	3ZsxYT2w==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uhBO1-0000000GtTc-0KyK;
+	Wed, 30 Jul 2025 18:18:45 +0000
+Date: Wed, 30 Jul 2025 19:18:44 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: Kees Cook <kees@kernel.org>, corbet@lwn.net, linux-doc@vger.kernel.org,
+	workflows@vger.kernel.org, josh@joshtriplett.org,
 	konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: Re: [PATCH 0/4] Add agent coding assistant configuration to Linux
- kernel
-Message-ID: <aIpgEpe6z2Ykyymh@lappy>
-References: <7e7f485e-93ad-4bc4-9323-f154ce477c39@lucifer.local>
- <2025072854-earthen-velcro-8b32@gregkh>
- <df188552-c2dd-4cb7-9f6a-74e05e677dfc@lucifer.local>
- <20250730112753.17f5af13@gandalf.local.home>
- <158707d7-6729-4bb6-bc72-7556d11bfaef@lucifer.local>
- <20250730121829.0c89228d@gandalf.local.home>
- <aIpKCXrc-k2Dx43x@lappy>
- <20250730130531.4855a38b@gandalf.local.home>
- <aIpah6DTRd99mMqb@lappy>
- <20250730175909.GO222315@ZenIV>
+	rostedt@goodmis.org
+Subject: Re: [PATCH 2/4] agents: add core development references
+Message-ID: <aIpiBLXe8z_nSwOv@casper.infradead.org>
+References: <20250727195802.2222764-1-sashal@kernel.org>
+ <20250727195802.2222764-3-sashal@kernel.org>
+ <202507271937.EC44B39@keescook>
+ <aIcD9f_52tlLgE-e@lappy>
+ <202507272203.BECE244@keescook>
+ <aIcRzndNUdh-9R18@lappy>
+ <202507272310.FCB96F5E93@keescook>
+ <aIpHhR8AhPJZE2Rp@lappy>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250730175909.GO222315@ZenIV>
+In-Reply-To: <aIpHhR8AhPJZE2Rp@lappy>
 
-On Wed, Jul 30, 2025 at 06:59:09PM +0100, Al Viro wrote:
->On Wed, Jul 30, 2025 at 01:46:47PM -0400, Sasha Levin wrote:
->
->> Similarily the argument around not trusting the code is equivalent to
->> not trusting the person who sent the code in. AI doesn't send patches on
->> it's own - humans do. This is basically saying "I didn't even look at
->> your patch because I don't trust you".
->
->One name: Markus Elfring.  Ever tried to reason with that one?  Or Hillf
->Danton, for that matter.
->
->And I absolutely will refuse to take patches from somebody who would
->consistently fail to explain why the patch is correct and needed.  Sasha,
->this is the elephant in the room: we *ALREADY* get "contributions" that
->very clearly stem from "$TOOL says so, what else do you need?" kind of
->reasoning and some of that dreck ends up in the tree.  AI will serve as
->a force multiplier for those...  persons.
+On Wed, Jul 30, 2025 at 12:25:41PM -0400, Sasha Levin wrote:
+> Critical Requirements:
+> 
+> * License: ALL code MUST be GPL-2.0 only (see COPYING)
 
-This is exactly my argument Al :)
+As I understand it, code generated by an LLM is free from copyright.
+https://en.wikipedia.org/wiki/Monkey_selfie_copyright_dispute
 
-You, as a maintainer, should be able to just reject patches without
-having to provide a technical explanation for each patch you ignore.
-
-If someone new comes along and bombards you with AI generated crap and
-useless review comments, you should be able to just block him and point
-to something under Documentation/ that will support that decision.
-
--- 
-Thanks,
-Sasha
