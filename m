@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D0231DE4E7;
-	Wed, 30 Jul 2025 18:29:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A962D2BCFB;
+	Wed, 30 Jul 2025 18:41:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753900162; cv=none; b=D5wTK3silASK8ivRBTljAqfWRscgteyXE1NRz8uMFK9OGoyJTWnDNFV81ZCsoIMVxv7qK/S7hC3lx0ox0wn/2xW0S0sKcnjRQzG20yAkJJB2OcOt4XCtUajKax8aYbz4hiUDjD7p5HmZclmuJasAIZjQtC++/LKj5alJe5llGfo=
+	t=1753900892; cv=none; b=qhl4pzHfSqJSay9r/vzGv2KJvV+EqJ9ositiU/x47CApdc1VFpnCoaVNOZijIODfpw+hRV/9z8XTPdgRuZAwULFD/6GFeeY56NW+CkFRCZfMrAAVXliJ1NYZLO7HWO0LhuLGZ5YfzaOvHdn+L13resarqFFLv0SNbvWTNa1wyUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753900162; c=relaxed/simple;
-	bh=VBXH58C+eg63hc0NJ0PJEvas9hinpXcnOplDom8r77g=;
+	s=arc-20240116; t=1753900892; c=relaxed/simple;
+	bh=uFy1aNmE6hCD+b1Vg3KkRIA2KtSqAGBq+0SnJfrgODE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mjtQ2LZgNkMtAmsMsdh5PVtQoGLzxMzTtztRTn3Ymen2Q5I2DdV1AippNe3wAeHpXy5YrWluicYZ2BRcRN2l7RuLifQsNSXCH2N3AesYDNlRFf4FKYeMgXRGvGvxWPqXTwAYN6d2uZkipFOb0aKRmSECl19QZZ+aUVClVceUa0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gYtAi/8s; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=uXs7sBrNz6c7IFD4gulPduZoyB3D90FiJkCUzL5iGXfJDBShQ/yrt4RmLyVjUadxdsuHJO6U+AzIT1OHpJ7mf+4YueXqAp6gFwUvLBsZqZVHh86PhBEVugkdorh7Pm3Vu4H50QaPUnA2tmx/Y2G4EYiKlV6YcVyhitcRalhr+08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PkrN0CRX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gYtAi/8s"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63EF6C4CEE3;
-	Wed, 30 Jul 2025 18:29:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PkrN0CRX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED185C4CEE3;
+	Wed, 30 Jul 2025 18:41:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753900161;
-	bh=VBXH58C+eg63hc0NJ0PJEvas9hinpXcnOplDom8r77g=;
+	s=k20201202; t=1753900892;
+	bh=uFy1aNmE6hCD+b1Vg3KkRIA2KtSqAGBq+0SnJfrgODE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gYtAi/8sIE6PzS9dLRwxTZm2Cq8D+cIxHo1nPyfNX5+h6gZwvuJiPgM7bDHTfCQyo
-	 7kPWtCN4iMzXS5b0TQ/WZLkgvi4J6h3KepmH+MUpIZZij8+pmRa7gwx6kv6//oAAXq
-	 4oqeaiGnqPzJQURNU5yLK/qX3Bjx3sGN86OPFKR8+Re5PGwtvdFhRYlIbyD8MNaekB
-	 NoIf2UaZ+WQWp2VNUHasq0XjDKqk6mwH8fCxWlQfEv4KqVbHagPNbo9c5DhafyYwr/
-	 TxUgvzwV7Sd1ifWFKvk7xzg+ohyCQFvMI9XsJ8QO3rlTbkc8k0Grq0Q+3GOVSZBsV/
-	 dvEUgMi8aj9hg==
-Date: Wed, 30 Jul 2025 14:29:19 -0400
+	b=PkrN0CRXyEP5T5yBAhZY3fuT8P/1T8jFa3csXoNXw6l/LL6ToBUTJwHwl1jDi7ruZ
+	 k8Q88hEoDN6LkvJ7gF0BCgB3z8LUjTTcoz/QIBfmfYacj4RaPrFr5wq4haLxhHpV7c
+	 BWIMOzOwpsGByPrKPkW7xQkM5WI0GLvWGOTuKGXNQo1uDg7CSfGM3iObcebF36va78
+	 5eoqzpLRMme3yi+rGk8p1+PtByxw2x7Ea09gf2abNjqzwOEGzP2RM1IPTzYVvkTk4D
+	 Usc+FSTnxEPLBfOw0NzIbwyWKD0KvE8nhQzO+GOssGJNjmaA07LqAS7moNb5qvUTCk
+	 6PcOjKHnOutZg==
+Date: Wed, 30 Jul 2025 14:41:30 -0400
 From: Sasha Levin <sashal@kernel.org>
-To: Al Viro <viro@zeniv.linux.org.uk>
+To: Matthew Wilcox <willy@infradead.org>
 Cc: Kees Cook <kees@kernel.org>, corbet@lwn.net, linux-doc@vger.kernel.org,
 	workflows@vger.kernel.org, josh@joshtriplett.org,
 	konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org,
 	rostedt@goodmis.org
 Subject: Re: [PATCH 2/4] agents: add core development references
-Message-ID: <aIpkfxjMJ9IGEo_K@lappy>
+Message-ID: <aIpnWq7utcFsGgWY@lappy>
 References: <20250727195802.2222764-1-sashal@kernel.org>
  <20250727195802.2222764-3-sashal@kernel.org>
  <202507271937.EC44B39@keescook>
@@ -43,7 +43,7 @@ References: <20250727195802.2222764-1-sashal@kernel.org>
  <aIcRzndNUdh-9R18@lappy>
  <202507272310.FCB96F5E93@keescook>
  <aIpHhR8AhPJZE2Rp@lappy>
- <20250730173528.GN222315@ZenIV>
+ <aIpiBLXe8z_nSwOv@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -52,44 +52,24 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20250730173528.GN222315@ZenIV>
+In-Reply-To: <aIpiBLXe8z_nSwOv@casper.infradead.org>
 
-On Wed, Jul 30, 2025 at 06:35:28PM +0100, Al Viro wrote:
+On Wed, Jul 30, 2025 at 07:18:44PM +0100, Matthew Wilcox wrote:
 >On Wed, Jul 30, 2025 at 12:25:41PM -0400, Sasha Levin wrote:
->
 >> Critical Requirements:
 >>
 >> * License: ALL code MUST be GPL-2.0 only (see COPYING)
->> * Signed-off-by: Agents MUST NOT add Signed-off-by tags
->>   (Only humans can legally certify code submission rights)
->> * Attribution: Agents MUST add Co-developed-by tag:
->>   Co-developed-by: $AGENT_NAME $AGENT_MODEL $AGENT_VERSION
->>   Examples:
->>   - Co-developed-by: Claude claude-3-opus-20240229
->>   - Co-developed-by: GitHub-Copilot GPT-4 v1.0.0
 >
->  * for any patch there must be some entity capable of usefully
->    answering questions about that patch.  Legal certification
->    be damned, there must be somebody able to handle active
->    questioning.
->
->And no, it's not the same as with human submitters.  If entity
->A sends a patch to maintainer B, who passes it along and gets
->questions/feedback regarding that patch, B might have to resort
->to passing the questions to A, to confirm their understanding
->of the situation.  And from what I've seen, LLM tend to do
->very badly in such cases.
->
->IOW, defending any agent-originated patch falls entirely upon
->the human "co-developer".  IMO that is a critical requirement.
+>As I understand it, code generated by an LLM is free from copyright.
+>https://en.wikipedia.org/wiki/Monkey_selfie_copyright_dispute
 
-I agree. Elsewhere in the thread I suggested that a maintainer should be
-able to require having tool generated patches come with a Reviewed-by
-tag from a "trusted reviewer" (similar to the guidelines we have for
-academic researches).
+My understanding (IANAL) of https://www.copyright.gov/ai/ is that if a
+human provides instructions, edited the result, or had any other
+creative input into the process then the output is protected by
+copyrights.
 
-This way you could at least have a human you trust be part of the loop
-until you trust the author of those tool generated patches.
+But really I'd rather just leave it to our friendly lawyers at the LF
+to figure the legal aspects out.
 
 -- 
 Thanks,
