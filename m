@@ -1,111 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92DBF2E3711;
-	Wed, 30 Jul 2025 17:12:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 378D52DE70B;
+	Wed, 30 Jul 2025 17:20:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753895577; cv=none; b=FpkyMd6gMhU1uRpVvFcHvxKoz0Q6cdXjev2MrDRGxjT+QIKQAA4Poof7eP5jzfVry9VsXx6Jywk/IL/5KcaSDCHg/QE6Rod5W0XhM2+5KMBcch8Y1tWzvfUc4FGyrmXcRaaNwnczgFaR3EeOVTmkzGRYW7dHNMZkZiGZNz4bYeA=
+	t=1753896044; cv=none; b=i1eeT5BnpcEEwg+aMEpWpCpJe5rXdPYZDHFskXPdIoN6tVPm8ZlBF38LUNEk7qORSLdEmxTQxmDYGhDujvgGVVwH343K3lV/Q2XHH9ndFqLNx8t//eJTYvyXVNOZN1MLSx31wmV6n/qyluMZsOiqPF78ZnrPTu2dhUgNO50fHi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753895577; c=relaxed/simple;
-	bh=/7C8x0xPNrEXA7MgWp9+pFKCoZyEA7fK40HBvd3+qx0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GZWI26dX1aeYzFhm2uQgjqi1Lo1LR4HZjQweqCxjqA+7+psL2wVU1McH8brrgR5yGhWNx0ErftrUtVON/kagYaf8VRLFZK1hn+D834Rx1NlESCwt4jeSmGR2oJOxPx8HonhYPJ41VuAbDaiLJBtZ3TrYcFiddgdTQAP6N4QdZOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HrmuREDT; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HrmuREDT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB801C4CEE3;
-	Wed, 30 Jul 2025 17:12:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753895577;
-	bh=/7C8x0xPNrEXA7MgWp9+pFKCoZyEA7fK40HBvd3+qx0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HrmuREDTdVwR80KQUDynctei+lWuxtEhCJO2mwxu2dE6o/llAHlMyCdJoOqUchRDw
-	 O/wgyRDttjMMO1sG7lucqDtJTxVUd0Y1R+++sHifw4yJSJ2qXe4lt8yKKQhdoRIVAd
-	 srv0ynkRTBQeey39DsTQIWR5wTSzZkr2CUurI3uUUo44rcSgi8ptia9xykHNMjq2tB
-	 rnFEH/ZNLyYp+kzk7D1r0TGGHIXcFsXW7DBRnz3FBcMRr6ivCOzfzp03llpRRqFI8F
-	 3B17JNooGb3seCD+DTQpi17z0QjtwulLSLs8Fvk3WkFwFprw8B3mGDNMZ2vQwo0Fi/
-	 lPaXJ5p7qphkg==
-Date: Wed, 30 Jul 2025 13:12:54 -0400
-From: Sasha Levin <sashal@kernel.org>
+	s=arc-20240116; t=1753896044; c=relaxed/simple;
+	bh=eGgYF3faEDvlbfXoAL+/uQaiHWaQLSaNvRovm9vIZE0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=c2E/sz4hPlc/Sd0l1xx/n44SL6PXqWoAWdue3BGRqWmXKmmyidw/xpAye6g9o5A64EkTA5kc+X/XIlaFScy/s7znViyV97lZ/Y8t6ITR8sykN+TK2nYAL72JDKcwBGoYQe9a3zISDk2GcYPraLRs+450L2FE6qM1p0a86TJIEX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf17.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay07.hostedemail.com (Postfix) with ESMTP id 5D7A916049D;
+	Wed, 30 Jul 2025 17:20:40 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf17.hostedemail.com (Postfix) with ESMTPA id EC1F919;
+	Wed, 30 Jul 2025 17:20:37 +0000 (UTC)
+Date: Wed, 30 Jul 2025 13:20:54 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
 To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Greg KH <greg@kroah.com>,
-	corbet@lwn.net, linux-doc@vger.kernel.org,
-	workflows@vger.kernel.org, josh@joshtriplett.org, kees@kernel.org,
-	konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>
+Cc: "Dr. David Alan Gilbert" <linux@treblig.org>, Greg KH <greg@kroah.com>,
+ Sasha Levin <sashal@kernel.org>, corbet@lwn.net, linux-doc@vger.kernel.org,
+ workflows@vger.kernel.org, josh@joshtriplett.org, kees@kernel.org,
+ konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org, Linus
+ Torvalds <torvalds@linux-foundation.org>
 Subject: Re: [PATCH 0/4] Add agent coding assistant configuration to Linux
  kernel
-Message-ID: <aIpSlhPTC9G1AqvO@lappy>
+Message-ID: <20250730132054.1e710372@gandalf.local.home>
+In-Reply-To: <46973236-a53d-4d1c-912c-1e3dc08e4160@lucifer.local>
 References: <20250727195802.2222764-1-sashal@kernel.org>
- <7e7f485e-93ad-4bc4-9323-f154ce477c39@lucifer.local>
- <2025072854-earthen-velcro-8b32@gregkh>
- <df188552-c2dd-4cb7-9f6a-74e05e677dfc@lucifer.local>
- <20250730112753.17f5af13@gandalf.local.home>
- <158707d7-6729-4bb6-bc72-7556d11bfaef@lucifer.local>
- <20250730121829.0c89228d@gandalf.local.home>
- <aIpKCXrc-k2Dx43x@lappy>
- <a1022055-52bd-4948-9399-908b29ca140a@lucifer.local>
+	<7e7f485e-93ad-4bc4-9323-f154ce477c39@lucifer.local>
+	<2025072854-earthen-velcro-8b32@gregkh>
+	<df188552-c2dd-4cb7-9f6a-74e05e677dfc@lucifer.local>
+	<20250730112753.17f5af13@gandalf.local.home>
+	<158707d7-6729-4bb6-bc72-7556d11bfaef@lucifer.local>
+	<20250730121829.0c89228d@gandalf.local.home>
+	<aIpLB5oMc1tSq1SP@gallifrey>
+	<46973236-a53d-4d1c-912c-1e3dc08e4160@lucifer.local>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <a1022055-52bd-4948-9399-908b29ca140a@lucifer.local>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: oie35eibcbkyro4hyb3ctondp8kzxqpq
+X-Rspamd-Server: rspamout08
+X-Rspamd-Queue-Id: EC1F919
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX18wKPxFa3CpT4uCPLKfmEDBhk4OCY6wBDk=
+X-HE-Tag: 1753896037-199669
+X-HE-Meta: U2FsdGVkX190h4xoJRWLdQP+eNpIHZDUHIQEr7gSwBSEv+hFY2EUu0Jh4SaQPSRSojsWgSGkLM7gU5/RvO0RoCACIihUzv80x3mshby1uXRcLYV0DVycNbp/ObCXkHsS+HKAyB07v7hWYUaIFJOMdfHQtR4WAPNDqgouhOy+8s2sEgjXDgogYLSmqFzKkP36xz7m6+2jBp4B2OTb7JqEDy9MjVBl++PsCmoIh6EQ+xjTkLIg8AjcCnd4SG3reoqwh140yRgc/Gm71uT2ifu2BOAK7+mf089HZxu4SQkao7cn9X22s+X+bIlv5gQO0ZzXH6H/dcIexFcQDoYbxXHH2uh0HfQ6FqAH
 
-On Wed, Jul 30, 2025 at 05:59:25PM +0100, Lorenzo Stoakes wrote:
->On Wed, Jul 30, 2025 at 12:36:25PM -0400, Sasha Levin wrote:
->> On Wed, Jul 30, 2025 at 12:18:29PM -0400, Steven Rostedt wrote:
->> > On Wed, 30 Jul 2025 16:34:28 +0100
->> > Lorenzo Stoakes <lorenzo.stoakes@oracle.com> wrote:
->> >
->> > > > Which looked like someone else (now Cc'd on this thread) took it public,
->> > > > and I wanted to see where that ended. I didn't want to start another
->> > > > discussion when there's already two in progress.
->> > >
->> > > OK, but having a document like this is not in my view optional - we must
->> > > have a clear, stated policy and one which ideally makes plain that it's
->> > > opt-in and maintainers may choose not to take these patches.
->> >
->> > That sounds pretty much exactly as what I was stating in our meeting. That
->> > is, it is OK to submit a patch written with AI but you must disclose it. It
->> > is also the right of the Maintainer to refuse to take any patch that was
->> > written in AI. They may feel that they want someone who fully understands
->>
->> This should probably be a stronger statement if we don't have it in the
->> docs yet: a maintainer can refuse to take any patch, period.
->>
->> > what that patch does, and AI can cloud the knowledge of that patch from the
->> > author.
->>
->> Maybe we should unify this with the academic research doc we already
->> have?
->>
->> This way we can extend MAINTAINERS to indicate which subsystems are
->> more open to research work (drivers/staging/ comes to mind) vs ones that
->> aren't.
->>
->> Some sort of a "traffic light" system:
->>
->>  1. Green: the subsystem is happy to receive patches from any source.
->>
->>  2. Yellow: "If you're unfamiliar with the subsystem and using any
->>  tooling to generate your patches, please have a reviewed-by from a
->>  trusted developer before sending your patch".
->>
->>  3. No tool-generated patches without prior maintainer approval.
->
->This sounds good, with a default on red. Which would enforce the opt-in
->part.
+On Wed, 30 Jul 2025 18:10:51 +0100
+Lorenzo Stoakes <lorenzo.stoakes@oracle.com> wrote:
 
-I don't think we should (or can) set a policy here for other
-maintainers. Right now we allow tool-assisted contributions - flipping
-this would mean we need to get an ack from at least a majority of the
-MAINTAINERS folks.
--- 
-Thanks,
-Sasha
+
+> > > I guess a statement in submitting-patches.rst would suffice, or should it
+> > > be a separate standalone document?  
+> >
+> > If it's separate I think it needs to have a link from submitting-patches.rst
+> > to get people to read it.  
+> 
+> Absolutely agree.
+
+Sorry for cropping your response about submitting patches, but honestly, I
+think it may get more visibility there than in a separate doc. That's
+because submitting-patches is one of the most popular documents kernel devs
+reference to people submitting patches!
+
+Of course, adding a link as suggested above may fix that too.
+
+> 
+> >
+> > To summarise some other things that came up between the threads:
+> >   a) I think there should be a standard syntax for stating it is
+> >      AI written; I'd suggested using a new tag, but others were
+> >      arguing on the side of reusing existing tags, which seems OK
+> >      if it is done in a standard way and doesn't confuse existing tools.  
+> 
+> Yes.
+> 
+> >
+> >   b) There's a whole spectrum of:
+> >       i) AI wrote the whole patch based on a vague requirement
+> >      ii) AI is in the editor and tab completes stuff
+> >     iii) AI suggests fixes/changes
+> >     which do you care about?  
+> 
+> I think any AI involvment that results in _changes to the code_ should
+> require the tag.
+
+I disagree with this. As I reply, I don't think if you have AI finishing
+your for loops and such requires disclosure. As I believe that may soon be
+the norm of most folks and then we may get AI storms.
+
+And then, if you have people saying "I don't want any AI patches", does
+that mean those that use AI for templates and such will now be forbidden
+from submitting to those subsystems?
+
+I would say if AI creates any algorithm for you then it must be disclosed.
+
+> 
+> >
+> >   c) But then once you get stuff suggesting fixes/changes people were
+> >     wondering if you should specify other non-AI tools as well.
+> >     That might help reviewers who get bombed by a million patches
+> >     from some conventional tool.  
+
+I should add that non-AI tools should always come with a disclaimer that
+they were used. For the most part, most submissions that use non-AI tooling
+has done this. I just don't think we ever made any formal policy about it.
+
+-- Steve
