@@ -1,43 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1F451D61BC;
-	Wed, 30 Jul 2025 17:46:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 578C31E0DE8;
+	Wed, 30 Jul 2025 17:51:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753897610; cv=none; b=uipxmH76F1nV9WV5etH0aAIFQ86nfjkeLoSOvfE5B4ZOkL5FLy3357M1zCK4N5+Lkmu2u4hnSGAEUxEN9A/WVZFktlnox8s/bcF5p/C0mlmzjmx7+qDaLf65B24maUEg18ff5ARk9Sq0M2LkPFXelaGLwFR7Uu9svOPG54aUKUQ=
+	t=1753897870; cv=none; b=cqAFzEjtvVXDkiCbv4D4jO4415KlrtDFlN/OYonw+rmBSgMQwLq47LIHOOVjNTHUCIe1dmRj3ZuHl9LqSCZFIFARDeqfy9XVsHhxydpx95wL7NumOdOOpIbO0GDnJHiB87o5U9Esdrha/OE3tvUX1sz7hz83mr2RMTPgye+zx+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753897610; c=relaxed/simple;
-	bh=i+Uks1c4IkNLAnAwsqqBNeCU8fqOP6LHnAxRYO6R5Ds=;
+	s=arc-20240116; t=1753897870; c=relaxed/simple;
+	bh=SjD3gxtb2NQnzg3Ltut5H64k+5Je2XNn0GZBKQBUOCg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ewRPidsNsIYeaZAVKxfmtCE/Ubctq8DAdLhOQHSzRIVxXeQpzkU+mNMz5Vv7XzZ2IDB8BjjxtTEcg/2oZysQ/9y0umQqH6VF1MxERphbxVQQOUPlxP2GNNru+cIcDCBjfVgO6IH9SiPiyHNKYeGIMWFyI6jhRHNgA6KwmSioscU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r55xUPYo; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=CE0OO7PauWboBZOHDgnmLgCnItCjJ0a46ea3PgO6ozg2xbwlKxTT93LkPdzMTafUUz2qGWLV+bh8NWAz9WK9oTH91ZJj3Ujxy0PGQSAS8ConodKg+ta8qmZzoXdseX1M0B+1txIKJYKEOUtpR6gxlo+zGtvYfoMk0bYbEWNRDWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hXSoBULA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r55xUPYo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7BC1C4CEE3;
-	Wed, 30 Jul 2025 17:46:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hXSoBULA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C80F6C4CEE3;
+	Wed, 30 Jul 2025 17:51:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753897610;
-	bh=i+Uks1c4IkNLAnAwsqqBNeCU8fqOP6LHnAxRYO6R5Ds=;
+	s=k20201202; t=1753897869;
+	bh=SjD3gxtb2NQnzg3Ltut5H64k+5Je2XNn0GZBKQBUOCg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r55xUPYoQBKrMvFJbaCUS4icLp82V/PFbAKYqVuEWgdrlcEbnrUoUFswm91yXOKAq
-	 ZwiPYt9IwofA6H2e31IYXTpiMKQv9vViwW7/M45DcOHgJ0VSK2tsijkvQTywl3g165
-	 l3rO/RMgmDlteAH7MMzyHnJXlI6aXQBnrvTq5/gnZmAxrqMuapZyVib3s0vFN7YPN2
-	 K1YF8OVin2uMgZOQYBq9X0X2oVh3FC/wphfLSoZV4+4WivHuQlN5UN/w0vOOB0S2k4
-	 Ipk3LAWcOeg0XkNwQwisVj9oOy+uVm6etfbP14O3lO/An9OoP9CuUQt7tRbzDxHCxs
-	 6btvzQV8to/lw==
-Date: Wed, 30 Jul 2025 13:46:47 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Greg KH <greg@kroah.com>,
+	b=hXSoBULAPu7ypqeoj8fxHAUhkpSxrX7Deiss9twPiKBCX+3uWvqR++bWal2C4ZyXv
+	 1YKBEURrDHMZt/j/8STwgoadgYQRHfVJ/H/Jlt4tc7yUIn7dsExH75hR/Wz6QNBKZG
+	 XAjoY2u/wf5ude7Vt5Wsl1BBgzzA8pxcOvKM3H2C4FPctkj2VRS3l9TPb/DTR3F6Ng
+	 koZ3IG3pB8pfHg50380Ne7eMIzBm+oLqwKAr3fxGWjk2nTcjRFVtsggVvskipzm2an
+	 RVkHethygW8xDRG14pSoyRmlng+jsJu2lmU6Cbvwms12QeaUUoW2cIZtJIIO6nsLu2
+	 kxrIO1ze1Ixag==
+Date: Wed, 30 Jul 2025 10:51:09 -0700
+From: Kees Cook <kees@kernel.org>
+To: "Dr. David Alan Gilbert" <linux@treblig.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Greg KH <greg@kroah.com>, Sasha Levin <sashal@kernel.org>,
 	corbet@lwn.net, linux-doc@vger.kernel.org,
-	workflows@vger.kernel.org, josh@joshtriplett.org, kees@kernel.org,
+	workflows@vger.kernel.org, josh@joshtriplett.org,
 	konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>
+	Linus Torvalds <torvalds@linux-foundation.org>
 Subject: Re: [PATCH 0/4] Add agent coding assistant configuration to Linux
  kernel
-Message-ID: <aIpah6DTRd99mMqb@lappy>
+Message-ID: <202507301042.C7A6FE5ABB@keescook>
 References: <20250727195802.2222764-1-sashal@kernel.org>
  <7e7f485e-93ad-4bc4-9323-f154ce477c39@lucifer.local>
  <2025072854-earthen-velcro-8b32@gregkh>
@@ -45,97 +46,42 @@ References: <20250727195802.2222764-1-sashal@kernel.org>
  <20250730112753.17f5af13@gandalf.local.home>
  <158707d7-6729-4bb6-bc72-7556d11bfaef@lucifer.local>
  <20250730121829.0c89228d@gandalf.local.home>
- <aIpKCXrc-k2Dx43x@lappy>
- <20250730130531.4855a38b@gandalf.local.home>
+ <aIpLB5oMc1tSq1SP@gallifrey>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250730130531.4855a38b@gandalf.local.home>
+In-Reply-To: <aIpLB5oMc1tSq1SP@gallifrey>
 
-On Wed, Jul 30, 2025 at 01:05:31PM -0400, Steven Rostedt wrote:
->On Wed, 30 Jul 2025 12:36:25 -0400
->Sasha Levin <sashal@kernel.org> wrote:
->
->> >
->> >That sounds pretty much exactly as what I was stating in our meeting. That
->> >is, it is OK to submit a patch written with AI but you must disclose it. It
->> >is also the right of the Maintainer to refuse to take any patch that was
->> >written in AI. They may feel that they want someone who fully understands
->>
->> This should probably be a stronger statement if we don't have it in the
->> docs yet: a maintainer can refuse to take any patch, period.
->
->I disagree with that. They had better have technical reasons to refuse to
->take a patch. I would have big qualms if a maintainer just said "I don't
->like you and I'm not going to take any patches from you".
->
->This is a community project, and maintainers have been overridden before.
->Luckily, Linus has been pretty good at getting changes into the kernel when
->there was no clear technical argument that they should not be accepted.
->
->I believe the policy is that a maintainer may refuse any patch based on
->technical reasons. Now, patches can and are delayed due to maintainers just
->not having the time to review the patch. But that is eventually resolved if
->enough resources come into play.
->
->My point here is that AI can now add questions that maintainers can't
->answer. Is it really legal? Can the maintainer trust it? Yes, these too can
->fall under the "technical reasons" but having a clear policy that states
->that a maintainer may not want to even bother with AI generated code can
->perhaps give the maintainer something to point to if push comes to shove.
+On Wed, Jul 30, 2025 at 04:40:39PM +0000, Dr. David Alan Gilbert wrote:
+>   b) There's a whole spectrum of:
+>       i) AI wrote the whole patch based on a vague requirement
+>      ii) AI is in the editor and tab completes stuff
+>     iii) AI suggests fixes/changes
+>     which do you care about?
 
-I don't think that those are technical aspects.
+There is a vast spectrum between i) and ii). For the 2 KUnit patches[1]
+I sent, I had already taught the LLM about KUnit (via Documentation/),
+and I walked the LLM through the API in question, then asked it to produce
+a KUnit test. It spat out the core structure with proposed tests, and
+it iterated on running the tests to make sure the tests were passing,
+adjusting its assumptions about the API. I took that result and went
+through it test by test to tweak edge cases, add additional checks, etc,
+etc. By character count, those 2 are probably 70% written by the LLM.
 
-The legality question is answered by the DCO where a human represents
-that he is allowed to submit the code. You should have the same concerns
-with humans sending in non-GPL-compatible code.
+For the atomisp fix[2], that was, by characters, 100% LLM, but I gave it
+specific code style adjustments and guided it to examine the problem
+correctly. Should it be considered "AI wrote the whole patch"? Maybe,
+maybe not.
 
-Similarily the argument around not trusting the code is equivalent to
-not trusting the person who sent the code in. AI doesn't send patches on
-it's own - humans do. This is basically saying "I didn't even look at
-your patch because I don't trust you".
+-Kees
 
->> Maybe we should unify this with the academic research doc we already
->> have?
->
->I wouldn't think so. This is about submitting patches and a statement there
->may be easier found by those about to submit an AI patch. Just because they
->are using AI doesn't mean they'll think it's an academic research.
-
-Not in the sense that AI is research, but more that this is code coming
-from someone who is unable to reliably verify the patch that is being
-sent in.
-
-The source can be academic research, AI, or whatever else comes along.
-
-It'll just be nice to have a unified set of rules around it. Otherwise
-the amount of combinations will explode (in which category do we put in
-academic researchers sending in AI generated code?).
-
->> Some sort of a "traffic light" system:
->>
->>   1. Green: the subsystem is happy to receive patches from any source.
->>
->>   2. Yellow: "If you're unfamiliar with the subsystem and using any
->>   tooling to generate your patches, please have a reviewed-by from a
->>   trusted developer before sending your patch".
->>
->>   3. No tool-generated patches without prior maintainer approval.
->
->Perhaps. Of course there's the Coccinelle scripts that fix a bunch of code
->around the kernel that will like be ignored in this. But this may still be
->a good start.
-
-It'll be hard to draw a line here, so I suggest we don't try.
-
-Are AI generated .cocci semantic patches that are then transformed into
-C patches and sent in by a human ok?
+[1] https://lore.kernel.org/lkml/202507301008.E109EB0F@keescook/
+[2] https://lore.kernel.org/lkml/20250724080756.work.741-kees@kernel.org/
 
 -- 
-Thanks,
-Sasha
+Kees Cook
