@@ -1,108 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95F16163;
-	Thu, 31 Jul 2025 00:02:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E8D423B633;
+	Thu, 31 Jul 2025 03:14:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753920153; cv=none; b=UhBfBjvkUCCx6FasojUs7UheONrt5vCcVutLabg4Ce9AZV/cabBqevl638BvaKiOFx4LqjTj9QS7gR4EYdteXbOFJTW1/mLGHTMGcxotM/IdbIS5Ph2QpKKT45+oz/uwbZ4FZWcpyGQJTlbRVfMSDdfNAis/yg/KvtCvkHPY1Ug=
+	t=1753931701; cv=none; b=gQGJKSujVMStjDyWCnvHrte+yVispC1aSjdylWE3vdiZRh1AuS0AhmjeXpRhoZ3EP1fU6ORtpktJRQAxrgG6D/ERjHvLXHyGmWhn7/MQp/yop8ZnNrZsW8msfIBMVGPCMlog5tqgrRpmuCn9ly+XXwpLgxp8OxZR+kXokyOZtog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753920153; c=relaxed/simple;
-	bh=Xzb7ffAvPR1VyGKCplTYvADdIaIu1Fhp0ZWfn5GccgE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=W7tstCQZVK31ZmO8twOpPAa1uZNyPnaF9apTtSRacz4nzRaQv2frLkm1m6hiX6yDzuUoZhVKIETKhkgShpGw/nU/d+6CXmmqQLVtYiDPMUorBFCM9xmrUxH2U6kYwZfdY72ZHxnvJHVSe+3aSkDeXLsApACnvN1Qy4Wcy4O7nZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ko0+iwE5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753931701; c=relaxed/simple;
+	bh=ikTEp9LiFmXNGSR8YYEQh4lnqfKSUXj8SkD4ux/kLBs=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=UqeEe87+O+0ELiDEbFcosuAyYnrSPDgvUtkhqgiyADGV4rgGFeeYOoQbYsvkemjWoYPc2qass8yqqwH03zOL27DlXOP3+NR2m4zZz8XzuXr5sY8X/VKSBScgLFZmLf36fqwJjxVf2o8Rxi1Fnros003M23Z863MQAL86y2oImIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C5vIZhW+; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ko0+iwE5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00D63C4CEE3;
-	Thu, 31 Jul 2025 00:02:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753920152;
-	bh=Xzb7ffAvPR1VyGKCplTYvADdIaIu1Fhp0ZWfn5GccgE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Ko0+iwE5sVrIwyCCmMwKRTrU56Zx0pd0s6qRzt4atnvH+OYSPUsg2XlmaQfoJ3hP0
-	 snja93LCzDutO26r2ev/Sj3f+dQFxKSCBvQKIyNtRmvbpPX6pn58ch4Ul+DDcMh7Aw
-	 1n7YfZjh1UjjliDbJxBYAaq06AUEZ1THgJGxtxtlWPPlB/jVP5Rj3gKGTtU+sTxGvB
-	 Ba+cxbuBgASPkPYJvDWRsFre0/YEbY7KRwJ579+7j8Oycsw8tfA6ORX4BKpduNMQGs
-	 dxcXB8FVoNj966MmeYnJLEIWgCpBxqbbhy25waIZwkObToWu9P3HkPQv6xVHuQrOvO
-	 ni+cDYciOuBsg==
-Date: Thu, 31 Jul 2025 02:02:26 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Lorenzo Stoakes
- <lorenzo.stoakes@oracle.com>, Greg KH <greg@kroah.com>, corbet@lwn.net,
- linux-doc@vger.kernel.org, workflows@vger.kernel.org,
- josh@joshtriplett.org, kees@kernel.org, konstantin@linuxfoundation.org,
- linux-kernel@vger.kernel.org, Linus Torvalds
- <torvalds@linux-foundation.org>, "Dr. David Alan Gilbert"
- <linux@treblig.org>
-Subject: Re: [PATCH 0/4] Add agent coding assistant configuration to Linux
- kernel
-Message-ID: <20250731020226.3d008bcb@foz.lan>
-In-Reply-To: <aIpah6DTRd99mMqb@lappy>
-References: <20250727195802.2222764-1-sashal@kernel.org>
-	<7e7f485e-93ad-4bc4-9323-f154ce477c39@lucifer.local>
-	<2025072854-earthen-velcro-8b32@gregkh>
-	<df188552-c2dd-4cb7-9f6a-74e05e677dfc@lucifer.local>
-	<20250730112753.17f5af13@gandalf.local.home>
-	<158707d7-6729-4bb6-bc72-7556d11bfaef@lucifer.local>
-	<20250730121829.0c89228d@gandalf.local.home>
-	<aIpKCXrc-k2Dx43x@lappy>
-	<20250730130531.4855a38b@gandalf.local.home>
-	<aIpah6DTRd99mMqb@lappy>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C5vIZhW+"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2401b855635so4204615ad.2;
+        Wed, 30 Jul 2025 20:14:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753931698; x=1754536498; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FlUn0AMl+wjuNGnj7NGLqH/4T6CpK18vMCU4Bo5pArM=;
+        b=C5vIZhW+TAosf2PoLxqJEkMAx42RImmPhS3SoSyurGmYTUJ2thKsoqKAxPPSyRezZH
+         Amts6XzR19xJ8CRL2Rvaky2cqKAkUMrvX7BsjmiQIFvALKmdUbOdj6xmE1wLf+qdjhc1
+         0ofa86TRVgFFRVEXZcWw5XpJO/1iZUD5kTSuZkQ9lJyHOLJljfHHVv4V/DgFhXUEKkRb
+         h50RTvBfa943fzn8q1EBaMScN85uowezqiGkXQksFPhV+HY++4Me0OKSoTb50H9BqQEo
+         WPmb9znVvEFvy5suy2knYxLBUpFqINoOv32p08iykfwSUHQoK3ooh6pwEfQCH8uzKTIP
+         O+Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753931698; x=1754536498;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FlUn0AMl+wjuNGnj7NGLqH/4T6CpK18vMCU4Bo5pArM=;
+        b=AlbU7i5ukczlsiss6IQY9ZBhm9ekDPbU2l4okPFuRIhDXitwWhcwtWAOjP+1y7VldR
+         VjpBUdET25HDjz4+u/aTEFynEs1jOTKY5aPiezrOTH3N/6uQViqDk5/LfHpoIiyCKryi
+         bQMSNoi0E4vrLUPC5wu8UhpufoeLa916wkNcdRNJ7rmL6FxI/DMM/cUYQhCVrr8WJiSW
+         XV0jXgEhIdqFznRjDhxyogJIGRhsD01Hto07idfWaysTUytkp7Wf1xk9Xn1elCdxFm4p
+         daEeZMDeqjG59pdvb37r6pfByvLb6C7MKGxu2f7bJf3pVI+GkWkIKmm0tfhUJLJ6L+QK
+         iYBg==
+X-Forwarded-Encrypted: i=1; AJvYcCVWWiNXtQNTzEiKXGl5oiTPtqRCvEiElLVsXoL7+PoRlsf9aJfeB9rKJOul+EbePotzYfRkxaKugEoM224k@vger.kernel.org, AJvYcCVyDn+/G+e3I1Ic92O+HVYAYGEICI5rNedO7qBIQkw/lOeh5N70NemWo/T1A3fd7ber0X9GV58MwSU=@vger.kernel.org, AJvYcCWTXfxQ4rIlKk8BX73rayg5fAvPN29ny4EfFHxCnl+sECqj/oegNN/3I7diNGT+IClh3/74SzOlD1dr@vger.kernel.org
+X-Gm-Message-State: AOJu0YyOkmg965t4HNgwhqDIXy9y09m6np83ysxWoBJ18jFzSjl5xhie
+	XVtN3uOFZ/73e5AbnDzjFv8vj2VDB0PJRmDWrWUL5hHnkuaGRJcLIkmfIIoyRQ==
+X-Gm-Gg: ASbGnctSNxM2wlKkWlGJ9M3KISahyP7CEm5FhPDH/YdFv7GaAHLnBv3ZTczKUVaekeh
+	pCOs8/vHmfcQ+1MNjfDghWu3bR0ltJf/Bz5k6BIuorUpBat+22OlsgDrpr/NcRJRiyfdjsiQxNf
+	LQtNVG4mnmT7rZCBtWbRl4Dm+gtBsLu4vIqyL+3mmcQLMcSK3s5/zkj+ZpjfHwEhRrmOI0RPS84
+	+0XkgGYBgfxrgnLtSxJEzOp/YXKRr7ClM8aEwngjtzqUWV7CZFfuf+UrXp9nj8cCdx7B9IIYA8e
+	ilN+8YjxbaAcE6oBlB4nKfZcCSieIrCaDIJobgi64ql4MxQSEZK8lKSNYqBrZo96XMneTovB+8v
+	V+D/F1rx3/d1fWNZLVbar/P1fCO6j4JJwOB8JJ0KUPY6SaChM4+wMU4rc50u4QgQDcLYtvCADlj
+	GQw5E=
+X-Google-Smtp-Source: AGHT+IFnPbEiNQ+bx42jpz4b3DzT71R99kNkgHE4vssHbdCc/I98r322iHqp4OJWwPFZKuLSEbRUBA==
+X-Received: by 2002:a17:902:ec85:b0:240:66ff:b253 with SMTP id d9443c01a7336-24096b5d423mr75316495ad.46.1753931698428;
+        Wed, 30 Jul 2025 20:14:58 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241d1ef5934sm4741315ad.21.2025.07.30.20.14.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Jul 2025 20:14:58 -0700 (PDT)
+Message-ID: <aa15a1f3-0efc-419a-845c-d34937eedb0f@gmail.com>
+Date: Thu, 31 Jul 2025 12:14:55 +0900
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+To: mchehab+huawei@kernel.org
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ workflows@vger.kernel.org
+References: <b03b95b8d09358e81e4f27942839191f49b0ba80.1753806485.git.mchehab+huawei@kernel.org>
+Subject: Re: [PATCH v2 2/2] docs: changes: better document Python needs
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <b03b95b8d09358e81e4f27942839191f49b0ba80.1753806485.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Em Wed, 30 Jul 2025 13:46:47 -0400
-Sasha Levin <sashal@kernel.org> escreveu:
+On Tue, 29 Jul 2025 18:43:04 +0200, Mauro Carvalho Chehab wrote:
+> Python is listed as an optional dependency, but this is not
+> true, as:
+> 
+> 1) arm (multi_v7_defconfig and other defconfigs) and arm64 defconfig
+>    needs it due to DRM_MSM dependencies;
+> 
+> 2) CONFIG_LTO_CLANG runs a python script at scripts/Makefile.vmlinux_o;
+> 
+> 3) kernel-doc is called during compilation when some DRM options
+>    like CONFIG_DRM_I915_WERROR are enabled;
+> 
+> 4) allyesconfig/allmodconfig will enable CONFIG_* dependencies
+>    that needs it;
+> 
+> 5) besides DRM, other subsystems seem to have logic calling *.py
+>    scripts.
+> 
 
-> >> Some sort of a "traffic light" system:
-> >>
-> >>   1. Green: the subsystem is happy to receive patches from any source.
-> >>
-> >>   2. Yellow: "If you're unfamiliar with the subsystem and using any
-> >>   tooling to generate your patches, please have a reviewed-by from a
-> >>   trusted developer before sending your patch".
-> >>
-> >>   3. No tool-generated patches without prior maintainer approval.  
-> >
+OK. This sounds convincing enough.
 
-That sounds a terrible idea. I mean, maintainers should be green for good
-patches and red for bad ones. It doesn't matter if they're aided or
-generated by AI or $TOOL. At the end, the one submitting it shall be able
-to properly understand, describe and debug it. It shall also be able to
-test it in real life before submitting.
+> So, better document that and change the dependency from optional
+> to mandatory to reflect the current needs.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/process/changes.rst | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+> index bccfa19b45df..4c9088e429c8 100644
+> --- a/Documentation/process/changes.rst
+> +++ b/Documentation/process/changes.rst
+> @@ -61,7 +61,7 @@ Sphinx\ [#f1]_         3.4.3            sphinx-build --version
+>  GNU tar                1.28             tar --version
+>  gtags (optional)       6.6.5            gtags --version
+>  mkimage (optional)     2017.01          mkimage --version
+> -Python (optional)      3.9.x            python3 --version
+> +Python                 3.9.x            python3 --version
+>  GNU AWK (optional)     5.1.0            gawk --version
+>  ====================== ===============  ========================================
+>  
+> @@ -154,6 +154,13 @@ Perl
+>  You will need perl 5 and the following modules: ``Getopt::Long``,
+>  ``Getopt::Std``, ``File::Basename``, and ``File::Find`` to build the kernel.
+>  
+> +Python
+> +------
+> +
+> +Several config options require it: it is required for arm/arm64
+> +default configs, CONFIG_LTO_CLANG, some DRM optional configs,
+> +the kernel-doc tool, and docs build (Sphinx), among others.
+> +
 
-AI can do good things, but can also do bad things. I'd say that anyone
-using it shall double-check the code at least twice, checking if are
-there any hidden bugs.
+Looks much better.  Feel free to add:
 
-I've been doing myself some experiments: sometimes, LLM can quickly point
-something broken, doing root cause analysis, completing a TODO requirement
-and even write unittests and code.
+Acked-by: Akira Yokosawa <akiyks@gmail.com>
 
-However, sometimes, AI starts to "allucinate"(*), pointing to things that
-don't exist, like inventing fields on structures and command line
-arguments that don't exist (it likely inferred the names from projects 
-could be using similar patterns/goals).
+Thanks.
 
-(*) AI being an statistics tool, the correct term is to diverge.
-
-> >Perhaps. Of course there's the Coccinelle scripts that fix a bunch of code
-> >around the kernel that will like be ignored in this. But this may still be
-> >a good start.  
-
-This is something that maintainers don't want: yet-another-tool that
-newbies wanting to have their one microsecond of fame by getting patches
-merged to start sending stuff that weren't tested nor bring any value.
-Maybe we can add a text about that.
-
-Thanks,
-Mauro
