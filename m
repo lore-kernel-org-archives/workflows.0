@@ -1,78 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A1BC226CF7;
-	Wed, 30 Jul 2025 23:47:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95F16163;
+	Thu, 31 Jul 2025 00:02:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753919249; cv=none; b=cT1XkiobIcC2+XkhCCD5CeJf6o7VO/f2gw0+WpZCQNcv6//WD3vPmmtCk+Ko4aZonVGli2FcjarlpCRLBH+EwbQescUXO9UzRfxIyq64PYignqk8cZKu8f1cr//HApM/ADOC2Z/NFFVvJU51v/07e5VsHl1YKmAzL2z8Msate5s=
+	t=1753920153; cv=none; b=UhBfBjvkUCCx6FasojUs7UheONrt5vCcVutLabg4Ce9AZV/cabBqevl638BvaKiOFx4LqjTj9QS7gR4EYdteXbOFJTW1/mLGHTMGcxotM/IdbIS5Ph2QpKKT45+oz/uwbZ4FZWcpyGQJTlbRVfMSDdfNAis/yg/KvtCvkHPY1Ug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753919249; c=relaxed/simple;
-	bh=jkplsAJvrHZCm51qfVVagrWCEZfsD1vjjwDQnIJR5Pg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=exr2l+zRe5f3GtGCGspOcQVejFORNd+Exu+mTKLhYu4ryxo7cvWukaviZ+Dmbz2iV/JHZ2Aw990Ns23JTT0TXqnMhVKude1jnLbmzo0M7StjnSYy9ks1a8hbU1xppGqStp+i65qxGTHv4MGY8H5b8Nq+ZlbmDG8WV0YDfIYPZi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sLERgBYf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753920153; c=relaxed/simple;
+	bh=Xzb7ffAvPR1VyGKCplTYvADdIaIu1Fhp0ZWfn5GccgE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=W7tstCQZVK31ZmO8twOpPAa1uZNyPnaF9apTtSRacz4nzRaQv2frLkm1m6hiX6yDzuUoZhVKIETKhkgShpGw/nU/d+6CXmmqQLVtYiDPMUorBFCM9xmrUxH2U6kYwZfdY72ZHxnvJHVSe+3aSkDeXLsApACnvN1Qy4Wcy4O7nZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ko0+iwE5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sLERgBYf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57710C4CEE3;
-	Wed, 30 Jul 2025 23:47:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ko0+iwE5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00D63C4CEE3;
+	Thu, 31 Jul 2025 00:02:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753919248;
-	bh=jkplsAJvrHZCm51qfVVagrWCEZfsD1vjjwDQnIJR5Pg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sLERgBYfXvr/7hwSRbc8ZGl4JG7Zxuavt2MdfyyqgKciQq4YZhKfymiETVMukL5l2
-	 DSxv8oxegsEYYUayYbQxr3wLSHnzsLgBSv5R6n7QxNT9hmGXfz1aVOsjp3hYS2mL7C
-	 UosYx+XsbJVPFIxvwILqWg1p/wFPrKaaEj9dOo+JBgiBvembZKlkxiuxObNGCpM4Ww
-	 VBKD0TO5tVgeIbc+FvZNGh8Fbg6B9xERsCATgYjdxCBa43YyAMQZUTUnx3I2rHuJOy
-	 PASylq5m63QmVCQNObNO/CBsf2yRkDCd7QehpXWNswYWr1Ct1yDN+x1/KhvQEBSPr2
-	 70PibdNI1P0EA==
-Date: Wed, 30 Jul 2025 19:47:26 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Kevin Hilman <khilman@kernel.org>
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org, workflows@vger.kernel.org,
-	josh@joshtriplett.org, kees@kernel.org,
-	konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	rostedt@goodmis.org
-Subject: Re: [PATCH 1/4] agents: add unified agent coding assistant
- configuration
-Message-ID: <aIqvDjzAGgN3fITo@lappy>
+	s=k20201202; t=1753920152;
+	bh=Xzb7ffAvPR1VyGKCplTYvADdIaIu1Fhp0ZWfn5GccgE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Ko0+iwE5sVrIwyCCmMwKRTrU56Zx0pd0s6qRzt4atnvH+OYSPUsg2XlmaQfoJ3hP0
+	 snja93LCzDutO26r2ev/Sj3f+dQFxKSCBvQKIyNtRmvbpPX6pn58ch4Ul+DDcMh7Aw
+	 1n7YfZjh1UjjliDbJxBYAaq06AUEZ1THgJGxtxtlWPPlB/jVP5Rj3gKGTtU+sTxGvB
+	 Ba+cxbuBgASPkPYJvDWRsFre0/YEbY7KRwJ579+7j8Oycsw8tfA6ORX4BKpduNMQGs
+	 dxcXB8FVoNj966MmeYnJLEIWgCpBxqbbhy25waIZwkObToWu9P3HkPQv6xVHuQrOvO
+	 ni+cDYciOuBsg==
+Date: Thu, 31 Jul 2025 02:02:26 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Lorenzo Stoakes
+ <lorenzo.stoakes@oracle.com>, Greg KH <greg@kroah.com>, corbet@lwn.net,
+ linux-doc@vger.kernel.org, workflows@vger.kernel.org,
+ josh@joshtriplett.org, kees@kernel.org, konstantin@linuxfoundation.org,
+ linux-kernel@vger.kernel.org, Linus Torvalds
+ <torvalds@linux-foundation.org>, "Dr. David Alan Gilbert"
+ <linux@treblig.org>
+Subject: Re: [PATCH 0/4] Add agent coding assistant configuration to Linux
+ kernel
+Message-ID: <20250731020226.3d008bcb@foz.lan>
+In-Reply-To: <aIpah6DTRd99mMqb@lappy>
 References: <20250727195802.2222764-1-sashal@kernel.org>
- <20250727195802.2222764-2-sashal@kernel.org>
- <7h1ppxcp0d.fsf@baylibre.com>
+	<7e7f485e-93ad-4bc4-9323-f154ce477c39@lucifer.local>
+	<2025072854-earthen-velcro-8b32@gregkh>
+	<df188552-c2dd-4cb7-9f6a-74e05e677dfc@lucifer.local>
+	<20250730112753.17f5af13@gandalf.local.home>
+	<158707d7-6729-4bb6-bc72-7556d11bfaef@lucifer.local>
+	<20250730121829.0c89228d@gandalf.local.home>
+	<aIpKCXrc-k2Dx43x@lappy>
+	<20250730130531.4855a38b@gandalf.local.home>
+	<aIpah6DTRd99mMqb@lappy>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <7h1ppxcp0d.fsf@baylibre.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 30, 2025 at 03:06:26PM -0700, Kevin Hilman wrote:
->Sasha Levin <sashal@kernel.org> writes:
->
->> Create a single source of truth for agent instructions in
->> Documentation/AI/main.md with symlinks for all major coding
->> agents:
->> - CLAUDE.md (Claude Code)
->> - .github/copilot-instructions.md (GitHub Copilot)
->> - .cursorrules (Cursor)
->> - .codeium/instructions.md (Codeium)
->> - .continue/context.md (Continue)
->> - .windsurfrules (Windsurf)
->> - .aider.conf.yml (Aider)
->
->This doesn't work for aider, probably because the .md it links to is not
->YAML.  When I start aider with this, I get:
->
->  aider: error: Couldn't parse config file: while scanning a simple key
->    in "/work/kernel/linux/.aider.conf.yml", line 3, column 1
->  could not find expected ':'
->    in "/work/kernel/linux/.aider.conf.yml", line 4, column 1
+Em Wed, 30 Jul 2025 13:46:47 -0400
+Sasha Levin <sashal@kernel.org> escreveu:
 
-Thanks! I'll drop aider.
+> >> Some sort of a "traffic light" system:
+> >>
+> >>   1. Green: the subsystem is happy to receive patches from any source.
+> >>
+> >>   2. Yellow: "If you're unfamiliar with the subsystem and using any
+> >>   tooling to generate your patches, please have a reviewed-by from a
+> >>   trusted developer before sending your patch".
+> >>
+> >>   3. No tool-generated patches without prior maintainer approval.  
+> >
 
--- 
+That sounds a terrible idea. I mean, maintainers should be green for good
+patches and red for bad ones. It doesn't matter if they're aided or
+generated by AI or $TOOL. At the end, the one submitting it shall be able
+to properly understand, describe and debug it. It shall also be able to
+test it in real life before submitting.
+
+AI can do good things, but can also do bad things. I'd say that anyone
+using it shall double-check the code at least twice, checking if are
+there any hidden bugs.
+
+I've been doing myself some experiments: sometimes, LLM can quickly point
+something broken, doing root cause analysis, completing a TODO requirement
+and even write unittests and code.
+
+However, sometimes, AI starts to "allucinate"(*), pointing to things that
+don't exist, like inventing fields on structures and command line
+arguments that don't exist (it likely inferred the names from projects 
+could be using similar patterns/goals).
+
+(*) AI being an statistics tool, the correct term is to diverge.
+
+> >Perhaps. Of course there's the Coccinelle scripts that fix a bunch of code
+> >around the kernel that will like be ignored in this. But this may still be
+> >a good start.  
+
+This is something that maintainers don't want: yet-another-tool that
+newbies wanting to have their one microsecond of fame by getting patches
+merged to start sending stuff that weren't tested nor bring any value.
+Maybe we can add a text about that.
+
 Thanks,
-Sasha
+Mauro
