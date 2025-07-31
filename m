@@ -1,132 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E658923099F;
-	Thu, 31 Jul 2025 12:46:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753965968; cv=none; b=grOZw71DllufP8mmjBVMNt7Ao8ZM1kXVxfQpoecf3d98fvXj6SJjY6zkHqjxlgsqxdoAkTNGu7YKHFL8uvkn90np8VuGIfBC8A4rAIGNrY8vp32BVE6UHxWA9c5TCSN4zCsIHhDn2pynTDzuwlZtV1MfYAHfzP56/btdNqlrHwc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753965968; c=relaxed/simple;
-	bh=DA00UZ8mlsGJ9kOXBHUieLy/xRbrOMW6eEkjVUp/rb8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V/aipa6h2MJ/8aiA21UbF6+SiX+gF3Ph4SF055pjmmOxBwRJ9i0VEKDbxxEX3GgV5R6ms0aecnpKGTsSX49rAm3faQv30mjRRSZIQdNkpxwIcnv9UXEPzDIh1AWopr05SEbBH6EnreKFUyTP5q9+FnISLmlX2bYL5qAHAmPOx2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W7aDNN6d; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFEB284D13;
+	Thu, 31 Jul 2025 14:30:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753972259; cv=pass; b=fISszrqdv5ZKb4r6laKdiqjUo7vlIAsJTDI6RgbkxigPUZ5rhZHikxFpM5ClaJbQT8bk29H2IZ9SjboROPCx+4fVmZfRSWL2GiqfSHxXkETORpIVtU/eMLULy+NGYutEYjvUmvkA6QAqDJUsP5N8du7Fk1AJwUnuYyVh1u7LxH0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753972259; c=relaxed/simple;
+	bh=Zr3hVL7N0aADXqk+uqAeO6NgXlGFKxOaU+aHUiGpRbw=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=DzG7b/suET6Gbsus9dN09fdBV9vJcA03qgHxhfSfEwRQv/5bPeIBPHqmSE8Fpq+ISy9lvCeVo2GKSybvAOg9/Nwvs64PH0PgdtOgabo92pzgpNISiW+Tr2Ba1N3t+99UBjYyyPlhNkwIojiVhalht4FRuS2/sMKZli8/4jJySBI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=gustavo.padovan@collabora.com header.b=POiETy5z; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W7aDNN6d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84DD1C4CEEF;
-	Thu, 31 Jul 2025 12:46:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753965967;
-	bh=DA00UZ8mlsGJ9kOXBHUieLy/xRbrOMW6eEkjVUp/rb8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=W7aDNN6dSO6s1cM2yVn0HbsAfV0aIMR5M7xWN4v7dSYD7KDfr8Ildxz+M5Fhpvo8w
-	 o9VoCD2wmOzRVFh5vEq0phCdoK9L1LCLJ2yYnvrwBmzjkMRCaaeFyaTNMhMdeU0d2D
-	 Pezq+UBK2cmhiAkit9pzG76hT8kLWFZIfSanVxT3O6IMGXKXbrJT2sBo5COGm0Rhus
-	 CXwVVCqGfwedGVp6THWH1NDNrdZw+hJ2u0Wuc3xOJdlC/9P/Cg3+wE319fg4hGAjXT
-	 H8JpaeDMGC4iab2ynlnfEpfnkDwhnubZYdiJpKkTBNpQKuY5RvqXGBtEEBwaJY70m6
-	 0fHShXC2DT7sA==
-Message-ID: <45f0995f-17ac-45a3-8bc0-3b276ee91a9d@kernel.org>
-Date: Thu, 31 Jul 2025 14:46:02 +0200
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=gustavo.padovan@collabora.com header.b="POiETy5z"
+ARC-Seal: i=1; a=rsa-sha256; t=1753972246; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=WRBRS4nVPFimMKU8qeqE5cORoe9+XPAWI7FQA5RZGN9Vc3IGIHmx6UowFqFUMoya2dGOfxUobAb2SCxVGOuudatur2NT85DrEhbq5o3XHa25/asc0uG+yFBG9oOF2N6V8lZFcvJs/dknoyq8rbXEX1YONg9RBzTf6Rfgh3VhDDI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1753972246; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=yY2cpF6BjorCH3612wdlhId4jFFHB7ft6u9efzIyu8Q=; 
+	b=TkeNwqfqRZqzdbvV4LCw7bYccvEYlaC+YOD+hJB7f/Ekxbww1u+FTkkwqBBJq67Vb9MtD7siGhJrunX/cdCy8k6JE8z+VgFZzTwT/m9uZWp/WinFrQR8uEyucM+YUnKP1CqrTG7BKYR7Rkr9JvyyHeym+2JdvxqQWgnxkMTXekI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=gustavo.padovan@collabora.com;
+	dmarc=pass header.from=<gustavo.padovan@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1753972246;
+	s=zohomail; d=collabora.com; i=gustavo.padovan@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=yY2cpF6BjorCH3612wdlhId4jFFHB7ft6u9efzIyu8Q=;
+	b=POiETy5zpsCiy/PKRkZ+QCJlYKj0DrUeNWx1NP5qylIfy+vfxKiOeiVJb7yAA55U
+	GjjlAn1OFoL1qvXnTeEDX0GI8vSSMhlBVzzKYZyJV2qLdQUzyzb/QDRCQTbASbIfVMr
+	5OSNUsWAM8DydLlkL7kbsl5fn7hmHKZBMywe9f7w=
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 1753972244087956.5570993398783; Thu, 31 Jul 2025 07:30:44 -0700 (PDT)
+Date: Thu, 31 Jul 2025 11:30:44 -0300
+From: Gustavo Padovan <gustavo.padovan@collabora.com>
+To: "Mark Brown" <broonie@kernel.org>
+Cc: "dan.j.williams" <dan.j.williams@intel.com>,
+	"Jakub Kicinski" <kuba@kernel.org>,
+	"workflows" <workflows@vger.kernel.org>,
+	"linux-doc" <linux-doc@vger.kernel.org>,
+	"linux-kselftest" <linux-kselftest@vger.kernel.org>,
+	"Paolo Abeni" <pabeni@redhat.com>,
+	"Donald Zickus" <dzickus@redhat.com>,
+	"kernelci lists.linux.dev" <kernelci@lists.linux.dev>
+Message-ID: <19860e47e60.2269bf19518594.1062927936810569203@collabora.com>
+In-Reply-To: <aIVMPbZcmAvG9z2o@finisterre.sirena.org.uk>
+References: <20250725080023.6425488c@kernel.org>
+ <6883b3046b640_134cc7100ad@dwillia2-xfh.jf.intel.com.notmuch>
+ <20250725102019.7add0be0@kernel.org>
+ <6883ced97d944_134cc7100fa@dwillia2-xfh.jf.intel.com.notmuch> <aIVMPbZcmAvG9z2o@finisterre.sirena.org.uk>
+Subject: Re: Crediting test authors
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] checkpatch: validate commit tag ordering
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>,
- dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, joe@perches.com,
- corbet@lwn.net, apw@canonical.com, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linux.dev, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250724072032.118554-1-hendrik.hamerlinck@hammernet.be>
- <53eb0068-008b-48e6-9b92-d92de2ed4fc9@kernel.org>
- <CAMuHMdU2e+5Hf3v=C=sE=+25f_A=2=Zzw5rxvcT=hb75VC=iFQ@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <CAMuHMdU2e+5Hf3v=C=sE=+25f_A=2=Zzw5rxvcT=hb75VC=iFQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
 
-On 31/07/2025 13:55, Geert Uytterhoeven wrote:
-> Hi Krzysztof,
-> 
-> On Fri, 25 Jul 2025 at 10:42, Krzysztof Kozlowski <krzk@kernel.org> wrote:
->> On 24/07/2025 09:20, Hendrik Hamerlinck wrote:
->>> Modified the checkpatch script to ensure that commit tags (e.g.,
->>> Signed-off-by, Reviewed-by, Acked-by, Tested-by, etc.) appear in the
->>> correct order according to kernel conventions [1].
->>
->> These are not the conventions I use for my subsystems and ask others to
->> follow, so imposing TIP rules to all maintainers needs broad consensus,
->> not (yet) checkpatch.
->>
->> What's more, I think above TIP rules are contradicting with existing,
->> widely used and approved toolset - b4. So no, if you want universal
->> tool, please use b4 or whatever b4 defines.
-> 
-> B4 does not follow the proper order:
+Hello,
 
-There is no "proper order" in terms of absolute facts.
 
->   1. Multiple Reviewed-by tags may be added in a different order
->       than given,
+---- On Sat, 26 Jul 2025 18:44:29 -0300 Mark Brown <broonie@kernel.org> wrote ---
 
-Maybe this could be fixed.
+ > On Fri, Jul 25, 2025 at 11:37:13AM -0700, dan.j.williams@intel.com wrote: 
+ > > Jakub Kicinski wrote: 
+ >  
+ > > > So a tag would be ideal. But it's a hard nut to crack. Best I can come 
+ > > > up with would be: 
+ >  
+ > > > Reproducer: test.case.path # 001122aabb (optimal) commit of the test case 
+ >  
+ > > That's true, more than a few times I have had distro folks reach out to 
+ > > ask "how do I verify this backport" and end up manually pointing to the 
+ > > new unit test that backstops a fix. 
+ >  
+ > > Although, from that tag I would not know where to get the commit. Maybe: 
+ > > 
+ > > Test: <git url> 
+ > > 
+ > > ...as a new Link: type? 
+ >  
+ > It seems like there's some overlap here with the work that people have 
+ > been intermittently trying to do on test cataloging, eg: 
+ >  
+ >  https://lore.kernel.org/workflows/CAK18DXYitS7hL1mA3QsPLmW9-R0q6Kin0C5Uv9fj=uS90WSnxA@mail.gmail.com/ 
+ >  
+ > That's been approached more from the "what tests should I run?" end of 
+ > things since it's been driven by people interested in testing and CI, 
+ > but it feels like there's a lot of overlap with the describing the 
+ > suites part of things.  It'd be a lot easier to write and read tags like 
+ > the above if we could define some more compact names than git URLs for 
+ > suites/tests. 
 
->   2. When applying my own patches, b4 adds the given tags before
->      instead of after my own SoB.
 
-This is working exactly as expected (intentional), explained few times
-by Konstantin. Some people of course have different opinion and prefer
-different order (I know few subsystems), but majority I think accepted
-Konstantin's explanation.
+I see the overlap too.  The catalog discussion envisions a mapping of which tests
+should be executed for this folder/file or function. This approach is being used,
+for example, in the Mesa project for its CI testing. When a new PR comes in,
+the system will trigger tests based on the files being modified.
 
-Best regards,
-Krzysztof
+Our discussions on the catalog side are quite basic right now and happening
+through the .kernelci.yml file[1]. I believe there is a possible future, built
+in a step by step manner, to indentify for given patchset:
+ * configs to test
+ * arch/hw to run tests on
+ * tests must be executed
+ * expectation of pass/fail for each test
+
+KernelCI wants to work with maintainers to figure out how to make progress
+on that.
+
+[1]  https://www.youtube.com/watch?v=-LtK1fScFww
+
+
+Best,
+
+- Gus
+
+
+
+
