@@ -1,141 +1,106 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E8D423B633;
-	Thu, 31 Jul 2025 03:14:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 071292367C5;
+	Thu, 31 Jul 2025 11:55:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753931701; cv=none; b=gQGJKSujVMStjDyWCnvHrte+yVispC1aSjdylWE3vdiZRh1AuS0AhmjeXpRhoZ3EP1fU6ORtpktJRQAxrgG6D/ERjHvLXHyGmWhn7/MQp/yop8ZnNrZsW8msfIBMVGPCMlog5tqgrRpmuCn9ly+XXwpLgxp8OxZR+kXokyOZtog=
+	t=1753962950; cv=none; b=Zb3z65xVvPgZHV48sd+jiqI2xn673xBXeby4SZWzhHSEONwodoHSKqSSKMee7A8aBUnQX2t0ce2kxrW0wNvmQfbeDms0LouCQBJIPN7iiZU1m6/1NZ5nbYHmDjXwjY9bs/eSphJ/gw+t1uYb/0AKj0T+6I6eYtPMENp3UlZiK74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753931701; c=relaxed/simple;
-	bh=ikTEp9LiFmXNGSR8YYEQh4lnqfKSUXj8SkD4ux/kLBs=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=UqeEe87+O+0ELiDEbFcosuAyYnrSPDgvUtkhqgiyADGV4rgGFeeYOoQbYsvkemjWoYPc2qass8yqqwH03zOL27DlXOP3+NR2m4zZz8XzuXr5sY8X/VKSBScgLFZmLf36fqwJjxVf2o8Rxi1Fnros003M23Z863MQAL86y2oImIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C5vIZhW+; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1753962950; c=relaxed/simple;
+	bh=TMRgIfVaPaMmqSgwxb2UXWi+J4AjACdcEmoH57tphH4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SIvE3DQesn0YaZumTs8yf3MvXTV6GB7Ek4gJzw95sWHFsvAd6bfKaXu4QuDWIwgs2FTBMR3ycUinmpWn/rmy99ig/hEYleWq82umv/6Lj9wJQJ8ff+f0vJc6A4Me+qrum2z2GZVubD70qfPiNKa8pLfgyRDUsVJ57TAL2gWXIKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C5vIZhW+"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2401b855635so4204615ad.2;
-        Wed, 30 Jul 2025 20:14:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753931698; x=1754536498; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FlUn0AMl+wjuNGnj7NGLqH/4T6CpK18vMCU4Bo5pArM=;
-        b=C5vIZhW+TAosf2PoLxqJEkMAx42RImmPhS3SoSyurGmYTUJ2thKsoqKAxPPSyRezZH
-         Amts6XzR19xJ8CRL2Rvaky2cqKAkUMrvX7BsjmiQIFvALKmdUbOdj6xmE1wLf+qdjhc1
-         0ofa86TRVgFFRVEXZcWw5XpJO/1iZUD5kTSuZkQ9lJyHOLJljfHHVv4V/DgFhXUEKkRb
-         h50RTvBfa943fzn8q1EBaMScN85uowezqiGkXQksFPhV+HY++4Me0OKSoTb50H9BqQEo
-         WPmb9znVvEFvy5suy2knYxLBUpFqINoOv32p08iykfwSUHQoK3ooh6pwEfQCH8uzKTIP
-         O+Mg==
+Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-539329de448so592947e0c.1;
+        Thu, 31 Jul 2025 04:55:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753931698; x=1754536498;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FlUn0AMl+wjuNGnj7NGLqH/4T6CpK18vMCU4Bo5pArM=;
-        b=AlbU7i5ukczlsiss6IQY9ZBhm9ekDPbU2l4okPFuRIhDXitwWhcwtWAOjP+1y7VldR
-         VjpBUdET25HDjz4+u/aTEFynEs1jOTKY5aPiezrOTH3N/6uQViqDk5/LfHpoIiyCKryi
-         bQMSNoi0E4vrLUPC5wu8UhpufoeLa916wkNcdRNJ7rmL6FxI/DMM/cUYQhCVrr8WJiSW
-         XV0jXgEhIdqFznRjDhxyogJIGRhsD01Hto07idfWaysTUytkp7Wf1xk9Xn1elCdxFm4p
-         daEeZMDeqjG59pdvb37r6pfByvLb6C7MKGxu2f7bJf3pVI+GkWkIKmm0tfhUJLJ6L+QK
-         iYBg==
-X-Forwarded-Encrypted: i=1; AJvYcCVWWiNXtQNTzEiKXGl5oiTPtqRCvEiElLVsXoL7+PoRlsf9aJfeB9rKJOul+EbePotzYfRkxaKugEoM224k@vger.kernel.org, AJvYcCVyDn+/G+e3I1Ic92O+HVYAYGEICI5rNedO7qBIQkw/lOeh5N70NemWo/T1A3fd7ber0X9GV58MwSU=@vger.kernel.org, AJvYcCWTXfxQ4rIlKk8BX73rayg5fAvPN29ny4EfFHxCnl+sECqj/oegNN/3I7diNGT+IClh3/74SzOlD1dr@vger.kernel.org
-X-Gm-Message-State: AOJu0YyOkmg965t4HNgwhqDIXy9y09m6np83ysxWoBJ18jFzSjl5xhie
-	XVtN3uOFZ/73e5AbnDzjFv8vj2VDB0PJRmDWrWUL5hHnkuaGRJcLIkmfIIoyRQ==
-X-Gm-Gg: ASbGnctSNxM2wlKkWlGJ9M3KISahyP7CEm5FhPDH/YdFv7GaAHLnBv3ZTczKUVaekeh
-	pCOs8/vHmfcQ+1MNjfDghWu3bR0ltJf/Bz5k6BIuorUpBat+22OlsgDrpr/NcRJRiyfdjsiQxNf
-	LQtNVG4mnmT7rZCBtWbRl4Dm+gtBsLu4vIqyL+3mmcQLMcSK3s5/zkj+ZpjfHwEhRrmOI0RPS84
-	+0XkgGYBgfxrgnLtSxJEzOp/YXKRr7ClM8aEwngjtzqUWV7CZFfuf+UrXp9nj8cCdx7B9IIYA8e
-	ilN+8YjxbaAcE6oBlB4nKfZcCSieIrCaDIJobgi64ql4MxQSEZK8lKSNYqBrZo96XMneTovB+8v
-	V+D/F1rx3/d1fWNZLVbar/P1fCO6j4JJwOB8JJ0KUPY6SaChM4+wMU4rc50u4QgQDcLYtvCADlj
-	GQw5E=
-X-Google-Smtp-Source: AGHT+IFnPbEiNQ+bx42jpz4b3DzT71R99kNkgHE4vssHbdCc/I98r322iHqp4OJWwPFZKuLSEbRUBA==
-X-Received: by 2002:a17:902:ec85:b0:240:66ff:b253 with SMTP id d9443c01a7336-24096b5d423mr75316495ad.46.1753931698428;
-        Wed, 30 Jul 2025 20:14:58 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241d1ef5934sm4741315ad.21.2025.07.30.20.14.56
+        d=1e100.net; s=20230601; t=1753962948; x=1754567748;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZgBCsFkQyJsREYZM7w6ELsHHNFNHMwhO0bNKPMndJnk=;
+        b=QAXYlftHOkYiUpZ4LuH8GuamIohnOTeDD4A6gwZ3Q37GS3Ze3Wdc9R6hgSNuSFiyj4
+         tw7AZwlGt7kL7pa+/WVWwW3oWlwgDTfviXhn5+zvmY08xRRWrw8G53seddIZFHCP/hoL
+         tWfefW+2gH7c1hl1gcmqT/x55oPWpmO7L5bLe7WFm29DGlmWyrsV560gabx5GWK2yt6Z
+         G0bKJ3Nj1rjY5cqndhp00wzoqWHBkLj/YGWoxfSqdsTkbSMe4DkZGqFpdp84sBijPmC3
+         ZdjEgAm/eZ18SphArShN8k9rhvH6oMzKm1N0UrylwQoMdD7ABg0rgubkhk4etyh9OiwV
+         as9w==
+X-Forwarded-Encrypted: i=1; AJvYcCUBxls41QNgKt4m3SAZ8+KgeNQg0VYrHrks7rIeQ329UzrkGfCvxllW1xDofMKr5ofGxOV9jF2dqRYv@vger.kernel.org, AJvYcCWtFXjdIJPgOLF2o1cUDLo7QOMeLKlW3CCCkVCreE11DONWLXXMM/PSQAaewAw1sAb1a7TKetxs1pe5av8j@vger.kernel.org, AJvYcCXQjfIi939J4PMl1NBrEdcFRLgdU93x6EauDomfefdQJKC34rw6laKmhlmA2TblbWTiM6/RWz+XNMA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzZFpfLNjwljfa1mHOpDo/CLpwRM+szHXtdx//fBXavBUrq4IXc
+	Jxmv7YsWEmfD+TSA8PdGtJnLL0aT2J/PGiVcbZMnHNQXnFN7FKcYU1JjP0oogcS+
+X-Gm-Gg: ASbGncvKmcmuEEi5Uba4nRorHw+iirpoW6Al6n9RJMxt/P4ba9hqtzd6WFYWrrwf+yO
+	rOVKd8KrbXdSd8vUGXkqvaTijq1R1br5YDov1s0RvK8VQTeYpO7V5O1O1PIF2J6SDJUzi9Fpxt1
+	/s/TuP9M3B519u20C87qSoFolNqzxDotRi3cLk2iwef+CD2BrvB1bvm3MJOJu3j+GklnSfZdfn4
+	z0xGjK5ImdzG+OFLXYbdFNkuKGl1zmFtpnfagr/zx9PTx14iVRTnGS/bwRyFHd1hQMo4+MY3RT5
+	xhhENYV/06O+qTZcySNPEjY5yIZwwWrY+OBWJ3cjcFzaJuKNcRQPgC/tNbU+NKgBTakR2G8YDP0
+	WCUy/rV/ntHm4iJp7ZA32VJ93B7izu28lzFKNFJy+qxsVZoZovqnI/ah1CWOZ
+X-Google-Smtp-Source: AGHT+IF3QuQc9NWk2cBpOxbjIwUN6+K8HVDbh/wpqudeVaxTDDEc+CJt+0DlGjPVyFaocGAriP3fCw==
+X-Received: by 2002:a05:6122:611f:b0:537:c8d2:eca0 with SMTP id 71dfb90a1353d-5393889a4edmr482339e0c.4.1753962947378;
+        Thu, 31 Jul 2025 04:55:47 -0700 (PDT)
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com. [209.85.217.49])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-53936b5909asm330191e0c.8.2025.07.31.04.55.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Jul 2025 20:14:58 -0700 (PDT)
-Message-ID: <aa15a1f3-0efc-419a-845c-d34937eedb0f@gmail.com>
-Date: Thu, 31 Jul 2025 12:14:55 +0900
+        Thu, 31 Jul 2025 04:55:46 -0700 (PDT)
+Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-4efbfe9c7a5so1292163137.0;
+        Thu, 31 Jul 2025 04:55:46 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUd6H/L96Qkt44Rcmf1x5Khh9R3u6DeROAmJywPZCOkT+lBg0Ic5htre3Ps9NUMh+e8161YpIUb4Kr4UOVs@vger.kernel.org, AJvYcCWT4bMeUgwGPLVoJAONjY39oF1PHgvmCK+569fwPh2x7+sqgbI5Fyrp4E6XauotdrpbmrqbPqMCpcQ=@vger.kernel.org, AJvYcCXcDCCYLC9M1/8pfVKaVHBNqULwc6jieyVJ+bYJMnSV63/jDNzZ3HP5+kQ6exgl27MLHbLOIaQrmfuM@vger.kernel.org
+X-Received: by 2002:a05:6102:6213:20b0:4fa:3f49:a3b4 with SMTP id
+ ada2fe7eead31-4fc0fe5912dmr411782137.3.1753962945954; Thu, 31 Jul 2025
+ 04:55:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: mchehab+huawei@kernel.org
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org
-References: <b03b95b8d09358e81e4f27942839191f49b0ba80.1753806485.git.mchehab+huawei@kernel.org>
-Subject: Re: [PATCH v2 2/2] docs: changes: better document Python needs
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <b03b95b8d09358e81e4f27942839191f49b0ba80.1753806485.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250724072032.118554-1-hendrik.hamerlinck@hammernet.be> <53eb0068-008b-48e6-9b92-d92de2ed4fc9@kernel.org>
+In-Reply-To: <53eb0068-008b-48e6-9b92-d92de2ed4fc9@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 31 Jul 2025 13:55:34 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU2e+5Hf3v=C=sE=+25f_A=2=Zzw5rxvcT=hb75VC=iFQ@mail.gmail.com>
+X-Gm-Features: Ac12FXxnc_9pSxwppilSjmsQmBU1O_sD4A7Qq9U2sutpyBkl_2v6bCquVSRwEoU
+Message-ID: <CAMuHMdU2e+5Hf3v=C=sE=+25f_A=2=Zzw5rxvcT=hb75VC=iFQ@mail.gmail.com>
+Subject: Re: [PATCH] checkpatch: validate commit tag ordering
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>, dwaipayanray1@gmail.com, 
+	lukas.bulwahn@gmail.com, joe@perches.com, corbet@lwn.net, apw@canonical.com, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 29 Jul 2025 18:43:04 +0200, Mauro Carvalho Chehab wrote:
-> Python is listed as an optional dependency, but this is not
-> true, as:
-> 
-> 1) arm (multi_v7_defconfig and other defconfigs) and arm64 defconfig
->    needs it due to DRM_MSM dependencies;
-> 
-> 2) CONFIG_LTO_CLANG runs a python script at scripts/Makefile.vmlinux_o;
-> 
-> 3) kernel-doc is called during compilation when some DRM options
->    like CONFIG_DRM_I915_WERROR are enabled;
-> 
-> 4) allyesconfig/allmodconfig will enable CONFIG_* dependencies
->    that needs it;
-> 
-> 5) besides DRM, other subsystems seem to have logic calling *.py
->    scripts.
-> 
+Hi Krzysztof,
 
-OK. This sounds convincing enough.
+On Fri, 25 Jul 2025 at 10:42, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> On 24/07/2025 09:20, Hendrik Hamerlinck wrote:
+> > Modified the checkpatch script to ensure that commit tags (e.g.,
+> > Signed-off-by, Reviewed-by, Acked-by, Tested-by, etc.) appear in the
+> > correct order according to kernel conventions [1].
+>
+> These are not the conventions I use for my subsystems and ask others to
+> follow, so imposing TIP rules to all maintainers needs broad consensus,
+> not (yet) checkpatch.
+>
+> What's more, I think above TIP rules are contradicting with existing,
+> widely used and approved toolset - b4. So no, if you want universal
+> tool, please use b4 or whatever b4 defines.
 
-> So, better document that and change the dependency from optional
-> to mandatory to reflect the current needs.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/process/changes.rst | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-> index bccfa19b45df..4c9088e429c8 100644
-> --- a/Documentation/process/changes.rst
-> +++ b/Documentation/process/changes.rst
-> @@ -61,7 +61,7 @@ Sphinx\ [#f1]_         3.4.3            sphinx-build --version
->  GNU tar                1.28             tar --version
->  gtags (optional)       6.6.5            gtags --version
->  mkimage (optional)     2017.01          mkimage --version
-> -Python (optional)      3.9.x            python3 --version
-> +Python                 3.9.x            python3 --version
->  GNU AWK (optional)     5.1.0            gawk --version
->  ====================== ===============  ========================================
->  
-> @@ -154,6 +154,13 @@ Perl
->  You will need perl 5 and the following modules: ``Getopt::Long``,
->  ``Getopt::Std``, ``File::Basename``, and ``File::Find`` to build the kernel.
->  
-> +Python
-> +------
-> +
-> +Several config options require it: it is required for arm/arm64
-> +default configs, CONFIG_LTO_CLANG, some DRM optional configs,
-> +the kernel-doc tool, and docs build (Sphinx), among others.
-> +
+B4 does not follow the proper order:
+  1. Multiple Reviewed-by tags may be added in a different order
+      than given,
+  2. When applying my own patches, b4 adds the given tags before
+     instead of after my own SoB.
 
-Looks much better.  Feel free to add:
+Gr{oetje,eeting}s,
 
-Acked-by: Akira Yokosawa <akiyks@gmail.com>
+                        Geert
 
-Thanks.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
