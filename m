@@ -1,130 +1,86 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFEB284D13;
-	Thu, 31 Jul 2025 14:30:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753972259; cv=pass; b=fISszrqdv5ZKb4r6laKdiqjUo7vlIAsJTDI6RgbkxigPUZ5rhZHikxFpM5ClaJbQT8bk29H2IZ9SjboROPCx+4fVmZfRSWL2GiqfSHxXkETORpIVtU/eMLULy+NGYutEYjvUmvkA6QAqDJUsP5N8du7Fk1AJwUnuYyVh1u7LxH0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753972259; c=relaxed/simple;
-	bh=Zr3hVL7N0aADXqk+uqAeO6NgXlGFKxOaU+aHUiGpRbw=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=DzG7b/suET6Gbsus9dN09fdBV9vJcA03qgHxhfSfEwRQv/5bPeIBPHqmSE8Fpq+ISy9lvCeVo2GKSybvAOg9/Nwvs64PH0PgdtOgabo92pzgpNISiW+Tr2Ba1N3t+99UBjYyyPlhNkwIojiVhalht4FRuS2/sMKZli8/4jJySBI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=gustavo.padovan@collabora.com header.b=POiETy5z; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78F8A1FA272;
+	Fri,  1 Aug 2025 07:56:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754034977; cv=none; b=hK9LKtXsk17Hu+O8Th+mfIG9dyzxM3XZFhBzrH4g/v6zcnHaABsg5SuDDzPq65RTJ7A2FHoAlm5QL2fioaEg3wHg26OStSPSxWb/QkHZozbp0rW4j5/y2JvpqB+mt2RbKqxYbhZHLbR/XYHQ52QleYL02YFfA9q+spQLjGiAb/c=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754034977; c=relaxed/simple;
+	bh=2UMcEhhoZlhjw6r12HgvrQgNjxVVNgnGO710rWLwQRU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=PB7YGiJM9foy2qCrDL0AMHEe0oB1tbC71PcenYCzMSufHh/9b++u47cdmhorPVVKgEsxrqzZ6+h/LY8oJoOevZYIdbACSjeMEq7u6GTxzj1fY7W2KZNT8S8Ix+i+oTd2Gnw3+J7fXFsY1W6tDs+VR0FLhiH2Lo3vPf4T35fjo8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fa/4b+/0; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=gustavo.padovan@collabora.com header.b="POiETy5z"
-ARC-Seal: i=1; a=rsa-sha256; t=1753972246; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=WRBRS4nVPFimMKU8qeqE5cORoe9+XPAWI7FQA5RZGN9Vc3IGIHmx6UowFqFUMoya2dGOfxUobAb2SCxVGOuudatur2NT85DrEhbq5o3XHa25/asc0uG+yFBG9oOF2N6V8lZFcvJs/dknoyq8rbXEX1YONg9RBzTf6Rfgh3VhDDI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1753972246; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=yY2cpF6BjorCH3612wdlhId4jFFHB7ft6u9efzIyu8Q=; 
-	b=TkeNwqfqRZqzdbvV4LCw7bYccvEYlaC+YOD+hJB7f/Ekxbww1u+FTkkwqBBJq67Vb9MtD7siGhJrunX/cdCy8k6JE8z+VgFZzTwT/m9uZWp/WinFrQR8uEyucM+YUnKP1CqrTG7BKYR7Rkr9JvyyHeym+2JdvxqQWgnxkMTXekI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=gustavo.padovan@collabora.com;
-	dmarc=pass header.from=<gustavo.padovan@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1753972246;
-	s=zohomail; d=collabora.com; i=gustavo.padovan@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=yY2cpF6BjorCH3612wdlhId4jFFHB7ft6u9efzIyu8Q=;
-	b=POiETy5zpsCiy/PKRkZ+QCJlYKj0DrUeNWx1NP5qylIfy+vfxKiOeiVJb7yAA55U
-	GjjlAn1OFoL1qvXnTeEDX0GI8vSSMhlBVzzKYZyJV2qLdQUzyzb/QDRCQTbASbIfVMr
-	5OSNUsWAM8DydLlkL7kbsl5fn7hmHKZBMywe9f7w=
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1753972244087956.5570993398783; Thu, 31 Jul 2025 07:30:44 -0700 (PDT)
-Date: Thu, 31 Jul 2025 11:30:44 -0300
-From: Gustavo Padovan <gustavo.padovan@collabora.com>
-To: "Mark Brown" <broonie@kernel.org>
-Cc: "dan.j.williams" <dan.j.williams@intel.com>,
-	"Jakub Kicinski" <kuba@kernel.org>,
-	"workflows" <workflows@vger.kernel.org>,
-	"linux-doc" <linux-doc@vger.kernel.org>,
-	"linux-kselftest" <linux-kselftest@vger.kernel.org>,
-	"Paolo Abeni" <pabeni@redhat.com>,
-	"Donald Zickus" <dzickus@redhat.com>,
-	"kernelci lists.linux.dev" <kernelci@lists.linux.dev>
-Message-ID: <19860e47e60.2269bf19518594.1062927936810569203@collabora.com>
-In-Reply-To: <aIVMPbZcmAvG9z2o@finisterre.sirena.org.uk>
-References: <20250725080023.6425488c@kernel.org>
- <6883b3046b640_134cc7100ad@dwillia2-xfh.jf.intel.com.notmuch>
- <20250725102019.7add0be0@kernel.org>
- <6883ced97d944_134cc7100fa@dwillia2-xfh.jf.intel.com.notmuch> <aIVMPbZcmAvG9z2o@finisterre.sirena.org.uk>
-Subject: Re: Crediting test authors
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fa/4b+/0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1754034976; x=1785570976;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=2UMcEhhoZlhjw6r12HgvrQgNjxVVNgnGO710rWLwQRU=;
+  b=Fa/4b+/0XRXzOWzoeVGixXkqzm4+Gn2d1/rjJlYYGKFDhf/E5AQWoPKk
+   9S+0QUWSX1J3uMPHNaOy0Lmml7FkmX9k5oFygM6lYEOcBRTabefMN5sng
+   ZGBbwgZTgNWcyXDP9DAO3+rZT6gwIXl5BYWtfGtVc0Q0CXa+j9uUchSho
+   ckuwccYO7uvF/6hzH4EyRTHXEUw64z6LXAqF/0dDD5zCgQiGQdBxjpD6b
+   fgfSEGy4Fm7Hj2HuEbd4PUA9XT0+/I74EJjH3wW9EDOXIUQr7hE1LYhG/
+   IjCjD5GtSv4kEoWi1uNJh/kDCVCsviflAJHuXg0LyoKsKIdKp+IGwsLik
+   Q==;
+X-CSE-ConnectionGUID: u1QJuk1QQqa3jS/CCMcmuQ==
+X-CSE-MsgGUID: Jaf5aQ3mRHSTTbCs8sPNCg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="60019011"
+X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
+   d="scan'208";a="60019011"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2025 00:56:15 -0700
+X-CSE-ConnectionGUID: LfvIxM39S6WdKa7/E14LSA==
+X-CSE-MsgGUID: 7BmRcL02RbS34FFYpdmvKA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
+   d="scan'208";a="163942874"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.246.164])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2025 00:56:01 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>, Geert Uytterhoeven
+ <geert@linux-m68k.org>
+Cc: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>,
+ dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, joe@perches.com,
+ corbet@lwn.net, apw@canonical.com, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linux.dev, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Konstantin
+ Ryabitsev <konstantin@linuxfoundation.org>
+Subject: Re: [PATCH] checkpatch: validate commit tag ordering
+In-Reply-To: <45f0995f-17ac-45a3-8bc0-3b276ee91a9d@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250724072032.118554-1-hendrik.hamerlinck@hammernet.be>
+ <53eb0068-008b-48e6-9b92-d92de2ed4fc9@kernel.org>
+ <CAMuHMdU2e+5Hf3v=C=sE=+25f_A=2=Zzw5rxvcT=hb75VC=iFQ@mail.gmail.com>
+ <45f0995f-17ac-45a3-8bc0-3b276ee91a9d@kernel.org>
+Date: Fri, 01 Aug 2025 10:55:55 +0300
+Message-ID: <3e9106d35d41a044adeadffeea32fa096c9e1370@intel.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+Content-Type: text/plain
 
-Hello,
+On Thu, 31 Jul 2025, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> On 31/07/2025 13:55, Geert Uytterhoeven wrote:
+>> B4 does not follow the proper order:
+>
+> There is no "proper order" in terms of absolute facts.
 
+Let's just decide whatever order b4 uses *is* the proper order, and save
+ourselves endless hours of debating! :p
 
----- On Sat, 26 Jul 2025 18:44:29 -0300 Mark Brown <broonie@kernel.org> wrote ---
-
- > On Fri, Jul 25, 2025 at 11:37:13AM -0700, dan.j.williams@intel.com wrote: 
- > > Jakub Kicinski wrote: 
- >  
- > > > So a tag would be ideal. But it's a hard nut to crack. Best I can come 
- > > > up with would be: 
- >  
- > > > Reproducer: test.case.path # 001122aabb (optimal) commit of the test case 
- >  
- > > That's true, more than a few times I have had distro folks reach out to 
- > > ask "how do I verify this backport" and end up manually pointing to the 
- > > new unit test that backstops a fix. 
- >  
- > > Although, from that tag I would not know where to get the commit. Maybe: 
- > > 
- > > Test: <git url> 
- > > 
- > > ...as a new Link: type? 
- >  
- > It seems like there's some overlap here with the work that people have 
- > been intermittently trying to do on test cataloging, eg: 
- >  
- >  https://lore.kernel.org/workflows/CAK18DXYitS7hL1mA3QsPLmW9-R0q6Kin0C5Uv9fj=uS90WSnxA@mail.gmail.com/ 
- >  
- > That's been approached more from the "what tests should I run?" end of 
- > things since it's been driven by people interested in testing and CI, 
- > but it feels like there's a lot of overlap with the describing the 
- > suites part of things.  It'd be a lot easier to write and read tags like 
- > the above if we could define some more compact names than git URLs for 
- > suites/tests. 
+BR,
+Jani.
 
 
-I see the overlap too.  The catalog discussion envisions a mapping of which tests
-should be executed for this folder/file or function. This approach is being used,
-for example, in the Mesa project for its CI testing. When a new PR comes in,
-the system will trigger tests based on the files being modified.
-
-Our discussions on the catalog side are quite basic right now and happening
-through the .kernelci.yml file[1]. I believe there is a possible future, built
-in a step by step manner, to indentify for given patchset:
- * configs to test
- * arch/hw to run tests on
- * tests must be executed
- * expectation of pass/fail for each test
-
-KernelCI wants to work with maintainers to figure out how to make progress
-on that.
-
-[1]  https://www.youtube.com/watch?v=-LtK1fScFww
-
-
-Best,
-
-- Gus
-
-
-
-
+-- 
+Jani Nikula, Intel
