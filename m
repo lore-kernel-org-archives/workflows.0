@@ -1,106 +1,93 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E4D1DE4DC;
-	Fri,  1 Aug 2025 20:53:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A02B9A55;
+	Sat,  2 Aug 2025 10:12:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754081593; cv=none; b=Bdvgp7ZePaS9t+vZF8wQn0Zmz6sd2D5YMzztpmDzuTnkGcH+GGr180APKXcJi242oN7ehpHmcKUia2iUoHIT07d8kVwRis55DaQTO0wJs+gmDOWE5mun6ccWOkrwIjaDzZfK9o1nMXrbmIxNFQGUNbMCMrt04UechkO6LWQZlKI=
+	t=1754129527; cv=none; b=A6Cgnek1CQ8h5zfVKAO4SfVUqCylAvhzF4r5iZvrH1evJaVpXs3oDPxlhDB6Rj9cd5BdNth183UvH4LMCWROXjOFQxmZKRBht3LVy1i6v4FNGwEAzYzzodsGVejpaTaXOawVFK4mpYDHpvqa7XAjAqGZYHBCuhwI5y95BFdBykw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754081593; c=relaxed/simple;
-	bh=oihJCDhiMYArha1HuDM+3dprH0F7BEj3HiUnLGSllR8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JBnWmRHDWTqd0hShMdB9+GFD9ml4lmhR6ML03OzLh2zXuix1s37RlCV3GB8tGsN6rBBAHbgCbeB2I4HQtHCFkSIwNmmDf15G3bjppF9fyCJ8ZHAgbyLMAfROAgD0MgfaekKemqas1uZGJydbSnOc0K0r+dIMBeRNFVHQgqt4yXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sN5ebZH8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754129527; c=relaxed/simple;
+	bh=RcIxv8CNranSikYqIfYh6Wu6F4BH/n9VDoB+wiP/7uo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fTOe13gLVaF9hQXSBIyY23SUBaHOmr3SduCY7qogS8SmmKR2ZNLzfbDhSWbUV4UHO/tQsd8uprwB/kF7qFN3CnTg5/SZTHa8EY8ufn83LqWAglkfLxilPWiOcBzOWw9YTN2TxHNG4Vomk377+m4c/4eIAkiljKXgQiPQP8b9opg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kNyps3Sh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sN5ebZH8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D942AC4CEE7;
-	Fri,  1 Aug 2025 20:53:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kNyps3Sh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BFFAC4CEEF;
+	Sat,  2 Aug 2025 10:12:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754081592;
-	bh=oihJCDhiMYArha1HuDM+3dprH0F7BEj3HiUnLGSllR8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=sN5ebZH8pOGJJJZDFzkeLgh/zFwMUMgeoBmNK55SP3mZPXrftNpneYtABU0G7nNx7
-	 Y6n5u4F/9p8JLwQZZY3yC7zRksne8Mmp8IrivBSdhnxaMjD3PZSNSyeUSxTjAxYzMY
-	 8NilJjpZ8fGsJi+xsQnz+tcLn/xSuOqGtqo/Aawe+p3uvFAB/JLD7EIBwP+ho4HPLe
-	 GLjikDO+WjB6NvUjsZ9HlkYggbhvXTUaaBJro6OR+5JHBUxGFPYnSOvQzFvQq64MYH
-	 q1AnKIyITC7NKzcLcuhheu8Y1Sus/KSEeWH+fHFF/DkPYBhKfpfbRLAnlhdZo0mGVV
-	 Hxo+6qvkvaPfg==
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-af90fd52147so262855066b.3;
-        Fri, 01 Aug 2025 13:53:12 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUH9OXJJUDMnSfLzt+NbOEGcQJtf/ngB/gYyjCLxjQ4PvArfavQ6WYde11GAnAKBQLzBRt0opTLAq8=@vger.kernel.org, AJvYcCVIMAhL7Ok441+z4Rguf+LUd+avHlWP3bplIUAN3dtqBTMYBYecv7KevTs4+CsOHqM/G3gv2wdCgArl@vger.kernel.org, AJvYcCVngf3qmb/5Y+86fsFeEmOHiIQHV0kDzpISmMlk6GQnTSiieaXt7v0M+tWKv+T4i4A/q9jYk4q+AHvd1D1v@vger.kernel.org
-X-Gm-Message-State: AOJu0YxG+x1dYjdjHBIEFFR1scglh1tFzaPcD39kP8KRallp6wRlHkDz
-	augDptdc/mvj9gnPunbv2J2W9G2iaF1iNM60tJ5KHdkl4GogM+SOuys1x9M9O1gMdnwRLXQOee2
-	ESEs/81J6ocLibcX3vb588C0i57FMww==
-X-Google-Smtp-Source: AGHT+IFoHdZJnI812DHI3wywjHxToLcKIXhzuWimx/pqRfZbXCU+XcVwtk86KcJs6Y1R0LMocw8Dd82evjzlOVxLU0s=
-X-Received: by 2002:a17:907:9721:b0:af8:fb0a:45b7 with SMTP id
- a640c23a62f3a-af94001e703mr123565866b.21.1754081591472; Fri, 01 Aug 2025
- 13:53:11 -0700 (PDT)
+	s=k20201202; t=1754129527;
+	bh=RcIxv8CNranSikYqIfYh6Wu6F4BH/n9VDoB+wiP/7uo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=kNyps3ShYsIWdrdiIip+VBES7YtLPsL4ackBY330zHkCdbbkfgPh/m4Y+rdFZ+ju+
+	 UshLLaq2/xnvuAOnDCYqd9GFlMMMCi8Q///A30JmhIqA8HOGSUxDz+oSoK4jM9dzyx
+	 t3T7BKbSRkt5l9DEJ9q98DAp+4bpI0CvXrkNsLqhjJXz4AO0S4I3zd2L8Gv4ZSTEXd
+	 SjIqNpr5oFZZvCwwYNrIvwm8Qgmc+62xfsSFIJCtaVJSaQ+Ni/OasmUFgHJwWGOhv3
+	 oe4SgVl/7YfIX2+ktdbRabHJCr/aDZt12QY7JW8ZQhUyELbWmR0bt8Pinf1ecsA80y
+	 jL9E/wpl0LjHA==
+Date: Sat, 2 Aug 2025 12:12:00 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Geert Uytterhoeven
+ <geert@linux-m68k.org>, Hendrik Hamerlinck
+ <hendrik.hamerlinck@hammernet.be>, dwaipayanray1@gmail.com,
+ lukas.bulwahn@gmail.com, joe@perches.com, corbet@lwn.net,
+ apw@canonical.com, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linux.dev, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Konstantin
+ Ryabitsev <konstantin@linuxfoundation.org>
+Subject: Re: [PATCH] checkpatch: validate commit tag ordering
+Message-ID: <20250802121200.665ea309@foz.lan>
+In-Reply-To: <3e9106d35d41a044adeadffeea32fa096c9e1370@intel.com>
+References: <20250724072032.118554-1-hendrik.hamerlinck@hammernet.be>
+	<53eb0068-008b-48e6-9b92-d92de2ed4fc9@kernel.org>
+	<CAMuHMdU2e+5Hf3v=C=sE=+25f_A=2=Zzw5rxvcT=hb75VC=iFQ@mail.gmail.com>
+	<45f0995f-17ac-45a3-8bc0-3b276ee91a9d@kernel.org>
+	<3e9106d35d41a044adeadffeea32fa096c9e1370@intel.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250727195802.2222764-1-sashal@kernel.org> <20250727195802.2222764-2-sashal@kernel.org>
- <7h1ppxcp0d.fsf@baylibre.com>
-In-Reply-To: <7h1ppxcp0d.fsf@baylibre.com>
-From: Rob Herring <robh@kernel.org>
-Date: Fri, 1 Aug 2025 15:53:00 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJW206w1OiOZ+4nMg7XyHQq7QnOyTWM0W+DyMmu-gpAjw@mail.gmail.com>
-X-Gm-Features: Ac12FXz7Tmb3jZO7n5uJAYVaOhcu2_MFeSgTQMaSw2vCzvgO1R8xoIekd-sPcac
-Message-ID: <CAL_JsqJW206w1OiOZ+4nMg7XyHQq7QnOyTWM0W+DyMmu-gpAjw@mail.gmail.com>
-Subject: Re: [PATCH 1/4] agents: add unified agent coding assistant configuration
-To: Kevin Hilman <khilman@kernel.org>
-Cc: Sasha Levin <sashal@kernel.org>, corbet@lwn.net, linux-doc@vger.kernel.org, 
-	workflows@vger.kernel.org, josh@joshtriplett.org, kees@kernel.org, 
-	konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	rostedt@goodmis.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 30, 2025 at 5:06=E2=80=AFPM Kevin Hilman <khilman@kernel.org> w=
-rote:
->
-> Sasha Levin <sashal@kernel.org> writes:
->
-> > Create a single source of truth for agent instructions in
-> > Documentation/AI/main.md with symlinks for all major coding
-> > agents:
-> > - CLAUDE.md (Claude Code)
-> > - .github/copilot-instructions.md (GitHub Copilot)
-> > - .cursorrules (Cursor)
-> > - .codeium/instructions.md (Codeium)
-> > - .continue/context.md (Continue)
-> > - .windsurfrules (Windsurf)
-> > - .aider.conf.yml (Aider)
->
-> This doesn't work for aider, probably because the .md it links to is not
-> YAML.  When I start aider with this, I get:
->
->   aider: error: Couldn't parse config file: while scanning a simple key
->     in "/work/kernel/linux/.aider.conf.yml", line 3, column 1
->   could not find expected ':'
->     in "/work/kernel/linux/.aider.conf.yml", line 4, column 1
->
-> Not related to this series, but related to aider... I'm curious if
-> anyone has got aider to work with the kernel repo.  It seems to have
-> problems with large repos.  When starting in the kernel, I get:
->
->   Unable to list files in git repo: cannot close exported pointers exist
->   Is your git repo corrupted?
->   Unable to read git repository, it may be corrupt?
->   cannot close exported pointers exist
->
-> but neither claude nor gemini-cli have any problems with the same repo.
->
-> The aider FAQ[1] mentions using .aiderignore to ignore parts of the
-> repo, but even with an "ignore everything" rule, I get the same error,
-> so something seems wrong with aider and large repos.
+Em Fri, 01 Aug 2025 10:55:55 +0300
+Jani Nikula <jani.nikula@intel.com> escreveu:
 
-It worked for a bit for me, but then aider fell over after a while and
-refused to run with errors accessing git. Some suggestions to repack
-the repo didn't help. In the end, I just ran it without any git
-awareness.
+> On Thu, 31 Jul 2025, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> > On 31/07/2025 13:55, Geert Uytterhoeven wrote:  
+> >> B4 does not follow the proper order:  
+> >
+> > There is no "proper order" in terms of absolute facts.  
+> 
+> Let's just decide whatever order b4 uses *is* the proper order, and save
+> ourselves endless hours of debating! :p
 
-Rob
+I don't think it makes sense to have a "proper order" verified on
+checkpatch, as some tags may appear on different places.
+
+For instance, the custody chain was designed to have SoBs appearing
+in different places:
+
+- author(s) SoB together co-developed-by are usually the first ones;
+- then patches may have been reviewed, tested, acked or passed on some
+  other trees, gaining tags like tested-by, R-B, A-B, SoB, Cc;
+- the subsystem maintainer will add his SoB in the end.
+
+non-custody chain tags, like fixes, closes, reported-by...
+usually comes first, but I don't think we need to enforce an specific
+order.
+
+Link, for instance, could be used on different places, with different
+purposes.
+
+At least for me, the only part that shall really follow a proper
+order is the custody chain: It has to follow how the patch was handled,
+from the authors at the top up to the maintainers at the bottom.
+
+Thanks,
+Mauro
