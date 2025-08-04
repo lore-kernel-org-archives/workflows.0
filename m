@@ -1,80 +1,113 @@
-Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E459014AD20;
-	Mon,  4 Aug 2025 22:14:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5AA118D;
+	Mon,  4 Aug 2025 22:30:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754345666; cv=none; b=T7upzSMbEUd0TgRVW97qjxFT09MiRz2iNtXo2GM0hATphm0MK9slI4k7CWtMalkQ4fqpEZu4a5OidbMgrhWF3pfi4/em1glNREWvUCbPoqmRM7IpLsi/ljVd1LZDepqz2gBZzmKOR+Qr8C2Z/gCPMAc6q21OaxvqRAUIO18fBJ4=
+	t=1754346658; cv=none; b=KGjYUNJ6WO7TjbAZAbDKQZZIim9uMMNMdCeXwQao9Lcf1A9d/Rv4ahtUyZ2LF+PSsUnIpMMIrrWheXMHhivplJ0J+/3D7DUNU/xGQQcvjx4niNC82J+GO5DdZzElWDxQdK2rOxG6BWOQfrWBwDR4/4bNaQreqPvgKTqK7sJgy9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754345666; c=relaxed/simple;
-	bh=pFbnUxGl0sPENav/GjAMaSL10vuA8xzn7uiyMHniyW0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sPQP5pqAzdS4dv8wa105ar1S8uJMS3O6leTYCpbURHyymGx7QALlFlT8u5Onu2dKpL/ZRlSqEwWQsH4hwXouAIrK42f18cs6ElxCb9lw5s8KvHcch30OHAuXtrwEMtZ6bfX5dzgn4rYRArC1YifwI72/JkIu3nbpbP594H43/sw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf18.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay06.hostedemail.com (Postfix) with ESMTP id F08E1115A44;
-	Mon,  4 Aug 2025 22:14:21 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf18.hostedemail.com (Postfix) with ESMTPA id 4DB632F;
-	Mon,  4 Aug 2025 22:14:19 +0000 (UTC)
-Date: Mon, 4 Aug 2025 18:14:47 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Jiri Kosina <kosina@gmail.com>
-Cc: Sasha Levin <sashal@kernel.org>, Michal Hocko <mhocko@suse.com>, David
- Hildenbrand <david@redhat.com>, Greg KH <gregkh@linuxfoundation.org>,
- Vlastimil Babka <vbabka@suse.cz>, corbet@lwn.net,
- linux-doc@vger.kernel.org, workflows@vger.kernel.org,
- josh@joshtriplett.org, kees@kernel.org, konstantin@linuxfoundation.org,
- linux-kernel@vger.kernel.org
+	s=arc-20240116; t=1754346658; c=relaxed/simple;
+	bh=PQsZYFY5jZCQz0YGqm2FTfg5CUxJkyoBF1S6CtAjL80=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=BDBp7JIkzP426qkwGOu3dNUqvzckF+Tlwl0zFfRmMfWx1k60tK0cPHk6mOjSNShYfuaqyCJ9C8Ng4i0p8hLmBxX/jrN389KnXSOsCq7Uo2J2EwaXCa9vTuaQpJLTm7ZUGcUPTPXmyKLDDwn2D6A0JGSkfk+h1e2GgpOGAXs8HXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MKXTC2/Z; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MKXTC2/Z"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6153a19dddfso7593890a12.1;
+        Mon, 04 Aug 2025 15:30:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754346655; x=1754951455; darn=vger.kernel.org;
+        h=mime-version:user-agent:references:message-id:in-reply-to:subject
+         :cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UVhJ3RUF0RZaJxnE7w5PWJTBevCzQWc213nyNqZetb8=;
+        b=MKXTC2/Z6+5cPtp1wAVaRQfgL9/brr12Srm8F0YwVnlpj+2ihWtf4Tzq1jNPRqQun7
+         iA4cR8UhNqwpPhm+Petylog9ZFLxD/JYi96mPkpXo2j7VHOngLg/m/2Zph7pjwK0Hkjg
+         Yr65TVorjGrtGrMBph86KJ3G9KxfRNQMBhFiPbcnxaPNi9HFKjRNB2sB03EPN+F40dfl
+         ZVZSgQ2u4S3piZGov+85FrB080UIq87rewcEuYlznuG5e00J6mptaMHKlzuom6zp/zDT
+         eqrIr/X6b7oxP1F9sCteFElsZrdvnZ/M61yLYdb0Gvv0h1cgQZyaVq7ov1s4NmhJNLcW
+         yVoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754346655; x=1754951455;
+        h=mime-version:user-agent:references:message-id:in-reply-to:subject
+         :cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UVhJ3RUF0RZaJxnE7w5PWJTBevCzQWc213nyNqZetb8=;
+        b=YBhUOD8SQ+Kxjx/UeXyOZ4Pf/pFtZ//+aq1heI0cI/vlyQIY08Qzx/Xscgl590aPbx
+         DHCY7AdY5OWyRJOj2BAK3EWQhxxwg/XyNXk5Q3K0YVkQYaw2s9MZ/nXBJXxrWyvPYkrM
+         dRxskdEecVdpgyOcEUeSnnKYmwQ3eO9UandckuP92iARH1m7KVtjcinVv0lA77UrPPF8
+         AzQpsfUAiifzfEh0WrJwLP4L06TtcViCZ+sagaXkJLO8r2kLCM+1dWoPG9rvjNoLgnF9
+         9EippCNgQo98Bve9Z4m/lBS/mAaMsF9ajZEQsJsNTk7Bj4DuXLJ8/Bn2Fe0lUXd45GDT
+         rzqA==
+X-Forwarded-Encrypted: i=1; AJvYcCURJpR7HSpip7iIQeqpjCfGlu0uJDkGx7c/wb5lriksiRBA3xVt0svitMWEnQEipsN/YR3w5LP2deI=@vger.kernel.org, AJvYcCWL65aYhoya85jRJ9R02jHSN+Y9vcTM9jJbpnicOqWNtUhJpxC7pl/MX7i5bJxtEPUE9Ge8jnkVEZsSn8SA@vger.kernel.org, AJvYcCXMo/673ZObjayJem3g4kbTaQcgd3OPvOR0tCHOqsUJ6WZgwFhYjO4ltj/IjghKP76Ou/MWFYC36oa6@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6pgziuhAoTxr4XoH0kCQVOKG1tR+OIcf+rGfU9VinsLXtE5pU
+	J9Rv64s/HWu4GCI/92OAnxZcjVxqh0Gd46fjLoJvqCm1mm9rFBOcTzjx
+X-Gm-Gg: ASbGncthtcn0VLAR2btksq6hgTCStv8NErqrE9Op5RF8zuwZaMxbdwHFWKNPgoJC4aG
+	oS53vQjHrUkQFM3P1agORKJyHLnFlmaMqr2xqUJRjt1m59pANKUg53oPKxXwnYAnC0VBZL/Cdh9
+	MHkFLXWKzX4MUMyX1wBpxMwx4cJqEYM852JeGxNPtank4aZsNAgiOZpu/3SzFFBssCLhQhGONue
+	kWe7LNLAj4xsiMUPb5YnWmEhynLuWYPdg8m+u5YhxfSwGg6IYhxIQQ7eBA860MOsWF81iC/WvjO
+	XCBVhsi4q6lRjkRa4tBfXQ81Y2X20XFAfkWtRv8M01YYlG/Dgn3o3g8GKvndNintLyjEXEv5hTp
+	gKlBoPA==
+X-Google-Smtp-Source: AGHT+IF6laWTEHkXe3TQTV4Eg1F3llISJLS6HnYvNcKWxG5Q0rLrRztncGkk/tht0H7tAzIlvGz+NA==
+X-Received: by 2002:a05:6402:3481:b0:615:8f10:2d4c with SMTP id 4fb4d7f45d1cf-615e6ebb00emr10340144a12.4.1754346655015;
+        Mon, 04 Aug 2025 15:30:55 -0700 (PDT)
+Received: from localhost (twin.jikos.cz. [91.219.245.39])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-615a8ff9fd1sm7339006a12.44.2025.08.04.15.30.54
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 04 Aug 2025 15:30:54 -0700 (PDT)
+From: Jiri Kosina <kosina@gmail.com>
+X-Google-Original-From: Jiri Kosina <jikos@kernel.org>
+Date: Tue, 5 Aug 2025 00:30:53 +0200 (CEST)
+To: Steven Rostedt <rostedt@goodmis.org>
+cc: Sasha Levin <sashal@kernel.org>, Michal Hocko <mhocko@suse.com>, 
+    David Hildenbrand <david@redhat.com>, Greg KH <gregkh@linuxfoundation.org>, 
+    Vlastimil Babka <vbabka@suse.cz>, corbet@lwn.net, 
+    linux-doc@vger.kernel.org, workflows@vger.kernel.org, 
+    josh@joshtriplett.org, kees@kernel.org, konstantin@linuxfoundation.org, 
+    linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 0/4] Add agent coding assistant configuration to Linux
  kernel
-Message-ID: <20250804181447.0c518b14@gandalf.local.home>
-In-Reply-To: <alpine.LRH.2.00.2508050000580.22517@gjva.wvxbf.pm>
-References: <20250727195802.2222764-1-sashal@kernel.org>
-	<75d86e96-cb18-4996-998c-da7ac0e97468@suse.cz>
-	<9afd157a-296d-4f4d-9d65-07b89ab3906f@redhat.com>
-	<2025072832-enrich-pampers-54b9@gregkh>
-	<1bd04ce1-87c0-4e23-b155-84f7235f6072@redhat.com>
-	<aId1oZn_KFaa0R_Q@lappy>
-	<aJB8CdXqCEuitnQj@tiehlicka>
-	<aJC0ssMzX0KWnTkG@lappy>
-	<alpine.LRH.2.00.2508050000580.22517@gjva.wvxbf.pm>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+In-Reply-To: <20250804181447.0c518b14@gandalf.local.home>
+Message-ID: <alpine.LRH.2.00.2508050025060.22517@gjva.wvxbf.pm>
+References: <20250727195802.2222764-1-sashal@kernel.org> <75d86e96-cb18-4996-998c-da7ac0e97468@suse.cz> <9afd157a-296d-4f4d-9d65-07b89ab3906f@redhat.com> <2025072832-enrich-pampers-54b9@gregkh> <1bd04ce1-87c0-4e23-b155-84f7235f6072@redhat.com> <aId1oZn_KFaa0R_Q@lappy>
+ <aJB8CdXqCEuitnQj@tiehlicka> <aJC0ssMzX0KWnTkG@lappy> <alpine.LRH.2.00.2508050000580.22517@gjva.wvxbf.pm> <20250804181447.0c518b14@gandalf.local.home>
+User-Agent: Alpine 2.00 (LRH 1167 2008-08-23)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 4DB632F
-X-Stat-Signature: 1hz9xr1y1u4hbk67z9uwtg71uuu5ga5m
-X-Rspamd-Server: rspamout06
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1+E+wlnvIcd+hUCrbJeRFIBLjjjBhto9Bg=
-X-HE-Tag: 1754345659-681559
-X-HE-Meta: U2FsdGVkX18YLrxLOUkgjEfopPIdEJvv5mN/WnXnXi2698t+Z9iw7lw9P7RfYOXup5q61vC8AuwXqCP5z6DOr/0gxHsXYrFE6H341O9++kbf2D4rHks6cEYfwSHrPxEfn5Qio8yHeTwsBZe5wKiEpPc8Pj1LV3kEki76UaqATIB6YhH985G1osdDxGijQRahZNKgSGhR6hEa7GsX+0WxmpxIdfclwkmPsxpNMDSNJQgRwSPPFnXJfiI75D1PS91p+Dr1pwBkdrD65NdcYokVmyZGy5eNgSWsf87OY1VkeNGMfmvDF4PHfkGzUGKUXDR4G66r+vFvQhfowpLED9jSBBK++BM0IXLv
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On Tue, 5 Aug 2025 00:03:29 +0200 (CEST)
-Jiri Kosina <kosina@gmail.com> wrote:
+On Mon, 4 Aug 2025, Steven Rostedt wrote:
 
-> Al made a very important point somewhere earlier in this thread.
-> 
-> The most important (from the code quality POV) thing is -- is there a 
-> person that understands the patch enough to be able to answer questions 
-> (coming from some other human -- most likely reviewer/maintainer)?
-> 
-> That's not something that'd be reflected in DCO, but it's very important 
-> fact for the maintainer's decision process.
+> I know we can't change the DCO, but could we add something about our policy
+> is that if you submit code, you certify that you understand said code, even
+> if (especially) it was produced by AI?
 
-Perhaps this is what needs to be explicitly stated in the SubmittingPatches
-document.
+Yeah, I think that's *precisely* what's needed.
 
-I know we can't change the DCO, but could we add something about our policy
-is that if you submit code, you certify that you understand said code, even
-if (especially) it was produced by AI?
+Legal stuff is one thing. Let's assume for now that it's handled by the LF 
+statement, DCO, whatever.
 
--- Steve
+But "if I need to talk to a human that has a real clue about this code 
+change, who is that?" absolutely (in my view) needs to be reflected in the 
+changelog metadata. Because the more you challenge LLMs, the more they 
+will hallucinate.
+
+If for nothing else, then for accountability (not legal, but factual). LLM 
+is never going to be responsible for the generated code in the 
+"human-to-human" sense.
+
+AI can assist, but a human needs to be the one proxying the responsibility 
+(if he/she decides to do so), with all the consequences (again, not 
+talking legal here at all).
+
+Thanks,
+
+-- 
+Jiri Kosina
+SUSE Labs
