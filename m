@@ -1,142 +1,111 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 037992472A3
-	for <workflows@vger.kernel.org>; Mon,  4 Aug 2025 09:41:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AEA122097;
+	Mon,  4 Aug 2025 10:20:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754300520; cv=none; b=fxlSusAby0cI55jlrA1qPoiGKE7PSHW8Be8Xr3jjdabqkwQbppYaqU6LFlTs7SOl8g/+Xe4qUqNN8aQx4MFqtglgpgkKAGZ2YiHcg5onwrq5tw97KPUK9rEfTt3pvF8Beav1TLFSmdjZtsGEOXU53H7Bt8xmTlS0nuZFAnMno0Q=
+	t=1754302818; cv=none; b=p5P8fPtj/vQYODkfXj3w3CaW1PZPrjWhW3Fk2vK+sfwnQO8j8/haSQhnRIxf5bd04ThB3CLEiRmxUmE3lkSDjPKDtp59NyLR/YdppmNGExbqzx4AKzTOyXj/9NBySnEI3yZdsV31I1OsuZMFVKQWhrkimEFtLieyO1iD8T5JwWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754300520; c=relaxed/simple;
-	bh=n/Y/9YZ1njq5HqM2pai7gLwkH/R5ARAxjHUBq9em+34=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u3u+lKxbW9d7SWzlVG9X2midEfImSCY1uOv7vxwq1Go3wHYfsTBZtuT/K9ToSFBUH1t6DheUjzfdNwI1QRobRcrB7nyFFZSpr774s179AJ3ZBLMtOkKuIE7Ilkpf4fTOek93dFY8xCNNYt2cupnes1gZWlHLKurtTQ1AUIoh/yA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Wx3uv+rW; arc=none smtp.client-ip=209.85.221.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1754302818; c=relaxed/simple;
+	bh=zt15Xzme5yX3vbYfjn4cy3mxjGr5KzEP5dV0ertZ+YY=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=O7Mwacgd+HC1W+0kKEDFnKWIDQQFEqdn3C9am/sS/m3U2ioHgRAz/tOzRXzGahRSzf8pyp+HuIBMgfWql7PFYzXU9Tg+HANsg2fU/I9DK0ZqG4T7LJNpdSKHf4Jwq2RE5FqCPaoT0QYpE8E8RTFQJgXIfre61q4YL+JeNE/5ymo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GinAAvOf; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Wx3uv+rW"
-Received: by mail-wr1-f68.google.com with SMTP id ffacd0b85a97d-3b77b8750acso2642032f8f.0
-        for <workflows@vger.kernel.org>; Mon, 04 Aug 2025 02:41:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GinAAvOf"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6156a162537so6354110a12.2;
+        Mon, 04 Aug 2025 03:20:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1754300516; x=1754905316; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=73TOCFuo+GREgL2/pYDhxrjBA6nS034VKusSMXRntyw=;
-        b=Wx3uv+rWHxmupcwrJYHg2AHdYqjF0yAowTz0jZlosk2f3tF0Q0F2TROBwBv6w3Hlo5
-         hcUljCKhSo5dMe5sURLUsqVnNXflcs3C10QFSHklT+84ZgQNEhkKMaPjZXVP7BbG0IlL
-         aG8NGkrRtF3aGsfXNEeMAxepR28kX0jRQ/VBh8MM2T9+bmnv4KacPWLmlRKRu+e9AXLd
-         obiGNfNvTs4BE8j9IUz0VXCHiLQ7XbraIYRMJcCa/ff9eKyqxvAQw0WORBWAB7rOUTGV
-         v/8+ypAfeBJl6O3P31XhLgTmroS06gsCfuzbtTQBIO/zi4GIlQdC7H7HEOrzF3I3ObAw
-         nopQ==
+        d=gmail.com; s=20230601; t=1754302814; x=1754907614; darn=vger.kernel.org;
+        h=mime-version:user-agent:references:message-id:in-reply-to:subject
+         :cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7eZUHFrYxgQ0qDhUY5kKCZADajcB96cOqkgb1jMTj8E=;
+        b=GinAAvOfqKjufjm3o5T1XgdzkY0ki6auPxUrfyS3boSucSjuYJJUU38mh/IUzcq6nV
+         JzkD5Hf+LMjLoCjhllROnLJeq4IDbXSbCy5iLhbaSitKkbLoKn7YZhpXm4Mcoy2G5d3S
+         4vHNFV1cmaaYDF7sqUrzbNwOEEmDd9XPGUq/QUuNIU0QuU9vc7zwABHveyVSZm8XHMuh
+         8TeqVc+sWb2PkQtXpyq28nmZqf8r3JKYVY5BKD0PS2lujo79ijox02yyvEEQuVmN9d7p
+         nztm+2F7vV8VVBy+17XJg92eTWz3gLzxDawlVc0wA6ICzV3djLBeaZprarbWgR9ZdOLz
+         Np5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754300516; x=1754905316;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=73TOCFuo+GREgL2/pYDhxrjBA6nS034VKusSMXRntyw=;
-        b=j6CwPn30aJt/oDVttkCAQt7UUewOvUwSlB7WxsQyvsnS0nZeKCRpN1snveeWnkBIqI
-         ihFp/WzImp7ZJi7hZa9Znnmw0SRbn+FyT3pKwiVhLnRw16T2kCvo784c/1D9Jh7IpXqv
-         nxe4k8smouhsIEYzXe8kyr2HbE8KbkN5+8BBEo3+QlTwNIcQtf+MzHdpVawla0S4HxCl
-         ZMfHvJzs1dXGSLoK60DZoGxAb1EfS7BBzc/6DMb7jWvAuKuGxGg7ch8PLXjAuT+vVs+a
-         BJZ8STNV5aZWEBbDWFGKkU9NiiHnAXxVWxPSrfWIDCHSYFkWq5HmHRSZHG51SD+Bjz09
-         HbkA==
-X-Forwarded-Encrypted: i=1; AJvYcCXE9t/RqMDLRfxfiBNnbOUi3MrNLoiHZKhSPEndX4yl3TF6Y3uDIw1YqovzB/vvqcfv5FPlUdieTdk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOF1EtWPKGDlqMGMY+qd7tH2crb6L9ARcuTq3KZEG8/AKq2tyC
-	PYI8tJWr/U/RoDEDg7Yuxjt49lCr/unO1HWI1NSKPtTguxyAK8bhgA4M7AeM5cgrNQI=
-X-Gm-Gg: ASbGncvtq/8g2D7TCqMfxhdXUkvcbRGz+/p7y4//28ItCI/LaXnUi53fo3Kk/J6sZlH
-	0f6ADAnpBEad2gp7WjyUDQM+srHjC869k5gyUkIRBLpdaZcT8OfLcNDMd60yt5qW/E0/ViUQaDq
-	xMXUZK31lUJAc/6k/JFo+6ySHK+HE9GraalWxemBTpNZ0jSUe4g/LdeUN2LfUnDj+Y8gDhXbYWV
-	DjBWVw4mb4I1Z0JbcKBV7YYlXfiw/R2dK2bi0eX+4LHiUsnlOs6oxG0PrYGUHUrpj7nBHs1mQf1
-	/7Ql66exIMts1/0NxK27wQpPw4eVnYdqDLO0bugzKEWqCaLoLuYij2RSZU7wNnZxDimYB+BC/8O
-	jPQUcunMAF+TKZ3d+sLHMLBntiLLAGJbEd2iBHKKkBHxnKWMwPZiYCdhaCKHXb2NfGEqVddpoP8
-	hZ3yxtjnvT5g==
-X-Google-Smtp-Source: AGHT+IGfBJATELMLU0btvGvvdC9Rp47PlTQfVGAhDwVGWZY7ON/ZVUNJ7tTe5soC3xHigILOzKasQA==
-X-Received: by 2002:a05:6000:420d:b0:3a4:f7dd:6fad with SMTP id ffacd0b85a97d-3b8d959d43cmr7001584f8f.14.1754300516138;
-        Mon, 04 Aug 2025 02:41:56 -0700 (PDT)
-Received: from localhost (dynamic-2a00-1028-8394-58e6-9e1a-64e5-71bf-cbcb.ipv6.o2.cz. [2a00:1028:8394:58e6:9e1a:64e5:71bf:cbcb])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3b79c4530a8sm14894989f8f.38.2025.08.04.02.41.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Aug 2025 02:41:55 -0700 (PDT)
-Date: Mon, 4 Aug 2025 11:41:55 +0200
-From: Michal Hocko <mhocko@suse.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: David Hildenbrand <david@redhat.com>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	Vlastimil Babka <vbabka@suse.cz>, corbet@lwn.net,
-	linux-doc@vger.kernel.org, workflows@vger.kernel.org,
-	josh@joshtriplett.org, kees@kernel.org,
-	konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	rostedt@goodmis.org
+        d=1e100.net; s=20230601; t=1754302814; x=1754907614;
+        h=mime-version:user-agent:references:message-id:in-reply-to:subject
+         :cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7eZUHFrYxgQ0qDhUY5kKCZADajcB96cOqkgb1jMTj8E=;
+        b=JwwSPtV+5k5XA2JGQ0fpdFyZsj548y1oFwElQOsce+MbUduxCOdPE1Wkpehc5R2RHI
+         2L5vT9TkbSi1saCHv2TC8533dFpc42zqgGZcietlAAQoywPWZZ7ed+2kTWtaJqrYEhxq
+         Om2YHoysFGa6b+hYecYfPvG/dKDbE0NNo3eRgXrQeVYJEetcVhEowsOnuGYcJrzuo1bk
+         pP8Xx1R+8GJhni7rj52Srj+QzHSUAVBr3zRQVIk+m3cBlHyPyf1fcffVvBpZc2Y+SUOs
+         Pewc5UUnwTzi6ZYFjCF53K7QRQTySxr2k6KlGue1bLALhHYJySrPP2YvmagViRvXe21O
+         aq0g==
+X-Forwarded-Encrypted: i=1; AJvYcCUXsZBT752JizFFlNuqbQxCUARz7lWYLxTRbs2u3wy4NgmFoFMX0RKseklGQMDLzMpZvWMaA7cMLKaX@vger.kernel.org, AJvYcCVPji64PgRBoZmQZRAcN3ZHW720Cwo3Ts1foK8AbVeuuqB05UmNJVIi5V8dVqUS29WqFRforzKqlqj+Ii20@vger.kernel.org, AJvYcCX5qGNltruc9NCLrzK/MpGbPKp6Lw1uF9tAUcZLKh/3B+9dlW89ZY1IRDUU3xrYNq8PHE22sRa4yqM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx7GQE8s9OmI52L2HcsM6YfmwNS4YBeRItfENLqkrBSJSKKr651
+	62GWVag3lhlrr22ugWcxSZvC63wopE+oYpRIU31epRo+yt3rcKRdnPAj
+X-Gm-Gg: ASbGncvrvXvgReL7pmU71QqlbghI/onifWFFIivLOZDLMPQmUTUZiInf/kfGg53SuhI
+	Vj6MrRCIMLJRA2lVg/8lsOB+kWvm55q/kjustv9YT67KExit3a9cqSHfcHGfuAZUiUew/fDLe9a
+	jg92aCOROyZm34qMJEioG9NFQpLRCKiODrUpHoqNphZdWKcoi8IcFgl+kFGc/DM2kIX1TjT2WW/
+	0yyrW+vtqRGXvrwRZ20L4uvsCoIfmHCkH6H4XOVo6YUbTzFIexn+Ail04wkNrpiA5feA6QihxnR
+	IlMaj0lhe60f5/A3H7y44iFXkZJx6K9ShILlmmND+8q1OqvLVT+oXErU0eQq/mETxIPUKhYrDN4
+	gJ3LDo0yWMIXehj/N
+X-Google-Smtp-Source: AGHT+IFta7Ntkqfvi3HuONMfCPmHJQg2TPNp6F+bRBsfU0kdVF8GqogtcbzAjOt0sfxx+o8g+632HA==
+X-Received: by 2002:a17:906:f59f:b0:af9:38ed:935c with SMTP id a640c23a62f3a-af93ffc5908mr934225466b.3.1754302814126;
+        Mon, 04 Aug 2025 03:20:14 -0700 (PDT)
+Received: from localhost (twin.jikos.cz. [91.219.245.39])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a241bdfsm712239366b.131.2025.08.04.03.20.13
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 04 Aug 2025 03:20:13 -0700 (PDT)
+From: Jiri Kosina <kosina@gmail.com>
+X-Google-Original-From: Jiri Kosina <jikos@kernel.org>
+Date: Mon, 4 Aug 2025 12:20:12 +0200 (CEST)
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+cc: Sasha Levin <sashal@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+    Greg KH <greg@kroah.com>, corbet@lwn.net, linux-doc@vger.kernel.org, 
+    workflows@vger.kernel.org, josh@joshtriplett.org, kees@kernel.org, 
+    konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+    Linus Torvalds <torvalds@linux-foundation.org>, 
+    "Dr. David Alan Gilbert" <linux@treblig.org>
 Subject: Re: [PATCH 0/4] Add agent coding assistant configuration to Linux
  kernel
-Message-ID: <aJCAY8koRzdKigmT@tiehlicka>
-References: <20250727195802.2222764-1-sashal@kernel.org>
- <75d86e96-cb18-4996-998c-da7ac0e97468@suse.cz>
- <9afd157a-296d-4f4d-9d65-07b89ab3906f@redhat.com>
- <2025072832-enrich-pampers-54b9@gregkh>
- <1bd04ce1-87c0-4e23-b155-84f7235f6072@redhat.com>
- <aId1oZn_KFaa0R_Q@lappy>
- <aJB8CdXqCEuitnQj@tiehlicka>
+In-Reply-To: <a1022055-52bd-4948-9399-908b29ca140a@lucifer.local>
+Message-ID: <alpine.LRH.2.00.2508041219130.22517@gjva.wvxbf.pm>
+References: <20250727195802.2222764-1-sashal@kernel.org> <7e7f485e-93ad-4bc4-9323-f154ce477c39@lucifer.local> <2025072854-earthen-velcro-8b32@gregkh> <df188552-c2dd-4cb7-9f6a-74e05e677dfc@lucifer.local> <20250730112753.17f5af13@gandalf.local.home>
+ <158707d7-6729-4bb6-bc72-7556d11bfaef@lucifer.local> <20250730121829.0c89228d@gandalf.local.home> <aIpKCXrc-k2Dx43x@lappy> <a1022055-52bd-4948-9399-908b29ca140a@lucifer.local>
+User-Agent: Alpine 2.00 (LRH 1167 2008-08-23)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aJB8CdXqCEuitnQj@tiehlicka>
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On Mon 04-08-25 11:23:22, Michal Hocko wrote:
-> On Mon 28-07-25 09:05:37, Sasha Levin wrote:
-> > On Mon, Jul 28, 2025 at 12:47:55PM +0200, David Hildenbrand wrote:
-> > > We cannot keep complaining about maintainer overload and, at the same
-> > > time, encourage people to bombard us with even more of that stuff.
-> > > 
-> > > Clearly flagging stuff as AI-generated can maybe help. But really, what
-> > > we need is a proper AI policy. I think QEMU did a good job (again, maybe
-> > > too strict, not sure).
-> > 
-> > So I've sent this series because I thought it's a parallel effort to the
-> > effort of creating an "AI Policy".
-> > 
-> > Right now we already (implicitly) have a policy as far as these
-> > contributions go, based on
-> > https://www.linuxfoundation.org/legal/generative-ai and the lack of
-> > other guidelines in our codebase, we effectively welcome AI generated
-> > contributions without any other requirements beyond the ones that affect
-> > a regular human.
-> > 
-> > This series of patches attempts to clarify that point to AI: it has to
-> > follow the same requirements and rules that humans do.
-> 
-> The above guidance is quite vague. How me as a maintainer should know
-> that whatever AI tool has been used is meeting those two conditions
-> 
-> : 1. Contributors should ensure that the terms and conditions of the
-> : generative AI tool do not place any contractual restrictions on how the
-> : tool’s output can be used that are inconsistent with the project’s open
-> : source software license, the project’s intellectual property policies,
-> : or the Open Source Definition. 
-> : 
-> : 2. If any pre-existing copyrighted materials (including pre-existing
-> : open source code) authored or owned by third parties are included in the
-> : AI tool’s output, prior to contributing such output to the project, the
-> : Contributor should confirm that they have have permission from the third
-> : party owners–such as the form of an open source license or public domain
-> : declaration that complies with the project’s licensing policies–to use
-> : and modify such pre-existing materials and contribute them to the
-> : project. Additionally, the contributor should provide notice and
-> : attribution of such third party rights, along with information about the
-> : applicable license terms, with their contribution.
-> 
-> Is that my responsibility?
+On Wed, 30 Jul 2025, Lorenzo Stoakes wrote:
 
-OK, I can see this is discussed further down the thread https://lore.kernel.org/all/20250730130531.4855a38b@gandalf.local.home/T/#u
+> > This way we can extend MAINTAINERS to indicate which subsystems are
+> > more open to research work (drivers/staging/ comes to mind) vs ones that
+> > aren't.
+> >
+> > Some sort of a "traffic light" system:
+> >
+> >  1. Green: the subsystem is happy to receive patches from any source.
+> >
+> >  2. Yellow: "If you're unfamiliar with the subsystem and using any
+> >  tooling to generate your patches, please have a reviewed-by from a
+> >  trusted developer before sending your patch".
+> >
+> >  3. No tool-generated patches without prior maintainer approval.
+> 
+> This sounds good, with a default on red. Which would enforce the opt-in
+> part.
+
+I strongly believe that at least a distinction between 'static tools' and 
+'LLM-based tools' needs to be introduced here.
+
+Thanks,
 
 -- 
-Michal Hocko
+Jiri Kosina
 SUSE Labs
