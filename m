@@ -1,111 +1,134 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AEA122097;
-	Mon,  4 Aug 2025 10:20:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D428217B418;
+	Mon,  4 Aug 2025 13:25:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754302818; cv=none; b=p5P8fPtj/vQYODkfXj3w3CaW1PZPrjWhW3Fk2vK+sfwnQO8j8/haSQhnRIxf5bd04ThB3CLEiRmxUmE3lkSDjPKDtp59NyLR/YdppmNGExbqzx4AKzTOyXj/9NBySnEI3yZdsV31I1OsuZMFVKQWhrkimEFtLieyO1iD8T5JwWg=
+	t=1754313908; cv=none; b=hBNaK2/DIlN4tGH8Hks005vbcSA0YPDwMxaZO/l+JVdsnVh4UIPWntGxyPRs8ytpQrsF4m6f8fN2SCJn2TN7BJuAq2UeuzP1b7/M4tTJRr4HawTTSrTiSe0TqrzXcY+PwrgR+ZlThTK740l0pMirB8zBZpqXyXE8Bm1w62W2QlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754302818; c=relaxed/simple;
-	bh=zt15Xzme5yX3vbYfjn4cy3mxjGr5KzEP5dV0ertZ+YY=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=O7Mwacgd+HC1W+0kKEDFnKWIDQQFEqdn3C9am/sS/m3U2ioHgRAz/tOzRXzGahRSzf8pyp+HuIBMgfWql7PFYzXU9Tg+HANsg2fU/I9DK0ZqG4T7LJNpdSKHf4Jwq2RE5FqCPaoT0QYpE8E8RTFQJgXIfre61q4YL+JeNE/5ymo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GinAAvOf; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1754313908; c=relaxed/simple;
+	bh=NTs4IL1Kwd8g0bmY4dYuUQcArWu0IxUvlGbhxSQ476E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TFZOXJJ3PrhsKeRat4DUyjruMi4DYDzZb5h/EEDDV2Rj/vhFnNKbiGZZoEUNo8rOR9vxW/H9R2CjX4/+ZATQXK5PLocwSBedKicRFLinD5J5fHGClNtTlE7Md/tGYPPn3JNNu9qIS0jjQ3HOb7vBf69zSxW6XyM3N+AvAXKkjN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lIDoqjle; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GinAAvOf"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6156a162537so6354110a12.2;
-        Mon, 04 Aug 2025 03:20:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754302814; x=1754907614; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:message-id:in-reply-to:subject
-         :cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7eZUHFrYxgQ0qDhUY5kKCZADajcB96cOqkgb1jMTj8E=;
-        b=GinAAvOfqKjufjm3o5T1XgdzkY0ki6auPxUrfyS3boSucSjuYJJUU38mh/IUzcq6nV
-         JzkD5Hf+LMjLoCjhllROnLJeq4IDbXSbCy5iLhbaSitKkbLoKn7YZhpXm4Mcoy2G5d3S
-         4vHNFV1cmaaYDF7sqUrzbNwOEEmDd9XPGUq/QUuNIU0QuU9vc7zwABHveyVSZm8XHMuh
-         8TeqVc+sWb2PkQtXpyq28nmZqf8r3JKYVY5BKD0PS2lujo79ijox02yyvEEQuVmN9d7p
-         nztm+2F7vV8VVBy+17XJg92eTWz3gLzxDawlVc0wA6ICzV3djLBeaZprarbWgR9ZdOLz
-         Np5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754302814; x=1754907614;
-        h=mime-version:user-agent:references:message-id:in-reply-to:subject
-         :cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7eZUHFrYxgQ0qDhUY5kKCZADajcB96cOqkgb1jMTj8E=;
-        b=JwwSPtV+5k5XA2JGQ0fpdFyZsj548y1oFwElQOsce+MbUduxCOdPE1Wkpehc5R2RHI
-         2L5vT9TkbSi1saCHv2TC8533dFpc42zqgGZcietlAAQoywPWZZ7ed+2kTWtaJqrYEhxq
-         Om2YHoysFGa6b+hYecYfPvG/dKDbE0NNo3eRgXrQeVYJEetcVhEowsOnuGYcJrzuo1bk
-         pP8Xx1R+8GJhni7rj52Srj+QzHSUAVBr3zRQVIk+m3cBlHyPyf1fcffVvBpZc2Y+SUOs
-         Pewc5UUnwTzi6ZYFjCF53K7QRQTySxr2k6KlGue1bLALhHYJySrPP2YvmagViRvXe21O
-         aq0g==
-X-Forwarded-Encrypted: i=1; AJvYcCUXsZBT752JizFFlNuqbQxCUARz7lWYLxTRbs2u3wy4NgmFoFMX0RKseklGQMDLzMpZvWMaA7cMLKaX@vger.kernel.org, AJvYcCVPji64PgRBoZmQZRAcN3ZHW720Cwo3Ts1foK8AbVeuuqB05UmNJVIi5V8dVqUS29WqFRforzKqlqj+Ii20@vger.kernel.org, AJvYcCX5qGNltruc9NCLrzK/MpGbPKp6Lw1uF9tAUcZLKh/3B+9dlW89ZY1IRDUU3xrYNq8PHE22sRa4yqM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7GQE8s9OmI52L2HcsM6YfmwNS4YBeRItfENLqkrBSJSKKr651
-	62GWVag3lhlrr22ugWcxSZvC63wopE+oYpRIU31epRo+yt3rcKRdnPAj
-X-Gm-Gg: ASbGncvrvXvgReL7pmU71QqlbghI/onifWFFIivLOZDLMPQmUTUZiInf/kfGg53SuhI
-	Vj6MrRCIMLJRA2lVg/8lsOB+kWvm55q/kjustv9YT67KExit3a9cqSHfcHGfuAZUiUew/fDLe9a
-	jg92aCOROyZm34qMJEioG9NFQpLRCKiODrUpHoqNphZdWKcoi8IcFgl+kFGc/DM2kIX1TjT2WW/
-	0yyrW+vtqRGXvrwRZ20L4uvsCoIfmHCkH6H4XOVo6YUbTzFIexn+Ail04wkNrpiA5feA6QihxnR
-	IlMaj0lhe60f5/A3H7y44iFXkZJx6K9ShILlmmND+8q1OqvLVT+oXErU0eQq/mETxIPUKhYrDN4
-	gJ3LDo0yWMIXehj/N
-X-Google-Smtp-Source: AGHT+IFta7Ntkqfvi3HuONMfCPmHJQg2TPNp6F+bRBsfU0kdVF8GqogtcbzAjOt0sfxx+o8g+632HA==
-X-Received: by 2002:a17:906:f59f:b0:af9:38ed:935c with SMTP id a640c23a62f3a-af93ffc5908mr934225466b.3.1754302814126;
-        Mon, 04 Aug 2025 03:20:14 -0700 (PDT)
-Received: from localhost (twin.jikos.cz. [91.219.245.39])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a241bdfsm712239366b.131.2025.08.04.03.20.13
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 04 Aug 2025 03:20:13 -0700 (PDT)
-From: Jiri Kosina <kosina@gmail.com>
-X-Google-Original-From: Jiri Kosina <jikos@kernel.org>
-Date: Mon, 4 Aug 2025 12:20:12 +0200 (CEST)
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-cc: Sasha Levin <sashal@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-    Greg KH <greg@kroah.com>, corbet@lwn.net, linux-doc@vger.kernel.org, 
-    workflows@vger.kernel.org, josh@joshtriplett.org, kees@kernel.org, 
-    konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-    Linus Torvalds <torvalds@linux-foundation.org>, 
-    "Dr. David Alan Gilbert" <linux@treblig.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lIDoqjle"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30718C4CEE7;
+	Mon,  4 Aug 2025 13:25:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754313908;
+	bh=NTs4IL1Kwd8g0bmY4dYuUQcArWu0IxUvlGbhxSQ476E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lIDoqjleeck4npbrxv3OkmfBzGnFEjjIdKjHNcZb58LOnO/ITcpfW7JabRH8VSXmk
+	 6O5ESCqUuHsvRDdAzsyfaWjuEYEwvRpBKCvuVKz66CbPRny/vz3UV9E6fKEtVBagEt
+	 EXDK/p1KbfN9kCRCsArU4NhVfL8AykP8dShRfCzihfvVfcFDKrEcxDX93tMmqaPFVD
+	 BvKqYmZ9/t6sZn84vLsvP9D3ZZY7SAgyfKagsMYj38xMZLcgLuWZFlF9xF8KwXYLRq
+	 0ukcZNdxqRFMBgSD53CFS1BRNWmPNlkXpBQiJNdefQYdNsYlUNKLVMR3SbUS9k7w4Y
+	 GpfbrLlb26mNQ==
+Date: Mon, 4 Aug 2025 09:25:06 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Michal Hocko <mhocko@suse.com>
+Cc: David Hildenbrand <david@redhat.com>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Vlastimil Babka <vbabka@suse.cz>, corbet@lwn.net,
+	linux-doc@vger.kernel.org, workflows@vger.kernel.org,
+	josh@joshtriplett.org, kees@kernel.org,
+	konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	rostedt@goodmis.org
 Subject: Re: [PATCH 0/4] Add agent coding assistant configuration to Linux
  kernel
-In-Reply-To: <a1022055-52bd-4948-9399-908b29ca140a@lucifer.local>
-Message-ID: <alpine.LRH.2.00.2508041219130.22517@gjva.wvxbf.pm>
-References: <20250727195802.2222764-1-sashal@kernel.org> <7e7f485e-93ad-4bc4-9323-f154ce477c39@lucifer.local> <2025072854-earthen-velcro-8b32@gregkh> <df188552-c2dd-4cb7-9f6a-74e05e677dfc@lucifer.local> <20250730112753.17f5af13@gandalf.local.home>
- <158707d7-6729-4bb6-bc72-7556d11bfaef@lucifer.local> <20250730121829.0c89228d@gandalf.local.home> <aIpKCXrc-k2Dx43x@lappy> <a1022055-52bd-4948-9399-908b29ca140a@lucifer.local>
-User-Agent: Alpine 2.00 (LRH 1167 2008-08-23)
+Message-ID: <aJC0ssMzX0KWnTkG@lappy>
+References: <20250727195802.2222764-1-sashal@kernel.org>
+ <75d86e96-cb18-4996-998c-da7ac0e97468@suse.cz>
+ <9afd157a-296d-4f4d-9d65-07b89ab3906f@redhat.com>
+ <2025072832-enrich-pampers-54b9@gregkh>
+ <1bd04ce1-87c0-4e23-b155-84f7235f6072@redhat.com>
+ <aId1oZn_KFaa0R_Q@lappy>
+ <aJB8CdXqCEuitnQj@tiehlicka>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aJB8CdXqCEuitnQj@tiehlicka>
 
-On Wed, 30 Jul 2025, Lorenzo Stoakes wrote:
+On Mon, Aug 04, 2025 at 11:23:21AM +0200, Michal Hocko wrote:
+>On Mon 28-07-25 09:05:37, Sasha Levin wrote:
+>> On Mon, Jul 28, 2025 at 12:47:55PM +0200, David Hildenbrand wrote:
+>> > We cannot keep complaining about maintainer overload and, at the same
+>> > time, encourage people to bombard us with even more of that stuff.
+>> >
+>> > Clearly flagging stuff as AI-generated can maybe help. But really, what
+>> > we need is a proper AI policy. I think QEMU did a good job (again, maybe
+>> > too strict, not sure).
+>>
+>> So I've sent this series because I thought it's a parallel effort to the
+>> effort of creating an "AI Policy".
+>>
+>> Right now we already (implicitly) have a policy as far as these
+>> contributions go, based on
+>> https://www.linuxfoundation.org/legal/generative-ai and the lack of
+>> other guidelines in our codebase, we effectively welcome AI generated
+>> contributions without any other requirements beyond the ones that affect
+>> a regular human.
+>>
+>> This series of patches attempts to clarify that point to AI: it has to
+>> follow the same requirements and rules that humans do.
+>
+>The above guidance is quite vague. How me as a maintainer should know
+>that whatever AI tool has been used is meeting those two conditions
 
-> > This way we can extend MAINTAINERS to indicate which subsystems are
-> > more open to research work (drivers/staging/ comes to mind) vs ones that
-> > aren't.
-> >
-> > Some sort of a "traffic light" system:
-> >
-> >  1. Green: the subsystem is happy to receive patches from any source.
-> >
-> >  2. Yellow: "If you're unfamiliar with the subsystem and using any
-> >  tooling to generate your patches, please have a reviewed-by from a
-> >  trusted developer before sending your patch".
-> >
-> >  3. No tool-generated patches without prior maintainer approval.
-> 
-> This sounds good, with a default on red. Which would enforce the opt-in
-> part.
+In exactly the same way you know that a human contributor didn't copy
+code with an incompatible license.
 
-I strongly believe that at least a distinction between 'static tools' and 
-'LLM-based tools' needs to be introduced here.
+Quoting from Documentation/process/5.Posting.rst :
 
-Thanks,
+	 - Signed-off-by: this is a developer's certification that he or
+	   she has the right to submit the patch for inclusion into the
+	   kernel.  It is an agreement to the Developer's Certificate of
+	   Origin, the full text of which can be found in
+	   :ref:`Documentation/process/submitting-patches.rst
+	   <submittingpatches>` Code without a proper signoff cannot be
+	   merged into the mainline.
+
+The Signed-off-by tag doesn't mean that a commit was reviewed, it
+doesn't mean that someone tested it, nor does it indicate that the
+person who signed off belives it is correct.
+
+It only means that the person has legally certified to you what is
+stated in the DCO.
+
+>: 1. Contributors should ensure that the terms and conditions of the
+>: generative AI tool do not place any contractual restrictions on how the
+>: tool’s output can be used that are inconsistent with the project’s open
+>: source software license, the project’s intellectual property policies,
+>: or the Open Source Definition.
+>:
+>: 2. If any pre-existing copyrighted materials (including pre-existing
+>: open source code) authored or owned by third parties are included in the
+>: AI tool’s output, prior to contributing such output to the project, the
+>: Contributor should confirm that they have have permission from the third
+>: party owners–such as the form of an open source license or public domain
+>: declaration that complies with the project’s licensing policies–to use
+>: and modify such pre-existing materials and contribute them to the
+>: project. Additionally, the contributor should provide notice and
+>: attribution of such third party rights, along with information about the
+>: applicable license terms, with their contribution.
+>
+>Is that my responsibility?
+
+As far as making sure that all patches you take come with a
+Signed-off-by tag, yes, it's your responsibility to make sure that such
+tag exists.
+
+Otherwise, this series doesn't add any new requirements on you as a
+maintainer.
 
 -- 
-Jiri Kosina
-SUSE Labs
+Thanks,
+Sasha
