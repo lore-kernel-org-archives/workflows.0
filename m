@@ -1,154 +1,65 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12BA71C5D44;
-	Tue,  5 Aug 2025 23:33:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 434F628D823;
+	Wed,  6 Aug 2025 14:13:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754436820; cv=none; b=NoxO25sLPACTd/3AEko9JDOD17MCiHSUAmuZoTZB8o2aY1igrWQ8SH+2OlAeOCb0Xooxcx0avdgM89HZc1Qn915t8qCpeO+/Crk/tmZdhy4sm40mw8CK8NtLJr0aq0yafs/EhOO6K/WqFw5wPrzBgBGNb99VYLvtnlDv9xxnjvo=
+	t=1754489581; cv=none; b=P5M7d5wjeqJpviUVaSVg2LDFr29yR7ni8F0bOgPa6Ub7lsRcP8d2zj+JOlwSH15YozZ5T1qiV7jPDLFKOTIyedZAtneSC+YBonSX5uHjyanY6Uk2ppOV/+zUQjudcP/6e1a1VgCSwt29LtDeExEJeVe3LU7FBPyF6LZ49jq7MbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754436820; c=relaxed/simple;
-	bh=wxrqDkkL6fPpPQWfJd1nCMaA8HRkL9AhcFhln5p9sv0=;
+	s=arc-20240116; t=1754489581; c=relaxed/simple;
+	bh=8MVy6EylKNibNveZN4B5Hj6JDT+ojFqfW1JhErGuHZ4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WInEbCE+pr2RV88Fw7wkyVixqwnb0iTDSy4jn7PEvwYHgE/UwfvKvj6bgedpHZs4AjBc3lP1f3w2OVQjhotwdqfd9EqHCq8oS+DBc+Llk0duigbRLdv+9IS83uOnwVDXbqv/rRP7KsGiboa64KbJ4eeDhtY4m38egqgK+7vWTAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BuxcEWw8; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z9LaKOrvJkdUb/R5EJddvUNAcBgK0+pqNhYv9lgbfCNqqhJ4A27Dcu0bZCATVO3OgUIiA6ZhxRmFJui2NH5CDJ1WLxypYEtfUWTmrpLbJ2eHS51yXW8IYzcZXFjJyxC29eFTQHsBKKlXDcllJJmLP7Af5rwwq5bSR6PtJybn1VE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=w1fGSZkX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BuxcEWw8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 677D3C4CEF0;
-	Tue,  5 Aug 2025 23:33:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754436819;
-	bh=wxrqDkkL6fPpPQWfJd1nCMaA8HRkL9AhcFhln5p9sv0=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="w1fGSZkX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 901CAC4CEED;
+	Wed,  6 Aug 2025 14:13:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1754489580;
+	bh=8MVy6EylKNibNveZN4B5Hj6JDT+ojFqfW1JhErGuHZ4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BuxcEWw8iUgdH2Zf9IRrTWjBV5yoVJqMeHztvhxhb8Clomd9UIjQukYWMOyhx0rD6
-	 LcbpIM80BHQcd+bz6FXByLFSJNCTBwkXF7jQV3Wvv/FaWrzL7H7yGZ6umRYvBRZjvs
-	 ciLTqstr4izCq823DuwYry5BB29T2jlHi4Xf5T/N1YrlisfELg3LRmzyLKmEuR0u4I
-	 Kqqm4aHNDt1OHR0ZPEiyziJj5SMM+9aLq28oV7RUxEUXwLMVHkBL29VqYH1QJKKcTc
-	 AyLI/ZTifNQ6HvseSHxKO8JAnXNTN1L8BMI2ckspm/d/+2S9Vtap4PfTUJ5ujIIy4Y
-	 77dG8KRvFwNDQ==
-Date: Tue, 5 Aug 2025 19:33:37 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jeff Johnson <jeff.johnson@oss.qualcomm.com>, corbet@lwn.net,
-	linux-doc@vger.kernel.org, workflows@vger.kernel.org,
-	josh@joshtriplett.org, kees@kernel.org,
-	konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	b=w1fGSZkXqkwAcXnMRt6k9AhE3oKMp38J7v+GiP9Pme/bvynHtUDGOIAsulZzZW5K/
+	 s4xXZR1UbVLV98HQKKr/N9MKiF7Wsqtau+9efDoP2Uy4pFkeRhxAUmchYWlovav/Zz
+	 LL0IIaD7mOJr3A1Umpuh/7F5CE+SKzhTNrmg2Wrk=
+Date: Wed, 6 Aug 2025 10:12:59 -0400
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org, workflows@vger.kernel.org, 
+	josh@joshtriplett.org, kees@kernel.org, linux-kernel@vger.kernel.org, 
 	rostedt@goodmis.org
 Subject: Re: [PATCH 4/4] agents: add legal requirements and agent attribution
  guidelines
-Message-ID: <aJKU0ajcG1Xtrqrf@lappy>
+Message-ID: <20250806-impetuous-rainbow-octopus-2dcaab@lemur>
 References: <20250727195802.2222764-1-sashal@kernel.org>
  <20250727195802.2222764-5-sashal@kernel.org>
- <771aef93-df3e-4a9b-b6d9-3a5057f77ddb@oss.qualcomm.com>
- <20250805231150.GD16330@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250805231150.GD16330@pendragon.ideasonboard.com>
+In-Reply-To: <20250727195802.2222764-5-sashal@kernel.org>
 
-On Wed, Aug 06, 2025 at 02:11:50AM +0300, Laurent Pinchart wrote:
->On Tue, Aug 05, 2025 at 03:08:45PM -0700, Jeff Johnson wrote:
->> On 7/27/2025 12:58 PM, Sasha Levin wrote:
->> > And below is the first test of this scheme:
->> >
->> > Co-developed-by: Claude claude-opus-4-20250514
->> > Signed-off-by: Sasha Levin <sashal@kernel.org>
->> > ---
->> >  Documentation/agents/index.rst |  3 ++-
->> >  Documentation/agents/legal.rst | 42 ++++++++++++++++++++++++++++++++++
->> >  Documentation/agents/main.rst  |  5 ++++
->> >  3 files changed, 49 insertions(+), 1 deletion(-)
->> >  create mode 100644 Documentation/agents/legal.rst
->> >
->> > diff --git a/Documentation/agents/index.rst b/Documentation/agents/index.rst
->> > index 354af3f025e5..982602db3349 100644
->> > --- a/Documentation/agents/index.rst
->> > +++ b/Documentation/agents/index.rst
->> > @@ -9,4 +9,5 @@ Agents
->> >
->> >     main
->> >     core
->> > -   coding-style
->> > \ No newline at end of file
->> > +   coding-style
->> > +   legal
->> > \ No newline at end of file
->> > diff --git a/Documentation/agents/legal.rst b/Documentation/agents/legal.rst
->> > new file mode 100644
->> > index 000000000000..67e6b2cdff9d
->> > --- /dev/null
->> > +++ b/Documentation/agents/legal.rst
->> > @@ -0,0 +1,42 @@
->> > +.. SPDX-License-Identifier: GPL-2.0
->> > +
->> > +===============================
->> > +Legal Requirements for Agents
->> > +===============================
->> > +
->> > +This document outlines critical legal requirements that coding agents must follow when working with the Linux kernel codebase.
->> > +
->> > +Licensing Requirements
->> > +----------------------
->> > +
->> > +**GPL-2.0 License**
->> > +  The Linux kernel is licensed under GPL-2.0 only with a syscall exception. Coding agents MUST follow this licensing rule with no exceptions. Any code contributed must be compatible with this license.
->> > +
->> > +**SPDX License Identifiers**
->> > +  All files must have proper SPDX license identifiers. For most kernel source files, this should be the first line of the file in the appropriate comment format:
->> > +
->> > +  - For C source/header files: ``// SPDX-License-Identifier: GPL-2.0``
->> > +  - For scripts: ``# SPDX-License-Identifier: GPL-2.0``
->> > +  - For documentation: ``.. SPDX-License-Identifier: GPL-2.0``
->>
->> I believe the agent has not processed the following correctly:
->> https://www.kernel.org/doc/html/latest/process/license-rules.html
->>
->> 1) C header files use /* SPDX-License-Identifier: <expression> */
->> 2) Contributions need not be GPL-2.0, "individual files can be provided under
->> a dual license, e.g. one of the compatible GPL variants and alternatively
->> under a permissive license like BSD, MIT etc."
->>
->> These two issues jumped out at me...
->
->And the text isn't properly wrapped. Also, compiling the series, I get
->
->----------------------------------------
->Documentation/agents/main.rst:3: WARNING: Title overline too short.
->
->=====================================
->Linux Kernel Development Agent Instructions
->=====================================
->
->[...]
->
->Documentation/agents/index.rst: WARNING: document isn't included in any toctree [toc.not_included]
->----------------------------------------
->
-><irony>
->
->Sasha, please make sure you read the kernel documentation before
->submitting patches. We understand there's a learning curve, but we
->expect contributors to perform due diligence to avoid wasting the time
->of reviewers. I would have expected a human developer submitting patches
->generated by LLMs to have proof-read the patches, compiled them, and
->fixed those issues.
->
-></irony>
+On Sun, Jul 27, 2025 at 03:58:02PM -0400, Sasha Levin wrote:
+> +- ``Co-developed-by: Claude claude-3-opus-20240229``
+> +- ``Co-developed-by: GitHub-Copilot GPT-4 v1.0.0``
+> +- ``Co-developed-by: Cursor gpt-4-turbo-2024-04-09``
 
-I thought I was being smart doing that so only AI agents would see that
-stuff but it wouldn't appear in any human readable documentation.
+FYI, this will break tools that expect Co-developed-by: to be in the address
+header format. I will add exceptions in b4, but it *is* going to be annoying
+that this trailer can be in both formats and I expect other tooling will also
+have similar problems.
 
-I haven't realized checkpatch would complain :)
+If it's not too late, I recommend picking a wholly new trailer instead of
+overloading Co-developed-by. Examples:
 
-Anyways, I need to resend this with the improvements suggested by Kees
-and Greg where we instead improve and expand the README at root. Let me
-go clean it up...
+    | Assisted-by: Claude claude-3-opus-20240229
+    | Auxiliary-tooling: GitHub-Copilot GPT-4 v1.0.0
 
--- 
-Thanks,
-Sasha
+I like the latter, because this also allows listing multiple tools.
+
+-K
