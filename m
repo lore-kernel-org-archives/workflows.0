@@ -1,151 +1,71 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE00E27C150;
-	Sat,  9 Aug 2025 23:40:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDEA728DB3;
+	Sun, 10 Aug 2025 07:01:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754782824; cv=none; b=apf+8J7gbY76r+qCmVj27+uGO2V8kxfhy71s8Q1gLUtpKFv9uJvbI2QSpWBvumN2j4fc2bMPru7/LeUwGhEb2vjHB85W+6Q/aZF+hNnySsCMdAXUXvCs16+8Qt1PbTVnefOjH6V25cEobKlzfxeVMcSAQy9z9+Ca7xv6aPZqnzs=
+	t=1754809264; cv=none; b=iGyvzf7woVD/lxBJ4yNBdvrZqqIpHDc1NVPjWw/rAxjskPE7XKFXNROGsIeZkMmpdz+5A29KV0PQQ5oD29HSx0ZzExmmxaW6/hGpOmkGPcvnP0OfQs2AMAcRU14BKJBwB9m+MIUPDjrY79Ccfge5KiTwgkA7Bqh5y7G6As3YwO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754782824; c=relaxed/simple;
-	bh=bw07Fr1gTAdH082foLnfmefu4jiolGMa+jzOWbAyKEA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=j7Zns1BB1xuudZ/oJSSCMit6Ijwh5dfvwayWQpD3gBuiNS0aiFOdt0PLvlJsO9kkgYy7RmsfcaC/rtvt8c2RcARdn81ctCsBc9XBVdA+o+wMZWrQOQcqnFQXpab80Vgvg87Z15WGh6brLon7ceQVIpQ8B5NMwd0V5H8nODixm/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ENwbZQ4m; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754809264; c=relaxed/simple;
+	bh=FxogHXorMPaYiG70MeaplwIPWAFMg2TKk2C7T0NeXLY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q+mjFovZliAsOE91iOGsKiYWJLdTnyyjsCy1mOABoZhpnUScJ8bRxU2cAwvmyMJ5UjqgXNa5X6fUsf/EmNsCtkCaeK2N1WWWNKXZQr/Z2JdaEEhEurRg1Ai2R1wXhLv0ciwkkry/IldquAkOGnlt+fFYwyPcKN5xn9+lWlN7ztU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=eAH+Dunv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ENwbZQ4m"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4F39C4CEFA;
-	Sat,  9 Aug 2025 23:40:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754782824;
-	bh=bw07Fr1gTAdH082foLnfmefu4jiolGMa+jzOWbAyKEA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ENwbZQ4mMhukDFwUfGdqsz03TJDFBAUwmaXERI0WyXbNrJr1MEk+T5miEjymZxBRs
-	 yXZ8Pn39YqzkNMZjz/1gmu4yqJXh4668P5wGtwGyqOWBwWWirwNd/YWxBZcjC1SeTD
-	 4Dwz+Gv/nUhzHPCIJLDpQQcxcMmUHBoZ7w+PUEdkYfaSbIg1PW+4OkuZvJwuFG+7Ev
-	 uZRAy3H60unKQMyNRGIlGNUDE2bdWF/9ofK4MMcODuNlOidlaV0CKV8V2A9IHd4wTU
-	 a5CYiLUE3mr4700Z1Nf5goybay3Al2ShQFj7ZgL8qNnXdMF6UDQpzMF41cciieGUjR
-	 4GDOSmkzoQGpA==
-From: Sasha Levin <sashal@kernel.org>
-To: sashal@kernel.org
-Cc: corbet@lwn.net,
-	josh@joshtriplett.org,
-	kees@kernel.org,
-	konstantin@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	rostedt@goodmis.org,
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="eAH+Dunv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01869C4CEEB;
+	Sun, 10 Aug 2025 07:01:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1754809263;
+	bh=FxogHXorMPaYiG70MeaplwIPWAFMg2TKk2C7T0NeXLY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eAH+DunvbVDm6W4ae0E+5SFj1zGSWyPbIDhuAHnYYFgDpRYoOLAuVCihU5zZmU7YE
+	 /I0auZJvaTtX7tkuX5g4JcGfzOJgT2ipSQmnkpHFSBR71HgN8xrAp7Bw+A5oBSadMF
+	 tMfkc/tKr5MYuzJucv458RSc6xpL6eushn/MltYQ=
+Date: Sun, 10 Aug 2025 09:01:00 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: corbet@lwn.net, josh@joshtriplett.org, kees@kernel.org,
+	konstantin@linuxfoundation.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, rostedt@goodmis.org,
 	workflows@vger.kernel.org
-Subject: [PATCH v2 2/2] agents: add unified agent coding assistant configuration
-Date: Sat,  9 Aug 2025 19:40:08 -0400
-Message-Id: <20250809234008.1540324-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250809234008.1540324-1-sashal@kernel.org>
+Subject: Re: [PATCH v2 2/2] agents: add unified agent coding assistant
+ configuration
+Message-ID: <2025081040-armchair-although-8bf1@gregkh>
 References: <20250809234008.1540324-1-sashal@kernel.org>
+ <20250809234008.1540324-3-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250809234008.1540324-3-sashal@kernel.org>
 
-Create a single source of truth for agent instructions with
-symlinks for all major coding agents:
-- CLAUDE.md (Claude Code)
-- .github/copilot-instructions.md (GitHub Copilot)
-- .cursorrules (Cursor)
-- .codeium/instructions.md (Codeium)
-- .continue/context.md (Continue)
-- .windsurfrules (Windsurf)
-- GEMINI.md (Gemini)
+On Sat, Aug 09, 2025 at 07:40:08PM -0400, Sasha Levin wrote:
+> Create a single source of truth for agent instructions with
+> symlinks for all major coding agents:
+> - CLAUDE.md (Claude Code)
+> - .github/copilot-instructions.md (GitHub Copilot)
+> - .cursorrules (Cursor)
+> - .codeium/instructions.md (Codeium)
+> - .continue/context.md (Continue)
+> - .windsurfrules (Windsurf)
+> - GEMINI.md (Gemini)
 
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- .codeium/instructions.md        |  1 +
- .continue/context.md            |  1 +
- .cursorrules                    |  1 +
- .github/copilot-instructions.md |  1 +
- .gitignore                      | 10 ++++++++++
- .windsurfrules                  |  1 +
- CLAUDE.md                       |  1 +
- GEMINI.md                       |  1 +
- 8 files changed, 17 insertions(+)
- create mode 100644 .codeium/instructions.md
- create mode 100644 .continue/context.md
- create mode 100644 .cursorrules
- create mode 100644 .github/copilot-instructions.md
- create mode 100644 .windsurfrules
- create mode 100644 CLAUDE.md
- create mode 100644 GEMINI.md
+Having these non-dot-files in the root directory for just specific
+closed source tools feels a bit wrong to me.  I thought all of these
+tools were standardizing on "use README" and didn't need these extra
+helpers?  The fact that most of them just contain README seems like
+that's the case, they just need to work it out somehow?
 
-diff --git a/.codeium/instructions.md b/.codeium/instructions.md
-new file mode 100644
-index 000000000000..8b6a7196d2b0
---- /dev/null
-+++ b/.codeium/instructions.md
-@@ -0,0 +1 @@
-+@README
-diff --git a/.continue/context.md b/.continue/context.md
-new file mode 100644
-index 000000000000..8b6a7196d2b0
---- /dev/null
-+++ b/.continue/context.md
-@@ -0,0 +1 @@
-+@README
-diff --git a/.cursorrules b/.cursorrules
-new file mode 100644
-index 000000000000..8b6a7196d2b0
---- /dev/null
-+++ b/.cursorrules
-@@ -0,0 +1 @@
-+@README
-diff --git a/.github/copilot-instructions.md b/.github/copilot-instructions.md
-new file mode 100644
-index 000000000000..8b6a7196d2b0
---- /dev/null
-+++ b/.github/copilot-instructions.md
-@@ -0,0 +1 @@
-+@README
-diff --git a/.gitignore b/.gitignore
-index bf5ee6e01cd4..f8f575ab8cf6 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -182,3 +182,13 @@ sphinx_*/
- 
- # Rust analyzer configuration
- /rust-project.json
-+
-+# Agentic coding assistant configuration
-+.aider.conf.yml
-+.codeium/
-+.continue/
-+.cursorrules
-+.github/copilot-instructions.md
-+.windsurfrules
-+CLAUDE.md
-+GEMINI.md
-diff --git a/.windsurfrules b/.windsurfrules
-new file mode 100644
-index 000000000000..8b6a7196d2b0
---- /dev/null
-+++ b/.windsurfrules
-@@ -0,0 +1 @@
-+@README
-diff --git a/CLAUDE.md b/CLAUDE.md
-new file mode 100644
-index 000000000000..8b6a7196d2b0
---- /dev/null
-+++ b/CLAUDE.md
-@@ -0,0 +1 @@
-+@README
-diff --git a/GEMINI.md b/GEMINI.md
-new file mode 100644
-index 000000000000..8b6a7196d2b0
---- /dev/null
-+++ b/GEMINI.md
-@@ -0,0 +1 @@
-+@README
--- 
-2.39.5
+Anyway, I'd not like this patch to be added (patch 1/2 is great), as it
+feels like these agents need to get their act together in ways to not
+need these, we shouldn't be forced to deal with their inefficiencies.
 
+thanks,
+
+greg k-h
