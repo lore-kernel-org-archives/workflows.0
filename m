@@ -1,109 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65ABE1862;
-	Sun, 10 Aug 2025 16:46:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92B6710E3;
+	Mon, 11 Aug 2025 00:06:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754844378; cv=none; b=GC2ffQ1wliBhB7wCCZBvLc2W5VQyZy3StufS2us65IVajxj2XrdHwCBSzA9OWbVSkByZ2V3CaROSUi/W3eAEU7zDXykQtoE9BLwMeSDOrimfXyILKQfx6HWEDwW2pXtagWvMO2R+v4f4s2JPrIRMb2AVArpMA7fnQpH9zDGqIfc=
+	t=1754870803; cv=none; b=PMB7LK7BNzCSM+siIZED+riMsBYaKg2IwEytJkflg5a72xRlsug9IIebiGEtMb01EnlVQ9zz224Ky00S9RGBM6obkJ+Nk10bPXUQZcqChf/5A+pdqo0QFm+cpQlqOPfAw2CPLrh372+ipZv+sZZCFIbyfxt1twsi08N4+dC6wAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754844378; c=relaxed/simple;
-	bh=ai/WZNXb7mWpRQ0BTif+yKDZ2Yq4O7BpGse2n+jB/JU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n4reDpk1n41p9/c24qWYKxyNroQzZh0swwUUolJxXlBAKDRHkw+xK3LW5YJ/6PLIDdV+o3PDlO6O2GiXTTHi4OVsdDXhzbkHh44vTb2wNsQFaMldTvomuudlwwgCeMMCV63unGflNXECDLWwdT0ZJMKBaQzvzNUkcoavquY+8bg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VNnTk0W+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754870803; c=relaxed/simple;
+	bh=Me7BXIULbu1PawKNGprkMGr4nSJpa4jxmK8qND4zjJI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QSwP7dEys8GVptr1V4xa6O5RPXkC1dcHdZ5rQTKQVuLNiMwbzc50IXiFTPNHGYGJdIhi29KovQOsmfI4mDkNYuxQVtW6jZP/CC0ziEXUJ3mLBRuTt9IMiRudsKK5Qpy66RP+LWNmSch4rsO8Lsjnac/njjKr9UCMsmuon5ikxFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=EdmzTgpN; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VNnTk0W+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B62E2C4CEEB;
-	Sun, 10 Aug 2025 16:46:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754844377;
-	bh=ai/WZNXb7mWpRQ0BTif+yKDZ2Yq4O7BpGse2n+jB/JU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VNnTk0W+V54KQpFvSHE9sRsG5SmUjHZQZPWp4hddlLBZHlKpJ6kBPF903Qz+nAx3n
-	 1/RRZmJzpZYSJRaB3u916QPRLC5D//lPVULm1syWN1/QZpwdrbyRT0niZSGkKuM4x3
-	 jxsldc1QCufWqvTTtF1sUuDcWpEflLlgFrfj6BeqJTCUJ3jc6qwFglbluQJSM9jBGv
-	 XphD0tTIqKuT3q4CqhYcotmQIn4oRuJsi1b2X0UvjGkKXeDVtDo6BiRN+z3wfZvIOC
-	 SjgUFBBXCffST+qcQRQBo7lLh97L8fwcXuLEs4dQ/NsRitYXC+JJ5Fur12MxZl/B9n
-	 pZJ+Y9gNP+HLA==
-Date: Sun, 10 Aug 2025 12:46:14 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Joe Perches <joe@perches.com>
-Cc: corbet@lwn.net, josh@joshtriplett.org, kees@kernel.org,
-	konstantin@linuxfoundation.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, rostedt@goodmis.org,
-	workflows@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] README: restructure with role-based documentation
- and guidelines
-Message-ID: <aJjM1oF8hJJrqDhN@lappy>
-References: <20250809234008.1540324-1-sashal@kernel.org>
- <20250809234008.1540324-2-sashal@kernel.org>
- <bee3cea19d9fc1c97b1816f516fdd5283cebc1e1.camel@perches.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="EdmzTgpN"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=CR3qZ/ks8Hd4Zktc0AhYsQ6iQmLURrornNBY9WHJxvM=; b=EdmzTgpNbfCrrd+IPUy5ZMl8iI
+	gR2w4Mevz/KBzkapvgjfwdswOfgY4OpOxdxq9SG2damYfsx4p7c8jHil8bLBCLkIH4oH21RuD2T4K
+	PPc9h4ohJdMOUC9gWE1jiqyPU2bOhDMW/L9u2PKDyBVAYEr0UhWqgdTDLHhewCtAAk7q0nA6lcFxy
+	zQTSmT8nh3vSvM7Ej/8GVIkF/V7hK1v+EmdknFLKmSC5xevpZr2aufzLF1eHx8OIice8Q2LK+wGm+
+	wEvaR/4pBI9oKF2wGBT072u4SXJtP+NTEtt67ZdmC1bwELUyf0koBT+iW4HvcrlddSzqLfPT6YNNv
+	6IkIkjKQ==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1ulG3f-00000006DDA-3Afm;
+	Mon, 11 Aug 2025 00:06:35 +0000
+Message-ID: <ea997753-510e-4d9f-af53-8943dad822c0@infradead.org>
+Date: Sun, 10 Aug 2025 17:06:35 -0700
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <bee3cea19d9fc1c97b1816f516fdd5283cebc1e1.camel@perches.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] README: restructure with role-based documentation
+ and guidelines
+To: Sasha Levin <sashal@kernel.org>
+Cc: corbet@lwn.net, josh@joshtriplett.org, kees@kernel.org,
+ konstantin@linuxfoundation.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, rostedt@goodmis.org, workflows@vger.kernel.org
+References: <20250809234008.1540324-1-sashal@kernel.org>
+ <20250809234008.1540324-2-sashal@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250809234008.1540324-2-sashal@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, Aug 10, 2025 at 08:44:58AM -0700, Joe Perches wrote:
->On Sat, 2025-08-09 at 19:40 -0400, Sasha Levin wrote:
->> Reorganize README to provide targeted documentation paths for different
->> user roles including developers, researchers, security experts,
->> maintainers, and AI coding assistants. Add quick start section and
->> essential docs links.
->>
->> Include proper attribution requirements for AI-assisted contributions
->> using Assisted-by tags with agent details and tools used.
->
->Nicely done.
 
-Thanks Joe!
 
->Perhaps the 'Assisted-by:' tag should not be limited to AI
->assistance but could also be used when accepted notes were
->given on any revised patch submission.
+On 8/9/25 4:40 PM, Sasha Levin wrote:
+> Reorganize README to provide targeted documentation paths for different
+> user roles including developers, researchers, security experts,
+> maintainers, and AI coding assistants. Add quick start section and
+> essential docs links.
+> 
+> Include proper attribution requirements for AI-assisted contributions
+> using Assisted-by tags with agent details and tools used.
+> 
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+>  README | 184 +++++++++++++++++++++++++++++++++++++++++++++++++++++----
+>  1 file changed, 173 insertions(+), 11 deletions(-)
+> 
 
-The suggestions from the previous patches around expanding this to be a
-list of tools rather than just "AI" made sense, this is the example I
-gave in the cover letter:
+I like it. Thanks.
 
-	Assisted-by: Claude-claude-3-opus-20240229 checkpatch
-
-I find something like that useful because it tells me from the get-go
-that the submitter ran checkpatch on it (without having to spend a line
-in the commit message saying the same).
-
-I'm not sure about mixing human feedback into this, it might be
-difficult to interpert it later.
-
-It might work more naturally as an extension of Reviewed-by?
-
-	Reviewed-by: Developer A <a@b.c> # Improved the XYZ algorithm
-
->Oh, and maybe a checkpatch update like this?
->---
-> scripts/checkpatch.pl | 1 +
-> 1 file changed, 1 insertion(+)
->
->diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
->index e722dd6fa8ef3..d17661141da79 100755
->--- a/scripts/checkpatch.pl
->+++ b/scripts/checkpatch.pl
->@@ -641,6 +641,7 @@ our $signature_tags = qr{(?xi:
-> 	Reviewed-by:|
-> 	Reported-by:|
-> 	Suggested-by:|
->+	Assisted-by:|
-> 	To:|
-> 	Cc:
-> )};
-
-Yup, makes sense! I'll start including checkpatch updates going forward.
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 
 -- 
-Thanks,
-Sasha
+~Randy
