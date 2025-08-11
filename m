@@ -1,121 +1,123 @@
-Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A994A2D;
-	Mon, 11 Aug 2025 00:10:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF2262DC345;
+	Mon, 11 Aug 2025 08:22:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754871021; cv=none; b=pFeOwK0yQOJ8wUYFAnoQ/fYqyYCvvF961CX6VTbohCDI9IVXfBYtGWwFoEYMyy3umE1QlkNV5L1VAS1qjfZgc5ZWyKnz+HSoIpFUnpNAn46yzznW8rPjc3l90PRtLxfhMx2lLi6GhI2itxbdaAgECBhyUP4xkrsrA5OljCipsKI=
+	t=1754900571; cv=none; b=bzjmX/oNf8bRYne4M0iz02ch2QjG/DuBmKuMYKkaDimedbHJ3hsdqjcrDyTzyYQ+9FLNZjVZnh9e/HmzYuSkxn3gQVybeWKgMrEEigqBCDUwhVldOWGUgAH54Oa1L+LfI24sISwBdISGY0tKF26ov65TUoPn7DbrVwze2NQbVwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754871021; c=relaxed/simple;
-	bh=8hwwZNPOCYpNxCxer0VxJ1qiElxYhy23+OK7racy2nE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=iyX5K9UmhfaxKqiAg26l64SdLi5IDTyX9jqLx0pHMgsWWMxYBTVM5P9aZF3vYJhqwhxmj1T0hOaCCHfrxvXxm9Cf7oKtVV4hYMkZ9SAZLwtCkIXZ03EfufEXeXMWfepa8mTq+DpMHlWfq3T0ryvlMMyqTYoXy3qGxGRFNfgbipM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Received: from omf01.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay10.hostedemail.com (Postfix) with ESMTP id 2A23FC05A2;
-	Mon, 11 Aug 2025 00:10:18 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf01.hostedemail.com (Postfix) with ESMTPA id 9B5DD6000F;
-	Mon, 11 Aug 2025 00:10:15 +0000 (UTC)
-Message-ID: <6a9620575d59483b105a35e8c2f53890a5d1f159.camel@perches.com>
-Subject: Re: [PATCH v2 1/2] README: restructure with role-based
- documentation and guidelines
-From: Joe Perches <joe@perches.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: corbet@lwn.net, josh@joshtriplett.org, kees@kernel.org, 
-	konstantin@linuxfoundation.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rostedt@goodmis.org, workflows@vger.kernel.org
-Date: Sun, 10 Aug 2025 17:10:14 -0700
-In-Reply-To: <aJjM1oF8hJJrqDhN@lappy>
-References: <20250809234008.1540324-1-sashal@kernel.org>
-		 <20250809234008.1540324-2-sashal@kernel.org>
-		 <bee3cea19d9fc1c97b1816f516fdd5283cebc1e1.camel@perches.com>
-		 <aJjM1oF8hJJrqDhN@lappy>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+	s=arc-20240116; t=1754900571; c=relaxed/simple;
+	bh=13ZSHRJPpFz7R1WvuHXgNGlRZ7vRrMywvXSWi7KcRTU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Lrgx3SErkGHxD+hbnnxj4LZD6wtHOcdWT1kiosPFKLU0ziCYPA+vDIq1Qso2eST2MhA6tm2ttgMQfxGVev+nTym2E2a3SYphJs2iMWPfLrCmHYo8ZQPo8J5PEGmN/2hGFt7BlJruWjmaTUC8WfsYZI6EED/1OXz3iXoSb6UbOlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-4fc1a5e600aso1492338137.1;
+        Mon, 11 Aug 2025 01:22:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754900566; x=1755505366;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AIuRB3iP/akNqCi3078AVLirx7QO0LT0m7U0z4UnuBM=;
+        b=WVmC9QtN5z/l2lHwVXiBmVtiZS366exw/c8j4tNHHsPCfc3fbBWRQityjXvF0WmR3X
+         VXkvbTYEz7cRBHPcwpcluwEi8yKQJSRYqjiln0FGN1G2WEOJvxFArd/9xcdfeqoYSiuS
+         v+m9D8smKHAYCQoLOkwO9jN0zidVNeVR4avsfWcIEid2YuMvEoFITSM0v8UdpU3nfgSz
+         Bhm0yxp0op5XLN/Ily5HI0NPItNzCVfCI+vjIaDVDJYDTiYmikKBy1hDdoSHP0BahNAL
+         8+dJkgAqqPxTsQ8x7pKE7RY2NOCTfUJj0gkMWKs1Fc1UTLgEr1fJCtj9JEpupPeq94wW
+         kvBA==
+X-Forwarded-Encrypted: i=1; AJvYcCVOPvJMdgHQ5jVmYZMG3NbJOwk/EKUo1e5ojau8x4n+lqbBgdmTnpx5IgnTHaolknRBxzzftKGaJRFC@vger.kernel.org, AJvYcCVVrmxtWEsZSUlIr3hZ0j18vlZVZWbOGaoaK0VMgvvASLl9QLxlngxE9eHRyLLRXuGrmxb9FniDqn4=@vger.kernel.org, AJvYcCVyEAaC3BFpUW/XDFLqm5vmnwlt28PCT2OSVb3xwMpW9jf1imkDefJDD3W41RRox7V58bMqFNGfqP+Gs2Mb@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyafr1gzndhtziRjTROP55jK9zwriZuxvPTkSvRHQyk/5uGX7Re
+	4+4PURc87s/ZDfotB7exX8hOFcbMzBHeRJAq6ctIt8aj163feA5J2WADPTRjrrz8
+X-Gm-Gg: ASbGnctDRFOXEKE2KR/bVbSUl2JOCix/irVNXcaBxQPBdwOJLr7K3DfsJbh5bm7xUfH
+	4ttst9irTnOKJT2OW2xbkTpo1NGFGimBtL3Mr2wrnVTBfTeR+RrVTKZcQk9FahzUQglSH3SLgUH
+	41ycCQEGAJFN2HfkF1hdkN11phWa9SLJtvRQ8KncxZqHU4NIf1TrSY5YZNQ9p6b1DNk2dTfPzES
+	ohdEJ9iSZq/w39MbzkhnvIdjVQw/3At3v8ixsmNtQfPLdtxiSTugg58Gs2wudVyrpkl1k6CnDJf
+	ZnT1fgsZ/EYZ0objSakiUMMtzlLP58edfKEv+kEd6SV+OfQE+C4Q7AHTEfdHn5xBfCstocCbUD/
+	cRpylqV1j4bGdMYgorBdtZpybvSYG4kbTU07gqworBwfCINKxQt8tdthUeVOU
+X-Google-Smtp-Source: AGHT+IFWDcggpQeYc1KDeU2IbOgScnRMvc3QIaZsK3qE0NGh+xCujyzLFlxOx+AIwqk+HDWGdOYJOg==
+X-Received: by 2002:a05:6102:2923:b0:4fa:85f:31b8 with SMTP id ada2fe7eead31-5060eed3adcmr3654261137.14.1754900566153;
+        Mon, 11 Aug 2025 01:22:46 -0700 (PDT)
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-88e029cd3d4sm1801344241.23.2025.08.11.01.22.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Aug 2025 01:22:45 -0700 (PDT)
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-88bbfe763ecso861417241.3;
+        Mon, 11 Aug 2025 01:22:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVsD9r32yRwrKxEuSyJyHlDAMQKoeO5w7C7uPG12cp5ci24zXvVkVSq0lFCXw2lvQO6YaKqpMQXSR4ieLW+@vger.kernel.org, AJvYcCWUkNmODdkTYj3Rk7ccMiPvt0Mc1XEpwerswM8VHHQnv0QAbNpNa/KTSFgPke9LcixfcoVM2yulHcg=@vger.kernel.org, AJvYcCXQtXrNMlHQEhwMY9gqEjyXoTDanyP/0ZoL7L7ZJ0RSNcs69RERDrC2Ak10PE5Xf85z3QQ0sTliFYy3@vger.kernel.org
+X-Received: by 2002:a05:6102:418d:b0:4e9:94a3:1a34 with SMTP id
+ ada2fe7eead31-5060eed4706mr3996515137.16.1754900565091; Mon, 11 Aug 2025
+ 01:22:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Stat-Signature: eobbaqiebk7z393ets76zxnbr6xt3z37
-X-Rspamd-Server: rspamout03
-X-Rspamd-Queue-Id: 9B5DD6000F
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19zrOciS4xm3vyDpEqG1tMZN+HqTSsJnCo=
-X-HE-Tag: 1754871015-939760
-X-HE-Meta: U2FsdGVkX183GdC57GyHLKXG38ktqNK5G9QkEVsK/2TROQ+PIDYCZW0+2HOvi9MXr77jcZo4U5dgi2+yx1RbOs/WNEmVxkUNlSj4pPuzVTViV8E4Vi4l8NGEWYfTq/bokFYNB2nlD13i0JmQ+amArgkyXGNzWi69HTIpARwfC4D7cwjlM03jlpDF+rZjbqNcLT9ZqgjS0ZgtMuQl+xLjUol+ZTZwaa5X4igftSOV/mqWRit6GTnI0u3RBXN3SqGdyLko8+o6foztuyxRaXE9qvlXDRXG0FHXr+2wBcomekyIp5BkNQBI7cMtDk2ZX4UB
+References: <20250809234008.1540324-1-sashal@kernel.org> <20250809234008.1540324-2-sashal@kernel.org>
+In-Reply-To: <20250809234008.1540324-2-sashal@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 11 Aug 2025 10:22:34 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWaVvAfm6LMxSpPuz3yZ7FDAexbUTOXrg58TqoWbce5ag@mail.gmail.com>
+X-Gm-Features: Ac12FXy6CXH9U5loAkdXYwlSYPEgP4IQrmSAM4bQTTcVUXvNK5p10n-HqfSt5x8
+Message-ID: <CAMuHMdWaVvAfm6LMxSpPuz3yZ7FDAexbUTOXrg58TqoWbce5ag@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] README: restructure with role-based documentation
+ and guidelines
+To: Sasha Levin <sashal@kernel.org>
+Cc: corbet@lwn.net, josh@joshtriplett.org, kees@kernel.org, 
+	konstantin@linuxfoundation.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, rostedt@goodmis.org, workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sun, 2025-08-10 at 12:46 -0400, Sasha Levin wrote:
-> On Sun, Aug 10, 2025 at 08:44:58AM -0700, Joe Perches wrote:
-> > On Sat, 2025-08-09 at 19:40 -0400, Sasha Levin wrote:
-> > > Reorganize README to provide targeted documentation paths for differe=
-nt
-> > > user roles including developers, researchers, security experts,
-> > > maintainers, and AI coding assistants. Add quick start section and
-> > > essential docs links.
-> > >=20
-> > > Include proper attribution requirements for AI-assisted contributions
-> > > using Assisted-by tags with agent details and tools used.
-> >=20
-> > Nicely done.
->=20
-> Thanks Joe!
->=20
-> > Perhaps the 'Assisted-by:' tag should not be limited to AI
-> > assistance but could also be used when accepted notes were
-> > given on any revised patch submission.
->=20
-> The suggestions from the previous patches around expanding this to be a
-> list of tools rather than just "AI" made sense, this is the example I
-> gave in the cover letter:
->=20
-> 	Assisted-by: Claude-claude-3-opus-20240229 checkpatch
->=20
-> I find something like that useful because it tells me from the get-go
-> that the submitter ran checkpatch on it (without having to spend a line
-> in the commit message saying the same).
->=20
-> I'm not sure about mixing human feedback into this, it might be
-> difficult to interpert it later.
->=20
-> It might work more naturally as an extension of Reviewed-by?
->=20
-> 	Reviewed-by: Developer A <a@b.c> # Improved the XYZ algorithm
+Hi Sasha,
 
-Maybe.  Dunno.
+On Sun, 10 Aug 2025 at 10:09, Sasha Levin <sashal@kernel.org> wrote:
+> Reorganize README to provide targeted documentation paths for different
+> user roles including developers, researchers, security experts,
+> maintainers, and AI coding assistants. Add quick start section and
+> essential docs links.
+>
+> Include proper attribution requirements for AI-assisted contributions
+> using Assisted-by tags with agent details and tools used.
+>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
 
-Sometimes I just give style suggestions or notes for things I'm
-cc'd on but I don't really review it as a "Reviewed-by:" tag
-seems to imply a more formal process.
+Thanks for your patch!
 
-> > Oh, and maybe a checkpatch update like this?
-[]
-> > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-[]
-> > @@ -641,6 +641,7 @@ our $signature_tags =3D qr{(?xi:
-> > 	Reviewed-by:|
-> > 	Reported-by:|
-> > 	Suggested-by:|
-> > +	Assisted-by:|
-> > 	To:|
-> > 	Cc:
-> > )};
->=20
-> Yup, makes sense! I'll start including checkpatch updates going forward.
+> --- a/README
+> +++ b/README
 
-If the AI/coding 'Assisted-by:' tag doesn't have an email address,
-then checkpatch is going to complain anyway.
+> +Who Are You?
+> +============
+> +
+> +Find your role below:
+> +
+> +* New Kernel Developer - Getting started with kernel development
+> +* Academic Researcher - Studying kernel internals and architecture
+> +* Security Expert - Hardening and vulnerability analysis
+> +* Backport/Maintenance Engineer - Maintaining stable kernels
+> +* System Administrator - Configuring and troubleshooting
+> +* Maintainer - Leading subsystems and reviewing patches
 
-Something in checkpatch's
+Kernel Maintainer?
+Driver/Subsystem Maintainer?
 
-	# Check signature styles
+> +* Hardware Vendor - Writing drivers for new hardware
+> +* Distribution Maintainer - Packaging kernels for distros
+> +* Agentic Coding - AI assistants working with kernel code
 
-block starting around line 3040 or so will also need updating.
+Given the extensive split, what about normal (existing) kernel
+developers?
 
+Gr{oetje,eeting}s,
 
+                        Geert
 
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
