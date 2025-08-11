@@ -1,124 +1,64 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C9D22E2DC1;
-	Mon, 11 Aug 2025 15:48:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10BAF2475F7;
+	Mon, 11 Aug 2025 16:58:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754927286; cv=none; b=U9hROXLGcMAKrkgwauLjIXpVnV9f+zL7VcHsleVTIQ3MF4xIKicyPgM0wYSpegUVjH72jfQgzn5hfrDbjs58hhwSVkeYAFyghgrO/Y65DTHaQePQSiO5nTA4C8Py7jh2Q5/uBNoUjyRq5TnvzRvoqcYOpBUxYABaEHubgI0DZwE=
+	t=1754931507; cv=none; b=bTBnU4yfQzLp9HnTPAjZtklHmUqCEU5BRYVIVqgqbSMwWA8OmlA6LBEr7MpN4MqCEJkZcsULxH2ZRencRJFa2N+eCiDLgxk4QJ5eUf2RafQYjillwWEhh/X+bVN6PeJMRwFH0BWRjvOryl/Mtw/7ba4PvDpvkisCvDX6IYx6uus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754927286; c=relaxed/simple;
-	bh=8gmWeKWrJeK2Xkqz/8/mh/JFMl+WMCygehd7PMn2K1I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PsVRxXcCr41ULSWxc7xmD8mnp6rOBSv4y1Y+9BIjuP7YBZ0vjpUPeVzNVgFHuIqNaPDEkyDKDzvn9IMPlVh2LMLOq/TZuJb5UvryQXdj4TVXv3+roIE08GVHKzoWiP9XcGo55i5Ap/Qko7CB4fI7aTDezGxSf7pdATxQt5xaSnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DkKBeFf1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754931507; c=relaxed/simple;
+	bh=s8sJQCvJnnwhwG/zK25BcN86IJQZukvadbAUwCn4JiI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ZjpWi4PfBG3rdWMi771167U+LHEllNbXPJTCbO4p3xV0icJh8+Ruj0Lwh2AtcGNMigHYiDtFsgdlHmGUOnRrVgWWVMLj740fen1L+IM+pgVzFr1qIHizIymAXnee63x6CFHP7v8dE8cC3Oil9WT+JKsgyhpnyRwcJFZPUzFYAgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=RHPyOIB9; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DkKBeFf1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61320C4CEED;
-	Mon, 11 Aug 2025 15:48:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754927285;
-	bh=8gmWeKWrJeK2Xkqz/8/mh/JFMl+WMCygehd7PMn2K1I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DkKBeFf1TXwV2F0ZOL9ioAkAZlbyz1mBR7cI5v4XGX1SgG96WAhj7uO1wVK5vWPft
-	 mvhSF68zCaiZv0e/313lzJq2fXxZjisu9w00pKKCcyjmg8c3YiJ2FL8+O3z+lL5E8w
-	 avSOcY74Ui7UIInfSSPhyarl/DuXEweNKo+8+aDCRQXPY6+AB9FzVuY1Ki3p/d0ziM
-	 e9AOS+GvjD8JNJK/74LHXkqL3sJZSs0Mf+APtWUp1D22vWYSrZoXYWgND19fjrE8xi
-	 kdx4GxBIRT2s/5uVUMUTTGFolE5AiukVGp9PQGCtgVczj/2/vXp0MGSvLwRsq+riBS
-	 AF7fCp/sKxsIA==
-Date: Mon, 11 Aug 2025 11:48:03 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: corbet@lwn.net, josh@joshtriplett.org, kees@kernel.org,
-	konstantin@linuxfoundation.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, rostedt@goodmis.org,
-	workflows@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] README: restructure with role-based documentation
- and guidelines
-Message-ID: <aJoQs_5Mp7-LAtTS@lappy>
-References: <20250809234008.1540324-1-sashal@kernel.org>
- <20250809234008.1540324-2-sashal@kernel.org>
- <CAMuHMdWaVvAfm6LMxSpPuz3yZ7FDAexbUTOXrg58TqoWbce5ag@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="RHPyOIB9"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 00AC540AD2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1754931505; bh=s8sJQCvJnnwhwG/zK25BcN86IJQZukvadbAUwCn4JiI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=RHPyOIB97o9zYE5zgKAjwERhjV0FIYvKDiU/P7cvnOyo9CD2kM9GxUAhWC5M7VXsv
+	 9Otu4nZn5gRaq2Ease72iQNBk5jJELcxrWI0iXnL44OD5E/3msEpoA3JMfbFyus+Sk
+	 nFzrwNn1wRt5esNzffpaVmKnTTq9P2HS2O+dT4q6XqScFs3HFzXxQ8CTR0eQixbFuv
+	 vrWc4nyREql25hI/YxZ09S9N6qkqmJzhhPtqRNdt/+3WYxS39UHVOS7GoKCS2Uwra4
+	 KyNSMf3m4Tog50bYfNkRJhKp4D8m5gdDjCr1Ol+zIxKYfqCQzuJuRyxxaAnbFpiWU/
+	 dIY6jMJcaf6gA==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 00AC540AD2;
+	Mon, 11 Aug 2025 16:58:24 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
+ List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>,
+ workflows@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] Better handle and document Python needs for
+ Kernel build
+In-Reply-To: <cover.1753806485.git.mchehab+huawei@kernel.org>
+References: <cover.1753806485.git.mchehab+huawei@kernel.org>
+Date: Mon, 11 Aug 2025 10:58:24 -0600
+Message-ID: <87pld1eqxb.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdWaVvAfm6LMxSpPuz3yZ7FDAexbUTOXrg58TqoWbce5ag@mail.gmail.com>
+Content-Type: text/plain
 
-On Mon, Aug 11, 2025 at 10:22:34AM +0200, Geert Uytterhoeven wrote:
->Hi Sasha,
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+
+> Hi Jon,
 >
->On Sun, 10 Aug 2025 at 10:09, Sasha Levin <sashal@kernel.org> wrote:
->> Reorganize README to provide targeted documentation paths for different
->> user roles including developers, researchers, security experts,
->> maintainers, and AI coding assistants. Add quick start section and
->> essential docs links.
->>
->> Include proper attribution requirements for AI-assisted contributions
->> using Assisted-by tags with agent details and tools used.
->>
->> Signed-off-by: Sasha Levin <sashal@kernel.org>
->
->Thanks for your patch!
->
->> --- a/README
->> +++ b/README
->
->> +Who Are You?
->> +============
->> +
->> +Find your role below:
->> +
->> +* New Kernel Developer - Getting started with kernel development
->> +* Academic Researcher - Studying kernel internals and architecture
->> +* Security Expert - Hardening and vulnerability analysis
->> +* Backport/Maintenance Engineer - Maintaining stable kernels
->> +* System Administrator - Configuring and troubleshooting
->> +* Maintainer - Leading subsystems and reviewing patches
->
->Kernel Maintainer?
->Driver/Subsystem Maintainer?
+> It follows the second version of this small series. It contains
+> missing patches from the python backward-compatibility series.
 
-I tried to use similar terms to the ones used by the rest of our docs.
-In this case, the CoC interpertation actually defines this term :)
+Applied, thanks.
 
-	The Code of Conduct uses the term "maintainers" numerous times.
-	In the kernel community, a "maintainer" is anyone who is
-	responsible for a subsystem, driver, or file, and is listed in
-	the MAINTAINERS file in the kernel source tree.
-
-So I just went with "Maintainer".
-
->> +* Hardware Vendor - Writing drivers for new hardware
->> +* Distribution Maintainer - Packaging kernels for distros
->> +* Agentic Coding - AI assistants working with kernel code
->
->Given the extensive split, what about normal (existing) kernel
->developers?
-
-Those people don't read the docs anyway :p
-
-How about something like:
-
-Existing Kernel Developer
--------------------------
-
-Continue advancing your kernel development expertise:
-
-* Locking and Concurrency: Documentation/locking/index.rst
-* RCU (Read-Copy Update): Documentation/RCU/index.rst
-* Subsystem APIs: Documentation/driver-api/index.rst
-* Performance Analysis: Documentation/trace/index.rst
-* Testing Infrastructure: Documentation/dev-tools/testing-overview.rst
-* Patch Series Management: Documentation/process/5.Posting.rst
-* Maintainer Handbooks: Documentation/process/maintainer-handbooks.rst
-* Cross-Architecture Development: Documentation/arch/index.rst
-* Kernel Debugging: Documentation/process/debugging/kgdb.rst
-
--- 
-Thanks,
-Sasha
+jon
