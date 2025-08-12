@@ -1,154 +1,138 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E9422EA74B;
-	Tue, 12 Aug 2025 09:41:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86FAE2E972A
+	for <workflows@vger.kernel.org>; Tue, 12 Aug 2025 10:42:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754991676; cv=none; b=oJlYrZESlelcWQ0jKBhIWq9hrA1OmTm/Z/ntc3D3kSlbUsPLc62kbWj94liLrdKfxdcx7fwXfebY1s/NGyYKaRM1llNDK9TjxMX8b30B5QYzouWBCn/iqjsBvh1AVxQstWszFA7eOLmDwfDWtiwcK8oVqlkokMiG352prPOkZoI=
+	t=1754995323; cv=none; b=X2Y6bEmZAwT9M4eezJEqsV4yBS7YQKtujLhmCiA+io/voJEz0bBnFg5Qpch8gugg0OZjbO3qC48Nh7GQFbze+i2UaRsDkc5jvQPhSvtz7Qc/gRSxf6kfBR011kSyd9GyhrV59wwz28NED7Xfno6zbQVBvwBGgfpa47qZPVYiUag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754991676; c=relaxed/simple;
-	bh=nZrtRwq7jI63cTMZsCTitO8VDthmYTcuRU7KOnqfPnY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WdEosusUf2XTejDse0nbY7j1bWKIl004FCyPyScgRj7JqBx2QaRtkIMsa3FwMMLmuWEYwTCga93hUzbAFgpMpgaKueZm5QAj9LfC9bi3fmRb6PHLFawOFbDhVBumQajfMkjgZydBvMc49DLki4BXvcrxZ2emQCEBR+QqK7WHU+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id B8E6B68AA6; Tue, 12 Aug 2025 11:41:07 +0200 (CEST)
-Date: Tue, 12 Aug 2025 11:41:07 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
-Cc: Christoph Hellwig <hch@lst.de>, Shuah Khan <shuah@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
+	s=arc-20240116; t=1754995323; c=relaxed/simple;
+	bh=btAyvRtmkbXxP+i+9dkWP6dlhtZYn7iXm7lHIO+hiSI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H329/mAlzZ/xreB+2ueP9RfXE2v/EDjBxe9G9BbwHyNpmcsmYqsi/8v85kfwOH3JwuEFjlqvbTO88M1uC8Ksog14JlrRQLv1uZuGeDJW+/eCAsV7IhwoTGNwdUSfH42YSsgICUDdbs45+Wq0ZSmjqJX66S1WomK3TaqJdG310nM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rLpSdnf/; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rLpSdnf/"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6158c9766f8so882729a12.0
+        for <workflows@vger.kernel.org>; Tue, 12 Aug 2025 03:42:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1754995320; x=1755600120; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QAaiOy/N3h7yB/4dFeIEkdF56kDC1q6Gqt9cvra5SPs=;
+        b=rLpSdnf/pDMpBqrmnjMsGp+OSG01Hv4w5tJObPxPQ8pb1U9LD84tPqWnErvtbbuhk5
+         m3Ve4wrxrBNOicbqWCXpKvo9F0nLdNjfOQxpQ5C+rh0vc4lzuojGevJE4zFDTjz+SK6N
+         hss6BMQWdRDzmI3KtNnZl5yB+9jXYJ0lV42wih892arjGwJm6GVQdP027vzQNc5M0iTj
+         FU16BIF8Cjw/J3y0QZLIR+WJ8JmYlLZDJLrWS7prcFcbt7YybNzeVkWzFRoLEOoWVLut
+         DaY6vmD06QyOC1/gwGn43eV0JcWaz8+vIYoQeSKYE2yPmiezEyGuKBVRu8SFZIoRIrmd
+         xFmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754995320; x=1755600120;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QAaiOy/N3h7yB/4dFeIEkdF56kDC1q6Gqt9cvra5SPs=;
+        b=UnniuaUdIOdy9jGNM61MMgjCwP3EcviDrkp0N4C7TxLjH5IQKoBG06EXwb99i+hBa0
+         uEuetCttL27lDwluKoYh2eUbz5NNPWB0pRWopf2Q189LzLoPp1god1EWBUI/2JAogZRR
+         tTpC7NY+7hLXglAs9F3siKnvUGVGS82e3Ktfwbintui5NT40KYlB1L1H4rj1HYirv4J7
+         /d7ooeFdbEbULidT3xwKXLMBeFykPisJDopEptreUaFmcBrF17ESfM6VcydZlNWdW5AJ
+         KBNb3FWHFThEbRT4inJJWx/D68/28YRr6hKBKZj4vggRHwldoua+2vG8vs2iw79F0qWG
+         hA+g==
+X-Forwarded-Encrypted: i=1; AJvYcCVooqRjgdeqhdkscKb/a5syYIitWFXuhrKvTTnmC783aLVjB1OlcmKRDRCPKvJjYDuN5QzPhsxVdHk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQRmcz2A1u2MmpfxqnuDtVl6A69HOv3jyG4oJC8VbTan4t+dF2
+	bmOXnQGSoedcNYqiEEU615yLRLm9+HjSMX3/ulDi4NoQwGNbYVJ0mgTFGs1KFDZsr+0=
+X-Gm-Gg: ASbGncvXw1u6c8oCiG7vjQNbz57RAzmvYHoCFQdHm69iqAX0EJ8+zebBerntGl3wndC
+	BjlIx4h4m1nsra+kbhBGR2JpL+JcZo7bgYkWtBH+eF4KKiFAu7r7MCMiXz6qLGPjBaC5H8u+5ev
+	lbEnRqA3Q5aDSTn8JH5ROleLhzgi3a14oyoBUqDfDODOWjh4ug1T6aRLSkXK/COXDCAc0N2ZvOa
+	AGXpFb/nTKpqj6wwXsR2gwZlRgATihA1QHPaNu3LoOCjQFifiB8Ac23sRtMYGV2iqDGqa7zztBu
+	mdq0N5Ey8w+kpoYqa3xz7WOZfWpdokstzZoULlfTRjiVPTmbtb+7eD+0jb4/eF/NE0WmxBKrX5T
+	ZA4t4O5L45EAfm0qGzBijk5Jb7zdRiMtexQ==
+X-Google-Smtp-Source: AGHT+IFVuPBX1WWXHjE5WiQCW0z9z7axEQSpNRILYD7CKS+Z1ca46MwosUVW2g0lgYDVQmrovf+vTQ==
+X-Received: by 2002:a05:6402:520c:b0:615:7ba6:4876 with SMTP id 4fb4d7f45d1cf-61859a4adaamr378641a12.8.1754995319829;
+        Tue, 12 Aug 2025 03:41:59 -0700 (PDT)
+Received: from kuoka.. ([178.197.219.123])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6184b807728sm1460348a12.12.2025.08.12.03.41.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Aug 2025 03:41:59 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Arnd Bergmann <arnd@arndb.de>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Kees Cook <kees@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	linux-doc@vger.kernel.org, workflows@vger.kernel.org,
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v5 00/15] kunit: Introduce UAPI testing framework
-Message-ID: <20250812094107.GA27450@lst.de>
-References: <20250717-kunit-kselftests-v5-0-442b711cde2e@linutronix.de> <20250717132259.GA25835@lst.de> <20250718073743-d4a1f713-f81b-4e89-b3f8-7eed838798e6@linutronix.de> <20250721070958.GA29367@lst.de> <20250721100913-0c6d93d8-79d6-482b-9db4-7b0c06b604fa@linutronix.de>
+	linux-arm-kernel@lists.infradead.org,
+	soc@lists.linux.dev,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] Documentation/process: maintainer-soc: Use "DTS" instead of "devicetree"
+Date: Tue, 12 Aug 2025 12:41:55 +0200
+Message-ID: <20250812104154.42289-2-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2047; i=krzysztof.kozlowski@linaro.org;
+ h=from:subject; bh=btAyvRtmkbXxP+i+9dkWP6dlhtZYn7iXm7lHIO+hiSI=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBomxpy/fIPdRspqyjtDspdwQP8eCSdbbk/qvY1e
+ 4DUh4r8dLeJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaJsacgAKCRDBN2bmhouD
+ 153BD/9pbsdOLBBjuH1T+Qx7JutSi91jJK1OztVssLYs4N3tTNF+Fu++ubUyfqjTPN9DDfUMc7z
+ r8N7GY/iIODwgdDoMexHzoriyr70+llWuV2NjB6Nd4Xj9YHZXyxaxnhyhy+GJJ1SXRM3Pw919eq
+ 616seqX5p2xJqBexrpCIkRLpR3QNaEEQSCC41ZLQ2BJNqgxZAIKjrRs0pkFzMYB1QSIofSoyFna
+ f9yeIBIJs9WND+wnezDp5bsBNIE7OkaPZrKwZ0bQPG3eVeI9m4zsCht+AsngcHv79+UG5dEQ6E6
+ +9XrLuX3vzUyFkqQ6muXyv9uDNpFdwyeh7B3sd3ZUMezddVdjFBZnabjjUSLntgJuJFl0oB9YIB
+ WeTPZ1LNxCaOkY59Jt+dSdUrarHHqxVsL8woIvnHiE7nQhspm4pnReYjzgIqX15ol/dgbDmiQ3+
+ a7Xfr3sz3hvMC3ynzjpbZFHIkHlL5EvZ3ZUMO0ru24+KMxFqFNXBqDq/Ay2IYRBRcjMuQIxkqZn
+ I5reux0ksT9YUxOa6Bv/K9gHFG+CSX1i+6ssJ0t688S8c+bYD/crDYQi4OZR1tPSkhMyo+aYevb
+ Ca6YM98/dQ7Sc/Wm1cIRb7S2HtQ0kzggeb61K8+3DLwfR9swlMo6APbfYaCFZUa3be3Q281MTSi HBP/vBdc3HJW2MA==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250721100913-0c6d93d8-79d6-482b-9db4-7b0c06b604fa@linutronix.de>
-User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Mon, Aug 04, 2025 at 05:01:35PM +0200, Thomas Weißschuh wrote:
-> > That's great.  Let's reuse it without having to drive running userspace
-> > programs from kernel code.
-> 
-> Running in the kernel is the point behind KUnit.
+Devicetree is a data structure and it is a bit generic term, because
+some treat Devicetree bindings as Devicetree.  What the SoC maintainers
+profile is mentioning in ABI stability are the Devicetree sources, so
+DTS files.  It is also more common during reviews to refer to these as
+per "DTS" instead "devicetree".
 
-When using kunit as is to unit test kernel functionality - obviously.
+Clarify that by using "DTS" name in few more places.
 
-When running it to integration test the syscall boundary - not at all.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-> It could be done by putting
-> all the userspace test into a initramfs and run them on boot from there.
-> But that has other drawbacks:
-> * The tests can't be run on an existing system.
-> * All tests need to be loaded into memory together, and not on demand.
-> * The tests can not be rerun.
+---
 
-None of that is true.  While running syscall level tests from an
-initramfs could be a nice feature for an automatd kernel CI system,
-nothin in this tests should require running from an initramfs.
+This is a doc patch, but covering SoC tree, so maybe it can be applied
+by SoC (Arnd)?
+---
+ Documentation/process/maintainer-soc.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> This was a response to one specific statement. Could you be a bit more specific
-> in your critique? I am not sure what exactly you mean in some cases, making it
-> hard to respond properly. For example "bloat", it is bloaty
-> * source code,
-> * object code for users enabling the new kconfig options,
-> * object code for other users *not* enabling the new kconfig options?
+diff --git a/Documentation/process/maintainer-soc.rst b/Documentation/process/maintainer-soc.rst
+index fe9d8bcfbd2b..3ba886f52a51 100644
+--- a/Documentation/process/maintainer-soc.rst
++++ b/Documentation/process/maintainer-soc.rst
+@@ -10,7 +10,7 @@ Overview
+ The SoC subsystem is a place of aggregation for SoC-specific code.
+ The main components of the subsystem are:
+ 
+-* devicetrees for 32- & 64-bit ARM and RISC-V
++* devicetrees (DTS) for 32- & 64-bit ARM and RISC-V
+ * 32-bit ARM board files (arch/arm/mach*)
+ * 32- & 64-bit ARM defconfigs
+ * SoC-specific drivers across architectures, in particular for 32- & 64-bit
+@@ -97,8 +97,8 @@ Perhaps one of the most important things to highlight is that dt-bindings
+ document the ABI between the devicetree and the kernel.
+ Please read Documentation/devicetree/bindings/ABI.rst.
+ 
+-If changes are being made to a devicetree that are incompatible with old
+-kernels, the devicetree patch should not be applied until the driver is, or an
++If changes are being made to a DTS that are incompatible with old
++kernels, the DTS patch should not be applied until the driver is, or an
+ appropriate time later.  Most importantly, any incompatible changes should be
+ clearly pointed out in the patch description and pull request, along with the
+ expected impact on existing users, such as bootloaders or other operating
+-- 
+2.48.1
 
-You are adding kernel code both at the source and object level to run
-userspace tests.  That is very clearly bloat.  Even more so as it adds
-functionality and exports that don't fit in with what the kernel already
-does for actual kernel functionality.
-
-> > > It is not and most probably won't ever be. The maintainers of each testcase
-> > > will decide which libc to use. Like it is in tools/testing/selftests/ today.
-> > > Some use glibc, some nolibc and some can do both.
-> > 
-> > So why do you want to use it here?  And how is is related to the rest
-> > of the series?
-> 
-> To make it easier to test a wide range of architectures by not requiring a
-> libc from the toolchain. It also avoids relying on a bunch of out-of-tree
-> code (glibc) as part of the test. And there are existing kselftests which
-> use it over glibc for their own reasons.
-> 
-> But using nolibc in test code is not necessary and nobody is forced to do so.
-> 
-> (Maybe a disclaimer that I'm one of the nolibc maintainers is in order)
-
-Well, why do you even mix it up with this unrelated series then?
-
-> To run kselftests we need the following things:
-> a) A toolchain which can build userspace executables.
-
-You'll need that for any userspace program, no matter what test
-harness.
-
-> b) Quite a bit of supporting userland, at least glibc, coreutils and bash.
-
-Well, a libc you will need anyway.  Maybe nolibc is good enough for
-some tests, but as you already stated not for very many.  The others
-are just an artifcat of how you run tests.
-
-> c) A rootfs assembled out of these.
-> d) An efficient way to incrementally rebuild the test executables and rootfs.
-> e) A way to put that rootfs into the system under test.
-
-You don't need a rootfs.
-
-> And for all of this there should be good in-tree tooling.
-
-Absolutely.
-
-> Moving to a pure userspace solution would preclude the usage of KUnit as far as
-> I can see.
-
-You've still failed why using kunit is the goal and not just something
-that made your life easier archieving your goal.
-
-> > Yes, kselftests suck as most people will agree. But the answer is not
-> > to add a lot of kernel bloat to treat userspace integration tests
-> > like kernel units tests.
-> 
-> I fail to understand how this test code is worse than the existing KUnit test
-> code. This is not meant to test complex scenarios, but single system calls or
-> specific UAPIs, which may depend on architecture features. For example timers,
-> signals, vDSO, mm etc.
-
-So now having another half-assed test framework is a good thing?
-
-> > How about you just fix kselftests, preferably
-> > by reusing well known and teststed userland code?
-> 
-> Is "well known and tested userland code" referring to glibc or testing
-> frameworks? As mentioned above, glibc can be used just fine and the frameworks
-> I know about are lacking.
-
-Basically any kind of testing framework that has broad use.  It's not
-like there aren't userland unit test frameworks if you really want to
-use that.
