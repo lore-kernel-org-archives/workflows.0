@@ -1,138 +1,458 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86FAE2E972A
-	for <workflows@vger.kernel.org>; Tue, 12 Aug 2025 10:42:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 359A52F90D0;
+	Tue, 12 Aug 2025 16:25:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754995323; cv=none; b=X2Y6bEmZAwT9M4eezJEqsV4yBS7YQKtujLhmCiA+io/voJEz0bBnFg5Qpch8gugg0OZjbO3qC48Nh7GQFbze+i2UaRsDkc5jvQPhSvtz7Qc/gRSxf6kfBR011kSyd9GyhrV59wwz28NED7Xfno6zbQVBvwBGgfpa47qZPVYiUag=
+	t=1755015921; cv=none; b=ceJrFWC3gWGazjPgFSgs6AToULYsYjiI6dyugg/UEdVB1cbS8wDJBOSMipV/qGUypKHyJ/qswnRlZBmasODVBplQGhLNNFkziSRZB2vMEQOv2fkrDeL1YY4HD1qxzLGRhIfvwyU5GrIZAgJ34+PtC8PzunuFaro0pzVvOiAJwts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754995323; c=relaxed/simple;
-	bh=btAyvRtmkbXxP+i+9dkWP6dlhtZYn7iXm7lHIO+hiSI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H329/mAlzZ/xreB+2ueP9RfXE2v/EDjBxe9G9BbwHyNpmcsmYqsi/8v85kfwOH3JwuEFjlqvbTO88M1uC8Ksog14JlrRQLv1uZuGeDJW+/eCAsV7IhwoTGNwdUSfH42YSsgICUDdbs45+Wq0ZSmjqJX66S1WomK3TaqJdG310nM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rLpSdnf/; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1755015921; c=relaxed/simple;
+	bh=DDBon0ScIikXiRTcEln0ruENPAfY187owsdbxWZxE7g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NZpMzV0/ANxrUYu4fNnJV9x3uXCoCpBJZjAwvb2R4aRAyp8v0G8LUuLlGE8sL34dUncfoqNSlN5kVzEmdcB9AKT9/pPam2hwFV7mqMb8Xo1TSmKnHA94un0SmDveRkfEYNCg6kT7MlDB3WhxGiwzka0gRRPGGu3VDBlnjuCrrmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gwk1t/QB; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rLpSdnf/"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6158c9766f8so882729a12.0
-        for <workflows@vger.kernel.org>; Tue, 12 Aug 2025 03:42:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gwk1t/QB"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-458aee6e86aso37882745e9.3;
+        Tue, 12 Aug 2025 09:25:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1754995320; x=1755600120; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QAaiOy/N3h7yB/4dFeIEkdF56kDC1q6Gqt9cvra5SPs=;
-        b=rLpSdnf/pDMpBqrmnjMsGp+OSG01Hv4w5tJObPxPQ8pb1U9LD84tPqWnErvtbbuhk5
-         m3Ve4wrxrBNOicbqWCXpKvo9F0nLdNjfOQxpQ5C+rh0vc4lzuojGevJE4zFDTjz+SK6N
-         hss6BMQWdRDzmI3KtNnZl5yB+9jXYJ0lV42wih892arjGwJm6GVQdP027vzQNc5M0iTj
-         FU16BIF8Cjw/J3y0QZLIR+WJ8JmYlLZDJLrWS7prcFcbt7YybNzeVkWzFRoLEOoWVLut
-         DaY6vmD06QyOC1/gwGn43eV0JcWaz8+vIYoQeSKYE2yPmiezEyGuKBVRu8SFZIoRIrmd
-         xFmA==
+        d=gmail.com; s=20230601; t=1755015917; x=1755620717; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l54bXCSQ2N1WCwc3yA5CAnPI3s4L8oTQr7q8YqSeHxE=;
+        b=Gwk1t/QBYmjZKmCWmJJAkimCM8CT5GLAgto6UvDWSupg1sO2Stf6ZD/j1f3emyIv5w
+         EpgwHZV9V3u86oMpvbAivzUIzQKZ5nYICn3LVYFREAzlB13zJjMJaIjX44pbU1i/2pyk
+         VXp5dNbe2Q7B2PLrW+4lM/siiPPOW0TO0G0HgQr7tn7+ddCk8152JVl6DPKoth7XyeDG
+         O8WKrqu1wTXjLVE67x41HuFMBE2iwIPrPkl93OK7pkI7a/N6LgXtmnwo6N1/ZPTY3klu
+         UWb/ojs/F1NJ5b7u/aVbypj9f3qyxSy6SoEMNrqL66tueva70vRxMkcHuGYVJRnE+gwM
+         tnMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754995320; x=1755600120;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QAaiOy/N3h7yB/4dFeIEkdF56kDC1q6Gqt9cvra5SPs=;
-        b=UnniuaUdIOdy9jGNM61MMgjCwP3EcviDrkp0N4C7TxLjH5IQKoBG06EXwb99i+hBa0
-         uEuetCttL27lDwluKoYh2eUbz5NNPWB0pRWopf2Q189LzLoPp1god1EWBUI/2JAogZRR
-         tTpC7NY+7hLXglAs9F3siKnvUGVGS82e3Ktfwbintui5NT40KYlB1L1H4rj1HYirv4J7
-         /d7ooeFdbEbULidT3xwKXLMBeFykPisJDopEptreUaFmcBrF17ESfM6VcydZlNWdW5AJ
-         KBNb3FWHFThEbRT4inJJWx/D68/28YRr6hKBKZj4vggRHwldoua+2vG8vs2iw79F0qWG
-         hA+g==
-X-Forwarded-Encrypted: i=1; AJvYcCVooqRjgdeqhdkscKb/a5syYIitWFXuhrKvTTnmC783aLVjB1OlcmKRDRCPKvJjYDuN5QzPhsxVdHk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQRmcz2A1u2MmpfxqnuDtVl6A69HOv3jyG4oJC8VbTan4t+dF2
-	bmOXnQGSoedcNYqiEEU615yLRLm9+HjSMX3/ulDi4NoQwGNbYVJ0mgTFGs1KFDZsr+0=
-X-Gm-Gg: ASbGncvXw1u6c8oCiG7vjQNbz57RAzmvYHoCFQdHm69iqAX0EJ8+zebBerntGl3wndC
-	BjlIx4h4m1nsra+kbhBGR2JpL+JcZo7bgYkWtBH+eF4KKiFAu7r7MCMiXz6qLGPjBaC5H8u+5ev
-	lbEnRqA3Q5aDSTn8JH5ROleLhzgi3a14oyoBUqDfDODOWjh4ug1T6aRLSkXK/COXDCAc0N2ZvOa
-	AGXpFb/nTKpqj6wwXsR2gwZlRgATihA1QHPaNu3LoOCjQFifiB8Ac23sRtMYGV2iqDGqa7zztBu
-	mdq0N5Ey8w+kpoYqa3xz7WOZfWpdokstzZoULlfTRjiVPTmbtb+7eD+0jb4/eF/NE0WmxBKrX5T
-	ZA4t4O5L45EAfm0qGzBijk5Jb7zdRiMtexQ==
-X-Google-Smtp-Source: AGHT+IFVuPBX1WWXHjE5WiQCW0z9z7axEQSpNRILYD7CKS+Z1ca46MwosUVW2g0lgYDVQmrovf+vTQ==
-X-Received: by 2002:a05:6402:520c:b0:615:7ba6:4876 with SMTP id 4fb4d7f45d1cf-61859a4adaamr378641a12.8.1754995319829;
-        Tue, 12 Aug 2025 03:41:59 -0700 (PDT)
-Received: from kuoka.. ([178.197.219.123])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6184b807728sm1460348a12.12.2025.08.12.03.41.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Aug 2025 03:41:59 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Arnd Bergmann <arnd@arndb.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-arm-kernel@lists.infradead.org,
-	soc@lists.linux.dev,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] Documentation/process: maintainer-soc: Use "DTS" instead of "devicetree"
-Date: Tue, 12 Aug 2025 12:41:55 +0200
-Message-ID: <20250812104154.42289-2-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.48.1
+        d=1e100.net; s=20230601; t=1755015917; x=1755620717;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=l54bXCSQ2N1WCwc3yA5CAnPI3s4L8oTQr7q8YqSeHxE=;
+        b=ZymYDc+8wMjGYoURlYa/fI1877iKnjWrMarWxqQLzTpdw6U6+0epA79xJySjTNik8a
+         7PdDceHICYe0IIWmpEsSZfsAnNo8cP2ZGixctnMrguus032NZL9plq96CODJ5oWbuM/X
+         1SnbgiClYM6QxLZ9HeAI0ZkUSXYonA3p9TatwQBVqApnmZeQ+PPI1CgeZYKcIGKb/Co6
+         KO7M9Mt0S+AiMjow/L/R5rF3z3lmG/saS195gCnumM6SfVsdVjVIY9mFfHnX/IjpC9f9
+         TyCI92iwRE2KegZLPgSQHAp2jA8hkIzhBytYkABfbytZ5Sg3wUFO8GxlU08YNtYr5r2N
+         kxwA==
+X-Forwarded-Encrypted: i=1; AJvYcCUHpRwMrO0eWAE1EAspruYm+0tBA0Xz2+acqF7om77NLlH+YyfBc1XnM26P1LIYhN9TCWTHEu+CNfKhcbAo@vger.kernel.org, AJvYcCWNI2mUY423LcXeIYSO2Fo0U6HuotFnTi+Q9Oq4bscLhGdFOKhvOjFgvZ+jKuIkf0yJH9wvWLx4GuuK@vger.kernel.org, AJvYcCX+SFZIW6cjxDqX2vpkrSPXnLTkhE7orpxmT+ziWtVpkbDn5xJVmF4/YlbQ1EVj999xiffAnN9xa5U=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4ZGBPL6g4Y5S3dLavi3G/HhgF+MnzXVwhfsGOsuJlUEpXe1da
+	akXCO5xs0vi15piRJTZ2HOUZgZToQUQaZKCuyBxbnDIewMTiFJ3oVRgM7a1SqNvj9GJqc7tX0u8
+	LE0f0FgV7cjUUSTvoX6rE8WMFFCMKRQQ=
+X-Gm-Gg: ASbGncvZzJEOJyPmiIMdr5gAjFJhV7wrMgCVsquGxxYv/3TsuKefNUWTf13L0M+DpGE
+	D+8VkPmW8ak4OTN9LDUsSaouR7i92t/Fh74pGM4Wii/TdeowGDxwPhLR9quV5tFbQHufxOH0Vxg
+	WBfWr1S4+4ruUntPGCtmdx3D/5nOe4Qp93Za98sTaqy7Wws+CIK/cTDKPMfBRVHAYnF5IZzADnW
+	WmwKkBAmA==
+X-Google-Smtp-Source: AGHT+IEO/ebtLytO3+gzax+bQ48WGSY9jQ2PI+BH3b16Ceok+c7sqVLxabYPw0NXmuXDwNr7yF9uSwRiesUbNbf7dL4=
+X-Received: by 2002:a05:600c:4692:b0:456:475b:7af6 with SMTP id
+ 5b1f17b1804b1-45a15b0bf05mr4355835e9.7.1755015917114; Tue, 12 Aug 2025
+ 09:25:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2047; i=krzysztof.kozlowski@linaro.org;
- h=from:subject; bh=btAyvRtmkbXxP+i+9dkWP6dlhtZYn7iXm7lHIO+hiSI=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBomxpy/fIPdRspqyjtDspdwQP8eCSdbbk/qvY1e
- 4DUh4r8dLeJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaJsacgAKCRDBN2bmhouD
- 153BD/9pbsdOLBBjuH1T+Qx7JutSi91jJK1OztVssLYs4N3tTNF+Fu++ubUyfqjTPN9DDfUMc7z
- r8N7GY/iIODwgdDoMexHzoriyr70+llWuV2NjB6Nd4Xj9YHZXyxaxnhyhy+GJJ1SXRM3Pw919eq
- 616seqX5p2xJqBexrpCIkRLpR3QNaEEQSCC41ZLQ2BJNqgxZAIKjrRs0pkFzMYB1QSIofSoyFna
- f9yeIBIJs9WND+wnezDp5bsBNIE7OkaPZrKwZ0bQPG3eVeI9m4zsCht+AsngcHv79+UG5dEQ6E6
- +9XrLuX3vzUyFkqQ6muXyv9uDNpFdwyeh7B3sd3ZUMezddVdjFBZnabjjUSLntgJuJFl0oB9YIB
- WeTPZ1LNxCaOkY59Jt+dSdUrarHHqxVsL8woIvnHiE7nQhspm4pnReYjzgIqX15ol/dgbDmiQ3+
- a7Xfr3sz3hvMC3ynzjpbZFHIkHlL5EvZ3ZUMO0ru24+KMxFqFNXBqDq/Ay2IYRBRcjMuQIxkqZn
- I5reux0ksT9YUxOa6Bv/K9gHFG+CSX1i+6ssJ0t688S8c+bYD/crDYQi4OZR1tPSkhMyo+aYevb
- Ca6YM98/dQ7Sc/Wm1cIRb7S2HtQ0kzggeb61K8+3DLwfR9swlMo6APbfYaCFZUa3be3Q281MTSi HBP/vBdc3HJW2MA==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
-Content-Transfer-Encoding: 8bit
+References: <20250811173626.1878783-1-yeoreum.yun@arm.com> <20250811173626.1878783-2-yeoreum.yun@arm.com>
+In-Reply-To: <20250811173626.1878783-2-yeoreum.yun@arm.com>
+From: Andrey Konovalov <andreyknvl@gmail.com>
+Date: Tue, 12 Aug 2025 18:25:03 +0200
+X-Gm-Features: Ac12FXyXZGDJqhGX1iCy4SWWpZA7ZwLA8x1I9FgM3lq8ZOVHVmywuvVz0HAZZV0
+Message-ID: <CA+fCnZe6F9dn8qGbNsgWXkQ_3e8oSQ80sd3X=aHFa-AUy_7kjg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kasan/hw-tags: introduce store only mode
+To: Yeoreum Yun <yeoreum.yun@arm.com>
+Cc: ryabinin.a.a@gmail.com, glider@google.com, dvyukov@google.com, 
+	vincenzo.frascino@arm.com, corbet@lwn.net, catalin.marinas@arm.com, 
+	will@kernel.org, akpm@linux-foundation.org, scott@os.amperecomputing.com, 
+	jhubbard@nvidia.com, pankaj.gupta@amd.com, leitao@debian.org, 
+	kaleshsingh@google.com, maz@kernel.org, broonie@kernel.org, 
+	oliver.upton@linux.dev, james.morse@arm.com, ardb@kernel.org, 
+	hardevsinh.palaniya@siliconsignals.io, david@redhat.com, 
+	yang@os.amperecomputing.com, kasan-dev@googlegroups.com, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Devicetree is a data structure and it is a bit generic term, because
-some treat Devicetree bindings as Devicetree.  What the SoC maintainers
-profile is mentioning in ABI stability are the Devicetree sources, so
-DTS files.  It is also more common during reviews to refer to these as
-per "DTS" instead "devicetree".
+On Mon, Aug 11, 2025 at 7:36=E2=80=AFPM Yeoreum Yun <yeoreum.yun@arm.com> w=
+rote:
+>
+> Since Armv8.9, FEATURE_MTE_STORE_ONLY feature is introduced to restrict
+> raise of tag check fault on store operation only.
 
-Clarify that by using "DTS" name in few more places.
+To clarify: this feature is independent on the sync/async/asymm modes?
+So any mode can be used together with FEATURE_MTE_STORE_ONLY?
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Introcude KASAN store only mode based on this feature.
+>
+> KASAN store only mode restricts KASAN checks operation for store only and
+> omits the checks for fetch/read operation when accessing memory.
+> So it might be used not only debugging enviroment but also normal
+> enviroment to check memory safty.
+>
+> This features can be controlled with "kasan.stonly" arguments.
+> When "kasan.stonly=3Don", KASAN checks store only mode otherwise
+> KASAN checks all operations.
 
----
+"stonly" looks cryptic, how about "kasan.store_only"?
 
-This is a doc patch, but covering SoC tree, so maybe it can be applied
-by SoC (Arnd)?
----
- Documentation/process/maintainer-soc.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Also, are there any existing/planned modes/extensions of the feature?
+E.g. read only? Knowing this will allow to better plan the
+command-line parameter format.
 
-diff --git a/Documentation/process/maintainer-soc.rst b/Documentation/process/maintainer-soc.rst
-index fe9d8bcfbd2b..3ba886f52a51 100644
---- a/Documentation/process/maintainer-soc.rst
-+++ b/Documentation/process/maintainer-soc.rst
-@@ -10,7 +10,7 @@ Overview
- The SoC subsystem is a place of aggregation for SoC-specific code.
- The main components of the subsystem are:
- 
--* devicetrees for 32- & 64-bit ARM and RISC-V
-+* devicetrees (DTS) for 32- & 64-bit ARM and RISC-V
- * 32-bit ARM board files (arch/arm/mach*)
- * 32- & 64-bit ARM defconfigs
- * SoC-specific drivers across architectures, in particular for 32- & 64-bit
-@@ -97,8 +97,8 @@ Perhaps one of the most important things to highlight is that dt-bindings
- document the ABI between the devicetree and the kernel.
- Please read Documentation/devicetree/bindings/ABI.rst.
- 
--If changes are being made to a devicetree that are incompatible with old
--kernels, the devicetree patch should not be applied until the driver is, or an
-+If changes are being made to a DTS that are incompatible with old
-+kernels, the DTS patch should not be applied until the driver is, or an
- appropriate time later.  Most importantly, any incompatible changes should be
- clearly pointed out in the patch description and pull request, along with the
- expected impact on existing users, such as bootloaders or other operating
--- 
-2.48.1
+>
+> Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
+> ---
+>  Documentation/dev-tools/kasan.rst  |  3 ++
+>  arch/arm64/include/asm/memory.h    |  1 +
+>  arch/arm64/include/asm/mte-kasan.h |  6 +++
+>  arch/arm64/kernel/cpufeature.c     |  6 +++
+>  arch/arm64/kernel/mte.c            | 14 ++++++
+>  include/linux/kasan.h              |  2 +
+>  mm/kasan/hw_tags.c                 | 76 +++++++++++++++++++++++++++++-
+>  mm/kasan/kasan.h                   | 10 ++++
+>  8 files changed, 116 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/=
+kasan.rst
+> index 0a1418ab72fd..7567a2ca0e39 100644
+> --- a/Documentation/dev-tools/kasan.rst
+> +++ b/Documentation/dev-tools/kasan.rst
+> @@ -163,6 +163,9 @@ disabling KASAN altogether or controlling its feature=
+s:
+>    This parameter is intended to allow sampling only large page_alloc
+>    allocations, which is the biggest source of the performance overhead.
+>
+> +- ``kasan.stonly=3Doff`` or ``kasan.stonly=3Don`` controls whether KASAN=
+ checks
+> +  store operation only or all operation.
 
+How about:
+
+``kasan.store_only=3Doff`` or ``=3Don`` controls whether KASAN checks only
+the store (write) accesses only or all accesses (default: ``off``).
+
+And let's put this next to kasan.mode, as the new parameter is related.
+
+> +
+>  Error reports
+>  ~~~~~~~~~~~~~
+>
+> diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/mem=
+ory.h
+> index 5213248e081b..9d8c72c9c91f 100644
+> --- a/arch/arm64/include/asm/memory.h
+> +++ b/arch/arm64/include/asm/memory.h
+> @@ -308,6 +308,7 @@ static inline const void *__tag_set(const void *addr,=
+ u8 tag)
+>  #define arch_enable_tag_checks_sync()          mte_enable_kernel_sync()
+>  #define arch_enable_tag_checks_async()         mte_enable_kernel_async()
+>  #define arch_enable_tag_checks_asymm()         mte_enable_kernel_asymm()
+> +#define arch_enable_tag_checks_stonly()        mte_enable_kernel_stonly(=
+)
+>  #define arch_suppress_tag_checks_start()       mte_enable_tco()
+>  #define arch_suppress_tag_checks_stop()                mte_disable_tco()
+>  #define arch_force_async_tag_fault()           mte_check_tfsr_exit()
+> diff --git a/arch/arm64/include/asm/mte-kasan.h b/arch/arm64/include/asm/=
+mte-kasan.h
+> index 2e98028c1965..d75908ed9d0f 100644
+> --- a/arch/arm64/include/asm/mte-kasan.h
+> +++ b/arch/arm64/include/asm/mte-kasan.h
+> @@ -200,6 +200,7 @@ static inline void mte_set_mem_tag_range(void *addr, =
+size_t size, u8 tag,
+>  void mte_enable_kernel_sync(void);
+>  void mte_enable_kernel_async(void);
+>  void mte_enable_kernel_asymm(void);
+> +int mte_enable_kernel_stonly(void);
+>
+>  #else /* CONFIG_ARM64_MTE */
+>
+> @@ -251,6 +252,11 @@ static inline void mte_enable_kernel_asymm(void)
+>  {
+>  }
+>
+> +static inline int mte_enable_kenrel_stonly(void)
+> +{
+> +       return -EINVAL;
+> +}
+> +
+>  #endif /* CONFIG_ARM64_MTE */
+>
+>  #endif /* __ASSEMBLY__ */
+> diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeatur=
+e.c
+> index 9ad065f15f1d..fdc510fe0187 100644
+> --- a/arch/arm64/kernel/cpufeature.c
+> +++ b/arch/arm64/kernel/cpufeature.c
+> @@ -2404,6 +2404,11 @@ static void cpu_enable_mte(struct arm64_cpu_capabi=
+lities const *cap)
+>
+>         kasan_init_hw_tags_cpu();
+>  }
+> +
+> +static void cpu_enable_mte_stonly(struct arm64_cpu_capabilities const *c=
+ap)
+> +{
+> +       kasan_late_init_hw_tags_cpu();
+> +}
+>  #endif /* CONFIG_ARM64_MTE */
+>
+>  static void user_feature_fixup(void)
+> @@ -2922,6 +2927,7 @@ static const struct arm64_cpu_capabilities arm64_fe=
+atures[] =3D {
+>                 .capability =3D ARM64_MTE_STORE_ONLY,
+>                 .type =3D ARM64_CPUCAP_SYSTEM_FEATURE,
+>                 .matches =3D has_cpuid_feature,
+> +               .cpu_enable =3D cpu_enable_mte_stonly,
+>                 ARM64_CPUID_FIELDS(ID_AA64PFR2_EL1, MTESTOREONLY, IMP)
+>         },
+>  #endif /* CONFIG_ARM64_MTE */
+> diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
+> index e5e773844889..a1cb2a8a79a1 100644
+> --- a/arch/arm64/kernel/mte.c
+> +++ b/arch/arm64/kernel/mte.c
+> @@ -157,6 +157,20 @@ void mte_enable_kernel_asymm(void)
+>                 mte_enable_kernel_sync();
+>         }
+>  }
+> +
+> +int mte_enable_kernel_stonly(void)
+> +{
+> +       if (!cpus_have_cap(ARM64_MTE_STORE_ONLY))
+> +               return -EINVAL;
+> +
+> +       sysreg_clear_set(sctlr_el1, SCTLR_EL1_TCSO_MASK,
+> +                        SYS_FIELD_PREP(SCTLR_EL1, TCSO, 1));
+> +       isb();
+> +
+> +       pr_info_once("MTE: enabled stonly mode at EL1\n");
+> +
+> +       return 0;
+> +}
+>  #endif
+>
+>  #ifdef CONFIG_KASAN_HW_TAGS
+> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
+> index 890011071f2b..28951b29c593 100644
+> --- a/include/linux/kasan.h
+> +++ b/include/linux/kasan.h
+> @@ -552,9 +552,11 @@ static inline void kasan_init_sw_tags(void) { }
+>  #ifdef CONFIG_KASAN_HW_TAGS
+>  void kasan_init_hw_tags_cpu(void);
+>  void __init kasan_init_hw_tags(void);
+> +void kasan_late_init_hw_tags_cpu(void);
+
+Why do we need a separate late init function? Can we not enable
+store-only at the same place where we enable async/asymm?
+
+
+>  #else
+>  static inline void kasan_init_hw_tags_cpu(void) { }
+>  static inline void kasan_init_hw_tags(void) { }
+> +static inline void kasan_late_init_hw_tags_cpu(void) { }
+>  #endif
+>
+>  #ifdef CONFIG_KASAN_VMALLOC
+> diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
+> index 9a6927394b54..2caa6fe5ed47 100644
+> --- a/mm/kasan/hw_tags.c
+> +++ b/mm/kasan/hw_tags.c
+> @@ -41,9 +41,16 @@ enum kasan_arg_vmalloc {
+>         KASAN_ARG_VMALLOC_ON,
+>  };
+>
+> +enum kasan_arg_stonly {
+> +       KASAN_ARG_STONLY_DEFAULT,
+> +       KASAN_ARG_STONLY_OFF,
+> +       KASAN_ARG_STONLY_ON,
+> +};
+> +
+>  static enum kasan_arg kasan_arg __ro_after_init;
+>  static enum kasan_arg_mode kasan_arg_mode __ro_after_init;
+>  static enum kasan_arg_vmalloc kasan_arg_vmalloc __initdata;
+> +static enum kasan_arg_stonly kasan_arg_stonly __ro_after_init;
+>
+>  /*
+>   * Whether KASAN is enabled at all.
+> @@ -67,6 +74,9 @@ DEFINE_STATIC_KEY_FALSE(kasan_flag_vmalloc);
+>  #endif
+>  EXPORT_SYMBOL_GPL(kasan_flag_vmalloc);
+>
+> +DEFINE_STATIC_KEY_FALSE(kasan_flag_stonly);
+> +EXPORT_SYMBOL_GPL(kasan_flag_stonly);
+> +
+>  #define PAGE_ALLOC_SAMPLE_DEFAULT      1
+>  #define PAGE_ALLOC_SAMPLE_ORDER_DEFAULT        3
+>
+> @@ -141,6 +151,23 @@ static int __init early_kasan_flag_vmalloc(char *arg=
+)
+>  }
+>  early_param("kasan.vmalloc", early_kasan_flag_vmalloc);
+>
+> +/* kasan.stonly=3Doff/on */
+> +static int __init early_kasan_flag_stonly(char *arg)
+> +{
+> +       if (!arg)
+> +               return -EINVAL;
+> +
+> +       if (!strcmp(arg, "off"))
+> +               kasan_arg_stonly =3D KASAN_ARG_STONLY_OFF;
+> +       else if (!strcmp(arg, "on"))
+> +               kasan_arg_stonly =3D KASAN_ARG_STONLY_ON;
+> +       else
+> +               return -EINVAL;
+> +
+> +       return 0;
+> +}
+> +early_param("kasan.stonly", early_kasan_flag_stonly);
+> +
+>  static inline const char *kasan_mode_info(void)
+>  {
+>         if (kasan_mode =3D=3D KASAN_MODE_ASYNC)
+> @@ -219,6 +246,20 @@ void kasan_init_hw_tags_cpu(void)
+>         kasan_enable_hw_tags();
+>  }
+>
+> +/*
+> + * kasan_late_init_hw_tags_cpu_post() is called for each CPU after
+> + * all cpus are bring-up at boot.
+> + * Not marked as __init as a CPU can be hot-plugged after boot.
+> + */
+> +void kasan_late_init_hw_tags_cpu(void)
+> +{
+> +       /*
+> +        * Enable stonly mode only when explicitly requested through the =
+command line.
+> +        * If system doesn't support, kasan checks all operation.
+> +        */
+> +       kasan_enable_stonly();
+> +}
+> +
+>  /* kasan_init_hw_tags() is called once on boot CPU. */
+>  void __init kasan_init_hw_tags(void)
+>  {
+> @@ -257,15 +298,28 @@ void __init kasan_init_hw_tags(void)
+>                 break;
+>         }
+>
+> +       switch (kasan_arg_stonly) {
+> +       case KASAN_ARG_STONLY_DEFAULT:
+> +               /* Default is specified by kasan_flag_stonly definition. =
+*/
+> +               break;
+> +       case KASAN_ARG_STONLY_OFF:
+> +               static_branch_disable(&kasan_flag_stonly);
+> +               break;
+> +       case KASAN_ARG_STONLY_ON:
+> +               static_branch_enable(&kasan_flag_stonly);
+> +               break;
+> +       }
+> +
+>         kasan_init_tags();
+>
+>         /* KASAN is now initialized, enable it. */
+>         static_branch_enable(&kasan_flag_enabled);
+>
+> -       pr_info("KernelAddressSanitizer initialized (hw-tags, mode=3D%s, =
+vmalloc=3D%s, stacktrace=3D%s)\n",
+> +       pr_info("KernelAddressSanitizer initialized (hw-tags, mode=3D%s, =
+vmalloc=3D%s, stacktrace=3D%s stonly=3D%s\n",
+>                 kasan_mode_info(),
+>                 str_on_off(kasan_vmalloc_enabled()),
+> -               str_on_off(kasan_stack_collection_enabled()));
+> +               str_on_off(kasan_stack_collection_enabled()),
+> +               str_on_off(kasan_stonly_enabled()));
+>  }
+>
+>  #ifdef CONFIG_KASAN_VMALLOC
+> @@ -394,6 +448,22 @@ void kasan_enable_hw_tags(void)
+>                 hw_enable_tag_checks_sync();
+>  }
+>
+> +void kasan_enable_stonly(void)
+> +{
+> +       if (kasan_arg_stonly =3D=3D KASAN_ARG_STONLY_ON) {
+> +               if (hw_enable_tag_checks_stonly()) {
+> +                       static_branch_disable(&kasan_flag_stonly);
+> +                       kasan_arg_stonly =3D KASAN_ARG_STONLY_OFF;
+> +                       pr_warn_once("KernelAddressSanitizer: store only =
+mode isn't supported (hw-tags)\n");
+> +               }
+> +       }
+> +}
+> +
+> +bool kasan_stonly_enabled(void)
+> +{
+> +       return static_branch_unlikely(&kasan_flag_stonly);
+> +}
+> +
+>  #if IS_ENABLED(CONFIG_KASAN_KUNIT_TEST)
+>
+>  EXPORT_SYMBOL_IF_KUNIT(kasan_enable_hw_tags);
+> @@ -404,4 +474,6 @@ VISIBLE_IF_KUNIT void kasan_force_async_fault(void)
+>  }
+>  EXPORT_SYMBOL_IF_KUNIT(kasan_force_async_fault);
+>
+> +EXPORT_SYMBOL_IF_KUNIT(kasan_stonly_enabled);
+> +
+>  #endif
+> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+> index 129178be5e64..cfbcebdbcbec 100644
+> --- a/mm/kasan/kasan.h
+> +++ b/mm/kasan/kasan.h
+> @@ -33,6 +33,7 @@ static inline bool kasan_stack_collection_enabled(void)
+>  #include "../slab.h"
+>
+>  DECLARE_STATIC_KEY_TRUE(kasan_flag_vmalloc);
+> +DECLARE_STATIC_KEY_FALSE(kasan_flag_stonly);
+>
+>  enum kasan_mode {
+>         KASAN_MODE_SYNC,
+> @@ -428,6 +429,7 @@ static inline const void *arch_kasan_set_tag(const vo=
+id *addr, u8 tag)
+>  #define hw_enable_tag_checks_sync()            arch_enable_tag_checks_sy=
+nc()
+>  #define hw_enable_tag_checks_async()           arch_enable_tag_checks_as=
+ync()
+>  #define hw_enable_tag_checks_asymm()           arch_enable_tag_checks_as=
+ymm()
+> +#define hw_enable_tag_checks_stonly()          arch_enable_tag_checks_st=
+only()
+>  #define hw_suppress_tag_checks_start()         arch_suppress_tag_checks_=
+start()
+>  #define hw_suppress_tag_checks_stop()          arch_suppress_tag_checks_=
+stop()
+>  #define hw_force_async_tag_fault()             arch_force_async_tag_faul=
+t()
+> @@ -437,10 +439,18 @@ static inline const void *arch_kasan_set_tag(const =
+void *addr, u8 tag)
+>                         arch_set_mem_tag_range((addr), (size), (tag), (in=
+it))
+>
+>  void kasan_enable_hw_tags(void);
+> +void kasan_enable_stonly(void);
+> +bool kasan_stonly_enabled(void);
+>
+>  #else /* CONFIG_KASAN_HW_TAGS */
+>
+>  static inline void kasan_enable_hw_tags(void) { }
+> +static inline void kasan_enable_stonly(void) { }
+> +
+> +static inline bool kasan_stonly_enabled(void)
+> +{
+> +       return false;
+> +}
+>
+>  #endif /* CONFIG_KASAN_HW_TAGS */
+>
+> --
+> LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
+>
