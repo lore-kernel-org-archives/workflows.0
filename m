@@ -1,80 +1,69 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3232242D6C;
-	Thu, 14 Aug 2025 15:55:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C94CA31986F;
+	Thu, 14 Aug 2025 19:30:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=163.172.96.212
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755186911; cv=none; b=idcg1c+SvwiuQ7cFUHAt5/BASP62EIoRlA6PH7D5gcip+bCeyI69syMJOm7wD/jGNk3GDhuxixS67ut1SFvaz/3349z1l35rpGSI2MrmIcXZtLpL1Ezjdmti1HR6h1Nu7melejEauDiPtQsp+eLq4B8iStnznMpVylsBan1BNag=
+	t=1755199849; cv=none; b=cWrOOnZhHOdIta7RfsonXXHZFlHEiyfOub3KtoeKib89drBZZkiBT6zxeCeSbtOuMWf5g90g6SKSPF9VYwpT1OPtQ/pdqAkm0FV/T1mcx3b/2sLTKOmzQ9OOAzzN/T0GmuEw4sDufOGZcT/eHcWCg2q1HiJW/zRsLEE8pfksDoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755186911; c=relaxed/simple;
-	bh=l5NsTlyYGuBSUnU5NHBa/IFlVu8zRwy9gd7QoG3Nf0c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oEWPmklWcdatJBz0LXCwPojgvFwSaixlAm/hxRmF4/ih6Y6OVjLDw/h4VnI8PogvzOzRT+XTq7RHQPlaGZYrQGegD7FkzW7i0k5WqqRch8AYqpe8tnQ6T9G4df9p/E0mRaUE5abD3DCFnY9TdxmoVWspV1AxZIpAXZtSrP1Kdb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BdulEQfx; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BdulEQfx"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=jXSjDuDVOESAA1CoUhZckTlT/FwJb4D/Ow1YcDeFnaI=; b=BdulEQfxRV2ccaccxKzarfTo/z
-	a5p2bh5GUyzuzw1HxQDyLwkUDX7rFsvitXp6aPfDs6yxCz2j0YYXDc89c2blR9W7lXsY/Wl0y8wdM
-	m3c4Nj2g968qqzQO0ha5OJgSZOttoa7SzShc3qYti5KE2hMzcPuF99OC1kTa2uzDhn/IxRU2iJLOB
-	CBCpPU0AkTjDvzCIypvuxY4hcAxN1L/rutQdL/tkROo27pYfHYJ/TzdME62YUQItonRD6VfQ2/jp6
-	gARXm66ih3Dv5xj2OlwmUjjhVItk1Ed1bFZ0Qivkm558ML+LqprFoWHU+fcl80X6R/+uIGv8dJRVs
-	8Zn6pbuQ==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umaIH-0000000HXy0-1dDC;
-	Thu, 14 Aug 2025 15:55:09 +0000
-Message-ID: <e2186e21-d069-4881-8829-b698cf90d5e3@infradead.org>
-Date: Thu, 14 Aug 2025 08:55:08 -0700
+	s=arc-20240116; t=1755199849; c=relaxed/simple;
+	bh=DhhM8Zn5/pQg6diUjBBdUDnZEhmpufToEhf+iKMdsYk=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=LDLvoV+F+aZUf+dEh0VQN2ZeFuZTHjBLnPUKVGd6Y1Oyb5JdmsjMyOYj08DEKQjABpYMed7KOpIWmzO/FR6ETAhxTEDJlsQvWh6or95PXkbEQNA/u9Fl4uzxyCZvhIF0hR2fxw2tOfqk9bz3yjeOvrmm16P0M03NxNMHdGxBWjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; arc=none smtp.client-ip=163.172.96.212
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=1wt.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
+Received: (from willy@localhost)
+	by pcw.home.local (8.15.2/8.15.2/Submit) id 57EJRmDH019294;
+	Thu, 14 Aug 2025 21:27:48 +0200
+From: Willy Tarreau <w@1wt.eu>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: security@kernel.org, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH 1/2] Documentation: clarify the expected collaboration with security bugs reporters
+Date: Thu, 14 Aug 2025 21:27:29 +0200
+Message-Id: <20250814192730.19252-1-w@1wt.eu>
+X-Mailer: git-send-email 2.17.5
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] Documentation: ktap: formatting cleanup
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux Kernel Workflows <workflows@vger.kernel.org>,
- Linux Kernel Selftests <linux-kselftest@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, David Gow <davidgow@google.com>,
- Shuah Khan <skhan@linuxfoundation.org>, Tim Bird <Tim.Bird@sony.com>,
- Rae Moar <rmoar@google.com>
-References: <20250814012046.21235-1-bagasdotme@gmail.com>
- <98ed6868-8030-4d10-b66d-c7e3d42886f8@infradead.org>
- <aJ2Epp0b3HgeaMxk@archie.me>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <aJ2Epp0b3HgeaMxk@archie.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
+Some bug reports sent to the security team sometimes lack any explanation,
+are only AI-generated without verification, or sometimes it can simply be
+difficult to have a conversation with an invisible reporter belonging to
+an opaque team. This fortunately remains rare but the trend has been
+steadily increasing over the last years and it seems important to clarify
+what developers expect from reporters to avoid frustration on any side and
+keep the process efficient.
 
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Willy Tarreau <w@1wt.eu>
+---
+ Documentation/process/security-bugs.rst | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-On 8/13/25 11:39 PM, Bagas Sanjaya wrote:
-> On Wed, Aug 13, 2025 at 06:58:12PM -0700, Randy Dunlap wrote:
->> Why send this patch series to the workflows mailing list?
-> 
-> Workflows ML is listed in get_maintainer.pl output.
-
-Thank you. I didn't realize that. So in the MAINTAINERS file
-workflows ML is listed under DOCUMENTATION PROCESS and with
-these specific directories:
-
-F:	Documentation/dev-tools/
-F:	Documentation/maintainer/
-F:	Documentation/process/
-
-so yes, you got it right. Thanks!
-
+diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
+index 56c560a00b37a..7dcc034d3df8e 100644
+--- a/Documentation/process/security-bugs.rst
++++ b/Documentation/process/security-bugs.rst
+@@ -19,6 +19,16 @@ that can speed up the process considerably.  It is possible that the
+ security team will bring in extra help from area maintainers to
+ understand and fix the security vulnerability.
+ 
++The security team and maintainers almost always require additional
++information beyond what was initially provided in a report and rely on
++active and efficient collaboration with the reporter to perform further
++testing (e.g., verifying versions, configuration options, mitigations, or
++patches). Before contacting the security team, the reporter must ensure
++they are available to explain their findings, engage in discussions, and
++run additional tests.  Reports where the reporter does not respond promptly
++or cannot effectively discuss their findings may be abandoned if the
++communication does not quickly improve.
++
+ As it is with any bug, the more information provided the easier it
+ will be to diagnose and fix.  Please review the procedure outlined in
+ 'Documentation/admin-guide/reporting-issues.rst' if you are unclear about what
 -- 
-~Randy
+2.17.5
 
