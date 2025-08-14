@@ -1,112 +1,91 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CBB213B284;
-	Thu, 14 Aug 2025 01:20:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A242A231853;
+	Thu, 14 Aug 2025 01:58:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755134456; cv=none; b=GeG7ODQA9jyD0aG+0L7+SxBUVrg0GCA0NRKQDBB2FCIeCEh+lfz49CPkC/h6bWY4r6/nJzKIbcQtlYT/xXfiv8JX/zN1AYX85L/Z75uRvpzkI6it2Jqd82ePKWi+4TTwSpvxLFncDyN4GhsT98EQ6fLsMoENArD5/DVqJa5LCRU=
+	t=1755136698; cv=none; b=udNDMMAG38yZhYQUiT/NFcd2GpMoDpX4tHXz9KwYV8J8Ad+rGUIvYsfzO54rE7lns5CeB9dcl8mFGZ6c6/zEKne/ecSXp1S1kg+YA++lUf50Iw3sKYamvSkcErD3yCH3wCn05Peh166Paly682oykySCVY62uTc1DVr2Gee2H8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755134456; c=relaxed/simple;
-	bh=m4lYhJOAX6OzhCoxvxa3w7Bi06OVgYOFkg8XRvWCN1c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mhpKkbgRB/JsJP59md1j0T2kdJcGzhmMSSkUzsWFIcP+nXkhhMBjbHdg11hFJFyV0dUHgGWM/yZm1j+xZNzeKSxMqB5OS1K2KmmjvbItioGsaDMa910RaP8B5mXUTpzJNAON8kXjuNgY1xNFuc4sN7Ai0hfcDGH9dRjMl/wMIhk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lEHTfYrR; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755136698; c=relaxed/simple;
+	bh=q2SGHb3APxGdMTmDmItq4Pu4zI6iiexqPHr9lgOY3DA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ej5YkK2itbnWaz+D0jLsJ9m6VGSg4JeKvQjIHtA44XTrpWXFDjftlpcMH5YgH8ukvf2r2sRMGPlZSoUiafRTJf3H4PK5OitYIeZLqgmv806dkibF0t31+3TKAZh8bldr5k2JQWsw5VZXsaYvBQJh93f5T4JtC10pa1Vvnj4FQDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MBsIxElx; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lEHTfYrR"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-76e2ea79219so580523b3a.2;
-        Wed, 13 Aug 2025 18:20:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755134455; x=1755739255; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bY+gN+RE9yc44nXCY62WmJ+eFktjeTQkc8/RADp1XWQ=;
-        b=lEHTfYrRgIP0WAx2XuYfiSQVFjD8EudQKCJwQrPGKF3ddTkyWNrV/SZetopOnCc+ID
-         4O/npYfo/3oTumcMjTs8j6xgBqZOSK6CXWFL9qGQQYf9JXTejAmJO/VosY2k3+yRoiGa
-         bD5FJzoUUwbvF5REltdAUiYX+7/jr/IKO0amTLf1bym++3o0p3Pajvrh/9LZuY3HflTb
-         VyWbtYYv2eFg4bR5QKEa/2tbASEKAp3jVXf3o5verjXLt5NFLSWsRR0SAPF3KqE/JSdW
-         qdT+8MaDOxAIC2E0zpqnWgvDKOQwIPsb6nhnS80QiRbsKJh8kFCwHF4i6L8y9mDmLp+v
-         d4PA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755134455; x=1755739255;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bY+gN+RE9yc44nXCY62WmJ+eFktjeTQkc8/RADp1XWQ=;
-        b=ReH2CgmMr+SL89xx9ABkoqZdPVWC7u1Q/3ZzOpaLwrJyR9YXjhj4TekK9XIUi0E5QF
-         NHUH9j+yaA8cZN1jK6TQsYtYOujB18D4Mwf4rjkEZOdAdjleJqTsIvWXS5S4ktVU72ix
-         pX9RUP2XMi+LkSkQwThY+JxcD2rCS+6QftRbSU2IG+gOMkrob7s3vvMPJSlrOIewParz
-         Zdh6vdxZeLN2wNKHtUJvXxB4/LlG4FZwol3n5oUVfl2LeInuZIrQPPNdNhXVA0Iuvazh
-         LcTukKZAwoo2NorbJusmUW9pDXx8F6t/uSSWPkXyGyQ1vTb7BJaVqIkyJ6z0ubCy+Dee
-         jAAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUrLk/nboEHoMnvweI2xSwPB+I8Om2iJTInhRaFglAHR5fEqmm4qkilqVXZCzhr9HThswhHCMHOxSnZSONVycnJ@vger.kernel.org, AJvYcCW2bJwKshLigZ9lwGofAwic/4b/d1nar+G+hf2SZl/hbGKVKUgV1shrGoQOVRfdSaK7kmi1sXCpZrs1@vger.kernel.org, AJvYcCX0HelfjGOfB48y9PDxxac2A6ai6IxrqZEXuqnQ3sMrbuC67kRJCvYAzpHiYjiPFRwJVYihxrjYhU8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzAbq4t6237OL7DlciYhVHCkJL9Kb63/MgCirtK12YH5XasVVLE
-	5KcV6x5oGlhXaaRgKfqa1GUQPe5LF7caFVyFaesiDiwwMVAf8F9BQkFs
-X-Gm-Gg: ASbGnct/1SaZP8cBgeTYOmQRn7mvIYXnelujUehdfc/60duuSSsACVojCPlK1Pb6azN
-	FSD2g2pu4/tOd/8PUydXvMN7iFudRoSIDjEjANtiewjnVM/ajpGOgQWegxBc3PCa+VD5EGMkdbd
-	G+ZTyPj1W33hwWf60V3s1Wh6O35pduHXlE9VInYLRAa6ypBI/px0quwAi3c4Lhw/ldMvYQ790FF
-	JZ9IVD5DN/9JMufR8iELS6+edCEeU8v7X2OmVfr9tMn2atHWeK2JDRz6YspXb51JgfuWkq5VSVo
-	5S2/J7CLMcqvQJ+LOphGimlKXYPm/XjO8EK3kPS/UXHxLyTD/9VsBUax7Fwn5AkVSAr8KxG6bqf
-	/6Sp/c50SbBElw0sXCOXrhQ==
-X-Google-Smtp-Source: AGHT+IGc9mRGpcx6RCRKtzBKovcaJTPERpE45hilmapfqOdxJN9UfEAzEDSb1oTISgTR20bGmnWDEA==
-X-Received: by 2002:aa7:88d5:0:b0:757:ca2b:48a3 with SMTP id d2e1a72fcca58-76e2fc43fa5mr1710919b3a.9.1755134454538;
-        Wed, 13 Aug 2025 18:20:54 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bccfcf531sm33049596b3a.92.2025.08.13.18.20.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Aug 2025 18:20:52 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 36E1442A57A5; Thu, 14 Aug 2025 08:20:49 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Kernel Workflows <workflows@vger.kernel.org>,
-	Linux Kernel Selftests <linux-kselftest@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	David Gow <davidgow@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Tim Bird <Tim.Bird@sony.com>,
-	Rae Moar <rmoar@google.com>
-Subject: [PATCH 1/2] Documentation: ktap: Correct "its" spelling
-Date: Thu, 14 Aug 2025 08:20:45 +0700
-Message-ID: <20250814012046.21235-2-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250814012046.21235-1-bagasdotme@gmail.com>
-References: <20250814012046.21235-1-bagasdotme@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MBsIxElx"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=OULRM4aV2FRJFBE1gYMM0RJzh8b5jot7eoMGHtiCmGA=; b=MBsIxElxqbQMTdHrM6BcYWZ0+4
+	xcO7DUvbQHekl9JU9h0eEA/acArYZO0/c65dzpp7XBIumGFJqNYBpC68WOoKvWn8IZIeSjwbcvBQ2
+	Bfaag3Z/VQZqmKIdoz8T7OV2W/PKYme6DAPAtt1HIM13lNWvbZlyTRIuKd/2SKxU4kh81c3L2Zo9P
+	ytGu8bkFzPSKdQik9vbNYDAyKncI1gQIZTZJZzS79qYzN8z0qPjP/j8tp/WRh5RcgeYOHEr6tvUsD
+	fEAyXRTq8T+QfnRyP/OFBEYNw00YCRTnHjkdrpGp0T3hcQRPDyabtEoq9K0FC8+lYi3DwHYZ+35aS
+	iRTcK5Xg==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1umNEL-0000000FXu6-0gjV;
+	Thu, 14 Aug 2025 01:58:13 +0000
+Message-ID: <98ed6868-8030-4d10-b66d-c7e3d42886f8@infradead.org>
+Date: Wed, 13 Aug 2025 18:58:12 -0700
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1075; i=bagasdotme@gmail.com; h=from:subject; bh=m4lYhJOAX6OzhCoxvxa3w7Bi06OVgYOFkg8XRvWCN1c=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBlzLU7xVRkmL+RuS5Hyy/RxOLf63MeLITcSuxhum7tXv Y5mmTOto5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABORuMzIcGLK2Xl807PXbLLs 6N5ZM70407b46bfU0vRnodIrct4Zz2JkWHdrvV250FET8WknldNmWd9qW/jjdePMdZtE6h5eW3t oGScA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] Documentation: ktap: formatting cleanup
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux Kernel Workflows <workflows@vger.kernel.org>,
+ Linux Kernel Selftests <linux-kselftest@vger.kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, David Gow <davidgow@google.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, Tim Bird <Tim.Bird@sony.com>,
+ Rae Moar <rmoar@google.com>
+References: <20250814012046.21235-1-bagasdotme@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250814012046.21235-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Fix possessive adjective "its" spelling.
+Hi,
 
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/dev-tools/ktap.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+For both patches:
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 
-diff --git a/Documentation/dev-tools/ktap.rst b/Documentation/dev-tools/ktap.rst
-index 414c105b10a9f8..54fac3d3bf7b05 100644
---- a/Documentation/dev-tools/ktap.rst
-+++ b/Documentation/dev-tools/ktap.rst
-@@ -5,7 +5,7 @@ The Kernel Test Anything Protocol (KTAP), version 1
- ===================================================
- 
- TAP, or the Test Anything Protocol is a format for specifying test results used
--by a number of projects. It's website and specification are found at this `link
-+by a number of projects. Its website and specification are found at this `link
- <https://testanything.org/>`_. The Linux Kernel largely uses TAP output for test
- results. However, Kernel testing frameworks have special needs for test results
- which don't align with the original TAP specification. Thus, a "Kernel TAP"
+but I have a process question, I suppose.
+Why send this patch series to the workflows mailing list?
+
+(This is not the first occasion of this happening [by other people]).
+
+Thanks.
+
+On 8/13/25 6:20 PM, Bagas Sanjaya wrote:
+> Hi,
+> 
+> Just a little formatting cleanup for ktap docs (actually only bullet list
+> items fix in [2/2]; the first patch is trivial spelling fix).
+> 
+> Enjoy!
+
+
+> 
+> Bagas Sanjaya (2):
+>   Documentation: ktap: Correct "its" spelling
+>   Documentation: ktap: Separate first bullet list items
+> 
+>  Documentation/dev-tools/ktap.rst | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> 
+> base-commit: 0bbc2548ea85e6bda835a08c6d47d46435945cda
+
 -- 
-An old man doll... just what I always wanted! - Clara
-
+~Randy
