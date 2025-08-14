@@ -1,114 +1,97 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9EB24FC09;
-	Thu, 14 Aug 2025 06:39:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B1CE28507C;
+	Thu, 14 Aug 2025 07:59:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755153584; cv=none; b=jaxDQt1lr1rXig0sWI9/4ah7mMKBeN/08MuL33BHbMxpDsXcdaSX+aPdfqaE+ClujswgSh5sEpETvrT/UjsSdImDczujhjjgZamwIxD75Bj47RSBizgVyElkxj3Id0l3GIEVWs9VlV/QeR8tmCdssk5P3ix9NsoII2YTZwCRCTc=
+	t=1755158361; cv=none; b=AFyvkkFgtS+Ss24gmtWaoRfbi/6Tm+uDGfxfipOfFiuk9vffHBJZ7mDs4e4gDIfMjMSeBI95Vp/2f4gookO8tRCU3SG5kvvINH/ibCwaU8gDERs7NuRGoqB2EVaeUGOYLODSBOWS9YZJy8XT13WbPNdqSCKxxWNVZMv6aX3nwCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755153584; c=relaxed/simple;
-	bh=R1C/8DCIBJz96E2r7yTyeQKXLBEZvbbz3YPZilRHxA8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SCRvjW41h+P/OktOMoODO/atJpVVJM8sxfth2jcdx0kbagtm9rhPPK03q1yBZ8qeMWJ03Tvmc6x4zwysMIyIL/bZYYbrzA6lZAbv3U96i6wuy6sRY903f9TPbKFZknlTvLm5Cz112z74QIOQeM9EUIw9FlS7G6ivR/+b/C6NJLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jr/kJEsD; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1755158361; c=relaxed/simple;
+	bh=VpKIa8LgibfoJADpoNgeGgl5dJ2VMP4Uoi/rmo0dahI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=V4Yfjhns1nidDun4KgN1mC7BLoQOyyiEOLwfykE4MCO0VLpncw8j9E8KjSYBEqwqmegnD9JIC84b44Ag99sG1mA2oTEWbT6encyUckmY5At/zmTTqn1tj2lj7m/jdlU34GFuchC+QGyFYdCjlICn6HjK7egXH5AMydulSRkP6WI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jr/kJEsD"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2445806df50so4184335ad.1;
-        Wed, 13 Aug 2025 23:39:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755153582; x=1755758382; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=R1C/8DCIBJz96E2r7yTyeQKXLBEZvbbz3YPZilRHxA8=;
-        b=jr/kJEsDnjD/nmJQ3oijUrAZXAf8LhjzJwNhxGxq1aPEwJdCWvhVb+DXYr9v+olo9y
-         zn+n9IvAztJeIUArutGDSoBMSKmLovA5Z0NkqAsYI72SuWavElB3iXVsK5KnSOoteuZa
-         yzvxl80Ir1wtGSVXsnAX2YYwB6yPG5OZDqGrIlUH70wJZj7dZslKOhwWyuci/URYipHy
-         v3GuvTnkz6FSje5n6XezNSJoHoXfJxMUlTXlck+ZhqCxAbetHoDM6LafzuWoPHkmOsoY
-         U9y2T9Y9elp4kRON3eRFf7umnUNyS7wGhqxgfPaBVfiBk8RuG0GEVC8KqrGZCTMQRviB
-         tjGg==
+Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-50f85c8a9f8so299058137.0;
+        Thu, 14 Aug 2025 00:59:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755153582; x=1755758382;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R1C/8DCIBJz96E2r7yTyeQKXLBEZvbbz3YPZilRHxA8=;
-        b=hXdNkpauHn/+rL0INDWcHPd/Pl4cgpm9IzOFJyTX1877LA6K9fxiun+mRU4Di6EaKS
-         O5pTkEWGyP2yM29y7iAVnrAMYF5JnGF7erKILoxWWzXjTunnd3nGfGAzvGA8XkiSyBmL
-         y5X2J/Rk4JUNqInX0zCafcU8r51Vi0oof/RN3jT9w2nzvexKeR8TUVc8EpmiLCo27H6R
-         I2UQWxsoXp3TLI8McljgFjeYPyT2Lln1d32OrEWdbB2z+UX5Xe4qNcjSv9QnZaxEfyRr
-         KQQe1sJIDVf4MblxWwLALM1hi3/IESaDjdA/ixbOPJNtjei2yHi18gqOl92j+qz2dtzX
-         /pbg==
-X-Forwarded-Encrypted: i=1; AJvYcCUCYnqQLr+GUCDc/wIYggZRL4gha+PX8M3dirZH522MTGVUaGXgOU5cEDEJm42ACAl/grdfD3MdNswPIinh@vger.kernel.org, AJvYcCUjaHAhKgBzhVINEjve5q1ul5OsHsmKb+dKT67Ju36YorIqhMcpgscwYJPpUPObeMYtsWxgvL4qSMAP@vger.kernel.org, AJvYcCVAdiBLuS+F62ly4JS/XB0y2Ly14UtnnVG4E7wpNuyaqSYTwZqQTXuVRScCiPasWB0ieuN+hWZMd4g=@vger.kernel.org, AJvYcCVNTes2H2etAEXGiPte1wQjhqQFD0YU1wRG4XXn//prxBMcIiQwVOTNQYlUKEteFZBrwJBT0un2qJBdrWyPt8Nd@vger.kernel.org
-X-Gm-Message-State: AOJu0YwwyMMv8yHtRnyOyaHEILxPtYR7sD5dV0AoUhPjnrzPoCJIn0AX
-	bxRDZdCoVrU1dXFDV6zLe2S5Qjt8PG+/nUn9LbRrZISTmX0862eFntsA
-X-Gm-Gg: ASbGnctgDS+J3Zui/4etNHcbmr+qmpJjCICOdrGmDf4aSPp4VGv08h3XcNm6Aav5bQi
-	YhGpQqUTc3kXZZ94tTeoGXGoM1mbjyhtPHXsZOruygLkisOZZZf++rLFBAMPH+2aRhOaFwnw3B9
-	y5P9UbZwlMfFrL6tjHX8W8kLC4/O4MpbKpoBweQeXNEjdqw6310+UM3BrRJwSYntluesocSCbS/
-	pIT/9FnPDlSZwSuiBU3Zguie7TZ+JVGzXjaM0F7cF718a16+hBkBR+/ly6+CL9S4jK62Tnq5oFz
-	v18APxGchKOzYlyCjo0SaqbUArmd6E/hSrcypL2RDHjje4txikHmj4Dq9AeVlY45YziRGE61TdD
-	U7vFMH2TnTXi9bpL4KSlAnw==
-X-Google-Smtp-Source: AGHT+IEUsKVk7G4ljZuETiaQhj9SpFjdw3c+YmZ4fIKMSMdn/3GF4m36bVdbkDaj2lnQ9wltfClBWA==
-X-Received: by 2002:a17:903:1af0:b0:240:2145:e51d with SMTP id d9443c01a7336-2445868b3ebmr30999825ad.31.1755153582122;
-        Wed, 13 Aug 2025 23:39:42 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-244590608dbsm10300325ad.66.2025.08.13.23.39.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Aug 2025 23:39:38 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 783CB40164BE; Thu, 14 Aug 2025 13:39:34 +0700 (WIB)
-Date: Thu, 14 Aug 2025 13:39:34 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Randy Dunlap <rdunlap@infradead.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Kernel Workflows <workflows@vger.kernel.org>,
-	Linux Kernel Selftests <linux-kselftest@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, David Gow <davidgow@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Tim Bird <Tim.Bird@sony.com>, Rae Moar <rmoar@google.com>
-Subject: Re: [PATCH 0/2] Documentation: ktap: formatting cleanup
-Message-ID: <aJ2Epp0b3HgeaMxk@archie.me>
-References: <20250814012046.21235-1-bagasdotme@gmail.com>
- <98ed6868-8030-4d10-b66d-c7e3d42886f8@infradead.org>
+        d=1e100.net; s=20230601; t=1755158358; x=1755763158;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=h+i7bCdgaRO4PJGywSV9WTbQBb+KITW5yzAKza8+ctg=;
+        b=COTVNTCmDmTO3knbHgIlvw2CMLzxqrCCHrQ6JrZo5dR0FfDGQ5bMRgUPxuRSbw4ZmF
+         NMHe8BFayCj8Ihgaa/1gmmaxYMpblRPyD20fmV70xDaz5igrtoZ+TDIlqzfjl0MIAwBY
+         LYx95SOI/pAX7tkMEPY/L4AvSY0zdW00iJY3hZQtWUVndEtgvG5DL028oTWoBqCAgrN4
+         XRQkh7d8KZV3mbD2dWKuflBqeL4ehBSz4xsrqiRQcyKCBDguyzKX8/ECkuPMm9CX/wUK
+         oozxXfFdO0EZC3qk62qZju9tx6KJZY//XZxZG8utcsCIIt3j2gQwXYIZ8JHPLcQT2Df2
+         jPeA==
+X-Forwarded-Encrypted: i=1; AJvYcCVRMeww72qXYk6BwadZn4JphXHVl8Jip79r4GsLDHCi8HB+uEjGNjR+NjfLCMuXvKhkjyuX/23UOT2xNtfY@vger.kernel.org, AJvYcCVtoDfuUWCVsO8EDkzBE3BWqVmVXHaPWX4eO5UsE+BoeX782802yxL828i8+/b8WyMM2ueLhZthhibZ@vger.kernel.org, AJvYcCX8vE1evbpRcPBtWDGy+6cFoTjPm20duc5t1kWi6rY8F1stghuk8X8CXynZHwvD2LbsstkqTdlkwjM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YziovdvA/UY5O30Tb3Ad4A6rOWy77Fff1u1gR/xeAus7qOEj/Nr
+	24750H1TX6h6tNqvgKL9M3dqSvELhJBbeNEmXALsV2ff6Ub7Lin84Xw4bt8eyBZe
+X-Gm-Gg: ASbGnct+NhZ5UTaDVzR8w18GYExkrcAjNIe+6JqJuw9uujGN7T6CR2gGk2aTxw4H6iX
+	jNV+YVh52dK7O4MsrfHBw0d/P9ozSIyAj2XsBoAOxNL63EVf6cUUF5pR+xkFnyk3ahmJNjqaD49
+	LlRa8ZHBA68vlp6Dn/eXRLhmwjj1SiBME906bTMfTz7a28Ftl5XJbRGEOV3JGq0QPWoB5KjsVIT
+	BuwxkJCblzGnKI+wtf7ewCrSrBGnogntSneNjX6tpPDJ4+2uZeLU2L8Hi7zTheCV7NlXOHe8tpb
+	zmqu42NeJqiweDCvZsBgza76x+3QBBH6+4Iob6k2swBMMwrQ9+kh5a5Y9RPRVeVDWfnBo+dmLRt
+	gu0p9gUDCHvIcK3RsbjC6HaR8yxTPpC/DyiZEXAa02y7MpCD1W/LHoPEJ4Z2j
+X-Google-Smtp-Source: AGHT+IF5wDRcyJJTbcWVBTGepzlQ+jHSOzM0ZzXPaBfNAzOnorpFF17V6m+dbGBuxcb3lj5HuL3l7Q==
+X-Received: by 2002:a05:6102:2c1b:b0:4fc:e6f:2e20 with SMTP id ada2fe7eead31-50fea2ba3b8mr739598137.24.1755158357806;
+        Thu, 14 Aug 2025 00:59:17 -0700 (PDT)
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com. [209.85.222.52])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-88e0293141asm3152928241.17.2025.08.14.00.59.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Aug 2025 00:59:17 -0700 (PDT)
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-89018ea8f7cso357780241.0;
+        Thu, 14 Aug 2025 00:59:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVXhMrSg9QzL83M3nPhbAwYbtNC37ediKreTuaLoejxipWl7ulKHrtpROr1KkHuAPpMFUCeCTEjJhHb@vger.kernel.org, AJvYcCWk1z8a9xaISQ/Cz342zJ/9utIkjv0v9NwuP1pr1+vZyAX4Za3q+Rf4rqAx1zZei88F0AtSvnsCJvc=@vger.kernel.org, AJvYcCWx0sZUDLROw56X7pRH8LiKjDi4jzukjOAcTBAV0PN372jStxDxCVpEbwElw2p/95tWOkcdtJQ1pLWq9DZF@vger.kernel.org
+X-Received: by 2002:a05:6102:4192:b0:4f3:1731:8c01 with SMTP id
+ ada2fe7eead31-50fe9f8ba91mr647723137.19.1755158357000; Thu, 14 Aug 2025
+ 00:59:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ie7JBSI6Q0nMquM1"
-Content-Disposition: inline
-In-Reply-To: <98ed6868-8030-4d10-b66d-c7e3d42886f8@infradead.org>
+References: <20250812104154.42289-2-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20250812104154.42289-2-krzysztof.kozlowski@linaro.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 14 Aug 2025 09:59:06 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXz60tBNh3DemVOmdYA9YT+aLGfKR-AGp7OT72gGkNOnQ@mail.gmail.com>
+X-Gm-Features: Ac12FXyFisZ5qsOIsDXr4nfrcLgkkLJm5dx-Z9otnKfuIczkkZJm2xxpNDB0tU8
+Message-ID: <CAMuHMdXz60tBNh3DemVOmdYA9YT+aLGfKR-AGp7OT72gGkNOnQ@mail.gmail.com>
+Subject: Re: [PATCH] Documentation/process: maintainer-soc: Use "DTS" instead
+ of "devicetree"
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>, linux-arm-kernel@lists.infradead.org, 
+	soc@lists.linux.dev, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+On Thu, 14 Aug 2025 at 00:55, Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+> Devicetree is a data structure and it is a bit generic term, because
+> some treat Devicetree bindings as Devicetree.  What the SoC maintainers
+> profile is mentioning in ABI stability are the Devicetree sources, so
+> DTS files.  It is also more common during reviews to refer to these as
+> per "DTS" instead "devicetree".
+>
+> Clarify that by using "DTS" name in few more places.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
---ie7JBSI6Q0nMquM1
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-On Wed, Aug 13, 2025 at 06:58:12PM -0700, Randy Dunlap wrote:
-> Why send this patch series to the workflows mailing list?
+Gr{oetje,eeting}s,
 
-Workflows ML is listed in get_maintainer.pl output.
+                        Geert
 
-Thanks.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
---=20
-An old man doll... just what I always wanted! - Clara
-
---ie7JBSI6Q0nMquM1
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaJ2EoAAKCRD2uYlJVVFO
-o1TpAP9lIizu4pMJAsA+vYyUic3/QOcQJD/j49wQx+7Ze/5cOwD+NP451W3K4yU0
-7K0SzH1b+L+VQr9cnTE9JqR0GqZ1BAk=
-=TK+6
------END PGP SIGNATURE-----
-
---ie7JBSI6Q0nMquM1--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
