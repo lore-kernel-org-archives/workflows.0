@@ -1,108 +1,73 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D57CF280037;
-	Fri, 15 Aug 2025 06:14:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A2320D4E9;
+	Fri, 15 Aug 2025 06:19:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755238472; cv=none; b=MlV9dIRMtLYFgPeGp8m/Infl9F/YzxlNbUgRHynRo1N/ba3WwI+haUV3J8jpdD88IVylf98yco/KoC2dFGMhkELGu5pwKtbE0rkBZosPvyTVwCa5QuANwa+3vyhQCahgy36We7KlfVwEhURjz3aQMYMakbxAobL5n3omtC9NCJE=
+	t=1755238794; cv=none; b=E/HNEeEHBc1io/xM3C7mgpXl+JDixgyFaR9dAcOl8RrfDENH/7j+DjNn44hulfeioqLXCk6YBliWtt90OLdEW+wYnVK91ryn5/za028NY/Z5Na50S6kPhnPZc1y8OK9KfrIevQhvHRl18+f5xGpNtEEjpYHKhxb25POK1krLlj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755238472; c=relaxed/simple;
-	bh=juAK6C8QbNuY02ZQECecfitY90SDBcEZK0IXBgIcZ3w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n1z4lYyuur21xJyiRb2kOtKjYbbTj8pX+D9DaKFm+TQw2li66V5KXjC9/ZHWPU2E+0NolGRCAWImmcs2aSitV1gEVDeQQdxxXSmkGM7ISrAOogIbHwFk7p4okiNsZ4EzKGkxhYrE6xUv+JkQLATA0J1CzHknVlcdjASNj/UUgcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KWLVMX/z; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755238794; c=relaxed/simple;
+	bh=Kd33Q43Fb7EMCUItpbr+1kxwivJPtHKJ8LEnS7S7o2A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tLt6YLpMQUQz4eH77aODdix1Lm6ZcDjdjOXkywHWBYRvsQjxaUJ34JOO2hZdkZpOiqDvB4JVTzXQ4Sd2crgyoXrS4EaQTa0rsE51/7RQNd6SNv0loLHUbQcKjN5Zt2/ZqDVPkSYSer5Om+YGjErb2htoxZOTjnmjdy7iOK6hkiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G1QdwCBm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KWLVMX/z"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3b9edf4cf6cso1356118f8f.3;
-        Thu, 14 Aug 2025 23:14:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755238469; x=1755843269; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RC3G8Ydq/hH7/R8jIdeAziyUg1MV8Z+nvGhUkoaFFOw=;
-        b=KWLVMX/zx8Ny5wi4Svf3ECDkq0Lw7Qk26VLi8gRX5xiiuuyURlIAoh5CH0uvwMtDWv
-         Us37HOcAN673jqNE7WEMP6yU+3qK/dshj6XKKoxWODz4rPMxDgqsMExRUUsKm5RMGIpk
-         mTXvVGFqV6tkLaKFleCcIU7YLhhPoB3qUdzBHdpnwHLU7kJlKtWP8ZdTuLltOh+WEMw3
-         DCG2dLzZ1cARi/rTaydosxgkKi+rmWc0q9zODLb3ROtfaS7ouHdVEu4LWzdwUsxldJsT
-         mxmSvPRSYJE8MS+Mc4clVNERx6i59s2gRMfaNIbsxyEwv2r7ccMAXn1f7Us2+cwrHlPW
-         rRgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755238469; x=1755843269;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RC3G8Ydq/hH7/R8jIdeAziyUg1MV8Z+nvGhUkoaFFOw=;
-        b=OenzhbUPTyNSKtKHRxk59r+2kSmaKo9Ewj1qEKMoPnyPG/8sHArZ8HXGddZoOCqtIY
-         XewfRMXkdcQRp9a4+xJLOM7GM4eWpq3PJM84hiRu7wcJK7brVFT10NFbj4n0fp14Eh+E
-         mqh1gpW1IIt9/u6SeGpU6kr5OgWXgLzOKlsx4xecetoliRZXwnZyy6DiAYb6Ev8ARNUF
-         v95GtOiYf5Xft553IdzGdVyhSjonHTwFGytoiIAOnvWai4HtUXcwNFt1cvA1iAjN4/YV
-         Z7Qpz9hk+wuDPKNk3E/koYojUIcRGSySEdkTf/n3AlrZHGWifM36dX9Khyu4yIEVeYqj
-         M13g==
-X-Forwarded-Encrypted: i=1; AJvYcCUZibmmAmJO7c/6iSYcHrWi48jr4TpJoCKQr0rrEAR1881u3zNonqXsrBVf7n9GsK0YFIY91w40/1q0tn9r@vger.kernel.org, AJvYcCX4pYEwQoXjsDhRzX3xFcYxhRg1dvuVjFVTgL4loWuhIlV1SjLhcEMpJN6z7w55EyI+S5W7jlUeb3tj@vger.kernel.org, AJvYcCXwJGlnGaarzp4FeRN2x9t1m2BkFDtga+yvfhzrAeByb4voZqZN57PkrBq4xD37sSsrzqa1s9mn1jo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjAYNPePEks3GFih+J7A2rq8w8vyCXOa+HpeLYiyyfmKji6yw4
-	S5YIMAyExUrgVY70AeWsFkB5Qd/m/o/qkPV1zz7sg2UYpXH1fI2smz/aUN8pElZxa/TAX2CfErN
-	pT/g7+QEiyr6ALIEZGgiYu9QBuraYlmE=
-X-Gm-Gg: ASbGncuis7ZhMPevvPtxkhKvNu/xAZiNwK2kvWAGXDUQzkVk3DfNwbqmysihQTzcRsT
-	9Ve4JdcmjJb9TIQBJ+GsC3JfZ4suMjYvVb7395mK2m7AcMVY7rE5y0Elt0+U67nT13be99UBXP6
-	mCAzNQ+6jticPm7at984UhUi+7+f8v3nwk4rpJ1XQYaaj0rQLhtjTIj5LRShxKOIMl0cJn5I1cj
-	bIf28Ni
-X-Google-Smtp-Source: AGHT+IGcfJRbvVjPwlmwrtipABpPT2k1A2y354zwiag+PFS0u1nqei6MBVPlvAO14bH2h8cPLQmeAXffrbKgUI/mnik=
-X-Received: by 2002:a05:6000:2584:b0:3b7:8a49:eed0 with SMTP id
- ffacd0b85a97d-3bb671f56demr475473f8f.22.1755238468843; Thu, 14 Aug 2025
- 23:14:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G1QdwCBm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9ABBEC4CEEB;
+	Fri, 15 Aug 2025 06:19:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755238793;
+	bh=Kd33Q43Fb7EMCUItpbr+1kxwivJPtHKJ8LEnS7S7o2A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=G1QdwCBmlZrbCZsGTNzLRa5jrGZMVfjjLMpjttPtu6pNIw3kN0oxzNs6qGpuqJmke
+	 xfk7tdFqpz/44D5ZrXWbZTHFFhOZ4a5Gqu/zEoMYDzF1/qY9xOUKEebdUiFPn6ItJv
+	 Kj2+zT+ca4gRdrzWi65GOgh8hjTJ0jyJNon0/J+I5Gz3mDh6NN2R+zLimx5KWPJ+3L
+	 7H2m1Sc5YeCcTFb4D42CehwgIHkEQpm26MUFb8ZfhZXTVAlwPVwbFfV+PtNBF9R2VQ
+	 atrkQ5uop4o9fjnYaySuGTVTHQkD8TLQFJ7v4zo+nvTgHBoLziAAsDyTjfeO/rXT/k
+	 eAnmhjPq+3V7Q==
+Date: Thu, 14 Aug 2025 23:19:53 -0700
+From: Kees Cook <kees@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: corbet@lwn.net, josh@joshtriplett.org, konstantin@linuxfoundation.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	rostedt@goodmis.org, workflows@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] README: restructure with role-based documentation
+ and guidelines
+Message-ID: <202508142316.C82AAE47@keescook>
+References: <20250809234008.1540324-1-sashal@kernel.org>
+ <20250809234008.1540324-2-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250813175335.3980268-1-yeoreum.yun@arm.com> <20250813175335.3980268-3-yeoreum.yun@arm.com>
- <CA+fCnZeT2J7W62Ydv0AuDLC13wO-VrH1Q_uqhkZbGLqc4Ktf5g@mail.gmail.com> <aJ3E7u5ENWTjC4ZM@e129823.arm.com>
-In-Reply-To: <aJ3E7u5ENWTjC4ZM@e129823.arm.com>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Fri, 15 Aug 2025 08:14:18 +0200
-X-Gm-Features: Ac12FXzA1cRDanNY9nNRCdMRqZ-71xbNZTcaUrUR9hUEP-TJh9C4NEiHu1Mi5Xw
-Message-ID: <CA+fCnZdFVxmSBO9WnhwcuwggqxAL-Z2JB4BONWNd0rkfUem1pQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] kasan: apply store-only mode in kasan kunit testcases
-To: Yeoreum Yun <yeoreum.yun@arm.com>
-Cc: ryabinin.a.a@gmail.com, glider@google.com, dvyukov@google.com, 
-	vincenzo.frascino@arm.com, corbet@lwn.net, catalin.marinas@arm.com, 
-	will@kernel.org, akpm@linux-foundation.org, scott@os.amperecomputing.com, 
-	jhubbard@nvidia.com, pankaj.gupta@amd.com, leitao@debian.org, 
-	kaleshsingh@google.com, maz@kernel.org, broonie@kernel.org, 
-	oliver.upton@linux.dev, james.morse@arm.com, ardb@kernel.org, 
-	hardevsinh.palaniya@siliconsignals.io, david@redhat.com, 
-	yang@os.amperecomputing.com, kasan-dev@googlegroups.com, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250809234008.1540324-2-sashal@kernel.org>
 
-On Thu, Aug 14, 2025 at 1:14=E2=80=AFPM Yeoreum Yun <yeoreum.yun@arm.com> w=
-rote:
->
-> > > +/*
-> > > + * KUNIT_EXPECT_KASAN_SUCCESS - check that the executed expression d=
-oesn't
-> > > + * produces a KASAN report; causes a KUnit test failure otherwise.
-> >
-> > Should be no need for this, the existing functionality already checks
-> > that there are no reports outside of KUNIT_EXPECT_KASAN_FAIL().
->
-> This is function's purpose is to print failure situtations:
->   - KASAN should reports but no report is found.
->   - KASAN shouldn't report but there report is found.
->
-> To print the second error, the "TEMPLATE" macro is added.
-> not just checking the no report but to check whether report was
-> generated as expected.
+On Sat, Aug 09, 2025 at 07:40:07PM -0400, Sasha Levin wrote:
+> Reorganize README to provide targeted documentation paths for different
+> user roles including developers, researchers, security experts,
+> maintainers, and AI coding assistants. Add quick start section and
+> essential docs links.
 
-There's no need to an explicit wrapper for detecting the second case.
-If there's a KASAN report printed outside of
-KUNIT_EXPECT_KASAN_FAIL(), either the next KUNIT_EXPECT_KASAN_FAIL()
-or kasan_test_exit() will detect this.
+This looks really great; thank you for writing it all out!
+
+> +* Attribution: Agents MUST add Assisted-by tag:
+> +  Assisted-by: $AGENT_NAME-$AGENT_MODEL-$AGENT_VERSION $TOOL1 $TOOL2 ...
+> +  Examples:
+> +  - Assisted-by: Claude-claude-3-opus-20240229 checkpatch git-bisect
+> +  - Assisted-by: GitHub-Copilot-GPT-4-v1.0.0 coccinelle sparse
+
+I think "git" and "checkpatch" getting called out in Assisted-by is
+overkill/redundant. Devs are going to use git constantly, and checkpatch
+is already explicitly called out as a minimum standard linter for
+submitting patches.
+
+As for agent formatting, it's hard to parse "-" separators if they're
+already used within the model/version. How about : or ; ?
+
+--
+Kees Cook
