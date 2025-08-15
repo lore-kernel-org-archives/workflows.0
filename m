@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A2320D4E9;
-	Fri, 15 Aug 2025 06:19:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 539141EE03B;
+	Fri, 15 Aug 2025 06:23:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755238794; cv=none; b=E/HNEeEHBc1io/xM3C7mgpXl+JDixgyFaR9dAcOl8RrfDENH/7j+DjNn44hulfeioqLXCk6YBliWtt90OLdEW+wYnVK91ryn5/za028NY/Z5Na50S6kPhnPZc1y8OK9KfrIevQhvHRl18+f5xGpNtEEjpYHKhxb25POK1krLlj8=
+	t=1755239009; cv=none; b=F6T4gAVUtKg9UhfQqxV0N0ojCMZo+chZo01Eyb1jcCkvTUxYriSzD8s+8G+SN7mzD0n9gBhP7xjJJar6RTsVZNthi4vsaZZSCttoje6QBFSpa3Wcl/isWQb2R/8oH7jViaKovMqaUAjwRvf6N0UzcM4pSl6TjmLyCappkCQiKrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755238794; c=relaxed/simple;
-	bh=Kd33Q43Fb7EMCUItpbr+1kxwivJPtHKJ8LEnS7S7o2A=;
+	s=arc-20240116; t=1755239009; c=relaxed/simple;
+	bh=BzekQKui7rH093j6tftYWuBYdHIb8PYzFZJth+6yQIc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tLt6YLpMQUQz4eH77aODdix1Lm6ZcDjdjOXkywHWBYRvsQjxaUJ34JOO2hZdkZpOiqDvB4JVTzXQ4Sd2crgyoXrS4EaQTa0rsE51/7RQNd6SNv0loLHUbQcKjN5Zt2/ZqDVPkSYSer5Om+YGjErb2htoxZOTjnmjdy7iOK6hkiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G1QdwCBm; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=XY3ctSHHDkNXV40h1iRCIEH/VFxyEmqmALwwggnUEVm+0xoIaHYt1wyqrbicMH/BMcQyAQBMvQc9+ELkUq9m83c9knwWek6V0CQqRuWUyegQ2DC3qKjVvobrITyLL7lgunD+ODFZyyq/EHjM7hVKnPLEBdO/Ljda1kYil7Vg+lY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ojiR1jSF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G1QdwCBm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9ABBEC4CEEB;
-	Fri, 15 Aug 2025 06:19:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ojiR1jSF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7602C4CEEB;
+	Fri, 15 Aug 2025 06:23:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755238793;
-	bh=Kd33Q43Fb7EMCUItpbr+1kxwivJPtHKJ8LEnS7S7o2A=;
+	s=k20201202; t=1755239008;
+	bh=BzekQKui7rH093j6tftYWuBYdHIb8PYzFZJth+6yQIc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=G1QdwCBmlZrbCZsGTNzLRa5jrGZMVfjjLMpjttPtu6pNIw3kN0oxzNs6qGpuqJmke
-	 xfk7tdFqpz/44D5ZrXWbZTHFFhOZ4a5Gqu/zEoMYDzF1/qY9xOUKEebdUiFPn6ItJv
-	 Kj2+zT+ca4gRdrzWi65GOgh8hjTJ0jyJNon0/J+I5Gz3mDh6NN2R+zLimx5KWPJ+3L
-	 7H2m1Sc5YeCcTFb4D42CehwgIHkEQpm26MUFb8ZfhZXTVAlwPVwbFfV+PtNBF9R2VQ
-	 atrkQ5uop4o9fjnYaySuGTVTHQkD8TLQFJ7v4zo+nvTgHBoLziAAsDyTjfeO/rXT/k
-	 eAnmhjPq+3V7Q==
-Date: Thu, 14 Aug 2025 23:19:53 -0700
+	b=ojiR1jSFrV6yLTp2cJo+HnsAAjnBBU64Sciysd4qvve4/0sZ6HytP6JVbU6aRu8Em
+	 uS5ZBL3ZqCrTdJG1hRVds0d13eGRHC+rERZYRMyBC9m8tfNzNMzv0mxTrAmF7kiKWN
+	 6OKs5GDIbwak2cEx4zAcbL7ihLjFByzmlv8/hb/kKlAdX29l/mdo9CDFbJtZoGdyby
+	 /SF6v3NI7ve3K2CRaRoNqsOlnsX9lLdqPm2ltbdHx1gDeovniMSA1GfvulHamEJA49
+	 Lmd/ENddvcUJ8/d9de0GmRMmilW89gb2qg6Lie+Xj7cn6mkiqVyFG5mCQ1GNiJK9b+
+	 QWYTHbxA/yGZQ==
+Date: Thu, 14 Aug 2025 23:23:28 -0700
 From: Kees Cook <kees@kernel.org>
 To: Sasha Levin <sashal@kernel.org>
 Cc: corbet@lwn.net, josh@joshtriplett.org, konstantin@linuxfoundation.org,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
 	rostedt@goodmis.org, workflows@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] README: restructure with role-based documentation
- and guidelines
-Message-ID: <202508142316.C82AAE47@keescook>
+Subject: Re: [PATCH v2 2/2] agents: add unified agent coding assistant
+ configuration
+Message-ID: <202508142320.60015E6@keescook>
 References: <20250809234008.1540324-1-sashal@kernel.org>
- <20250809234008.1540324-2-sashal@kernel.org>
+ <20250809234008.1540324-3-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -45,29 +45,35 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250809234008.1540324-2-sashal@kernel.org>
+In-Reply-To: <20250809234008.1540324-3-sashal@kernel.org>
 
-On Sat, Aug 09, 2025 at 07:40:07PM -0400, Sasha Levin wrote:
-> Reorganize README to provide targeted documentation paths for different
-> user roles including developers, researchers, security experts,
-> maintainers, and AI coding assistants. Add quick start section and
-> essential docs links.
+On Sat, Aug 09, 2025 at 07:40:08PM -0400, Sasha Levin wrote:
+> Create a single source of truth for agent instructions with
+> symlinks for all major coding agents:
+> - CLAUDE.md (Claude Code)
+> - .github/copilot-instructions.md (GitHub Copilot)
+> - .cursorrules (Cursor)
+> - .codeium/instructions.md (Codeium)
+> - .continue/context.md (Continue)
+> - .windsurfrules (Windsurf)
+> - GEMINI.md (Gemini)
+>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
 
-This looks really great; thank you for writing it all out!
+Still a big NAK from me for this for at least CLAUDE.md and GEMINI.md. I
+don't know about the other agents, but at least these two belong in
+.gitignore because they are files used for _personalized_ project
+management of the agent by the developer. Both Agents will find README
+automatically.
 
-> +* Attribution: Agents MUST add Assisted-by tag:
-> +  Assisted-by: $AGENT_NAME-$AGENT_MODEL-$AGENT_VERSION $TOOL1 $TOOL2 ...
-> +  Examples:
-> +  - Assisted-by: Claude-claude-3-opus-20240229 checkpatch git-bisect
-> +  - Assisted-by: GitHub-Copilot-GPT-4-v1.0.0 coccinelle sparse
+Please, just add to .gitignore:
 
-I think "git" and "checkpatch" getting called out in Assisted-by is
-overkill/redundant. Devs are going to use git constantly, and checkpatch
-is already explicitly called out as a minimum standard linter for
-submitting patches.
+CLAUDE.md
+.claude/
 
-As for agent formatting, it's hard to parse "-" separators if they're
-already used within the model/version. How about : or ; ?
+etc...
+
+This is exactly the same reason that debian/ is listed in .gitignore.
 
 --
 Kees Cook
