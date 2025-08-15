@@ -1,111 +1,108 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B189280309;
-	Thu, 14 Aug 2025 22:56:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D57CF280037;
+	Fri, 15 Aug 2025 06:14:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755212164; cv=none; b=cOfmrSgrTWd+FZVfbCZ2knCTX+DIhpTqlm/r9bAKdwBHfLfg+IV0J0CyroNOZgcssZkzoQnJbhoh84fHDT1+G7FnofeBcHPwthAxhoVGgQ5IjaosMqGWuuwffRj702z5LEiBiisVImnOUFwh4ZplHCFpcKew0kwizZCxV3/8Mtw=
+	t=1755238472; cv=none; b=MlV9dIRMtLYFgPeGp8m/Infl9F/YzxlNbUgRHynRo1N/ba3WwI+haUV3J8jpdD88IVylf98yco/KoC2dFGMhkELGu5pwKtbE0rkBZosPvyTVwCa5QuANwa+3vyhQCahgy36We7KlfVwEhURjz3aQMYMakbxAobL5n3omtC9NCJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755212164; c=relaxed/simple;
-	bh=mQHd7PTKwFf9DIdBJXB1vK+y846gRcI0pvlTZeYISMw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ttPpIp/R9oShITatp+Pi+Jm8joi55H4eB1UdUEA7jCtSWf+sQPRxYKM9iFkF2mzCFBdtUTiCG6OzRyQfY6dSBtLB/g//iyk4/LSsTBovwXSIqIp1e/yAZpCb3aFWL8XL1Uu6T9XQsGQFPQnCCaUw0H1ldORdncVCUS+en4ZLu0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GTAsYgTI; arc=none smtp.client-ip=209.85.210.171
+	s=arc-20240116; t=1755238472; c=relaxed/simple;
+	bh=juAK6C8QbNuY02ZQECecfitY90SDBcEZK0IXBgIcZ3w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=n1z4lYyuur21xJyiRb2kOtKjYbbTj8pX+D9DaKFm+TQw2li66V5KXjC9/ZHWPU2E+0NolGRCAWImmcs2aSitV1gEVDeQQdxxXSmkGM7ISrAOogIbHwFk7p4okiNsZ4EzKGkxhYrE6xUv+JkQLATA0J1CzHknVlcdjASNj/UUgcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KWLVMX/z; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GTAsYgTI"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-76e2e629fc4so1619082b3a.0;
-        Thu, 14 Aug 2025 15:56:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KWLVMX/z"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3b9edf4cf6cso1356118f8f.3;
+        Thu, 14 Aug 2025 23:14:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755212162; x=1755816962; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=E5AKvjWPxuvk9+NvAN7NRCHNy5BREu+iLhDk4IMjA/w=;
-        b=GTAsYgTI6afpqeXATs/2ePSUo8GXWgeqYAPeQuU8eEG5i6DqethsYTdteskZJbCwb+
-         8imzVeqXVa7fpeURXrX9Q3qWshcqNPc41QF5IHt2pOajL7SVChInxDydxpF8fmDzS4VB
-         qxuE2PrKqXkRmPksbMLk9kAqVDfFIrbDPpDh2nZ9VC62RwxnhMnLe91opREq6bDSFVRc
-         6o1lgu0okGWxW/n7tHn4OnI7+3ITkv805mLw6awaEhqdinPBluQPPGBUMnCybUg40odE
-         URQdZ+mkoGmFNnVwFAhq5zotHiijQ0bpwtO3aaLKnXJVpWAcs0Vj24zGurvNMS+GM6F4
-         EHvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755212162; x=1755816962;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1755238469; x=1755843269; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=E5AKvjWPxuvk9+NvAN7NRCHNy5BREu+iLhDk4IMjA/w=;
-        b=tf5CuJ1DsyLWsqz1T4RuddBnh5wr8s9PIfkO+D0Nv4s5XR9tNZg7vIqAbAamz9sBpl
-         IsRYC7Nv9ZUpoYEHSWe3acloHyp3V7t9iq8oh02U5KE5cy1qRbj/J1iCJRNFHmqdUbcG
-         Np46Hb0xsAImGAJth8dU5Xc8Z8MWs8I+aEabmDt5AwJzxIm8je5K2Pk0wwnTSO1UmXba
-         bH9tAio5VdnqYEqeJJPOLdT3eJzQcSZxQ+oAk/0phphsQtnMrbtuCtgZ6IBny2vNpUoF
-         AL7c7uccGxWe9Q5tHGCOBQC8tAwQyLkbzj/vAiDQYwYOZF5CPTIj5a0dsikGzE9dpJ+2
-         1gBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV+PLlmcXQv3vF6gKvWckNLSUvDpf3FL8nMatjdsqfchq2AFtd6I9Bv4eJeMhh68G74qZlBqPJioqvbJTkBEMbn@vger.kernel.org, AJvYcCVVIJHkU07VNm/VhzKB1BFM5fZ4PSPoMlMHNhg56oZN8TsIPL+EZcY/jqRgZeJAX7ke4eDCqsZGJt66@vger.kernel.org, AJvYcCX0NhOdNWUDSiXbfD4mLXLlbzowlEJJGtWsJHyGTANAGlHk4byPK3pohTsFPgeoarZdXFd/rGfMjEQ=@vger.kernel.org, AJvYcCXxBbQMx6jG6soTHiRDfsZUIXjjsDYRcB8boGk5L5IaFgcxrO3tjHkMAkitbQF/jeMhW4cqTisEzlqtBPV1@vger.kernel.org
-X-Gm-Message-State: AOJu0YzSFV5VBCgu8W4kJw6jJl39kueK66mCmN121uYfmRmBZv+oZRwm
-	UVyxlJNx8tG6hIXPoU7vVhPxe9JexhwwBzySTozGADBm8okItTuDmNzj
-X-Gm-Gg: ASbGncvSX7jYkGRHuwCInaBN5XHe/u8E+UkKybH2o8LGz5aJybK6+7AUNyWpR2/h+/o
-	fl1/VjbdntgHvgbE4qLby+ZqCpX/pztEZ93rxwe+WQ074SZVOwOhUcMB0vP+0tDzmzHlWDTK3cD
-	F+5rBz55GNGlonj6f+QLTC3gpvsM95KVrCO5VtIutbheemiTd97dl2YYIHckG/Xr0Op2ur6lmQj
-	eowMurhqefswaNMvoLbCrrKtfwWmFPh+apgJtwGVRL40nRYeq8Dsoix3RVD4RCag3ye2v5wBNnN
-	nJOY9/Vtu3d5BvmuMscMKF0MNoQkxdr4T7s7pYhV3MPnYbDhJT7OpCl6P/svxNt6Fabz7AvWki+
-	pCGAaZVAa60u5Sx23Gadl/A==
-X-Google-Smtp-Source: AGHT+IH7mGzPa5mo9B5wynWRywyhFQPatdKJXTvrQw/mOHTL0M+5shEN/BMB8QgAUqPFJnuwQV4jTQ==
-X-Received: by 2002:a05:6a00:2392:b0:730:95a6:3761 with SMTP id d2e1a72fcca58-76e2fa2cc1bmr8017756b3a.3.1755212162510;
-        Thu, 14 Aug 2025 15:56:02 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bdf61d092sm32632771b3a.116.2025.08.14.15.56.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Aug 2025 15:56:01 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 7A568423F8C9; Fri, 15 Aug 2025 05:55:59 +0700 (WIB)
-Date: Fri, 15 Aug 2025 05:55:59 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Randy Dunlap <rdunlap@infradead.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Kernel Workflows <workflows@vger.kernel.org>,
-	Linux Kernel Selftests <linux-kselftest@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, David Gow <davidgow@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Tim Bird <Tim.Bird@sony.com>, Rae Moar <rmoar@google.com>
-Subject: Re: [PATCH 0/2] Documentation: ktap: formatting cleanup
-Message-ID: <aJ5pf-5nxHJcqzgZ@archie.me>
-References: <20250814012046.21235-1-bagasdotme@gmail.com>
- <98ed6868-8030-4d10-b66d-c7e3d42886f8@infradead.org>
- <aJ2Epp0b3HgeaMxk@archie.me>
- <e2186e21-d069-4881-8829-b698cf90d5e3@infradead.org>
+        bh=RC3G8Ydq/hH7/R8jIdeAziyUg1MV8Z+nvGhUkoaFFOw=;
+        b=KWLVMX/zx8Ny5wi4Svf3ECDkq0Lw7Qk26VLi8gRX5xiiuuyURlIAoh5CH0uvwMtDWv
+         Us37HOcAN673jqNE7WEMP6yU+3qK/dshj6XKKoxWODz4rPMxDgqsMExRUUsKm5RMGIpk
+         mTXvVGFqV6tkLaKFleCcIU7YLhhPoB3qUdzBHdpnwHLU7kJlKtWP8ZdTuLltOh+WEMw3
+         DCG2dLzZ1cARi/rTaydosxgkKi+rmWc0q9zODLb3ROtfaS7ouHdVEu4LWzdwUsxldJsT
+         mxmSvPRSYJE8MS+Mc4clVNERx6i59s2gRMfaNIbsxyEwv2r7ccMAXn1f7Us2+cwrHlPW
+         rRgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755238469; x=1755843269;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RC3G8Ydq/hH7/R8jIdeAziyUg1MV8Z+nvGhUkoaFFOw=;
+        b=OenzhbUPTyNSKtKHRxk59r+2kSmaKo9Ewj1qEKMoPnyPG/8sHArZ8HXGddZoOCqtIY
+         XewfRMXkdcQRp9a4+xJLOM7GM4eWpq3PJM84hiRu7wcJK7brVFT10NFbj4n0fp14Eh+E
+         mqh1gpW1IIt9/u6SeGpU6kr5OgWXgLzOKlsx4xecetoliRZXwnZyy6DiAYb6Ev8ARNUF
+         v95GtOiYf5Xft553IdzGdVyhSjonHTwFGytoiIAOnvWai4HtUXcwNFt1cvA1iAjN4/YV
+         Z7Qpz9hk+wuDPKNk3E/koYojUIcRGSySEdkTf/n3AlrZHGWifM36dX9Khyu4yIEVeYqj
+         M13g==
+X-Forwarded-Encrypted: i=1; AJvYcCUZibmmAmJO7c/6iSYcHrWi48jr4TpJoCKQr0rrEAR1881u3zNonqXsrBVf7n9GsK0YFIY91w40/1q0tn9r@vger.kernel.org, AJvYcCX4pYEwQoXjsDhRzX3xFcYxhRg1dvuVjFVTgL4loWuhIlV1SjLhcEMpJN6z7w55EyI+S5W7jlUeb3tj@vger.kernel.org, AJvYcCXwJGlnGaarzp4FeRN2x9t1m2BkFDtga+yvfhzrAeByb4voZqZN57PkrBq4xD37sSsrzqa1s9mn1jo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxjAYNPePEks3GFih+J7A2rq8w8vyCXOa+HpeLYiyyfmKji6yw4
+	S5YIMAyExUrgVY70AeWsFkB5Qd/m/o/qkPV1zz7sg2UYpXH1fI2smz/aUN8pElZxa/TAX2CfErN
+	pT/g7+QEiyr6ALIEZGgiYu9QBuraYlmE=
+X-Gm-Gg: ASbGncuis7ZhMPevvPtxkhKvNu/xAZiNwK2kvWAGXDUQzkVk3DfNwbqmysihQTzcRsT
+	9Ve4JdcmjJb9TIQBJ+GsC3JfZ4suMjYvVb7395mK2m7AcMVY7rE5y0Elt0+U67nT13be99UBXP6
+	mCAzNQ+6jticPm7at984UhUi+7+f8v3nwk4rpJ1XQYaaj0rQLhtjTIj5LRShxKOIMl0cJn5I1cj
+	bIf28Ni
+X-Google-Smtp-Source: AGHT+IGcfJRbvVjPwlmwrtipABpPT2k1A2y354zwiag+PFS0u1nqei6MBVPlvAO14bH2h8cPLQmeAXffrbKgUI/mnik=
+X-Received: by 2002:a05:6000:2584:b0:3b7:8a49:eed0 with SMTP id
+ ffacd0b85a97d-3bb671f56demr475473f8f.22.1755238468843; Thu, 14 Aug 2025
+ 23:14:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <e2186e21-d069-4881-8829-b698cf90d5e3@infradead.org>
+References: <20250813175335.3980268-1-yeoreum.yun@arm.com> <20250813175335.3980268-3-yeoreum.yun@arm.com>
+ <CA+fCnZeT2J7W62Ydv0AuDLC13wO-VrH1Q_uqhkZbGLqc4Ktf5g@mail.gmail.com> <aJ3E7u5ENWTjC4ZM@e129823.arm.com>
+In-Reply-To: <aJ3E7u5ENWTjC4ZM@e129823.arm.com>
+From: Andrey Konovalov <andreyknvl@gmail.com>
+Date: Fri, 15 Aug 2025 08:14:18 +0200
+X-Gm-Features: Ac12FXzA1cRDanNY9nNRCdMRqZ-71xbNZTcaUrUR9hUEP-TJh9C4NEiHu1Mi5Xw
+Message-ID: <CA+fCnZdFVxmSBO9WnhwcuwggqxAL-Z2JB4BONWNd0rkfUem1pQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] kasan: apply store-only mode in kasan kunit testcases
+To: Yeoreum Yun <yeoreum.yun@arm.com>
+Cc: ryabinin.a.a@gmail.com, glider@google.com, dvyukov@google.com, 
+	vincenzo.frascino@arm.com, corbet@lwn.net, catalin.marinas@arm.com, 
+	will@kernel.org, akpm@linux-foundation.org, scott@os.amperecomputing.com, 
+	jhubbard@nvidia.com, pankaj.gupta@amd.com, leitao@debian.org, 
+	kaleshsingh@google.com, maz@kernel.org, broonie@kernel.org, 
+	oliver.upton@linux.dev, james.morse@arm.com, ardb@kernel.org, 
+	hardevsinh.palaniya@siliconsignals.io, david@redhat.com, 
+	yang@os.amperecomputing.com, kasan-dev@googlegroups.com, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 14, 2025 at 08:55:08AM -0700, Randy Dunlap wrote:
-> 
-> 
-> On 8/13/25 11:39 PM, Bagas Sanjaya wrote:
-> > On Wed, Aug 13, 2025 at 06:58:12PM -0700, Randy Dunlap wrote:
-> >> Why send this patch series to the workflows mailing list?
-> > 
-> > Workflows ML is listed in get_maintainer.pl output.
-> 
-> Thank you. I didn't realize that. So in the MAINTAINERS file
-> workflows ML is listed under DOCUMENTATION PROCESS and with
-> these specific directories:
-> 
-> F:	Documentation/dev-tools/
-> F:	Documentation/maintainer/
-> F:	Documentation/process/
-> 
-> so yes, you got it right. Thanks!
-> 
+On Thu, Aug 14, 2025 at 1:14=E2=80=AFPM Yeoreum Yun <yeoreum.yun@arm.com> w=
+rote:
+>
+> > > +/*
+> > > + * KUNIT_EXPECT_KASAN_SUCCESS - check that the executed expression d=
+oesn't
+> > > + * produces a KASAN report; causes a KUnit test failure otherwise.
+> >
+> > Should be no need for this, the existing functionality already checks
+> > that there are no reports outside of KUNIT_EXPECT_KASAN_FAIL().
+>
+> This is function's purpose is to print failure situtations:
+>   - KASAN should reports but no report is found.
+>   - KASAN shouldn't report but there report is found.
+>
+> To print the second error, the "TEMPLATE" macro is added.
+> not just checking the no report but to check whether report was
+> generated as expected.
 
-OK, thanks!
-
--- 
-An old man doll... just what I always wanted! - Clara
+There's no need to an explicit wrapper for detecting the second case.
+If there's a KASAN report printed outside of
+KUNIT_EXPECT_KASAN_FAIL(), either the next KUNIT_EXPECT_KASAN_FAIL()
+or kasan_test_exit() will detect this.
