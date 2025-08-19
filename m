@@ -1,78 +1,76 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E88E32475D0;
-	Mon, 18 Aug 2025 16:29:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A38171AF0B6;
+	Tue, 19 Aug 2025 00:50:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755534575; cv=none; b=N7+QETTU+KNtlb+HQnRJyj3bXEZ21PBA/z53rYPaDVdHFlD3r6rEownabVArtst1q+nmoAA4EhX+1J2Ep6bp2RN3Y8Nxmqo0o07a3WRzVpaZmdi3bWPpSlBaLlgpDAi5XM9yvIDQLWalevdrCM/BbO5IlHWkz0cyBzPcHV0T5Ak=
+	t=1755564609; cv=none; b=J/EKiPjjBFcgMgdtb+7VZuluFqWQ6c6pffdB4XksF98cOCM/7n4XgCAun5F8pMjGBz85w+O/9RYa5yW0jZTBd0m/yq00teYfzq+KYieMOr6UDMpvKZxSFraimYpRd1YllBwwsjV/DVteigco8oEB546IVQP8BXuX8tgcu7pLvaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755534575; c=relaxed/simple;
-	bh=h4KHE5DA3Gldw56dsMM8N4YwCwCgdqM504Ujq7K5QLQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=WyG7bsYdVMv/4S0sK3o0DVYnVwjuJa7efDqmsY4Hu0U5yYHGChuBoMKdyK40kd0nEBD26t/a89QfospZcUABNxdG41garjax1vy2QTaQ4sfNrjTcjQ9fTGuTqANTuPhHa54s6OoqHss/Uz4hI9H6+CNcXInb0rHLVZ4JajmIneE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=i2gLu8Ts; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1755564609; c=relaxed/simple;
+	bh=UA9sSoPrJYKulw6y+ZVGBCPijt7UdH+EO3q2M49KNws=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=PPTjWI4JxBebACP3lq4IiEJ2AtFbm0HQ2TcbVPgBLzKzqhozaMbRaY1Cmyel81Vof9cXhy5zdkL4DhFwocuIRIdIq+zVKnvARKDPKrctzC4e+RonU9Mh8bAK+EyWVvX9ed6rsZgnxwn2l9tG3SVft45iA6DvczUoTnOIaGjm8IA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dJ11UAqk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="i2gLu8Ts"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 055B940AB4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1755534573; bh=Bsofl/J5GkkIUSXyFczLdMQQB7vEUZHt/cin7t/cmlo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=i2gLu8Ts2wxYmuYLIJcIi4ntf471WBtou9aN+s9M50DDpv0pVf29VCEeBbnY0JSVJ
-	 Us4g7SytDIs6KzmVmLAbRLxgPX8LurCjIcNCMmdqcQxmsXw4XYeaJc0OITraG87tRl
-	 0m9uN7fDlo3Vqup15uTQhx5fuIB5XhN0kZCPGzHfbHKj4H8Jcr6F4XtM2tK1t2ufb5
-	 eFZtPf0DIwHSRB+ajjg5DCI4vZm2BrIA9+RPYY5YQFFsmbFld+QFGOnVHOcvwmRqk0
-	 jS4/L8XZ++Qh8mT+PUupNLajorA0ZUQ5a6a5ouZfktPpeWEbix/YE2pkKgZnCiN4Cz
-	 bAf2nzpfrptqg==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 055B940AB4;
-	Mon, 18 Aug 2025 16:29:32 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Documentation
- <linux-doc@vger.kernel.org>, Linux Kernel Workflows
- <workflows@vger.kernel.org>, Linux Kernel Selftests
- <linux-kselftest@vger.kernel.org>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>, David Gow <davidgow@google.com>,
- Shuah Khan <skhan@linuxfoundation.org>, Tim Bird <Tim.Bird@sony.com>, Rae
- Moar <rmoar@google.com>
-Subject: Re: [PATCH 0/2] Documentation: ktap: formatting cleanup
-In-Reply-To: <20250814012046.21235-1-bagasdotme@gmail.com>
-References: <20250814012046.21235-1-bagasdotme@gmail.com>
-Date: Mon, 18 Aug 2025 10:29:32 -0600
-Message-ID: <87jz308ufn.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dJ11UAqk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28FA0C4CEEB;
+	Tue, 19 Aug 2025 00:50:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755564609;
+	bh=UA9sSoPrJYKulw6y+ZVGBCPijt7UdH+EO3q2M49KNws=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=dJ11UAqkWbhCAZRiY6YgVFdIoR3kcvVB9q1hgjy0zLdLukecfOrpwbhKYLTknP0E6
+	 vzeKe6BKG102tBpaJvx01G1kGZnE/zSt0QCwbccDnQJBZTEewxQ8IlqOwCilyBfuWa
+	 fYkc2hpALU5xYCmyvphsAmZli/vVo2H7ZaiDzgvwwFYCaS4xmBCNLlYhoyNfItoN0n
+	 D8rGySTe2UFAyNnYyvI8orYd4KrzyH8w4g/w9EOdc61FLUnbN5T+y6L5r6acD493LT
+	 fBVtUPsG7l9zV/A8rTjH87yw5nFFUSbIvZWlESLfUI+LEuNYFygVkM0h4pVC0bbn+U
+	 JpCmsohHYZL/Q==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70D31383BF4E;
+	Tue, 19 Aug 2025 00:50:20 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next] docs: netdev: refine the clean-up patch examples
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <175556461899.2964462.4786637899718513652.git-patchwork-notify@kernel.org>
+Date: Tue, 19 Aug 2025 00:50:18 +0000
+References: <20250815165242.124240-1-kuba@kernel.org>
+In-Reply-To: <20250815165242.124240-1-kuba@kernel.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+ pabeni@redhat.com, andrew+netdev@lunn.ch, horms@kernel.org, corbet@lwn.net,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+Hello:
 
-> Hi,
->
-> Just a little formatting cleanup for ktap docs (actually only bullet list
-> items fix in [2/2]; the first patch is trivial spelling fix).
->
-> Enjoy!
->
-> Bagas Sanjaya (2):
->   Documentation: ktap: Correct "its" spelling
->   Documentation: ktap: Separate first bullet list items
->
->  Documentation/dev-tools/ktap.rst | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-I have applied these, thanks.
+On Fri, 15 Aug 2025 09:52:42 -0700 you wrote:
+> We discourage sending trivial patches to clean up checkpatch warnings.
+> There are other tools which lead to patches of similarly low value
+> like some coccicheck warnings. The warnings are useful for new code
+> but fixing them in the existing code base is a waste of review time.
+> 
+> Broaden the example given in the doc a little bit.
+> 
+> [...]
 
-It seems nobody has touched these docs since 2022...I suspect KTAP has
-seen a few changes in the meantime...oh well.
+Here is the summary with links:
+  - [net-next] docs: netdev: refine the clean-up patch examples
+    https://git.kernel.org/netdev/net-next/c/ab4ee77ed9bd
 
-jon
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
