@@ -1,35 +1,56 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A38171AF0B6;
-	Tue, 19 Aug 2025 00:50:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B66602D24AA;
+	Wed, 20 Aug 2025 07:12:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755564609; cv=none; b=J/EKiPjjBFcgMgdtb+7VZuluFqWQ6c6pffdB4XksF98cOCM/7n4XgCAun5F8pMjGBz85w+O/9RYa5yW0jZTBd0m/yq00teYfzq+KYieMOr6UDMpvKZxSFraimYpRd1YllBwwsjV/DVteigco8oEB546IVQP8BXuX8tgcu7pLvaE=
+	t=1755673978; cv=none; b=rpEZDgwW1IziA517i4UjyrBrLk4KYwagA65/ZsrjQ/vxxBCZqGq+0HLNRDsxNHZML6gCT78AzPM9QUVaBihargep5MIogw7bB+03cy5IXmyW/9rBGZa1iQleC1kjYDWVoJAvIRPBwbQfEclMv3P63gO+0oc/8d5YWoADRk4fckI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755564609; c=relaxed/simple;
-	bh=UA9sSoPrJYKulw6y+ZVGBCPijt7UdH+EO3q2M49KNws=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=PPTjWI4JxBebACP3lq4IiEJ2AtFbm0HQ2TcbVPgBLzKzqhozaMbRaY1Cmyel81Vof9cXhy5zdkL4DhFwocuIRIdIq+zVKnvARKDPKrctzC4e+RonU9Mh8bAK+EyWVvX9ed6rsZgnxwn2l9tG3SVft45iA6DvczUoTnOIaGjm8IA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dJ11UAqk; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dJ11UAqk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28FA0C4CEEB;
-	Tue, 19 Aug 2025 00:50:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755564609;
-	bh=UA9sSoPrJYKulw6y+ZVGBCPijt7UdH+EO3q2M49KNws=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=dJ11UAqkWbhCAZRiY6YgVFdIoR3kcvVB9q1hgjy0zLdLukecfOrpwbhKYLTknP0E6
-	 vzeKe6BKG102tBpaJvx01G1kGZnE/zSt0QCwbccDnQJBZTEewxQ8IlqOwCilyBfuWa
-	 fYkc2hpALU5xYCmyvphsAmZli/vVo2H7ZaiDzgvwwFYCaS4xmBCNLlYhoyNfItoN0n
-	 D8rGySTe2UFAyNnYyvI8orYd4KrzyH8w4g/w9EOdc61FLUnbN5T+y6L5r6acD493LT
-	 fBVtUPsG7l9zV/A8rTjH87yw5nFFUSbIvZWlESLfUI+LEuNYFygVkM0h4pVC0bbn+U
-	 JpCmsohHYZL/Q==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70D31383BF4E;
-	Tue, 19 Aug 2025 00:50:20 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1755673978; c=relaxed/simple;
+	bh=q++EH1ekCMN6XQhAXOaorrC/5hzw0/AVKNcS9jhKlvQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MwnsWLTM/pie2GwFYuXx7W9s/7BatDGmljOS9mZwjbFFWsmoc2OZVjAIgGNWGxVBxNgrc/WvCpcVbiG2xS+ycxQP2hLcupyRKvAwHB52Qj4gY3ipotjTsJSY0VxJ/aFEYQ1OuDRDz+438W17X9bJ4ngcoJ59MUi3T3kUxWYm7SY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C3F94106F;
+	Wed, 20 Aug 2025 00:12:40 -0700 (PDT)
+Received: from e129823.cambridge.arm.com (e129823.arm.com [10.1.197.6])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 19E3F3F58B;
+	Wed, 20 Aug 2025 00:12:44 -0700 (PDT)
+From: Yeoreum Yun <yeoreum.yun@arm.com>
+To: ryabinin.a.a@gmail.com,
+	glider@google.com,
+	andreyknvl@gmail.com,
+	dvyukov@google.com,
+	vincenzo.frascino@arm.com,
+	corbet@lwn.net,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	akpm@linux-foundation.org,
+	scott@os.amperecomputing.com,
+	jhubbard@nvidia.com,
+	pankaj.gupta@amd.com,
+	leitao@debian.org,
+	kaleshsingh@google.com,
+	maz@kernel.org,
+	broonie@kernel.org,
+	oliver.upton@linux.dev,
+	james.morse@arm.com,
+	ardb@kernel.org,
+	hardevsinh.palaniya@siliconsignals.io,
+	david@redhat.com,
+	yang@os.amperecomputing.com
+Cc: kasan-dev@googlegroups.com,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mm@kvack.org,
+	Yeoreum Yun <yeoreum.yun@arm.com>
+Subject: [PATCH v5 0/2] introduce kasan.write_only option in hw-tags
+Date: Wed, 20 Aug 2025 08:12:41 +0100
+Message-Id: <20250820071243.1567338-1-yeoreum.yun@arm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -37,40 +58,70 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next] docs: netdev: refine the clean-up patch examples
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <175556461899.2964462.4786637899718513652.git-patchwork-notify@kernel.org>
-Date: Tue, 19 Aug 2025 00:50:18 +0000
-References: <20250815165242.124240-1-kuba@kernel.org>
-In-Reply-To: <20250815165242.124240-1-kuba@kernel.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
- pabeni@redhat.com, andrew+netdev@lunn.ch, horms@kernel.org, corbet@lwn.net,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org
 
-Hello:
+Hardware tag based KASAN is implemented using the Memory Tagging Extension
+(MTE) feature.
 
-This patch was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+MTE is built on top of the ARMv8.0 virtual address tagging TBI
+(Top Byte Ignore) feature and allows software to access a 4-bit
+allocation tag for each 16-byte granule in the physical address space.
+A logical tag is derived from bits 59-56 of the virtual
+address used for the memory access. A CPU with MTE enabled will compare
+the logical tag against the allocation tag and potentially raise an
+tag check fault on mismatch, subject to system registers configuration.
 
-On Fri, 15 Aug 2025 09:52:42 -0700 you wrote:
-> We discourage sending trivial patches to clean up checkpatch warnings.
-> There are other tools which lead to patches of similarly low value
-> like some coccicheck warnings. The warnings are useful for new code
-> but fixing them in the existing code base is a waste of review time.
-> 
-> Broaden the example given in the doc a little bit.
-> 
-> [...]
+Since ARMv8.9, FEAT_MTE_STORE_ONLY can be used to restrict raise of tag
+check fault on store operation only.
 
-Here is the summary with links:
-  - [net-next] docs: netdev: refine the clean-up patch examples
-    https://git.kernel.org/netdev/net-next/c/ab4ee77ed9bd
+Using this feature (FEAT_MTE_STORE_ONLY), introduce KASAN write-only mode
+which restricts KASAN check write (store) operation only.
+This mode omits KASAN check for read (fetch/load) operation.
+Therefore, it might be used not only debugging purpose but also in
+normal environment.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+This patch is based on v6.17-rc1.
 
+Patch History
+=============
+from v4 to v5:
+  - fix wrong allocation
+  - add small comments
+  - https://lore.kernel.org/all/20250818075051.996764-1-yeoreum.yun@arm.com/
+
+from v3 to v4:
+  - fix wrong condition
+  - https://lore.kernel.org/all/20250816110018.4055617-1-yeoreum.yun@arm.com/
+
+from v2 to v3:
+  - change MET_STORE_ONLY feature as BOOT_CPU_FEATURE
+  - change store_only to write_only
+  - move write_only setup into the place other option's setup place
+  - change static key of kasan_flag_write_only to static boolean.
+  - change macro KUNIT_EXPECT_KASAN_SUCCESS to KUNIT_EXPECT_KASAN_FAIL_READ.
+  - https://lore.kernel.org/all/20250813175335.3980268-1-yeoreum.yun@arm.com/
+
+from v1 to v2:
+  - change cryptic name -- stonly to store_only
+  - remove some TCF check with store which can make memory courruption.
+  - https://lore.kernel.org/all/20250811173626.1878783-1-yeoreum.yun@arm.com/
+
+
+Yeoreum Yun (2):
+  kasan/hw-tags: introduce kasan.write_only option
+  kasan: apply write-only mode in kasan kunit testcases
+
+ Documentation/dev-tools/kasan.rst  |   3 +
+ arch/arm64/include/asm/memory.h    |   1 +
+ arch/arm64/include/asm/mte-kasan.h |   6 +
+ arch/arm64/kernel/cpufeature.c     |   2 +-
+ arch/arm64/kernel/mte.c            |  18 +++
+ mm/kasan/hw_tags.c                 |  70 ++++++++-
+ mm/kasan/kasan.h                   |   7 +
+ mm/kasan/kasan_test_c.c            | 237 ++++++++++++++++++++---------
+ 8 files changed, 266 insertions(+), 78 deletions(-)
+
+
+base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
+--
+LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
 
