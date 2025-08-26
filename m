@@ -1,116 +1,63 @@
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEE9F129E6E;
-	Tue, 26 Aug 2025 08:25:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1162F200112;
+	Tue, 26 Aug 2025 11:54:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756196715; cv=none; b=SSS1tHWnSt7ypFOJ1SH3gP7Upg258NSUjWU0CtnfNvk02pynyI2ql7pY5ehYyTzNfEh1in4ZCEIe7f3mL3JmfUMOskwBY4OnsyAU0HjsMP0+xJ2sFN5N1sl0uNH9vYfgSHjrXhakVwhpAyuDwjgZ4YIViDpK2oQgz7MWB1nlQhA=
+	t=1756209247; cv=none; b=VFQqiA/aDzYf9ybVweJYsereueEnS3QbJg17pU1miYGiir9egiXrBjPnl3jtxXP2H7xElBE9Ix+eTYm78vYkvCQCo/knMZRCcSCoVACbkhXadeNTlti06eqypnzXUpP+FZ1Ku87eUz9QqaCH1aCxwkTYLEJWXQmT0rYyRoImsqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756196715; c=relaxed/simple;
-	bh=M3lwJYmTuFciCOkfBfpRk1F/UtJ1CMI+s6RqEBtEKls=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XXjeRXMmo8CqrxezR9Tf7aWuIW4rkxNgKnLxmCU6PKSzHuNEkKwT10qM78hZDNnm8G7iM8AnsL/v2uW9r+jKx2S4ZFvlKEBjTZIovCdhnjpT92VvBxknfQXXOcIQ6Oq4Mcb8/yfuhaeQq3VsNjSzDXyLtuXCZuk3HZYPESANyXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au; spf=pass smtp.mailfrom=canb.auug.org.au; dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b=f8ZYK8FS; arc=none smtp.client-ip=150.107.74.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canb.auug.org.au
+	s=arc-20240116; t=1756209247; c=relaxed/simple;
+	bh=2B4yHPH7Vo7JbHpzUDwUPKSJdKMzSwpR5S4HlfmoPPI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j+ikQaSW32gIZCGxBLOIAhUypJBIKMnaVi4QhutItpuT0RjetLzE+EomR9IZB4F+v0Oj/FHNB/jzU3bB2TETXWJZOVBRDpeGMttjICtzB3soqm11FoNfnJ4dZqYRoEG5mwO5n2CvZIeIpZe+maQdwGspQXpT6RjaFZyU62JkEaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=N8EKcFLA; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="f8ZYK8FS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
-	s=202503; t=1756196706;
-	bh=StN559UZpfgPKLYEDGOhWh4BuXWyw9zkeGi3ACermV0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=f8ZYK8FSVBjxxh2z6c0+vAqSC98YVxAgNC6xFPBNSyRTAoOllM2/B+v3kOWESx/zN
-	 02zalRR0pl9nASJtCXut/5I1oiZhmxk4J/JTPkD+CnGFznzyxnTkH1fMccGtl/jzmh
-	 ueJTy7mSA0Hevlnjl5ukqQ8U2ldTEqu5jy0Pu8p15UDDF4893qHuvgvF4Xh0o62ljO
-	 EPHaM1NY83xQIM3Ie/7TTF0EorJcEvDFFtvJY+bzph2XWZ3r4EBunxdJfzVqsD6rHY
-	 CPCWD6zmLlrkB5SRA8SHDytr8UV56AQuYC6VOO9SW+ri/GHzA4f93sGgbXg0Q8FI29
-	 Tm6i715BMsgtA==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4cB11W41G9z4x3N;
-	Tue, 26 Aug 2025 18:25:03 +1000 (AEST)
-Date: Tue, 26 Aug 2025 18:25:02 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="N8EKcFLA"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=5esHAsLkkoPbV+6reyt7D51aut7U5O+KcBeLXiCH7GE=; b=N8EKcFLAY5oEGaDpHKnlm50DEu
+	0+ZvLdlhTIYq4Jmb3E4wz1ElYMI7SemE+rnwG7VvE+OuITO5JPQeslX3xQf1zb0/D875SfcLIHWTk
+	IV6TwHd1Q78xRfeiMJo/7xXCnTAX890J8h7a+0MoJl3dBCml5uSQ/YvbQXurw7firhNYRtV3gRzs2
+	Hqxa55oJdRRe3CID7s5r8jGGjj/EhV+rQvXXBz5zFLdA97g4hHXO6BZyzqBJnz48GwdH0S4ffWDPy
+	CMHA3jXQ2OvLd9tzqrAKOsqhWq52O8wA7pyOcivxL4b1YhGKErEpZ4AMGxD3+3XyuO3JJTc61EsyH
+	TcVMUxKQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uqsFS-00000000yzv-1zXT;
+	Tue, 26 Aug 2025 11:53:59 +0000
+Date: Tue, 26 Aug 2025 12:53:58 +0100
+From: Matthew Wilcox <willy@infradead.org>
 To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Documentation
- <linux-doc@vger.kernel.org>, Linux Kernel Workflows
- <workflows@vger.kernel.org>, Fox Foster <fox@tardis.ed.ac.uk>, Federico
- Vaga <federico.vaga@vaga.pv.it>, Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?=
- <j.neuschaefer@gmx.net>, Randy Dunlap <rdunlap@infradead.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Kernel Workflows <workflows@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Fox Foster <fox@tardis.ed.ac.uk>,
+	Federico Vaga <federico.vaga@vaga.pv.it>,
+	Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
+	Randy Dunlap <rdunlap@infradead.org>
 Subject: Re: [PATCH] Documentation: management-style: Correct "know" past
  participle
-Message-ID: <20250826182502.701a3031@canb.auug.org.au>
-In-Reply-To: <2a66319f-63f1-408b-8815-89254d68b90b@gmail.com>
+Message-ID: <aK2gVrt2RpRSQCos@casper.infradead.org>
 References: <20250826003437.7695-2-bagasdotme@gmail.com>
-	<87349ed6zj.fsf@trenco.lwn.net>
-	<2a66319f-63f1-408b-8815-89254d68b90b@gmail.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/RWNzJ=iQHs.zG2UWsz4wr+g";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250826003437.7695-2-bagasdotme@gmail.com>
 
---Sig_/RWNzJ=iQHs.zG2UWsz4wr+g
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Tue, Aug 26, 2025 at 07:34:38AM +0700, Bagas Sanjaya wrote:
+> Correct the verb form.
 
-Hi Bagas,
+No, this is wrong.  I don't know the linguistic terms, but as a native
+English speaker, I know this is wrong.
 
-On Tue, 26 Aug 2025 14:40:08 +0700 Bagas Sanjaya <bagasdotme@gmail.com> wro=
-te:
->
-> On 8/26/25 11:47, Jonathan Corbet wrote:
-> >> diff --git a/Documentation/process/management-style.rst b/Documentatio=
-n/process/management-style.rst
-> >> index dfbc69bf49d435..1381b253b19ef4 100644
-> >> --- a/Documentation/process/management-style.rst
-> >> +++ b/Documentation/process/management-style.rst
-> >> @@ -42,7 +42,7 @@ actually true.
-> >>   The name of the game is to **avoid** having to make a decision.  In
-> >>   particular, if somebody tells you "choose (a) or (b), we really need=
- you
-> >>   to decide on this", you're in trouble as a manager.  The people you
-> >> -manage had better know the details better than you, so if they come to
-> >> +manage had better known the details than you, so if they come to
-> >>   you for a technical decision, you're screwed.  You're clearly not =20
-> >=20
-> > This seems actively wrong ... ?
-> >  =20
->=20
-> What I thought on the original wording was that the people (i.e. develope=
-rs) know the (technical) details better than their manager.
-> And yeah, "better" was duplicated.
-
-One way to make this clearer would be:
-
- ... The people you
-manage should know the details better than you ...
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/RWNzJ=iQHs.zG2UWsz4wr+g
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmitb14ACgkQAVBC80lX
-0GzQlAgAk4fasyu9S5xB1rat10mRqQ7EFFwaPdwnQPxRamdj3H+rcFv2vbqzyomx
-Mh58WeF51VYyEooFX+HSOjPfq4qkryXj36CLrCPj1wW8v6tK53Se62UOs1oXOgvZ
-9FmyTZQblnzMBHH3e1H9RS4wbVMpTH+HUF0IHWtL0CD9ehkCK0h1oan4KAWnUMXE
-g/k6k4wMUR1Zx4ISX9RipZQWl+qZGP43hsCxWtp4FP3Z2c8kPWzelcIl26C8+o6f
-EJMN1aVI2Eyo7Fq/HNAvjxQeGrn1c6WMOHF1zsjHOtOmBgTIxw9nHO8PqKOE67tV
-9vJUbsXr7ms3kik9FY0YqHlm9HHF8w==
-=M0UH
------END PGP SIGNATURE-----
-
---Sig_/RWNzJ=iQHs.zG2UWsz4wr+g--
+> -manage had better know the details better than you, so if they come to
+> +manage had better known the details than you, so if they come to
