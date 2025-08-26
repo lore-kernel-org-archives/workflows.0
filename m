@@ -1,109 +1,116 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAAA51F8723;
-	Tue, 26 Aug 2025 07:42:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEE9F129E6E;
+	Tue, 26 Aug 2025 08:25:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756194139; cv=none; b=sYZUawsUJuXw73Y9nzN/EXlsLKP2MbiYIuGvuzxRur6H1T+aor+LzsjAp1PsleCyg0u7KPl56/LyqGhnWTy3AbtkORk7oWJeFs20SMu2zyiu6t033/OIBMDGy4MgDAi5KG196WEroc0KcsfOchFRn3mKP+ipYAn+9P8KaZrve40=
+	t=1756196715; cv=none; b=SSS1tHWnSt7ypFOJ1SH3gP7Upg258NSUjWU0CtnfNvk02pynyI2ql7pY5ehYyTzNfEh1in4ZCEIe7f3mL3JmfUMOskwBY4OnsyAU0HjsMP0+xJ2sFN5N1sl0uNH9vYfgSHjrXhakVwhpAyuDwjgZ4YIViDpK2oQgz7MWB1nlQhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756194139; c=relaxed/simple;
-	bh=8Dnm6LTIYAhJi4bWdvEAqnpRElUivPwL3ZDlM0iDCak=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OYyb/1h8UA7IdHtpJui5QZg9lGcM889lL9RYaUmbPA+LqKIEz62Tw6VJOe1fj4FdDzE7yeayWjRYCuAHfAllCv/STrUlOoSMXhymTCmYFNtS9R4k/W41VoFjEFxUYeouhwxxsVXc7vTEfS2km2llvJceuy2HzSS1RgFUuZApPq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UZNSVWdB; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756196715; c=relaxed/simple;
+	bh=M3lwJYmTuFciCOkfBfpRk1F/UtJ1CMI+s6RqEBtEKls=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XXjeRXMmo8CqrxezR9Tf7aWuIW4rkxNgKnLxmCU6PKSzHuNEkKwT10qM78hZDNnm8G7iM8AnsL/v2uW9r+jKx2S4ZFvlKEBjTZIovCdhnjpT92VvBxknfQXXOcIQ6Oq4Mcb8/yfuhaeQq3VsNjSzDXyLtuXCZuk3HZYPESANyXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au; spf=pass smtp.mailfrom=canb.auug.org.au; dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b=f8ZYK8FS; arc=none smtp.client-ip=150.107.74.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canb.auug.org.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UZNSVWdB"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-244580523a0so51780225ad.1;
-        Tue, 26 Aug 2025 00:42:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756194136; x=1756798936; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5avve5K0r4ZBw/y3B3+9woG9oTDooCG2sxKJy01FS7g=;
-        b=UZNSVWdBEUjmTCYAXSIkoQzCV6oVHudf9/IVpwgCiToZeObU9rXqurZAW+hADFHFYs
-         N9G3SKCsT+/6rx8YEYZjoVWMzrHy1+JpRUY+GLcYdu6vNWhakauKgQ39dA8XO9ujkfWv
-         0RsXO4Uh8RqTXpVHlB6zYq1chZYRdhv6gqgqNJp5JhTpUTfyzp0zfxVPXW1bUHrtfvsR
-         Bhg62aYttPUgJ2kZ1sy7wiUkg9KWg5TyIiAUXweDjH3MDEBJFkBP+6eDFg77JTvAl4Iq
-         b8lMPSJUvxHyAoqiqpkAfCuBYOG81SZcu3fDszPpRU6mTYyDHuwDEqu7GgSs0W0tBE4e
-         UOkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756194136; x=1756798936;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5avve5K0r4ZBw/y3B3+9woG9oTDooCG2sxKJy01FS7g=;
-        b=NVST7cYFNpSX6JHsM9IsjQVlRsjBJ9GaQtv7B9ZSXtv4YnDY+FB78iO2AmDt9T1Wjn
-         mZS/aTsLQbneLIpnovwSyo9FjrZ31fnThlKuGX1HbL3JRu+QJDk5z9dyR/HFzmgCksmh
-         7VdM2IoKrFEIib882NWIxTIOCuMEhLyzzsx6bf9f5+Ocpw8n6N29UDsYAcB1UlPsyyvn
-         uOCrliaQXTKL5CkZO6ihncbki9RzmCoNMOyk2ep6a9fuAWcZOOU1ZmEqRagAdzG3V+2Q
-         02cPySv/XoB+ewikqb4x2xTGOovtU0/Fip3D+CA2pixMkprpgOF8BtUa39kdT7ffBtqB
-         FTEA==
-X-Forwarded-Encrypted: i=1; AJvYcCVA1LeTPPaqz+Tl3ae15obyqhfASFcsZumqE1w9W3zxhvRIkyyCz0I4QKK1Skv2yeamrS6iq0YMjPk=@vger.kernel.org, AJvYcCVxRmg2IotcEfszNYP0bw8sU8nuOYKaj1e7i8CxVwkIROhyrGFX4fZe6d/atN337rCJiUifnad5GQgCvm9K@vger.kernel.org, AJvYcCWAnj8wrPUWWF/GVwLcK0PpNbGf/2WbUtkV0N7Y9cNvi7b+OdesF09ewUVwZ3oc28pv/Xw3VRKcp44v@vger.kernel.org
-X-Gm-Message-State: AOJu0YyzYtRCr3wpbMhvld6ReSjvz/t3Jx9LsirWSpBdVqziD8i71sCX
-	PkLzg71JW3qmEzWN7SfQLO27E0voUSJM9GunZPro5cwebwcKck/yeY7p
-X-Gm-Gg: ASbGncvNdNId5LO/oetWmb9f4uXhdVsFSBtC2G/ABLqlmAS8unTqyv6m08BZGEMpNuq
-	USA6bLbDRX2vYcN7son52n8nshGMuEfzGtUpSFOJB7KSNMXi/GEoqqrdbXSHPRVcEo6fWzoeaO/
-	ANYnn0ztez2EKfQOATDBWcYEGHMMnTMaMsx5Ke/3buuNlg5Yb6UEYGE4rFN8KjFYbS/Whplxa0e
-	EAV9iyvzvE3q2huw+0QWHGFocGck/49cLEH0lwAD4HCZou05MxTq7LuGbhgKtaeJXlQmoDMpt7z
-	ZbcCL+xfeMXs+ntDNAdsnxYwAaCeOTJ4prwK3gWJcMoeN//Z/fWDcFaBo0QUEn2KW25UJ7JuLV5
-	zSDk4+clpIIyQ3t1OHYSfyCrpjz7TcTW7+xoCxp5f
-X-Google-Smtp-Source: AGHT+IEFcZtjLSZdczxv4eS+7pkAGInRGBtMajPGK66kHgxUefbn93THV9SVOhFmR4aQpV2rQTomyw==
-X-Received: by 2002:a17:902:cec2:b0:240:9f9:46a0 with SMTP id d9443c01a7336-2462ef05828mr188106125ad.38.1756194135806;
-        Tue, 26 Aug 2025 00:42:15 -0700 (PDT)
-Received: from [192.168.0.150] ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2467d4030fesm80659035ad.137.2025.08.26.00.42.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Aug 2025 00:42:15 -0700 (PDT)
-Message-ID: <9044fe82-043f-4e45-b7cf-114a8860f650@gmail.com>
-Date: Tue, 26 Aug 2025 14:42:11 +0700
+	dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="f8ZYK8FS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+	s=202503; t=1756196706;
+	bh=StN559UZpfgPKLYEDGOhWh4BuXWyw9zkeGi3ACermV0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=f8ZYK8FSVBjxxh2z6c0+vAqSC98YVxAgNC6xFPBNSyRTAoOllM2/B+v3kOWESx/zN
+	 02zalRR0pl9nASJtCXut/5I1oiZhmxk4J/JTPkD+CnGFznzyxnTkH1fMccGtl/jzmh
+	 ueJTy7mSA0Hevlnjl5ukqQ8U2ldTEqu5jy0Pu8p15UDDF4893qHuvgvF4Xh0o62ljO
+	 EPHaM1NY83xQIM3Ie/7TTF0EorJcEvDFFtvJY+bzph2XWZ3r4EBunxdJfzVqsD6rHY
+	 CPCWD6zmLlrkB5SRA8SHDytr8UV56AQuYC6VOO9SW+ri/GHzA4f93sGgbXg0Q8FI29
+	 Tm6i715BMsgtA==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4cB11W41G9z4x3N;
+	Tue, 26 Aug 2025 18:25:03 +1000 (AEST)
+Date: Tue, 26 Aug 2025 18:25:02 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>, Linux Kernel Workflows
+ <workflows@vger.kernel.org>, Fox Foster <fox@tardis.ed.ac.uk>, Federico
+ Vaga <federico.vaga@vaga.pv.it>, Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?=
+ <j.neuschaefer@gmx.net>, Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH] Documentation: management-style: Correct "know" past
+ participle
+Message-ID: <20250826182502.701a3031@canb.auug.org.au>
+In-Reply-To: <2a66319f-63f1-408b-8815-89254d68b90b@gmail.com>
+References: <20250826003437.7695-2-bagasdotme@gmail.com>
+	<87349ed6zj.fsf@trenco.lwn.net>
+	<2a66319f-63f1-408b-8815-89254d68b90b@gmail.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: management-style: Correct "know" past
- participle
-To: Randy Dunlap <rdunlap@infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux Kernel Workflows <workflows@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Fox Foster <fox@tardis.ed.ac.uk>,
- Federico Vaga <federico.vaga@vaga.pv.it>,
- =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-References: <20250826003437.7695-2-bagasdotme@gmail.com>
- <67d355fc-7ee9-4203-9578-095004c4a7e6@infradead.org>
-Content-Language: en-US
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <67d355fc-7ee9-4203-9578-095004c4a7e6@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/RWNzJ=iQHs.zG2UWsz4wr+g";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-On 8/26/25 13:54, Randy Dunlap wrote:
-> 
-> 
-> On 8/25/25 5:34 PM, Bagas Sanjaya wrote:
->> Management style docs writes on people under a manager, where they know
->> the details better than the manager himself, in past perfect tense. Yet,
->> "know" is in infinitive form instead.
->>
->> Correct the verb form.
->>
-> 
-> Hi Bagas,
-> 
-> I don't know about the patch description/argument/justification,
-> but the wording makes no sense to me...
-> 
+--Sig_/RWNzJ=iQHs.zG2UWsz4wr+g
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Do you mean the original or the patched? Should I left the former as-is?
+Hi Bagas,
 
-Confused...
+On Tue, 26 Aug 2025 14:40:08 +0700 Bagas Sanjaya <bagasdotme@gmail.com> wro=
+te:
+>
+> On 8/26/25 11:47, Jonathan Corbet wrote:
+> >> diff --git a/Documentation/process/management-style.rst b/Documentatio=
+n/process/management-style.rst
+> >> index dfbc69bf49d435..1381b253b19ef4 100644
+> >> --- a/Documentation/process/management-style.rst
+> >> +++ b/Documentation/process/management-style.rst
+> >> @@ -42,7 +42,7 @@ actually true.
+> >>   The name of the game is to **avoid** having to make a decision.  In
+> >>   particular, if somebody tells you "choose (a) or (b), we really need=
+ you
+> >>   to decide on this", you're in trouble as a manager.  The people you
+> >> -manage had better know the details better than you, so if they come to
+> >> +manage had better known the details than you, so if they come to
+> >>   you for a technical decision, you're screwed.  You're clearly not =20
+> >=20
+> > This seems actively wrong ... ?
+> >  =20
+>=20
+> What I thought on the original wording was that the people (i.e. develope=
+rs) know the (technical) details better than their manager.
+> And yeah, "better" was duplicated.
 
--- 
-An old man doll... just what I always wanted! - Clara
+One way to make this clearer would be:
+
+ ... The people you
+manage should know the details better than you ...
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/RWNzJ=iQHs.zG2UWsz4wr+g
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmitb14ACgkQAVBC80lX
+0GzQlAgAk4fasyu9S5xB1rat10mRqQ7EFFwaPdwnQPxRamdj3H+rcFv2vbqzyomx
+Mh58WeF51VYyEooFX+HSOjPfq4qkryXj36CLrCPj1wW8v6tK53Se62UOs1oXOgvZ
+9FmyTZQblnzMBHH3e1H9RS4wbVMpTH+HUF0IHWtL0CD9ehkCK0h1oan4KAWnUMXE
+g/k6k4wMUR1Zx4ISX9RipZQWl+qZGP43hsCxWtp4FP3Z2c8kPWzelcIl26C8+o6f
+EJMN1aVI2Eyo7Fq/HNAvjxQeGrn1c6WMOHF1zsjHOtOmBgTIxw9nHO8PqKOE67tV
+9vJUbsXr7ms3kik9FY0YqHlm9HHF8w==
+=M0UH
+-----END PGP SIGNATURE-----
+
+--Sig_/RWNzJ=iQHs.zG2UWsz4wr+g--
