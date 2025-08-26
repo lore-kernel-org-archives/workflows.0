@@ -1,86 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D88B8635D;
-	Tue, 26 Aug 2025 14:46:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A2A21B918;
+	Tue, 26 Aug 2025 15:22:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756219615; cv=none; b=L4IGK01Ad2NXx/R6X2ioncrYAs0A4qY1JCsc41lL+K3YeLjNppnycNmHSKQGUqLEXN9Lz9s+JViwRMwpGhL4gTDjaEqmxLg/h/yBeLkmLAuDt6wZYtNtGxkr9dmvmaBVI3jGYEQUX/UYTVul6rf3ZYyt32TUKDGxPqN2JML+lkE=
+	t=1756221757; cv=none; b=tHxeB/z33+BMU1fA5ZheZ29hzpyhQJSzQ04ylqQutjQTvlVJ6Lbn9rvIjl5FcQ0I0TtyfRNqkYYqumIGFw2M5L13+YiTVMSbg3Yo6IPzzB45u/sJZTLs6VFFVpj512OVqFLL65w6kRRS5hLgjlRgaFl52UZnqKCfxfaI1mqprO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756219615; c=relaxed/simple;
-	bh=Lxo2DeBPbjwel3AvvdT8bRYWUnkhTXi+8e7kr/g5VCY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fD2ZUc21L2Lnp4lwuKtwNHTkPIm897XklHpOrdqD796aEQ5q2OH3QgcvRBr6TmF1ex/sfp+c/0Wr5cbFG6OCb4S57R8BO2mg/UXovggnmgTatslS0EXtM5BPuhb8IOp8QV41ughfN6c/fKCyICYpPJZh4Ysfx+wLKIz8BmIPm4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Te3raU5H; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756221757; c=relaxed/simple;
+	bh=Lytl4XuFT194+8jsAWdZGFdZmuFAhDybhprK50jJGVU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=f0IVqF2JkoDJV4KVbJXXgvpmHul4PA6kN7FlPsGu+LTwrzIwFl2gwuk3fPtV0wdqi+expM0TInxwElonqU14iEeg7nGpgwfqvT5wiNz+1K5IRdI3ImiyH5DBZ4l1XPIIMn5g5Uf2j5BTcEv4VUfpFJIlnM1xjnf1RgGfsN+fx0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=cofJ7qSF; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Te3raU5H"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBAD5C4CEF1;
-	Tue, 26 Aug 2025 14:46:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1756219615;
-	bh=Lxo2DeBPbjwel3AvvdT8bRYWUnkhTXi+8e7kr/g5VCY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Te3raU5HZlMDXYoh6KNEfqk3cjNLfUMn6vv+4z4bj9nm0v1PJjGzk2TXKPuCPQjsF
-	 2e8PXce6LEH4ewDis3GsTW/II9B9QbP3/ZtHl+xr10i1nNGXaoZC9tmfF0ugsoOrjZ
-	 bdbyZnLp9Uw8Waaj0PUtKNZ2vBj8XpkNIj42dkFY=
-Date: Tue, 26 Aug 2025 10:46:50 -0400
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Documentation <linux-doc@vger.kernel.org>, 
-	Linux Kernel Workflows <workflows@vger.kernel.org>, Fox Foster <fox@tardis.ed.ac.uk>, 
-	Federico Vaga <federico.vaga@vaga.pv.it>, Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
-	Randy Dunlap <rdunlap@infradead.org>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="cofJ7qSF"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7D60640ADA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1756221754; bh=NEcOL2ZJTiWpmrZemxTxzRc/PbK2GR5KXlpW5YiSoNE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=cofJ7qSFTE51d0F0Mp0bc70XKf+BtNzC9UO5O28FBMtO1uNUIt7mkKO6gT1Nzi8gI
+	 OZU7Qf4h+gbObX38RdjqiD9IIWuHsZi1BevHnd0fq9fxvqo1GhTGxfWrFXGcnQGNfq
+	 I96rfIfRDmgjpTXLJ4KTvTLJseOSJBZNxKx0sN2TGuodAqux0gsZ8UPCIrZUbzGuZU
+	 ivmkelr0l6guUJQ9eP2V80jamzn95n612xt3xglCzJ6NKA9HrybXzc0ly3I8fVnBkG
+	 tJJ1YO+4YDc0A12Z+YglUrADOfJK1Zt+DVqKGKGhy82MktbIwO3V+tZsoDSClJOtNl
+	 1tf/BNvWH83dw==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 7D60640ADA;
+	Tue, 26 Aug 2025 15:22:33 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>, Linux Kernel Workflows
+ <workflows@vger.kernel.org>, Fox Foster <fox@tardis.ed.ac.uk>, Federico
+ Vaga <federico.vaga@vaga.pv.it>, Jonathan =?utf-8?Q?Neusch=C3=A4fer?=
+ <j.neuschaefer@gmx.net>, Randy Dunlap <rdunlap@infradead.org>
 Subject: Re: [PATCH] Documentation: management-style: Correct "know" past
  participle
-Message-ID: <20250826-fearless-glossy-dinosaur-46ebbf@lemur>
+In-Reply-To: <20250826-fearless-glossy-dinosaur-46ebbf@lemur>
 References: <20250826003437.7695-2-bagasdotme@gmail.com>
  <87349ed6zj.fsf@trenco.lwn.net>
+ <20250826-fearless-glossy-dinosaur-46ebbf@lemur>
+Date: Tue, 26 Aug 2025 09:22:31 -0600
+Message-ID: <875xeaaz0o.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87349ed6zj.fsf@trenco.lwn.net>
+Content-Type: text/plain
 
-On Mon, Aug 25, 2025 at 10:47:28PM -0600, Jonathan Corbet wrote:
-> > Management style docs writes on people under a manager, where they know
-> > the details better than the manager himself, in past perfect tense. Yet,
-> > "know" is in infinitive form instead.
-> >
-> > Correct the verb form.
-> >
-> > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> > ---
-> >  Documentation/process/management-style.rst | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/Documentation/process/management-style.rst b/Documentation/process/management-style.rst
-> > index dfbc69bf49d435..1381b253b19ef4 100644
-> > --- a/Documentation/process/management-style.rst
-> > +++ b/Documentation/process/management-style.rst
-> > @@ -42,7 +42,7 @@ actually true.
-> >  The name of the game is to **avoid** having to make a decision.  In
-> >  particular, if somebody tells you "choose (a) or (b), we really need you
-> >  to decide on this", you're in trouble as a manager.  The people you
-> > -manage had better know the details better than you, so if they come to
-> > +manage had better known the details than you, so if they come to
-> >  you for a technical decision, you're screwed.  You're clearly not
-> 
-> This seems actively wrong ... ?
+Konstantin Ryabitsev <konstantin@linuxfoundation.org> writes:
 
-I do believe this is a clear indicator that the whole sentence needs to be
-reworded:
+> I do believe this is a clear indicator that the whole sentence needs to be
+> reworded:
+>
+>     ... if somebody tells you to "choose (a) or (b), we really need you to
+>     decide on this," you're in trouble as a manager. The people you manage
+>     most likely know the details better than you, so if they come to you for
+>     a technical decision, ...
+>
+> This change would detract from the... unique... style of this document, but
+> would hopefully be less confusing to non-native speakers.
 
-    ... if somebody tells you to "choose (a) or (b), we really need you to
-    decide on this," you're in trouble as a manager. The people you manage
-    most likely know the details better than you, so if they come to you for
-    a technical decision, ...
+There has been talk in some circles about trying to update this
+... unique ... style to more contemporary standards.  Maybe it's time to
+see if that can be given a bit of encouragement.
 
-This change would detract from the... unique... style of this document, but
-would hopefully be less confusing to non-native speakers.
+Thanks,
 
--K
+jon
