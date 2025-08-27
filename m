@@ -1,126 +1,129 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FECB3AC22;
-	Tue, 26 Aug 2025 23:54:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ED532D0C7B;
+	Wed, 27 Aug 2025 04:49:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756252483; cv=none; b=KNODjy7hGnJl3L3ghUxhRBts3DgAfYAZ2JKPdFMX+VvvrIMZoiT7hSogsyzICLvbYlOEiRYe/NMoeETukS8/h4jrB2ZBFgYLTr2mIWjwi8fmmdemHq7V5l+00pX18GhoJEB/v3q8w/2LBFfunhQupknxhgfD1KeY+qQaObytZG0=
+	t=1756270144; cv=none; b=l+xctTUT1LIsLWRFXBrwmUjeEjccKJe2shtdlj3oxMYoTMkJUrgGQ7qjNODePQo77a5MkXj12Vdfy1NwkaeJMaAByrzjBKLtLkV990O6OilNk5eRasC9Np8DfHS7lyb3Zv4EREEsoP1/9im22vi9PZwRtPCyANE9+TFKt/yEZMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756252483; c=relaxed/simple;
-	bh=RdENOwd1RtsgfgrXJESaCgorXIUTKgTsZlPuigpeJjY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=smSJmRjw3dVo6PZNvW9+IiHun+1C930l6W5lzvjMYBbw36nn+I5LD1ZIu/sePK8rnrgwvBLgle8EAwlOc/FsfwsqCuR2gvwXml4yeBXwx2DAHj0A3RvBuHEUMmoEbM7O6DIi1qtpBM2it8uQmmQH0xw0EEY0e9Kms+KUv9ajxHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZyW1fk86; arc=none smtp.client-ip=209.85.215.176
+	s=arc-20240116; t=1756270144; c=relaxed/simple;
+	bh=MA+7/YYr//CRtGoGjQzO2aBuAhezXjQ7Xlwisx6ri4M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=E+QnVQ0cydKEVkIgwlIBPZ5w4qQlksrXyXBMJ6HHGD3qMpYKm/AwCYa4v6697QXDmuIuNnjK8Ab0bjEyXVwp+Zr892jY6Xy2mdstSt3enoo7TE7cTB60B6Ri5T0XTPgeI+5AARfWfDB3cFD1fUWTEERiIcaBxG5lfY6zSSmb6Vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PwVPFanO; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZyW1fk86"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-b471737b347so4022683a12.1;
-        Tue, 26 Aug 2025 16:54:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PwVPFanO"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-771e15ce64eso2298328b3a.0;
+        Tue, 26 Aug 2025 21:49:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756252481; x=1756857281; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XnuGcmjPhjhi+DRhckbGUIJ6vqUO4YIauvZizEcd4B0=;
-        b=ZyW1fk86UMnPffkTcnDzO3fXZi8JGG9Mi7s+3YIJMaYJSAP9gW2+ivRPRscpfCD+8x
-         2o1cZ8JAPI8BxrZSj3kxtOvo2u6UiuclzIwxWaj9dvb9NTsBRueBajSVoCC1bbqfpDpx
-         rCbykpjdMCqyrpnCP+zaQlOyC9fk6v+ZdYsfTf3fcSwC77Md9p2Abc4gbN6nhY4ThmtS
-         YwXlWGCu7xiPfagcYz6OBfyaFpS1QGpCt6eoXdGqUGxRlRjFKDRQ8RIzPhn0y5sgdyyT
-         p0+x+Yl0MDb4kJe4wD2zVS5VrbEJ0w9NRpaQrHL20Ndid9IjDUENiCo2eOrUxu6h5rms
-         BI3g==
+        d=gmail.com; s=20230601; t=1756270143; x=1756874943; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+3TvCWTr1cdoHdAhmJSDST3DDtYrWvbQgh47NfJBbQk=;
+        b=PwVPFanOU4pKQetfyV12+IneAT4cG/o8AKgwrVF2rqepXDRlMjsN5OCZiMjaMwufKO
+         zJI1dcb5wQVvDXK96op2VxCVLyqnJehZxysLKMsh/dcq7i1FtRJW5pjT7x7tgB3IuhKl
+         IXwdcJWaDlp5ejE/h59wDDRPA+rUGBtHjA6ytOIwo0asLgk4mxqBKkaojMb1D8Ee1abE
+         6eID3DfjWIwPuLbiBFiMgd6Msk+ExVjRk0i9AY1rdFnlVaaDc7T2IADTUnW2rDzNefP+
+         eJmOHlm8NhT0xXRAD+yEqyjFVUFfZkJ9mec4cjD8t53cNBjNceRZqUPukCJkxuqtwugz
+         pJbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756252481; x=1756857281;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XnuGcmjPhjhi+DRhckbGUIJ6vqUO4YIauvZizEcd4B0=;
-        b=dpyJpJXMGvM9z6zZvvRoov908qHQvrKQeak1pDfLh7runsO8i0ZkslVvf6psRGJvZw
-         f9RxY27ZfG0drlL/o25oR0wSV7W5j+L8EhAQP9d7ZEhTuneW4ocg9Guro/uaHNO2pMyY
-         GZlwNUYKAmErT+1b/sXhx+A+K/i7hvrblraxiaD808kaUOqidVdw4KMFbr7lxNo8yoI3
-         DoNVfw9sjkZMcQazULZ1g77YB6gotQAtYv385atZediVg1cyGy1ZhJOnHLTmiQ/Azh3Z
-         uhOOQvhKds8aUjH5sBkj+8/4goME3vyUyMJy0Bbr+lbYHzEMcWcvEptcECxAOHyU8u8X
-         dbVg==
-X-Forwarded-Encrypted: i=1; AJvYcCVD4YkuHsVvXswP0vqcs7a6ojQZ+GcEAYm4ZfjtsOC7pMFRvYBAXrj5G68XplE4oqaos8nK1mMbStY=@vger.kernel.org, AJvYcCWhR7qT6VahdWZPn8IFqsRb1p8EJXDvgy2GrmZ0KUivkkeYeoLbPNlAXu97cOnJdwKempAWiJB11bIS@vger.kernel.org
-X-Gm-Message-State: AOJu0YxysVpLYG48auFqqGqL1sE4eENIngrkiKXvSA9n4yz2YllTwj2n
-	7Gk3A4V0rAA1vlnMsmtNe6ai4ej1BaxYZcuFvxaHrZyD+mlsH0XTJRFp
-X-Gm-Gg: ASbGncugNhjMS0/WFL+QDS8dkWehEOgnipWmUJKrVDArp0V+ct41Bfq4I4S4ciYaf0C
-	ushhFK44UHaKCMtz32VsKSQ6JJLuTHgCA14hEe3glfgjxMMFU+oLQtN9cVfsSDV41A3j9gNwWFh
-	js1iZC0m0Y227+YBe7cK4rlufToOoMseCRQe++kPif18T/2bcp2+Hb/EUj2TNnMHAtfbrfJqv8t
-	DeFOyE5mggKmAW6nzsQCJL5tT71ukVg/0wQ8Oz64JXlG6oaFkUEMbyL2dvwxfRBPNostsrB2O2+
-	ihIE1eA5qmS5oOnpAXe4IuTxdD90IHOz4+pVG9aP0/F2YzowBlaso7BCSHy1P5rhgOO6xSRlDzK
-	jbCqFJpECg99K3BqvDsU/6w==
-X-Google-Smtp-Source: AGHT+IFDc+YGdHj3Jh3BAAJZez7aNxo8el4TTaNrwADmK0oOrPWX2EzNex2c4ccfinIri15m/Eqt2Q==
-X-Received: by 2002:a17:902:db0c:b0:245:f5a7:1b7c with SMTP id d9443c01a7336-2462ee2bab0mr246624295ad.11.1756252481210;
-        Tue, 26 Aug 2025 16:54:41 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756270143; x=1756874943;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+3TvCWTr1cdoHdAhmJSDST3DDtYrWvbQgh47NfJBbQk=;
+        b=qnuRzDe0LXJu4XOfaUbK92Fdqr/2ggrBEAYW4LU3qnvnx/bJAZkUkhzfeiYbBw0Vya
+         sETsagSdTstcq3CxVlwtE7HtVDdZakX1ZfvIxBLvpF3zXU7u+voLyUNMct5eqGgAK+wB
+         W9OILcy45t/XxdBSNnPfE53mZmHIGIyZSm6pHh2ONsbd1XNzz2gVXqFLlVwfc6Nkole2
+         OahFdRpBr+hK8juPTfuF932clN50167P+O/E+bOeI88/1gJueq7QkFoEwH7E+16g1B8l
+         Ddco9yJdJatDjXqQY2gQpg1yvaKjsv/GMRbcJJ9gNqprhFeRK36Zsi5bZq9oYqpogQUV
+         NEXw==
+X-Forwarded-Encrypted: i=1; AJvYcCV6ozgmGozps4ydMyJFFHH2cVi3OwL+4ZgCAgty/eq1sVmzuEKQqiP/8ih4k+LZ/efKPGqmLbUkHiLB@vger.kernel.org, AJvYcCV7Lv4ICr77rsVI3BUKDhrhqX0wVcaIQhv889+kRLZmi/X79cchufEt/inGGdX0oLwpUsGJFoZ8nDc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDaR5DKvPOcFBcJwrFiGxI6IX4ac86RFc50QYo3OkcdstCnsC+
+	TiOm4D7ojbK4Spm1C8lWlOd2wyAebjUcYREIiWGOg6EtBQ6nGf6Umnpn
+X-Gm-Gg: ASbGncs8O2jiIXPQRHdXbSqaqZzrALLSR4BLtU6Yjqbkku4Ngz59PsQ0OpoDEPOlCKT
+	fwEdFjenUefw5dWSeyWz06qxK4DFRczftTj8j9v9D72kvQ1+UMd3pEZ1e8WPGpa/DyPv3aiwQe2
+	+2HYQOv493gZQKll+QRq5lWE3jB5ITTCf5jGPiS5Zv7drdFyrY/6Zaa9tAAwpl2tWbGnljMF4gZ
+	iilBL4HSTwDfk1WXpV3sJmSiRQsR5NdAiLOIPUV7xjl+qJ5b33MN8T/xU+1wwgsmQ5PkhgQSB3a
+	eg462XA8a63m8quwJKzCc5hqN4efBlv0RTMeh5oZw9+oPq/9RRQnp5vS+bUr57Yx1+WNhDWGAMT
+	2GDtsz3j2NSSWH2w87yYEgw==
+X-Google-Smtp-Source: AGHT+IGi5SECDxZjdkyLW4KqLVO9a6/4HsdHMUeyEI58+0pqQIkQaZ3Re74ROegYk+1eriyJDfXMQw==
+X-Received: by 2002:a05:6a20:158b:b0:23f:fc18:779c with SMTP id adf61e73a8af0-24340d2c276mr26869663637.31.1756270142590;
+        Tue, 26 Aug 2025 21:49:02 -0700 (PDT)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-246687ceda5sm106460745ad.63.2025.08.26.16.54.39
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-771f2f2ac7dsm4709508b3a.43.2025.08.26.21.49.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Aug 2025 16:54:40 -0700 (PDT)
+        Tue, 26 Aug 2025 21:49:01 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id 9F2A241E4F06; Wed, 27 Aug 2025 06:54:38 +0700 (WIB)
-Date: Wed, 27 Aug 2025 06:54:38 +0700
+	id 7F7C44207D19; Wed, 27 Aug 2025 11:48:58 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Kernel Workflows <workflows@vger.kernel.org>,
+	Linux Kernel Workflows <workflows@vger.kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	=?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
 	Fox Foster <fox@tardis.ed.ac.uk>,
 	Federico Vaga <federico.vaga@vaga.pv.it>,
-	Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH] Documentation: management-style: Correct "know" past
- participle
-Message-ID: <aK5JPhkPxJ3MSr74@archie.me>
-References: <20250826003437.7695-2-bagasdotme@gmail.com>
- <87349ed6zj.fsf@trenco.lwn.net>
- <20250826-fearless-glossy-dinosaur-46ebbf@lemur>
+	Randy Dunlap <rdunlap@infradead.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	Matthew Wilcox <willy@infradead.org>
+Subject: [PATCH v2] Documentation: management-style: Reword "had better known the details" phrase
+Date: Wed, 27 Aug 2025 11:48:48 +0700
+Message-ID: <20250827044848.17374-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="CYJ6GTH0OxX2HL+i"
-Content-Disposition: inline
-In-Reply-To: <20250826-fearless-glossy-dinosaur-46ebbf@lemur>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1927; i=bagasdotme@gmail.com; h=from:subject; bh=MA+7/YYr//CRtGoGjQzO2aBuAhezXjQ7Xlwisx6ri4M=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBnrernUXO96nu+f8OH00W8FF07lyTlMEpFyPvmcUS/r/ fHKF/eed5SyMIhxMciKKbJMSuRrOr3LSORC+1pHmDmsTCBDGLg4BWAira8ZGSa7bTwxtTw7n19m pcLnpHVxS5ltHKUkj+9Kt0iSdN1o1cjIsKWmhWXzyvsTFmy8b/RIt2vadqssZu5dEVxbrUzSFPZ XswAA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
+Management style docs writes on people under a manager, where they know
+the details better than the manager himself. Reword it so that it would be
+less confusing to non-native English speakers.
 
---CYJ6GTH0OxX2HL+i
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Changes since v1 [1]:
 
-On Tue, Aug 26, 2025 at 10:46:50AM -0400, Konstantin Ryabitsev wrote:
-> I do believe this is a clear indicator that the whole sentence needs to be
-> reworded:
->=20
->     ... if somebody tells you to "choose (a) or (b), we really need you to
->     decide on this," you're in trouble as a manager. The people you manage
->     most likely know the details better than you, so if they come to you =
-for
->     a technical decision, ...
->=20
-> This change would detract from the... unique... style of this document, b=
-ut
-> would hopefully be less confusing to non-native speakers.
+   - Reword the confusing phrase (Konstantin)
 
-Thanks for the suggestion!
+ [1]: https://lore.kernel.org/linux-doc/20250826003437.7695-2-bagasdotme@gmail.com/
 
---=20
+ Documentation/process/management-style.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/process/management-style.rst b/Documentation/process/management-style.rst
+index dfbc69bf49d435..bb7a69e34ef180 100644
+--- a/Documentation/process/management-style.rst
++++ b/Documentation/process/management-style.rst
+@@ -42,7 +42,7 @@ actually true.
+ The name of the game is to **avoid** having to make a decision.  In
+ particular, if somebody tells you "choose (a) or (b), we really need you
+ to decide on this", you're in trouble as a manager.  The people you
+-manage had better know the details better than you, so if they come to
++manage most likely know the details better than you, so if they come to
+ you for a technical decision, you're screwed.  You're clearly not
+ competent to make that decision for them.
+ 
+@@ -115,7 +115,7 @@ sure as hell shouldn't encourage them by promising them that what they
+ work on will be included.  Make them at least think twice before they
+ embark on a big endeavor.
+ 
+-Remember: they'd better know more about the details than you do, and
++Remember: they know the details better than you do, and
+ they usually already think they have the answer to everything.  The best
+ thing you can do as a manager is not to instill confidence, but rather a
+ healthy dose of critical thinking on what they do.
+
+base-commit: ee9a6691935490dc39605882b41b9452844d5e4e
+-- 
 An old man doll... just what I always wanted! - Clara
 
---CYJ6GTH0OxX2HL+i
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaK5JPgAKCRD2uYlJVVFO
-o9AQAP9PQyW036PwTuvohvdSfIjUrPHhO98NKzZSKcC2G4GW4AEAr60OUf4sibgk
-alcfUMhMYxR00FWox2pho3BneI+joAw=
-=03a8
------END PGP SIGNATURE-----
-
---CYJ6GTH0OxX2HL+i--
