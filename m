@@ -1,81 +1,79 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D52A223CE;
-	Wed, 27 Aug 2025 05:17:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544022B9A8;
+	Wed, 27 Aug 2025 05:41:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756271856; cv=none; b=JBolDQkrmIom8Kj5MPE1Ngn9njqU1BrMt+kz/7nx4DAKnA9Sk8Uvkb4buozd/uxkb/bO8yhM7b0eFO9CGMv7dUWHyw1Su7SXBn4xg1r46vA5lRtuqpGJTHahQZlV3qI3lE0qL2qQs+aR0sg5xXZTQWXq4/PB7nZq9qnGZVS44ZA=
+	t=1756273314; cv=none; b=VGI21fu0p7S7oOAPwfPuP7Dfhxqjj8rveUry6s9+Y02IGzeAwH1XOCJ9E8bNm4gfly07MCB3LGMzgYd6fweY8vdBVFtNpn4O6HPxVo6oTI9HvMA8Vol/jjRkBLklIkcYKEs3azRf3CB/ntqJEaeEMkzFapFknqCpDaL1adV//SU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756271856; c=relaxed/simple;
-	bh=hvUTIdURmwppgPaBNy9RGLO8fkSDdyrvhcQHCj/04is=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cgzoDOsnpjc056YRWb7rU9aEoC8Muufg1sbYkVvLxX46CMsX8zEF83C61etf1VT3pnmaKPU3NoPDTn4gKcoTF7xHMk5oBJ3t2tDLg1Qwn7Bi2ffaJOwRz5J754XucZIp73AjOrXIY1i0TOdkjSG1Pop7c94zNOX6KR+6hBhdlZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=zcRGjdEV; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1756273314; c=relaxed/simple;
+	bh=b6q9cCDu3HC3NYVsFNsvw0/99qTo9vtqisSmqkijYtI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Y1rEXYZv3JTsDpA/ZzH9wq4ifMIzU/yjbf+Q8b/H0nIjrNudx3/DR9mr3ag03eeprL1/03tRFaswLqGS3oq9gawU9WZa9QFFIEhq2MNpTLgWc1R/0sygKleVmyMJCroNw0f0aMDhdrHvZ639ljiSZETgnd+z/YTeqRbAkfcHqKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=psL96GdM; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="zcRGjdEV"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=JYEj2SwXE01Y7WOdonk8/xJyOnDqigfYVLRo9H8olA8=; b=zcRGjdEV/5vKz0Il5P9+4ytwkq
-	zPMZqZKEYMs0d7gq7xd8T+LnnLmjB7EKuGpCEWcXzbZNYWj8Y3KA89007RGarwrRXQiWR11g4+wtS
-	mJEo4EmPFI5jXCEdIULhgDu/HiOzPz8MWWVlIo3312EsyjaaV56Lih9f3E7P8eHHYwUc395jNeeRj
-	TBIglsZuFhGZYliX67bd0JwGBo2Vasi9mDNSFPCGE+G3Ry1IPpYnDOcslYroDZ3WNk57aSLlWuS8k
-	JeawDNKxDYVUXImbmsjXWaXCck41wTIBFf6VAAmos1v8SgKVKEIhFOy7yHdeDkdggokjliB2pIJXK
-	khJ05MAg==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ur8XM-0000000E65U-2JbQ;
-	Wed, 27 Aug 2025 05:17:32 +0000
-Message-ID: <e8a42b9a-7c0f-446a-bdc7-ac1a04b12a5b@infradead.org>
-Date: Tue, 26 Aug 2025 22:17:31 -0700
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="psL96GdM"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C619140ADA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1756273309; bh=Y6z+kBjl0XBbufpDiwRSMUVdA8goEEeheytHFy4pCxY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=psL96GdMwjIqfsiBoi+W6scJ7PL83t9o9e3c59ICPz2Qjo9gp5hhFZugDlrF5mcZp
+	 6oUJifyexCOI6xek4gh7hZvhoTS6bO7ID90SyJAjBxcHWq/pgpY++j0r2uuuq9+G7l
+	 OhOv6TRqq+KR5bEnz+QrOomwEG15AJrGFOB7Hg2VluQ+GLxSUJgCUKws2rjDQsObzC
+	 +p9W/q40nr1O25uYupZKgcjU9A8T/e05ZaiwjdjmP2lg+uIqtD36MfKDg1CU9iu2od
+	 bjJMz7b8rkpkG09Q9oS8QMkMQc+ki2peYyPc4srhqeVCdn5zMiLN8JBeDi4TuE1D1f
+	 1r1D5vTYOqMmw==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id C619140ADA;
+	Wed, 27 Aug 2025 05:41:48 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>, Linux Kernel Workflows
+ <workflows@vger.kernel.org>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Jonathan =?utf-8?Q?Neusch=C3=A4f?=
+ =?utf-8?Q?er?=
+ <j.neuschaefer@gmx.net>, Fox Foster <fox@tardis.ed.ac.uk>, Federico Vaga
+ <federico.vaga@vaga.pv.it>, Randy Dunlap <rdunlap@infradead.org>, Stephen
+ Rothwell <sfr@canb.auug.org.au>, Konstantin Ryabitsev
+ <konstantin@linuxfoundation.org>, Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v2] Documentation: management-style: Reword "had better
+ known the details" phrase
+In-Reply-To: <20250827044848.17374-1-bagasdotme@gmail.com>
+References: <20250827044848.17374-1-bagasdotme@gmail.com>
+Date: Tue, 26 Aug 2025 23:41:46 -0600
+Message-ID: <87wm6p9v8l.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Documentation: management-style: Reword "had better
- known the details" phrase
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux Kernel Workflows <workflows@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
- =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
- Fox Foster <fox@tardis.ed.ac.uk>, Federico Vaga <federico.vaga@vaga.pv.it>,
- Stephen Rothwell <sfr@canb.auug.org.au>,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- Matthew Wilcox <willy@infradead.org>
-References: <20250827044848.17374-1-bagasdotme@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250827044848.17374-1-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-
-On 8/26/25 9:48 PM, Bagas Sanjaya wrote:
 > Management style docs writes on people under a manager, where they know
 > the details better than the manager himself. Reword it so that it would be
 > less confusing to non-native English speakers.
-> 
+>
 > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 > ---
 >  Changes since v1 [1]:
-> 
+>
 >    - Reword the confusing phrase (Konstantin)
-> 
+>
 >  [1]: https://lore.kernel.org/linux-doc/20250826003437.7695-2-bagasdotme@gmail.com/
-> 
+>
 >  Documentation/process/management-style.rst | 4 ++--
 >  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
+>
 > diff --git a/Documentation/process/management-style.rst b/Documentation/process/management-style.rst
 > index dfbc69bf49d435..bb7a69e34ef180 100644
 > --- a/Documentation/process/management-style.rst
@@ -86,15 +84,12 @@ On 8/26/25 9:48 PM, Bagas Sanjaya wrote:
 >  to decide on this", you're in trouble as a manager.  The people you
 > -manage had better know the details better than you, so if they come to
 > +manage most likely know the details better than you, so if they come to
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-although I would have said
-+manage should know the details better than you, so if they come to
-
-Anyway, thanks for the better wording.
-
 >  you for a technical decision, you're screwed.  You're clearly not
+
+I really do not understand what it is that you are trying to fix here.
+The original may not be the best English ever, but it is entirely
+correct; do we really have to churn the document for this>
+
 >  competent to make that decision for them.
 >  
 > @@ -115,7 +115,7 @@ sure as hell shouldn't encourage them by promising them that what they
@@ -104,10 +99,7 @@ Anyway, thanks for the better wording.
 > -Remember: they'd better know more about the details than you do, and
 > +Remember: they know the details better than you do, and
 >  they usually already think they have the answer to everything.  The best
->  thing you can do as a manager is not to instill confidence, but rather a
->  healthy dose of critical thinking on what they do.
-> 
-> base-commit: ee9a6691935490dc39605882b41b9452844d5e4e
 
--- 
-~Randy
+Here too.
+
+jon
