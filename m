@@ -1,105 +1,101 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544022B9A8;
-	Wed, 27 Aug 2025 05:41:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69EE61C84A1;
+	Wed, 27 Aug 2025 09:33:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756273314; cv=none; b=VGI21fu0p7S7oOAPwfPuP7Dfhxqjj8rveUry6s9+Y02IGzeAwH1XOCJ9E8bNm4gfly07MCB3LGMzgYd6fweY8vdBVFtNpn4O6HPxVo6oTI9HvMA8Vol/jjRkBLklIkcYKEs3azRf3CB/ntqJEaeEMkzFapFknqCpDaL1adV//SU=
+	t=1756287200; cv=none; b=iVXnjb/540odwDZ45XyjjjUv6vQKtDZk9EwGHh7Uh83RRH1Jzl0ncGcKPmQ1BzdLGGhpx4D/2ReeJPa0SoyTAAjG4Q7g1EhY7aK0DFsoeIdIJbS/xnhDIYjBSJvr+4TTCZHespFWz+ytuKRGAvm/mjunJrQvl0nOlPnilO54htU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756273314; c=relaxed/simple;
-	bh=b6q9cCDu3HC3NYVsFNsvw0/99qTo9vtqisSmqkijYtI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Y1rEXYZv3JTsDpA/ZzH9wq4ifMIzU/yjbf+Q8b/H0nIjrNudx3/DR9mr3ag03eeprL1/03tRFaswLqGS3oq9gawU9WZa9QFFIEhq2MNpTLgWc1R/0sygKleVmyMJCroNw0f0aMDhdrHvZ639ljiSZETgnd+z/YTeqRbAkfcHqKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=psL96GdM; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1756287200; c=relaxed/simple;
+	bh=KSdalJn3e3gYWepzypnj4qyOLd7bJ+UaPfpIfwX3Wws=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=s68hCzbheAtdYYml2qEu9fnkH0OtE9EKd/b6wTIXpNBYX+obPSt+g0MJttabq1L7mUBFfI6kgSeXa9+QRBskvK0vSxarLIQ+2+9rhHzreqWn0oUj/MpWwx6pwgFM5APyMGlfcdl+ZxvZj16vS1n0XGWELv7lb/LcBcKdtVhVH1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PC2nXd4+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="psL96GdM"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C619140ADA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1756273309; bh=Y6z+kBjl0XBbufpDiwRSMUVdA8goEEeheytHFy4pCxY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=psL96GdMwjIqfsiBoi+W6scJ7PL83t9o9e3c59ICPz2Qjo9gp5hhFZugDlrF5mcZp
-	 6oUJifyexCOI6xek4gh7hZvhoTS6bO7ID90SyJAjBxcHWq/pgpY++j0r2uuuq9+G7l
-	 OhOv6TRqq+KR5bEnz+QrOomwEG15AJrGFOB7Hg2VluQ+GLxSUJgCUKws2rjDQsObzC
-	 +p9W/q40nr1O25uYupZKgcjU9A8T/e05ZaiwjdjmP2lg+uIqtD36MfKDg1CU9iu2od
-	 bjJMz7b8rkpkG09Q9oS8QMkMQc+ki2peYyPc4srhqeVCdn5zMiLN8JBeDi4TuE1D1f
-	 1r1D5vTYOqMmw==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id C619140ADA;
-	Wed, 27 Aug 2025 05:41:48 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PC2nXd4+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60F7EC4CEEB;
+	Wed, 27 Aug 2025 09:33:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756287197;
+	bh=KSdalJn3e3gYWepzypnj4qyOLd7bJ+UaPfpIfwX3Wws=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=PC2nXd4+/YuvBpwiK0ryK7ZJ4VMGOnMgzRwEH5JcjnDWvabhAieVb5nDDHFLS8BK9
+	 4Nve8zIp9CLUZ+aDJXqV8YIedt54ZV1+T8NmDBSWmV2l8zW6WFokvTEn3uYlKuC+fl
+	 Bj0fn1Ny8qdKDhkNxQTACS2sytcyHzOBKC/vVPpQK5G7d2BOS6o/l/sEi1NNdS8PTJ
+	 h0XqRT5cBacWrRqpLO3mLMWjYkiA5lniJWaP7sdJDng/CRmYCPYLblfozXXEgJpjT7
+	 Z6gdQh4pUIIavFUQMZ9yYHiSLYbg76HL6Bu1Xf/hSb7AsCuniLmkUWWU/Pw8PpqFQb
+	 kvV+L7HnR6zRg==
+Date: Wed, 27 Aug 2025 11:33:12 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
  <linux-kernel@vger.kernel.org>, Linux Documentation
  <linux-doc@vger.kernel.org>, Linux Kernel Workflows
- <workflows@vger.kernel.org>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Jonathan =?utf-8?Q?Neusch=C3=A4f?=
- =?utf-8?Q?er?=
+ <workflows@vger.kernel.org>, Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?=
  <j.neuschaefer@gmx.net>, Fox Foster <fox@tardis.ed.ac.uk>, Federico Vaga
  <federico.vaga@vaga.pv.it>, Randy Dunlap <rdunlap@infradead.org>, Stephen
  Rothwell <sfr@canb.auug.org.au>, Konstantin Ryabitsev
  <konstantin@linuxfoundation.org>, Matthew Wilcox <willy@infradead.org>
 Subject: Re: [PATCH v2] Documentation: management-style: Reword "had better
  known the details" phrase
-In-Reply-To: <20250827044848.17374-1-bagasdotme@gmail.com>
+Message-ID: <20250827113312.62162725@foz.lan>
+In-Reply-To: <87wm6p9v8l.fsf@trenco.lwn.net>
 References: <20250827044848.17374-1-bagasdotme@gmail.com>
-Date: Tue, 26 Aug 2025 23:41:46 -0600
-Message-ID: <87wm6p9v8l.fsf@trenco.lwn.net>
+	<87wm6p9v8l.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+Em Tue, 26 Aug 2025 23:41:46 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> Management style docs writes on people under a manager, where they know
-> the details better than the manager himself. Reword it so that it would be
-> less confusing to non-native English speakers.
->
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  Changes since v1 [1]:
->
->    - Reword the confusing phrase (Konstantin)
->
->  [1]: https://lore.kernel.org/linux-doc/20250826003437.7695-2-bagasdotme@gmail.com/
->
->  Documentation/process/management-style.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/process/management-style.rst b/Documentation/process/management-style.rst
-> index dfbc69bf49d435..bb7a69e34ef180 100644
-> --- a/Documentation/process/management-style.rst
-> +++ b/Documentation/process/management-style.rst
-> @@ -42,7 +42,7 @@ actually true.
->  The name of the game is to **avoid** having to make a decision.  In
->  particular, if somebody tells you "choose (a) or (b), we really need you
->  to decide on this", you're in trouble as a manager.  The people you
-> -manage had better know the details better than you, so if they come to
-> +manage most likely know the details better than you, so if they come to
->  you for a technical decision, you're screwed.  You're clearly not
+> > -manage had better know the details better than you, so if they come to
+> > +manage most likely know the details better than you, so if they come to
+> >  you for a technical decision, you're screwed.  You're clearly not  
+> 
+> I really do not understand what it is that you are trying to fix here.
+> The original may not be the best English ever, but it is entirely
+> correct; do we really have to churn the document for this>
 
-I really do not understand what it is that you are trying to fix here.
-The original may not be the best English ever, but it is entirely
-correct; do we really have to churn the document for this>
+As a non-native English speaker, "had better know" looks really
+weird on my eyes, as, at least for me, "know" is a verb.
 
->  competent to make that decision for them.
->  
-> @@ -115,7 +115,7 @@ sure as hell shouldn't encourage them by promising them that what they
->  work on will be included.  Make them at least think twice before they
->  embark on a big endeavor.
->  
-> -Remember: they'd better know more about the details than you do, and
-> +Remember: they know the details better than you do, and
->  they usually already think they have the answer to everything.  The best
+Heh, I just discovered today by looking on a dictionary:
 
-Here too.
+	https://dictionary.cambridge.org/dictionary/english/know
 
-jon
+That know can informally be used as a noun (a shortcut for
+knowledge?).
+
+For me as a non-native English speaker, when one writes:
+
+	They "most likely know"		(know here is a verb)
+
+or:
+	They "had better knowledge"	(knowledge is a name)
+
+Things become clearer.
+
+Heh:
+
+	They "had better know the details better than you"
+
+the "better" word is used twice, and yeah, this is requires more
+fluency in English for a non-native speaker to get what it says.
+
+Considering that "know" (noun) seems to be a shortcut
+for "knowledge", what about:
+
+	They "had better knowledge about the details than you"
+
+Just my 2 cents.
+
+Thanks,
+Mauro
