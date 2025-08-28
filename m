@@ -1,83 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E8EB35A2B5;
-	Wed, 27 Aug 2025 14:10:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 212681C8606;
+	Thu, 28 Aug 2025 04:12:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756303856; cv=none; b=axFUgSgeUAxrvlr/ZBc/QT58OoqrEY4tGFediFpEsL6L1km2+QbgAuHhx/+gmvP7Eujwts3fYvySojLuTFpcoNudFU+1V8w4BZnXf2DngccgOVjEZE/M8cB903SPyTBopzbPQttHjGcnf68Vek8z0e567PF+ePCy2/Pmn30lLow=
+	t=1756354347; cv=none; b=WyUNIqzR6Qpta/b0IbknM4/AlSBXB0/1gJU9lxNj1FJrzadbwz7kUD+z44GnevRezUrQrwV9gytwX1PdcZMqwnneBMGIzkv9zovAKvZm0dbtWi4kVF7TYw+OCsqYhNEMpUn/2DLwm8nGHxVcoqjAEwqkzfnief0jnhoHVm5G0Bg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756303856; c=relaxed/simple;
-	bh=oz41WPwpJoJ+70OHjuwxvat5SN3gLfK76dk6ijB59a4=;
+	s=arc-20240116; t=1756354347; c=relaxed/simple;
+	bh=WN89Uo3RwVaX0q4mCLZ6TaHBINalBhQLUUPa5dXyflY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RkBLT9csJZyI7FEyklmDay/NFywZao8CLCt/9nfWPKizQXAFBaA2EACSxRdLz3+/O1KjYJPtip7EIBWrwY8/m4UuIYEBq6jy71hNIYl9+TYfrcoPsOR1E90DbaVRiu1/mW5ckBgcBaloe+KeDaOT5yciQL0rar0ihhSmXfKQxO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eBTlEXbU; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tuzi1fYSnFDh5XAGJ/EOUzr7k7hxMD4ecPBg8zdyeBHe25yfGvXfaUKjb31xmOP1JdQI/pklA5Ba/4uOKQpFz5Ysp0HuJLsTvNQxcHxDBz05fRT3ayRMvGUW3XFz9n3E86W+d9GXJs9I5E3DhJWWb8y7YmWNBj4fFPBOm/gMxkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CXamJRPv; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eBTlEXbU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A560C4AF09;
-	Wed, 27 Aug 2025 14:10:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756303855;
-	bh=oz41WPwpJoJ+70OHjuwxvat5SN3gLfK76dk6ijB59a4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eBTlEXbUBXGEPWR7h2GnUM9TkYBn6HZSfIsZZqKmFRGNhJ+0Yg1sfRfn/ELZKdbvp
-	 J6qacbpVIy8uEmYg1gFDiifgGOW9ggJM+wygFUnVycpz9n1sS0th3AbpbJMQHZeqtw
-	 Ggh8D4M87H/QY4QZfDr5SFZlfuRNAtuP+bUQtSuWqltAKKuSK2/Gpf9Np7KbYI9QJD
-	 BMCcjK+8gIlwiLivO011MF3pld7NLCWzl8Qu7uEzP4mtDLQXn7jfrqSIN6ZQoSzkQu
-	 hHqtPIpQFWXzadScRIRXk1McNzFl80VkpTKvEPSPIVcM1yzbq7TgpedaOTcbzEU52H
-	 gcJypYRikQd7g==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1urGrV-000000015gH-2MAE;
-	Wed, 27 Aug 2025 16:10:53 +0200
-Date: Wed, 27 Aug 2025 16:10:53 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Linux Documentation <linux-doc@vger.kernel.org>, Linux Kernel Workflows <workflows@vger.kernel.org>, 
-	Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, Fox Foster <fox@tardis.ed.ac.uk>, 
-	Federico Vaga <federico.vaga@vaga.pv.it>, Randy Dunlap <rdunlap@infradead.org>, 
-	Stephen Rothwell <sfr@canb.auug.org.au>, Konstantin Ryabitsev <konstantin@linuxfoundation.org>, 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CXamJRPv"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-24646202152so6365105ad.0;
+        Wed, 27 Aug 2025 21:12:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756354344; x=1756959144; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=xM3vptnVaXVwDy7ybty4eLADeK4TA37sWiFwhTzXlgE=;
+        b=CXamJRPvvnrNNcLB+R5Jc0b/bCpPRMizwpMqm94MdjcCR2Q0wW9AXhjhTQosSHkZMh
+         xVdL3jZyrVTjymUX8iZ/f9iSbfZYg0X4wGDVFQKDtFMvYKEoPykS1gtdwy+L3zNcg6MU
+         y+1rSWklhxUW7D9haVf4oGidle21HZGrFyhzs4XE14sBroCFQqhyxcY69PHzsNvjo/yZ
+         VEEnw0o2Y64BE7sO1jF5mXy8sEJ1bqt3rVsaBtEhxJ56+0WbX7982kqeC28Hl0ClAM/m
+         7LImdHh4c7rfV6c9LLD/Z6BL9BXe8Vej3RcknOJqY69SwHCt5tc9jPeUbpOWGejHo7VZ
+         qZzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756354344; x=1756959144;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xM3vptnVaXVwDy7ybty4eLADeK4TA37sWiFwhTzXlgE=;
+        b=ColTRm+nFvpiHnlGo/YVYaRrjzYA9vw1AWt0A41pgUfMhO2F+1E7lR4+DuRQljrZJa
+         8yBTzTEjWwqpRJ+sIw83T8pNwtBZjybpaGySXk/A/HcjhMRH6j5IJKhCT/rp6DWdyA27
+         Fn3sICJWxWJ0NgF+BejsoYPAnEErbfcx8B9uS7ZY1h1N84i59YdRqNF/P20Go2pkL/Hs
+         BNpN3ZfYreDYlLE5egB/IbBo7AhyatnoMlgwH6E+MJVd4ale+ASzak6+fOZrxHIlBiEl
+         fPv7yiBedH0RWkKrPLNO7i+e8MlDoE48TUi+fqoxlV1hXmvXw2tBQjVuCkE7Hs46PhFJ
+         5Wrw==
+X-Forwarded-Encrypted: i=1; AJvYcCVFkEXtS/aFam70kKIBgbq3xlO9nti+bPa63KLo2x7Je1mCiylQQruWhCpeTYHqxbU7ZkZiS3BqXd8=@vger.kernel.org, AJvYcCVfR7QaqRsHFXIJ0MjRQctDNzppScByhyXSar7q5zOZFO5XCG4ZolTl/RCe50RHE2Q3D1CDxDXIYWzq@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/JE3BHHfG+y/i6pX6ckToTOv+Yr9bHpHp/km9HHc1qjUhsz0+
+	QSkS5/QL/pPTlQQ/fSyqAH7+ncNungmyfk4bhkSTBBXEUaBD2/TvXqqW
+X-Gm-Gg: ASbGncu1MOWAJcBaLav8+CqYeY3rpOM3wkmUFmJxbURnvn27EnSgAObDuJWoEuakrif
+	mi9ZUgtGIwy1QKt9rtf0qbzAf4hOureFVCjtcW3otiwE2KRXx6ay9ND55y/Xv72mwj5SpoD/L0J
+	k7AfZT4jpkt2aoTOqpO49ULZnkoO9XgGkCQNbQPTmrBMhSfzQxYgeu/Sxvb7KdG9ZnOO1WnQCTf
+	1u40fmmGs8sq5VRTVPOMzpPUUsilbPpPIeVn3YZ4FsxI0ki8WRKGH8HJVq1QKCEzIZb88NPZ0k7
+	/Rc5+AVMuY5qPj6htHzS5bERaCsT/iO9yRzzv+NXvhIPVhCdVHjTjyn95cOvJN5zBgSZMutIna8
+	NP6wGsEIQ/a8Y1X36vkOVqHh9dw==
+X-Google-Smtp-Source: AGHT+IHZ21AbUNmQHZ4t298crnlzLeXMfJjiOdcDaX0sZfTOfM2/+k1g3zkljInt0QdEyTrliIkz8A==
+X-Received: by 2002:a17:902:f64f:b0:246:8bdd:17d7 with SMTP id d9443c01a7336-2468bdd1bfcmr188200135ad.13.1756354344110;
+        Wed, 27 Aug 2025 21:12:24 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-248d4e362d4sm8938915ad.148.2025.08.27.21.12.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Aug 2025 21:12:21 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 595784027828; Thu, 28 Aug 2025 11:12:18 +0700 (WIB)
+Date: Thu, 28 Aug 2025 11:12:18 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Kernel Workflows <workflows@vger.kernel.org>,
+	Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+	Fox Foster <fox@tardis.ed.ac.uk>,
+	Federico Vaga <federico.vaga@vaga.pv.it>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
 	Matthew Wilcox <willy@infradead.org>
 Subject: Re: [PATCH v2] Documentation: management-style: Reword "had better
  known the details" phrase
-Message-ID: <iv5v3ahnukjpndei6sufrkwuquddwh3fi2lcd2wl44vtnm32xk@2m7ay3k4phrn>
+Message-ID: <aK_XIoncppxWp7sB@archie.me>
 References: <20250827044848.17374-1-bagasdotme@gmail.com>
  <87wm6p9v8l.fsf@trenco.lwn.net>
  <20250827113312.62162725@foz.lan>
- <877byp9f63.fsf@trenco.lwn.net>
- <20250827144757.26599d50@foz.lan>
- <87tt1s9ap4.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="3kp2UqL1B3tlnqWW"
 Content-Disposition: inline
-In-Reply-To: <87tt1s9ap4.fsf@trenco.lwn.net>
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+In-Reply-To: <20250827113312.62162725@foz.lan>
 
-On Wed, Aug 27, 2025 at 07:05:27AM -0600, Jonathan Corbet wrote:
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-> We can tweak it, but I'd rather not change the meaning, and, more to the
-> point, that document needs significant work rather than low-level
-> tweaking.
+--3kp2UqL1B3tlnqWW
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On a better look on the entire document, I woudn't change a single
-word... IMO, this is a masterpiece where any changes would damage
-it... Every time I read this, it makes me laugh so hard that tears
-roll down my face :-D
+On Wed, Aug 27, 2025 at 11:33:12AM +0200, Mauro Carvalho Chehab wrote:
+> As a non-native English speaker, "had better know" looks really
+> weird on my eyes, as, at least for me, "know" is a verb.
+>=20
+> Heh, I just discovered today by looking on a dictionary:
+>=20
+> 	https://dictionary.cambridge.org/dictionary/english/know
+>=20
+> That know can informally be used as a noun (a shortcut for
+> knowledge?).
+>=20
+> For me as a non-native English speaker, when one writes:
+>=20
+> 	They "most likely know"		(know here is a verb)
+>=20
+> or:
+> 	They "had better knowledge"	(knowledge is a name)
+>=20
+> Things become clearer.
+>=20
+> Heh:
+>=20
+> 	They "had better know the details better than you"
+>=20
+> the "better" word is used twice, and yeah, this is requires more
+> fluency in English for a non-native speaker to get what it says.
+>=20
+> Considering that "know" (noun) seems to be a shortcut
+> for "knowledge", what about:
+>=20
+> 	They "had better knowledge about the details than you"
 
-While it brings some real tips, it was written to be annedotical.
+That can be alternative.
 
-So, from my side, I would just keep it as-is, even if someone
-write another document better describing Kernel management
-style.
+Thanks.
 
--- 
-Thanks,
-Mauro
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--3kp2UqL1B3tlnqWW
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaK/XHQAKCRD2uYlJVVFO
+o49WAPsEAvJcJNYwU4d66ZTyPkrKkSJhDiFl0sLolEoQljcXvgD/YN+6gGbmw7bA
+QRtPBYIm0VgoI8+XNqa98l9ImkRrBw4=
+=evxw
+-----END PGP SIGNATURE-----
+
+--3kp2UqL1B3tlnqWW--
