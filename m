@@ -1,49 +1,59 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E78231827;
-	Mon,  1 Sep 2025 16:54:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3959E1E5213;
+	Mon,  1 Sep 2025 19:23:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756745644; cv=none; b=gfGwhoJmMg7pKq53RKhNpsDyUkNJ9S5RBlUZOIKTRobSktB32LTtnrjKc0Q0qaofvFqtgcv3eNvlIeWAm8uPhfYI+unKxnfe3u2D86A5hM1qWN9xX6coU46EygZYf8lAy9n/wkgygdu+74ql1UP18bNOIUhJpZI7Km/S9PcwW+A=
+	t=1756754598; cv=none; b=AtzxxEnD8cQTbf4D+RdIi+RtjZ0ie/hH4aMt9bWyktVkP+ZUIlVMKSCYjm/MFFyEeKu1e1hORIoBkBzC5nX1vwxCWsszk/tbfoBeeTOEZZ8Xm6Xis4I5/xv7407rN0lzQxTNspT4hM7KrJWMA5qUpX8Q/QE4vhVne0pjvLXoHDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756745644; c=relaxed/simple;
-	bh=Q3LrO/82qmzLGAa+2UmFr9rs46cyemKu9OZyrzJ77d4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QfO8Tm7oKzEN4Q9pUScHzi75eJcAW0Tin3XbxCYgT8kpQFnhcgU4mxzeELEG+zM0sSTdWRn25RMRlvr6Z0bsgSfo9RhcJVjoL+1op8rC1kQVW+gj8Jofh4xxbAUosNRLZr9/1b4BotNUYqlPs2ycFoHsgeX+3z9EJ/wGKzBZlH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6DB8C4CEF0;
-	Mon,  1 Sep 2025 16:53:57 +0000 (UTC)
-Date: Mon, 1 Sep 2025 17:53:55 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
+	s=arc-20240116; t=1756754598; c=relaxed/simple;
+	bh=/4asbQkP1eDqEbveKkGpr0ywUBl4RSN7gR/XJ53xGVw=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=tHp2YDp5nvu+qavXlm+d2xBl2jlNMaNZk3GhrkPckXY8vav7tEixUsc5YvtLPpWcbhuEEalkSFaNhLQWn/rMQT3oMO4ultuJ7rXQXkzyOSg3ucLV2Iex2qmqonID1XqkPLnxEuRmN0rNCxdvKne+IWIBhgHkhCv+Z46U1KVkDsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=waO5M7TU; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="waO5M7TU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9BD1C4CEF0;
+	Mon,  1 Sep 2025 19:23:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1756754597;
+	bh=/4asbQkP1eDqEbveKkGpr0ywUBl4RSN7gR/XJ53xGVw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=waO5M7TU9BYoRGjtorAnNJETXm72HFsA3Y0tFfhW85iW307Pc3Fq86bh7keOgjgLE
+	 ktpXe34fCWJ/hIBD3X4zZpOX2irMQA3Ga0Vr8rilIjKxKv0uR7kEYqCu1sIk7u49Cu
+	 IOOyVz6paX9t7Kdqkgl01NvAx2e8rkGiaTJ3GKyI=
+Date: Mon, 1 Sep 2025 12:23:16 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
 To: Yeoreum Yun <yeoreum.yun@arm.com>
 Cc: ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com,
-	dvyukov@google.com, vincenzo.frascino@arm.com, corbet@lwn.net,
-	will@kernel.org, akpm@linux-foundation.org,
-	scott@os.amperecomputing.com, jhubbard@nvidia.com,
-	pankaj.gupta@amd.com, leitao@debian.org, kaleshsingh@google.com,
-	maz@kernel.org, broonie@kernel.org, oliver.upton@linux.dev,
-	james.morse@arm.com, ardb@kernel.org,
-	hardevsinh.palaniya@siliconsignals.io, david@redhat.com,
-	yang@os.amperecomputing.com, kasan-dev@googlegroups.com,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mm@kvack.org
+ dvyukov@google.com, vincenzo.frascino@arm.com, corbet@lwn.net,
+ catalin.marinas@arm.com, will@kernel.org, scott@os.amperecomputing.com,
+ jhubbard@nvidia.com, pankaj.gupta@amd.com, leitao@debian.org,
+ kaleshsingh@google.com, maz@kernel.org, broonie@kernel.org,
+ oliver.upton@linux.dev, james.morse@arm.com, ardb@kernel.org,
+ hardevsinh.palaniya@siliconsignals.io, david@redhat.com,
+ yang@os.amperecomputing.com, kasan-dev@googlegroups.com,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mm@kvack.org
 Subject: Re: [PATCH v6 1/2] kasan/hw-tags: introduce kasan.write_only option
-Message-ID: <aLXPownoCikoHvZP@arm.com>
+Message-Id: <20250901122316.6b7d8d7fdcf03bdb2aa4960a@linux-foundation.org>
+In-Reply-To: <20250901104623.402172-2-yeoreum.yun@arm.com>
 References: <20250901104623.402172-1-yeoreum.yun@arm.com>
- <20250901104623.402172-2-yeoreum.yun@arm.com>
+	<20250901104623.402172-2-yeoreum.yun@arm.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250901104623.402172-2-yeoreum.yun@arm.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Sep 01, 2025 at 11:46:22AM +0100, Yeoreum Yun wrote:
+On Mon,  1 Sep 2025 11:46:22 +0100 Yeoreum Yun <yeoreum.yun@arm.com> wrote:
+
 > Since Armv8.9, FEATURE_MTE_STORE_ONLY feature is introduced to restrict
 > raise of tag check fault on store operation only.
 > Introcude KASAN write only mode based on this feature.
@@ -61,7 +71,13 @@ On Mon, Sep 01, 2025 at 11:46:22AM +0100, Yeoreum Yun wrote:
 > ARM64_MTE_ASYMM so that makes it initialise in kasan_init_hw_tags()
 > with other function together.
 > 
-> Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
-> Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
+> ...
+>
+>  
+> -	pr_info("KernelAddressSanitizer initialized (hw-tags, mode=%s, vmalloc=%s, stacktrace=%s)\n",
+> +	pr_info("KernelAddressSanitizer initialized (hw-tags, mode=%s, vmalloc=%s, stacktrace=%s, write_only=%s\n",
+>  		kasan_mode_info(),
 
-Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+This lost the closing ")" in the printk control string.  I fixed that
+up while resolving rejects.
+
