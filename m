@@ -1,139 +1,137 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506A622FAFD
-	for <workflows@vger.kernel.org>; Tue,  2 Sep 2025 16:50:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95D2932F740;
+	Wed,  3 Sep 2025 03:32:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756831820; cv=none; b=GJVe6mYqQNVyOnxisx7Iy4UHm5pNUrxfeF5DLV+prj5i3m5VePhSrogu+yGW8/hFJsbi5VmKy1EB/Nk0diFMdNur7n0eWrdxn7BfPm8ezeQL2CkNbvU3WRE3H677pPSUyUO04sJV4JmILFhzUhb4Ait/jnRDcQjgUHBx1/6dbJc=
+	t=1756870341; cv=none; b=UKNfRQPDhSb7p+4/Wfv3XTdfIs51PaiHxO7AlU7Uco5oz+sqOxjHF438ibH4JKa8AP2YMf+khgEPDyedmjsftH24qI+mIFRJnPUHcYo8z5Qlx+IYXF72k7g1MAh2uhXjB1ImChypZP2VO0mj/WCiIinulK1zPAzhlEwEgx3o4L0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756831820; c=relaxed/simple;
-	bh=6RIt17l6rtvY+nJ0OVVe8xaeq2YQCf529Qu7R8rBWQY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HF5cFMoqiAME1ibu03Ce6we17woW1yiJlmYo7NBN82A8H4nmJq20suzsHUThZjSW+Q6ZqDrG1FoCWwIhDrOxPl8m1VYbpjrJkurkmQNPtmeOVeCmnKpilC9Y/aQ1UbMb1t3FVvtfiLwECyDpo3smQnnma1+pAv0E7TnDZxE4ZOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iVxktnQU; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1756870341; c=relaxed/simple;
+	bh=1armfrQSPhghEXbEgCR40kMT3Mz1KUNVgAlY6GjrTLM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=J5t5VZXgL/5Iof6OoWLFo3U1JfXrDUBu3hVZfePtCs16N4B/zwrcpCdWF5EmmR9bz4kftQTc+tOyppvPyFtKM+m5+YtnovbWV3uiDJ8FjlShx5IrpkZg3QttQElhH/1khn+snkJjD9WDehyCIr2qMeogk0BceX0EmBfunuymcOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c6/aA16+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iVxktnQU"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-4b30bb04ed8so3261cf.1
-        for <workflows@vger.kernel.org>; Tue, 02 Sep 2025 09:50:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1756831818; x=1757436618; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eSyrafM1QcRv6+/JfnS79ZJ1CJUifDSEbVFOqe4QmfQ=;
-        b=iVxktnQU/yyZtqB1mdae3VmF0wyDDvDDqcx1s1j0PTIexofEpiSA718bzBpKiOX6w8
-         83lSP+TyZqilKHdJ10uEg3P9ERWyc32e3OLf8Tu9TJseIuLxF+EwcAyA0o6f+8EzAM8A
-         OqUK7qRzAbDZFNNvLboqlkocnmQbrXGimI9HCJF3a51xpqWANjGE9cNioMyzG7O7VYPA
-         47uHqbzkTjlwCfjJcJUxZ4SAwpLOgssfan37jzxc1IkO/8t/pWV+Hb9ExJew8Bly/QUg
-         Wmq3Ty5aUZKrWED3sDSDWgqYBfsifpLvN0scFj/qnM7NjcTevkUFrwMSUqbXdu6HNRDb
-         l+mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756831818; x=1757436618;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eSyrafM1QcRv6+/JfnS79ZJ1CJUifDSEbVFOqe4QmfQ=;
-        b=Kkrg0oh1kSOwMfb0vtN0HnSpSr/YemQxQJ5N185gOn06ku4K2krZVHIKkCppSMIGiG
-         PM+y/CA0Nb/sAacEl5AbMLjHR1ZHxMlj5dWRl8/N8u2FJj/nJkpq7d2LN5pk0WIFxPfd
-         t5xEJzRNKOoZAq7DikX5/7gWeevINxfH+r/lbgDJDYSCJBZBgMj1qsXeQum9fJjPwi9w
-         AdM8lYM21NpYXwOto2G4DMTGIJ28z1c1tNJNvYN+V0hhvJJNoqJLoZJ1HdMI8clAS0dh
-         XaodGKebXinB87eSSsC4ZpUg/3cYQmMvWqMaKmi8A17fDjwRD4KeZAQtQZXrM19QGMAN
-         +J5w==
-X-Forwarded-Encrypted: i=1; AJvYcCWpSKE0rtjKfucD77/0pOfC4gqm3v0ABwAvKv5MtrE1CyNlZxHJUjUpBbuKJcDsGh7HclbZgZ43e0g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMLYsTSbhn6pb/qZYXzHjg8Wn7IQ9EEdyzIzJXYGeYlxIeAV6v
-	Z6BLlgUlL6/bxdnln6vQTwSLt8vbKp+sRnrE0X9NZIa9g9IRNnrPnkJj+epW+oiP29HHHizFs15
-	AeUmNJ/em0V3M0fG/FRFjUrPfUXocpneDBKuxqjP+
-X-Gm-Gg: ASbGncszGL2sBHMPsLJD/V2zQMWul3PQiV60D3HfRzCl1WysitygwUWtQjAK9d2OZ1R
-	zJ3nG/F9ZTINk5ECI6qymgntBkD9WpM2W/TJeKKsrp+9fGqpsjnKJKg530f8pBlh05K2EH5dq+s
-	mNvF4RqWaTZKLvxdIa50KNYx45vscGVx1ASkztnc8e/8bOAgh7v9rEndZAJbtRlptUgKS2ys+Tw
-	BqKJ9zhvV5n/z6cMfDf/IC4HEr0JckW1pVhLv/Ax9o=
-X-Google-Smtp-Source: AGHT+IFZRZdIhfajnXhlEKBqcpQ9ut7xCYenusy5bPozjAHfG8pzHkYfdT7cPUFCcvttQ5R84/Zpo/4ZOtaDR+q3ZIc=
-X-Received: by 2002:a05:622a:a28a:b0:4b0:9c14:2fec with SMTP id
- d75a77b69052e-4b325008444mr11392681cf.8.1756831817870; Tue, 02 Sep 2025
- 09:50:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c6/aA16+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C22F8C4CEF0;
+	Wed,  3 Sep 2025 03:32:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756870340;
+	bh=1armfrQSPhghEXbEgCR40kMT3Mz1KUNVgAlY6GjrTLM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=c6/aA16+bBkQH51tR2bcv5SM6tXtTwJMULf4022Tate2FmzdfUbzGvPiP2fkcVpWI
+	 RriSmrsN2ZlJj0IloB/qX3FQ3Nx9cN4lqbucrjYT4KLxt2DgUbVBqvIKo2olMXLgfB
+	 9N5kKv4v3IBmC1YJev3/3rxoXwXwhR46dCAt8jPxByNLb/XkehQ3Po6KdKfM7VpmMm
+	 1Q1BM8WVxFsEMqVtGOxGMqeKmeEKRty2lb7WMxAWqJ6tmtHvJWE+KovB1IE7Kw9o50
+	 ge8OGusvBxfm+9So2e0mbnLX+HsjFa6ZxAt4PFAo/YR4SAEcoNc0h0IuibbyWbTQJn
+	 FVh2NdAaEjS2A==
+Message-ID: <3242f4a2-9a5f-4165-8d24-5c2387967277@kernel.org>
+Date: Tue, 2 Sep 2025 22:32:05 -0500
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250831150710.1274546-1-harshit.m.mogalapalli@oracle.com>
- <CAMuHMdXSNoXjxAbALr7O_dD_btJDGR58XaDa5=bd8NmL50wcaQ@mail.gmail.com> <d2a5b07e-2da1-47f0-b2cb-a4ffa12a99b0@oracle.com>
-In-Reply-To: <d2a5b07e-2da1-47f0-b2cb-a4ffa12a99b0@oracle.com>
-From: Rong Xu <xur@google.com>
-Date: Tue, 2 Sep 2025 09:50:05 -0700
-X-Gm-Features: Ac12FXynsWsvMltp57ATRpCXmM0Uhwu2CvmIEafU2UjtQeosXaKLslnu08g_VGQ
-Message-ID: <CAF1bQ=TB6KMAkwXfEF=ZJvJZqV8B9kEw3jbVMG4gRoLOUjksiA@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: dev-tools: Fix a typo in autofdo documentation
-To: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, Han Shen <shenhan@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 04/14] Documentation: amd-pstate: Use internal link to
+ kselftest
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux DAMON <damon@lists.linux.dev>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Linux Power Management <linux-pm@vger.kernel.org>,
+ Linux Block Devices <linux-block@vger.kernel.org>,
+ Linux BPF <bpf@vger.kernel.org>,
+ Linux Kernel Workflows <workflows@vger.kernel.org>,
+ Linux KASAN <kasan-dev@googlegroups.com>,
+ Linux Devicetree <devicetree@vger.kernel.org>,
+ Linux fsverity <fsverity@lists.linux.dev>,
+ Linux MTD <linux-mtd@lists.infradead.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Build System <linux-lbuild@vger.kernel.org>,
+ Linux Networking <netdev@vger.kernel.org>,
+ Linux Sound <linux-sound@vger.kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>,
+ Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
+ Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, SeongJae Park <sj@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Huang Rui <ray.huang@amd.com>, "Gautham R. Shenoy" <gautham.shenoy@amd.com>,
+ Perry Yuan <perry.yuan@amd.com>, Jens Axboe <axboe@kernel.dk>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
+ <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>,
+ Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Dwaipayan Ray <dwaipayanray1@gmail.com>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Alexander Potapenko <glider@google.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Eric Biggers <ebiggers@kernel.org>,
+ tytso@mit.edu, Richard Weinberger <richard@nod.at>,
+ Zhihao Cheng <chengzhihao1@huawei.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>, Ingo Molnar <mingo@redhat.com>,
+ Will Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Waiman Long <longman@redhat.com>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Shay Agroskin <shayagr@amazon.com>, Arthur Kiyanovski <akiyano@amazon.com>,
+ David Arinzon <darinzon@amazon.com>, Saeed Bishara <saeedb@amazon.com>,
+ Andrew Lunn <andrew@lunn.ch>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Alexandru Ciobotaru <alcioa@amazon.com>,
+ The AWS Nitro Enclaves Team <aws-nitro-enclaves-devel@amazon.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Steve French <stfrench@microsoft.com>,
+ Meetakshi Setiya <msetiya@microsoft.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Bart Van Assche <bvanassche@acm.org>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?=
+ <linux@weissschuh.net>, Masahiro Yamada <masahiroy@kernel.org>
+References: <20250829075524.45635-1-bagasdotme@gmail.com>
+ <20250829075524.45635-5-bagasdotme@gmail.com>
+Content-Language: en-US
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <20250829075524.45635-5-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thanks for the fix! I meant to include "/" in the original patch, but
-I overlooked it.
+On 8/29/2025 2:55 AM, Bagas Sanjaya wrote:
+> Convert kselftest docs link to internal cross-reference.
+> 
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>   Documentation/admin-guide/pm/amd-pstate.rst | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/pm/amd-pstate.rst b/Documentation/admin-guide/pm/amd-pstate.rst
+> index e1771f2225d5f0..37082f2493a7c1 100644
+> --- a/Documentation/admin-guide/pm/amd-pstate.rst
+> +++ b/Documentation/admin-guide/pm/amd-pstate.rst
+> @@ -798,5 +798,4 @@ Reference
+>   .. [3] Processor Programming Reference (PPR) for AMD Family 19h Model 51h, Revision A1 Processors
+>          https://www.amd.com/system/files/TechDocs/56569-A1-PUB.zip
+>   
+> -.. [4] Linux Kernel Selftests,
+> -       https://www.kernel.org/doc/html/latest/dev-tools/kselftest.html
+> +.. [4] Documentation/dev-tools/kselftest.rst
 
-Reviewed-by: Rong Xu <xur@google.com>
+Acked-by: Mario Limonciello (AMD) <superm1@kernel.org>
 
-On Tue, Sep 2, 2025 at 6:03=E2=80=AFAM Harshit Mogalapalli
-<harshit.m.mogalapalli@oracle.com> wrote:
->
-> Hi Geert,
->
-> On 02/09/25 12:43, Geert Uytterhoeven wrote:
-> > Hi Harshit,
-> >
-> > On Mon, 1 Sept 2025 at 17:57, Harshit Mogalapalli
-> > <harshit.m.mogalapalli@oracle.com> wrote:
-> >> Use cat /proc/cpuinfo as opposed cat proc/cpuinfo.
-> >>
-> >> Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-> >
-> > Thanks for your patch!
-> >
-> >> --- a/Documentation/dev-tools/autofdo.rst
-> >> +++ b/Documentation/dev-tools/autofdo.rst
-> >> @@ -131,11 +131,11 @@ Here is an example workflow for AutoFDO kernel:
-> >>
-> >>        For Zen3::
-> >>
-> >> -      $ cat proc/cpuinfo | grep " brs"
-> >> +      $ cat /proc/cpuinfo | grep " brs"
-> >>
-> >>        For Zen4::
-> >>
-> >> -      $ cat proc/cpuinfo | grep amd_lbr_v2
-> >> +      $ cat /proc/cpuinfo | grep amd_lbr_v2
-> >>
-> >>        The following command generated the perf data file::
-> >>
-> >
-> > One might say the path depends on where the proc filesystem is mounted =
-;-)
-> > However, all other documentation (except for two occurrences in
-> > Documentation/networking/proc_net_tcp.rst, which you may want to fix,
-> > too) assumes /proc, so it is better to be consistent.
-> >
->
-> Oh very good point, yes I did check other instances and thought we make
-> it consistent.
->
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >
->
-> Thanks a lot for the review.
->
->
-> Regards,
-> Harshit
->
-> > Gr{oetje,eeting}s,
-> >
-> >                          Geert
-> >
->
