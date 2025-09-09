@@ -1,38 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E62A71F0E2E;
-	Tue,  9 Sep 2025 14:42:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F92834F47E;
+	Tue,  9 Sep 2025 14:44:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757428966; cv=none; b=eP8+2ZpeVYRJE0pW2HmlgzvtG4ROV4AnOx8yTh2zVuB4OCl/0b+mZ+GaT35yr8F1yiAq+/jwNPjGYi3TZe5ju3MUbebt7Wcib1quQiqs8fcJnWTQKI+UFLpSPY7MaqG8CCsvAqca25s/2UI78OgylyvaYkyjQVx9KH2i6qhJzk4=
+	t=1757429081; cv=none; b=OG4AkdZ47KGGcb4ALsNf5ULwNTZW+pZP3M2lVOCzvzwMz618xrNenSY9aZOuj6BVI6Jeo+II9SGwNutcUrbuB3lUgJ5xQgCbrpj/eLFgjjfIA3Cm6sFKTSveZ3Q4fvhZRck5LxNxg+KXsuHNzKxGgA/nFHJwsaU2IAHvhgjuNj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757428966; c=relaxed/simple;
-	bh=yswqqtHRFfmdynkmFeRMH6eFXkkhcbu28VuZarxyqig=;
+	s=arc-20240116; t=1757429081; c=relaxed/simple;
+	bh=jTvQDaz2CulFQRyRJegugtxzCVwBwv8NYHmDN0oRc1s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PNVd9A9WfgDfPRRyPnhNRXNhnRm/JqApWgJsbS+ltpDvMYC8lv9OndhC0ZcSOwEfFQyMQvU3xmY/jGX10ABw41TaNPvuzOyulPQwUu4/z+Vh62KS2dmNvOsHX+lpL/NytN7HbvNDz3LPYqwYW1o3TbzmDdgqNLQxCTZVZnbwiTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=K15USek9; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=UGOax6NIr49A5tZT6/zWUNE20z9jLjDCsdchy6LZXzsVwUZqV5ToHAEpMWoiEda/y2pFeifZITjI7cLzg2uz+8yMPkAucThYpQdjgyNoS4WXLKolL9c+m47aVrlhlW0kzsN+VwTdopA/pdImnWaiaOdrOAbdHW2WugjJSawAgaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Q40uWBRS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="K15USek9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31B9FC4CEF4;
-	Tue,  9 Sep 2025 14:42:45 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Q40uWBRS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DA50C4CEFB;
+	Tue,  9 Sep 2025 14:44:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1757428965;
-	bh=yswqqtHRFfmdynkmFeRMH6eFXkkhcbu28VuZarxyqig=;
+	s=korg; t=1757429080;
+	bh=jTvQDaz2CulFQRyRJegugtxzCVwBwv8NYHmDN0oRc1s=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=K15USek9aU4bh3Rmt2buh0AJob5KQKmVZL8x8O1lsuXtPurGEfUpDs646xg3lR+Vu
-	 kbJwMwRTnwysF0WqSij1djhctIIygYGnfNu/LftQV8+9FPFJc7cEGIARCi6ovr6uCA
-	 hAWa/18TBnCrhpjsTq1FU7mlHFQcfkLchYzvMoH0=
-Date: Tue, 9 Sep 2025 10:42:43 -0400
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+	b=Q40uWBRSC2FYSCiYQuiMBK8kUThiXaOjOVgR9FNFBBSzrSEIeDQgevPzVe+R+rvkq
+	 NvlfeIC0o7BXT/XYQKWmqGOpVSg5eoJUQWccPS9sgwsoT6POxQWIrILY94KISuW/Qc
+	 n6nZk1W6HKlMv6wTey9srVG9zrCuPGumeQ2bdkcA=
+Date: Tue, 9 Sep 2025 16:44:37 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
 To: Jens Axboe <axboe@kernel.dk>
-Cc: Jakub Kicinski <kuba@kernel.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	dan.j.williams@intel.com, Caleb Sander Mateos <csander@purestorage.com>, 
+Cc: Jakub Kicinski <kuba@kernel.org>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>, dan.j.williams@intel.com,
+	Caleb Sander Mateos <csander@purestorage.com>,
 	io-uring <io-uring@vger.kernel.org>, workflows@vger.kernel.org
 Subject: Re: Link trailers revisited (was Re: [GIT PULL] io_uring fix for
  6.17-rc5)
-Message-ID: <20250909-green-oriole-of-speed-85cd6d@lemur>
+Message-ID: <2025090901-mangle-provable-6248@gregkh>
 References: <9ef87524-d15c-4b2c-9f86-00417dad9c48@kernel.dk>
  <20250905-sparkling-stalwart-galago-8a87e0@lemur>
  <68bf3854f101b_4224d100d7@dwillia2-mobl4.notmuch>
@@ -45,11 +47,31 @@ List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <92dc8570-84a2-4015-9c7a-6e7da784869a@kernel.dk>
 
 On Tue, Sep 09, 2025 at 08:35:18AM -0600, Jens Axboe wrote:
+> On 9/9/25 8:18 AM, Jakub Kicinski wrote:
+> > On Tue, 09 Sep 2025 15:17:15 +0200 Rafael J. Wysocki wrote:
+> >>>> We do support this usage using `b4 shazam -M` -- it's the functional
+> >>>> equivalent of applying a pull request and will use the cover letter contents
+> >>>> as the initial source of the merge commit message. I do encourage people to
+> >>>> use this more than just a linear `git am` for series, for a number of reasons:  
+> >>>
+> >>> For me, as a subsystem downstream person the 'mindless' patch.msgid.link
+> >>> saves me time when I need to report a regression, or validate which
+> >>> version of a patch was pulled from a list when curating a long-running
+> >>> topic in a staging tree. I do make sure to put actual discussion
+> >>> references outside the patch.msgid.link namespace and hope that others
+> >>> continue to use this helpful breadcrumb.  
+> >>
+> >> Same here.
+> >>
+> >> Every time one needs to connect a git commit with a patch that it has come from,
+> >> the presence of patch.msgid.link saves a search of a mailing list archive (if
+> >> all goes well, or more searches otherwise).
+> >>
 > >> On a global scale, that's quite a number of saved mailing list archive searches.
 > > 
 > > +1 FWIW. I also started slapping the links on all patches in a series,
@@ -73,12 +95,14 @@ On Tue, Sep 09, 2025 at 08:35:18AM -0600, Jens Axboe wrote:
 > 
 > 1) Linus hates the Link tags, except if they have extra information
 > 2) Lots of other folks find them useful
-> 
-> and hence we're at a solid deadlock here.
 
-I did suggest that provenance links use the patch.msgid.link subdomain. This
-should clearly mark it as the source of the patch and not any other
-discussion. I think this is a reasonable compromise that will only mildly
-annoy Linus but let subsystems relying on these links continue to use them.
+I too find them useful, especially when doing stable backport work as
+it's a link to the thread of multiple commits, so I can see what is, and
+is not, tagged for stable, and the proper ordering of the commits.
 
--K
+So I'm going to want to keep leaving them on, they work well for those
+that have to spelunk into our git branches all the time.
+
+thanks,
+
+greg k-h
