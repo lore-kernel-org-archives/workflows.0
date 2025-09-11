@@ -1,74 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 295AF2E1F1C;
-	Thu, 11 Sep 2025 23:24:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F068F2DC77F
+	for <workflows@vger.kernel.org>; Thu, 11 Sep 2025 23:54:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757633045; cv=none; b=DtFMwt5K+CpIDIz5DImJyD4WNbWnchoogN/QbMRu9JJrU8KcneYGn4UWgjsVrC/25IF4WY+aQNGAiIPUYCzB6CFy8Vt4u3Cfcsd8O3YqpOLP7MRfqdrBNBpEz21ArEMypvtj5p4t3DbMlnbLaDheDrItqR6JQ7kuNAOLJ5pQfLo=
+	t=1757634883; cv=none; b=H4k9vZfos4xOq3qsJ8crHO4VbKphZX0AdIRpKTmfw+1C5LQ6htWdsJvQ1tlMxJKFKggP1vqq7YMDkmL+BfiuiQrR4N534Z7JTCOXMy2EGav26yaLHjWiP8GL8vQgIql4T19NHLrQxCI3RNhbfyOLyL7Cv1T2IZr4oYcaHPdCr3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757633045; c=relaxed/simple;
-	bh=4RN4G5nFo80zxCLbZcaoPW0025YHvftVo4h5LujOgBQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pgwNIXDb9fFXQs6UCqpV50qCSpFkBpzK+MS6uho+fVyrs8Uj2C4vsHEwICr7OFwbrr8DxRzBoSWW6RZ0Sh/Ys2M1EStTCYl5MDc88zgOahbdSkNZuSPtG9MDfeRcBMxqWyEP2DspV7Y0KXZb7vyNSlKzXgNxvwaMNig5ZIfpHm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=BhFmptbu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757634883; c=relaxed/simple;
+	bh=yfu9AjyF3kpMZ3VESiY7Rp64uYWSkQ/eU2r9UTeqg2A=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=LQOTcXMnBz6z+z9mIBx+Zeuz3ECMyYexmAxiDFRN1FA1g4QfE8WhqWol4A26DlnKLVjkatApogx/agrdHV98qmWHcnAYqed1xzAL4TKuVHqD8qYVHZuGv8coXXx/EmaHtKDEtBsSbG5YIvSShN27T+ouIjuSSkaeLz7kVUxnibw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=LodQozj1; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="BhFmptbu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DB4BC4CEF0;
-	Thu, 11 Sep 2025 23:24:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1757633044;
-	bh=4RN4G5nFo80zxCLbZcaoPW0025YHvftVo4h5LujOgBQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BhFmptbudL5b4JuehsACTMNCDxRh1Iw5069gjzBBhmvSipn230PVP9TvP/Y8+/bC8
-	 yHXoPSyhdgzzNuxRqxI9lqumES5RHlIz73BMw1Q+NzMXXk94QXrB4oYFLZZ/teOu+f
-	 4eRWwL4bwfLyaljawjJpq7Na9EEmwcAYOIFl4CKc=
-Date: Thu, 11 Sep 2025 19:24:03 -0400
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: axboe@kernel.dk, csander@purestorage.com, io-uring@vger.kernel.org, 
-	torvalds@linux-foundation.org, workflows@vger.kernel.org
-Subject: Re: [RFC] b4 dig: Add AI-powered email relationship discovery command
-Message-ID: <20250911-neon-speedy-walrus-dcc499@meerkat>
-References: <20250905-sparkling-stalwart-galago-8a87e0@lemur>
- <20250909163214.3241191-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="LodQozj1"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58BJuS0Q008175
+	for <workflows@vger.kernel.org>; Thu, 11 Sep 2025 23:54:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	yfu9AjyF3kpMZ3VESiY7Rp64uYWSkQ/eU2r9UTeqg2A=; b=LodQozj19I3+8sZy
+	T42X38DSMEQPGF4iOOnv2PQ8TOwgSOiLXQXM89DPKasAK3YPFjFezBa9CPqM3Wds
+	Y1DSleb+kmwAFNBDK9t9XXqQptuRCc568W/l/d5Fb0ImXREYjCRTOyqCEmFQztD0
+	jkwcuGWZXWUzeJvj+B7dOjL2fGgqJOL5J7Kd4ZSqBtBhWVJaqPd4Z/A0xaRA9Lu5
+	favh97y2ln7Sh0/9gX3CHokCiYxvRiWUUsA/8Gm8awqIzBco0bQxbdUo/vHi4Mgc
+	FFYOXwkOmrholWxiBG+uEG4WCH2twlmPzS1oDpdv0tlwiZXTbf93Z+Kfuf6UX1tN
+	VFAp/Q==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490aapsw6e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <workflows@vger.kernel.org>; Thu, 11 Sep 2025 23:54:35 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-24c9304b7bcso14056305ad.3
+        for <workflows@vger.kernel.org>; Thu, 11 Sep 2025 16:54:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757634874; x=1758239674;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yfu9AjyF3kpMZ3VESiY7Rp64uYWSkQ/eU2r9UTeqg2A=;
+        b=q0+iegB3XpgPsxUiaxinyls3ulAHDN8RZfHK8hrnomVDwpA2W9fiGWxwA6mmh99yaY
+         7fj5P6RVtyIVE3zlTAIO6pslqtCaAkokt8un6lWXzO7Et4+Y9Da49M/vKo9ZTp2Z1uqm
+         sVt/4QG/lW+8mEMPvXbhodrN999W5VYiE2BNghY5vkRTLx7EmFtycjOzOHrAiS2creFo
+         Ah+KbWPrPz/tdE9FE3ppFjp+8CsY2g7CHgJMw+iGz/nxfGIlxGzkGH6UKw7nBl9LRjzR
+         JP/VZdze7zQkGEraTNgcrvRQA6Kxk5v8D6VXvvuMpEp6uH5mKoKTDyp0pGfOCVZm/lp0
+         k81w==
+X-Gm-Message-State: AOJu0YzLMjhPURAwBd3H1nOFof2jCVk7jhoEtYODen+3/ixYGx6Gjasx
+	4rD1WSsPTtRsKiBzuaio9rQzTHqwLQXKvVsi+BBhnECNRlIQlhyW71jIKf/Npn5OVJrpE0mPvdu
+	IDTKKPUlhvs3wlEYk3yQ497BJef1KVwRX3/4Xm0eOsGA0GacuNGLl4nLttOfeZ02AW+YIsjI=
+X-Gm-Gg: ASbGncsZTmXLkj0msJMHyLNbZA/LTmfrFNXvdgcawKpxG3jMwkPVUtKnV8A/SKfShpQ
+	ypNmZZuelnKAWXQa5EON8Emh6bv02Dq0OnhRem6WyPkY1l8edI3HgRUoSG6Pw3Zet92eiK0DjeQ
+	cS4isnPMZ+Od3JZAiu0BdDlRgAW6Ok5ZfHoOhI37fbdoPjGhjoWxrgI5ooaHLIQ4z5W8zpC+pf8
+	rl1QAJHcr0DLxk/eo0Qw/45k+pvYPqVEWSwrg+W7RG38vJ9HS1Du2VZOIIKEUJw4iHncIWCGsDI
+	YaSdfwykSlvr5dJ8SuDislSYL5c0Ji1yPY2VMK5eFMJTnptDknSYKgcPBE7rSORZZv4bK+qL8nd
+	JEU0RB44sk/qivvnQdDgF2AXfwjYRQ1+QmDKi
+X-Received: by 2002:a17:903:4b0c:b0:24c:965a:f97e with SMTP id d9443c01a7336-25d23e10c8dmr13568365ad.2.1757634873898;
+        Thu, 11 Sep 2025 16:54:33 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFtHN413CdCaCV5YVswGGLnN2TZdSU2uYdPde4XyahcKs7ZViiqksZHWuZ9Moo1Jnjchyn+wA==
+X-Received: by 2002:a17:903:4b0c:b0:24c:965a:f97e with SMTP id d9443c01a7336-25d23e10c8dmr13568105ad.2.1757634873447;
+        Thu, 11 Sep 2025 16:54:33 -0700 (PDT)
+Received: from [192.168.1.111] (c-73-202-227-126.hsd1.ca.comcast.net. [73.202.227.126])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25c37866d35sm30670815ad.64.2025.09.11.16.54.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Sep 2025 16:54:33 -0700 (PDT)
+Message-ID: <972dd368-282a-4255-9b88-6324c1924512@oss.qualcomm.com>
+Date: Thu, 11 Sep 2025 16:54:32 -0700
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250909163214.3241191-1-sashal@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: Is there an integrated b4 + patchwork guide for maintainers?
+From: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+To: workflows@vger.kernel.org
+Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+References: <1bcfbc51-18bb-4a5c-8a1e-a2de794ff00f@quicinc.com>
+Content-Language: en-US
+In-Reply-To: <1bcfbc51-18bb-4a5c-8a1e-a2de794ff00f@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=eMETjGp1 c=1 sm=1 tr=0 ts=68c3613b cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=e70TP3dOR9hTogukJ0528Q==:17
+ a=iTTFQhbCPPGBbdo2:21 a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10
+ a=TTKAEUA3lk1aMVfFPN4A:9 a=QEXdDO2ut3YA:10 a=1OuFwYUASf3TG4hYMiVC:22
+X-Proofpoint-GUID: c1_PQ07-nggACNCnCDUE0FuwFMsLa8pe
+X-Proofpoint-ORIG-GUID: c1_PQ07-nggACNCnCDUE0FuwFMsLa8pe
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAwMCBTYWx0ZWRfXzhwr/R6d5S4z
+ m24PnHDkRxSGW0pOllJ71uwk4yuhV3fy2ogXTS19eEijFxfmn1lLJYD5VAwwT9vYAO20I2LyNYe
+ bscFYn71CuvpHq4au0r39zhafSR5Nz1S/n8MihNoZWHZ6/mUB+leu5zAVDlgGyGdV1VNiiZiZIE
+ 9dCciSlBMf8KrTIdiDRJAUd7oXcqhA/s9oIffAXwjmoNknT6LRohAED9ArVdF5/Kecusawh5fel
+ 9x+ZM66uYwk2mNFVlLBsKrf+KO4c0Ev6HdBszx+2NmFRIbYh1vqa8aRJiBkZusqwzTJhJyghjEQ
+ FnmJnjfk6f7tWtY5vcsFS04jFWdrs/LB7a+EB2w+2XoTZzKjdnBaVVKSxZCnVadn94Ym8jhysZ3
+ 6KrxEI+O
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-11_04,2025-09-11_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 priorityscore=1501 malwarescore=0 clxscore=1015 adultscore=0
+ bulkscore=0 phishscore=0 spamscore=0 suspectscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2509060000
 
-On Tue, Sep 09, 2025 at 12:32:14PM -0400, Sasha Levin wrote:
-> Add a new 'b4 dig' subcommand that uses AI agents to discover related
-> emails for a given message ID. This helps developers find all relevant
-> context around patches including previous versions, bug reports, reviews,
-> and related discussions.
+On 7/17/2024 12:30 PM, Jeff Johnson wrote:
+> I'm in the process of taking over ath.git maintainer activities from Kalle. He
+> has shared his workflow, but much of it is based upon using Stacked Git (STG)
+> and a patchwork script he authored. I seems like many (most?) maintainers are
+> now using b4, and Kalle fully supports me using it, so I just want to see if
+> there is a guide or sample workflow for using b4 along with patchwork. I'd
+> like to adopt a proven workflow rather than stumbling around on my own.
 
-All right, I've got ollama working on my gaming rig now, so that I can get
-back to my summarization work without having to rely on big vendors. Thanks
-for pushing me in that direction, because it never felt quite right to be
-using a centralized service for this work. At least that large nvidia card
-does something other than help me deliver packages to Port Knot City.
+I sent this over a year ago (using my former credentials). I did not receive
+any responses at that time, so I just cobbled things together.
 
-> The command:
-> - Takes a message ID and constructs a detailed prompt about email relationships
-> - Calls a configured AI agent script to analyze and find related messages
-> - Downloads all related threads from lore.kernel.org
-> - Combines them into a single mbox file for easy review
+In light of current discussion about using Link: tags, and related discussion
+about how multi-commit series should be treated (applied linearly or merged
+from a dev branch), it seems timely to re-ask the question. Is there a guide
+or recommended sample workflow for using b4 along with patchwork?
 
-I'm going to take a look at it, but I want to use "b4 dig" to analyze commits
-and establish their provenance. I will then look at whether we can use LLMs to
-provide additional perks like summarization or highlights of important
-messages (those offering nacks, criticisms, warnings, etc). This seems like the
-"least wrong" way of using an LLM at this moment, especially with the legality
-of the code it produces still largely untested in courts.
-
-Thanks for submitting this to push me into this direction. I won't take this
-directly, but I'll rely on it to see how you get certain things done.
-
-Regards,
--K
+/jeff
