@@ -1,70 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD9D75BAF0;
-	Thu, 11 Sep 2025 15:05:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 443BA371E91
+	for <workflows@vger.kernel.org>; Thu, 11 Sep 2025 16:23:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757603125; cv=none; b=Ql4spmNHWY2A1/InQ+bKTPpBWV6J8+f1YePWl8xpa/RWuENZ6Le63ibChJvA8pkwtsKFRwjYJYdOs40tA/jmQOzZCY4FMLdT5IbYZl0qfVm7Oa+CFlcNH6LhZNnWguOZQIXyIO/cww5JQ5PrUtEK3e9ZBoLG9i1s9FgrsrP6Lac=
+	t=1757607829; cv=none; b=KerDIubXNt6pbQw2yRzsw58FN+Z9zGr6nLAL1ixRpWw5kg0c4TB5MrinCcY29zGBbtGycR85Sjtqz3ZPxBCmsbTyZEs/cSPLm0ZbBoze67lXVKe8GJWqFK65vNpWrBjaTj0HWwbeHVqspOQOKI5WkBYrS7z/pHMLsA7tEbBEPP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757603125; c=relaxed/simple;
-	bh=kTQb11opTChZNj9h0F9lpqMyV8HyWYBUbODPI2uv1g4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CKm07QWSm2A5IzIaXG9qAfZIhAzB1ZXejoMa7h33qxXQfb0ivu4zCiNUAfU5yTfSlL250VRmy5scy4omkxqubh8ndTcEvqPIPfHfhG/XVUMnTEbiPg3J8RZAdsOAMtkUfVgA+/UABPUCx4TVy5KdItSohB5lBs2I3hbCooY+eyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cfRn8LBN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757607829; c=relaxed/simple;
+	bh=gdRxCV3dbaFjfI2cfHOKBREPk9DDd3LTFs4jZWiRD54=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=onzOJpwUKSlDFUnTRyrAxwObUiCBwKzAZx5dtfh3l276OzGiimbiJs7Zjryg+iEh9fWE0nZ2ZQ5AoO0Y0zBY3vS0RWce5kMZ5q092s/8nSDlJCmrmIQen/aCuO9T2aJ0PWVlSwVRoIO76f+GAjocvwTjFewonB4q9kIRsawTHYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VY3POhRl; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cfRn8LBN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FFB0C4CEF0;
-	Thu, 11 Sep 2025 15:05:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757603124;
-	bh=kTQb11opTChZNj9h0F9lpqMyV8HyWYBUbODPI2uv1g4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cfRn8LBN53W3g5rxlQyxFm9pg6iuwk5hR9MpMntJzFI8B85qH5c2dgTdUeB5DSDXo
-	 mfijwuL5gAa49jlXr1/+Pt5sE41LWVAUQdrqg5Q+/KfLyWMidzMDhOuMg+fkqHPSMm
-	 VBwqg3wfmCYigH3EXkbrXeJTgPynnm2hP7q8oHjE6yzTKZ6+pXIgiJwBE39czK8o0O
-	 j1ln/pL+G6ba8LaJqPK7ecTpr3pn01jk7SbOTe/OuiaziryMDMkcBDj8k/UtoahZEm
-	 lbyfEcP0KE3zKYRwXhP2MIEe/LT20FAMirThk/jU3c1Ds0wj9hd/E9JXd6cvO5vSYi
-	 WypGneMjpBDsA==
-Date: Thu, 11 Sep 2025 11:05:23 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: konstantin@linuxfoundation.org, axboe@kernel.dk,
-	csander@purestorage.com, io-uring@vger.kernel.org,
-	torvalds@linux-foundation.org, workflows@vger.kernel.org
-Subject: Re: [RFC] b4 dig: Add AI-powered email relationship discovery command
-Message-ID: <aMLlMz_ujgditm4c@laps>
-References: <20250905-sparkling-stalwart-galago-8a87e0@lemur>
- <20250909163214.3241191-1-sashal@kernel.org>
- <4764751.e9J7NaK4W3@workhorse>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VY3POhRl"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-77264a94031so688903b3a.2
+        for <workflows@vger.kernel.org>; Thu, 11 Sep 2025 09:23:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757607826; x=1758212626; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ugQgxXVFkF9wG9b5WaSCNOwOilaoH403e0Uwi/B/lqY=;
+        b=VY3POhRl4WhKQGA8AJ0dKvOnoo0nMKW4OaVEflC546K+yBqV+g93OKthqxw3uON+Cn
+         v+yKQjQYKpYEr3EZTOgL5oI49CMr6pJOYRCyCfBJDMp8KFaOjqg4XjemA0LQEnwy2rhw
+         TqwSFD9I3vNbSu9QXMS4nPMb8Zaq1yptL6BrcxFqKXiSyvUMWVyzu0Af8qlLaPRiXzIv
+         B2eqghpFJopQUT45wpaIRbzOPIetKZJOZO00nYXTDS4Ipd8HIS5BJvUIv+UphppXOBEM
+         iAyxNdnVqwilwf0tUan/OJm8q2N4qkouhVNt5/18Z6bcEhxQwiIU80rH1rL+/0UJ0bIS
+         V5sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757607826; x=1758212626;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ugQgxXVFkF9wG9b5WaSCNOwOilaoH403e0Uwi/B/lqY=;
+        b=JTUrLSviHfgxaAhPg+nLQJfXI6kaBEcnB2zPDEfmM/Tpd3QZ4iokBmv3LjT+N8TYXK
+         ZUVSDC74u7QImiR3CdcGmZhG5ujj9z+eY6ey46proIexBtAXlsTa2dBk3O9XrTiIDcrg
+         GIXcbd4gb58lAM00nAWrne1u+qTaloc3VReAc15pmP4dGXpYUFu/3b4OsmBOFpxfahoi
+         tMdW2bdh8uCpTM4+QNskyyHCgHeKxeJWkLj2DLfEh9zm+Vxn92tCIeG02ngAj2LYCRc7
+         mZlE9sMgoVpPaEX1fn7Ln6LYHTLd7IrIbOokJpom3Hhm4du8bXH5MdASLLqI4KXe8Ez+
+         5afw==
+X-Gm-Message-State: AOJu0YxRcEh/aBwCpeSErrACAlrWO+iBmg9c5iT/cohWJBjoRp0+3HUg
+	E0n80YTS1fY55DewIht3hn3qCw0iCnf1HpWAymDXxZDZuBgNNIhWyi6A
+X-Gm-Gg: ASbGncvKuC3XXVTjHL+baw6gmmdXZHzFOrSJ4wNk9BmvwRIXo9vszXst/X7t2bMak2d
+	2PS37BIlOJOToaqImDfTFcFLMgXgfipFUNullK3CkP2T9F3HvGw+6qsBCxbmSBfWkTL0UPzYmd6
+	m9fHG09qu4RwbDlU2eFtvEI6lB+1ZqRn7YRiRRfk55qxn55vB9Rr5U9Sh9yRVcrPLI1WdLEBatk
+	kKSqU9Q8CJundhsB8K5yFi/Sq+VRwysTX+Wh9h/IemNdr3R4Qv3BbzS1EtzUiJBP60AnB3iwlwb
+	lI/VzMus7pERMqqxzuZgvWDBuJFIBJ6udIR8g605uVImlmzBqEm4zJ3/f3QKtjPkhzhaS7CHrvb
+	3rSe7BEBxe75XWP28fRd0yvdMtt8+rgnBafP3Mjis/XMeZj0bSLd5+AxABt2CJ49LzGsQ+EFbPx
+	P4aP1Lq5bBSRK9Q1CQnN0luXK5/BlLZ3kkhWmQCew=
+X-Google-Smtp-Source: AGHT+IEEi/kiOLuEW5zDU33cKWDz/GEJ/YhUOAwUcErjr+0ySOxI5rpKmstBb19ZMw68qtyisktweg==
+X-Received: by 2002:a05:6a20:3d0a:b0:24a:a45d:7a26 with SMTP id adf61e73a8af0-25345a4498dmr27933903637.48.1757607826347;
+        Thu, 11 Sep 2025 09:23:46 -0700 (PDT)
+Received: from yash-Bravo-15-B5DD.local ([14.99.167.142])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77607c471dcsm2567567b3a.96.2025.09.11.09.23.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Sep 2025 09:23:45 -0700 (PDT)
+From: Yash Suthar <yashsuthar983@gmail.com>
+To: corbet@lwn.net
+Cc: workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Yash Suthar <yashsuthar983@gmail.com>
+Subject: [PATCH] Documentation/process: submitting-patches: fix typo in "were do"
+Date: Thu, 11 Sep 2025 21:53:36 +0530
+Message-ID: <20250911162336.16261-1-yashsuthar983@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <4764751.e9J7NaK4W3@workhorse>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 11, 2025 at 04:48:03PM +0200, Nicolas Frattaroli wrote:
->On Tuesday, 9 September 2025 18:32:14 Central European Summer Time Sasha Levin wrote:
->it doesn't seem like Assisted-by is the right terminology here, as
->the code itself makes me believe it was written wholesale by your
->preferred LLM with minimal oversight, and then posted to the list.
->
->A non-exhaustive code review inline, as it quickly became clear
->this wasn't worth further time invested in reviewing.
+Fixes a typo in submitting-patches.rst:
+"were do" -> "where do"
 
-Thanks for the review!
+Signed-off-by: Yash Suthar <yashsuthar983@gmail.com>
+---
+ Documentation/process/submitting-patches.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Indeed, Python isn't my language of choice: this script was a difficult (for
-me) attempt at translating an equivalent bash based script that I already had
-into python so it could fit into b4.
-
-My intent was for this to start a discussion about this approach rather than
-actually be merged into b4.
-
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index cede4e7b29af..fcc08eb93897 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -343,7 +343,7 @@ https://en.wikipedia.org/wiki/Posting_style#Interleaved_style
+ As is frequently quoted on the mailing list::
+ 
+   A: http://en.wikipedia.org/wiki/Top_post
+-  Q: Were do I find info about this thing called top-posting?
++  Q: Where do I find info about this thing called top-posting?
+   A: Because it messes up the order in which people normally read text.
+   Q: Why is top-posting such a bad thing?
+   A: Top-posting.
 -- 
-Thanks,
-Sasha
+2.43.0
+
