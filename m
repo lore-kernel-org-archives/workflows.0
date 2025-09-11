@@ -1,152 +1,129 @@
-Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5FDB26FA77;
-	Wed, 10 Sep 2025 14:04:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D499A2E8E04
+	for <workflows@vger.kernel.org>; Thu, 11 Sep 2025 09:18:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757513051; cv=none; b=TiPGNG03qMw2cEC5oifsRQvAxzvri6NioKLiyMX2X4YVU28p2dPCjZjM7k0kpiPsKqK9R5uaHisE743UpqvxJceuAFgJ3ClPuE9kT8Ha1k7RnyTq76CP7hoxPs0cD90EVZQ6iLMLFZDdhpBSc36P3ptWt4IM4uC2CkQZcsPxKoI=
+	t=1757582303; cv=none; b=li3TC7HgBMQzEDjX+cvKrOxeZlPTsed9UoBJrtYm9TcHx9B4QyCPMdLzFiA2CFGoNGt8Cjz6x9OsjltQ/vFQHyMSWKWsTTP6DoxRvepvzsPDuDTcLoMWrO3MowZO6SQFoDOfJM0T6dfHJiX1n/qW3U/vc86qrUfSlqdZQiQaM6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757513051; c=relaxed/simple;
-	bh=uUFAoktO277xXwHHnswYPQKvbx+QmoiX+wDMEuUdm/g=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=s0W+Yyw1d/Q/SCwybxuv8nY3SKyq/rVN5DTuPopJMnjN0L0fI+ZU6tHne2AJsNripfjfTWxJp/CbOFJJDIxts3stV9baivUugeco3l3Chp45+pGpAy3jEN7iBDyLFDlWCvUvDe5ccKHA3OX/O4cIW5Lj1e3ToFlRHcTebdZ6v50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=donacou.ch; spf=pass smtp.mailfrom=donacou.ch; dkim=pass (2048-bit key) header.d=donacou.ch header.i=@donacou.ch header.b=l9tlwE/C; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=dMrrQkSs; arc=none smtp.client-ip=103.168.172.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=donacou.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=donacou.ch
+	s=arc-20240116; t=1757582303; c=relaxed/simple;
+	bh=1B3D6WIyM4uKCWTK+JvwjK5rmKnBn1DsJarcuewJmQY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DvPdliXukY0wXJoaOm2sUqfl5Lc7PvcsfNSjm1Y9MGt41iY4q6MxJqJKl5JZuKQz6tk0MkKADKgIslv+B6IMtvRIhcTJ2Tskdnl05aKQjnZpTy+Sn+M/x6Osk6c6mPw60z4i1854koXq4ItqW4jG4rX08acVtuAnWA5wxzY1jA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=yBHad4Al; arc=none smtp.client-ip=209.85.222.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=donacou.ch header.i=@donacou.ch header.b="l9tlwE/C";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="dMrrQkSs"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.phl.internal (Postfix) with ESMTP id E660CEC044E;
-	Wed, 10 Sep 2025 10:04:07 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-06.internal (MEProxy); Wed, 10 Sep 2025 10:04:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=donacou.ch; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1757513047;
-	 x=1757599447; bh=3Nuaa+FoSrAxipH9n0l4tF6X+2obMMAQMJqsmRgL2c8=; b=
-	l9tlwE/C9WUogEbHgyOlQIf0QymIUkvJyMxRMPitRzg/FkZD9P29HGA/jBJJaT5Z
-	hIMQ8XX8s1/UKj109XkhUxpmTnkoMFpBr4OgCBgEYIaGbn/1Ixmt542YXlla65Gt
-	xEnGHwyQ7VRfLRcHHN1/xnuLZvPdq+n0gvmzE53rYXZCJO56vcIX1BWNodzVl94O
-	C5Lqr+T2eHOm7g6fBfdScHByTEo9qBrZf+KSv/w5vGo0EMDOZDWrPtG9pNduokSm
-	VqdXt/WrUN1uQ4+GKOfAfA/WM9+C1yXzTruyDT16lHh5R0Rl4r/RzZH/I6qdmf3I
-	msozoe4B0v/vQ6zLp3fjCQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1757513047; x=
-	1757599447; bh=3Nuaa+FoSrAxipH9n0l4tF6X+2obMMAQMJqsmRgL2c8=; b=d
-	MrrQkSsXutiVu49JEqI6vnAFpKvT8A6QNqvfM9kPFvVCVSSaaPAPYQnJclPCpGsp
-	SdjQuOvrJ/jb6SE3iGQ4qBkWgu4EbQbkkCrWXSsYvMMV8+Ko2YVylXT335au1vQI
-	craNWyKZOwCYjeGMqIdt1Y+A+ElKK+kazHb1c30gkDJMl9GOeFg325dDwXZxL6xJ
-	w1/xsTIY3pYom5hE5rWbqCNHtwko+lHJTGGVafRclV1f+jDlUvrhCnhXJH7S7xYh
-	YfUB02q3CTpJgGgX99GLroYIaP+zc8U+Ubkoc/zsThr4ISyBuk8WpVSAjGCGbXtf
-	sy+5NIajuS0UNRQ+AxDtg==
-X-ME-Sender: <xms:V4XBaG8fEFhl1flxgvC3qg_bRGSEPGU8e5cZuM8WiH3DJMUMLhJAmw>
-    <xme:V4XBaGs4ZX-O_x2EggLhVA-fohGgdBDE51IQviKCsOO3p13ZbVo5VXlIca3K7p6Uv
-    Uc4YqMNU0y0dah2>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvfeegkecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetnhgurhgv
-    ficuffhonhgrqdevohhutghhfdcuoegrnhgurhgvfiesughonhgrtghouhdrtghhqeenuc
-    ggtffrrghtthgvrhhnpeejteduiedtfffhhfffgeevvdefheduheegjeduteffteduvdfh
-    jeegffduledvieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpegrnhgurhgvfiesughonhgrtghouhdrtghhpdhnsggprhgtphhtthhopeekpdhm
-    ohguvgepshhmthhpohhuthdprhgtphhtthhopehlrghurhgvnhhtrdhpihhntghhrghrth
-    esihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheprgigsghovgeskhgvrhhn
-    vghlrdgukhdprhgtphhtthhopehsrghshhgrlheskhgvrhhnvghlrdhorhhgpdhrtghpth
-    htohepthhorhhvrghlughssehlihhnuhigqdhfohhunhgurghtihhonhdrohhrghdprhgt
-    phhtthhopehkohhnshhtrghnthhinheslhhinhhugihfohhunhgurghtihhonhdrohhrgh
-    dprhgtphhtthhopegtshgrnhguvghrsehpuhhrvghsthhorhgrghgvrdgtohhmpdhrtghp
-    thhtohepihhoqdhurhhinhhgsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoh
-    epfihorhhkfhhlohifshesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:V4XBaMJrumzWH892lXeHhEz1bgXykBCz7cc4cjp1iFta4-7ByKla3Q>
-    <xmx:V4XBaC5-y92JbCH0zV4XUAn-VIl5bgNzyHLGZddtUdQWP01TJRbP3g>
-    <xmx:V4XBaOftHaxM-2tiHzDrJju2TOWDpwHj-4TGhCXPGPbgVrBhJji-UA>
-    <xmx:V4XBaFGqjVZBWIpW557ZR195MEUdh9izNqns44KGWhDb_hPL2G2HzQ>
-    <xmx:V4XBaPQyIRrl_KVyuOwUGZpIDcjEIsafSbI9rSsAdoIjChsta8nMA8cz>
-Feedback-ID: i594043eb:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 41D8A78026F; Wed, 10 Sep 2025 10:04:07 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="yBHad4Al"
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-811b06efefdso61792485a.1
+        for <workflows@vger.kernel.org>; Thu, 11 Sep 2025 02:18:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1757582299; x=1758187099; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1B3D6WIyM4uKCWTK+JvwjK5rmKnBn1DsJarcuewJmQY=;
+        b=yBHad4AlHhN6xy1ETyIXTUjHUNyn8b1AyhTsMHAfhIed9rD2urdwr25RkJl/3nbDmo
+         1VWACUkvD7U3dYFobURlyHBwJJdDnpOtUHDT6WMqkM9y4XeoGBhk2Ru9hfAdfBfoTBqO
+         mJ2sJEeVKNHoSwzDgOZD34o0CJ4wsOwF45aUg8OsHxQOV6BMVRBPjlHEPc3y1eg3xuWz
+         w3lZ4EqqzNuLbF8ir0bMPq6eWdsBtOO4CNcj0NhrJ6o2WZw4K2d9JZIRCOMXo+ckdvK2
+         WlHQ8DAKM5F5YmF8fLW7d3BWgiLPrKXsjMA72uWERZna9hnOKwmoDz9alq8MGWJg27kC
+         ZA9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757582299; x=1758187099;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1B3D6WIyM4uKCWTK+JvwjK5rmKnBn1DsJarcuewJmQY=;
+        b=XB+kHPKSqcJff57Iso5mNbvOZ4um9SzoO+gAYXweMqHGS5CgjZ2nl2Pa++0errDWds
+         FzdY4ljZCcFj9LC8f1tnM4o15NpjhgTRz/t/YOIASyIbi/d8afBuei82sz5eY0WYKEW+
+         IjR0WwaArbTTDOtZ5Lqy3trQPL6xr9ZVU6szuOXuqZJBFKsGDQlYWk5Hbsih/zejmrgC
+         ivnGhmD0Eyzx863dRXePFGB0tXNLLo+ehZSWM46n7DrysNrXwuqvIgFmEw56vXvUd+ak
+         uJuab00BC2C09oWNskOKvW+bEi7ATyaXzNuTOF7kjyCGGLMWDgVf5XCXlm+WGpHvpjPK
+         f8Lg==
+X-Forwarded-Encrypted: i=1; AJvYcCU0XRxKivfK4u+laxKWBxdqlqfj/7YCKQRIOHu1ENAVwa3gNXehR505cRj4ymfs2K/2q/0DobUL24Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTxKpeVsJb9MJai64m74BlkviB3Iz9u00PwVkhgzjJThFSGLEa
+	DaptdlIMC0+4DUJBeBZ/cDieSaoi5queSuOx8hJdgtCaH36WZZx28jBhMWCRFjbZJdzCAf68iaw
+	GTm2ERXX9bJ5+84HOWDEIMLH30RomrX5MZr1yO4B9
+X-Gm-Gg: ASbGncv16F3gbrzg2gTYCIwABwV7hD4d2kVdeOXDVD4yuc860g1L8zZsfukcV+qRH2E
+	5pNOxfFo3+LPO5kiDaQiJ0Cg+xghWBu5ePIJhOKlMQu2IbG+71s2qSSWDGJ+huEbm7bwHHV69/h
+	+Ve0LZSAcJ10Z89+a6c2rV4iizQsgoTAjX3Zh62l0DIcB4NdCuoTXgugGbcWdh1yhhfYkMFNzEV
+	uXTb2S75XfXJ0s0Ic3YAK69ireqpbwp1LUfMari8QEr
+X-Google-Smtp-Source: AGHT+IEAdn2JRKDnhaL2qmt37A4l17luV2CMhXbLee/vFTGYZd/pxxVUthlBX8HJQeQEoIdvrbi8slCg3eRXyv3n/Qs=
+X-Received: by 2002:a05:620a:45a7:b0:813:8842:93bf with SMTP id
+ af79cd13be357-813c1e8e0femr1958044985a.40.1757582298381; Thu, 11 Sep 2025
+ 02:18:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: A6d2yW3kTJ_V
-Date: Wed, 10 Sep 2025 10:03:40 -0400
-From: "Andrew Dona-Couch" <andrew@donacou.ch>
-To: "Konstantin Ryabitsev" <konstantin@linuxfoundation.org>,
- "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>
-Cc: "Sasha Levin" <sashal@kernel.org>, axboe@kernel.dk,
- csander@purestorage.com, "io_uring Mailing List" <io-uring@vger.kernel.org>,
- torvalds@linux-foundation.org, workflows@vger.kernel.org
-Message-Id: <ce7536b4-e83c-4a0f-a46a-0bb0c8eb3610@app.fastmail.com>
-In-Reply-To: <20250910-augmented-ludicrous-tortoise-0a53bd@lemur>
-References: <20250905-sparkling-stalwart-galago-8a87e0@lemur>
- <20250909163214.3241191-1-sashal@kernel.org>
- <20250909172258.GH18349@pendragon.ideasonboard.com>
- <20250910-augmented-ludicrous-tortoise-0a53bd@lemur>
-Subject: Re: [RFC] b4 dig: Add AI-powered email relationship discovery command
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+References: <20250910024328.17911-1-bagasdotme@gmail.com> <20250910024328.17911-8-bagasdotme@gmail.com>
+In-Reply-To: <20250910024328.17911-8-bagasdotme@gmail.com>
+From: Alexander Potapenko <glider@google.com>
+Date: Thu, 11 Sep 2025 11:17:41 +0200
+X-Gm-Features: AS18NWC9Ax6HJ7xE41xsztIAoL9MxJcZhppucVI7C3-6QUaMqtQ6glgozKyha94
+Message-ID: <CAG_fn=WPCtL2Knk7_so+9QMcUPY2wCG93BZN-rwJC+ELLgJ4nQ@mail.gmail.com>
+Subject: Re: [PATCH v2 07/13] Documentation: kasan: Use internal link to kunit
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Linux Documentation <linux-doc@vger.kernel.org>, Linux DAMON <damon@lists.linux.dev>, 
+	Linux Memory Management List <linux-mm@kvack.org>, Linux Power Management <linux-pm@vger.kernel.org>, 
+	Linux Block Devices <linux-block@vger.kernel.org>, Linux BPF <bpf@vger.kernel.org>, 
+	Linux Kernel Workflows <workflows@vger.kernel.org>, Linux KASAN <kasan-dev@googlegroups.com>, 
+	Linux Devicetree <devicetree@vger.kernel.org>, Linux fsverity <fsverity@lists.linux.dev>, 
+	Linux MTD <linux-mtd@lists.infradead.org>, 
+	Linux DRI Development <dri-devel@lists.freedesktop.org>, 
+	Linux Kernel Build System <linux-kbuild@vger.kernel.org>, Linux Networking <netdev@vger.kernel.org>, 
+	Linux Sound <linux-sound@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Borislav Petkov <bp@alien8.de>, Peter Zijlstra <peterz@infradead.org>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
+	Jonathan Corbet <corbet@lwn.net>, SeongJae Park <sj@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Huang Rui <ray.huang@amd.com>, 
+	"Gautham R. Shenoy" <gautham.shenoy@amd.com>, Mario Limonciello <mario.limonciello@amd.com>, 
+	Perry Yuan <perry.yuan@amd.com>, Jens Axboe <axboe@kernel.dk>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Dwaipayan Ray <dwaipayanray1@gmail.com>, 
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>, 
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Eric Biggers <ebiggers@kernel.org>, tytso@mit.edu, Richard Weinberger <richard@nod.at>, 
+	Zhihao Cheng <chengzhihao1@huawei.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
+	Waiman Long <longman@redhat.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Simon Horman <horms@kernel.org>, Shay Agroskin <shayagr@amazon.com>, 
+	Arthur Kiyanovski <akiyano@amazon.com>, David Arinzon <darinzon@amazon.com>, 
+	Saeed Bishara <saeedb@amazon.com>, Andrew Lunn <andrew@lunn.ch>, 
+	Alexandru Ciobotaru <alcioa@amazon.com>, 
+	The AWS Nitro Enclaves Team <aws-nitro-enclaves-devel@amazon.com>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Ranganath V N <vnranganath.20@gmail.com>, Steve French <stfrench@microsoft.com>, 
+	Meetakshi Setiya <msetiya@microsoft.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Martin K. Petersen" <martin.petersen@oracle.com>, Bart Van Assche <bvanassche@acm.org>, 
+	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+	Jani Nikula <jani.nikula@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-What a remarkable discussion!  The arguments being made lay bare an important difference in perspective.
-
-> you're still choosing to attack because it's LLM based and you have something
-> personal against that.
-
-This argument seems an utter abrogation of an engineer's core responsibility to understand the tools they use.  The concerns raised against LLMs here were specific and technical, were they not?
-
-> I don't want to go too far down the "wasting resources path," because,
-> honestly, a kid playing videogames for a weekend will waste more power than a
-> maintainer submitting a couple of threads for analysis.
-
-Quite disingenuous to treat the marginal cost of a single search as if it accounted for the true cost to society of making the product available.
-
-I appreciate the careful consideration of maintainers here who work to keep the focus of development on real humans and a thoughtful and deliberative processes.
-
-Thanks,
-Andrew
-
-
-
-
--- 
-We all do better when we all do better.  -Paul Wellstone
-
-On Wed, Sep 10, 2025, at 09:38, Konstantin Ryabitsev wrote:
-> On Tue, Sep 09, 2025 at 08:22:58PM +0300, Laurent Pinchart wrote:
->> On Tue, Sep 09, 2025 at 12:32:14PM -0400, Sasha Levin wrote:
->> > Add a new 'b4 dig' subcommand that uses AI agents to discover related
->> > emails for a given message ID. This helps developers find all relevant
->> > context around patches including previous versions, bug reports, reviews,
->> > and related discussions.
->> 
->> That really sounds like "if all you have is a hammer, everything looks
->> like a nail". The community has been working for multiple years to
->> improve discovery of relationships between patches and commits, with
->> great tools such are lore, lei and b4, and usage of commit IDs, patch
->> IDs and message IDs to link everything together. Those provide exact
->> results in a deterministic way, and consume a fraction of power of what
->> this patch would do. It would be very sad if this would be the direction
->> we decide to take.
+On Wed, Sep 10, 2025 at 4:44=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.com=
+> wrote:
 >
-> I don't want to go too far down the "wasting resources path," because,
-> honestly, a kid playing videogames for a weekend will waste more power than a
-> maintainer submitting a couple of threads for analysis.
+> Use internal linking to KUnit documentation.
 >
-> I've already worked on plugging in LLMs into summarization, so I'm not alien
-> or opposed to this approach. I'd like to make this available to maintainers
-> who find it useful, and completely out of the way for those maintainers who
-> hate the whole idea. :)
->
-> Best wishes,
-> -K
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Reviewed-by: Alexander Potapenko <glider@google.com>
