@@ -1,63 +1,63 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 923912F1FE4
-	for <workflows@vger.kernel.org>; Fri, 12 Sep 2025 10:13:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA2C52F39AF
+	for <workflows@vger.kernel.org>; Fri, 12 Sep 2025 10:13:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757672010; cv=none; b=DquiZRAGaA1kd2kVsA2BEn/yuRJQ98yqF4K/hL6ma3eF6m7gJkhxQ4yUnMVF6NQzng+almrzELSfS7mykM0yJGAXah8EduKUw6ewt1Lxo5/mo22b6PY70KIgFXUh9Z/KmAgAmlkVRu5VWFJy9pFiYAv3FWoa6R3OdnqyPQlMceU=
+	t=1757672015; cv=none; b=qCcD5MAxewk/UOzg9sMNK+cP5rD4ic5SRfA1gOlDC61jqgcCUnBl/swnySKol2rnJTxyknPmO+tOPDgjo23rz6kpnJ1VFCxXdzPDKF0QDDenBcPprRu43eBwF4XdVEiHqV/jDLKmFp5TOOQXqh5Od7+/1mEWNv4wfUAjn/L3z/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757672010; c=relaxed/simple;
-	bh=k6timgyy8B4GPUl9IUPi95Oa04aVieHJCexEN+DVT5A=;
+	s=arc-20240116; t=1757672015; c=relaxed/simple;
+	bh=CEdClddGjVYx6HjPNGBFPBiAS3jsMfpyA1eRZqyA0js=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=K/m+qm7FcrbE3lBHF//JgudjEGeqGC+kJLu4AfoINfz7bnxUTyA+7v/pXN6k139xNfJRIITqyOYu4EWelfS5rnubqlnhVXkWlsUacvhUKUaQ3xxm4QxV/ji2dwJf+LspLY1BuvsDDLOYO8FPsjzZ6w/LBOQWY+BFIs3IKT7D1oY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MwL2Tz0X; arc=none smtp.client-ip=209.85.214.179
+	 MIME-Version; b=KRM0yrGFmOwczVsZtbe0Ma25Nsw1tdgygzIao/nhfuw9Ass2rrY9dWbOnGtDm3IO/KSl9FYVW7BYh8aCf0WTSIM3XcVwaS6iueJc34rbjWEd2JBmpo6EVLkFF0qXd3mL0+Wg0cqIB/3gXeWK9Xdr31xwmVJK8+gB2ZfNGdSZSYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Phu1ClwF; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MwL2Tz0X"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2570bf6058aso23127145ad.0
-        for <workflows@vger.kernel.org>; Fri, 12 Sep 2025 03:13:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Phu1ClwF"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-77460a64848so1325186b3a.1
+        for <workflows@vger.kernel.org>; Fri, 12 Sep 2025 03:13:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757672008; x=1758276808; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1757672013; x=1758276813; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=C5u/a2s8j5yqiSFbkPas+Re9l+zCPojPRf0oLtuMcdk=;
-        b=MwL2Tz0XVsS+r5ozTCrIlMb06yMsEs8UVob0h1JVcrLV+Z3G355tyMmhBvyDldpfwO
-         gn8PhuE70WA82Rrf4h+uTDiOkgIWnz+qN9b/HBSlPHHODyImOSkbwI8dMr7G6Z/iojfn
-         hDKzeJLbX2gJ/Rmk59EpxX5GRVhwBdoqmH8OpjlNd7GyliXwnoeXtnl8MWvA/n9VCiHX
-         GTovlx31S0rHMtYXf/Za7qkPTd091638SUjb7coZoMWdvCv2h8PJm867sYRfE2+uL7xN
-         yUfme2a6ytDj7+yW4s1GG4ZDlEa92fHzLZPjEPvVTJMXE/lKW2GqRv2d+iZufspPfZYF
-         Jwjg==
+        bh=pqWZ4PXPvcwGUSVpTO1OvKWC6TpQO7QLp3apqR6W4A4=;
+        b=Phu1ClwF/WaPaErJMaPhPDE6D9pREb2vKlFKCLG5/QTZ5EdiId+kOCcrawUXVD8G5V
+         Pqqmk5rFdMAPtDfGRKFTiKiak4JjE+aqt4sg0bTSJqBnr8RV3L5xuG83kAtC94UpfP+n
+         85uQ/GHXtIx0dXdxFQvzbKVNKIoBgBXmr3jAQrlCBtpz25JZf1gA0UAPXwbi0kan6cNQ
+         YBwVyySuufVCMJYdzT04jsSuShSH2IqpDjs24IJrY0Jxs5EZkMKphHYKfJhhLzdJNEVL
+         TQFy49G2jYxADX+XY2xkM5tK5UO6JYKAL0AEiEVzPr8dJNk6v7iQjw85MFvB6oG5vJ/e
+         cElw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757672008; x=1758276808;
+        d=1e100.net; s=20230601; t=1757672013; x=1758276813;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=C5u/a2s8j5yqiSFbkPas+Re9l+zCPojPRf0oLtuMcdk=;
-        b=b97yhPWLgU3XYwKWhsHTYDXMJuzFjP0CPCFlzeBVdN5x7ooffpmDGoJTWdBCrrYlri
-         MOwQBaW6OHkoUqCn6GSDmNPCNoo6XQ1s7hFy+rt+oe91/PxGPNntl3iNaubUdE2EbmbS
-         3bsTSqMpi/B7GlSfXVotn7tg5Fx3myT/LvdufARBQ4tbPxgWzTj7TnvA2GZ/xNpjQh5j
-         nn5c2EqHkybJBENOZgFXjjpNpO17kOC1kdg2n+rkWwlPXgYgtWr9rIGoAMQHlxwPkf0l
-         lUEBmuZuBryMrJcnaAidWkVHjLpAPjYskNmR1PEbATVyheqvwPirALadCjCCN1Tv2d6k
-         Rq3w==
-X-Forwarded-Encrypted: i=1; AJvYcCUTXCU48sUTSTn6ebSc+sSYixhmWhOwFbGX17yu5flnO2CWp2QqJhOmotbsMxL7T6fWFSapKpwluFI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0ZOx1Zb8EDXxofyCQxnQgseQjRe8azhEQf/ahcNGx01I9fbNi
-	BmKoDvO6WAfs/SoOZB6IAElGVgVFl/vQoQl7/Absbz8mLkQ60MS77XPi
-X-Gm-Gg: ASbGncsFKBBQIJcwtBWWjCtOkjnLU8FT6ThJIK4EBKM+00ZMc+3aHg78eGUyOYtGb0p
-	dCSlW93LFPwId/LVtwVupMrpjt0Yf/uJxjhroP8VkC1Q1BgAbh7/7eHA3mQIknbYxKOuxoz3+Gg
-	KFaD+WPkO/KF8UqFJktq+QbGVH7UJKaIOfQ0wVIV4MUjiLhoTAoH2/P/iFYUp8ALqqsEUyUr/Uy
-	IKkPh12W+ifi1FFWx/JDp9kaYB/YhR+hKLpUEt7yaNRW2ZO+IjrdezqHbW7ySt/22H/oNuyX7IN
-	LCX6BbZzx3/zqcO8c+qlQwLXj00Mu49DkazcmMtAKDWmSLQ16Ye9ro3jnCwDPjvD3hqRDQYBbQ5
-	hF/g9n/cy1+HOdGuI1KzPeLAxteozXM6XqqA=
-X-Google-Smtp-Source: AGHT+IHfq4U4MFqDIc6ZxO6yNatWwL7n6+/zPGuAMGcOfOLtnumo4rnkiu74aB1UWkUMdayihYaGMA==
-X-Received: by 2002:a17:902:ebc2:b0:24a:ceea:b96f with SMTP id d9443c01a7336-25d24e9dc1dmr34403925ad.24.1757672007735;
-        Fri, 12 Sep 2025 03:13:27 -0700 (PDT)
+        bh=pqWZ4PXPvcwGUSVpTO1OvKWC6TpQO7QLp3apqR6W4A4=;
+        b=Cw6IVrM3CWQj/fLTastp5NcSzcKiqL7FSaAi6Igq7ZcLEXvN7N9oprB0BHZYeTWkQa
+         sxiq8T6IZXGV6mPYbG/13wva6bSuKimDDbi6iLlQIdk0zID87P4wtXRDlNRmTYb/Uhy3
+         CJ146CAyjrobPAxJIE+ey2NxxIl7YrQrKueI5VvJsfZf9/v64CCyHRFk61527Pen5Slq
+         NJx8Fe1qRPaTiyY6ynqYsQlZy/UuUjWsUYSvRjP6EdX6BePmTsXRdBOMlheKs6MexY0N
+         4ol1rW2n4FCZTGPjS4Lm0FesoAPqh1j1NWUnD6j3terXc+WaDqe+TH1nfdMPyOKdS84M
+         0ktQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUQ01V507O0rjDZLaySVoF3Evdh/FZVnaV1OnPLTSPDU7aBsRTVkHdiZ/Zah1Yn25ov0ULfuHWvs9w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwyfMXErdGLkqXRkSoha/TqPxFOU/klhj0rp+KzhEQukx6KZZf3
+	Bq+JLGm/zFQ+ZFw8HCjcONjZe6CtXH2QOSL2Wb28MFO0/6qGO9kO4thM
+X-Gm-Gg: ASbGncvlEf2/KJ/913ckJUisz7Z6z/TDBx3pRW5gZjK3xTuqZcJZ3s27YlmzWuCTC36
+	fffVFr3zcRs/+5qPn/Vqo7wsYzdU20ucWGMUDWBLFDSDLVUQjJLdTuxkxbP03OzjeQdgXTiJflo
+	KImzx+SJU+P87GxmBZWjhFM57TyKTUh7VuWN3lsSzXvPoulIsKYFRPM2mAt8EMU39GZBYZ7hScg
+	Ib3h0ChxTN6kv1wcWgX+Sag0WUR0ePQk/fFpoOLqQJDjFdgk/NY0BMUFILqB9pUIRjPPAeTXkGC
+	YdQqzhnHKVYJtFr5lf76kmKwHDpyMey6/ISeSy80nUP8KaShgTbGEiirQjOCx+K4HG+hPZiRxxz
+	59d0hjyVYypztnn3I2MGbJ1Z2dixLbFrsfEM=
+X-Google-Smtp-Source: AGHT+IGdi0rU6u6yk/5j3je0obUk9yox4MEj0mpe+W9QIz9sLwr6j5n+alC3GBSeGbtzXzFiSEwqsw==
+X-Received: by 2002:a17:903:37c4:b0:248:811e:f86c with SMTP id d9443c01a7336-25d26663209mr26113005ad.34.1757672012838;
+        Fri, 12 Sep 2025 03:13:32 -0700 (PDT)
 Received: from localhost ([185.49.34.62])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32dd9509002sm5179465a91.0.2025.09.12.03.13.26
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25c3ad33e1esm44309995ad.105.2025.09.12.03.13.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Sep 2025 03:13:27 -0700 (PDT)
+        Fri, 12 Sep 2025 03:13:32 -0700 (PDT)
 From: Jinchao Wang <wangjinchao600@gmail.com>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Masami Hiramatsu <mhiramat@kernel.org>,
@@ -122,9 +122,9 @@ To: Andrew Morton <akpm@linux-foundation.org>,
 	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	linux-trace-kernel@vger.kernel.org
 Cc: Jinchao Wang <wangjinchao600@gmail.com>
-Subject: [PATCH v4 18/21] mm/ksw: add recursive stack corruption test
-Date: Fri, 12 Sep 2025 18:11:28 +0800
-Message-ID: <20250912101145.465708-19-wangjinchao600@gmail.com>
+Subject: [PATCH v4 19/21] tools/ksw: add test script
+Date: Fri, 12 Sep 2025 18:11:29 +0800
+Message-ID: <20250912101145.465708-20-wangjinchao600@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250912101145.465708-1-wangjinchao600@gmail.com>
 References: <20250912101145.465708-1-wangjinchao600@gmail.com>
@@ -136,68 +136,60 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a test that triggers stack writes across recursive calls,verifying
-detection at specific recursion depths.
+Provide a shell script to trigger test cases.
 
 Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
 ---
- mm/kstackwatch/test.c | 29 ++++++++++++++++++++++++++++-
- 1 file changed, 28 insertions(+), 1 deletion(-)
+ tools/kstackwatch/kstackwatch_test.sh | 40 +++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
+ create mode 100755 tools/kstackwatch/kstackwatch_test.sh
 
-diff --git a/mm/kstackwatch/test.c b/mm/kstackwatch/test.c
-index 2b196f72ffd7..3e867d778e91 100644
---- a/mm/kstackwatch/test.c
-+++ b/mm/kstackwatch/test.c
-@@ -150,6 +150,27 @@ static void silent_corruption_test(void)
- 		silent_corruption_victim(i);
- }
- 
-+/*
-+ * Test Case 3: Recursive Call Corruption
-+ * Test corruption detection at specified recursion depth
-+ */
-+static void recursive_corruption_test(int depth)
-+{
-+	u64 buffer[BUFFER_SIZE];
+diff --git a/tools/kstackwatch/kstackwatch_test.sh b/tools/kstackwatch/kstackwatch_test.sh
+new file mode 100755
+index 000000000000..61e171439ab6
+--- /dev/null
++++ b/tools/kstackwatch/kstackwatch_test.sh
+@@ -0,0 +1,40 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-2.0
 +
-+	pr_info("recursive call at depth %d\n", depth);
-+	pr_info("buffer 0x%lx\n", (unsigned long)buffer);
-+	if (depth <= MAX_DEPTH)
-+		recursive_corruption_test(depth + 1);
++echo "IMPORTANT: Before running, make sure you have updated the offset values!"
 +
-+	buffer[0] = depth;
-+
-+	/* make sure the compiler do not drop assign action */
-+	barrier_data(buffer);
-+
-+	pr_info("returning from depth %d\n", depth);
++usage() {
++	echo "Usage: $0 [0-3]"
++	echo "  0  - Canary Write Test"
++	echo "  1  - Canary Overflow Test"
++	echo "  2  - Silent Corruption Test"
++	echo "  3  - Recursive Corruption Test"
 +}
 +
- static ssize_t test_proc_write(struct file *file, const char __user *buffer,
- 			       size_t count, loff_t *pos)
- {
-@@ -181,6 +202,11 @@ static ssize_t test_proc_write(struct file *file, const char __user *buffer,
- 			pr_info("triggering silent corruption test\n");
- 			silent_corruption_test();
- 			break;
-+		case 3:
-+			pr_info("triggering recursive corruption test\n");
-+			/* depth start with 0 */
-+			recursive_corruption_test(0);
-+			break;
- 		default:
- 			pr_err("Unknown test number %d\n", test_num);
- 			return -EINVAL;
-@@ -202,7 +228,8 @@ static ssize_t test_proc_read(struct file *file, char __user *buffer,
- 		"Usage:\n"
- 		"  echo 'test0' > /proc/kstackwatch_test  - Canary write test\n"
- 		"  echo 'test1' > /proc/kstackwatch_test  - Canary overflow test\n"
--		"  echo 'test2' > /proc/kstackwatch_test  - Silent corruption test\n";
-+		"  echo 'test2' > /proc/kstackwatch_test  - Silent corruption test\n"
-+		"  echo 'test3' > /proc/kstackwatch_test  - Recursive corruption test\n";
- 
- 	return simple_read_from_buffer(buffer, count, pos, usage,
- 				       strlen(usage));
++run_test() {
++	local test_num=$1
++	case "$test_num" in
++	0) echo "canary_test_write+0x19" >/proc/kstackwatch
++	   echo "test0" >/proc/kstackwatch_test ;;
++	1) echo "canary_test_overflow+0x1a" >/proc/kstackwatch
++	   echo "test1" >/proc/kstackwatch_test ;;
++	2) echo "silent_corruption_victim+0x32 0:8" >/proc/kstackwatch
++	   echo "test2" >/proc/kstackwatch_test ;;
++	3) echo "recursive_corruption_test+0x21+3 0:8" >/proc/kstackwatch
++	   echo "test3" >/proc/kstackwatch_test ;;
++	*) usage
++	   exit 1 ;;
++	esac
++	# Reset watch after test
++	echo >/proc/kstackwatch
++}
++
++# Check root and module
++[ "$EUID" -ne 0 ] && echo "Run as root" && exit 1
++for f in /proc/kstackwatch /proc/kstackwatch_test; do
++	[ ! -f "$f" ] && echo "$f not found" && exit 1
++done
++
++# Run
++[ -z "$1" ] && { usage; exit 0; }
++run_test "$1"
 -- 
 2.43.0
 
