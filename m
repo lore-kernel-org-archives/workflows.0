@@ -1,167 +1,182 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00AE2F5467
-	for <workflows@vger.kernel.org>; Fri, 12 Sep 2025 10:13:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1244DE555
+	for <workflows@vger.kernel.org>; Fri, 12 Sep 2025 20:21:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757672026; cv=none; b=tFUyV8iBY3HKJjWbym6R3TMmcHcHVlXb/cZfOlaqi2+SoaRzsb4LJ29SywrxvVzmqNk76DnMX5rysI6UXQLnj4OacGGhIgxb9toURS5Vg7pHnVxBcgFu0YAaIdX0l8uUXyFipcgTZ/ia/7v3bYD+eERfKhHyK4rLwqbTI8XfEy8=
+	t=1757708466; cv=none; b=IZvdSrVyJOomyiXSSTRCzQ4nbDpMuGXRutFWHPX0Rh0kfHDKMN519tONXAgYukzuHmBatZKzY2UKfT2aLLVqYe1/oKC0XzbuQ872L4fLGaQBRWhkV2XfG7jYbIkLpKpEbPATSr1rtH1FXYP9hmdTfl+nC4eBttAkw9H7IOtXHb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757672026; c=relaxed/simple;
-	bh=Y4IVRGt4gY6CeNENuQfFMwDoOjrFFT/8PJdPjuvJ4cs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pdHTtXk6L70W8PSrD+XAjsr+Yi/iK+IDdmwo0wmjI9rLV0hUBujLmE+OKpUJ+siDcjEtzhmYm6PlC0iASAw+v2su67o5Mwb8rORxw8TWek9wCBb5Esg404R9l3qoQEZVO914M3xugyMjwVgZwU6xSIQgUoD15x3OMfHRC/GHMfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BqB0A8Nr; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757708466; c=relaxed/simple;
+	bh=ha5sACqI+T93S9hNt+6tg8vEBhnD3jRHwOofYElvPzs=;
+	h=Message-ID:Date:MIME-Version:Subject:From:References:To:Cc:
+	 In-Reply-To:Content-Type; b=PWw1dG7C315h6duYUtgOlm71mClpLQduw08unUSDNdzVvrzaTA9zfGafyHuDdrU5hO8H3+NkXAeQDbvWiY+tfF+IPz59aLVpQed62HZIosrOB+vP9iQ8+TMGOXUQRBE0a2VApezmN+Ob+vyhiR0TYI/RukCnYbswmeCam90OJto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=dpFzoYMZ; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BqB0A8Nr"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-7728815e639so1359712b3a.1
-        for <workflows@vger.kernel.org>; Fri, 12 Sep 2025 03:13:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757672024; x=1758276824; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I55bZq7ZFzzpD1DxoyTRdsSYeFKQhRWPVd7TpHbtt7w=;
-        b=BqB0A8NraNWmI/g9eWEjwuUs03vZr+6jF1scr8Z0C0j3tZlufwEalQgqxouGTUTUAx
-         QFn4nayB0gwNYyI1P4qat2hjPKoMHGUf/0NWH/FCW5n4DcaVVb54106BIZv1l9kY4Pzu
-         Kpsc7UO3nd0yzNxIqBApWfFYgrykwBKdJX98Ukx06IPIpzg+dLuvL0rEvXWwY7LzEUvV
-         GSZfrHOPVyo+RXZmH+nyxRU7GHns5QWPhUKbioZUjK/IW8qkYT7HQa6+FnlFh0P9KG1R
-         bkzpf6rb23CJoWsTu7iXTKyu7eEiRKcPnJxbzIJJhN7JYodBIMgK+t5f5nErohzICzXL
-         hlYA==
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="dpFzoYMZ"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58CIAPNM001640
+	for <workflows@vger.kernel.org>; Fri, 12 Sep 2025 20:21:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	uh8HWFGgvQRh4YRN3fk73qzhec8r9FEUaHUe0C5PvU0=; b=dpFzoYMZG1v/fuZZ
+	2RiOHciNexepsOY2/E+q6hirgSIhID69Ou8BV9gf506j3uZg5Eyg1aOZTn3HJATt
+	izsRV0N8KIa63NihYzi/wdKIsjrvo3Q9Mstv6cveN0mG9y+W5uIkQAuk5nZ7SffF
+	SCpZcWhk1ehi5VrtLFFghTgdwVZiKX9kSYL7uICiT22ybmcz6YAkKtxsSRmAe46V
+	WsgpfZhH7ssf6RKCR/Cv3ITFT9Djgj10pxJzXJdkSQCZfcpynUiSJu1TjunZY4Tn
+	gHQFfBhtAm14Oyd3GlqhuFqV543caaNYYs6ltXn6svrV/nHakTrpOIqeRsCGuK+w
+	BSNxYw==
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 493f6h7snj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <workflows@vger.kernel.org>; Fri, 12 Sep 2025 20:21:04 +0000 (GMT)
+Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-76e2eb787f2so2227059b3a.3
+        for <workflows@vger.kernel.org>; Fri, 12 Sep 2025 13:21:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757672024; x=1758276824;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=I55bZq7ZFzzpD1DxoyTRdsSYeFKQhRWPVd7TpHbtt7w=;
-        b=CM7jzlCYTt0GzXoqpuWI1z0NV78XQ7E9HD8rVIgVXvq8ofXtyJoSR20xdd2HIWSKhi
-         X/3dPzL9ZMf61W1moYobit46Ny+7Ork4cXxrPzxc6bzPrt7HfYdWgnqhhDAhZgeDPj3G
-         mKbOWP+WXoEyPwbVkormMimlf35qSGqWdSc+D5/PiFtdT0Rx7tS8JMxTa4CUdiBDQTlt
-         Q9zXVaiR+/SKzNUjEyJeBkG449SPLBzfCXulberj2mBmoHLL6+PZ+JOi9ACi1CuOQC5o
-         PHZMRgkKDjtBb+/LEEFrxAf00jD4SlPEYzvx5NzxpwChbDq75n9xKsT5gD/s/87fIUbd
-         Ytnw==
-X-Forwarded-Encrypted: i=1; AJvYcCVaWi194GRMPqHJzRwtIsQzvBOlc8JiZQwdptV6n1XycNi5x6BR8LIqCPV1zvl5OwYly8aDDQUP/6Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZXW2PYm3fbEX7MXb9zl5OoBEN0OXeZfVWAswERWNZ7Mz7YDjC
-	rXwC6y+WnhmCVxAh8eIWfVFTRiwJ1uU7zQ00G17Hb5ZKvajXMEN2WnlUgPpoSCpXWZpb/w==
-X-Gm-Gg: ASbGnct1nscKyjBIlJrO8VY52YDsyITZGIr7T2Ljx11TLPPuE0S1zcv7PqDAzH1YpHC
-	hE5TmI0bQkGKNqnD9dyTe2kU+CVuUJb6AAyAL8T3LgGegTYHEjjGNVHO84GstOIxWItlzjvOzRW
-	tmtqjAr9CKM2D2iK/A8mRuLwtID3KeJD2YHxJ1MXUAmWkJbM9BZTFUpR+iSE6Co4Gx5dO+rVpnd
-	s775+Uj2csTiHOhAY9wyRoCi3eg79ztczsco9PqipizgoYl35stMB0fLhdualaLKb2W11uFKOzk
-	I6kSTs78ZzF+7NyLuw+iYa1ulR4dhJvFrwKfJ5aAgW7M3Ks6dR6TwSa9+Mh7gQsHdYrX3bYuAEl
-	nmCCCUbH4SfGwlZUzQqYDQxMWv4bKJCVs4vPqTEbtT6ZrRg==
-X-Google-Smtp-Source: AGHT+IEmU8/7QYE28ulPnmQWl8v4TOjFN/LND+vjp/ORoshKulgXE7ro2NJTOczUKB1xsXbgHPgJeg==
-X-Received: by 2002:a05:6a20:734d:b0:24f:53e8:cca2 with SMTP id adf61e73a8af0-2602cf104d0mr2912224637.60.1757672023846;
-        Fri, 12 Sep 2025 03:13:43 -0700 (PDT)
-Received: from localhost ([185.49.34.62])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b54a3aa0f8asm4307035a12.48.2025.09.12.03.13.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Sep 2025 03:13:43 -0700 (PDT)
-From: Jinchao Wang <wangjinchao600@gmail.com>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Alexander Potapenko <glider@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>,
-	Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	"Liang, Kan" <kan.liang@linux.intel.com>,
-	David Hildenbrand <david@redhat.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Kees Cook <kees@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Rong Xu <xur@google.com>,
-	Naveen N Rao <naveen@kernel.org>,
-	David Kaplan <david.kaplan@amd.com>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Jinjie Ruan <ruanjinjie@huawei.com>,
-	Nam Cao <namcao@linutronix.de>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
-	linux-mm@kvack.org,
-	llvm@lists.linux.dev,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	kasan-dev@googlegroups.com,
-	"David S. Miller" <davem@davemloft.net>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	linux-trace-kernel@vger.kernel.org
-Cc: Jinchao Wang <wangjinchao600@gmail.com>
-Subject: [PATCH v4 21/21] MAINTAINERS: add entry for KStackWatch
-Date: Fri, 12 Sep 2025 18:11:31 +0800
-Message-ID: <20250912101145.465708-22-wangjinchao600@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250912101145.465708-1-wangjinchao600@gmail.com>
-References: <20250912101145.465708-1-wangjinchao600@gmail.com>
+        d=1e100.net; s=20230601; t=1757708463; x=1758313263;
+        h=content-transfer-encoding:in-reply-to:cc:to:content-language
+         :references:from:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uh8HWFGgvQRh4YRN3fk73qzhec8r9FEUaHUe0C5PvU0=;
+        b=RUlUN+WIt1Z+ZJ77dSBUGqfiV/MO1XIRGmq0te7uXqB1sbiJx1gfd2ug8kNlQy2U6Q
+         dpd2ayWVNl2Wowkf8b5iPDAulyfyIfKV4ZdqE4lf+thCrkoCc6hqomvVHA2usJ0EeDBV
+         Ls/bcB5Xq2z3MfIGrP9+TYmd8fLZXhVSlUfX76uk6NXnq6RTUpJT7xqYyXAXN3Fxhf8d
+         Oeg9eKreMKhWq42uVkmbn/jCEaFe9GqsGraqLo1TWN/2oOZEYymwr8cLWVpEX8SKy1Ws
+         a7eH9isk6rj+vfJn+5Acw3LaDKGMpkRYwvoSvlySoHGAcHXI4q4WOjVuUZiVx4FEEa39
+         fTOQ==
+X-Gm-Message-State: AOJu0YykuhWGBDL6BmatJMVyyxC8l7+oBn1AnTdDIONHD3IdbxRm41sU
+	uhtrdGCdPmKDo2KI232wAuaJ0ILmcLLgCGF2t402rc7N0TNtKy05/3xkeK0C7h3RMV6ACfsbUmK
+	pYp/Gc1abIWv6HTp0G7HA7TYf4f9kLwYa/O0obuLNJcrhx2stHlPo+qLNQnXnUoRgT3TgjAg=
+X-Gm-Gg: ASbGncsCcKsxGjdQOuzyjTMdPNSExOFxukeAVkPVL9oDqyHJABGpIQEU9+BJHi360a5
+	fhtrH1l6OQi3u900QUV0ETrPvStYidAsZQXGVWw5ON3YLPob674VlbG9xucz4P9YNBoYZpBWizw
+	dDKjzr7Q60dccYHXK2y5QGFu7ZETfnHkRyV31kPo17h99zoSAL3LDsvU42C+46QZ+//+/Yy08HQ
+	1s8tlgY41EXuHe6XNl6nHfzEwLtar6HFeH9y8rBwWvqfgGPx7bK4kjW5csIclEvWzhmf5hEnoA7
+	C32sRivtIfJiQi6GXe5wtXqOLSXZyQGHWKQiTPfcWqEzlnYiBzozji36lC5/fvuImqUNb/JNhD/
+	FjvTSRB8VKYzSIkZ5AWexg5I=
+X-Received: by 2002:a05:6a00:181e:b0:772:48c5:c75a with SMTP id d2e1a72fcca58-77612091649mr5033559b3a.13.1757708463029;
+        Fri, 12 Sep 2025 13:21:03 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFy9rA89rMg5iy1ZfZgFDowhXAj7A+YF9TJ6xmj3kp84CbPWPd2rihyHVZcOIc16agMz/VevA==
+X-Received: by 2002:a05:6a00:181e:b0:772:48c5:c75a with SMTP id d2e1a72fcca58-77612091649mr5033517b3a.13.1757708462327;
+        Fri, 12 Sep 2025 13:21:02 -0700 (PDT)
+Received: from [10.110.61.161] (i-global254.qualcomm.com. [199.106.103.254])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77607a46eedsm6317156b3a.30.2025.09.12.13.21.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 Sep 2025 13:21:02 -0700 (PDT)
+Message-ID: <86bbc54c-3fc9-4c6d-9f93-b684634121bb@oss.qualcomm.com>
+Date: Fri, 12 Sep 2025 13:21:00 -0700
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: [RFC] PatchWise: Unified Static Analysis for Kernel Development
+From: David Gantman <david.gantman@oss.qualcomm.com>
+References: <3aa87758-1899-4f7c-aa17-2330e656a467@oss.qualcomm.com>
+Content-Language: en-US
+To: workflows@vger.kernel.org
+Cc: linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+In-Reply-To: <3aa87758-1899-4f7c-aa17-2330e656a467@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: m8jesHWu2eI_c7FkAS7HiioXJRxw0gwG
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTEwMDE3NyBTYWx0ZWRfX1bfse8AesyWK
+ WEVMQuiwdEFYELNt8juWyzGPr7g+tIHJFqp+IsdRZjMHkR69eZKLrFkiynCtxsScBEw1SUJfBlG
+ zvLFIa+2+zmXFaGZ5zFqchDeMBM19KYdNERMlYPzb8dX3xW74v92YmyKcaodoG/QEZirZrko2yK
+ Dikz/QlLm8dl0ACkRNtRPQcM/wxojOp170dnvXJjBvQCI4Mth9FOxwlzKU+s1VOxpe2aFL7g3Dr
+ XiobWqdGEeFQXrfBGm0N6Ca6ib9BQFMxNG11MmjjeMU5r1R9phXYn2DMb2lchHXk5+sNcV9/ZMa
+ d6dej5Bhfy6KMTRzsKcm7LUTRFpwtHJoMtC8SQQ4K5QOI6JuCC3vJeZ0YJCc2CC9ioWlDC74Wsx
+ 8TY5D+68
+X-Authority-Analysis: v=2.4 cv=WPB/XmsR c=1 sm=1 tr=0 ts=68c480b0 cx=c_pps
+ a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=NEAV23lmAAAA:8 a=_2PzejVuNbwBRFFAgkYA:9
+ a=QEXdDO2ut3YA:10 a=OpyuDcXvxspvyRM73sMx:22
+X-Proofpoint-GUID: m8jesHWu2eI_c7FkAS7HiioXJRxw0gwG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-12_07,2025-09-12_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 spamscore=0 clxscore=1011 priorityscore=1501 adultscore=0
+ bulkscore=0 phishscore=0 suspectscore=0 malwarescore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2509100177
 
-Add a maintainer entry for Kernel Stack Watch.
+Kernel developers and maintainers often need to manually run
+multiple static analysis tools (checkpatch, coccicheck, sparse,
+dt_binding_check, dtbs_check, etc.) and create custom scripts to
+consolidate results. This leads to:
 
-Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+- Inconsistent testing environments across different developers
+- Time spent writing and maintaining custom integration scripts
+- Missed issues due to incomplete tool coverage
+- Difficulty in reproducing analysis results
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cd7ff55b5d32..1baa989abf2d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13355,6 +13355,14 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git
- F:	Documentation/dev-tools/kselftest*
- F:	tools/testing/selftests/
- 
-+KERNEL STACK WATCH
-+M:	Jinchao Wang <wangjinchao600@gmail.com>
-+S:	Maintained
-+F:	Documentation/dev-tools/kstackwatch.rst
-+F:	include/linux/kstackwatch_types.h
-+F:	mm/kstackwatch/
-+F:	tools/kstackwatch/
-+
- KERNEL SMB3 SERVER (KSMBD)
- M:	Namjae Jeon <linkinjeon@kernel.org>
- M:	Namjae Jeon <linkinjeon@samba.org>
--- 
-2.43.0
+I'd like to introduce PatchWise, a tool designed to address this
+fragmentation and manual orchestration of static analysis tools. I'm
+seeking feedback from the community on this approach and suggestions for
+how it could better serve kernel developers and maintainers.
 
+Key features (All Optional and Configurable):
+- Unified interface for checkpatch, coccicheck, sparse,
+dt_binding_check, dtbs_check
+- Docker-based execution for consistent, reproducible environments
+- Simple installation and usage: `$ pip install patchwise` then `$
+patchwise` in your kernel tree root
+- Allows selective review execution (e.g., `$ patchwise --reviews
+checkpatch sparse`)
+- Supports both individual commits and commit ranges
+
+Optional AI-Powered Review Features:
+PatchWise also includes optional AI-based code review capabilities that
+aim to overcome a key limitation in automated patch review: limited
+context. When enabled, the tool uses Language Server Protocol (LSP)
+integration with clangd to:
+
+- Generate compile_commands.json for accurate code understanding
+- Fetch relevant function definitions, struct declarations, and related code
+- Provide context-aware feedback rather than superficial pattern matching
+- Support multiple LLM providers (OpenAI, etc.)
+
+Important note: All features including AI code review can be selectively
+enabled and disabled based on user preference.
+
+Technical Architecture:
+- Python 3.10+ with pip installation
+- Docker-based isolation for tool execution
+- LSP integration for deep AI code understanding
+- YAML-based configuration
+- Rich logging and debugging support
+
+Source code and current status: https://github.com/qualcomm/PatchWise
+
+Upcoming improvements include patch series support and Docker-based
+dependency management for each tool. Open tasks and planned features are
+documented in the GitHub issues for visibility and collaboration/
+
+Feedback Requested:
+- Tool Integration: Are there other static analysis tools you'd
+like to see supported?
+- Workflow Integration: How could PatchWise better fit into your
+existing development and review workflows?
+- Output Format: What formats would be most useful for your use
+cases?
+- AI Features: For those interested, how else can AI code review and
+commit text analysis be improved?
+
+Try it out:
+$ pip install patchwise
+$ cd /path/to/your/kernel/tree
+$ patchwise  # Analyzes HEAD commit with all available tools
+$ patchwise --reviews checkpatch sparse  # Runs only specific tools
+
+The goal is to eliminate the need for custom scripts to consolidate
+kernel test tools, while offering optional advanced features for those
+who want them.
+
+Thanks,
+David
