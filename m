@@ -1,63 +1,63 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93C9D2EB5DC
-	for <workflows@vger.kernel.org>; Fri, 12 Sep 2025 10:12:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EE9F2EBBB3
+	for <workflows@vger.kernel.org>; Fri, 12 Sep 2025 10:12:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757671974; cv=none; b=O/j7cdvohEzuS4KO3RV6w22PVazEQhK9e1rvuG73dEDAl4g4CZsYr3dm36tHm6orI9dhYEO4MxBgD420T4wQPDiot72MK8n+Lz8ZmjZfp4kpRsphqzovUcAzzuTO2oh6RVGGCKGA9FiLuhgBANpzUjn/LwtGy3Z3gSYLN5QG+4E=
+	t=1757671980; cv=none; b=aj+9QHXKUyJnRqSrVMUGmBfZmN17wravrwu2kt5AxzfrbGrVGiBz5B3L9pEYFU5KBPBC5TC/V8ukmW4YL1ZXDFyUuYxNUc9yi5gYDa4q6imEv8rO8Iqy1eyKLKBovRpZVH+2I/AUG/NH2oGIeapJndU8JePbdKcO134vOhouE6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757671974; c=relaxed/simple;
-	bh=a5HXFEXCxWNRHDDVyZZfIidS3SNN062TjXO3sF8vxcw=;
+	s=arc-20240116; t=1757671980; c=relaxed/simple;
+	bh=6mefF6IMMzyvYBUHPb6m4n0UB5fHQfdxvPTrHUmunyQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=I7BCmBpWxV4sALlJgRAfp8va0D6E+6m+MhStdyn0GfZZ0b8tG7p+r7UryQgAmY4VQ0j62cx7g1F7eKGpSHflAFN8vmdoNeIU6OPavBCAkYcTW9tpvTezll/dN78H5vY0Mqll9Gf5mjo7bcn4lVFP84stayR1yJZ1xh4SoyRUGdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X4SxenS3; arc=none smtp.client-ip=209.85.215.169
+	 MIME-Version; b=o9+uUFz/fsREue6GKIQaTjlp2w8IXo4mqjSe0KMY+ppagO/aw7bTEvJW1EF5wdme72WzG/+zVQjnpNQixKYYHomXlFO84JvsrMu9VkaTAg39NA14pT3HiPnO29v5UubWedq60qOGAVr27sycskl2ZGzAK/xkaaN5oI4Hq56CUz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PvO85rwF; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X4SxenS3"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-b54b55c6eabso21906a12.2
-        for <workflows@vger.kernel.org>; Fri, 12 Sep 2025 03:12:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PvO85rwF"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-24cb39fbd90so15148445ad.3
+        for <workflows@vger.kernel.org>; Fri, 12 Sep 2025 03:12:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757671971; x=1758276771; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1757671976; x=1758276776; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bEzQtMPq9PK+5+yYtP/oNug9OWMsSiZGEa798p9Mz9w=;
-        b=X4SxenS3BxcAA9QiBmVt+MB6I+ZcELSePKO4cOmBRvVjrbpwt9Uj288zM4KHAmiu5C
-         +5X/D3B1XHmLtRG5npsNGNIePp0Va+eE1jYuI6wwf66FeB44vMr8d0VzaKXgK/hJx2YC
-         HWU1uOpyx0uN8VlsT99qnsM7eKsR5dFmlOcuzWmxhgTrPRw0HLqSvcNxjpwK00kz/ETk
-         Zb7E+5h3IQLeY4XtJ7NXB/yZxZ7iSZzefLLcwcH2bn7hSHYWspt4wbRH71zf/zKIdwtd
-         OxrOgXe0ovMgI2hz9sloJYajJ9dzBPoYj7+oepOOwo7W1lv+Rn3TSaQBWGkZqibQEN23
-         NKng==
+        bh=mwBrRJrnxCqu1u7UrV9e609up8TstQr3mGzjgxeQ/fA=;
+        b=PvO85rwFE+AFthnd22KtiyMXusH738r4OMXw2fZ9VzfnQrqCGup4UKQz5fYhdpFWYd
+         Ffd0dZ/n7VafldJrABpQ55J9n+PB1T7eVmgnmHp+KNCkqZ9ZRk8ckq7DotHot6OY+IBg
+         pCbpV/T5guQi0IH8QXNdaSt7xTNNuKC3gKJwl/u1fSrhI+6Vihi6STUgmfq0anhSqQAU
+         HsqIqc618JiCafF0EgtDPY5F8JRpGqXEjBmSUvK/YPy3k98rXQ9jZ1N6cw4cZSFRlizi
+         dXjRgM0HRsZEspTVExv7LgtV/KiSPYTMRt3ILK+wL9LWVLcY7XtBHRfUwdkDyzW3jBHu
+         hiHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757671971; x=1758276771;
+        d=1e100.net; s=20230601; t=1757671976; x=1758276776;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bEzQtMPq9PK+5+yYtP/oNug9OWMsSiZGEa798p9Mz9w=;
-        b=ej7Es1Nq8Fu+FubTn7HLCoP0bbY0MtrxGOoDzXxq4bw6BE9xGG5f3CbHkM1/T8CyDn
-         bd3u5ZV9NcBL4IpNH0a4aaXa6TqCmiOAcd2tiEmy6CihvpRXFrSYBZNginr4sSsxE5eo
-         H3Wqrbq34x+L0jZRCfis20YOkWoVyTDFQkkeeJkL6eeu6Lt4OirCLun/TAB0b1N9oEbO
-         7LRhn6ydd6Ei6EXN1e9QLtTJE0BdV/lOdIFAZ9mGBg9Hy299qmuzwC++IWTt+Z9dAYnS
-         b0N0t1XhM0fPny9LE0gniRf3LSYu1QNO/oPzH5VrOPVt0rsgMB4jpFfgEnMhnuLoEwJ3
-         j9eg==
-X-Forwarded-Encrypted: i=1; AJvYcCUWCV8BYoKRoB3/bhE29qC//Jg7vMsEg1TK1+GrPwXuq70FZ5l6JnQHj1ZiEKDPuVegtWODgWsQwvE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyqqXx/Fsc3AWxvaI69D9dcynAaNT2sBaqCOHx9C/MrI/F11Ust
-	xCI0F4QB7SPIB8/H77T1GLYNHirpOoAsjLHlmfZiXCyDmue3+AOl2JLB
-X-Gm-Gg: ASbGncuI7hNUbF4AJxnEc2T/TXt+ZvPCQ3t9Qbwxs+29hV5xsbSShR641d5AkuRAkgn
-	PF8/64cvaTmWf8YdxNJTU2uT5QGgfQsZL3PmjHuhcU1o0R/maJcJQ/X2Qra6tCcOWlJCmFvxf5Y
-	bzFJWFoRXrFJWz23XJtUUZLlFBVnrjV2qPWH1ou/TpgwjvTIIx7Ubq6gfmJ6Mfs+zCupT9u48hL
-	6Y5c6wVgmjijWfdQElxLwCBSRHLx5QVQspbaH8Ns3o35CxGOypkgRebdWorarfJP7EEoPsv0B8i
-	4HbYnVF1fIFQCNTQHcUYI6aK2zfXq4IpPxjKgDlXqADFdpqsOiQ5t8SdTV3wBcoE2GtNPsjaHLd
-	rUvDdIpfJqLHvckvcfihpqfddmFe5YyCqU8dAQ+2sT0kpDYqtshM2DGplnPGW
-X-Google-Smtp-Source: AGHT+IFjzeds5aG6Wb+p60MOU157xCW/uyAMBkC8kYhjKV3VQWNhWnO7RA/JWobHVFlYljAoloxrVg==
-X-Received: by 2002:a17:902:d490:b0:25c:18d:893 with SMTP id d9443c01a7336-25d24bb33f9mr25149495ad.22.1757671970918;
-        Fri, 12 Sep 2025 03:12:50 -0700 (PDT)
+        bh=mwBrRJrnxCqu1u7UrV9e609up8TstQr3mGzjgxeQ/fA=;
+        b=rcUb1fiwT69g2pf/VTbSF+6yTXkG9HMs8A6ISplhAoqZxZ6G/DAFywVISGU7GJ22Sr
+         /CSHcGDarC6K+wCKrCCTbJsNNpVRZ4iQHGRoA/bl+ugAsYNlO1HwB5XylX+bmcIkzTzD
+         vVn78K6AmNyOyDXmC1iEYh53uo0QmcfHTTOqVx+MwjpvbJd1q6KsLFI3PpfIkOq/f1y5
+         3eb4+qpu4dbsGsSXaGIkYyKLQeWol8Yc+yjNW7QotHopQI8y/07+yvKCXayEUj8N20iX
+         liAhTF0tv1xHsTaoGQx3Wo57dywl+blKxufzZg9llPQV1Svk0icEJdXUduBi4A7lXEEP
+         6xOg==
+X-Forwarded-Encrypted: i=1; AJvYcCUPAX6Al+m1H+h3gXFMRyozn8496lu1keXm7LTVqK+GS8xvy1veAn0YTVf419QVOX3S9n1/kyX1eCA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXtcSzWcM5F6VLL4zN/AFJhtO9JWJI6elXbcFrVAQni5zm6w/o
+	/f+i/s5V/JTS5H/ni4gjUMW4etv37vJz7s3pjEZp/Ly+EX1caGCEK7Dc
+X-Gm-Gg: ASbGncs+NsN2udLT2pWWyGnI9QeHHc4lrZDcWBltwRckvdCGMXIXQUuoh2uydZHqAH4
+	iymTb5bxRJSRhgjRZTvVFWxhrwIbo9SRlEJwC4KOSkmv0OGAFSt0ZBNZtOJX/ywsx1bwhUUPsOI
+	G8aXOhA4Bd7xbwtjM5FV1TAupdgKJArrKcFxQp0iTfEFDdNZkDFN1tqmIjZKbrJjfg0sQSeLE8V
+	Tq/CkH7TLPtyRvXqDz8c4/4X1cqG6YBgmhtSULr50jj880n5r2tw4yAuWqZBC5VHNPVyf/hLdFc
+	m6ZzmyLm5klqrUq1o9WuOEub0+wRQNkxkNgrE1QMhtaBZgaSzI9kCVKcdjaOgzKBy0Me+wNe4re
+	PV5rfAeCBshs7QycTpbsSqW+lqB1Fmm8Z8XnIMe4=
+X-Google-Smtp-Source: AGHT+IHmhDxbrAgWt/ZFf2b2ARujdiSrTzk9h/pJ/Apo0LVYSifl646MIHmgwZB8g3f29HVWj78WGw==
+X-Received: by 2002:a17:903:2f0d:b0:248:79d4:93bb with SMTP id d9443c01a7336-25d26e449b9mr26345655ad.31.1757671976359;
+        Fri, 12 Sep 2025 03:12:56 -0700 (PDT)
 Received: from localhost ([185.49.34.62])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25c37293f0asm45159835ad.43.2025.09.12.03.12.49
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25c36cc6af7sm44843015ad.5.2025.09.12.03.12.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Sep 2025 03:12:50 -0700 (PDT)
+        Fri, 12 Sep 2025 03:12:55 -0700 (PDT)
 From: Jinchao Wang <wangjinchao600@gmail.com>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Masami Hiramatsu <mhiramat@kernel.org>,
@@ -122,9 +122,9 @@ To: Andrew Morton <akpm@linux-foundation.org>,
 	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	linux-trace-kernel@vger.kernel.org
 Cc: Jinchao Wang <wangjinchao600@gmail.com>
-Subject: [PATCH v4 11/21] mm/ksw: add probe management helpers
-Date: Fri, 12 Sep 2025 18:11:21 +0800
-Message-ID: <20250912101145.465708-12-wangjinchao600@gmail.com>
+Subject: [PATCH v4 12/21] mm/ksw: resolve stack watch addr and len
+Date: Fri, 12 Sep 2025 18:11:22 +0800
+Message-ID: <20250912101145.465708-13-wangjinchao600@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250912101145.465708-1-wangjinchao600@gmail.com>
 References: <20250912101145.465708-1-wangjinchao600@gmail.com>
@@ -136,154 +136,124 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Provide ksw_stack_init() and ksw_stack_exit() to manage entry and
-exit probes for the target function from ksw_get_config().
-
-The entry/exit probe handlers use atomic ksw_stack_pid to ensure a
-singleton watch and current->kstackwatch_ctx.depth to track
-recursion depth. A watch is set up only when depth reaches the
-configured value.
+Add helpers to find the stack canary or a local variable addr and len
+for the probed function based on ksw_get_config(). For canary search,
+limits search to a fixed number of steps to avoid scanning the entire
+stack. Validates that the computed address and length are within the
+kernel stack.
 
 Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
 ---
- mm/kstackwatch/kstackwatch.h |   4 ++
- mm/kstackwatch/stack.c       | 113 +++++++++++++++++++++++++++++++++++
- 2 files changed, 117 insertions(+)
+ mm/kstackwatch/stack.c | 88 ++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 84 insertions(+), 4 deletions(-)
 
-diff --git a/mm/kstackwatch/kstackwatch.h b/mm/kstackwatch/kstackwatch.h
-index 0786fa961011..5ea2db76cdfb 100644
---- a/mm/kstackwatch/kstackwatch.h
-+++ b/mm/kstackwatch/kstackwatch.h
-@@ -38,6 +38,10 @@ struct ksw_config {
- // singleton, only modified in kernel.c
- const struct ksw_config *ksw_get_config(void);
- 
-+/* stack management */
-+int ksw_stack_init(void);
-+void ksw_stack_exit(void);
-+
- /* watch management */
- int ksw_watch_init(void);
- void ksw_watch_exit(void);
 diff --git a/mm/kstackwatch/stack.c b/mm/kstackwatch/stack.c
-index cec594032515..ac52a9f81486 100644
+index ac52a9f81486..65a97309e028 100644
 --- a/mm/kstackwatch/stack.c
 +++ b/mm/kstackwatch/stack.c
-@@ -1 +1,114 @@
- // SPDX-License-Identifier: GPL-2.0
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+
-+#include <linux/atomic.h>
-+#include <linux/fprobe.h>
-+#include <linux/kprobes.h>
-+#include <linux/kstackwatch_types.h>
-+#include <linux/printk.h>
-+
-+#include "kstackwatch.h"
-+
-+static struct kprobe entry_probe;
-+static struct fprobe exit_probe;
+@@ -9,18 +9,98 @@
+ 
+ #include "kstackwatch.h"
+ 
 +#define INVALID_PID -1
-+static atomic_t ksw_stack_pid = ATOMIC_INIT(INVALID_PID);
-+
-+static int ksw_stack_prepare_watch(struct pt_regs *regs,
-+				   const struct ksw_config *config,
-+				   ulong *watch_addr, u16 *watch_len)
++#define MAX_CANARY_SEARCH_STEPS 128
+ static struct kprobe entry_probe;
+ static struct fprobe exit_probe;
+-#define INVALID_PID -1
+ static atomic_t ksw_stack_pid = ATOMIC_INIT(INVALID_PID);
+ 
++static unsigned long ksw_find_stack_canary_addr(struct pt_regs *regs)
 +{
-+	/* implement logic will be added in following patches */
-+	*watch_addr = 0;
-+	*watch_len = 0;
++	unsigned long *stack_ptr, *stack_end, *stack_base;
++	unsigned long expected_canary;
++	unsigned int i;
++
++	stack_ptr = (unsigned long *)kernel_stack_pointer(regs);
++
++	stack_base = (unsigned long *)(current->stack);
++
++	// TODO: limit it to the current frame
++	stack_end = (unsigned long *)((char *)current->stack + THREAD_SIZE);
++
++	expected_canary = current->stack_canary;
++
++	if (stack_ptr < stack_base || stack_ptr >= stack_end) {
++		pr_err("Stack pointer 0x%lx out of bounds [0x%lx, 0x%lx)\n",
++		       (unsigned long)stack_ptr, (unsigned long)stack_base,
++		       (unsigned long)stack_end);
++		return 0;
++	}
++
++	for (i = 0; i < MAX_CANARY_SEARCH_STEPS; i++) {
++		if (&stack_ptr[i] >= stack_end)
++			break;
++
++		if (stack_ptr[i] == expected_canary) {
++			pr_debug("canary found i:%d 0x%lx\n", i,
++				 (unsigned long)&stack_ptr[i]);
++			return (unsigned long)&stack_ptr[i];
++		}
++	}
++
++	pr_debug("canary not found in first %d steps\n",
++		 MAX_CANARY_SEARCH_STEPS);
 +	return 0;
 +}
 +
-+static void ksw_stack_entry_handler(struct kprobe *p, struct pt_regs *regs,
-+				    unsigned long flags)
++static int ksw_stack_validate_addr(unsigned long addr, size_t size)
 +{
-+	struct kstackwatch_ctx *ctx = &current->kstackwatch_ctx;
-+	ulong watch_addr;
-+	u16 watch_len;
-+	int ret;
++	unsigned long stack_start, stack_end;
 +
-+	if (ctx->depth++ != ksw_get_config()->depth)
-+		return;
++	if (!addr || !size)
++		return -EINVAL;
 +
-+	if (atomic_cmpxchg(&ksw_stack_pid, INVALID_PID, current->pid) !=
-+	    INVALID_PID)
-+		return;
++	stack_start = (unsigned long)current->stack;
++	stack_end = stack_start + THREAD_SIZE;
 +
-+	ret = ksw_stack_prepare_watch(regs, ksw_get_config(), &watch_addr,
-+				      &watch_len);
-+	if (ret) {
-+		atomic_set(&ksw_stack_pid, INVALID_PID);
-+		pr_err("failed to prepare watch target: %d\n", ret);
-+		return;
-+	}
-+
-+	ret = ksw_watch_on(watch_addr, watch_len);
-+	if (ret) {
-+		atomic_set(&ksw_stack_pid, INVALID_PID);
-+		pr_err("failed to watch on depth:%d addr:0x%lx len:%u %d\n",
-+		       ksw_get_config()->depth, watch_addr, watch_len, ret);
-+		return;
-+	}
-+
-+	ctx->watch_addr = watch_addr;
-+	ctx->watch_len = watch_len;
-+	ctx->watch_on = true;
-+}
-+
-+static void ksw_stack_exit_handler(struct fprobe *fp, unsigned long ip,
-+				   unsigned long ret_ip,
-+				   struct ftrace_regs *regs, void *data)
-+{
-+	struct kstackwatch_ctx *ctx = &current->kstackwatch_ctx;
-+
-+	if (--ctx->depth != ksw_get_config()->depth)
-+		return;
-+
-+	if (atomic_read(&ksw_stack_pid) != current->pid)
-+		return;
-+	WARN_ON_ONCE(!ctx->watch_on);
-+	WARN_ON_ONCE(ksw_watch_off(ctx->watch_addr, ctx->watch_len));
-+	ctx->watch_on = false;
-+
-+	atomic_set(&ksw_stack_pid, INVALID_PID);
-+}
-+
-+int ksw_stack_init(void)
-+{
-+	int ret;
-+	char *symbuf = NULL;
-+
-+	memset(&entry_probe, 0, sizeof(entry_probe));
-+	entry_probe.symbol_name = ksw_get_config()->function;
-+	entry_probe.offset = ksw_get_config()->ip_offset;
-+	entry_probe.post_handler = ksw_stack_entry_handler;
-+	ret = register_kprobe(&entry_probe);
-+	if (ret) {
-+		pr_err("Failed to register kprobe ret %d\n", ret);
-+		return ret;
-+	}
-+
-+	memset(&exit_probe, 0, sizeof(exit_probe));
-+	exit_probe.exit_handler = ksw_stack_exit_handler;
-+	symbuf = (char *)ksw_get_config()->function;
-+
-+	ret = register_fprobe_syms(&exit_probe, (const char **)&symbuf, 1);
-+	if (ret < 0) {
-+		pr_err("register_fprobe_syms fail %d\n", ret);
-+		unregister_kprobe(&entry_probe);
-+		return ret;
-+	}
++	if (addr < stack_start || (addr + size) > stack_end)
++		return -ERANGE;
 +
 +	return 0;
 +}
 +
-+void ksw_stack_exit(void)
-+{
-+	unregister_fprobe(&exit_probe);
-+	unregister_kprobe(&entry_probe);
-+}
+ static int ksw_stack_prepare_watch(struct pt_regs *regs,
+ 				   const struct ksw_config *config,
+ 				   ulong *watch_addr, u16 *watch_len)
+ {
+-	/* implement logic will be added in following patches */
+-	*watch_addr = 0;
+-	*watch_len = 0;
++	ulong addr;
++	u16 len;
++
++	/* Resolve addresses for all active watches */
++	switch (ksw_get_config()->type) {
++	case WATCH_CANARY:
++		addr = ksw_find_stack_canary_addr(regs);
++		len = sizeof(unsigned long);
++		break;
++
++	case WATCH_LOCAL_VAR:
++		addr = kernel_stack_pointer(regs) +
++		       ksw_get_config()->local_var_offset;
++		len = ksw_get_config()->local_var_len;
++		break;
++
++	default:
++		pr_err("Unknown watch type %d\n", ksw_get_config()->type);
++		return -EINVAL;
++	}
++
++	if (ksw_stack_validate_addr(addr, len)) {
++		pr_err("invalid stack addr:0x%lx len :%u\n", addr, len);
++		return -EINVAL;
++	}
++
++	*watch_addr = addr;
++	*watch_len = len;
+ 	return 0;
+ }
+ 
 -- 
 2.43.0
 
