@@ -1,171 +1,118 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A1292DC790
-	for <workflows@vger.kernel.org>; Sat, 13 Sep 2025 01:51:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E9935968;
+	Sat, 13 Sep 2025 04:07:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757728319; cv=none; b=pHo4IxU5YEGPXvRB1IlAWrxaJRXR428ueUTODi2fm3yJN5pbdttWo1vBXeXyuVCz3c/tIuuNnKK1bFIz1Lk3jbI0tROcdr9RYTCBGLmrvPKWscdm076U68NCKS/EDRst6B9b7Qaw4sWbn3LAQX4YRIUvdCkMgId1y3z8ettTHPs=
+	t=1757736470; cv=none; b=a40kHDTc1CUdRoaw7jYIuKPN2mfPtR3Vq3wJ6UwBIdFttwlHSmf2j+O0sjxG3xx1BdAP3etWEevwYOPeuAQ0bC2AuTDNzORMwUCpJ/tdgFA/qjdtlTL6tqQE2XqlRCQU45IB64eWgIWRf9p/CZzkPURvmFe9srWpLLn/XupVVR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757728319; c=relaxed/simple;
-	bh=Bd3xa7qvg0cHicpoRmkRiHMwF02modqhnATszvtaJmI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=l/pb6oGGdJBlEzqnk/NwQ0w8KHpKx+r8tLugmsDd1RNo6XthK4UJlgTF8oM1Iq4WhMWTUlGV/ipGXHgDk6P24MHMYyFJ8Youbx4ZneCqeaXUE47vOKc6R9mCEeAzRB1nDXxsucqm1Fx3T+DPTj0Yx/QJqlrNLaDZBLp3m1/4C4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hfvnHAFk; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757736470; c=relaxed/simple;
+	bh=bzsI36RMc40NVQUbrU8x0jkLVmvncWaugvL4iQIAccU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=KQTb4wel1AMHpvEzk2ene8+rTsIjJxUYZfnQnsN9E2FuNxo63SmV+EazmyT11B0oI/2b96lxEg7MpbFcn7pUKGRittBESIPfnawMkD98Jk/A6bCht3Qb/MXrHsqNDmZUL/zuCUo2yxNkVop2GdTje1tw0bKNyZE75ynX+hkhzNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Zvj7+2VJ; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hfvnHAFk"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-77619f3f41aso933157b3a.2
-        for <workflows@vger.kernel.org>; Fri, 12 Sep 2025 18:51:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757728317; x=1758333117; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=uOjlByQVC/nCWh9bJ367rovAJ8X31B6cD0lHjcTI1/0=;
-        b=hfvnHAFkHuZdZX5MTXsWknndwHPi/WkJ6Vb+wajzCo8QxuWPvyK9fhLYTOm5bYaRV1
-         T2OtEGHtymAYF42LYdnwJPbOQogXhGw5IlVsyrPdSC6+PNzRQFxbtfqy+cxG0nYoUHUi
-         k8zKh5riLEOtVYjs9yUZl4egdsrXZjJ0Nh5Q24A9S8Za1N9JoOLXvLypDSbV5tAfMe0S
-         cnkKylQvMR1HAsJDNn0/Jq1uIWh6tpAWFrEUU1EnOC5Zn6VICGWw/uT94Hdgt6FXJ6LG
-         e70fnU//OLQ9sPZF324smQr8/i291VdrcNMmxbpgwaFlzhdTAKR6RBHzmR+fclcyqAcD
-         mj4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757728317; x=1758333117;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uOjlByQVC/nCWh9bJ367rovAJ8X31B6cD0lHjcTI1/0=;
-        b=ITWtX+pqXebrp9x7zb8ReN9DghvbBQ0DOkOKvGE23kQVr95BRw+JDlbX2QieAhlnX8
-         VNK46n1X+ttc8rdeYkEfypUtqfHwHZkZ2zwZfF7ACYGH+akMiUc1dKd0juuuBjrj56VF
-         5AhP0nDpvlZ7bsKCGfcPHyymXpAnMIKBA5wdrSWvr6f+pTo8hz2W9+y1d4AEO7H5GD5A
-         /upfa8VbFEwfnDTsZsdQa8bSwlrfX2wuAL2G4g/L5I+Khyt8ySdrLM515zeICN7mBq4F
-         Qv77USCo7kBnIb1l0OQY1lhGcHlGlSeparF8bQg5YEXYeClRiAzj9zi+NniSeO0i2QyY
-         YwhA==
-X-Forwarded-Encrypted: i=1; AJvYcCUgJQDvLtOgI9XBybn/7Yrb2qzwaZZiZwzmE45T7p3VVNwEZ8Nua30w/bQDrGdxgzEEjY4xk+q7rmM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7uOV4bJj5uDYQGfehWx89SchzwckUMMnOUnkUo+o1BrB1w/Qp
-	bjRkgSyudS3iddPCSHthXsfS4FW7MPhxwhKrf5GjvKPpQ5xKNsV8sh3F
-X-Gm-Gg: ASbGncsLGsvxQ7cNWYbtYCEX7W9ewc+jgJOvip2jhlFwAHFweDE4QtepfcoOFI9Wt7N
-	++Paer20TL6OZ71dpOU1WQTTfUQ+595I1+ch8GaYomcotffeLfRyasnqbznbbYz26gkn3fjhfhg
-	EKH5vOXunRVXryusz2QnzUokn6T2wwlrynI3inmr0x60EEw4FWvqxLotE/FS9pEjRXhNxF63xCD
-	3O6kO6jLy1JmglgfR/nKcumR8PTWf+bFOB8esccHTQf3tZB40MK2R4LVSPGlXVGjzoFeGspzB2y
-	bYV/wxaNsE8K+2zjqBfqdLJFdglR8FVUqUr+dcgn7r4QRH4CeaW69fksGIm4MxSZCIpZ8hhNoKg
-	SCq0jfpZlwQYv90ffyY7ZwGUUmn+wv92Fv3YN
-X-Google-Smtp-Source: AGHT+IHV3Gmoi6yseioPLrwq3DrMEU+n8Xy18gJFUsSkVU5Igc50YmYrzupI8zFPWLbedlP3rd/8RQ==
-X-Received: by 2002:a05:6a00:4f87:b0:772:31e2:b80b with SMTP id d2e1a72fcca58-77612089e72mr5170213b3a.11.1757728316577;
-        Fri, 12 Sep 2025 18:51:56 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7760793b5fasm6938008b3a.16.2025.09.12.18.51.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Sep 2025 18:51:55 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 67ECB4206928; Sat, 13 Sep 2025 08:51:53 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Kernel Workflows <workflows@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Dante Strock <dantestrock@hotmail.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH] Documentation: process: Do not hardcode kernel major version number
-Date: Sat, 13 Sep 2025 08:51:47 +0700
-Message-ID: <20250913015147.9544-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Zvj7+2VJ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
+	bh=ZkZpc5dBMnXI4POCZ2TCFFqEd7xijX/+QZHk6h+vWnA=; b=Zvj7+2VJQP1AUrM1oc0jI4D0df
+	kZLbrgoF6tWC1TSXrQCzaRwf64BcIFqWM9jqgctShxRWwA64Z3cH3ZJp9xtz/vExBAcClQcmfIZn7
+	yCcLB+AesJzDmEPSjA8I8PqMwPg+QtoHLtCCGQwR4t8mmkzazK/OjVldlPQMX7eK39OikaYuiFAkS
+	f3j34JKAUXKzXllob2T5kCBHPFSR85WlWQfJBGW6vvdYMXS8Z3QXIbkl5YsAeQ69QGvyvU6VGYXVL
+	zapYbucIouJWo+hLXEvQIBUIuwgelZEWHzU6JUYSd+NcP/fFDMoT6FMSctoEiTHXQLnPtkJJ7TQUx
+	RnGJ92cg==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uxHXd-0000000D5gz-1paw;
+	Sat, 13 Sep 2025 04:07:13 +0000
+Message-ID: <69198449-411b-4374-900a-16dc6cb91178@infradead.org>
+Date: Fri, 12 Sep 2025 21:07:11 -0700
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4599; i=bagasdotme@gmail.com; h=from:subject; bh=Bd3xa7qvg0cHicpoRmkRiHMwF02modqhnATszvtaJmI=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBlHzk7+lymaMcv69L4ruVXbLwpFq5y4y2gdNP1Z4fGzW kmLDzrO7ihlYRDjYpAVU2SZlMjXdHqXkciF9rWOMHNYmUCGMHBxCsBEHvoyMvxZNyP7iNaRZm0F cf9r1hIzV55R3cguFbD/k5LRuYLvV28wMpz8um5L+Ds1oZTXzUX7lp79Z8zXuSvJ4det9fed3jx kP8gIAA==
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 15/21] mm/ksw: add test module
+To: Jinchao Wang <wangjinchao600@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>, Peter Zijlstra
+ <peterz@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Alexander Potapenko <glider@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ "Liang, Kan" <kan.liang@linux.intel.com>,
+ David Hildenbrand <david@redhat.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Kees Cook <kees@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Sami Tolvanen <samitolvanen@google.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Masahiro Yamada <masahiroy@kernel.org>, Rong Xu <xur@google.com>,
+ Naveen N Rao <naveen@kernel.org>, David Kaplan <david.kaplan@amd.com>,
+ Andrii Nakryiko <andrii@kernel.org>, Jinjie Ruan <ruanjinjie@huawei.com>,
+ Nam Cao <namcao@linutronix.de>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>, kasan-dev@googlegroups.com,
+ "David S. Miller" <davem@davemloft.net>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ linux-trace-kernel@vger.kernel.org
+References: <20250912101145.465708-1-wangjinchao600@gmail.com>
+ <20250912101145.465708-16-wangjinchao600@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250912101145.465708-16-wangjinchao600@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The big picture section of 2.Process.rst currently hardcodes major
-version number to 5 since fb0e0ffe7fc8e0 ("Documentation: bring process
-docs up to date"). As it can get outdated when it is actually
-incremented (the recent is 6 and will be 7 in the near future), replace
-it with the placeholder.
 
-Note that the version number examples are kept to illustrate the
-numbering scheme.
 
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/process/2.Process.rst | 40 ++++++++++++-----------------
- 1 file changed, 17 insertions(+), 23 deletions(-)
+On 9/12/25 3:11 AM, Jinchao Wang wrote:
+> diff --git a/mm/Kconfig.debug b/mm/Kconfig.debug
+> index fdfc6e6d0dec..46c280280980 100644
+> --- a/mm/Kconfig.debug
+> +++ b/mm/Kconfig.debug
+> @@ -320,3 +320,13 @@ config KSTACK_WATCH
+>  	  the recursive depth of the monitored function.
+>  
+>  	  If unsure, say N.
+> +
+> +config KSTACK_WATCH_TEST
+> +	tristate "KStackWatch Test Module"
+> +	depends on KSTACK_WATCH
+> +	help
+> +	  This module provides controlled stack exhaustion and overflow scenarios
+> +	  to verify the functionality of KStackWatch. It is particularly useful
+> +	  for development and validation of the KStachWatch mechanism.
 
-diff --git a/Documentation/process/2.Process.rst b/Documentation/process/2.Process.rst
-index ef3b116492df08..668d5559ded039 100644
---- a/Documentation/process/2.Process.rst
-+++ b/Documentation/process/2.Process.rst
-@@ -13,24 +13,18 @@ how the process works is required in order to be an effective part of it.
- The big picture
- ---------------
- 
--The kernel developers use a loosely time-based release process, with a new
--major kernel release happening every two or three months.  The recent
--release history looks like this:
-+Linux kernel uses a loosely time-based, rolling release development model.
-+A new major kernel release (a.x) [1]_ happens every two or three monts, which
-+comes with new features, internal API changes, and more. A typical release
-+can contain about 13,000 changesets with changes to several hundred thousand
-+lines of code. Recent releases, along with their dates, can be found at
-+`Wikipedia <https://en.wikipedia.org/wiki/Linux_kernel_version_history>`_.
- 
--	======  =================
--	5.0	March 3, 2019
--	5.1	May 5, 2019
--	5.2	July 7, 2019
--	5.3	September 15, 2019
--	5.4	November 24, 2019
--	5.5	January 6, 2020
--	======  =================
--
--Every 5.x release is a major kernel release with new features, internal
--API changes, and more.  A typical release can contain about 13,000
--changesets with changes to several hundred thousand lines of code.  5.x is
--the leading edge of Linux kernel development; the kernel uses a
--rolling development model which is continually integrating major changes.
-+.. [1] Strictly speaking, Linux kernel do not use semantic versioning
-+       number scheme, but rather a.x pair identifies major release
-+       version as a whole number. For each release, x is incremented,
-+       but a is incremented only if x is deemed large enough (e.g.
-+       Linux 5.0 is released following Linux 4.20).
- 
- A relatively straightforward discipline is followed with regard to the
- merging of patches for each release.  At the beginning of each development
-@@ -48,9 +42,9 @@ detail later on).
- 
- The merge window lasts for approximately two weeks.  At the end of this
- time, Linus Torvalds will declare that the window is closed and release the
--first of the "rc" kernels.  For the kernel which is destined to be 5.6,
-+first of the "rc" kernels.  For the kernel which is destined to be a.x,
- for example, the release which happens at the end of the merge window will
--be called 5.6-rc1.  The -rc1 release is the signal that the time to
-+be called a.x-rc1.  The -rc1 release is the signal that the time to
- merge new features has passed, and that the time to stabilize the next
- kernel has begun.
- 
-@@ -99,13 +93,13 @@ release is made.  In the real world, this kind of perfection is hard to
- achieve; there are just too many variables in a project of this size.
- There comes a point where delaying the final release just makes the problem
- worse; the pile of changes waiting for the next merge window will grow
--larger, creating even more regressions the next time around.  So most 5.x
--kernels go out with a handful of known regressions though, hopefully, none
--of them are serious.
-+larger, creating even more regressions the next time around.  So most kernels
-+go out with a handful of known regressions though, hopefully, none of them
-+are serious.
- 
- Once a stable release is made, its ongoing maintenance is passed off to the
- "stable team," currently Greg Kroah-Hartman. The stable team will release
--occasional updates to the stable release using the 5.x.y numbering scheme.
-+occasional updates to the stable release using the a.x.y numbering scheme.
- To be considered for an update release, a patch must (1) fix a significant
- bug, and (2) already be merged into the mainline for the next development
- kernel. Kernels will typically receive stable updates for a little more
+typo:	                                        ^^^^^^^^^^^
 
-base-commit: f44a29784f685804d9970cfb0d3439c9e30981d7
+> +
+> +	  If unsure, say N.
+
 -- 
-An old man doll... just what I always wanted! - Clara
+~Randy
 
