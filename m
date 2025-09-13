@@ -1,182 +1,171 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1244DE555
-	for <workflows@vger.kernel.org>; Fri, 12 Sep 2025 20:21:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A1292DC790
+	for <workflows@vger.kernel.org>; Sat, 13 Sep 2025 01:51:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757708466; cv=none; b=IZvdSrVyJOomyiXSSTRCzQ4nbDpMuGXRutFWHPX0Rh0kfHDKMN519tONXAgYukzuHmBatZKzY2UKfT2aLLVqYe1/oKC0XzbuQ872L4fLGaQBRWhkV2XfG7jYbIkLpKpEbPATSr1rtH1FXYP9hmdTfl+nC4eBttAkw9H7IOtXHb0=
+	t=1757728319; cv=none; b=pHo4IxU5YEGPXvRB1IlAWrxaJRXR428ueUTODi2fm3yJN5pbdttWo1vBXeXyuVCz3c/tIuuNnKK1bFIz1Lk3jbI0tROcdr9RYTCBGLmrvPKWscdm076U68NCKS/EDRst6B9b7Qaw4sWbn3LAQX4YRIUvdCkMgId1y3z8ettTHPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757708466; c=relaxed/simple;
-	bh=ha5sACqI+T93S9hNt+6tg8vEBhnD3jRHwOofYElvPzs=;
-	h=Message-ID:Date:MIME-Version:Subject:From:References:To:Cc:
-	 In-Reply-To:Content-Type; b=PWw1dG7C315h6duYUtgOlm71mClpLQduw08unUSDNdzVvrzaTA9zfGafyHuDdrU5hO8H3+NkXAeQDbvWiY+tfF+IPz59aLVpQed62HZIosrOB+vP9iQ8+TMGOXUQRBE0a2VApezmN+Ob+vyhiR0TYI/RukCnYbswmeCam90OJto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=dpFzoYMZ; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1757728319; c=relaxed/simple;
+	bh=Bd3xa7qvg0cHicpoRmkRiHMwF02modqhnATszvtaJmI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=l/pb6oGGdJBlEzqnk/NwQ0w8KHpKx+r8tLugmsDd1RNo6XthK4UJlgTF8oM1Iq4WhMWTUlGV/ipGXHgDk6P24MHMYyFJ8Youbx4ZneCqeaXUE47vOKc6R9mCEeAzRB1nDXxsucqm1Fx3T+DPTj0Yx/QJqlrNLaDZBLp3m1/4C4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hfvnHAFk; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="dpFzoYMZ"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58CIAPNM001640
-	for <workflows@vger.kernel.org>; Fri, 12 Sep 2025 20:21:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	uh8HWFGgvQRh4YRN3fk73qzhec8r9FEUaHUe0C5PvU0=; b=dpFzoYMZG1v/fuZZ
-	2RiOHciNexepsOY2/E+q6hirgSIhID69Ou8BV9gf506j3uZg5Eyg1aOZTn3HJATt
-	izsRV0N8KIa63NihYzi/wdKIsjrvo3Q9Mstv6cveN0mG9y+W5uIkQAuk5nZ7SffF
-	SCpZcWhk1ehi5VrtLFFghTgdwVZiKX9kSYL7uICiT22ybmcz6YAkKtxsSRmAe46V
-	WsgpfZhH7ssf6RKCR/Cv3ITFT9Djgj10pxJzXJdkSQCZfcpynUiSJu1TjunZY4Tn
-	gHQFfBhtAm14Oyd3GlqhuFqV543caaNYYs6ltXn6svrV/nHakTrpOIqeRsCGuK+w
-	BSNxYw==
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 493f6h7snj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <workflows@vger.kernel.org>; Fri, 12 Sep 2025 20:21:04 +0000 (GMT)
-Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-76e2eb787f2so2227059b3a.3
-        for <workflows@vger.kernel.org>; Fri, 12 Sep 2025 13:21:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hfvnHAFk"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-77619f3f41aso933157b3a.2
+        for <workflows@vger.kernel.org>; Fri, 12 Sep 2025 18:51:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757728317; x=1758333117; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uOjlByQVC/nCWh9bJ367rovAJ8X31B6cD0lHjcTI1/0=;
+        b=hfvnHAFkHuZdZX5MTXsWknndwHPi/WkJ6Vb+wajzCo8QxuWPvyK9fhLYTOm5bYaRV1
+         T2OtEGHtymAYF42LYdnwJPbOQogXhGw5IlVsyrPdSC6+PNzRQFxbtfqy+cxG0nYoUHUi
+         k8zKh5riLEOtVYjs9yUZl4egdsrXZjJ0Nh5Q24A9S8Za1N9JoOLXvLypDSbV5tAfMe0S
+         cnkKylQvMR1HAsJDNn0/Jq1uIWh6tpAWFrEUU1EnOC5Zn6VICGWw/uT94Hdgt6FXJ6LG
+         e70fnU//OLQ9sPZF324smQr8/i291VdrcNMmxbpgwaFlzhdTAKR6RBHzmR+fclcyqAcD
+         mj4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757708463; x=1758313263;
-        h=content-transfer-encoding:in-reply-to:cc:to:content-language
-         :references:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uh8HWFGgvQRh4YRN3fk73qzhec8r9FEUaHUe0C5PvU0=;
-        b=RUlUN+WIt1Z+ZJ77dSBUGqfiV/MO1XIRGmq0te7uXqB1sbiJx1gfd2ug8kNlQy2U6Q
-         dpd2ayWVNl2Wowkf8b5iPDAulyfyIfKV4ZdqE4lf+thCrkoCc6hqomvVHA2usJ0EeDBV
-         Ls/bcB5Xq2z3MfIGrP9+TYmd8fLZXhVSlUfX76uk6NXnq6RTUpJT7xqYyXAXN3Fxhf8d
-         Oeg9eKreMKhWq42uVkmbn/jCEaFe9GqsGraqLo1TWN/2oOZEYymwr8cLWVpEX8SKy1Ws
-         a7eH9isk6rj+vfJn+5Acw3LaDKGMpkRYwvoSvlySoHGAcHXI4q4WOjVuUZiVx4FEEa39
-         fTOQ==
-X-Gm-Message-State: AOJu0YykuhWGBDL6BmatJMVyyxC8l7+oBn1AnTdDIONHD3IdbxRm41sU
-	uhtrdGCdPmKDo2KI232wAuaJ0ILmcLLgCGF2t402rc7N0TNtKy05/3xkeK0C7h3RMV6ACfsbUmK
-	pYp/Gc1abIWv6HTp0G7HA7TYf4f9kLwYa/O0obuLNJcrhx2stHlPo+qLNQnXnUoRgT3TgjAg=
-X-Gm-Gg: ASbGncsCcKsxGjdQOuzyjTMdPNSExOFxukeAVkPVL9oDqyHJABGpIQEU9+BJHi360a5
-	fhtrH1l6OQi3u900QUV0ETrPvStYidAsZQXGVWw5ON3YLPob674VlbG9xucz4P9YNBoYZpBWizw
-	dDKjzr7Q60dccYHXK2y5QGFu7ZETfnHkRyV31kPo17h99zoSAL3LDsvU42C+46QZ+//+/Yy08HQ
-	1s8tlgY41EXuHe6XNl6nHfzEwLtar6HFeH9y8rBwWvqfgGPx7bK4kjW5csIclEvWzhmf5hEnoA7
-	C32sRivtIfJiQi6GXe5wtXqOLSXZyQGHWKQiTPfcWqEzlnYiBzozji36lC5/fvuImqUNb/JNhD/
-	FjvTSRB8VKYzSIkZ5AWexg5I=
-X-Received: by 2002:a05:6a00:181e:b0:772:48c5:c75a with SMTP id d2e1a72fcca58-77612091649mr5033559b3a.13.1757708463029;
-        Fri, 12 Sep 2025 13:21:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFy9rA89rMg5iy1ZfZgFDowhXAj7A+YF9TJ6xmj3kp84CbPWPd2rihyHVZcOIc16agMz/VevA==
-X-Received: by 2002:a05:6a00:181e:b0:772:48c5:c75a with SMTP id d2e1a72fcca58-77612091649mr5033517b3a.13.1757708462327;
-        Fri, 12 Sep 2025 13:21:02 -0700 (PDT)
-Received: from [10.110.61.161] (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77607a46eedsm6317156b3a.30.2025.09.12.13.21.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Sep 2025 13:21:02 -0700 (PDT)
-Message-ID: <86bbc54c-3fc9-4c6d-9f93-b684634121bb@oss.qualcomm.com>
-Date: Fri, 12 Sep 2025 13:21:00 -0700
+        d=1e100.net; s=20230601; t=1757728317; x=1758333117;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uOjlByQVC/nCWh9bJ367rovAJ8X31B6cD0lHjcTI1/0=;
+        b=ITWtX+pqXebrp9x7zb8ReN9DghvbBQ0DOkOKvGE23kQVr95BRw+JDlbX2QieAhlnX8
+         VNK46n1X+ttc8rdeYkEfypUtqfHwHZkZ2zwZfF7ACYGH+akMiUc1dKd0juuuBjrj56VF
+         5AhP0nDpvlZ7bsKCGfcPHyymXpAnMIKBA5wdrSWvr6f+pTo8hz2W9+y1d4AEO7H5GD5A
+         /upfa8VbFEwfnDTsZsdQa8bSwlrfX2wuAL2G4g/L5I+Khyt8ySdrLM515zeICN7mBq4F
+         Qv77USCo7kBnIb1l0OQY1lhGcHlGlSeparF8bQg5YEXYeClRiAzj9zi+NniSeO0i2QyY
+         YwhA==
+X-Forwarded-Encrypted: i=1; AJvYcCUgJQDvLtOgI9XBybn/7Yrb2qzwaZZiZwzmE45T7p3VVNwEZ8Nua30w/bQDrGdxgzEEjY4xk+q7rmM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy7uOV4bJj5uDYQGfehWx89SchzwckUMMnOUnkUo+o1BrB1w/Qp
+	bjRkgSyudS3iddPCSHthXsfS4FW7MPhxwhKrf5GjvKPpQ5xKNsV8sh3F
+X-Gm-Gg: ASbGncsLGsvxQ7cNWYbtYCEX7W9ewc+jgJOvip2jhlFwAHFweDE4QtepfcoOFI9Wt7N
+	++Paer20TL6OZ71dpOU1WQTTfUQ+595I1+ch8GaYomcotffeLfRyasnqbznbbYz26gkn3fjhfhg
+	EKH5vOXunRVXryusz2QnzUokn6T2wwlrynI3inmr0x60EEw4FWvqxLotE/FS9pEjRXhNxF63xCD
+	3O6kO6jLy1JmglgfR/nKcumR8PTWf+bFOB8esccHTQf3tZB40MK2R4LVSPGlXVGjzoFeGspzB2y
+	bYV/wxaNsE8K+2zjqBfqdLJFdglR8FVUqUr+dcgn7r4QRH4CeaW69fksGIm4MxSZCIpZ8hhNoKg
+	SCq0jfpZlwQYv90ffyY7ZwGUUmn+wv92Fv3YN
+X-Google-Smtp-Source: AGHT+IHV3Gmoi6yseioPLrwq3DrMEU+n8Xy18gJFUsSkVU5Igc50YmYrzupI8zFPWLbedlP3rd/8RQ==
+X-Received: by 2002:a05:6a00:4f87:b0:772:31e2:b80b with SMTP id d2e1a72fcca58-77612089e72mr5170213b3a.11.1757728316577;
+        Fri, 12 Sep 2025 18:51:56 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7760793b5fasm6938008b3a.16.2025.09.12.18.51.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Sep 2025 18:51:55 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 67ECB4206928; Sat, 13 Sep 2025 08:51:53 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Kernel Workflows <workflows@vger.kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Dante Strock <dantestrock@hotmail.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH] Documentation: process: Do not hardcode kernel major version number
+Date: Sat, 13 Sep 2025 08:51:47 +0700
+Message-ID: <20250913015147.9544-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [RFC] PatchWise: Unified Static Analysis for Kernel Development
-From: David Gantman <david.gantman@oss.qualcomm.com>
-References: <3aa87758-1899-4f7c-aa17-2330e656a467@oss.qualcomm.com>
-Content-Language: en-US
-To: workflows@vger.kernel.org
-Cc: linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-In-Reply-To: <3aa87758-1899-4f7c-aa17-2330e656a467@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: m8jesHWu2eI_c7FkAS7HiioXJRxw0gwG
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTEwMDE3NyBTYWx0ZWRfX1bfse8AesyWK
- WEVMQuiwdEFYELNt8juWyzGPr7g+tIHJFqp+IsdRZjMHkR69eZKLrFkiynCtxsScBEw1SUJfBlG
- zvLFIa+2+zmXFaGZ5zFqchDeMBM19KYdNERMlYPzb8dX3xW74v92YmyKcaodoG/QEZirZrko2yK
- Dikz/QlLm8dl0ACkRNtRPQcM/wxojOp170dnvXJjBvQCI4Mth9FOxwlzKU+s1VOxpe2aFL7g3Dr
- XiobWqdGEeFQXrfBGm0N6Ca6ib9BQFMxNG11MmjjeMU5r1R9phXYn2DMb2lchHXk5+sNcV9/ZMa
- d6dej5Bhfy6KMTRzsKcm7LUTRFpwtHJoMtC8SQQ4K5QOI6JuCC3vJeZ0YJCc2CC9ioWlDC74Wsx
- 8TY5D+68
-X-Authority-Analysis: v=2.4 cv=WPB/XmsR c=1 sm=1 tr=0 ts=68c480b0 cx=c_pps
- a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=NEAV23lmAAAA:8 a=_2PzejVuNbwBRFFAgkYA:9
- a=QEXdDO2ut3YA:10 a=OpyuDcXvxspvyRM73sMx:22
-X-Proofpoint-GUID: m8jesHWu2eI_c7FkAS7HiioXJRxw0gwG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-12_07,2025-09-12_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0 clxscore=1011 priorityscore=1501 adultscore=0
- bulkscore=0 phishscore=0 suspectscore=0 malwarescore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2509100177
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4599; i=bagasdotme@gmail.com; h=from:subject; bh=Bd3xa7qvg0cHicpoRmkRiHMwF02modqhnATszvtaJmI=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBlHzk7+lymaMcv69L4ruVXbLwpFq5y4y2gdNP1Z4fGzW kmLDzrO7ihlYRDjYpAVU2SZlMjXdHqXkciF9rWOMHNYmUCGMHBxCsBEHvoyMvxZNyP7iNaRZm0F cf9r1hIzV55R3cguFbD/k5LRuYLvV28wMpz8um5L+Ds1oZTXzUX7lp79Z8zXuSvJ4det9fed3jx kP8gIAA==
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-Kernel developers and maintainers often need to manually run
-multiple static analysis tools (checkpatch, coccicheck, sparse,
-dt_binding_check, dtbs_check, etc.) and create custom scripts to
-consolidate results. This leads to:
+The big picture section of 2.Process.rst currently hardcodes major
+version number to 5 since fb0e0ffe7fc8e0 ("Documentation: bring process
+docs up to date"). As it can get outdated when it is actually
+incremented (the recent is 6 and will be 7 in the near future), replace
+it with the placeholder.
 
-- Inconsistent testing environments across different developers
-- Time spent writing and maintaining custom integration scripts
-- Missed issues due to incomplete tool coverage
-- Difficulty in reproducing analysis results
+Note that the version number examples are kept to illustrate the
+numbering scheme.
 
-I'd like to introduce PatchWise, a tool designed to address this
-fragmentation and manual orchestration of static analysis tools. I'm
-seeking feedback from the community on this approach and suggestions for
-how it could better serve kernel developers and maintainers.
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/process/2.Process.rst | 40 ++++++++++++-----------------
+ 1 file changed, 17 insertions(+), 23 deletions(-)
 
-Key features (All Optional and Configurable):
-- Unified interface for checkpatch, coccicheck, sparse,
-dt_binding_check, dtbs_check
-- Docker-based execution for consistent, reproducible environments
-- Simple installation and usage: `$ pip install patchwise` then `$
-patchwise` in your kernel tree root
-- Allows selective review execution (e.g., `$ patchwise --reviews
-checkpatch sparse`)
-- Supports both individual commits and commit ranges
+diff --git a/Documentation/process/2.Process.rst b/Documentation/process/2.Process.rst
+index ef3b116492df08..668d5559ded039 100644
+--- a/Documentation/process/2.Process.rst
++++ b/Documentation/process/2.Process.rst
+@@ -13,24 +13,18 @@ how the process works is required in order to be an effective part of it.
+ The big picture
+ ---------------
+ 
+-The kernel developers use a loosely time-based release process, with a new
+-major kernel release happening every two or three months.  The recent
+-release history looks like this:
++Linux kernel uses a loosely time-based, rolling release development model.
++A new major kernel release (a.x) [1]_ happens every two or three monts, which
++comes with new features, internal API changes, and more. A typical release
++can contain about 13,000 changesets with changes to several hundred thousand
++lines of code. Recent releases, along with their dates, can be found at
++`Wikipedia <https://en.wikipedia.org/wiki/Linux_kernel_version_history>`_.
+ 
+-	======  =================
+-	5.0	March 3, 2019
+-	5.1	May 5, 2019
+-	5.2	July 7, 2019
+-	5.3	September 15, 2019
+-	5.4	November 24, 2019
+-	5.5	January 6, 2020
+-	======  =================
+-
+-Every 5.x release is a major kernel release with new features, internal
+-API changes, and more.  A typical release can contain about 13,000
+-changesets with changes to several hundred thousand lines of code.  5.x is
+-the leading edge of Linux kernel development; the kernel uses a
+-rolling development model which is continually integrating major changes.
++.. [1] Strictly speaking, Linux kernel do not use semantic versioning
++       number scheme, but rather a.x pair identifies major release
++       version as a whole number. For each release, x is incremented,
++       but a is incremented only if x is deemed large enough (e.g.
++       Linux 5.0 is released following Linux 4.20).
+ 
+ A relatively straightforward discipline is followed with regard to the
+ merging of patches for each release.  At the beginning of each development
+@@ -48,9 +42,9 @@ detail later on).
+ 
+ The merge window lasts for approximately two weeks.  At the end of this
+ time, Linus Torvalds will declare that the window is closed and release the
+-first of the "rc" kernels.  For the kernel which is destined to be 5.6,
++first of the "rc" kernels.  For the kernel which is destined to be a.x,
+ for example, the release which happens at the end of the merge window will
+-be called 5.6-rc1.  The -rc1 release is the signal that the time to
++be called a.x-rc1.  The -rc1 release is the signal that the time to
+ merge new features has passed, and that the time to stabilize the next
+ kernel has begun.
+ 
+@@ -99,13 +93,13 @@ release is made.  In the real world, this kind of perfection is hard to
+ achieve; there are just too many variables in a project of this size.
+ There comes a point where delaying the final release just makes the problem
+ worse; the pile of changes waiting for the next merge window will grow
+-larger, creating even more regressions the next time around.  So most 5.x
+-kernels go out with a handful of known regressions though, hopefully, none
+-of them are serious.
++larger, creating even more regressions the next time around.  So most kernels
++go out with a handful of known regressions though, hopefully, none of them
++are serious.
+ 
+ Once a stable release is made, its ongoing maintenance is passed off to the
+ "stable team," currently Greg Kroah-Hartman. The stable team will release
+-occasional updates to the stable release using the 5.x.y numbering scheme.
++occasional updates to the stable release using the a.x.y numbering scheme.
+ To be considered for an update release, a patch must (1) fix a significant
+ bug, and (2) already be merged into the mainline for the next development
+ kernel. Kernels will typically receive stable updates for a little more
 
-Optional AI-Powered Review Features:
-PatchWise also includes optional AI-based code review capabilities that
-aim to overcome a key limitation in automated patch review: limited
-context. When enabled, the tool uses Language Server Protocol (LSP)
-integration with clangd to:
+base-commit: f44a29784f685804d9970cfb0d3439c9e30981d7
+-- 
+An old man doll... just what I always wanted! - Clara
 
-- Generate compile_commands.json for accurate code understanding
-- Fetch relevant function definitions, struct declarations, and related code
-- Provide context-aware feedback rather than superficial pattern matching
-- Support multiple LLM providers (OpenAI, etc.)
-
-Important note: All features including AI code review can be selectively
-enabled and disabled based on user preference.
-
-Technical Architecture:
-- Python 3.10+ with pip installation
-- Docker-based isolation for tool execution
-- LSP integration for deep AI code understanding
-- YAML-based configuration
-- Rich logging and debugging support
-
-Source code and current status: https://github.com/qualcomm/PatchWise
-
-Upcoming improvements include patch series support and Docker-based
-dependency management for each tool. Open tasks and planned features are
-documented in the GitHub issues for visibility and collaboration/
-
-Feedback Requested:
-- Tool Integration: Are there other static analysis tools you'd
-like to see supported?
-- Workflow Integration: How could PatchWise better fit into your
-existing development and review workflows?
-- Output Format: What formats would be most useful for your use
-cases?
-- AI Features: For those interested, how else can AI code review and
-commit text analysis be improved?
-
-Try it out:
-$ pip install patchwise
-$ cd /path/to/your/kernel/tree
-$ patchwise  # Analyzes HEAD commit with all available tools
-$ patchwise --reviews checkpatch sparse  # Runs only specific tools
-
-The goal is to eliminate the need for custom scripts to consolidate
-kernel test tools, while offering optional advanced features for those
-who want them.
-
-Thanks,
-David
