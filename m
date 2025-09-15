@@ -1,68 +1,83 @@
-Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5AA3279DD8
-	for <workflows@vger.kernel.org>; Mon, 15 Sep 2025 19:23:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C819628314A;
+	Mon, 15 Sep 2025 19:29:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757964192; cv=none; b=GPduOOizziaI8MaKuY5deptRhDBMg2dBZui4HfLfAY9sogyIV5TEQ1RhQP7NIruNuOviYdINNh2rU1WaL4BjpywiwLzfvku2vNxI5ZI3HU5Y09RMLFJ3oMjqOaNppIu0u3MHhsgVZ2C5OB6vTIkzMbv2tq0c15lOm3LqS5ZIO1M=
+	t=1757964557; cv=none; b=gGZSo426IxdvYWnoGv0ttMjuZXfj6DwBZLb7RzFC7m2KoeLfsnfYgQLduFttd3xSGeubbXI38H0dky+Jbx3cKuLbgqe1gyLALYI+SKs7LS6nHrD2BHpWqhoehJ+UsL8uG63xERqBVdxZyiyuTTLu5Yyjrtj+TQtB7m8wQW48ZBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757964192; c=relaxed/simple;
-	bh=W8Q38kFVsBIoz8sNsqTlUe7KEtxqSfJERsmB70nLqXA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AM5G4ip6pQDV11Lt1mLTAc4RNq1eBh8xTZvSSz2Bsi+PIN1/0KM52DJU0x5EMYDwERcsQG2leStNgkv+aSPMxX26tvvmUWTk+yk6SyR2lozDBYURg6NqmhEhJ5OP/xT0W8V/+0E6CozAz/GvVmCygL5Izrivo/gFv6y6LubMufk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=LmPF9JVO; arc=none smtp.client-ip=95.215.58.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1757964557; c=relaxed/simple;
+	bh=W+5vxPZXQflnKrX9eGh5fWsCigAJNqd3stTJWQmEEi0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=T2+HvYq8oYM5zc5NskzPWT/gQthLc7FdzwujUtrE+2ePJN6KjkdHnDA/2CxJbJIT7U5vKJ5E8wASCd760+/YCdKlhehq8uIC7QDldVmVGYh5t5KXP6WqFGLFnwgkWBa3TlwBNampjS2H1vX78oKHdUhdvoEoTlQT2nEXrZ17UMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WFhWm1/g; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="LmPF9JVO"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1757964187;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=iN6AS850SFtDs7hMHQsmgAQjrwDZ6R8BHKVWKsXsyGo=;
-	b=LmPF9JVO6qRR1kAfc55bbNNRBFw4I3pa00HBSqIYtzy9oOvUXBf57rSx6hu6XrnFHltTPD
-	1aTbKfb4eGRdzUK40UnDnzeFfSm8cMDSq8BTPisuuUg/Folxl7f75J28Kk4biZVRcjGKvE
-	9kQ/PJHjKN72b2AXYDJPNw3gwTbO1QY=
-From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Thorsten Blum <thorsten.blum@linux.dev>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: maintainer: Fix capitalization
-Date: Mon, 15 Sep 2025 21:22:35 +0200
-Message-ID: <20250915192235.2414746-2-thorsten.blum@linux.dev>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WFhWm1/g"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=ZbQp6a6Zj/MsZULZi4Bi7x/UTatlCEOy3h1PtigaPRU=; b=WFhWm1/gMVCa86Z7w19EVIu7JH
+	I9OBrJxo/xqGxBa24IYE2MHatDqU56lhTVaRFcftVBwzkLaQzr44Ne06H1o/wsHZWOLDcfHsGatx9
+	Ke2zfUT+VE7kV8xIbbU7NFtetOONtzVIzyEg15w7OC9j2qrhUcZQrmjeePk9kXOgL1TyxSG4Lpy3R
+	y1H7hFEmecYEB0snDyhYiAtr+I1vMv+6GK8PVvNHZddGBe7dJiwOMPk0ZrXZZUUGJqSnzEhBhMHUh
+	5VsuMXHvYXwB7ogSVVAsO+Qe6L2jBU0he1BNCvOm0wb6fHCkIzBiWKC8CT+lRqjZavFgjiNcgUqOu
+	pi3N2jRA==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uyEsw-00000005VZR-2VpN;
+	Mon, 15 Sep 2025 19:29:10 +0000
+Message-ID: <c85881bd-a159-4bb3-9615-b87ce4ab0575@infradead.org>
+Date: Mon, 15 Sep 2025 12:29:10 -0700
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: maintainer: Fix capitalization
+To: Thorsten Blum <thorsten.blum@linux.dev>, Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250915192235.2414746-2-thorsten.blum@linux.dev>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250915192235.2414746-2-thorsten.blum@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The sentence starts at the previous line: s/Indicate/indicate/
+Hi,
 
-Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
----
- Documentation/maintainer/maintainer-entry-profile.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 9/15/25 12:22 PM, Thorsten Blum wrote:
+> The sentence starts at the previous line: s/Indicate/indicate/
 
-diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
-index cda5d691e967..f411a0d10fad 100644
---- a/Documentation/maintainer/maintainer-entry-profile.rst
-+++ b/Documentation/maintainer/maintainer-entry-profile.rst
-@@ -68,7 +68,7 @@ wait for the next -rc. At a minimum:
-   submissions should appear before -rc5.
- 
- - Last -rc to merge features: Deadline for merge decisions
--  Indicate to contributors the point at which an as yet un-applied patch
-+  indicate to contributors the point at which an as yet un-applied patch
-   set will need to wait for the NEXT+1 merge window. Of course there is no
-   obligation to ever accept any given patchset, but if the review has not
-   concluded by this point the expectation is the contributor should wait and
+Are you sure?
+ISTM that the entire line is a "sub-heading".
+
+> 
+> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+> ---
+>  Documentation/maintainer/maintainer-entry-profile.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
+> index cda5d691e967..f411a0d10fad 100644
+> --- a/Documentation/maintainer/maintainer-entry-profile.rst
+> +++ b/Documentation/maintainer/maintainer-entry-profile.rst
+> @@ -68,7 +68,7 @@ wait for the next -rc. At a minimum:
+>    submissions should appear before -rc5.
+>  
+>  - Last -rc to merge features: Deadline for merge decisions
+> -  Indicate to contributors the point at which an as yet un-applied patch
+> +  indicate to contributors the point at which an as yet un-applied patch
+>    set will need to wait for the NEXT+1 merge window. Of course there is no
+>    obligation to ever accept any given patchset, but if the review has not
+>    concluded by this point the expectation is the contributor should wait and
+
 -- 
-2.51.0
+~Randy
 
