@@ -1,161 +1,106 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 366781C4A20
-	for <workflows@vger.kernel.org>; Mon, 15 Sep 2025 02:03:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8C1A2DA776;
+	Mon, 15 Sep 2025 11:26:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757901796; cv=none; b=AgvO+XXJczgywsNMVRJPZH3ac0xwtGdxrrQhH9JNpP6so4jtL0PEggtOg8IPNC1pvhCQgFhSUD7OByQa/yNnxqrzDRCBexQslLma2ZrvyVRwjkfjreNb5PTJv1agEXwMndbr4CcOTa5lclfgaqFLwr6qo3hrMueM5UMKtWFpKxk=
+	t=1757935606; cv=none; b=CD7aVyCAleR73xGey07ze7Z1c7Izce/+5DJDmtwqZHNC7l2T/2MHjaFMu+m6sdxQMHAiW3K4hquTKG70nVnI6K8wK8XWNS1mtVowXWioNlL30ATYtKmU7HXlvh93quyQjqXMaoSFtjjkFBN/wa6dDPfKiEzuAhLhgvsyB6NerUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757901796; c=relaxed/simple;
-	bh=dwEnk+JUy+plSH589xKHA8fu3lw4UwydsjYzisg/b04=;
+	s=arc-20240116; t=1757935606; c=relaxed/simple;
+	bh=MTehY0L7uXZCtPEzcuwk4qrp/9Xzk7WlwWtRRzf69nM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hwa2V16luiLWx60/7GJOaEKZ1T2vzfjabluFRZFcBQ5relmwLryYK+mYQE7d4gq/63oIAx0FJ+Dcc6/Z9EF46HnIscCmComlMcCzDJGOOlkn74+PbmZbobUFrlOifjWdc3SW2O/NiiO/iPERLL7HQ6aLHRSkguJ7NBdcyu6pEzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rv6Idl0y; arc=none smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=XYaVmfaaq2LHhHTjlvmyyGdU37q4YRd55kmwJojeOs9JjYCkzgF9UZH8zr3JnwjnEbaKNi1Y27v3E/sD+2SgIiK0lQbPAtcuNFFjwfuxSQhTGKRMz2bq3Zvzsv5o10NV40ld0gWJc8+E8jZY7a0Sswwm7TMpyr+uQPycKjkBArc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ja2DteoC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rv6Idl0y"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7704f3c46ceso3116731b3a.2
-        for <workflows@vger.kernel.org>; Sun, 14 Sep 2025 19:03:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757901794; x=1758506594; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JOygL22yeiI/c6chOsAL099+jLfX4ygYuBDAjkKbT5k=;
-        b=Rv6Idl0yeeUOlPmqKUtz99fVG07ZJdK2iN/x3ppIkVirqgGRBiGaAJsS/gnAgadRW0
-         2auYQj+tMxYTlIoF3pS6eG7e4fykWm070s/MSdZ/vDGvnpg956lXJVdmuhc4Wl9x7Wm9
-         p97QO3U7X2RALUZCRBXTtpvco+axu40xlvQX/k6D9rgIs4ontpY2Y+Wn9phfKhloIfZj
-         D4qOOF1XTJeACiU1dS9iPRHGY9FLSoiTd/iHGFQ9g7o5iJ0CzwZvxLWs5LtZ2yx7az1c
-         e3Lbn16MUqWOppXSDk+aAcgRD5/dzkXnBnkinscXYgLi4he3Gml1pJBGjnX6HSF+JgwA
-         8Xbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757901794; x=1758506594;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JOygL22yeiI/c6chOsAL099+jLfX4ygYuBDAjkKbT5k=;
-        b=NXZ0zjL4XCRS6U/ISs8RAMnhS3eKBYbdnv11BPYINd2tkwn3Tn1lFph1vIx8eKgRYX
-         0BIlnNUs2YhNjvVJ8dontDVXSaPIfdfOQMElXpZwKnuH9tk+hsSxC5mENHZ5zkvUQUyp
-         xyd8ZAXIGkun8TMlFirp2jtF65Elr8MrAWZt4UPnHoY3/kv+PPMmcIC4qDjDwEXIxjSs
-         YmbWRoYZ1svGtaetujO0POfmspMzvkDTYpo6rKchnPs7wCwz6Nls0XdWPsFgfSW4DpJ+
-         yV2s6Q8bAFd4oGqY5CO9vZA2gdejXIAalRn14HuROthJF5dLfK2h3Zw3ec69TjifgTgt
-         1iQA==
-X-Forwarded-Encrypted: i=1; AJvYcCWb8r4RdgyHSF+XD4ZwcqrPiFDU7Gis7o6KfH45MOcBUsqHY8N26xc+j1tOudLsZfhBqXpfgZ70+To=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz5G61FD/s1saghoyEHeYeCB2JSb+eL2UPvgVCSPpJNejkY7MDI
-	hGGTDsi9pboyz+YCU857uvYJegrlRC91/wdYWsj4utga1UqaA/8NFgcf
-X-Gm-Gg: ASbGncuErxV4KxwGlDVaiOzgwfrbpPvJUTAzgJHVjcywvg6D4B+IKy2KxHqCWU7mSyO
-	TLGKCJ1r5VAeZ6cKVA2uU8jQIIukm3fqdp6gy1RqY9GTG9rPohOn96VOJsm7UTpoqjheIvZbzVQ
-	gJ+jIwW3UGSQvxwQ+ke+sug0PRoQtNBlhQS7D85leajpt5FCHnhdFKeExuNDTSm3XCNVRCChgMB
-	XckwzTgt2bqnHXXZ3FIHNHVfRFpBRwcxXqzoemufmKm1gvnSSgewAK5DW2RiUiHWa6oG3kjsC1Q
-	/vZ4UUkH6mXI/hGk7wH+bYWsKUmaqRBF7W0MC3on32m1zTAD1aT6n6rXrnUzByuScbklKiKuXmR
-	PKTLu57usbj9Zrou8t0mKjfQG5354m6Us+uBPTCs=
-X-Google-Smtp-Source: AGHT+IEeqkh40QJM9zjJ8HL43W+1enVBlgkaCaBCrqZXNAUnxXXVQNA79eZr3zdQ3nIBlPPQ1opd6Q==
-X-Received: by 2002:a17:903:f85:b0:260:5bab:8cad with SMTP id d9443c01a7336-2605babb245mr90876965ad.29.1757901794287;
-        Sun, 14 Sep 2025 19:03:14 -0700 (PDT)
-Received: from localhost ([185.49.34.62])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-261333a972dsm51596705ad.75.2025.09.14.19.03.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Sep 2025 19:03:13 -0700 (PDT)
-Date: Mon, 15 Sep 2025 10:03:06 +0800
-From: Jinchao Wang <wangjinchao600@gmail.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Alexander Potapenko <glider@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	"Liang, Kan" <kan.liang@linux.intel.com>,
-	David Hildenbrand <david@redhat.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>, Rong Xu <xur@google.com>,
-	Naveen N Rao <naveen@kernel.org>,
-	David Kaplan <david.kaplan@amd.com>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Jinjie Ruan <ruanjinjie@huawei.com>, Nam Cao <namcao@linutronix.de>,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
-	linux-mm@kvack.org, llvm@lists.linux.dev,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	kasan-dev@googlegroups.com, "David S. Miller" <davem@davemloft.net>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 15/21] mm/ksw: add test module
-Message-ID: <aMdz2gMb5YC3G3md@mdev>
-References: <20250912101145.465708-1-wangjinchao600@gmail.com>
- <20250912101145.465708-16-wangjinchao600@gmail.com>
- <69198449-411b-4374-900a-16dc6cb91178@infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ja2DteoC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 799B6C4CEF5;
+	Mon, 15 Sep 2025 11:26:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757935606;
+	bh=MTehY0L7uXZCtPEzcuwk4qrp/9Xzk7WlwWtRRzf69nM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ja2DteoCLWBcoQe/EXbxKqauAGJ4iwyxNYv7AoxghgC5mJ3xo4QWm9XvLYKDjZ6pL
+	 vfY0ONPbDs4dBFqb0QVkKsXSCBPamLAC2bsu2eqXKZ8EBqT8FBwOCZaO5dGjtG0tj1
+	 YWviD32b6yhr9MeWyDhlIAJxGgxoEgXOk1MwhrIM/1mupxfww5bN6SoQMkM0F4dfYf
+	 3cu++4MzXsD5TUxXRYrcF9Nh7RBC2/H5/jkdeu53vm1iCx6jZrSnIgS9ZLfXbYaxyM
+	 /JZKnl/j/UUxTHxsewbiFWDiv9pOGs5rlabExKW30rF/th9HC7ks5po4RBkXIpzXCm
+	 1Sq4ZkKh+l/Pg==
+Date: Mon, 15 Sep 2025 12:26:41 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+	konstantin@linuxfoundation.org, axboe@kernel.dk,
+	csander@purestorage.com, io-uring@vger.kernel.org,
+	torvalds@linux-foundation.org, workflows@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [RFC] b4 dig: Add AI-powered email relationship discovery command
+Message-ID: <6e25b2e7-67a2-4a92-95d5-adb279e811a7@sirena.org.uk>
+References: <20250905-sparkling-stalwart-galago-8a87e0@lemur>
+ <4764751.e9J7NaK4W3@workhorse>
+ <aMLlMz_ujgditm4c@laps>
+ <4278380.jE0xQCEvom@workhorse>
+ <aMMpqojURAZa7cPU@laps>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="NgoFlW9mbzgjnno5"
+Content-Disposition: inline
+In-Reply-To: <aMMpqojURAZa7cPU@laps>
+X-Cookie: We've upped our standards, so up yours!
+
+
+--NgoFlW9mbzgjnno5
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <69198449-411b-4374-900a-16dc6cb91178@infradead.org>
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 12, 2025 at 09:07:11PM -0700, Randy Dunlap wrote:
-> 
-> 
-> On 9/12/25 3:11 AM, Jinchao Wang wrote:
-> > diff --git a/mm/Kconfig.debug b/mm/Kconfig.debug
-> > index fdfc6e6d0dec..46c280280980 100644
-> > --- a/mm/Kconfig.debug
-> > +++ b/mm/Kconfig.debug
-> > @@ -320,3 +320,13 @@ config KSTACK_WATCH
-> >  	  the recursive depth of the monitored function.
-> >  
-> >  	  If unsure, say N.
-> > +
-> > +config KSTACK_WATCH_TEST
-> > +	tristate "KStackWatch Test Module"
-> > +	depends on KSTACK_WATCH
-> > +	help
-> > +	  This module provides controlled stack exhaustion and overflow scenarios
-> > +	  to verify the functionality of KStackWatch. It is particularly useful
-> > +	  for development and validation of the KStachWatch mechanism.
-> 
-> typo:	                                        ^^^^^^^^^^^
-Thanks, will be fix in next version.
-> 
-> > +
-> > +	  If unsure, say N.
-> 
-> -- 
-> ~Randy
-> 
+On Thu, Sep 11, 2025 at 03:57:30PM -0400, Sasha Levin wrote:
 
--- 
-Jinchao
+> We've started[1] the workflows@ list (which is how I stumbled on this thr=
+ead)
+> about 5-6 years ago when the concern from multiple maintainers was that w=
+e all
+> have our magical scripts, they are seriously ugly, and everyone are asham=
+ed of
+> sharing them. So this list was an effort to get the ball rolling on folks
+> sharing some of those ugly workflows and scripts in an attempt to standar=
+dize
+> and improve our processes.
+
+> I've shared this very hacky b4-dig script as exactly that: I have a very =
+ugly
+> bash script that addresses some of the issues Linus brought up around bei=
+ng
+> able to find more context for a given patch/mail.  I use that script ofte=
+n, it
+> helps me spend less time on browsing lore (no, dfn: won't find you syzbot
+> reports or CI failures), and it just "works for me".
+
+This seems like a great example of a situation where the suggestions
+=66rom one of the other thread of asking people to clearly mark when patch
+submissions are using these tools would have helped - had the submission
+described the above then the Python level review would've gone a lot
+differently I think.  Realising during review is a totally different
+experience to being told up front.
+
+--NgoFlW9mbzgjnno5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjH9/AACgkQJNaLcl1U
+h9A7Wwf/beY2mgQEzSNuH//PeCC2wwtz5SKeaxX3/H7dBle9cqLQag46TsbxYgkZ
+ahjRVZP44x/QoF10zwmVQ31vBVKlcGi78TBmmjpUrAMkPn5GZTMdBrTotUwnqyJE
+uqaPDhU3LC9Q5M0HKJtfV0ntBrZIVVDGYQxcU89GED5m/ZFmZF6NDejJWDW87K96
+8P9e+2Eqt4fB3qQqkRJSdeFfTMGnIW0KZEjyMN/KAydh6X1paG6rPXNUTtgRAybl
+1crvZGjC3Ag959QcKjB/VbEeIJjk5SWq+jXfg7+ofMTN/7AAWa3Vz7E7AODz7ptn
+Z7o5X8IjxnNtnKyMrlemCresCauiWQ==
+=Zh1E
+-----END PGP SIGNATURE-----
+
+--NgoFlW9mbzgjnno5--
