@@ -1,91 +1,100 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A3D2DC78E;
-	Tue, 16 Sep 2025 03:37:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54F3E285C98;
+	Tue, 16 Sep 2025 16:07:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757993868; cv=none; b=ku3G4aFkvjDPtid6eZLE1KuwwaX5d49iFVaUypYaKb+bzfrLlgT5VthXpLCYwcbuz/j+j9EBWd+pdeuywW2+Dqj6qVIXzZSThFK+KwAQOOBop6l0eSa3u0SJpGHkR6oYYg23izb3wowWZ314a3N0TAeWQor85TYzI4B4y13PiR8=
+	t=1758038839; cv=none; b=NQ0DaTVqaHN4FAt6wwYqKXDi0FsBAZ5ybywdvxy8S4Y27Bfn5dwmZafWkv6igTze+mFPuqAYJUkGOFfxeimAlf84Xg2kZ+ypT4JR6nMAXxaZgl+Fft6I6PYCe7SDsV23Lyple2aH9lW9l8AkODaX0qtfbEu0AK+Fwx7Eqmg2574=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757993868; c=relaxed/simple;
-	bh=DnwM+DNIezG6uRTSjV7Xuwxap01opZOQvveqLeHwhSI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=H1cpGHKoQ0gZWkkVWmh66FHDLcFDyGly6ni3KpsZHUaJ1LzNtCGwnNcEfeRgmo7XGpaXXcBU94T/v8trxbQznXgk1NQxdUIpUOmVeMi2kKpsEHzfC38g5Ko6kF/Iwvx9JtRDlvwftVReTNJZVvRmM/Xr8aqBWY8ms3ccRZjlVJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BHxiUCsG; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1758038839; c=relaxed/simple;
+	bh=kMJqNMCJNOVmtXLnOBtOnyQmmRYIqBImTttfwm1qHvE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Uih0cELbXswoPYnwkABdGGclGJs/wc0rHmJh8Au4bWR3I7QRQIQKgItw30f4XdOnxWJwknjdaby2S9dwBHq4y08184Elv15rJ+mY3Yljh1Xi2YdAgdsJInqow9P+R/CbirhoiSmH1k3ygEjqJhJNSDbbmW0GhgoGNWLgdJ96m44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Prnrg91n; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BHxiUCsG"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=SHXVcB+MgSUzgb/L1IQrcZLOr0QNwhlIqJqUrwYWeO4=; b=BHxiUCsGkhz9h2MCiKe/6rfi4f
-	9ocEA7IgI0qGOI7u5kbNalRUV4ikPE/99AD4hKAhlb5QLuANIxMulKo4J5u917QHU7s9mCYocHOpH
-	4LG5mCXMusxDSV/A6f6y+Sw3E5L6yVfO54TkYu64UTI7iUwpvfCZr8i5gz09StGOk4WggGvflHmvb
-	VSdksX9CVv0S3ExapoAEsognAW3OyrXRrcBRvz4w18xymYkT+dSezDpNdvRgEbqjUBroCPb3PkCwF
-	lA7ghjKyot10FNHgK+pWOrKnkwfLycZZ/l4gOblCUc4C9KlgDjZo0hpvts78+r2vHqYdtBJ+tuTnH
-	7kHBPNyA==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uyMVh-00000006bqf-2j4o;
-	Tue, 16 Sep 2025 03:37:41 +0000
-Message-ID: <6a2f324d-5be3-48d4-a787-2c3bc76a56ad@infradead.org>
-Date: Mon, 15 Sep 2025 20:37:40 -0700
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Prnrg91n"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5119140ADA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1758038837; bh=NSZkUbt1a8rV14ly3m5h7t1U10pewL0kns7Nz8f3xVs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Prnrg91nrzCwhi/XheSDRiWhldfBwlIdZ4ppB53h7Z4dMvcPNR6HjxBX3SxOpgI82
+	 Gh/z/AS22cb9XGeNmCjGq2zvrSn17v7TCOjk8aIwksvxjraX2UR+kvHsfrM6GI1oho
+	 y/Pa6i6LoRcqdQBBefTrQMjH7+8PCVUedXcJqELcG5Nuae+PiC7/4v0mM7grHFPP3X
+	 rZAUC9XL6Vu5bHokTLg8eve5hdU6jYd3WvnJ4C0IZ2zGWDOoxJtykirZN+evbyvtQi
+	 wB26CeLEa9375thWKXzkCvOG09utby2GRh0IPpSA1aFjnR2ZrXTyNulM3oJUNc9pE0
+	 9C/GwDD07eSSA==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 5119140ADA;
+	Tue, 16 Sep 2025 16:07:17 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>, Linux Kernel Workflows
+ <workflows@vger.kernel.org>
+Cc: Dante Strock <dantestrock@hotmail.com>, Randy Dunlap
+ <rdunlap@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Re: [PATCH] Documentation: process: Do not hardcode kernel major
+ version number
+In-Reply-To: <20250913015147.9544-1-bagasdotme@gmail.com>
+References: <20250913015147.9544-1-bagasdotme@gmail.com>
+Date: Tue, 16 Sep 2025 10:07:16 -0600
+Message-ID: <87tt12e5zf.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: maintainer: Fix capitalization
-To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Dan Williams <dan.j.williams@intel.com>
-References: <20250915192235.2414746-2-thorsten.blum@linux.dev>
- <c85881bd-a159-4bb3-9615-b87ce4ab0575@infradead.org>
- <E32E7460-02E4-4E85-8482-E91D3FD12253@linux.dev>
- <8a9b2f36-963a-4d10-9aa1-10f8dcb4bc31@infradead.org>
- <DBCAF005-F4C6-44D2-8DB3-71B002501770@linux.dev>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <DBCAF005-F4C6-44D2-8DB3-71B002501770@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
+> The big picture section of 2.Process.rst currently hardcodes major
+> version number to 5 since fb0e0ffe7fc8e0 ("Documentation: bring process
+> docs up to date"). As it can get outdated when it is actually
+> incremented (the recent is 6 and will be 7 in the near future), replace
+> it with the placeholder.
+>
+> Note that the version number examples are kept to illustrate the
+> numbering scheme.
+>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  Documentation/process/2.Process.rst | 40 ++++++++++++-----------------
+>  1 file changed, 17 insertions(+), 23 deletions(-)
+>
+> diff --git a/Documentation/process/2.Process.rst b/Documentation/process/2.Process.rst
+> index ef3b116492df08..668d5559ded039 100644
+> --- a/Documentation/process/2.Process.rst
+> +++ b/Documentation/process/2.Process.rst
+> @@ -13,24 +13,18 @@ how the process works is required in order to be an effective part of it.
+>  The big picture
+>  ---------------
+>  
+> -The kernel developers use a loosely time-based release process, with a new
+> -major kernel release happening every two or three months.  The recent
+> -release history looks like this:
+> +Linux kernel uses a loosely time-based, rolling release development model.
+> +A new major kernel release (a.x) [1]_ happens every two or three monts, which
+> +comes with new features, internal API changes, and more. A typical release
+> +can contain about 13,000 changesets with changes to several hundred thousand
+> +lines of code. Recent releases, along with their dates, can be found at
+> +`Wikipedia <https://en.wikipedia.org/wiki/Linux_kernel_version_history>`_.
 
-On 9/15/25 1:06 PM, Thorsten Blum wrote:
-> On 15. Sep 2025, at 21:43, Randy Dunlap wrote:
->> On 9/15/25 12:35 PM, Thorsten Blum wrote:
->>>
->>> On 15. Sep 2025, at 21:29, Randy Dunlap wrote:
->>>> On 9/15/25 12:22 PM, Thorsten Blum wrote:
->>>>> The sentence starts at the previous line: s/Indicate/indicate/
->>>>
->>>> Are you sure?
->>>> ISTM that the entire line is a "sub-heading".
->>
->> After I sent this I saw that I should have added that it's ambiguous
->> and needs some formatting help, so I'm not surprised to see this:
->>
->>> Hm maybe, but then the layout/rendering on the web is very confusing:
->>>
->>> https://docs.kernel.org/maintainer/maintainer-entry-profile.html#key-cycle-dates
-> 
-> I think the entire line is meant to be a sub-heading. If it were a
-> single sentence, it should be either "Deadline ... indicates" or
-> "Deadlines ... indicate", but not "Deadline ... indicate".
-> 
-> Maybe the author of 4699c504e603 (cc Dan Williams) can confirm this?
+I have to admit that I'm not at all convinced that this change brings
+clarity to the document; using real numbers grounds the text in a way
+that "a.x" does not.
 
-I think all that is needed is a blank line after each of these sub-headings.
-That makes the html output readable and more understandable.
-Would you submit that patch, Thorsten?
+If we really think it's embarrassing to still say "5.whatever" here,
+perhaps we should just change it to "9.whatever" and be good for a long
+time?
 
-thanks.
--- 
-~Randy
+Thanks,
 
+jon
