@@ -1,34 +1,33 @@
-Received: from forward101a.mail.yandex.net (forward101a.mail.yandex.net [178.154.239.84])
+Received: from forward100a.mail.yandex.net (forward100a.mail.yandex.net [178.154.239.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98DB92FCC02;
-	Wed, 17 Sep 2025 17:37:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F8CF2FE57C;
+	Wed, 17 Sep 2025 17:37:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758130668; cv=none; b=NivbVMr6I564bKg3UNQzL8olhMEXGDTnAZBkN4Ja+j0ns0HfhCevBrPevaa7n5AJjyFofULjiCUKkAnWoVyKaBnqh/PS8bNyAcnby2WiGFRdFtnZ9Z5lTyV0/xPaYSzYpZ2mWGV2dcuD5gW44s889W0H52TfSapDeIpE/3TUeVQ=
+	t=1758130669; cv=none; b=QHtWNDt97DAqbuily/pe4Ghz+Y2NVVv2jJsuWWgbjXoJbLKUnXkX7+iFw4PGLiQlGo2L1GK0ELvGVvxy2QxRoUouKXUEvRSZ+QQL5Z6OK1Q+jjkLWtmjx6/IgJyj2dLmOv/R+uxvQ2TBl5fx0/ol+1Kzwf7WOsKYnuLcLuIGeQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758130668; c=relaxed/simple;
-	bh=FeHc2ONr7s04G4Tg/b/11N/b224Jf+60qRqcE40KnqA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=afjvhpAsBjeqSQ9HaKzYRA6Cc/xtIhdEYsLyY+buyKAeKZlyS0QbPAHqvtnTV1HUHmX6Z+ziONP+XGuoPZvTPPPbYQ6cKPgoXo63+UkEpkwL/3Pjk5rd+zD1rlz3tHGNdjcudDvfgWF85EqmW0A77iUelPWwVb8fKRx6+k52e4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=onurozkan.dev; spf=pass smtp.mailfrom=onurozkan.dev; dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b=SelNXlLX; arc=none smtp.client-ip=178.154.239.84
+	s=arc-20240116; t=1758130669; c=relaxed/simple;
+	bh=dkqb8s/BOFFYgBdG5QRqv1643pBP6w+U36kFuzpo/AI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fldv/784AssvLk0f6lRLOAg5J9dMegXzrutObBKZxGjQed1IoYpKXLxlqWpV6FXLhNY2RiBw1n8L6zy1XHiWBNlnu4aZVjgCWdL/16wldORolt4fefnd4q3uzi6uNYtaCYn7IuewqujzQHuHj7lYfRhy6t3oF8AVcGcQ6yva3i4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=onurozkan.dev; spf=pass smtp.mailfrom=onurozkan.dev; dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b=NAezXF+h; arc=none smtp.client-ip=178.154.239.83
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=onurozkan.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onurozkan.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b="SelNXlLX"
+	dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b="NAezXF+h"
 Received: from mail-nwsmtp-smtp-production-main-68.vla.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-68.vla.yp-c.yandex.net [IPv6:2a02:6b8:c1d:3d8d:0:640:b127:0])
-	by forward101a.mail.yandex.net (Yandex) with ESMTPS id 9D33C804BE;
-	Wed, 17 Sep 2025 20:37:42 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-68.vla.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id QbVY4BEMvqM0-mtIkOX9L;
-	Wed, 17 Sep 2025 20:37:41 +0300
+	by forward100a.mail.yandex.net (Yandex) with ESMTPS id C3D65C003C;
+	Wed, 17 Sep 2025 20:37:38 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-68.vla.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id QbVY4BEMvqM0-hhqJFHSL;
+	Wed, 17 Sep 2025 20:37:38 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onurozkan.dev;
-	s=mail; t=1758130662;
-	bh=FHA5v4PLTpxfi6OmrXgAH87gu7nGTp+EMy8vrMv+SVA=;
-	h=Cc:Message-ID:References:Date:In-Reply-To:Subject:To:From;
-	b=SelNXlLXJNz9b+6uAZEwM/oAtoQmGYYKpI0/IQgMgIHlB9l7yzyLcMoO5eHj7sJwc
-	 27yywaPXA2L58QhdMC7O79bR0filHEo+WsfsJg2QFJxTj/FRQrUYRZy+QN6CSB2TZR
-	 6ltc6A9rjIgEhg8AhQq3eoVx5NefY4buASypd6Zc=
+	s=mail; t=1758130658;
+	bh=PIbd5726Zt39TgRCAWlru596MC6caJ75PRkgzEXl/4k=;
+	h=Message-ID:Date:Cc:Subject:To:From;
+	b=NAezXF+hgus4pnqogHyH5/0bEXmjpvCLdiH3SkeO12nbbwbV2fw3Sb/5P9IgBjS7t
+	 NLOSmU0WhWGFkgxUwv+gnXpK9ox7FL01N06kNxLPd3eHGRSdaYGAWH0eNsE30kuclb
+	 DQ5+fuhQEE8XQg1bNhQU8Xz57SsZjL4R/Kdw6AjM=
 Authentication-Results: mail-nwsmtp-smtp-production-main-68.vla.yp-c.yandex.net; dkim=pass header.i=@onurozkan.dev
 From: =?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
 To: linux-kernel@vger.kernel.org
@@ -40,12 +39,10 @@ Cc: apw@canonical.com,
 	workflows@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
-Subject: [PATCH v2 2/2] checkpatch: document new check PLACEHOLDER_USE
-Date: Wed, 17 Sep 2025 20:37:25 +0300
-Message-ID: <20250917173725.22547-3-work@onurozkan.dev>
+Subject: [PATCH v2 0/2] checkpatch: add new check PLACEHOLDER_USE
+Date: Wed, 17 Sep 2025 20:37:23 +0300
+Message-ID: <20250917173725.22547-1-work@onurozkan.dev>
 X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250917173725.22547-1-work@onurozkan.dev>
-References: <20250917173725.22547-1-work@onurozkan.dev>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -55,35 +52,18 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Adds documentation for the new check PLACEHOLDER_USE
-in checkpatch.
+Changes in v2:
+  - The check is documented in Documentation/dev-tools/checkpatch.rst file.
+  - Used ERROR instead of WARN on detection.
 
-Signed-off-by: Onur Özkan <work@onurozkan.dev>
----
+Onur Özkan (2):
+  checkpatch: detect unhandled placeholders in cover letters
+  checkpatch: document new check PLACEHOLDER_USE
+
  Documentation/dev-tools/checkpatch.rst | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ scripts/checkpatch.pl                  |  7 +++++++
+ 2 files changed, 17 insertions(+)
 
-diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index d5c47e560324..4dccd1036870 100644
---- a/Documentation/dev-tools/checkpatch.rst
-+++ b/Documentation/dev-tools/checkpatch.rst
-@@ -1245,6 +1245,16 @@ Others
-     The patch file does not appear to be in unified-diff format.  Please
-     regenerate the patch file before sending it to the maintainer.
- 
-+  **PLACEHOLDER_USE**
-+    Detects unhandled placeholder text left in cover letters or commit headers/logs.
-+    Common placeholders include lines like::
-+
-+      *** SUBJECT HERE ***
-+      *** BLURB HERE ***
-+
-+    These typically come from autogenerated templates. Replace them with a proper
-+    subject and description before sending.
-+
-   **PRINTF_0XDECIMAL**
-     Prefixing 0x with decimal output is defective and should be corrected.
- 
 -- 
 2.51.0
 
