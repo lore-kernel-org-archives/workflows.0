@@ -1,65 +1,65 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F0CF221F1A
-	for <workflows@vger.kernel.org>; Thu, 18 Sep 2025 03:37:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0C8230BCC
+	for <workflows@vger.kernel.org>; Thu, 18 Sep 2025 14:47:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758166630; cv=none; b=So3LehlYEWzooNc9Nmorj+ehVsiryDe3fO9pHzD7jqlgzaqCLYAao5I/ZupZbVQW6uvcwqnYVZIfEnhjPZN+Sp2ldUr3LfCF72KvSe//ltJWdeFb1KKeTVLKXov1jgoOAU43g6M4EN1Uk1Q6yiUxbEK4jz8WXohgEMunMiVol2M=
+	t=1758206861; cv=none; b=WXFYiVTvQzsKMUvdE2sSMnoBXOjglCJA0V9ZnfzoQfVR1mmAC531XqyGNWUP1XJNF88KkagZ/HUlJSlFGSlkn0tP5Z9ybO4+fS75aJkgByofllbgb0iI+4+uY5BVtGRlGlkUMhJ0gFu3AIng10L34/aKG+B4ZSeGElnqurdrbsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758166630; c=relaxed/simple;
-	bh=9C03DLqVam0PMQ5zQvKRtpPgWSCbOXBvesI9otPqIac=;
+	s=arc-20240116; t=1758206861; c=relaxed/simple;
+	bh=bp6ZfJ0qmcI9UpGfhH4hd2SDVX5ketoj669JKK5M7cs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YYtwlZjf8fIXz/unM5KXWGBmRuV9Nzi+kx9B7LdcT/S9XDRBPmgrBu+lJPdaNbT8owuj+qM6uA8UD2A2+1P/wEmfZHTI+n2JLy+z7s8+HwBND8rh1rzAP8kxLgagDP2yMaygT4lAWItebhTiw1AzpgA/c0edRegV/x0LT6zV9pY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CyjaCCFM; arc=none smtp.client-ip=209.85.210.178
+	 In-Reply-To:Content-Type; b=RaYKDcaSeHC9k+7af3l7boDwBUT8QDd38yyEan0mqEVAoMidyvIN07//1sqUq/JLjseAod2uVNgCs9LbHFvkD5Q7tN7dV9FUyxOuHxMlbDvRQ2zUc12KT87He0J0rgY5NgRr4nJUidaMdYefpLV9P21nAoqZiZovM4/XW4H9weA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gHE1KfcP; arc=none smtp.client-ip=209.85.167.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CyjaCCFM"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7761e1fc3faso530682b3a.1
-        for <workflows@vger.kernel.org>; Wed, 17 Sep 2025 20:37:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gHE1KfcP"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-578985fe017so180447e87.3
+        for <workflows@vger.kernel.org>; Thu, 18 Sep 2025 07:47:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758166629; x=1758771429; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1758206858; x=1758811658; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=TF674HGcYaIoheg5UicmzGQj1rC1+tAHApzvaBkmnHM=;
-        b=CyjaCCFMsSJQmxy/dvAow5LCxNX0QHDQWHwnhas9bpGq0V7QLitd4KUuYcRhMNBciD
-         1Yu6ZKVsRHbORzRWl4hpJ0y23ZhC80kG1w3t32EAZ+023KjvoiCyarOpjGDdq9q98mCt
-         hrxQN+DmlbXmIm3LAu3e+IilSgCi2jJQEPNgSOaWLLYR5w7F113r0Rryfu2TOwWv5oTO
-         3eUQp7e0GqD3GxEdj6vRxulMbYFZrEpUxwyw92uwZ6+JmUjceFzfXrcW6L85y3z/qmSU
-         EshjnhiCr7vPjEpsYwwcb5R7syTMVDMjqWPYcxK7lXCmfe24J64jlfCaGpRoovMMQVXi
-         Hcog==
+        bh=UZUVA/eN8y4jUWH55g8+vAZUWm6iD5IWuaZ9B1DTE0Y=;
+        b=gHE1KfcPEabveVF7P4S9usDMQEfoiJj4C6YJ1Iwp6aCNGk06Ma3GlTj+YKulEk2oWQ
+         TP9pg5jjyYN6OxQpnxpQW+ZuhKfk09uNGPT8425PzjzDrzwWQfO7IVENO78ZRVuUywe4
+         QrroVyGNH6mIZ1VlvwsSN9nOzDKU6FN4ff5DQdtW+FnQ1ckMyfH6ZRfJOV1zF3dScYpB
+         03dnWRNVOJcSWrYEK8ZlO76QR/rXjrve2NPGapOvc+oL8MgADSaItybnEhlWLoT55+pf
+         qYbgIh1s6hUgOQFxoeqoxtf0cXEXPASLouCcZjodFbz4c62Xg1jZ0eFOMJbg8ZV+PfBh
+         pYww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758166629; x=1758771429;
+        d=1e100.net; s=20230601; t=1758206858; x=1758811658;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TF674HGcYaIoheg5UicmzGQj1rC1+tAHApzvaBkmnHM=;
-        b=wTHcc5uoqwV88aZVkoSbq+R0YkR8t7120CFCV+rsFcxeka1gkCPIh2EW8Ttdm6tOwd
-         AJccoifDwjREHvTvn1KBZgXP/SyNVZ8HqXlxS99XSP09dpxztmPJZ+5EsAksMC3PCKPP
-         UDW+ITlY+PQVceYpVuqzkZpInMvlhQSJnOKe0EgxXwiuI4hWHS4wHxGa+BtczKApRmTf
-         Oz9mZqf3ytL+WS7Sgrzu+oVc7SaajYdrLwQ5MsfxOqheK6mcbZouI+xRmGpnvfBDBYrI
-         /B1LX4aIP2KiBLegdLJH1ehUm+APeiQfCn1mtsM8XPW+L91GtnOiq+TufonQp2J2gUOo
-         3Jtw==
-X-Forwarded-Encrypted: i=1; AJvYcCUB5Juunhq1nwBcXBR2ghwFJFD4zq+b1xh6JruFOVHUUlbWXj3Jd6SjUPknT1FTtnTECqoUcxkLKAo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyokMzOKt4caHisffriqr8HueOLTFhTrRS4BOc48iTjBTiPF5aF
-	jH/PFHeItEpG+sj4bFd+aJ7gVxR+xa0IFp4Dazfl7Toq8q563xLkB/sl
-X-Gm-Gg: ASbGncshkLjS5Q9ePzgGiCqwdErr2bAXdP8LVh8yIgkKOde3VYKBgUJQz5R2Mkjd9YK
-	7NREdCkw/5eCqpHxD5zdVGm26moMWV9d4si/5eQwn4+05DBMEoAPWJU9H4e7Glw1jywOTmrrCW0
-	wVm0EKFQzjfj2i0T5zyl5USbUhSfsBgHN3FfhdPsG7FqaM0oiyhUjUoQGTRH4MpbC+ezjep9a5T
-	k2ychwx8XDhUDHG7IULUBsDoUyExbEwhf9hBl4KhW0imvQE28IL1R2PD+IOdcyM/VMfVW6+ZMk7
-	cL9IUUAmaOzO0jWqqXxMfR7i/JdNZcJ+6EgW/Pmz9IjuF2BI4/yGbIpSeU1e30bzkgVmzz9DLDx
-	bfVhW2ulyz/Qs6GrC5CxAw1/5akjZyTcCGDwiwtpVBJDC3JxE
-X-Google-Smtp-Source: AGHT+IFwCt9Dk2w/Kc41woD7GbmfS0MNDCknMwgPCNYn1sxPeLrZNLvTpZDQKV7/BLybgiTCHSJJ1g==
-X-Received: by 2002:a05:6a00:2d9b:b0:772:6493:7e67 with SMTP id d2e1a72fcca58-77bf75ba331mr4842784b3a.3.1758166628542;
-        Wed, 17 Sep 2025 20:37:08 -0700 (PDT)
-Received: from [192.168.0.150] ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77cfe75ef24sm873845b3a.55.2025.09.17.20.37.06
+        bh=UZUVA/eN8y4jUWH55g8+vAZUWm6iD5IWuaZ9B1DTE0Y=;
+        b=YClcyChHhT0saEhgFRP6TgecQxFsi7x19gIYE+TRVCy2Xv1U0a4Reb2x0yoZyTJhcS
+         XiFSCJ0iNlabx4YZJlePwa2Ts0+3FpBR/KEmlUM1QZzrO8mNKyusm0D+vnD7+b9U78ZL
+         CBWN5gmHd6jh3NGkdMvSDwgZvzus9GUihruGLzWF68Xvbgw8RnNAEL463/OCGp2dgKfh
+         ThZdHxQK1HqDbvmJ2Zjg/8MwJS1k5NDdPpXoM94kbItlAYBrxl1fKI4EwsuLEbbJ0RE5
+         NxvHroiac+3UIHoU2A6/aW6+/QY2w0Rp2n1anc8KwfHbzBSjaxTTbGoOJYAL0LO+Poo0
+         4Z+A==
+X-Forwarded-Encrypted: i=1; AJvYcCW0x1c/n52U2jxLeq2YYV5LrfvVQhYh0WfUfKiltRZCcdm0B+HZxYgfGlQgJ+lBNoAVSPIWndmabxI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0GGwMAdcDKD6Po5apNyQfI1RpFub1pwC4eTISuiuwSFq/0Cdt
+	9miIm/LG4TWTlKwOYQM6rDnCTsooPH3r0LiZPEl/bAlNhEBL81NLmXjh
+X-Gm-Gg: ASbGnctvEDKIoN/6hyKykSSWOb82mlW26ozmrjU52bgrpZWpfDMUXzTm1+vGLoEvGaS
+	SF5vEqujZFn4AD6vAS5l5tyBxRosJ8nDW9q30Ppk1Tu58mQsprH4oF6nr4nJrh3owfsLFJBnkcs
+	+ZYhPJim8/i9TZPiIL+Wx1detN0lqrYJeygU1i3P+UpaVyqdmiQ7Nn0/5lB7XsYk7kCE1h9bO1v
+	efsELiHqE3uWGfTC1wwSVHzNqET6hacMz8iO0SXp6hjqHzJJEXmZ0JLE5vMx/Qe918PJveKiB7s
+	FKCp7LD3Xjmg++8K8X7bynLc9rfB83gYmia6K0SMG3QZ++OPZD1bzpg6kKXpXQRvLMqJu1I5xv7
+	mSyleC2Dul0s0FWzq8r7YljfPPLtBuMaKzFuWAULQ8iHM4kM=
+X-Google-Smtp-Source: AGHT+IHtJnmg7xLHWlbfBgfrch0goPM4i92u7CS5SbTFZ6QT2H9sZ6KAdWepbZ79ubW13IVKUYf9fw==
+X-Received: by 2002:a2e:b8c5:0:b0:336:7747:72e with SMTP id 38308e7fff4ca-35f66df191emr9476411fa.3.1758206857314;
+        Thu, 18 Sep 2025 07:47:37 -0700 (PDT)
+Received: from [10.214.35.248] ([80.93.240.68])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-361a2f7ebcesm6234871fa.29.2025.09.18.07.47.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Sep 2025 20:37:07 -0700 (PDT)
-Message-ID: <2b00ff29-fd35-42fe-83d9-73811356b73e@gmail.com>
-Date: Thu, 18 Sep 2025 10:37:05 +0700
+        Thu, 18 Sep 2025 07:47:36 -0700 (PDT)
+Message-ID: <dcd0c9be-5a52-480e-8447-ebb0a028edec@gmail.com>
+Date: Thu, 18 Sep 2025 16:47:33 +0200
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -67,35 +67,48 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: process: Do not hardcode kernel major
- version number
-To: Jonathan Corbet <corbet@lwn.net>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux Kernel Workflows <workflows@vger.kernel.org>
-Cc: Dante Strock <dantestrock@hotmail.com>,
- Randy Dunlap <rdunlap@infradead.org>
-References: <20250913015147.9544-1-bagasdotme@gmail.com>
- <87tt12e5zf.fsf@trenco.lwn.net>
+Subject: Re: [PATCH v8 1/2] kasan/hw-tags: introduce kasan.write_only option
+To: Yeoreum Yun <yeoreum.yun@arm.com>, glider@google.com,
+ andreyknvl@gmail.com, dvyukov@google.com, vincenzo.frascino@arm.com,
+ corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org,
+ akpm@linux-foundation.org, scott@os.amperecomputing.com,
+ jhubbard@nvidia.com, pankaj.gupta@amd.com, leitao@debian.org,
+ kaleshsingh@google.com, maz@kernel.org, broonie@kernel.org,
+ oliver.upton@linux.dev, james.morse@arm.com, ardb@kernel.org,
+ hardevsinh.palaniya@siliconsignals.io, david@redhat.com,
+ yang@os.amperecomputing.com
+Cc: kasan-dev@googlegroups.com, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
+References: <20250916222755.466009-1-yeoreum.yun@arm.com>
+ <20250916222755.466009-2-yeoreum.yun@arm.com>
 Content-Language: en-US
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <87tt12e5zf.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+In-Reply-To: <20250916222755.466009-2-yeoreum.yun@arm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 9/16/25 23:07, Jonathan Corbet wrote:
-> I have to admit that I'm not at all convinced that this change brings
-> clarity to the document; using real numbers grounds the text in a way
-> that "a.x" does not.
+
+
+On 9/17/25 12:27 AM, Yeoreum Yun wrote:
+> Since Armv8.9, FEATURE_MTE_STORE_ONLY feature is introduced to restrict
+> raise of tag check fault on store operation only.
+> Introduce KASAN write only mode based on this feature.
 > 
-> If we really think it's embarrassing to still say "5.whatever" here,
-> perhaps we should just change it to "9.whatever" and be good for a long
-> time?
+> KASAN write only mode restricts KASAN checks operation for write only and
+> omits the checks for fetch/read operations when accessing memory.
+> So it might be used not only debugging enviroment but also normal
+> enviroment to check memory safty.
 > 
+> This features can be controlled with "kasan.write_only" arguments.
+> When "kasan.write_only=on", KASAN checks write operation only otherwise
+> KASAN checks all operations.
+> 
+> This changes the MTE_STORE_ONLY feature as BOOT_CPU_FEATURE like
+> ARM64_MTE_ASYMM so that makes it initialise in kasan_init_hw_tags()
+> with other function together.
+> 
+> Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
+> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
 
-I think that's a good alternative idea.
-
-Thanks.
-
--- 
-An old man doll... just what I always wanted! - Clara
+Reviewed-by: Andrey Ryabinin <ryabinin.a.a@gmail.com>
