@@ -1,113 +1,74 @@
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F90B25D1E6;
-	Mon, 22 Sep 2025 08:15:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758528920; cv=pass; b=kEGtRyr02LrtKsLSrG4WpJGTULwiHVfbN/OAm9Mu43ZEmF30+XENpT/93hkFfgblyBhZ68i7vjwHqJR2ibW28oF0JS10qCaFWk8yYeVAHt+gzyxBPC8ipJojvx2M1V7BqlAfThXFG9zklqy2uYUlKE7v23u8Y/dYQVRR+jYF4S4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758528920; c=relaxed/simple;
-	bh=hVyKfbOvMIS+Z2BtByrXURm/o+WKQHysqSr/Qh9nN8Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=etUN8X/lK0QbmYucqPHmC6WobVjKdHBGRFDw4ZhXmOOCHozDmMTtjt7jJ6FeH6qO/oNqw3wfl+wbObfLKxCSECE8/o4uceLOeJ7jkT32fTqQXjhdoRIsKgYsLNGLlye4EnEe1g3TM5eQB1PsvonfhVlI3Vv6lKYW1sj4v5ceKOA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=FUKSHOBP; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 578B53081C1;
+	Mon, 22 Sep 2025 12:53:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758545632; cv=none; b=nrscvOHRml06Kh8wi2jzS0eyKpnSsxLEd8nNDqrwI5INTY7ctIAX9p7OUzLBtZ97YZVhjRmr/5SVzeC3ZBQZidBv4wElAYlkRuBA3betN64kAbWjFhub2awgc1Rt89uP+wkgYnUEBgMUiIjc5CZK4TVqR3vEf+/Y/sKHolY9cnM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758545632; c=relaxed/simple;
+	bh=LfoJQ8S0OE5Gm+JpV4NFrZ6MM77Y90rkMiXBOjFpSV4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=T61/GjcaGpE34AyOMx0LiKjCKqJlE/EZJ2UfyPLLhL35nifaGA2gY3tUs7ds8SvHfZghT8prCckjSWeC9H44RD44woYLNGID2aC9elvccx6mCJxwOCqr9LEW+EvC0Yi7RofcKjtp8JnqCuh2HQUU9U62H9cgnBurcwtycNOTFLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Csm8zjyF; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="FUKSHOBP"
-Received: from hillosipuli.retiisi.eu (91-158-51-183.elisa-laajakaista.fi [91.158.51.183])
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Csm8zjyF"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 432B3406FB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1758545628; bh=LfoJQ8S0OE5Gm+JpV4NFrZ6MM77Y90rkMiXBOjFpSV4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Csm8zjyFSoEVN6aoDpsECH6QrfIsz6YXB3jPBegIYDypWaIfKLGoCTWXSz+mKio+D
+	 nK7hLzfPdgVBAvzuv8696U0fSi6e1J2vOnWV95vtFtOEKX/k0ON2pqUB5MjRzKeugG
+	 fJuHQpDzKhttt1zNiQa2HHoWnUcQpGRK7vCuR0DU+ZNBHeh8vV/BLhXYNKfXOV8vfD
+	 1eB4QDnmnSfp73U58+FkzrdiNJOaoldReoMpBtaTKyE1FaFZhqlcEGGWpau2QQAHvk
+	 KOpmDCijepaU7hpqjru6S6393TaVV11q+7wJZ85iQxj0WlnxaBqv/pR0cG2UfOPJmZ
+	 5xEuY86MVrQvg==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4cVbWc67GQz49QG5;
-	Mon, 22 Sep 2025 11:15:08 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1758528910;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Oa1+u/rSXZ2NnLW3G4hQDJz9GKJpQQQU1oY/bd0Ns/s=;
-	b=FUKSHOBPT/5Khqi1Ou7FuOrukCRp9nge98Q2pgHW9GHkd7H1BD/fi9e2Z3abJpfDYE/M4t
-	Fhvv+vA1ENmQbFGwHNJDydrb32Ti7xYKeK/xnAYK/pRXrvNzHyGubrDmBi4Dk2ZzrwdDXg
-	gHrgSXJ0v9d1LZjO1uYGz8DPtf5NAd6ZvMBOG8YEn1sgN+A7QJL99O/32YLecylH7D5Odu
-	NrBFpev9N5/5KE40+LrYIVfU2/Mrs+Vb3VpuoVWcYePU2rYxG4fAD49AcqA8JEa48oE5SI
-	QbKf6WP+b9YKPGOp+u0VTjL60zgFu+yTj4zli9CeujNXiHQ6sK+QVEjssPlg1w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1758528910;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Oa1+u/rSXZ2NnLW3G4hQDJz9GKJpQQQU1oY/bd0Ns/s=;
-	b=mpXAp37H56k+cot584MrFfNtijzDUrEASg4YmcAfGcgzD/1iqoahP81X6NUpCr4Ht7byk4
-	nSYFgCS9ORHQg0gTvKAqHm+rEQ7m+JDbETFVzMzwECACDHbHkBBKptLGrTeuICgCxKM3QD
-	A0ff5Uc4ht1dNin8kwiJ7Gpy9mw1Pqrc7gyz5ui59gOjgMyZLtNd747fAD8xULXC0uxstL
-	/Lxnj9lPkfHJyhXpUNBmJb3ZKUp4dl17bGtMli+KyZJyNv6N2zk/ZmAxhZh5Bw7/J7Foey
-	x0z8rPh2E8An/Q+WzCzBon8PkzOhJ7NlaSUo6tt2srd5JKHV4fPyLYgq+DSH1w==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1758528910; a=rsa-sha256;
-	cv=none;
-	b=tvR5iCiPgDiljgxrQvf4zlLi9ZcOB39vfwMCuuio73x3l7AAZy4vuohuz5YoZsrrMNieZF
-	yVv26c8j/9us+q41cP7SF40Ph2Ycx0/dFfMUrl0l0pL8PSYbQ7XlVggYdg9qWeUrfJyO0w
-	cVSLgsoItIgzIBa4IiXSD1WGHtjSRGdKJV10pVsDFQBSjNAKYX7eYD5bF7TkyXoYQJ939Z
-	p2mMrRkZstCA/78qHtNK0ONqYh0uoh5lETxaSRvzME22zwNngNPjSZtyh6TQuHBFu7ak0m
-	W7Fk0jZwZOlQ3Wpe2Uw7xS8QNUlAB7NiUOqAUkhP7EsPxOWue+Jylx6yhIr66A==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 27E4F634C97;
-	Mon, 22 Sep 2025 11:15:08 +0300 (EEST)
-Date: Mon, 22 Sep 2025 11:15:07 +0300
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, workflows@vger.kernel.org
-Subject: Re: [PATCH v5 0/5] multicommiters model documentation
-Message-ID: <aNEFi4e5szfbJu4X@valkosipuli.retiisi.eu>
-References: <cover.1756807237.git.mchehab+huawei@kernel.org>
+	by ms.lwn.net (Postfix) with ESMTPSA id 432B3406FB;
+	Mon, 22 Sep 2025 12:53:48 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>, Linux Kernel Workflows
+ <workflows@vger.kernel.org>
+Cc: Dante Strock <dantestrock@hotmail.com>, Randy Dunlap
+ <rdunlap@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Re: [PATCH v2] Documentation: process: Arbitrarily bump kernel
+ major version number
+In-Reply-To: <20250922074219.26241-1-bagasdotme@gmail.com>
+References: <20250922074219.26241-1-bagasdotme@gmail.com>
+Date: Mon, 22 Sep 2025 06:53:47 -0600
+Message-ID: <87h5wu8x7o.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1756807237.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain
 
-Hi Mauro,
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-On Tue, Sep 02, 2025 at 12:02:17PM +0200, Mauro Carvalho Chehab wrote:
-> This is a respin over the latest discussions with regards to the media
-> multicommitters model.
-> 
-> On this version, some texts were improved after Sakari's review.
-> 
-> Mauro Carvalho Chehab (5):
->   docs: maintainer-pgp-guide.rst: add a reference for kernel.org sign
->   MAINTAINERS: fix a couple issues at media input infrastructure
->   docs: media: update maintainer-entry-profile for multi-committers
->   docs: media: document media multi-committers rules and process
->   docs: media: profile: make it clearer about maintainership duties
-> 
->  Documentation/driver-api/media/index.rst      |   1 +
->  .../media/maintainer-entry-profile.rst        | 263 ++++++++++++----
->  .../driver-api/media/media-committer.rst      | 280 ++++++++++++++++++
->  .../process/maintainer-pgp-guide.rst          |   2 +
->  MAINTAINERS                                   |   3 +-
->  5 files changed, 497 insertions(+), 52 deletions(-)
->  create mode 100644 Documentation/driver-api/media/media-committer.rst
+> The big picture section of 2.Process.rst currently hardcodes major
+> version number to 5 since fb0e0ffe7fc8e0 ("Documentation: bring process
+> docs up to date"). As it can get outdated when it is actually
+> incremented (the recent is 6 and will be 7 in the near future),
+> arbitrarily bump it to 9, giving a headroom for a decade.
+>
+> Note that the version number examples are kept to illustrate the
+> numbering scheme.
+>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Thank you for updating the set, it looks good to me.
+Just FYI, I've pretty much shut docs down for the upcoming merge window.
+I'm probably not the only one.
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Thanks,
 
--- 
-Kind regards,
-
-Sakari Ailus
+jon
