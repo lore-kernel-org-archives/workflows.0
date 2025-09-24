@@ -1,286 +1,137 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1420F2FB087
-	for <workflows@vger.kernel.org>; Wed, 24 Sep 2025 12:25:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F4881A2C11;
+	Wed, 24 Sep 2025 17:06:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758716706; cv=none; b=HLFHj6uFuRZ2d4eHXfNvODPl6GliX+MDqBSshfFw3TvvR//ZXRTgHqdpIes+ptuk/GP8qIh5SmzQOiDVwBXl9O0yjxeT9LY11un/92dgNR5P+ljKW/wILSuWEhD7RrorA9K6fjzsC3tGkdo7wsu/AB3wG1ZHA6rHr95TU15bN/4=
+	t=1758733593; cv=none; b=nd5Utn10XP8GmlDKnwMXV6IX6xYZBQupIey3EvcdVLvHgSsMoXbrHl8LOhRl2BIe93S+n0rjHyc9nYIrU43yofxoq9fpHbx8uU1HHYhT+EL81Vcl0C8eLmG5B9Hx+Kt4UlES7PclPFrKaq4xKDKSC2pv3RKC4NLAI0NluUXdMGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758716706; c=relaxed/simple;
-	bh=nvDFxA5+kzzGy254IQd/07joD3bGnycuza2xxZ+JqIE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sQ59chwqmfLZaEIv3RdWJbELjT55Q3zmhSYpT+O/O5rZwkvHrpQR7umRsGA+RZIttl2lXXIeUPnFPMSwgzV+5kkUm+l5+aoOwmIPerEU6Ec+yN9SSW9Fep/Szdr2+U7XZC06MF/PfVq2A30mHMmi9ltB4bEMnEIFIG4NHlxWQ3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GzUPhSKb; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758733593; c=relaxed/simple;
+	bh=UHknWmUfVJmkxwSKbBmantXcg7nJDEjwNFGWpWAZZfw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=QeYkqXClOvpqHK7p/vs5mauvrKWwk8nalUFAoR4ieJwsDRrMrlRgZ4Q+E83i/ZlNYCHjQuX1dL7QvhQlktmXxYQz9AaILnKJzpChtPvNF/nrkKvS7V8r2pjb/QEu9ZUnNkug8Rv0loNE0LDG6xKVcSlUV3aOmEWRFnZx+4AwLSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=yMVBBGhb; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GzUPhSKb"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-32ec291a325so5223755a91.1
-        for <workflows@vger.kernel.org>; Wed, 24 Sep 2025 05:25:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758716704; x=1759321504; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5NW3rnfkFZjd7Zh69vJKiLybxjQ5f/0P49rVAWgM4UU=;
-        b=GzUPhSKbQ1UzFo+PCOInTRZQCVj3Jes6eDa+o1f+NH8MCke+qDTkXS75LfQgcvz0H/
-         rB0iQ0vXrQa3uR6/YGrZWtQijW3k1h0JHejITj4jDrTg0YkODhk5q+JV93EYFwpwHujt
-         6w/H4CVtRCMJC7tBtjqx8y7XeUI1KVblS6GefW5DSiqVzN1NnpctF/8rtMtW2aqhGLNJ
-         vC8XgTWRm9lvP1G8w7+oG8I1tvY4hb4GfmaBj+iCYPcvMAfHsBvZHnCvxM1bXc9bd1iM
-         SLN5nvR7ECF4oblI5pABWTqYLaelDLgofZ0VXrZ80IxcNA/dLGYUHpB9iMBnn8mKsrAi
-         3MPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758716704; x=1759321504;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5NW3rnfkFZjd7Zh69vJKiLybxjQ5f/0P49rVAWgM4UU=;
-        b=HepIdgzygWuHsyrAbVx/1dPY9sJox/FXvbLG2pGrCa8/7L9O5Zsbop9hQRR7vqdixf
-         sFG1fhDUZrQeLY2HLxQkDlPsbRpjSn1gOPGCIEbxmwOm+BeI3BiUAAcJ59+ya7mVEset
-         o7x4SWvqjMjfI1nSlUQMbruWmwID8lLASDjoBJc3oMs8mPiMGv56ck/zYBRgI8n/lFp8
-         J+h8485VNwSToAQrx5hCfTKZOSr4isJ9n6kOLLsCBUtsyLR08Z6vficY0Cn6lE5glYRc
-         4Obwe3gVUACV9QML3tScr8N2atjxtW8YxmRdJvgWt5SntLttUMK9wTxhJrAPHYsv+WN8
-         W6NA==
-X-Forwarded-Encrypted: i=1; AJvYcCXJazcbxAgRMvLvIaBNaq8QCXy2Etiq7aZ7vkXeTkZsluXWOBhKQzv6fYOIDoUY7Dy6y4EFylfp1mU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJ1n/JLo+V3NGyflGdufnIg3IkODy+8exFq6PidUXgbkn0+bXi
-	0tOM2eS+nzjZevQOKsyu/QBzKdu8ThNyUP5rReUJP9hYVsORazmMwLo1
-X-Gm-Gg: ASbGncvqgSJZ1cipn8UlKa68vXqlV2PYO1xg1ExuLYfEhvuvQKkui7hw9D7f7S5tRLW
-	s8vV/7ByTmNj7UgOBcMBoUSWm8zq/yOokfPBG75/uHjHKpwaoFnKPBnThW7/cekH8vu/IvlEoFN
-	auWhlOwakj+4hBZiMAfsSJ+r8JhlD30BYU7WSBupevudu6ktzhpcpmPJcyO3VG0F16pvmZ4VIHV
-	0UZhZJCf6ayNXjl4gjEGy0AQQUgiBXODVTGsp8oDykiVmNE22ho0/DycGUoK6CXA7K+ghH3FExn
-	YXOkk7QFalEM/cDMIsCaFQPMyDE/oU+OsgnXnbEKZpFaq3TL0CKyNxouXBUvgrAxIOh2rshiyL7
-	9VsMBZXYVDHyNjeQcaQEAAF359da+qqm0+A==
-X-Google-Smtp-Source: AGHT+IEamBzCLObwkiGLLGjo5JGU8d4itd/AyRlsHyvnDLGXoFlCi/QE16Hobk/uQUsVbow0Br5ksA==
-X-Received: by 2002:a17:90b:380e:b0:32e:d600:4fdb with SMTP id 98e67ed59e1d1-332a95c804cmr7926585a91.18.1758716702994;
-        Wed, 24 Sep 2025 05:25:02 -0700 (PDT)
-Received: from localhost ([103.88.46.62])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3341bdd63c1sm2285996a91.26.2025.09.24.05.25.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Sep 2025 05:25:02 -0700 (PDT)
-From: Jinchao Wang <wangjinchao600@gmail.com>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Alexander Potapenko <glider@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>,
-	Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	"Liang, Kan" <kan.liang@linux.intel.com>,
-	David Hildenbrand <david@redhat.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Kees Cook <kees@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Rong Xu <xur@google.com>,
-	Naveen N Rao <naveen@kernel.org>,
-	David Kaplan <david.kaplan@amd.com>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Jinjie Ruan <ruanjinjie@huawei.com>,
-	Nam Cao <namcao@linutronix.de>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
-	linux-mm@kvack.org,
-	llvm@lists.linux.dev,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	kasan-dev@googlegroups.com,
-	"David S. Miller" <davem@davemloft.net>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	linux-trace-kernel@vger.kernel.org
-Cc: Jinchao Wang <wangjinchao600@gmail.com>
-Subject: [PATCH v5 07/23] mm/ksw: add HWBP pre-allocation
-Date: Wed, 24 Sep 2025 20:24:40 +0800
-Message-ID: <20250924122448.9101-1-wangjinchao600@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250924115124.194940-1-wangjinchao600@gmail.com>
-References: <20250924115124.194940-1-wangjinchao600@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="yMVBBGhb"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
+	bh=IYQIoIaOKCIxSPFzuBjsQ4uTXQsp3WYZ5kAt8a5vPEc=; b=yMVBBGhbm0CLYR9iFKaFxB3NzJ
+	FXsEMYpXS5BwrQo17beyxJiRF2eVpGI37E9rSScck4hHw7aBHt5YlROsnbqzqNynVBbOpBK+bH4xA
+	d4oSxLXDN+d1N4dURwP2zisz/dR1m1MfYNw52WiMxW4vz4mLOMWOKB0Wa7U7jG3vPDZ/fDAtkynDe
+	/yChEJFGyaVg0aegV7Xclx32TR9w6OXlJSugh0eeEuBAmJUWTbXUouRNbYmBC26Ch6S9bG4KkD/JN
+	0sJx+0tCnHqSZtp844pJs4qAs3W/+Y2If0aodsX3aSvG4UBodN3W37nDPJ172u5zEg0HNdRMsOaW/
+	z06hMXNQ==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1v1SwW-00000001yYJ-3ITs;
+	Wed, 24 Sep 2025 17:06:12 +0000
+Message-ID: <3504b378-4360-4e55-b28d-74aabd4308d7@infradead.org>
+Date: Wed, 24 Sep 2025 10:06:10 -0700
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 04/23] mm/ksw: add build system support
+To: Jinchao Wang <wangjinchao600@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>, Peter Zijlstra
+ <peterz@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Alexander Potapenko <glider@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ "Liang, Kan" <kan.liang@linux.intel.com>,
+ David Hildenbrand <david@redhat.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Kees Cook <kees@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Sami Tolvanen <samitolvanen@google.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Masahiro Yamada <masahiroy@kernel.org>, Rong Xu <xur@google.com>,
+ Naveen N Rao <naveen@kernel.org>, David Kaplan <david.kaplan@amd.com>,
+ Andrii Nakryiko <andrii@kernel.org>, Jinjie Ruan <ruanjinjie@huawei.com>,
+ Nam Cao <namcao@linutronix.de>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>, kasan-dev@googlegroups.com,
+ "David S. Miller" <davem@davemloft.net>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ linux-trace-kernel@vger.kernel.org
+References: <20250924115124.194940-1-wangjinchao600@gmail.com>
+ <20250924115124.194940-5-wangjinchao600@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250924115124.194940-5-wangjinchao600@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Pre-allocate per-CPU hardware breakpoints at init with a place holder
-address, which will be retargeted dynamically in kprobe handler.
-This avoids allocation in atomic context.
 
-At most max_watch breakpoints are allocated (0 means no limit).
 
-Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
----
- mm/kstackwatch/kstackwatch.h | 13 +++++
- mm/kstackwatch/watch.c       | 97 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 110 insertions(+)
+On 9/24/25 4:50 AM, Jinchao Wang wrote:
+> Add Kconfig and Makefile infrastructure.
+> 
+> The implementation is located under `mm/kstackwatch/`.
+> 
+> Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
+> ---
+>  mm/Kconfig.debug             |  8 ++++++++
+>  mm/Makefile                  |  1 +
+>  mm/kstackwatch/Makefile      |  2 ++
+>  mm/kstackwatch/kernel.c      | 23 +++++++++++++++++++++++
+>  mm/kstackwatch/kstackwatch.h |  5 +++++
+>  mm/kstackwatch/stack.c       |  1 +
+>  mm/kstackwatch/watch.c       |  1 +
+>  7 files changed, 41 insertions(+)
+>  create mode 100644 mm/kstackwatch/Makefile
+>  create mode 100644 mm/kstackwatch/kernel.c
+>  create mode 100644 mm/kstackwatch/kstackwatch.h
+>  create mode 100644 mm/kstackwatch/stack.c
+>  create mode 100644 mm/kstackwatch/watch.c
+> 
+> diff --git a/mm/Kconfig.debug b/mm/Kconfig.debug
+> index 32b65073d0cc..89be351c0be5 100644
+> --- a/mm/Kconfig.debug
+> +++ b/mm/Kconfig.debug
+> @@ -309,3 +309,11 @@ config PER_VMA_LOCK_STATS
+>  	  overhead in the page fault path.
+>  
+>  	  If in doubt, say N.
+> +
+> +config KSTACK_WATCH
+> +	bool "Kernel Stack Watch"
+> +	depends on HAVE_HW_BREAKPOINT && KPROBES && FPROBE && STACKTRACE
+> +	help
+> +	  A lightweight real-time debugging tool to detect stack corrupting.
 
-diff --git a/mm/kstackwatch/kstackwatch.h b/mm/kstackwatch/kstackwatch.h
-index 983125d5cf18..4eac1be3b325 100644
---- a/mm/kstackwatch/kstackwatch.h
-+++ b/mm/kstackwatch/kstackwatch.h
-@@ -2,6 +2,9 @@
- #ifndef _KSTACKWATCH_H
- #define _KSTACKWATCH_H
- 
-+#include <linux/llist.h>
-+#include <linux/percpu.h>
-+#include <linux/perf_event.h>
- #include <linux/types.h>
- 
- #define MAX_CONFIG_STR_LEN 128
-@@ -32,4 +35,14 @@ struct ksw_config {
- // singleton, only modified in kernel.c
- const struct ksw_config *ksw_get_config(void);
- 
-+/* watch management */
-+struct ksw_watchpoint {
-+	struct perf_event *__percpu *event;
-+	struct perf_event_attr attr;
-+	struct llist_node node; // for atomic watch_on and off
-+	struct list_head list; // for cpu online and offline
-+};
-+int ksw_watch_init(void);
-+void ksw_watch_exit(void);
-+
- #endif /* _KSTACKWATCH_H */
-diff --git a/mm/kstackwatch/watch.c b/mm/kstackwatch/watch.c
-index cec594032515..1d8e24fede54 100644
---- a/mm/kstackwatch/watch.c
-+++ b/mm/kstackwatch/watch.c
-@@ -1 +1,98 @@
- // SPDX-License-Identifier: GPL-2.0
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+
-+#include <linux/cpuhotplug.h>
-+#include <linux/hw_breakpoint.h>
-+#include <linux/irqflags.h>
-+#include <linux/mutex.h>
-+#include <linux/printk.h>
-+
-+#include "kstackwatch.h"
-+
-+static LLIST_HEAD(free_wp_list);
-+static LIST_HEAD(all_wp_list);
-+static DEFINE_MUTEX(all_wp_mutex);
-+
-+static ulong holder;
-+bool panic_on_catch;
-+module_param(panic_on_catch, bool, 0644);
-+MODULE_PARM_DESC(panic_on_catch, "panic immediately on corruption catch");
-+
-+static void ksw_watch_handler(struct perf_event *bp,
-+			      struct perf_sample_data *data,
-+			      struct pt_regs *regs)
-+{
-+	pr_err("========== KStackWatch: Caught stack corruption =======\n");
-+	pr_err("config %s\n", ksw_get_config()->user_input);
-+	dump_stack();
-+	pr_err("=================== KStackWatch End ===================\n");
-+
-+	if (panic_on_catch)
-+		panic("Stack corruption detected");
-+}
-+
-+static int ksw_watch_alloc(void)
-+{
-+	int max_watch = ksw_get_config()->max_watch;
-+	struct ksw_watchpoint *wp;
-+	int success = 0;
-+	int ret;
-+
-+	init_llist_head(&free_wp_list);
-+
-+	//max_watch=0 means at most
-+	while (!max_watch || success < max_watch) {
-+		wp = kzalloc(sizeof(*wp), GFP_KERNEL);
-+		if (!wp)
-+			return success > 0 ? success : -EINVAL;
-+
-+		hw_breakpoint_init(&wp->attr);
-+		wp->attr.bp_addr = (ulong)&holder;
-+		wp->attr.bp_len = sizeof(ulong);
-+		wp->attr.bp_type = HW_BREAKPOINT_W;
-+		wp->event = register_wide_hw_breakpoint(&wp->attr,
-+							ksw_watch_handler, wp);
-+		if (IS_ERR((void *)wp->event)) {
-+			ret = PTR_ERR((void *)wp->event);
-+			kfree(wp);
-+			return success > 0 ? success : ret;
-+		}
-+		llist_add(&wp->node, &free_wp_list);
-+		mutex_lock(&all_wp_mutex);
-+		list_add(&wp->list, &all_wp_list);
-+		mutex_unlock(&all_wp_mutex);
-+		success++;
-+	}
-+
-+	return success;
-+}
-+
-+static void ksw_watch_free(void)
-+{
-+	struct ksw_watchpoint *wp, *tmp;
-+
-+	mutex_lock(&all_wp_mutex);
-+	list_for_each_entry_safe(wp, tmp, &all_wp_list, list) {
-+		list_del(&wp->list);
-+		unregister_wide_hw_breakpoint(wp->event);
-+		kfree(wp);
-+	}
-+	mutex_unlock(&all_wp_mutex);
-+}
-+
-+int ksw_watch_init(void)
-+{
-+	int ret;
-+
-+	ret = ksw_watch_alloc();
-+	if (ret <= 0)
-+		return -EBUSY;
-+
-+
-+	return 0;
-+}
-+
-+void ksw_watch_exit(void)
-+{
-+	ksw_watch_free();
-+}
+	                                                         corruption.
+
+> +
+> +	  If unsure, say N.
+
+
 -- 
-2.43.0
+~Randy
 
