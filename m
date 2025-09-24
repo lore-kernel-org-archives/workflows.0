@@ -1,63 +1,63 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 670733019DC
-	for <workflows@vger.kernel.org>; Wed, 24 Sep 2025 12:00:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44F63303C88
+	for <workflows@vger.kernel.org>; Wed, 24 Sep 2025 12:00:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758715230; cv=none; b=Wt6O6D50qS7dj+j3sguzKEZKGVYrOmkionA6pdzSmB7x8nIx0cUOVCnYxoExz2oVOvMc9xxX3AFssZJOWBG3LPXkXVDvt9RimA23X3bFx7kkNB0xi4NPjIHh9isg+rs6HLj3Shnk9votB4SewYpLgFWVEMPGAnrRhafrztoTTU0=
+	t=1758715239; cv=none; b=JuVx/zcYdB+kSHoZgNuP8eQT8M4k27zEZ0oaOgnSKkveto45DkGgaPOd53B0pDQzQ8DBXPu1CxrpI/Cje3wrPLvnGMpo5+m9ENKg2OsSyvMzN0mbpVvLEnLOzTbbKicKEHnKDtyGxR5kwPtN88Cv52hlJRQf4nLIbKU0TdSZOlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758715230; c=relaxed/simple;
-	bh=R6xp125ow1bKW1JfsIkJbRriGQJoDt/1TV3EwU0sun4=;
+	s=arc-20240116; t=1758715239; c=relaxed/simple;
+	bh=zf1JTLa2lHlWHJGslx4oSS8c+FpP61ZIVHBr6hXJkpo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pTsJcWM3DjRkmcJcWdFYyqYKDh7omuxQgmyBUZqdNbmjyRMFqJpaKOwv2AMgKUFFJknNFmRUWl6D5XD5duCT90CiEyiJDf0+BQgAsTpJZhJCT91ntI/4NGbG7qqu2HKd9WmLw7Zw9cAlie81zADqxfn6VHhS+KATzLLAM+tJBGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GlGOT4ZH; arc=none smtp.client-ip=209.85.210.178
+	 MIME-Version; b=qSC/QiJxwF6vNP1zOmpssQd7CV+gjnAd5fUnUNOhskupocmsnAMKNmMDGG78TBjzXk40qemejZSg+JmPEKfufR3+7eyoARu8HroEXHnsV/L5RksbB7DTSZBF3X0LSfg/WXrwWiNdN/vph5kXneCuM7RQ3qlMIStvVl1pSyLXHG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MnbiblAy; arc=none smtp.client-ip=209.85.210.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GlGOT4ZH"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-76e4fc419a9so6828610b3a.0
-        for <workflows@vger.kernel.org>; Wed, 24 Sep 2025 05:00:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MnbiblAy"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-77f2c7ba550so3485899b3a.1
+        for <workflows@vger.kernel.org>; Wed, 24 Sep 2025 05:00:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758715229; x=1759320029; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1758715233; x=1759320033; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tQq22tqtHC6AWIlA5VH2udrw6r/hyqmcjV7oYivMnv0=;
-        b=GlGOT4ZHoVnE+Y83TwVZIQYUOLvjpr6dD6M9u0bNDFXp9xN1I4Evfc1G5wftMK3LuK
-         d0J3QqNZZbFdymIQuNrpndPXP+dv1hhjKgtrQTXXtzGwHjYwzKDQUao1nykb+mZSgL9e
-         aShh9BWRDOaAJXR7QxH3qEXCyFFtW7Xb9DtN36JAR8B8idu0z8m6P+PfOnQ29N5Sm6/z
-         BhRLm/NQeytMUK88zIXvdRHXHRoYb4BXoCE3c0QtQWin8QUx5+GuaJ1Fax5fXK/NFTrr
-         MhQ09Lwca56BDkPxnV9EGr7Xk+nD/Gy+KZpug4OEpxiDAF3b+6WxNdOm1W7brVh+1X6O
-         qGJQ==
+        bh=UG3CF7kwzv6QR3Bvbfu+t4H41didNmIt1FZDrUojazQ=;
+        b=MnbiblAyhaSJRHM7LGVu/bOyHN+rqlStXuJnY/rBlpVnw0Dd/XeP5ngi8CkHrGz997
+         IKgXJIr59eNsItx+TXsuFxSUzU5+6OJrBwpEapXbcxC3WwhXCWyHoKtGvehtLV1R4ufX
+         c8jug9hvCRENHTc+He4HNBia702h5t1arXeE4RakvC2km19pcio9TYhPrYIzUJWYNHKw
+         XAFXy/dRFeVyFjj00jWCqbIm8eLzgduO2uz73a+lUu143p1W8JWEW5dgzZ9CbEC1fPbV
+         mE6rpkmWd6ODOibiuHaAvSG1d1vhF+iZBtu9MMi8gKx+JtQbQSDYB4HlY0tguOX4jAJL
+         +J2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758715229; x=1759320029;
+        d=1e100.net; s=20230601; t=1758715233; x=1759320033;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tQq22tqtHC6AWIlA5VH2udrw6r/hyqmcjV7oYivMnv0=;
-        b=WnYLRo65ifvZIN5YDoiAZQ/GPQ9IBiFhWLaPnRN3CNfhSSZUM45Jsqti2XhPvGiwx5
-         v8YidEtGqRALWXN9YHOe58dqvxve4XxSA8nVYeLt6L3EsNjLQ9Qq8ifbm13ofMCbFlWU
-         ec/dL3CqzJ1Gk7fdNByDN4fEAsmXboj3PEL/2c+4Ku22hwiib59Rii8ubJU/p00fLggS
-         x9agyOAI8+HTLLM9OKLKxxZpOF+zlLjXnfCzkFFK+M2bM+pApKNyVRV7kb5GcSBmRIRX
-         /44B9J0QGhySALaK5o7AzBBt7XCRvB4SopFIF8FrjKYiGig6OMIbOPN4wVl+c50kAyRM
-         9qCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVs6eHiE8nfVcapem7hdw7wq2bvAqoc6TMpgO6PFClR0nMkc7LMV7Zg0vs1b2BPjSZQAT6M7DauwjU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzke+kWRnixgs1NGB+vlMCmyiJ2zr3SEPKpy1gzfQzZupC3nXdJ
-	H1QrEUZ+8PVI20kPNvR/c6+5VEgWd5m9JSAZXXun3zXYfWaCeKYHnv1S
-X-Gm-Gg: ASbGncuyNjg7lfyrn5rRKxrvjBRZ1z1iGoX8atfMI2f/m+EVF5pV33vuY9JVhWUzl81
-	0+QEJUKWD7zE0rAUi04jz7X07+MpMfacu0UNYE5xEM0RqHYJBufi52XtNtzM7yOWhyh2HHOVvFl
-	uu6ubUqOOT7RbYfjUmIs+Mtb4EWuPUCaMCOfgvp91XlDdVrkAlZu5R/0ato+chlj8MOSHceYIjs
-	W3/rnUaZ6RMl7WA91+QgmOmOGdkz+aMMiVSmUNIlwWCasGe39wlQmJ0iQMYotW9wwQSgNnnGiUT
-	r8ZrN0RNfwnkR+FVyQI3nUALIScBL9n6jjTc1XBO0Evn+wvQOUQn1KsqydRM2sq1lwAKNME0Wz5
-	qSaCJgAYzD0zRzdsjtdnujEWJoztmD3xZug==
-X-Google-Smtp-Source: AGHT+IER+rSrafrjBOU/UPseufgUtgk4gzgFmMfLFbtCFl+/VmATfZlwQN/yKimg3zCqXqji+7ttQw==
-X-Received: by 2002:a05:6a21:338a:b0:2b1:c9dc:6dab with SMTP id adf61e73a8af0-2cfef7df0b2mr8342943637.48.1758715228483;
-        Wed, 24 Sep 2025 05:00:28 -0700 (PDT)
+        bh=UG3CF7kwzv6QR3Bvbfu+t4H41didNmIt1FZDrUojazQ=;
+        b=bdIf8wnnDfSFbJ4XWBRT1DzJ5/xofR2LgNhTQTLA9YunFSoFCzZu4Yzan68KvlQFIo
+         xOMdS4DG2NJ2RJnEWuibW0dJR8W2zZuoLNhjCzEEAMWpNZ29De8KfNeuwMaHakdTY1XB
+         XN1+hZABie/WgtKptdi8EKuoMADoOsMShZym7QCmNnmSKHxTgoggmv73b1Oh8Z0v4Vhh
+         24opTmkQUTbsgjNVl8eoGwTY1qeqFMrjdqfDwhhGK+IXd2fC3nLF/YLk+pA+bgMDFL0j
+         e9e6YAyokUP4se9cHFPMC+XKo+nnbzVg/iiepHwSdcNjtxHZ2epCd1+OlUTKqTuinEUe
+         wDQA==
+X-Forwarded-Encrypted: i=1; AJvYcCU4Z5lG6mA0seIF8g7g0BpgER/gh0WKseRdF9PsfDiEQWmHoiEMRZLnmVbXvw9O2Mbq0ANQYGdr+lE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwgnseR2er4XoR7wxxcb7vLO4kVG5hx1FmMd5Lbvu7YnqcqBGgH
+	qlIXCMD1VgkWfs4EMHsFvVJwxYdA5wcMHHw/kV4Pu0jvky5V1tULUVxX
+X-Gm-Gg: ASbGncv+spr4veqSscIpHmHZdQjjG53jPDBmB1ra94Ne9U+M6mD7DFHOtgCdtQCP6Kg
+	ONsBCvNmyDZ1iWB+Loydt4Z/WyNRfhNIJPgOcEb3tHqB12+kYjYZxE0CbITOfbisVpmQwp15a5O
+	ugSYABJkMPujUZFrBWRxxZ8LlgoFMGiqaHwlXoHWX4t29sFOL6fKuVIpxnW+RHCsD2p1fMnAKAX
+	o1/7BVNJEXGRsNNW/LtFgBhQ3JmgGKmyGPZ99dYFJq65cb5dE5X97tnlHIbcuasw+5hcF600JIL
+	CaeByt5HYQCuhopJm+QR/pwiDiQoS8AIfG6CvLixLjifeAjKw9gr0gZF4jIzvtNWprdu4oHWVur
+	6vNVC5Nif6EsTw1sKLkQ45Yax7WF3ZAVkOQ==
+X-Google-Smtp-Source: AGHT+IF6XISRPA3i1YO2WYyo3MXp7Cd4Mk+kPP9SRfGztdCTTVjypRXE5hBz8PjgkCcvzgR6cUkWDg==
+X-Received: by 2002:a17:902:f609:b0:26d:e984:8157 with SMTP id d9443c01a7336-27cc13808fcmr63875775ad.8.1758715233064;
+        Wed, 24 Sep 2025 05:00:33 -0700 (PDT)
 Received: from localhost ([103.88.46.62])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77f2fdfbffesm9620110b3a.73.2025.09.24.05.00.27
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-269802df57asm190476695ad.67.2025.09.24.05.00.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Sep 2025 05:00:27 -0700 (PDT)
+        Wed, 24 Sep 2025 05:00:32 -0700 (PDT)
 From: Jinchao Wang <wangjinchao600@gmail.com>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Masami Hiramatsu <mhiramat@kernel.org>,
@@ -123,9 +123,9 @@ To: Andrew Morton <akpm@linux-foundation.org>,
 	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	linux-trace-kernel@vger.kernel.org
 Cc: Jinchao Wang <wangjinchao600@gmail.com>
-Subject: [PATCH v5 18/23] mm/ksw: add stack overflow test
-Date: Wed, 24 Sep 2025 19:59:24 +0800
-Message-ID: <20250924115931.197077-3-wangjinchao600@gmail.com>
+Subject: [PATCH v5 19/23] mm/ksw: add recursive depth test
+Date: Wed, 24 Sep 2025 19:59:25 +0800
+Message-ID: <20250924115931.197077-4-wangjinchao600@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250924115931.197077-1-wangjinchao600@gmail.com>
 References: <20250924115124.194940-1-wangjinchao600@gmail.com>
@@ -138,8 +138,8 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Extend the test module with a new test case (test1) that intentionally
-overflows a local u64 buffer to corrupt the stack canary.
+Introduce a test that performs stack writes in recursive calls to exercise
+stack watch at a specific recursion depth.
 
 Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
 ---
@@ -147,47 +147,47 @@ Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
  1 file changed, 19 insertions(+), 1 deletion(-)
 
 diff --git a/mm/kstackwatch/test.c b/mm/kstackwatch/test.c
-index 1ed98931cc51..740e3c11b3ef 100644
+index 740e3c11b3ef..08e3d37c4c04 100644
 --- a/mm/kstackwatch/test.c
 +++ b/mm/kstackwatch/test.c
-@@ -43,6 +43,20 @@ static void test_watch_fire(void)
+@@ -57,6 +57,20 @@ static void test_canary_overflow(void)
  	pr_info("exit of %s\n", __func__);
  }
  
-+static void test_canary_overflow(void)
++static void test_recursive_depth(int depth)
 +{
 +	u64 buffer[BUFFER_SIZE];
 +
-+	pr_info("entry of %s\n", __func__);
++	pr_info("entry of %s depth:%d\n", __func__, depth);
 +
-+	/* intentionally overflow */
-+	for (int i = BUFFER_SIZE; i < BUFFER_SIZE + 10; i++)
-+		buffer[i] = 0xdeadbeefdeadbeef;
++	if (depth < MAX_DEPTH)
++		test_recursive_depth(depth + 1);
++
++	buffer[0] = depth;
 +	barrier_data(buffer);
 +
-+	pr_info("exit of %s\n", __func__);
++	pr_info("exit of %s depth:%d\n", __func__, depth);
 +}
-+
  
  static ssize_t test_proc_write(struct file *file, const char __user *buffer,
  			       size_t count, loff_t *pos)
-@@ -66,6 +80,9 @@ static ssize_t test_proc_write(struct file *file, const char __user *buffer,
- 		case 0:
- 			test_watch_fire();
+@@ -83,6 +97,9 @@ static ssize_t test_proc_write(struct file *file, const char __user *buffer,
+ 		case 1:
+ 			test_canary_overflow();
  			break;
-+		case 1:
-+			test_canary_overflow();
++		case 2:
++			test_recursive_depth(0);
 +			break;
  		default:
  			pr_err("Unknown test number %d\n", test_num);
  			return -EINVAL;
-@@ -85,7 +102,8 @@ static ssize_t test_proc_read(struct file *file, char __user *buffer,
- 				    "============ usage ==============\n"
+@@ -103,7 +120,8 @@ static ssize_t test_proc_read(struct file *file, char __user *buffer,
  				    "Usage:\n"
  				    "echo test{i} > /proc/kstackwatch_test\n"
--				    " test0 - test watch fire\n";
-+				    " test0 - test watch fire\n"
-+				    " test1 - test canary overflow\n";
+ 				    " test0 - test watch fire\n"
+-				    " test1 - test canary overflow\n";
++				    " test1 - test canary overflow\n"
++				    " test2 - test recursive func\n";
  
  	return simple_read_from_buffer(buffer, count, pos, usage,
  				       strlen(usage));
