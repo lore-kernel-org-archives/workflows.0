@@ -1,350 +1,289 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BE7F320CAC
-	for <workflows@vger.kernel.org>; Tue, 23 Sep 2025 16:21:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A81AC2FE567
+	for <workflows@vger.kernel.org>; Wed, 24 Sep 2025 11:51:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758644494; cv=none; b=KYWuleaS/r8aefvwo/OB+t3u/wEyKhzedK7IczWvcPSe2OJKgdn+bAZGeiqY03kFnj1Nje+vQJwczFZ8VCD7JJ0wcbcRsjifQhjtVlPPwPZKiHEOLE3wSoPUbVKz5fiBsviXOdGUfKhskvHRc3+nSuu82b0ADnLPP5i1qhIhyvg=
+	t=1758714701; cv=none; b=AmseS/7iR3VrBnL6n7XBrFKl2f8t73SXvmYtpC/prGdr8ZU1CNY2H62tU3DShvMuvVQM5ukXjxOoEus/AudEPqDK8TI8MLDo1V7kYbREuwPuPoygXwGzBUl4v4uuIg2QdgsZikQOhWpWu1VK3AfBf4qEfThnCp0lu6yFH2t7X/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758644494; c=relaxed/simple;
-	bh=2yr8BZH2ZCizdkGAyIQ2PU8QVbZRyONMsaqqxtVZnb4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Eit0NYl1ziL36HGqeiiax/vPhyMiUcZ9UZplwWhW8CB1zHyrBkZ+ATbn+Z7UqAJOFi1hc9cQlLm9jFf21MV1dVsIdm7/wmkZLdsy9SKxYATSjyQ0spxX2tmG6WGvh35SkNe/DHVEcNHzKYf52iU2AYLraev7OFur06A6JgZn7FE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=en+ApHXv; arc=none smtp.client-ip=209.85.128.45
+	s=arc-20240116; t=1758714701; c=relaxed/simple;
+	bh=UNpz5dM5lO613H1u9Fi56G2SPcRkZnRAbeW6JwAQp0c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XKa2z0B4sy1D7F3R90KHA7v9iGi5hnweHYN+mkUk01759DUtoMHR1eoghV79W36rHWDEgBvzy17K9znvJpMZJURgFsXZmk7zqiGs7eyigveB3iMnyhMwDK7eUhQpEcFCkygD2aV91WDV2HCia0UCYNscfu8F99AL3m1KmYJ7YW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a4BRMNAs; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="en+ApHXv"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-45e03730f83so25756165e9.0
-        for <workflows@vger.kernel.org>; Tue, 23 Sep 2025 09:21:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a4BRMNAs"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-27d3540a43fso20034585ad.3
+        for <workflows@vger.kernel.org>; Wed, 24 Sep 2025 04:51:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758644490; x=1759249290; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hX/x2YQu8IshGIhtT2j6+6VZWl/6xDk05tyNGFgYJMM=;
-        b=en+ApHXvKFAEB2tmQ1n/8R7a2E335UoPFKu4DfHqF+QlB2M5DQVEL5czgvO42XAp/F
-         /zv3kpIULY0WiaB5x4L2InGG8hUpnQ3tjaZIpbcTClTDyQ6LjTXa3SwKUAVQk8N+fH2X
-         qj2gm+kvWZvWJBdsCD/m4d2V8phwiUuJZ8ce62403aYDSw6BKJzxP0moRzhu6cJW/i93
-         JUTXrzgVCCcz5cZrMn/C8eDg2uzc5HVqvHOV6xow5GbznfGLSoL9puPABTXnqIlDTU0P
-         X8W4LCjL7Qh6a1hvVI2UHoeMbECZSCEw9cHN9w3Bt+/5Wevg7dNe7N6xs6bJ3kX6ulqx
-         Q+7g==
+        d=gmail.com; s=20230601; t=1758714695; x=1759319495; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IkFW7ZSlDKq/LZM+zK73rBzgP1/UKF25L/8hqnEAXa4=;
+        b=a4BRMNAsTgPxtWvDIPNjcePbjTSV+ugRmo3bT/A/d71rW21LlCG/XHsARlUQiyPzCZ
+         S4E6u0gzhf/4PhTAr1wlW1G5nxwqUyuu35syW3Zq45No/IofeyuG+MqAe5oa/KwuFAku
+         eoK85P/voqtTHBonAs3823vN36KtFthWQIpPraXD5bjK8mJ9jh9pqqIVqdBhnAxqmVzb
+         qfeGNch+u3CEB/wxow/2/nTKNVZ0douMYsaB5MzuaIkzQ3/HJf/15+yFgZtTqGOaNmMq
+         giv3+sTXBUW8/bSSQwNRMqWcYcNWHh3xAYW9tTSMc6XjdXMVCDTatXNKVYUC2fOGbVyl
+         bBJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758644490; x=1759249290;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hX/x2YQu8IshGIhtT2j6+6VZWl/6xDk05tyNGFgYJMM=;
-        b=KRC1uHHkdKN57nAxiPEcw+UW5DBlRIcOpwV5zphuNrhGfh1oSrfQUjNt7ZTSXSXzd2
-         qm8K62r5zIIIWhSCO4bQOJHd1SVHlAXxgNvf5LUF+2hprRkIn+w3lUI/T1GanuRDR1aF
-         b3XTT3hlagrS86wQyRM96hk20205JsdMcd+/8jABx4rzuovmlba5GEd5qrG/pqmEM17k
-         bfFpb2Zuz0e/ShGIP8mRM0mI6H7M1gBuId7jTOPTrxha7TtOBU3hIMABONuHrViXz3Vs
-         qOZdlkQA9URSVCmogeNWzUHam6aiutC4pEfVxYCijTvkAslwMuSkb/Bn6QDrWcUesrOZ
-         hd5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUvoiYhWbyf/fio+AEo0ExNj+sDqPg4hkpOFtROAmjHzOIUpqo3KI95zXd97mKlDMQZiIDXmBEAQWo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzoAY9K+5lAVD2IIZ3DAyFIY5+hJx6t92+2sttINdbFRV12CLVb
-	95AzeXIFhIysE3bpdxK7B3vFibAgZGRsHNGNln156aJprxbl37oUK/j3oJBF5n8SIBZ2pio/TIM
-	BsHaV42/6Z7CvtL0084ghPxbfrQ5Byw8=
-X-Gm-Gg: ASbGncsumRS6+huFJPTJobUmzAimNbPV8j42yLQII3D+QGjlpMNsgKRw3YQ6qIDxdh2
-	A3JocPyPB+89U1sLvzTdoY6aFm2SJ36TAawGchPVIsZd0ibb48zSlxRNzKEXezXDrogfhm7F99a
-	8BiAdPmCgHItrAXlzO/2TE2x4T3ZQ9lEPMWku1ZXTxXlfsi7bnhASx8eht6WrI6cFfbAxcPBnQ/
-	oTf6hsNFw==
-X-Google-Smtp-Source: AGHT+IFLsDfbMe1B7TKn5qcjOcHKMSiE+AnSedjc8CXlaTSbb/VI4iDnnpzChliLj+DF3rJyI7LW0Ktytb6lz8NGyJA=
-X-Received: by 2002:a05:6000:2012:b0:3e5:190b:b04e with SMTP id
- ffacd0b85a97d-405c9a01b60mr2346265f8f.37.1758644490092; Tue, 23 Sep 2025
- 09:21:30 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1758714695; x=1759319495;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IkFW7ZSlDKq/LZM+zK73rBzgP1/UKF25L/8hqnEAXa4=;
+        b=sc2uPn+hooaCh1yTf8k6vPVdc1LDuutBXMqZo4xkTFpwOtq44sRI8UEonizmSnkfeN
+         9ZqBl/sWPMMZK1WahkAdOAnzKNEsYkahtPsfAlTQObWoPRkgtNpA91xfkaxHPd2Ehjr4
+         8PsYqjPOvuWUaKb9FGBp3zdx5hAtSfpR87YRpWGIobxrECcvtnb6NKhkD1p/2HYaG2Hz
+         h/NWW2/I8cw1sFbzsysS7F+fBgWzEzLat0D0ZyZHwrB859zsWml2braaUM/Q7l6WMwu6
+         elnOxRvlsq4iuVPj7TaSB+z/J+cRA4MMPF5uxaAk4vTUIw2OZWvi1ae/WJdEqsqDQt0m
+         AMmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX4e40VCVHHORKTUQ6bGL+THQpFtrlXStf1CjNg2wW51V8NhHThnIIqvKuaUqLqOJXKs0DWP86KVDg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywn0jbsIs7Eh7J7yEpsu3wEgFRvOg0gOQtmQxdyfVlSCN/xUOUZ
+	tUWBCx5EHcD9bDF3z8migM4bAgR2jidSAwfki3lBXBo+ijvWBNRMhmsT
+X-Gm-Gg: ASbGncu7lueP4W6/1Hl+w0FT7JvvsEc9FrYkdDZ1pkO2RO1gnNnOx/pzc107isAFwfW
+	+xtIj6rkti5Lr53R/yRu03QG1OypQLNLYa1sxZ4hO4K5sIer9xObf5jUHn5gfpwgeeP2So364sM
+	4J5oRi9l3Chwb4elcI6wKhUAynoYwFH0Uf+guzPY2eRSLoM0G2u8WNhrU2w2nG9Cc38Kw1D+d13
+	VtQgXxrAsk7cfrc//rxWsRFhnLPgqIDxX+K2VAzLM0ZTvJ3ahENSxuCavIGMURKqNAyUu3pjviC
+	g9qm63WW16/F66hKpwrajvH9zM3iQQu1feh8SMnIsuyEYlsSwxn6gUEd52QNDQQRs0OH/jP0/Zc
+	7FEIOP6OYIbtN7Hdf20abcFmEww==
+X-Google-Smtp-Source: AGHT+IFpw5g/nyg0mjoFnafm0OORRDCd2mc5ondqV3KNE7Z5tP/VaQRZBOA+j3BmtPgUBBTfxZ4Mhg==
+X-Received: by 2002:a17:903:3586:b0:240:9dd8:219b with SMTP id d9443c01a7336-27cc61bd32dmr78200575ad.49.1758714694622;
+        Wed, 24 Sep 2025 04:51:34 -0700 (PDT)
+Received: from localhost ([23.142.224.65])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-269802fe096sm189570425ad.104.2025.09.24.04.51.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Sep 2025 04:51:34 -0700 (PDT)
+From: Jinchao Wang <wangjinchao600@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>,
+	Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	"Liang, Kan" <kan.liang@linux.intel.com>,
+	David Hildenbrand <david@redhat.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Kees Cook <kees@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Rong Xu <xur@google.com>,
+	Naveen N Rao <naveen@kernel.org>,
+	David Kaplan <david.kaplan@amd.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Jinjie Ruan <ruanjinjie@huawei.com>,
+	Nam Cao <namcao@linutronix.de>,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org,
+	linux-mm@kvack.org,
+	llvm@lists.linux.dev,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	kasan-dev@googlegroups.com,
+	"David S. Miller" <davem@davemloft.net>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	linux-trace-kernel@vger.kernel.org
+Cc: Jinchao Wang <wangjinchao600@gmail.com>
+Subject: [PATCH v5 00/23] mm/ksw: Introduce real-time KStackWatch debugging tool
+Date: Wed, 24 Sep 2025 19:50:43 +0800
+Message-ID: <20250924115124.194940-1-wangjinchao600@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250916222755.466009-1-yeoreum.yun@arm.com> <20250916222755.466009-2-yeoreum.yun@arm.com>
-In-Reply-To: <20250916222755.466009-2-yeoreum.yun@arm.com>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Tue, 23 Sep 2025 18:21:19 +0200
-X-Gm-Features: AS18NWDlzRK91ohBlIigdupIpzh6rhNy0WQJ68f3CbaJYvAQUJclJ8mywpVCdno
-Message-ID: <CA+fCnZdRySvANWkT1oK38Ke1Uf9yUm1qyb5-vatJhZR+-eay5g@mail.gmail.com>
-Subject: Re: [PATCH v8 1/2] kasan/hw-tags: introduce kasan.write_only option
-To: Yeoreum Yun <yeoreum.yun@arm.com>
-Cc: ryabinin.a.a@gmail.com, glider@google.com, dvyukov@google.com, 
-	vincenzo.frascino@arm.com, corbet@lwn.net, catalin.marinas@arm.com, 
-	will@kernel.org, akpm@linux-foundation.org, scott@os.amperecomputing.com, 
-	jhubbard@nvidia.com, pankaj.gupta@amd.com, leitao@debian.org, 
-	kaleshsingh@google.com, maz@kernel.org, broonie@kernel.org, 
-	oliver.upton@linux.dev, james.morse@arm.com, ardb@kernel.org, 
-	hardevsinh.palaniya@siliconsignals.io, david@redhat.com, 
-	yang@os.amperecomputing.com, kasan-dev@googlegroups.com, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 17, 2025 at 12:28=E2=80=AFAM Yeoreum Yun <yeoreum.yun@arm.com> =
-wrote:
->
-> Since Armv8.9, FEATURE_MTE_STORE_ONLY feature is introduced to restrict
-> raise of tag check fault on store operation only.
-> Introduce KASAN write only mode based on this feature.
->
-> KASAN write only mode restricts KASAN checks operation for write only and
-> omits the checks for fetch/read operations when accessing memory.
-> So it might be used not only debugging enviroment but also normal
-> enviroment to check memory safty.
->
-> This features can be controlled with "kasan.write_only" arguments.
-> When "kasan.write_only=3Don", KASAN checks write operation only otherwise
-> KASAN checks all operations.
->
-> This changes the MTE_STORE_ONLY feature as BOOT_CPU_FEATURE like
-> ARM64_MTE_ASYMM so that makes it initialise in kasan_init_hw_tags()
-> with other function together.
->
-> Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
-> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
-> ---
->  Documentation/dev-tools/kasan.rst  |  3 ++
->  arch/arm64/include/asm/memory.h    |  1 +
->  arch/arm64/include/asm/mte-kasan.h |  6 ++++
->  arch/arm64/kernel/cpufeature.c     |  2 +-
->  arch/arm64/kernel/mte.c            | 18 ++++++++++++
->  mm/kasan/hw_tags.c                 | 45 ++++++++++++++++++++++++++++--
->  mm/kasan/kasan.h                   |  7 +++++
->  7 files changed, 79 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/=
-kasan.rst
-> index 0a1418ab72fd..a034700da7c4 100644
-> --- a/Documentation/dev-tools/kasan.rst
-> +++ b/Documentation/dev-tools/kasan.rst
-> @@ -143,6 +143,9 @@ disabling KASAN altogether or controlling its feature=
-s:
->    Asymmetric mode: a bad access is detected synchronously on reads and
->    asynchronously on writes.
->
-> +- ``kasan.write_only=3Doff`` or ``kasan.write_only=3Don`` controls wheth=
-er KASAN
-> +  checks the write (store) accesses only or all accesses (default: ``off=
-``).
-> +
->  - ``kasan.vmalloc=3Doff`` or ``=3Don`` disables or enables tagging of vm=
-alloc
->    allocations (default: ``on``).
->
-> diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/mem=
-ory.h
-> index 5213248e081b..f1505c4acb38 100644
-> --- a/arch/arm64/include/asm/memory.h
-> +++ b/arch/arm64/include/asm/memory.h
-> @@ -308,6 +308,7 @@ static inline const void *__tag_set(const void *addr,=
- u8 tag)
->  #define arch_enable_tag_checks_sync()          mte_enable_kernel_sync()
->  #define arch_enable_tag_checks_async()         mte_enable_kernel_async()
->  #define arch_enable_tag_checks_asymm()         mte_enable_kernel_asymm()
-> +#define arch_enable_tag_checks_write_only()    mte_enable_kernel_store_o=
-nly()
->  #define arch_suppress_tag_checks_start()       mte_enable_tco()
->  #define arch_suppress_tag_checks_stop()                mte_disable_tco()
->  #define arch_force_async_tag_fault()           mte_check_tfsr_exit()
-> diff --git a/arch/arm64/include/asm/mte-kasan.h b/arch/arm64/include/asm/=
-mte-kasan.h
-> index 2e98028c1965..0f9b08e8fb8d 100644
-> --- a/arch/arm64/include/asm/mte-kasan.h
-> +++ b/arch/arm64/include/asm/mte-kasan.h
-> @@ -200,6 +200,7 @@ static inline void mte_set_mem_tag_range(void *addr, =
-size_t size, u8 tag,
->  void mte_enable_kernel_sync(void);
->  void mte_enable_kernel_async(void);
->  void mte_enable_kernel_asymm(void);
-> +int mte_enable_kernel_store_only(void);
->
->  #else /* CONFIG_ARM64_MTE */
->
-> @@ -251,6 +252,11 @@ static inline void mte_enable_kernel_asymm(void)
->  {
->  }
->
-> +static inline int mte_enable_kernel_store_only(void)
-> +{
-> +       return -EINVAL;
-> +}
-> +
->  #endif /* CONFIG_ARM64_MTE */
->
->  #endif /* __ASSEMBLY__ */
-> diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeatur=
-e.c
-> index ef269a5a37e1..1f6e8c87aae7 100644
-> --- a/arch/arm64/kernel/cpufeature.c
-> +++ b/arch/arm64/kernel/cpufeature.c
-> @@ -2945,7 +2945,7 @@ static const struct arm64_cpu_capabilities arm64_fe=
-atures[] =3D {
->         {
->                 .desc =3D "Store Only MTE Tag Check",
->                 .capability =3D ARM64_MTE_STORE_ONLY,
-> -               .type =3D ARM64_CPUCAP_SYSTEM_FEATURE,
-> +               .type =3D ARM64_CPUCAP_BOOT_CPU_FEATURE,
->                 .matches =3D has_cpuid_feature,
->                 ARM64_CPUID_FIELDS(ID_AA64PFR2_EL1, MTESTOREONLY, IMP)
->         },
-> diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
-> index e5e773844889..54a52dc5c1ae 100644
-> --- a/arch/arm64/kernel/mte.c
-> +++ b/arch/arm64/kernel/mte.c
-> @@ -157,6 +157,24 @@ void mte_enable_kernel_asymm(void)
->                 mte_enable_kernel_sync();
->         }
->  }
-> +
-> +int mte_enable_kernel_store_only(void)
-> +{
-> +       /*
-> +        * If the CPU does not support MTE store only,
-> +        * the kernel checks all operations.
-> +        */
-> +       if (!cpus_have_cap(ARM64_MTE_STORE_ONLY))
-> +               return -EINVAL;
-> +
-> +       sysreg_clear_set(sctlr_el1, SCTLR_EL1_TCSO_MASK,
-> +                        SYS_FIELD_PREP(SCTLR_EL1, TCSO, 1));
-> +       isb();
-> +
-> +       pr_info_once("MTE: enabled store only mode at EL1\n");
-> +
-> +       return 0;
-> +}
->  #endif
->
->  #ifdef CONFIG_KASAN_HW_TAGS
-> diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
-> index 9a6927394b54..646f090e57e3 100644
-> --- a/mm/kasan/hw_tags.c
-> +++ b/mm/kasan/hw_tags.c
-> @@ -67,6 +67,9 @@ DEFINE_STATIC_KEY_FALSE(kasan_flag_vmalloc);
->  #endif
->  EXPORT_SYMBOL_GPL(kasan_flag_vmalloc);
->
-> +/* Whether to check write accesses only. */
-> +static bool kasan_flag_write_only =3D false;
-> +
->  #define PAGE_ALLOC_SAMPLE_DEFAULT      1
->  #define PAGE_ALLOC_SAMPLE_ORDER_DEFAULT        3
->
-> @@ -141,6 +144,23 @@ static int __init early_kasan_flag_vmalloc(char *arg=
-)
->  }
->  early_param("kasan.vmalloc", early_kasan_flag_vmalloc);
->
-> +/* kasan.write_only=3Doff/on */
-> +static int __init early_kasan_flag_write_only(char *arg)
-> +{
-> +       if (!arg)
-> +               return -EINVAL;
-> +
-> +       if (!strcmp(arg, "off"))
-> +               kasan_flag_write_only =3D false;
-> +       else if (!strcmp(arg, "on"))
-> +               kasan_flag_write_only =3D true;
-> +       else
-> +               return -EINVAL;
-> +
-> +       return 0;
-> +}
-> +early_param("kasan.write_only", early_kasan_flag_write_only);
-> +
->  static inline const char *kasan_mode_info(void)
->  {
->         if (kasan_mode =3D=3D KASAN_MODE_ASYNC)
-> @@ -262,10 +282,11 @@ void __init kasan_init_hw_tags(void)
->         /* KASAN is now initialized, enable it. */
->         static_branch_enable(&kasan_flag_enabled);
->
-> -       pr_info("KernelAddressSanitizer initialized (hw-tags, mode=3D%s, =
-vmalloc=3D%s, stacktrace=3D%s)\n",
-> +       pr_info("KernelAddressSanitizer initialized (hw-tags, mode=3D%s, =
-vmalloc=3D%s, stacktrace=3D%s, write_only=3D%s)\n",
->                 kasan_mode_info(),
->                 str_on_off(kasan_vmalloc_enabled()),
-> -               str_on_off(kasan_stack_collection_enabled()));
-> +               str_on_off(kasan_stack_collection_enabled()),
-> +               str_on_off(kasan_flag_write_only));
->  }
->
->  #ifdef CONFIG_KASAN_VMALLOC
-> @@ -392,6 +413,20 @@ void kasan_enable_hw_tags(void)
->                 hw_enable_tag_checks_asymm();
->         else
->                 hw_enable_tag_checks_sync();
-> +
-> +       /*
-> +        * CPUs can only be in one of two states:
-> +        *   - All CPUs support the write_only feature
-> +        *   - No CPUs support the write_only feature
-> +        *
-> +        * If the first CPU attempts hw_enable_tag_checks_write_only() an=
-d
-> +        * finds the feature unsupported, kasan_flag_write_only is set to=
- OFF
-> +        * to avoid further unnecessary calls on other CPUs.
-> +        */
-> +       if (kasan_flag_write_only && hw_enable_tag_checks_write_only()) {
-> +               kasan_flag_write_only =3D false;
-> +               pr_err_once("write-only mode is not supported and thus no=
-t enabled\n");
-> +       }
->  }
->
->  #if IS_ENABLED(CONFIG_KASAN_KUNIT_TEST)
-> @@ -404,4 +439,10 @@ VISIBLE_IF_KUNIT void kasan_force_async_fault(void)
->  }
->  EXPORT_SYMBOL_IF_KUNIT(kasan_force_async_fault);
->
-> +VISIBLE_IF_KUNIT bool kasan_write_only_enabled(void)
-> +{
-> +       return kasan_flag_write_only;
-> +}
-> +EXPORT_SYMBOL_IF_KUNIT(kasan_write_only_enabled);
-> +
->  #endif
-> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-> index 129178be5e64..844eedf2ef9c 100644
-> --- a/mm/kasan/kasan.h
-> +++ b/mm/kasan/kasan.h
-> @@ -431,6 +431,7 @@ static inline const void *arch_kasan_set_tag(const vo=
-id *addr, u8 tag)
->  #define hw_suppress_tag_checks_start()         arch_suppress_tag_checks_=
-start()
->  #define hw_suppress_tag_checks_stop()          arch_suppress_tag_checks_=
-stop()
->  #define hw_force_async_tag_fault()             arch_force_async_tag_faul=
-t()
-> +#define hw_enable_tag_checks_write_only()      arch_enable_tag_checks_wr=
-ite_only()
->  #define hw_get_random_tag()                    arch_get_random_tag()
->  #define hw_get_mem_tag(addr)                   arch_get_mem_tag(addr)
->  #define hw_set_mem_tag_range(addr, size, tag, init) \
-> @@ -451,11 +452,17 @@ void __init kasan_init_tags(void);
->  #if defined(CONFIG_KASAN_HW_TAGS) && IS_ENABLED(CONFIG_KASAN_KUNIT_TEST)
->
->  void kasan_force_async_fault(void);
-> +bool kasan_write_only_enabled(void);
->
->  #else /* CONFIG_KASAN_HW_TAGS && CONFIG_KASAN_KUNIT_TEST */
->
->  static inline void kasan_force_async_fault(void) { }
->
-> +static inline bool kasan_write_only_enabled(void)
-> +{
-> +       return false;
-> +}
-> +
->  #endif /* CONFIG_KASAN_HW_TAGS && CONFIG_KASAN_KUNIT_TEST */
->
->  #ifdef CONFIG_KASAN_SW_TAGS
-> --
-> LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
->
+This patch series introduces KStackWatch, a lightweight debugging tool to detect
+kernel stack corruption in real time. It installs a hardware breakpoint
+(watchpoint) at a function's specified offset using `kprobe.post_handler` and
+removes it in `fprobe.exit_handler`. This covers the full execution window and
+reports corruption immediately with time, location, and a call stack.
 
-Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
+The motivation comes from scenarios where corruption occurs silently in one
+function but manifests later in another, without a direct call trace linking
+the two. Such bugs are often extremely hard to debug with existing tools.
+These scenarios are demonstrated in test 3–5 (silent corruption test, patch 20).
+
+Key features include:
+
+* Immediate and precise corruption detection
+* Support multiple watchpoints for concurrently called functions
+* Lockless design, usable in any context
+* Depth filter for recursive calls
+* Minimal impact on reproducibility
+* Flexible procfs configuration with key=val syntax
+
+To validate the approach, the patch includes a test module and a test script.
+
+There is a workflow example described in detail in the documentation (patch 22).
+Please read the document first if you want an overview.
+
+---
+  Patches 1–3 of this series are also used in the wprobe work proposed by
+  Masami Hiramatsu, so there may be some overlap between our patches.
+  Patch 3 comes directly from Masami Hiramatsu (thanks).
+---
+Changelog
+
+V5:
+  * Support key=value input format
+  * Support multiple watchpoints
+  * Support watching instruction inside loop
+  * Support recursion depth tracking with generation
+  * Ignore triggers from fprobe trampoline
+  * Split watch_on into watch_get and watch_on to fail fast
+  * Handle ksw_stack_prepare_watch error
+  * Rewrite silent corruption test
+  * Add multiple watchpoints test
+  * Add an example in documentation
+
+V4:
+  https://lore.kernel.org/all/20250912101145.465708-1-wangjinchao600@gmail.com/
+  * Solve the lockdep issues with:
+    * per-task KStackWatch context to track depth
+    * atomic flag to protect watched_addr
+  * Use refactored version of arch_reinstall_hw_breakpoint
+
+V3:
+  https://lore.kernel.org/all/20250910052335.1151048-1-wangjinchao600@gmail.com/
+  * Use modify_wide_hw_breakpoint_local() (from Masami)
+  * Add atomic flag to restrict /proc/kstackwatch to a single opener
+  * Protect stack probe with an atomic PID flag
+  * Handle CPU hotplug for watchpoints
+  * Add preempt_disable/enable in ksw_watch_on_local_cpu()
+  * Introduce const struct ksw_config *ksw_get_config(void) and use it
+  * Switch to global watch_attr, remove struct watch_info
+  * Validate local_var_len in parser()
+  * Handle case when canary is not found
+  * Use dump_stack() instead of show_regs() to allow module build
+  * Reduce logging and comments
+  * Format logs with KBUILD_MODNAME
+  * Remove unused headers
+  * Add new document
+
+V2:
+  https://lore.kernel.org/all/20250904002126.1514566-1-wangjinchao600@gmail.com/
+  * Make hardware breakpoint and stack operations architecture-independent.
+
+V1:
+  https://lore.kernel.org/all/20250828073311.1116593-1-wangjinchao600@gmail.com/
+  * Replaced kretprobe with fprobe for function exit hooking, as suggested
+    by Masami Hiramatsu
+  * Introduced per-task depth logic to track recursion across scheduling
+  * Removed the use of workqueue for a more efficient corruption check
+  * Reordered patches for better logical flow
+  * Simplified and improved commit messages throughout the series
+  * Removed initial archcheck which should be improved later
+  * Replaced the multiple-thread test with silent corruption test
+  * Split self-tests into a separate patch to improve clarity.
+  * Added a new entry for KStackWatch to the MAINTAINERS file.
+
+RFC:
+  https://lore.kernel.org/lkml/20250818122720.434981-1-wangjinchao600@gmail.com/
+
+---
+
+The series is structured as follows:
+
+Jinchao Wang (22):
+  x86/hw_breakpoint: Unify breakpoint install/uninstall
+  x86/hw_breakpoint: Add arch_reinstall_hw_breakpoint
+  mm/ksw: add build system support
+  mm/ksw: add ksw_config struct and parser
+  mm/ksw: add singleton /proc/kstackwatch interface
+  mm/ksw: add HWBP pre-allocation
+  mm/ksw: Add atomic watchpoint management api
+  mm/ksw: ignore false positives from exit trampolines
+  mm/ksw: support CPU hotplug
+  sched: add per-task context
+  mm/ksw: add entry kprobe and exit fprobe management
+  mm/ksw: add per-task ctx tracking
+  mm/ksw: resolve stack watch addr and len
+  mm/ksw: manage probe and HWBP lifecycle via procfs
+  mm/ksw: add self-debug helpers
+  mm/ksw: add test module
+  mm/ksw: add stack overflow test
+  mm/ksw: add recursive depth test
+  mm/ksw: add multi-thread corruption test cases
+  tools/ksw: add test script
+  docs: add KStackWatch document
+  MAINTAINERS: add entry for KStackWatch
+
+Masami Hiramatsu (Google) (1):
+  HWBP: Add modify_wide_hw_breakpoint_local() API
+
+ Documentation/dev-tools/index.rst       |   1 +
+ Documentation/dev-tools/kstackwatch.rst | 316 ++++++++++++++++++++++
+ MAINTAINERS                             |   8 +
+ arch/Kconfig                            |  10 +
+ arch/x86/Kconfig                        |   1 +
+ arch/x86/include/asm/hw_breakpoint.h    |   8 +
+ arch/x86/kernel/hw_breakpoint.c         | 148 ++++++-----
+ include/linux/hw_breakpoint.h           |   6 +
+ include/linux/kstackwatch_types.h       |  14 +
+ include/linux/sched.h                   |   5 +
+ kernel/events/hw_breakpoint.c           |  37 +++
+ mm/Kconfig.debug                        |  18 ++
+ mm/Makefile                             |   1 +
+ mm/kstackwatch/Makefile                 |   8 +
+ mm/kstackwatch/kernel.c                 | 263 +++++++++++++++++++
+ mm/kstackwatch/kstackwatch.h            |  58 +++++
+ mm/kstackwatch/stack.c                  | 240 +++++++++++++++++
+ mm/kstackwatch/test.c                   | 332 ++++++++++++++++++++++++
+ mm/kstackwatch/watch.c                  | 305 ++++++++++++++++++++++
+ tools/kstackwatch/kstackwatch_test.sh   |  52 ++++
+ 20 files changed, 1769 insertions(+), 62 deletions(-)
+ create mode 100644 Documentation/dev-tools/kstackwatch.rst
+ create mode 100644 include/linux/kstackwatch_types.h
+ create mode 100644 mm/kstackwatch/Makefile
+ create mode 100644 mm/kstackwatch/kernel.c
+ create mode 100644 mm/kstackwatch/kstackwatch.h
+ create mode 100644 mm/kstackwatch/stack.c
+ create mode 100644 mm/kstackwatch/test.c
+ create mode 100644 mm/kstackwatch/watch.c
+ create mode 100755 tools/kstackwatch/kstackwatch_test.sh
+
+-- 
+2.43.0
+
