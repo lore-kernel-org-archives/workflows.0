@@ -1,63 +1,63 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 389FE305058
-	for <workflows@vger.kernel.org>; Wed, 24 Sep 2025 11:52:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E4530506A
+	for <workflows@vger.kernel.org>; Wed, 24 Sep 2025 11:52:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758714737; cv=none; b=QU9fAg+WFni+c8cqEg4RPb7n1xTgroKGGykpquQntioZb5bBIhwwNc6nQ6YRCpi02k9k3R+I5wnJSjjGbx64CRFZIkC5vaQwkPTJyGcKur9NDETymIVJhN8iUosM6wTtOlEuSoIJGFW6fus33WUcpXiDywnS0x4Dt1MlhKUwmq0=
+	t=1758714741; cv=none; b=QLbU47JrDcpZ9oSOtonv3bLAbPMwXaQo1MpXTNBsBHaYDktoORc2xOk5ldGe7j/tW81kGGDXVq3AM/HcCzdspxMLmURigespKafIcLwmKOjX38eh1ShiBTKsno5j8ZqGLzhqxDHbhESYkV1u71hkfAiKWYvvRY4UOYiXpTC37dU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758714737; c=relaxed/simple;
-	bh=EtuMaKP8CWfi9pjY9FcQGV9HEHi4WtiOKMPT566R1T4=;
+	s=arc-20240116; t=1758714741; c=relaxed/simple;
+	bh=fgMlahiCQseGsOMwUDeQip37398eJhQex5YpJdEa4RY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IU7zXvrbUS5R+rgIoFEJh0EdG9fd2YWAqA0HjuiSjFg9I4IC0TBR9DN65ql2HK/5ancpm8h6kzQWgkc+2A0HaW6qPCMkBMrYeYTqHWZh0huvIuz8+/X5H41kVKQ3QFyHeL7TV16aHS1zsBsEWEjI1Pm35wguyzvN68Y3H072QJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KadITuav; arc=none smtp.client-ip=209.85.214.169
+	 MIME-Version; b=K+c6mLeoQMef5thPl5sCMPBnzxAf8Q1fQxhnIHLAquMl2mq5C09rk6l9PYVNlCrEmoXtRG74v2AWURieT2CKqZ++YWF/GJ0wUZpuYJP67mMfc3gDUcVW1FrfVYAXW/mFp03XuMVT9ohgAdTWHGaQ+aMnD38s+UeP6Vyb2OUHAoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hpQkdID/; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KadITuav"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-27d69771e3eso13206695ad.3
-        for <workflows@vger.kernel.org>; Wed, 24 Sep 2025 04:52:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hpQkdID/"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-27d4d6b7ab5so26556945ad.2
+        for <workflows@vger.kernel.org>; Wed, 24 Sep 2025 04:52:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758714731; x=1759319531; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1758714739; x=1759319539; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VplC5p74+BCL3Xjzqw2UL/AL1hevTQUKrGPaYOT40mY=;
-        b=KadITuavOA2ZmCjJymWSBloH7MHKJhTzOxSIBdRu1FkjkiP29qrosSqXUEPQlFMyLs
-         AoQ7Y7As/bc2Hu9BKtRbo8IXLVzg8m/8eg36xI/JzJXCJZwichsTS82hJ9rrgvH73HTn
-         iv652MEycbMu4T/2HhU9eKlF9etjgeImW09rguRcU8I3gCpnhO+8o3wBo6GBY0c21Rh4
-         s+uz24ctoCl+ogVBkKYZZcFO4wwhZi0RSU1CNE0PxfJzS5geUElVPuwlw+5H4JdiVOeK
-         HrvWswubwt1KYoAq/nUTpmUgUqNbF8aqej2vWvo1dNqcfFtOWz4QnbDnGE7SnNY87Cpd
-         4VXw==
+        bh=Zjvk/jwcgtCF9TRiT6Fv94jzQiYOsdOhmjAblUevyNs=;
+        b=hpQkdID/UsPSSm4az1H/+3L6wEGeYzGYCgN3GwzYa9HNIiAOqBa/CEdCWallO7C71F
+         fBcI4KqsiOclw9d/mL0hXcJJYBvQpnQQ6RnoZF/zyDNdeDQqGiDCFeoVXARbEsypMK9G
+         MsSZmGuaTI1EuFV2FAUYaQ8FDy+Eth4FUFfPFp3OeMaRqDL9k8D2cL+LVlnUp3bdjxgS
+         2SH2a3mHiiMBtvxsMjyL0xD25CNP5KqMYGmj8rSYLKE5piA4OfY1PyOLQJJ3SkDEookD
+         7kqEpL5qoJ4NvRODY/PHoWxfRfB0kjP1YBSZm+Ir2cc4jsMwS1NUZoRXL9hs4mJNfuox
+         AD3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758714731; x=1759319531;
+        d=1e100.net; s=20230601; t=1758714739; x=1759319539;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VplC5p74+BCL3Xjzqw2UL/AL1hevTQUKrGPaYOT40mY=;
-        b=JavWPgd2MaVIPEyi8CbZ/1OpwezY8L7qZDfXGK25GJbQHWyOykZyrVxk0WxDxTbtJa
-         sL713MenvF9wjrFVg/wo3/SDtBCwRMb88GSs5/iprQzx+WRcTJhVei+6931uv8ZJVPCF
-         ZcPwZ3j+1fLAYMvfVG1yIgyTtrFud9WSf8GjyV5Pq0OSDgfzVVNo8uhyo0e9GVQzX5cs
-         zXSYoyjzXghaHrv9jeqIo8Yimt5ftGxRtbmmEYqeVfS+xW98vBg+rk8OtQvyRlRV8FsD
-         PvMNOpFOpw+zQ9xIYlyS6JjK4M015wmMG+OCngqy6e7vuKZnqvbCq+Yvo42/gGudNr7W
-         VgKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXJOLDMrPYl+v2BOZdAjDz2oBtZBPx1WNmf1I2Li+XChEg1qIC2Q3WCgxas1HJ45rhPmTFoQHNP0Rw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwcVS4w4nvvKy8pVKWRQ9rOxcr7slwgOxnJTFnuxBRNwrg2e6k0
-	NDIWLlKU11oXGn1evum70Nu4e+vcb9gg7i4lQ8PtlJsiDr49ov8EaEMN
-X-Gm-Gg: ASbGncsLcMEYdoB1VI/cznBbQgeDVcSZYd+dAssOIJlQgXB+X3zFFWCRgXbD0J+VDjT
-	2S56jXUIBX0uOC9kYuWPs5eZXaRtMqPMpUKZNn8l/wQ5EWPGfdLPaRF1ktGRBc6rbRu4HmxjY4N
-	iUZlqGR9qKLfwBGLRBHlRyQBbtYAekZNJuYqW7RVudMLLhtX69e5ixy+ugy6TsZWVc4hzto70cH
-	DmjWtSjkpmzFSXK3OLq12YgbmBHd7CU9R9Oy8DuJA/VfAZxrLHrWLcuZ5qFmrvuZXxMcooeE1vb
-	8Ii+HB3tGjZbZB/jiV9J9YZS0O5L8t/U506lrvKR7QJri2Mk6QPfCAvh6Qm8nKg3f6XtHLLOs/J
-	GTc8Wp1ZhQClLXODCUnFIZG1TOg==
-X-Google-Smtp-Source: AGHT+IGFrnEbp9Ui8MNObSoQqRzgjbRIw9qZ/ysMx9tVm7YuXfu+8QvxKGGvJ7LyD8Oz3yVl/creWg==
-X-Received: by 2002:a17:903:230a:b0:273:31fb:a872 with SMTP id d9443c01a7336-27cc2aa7dc7mr73054015ad.6.1758714731497;
-        Wed, 24 Sep 2025 04:52:11 -0700 (PDT)
+        bh=Zjvk/jwcgtCF9TRiT6Fv94jzQiYOsdOhmjAblUevyNs=;
+        b=R8DnIweDgwJXH9b0GvVkI3x/B6jHzydNo423UuoF9IwEbGwnrJ391yaCYPZbbXScoi
+         wzlw0fBwDQwdcT/1Y3eMS+6lsu5xC6wwPkre+Wp+YvSEW2mKhnggkfsYAc1b1rqcjmaa
+         wS1pijqiK8DhodjywTI++VyX9fytoTxvxiWgrrK7rt50ORnas3iiFnLWHzR3BvDT52xW
+         gfYUPCueENrJBpBwaweD2y08WmWmunAbO12g/7M0oihdv6x3avwjh1+kPG3naPxumbre
+         aRx7Y6MLmA02MXzWjS/QM4U9xN0PjE2Kslvl6ZiyMoj5U4MIYvnlevf8tui4GbCJWq8g
+         gr2A==
+X-Forwarded-Encrypted: i=1; AJvYcCVbZGFgN2cIkMPMhrUtU7uCTYPKVHHvsF6WTraMIFd7IEvcEJGBNKo8WrRs+pEoIJLvvSiFqqN/Kf4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzduKJZEso4m2hImWGtXYG9rSzg8c+Y8aIsqpyMstsMgqNelz5c
+	1VLKxyE22wd0JUdlLeJLnQHvjenwjGgnSt4c4AmJ9XDlDoDWC/BT+Z48
+X-Gm-Gg: ASbGnctZZ/FL2b4tP0NlvaFihoSlBhBFTJRxCSIzUIpm9811a5SvKcyv5gFnmIy8plA
+	gz8qj7e0mOcyxNI6ix3Jts9aMjC6x4v8suAjmp9fLzj8Npqd1MGMBnY3aqeNTx2Gks3lzaehcsg
+	PBJSDsxYrQHwa8BBU/gtnlS5yvlsaLDi0VksD0E7XP/Std1+GdzScHFIlyPoz2ARQJt40ISNw9W
+	oZIicZ7G/jS3izo4KlpF10LA9XnPTc1WYBjOFRodK0RkhbUNOQ/lMscuE8krdi53WLG3vsiGup1
+	qDGeTL3BPbLRIwKvUUWgMl4FZXyNxXr3Eve2xUg2O23czd14bUHQhR2z2sl+5JNk68sGFsBMfB7
+	IQKi6yz8OKTtwCEq6LKtQSltgvw==
+X-Google-Smtp-Source: AGHT+IEDDMc95VZgHrJ2bAg4UbEi7E3pBoXcjCjpFvkax+6hzWgfw34rDBIIXWBy56pkk1ir13aqcg==
+X-Received: by 2002:a17:902:e78e:b0:270:ea84:324a with SMTP id d9443c01a7336-27cc5624e4emr73742285ad.38.1758714738650;
+        Wed, 24 Sep 2025 04:52:18 -0700 (PDT)
 Received: from localhost ([23.142.224.65])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ec0eb4293sm18798485ad.138.2025.09.24.04.52.10
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2752328629fsm101241105ad.106.2025.09.24.04.52.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Sep 2025 04:52:10 -0700 (PDT)
+        Wed, 24 Sep 2025 04:52:18 -0700 (PDT)
 From: Jinchao Wang <wangjinchao600@gmail.com>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Masami Hiramatsu <mhiramat@kernel.org>,
@@ -123,9 +123,9 @@ To: Andrew Morton <akpm@linux-foundation.org>,
 	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	linux-trace-kernel@vger.kernel.org
 Cc: Jinchao Wang <wangjinchao600@gmail.com>
-Subject: [PATCH v5 10/23] mm/ksw: support CPU hotplug
-Date: Wed, 24 Sep 2025 19:50:53 +0800
-Message-ID: <20250924115124.194940-11-wangjinchao600@gmail.com>
+Subject: [PATCH v5 12/23] mm/ksw: add entry kprobe and exit fprobe management
+Date: Wed, 24 Sep 2025 19:50:55 +0800
+Message-ID: <20250924115124.194940-13-wangjinchao600@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250924115124.194940-1-wangjinchao600@gmail.com>
 References: <20250924115124.194940-1-wangjinchao600@gmail.com>
@@ -137,89 +137,137 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Register CPU online/offline callbacks via cpuhp_setup_state_nocalls()
-so stack watches are installed/removed dynamically as CPUs come online
-or go offline.
-
-When a new CPU comes online, register a hardware breakpoint for the holder,
-avoiding races with watch_on()/watch_off() that may run on another CPU. The
-watch address will be updated the next time watch_on() is called.
+Provide ksw_stack_init() and ksw_stack_exit() to manage entry and exit
+probes for the target function from ksw_get_config().
 
 Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
 ---
- mm/kstackwatch/watch.c | 52 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
+ mm/kstackwatch/kstackwatch.h |   4 ++
+ mm/kstackwatch/stack.c       | 101 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 105 insertions(+)
 
-diff --git a/mm/kstackwatch/watch.c b/mm/kstackwatch/watch.c
-index 722ffd9fda7c..f32b1e46168c 100644
---- a/mm/kstackwatch/watch.c
-+++ b/mm/kstackwatch/watch.c
-@@ -89,6 +89,48 @@ static void ksw_watch_on_local_cpu(void *info)
- 	WARN(ret, "fail to reinstall HWBP on CPU%d ret %d", cpu, ret);
- }
+diff --git a/mm/kstackwatch/kstackwatch.h b/mm/kstackwatch/kstackwatch.h
+index 850fc2b18a9c..4045890e5652 100644
+--- a/mm/kstackwatch/kstackwatch.h
++++ b/mm/kstackwatch/kstackwatch.h
+@@ -35,6 +35,10 @@ struct ksw_config {
+ // singleton, only modified in kernel.c
+ const struct ksw_config *ksw_get_config(void);
  
-+static int ksw_watch_cpu_online(unsigned int cpu)
++/* stack management */
++int ksw_stack_init(void);
++void ksw_stack_exit(void);
++
+ /* watch management */
+ struct ksw_watchpoint {
+ 	struct perf_event *__percpu *event;
+diff --git a/mm/kstackwatch/stack.c b/mm/kstackwatch/stack.c
+index cec594032515..9f59f41d954c 100644
+--- a/mm/kstackwatch/stack.c
++++ b/mm/kstackwatch/stack.c
+@@ -1 +1,102 @@
+ // SPDX-License-Identifier: GPL-2.0
++#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
++
++#include <linux/atomic.h>
++#include <linux/fprobe.h>
++#include <linux/kprobes.h>
++#include <linux/kstackwatch_types.h>
++#include <linux/printk.h>
++
++#include "kstackwatch.h"
++
++static struct kprobe entry_probe;
++static struct fprobe exit_probe;
++
++static int ksw_stack_prepare_watch(struct pt_regs *regs,
++				   const struct ksw_config *config,
++				   ulong *watch_addr, u16 *watch_len)
 +{
-+	struct perf_event_attr attr;
-+	struct ksw_watchpoint *wp;
-+	call_single_data_t *csd;
-+	struct perf_event *bp;
-+
-+	mutex_lock(&all_wp_mutex);
-+	list_for_each_entry(wp, &all_wp_list, list) {
-+		attr = wp->attr;
-+		attr.bp_addr = (u64)&holder;
-+		bp = perf_event_create_kernel_counter(&attr, cpu, NULL,
-+						      ksw_watch_handler, wp);
-+		if (IS_ERR(bp)) {
-+			pr_warn("%s failed to create watch on CPU %d: %ld\n",
-+				__func__, cpu, PTR_ERR(bp));
-+			continue;
-+		}
-+
-+		per_cpu(*wp->event, cpu) = bp;
-+		csd = per_cpu_ptr(wp->csd, cpu);
-+		INIT_CSD(csd, ksw_watch_on_local_cpu, wp);
-+	}
-+	mutex_unlock(&all_wp_mutex);
++	/* implement logic will be added in following patches */
++	*watch_addr = 0;
++	*watch_len = 0;
 +	return 0;
 +}
 +
-+static int ksw_watch_cpu_offline(unsigned int cpu)
++static void ksw_stack_entry_handler(struct kprobe *p, struct pt_regs *regs,
++				    unsigned long flags)
 +{
-+	struct ksw_watchpoint *wp;
-+	struct perf_event *bp;
++	struct ksw_ctx *ctx = &current->ksw_ctx;
++	ulong watch_addr;
++	u16 watch_len;
++	int ret;
 +
-+	mutex_lock(&all_wp_mutex);
-+	list_for_each_entry(wp, &all_wp_list, list) {
-+		bp = per_cpu(*wp->event, cpu);
-+		if (bp)
-+			unregister_hw_breakpoint(bp);
++	ret = ksw_watch_get(&ctx->wp);
++	if (ret)
++		return;
++
++	ret = ksw_stack_prepare_watch(regs, ksw_get_config(), &watch_addr,
++				      &watch_len);
++	if (ret) {
++		ksw_watch_off(ctx->wp);
++		ctx->wp = NULL;
++		pr_err("failed to prepare watch target: %d\n", ret);
++		return;
 +	}
-+	mutex_unlock(&all_wp_mutex);
-+	return 0;
++
++	ret = ksw_watch_on(ctx->wp, watch_addr, watch_len);
++	if (ret) {
++		pr_err("failed to watch on depth:%d addr:0x%lx len:%u %d\n",
++		       ksw_get_config()->depth, watch_addr, watch_len, ret);
++		return;
++	}
++
 +}
 +
- static void ksw_watch_update(struct ksw_watchpoint *wp, ulong addr, u16 len)
- {
- 	call_single_data_t *csd;
-@@ -210,6 +252,16 @@ int ksw_watch_init(void)
- 	if (ret <= 0)
- 		return -EBUSY;
- 
-+	ret = cpuhp_setup_state_nocalls(CPUHP_AP_ONLINE_DYN,
-+					"kstackwatch:online",
-+					ksw_watch_cpu_online,
-+					ksw_watch_cpu_offline);
-+	if (ret < 0) {
-+		ksw_watch_free();
-+		pr_err("Failed to register CPU hotplug notifier\n");
++static void ksw_stack_exit_handler(struct fprobe *fp, unsigned long ip,
++				   unsigned long ret_ip,
++				   struct ftrace_regs *regs, void *data)
++{
++	struct ksw_ctx *ctx = &current->ksw_ctx;
++
++
++	if (ctx->wp) {
++		ksw_watch_off(ctx->wp);
++		ctx->wp = NULL;
++		ctx->sp = 0;
++	}
++}
++
++int ksw_stack_init(void)
++{
++	int ret;
++	char *symbuf = NULL;
++
++	memset(&entry_probe, 0, sizeof(entry_probe));
++	entry_probe.symbol_name = ksw_get_config()->func_name;
++	entry_probe.offset = ksw_get_config()->func_offset;
++	entry_probe.post_handler = ksw_stack_entry_handler;
++	ret = register_kprobe(&entry_probe);
++	if (ret) {
++		pr_err("failed to register kprobe ret %d\n", ret);
 +		return ret;
 +	}
 +
- 	return 0;
- }
- 
++	memset(&exit_probe, 0, sizeof(exit_probe));
++	exit_probe.exit_handler = ksw_stack_exit_handler;
++	symbuf = (char *)ksw_get_config()->func_name;
++
++	ret = register_fprobe_syms(&exit_probe, (const char **)&symbuf, 1);
++	if (ret < 0) {
++		pr_err("failed to register fprobe ret %d\n", ret);
++		unregister_kprobe(&entry_probe);
++		return ret;
++	}
++
++	return 0;
++}
++
++void ksw_stack_exit(void)
++{
++	unregister_fprobe(&exit_probe);
++	unregister_kprobe(&entry_probe);
++}
 -- 
 2.43.0
 
