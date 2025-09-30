@@ -1,169 +1,183 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F175127147C
-	for <workflows@vger.kernel.org>; Tue, 30 Sep 2025 02:46:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6568B2BDC00
+	for <workflows@vger.kernel.org>; Tue, 30 Sep 2025 06:49:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759200372; cv=none; b=dYWgrTOjMzR6EwC5ajAsrVea/7Jy6q8fCDt/LuuJC9LMOpDDpPW2HXiiL2kDQ+T1clHqkC8h3ZhzQjxVVpLhksRUmO5K6GZ6vDISklHWtXFQWGshSVNMtSRzxbGqrqrDAvufI/LscuzCiSC9LA97tidOum0dQ6ad34wydKdYViE=
+	t=1759214977; cv=none; b=MIrl1wYOuvOJBRxun7tpaIYfFYzBnQVowIPCaKSVbazMnEZXPrKxK6rBZMH7X7yaYIY37Xs6PkQX/VTHlasz3ay2pNIq6ZG3d0fFFGMpx9LV+yybHYGwUJ6Wl35wu4JHediQcvbRPm5EOb2LGQdCPtRZd1Jagr0e/JejCz/LSLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759200372; c=relaxed/simple;
-	bh=1x1tZkclSlUAFkeAbCTbg9ur9vKYhrQAjAn0c+iWPHU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hvHO6j9Ubu6fLCvhDULQMONFkLsMJqe3IK7c4giUz1iyJ8G4qe/WNQAsg80p1TXZoLujf9Pbecou/iO5FCBHvbq5GG69u+0fA6vSx9pzsgLo/EG+2pYDIBT9vm7uQTH6CiaNdQbjYkdQgIdO5P/w/UWtr2W8TVaoJ/AgQ1hGpdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GD+28C8I; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759214977; c=relaxed/simple;
+	bh=qtCxdLAk5RxSyoau0wBFHmkETSWtB4mi0PWwaVQ2zUA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=EFPhPo2aFPYKF0ZmUnY5GqB9eO2dZZGF5vNj6R/FU+QW36gHSCb9zi7bDEmLsA9mninKcRlRuNlg21Fhwf3v+m3m4AH54lZVEewz+KOCxfc6ZcPgPnd8ahfMebrwgRd1+Ur6BZ+RxGS/Zf/I+3RxpAWQoaAbUukdmtVaQFXktdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dJxuTCv1; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GD+28C8I"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2680cf68265so45568975ad.2
-        for <workflows@vger.kernel.org>; Mon, 29 Sep 2025 19:46:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759200370; x=1759805170; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6dXdR7Vr7GvNxroOAYy+aBhMqtIGh2YpUvjEzBf0MIg=;
-        b=GD+28C8IUPvPybTav2nSS/vfj11laS+g6x4FMtRKDrg3QGJgVIb6VedaPqMxB3SpB0
-         3gTNvyiTrJIg6YqhoHZgmnXsd1WHyDJrUrPuAjVQLkuAHt5Ez8sZ2gbP1Q/Y0+8fkpnE
-         w6rHB1gdgfhM5iJfg+xpCr3uT+K2D7kVhWikJum0aAbMyVnQClxJJDuIpPQUy2bEUeUb
-         3c/LPOFfuLI3+gzDMRGqmPn5AfOY0N9A2uDReaMBYHslN1Tp/vHVAwso7qTYFkFZd9ao
-         8fQKAYcL+5FuME8Ha8G1FwAgZ3TeTKWIbMg6nT8+BZGTJmos1M/W0pwoJ8rHf54otuNH
-         xmWQ==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dJxuTCv1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1759214975;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=mqRlzhy6X/OCGXbjhJnXJHWuco4CEjpdGpSoiDLw9OM=;
+	b=dJxuTCv1MO3jEg+MbS1wLOSwzFskYzeefb6fSNtlph0M7gY7cQV6B3awr8n+3wfDK/xN36
+	3fbl6vXx5usKZlpgc13QcQ5MpynhjO4Iqzd9cUSZf2+wvtVn/qWFpvNlY1sqg0n4wLdSim
+	4j9fKLUw5eiwO3PEzF9r+xjByBVfi/s=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-596-Hd0CHqrYPeGoW8bJPqV4sQ-1; Tue, 30 Sep 2025 02:49:32 -0400
+X-MC-Unique: Hd0CHqrYPeGoW8bJPqV4sQ-1
+X-Mimecast-MFC-AGG-ID: Hd0CHqrYPeGoW8bJPqV4sQ_1759214971
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-3ee1365964cso3870553f8f.2
+        for <workflows@vger.kernel.org>; Mon, 29 Sep 2025 23:49:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759200370; x=1759805170;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6dXdR7Vr7GvNxroOAYy+aBhMqtIGh2YpUvjEzBf0MIg=;
-        b=vyfNitYRIyVrrGENXSmgAb4Dd7BCGs0UNOi8gnio6hikTgee7JHSsmDDGnV6ZEmI/g
-         kE1Xqe4PkUwJ56s27/dolx7nUkJWsJAoqjnkT+lfoDnpjwQnNvuJkUXgvqUoDpiQeo3r
-         9ThHdH/lE5k5bArxHnrZ01xg1Ce12mr/G1GGddT1BuzBdOFL0cxXQrBjP4/ijorBmI7R
-         MmMPRLOJHCikYyQxrWJ0oiXBtxnctLsDai84Y4HdgbgtILDXokHTY7NwVKJ1Ztj7T1EH
-         OAZ/YgpZ/ITXVwFob99Ec6UEGRMBsr72Q43LuU/igkRxIzV7lbOZOGnqR/o9eOIZWCif
-         WTDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCURijK8ddORqM+FXpLkLpkddHKpLyhXpKN3CGssdXQohSTgC12dIUxsts3gYZZLtV8hLrfjjJVBH9M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzUnzuVu8QEsBjjSnfT8suq+bQfCDcn/I1DTr65a9SBwvveVRBl
-	b4Qz00CPjU6g1YNzcqCB8iuQgJSE9/5sB7ntWqyeuuG4Oj+WGi7AbPtc
-X-Gm-Gg: ASbGncstWNqG6z1o3fQBIcpELdaWbXowbv3E5o1QspajFCfeoOBaHOyzY0kJ+/saAS9
-	LG9l60Dc7n6cS8YQ2sDaF/LTSunwV0g4pL0ZRkRFRyIwEwm/bJdM30KWTcB6SWYG0uoZfpJPPsH
-	Ll00owC5KJU13LSCFFTIyBC0vJ72CxRlA+2dZevrqzvEFFSsS918F/0z0KtU01G/Wj3xZ+PYFwJ
-	oJuJMVqxVOeq3YY+5A/HuZmSo0X+55gF5HYvZNCfNlXawnvS4o0BWk9wKKRKvrz4BOQ//cUnshq
-	v9kBNwvRGV7k5wlMMv3Vo9uk+xgZExZNXn51e4HizOmr3a8g6FDfYL8544LQTgU8V/AiMnd+oB5
-	mM8FnSiWYsG8/AqzxmqiVBY66/SFqfc1XjGMJAAK3jw3tpdbjkXm4BSJuIUHDt8rkkw==
-X-Google-Smtp-Source: AGHT+IEoEe43JjNKdWndUwta+OzzU/8noer3nQDRA4tPEoZN9FB7in6q7dddTrTKlJfmrNdEMUXFZw==
-X-Received: by 2002:a17:902:f9c6:b0:275:2aac:fef8 with SMTP id d9443c01a7336-27ed4a78d81mr138634555ad.38.1759200370200;
-        Mon, 29 Sep 2025 19:46:10 -0700 (PDT)
-Received: from localhost ([45.142.167.196])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed6715f0esm144277015ad.52.2025.09.29.19.46.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Sep 2025 19:46:09 -0700 (PDT)
-From: Jinchao Wang <wangjinchao600@gmail.com>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Alexander Potapenko <glider@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Marco Elver <elver@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>,
-	Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	"Liang, Kan" <kan.liang@linux.intel.com>,
-	David Hildenbrand <david@redhat.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Kees Cook <kees@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Rong Xu <xur@google.com>,
-	Naveen N Rao <naveen@kernel.org>,
-	David Kaplan <david.kaplan@amd.com>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Jinjie Ruan <ruanjinjie@huawei.com>,
-	Nam Cao <namcao@linutronix.de>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
-	linux-mm@kvack.org,
-	llvm@lists.linux.dev,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	kasan-dev@googlegroups.com,
-	"David S. Miller" <davem@davemloft.net>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	linux-trace-kernel@vger.kernel.org
-Cc: Jinchao Wang <wangjinchao600@gmail.com>
-Subject: [PATCH v6 23/23] MAINTAINERS: add entry for KStackWatch
-Date: Tue, 30 Sep 2025 10:43:44 +0800
-Message-ID: <20250930024402.1043776-24-wangjinchao600@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250930024402.1043776-1-wangjinchao600@gmail.com>
-References: <20250930024402.1043776-1-wangjinchao600@gmail.com>
+        d=1e100.net; s=20230601; t=1759214971; x=1759819771;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mqRlzhy6X/OCGXbjhJnXJHWuco4CEjpdGpSoiDLw9OM=;
+        b=esZdfLUo9Z9XInLYbPXqZPobr/HCbj82fbaS6I/b5lvh0x6tADC8OsWmUvuTvI/9vJ
+         6ImEE/c7McwGSDo4IZC64ZwRYcQIgRA5g718P19jyJVXpepqYGiI95jYwOBMLZLfNapG
+         yGAT6rwHTFY0qOrSxgb5v8M6TaoCJ707jzyU2v/oT9EfHeJL32zFHPXR/mM5yAkqrzzZ
+         YjbD49K9HxM5Otvt6IqJtocGbh0vWvBEe+GAstFu234IxPryZl1NxnnvVkISMEBFbzo8
+         sJfREJhkSu27u7u2QjRHTqBcKLrQht6XXYYw5/SFjb2u7Mep5MlBtUX0zRk8kJBqcX6m
+         ognw==
+X-Forwarded-Encrypted: i=1; AJvYcCXNXdWFd98EJZkahIz8n0DVXhwFlv17GSSAxLFRewjSKuwzTVcGRcN2pihnnx4sViA7CTer/fWLvlA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+ftU5EgLivP3n/wRfc0igGPGdu0jw1H6N686GK14EvtG5pEUl
+	NoofqJUuXcy5qzVPMfOCeAl+M2f6hhr3tOC2usDsg2lCqJ0N2EyCtxHwl8qW4FTMYcwpHc9gkYg
+	ZwIahxzU0NuyvcdKijfQn3USoluh0JwFFYaM34k1oOOy1IV/L9UIsbyW7wy52pw==
+X-Gm-Gg: ASbGncu/sBytRiCHkxK9wRVf3MII/yxkvnEmz2Qee5b5mHK9//qcwYvX3SZ2OlxPccd
+	6tGy7qdoQxVBKSc7xkzHh6YBFDBKYI1UBE4ghn1hZ6e1s8cYq8ZZTGkE9vFMdQ3dgyNfUMnWzmh
+	eaDDF3zeLZL0DqOIOjtKKzuJpHeUSrlyawryQDi8wMKGkQ6aOATpC7qB0U5UFAXxMF+vE0/Aven
+	+9wH59ArtNdpJr9bgN6yK12O1mXC3DI99eDXlNqFNPuxVIwuEG+hMif0xyL5xbq1BRtxcQr0LUR
+	iw+adisgk6G6avXHkbnMuKqNU5evMTHoLJTwdVeWgymmklftStE5KJh2wniZqno2OBt/OO2DW8q
+	tTSVMwfza
+X-Received: by 2002:a5d:5c84:0:b0:3ea:15cd:ac3b with SMTP id ffacd0b85a97d-40e480ca367mr13436906f8f.30.1759214970680;
+        Mon, 29 Sep 2025 23:49:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFjJ1kh+gHGKjhm8s7ngHlJgKibrCLfy9i3c10QH8wYWazuNRp/0yTM4Ql0YUWytAaTC1Wp7w==
+X-Received: by 2002:a5d:5c84:0:b0:3ea:15cd:ac3b with SMTP id ffacd0b85a97d-40e480ca367mr13436821f8f.30.1759214970148;
+        Mon, 29 Sep 2025 23:49:30 -0700 (PDT)
+Received: from ?IPV6:2a01:599:901:4a65:f2e2:845:f3d2:404d? ([2a01:599:901:4a65:f2e2:845:f3d2:404d])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e5b5e4922sm7544255e9.1.2025.09.29.23.49.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Sep 2025 23:49:29 -0700 (PDT)
+Message-ID: <3ed8a6a5-9983-4b9e-bae1-4c433568de16@redhat.com>
+Date: Tue, 30 Sep 2025 08:49:23 +0200
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 21/23] tools/ksw: add test script
+To: Jinchao Wang <wangjinchao600@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>, Peter Zijlstra
+ <peterz@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Alexander Potapenko <glider@google.com>, Randy Dunlap
+ <rdunlap@infradead.org>, Marco Elver <elver@google.com>,
+ Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ "Liang, Kan" <kan.liang@linux.intel.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Kees Cook <kees@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Sami Tolvanen <samitolvanen@google.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Masahiro Yamada <masahiroy@kernel.org>, Rong Xu <xur@google.com>,
+ Naveen N Rao <naveen@kernel.org>, David Kaplan <david.kaplan@amd.com>,
+ Andrii Nakryiko <andrii@kernel.org>, Jinjie Ruan <ruanjinjie@huawei.com>,
+ Nam Cao <namcao@linutronix.de>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>, kasan-dev@googlegroups.com,
+ "David S. Miller" <davem@davemloft.net>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ linux-trace-kernel@vger.kernel.org
+References: <20250930024402.1043776-1-wangjinchao600@gmail.com>
+ <20250930024402.1043776-22-wangjinchao600@gmail.com>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20250930024402.1043776-22-wangjinchao600@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add a maintainer entry for Kernel Stack Watch.
+On 30.09.25 04:43, Jinchao Wang wrote:
+> Provide a shell script to trigger test cases.
+> 
+> Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
+> ---
 
-Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Do you think there could be a way to convert this into an automated 
+selftests, living in tool/testing/selftests/TBD ?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 520fb4e379a3..3d4811ff3631 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13362,6 +13362,14 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git
- F:	Documentation/dev-tools/kselftest*
- F:	tools/testing/selftests/
- 
-+KERNEL STACK WATCH
-+M:	Jinchao Wang <wangjinchao600@gmail.com>
-+S:	Maintained
-+F:	Documentation/dev-tools/kstackwatch.rst
-+F:	include/linux/kstackwatch_types.h
-+F:	mm/kstackwatch/
-+F:	tools/kstackwatch/
-+
- KERNEL SMB3 SERVER (KSMBD)
- M:	Namjae Jeon <linkinjeon@kernel.org>
- M:	Namjae Jeon <linkinjeon@samba.org>
 -- 
-2.43.0
+Cheers
+
+David / dhildenb
 
