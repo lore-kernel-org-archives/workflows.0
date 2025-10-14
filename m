@@ -1,133 +1,72 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 891C52F7AB0;
-	Tue, 14 Oct 2025 14:42:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A583009E6;
+	Tue, 14 Oct 2025 15:15:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760452978; cv=none; b=NiJHh7m1beEi121mVZ5rMXcmRZdQxQbJD2/c7dSqgQrpWBshMoXu14mzE66wYugozzL5JpNb55OJlzUnPyAnQUxa5SNm8qXwG6xSxSqXWopSeEa5avDDOtFj988BYL7d/quIuQWpgQNd/+MLXQW72RZCNZZ+1m3oj+0btv/Iu3w=
+	t=1760454908; cv=none; b=Tx6paOpDbOB+Gt7n2ZVqmaFOoNNXRm5xgw9mNvzv29+2+K6s0nCP3kINBB4EqGAfxkL0de741HJ9Bo1QMdrm2rFBvAnqxaJ4dzBPu+HwnvhGAiKzSZwzSSXxl4KvjMFELF9Mt0x6T3Xh9SJJ7k+q1fwS/9pkzIN29CqqiML/qQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760452978; c=relaxed/simple;
-	bh=N13x1nvnuSJuCyjLOXkobgpSeb/7E32zTOMfW1aipCM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gkqCF2wlPD+ad53nSOBfwiPEUBCOYDiZW3bQYEdseTErfrkSWF6F2xyF+bRtxzergsSJs/sujPkn48Pahtv1XcsLo/VT8+3AJEtigkui1UXAZ9rUnwQHNZnTPSKiAwIl586CLXz106yOyWA+i9WGY7b10mhLstL12SZgTop3ra4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=FBgizFy2; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
+	s=arc-20240116; t=1760454908; c=relaxed/simple;
+	bh=m0i1QUBh4zJhtP8fKiyIIyRlwPYD2o/aXoX6SdDe2oI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=n1ifeS2EfgZx9W+ugT95+SN4wldrRALmqhPiz21GKcW7t5tx1SuvMyAgwF4bB7SsjpyxJqTSGHZq52Nm9XzKJUPJB+nOxrGYjaeeUDvNZmO0grJbTuLULyq/l1drT0tKw9Ps0xQqGtubUf2Jsw0CqHcgrznAeRRcrJwa6oI+SzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=fAHzSTqz; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="FBgizFy2"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id CBFC543EB3;
-	Tue, 14 Oct 2025 14:42:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
-	t=1760452968;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jwEtsBEHQHNjKmiVlv9ptHV7LTbzYaxJdAEv4ya/P3Y=;
-	b=FBgizFy2hVc3HStDI/6HKg/pS1UHJF+HzARUS37epj+Qzl0yhf/clJdPfMUV3HNwrNFrXU
-	DAjp/oTgccSTrfhhqFyWSjwyoXDuJ+549whSSci89Ax6ofg6OuDLpqWGaEFnKC/0Vc+KcO
-	RbCtyYVa4NunSQtbpAhVllxWgp+L9FkmReVwo1Nip7UlBj7mpRzMThFrNgvz4JZYHtJG87
-	HDOhgtglsi6xbAWuWucIfn8zLdng9z+rZHA7zU011RBhnrdQnvWRBd6tibY9VFv6yKTMLi
-	saSILGzz+eVUD0nKXQp+qzUH4yzgblS1KMsAZMFpbd+37s9yhhpvZk6096pZtw==
-Message-ID: <29c33635-cd83-4a47-aea0-460f196f1e3a@gtucker.io>
-Date: Tue, 14 Oct 2025 16:42:44 +0200
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="fAHzSTqz"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CD5D840B1E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1760454903; bh=m0i1QUBh4zJhtP8fKiyIIyRlwPYD2o/aXoX6SdDe2oI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=fAHzSTqzngYXdnjB5R3lpag4tKXHXZME8EcB/Up/vM7PoU5MrU9jwB0qsiRpA9vve
+	 50F9/438qkvYdb3VFif0VQuBWYGYVxrNy14bmG09Z1usYZCZQBkVCzK3STWVTW1F/r
+	 ng2Lm+RzLAaRZjrsh3yXEN3OHvMizzT2ObbHwQWqNaAJ/A3elj+GMdaEydMFPGyFZ/
+	 jeMtMOeEr06wPMveKF3csaIPKGwxMVOhmEWYyypV3vSVZHIZDXc0GLEjrOp4VT6KD+
+	 tQMxcPAgm9uMGZRJ5U9xEKMbiPnyst1HjqfWkjKjdrDYEa9w8Hfsel8t2tuoAef3Lv
+	 cMAE2rk+8g+Qw==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id CD5D840B1E;
+	Tue, 14 Oct 2025 15:15:02 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>, Linux Kernel Workflows
+ <workflows@vger.kernel.org>
+Cc: Dante Strock <dantestrock@hotmail.com>, Randy Dunlap
+ <rdunlap@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Re: [PATCH v2] Documentation: process: Arbitrarily bump kernel
+ major version number
+In-Reply-To: <20250922074219.26241-1-bagasdotme@gmail.com>
+References: <20250922074219.26241-1-bagasdotme@gmail.com>
+Date: Tue, 14 Oct 2025 09:15:01 -0600
+Message-ID: <87bjm9bjm2.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 1/1] kbuild: add Makefile.container with CONTAINER
- option
-To: =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas.schier@linux.dev>, Miguel Ojeda <ojeda@kernel.org>,
- rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, automated-testing@lists.yoctoproject.org,
- Arnd Bergmann <arnd@arndb.de>, workflows@vger.kernel.org,
- llvm@lists.linux.dev
-References: <20251014094511.627258-1-gtucker@gtucker.io>
- <20251014094511.627258-2-gtucker@gtucker.io>
- <CANiq72nVxPY8xB9xEnkZ=zNFh0EfQvaMAPH4ygRr-yEwpK=OWg@mail.gmail.com>
- <20251014170842.2fc00c88@nimda.home>
-Content-Language: en-US
-From: Guillaume Tucker <gtucker@gtucker.io>
-In-Reply-To: <20251014170842.2fc00c88@nimda.home>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: gtucker@gtucker.io
+Content-Type: text/plain
 
-Hi Onur,
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-On 14/10/2025 4:08 pm, Onur Özkan wrote:
-> On Tue, 14 Oct 2025 13:58:10 +0200
-> Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> wrote:
-> 
->> On Tue, Oct 14, 2025 at 11:45 AM Guillaume Tucker
->> <gtucker@gtucker.io> wrote:
->>>
->>> Add scripts/Makefile.container to wrap the make command in a
->>> container using the CONTAINER= variable to specify the image name.
->>> For example:
->>>
->>>      make -f scripts/Makefile.container CONTAINER=korg-gcc defconfig
->>>
->>> The container image name is entirely arbitrary and the container
->>> tool may be Docker, Podman or any other compatible alternative
->>> specified by the CONTAINER_COMMAND variable.  The default is set to
->>> docker for now.
->>
->> IIUC, this wraps reruns `make` inside the container, but it means
->> hardcoding a particular tool and path, right? (unless one sets even
->> more variables)
->>
->> The cover letter says one can create an alias for this, but one could
->> also do that for the underlying call anyway, unless I am missing
->> something. And if we do this, then I would prefer one doesn't need to
->> type `-f ...`.
->>
->> Put another way, for a user, what is the benefit of having this extra
->> way of running in a container? For instance, I could see the benefit
->> if different tools had different flags or it was a complicated
->> procedure, but I think at least `podman` shares the flags used here.
->>
->> Should this instead be a document inside `Documentation/` somewhere
->> that explains how to do this, pitfalls, advanced options, etc. and
->> give example command lines for different tools?
->>
->> If we do end up with `CONTAINER=`, then I think it should make it work
->> without having to pass `-f ...`, to make it easier. Or, even better,
->> like the KUnit script, we could have a script that does the right
->> thing and reads a config from the user, so that one can just type
->> something like, picking whatever tooling the user configured (e.g.
->> Docker vs. Podman, default image, etc.):
->>
->>      scripts/container.py defconfig
->>
-> 
-> I think this functionality would be better implemented as a script
-> (like you mentioned) rather than a Makefile. The current approach is
-> likely to run into several practical issues (e.g. file permission
-> mismatches between host and container, the need to manually remove
-> containers with `docker rm`, etc.) and addressing all of these
-> reliably in Makefile can become quite messy. Writing a python (or even
-> perl) script would make it much easier to maintain. Also, it can be
-> self-documented quite nicely with `scripts/container.py --help` command.
+> The big picture section of 2.Process.rst currently hardcodes major
+> version number to 5 since fb0e0ffe7fc8e0 ("Documentation: bring process
+> docs up to date"). As it can get outdated when it is actually
+> incremented (the recent is 6 and will be 7 in the near future),
+> arbitrarily bump it to 9, giving a headroom for a decade.
+>
+> Note that the version number examples are kept to illustrate the
+> numbering scheme.
+>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Our emails have crossed - OK I'll take a look into this.  I fear a
-script is actually going to be more difficult to maintain and will
-require additional dependencies on the host i.e. Python.  But like I
-wrote in my previous email, I'm happy to consider some alternatives
-and see if we can find a consensus.
+I made a minor tweak to make it clear that 9.x is an example; applied,
+thanks.
 
-The issue with file ownership can be addressed with user id mapping
-in principle.  Garbage collecting containers is not something I've
-looked into as it's not a new problem compared to starting containers
-explicitly.  I'll keep these things in mind too when comparing
-solutions.
-
-Thanks,
-Guillaume
+jon
