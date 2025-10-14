@@ -1,56 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F8A527381B
-	for <workflows@vger.kernel.org>; Tue, 14 Oct 2025 07:15:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B25172F0690;
+	Tue, 14 Oct 2025 09:45:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760426133; cv=none; b=qYYTwxtXmeYmY+SpNl5gYaPXJ03aAlhceM8LFAcqsLjLSxitPjfAlLJJZpLFeFYBDuYVJ9LEKBsdtSOQ7SZEvmC7O5ZSw/4dLROipvMXdzEeCsNH1hmg1tlbzGu76FrEMswFKk9K9gD85lRVpTFScCGnVe3wYDu44c58cKXnx1U=
+	t=1760435129; cv=none; b=gAv82kbiYhevrOTKBF/z8YJsRUNbT5GdXD4nhTimkMnPk95znzyNbbrks62h+c5J3wKtVKaLgk+jOpRFpSFQ4YFUA/hd1c61uX9id5/T+Sigm9AX7WnnZ5D3QJhmygXjheZ2VoNwhTFNxmDb2ZduBAt3dD4DUexlxZkUdOymzSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760426133; c=relaxed/simple;
-	bh=9xXkA0Oy7lWFJZFbb1GJ7sgzsTKVV6mz1nXqumnOJrc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=i9CnEsjlyD8iCUp6dz4btpe4luBcn+efAtMXJ+CWZFRA3LqtpoNiobJj21XohcByeTCOaIPeBlOzxFFKprmLCLmBzdlMFyhcjzZIa7uHkyDlD5UQORdbT7KFKo7lPgzKipHjzLZkni9Qd9/cxkn6qkaEXsXNpD11fJXQyc5FHbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ViDoyIDg; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1760435129; c=relaxed/simple;
+	bh=eh4ANO2d3smDKZZwIDnxm/MQXjsXiFsIqghETlox01s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LZ83S4/IUOTSXOlQWxhkuUsBRgjH5Kd+1M1Z2fH/51rdb/s+2TN/1Yj6BlYoV/pdaSkJMpx7+OywSFsZs2ubFSgQl64XxtFtWNyatmnFT/P3li4zZQ2rIWcyglkzYaXpbgu+2fWoVsHPd64JUqoZj3BcmSgKZ3d+rZDxMSMCzkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=J/rwQA1O; arc=none smtp.client-ip=217.70.183.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ViDoyIDg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760426132; x=1791962132;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=9xXkA0Oy7lWFJZFbb1GJ7sgzsTKVV6mz1nXqumnOJrc=;
-  b=ViDoyIDg9iqD4K3yvqINpm65y6jMgHy9Umb7ggXDHdnshiyNrwrugutg
-   YsOtSXIIKHimcRKjZZLmOzVfpuOSsNeLIz2nJsG1nL5Q07HaZXsPwTidZ
-   vNo5Jqfrp1vHO+fyaV4OI1jo7zXjEMILKosr6Z9ecfwB7+4eHOm0O3myq
-   JYL/2iL0IshwOGu2rm8wzhztrggbjQaQf4n0ZC21CKz2fCe5HmOUANdqR
-   01/PahjNarL8fKhisFpb5lGZMFliPP+KG5HJU1bXvxKQI/7KHuY+Xvq27
-   jVbxbS7sohwTnNTqr+Y7hHMGC5dkV4VVhEV2cYzjOehJvRwfXA/VHrpT8
-   g==;
-X-CSE-ConnectionGUID: UNvFlu0jQ3ubiVr7IjzcJA==
-X-CSE-MsgGUID: +abJQeCzR8i+2+5n4w5YZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="66233802"
-X-IronPort-AV: E=Sophos;i="6.19,227,1754982000"; 
-   d="scan'208";a="66233802"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 00:15:29 -0700
-X-CSE-ConnectionGUID: FRrEElZpQZy+Bz+SQAC06g==
-X-CSE-MsgGUID: BDihkOTPTpm45ClAKNt1mA==
-X-ExtLoop1: 1
-Received: from dwillia2-desk.jf.intel.com ([10.88.27.145])
-  by fmviesa003.fm.intel.com with ESMTP; 14 Oct 2025 00:15:29 -0700
-From: Dan Williams <dan.j.williams@intel.com>
-To: konstantin@linuxfoundation.org
-Cc: ksummit@lists.linux.dev,
-	workflows@vger.kernel.org
-Subject: [PATCH 3/3] mbox: Add a --add-link-note option to shazam
-Date: Tue, 14 Oct 2025 00:15:30 -0700
-Message-ID: <20251014071530.3665691-4-dan.j.williams@intel.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251014071530.3665691-1-dan.j.williams@intel.com>
-References: <20251014071530.3665691-1-dan.j.williams@intel.com>
+	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="J/rwQA1O"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0FC321F745;
+	Tue, 14 Oct 2025 09:45:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
+	t=1760435118;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=vSi4m7GHZ1XhKbCHDk6/gXFjTYG4yzDfHQT53TiQIyI=;
+	b=J/rwQA1O6X/jO0+uRiWzutma2o99jVSY7lRhRdo3jBJc0LIZOPEY/8ra0n7s+g2mg3NRSv
+	h6MOE/HsbTJjJ6Cyj3QxtiNepOJ8Eyzs4iDe9i+UBrx0IznNASZPLfLfK0EdSq23chGNST
+	cmh5eRZ12iQGl9TxAQtLI4KyMHQDOM6J5/DUvWpNPgfo4NQeKmPsZ5deb6eLJjKROEubKu
+	9648ElaWCgGJDIYM7uV8KQ91G8JaDKs9+R5Q7RxrLXpFKDsiJV029Y/7Xn3/O8pm+Egown
+	oa6f+Zvdw2pHaZnFMVVgrGIyQrr/pDBbfXfKlBdjLzM7hkwEAUMZLt8G9rfzzw==
+From: Guillaume Tucker <gtucker@gtucker.io>
+To: Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>
+Cc: Guillaume Tucker <gtucker@gtucker.io>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	rust-for-linux@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	automated-testing@lists.yoctoproject.org,
+	Arnd Bergmann <arnd@arndb.de>,
+	workflows@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [RFC PATCH 0/1] kbuild: introduce containerized builds
+Date: Tue, 14 Oct 2025 11:45:10 +0200
+Message-ID: <20251014094511.627258-1-gtucker@gtucker.io>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -58,129 +51,64 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-GND-Sasl: gtucker@gtucker.io
 
-While the Link: tag is disruptive to some top-level maintainer workflows
-[1], it is also useful to a significant number of developers and subsystem
-maintainers.
+This proposal emerged from an email discussion and a talk at Plumbers
+last year:
 
-It is also the case that dynamic patch-id lookup [2] is an incomplete
-replacement for having the submission Link: trailer readily available.
-Specifically, navigating to a patch on gitweb or displaying the patch in
-the local developer tree it is convenient to have the metadata inline.
+    https://lore.kernel.org/all/affb7aff-dc9b-4263-bbd4-a7965c19ac4e@gtucker.io/
 
-A method to have that metadata available without polluting upstream is to
-keep git notes locally.
+The aim is to facilitate reproducing builds for CI bots as well as
+developers using containers.  It's achieved by providing a wrapper
+around `make` in a separate Makefile.  Here's an illustrative example
+with a kernel.org toolchain in a Docker image from tuxmake:
 
-Add a new option to shazam that annotates newly applied commits with the
-Link: trailer of the submission. Honor the b4.linkmask option to use the
-preferred namespace (patch.msgid.link) for these links.
+    $ make -f scripts/Makefile.container CONTAINER=tuxmake/korg-clang-21 LLVM=1 defconfig
+    Running in docker tuxmake/korg-clang-21
+      HOSTCC  scripts/basic/fixdep
+      HOSTCC  scripts/kconfig/conf.o
+    [...]
+      HOSTCC  scripts/kconfig/util.o
+      HOSTLD  scripts/kconfig/conf
+    *** Default configuration is based on 'x86_64_defconfig'
+    #
+    # configuration written to .config
+    #
 
-Note: Claude Sonnet 4 was used to help early drafts of this patch, but all
-submitted lines are authored by me or copied from other parts of b4.
+    $ make -f scripts/Makefile.container CONTAINER=tuxmake/korg-clang-21 LLVM=1 -j8
+    Running in docker tuxmake/korg-clang-21
+    make: warning: -j8 forced in submake: resetting jobserver mode.
+      SYNC    include/config/auto.conf
+      GEN     arch/x86/include/generated/asm/orc_hash.h
+      WRAP    arch/x86/include/generated/uapi/asm/bpf_perf_event.h
+      WRAP    arch/x86/include/generated/uapi/asm/errno.h
+    [...]
+      LD      arch/x86/boot/setup.elf
+      OBJCOPY arch/x86/boot/setup.bin
+      BUILD   arch/x86/boot/bzImage
+    Kernel: arch/x86/boot/bzImage is ready  (#1)
 
-Link: http://lore.kernel.org/CAHk-=whP2zoFm+-EmgQ69-00cxM5jgoEGWyAYVQ8bQYFbb2j=Q@mail.gmail.com [1]
-Signed-off-by: Dan Williams <dan.j.williams@intel.com>
----
- src/b4/command.py |  2 ++
- src/b4/mbox.py    | 58 +++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 60 insertions(+)
+The initial idea was to add an if-else block for when $(CONTAINER)
+was defined directly in the top-level Makefile but this seemed too
+intrusive, hence the approach here with a separate file.  It's easy
+enough to create an alias for development purposes if needed.
 
-diff --git a/src/b4/command.py b/src/b4/command.py
-index 455124d9726a..678b0b53d6b9 100644
---- a/src/b4/command.py
-+++ b/src/b4/command.py
-@@ -211,6 +211,8 @@ def setup_parser() -> argparse.ArgumentParser:
-     sp_sh = subparsers.add_parser('shazam', help='Like b4 am, but applies the series to your tree')
-     cmd_retrieval_common_opts(sp_sh)
-     cmd_am_common_opts(sp_sh)
-+    sp_sh.add_argument('-L', '--add-link-note', dest='addlinknote', action='store_true', default=False,
-+                       help='Add a git note with Link: trailer for every created commit')
-     sh_g = sp_sh.add_mutually_exclusive_group()
-     sh_g.add_argument('-H', '--make-fetch-head', dest='makefetchhead', action='store_true', default=False,
-                       help='Attempt to treat series as a pull request and fetch it into FETCH_HEAD')
-diff --git a/src/b4/mbox.py b/src/b4/mbox.py
-index 8810ddd71b21..9479b8995019 100644
---- a/src/b4/mbox.py
-+++ b/src/b4/mbox.py
-@@ -354,6 +354,8 @@ def make_am(msgs: List[EmailMessage], cmdargs: argparse.Namespace, msgid: str) -
-             logger.info(out.strip())
-             if ecode == 0:
-                 thanks_record_am(lser, cherrypick=cherrypick)
-+                if cmdargs.addlinknote:
-+                    shazam_notes(topdir, lser, 'HEAD')
-             sys.exit(ecode)
- 
-         base_commit = get_base_commit(topdir, first_body, lser, cmdargs)
-@@ -448,6 +450,9 @@ def make_am(msgs: List[EmailMessage], cmdargs: argparse.Namespace, msgid: str) -
-             # We exec git-merge and let it take over
-             os.execvp(mergecmd[0], mergecmd)
- 
-+        if cmdargs.addlinknote:
-+            shazam_notes(topdir, lser, 'FETCH_HEAD')
-+
-         logger.info('You can now merge or checkout FETCH_HEAD')
-         logger.info('  e.g.: %s', ' '.join(mergecmd))
-         sys.exit(0)
-@@ -547,6 +552,59 @@ def thanks_record_am(lser: b4.LoreSeries, cherrypick: Optional[List[int]]) -> No
-         b4.patchwork_set_state(msgids, pwstate)
- 
- 
-+def commits_by_patchid(gitdir: Optional[str], branch: str, num_patches: int) -> b4.Dict[str, str]:
-+    """Create a patch-id to commit lookup for the top N commits"""
-+
-+    commits = dict()
-+
-+    args = ['log', '--no-abbrev', '--no-decorate', '--oneline', f'-{num_patches}', branch]
-+    lines = b4.git_get_command_lines(gitdir, args)
-+    if not lines:
-+        return commits
-+
-+    for line in lines:
-+        commit_id, subject = line.split(maxsplit=1)
-+
-+        ecode, diff_out = b4.git_get_rev_diff(gitdir, commit_id)
-+        if ecode != 0 or not diff_out.strip():
-+            continue
-+
-+        patch_id = b4.LoreMessage.get_patch_id(diff_out)
-+        if patch_id:
-+            commits[patch_id] = commit_id
-+
-+    return commits
-+
-+
-+def shazam_notes(gitdir: Optional[str], lser: 'b4.LoreSeries', branch: str) -> None:
-+    """Match commits to LoreMessages using git patch-id and emit debug info for later git notes processing."""
-+    if not lser or not lser.patches:
-+        return
-+
-+    lmsgs = [lmsg for lmsg in lser.patches if lmsg is not None and lmsg.has_diff]
-+    if not lmsgs:
-+        return
-+
-+    # Cache recently applied commits by patch-id (account for a merge commit)
-+    commits = commits_by_patchid(gitdir, branch, len(lmsgs) + 1)
-+    if not commits:
-+        return
-+
-+    # Add link trailer notes
-+    for lmsg in lmsgs:
-+        patch_id = lmsg.git_patch_id
-+        if not patch_id:
-+            continue
-+
-+        if patch_id not in commits:
-+            continue
-+
-+        commit_id = commits[patch_id]
-+        linktrailer = lmsg.linktrailer
-+        note_message = f"{linktrailer.name}: {linktrailer.value}"
-+
-+        b4.git_run_command(gitdir, ['notes', 'append', '-m', note_message, commit_id])
-+
- def save_as_quilt(am_msgs: List[EmailMessage], q_dirname: str) -> None:
-     if os.path.exists(q_dirname):
-         logger.critical('ERROR: Directory %s exists, not saving quilt patches', q_dirname)
+While the example above uses a tuxmake image, I've also started
+preparing reference container images with kernel.org toolchains and
+no third-party dependencies other than the base Debian distro:
+
+    https://gitlab.com/gtucker/korg-containers
+
+These are convenient for exercising this feature but any arbitrary
+image may be used of course.
+
+Guillaume Tucker (1):
+  kbuild: add Makefile.container with CONTAINER option
+
+ scripts/Makefile.container | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+ create mode 100644 scripts/Makefile.container
+
 -- 
-2.51.0
+2.47.3
 
