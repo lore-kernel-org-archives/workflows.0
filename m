@@ -1,72 +1,198 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A583009E6;
-	Tue, 14 Oct 2025 15:15:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60D6A301006
+	for <workflows@vger.kernel.org>; Tue, 14 Oct 2025 15:43:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760454908; cv=none; b=Tx6paOpDbOB+Gt7n2ZVqmaFOoNNXRm5xgw9mNvzv29+2+K6s0nCP3kINBB4EqGAfxkL0de741HJ9Bo1QMdrm2rFBvAnqxaJ4dzBPu+HwnvhGAiKzSZwzSSXxl4KvjMFELF9Mt0x6T3Xh9SJJ7k+q1fwS/9pkzIN29CqqiML/qQs=
+	t=1760456584; cv=none; b=QJIHJovmCUEYpHostikolrV5T5OKhsdn5YKGMeWF9X04Qb9F+J8hIxeQBrcJ+twJJ25UnX7zZA1ArJdlExn0ZeqZmnf6DUB9sHMg1fj7ePjV/IsBFg+yisVZB/7gL4iBQ5IpWApFeM8dqzzOjmKrhCImeccOCDBy9PS0t0JUl7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760454908; c=relaxed/simple;
-	bh=m0i1QUBh4zJhtP8fKiyIIyRlwPYD2o/aXoX6SdDe2oI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=n1ifeS2EfgZx9W+ugT95+SN4wldrRALmqhPiz21GKcW7t5tx1SuvMyAgwF4bB7SsjpyxJqTSGHZq52Nm9XzKJUPJB+nOxrGYjaeeUDvNZmO0grJbTuLULyq/l1drT0tKw9Ps0xQqGtubUf2Jsw0CqHcgrznAeRRcrJwa6oI+SzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=fAHzSTqz; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1760456584; c=relaxed/simple;
+	bh=IOXA3e/PDxwKtBuHJSVeF2wtx7tvydH9ilKWTo1uicY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Opzxi4egw0dA0aSLWMZafUqXBEy/UPRzXX/OfnX4quINzOSdAG0jQsqOeqfIPwCtiZ0lH8h4ZEGWmOvb3iGZ5G6Js8Vwe+/7w+2jBFrkPswLIZu2nkkEKgv7QZbIE6al2EqBQkzdVKJeXuLyxGTVkhKyJIxlRFFy5vl6OJd/TJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VtPjpuH6; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="fAHzSTqz"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CD5D840B1E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1760454903; bh=m0i1QUBh4zJhtP8fKiyIIyRlwPYD2o/aXoX6SdDe2oI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=fAHzSTqzngYXdnjB5R3lpag4tKXHXZME8EcB/Up/vM7PoU5MrU9jwB0qsiRpA9vve
-	 50F9/438qkvYdb3VFif0VQuBWYGYVxrNy14bmG09Z1usYZCZQBkVCzK3STWVTW1F/r
-	 ng2Lm+RzLAaRZjrsh3yXEN3OHvMizzT2ObbHwQWqNaAJ/A3elj+GMdaEydMFPGyFZ/
-	 jeMtMOeEr06wPMveKF3csaIPKGwxMVOhmEWYyypV3vSVZHIZDXc0GLEjrOp4VT6KD+
-	 tQMxcPAgm9uMGZRJ5U9xEKMbiPnyst1HjqfWkjKjdrDYEa9w8Hfsel8t2tuoAef3Lv
-	 cMAE2rk+8g+Qw==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id CD5D840B1E;
-	Tue, 14 Oct 2025 15:15:02 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Documentation
- <linux-doc@vger.kernel.org>, Linux Kernel Workflows
- <workflows@vger.kernel.org>
-Cc: Dante Strock <dantestrock@hotmail.com>, Randy Dunlap
- <rdunlap@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH v2] Documentation: process: Arbitrarily bump kernel
- major version number
-In-Reply-To: <20250922074219.26241-1-bagasdotme@gmail.com>
-References: <20250922074219.26241-1-bagasdotme@gmail.com>
-Date: Tue, 14 Oct 2025 09:15:01 -0600
-Message-ID: <87bjm9bjm2.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VtPjpuH6"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-27ec3db6131so10674845ad.1
+        for <workflows@vger.kernel.org>; Tue, 14 Oct 2025 08:43:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760456580; x=1761061380; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yYGjzSlUY1ujV4XJxs44Nj4rVMv7fyzJ9xw4OWViBdY=;
+        b=VtPjpuH6F17RQ/tK+T8F//BEn5Imv4KUJUaWz72zAxqpL7wEzbhicIc3eG3HXovILA
+         u6LImFLvSQ18eqe8MOmRVAi4TpZ8JPdobdY8Mg2VbeKseSVFcHGcGSQTBYJCsI0QG0Hl
+         AjNtjXW9vlU6a0w9wSIii/vXjBWGH5JkF5jrLpkPXePE7/5WzKH8x5gz8+nYUekzyZ3P
+         KE1/ApP0+e12A8xSlDmVUv1nK92gIpvcPoSHSN2k/TfwYHrRCvjIfOq5c4WCHNo5wXi8
+         pjnzF/k9XzeuFFbOyT0MnBPZNdKWmzl942bhV9k9+ua0AwBovkJSm1G0eRbncBfZPut+
+         Xxow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760456580; x=1761061380;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yYGjzSlUY1ujV4XJxs44Nj4rVMv7fyzJ9xw4OWViBdY=;
+        b=qod1IgpS/wi5I7rBHjcM7q2E9TrsGskhauxgY1SMU3gyRGQ1WWb10ujVZ9n95fN/aA
+         K04oPZFEpHbCkJGwuyswtprh1B0iVILe2U33U40n/12+7FXqc1At/XkdSiJE3QqsRd6a
+         wqu26ag0Py/iO5ub1fssMek7DdwJLFn5LzgBloGUbro/22KXE2TL0y9xWWqs6EUzVMXq
+         dDC3/Jm2BWfCG1bjNX5Dr56Y/BuQu6Sf/n0m0fm91yvSQzOPBV+bvgvaLszPMjS6W7HA
+         x/vsdxQSNVOwld0uQjugDdkl4w2CiTmeDO6nHM/J94KGM1/lbD2c616qxa49NMfVg2vc
+         szNA==
+X-Forwarded-Encrypted: i=1; AJvYcCW3XQeWOmm+fbJ9PMYSVjV0QfJDpaRa2Wc48S5nHwoI6Bx8g8uTpMnJdOMzIgFgFDaApQSIRVIOsqI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxbQYOTS/M/ado9vscKQmb9Iba3iBinJHtaY8cp1A9W7GcCdZ7o
+	5TUgTp5/IkUxZiUkjuDDtoB44Mst+BE22XuhAiLkjPCQSPIQggAS2YMev/qqiroMzy/9jzgNcCy
+	XxxgOra1EbU8xJl3H71JbD/hzONcouAk=
+X-Gm-Gg: ASbGncuvtn+eAi23GGPgWoJ0/LbmEMezFIWTJXia0ojzqE+kFWeza0jJZM/ylTiDg61
+	Ees9DS9dAKrIh6YbOjO6WjEtaxXUgS1a7YcBb+VgtWGm4u84XFMWuUJQI9KEeplVfhGssiNdX/U
+	5UQL4sSzjx66i0OBjif3HPES4lVl4+4N2yt4e9NsvUDzNTNdYp4/vS72e4MD/y8aPTBqNAQG2Up
+	fTZTNiEoiQissk5H/qR71Hy+684JdHZUZkww7Rz/FCRTn3bJhyxtosiGtbqufoKCFbX/dGMCT5Q
+	xWvl+yjNwqPTOuq/H5BiKldCkR3kPC34CFc3h84egJIz25MpMLIA2r4=
+X-Google-Smtp-Source: AGHT+IHdmYpg3wJ6be58RKxCOo6in3Fuo+5g91PKk58rXhf3xgTcwnJDb2Ds8EFLQGYTf/b7850DkE7uVldiW6rM2ew=
+X-Received: by 2002:a17:903:18b:b0:27d:6f24:ceb9 with SMTP id
+ d9443c01a7336-290273e17b2mr176408215ad.3.1760456580016; Tue, 14 Oct 2025
+ 08:43:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20251014094511.627258-1-gtucker@gtucker.io> <20251014094511.627258-2-gtucker@gtucker.io>
+ <CANiq72nVxPY8xB9xEnkZ=zNFh0EfQvaMAPH4ygRr-yEwpK=OWg@mail.gmail.com> <fe53ad80-6eeb-495a-a870-9c42b71f9887@gtucker.io>
+In-Reply-To: <fe53ad80-6eeb-495a-a870-9c42b71f9887@gtucker.io>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 14 Oct 2025 17:42:45 +0200
+X-Gm-Features: AS18NWCSQqZ2k7klTl6uHaYshU7c7i07coesJc6h6yK0Ke4SUtcLPlKDjwbeVfg
+Message-ID: <CANiq72m1EKmNM4QQ_A08vC2w-4QbHhO5UEG4F68tRGKEgZ9p6g@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/1] kbuild: add Makefile.container with CONTAINER option
+To: Guillaume Tucker <gtucker@gtucker.io>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Miguel Ojeda <ojeda@kernel.org>, rust-for-linux@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	automated-testing@lists.yoctoproject.org, Arnd Bergmann <arnd@arndb.de>, 
+	workflows@vger.kernel.org, llvm@lists.linux.dev, 
+	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, Shuah Khan <shuah@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
-
-> The big picture section of 2.Process.rst currently hardcodes major
-> version number to 5 since fb0e0ffe7fc8e0 ("Documentation: bring process
-> docs up to date"). As it can get outdated when it is actually
-> incremented (the recent is 6 and will be 7 in the near future),
-> arbitrarily bump it to 9, giving a headroom for a decade.
+On Tue, Oct 14, 2025 at 4:31=E2=80=AFPM Guillaume Tucker <gtucker@gtucker.i=
+o> wrote:
 >
-> Note that the version number examples are kept to illustrate the
-> numbering scheme.
+> This is what the CONTAINER_COMMAND variable is for.  You can easily
+> set it in the environment e.g. `export CONTAINER_COMMAND=3Dpodman` or
+> anything and be done with it.  The default is set to `docker`.
+
+Yeah, that is what I mean, i.e. you have to more variables to make it
+do what you want.
+
+At that point, a user could also equally set up an alias or a quick
+one liner script to call the real command with whatever setup they
+need. That would be more flexible too with essentially the same
+complexity on their side.
+
+> As
+> far as I know, there's no need for anything else than the container
+> command and image name.  So it's not more hard-coded than say, the
+> default $(CC) executable.
+
+There is the `src` path there, no? e.g. I use upstream distro images
+to test some builds.
+
+> Then I was only suggesting using a minimalist alias e.g.:
 >
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>      alias kmake=3D'make -f scripts/Makefile.container'
 
-I made a minor tweak to make it clear that 9.x is an example; applied,
-thanks.
+Yeah, what I was trying to say is that, at that point, you can just
+have an alias (or a one liner script etc.) for the real command.
 
-jon
+The user still needs to know how to use Docker/Podman/... anyway, i.e.
+I would see the benefit if somehow this was the only command they
+would need or if this handled some extra logic.
+
+> hand with a volume and then run make inside.  It reduces the scope
+> for differences and makes builds more reproducible, for example you
+> can just share your command line and others will be using the exact
+> same toolchain and build environment as you.  This is also to enable
+> developers to easily reproduce builds from CI bots.  It's been one of
+> the driving principles behind tuxmake except I'm looking at it from a
+> neutral point of view here.  In other words, it's a step towards
+> increasing quality control upstream.
+
+Definitely, I am not saying containers are a bad idea (I use them
+myself), i.e. I am only talking about what is the best way to provide
+this (e.g. documentation, a script, this new file, directly in the
+main `Makefile`...).
+
+> A related topic which was covered at Plumbers is to have first-party
+> container images, with Containerfiles maintained upstream to
+> facilitate using the kernel.org toolchains.  It's not a requirement
+> for this patch but both ideas enhance each other.
+
+kernel.org images would be nice, indeed.
+
+> Yes, I did think of writing a documentation page alongside this patch
+> but eventually made the RFC with a cover letter instead to keep it
+> more as an open discussion.  Any solution to run containerized builds
+> would need to be documented, even if they're trivial to use.  I think
+> the Makefile approach is the most elegant one but if others aren't
+> convinced by it then starting with just some documentation might help
+> getting to the bottom of this and decide what to do next.
+
+Yeah, docs would be nice regardless of the way of wrapping it.
+
+> Right but then I think we would have to deal with the variables
+> handled by `make` which can be passed either via the environment or
+> on the command line, so that's similar to the issues with an alias.
+
+The script may be more involved, i.e. similar to the KUnit one, but
+then you also gain the ability to provide more functionality/logic.
+
+Say, for instance, the ability to test with a set of container images
+that you define in the config file, to run certain things with the
+built kernel (possibly in another container), and so on and so forth.
+
+> We could do something like with Android builds (build/envsetup.sh)
+> with a file to source:
+>
+>      . scripts/containerize
+>      m CONTAINER=3Dkorg-clang:21 defconfig
+>
+> where `m` is just an arbitrary alias name obviously :)
+
+Personally, for a new script, I would use a normal `--flags` like
+interface, and leave the Make-like one if one wants to pass the actual
+Make ones. I would also allow the user to define a default image too
+in their config file too, and things like that.
+
+In other words, the idea is that you can actually easily use it
+without typing a lot, e.g.
+
+    scripts/container b defconfig
+
+(Possibly aliasing `scripts/container` itself to something shorter locally)
+
+Or even more high-level operations like the "build with my set of
+toolchain images", "build patch by patch this range of commits inside
+the container", etc.
+
+But I know this may be way out of scope :) After all, it gets into the
+realm of essentially a lot of the custom tooling/scripts that
+different subsystems build for themselves over time.
+
+In fact, another possibility to think about is generalizing the
+existing KUnit one to support containers.
+
+> Thank you for your feedback.  I can spend some time investigating
+> alternative approaches if they seem worthwhile.  I'd be interested to
+> know what others think of this too.
+
+You're welcome! I hope that helped at least.
+
+Cc'ing David/Rae/Shuah as well for the KUnit bits.
+
+Cheers,
+Miguel
