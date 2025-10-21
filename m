@@ -1,117 +1,107 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from esa2.hc1455-7.c3s2.iphmx.com (esa2.hc1455-7.c3s2.iphmx.com [207.54.90.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84BC32609D0;
-	Mon, 20 Oct 2025 16:57:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C815128697;
+	Tue, 21 Oct 2025 03:03:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.54.90.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760979438; cv=none; b=qAt7rhvtgFUEOy/ZledQfq6kU0YDSN68Jbq+y35lDbAPLtAkp1XwuhsfFkbkg+G7LRWUivV+9Uo9AY/+Dkey5hjlaXaJLH8DJ9s+3Av8iC10YOgK7d/Pf9mWwa32MzXNieDWPcB+MSjo5ZH51lfvvRxKNKfQSacYvRfsGbq+M9k=
+	t=1761015832; cv=none; b=uXabWkHrtl2yXezJ2MI0QcGvlYZSVFVSslaOO24+PaixAF5pzLUabKV7UYMIZx5MRIWVqasW4vRBezktu04q5nodDvjXHy3yXybJjgCz8n+V85AM2AiDncHZQcczfzBMaVSbv1u00D8tQVfg6w088oGWZUO48KMh864InzsDJMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760979438; c=relaxed/simple;
-	bh=lP4t8YJJHqNeK+4r5rJ5YLhZknmCyXDPBSAoIvoLdzQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CazYXuVy3PtDT9+qFP3DFMm3ZDzAc+lYFh0YigzUrm36ODSkgQSW0GAIu0bNkLJ2ifGoZPMoKrXlWUucqnrRvJWr7aliTW3f2NwuKANJHj5TDO/GKLGAYMs9v8S/n+gWSyYNbF/GVp6u9DbiItdGCL4UFz5cEDuO8LlTWPtLktk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=zFzUAYaV; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1761015832; c=relaxed/simple;
+	bh=32bPCGHvuK5Cq11IPLbjbaw0Rg1TmL8hq3QFI2ZTMKU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aXr0dtYZB70+m4rEtKKLbD2iFEONu/VqB+dBq3oOiCwJ0ZCYVlTpETHg4O2NzUC9+/X0kXApgVHgQoJujGfXySoMvi3vn5UVN1DqxXUV59/KZuPlWH54b+ov2Z/Qciqex1/VHY1iUJouFCAoTu+ggc15CDIxfMPYFrJFqhkkxrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jp.fujitsu.com; spf=pass smtp.mailfrom=jp.fujitsu.com; dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b=YQXYw8x5; arc=none smtp.client-ip=207.54.90.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jp.fujitsu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jp.fujitsu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="zFzUAYaV"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=NN8qfFOgZzkX1DrjZkg3eL33Ry1IX9buJ4v9zmNWoqQ=; b=zFzUAYaVo+zvWLqiVJCq1Sy4T9
-	Py/9reyRhS9U2dBYeYa4P1J33My7ZV1xPaDY/pOhl0pzG3mfc/YcZy+9f+zOZssRPv3bJ55qAafve
-	fk6xyduBJy+TqWIrUtUT7fU+ad19ENcaTkLji+ebMNjsX1dPjL34QwsbBO5Ut0mV4ubfVcOXKxiXR
-	dVSy2Co/22IOeT3AlqZu6ZpMLt8l0TrsZJb7sfrcnrVLpgSijTEc9I06zGNuH0JNSbo63xVcYEwIC
-	MUbZ0oTey5atD9m8y7h+qDngP5oN99OmzR0hMJLZm+P8lsQxrUXnEVTu6p7jg5qldJbHle8ZOFhfW
-	Mh45Mu5Q==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vAtC7-0000000EOOZ-0Obg;
-	Mon, 20 Oct 2025 16:57:15 +0000
-Message-ID: <0b0d5773-e004-4e15-bf18-5cec59c02b6d@infradead.org>
-Date: Mon, 20 Oct 2025 09:57:14 -0700
+	dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b="YQXYw8x5"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1761015831; x=1792551831;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=32bPCGHvuK5Cq11IPLbjbaw0Rg1TmL8hq3QFI2ZTMKU=;
+  b=YQXYw8x54MiLOa4J6TJp4ovyI6wb/lmk46ULfOgLL9rrt3DfTS7Yh8fM
+   916UVRWhze4fRAXZhaKqnw2vukQWaHRAhet/xTvAP005/mxdKTZON07eS
+   ewBWlafQvA2YK9wkm243EtdSeK5de55gfWHN+ClOIoEMjt793lJ3lgtIi
+   V8O6Jh0VPc5OSgrnsNImTVuJ2Cy9n+2J7SEOFo69WpYgzhJnqZH2jDPvp
+   DkJHN/zX74m+P8E9SiSITJtGWoqKK0qoq3MbVRwqnN+jRoUHMTsxvhavy
+   9h6TXhyLa4MOMqcqQQkUhPF3ToeM9Q23zzfCNJIRMbQqO735n8wowAim/
+   Q==;
+X-CSE-ConnectionGUID: zOaeevgyQHa0e2ndFldnwA==
+X-CSE-MsgGUID: UMhD4kq6TS6p5n6+5RB/ZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="216525923"
+X-IronPort-AV: E=Sophos;i="6.19,243,1754924400"; 
+   d="scan'208";a="216525923"
+Received: from unknown (HELO az2uksmgr4.o.css.fujitsu.com) ([52.151.125.19])
+  by esa2.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 12:02:38 +0900
+Received: from az2uksmgm4.o.css.fujitsu.com (unknown [10.151.22.201])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2uksmgr4.o.css.fujitsu.com (Postfix) with ESMTPS id 986D6C02F69;
+	Tue, 21 Oct 2025 03:02:37 +0000 (UTC)
+Received: from az2nlsmom1.o.css.fujitsu.com (az2nlsmom1.o.css.fujitsu.com [10.150.26.198])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2uksmgm4.o.css.fujitsu.com (Postfix) with ESMTPS id 56C1014003BC;
+	Tue, 21 Oct 2025 03:02:37 +0000 (UTC)
+Received: from sm-arm-grace06.ssoft.mng.com (sm-x86-stp01.soft.fujitsu.com [10.124.178.20])
+	by az2nlsmom1.o.css.fujitsu.com (Postfix) with ESMTP id B8576829EE9;
+	Tue, 21 Oct 2025 03:02:32 +0000 (UTC)
+From: Yuya Ishikawa <ishikawa.yuy-00@jp.fujitsu.com>
+To: Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>
+Cc: Rae Moar <rmoar@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-kselftest@vger.kernel.org,
+	kunit-dev@googlegroups.com,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	ishikawa.yuy-00@jp.fujitsu.com,
+	misono.tomohiro@fujitsu.com
+Subject: [PATCH] Documentation: kunit: add description of kunit.enable parameter
+Date: Tue, 21 Oct 2025 12:06:00 +0900
+Message-ID: <20251021030605.41610-1-ishikawa.yuy-00@jp.fujitsu.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: ktap: Revert incorrect change
-To: Clint George <clintbgeorge@gmail.com>
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org
-References: <ba148c36-8778-425e-8c94-35ebd708fc80@infradead.org>
- <20251020145334.65356-1-clintbgeorge@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251020145334.65356-1-clintbgeorge@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+The current KUnit documentation does not mention the kunit.enable
+kernel parameter, making it unclear how to troubleshoot cases where
+KUnit tests do not run as expected.
+Add a note explaining kunit.enable parmaeter. Disabling this parameter
+prevents all KUnit tests from running even if CONFIG_KUNIT is enabled.
 
+Signed-off-by: Yuya Ishikawa <ishikawa.yuy-00@jp.fujitsu.com>
+---
+ Documentation/dev-tools/kunit/run_manual.rst | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-On 10/20/25 7:53 AM, Clint George wrote:
-> Thank you  Randy for pointing out. I am really sorry that i missed the
-> incorrect change while creating the Patch. I have reverted the
-> incorrect change in this version.
-
-The above paragraph shouldn't be in the patch description.
-It would be OK below the --- line.
-
-This should be [PATCH v2] docs: ktap: fix minor typos in ktap.rst file
-
-I'll let the maintainers decide if they want a v3 from you.
-
-> 
-> Fix couple of grammar and spelling issues such as:
-> diagnosic -> diagnostic
-> Cuurently accepted directives -> The currently accepted directives
-> 
-> This patch aims to correct these issues and enhance the existing
-> documentation.
-> 
-> Signed-off-by: Clint George <clintbgeorge@gmail.com>
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-> ---
->  Documentation/dev-tools/ktap.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/dev-tools/ktap.rst b/Documentation/dev-tools/ktap.rst
-> index a9810bed5..faaad92e6 100644
-> --- a/Documentation/dev-tools/ktap.rst
-> +++ b/Documentation/dev-tools/ktap.rst
-> @@ -13,7 +13,7 @@ which don't align with the original TAP specification. Thus, a "Kernel TAP"
->  This specification describes the generally accepted format of KTAP as it is
->  currently used in the kernel.
->  
-> -KTAP test results describe a series of tests (which may be nested: i.e., test
-> +KTAP test results describe a series of tests (which may be nested: i.e., tests
->  can have subtests), each of which can contain both diagnostic data -- e.g., log
->  lines -- and a final result. The test structure and results are
->  machine-readable, whereas the diagnostic data is unstructured and is there to
-> @@ -94,7 +94,7 @@ keyword preceding the diagnostic data. In the event that a parser encounters
->  a directive it doesn't support, it should fall back to the "ok" / "not ok"
->  result.
->  
-> -Currently accepted directives are:
-> +The currently accepted directives are:
->  
->  - "SKIP", which indicates a test was skipped (note the result of the test case
->    result line can be either "ok" or "not ok" if the SKIP directive is used)
-> @@ -237,7 +237,7 @@ Major differences between TAP and KTAP
->  ==================================================   =========  ===============
->  Feature                                              TAP        KTAP
->  ==================================================   =========  ===============
-> -yaml and json in diagnosic message                   ok         not recommended
-> +yaml and json in diagnostic message                  ok         not recommended
->  TODO directive                                       ok         not recognized
->  allows an arbitrary number of tests to be nested     no         yes
->  "Unknown lines" are in category of "Anything else"   yes        no
-
+diff --git a/Documentation/dev-tools/kunit/run_manual.rst b/Documentation/dev-tools/kunit/run_manual.rst
+index 699d92885075..98e8d5b28808 100644
+--- a/Documentation/dev-tools/kunit/run_manual.rst
++++ b/Documentation/dev-tools/kunit/run_manual.rst
+@@ -35,6 +35,12 @@ or be built into the kernel.
+ 	a good way of quickly testing everything applicable to the current
+ 	config.
+ 
++	KUnit can be enabled or disabled at boot time, and this behavior is
++	controlled by the kunit.enable kernel parameter.
++	By default, kunit.enable is set to 1 because KUNIT_DEFAULT_ENABLED is
++	enabled by default. To ensure that tests are executed as expected,
++	verify that kunit.enable=1 at boot time.
++
+ Once we have built our kernel (and/or modules), it is simple to run
+ the tests. If the tests are built-in, they will run automatically on the
+ kernel boot. The results will be written to the kernel log (``dmesg``)
 -- 
-~Randy
+2.47.3
+
