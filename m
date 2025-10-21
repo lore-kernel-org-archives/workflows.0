@@ -1,200 +1,152 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9507425785F
-	for <workflows@vger.kernel.org>; Tue, 21 Oct 2025 06:50:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2146A258EF0
+	for <workflows@vger.kernel.org>; Tue, 21 Oct 2025 11:30:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761029422; cv=none; b=uTDVf5jw6nbu9oZfo3UObDFre06iqsQ98fg7mFy9qR8N2R+ocJLGhs3BdvzVjWUToOJqi0K7Dm/0bJXGiM8ymvBCiZrkYEnUDcini/JCkz/QA3iF5LHImw/A6vQ3epU0L2/0izf5jlWj1TZ5sNInYYYEZkg0zf5WKk/RTWs0Ljw=
+	t=1761046257; cv=none; b=HNXG1uzUaEk/T6QBdXc5UaV8J1ER9BDEUwb5+0kcmfvpa+rUbsAl5pjQUFpm92VHiEkzJJc6NQ4OiyDCyMJmMzDkCC924nOm0WfEBHVrFXnkSyeV7RTvGRi1E6G38k3VcYaeB3XrBMG5DMBhuh21GxKM7VR3oabZyr3Juchbfi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761029422; c=relaxed/simple;
-	bh=L+/qhAQrM8famyLiDmAnPm6hISihWGcK/rKQX0PWsqY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oAdN4RxQkCt72YbOhUrNO+NFIJFeSkXIJiEnzdeLRBwWDUzZ4KBnTzyzb/fIICagS72i3Zpy4ZRyEWf7IVFK6QXhtNIhUL0U9TBiWdFm7ikJtSRiKfANuJE2xuY3t4cbLvJtLhJBgr/yeUhAiaN2CrcyWJE9UVkO6tUtIR5A00E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fHpsdygs; arc=none smtp.client-ip=209.85.219.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1761046257; c=relaxed/simple;
+	bh=Qqm6U43PdFmW9mwf9Z5RG2Er7n238UN+kS2H6VmO340=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=gyMiKzlZSXZArR14ljyn5ddKVRf4F0H5HAAxzWzZ06Q+e1W2LRweV8pTHeA/jyKpgyWJMqz4Yw0o1Kwug1pSBas77t4t0MYUWL4nR+vdY4vL7UAgiieY4LHCB27HKBPmznKPQurQk/epVR5vRkpnxn5LdMw8WbDSC375Opxy+pQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q1Jvyzj7; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fHpsdygs"
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-87dcb1dd50cso69524086d6.3
-        for <workflows@vger.kernel.org>; Mon, 20 Oct 2025 23:50:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q1Jvyzj7"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3327f8ed081so6574595a91.1
+        for <workflows@vger.kernel.org>; Tue, 21 Oct 2025 04:30:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1761029419; x=1761634219; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=L+/qhAQrM8famyLiDmAnPm6hISihWGcK/rKQX0PWsqY=;
-        b=fHpsdygsPUfrWJXanCbaCjZQyF2l43BDjfwPM1JsoyGkctXvk8FuIQHN9SYBy2DtAv
-         yUQsto9duY23x0hDRrFli3qN8kvgVDTUHQen0n4i54xbIvwGWTro80N0bkgxu0dXfAUD
-         8sAhg6xbwLDYu1zNXMlIsv+4b34qZTLUjrgsmkZgbQN/sbfvNPbIEIXJkCZzI9lL4LHM
-         syMmpyo1eMTrM5OfcJi0rezTbzB9Nn0tG/C6ec4DASooRyniZa9cAzFwauSj4q/1G77G
-         6UHSVXETfALtGtwR+nESlFrxkirmrIiZnSxsOCVwmc51IbgOBVgi2DpL62A2wh3A/SW5
-         a3og==
+        d=gmail.com; s=20230601; t=1761046255; x=1761651055; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=O80w6uBNepx97qYpZjIrk9wRlGMkcThPDiRTm+gTRIE=;
+        b=Q1Jvyzj7uEXRVtnx27qBHNGBMLpaoLzQtW78EVC7/KyPniiH8Cax+lwj8QtkSBSeTb
+         TUB/5XjmP9sVtdfCjkcOtz1/LqejY1z/a3oXuvqplIYr/X0APFKJG5wLKnvKZAiWMaic
+         eNsI8DuBTAPFXhcxVr/8kDTvNzV2tOaQTb4UXRv2wWGyDfz0ISzE568+nCGR3D8IzVYR
+         HESKBnF/xd4IO+9XssY9eBn4KH3IGSi82eUXknnAuzSNW48qRKh5Dl8CSWkV6xX2xl8b
+         K7sSGnqYDr3Nv0H1MdinE87RpnKX3OZXaeWkcYnsCNvsPnMXPjPqXpb/02zUFiWLVueq
+         uGMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761029419; x=1761634219;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1761046255; x=1761651055;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=L+/qhAQrM8famyLiDmAnPm6hISihWGcK/rKQX0PWsqY=;
-        b=XHNpOjKc2GLjY960JXFbXsGxYTnE+CAVmlDAOJZJdMxNnwfkHvIbh1uQEd/VWSOpEI
-         0ph7PzmoXFPBB9Y2YsXULLT6EW7wqZVV4MYWKNF2tuYGijGh9b0uCeGBNhlAu5p1nEff
-         BH3beatfVc8U9GvYc6k1Th810F01+inqMzT2vM/Yrg6kWfYqyS16DZIeSvdoDOBv9KQk
-         IkYhHbGa2PuoV33uqQ3YzLBXTrZC+ND2Tva+Lr5tyikz4tD72FWvk6eod/TiGfGs4wea
-         96iSTUDhqDNpJJju75QwsZtsfe5q4uhVdbwpgohwjUkml6g/AOxsL/P0xdxWtiEut1h/
-         mtsA==
-X-Forwarded-Encrypted: i=1; AJvYcCVekfsCsUoGwdDGFIBWTVOkH0YIeHwqyUa/xHuWYa1qaROjQMEt4CCTGxs309LHu3PV6F65dnmncUs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwuDLbaYsKasxA+nURM4a4W46hYayFyf+pkjXwypyxYMn4+19PC
-	4640a05+jSRfLtsiSVapHP7ivVYMsez9OeGJlOJ2pZJzkCoBCI1ULXzITtSuJ00ROjJ3FP94lSn
-	NAU/23tPaWHaP/nEyCeO2w39H4AFt1S6/sjzTwBRZ
-X-Gm-Gg: ASbGncvSZqYtX/KtP1SFp0VjZdA4NRXJT4AiYGrzP2wQut1d0ZiApiX8J3JhcivGOiK
-	P7YQgKTqBaQYB9FhaSmCNjj+3ARdzSON4uOHj9PVWlL/esM2F0cXzYAUcJNxmvtMgqplBa5+HhE
-	0VRa9dtrLvabb6F2bP+Ix/Y/UlKsZZULUDffAOLf6ObP6kjX22r5iAo680EKVs+AtsTTpdyGvts
-	nppioRDYvm65NuAAOCwzc4QThT8nwUFZB/j07IVtz/4KquS5kW0u0n93QZfhiLpH009o1OmF/4h
-	y3v6
-X-Google-Smtp-Source: AGHT+IEwdOY2JJFd/djDV/tCyhcmpRjDflrZmOLD/8/gl9y78vUgJEeourUfBnKg6Fzp3WkWdc7W8o4vveQ7Pvu4VV8=
-X-Received: by 2002:a05:6214:3da0:b0:87c:20f5:84ea with SMTP id
- 6a1803df08f44-87c20f586bcmr209779886d6.18.1761029419224; Mon, 20 Oct 2025
- 23:50:19 -0700 (PDT)
+        bh=O80w6uBNepx97qYpZjIrk9wRlGMkcThPDiRTm+gTRIE=;
+        b=vWGMhXdbwgWvd3dlJuXClul+K7qJso+o8ZImxiUoiF5yCome0zhvaXYFJzvkdWaehY
+         ZzCO/8bPMzcFN4gBCJmQKH7PiqDSbsBu4g48VaokU+HysFrOtFvbLUq0/2ya06u+6Yvh
+         yTOPmLQ1mQqFvxilf9QquvxEquLt0cPtWf+L//eoe4VR+8ffta5SC4W8T4zlhRD56xRe
+         ABh60bVNL4rbnmWhSni3UhuTRY8PRqOp9fjnf224oD+JPRdJy1rd+k/kPye5mBbBeYPf
+         18T/Es/kZlyCdfyLbS8p5tDqbcMV/Fr8I73UZybjyZ9UavkjvcY2z6aQ9zyv1gbDeQsZ
+         +h7Q==
+X-Gm-Message-State: AOJu0Yy5x8u8Vbw4EYr5/x5A0khRDtlbnUAsCNox6XcfnBNjcFNNTWXe
+	v/O8dUXjmEVw4zA4hM/x5RTirQyjzImWBFX3yNKexgZDYsT4X6142HyZGWMCxjRNXMk=
+X-Gm-Gg: ASbGncv6HPob6pgIY3uYF8jJl1cPxtw8ljdRvGVlKM4ozug40pVp2vSap5OL3kU4pda
+	iLOkIrM0MEkJGmX/P+D/ByfLaDh+TLgvpRwg+J+P9xgJ4b+g6MLBp4iaF0RAs/IsZJRAa+MMitC
+	YBx7dUgkwdclF8GSe6jmlg3BZQHzyQcir4DX9Hrd9kgQhtNcgSLFWxct2kzFkPh2h5FIU4kijnj
+	Rcb5ZJz2DVKjVTgG1oANWE+qkclfYPEYEZcB0uahV9B2yQUR1me6ZqA8ynCGNXdH5SfHU6EbON6
+	FchQrOf/b4mrbJYoJaohPKAuiid5rz2pf/mCpKwdmK2IxRfHPYAnfLZo2F7ar3td046Yt81VhIj
+	h4BDQbLA2SknuByWTq+PPBehxQPCwCmBtWscVw+pvTkfUa31eLvZFtHUET2NOOw1yjZyosLSfuq
+	8Knu7dY/b1
+X-Google-Smtp-Source: AGHT+IFJmCSxAjrMISKkiBnZ4DKViFivlnMjzatYMYNY1Wsgm3nb2nGDtUzXGh+lfz7ieyS6UDWOrg==
+X-Received: by 2002:a17:90b:2495:b0:33d:a0fd:2572 with SMTP id 98e67ed59e1d1-33da0fd25eemr7531901a91.22.1761046255417;
+        Tue, 21 Oct 2025 04:30:55 -0700 (PDT)
+Received: from aheev.home ([2401:4900:88f7:8f:303b:1c9a:7aad:191c])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a23010d818sm11098221b3a.53.2025.10.21.04.30.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Oct 2025 04:30:54 -0700 (PDT)
+From: Ally Heev <allyheev@gmail.com>
+Date: Tue, 21 Oct 2025 17:00:48 +0530
+Subject: [PATCH] checkpatch: add uninitialized pointer with __free
+ attribute check
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251021030605.41610-1-ishikawa.yuy-00@jp.fujitsu.com>
-In-Reply-To: <20251021030605.41610-1-ishikawa.yuy-00@jp.fujitsu.com>
-From: David Gow <davidgow@google.com>
-Date: Tue, 21 Oct 2025 14:50:07 +0800
-X-Gm-Features: AS18NWDYePtgOThCzeGcYSGFxHF2hIfPwo5RJMeELAwIWDtxVneNg3-FT1KJPcU
-Message-ID: <CABVgOSmC5jONnuNHt3YZvMyFK83Y26KWYYFwP6TAoOKnCwAGeA@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: kunit: add description of kunit.enable parameter
-To: Yuya Ishikawa <ishikawa.yuy-00@jp.fujitsu.com>
-Cc: Brendan Higgins <brendan.higgins@linux.dev>, Rae Moar <rmoar@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-kselftest@vger.kernel.org, 
-	kunit-dev@googlegroups.com, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	misono.tomohiro@fujitsu.com
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="00000000000001ebaf0641a59dbd"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251021-aheev-checkpatch-uninitialized-free-v1-1-18fb01bc6a7a@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAOdu92gC/x3NQQrCMBBG4auUWTuQiYSiVxEXYfrHDJVYklrE0
+ rsbXH6b93ZqqIZG12Gnis2avUqHnAbSHMsDbFM3eeeDOC8cM7CxZui8xFUzv4sVWy0+7YuJUwU
+ 46PmSxgBxUaiXlopkn//ldj+OH3+pWJl1AAAA
+X-Change-ID: 20251021-aheev-checkpatch-uninitialized-free-5c39f75e10a1
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>, 
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>, 
+ David Hunter <david.hunter.linux@gmail.com>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Ally Heev <allyheev@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2285; i=allyheev@gmail.com;
+ h=from:subject:message-id; bh=Qqm6U43PdFmW9mwf9Z5RG2Er7n238UN+kS2H6VmO340=;
+ b=owGbwMvMwCU2zXbRFfvr1TKMp9WSGDK+573alT31YHcnU+ttnaxVBr7F6z6EX/im4fU1tuywv
+ MqMNatqO0pZGMS4GGTFFFkYRaX89DZJTYg7nPQNZg4rE8gQBi5OAZjI9BmMDGsmhFhEdApPnZNY
+ cyRt1rspk6Z3zs78xGt7eHHm6rkHnS8w/NMtva77btdep39pvz2Ud/LzhLgue7nnk029FM+Kdzt
+ PXOMCAA==
+X-Developer-Key: i=allyheev@gmail.com; a=openpgp;
+ fpr=01151A4E2EB21A905EC362F6963DA2D43FD77B1C
 
---00000000000001ebaf0641a59dbd
-Content-Type: text/plain; charset="UTF-8"
+uninitialized pointers with __free attribute can cause undefined
+behaviour as the memory allocated to the pointer is freed
+automatically when the pointer goes out of scope.
+add check in checkpatch to detect such issues
 
-On Tue, 21 Oct 2025 at 11:02, Yuya Ishikawa
-<ishikawa.yuy-00@jp.fujitsu.com> wrote:
->
-> The current KUnit documentation does not mention the kunit.enable
-> kernel parameter, making it unclear how to troubleshoot cases where
-> KUnit tests do not run as expected.
-> Add a note explaining kunit.enable parmaeter. Disabling this parameter
-> prevents all KUnit tests from running even if CONFIG_KUNIT is enabled.
->
-> Signed-off-by: Yuya Ishikawa <ishikawa.yuy-00@jp.fujitsu.com>
-> ---
+Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
+Link: https://lore.kernel.org/all/8a4c0b43-cf63-400d-b33d-d9c447b7e0b9@suswa.mountain/
+Signed-off-by: Ally Heev <allyheev@gmail.com>
+---
+Test:
+ran checkpatch.pl before and after the change on 
+crypto/asymmetric_keys/x509_public_key.c, which has
+both initialized and uninitialized pointers
+---
+ Documentation/dev-tools/checkpatch.rst | 5 +++++
+ scripts/checkpatch.pl                  | 6 ++++++
+ 2 files changed, 11 insertions(+)
 
-Looks good to me, thanks!
+diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+index d5c47e560324fb2399a5b1bc99c891ed1de10535..1a304bf38bcd27e50bbb7cd4383b07ac54d20b0a 100644
+--- a/Documentation/dev-tools/checkpatch.rst
++++ b/Documentation/dev-tools/checkpatch.rst
+@@ -1009,6 +1009,11 @@ Functions and Variables
+ 
+       return bar;
+ 
++  **UNINITIALIZED_PTR_WITH_FREE**
++    Pointers with __free attribute should be initialized. Not doing so
++    may lead to undefined behavior as the memory allocated (garbage,
++    in case not initialized) to the pointer is freed automatically
++    when the pointer goes out of scope.
+ 
+ Permissions
+ -----------
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 92669904eecc7a8d2afd3f2625528e02b6d17cd6..33cb09843431bebef72a4f5daab3a5d321bcb911 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -7721,6 +7721,12 @@ sub process {
+ 				ERROR("MISSING_SENTINEL", "missing sentinel in ID array\n" . "$here\n$stat\n");
+ 			}
+ 		}
++
++# check for uninitialized pointers with __free attribute
++		if ($line =~ /\s*$Type\s*($Ident)\s+__free\s*\(\s*$Ident\s*\)\s*;/) {
++			WARN("UNINITIALIZED_PTR_WITH_FREE",
++			      "pointer '$1' with __free attribute should be initialized\n" . $herecurr);
++		}
+ 	}
+ 
+ 	# If we have no input at all, then there is nothing to report on
 
-Reviewed-by: David Gow <davidgow@google.com>
+---
+base-commit: 6548d364a3e850326831799d7e3ea2d7bb97ba08
+change-id: 20251021-aheev-checkpatch-uninitialized-free-5c39f75e10a1
 
-Cheers,
--- David
+Best regards,
+-- 
+Ally Heev <allyheev@gmail.com>
 
---00000000000001ebaf0641a59dbd
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-MIIUnQYJKoZIhvcNAQcCoIIUjjCCFIoCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-ghIEMIIGkTCCBHmgAwIBAgIQfofDAVIq0iZG5Ok+mZCT2TANBgkqhkiG9w0BAQwFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSNjETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMzA0MTkwMzUzNDdaFw0zMjA0MTkwMDAwMDBaMFQxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
-IFI2IFNNSU1FIENBIDIwMjMwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQDYydcdmKyg
-4IBqVjT4XMf6SR2Ix+1ChW2efX6LpapgGIl63csmTdJQw8EcbwU9C691spkltzTASK2Ayi4aeosB
-mk63SPrdVjJNNTkSbTowej3xVVGnYwAjZ6/qcrIgRUNtd/mbtG7j9W80JoP6o2Szu6/mdjb/yxRM
-KaCDlloE9vID2jSNB5qOGkKKvN0x6I5e/B1Y6tidYDHemkW4Qv9mfE3xtDAoe5ygUvKA4KHQTOIy
-VQEFpd/ZAu1yvrEeA/egkcmdJs6o47sxfo9p/fGNsLm/TOOZg5aj5RHJbZlc0zQ3yZt1wh+NEe3x
-ewU5ZoFnETCjjTKz16eJ5RE21EmnCtLb3kU1s+t/L0RUU3XUAzMeBVYBEsEmNnbo1UiiuwUZBWiJ
-vMBxd9LeIodDzz3ULIN5Q84oYBOeWGI2ILvplRe9Fx/WBjHhl9rJgAXs2h9dAMVeEYIYkvW+9mpt
-BIU9cXUiO0bky1lumSRRg11fOgRzIJQsphStaOq5OPTb3pBiNpwWvYpvv5kCG2X58GfdR8SWA+fm
-OLXHcb5lRljrS4rT9MROG/QkZgNtoFLBo/r7qANrtlyAwPx5zPsQSwG9r8SFdgMTHnA2eWCZPOmN
-1Tt4xU4v9mQIHNqQBuNJLjlxvalUOdTRgw21OJAFt6Ncx5j/20Qw9FECnP+B3EPVmQIDAQABo4IB
-ZTCCAWEwDgYDVR0PAQH/BAQDAgGGMDMGA1UdJQQsMCoGCCsGAQUFBwMCBggrBgEFBQcDBAYJKwYB
-BAGCNxUGBgkrBgEEAYI3FQUwEgYDVR0TAQH/BAgwBgEB/wIBADAdBgNVHQ4EFgQUM7q+o9Q5TSoZ
-18hmkmiB/cHGycYwHwYDVR0jBBgwFoAUrmwFo5MT4qLn4tcc1sfwf8hnU6AwewYIKwYBBQUHAQEE
-bzBtMC4GCCsGAQUFBzABhiJodHRwOi8vb2NzcDIuZ2xvYmFsc2lnbi5jb20vcm9vdHI2MDsGCCsG
-AQUFBzAChi9odHRwOi8vc2VjdXJlLmdsb2JhbHNpZ24uY29tL2NhY2VydC9yb290LXI2LmNydDA2
-BgNVHR8ELzAtMCugKaAnhiVodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL3Jvb3QtcjYuY3JsMBEG
-A1UdIAQKMAgwBgYEVR0gADANBgkqhkiG9w0BAQwFAAOCAgEAVc4mpSLg9A6QpSq1JNO6tURZ4rBI
-MkwhqdLrEsKs8z40RyxMURo+B2ZljZmFLcEVxyNt7zwpZ2IDfk4URESmfDTiy95jf856Hcwzdxfy
-jdwx0k7n4/0WK9ElybN4J95sgeGRcqd4pji6171bREVt0UlHrIRkftIMFK1bzU0dgpgLMu+ykJSE
-0Bog41D9T6Swl2RTuKYYO4UAl9nSjWN6CVP8rZQotJv8Kl2llpe83n6ULzNfe2QT67IB5sJdsrNk
-jIxSwaWjOUNddWvCk/b5qsVUROOuctPyYnAFTU5KY5qhyuiFTvvVlOMArFkStNlVKIufop5EQh6p
-jqDGT6rp4ANDoEWbHKd4mwrMtvrh51/8UzaJrLzj3GjdkJ/sPWkDbn+AIt6lrO8hbYSD8L7RQDqK
-C28FheVr4ynpkrWkT7Rl6npWhyumaCbjR+8bo9gs7rto9SPDhWhgPSR9R1//WF3mdHt8SKERhvtd
-NFkE3zf36V9Vnu0EO1ay2n5imrOfLkOVF3vtAjleJnesM/R7v5tMS0tWoIr39KaQNURwI//WVuR+
-zjqIQVx5s7Ta1GgEL56z0C5GJoNE1LvGXnQDyvDO6QeJVThFNgwkossyvmMAaPOJYnYCrYXiXXle
-A6TpL63Gu8foNftUO0T83JbV/e6J8iCOnGZwZDrubOtYn1QwggWDMIIDa6ADAgECAg5F5rsDgzPD
-hWVI5v9FUTANBgkqhkiG9w0BAQwFADBMMSAwHgYDVQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBS
-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
-Dxz3AgMBAAGjggHgMIIB3DAeBgNVHREEFzAVgRNkYXZpZGdvd0Bnb29nbGUuY29tMA4GA1UdDwEB
-/wQEAwIFoDAdBgNVHSUEFjAUBggrBgEFBQcDBAYIKwYBBQUHAwIwHQYDVR0OBBYEFHZtY3XkWtC2
-e2Idfk+0JyK7BLzzMFgGA1UdIARRME8wCQYHZ4EMAQUBAjBCBgorBgEEAaAyCgMDMDQwMgYIKwYB
-BQUHAgEWJmh0dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQC
-MAAwgZoGCCsGAQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWdu
-LmNvbS9jYS9nc2F0bGFzcjZzbWltZWNhMjAyMzBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5n
-bG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NhdGxhc3I2c21pbWVjYTIwMjMuY3J0MB8GA1UdIwQYMBaA
-FDO6vqPUOU0qGdfIZpJogf3BxsnGMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFs
-c2lnbi5jb20vY2EvZ3NhdGxhc3I2c21pbWVjYTIwMjMuY3JsMA0GCSqGSIb3DQEBCwUAA4ICAQBo
-hqjbVaHxZoT6HHUuwQcTlbgXpuVi59bQPrSwb/6Pn1t3h3SLeuUCvOYpoQjxlWy/FexsPW+nWS0I
-PUmWpt6sxbIRTKPfb7cPk32XezfnA0jexucybiXzkZKTrbI7zoMOzDIWpTKYZAonB9Zzi7Dso4An
-ZOtz/E3yhdR/q1MK30d5fiCS0vorEd0Oy8Jzcc7TJ2HGMzEEXiFFvVrJYJHvfYOeXE4ywAG6YWO0
-x78+bXeB9vkeWHhOYKyYXuAXrnHASddEICg1QlJCHDAISMC1Wn/tjqTMTt3sDAe+dhi9V1FEGTbG
-g9PxPVP4huJEMIBu/MWNMzHfiW4E7eCHVPrmtX7CFDlMik7qsgQBbO5h6EcxBamhIflfMgoISsRJ
-Vyll2E5BNVwkNstMgU3WMg5yIaQcuGFgFnMTrQcaLEEFPV3cCP9pgXovYDirnB7FKNdCZNHfeBY1
-HEXJ2jIPDP6nWSbYoRry0TvPgxh5ZeM5+sc1L7kY75C8U4FV3t4qdC+p7rgqfAggdvDPa5BJbTRg
-KAzwyf3z7XUrYp38pXybmDnsEcRNBIOEqBXoiBxZXaKQqaY921nWAroMM/6I6CVpTnu6JEeQkoi4
-IgGIEaTFPcgAjvpDQ8waLJL84EP6rbLW6dop+97BXbeO9L/fFf40kBhve6IggpJSeU9RdCQ5czGC
-Al0wggJZAgEBMGgwVDELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYtc2ExKjAo
-BgNVBAMTIUdsb2JhbFNpZ24gQXRsYXMgUjYgU01JTUUgQ0EgMjAyMwIQAYQLf/BIzLow9kWqD8My
-PzANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQgl/37TsJww6uYTrVOgW9sID+DjtHn
-rdyuStNoe0LMjPswGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUx
-MDIxMDY1MDE5WjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
-YIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcN
-AQEBBQAEggEAewi32D4KDRvho6C/m5xiegr6jfa/giZJ56gmyrwBX1crso8/k78mGoq3UZdGgqeD
-H8Jd4JEo+/D6EuUpzzaFk7OdvWvaEpVGJRMKSza3IK1rdgAeevi4k5/nb0LPJ/5GkwsGMLO9EHMa
-QNxVLj71zNsVnqEDz2Te1Vjm4a+XyMYYh9YZN98Bnpao5BJ2g3t8LrfNFmQMV7fsQoxsAdz87cfl
-HMmAZF9sOmY8jVrBAL5e5ultutG3lTEthJU2RhkhD/XgeGi5M0ljQbtfmqGnIrF0VJWUczxvzsP5
-aQvcun/r57mVqrwROnc7/hFVf8eFrKxqP304RsUVKvN2B1EjAw==
---00000000000001ebaf0641a59dbd--
