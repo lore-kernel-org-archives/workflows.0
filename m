@@ -1,41 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F9B12DF155;
-	Wed, 22 Oct 2025 05:11:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3779F25A323
+	for <workflows@vger.kernel.org>; Wed, 22 Oct 2025 07:25:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761109878; cv=none; b=giOptG5M9BsZgtZbXINwSwO4sdIeAM1Xf+sR5F5vckfvE27b1krrDg+kOHZRn57zuK6KYsZSnAolZDC1D1jajdu7vIdxoBKL8TELibZQ0gcjAeOukOwz1XkLXiq+WN8+b33i/NMzmhNB/5DohzdQNCfA1L7BS/XTkDB1ujnaYeg=
+	t=1761117954; cv=none; b=RVlKXvs02f5085aWV8CiDmptDDiHzmETaCxUgSIVA3jpBr+PF07Py2B0fKjrHIfnT6GLL1Bw5huCXJqFAFI5o+QBCV5Nmzob2lvJCBjuYci+dNclxGl/bCfGA2vYS60Zpnt21I9KDNm5ua+YBlKvot5ftkO8JbnJJo5e22FAKck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761109878; c=relaxed/simple;
-	bh=HePjcY4qZLOl4GibzWey//O4YmTvcuyAyYHVuZRmKJE=;
+	s=arc-20240116; t=1761117954; c=relaxed/simple;
+	bh=5N+bM5amrNetXwXJxRuKz0Pnn27FUWJd6XEgHZXg6Cc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=neTWZJbRfHcsMhxqUF+WfIhQnJdlje5JQ95Vroux2dO/ELgf1xCykgzg7Kd2gM1rsu/yKroUtBIviGo9aTIiMlJ6klzQN4LP4fWu6C1vRWX2s7On2VvyeDJOEUgYMVbtNmJhSklcwoOS/CX9b/GwpmN0IZXb5MrHiNJ5jQQYL1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=R0PqgFbX; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=WKgiAADs85gUxXJxj9qTBMHTbwPq/d5rZnHNVFrRWrudBTKKtTQ7og3H1Tx1f6SjjlAj6e6cHg0W8IKa0e97jKzyw6KnJSdkWO1dVdnbX9rvenuWtpf4D1wPsnkVc4rwXnW3pKA9ADZbVPhfuw+QZal5dNm9PTxHc2+dvXzyfuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ri65JzYp; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="R0PqgFbX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73FDCC4CEF7;
-	Wed, 22 Oct 2025 05:11:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1761109877;
-	bh=HePjcY4qZLOl4GibzWey//O4YmTvcuyAyYHVuZRmKJE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=R0PqgFbXkAAv+2Ti9kJMVJp9KNGOwLPz5gH87/2uQVYyXaX8tj9+tm/CTt8SVqawT
-	 6etHEeYe+7Qdx7YXxunUUCnta6mhzMZkR+sP0nierHNSVFmBBzMZQnPF/5Q8pFyJ9O
-	 2woQ9nwnD68ve3FT95hQWDIO6Q3Msx2CPRfnyYLE=
-Date: Wed, 22 Oct 2025 07:11:15 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Kernel Workflows <workflows@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Sasha Levin <sashal@kernel.org>, stable@vger.kernel.org
-Subject: Re: [PATCH] Documentation: process: Also mention Sasha Levin as
- stable tree maintainer
-Message-ID: <2025102207-retread-barstool-8916@gregkh>
-References: <20251022034336.22839-1-bagasdotme@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ri65JzYp"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4710022571cso54490095e9.3
+        for <workflows@vger.kernel.org>; Wed, 22 Oct 2025 00:25:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1761117951; x=1761722751; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pKMoThOVBKwHugFJponVe6vbvCHZyCwokPD8AF+alpc=;
+        b=Ri65JzYpaiGjNVRoLE66+Za0BWXPSvMvIz287hil8hacoVa4rALLTcEHkyCBVKfviF
+         r5cAbsnZEy7KZCgHdhNYmr3X2OTqjvGtM/Mp6DgzmgwMAc3LvwWZAGK30o+wtRvWFSCu
+         paycjfuUaKixEjEjFI8FnKSMY2D/OBDtswVWzfWBMvyGLPKilnUBtkSd3V6GwfrrgstE
+         dCjNE1lzm2v8780XvBzvtYCRo+9crc83yQGNfVi9TCeAMYzMTuTc7QZQ2+ITZwPOK9yY
+         NwROGqCUdMc/52N1zEEsk0wi7z4TtZZWaCqf3/xirLpTYIyweYDo7Ym4v0DeohNj3AAn
+         SfMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761117951; x=1761722751;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pKMoThOVBKwHugFJponVe6vbvCHZyCwokPD8AF+alpc=;
+        b=J3OzzrlglLu90DSbP7Cb7ivf6IUBSKCoIn6SD/XzCZ6sWVFC4O/xk3Xs5mcU74qWL0
+         u8Q52zJLJpoIIKysl1AjLVCC2bJPAdFFkUl5bQGz8hT6Gr2l9Af7QXL4bDJZKVKcWPPt
+         dpXc71OxVIhSq6n5Mou6i0Re6+HTU/ftPEFQSDAL1/31/AuQSDr5oFFOTkhRDBpXfC9S
+         t69QJhjZKgGzqwlmxfDfKkTrnzMXDq2dZvN1trddNX+4uQ3EIcu/b0PbR7tEH6cHmoli
+         bP8dmmLjcB25boaRKGIKplU9mhsRdy10ud6kag83yG3gbalLCcoXv2P1ZsGW15EM64Yj
+         pMIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW09y7zE8QR0mufE7ormWppt/3UShIdGwFGAR3iBBnTKvlzgr8pzw4TC2lrDI3buDGdHa8ILoj5sE4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvaZB6uWeEjuLK+Lbu4h5CdMT6IAEpUYu40ChPa8OSdRjyHL5G
+	oaZ5zkxEGTWTkrjBzIljMKIizJ5BL/HaEZTlJTQzcDlA1ihkJXHF6fb16SV0KpK0/lg=
+X-Gm-Gg: ASbGncuTta7Jowrlbg0ChaiO0VxXGb62M8Iv/J6vkyAEzVuTFRHsdCKbokjPpqafB/z
+	JksOfqK6lEUg0QpcNp8hLk1j2mDcq5++kjOUu7M8N+1rM2kQ00q9R5XdlHH9n23ahaH6CVAgtsG
+	jCnhaHIJvUA8zy9HhoUGg47y7e9HkB+5cMJfjkMa4h8Al1GMRXlo1HB1X8ORh5+Uc7FrDVYAr+B
+	P88uQqN6Uo0C4FgQeh7fwaIF6fYNZZQ5ZrF+0J9tqqjUzIFSYwhps2Ll5J+jpk57ZAGPD1Tyjth
+	2j0VKoDxghZfHQE0M4uq6Nz/cZUp+HY7qp3QNCsTRrnO9fN/X3MYHcKsFyzcrbr9Cvth47GrBnI
+	cUBgSMD65rUyFwAdNL60IZ6EdIAaS30A0fgYFOyZ1WiJrLP2LlM6BebSwTb3ladBJ6nQhZUFQ6V
+	LaOhvwMA==
+X-Google-Smtp-Source: AGHT+IFlPf+i5rM3V2aPth3/QorfaAiBmBO6+U2yQMIYWYZnD3lbKAlJhKzYMQ1lM3lkudsWOGqQEg==
+X-Received: by 2002:a05:600c:3b03:b0:471:15df:9fc7 with SMTP id 5b1f17b1804b1-47117906a72mr140545185e9.26.1761117951513;
+        Wed, 22 Oct 2025 00:25:51 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-475c428a534sm33459415e9.6.2025.10.22.00.25.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Oct 2025 00:25:51 -0700 (PDT)
+Date: Wed, 22 Oct 2025 10:25:48 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Ally Heev <allyheev@gmail.com>
+Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>,
+	Andy Whitcroft <apw@canonical.com>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	David Hunter <david.hunter.linux@gmail.com>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-pm@vger.kernel.org,
+	Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Subject: Re: [PATCH] checkpatch: add uninitialized pointer with __free
+ attribute check
+Message-ID: <aPiG_F5EBQUjZqsl@stanley.mountain>
+References: <20251021-aheev-checkpatch-uninitialized-free-v1-1-18fb01bc6a7a@gmail.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -44,14 +82,57 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251022034336.22839-1-bagasdotme@gmail.com>
+In-Reply-To: <20251021-aheev-checkpatch-uninitialized-free-v1-1-18fb01bc6a7a@gmail.com>
 
-On Wed, Oct 22, 2025 at 10:43:35AM +0700, Bagas Sanjaya wrote:
-> Sasha has also maintaining stable branch in conjunction with Greg
-> since cb5d21946d2a2f ("MAINTAINERS: Add Sasha as a stable branch
-> maintainer"). Mention him in 2.Process.rst.
-> 
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+I made a list of the warnings this generates (on Monday's linux-next).
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+None of the warnings are real bugs.  Every single one of these has the
+assignment as the first statement after the declaration block.  We have
+had bugs because of this before but Smatch and (I think) Clang detect
+them so they don't last for long.
+
+regards,
+dan carpenter
+
+arch/powerpc/platforms/82xx/km82xx.c:30:
+crypto/asymmetric_keys/x509_cert_parser.c:63:
+crypto/asymmetric_keys/x509_public_key.c:151:
+drivers/firmware/arm_scmi/shmem.c:199:
+drivers/net/ethernet/intel/ice/ice_flow.c:1576:
+drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1015:
+drivers/net/ethernet/microsoft/mana/gdma_main.c:1508:
+drivers/net/wireless/intel/iwlwifi/fw/uefi.c:821:
+drivers/net/wireless/intel/iwlwifi/mld/d3.c:1788:
+drivers/opp/core.c:1413:
+drivers/opp/core.c:1480:
+drivers/opp/core.c:1797:
+drivers/opp/core.c:1888:
+drivers/opp/core.c:2874:
+drivers/opp/core.c:2935:
+drivers/opp/core.c:2989:
+drivers/opp/core.c:3065:
+drivers/opp/core.c:3085:
+drivers/opp/core.c:3104:
+drivers/opp/core.c:312:
+drivers/opp/core.c:330:
+drivers/opp/core.c:412:
+drivers/opp/core.c:450:
+drivers/opp/core.c:608:
+drivers/opp/cpu.c:157:
+drivers/opp/cpu.c:204:
+drivers/opp/cpu.c:59:
+drivers/opp/of.c:1272:
+drivers/opp/of.c:1331:
+drivers/opp/of.c:1428:
+drivers/opp/of.c:1469:
+drivers/opp/of.c:149:
+drivers/opp/of.c:1505:
+drivers/opp/of.c:174:
+drivers/opp/of.c:276:
+drivers/opp/of.c:352:
+drivers/opp/of.c:409:
+drivers/opp/of.c:48:
+drivers/opp/of.c:98:
+drivers/scsi/scsi_debug.c:2964:
+drivers/tee/qcomtee/call.c:648:
+fs/overlayfs/params.c:451:
