@@ -1,100 +1,100 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFBA9315777
-	for <workflows@vger.kernel.org>; Wed, 22 Oct 2025 10:20:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F4A037160;
+	Wed, 22 Oct 2025 17:30:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761128443; cv=none; b=tvnSp7SF0zj/6aQh+9ZWWe5wYpio5V8XYMTstVPUmWY1/m1BmkjMNG9VxEZG27II5jh1VF3dYKf9UJGff6jCudLA5SdcaaVw7bCcqIa+23BuG1/l0C3pxSs8jkXa/a07UVyW3IUsSGYfUI60I9WOorhTuc20AdPpP/sUAJp6EVk=
+	t=1761154248; cv=none; b=U+Xl73M1EbiDwdiW33CBL3cQjIiGyPusBUJjRGs6K4KuD0ickVG7urLbw+ebms0c5ZCVF0F136T/Inz2s2fuHOF96jFAjD/HWr1mXKv9qwe4MvyJmMCvxuAWdshZSJ06vdqLLeZHjaBTskGOUUJweWK4asLDzy4mAvCH3Zx6hro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761128443; c=relaxed/simple;
-	bh=bsLcKTPJEYIr6iWd2hSD2/QqBkscjLQjYwtElmBwUuw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ppvFl6HLNeWwfJTD7YAovDoUbYDYKlBH0RPaqugLniS91KOQ2xLbl3WhNT/5AAwG1sfS5MeyywV2jfmvQ5ZR71YZR68jSB9UwlcHZkwKyHsw9ZqjYMxQdrvmD+Ks+ftCDuYKMnkvknaxIB7ZX2ZXdlmrGy1HGYquRr5muagcZW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Q5eXYtvb; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1761154248; c=relaxed/simple;
+	bh=1qmY/CwBJD83zWmp5rWvoLYG9ya3rrBEJYcOdtURn9c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CRukTAoiVztyUGq/rd102UDRs7UAsu0HApiTz7JaJGUVGq3WLpcjmwPOH67iZOep5H9uqqfVjejfCo7MndkMFzB7CYbKrfTg/oMX5wE13Xw4B/S/X1XXWA+HldZNNA5ZZ9QlknOG6nasXjlYSgfmm0y2PCru//lfGBD85KMkV5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=glxIbN8Q; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Q5eXYtvb"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-33e27a3b153so644446a91.3
-        for <workflows@vger.kernel.org>; Wed, 22 Oct 2025 03:20:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761128441; x=1761733241; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=v+BERCfgvcR5X/QpiR51/cu4DL63bwSFg1M/A5GNtaI=;
-        b=Q5eXYtvbRn1VEpYB+ckss1F1GCQzUuvuD/3fl40yNikmpxtheQ7sMn5qQvpyDoulT+
-         NuvQXfh9fYXtofOxyEbl6d7RyO70TDEpg64rLRY8Z4vUP9uKQlEXiNkM1M+iM6F81x/F
-         ua9PH5RaMRdzQEV2yy93eyH5PdcySO3Av4XbIIZheaM0qTCVtAjaw4K1QPiveyzwKtZk
-         IHMzU7jBq7zstnoUb6xfZhwSbD/kOa0yLlP1eyBnchlHBEhyO1/otNkfaRLrm8zT1jgP
-         a1tsraAlVachrcTJG4BJNiELwejevit8YN2V0suucIcaXRrV24RUpbMYkEFrEBAwVusc
-         SddA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761128441; x=1761733241;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=v+BERCfgvcR5X/QpiR51/cu4DL63bwSFg1M/A5GNtaI=;
-        b=OMxWL3ML3US8cDkCAG7HAcXw6315nIAWXSBGaK7VwSDJqKlMkOMUv41jbwVRtzG/vz
-         GDnEGVszjWYxeIRgIe9T497RHCbLTG34F9WEt96bcM9wrDG/8SPGlIKSImR7y1RDkDYn
-         n0FiiTzLsaLBsx6iLRRUxTJeSWXoo9S9N3s7H/3Et+dh4MnGaNkiMN7JLtKWuUC6BNcv
-         FiWwGFCFkR1IFjrIu62aYjfh5MD42MWFCL36sO6S1Ebolw1aUeL2s4zOZzdOyUp8+qTB
-         UyAKxOQ4gtBvQT1TnEAIXvfhkQO2t0DP+eiFJREva2fE7Tbbixmq93vSGI0eHVu+fdWk
-         9HUg==
-X-Forwarded-Encrypted: i=1; AJvYcCXdwQDdymCjrPdnP1U1ea2PdfISeM7034UbA0GeCKv9DDS2MJsnHlb5ShcSfdXm3/L9fnqGx8lAF5c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbkW+xG/cLN/e8NtO8Ua9gwPpjTVX2kyhG/LdCPuJFEtCoAJrk
-	YZwTwLSvc5L9/U1uYB8yfbsFM6wq5PdrX94TGtiFf1gRChVVFxvRat5GuqxYQU+Owvg=
-X-Gm-Gg: ASbGnctQJE/GXfcIml0ICHSIYNtenl+XaVmDfQpMOm6hAZqYASDgmD2BcUwfExNxh68
-	GpCwepcLYc7HrvZa7s895aVfV9mR2B6tqb0VXKXIes6i4LpiSn1BEXLchc8SzxEd4j2dGYQXTHc
-	eSWPxxDrM3SKL/d1yozeh2OGJbDIi7Gm0SXjRWsYf0SpPPUcZOWMJSrlShthdZdWRl8Ukav7DcD
-	hkI4k6UV5gR9WKNaqZX89iOAlZgCs8sj9ZmOaVSxHL7RCOM8w+1W6N7ZawSt70i8XW22ibzzpCP
-	8leKUM6+KxkHVIenrQ9BJwV4he9E+8xiEspapyOXsT1wQe9rZalRVaYuKt+faXwrEHe9jcir5f6
-	u1jyWnghYbYwwbJzls2hVgC67lrTF3kF99rbbForMd2nlPcLw+MhONFyNsapKSacEMBfejwX/PE
-	Oku++w/Uuwvdaw
-X-Google-Smtp-Source: AGHT+IEPudXWObjJLDv2XWqM26sgZsiKQXdb5QBSpUD/P+viWtBD0+IrqTmFx+e1SWZr7yyFfz4vMg==
-X-Received: by 2002:a17:90b:5105:b0:32d:dc3e:5575 with SMTP id 98e67ed59e1d1-33bcf8625b0mr23541723a91.5.1761128440788;
-        Wed, 22 Oct 2025 03:20:40 -0700 (PDT)
-Received: from localhost ([122.172.87.183])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33e223f0124sm2159272a91.11.2025.10.22.03.20.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Oct 2025 03:20:40 -0700 (PDT)
-Date: Wed, 22 Oct 2025 15:50:37 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Joe Perches <joe@perches.com>
-Cc: Ally Heev <allyheev@gmail.com>, 
-	Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Dan Carpenter <dan.carpenter@linaro.org>, David Hunter <david.hunter.linux@gmail.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
-	Stephen Boyd <sboyd@kernel.org>, linux-pm <linux-pm@vger.kernel.org>
-Subject: Re: [PATCH] checkpatch: add uninitialized pointer with __free
- attribute check
-Message-ID: <a6yf3ms7smzjfcm54z7khg6g3zpepqwxcbhwzm74dk33famolr@s2at2tnyxoed>
-References: <20251021-aheev-checkpatch-uninitialized-free-v1-1-18fb01bc6a7a@gmail.com>
- <5e11f1bacb6430e1331f02e3e0e326a78e5b0d12.camel@perches.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="glxIbN8Q"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=CeC5OMKBMYRDelbMUjaS7F56dsB+qLx2c1x5CAej9Xk=; b=glxIbN8QhiARCJCgYFMGzZKmGB
+	LHkhlk24oX1rrwwapt8AOyvPPKlqODK0OMgTF+pVDD9HLLmFIDRlf8acW9OFzidRESCmNRKLZK9iJ
+	nWqdjjv+Bs/v7am+Zu/LUV4dYXRlk45eqo+FIcmrOuUgPOO0eefHt8ay6nVzyNFG/Ot8L0cQU8Ywb
+	NdSxIXMTtA2k4rr+GyWuSWlqTOopUcGfJysRaP2xwACp5+V39TVWzAN3qS2g7Pe29xBDgiXaK4D78
+	j9pdEJ7/eaHV89ylxU8a383FFaM35SlCFpZywak45mLd/l1zpQPGqYmsRdVvmBT8ZUlaa5EMId1zS
+	32z9IpEw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vBcfd-00000003nIr-1V7h;
+	Wed, 22 Oct 2025 17:30:45 +0000
+Message-ID: <2997d8b9-a37a-4411-a5d8-b2cfcc3944b8@infradead.org>
+Date: Wed, 22 Oct 2025 10:30:44 -0700
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5e11f1bacb6430e1331f02e3e0e326a78e5b0d12.camel@perches.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: process: Also mention Sasha Levin as
+ stable tree maintainer
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux Kernel Workflows <workflows@vger.kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sasha Levin <sashal@kernel.org>, stable@vger.kernel.org
+References: <20251022034336.22839-1-bagasdotme@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251022034336.22839-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 21-10-25, 10:06, Joe Perches wrote:
-> There are many uses in drivers/opp/ that could be updated where
-> the initialization is done after the definition like the below:
-> (I've added the opp maintainers to the cc's)
+
+
+On 10/21/25 8:43 PM, Bagas Sanjaya wrote:
+> Sasha has also maintaining stable branch in conjunction with Greg
+> since cb5d21946d2a2f ("MAINTAINERS: Add Sasha as a stable branch
+> maintainer"). Mention him in 2.Process.rst.
 > 
-> drivers/opp/core.c-unsigned long dev_pm_opp_get_max_clock_latency(struct device *dev)
-> drivers/opp/core.c-{
-> drivers/opp/core.c:     struct opp_table *opp_table __free(put_opp_table);
-> drivers/opp/core.c-
-> drivers/opp/core.c-     opp_table = _find_opp_table(dev);
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-https://lore.kernel.org/all/45a64ff434a027c296d1d5c35f442e51378c9425.1761128347.git.viresh.kumar@linaro.org/
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+Now matches the MAINTAINERS file.
+
+Thanks.
+
+> ---
+>  Documentation/process/2.Process.rst | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/process/2.Process.rst b/Documentation/process/2.Process.rst
+> index 8e63d171767db8..7bd41838a5464f 100644
+> --- a/Documentation/process/2.Process.rst
+> +++ b/Documentation/process/2.Process.rst
+> @@ -99,8 +99,10 @@ go out with a handful of known regressions, though, hopefully, none of them
+>  are serious.
+>  
+>  Once a stable release is made, its ongoing maintenance is passed off to the
+> -"stable team," currently Greg Kroah-Hartman. The stable team will release
+> -occasional updates to the stable release using the 9.x.y numbering scheme.
+> +"stable team," currently consists of Greg Kroah-Hartman and Sasha Levin. The
+> +stable team will release occasional updates to the stable release using the
+> +9.x.y numbering scheme.
+> +
+>  To be considered for an update release, a patch must (1) fix a significant
+>  bug, and (2) already be merged into the mainline for the next development
+>  kernel. Kernels will typically receive stable updates for a little more
+> 
+> base-commit: 0aa760051f4eb3d3bcd812125557bd09629a71e8
 
 -- 
-viresh
+~Randy
