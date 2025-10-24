@@ -1,66 +1,67 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58C9C341ADF
-	for <workflows@vger.kernel.org>; Fri, 24 Oct 2025 17:29:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62BE034405D
+	for <workflows@vger.kernel.org>; Fri, 24 Oct 2025 17:29:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761326980; cv=none; b=moTSxoSpPKNWM86EeMNQCyyc0mT8PS2Dc42jvzUeW3Rxpd1MFj40kdzlwW8IzIv8Ycc79cL5X7WkbBi2yIGLRR6WalzyKzw2i6yd4yKiYx3n4nGOtwoc9Ww7TsteD39BqcBLQ4F8UuC01OqUJFi9sfW19+0gaqtQO7Y5n6h2me4=
+	t=1761326986; cv=none; b=BLx739ksrCauGilmSGj3LHCdCOXVwzLsdtGcVDD5jfBAg0Tg5h9af4kzgnFWgvJ0SdoHuF07Hhk/YrjFZiH1eEcmFESmTJYD9MT4a31ocbjq7NJFmHL+DqCp6N7kwmRUB6t0uw25DZIP6NfklydHceyzT8lJLSiW3ZBlpzxx8RA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761326980; c=relaxed/simple;
-	bh=tkAGkZZm4VXBDBIYaN4VChrZKvpzE6+s6VHxe8EmXVs=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=DXcnGoi8tALVsJ8BGtBkbOZylr/4elnPnDrpmFqJHVxUIdOUklQ6gTQSdcMDNdmNerxCmwPRDbBDDlVozcoqfFAqVhgWsaT4GpYzZHc2m1nxdQmMtt+T3nSxzSayCigFA83Kni19fWTEoQMc2FZ6LsmZ8cMNNKLnjmdY9HWdtxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PvekdrI1; arc=none smtp.client-ip=209.85.214.172
+	s=arc-20240116; t=1761326986; c=relaxed/simple;
+	bh=UZ2BE5GPybLE7CmLT7dIgGDbZyKLOU9ISpTX4FoMbcA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=SR0Fj9QaYpFR2d7mL4JJrgoJVASXio2s8IdAutHxv1RS8bcbWNyyMKCY/BonwOjpROCFhMdghYW8Vr0tno5sLDp7uSP3J4jAMUQs/qYa+RqGPVAxFFK2X3VvN2iBFEvpBbWRJQ+yIfLc2e2Sj5eA0NCndnlo77fpCvYPlrDfNCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d5wVANKv; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PvekdrI1"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-273a0aeed57so40242655ad.1
-        for <workflows@vger.kernel.org>; Fri, 24 Oct 2025 10:29:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d5wVANKv"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-29490944023so7063375ad.3
+        for <workflows@vger.kernel.org>; Fri, 24 Oct 2025 10:29:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761326979; x=1761931779; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cN7ZMnvf82THEzrEsUSGywR0GGJwzb8nUT5u5I/IIf0=;
-        b=PvekdrI1sfGT/nnrDK/4lvinqsF0m20DVEwXO0UX9hqTyKcp4E4ARfEaUZvOvgYGQp
-         jk/ZQ3LAct8fwMMLSl66z6DoLfMgmF8H9m9cEO6sxxTAeN+z8GFitULOoQ57p+b3vf4T
-         tHq9PWml9e7wyq9dXJ79D6Wzm6lY8TrANZk+YaosMRIcNlMPadDItX7CbDeLlw38rmyl
-         FzAwqVcv/337/WLkbtEFKPCZhTfj/nsJzp3JDSwLu/lZPgrLi3422ojpckVRcml22Fcd
-         f+ccTzC3XmmBgelIAjKkLw8zk+Q7JA/ta/m5IWN+dXRuxI5FchvLRi256mQQL5a6POZn
-         LkIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761326979; x=1761931779;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1761326984; x=1761931784; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cN7ZMnvf82THEzrEsUSGywR0GGJwzb8nUT5u5I/IIf0=;
-        b=saT1JOkk96oTd5fkyLr/GMwDBC3Bwxns63o0Uh3e6JsoxHB+bnbOxDtEnLx5O8xljO
-         azo7tN5GrTpz8kxIN14zPgi26rURNhIwH8PKR6Pdmd/Nm5P2uSpAGJlclj5eOEfDvkLV
-         B7Mb8IdEQXYJvqua99rhcza0ba8NzCfuH1nE3m7t+MuolzB9V9iETRVqp6eE+P/lcGf6
-         EELFhD2tgKpJzS9rtFUQCWw/88YZSoW2o3+lRfL0X/CMYvOQH4tDHV9uHzI5lLzeXgVx
-         Kkl9KDj0j3RMJfylEJ7Jr6Ny7L7aPn03fEkzbPy8YSpYKy4/2VUaSnUk+IXpgIb8UK/v
-         FF4Q==
-X-Gm-Message-State: AOJu0Yx/mLKmAWRfJlzd2hpngSY3AK1ACJVBnH+hbmFYSNXpau+boNGM
-	NDFxZzfWqCN6fmNM4ayIiY8rTp5tHVUQk45WbzciNYGZ9noEAW6uaQUIBVjV3FscAv8=
-X-Gm-Gg: ASbGncvgPCtvMW5C0bpiuYG0H4Za3WEUj5plIjQeDpGneQ5ZB3HZjJgCAh7QCHtHXqk
-	l89LWE5YrknsmU6qYQ7GmfrZ+c7ZJpi2ZW8MLVQfnJsZCVvuv8dZszDPGMnCPoV5OlvBtyZFRVF
-	8u3TxaX7C4hoPA11NFqwbNuzNZMjzUhhCFMksze7bt3qR+whkERGnnQaHtRO3FtxQsVTNklUZj4
-	5uO6NJAmYfqwIZJT2VgfDt4+ePvZ33qjB4V8sAKjEGjlOsKNsFBYOSUHjYUZXAoL1LbfSs2uPjB
-	9juhICWt1BTTK/uiUb9lichHDfTproaDIRfMQDnyC58p1odwtu3SnQn6mpRJ8lJCQH0xo1goeV2
-	/w/SPm02zrtvjUpU/+z449VFR+42zulysbpYDF/OiZ3KGtyvneu4gC4lwviJyPkfIWoML41OmB7
-	SOEu9DopaiQA==
-X-Google-Smtp-Source: AGHT+IExEqGK30pExEfkyV0gBzPWyWgac7N27+lB/OIuXkwNcep/BAxe9MOY1u0pDHlpOqqViu7rWw==
-X-Received: by 2002:a17:903:1aa4:b0:271:9b0e:54c7 with SMTP id d9443c01a7336-29489d970b9mr43892925ad.11.1761326978569;
-        Fri, 24 Oct 2025 10:29:38 -0700 (PDT)
+        bh=a2E6IemruVg75xkrWi4SiWqjFMrX39+ybWZzL7YhtdU=;
+        b=d5wVANKvbeOk9Va36U4mi+S/z+7eP1GrR92RhjxVXgPwlXt6+oHQhQDv89upqNGkgN
+         OVgYBQbZ6q506UrsrYG6XmqMDoyl05y8MAW0ZM1/u7ZZ7ZSPuDsUnfR4wjyINKa/FoiV
+         EuFglLtvo8N80EvziDoLA1MYPgZCorLOWPBdZVqru2DgnW5M5P0W8OuWBPXL4sRn3ZcW
+         5+om1IFNuW/CG5dGQpBWkgKg8RYxpt/zG8ql27YHWP2pgnAWt3ZBgjaMDT/3zL4qZ4I9
+         rxDcda5UkkHzOwgeXCHwyUlXTAfKoQ+6CtTxOowdPyyNoBesBoaXNpmtkYzDa3t0YhOT
+         My4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761326984; x=1761931784;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=a2E6IemruVg75xkrWi4SiWqjFMrX39+ybWZzL7YhtdU=;
+        b=E8eiX+AWHcVHtrTuyAYK760yT/qWWBf+/+hf352l3D9hC0dcrpxVYa5mvoCL2bvhAF
+         eHi2EbwDKMJ5/8kIaboK2zd4K8byxdJHFA3iIbYVxxNfMQFQFUmqEiUl8jv7H4rZ0CLS
+         zcqkwNd42FWPgaFY420lUOPC2JJg8oqGz5EwmJJed/udffYyVeKDLmg6jNF25Ieza0xz
+         76bXk+DWTrhKXK+CU0UPbwDcSDQbX8b6UfBpey2OKU9O9kCYHcH7XabRfFu+EV0QvxLF
+         +nuOYQtixSEtTFL6ifObKO2GTkIKiFiXZPSjYA2fpWhZPjDdfj6pJulKY0ws7x1yp7FE
+         o9rA==
+X-Gm-Message-State: AOJu0Ywr3k8wb9uupkO2Ji9SEZ7lZIHGOOfRJOPapkYCLQnWAC7XwfYT
+	LGVvWDe6TogCsnPbJl47NGO9n9HKIC9UfClHjYiAaJiBYnfw04PcPnla
+X-Gm-Gg: ASbGncvIEh6kO1cwkIRThUkr2mAHDYJkmlVdOrrJDiC0egGVhGrOoJNttIAyGzj1fwE
+	2HNWtSfr/hQOrNCft8YCEqKK0iZPl6zrOcXMP2NZjeg7YvkpEttzjH09s+rBV1mS+htHX0NyuDN
+	iJQg323mVf+tY3mhXSrr+mZ8kJWmPF9NvCMzpZSWn5lMYzQ7MzuFI8W7W6yGEgRhlHydVUtSI0x
+	5uGfbjv+vxUvn95E7ASj9dceLZjcIviA8k6fCjkH018cUIIDrAK1koZ8euNMdn34edwAtXsSTIE
+	8BEBNQ4NhpRx+b0NvzHeEkh7afwmA3Y4dQYw7gwmgV/Zj6jyd2Yg/LRsVrNHGsBEUa5+AEy0/Hh
+	9YNsp5FWIZP0NDUtH6Y31V8IDLZ+pQrR7Dg3Y3ugQoyexNaqHglYgIPMLY3AiC3k4bpLrtLuBjj
+	IW2mf+jYoznw==
+X-Google-Smtp-Source: AGHT+IFDckuW4U3/23hRsjFB0HpKtIlUoNugINuYueWTdcIWu6YG/tXUlw0Eque8u+bVzB/zHd6Frw==
+X-Received: by 2002:a17:903:244b:b0:290:9a31:26da with SMTP id d9443c01a7336-290c9d31109mr366942675ad.16.1761326983580;
+        Fri, 24 Oct 2025 10:29:43 -0700 (PDT)
 Received: from aheev.home ([2401:4900:88f6:d7b0:8f5e:ff90:677:7d74])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2946dda85e7sm61719615ad.11.2025.10.24.10.29.33
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2946dda85e7sm61719615ad.11.2025.10.24.10.29.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Oct 2025 10:29:38 -0700 (PDT)
+        Fri, 24 Oct 2025 10:29:43 -0700 (PDT)
 From: Ally Heev <allyheev@gmail.com>
-Subject: [PATCH v2 0/2] checkpatch: add checks incorrectly initialized
- pointers with __free attr
-Date: Fri, 24 Oct 2025 22:59:14 +0530
-Message-Id: <20251024-aheev-checkpatch-uninitialized-free-v2-0-16c0900e8130@gmail.com>
+Date: Fri, 24 Oct 2025 22:59:15 +0530
+Subject: [PATCH v2 1/2] checkpatch: add uninitialized pointer with __free
+ attribute check
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -69,11 +70,9 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAGq3+2gC/5WNQQ6CMBBFr0K6tqZTg6gr7mFYDGVKJ0IhLTYq4
- e5WbmD+6v3Fe6uIFJiiuBWrCJQ48uQz6EMhjEPfk+Qus9BKl6A0SHRESRpH5jHjYpx8eva8MA7
- 8oU7aQCRLc7raqiRQCCKb5kCWX3vl3mR2HJcpvPdogt/7nz+BzLvYVkFrzlhh3Y/Iw9FMo2i2b
- fsCM2iMA9YAAAA=
-X-Change-ID: 20251021-aheev-checkpatch-uninitialized-free-5c39f75e10a1
+Message-Id: <20251024-aheev-checkpatch-uninitialized-free-v2-1-16c0900e8130@gmail.com>
+References: <20251024-aheev-checkpatch-uninitialized-free-v2-0-16c0900e8130@gmail.com>
+In-Reply-To: <20251024-aheev-checkpatch-uninitialized-free-v2-0-16c0900e8130@gmail.com>
 To: Dwaipayan Ray <dwaipayanray1@gmail.com>, 
  Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>, 
  Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>
@@ -85,51 +84,71 @@ Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-pm <linux-pm@vger.kernel.org>, dan.j.williams@intel.com, 
  Ally Heev <allyheev@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1425; i=allyheev@gmail.com;
- h=from:subject:message-id; bh=tkAGkZZm4VXBDBIYaN4VChrZKvpzE6+s6VHxe8EmXVs=;
- b=owGbwMvMwCU2zXbRFfvr1TKMp9WSGDJ+b69OE5hxadfN1B8RE+/t1/v38+M+v2mXV02b+ibwy
- RTbqltrGDpKWRjEuBhkxRRZGEWl/PQ2SU2IO5z0DWYOKxPIEAYuTgGYSN98RobrNh8nPlTt+yIv
- o7H05CzFCQ90xZUdSmK0pRZt61+9/ZYFI8PGVKNg1e3zBZY/XzH5WdJnhja9wN7oZ1abNCadFDc
- 4ocEGAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2471; i=allyheev@gmail.com;
+ h=from:subject:message-id; bh=UZ2BE5GPybLE7CmLT7dIgGDbZyKLOU9ISpTX4FoMbcA=;
+ b=owGbwMvMwCU2zXbRFfvr1TKMp9WSGDJ+b6/Z//XcY448pxeb7gaJ6YeWXdy1T9L89Lvdhv++f
+ xdrU3/U11HKwiDGxSArpsjCKCrlp7dJakLc4aRvMHNYmUCGMHBxCsBEoj4z/K/z/XZvSmxsi9RN
+ nymf96asu+Dsf7nugcdxGbtfGgWMDVaMDJP/HWi4da9gv5pijnz9n5XSwt5PDmnsdTn6JGm+cH6
+ ELzcA
 X-Developer-Key: i=allyheev@gmail.com; a=openpgp;
  fpr=01151A4E2EB21A905EC362F6963DA2D43FD77B1C
 
-Badly initialized pointers with __free attr can
-cause cleanup issues. So,
+uninitialized pointers with __free attribute can cause undefined
+behaviour as the memory allocated to the pointer is freed
+automatically when the pointer goes out of scope.
+add check in checkpatch to detect such issues
 
-Adding checks for
-- uninitialized pointers
-- initialized pointers with NULL
-
-Testing:
-ran checkpatch.pl before and after the change on 
-crypto/asymmetric_keys/x509_public_key.c, which has
-both initialized with NULL and uninitialized pointers
-
+Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
+Link: https://lore.kernel.org/all/8a4c0b43-cf63-400d-b33d-d9c447b7e0b9@suswa.mountain/
+Acked-by: Dan Williams <dan.j.williams@intel.com>
+Signed-off-by: Ally Heev <allyheev@gmail.com>
 ---
-Changes in v2:
-- change cover letter and title to reflect new changes
-- fix regex to handle multiple declarations in a single line case
-- convert WARN to ERROR for uninitialized pointers
-- add a new WARN for pointers initialized with NULL 
-- NOTE: tried handling multiple declarations on a single line by splitting
-        them and matching the parts with regex, but, it turned out to be 
-	complex and overkill. Moreover, multi-line declarations pose a threat
-- Link to v1: https://lore.kernel.org/r/20251021-aheev-checkpatch-uninitialized-free-v1-1-18fb01bc6a7a@gmail.com
+ Documentation/dev-tools/checkpatch.rst | 5 +++++
+ scripts/checkpatch.pl                  | 7 +++++++
+ 2 files changed, 12 insertions(+)
 
----
-Ally Heev (2):
-      checkpatch: add uninitialized pointer with __free attribute check
-      add check for pointers with __free attribute initialized to NULL
+diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+index d5c47e560324fb2399a5b1bc99c891ed1de10535..1a304bf38bcd27e50bbb7cd4383b07ac54d20b0a 100644
+--- a/Documentation/dev-tools/checkpatch.rst
++++ b/Documentation/dev-tools/checkpatch.rst
+@@ -1009,6 +1009,11 @@ Functions and Variables
+ 
+       return bar;
+ 
++  **UNINITIALIZED_PTR_WITH_FREE**
++    Pointers with __free attribute should be initialized. Not doing so
++    may lead to undefined behavior as the memory allocated (garbage,
++    in case not initialized) to the pointer is freed automatically
++    when the pointer goes out of scope.
+ 
+ Permissions
+ -----------
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 92669904eecc7a8d2afd3f2625528e02b6d17cd6..1009a4a065e910143dabeee6640b3b3a4bd3fe06 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -509,6 +509,7 @@ our $InitAttributeData = qr{$InitAttributePrefix(?:initdata\b)};
+ our $InitAttributeConst = qr{$InitAttributePrefix(?:initconst\b)};
+ our $InitAttributeInit = qr{$InitAttributePrefix(?:init\b)};
+ our $InitAttribute = qr{$InitAttributeData|$InitAttributeConst|$InitAttributeInit};
++our $FreeAttribute = qr{__free\s*\(\s*$Ident\s*\)};
+ 
+ # Notes to $Attribute:
+ # We need \b after 'init' otherwise 'initconst' will cause a false positive in a check
+@@ -7721,6 +7722,12 @@ sub process {
+ 				ERROR("MISSING_SENTINEL", "missing sentinel in ID array\n" . "$here\n$stat\n");
+ 			}
+ 		}
++
++# check for uninitialized pointers with __free attribute
++		while ($line =~ /\*\s*($Ident)\s+$FreeAttribute\s*[,;]/g) {
++			ERROR("UNINITIALIZED_PTR_WITH_FREE",
++			      "pointer '$1' with __free attribute should be initialized\n" . $herecurr);
++		}
+ 	}
+ 
+ 	# If we have no input at all, then there is nothing to report on
 
- Documentation/dev-tools/checkpatch.rst | 11 +++++++++++
- scripts/checkpatch.pl                  | 13 +++++++++++++
- 2 files changed, 24 insertions(+)
----
-base-commit: 6548d364a3e850326831799d7e3ea2d7bb97ba08
-change-id: 20251021-aheev-checkpatch-uninitialized-free-5c39f75e10a1
-
-Best regards,
 -- 
-Ally Heev <allyheev@gmail.com>
+2.47.3
 
