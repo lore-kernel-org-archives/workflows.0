@@ -1,67 +1,67 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62BE034405D
-	for <workflows@vger.kernel.org>; Fri, 24 Oct 2025 17:29:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73208343D6D
+	for <workflows@vger.kernel.org>; Fri, 24 Oct 2025 17:29:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761326986; cv=none; b=BLx739ksrCauGilmSGj3LHCdCOXVwzLsdtGcVDD5jfBAg0Tg5h9af4kzgnFWgvJ0SdoHuF07Hhk/YrjFZiH1eEcmFESmTJYD9MT4a31ocbjq7NJFmHL+DqCp6N7kwmRUB6t0uw25DZIP6NfklydHceyzT8lJLSiW3ZBlpzxx8RA=
+	t=1761326991; cv=none; b=V10lmSQCW5ZBBgfYrkQNt/zQQGuvyd5Pud84Ib5glHgiP2b2v7xJ05n4mwAnNUbzILfqQ/Exe6xIilydCS6ZhbxE15BBXAkXIvVC5LOgaNu6Nt96A7SOgJN0t7sFw7Rq54+RBREYIaO//vktFGDJmHo0sO52BGqSaConHYOi9hw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761326986; c=relaxed/simple;
-	bh=UZ2BE5GPybLE7CmLT7dIgGDbZyKLOU9ISpTX4FoMbcA=;
+	s=arc-20240116; t=1761326991; c=relaxed/simple;
+	bh=Xl1ZEjB6ltsTv+GdIk8hnYCDz0VvFiu1/vVtb+GptPU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=SR0Fj9QaYpFR2d7mL4JJrgoJVASXio2s8IdAutHxv1RS8bcbWNyyMKCY/BonwOjpROCFhMdghYW8Vr0tno5sLDp7uSP3J4jAMUQs/qYa+RqGPVAxFFK2X3VvN2iBFEvpBbWRJQ+yIfLc2e2Sj5eA0NCndnlo77fpCvYPlrDfNCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d5wVANKv; arc=none smtp.client-ip=209.85.214.181
+	 In-Reply-To:To:Cc; b=HTjugGNE99ox8lbXTPLIrEY7MIe0ztX15mLiM6m1LKKAaJOo8EUDz0J7qFJgg/E5L9Y2DnaUQ02lwryfjORV7bnu8weYaQaa6C/hG+lymeuu5DuwHHjoVBhxeu5GtOwju2Gzc18nEkc7ykBFzwH04GKatpqRG8HPkcFjCUX33jk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LlHMHNTK; arc=none smtp.client-ip=209.85.215.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d5wVANKv"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-29490944023so7063375ad.3
-        for <workflows@vger.kernel.org>; Fri, 24 Oct 2025 10:29:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LlHMHNTK"
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-b6cee846998so1546495a12.1
+        for <workflows@vger.kernel.org>; Fri, 24 Oct 2025 10:29:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761326984; x=1761931784; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1761326989; x=1761931789; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=a2E6IemruVg75xkrWi4SiWqjFMrX39+ybWZzL7YhtdU=;
-        b=d5wVANKvbeOk9Va36U4mi+S/z+7eP1GrR92RhjxVXgPwlXt6+oHQhQDv89upqNGkgN
-         OVgYBQbZ6q506UrsrYG6XmqMDoyl05y8MAW0ZM1/u7ZZ7ZSPuDsUnfR4wjyINKa/FoiV
-         EuFglLtvo8N80EvziDoLA1MYPgZCorLOWPBdZVqru2DgnW5M5P0W8OuWBPXL4sRn3ZcW
-         5+om1IFNuW/CG5dGQpBWkgKg8RYxpt/zG8ql27YHWP2pgnAWt3ZBgjaMDT/3zL4qZ4I9
-         rxDcda5UkkHzOwgeXCHwyUlXTAfKoQ+6CtTxOowdPyyNoBesBoaXNpmtkYzDa3t0YhOT
-         My4g==
+        bh=2YGZjhDld3XGVawWdcLieeak1oetbhYlwZ5IHuvKrKU=;
+        b=LlHMHNTKrafpfHNElhVjClNEHSP38WSmXhrhAgbgAHolzTQC3ECaiQ5XaULeBzTuk2
+         A8lLOLyc9en+3hEZsgkuKjYx3h7RKUZ7Fc73NCCWPptBcR6t+JaSBzibFAWVbWEvlF3p
+         Cy0He5rjOgmj3ZT+358EJtLsgD/2dMQauESSyaPSLEJf74HDAm2PJzbMnAVPl92tyy6z
+         zkrx/ZehYjhkokc+XngOyzj3Mc8uAjfe/WYNBCZWfnRdw3VUcTuTj9oqNhvsgUJs2/+9
+         2qGjfpxDymto/9lCzcOmmkJEWYmWxIyY2dyJPzWIyfxzaE4xRI6eeQ/6s25tQQ4B+/7C
+         lFiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761326984; x=1761931784;
+        d=1e100.net; s=20230601; t=1761326989; x=1761931789;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=a2E6IemruVg75xkrWi4SiWqjFMrX39+ybWZzL7YhtdU=;
-        b=E8eiX+AWHcVHtrTuyAYK760yT/qWWBf+/+hf352l3D9hC0dcrpxVYa5mvoCL2bvhAF
-         eHi2EbwDKMJ5/8kIaboK2zd4K8byxdJHFA3iIbYVxxNfMQFQFUmqEiUl8jv7H4rZ0CLS
-         zcqkwNd42FWPgaFY420lUOPC2JJg8oqGz5EwmJJed/udffYyVeKDLmg6jNF25Ieza0xz
-         76bXk+DWTrhKXK+CU0UPbwDcSDQbX8b6UfBpey2OKU9O9kCYHcH7XabRfFu+EV0QvxLF
-         +nuOYQtixSEtTFL6ifObKO2GTkIKiFiXZPSjYA2fpWhZPjDdfj6pJulKY0ws7x1yp7FE
-         o9rA==
-X-Gm-Message-State: AOJu0Ywr3k8wb9uupkO2Ji9SEZ7lZIHGOOfRJOPapkYCLQnWAC7XwfYT
-	LGVvWDe6TogCsnPbJl47NGO9n9HKIC9UfClHjYiAaJiBYnfw04PcPnla
-X-Gm-Gg: ASbGncvIEh6kO1cwkIRThUkr2mAHDYJkmlVdOrrJDiC0egGVhGrOoJNttIAyGzj1fwE
-	2HNWtSfr/hQOrNCft8YCEqKK0iZPl6zrOcXMP2NZjeg7YvkpEttzjH09s+rBV1mS+htHX0NyuDN
-	iJQg323mVf+tY3mhXSrr+mZ8kJWmPF9NvCMzpZSWn5lMYzQ7MzuFI8W7W6yGEgRhlHydVUtSI0x
-	5uGfbjv+vxUvn95E7ASj9dceLZjcIviA8k6fCjkH018cUIIDrAK1koZ8euNMdn34edwAtXsSTIE
-	8BEBNQ4NhpRx+b0NvzHeEkh7afwmA3Y4dQYw7gwmgV/Zj6jyd2Yg/LRsVrNHGsBEUa5+AEy0/Hh
-	9YNsp5FWIZP0NDUtH6Y31V8IDLZ+pQrR7Dg3Y3ugQoyexNaqHglYgIPMLY3AiC3k4bpLrtLuBjj
-	IW2mf+jYoznw==
-X-Google-Smtp-Source: AGHT+IFDckuW4U3/23hRsjFB0HpKtIlUoNugINuYueWTdcIWu6YG/tXUlw0Eque8u+bVzB/zHd6Frw==
-X-Received: by 2002:a17:903:244b:b0:290:9a31:26da with SMTP id d9443c01a7336-290c9d31109mr366942675ad.16.1761326983580;
-        Fri, 24 Oct 2025 10:29:43 -0700 (PDT)
+        bh=2YGZjhDld3XGVawWdcLieeak1oetbhYlwZ5IHuvKrKU=;
+        b=DX23G5rItG5ya2eILeT2C22JZcKuE3KPqn8KLH4wr+O1PVDHktmAgarJHme1EZ4NnW
+         ApDWFNH1Ksj0sTHHxhO/8Tbey6LxBvym5bOlbhO4Y0XMKqJJSmIwKTmmx7FCU4Q1RZ0y
+         G7L4fmlH0C3G+ZIO0g/guK3xkvWYN+mG30e0Sh2VGm/jTmEJNKf0tJ0wCVPh2DyA1gqu
+         1q7w7I7+Ns7y88LcRZg84553f1MZ7S1FE8Klqx1kPY1uqTqvjL4ObxbKYZr3Bo/k9Ebn
+         wyNiwZV147krXdVzKK6uqHBp+8YDBNxy4C5ohBdAjL7MpIZDpaNjX/Y0WBLHiipHkZ7z
+         gglA==
+X-Gm-Message-State: AOJu0YymP7KKGll3Mqozc8aDxsRfm1DMnvvSlyjFJ6EJHcHBT27Okl3B
+	6jwtiauEv5TXiOMiGEsfeCQIYB7fjmMm666ESbuq7XPAk1yZqH7IS7jl
+X-Gm-Gg: ASbGncsKjC6iaT3ny4ywaxnJ6pEuawroPf1lACyG3oQVESJsAHgPYT5mDo82vDiACOz
+	t941oC9L94ojdU9f5AvjdSRcAxGBoxucmIxeBjBIzyEEeFKWX7x4tVd/X2yaRh1DJovsJ6gxVlI
+	/wzoq9nrOYgLyfRiNgWTbzi2FyZza1AhtxX5Jd/ntc0Vzf/xw7HCp0IDYW4eevz4VOxDBXFlhtx
+	yxPlNaIsXCUG3T1qJC0mavyP4My7efK91mDYkbFmmby7jp3tOdCsT1sOL6upJTgUoasrB5GUJb5
+	pbj2jYOl5nMqkvwy1BvVM8RBPR35waBRelSVmHEQ9MNcF7kdCHSvve/RiwJFSnQOB6Qdhoist4F
+	AU6AmSl65gjdTUx/DrklEItZypyIC23hf6C+/ZNc6pe30PdDyS3bCVNEQOsFT7TUr3cDx4mDLgv
+	gEHEaZG/i/yA==
+X-Google-Smtp-Source: AGHT+IHE0gPsph7LiBH8wgoEMRerWEq6wtBoH2k0IpyoAj24E2cHMZ/NGysGmuXYuYid0ecv9CML6Q==
+X-Received: by 2002:a17:902:d510:b0:25c:46cd:1dc1 with SMTP id d9443c01a7336-290ca216346mr354011385ad.33.1761326988612;
+        Fri, 24 Oct 2025 10:29:48 -0700 (PDT)
 Received: from aheev.home ([2401:4900:88f6:d7b0:8f5e:ff90:677:7d74])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2946dda85e7sm61719615ad.11.2025.10.24.10.29.38
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2946dda85e7sm61719615ad.11.2025.10.24.10.29.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Oct 2025 10:29:43 -0700 (PDT)
+        Fri, 24 Oct 2025 10:29:48 -0700 (PDT)
 From: Ally Heev <allyheev@gmail.com>
-Date: Fri, 24 Oct 2025 22:59:15 +0530
-Subject: [PATCH v2 1/2] checkpatch: add uninitialized pointer with __free
- attribute check
+Date: Fri, 24 Oct 2025 22:59:16 +0530
+Subject: [PATCH v2 2/2] add check for pointers with __free attribute
+ initialized to NULL
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -70,7 +70,7 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251024-aheev-checkpatch-uninitialized-free-v2-1-16c0900e8130@gmail.com>
+Message-Id: <20251024-aheev-checkpatch-uninitialized-free-v2-2-16c0900e8130@gmail.com>
 References: <20251024-aheev-checkpatch-uninitialized-free-v2-0-16c0900e8130@gmail.com>
 In-Reply-To: <20251024-aheev-checkpatch-uninitialized-free-v2-0-16c0900e8130@gmail.com>
 To: Dwaipayan Ray <dwaipayanray1@gmail.com>, 
@@ -84,66 +84,58 @@ Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-pm <linux-pm@vger.kernel.org>, dan.j.williams@intel.com, 
  Ally Heev <allyheev@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2471; i=allyheev@gmail.com;
- h=from:subject:message-id; bh=UZ2BE5GPybLE7CmLT7dIgGDbZyKLOU9ISpTX4FoMbcA=;
- b=owGbwMvMwCU2zXbRFfvr1TKMp9WSGDJ+b6/Z//XcY448pxeb7gaJ6YeWXdy1T9L89Lvdhv++f
- xdrU3/U11HKwiDGxSArpsjCKCrlp7dJakLc4aRvMHNYmUCGMHBxCsBEoj4z/K/z/XZvSmxsi9RN
- nymf96asu+Dsf7nugcdxGbtfGgWMDVaMDJP/HWi4da9gv5pijnz9n5XSwt5PDmnsdTn6JGm+cH6
- ELzcA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2036; i=allyheev@gmail.com;
+ h=from:subject:message-id; bh=Xl1ZEjB6ltsTv+GdIk8hnYCDz0VvFiu1/vVtb+GptPU=;
+ b=owGbwMvMwCU2zXbRFfvr1TKMp9WSGDJ+b68xNKwQFG997/XXQdTxPc8Zo5PSrfsznq83iYrYs
+ CXz73/djlIWBjEuBlkxRRZGUSk/vU1SE+IOJ32DmcPKBDKEgYtTACaSE8Hwv56B58GrkLmy/z2N
+ XucVS1sIWBZnWpz1PWVW67Naw79fgZFh3w0nwbMLJf8aukYsnrzMJDpWpFOVP2dlZsGhudLnbh/
+ iBQA=
 X-Developer-Key: i=allyheev@gmail.com; a=openpgp;
  fpr=01151A4E2EB21A905EC362F6963DA2D43FD77B1C
 
-uninitialized pointers with __free attribute can cause undefined
-behaviour as the memory allocated to the pointer is freed
-automatically when the pointer goes out of scope.
-add check in checkpatch to detect such issues
+pointers with __free attribute initialized to NULL
+pose potential cleanup issues [1] when a function uses
+interdependent variables with cleanup attributes
 
-Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
-Link: https://lore.kernel.org/all/8a4c0b43-cf63-400d-b33d-d9c447b7e0b9@suswa.mountain/
-Acked-by: Dan Williams <dan.j.williams@intel.com>
+Link: https://docs.kernel.org/core-api/cleanup.html [1]
+Link: https://lore.kernel.org/all/68f7b830ec21a_10e910070@dwillia2-mobl4.notmuch/
+Suggested-by: Dan Williams <dan.j.williams@intel.com>
 Signed-off-by: Ally Heev <allyheev@gmail.com>
 ---
- Documentation/dev-tools/checkpatch.rst | 5 +++++
- scripts/checkpatch.pl                  | 7 +++++++
+ Documentation/dev-tools/checkpatch.rst | 6 ++++++
+ scripts/checkpatch.pl                  | 6 ++++++
  2 files changed, 12 insertions(+)
 
 diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index d5c47e560324fb2399a5b1bc99c891ed1de10535..1a304bf38bcd27e50bbb7cd4383b07ac54d20b0a 100644
+index 1a304bf38bcd27e50bbb7cd4383b07ac54d20b0a..c39213b814f487290d2b0e5d320a4313ada9bbad 100644
 --- a/Documentation/dev-tools/checkpatch.rst
 +++ b/Documentation/dev-tools/checkpatch.rst
-@@ -1009,6 +1009,11 @@ Functions and Variables
+@@ -1015,6 +1015,12 @@ Functions and Variables
+     in case not initialized) to the pointer is freed automatically
+     when the pointer goes out of scope.
  
-       return bar;
- 
-+  **UNINITIALIZED_PTR_WITH_FREE**
-+    Pointers with __free attribute should be initialized. Not doing so
-+    may lead to undefined behavior as the memory allocated (garbage,
-+    in case not initialized) to the pointer is freed automatically
-+    when the pointer goes out of scope.
- 
++  **NULL_INITIALIZED_PTR_WITH_FREE**
++    Pointers with __free attribute should not be initialized to NULL.
++    Always define and assign such pointers in one statement.
++
++    See: https://docs.kernel.org/core-api/cleanup.html
++
  Permissions
  -----------
+ 
 diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 92669904eecc7a8d2afd3f2625528e02b6d17cd6..1009a4a065e910143dabeee6640b3b3a4bd3fe06 100755
+index 1009a4a065e910143dabeee6640b3b3a4bd3fe06..cf186dafc191f1c39d01b3660f19101f6cc61a82 100755
 --- a/scripts/checkpatch.pl
 +++ b/scripts/checkpatch.pl
-@@ -509,6 +509,7 @@ our $InitAttributeData = qr{$InitAttributePrefix(?:initdata\b)};
- our $InitAttributeConst = qr{$InitAttributePrefix(?:initconst\b)};
- our $InitAttributeInit = qr{$InitAttributePrefix(?:init\b)};
- our $InitAttribute = qr{$InitAttributeData|$InitAttributeConst|$InitAttributeInit};
-+our $FreeAttribute = qr{__free\s*\(\s*$Ident\s*\)};
- 
- # Notes to $Attribute:
- # We need \b after 'init' otherwise 'initconst' will cause a false positive in a check
-@@ -7721,6 +7722,12 @@ sub process {
- 				ERROR("MISSING_SENTINEL", "missing sentinel in ID array\n" . "$here\n$stat\n");
- 			}
+@@ -7728,6 +7728,12 @@ sub process {
+ 			ERROR("UNINITIALIZED_PTR_WITH_FREE",
+ 			      "pointer '$1' with __free attribute should be initialized\n" . $herecurr);
  		}
 +
-+# check for uninitialized pointers with __free attribute
-+		while ($line =~ /\*\s*($Ident)\s+$FreeAttribute\s*[,;]/g) {
-+			ERROR("UNINITIALIZED_PTR_WITH_FREE",
-+			      "pointer '$1' with __free attribute should be initialized\n" . $herecurr);
++# check for pointers with __free attribute initialized to NULL
++		while ($line =~ /\*\s*($Ident)\s+$FreeAttribute\s*=\s*NULL\b/g) {
++			WARN("NULL_INITIALIZED_PTR_WITH_FREE",
++			      "pointer '$1' with __free attribute should be initialized to a non-NULL address\n" . $herecurr);
 +		}
  	}
  
