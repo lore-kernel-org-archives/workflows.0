@@ -1,79 +1,79 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A67531355A
-	for <workflows@vger.kernel.org>; Sat, 25 Oct 2025 16:33:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB3B631A051
+	for <workflows@vger.kernel.org>; Sat, 25 Oct 2025 16:41:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761410024; cv=none; b=mToom/D+fiEeS6jobvVOpTLdSz5s3E2GGheRuuyUx1qwNpsc4+Q18dMXstusss88WQBIrkYFdO58O4Xkgy9frpl3k8xvFDqjMYHo/c5aUF+JCY+wRQ8oWeGL6SOppmuvlrkEAiTLKmL45z6+sQ5rSNeKmrV7F0n+Z7g6Q7i1lJw=
+	t=1761410490; cv=none; b=NsurjDUDGSGWzyBwSywbSfMIoJcyEKmhfG4+QV502BINTV4rFU6pAkzw2RGG60OXxcooYbbKdctZ9BB/qm+pnBZAjw+CZiu1pClVP3JjzOVV/eeMhLaJA500WhmDN/RBARTxtx+ZL8URItzX7XiuLPaCWRL+CrZ5EKlHk7uI/lY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761410024; c=relaxed/simple;
+	s=arc-20240116; t=1761410490; c=relaxed/simple;
 	bh=W0pTJAcfrpLd3MSeWjU9C4zToTzxqvWOKJPAJegCRgo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=T3m3/o9/u7KWhXO2HQ0Cd/kHnhI+OiEKPQ40BRSNko+zZkhp0hKPO3dLEOqSy1OqDmsrpd1vsK2Z8T2NmNGZQk80uqaIE5XG/L115a1x3yLm/znNGokUiFQmdqz27G0brZwgaYLO0ngD9mBH6DE34Ax2cgjmDWo2aWtoDjdzQ34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W3GxsZcQ; arc=none smtp.client-ip=209.85.222.173
+	 MIME-Version; b=Zfn70ba7DJia4FMqz6ysDRthSxgmUyHi4hTRFum0ty6kDPgzNHPunL07wUJe/A3YxD0tS5j219otf+TLNKrOMGuhAPVFzNb7hJawTj3Y3a0Vk33ZxMNrrrptA5nFQS5vhIRnpmipauGtIjPMY2n0BNj5YRpWLVTirRSwR8LqXI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HmdkCzlR; arc=none smtp.client-ip=209.85.222.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W3GxsZcQ"
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-88f8f346c2cso331685585a.0
-        for <workflows@vger.kernel.org>; Sat, 25 Oct 2025 09:33:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HmdkCzlR"
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-89ead335959so134074585a.2
+        for <workflows@vger.kernel.org>; Sat, 25 Oct 2025 09:41:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761410021; x=1762014821; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1761410486; x=1762015286; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
         bh=lCukDE2Wz/llmJRA1Dhhk+dKRYCeKOkr6t5vR7uoeBo=;
-        b=W3GxsZcQ0AjbfViWXfh+9q20Q/hqRqnWMrVwf3Lu3jxrZlLYZzR8fqV64fofyiCOsc
-         AQycqC1WssYOjDuAsqnRJoC21rHmhmQI0ZmOVelCYow4SxouzLe2dGOcW2rGPuX0ytRy
-         mP0nhuwEiE6cQuHjJrkETrZf3zbhEjyq+Ed3jQapIMRSiNNrHhXXzvgYmE/cs5qtEkcZ
-         fafAAxxSj7k25jMJvEzRtknXyICbUpOo2GZphZh5Pw3/1bb9lfiJI/eW6y6RcHwgHiyP
-         O7/JvbzuIlG4lvE168bPoIxVmpT8Cp441DPOVQmHnfT0bqaaWiYcPVebjmY/mzSojYlD
-         YCsw==
+        b=HmdkCzlR2ZV181sY1F/mM051AIewCxk4RD++RSXV/4eyJ6IOO5xFkp5K47ZeLSxExR
+         CVKkV49imAR9XLihFoy26xUnIm/67GwVVbS8GkCY4t2LuFdAI+n48O5Dn/jX3KrOaeJb
+         VppNAKgxyJGqSMPRcUyIpouAMTXEuxbkOwTzqv3MySV8rXeDShyYkdl4fWUYxJWId6s3
+         4wrATqS3p6T3HaITk/P8lWs5zRlOKFnEWfKP+aE7oKmbm/kewrPkES4JDuZNXTqU0ePM
+         wx5uIhsmoo1R3Wuid/0fLO5+82UkdRowsq+JEWeQoDYOs8BFfS3a79DI7SZGW6FU1Qio
+         +b2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761410021; x=1762014821;
+        d=1e100.net; s=20230601; t=1761410486; x=1762015286;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
         bh=lCukDE2Wz/llmJRA1Dhhk+dKRYCeKOkr6t5vR7uoeBo=;
-        b=bMCTg9MUcP3q6MMtpQ0NjYM3xOVqH9jMtsQYiZl7Jo2NtcGCWR0FJ3HZ9nX0Od9h8e
-         L13CMI/cqIrK981kJS4Te8xXF9gN9E6DjuhaeRdOB+afDHZ9dbKlg4ouCQ/szqc87/9J
-         naPx5VwBgbv08ngBc1v1iOCytMOSRFJLK6xYQy5GGhw12MS3haXWf+RZlTIE4UOGG/le
-         TGk/VhoH5HEiFT7zsrQSioABEAQMsYkOzvTn1d92aWpjsoq36ACcZ/KThTJ/zKLOl0cD
-         JoRaHid2nmaMx7J0DDO+zkIh/nDxKDaqLyxh1DYtFxIOVxJEAPN1Ra7JleJ4C4pIRUMv
-         dSCA==
-X-Forwarded-Encrypted: i=1; AJvYcCXKcIynsD15o2ZmzSdPmNa8BZ/uXinDcVQmxYDXFqML/XL6yO8W1OnSohccJMCYGNwKbnYXSqxIV/A=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz64BDPEeYvqHpGakjACqrnRkAJSOM7pymOF443xA09o18autHr
-	EXBkHSA3etMk5CuvDdB4Yfe/9lHJugRwCPBkQQ3viGnMNQs84DXYzex3
-X-Gm-Gg: ASbGncv3skywlNoMhIdGEUSj6YjG09+D0S0jysxgd/9+z7CluSQGZlSyj0PDqm+sLMP
-	CNE3TzJCnIj/PaUJNAHKutZQoRC/MhXpUwXzvwLdtqVA2HUU1asNEgwrHkdki0Sb2uDVFwmYyFE
-	pxJ4PXQLt15nNUSQGI/ADRifnZJuQh7+O7vg6UfaEjQ3/qcfZiNcVfYCd6LJGaK5sPLkET7Ft0m
-	ZuT89RBOmi+Ea1+3LB3C7ArzMjggWJVjs09vu/sDnVQ0mE2ks/tEH9XjTHhj0k7UfciDPAnWAsT
-	bANtTgYFRWktsoW0G+k9B2SKsqKcCPOBRFp7oDTyRfeyK9b78rry+UKEisZqAlG0alL4rIiiZ2q
-	/FQdKqRNzix9Kf1W7ittsdbfparu83imVGw6SkyEy8yQ+q0pdDKnNUhRTeWJ7IL+zS/xyAWdczq
-	2LDIK82vU=
-X-Google-Smtp-Source: AGHT+IFZUXzUCKjX2GS7KVjFpxXVayhaSU18PSnROxCbmg4ehcl8/3L/N8ey4/nagW/qyG5Qi/ofXg==
-X-Received: by 2002:a05:620a:2990:b0:829:b669:c791 with SMTP id af79cd13be357-890712b8ca4mr3694996585a.78.1761410021395;
-        Sat, 25 Oct 2025 09:33:41 -0700 (PDT)
+        b=DpyblDGVZvcPjsZoiadbFAtOLbn/dNZ6Yy8OzhvotTbode1CZdgsNLtV0WSbAiVMIZ
+         pKo1YEDxwa+XSLbZQYoDWLs4IbzBBz5b0wlzU3qSHohYTr5yoE87pChdzJXf3aAooWdg
+         vC6qIjXTacuRMKSM0Zr5gRH3S2pK0GL/dlBFXB4OGkbmVy7ANMDLCZUtCAZbZdfA4fu3
+         nla9XG7cA13oaVV0Z2wyia9NpX+V/YXHTi3ji+8GquVi+S2X1OO4VgOAGvAbZO3ECt16
+         TmeLyV8cB1jtnqkJDYNVVwctyNXEL5QMUKtD5DhGV/ozbYGY4ZYGiX1LT7fd2dachPnj
+         S/4A==
+X-Forwarded-Encrypted: i=1; AJvYcCWmg1vgX5RKIf7WH/lBoJ5Cr5UfDZNNyiaGd2Il0jSTpiw3mWhS7fCrtwZoIdbMTPdMLkUhqIlIuoQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7qbbMiXIEfDilJHaecFzjMuJCv/zzNy6j6ep2lRF6A4N8o6l0
+	JbfrSce145HZMaGwtn4K+kairzuq84vGvXi8D3QGOJofawSpfktgcmQp
+X-Gm-Gg: ASbGncvGVNsaZqVyW4WqEhoJj9l0vLmBZKVoPtnOvAjJdjGZ/IxE1S0asujI3/UH+cw
+	51vvmDuxaYsiek13F+yK6c/20s4CUMwItr59QCel2LB060/2fG9a/kVVStNNBbBBBjOLXw7aiVB
+	Th+erjRIUeWUCR9tETX8Ecchi7/tMXak9V607qBdT/tjcCcMgFsgfZP+Wjj7mNGHNScnOdlnJgg
+	TC38g8hXjcrGpaYYIppeQokL1oycFu6Xpxf2xcknEifjDhmv9sd1FHacWdQV+v1m/l6SbnkUpfh
+	kG6w+99FtnmDGNfSTWjNdGPPjnb33at963Ru31EuNE2icE2ppcEDgWJNt6Xq7sXXfX3KVlTpOes
+	kmhhBM0y2GLdyHkUC9T9xIWaC3g7dDpR7wxi7wS8ExVRsCiH8YCyIEIPJnbW0Du2t5cyWvrdY
+X-Google-Smtp-Source: AGHT+IEqr7DdALG20ZOSBwW3gigwHtT069Vv0Qyq2izolgtR2Xh/1150BfEGa5vrjghcvepsgiDnaQ==
+X-Received: by 2002:a05:620a:40c3:b0:85e:429b:b5c9 with SMTP id af79cd13be357-890712b9494mr3891854585a.83.1761410486528;
+        Sat, 25 Oct 2025 09:41:26 -0700 (PDT)
 Received: from localhost ([12.22.141.131])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-89f254a41cdsm172336185a.29.2025.10.25.09.33.39
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4eba37d72ecsm15371681cf.9.2025.10.25.09.41.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Oct 2025 09:33:40 -0700 (PDT)
+        Sat, 25 Oct 2025 09:41:25 -0700 (PDT)
 From: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
-To: Linus Walleij <linus.walleij@linaro.org>,
-	Lee Jones <lee@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>
 Subject: [PATCH 21/21] Docs: add Functions parameters order section
-Date: Sat, 25 Oct 2025 12:33:03 -0400
-Message-ID: <20251025163305.306787-14-yury.norov@gmail.com>
+Date: Sat, 25 Oct 2025 12:40:20 -0400
+Message-ID: <20251025164023.308884-22-yury.norov@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251025162858.305236-1-yury.norov@gmail.com>
-References: <20251025162858.305236-1-yury.norov@gmail.com>
+In-Reply-To: <20251025164023.308884-1-yury.norov@gmail.com>
+References: <20251025164023.308884-1-yury.norov@gmail.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
