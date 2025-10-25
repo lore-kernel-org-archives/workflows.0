@@ -1,220 +1,164 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9488C2749D6;
-	Fri, 24 Oct 2025 18:37:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761331071; cv=fail; b=NG1orq7CnQsd264xB0dtiMUGopiDa9GYRDSBWL+xTjWIpfKWElRs4ipjKSMK7osYUMpDSj5JrB2AJvind/OtJxA+99VIPNeYPNN+56F9R3XLMAfmyPGdSJDUew9oqdJSkTQOrkVm/sWU//G4blksaZsD9EnZwvHZLIuwyij2xU0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761331071; c=relaxed/simple;
-	bh=/nxgrqfTg7uKHJslBfLercfjwdcKtGA/zpK+7ps88wU=;
-	h=From:Date:To:CC:Message-ID:In-Reply-To:References:Subject:
-	 Content-Type:MIME-Version; b=ebssJ+Te2m2LMVtdRzHwdtgVx35Nn9aYd7hIpDW+tPM8fDmGAA4KuWdR5NVb03mcTDm+HBXLft+DlFncaarw3LdhIaReDBAU7CQx3rXQr1RyhacdhTMLgbDe86XVVcNOzgWyOTItR21O3wvV4tn3B2GGkIyoIWwYZPzbRcfVqgc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JT/T6b/W; arc=fail smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1306D239E8D
+	for <workflows@vger.kernel.org>; Sat, 25 Oct 2025 03:38:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761363487; cv=none; b=p1nXtVLcdrHB7WU5eUDOeg2aM4+ML6mseGMdM3hZvCGX15wxUdyhkcLNW8NVb70x9y1n8sR/K0CKG27YYAs7yBGHWY4upN2T2mCGFygWh1N2RIxxAciJH0OuD5LO2QHmHpogUaSw2ZiydqCF+AikhpY2QAI3g5LSr/kzoQmdNc4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761363487; c=relaxed/simple;
+	bh=MSm2STsu1OScM8I8RvJHx9e3rLug4XaaM/vb3Ol9s60=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=LQupshzLUlFHLuyDfnkKfR6fzy9Qy9fDImpTobw3t0shEOXD9MqB6gWUO6dAImu993lgpr9srJ4B8uGitB62sh/Zanstb/DoFdoYD1Z4/+HZYhbrt9HYDLhVz1ebHH4wLbx/n/8LG7y41y02wQbmHtgbS/7P7fEQsCYi8GmQejw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iys64O/F; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JT/T6b/W"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761331069; x=1792867069;
-  h=from:date:to:cc:message-id:in-reply-to:references:
-   subject:content-transfer-encoding:mime-version;
-  bh=/nxgrqfTg7uKHJslBfLercfjwdcKtGA/zpK+7ps88wU=;
-  b=JT/T6b/WmJAYkUZme3kZtLhadgH+n/Zj0SezMKf1HOLATJAr6d2GftsP
-   FE6+uP3D8UX+VQNZWgKeMUCOWaWEv0oWXU79r8+hOlyurYnANLoFcoUOV
-   RQ1CiHLxBKhc2TC60gJpG+6Pcn8354W9La39x+omr7Eb9WxUd7rMDANbR
-   jVbcM/2wO8J68DzvI86Z72QJSHMbEqpuQIPuZa9R5/cNbO3sBVpaofsPw
-   zqwTy6Dvg7FVV0w2hK+J9n0fUoQCbv0ZQ7+3IH0kibI8yPbu3jHeCYqLM
-   z+AOxA4vQhmmahTvCzqE/tU+aj58f9Sr+1mwkVXawXPRdL6gWOprXcQVf
-   A==;
-X-CSE-ConnectionGUID: xPy5aa4rS1WPjjax1aCovw==
-X-CSE-MsgGUID: e6xGsgiKRPC4qEG1QB8JfA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="66132444"
-X-IronPort-AV: E=Sophos;i="6.19,253,1754982000"; 
-   d="scan'208";a="66132444"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2025 11:37:47 -0700
-X-CSE-ConnectionGUID: SCNPAN0TSqKf3D5xFmKF+w==
-X-CSE-MsgGUID: FCLtk+HRR9OcSQOM8GMtgg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,253,1754982000"; 
-   d="scan'208";a="184203813"
-Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
-  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2025 11:37:47 -0700
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Fri, 24 Oct 2025 11:37:46 -0700
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Fri, 24 Oct 2025 11:37:46 -0700
-Received: from CH4PR04CU002.outbound.protection.outlook.com (40.107.201.26) by
- edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Fri, 24 Oct 2025 11:37:46 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=c+nhP2jEq/euVMoaJBK0YEyuK1Bt38jj1E/GNCh61RGXJARfV7ti5d0vRJ4n5+SUI38UJvwwn5Sa9npW4+yyfw++yt9u7k5W/C3Yo7hRTYyEpX8Iui1Vv0/agVQy9rPZOmYMeYlTZrHb7/3wqo8hniBqibmV0SJevsVhAnJo3ybiTw6wOS1c/yQHkAMDnCoFeO8rS+1wZGjnVIsgqQ/QFJqPXuoAfbd9/PU5QYlL0yi6gqlvASrPwdh99j/GzKoywf+COb5l57x1xHU3Db2wSilv8Vum59rUgH9sHpk8dKWCowRcvGS+ZYbm0eUHZ3seyBuo0fkNTaebocVz3CbPLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GhSjLi9OcwznAnd+zg5z43m55nCW+Da7OJkpokOmURk=;
- b=LobHAtCa93sExb7HleHDyiksvbvLJamBZdIaPPhv67b3Xk9KpqlaL8zjicu7nUeDzjhgXrdmtSph8s+UcrOsUvqdM7tWy3yENEVeCUkkW3AsfUliRfosh2432HMMTQrNX/uwhHAGYEFCckZM9ADWKj8r/fhNeiJai2YGF2w6wg2Ww7xXV04g90gXiz0hATOm5gmhq+6r7D+OwmDHiaatS2h2MRGV/YudQrq7M2VepWzKfcI5+pzTS1vMEWHAB3f4lfwjwB7UNQV78D2Ts2nZypeflN8XvZshy+w/h+tFI7MgGfu8tV3YC2V/BN4llXsmjus8fHiC5JqXyb1No4JHGg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
- by MN2PR11MB4567.namprd11.prod.outlook.com (2603:10b6:208:26d::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.12; Fri, 24 Oct
- 2025 18:37:38 +0000
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::6b05:74cf:a304:ecd8]) by PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::6b05:74cf:a304:ecd8%5]) with mapi id 15.20.9253.011; Fri, 24 Oct 2025
- 18:37:38 +0000
-From: <dan.j.williams@intel.com>
-Date: Fri, 24 Oct 2025 11:37:37 -0700
-To: Joe Perches <joe@perches.com>, <dan.j.williams@intel.com>, Ally Heev
-	<allyheev@gmail.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn
-	<lukas.bulwahn@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft
-	<apw@canonical.com>
-CC: <workflows@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Dan Carpenter <dan.carpenter@linaro.org>,
-	David Hunter <david.hunter.linux@gmail.com>, Shuah Khan
-	<skhan@linuxfoundation.org>, Viresh Kumar <vireshk@kernel.org>, "Nishanth
- Menon" <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, linux-pm
-	<linux-pm@vger.kernel.org>
-Message-ID: <68fbc771199cc_10e91006d@dwillia2-mobl4.notmuch>
-In-Reply-To: <df0d47c9ca7e984a38f56c6f0ca4696cd4ff1b21.camel@perches.com>
-References: <20251024-aheev-checkpatch-uninitialized-free-v2-0-16c0900e8130@gmail.com>
- <20251024-aheev-checkpatch-uninitialized-free-v2-2-16c0900e8130@gmail.com>
- <769268a5035b5a711a375591c25d48d077b46faa.camel@perches.com>
- <68fbc211c59b9_10e910034@dwillia2-mobl4.notmuch>
- <df0d47c9ca7e984a38f56c6f0ca4696cd4ff1b21.camel@perches.com>
-Subject: Re: [PATCH v2 2/2] add check for pointers with __free attribute
- initialized to NULL
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY1P220CA0003.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:a03:59d::10) To PH8PR11MB8107.namprd11.prod.outlook.com
- (2603:10b6:510:256::6)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iys64O/F"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-7a2738daea2so2393790b3a.0
+        for <workflows@vger.kernel.org>; Fri, 24 Oct 2025 20:38:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761363485; x=1761968285; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=S1Rr+XG8pIEaWKzksED6IwpW+zljJmMqZaZf6Zprc+w=;
+        b=iys64O/F4mQuebS3Oi+x7l6v3cFgWqKxXzAF4F5SALobiA3irVDorlkFair0ve58g9
+         2DHdlNZljD9+jQn6FSMlrZdDyFKPc3idPeUNf57zhbeLqvu4oSWmTd58SBE+rV6iQU56
+         rz+ilOdO40NyZrqVgztIYm0iipmVJJp0uMepfhyK8lL93RMlkuKzmS0sK0E2XldOhdhz
+         19SyHSPp6VBhr0/GS97ORiY361318ZlM64FkhvDJ9ppevNprm7lSvA7X8owTWltPKU/n
+         DnRNGJzltCetad07+t9Qb8SfvspKHZfEAR/WrG2+jOiHFVyBpJCgmbdOWp1Q0ewQTfUg
+         9KQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761363485; x=1761968285;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=S1Rr+XG8pIEaWKzksED6IwpW+zljJmMqZaZf6Zprc+w=;
+        b=cloJVhHFjC0hVsHRpHCozmyrYNJtfKB4ScWUEab4G6DkrmqeiGuIYA2UofFLPQRPL+
+         xjVseweNfSLRHzuVfq8jg29B6ZxzWn3i4O0ifDx52YrqLQ2FMZIeELX7CaPOKg77bx+n
+         tNssv+7K5UYRQV1H+LXWMiFTYQjK06tVNdcBsD+gBF5+gMHLwPw2k1ZcDZdX/vWy3eoH
+         ZtpfC5IJBnfdLAp0E1DBoq7bIXlxARqrCFYsOoEdhBmNEvvIKozkAQ32J43gGfhMUdoy
+         ICmt5Ou6F//VklqgeffEXqlhkvEanuecllVsEo58xLh9H6fWJI12gdfOh27xwm3BDbEi
+         aarQ==
+X-Gm-Message-State: AOJu0YzIT8zLtXbqMoynVGbhb6cyGek+mcpmIuGW2ArYew1xtvk0iJbL
+	bxzxElMr9Ksn7etwijj1JsOGwU6G33D1Io6sVCCkweRjO6fiyGd2v9VG
+X-Gm-Gg: ASbGnctyO5lM6Azt1iFrK2AKumTCupHnri4FlAkrpmzoz6gdjnxJJHYZ0AIgcJ12a0z
+	vdlwhyvO7RDvS/JiwvZ3lzHB94ne4iM56S2+pLAbnzXUb+cSfoevMErhZ3dLn0voFOSa+pTyFYl
+	cRBNxfVlGfHcH3y2+RpWepHr3Ug+QLZyOsN+Q5cwXpZrwGPoYe8KYsSWXK4RnQuczjbbZtipo9T
+	YR+coUJb9lMDtUBlWanTRfhDpAqCBhLZRtqcq/kNzDIudbKsSSSfktg20FM0M2HzDgCTayRfzst
+	SXpGwqgRFW6b228pp1B2EVJAPTBUODlAVFyw8sB7B3LhlOZEcPSGTG9RhFHytlQgi/VAiks77Gd
+	YkNemdPW3hspQsOOtJx1Q0mi7eusWEHgk6YDO+U/tKiXs1RMbeZa9bGTaqjAph3J98RkoOBxLcg
+	GZDElctZ4LNE9t8f1i8trGyTlfj687K5snbqvwx/w9f3/JoRrnfwVZFaGPQ5Q=
+X-Google-Smtp-Source: AGHT+IGlVmEr+KV8oVMLrPtqVKsS5HLztOHi6CRyrI4of7GV5Hke4rtw1iz5DMcdL32dqz1/HUS2Pw==
+X-Received: by 2002:a05:6a21:6daa:b0:33e:6885:2bbd with SMTP id adf61e73a8af0-33e68852da4mr4208699637.40.1761363485250;
+        Fri, 24 Oct 2025 20:38:05 -0700 (PDT)
+Received: from ?IPv6:2401:4900:88f6:d7b0:fede:e287:a1d3:d967? ([2401:4900:88f6:d7b0:fede:e287:a1d3:d967])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b71268bdb2dsm745571a12.5.2025.10.24.20.37.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Oct 2025 20:38:04 -0700 (PDT)
+Message-ID: <66575ceb29493f3b9c5b8bb94f4f66bf21d53211.camel@gmail.com>
+Subject: Re: [PATCH v2 1/2] checkpatch: add uninitialized pointer with
+ __free attribute check
+From: ally heev <allyheev@gmail.com>
+To: Joe Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>, 
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Andy Whitcroft <apw@canonical.com>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
+ David Hunter <david.hunter.linux@gmail.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Viresh Kumar	 <vireshk@kernel.org>, Nishanth
+ Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,  linux-pm
+ <linux-pm@vger.kernel.org>, dan.j.williams@intel.com
+Date: Sat, 25 Oct 2025 09:07:56 +0530
+In-Reply-To: <026a32413b0c9e4edb5d3ab411d18134078430d8.camel@perches.com>
+References: 
+	<20251024-aheev-checkpatch-uninitialized-free-v2-0-16c0900e8130@gmail.com>
+		 <20251024-aheev-checkpatch-uninitialized-free-v2-1-16c0900e8130@gmail.com>
+	 <026a32413b0c9e4edb5d3ab411d18134078430d8.camel@perches.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.1-1 
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|MN2PR11MB4567:EE_
-X-MS-Office365-Filtering-Correlation-Id: ed3eb887-5b2f-4c20-5950-08de132c6855
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?SVVwN2FKa0lvbEU3bk9vUmNRQlE4NmpHZDdCSVJvMnU0WWVGZ2FXN25jUmVI?=
- =?utf-8?B?YmVqNXJVRkkwU1AvRDhCRitXdENxdXk0RGIxdE9KQ1NGS0VNNDZseXdMNU9o?=
- =?utf-8?B?SDl2V3ZucElaY0paQmg4ZXVwNWlxbE51WHZhak5LaWtLM2k4TzErZlFmQXVm?=
- =?utf-8?B?OFAyYWdhNVQzVXdTWU5qYVUwODMvQ2NoSDBoZzBIOE8wbDlmV2VuYnN3SlRN?=
- =?utf-8?B?cCtYL3g3Nmt6VXZaUkFqUzdXdHhEOE93MXY2dlVXalBDNWdXV2RBZ1l5OHYx?=
- =?utf-8?B?eU1jVzhaMktKeFhWaUo0QkZVR25MU1NNamJNVjN4cHBKbWgrb1ovTjVGRWJX?=
- =?utf-8?B?eG42QVB0WG1sbjhjQTNoSHdhbkNZQ3ZEZnIrRXdaREFQb2Y2aHJKRFo4alVW?=
- =?utf-8?B?Y081SS9VcklYQ1RBTUVTN2M5Ly81V1kyRThsaUk2eWdubmxqbW9hWnVnQWwy?=
- =?utf-8?B?WUVOMzJUdGcxdHQ2NjRnODdGZmh4am9HWnFsN2c3YkEyWkgwOGRBcks3ZUlj?=
- =?utf-8?B?SGFSdnRCZkJveEh3bTIvY3BzSTlLYTNkZWg1VTZyN2p1WXlDbWdqaHNEdmdr?=
- =?utf-8?B?RDZEYktSNW5HK1lDanhEOUxQSVpwKzJaQU9YV0dPekxuenZHWjErK0JMUFRr?=
- =?utf-8?B?Z21GNXVrdUkxMkVGRUNXYVlOK0NRd1V4ai8xTEpuUXpMQ1FJWG5OMWwwNmJa?=
- =?utf-8?B?NEw3WTUyQXJQWjdYQUQ5ekg4U2dpbE1hL2g4aVZRWktoaVFhS1VJb1FjQlJD?=
- =?utf-8?B?MGxQdGZpakh0SlV5Ylh4WEdYbmpodWo1cE9WL0hiNlRqT0c4czhyM2tEdzU2?=
- =?utf-8?B?VnE2czVhbHZrM1Axd3M3T3FJSks0cWNjZGpBbXEwSHpVZXR3elp2andqZjFy?=
- =?utf-8?B?cDhRNkh2ekhzQ0gzOWtEbFhPeEZmUUZ3MG9vUzF4cGV4amRCQWw0d2VDemRv?=
- =?utf-8?B?Y3lTSzN6d3ZPSmpKeGlQT01aTGNnRERqRFVQb0NKWUlYOWxIZGpkVHJQd0Ew?=
- =?utf-8?B?RUNuQ2VWOU9YRk80Y0VJUU12UGVCNk5xVGpqc2VHWUFJaWdIODJVYkR5NGQv?=
- =?utf-8?B?RENUTmpYbUhIOVJ4azA2aWVySndJL2FLVmVoRnpRV2FqVGI2OFIvTW1HTUpC?=
- =?utf-8?B?OExBblVHUUpvTERibURDRDk3akFJNmQyTWVBYjl6VUZUaWZ2bVJrYWlaaDlM?=
- =?utf-8?B?Y0VxOXZ0RFErdHRkTmtHMGZJR09JdEc5NndrY3FoN3ZOOURwK21HRCtueU5S?=
- =?utf-8?B?Tkx1RzJwRnlWSnVUTWRhWEFnUWkxRm9CQzZLekxuSFdqbk9oaEpIb3M1bFdC?=
- =?utf-8?B?bnFHM0dTRDBpNlFDais2dmM4M3dHZ1I1aHl0d3FySDhpekl5UVZaQlBvNHRo?=
- =?utf-8?B?d0tzaDZzQk1NVTdQSFhZZ09CdFd2eHhESlljTERCSWd5Y2RURFhFZ0E0NEtQ?=
- =?utf-8?B?MFBhbkFLUWZYVEdBZDA3Z3g0SmpuUEhFdzUrOGhhMlJxVUFjcEJNa2VnMDZr?=
- =?utf-8?B?cllTVDVPRjJMdFQrbnBDVFloSEtLbGJqWXoyQ3R4VlRqNG1rZmN0bWxkamp2?=
- =?utf-8?B?ZlE2cyt5RUNhMVAvNzdvMDBCbDRPaERBWGRMSWMrbGRSQVlLOCtUdHhtZ1pr?=
- =?utf-8?B?dURMbFd5Q3pYZXdESjhpK2VESDVpa2g0amREcnJqdzlCZWtwYTFXZ3dVZXhD?=
- =?utf-8?B?Mlo4ajFCRGVsZXR0M2l0NDZzaGJQYUdzTDB1ODJmQWxtZHp6SXJBUFVmSTZ3?=
- =?utf-8?B?NGlsOEpTaEV3K1hDUXFVZnppcVhxc1huR25lUU13R3d6T01ua3cxSUZJdHVB?=
- =?utf-8?B?NHA4bTlOZ2F4amUvZ25TU0ljcHRPVXR3dXhNK2o3MDFzOU1oUjJuNC94enJs?=
- =?utf-8?B?YzFXTGRMZ2ZwdmdoWUR0YTMxWC9jaHV1RFpRRlQwYlZ5OVhHbGNiMW5nVmo5?=
- =?utf-8?Q?4O3H9gTvb22yN2eo1sexnQneup7LqkPN?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S2ViMTZmdnFIOWduVy9PRFNaVHhTb0dWWU1ZUHZjVnI5VTJHZCtPMzVNRUFD?=
- =?utf-8?B?RHNHOW1FeDRObGgxWnpKUkdSb3I3alByclhVamlHZExRa2l5SncvSUVTMmZr?=
- =?utf-8?B?RmYzL25tZS92dU12VnJNUHk4Y1ZLb0ZFemM5WTlPaGx5dXFhT3Z2bklqcXBl?=
- =?utf-8?B?OFBJYmJ1ZWlpaDZheDU1SnpjVHRuWTFmM29KZlBVWkdtSjF6ME5uQzAvK3dk?=
- =?utf-8?B?d3QvOTVUK2N2R1ZUWG1UVmp3SUVJdnlPbWJFdVpJM1lSblIwS2I5Vk43eXh2?=
- =?utf-8?B?U1VoMEY4dHBGWXV2dm02OVFJWVhMbzh6OE9tTXRjeEJVY0FuQmpNUVNJQUp4?=
- =?utf-8?B?WE55S2k5UGkzdlpmd29JZGs1QVh0T3dZK2p3UGtVUU83NElpZzdRQWVxVVds?=
- =?utf-8?B?R0lyVmU0cU1UbzdScnpCTG5nNkMwdG92UjRFUy9vWnpHd0VTK0F4S3RMVHhz?=
- =?utf-8?B?dGhSV1grTmFWUkNOYVJiT0VBbmJ0Q1Z6RStOL01wR3Zid2JSemJpTm5MQnBk?=
- =?utf-8?B?ckI4NnJiSzQzSG1Jay9hQzEzM3Z5YkJucGVVNzh3a1Z4UURlVjhtOWxRVW00?=
- =?utf-8?B?VFozOVd5SmhJVkpsdnBnb1FMZWxkQk5Ua0N3eXA0Zk9oTWZxbS9NUmFyYUhM?=
- =?utf-8?B?djBtYXhvTjF4Q29ncnIyMWQxdE0xb3h3MjMyVE9mdWRBR05qamIwMjVJbkh4?=
- =?utf-8?B?VWgxNm5UVWJEMXpkNHZaV25hOTBpM2c2TVRyZzQ1SFA3TUtadjJ3cjIwUnpy?=
- =?utf-8?B?dktzWlU4UStyRjQwLzJQRFhrdUNQMFRmSDI0bk5hajRlZ0p0eTJoOWZ5cnNK?=
- =?utf-8?B?QnlpTThrMzY4SmFReE5Ia2VYQ1hvbjV4N2haY25zWmdrOEtoS2FwVHRSWktz?=
- =?utf-8?B?VHpnU0xZNEsvbzJ4R1RNaWJBNjhvZVRkbXA1ZDhHU1h1YUNrM3gyOGYwRTUw?=
- =?utf-8?B?b2tjUlJ4WWdCQ1VsaUg3Z3BzL091ckJQZC9Od0VSTExyQ3A5RW1mL3p6b0pZ?=
- =?utf-8?B?c1VFSlhPcmZqRS82d01tZ1FDbk1OanN3bXJjbGNhOFN2dmt3K0E0Z1ZlQ1Nn?=
- =?utf-8?B?L3pXeXU5Q2lEN284SHBSUWdJNFd0MUVmdE4rTGMvcFBFUkplZGdtNTRISmlW?=
- =?utf-8?B?RHZ6aGxLOG9XWmhDSExCdVpNL2ROM0xuYWZXd1IxS2lUa1U3QzJhMTlIUUJ5?=
- =?utf-8?B?T1QxVkVxbDNKK1lZQ09Ga25tSkhHLzdGVUNyS1VUZFBtcXM0ZytPUzR3WG1C?=
- =?utf-8?B?a1B1dEJEZ2NCQWsvSk5QaUlEZkdnQlJpcGJYUExYdkprNGNmcVNzUHE1blBQ?=
- =?utf-8?B?cm10L3lLeFF4Rm1mS1ZhRzhxQTBDQ3VRWGo1YnVPRU1FcGRYTjNNRERyY0RH?=
- =?utf-8?B?Z1pvTlcwaTg1RGp1OTZXT0JhMEF3bTZlM2NNZzJsZzIvU1YyMDhkUWdKNkVF?=
- =?utf-8?B?bHJYYkh5VEh1TWF1ZTc1T1MrbkVIcCt4cVk5L1NaSHpNL1praDlpNSttYmVS?=
- =?utf-8?B?NnRrb2phMDN6WVRPYnc3M1RTYzQzVFVpRFI5MmZqQjlrOWRuUG43a09OTkxo?=
- =?utf-8?B?ZHBIYkx5VG1sOHBFd0NMbkFBbXdEQlVWa0k0SFRPRDdrcDVueXdUQVFjM3Bz?=
- =?utf-8?B?SU9KeFd1L3lMRmhIdWpyekJ1azB2Mk5mTmFDQitkK1czZldxTVgzT29ib2Fh?=
- =?utf-8?B?UUdQemorUnEvSHYrK29ESS9OTmVtekxFd0o1bHRPWkxTWHFtUzJkK3lYT25F?=
- =?utf-8?B?Ti82Zm1BZHFYYmpuSGNvYUtReVAxeklFU01xUktaSS9MQUU5MjF5OEwxUkpu?=
- =?utf-8?B?bGo5Z05iRWYvdC9YeUhRSlk2WnhldDNaallQYlpwVVBuSE5VZDdVakY3Z1V1?=
- =?utf-8?B?N3pPdlQ1MkhtR0JLVGZkNlVuK3p2OTQ0eHVHd0J6TEtFayt1YzFEMFlTWG5Q?=
- =?utf-8?B?c0RLQ1B0SnVKZ0F5Y3FEMDBvQmdTd1RadzQ5a1JWUENtZUFTaGdZak53K0pZ?=
- =?utf-8?B?a0JiQVBzSVA5dmIwNHlUNnFzQXJFK1ZGbHA4eHBBdXRmZGFiV09wYlNxV0xp?=
- =?utf-8?B?OStiRlJFR3Q1UmJTVXArL2R3aENTUWdZcjR0RVVWRy9tVlRiZlBNc1plKzlU?=
- =?utf-8?B?TXlpU2xSSVhCbE5XcFZUcWJTTXhCSzduMEx1RUZhN1VOR0UxUHFhVkFRQTQx?=
- =?utf-8?B?UXc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed3eb887-5b2f-4c20-5950-08de132c6855
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2025 18:37:38.4242
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SU6k5zZWnqcVpFLpCGjH7oMwDJ0yqLogi1qMMhlAKj8m3cdgTRaTFThBiWO94F4SuUR3BtA0TNyir5sjN28r9zuuVF2i7D1jrs27heqP4KA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4567
-X-OriginatorOrg: intel.com
 
-Joe Perches wrote:
-[..]
-> > > And there are a lot of them.
-> > > 
-> > > $ git grep -P '\b__free\b.*=\s*NULL\s*;' | wc -l
-> > > 490
-> > 
-> > That is significant. ...but you did say "almost" above. What about
-> > moving this from WARN level to CHK level?
-> 
-> I have no idea how many instances in the tree are inappropriate.
-> Do you? I believe it to be a difficult analysis problem.
-> 
-> But given the number is likely to be extremely low, I think it should
-> not be added to checkpatch even as a CHK.
-> 
-> If you can show that the reporting rate of defects is significant,
-> say >10%, then OK, but I rather doubt it's that high.
+On Fri, 2025-10-24 at 11:14 -0700, Joe Perches wrote:
+> On Fri, 2025-10-24 at 22:59 +0530, Ally Heev wrote:
+> > uninitialized pointers with __free attribute can cause undefined
+> > behaviour as the memory allocated to the pointer is freed
+> > automatically when the pointer goes out of scope.
+> > add check in checkpatch to detect such issues
+> >=20
+> > Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > Link: https://lore.kernel.org/all/8a4c0b43-cf63-400d-b33d-d9c447b7e0b9@=
+suswa.mountain/
+> > Acked-by: Dan Williams <dan.j.williams@intel.com>
+> > Signed-off-by: Ally Heev <allyheev@gmail.com>
+> > ---
+> >  Documentation/dev-tools/checkpatch.rst | 5 +++++
+> >  scripts/checkpatch.pl                  | 7 +++++++
+> >  2 files changed, 12 insertions(+)
+> >=20
+> > diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev=
+-tools/checkpatch.rst
+> > index d5c47e560324fb2399a5b1bc99c891ed1de10535..1a304bf38bcd27e50bbb7cd=
+4383b07ac54d20b0a 100644
+> > --- a/Documentation/dev-tools/checkpatch.rst
+> > +++ b/Documentation/dev-tools/checkpatch.rst
+> > @@ -1009,6 +1009,11 @@ Functions and Variables
+> > =20
+> >        return bar;
+> > =20
+> > +  **UNINITIALIZED_PTR_WITH_FREE**
+> > +    Pointers with __free attribute should be initialized. Not doing so
+> > +    may lead to undefined behavior as the memory allocated (garbage,
+> > +    in case not initialized) to the pointer is freed automatically
+> > +    when the pointer goes out of scope.
+> > =20
+> >  Permissions
+> >  -----------
+> > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> > index 92669904eecc7a8d2afd3f2625528e02b6d17cd6..1009a4a065e910143dabeee=
+6640b3b3a4bd3fe06 100755
+> > --- a/scripts/checkpatch.pl
+> > +++ b/scripts/checkpatch.pl
+> > @@ -509,6 +509,7 @@ our $InitAttributeData =3D qr{$InitAttributePrefix(=
+?:initdata\b)};
+> >  our $InitAttributeConst =3D qr{$InitAttributePrefix(?:initconst\b)};
+> >  our $InitAttributeInit =3D qr{$InitAttributePrefix(?:init\b)};
+> >  our $InitAttribute =3D qr{$InitAttributeData|$InitAttributeConst|$Init=
+AttributeInit};
+> > +our $FreeAttribute =3D qr{__free\s*\(\s*$Ident\s*\)};
+>=20
+> If you are really suggesting using this, and I don't think it's
+> particularly useful, please use
+>=20
+> out $InitAttributeFree =3D qr{$InitAttributePrefix(?:free\s*\(\s*$Ident\s=
+*\)};
 
-Fair enough. Ally, thanks for taking a look.
+Thanks, I'll check it out
+
+> > =20
+> >  # Notes to $Attribute:
+> >  # We need \b after 'init' otherwise 'initconst' will cause a false pos=
+itive in a check
+> > @@ -7721,6 +7722,12 @@ sub process {
+> >  				ERROR("MISSING_SENTINEL", "missing sentinel in ID array\n" . "$her=
+e\n$stat\n");
+> >  			}
+> >  		}
+> > +
+> > +# check for uninitialized pointers with __free attribute
+> > +		while ($line =3D~ /\*\s*($Ident)\s+$FreeAttribute\s*[,;]/g) {
+> > +			ERROR("UNINITIALIZED_PTR_WITH_FREE",
+> > +			      "pointer '$1' with __free attribute should be initialized\n" =
+. $herecurr);
+> > +		}
+> >  	}
+> > =20
+> >  	# If we have no input at all, then there is nothing to report on
