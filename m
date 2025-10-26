@@ -1,154 +1,148 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB3B631A051
-	for <workflows@vger.kernel.org>; Sat, 25 Oct 2025 16:41:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E0C2D2483;
+	Sun, 26 Oct 2025 12:42:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761410490; cv=none; b=NsurjDUDGSGWzyBwSywbSfMIoJcyEKmhfG4+QV502BINTV4rFU6pAkzw2RGG60OXxcooYbbKdctZ9BB/qm+pnBZAjw+CZiu1pClVP3JjzOVV/eeMhLaJA500WhmDN/RBARTxtx+ZL8URItzX7XiuLPaCWRL+CrZ5EKlHk7uI/lY=
+	t=1761482552; cv=none; b=gtlfkiYNf5fdBsaGdy6gEINhGrt7JxiNWf+FBHJd2+3MEFgxK7o2dg9tUNdJWw8ZcbgGPwl/m2XiiQH7CCGH6m8iqf1oqOyF+RyBVKBbunklMDLCMZVWdgrChupimksZHR7SSzpyTpsi4MqtNArT2GouU+69W7A6fRRVcLyGKEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761410490; c=relaxed/simple;
-	bh=W0pTJAcfrpLd3MSeWjU9C4zToTzxqvWOKJPAJegCRgo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Zfn70ba7DJia4FMqz6ysDRthSxgmUyHi4hTRFum0ty6kDPgzNHPunL07wUJe/A3YxD0tS5j219otf+TLNKrOMGuhAPVFzNb7hJawTj3Y3a0Vk33ZxMNrrrptA5nFQS5vhIRnpmipauGtIjPMY2n0BNj5YRpWLVTirRSwR8LqXI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HmdkCzlR; arc=none smtp.client-ip=209.85.222.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761482552; c=relaxed/simple;
+	bh=zpFmr2bAa3y9bCKAGucQbllnSsTKjY7O34zopgzM60c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jvlgm+x4I9Jis8s2sz27rN2vors7PPyDibu2xr7rEsHDmT93p2RroPegtmckUMQaS8I7+rfblCOVqTMHfBLDx5a7Em6uJ5QDh0DxDleV5UR8FDPVfG1QfJEVynRdEh2ko8Qs4hnkjhWAWtdjMhUd/eQleMbcrDe5pSPolmkw8jg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=DTreRBbr; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HmdkCzlR"
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-89ead335959so134074585a.2
-        for <workflows@vger.kernel.org>; Sat, 25 Oct 2025 09:41:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761410486; x=1762015286; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lCukDE2Wz/llmJRA1Dhhk+dKRYCeKOkr6t5vR7uoeBo=;
-        b=HmdkCzlR2ZV181sY1F/mM051AIewCxk4RD++RSXV/4eyJ6IOO5xFkp5K47ZeLSxExR
-         CVKkV49imAR9XLihFoy26xUnIm/67GwVVbS8GkCY4t2LuFdAI+n48O5Dn/jX3KrOaeJb
-         VppNAKgxyJGqSMPRcUyIpouAMTXEuxbkOwTzqv3MySV8rXeDShyYkdl4fWUYxJWId6s3
-         4wrATqS3p6T3HaITk/P8lWs5zRlOKFnEWfKP+aE7oKmbm/kewrPkES4JDuZNXTqU0ePM
-         wx5uIhsmoo1R3Wuid/0fLO5+82UkdRowsq+JEWeQoDYOs8BFfS3a79DI7SZGW6FU1Qio
-         +b2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761410486; x=1762015286;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lCukDE2Wz/llmJRA1Dhhk+dKRYCeKOkr6t5vR7uoeBo=;
-        b=DpyblDGVZvcPjsZoiadbFAtOLbn/dNZ6Yy8OzhvotTbode1CZdgsNLtV0WSbAiVMIZ
-         pKo1YEDxwa+XSLbZQYoDWLs4IbzBBz5b0wlzU3qSHohYTr5yoE87pChdzJXf3aAooWdg
-         vC6qIjXTacuRMKSM0Zr5gRH3S2pK0GL/dlBFXB4OGkbmVy7ANMDLCZUtCAZbZdfA4fu3
-         nla9XG7cA13oaVV0Z2wyia9NpX+V/YXHTi3ji+8GquVi+S2X1OO4VgOAGvAbZO3ECt16
-         TmeLyV8cB1jtnqkJDYNVVwctyNXEL5QMUKtD5DhGV/ozbYGY4ZYGiX1LT7fd2dachPnj
-         S/4A==
-X-Forwarded-Encrypted: i=1; AJvYcCWmg1vgX5RKIf7WH/lBoJ5Cr5UfDZNNyiaGd2Il0jSTpiw3mWhS7fCrtwZoIdbMTPdMLkUhqIlIuoQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz7qbbMiXIEfDilJHaecFzjMuJCv/zzNy6j6ep2lRF6A4N8o6l0
-	JbfrSce145HZMaGwtn4K+kairzuq84vGvXi8D3QGOJofawSpfktgcmQp
-X-Gm-Gg: ASbGncvGVNsaZqVyW4WqEhoJj9l0vLmBZKVoPtnOvAjJdjGZ/IxE1S0asujI3/UH+cw
-	51vvmDuxaYsiek13F+yK6c/20s4CUMwItr59QCel2LB060/2fG9a/kVVStNNBbBBBjOLXw7aiVB
-	Th+erjRIUeWUCR9tETX8Ecchi7/tMXak9V607qBdT/tjcCcMgFsgfZP+Wjj7mNGHNScnOdlnJgg
-	TC38g8hXjcrGpaYYIppeQokL1oycFu6Xpxf2xcknEifjDhmv9sd1FHacWdQV+v1m/l6SbnkUpfh
-	kG6w+99FtnmDGNfSTWjNdGPPjnb33at963Ru31EuNE2icE2ppcEDgWJNt6Xq7sXXfX3KVlTpOes
-	kmhhBM0y2GLdyHkUC9T9xIWaC3g7dDpR7wxi7wS8ExVRsCiH8YCyIEIPJnbW0Du2t5cyWvrdY
-X-Google-Smtp-Source: AGHT+IEqr7DdALG20ZOSBwW3gigwHtT069Vv0Qyq2izolgtR2Xh/1150BfEGa5vrjghcvepsgiDnaQ==
-X-Received: by 2002:a05:620a:40c3:b0:85e:429b:b5c9 with SMTP id af79cd13be357-890712b9494mr3891854585a.83.1761410486528;
-        Sat, 25 Oct 2025 09:41:26 -0700 (PDT)
-Received: from localhost ([12.22.141.131])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4eba37d72ecsm15371681cf.9.2025.10.25.09.41.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Oct 2025 09:41:25 -0700 (PDT)
-From: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	workflows@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="DTreRBbr"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=fXIJPHYO42z1iATORgKH8y5WkIUpTXH1/3Hr32G1JXY=; t=1761482550; x=1761914550; 
+	b=DTreRBbruTfqLA80psOcOoxGT0+f/eVY6VTc2yBXCJ9I4vG6bY8xvIwU7rtSJIHWQhoXDOxmeKV
+	84GTaDTSOIJDr4hjgTXAdsL7MkOSYQlB11HII02pI2yLBn37zxLUUTe8xYLiIl9aMRYpauKy4Mf96
+	7ER/LaMPDdZJojF7QIv6JtZqXBnM4zMwfqKTS1QCO62zEQ6co1eMbJz9WuZfEPQR7Kp9C/3A3VTyq
+	6gFxhlmJJG1RysI7TGJrRpGbHA3GOJUrJ5D/47N2VJGC2Q9SQWpiGjJRilsjSYaBYigVdUth7SptE
+	cVTlJ09XbxxB6KXjg3zl1HWspdqdKvWnWzNQ==;
+Received: from [2a02:8108:8984:1d00:a8ad:ebd4:6fc6:160] (helo=luggage.fritz.box); authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	id 1vD04k-001mX6-0U;
+	Sun, 26 Oct 2025 13:42:22 +0100
+From: Thorsten Leemhuis <linux@leemhuis.info>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org,
 	linux-doc@vger.kernel.org,
+	regressions@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Cc: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Subject: [PATCH 21/21] Docs: add Functions parameters order section
-Date: Sat, 25 Oct 2025 12:40:20 -0400
-Message-ID: <20251025164023.308884-22-yury.norov@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251025164023.308884-1-yury.norov@gmail.com>
-References: <20251025164023.308884-1-yury.norov@gmail.com>
+Subject: [PATCH v1 00/30] docs: reporting-issues: rework
+Date: Sun, 26 Oct 2025 13:41:51 +0100
+Message-ID: <cover.1761481839.git.linux@leemhuis.info>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1761482550;db804c08;
+X-HE-SMSGID: 1vD04k-001mX6-0U
 
-Standardize parameters ordering in some typical cases to minimize
-confusion.
+Hi! This patch reworks various parts of our text on bug reporting. I
+started working on it for six reasons:
 
-Signed-off-by: Yury Norov (NVIDIA) <yury.norov@gmail.com>
----
- Documentation/process/coding-style.rst | 48 ++++++++++++++++++++++++++
- 1 file changed, 48 insertions(+)
+* I noticed that even experienced Linux users had trouble with the TLDR
+  text, despite it being already quite long.
 
-diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-index d1a8e5465ed9..dde24148305c 100644
---- a/Documentation/process/coding-style.rst
-+++ b/Documentation/process/coding-style.rst
-@@ -523,6 +523,54 @@ below, compared to the **declaration** example above)::
- 	...
-  }
- 
-+6.2) Function parameters order
-+------------------------------
-+
-+The order of parameters is important both for code generation and readability.
-+Passing parameters in an unusual order is a common source of bugs. Listing
-+them in standard widely adopted order helps to avoid confusion.
-+
-+Many ABIs put first function parameter and return value in R0. If your
-+function returns one of its parameters, passing it at the very beginning
-+would lead to a better code generation. For example::
-+
-+        void *memset64(uint64_t *s, uint64_t v, size_t count);
-+        void *memcpy(void *dest, const void *src, size_t count);
-+
-+If your function doesn't propagate a parameter, but has a meaning of copying
-+and/or processing data, the best practice is following the traditional order:
-+destination, source, options, flags.
-+
-+for_each()-like iterators should take an enumerator the first. For example::
-+
-+        for_each_set_bit(bit, mask, nbits);
-+                do_something(bit);
-+
-+        list_for_each_entry(pos, head, member);
-+                do_something(pos);
-+
-+If function operates on a range or ranges of data, corresponding parameters
-+may be described as ``start - end`` or ``start - size`` pairs. In both cases,
-+the parameters should follow each other. For example::
-+
-+        int
-+        check_range(unsigned long vstart, unsigned long vend,
-+                    unsigned long kstart, unsigned long kend);
-+
-+        static inline void flush_icache_range(unsigned long start, unsigned long end);
-+
-+        static inline void flush_icache_user_page(struct vm_area_struct *vma,
-+                                            struct page *page,
-+                                            unsigned long addr, int len);
-+
-+Both ``start`` and ``end`` of the interval are inclusive.
-+
-+Describing intervals in order ``end - start`` is unfavorable. One notable
-+example is the ``GENMASK(high, low)`` macro. While such a notation is popular
-+in hardware context, particularly to describe registers structure, in context
-+of software development it looks counter intuitive and confusing. Please switch
-+to an equivalent ``BITS(low, high)`` version.
-+
- 7) Centralized exiting of functions
- -----------------------------------
- 
+* I noticed a few areas where people were struggling when reporting
+  issues and saw potential for improving the situation somewhat by
+  rearranging and fine-tuning the order and the description of the
+  step-by-step guide a little.
+
+* I wanted to add a simple to follow "is this regression maybe known
+  already?" option to avoid unnecessary trouble for reporters.
+
+* I wanted to improve the interaction with
+  Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst,
+  which has a few bits with roots in reporting-issues.rst, but covers
+  verifying bugs and bisecting a lot better.
+
+* I wanted to make it easier to jump to the reference section and back
+  by adding internal links, similar to how we did it in
+  Documentation/admin-guide/quickly-build-trimmed-linux.rst and
+  Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst.
+
+* I found the tone of the old text somewhat off-putting; I think I made
+  it better in a lot of places, but I suspect I missed a few areas that
+  needed treatment – and maybe did not go far enough in some others. So
+  please let me know if you spot cases that are too dim, some external
+  feedback really would help.
+
+ I worked on-and-off on this for maybe two years and the problem is:
+what started as fine tuning in various places piled up. That together
+with the newly added links & anchors and some text movements makes the
+patchset huge. When you ignore those two aspects and look at individual
+patches using a word diff algorithm it looks a lot less scary, but it
+remains big – and thus sadly puts some load on reviewers and
+translators. Sorry. I think it's worth it and tried to split things up
+to facilitate handling.
+
+If you want to see how the resulting text looks like, check out:
+https://www.leemhuis.info/files/misc/Reporting%20issues%20%e2%80%94%20The%20Linux%20Kernel%20documentation.html
+
+Feel also free to fix any typos you spot
+https://docs.google.com/document/d/1To4xVY8M6BDMBXEhEbaXuacZESdMzNFGECHk1a6nVPI/edit?usp=sharing,
+I'll pick those up for the next version. You can also add notes with
+suggestions there. But please do not add anything that might be covered
+by copyright.
+
+Ciao, Thorsten
+
+To: Jonathan Corbet <corbet@lwn.net>
+CC: linux-doc@vger.kernel.org
+
+Thorsten Leemhuis (30):
+  docs: reporting-issues: mention text is best viewed rendered
+  docs: reporting-issues: tweak the reference section intro
+  docs: reporting-issues: add conclusion to the step-by-step guide
+  docs: reporting-issues: add proper appendix
+  docs: reporting-issues: outline why reporting is complicated
+  docs: reporting-issues: replace TLDR guide with more of an into
+  docs: reporting-issues: explain need for fresh vanilla kernel
+  docs: reporting-issues: add step about processing issues separately
+  docs: reporting-issues: tell users to check the kernel log
+  docs: reporting-issues: move 'check tainted flag' upwards
+  docs: reporting-issues: improve first tainted check
+  docs: reporting-issues: move 'check environment' upwards
+  docs: reporting-issues: improve environment check
+  docs: reporting-issues: improve text about checking for existing
+    issues
+  docs: reporting-issues: improve text on classifying the bug
+  docs: reporting-issues: add fast-track for regressions
+  docs: reporting-issues: move text on 'check MAINTAINERS file' upwards
+  docs: reporting-issues: improve text on looking up place to report
+  docs: reporting-issues: move text on 'check other places' upwards
+  docs: reporting-issues: improve text on check other places
+  docs: reporting-issues: improve text on backup et. al
+  docs: reporting-issues: move text on 'initial write-up' upwards
+  docs: reporting-issues: improve text on initial write-up
+  docs: reporting-issues: improve text on bug verification
+  docs: reporting-issues: improve text on non-regressions in stable
+  docs: reporting-issues: improve text on second search
+  docs: reporting-issues: make collecting files a separate step
+  docs: reporting-issues: separate steps for optimizing and submitting
+    reports
+  docs: reporting-issues: separate steps for follow-up tasks
+  docs: reporting-issues: fix a few line breaks
+
+ .../admin-guide/reporting-issues.rst          | 2958 ++++++++---------
+ 1 file changed, 1426 insertions(+), 1532 deletions(-)
+
+
+base-commit: b14a05303f06d951c6ef7e23e5c8f3e3be21e17e
 -- 
-2.43.0
+2.51.0
 
