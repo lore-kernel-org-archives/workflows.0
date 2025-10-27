@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC1D2BD033;
-	Mon, 27 Oct 2025 18:43:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0728A314A8D;
+	Mon, 27 Oct 2025 21:19:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761590610; cv=none; b=VGsBrJ3ifUS5MR6sONzXbIQrc7w220ZOnA8awoJ2ituSU0KH2Q7CP57qftUNk5EoU7xj+33vrZcz/kDuxKYRjbl4F6yk3xLHjjsWnRqzFwdmJ4WFRE2A4zIoYBOdTbn7gwn3/WX3RMsH+YHQ5w0VE9TXf5Fj2T2mal0JCSRt8Bc=
+	t=1761599999; cv=none; b=aghSMD/d3sasozkGg2G5vfZ1JJrBsY4O7Nzm7ilNi2MiJ0ymRIfS7sTrkL1+DUDsB4dilgWAYv9P6es7R5oDD4mA3Hd8d9WjuFnIVyOVyybam2bIXXM8UJRr55AP/OO3+5JoVpxxz3s10zi6Ybr7HSP8wCyiwHQrxRucxEx6p5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761590610; c=relaxed/simple;
-	bh=So8NP6f8CaWcwExTfv/Wr0A00X17Unsc7FQQ3al+beQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=I4dNDHuHXCSw1Eo+4LpkWkpvtP+iQl7yzRk8mpF+Z9yBNjeGLmn+j6ZKdxBt43DAgFLcFzCGV1lZoCjRrltBnCqZdl1hFrlrtRAqnpmRBhzyk79caRcIF0tXkp1QnZ1UH7w9u54G5ojl4mI0KBZ0fQtJJ7HXYADgYYwOU1+RPAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=XrqSVjkZ; arc=none smtp.client-ip=198.137.202.133
+	s=arc-20240116; t=1761599999; c=relaxed/simple;
+	bh=IaKAlAq36x6FQovo76KHJGi2+lwcn8LjsjjqBNZdne4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=f32cqM9Az41qCLB78G/Dih5kLqcL3GXNdkX4QhKIE3UVCpmaG7q0wYB5y18pZyyhsM/jm3I90yJAQDImcfhC8UT9SeBrz/fr3StTJA4eS+YWBg6HejX9M8vYfZhfZYbSoiApr1SE744LtnA2gtUcZJC4y2y6Klrn+/wINYmMkHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=nBl+hOJt; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="XrqSVjkZ"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="nBl+hOJt"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-	bh=kuIVSUiix3AgqKsXyCQ0motbBK2F3l1jAUwSf8sfp9Q=; b=XrqSVjkZVoL8la0GFf6b7aMJTC
-	YX2uv1YcOntDybx1GKPTQdO8VoX880cF2WLnXF3mY/YslDiUSc0/jJk6OwQI270BEGo5KnL/lbBWO
-	HGnyD+oxyhcvVM/EjVblqIorjpuBif05+Mf8FlJpO2nbKgbaZlQR0L9QJeMvTaUYvhxnqK6ZpDyEj
-	liN6Haa9gxbkNKGQ03wW2In6J9p5K+szn6eeWTePNGIg/R0brxKDJP/Cq8lYhNxoW3UhQCDS01q/V
-	mBYjbR9S0adudlN7M3Qrtb4tWTEsL1+8/BFHC+Q9f1VZfhXC6zP/9XWG3XsAjcLzT74BJF0UbpbLn
-	K4CRRBtQ==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=9Iv+ffZpjEZjAYosvgj1AxYfj8Ex0TWhrhWzH//VRvQ=; b=nBl+hOJtJiTxm7KhGiNJ/Q71dn
+	T9DUH3zO9MGalAUW4ruw7kg0OdrzIJoDdR5Egq17KkEjUo0tdXIp3flaqD5ZKGjhqpn27Qj3/ehpC
+	FcRYP6yofjDMNPd0VycSu6PaJurniVxvcYo43iWQwGpDDcxmPtmC0r+qqg7Yr7Im5R6RChjNTIgiK
+	ALQ194/8LCHUjX8neIBt/tdRkr+/Q/7oXGoANAtNxkziBF8kayvNFYbj18ENYhlhGwQyvWm6NjncX
+	zF7KHIvIlSlxpiNZjeqmh+u5aOh7Jpv65BFnJUYly7U53K4m71Ks6rj+6tSlu6hVGtbHxC9bSLNCz
+	OAkFcj5g==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vDSBj-0000000EYtK-2mcO;
-	Mon, 27 Oct 2025 18:43:27 +0000
-Message-ID: <2ab04392-f133-4ebe-943a-c58050b36f13@infradead.org>
-Date: Mon, 27 Oct 2025 11:43:27 -0700
+	id 1vDUd8-0000000EmzQ-37s7;
+	Mon, 27 Oct 2025 21:19:54 +0000
+Message-ID: <09faee6c-4075-4eb7-bb2b-1c6650e3f053@infradead.org>
+Date: Mon, 27 Oct 2025 14:19:54 -0700
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -39,108 +39,77 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 21/21] Docs: add Functions parameters order section
-To: Jani Nikula <jani.nikula@intel.com>,
- "Yury Norov (NVIDIA)" <yury.norov@gmail.com>,
- Linus Walleij <linus.walleij@linaro.org>, Lee Jones <lee@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20251025162858.305236-1-yury.norov@gmail.com>
- <20251025163305.306787-14-yury.norov@gmail.com>
- <723c936f92352352c3b1a84b858d684f5b7a0834@intel.com>
+Subject: Re: [PATCH v1 01/30] docs: reporting-issues: mention text is best
+ viewed rendered
+To: Thorsten Leemhuis <linux@leemhuis.info>, Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ regressions@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <cover.1761481839.git.linux@leemhuis.info>
+ <4f7e2de2a2336c52e55cc49dcda627a4e86b8793.1761481839.git.linux@leemhuis.info>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <723c936f92352352c3b1a84b858d684f5b7a0834@intel.com>
+In-Reply-To: <4f7e2de2a2336c52e55cc49dcda627a4e86b8793.1761481839.git.linux@leemhuis.info>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 10/27/25 2:02 AM, Jani Nikula wrote:
-> On Sat, 25 Oct 2025, "Yury Norov (NVIDIA)" <yury.norov@gmail.com> wrote:
->> Standardize parameters ordering in some typical cases to minimize
->> confusion.
->>
->> Signed-off-by: Yury Norov (NVIDIA) <yury.norov@gmail.com>
->> ---
->>  Documentation/process/coding-style.rst | 48 ++++++++++++++++++++++++++
->>  1 file changed, 48 insertions(+)
->>
->> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
->> index d1a8e5465ed9..dde24148305c 100644
->> --- a/Documentation/process/coding-style.rst
->> +++ b/Documentation/process/coding-style.rst
->> @@ -523,6 +523,54 @@ below, compared to the **declaration** example above)::
->>  	...
->>   }
->>  
->> +6.2) Function parameters order
->> +------------------------------
->> +
->> +The order of parameters is important both for code generation and readability.
->> +Passing parameters in an unusual order is a common source of bugs. Listing
->> +them in standard widely adopted order helps to avoid confusion.
->> +
->> +Many ABIs put first function parameter and return value in R0. If your
->> +function returns one of its parameters, passing it at the very beginning
->> +would lead to a better code generation. For example::
->> +
->> +        void *memset64(uint64_t *s, uint64_t v, size_t count);
->> +        void *memcpy(void *dest, const void *src, size_t count);
->> +
->> +If your function doesn't propagate a parameter, but has a meaning of copying
->> +and/or processing data, the best practice is following the traditional order:
->> +destination, source, options, flags.
->> +
->> +for_each()-like iterators should take an enumerator the first. For example::
->> +
->> +        for_each_set_bit(bit, mask, nbits);
->> +                do_something(bit);
->> +
->> +        list_for_each_entry(pos, head, member);
->> +                do_something(pos);
->> +
->> +If function operates on a range or ranges of data, corresponding parameters
->> +may be described as ``start - end`` or ``start - size`` pairs. In both cases,
->> +the parameters should follow each other. For example::
->> +
->> +        int
->> +        check_range(unsigned long vstart, unsigned long vend,
->> +                    unsigned long kstart, unsigned long kend);
->> +
->> +        static inline void flush_icache_range(unsigned long start, unsigned long end);
->> +
->> +        static inline void flush_icache_user_page(struct vm_area_struct *vma,
->> +                                            struct page *page,
->> +                                            unsigned long addr, int len);
->> +
->> +Both ``start`` and ``end`` of the interval are inclusive.
->> +
->> +Describing intervals in order ``end - start`` is unfavorable. One notable
->> +example is the ``GENMASK(high, low)`` macro. While such a notation is popular
->> +in hardware context, particularly to describe registers structure, in context
->> +of software development it looks counter intuitive and confusing. Please switch
->> +to an equivalent ``BITS(low, high)`` version.
->> +
+On 10/26/25 5:41 AM, Thorsten Leemhuis wrote:
+> Add a comment before the step-by-step guide explaining that the document
+> is best viewed in the rendered form, as there the internal links will
+> work that later patches will add.
 > 
-> GENMASK when used for defining hardware registers is completely fine,
-> and *much* easier to deal with when you cross check against the specs
-> that almost invariably define high:low.
+> While at it change the double quotes in the license hint at the end of
+> the document into single quotes, which is the preferred style.
 > 
-> Which other parts of coding style take on specific interfaces and tell
-> you to switch? Weird. I for one don't want to encourage an influx of
-> trivial patches doing GENMASK to BITS conversions, and then keep
-> rejecting them. It's just a huge collective waste of time.
+> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+> ---
+>  Documentation/admin-guide/reporting-issues.rst | 18 ++++++++++++++----
+>  1 file changed, 14 insertions(+), 4 deletions(-)
 > 
-> Anyway, that's a lot of text on "function parameter order" to justify
-> BITS(), but completely skips more important principles such as "context
-> parameter first", or "destination first".
+> diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentation/admin-guide/reporting-issues.rst
+> index a68e6d90927471..3bc47afaf85ea0 100644
+> --- a/Documentation/admin-guide/reporting-issues.rst
+> +++ b/Documentation/admin-guide/reporting-issues.rst
+> @@ -48,6 +48,16 @@ Once the report is out, answer any questions that come up and help where you
+>  can. That includes keeping the ball rolling by occasionally retesting with newer
+>  releases and sending a status update afterwards.
+>  
+> +..
+> +   Note: If you see this note, you are reading the text's source file. You
+> +   might want to switch to a rendered version: It makes it a lot easier to
+> +   read and navigate this document -- especially when you want to look something
+> +   up in the reference section, then jump back to where you left off.
+> +..
+> +   Find the latest rendered version of this text here:
+> +   https://docs.kernel.org/admin-guide/reporting-issues.html
+> +
+> +
+>  Step-by-step guide how to report issues to the kernel maintainers
+>  =================================================================
+>  
+> @@ -1748,13 +1758,13 @@ art will lay some groundwork to improve the situation over time.
+>     you spot a typo or small mistake, feel free to let him know directly and
+>     he'll fix it. You are free to do the same in a mostly informal way if you
+>     want to contribute changes to the text, but for copyright reasons please CC
+> -   linux-doc@vger.kernel.org and "sign-off" your contribution as
+> -   Documentation/process/submitting-patches.rst outlines in the section "Sign
+> -   your work - the Developer's Certificate of Origin".
+> +   linux-doc@vger.kernel.org and 'sign-off' your contribution as
+> +   Documentation/process/submitting-patches.rst outlines in the section 'Sign
+> +   your work - the Developer's Certificate of Origin'.
 
-and usually flags or gfp_t last (if they are used).
+Can you have a single quote (Developer's) inside single quotes?
+Anyway, nack on the quote marks changes.
 
-There are several exceptions to these, but consistency helps and
-lack of it has caused some argument problems in the past.
+>  ..
+>     This text is available under GPL-2.0+ or CC-BY-4.0, as stated at the top
+>     of the file. If you want to distribute this text under CC-BY-4.0 only,
+> -   please use "The Linux kernel developers" for author attribution and link
+> +   please use 'The Linux kernel developers' for author attribution and link
+>     this as source:
+>     https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/Documentation/admin-guide/reporting-issues.rst
+>  ..
 
 -- 
 ~Randy
