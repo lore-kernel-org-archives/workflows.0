@@ -1,75 +1,134 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9320030F543;
-	Mon, 27 Oct 2025 17:44:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4F2E2D8DD1;
+	Mon, 27 Oct 2025 18:22:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761587076; cv=none; b=ZvmBK4GZtM0/Cys2OUVGp2sfn/u72gdUP9qYAs4hpbYXYD84l4kYmginn/YG/Kz/OQcJPUYzrwE7DSyn7hfu2g7nfquIWNZdkMnFShtXfWa0MEvcA7iGgAUP7nMofX5zvJrWRe14A7La57QnM7+e8Nq7oMP9Y0iKTRp8Iqmgdh8=
+	t=1761589356; cv=none; b=PyMVTVegrH2s+bH652rm75MWtfSw/TlLF2IDXpp1qOKrIxI5/GJFzm7hFYorSkxdmJtckhvt9ZZgAE8Z/UbUFUNbu1GAKwELuoTLS2E/ST92da06OBz30FS5NTw01Gs0AZm1uWPqGLA4xnhyurT2U3MTz1VRpDX1q0eIQcMPTJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761587076; c=relaxed/simple;
-	bh=RfDe/lk36tQ9ZdGPDwQ02XQAHmaEu1Gz4r8TGZV+Q48=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=fDSOf6GLvMTKrDDLipzciIl72U7BmAfd+NN1qGx+yRsRR6yvn4mG5ff0m48pDClhg2XWvai3BMUZQUZ6Z2Oj7Fu/Y6Xq46ePEXfli48RfT3UbNLNmVj+skuf/oPS3Zz1/9hz4vLVFA042KpoSZ6IEKTs4McPmoMqz4FTBvtS5js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=EwRWcjft; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1761589356; c=relaxed/simple;
+	bh=fXCVp106DkN9rGalfhDUXdv6WsG1hGhTuPCwIdmmJ+Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BTfNt9E+JWTy8NZKNUr3pl2TGZN+A/zpqbt9zTm3LaJ+YCJYU+pYwVu2fvt95kLepx8oegzUHO94ya+bPfL35j1Yf2E+4bID5R2EyLPd8rkRH6uOfl2Q5lENof8f6e5H7yfzgFzbNU5zCMw6U1FlpcVym+CKZvUeQ5WQKs9VlCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eNdsIKCL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="EwRWcjft"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E62B540B18
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1761587074; bh=EkrU6qdStYnXfZpqvAS9tlf6vDNj3y10mTd/12SI7So=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=EwRWcjft/wYue7JisKvKQGpG6X7FZJ5d9pgR+itMqbVoja+8pedYQuBnwqU5Qu0mu
-	 MRisTn5GAWr/VtJd2EY3eGH9Cg26xNVlIR2bEd/L/S9JIwD4CNMqox0Nq1o8aEP+s+
-	 JB5hltbxWkrtx84EaJB/J7QEQxOAYEdS1uTaWL8Gt0WZXz37vnlXmHay11nec5Ak32
-	 fn+o5PhQ7d1kFewIW5k2m/LvHjD40oRplT9Yzh6YkzPESPMu3zN392YJ9n6UjxS2t3
-	 YBBV6qgcVcNLjTlH1ZbFb7hpU/QPsZLmj+hOSyzUEOm9/vIkrld+UbJ16M/ZCJWuoK
-	 63c9BSS6rzlBw==
-Received: from localhost (c-73-14-55-248.hsd1.co.comcast.net [73.14.55.248])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id E62B540B18;
-	Mon, 27 Oct 2025 17:44:33 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- regressions@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 05/30] docs: reporting-issues: outline why reporting
- is complicated
-In-Reply-To: <a6704ef5b3a8dcbaf645ddb5407e8f13553502b0.1761481839.git.linux@leemhuis.info>
-References: <cover.1761481839.git.linux@leemhuis.info>
- <a6704ef5b3a8dcbaf645ddb5407e8f13553502b0.1761481839.git.linux@leemhuis.info>
-Date: Mon, 27 Oct 2025 11:44:33 -0600
-Message-ID: <87ecqonsse.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eNdsIKCL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF5F1C116B1;
+	Mon, 27 Oct 2025 18:22:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761589356;
+	bh=fXCVp106DkN9rGalfhDUXdv6WsG1hGhTuPCwIdmmJ+Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eNdsIKCLGZ4cdIWaCc5S/irpnb3DmG6FkZl1o3o+J8IBb0k5CR20Pg6+wDetOhEDt
+	 r/q5XGcQB1rIQ/kGMit9veAw3I813BRYv+UDWMGCOMkVflJLUCW59jsG+47Mc2gYgm
+	 I3I32ouDMmE1vt0SQqN9bwYB8eq/8faEpjquTpKDp2WONmqYu3S/kJgEPvt20SR64P
+	 UU4XVnBCg7WR0Pl1ZoghGCQWkwVf6PxHUuq3Xkp/G/4+vp2zKOBKsNwyjrk68tCSWY
+	 44LzZjSK14iWF40dRlav/vRzFvX+JdUzQyNS2ZYOJWc0bJxa6lXXCxw/HSpfD4Daw+
+	 gkXWG3sH9XiDw==
+Date: Mon, 27 Oct 2025 19:22:31 +0100
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Lee Jones <lee@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 21/21] Docs: add Functions parameters order section
+Message-ID: <xpo7v5l4nw5b3ijjgk4o63xukkeyv4bqp65gu47g4beszetczy@2xvdgy4u46tt>
+References: <20251025162858.305236-1-yury.norov@gmail.com>
+ <20251025163305.306787-14-yury.norov@gmail.com>
+ <723c936f92352352c3b1a84b858d684f5b7a0834@intel.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <723c936f92352352c3b1a84b858d684f5b7a0834@intel.com>
 
-Thorsten Leemhuis <linux@leemhuis.info> writes:
+Hi,
 
-> Replace the closing words with a section that describes why reporting
-> Linux kernel bugs is more complicated than in other FLOSS projects.
->
-> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
-> ---
->  .../admin-guide/reporting-issues.rst          | 67 ++++++++++++++++---
->  1 file changed, 59 insertions(+), 8 deletions(-)
+On Mon, Oct 27, 2025 at 11:02:48AM +0200, Jani Nikula wrote:
+> On Sat, 25 Oct 2025, "Yury Norov (NVIDIA)" <yury.norov@gmail.com> wrote:
+> > Standardize parameters ordering in some typical cases to minimize
+> > confusion.
+> >
+> > Signed-off-by: Yury Norov (NVIDIA) <yury.norov@gmail.com>
+> > ---
+> >  Documentation/process/coding-style.rst | 48 ++++++++++++++++++++++++++
+> >  1 file changed, 48 insertions(+)
+> >
+> > diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+> > index d1a8e5465ed9..dde24148305c 100644
+> > --- a/Documentation/process/coding-style.rst
+> > +++ b/Documentation/process/coding-style.rst
+> > @@ -523,6 +523,54 @@ below, compared to the **declaration** example above)::
+> >  	...
+> >   }
+> >  
+> > +6.2) Function parameters order
+> > +------------------------------
+> > +
+> > +The order of parameters is important both for code generation and readability.
+> > +Passing parameters in an unusual order is a common source of bugs. Listing
+> > +them in standard widely adopted order helps to avoid confusion.
+> > +
+> > +Many ABIs put first function parameter and return value in R0. If your
+> > +function returns one of its parameters, passing it at the very beginning
+> > +would lead to a better code generation. For example::
+> > +
+> > +        void *memset64(uint64_t *s, uint64_t v, size_t count);
+> > +        void *memcpy(void *dest, const void *src, size_t count);
+> > +
+> > +If your function doesn't propagate a parameter, but has a meaning of copying
+> > +and/or processing data, the best practice is following the traditional order:
+> > +destination, source, options, flags.
+> > +
+> > +for_each()-like iterators should take an enumerator the first. For example::
+> > +
+> > +        for_each_set_bit(bit, mask, nbits);
+> > +                do_something(bit);
+> > +
+> > +        list_for_each_entry(pos, head, member);
+> > +                do_something(pos);
+> > +
+> > +If function operates on a range or ranges of data, corresponding parameters
+> > +may be described as ``start - end`` or ``start - size`` pairs. In both cases,
+> > +the parameters should follow each other. For example::
+> > +
+> > +        int
+> > +        check_range(unsigned long vstart, unsigned long vend,
+> > +                    unsigned long kstart, unsigned long kend);
+> > +
+> > +        static inline void flush_icache_range(unsigned long start, unsigned long end);
+> > +
+> > +        static inline void flush_icache_user_page(struct vm_area_struct *vma,
+> > +                                            struct page *page,
+> > +                                            unsigned long addr, int len);
+> > +
+> > +Both ``start`` and ``end`` of the interval are inclusive.
+> > +
+> > +Describing intervals in order ``end - start`` is unfavorable. One notable
+> > +example is the ``GENMASK(high, low)`` macro. While such a notation is popular
+> > +in hardware context, particularly to describe registers structure, in context
+> > +of software development it looks counter intuitive and confusing. Please switch
+> > +to an equivalent ``BITS(low, high)`` version.
+> > +
+> 
+> GENMASK when used for defining hardware registers is completely fine,
+> and *much* easier to deal with when you cross check against the specs
+> that almost invariably define high:low.
 
-So the text is OK but ... this is now the second section that is
-essentially a long apology for the kernel process being so difficult.
-It seems redundant with the other text, and I'm not convinced we need
-it.
+I fully agree with Jani here! When coming into describing
+registers my brain is hardwired to read values from left to
+right, high-low.
 
-Again, length is an impediment to getting people to actually read this
-stuff; we should be trying to be as concise as we can.  Do we really
-need this?
+Linus suggested also BITS(start_bit, n_bits) which, in my
+opinion, complements what we already have.
 
-Thanks,
+We leave GENMASK to register mask descriptions and BITS to the
+rest.
 
-jon
+Andi
