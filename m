@@ -1,109 +1,156 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90FAC1B040D
-	for <workflows@vger.kernel.org>; Mon, 27 Oct 2025 08:34:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C39242F49F8;
+	Mon, 27 Oct 2025 09:02:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761554073; cv=none; b=k02G+DeIdwbK6jKK8gxgTs0X8HTZ0wRs2O5Oq54bRsAKn8OQEXJAPusa9bOB6sl7t8RNOt+RPt9I8jsKTgpW9TR/6o/xZpWMI3vgVj/VNpAOFYjXgUE0v1TobOIqUDN2U0Rj9ExjCD8g0hhlykTn2eocCKolrh4j1/yRgu/TbyE=
+	t=1761555776; cv=none; b=YDXGM0Kwa/o7+SG6KksBx85HooZTeG1pXxwukltQV9Uu5bFgAy0TBYoZXHkKqx1berG1qL85weG4/OKjzVnPSat/EJvoGHmMORor47WmDEOA35hfKbyzjrPcxQEKpnxrqc/D7KeFhdFdr//JTqyFMweECyByzcySEzWHKi+Tdkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761554073; c=relaxed/simple;
-	bh=hZTN/tQMYZInh7JvxfdJgJoSNB55wm3j6jMjFgi+HkU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BnhGzAawR0odYiK35e6KMzcGtji2gSG/seS9QMerdD0w6XEDxS+uKApqnBca8puK5NAhmCgKbNgI4B9RnWtnz3hAYY2lGBaYJgP1UL2fwadqMjIhwwImpiTw4Ba4eBMA3Uqr/FfOHB8h2AeTNlIO4O//t8DHDrz/x6w+7mAEOWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kyLYAXnn; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761555776; c=relaxed/simple;
+	bh=G1ePlaSWeQMNuAJ53oX32ThxSRn7zfNb9gCAqZMnhFs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=tZftzn3cuaqrpP35Ca12E7gA/KVTCK8+eozW12AEXSB3ouP8kM+HRlJTsPnQ8L0DdVRYubFPGkzibU8FapNBsDnLd4tbTNIVrOjX15GKreN+L2ejbSAwGWmGsid7VxaY9gU6Iho4cOv9oEgDdj2b7xiIpBh97brAMqk8OdC2muU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JXLHdXBX; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kyLYAXnn"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b6d6c11f39aso587870566b.2
-        for <workflows@vger.kernel.org>; Mon, 27 Oct 2025 01:34:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761554070; x=1762158870; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QXqA2AyYDwMAn5NeiBjETLweOL3QhYSqRjqxrljQDYI=;
-        b=kyLYAXnni860iyXZipirj1ouWIpiOII1jtdMfjXMlErQ6dOum3GjUR1FmWlO51eCaf
-         ooziWpmNBHa6xn87D336Taz6sYkrjM+ClNFD3FNo7aM/VUs1r7c6avi4YIhAVhgYCPEk
-         uL+Mk4M1ARpwbIbbYlc1B/sof3Bf3eJ1buTuFf/xsM8AyBXsA3ZiIKmL46OkJpHARTml
-         2HAt85RckGpaqPqYaU/Di8gBH8JtTf23CEqF4ZnQeJbtUdIbYsff5Psolv0MCInD2/cG
-         NRdFLB9gqa+D9XoHOURy2+xLIVVp5QbP6845dopJzXbFaihzSDEeKmQo6nkMh3SSv4oa
-         FRKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761554070; x=1762158870;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QXqA2AyYDwMAn5NeiBjETLweOL3QhYSqRjqxrljQDYI=;
-        b=W3mmzbCfHH331mvOOr4CEWR0Ti+0ubAXH1P2pq9XiYOWbowxDhM5UBbMM2emJDGu3k
-         gKMSfEXa3hyPApKqlAq0A2uo8lq2ueX0EfxFwalna3Bj+TTKQ9gK3vSM15y6xgE9np00
-         z7/e+R8xnba/KA5ocQ7E5sVssyHP0XxJDCEcfO9xXSmO8OPwEg7NLwyNga13SWfNSazr
-         U0hR64PP3hdbgKRR57XPdE87tViDuCotTfBBgS4rWUvu/UlUDbsNGpk4bQM4iEw6bOaP
-         wh7XVEwhnIlAgXmmeJnOZwSSSmpEpHnErfqllbX1lvpWvTQlUKHw+jyC4fLhWC5aS83p
-         TMVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXD6edJ1OEquwbIxzkYQi5sdGqYr6eZ2SUZ1M/TG1FHWPynjpoZqMoDskL7KBZ65n6uu2qWcOv5ss0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVE6KVmdxo1QnvP3b6lBQyon/FESKuREteJfecKwmSBNszM30o
-	9Ag0y/kVeoFmBbd/84sclkfF94Z99fUbYcuDu9LEBNDEvb9UNqvYid6wrvGcSPr7pb+79Q2PNkc
-	QO3wRksJhBd7jKGCCPsdstAqCtJ38lRo=
-X-Gm-Gg: ASbGncs6w3laAhLEQmOrC8BHB7vDcAdIh+Q1pSSvUsVIjJJJaQvM5GL63Ee0bbzCrdl
-	hcofmw043Cc20rh+buZKRVMBXiHgj/pPbm3Wc8LvjS6tigFQob5Sp+EiWqV37GqxEjlFwerSJkc
-	csPEkUDhG8GRaPFyRFGtTGmUVxXUIRhp9vXgDT1AA2lhrJk4+Ike3zOexp/VeAQxx7kkK1FCUY3
-	wLxAmox2n4F5ooraihsDP1m/mrfFJqEzgG29AtTE+wHwxgFebksqy/jsVxbCUxo9sUMh/UfU+vL
-	oYnSYJgo43//PrlUz0VuHATRXMoLxQ==
-X-Google-Smtp-Source: AGHT+IF4Ku7VBi6Rz5YATQmMp4K6m21OtDlsrRJ8R6TX/Zwi0y9zuA5CLxTmowv0xMLnRyevU+7TIZF7WyaAwQdIbqQ=
-X-Received: by 2002:a17:906:6a12:b0:b40:b6a9:f70f with SMTP id
- a640c23a62f3a-b6d51aefb9amr1645192766b.4.1761554069622; Mon, 27 Oct 2025
- 01:34:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JXLHdXBX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761555775; x=1793091775;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=G1ePlaSWeQMNuAJ53oX32ThxSRn7zfNb9gCAqZMnhFs=;
+  b=JXLHdXBXcam66NjXNxTX54ti8b0GzXvEpUaF5MzkBjNLr7N2TGmvVUKO
+   ebS+xQ/Dov41qvvTiQQgGHh5N19lI0pqDsjyvfyse0UYljQtwdcpmQoT1
+   f4oyD7U5UQHWRE2KhM9loFL4wrTF9Ov42QmSYtH5ImLqr/rocFli1xblO
+   9BJfJL9OpUnPcp674iwan6eI9C5eO4T/mHSeFzbGnk99wfLUTa1ehmIJd
+   LEHagUEWVmAL1rKmfaCwh9NQpV0csdoVBkEqFWl85V8r0GLFY8k97NgYq
+   Qo7kX+0+LISNgVzQj16iP0H3txkoA3XO0HO80cz/bPOCFHQoEfVs/MDac
+   Q==;
+X-CSE-ConnectionGUID: dH/HtpCoS7GaBfw8OuzcFQ==
+X-CSE-MsgGUID: a0koW0U7QeuVAEoPMA7i4g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73919101"
+X-IronPort-AV: E=Sophos;i="6.19,258,1754982000"; 
+   d="scan'208";a="73919101"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 02:02:54 -0700
+X-CSE-ConnectionGUID: u2MvC9QpS4uX+ruEyclGQA==
+X-CSE-MsgGUID: Jyzz3AT/R3aV/tylkEXqnQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,258,1754982000"; 
+   d="scan'208";a="184893022"
+Received: from slindbla-desk.ger.corp.intel.com (HELO localhost) ([10.245.246.35])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 02:02:51 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>, Linus Walleij
+ <linus.walleij@linaro.org>, Lee Jones <lee@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Cc: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
+Subject: Re: [PATCH 21/21] Docs: add Functions parameters order section
+In-Reply-To: <20251025163305.306787-14-yury.norov@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20251025162858.305236-1-yury.norov@gmail.com>
+ <20251025163305.306787-14-yury.norov@gmail.com>
+Date: Mon, 27 Oct 2025 11:02:48 +0200
+Message-ID: <723c936f92352352c3b1a84b858d684f5b7a0834@intel.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251024-aheev-checkpatch-uninitialized-free-v2-0-16c0900e8130@gmail.com>
- <20251024-aheev-checkpatch-uninitialized-free-v2-2-16c0900e8130@gmail.com>
- <aPvAm1E7CvQfOIuS@stanley.mountain> <81e6af8eea5b0399d1685797d0ea6a6ebc273270.camel@gmail.com>
- <aP8CxkXYAitKB3vx@stanley.mountain>
-In-Reply-To: <aP8CxkXYAitKB3vx@stanley.mountain>
-From: ally heev <allyheev@gmail.com>
-Date: Mon, 27 Oct 2025 14:04:18 +0530
-X-Gm-Features: AWmQ_blvkJ9ZtBmHKBSTV_q6E3sXqzi4cxX3zWvk57-nTx4mfsifVuvdEYK6e1U
-Message-ID: <CAMB6jUGEJeOVKUEpeFosBFA3QsQk3kgdt_e1EAQJi_yqJp7H-A@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] add check for pointers with __free attribute
- initialized to NULL
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
-	Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, David Hunter <david.hunter.linux@gmail.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Viresh Kumar <vireshk@kernel.org>, 
-	Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, linux-pm <linux-pm@vger.kernel.org>, 
-	dan.j.williams@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Mon, Oct 27, 2025 at 10:57=E2=80=AFAM Dan Carpenter <dan.carpenter@linar=
-o.org> wrote:
-> > General question about the process for my understanding:
-> > Is checkpatch run on full tree by CI or someone and results reported
-> > regularly ?
+On Sat, 25 Oct 2025, "Yury Norov (NVIDIA)" <yury.norov@gmail.com> wrote:
+> Standardize parameters ordering in some typical cases to minimize
+> confusion.
 >
-> Newbies run it regularly.  Otherwise it gets run on subsystem CIs and
-> the zero-day bot runs it on new patches but it will report the old
-> warnings as well under the "Old warnings" section.
+> Signed-off-by: Yury Norov (NVIDIA) <yury.norov@gmail.com>
+> ---
+>  Documentation/process/coding-style.rst | 48 ++++++++++++++++++++++++++
+>  1 file changed, 48 insertions(+)
 >
-> > My understanding was that we would run it only on patches
-> > before submitting them Or we just run it on full tree before adding
-> > new checks to understand if they are catching real issues
->
-> Eventually someone will look at all the warnings.  And probably it's
-> going to be a newbie and so we need to be careful with warning where
-> newbies might introduce bugs with their changes.
->
-> regards,
-> dan carpenter
->
-Makes sense. Thanks!!
----
-aheev
+> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+> index d1a8e5465ed9..dde24148305c 100644
+> --- a/Documentation/process/coding-style.rst
+> +++ b/Documentation/process/coding-style.rst
+> @@ -523,6 +523,54 @@ below, compared to the **declaration** example above)::
+>  	...
+>   }
+>  
+> +6.2) Function parameters order
+> +------------------------------
+> +
+> +The order of parameters is important both for code generation and readability.
+> +Passing parameters in an unusual order is a common source of bugs. Listing
+> +them in standard widely adopted order helps to avoid confusion.
+> +
+> +Many ABIs put first function parameter and return value in R0. If your
+> +function returns one of its parameters, passing it at the very beginning
+> +would lead to a better code generation. For example::
+> +
+> +        void *memset64(uint64_t *s, uint64_t v, size_t count);
+> +        void *memcpy(void *dest, const void *src, size_t count);
+> +
+> +If your function doesn't propagate a parameter, but has a meaning of copying
+> +and/or processing data, the best practice is following the traditional order:
+> +destination, source, options, flags.
+> +
+> +for_each()-like iterators should take an enumerator the first. For example::
+> +
+> +        for_each_set_bit(bit, mask, nbits);
+> +                do_something(bit);
+> +
+> +        list_for_each_entry(pos, head, member);
+> +                do_something(pos);
+> +
+> +If function operates on a range or ranges of data, corresponding parameters
+> +may be described as ``start - end`` or ``start - size`` pairs. In both cases,
+> +the parameters should follow each other. For example::
+> +
+> +        int
+> +        check_range(unsigned long vstart, unsigned long vend,
+> +                    unsigned long kstart, unsigned long kend);
+> +
+> +        static inline void flush_icache_range(unsigned long start, unsigned long end);
+> +
+> +        static inline void flush_icache_user_page(struct vm_area_struct *vma,
+> +                                            struct page *page,
+> +                                            unsigned long addr, int len);
+> +
+> +Both ``start`` and ``end`` of the interval are inclusive.
+> +
+> +Describing intervals in order ``end - start`` is unfavorable. One notable
+> +example is the ``GENMASK(high, low)`` macro. While such a notation is popular
+> +in hardware context, particularly to describe registers structure, in context
+> +of software development it looks counter intuitive and confusing. Please switch
+> +to an equivalent ``BITS(low, high)`` version.
+> +
+
+GENMASK when used for defining hardware registers is completely fine,
+and *much* easier to deal with when you cross check against the specs
+that almost invariably define high:low.
+
+Which other parts of coding style take on specific interfaces and tell
+you to switch? Weird. I for one don't want to encourage an influx of
+trivial patches doing GENMASK to BITS conversions, and then keep
+rejecting them. It's just a huge collective waste of time.
+
+Anyway, that's a lot of text on "function parameter order" to justify
+BITS(), but completely skips more important principles such as "context
+parameter first", or "destination first".
+
+
+BR,
+Jani.
+
+
+>  7) Centralized exiting of functions
+>  -----------------------------------
+
+-- 
+Jani Nikula, Intel
