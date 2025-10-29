@@ -1,48 +1,51 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6812A2F12CE;
-	Tue, 28 Oct 2025 21:47:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17F6834DCCF;
+	Wed, 29 Oct 2025 16:08:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761688081; cv=none; b=soY5T54R6pZtmx3Fyf6u15RyMH+lzGONyuaxlJCpYKCANAbmUYkjpUzT9GFpEK5LK6qoXEopVod1CHpQr6AiODRL1geyZOUd1EN3AgSCv4BYPmlAP65s4vIJg2D3U765hq5t4J4EiQ7tO0jS2DanmNQ3TXlNyceD5acs2DLM7Ek=
+	t=1761754112; cv=none; b=r8R2h0vnEILhoE0cEFggPBPMwC7ZeEuuhu8zlVGKmolF/ktqmaUUFicssN+G6EZnBhaO66GJARmT/bdhqhu/LMCAcKLl95qP9A/8OI+f4KZvpM+P/CDoVrganas8CqRIJwi82I5S76QAVzyL+MPHLFQYn54QAv6T50x9k2GauHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761688081; c=relaxed/simple;
-	bh=2tsnf28ipcIAfDZPP03qHcIF+Ko8CEeFlZfoQbFw8nk=;
+	s=arc-20240116; t=1761754112; c=relaxed/simple;
+	bh=FvheU5MZYCN14xHdWx6Kg7JoYWn2MMAEe9/SqQLNLnc=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=SQAdLLWuD5V1spmbOPZR3gyVEHgWk50n9y4IWWhENSvTMkZx6VKBtv8a1Lvw9WkJZ09nBS7GJFgZrngc18Y9TQNKDQvwo8ts6t0iSswDL786alMowgRHLcYPwwHKD8SkR2HBoA7nBwif60v9IslEIpUXMacXXn7brWWj0gqj0kI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=iL1MA71m; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=imwyRZBUk/zt/kxlF7NKNT+TtYDO1P+gSBrP7cJ7dn/p/Y15fhKpl3Tt+NQl0Jw+hWlfU13kNnVstbIHv6c7dY+ucEw+LYOuSi5Y/Up6JVjL28e1FfbSvUHmIeencIt7fxv618pszewh0AuCyTWuENhgLEJt0hJZFjRFMMlx1WE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=C1M3XGyT; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="iL1MA71m"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 93C23406FB
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="C1M3XGyT"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 24C1A406FB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1761688078; bh=RetlZ1LyA7XkqWfjrkbefmuL6Fe2ISzbT+EWH+N5Q0s=;
+	t=1761754110; bh=UX7vSfd/TNTub1AvMxw2PX8R0Jt/IunPvXfu0oAPX00=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=iL1MA71mlM+6QFSTW/xKyGNaoov1B9qZpmheRY/HC3wDNOdnxIc8Af0NZKWTs5yNf
-	 uegJqIG+lNpRct3Iik/z/avfABu7dISzJrKH/x+4lOoX5/p9nZmiu2kVaaGKII2qFa
-	 l5YFy7ZJN3GZMvvzhiogS0EGawGpAuF1RphmZ7c9mUVm1ibQjjCLPjcn7S58p1XYVE
-	 Qyq7pCUxlBEzd1pcj6BPkosx0eTLQHR5xLAHBTnnhTF5TMnnApo46u1idnJ3GApV4r
-	 Yly/cEU3f3UJQfpSxPptzymdhY1hNNwUKoCsSr23Fs/dM/Z4uCky/9C3EmylihbfRp
-	 OjXtwsGLhmNJA==
-Received: from localhost (c-73-14-55-248.hsd1.co.comcast.net [73.14.55.248])
+	b=C1M3XGyTvOhRKJaAIuPeQoJzo34wRvVAEfH7fCBvFj0MWhZuSYSgw4xBoH+k0+8tA
+	 qg4cCGhNYufz4FBYsIMxJbMSaztmIQWyxGTzGysIpe91MypR+a/Pbsl+zEk9zP0/gm
+	 mESRju9sDHB5pqta+E4v/HnndeWCmw1spgxQNttik39foz0wWsUz0U7f5Hru1NSfTk
+	 9Tl6B5ODRdnt5qUyxLlQE/USLroXWQelsI/aRN3pL6vHKvrjug0a0/sL8RGkMPdwxB
+	 zEwtB79pV/dYVnPQJbylRVy68prN97yPkMydPYKXak18VxYVPgYOrXgRAgxe2yzig6
+	 KBcMderD0oeCA==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 93C23406FB;
-	Tue, 28 Oct 2025 21:47:58 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 24C1A406FB;
+	Wed, 29 Oct 2025 16:08:30 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- regressions@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 10/30] docs: reporting-issues: move 'check tainted
- flag' upwards
-In-Reply-To: <93cac5463d1e51b57b7cf74181397039137bcdb5.1761481839.git.linux@leemhuis.info>
-References: <cover.1761481839.git.linux@leemhuis.info>
- <93cac5463d1e51b57b7cf74181397039137bcdb5.1761481839.git.linux@leemhuis.info>
-Date: Tue, 28 Oct 2025 15:47:57 -0600
-Message-ID: <87a51ak8aa.fsf@trenco.lwn.net>
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>, Linux Kernel Workflows
+ <workflows@vger.kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Sasha Levin <sashal@kernel.org>, Bagas
+ Sanjaya <bagasdotme@gmail.com>, stable@vger.kernel.org
+Subject: Re: [PATCH] Documentation: process: Also mention Sasha Levin as
+ stable tree maintainer
+In-Reply-To: <20251022034336.22839-1-bagasdotme@gmail.com>
+References: <20251022034336.22839-1-bagasdotme@gmail.com>
+Date: Wed, 29 Oct 2025 10:08:29 -0600
+Message-ID: <87frb1r8qq.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -51,17 +54,34 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Thorsten Leemhuis <linux@leemhuis.info> writes:
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-> Move text around to improve diffability in the follow-up patch.
+> Sasha has also maintaining stable branch in conjunction with Greg
+> since cb5d21946d2a2f ("MAINTAINERS: Add Sasha as a stable branch
+> maintainer"). Mention him in 2.Process.rst.
 >
-> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 > ---
->  .../admin-guide/reporting-issues.rst          | 142 +++++++++---------
->  1 file changed, 71 insertions(+), 71 deletions(-)
+>  Documentation/process/2.Process.rst | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/process/2.Process.rst b/Documentation/process/2.Process.rst
+> index 8e63d171767db8..7bd41838a5464f 100644
+> --- a/Documentation/process/2.Process.rst
+> +++ b/Documentation/process/2.Process.rst
+> @@ -99,8 +99,10 @@ go out with a handful of known regressions, though, hopefully, none of them
+>  are serious.
+>  
+>  Once a stable release is made, its ongoing maintenance is passed off to the
+> -"stable team," currently Greg Kroah-Hartman. The stable team will release
+> -occasional updates to the stable release using the 9.x.y numbering scheme.
+> +"stable team," currently consists of Greg Kroah-Hartman and Sasha Levin. The
+> +stable team will release occasional updates to the stable release using the
+> +9.x.y numbering scheme.
+> +
+>  To be considered for an update release, a patch must (1) fix a significant
 
-Seems fine.
-
-Thanks,
+Applied, thanks.
 
 jon
