@@ -1,87 +1,71 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mail-24418.protonmail.ch (mail-24418.protonmail.ch [109.224.244.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17F6834DCCF;
-	Wed, 29 Oct 2025 16:08:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E42BA223311
+	for <workflows@vger.kernel.org>; Sat,  1 Nov 2025 22:31:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761754112; cv=none; b=r8R2h0vnEILhoE0cEFggPBPMwC7ZeEuuhu8zlVGKmolF/ktqmaUUFicssN+G6EZnBhaO66GJARmT/bdhqhu/LMCAcKLl95qP9A/8OI+f4KZvpM+P/CDoVrganas8CqRIJwi82I5S76QAVzyL+MPHLFQYn54QAv6T50x9k2GauHw=
+	t=1762036296; cv=none; b=d1moQKRPa9YwXCzw3La1ntrT51qfvMPW29H20lyIlUvn9AD8LRX51BXmccVKHN3GNQ76CR8FPMYtJR3tdi6TeYNbQNLS74tbVbLp3nfx6BTzyZ9cAY3uusXiJpyFixoDiDmwNAzyM2+7rCJXAyFSOz85JoJADrPYzit94HsRyBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761754112; c=relaxed/simple;
-	bh=FvheU5MZYCN14xHdWx6Kg7JoYWn2MMAEe9/SqQLNLnc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=imwyRZBUk/zt/kxlF7NKNT+TtYDO1P+gSBrP7cJ7dn/p/Y15fhKpl3Tt+NQl0Jw+hWlfU13kNnVstbIHv6c7dY+ucEw+LYOuSi5Y/Up6JVjL28e1FfbSvUHmIeencIt7fxv618pszewh0AuCyTWuENhgLEJt0hJZFjRFMMlx1WE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=C1M3XGyT; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1762036296; c=relaxed/simple;
+	bh=JqArab//VtjVTAuZADI3rtalHlSOh2zYSvZup8Qb328=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=RK7WW2jvvVT5iTaRsJE3aKZ6QyW785pHudl8/yvm4ZpkEIl9xgJgQlOONpmGuPP45zXUC0BJ/trbUNyDeT9edueRE0/UU2wDbRM0pWQbBNHgKm6j2SPt9dvxkjM9IFgJrV0/X1lDRuhKC/ES1vOIDE1LS8EEgWjC8U1+XWYUcAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=T4RQRs7R; arc=none smtp.client-ip=109.224.244.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="C1M3XGyT"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 24C1A406FB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1761754110; bh=UX7vSfd/TNTub1AvMxw2PX8R0Jt/IunPvXfu0oAPX00=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=C1M3XGyTvOhRKJaAIuPeQoJzo34wRvVAEfH7fCBvFj0MWhZuSYSgw4xBoH+k0+8tA
-	 qg4cCGhNYufz4FBYsIMxJbMSaztmIQWyxGTzGysIpe91MypR+a/Pbsl+zEk9zP0/gm
-	 mESRju9sDHB5pqta+E4v/HnndeWCmw1spgxQNttik39foz0wWsUz0U7f5Hru1NSfTk
-	 9Tl6B5ODRdnt5qUyxLlQE/USLroXWQelsI/aRN3pL6vHKvrjug0a0/sL8RGkMPdwxB
-	 zEwtB79pV/dYVnPQJbylRVy68prN97yPkMydPYKXak18VxYVPgYOrXgRAgxe2yzig6
-	 KBcMderD0oeCA==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 24C1A406FB;
-	Wed, 29 Oct 2025 16:08:30 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Documentation
- <linux-doc@vger.kernel.org>, Linux Kernel Workflows
- <workflows@vger.kernel.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Sasha Levin <sashal@kernel.org>, Bagas
- Sanjaya <bagasdotme@gmail.com>, stable@vger.kernel.org
-Subject: Re: [PATCH] Documentation: process: Also mention Sasha Levin as
- stable tree maintainer
-In-Reply-To: <20251022034336.22839-1-bagasdotme@gmail.com>
-References: <20251022034336.22839-1-bagasdotme@gmail.com>
-Date: Wed, 29 Oct 2025 10:08:29 -0600
-Message-ID: <87frb1r8qq.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="T4RQRs7R"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1762036286; x=1762295486;
+	bh=JqArab//VtjVTAuZADI3rtalHlSOh2zYSvZup8Qb328=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=T4RQRs7R9UhpKAd9pi+kL4gwYCzU5y3djHNT1aDcRBbpt7tDrX0Alxn5Xh1GuhCoj
+	 LjUHTjLhG6dFnFkHVXX2jPiWIzeeGxc94JrlcbpLgY8OVM2v+SYK0Qn0AiGieDbys/
+	 44sAmcC0Zm/KlF59w0epCJ1yX4prfVCW/R9h3tOnNKJO1UKVxkzOROfO0lmmHmRWxL
+	 C2bvsFSZ/QPmWX/gmWc6ZFsW5xBhvnOxsYO/ipDPTHdxT87OeqUlON7Fu9CgrdSst1
+	 ijGyuJvjZfCaY7uPpGl6+QTyWdeZeEfHH0vw6cQDThxCKDXUrqU8hnUMOs1RwMwXbS
+	 0cFTbhJljhLiw==
+Date: Sat, 01 Nov 2025 22:31:19 +0000
+To: corbet@lwn.net
+From: Gabriele Ricciardi <gricciardi-coding@pm.me>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Gabriele Ricciardi <gricciardi-coding@pm.me>
+Subject: [PATCH] coding-style: fix verb typo
+Message-ID: <20251101223027.171874-1-gricciardi-coding@pm.me>
+Feedback-ID: 114464819:user:proton
+X-Pm-Message-ID: deac9e48a8ef2c74c4177133565786595b6dcd84
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+In the Identation section there is a list of instructions in
+second-person. The offending line uses third-person singular.
 
-> Sasha has also maintaining stable branch in conjunction with Greg
-> since cb5d21946d2a2f ("MAINTAINERS: Add Sasha as a stable branch
-> maintainer"). Mention him in 2.Process.rst.
->
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  Documentation/process/2.Process.rst | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/process/2.Process.rst b/Documentation/process/2.Process.rst
-> index 8e63d171767db8..7bd41838a5464f 100644
-> --- a/Documentation/process/2.Process.rst
-> +++ b/Documentation/process/2.Process.rst
-> @@ -99,8 +99,10 @@ go out with a handful of known regressions, though, hopefully, none of them
->  are serious.
->  
->  Once a stable release is made, its ongoing maintenance is passed off to the
-> -"stable team," currently Greg Kroah-Hartman. The stable team will release
-> -occasional updates to the stable release using the 9.x.y numbering scheme.
-> +"stable team," currently consists of Greg Kroah-Hartman and Sasha Levin. The
-> +stable team will release occasional updates to the stable release using the
-> +9.x.y numbering scheme.
-> +
->  To be considered for an update release, a patch must (1) fix a significant
+Signed-off-by: Gabriele Ricciardi <gricciardi-coding@pm.me>
+---
+ Documentation/process/coding-style.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Applied, thanks.
+diff --git a/Documentation/process/coding-style.rst b/Documentation/process=
+/coding-style.rst
+index d1a8e5465ed9..2969ca378dbb 100644
+--- a/Documentation/process/coding-style.rst
++++ b/Documentation/process/coding-style.rst
+@@ -76,7 +76,7 @@ Don't use commas to avoid using braces:
+ =09if (condition)
+ =09=09do_this(), do_that();
+=20
+-Always uses braces for multiple statements:
++Always use braces for multiple statements:
+=20
+ .. code-block:: c
+=20
+--=20
+2.51.2
 
-jon
+
