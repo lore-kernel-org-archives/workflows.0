@@ -1,71 +1,84 @@
-Received: from mail-24418.protonmail.ch (mail-24418.protonmail.ch [109.224.244.18])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E42BA223311
-	for <workflows@vger.kernel.org>; Sat,  1 Nov 2025 22:31:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDEE529A2;
+	Sun,  2 Nov 2025 00:04:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762036296; cv=none; b=d1moQKRPa9YwXCzw3La1ntrT51qfvMPW29H20lyIlUvn9AD8LRX51BXmccVKHN3GNQ76CR8FPMYtJR3tdi6TeYNbQNLS74tbVbLp3nfx6BTzyZ9cAY3uusXiJpyFixoDiDmwNAzyM2+7rCJXAyFSOz85JoJADrPYzit94HsRyBY=
+	t=1762041892; cv=none; b=eTMKF2XeJgNc8JerOJTOMFKZnCgMyl3aE8zBvxooIngfruSaVpmTiKFPq4y6hiaLtkcMPmvwVuY0OjHqC6e5hpaMzS51yxGFs0hg/Dx4hNNronvlqXmezf4P3GwKSO4QMW37ngQV7Se5/uDZBWniF/5Ey+5lhspxGo3sd2vqN7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762036296; c=relaxed/simple;
-	bh=JqArab//VtjVTAuZADI3rtalHlSOh2zYSvZup8Qb328=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=RK7WW2jvvVT5iTaRsJE3aKZ6QyW785pHudl8/yvm4ZpkEIl9xgJgQlOONpmGuPP45zXUC0BJ/trbUNyDeT9edueRE0/UU2wDbRM0pWQbBNHgKm6j2SPt9dvxkjM9IFgJrV0/X1lDRuhKC/ES1vOIDE1LS8EEgWjC8U1+XWYUcAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=T4RQRs7R; arc=none smtp.client-ip=109.224.244.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	s=arc-20240116; t=1762041892; c=relaxed/simple;
+	bh=hWWAPfaa068zbV3JV/Rh0btbgqwhY/lu4IKL3e9w1RQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sVxi+4fN3uauIlyZkvm9Wev6kAcB89GeJ9MTIQP0o/a0F8BkjIfQLO21T5j1m3pE8GiKDG9FwHYJpCBT8WQyZWKqXQTGGeNs9/h7mC5E/sNehGyGwUEwollsbRlcYMbec5fYqPp/fHIG+MHVDMpkraATNu3JslWsqwZEhBidFDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=JiL8mN+w; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="T4RQRs7R"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1762036286; x=1762295486;
-	bh=JqArab//VtjVTAuZADI3rtalHlSOh2zYSvZup8Qb328=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=T4RQRs7R9UhpKAd9pi+kL4gwYCzU5y3djHNT1aDcRBbpt7tDrX0Alxn5Xh1GuhCoj
-	 LjUHTjLhG6dFnFkHVXX2jPiWIzeeGxc94JrlcbpLgY8OVM2v+SYK0Qn0AiGieDbys/
-	 44sAmcC0Zm/KlF59w0epCJ1yX4prfVCW/R9h3tOnNKJO1UKVxkzOROfO0lmmHmRWxL
-	 C2bvsFSZ/QPmWX/gmWc6ZFsW5xBhvnOxsYO/ipDPTHdxT87OeqUlON7Fu9CgrdSst1
-	 ijGyuJvjZfCaY7uPpGl6+QTyWdeZeEfHH0vw6cQDThxCKDXUrqU8hnUMOs1RwMwXbS
-	 0cFTbhJljhLiw==
-Date: Sat, 01 Nov 2025 22:31:19 +0000
-To: corbet@lwn.net
-From: Gabriele Ricciardi <gricciardi-coding@pm.me>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Gabriele Ricciardi <gricciardi-coding@pm.me>
-Subject: [PATCH] coding-style: fix verb typo
-Message-ID: <20251101223027.171874-1-gricciardi-coding@pm.me>
-Feedback-ID: 114464819:user:proton
-X-Pm-Message-ID: deac9e48a8ef2c74c4177133565786595b6dcd84
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JiL8mN+w"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=BXnlZiyMoNes21F+XyF3XT526SWCM8Mc7izCj3d7N/w=; b=JiL8mN+w22rkf55FgpfCre/9Vz
+	+dsRcDfxYVa7Em9n/zKw3mcXUJ+FmymHKjUrCJi1uPC9wgVWEsc/Xifv6hEWR6XoL0/bqZiERS3pu
+	MRIxuo/lSxIFWMbjlyegCRqth/6pgTmcjysAQM3oRDa4cwb/r9wJ6G8hVZOevRM+uD4NnAdJPUZrm
+	iSlFYzyabIAlLlOSQ2UOWuJUpCmEaHGeyC6Z7cK056//1rdQt9ViRi/wQfg/3nhh/y7xHclkKt0EL
+	uop/hdJK+kBmq8qaiQQCKzzjJhfXfj9A/1tBovbOdyEAJdL66pcNIgQJU8Cp8kJTucf0ukl7BsVdY
+	/qA2da/g==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vFLaK-00000008Azx-2MaY;
+	Sun, 02 Nov 2025 00:04:40 +0000
+Message-ID: <d4048a3e-4083-463f-ae79-09924004e3b3@infradead.org>
+Date: Sat, 1 Nov 2025 17:04:39 -0700
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-In the Identation section there is a list of instructions in
-second-person. The offending line uses third-person singular.
-
-Signed-off-by: Gabriele Ricciardi <gricciardi-coding@pm.me>
----
- Documentation/process/coding-style.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/process/coding-style.rst b/Documentation/process=
-/coding-style.rst
-index d1a8e5465ed9..2969ca378dbb 100644
---- a/Documentation/process/coding-style.rst
-+++ b/Documentation/process/coding-style.rst
-@@ -76,7 +76,7 @@ Don't use commas to avoid using braces:
- =09if (condition)
- =09=09do_this(), do_that();
-=20
--Always uses braces for multiple statements:
-+Always use braces for multiple statements:
-=20
- .. code-block:: c
-=20
---=20
-2.51.2
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] coding-style: fix verb typo
+To: Gabriele Ricciardi <gricciardi-coding@pm.me>, corbet@lwn.net
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20251101223027.171874-1-gricciardi-coding@pm.me>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251101223027.171874-1-gricciardi-coding@pm.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
+
+On 11/1/25 3:31 PM, Gabriele Ricciardi wrote:
+> In the Identation section there is a list of instructions in
+> second-person. The offending line uses third-person singular.
+> 
+> Signed-off-by: Gabriele Ricciardi <gricciardi-coding@pm.me>
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> ---
+>  Documentation/process/coding-style.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+> index d1a8e5465ed9..2969ca378dbb 100644
+> --- a/Documentation/process/coding-style.rst
+> +++ b/Documentation/process/coding-style.rst
+> @@ -76,7 +76,7 @@ Don't use commas to avoid using braces:
+>  	if (condition)
+>  		do_this(), do_that();
+>  
+> -Always uses braces for multiple statements:
+> +Always use braces for multiple statements:
+>  
+>  .. code-block:: c
+>  
+
+-- 
+~Randy
