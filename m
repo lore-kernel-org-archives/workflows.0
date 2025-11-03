@@ -1,71 +1,64 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDEE529A2;
-	Sun,  2 Nov 2025 00:04:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC73218AA0;
+	Mon,  3 Nov 2025 23:18:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762041892; cv=none; b=eTMKF2XeJgNc8JerOJTOMFKZnCgMyl3aE8zBvxooIngfruSaVpmTiKFPq4y6hiaLtkcMPmvwVuY0OjHqC6e5hpaMzS51yxGFs0hg/Dx4hNNronvlqXmezf4P3GwKSO4QMW37ngQV7Se5/uDZBWniF/5Ey+5lhspxGo3sd2vqN7s=
+	t=1762211884; cv=none; b=VduwEsCfEKQ3oFfUi6rT8G1XQ5bN3xeUmu2gvstK1hHPhqcqXBdn1cPmnxSIV3CEHkKyNtXioDi/5ObBCKKWpvnchrb+QXrh8RwNbQ6vbgbqsOi1vUv3yolDK6Sp9Ghbu3uOPKotYKjd8/LM9QX6/ff/BA+816K/jPlvQ/lmu9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762041892; c=relaxed/simple;
-	bh=hWWAPfaa068zbV3JV/Rh0btbgqwhY/lu4IKL3e9w1RQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sVxi+4fN3uauIlyZkvm9Wev6kAcB89GeJ9MTIQP0o/a0F8BkjIfQLO21T5j1m3pE8GiKDG9FwHYJpCBT8WQyZWKqXQTGGeNs9/h7mC5E/sNehGyGwUEwollsbRlcYMbec5fYqPp/fHIG+MHVDMpkraATNu3JslWsqwZEhBidFDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=JiL8mN+w; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1762211884; c=relaxed/simple;
+	bh=YId2GSQkFT18/GatKEl55MmCf76X2N7tKb9OoydF1jI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=VNGVMWQ1s1lYNHWTqv++la3X90hoLj3LIqKsG/pM+Pxnmfv9Jn4p6rf660zUtNtXQ/hk+mzrld51XR3WHrQWWmt0yhjNPAB2vX2qSr1RCdxJSA1/FgKwQhfJb9LmNMS45InuKLEqeKpQNkGVd4ClHGT9LRIygc2ykJbjrsCzzbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=A6n6AJP5; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JiL8mN+w"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=BXnlZiyMoNes21F+XyF3XT526SWCM8Mc7izCj3d7N/w=; b=JiL8mN+w22rkf55FgpfCre/9Vz
-	+dsRcDfxYVa7Em9n/zKw3mcXUJ+FmymHKjUrCJi1uPC9wgVWEsc/Xifv6hEWR6XoL0/bqZiERS3pu
-	MRIxuo/lSxIFWMbjlyegCRqth/6pgTmcjysAQM3oRDa4cwb/r9wJ6G8hVZOevRM+uD4NnAdJPUZrm
-	iSlFYzyabIAlLlOSQ2UOWuJUpCmEaHGeyC6Z7cK056//1rdQt9ViRi/wQfg/3nhh/y7xHclkKt0EL
-	uop/hdJK+kBmq8qaiQQCKzzjJhfXfj9A/1tBovbOdyEAJdL66pcNIgQJU8Cp8kJTucf0ukl7BsVdY
-	/qA2da/g==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vFLaK-00000008Azx-2MaY;
-	Sun, 02 Nov 2025 00:04:40 +0000
-Message-ID: <d4048a3e-4083-463f-ae79-09924004e3b3@infradead.org>
-Date: Sat, 1 Nov 2025 17:04:39 -0700
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="A6n6AJP5"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9CC0240AED
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1762211519; bh=4gG90FstYZiFRPxB+Bx0jcUMuohvx/Jq4O8NPO64nVY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=A6n6AJP58XS1Pb0mJ786Bq+nqX9hF7Uk8ZUpnA+0TgwNr4oVzpIYnuB0fe8Czdt5W
+	 reSEJG8Wzv1Bj2JWW2BnDvuEoeIb45l4K3UuFdku6DPt5Bz1rKxHmvcN2nplO4J1h/
+	 zG94FPQMtLznfiV0j5wr1tercjq1eScTlm4tPtbDCbV/9VameSCJtLfHLCh5n6no14
+	 1sb1d6JTnc18ybGfObodbiYlRwT/3uA6f9joJ4Fh2PcvwT6A2Ro0QqUgZHrsXghNsc
+	 PbB8Y/LpYIFAU0FH9JKqE2n+7K4UAdpqvO1hF1bDnkeVM0jmA4SliAjRMzrGVC8GFA
+	 rf6By18azZvKA==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 9CC0240AED;
+	Mon,  3 Nov 2025 23:11:59 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Gabriele Ricciardi <gricciardi-coding@pm.me>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Gabriele Ricciardi <gricciardi-coding@pm.me>
+Subject: Re: [PATCH] coding-style: fix verb typo
+In-Reply-To: <20251101223027.171874-1-gricciardi-coding@pm.me>
+References: <20251101223027.171874-1-gricciardi-coding@pm.me>
+Date: Mon, 03 Nov 2025 16:11:58 -0700
+Message-ID: <87wm46btj5.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] coding-style: fix verb typo
-To: Gabriele Ricciardi <gricciardi-coding@pm.me>, corbet@lwn.net
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251101223027.171874-1-gricciardi-coding@pm.me>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251101223027.171874-1-gricciardi-coding@pm.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
+Gabriele Ricciardi <gricciardi-coding@pm.me> writes:
 
-
-On 11/1/25 3:31 PM, Gabriele Ricciardi wrote:
 > In the Identation section there is a list of instructions in
 > second-person. The offending line uses third-person singular.
-> 
+>
 > Signed-off-by: Gabriele Ricciardi <gricciardi-coding@pm.me>
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
 > ---
 >  Documentation/process/coding-style.rst | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+>
 > diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
 > index d1a8e5465ed9..2969ca378dbb 100644
 > --- a/Documentation/process/coding-style.rst
@@ -78,7 +71,7 @@ Thanks.
 > +Always use braces for multiple statements:
 >  
 >  .. code-block:: c
->  
 
--- 
-~Randy
+Applied, thanks.
+
+jon
