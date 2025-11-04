@@ -1,77 +1,173 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC73218AA0;
-	Mon,  3 Nov 2025 23:18:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C5103148C6
+	for <workflows@vger.kernel.org>; Tue,  4 Nov 2025 09:57:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762211884; cv=none; b=VduwEsCfEKQ3oFfUi6rT8G1XQ5bN3xeUmu2gvstK1hHPhqcqXBdn1cPmnxSIV3CEHkKyNtXioDi/5ObBCKKWpvnchrb+QXrh8RwNbQ6vbgbqsOi1vUv3yolDK6Sp9Ghbu3uOPKotYKjd8/LM9QX6/ff/BA+816K/jPlvQ/lmu9c=
+	t=1762250225; cv=none; b=scUPy8XNJm4NuTxPFsg6jd6DPI99MAfn/go3FG9jBgixv68KqA/bRElsvjRljLdcgSlw1Nlgr95D8y+9+ignCfrxZ08CusOb1ogR67aHC0FbDGEpr2BawEXIhXZsIa+t8mfcKza+25I34qbCaCD7w+tUpfjZvwcn4YEHSsrDS5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762211884; c=relaxed/simple;
-	bh=YId2GSQkFT18/GatKEl55MmCf76X2N7tKb9OoydF1jI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=VNGVMWQ1s1lYNHWTqv++la3X90hoLj3LIqKsG/pM+Pxnmfv9Jn4p6rf660zUtNtXQ/hk+mzrld51XR3WHrQWWmt0yhjNPAB2vX2qSr1RCdxJSA1/FgKwQhfJb9LmNMS45InuKLEqeKpQNkGVd4ClHGT9LRIygc2ykJbjrsCzzbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=A6n6AJP5; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1762250225; c=relaxed/simple;
+	bh=YXgMCxTuO2ciz0Sru322MFOCfmYaPI0BXBaclGFVV9A=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=kEkHB5D8LINi/Ul0Oa8JQ6Z5mLmDPIrd2dqibImKc3nucErM7niDTUdXK46+3wZgCBPA97rw+iMG8PMMIqOKH+Phm4J4rf3aTryYAJjjiaelIuSQ+myTBHzNd3V8s1iGQWGDLr0y2Zw0VO6nxKEGP/cobL+ZdSCmqMswAN4aNds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Efw+OwsJ; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="A6n6AJP5"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9CC0240AED
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1762211519; bh=4gG90FstYZiFRPxB+Bx0jcUMuohvx/Jq4O8NPO64nVY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=A6n6AJP58XS1Pb0mJ786Bq+nqX9hF7Uk8ZUpnA+0TgwNr4oVzpIYnuB0fe8Czdt5W
-	 reSEJG8Wzv1Bj2JWW2BnDvuEoeIb45l4K3UuFdku6DPt5Bz1rKxHmvcN2nplO4J1h/
-	 zG94FPQMtLznfiV0j5wr1tercjq1eScTlm4tPtbDCbV/9VameSCJtLfHLCh5n6no14
-	 1sb1d6JTnc18ybGfObodbiYlRwT/3uA6f9joJ4Fh2PcvwT6A2Ro0QqUgZHrsXghNsc
-	 PbB8Y/LpYIFAU0FH9JKqE2n+7K4UAdpqvO1hF1bDnkeVM0jmA4SliAjRMzrGVC8GFA
-	 rf6By18azZvKA==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 9CC0240AED;
-	Mon,  3 Nov 2025 23:11:59 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Gabriele Ricciardi <gricciardi-coding@pm.me>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Gabriele Ricciardi <gricciardi-coding@pm.me>
-Subject: Re: [PATCH] coding-style: fix verb typo
-In-Reply-To: <20251101223027.171874-1-gricciardi-coding@pm.me>
-References: <20251101223027.171874-1-gricciardi-coding@pm.me>
-Date: Mon, 03 Nov 2025 16:11:58 -0700
-Message-ID: <87wm46btj5.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Efw+OwsJ"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-29599f08202so27251465ad.3
+        for <workflows@vger.kernel.org>; Tue, 04 Nov 2025 01:57:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762250222; x=1762855022; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=firJhlNAxZ4Bo36QY+xlGNWblVJVC08hGepLC0vNhN4=;
+        b=Efw+OwsJsmo19JWnqn2HEBW7aPcDes1n/LBc3iDOtkS07ChcCEs+VNpFHJEqdxdiJJ
+         AHSEL/C0b6BJ80QauVD/HgnMTVrCeeVze8GpzVWvVHXPYcS158ZUYzk4ue1rr4bYTCIV
+         mfmNRVdQtokmwueQo2UjFI0iZa9Qqi1NqFRNXHMEosn/OJXcjpJ/TQJvLrHvqqMMIchi
+         L6mfVqB/Fj4vDjI0qvUdrMj7cadGb25PMSRLGa35XPijHo06p3WyP55wxsLLSFrUG/1v
+         5hYLp9lmfIsqanjJLxqdOY8PUjeoJvN/S/GXFuLz0sV1kyJriE4+ptUYb0NABIyhhWIC
+         3NuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762250222; x=1762855022;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=firJhlNAxZ4Bo36QY+xlGNWblVJVC08hGepLC0vNhN4=;
+        b=THJZo2hlu0cAPa8wTnZ5Qzd6BZOCC9cXTPkrHX+Lo4Ps0xxbxSNEVJcoM7+jFgWyvm
+         xv3hdm4mbqt3fkrQdQi4+zW1tNonDFgAXlz+xyEAgteXzWvp1C39sGptEwqrOCG957h3
+         TpSk6xnK2TUqb3+V620FzpN7UouX1GJnih9p1eCSbFYwJ9z5rDdOueH0IC/S6a/97q+Q
+         rVqwgT3YK3E/ur76XKuJS53EGvtQwHQzWSzR2kk+oNorgCp4B9+a2Zxl/2RCN/KRReA2
+         ObcWhoU6iq/LXu0Atg3/DFvQXJfqzsQTa3hTa//CBTLdLtbedIix5vSpNDeLFkZxmoMx
+         Akzw==
+X-Gm-Message-State: AOJu0Yxgfxn2uS4QN91fA3vw79mwwOeFeYjZSQQ+xrfKX9pFvP05sCUa
+	hsJkQhrM12wROoqj69xa8FaHTfCDqvo9FBAV4t+qikpqRI4w5bKMyx/W
+X-Gm-Gg: ASbGncv7x/Gjv3JcZUYQIfo+8VWiaxt2xNXHv+V7KbHVZ6N9L+3lHKony6qscXspowm
+	XEcSDkAfMbcMqdrbS3Kz8PnAS64wKzJp8aYtzS9Y7xMvbccRyKR1fzdizRwHNmEVxMJeyvJEMLp
+	i3rAA/c5/VhaGZ3GGaFoO6mXJtjgJAIJZKx7rITjsBGYJAIgzzWaSGreRf1Cb08Iq6sc0jv/LHa
+	rgNCp3Wy9UdEV7fu776R8ypgLqeG3YgnUKapJyEiSQCy0K1wXh5u/hNXtc+55NE3tc+XoWJuoNW
+	g3/fJgSuKp+r87uS9lzgwOUco6nd5Db5UTDKhu3e6X4L/AoOWHvAH7mXJBDHKaw4+UFQcsVNb9U
+	W4xKGxD3MPE8leN8BSVpu+EoiJ6as+xHlJ9yQji+8oekrpUO1ZCywXpADy5vaqQSc/5k6Ic1kyQ
+	vC
+X-Google-Smtp-Source: AGHT+IFTc11NZSugLNGRdVCpbxSiHXxcaih8Y6Z/ZMsSEsoPYqNZNA/fO4ac+K7zvIFEYqXkq3oyqw==
+X-Received: by 2002:a17:902:ce01:b0:295:6c9d:1905 with SMTP id d9443c01a7336-2956c9d1b4dmr130031905ad.18.1762250221916;
+        Tue, 04 Nov 2025 01:57:01 -0800 (PST)
+Received: from aheev.home ([2401:4900:88f5:503e:7f32:6f1c:2f94:2a7b])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-296019982e3sm20396955ad.28.2025.11.04.01.56.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Nov 2025 01:57:01 -0800 (PST)
+From: Ally Heev <allyheev@gmail.com>
+Date: Tue, 04 Nov 2025 15:26:51 +0530
+Subject: [PATCH RESEND v3] checkpatch: add uninitialized pointer with
+ __free attribute check
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251104-aheev-checkpatch-uninitialized-free-v3-1-d94ccef4917a@gmail.com>
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>, 
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>, 
+ David Hunter <david.hunter.linux@gmail.com>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Viresh Kumar <vireshk@kernel.org>, 
+ Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, 
+ linux-pm <linux-pm@vger.kernel.org>, dan.j.williams@intel.com, 
+ Ally Heev <allyheev@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3327; i=allyheev@gmail.com;
+ h=from:subject:message-id; bh=YXgMCxTuO2ciz0Sru322MFOCfmYaPI0BXBaclGFVV9A=;
+ b=owGbwMvMwCU2zXbRFfvr1TKMp9WSGDI5zz7bnhLZMLn8zY1dt2/7LjkhVt+967RH2OfvUxwal
+ N4k3lgr2VHKwiDGxSArpsjCKCrlp7dJakLc4aRvMHNYmUCGMHBxCsBECkIZfrOf72ZefTnPy3e6
+ +Srvr8sfrzqrVx92s+d458M+eSNz37WMDDdnlxVk8S7rXaUVvDvnhtCnhsRNrg7XfZbKzC3z3X1
+ gAx8A
+X-Developer-Key: i=allyheev@gmail.com; a=openpgp;
+ fpr=01151A4E2EB21A905EC362F6963DA2D43FD77B1C
 
-Gabriele Ricciardi <gricciardi-coding@pm.me> writes:
+uninitialized pointers with __free attribute can cause undefined
+behaviour as the memory allocated to the pointer is freed
+automatically when the pointer goes out of scope.
+add check in checkpatch to detect such issues
 
-> In the Identation section there is a list of instructions in
-> second-person. The offending line uses third-person singular.
->
-> Signed-off-by: Gabriele Ricciardi <gricciardi-coding@pm.me>
-> ---
->  Documentation/process/coding-style.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-> index d1a8e5465ed9..2969ca378dbb 100644
-> --- a/Documentation/process/coding-style.rst
-> +++ b/Documentation/process/coding-style.rst
-> @@ -76,7 +76,7 @@ Don't use commas to avoid using braces:
->  	if (condition)
->  		do_this(), do_that();
->  
-> -Always uses braces for multiple statements:
-> +Always use braces for multiple statements:
->  
->  .. code-block:: c
+Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
+Link: https://lore.kernel.org/all/8a4c0b43-cf63-400d-b33d-d9c447b7e0b9@suswa.mountain/
+Acked-by: Dan Williams <dan.j.williams@intel.com>
+Signed-off-by: Ally Heev <allyheev@gmail.com>
+---
+Testing:
+ran checkpatch.pl before and after the change on
+crypto/asymmetric_keys/x509_public_key.c, which has
+both initialized with NULL and uninitialized pointers
+---
+Changes in v3:
+- remove $FreeAttribute
+- Link to v2: https://lore.kernel.org/r/20251024-aheev-checkpatch-uninitialized-free-v2-0-16c0900e8130@gmail.com
 
-Applied, thanks.
+Changes in v2:
+- change cover letter and title to reflect new changes
+- fix regex to handle multiple declarations in a single line case
+- convert WARN to ERROR for uninitialized pointers
+- add a new WARN for pointers initialized with NULL
+- NOTE: tried handling multiple declarations on a single line by splitting
+        them and matching the parts with regex, but, it turned out to be
+	complex and overkill. Moreover, multi-line declarations pose a threat
+- Link to v1: https://lore.kernel.org/r/20251021-aheev-checkpatch-uninitialized-free-v1-1-18fb01bc6a7a@gmail.com
+---
+ Documentation/dev-tools/checkpatch.rst | 5 +++++
+ scripts/checkpatch.pl                  | 6 ++++++
+ 2 files changed, 11 insertions(+)
 
-jon
+diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+index d5c47e560324fb2399a5b1bc99c891ed1de10535..1a304bf38bcd27e50bbb7cd4383b07ac54d20b0a 100644
+--- a/Documentation/dev-tools/checkpatch.rst
++++ b/Documentation/dev-tools/checkpatch.rst
+@@ -1009,6 +1009,11 @@ Functions and Variables
+ 
+       return bar;
+ 
++  **UNINITIALIZED_PTR_WITH_FREE**
++    Pointers with __free attribute should be initialized. Not doing so
++    may lead to undefined behavior as the memory allocated (garbage,
++    in case not initialized) to the pointer is freed automatically
++    when the pointer goes out of scope.
+ 
+ Permissions
+ -----------
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 92669904eecc7a8d2afd3f2625528e02b6d17cd6..e697d81d71c0b3628f7b59807e8bc40d582621bb 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -7721,6 +7721,12 @@ sub process {
+ 				ERROR("MISSING_SENTINEL", "missing sentinel in ID array\n" . "$here\n$stat\n");
+ 			}
+ 		}
++
++# check for uninitialized pointers with __free attribute
++		while ($line =~ /\*\s*($Ident)\s+__free\s*\(\s*$Ident\s*\)\s*[,;]/g) {
++			ERROR("UNINITIALIZED_PTR_WITH_FREE",
++			      "pointer '$1' with __free attribute should be initialized\n" . $herecurr);
++		}
+ 	}
+ 
+ 	# If we have no input at all, then there is nothing to report on
+
+---
+base-commit: 6548d364a3e850326831799d7e3ea2d7bb97ba08
+change-id: 20251021-aheev-checkpatch-uninitialized-free-5c39f75e10a1
+
+Best regards,
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQQBFRpOLrIakF7DYvaWPaLUP9d7HAUCaPyCqQAKCRCWPaLUP9d7
+HMY1AP93A0fWIkV06Vcd8EHJy3w2G8hoinjDBpy5dZIXMMQFJgEA945Vs2tysbbR
+qVNPU2EM8cnDwRabEkET597he3AbpgM=
+=PL1b
+-----END PGP SIGNATURE-----
+-- 
+Ally Heev <allyheev@gmail.com>
+
