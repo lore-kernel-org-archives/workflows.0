@@ -1,67 +1,41 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7464E2F7471
-	for <workflows@vger.kernel.org>; Mon, 10 Nov 2025 23:17:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DBB4348453;
+	Tue, 11 Nov 2025 02:23:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762816631; cv=none; b=LeyN0gcc/4dgIcjwPyyOnhqzj+kXAZUqnGCifx9RXSZI0l9VdBh5CLy0mzkTGJtDSnZRnGS8oxrwRS9v8Q9tCl4OrGVImbhT3bzCmSu1Il/hVHx/5rubiTygUmgcgKc/ALTP+7xmlwOfytNvWEQa0z4i76g5oigrK7ODM5drzt0=
+	t=1762827826; cv=none; b=rcXQ94cQTXokxfOK0GLDhaPsWL75uAIHYXZS10XKeM0vXOVOHZQUCHZhV9vqCvQ7yYk/5lyoT9ekyqSHUHYwkjq8B4LLPppZyS+cEoYQ8XHs5a08emEeDdQgMPbq8e4zqwEwBQQqbthYhremNWYkGSW5Jv44sgAj7dI8ndEU8U4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762816631; c=relaxed/simple;
-	bh=bvOQVAW4xZu//+HiMJtkilK7EJbPJne5AV/st98p1Tc=;
+	s=arc-20240116; t=1762827826; c=relaxed/simple;
+	bh=qHpvkne1MfqljqcFgy1fzdxefwcfvIBuH7/eQGN1Dmg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QWT3e9V1foYOtKie0n7PBNDxBAP2ktFtcL4yt+o4NfPL8fc5POmAhKivrYomOcVcDUz4hQMH0FoS3V4mSclTNw3PQg9LmNNFht2jjOdd0QwwoyoEA1hXnaz49M4T6ggD038LkwJJ4hUKm3fOKiIYX8kSIx0TJONKXGEDGgkrA/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=ATeWa4Fq; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ts4fGMGYWWFet2UO1SOOu4asIxnT54HLRygc4wSkJIdNToKXO5eS4qwEz/r3/unscZ5mwZlioh2aeDG13gH2n1g/THoVKPkqkf4s4HLV3j6YCiuGETz96LUCESr7XfJHQ0zCo906O2P84JRH57PXBWwa82kggbbMQJDf6inLFZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TCykKKwn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="ATeWa4Fq"
-Received: from trampoline.thunk.org (pool-173-48-122-154.bstnma.fios.verizon.net [173.48.122.154])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 5AANGT4N030494
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 10 Nov 2025 18:16:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1762816594; bh=pz5MQEMeQZEfyQeXRoiXDtdCcCqVSnlw8NgqWs3tuxg=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=ATeWa4FqGLrAKrokLxXk6CjEuAJO1/g9AYh5xC3gtbjG3UPdLLdXHJkk2TCh8WiSK
-	 ovqALsp+PvnqZ4NcBjaLbyRUJx6g/7Nq0bn8WmZfkmocTaK6FDYxwcJJHLXDlCjGF4
-	 inYcHNG7dDJGZ1CTkJpyzCTr9tQt5adaZfFW58kXBekAAs6H3dDOP0Q+TPvKXUlg7L
-	 nopwhMBvjsOgUlCKMIafhovP2rAdHGbSSlaZFswiAJRspYXkHDCpH+0BY0vfTpAbw8
-	 EHaEckVN9VlVPMWs2l68ZqF9b+1rg2QbY0HkJmMk4iNijSZJIpW4hYVycje6zy1DYm
-	 GiBztfqiaSmig==
-Received: by trampoline.thunk.org (Postfix, from userid 15806)
-	id 8468A2E00D9; Mon, 10 Nov 2025 18:16:29 -0500 (EST)
-Date: Mon, 10 Nov 2025 18:16:29 -0500
-From: "Theodore Ts'o" <tytso@mit.edu>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Mike Rapoport <rppt@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Christian Brauner <brauner@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-kernel@vger.kernel.org,
-        "workflows@vger.kernel.org" <workflows@vger.kernel.org>,
-        "ksummit@lists.linux.dev" <ksummit@lists.linux.dev>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <kees@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Miguel Ojeda <ojeda@kernel.org>, Shuah Khan <shuah@kernel.org>
-Subject: Re: [PATCH] [v2] Documentation: Provide guidelines for
- tool-generated content
-Message-ID: <20251110231629.GI2988753@mit.edu>
-References: <20251105231514.3167738-1-dave.hansen@linux.intel.com>
- <653b4187-ec4f-4f5d-ae76-d37f46070cb4@suse.cz>
- <20251110-weiht-etablieren-39e7b63ef76d@brauner>
- <20251110172507.GA21641@pendragon.ideasonboard.com>
- <CAHk-=wgEPve=BO=SOmgEOd4kv76bSbm0jWFzRzcs4Y7EedpgfA@mail.gmail.com>
- <aRIxYkjX7EzalSoI@kernel.org>
- <CAHk-=wir-u3so=9NiFgG+bWfZHakc47iNy9vZXmSNWSZ+=Ue8g@mail.gmail.com>
- <A274AB1C-8B6B-4004-A2BC-D540260A5771@zytor.com>
- <CAHk-=whczwG=+-sAzoWoTY_VOwdFH3b5AkvQbgh+z98=p1iaXA@mail.gmail.com>
- <20251110145405.5bc87cc5@gandalf.local.home>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TCykKKwn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B7DCC113D0;
+	Tue, 11 Nov 2025 02:23:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762827825;
+	bh=qHpvkne1MfqljqcFgy1fzdxefwcfvIBuH7/eQGN1Dmg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TCykKKwnaPWeBc9cqhdzJlMO1NrWxpDdlk/BJw6E1i09n/B9z0o1TbmaWdAundDul
+	 3SRVsH8yyQDoWNFmRau7QWgA1ImLTBO4kEy+eFD8eNunlWbLhLAZIU/o9qTQn3CxmW
+	 AHHxrwUzb0W7lMQ4d8sLqizfvYNX6JhW+7FqUPBGezlFGQclBO8BFwZslgKu/q+UoJ
+	 nI60MDPhU8+iDX8vQ7dl+eqzL3xfHiG393xpwlutp5n4iP/+ONiDMYHs6v6ITkmuSy
+	 dwnQ+XyeO8xTExrAYKlPkcKyoIN6Riz91lAXScfhCPde8qeEqWsnahJmT26HLR5NMR
+	 97ykEKq6NkPjA==
+Date: Tue, 11 Nov 2025 04:23:41 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, rostedt@goodmis.org, kees@kernel.org,
+	konstantin@linuxfoundation.org, corbet@lwn.net,
+	josh@joshtriplett.org
+Subject: Re: [RFC 0/2] Add AI coding assistant configuration to Linux kernel
+Message-ID: <aRKeLRx2NeozFUrc@kernel.org>
+References: <20250725175358.1989323-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -70,39 +44,34 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251110145405.5bc87cc5@gandalf.local.home>
+In-Reply-To: <20250725175358.1989323-1-sashal@kernel.org>
 
-On Mon, Nov 10, 2025 at 02:54:05PM -0500, Steven Rostedt wrote:
-> Probably no difference. I would guess the real liability is for those that
-> use AI to submit patches. With the usual disclaimers of IANAL, I'm assuming
-> that when you place your "Signed-off-by", you are stating that you have the
-> right to submit this code. If it comes down that you did not have the right
-> to submit the code, the original submitter is liable.
-> 
-> I guess the question also is, is the maintainer that took that patch and
-> added their SoB also liable?
+On Fri, Jul 25, 2025 at 01:53:56PM -0400, Sasha Levin wrote:
+> This patch series adds unified configuration and documentation for AI
+> coding assistants working with the Linux kernel codebase. As AI tools
+> become increasingly common in software development, it's important to
+> establish clear guidelines for their use in kernel development.
 
-ObDisclaimer: Although I have take one or two law classes at the MIT
-Sloan School (e.g., "Law for the I/T Manager"), I am not a lawyer, and
-more importantly, I am not *your* lawyer.  So this is not legal
-advice. 
+I sometimes use tools like sed (just to name one) to generate a patch
+plus edits. I don't think we need contribution guidelines for sed, do
+we? Equally we don't need contribution guidelines for AIs because:
 
-Maintainers are always assuming that code that has a Signed-Off-By is
-code that the submitter has a right to submit.  This is true before
-AI, and it will be true today, after the advent of AI.  If I receive a
-patch from someone who works for Google, or Microoft, or Amazon, how
-do I know that they haven't cut and pasted code from their compan's
-internal proprieatry code base?  I don't.  I rely on the Signed-off-by
-and the good faith of the code submitter, and if someone sends me code
-that they aren't authorized, it is my personal belief that I wouldn't be
-liable; only the submitter.
+1. AI is not a person.
+2. AI has no resposibility.
+3. AI has no needs.
 
-What is true for code written by human (who might or might not have
-cut and pasted from their internal code search), it should just be as
-true for AI-generated code.
+Basic computer science beholds to truth that for any problem there is
+infinite amount of computer programs to solve it. This makes any problem
+we have a moving target constrained by various corner cases, people and
+many other things.
 
-In fact, from a strict legal liability perspective, I'd be happier not
-knowing whether or not a particlar patch had some kind of LLM
-involved.  What I don't know, I can't *possibly* be held liable.
+If you want to use AI to generate code, it's obviously fine. I don't
+mind and I don't care, and I don't see anything wrong in that.
 
-						- Ted
+But that is million miles away from being enough to be called as done.
+Generation is about getting up on speed, and in the best case scenario
+to the ballpark.
+
+Please, let's keep this out of the kernel tree seriously.
+
+BR, Jarkko
