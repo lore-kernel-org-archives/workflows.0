@@ -1,146 +1,200 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60196328247
-	for <workflows@vger.kernel.org>; Tue, 11 Nov 2025 13:09:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7152253A1
+	for <workflows@vger.kernel.org>; Wed, 12 Nov 2025 02:14:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762866566; cv=none; b=pL4p1c6fD6lGANymdb1uexUY52UbpHRFd79L04evcm6gEmBAlaoh2eZUCY6yWe6ZH9KM9+tV7yqFD/fvi8rG1mtZP4dwwmMxb6ogGYBsHoNKBykTqQQVAnY6A6y9WrhuE4nK3T/Q8mbFgYjaa+SR0s54grE113TYgu84E3IqJEI=
+	t=1762913676; cv=none; b=NGjevUM2ehqACgk8lztr8/DrUyjORvg4hqTAflz0/d8LDeaa3u5x3/Pr/BgvIYC7WHL4WJbctUN6EzS8fVpv9lg3j4lcXQFTmOCQXLbAKidOQUCSr/+yeeEhEpWTwjiGX37gQpj72x6UVYkvg8U2Rsgll49fK4z5QCDUI1+0lIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762866566; c=relaxed/simple;
-	bh=P8QSnF9cHhQkGs1VCcaMb6B4xrloT45QP+6e1bZT/v0=;
+	s=arc-20240116; t=1762913676; c=relaxed/simple;
+	bh=xwFVvgtw9uBd2ORKsLl6UhYsiyXLrRfI/zUbkQg0RWk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dI2rRqy6hwa4y2ExyDBvSCDUf5ZwdnBL6GT//zIE5L96kgRsVOU9hUcz02BwmAVI25o89DMUcYP57eJriHVXsm73c91UNoCcMSDdSI+AjvzviALU8EvzpRq4nV9VidAoPxY+K3oA5LN9xvcVIXdSJ1B+J0UA0tqBKIWyvcvOAn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=R20VSPiA; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	 Content-Type:Content-Disposition:In-Reply-To; b=M/Lp7zUJlLazX3LLYMW+JWfpGPd+a90tcdISKQ+l2vo7DHWeoWytXQalOFkERpw/i+xpH72oIfTjVe/YSNcxrHEJXpaG4caO+STC/gUB79B1eVTdexRE0hdn2C3Usqmz7Xi9QtfQHFCt0iBOclAwtlVwL2xc4B/n2I3avmH2gnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fuauiSLE; arc=none smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="R20VSPiA"
-Received: from trampoline.thunk.org (pool-173-48-122-154.bstnma.fios.verizon.net [173.48.122.154])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 5ABD89u3016803
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 11 Nov 2025 08:08:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1762866494; bh=jQdDg8n/Au5TS/d1fg4OZe2j+2EezOUxUqKVSpu6yGU=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=R20VSPiA7ksYyAalbxHzN76ne8XkfasqZtrg2KEBVCso6Kyw6mUxAxpyG4bKeez6D
-	 DTD3/48BIq3sMdWHnfQZa+JIY6CiHUwYGWImaacVNuD+YvfrXRXDzUi9kAHNZ6oLaG
-	 AQx95In+MWzIwHwL/asnj+in0G3XRRJvjRy7RguiDCcB8cNixaImz99NnWK+CCoe5y
-	 tvZTOOf+UuYoFYAzSwxpkBTB+O9UT8FYbggKRj0IH6Ujiwq2yBr29HinlUElfIUejn
-	 HJ4UO2lSLayz99mJ0niPjd48xpgSYikz4UySLeSK3j1FH6QkQHKqLST17BzhT3pd+I
-	 w5uM7jwCF0xRw==
-Received: by trampoline.thunk.org (Postfix, from userid 15806)
-	id A302C2E00D9; Tue, 11 Nov 2025 08:08:09 -0500 (EST)
-Date: Tue, 11 Nov 2025 08:08:09 -0500
-From: "Theodore Ts'o" <tytso@mit.edu>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Mike Rapoport <rppt@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Christian Brauner <brauner@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-kernel@vger.kernel.org,
-        "workflows@vger.kernel.org" <workflows@vger.kernel.org>,
-        "ksummit@lists.linux.dev" <ksummit@lists.linux.dev>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <kees@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Miguel Ojeda <ojeda@kernel.org>, Shuah Khan <shuah@kernel.org>
-Subject: Re: [PATCH] [v2] Documentation: Provide guidelines for
- tool-generated content
-Message-ID: <20251111130809.GB3131573@mit.edu>
-References: <20251105231514.3167738-1-dave.hansen@linux.intel.com>
- <653b4187-ec4f-4f5d-ae76-d37f46070cb4@suse.cz>
- <20251110-weiht-etablieren-39e7b63ef76d@brauner>
- <20251110172507.GA21641@pendragon.ideasonboard.com>
- <CAHk-=wgEPve=BO=SOmgEOd4kv76bSbm0jWFzRzcs4Y7EedpgfA@mail.gmail.com>
- <aRIxYkjX7EzalSoI@kernel.org>
- <CAHk-=wir-u3so=9NiFgG+bWfZHakc47iNy9vZXmSNWSZ+=Ue8g@mail.gmail.com>
- <A274AB1C-8B6B-4004-A2BC-D540260A5771@zytor.com>
- <CAHk-=whczwG=+-sAzoWoTY_VOwdFH3b5AkvQbgh+z98=p1iaXA@mail.gmail.com>
- <8bc25747-fcf0-4e45-b10a-566c5cfe771a@lucifer.local>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fuauiSLE"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-34381ec9197so376824a91.1
+        for <workflows@vger.kernel.org>; Tue, 11 Nov 2025 18:14:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762913674; x=1763518474; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=lVQBcx6xFjlJyhg8EGvnzlqkKD9tleq1IsOwgdEnnOg=;
+        b=fuauiSLEBn9GiFcz5fEHg//fVQUy7nVf9NOyhSGqdw78w0KZF7cXP23cqhWiWVs2IH
+         1M7qQ8Q8T0l758X2shuAsdXj7hHQ2xbwdsr7Rikwu0cEAPJQU+ku9XyT86rA/2U8JqAW
+         6sS/u+ePsgpCAZS5Z8lbkgAwyfxIaXOKE6egbPGrWjzZbOcZdnKTR+nC9fcc2UwNdVs4
+         m2jzFR9MPNnWRXsT9+ijW44d5VH7NfM9awbEWhyL6r/NFuJBFLvUnRcw7bMLOSxTwaEF
+         rLDu9Ld+y6vZSR5p38zvNUqiNs3vSQlasopGQVnq/AVn7AFRXoFzszxPTXaGj5hipLuN
+         VwGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762913674; x=1763518474;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lVQBcx6xFjlJyhg8EGvnzlqkKD9tleq1IsOwgdEnnOg=;
+        b=tpQFxoeA+rTN00s5OTFWjiXtxy+4s+qvx9Bie4mQ9EhWD+6ncSDJtuI9g+55pWNI49
+         ymTwFGNgdlSSiXjRbBuG8s3ea5RXDpKi/fUd7u1LKUriJsR6XdqCIgVw/tojcWrPsaet
+         CajPhv9mBRsm5tV9A3mabx233zIyBmH21dSBc7rM4+VE7YmbY9I13pRbTLnYbhfi3QMM
+         FI5S3GBqxp2mbHoQPxO1dcM1QA9eho7HBE511nBbm1vgRGqV+Flj4VqmK6TirEkfDp4X
+         Skzt4YHqyz5WqPvRGBiLybdf9hAWMs3fkwHzbJ+Uvpg2g3LineaDj3FpVI4c8GdqagJQ
+         Tc4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXHSMMkE0su5LyDFFuxRVWFeLHh/YnTS02gzHLzw1663u6wRwUJ5AEQZx7uaZab9NYKerpoHT0zbUQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzSZMWsxMF2F2iZefNxjCB86gxjy2VTzndxVt5Iks8LHwRkluXI
+	iA39tbzHW5OjPd6f9dLpLKkpx6HD6PaxAoZVyM9T4UHyPqPsd24mX/6S
+X-Gm-Gg: ASbGncuBUl9Wu9l+00JW8L9GJ0pbZ57Y4tVIYLcPKhX9jQTSQ0e8NvSLptxiRyUxa7K
+	RKyYUvpFr76hpqcU6P11Gu5ytnVUaKGsk86HQFLgNWDIPxTTrvw3ZIOQD9TttkARL5CI5I9m1Wa
+	n3cqGvj9vD+LSoksZB4x2pGJN53Qn/pQhz5lu9C0z+CKH9g9N1st76wPrfuxLm1vW1Dj0lbvPtI
+	b9ud+CZV5gARyEuG22R9Dq2MkUH/d8Ah4g8KQdQ43ubDpo16J01PhAB13sMdpwvApsbK2W2QR5L
+	03TyK2m+4MsyuDclCsoKpb6/TRfHUH9K3foSo83VmPYCwc/LiCBlZC0PLF++usJXz3kNT9UFK4g
+	W9YnSIPA5B85KGiUhIoXgKxkaaSQKS/PEbgUaA+7PnfAXpOD+hoB33VysFuxeMqN6Q3V85CX/Yb
+	QKA1IMJSZ1jQQ=
+X-Google-Smtp-Source: AGHT+IFqj6mSlRUdzokZ1Fx9dnl2ksqvuqBqsXipooXRvbblexf8W6duI6LZnIuMeBzrfzf2MAr1ZQ==
+X-Received: by 2002:a17:90b:1b0c:b0:340:a5b2:c30b with SMTP id 98e67ed59e1d1-343dddf6caemr2117777a91.9.1762913673519;
+        Tue, 11 Nov 2025 18:14:33 -0800 (PST)
+Received: from localhost ([45.8.220.62])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-343e0714267sm559591a91.6.2025.11.11.18.14.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Nov 2025 18:14:32 -0800 (PST)
+Date: Wed, 12 Nov 2025 10:14:29 +0800
+From: Jinchao Wang <wangjinchao600@gmail.com>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Marco Elver <elver@google.com>, Mike Rapoport <rppt@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Ben Segall <bsegall@google.com>, Bill Wendling <morbo@google.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Hildenbrand <david@redhat.com>,
+	David Kaplan <david.kaplan@amd.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Ian Rogers <irogers@google.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	James Clark <james.clark@linaro.org>,
+	Jinjie Ruan <ruanjinjie@huawei.com>, Jiri Olsa <jolsa@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Justin Stitt <justinstitt@google.com>, kasan-dev@googlegroups.com,
+	Kees Cook <kees@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Liang Kan <kan.liang@linux.intel.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-perf-users@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, llvm@lists.linux.dev,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@suse.com>,
+	Miguel Ojeda <ojeda@kernel.org>, Nam Cao <namcao@linutronix.de>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Naveen N Rao <naveen@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Rong Xu <xur@google.com>, Sami Tolvanen <samitolvanen@google.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>,
+	workflows@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH v8 00/27] mm/ksw: Introduce KStackWatch debugging tool
+Message-ID: <aRLmGxKVvfl5N792@ndev>
+References: <20251110163634.3686676-1-wangjinchao600@gmail.com>
+ <aRIh4pBs7KCDhQOp@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <8bc25747-fcf0-4e45-b10a-566c5cfe771a@lucifer.local>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aRIh4pBs7KCDhQOp@casper.infradead.org>
 
-On Tue, Nov 11, 2025 at 09:35:18AM +0000, Lorenzo Stoakes wrote:
+On Mon, Nov 10, 2025 at 05:33:22PM +0000, Matthew Wilcox wrote:
+> On Tue, Nov 11, 2025 at 12:35:55AM +0800, Jinchao Wang wrote:
+> > Earlier this year, I debugged a stack corruption panic that revealed the
+> > limitations of existing debugging tools. The bug persisted for 739 days
+> > before being fixed (CVE-2025-22036), and my reproduction scenario
+> > differed from the CVE report—highlighting how unpredictably these bugs
+> > manifest.
 > 
-> Now 'any idiot' can fire off hundreds of patches that look at a glance as
-> if they might have some validiity.
+> Well, this demonstrates the dangers of keeping this problem siloed
+> within your own exfat group.  The fix made in 1bb7ff4204b6 is wrong!
+> It was fixed properly in 7375f22495e7 which lists its Fixes: as
+> Linux-2.6.12-rc2, but that's simply the beginning of git history.
+> It's actually been there since v2.4.6.4 where it's documented as simply:
 > 
-> The asymmetry of this is VERY concerning.
+>       - some subtle fs/buffer.c race conditions (Andrew Morton, me)
 > 
-> I also hate that we have to think about it, but the second the press put
-> out 'the kernel accepts AI patches now!' - and trust me THEY WILL - we are
-> likely to see an influx like this that maintainers will have to deal with.
+> As far as I can tell the changes made in 1bb7ff4204b6 should be
+> reverted.
 
-Yeah, that's an argument for not requiring any kind of AI tagging.
-One of my concerns is that there's no guarantee that people flooding
-the kernel with AI slop won't disclose that they used an LLM.
+Thank you for the correction and the detailed history. I wasn't aware this
+dated back to v2.4.6.4. I'm not part of the exfat group; I simply
+encountered a bug that 1bb7ff4204b6 happened to resolve in my scenario.
+The timeline actually illustrates the exact problem KStackWatch addresses:
+a bug introduced in 2001, partially addressed in 2025, then properly fixed
+months later. The 24-year gap suggests these silent stack corruptions are
+extremely difficult to locate.
 
-> 1. Maintains MUST have the ability to JUST SAY NO, go away _en-masse_ to
->    regain symmetry on this.
-
-Maintainers do have this already.  There are certain people who are
-known to be sending low priority patches, and people just quietly
-ignore those patches.
-
-The risk of AI slop is that this will just happen a *lot* more often,
-which means that patches from known high quality controllers will get
-far more attention than patches from newer contributors --- because we
-won't know whether it's a new contributor who is coming up to speed,
-or someone who is sending AI slop.  So the more AI slop we get, the
-more this dynamic will accelerate, to the point where people who
-accuse us of having an old "boys/girls" club will become true, and
-people will accuse us of not being welcoming to new contributors.
-
-There *will* be a solution to the symmetry; so I wouldn't consider it
-"unworkable".  It's just that we (and especially newcomers) might not
-like the solution that naturally comes out of it.  As you put it,
-"throw out the baby with the bath water"; the system will survive, but
-it might suck to be the baby.
-
-> 2. Those who submit patches MUST UNDERSTAND EVERY PART OF IT.
 > 
-> 'that which can be proposed without understanding can be dismissed without
-> understanding'.
-
-Yeah, it might be that all we can do is to say that people who use
-LLM's without understanding all parts of it, my result in their
-blackening their reputation, wiht the result that *all* their patches
-might get ignored.
-
-And we can warn that if a company has many of its employees sending
-lower quality contributions, maintainers might decide to address the
-denial of service attack by ignoring *all* patches from a particular
-company / domain.  We've done this before, with the University of
-Minnesota, due to gross abuse leading to lack of trust of the
-institution.
-
-Hopefully things won't come to that, but maybe explicitly warning
-people that *is* a possibility might be useful as a deterrent factor.
-
-And I think it's important to say that it's low quality contributions
-from AI is no different from any other kind of low quality
-contributions.  And just as judges in courts of law have sanctioned
-lawyers for submitting legal briefs that contained completely
-hallucinated court cases, there will be costs to sending cr*p no
-matter what the source.
-
-> I think as long as we UNDERLINE these points I think we're good.
+> > Initially, I enabled KASAN, but the bug did not reproduce. Reviewing the
+> > code in __blk_flush_plug(), I found it difficult to trace all logic
+> > paths due to indirect function calls through function pointers.
 > 
-> TL;DR: we won't take slop.
+> So why is the solution here not simply to fix KASAN instead of this
+> giant patch series?
 
-Agreed, completely.
+KASAN caught 7375f22495e7 because put_bh() accessed bh->b_count after
+wait_on_buffer() of another thread returned—the stack was invalid.
+In 1bb7ff4204b6 and my case, corruption occurred before the victim
+function of another thread returned. The stack remained valid to KASAN,
+so no warning triggered. This is timing-dependent, not a KASAN deficiency.
 
-						- Ted
+Making KASAN treat parts of active stack frame as invalid would be
+complex and add significant overhead, likely worsening the reproduction
+prevention issue. KASAN's overhead already prevented reproduction in my
+environment.
+
+KStackWatch takes a different approach: it watches stack frame regardless
+of whether KASAN considers them valid or invalid, with much less overhead
+thereby preserving reproduction scenarios.
+
+The value proposition:
+Finding where corruption occurs is the bottleneck. Once located,
+subsystem experts can analyze the root cause. Without that location, even
+experts are stuck.
+
+If KStackWatch had existed earlier, this 24-year-old bug might have been
+found sooner when someone hit a similar corruption. The same applies to
+other stack corruption bugs.
+
+I'd appreciate your thoughts on whether this addresses your concerns.
+
+Best regards,
+Jinchao
