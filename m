@@ -1,129 +1,47 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7152253A1
-	for <workflows@vger.kernel.org>; Wed, 12 Nov 2025 02:14:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 359C727F163;
+	Wed, 12 Nov 2025 20:36:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762913676; cv=none; b=NGjevUM2ehqACgk8lztr8/DrUyjORvg4hqTAflz0/d8LDeaa3u5x3/Pr/BgvIYC7WHL4WJbctUN6EzS8fVpv9lg3j4lcXQFTmOCQXLbAKidOQUCSr/+yeeEhEpWTwjiGX37gQpj72x6UVYkvg8U2Rsgll49fK4z5QCDUI1+0lIc=
+	t=1762979800; cv=none; b=UsvSKMkWtDz0BCMCHg2CHPrvUL7fn0iNitZ84HymclJOUlBiMHJuzZB3h7l58HX8JiBTWX+t2KgY9cDxZUl0/wfrMoUE1wAx6nJ1VYAxwxQ5gquZ412gHpaKGqe34pjNltaKh2fruzsEjrci5RvncvKKE65LAm6BcIoQTB/+w5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762913676; c=relaxed/simple;
-	bh=xwFVvgtw9uBd2ORKsLl6UhYsiyXLrRfI/zUbkQg0RWk=;
+	s=arc-20240116; t=1762979800; c=relaxed/simple;
+	bh=OzkJp3iyLCFp854XG9Kfo3VPKCTB6+38vEjgcKha5Go=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M/Lp7zUJlLazX3LLYMW+JWfpGPd+a90tcdISKQ+l2vo7DHWeoWytXQalOFkERpw/i+xpH72oIfTjVe/YSNcxrHEJXpaG4caO+STC/gUB79B1eVTdexRE0hdn2C3Usqmz7Xi9QtfQHFCt0iBOclAwtlVwL2xc4B/n2I3avmH2gnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fuauiSLE; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=dPVZtVKuUWVhtYDVpiUgpfnUFzOqrVCy0Fg6tJWQsAuji0B6fOXz59FD3E/DPR9t7aEnuIzpf51MoM+aUnvkO8ocOuu25Wfv3DcsbJKvVQaKOEotgraEZQtTiWDAEocp1k0GYrnnjL1vMElQciCQM++xY6czuMXn7OXb22DApHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=kp57rjur; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fuauiSLE"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-34381ec9197so376824a91.1
-        for <workflows@vger.kernel.org>; Tue, 11 Nov 2025 18:14:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762913674; x=1763518474; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=lVQBcx6xFjlJyhg8EGvnzlqkKD9tleq1IsOwgdEnnOg=;
-        b=fuauiSLEBn9GiFcz5fEHg//fVQUy7nVf9NOyhSGqdw78w0KZF7cXP23cqhWiWVs2IH
-         1M7qQ8Q8T0l758X2shuAsdXj7hHQ2xbwdsr7Rikwu0cEAPJQU+ku9XyT86rA/2U8JqAW
-         6sS/u+ePsgpCAZS5Z8lbkgAwyfxIaXOKE6egbPGrWjzZbOcZdnKTR+nC9fcc2UwNdVs4
-         m2jzFR9MPNnWRXsT9+ijW44d5VH7NfM9awbEWhyL6r/NFuJBFLvUnRcw7bMLOSxTwaEF
-         rLDu9Ld+y6vZSR5p38zvNUqiNs3vSQlasopGQVnq/AVn7AFRXoFzszxPTXaGj5hipLuN
-         VwGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762913674; x=1763518474;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lVQBcx6xFjlJyhg8EGvnzlqkKD9tleq1IsOwgdEnnOg=;
-        b=tpQFxoeA+rTN00s5OTFWjiXtxy+4s+qvx9Bie4mQ9EhWD+6ncSDJtuI9g+55pWNI49
-         ymTwFGNgdlSSiXjRbBuG8s3ea5RXDpKi/fUd7u1LKUriJsR6XdqCIgVw/tojcWrPsaet
-         CajPhv9mBRsm5tV9A3mabx233zIyBmH21dSBc7rM4+VE7YmbY9I13pRbTLnYbhfi3QMM
-         FI5S3GBqxp2mbHoQPxO1dcM1QA9eho7HBE511nBbm1vgRGqV+Flj4VqmK6TirEkfDp4X
-         Skzt4YHqyz5WqPvRGBiLybdf9hAWMs3fkwHzbJ+Uvpg2g3LineaDj3FpVI4c8GdqagJQ
-         Tc4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXHSMMkE0su5LyDFFuxRVWFeLHh/YnTS02gzHLzw1663u6wRwUJ5AEQZx7uaZab9NYKerpoHT0zbUQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzSZMWsxMF2F2iZefNxjCB86gxjy2VTzndxVt5Iks8LHwRkluXI
-	iA39tbzHW5OjPd6f9dLpLKkpx6HD6PaxAoZVyM9T4UHyPqPsd24mX/6S
-X-Gm-Gg: ASbGncuBUl9Wu9l+00JW8L9GJ0pbZ57Y4tVIYLcPKhX9jQTSQ0e8NvSLptxiRyUxa7K
-	RKyYUvpFr76hpqcU6P11Gu5ytnVUaKGsk86HQFLgNWDIPxTTrvw3ZIOQD9TttkARL5CI5I9m1Wa
-	n3cqGvj9vD+LSoksZB4x2pGJN53Qn/pQhz5lu9C0z+CKH9g9N1st76wPrfuxLm1vW1Dj0lbvPtI
-	b9ud+CZV5gARyEuG22R9Dq2MkUH/d8Ah4g8KQdQ43ubDpo16J01PhAB13sMdpwvApsbK2W2QR5L
-	03TyK2m+4MsyuDclCsoKpb6/TRfHUH9K3foSo83VmPYCwc/LiCBlZC0PLF++usJXz3kNT9UFK4g
-	W9YnSIPA5B85KGiUhIoXgKxkaaSQKS/PEbgUaA+7PnfAXpOD+hoB33VysFuxeMqN6Q3V85CX/Yb
-	QKA1IMJSZ1jQQ=
-X-Google-Smtp-Source: AGHT+IFqj6mSlRUdzokZ1Fx9dnl2ksqvuqBqsXipooXRvbblexf8W6duI6LZnIuMeBzrfzf2MAr1ZQ==
-X-Received: by 2002:a17:90b:1b0c:b0:340:a5b2:c30b with SMTP id 98e67ed59e1d1-343dddf6caemr2117777a91.9.1762913673519;
-        Tue, 11 Nov 2025 18:14:33 -0800 (PST)
-Received: from localhost ([45.8.220.62])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-343e0714267sm559591a91.6.2025.11.11.18.14.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Nov 2025 18:14:32 -0800 (PST)
-Date: Wed, 12 Nov 2025 10:14:29 +0800
-From: Jinchao Wang <wangjinchao600@gmail.com>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Marco Elver <elver@google.com>, Mike Rapoport <rppt@kernel.org>,
-	Alexander Potapenko <glider@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Ben Segall <bsegall@google.com>, Bill Wendling <morbo@google.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Hildenbrand <david@redhat.com>,
-	David Kaplan <david.kaplan@amd.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, Ian Rogers <irogers@google.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	James Clark <james.clark@linaro.org>,
-	Jinjie Ruan <ruanjinjie@huawei.com>, Jiri Olsa <jolsa@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Justin Stitt <justinstitt@google.com>, kasan-dev@googlegroups.com,
-	Kees Cook <kees@kernel.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Liang Kan <kan.liang@linux.intel.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-perf-users@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kp57rjur"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=s9o8NRvJdzTieC05I6sj+VphdIDRCWgXCmaEd+EQUzE=; b=kp57rjurHJAHd7F+xCvQZd2no/
+	zldsm/PODHXAoZPRO03KjAvh+i6TFvDrouKIddaHozeoKX6h2p6XnR40qvkW2IfcfJjSqtjOOASHE
+	pcLUkbSjzs9jrpSZ1b8HCTaxH2HZB+iIqy3JOelzm0XwDoUm+rsEL547/n1nbkk1Zdvdon9bDW7m/
+	fbDrR+VT28Mw+bAffi2/e9rYJYquUsYKCdFL34XhsCio+W3x5wyTN9hfghxd3d7PyPKLuC/rsdqJN
+	omr01SQUfqZXqu1vGLmq3jMm7SSbX5suEPyADu3Kw4ySsNlAUtR/0apBO+uhzbLc6bklHuhuBZo+/
+	5LaH1Fjg==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vJHZx-00000006TTz-1U22;
+	Wed, 12 Nov 2025 20:36:33 +0000
+Date: Wed, 12 Nov 2025 20:36:33 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Jinchao Wang <wangjinchao600@gmail.com>
+Cc: kasan-dev@googlegroups.com, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-perf-users@vger.kernel.org,
 	linux-trace-kernel@vger.kernel.org, llvm@lists.linux.dev,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@suse.com>,
-	Miguel Ojeda <ojeda@kernel.org>, Nam Cao <namcao@linutronix.de>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Naveen N Rao <naveen@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Rong Xu <xur@google.com>, Sami Tolvanen <samitolvanen@google.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>,
 	workflows@vger.kernel.org, x86@kernel.org
 Subject: Re: [PATCH v8 00/27] mm/ksw: Introduce KStackWatch debugging tool
-Message-ID: <aRLmGxKVvfl5N792@ndev>
+Message-ID: <aRTv0eHfX0j8vJOW@casper.infradead.org>
 References: <20251110163634.3686676-1-wangjinchao600@gmail.com>
  <aRIh4pBs7KCDhQOp@casper.infradead.org>
+ <aRLmGxKVvfl5N792@ndev>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -133,68 +51,93 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aRIh4pBs7KCDhQOp@casper.infradead.org>
+In-Reply-To: <aRLmGxKVvfl5N792@ndev>
 
-On Mon, Nov 10, 2025 at 05:33:22PM +0000, Matthew Wilcox wrote:
-> On Tue, Nov 11, 2025 at 12:35:55AM +0800, Jinchao Wang wrote:
-> > Earlier this year, I debugged a stack corruption panic that revealed the
-> > limitations of existing debugging tools. The bug persisted for 739 days
-> > before being fixed (CVE-2025-22036), and my reproduction scenario
-> > differed from the CVE report—highlighting how unpredictably these bugs
-> > manifest.
+[dropping all the individual email addresses; leaving only the
+mailing lists]
+
+On Wed, Nov 12, 2025 at 10:14:29AM +0800, Jinchao Wang wrote:
+> On Mon, Nov 10, 2025 at 05:33:22PM +0000, Matthew Wilcox wrote:
+> > On Tue, Nov 11, 2025 at 12:35:55AM +0800, Jinchao Wang wrote:
+> > > Earlier this year, I debugged a stack corruption panic that revealed the
+> > > limitations of existing debugging tools. The bug persisted for 739 days
+> > > before being fixed (CVE-2025-22036), and my reproduction scenario
+> > > differed from the CVE report—highlighting how unpredictably these bugs
+> > > manifest.
+> > 
+> > Well, this demonstrates the dangers of keeping this problem siloed
+> > within your own exfat group.  The fix made in 1bb7ff4204b6 is wrong!
+> > It was fixed properly in 7375f22495e7 which lists its Fixes: as
+> > Linux-2.6.12-rc2, but that's simply the beginning of git history.
+> > It's actually been there since v2.4.6.4 where it's documented as simply:
+> > 
+> >       - some subtle fs/buffer.c race conditions (Andrew Morton, me)
+> > 
+> > As far as I can tell the changes made in 1bb7ff4204b6 should be
+> > reverted.
 > 
-> Well, this demonstrates the dangers of keeping this problem siloed
-> within your own exfat group.  The fix made in 1bb7ff4204b6 is wrong!
-> It was fixed properly in 7375f22495e7 which lists its Fixes: as
-> Linux-2.6.12-rc2, but that's simply the beginning of git history.
-> It's actually been there since v2.4.6.4 where it's documented as simply:
+> Thank you for the correction and the detailed history. I wasn't aware this
+> dated back to v2.4.6.4. I'm not part of the exfat group; I simply
+> encountered a bug that 1bb7ff4204b6 happened to resolve in my scenario.
+> The timeline actually illustrates the exact problem KStackWatch addresses:
+> a bug introduced in 2001, partially addressed in 2025, then properly fixed
+> months later. The 24-year gap suggests these silent stack corruptions are
+> extremely difficult to locate.
+
+I think that's a misdiagnosis caused by not understanding the limited
+circumstances in which the problem occurs.  To hit this problem, you
+have to have a buffer_head allocated on the stack.  That doesn't happen
+in many places:
+
+fs/buffer.c:    struct buffer_head tmp = {
+fs/direct-io.c: struct buffer_head map_bh = { 0, };
+fs/ext2/super.c:        struct buffer_head tmp_bh;
+fs/ext2/super.c:        struct buffer_head tmp_bh;
+fs/ext4/mballoc-test.c: struct buffer_head bitmap_bh;
+fs/ext4/mballoc-test.c: struct buffer_head gd_bh;
+fs/gfs2/bmap.c: struct buffer_head bh;
+fs/gfs2/bmap.c: struct buffer_head bh;
+fs/isofs/inode.c:       struct buffer_head dummy;
+fs/jfs/super.c: struct buffer_head tmp_bh;
+fs/jfs/super.c: struct buffer_head tmp_bh;
+fs/mpage.c:     struct buffer_head map_bh;
+fs/mpage.c:     struct buffer_head map_bh;
+
+It's far more common for buffer_heads to be allocated from slab and
+attached to folios.  The other necessary condition to hit this problem
+is that get_block() has to actually read the data from disk.  That's
+not normal either!  Most filesystems just fill in the metadata about
+the block and defer the actual read to when the data is wanted.  That's
+the high-performance way to do it.
+
+So our opportunity to catch this bug was highly limited by the fact that
+we just don't run the codepaths that would allow it to trigger.
+
+> > > Initially, I enabled KASAN, but the bug did not reproduce. Reviewing the
+> > > code in __blk_flush_plug(), I found it difficult to trace all logic
+> > > paths due to indirect function calls through function pointers.
+> > 
+> > So why is the solution here not simply to fix KASAN instead of this
+> > giant patch series?
 > 
->       - some subtle fs/buffer.c race conditions (Andrew Morton, me)
-> 
-> As far as I can tell the changes made in 1bb7ff4204b6 should be
-> reverted.
+> KASAN caught 7375f22495e7 because put_bh() accessed bh->b_count after
+> wait_on_buffer() of another thread returned—the stack was invalid.
+> In 1bb7ff4204b6 and my case, corruption occurred before the victim
+> function of another thread returned. The stack remained valid to KASAN,
+> so no warning triggered. This is timing-dependent, not a KASAN deficiency.
 
-Thank you for the correction and the detailed history. I wasn't aware this
-dated back to v2.4.6.4. I'm not part of the exfat group; I simply
-encountered a bug that 1bb7ff4204b6 happened to resolve in my scenario.
-The timeline actually illustrates the exact problem KStackWatch addresses:
-a bug introduced in 2001, partially addressed in 2025, then properly fixed
-months later. The 24-year gap suggests these silent stack corruptions are
-extremely difficult to locate.
+I agree that it's a narrow race window, but nevertheless KASAN did catch
+it with ntfs and not with exfat.  The KASAN documentation states that
+it can catch this kind of bug:
 
-> 
-> > Initially, I enabled KASAN, but the bug did not reproduce. Reviewing the
-> > code in __blk_flush_plug(), I found it difficult to trace all logic
-> > paths due to indirect function calls through function pointers.
-> 
-> So why is the solution here not simply to fix KASAN instead of this
-> giant patch series?
+Generic KASAN supports finding bugs in all of slab, page_alloc, vmap, vmalloc,
+stack, and global memory.
 
-KASAN caught 7375f22495e7 because put_bh() accessed bh->b_count after
-wait_on_buffer() of another thread returned—the stack was invalid.
-In 1bb7ff4204b6 and my case, corruption occurred before the victim
-function of another thread returned. The stack remained valid to KASAN,
-so no warning triggered. This is timing-dependent, not a KASAN deficiency.
+Software Tag-Based KASAN supports slab, page_alloc, vmalloc, and stack memory.
 
-Making KASAN treat parts of active stack frame as invalid would be
-complex and add significant overhead, likely worsening the reproduction
-prevention issue. KASAN's overhead already prevented reproduction in my
-environment.
+Hardware Tag-Based KASAN supports slab, page_alloc, and non-executable vmalloc
+memory.
 
-KStackWatch takes a different approach: it watches stack frame regardless
-of whether KASAN considers them valid or invalid, with much less overhead
-thereby preserving reproduction scenarios.
+(hm, were you using hwkasan instead of swkasan, and that's why you
+couldn't see it?)
 
-The value proposition:
-Finding where corruption occurs is the bottleneck. Once located,
-subsystem experts can analyze the root cause. Without that location, even
-experts are stuck.
-
-If KStackWatch had existed earlier, this 24-year-old bug might have been
-found sooner when someone hit a similar corruption. The same applies to
-other stack corruption bugs.
-
-I'd appreciate your thoughts on whether this addresses your concerns.
-
-Best regards,
-Jinchao
