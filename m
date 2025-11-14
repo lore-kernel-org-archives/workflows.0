@@ -1,198 +1,257 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3262FF67F
-	for <workflows@vger.kernel.org>; Thu, 13 Nov 2025 04:40:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77B732DF703
+	for <workflows@vger.kernel.org>; Fri, 14 Nov 2025 18:35:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763008836; cv=none; b=SAoe03BM4wE9qzqsW+YqRzLpNc50fkhYlpD6F+hlBCIgX4NAGxOLYI28iYtpBdFhkRTg/Ws3VhqF4iUJaORDpWbHgssBSZ6/9CKtJheVANKPrTSqaynVMYd4kdGVJeu7DQlNlmuOZxn33vxuQoUDCfE2riBkqe/2UIGuMpuT6bI=
+	t=1763145362; cv=none; b=FRBnjpYFVmKcFFod9UdvVgIKVCnbgNguUEiA+D+s6wCPbuOguO4e8aJPiUx2BDw/quR7v6M0m4xN1ruzUqIKNXVXbb3zkD7GOehA0W0yrhy7HPmVtuBYvXfYD24GUU8b8ryfIHDqJxu585CxnMO+58Qm1JesA/jJWi5nL2/GmAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763008836; c=relaxed/simple;
-	bh=juu52SAGCZwSkv94b8hvBh3dmTjc+fF26d4odP+mFag=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n0Hb8y4LcsXNmp/b+JQW+Sfut6OoStHDlMLlWXeoQ+MdUkFxMxR6x35lJRscnO8DoJoXuOrXjmP5OyN3yhZnzyMxMpPXqSPq+TvsIMEFA7PP7tuUsdKzZZXTEmN/Fi+Il9P4yVWHkM3Pg4JaLeYHr3Wj4WOcRRoE306ej4P969I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FPu7h28w; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1763145362; c=relaxed/simple;
+	bh=swps8ZhYlsWpjyXF4UoIJa2PAB1CwC6og6rmXeftYrI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rDZQJs4rL0lksi24oH/TOTBJs+ZohK1tcw3LrsVm+AoPhTGBx9d1rr6G9s66oB66S9enEPFWjKUvlOMQZQCUn2LHXynRUJRhGcn097feIhod2AkIgdWm2J4aAFwb/sRiJzIL1zN7rF+bhH86PN0hoNnppTpkb6ru6ARV8lTDaJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TrliPRMf; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FPu7h28w"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-298456bb53aso3902085ad.0
-        for <workflows@vger.kernel.org>; Wed, 12 Nov 2025 20:40:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763008834; x=1763613634; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=FDmPn0Nf9DwhMNzLqfPhzr9P36pEvch2Q8c/oMsgpUY=;
-        b=FPu7h28w5Bd7nPim9PcqKY2VEjzhmMTF01nGfSGnJv4fgOw8lmKEzMPEEWaACULMzd
-         vto5rZQWjyzOPC+geQDWJO6vbIsdF5mQjiEDJScJe5WmvyDlz+uRrHXiEloSRnoHYnxk
-         S7nW7O7dK8FN7LlSPkuYvZx9BO7mg6u4zKupS9ynUjxj2emMKcej1CZIcvv0XSwBBPYT
-         5TUDnY+5mO3fzQCm7rNHzZkBF5dHDOxbp7MZQcKR2GZxIDAq3Z684GKbVrordU9velSl
-         Ri1WcvlQqy1gSxln84sbitZ4XCAo6CwnwyHaidumbeJqYnjuCR1Er35JkFtow9j8Rw2B
-         4rfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763008834; x=1763613634;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FDmPn0Nf9DwhMNzLqfPhzr9P36pEvch2Q8c/oMsgpUY=;
-        b=kC/DgkmcyswW5GBv+tjjsNJrMqYyJIJM2gE2PBv+YYh6392z8bsw6K+n78w7Gxbem/
-         QyVKKtKPfCgWgb4xv/dp18yRjfl8fxn6oyskCVVqEbyYNF0+06bwjymQhzEx85vl275l
-         8jg2gpDLd0UtLAxfiRBppPxgqVlOXs3bsnz5pMniwI9uAYGGxumcfz7eav1EvRIADN8T
-         fQPaJqwD5yc4W/7oSzfU4pzewnUF7XgW8fFr1WERErIOy0YpF8M6IDdTapE4iVcvzm0k
-         +Xm1t7YB3Vv+TuNkgz+KORwAED19ktO5bpgIQeAWIzgXeiGj27LO5AITaI0xTW86ju0J
-         TAlQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWzNr3AflcHIaRP3Nf8K6dX3kr49w7Xx7neqoeBBiQOVN/0ZFZxFuxdPFtxXq6UIXdoty2raokK2u0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2/Kz16JtlNR5pINK+oF5gVlysSOadrMj6gAWtqNbLbZ8ElFcQ
-	X00GtKnkY4v6KWJs9zGbrpHxivc1NauD6nxZP9O5b+naiVfMOue7FRj4
-X-Gm-Gg: ASbGncsWybN5X/LztcSNWgqFfNFDZIs9bOBhSPwJ4VjVIzGXuz7iws/VHaJbGcctfTW
-	hsUNWW2fkPADZls/P7Na8D5IwTcSwqHNL8ZmGOXiFJzg0bVC0jCunpb4Hs+cIGrAN1xulANq/O8
-	fkojk2vgZqC8gjxD73MsntDL728HLQDo44En4bbJDWPh7ZeCP5S9pmLokQGXkuxHjXcitiWH8IP
-	SAgbexyrKZH6GJ3dsiR1/dt/1HS2wC9aUcL3X5PhiROwRXWbxnfTtWQTuzIfgD85pPzNcsSkTO/
-	v8yivVZwmWLGR5d4s8PEeOczqYM/NNhu6+BI+HdzJwhnY8Yq8DQkknHqr2zrBF2mcIxF4EV5kF/
-	WDiUQaPl14mkzyZvkPEPCBkkTt9zXQm5dKsyCa3SUUxklw/QveaiRL2AVs6rwxY73zQBILafCGv
-	4806X6aDZbFo18G83k6MSvmg==
-X-Google-Smtp-Source: AGHT+IF0ZSMjJ2Lc8kz3EXKwlmPjL5NLaFbg0SkOYJJftW8mAPB0mC+cHp/6QWluZgrL5V9rxEgvaA==
-X-Received: by 2002:a17:902:e788:b0:297:e69d:86ac with SMTP id d9443c01a7336-2984edc8d1bmr74152995ad.39.1763008834480;
-        Wed, 12 Nov 2025 20:40:34 -0800 (PST)
-Received: from localhost ([45.8.220.62])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c2b0d68sm8683655ad.61.2025.11.12.20.40.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Nov 2025 20:40:33 -0800 (PST)
-Date: Thu, 13 Nov 2025 12:40:30 +0800
-From: Jinchao Wang <wangjinchao600@gmail.com>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: kasan-dev@googlegroups.com, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-perf-users@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, llvm@lists.linux.dev,
-	workflows@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH v8 00/27] mm/ksw: Introduce KStackWatch debugging tool
-Message-ID: <aRVhL91rSZXyZ83D@ndev>
-References: <20251110163634.3686676-1-wangjinchao600@gmail.com>
- <aRIh4pBs7KCDhQOp@casper.infradead.org>
- <aRLmGxKVvfl5N792@ndev>
- <aRTv0eHfX0j8vJOW@casper.infradead.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TrliPRMf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763145360; x=1794681360;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=swps8ZhYlsWpjyXF4UoIJa2PAB1CwC6og6rmXeftYrI=;
+  b=TrliPRMfplMayoTA/aNkkXSOmYQjX2zXByp4oAGTfRdOm/dnzmbvWVtY
+   sPHWBVTrpVm1X3m3qRXh14eI9d3Zh4LF2uys835acB2p0CNTjSfOjDmwA
+   Bgr+s5poJ2c0PIO5AoHIe62wwXb10d1BzcrZqYN9GTQZ4glvTqaPjB95+
+   v3K7TAZOgYKH46F6lZKgQJ78w8bfivGnt6FhybKot+hr60saYibQMxMgU
+   hM8yz5HjBPR/RtmW34JTjqzfzZg/V/C73atDEJCqC/C3T4e0XG00rdOOJ
+   BBJdCNKw7802hiN33lnxWzfh81lnfSXjbeCwYsPbyzpML00lk/VkKmKQv
+   Q==;
+X-CSE-ConnectionGUID: togtJ6AlRUOWnsNHWIe5hg==
+X-CSE-MsgGUID: nnG4takmSwGrNBkdYOdojw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11613"; a="64453520"
+X-IronPort-AV: E=Sophos;i="6.19,305,1754982000"; 
+   d="scan'208";a="64453520"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 10:35:59 -0800
+X-CSE-ConnectionGUID: azSFj2uBQrWHLlKro9ZSHA==
+X-CSE-MsgGUID: Oq03Hu1XRoOQ9EhUzJw9RQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,305,1754982000"; 
+   d="scan'208";a="189129655"
+Received: from smtp.ostc.intel.com ([10.54.29.231])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 10:35:59 -0800
+Received: from ray2.sr71.net (unknown [10.125.108.191])
+	by smtp.ostc.intel.com (Postfix) with ESMTP id 242F16362;
+	Fri, 14 Nov 2025 10:35:58 -0800 (PST)
+From: Dave Hansen <dave.hansen@linux.intel.com>
+To: dave@sr71.net
+Cc: Dave Hansen <dave.hansen@linux.intel.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	NeilBrown <neilb@ownmail.net>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Sasha Levin <sashal@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	workflows@vger.kernel.org,
+	ksummit@lists.linux.dev
+Subject: [PATCH] [v3] Documentation: Provide guidelines for tool-generated content
+Date: Fri, 14 Nov 2025 10:35:28 -0800
+Message-Id: <20251114183528.1239900-1-dave.hansen@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aRTv0eHfX0j8vJOW@casper.infradead.org>
 
-On Wed, Nov 12, 2025 at 08:36:33PM +0000, Matthew Wilcox wrote:
-> [dropping all the individual email addresses; leaving only the
-> mailing lists]
-> 
-> On Wed, Nov 12, 2025 at 10:14:29AM +0800, Jinchao Wang wrote:
-> > On Mon, Nov 10, 2025 at 05:33:22PM +0000, Matthew Wilcox wrote:
-> > > On Tue, Nov 11, 2025 at 12:35:55AM +0800, Jinchao Wang wrote:
-> > > > Earlier this year, I debugged a stack corruption panic that revealed the
-> > > > limitations of existing debugging tools. The bug persisted for 739 days
-> > > > before being fixed (CVE-2025-22036), and my reproduction scenario
-> > > > differed from the CVE report—highlighting how unpredictably these bugs
-> > > > manifest.
-> > > 
-> > > Well, this demonstrates the dangers of keeping this problem siloed
-> > > within your own exfat group.  The fix made in 1bb7ff4204b6 is wrong!
-> > > It was fixed properly in 7375f22495e7 which lists its Fixes: as
-> > > Linux-2.6.12-rc2, but that's simply the beginning of git history.
-> > > It's actually been there since v2.4.6.4 where it's documented as simply:
-> > > 
-> > >       - some subtle fs/buffer.c race conditions (Andrew Morton, me)
-> > > 
-> > > As far as I can tell the changes made in 1bb7ff4204b6 should be
-> > > reverted.
-> > 
-> > Thank you for the correction and the detailed history. I wasn't aware this
-> > dated back to v2.4.6.4. I'm not part of the exfat group; I simply
-> > encountered a bug that 1bb7ff4204b6 happened to resolve in my scenario.
-> > The timeline actually illustrates the exact problem KStackWatch addresses:
-> > a bug introduced in 2001, partially addressed in 2025, then properly fixed
-> > months later. The 24-year gap suggests these silent stack corruptions are
-> > extremely difficult to locate.
-> 
-> I think that's a misdiagnosis caused by not understanding the limited
-> circumstances in which the problem occurs.  To hit this problem, you
-> have to have a buffer_head allocated on the stack.  That doesn't happen
-> in many places:
-> 
-> fs/buffer.c:    struct buffer_head tmp = {
-> fs/direct-io.c: struct buffer_head map_bh = { 0, };
-> fs/ext2/super.c:        struct buffer_head tmp_bh;
-> fs/ext2/super.c:        struct buffer_head tmp_bh;
-> fs/ext4/mballoc-test.c: struct buffer_head bitmap_bh;
-> fs/ext4/mballoc-test.c: struct buffer_head gd_bh;
-> fs/gfs2/bmap.c: struct buffer_head bh;
-> fs/gfs2/bmap.c: struct buffer_head bh;
-> fs/isofs/inode.c:       struct buffer_head dummy;
-> fs/jfs/super.c: struct buffer_head tmp_bh;
-> fs/jfs/super.c: struct buffer_head tmp_bh;
-> fs/mpage.c:     struct buffer_head map_bh;
-> fs/mpage.c:     struct buffer_head map_bh;
-> 
-> It's far more common for buffer_heads to be allocated from slab and
-> attached to folios.  The other necessary condition to hit this problem
-> is that get_block() has to actually read the data from disk.  That's
-> not normal either!  Most filesystems just fill in the metadata about
-> the block and defer the actual read to when the data is wanted.  That's
-> the high-performance way to do it.
-> 
-> So our opportunity to catch this bug was highly limited by the fact that
-> we just don't run the codepaths that would allow it to trigger.
-> 
-> > > > Initially, I enabled KASAN, but the bug did not reproduce. Reviewing the
-> > > > code in __blk_flush_plug(), I found it difficult to trace all logic
-> > > > paths due to indirect function calls through function pointers.
-> > > 
-> > > So why is the solution here not simply to fix KASAN instead of this
-> > > giant patch series?
-> > 
-> > KASAN caught 7375f22495e7 because put_bh() accessed bh->b_count after
-> > wait_on_buffer() of another thread returned—the stack was invalid.
-> > In 1bb7ff4204b6 and my case, corruption occurred before the victim
-> > function of another thread returned. The stack remained valid to KASAN,
-> > so no warning triggered. This is timing-dependent, not a KASAN deficiency.
-> 
-> I agree that it's a narrow race window, but nevertheless KASAN did catch
-> it with ntfs and not with exfat.  The KASAN documentation states that
-> it can catch this kind of bug:
-> 
-> Generic KASAN supports finding bugs in all of slab, page_alloc, vmap, vmalloc,
-> stack, and global memory.
-> 
-> Software Tag-Based KASAN supports slab, page_alloc, vmalloc, and stack memory.
-> 
-> Hardware Tag-Based KASAN supports slab, page_alloc, and non-executable vmalloc
-> memory.
-> 
-> (hm, were you using hwkasan instead of swkasan, and that's why you
-> couldn't see it?)
-> 
-You're right that these conditions are narrow. However, when these bugs
-hit, they're severe and extremely difficult to debug. This year alone,
-this specific buffer_head bug was hit at least twice: 1bb7ff4204b6 and my
-case. Over 24 years, others likely encountered it but lacked tools to
-pinpoint the root cause.
+In the last few years, the capabilities of coding tools have exploded.
+As those capabilities have expanded, contributors and maintainers have
+more and more questions about how and when to apply those
+capabilities.
 
-I used software KASAN for the exfat case, but the bug didn't reproduce,
-likely due to timing changes from the overhead. More fundamentally, the
-corruption was in-bounds within active stack frames, which KASAN cannot
-detect by design.
+Add new Documentation to guide contributors on how to best use kernel
+development tools, new and old.
 
-Beyond buffer_head, I encountered another stack corruption bug in network
-drivers this year. Without KStackWatch, I had to manually instrument the
-code to locate where corruption occurred.
+Note, though, there are fundamentally no new or unique rules in this
+new document. It clarifies expectations that the kernel community has
+had for many years. For example, researchers are already asked to
+disclose the tools they use to find issues in
+Documentation/process/researcher-guidelines.rst. This new document
+just reiterates existing best practices for development tooling.
 
-These issues may be more common than they appear. Given Linux's massive
-user base combined with the kernel's huge codebase and the large volume of
-driver code, both in-tree and out-of-tree, even narrow conditions will be
-hit.
+In short: Please show your work and make sure your contribution is
+easy to review.
 
-Since posting earlier versions, several developers have contacted me about
-using KStackWatch for their own issues. KStackWatch fills a gap: it can
-pinpoint in-bounds stack corruption with much lower overhead than KASAN.
+Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
+Reviewed-by: Shuah Khan <shuah@kernel.org>
+Reviewed-by: Kees Cook <kees@kernel.org>
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
+Cc: NeilBrown <neilb@ownmail.net>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Dan Williams <dan.j.williams@intel.com>
+Cc: Theodore Ts'o <tytso@mit.edu>
+Cc: Sasha Levin <sashal@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Cc: workflows@vger.kernel.org
+Cc: ksummit@lists.linux.dev
+
+--
+
+There has been a ton of feedback since v2. Thanks everyone! I've
+tried to respect all of the feedback, but some of it has been
+contradictory and I haven't been able to incorporate everything.
+
+Please speak up if I missed something important here.
+
+Changes from v2:
+ * Mention testing (Shuah)
+ * Remove "very", rename LLM => coding assistant (Dan)
+ * More formatting sprucing up and minor typos (Miguel)
+ * Make changelog and text less flashy (Christian)
+ * Tone down critical=>helpful (Neil)
+
+Changes from v1:
+ * Rename to generated-content.rst and add to documentation index.
+   (Jon)
+ * Rework subject to align with the new filename
+ * Replace commercial names with generic ones. (Jon)
+ * Be consistent about punctuation at the end of bullets for whole
+   sentences. (Miguel)
+ * Formatting sprucing up and minor typos (Miguel)
+
+This document was a collaborative effort from all the members of
+the TAB. I just reformatted it into .rst and wrote the changelog.
+---
+ Documentation/process/generated-content.rst | 96 +++++++++++++++++++++
+ Documentation/process/index.rst             |  1 +
+ 2 files changed, 97 insertions(+)
+ create mode 100644 Documentation/process/generated-content.rst
+
+diff --git a/Documentation/process/generated-content.rst b/Documentation/process/generated-content.rst
+new file mode 100644
+index 0000000000000..acdf23819d685
+--- /dev/null
++++ b/Documentation/process/generated-content.rst
+@@ -0,0 +1,96 @@
++============================================
++Kernel Guidelines for Tool Generated Content
++============================================
++
++Purpose
++=======
++
++Kernel contributors have been using tooling to generate contributions
++for a long time. These tools can increase the volume of contributions.
++At the same time, reviewer and maintainer bandwidth is a scarce
++resource. Understanding which portions of a contribution come from
++humans versus tools is helpful to maintain those resources and keep
++kernel development healthy.
++
++The goal here is to clarify community expectations around tools. This
++lets everyone become more productive while also maintaining high
++degrees of trust between submitters and reviewers.
++
++Out of Scope
++============
++
++These guidelines do not apply to tools that make trivial tweaks to
++preexisting content. Nor do they pertain to AI tooling that helps with
++menial tasks. Some examples:
++
++ - Spelling and grammar fix ups, like rephrasing to imperative voice
++ - Typing aids like identifier completion, common boilerplate or
++   trivial pattern completion
++ - Purely mechanical transformations like variable renaming
++ - Reformatting, like running Lindent, ``clang-format`` or
++   ``rust-fmt``
++
++Even if your tool use is out of scope you should still always consider
++if it would help reviewing your contribution if the reviewer knows
++about the tool that you used.
++
++In Scope
++========
++
++These guidelines apply when a meaningful amount of content in a kernel
++contribution was not written by a person in the Signed-off-by chain,
++but was instead created by a tool.
++
++Detection of a problem and testing the fix for it is also part of the
++development process; if a tool was used to find a problem addressed by
++a change, that should be noted in the changelog. This not only gives
++credit where it is due, it also helps fellow developers find out about
++these tools.
++
++Some examples:
++ - Any tool-suggested fix such as ``checkpatch.pl --fix``
++ - Coccinelle scripts
++ - A chatbot generated a new function in your patch to sort list entries.
++ - A .c file in the patch was originally generated by a coding
++   assistant but cleaned up by hand.
++ - The changelog was generated by handing the patch to a generative AI
++   tool and asking it to write the changelog.
++ - The changelog was translated from another language.
++
++If in doubt, choose transparency and assume these guidelines apply to
++your contribution.
++
++Guidelines
++==========
++
++First, read the Developer's Certificate of Origin:
++Documentation/process/submitting-patches.rst. Its rules are simple
++and have been in place for a long time. They have covered many
++tool-generated contributions. Ensure that you understand your entire
++submission and are prepared to respond to review comments.
++
++Second, when making a contribution, be transparent about the origin of
++content in cover letters and changelogs. You can be more transparent
++by adding information like this:
++
++ - What tools were used?
++ - The input to the tools you used, like the Coccinelle source script.
++ - If code was largely generated from a single or short set of
++   prompts, include those prompts. For longer sessions, include a
++   summary of the prompts and the nature of resulting assistance.
++ - Which portions of the content were affected by that tool?
++ - How is the submission tested and tools used to test the fix?
++
++As with all contributions, individual maintainers have discretion to
++choose how they handle the contribution. For example, they might:
++
++ - Treat it just like any other contribution.
++ - Reject it outright.
++ - Treat the contribution specially like reviewing with extra scrutiny,
++   or at a lower priority than human-generated content
++ - Suggest a better prompt instead of suggesting specific code changes.
++ - Ask for some other special steps, like asking the contributor to
++   elaborate on how the tool or model was trained.
++ - Ask the submitter to explain in more detail about the contribution
++   so that the maintainer can feel comfortable that the submitter fully
++   understands how the code works.
+diff --git a/Documentation/process/index.rst b/Documentation/process/index.rst
+index aa12f26601949..e1a8a31389f53 100644
+--- a/Documentation/process/index.rst
++++ b/Documentation/process/index.rst
+@@ -68,6 +68,7 @@ beyond).
+    stable-kernel-rules
+    management-style
+    researcher-guidelines
++   generated-content
+ 
+ Dealing with bugs
+ -----------------
+-- 
+2.34.1
+
