@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FCE135898
-	for <workflows@vger.kernel.org>; Fri, 14 Nov 2025 22:52:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3756828643A
+	for <workflows@vger.kernel.org>; Fri, 14 Nov 2025 22:53:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763160731; cv=none; b=IGoj7JRI0VGfPS7czVtMjuaWMs1umHo6/iaoTz+k4cMtrT8ANzXEfCVoW2mz/GxOMH+eFwfKVhOxgXXwGtekqepJ+f5/pv3EUFlkNSu1WdYNe08fSW1sYN++rwI2SQ0/EsW1j5JNrLl+/jN7ZcTHnZpMoGUjrfQg8j7OF4Gaz/Y=
+	t=1763160792; cv=none; b=F4TjeG2k+gcbu+k7B7yvVFeqWwXrjqjKsgF1/+u3qLasJ6/ofemsYF59ZrL1asw8FiMQCLA8/orpQ7nf1HF3JKzb7VJAd38BFpvJK9fybfy32+udiWgkWbPtoxAZBh96tLIfFhw7w+4fhiTbRHrp8it/tMvJU+DuBEUn4HjmJsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763160731; c=relaxed/simple;
-	bh=qRghr0y9lKHMdCRZAH72Hk83uskgeMqRRqgd3nb3Lv4=;
+	s=arc-20240116; t=1763160792; c=relaxed/simple;
+	bh=LTWAyJrRxzwqt58jgYweO7imI93y3VP2lo6TLIb5RmU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dTwOFW5VNf01ty1VDmsATtP5Db/qG0eJ5sPr7ss5ZJ+RvM1jMxSstnHG534BEa8nG3kj7gb++HLzKvPzozApNKFR4S8T6S5SbdlC+0xJbHK3pgLs/UJ4+IGWbeYQ/81GR4rHGuRVXINq5EV0GyG7ReO+DRUeNsZ3paBffLvOtCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LPArJhah; arc=none smtp.client-ip=192.198.163.16
+	 In-Reply-To:Content-Type; b=E5qu89S27BHtT1LXAHIass4xjpj0yi6NHP6mhiPf70cZFhw/EZjL12MqwpVy2wDIwqs0pA8Z8g2GhgZDbpYMfvSdmca6zKcK/Qcjv1pjBIfRMPjuYLOR51CAcfd2vOK8t14sEoETub0u3j6gWKjbNI5/w7LS6rc50j5eE8th/2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pmx3ugVO; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LPArJhah"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pmx3ugVO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763160729; x=1794696729;
+  t=1763160790; x=1794696790;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=qRghr0y9lKHMdCRZAH72Hk83uskgeMqRRqgd3nb3Lv4=;
-  b=LPArJhahKTis0/IwMlGfbFnzcoEnbwU5ZGDGBjgMbxKFzDONIy9vr3OA
-   O8jSOlhL3aJdr911+ndiZ9qern1MMv6LX/6y0FyrIkY0ykIyhISmaNhC3
-   ZxJqOJ5O+mfhEQihJFMBnglEhzeuIzTHX4U/VYx47cXcZyRXtkNdPQN0p
-   GzyrC8s3AEubztDgGkOFk/Sbf2hKt75In06AS7XBeBJXRW+qTevUvz7Ns
-   SCapFWK5Aawo+lnx3SO0DWXjNhJSm1XxZjVpTHjv6ZTEohHlYgsXzRQM+
-   bqWuIxkF+0BQRySeP+tyaTxnbsD1yp33A5hFM+ahWLKN7/f2FWtc5jQIy
-   A==;
-X-CSE-ConnectionGUID: FDfcgkVsR0+kYQZ0W+g6XQ==
-X-CSE-MsgGUID: jE9Kr53VRdat3wrCNfhIMQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11613"; a="52832336"
+  bh=LTWAyJrRxzwqt58jgYweO7imI93y3VP2lo6TLIb5RmU=;
+  b=Pmx3ugVOoinjVNXZhktFQon75cYCgvELPtIjcEiNaK8IRcKbFqD2l+gb
+   OOTacDloSXQg1tZFhHOEl0YUuVeVAdvb5X3RqHxYLjqQOaX6fQ4eQTV+R
+   NS3o00XQ86IdsPmW9alsgXFXBNufzUitM+CpEz4NNvDNZPY3fuoH8czsB
+   J9psGrPfqGFGLHoqaUP24vjriK5/1EJLyO5eHhpCgyZDd46ItjF+MEzw1
+   bKdUFnsDD6F/qbIp08uM+8wZQ+3kbnuzmfRDZX1Smjc8GdkkP0m8nrOtJ
+   3G4TgUZodFXpN7d1TYmyUOUhLfWM2K0cmZ9fmsxTOtFooV+sgDTTx1FAs
+   g==;
+X-CSE-ConnectionGUID: CgU0NxFPTUOYgOvnJdQypA==
+X-CSE-MsgGUID: mWIjym6URNquh3RZOIXXiQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11613"; a="52832415"
 X-IronPort-AV: E=Sophos;i="6.19,306,1754982000"; 
-   d="scan'208";a="52832336"
+   d="scan'208";a="52832415"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 14:52:09 -0800
-X-CSE-ConnectionGUID: jtnGPCfCTB2DOjNtLcUZAw==
-X-CSE-MsgGUID: MIp6jAhtQ2GlJZa8+k8lQA==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 14:53:09 -0800
+X-CSE-ConnectionGUID: 1rZhBecERIuujNV483wcSQ==
+X-CSE-MsgGUID: vhhM4+uZT0aH1j9bEBvDUw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,306,1754982000"; 
-   d="scan'208";a="189913689"
+   d="scan'208";a="189913733"
 Received: from dwesterg-mobl1.amr.corp.intel.com (HELO [10.125.108.191]) ([10.125.108.191])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 14:52:08 -0800
-Message-ID: <6b815de7-37ec-4d99-ae77-3f2ea9238cba@intel.com>
-Date: Fri, 14 Nov 2025 14:52:07 -0800
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 14:53:09 -0800
+Message-ID: <0b0f96ef-f060-45a3-ad90-aab50b4ba15f@intel.com>
+Date: Fri, 14 Nov 2025 14:53:08 -0800
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -54,10 +54,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] [v3] Documentation: Provide guidelines for tool-generated
  content
-To: Luis Chamberlain <mcgrof@kernel.org>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Julia Lawall <julia.lawall@inria.fr>,
- Linus Torvalds <torvalds@linux-foundation.org>, Takashi Iwai <tiwai@suse.de>
+To: SeongJae Park <sj@kernel.org>, Dave Hansen <dave.hansen@linux.intel.com>
 Cc: dave@sr71.net, Shuah Khan <shuah@kernel.org>, Kees Cook
  <kees@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Miguel Ojeda <ojeda@kernel.org>, NeilBrown <neilb@ownmail.net>,
@@ -66,8 +63,7 @@ Cc: dave@sr71.net, Shuah Khan <shuah@kernel.org>, Kees Cook
  Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
  Vlastimil Babka <vbabka@suse.cz>, workflows@vger.kernel.org,
  ksummit@lists.linux.dev
-References: <20251114183528.1239900-1-dave.hansen@linux.intel.com>
- <aReMPda2sowBpkO-@bombadil.infradead.org>
+References: <20251114201738.3212-1-sj@kernel.org>
 From: Dave Hansen <dave.hansen@intel.com>
 Content-Language: en-US
 Autocrypt: addr=dave.hansen@intel.com; keydata=
@@ -113,46 +109,13 @@ Autocrypt: addr=dave.hansen@intel.com; keydata=
  MTsCeQDdjpgHsj+P2ZDeEKCbma4m6Ez/YWs4+zDm1X8uZDkZcfQlD9NldbKDJEXLIjYWo1PH
  hYepSffIWPyvBMBTW2W5FRjJ4vLRrJSUoEfJuPQ3vW9Y73foyo/qFoURHO48AinGPZ7PC7TF
  vUaNOTjKedrqHkaOcqB185ahG2had0xnFsDPlx5y
-In-Reply-To: <aReMPda2sowBpkO-@bombadil.infradead.org>
+In-Reply-To: <20251114201738.3212-1-sj@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/14/25 12:08, Luis Chamberlain wrote:
-...>> + - What tools were used?
-> 
-> I really think we should just recommend the user to *consider* using:
-> 
-> Generated-by
-> 
-> I've been using it for Coccinelle on Linux for years, and it was not
-> just me. In other projects, in particular kdevops we started using this
-> to also be clear about the use of AI tools, and I've found it
-> instrumental to keep track of how much code *does not use it*.
+On 11/14/25 12:17, SeongJae Park wrote:
+>> + - Treat the contribution specially like reviewing with extra scrutiny,
+>> +   or at a lower priority than human-generated content
+> Nit.  The ending period is missed?
 
-That sounds like a reasonable enough idea. But I think it's mostly
-orthogonal to this document. If there were Generated-by documentation in
-submitting-patches.rst, it would definitely get a special mention here.
-
->> + - The input to the tools you used, like the Coccinelle source script.
->> + - If code was largely generated from a single or short set of
->> +   prompts, include those prompts.
-> 
-> A long time ago we evaluated the question of using git notes for
-> coccinelle used input, and the issue back then was we didn't have support
-> for it I think. But I think that hump is gone?
-> 
-> If so, would using git notes for prompts be useful in this case as we scale
-> tooling outside of Coccinelle, like AI prompts? I believe this can be
-> instrumental for enhancing LLMs as well for fine tuned LLMs for Linux
-> development.
-
-I looked at git notes a bit during the Link: tag discussion. There still
-seem to be a few humps left, like git needing special configuration not
-to lose notes on "git commit --amend" or rebases.
-
-They seem to be _getting_ there, but they certainly don't seem to be a
-nice, seamless thing that can easily be put into everyone's existing
-workflows.
-
-> Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
-Thanks!
+Fixed, thanks!
