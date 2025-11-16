@@ -1,99 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A359F47A6B;
-	Sun, 16 Nov 2025 15:25:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB45C3C1F
+	for <workflows@vger.kernel.org>; Sun, 16 Nov 2025 16:01:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763306747; cv=none; b=N+i0MZLcjG2pCTqL8yPefSUKFjUKE99CnT7a0UA9IWVxv9ja4i6HSS8lTBLrPvZCnjgQUsstUNG3FS2wEFSiPsqYYwd4q+thfAwMmCJksbvbqeGtdIlzuXZOarUPzZN1Pqh6xWNYYVp5Ub7ssUIyEMU0/L8raxJnzyylkOm2SZs=
+	t=1763308917; cv=none; b=SzvN3BASerCtDibxwbhjQWhHIo0w/xV/ILEB/8OvTYsYbVp06I5ufiPPhEZIFM7MRoeTrz31K1p9U8wJuTSgFe5iWBqAxKbI1dAI/KdosR0WvBR6+wByx4H9tGPVu+lpiif1riy1obdo+OEwu/XyJjJe+A4IVNok7TcEdwLJJ5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763306747; c=relaxed/simple;
-	bh=A+tbxqvyHtOMEbfWUyW4I6ppG86vNZ0vjjUxeCQhH/Q=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=VEoUl4+cm484o9qCCaTQGAN6vaEWyPGS9gzupt7tENjyU6zncTQPx9TGVQ97QTMp4EjMmOb5iokwlyF/OVgjaaJLDiYZomvcYkCKnCuovHYOhKO/33GZJIfmkAWyzzyfUIeRMNzw6cUs5Y7Kbh5gA/vYDni/WCcne63ze28HAA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YqKygCyw; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YqKygCyw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31F93C4CEFB;
-	Sun, 16 Nov 2025 15:25:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763306746;
-	bh=A+tbxqvyHtOMEbfWUyW4I6ppG86vNZ0vjjUxeCQhH/Q=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=YqKygCywAj6dqL/2i/SoDbqSo6TywirIqm3gDUoiH9BklBrOkT7L+c7Sc0aI3t2MV
-	 TM+y5Z1L8qNsMbYG4JtCafHewTpkMiuwKbdvCyd69RTLtipE3fxVLULe9kpq5LX/aC
-	 EiAEnqn/MSl/UW8cq5eIUyTMXGNGnJaC4tw/PtrWdOnfoiQdHgLlYdQq8TJVD7P9wK
-	 2WP4vmvOEeOOq56ENaUt+44p/7O/u9ov70tW/JHJIch9du0jsUkH3tW8WCyTCN7NxC
-	 1mGN0gDNiMllZNs+dHyog3Azo+1uQZ8cAGXl6xn0FDd/tIrpcqLFrcggn08vrrP48G
-	 s6ags1V+LhkXw==
-Date: Sun, 16 Nov 2025 07:25:46 -0800
-From: Kees Cook <kees@kernel.org>
-To: "Rafael J. Wysocki" <rafael@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Thomas Gleixner <tglx@linutronix.de>
-CC: Dave Hansen <dave.hansen@linux.intel.com>, dave@sr71.net,
- Shuah Khan <shuah@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Miguel Ojeda <ojeda@kernel.org>, NeilBrown <neilb@ownmail.net>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Dan Williams <dan.j.williams@intel.com>, Theodore Ts'o <tytso@mit.edu>,
- Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Vlastimil Babka <vbabka@suse.cz>, workflows@vger.kernel.org,
- ksummit@lists.linux.dev
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH=5D_=5Bv3=5D_Documentation=3A_Provid?=
- =?US-ASCII?Q?e_guidelines_for_tool-generated_content?=
-User-Agent: K-9 Mail for Android
+	s=arc-20240116; t=1763308917; c=relaxed/simple;
+	bh=/rmpSRjvYC//BWA5OQOZ2nbSkVmB9cwBo8U5TKrX6dw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FAwsxF6iX4LQChPgVIFwU/OBHMKWE36VrEV1J7aSWtOTTkQSeS7QcSuzM2ckTAzSma8/CuIOVeoomwuj0qt/xWqXDLZbQXbwVv72VzZfO7tXvj7co7ypzIPU5P7Hqft3IvsJ/r4yTtfqxEzAeoLFmKSvq9P90m0wYhPAwc7I8Ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf14.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay10.hostedemail.com (Postfix) with ESMTP id 1D7D3C09B9;
+	Sun, 16 Nov 2025 16:01:52 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf14.hostedemail.com (Postfix) with ESMTPA id 2B15A30;
+	Sun, 16 Nov 2025 16:01:48 +0000 (UTC)
+Date: Sun, 16 Nov 2025 11:01:46 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Dave Hansen
+ <dave.hansen@linux.intel.com>, dave@sr71.net, Shuah Khan
+ <shuah@kernel.org>, Kees Cook <kees@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Miguel Ojeda <ojeda@kernel.org>, NeilBrown
+ <neilb@ownmail.net>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Dan
+ Williams <dan.j.williams@intel.com>, Theodore Ts'o <tytso@mit.edu>, Sasha
+ Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Vlastimil
+ Babka <vbabka@suse.cz>, workflows@vger.kernel.org, ksummit@lists.linux.dev
+Subject: Re: [PATCH] [v3] Documentation: Provide guidelines for
+ tool-generated content
+Message-ID: <20251116110146.3417edce@batman.local.home>
 In-Reply-To: <2804290.mvXUDI8C0e@rafael.j.wysocki>
-References: <20251114183528.1239900-1-dave.hansen@linux.intel.com> <20251115140746.6a3acfd5@batman.local.home> <877bvqan70.ffs@tglx> <2804290.mvXUDI8C0e@rafael.j.wysocki>
-Message-ID: <EEF974E1-08D5-4E67-8AC4-4315CF9D10C1@kernel.org>
+References: <20251114183528.1239900-1-dave.hansen@linux.intel.com>
+	<20251115140746.6a3acfd5@batman.local.home>
+	<877bvqan70.ffs@tglx>
+	<2804290.mvXUDI8C0e@rafael.j.wysocki>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Server: rspamout04
+X-Rspamd-Queue-Id: 2B15A30
+X-Stat-Signature: nsdjq1xb5qcbzafgqahignue3aookad6
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX19wwt7skg/+Umi/dRwz7sospO8ZPD7hGrU=
+X-HE-Tag: 1763308908-233154
+X-HE-Meta: U2FsdGVkX1/+lQULEANLMvPR5UUhY88JFrwyDEdUsjdsmBnHHxw7y7ltM2VtyQCEVcdSSyrcXe0jkSsYqwMbUioImEYdV17iSKU3gExme9FUj3qj9EpYCBLD+hFfR59WMgd+CWGM10i76QyISxwWlTTERamI28nhtS/PbEtCbAzLcl/GFgAsMLbXkfqkzOXgzXFQoAqAk2bUhl4cWjwQt5Helh0KTeWi1xx3ul8idGpBkncCwOLUpPcbpq0S6SdRVOnXErRUkA99fZElFPV0SU1o897rHmOKMQf08T9NAth1IJ6shxwknl3/g4v2fetc8TtbzOnO4vTypN+xxrfSlSRbu+ZF2JRVtdX4dafL4bTOtI6QG2tV60oVkrSnCFJ+CYA/tx/zvH3SP6MFIGYyJQ==
 
+On Sun, 16 Nov 2025 13:38:35 +0100
+"Rafael J. Wysocki" <rafael@kernel.org> wrote:
 
+> On Sunday, November 16, 2025 12:30:27 AM CET Thomas Gleixner wrote:
+> > On Sat, Nov 15 2025 at 14:07, Steven Rostedt wrote:  
+> > > On Sat, 15 Nov 2025 14:05:56 -0500
+> > > Steven Rostedt <rostedt@goodmis.org> wrote:
+> > >  
+> > >> As Dave responded to Luis, although that is a good idea, it's out of
+> > >> scope for this document (for now).  
+> > >
+> > > I should have said it's out of scope for this patch, not document. The
+> > > point is that what tag to use for this is a separate discussion.  
+> > 
+> > Which should be held in the context of this patch to make it complete.  
+> 
+> I agree, it would be good to get it all done in one go.
+> 
+> 
 
-On November 16, 2025 4:38:35 AM PST, "Rafael J=2E Wysocki" <rafael@kernel=
-=2Eorg> wrote:
->On Sunday, November 16, 2025 12:30:27 AM CET Thomas Gleixner wrote:
->> On Sat, Nov 15 2025 at 14:07, Steven Rostedt wrote:
->> > On Sat, 15 Nov 2025 14:05:56 -0500
->> > Steven Rostedt <rostedt@goodmis=2Eorg> wrote:
->> >
->> >> As Dave responded to Luis, although that is a good idea, it's out of
->> >> scope for this document (for now)=2E
->> >
->> > I should have said it's out of scope for this patch, not document=2E =
-The
->> > point is that what tag to use for this is a separate discussion=2E
->>=20
->> Which should be held in the context of this patch to make it complete=
-=2E
->
->I agree, it would be good to get it all done in one go=2E
+It's still out of scope of this patch. As the change log states:
 
-A tag isn't going to capture what we need today=2E Because the LLM usage i=
-s so variable, it'll be, at best, misleading or, at worst, totally inaccura=
-te=2E I've provided several examples of this where the range of LLM involve=
-ment is very low to very high=2E The prior discussions have shown that we h=
-aven't yet found a sensible way for a tag to capture that=2E
+    Note, though, there are fundamentally no new or unique rules in this
+    new document. It clarifies expectations that the kernel community has
+    had for many years.
 
-But the common thing everyone appears to agree on is the "show your work" =
-concept that this patch is trying to capture=2E I think it's likely we'll g=
-row a tag eventually, but it isn't something we understand the context for =
-yet=2E As a first step, this document is designed to show the foundational =
-goals for what we want documented=2E
+A tag is a new rule. This document is to express existing behavior.
+Adding a tag that currently doesn't match existing behavior should be a
+separate patch.
 
-Over some time of applying this, we'll start to see common patterns and re=
-peated descriptions in commit logs=2E At that point, I think a tag will be =
-warranted=2E But right now, we don't generally agree about what aspects we =
-want a tag to cover=2E
-
--Kees
-
---=20
-Kees Cook
+-- Steve
