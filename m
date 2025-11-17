@@ -1,134 +1,312 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3925A335567
-	for <workflows@vger.kernel.org>; Mon, 17 Nov 2025 19:13:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629282D7DC7;
+	Mon, 17 Nov 2025 21:38:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763406836; cv=none; b=uDPQpKvzZkf7lG5p02WqnCAR1Rfpt+ac+yE8EJncsX35qf0koA+Tde8sOyIJ5SlqkfRjMEZoQPIogiANiu5z05uP4G8cFtiLPtylUcdpJDupzc1e4ZlbGqTs+qymf97WuWlmrjveR0WTwftG+RdBTVwfHL3TR3TuCi50Ksahs1w=
+	t=1763415488; cv=none; b=mhvrBDLpPB66mt3+HrD/TqtU8Jn+NYiHfAXSvZe8ksffs2ilSchahDWgbr4P0E67W060iuuwezaFI8AQpQr88PFRbv9PS+a41KvZ2bwuFQU994RK1XQXOkKOg19zDVpNPF8kXjew7iDD07bSG7wewO8T3sYH0IiU9qATq+puTcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763406836; c=relaxed/simple;
-	bh=yjvqVF0pljH8oE1Xmv96V5RwwEBEyyvMiKPjmW1h5G8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DvtWNI/8kEzj80jxdEe7hxVjSFrBLwhtvQaOKB4NAjt1F28BTgB9/zFRfOd/blRuNBCwGT+OIaoqgSMbq6eVwUjUTE1LFo3eV0zNHL0jls4gEC5siVzh8k2PG9K8K5ToQ9z3yDnixiq30HuvZtEmyb6roNDpAHocVmaREg3XWdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XjCvrjPv; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1763415488; c=relaxed/simple;
+	bh=FcWe/f4DHlsFSPh0dXKYaR2XG+f7LkWGW945ziAYDpE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y45CUhE6MMVx76b1S+D06EFAvpfE9anLq/RRwc/cvFtdhRUHRkIsoC7bK4WiM50Ds0+TAarPpqaYnd66IpMOgYz9tr7NopRMSaUV8tgPKU90RWC7xNZUDXk9Oia4j2coMBJBeKzYAtn0qEtqtUvcBREwHerDZaETxRSEOQJT5SM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZSzULxUL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XjCvrjPv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763406834; x=1794942834;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=yjvqVF0pljH8oE1Xmv96V5RwwEBEyyvMiKPjmW1h5G8=;
-  b=XjCvrjPvnjGmkXaYXKMArMbMzBuiE68ZjZ6xkWm338FpUBC9a5mcDwI7
-   9TWvW7g8XrTuFpJ8F9RmjqUTHgNZ0h5m9Sdmg/N5d8UI97WJ8EMXeL/91
-   RKSmjornQBPpNMdZBqLkxEUMJtCs77Zke/sicJaHivW2A2VPi6LWiOenL
-   dAuE8vUAFNlbW1KorTItSq3rRyzI/pVxyRmvCl2Hze5fRwlIUO24Rt0lj
-   d9DH+K4Tqw4upneYc8MHba0Y30yFa0f0ckSW1eoTEAw28/Pc0VYnIcuVh
-   FGDMe5GAxX05WTFQlTPKcAguUlR/oDzE3udQYtDVqGER19BZgpUe5RS3J
-   w==;
-X-CSE-ConnectionGUID: 35qipJuWQe6mV+BfrPuuyg==
-X-CSE-MsgGUID: X8Psob5KSaGAQ7rp8Oq6Fg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="65123652"
-X-IronPort-AV: E=Sophos;i="6.19,312,1754982000"; 
-   d="scan'208";a="65123652"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 11:13:53 -0800
-X-CSE-ConnectionGUID: Q+TirX4QT3WMJOnYKZh5ew==
-X-CSE-MsgGUID: StCxgeqgRVWfwr+bqNkbfg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,312,1754982000"; 
-   d="scan'208";a="189828342"
-Received: from aschofie-mobl2.amr.corp.intel.com (HELO [10.125.109.33]) ([10.125.109.33])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 11:13:52 -0800
-Message-ID: <9781f45f-d989-4537-97b7-97d122c3589b@intel.com>
-Date: Mon, 17 Nov 2025 11:13:52 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZSzULxUL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04073C113D0;
+	Mon, 17 Nov 2025 21:38:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763415486;
+	bh=FcWe/f4DHlsFSPh0dXKYaR2XG+f7LkWGW945ziAYDpE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ZSzULxULJyHKD3NxkdEB5QCtNJH8jSDR+eE+oKzYYtmlR4A6J8TCjV6GSOQOhzBwE
+	 eDXm1QrP9gLLhgba136T0kL6qX+4/ypek4SCAF7Dvt94dRVoaqFjPRVrFheV1zzzgx
+	 z86Qb58aOM6yNxtP9CdZXS8RxKQhB/KfV9CrNgbi5Zs2n/+c0e/Cnx4yGn6N/uvjHU
+	 Eb864532jV/xDJgu2BDfivdgZDtHMlXWiSARDg2WuaC7PssD+8xqS9eeTTFv+m6H3Q
+	 ycYbEFEAXUppyhDr8W/I/d4A67uvtiEEv0xdDh/aH6swGlqk1l3+Ud/hTv0I1laXWx
+	 gerS274AgP7ew==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-doc@vger.kernel.org
+Cc: corbet@lwn.net,
+	josh@joshtriplett.org,
+	kees@kernel.org,
+	konstantin@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	rostedt@goodmis.org,
+	workflows@vger.kernel.org,
+	joe@perches.com,
+	rdunlap@infradead.org,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH v3] README: restructure with role-based documentation and guidelines
+Date: Mon, 17 Nov 2025 16:38:01 -0500
+Message-ID: <20251117213801.4077535-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] [v3] Documentation: Provide guidelines for tool-generated
- content
-To: Thomas Gleixner <tglx@linutronix.de>, Steven Rostedt <rostedt@goodmis.org>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>, dave@sr71.net,
- Shuah Khan <shuah@kernel.org>, Kees Cook <kees@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Miguel Ojeda <ojeda@kernel.org>, NeilBrown <neilb@ownmail.net>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Dan Williams <dan.j.williams@intel.com>, Theodore Ts'o <tytso@mit.edu>,
- Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Vlastimil Babka <vbabka@suse.cz>, workflows@vger.kernel.org,
- ksummit@lists.linux.dev
-References: <20251114183528.1239900-1-dave.hansen@linux.intel.com>
- <87qztz9v88.ffs@tglx> <20251115140556.44aac254@batman.local.home>
- <20251115140746.6a3acfd5@batman.local.home> <877bvqan70.ffs@tglx>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <877bvqan70.ffs@tglx>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 11/15/25 15:30, Thomas Gleixner wrote:
->>> As Dave responded to Luis, although that is a good idea, it's out of
->>> scope for this document (for now).
->> I should have said it's out of scope for this patch, not document. The
->> point is that what tag to use for this is a separate discussion.
-> Which should be held in the context of this patch to make it complete.
+Reorganize README to provide targeted documentation paths for different user
+roles including developers, researchers, security experts, maintainers, and AI
+coding assistants. Add quick start section and essential docs links.
 
-In a perfect world, I totally agree.
+Include proper attribution requirements for AI-assisted contributions using
+Assisted-by tags with agent details and tools used.
 
-But the tag is something we can't really take back. It's like an ABI in
-that there needs to be some kind of contract between producers and
-consumers, and it's harmful if the contract needs to be revised.
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+Changes in v3:
+- Replace "Agentic Coding" terminology with clearer "AI Coding Assistants"
+- Add concrete examples of proper Assisted-by tag usage with multiple formats
+- Add "Bad examples" section showing anti-patterns to avoid
+- Add detailed tool categorization distinguishing specialized vs basic tools
+- Add explicit format specification: $AGENT_NAME:$MODEL_VERSION [$TOOL1] ...
+- Expand section description to clarify it applies to both AI tools and
+  developers using AI tools
 
-Given how messy the process of formalizing a tag is, I'd really hate
-to tie the two things (a policy document and a tag) together
-unnecessarily.
+ README                | 212 +++++++++++++++++++++++++++++++++++++++---
+ scripts/checkpatch.pl |   1 +
+ 2 files changed, 202 insertions(+), 11 deletions(-)
+
+diff --git a/README b/README
+index fd903645e6de0..3c8a39cb86710 100644
+--- a/README
++++ b/README
+@@ -1,18 +1,208 @@
+ Linux kernel
+ ============
+ 
+-There are several guides for kernel developers and users. These guides can
+-be rendered in a number of formats, like HTML and PDF. Please read
+-Documentation/admin-guide/README.rst first.
++The Linux kernel is the core of any Linux operating system. It manages hardware,
++system resources, and provides the fundamental services for all other software.
+ 
+-In order to build the documentation, use ``make htmldocs`` or
+-``make pdfdocs``.  The formatted documentation can also be read online at:
++Quick Start
++-----------
+ 
+-    https://www.kernel.org/doc/html/latest/
++* Report a bug: See Documentation/admin-guide/reporting-issues.rst
++* Get the latest kernel: https://kernel.org
++* Build the kernel: make defconfig && make -j$(nproc)
++* Join the community: https://lore.kernel.org/
+ 
+-There are various text files in the Documentation/ subdirectory,
+-several of them using the reStructuredText markup notation.
++Essential Documentation
++-----------------------
+ 
+-Please read the Documentation/process/changes.rst file, as it contains the
+-requirements for building and running the kernel, and information about
+-the problems which may result by upgrading your kernel.
++All users should be familiar with:
++
++* Building requirements: Documentation/process/changes.rst
++* Code of Conduct: Documentation/process/code-of-conduct.rst
++* License: COPYING (GPLv2)
++
++Documentation can be built with make htmldocs or viewed online at:
++https://www.kernel.org/doc/html/latest/
++
++
++Who Are You?
++============
++
++Find your role below:
++
++* New Kernel Developer - Getting started with kernel development
++* Academic Researcher - Studying kernel internals and architecture
++* Security Expert - Hardening and vulnerability analysis
++* Backport/Maintenance Engineer - Maintaining stable kernels
++* System Administrator - Configuring and troubleshooting
++* Maintainer - Leading subsystems and reviewing patches
++* Hardware Vendor - Writing drivers for new hardware
++* Distribution Maintainer - Packaging kernels for distros
++* AI Coding Assistants - AI assistants working with kernel code
++
++
++For Specific Users
++==================
++
++New Kernel Developer
++--------------------
++
++Welcome! Start your kernel development journey here:
++
++* Getting Started: Documentation/process/development-process.rst
++* Your First Patch: Documentation/process/submitting-patches.rst
++* Coding Style: Documentation/process/coding-style.rst
++* Build System: Documentation/kbuild/index.rst
++* Development Tools: Documentation/dev-tools/index.rst
++* Kernel Hacking Guide: Documentation/kernel-hacking/hacking.rst
++* Core APIs: Documentation/core-api/index.rst
++
++Academic Researcher
++-------------------
++
++Explore the kernel's architecture and internals:
++
++* Researcher Guidelines: Documentation/process/researcher-guidelines.rst
++* Memory Management: Documentation/mm/index.rst
++* Scheduler: Documentation/scheduler/index.rst
++* Networking Stack: Documentation/networking/index.rst
++* Filesystems: Documentation/filesystems/index.rst
++* RCU (Read-Copy Update): Documentation/RCU/index.rst
++* Locking Primitives: Documentation/locking/index.rst
++* Power Management: Documentation/power/index.rst
++
++Security Expert
++---------------
++
++Security documentation and hardening guides:
++
++* Security Documentation: Documentation/security/index.rst
++* LSM Development: Documentation/security/lsm-development.rst
++* Self Protection: Documentation/security/self-protection.rst
++* Reporting Vulnerabilities: Documentation/process/security-bugs.rst
++* CVE Procedures: Documentation/process/cve.rst
++* Embargoed Hardware Issues: Documentation/process/embargoed-hardware-issues.rst
++* Security Features: Documentation/userspace-api/seccomp_filter.rst
++
++Backport/Maintenance Engineer
++-----------------------------
++
++Maintain and stabilize kernel versions:
++
++* Stable Kernel Rules: Documentation/process/stable-kernel-rules.rst
++* Backporting Guide: Documentation/process/backporting.rst
++* Applying Patches: Documentation/process/applying-patches.rst
++* Subsystem Profile: Documentation/maintainer/maintainer-entry-profile.rst
++* Git for Maintainers: Documentation/maintainer/configure-git.rst
++
++System Administrator
++--------------------
++
++Configure, tune, and troubleshoot Linux systems:
++
++* Admin Guide: Documentation/admin-guide/index.rst
++* Kernel Parameters: Documentation/admin-guide/kernel-parameters.rst
++* Sysctl Tuning: Documentation/admin-guide/sysctl/index.rst
++* Tracing/Debugging: Documentation/trace/index.rst
++* Performance Security: Documentation/admin-guide/perf-security.rst
++* Hardware Monitoring: Documentation/hwmon/index.rst
++
++Maintainer
++----------
++
++Lead kernel subsystems and manage contributions:
++
++* Maintainer Handbook: Documentation/maintainer/index.rst
++* Pull Requests: Documentation/maintainer/pull-requests.rst
++* Managing Patches: Documentation/maintainer/modifying-patches.rst
++* Rebasing and Merging: Documentation/maintainer/rebasing-and-merging.rst
++* Development Process: Documentation/process/maintainer-handbooks.rst
++* Maintainer Entry Profile: Documentation/maintainer/maintainer-entry-profile.rst
++* Git Configuration: Documentation/maintainer/configure-git.rst
++
++Hardware Vendor
++---------------
++
++Write drivers and support new hardware:
++
++* Driver API Guide: Documentation/driver-api/index.rst
++* Driver Model: Documentation/driver-api/driver-model/driver.rst
++* Device Drivers: Documentation/driver-api/infrastructure.rst
++* Bus Types: Documentation/driver-api/driver-model/bus.rst
++* Device Tree Bindings: Documentation/devicetree/bindings/
++* Power Management: Documentation/driver-api/pm/index.rst
++* DMA API: Documentation/core-api/dma-api.rst
++
++Distribution Maintainer
++-----------------------
++
++Package and distribute the kernel:
++
++* Stable Kernel Rules: Documentation/process/stable-kernel-rules.rst
++* ABI Documentation: Documentation/ABI/README
++* Kernel Configuration: Documentation/kbuild/kconfig.rst
++* Module Signing: Documentation/admin-guide/module-signing.rst
++* Kernel Parameters: Documentation/admin-guide/kernel-parameters.rst
++* Tainted Kernels: Documentation/admin-guide/tainted-kernels.rst
++
++AI Coding Assistants
++--------------------
++
++Guidelines for AI assistants and developers using AI tools when working
++with kernel code:
++
++* How to Do Kernel Development: Documentation/process/howto.rst
++* Coding Style: Documentation/process/coding-style.rst
++* Submitting Patches: Documentation/process/submitting-patches.rst
++* Submit Checklist: Documentation/process/submit-checklist.rst
++* Programming Language: Documentation/process/programming-language.rst
++
++Critical Requirements:
++
++* License: Use proper SPDX identifiers per
++  Documentation/process/license-rules.rst; kernel code is generally
++  GPL-2.0-only unless documented exceptions apply (see COPYING)
++* Signed-off-by: Agents MUST NOT add Signed-off-by tags
++  (Only humans can legally certify code submission rights)
++* Attribution: Agents MUST add Assisted-by tag:
++  Format: Assisted-by: $AGENT_NAME:$MODEL_VERSION [$TOOL1] [$TOOL2] ...
++
++Examples of Proper Attribution:
++
++Good examples:
++  Assisted-by: AI-Tool:model-version-1.0 coccinelle
++  Assisted-by: AI-Assistant:v2.5.0
++  Assisted-by: Code-Helper:model-2024-04-09 sparse smatch
++  Assisted-by: ML-Agent:version-2024-11
++
++Bad examples (DO NOT USE):
++  Assisted-by: AI                          # Too vague
++  Assisted-by: AI-Tool coccinelle git      # Don't list basic tools
++  Signed-off-by: AI Assistant <ai@...>     # NEVER - AI cannot sign off
++
++Tool Categories:
++
++Specialized tools (SHOULD list if used):
++  - coccinelle: Semantic patch tool for C code transformations
++  - sparse: Semantic checker for C programs
++  - smatch: Static analysis tool for C
++  - cppcheck: Static analysis for C/C++
++  - clang-tidy: Clang-based linter
++  - Custom analysis scripts you created
++
++Basic tools (DON'T list - assumed to be used):
++  - git: Version control
++  - checkpatch.pl: Kernel style checker
++  - gcc/clang: Compilers
++  - make: Build system
++  - Standard editors (vim, emacs, nano, etc.)
++
++
++Communication and Support
++=========================
++
++* Mailing Lists: https://lore.kernel.org/
++* IRC: #kernelnewbies on irc.oftc.net
++* Bugzilla: https://bugzilla.kernel.org/
++* MAINTAINERS file: Lists subsystem maintainers and mailing lists
++* Email Clients: Documentation/process/email-clients.rst
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 92669904eecc7..6e92e0f46ae61 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -641,6 +641,7 @@ our $signature_tags = qr{(?xi:
+ 	Reviewed-by:|
+ 	Reported-by:|
+ 	Suggested-by:|
++	Assisted-by:|
+ 	To:|
+ 	Cc:
+ )};
+-- 
+2.51.0
+
