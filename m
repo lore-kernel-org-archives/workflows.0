@@ -1,121 +1,106 @@
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFE7822B5AC
-	for <workflows@vger.kernel.org>; Tue, 18 Nov 2025 08:08:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 764943A1CF7;
+	Tue, 18 Nov 2025 16:35:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763453302; cv=none; b=rP6l5rxYjQ56kQuqfMIdFTzBQZEUAOareNKDQ7nPMQI0L2+pZ1bPA07/0dufOH2ueppYfuO40ooheoejXifpIVKKWUH43UetzBCnvfd3MOu1Y7YB2SYOJS/xP1JHIf+AgE2LQe1ddBJ3O4HHvcqK5REBP9nphxXIElj5D//u5Mo=
+	t=1763483732; cv=none; b=TSiW3C7PggtnR3M38F2Fj88XrwToPj/sc1lxVBVlT3LX4SdzcWxwxdzBmmZK+5Cxc6GFRehIw+ZZbz8mNI0nTjGahHt6lMUlISAHQ6koHzg1uVD+GqKYAevYdPa4anyXNGWAnnMYo3tDHFZjTYf0m9XwViy3TurWEKoV3TGHYm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763453302; c=relaxed/simple;
-	bh=XGiihLBXKPD9ukbo6kQMQ3MBqrEpjs6uCB8MSE1Lgwo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uNqOhwPjZw2rydhWjvIvOkr/tSkgz+a3ni1ErD/lClNITNF8+zmAvHbnEVh3JaP0be3net6V12Dnq55QAXBS3iWjgOQTtnXsI83SCWsC0t3QYW/jf3604Glt1i3S0TEfy6k6eZSKIHwS+JstmSfjuC8BDcrrGSU6ZRdL2CHZHsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-55b104727c8so1299318e0c.0
-        for <workflows@vger.kernel.org>; Tue, 18 Nov 2025 00:08:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763453299; x=1764058099;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZM9VzAmTBs3fZeiLb0JvTeogSBBQRAI6GehzZBDgay4=;
-        b=v1UHuF+gJTi1CpB9Thv/HqPabg3KI1wGWrco6125An+eq/f8k+B2gm0eL1dOdofvLc
-         p/dTi9Gk4zRoipSoySh02pLwMoVxC+U8AL+wpzXQXLnSBPKkT+eXKCgy6ZYulX0iViVt
-         jVTbiZDmTM+Zi286paJf3axSHu4uYTPfBUNfO4oLpmaySbJRTY6F5Mte7ZzNHtwjkf/H
-         aWuhBEe5A4AnSqYsrxU7QrJGPtlCgVLVUsMp56mN/d/U6i3G0Jj+0+hdnBxyE7T5ItAH
-         L9BB+Nj2lVNmSB0Wz9yjW//7H7w36HdaINwUTOUYYnYI43LcdLxWcgdBNgbIyZl4jhAz
-         3iow==
-X-Forwarded-Encrypted: i=1; AJvYcCXfPGG879x9K/WiKKOj+cKkUkg5QqGYAGOd/kNi4jn/vLaKe32JFp+uwKzfihEn7Mhi4kuc8hfIVdU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzmnzPx0Qp7pQdiPPRRWIoFmd31RkQzdaEdNqX9sA/0WgfOXig9
-	uUSZL/Ez9xCrIUhsmD0gAIsq9ddrq2WCWAPN+MjB/OXXkgQvR28JoPM7ey8J4sgbxzM=
-X-Gm-Gg: ASbGncsvuOrWb+FhUE1an5yEt9ommn2rwZpFf67nnkpAd2Qrc/kgaCELJSdWk8n2Wep
-	ZJFGxU8x34VCedEnV0FWagb+VZm7VAhfxf3VMhm0eKByfqNA3RHPIop8lnBfpodny4DJiSkS9PZ
-	k1HGn5ZGHnriRpVEzekCKCTi4ewGeZ3csZ6qeeYkmaMsoJnjOmQE40ebqD0SEhEaBTMycr8kCrJ
-	RFjW1mjvV00WqNAt1nib4SvWuWzPjgMAf2O0N/nHOL1uPu5rGlM8LhUJzUOYHRL0CGeKflUE8fA
-	wTeprKAtZmJPOErBbQOQxWH8/WZUlk2/KmkpQdRXP1ek4ra4UM7gixVqf71H6T4rFVDarbi6zlG
-	XfOfkoQ6yceOaYvSTvqehcBpnoiYrwspdkhRQSl/FwA+iAV08rlOAG9ttK//KhD1E77iOwsf3xW
-	YkCE1O8p9ujg5ZeJv5R/gGRP5OzpNBXJ9QagDHDCrvWuCG1WRnv3K3wh44DbPCfwjELPIcYJIwD
-	g==
-X-Google-Smtp-Source: AGHT+IEqcHmnV/pvSBthRnbqD/GVYMclvyXvEsW9KwtaksBrW9FNjS6ZzoyrLbVy2YiS1qZTBgHYjw==
-X-Received: by 2002:a05:6122:1784:b0:559:b2cb:5d9d with SMTP id 71dfb90a1353d-55b1bce5707mr4725427e0c.1.1763453299212;
-        Tue, 18 Nov 2025 00:08:19 -0800 (PST)
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com. [209.85.221.172])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-55b0f4986fdsm5335396e0c.21.2025.11.18.00.08.18
-        for <workflows@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Nov 2025 00:08:18 -0800 (PST)
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-55b104727c8so1299312e0c.0
-        for <workflows@vger.kernel.org>; Tue, 18 Nov 2025 00:08:18 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUiYG/7ueYlrYIX1FYQFd26vIyCNK9OyLXRxKFJdupvJm+DbOjd6AfCzK38atWq5RcEXnQwWDHNBDA=@vger.kernel.org
-X-Received: by 2002:a05:6122:4685:b0:54a:a048:45a4 with SMTP id
- 71dfb90a1353d-55b1beda7edmr4592976e0c.16.1763453298630; Tue, 18 Nov 2025
- 00:08:18 -0800 (PST)
+	s=arc-20240116; t=1763483732; c=relaxed/simple;
+	bh=XG2/0NHbz5h1NeW5vRPlEIFWpPEF81/RkJA/MakjhaY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=u+dqG0G2ieVUw6R4CSM/hbZhvg5hUjHZzcprBq4pxyucTg7XWdPAv7TP6MrCaJg8DjB3NPuWibxWJzw7EukZythxA8qiDS8O7VHTVCHBUwE8O9HME5qtreZ4dEIOTfe0q9oAqEZ+KH5FSGlNy9v+KL1Hbt+Tf0Q/9WJL0vPpoSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=EUJpjVZH; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="EUJpjVZH"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AC5A240C48
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1763483730; bh=c6E0Cc8VknrY5JDkYvyrX0Q8/d43A/ouaT2Kw+6iT/o=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=EUJpjVZHN5yrIYX1IIMojhIJ+H8CZ3HnpULEoGm178vsXU4X4463JLMgVF2Qnvb5v
+	 9N8xEtGIeSd5AEQpdVxdjA9CGK0Z32eQ5MRwnVgeem2Aiqwm+SiJVbKDMcD0vgF0r2
+	 ucNe0ETSdp9VTdW3ooBROYs9OheGS/y2xOygao4hkbKUUmGeK1iyIE6aWepAc0XEBy
+	 uD/uNmIq2b9F+Ehgqtc4eccrVAhbLv8ZMFrRzEOBNg+Iuz+ja/c1XnvV0PvEczxIgq
+	 l7OQZppjIjrSbbczTb5dTsrrZDn2SMLANAanFAkQQxaWUEZDk8+O27PLnC87vCnmUN
+	 rm26LiubopQsQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id AC5A240C48;
+	Tue, 18 Nov 2025 16:35:30 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org
+Cc: josh@joshtriplett.org, kees@kernel.org, konstantin@linuxfoundation.org,
+ linux-kernel@vger.kernel.org, rostedt@goodmis.org,
+ workflows@vger.kernel.org, joe@perches.com, rdunlap@infradead.org, Sasha
+ Levin <sashal@kernel.org>
+Subject: Re: [PATCH v3] README: restructure with role-based documentation
+ and guidelines
+In-Reply-To: <20251117213801.4077535-1-sashal@kernel.org>
+References: <20251117213801.4077535-1-sashal@kernel.org>
+Date: Tue, 18 Nov 2025 09:35:29 -0700
+Message-ID: <87wm3n47u6.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251117213801.4077535-1-sashal@kernel.org> <aRvHpfke8hZ--AHF@archie.me>
- <aRvY0QbRzkh94zql@laps>
-In-Reply-To: <aRvY0QbRzkh94zql@laps>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 18 Nov 2025 09:08:07 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXaxo=i+QPEDFwJEMtcuVs-YSa6ZUZTA9sg=Ytw1KeN0w@mail.gmail.com>
-X-Gm-Features: AWmQ_blTvdvRHcaJwUYBVX6wV9Kh7ZXYBqeN2r3oaeJBk2fWBhQbVStFTLOfslo
-Message-ID: <CAMuHMdXaxo=i+QPEDFwJEMtcuVs-YSa6ZUZTA9sg=Ytw1KeN0w@mail.gmail.com>
-Subject: Re: [PATCH v3] README: restructure with role-based documentation and guidelines
-To: Sasha Levin <sashal@kernel.org>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org, corbet@lwn.net, 
-	josh@joshtriplett.org, kees@kernel.org, konstantin@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, rostedt@goodmis.org, workflows@vger.kernel.org, 
-	joe@perches.com, rdunlap@infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 
-Hi Sasha,
+Sasha Levin <sashal@kernel.org> writes:
 
-On Tue, 18 Nov 2025 at 03:24, Sasha Levin <sashal@kernel.org> wrote:
-> On Tue, Nov 18, 2025 at 08:11:01AM +0700, Bagas Sanjaya wrote:
-> >On Mon, Nov 17, 2025 at 04:38:01PM -0500, Sasha Levin wrote:
-> >> +* Build the kernel: make defconfig && make -j$(nproc)
-> >
-> >See Documentation/admin-guide/quickly-build-trimmed-linux.rst.
+> Reorganize README to provide targeted documentation paths for different user
+> roles including developers, researchers, security experts, maintainers, and AI
+> coding assistants. Add quick start section and essential docs links.
 >
-> ooh nice, I wasn't aware of this one.
+> Include proper attribution requirements for AI-assisted contributions using
+> Assisted-by tags with agent details and tools used.
 >
-> >> +* Attribution: Agents MUST add Assisted-by tag:
-> >> +  Format: Assisted-by: $AGENT_NAME:$MODEL_VERSION [$TOOL1] [$TOOL2] ...
-> >> +
-> >> +Examples of Proper Attribution:
-> >> +
-> >> +Good examples:
-> >> +  Assisted-by: AI-Tool:model-version-1.0 coccinelle
-> >> +  Assisted-by: AI-Assistant:v2.5.0
-> >> +  Assisted-by: Code-Helper:model-2024-04-09 sparse smatch
-> >> +  Assisted-by: ML-Agent:version-2024-11
-> >
-> >So mentioning LLM version is strictly required?
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+> Changes in v3:
+> - Replace "Agentic Coding" terminology with clearer "AI Coding Assistants"
+> - Add concrete examples of proper Assisted-by tag usage with multiple formats
+> - Add "Bad examples" section showing anti-patterns to avoid
+> - Add detailed tool categorization distinguishing specialized vs basic tools
+> - Add explicit format specification: $AGENT_NAME:$MODEL_VERSION [$TOOL1] ...
+> - Expand section description to clarify it applies to both AI tools and
+>   developers using AI tools
 >
-> Ideally yes, it'll help us keep track of which tooling is being used, and help
-> us improve our workflows based on the results we're seeing from different LLMs.
+>  README                | 212 +++++++++++++++++++++++++++++++++++++++---
+>  scripts/checkpatch.pl |   1 +
+>  2 files changed, 202 insertions(+), 11 deletions(-)
 
-Apparently we already have two users, without version numbers ;-)
+Overall I really like this change.  We could quibble forever about the
+details, but that's probably not worthwhile.
 
-  - https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=913e65a2fe1a16fa253c4a016e2306b2cf9ffef8
-    Assisted-by: Google Gemini
-  - https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=525cebedb32a87fa48584bc44e14170beb2c10d1
-    Assisted-by: Daniel Borkmann <dborkmann@redhat.com>
+That said, I have one quibble :)
 
-Gr{oetje,eeting}s,
+> +Examples of Proper Attribution:
+> +
+> +Good examples:
+> +  Assisted-by: AI-Tool:model-version-1.0 coccinelle
+> +  Assisted-by: AI-Assistant:v2.5.0
+> +  Assisted-by: Code-Helper:model-2024-04-09 sparse smatch
+> +  Assisted-by: ML-Agent:version-2024-11
+> +
+> +Bad examples (DO NOT USE):
+> +  Assisted-by: AI                          # Too vague
+> +  Assisted-by: AI-Tool coccinelle git      # Don't list basic tools
+> +  Signed-off-by: AI Assistant <ai@...>     # NEVER - AI cannot sign off
 
-                        Geert
+I don't think this belongs here - we don't have examples of good SOB
+lines - or of anything else.  What this needs, instead, is a link to
+Dave's tools document once that goes in.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+(We also, in truth, do not yet have a consensus on what the attribution
+tags should be, and here isn't the place to try to form one.)
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks,
+
+jon
