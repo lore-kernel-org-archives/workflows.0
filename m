@@ -1,191 +1,270 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4974239E76
-	for <workflows@vger.kernel.org>; Wed, 19 Nov 2025 06:54:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED2072E6CAA;
+	Wed, 19 Nov 2025 07:43:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763535249; cv=none; b=K2aZzJOTVinZNB7ExeNrhjNIcUXMn9RIdh71a1rOpl19G4imtOpFwSIhwkOMqZujzuXK6RkDS4sdmkqZXtwoIg+Q2LJi4ZXqm3futisRZCLAc6SqrntD121EM0Nf3lflWHzTFxscGmMpSYK45bQWXEQxHCLfjnyGG2ZDyemL728=
+	t=1763538240; cv=none; b=ObypwnXFNLwG9EBbJKnkUFpV46Ahxt4ptJQIgEap0eafYeOm1nWesgxdn7Ga7Ta11qaa4pfUu3puP5sPprnzTxTgzNCjnl5zJhW7XhyXldBw46aEqPqvoDFDkIj1CVfeH0mvznDVM/ZF6lCpVO+t5Jk8gP00q3ISOUl4qh71iSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763535249; c=relaxed/simple;
-	bh=c6iEQjBee6A/wie6G8Q6LazEnH0UOGUalPNLQFibx5w=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=vE26h9GiP5gEuUHrDVNq7HLAVot5tgkDd9kc3yj29xMDf5AcW3Vg9tH9WiK+RygkeIaUPRmfzGhnCq6/duGbmlX9qWYU1GMjmvS1ASXC4X3eftL17Z0/zXmREj38V7HUsnmL27T+DOBnRcA+t+d+Lew9LknrIXGHJOsCha7z7LQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M6IhmAnZ; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1763538240; c=relaxed/simple;
+	bh=ciDG10X1fqzgeCrD9c6jTn43Mwk0L9Y3KBjj20IeoZo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=G8n0aPc54T/j6p0NOI5FAR2fsYspxL/uJBABDtJtmezncaj7Gwxhm4CpuRMvMKmxxw6cdNU+diQ8c1fd1Q4upxiIQSvwixcaNRFtLj6IPfQdHDk43ZnHr47im7aEbZayiLDhWATqev/MnYSaKCp7oyi1VXNlQWET2cQXL+FjCnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mTVcyad5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M6IhmAnZ"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-7a9cdf62d31so7711795b3a.3
-        for <workflows@vger.kernel.org>; Tue, 18 Nov 2025 22:54:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763535246; x=1764140046; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=E38F5iOCPuww5nf63JyXNJFqV8JGs8VUEvNS436chC8=;
-        b=M6IhmAnZhCmDAxJ6+rwatoxSzjmUIdQBjZTw6GmK94PahmrSO7LZX8/CajRVbiisr2
-         8p9DhM81U80bxNk9lWQrQWoVuKIzQnX/TiyEpus6jxARGVcvyipeZeiSjq27mdYkd0v5
-         xYed+LdrptsdyYOoKeUG9pMEwO7u5vzQkIN5NR8G4kIbirDHmrfX3mP7mge9Uwa9IG7e
-         Jx/V6rydRS2nbNT19jVpxnth8vSrnmUi35EdZq0taDRKBob6aYILp6fWtXmeRMSG8Wlz
-         Tce+b5YEsn5wK2ZL9E0DWvQbdaK+S8wMz7TgiMTUDHH6qnDaX+He2WLT+tzXvG8nwIqG
-         gFvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763535246; x=1764140046;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=E38F5iOCPuww5nf63JyXNJFqV8JGs8VUEvNS436chC8=;
-        b=wKCmctr9gNKhRUE73sxSNxMHAxPq62WD6BcEj+xh1cP4ejLXtqvlqAQIrPAmHDpDEN
-         /H00wfIyJ+1RCjcX2W97PlwYIsiijeA6t4RodWA/0855cwF+8YlZpCCSG2D66XeWmaqu
-         sPgg2XGSRenfqaySp3gvLTEele90Mxov7AATVam9rzGiH4o0ekLI7nWRN76cgx2SRgnK
-         9avkoMwUbkQ8W3USo9mVV9GnnhBay7/eNZxNAKqcImMeMtcRJ7zd5JF9Z4XBg8iLqhR6
-         zkCTFB48gjh6U3uVYHmpdmlyM88cyCG/WktCGxzK1Gyq4CFED1SKp03ZNWepjbzr4ywr
-         q5/g==
-X-Gm-Message-State: AOJu0YyAAnRTLuCC2gg2KO05q+ZQB83EBXOZrucyinYODeAqIUVa/X9E
-	+ZatBnUoUxDvfcTjMqLj5J/FnRnClo6zN1zlic8DV3RumSk4z9sF3J7e
-X-Gm-Gg: ASbGncvoluXv4OKDg06LSmb95JIHR58vFUXnR3seQEzzQkZ7+8w8pa9oiJJwG5bf7Al
-	wLBAF841UN9uc5nUePEVe0dsrag3Pf0PQ3Pajo30D9nxNPQaK2JUaPUeON3gAZkBgQ+uha2B+VU
-	6fD8004QphDemXoTEzWH8wRAhaaq1z1GN+RHn3H0cjmVAW3N6gqnzOG7wBrZCDSCHtq2VlrRDc0
-	OVir99Gs2cgifXQRziFB95bsiVmzuDvxl9eCm2g2YK0Y1Nbrc59yxMLRdy09Sv78QxZr8oAkWW/
-	kvT/Ew0/NAmn967pU0XohpLmBgiE/HZpiY3v12Mx4WAhrtJNGyqsGygYpyXO3AyAZurdS/e+NN9
-	PPBteC+04z6z+WLgG6+1cBlk2gDvFBVaLR1nXLCw3G6Gj8NI+Xi8H8NwxxsHMOphiFVMIYywZ8J
-	CWnJdNd6KZet6+AlWzLwNVup3zMZoXOfJZxQlCQvQmxO8xpYngf5FK
-X-Google-Smtp-Source: AGHT+IEjnUsFYS10TLbM75bHXZXCUsiqQdjKngnrPrJ8OU9rffukFhVefJ8mrLpSM76VWL08dDLKJw==
-X-Received: by 2002:a05:6a21:3397:b0:35d:cc9a:8bbb with SMTP id adf61e73a8af0-35dcc9a8d3emr15383274637.47.1763535245724;
-        Tue, 18 Nov 2025 22:54:05 -0800 (PST)
-Received: from ?IPv6:2401:4900:60d7:2218:52ea:a17:db14:a44? ([2401:4900:60d7:2218:52ea:a17:db14:a44])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-bc37507fc7bsm17221460a12.23.2025.11.18.22.53.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Nov 2025 22:54:05 -0800 (PST)
-Message-ID: <24e675622cd33404f8717189205658b016332131.camel@gmail.com>
-Subject: Re: [PATCH RESEND v4] checkpatch: add uninitialized pointer with
- __free attribute check
-From: ally heev <allyheev@gmail.com>
-To: Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn
-	 <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>, Jonathan Corbet
-	 <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
- David Hunter <david.hunter.linux@gmail.com>, Shuah Khan
- <skhan@linuxfoundation.org>, Viresh Kumar	 <vireshk@kernel.org>, Nishanth
- Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,  linux-pm
- <linux-pm@vger.kernel.org>, dan.j.williams@intel.com, Geert Uytterhoeven	
- <geert@linux-m68k.org>, James Bottomley
- <James.Bottomley@hansenpartnership.com>
-Date: Wed, 19 Nov 2025 12:23:56 +0530
-In-Reply-To: <20251117-aheev-checkpatch-uninitialized-free-v4-1-fbee16ffeab9@gmail.com>
-References: 
-	<20251117-aheev-checkpatch-uninitialized-free-v4-1-fbee16ffeab9@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.1-1+deb13u1 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mTVcyad5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0618C113D0;
+	Wed, 19 Nov 2025 07:43:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763538239;
+	bh=ciDG10X1fqzgeCrD9c6jTn43Mwk0L9Y3KBjj20IeoZo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=mTVcyad5WnPehajNMzRoNxen+2rDuPMBPL/GTdgrdS5oxDScsT1zyQw7eh/hbXIsS
+	 nfCqoGYKX9oahnxyGrKzSKeYM/2JZ39JUyAZ7A6DrXHX02v4/2l/JHbC3Jlq5ex86l
+	 AkB7KO6soHz7QB08Jgch/eNBbtEPjqH5nYoekzAYSRE5xtYI7ouHQR1zvXvqJkagxP
+	 chGm/bG7s+U/oDxZptvjvfqpr7a9D2Iwwk6UfU8g8wuDyuiLqM1C0TcCEprRYro3hq
+	 VPn09OH7zuRcaoSmqdBoC45Wj5/k3c2aW2zMODtrpgjYMZCiLY/BiSzjmxb/9V9Wv5
+	 YlK89zr7hbr4w==
+Date: Wed, 19 Nov 2025 08:43:53 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org, josh@joshtriplett.org,
+ kees@kernel.org, konstantin@linuxfoundation.org,
+ linux-kernel@vger.kernel.org, rostedt@goodmis.org,
+ workflows@vger.kernel.org, joe@perches.com, rdunlap@infradead.org
+Subject: Re: [PATCH v4] README: restructure with role-based documentation
+ and guidelines
+Message-ID: <20251119084353.658db390@foz.lan>
+In-Reply-To: <20251119023832.1095490-1-sashal@kernel.org>
+References: <20251119023832.1095490-1-sashal@kernel.org>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, 2025-11-17 at 08:40 +0530, Ally Heev wrote:
-> uninitialized pointers with __free attribute can cause undefined
-> behavior as the memory randomly assigned to the pointer is freed
-> automatically when the pointer goes out of scope.
-> add check in checkpatch to detect such issues.
->=20
-> Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Link: https://lore.kernel.org/all/8a4c0b43-cf63-400d-b33d-d9c447b7e0b9@su=
-swa.mountain/
-> Acked-by: Dan Williams <dan.j.williams@intel.com>
-> Signed-off-by: Ally Heev <allyheev@gmail.com>
+Em Tue, 18 Nov 2025 21:38:32 -0500
+Sasha Levin <sashal@kernel.org> escreveu:
+
+> Reorganize README to provide targeted documentation paths for different user
+> roles including developers, researchers, security experts, maintainers, and AI
+> coding assistants. Add quick start section and essential docs links.
+> 
+> Include proper attribution requirements for AI-assisted contributions using
+> Assisted-by tags with agent details and tools used.
+> 
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+
+I liked the new version. Yet, IMO License requires some changes. After
+that, feel free to add:
+
+Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
 > ---
-> Testing:
-> ran checkpatch.pl before and after the change on
-> crypto/asymmetric_keys/x509_public_key.c, which has
-> both initialized with NULL and uninitialized pointers
-> ---
-> Changes in v4:
-> - fixed UNINITIALIZED_PTR_WITH_FREE description
-> - Link to v3: https://lore.kernel.org/r/20251025-aheev-checkpatch-uniniti=
-alized-free-v3-1-a67f72b1c2bd@gmail.com
->=20
-> Changes in v3:
-> - remove $FreeAttribute
-> - Link to v2: https://lore.kernel.org/r/20251024-aheev-checkpatch-uniniti=
-alized-free-v2-0-16c0900e8130@gmail.com
->=20
-> Changes in v2:
-> - change cover letter and title to reflect new changes
-> - fix regex to handle multiple declarations in a single line case
-> - convert WARN to ERROR for uninitialized pointers
-> - add a new WARN for pointers initialized with NULL
-> - NOTE: tried handling multiple declarations on a single line by splittin=
-g
->         them and matching the parts with regex, but, it turned out to be
-> 	complex and overkill. Moreover, multi-line declarations pose a threat
-> - Link to v1: https://lore.kernel.org/r/20251021-aheev-checkpatch-uniniti=
-alized-free-v1-1-18fb01bc6a7a@gmail.com
-> ---
->  Documentation/dev-tools/checkpatch.rst | 5 +++++
->  scripts/checkpatch.pl                  | 6 ++++++
->  2 files changed, 11 insertions(+)
->=20
-> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-t=
-ools/checkpatch.rst
-> index d5c47e560324fb2399a5b1bc99c891ed1de10535..c61a3892a60c13f7c5ba89e96=
-9e39a93a3dcd5bc 100644
-> --- a/Documentation/dev-tools/checkpatch.rst
-> +++ b/Documentation/dev-tools/checkpatch.rst
-> @@ -1009,6 +1009,11 @@ Functions and Variables
-> =20
->        return bar;
-> =20
-> +  **UNINITIALIZED_PTR_WITH_FREE**
-> +    Pointers with __free attribute should be initialized. Not doing so
-> +    may lead to undefined behavior as the memory assigned (garbage,
-> +    in case not initialized) to the pointer is freed automatically
-> +    when the pointer goes out of scope.
-> =20
->  Permissions
->  -----------
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index 92669904eecc7a8d2afd3f2625528e02b6d17cd6..e697d81d71c0b3628f7b59807=
-e8bc40d582621bb 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -7721,6 +7721,12 @@ sub process {
->  				ERROR("MISSING_SENTINEL", "missing sentinel in ID array\n" . "$here\=
-n$stat\n");
->  			}
->  		}
+> 
+> Changes since v3:
+> 
+>  - No AI hype :)
+>  - Link to a guide for building the kernel
+> 
+> 
+>  README | 160 +++++++++++++++++++++++++++++++++++++++++++++++++++++----
+>  1 file changed, 149 insertions(+), 11 deletions(-)
+> 
+> diff --git a/README b/README
+> index fd903645e6de0..1fc993d7cf07e 100644
+> --- a/README
+> +++ b/README
+> @@ -1,18 +1,156 @@
+>  Linux kernel
+>  ============
+>  
+> -There are several guides for kernel developers and users. These guides can
+> -be rendered in a number of formats, like HTML and PDF. Please read
+> -Documentation/admin-guide/README.rst first.
+> +The Linux kernel is the core of any Linux operating system. It manages hardware,
+> +system resources, and provides the fundamental services for all other software.
+>  
+> -In order to build the documentation, use ``make htmldocs`` or
+> -``make pdfdocs``.  The formatted documentation can also be read online at:
+> +Quick Start
+> +-----------
+>  
+> -    https://www.kernel.org/doc/html/latest/
+> +* Report a bug: See Documentation/admin-guide/reporting-issues.rst
+
+Perhaps you might add a link to Documentation/process/security-bugs.rst
+as well, although it is already there at reporting-issues.rst.
+
+> +* Get the latest kernel: https://kernel.org
+> +* Build the kernel: See Documentation/admin-guide/quickly-build-trimmed-linux.rst
+> +* Join the community: https://lore.kernel.org/
+>  
+> -There are various text files in the Documentation/ subdirectory,
+> -several of them using the reStructuredText markup notation.
+> +Essential Documentation
+> +-----------------------
+>  
+> -Please read the Documentation/process/changes.rst file, as it contains the
+> -requirements for building and running the kernel, and information about
+> -the problems which may result by upgrading your kernel.
+> +All users should be familiar with:
 > +
-> +# check for uninitialized pointers with __free attribute
-> +		while ($line =3D~ /\*\s*($Ident)\s+__free\s*\(\s*$Ident\s*\)\s*[,;]/g)=
- {
-> +			ERROR("UNINITIALIZED_PTR_WITH_FREE",
-> +			      "pointer '$1' with __free attribute should be initialized\n" . =
-$herecurr);
-> +		}
->  	}
-> =20
->  	# If we have no input at all, then there is nothing to report on
->=20
-> ---
-> base-commit: 6548d364a3e850326831799d7e3ea2d7bb97ba08
-> change-id: 20251021-aheev-checkpatch-uninitialized-free-5c39f75e10a1
->=20
-> Best regards,
-> -----BEGIN PGP SIGNATURE-----
->=20
-> iHUEABYKAB0WIQQBFRpOLrIakF7DYvaWPaLUP9d7HAUCaQ2YPwAKCRCWPaLUP9d7
-> HDkPAP9+gFqrD4O5qsYZzxGFwfXPAY7F8TM0lfYy7fLNxA2brAEAwLyLuyN0h7qg
-> N7da1PWuOGK8tKeZ9dR4r3gFdlbZMAo=3D
-> =3Dzo4P
-> -----END PGP SIGNATURE-----
+> +* Building requirements: Documentation/process/changes.rst
+> +* Code of Conduct: Documentation/process/code-of-conduct.rst
+> +* License: COPYING (GPLv2)
 
-There's an ongoing discussion about making this rule global
-https://lore.kernel.org/lkml/58fd478f408a34b578ee8d949c5c4b4da4d4f41d.camel=
-@HansenPartnership.com/.
-I will wait till weekend before making any more changes.
+Hmm... "GPLv2" doesn't fit all, as it is GPL-2.0 WITH Linux-syscall-note,
+plus, as stated on COPYING:
 
-Also, CCing James Bottomley
+	"In addition, other licenses may also apply."
+
+As we don't want to repeat the entire COPYING text here, better
+to just point to the file, e.g.
+
+	License: see COPYING
+
+> +
+> +Documentation can be built with make htmldocs or viewed online at:
+> +https://www.kernel.org/doc/html/latest/
+> +
+> +
+> +Who Are You?
+> +============
+> +
+> +Find your role below:
+> +
+> +* New Kernel Developer - Getting started with kernel development
+> +* Academic Researcher - Studying kernel internals and architecture
+> +* Security Expert - Hardening and vulnerability analysis
+> +* Backport/Maintenance Engineer - Maintaining stable kernels
+> +* System Administrator - Configuring and troubleshooting
+> +* Maintainer - Leading subsystems and reviewing patches
+> +* Hardware Vendor - Writing drivers for new hardware
+> +* Distribution Maintainer - Packaging kernels for distros
+> +
+> +
+> +For Specific Users
+> +==================
+> +
+> +New Kernel Developer
+> +--------------------
+> +
+> +Welcome! Start your kernel development journey here:
+> +
+> +* Getting Started: Documentation/process/development-process.rst
+> +* Your First Patch: Documentation/process/submitting-patches.rst
+> +* Coding Style: Documentation/process/coding-style.rst
+> +* Build System: Documentation/kbuild/index.rst
+> +* Development Tools: Documentation/dev-tools/index.rst
+> +* Kernel Hacking Guide: Documentation/kernel-hacking/hacking.rst
+> +* Core APIs: Documentation/core-api/index.rst
+> +
+> +Academic Researcher
+> +-------------------
+> +
+> +Explore the kernel's architecture and internals:
+> +
+> +* Researcher Guidelines: Documentation/process/researcher-guidelines.rst
+> +* Memory Management: Documentation/mm/index.rst
+> +* Scheduler: Documentation/scheduler/index.rst
+> +* Networking Stack: Documentation/networking/index.rst
+> +* Filesystems: Documentation/filesystems/index.rst
+> +* RCU (Read-Copy Update): Documentation/RCU/index.rst
+> +* Locking Primitives: Documentation/locking/index.rst
+> +* Power Management: Documentation/power/index.rst
+> +
+> +Security Expert
+> +---------------
+> +
+> +Security documentation and hardening guides:
+> +
+> +* Security Documentation: Documentation/security/index.rst
+> +* LSM Development: Documentation/security/lsm-development.rst
+> +* Self Protection: Documentation/security/self-protection.rst
+> +* Reporting Vulnerabilities: Documentation/process/security-bugs.rst
+> +* CVE Procedures: Documentation/process/cve.rst
+> +* Embargoed Hardware Issues: Documentation/process/embargoed-hardware-issues.rst
+> +* Security Features: Documentation/userspace-api/seccomp_filter.rst
+> +
+> +Backport/Maintenance Engineer
+> +-----------------------------
+> +
+> +Maintain and stabilize kernel versions:
+> +
+> +* Stable Kernel Rules: Documentation/process/stable-kernel-rules.rst
+> +* Backporting Guide: Documentation/process/backporting.rst
+> +* Applying Patches: Documentation/process/applying-patches.rst
+> +* Subsystem Profile: Documentation/maintainer/maintainer-entry-profile.rst
+> +* Git for Maintainers: Documentation/maintainer/configure-git.rst
+> +
+> +System Administrator
+> +--------------------
+> +
+> +Configure, tune, and troubleshoot Linux systems:
+> +
+> +* Admin Guide: Documentation/admin-guide/index.rst
+> +* Kernel Parameters: Documentation/admin-guide/kernel-parameters.rst
+> +* Sysctl Tuning: Documentation/admin-guide/sysctl/index.rst
+> +* Tracing/Debugging: Documentation/trace/index.rst
+> +* Performance Security: Documentation/admin-guide/perf-security.rst
+> +* Hardware Monitoring: Documentation/hwmon/index.rst
+> +
+> +Maintainer
+> +----------
+> +
+> +Lead kernel subsystems and manage contributions:
+> +
+> +* Maintainer Handbook: Documentation/maintainer/index.rst
+> +* Pull Requests: Documentation/maintainer/pull-requests.rst
+> +* Managing Patches: Documentation/maintainer/modifying-patches.rst
+> +* Rebasing and Merging: Documentation/maintainer/rebasing-and-merging.rst
+> +* Development Process: Documentation/process/maintainer-handbooks.rst
+> +* Maintainer Entry Profile: Documentation/maintainer/maintainer-entry-profile.rst
+> +* Git Configuration: Documentation/maintainer/configure-git.rst
+> +
+> +Hardware Vendor
+> +---------------
+> +
+> +Write drivers and support new hardware:
+> +
+> +* Driver API Guide: Documentation/driver-api/index.rst
+> +* Driver Model: Documentation/driver-api/driver-model/driver.rst
+> +* Device Drivers: Documentation/driver-api/infrastructure.rst
+> +* Bus Types: Documentation/driver-api/driver-model/bus.rst
+> +* Device Tree Bindings: Documentation/devicetree/bindings/
+> +* Power Management: Documentation/driver-api/pm/index.rst
+> +* DMA API: Documentation/core-api/dma-api.rst
+> +
+> +Distribution Maintainer
+> +-----------------------
+> +
+> +Package and distribute the kernel:
+> +
+> +* Stable Kernel Rules: Documentation/process/stable-kernel-rules.rst
+> +* ABI Documentation: Documentation/ABI/README
+> +* Kernel Configuration: Documentation/kbuild/kconfig.rst
+> +* Module Signing: Documentation/admin-guide/module-signing.rst
+> +* Kernel Parameters: Documentation/admin-guide/kernel-parameters.rst
+> +* Tainted Kernels: Documentation/admin-guide/tainted-kernels.rst
+> +
+> +
+> +
+> +Communication and Support
+> +=========================
+> +
+> +* Mailing Lists: https://lore.kernel.org/
+> +* IRC: #kernelnewbies on irc.oftc.net
+> +* Bugzilla: https://bugzilla.kernel.org/
+> +* MAINTAINERS file: Lists subsystem maintainers and mailing lists
+> +* Email Clients: Documentation/process/email-clients.rst
+
+
+
+Thanks,
+Mauro
