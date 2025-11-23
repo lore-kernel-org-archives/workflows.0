@@ -1,103 +1,118 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D017C26ED53
-	for <workflows@vger.kernel.org>; Sat, 22 Nov 2025 17:28:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67558163
+	for <workflows@vger.kernel.org>; Sun, 23 Nov 2025 00:06:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763832524; cv=none; b=uIiuJiImEgjU367sbiAhzYarWPzhL1moZTHjqTHtF5ZlypezMITAB9CUMIqvo186cMrLazxvwN3q/mtt05JSCgOaSoUosPUfF8GtmnSZWmQidFr9TVNjNyhlxWI5gbB4kS3VwyTBhVd+Fy/s1quSh3QnnwtMvqjom+qJh9epNDQ=
+	t=1763856411; cv=none; b=L/qza3sVbSjmLkZijebRnf8POxWv8f43Fn1Hzgy9YFHaDinIyQ6w9k5PR5E9SLE5rZ/SnfuvCtG9ep/slXYhTdzpNSUJSMaygRckimE9s6Hl7eyZiv/2IHpuyniOgEWCDKr26RrhJThsl0K9/vo20cKYEFoDjpWfX+GVOcb+HzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763832524; c=relaxed/simple;
-	bh=5MlvMXZYTtR3C+2ukJ2tJbzkGsByRH9qIzQcgZ1uih4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ZIOgCOZZYZEgpZBWIbvs2pXvCcfheqVaDBu8VjPJ9hu+YXWHTstEiSgObjncNQFLPRhqIW7Z6POpxG5VIMGeH4T1E+VjwASLTLwA9nYBqxXNRPFI73RpOEBkr/DhD9izTJ+e9CM6yoG/lM0p0A/2eRoAL1V0jOqOh0C9YMG5FYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J5AfyTpI; arc=none smtp.client-ip=209.85.210.178
+	s=arc-20240116; t=1763856411; c=relaxed/simple;
+	bh=3ozLZyyGNMMwEGx8RGNf8PFGx0IS1aWwqreSqTCHk5Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gRjSHyj/84JoRUGLl2B+E/TfH36s2x3wdocESFr3XmA2Watbq+XWTk3Rn4D9//YymJVUmf/50hlUmiS4/4ZaqqfBu7h2ifnUO1iDvVj9s3UBY9ismEWr0m0dZDtLggPuH8OsV0DeFNUx/rx3vLeatocWnUmHKU7K+nI73AWvdUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VFaXfH9h; arc=none smtp.client-ip=209.85.210.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J5AfyTpI"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7b9387df58cso4849508b3a.3
-        for <workflows@vger.kernel.org>; Sat, 22 Nov 2025 09:28:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VFaXfH9h"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-7b9387df58cso5114627b3a.3
+        for <workflows@vger.kernel.org>; Sat, 22 Nov 2025 16:06:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763832521; x=1764437321; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=5MlvMXZYTtR3C+2ukJ2tJbzkGsByRH9qIzQcgZ1uih4=;
-        b=J5AfyTpIqgeULMSs7LwLYb5BdhMx26AhFuqy7086YFy7JJdnMoVBVo1YhJys8YF4kA
-         WMOGLJ/rDg4ApWJPCNe++jE/8Hnaa0edMyvX++niezWL253ofUzE15a5W4RTzpRZStrh
-         0KHZ3oBDHnwm/NAtDoB7nmfDaEQFvaJV0w4xDIISWgSm1kgLs4QeQJLJ2QyDuKIn1FLd
-         wtLn1gFB2PBW3OI47nC2i7rtQRix0S85i8+UUtzooMWqVulLh8fDb7BZ/YOSu95TSk0b
-         ZjC3CjrqGGJzPvw1srhDqh6PXeyvYxS0+bdDcrTfbt/N8rOjz49D1ArAYuipNKISkLCC
-         TEYQ==
+        d=gmail.com; s=20230601; t=1763856410; x=1764461210; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3ozLZyyGNMMwEGx8RGNf8PFGx0IS1aWwqreSqTCHk5Y=;
+        b=VFaXfH9h7zgE1nf4gMpY8bs9LGFS1wXNGM83eO39tcl1d6guPDbhDKNxGP+sbmJJwJ
+         731M5Ks1UdS3lryzGPLAOYVYxmHY6QTbhLtD4vsOb8hbL2uCKa5DxqpHlq+LaBFSS4dW
+         wZ0C7okMij2p8tADFcREChXbDnWN6DerL0H1zb1gY6meJa0wZyJ8J6mJUCRphkX9X3Fe
+         nR9R1/kBBWFtL4Kh6dX78yC99BDaXDmaLf5I5aqsxKZv+XLexnOVv+VjDaUNTmY6LCf+
+         eSXMo4hVm/HkCNK3AAT0njcifv8LXMbb5y+RcZ92C8zBqTqR0QIQambZrhJ20FE55M01
+         VPzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763832521; x=1764437321;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5MlvMXZYTtR3C+2ukJ2tJbzkGsByRH9qIzQcgZ1uih4=;
-        b=EbuLwSjcuNDxW5s6idsXwMzOFFemRhofH4w5/uDnlB/8Y3tTs0r1HkAkX3TsvVDaMO
-         oM84Kb3MUtz/oFRx+k0g9/ILwj6Hbmfj5Pi2ot2f41/VSOOzmMcZPImcJPmiZE/lx2n7
-         USi52XkuUfMsCJ+BGggMis8l2ZHVV/6tVNloWpFp/OY82dFwYWlClOakxGE/HqufpQwb
-         3z8nQf+5lwxxPNHmlzi+kS36j9lH8TKJpNRIZeD/grHmMphy+7KteuhWVhTGXf+d/uOn
-         f8R5lqlx/TfrUJH+sW8lUjN74bycEaaUGgSlL5Q9IO7WYVqfD6gFBX6wjB/7tbgmGzIE
-         5J7g==
-X-Gm-Message-State: AOJu0YxCUnlMFT0ACTfNoSKPQcCmzjpMrW4W4fUhOnbp+/7FKmmVEaw3
-	vnqV0JcPQtgYDA2q9O6zGdwxa4dHKzvs/1PsjZnQjbahQLag+O/Q7sFf
-X-Gm-Gg: ASbGncudYCjLNdr38KKc5GiBf6s8zotzFkxYN6bZqpufeUEXAPwbSUumiy3oKBjQrAL
-	id26L6Ckz95eP2VenAWO7f3lV+HT/Bq9X3UAmj389+lL4jyGTw3MQh6uNZPBYPhtNh5eRp5vxdf
-	MoLDuABgwjZj8zc/lhRgjypLRT/fZJ2cxu9HeQOarGdWMo/0neIuqlktbfO2jWoW7xH0yY+iRqR
-	123g+IuaUUEICPnmGVNI2J4kCVtWBcQfN5AYHIuH5k5f1R5VYxnkzKUusA4X0o0gDqdwHBAF2sh
-	nqgBLWeHqzNSyKMhkSCDqrTwnRvfp8jfhd5y/1l3OyjBpl+yDvTub0NBkaieq43NEhvXUKbCqwF
-	3+G2ogUGUXxmwQk2qADcjjKIBJPpH42cF0z5k4GOus3rUqsyLDwkzdRBbmUuLyzkB6e0oJ4RNGo
-	ohaiOsGv02Oz9046Z74bat1Eay0X+2Npo+++0dmEdbFO6M+sd7THLkajIA8A==
-X-Google-Smtp-Source: AGHT+IHProxUTYxUr7Eg0WsWEkqduy6WY8mRtpWbTz5oJpvvl87zL4seGtqYrXC96lkU4A+SdYOPVQ==
-X-Received: by 2002:a05:6a20:1586:b0:35f:2293:877f with SMTP id adf61e73a8af0-3614edd980emr7983683637.33.1763832520673;
-        Sat, 22 Nov 2025 09:28:40 -0800 (PST)
-Received: from ?IPv6:2401:4900:8fcd:4575:1ad3:3d1a:3314:cdd0? ([2401:4900:8fcd:4575:1ad3:3d1a:3314:cdd0])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c3f0243b19sm9534469b3a.37.2025.11.22.09.28.34
+        d=1e100.net; s=20230601; t=1763856410; x=1764461210;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3ozLZyyGNMMwEGx8RGNf8PFGx0IS1aWwqreSqTCHk5Y=;
+        b=KSjCNxwYuGoWaUh6f+Yq7FU3L6pDMdr5lqrEmwQ11HdfzA29s3M1ZWZ0PlzXAQt81l
+         JvOZROhlchgE1rNtRk6px6w3BkZeKFATC946uUu9m8AGlu1foII8bo88kVDrFJ/GEXzJ
+         X7hEyiiCjLoyp9oaZuGCQkYEqez8nYpwYdw5JBDp4gkR4oPwmUy6JryydRjxMI6M3PBN
+         LoyD1IlibH9K5rf6HD1vA8C2FTB7QWHfpT6LYSYOPbwGrJiTDssEif10+SLa2VQOWPhD
+         baydm2Q4RIlsA5U6IXjSZn+gsKw72aQRJTyJ2m6YLRfhL3OgrQj57cVX2PW1CpW2caOD
+         jY5A==
+X-Forwarded-Encrypted: i=1; AJvYcCWOtbaiwp2DZnuf9osjcZeJVYbhrDtccRKF+uWjStvAoIrXWoOWMskdnRWg/w0paqyjIuPb5hKYgPI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDbxXdsUFb9L4q2tJ32S9YnmKGp2uw8SFqYkRbpabAbh2TDWe8
+	b3/ta0mS/FajjUF1L72QadDWDbbz7V7Qx+XMu6ZldN5Y6GyvKC1cZnep
+X-Gm-Gg: ASbGncu57oWxox5CIQV3E/2klbbStLWUyEoWuBsHkW/3gGgL/Wm+vCwi0dllXZxGIPP
+	RHlBThUNVZuw74A+Wm7wkPQ8sF8soPAIjg0PNy2szBlx1i2xrMsnsII1WNXkhb5kBwQZV0X52/S
+	UsyBRNln0nLiVCDWISO2uZWHFlv7Xk4TWhLYObfJywZQph3KZObbvCRlqFXJpgD4G9SWO14IE1x
+	oqmCKKCFLYiB+KUXyLShs8v3yMWzMkrNWekfTJruVtizVh4/xKsBLPp5paGY0E8Rao3Ot3xMdM7
+	ELUMPYXmvJKHbKrXux1YwalmpIOYmBrU2kHa7ftGrQMu4eAQ8BNHejmRCvN6vv/DzSIDPnypE+u
+	oyPhgvPwZIgqDy6lF6YpJyTyj8Gn0mFU/9Dei6Of/kHvX8HS/BbCWSFT8A3XQY/PrGihwOO++bT
+	4NeCSfmtUFedA=
+X-Google-Smtp-Source: AGHT+IFZJU552j/AhWkBqyTpK8tRdxzWHD0gZIlyqJPOt/v/GyTQOH37UQYzC5zSscabwQ1EY+jNlQ==
+X-Received: by 2002:a05:6a20:7d9d:b0:35d:b415:7124 with SMTP id adf61e73a8af0-3614ee47ebdmr8540067637.50.1763856409580;
+        Sat, 22 Nov 2025 16:06:49 -0800 (PST)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c3f0d65682sm10108834b3a.56.2025.11.22.16.06.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Nov 2025 09:28:40 -0800 (PST)
-Message-ID: <96d8ddb6c04651224fc66bca825ba99292fc8f87.camel@gmail.com>
-Subject: Re: [PATCH RESEND v4] checkpatch: add uninitialized pointer with
- __free attribute check
-From: ally heev <allyheev@gmail.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Dwaipayan Ray	
- <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe
- Perches	 <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>, Andy
- Whitcroft	 <apw@canonical.com>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
- David Hunter <david.hunter.linux@gmail.com>, Shuah Khan
- <skhan@linuxfoundation.org>, Viresh Kumar	 <vireshk@kernel.org>, Nishanth
- Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,  linux-pm
- <linux-pm@vger.kernel.org>, dan.j.williams@intel.com, Geert Uytterhoeven	
- <geert@linux-m68k.org>
-Date: Sat, 22 Nov 2025 22:58:32 +0530
-In-Reply-To: <f8b93a66-c755-497d-a425-c7b4baff5165@kernel.org>
-References: 
-	<20251117-aheev-checkpatch-uninitialized-free-v4-1-fbee16ffeab9@gmail.com>
-	 <f8b93a66-c755-497d-a425-c7b4baff5165@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+        Sat, 22 Nov 2025 16:06:48 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 14F74420B901; Sun, 23 Nov 2025 07:06:44 +0700 (WIB)
+Date: Sun, 23 Nov 2025 07:06:44 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
+	linux-doc@vger.kernel.org
+Cc: josh@joshtriplett.org, kees@kernel.org, konstantin@linuxfoundation.org,
+	linux-kernel@vger.kernel.org, rostedt@goodmis.org,
+	workflows@vger.kernel.org, joe@perches.com, rdunlap@infradead.org,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH v5] README: restructure with role-based documentation and
+ guidelines
+Message-ID: <aSJQFDTMr-bNBvkd@archie.me>
+References: <20251121180009.2634393-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Xg9xUeRREvw9jP+n"
+Content-Disposition: inline
+In-Reply-To: <20251121180009.2634393-1-sashal@kernel.org>
 
-On Sat, 2025-11-22 at 14:01 +0100, Krzysztof Kozlowski wrote:
-[...]
-> I saw the other discussion and Linus re-iterated old approach/syntax
-> preference, thus I think this should also include it, since it is de
-> facto a coding style:
->=20
-> "Pointers with __free attribute should be declared in the place of use
-> and initialized (see include/linux/cleanup.h)......"
->=20
-> Best regards,
-> Krzysztof
 
-Yes. I am planning to do it in v5 along with coding style doc update
+--Xg9xUeRREvw9jP+n
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Nov 21, 2025 at 01:00:09PM -0500, Sasha Levin wrote:
+> Reorganize README to provide targeted documentation paths for different u=
+ser
+> roles including developers, researchers, security experts, and maintainer=
+s.
+>=20
+> Add quick start section and essential docs links.
+
+LGTM, thanks!
+
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--Xg9xUeRREvw9jP+n
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaSJQDwAKCRD2uYlJVVFO
+oxrSAP4+dYAwBLzlCudX4gueRB9gZXhpwYYlWseCGcz2d6+y/gEA6XxTf711ac52
+JV+x1TIyKnq0i2YX2x8C7+pXoMCRFAE=
+=b1Rm
+-----END PGP SIGNATURE-----
+
+--Xg9xUeRREvw9jP+n--
