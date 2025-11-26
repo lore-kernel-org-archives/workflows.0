@@ -1,144 +1,157 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D5313112BE
-	for <workflows@vger.kernel.org>; Wed, 26 Nov 2025 08:19:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73750305070
+	for <workflows@vger.kernel.org>; Wed, 26 Nov 2025 14:44:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764145155; cv=none; b=YwusAVgurVck0hNTrlU1WFLBkRMrY8JSEw6MyLrcnHolNzKsBLjmatkVAGmm8mkRbBDTFPAIwxTbuP0Auyf19FfFfT+l7csjKB9GMtzgfn/0+maE7Ki5EfSM7LjLRABp6VFIbwNJFxRS7IDu99iPAQ7XmfKijDgq73BSjjxWuoc=
+	t=1764168287; cv=none; b=eccTBbtnO4094h1NGxeZjkLTfNZsyxPs4SicPY5YD/J0hiyz2CNkALNyZRnJsBmEHYAjT/SVXgu5TxQzSaeZzxg4kME8e2pwZk/yUV+Zu5b4G5RthGNi/54tZY/wqYd5IzjV8wEZYfRphj8vHXMc487IuYfM4Z4rTlOioW1EkD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764145155; c=relaxed/simple;
-	bh=Va5CGNuTjaQ+61C1Q+uQU1I3V3X/zhK8i2UpbXmstWk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HsCc3DLu84bkHsznjaFj/KFipTeAihjPMSrmCmVZqwozOzZO/vL4dpaWaRtPq4a4ZtHmJZglZ6P4d4QuWlGiBhzJS+1K5TnVyjxXf3fNxdiV63r96p6dDYm8AHmfurlEfpdqFKjPzp9UWATZsoFoS4POVguCJ3edGPUHpDRUlQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=jBpW+AaT; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=NCHAAFWX; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1764168287; c=relaxed/simple;
+	bh=UqfRhGC7tcNDSS2rktztnsX08KO4ak4PJrEZQQuVV18=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=GCIDjawy2crhLJJeaVxUTeFwd+Ziqx+QjaYe/7REBc8Jf6AePPBzLdrtU54i6Y930kirZErPB/hheImzX/w3WEjt+3037qp49xgg9lOVxhRGUKMs4exxQoFVlh8jSznh4yhiXO4EvDgHYr0sO7oJrjvmHOP+kYzZPYbnZ8X2RWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lc5j4fBD; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="jBpW+AaT";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="NCHAAFWX"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5APNM30f4048329
-	for <workflows@vger.kernel.org>; Wed, 26 Nov 2025 08:19:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=IvDE0Ygyk+QKs5TPrEHv293vjQEPjkX1SpF
-	BnjqqKBo=; b=jBpW+AaTTnUzeIYiryuMV+vXX/tmapTOJ6dJDtIOy8NhW/j6CKA
-	hY/udiY7bi+Cmy8xugUTHmzKQjV8REgAMXDIqLvt8F/dPd6cF1X5m0bJ76ZyGQIe
-	vnYGaRXS4BMmA3Y7FQS0viGPpF65VVdKAGCsarx7MqTwF5KxHA4/02NYWe94jDsa
-	it3+eVNCLaKR7aNwuljHUl78bRfq6F/kvHHba2F8iae9b/U5l+vnidOHu4mAQ79G
-	woo3ckZRkzHnDHO/QLMQ9CytXOC8W38LhJ7hn8/cz8dVxjkcFspGM257zVgBHg43
-	0npvutMwWc5Bkm56y6YIVwUfsd0ge/EjIDA==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4anp2nh6sx-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <workflows@vger.kernel.org>; Wed, 26 Nov 2025 08:19:12 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-89ee646359cso1679805585a.1
-        for <workflows@vger.kernel.org>; Wed, 26 Nov 2025 00:19:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lc5j4fBD"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3436a97f092so8422965a91.3
+        for <workflows@vger.kernel.org>; Wed, 26 Nov 2025 06:44:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1764145151; x=1764749951; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IvDE0Ygyk+QKs5TPrEHv293vjQEPjkX1SpFBnjqqKBo=;
-        b=NCHAAFWXfhL0DnWobkEvElSlfcvhAqFHbdczb0RU8f61tKyBbbqfZN8oxQ0A5rUOoA
-         oBkP82PBzUn/6XYl38t4swfSIHYhO+1g7SMtEMJwEnVdKUnS4d2V6OPDfKGd8RA7h0B0
-         QYUIdkrE4LdadfgcCj1IwZui0Uhso/nxslYgLIjwwCogsxtW1D0dBfhLt/2+q3q2xmGW
-         Ugbtyb57NWNqxuzmh2iiZmz95q0J4yNAoBilnrU2EjggnXqnZg1u8QMvKJF0iFVTNx7P
-         qCb8WMECrzHw944UPRSuKrSvsstHvqjHSuqq7JLL30CL4P1vPRaXhEFCj2YnuTGn63nR
-         sfTA==
+        d=gmail.com; s=20230601; t=1764168284; x=1764773084; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=UqfRhGC7tcNDSS2rktztnsX08KO4ak4PJrEZQQuVV18=;
+        b=lc5j4fBDF8Id1M78Dzmuln4YZAw2qb1G+gbNAtfGxND1VZxmFBK9l+tb0PP5oEYNyn
+         TOfm5Ge4dkP/vtlXxtBgdBnzg0/ojrde/e+DubyHilQ16y+yLFcv2Nbzrr40q7z30V4E
+         DghW1yIKP0HICUBxCJDj6rU0exw8yImCWxejHPr1EIquyx9gLZLIo4qNvQXOQFLnOBmD
+         DYF/fQMn6qrjxuia6lV2T6tukk2qnl5S4YzQuvENQjEURtb9SvsRbOEbWTIy8OAYg5gC
+         AeWeotvvyIh9JCoOGgMurEPNWLSg0+vhmXPJ4m0o7kDWHNJvVP5Zs4UqeI3EAtJBNWOI
+         zsgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764145151; x=1764749951;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IvDE0Ygyk+QKs5TPrEHv293vjQEPjkX1SpFBnjqqKBo=;
-        b=VNT3TtQjaFImSQzJwb73rLU4za+d+6yE2QItr7NcaGMlL5b9T8c8qSc7gGuSvCu9R2
-         djXkzmPRNgFF0W5n7Vo/E/U2gnlaA06Voe8GeATgvRfUFGuI6qwDr/4AymZ/iZtZ55lJ
-         QnYk4GxS/93iI8F40ntTRFhTPWED2Cl3ZquSSskOUEK37ywDITNnUgNEUvhgJLvfGEth
-         20KmuDfRbLPCqQvIRcNX6U7rMUWOi1ob3b9E7vWQJPwUmhc6flMk8YReuCewBu0SPWpz
-         eZUMLmRV95DDnK7xmPPbuLnb8BFnLQUjSy+41iw7vNJKfGsykRgofhylFFQljBnyGgYZ
-         oFTg==
-X-Forwarded-Encrypted: i=1; AJvYcCXxAbnuGkRF7l0RmHRfbJmRFAu4YHJxoTthISyyHz1+3ogYVDfB840m3bh9too+MPzVwLXHZk2PmpY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz5dcWOTso6DRsFniJTo0kyeSIHStgBbI+Ye9F/z8SOubLQcykO
-	G6bazeBh0WltigjRoPCemkr1dokxjTT+4pxakYQyOJZhA9JGPjONxRSb3RrNvvgrdlIxTtzzXYi
-	4uSCq2Ci/b3eKDjZ9t1NKuf0QiDBnYamT7WZwBknv3WnlfmLZixxvncCjHEm85kLX5UWG4hI=
-X-Gm-Gg: ASbGnctbf266pdLlKdfKPlK38hBQ/Q1GzE16E/umjqfCbPGXjvdgCMKUgePNkgA801R
-	LjRZow3sqDIOo29KzZp7XK04/9pqclbmsWiDpJ8xWWhpBlKutgk+kUrdgVjwaje4eakZ/01K2yt
-	q5tLZrv9R75o3YxZBASm15dtUSjS0VaaOyy2kfPAVNrJjkDpZB6UFcB2Z/NNAOU5xDmH/8vooH7
-	hP4gO7Ko9tyfez+GFFsn5eo32MlmZA0Tpg7hM/NyFqovVGQLDGSbprbJA9yzC91yXEuv+dGVP1p
-	LgZBkoNG1nmjC+xU1l1z+ZshusyuPHV3I3+4ZXUU+QiiZUWIj0zLRs0d6aT+G3dZvpXDrxcb1wn
-	xHda6VrCbWNSFojwAZ1vEZygjWGZy
-X-Received: by 2002:a05:620a:7003:b0:8a3:1b83:1025 with SMTP id af79cd13be357-8b4ebdc1d29mr759333185a.73.1764145150811;
-        Wed, 26 Nov 2025 00:19:10 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFCrKFc7MsUrz6jj+yFbGZMJO8DfX35or9wIKYqC5c7E+xpxX03JyUO+Bw/kGlqeuN77ZtB7Q==
-X-Received: by 2002:a05:620a:7003:b0:8a3:1b83:1025 with SMTP id af79cd13be357-8b4ebdc1d29mr759331285a.73.1764145150407;
-        Wed, 26 Nov 2025 00:19:10 -0800 (PST)
-Received: from kuoka.. ([178.197.219.123])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-645ef325a4asm3868411a12.28.2025.11.26.00.19.09
+        d=1e100.net; s=20230601; t=1764168284; x=1764773084;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UqfRhGC7tcNDSS2rktztnsX08KO4ak4PJrEZQQuVV18=;
+        b=archKNIhPZ3s88wyFtWJNnML27+in6DQ4IA6NbPtAfc7b2fqQ/1dTgnmZ1cI2pway3
+         8JPPG+I67DNXipb4yZu+bp8w/iEYbuRayo7xDGMKCynHUrGKuGQAcg3D497qEHDLrG3E
+         JAsf/ldHVQsgAMMBrFO3rxiNho0A337f9PBCJVcQCr0AKYwLnjnCpYtdW2xU2EMbSjMx
+         8LT9GgTTqZi2F5K0m70C5Il6HxcmBLNO5To40/WpAbR5FhUbVijWRBBVSgSNr6dV15Bc
+         0i7usWp7BKu+5XIOaa3NG7HiwpgJI7KMCwEh+sg6Zi2G1evr+JknCRedpGashv5nHjbC
+         bsZA==
+X-Gm-Message-State: AOJu0Yzh9agpFbeR10HzjbBSnvfVe9ztz+WChXMCyWq+4CmxizG8GHvZ
+	ThEsdOziqSDdlu9xbSfY9C2RHoTEEECpPlXjxkH1D/66HVxM3L/h8fda
+X-Gm-Gg: ASbGncsgkDWXhjdYs0NwrODmE46sC4dSKlzUOoz8YJiO/mit9bKXtpvUYfAPtpTw9rv
+	qforiGNyeKOmTzqZsOjjODUeMSMkENxhdlnCnsXBnWiaNrIF1vLjlzn7Ng/QitZmNLrh/Jb28+V
+	93ckt14OFSJVncuquucHKqalUwfSC4TPJYvSjXx1ArZ/kE6QrY1afRA3dE48DIsPEycrXTZg2H/
+	cNd63qN546NUtxzU00w1AHSBTrPaHAXM9QUM8ayvNhmnjD++Bm1b//3pZBeQMkPSzFlaweZ3ol5
+	+0vioQcj4yBU4QFTVEIRqYZWzEXrLjx/PwJvtMcna/7ObO6uqr/+mLDdXTTYfVzxORyty0H7lNb
+	EndmecQyNCJeiDNi0cG63GbV2eNWSro2kghYM2jdKTxLpGlfhX2hgQE+6nqNB6Uc+aXhKuLG+Wp
+	vNqnLmZBMRwbufIAmAzIcJgPDkqFt+EVzR1DhN8J4w/l5FQ+9YD4sWhsY=
+X-Google-Smtp-Source: AGHT+IHummo04b5kVbBJyoIrPHDE8VmoM3OG1AtPvD6Slv0OYi4AJMuN93Vlql2XFyAQieTb6Wtltg==
+X-Received: by 2002:a17:90b:4d8c:b0:340:f422:fc76 with SMTP id 98e67ed59e1d1-3475eacec4cmr6289074a91.0.1764168284055;
+        Wed, 26 Nov 2025 06:44:44 -0800 (PST)
+Received: from ?IPv6:2401:4900:8fce:eb65:99e9:53c:32e6:4996? ([2401:4900:8fce:eb65:99e9:53c:32e6:4996])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-bd75def6314sm19465405a12.7.2025.11.26.06.44.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Nov 2025 00:19:09 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-To: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: [PATCH] docs: submitting-patches: Clarify that removal of Acks needs explanation too
-Date: Wed, 26 Nov 2025 09:19:06 +0100
-Message-ID: <20251126081905.7684-2-krzysztof.kozlowski@oss.qualcomm.com>
-X-Mailer: git-send-email 2.48.1
+        Wed, 26 Nov 2025 06:44:43 -0800 (PST)
+Message-ID: <ed88d805835d38635899d591148d5daf88f77d7c.camel@gmail.com>
+Subject: Re: [PATCH RESEND v6] checkpatch: add uninitialized pointer with
+ __free attribute check
+From: ally heev <allyheev@gmail.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>, Dwaipayan Ray	
+ <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe
+ Perches	 <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>, Andy
+ Whitcroft	 <apw@canonical.com>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
+ David Hunter <david.hunter.linux@gmail.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Viresh Kumar	 <vireshk@kernel.org>, Nishanth
+ Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,  linux-pm
+ <linux-pm@vger.kernel.org>, dan.j.williams@intel.com, Geert Uytterhoeven	
+ <geert@linux-m68k.org>, James Bottomley
+ <James.Bottomley@hansenpartnership.com>
+Date: Wed, 26 Nov 2025 20:14:34 +0530
+In-Reply-To: <4ef74e2b-74a9-4778-a3f2-d873cf6b7478@kernel.org>
+References: 
+	<20251125-aheev-checkpatch-uninitialized-free-v6-1-70e8bb1e9175@gmail.com>
+	 <58393a1f-272b-41be-9ebd-ae03678cb738@kernel.org>
+	 <43f43063b81da41b693d5eb8178d5c55ebaaa168.camel@gmail.com>
+	 <4ef74e2b-74a9-4778-a3f2-d873cf6b7478@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=KerfcAYD c=1 sm=1 tr=0 ts=6926b800 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=Iax6wTeSMpqzYiZSKl48GQ==:17
- a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=mSz3GvdCR8lolErGETwA:9 a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-GUID: fWToXH68ZohuQcg_Mbqepguocx_zDFfy
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI2MDA2NiBTYWx0ZWRfX1wNUuoRgN5LI
- GrMP9UgJOnCBPZcqzDCYuQju+GHAThrbFDQg9Idf6nk1zjTtVKCa3m1u0Y9E7g2pUyjpMSj0N0s
- 2VZAvTarDC/HthebhyJnz1W/XCGTdlFNqRhRt0bs0s75yV63zBdngGEJVAJ4Xy85sqjAYtRt/5S
- hAVcfZG33wQCTE1im6nr5l8wI8gExr5/V3LY8cWdXSCHrqelooMF8Qsw+L90YQKZh7iaiLrKHZV
- JmSGuE+vw9l40jesrygaDWcP27CG8e15eB+XkOmQJB/2QX1yeo1uaEAc25cQ4JUpzOJU4PpUeIP
- CpWfaXpiBJLlFGQGGk2pmPC2BWJRbAAYJL/Tkw1rwezfj5t/ezGYwnY7oPQYwNK6OXcNY3q00Zz
- tgXKoGxntyRuny8fSLT5BiGNPCeZHg==
-X-Proofpoint-ORIG-GUID: fWToXH68ZohuQcg_Mbqepguocx_zDFfy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-25_02,2025-11-25_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 impostorscore=0 priorityscore=1501 spamscore=0 bulkscore=0
- lowpriorityscore=0 phishscore=0 suspectscore=0 adultscore=0 clxscore=1011
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511260066
 
-The paragraph mentions only removal of Tested-by and Reviewed-by tags as
-action needing mentioning in patch changelog, so some developers treat
-it too literally.  Acks, as a weaker form of review/approval, should
-rarely be removed, but if that happens it should be explained as well.
+On Wed, 2025-11-26 at 09:10 +0100, Krzysztof Kozlowski wrote:
+> On 25/11/2025 17:11, ally heev wrote:
+> > On Tue, 2025-11-25 at 16:09 +0100, Krzysztof Kozlowski wrote:
+> > > On 25/11/2025 14:32, Ally Heev wrote:
+> > > > uninitialized pointers with __free attribute can cause undefined
+> > > > behavior as the memory randomly assigned to the pointer is freed
+> > > > automatically when the pointer goes out of scope.
+> > > > add check in checkpatch to detect such issues.
+> > > >=20
+> > > > Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > > > Link: https://lore.kernel.org/all/8a4c0b43-cf63-400d-b33d-d9c447b7e=
+0b9@suswa.mountain/
+> > > > Link: https://lore.kernel.org/all/58fd478f408a34b578ee8d949c5c4b4da=
+4d4f41d.camel@HansenPartnership.com/
+> > > > Acked-by: Dan Williams <dan.j.williams@intel.com>
+> > > > Signed-off-by: Ally Heev <allyheev@gmail.com>
+> > >=20
+> > >=20
+> > > <form letter>
+> > > This is a friendly reminder during the review process.
+> > >=20
+> > > It looks like you received a tag and forgot to add it.
+> > >=20
+> > > If you do not know the process, here is a short explanation:
+> > > Please add Acked-by/Reviewed-by/Tested-by tags when posting new versi=
+ons
+> > > of patchset, under or above your Signed-off-by tag, unless patch chan=
+ged
+> > > significantly (e.g. new properties added to the DT bindings). Tag is
+> > > "received", when provided in a message replied to you on the mailing
+> > > list. Tools like b4 can help here. However, there's no need to repost
+> > > patches *only* to add the tags. The upstream maintainer will do that =
+for
+> > > tags received on the version they apply.
+> > >=20
+> > > Please read:
+> > > https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/proce=
+ss/submitting-patches.rst#L577
+> > >=20
+> > > If a tag was not added on purpose, please state why and what changed.
+> > > </form letter>
+> > >=20
+> > >=20
+> > > Best regards,
+> > > Krzysztof
+> >=20
+> > Oopsie. I should have sent a new version instead of resending a failed
+> > one. I have updated the `UNINITIALIZED_PTR_WITH_FREE` error description
+> > in the checkpatch doc as outlined in v6 changelog, so, didn't add a
+> > Reviewed-by tag
+>=20
+>=20
+> Again, your changelog should explain the reason. Second, you implemented
+> reviewer suggestion, received the tag so why do you think that Rb tag
+> does not apply?
+>=20
+> Best regards,
+> Krzysztof
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
----
- Documentation/process/submitting-patches.rst | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Sorry again :(. I thought the new changes, although minor, would entail
+new comments. I have experienced this in my old patches
 
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index 910e8fc9e3c8..9a509f1a6873 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -592,8 +592,9 @@ Both Tested-by and Reviewed-by tags, once received on mailing list from tester
- or reviewer, should be added by author to the applicable patches when sending
- next versions.  However if the patch has changed substantially in following
- version, these tags might not be applicable anymore and thus should be removed.
--Usually removal of someone's Tested-by or Reviewed-by tags should be mentioned
--in the patch changelog (after the '---' separator).
-+Usually removal of someone's Acked-by, Tested-by or Reviewed-by tags should be
-+mentioned in the patch changelog with an explanation (after the '---'
-+separator).
- 
- A Suggested-by: tag indicates that the patch idea is suggested by the person
- named and ensures credit to the person for the idea: if we diligently credit
--- 
-2.48.1
-
+Regards,
+Ally
