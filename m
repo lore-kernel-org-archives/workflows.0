@@ -1,145 +1,136 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BEFA258EFB
-	for <workflows@vger.kernel.org>; Tue, 25 Nov 2025 16:11:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34C443595D;
+	Wed, 26 Nov 2025 01:13:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764087118; cv=none; b=UpG30QTOOIZPi+MVdr7jXQECyK5rj/WJzRU6ogEZBlPuQvFmozjyRNvgWi8ZpPAREGL9+gaLx40GhlbMu8WWGpb7NnhXHOKcYNNdgu+OXtJYhBNDAB5z50mlUjfyJuPI5yx/X38RF8Vn3m/4A3jFGm9IlcDAAuKupElK2emEI5Y=
+	t=1764119581; cv=none; b=qM84FXxNFckFUfH8H54+uUp0lRtPgg9ANociKlVok41vYMrU/7IyUB+YZLTPPtjJHkvjUPFR9m7vCBga7gIMIpLcGUgolahJTgzrOtic9lPHkYTyyY0ytBuVpKvVk3gwmVaA48F9OFXBB7aFlbS60HHscF9HMHTVrMlmNSfk/1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764087118; c=relaxed/simple;
-	bh=BuZrTAyq8hriBu1hSQ7Fw+Kj5Pru8BEFikgqu5lpwuo=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=H7MkPHsqSPrRrb4BhaeAfRU3XiHLQJsv3BZUBQOCFKaCmk30NN+Nu7bHADyPPxwKtJXPujgPX4SKzAtJKERkf3fpcjPkuEbbJt068eNpPcbgzP2QsSK9LHr9ifrhaEwQCH6fHl1/6M1OPET6VNQlBp+2YV5qaK6K/BG+9Bx4SZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bwj3FjFX; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1764119581; c=relaxed/simple;
+	bh=T13E0ORuIwgEnfCcozPc/lnalkysVj1GgrcIGin497U=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=lfYH1f9a5JD0UzPkJvAKiHkfewOEsKKp45qsmWnGg5hDJQb5UDEB/Clwi/IFtmV09CbToeZLI/rL+uBvKPyl83oc9GiaZgnUlLh+Rw+XAYL+C2lIwpUvQ22diy3DAQ6+X1nK0GZ+nKBlAaDcZA8amJlpyzTXr7t+FvVlXIpZABg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=klM15bMM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bwj3FjFX"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-29ba9249e9dso14638505ad.3
-        for <workflows@vger.kernel.org>; Tue, 25 Nov 2025 08:11:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764087116; x=1764691916; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=BuZrTAyq8hriBu1hSQ7Fw+Kj5Pru8BEFikgqu5lpwuo=;
-        b=Bwj3FjFXPs8a9wS4amr9YpCAspdsOrVG+yRJxZr2qr6loVDR6a3GJwV3TjG1K8ugjR
-         vb5S+yxFAPW9Zvh0bJCcpUCMx5xrAICNUxgzAslfUCG8NtfxFr9nsLZOjTVIYCgGYgZo
-         rflo4WKrMrdP8hxRbe1Zxu/c6+JkS5a2dcY/DXQePpvgEUIxNGObAKh3OzYb4SZRkHsj
-         fmcQoA2cu7YcMftfOzTbsK/uPJzRYfI1r5V2nOApzvSWEnOmR6oVQ5vnx0Iqs37qvuGC
-         /QjidajXjx81vY3bbI3KEsxuqnUS+NV4moyeLLXirYgr/FSVCHfJ6llaevGVx7cL19t5
-         XOfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764087116; x=1764691916;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BuZrTAyq8hriBu1hSQ7Fw+Kj5Pru8BEFikgqu5lpwuo=;
-        b=WRoQLFK28+1QSlj7PRStOcCPdewMDxrEsHJoD2npTNaV8LEqvlZjdt5w/5n9zbC3Fj
-         SS5jJOq7wgOXrzXRVTI8aUujyNS+Orut+ShWa74wjiRBnb8WI8iHSeCdApHLsa5Ae05T
-         ASp8pxSuYgHMP2/1h92ZSVLKLRo4XVkOePR34MHk2WmPSVk9c4/HnyjNX7qpEzt7Iyjg
-         pqIj93EFXOESFYWJbscD4YEfezSrM8pg25Cc+l1CXhOzmjJZSFeu/n/ZeUFnJrgzIY+d
-         1xQCKr/MlO2wuRPZ44HTAG6bye/2HOXXzHCegG1vykZoB7K502i3mw1eteDN/r6v96UD
-         XvAQ==
-X-Gm-Message-State: AOJu0Yye2jp4tH4igWMvc8gOSKvYEc9OS+vfcHFhmmPcQS4vmAPN7S6X
-	tx0aPJ7ZfXCByNAhL1fkzR4OY0qSUq26rQt9PnhNIT1yEjwqLaXAxGaG
-X-Gm-Gg: ASbGnct37kLzRXdAwCKAv4Bxx1ibKGDvNgmumqviYQZKx6xeLnGkDPz1vDHeX2/vxZq
-	eNtJJInlMVBCLTMHCIRPxKNkjZLq3MeKk5WpqomcTaj1UVmytLT32jySPyIMOMMfk8iCijtfq6f
-	JhPp26qr4FIlV1WCo6TkfXg2XOHVQ8Zal1oqKTa1Zr0bH57zuE5NNxq75meWMAohihKy8pcZEM9
-	xQBWuDiPC/MV9UzBphwspDRSEMW2I10sMjmYFuoHtzKvaVkDvIf00wgs22QsMJjYygj3aEYMvoa
-	+CXWuImvshqVPZjAW1TjKmhVJHGX97dYV0beOOe/nUQpTp4tZANW2pNocNKiDgG8xlc5mIAOjUa
-	FodG+UseZja4rmakOp5LdP9nodvxLp6FtXlDob21l2BAPaiRLrjszgkPjZzPTHuOLY2QQzgomGq
-	BQZMSBfrQ37+T6wTJvYKCnMmGAEb/FDjMvFNW6W+yIKDcoOA0XMJBPzUCMvkVC3a+4uQ==
-X-Google-Smtp-Source: AGHT+IEWXlqC42ig+eSywfDNQtEHaCjz4s5p+M3v/+IuUcUyKtCw+yNJ/t4+Y0x5LwSh4SzxUB/PrQ==
-X-Received: by 2002:a17:90b:384f:b0:340:ac7c:6387 with SMTP id 98e67ed59e1d1-34733e2d4a5mr19048369a91.7.1764087116050;
-        Tue, 25 Nov 2025 08:11:56 -0800 (PST)
-Received: from ?IPv6:2401:4900:8fce:eb65:99e9:53c:32e6:4996? ([2401:4900:8fce:eb65:99e9:53c:32e6:4996])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3475ff9fed2sm1369564a91.6.2025.11.25.08.11.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Nov 2025 08:11:55 -0800 (PST)
-Message-ID: <43f43063b81da41b693d5eb8178d5c55ebaaa168.camel@gmail.com>
-Subject: Re: [PATCH RESEND v6] checkpatch: add uninitialized pointer with
- __free attribute check
-From: ally heev <allyheev@gmail.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Dwaipayan Ray	
- <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe
- Perches	 <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>, Andy
- Whitcroft	 <apw@canonical.com>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
- David Hunter <david.hunter.linux@gmail.com>, Shuah Khan
- <skhan@linuxfoundation.org>, Viresh Kumar	 <vireshk@kernel.org>, Nishanth
- Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,  linux-pm
- <linux-pm@vger.kernel.org>, dan.j.williams@intel.com, Geert Uytterhoeven	
- <geert@linux-m68k.org>, James Bottomley
- <James.Bottomley@hansenpartnership.com>
-Date: Tue, 25 Nov 2025 21:41:47 +0530
-In-Reply-To: <58393a1f-272b-41be-9ebd-ae03678cb738@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="klM15bMM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 862E2C4CEF1;
+	Wed, 26 Nov 2025 01:13:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764119580;
+	bh=T13E0ORuIwgEnfCcozPc/lnalkysVj1GgrcIGin497U=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=klM15bMMTZnYWbP090Jg7p0PqFLvCZuUKh7psOF9CpXrooQNHJhXEd7EakgFRe6M1
+	 RlIDwVgq2XdC4Lo6uHaKQFLsGYuEc4Y8ROLGwnwodtSimb8eYEEAg4z4e70vIRnNlj
+	 FQPOI1LZsKPx8/J2vvK4BATTdGa1ylEp7WZZhD8AZau1DeCuykZUYC7RW55g4Qc0Iq
+	 M/pfVVPXJ4oqod9FiFC+tIdvWFxKa6RMiqq3gOXlW+WwhK3PZD3PNMqVYPP3wowr95
+	 avogfmQG0dxxjTosXgA3t5/r+aAEzNpN+yq9CIIGKNM1JQJWERwdtaR/Z0AGYVd+k0
+	 J5UBXe04Clx+g==
+From: SeongJae Park <sj@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: SeongJae Park <sj@kernel.org>,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	josh@joshtriplett.org,
+	kees@kernel.org,
+	konstantin@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	rostedt@goodmis.org,
+	workflows@vger.kernel.org,
+	joe@perches.com,
+	rdunlap@infradead.org,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH v5] README: restructure with role-based documentation and guidelines
+Date: Tue, 25 Nov 2025 17:12:52 -0800
+Message-ID: <20251126011253.74218-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20251121180009.2634393-1-sashal@kernel.org>
 References: 
-	<20251125-aheev-checkpatch-uninitialized-free-v6-1-70e8bb1e9175@gmail.com>
-	 <58393a1f-272b-41be-9ebd-ae03678cb738@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2025-11-25 at 16:09 +0100, Krzysztof Kozlowski wrote:
-> On 25/11/2025 14:32, Ally Heev wrote:
-> > uninitialized pointers with __free attribute can cause undefined
-> > behavior as the memory randomly assigned to the pointer is freed
-> > automatically when the pointer goes out of scope.
-> > add check in checkpatch to detect such issues.
-> >=20
-> > Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > Link: https://lore.kernel.org/all/8a4c0b43-cf63-400d-b33d-d9c447b7e0b9@=
-suswa.mountain/
-> > Link: https://lore.kernel.org/all/58fd478f408a34b578ee8d949c5c4b4da4d4f=
-41d.camel@HansenPartnership.com/
-> > Acked-by: Dan Williams <dan.j.williams@intel.com>
-> > Signed-off-by: Ally Heev <allyheev@gmail.com>
->=20
->=20
-> <form letter>
-> This is a friendly reminder during the review process.
->=20
-> It looks like you received a tag and forgot to add it.
->=20
-> If you do not know the process, here is a short explanation:
-> Please add Acked-by/Reviewed-by/Tested-by tags when posting new versions
-> of patchset, under or above your Signed-off-by tag, unless patch changed
-> significantly (e.g. new properties added to the DT bindings). Tag is
-> "received", when provided in a message replied to you on the mailing
-> list. Tools like b4 can help here. However, there's no need to repost
-> patches *only* to add the tags. The upstream maintainer will do that for
-> tags received on the version they apply.
->=20
-> Please read:
-> https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/process/s=
-ubmitting-patches.rst#L577
->=20
-> If a tag was not added on purpose, please state why and what changed.
-> </form letter>
->=20
->=20
-> Best regards,
-> Krzysztof
+On Fri, 21 Nov 2025 13:00:09 -0500 Sasha Levin <sashal@kernel.org> wrote:
 
-Oopsie. I should have sent a new version instead of resending a failed
-one. I have updated the `UNINITIALIZED_PTR_WITH_FREE` error description
-in the checkpatch doc as outlined in v6 changelog, so, didn't add a
-Reviewed-by tag
+> Reorganize README to provide targeted documentation paths for different user
+> roles including developers, researchers, security experts, and maintainers.
+> 
+> Add quick start section and essential docs links.
+> 
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Reviewed-by: Kees Cook <kees@kernel.org>
 
-For some reason gmail blocked me from sending v6 to everyone in the
-patch except me. b4 thought it successfully sent the patch and
-incremented the version number. So, I had to resend it
+Reviewed-by: SeongJae Park <sj@kernel.org>
+
+> ---
+> 
+> Changes since v4:
+> 
+>  - Remove explicit reference to GPLv2
+>  - Fix up the commit message to drop AI blurb
+> 
+>  README | 160 +++++++++++++++++++++++++++++++++++++++++++++++++++++----
+>  1 file changed, 149 insertions(+), 11 deletions(-)
+> 
+> diff --git a/README b/README
+> index fd903645e6de0..1fc993d7cf07e 100644
+> --- a/README
+> +++ b/README
+> @@ -1,18 +1,156 @@
+[...]
+> +Documentation can be built with make htmldocs or viewed online at:
+> +https://www.kernel.org/doc/html/latest/
+> +
+> +
+> +Who Are You?
+> +============
+> +
+> +Find your role below:
+> +
+> +* New Kernel Developer - Getting started with kernel development
+> +* Academic Researcher - Studying kernel internals and architecture
+> +* Security Expert - Hardening and vulnerability analysis
+> +* Backport/Maintenance Engineer - Maintaining stable kernels
+> +* System Administrator - Configuring and troubleshooting
+> +* Maintainer - Leading subsystems and reviewing patches
+> +* Hardware Vendor - Writing drivers for new hardware
+> +* Distribution Maintainer - Packaging kernels for distros
+> +
+> +
+> +For Specific Users
+> +==================
+> +
+> +New Kernel Developer
+> +--------------------
+[...]
+> +Distribution Maintainer
+> +-----------------------
+> +
+> +Package and distribute the kernel:
+> +
+> +* Stable Kernel Rules: Documentation/process/stable-kernel-rules.rst
+> +* ABI Documentation: Documentation/ABI/README
+> +* Kernel Configuration: Documentation/kbuild/kconfig.rst
+> +* Module Signing: Documentation/admin-guide/module-signing.rst
+> +* Kernel Parameters: Documentation/admin-guide/kernel-parameters.rst
+> +* Tainted Kernels: Documentation/admin-guide/tainted-kernels.rst
+> +
+> +
+> +
+> +Communication and Support
+> +=========================
+
+Nit.  Having only two blank lines above this section would make this document
+look more consistent.
+
 
 Thanks,
-Ally
+SJ
 
-
+[...]
