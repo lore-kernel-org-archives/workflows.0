@@ -1,157 +1,226 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73750305070
-	for <workflows@vger.kernel.org>; Wed, 26 Nov 2025 14:44:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3881B3191C3;
+	Wed, 26 Nov 2025 21:00:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764168287; cv=none; b=eccTBbtnO4094h1NGxeZjkLTfNZsyxPs4SicPY5YD/J0hiyz2CNkALNyZRnJsBmEHYAjT/SVXgu5TxQzSaeZzxg4kME8e2pwZk/yUV+Zu5b4G5RthGNi/54tZY/wqYd5IzjV8wEZYfRphj8vHXMc487IuYfM4Z4rTlOioW1EkD4=
+	t=1764190805; cv=none; b=JVnfIKCbzdAlX0TYhnFpPEr2fmofBEBr0yVr1UYiQGZwIPr9bo6Mob4i5osRoQrNRp/ZrMHuKXmWdVn2l3JTuek4LJ/Lp4JGdgfOm/j0G54ZpppdsJrSdx87++d37MRJWVvLruAU0GBPD5UhpOQlZejJeRQkSHxKR37iTVzcBRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764168287; c=relaxed/simple;
-	bh=UqfRhGC7tcNDSS2rktztnsX08KO4ak4PJrEZQQuVV18=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=GCIDjawy2crhLJJeaVxUTeFwd+Ziqx+QjaYe/7REBc8Jf6AePPBzLdrtU54i6Y930kirZErPB/hheImzX/w3WEjt+3037qp49xgg9lOVxhRGUKMs4exxQoFVlh8jSznh4yhiXO4EvDgHYr0sO7oJrjvmHOP+kYzZPYbnZ8X2RWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lc5j4fBD; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1764190805; c=relaxed/simple;
+	bh=rVo+BGrVUWuk2ZUHe4MgRf6wzEP/hIkHu/ZB9WhQo5k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=I6MCz147r4MpXok0I5fR9EnduQJPd80HWTOD7h3Y1FBHo72Wx52011ONtDQLYqrRgL0TCAIeyPU22VkoEF25Jn3t5EPRigx0IG6X+AE2VmuwkLrTI5hmGnDIn2MnU1+kBpsfbvM8+8Lg/NGEUGYnKts5AblK9Y6LODcwi2R19F0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jEIG5BDB; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lc5j4fBD"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3436a97f092so8422965a91.3
-        for <workflows@vger.kernel.org>; Wed, 26 Nov 2025 06:44:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764168284; x=1764773084; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=UqfRhGC7tcNDSS2rktztnsX08KO4ak4PJrEZQQuVV18=;
-        b=lc5j4fBDF8Id1M78Dzmuln4YZAw2qb1G+gbNAtfGxND1VZxmFBK9l+tb0PP5oEYNyn
-         TOfm5Ge4dkP/vtlXxtBgdBnzg0/ojrde/e+DubyHilQ16y+yLFcv2Nbzrr40q7z30V4E
-         DghW1yIKP0HICUBxCJDj6rU0exw8yImCWxejHPr1EIquyx9gLZLIo4qNvQXOQFLnOBmD
-         DYF/fQMn6qrjxuia6lV2T6tukk2qnl5S4YzQuvENQjEURtb9SvsRbOEbWTIy8OAYg5gC
-         AeWeotvvyIh9JCoOGgMurEPNWLSg0+vhmXPJ4m0o7kDWHNJvVP5Zs4UqeI3EAtJBNWOI
-         zsgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764168284; x=1764773084;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UqfRhGC7tcNDSS2rktztnsX08KO4ak4PJrEZQQuVV18=;
-        b=archKNIhPZ3s88wyFtWJNnML27+in6DQ4IA6NbPtAfc7b2fqQ/1dTgnmZ1cI2pway3
-         8JPPG+I67DNXipb4yZu+bp8w/iEYbuRayo7xDGMKCynHUrGKuGQAcg3D497qEHDLrG3E
-         JAsf/ldHVQsgAMMBrFO3rxiNho0A337f9PBCJVcQCr0AKYwLnjnCpYtdW2xU2EMbSjMx
-         8LT9GgTTqZi2F5K0m70C5Il6HxcmBLNO5To40/WpAbR5FhUbVijWRBBVSgSNr6dV15Bc
-         0i7usWp7BKu+5XIOaa3NG7HiwpgJI7KMCwEh+sg6Zi2G1evr+JknCRedpGashv5nHjbC
-         bsZA==
-X-Gm-Message-State: AOJu0Yzh9agpFbeR10HzjbBSnvfVe9ztz+WChXMCyWq+4CmxizG8GHvZ
-	ThEsdOziqSDdlu9xbSfY9C2RHoTEEECpPlXjxkH1D/66HVxM3L/h8fda
-X-Gm-Gg: ASbGncsgkDWXhjdYs0NwrODmE46sC4dSKlzUOoz8YJiO/mit9bKXtpvUYfAPtpTw9rv
-	qforiGNyeKOmTzqZsOjjODUeMSMkENxhdlnCnsXBnWiaNrIF1vLjlzn7Ng/QitZmNLrh/Jb28+V
-	93ckt14OFSJVncuquucHKqalUwfSC4TPJYvSjXx1ArZ/kE6QrY1afRA3dE48DIsPEycrXTZg2H/
-	cNd63qN546NUtxzU00w1AHSBTrPaHAXM9QUM8ayvNhmnjD++Bm1b//3pZBeQMkPSzFlaweZ3ol5
-	+0vioQcj4yBU4QFTVEIRqYZWzEXrLjx/PwJvtMcna/7ObO6uqr/+mLDdXTTYfVzxORyty0H7lNb
-	EndmecQyNCJeiDNi0cG63GbV2eNWSro2kghYM2jdKTxLpGlfhX2hgQE+6nqNB6Uc+aXhKuLG+Wp
-	vNqnLmZBMRwbufIAmAzIcJgPDkqFt+EVzR1DhN8J4w/l5FQ+9YD4sWhsY=
-X-Google-Smtp-Source: AGHT+IHummo04b5kVbBJyoIrPHDE8VmoM3OG1AtPvD6Slv0OYi4AJMuN93Vlql2XFyAQieTb6Wtltg==
-X-Received: by 2002:a17:90b:4d8c:b0:340:f422:fc76 with SMTP id 98e67ed59e1d1-3475eacec4cmr6289074a91.0.1764168284055;
-        Wed, 26 Nov 2025 06:44:44 -0800 (PST)
-Received: from ?IPv6:2401:4900:8fce:eb65:99e9:53c:32e6:4996? ([2401:4900:8fce:eb65:99e9:53c:32e6:4996])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-bd75def6314sm19465405a12.7.2025.11.26.06.44.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Nov 2025 06:44:43 -0800 (PST)
-Message-ID: <ed88d805835d38635899d591148d5daf88f77d7c.camel@gmail.com>
-Subject: Re: [PATCH RESEND v6] checkpatch: add uninitialized pointer with
- __free attribute check
-From: ally heev <allyheev@gmail.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Dwaipayan Ray	
- <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe
- Perches	 <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>, Andy
- Whitcroft	 <apw@canonical.com>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
- David Hunter <david.hunter.linux@gmail.com>, Shuah Khan
- <skhan@linuxfoundation.org>, Viresh Kumar	 <vireshk@kernel.org>, Nishanth
- Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,  linux-pm
- <linux-pm@vger.kernel.org>, dan.j.williams@intel.com, Geert Uytterhoeven	
- <geert@linux-m68k.org>, James Bottomley
- <James.Bottomley@hansenpartnership.com>
-Date: Wed, 26 Nov 2025 20:14:34 +0530
-In-Reply-To: <4ef74e2b-74a9-4778-a3f2-d873cf6b7478@kernel.org>
-References: 
-	<20251125-aheev-checkpatch-uninitialized-free-v6-1-70e8bb1e9175@gmail.com>
-	 <58393a1f-272b-41be-9ebd-ae03678cb738@kernel.org>
-	 <43f43063b81da41b693d5eb8178d5c55ebaaa168.camel@gmail.com>
-	 <4ef74e2b-74a9-4778-a3f2-d873cf6b7478@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jEIG5BDB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764190803; x=1795726803;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=rVo+BGrVUWuk2ZUHe4MgRf6wzEP/hIkHu/ZB9WhQo5k=;
+  b=jEIG5BDBoP2+qNwfy5PrOQq5lhefW0q3S/9hHxwdXdEWY1RcBgBWEAhe
+   uKBfDyi3sdVQ+f4n4APGa/KPQWlQNSpEltocjsQ4+Yl4IytjCAAUBUwD9
+   Byct8JKXeGZ6pHpuYwdk7a38eTrlDFZ5gWAfvCuBRk2oItYdWhi6fouUG
+   TZesjFX+xrqsKKjPoFZH0GC00ywT2N/u2eQbWmrdNejyxhR1vCpBNpWOM
+   4fpj3zq2Nri2xCbL32aWxb/+JwltlVEThSIJcftnt0P/NQS8ivYuWvkF0
+   yl38YqGLNC8dz5NAq8vv7s/sw5WCuRXPBhUL2LmAiGDNGsYzSxEfLk4j0
+   g==;
+X-CSE-ConnectionGUID: zlGYUGL8RLS6saoPXJ7bpQ==
+X-CSE-MsgGUID: j6xQXhA6QWqtA3aCSdK+RQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="65423531"
+X-IronPort-AV: E=Sophos;i="6.20,229,1758610800"; 
+   d="scan'208";a="65423531"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 12:59:52 -0800
+X-CSE-ConnectionGUID: MyfPDdpWRMSIMqatf0tXaQ==
+X-CSE-MsgGUID: WzVFqLfnQtOZYpmBP1oGjg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,229,1758610800"; 
+   d="scan'208";a="193272436"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa008.fm.intel.com with ESMTP; 26 Nov 2025 12:59:48 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1003)
+	id AB1CD9F; Wed, 26 Nov 2025 21:59:47 +0100 (CET)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Joe Perches <joe@perches.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>
+Subject: [PATCH v1 1/1] docs: Update documentation to avoid mentioning of kernel.h
+Date: Wed, 26 Nov 2025 21:59:39 +0100
+Message-ID: <20251126205939.2321498-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2025-11-26 at 09:10 +0100, Krzysztof Kozlowski wrote:
-> On 25/11/2025 17:11, ally heev wrote:
-> > On Tue, 2025-11-25 at 16:09 +0100, Krzysztof Kozlowski wrote:
-> > > On 25/11/2025 14:32, Ally Heev wrote:
-> > > > uninitialized pointers with __free attribute can cause undefined
-> > > > behavior as the memory randomly assigned to the pointer is freed
-> > > > automatically when the pointer goes out of scope.
-> > > > add check in checkpatch to detect such issues.
-> > > >=20
-> > > > Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > > > Link: https://lore.kernel.org/all/8a4c0b43-cf63-400d-b33d-d9c447b7e=
-0b9@suswa.mountain/
-> > > > Link: https://lore.kernel.org/all/58fd478f408a34b578ee8d949c5c4b4da=
-4d4f41d.camel@HansenPartnership.com/
-> > > > Acked-by: Dan Williams <dan.j.williams@intel.com>
-> > > > Signed-off-by: Ally Heev <allyheev@gmail.com>
-> > >=20
-> > >=20
-> > > <form letter>
-> > > This is a friendly reminder during the review process.
-> > >=20
-> > > It looks like you received a tag and forgot to add it.
-> > >=20
-> > > If you do not know the process, here is a short explanation:
-> > > Please add Acked-by/Reviewed-by/Tested-by tags when posting new versi=
-ons
-> > > of patchset, under or above your Signed-off-by tag, unless patch chan=
-ged
-> > > significantly (e.g. new properties added to the DT bindings). Tag is
-> > > "received", when provided in a message replied to you on the mailing
-> > > list. Tools like b4 can help here. However, there's no need to repost
-> > > patches *only* to add the tags. The upstream maintainer will do that =
-for
-> > > tags received on the version they apply.
-> > >=20
-> > > Please read:
-> > > https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/proce=
-ss/submitting-patches.rst#L577
-> > >=20
-> > > If a tag was not added on purpose, please state why and what changed.
-> > > </form letter>
-> > >=20
-> > >=20
-> > > Best regards,
-> > > Krzysztof
-> >=20
-> > Oopsie. I should have sent a new version instead of resending a failed
-> > one. I have updated the `UNINITIALIZED_PTR_WITH_FREE` error description
-> > in the checkpatch doc as outlined in v6 changelog, so, didn't add a
-> > Reviewed-by tag
->=20
->=20
-> Again, your changelog should explain the reason. Second, you implemented
-> reviewer suggestion, received the tag so why do you think that Rb tag
-> does not apply?
->=20
-> Best regards,
-> Krzysztof
+For several years, and still ongoing, the kernel.h is being split
+to smaller and narrow headers to avoid "including everything" approach
+which is bad in many ways. Since that, documentation missed a few
+required updates to align with that work. Do it here.
 
-Sorry again :(. I thought the new changes, although minor, would entail
-new comments. I have experienced this in my old patches
+Note, language translations are left untouched and if anybody willing
+to help, please provide path(es) based on the updated English variant.
 
-Regards,
-Ally
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ Documentation/core-api/kobject.rst              |  2 +-
+ Documentation/dev-tools/checkpatch.rst          |  2 +-
+ Documentation/driver-api/basics.rst             | 17 ++++++++++++++++-
+ .../driver-api/driver-model/design-patterns.rst |  2 +-
+ Documentation/process/coding-style.rst          | 10 +++++++---
+ Documentation/staging/rpmsg.rst                 |  7 +++++--
+ 6 files changed, 31 insertions(+), 9 deletions(-)
+
+diff --git a/Documentation/core-api/kobject.rst b/Documentation/core-api/kobject.rst
+index 7310247310a0..5f6c61bc03bf 100644
+--- a/Documentation/core-api/kobject.rst
++++ b/Documentation/core-api/kobject.rst
+@@ -78,7 +78,7 @@ just a matter of using the kobj member.  Code that works with kobjects will
+ often have the opposite problem, however: given a struct kobject pointer,
+ what is the pointer to the containing structure?  You must avoid tricks
+ (such as assuming that the kobject is at the beginning of the structure)
+-and, instead, use the container_of() macro, found in ``<linux/kernel.h>``::
++and, instead, use the container_of() macro, found in ``<linux/container_of.h>``::
+ 
+     container_of(ptr, type, member)
+ 
+diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+index fa2988dd4657..c1dff8e6bccb 100644
+--- a/Documentation/dev-tools/checkpatch.rst
++++ b/Documentation/dev-tools/checkpatch.rst
+@@ -753,7 +753,7 @@ Macros, Attributes and Symbols
+     sizeof(foo)/sizeof(foo[0]) for finding number of elements in an
+     array.
+ 
+-    The macro is defined in include/linux/kernel.h::
++    The macro is defined in include/linux/array_size.h::
+ 
+       #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+ 
+diff --git a/Documentation/driver-api/basics.rst b/Documentation/driver-api/basics.rst
+index 5e9f7aee71a7..8b6a5888cb11 100644
+--- a/Documentation/driver-api/basics.rst
++++ b/Documentation/driver-api/basics.rst
+@@ -114,10 +114,25 @@ Kernel objects manipulation
+ Kernel utility functions
+ ------------------------
+ 
+-.. kernel-doc:: include/linux/kernel.h
++.. kernel-doc:: include/linux/array_size.h
++   :internal:
++
++.. kernel-doc:: include/linux/container_of.h
++   :internal:
++
++.. kernel-doc:: include/linux/kstrtox.h
+    :internal:
+    :no-identifiers: kstrtol kstrtoul
+ 
++.. kernel-doc:: include/linux/stddef.h
++   :internal:
++
++.. kernel-doc:: include/linux/util_macros.h
++   :internal:
++
++.. kernel-doc:: include/linux/wordpart.h
++   :internal:
++
+ .. kernel-doc:: kernel/printk/printk.c
+    :export:
+    :no-identifiers: printk
+diff --git a/Documentation/driver-api/driver-model/design-patterns.rst b/Documentation/driver-api/driver-model/design-patterns.rst
+index 41eb8f41f7dd..965b2b93be6f 100644
+--- a/Documentation/driver-api/driver-model/design-patterns.rst
++++ b/Documentation/driver-api/driver-model/design-patterns.rst
+@@ -103,7 +103,7 @@ The design pattern is the same for an hrtimer or something similar that will
+ return a single argument which is a pointer to a struct member in the
+ callback.
+ 
+-container_of() is a macro defined in <linux/kernel.h>
++container_of() is a macro defined in <linux/container_of.h>
+ 
+ What container_of() does is to obtain a pointer to the containing struct from
+ a pointer to a member by a simple subtraction using the offsetof() macro from
+diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+index 2969ca378dbb..d63ea0bffdfe 100644
+--- a/Documentation/process/coding-style.rst
++++ b/Documentation/process/coding-style.rst
+@@ -1070,7 +1070,7 @@ readability.
+ 18) Don't re-invent the kernel macros
+ -------------------------------------
+ 
+-The header file include/linux/kernel.h contains a number of macros that
++There many header files in include/linux/ that contain a number of macros that
+ you should use, rather than explicitly coding some variant of them yourself.
+ For example, if you need to calculate the length of an array, take advantage
+ of the macro
+@@ -1079,14 +1079,18 @@ of the macro
+ 
+ 	#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+ 
++which is defined in array_size.h.
++
+ Similarly, if you need to calculate the size of some structure member, use
+ 
+ .. code-block:: c
+ 
+ 	#define sizeof_field(t, f) (sizeof(((t*)0)->f))
+ 
+-There are also min() and max() macros that do strict type checking if you
+-need them.  Feel free to peruse that header file to see what else is already
++which is defined in stddef.h.
++
++There are also min() and max() macros defined in minmax.h that do strict type checking if you
++need them.  Feel free to peruse the header files to see what else is already
+ defined that you shouldn't reproduce in your code.
+ 
+ 
+diff --git a/Documentation/staging/rpmsg.rst b/Documentation/staging/rpmsg.rst
+index 40282cca86ca..42bac1149d9d 100644
+--- a/Documentation/staging/rpmsg.rst
++++ b/Documentation/staging/rpmsg.rst
+@@ -224,9 +224,12 @@ content to the console.
+ 
+ ::
+ 
+-  #include <linux/kernel.h>
++  #include <linux/dev_printk.h>
++  #include <linux/mod_devicetable.h>
+   #include <linux/module.h>
++  #include <linux/printk.h>
+   #include <linux/rpmsg.h>
++  #include <linux/types.h>
+ 
+   static void rpmsg_sample_cb(struct rpmsg_channel *rpdev, void *data, int len,
+ 						void *priv, u32 src)
+@@ -244,7 +247,7 @@ content to the console.
+ 	/* send a message on our channel */
+ 	err = rpmsg_send(rpdev->ept, "hello!", 6);
+ 	if (err) {
+-		pr_err("rpmsg_send failed: %d\n", err);
++		dev_err(&rpdev->dev, "rpmsg_send failed: %d\n", err);
+ 		return err;
+ 	}
+ 
+-- 
+2.50.1
+
