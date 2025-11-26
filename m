@@ -1,153 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4F7F50F;
-	Wed, 26 Nov 2025 08:10:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D5313112BE
+	for <workflows@vger.kernel.org>; Wed, 26 Nov 2025 08:19:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764144647; cv=none; b=sw+sew2XYYtBj25elvbdSrKVQOgdmXPUy1HyKiurpMyuoAuNaS6IsVljlSTrjMZxLLaeyQ63t+v8/aX0LoVF5tOCM+2D0MGy6/OiI1kxZgP/E1FWos7a7LPGoRJnEUrq9muRZ8NlCWnj457Xu0+KPRP2dZCTBcrfEv4/+UYB3SY=
+	t=1764145155; cv=none; b=YwusAVgurVck0hNTrlU1WFLBkRMrY8JSEw6MyLrcnHolNzKsBLjmatkVAGmm8mkRbBDTFPAIwxTbuP0Auyf19FfFfT+l7csjKB9GMtzgfn/0+maE7Ki5EfSM7LjLRABp6VFIbwNJFxRS7IDu99iPAQ7XmfKijDgq73BSjjxWuoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764144647; c=relaxed/simple;
-	bh=49C+Gneqps7+V+oBwlUPtAEHI61jQmLwBWR1Awc4elo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VlKOmY2TIzIjibQw3dC0ZkNu5/Mn/RK83yRnDhFUS18/9XMkmrU0DTvgiaEMXXGrbLDS4N/xYtmDnGxjRyvBzr/E9fJHLJD7tDpF7kzZhmE7c1JLo9gvhDWD4fBrM9ejAs7QpljMfava39TmEawblvpz8MXaY+yQdLeu22pwWVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ijR6p5Se; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764145155; c=relaxed/simple;
+	bh=Va5CGNuTjaQ+61C1Q+uQU1I3V3X/zhK8i2UpbXmstWk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HsCc3DLu84bkHsznjaFj/KFipTeAihjPMSrmCmVZqwozOzZO/vL4dpaWaRtPq4a4ZtHmJZglZ6P4d4QuWlGiBhzJS+1K5TnVyjxXf3fNxdiV63r96p6dDYm8AHmfurlEfpdqFKjPzp9UWATZsoFoS4POVguCJ3edGPUHpDRUlQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=jBpW+AaT; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=NCHAAFWX; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ijR6p5Se"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C311C19423;
-	Wed, 26 Nov 2025 08:10:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764144647;
-	bh=49C+Gneqps7+V+oBwlUPtAEHI61jQmLwBWR1Awc4elo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ijR6p5Se7q9DbDmihSRFfDv5S/I+JhQ8Z7vc9qnYUAjDpG9hn5OKfpQg0pfO1fEYS
-	 JTlX49x9eR8hXXdz4DierXNN2Eq24u3UI11zWRivbdGa0eP3UJAF1nw2cxYKGDH+1R
-	 eX5jjrYdNu4IY6x3axkvPWUWMoM172irC/UxoD01R1OakbMRm9uWUtPHbwAWn4hS0I
-	 YvOwdM1OTWFyaBxg8/QoPTKG9ktsuAEUL0Deyvv3f9oXDAY3cDBn6hAYg4OtRznrGn
-	 XFS/K7X0FiLQlDpH3K/8k0a6i1ufJELx0nqJP8GdiCeLXMt2b3pgfhZPzmx+BZrZ0S
-	 YUHkzQPYc+BaQ==
-Message-ID: <4ef74e2b-74a9-4778-a3f2-d873cf6b7478@kernel.org>
-Date: Wed, 26 Nov 2025 09:10:41 +0100
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="jBpW+AaT";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="NCHAAFWX"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5APNM30f4048329
+	for <workflows@vger.kernel.org>; Wed, 26 Nov 2025 08:19:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=IvDE0Ygyk+QKs5TPrEHv293vjQEPjkX1SpF
+	BnjqqKBo=; b=jBpW+AaTTnUzeIYiryuMV+vXX/tmapTOJ6dJDtIOy8NhW/j6CKA
+	hY/udiY7bi+Cmy8xugUTHmzKQjV8REgAMXDIqLvt8F/dPd6cF1X5m0bJ76ZyGQIe
+	vnYGaRXS4BMmA3Y7FQS0viGPpF65VVdKAGCsarx7MqTwF5KxHA4/02NYWe94jDsa
+	it3+eVNCLaKR7aNwuljHUl78bRfq6F/kvHHba2F8iae9b/U5l+vnidOHu4mAQ79G
+	woo3ckZRkzHnDHO/QLMQ9CytXOC8W38LhJ7hn8/cz8dVxjkcFspGM257zVgBHg43
+	0npvutMwWc5Bkm56y6YIVwUfsd0ge/EjIDA==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4anp2nh6sx-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <workflows@vger.kernel.org>; Wed, 26 Nov 2025 08:19:12 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-89ee646359cso1679805585a.1
+        for <workflows@vger.kernel.org>; Wed, 26 Nov 2025 00:19:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1764145151; x=1764749951; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IvDE0Ygyk+QKs5TPrEHv293vjQEPjkX1SpFBnjqqKBo=;
+        b=NCHAAFWXfhL0DnWobkEvElSlfcvhAqFHbdczb0RU8f61tKyBbbqfZN8oxQ0A5rUOoA
+         oBkP82PBzUn/6XYl38t4swfSIHYhO+1g7SMtEMJwEnVdKUnS4d2V6OPDfKGd8RA7h0B0
+         QYUIdkrE4LdadfgcCj1IwZui0Uhso/nxslYgLIjwwCogsxtW1D0dBfhLt/2+q3q2xmGW
+         Ugbtyb57NWNqxuzmh2iiZmz95q0J4yNAoBilnrU2EjggnXqnZg1u8QMvKJF0iFVTNx7P
+         qCb8WMECrzHw944UPRSuKrSvsstHvqjHSuqq7JLL30CL4P1vPRaXhEFCj2YnuTGn63nR
+         sfTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764145151; x=1764749951;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IvDE0Ygyk+QKs5TPrEHv293vjQEPjkX1SpFBnjqqKBo=;
+        b=VNT3TtQjaFImSQzJwb73rLU4za+d+6yE2QItr7NcaGMlL5b9T8c8qSc7gGuSvCu9R2
+         djXkzmPRNgFF0W5n7Vo/E/U2gnlaA06Voe8GeATgvRfUFGuI6qwDr/4AymZ/iZtZ55lJ
+         QnYk4GxS/93iI8F40ntTRFhTPWED2Cl3ZquSSskOUEK37ywDITNnUgNEUvhgJLvfGEth
+         20KmuDfRbLPCqQvIRcNX6U7rMUWOi1ob3b9E7vWQJPwUmhc6flMk8YReuCewBu0SPWpz
+         eZUMLmRV95DDnK7xmPPbuLnb8BFnLQUjSy+41iw7vNJKfGsykRgofhylFFQljBnyGgYZ
+         oFTg==
+X-Forwarded-Encrypted: i=1; AJvYcCXxAbnuGkRF7l0RmHRfbJmRFAu4YHJxoTthISyyHz1+3ogYVDfB840m3bh9too+MPzVwLXHZk2PmpY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5dcWOTso6DRsFniJTo0kyeSIHStgBbI+Ye9F/z8SOubLQcykO
+	G6bazeBh0WltigjRoPCemkr1dokxjTT+4pxakYQyOJZhA9JGPjONxRSb3RrNvvgrdlIxTtzzXYi
+	4uSCq2Ci/b3eKDjZ9t1NKuf0QiDBnYamT7WZwBknv3WnlfmLZixxvncCjHEm85kLX5UWG4hI=
+X-Gm-Gg: ASbGnctbf266pdLlKdfKPlK38hBQ/Q1GzE16E/umjqfCbPGXjvdgCMKUgePNkgA801R
+	LjRZow3sqDIOo29KzZp7XK04/9pqclbmsWiDpJ8xWWhpBlKutgk+kUrdgVjwaje4eakZ/01K2yt
+	q5tLZrv9R75o3YxZBASm15dtUSjS0VaaOyy2kfPAVNrJjkDpZB6UFcB2Z/NNAOU5xDmH/8vooH7
+	hP4gO7Ko9tyfez+GFFsn5eo32MlmZA0Tpg7hM/NyFqovVGQLDGSbprbJA9yzC91yXEuv+dGVP1p
+	LgZBkoNG1nmjC+xU1l1z+ZshusyuPHV3I3+4ZXUU+QiiZUWIj0zLRs0d6aT+G3dZvpXDrxcb1wn
+	xHda6VrCbWNSFojwAZ1vEZygjWGZy
+X-Received: by 2002:a05:620a:7003:b0:8a3:1b83:1025 with SMTP id af79cd13be357-8b4ebdc1d29mr759333185a.73.1764145150811;
+        Wed, 26 Nov 2025 00:19:10 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFCrKFc7MsUrz6jj+yFbGZMJO8DfX35or9wIKYqC5c7E+xpxX03JyUO+Bw/kGlqeuN77ZtB7Q==
+X-Received: by 2002:a05:620a:7003:b0:8a3:1b83:1025 with SMTP id af79cd13be357-8b4ebdc1d29mr759331285a.73.1764145150407;
+        Wed, 26 Nov 2025 00:19:10 -0800 (PST)
+Received: from kuoka.. ([178.197.219.123])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-645ef325a4asm3868411a12.28.2025.11.26.00.19.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Nov 2025 00:19:09 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+To: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: [PATCH] docs: submitting-patches: Clarify that removal of Acks needs explanation too
+Date: Wed, 26 Nov 2025 09:19:06 +0100
+Message-ID: <20251126081905.7684-2-krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v6] checkpatch: add uninitialized pointer with
- __free attribute check
-To: ally heev <allyheev@gmail.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>,
- Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
- David Hunter <david.hunter.linux@gmail.com>,
- Shuah Khan <skhan@linuxfoundation.org>, Viresh Kumar <vireshk@kernel.org>,
- Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,
- linux-pm <linux-pm@vger.kernel.org>, dan.j.williams@intel.com,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- James Bottomley <James.Bottomley@hansenpartnership.com>
-References: <20251125-aheev-checkpatch-uninitialized-free-v6-1-70e8bb1e9175@gmail.com>
- <58393a1f-272b-41be-9ebd-ae03678cb738@kernel.org>
- <43f43063b81da41b693d5eb8178d5c55ebaaa168.camel@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <43f43063b81da41b693d5eb8178d5c55ebaaa168.camel@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=KerfcAYD c=1 sm=1 tr=0 ts=6926b800 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=Iax6wTeSMpqzYiZSKl48GQ==:17
+ a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=EUspDBNiAAAA:8 a=mSz3GvdCR8lolErGETwA:9 a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-GUID: fWToXH68ZohuQcg_Mbqepguocx_zDFfy
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI2MDA2NiBTYWx0ZWRfX1wNUuoRgN5LI
+ GrMP9UgJOnCBPZcqzDCYuQju+GHAThrbFDQg9Idf6nk1zjTtVKCa3m1u0Y9E7g2pUyjpMSj0N0s
+ 2VZAvTarDC/HthebhyJnz1W/XCGTdlFNqRhRt0bs0s75yV63zBdngGEJVAJ4Xy85sqjAYtRt/5S
+ hAVcfZG33wQCTE1im6nr5l8wI8gExr5/V3LY8cWdXSCHrqelooMF8Qsw+L90YQKZh7iaiLrKHZV
+ JmSGuE+vw9l40jesrygaDWcP27CG8e15eB+XkOmQJB/2QX1yeo1uaEAc25cQ4JUpzOJU4PpUeIP
+ CpWfaXpiBJLlFGQGGk2pmPC2BWJRbAAYJL/Tkw1rwezfj5t/ezGYwnY7oPQYwNK6OXcNY3q00Zz
+ tgXKoGxntyRuny8fSLT5BiGNPCeZHg==
+X-Proofpoint-ORIG-GUID: fWToXH68ZohuQcg_Mbqepguocx_zDFfy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-25_02,2025-11-25_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 impostorscore=0 priorityscore=1501 spamscore=0 bulkscore=0
+ lowpriorityscore=0 phishscore=0 suspectscore=0 adultscore=0 clxscore=1011
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511260066
 
-On 25/11/2025 17:11, ally heev wrote:
-> On Tue, 2025-11-25 at 16:09 +0100, Krzysztof Kozlowski wrote:
->> On 25/11/2025 14:32, Ally Heev wrote:
->>> uninitialized pointers with __free attribute can cause undefined
->>> behavior as the memory randomly assigned to the pointer is freed
->>> automatically when the pointer goes out of scope.
->>> add check in checkpatch to detect such issues.
->>>
->>> Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
->>> Link: https://lore.kernel.org/all/8a4c0b43-cf63-400d-b33d-d9c447b7e0b9@suswa.mountain/
->>> Link: https://lore.kernel.org/all/58fd478f408a34b578ee8d949c5c4b4da4d4f41d.camel@HansenPartnership.com/
->>> Acked-by: Dan Williams <dan.j.williams@intel.com>
->>> Signed-off-by: Ally Heev <allyheev@gmail.com>
->>
->>
->> <form letter>
->> This is a friendly reminder during the review process.
->>
->> It looks like you received a tag and forgot to add it.
->>
->> If you do not know the process, here is a short explanation:
->> Please add Acked-by/Reviewed-by/Tested-by tags when posting new versions
->> of patchset, under or above your Signed-off-by tag, unless patch changed
->> significantly (e.g. new properties added to the DT bindings). Tag is
->> "received", when provided in a message replied to you on the mailing
->> list. Tools like b4 can help here. However, there's no need to repost
->> patches *only* to add the tags. The upstream maintainer will do that for
->> tags received on the version they apply.
->>
->> Please read:
->> https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/process/submitting-patches.rst#L577
->>
->> If a tag was not added on purpose, please state why and what changed.
->> </form letter>
->>
->>
->> Best regards,
->> Krzysztof
-> 
-> Oopsie. I should have sent a new version instead of resending a failed
-> one. I have updated the `UNINITIALIZED_PTR_WITH_FREE` error description
-> in the checkpatch doc as outlined in v6 changelog, so, didn't add a
-> Reviewed-by tag
+The paragraph mentions only removal of Tested-by and Reviewed-by tags as
+action needing mentioning in patch changelog, so some developers treat
+it too literally.  Acks, as a weaker form of review/approval, should
+rarely be removed, but if that happens it should be explained as well.
 
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+---
+ Documentation/process/submitting-patches.rst | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Again, your changelog should explain the reason. Second, you implemented
-reviewer suggestion, received the tag so why do you think that Rb tag
-does not apply?
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index 910e8fc9e3c8..9a509f1a6873 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -592,8 +592,9 @@ Both Tested-by and Reviewed-by tags, once received on mailing list from tester
+ or reviewer, should be added by author to the applicable patches when sending
+ next versions.  However if the patch has changed substantially in following
+ version, these tags might not be applicable anymore and thus should be removed.
+-Usually removal of someone's Tested-by or Reviewed-by tags should be mentioned
+-in the patch changelog (after the '---' separator).
++Usually removal of someone's Acked-by, Tested-by or Reviewed-by tags should be
++mentioned in the patch changelog with an explanation (after the '---'
++separator).
+ 
+ A Suggested-by: tag indicates that the patch idea is suggested by the person
+ named and ensures credit to the person for the idea: if we diligently credit
+-- 
+2.48.1
 
-Best regards,
-Krzysztof
