@@ -1,123 +1,255 @@
-Received: from 5.mo584.mail-out.ovh.net (5.mo584.mail-out.ovh.net [188.165.44.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F92E1E991B
-	for <workflows@vger.kernel.org>; Fri,  5 Dec 2025 11:16:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.165.44.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A546361DCB
+	for <workflows@vger.kernel.org>; Fri,  5 Dec 2025 15:25:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764933400; cv=none; b=byjcPDByzuXlHgtho4Ov0kuNF1tAWR6yTL153Cf4rwWwIXsLVvvNZxKNOMdf2tp76j4eRjyoBZQv2aPhFiiESso+mH17mewYR0YlgCQYmRSDFKSCgev7UPLt/6c31p6sBc8TnlYi6Qb5dBobMFH8e873kdUUfx7WkVpLwTCuAeE=
+	t=1764948356; cv=none; b=bGL2grdj7Zk2AUj7EACL1bsMk/x9hphZ0ucMtyFmz/T1MW4tKDpX9+q5PAIJB3fTbX6dg+e0pkoUWFtBALnLBJ9CbI9hfvn6QezCshiSG58NGuqLVkSVjyu58ZOLaIfWV03s+DSA4ogK2t0p7nLBZt721kjeK8rJhEQ0JWosigw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764933400; c=relaxed/simple;
-	bh=0y8gWCwvAYPTEPR4GrcXZMsdKqyzuZXHH/UlG6ZhIrU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=shR/dOn7RcQW34DJZrgQ4M+xy+pWAzMrQ2/n756BY1hJAEtQj/GjtcnSqJ3VuxvnQJmyfmeDPKrEvzoNhmP5q8aw7mSuOSvBVSULQnHq5I9cmpmFReRUKGOpXOeyLzsTXzt0SuvH4WWZt01aomHkEpZaJ9YAZ/FYP6NvipK14s0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=etezian.org; arc=none smtp.client-ip=188.165.44.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=etezian.org
-Received: from director2.ghost.mail-out.ovh.net (unknown [10.110.37.17])
-	by mo584.mail-out.ovh.net (Postfix) with ESMTP id 4dN82p3VTvz8QXL
-	for <workflows@vger.kernel.org>; Fri,  5 Dec 2025 11:16:34 +0000 (UTC)
-Received: from ghost-submission-7d8d68f679-6f9hm (unknown [10.110.188.17])
-	by director2.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 21E0BC0D34;
-	Fri,  5 Dec 2025 11:16:32 +0000 (UTC)
-Received: from etezian.org ([37.59.142.99])
-	by ghost-submission-7d8d68f679-6f9hm with ESMTPSA
-	id GEvuNA+/MmmXPwIAHLfwXQ
-	(envelope-from <andi@etezian.org>); Fri, 05 Dec 2025 11:16:32 +0000
-Authentication-Results:garm.ovh; auth=pass (GARM-99G003bce61c53-f9df-4629-80d3-adfd3cc59745,
-                    EAC13B2666E74075D157C5892600FBB33BFAB6DD) smtp.auth=andi@etezian.org
-X-OVh-ClientIp:178.82.31.9
-From: Andi Shyti <andi.shyti@kernel.org>
-To: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Federico Vaga <federico.vaga@vaga.pv.it>
-Subject: [PATCH] Doc:it_IT: Do not reference kernel.h anymore
-Date: Fri,  5 Dec 2025 12:15:58 +0100
-Message-ID: <20251205111559.3089219-1-andi.shyti@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251126214709.2322314-1-andriy.shevchenko@linux.intel.com>
-References: <20251126214709.2322314-1-andriy.shevchenko@linux.intel.com>
+	s=arc-20240116; t=1764948356; c=relaxed/simple;
+	bh=8B55ybRhaP1NxjzHhS5j+J3kMnpXtYwOq404qobc2fM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RnfkXBGXi5XlTsITwMSpM80kzx/utWAeCs6rY5ylz8bLgLJ3wNExCFv8qFyyXgOmzz6SSBVB3ABfcRmCqcIUCBwmyKuBTYXRJdh/mIzTddKdZAXIB3T2ctLvZlq7tAp0aiRBhRcZ+vtB1NtCRzQTlkAM2ssjeHbW4R+98SwqFyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vD5qHcI1; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vD5qHcI1"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b7355f6ef12so153938766b.3
+        for <workflows@vger.kernel.org>; Fri, 05 Dec 2025 07:25:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1764948351; x=1765553151; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GsoIJVCHmWy1FT7O+N+z+bRw/e2lbo3jyE9iVhVEHoY=;
+        b=vD5qHcI1ingruhgGMyNIMC255ukHM3NidyoDohriQrMaV9fm0TcW3v3LRwA7+wVaWq
+         3HnShgblv+FpVJbwI+qKYRO+XJSnV7pOfQV5rd2ha+xEzoLUiOZqZy+qpR3KSxkckoed
+         qV/9OFHDXimttHAOojI1D35QiiWbytKBwwgEJUMK/7kvzGaD71mjqU1/KfEH50nIdvZU
+         Q/YlX1RS7OlhoafLr6Se/CvFO+58kCaiW2+xJetLZKvmWQcldKkMgnN8AMMHuVeM19f3
+         58GVS/h53irqjZxwqmXy+nvhoOtoFiellRkfgw2g5vuSXngcRIt5KnaycRo4heK4xaan
+         4VHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764948351; x=1765553151;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GsoIJVCHmWy1FT7O+N+z+bRw/e2lbo3jyE9iVhVEHoY=;
+        b=DVYX2u0HF7VuJ87pzPOwJeES2d+nVmpveZq0uCefqwLoP0yVF2/3tKY4znVJek5RJc
+         0Tjtr7C7PgJs9aogwApD9s8CcqHBDiG3/gvirJyp41hYjpMqffDmNEVi5ZnxkXs749HI
+         4Isgqq8bXptNa9iwAJLFSpmBYY5irICnbp13QOkqIf9DxJ2MtoPgL2MCXXa9it2XHhYS
+         xuIDttYc9otxJu+8U5IL3tlhWUxzi5leV28HNzdt2TcG+phh0se9ym9leSjfBAwdeE4b
+         DXRdIM8eyM7X1VXpy3NP1VMBmBKHMKS0CKoMA3fLtz/QnMWVBGbtVUeNqTKJL3YhTKMc
+         6ozg==
+X-Forwarded-Encrypted: i=1; AJvYcCXW/ZMyDPlxWrYsFoQQpYHB0DDtHEBQDvKUOh9XR+C2IW4rUed+7ZtFH7MVhZ+f/m9D/OsCm0/4lec=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwX71xbOKT/Xx2XjKlWYmjKZHXLoo0+x9uMbVOPL+Exy7zetQk6
+	qDHwwYQDE9phynu1UdUZgLtIuBilylunkup/n45x+8ZZXpxz+ABdSv7HV3fP3/xLTnyxOh5mlC3
+	cQ6AlD0gjI+dNPYkBM2j7QXPr3oyw1qYRYEjdcGxjJw==
+X-Gm-Gg: ASbGncvlcVTHf1R+VEMXmqd/cQuxA1GZxUWmhckulTO6gat92vn5zjsLGmVe2hJQfa8
+	lEupftpYePPAocBU5SmLuewQSACHCmjghTrmxb3eqD/JcBazaXSmJzGYJZogclJNKhTrnAGNf9O
+	c8E2+unUoD5+P9cWZ9Mb+Jv9KN+/YepUL9IS1CVsZTpGSrmrcw4Ew2EAV7FU2bI4hSOwNx1fNff
+	53eYH+hu3XyionS3G+/7JvuCgKOOn67Y0LJWc0mfilHq1V5mUVcDT/KAtRfxr/ybCAXhsFBcpAy
+	PKKXl3myCr+Ra4wNOiOmvOoydRbmxw==
+X-Google-Smtp-Source: AGHT+IE1o/bitoxaz1MpajvIa9GlFCkS/N0ihp9NddOYMAK2pOvstDfHPLiItzKSf0xSdfRKtHCoH2qZMY6AamTfLAs=
+X-Received: by 2002:a17:907:3cc8:b0:b71:88eb:e60c with SMTP id
+ a640c23a62f3a-b79dc77df3emr949922266b.44.1764948351178; Fri, 05 Dec 2025
+ 07:25:51 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 13768067014224841408
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: dmFkZTEtft+QIHmN8rhve/XJrxp7CQYtpe+20sAh2Uft0XxdCpEXwObGCxLgpkAtOqFRv3EkSYqwVXeMgvl948qz7dtDx4HaczuMm6Y6k6NIZ6U23hlqYFFecRQ0Qdj0hmEMO5EiFDpgQy8e5pFZF+avOzGs5RjVYuOsgGb282fq3XW+1MXCPq6s3q5PnUvBpnlrb2PWQV90yAxuvTZ8XDyar0anPfXS3WT+tYDpwypWGjYfL8jEibqCyoWWB8Ya/3Tu1LjFk19XQrNq2DN+c8o5VCWKpTNBut9nwxy79NCaSzTRvZJdJYFKksuVpFoUdcX4KcQKxPrfnU0EOfcgFNYc5by1iplS9nQkdh70lBGRAMHdsRxAbAMV5071y2B1dNH1ZapHdSXEqLyxhtpsAEdUMbvkjzgILkIbafJ1V8Br8x1yfLz6B2c4lreieEEZN1Z8dBd+gdsbBKhOCnTRCs9J8HnuHUfoJPHNy+aR5FKLKstTxtkQ2T497KgmQr1R7KXWN1tW2ZWrT1/c30VMHi6QRN/FikoxWAab61ne1Ds9gE6ng9/jyQIuARWDxex046TddXW7bo4jEpL4ZU7d+XrBAvrXXXww64PegX/ua6FOOauz4hv5dbp9ni+H70iCRvmWfxw2PflyhmL+GZ+xFtYThZiHpV+G7tHMKcuRrxMgUC8hwQ
+References: <20251126214709.2322314-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20251126214709.2322314-1-andriy.shevchenko@linux.intel.com>
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+Date: Fri, 5 Dec 2025 08:25:39 -0700
+X-Gm-Features: AQt7F2rMfEJ0gvCUdSL0MMUPuM12OYKnm17iWsBqbS-CCk_tDkv2CDckLPP4-OA
+Message-ID: <CANLsYkzhvZK4ZhNP=Zc0XxENxGV8efFEMGLBc3RAV626edysiA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] docs: Update documentation to avoid mentioning of kernel.h
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Randy Dunlap <rdunlap@infradead.org>, "Dr. David Alan Gilbert" <linux@treblig.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, workflows@vger.kernel.org, 
+	linux-remoteproc@vger.kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
+	Joe Perches <joe@perches.com>, Bjorn Andersson <andersson@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-coding-style.rst still references the kernel.h header, which is
-being phased out. Remove that reference and point to the proper
-headers for the examples instead: array_size.h, stddef.h and
-minmax.h.
+On Wed, 26 Nov 2025 at 14:47, Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> For several years, and still ongoing, the kernel.h is being split
+> to smaller and narrow headers to avoid "including everything" approach
+> which is bad in many ways. Since that, documentation missed a few
+> required updates to align with that work. Do it here.
+>
+> Note, language translations are left untouched and if anybody willing
+> to help, please provide path(es) based on the updated English variant.
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> ---
+>
+> v2: collected tag (Randy), fixed util_macros k-doc (Randy, me), fixed spelling (Randy)
+>
+>  Documentation/core-api/kobject.rst              |  2 +-
+>  Documentation/dev-tools/checkpatch.rst          |  2 +-
+>  Documentation/driver-api/basics.rst             | 17 ++++++++++++++++-
+>  .../driver-api/driver-model/design-patterns.rst |  2 +-
+>  Documentation/process/coding-style.rst          | 10 +++++++---
+>  Documentation/staging/rpmsg.rst                 |  7 +++++--
+>  include/linux/util_macros.h                     |  2 +-
+>  7 files changed, 32 insertions(+), 10 deletions(-)
+>
+> diff --git a/Documentation/core-api/kobject.rst b/Documentation/core-api/kobject.rst
+> index 7310247310a0..5f6c61bc03bf 100644
+> --- a/Documentation/core-api/kobject.rst
+> +++ b/Documentation/core-api/kobject.rst
+> @@ -78,7 +78,7 @@ just a matter of using the kobj member.  Code that works with kobjects will
+>  often have the opposite problem, however: given a struct kobject pointer,
+>  what is the pointer to the containing structure?  You must avoid tricks
+>  (such as assuming that the kobject is at the beginning of the structure)
+> -and, instead, use the container_of() macro, found in ``<linux/kernel.h>``::
+> +and, instead, use the container_of() macro, found in ``<linux/container_of.h>``::
+>
+>      container_of(ptr, type, member)
+>
+> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+> index fa2988dd4657..c1dff8e6bccb 100644
+> --- a/Documentation/dev-tools/checkpatch.rst
+> +++ b/Documentation/dev-tools/checkpatch.rst
+> @@ -753,7 +753,7 @@ Macros, Attributes and Symbols
+>      sizeof(foo)/sizeof(foo[0]) for finding number of elements in an
+>      array.
+>
+> -    The macro is defined in include/linux/kernel.h::
+> +    The macro is defined in include/linux/array_size.h::
+>
+>        #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+>
+> diff --git a/Documentation/driver-api/basics.rst b/Documentation/driver-api/basics.rst
+> index 5e9f7aee71a7..8b6a5888cb11 100644
+> --- a/Documentation/driver-api/basics.rst
+> +++ b/Documentation/driver-api/basics.rst
+> @@ -114,10 +114,25 @@ Kernel objects manipulation
+>  Kernel utility functions
+>  ------------------------
+>
+> -.. kernel-doc:: include/linux/kernel.h
+> +.. kernel-doc:: include/linux/array_size.h
+> +   :internal:
+> +
+> +.. kernel-doc:: include/linux/container_of.h
+> +   :internal:
+> +
+> +.. kernel-doc:: include/linux/kstrtox.h
+>     :internal:
+>     :no-identifiers: kstrtol kstrtoul
+>
+> +.. kernel-doc:: include/linux/stddef.h
+> +   :internal:
+> +
+> +.. kernel-doc:: include/linux/util_macros.h
+> +   :internal:
+> +
+> +.. kernel-doc:: include/linux/wordpart.h
+> +   :internal:
+> +
+>  .. kernel-doc:: kernel/printk/printk.c
+>     :export:
+>     :no-identifiers: printk
+> diff --git a/Documentation/driver-api/driver-model/design-patterns.rst b/Documentation/driver-api/driver-model/design-patterns.rst
+> index 41eb8f41f7dd..965b2b93be6f 100644
+> --- a/Documentation/driver-api/driver-model/design-patterns.rst
+> +++ b/Documentation/driver-api/driver-model/design-patterns.rst
+> @@ -103,7 +103,7 @@ The design pattern is the same for an hrtimer or something similar that will
+>  return a single argument which is a pointer to a struct member in the
+>  callback.
+>
+> -container_of() is a macro defined in <linux/kernel.h>
+> +container_of() is a macro defined in <linux/container_of.h>
+>
+>  What container_of() does is to obtain a pointer to the containing struct from
+>  a pointer to a member by a simple subtraction using the offsetof() macro from
+> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+> index 2969ca378dbb..258158637f65 100644
+> --- a/Documentation/process/coding-style.rst
+> +++ b/Documentation/process/coding-style.rst
+> @@ -1070,7 +1070,7 @@ readability.
+>  18) Don't re-invent the kernel macros
+>  -------------------------------------
+>
+> -The header file include/linux/kernel.h contains a number of macros that
+> +There are many header files in include/linux/ that contain a number of macros that
+>  you should use, rather than explicitly coding some variant of them yourself.
+>  For example, if you need to calculate the length of an array, take advantage
+>  of the macro
+> @@ -1079,14 +1079,18 @@ of the macro
+>
+>         #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+>
+> +which is defined in array_size.h.
+> +
+>  Similarly, if you need to calculate the size of some structure member, use
+>
+>  .. code-block:: c
+>
+>         #define sizeof_field(t, f) (sizeof(((t*)0)->f))
+>
+> -There are also min() and max() macros that do strict type checking if you
+> -need them.  Feel free to peruse that header file to see what else is already
+> +which is defined in stddef.h.
+> +
+> +There are also min() and max() macros defined in minmax.h that do strict type checking
+> +if you need them. Feel free to peruse the header files to see what else is already
+>  defined that you shouldn't reproduce in your code.
+>
+>
+> diff --git a/Documentation/staging/rpmsg.rst b/Documentation/staging/rpmsg.rst
+> index 40282cca86ca..42bac1149d9d 100644
+> --- a/Documentation/staging/rpmsg.rst
+> +++ b/Documentation/staging/rpmsg.rst
+> @@ -224,9 +224,12 @@ content to the console.
+>
+>  ::
+>
+> -  #include <linux/kernel.h>
+> +  #include <linux/dev_printk.h>
+> +  #include <linux/mod_devicetable.h>
+>    #include <linux/module.h>
+> +  #include <linux/printk.h>
+>    #include <linux/rpmsg.h>
+> +  #include <linux/types.h>
+>
+>    static void rpmsg_sample_cb(struct rpmsg_channel *rpdev, void *data, int len,
+>                                                 void *priv, u32 src)
+> @@ -244,7 +247,7 @@ content to the console.
+>         /* send a message on our channel */
+>         err = rpmsg_send(rpdev->ept, "hello!", 6);
+>         if (err) {
+> -               pr_err("rpmsg_send failed: %d\n", err);
+> +               dev_err(&rpdev->dev, "rpmsg_send failed: %d\n", err);
+>                 return err;
+>         }
 
-Signed-off-by: Andi Shyti <andi.shyti@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Federico Vaga <federico.vaga@vaga.pv.it>
----
-Hi,
+Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
 
-Following Andy's suggestion, and as a native Italian speaker,
-I am updating the Italian translation of coding-style.rst based
-on his original change.
-
-I also took the chance to improve the phrasing in a few places.
-
-Andi
-
- .../it_IT/process/coding-style.rst            | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
-
-diff --git a/Documentation/translations/it_IT/process/coding-style.rst b/Documentation/translations/it_IT/process/coding-style.rst
-index c0dc786b8474..b2fd74528de5 100644
---- a/Documentation/translations/it_IT/process/coding-style.rst
-+++ b/Documentation/translations/it_IT/process/coding-style.rst
-@@ -1068,15 +1068,17 @@ può migliorare la leggibilità.
- 18) Non reinventate le macro del kernel
- ---------------------------------------
- 
--Il file di intestazione include/linux/kernel.h contiene un certo numero
--di macro che dovreste usare piuttosto che implementarne una qualche variante.
--Per esempio, se dovete calcolare la lunghezza di un vettore, sfruttate la
--macro:
-+I file header presenti in include/linux mettono a disposizione numerose macro
-+che è preferibile utilizzare, evitando di sviluppare implementazioni
-+alternative. Per esempio, se dovete calcolare la lunghezza di un vettore,
-+sfruttate la macro:
- 
- .. code-block:: c
- 
- 	#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
- 
-+definita in array_size.h.
-+
- Analogamente, se dovete calcolare la dimensione di un qualche campo di una
- struttura, usate
- 
-@@ -1084,10 +1086,11 @@ struttura, usate
- 
- 	#define sizeof_field(t, f) (sizeof(((t*)0)->f))
- 
--Ci sono anche le macro min() e max() che, se vi serve, effettuano un controllo
--rigido sui tipi.  Sentitevi liberi di leggere attentamente questo file
--d'intestazione per scoprire cos'altro è stato definito che non dovreste
--reinventare nel vostro codice.
-+definita in stddef.h.
-+
-+Ci sono anche le macro min() e max() definite in minmax.h che effettuano un
-+controllo rigoroso sui tipi. È consigliato consultare i vari file header per
-+vedere altre macro già disponibili.
- 
- 19) Linee di configurazione degli editor e altre schifezze
- -----------------------------------------------------------
--- 
-2.51.0
-
+>
+> diff --git a/include/linux/util_macros.h b/include/linux/util_macros.h
+> index 2eb528058d0d..71564868b8f6 100644
+> --- a/include/linux/util_macros.h
+> +++ b/include/linux/util_macros.h
+> @@ -119,7 +119,7 @@
+>   * a fuss about it. This makes the programmer responsible for tagging
+>   * the functions that can be garbage-collected.
+>   *
+> - * With the macro it is possible to write the following:
+> + * With the macro it is possible to write the following::
+>   *
+>   *     static int foo_suspend(struct device *dev)
+>   *     {
+> --
+> 2.50.1
+>
