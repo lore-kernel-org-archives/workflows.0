@@ -1,142 +1,215 @@
-Received: from mail-4396.protonmail.ch (mail-4396.protonmail.ch [185.70.43.96])
+Received: from forward500b.mail.yandex.net (forward500b.mail.yandex.net [178.154.239.144])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D899B2E5D32;
-	Mon, 15 Dec 2025 00:30:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.96
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B57D4155C97;
+	Mon, 15 Dec 2025 09:30:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765758624; cv=none; b=IGKVoBkg74k5tRGLLWh4SG/04xwD86bzbSiRZ/+IKLclk+RYrGyKnrQUO70LnLmIRz+NNR5ioiyizp7kG3fD7bTNEPZE21XTMLmtVQmAPA7UZqs+wEq7+BegXwfiZmVrSW/1LDK9hCjRGbmpsFCO8Sf/lGBdlPky4vRz0SzutIQ=
+	t=1765791052; cv=none; b=ftzxTVSr0bdKr1ZVfGnMIRkLcESKNE+2PL2jSyOJrndJ5sGlmYBep/2Znsv/3pbKPf3nxdJNneAo6cz3Q3VDU2nLHpO2WyzgColuliIGqoBcUrRR9MuyS4WvVlBjLyxZrYbYYxiAEMs/tlh5It45u0PBHrwc29z/bMJtCXGtQvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765758624; c=relaxed/simple;
-	bh=TFd0dgLHm+H5ACxwUPqFjyfU1QznFq5SNOfOT1UCUkg=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UxNKFvSFOPID8uAwS0WOO/bhYuGnJF8NCmWSfyNaZF8hU8mPQYkV5PeHmPElBVr+QIIvoW6AwW77gZPUaeSUjHTCY0TV/A8r+3ZQYcamuVMmSHR+PylupcWsdSFVr+kKZc50GkNHM/4Wb9PNgJm+Mpalepa+a0+fBZBMrVKlHUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vaga.pv.it; spf=pass smtp.mailfrom=vaga.pv.it; dkim=pass (2048-bit key) header.d=vaga.pv.it header.i=@vaga.pv.it header.b=J4CDBd8k; arc=none smtp.client-ip=185.70.43.96
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vaga.pv.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vaga.pv.it
+	s=arc-20240116; t=1765791052; c=relaxed/simple;
+	bh=swqRlMoAO3NvcCoEm7GKISvmasPoc2eXkU2/fm394BE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=f+Darv/Ad0tY1RXB3NWGTlcvFkRSxhQ/eg45AonCOZ83aFA7KNhwkTAxwb0ELXqbc1pokqjFMNoO5J0EvnyquOgR0rL5K3R2qyfY7k59PosI1NGNCKnIEyFA71OuA5DIhjAetMM3Y9R13r+KvfaJWK+fKR3gkhFHRpAw3f6SGic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onurozkan.dev; spf=pass smtp.mailfrom=onurozkan.dev; dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b=pnErKi7r; arc=none smtp.client-ip=178.154.239.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onurozkan.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onurozkan.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vaga.pv.it header.i=@vaga.pv.it header.b="J4CDBd8k"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaga.pv.it;
-	s=protonmail3; t=1765758612; x=1766017812;
-	bh=qgusd+DDeeZ/7y7gE3oxyBkzOXzvYs4mK/p6bfcfIL8=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=J4CDBd8krukhKuJyX+fzCzfGMlZL3b1c281KfLvZZ6Rd/g5rV3KjA3CM8M8GI0lMM
-	 9t9+UBVfJzVwvvW88Oc610ooIYVFhHL+CTU4dYqK32DLSRHG/8Bn0oZ7+4gmIEMsVx
-	 Y2zeeWSelNPmiTHU6k0LCgprxuO5l5mjevQrUaR0fKcgsNkcgR2b9hw08aIsr/jsuo
-	 YTuX4IhgKUFCNAZ+SrFCM/rrn2L/wqzlq38bfSYEBzO8I60YKhkQb9Z0MWL9QW6pWL
-	 TgnTERtw9U7/NFomsUn6DiaCEEd26S/NuBKCGRWUFKBqfTc5BQsX1ICUa6y+P31KCg
-	 bRl8nmYNaejtQ==
-Date: Mon, 15 Dec 2025 00:30:04 +0000
-To: Andi Shyti <andi.shyti@kernel.org>
-From: Federico Vaga <federico.vaga@vaga.pv.it>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, workflows@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH] Doc:it_IT: Do not reference kernel.h anymore
-Message-ID: <zylu4ulxeyni5diwnp7o7evcajqyylhzzd4d2skyi2ul2ayb3b@2kojo3dyp2vi>
-In-Reply-To: <20251205111559.3089219-1-andi.shyti@kernel.org>
-References: <20251126214709.2322314-1-andriy.shevchenko@linux.intel.com> <20251205111559.3089219-1-andi.shyti@kernel.org>
-Feedback-ID: 124726690:user:proton
-X-Pm-Message-ID: 4027285f8ecd1b79aa2536d8ed0e1bf0f713ea71
+	dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b="pnErKi7r"
+Received: from mail-nwsmtp-smtp-production-main-74.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-74.sas.yp-c.yandex.net [IPv6:2a02:6b8:c24:1698:0:640:befc:0])
+	by forward500b.mail.yandex.net (Yandex) with ESMTPS id 4BDA0C026A;
+	Mon, 15 Dec 2025 12:24:14 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-74.sas.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id 9OPpYE5LtiE0-E5fX9gQU;
+	Mon, 15 Dec 2025 12:24:13 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onurozkan.dev;
+	s=mail; t=1765790653;
+	bh=kprlpmhDORKZihgrcnjt54NlN/3ATtQKhKSPmCXRgxU=;
+	h=Cc:Message-ID:Subject:Date:References:To:From:In-Reply-To;
+	b=pnErKi7r/pJ6EEz4IpoCH+Ck5x1TXYefWSUcsAA1a24sJ/0h0LFUXMDT60+PlrDa0
+	 oqkV/IXHtDkV5Qk+gjBVXuv1HW31jrpzfdg58OrbPnl9XZ3g5YRZlrltVe32bZwj/F
+	 uvkfCjASOqj6tKOrspotkEOXN1rdzxXN9YIZ2Bh0=
+Authentication-Results: mail-nwsmtp-smtp-production-main-74.sas.yp-c.yandex.net; dkim=pass header.i=@onurozkan.dev
+Date: Mon, 15 Dec 2025 12:24:07 +0300
+From: Onur =?UTF-8?B?w5Z6a2Fu?= <work@onurozkan.dev>
+To: Guillaume Tucker <gtucker@gtucker.io>
+Cc: Nathan Chancellor <nathan@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, automated-testing@lists.yoctoproject.org,
+ workflows@vger.kernel.org, llvm@lists.linux.dev, Arnd Bergmann
+ <arnd@arndb.de>
+Subject: Re: [PATCH v1 1/2] scripts: add tool to run containerized builds
+Message-ID: <20251215122407.720d65bf@nimda>
+In-Reply-To: <97dec58ebe4161027f13f2215ed9da4a43bc8c47.1765374789.git.gtucker@gtucker.io>
+References: <cover.1765374789.git.gtucker@gtucker.io>
+	<97dec58ebe4161027f13f2215ed9da4a43bc8c47.1765374789.git.gtucker@gtucker.io>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Andi,
+Hi Guillaume,
 
-thank you for contributing to the Italian translation.
+Excellent work! Just one note from my side so far:
 
-On Fri, Dec 05, 2025 at 12:15:58PM +0100, Andi Shyti wrote:
->I also took the chance to improve the phrasing in a few places.
+On Wed, 10 Dec 2025 14:58:28 +0100
+Guillaume Tucker <gtucker@gtucker.io> wrote:
 
-As a technical translation, we should not try to make reinterpretation of t=
-he
-original text. See comments below.
+> Add a 'scripts/container' tool written in Python to run any command in
+> the source tree from within a container.  This can typically be used
+> to call 'make' with a compiler toolchain image to run reproducible
+> builds but any arbitrary command can be run too.  Only Docker and
+> Podman are supported for this initial version.
+> 
+> Cc: Nathan Chancellor <nathan@kernel.org>
+> Cc: Miguel Ojeda <ojeda@kernel.org>
+> Link:
+> https://lore.kernel.org/all/affb7aff-dc9b-4263-bbd4-a7965c19ac4e@gtucker.io/
+> Signed-off-by: Guillaume Tucker <gtucker@gtucker.io> ---
+>  scripts/container | 112
+> ++++++++++++++++++++++++++++++++++++++++++++++ 1 file changed, 112
+> insertions(+) create mode 100755 scripts/container
+> 
+> diff --git a/scripts/container b/scripts/container
+> new file mode 100755
+> index 000000000000..74644ac33685
+> --- /dev/null
+> +++ b/scripts/container
+> @@ -0,0 +1,112 @@
+> +#!/bin/env python3
 
->Andi
->
-> .../it_IT/process/coding-style.rst            | 19 +++++++++++--------
-> 1 file changed, 11 insertions(+), 8 deletions(-)
->
->diff --git a/Documentation/translations/it_IT/process/coding-style.rst b/D=
-ocumentation/translations/it_IT/process/coding-style.rst
->index c0dc786b8474..b2fd74528de5 100644
->--- a/Documentation/translations/it_IT/process/coding-style.rst
->+++ b/Documentation/translations/it_IT/process/coding-style.rst
->@@ -1068,15 +1068,17 @@ pu=C3=B2 migliorare la leggibilit=C3=A0.
-> 18) Non reinventate le macro del kernel
-> ---------------------------------------
->
->-Il file di intestazione include/linux/kernel.h contiene un certo numero
->-di macro che dovreste usare piuttosto che implementarne una qualche varia=
-nte.
->-Per esempio, se dovete calcolare la lunghezza di un vettore, sfruttate la
->-macro:
->+I file header
+By default, this will not work on NixOS because /bin/env is
+not a valid path.
 
-In Italian, the correct name for "header file" is "file di intestazione".
-Please, don't replace correct Italian with *Itanglese* :)
+It will fail like this:
 
->presenti in include/linux mettono a disposizione numerose macro
->+che =C3=A8 preferibile utilizzare, evitando di sviluppare implementazioni
->+alternative.
+	$ cat something
+	#!/bin/env python3
+	
+	$ ./something
+	zsh: ./something: bad interpreter: /bin/env: no such file or
+	directory
 
-I think it is less accurate. In English, it tells users what they "should d=
-o"
-and "should not do". It does not speak about what is preferable and what to
-avoid. I agree that, at the end of the day, one should come at the same
-conclusions. However, the translation should be as accurate as possible and
-make adaptations wherever necessary to improve the understanding.
+Is there a reason for not using /usr/bin/env?
 
-A would be perfectly fine if also the English statement changes in the same
-direction.
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +# Copyright (C) 2025 Guillaume Tucker
+> +
+> +"""Containerized builds"""
+> +
+> +import argparse
+> +import logging
+> +import os
+> +import subprocess
+> +import sys
+> +
+> +
+> +def get_logger(verbose):
+> +    """Set up a logger with the appropriate level"""
+> +    logger = logging.getLogger('container')
+> +    handler = logging.StreamHandler()
+> +    handler.setFormatter(logging.Formatter(
+> +        fmt='[container {levelname}] {message}', style='{'
+> +    ))
+> +    logger.addHandler(handler)
+> +    logger.setLevel(logging.DEBUG if verbose is True else
+> logging.INFO)
+> +    return logger
+> +
+> +
+> +def run_docker(args):
+> +    """Run a command in a Docker container"""
+> +    uid = args.uid or os.getuid()
+> +    gid = args.gid or args.uid or os.getgid()
+> +    cmd = [
+> +        'docker', 'run',
+> +        '--interactive',
+> +        '--volume', f'{os.getcwd()}:/src',
+> +        '--workdir', '/src',
+> +        '--user', f'{uid}:{gid}'
+> +    ]
+> +    if args.env_file:
+> +        cmd += ['--env-file', args.env_file]
+> +    cmd.append(args.image)
+> +    cmd += args.cmd
+> +    return subprocess.call(cmd)
+> +
+> +
+> +def run_podman(args):
+> +    """Run a command in a Podman container"""
+> +    uid = args.uid or 1000
+> +    gid = args.gid or args.uid or 1000
+> +    cmd = [
+> +        'podman', 'run',
+> +        '--interactive',
+> +        '--volume', f'{os.getcwd()}:/src',
+> +        '--workdir', '/src',
+> +        '--userns', f'keep-id:uid={uid},gid={gid}',
+> +    ]
+> +    if args.env_file:
+> +        cmd += ['--env-file', args.env_file]
+> +    cmd.append(args.image)
+> +    cmd += args.cmd
+> +    return subprocess.call(cmd)
+> +
+> +
+> +def main(args):
+> +    """Main entry point for the container tool"""
+> +    logger = get_logger(args.verbose)
+> +    logger.debug("runtime=%s, image=%s", args.runtime, args.image)
+> +    runtimes = {
+> +        'docker': run_docker,
+> +        'podman': run_podman,
+> +    }
+> +    handler = runtimes.get(args.runtime)
+> +    if not handler:
+> +        logger.error("Unknown container runtime: %s", args.runtime)
+> +        return 1
+> +    try:
+> +        return handler(args)
+> +    except KeyboardInterrupt:
+> +        logger.error("aborted")
+> +        return 1
+> +
+> +
+> +if __name__ == '__main__':
+> +    parser = argparse.ArgumentParser("Containerized builds")
+> +    parser.add_argument(
+> +        '-e', '--env-file',
+> +        help="Path to an environment file to load in the container."
+> +    )
+> +    parser.add_argument(
+> +        '-g', '--gid',
+> +        help="Group ID to use inside the container."
+> +    )
+> +    parser.add_argument(
+> +        '-i', '--image', default='gcc',
+> +        help="Container image, default is gcc."
+> +    )
+> +    parser.add_argument(
+> +        '-r', '--runtime', choices=['docker', 'podman'],
+> default='docker',
+> +        help="Container runtime, default is docker."
+> +    )
+> +    parser.add_argument(
+> +        '-u', '--uid',
+> +        help="User ID to use inside the container.  If the -g option
+> is not"
+> +        "specified, the user ID will also be used for the group ID."
+> +    )
+> +    parser.add_argument(
+> +        '-v', '--verbose', action='store_true',
+> +        help="Enable verbose output."
+> +    )
+> +    parser.add_argument(
+> +        'cmd', nargs='+',
+> +        help="Command to run in the container"
+> +    )
+> +    sys.exit(main(parser.parse_args(sys.argv[1:])))
 
-Including your suggestions I would write:
-
-"""
-I file di intestazione presenti in include/linux mettono a disposizione num=
-erose
-macro che dovreste utilizzare piuttosto che implementarne delle varianti.
-"""
-
->@@ -1084,10 +1086,11 @@ struttura, usate
->
-> =09#define sizeof_field(t, f) (sizeof(((t*)0)->f))
->
->-Ci sono anche le macro min() e max() che, se vi serve, effettuano un cont=
-rollo
->-rigido sui tipi.  Sentitevi liberi di leggere attentamente questo file
->-d'intestazione per scoprire cos'altro =C3=A8 stato definito che non dovre=
-ste
->-reinventare nel vostro codice.
->+definita in stddef.h.
->+
->+Ci sono anche le macro min() e max() definite in minmax.h che effettuano =
-un
->+controllo rigoroso sui tipi.
-
-Here it is loosing the "if you need them". If removed here, it should be re=
-moved
-also in the English version. Of course, one use functions if they are neede=
-d, it
-comes without saying.
-
->=C3=88 consigliato consultare i vari file header per
->+vedere altre macro gi=C3=A0 disponibili.
-
-"file header" -> "file di intestazione"
-
-Here, the English text is more colloquial and speaks to users with some iro=
-ny.
-In your adaptation these things are lost. Which is fine if also the English=
- version
-looses it with a more cold/professional "It is recommanded reading ...".
-
---=20
-Federico Vaga
-
+-Onur
