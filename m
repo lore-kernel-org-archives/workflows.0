@@ -1,201 +1,141 @@
-Received: from mail-07.mail-europe.com (mail-0701.mail-europe.com [51.83.17.38])
+Received: from mslow3.mail.gandi.net (mslow3.mail.gandi.net [217.70.178.249])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC29230C34E;
-	Wed, 17 Dec 2025 22:48:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.83.17.38
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1458333453;
+	Thu, 18 Dec 2025 12:50:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.249
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766011707; cv=none; b=aQcR7+UYEK6VxI4oyVQIAKtoGoZ2hhHbMeiAKsCezMhAjgWziP1uXfX7xvErY4A3uh7Icfmj+KOqaZHtO9BKrwFh34/r/5lyf1llBe2dwTQW0wWVp9hZAEpzZM99bnX3/wXaiIKtxcFNdWz+DFFMRqGpG5tNZapEab2OWHZAxz4=
+	t=1766062220; cv=none; b=ARXTQdJME51r0wcAlRBMIHwndnLsQ5doCLjx+8h6fjqrCP5r2/CGvT/l3RBCbHlCJL2z5t2NLUd4KEQ1wbajuvg6iBE5lW6l55EgL9zJOyl3ODGlodseixLzqmy1c9QhbRfobouBQLw2hfu5ML2dSTX6MM7leGbPvuNI2wIxCh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766011707; c=relaxed/simple;
-	bh=PAxAo5quNAi+gst5faXlKFJ/3qyIfTDoysXHlq8Mi9s=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OF2vRf0JR+Y8u69Hs4NAN/yDAPa+8KX+0foqJk7dlOrQeRNx9Xd0om9FYgoPOSIOuAMZaGq6t5h5Qje3F+R8xSUJzr6KIbdYqpjijAN2VoGVKx5iiaq06M5KoDIhIJU/w4XxO6vMrnvHLjLNwssR9CjIlAB8dOOmkIybFOeS6Ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vaga.pv.it; spf=fail smtp.mailfrom=vaga.pv.it; dkim=pass (2048-bit key) header.d=vaga.pv.it header.i=@vaga.pv.it header.b=ac5jqQO0; arc=none smtp.client-ip=51.83.17.38
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vaga.pv.it
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=vaga.pv.it
+	s=arc-20240116; t=1766062220; c=relaxed/simple;
+	bh=3FqguW+N1KWgl+BPYfmhGoqZNth4k6R3BJaV+6K12Cc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Wtj43quQVkVDJNWHqnMCPK7dRAuEKeBBLmVIvspQXNla4xZ+PxUndDOTNC2xypMc7+NykJEiOMlqIJk6flZa1Kpj0MrfdyMi9sxUmJbtrz23NhEW5S5FBRUi/AcS8nhZ8cS3pIeLWjKH6m86jOcGBTacOtFEuABrNmqL1cntgq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=L1dU708F; arc=none smtp.client-ip=217.70.178.249
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vaga.pv.it header.i=@vaga.pv.it header.b="ac5jqQO0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaga.pv.it;
-	s=protonmail3; t=1766011685; x=1766270885;
-	bh=PAxAo5quNAi+gst5faXlKFJ/3qyIfTDoysXHlq8Mi9s=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=ac5jqQO0eqpQkP0w27ilV8+f+cmRMve7XAmQkubjnpFyt7T/2Gm46zcY5VJXiCENv
-	 dS9yIIPjOGc6VljVdQNtBWdUVYF7cQbJoimhTXkwHs+V/6OSZsdUU8RO2kTja3vkOt
-	 XKhn/BvQkDYF5dfx01iMQN8jYHUoclt15fsoI9Mbf+bLhZo2+n3rXD9GwZY6uUxudK
-	 o43HC5UHQdFNCRIdlsUjZPTaTWMzzXm+pFqhtFbSUS4KRQS2k3EcLgf6U1ag5oY1R9
-	 pKr1PEXI/RsTHVNGKzn53uzIl8VV+utcF3BsVYhOYFQTEtZ7SpdgTyOhXR0u36rEuT
-	 xh5l+qztxObuQ==
-Date: Wed, 17 Dec 2025 22:48:02 +0000
-To: Andi Shyti <andi.shyti@kernel.org>
-From: Federico Vaga <federico.vaga@vaga.pv.it>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, workflows@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH] Doc:it_IT: Do not reference kernel.h anymore
-Message-ID: <un2p3f5qe5lwtln2c6cj5yutnhcphxawjowhfldd2h2rvpb4k7@om7ddhs6ipwd>
-In-Reply-To: <klzag46p6mlqqdrogqofancqyjpvs5lmwa4m3tjszcgavdwa6s@nay2uuwpsvlt>
-References: <20251126214709.2322314-1-andriy.shevchenko@linux.intel.com> <20251205111559.3089219-1-andi.shyti@kernel.org> <zylu4ulxeyni5diwnp7o7evcajqyylhzzd4d2skyi2ul2ayb3b@2kojo3dyp2vi> <klzag46p6mlqqdrogqofancqyjpvs5lmwa4m3tjszcgavdwa6s@nay2uuwpsvlt>
-Feedback-ID: 124726690:user:proton
-X-Pm-Message-ID: db255a47da83f8f39ead25d753db542b3ae758de
+	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="L1dU708F"
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+	by mslow3.mail.gandi.net (Postfix) with ESMTP id AE8995813A3;
+	Thu, 18 Dec 2025 12:50:15 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 94E1F443C7;
+	Thu, 18 Dec 2025 12:50:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
+	t=1766062207;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=V8s2tGKSq0ssGPTlSp7MzGNZDN/P/3Qao4OZXsz56BQ=;
+	b=L1dU708F0axmku8kVd1BQ41p4l4SGdsCPl0TO1sPvbUjnKcfHSfO0uGGGgmFxxtyvA+5yl
+	7v9G9zqn2tLRRDNsxN+5eWkiRZlRIgvulsXne7LReXYehqwPP74ALXdRNZoKowL2SIOP2M
+	m0nKZcd4LUHugdqN0XhrPRxPxXUnhkCgrLMFhX2APvH18XylnhndkYLtWky97V+3sWDdc7
+	h78UuKJWoBgA07rmCOr+KUyKlDg9uLrwSNsDJ/clAfJW4RCsvLlj1o88CnlwMXq4lKiZeS
+	USpSmRS1y+6bvUznDmTRlRLc++4qNluv0+Z7D3wdQHxNQkYB/PVhIe5q429khA==
+From: Guillaume Tucker <gtucker@gtucker.io>
+To: Nathan Chancellor <nathan@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	David Gow <davidgow@google.com>,
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
+Cc: Guillaume Tucker <gtucker@gtucker.io>,
+	Arnd Bergmann <arnd@arndb.de>,
+	linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	automated-testing@lists.yoctoproject.org,
+	workflows@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH v2 0/2] scripts: introduce containerized builds
+Date: Thu, 18 Dec 2025 13:49:51 +0100
+Message-ID: <cover.1766061692.git.gtucker@gtucker.io>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: gtucker@gtucker.io
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdegheegjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefiuhhilhhlrghumhgvucfvuhgtkhgvrhcuoehgthhutghkvghrsehgthhutghkvghrrdhioheqnecuggftrfgrthhtvghrnhepteehhffgudetheehheetffehtdfgvdehiefggedvhefgkeduvdfhgfdtteduteefnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpghhithhlrggsrdgtohhmnecukfhppedvtddtudemkeeiudemgegrgedtmeekiedvtdemheegiegvmeekfeefrgemfeeffhgumegvieekfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvtddtudemkeeiudemgegrgedtmeekiedvtdemheegiegvmeekfeefrgemfeeffhgumegvieekfedphhgvlhhopehrihhnghhordhlrghnpdhmrghilhhfrhhomhepghhtuhgtkhgvrhesghhtuhgtkhgvrhdrihhopdhqihgupeelgefgudfhgeegfeevjedpmhhouggvpehsmhhtphhouhhtpdhnsggprhgtphhtthhopeduvddprhgtphhtthhopehnrghthhgrnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepohhjvggurgeskhgvrhhnvghlrdhorhhgpdhrtghpthhto
+ hepuggrvhhiughgohifsehgohhoghhlvgdrtghomhdprhgtphhtthhopeifohhrkhesohhnuhhrohiikhgrnhdruggvvhdprhgtphhtthhopehgthhutghkvghrsehgthhutghkvghrrdhiohdprhgtphhtthhopegrrhhnugesrghrnhgusgdruggv
 
-Hi Andi,
+This proposal emerged from an email discussion and a talk at Plumbers
+last year:
 
-On Mon, Dec 15, 2025 at 05:14:02PM +0100, Andi Shyti wrote:
->Hi Federico,
->
->> >-Il file di intestazione include/linux/kernel.h contiene un certo numer=
-o
->> >-di macro che dovreste usare piuttosto che implementarne una qualche va=
-riante.
->> >-Per esempio, se dovete calcolare la lunghezza di un vettore, sfruttate=
- la
->> >-macro:
->> >+I file header
->>
->> In Italian, the correct name for "header file" is "file di intestazione"=
-.
->> Please, don't replace correct Italian with *Itanglese* :)
->
->I absolutely disagree.
->
->If you open any C book, they are called 'header files', except
->for a few Italian technical books with excessively literal
->translations, where even non-translatable terms are translated.
->
->Italian technical translations usually preserve the original
->English terms as much as possible, which is quite different from
->what often happens in French or German.
->
->'File di intestazione' is a literal word-by-word translation.
->If you want the proper technical term, it is 'header file'.
+    https://lore.kernel.org/all/affb7aff-dc9b-4263-bbd4-a7965c19ac4e@gtucker.io/
 
-Both English and Italian terms are borrowed from typography, "that thing yo=
-u see
-on top of your document": the header file. In Italian, we never had a neolo=
-gism
-for "file", but we have a typography glossary. So it becomes "file di
-intestazione". A wider audience can quickly understand where to look to fin=
-d the
-mentioned "file" because "intestazione" means at the top ("in testa"), like=
- in
-English.
+The aim is to facilitate reproducing builds for CI bots as well as
+developers using containers.  Here's an illustrative example with a
+kernel.org toolchain in a Docker image from tuxmake:
 
-As you rightly mentioned, other languages are more alive than Italian and t=
-heir
-speakers naturally make and use neologisms for the new things popping up in
-their lives without scandal. For Italian speakers, these days, it is harder
-(already this email shows that I need to justify the use of Italian words i=
-n an
-Italian document. There are some publications about this problem if you wou=
-ld
-like to know more). However, I don't think this should be a justification t=
-o
-forget that terms exist and should be used. I'm well aware of all possible
-variants that you can find in Italian original texts (they exist) or
-translations ("I file di intestazione", "L'header", "I file header", "L'hea=
-der
-file"). You wrote that the good one is "header file", but four variants exi=
-st
-and your rephrase used "file header" (swapped). When I started this work lo=
-ng
-ago I had to chose an editorial line, and I chose to use Italian terms: (a)=
- when
-they exist, (b) they have sufficient diffusion, and (c) if it adds value fo=
-r a
-wider audience.
+    $ scripts/container -i tuxmake/korg-clang-21 make LLVM=1 defconfig
+      HOSTCC  scripts/basic/fixdep
+      HOSTCC  scripts/kconfig/conf.o
+    [...]
+      HOSTCC  scripts/kconfig/util.o
+      HOSTLD  scripts/kconfig/conf
+    *** Default configuration is based on 'x86_64_defconfig'
+    #
+    # configuration written to .config
+    #
 
-For the case at hand, any web search will give you various results using "f=
-ile
-di intestazione". You can also use Google Books. You might still say that i=
-s not
-your taste because you prefer English words, but it can't be denied that th=
-e
-term exists and it is used.
+and a follow-up command to build the kernel with the verbose flag
+turned on to show DEBUG log messages from the container tool:
 
-On this particular subject, I think we are a bit off-topic. But if you want=
- to
-discuss more we can continue aside.
+    $ scripts/container -i tuxmake/korg-clang-21 -v -- make LLVM=1 -j8
+    [container DEBUG] runtime: docker
+    [container DEBUG] image: tuxmake/korg-clang-21
+    [container DEBUG] container: c5a88761-f55a-4027-84c9-bc3c6dc9c4cd
+      GEN     arch/x86/include/generated/asm/orc_hash.h
+      HOSTCC  scripts/basic/fixdep
+      SYSHDR  arch/x86/include/generated/uapi/asm/unistd_32.h
+    [...]
+      BUILD   arch/x86/boot/bzImage
+    Kernel: arch/x86/boot/bzImage is ready  (#1)
 
->> >presenti in include/linux mettono a disposizione numerose macro
->> >+che =C3=A8 preferibile utilizzare, evitando di sviluppare implementazi=
-oni
->> >+alternative.
->>
->> I think it is less accurate. In English, it tells users what they "shoul=
-d do"
->> and "should not do". It does not speak about what is preferable and what=
- to
->> avoid. I agree that, at the end of the day, one should come at the same
->> conclusions. However, the translation should be as accurate as possible =
-and
->> make adaptations wherever necessary to improve the understanding.
->>
->> A would be perfectly fine if also the English statement changes in the s=
-ame
->> direction.
->
->I think a literal translation is not beneficial to the final
->text,
+As a next step to make this tool more useful, I'm in the process of
+preparing reference container images with kernel.org toolchains and no
+third-party dependencies other than the base Debian distro:
 
-It is not a literal translation. It is a translation. For example, if there=
- is a
-joke inside the documentation, that joke gets translated no matter my opini=
-on on
-that joke or jokes in technical documents in general. If there are implicit=
-,
-rather than explicit, references they get translated as such. If the
-documentation needs improvement, it must be first done in its original lang=
-uage,
-and the translation must follow.
+    https://gitlab.com/gtucker/korg-containers
 
->and we have some room to rephrase it while keeping the original meaning in=
-tact.
+Say, to run KUnit using the latest kernel.org GCC toolchain:
 
-Why not using that room in English as well? For example:
+    scripts/container \
+        -i registry.gitlab.com/gtucker/korg-containers/gcc:kunit -- \
+        tools/testing/kunit/kunit.py \
+            run \
+            --arch=x86_64 \
+            --cross_compile=x86_64-linux-
 
-""" From the patch
-Feel free to peruse the header files to see what else is already
-defined that you shouldn't reproduce in your code.
-"""
+This patch series also include a documentation page with all the
+relevant details about how to use the tool and the images currently
+available.
 
-""" Your suggestion
-=C3=88 consigliato consultare i vari file header per vedere altre macro gi=
-=C3=A0
-disponibili.
-"""
+---
+Changes in v2:
+- Drop default image but make -i option required
+- Look for Docker and Podman if no runtime specified
+- Catch SIGINT from user to abort container with Docker
+- Explicitly name each container with a UUID
+- Update documentation accordingly
 
-This reprhase is not anymore -->friendly<-- inviting users to read the head=
-er
-files and discover new macros, and it is not reminding them that they shoul=
-d do
-it to avoid duplicating code, probably incorrect code (the entire intention=
- of
-point 18 of the coding style document).
+---
 
-A reprhase for better readability would be greatly appriciated, I'm definiv=
-ely
-not Dante. In doing so, remember to not delete things or change the tone of=
- the
-original text. If that is your intention, then do the same in English.
+Guillaume Tucker (2):
+  scripts: add tool to run containerized builds
+  Documentation: dev-tools: add container.rst page
 
-P.S. I'm interested in the non-translatable terms you found in Italian book=
-s. In
-the past I was doing some researches on the topic and I'm genuinly curious =
-to
-see what you found there and see their etymology :)
+ Documentation/dev-tools/container.rst | 175 +++++++++++++++++++++++
+ Documentation/dev-tools/index.rst     |   1 +
+ scripts/container                     | 194 ++++++++++++++++++++++++++
+ 3 files changed, 370 insertions(+)
+ create mode 100644 Documentation/dev-tools/container.rst
+ create mode 100755 scripts/container
 
->Andi
->
-
---=20
-Federico Vaga
+-- 
+2.47.3
 
