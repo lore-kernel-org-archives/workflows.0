@@ -1,140 +1,219 @@
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B322E8B8F;
-	Fri, 19 Dec 2025 13:37:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2325834AAE2;
+	Fri, 19 Dec 2025 19:47:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766151443; cv=none; b=cNQQHv1FApAhItKDm/zjytzwQTq3rjfkTZ29LbMN451okhdBVqk0uwSv8BMdMT+wRCBGa7D1Q2yw0LEf7+Te3rZoxAPzMObecOAwtDZ2hrAzBzIzFmMph+xPpRzuTEsf3EXHrSFDA8bfka3zTD2UI6CDDZ4ErvVPrp8goJ7Use0=
+	t=1766173673; cv=none; b=CGwIZMZvSWRtVuaeggpCUmMFnU6rAxeub72bOls/S95F1/jAySzd0OMMT7fxVOnTnMHHkBWrOwHojwu7GY0HvJK1u20fTvCBIMnvHWipbnhnLbCCKmlHeD128aq27KCqUzqLtT8GvN9mYi9IZaWd26mGKS495KUdsVfFxWQZnKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766151443; c=relaxed/simple;
-	bh=6VSjTRmLgtkVc66uO43A5O57rvUd3WQd6zTBp7lVUgw=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=cX/glZoqs/wlQ3RYhUSdPkAYV8Yov4TD5l9CqUvbVjdJHdcz1j57BWYj1Z86fToCvD/0OSwtvJn4eSpeLn8826RTVWAI6iQSJEUwx5Ap5AV7DicZw64k53MfLi9m/9v9abT6IQEe9DfqAz9E+qjIt/SL+tgzU0dANEIMfO78sIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=ZuBTXlsC; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
+	s=arc-20240116; t=1766173673; c=relaxed/simple;
+	bh=ahnklD8wORDhqxGMbS9i1+02tEsICBFL946J+GACCa4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jr7rXhz/Typv8cwD2J72/9YFXXUfMoigNLcuwiYtfWnxlfX76d675b+pMLU5we504RaAbpfWb4SDPl5cW1GKHfCCPYFWWYq1ZX48P03XhU6P2tV9kLG+U1wA+oUIsTBtia+uZhzTFLKQbqYAAH2/ITM4CZhdZhEDZCXeofBdcgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZWX+j/ZN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="ZuBTXlsC"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D08681FD30;
-	Fri, 19 Dec 2025 13:37:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
-	t=1766151433;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=gKCHNYhc0/N1YXDpwqYXfu1NcFHLGbirjmRWeMXHPik=;
-	b=ZuBTXlsC8/cxX580FCp7bKaMcdhG2Kg4uBdKIsM1/P47/DBcWq0aum6zRIckMoIlgBq8dP
-	1YX3w76D6DMWe2BUnet7RrB8FynVEaf0qMj3YHrbzNC4n/oTYqjkp4A5TPhRnDupcn7bYY
-	T+8bxVxF1dHk4ToKpuG22/D9Tc9WRaygP0vLxsKYGKLKBQ9IGNxMT4EfVpZnYFkQ79yyWM
-	+rc+kUTqx8CPtSaIUfVeaFYVKDOTxKhad628DFk3u1qKzHmzY+uZETvvHwaAEO3FFYH0CY
-	aLSau+fFRZef9ANfCHzI8YX6M7dz4DkkVdHtA11vzcki7fEilTrxye2Ul9HLsw==
-Message-ID: <cc737636-2a43-4a97-975e-4725733f7ee4@gtucker.io>
-Date: Fri, 19 Dec 2025 14:37:11 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZWX+j/ZN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9C8CC4CEF1;
+	Fri, 19 Dec 2025 19:47:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766173672;
+	bh=ahnklD8wORDhqxGMbS9i1+02tEsICBFL946J+GACCa4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZWX+j/ZNZypVxNfs89M4aNVcj7H6c+U3GCxKJgp02HOL1JTUm/nhqJmDG7UOU4ftY
+	 T+YrSsNPf2XyYqERI8R9TK3eQ76DDiUPwai43+STAvDD44+1Ljlc7LsaW3YIqnyFnM
+	 jY4et1nYbJp7ahWBZc9BYuHZBgo/GyMH27+LkErUGc3ovPRQ8MOs1V1HGFyDj7YSkp
+	 qIDP9/64nh/AT2bxk4lFXQQiXFg+l34hTsBsYakc2Z8VNcw7KS74GqIPyBJHf3aLu6
+	 EWCx/OXxhcUGqqX33STgDLOWnJY9uspAanoBtamTATAce9Nokn0a9J/7dn87EKKRhY
+	 ascYxZtOnhX8Q==
+Date: Fri, 19 Dec 2025 12:47:48 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Guillaume Tucker <gtucker@gtucker.io>
+Cc: Miguel Ojeda <ojeda@kernel.org>, linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	automated-testing@lists.yoctoproject.org, workflows@vger.kernel.org,
+	llvm@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH v1 1/2] scripts: add tool to run containerized builds
+Message-ID: <20251219194748.GA1404325@ax162>
+References: <cover.1765374789.git.gtucker@gtucker.io>
+ <97dec58ebe4161027f13f2215ed9da4a43bc8c47.1765374789.git.gtucker@gtucker.io>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Guillaume Tucker <gtucker@gtucker.io>
-Subject: Hosting first-party kernel.org container images
-To: Arnd Bergmann <arnd@arndb.de>,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- workflows@vger.kernel.org, automated-testing@lists.yoctoproject.org,
- Ben Copeland <ben.copeland@linaro.org>
-Content-Language: en-GB
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: gtucker@gtucker.io
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdegkeegfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfhffuvfevtgfgsehtjeertddtvdejnecuhfhrohhmpefiuhhilhhlrghumhgvucfvuhgtkhgvrhcuoehgthhutghkvghrsehgthhutghkvghrrdhioheqnecuggftrfgrthhtvghrnhepteelueekuddvteeileeuvedvvedvhfffudefvdelvdetudfgfeehgedvueffffeinecuffhomhgrihhnpehgihhtlhgrsgdrtghomhdpkhgvrhhnvghlrdhorhhgpdhgthhutghkvghrrdhiohenucfkphepvdgrtddumegtsgdttdemkegviegtmegruddtudemudeirggtmeeivdguudemleektdegmeejrgekfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggstddtmeekvgeitgemrgdutddumeduiegrtgemiedvugdumeelkedtgeemjegrkeefpdhhvghloheplgfkrfggieemvdgrtddumegtsgdttdemkegviegtmegruddtudemudeirggtmeeivdguudemleektdegmeejrgekfegnpdhmrghilhhfrhhomhepghhtuhgtkhgvrhesghhtuhgtkhgvrhdrihhopdhqihgupefftdekieekudfhffeftddpmhhouggvpehsmhhtphhouhhtpdhnsggprhgtphhtthhopeelpdhrtghpthhto
- heprghrnhgusegrrhhnuggsrdguvgdprhgtphhtthhopehkohhnshhtrghnthhinheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehnrghthhgrnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepohhjvggurgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepfihorhhksehonhhurhhoiihkrghnrdguvghvpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <97dec58ebe4161027f13f2215ed9da4a43bc8c47.1765374789.git.gtucker@gtucker.io>
 
-Hi Konstantin, Arnd et al,
+Hi Guillaume,
 
-This is a follow-up from the series about adding a scripts/container
-tool [1] to run kernel builds in containers.  As per the discussion
-at Plumbers last year and the summary I put in a blog post [2], it
-would be great to have container images with kernel.org toolchains
-hosted upstream.  This can mean several things, so let's break it
-down into a set of potential options to choose from:
+On Wed, Dec 10, 2025 at 02:58:28PM +0100, Guillaume Tucker wrote:
+> Add a 'scripts/container' tool written in Python to run any command in
+> the source tree from within a container.  This can typically be used
+> to call 'make' with a compiler toolchain image to run reproducible
+> builds but any arbitrary command can be run too.  Only Docker and
+> Podman are supported for this initial version.
+> 
+> Cc: Nathan Chancellor <nathan@kernel.org>
+> Cc: Miguel Ojeda <ojeda@kernel.org>
+> Link: https://lore.kernel.org/all/affb7aff-dc9b-4263-bbd4-a7965c19ac4e@gtucker.io/
+> Signed-off-by: Guillaume Tucker <gtucker@gtucker.io>
 
+Overall, I like the concept here. It is simple and should be relatively
+easy for people to drive. I think having some short quick examples (or a
+link to the Documentation file that inclues them) would be good in case
+people stumble across the script first.
 
-* Containerfiles Git repository
+One initial comment (or perhaps feature request) would be handling O= /
+KBUILD_OUTPUT for building out of tree. It may be a little complicated
+for mounting the build directory into the container but it might make it
+easier for folks who build out of tree to use.
 
-There is currently a PoC repository on GitLab with a Makefile and a
-number of Containerfiles to build a set of images:
+> ---
+>  scripts/container | 112 ++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 112 insertions(+)
+>  create mode 100755 scripts/container
+> 
+> diff --git a/scripts/container b/scripts/container
+> new file mode 100755
+> index 000000000000..74644ac33685
+> --- /dev/null
+> +++ b/scripts/container
+> @@ -0,0 +1,112 @@
+> +#!/bin/env python3
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +# Copyright (C) 2025 Guillaume Tucker
+> +
+> +"""Containerized builds"""
+> +
+> +import argparse
+> +import logging
+> +import os
+> +import subprocess
+> +import sys
+> +
+> +
+> +def get_logger(verbose):
+> +    """Set up a logger with the appropriate level"""
+> +    logger = logging.getLogger('container')
+> +    handler = logging.StreamHandler()
+> +    handler.setFormatter(logging.Formatter(
+> +        fmt='[container {levelname}] {message}', style='{'
+> +    ))
+> +    logger.addHandler(handler)
+> +    logger.setLevel(logging.DEBUG if verbose is True else logging.INFO)
+> +    return logger
+> +
+> +
+> +def run_docker(args):
+> +    """Run a command in a Docker container"""
+> +    uid = args.uid or os.getuid()
+> +    gid = args.gid or args.uid or os.getgid()
+> +    cmd = [
+> +        'docker', 'run',
+> +        '--interactive',
+> +        '--volume', f'{os.getcwd()}:/src',
 
-     https://gitlab.com/gtucker/korg-containers
+Is there a minimum python version required for this? If not, I would
+prefer using pathlib here:
 
-It can be improved in many ways since this is an early PoC.  The key
-decision to make here, if we do want to have container images
-supported upstream, is how to manage these files or a derived
-implementation.
+  from pathlib import Path
 
-One option is to add it to the kernel tree itself under e.g.
-tools/container.
+then
 
-Another option is to add a separate repository on git.kernel.org,
-which I believe would be a better approach as there aren't any direct
-dependencies on the kernel tree itself.
+  Path.cwd()
 
-A third option might be to keep it alongside any recipes used to
-produce the existing kernel.org toolchain tarballs although I'm not
-entirely sure how that's managed - something for Arnd to judge I
-guess.
+> +        '--workdir', '/src',
+> +        '--user', f'{uid}:{gid}'
+> +    ]
+> +    if args.env_file:
+> +        cmd += ['--env-file', args.env_file]
+> +    cmd.append(args.image)
+> +    cmd += args.cmd
+> +    return subprocess.call(cmd)
+> +
+> +
+> +def run_podman(args):
+> +    """Run a command in a Podman container"""
+> +    uid = args.uid or 1000
+> +    gid = args.gid or args.uid or 1000
 
-A last option would be to keep it on GitLab or move it to GitHub
-which would provide some CI/CD tools for building the images but I
-doubt this is something viable for the kernel community as it would
-create some vendor lock-in.
+Why 1000 instead of using getuid() and getgid() as above?
 
+> +    cmd = [
+> +        'podman', 'run',
+> +        '--interactive',
+> +        '--volume', f'{os.getcwd()}:/src',
+> +        '--workdir', '/src',
+> +        '--userns', f'keep-id:uid={uid},gid={gid}',
+> +    ]
+> +    if args.env_file:
+> +        cmd += ['--env-file', args.env_file]
+> +    cmd.append(args.image)
+> +    cmd += args.cmd
+> +    return subprocess.call(cmd)
 
-* Container image registry
+Most of these two functions are the same. Maybe they could be abstracted
+into a simple class so that most of the logic could be shared between
+the two implementations? That also might simplify main() a bit and make
+fulfilling David's request a little simpler as well.
 
-This is where things get a bit more complicated.  As far as I'm
-aware, there aren't any container registries hosted in the kernel.org
-infrastructure at the moment.  A classic option would be to push the
-images to an established one e.g. Docker Hub (docker.io) or the
-Google Artifact Registry.  GitLab and GitHub also provide theirs of
-course.  I believe there is still a free plan for community projects
-to host images on docker.io and that would be the easiest from a user
-point of view e.g. "docker pull kernel.org/gcc".  It comes with some
-maintenance burden of course, and Docker Hub has a history of
-changing its policies quite unexpectedly so it's not entirely
-future-proof.
+> +def main(args):
+> +    """Main entry point for the container tool"""
+> +    logger = get_logger(args.verbose)
+> +    logger.debug("runtime=%s, image=%s", args.runtime, args.image)
+> +    runtimes = {
+> +        'docker': run_docker,
+> +        'podman': run_podman,
+> +    }
+> +    handler = runtimes.get(args.runtime)
+> +    if not handler:
+> +        logger.error("Unknown container runtime: %s", args.runtime)
+> +        return 1
+> +    try:
+> +        return handler(args)
+> +    except KeyboardInterrupt:
+> +        logger.error("aborted")
+> +        return 1
+> +
+> +
+> +if __name__ == '__main__':
+> +    parser = argparse.ArgumentParser("Containerized builds")
+> +    parser.add_argument(
+> +        '-e', '--env-file',
+> +        help="Path to an environment file to load in the container."
+> +    )
 
-A classic alternative would be to host a dedicated service
-e.g. registry.kernel.org and have the images managed there.  This
-would obviously involve higher sysadmin efforts and add scalability
-issues but would decouple it from external providers.
+Is there documentation for how an environment file should be formatter?
 
-Then a third option would be to host the container images as OCI
-tarball dumps alongside the toolchain tarballs.  They can then be
-downloaded and imported with "docker image load" or any other
-container runtime.  The only infrastructure resources needed would be
-storage space.  This is of course suboptimal as all the layers get
-bundled together and users would have to manage these images
-themselves, but it's very effective from a kernel.org sysadmin point
-of view.
-
-
-There are undoubtedly other ways to look at this, I'm curious to know
-what people think.  The benefits of having readily-available
-container images upstream appear to be pretty clear, several
-maintainers have expressed their support already.  It's all down to
-how much these benefits can outweigh the upstream maintenance costs.
-Maybe this can be done in two steps, first with just the
-Containerfiles and later on a full solution to host the actual
-images.
-
-Best wishes,
-Guillaume
-
-[1] https://lore.kernel.org/all/cover.1766061692.git.gtucker@gtucker.io/
-[2] https://gtucker.io/posts/2024-09-30-korg-containers/
+> +    parser.add_argument(
+> +        '-g', '--gid',
+> +        help="Group ID to use inside the container."
+> +    )
+> +    parser.add_argument(
+> +        '-i', '--image', default='gcc',
+> +        help="Container image, default is gcc."
+> +    )
+> +    parser.add_argument(
+> +        '-r', '--runtime', choices=['docker', 'podman'], default='docker',
+> +        help="Container runtime, default is docker."
+> +    )
+> +    parser.add_argument(
+> +        '-u', '--uid',
+> +        help="User ID to use inside the container.  If the -g option is not"
+> +        "specified, the user ID will also be used for the group ID."
+> +    )
+> +    parser.add_argument(
+> +        '-v', '--verbose', action='store_true',
+> +        help="Enable verbose output."
+> +    )
+> +    parser.add_argument(
+> +        'cmd', nargs='+',
+> +        help="Command to run in the container"
+> +    )
+> +    sys.exit(main(parser.parse_args(sys.argv[1:])))
+> -- 
+> 2.47.3
+> 
