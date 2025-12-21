@@ -1,150 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mslow3.mail.gandi.net (mslow3.mail.gandi.net [217.70.178.249])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4A9033A9D2;
-	Fri, 19 Dec 2025 21:27:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59966318138;
+	Sun, 21 Dec 2025 20:06:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.249
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766179657; cv=none; b=WMTAhICNTZYT3pHCQY2aSEsvyNkbbEEliCXbgyotzGIMtOdSqBxDCc/o+WjFsDvtCFfmlDSRQPzWJAuS32NBPv4WlWH588zWX4+sudB26rVXMatUyTE0/YsrxBs0MkuntEaysc6TIPrCPy9DlbWGH5ovYAUDv++mLE19+WZ2Uvo=
+	t=1766347591; cv=none; b=ufKzUjgJRrKoizE/t4A5KWpeQbL3XtaJ9vun7t8xvtKKwh/oZ1ojuGee6hwrF8DmtccrlTAtoD2pZWvDlLurfj9ZgaezefvApp+/4nll5tzsxnY3LHKFJbbJMNCoR9l+jZA02bJJnL+eNJPlO3YTdqn8lrzZzjM2jLSfwLyYtPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766179657; c=relaxed/simple;
-	bh=SGFC3LHtTE6LgnzJE2MQMTlBcQl2traEPWnMCtbdk5U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EEu1mSJXmPiGwG6qPHqsRK5VmsX302CyJOFel41wB0eVE7zVXiAx4tPyYIn1CYE6reM5Z2BIqAsQAQWOfQWfqvHrQB9A/xXB69ulLv5wNgPcK+F9yJW/JKQxUhe6VGRz+qWBK/p8h3I91s0DBq7XhDL4GyqK45/Q/FBz2qNaInU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qPWljzY0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766347591; c=relaxed/simple;
+	bh=zNnqaKZBSekNsX/KcgxQrrHlzmMi6CcT6Wz6BnoiwCY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SNq+quchhaVZOkqUWN7vHs4xz1bzDlCsJ9RxoSpfyDarpJ4Fr+6tOYefJFxrYnQI+bnTFFmjKlvM4CPBhwsQ0TFwaPt7rgrVJ6K3xlD8eEKgglW6QOgX2kvRXJFVHZfej56k15VEjyh+8RBbWmsMNcfBtzm/bA4Bsf1AUfhstyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=I+tqQM+O; arc=none smtp.client-ip=217.70.178.249
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qPWljzY0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E84BC4CEF1;
-	Fri, 19 Dec 2025 21:27:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766179656;
-	bh=SGFC3LHtTE6LgnzJE2MQMTlBcQl2traEPWnMCtbdk5U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qPWljzY0gQFgs2p9Tyn8NV9m0XKqp0iCa0/UdiE6RfX+Btnbt5QR7rGSRKA2wJ5/x
-	 ICBHwtBpms6jM4fm2uLOiv0oS0EOoJq9pBe/X5X88utan6x53FhmKPrO1Jg10m/KTi
-	 If2zkv9i8sTxdE1CDhu/IJu57KLR76wrsm1rWHbUk8CV2j5OMGnWKGWiBAaLUMka7b
-	 JEam3bmDS/VVl+yXxun1TzufP8iZvP7yzgqt2ugS5H+c/IIVAHjenQ1JFx++oaKP1a
-	 7S5Y/zOEL7CBH6lkCZwnzalP1Z0k7Dcq/1K6qJqiIWu9/O0uaDx5Vs44lyypQQj/Oc
-	 Hc8sTqSuE81dA==
-Date: Fri, 19 Dec 2025 14:27:31 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Guillaume Tucker <gtucker@gtucker.io>
-Cc: Miguel Ojeda <ojeda@kernel.org>, David Gow <davidgow@google.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	automated-testing@lists.yoctoproject.org, workflows@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH v2 1/2] scripts: add tool to run containerized builds
-Message-ID: <20251219212731.GC1407372@ax162>
-References: <cover.1766061692.git.gtucker@gtucker.io>
- <35b951506304b141047812f516fa946a4f1549a1.1766061692.git.gtucker@gtucker.io>
+	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="I+tqQM+O"
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+	by mslow3.mail.gandi.net (Postfix) with ESMTP id DA06D5807B0;
+	Sun, 21 Dec 2025 20:04:20 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 76D5B41CFA;
+	Sun, 21 Dec 2025 20:04:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
+	t=1766347452;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Qa1iIFKuk8NI0XERRHjPLRaCElYBzFa0XDvEQaphdyQ=;
+	b=I+tqQM+O3I8UFm++5QWWB4AaoHp/PMD3r69Tg25rHIq2SbL7nEDPZ1TauGGXhFyI/KiQ/t
+	1j0x+WoU/P7Unvk+V7SPjhz1CAv/t2b6pUl524Wdj/De9fVgIFBCIlRlK0n0p/rbTMpVeU
+	UaGR5tQ8UtIXNdrAuyiyki8fEMmvyyG1m2EMKNmD76eYbJ93MXHjqydq7glHZeuASuNT2n
+	mA/uEHSrzO/HEXdG7ZjgATjfrWBu7cENRacyYRSokM3mu8roeoIbrQVU8vEeISaafikItW
+	jGUm2pq3U7LLOJvB5bAMMxj+v5utApgZofWhANRXlas9fXPv1E4c0/5cn/E+Xg==
+Message-ID: <4a0f381d-94e8-4e05-838a-5e90c6627fbc@gtucker.io>
+Date: Sun, 21 Dec 2025 21:04:09 +0100
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <35b951506304b141047812f516fa946a4f1549a1.1766061692.git.gtucker@gtucker.io>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/2] scripts: add tool to run containerized builds
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ automated-testing@lists.yoctoproject.org, workflows@vger.kernel.org,
+ llvm@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>
+References: <cover.1765374789.git.gtucker@gtucker.io>
+ <97dec58ebe4161027f13f2215ed9da4a43bc8c47.1765374789.git.gtucker@gtucker.io>
+ <20251219194748.GA1404325@ax162> <20251219211518.GB1407372@ax162>
+Content-Language: en-US
+From: Guillaume Tucker <gtucker@gtucker.io>
+In-Reply-To: <20251219211518.GB1407372@ax162>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: gtucker@gtucker.io
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdehgeeljecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpefiuhhilhhlrghumhgvucfvuhgtkhgvrhcuoehgthhutghkvghrsehgthhutghkvghrrdhioheqnecuggftrfgrthhtvghrnhepjeefkeevheekhfefleeuiefffedvgfdtkeejgeelgeelgeekuedtgfetkedugeegnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepudejiedrudeghedrkedurddvuddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepudejiedrudeghedrkedurddvuddupdhhvghloheplgduledvrdduieekrdduleekrdeigegnpdhmrghilhhfrhhomhepghhtuhgtkhgvrhesghhtuhgtkhgvrhdrihhopdhqihgupeejieffheeugeduvefhtedpmhhouggvpehsmhhtphhouhhtpdhnsggprhgtphhtthhopeelpdhrtghpthhtohepnhgrthhhrghnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehojhgvuggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehruhhsthdqfhhorhdqlhhinhhug
+ iesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhksghuihhlugesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegruhhtohhmrghtvgguqdhtvghsthhinhhgsehlihhsthhsrdihohgtthhophhrohhjvggtthdrohhrgh
 
-On Thu, Dec 18, 2025 at 01:49:52PM +0100, Guillaume Tucker wrote:
-...
-> +    def __init__(self, args, logger):
+Hi Nathan,
 
-Adding something like
+On 19/12/2025 10:15 pm, Nathan Chancellor wrote:
+> On Fri, Dec 19, 2025 at 12:47:48PM -0700, Nathan Chancellor wrote:
+>> Most of these two functions are the same. Maybe they could be abstracted
+>> into a simple class so that most of the logic could be shared between
+>> the two implementations? That also might simplify main() a bit and make
+>> fulfilling David's request a little simpler as well.
+> 
+> Sigh, this is what I get for working through my inbox bottom up since I
+> see that you did this in v2 :) looks good, I will give a couple more
+> comments there.
 
-    self._args = [
-        '--rm',
-        '--tty',
-        '--volume', f'{os.getcwd()}:/src',
-        '--workdir', '/src',
-    ]
+Thank you twice for the reviews then :)  Yes I'm glad the v2
+pre-addressed some of the things you mentioned.  I'll reply there too
+regarding user id management etc.
 
-here then adding an __init__() in the subclasses to append the runtime
-specific arguments would allow _do_run() to be moved into
-ContainerRuntime(). Otherwise, this looks pretty good and extensible.
+In the meantime I also started this thread about container images:
 
-> +        self._uid = args.uid or os.getuid()
-> +        self._gid = args.gid or args.uid or os.getgid()
-> +        self._env_file = args.env_file
-> +        self._logger = logger
-> +
-> +    @classmethod
-> +    def is_present(cls):
-> +        """Determine whether the runtime is present on the system"""
-> +        return shutil.which(cls.name) is not None
-> +
-> +    @abc.abstractmethod
-> +    def _do_run(self, image, cmd, container_name):
-> +        """Runtime-specific handler to run a command in a container"""
-> +
-> +    @abc.abstractmethod
-> +    def _do_abort(self, container_name):
-> +        """Runtime-specific handler to abort a command in running container"""
-> +
-> +    def run(self, image, cmd):
-> +        """Run a command in a runtime container"""
-> +        container_name = str(uuid.uuid4())
-> +        self._logger.debug("container: %s", container_name)
-> +        try:
-> +            return self._do_run(image, cmd, container_name)
-> +        except KeyboardInterrupt:
-> +            self._logger.error("user aborted")
-> +            self._do_abort(container_name)
-> +            return 1
-> +
-> +
-> +class DockerRuntime(ContainerRuntime):
-> +    """Run a command in a Docker container"""
-> +
-> +    name = 'docker'
-> +
-> +    def _do_run(self, image, cmd, container_name):
-> +        cmdline = [
-> +            'docker', 'run',
-> +            '--name', container_name,
-> +            '--rm',
-> +            '--tty',
-> +            '--volume', f'{os.getcwd()}:/src',
-> +            '--workdir', '/src',
-> +            '--user', f'{self._uid}:{self._gid}'
-> +        ]
-> +        if self._env_file:
-> +            cmdline += ['--env-file', self._env_file]
-> +        cmdline.append(image)
-> +        cmdline += cmd
-> +        return subprocess.call(cmdline)
-> +
-> +    def _do_abort(self, container_name):
-> +        subprocess.call(['docker', 'kill', container_name])
-> +
-> +
-> +class PodmanRuntime(ContainerRuntime):
-> +    """Run a command in a Podman container"""
-> +
-> +    name = 'podman'
-> +
-> +    def _do_run(self, image, cmd, container_name):
-> +        cmdline = [
-> +            'podman', 'run',
-> +            '--name', container_name,
-> +            '--rm',
-> +            '--tty',
-> +            '--interactive',
-> +            '--volume', f'{os.getcwd()}:/src',
-> +            '--workdir', '/src',
-> +            '--userns', f'keep-id:uid={self._uid},gid={self._gid}',
-> +        ]
-> +        if self._env_file:
-> +            cmdline += ['--env-file', self._env_file]
-> +        cmdline.append(image)
-> +        cmdline += cmd
-> +        return subprocess.call(cmdline)
-> +
-> +    def _do_abort(self, container_name):
-> +        pass  # Signals are handled by Podman in interactive mode
+  
+https://lore.kernel.org/all/cc737636-2a43-4a97-975e-4725733f7ee4@gtucker.io/
+
+I believe this will go hand-in-hand with the scripts/container tool,
+not with hard dependencies but they will enhance each other.
 
 Cheers,
-Nathan
+Guillaume
+
