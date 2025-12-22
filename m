@@ -1,55 +1,51 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C24D1A285;
-	Mon, 22 Dec 2025 22:00:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94EBD1A285;
+	Mon, 22 Dec 2025 22:01:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766440828; cv=none; b=h0UA8PJ9J5jDU3PP0yzXcd5buwHiKtI2W9FSZB9ppD6QBK6fkmtakhlHanyze5wxpgtSu5fAleFjspAHd7rR65rPNfZAvW5dJaUjMXH9x1q7hNU5snx3ruK29N1ijJc+gwngFoKiEy5in+wxZfOzEomfeSZdTAL0IOCCjBo7yEI=
+	t=1766440919; cv=none; b=NTZ3OHiySS1Pj8ht7yVixUElWyeGMRIQy3QbLqDuCnXlnO3GjGQ26ZpowshshOEWtv6dtmBT/+eNo+1TWDf41XOtCsrJJmwu+bgjP1GfpC0PD+kgyeyo4USRxAZc+QdQuGeaPl8pOrtfeIi6G6frNPgiJVVgELrycB/juijta98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766440828; c=relaxed/simple;
-	bh=xvrDhOkAeMiPDexkfJjs18iDaXRC47ZCm6XfIeEcNDA=;
+	s=arc-20240116; t=1766440919; c=relaxed/simple;
+	bh=m1QVUMeu7cjjFKBNNrg5Oh8fXASjEsrO+BPSw0qJ/q8=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Zp9nEWZs/EI9zmLkMqywgbWP+1GVHqDNNk4i9sow3pz6YkMzaUbq6riEMeEvHS1D7RPQs1PWGrU/sF8NNc6kHohsQojIRX5nKRT7bukmkwGgcYC8IH1GdT3KXYjTKT07cH1tLfo/g1tgWGcL4H311vzdJc7wzb9EklkzvFNkfqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=PA6AEv2b; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=fKZKQKvx+vcmXUl71B1bnxZiQFKAWXxBkvH0uZ89Ccf5rOYi2uminRV9s0Yv+Vto+Rz+m0UpRZd3uEYF1v7ncDMw0dhkFNiPV0YXWA5NQXN7tmKKqub4S8o9tWhDUwJY5IyY42Pl+0Ja7+k9cjohsVXxTI8oxTokl8Dxt/ikyP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=niRvO+39; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="PA6AEv2b"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 737474040B
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="niRvO+39"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C5CCE4040B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1766440825; bh=VcjgOtB4J4XNm3fkSgKQA1+M5DHuO36Tcyg0mxlcLnA=;
+	t=1766440918; bh=hrNzlMEzipfRavMUu3WOT9c1i/kNS++4suB4Qf+vO50=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=PA6AEv2bni0DDl6bFY/5Fsnus44UDawz2V44ysVSh59cc3nP0ooqgrD73QtqozleD
-	 dpUn+XM2fO31Zeh8A+7rGtsNdOXysbMIRskM964EGSopD1dnwo/2ruFCzD8E21937t
-	 Qlvk4SP7/0rVv3uWrVHlRGldElqWjZJMpDIJ5mXJlinymST7ruO/9mFeHdBmjVqhHV
-	 uCfyco59nyOOshFe1gSHcGzkfW5CAz6kMxNeoDe8NAk/gjLV1hcOIJajw976I8sCZK
-	 CtLbtMv5j7jvCKWgXsRkzhUK3SRd9k0J9s7NX9AG7/bpUiky7bY7ZXOiOgWf7KCY5F
-	 WvF6yzJTk8ppA==
+	b=niRvO+39nYWvcWf4T3FC/tIqVVe+2hiP8hJicQmxkvuZdI1lqoCWXNWGVFtT74J1t
+	 dzKnxrJ5kwOHHipICX9Mdd9wxKyh9dD+gK+4dMRHqkkkEbDwBMGKzLFMudQRfp2J/d
+	 Ixccbk/hbASIi1SdXO61pKEd4bKZ3Lxj93nZn5k3W7mWJ0BaihxHU0GC20b9Onm/0B
+	 LrYBU8zZsDXvcCEr3Lnp3OJ1wojjIrVOg1FuDrjai+kHtOtuKUyplVDhQB3lE2HKEa
+	 qTBDqguAiepH8R8QrVISJ0F/xj9Fi/W2gICgtggeVluy4mYKmtoG+KnCIL70JyNLJl
+	 /p1boLUzzJM/A==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 737474040B;
-	Mon, 22 Dec 2025 22:00:25 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id C5CCE4040B;
+	Mon, 22 Dec 2025 22:01:57 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Randy Dunlap
- <rdunlap@infradead.org>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, "Dr. David Alan Gilbert"
- <linux@treblig.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, workflows@vger.kernel.org,
- linux-remoteproc@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Dwaipayan Ray
- <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe
- Perches <joe@perches.com>, Bjorn Andersson <andersson@kernel.org>, Mathieu
- Poirier <mathieu.poirier@linaro.org>
-Subject: Re: [PATCH v2 1/1] docs: Update documentation to avoid mentioning
- of kernel.h
-In-Reply-To: <20251126214709.2322314-1-andriy.shevchenko@linux.intel.com>
+To: Andi Shyti <andi.shyti@kernel.org>, Federico Vaga
+ <federico.vaga@vaga.pv.it>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ workflows@vger.kernel.org, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH] Doc:it_IT: Do not reference kernel.h anymore
+In-Reply-To: <klzag46p6mlqqdrogqofancqyjpvs5lmwa4m3tjszcgavdwa6s@nay2uuwpsvlt>
 References: <20251126214709.2322314-1-andriy.shevchenko@linux.intel.com>
-Date: Mon, 22 Dec 2025 15:00:24 -0700
-Message-ID: <87fr9218jr.fsf@trenco.lwn.net>
+ <20251205111559.3089219-1-andi.shyti@kernel.org>
+ <zylu4ulxeyni5diwnp7o7evcajqyylhzzd4d2skyi2ul2ayb3b@2kojo3dyp2vi>
+ <klzag46p6mlqqdrogqofancqyjpvs5lmwa4m3tjszcgavdwa6s@nay2uuwpsvlt>
+Date: Mon, 22 Dec 2025 15:01:57 -0700
+Message-ID: <87bjjq18h6.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -58,31 +54,29 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Andy Shevchenko <andriy.shevchenko@linux.intel.com> writes:
+Andi Shyti <andi.shyti@kernel.org> writes:
 
-> For several years, and still ongoing, the kernel.h is being split
-> to smaller and narrow headers to avoid "including everything" approach
-> which is bad in many ways. Since that, documentation missed a few
-> required updates to align with that work. Do it here.
+> Hi Federico,
 >
-> Note, language translations are left untouched and if anybody willing
-> to help, please provide path(es) based on the updated English variant.
+>> >-Il file di intestazione include/linux/kernel.h contiene un certo numero
+>> >-di macro che dovreste usare piuttosto che implementarne una qualche variante.
+>> >-Per esempio, se dovete calcolare la lunghezza di un vettore, sfruttate la
+>> >-macro:
+>> >+I file header
+>> 
+>> In Italian, the correct name for "header file" is "file di intestazione".
+>> Please, don't replace correct Italian with *Itanglese* :)
 >
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> ---
+> I absolutely disagree.
 >
-> v2: collected tag (Randy), fixed util_macros k-doc (Randy, me), fixed spelling (Randy)
->
->  Documentation/core-api/kobject.rst              |  2 +-
->  Documentation/dev-tools/checkpatch.rst          |  2 +-
->  Documentation/driver-api/basics.rst             | 17 ++++++++++++++++-
->  .../driver-api/driver-model/design-patterns.rst |  2 +-
->  Documentation/process/coding-style.rst          | 10 +++++++---
->  Documentation/staging/rpmsg.rst                 |  7 +++++--
->  include/linux/util_macros.h                     |  2 +-
->  7 files changed, 32 insertions(+), 10 deletions(-)
+> If you open any C book, they are called 'header files', except
+> for a few Italian technical books with excessively literal
+> translations, where even non-translatable terms are translated.
 
-Applied (finally) thanks.
+I'm unconvinced about "file di intestazione" based on my own
+understanding of the language... but, in a case like this, I will defer
+to the creator and maintainer of the translation.
+
+Thanks,
 
 jon
