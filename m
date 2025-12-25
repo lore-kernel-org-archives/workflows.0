@@ -1,114 +1,156 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 324AB3A1E6D;
-	Thu, 25 Dec 2025 12:32:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B495201113
+	for <workflows@vger.kernel.org>; Thu, 25 Dec 2025 13:39:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766665952; cv=none; b=gFCFKkZ2w0w0roDphcrb2RkiTlSgglUs+21bMj+u6dlR1chMH4oYgI91WWw32rqoBSwZ/6nQ9BNR5pCqBvn1hgj+VBfE4cUOGRIO17z06tnIz+6/AV8Yn+0CqNi5onal3Opu24fn9CXu1UjuvxOJ7vhRvzvRMXyO/YoNEutuV4k=
+	t=1766669989; cv=none; b=WSOT8qBAg0srqyWUy0u8Rkv1lpJxrXUMzuXdeBqM7NKo1RDFq66zQZ5jvSpg7pjXlndsTdjiU7VEuYNGxlS9PF7WCOlm4BNIr+tDgB4bLhyEKX6NcZGLfmRoFTv08ceClx3kqQVjf4xP/ouc5SQL8N+A4U3X+/2jlEyicIFyJZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766665952; c=relaxed/simple;
-	bh=v9bryisTSBRr+BXg4C4EsjyO9/G1RYyLeXWoRywa+wg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=fJkHyK46L7i6c9upqASlfcu34gxSbtmXX4XnCRe194P83AuNElQp6SLWpSD7814RhcPBSuweCSef0ovNbkX6ylLuR3onoadNEOLEtCryU4xMgFXSdV3AHOIa9fhINozDTWQHX65EdDBU8L9c5hQGGlLzxIhlpeUn3+SHVL/Pq/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nCqn3XLj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766669989; c=relaxed/simple;
+	bh=d85C5cknobRyzGSgzTlisDvUpd5eL8+MCyi3MEUOKQ0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dxmn9GFQfoxnHiYxj6Eb14exDrI2mOszi/ilOvLUtifCT44qw8E0EioX5SRITldPhNwF1QW51w6GrYAy3Sd6Ly/OWSzoWviqepq+7c9Jdm4FtPAKzX6ud41Jd41vDpgHAMSrkAptHGz0x9/eTa1L8Xo0f2K4difqEAchcryRHcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wraedbrh; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nCqn3XLj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E84BC116B1;
-	Thu, 25 Dec 2025 12:32:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766665951;
-	bh=v9bryisTSBRr+BXg4C4EsjyO9/G1RYyLeXWoRywa+wg=;
-	h=From:Date:Subject:To:Cc:From;
-	b=nCqn3XLj3djU3D7hODSjOe4YK5BwLyIMuOnl23UDDS/X0JoqrgyWJXHOHiQ50rmZf
-	 qmdGvf+Mp/cN6HFjDxSsZgij13rPjPwHVOXX8f3nRLA0xRQ/g7oFmmoobLwU0uWNQX
-	 WEkXRyKgeP+xWpcuYclz9dHTsnCngygB3BixAO3E11yAymUi0njGut0qDMEyTr5jbq
-	 ecXqaKgT6wOygOxbLjBOGauHfZxJCIisjHQ6RHoYai+xI1I2NJywFm4SooOLkSkn8/
-	 msgXJqjlBWLpaTxL6TL40iV4l+ITK8jjXSYLmXXzScUnVHQfXOWT8TvsHaRf5ilRa0
-	 CNyJ0PR6W17Qg==
-From: Vincent Mailhol <mailhol@kernel.org>
-Date: Thu, 25 Dec 2025 13:32:18 +0100
-Subject: [PATCH] docs: process: email-client: add Thunderbird "Toggle Line
- Wrap" extension
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wraedbrh"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-47d3ffa5f33so4141175e9.2
+        for <workflows@vger.kernel.org>; Thu, 25 Dec 2025 05:39:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766669986; x=1767274786; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=01uYXIzfFFAtbx7w33TsFcfcEkJ5v8LSjweshx+qWkY=;
+        b=Wraedbrh6R1+APdjEfCtUGPPZbbkRdD4CWr3NBZN7SxEMlzrK/zl+75oE7q6RQiQT9
+         uIwsoWNJUxtFORXtva4q4KNcXi1+fFKMZuAH+HFftQohjdibdNQjhCRoeCy5IJn8Whvp
+         IIvj/Y8RRdg5aSKFhjtj+XX61kP7ELDMfTwh47X8ND8JSVcRMr1i1+GvGKR50E0edvoT
+         O/fmZB3yzMfI15aimwXc3PhUllp8I6U8Lech6PrBSGxf0NlCtxp1i9M3FXSAj0Mm4Ld1
+         Y4DcIQyYzeh6bHG3KkdqB4TQSkzXFWsfgjD9C8WE91xPWKm/cUm9f0vzgzHTvGwx5O03
+         2L3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766669986; x=1767274786;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=01uYXIzfFFAtbx7w33TsFcfcEkJ5v8LSjweshx+qWkY=;
+        b=qW+CAqgTrCIexLK6xHjbBbCC5wMbTtn5rYd4esoYHrWOBwURZJ7Kdk9CELEwntejPi
+         nAJ/ncjJk52xKyiA/k26YR7yPsUt3MHhUw5LmtzzoL0XUwcMmvYj7Q649p3+7TUHcUMS
+         9IH827ZoMW9TdBHWn3rm3NGk+qzuICZc+Er0ZcX4yJrQ/CYGQJMykpe6/XcmwEr8ebnU
+         MeOym2bIBjaANOHcmIaNGV9uqyK8Dk83p/btp16Zj9xQyBkjfGpl0J7nTA1aoLVPmj8t
+         lbPrp8NeWQrlqPHEReLDIcQct+vU6PgBEv63kU8FIa8e4u1J3BN4t4wilaxcmW3qRlMS
+         VOUw==
+X-Gm-Message-State: AOJu0YwxqTv01QRWrOM1axIbZJGcDAmcQUpvHs8zvxlhMbphWaDEhWKj
+	Q+qU0BY0LwjLmjoNF7IGNP6x81S5dBmT7+pbjmSOBBS2mEnT3Z4tkggk
+X-Gm-Gg: AY/fxX4hPwXL7KgpThPdatrn6Ufdj5LkK0H+n7fVQnmLcS3JC6qDqE46x0ufq7cfIGq
+	PqSwPbDKqF2QRtoD1Y1xvudrQfPO1jcVucv7hdmBnlQVnPFF/R4cvZDFZ9srXGa2tOuEPGg0WH1
+	QUuAfBZbxRyWq7IFZouxm4Z5DRGP4obfjFyskD8eHi/hfqj+M/fHcD4nqvPRxFnPpx/tXuJaObW
+	E8+jEaspQJRhDoLUytBOUKPVPwn72VMTTZyMd0i/LgZJb/62XFHH2oaC6s+64Ytu/fOt/WkZRAr
+	/7gngzEHGllRVROkMLAH8X64EroLTWhmF8EWIbrvUBgvNLC/e5zKL9hQR2gR4LjK1lTyJ0JOCj2
+	SMwHAWo0voYmuf7/2JnHcoecIol3nSB1URPa81l0GMsPL9nmuDx5SuBy5YNnMWryrryc6fG5Eoz
+	O938xYS6SKoDm3BCSI8w==
+X-Google-Smtp-Source: AGHT+IHRT4EWptokBZifdGd0JaqURwIpCrPKAlfvk3XFDWS62gm4RQ8NvOP026ZhA40ZYuJhxJESuA==
+X-Received: by 2002:a05:600c:8b06:b0:477:a977:b8c5 with SMTP id 5b1f17b1804b1-47d34de6358mr115489665e9.31.1766669986332;
+        Thu, 25 Dec 2025 05:39:46 -0800 (PST)
+Received: from future ([2a01:4b00:bd00:c100:5e02:757e:4745:96d4])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d192e88f5sm338859075e9.0.2025.12.25.05.39.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Dec 2025 05:39:45 -0800 (PST)
+From: Volodymyr Kot <volodymyr.kot.ua@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Volodymyr Kot <volodymyr.kot.ua@gmail.com>
+Subject: [PATCH] Doc: correct spelling and wording mistakes
+Date: Thu, 25 Dec 2025 13:39:11 +0000
+Message-ID: <20251225133911.87512-1-volodymyr.kot.ua@gmail.com>
+X-Mailer: git-send-email 2.51.2
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20251225-docs_thunderbird-toggle-line-wrap-v1-1-24794afa4abf@kernel.org>
-X-B4-Tracking: v=1; b=H4sIANEuTWkC/x3N0QqDMAxA0V+RPC+gHR1svyIymiarAWkl1W0g/
- vvKHs/LvQdUMZUKj+4Ak7dWLblhuHQQ55CToHIzuN75wTmPXGJ9bvOeWYzUGLeS0iK4aBb8WFi
- RSa53inTzPUHrrCYv/f4f43SeP8fX7ZpzAAAA
-X-Change-ID: 20251225-docs_thunderbird-toggle-line-wrap-dbe39bcb650b
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Rob Landley <rlandley@parallels.com>, 
- Sotir Danailov <sndanailov@gmail.com>, 
- =?utf-8?q?Giedrius_Statkevi=C4=8Dius?= <giedrius.statkevicius@gmail.com>, 
- Paul McQuade <paulmcquad@gmail.com>, Randy Dunlap <rdunlap@infradead.org>, 
- Vincent Mailhol <mailhol@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2070; i=mailhol@kernel.org;
- h=from:subject:message-id; bh=v9bryisTSBRr+BXg4C4EsjyO9/G1RYyLeXWoRywa+wg=;
- b=owGbwMvMwCV2McXO4Xp97WbG02pJDJm+ejc19T6y1PbNnb5cO9JgWc21fof3wl0bzr459Stew
- /xS9jHNjoksDGJcDJZiiizLyjm5FToKvcMO/bWEmcPKBDJEWqSBAQhYGPhyE/NKjXSM9Ey1DfUM
- DXWATAYuTgGY6v3SjAxzbu9/Ghw71V+lqWju7O95FdMVn9bf38CiMv/I27htbx9cYfin89dFw4H
- jIOvE/TzhnSH5zLG3XzjO1tk5c9rvLzl7LuhxAAA=
-X-Developer-Key: i=mailhol@kernel.org; a=openpgp;
- fpr=ED8F700574E67F20E574E8E2AB5FEB886DBB99C2
 
-While reading the git-format-patch manpages [1], I discovered the existence
-of the "Toggle Line Wrap" extension for Thunderbird which I found rather
-convenient.
+Fixed capitalization and punctuation in process documentation.
 
-Looking at the history, the ancestor of this extension was added to the
-documentation in commit e0e34e977a7c ("Documentation/email-clients.txt:
-update Thunderbird docs with wordwrap plugin") but then removed in commit
-f9a0974d3f70 ("Documentation: update thunderbird email client settings").
-
-Extend the paragraph on Thunderbird's mailnews.wraplength register to
-mention the existence of the "Toggle Line Wrap" extension. The goal is not
-to create a war on what is the best option so make it clear that this is an
-alternative.
-
-[1] man git-format-patch -- §Thunderbird
-Link: https://git-scm.com/docs/git-format-patch#_thunderbird
-
-Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
+Signed-off-by: Volodymyr Kot <volodymyr.kot.ua@gmail.com>
 ---
-and Merry Christmas!
----
- Documentation/process/email-clients.rst | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ Documentation/process/1.Intro.rst          | 2 +-
+ Documentation/process/2.Process.rst        | 2 +-
+ Documentation/process/4.Coding.rst         | 6 +++---
+ Documentation/process/7.AdvancedTopics.rst | 2 +-
+ 4 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/process/email-clients.rst b/Documentation/process/email-clients.rst
-index 84a2450bb6ec..27cd43b185dd 100644
---- a/Documentation/process/email-clients.rst
-+++ b/Documentation/process/email-clients.rst
-@@ -324,7 +324,14 @@ To beat some sense out of the internal editor, do this:
+diff --git a/Documentation/process/1.Intro.rst b/Documentation/process/1.Intro.rst
+index 25ca49f7ae4d..2c93caea069f 100644
+--- a/Documentation/process/1.Intro.rst
++++ b/Documentation/process/1.Intro.rst
+@@ -194,7 +194,7 @@ include:
+   are cloudy at best; quite a few kernel copyright holders believe that
+   most binary-only modules are derived products of the kernel and that, as
+   a result, their distribution is a violation of the GNU General Public
+-  license (about which more will be said below).  Your author is not a
++  License (about which more will be said below).  Your author is not a
+   lawyer, and nothing in this document can possibly be considered to be
+   legal advice.  The true legal status of closed-source modules can only be
+   determined by the courts.  But the uncertainty which haunts those modules
+diff --git a/Documentation/process/2.Process.rst b/Documentation/process/2.Process.rst
+index 7bd41838a546..57fa8cac58a6 100644
+--- a/Documentation/process/2.Process.rst
++++ b/Documentation/process/2.Process.rst
+@@ -3,7 +3,7 @@
+ How the development process works
+ =================================
  
-   - Set ``mailnews.send_plaintext_flowed`` to ``false``
+-Linux kernel development in the early 1990's was a pretty loose affair,
++Linux kernel development in the early 1990s was a pretty loose affair,
+ with relatively small numbers of users and developers involved.  With a
+ user base in the millions and with some 2,000 developers involved over the
+ course of one year, the kernel has since had to evolve a number of
+diff --git a/Documentation/process/4.Coding.rst b/Documentation/process/4.Coding.rst
+index 80bcc1cabc23..c0f57d0c4f73 100644
+--- a/Documentation/process/4.Coding.rst
++++ b/Documentation/process/4.Coding.rst
+@@ -160,12 +160,12 @@ irrelevant.
+ Locking
+ *******
  
--  - Set ``mailnews.wraplength`` from ``72`` to ``0``
-+  - Set ``mailnews.wraplength`` from ``72`` to ``0`` **or** install the
-+    "Toggle Line Wrap" extension
-+
-+    https://github.com/jan-kiszka/togglelinewrap
-+
-+    https://addons.thunderbird.net/fr/thunderbird/addon/toggle-line-wrap/
-+
-+    to control this registry on the fly.
+-In May, 2006, the "Devicescape" networking stack was, with great
++In May 2006, the "Devicescape" networking stack was, with great
+ fanfare, released under the GPL and made available for inclusion in the
+ mainline kernel.  This donation was welcome news; support for wireless
+ networking in Linux was considered substandard at best, and the Devicescape
+ stack offered the promise of fixing that situation.  Yet, this code did not
+-actually make it into the mainline until June, 2007 (2.6.22).  What
++actually make it into the mainline until June 2007 (2.6.22).  What
+ happened?
  
- - Don't write HTML messages! Go to the main window
-   :menuselection:`Main Menu-->Account Settings-->youracc@server.something-->Composition & Addressing`!
-
----
-base-commit: 9448598b22c50c8a5bb77a9103e2d49f134c9578
-change-id: 20251225-docs_thunderbird-toggle-line-wrap-dbe39bcb650b
-
-Best regards,
+ This code showed a number of signs of having been developed behind
+@@ -204,7 +204,7 @@ regression in the first place.
+ It is often argued that a regression can be justified if it causes things
+ to work for more people than it creates problems for.  Why not make a
+ change if it brings new functionality to ten systems for each one it
+-breaks?  The best answer to this question was expressed by Linus in July,
++breaks?  The best answer to this question was expressed by Linus in July
+ 2007:
+ 
+ ::
+diff --git a/Documentation/process/7.AdvancedTopics.rst b/Documentation/process/7.AdvancedTopics.rst
+index 43291704338e..185651d87f2a 100644
+--- a/Documentation/process/7.AdvancedTopics.rst
++++ b/Documentation/process/7.AdvancedTopics.rst
+@@ -53,7 +53,7 @@ When you are ready to start putting up git trees for others to look at, you
+ will, of course, need a server that can be pulled from.  Setting up such a
+ server with git-daemon is relatively straightforward if you have a system
+ which is accessible to the Internet.  Otherwise, free, public hosting sites
+-(Github, for example) are starting to appear on the net.  Established
++(GitHub, for example) are starting to appear on the net.  Established
+ developers can get an account on kernel.org, but those are not easy to come
+ by; see https://kernel.org/faq/ for more information.
+ 
 -- 
-Vincent Mailhol <mailhol@kernel.org>
+2.51.2
 
