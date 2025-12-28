@@ -1,113 +1,94 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A635814AD0D;
-	Sun, 28 Dec 2025 18:02:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA21E1607A4
+	for <workflows@vger.kernel.org>; Sun, 28 Dec 2025 19:31:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766944929; cv=none; b=ss43lbAReZzDJaXM7ZL6rD1HJkUUoviUOTS3f1Dkdp9lZ6yL7aF3fN7WCsqacUQnj2IcYjCNsYw14YEB+bTEeK0CcMjYjpZZgftXOZmV+adAA4SvIhO/jVUx6uBBtmqxBt+hHbwaR+pQ+R9bDwv3+v6Uf6MrYpcNfXoQlSYCxL8=
+	t=1766950287; cv=none; b=tLVCRbJy0x8Z5V9cFVl5ahMZRPzQ1KE/r24Cr6BT47r95DYdBcW1j2gaXPDLEFXMqoOVpSE40/vNNSEO/AAy3TZoSlaPGMelHzN1b6ZIvRnzMhDJRPllFZ7xm4q/8/TLhbQNkROVlBq3xYPWGgfUs+m/BYkC6wO8pUjqlmxPrSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766944929; c=relaxed/simple;
-	bh=24k0BnsCKXgnHXVfTrewMI2jgj1eEM+qK6zvfESC60k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XJOZV4GjX5bkhYqmM03Ln2LO377ROAPaJN28371tYQrEHaQh0KQu970E+vIWxOQMPcUhj6TIYrNZMi2ORIF3hs6UIRxz2puRhX3AdEPsgo/+DN4MitQ1qxhgSn98Q7KTuhrWWDSAndnChwi+GdZs020Kl7jGfao7Gy/TR9QfPVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ehvUn2uO; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1766950287; c=relaxed/simple;
+	bh=Orp9GT4FzsRolBRRVQnvsDkdLTThrRs5gYaL14IJ5rg=;
+	h=From:MIME-Version:Date:Message-ID:Subject:To:Cc:Content-Type; b=YKN0F7p0RrFhICbf3yYhmFyiHXwEuzzkpLnkuU7+m7v7XE6yHibrEnKf35N4O57rl79KZdE/uyCGXedsX+r8R2T85YfK+xvz2vLHS4Cu1/SZeFwPCVq9F5IfHeZBbc0jxhZF58/LPlDCPtcQuVTqq5qGI80AHt8XIfo1xTpcre0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EEkONA1/; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ehvUn2uO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766944928; x=1798480928;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=24k0BnsCKXgnHXVfTrewMI2jgj1eEM+qK6zvfESC60k=;
-  b=ehvUn2uOw1zBohfBdARAolgWtnogh4jQk1rZAlOUt1CEZzDErdSusj4U
-   NsXbgVqp08JGpVK3eoMMx2rICm4GgfB3cyAtdAKbewTCv3Y9yVg44sC5G
-   Ujm6g4qEBHMUQlat7+BaJoRigqQS6hTMxv5jzp7G3u1Kn9H7CjPLf2s0O
-   lsl7A9o+9gjE4tQVSpijsgvoz+NFn+PYKPlyMC2c1oO5+vXiDAPAMfSfQ
-   1p7lJ77FywmZy9lQoEJM214hfx1hXZNMCuEmz1AL/eZWportCCFw99b07
-   wsvB6EQu98D2vvHD5QDKiR5uHR4EYMotS3Yy8GQgPReFrroUD2U+AVMmg
-   A==;
-X-CSE-ConnectionGUID: uQwjFknLTwmoC9Qog0mPMw==
-X-CSE-MsgGUID: 0gSPK/+mQTi2gJf3ouH4rg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11655"; a="68473091"
-X-IronPort-AV: E=Sophos;i="6.21,184,1763452800"; 
-   d="scan'208";a="68473091"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2025 10:02:07 -0800
-X-CSE-ConnectionGUID: 50n7WvsHRK23kcrKBXfGqA==
-X-CSE-MsgGUID: BKQDxl3wQ9iLwp9jpRiLqg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,184,1763452800"; 
-   d="scan'208";a="200382744"
-Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.236])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2025 10:02:03 -0800
-Date: Sun, 28 Dec 2025 20:02:01 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dwaipayan Ray <dwaipayanray1@gmail.com>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Joe Perches <joe@perches.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>
-Subject: Re: [PATCH v2 1/1] docs: Update documentation to avoid mentioning of
- kernel.h
-Message-ID: <aVFwmfInXYL_ZByA@smile.fi.intel.com>
-References: <20251126214709.2322314-1-andriy.shevchenko@linux.intel.com>
- <87fr9218jr.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EEkONA1/"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-595825c8eb3so8734248e87.0
+        for <workflows@vger.kernel.org>; Sun, 28 Dec 2025 11:31:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766950284; x=1767555084; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:mime-version:from:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Nlou64nYMOBcyUqd2ccm2AWusSoW1FtniTuMk2SuGkY=;
+        b=EEkONA1/ADdjtD7WrS4U/KWSLSG6oi2J78HMaLGd8TB4ONC7pv3hRJptXXVEGp2vmf
+         TVyA2yJG0LFDjhQDNg2OHOv5Ca88j7qc0Y5kXS2YfFequerN1R2TgW0AWsj16760mEX+
+         KxefUszY1ZTDdtVSnI0UcilqY+j0m6qwmMwHUbH+tHR2CstKiWI9cYj08eJdkpypfDF+
+         LaYHLbSxm+RLbGGUb63T9xvV5Gx86GkiLwDLtwqu+xfldSlGv+wEnkQ6TGMr+D+YcV9z
+         CsknYssocQL5bQXVPV/CqNqMuHvwbmKbaqCw3FtjTqHWJZv0R0m7/BYpSQF+xGeSygC/
+         lO9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766950284; x=1767555084;
+        h=cc:to:subject:message-id:date:mime-version:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Nlou64nYMOBcyUqd2ccm2AWusSoW1FtniTuMk2SuGkY=;
+        b=BvvD7HGJQJWpXpbPKyakEiZmb0gjNs/VoLH6iYsREICcrsg69y6HunjRDKjkEWhmTs
+         lbe/RgmF3JN5rDW7v30i76Yv4hUhqrvOiFYYeB2njoPwgxTRmZ64jEGBRR+iu0C6U42k
+         TfjqzkHMWZ7yXJx0XFOuBpFDpQHBySye/EcedA+WqMO1VS4xShnwJgtk7kgAC40i0yQ7
+         3OaYz0S1eph3xztuKo6HbLINeFVhjjwKKv5db/DDebVTimKSF+qLU3dyvBXl/RNqRiip
+         oW01d0FP1QWJ0fCKCcBC3iJiyujqu8LqwGZv4lxbwvTggrgaKhsIf0agRuyVtDyLoSU4
+         5nPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWLZbuXQNEBC9cpmTp4Ei3J8Iue5QWE1kCyqqzpaMv/jI3wDh1b7HsCeyiUHTDQgPk/zOLFEPwAp7A=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/AwnKO3ZgSiwtRk4Q7dULOO8wxfF5XUrBcz7WFkXcjjnKXpeG
+	NEOSyE3ZfGhPjfihChUtUFqaP8DsDZwWK5ZrcstMbcJHikRuxN0q7evpao/0DobmR+VH1QYzv9c
+	fgMqiSAPbo2sdUp0K7Vy2rZFjAZnuqTImsw==
+X-Gm-Gg: AY/fxX5ZljUoWY0fWNuESSnWQxkpsnbaH3ZgRTut3PDJhnDZJDR4olOplnDXfEZb5dW
+	k1lowEhJx2n5BlICwhlIXMmB6Qho/mDVCzs5QFPKaTV/5Xwuo+paenms5ysAa8ev6QgtSWC16TK
+	njmnNNPZgZaiAVuXq/ZsbIZRQy8bPFHUiY2shTv3WwdmbKTrEOM1imUTMWL5sNh8B9iEIl8uavu
+	eVdpbXSeyEObE+eWzFh+hRVNJ6cOlHoyOB4/2K6k11R5veQJarfYrH64RGjgz1A+RNooA==
+X-Google-Smtp-Source: AGHT+IF2ZF1lZuSgacPxcBNzbmGh9Hs/kuoPsOkMwKOfhQgAQYOuGzalKTMTX480/bu3zgrHuw+gpDUNnz4UMeqfcLI=
+X-Received: by 2002:a2e:ab1b:0:b0:37b:9b28:4282 with SMTP id
+ 38308e7fff4ca-38121561689mr84166671fa.11.1766950283766; Sun, 28 Dec 2025
+ 11:31:23 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Sun, 28 Dec 2025 11:31:22 -0800
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Sun, 28 Dec 2025 11:31:22 -0800
+From: Benjamin Philip <benjamin.philip495@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87fr9218jr.fsf@trenco.lwn.net>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Date: Sun, 28 Dec 2025 11:31:22 -0800
+X-Gm-Features: AQt7F2rj2A6mjYRlTxgLaDccc8hLu-6HWeHyfxGZSgP0M4HMyXPK3wduUsrrhFc
+Message-ID: <CAMEXYWegtqikPYBRaZcpd_JwQPH80cXhaRK66J8ZhWPrYc7-yw@mail.gmail.com>
+Subject: [PATCH 0/3] scripts: coccicheck: document debug log handling
+To: Julia Lawall <Julia.Lawall@inria.fr>, Nicolas Palix <nicolas.palix@imag.fr>, 
+	Jonathan Corbet <corbet@lwn.net>
+Cc: cocci@inria.fr, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Benjamin Philip <benjamin.philip495@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Dec 22, 2025 at 03:00:24PM -0700, Jonathan Corbet wrote:
-> Andy Shevchenko <andriy.shevchenko@linux.intel.com> writes:
-> 
-> > For several years, and still ongoing, the kernel.h is being split
-> > to smaller and narrow headers to avoid "including everything" approach
-> > which is bad in many ways. Since that, documentation missed a few
-> > required updates to align with that work. Do it here.
-> >
-> > Note, language translations are left untouched and if anybody willing
-> > to help, please provide path(es) based on the updated English variant.
-> >
-> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> > ---
-> >
-> > v2: collected tag (Randy), fixed util_macros k-doc (Randy, me), fixed spelling (Randy)
-> >
-> >  Documentation/core-api/kobject.rst              |  2 +-
-> >  Documentation/dev-tools/checkpatch.rst          |  2 +-
-> >  Documentation/driver-api/basics.rst             | 17 ++++++++++++++++-
-> >  .../driver-api/driver-model/design-patterns.rst |  2 +-
-> >  Documentation/process/coding-style.rst          | 10 +++++++---
-> >  Documentation/staging/rpmsg.rst                 |  7 +++++--
-> >  include/linux/util_macros.h                     |  2 +-
-> >  7 files changed, 32 insertions(+), 10 deletions(-)
-> 
-> Applied (finally) thanks.
+Currently coccicheck prints debug logs to stdout unless a debug file has been
+set. This makes it hard to read coccinelle's suggested changes, especially for
+someone new to coccicheck.
 
-Thank you! I leave the translations to the respective maintainers and native
-speakers to decide.
+This patchset documents this behaviour in both the coccicheck script as well as
+in the dev-tools documentation. Additionally, it simplifies some of the logic
+for handling debug files.
+
+Benjamin Philip (3):
+  scripts: coccicheck: simplify debug file handling
+  scripts: coccicheck: warn on unset debug file
+  Documentation: Coccinelle: document debug log handling
+
+ Documentation/dev-tools/coccinelle.rst | 21 ++++++++++++++++-----
+ scripts/coccicheck                     | 21 +++++++++++++--------
+ 2 files changed, 29 insertions(+), 13 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+2.52.0
