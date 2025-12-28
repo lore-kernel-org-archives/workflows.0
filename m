@@ -1,159 +1,113 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB1D24C076
-	for <workflows@vger.kernel.org>; Sat, 27 Dec 2025 19:46:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A635814AD0D;
+	Sun, 28 Dec 2025 18:02:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766864763; cv=none; b=qO9bLeHzK9f06S8j68d1fC7Ln8bSl+YGTV/ksnnlh/+N6mX5r0HQlr3oma+3Ol5jHbs63VEZTpUi0yvVsEE0M3L14Vmv9aNgvaYbJrQubs8b88hc3L9kNkoo7YjUrVQeWyFSzqZVjq1btdVHEEUh/EjRRJOaiTIajQGzQzhjs3A=
+	t=1766944929; cv=none; b=ss43lbAReZzDJaXM7ZL6rD1HJkUUoviUOTS3f1Dkdp9lZ6yL7aF3fN7WCsqacUQnj2IcYjCNsYw14YEB+bTEeK0CcMjYjpZZgftXOZmV+adAA4SvIhO/jVUx6uBBtmqxBt+hHbwaR+pQ+R9bDwv3+v6Uf6MrYpcNfXoQlSYCxL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766864763; c=relaxed/simple;
-	bh=mdhJ4cXlrPcMZia6Gohyo0owEYrNH2ei7r+Oujb37wo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Yeynsa32OeS7nZKWAxkrsDnHdBIdvD6gb8Ega4iDXEFk75L44c1ob0o3qbqLJNuDPa3+IWdL6cDAdZibtqjVFoxxvb7ZXg5tpyhyM/IAyfVylLKXhYneeyJLFm/ciPqKgFjv+CSkOKWRIn2St2Aejds9HZ9AiCzqGTbRbt7d+1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QBOtmRo3; arc=none smtp.client-ip=209.85.128.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1766944929; c=relaxed/simple;
+	bh=24k0BnsCKXgnHXVfTrewMI2jgj1eEM+qK6zvfESC60k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XJOZV4GjX5bkhYqmM03Ln2LO377ROAPaJN28371tYQrEHaQh0KQu970E+vIWxOQMPcUhj6TIYrNZMi2ORIF3hs6UIRxz2puRhX3AdEPsgo/+DN4MitQ1qxhgSn98Q7KTuhrWWDSAndnChwi+GdZs020Kl7jGfao7Gy/TR9QfPVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ehvUn2uO; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QBOtmRo3"
-Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-477619f8ae5so47901315e9.3
-        for <workflows@vger.kernel.org>; Sat, 27 Dec 2025 11:46:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766864760; x=1767469560; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IJDlNzq/aPfe/Ir4VldH6hXmAMEznTovSG8sG1vFXN8=;
-        b=QBOtmRo3eMAEG0DUfmtyUREh3C7v1w5YHMMprJfWjXynNi0FtHlI9+r74Z0+1uPXnk
-         TKuGQ4v3xF7IUnsq3kKUu4oOkVkqWW/vw1an5xMJtkbWMxv+z2Zmv23DE7Xa+McyPpib
-         pc8wdnk5nzCi+cZBA5VH1fdtV2NaVefaNL7du51CKUSRorXINrXC5PDUoEKyULOaU3RD
-         Wwhgda7SU5MErm6uvclSx7KLVuq2U+ekM0YdK8CMvXqVeZvAIo57t1kmK+njz/2dCWk7
-         M9K1IoNQrGUZG/vLTeDmZdUCYghc+4NvQd4+Ele1IHZwAoDfRv5L44JXlK65uHvQCY+X
-         2MLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766864760; x=1767469560;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=IJDlNzq/aPfe/Ir4VldH6hXmAMEznTovSG8sG1vFXN8=;
-        b=G6NIqvHaFownSTpgD/DgYH06SJMKy6PVfHt2TZs6eV4AgvrEmwrYhOTIPw/ZoRsSze
-         tg8Q6Xmy1SEduCVzFk7EXLQCCsfkMRsyXFFrk+NERjwl0rSzGcglgihdcxDp9BVa7FaH
-         N5ef96EK+kmseGI7qFdfoQw0FbMEMDsxc2dx08LtyU0ogvXoK1yHDLlnkTvPIoa0VKSS
-         G67EgIq54CLuPeZt0y5iQnvfXXZnnB4VfsgaM0/bHr6axrWBG/L9+TdH231/ZzScumhR
-         dCuDTEK/+C/hPw7qRYR1YVs1zgG0htxQ3EQVNX2m5Nw0gUfPMlUzSuvoYqlrBmMqkB/l
-         ++Uw==
-X-Forwarded-Encrypted: i=1; AJvYcCWhBM2OjUWApsYnbJjauKrdnA9GXE7UDbUvoh4doZMU5ACpcvCn5D3MwlZIyaQq+SqAaf9Uy/sYhJ8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwvlE63RD8zT+1lIUBaxlbWrQP/qEB+DyPHyPlfkXCHt8da99x7
-	9H8YvXPnJylXCZaj/cEkfUS9yzIzCqQUaPHr2g4cFOBln5AmIhcCCtaG
-X-Gm-Gg: AY/fxX4SyB17h5EVqnUyn3rKhrL3a7igHqRU3dYdb5X8dkx/ckqSaNevV6ymqVwMLPF
-	9nnrgZ+dHbqkMmefXwgTCpLGRk9sWqDiRbZA3yZmXyUd/srgHO50OMjwduCgvzYeh1r58DqsxTE
-	DJWHdZy1/7VSODYpQLASjcg8zKxwE2gZVr7QwePf65+CWyNxM2id7GgGCKJ8mP5ntFZfUrREFdY
-	z9eTYfY3AswkCwb2/6q9erzGUK/WL41/mGZwbLmm1sB2hBTyeMPLNX4Am/MwbI/S0qUAynyGdxI
-	4Yz0LBZ6TUrPpXsrgIOGxR/tw+s12No60wH5wCxqxZL0JA9zmA4NmgAZGKUFEj44VP2CsCiPAka
-	VdZ7bnL3K7SZerZ8VlwM6oPgID4nuyFW8GmNqk9Nr/cjTAAIe1MQpR/8CyCx09Xy1PxSU8U0RfL
-	f3v6ncEA53scQVNMlcaW3Jmgk10ikLzaIBPtVdJj5GgdQkdHqkIwA=
-X-Google-Smtp-Source: AGHT+IFDEBB02nDDy0klZ5TsmW8WBUI83uvKje+VJD1qoPLtOUz1hJwR7UCnJ56V1HWeDC0VGexLrg==
-X-Received: by 2002:a05:600c:a31c:b0:47d:264e:b435 with SMTP id 5b1f17b1804b1-47d264eb68dmr196672565e9.22.1766864759564;
-        Sat, 27 Dec 2025 11:45:59 -0800 (PST)
-Received: from pumpkin (host-2-103-239-165.as13285.net. [2.103.239.165])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324ea1aee5sm53837760f8f.4.2025.12.27.11.45.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Dec 2025 11:45:59 -0800 (PST)
-Date: Sat, 27 Dec 2025 19:45:57 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Alexey Dobriyan <adobriyan@gmail.com>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 6/9] CodingStyle: recommend static_assert/_Static_assert
-Message-ID: <20251227194557.29d2afc5@pumpkin>
-In-Reply-To: <c6f0c3d8-eb2b-49e1-b874-610fbeb248e4@p183>
-References: <20250509203430.3448-1-adobriyan@gmail.com>
-	<20250509203430.3448-6-adobriyan@gmail.com>
-	<20250513204031.26f50209@pumpkin>
-	<c6f0c3d8-eb2b-49e1-b874-610fbeb248e4@p183>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ehvUn2uO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766944928; x=1798480928;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=24k0BnsCKXgnHXVfTrewMI2jgj1eEM+qK6zvfESC60k=;
+  b=ehvUn2uOw1zBohfBdARAolgWtnogh4jQk1rZAlOUt1CEZzDErdSusj4U
+   NsXbgVqp08JGpVK3eoMMx2rICm4GgfB3cyAtdAKbewTCv3Y9yVg44sC5G
+   Ujm6g4qEBHMUQlat7+BaJoRigqQS6hTMxv5jzp7G3u1Kn9H7CjPLf2s0O
+   lsl7A9o+9gjE4tQVSpijsgvoz+NFn+PYKPlyMC2c1oO5+vXiDAPAMfSfQ
+   1p7lJ77FywmZy9lQoEJM214hfx1hXZNMCuEmz1AL/eZWportCCFw99b07
+   wsvB6EQu98D2vvHD5QDKiR5uHR4EYMotS3Yy8GQgPReFrroUD2U+AVMmg
+   A==;
+X-CSE-ConnectionGUID: uQwjFknLTwmoC9Qog0mPMw==
+X-CSE-MsgGUID: 0gSPK/+mQTi2gJf3ouH4rg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11655"; a="68473091"
+X-IronPort-AV: E=Sophos;i="6.21,184,1763452800"; 
+   d="scan'208";a="68473091"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2025 10:02:07 -0800
+X-CSE-ConnectionGUID: 50n7WvsHRK23kcrKBXfGqA==
+X-CSE-MsgGUID: BKQDxl3wQ9iLwp9jpRiLqg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,184,1763452800"; 
+   d="scan'208";a="200382744"
+Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.236])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2025 10:02:03 -0800
+Date: Sun, 28 Dec 2025 20:02:01 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Joe Perches <joe@perches.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>
+Subject: Re: [PATCH v2 1/1] docs: Update documentation to avoid mentioning of
+ kernel.h
+Message-ID: <aVFwmfInXYL_ZByA@smile.fi.intel.com>
+References: <20251126214709.2322314-1-andriy.shevchenko@linux.intel.com>
+ <87fr9218jr.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87fr9218jr.fsf@trenco.lwn.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Sat, 27 Dec 2025 17:51:49 +0300
-Alexey Dobriyan <adobriyan@gmail.com> wrote:
-
-> On Tue, May 13, 2025 at 08:40:31PM +0100, David Laight wrote:
-> > On Fri,  9 May 2025 23:34:27 +0300
-> > Alexey Dobriyan <adobriyan@gmail.com> wrote:
-> >   
-> > > Linux's BUG_ON is done backwards (condition is inverted).
-> > > But it is a long story.
-> > > 
-> > > However C11/C23 allow to partially transition to what all normal
-> > > programmers are used to, namely assert().
-> > > 
-> > > Deprecate BUILD_BUG_ON, recommend static_assert/_Static_assert.
-> > > And then some day BUG_ON will be flipped as well.  
-> > 
-> > _Static_assert() is broken by design and only usable for trival tests.  
+On Mon, Dec 22, 2025 at 03:00:24PM -0700, Jonathan Corbet wrote:
+> Andy Shevchenko <andriy.shevchenko@linux.intel.com> writes:
 > 
-> It is not broken by design. I was going to recommend it
-> for "static_assert(sizeof(struct S) == ...)" type of things. For ABI types and
-> similar stuff.
-
-As I said, it can only be used for trivial tests.
-Checking the sizes on structures is one of them.
-
-You can't put one inside a compile-time conditional and the tested value
-has to be an 'integer constant expression' not just a 'compile time constant'.
-In particular that means you can't use it to check constant parameters to
-inline functions or variables defined within statements blocks.
-
-When I was rewriting min() there was an outer builtin_choose_expr(),
-_Static_assert() within the 'unselected' expression would trip.
-That really isn't what you want.
-
-So there are many places where BUILD_BUG_ON() can be used but
-_Static_assert() cannot be used.
-BUILD_BUG_ON() cannot be deprecated until there is a working replacement.
-That won't happen until the C language group actually understand how the
-language is actually used :-)
-
-The _Pragma(warning/error...) are just as useless.
-They can only report things detected by pre-processor conditionals,
-not checks that rely on the optimiser to have deleted unreachable code.
-
+> > For several years, and still ongoing, the kernel.h is being split
+> > to smaller and narrow headers to avoid "including everything" approach
+> > which is bad in many ways. Since that, documentation missed a few
+> > required updates to align with that work. Do it here.
+> >
+> > Note, language translations are left untouched and if anybody willing
+> > to help, please provide path(es) based on the updated English variant.
+> >
+> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> > ---
+> >
+> > v2: collected tag (Randy), fixed util_macros k-doc (Randy, me), fixed spelling (Randy)
+> >
+> >  Documentation/core-api/kobject.rst              |  2 +-
+> >  Documentation/dev-tools/checkpatch.rst          |  2 +-
+> >  Documentation/driver-api/basics.rst             | 17 ++++++++++++++++-
+> >  .../driver-api/driver-model/design-patterns.rst |  2 +-
+> >  Documentation/process/coding-style.rst          | 10 +++++++---
+> >  Documentation/staging/rpmsg.rst                 |  7 +++++--
+> >  include/linux/util_macros.h                     |  2 +-
+> >  7 files changed, 32 insertions(+), 10 deletions(-)
 > 
-> BTW BUILD_BUG_ON is broken by design too, there are places with fake functions
-> for a block so that they can put statement in.
+> Applied (finally) thanks.
 
-It works 'as designed' within the constraints of the language.
-The error message required a log of 'lateral thought'.
-Some of the 'fake functions' may well be replaceable with something
-based on _Static_assert() - but that is only a small number.
+Thank you! I leave the translations to the respective maintainers and native
+speakers to decide.
 
-> 
-> > clang also output the entire expansion of the conditional (even when
-> > a message is specified) which can lead to very very very very long lines.  
-> 
-> Oh, that's very unfortunate.
-> 
-> > It isn't at all suitable for many of the checks in the kernel.  
-> 
-> STATIC_ASSERT could be arranged.
-> 
-> > Look at the signedness test in min() as an example.  
-> 
-> The very fact you all made giant mess trying to imitate min<T, U>()
-> should not block progress of using standard (and better!) stuff.
-
-There are other 'sanity' checks like those in FIELD_PREP().
-Without assigning the parameters to local variables the expansion
-of FIELD_PREP(GENMASK(8, 5) val) comes to around 18KB.
-And that is a typical use - not the triple-nests min() that came
-out as multi-megabyte and broke compilation.
-
-	David
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
