@@ -1,94 +1,123 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA21E1607A4
-	for <workflows@vger.kernel.org>; Sun, 28 Dec 2025 19:31:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27C301E260A
+	for <workflows@vger.kernel.org>; Sun, 28 Dec 2025 19:34:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766950287; cv=none; b=tLVCRbJy0x8Z5V9cFVl5ahMZRPzQ1KE/r24Cr6BT47r95DYdBcW1j2gaXPDLEFXMqoOVpSE40/vNNSEO/AAy3TZoSlaPGMelHzN1b6ZIvRnzMhDJRPllFZ7xm4q/8/TLhbQNkROVlBq3xYPWGgfUs+m/BYkC6wO8pUjqlmxPrSI=
+	t=1766950475; cv=none; b=uP13vO2RGN7N/rfofShXiQdQGavtg2C+pudJU6XnBbh8K4e0pqtPjx9T2eg/SiB2chNcsQpxgQQHIPl70V212EY4CRWKhUx9T2ipIJBCYYg1iYXGs/ewESGen5Iffz+hoUepLhvyfqKjHIBlf1hWfG/uenWPpgE1THD79Nd7pao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766950287; c=relaxed/simple;
-	bh=Orp9GT4FzsRolBRRVQnvsDkdLTThrRs5gYaL14IJ5rg=;
-	h=From:MIME-Version:Date:Message-ID:Subject:To:Cc:Content-Type; b=YKN0F7p0RrFhICbf3yYhmFyiHXwEuzzkpLnkuU7+m7v7XE6yHibrEnKf35N4O57rl79KZdE/uyCGXedsX+r8R2T85YfK+xvz2vLHS4Cu1/SZeFwPCVq9F5IfHeZBbc0jxhZF58/LPlDCPtcQuVTqq5qGI80AHt8XIfo1xTpcre0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EEkONA1/; arc=none smtp.client-ip=209.85.167.47
+	s=arc-20240116; t=1766950475; c=relaxed/simple;
+	bh=xhd8SzaNLSn5n7vZg/YZdNoWCvF2xi7fh63QMmzjZKM=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jy1SW8byBX8+qC7WICT4DIsk01mnjcQfREAM8iFs0UCzNncaiL4HFtSVPgpfr5xEfMP1n4sJxtjeIUur6fWrWJjqBTLWB3jnWHqlOaZVhaPvwAFLMcW9kkwIXODAp8tSwGWGknKrl8nOouycctpp2BzUM/U8NGyiNlQgsgid2ww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TYlpPakm; arc=none smtp.client-ip=209.85.208.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EEkONA1/"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-595825c8eb3so8734248e87.0
-        for <workflows@vger.kernel.org>; Sun, 28 Dec 2025 11:31:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TYlpPakm"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-37bbb36c990so82394511fa.0
+        for <workflows@vger.kernel.org>; Sun, 28 Dec 2025 11:34:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766950284; x=1767555084; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:mime-version:from:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Nlou64nYMOBcyUqd2ccm2AWusSoW1FtniTuMk2SuGkY=;
-        b=EEkONA1/ADdjtD7WrS4U/KWSLSG6oi2J78HMaLGd8TB4ONC7pv3hRJptXXVEGp2vmf
-         TVyA2yJG0LFDjhQDNg2OHOv5Ca88j7qc0Y5kXS2YfFequerN1R2TgW0AWsj16760mEX+
-         KxefUszY1ZTDdtVSnI0UcilqY+j0m6qwmMwHUbH+tHR2CstKiWI9cYj08eJdkpypfDF+
-         LaYHLbSxm+RLbGGUb63T9xvV5Gx86GkiLwDLtwqu+xfldSlGv+wEnkQ6TGMr+D+YcV9z
-         CsknYssocQL5bQXVPV/CqNqMuHvwbmKbaqCw3FtjTqHWJZv0R0m7/BYpSQF+xGeSygC/
-         lO9g==
+        d=gmail.com; s=20230601; t=1766950471; x=1767555271; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lhwaSoSDcJzaU6emLiSJOWLUcyi9EjvkM7Ru1loqRjM=;
+        b=TYlpPakm/NSMIF8GhUQIRTwQKNorpqrvMxC6wmpBVoT21wAwX3WyF+eEuAuvbdG8V6
+         ah0S4XTl/q0hf96Vgi+w34NE8VDnLDw5E/4GGeB/eZWA96ZqFYnnNZninGFDkoTQ1CPz
+         9sToYB3qq6O68FD+pvbcjV3B+2LRrP0cjL8XHUnB4aESGdHydyuhvSwp9FTLHlAiOH3p
+         z8Xf2neHY1Yf6EX0CRehnU5Asufz9/1eX0C+SEttdy0STOY3eSZKUPfH8AjCZMaJjG0y
+         TPs5Sw15I+6K4U/9CQpQld/MGkoDcE6rdEKFQV7btB90Z32uu4XbDc401EHb6oGljxdg
+         evDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766950284; x=1767555084;
-        h=cc:to:subject:message-id:date:mime-version:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Nlou64nYMOBcyUqd2ccm2AWusSoW1FtniTuMk2SuGkY=;
-        b=BvvD7HGJQJWpXpbPKyakEiZmb0gjNs/VoLH6iYsREICcrsg69y6HunjRDKjkEWhmTs
-         lbe/RgmF3JN5rDW7v30i76Yv4hUhqrvOiFYYeB2njoPwgxTRmZ64jEGBRR+iu0C6U42k
-         TfjqzkHMWZ7yXJx0XFOuBpFDpQHBySye/EcedA+WqMO1VS4xShnwJgtk7kgAC40i0yQ7
-         3OaYz0S1eph3xztuKo6HbLINeFVhjjwKKv5db/DDebVTimKSF+qLU3dyvBXl/RNqRiip
-         oW01d0FP1QWJ0fCKCcBC3iJiyujqu8LqwGZv4lxbwvTggrgaKhsIf0agRuyVtDyLoSU4
-         5nPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWLZbuXQNEBC9cpmTp4Ei3J8Iue5QWE1kCyqqzpaMv/jI3wDh1b7HsCeyiUHTDQgPk/zOLFEPwAp7A=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx/AwnKO3ZgSiwtRk4Q7dULOO8wxfF5XUrBcz7WFkXcjjnKXpeG
-	NEOSyE3ZfGhPjfihChUtUFqaP8DsDZwWK5ZrcstMbcJHikRuxN0q7evpao/0DobmR+VH1QYzv9c
-	fgMqiSAPbo2sdUp0K7Vy2rZFjAZnuqTImsw==
-X-Gm-Gg: AY/fxX5ZljUoWY0fWNuESSnWQxkpsnbaH3ZgRTut3PDJhnDZJDR4olOplnDXfEZb5dW
-	k1lowEhJx2n5BlICwhlIXMmB6Qho/mDVCzs5QFPKaTV/5Xwuo+paenms5ysAa8ev6QgtSWC16TK
-	njmnNNPZgZaiAVuXq/ZsbIZRQy8bPFHUiY2shTv3WwdmbKTrEOM1imUTMWL5sNh8B9iEIl8uavu
-	eVdpbXSeyEObE+eWzFh+hRVNJ6cOlHoyOB4/2K6k11R5veQJarfYrH64RGjgz1A+RNooA==
-X-Google-Smtp-Source: AGHT+IF2ZF1lZuSgacPxcBNzbmGh9Hs/kuoPsOkMwKOfhQgAQYOuGzalKTMTX480/bu3zgrHuw+gpDUNnz4UMeqfcLI=
-X-Received: by 2002:a2e:ab1b:0:b0:37b:9b28:4282 with SMTP id
- 38308e7fff4ca-38121561689mr84166671fa.11.1766950283766; Sun, 28 Dec 2025
- 11:31:23 -0800 (PST)
+        d=1e100.net; s=20230601; t=1766950471; x=1767555271;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lhwaSoSDcJzaU6emLiSJOWLUcyi9EjvkM7Ru1loqRjM=;
+        b=IBhDvKyvdKOUP1J6N5JEuPhoTCFiikZX7N8j+IJFv3qQ24R6s/3K09LRnGMXK8nsEv
+         XAzgy3v0F1ecIfM6dj4vfI8QPONhhGqxiJhN7Bd4cUXetQI8aS2p+0/DRnZ3TmLHoAS1
+         DtpjxqjDbX289XWg3wneAsYL0RBOF/Y+b/193XU0jE0BNJkemNuC1KrTLbz/V2O7jLxC
+         RS7nyrECjMP6xaqca8MRyrgvPTvlR3egi6eqoM5wZUmB80VyFuvcpR/0rhBCgMGPnkR5
+         pt+Of21SYqS+QHpZZcbo+ATlYOxh25E24oV60i9j2Dz1/plU3stP0KU6IuUPFVdvbNFD
+         kJcw==
+X-Forwarded-Encrypted: i=1; AJvYcCX1beTeaNmdQgcvtuWT9WFUuJ9XeHsqm28jORVj1K2M0hZKm5W1QEpg4HdAXDIHIH8vuuuXJp72NhQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZ1VbhD9K6kR06b9HGAkwswHTQBKpR6OipaJ1flH0VCKeQeKDH
+	kXNBTedAwQvTP/EhlT+6/IiBI36eHia9tpXg2aSU1evRDO3J6KAeL0ClU6CdJ0UAJN7gFeGUYqI
+	Q8uiuvr43PQ3UuJrwhWO5eKi+bbFql9g=
+X-Gm-Gg: AY/fxX5I4k5abtKrGCA/8ax1XnIEku2TJh9DAcMoQuEJVF+6ZoLrxmpbcLmS3U8wfTd
+	IBR/Ip1pQKycHlnGVIDfkEFj5fmmlQW1KGOplhBc10oe+uTsgwhYUp2/zBg0o5tWWsM9elymf1E
+	Nv14pKJ3ydIyDfhmNP2Ogo3S0+umeFFXRx+uLyAOPAkenwpY6wViPze4m7ht6Ns3mHzPTM+Gf/Y
+	tGChji2+XVMBMk2QvCtSuB2vUQp4Kxr/qhE2ihEdhOGA6nmOfC9vcd/cUEj+GnmKsBldA==
+X-Google-Smtp-Source: AGHT+IHEfNupptHY9trgkQoCzy4+YnV+44PAeznmTGFiKYh8xCsFyOXYgpVdK1HwRf1XgcOE2oXV2up9kfOA+Vtk8dg=
+X-Received: by 2002:a05:651c:1443:b0:382:4f57:e8d1 with SMTP id
+ 38308e7fff4ca-3824f57eda6mr47267891fa.18.1766950471166; Sun, 28 Dec 2025
+ 11:34:31 -0800 (PST)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Sun, 28 Dec 2025 11:31:22 -0800
+ HTTPREST; Sun, 28 Dec 2025 11:34:29 -0800
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Sun, 28 Dec 2025 11:31:22 -0800
+ HTTPREST; Sun, 28 Dec 2025 11:34:29 -0800
 From: Benjamin Philip <benjamin.philip495@gmail.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <CAMEXYWegtqikPYBRaZcpd_JwQPH80cXhaRK66J8ZhWPrYc7-yw@mail.gmail.com>
+References: <CAMEXYWegtqikPYBRaZcpd_JwQPH80cXhaRK66J8ZhWPrYc7-yw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Sun, 28 Dec 2025 11:31:22 -0800
-X-Gm-Features: AQt7F2rj2A6mjYRlTxgLaDccc8hLu-6HWeHyfxGZSgP0M4HMyXPK3wduUsrrhFc
-Message-ID: <CAMEXYWegtqikPYBRaZcpd_JwQPH80cXhaRK66J8ZhWPrYc7-yw@mail.gmail.com>
-Subject: [PATCH 0/3] scripts: coccicheck: document debug log handling
+Date: Sun, 28 Dec 2025 11:34:29 -0800
+X-Gm-Features: AQt7F2rFGI1xRtTM5YKo2WsRWHsFnX_Zg31dsPOSPaG9OTCcg_vrVmKSegd2bmo
+Message-ID: <CAMEXYWfY5mP0YzdtLzzD9Twp+kkrfkAEjbv7-Fk80BBsWWF_8Q@mail.gmail.com>
+Subject: [PATCH 1/3] scripts: coccicheck: simplify debug file handling
 To: Julia Lawall <Julia.Lawall@inria.fr>, Nicolas Palix <nicolas.palix@imag.fr>, 
 	Jonathan Corbet <corbet@lwn.net>
 Cc: cocci@inria.fr, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, Benjamin Philip <benjamin.philip495@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Currently coccicheck prints debug logs to stdout unless a debug file has been
-set. This makes it hard to read coccinelle's suggested changes, especially for
-someone new to coccicheck.
+This commit separates handling unset files and pre-existing files. It
+also eliminates a duplicated check for unset files in run_cmd_parmap().
 
-This patchset documents this behaviour in both the coccicheck script as well as
-in the dev-tools documentation. Additionally, it simplifies some of the logic
-for handling debug files.
+Signed-off-by: Benjamin Philip <benjamin.philip495@gmail.com>
+---
+ scripts/coccicheck | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-Benjamin Philip (3):
-  scripts: coccicheck: simplify debug file handling
-  scripts: coccicheck: warn on unset debug file
-  Documentation: Coccinelle: document debug log handling
+diff --git a/scripts/coccicheck b/scripts/coccicheck
+index 89d591af5f3e..2efb74afef2b 100755
+--- a/scripts/coccicheck
++++ b/scripts/coccicheck
+@@ -138,7 +138,7 @@ run_cmd_parmap() {
+ 	if [ $VERBOSE -ne 0 ] ; then
+ 		echo "Running ($NPROC in parallel): $@"
+ 	fi
+-	if [ "$DEBUG_FILE" != "/dev/null" -a "$DEBUG_FILE" != "" ]; then
++	if [ "$DEBUG_FILE" != "/dev/null" ]; then
+                 echo $@>>$DEBUG_FILE
+                 $@ 2>>$DEBUG_FILE
+         else
+@@ -259,13 +259,13 @@ coccinelle () {
 
- Documentation/dev-tools/coccinelle.rst | 21 ++++++++++++++++-----
- scripts/coccicheck                     | 21 +++++++++++++--------
- 2 files changed, 29 insertions(+), 13 deletions(-)
+ }
 
+-if [ "$DEBUG_FILE" != "/dev/null" -a "$DEBUG_FILE" != "" ]; then
+-	if [ -f $DEBUG_FILE ]; then
+-		echo "Debug file $DEBUG_FILE exists, bailing"
+-		exit
+-	fi
+-else
+-	DEBUG_FILE="/dev/null"
++if [ "$DEBUG_FILE" = "" ]; then
++    DEBUG_FILE="/dev/null"
++fi
++
++if [ -f $DEBUG_FILE ]; then
++	echo "Debug file $DEBUG_FILE exists, bailing"
++	exit
+ fi
+
+ if [ "$COCCI" = "" ] ; then
 -- 
 2.52.0
