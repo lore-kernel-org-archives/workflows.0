@@ -1,137 +1,97 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 477F72737F6
-	for <workflows@vger.kernel.org>; Sun, 28 Dec 2025 19:37:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB0C1C6FEC;
+	Tue, 30 Dec 2025 20:16:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766950623; cv=none; b=EF0+poL59Nqcj8snpVl7oLuvf5kDqYz6wnPvxRzQxiaB4Qq+FH0tk21EU23RVx7nNWdBgzQ1a85CqXC88i1Kdc0sjq5M9YdsA3dX56fz51IVENZV79PfUYlZtm2Bi/1FCILyWNHbBxz20DKs+y7lfCwGjMPT0Oq3ISF6AHUXeqw=
+	t=1767125795; cv=none; b=GKEC8feVCV+889ACpMMQvkbzQ7yjaLmJ9xG61yNn/LG0oIfm4nNMwgEVcWEXOYK1dwVbp3B1oeKtxrRjB8Csn5VNmyeIL+rNgzMGe5+v00BNH0PGkzXDF3ThhN5JsO6xq6QVVAvOmjZVMbx0XaRxPRw7APQAKoWX7U9O01RT5bw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766950623; c=relaxed/simple;
-	bh=Ja68HZD8n/Mecl05e+HzN9NzVeHRRawWqVqaJPniPSA=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=j2Ar0J1cUKkRM1ZEpcWTUVxksD0hgFXnEtx3l2sTiKtKfj8SzpnkcnzCP4DLKxw4zVnJ8eO4haG6Sw2VUtncOUi1UNhAP/1vW0qdzFDWGfxOJtGP3ATSCiQyievT0Zv7Bu3TPIBBOXvyVYv6A8ZctLJMA9ai5vz+7dd5is84TWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J9d0DImZ; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1767125795; c=relaxed/simple;
+	bh=TUwC6ldaq7u5mn42TBzJFdIwkCDSm+tFqiDrC4+sIVs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l9dgk1fhXgFdnWsIAdBF/V7ywoPLt0WY9ttKFkbuHtAiNlKp3H7DE7OITRyvotNRFFEgItC0xw2MfgLRcGUH+392zn8OWQrD4c5FUFs3JXhuy8D+X43AwvKDgXRa+yJoj7xFbJHDqVVzrbADffDN1wrVxcAOO0AGoRHJzZOKrtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c1UtApr/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J9d0DImZ"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5959105629bso8553253e87.2
-        for <workflows@vger.kernel.org>; Sun, 28 Dec 2025 11:37:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766950620; x=1767555420; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ADTTnGIZjP2u1Oe9R0dqscHBsTYiL86hsl8c8md8O10=;
-        b=J9d0DImZCC39w6HycqCM2XZMuJQvSqR10Ny6abV6N17M5/LhRsHK/cRwbyDIYyaNbt
-         vqLa9sVIeoijmkTzow2yL7T6PCcAmNWwUKn+Jn8h9ErdjYj0OnY0bmeKgirRdEa5fgwF
-         fWBe3rRS3rHhWWn9Yx2l15Ok6OOBL9GJDWSgA0WewZ7EolWNt76QEf+oO/wdVyO/zCAY
-         6D3UjFdjl4QZPfMAXX2CHbfeXAioPcdgwSsnu/Ql/PkCEEPtJzIhb30LDhlF0aRecfVW
-         T7l6ofa7Xd9Gaxy2aVEJmdxXUcOVD72FyfwvIHwcPQDIN8fEswUFqIzNNI09qZzkJaVd
-         IPdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766950620; x=1767555420;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ADTTnGIZjP2u1Oe9R0dqscHBsTYiL86hsl8c8md8O10=;
-        b=RaHrRQ4/Eo0iiNk7m05diS5Cu91tYypbjNDYQ5YaQuIBQwPguVy7NO/E0j0yFLYJno
-         iqvX1+QYEesADF6v3p/7L+lVISXKR4wlhp0QF3cvQ4agvR48YofxKa69Prf6OhwP0pvJ
-         Leyt9bSt4KSBQaytadg6f5h5rF3lm76s2HjNPL3UAKeLwUa3+hqu2b3doYsp93TcDldQ
-         IFw/DTazIg+cStslDl1STSf2jWFls9gO4HVfCSeihrnURkepZQQX1yAj3mg3CHsYrRIS
-         0Ul7XW5qU7I4AbaapKKr1cZGpI2GvzBCPMQoDmZPusxYEkcDtywYYlq9PREYVothPhPl
-         oxAA==
-X-Forwarded-Encrypted: i=1; AJvYcCUetUxevBHexU5sSenAqUNhoXXu4BvkTcWAMNOY6wTgqd/jvMpd0ahLefIw44xDBvy2em4FB81Eubk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxp9/08gqoTN+qVBNrG8pivJlqh3yMGHkkjKMnJfmip7SWZWpik
-	PyMkuNntY/b+jRGofgSCtUDnkA6jCjXUi7i2JQ3QiiJkGR2PWQqWHP3IO/oXgnLmWER58dEjWXk
-	3zfw78a26KXlNfOm0C7gsEktQTQfXMtQ=
-X-Gm-Gg: AY/fxX6CcVw0DHccegt1GinYWRk5iFVMQeuPIXRjFy/8mRjUE4clJsYWDgMFKftX9/w
-	NrjWZAVg6Lxy2jzS+tjnYqw5AUFW/uXeKsVFn6zPtEbF1a/jaXOLUlliTUTfywce7/lPiDM9j3z
-	kM4h/JnCGym9dNL8QKyTx5w6q1vJ5itz48M3OHV5FCc9vpO/8SZi1v1qaV8PgCLlo/wVLf3Q9Qq
-	2dws48XdTT2UbulMWqEwK+S7iscYs6SrzCqmYKZaRDc2nFMM83GvtITpEPHUWoj/Qri1/3MG6Ps
-	MVbG
-X-Google-Smtp-Source: AGHT+IEjLwwl0rS0LTYlhd2cdL11fDgszL6gw/6sfMpPXrUmy9mHWgnuGvwJ+khXGtCLqbUuvebxIoficoUgt+rViVM=
-X-Received: by 2002:a05:6512:304d:b0:598:f1a1:9611 with SMTP id
- 2adb3069b0e04-59a17d46307mr9266404e87.32.1766950620107; Sun, 28 Dec 2025
- 11:37:00 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Sun, 28 Dec 2025 11:36:59 -0800
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Sun, 28 Dec 2025 11:36:59 -0800
-From: Benjamin Philip <benjamin.philip495@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <CAMEXYWegtqikPYBRaZcpd_JwQPH80cXhaRK66J8ZhWPrYc7-yw@mail.gmail.com>
-References: <CAMEXYWegtqikPYBRaZcpd_JwQPH80cXhaRK66J8ZhWPrYc7-yw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c1UtApr/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BC90C4CEFB;
+	Tue, 30 Dec 2025 20:16:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767125795;
+	bh=TUwC6ldaq7u5mn42TBzJFdIwkCDSm+tFqiDrC4+sIVs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=c1UtApr/d1FGerz/3wrAsVlQsAu/HUTdDO1vS4GN8XC/VVT720MIfQ+7GyR3G/GCg
+	 bBbVZoto7Frmy3skTNwfP1JHZE/FdbB6qe7nHLJnyWatbfkxRPgQS/hn1Y31qGb8qb
+	 Dlqe3xRn+tuTEy8K9Tr0xArRa4cCEcVyuHkNZJh1LCl94dowdHBjKFX8E1B+7Vl3Wl
+	 vSe1TkLB6l9SrJ7Gygems66wEpZQbmEJjLDbRMs69phun73NpUyhSOmMbJIObxD0S6
+	 iPooR/L8Z6uAUYjYrIs6l3pZ5AXGsvJ09KXh6DvMCwjkvO3kXPyVvKr5/gED4aZfaB
+	 5Z2JUEfhvBi5g==
+Date: Tue, 30 Dec 2025 13:16:29 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Guillaume Tucker <gtucker@gtucker.io>
+Cc: Miguel Ojeda <ojeda@kernel.org>, David Gow <davidgow@google.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	automated-testing@lists.yoctoproject.org, workflows@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH v2 2/2] Documentation: dev-tools: add container.rst page
+Message-ID: <20251230201629.GB4062669@ax162>
+References: <cover.1766061692.git.gtucker@gtucker.io>
+ <ff8da6b9680ef01ee44f6d0cf89e34dd76abb116.1766061692.git.gtucker@gtucker.io>
+ <23c38222-ba4b-4728-8ad6-8bb02c5a2d3a@gtucker.io>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Sun, 28 Dec 2025 11:36:59 -0800
-X-Gm-Features: AQt7F2o4TnnTitmnSO1AXOGAIw0BbCkBgd8exok1Zu9FNWssb4dmPyVfsyXQ8p0
-Message-ID: <CAMEXYWfwKDBSW9p2k6f2Fs7NvROUCmEFyQWgCZKCOzje4gratA@mail.gmail.com>
-Subject: [PATCH 3/3] Documentation: Coccinelle: document debug log handling
-To: Julia Lawall <Julia.Lawall@inria.fr>, Nicolas Palix <nicolas.palix@imag.fr>, 
-	Jonathan Corbet <corbet@lwn.net>
-Cc: cocci@inria.fr, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Benjamin Philip <benjamin.philip495@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <23c38222-ba4b-4728-8ad6-8bb02c5a2d3a@gtucker.io>
 
-The current debug documentation does not mention that logs are printed
-to stdout unless DEBUG_FILE is set. It also doesn't mention that
-Coccinelle cannot overwrite debug files.
+Hi Guillaume,
 
-Document this behaviour in the examples and reference it in the
-debugging section.
+On Sun, Dec 21, 2025 at 09:13:33PM +0100, Guillaume Tucker wrote:
+> On 18/12/2025 1:49 pm, Guillaume Tucker wrote:
+> > +User IDs
+> > +========
+> > +
+> > +This is an area where the behaviour will vary slightly depending on the
+> > +container runtime.  The goal is to run commands as the user invoking the tool.
+> > +With Podman, a namespace is created to map the current user id to a different
+> > +one in the container (1000 by default).  With Docker, while this is also
+> > +possible with recent versions it requires a special feature to be enabled in
+> > +the daemon so it's not used here for simplicity.  Instead, the container is run
+> > +with the current user id directly.  In both cases, this will provide the same
+> > +file permissions for the kernel source tree mounted as a volume.  The only
+> > +difference is that when using Docker without a namespace, the user id may not
+> > +be the same as the default one set in the image.
+> > +
+> > +Say, we're using an image which sets up a default user with id 1000 and the
+> > +current user calling the ``container`` tool has id 1234.  The kernel source
+> > +tree was checked out by this same user so the files belong to user 1234.  With
+> > +Podman, the container will be running as user id 1000 with a mapping to id 1234
+> > +so that the files from the mounted volume appear to belong to id 1000 inside
+> > +the container.  With Docker and no namespace, the container will be running
+> > +with user id 1234 which can access the files in the volume but not in the user
+> > +1000 home directory.  This shouldn't be an issue when running commands only in
+> > +the kernel tree but it is worth highlighting here as it might matter for
+> > +special corner cases.
+> 
+> This part of the docs explains why things are a bit different between
+> Podman and Docker.  In both cases, it should "just work" from a user
+> point of view - just with some special corner cases.  Let me know if
+> you thing the documentation needs to be improved.
 
-Signed-off-by: Benjamin Philip <benjamin.philip495@gmail.com>
----
- Documentation/dev-tools/coccinelle.rst | 21 ++++++++++++++++-----
- 1 file changed, 16 insertions(+), 5 deletions(-)
+Ah, I had missed that on my skim through of the documentation plus I did
+not have it side by side with the script while I was reviewing it.
 
-diff --git a/Documentation/dev-tools/coccinelle.rst
-b/Documentation/dev-tools/coccinelle.rst
-index 6e70a1e9a3c0..c714780d458a 100644
---- a/Documentation/dev-tools/coccinelle.rst
-+++ b/Documentation/dev-tools/coccinelle.rst
-@@ -127,6 +127,18 @@ To enable verbose messages set the V= variable,
-for example::
+> I may add a runtime check as a follow-up to detect if namespaces are
+> enabled in Docker and if so use them, but to get started I wanted to
+> keep things as simple as possible.
 
-    make coccicheck MODE=report V=1
+Yeah, I agree with keeping things simple up front.
 
-+By default, coccicheck will print debug logs to stdout and redirect stderr to
-+/dev/null. This can make coccicheck output difficult to read and understand.
-+Debug and error messages can instead be written to a debug file instead by
-+setting the ``DEBUG_FILE`` variable::
-+
-+    make coccicheck MODE=report DEBUG_FILE="cocci.log"
-+
-+Coccinelle cannot overwrite a debug file. Instead of repeatedly deleting a log
-+file, you could include the datetime in the debug file name::
-+
-+    make coccicheck MODE=report DEBUG_FILE="cocci-$(date -Iseconds).log"
-+
- Coccinelle parallelization
- --------------------------
-
-@@ -208,11 +220,10 @@ include options matching the options used when
-we compile the kernel.
- You can learn what these options are by using V=1; you could then
- manually run Coccinelle with debug options added.
-
--Alternatively you can debug running Coccinelle against SmPL patches
--by asking for stderr to be redirected to stderr. By default stderr
--is redirected to /dev/null; if you'd like to capture stderr you
--can specify the ``DEBUG_FILE="file.txt"`` option to coccicheck. For
--instance::
-+An easier approach to debug running Coccinelle against SmPL patches is to ask
-+coccicheck to redirect stderr to a debug file. As mentioned in the examples, by
-+default stderr is redirected to /dev/null; if you'd like to capture stderr you
-+can specify the ``DEBUG_FILE="file.txt"`` option to coccicheck. For instance::
-
-     rm -f cocci.err
-     make coccicheck COCCI=scripts/coccinelle/free/kfree.cocci
-MODE=report DEBUG_FILE=cocci.err
--- 
-2.52.0
+Cheers,
+Nathan
