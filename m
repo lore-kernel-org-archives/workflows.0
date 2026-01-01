@@ -1,138 +1,82 @@
-Received: from mslow3.mail.gandi.net (mslow3.mail.gandi.net [217.70.178.249])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90E7B27E040;
-	Wed, 31 Dec 2025 17:07:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.249
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC832586C2
+	for <workflows@vger.kernel.org>; Thu,  1 Jan 2026 22:33:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767200865; cv=none; b=K5ovV8WP3lSwMnczKIoGZyo5lu9JfbCzMUH0llnZIgsMcSzHSjo74MRqlQ0S3L990T5WWT+hTud+Zj27gY+yaFVkvCkovNm6U5/avPz9DJ3BzzKMOWjfAQo9Ok2Q+l3KORhWkwxe7OhBy+5e6g5CaZ+WRqYcSyzMhJ+nH7p1TeY=
+	t=1767306817; cv=none; b=cLiuPg87OG7NM0c8yzBempZ5HCVx+T/95yysF2IqwCyjfFzAeB4t5tjKnq2tp62tQNT6XWKh8i/k1CkJJLfqwkY74I2KJNv2HGNdd3PflRfvUHd/Y3NN6hfKIZUt8zqDHGzGeo/CD8LW7jXcRzySi6YX5TzR+JbiEZe2UeoXdkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767200865; c=relaxed/simple;
-	bh=zXzBQVYOVZtCeBWwTOWDok+0Gmvjb9G1jyZ6W0/6hFY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JYqqjiujCxk9qjekYfEp1m8O5On7+DcrId7Fd135eVySJ/RjTJ5ZqEZIPhYkn8YLDbnGRR3hsg/PJav1AyXW1UIx+KbabGyFM2J2RzG0UrUVaSQ682B67cq9cDYySTFY+x6MYda8LFMT5KKVNOH12R5j372KRI/r2qfYVvyxrFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=iuAbOG0r; arc=none smtp.client-ip=217.70.178.249
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
+	s=arc-20240116; t=1767306817; c=relaxed/simple;
+	bh=UXGKdezBnhqWJT3z28AVcODOOBkRsqGWkgI6uf542F4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OpfAYazRcUc8SjUdhh+BkxXxQZMPD4QGEyG+D9hd+8IZKCUjjAjRx3m1OL9Qr8vMUpccp/2voWe5WovmZAwMKs3l98IAOPjdhAWlAgHFFsRywh9lzLYN819Hd+nih0aqy7uy7LiojPIwfUQBwnnldcZBj2reY/H67MgJcJ30cIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K8BtYGxL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="iuAbOG0r"
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
-	by mslow3.mail.gandi.net (Postfix) with ESMTP id 412A55801D7;
-	Wed, 31 Dec 2025 16:52:10 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 158CB44369;
-	Wed, 31 Dec 2025 16:51:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
-	t=1767199921;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=evmHzmeXGr9WFVB5GGpxyKiY3i5zd0f9TxFsBMVcac8=;
-	b=iuAbOG0rBbSgMR2mu2b2SmprcEGhVesYdO+HGAar94r3nC80AoekfGc2MCnYBLiq3eVV7o
-	g6LxV9GjM5rmM4/IZhP85pvVoOjtcMScA39QanBdJePB/0w/3GepTleB/f0X7ZxlVCcj1O
-	XlVZ9GQeXzG08sY6L+dRykP5m8o3g8+9wkMtKs4p7dZY+8Wvr0xnL5u9oGgIlYx6n1X8vT
-	DYM9EJKWxcvxYoZDL5hnt0Y1eNuSoz/pweW+TO/m1YG3d8ReaSl+Wf+C+ADgyG/9KpStLk
-	W3leMld6vxyq9Y6IX3+Cgdvlg8jeBXXDB3m43jbHv3Eq23mhD6zNvmglzsp6Vw==
-From: Guillaume Tucker <gtucker@gtucker.io>
-To: Nathan Chancellor <nathan@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	David Gow <davidgow@google.com>,
-	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
-Cc: Guillaume Tucker <gtucker@gtucker.io>,
-	Arnd Bergmann <arnd@arndb.de>,
-	linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	automated-testing@lists.yoctoproject.org,
-	workflows@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: [PATCH v3 0/2] scripts: introduce containerized builds
-Date: Wed, 31 Dec 2025 17:51:48 +0100
-Message-ID: <cover.1767199119.git.gtucker@gtucker.io>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K8BtYGxL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F7A1C19423
+	for <workflows@vger.kernel.org>; Thu,  1 Jan 2026 22:33:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767306817;
+	bh=UXGKdezBnhqWJT3z28AVcODOOBkRsqGWkgI6uf542F4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=K8BtYGxL5UrgFaeruJ2bYpsWno6NCzwubi/XDjFvI+iHYbQvO3xnO0Y7wyhj2cCLP
+	 VaKgc3w0IX4QpiURYPgms9c4pkzF8tbO1vcMDyjBiUnBRL8v90Jjd/by7AwRJFPhNC
+	 YjgEEgIlWtpX14PD2WYaQmPm6VsfJDvCvmPi/pFWu5LWuaBGcjnvxbyDCSguflNbtq
+	 VNEjL1IEIzAE2Wf4+e33ukYHmF/6wWLuvhZScRrjR43mYuQq2dp3Nxhbo/NKUeE0NA
+	 MG2XkD6FMCKMY5fQWnAdIQG4AnKuPbokMsi6dCmbx6jOG1HNMPe7ucmUeCczCATjh3
+	 4INYWRS+JrrrA==
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-78c6a53187dso87850047b3.2
+        for <workflows@vger.kernel.org>; Thu, 01 Jan 2026 14:33:37 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUYmHRWGuL1i6819qUOJzxWS4/rxaBZWCw/cAoAnLja5To9qSNJ3QTRn3T3B5azOE3zjGfVpUQqEE0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyMlSMDyseJEQQk+dBwA5mdGUV6zyPWlhEjANkcQVHJgfMTi07V
+	eNKhPHX6NYGpSn8gOEWD4bhMFpFs72Fub8RcNvg4+AtuB4C8je7jGpLwZ6VUI2kduUTA08AFjqj
+	CAqpfYz7sKrCK89gPe20V+GDQWF/mWZk=
+X-Google-Smtp-Source: AGHT+IEBLNKuoraxNZDnarHv/8QNfjLvaAF0ad1d03H/wN5pMxpPWQbhNg4O3Lwnms+Q6/yKd55/WFSt9fl6Hz8W+0k=
+X-Received: by 2002:a53:bacd:0:b0:63f:b0a3:7400 with SMTP id
+ 956f58d0204a3-6466a9133c5mr22966072d50.66.1767306816672; Thu, 01 Jan 2026
+ 14:33:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: gtucker@gtucker.io
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdekfeegvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefiuhhilhhlrghumhgvucfvuhgtkhgvrhcuoehgthhutghkvghrsehgthhutghkvghrrdhioheqnecuggftrfgrthhtvghrnhepteehhffgudetheehheetffehtdfgvdehiefggedvhefgkeduvdfhgfdtteduteefnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpghhithhlrggsrdgtohhmnecukfhppedvtddtudemkeeiudemgegrgedtmeekiedvtdemhegtuggsmegrugeisgemjegvkegtmeegvdehfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvtddtudemkeeiudemgegrgedtmeekiedvtdemhegtuggsmegrugeisgemjegvkegtmeegvdehfedphhgvlhhopehrihhnghhordhlrghnpdhmrghilhhfrhhomhepghhtuhgtkhgvrhesghhtuhgtkhgvrhdrihhopdhqihgupeduheekveeugeegfeeiledpmhhouggvpehsmhhtphhouhhtpdhnsggprhgtphhtthhopeduvddprhgtphhtthhopehnrghthhgrnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepohhjvggurgeskhgvrhhnvghlrdhorhhgpdhrtghpthhto
- hepuggrvhhiughgohifsehgohhoghhlvgdrtghomhdprhgtphhtthhopeifohhrkhesohhnuhhrohiikhgrnhdruggvvhdprhgtphhtthhopehgthhutghkvghrsehgthhutghkvghrrdhiohdprhgtphhtthhopegrrhhnugesrghrnhgusgdruggv
-X-GND-State: clean
-X-GND-Score: -100
+References: <20251223142726.73417-3-krzysztof.kozlowski@oss.qualcomm.com>
+In-Reply-To: <20251223142726.73417-3-krzysztof.kozlowski@oss.qualcomm.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Thu, 1 Jan 2026 23:33:25 +0100
+X-Gmail-Original-Message-ID: <CAD++jLnVaeq39ZcNRjjqaXJ-BNGiR8nO3OzG+Fb-Zz7Db_Lfjg@mail.gmail.com>
+X-Gm-Features: AQt7F2pNYT3pv7P7qW-qHrpoGWDYRLqHE5UdSIokYzrI55tQFL698Vhw1A_9duc
+Message-ID: <CAD++jLnVaeq39ZcNRjjqaXJ-BNGiR8nO3OzG+Fb-Zz7Db_Lfjg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] Documentation/process: maintainer-soc: Be more
+ explicit about defconfig
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Drew Fustini <fustini@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	linux-arm-kernel@lists.infradead.org, soc@lists.linux.dev, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This proposal emerged from discussions over email and after a talk at
-Plumbers 2024:
+On Tue, Dec 23, 2025 at 3:27=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@oss.qualcomm.com> wrote:
 
-    https://lore.kernel.org/all/affb7aff-dc9b-4263-bbd4-a7965c19ac4e@gtucker.io/
+> It is already documented but people still send noticeable amount of
+> patches ignoring the rule - get_maintainers.pl does not work on
+> arm64/configs/defconfig or any other shared ARM defconfig.
+>
+> Be more explicit, that one must not rely on typical/simple approach
+> here for getting To/Cc list.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-The aim is to facilitate reproducing builds for CI bots as well as
-developers using containers.  Here's an illustrative example with a
-kernel.org toolchain in a Docker image from tuxmake:
+Despite the complaints that the patch does not fix the problem
+there is nothing wrong with the patch.
 
-    $ scripts/container -i tuxmake/korg-clang-21 make LLVM=1 defconfig
-      HOSTCC  scripts/basic/fixdep
-      HOSTCC  scripts/kconfig/conf.o
-    [...]
-      HOSTCC  scripts/kconfig/util.o
-      HOSTLD  scripts/kconfig/conf
-    *** Default configuration is based on 'x86_64_defconfig'
-    #
-    # configuration written to .config
-    #
+Reviewed-by: Linus Walleij <linusw@kernel.org>
 
-This patch series also includes a documentation page with all the
-relevant details and further examples about how to use the tool.
-
-To go one step further, I'm in the process of preparing reference
-container images with kernel.org toolchains and no third-party
-dependencies other than the base Debian distro.  See this thread for
-more details and options to host them in an upstream way:
-
-    https://lore.kernel.org/all/cc737636-2a43-4a97-975e-4725733f7ee4@gtucker.io/
-
-Say, to run KUnit using the latest kernel.org GCC toolchain:
-
-    scripts/container --shell \
-        -i registry.gitlab.com/gtucker/korg-containers/gcc:kunit -- \
-        tools/testing/kunit/kunit.py \
-            run \
-            --arch=x86_64 \
-            --cross_compile=x86_64-linux-
-
----
-Changes in v3:
-- Refactor common code for Docker and Podman
-- Add docs.kernel.org URL in help message
-- Use pathlib Python package
-- Handle signals in parent process by default
-- Add --shell option to use an interactive shell
-- Tweak debug messages in verbose mode
-- Specify Python 3.10 as minimum version in the docs
-- Provide an example env file in the docs
-- Update docs regarding interactive shell usage
-
-Changes in v2:
-- Drop default image but make -i option required
-- Look for Docker and Podman if no runtime specified
-- Catch SIGINT from user to abort container with Docker
-- Explicitly name each container with a UUID
-- Update documentation accordingly
-
----
-
-Guillaume Tucker (2):
-  scripts: add tool to run containerized builds
-  Documentation: dev-tools: add container.rst page
-
- Documentation/dev-tools/container.rst | 201 ++++++++++++++++++++++++++
- Documentation/dev-tools/index.rst     |   1 +
- scripts/container                     | 199 +++++++++++++++++++++++++
- 3 files changed, 401 insertions(+)
- create mode 100644 Documentation/dev-tools/container.rst
- create mode 100755 scripts/container
-
--- 
-2.47.3
-
+Yours,
+Linus Walleij
