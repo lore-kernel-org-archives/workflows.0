@@ -1,46 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62BC2230BE9;
-	Tue,  6 Jan 2026 21:40:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C941328CF5F;
+	Tue,  6 Jan 2026 21:53:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767735635; cv=none; b=ue8m7G6yytdLvKSThfDc6uz4+jSDKAQno0Mi+Laxybmo5gtIJwJdVWK/b2lWG/A/Sxm/f+DtNXToBFM24uEy6JU6LbizFeAFWm95TIFVxTqVZVir3yEV7WD7cVY3JL53XmjTkrbkuI4pUdsJvZV4efKjQuix0EQg5p63nSr/Yt4=
+	t=1767736402; cv=none; b=lu+edrmQl/tlnb+kPS2k457KW7Bd1gV/LVwdYomVl0ymJEL0bb+G2P6I4T68yt7P5N5ypNON7UxQyw8lhWRM9eh0ZQ/yVWlwRu9YY0sEAip3a322BpxukOmPP4y71Gv9Q53MkaKjN1T/Xj1flf3UBW4WXJ77DKE1vEdO+RRjwI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767735635; c=relaxed/simple;
-	bh=UjrpbH0DFfDZT155hUiuW/+yvXIwrHmmhNlqV/73tHE=;
+	s=arc-20240116; t=1767736402; c=relaxed/simple;
+	bh=0nlyAW2ZlhbqgrjHGM8aXS+XJiWawXUNAG6fCCZM90M=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Lq5+HtW99d/jc7WO2XGwtQKkozGsffUI/1ibPHoSFFOGey/ibJnsJ+35Dozc05sXlqwQ+GH+ruvuaIBKQV9Nf03zh3JrZcCni5H24kaSvQbrEWu0RTViJzX/QZdIfRvB1OguNFlTNhHG1P6bYcSMWHDYZWtjm1fkSJBqMs1e6y0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=mgD85ZAs; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=JXReuAJi7VfEYsnROjS/MjZw7feX7XChTNkzIvUltNv1lCBgO6Gp6rCns+I6U9047bsFrdzUL/AjtRwyi4LXhM7pXoz6tvE2nQtQgrra/BeBzC90GD4k1LlxOzSq3lGf5w2s+JpPqKYiiGdmSvXALSuKdRdtaUAzlhXZPok06Ps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=eqtYFVFm; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="mgD85ZAs"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B10CC40C7D
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="eqtYFVFm"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0785F40C7D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1767735633; bh=Kf1sPY2GaWKjZFRJUksNjvtd6s25+Q5yplmqeqDG1jQ=;
+	t=1767736400; bh=ZCO9egIThwvunYNMXpT89JSXjLteBlCFQ4JXOA94/pY=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=mgD85ZAsI77H9Nqb7wa3HEkHD20N738E59GJ/5LXNUcgZWUTBFp2WXCVFWc9q3eMJ
-	 7a2OPchqOkY6nxye02QHmfQXQuOV2aAxq4m9E9Gt6gwkmMtrfV409NbcLq8HcCIanF
-	 LoSue1hOpJK/YJ2TqIhcZJml9fBbArw6ZnLWehtGJWMQq04A1An2nKxVJspMqh1D3O
-	 AZfs+bhKA+WnsAh089FGcx4isB2BgS8WKYLwf4ma9BfjGlXlhRLvGFSV5RF/qVhSEi
-	 7QXg9w7NZSngsxe5aSbXP94b5kL2wv8XrxbNbmiB/PTqm97M/3v3wjYV6xZXARB2Qh
-	 IN7EDSHIRCADw==
+	b=eqtYFVFmAyR2XvSzBkui1N91RFZ/55w/nWh2TyVIKHp50Za+HnxSpebpLNdqI7fh4
+	 tRsKCAzGJRmpYoBoqPgylfmPNZn06wTu6FtpXPp+VBymFWJ4xGOFNzjGZ+FG63PPND
+	 hnoFA/SvOOX0IwZTimaxIMJ6rR2xjWiPYAjGFikRdrPhnN/U8QQY0jx2/pw+WGT33y
+	 BpOEhKq3szIhmFwnKhYP5L7cd9p7NVvLAzHM4NY/BF4dc1jtxXQ+snZn1pwM2f3fNl
+	 V0Fp2p3Pok/t2OPJMx5lGa1Z1rxS0KqWX/nQfu9jtsoO8jGD+5WGm5D42rrs1aHihx
+	 nB3Issmty/NLQ==
 Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id B10CC40C7D;
-	Tue,  6 Jan 2026 21:40:33 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 0785F40C7D;
+	Tue,  6 Jan 2026 21:53:19 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Volodymyr Kot <volodymyr.kot.ua@gmail.com>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Volodymyr Kot <volodymyr.kot.ua@gmail.com>
-Subject: Re: [PATCH] Doc: correct spelling and wording mistakes
-In-Reply-To: <20251225133911.87512-1-volodymyr.kot.ua@gmail.com>
-References: <20251225133911.87512-1-volodymyr.kot.ua@gmail.com>
-Date: Tue, 06 Jan 2026 14:40:32 -0700
-Message-ID: <878qeae7xr.fsf@trenco.lwn.net>
+To: SeongJae Park <sj@kernel.org>
+Cc: SeongJae Park <sj@kernel.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Subject: Re: [PATCH] docs: submitting-patches: suggest adding previous
+ version links
+In-Reply-To: <20251225015447.16387-1-sj@kernel.org>
+References: <20251225015447.16387-1-sj@kernel.org>
+Date: Tue, 06 Jan 2026 14:53:19 -0700
+Message-ID: <87v7hecss0.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -49,17 +50,41 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Volodymyr Kot <volodymyr.kot.ua@gmail.com> writes:
+SeongJae Park <sj@kernel.org> writes:
 
-> Fixed capitalization and punctuation in process documentation.
+> For review of patches that revisioned multiple times, patch changelogs
+> are very useful.  Adding actual links to the previous versions can
+> further help the review.  Using such links, reviewers can double check
+> the changelog by themselves, and find previous discussions.  Nowadays
+> having such links (e.g., lore.kernel.org archive links) is easy and
+> reliable.  Suggest adding such links if available.
 >
-> Signed-off-by: Volodymyr Kot <volodymyr.kot.ua@gmail.com>
+> Signed-off-by: SeongJae Park <sj@kernel.org>
 > ---
->  Documentation/process/1.Intro.rst          | 2 +-
->  Documentation/process/2.Process.rst        | 2 +-
->  Documentation/process/4.Coding.rst         | 6 +++---
->  Documentation/process/7.AdvancedTopics.rst | 2 +-
->  4 files changed, 6 insertions(+), 6 deletions(-)
+>  Documentation/process/submitting-patches.rst | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> index 9a509f1a6873..e69d19ad658f 100644
+> --- a/Documentation/process/submitting-patches.rst
+> +++ b/Documentation/process/submitting-patches.rst
+> @@ -805,7 +805,8 @@ not part of the changelog which gets committed to the git tree. It is
+>  additional information for the reviewers. If it's placed above the
+>  commit tags, it needs manual interaction to remove it. If it is below
+>  the separator line, it gets automatically stripped off when applying the
+> -patch::
+> +patch.  If available, adding links to previous versions of the patch (e.g.,
+> +lore.kernel.org archive link) is recommended to help reviewers::
+>  
+>    <commit message>
+>    ...
+> @@ -814,6 +815,9 @@ patch::
+>    V2 -> V3: Removed redundant helper function
+>    V1 -> V2: Cleaned up coding style and addressed review comments
+>  
+> +  v2: https://lore.kernel.org/bar
+> +  v1: https://lore.kernel.org/foo
+> +
 
 Applied, thanks.
 
