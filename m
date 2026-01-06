@@ -1,64 +1,64 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com [209.85.214.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE57C33B6D5
-	for <workflows@vger.kernel.org>; Tue,  6 Jan 2026 19:09:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 692B333E361
+	for <workflows@vger.kernel.org>; Tue,  6 Jan 2026 19:09:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767726565; cv=none; b=UZR96nUCXbyO9/oTPO/T/CxWLGnJ1I5K3bA6DDUnBLcVcFIgVseCm03MtyWxBiHPKtonRINKJG1AgxyJUuohCOng8m7Njc0zgUZJSdgwxSXDFQg54iEl/j1H1647SHLwnQEQ+S8wJElyuuh1mAYE2vcNLIgntZVZwOjlfME6e9U=
+	t=1767726572; cv=none; b=d5yMipttNJXCNSuairED9sgwMME22wKbs+wq3VizxEiw7idqS/7SCz2e39zqWog+Vvj9DYexcy9gubGXk0cUuZhVrLotdIWc5qPnF1q5SUwifsOdg1IlsnB1b3knLO7hEv6sxrL2ueaXLlGEFYkda8sFojbRbqAVOYwtDCqUgy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767726565; c=relaxed/simple;
-	bh=RX9qHaUriBcnZk/sTEJF3KSyASsPGsLPByLnwAt8Oac=;
+	s=arc-20240116; t=1767726572; c=relaxed/simple;
+	bh=j0jDV4lbFVQ9QVQdB139GuIVebX7BEtCYepQXaLrbqE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=S8lwnveX+vhcOxkgwQv/uTLU+W4U7aHzV3frYApv0D7bPlvdNXTamuufFEVRpGAmyUx2nxEkoXqUGaS0dwDg7gH7EVcc/1EHXKAPetVw0ATT98fUF0af6Lv6TWP+xCvxXFaprvKij4WlQda0FNB7bveSUCKlC3HSRl8nCGUotOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IqFHHgEZ; arc=none smtp.client-ip=209.85.214.175
+	 MIME-Version; b=NICz/I/qzMMcdNU/dq09zDGYzcXLReeHf6gxsAm+ddihNGnxy/X5k63xELX2tkyZhTLSPrTqZwBrFOLXcaiNaXGSbc5O3VjeNDfOp8ZEM1GFJMHW3O1sdf9Bz+hzWHXNM9MMAVL1xPpIEDHn/kWtHzKziIJgGr34ra2gYdGuRVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FS6D/Mta; arc=none smtp.client-ip=209.85.214.193
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IqFHHgEZ"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2a0d67f1877so14820825ad.2
-        for <workflows@vger.kernel.org>; Tue, 06 Jan 2026 11:09:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FS6D/Mta"
+Received: by mail-pl1-f193.google.com with SMTP id d9443c01a7336-2a099233e8dso11650075ad.3
+        for <workflows@vger.kernel.org>; Tue, 06 Jan 2026 11:09:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767726563; x=1768331363; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1767726571; x=1768331371; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BATdJWgJUwnMbHLsMBqXXAerZpaNwXBAjVbJPcNyAvU=;
-        b=IqFHHgEZFNpnSvJV7KojPs4eDuqArBFg+N296nq7PoPo6wSKe70NsduqZvKT5kQTKD
-         w3Y/uY3huuIOXBUagPfYhj3arPn8m2dJ+wOJBVaVfESXoasrfUWAwnlcE7kQGdb9iVtZ
-         5vXXbl1ZTSZL7GSFe5LxVnlBNAh/RMqqsg53jPVKKgzzJ00cKmdYMDlntoe+2dmwv5Iz
-         CoQXsexy9cOvnMCvCq+qsvKk6pgSc8O1/hiF2BCT58eGcJ9MqOV7ap/xWFFd7pStoE9I
-         yzLiZdCWJeBtXU44m5MMsrDlwfHsnVQeiuZ98w5xvpE8/Tupp3X/kYT5Mcxlv8avJMHD
-         ns2A==
+        bh=7ZDIxAuQXdSZKM+omOFdw1K6fCzWMGD3B/LiysTgYjs=;
+        b=FS6D/MtaN2mec5qP9Q2U7xSzHsDTnCfOl01/noWmYTPyH2osEUrnCX8bDLz2nVJqbm
+         OZZyC33z8LppBERZS8VGJHrAFKUeymTSdow3dTfe7CB43z1R6yOQzRVVJ8vvy69G3ZMu
+         YgdnXptH+lI0NMu/B1MJ+zkGw1OA4xE6+2AnwTKKTy2j/14GqB7QzERjL1OgPr11oAht
+         SV5QI9uSi4xQ6uhxuf7R3yrCjNEPajlnWuRpUeB6V0veQH7LenSI40mfmT+1egx4cWAJ
+         yoceJFfHC4l+tuwObO15/JeiptK06VGDQtMJxpu1jRhDleW6GUH4chW4vAHTLt3pbTgb
+         2qHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767726563; x=1768331363;
+        d=1e100.net; s=20230601; t=1767726571; x=1768331371;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=BATdJWgJUwnMbHLsMBqXXAerZpaNwXBAjVbJPcNyAvU=;
-        b=su7U6+Edvlnms4tq5EmgBIsR4dYFSD09k2isk15D4MSE9CCM9qpsPVzMF0Y66GjXL7
-         yXUHsOumNn1uGlSRDPHsvCoRzPXqcwdVEGLXgBl0HBfjMWHGE7VIJWfp7vzmVJmjVkBS
-         QLH9+MHBzgcY6vICSZ541EI8eWTR4USv2PB4dmuXKWqX1KAcg400AB1hO2wfMMjzXPpL
-         SNAWyM0xIE+c4LHFBOAPhz8hBFEkFu78J85Eukw7H4XlO7BXz7icoC6BYdMwqxMBY2Kx
-         wGzOBVvM9/H1KPyOBksF08XLyCfAxNp3sO3wED6Fmbm8Tfxd65/BHYxc1XMofVel3R2k
-         znDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUf8leXz0NaAmh+rtkkDqsOL9H2v+FG0miPMW5AtFZZHBK6DNjveQVICui3b0dt11qLWRZ56apULso=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvSb6OiUEeLSn3AX9Z00v5VyOFoSb3NV52dAwOjUNohAEIdoeA
-	WacBxP5KTGmdvlkq98EMXJ+SS8wPgJuIBNWuD2jqhK4SPGnsxYgO7fHf
-X-Gm-Gg: AY/fxX6aH9q8IP/9W0xxtrYmj1z7Y4aGvQRiyFQBVEGD71AorwrWqOuWIZrahi4a/iL
-	XxOp3zEsVbCmeXzuj2h7cc6MEZTWa0JdL29uqXAELmT2udtGTg+l/Y5NfxZs9itMvucE3Pr3kE2
-	mU7f6QfcgxuViaDHFuOpB8Qdz4NmEXmv7vYHvCnP3NU1khhkx67nte/GPItkPJKL9Odrt3YsFrB
-	TJHOSWUCiBUitWFXY8HUKwVcQqy2R/Rtn+MCjveRu1JvFCLQE04ZGkq3RWIKXFHvXyIlPZeH15Z
-	E11ijm5PRPkvMmDayGGkzJhRmIUb6PGW0bziSPOAkKApjvkZpFtBIRup9+cjyqbU9XXHwp4yrBd
-	osgIW9yku4mn5ePUDo+3C6WTuGgKKoBslZUsRR9DjeFnWE8HYtdCLqoi7t7yX7kFDEOnUv5Or/Y
-	4xc+nJ9eeappbJ92k4IQ==
-X-Google-Smtp-Source: AGHT+IEv3DyNwRK5RvEmcexsucGDjZhsLc4jeZexw6MFns14bMGlit2ognMpseLu1Intl2qBeIsDAw==
-X-Received: by 2002:a17:903:2c5:b0:295:fe17:83e with SMTP id d9443c01a7336-2a3e2cbb647mr42089515ad.19.1767726563165;
-        Tue, 06 Jan 2026 11:09:23 -0800 (PST)
+        bh=7ZDIxAuQXdSZKM+omOFdw1K6fCzWMGD3B/LiysTgYjs=;
+        b=K8RdBA6swgJdm/miP4L2NoU8p/fE8mJBEW+6WD+h3eS81O+68z9SPtVZ7sQxyZtvXs
+         t91xxFNckKBYf/vGTb8qIuaxtZYVchFuYB+5/36mZro/uTd7N05mPs/rNGxgus3g8uGH
+         24HR1o6dAAaPQObOLzuzALQaxgieSy4TeHoD/dGhRaebkIEeJcF+bTuteWLWqPOi7p83
+         8GrXNxJy9u8MZYtt0Ii5WVAMLXlrX146KOIzOFp2lPzT+BIRvF/WJWSF8YF4WYuqoCAz
+         G3ZUiBmHukPq+1ObJlZ5GhfduUK5hJg2OUQ1WEvnZ9iAs1kSL9hEBpO+OOfKh9fFgCYx
+         4OAg==
+X-Forwarded-Encrypted: i=1; AJvYcCWUHmXAg+MKvPCRSkNF5umXX6IgCLsc/pZsurHZO+mm3kkH0LuAtOSAYh1BLmBEig60VQdIj9exRtI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxBAoNhDwArpLp/L6YbIVqjOORKZT399zgCvMS8+JoqFK1czWBO
+	VncufuyOJoEhvp7ICREMvJZuGaGDzJUgIcF2awmqIDNHPZe1zhCTzXYc
+X-Gm-Gg: AY/fxX4EkwuhIr3GVIAmkQfQ+oQkhddzyKTpmyprS4mibP5RNJS+DmnRBzsz6aXbPfn
+	tPvZu2e94ucZG2c1HNGeS3TvEteH0G3c19VKFYcml1d6SpfnAEKTVEqbGBNTOVJTNrtkmVf3Ff+
+	BfEKJ+ShrLeyO7wpze6TkH3i2BK6Mzhm9S673M5n5htcl7+AeQuQ3LpYrCBjR6Rn0MbtaHeh6W6
+	R1mp2W6lId22jwxqbHO7oR2wiRy06VRJuBxOxTbzCDWss/+zQkZqKEo66ArllKukOTiQ/AHLXvs
+	dYZgTe3cl9hHFarrkh59xH9PLIh37IBqgrpKVE7bebWLFpswuW7NYV5tAvleG60wJvqJISicr0w
+	C0lxfagL6OZ0G+j7gen0rc1KGwpMaVZK0ekXw8kNkhSZ9vHPkQj4v11IeO83MovbNRDJJrE8mrv
+	PpcYxWCUEGU+ejvCmRyQ==
+X-Google-Smtp-Source: AGHT+IE1WFyskV9UBz53SZomuLYRFUJQlyS3/Vk4tjY//MxsM+cH3sL/yfbwmTq7HM4vYlJFb86sSA==
+X-Received: by 2002:a17:902:e80d:b0:295:9db1:ff3a with SMTP id d9443c01a7336-2a3e2df5181mr37055245ad.28.1767726570816;
+        Tue, 06 Jan 2026 11:09:30 -0800 (PST)
 Received: from rivendell ([101.0.62.234])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cc78c0sm29380975ad.69.2026.01.06.11.09.19
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cc78c0sm29380975ad.69.2026.01.06.11.09.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jan 2026 11:09:22 -0800 (PST)
+        Tue, 06 Jan 2026 11:09:30 -0800 (PST)
 From: Benjamin Philip <benjamin.philip495@gmail.com>
 To: Julia Lawall <Julia.Lawall@inria.fr>,
 	Nicolas Palix <nicolas.palix@imag.fr>,
@@ -68,9 +68,9 @@ Cc: cocci@inria.fr,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Benjamin Philip <benjamin.philip495@gmail.com>
-Subject: [PATCH RESEND 2/3] scripts: coccicheck: warn on unset debug file
-Date: Wed,  7 Jan 2026 00:38:35 +0530
-Message-ID: <20260106190836.36630-3-benjamin.philip495@gmail.com>
+Subject: [PATCH RESEND 3/3] Documentation: Coccinelle: document debug log handling
+Date: Wed,  7 Jan 2026 00:38:36 +0530
+Message-ID: <20260106190836.36630-4-benjamin.philip495@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260106190836.36630-1-benjamin.philip495@gmail.com>
 References: <20260106190836.36630-1-benjamin.philip495@gmail.com>
@@ -82,35 +82,57 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-coccicheck prints debug logs to stdout unless a debug file has been set.
-This makes it hard to read coccinelle's suggested changes, especially
-for someone new to coccicheck.
+The current debug documentation does not mention that logs are printed
+to stdout unless DEBUG_FILE is set. It also doesn't mention that
+Coccinelle cannot overwrite debug files.
 
-From this commit, we warn about this behaviour from within the script on
-an unset debug file. Explicitly setting the debug file to /dev/null
-suppresses the warning while keeping the default.
+Document this behaviour in the examples and reference it in the
+debugging section.
 
 Signed-off-by: Benjamin Philip <benjamin.philip495@gmail.com>
 ---
- scripts/coccicheck | 5 +++++
- 1 file changed, 5 insertions(+)
+ Documentation/dev-tools/coccinelle.rst | 21 ++++++++++++++++-----
+ 1 file changed, 16 insertions(+), 5 deletions(-)
 
-diff --git a/scripts/coccicheck b/scripts/coccicheck
-index 2efb74afef2b..8dd766009de1 100755
---- a/scripts/coccicheck
-+++ b/scripts/coccicheck
-@@ -260,6 +260,11 @@ coccinelle () {
- }
+diff --git a/Documentation/dev-tools/coccinelle.rst b/Documentation/dev-tools/coccinelle.rst
+index 6e70a1e9a3c0..c714780d458a 100644
+--- a/Documentation/dev-tools/coccinelle.rst
++++ b/Documentation/dev-tools/coccinelle.rst
+@@ -127,6 +127,18 @@ To enable verbose messages set the V= variable, for example::
  
- if [ "$DEBUG_FILE" = "" ]; then
-+    echo 'You have not explicitly specified the debug file to use.'
-+    echo 'Using default "/dev/null" as debug file.'
-+    echo 'Debug logs will be printed to stdout.'
-+    echo 'You can specify the debug file with "make coccicheck DEBUG_FILE=<debug_file>"'
-+    echo ''
-     DEBUG_FILE="/dev/null"
- fi
+    make coccicheck MODE=report V=1
  
++By default, coccicheck will print debug logs to stdout and redirect stderr to
++/dev/null. This can make coccicheck output difficult to read and understand.
++Debug and error messages can instead be written to a debug file instead by
++setting the ``DEBUG_FILE`` variable::
++
++    make coccicheck MODE=report DEBUG_FILE="cocci.log"
++
++Coccinelle cannot overwrite a debug file. Instead of repeatedly deleting a log
++file, you could include the datetime in the debug file name::
++
++    make coccicheck MODE=report DEBUG_FILE="cocci-$(date -Iseconds).log"
++
+ Coccinelle parallelization
+ --------------------------
+ 
+@@ -208,11 +220,10 @@ include options matching the options used when we compile the kernel.
+ You can learn what these options are by using V=1; you could then
+ manually run Coccinelle with debug options added.
+ 
+-Alternatively you can debug running Coccinelle against SmPL patches
+-by asking for stderr to be redirected to stderr. By default stderr
+-is redirected to /dev/null; if you'd like to capture stderr you
+-can specify the ``DEBUG_FILE="file.txt"`` option to coccicheck. For
+-instance::
++An easier approach to debug running Coccinelle against SmPL patches is to ask
++coccicheck to redirect stderr to a debug file. As mentioned in the examples, by
++default stderr is redirected to /dev/null; if you'd like to capture stderr you
++can specify the ``DEBUG_FILE="file.txt"`` option to coccicheck. For instance::
+ 
+     rm -f cocci.err
+     make coccicheck COCCI=scripts/coccinelle/free/kfree.cocci MODE=report DEBUG_FILE=cocci.err
 -- 
 2.52.0
 
