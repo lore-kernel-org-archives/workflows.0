@@ -1,107 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from blackbird.sr71.net (blackbird.sr71.net [198.145.64.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C63934B1A4;
-	Wed,  7 Jan 2026 18:52:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4AE4337109;
+	Wed,  7 Jan 2026 19:27:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.145.64.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767811955; cv=none; b=Y9ZCUxPfHQ09huN/QYEdNgJ7jEwflMkeRx5Xmt70q7pKVbO2CS3vdtt3nC52r3dc3tcvcHalRHDT5f9FyZit1ixpy1bneEsYDaxiB1z3KSPaE9r4dXHpIY4514/a3or35TzwUEL6S2vHyCLU8/7yEUavFVTEan0eGUcFFWoQI5A=
+	t=1767814060; cv=none; b=BFrtOdKGMWiFxmxrtFgCW4HYumGT7p6+bZtGrUrzkknTfjqBFA4uQ8tcXpzfTA4FfD+nc63Z/a4Ja78dgurpM76gQdL+Aq68jSLZ5M+wmXwsT50jOjA20sy3jNU7lVI4dmdUJeesjmpFxb7HcNxFZ7A5uOBF/VVWGTbB6B9Ak7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767811955; c=relaxed/simple;
-	bh=/3SzDaj+qchgcHL0Vdxso4YvMFLK7lRtDLkUl3jRgXg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g4hshX16y6K38iF7mLk1slIVfM6zSouAB8EVk8kspL097IXCh4WJ91U72thRoiLyhS3fTaPYoq5M0dA+WhuVvyUbZ2OnuqCPOD/ig9MlSpblT4fMND+kjqZdFE8V/KDDgALAPFzumACUD+4wYRJ/P7ZDo9kQu3Asb4Vxk+iBhyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=uMl3z8Xp; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="uMl3z8Xp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BB90C4CEF1;
-	Wed,  7 Jan 2026 18:52:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1767811954;
-	bh=/3SzDaj+qchgcHL0Vdxso4YvMFLK7lRtDLkUl3jRgXg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uMl3z8XpS0Ju539wrGRBX+FmnPAgEIdhnFuoRGeD67+MamufuVVAx4hAAnu3MX3bD
-	 C9Ynv2tF4OhczGazTmgI9UeoydflpqGqK8NRchKJ7ElZ3ptlqO8CkO0gvn5Wjgg5zF
-	 zRHqgO6YWZM7V3EqRbybEOSA5rZInG3eikPSPC3M=
-Date: Wed, 7 Jan 2026 19:52:31 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Jonathan Corbet <corbet@lwn.net>,
-	Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
-	Dwaipayan Ray <dwaipayanray1@gmail.com>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>, linux-spdx@vger.kernel.org,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] LICENSES: Explicitly allow SPDX-FileCopyrightText
-Message-ID: <2026010724-activate-saggy-9c08@gregkh>
-References: <20260107171246.242973-2-krzysztof.kozlowski@oss.qualcomm.com>
+	s=arc-20240116; t=1767814060; c=relaxed/simple;
+	bh=GP1kERezwgCJjXzsmCvZUaQdR75nXG7OB8oceRHDReI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hOD4cg1/PpEtwgR9pyb8LwDfqA9dqJhX3a8QMR0qqOlBpQMqAIjQMUgzDXP3s0iVTG4CCB+Wh0LGlufO1/hEXldrgvwoGHS1ipCdihE4FRaPoNypWztamqnsrw7FssKvT1GEX7XUX8NUe/I5w+UNEbmeOy41SW2Quxrc87FPYnM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sr71.net; spf=pass smtp.mailfrom=sr71.net; arc=none smtp.client-ip=198.145.64.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sr71.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sr71.net
+Received: from [0.0.0.0] (unknown [134.134.137.72])
+	(Authenticated sender: dave)
+	by blackbird.sr71.net (Postfix) with ESMTPSA id 7A3C8201BA;
+	Wed,  7 Jan 2026 11:18:53 -0800 (PST)
+Message-ID: <93aadf2b-0df4-49eb-91fd-b401b44ce3af@sr71.net>
+Date: Wed, 7 Jan 2026 11:18:52 -0800
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260107171246.242973-2-krzysztof.kozlowski@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] [v3] Documentation: Provide guidelines for tool-generated
+ content
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>
+Cc: linux-kernel@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ Kees Cook <kees@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Luis Chamberlain <mcgrof@kernel.org>, SeongJae Park <sj@kernel.org>,
+ Dan Williams <dan.j.williams@intel.com>, Steven Rostedt
+ <rostedt@goodmis.org>, NeilBrown <neilb@ownmail.net>,
+ Theodore Ts'o <tytso@mit.edu>, Sasha Levin <sashal@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Vlastimil Babka <vbabka@suse.cz>,
+ workflows@vger.kernel.org, ksummit@lists.linux.dev
+References: <20260106205105.4037716-1-dave.hansen@linux.intel.com>
+ <1e982055-47c2-43d1-a919-93b3e59f2ed0@lucifer.local>
+From: Dave Hansen <dave@sr71.net>
+Content-Language: en-US
+In-Reply-To: <1e982055-47c2-43d1-a919-93b3e59f2ed0@lucifer.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jan 07, 2026 at 06:12:47PM +0100, Krzysztof Kozlowski wrote:
-> Sources already have SPDX-FileCopyrightText (~40 instances) and more
-> appear on the mailing list, so document that it is allowed.  On the
-> other hand SPDX defines several other tags like SPDX-FileType, so add
-> checkpatch rule to narrow desired tags only to two of them - license and
-> copyright.  That way no new tags would sneak in to the kernel unnoticed.
+On 1/7/26 10:12, Lorenzo Stoakes wrote:
+...
+> I know Linus had the cute interpretation of it 'just being another tool'
+> but never before have people been able to do this.
+
+I respect your position here. But I'm not sure how to reconcile:
+
+	LLMs are just another tool
+and
+	LLMs are not just another tool
+
+:)
+
+Let's look at it another way: What we all *want* for the kernel is
+simplicity. Simple rules, simple documentation, simple code. The
+simplest way to deal with the LLM onslaught is to pray that our existing
+rules will suffice.
+
+For now, I think the existing rules are holding. We have the luxury of
+treating LLMs like any other tool. That could change any day because
+some new tool comes along that's better at spamming patches at us. I
+think that's the point you're trying to make is that the dam might break
+any day and we should be prepared for it.
+
+Is that what it boils down to?
+
+>> +As with all contributions, individual maintainers have discretion to
+>> +choose how they handle the contribution. For example, they might:
+>> +
+>> + - Treat it just like any other contribution.
+>> + - Reject it outright.
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> 
-> ---
-> 
-> Other way would be to remove SPDX-FileCopyrightText from existing files
-> and disallow this, but one way or another we should be explicit about
-> it.  Otherwise people will be sending more of these and each maintainer
-> would need to make their own call.
-> ---
->  Documentation/process/license-rules.rst | 2 ++
->  scripts/checkpatch.pl                   | 9 +++++++++
->  2 files changed, 11 insertions(+)
-> 
-> diff --git a/Documentation/process/license-rules.rst b/Documentation/process/license-rules.rst
-> index 59a7832df7d0..8d7c0214f283 100644
-> --- a/Documentation/process/license-rules.rst
-> +++ b/Documentation/process/license-rules.rst
-> @@ -66,6 +66,8 @@ License identifier syntax
->     '#!PATH_TO_INTERPRETER' in the first line.  For those scripts the SPDX
->     identifier goes into the second line.
+> This is really not correct, it's simply not acceptable in the community to
+> reject series outright without justification. Yes perhaps people do that,
+> but it's really not something that's accepted.
 
-As you are adding a copyright identifier, this sentence should probably
-be:
-	For those scripts, the SPDX license identifier goes into the
-	second line.
+I'm not quite sure how this gives maintainers a new ability to reject
+things without justification, or encourages them to reject
+tool-generated code in a new way.
 
-> +   Identifier line can be followed by another one with SPDX-FileCopyrightText.
+Let's say something generated by "checkpatch.pl --fix" that's trying to
+patch arch/x86/foo.c lands in my inbox. I personally think it's OK for
+me as a maintainer to say: "No thanks, checkpatch has burned me too many
+times in foo.c and I don't trust its output there." To me, that's
+rejecting it outright.
 
-How about:
-
-"The license identifier line can then be followed by a
-SPDX-FileCopyrightText line if desired."
-
-
-> +
->  |
->  
->  2. Style:
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index 362a8d1cd327..98261ee97e2b 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -3844,6 +3844,15 @@ sub process {
->  			     "Misplaced SPDX-License-Identifier tag - use line $checklicenseline instead\n" . $herecurr);
->  		}
->  
-> +# check for unused SPDX file tags
-
-# check for unsupported SPDX file tags
-
-thanks,
-
-greg k-h
+Could you explain a bit how this might encourage bad maintainer behavior?
