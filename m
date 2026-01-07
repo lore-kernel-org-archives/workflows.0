@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 070033128CA;
-	Wed,  7 Jan 2026 12:29:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FA4530F53A;
+	Wed,  7 Jan 2026 12:29:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767788951; cv=none; b=D3vmTuTbun/FqB6vzbYMYSKi2dcjekrc59Wr9eQACMxaWj36sl+nkBFnEcaBkgtSBe2k0qb4vBXmGjS4xS/89jRyEqoJyIifsosC7GQ3n4KFjNkb4b7SUijsnIAAjNVxNCGFY5gy5ON6poQde2vPvudVVrANHjNgY4CLv6KdsKA=
+	t=1767788962; cv=none; b=V3h4lO6jdVMcQUAIMlSthhUUMy8pW2ggElL0OtBZgxZE9doGC3zFWlrnUUgyDZu/tN0kSSWrfXHFqGi4FnQyybx0xlxNjuqba1K56+QwuE0nl6jsTzrWwMr44v+5vNPhY1SmDGGdUrgvmkeRg+qX2mn7iA1SWCUAx14f4qX5D+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767788951; c=relaxed/simple;
-	bh=q9HhLSF+QwVz3OWJraeojNpM1toSsFhchc4+SMiu+lo=;
+	s=arc-20240116; t=1767788962; c=relaxed/simple;
+	bh=09uiaYAA3qYCMIVGLn+TvkzPEq+yu0Vtm6auGIdPgqs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Inx8bpFMndydsED0RBUxHjC0sJOmsDIcHUlxtUxq6ju/9DCZdjqehov0/IokY7le9MgAv9+WAD/2umloE5FNZqa0eq+rF9B4ejk7u8GHntYaok6yrjSCz+ZLjMxZb/GtR/4Yih10LN8EhQII2YeRq6f/phX2IlOxgLUr6DeSECM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pTWyrZUN; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=ZsY5wLQ/4njq6q/fMMmxZLYKAFwawro0/DDgv8CrRaqdXCht8+MCrxQ6NBwLGueRcNLZ0+EwW6tJ1PNXuxyfkL3b3JPu9mxeR3N+j09GWes6xtWTXhDQk/WKQRcunts9UrJoBrcrap7r6Plcoja5m5ZGnip+vO8+3Cvdz+pfuRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eZkPvz23; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pTWyrZUN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 894FDC4CEF7;
-	Wed,  7 Jan 2026 12:29:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eZkPvz23"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1DE8C4CEF7;
+	Wed,  7 Jan 2026 12:29:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767788950;
-	bh=q9HhLSF+QwVz3OWJraeojNpM1toSsFhchc4+SMiu+lo=;
+	s=k20201202; t=1767788962;
+	bh=09uiaYAA3qYCMIVGLn+TvkzPEq+yu0Vtm6auGIdPgqs=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=pTWyrZUNCxmjL//LOTfloJw2uldSzVsgHqPZM/TEu0zVUqqDs8v1PU90nMIy9UlIK
-	 q206wYxz8vILotdDfmhP/utvUAHVgRhT2O8rZ7RlytnqfigmloXWaBOb7aSQQG7qH7
-	 GFwVA9/bGverKbknpWxIIyX00ebXyRf+618arOG7t6bJJJ4yYzQ1EIr8mo3CEt/V4l
-	 BVYjli5GZnbO50aCjUvNIT7wAnalkSFB9Kt6Of4Q62Bp0BmcrJhWSupoq11td7xHMg
-	 G7nx8vxSFZQ0LUhmD/i1DRY6C7XzV+m1gPqLVmll+FKFDKjMi3dUXcEUyQnkU/EJCy
-	 sK6Ma62rxF/vg==
-Message-ID: <3e98198c-ff6e-4166-ad7f-3a258acc225f@kernel.org>
-Date: Wed, 7 Jan 2026 13:29:07 +0100
+	b=eZkPvz23QY+SAThlBr6Bi9ykFz3l6R2dL5L6Y7ohsMl1JPZgOQ1W3OgD5PnPmjya0
+	 mpKkcqX30jX//qe0qTfPxWBBoZltRLEThhBj/OMHalk5gC4ETqVYLFRH1iP+BiGBn9
+	 L6nxczOme/X2IX9tuib9fKkfPS2nFYz4RqzdQDPZiBOz25bVWxdSEiR86mx2WDe4bm
+	 FiD7G8KhLvxCvBTsNoTnimvZUsA2S6EmnrCK77LrmMSw7uoLbGDbh0rqtHBp4H6Q+T
+	 XgWbkEMg9bumFabUWfqAt2SKVQa33SUBy26NCj/O75DB+Cf+A0Y27pMD2/5oufM1ji
+	 L2jAKWbc2OOWw==
+Message-ID: <9ab99620-5f17-4f99-b07b-74f445a23e46@kernel.org>
+Date: Wed, 7 Jan 2026 13:29:19 +0100
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -35,12 +35,11 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 8/9] CodingStyle: tell people how to split long "for"
- loops
+Subject: Re: [PATCH 9/9] CodingStyle: flip the rule about curlies
 To: Alexey Dobriyan <adobriyan@gmail.com>, corbet@lwn.net
 Cc: workflows@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20250509203430.3448-1-adobriyan@gmail.com>
- <20250509203430.3448-8-adobriyan@gmail.com>
+ <20250509203430.3448-9-adobriyan@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -86,42 +85,22 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250509203430.3448-8-adobriyan@gmail.com>
+In-Reply-To: <20250509203430.3448-9-adobriyan@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 09/05/2025 22:34, Alexey Dobriyan wrote:
-> Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
-> ---
->  Documentation/process/coding-style.rst | 16 +++++++++++++++-
->  1 file changed, 15 insertions(+), 1 deletion(-)
+> Require set of curlies {} in all if/else branches and all loops
+> not matter how simple.
 > 
-> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-> index e17de69845ff..494ab3201112 100644
-> --- a/Documentation/process/coding-style.rst
-> +++ b/Documentation/process/coding-style.rst
-> @@ -183,7 +183,21 @@ Descendants are always substantially shorter than the parent and
->  are placed substantially to the right.  A very commonly used style
->  is to align descendants to a function open parenthesis.
->  
-> -These same rules are applied to function headers with a long argument list.
-> +These same rules are applied to function prototypes with a long argument list.
-> +
-> +Very long ``for`` loops are split at the ``;`` characters making it easier
-> +to see which code goes to which clause:
-> +
-> +.. code-block:: c
-> +
-> +	for (int i = 0;
-> +	     i < N;
-> +	     i += 1)
-> +	{
-> +	}
-> +
-> +Opening curly is placed on a separate line then to make it easier to tell
-> +loop body from iteration clause.
+> The rationale is that maintaining curlies increases churn and make
+> patches bigger when those if/else branches grow and shrink so it is
+> easier to always add them.
+> 
+> There are more important things in life than herding curlies.
 
-NAK. Very long loops should simply not be written.
+
+NAK, so silence won't be treated as agreement.
 
 Best regards,
 Krzysztof
