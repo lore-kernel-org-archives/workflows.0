@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7982E30F53A;
-	Wed,  7 Jan 2026 12:28:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 070033128CA;
+	Wed,  7 Jan 2026 12:29:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767788921; cv=none; b=Pps47OgSyLDe2y7DY9IokRhAR8kH6MqswYgNLeWwlg+mIl8FecD6S6oupNK02FvKpVHS2IeIcXRJht2vshr+ETrucV1FU/eVyzAaYwTvj4rmhenPjkhEgASN9lFotJdkO0mwgcA3BXUo+89l2jzMztJVdUCCRUkmDjWyNo9qkK8=
+	t=1767788951; cv=none; b=D3vmTuTbun/FqB6vzbYMYSKi2dcjekrc59Wr9eQACMxaWj36sl+nkBFnEcaBkgtSBe2k0qb4vBXmGjS4xS/89jRyEqoJyIifsosC7GQ3n4KFjNkb4b7SUijsnIAAjNVxNCGFY5gy5ON6poQde2vPvudVVrANHjNgY4CLv6KdsKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767788921; c=relaxed/simple;
-	bh=lfKOFuuWXD1YokDPX9u6QpsaP8MRUqoZyVJtLdigca8=;
+	s=arc-20240116; t=1767788951; c=relaxed/simple;
+	bh=q9HhLSF+QwVz3OWJraeojNpM1toSsFhchc4+SMiu+lo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LWx9E1k3jY4TQFLWMUB6zwTZckHe05JcH2cjknAO6NyrkaQuz/bcazw9tz3fKHrUW0EvccnIE2Ovv9a8n0Y1T2lAeYlWkyTEZgZpaoRXIXIH6hbYzPL0+r+xPEcy2nFXn9nmbCBAcxE/cA75uVbdrky26rKMzu30WujDkK8Jk9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VDs3BmKj; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=Inx8bpFMndydsED0RBUxHjC0sJOmsDIcHUlxtUxq6ju/9DCZdjqehov0/IokY7le9MgAv9+WAD/2umloE5FNZqa0eq+rF9B4ejk7u8GHntYaok6yrjSCz+ZLjMxZb/GtR/4Yih10LN8EhQII2YeRq6f/phX2IlOxgLUr6DeSECM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pTWyrZUN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VDs3BmKj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0BF1C16AAE;
-	Wed,  7 Jan 2026 12:28:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pTWyrZUN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 894FDC4CEF7;
+	Wed,  7 Jan 2026 12:29:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767788921;
-	bh=lfKOFuuWXD1YokDPX9u6QpsaP8MRUqoZyVJtLdigca8=;
+	s=k20201202; t=1767788950;
+	bh=q9HhLSF+QwVz3OWJraeojNpM1toSsFhchc4+SMiu+lo=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=VDs3BmKjIl//h9+wE2e6A+hf9hdTwYSAj9Nsv0Nolp4C4X9PzIUcRO5pjEudRTAll
-	 MOnf5vTNrBxAmhR591i1CqRE6wfMNRbaxfHtpiCYOrsEDAuyRRBcnLTN//hQuAn7jd
-	 umstya6W/Ia7bI9X53iFKVYw5c6kafQBzmSExEmVJ3/zF+UwRb9bXAWaKk1yGEC6de
-	 Vl/ggRx5cgLNMi/BOtdfYSyOJkKG6Y6YWW5G/ZLTNfKJLjSwAODKZ52M8Q2uouf2V8
-	 EbD7DrmLj29MWq6a7bqFcacrPMPxuq3SUS5bfP63nUzsVRjVZObUIgv1GMHsYe4xHC
-	 1eju/xIGhjSog==
-Message-ID: <b14bb569-7c5f-4833-822e-a46f3be80ba7@kernel.org>
-Date: Wed, 7 Jan 2026 13:28:38 +0100
+	b=pTWyrZUNCxmjL//LOTfloJw2uldSzVsgHqPZM/TEu0zVUqqDs8v1PU90nMIy9UlIK
+	 q206wYxz8vILotdDfmhP/utvUAHVgRhT2O8rZ7RlytnqfigmloXWaBOb7aSQQG7qH7
+	 GFwVA9/bGverKbknpWxIIyX00ebXyRf+618arOG7t6bJJJ4yYzQ1EIr8mo3CEt/V4l
+	 BVYjli5GZnbO50aCjUvNIT7wAnalkSFB9Kt6Of4Q62Bp0BmcrJhWSupoq11td7xHMg
+	 G7nx8vxSFZQ0LUhmD/i1DRY6C7XzV+m1gPqLVmll+FKFDKjMi3dUXcEUyQnkU/EJCy
+	 sK6Ma62rxF/vg==
+Message-ID: <3e98198c-ff6e-4166-ad7f-3a258acc225f@kernel.org>
+Date: Wed, 7 Jan 2026 13:29:07 +0100
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -35,11 +35,12 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7/9] CodingStyle: new variable declaration placement rule
+Subject: Re: [PATCH 8/9] CodingStyle: tell people how to split long "for"
+ loops
 To: Alexey Dobriyan <adobriyan@gmail.com>, corbet@lwn.net
 Cc: workflows@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20250509203430.3448-1-adobriyan@gmail.com>
- <20250509203430.3448-7-adobriyan@gmail.com>
+ <20250509203430.3448-8-adobriyan@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -85,33 +86,42 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250509203430.3448-7-adobriyan@gmail.com>
+In-Reply-To: <20250509203430.3448-8-adobriyan@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 09/05/2025 22:34, Alexey Dobriyan wrote:
+> Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
+> ---
+>  Documentation/process/coding-style.rst | 16 +++++++++++++++-
+>  1 file changed, 15 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+> index e17de69845ff..494ab3201112 100644
+> --- a/Documentation/process/coding-style.rst
+> +++ b/Documentation/process/coding-style.rst
+> @@ -183,7 +183,21 @@ Descendants are always substantially shorter than the parent and
+>  are placed substantially to the right.  A very commonly used style
+>  is to align descendants to a function open parenthesis.
 >  
-> +Variable declarations
-> +---------------------
+> -These same rules are applied to function headers with a long argument list.
+> +These same rules are applied to function prototypes with a long argument list.
 > +
-> +Each variable is declared in the innermost scope possible
-> +where ``for`` initialization clause counts as a scope as well.
-> +
-> +Inside specific scope each variable is declared as late as possible as if
-> +declarations have "mass" and "fall down":
+> +Very long ``for`` loops are split at the ``;`` characters making it easier
+> +to see which code goes to which clause:
 > +
 > +.. code-block:: c
 > +
-> +	int f(void *priv)
+> +	for (int i = 0;
+> +	     i < N;
+> +	     i += 1)
 > +	{
-> +		struct xxx_obj *obj = to_xxx_obj(priv);
+> +	}
 > +
-> +		rcu_read_lock();
-> +		int s_xxx = 0;
+> +Opening curly is placed on a separate line then to make it easier to tell
+> +loop body from iteration clause.
 
-NAK, so silence won't be treated as agreement.
-
-
+NAK. Very long loops should simply not be written.
 
 Best regards,
 Krzysztof
