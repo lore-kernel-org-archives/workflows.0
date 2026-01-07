@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 475A422172C;
-	Wed,  7 Jan 2026 12:27:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85507306B37;
+	Wed,  7 Jan 2026 12:28:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767788835; cv=none; b=AfoAjCkHjPT8yk6fmXb4FwGCT+YCyta+eCUcZzJkdnG8NObbFW9zdIUifr+YxGodQGNfywcsy/lzA+9HwEDBklyEjUd0OSytJC3AR1BO+bg28i7YM/ZxlBGKXLF2a9wkyUo/gQSFOCZKXvR1mkiHKR6+83gEAGNMhV6DCSh5LeI=
+	t=1767788890; cv=none; b=TbWaPiU4pbcaGiKbQGa+5WC4vr1rPEyhxbT80aVmvLhKGjYWwAeDHekn+U3NKaWuWVQR219EUSr3j/CZoFAt1fv6yXdtRYQGh2qe23ZXZuprbiKFvvMIduMc9wH/lpp1Sod/m2D3u+oreEJ2zrsnaYfwrFmAO0iST4hvB54xfiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767788835; c=relaxed/simple;
-	bh=cwiSIgS6ACrTbAuEbRDkNmN+w3UYB6EoXcWwTqh1qRk=;
+	s=arc-20240116; t=1767788890; c=relaxed/simple;
+	bh=Wos876omvDXYSS1X2N3X8i6LgU9Acqvr3jolsUjt4t4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nsUpdZO7Xm0fOzYMWPpAdDvOa6WfyTecYK0lMO9/z6w2Y1P/cgRafuhNx2nvUmr/Ml6BIw4b1NGIEAAw3xVMV8qRVW/R/9tV9rIszdaqz+Wk3wVtt3qBGlNdBuqTh+rw0h8iiK1HPQ0x5XSaeT3JadmNQlUgoGh0hB8OhCiuQaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JBeEBh9n; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=eOX3tB60fHe+EgF2u36ke9hiTAN/jw9i2vnZ34cXcJhJak5wIMzXGfsRjtVIa43eEjgk73O7y4f0i3E9VxSD99z8oJ9jbcqP8gQIIwLR8gcvOE1GTQoF9QHB7HwjQEa1nrP7Hn3Ftw0JQPSgVZzGMpUxRRh7U5dZ7I8Ucn8rjds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LhxBx7AU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JBeEBh9n"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 707F5C4CEF7;
-	Wed,  7 Jan 2026 12:27:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LhxBx7AU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03E49C4CEF7;
+	Wed,  7 Jan 2026 12:28:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767788834;
-	bh=cwiSIgS6ACrTbAuEbRDkNmN+w3UYB6EoXcWwTqh1qRk=;
+	s=k20201202; t=1767788890;
+	bh=Wos876omvDXYSS1X2N3X8i6LgU9Acqvr3jolsUjt4t4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=JBeEBh9ngIJXbxUoBwT2JvClSs34qOvcbX/cz1J9UKd2tVpmwF4IYnYOWAWUixxth
-	 nkV1QESkV4qLPsQibbhbzORXfDqUfiDsP5Jn+RtQQRe/WIt4om77pdlFNvyntg87pk
-	 LjpHvvg4S6A2kfPSWnT/q7BwQOHchiGyq3up9uQgP/QrLLxhdE4SXCoSnThmmVFZpM
-	 WbLygZf2wYzq1YlYUbufAvkO1cW8JNC6Rgc2mhFBkER6WrqXStLVC8h2v0r85SH9wB
-	 Siyv8vbHxE0n2sjJTvPFRZTRQnqeMnBMO85nsJ39if52SZ6SlF0vFJz1bIOYFePnup
-	 gDQ405riZfFkA==
-Message-ID: <826031f8-9f99-4a24-9c38-c0b56f708f2a@kernel.org>
-Date: Wed, 7 Jan 2026 13:27:11 +0100
+	b=LhxBx7AUzQ81hO6okmZeUod9FqPRNGAPzkPOYD/Gy4WE5h7L19qf7YnRZal3BhdVu
+	 lUmg0gQcPBHbBbki5QpTnEKD48+IcUFLBxCqLkAqbxPUekuSrMjWqpS11B+XPxY6zL
+	 1JxzySkMWU25XNOXXihR44stx0BgFtZD9pJ/JK2ytWZvYITx8UjINDfUy7Oh95S5UF
+	 PIZqLNukTLBhyRTTuInjojU43iJkX0Twc6chM/R6rQzs7TIDeedybCq1EcCjwcW81z
+	 hGhHFC66THwkytYdZZ+PXWpFwN/otvNRr4luUtqTNFDS4ULPhVHrDP1OGv9+IVQD7Y
+	 B2ev2lqu1N1Og==
+Message-ID: <0acd182c-3b04-4337-b682-57ca791425d5@kernel.org>
+Date: Wed, 7 Jan 2026 13:28:07 +0100
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -35,14 +35,11 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/9] CodingStyle: make Documentation/CodingStyle into
- symlink
-To: Alexey Dobriyan <adobriyan@gmail.com>, Al Viro <viro@zeniv.linux.org.uk>
-Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
- linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 6/9] CodingStyle: recommend static_assert/_Static_assert
+To: Alexey Dobriyan <adobriyan@gmail.com>, corbet@lwn.net
+Cc: workflows@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20250509203430.3448-1-adobriyan@gmail.com>
- <87frhcsrva.fsf@trenco.lwn.net> <77f03295-df5d-4bc0-9a61-5be829969662@p183>
- <20250513041249.GF2023217@ZenIV> <0e43117a-d92c-4563-ad2d-de6cbd02e986@p183>
+ <20250509203430.3448-6-adobriyan@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -88,23 +85,21 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <0e43117a-d92c-4563-ad2d-de6cbd02e986@p183>
+In-Reply-To: <20250509203430.3448-6-adobriyan@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 13/05/2025 20:33, Alexey Dobriyan wrote:
-> On Tue, May 13, 2025 at 05:12:49AM +0100, Al Viro wrote:
->> On Mon, May 12, 2025 at 07:08:53PM +0300, Alexey Dobriyan wrote:
->>
->>> I split them like referendum ballots to see where the consensus at and
->>> not have big single discussion thread.
->>
->> Just in case - consensus would look like a lot of replies in support and not
->> simply the lack of replies, right?
+On 09/05/2025 22:34, Alexey Dobriyan wrote:
+> Linux's BUG_ON is done backwards (condition is inverted).
+> But it is a long story.
 > 
-> Well, it is l-k, so absence of NAKs counts as OK.
+> However C11/C23 allow to partially transition to what all normal
+> programmers are used to, namely assert().
+> 
+> Deprecate BUILD_BUG_ON, recommend static_assert/_Static_assert.
+> And then some day BUG_ON will be flipped as well.
 
-So let me respond with NAKs...
+NAK, so silence won't be treated as agreement.
 
 Best regards,
 Krzysztof
