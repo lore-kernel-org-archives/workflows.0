@@ -1,213 +1,242 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 302AF29BDA0
-	for <workflows@vger.kernel.org>; Wed,  7 Jan 2026 21:28:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F24393A0B24;
+	Wed,  7 Jan 2026 21:58:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767821302; cv=none; b=dP8AEB5oB7feaHNTK6Gq+AvRC/jyGOJQ76Da9TXl/VBIURhN2h5hyYaptaQGh2va4mwSFlfRurjDfvUYkG0Qi3rR/teKt0jSfTFD8Hp+XHCSImbo7Zv5/8WNVjcfXxJAKyw17BzbNq5YjDba7IqLITtzo53I48xJ64VyRecHc0w=
+	t=1767823084; cv=none; b=ML5pArMY8Y11HXZJt2eiUOhfoZq3SPBOM0qapysKlKrRrbvSr80vvSF8TyPnSJ13ootVVzV8bHtEpNRMtVB8P0IxrL8VUvlS4QnAIZTeGlfRjRuMbfCQQ+CvwVFgbeTWP8eyFQBVtrESapVLdXkm9bG6UqFHRWdfVUEjdOiFpvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767821302; c=relaxed/simple;
-	bh=QE0TuUd0ZtnFsYMLcc0LCISHHaywTbsKMgtAJ5LeFQk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gCh0UEPe4FTvVBNkciP0NJ3JxRWsU9CSNdLm2Um0zu+eEzktrirutIFyjjTSAqWZkPmBgN/w8P5m4fFp9FOdRVxOCU9KOI0G4M/vZITy0H+1aGzKaS1gZ0B0qVtk9YCCAfSb5usI94XMg4P9EKO+1bJsvctD+HxSIKOKjTZwqMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=An4KhGaK; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=NDEu2z4e; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="An4KhGaK";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="NDEu2z4e"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 607H3uTS3049808
-	for <workflows@vger.kernel.org>; Wed, 7 Jan 2026 21:28:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	KBn0nYVbtuh8wufBeWR0pZ21pfC/Ns9D4ekZeoAHe+A=; b=An4KhGaKBKW8dWFo
-	6Baozy07xxegetf68aGX7spaEC0q0/gm4cxNrsCE5QhZlJnPWSVZ1iC4+akxJZfM
-	3HYemorym0t4iUD3PFBbiNMwC0OLBWGxeq+wBE/fWx47Z9LlQhhKJpcXFvfQOk7l
-	KQqG+EI+aH94UZnqugIfWfu3Ye0xw4nMSqCNgFE340zqFtt9OKvFyLi2jPcVAerJ
-	HXMSJdUtNYe2Iasr5dS51fHK2OvANsBVrsOXL8cvOxXMrZg+seLrcYWxz4SXWQAz
-	vvJ3hX+M1+9dwg45rr8yFepWElQK7A0+/XqzE2G3LzYUkon6cCXKtxVW0Eu35PXl
-	B4BOjw==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bhujegsy9-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <workflows@vger.kernel.org>; Wed, 07 Jan 2026 21:28:20 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8b9fa6f808cso744254885a.1
-        for <workflows@vger.kernel.org>; Wed, 07 Jan 2026 13:28:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1767821299; x=1768426099; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=KBn0nYVbtuh8wufBeWR0pZ21pfC/Ns9D4ekZeoAHe+A=;
-        b=NDEu2z4ePasrR1o4S3bxP2j+y9tYQO7xmA5RpthvF218lxlpR2WzFcNv6yctBKCSRI
-         z2/TZHQndntCcarVQrxUZGMjOI3Nv0wV6o9Nm2M1S4yZnA2a3UdghGmRcZZEW5vSRZNw
-         Enb4N1HnqjR+9CD+lwQ3NbEtkWW+rKBv22ngJ1XAYkFdkr0Cv2kGMwYfjdTh2UeiDk+F
-         pJD42xCzNgmcN5k3nQrHp9V9QXKnFLYfJua5lzdXZFBNA0M8RHW35o/+LUDdLVWp3DYM
-         fYIMnyEGSkfIWP508bvp9TKUJ/SMShC43CGRrkBNmDkFviS9YmYr+PENyccCes/Xx882
-         c+gQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767821299; x=1768426099;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KBn0nYVbtuh8wufBeWR0pZ21pfC/Ns9D4ekZeoAHe+A=;
-        b=sGfjtGT/aW2l3+ckYECKtPF823Pv8KfidY6My6ZLhPHRrCa/ShRBq7nJCGaSIsvHJU
-         BY4JQ67Tp4toGosCALkJi9jfQ/n0Yu0GZ5LKpoymPJM9enJBwvDEmBlBb05Y1/j+mSLQ
-         FPcAdFZHd+0RB/VrujqtZlp9sZYeOfFNZ/UzzV9pBU3Lipn5yB8TZ9a7m+ppDe9vNqdT
-         d90PkGR0wd8qMCSTXr/uzCK8DKj0kF74J3WVCLWnFVwlxH0j8GEfLMrHtYvhHDjHKu/O
-         i23N5ZjsaZT5HXQf8YIyP5t3l9r0hvpHT+cg6bG8FEkOtvTnNlSF/FEgmohUZDXucC7/
-         oH+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWYu9CQPiopMqcilcRnkva4iL9wdFS2OwKKndsbFSa38ItDJBjTEHWih7iEM1Ou3zXdjSSVfhPOY2Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwinsBbmgE37kimV7QqSpYQSx8GYH6DxxNlIytubb5gvzgOa7Ms
-	CQjo64UCAYsTG3w3hV6iBbkpJQ8xLem6yy9JgUd6K0+Eeh5nXFhxgDmS9KMpiP9IiQKO+MwF2Zh
-	nQ20tRviUG4zykGD5S4CULt4J1D6ygJ6jXjkz1KqBFwnfKULyvuhB20Z43lRwgTIDAAFOkeM=
-X-Gm-Gg: AY/fxX5usiy89PnCQ0MKR/k4ppDMrVhIXlHw3Q5Kk1WlSHuQR/PyxT4ZYPqxdy5+7un
-	RXpULkaj9FDJnVYYh1ulNKJV0fNDPa0tA74YA4ek6SHJkToP8eHTFV4yW8TpcKVysTYYpWijgah
-	yHIFdnrFukYm2qr361O1/ip4JA9UQhlLs37DPYyBz41AgZplsb+HBJthdPiAobjyaXcFvYmH4qy
-	etuLHH/+m/m3aspvYVmRhKxzpQ2ximqhV5OOl+h367r6LifwQb3cL0GMbVFNnfLvlFfZc+bmN4j
-	Qh+UsW0u5H23lb/E7ytwI9r4Es/Jtif2/MB26Umzr1wcamseskxSejGLmQgoy86/XkSj4PT/p0n
-	MKzRPJs/4ITqVfTnjeXQ9UADMo/b5hwLZLPYbWQ==
-X-Received: by 2002:a05:620a:46ab:b0:85c:bb2:ad8c with SMTP id af79cd13be357-8c389406276mr531914685a.74.1767821299073;
-        Wed, 07 Jan 2026 13:28:19 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEs7vmOfk/MRKXOdvX0ksXjWl8U/ducOM0tlNsCZnnSfq/R7R/rY6mUOUVWGr/MBtI3NfPuHw==
-X-Received: by 2002:a05:620a:46ab:b0:85c:bb2:ad8c with SMTP id af79cd13be357-8c389406276mr531911985a.74.1767821298642;
-        Wed, 07 Jan 2026 13:28:18 -0800 (PST)
-Received: from [192.168.1.29] ([178.197.218.229])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6507b9eb402sm5765916a12.15.2026.01.07.13.28.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Jan 2026 13:28:18 -0800 (PST)
-Message-ID: <2b681eaa-e71b-4c6a-8cea-ba7eb5915220@oss.qualcomm.com>
-Date: Wed, 7 Jan 2026 22:28:16 +0100
+	s=arc-20240116; t=1767823084; c=relaxed/simple;
+	bh=JJO5kWnaei7ijEhgZgHPCsjQC625UrrHLkCl9hEQPHU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OnnKcm8vPZP84U3IGV87Bzkd/hvEf4nxj7N6Dlomn1WzzO5tdWOYuv1GHpCwwP1X/i3k9xfp9iafbfIacIpPt/BI+gusGKd8SJFh43k6p6nihBVnXKWbJr+MkbKkarlLO0P1goB7VPsCmmoWa6MpZYC7gtlLdpulA0uQ4KQHeoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf02.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay08.hostedemail.com (Postfix) with ESMTP id 08F491404EC;
+	Wed,  7 Jan 2026 21:57:53 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf02.hostedemail.com (Postfix) with ESMTPA id 5FE0480014;
+	Wed,  7 Jan 2026 21:57:50 +0000 (UTC)
+Date: Wed, 7 Jan 2026 16:58:16 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Dave Hansen <dave@sr71.net>, Dave Hansen <dave.hansen@linux.intel.com>,
+ linux-kernel@vger.kernel.org, Shuah Khan <shuah@kernel.org>, Kees Cook
+ <kees@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Miguel
+ Ojeda <ojeda@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, SeongJae
+ Park <sj@kernel.org>, Dan Williams <dan.j.williams@intel.com>, NeilBrown
+ <neilb@ownmail.net>, Theodore Ts'o <tytso@mit.edu>, Sasha Levin
+ <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Vlastimil Babka
+ <vbabka@suse.cz>, workflows@vger.kernel.org, ksummit@lists.linux.dev
+Subject: Re: [PATCH] [v3] Documentation: Provide guidelines for
+ tool-generated content
+Message-ID: <20260107165816.63ff25ac@gandalf.local.home>
+In-Reply-To: <1c74353c-40de-4d0b-a517-92a94f8b4af8@lucifer.local>
+References: <20260106205105.4037716-1-dave.hansen@linux.intel.com>
+	<1e982055-47c2-43d1-a919-93b3e59f2ed0@lucifer.local>
+	<93aadf2b-0df4-49eb-91fd-b401b44ce3af@sr71.net>
+	<1c74353c-40de-4d0b-a517-92a94f8b4af8@lucifer.local>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] LICENSES: Explicitly allow SPDX-FileCopyrightText
-To: Joe Perches <joe@perches.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Jonathan Corbet <corbet@lwn.net>,
-        Andy Whitcroft <apw@canonical.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>, linux-spdx@vger.kernel.org,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>
-References: <20260107171246.242973-2-krzysztof.kozlowski@oss.qualcomm.com>
- <4702253d918c8edb899a91fbd79b40199a013264.camel@perches.com>
- <2026010726-crusader-recoup-4825@gregkh>
- <dc44dd2c6efb16ace506085922707c70126117e7.camel@perches.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@oss.qualcomm.com; keydata=
- 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
- cwzYbmi/Et7T2+47PN9NZAOyb771QoVr8A==
-In-Reply-To: <dc44dd2c6efb16ace506085922707c70126117e7.camel@perches.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=WKNyn3sR c=1 sm=1 tr=0 ts=695ecff4 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=Eb9f15NH/cHKzfGOmZSO4Q==:17
- a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iQpfymHqp41Ck2fXHbgA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-GUID: -je_RkHgJGlDDvdL8uaUn518fUL0ZcSp
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA3MDE3MCBTYWx0ZWRfX+l5ySiC/K/Wh
- 9k/m4TdZ4wP3mx5Zi1mBvDTmHLpFvJ15IqKfNnnsPkIhhrKtQUGISYYt+xhLqJoe0ADJV4q2K7Y
- 69NR/qchPtwqDsFM1wYOJhV+z4emAFm7miwGE4GJVr3HHKyC087q0kDN3eJYNwozTk7jCUOfk/t
- +ADD/YzattPN9IxKX62aKgEO9E/BDZuZ+cwvgZ6bSJPtvtru3ZlitG52ibKJ0sDhvf4noXBvppw
- BRHxQZKYp0MnPUHtJw4HLGdoWMzTE5o/B48UwYKdxFODNzFzwNlncwC3Fjb519KecXHHCM+mZQq
- 4QC/Bz4Cr39bwjKxq17yLLYIsJaoELDCyauYwcDAM1XUBP+2+vNPCmqCot/epBrombj2OKODdRT
- TER4ZkX3mF+RQmqHNuNEbEJzNEfnYBoWeyzqyN01LN7+B868Z0yt502OGyK7ja4HFmvfsG2jLR+
- 18Y4LjiO7vl/ZM1UmLg==
-X-Proofpoint-ORIG-GUID: -je_RkHgJGlDDvdL8uaUn518fUL0ZcSp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-07_03,2026-01-07_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0 malwarescore=0 bulkscore=0 priorityscore=1501
- lowpriorityscore=0 adultscore=0 impostorscore=0 phishscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601070170
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: axp8tf5o8qzschpeddo69zibwc9er41z
+X-Rspamd-Server: rspamout04
+X-Rspamd-Queue-Id: 5FE0480014
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX19rfwLI8uaQI467DWLEXVO6z4HZ/iKYS2A=
+X-HE-Tag: 1767823070-627189
+X-HE-Meta: U2FsdGVkX1/DqoTanVxpacoQiJW+uM39c5DHlqVmWh+HXz4ULQ9jUR2XZ+nOzqhV58wpyibW1aBMQj4nmJpabGcIUAkOK9x6PgnatyqaUC8EfvxJebAsQbhbQwbgjW6jYO6SEDsuhbMbAyOCHfoJOZPWjAobwzudOjhletszLd1NJk/X5ddymW1q30pCOf96iVBSsabeZxJGQGyD/WD6Zdw3aFyaOpeAmHJcYqpLnFyjykGXPROotKHvdq3XERLs1JiZQzAwmOsWxdz/nUQKCo4y62YaWO5tQIgi8tEFGA9eEEPxQaIeI++hFvSXukux7QWN8krXvI3uPJgQ6P+MBmo7RXMwpbSk
 
-On 07/01/2026 20:38, Joe Perches wrote:
-> On Wed, 2026-01-07 at 20:35 +0100, Greg Kroah-Hartman wrote:
->> On Wed, Jan 07, 2026 at 10:40:11AM -0800, Joe Perches wrote:
->>> On Wed, 2026-01-07 at 18:12 +0100, Krzysztof Kozlowski wrote:
->>>> Sources already have SPDX-FileCopyrightText (~40 instances) and more
->>>> appear on the mailing list, so document that it is allowed.  On the
->>>> other hand SPDX defines several other tags like SPDX-FileType, so add
->>>> checkpatch rule to narrow desired tags only to two of them - license and
->>>> copyright.  That way no new tags would sneak in to the kernel unnoticed.
->>>
->>> I find no value in this tag.  I think it should be discouraged.
->>>
->>> How is it different or more useful than a typical Copyright or © symbol ?
->>
->> It's easier to parse automatically and put into other places (like a
->> software bill of materials).
->>
->> I don't like it all that much either, as really, it doesn't mean much
->> (go talk to a lawyer for details), but it's already in our tree so we
->> might as well document it...
+On Wed, 7 Jan 2026 21:15:17 +0000
+Lorenzo Stoakes <lorenzo.stoakes@oracle.com> wrote:
+
+
+> I would simply argue that LLMs are not another tool on the basis of the
+> drastic negative impact its had in very many areas, for which you need only
+> take a cursory glance at the world to observe.
 > 
-> Document it doesn't mean encourage it.
+> Thinking LLMs are 'just another tool' is to say effectively that the kernel
+> is immune from this. Which seems to me a silly position.
+
+But has this started to become a real problem with the kernel today?
+
+> 
+> >
+> > Let's look at it another way: What we all *want* for the kernel is
+> > simplicity. Simple rules, simple documentation, simple code. The
+> > simplest way to deal with the LLM onslaught is to pray that our existing
+> > rules will suffice.  
+> 
+> I'm not sure we really have rules quite as clearly as you say, as
+> subsystems differ greatly in what they do.
+> 
+> For one mm merges patches unless averse review is received. Which means a
+> sudden influx of LLM series is likely to lead to real problems. Not all
+> subsystems are alike like this.
+
+But has this happened yet?
+
+> 
+> One rule that seems consistent is that arbitrary dismissal of series is
+> seriously frowned upon.
+
+If it is AI slop coming in, you can say, "unless you can prove to me that
+you understand this series and there's nothing wrong with it, I'm rejecting
+it"
+
+If the series looks good then what's the issue. But if it's AI slop and
+it's obvious the person behind the code doesn't understand what they are
+submitting, that could even be rationale for sending that person to your
+/dev/null folder.
+
+> 
+> The document claims otherwise.
+> 
+> >
+> > For now, I think the existing rules are holding. We have the luxury of  
+> 
+> We're noticing a lot more LLM slop than we used to. It is becoming more and
+> more of an issue.
+
+Are you noticing this in submissions?
+
+> 
+> Secondly, as I said in my MS thread and maybe even in a previous version of
+> this one (can't remember) - I fear that once it becomes public that we are
+> open to LLM patches, the floodgates will open.
+
+This document is not about addressing anything that we fear will happen. It
+is only to state our current view of how things work today.
+
+If the floodgates do open and we get inundated with AI slop, then we can
+most definitely update his document to have a bit more teeth.
+
+But one thing I learned about my decade on the TAB, is don't worry about
+things you are afraid might happen, just make sure you address what is
+currently happening. Especially when it's easy to update the rules.
 
 
-Just like I explained in the changelog --- part, we should either accept
-it or mark it as incorrect in the checkpatch. I am fine with both (I
-don't have actual preference), but what I do not want is to have it in
-limbo/open stage, where everyone has to guess if it is desired/allowed.
+> 
+> The kernel has a thorny reputation of people pushing back, which probably
+> plays some role in holding that off.
+> 
+> And it's not like I'm asking for much, I'm not asking you to rewrite the
+> document, or take an entirely different approach, I'm just saying that we
+> should highlight that :
+> 
+> 1. LLMs _allow you to send patches end-to-end without expertise_.
 
-Lack of documented policy enforced by checkpatch means every maintainer
-upon seeing it will do the same as me - git grep and try to understand
-whether this is approved or not. Pretty waste of everyone's time.
+Why does this need to be added to the document. I think we should only be
+addressing how we handle tool generated content.
 
-Best regards,
-Krzysztof
+> 
+> 2. As a result, even though the community (rightly) strongly disapproves of
+>    blanket dismissals of series, if we suspect AI slop [I think it's useful
+>    to actually use that term], maintains can reject it out of hand.
+> 
+> Point 2 is absolutely a new thing in my view.
+
+I don't believe that is necessary. I reject patches outright all the time.
+Especially checkpatch "fixes" on code that is already in the tree. I just
+say: "checkpatch is for patches, not accepted content. If it's not a real
+bug, don't use checkpatch."
+
+If the AI code is decent, why reject it? If it's slop, then yeah, you have
+a lot of reasons to reject it.
+
+> 
+> > treating LLMs like any other tool. That could change any day because
+> > some new tool comes along that's better at spamming patches at us. I
+> > think that's the point you're trying to make is that the dam might break
+> > any day and we should be prepared for it.
+> >
+> > Is that what it boils down to?  
+> 
+> I feel I've answered that above.
+> 
+> >  
+> > >> +As with all contributions, individual maintainers have discretion to
+> > >> +choose how they handle the contribution. For example, they might:
+> > >> +
+> > >> + - Treat it just like any other contribution.
+> > >> + - Reject it outright.  
+> > >
+> > > This is really not correct, it's simply not acceptable in the community to
+> > > reject series outright without justification. Yes perhaps people do that,
+> > > but it's really not something that's accepted.  
+> >
+> > I'm not quite sure how this gives maintainers a new ability to reject
+> > things without justification, or encourages them to reject
+> > tool-generated code in a new way.
+> >
+> > Let's say something generated by "checkpatch.pl --fix" that's trying to
+> > patch arch/x86/foo.c lands in my inbox. I personally think it's OK for
+> > me as a maintainer to say: "No thanks, checkpatch has burned me too many
+> > times in foo.c and I don't trust its output there." To me, that's
+> > rejecting it outright.
+> >
+> > Could you explain a bit how this might encourage bad maintainer behavior?  
+> 
+> I really don't understand your question or why you're formulating this to
+> be about bad maintainer behaviour?
+> 
+> It's generally frowned upon in the kernel to outright reject series without
+> technical justification. I really don't see how you can say that is not the
+> case?
+
+If it's AI slop, then I'm sure you could easily find lots of technical
+justifications for rejecting it. Why do we need to explicitly state it
+here?.
+
+> 
+> LLM generated series won't be a trivial checkpatch.pl --fix change, you've
+> given a trivially identifiable case that you could absolutely justify.
+
+Is it trivial just because it's checkpatch? I gave another example above
+too. But if AI slop is coming in, I'm sure there's lots of reasons to
+reject it.
+
+Are you saying that if there's good AI code coming in (I wouldn't call it
+slop then) that you want to outright reject it too?
+
+> 
+> Again, I'm not really asking for much here. As a maintainer I am (very)
+> concerned about the asymmetry between what can be submitted vs. review
+> resource.
+> 
+> And to me being able to reference this document and to say 'sorry this
+> appears to be AI slop so we can't accept it' would be really useful.
+
+Then why not come up with a list of reasons AI slop is bad and make a
+boiler plate and send that every time. Basically states that if you submit
+AI code, the burden is on the submitter to prove that they understand the
+code. Or would you like that explicitly stated in this document? Something
+like:
+
+- If you submit any type of tool generated code, then it is the
+  responsibility of the submitter to prove to the maintainer that they
+  understand the code that they are submitting. Otherwise the maintainer
+  may simply reject the changes outright.
+
+?
+
+> 
+> Referencing a document that tries very hard to say 'NOP' isn't quite so
+> useful.
+
+I don't think this document's goal was to be a pointer to show people why
+you are rejecting AI submissions. This is just a guideline to how tool
+generated code should be submitted.
+
+It's about how things work today. It's not about how things will work going
+forward with AI submissions. That document is for another day.
+
+-- Steve
