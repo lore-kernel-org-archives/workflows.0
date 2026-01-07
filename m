@@ -1,62 +1,107 @@
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23AA736D508;
-	Wed,  7 Jan 2026 18:40:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C63934B1A4;
+	Wed,  7 Jan 2026 18:52:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767811235; cv=none; b=nrX9f01C0qcUUCE13JEUFl93e2MB1lxPLpmenYwobGgAgxN8j0ZIGa8viXYloC9r/U/ZlmO/UICjJLpr+D/9lyAecyKRtmhH+Xr0bWfhc+T6g9+GufXvx+DVtyqEs2qiAV/4H/GmG6GU21EjAv2B/MHE071oZUWyj3YL4EksWPk=
+	t=1767811955; cv=none; b=Y9ZCUxPfHQ09huN/QYEdNgJ7jEwflMkeRx5Xmt70q7pKVbO2CS3vdtt3nC52r3dc3tcvcHalRHDT5f9FyZit1ixpy1bneEsYDaxiB1z3KSPaE9r4dXHpIY4514/a3or35TzwUEL6S2vHyCLU8/7yEUavFVTEan0eGUcFFWoQI5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767811235; c=relaxed/simple;
-	bh=KN1F3N76uXgPHxPnP8THwhH7YE/P9z+4GwpB/BokJQQ=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=KwDP/zkuVBnHg5zF0Z5Enmn9pvSYms0vEVT7gsYHe8588RZjD8ApMhqI8Ulx9oFMNYejqVPqy979wRJRqyInU8uuXOc8y8qA/gozAx31SddunCbmhTeuJeXJOXRkiGHnJQ0FtezrOA1sfSmYWmZVGHmTrbh6HD3I+kjSZ5DP+m0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Received: from omf01.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay06.hostedemail.com (Postfix) with ESMTP id 7B2AA1AAF15;
-	Wed,  7 Jan 2026 18:40:15 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf01.hostedemail.com (Postfix) with ESMTPA id 74C496000F;
-	Wed,  7 Jan 2026 18:40:12 +0000 (UTC)
-Message-ID: <4702253d918c8edb899a91fbd79b40199a013264.camel@perches.com>
-Subject: Re: [PATCH] LICENSES: Explicitly allow SPDX-FileCopyrightText
-From: Joe Perches <joe@perches.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, Thomas
- Gleixner <tglx@linutronix.de>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Jonathan Corbet	 <corbet@lwn.net>, Andy
- Whitcroft <apw@canonical.com>, Dwaipayan Ray	 <dwaipayanray1@gmail.com>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, 	linux-spdx@vger.kernel.org,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	s=arc-20240116; t=1767811955; c=relaxed/simple;
+	bh=/3SzDaj+qchgcHL0Vdxso4YvMFLK7lRtDLkUl3jRgXg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g4hshX16y6K38iF7mLk1slIVfM6zSouAB8EVk8kspL097IXCh4WJ91U72thRoiLyhS3fTaPYoq5M0dA+WhuVvyUbZ2OnuqCPOD/ig9MlSpblT4fMND+kjqZdFE8V/KDDgALAPFzumACUD+4wYRJ/P7ZDo9kQu3Asb4Vxk+iBhyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=uMl3z8Xp; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="uMl3z8Xp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BB90C4CEF1;
+	Wed,  7 Jan 2026 18:52:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1767811954;
+	bh=/3SzDaj+qchgcHL0Vdxso4YvMFLK7lRtDLkUl3jRgXg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uMl3z8XpS0Ju539wrGRBX+FmnPAgEIdhnFuoRGeD67+MamufuVVAx4hAAnu3MX3bD
+	 C9Ynv2tF4OhczGazTmgI9UeoydflpqGqK8NRchKJ7ElZ3ptlqO8CkO0gvn5Wjgg5zF
+	 zRHqgO6YWZM7V3EqRbybEOSA5rZInG3eikPSPC3M=
+Date: Wed, 7 Jan 2026 19:52:31 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Jonathan Corbet <corbet@lwn.net>,
+	Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
+	Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>, linux-spdx@vger.kernel.org,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 07 Jan 2026 10:40:11 -0800
-In-Reply-To: <20260107171246.242973-2-krzysztof.kozlowski@oss.qualcomm.com>
+Subject: Re: [PATCH] LICENSES: Explicitly allow SPDX-FileCopyrightText
+Message-ID: <2026010724-activate-saggy-9c08@gregkh>
 References: <20260107171246.242973-2-krzysztof.kozlowski@oss.qualcomm.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Stat-Signature: g8ohf9momgfm3jki9cwkkefc8obxb4qm
-X-Rspamd-Server: rspamout04
-X-Rspamd-Queue-Id: 74C496000F
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/3MA6JS4YuikaxMt97ljJQKz8Fe9uDqnI=
-X-HE-Tag: 1767811212-129184
-X-HE-Meta: U2FsdGVkX1/pKl1HzsBiwxfyNXKtZuphMb2V69o5UcRu4pCC689lw9oLnJ7xxVbTKh7LOw3qpsEz8D1iFFcei14T4KHl7Esfvp7cvjXj7rmV3KJlB0E/7DoDFD32NYsHogVosLeYUYMh5jZ9CAhozK+bK1p2s3b2rFum+oWgDW9+ylrYxieGBNzbooC9J4/EZLGHySL3W2tydl/KAwcl4I9cm+EoG+uf30p5Emzj1pYiG2a4q1xKYA8PkWPRiitgoomk7fDwfqyEFeIKVJ1vhl7twiv8ZN9mVVWBSPuMn9+jATmxJht+2D8lhIT/DAan
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260107171246.242973-2-krzysztof.kozlowski@oss.qualcomm.com>
 
-On Wed, 2026-01-07 at 18:12 +0100, Krzysztof Kozlowski wrote:
+On Wed, Jan 07, 2026 at 06:12:47PM +0100, Krzysztof Kozlowski wrote:
 > Sources already have SPDX-FileCopyrightText (~40 instances) and more
 > appear on the mailing list, so document that it is allowed.  On the
 > other hand SPDX defines several other tags like SPDX-FileType, so add
 > checkpatch rule to narrow desired tags only to two of them - license and
 > copyright.  That way no new tags would sneak in to the kernel unnoticed.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> 
+> ---
+> 
+> Other way would be to remove SPDX-FileCopyrightText from existing files
+> and disallow this, but one way or another we should be explicit about
+> it.  Otherwise people will be sending more of these and each maintainer
+> would need to make their own call.
+> ---
+>  Documentation/process/license-rules.rst | 2 ++
+>  scripts/checkpatch.pl                   | 9 +++++++++
+>  2 files changed, 11 insertions(+)
+> 
+> diff --git a/Documentation/process/license-rules.rst b/Documentation/process/license-rules.rst
+> index 59a7832df7d0..8d7c0214f283 100644
+> --- a/Documentation/process/license-rules.rst
+> +++ b/Documentation/process/license-rules.rst
+> @@ -66,6 +66,8 @@ License identifier syntax
+>     '#!PATH_TO_INTERPRETER' in the first line.  For those scripts the SPDX
+>     identifier goes into the second line.
 
-I find no value in this tag.  I think it should be discouraged.
+As you are adding a copyright identifier, this sentence should probably
+be:
+	For those scripts, the SPDX license identifier goes into the
+	second line.
 
-How is it different or more useful than a typical Copyright or =A9 symbol ?
+> +   Identifier line can be followed by another one with SPDX-FileCopyrightText.
+
+How about:
+
+"The license identifier line can then be followed by a
+SPDX-FileCopyrightText line if desired."
+
+
+> +
+>  |
+>  
+>  2. Style:
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index 362a8d1cd327..98261ee97e2b 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -3844,6 +3844,15 @@ sub process {
+>  			     "Misplaced SPDX-License-Identifier tag - use line $checklicenseline instead\n" . $herecurr);
+>  		}
+>  
+> +# check for unused SPDX file tags
+
+# check for unsupported SPDX file tags
+
+thanks,
+
+greg k-h
