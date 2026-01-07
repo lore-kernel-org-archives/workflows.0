@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FA4530F53A;
-	Wed,  7 Jan 2026 12:29:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 066EF31327F;
+	Wed,  7 Jan 2026 12:32:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767788962; cv=none; b=V3h4lO6jdVMcQUAIMlSthhUUMy8pW2ggElL0OtBZgxZE9doGC3zFWlrnUUgyDZu/tN0kSSWrfXHFqGi4FnQyybx0xlxNjuqba1K56+QwuE0nl6jsTzrWwMr44v+5vNPhY1SmDGGdUrgvmkeRg+qX2mn7iA1SWCUAx14f4qX5D+g=
+	t=1767789172; cv=none; b=DEgzvnALfT8DU9SrBXnuWYEzqPYYB0vcg9Ac0KkBdfw0YNsb7rhwl3X8rGpjb9cjRzhLD1hqDSwDrFmMK7gvR1o/r4P3O13KjX1DWIVHLm947vms7/ZeONHhUBXbRlmYBtPWctbF/o2NsaNg5y2M6hIX3kI2otjQPx0DmWvWW6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767788962; c=relaxed/simple;
-	bh=09uiaYAA3qYCMIVGLn+TvkzPEq+yu0Vtm6auGIdPgqs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZsY5wLQ/4njq6q/fMMmxZLYKAFwawro0/DDgv8CrRaqdXCht8+MCrxQ6NBwLGueRcNLZ0+EwW6tJ1PNXuxyfkL3b3JPu9mxeR3N+j09GWes6xtWTXhDQk/WKQRcunts9UrJoBrcrap7r6Plcoja5m5ZGnip+vO8+3Cvdz+pfuRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eZkPvz23; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767789172; c=relaxed/simple;
+	bh=4GDmF337weS8X/sSela2tHfwVlLfCpntPH9LCi4G3XI=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=dOFQx5yiGBWbl64Rq82fT7y5FvzHX3kgwBN6sVSauNPOr8weYFiFyh4C3X0GwOOxWwBbkObQehiUBBd8YW2VPHOpi8gdwgFyJ0NOOs7bQxa0uIGFavX4F8MBdg/UjVhWWUdoUQi7/q1ODiI5ERuRhYC34RviySGpiQDv6OSu0EA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XI4u12N4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eZkPvz23"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1DE8C4CEF7;
-	Wed,  7 Jan 2026 12:29:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XI4u12N4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F16EC16AAE;
+	Wed,  7 Jan 2026 12:32:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767788962;
-	bh=09uiaYAA3qYCMIVGLn+TvkzPEq+yu0Vtm6auGIdPgqs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=eZkPvz23QY+SAThlBr6Bi9ykFz3l6R2dL5L6Y7ohsMl1JPZgOQ1W3OgD5PnPmjya0
-	 mpKkcqX30jX//qe0qTfPxWBBoZltRLEThhBj/OMHalk5gC4ETqVYLFRH1iP+BiGBn9
-	 L6nxczOme/X2IX9tuib9fKkfPS2nFYz4RqzdQDPZiBOz25bVWxdSEiR86mx2WDe4bm
-	 FiD7G8KhLvxCvBTsNoTnimvZUsA2S6EmnrCK77LrmMSw7uoLbGDbh0rqtHBp4H6Q+T
-	 XgWbkEMg9bumFabUWfqAt2SKVQa33SUBy26NCj/O75DB+Cf+A0Y27pMD2/5oufM1ji
-	 L2jAKWbc2OOWw==
-Message-ID: <9ab99620-5f17-4f99-b07b-74f445a23e46@kernel.org>
-Date: Wed, 7 Jan 2026 13:29:19 +0100
+	s=k20201202; t=1767789168;
+	bh=4GDmF337weS8X/sSela2tHfwVlLfCpntPH9LCi4G3XI=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=XI4u12N4R9O3AVRgfNWBlG8ietkAhrRLoKvrLZaDIWXro5cMAi9+/nY8CWeSfeAfW
+	 fWvrVvO12Ec0lBFolG+EB/1kAF5+h1puJjl9SbYoMSOa7g/2CLVjNZKfLJyTeZTyCZ
+	 5Alc5env78GboomZkeXK0SZfMHPdwJdNHRDcWZsVpg7JTed0Tsb0Iz6xfq+6kNQ9uE
+	 C4mO8Ptn2xte5pMQXH79hfB0YN6BF+1cZf70sMhdnM/0fRZg4HlWTyxba3pi5UXSJ+
+	 6DA9Ao2BSoPtvdADsJI+tGR03pmca0W0yZ7fz5WlCmK0DbJvOMXrvmbvB7E+y2lCU0
+	 1/PxZQj/2UOJg==
+Message-ID: <8ac45a1f-df9c-4e41-bf44-a1a6d4b41042@kernel.org>
+Date: Wed, 7 Jan 2026 13:32:45 +0100
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -36,11 +36,12 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 9/9] CodingStyle: flip the rule about curlies
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Alexey Dobriyan <adobriyan@gmail.com>, corbet@lwn.net
 Cc: workflows@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20250509203430.3448-1-adobriyan@gmail.com>
  <20250509203430.3448-9-adobriyan@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <9ab99620-5f17-4f99-b07b-74f445a23e46@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -85,22 +86,26 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250509203430.3448-9-adobriyan@gmail.com>
+In-Reply-To: <9ab99620-5f17-4f99-b07b-74f445a23e46@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 09/05/2025 22:34, Alexey Dobriyan wrote:
-> Require set of curlies {} in all if/else branches and all loops
-> not matter how simple.
+On 07/01/2026 13:29, Krzysztof Kozlowski wrote:
+> On 09/05/2025 22:34, Alexey Dobriyan wrote:
+>> Require set of curlies {} in all if/else branches and all loops
+>> not matter how simple.
+>>
+>> The rationale is that maintaining curlies increases churn and make
+>> patches bigger when those if/else branches grow and shrink so it is
+>> easier to always add them.
+>>
+>> There are more important things in life than herding curlies.
 > 
-> The rationale is that maintaining curlies increases churn and make
-> patches bigger when those if/else branches grow and shrink so it is
-> easier to always add them.
 > 
-> There are more important things in life than herding curlies.
+> NAK, so silence won't be treated as agreement.
 
-
-NAK, so silence won't be treated as agreement.
+... and I failed to notice that this thread was dug up by one person and
+it is way forgotten. Sorry for the noise.
 
 Best regards,
 Krzysztof
