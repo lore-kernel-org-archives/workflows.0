@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA2FA313E38;
-	Wed,  7 Jan 2026 12:22:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 475A422172C;
+	Wed,  7 Jan 2026 12:27:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767788558; cv=none; b=kTStxXyxbttdIQYsoqv84tplxzGyd2+b8pSLT8l2m8vdZ2lY59A8mUUSMxHR5slT0lhMWiTv/qpWax9Vr09+WBGtmrOuH66+jV0mjiuvddyRE2+JlrTBgItg1C1DD2sgBUcCldJU9pLhzFSpYVib/ocUHAwgktkWU0XF84dsN4s=
+	t=1767788835; cv=none; b=AfoAjCkHjPT8yk6fmXb4FwGCT+YCyta+eCUcZzJkdnG8NObbFW9zdIUifr+YxGodQGNfywcsy/lzA+9HwEDBklyEjUd0OSytJC3AR1BO+bg28i7YM/ZxlBGKXLF2a9wkyUo/gQSFOCZKXvR1mkiHKR6+83gEAGNMhV6DCSh5LeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767788558; c=relaxed/simple;
-	bh=jogXaxfkkied/eJkYpJBM0in3WRY/EYsYaaZBU3rH2k=;
+	s=arc-20240116; t=1767788835; c=relaxed/simple;
+	bh=cwiSIgS6ACrTbAuEbRDkNmN+w3UYB6EoXcWwTqh1qRk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ukoYNpA8fNYiH9wC4fUJYSHl76Y8+pkCpSuz1CGbmnOuCvF6ucU9SWFDtkDyO3e+nlAgNa44JAfYrWWRWj4p+A7ei/gJH+Jlt1ocDsWbqzPsiUZ2sMzNBg+uMnC78w+FsMUwDtMTJ3F6wvH34JMSPj8J3rmnBfw3a7WxoiXiBJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PtWtyE+b; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=nsUpdZO7Xm0fOzYMWPpAdDvOa6WfyTecYK0lMO9/z6w2Y1P/cgRafuhNx2nvUmr/Ml6BIw4b1NGIEAAw3xVMV8qRVW/R/9tV9rIszdaqz+Wk3wVtt3qBGlNdBuqTh+rw0h8iiK1HPQ0x5XSaeT3JadmNQlUgoGh0hB8OhCiuQaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JBeEBh9n; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PtWtyE+b"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17088C2BC87;
-	Wed,  7 Jan 2026 12:22:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JBeEBh9n"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 707F5C4CEF7;
+	Wed,  7 Jan 2026 12:27:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767788558;
-	bh=jogXaxfkkied/eJkYpJBM0in3WRY/EYsYaaZBU3rH2k=;
+	s=k20201202; t=1767788834;
+	bh=cwiSIgS6ACrTbAuEbRDkNmN+w3UYB6EoXcWwTqh1qRk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=PtWtyE+bXQmnfo2x8h3oUvVwlG/Wtfo6l41Ntr9MxEgnXQyigF1iKyC8nLeO2u6iJ
-	 vVP/+FEmBPVzURVDhk9CKI6FRH5TTY3D3gCr4CTBHR3h78aqcs1TIXsXfC5JaTvGxk
-	 701u5DcaWiAxSGSaWiZHcdqr5Y3bY9+JztjY4wVNnODSrxElvTVAPxyo3doe2p0G/n
-	 quO+taUgSZ7OwM5i6/kBemE3oKiYUUxuOJkBvnno9hGBaLipeSUhgOt+x4FyYpLAGx
-	 /AIb5hDZlihtNvnPu+mINZ8eoYu89ELoXj7cVMw4pr98QtoXOa7bR6cOuHEU1Y2nKS
-	 w0OmMAKQJp02g==
-Message-ID: <b0807deb-6cd0-44b0-952a-1c239c0a4fb9@kernel.org>
-Date: Wed, 7 Jan 2026 13:22:35 +0100
+	b=JBeEBh9ngIJXbxUoBwT2JvClSs34qOvcbX/cz1J9UKd2tVpmwF4IYnYOWAWUixxth
+	 nkV1QESkV4qLPsQibbhbzORXfDqUfiDsP5Jn+RtQQRe/WIt4om77pdlFNvyntg87pk
+	 LjpHvvg4S6A2kfPSWnT/q7BwQOHchiGyq3up9uQgP/QrLLxhdE4SXCoSnThmmVFZpM
+	 WbLygZf2wYzq1YlYUbufAvkO1cW8JNC6Rgc2mhFBkER6WrqXStLVC8h2v0r85SH9wB
+	 Siyv8vbHxE0n2sjJTvPFRZTRQnqeMnBMO85nsJ39if52SZ6SlF0vFJz1bIOYFePnup
+	 gDQ405riZfFkA==
+Message-ID: <826031f8-9f99-4a24-9c38-c0b56f708f2a@kernel.org>
+Date: Wed, 7 Jan 2026 13:27:11 +0100
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -35,15 +35,14 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/9] CodingStyle: mention "typedef struct S {} S;" if
- typedef is used
-To: Alexey Dobriyan <adobriyan@gmail.com>,
- Greg KH <gregkh@linuxfoundation.org>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/9] CodingStyle: make Documentation/CodingStyle into
+ symlink
+To: Alexey Dobriyan <adobriyan@gmail.com>, Al Viro <viro@zeniv.linux.org.uk>
+Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 References: <20250509203430.3448-1-adobriyan@gmail.com>
- <20250509203430.3448-4-adobriyan@gmail.com>
- <2025051041-hardness-effects-89f0@gregkh>
- <55373914-e6e3-490f-9d79-5321f908701e@p183>
+ <87frhcsrva.fsf@trenco.lwn.net> <77f03295-df5d-4bc0-9a61-5be829969662@p183>
+ <20250513041249.GF2023217@ZenIV> <0e43117a-d92c-4563-ad2d-de6cbd02e986@p183>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -89,23 +88,23 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <55373914-e6e3-490f-9d79-5321f908701e@p183>
+In-Reply-To: <0e43117a-d92c-4563-ad2d-de6cbd02e986@p183>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 13/05/2025 20:34, Alexey Dobriyan wrote:
-> On Sat, May 10, 2025 at 08:18:53AM +0200, Greg KH wrote:
->> On Fri, May 09, 2025 at 11:34:25PM +0300, Alexey Dobriyan wrote:
->>> Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
->>> ---
->>>  Documentation/process/coding-style.rst | 14 ++++++++++++++
->>>  1 file changed, 14 insertions(+)
+On 13/05/2025 20:33, Alexey Dobriyan wrote:
+> On Tue, May 13, 2025 at 05:12:49AM +0100, Al Viro wrote:
+>> On Mon, May 12, 2025 at 07:08:53PM +0300, Alexey Dobriyan wrote:
 >>
->> We can't take patches without any changelog text, sorry.
+>>> I split them like referendum ballots to see where the consensus at and
+>>> not have big single discussion thread.
+>>
+>> Just in case - consensus would look like a lot of replies in support and not
+>> simply the lack of replies, right?
 > 
-> The changelog is in the patch itself but OK.
+> Well, it is l-k, so absence of NAKs counts as OK.
 
-No, there is no such test in the patch itself.
+So let me respond with NAKs...
 
 Best regards,
 Krzysztof
