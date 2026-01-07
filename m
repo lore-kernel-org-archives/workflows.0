@@ -1,242 +1,114 @@
-Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
+Received: from lamorak.hansenpartnership.com (lamorak.hansenpartnership.com [198.37.111.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F24393A0B24;
-	Wed,  7 Jan 2026 21:58:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F504299A84;
+	Wed,  7 Jan 2026 22:39:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.37.111.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767823084; cv=none; b=ML5pArMY8Y11HXZJt2eiUOhfoZq3SPBOM0qapysKlKrRrbvSr80vvSF8TyPnSJ13ootVVzV8bHtEpNRMtVB8P0IxrL8VUvlS4QnAIZTeGlfRjRuMbfCQQ+CvwVFgbeTWP8eyFQBVtrESapVLdXkm9bG6UqFHRWdfVUEjdOiFpvg=
+	t=1767825593; cv=none; b=L+4W3Cg5Cd+aesfUjpWeMM5sljSt/ZDqY7DZkvsbtvqj9YEUArft8o+Xtro/U6SbQctbpNGeBOjzNnqzus8Vcc/wifKA8fAihzBXnIhtJPM3mjkW45PAC7cXpvXnUASpQk1v+TAn5HR7HIWu3JQFEO8cZ+0ZVKr+pdsxPLnpMN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767823084; c=relaxed/simple;
-	bh=JJO5kWnaei7ijEhgZgHPCsjQC625UrrHLkCl9hEQPHU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OnnKcm8vPZP84U3IGV87Bzkd/hvEf4nxj7N6Dlomn1WzzO5tdWOYuv1GHpCwwP1X/i3k9xfp9iafbfIacIpPt/BI+gusGKd8SJFh43k6p6nihBVnXKWbJr+MkbKkarlLO0P1goB7VPsCmmoWa6MpZYC7gtlLdpulA0uQ4KQHeoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf02.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay08.hostedemail.com (Postfix) with ESMTP id 08F491404EC;
-	Wed,  7 Jan 2026 21:57:53 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf02.hostedemail.com (Postfix) with ESMTPA id 5FE0480014;
-	Wed,  7 Jan 2026 21:57:50 +0000 (UTC)
-Date: Wed, 7 Jan 2026 16:58:16 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Dave Hansen <dave@sr71.net>, Dave Hansen <dave.hansen@linux.intel.com>,
- linux-kernel@vger.kernel.org, Shuah Khan <shuah@kernel.org>, Kees Cook
- <kees@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Miguel
- Ojeda <ojeda@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, SeongJae
- Park <sj@kernel.org>, Dan Williams <dan.j.williams@intel.com>, NeilBrown
- <neilb@ownmail.net>, Theodore Ts'o <tytso@mit.edu>, Sasha Levin
- <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Vlastimil Babka
- <vbabka@suse.cz>, workflows@vger.kernel.org, ksummit@lists.linux.dev
+	s=arc-20240116; t=1767825593; c=relaxed/simple;
+	bh=Ps1s8iIJg1xQlfLSemOp/wX+WLhQ+NYOWo1mf0ICYH0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=O8OH3Sl866W7kvsYN2wrRQN04sltO5aqvBjzg138+ZhRGj/vZoctddJlb9AiablqV6ZKHeJB0hRUEqYkjgum2ulTyxcWnrFUwSI31XHnfoK1PEap2IuU1ZWtdX+Zu9CNM5QaTbcxu+sz0MvrgKwU/uryKt21Rmuzy+svxbOH41Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=ohNhuPJu; arc=none smtp.client-ip=198.37.111.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="ohNhuPJu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1767825590;
+	bh=Ps1s8iIJg1xQlfLSemOp/wX+WLhQ+NYOWo1mf0ICYH0=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=ohNhuPJuHYIrI33EI9c29BeIwXO9Q4+sExTKu+m4VH489gTu2FxEe3W56kPtkFav6
+	 q3iddpyH4z1lxqPkiIhtYeuefjkpdTBoJ/WgE30IpLOUoHEkQFy7lL4uI8I8s8A2G+
+	 1yOj6vf0cS41O8iZMqPOLtOVu8l6uQQLNqnmtLe0=
+Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4300:d341::a774])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by lamorak.hansenpartnership.com (Postfix) with ESMTPSA id B29CF1C00D4;
+	Wed, 07 Jan 2026 17:39:49 -0500 (EST)
+Message-ID: <6ec883cfe97bf9eb50f71b00c24723f5ed4c273e.camel@HansenPartnership.com>
 Subject: Re: [PATCH] [v3] Documentation: Provide guidelines for
  tool-generated content
-Message-ID: <20260107165816.63ff25ac@gandalf.local.home>
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Dave Hansen <dave@sr71.net>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>, linux-kernel@vger.kernel.org,
+  Shuah Khan <shuah@kernel.org>, Kees Cook <kees@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Miguel Ojeda
+ <ojeda@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, SeongJae Park
+ <sj@kernel.org>, Dan Williams <dan.j.williams@intel.com>, Steven Rostedt
+ <rostedt@goodmis.org>, NeilBrown <neilb@ownmail.net>, Theodore Ts'o
+ <tytso@mit.edu>, Sasha Levin <sashal@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Vlastimil Babka <vbabka@suse.cz>,
+ workflows@vger.kernel.org, ksummit@lists.linux.dev
+Date: Wed, 07 Jan 2026 17:39:48 -0500
 In-Reply-To: <1c74353c-40de-4d0b-a517-92a94f8b4af8@lucifer.local>
 References: <20260106205105.4037716-1-dave.hansen@linux.intel.com>
-	<1e982055-47c2-43d1-a919-93b3e59f2ed0@lucifer.local>
-	<93aadf2b-0df4-49eb-91fd-b401b44ce3af@sr71.net>
-	<1c74353c-40de-4d0b-a517-92a94f8b4af8@lucifer.local>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	 <1e982055-47c2-43d1-a919-93b3e59f2ed0@lucifer.local>
+	 <93aadf2b-0df4-49eb-91fd-b401b44ce3af@sr71.net>
+	 <1c74353c-40de-4d0b-a517-92a94f8b4af8@lucifer.local>
+Autocrypt: addr=James.Bottomley@HansenPartnership.com;
+ prefer-encrypt=mutual;
+ keydata=mQENBE58FlABCADPM714lRLxGmba4JFjkocqpj1/6/Cx+IXezcS22azZetzCXDpm2MfNElecY3qkFjfnoffQiw5rrOO0/oRSATOh8+2fmJ6el7naRbDuh+i8lVESfdlkoqX57H5R8h/UTIp6gn1mpNlxjQv6QSZbl551zQ1nmkSVRbA5TbEp4br5GZeJ58esmYDCBwxuFTsSsdzbOBNthLcudWpJZHURfMc0ew24By1nldL9F37AktNcCipKpC2U0NtGlJjYPNSVXrCd1izxKmO7te7BLP+7B4DNj1VRnaf8X9+VIApCi/l4Kdx+ZR3aLTqSuNsIMmXUJ3T8JRl+ag7kby/KBp+0OpotABEBAAG0N0phbWVzIEJvdHRvbWxleSA8SmFtZXMuQm90dG9tbGV5QEhhbnNlblBhcnRuZXJzaGlwLmNvbT6JAVgEEwEIAEICGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAhkBFiEE1WBuc8i0YnG+rZrfgUrkfCFIVNYFAmBLmY0FCRs1hL0ACgkQgUrkfCFIVNaEiQgAg18F4G7PGWQ68xqnIrccke7Reh5thjUz6kQIii6Dh64BDW6/UvXn20UxK2uSs/0TBLO81k1mV4c6rNE+H8b7IEjieGR9frBsp/+Q01JpToJfzzMUY7ZTDV1IXQZ+AY9L7vRzyimnJHx0Ba4JTlAyHB+Ly5i4Ab2+uZcnNfBXquWrG3oPWz+qPK88LJLya5Jxse1m1QT6R/isDuPivBzntLOooxPk+Cwf5sFAAJND+idTAzWzslexr9j7rtQ1UW6FjO4CvK9yVNz7dgG6FvEZl6J/HOr1rivtGgpCZTBzKNF8jg034n49zGfKkkzWLuXbPUOp3/oGfsKv8pnEu1c2GbQpSmFtZXMgQm90dG9tbGV5IDxqZWpiQGxpbnV4LnZuZXQuaWJtLmNvbT6JAVYEEwEIAEACGwMHCwkIBwMCAQYVC
+	AIJCgsEFgIDAQIeAQIXgBYhBNVgbnPItGJxvq2a34FK5HwhSFTWBQJgS5mXBQkbNYS9AAoJEIFK5HwhSFTWEYEH/1YZpV+1uCI2MVz0wTRlnO/3OW/xnyigrw+K4cuO7MToo0tHJb/qL9CBJ2ddG6q+GTnF5kqUe87t7M7rSrIcAkIZMbJmtIbKk0j5EstyYqlE1HzvpmssGpg/8uJBBuWbU35af1ubKCjUs1+974mYXkfLmS0a6h+cG7atVLmyClIc2frd3o0zHF9+E7BaB+HQzT4lheQAXv9KI+63ksnbBpcZnS44t6mi1lzUE65+Am1z+1KJurF2Qbj4AkICzJjJa0bXa9DmFunjPhLbCU160LppaG3OksxuNOTkGCo/tEotDOotZNBYejWaXN2nr9WrH5hDfQ5zLayfKMtLSd33T9u0IUphbWVzIEJvdHRvbWxleSA8amVqYkBrZXJuZWwub3JnPokBVQQTAQgAPwIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQTVYG5zyLRicb6tmt+BSuR8IUhU1gUCYEuZmAUJGzWEvQAKCRCBSuR8IUhU1gacCAC+QZN+RQd+FOoh5g884HQm8S07ON0/2EMiaXBiL6KQb5yP3w2PKEhug3+uPzugftUfgPEw6emRucrFFpwguhriGhB3pgWJIrTD4JUevrBgjEGOztJpbD73bLLyitSiPQZ6OFVOqIGhdqlc3n0qoNQ45n/w3LMVj6yP43SfBQeQGEdq4yHQxXPs0XQCbmr6Nf2p8mNsIKRYf90fCDmABH1lfZxoGJH/frQOBCJ9bMRNCNy+aFtjd5m8ka5M7gcDvM7TAsKhD5O5qFs4aJHGajF4gCGoWmXZGrISQvrNl9kWUhgsvoPqb2OTTeAQVRuV8C4FQamxzE3MRNH25j6s/qujtCRKYW1lcyBCb3R0b21sZXkgPGplamJAbGludXguaWJtLmNvbT6JAVQEEwEIAD
+	4CGwMFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQTVYG5zyLRicb6tmt+BSuR8IUhU1gUCYEuZmQUJGzWEvQAKCRCBSuR8IUhU1kyHB/9VIOkf8RapONUdZ+7FgEpDgESE/y3coDeeb8jrtJyeefWCA0sWU8GSc9KMcMoSUetUreB+fukeVTe/f2NcJ87Bkq5jUEWff4qsbqf5PPM+wlD873StFc6mP8koy8bb7QcH3asH9fDFXUz7Oz5ubI0sE8+qD+Pdlk5qmLY5IiZ4D98V239nrKIhDymcuL7VztyWfdFSnbVXmumIpi79Ox536P2aMe3/v+1jAsFQOIjThMo/2xmLkQiyacB2veMcBzBkcair5WC7SBgrz2YsMCbC37X7crDWmCI3xEuwRAeDNpmxhVCb7jEvigNfRWQ4TYQADdC4KsilPfuW8Edk/8tPtCVKYW1lcyBCb3R0b21sZXkgPEpCb3R0b21sZXlAT2Rpbi5jb20+iQEfBDABAgAJBQJXI+B0Ah0gAAoJEIFK5HwhSFTWzkwH+gOg1UG/oB2lc0DF3lAJPloSIDBW38D3rezXTUiJtAhenWrH2Cl/ejznjdTukxOcuR1bV8zxR9Zs9jhUin2tgCCxIbrdvFIoYilMMRKcue1q0IYQHaqjd7ko8BHn9UysuX8qltJFar0BOClIlH95gdKWJbK46mw7bsXeD66N9IhAsOMJt6mSJmUdIOMuKy4dD4X3adegKMmoTRvHOndZQClTZHiYt5ECRPO534Lb/gyKAKQkFiwirsgx11ZSx3zGlw28brco6ohSLMBylna/Pbbn5hII86cjrCXWtQ4mE0Y6ofeFjpmMdfSRUxy6LHYd3fxVq9PoAJTv7vQ6bLTDFNa0KkphbWVzIEJvdHRvbWxleSA8SkJvdHRvbWxleUBQYXJhbGxlbHMuY29tPokBHwQwAQIACQUCVyPgjAIdIAAKCRCBSuR8IUhU1tXiB/9D9OOU8qB
+	CZPxkxB6ofp0j0pbZppRe6iCJ+btWBhSURz25DQzQNu5GVBRQt1Us6v3PPGU1cEWi5WL935nw+1hXPIVB3x8hElvdCO2aU61bMcpFd138AFHMHJ+emboKHblnhuY5+L1OlA1QmPw6wQooCor1h113lZiBZGrPFxjRYbWYVQmVaM6zhkiGgIkzQw/g9v57nAzYuBhFjnVHgmmu6/B0N8z6xD5sSPCZSjYSS38UG9w189S8HVr4eg54jReIEvLPRaxqVEnsoKmLisryyaw3EpqZcYAWoX0Am+58CXq3j5OvrCvbyqQIWFElba3Ka/oT7CnTdo/SUL/jPNobtCxKYW1lcyBCb3R0b21sZXkgPGplamJAaGFuc2VucGFydG5lcnNoaXAuY29tPokBVwQTAQgAQRYhBNVgbnPItGJxvq2a34FK5HwhSFTWBQJjg2eQAhsDBQkbNYS9BQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheAAAoJEIFK5HwhSFTWbtAH/087y9vzXYAHMPbjd8etB/I3OEFKteFacXBRBRDKXI9ZqK5F/xvd1fuehwQWl2Y/sivD4cSAP0iM/rFOwv9GLyrr82pD/GV/+1iXt9kjlLY36/1U2qoyAczY+jsS72aZjWwcO7Og8IYTaRzlqif9Zpfj7Q0Q1e9SAefMlakI6dcZTSlZWaaXCefdPBCc7BZ0SFY4kIg0iqKaagdgQomwW61nJZ+woljMjgv3HKOkiJ+rcB/n+/moryd8RnDhNmvYASheazYvUwaF/aMj5rIb/0w5p6IbFax+wGF5RmH2U5NeUlhIkTodUF/P7g/cJf4HCL+RA1KU/xS9o8zrAOeut2+4UgRaZ7bmEwgqhkjOPQMBBwIDBH4GsIgL0yQij5S5ISDZmlR7qDQPcWUxMVx6zVPsAoITdjKFjaDmUATkS+l5zmiCrUBcJ6MBavPiYQ4kqn4/xwaJAbMEGAEIACYCGwIWIQTVYG5zyLRi
+	cb6tmt+BSuR8IUhU1gUCZag0LwUJDwLkSQCBdiAEGRMIAB0WIQTnYEDbdso9F2cI+arnQslM7pishQUCWme25gAKCRDnQslM7pishdi9AQDyOvLYOBkylBqiTlJrMnGCCsWgGZwPpKq3e3s7JQ/xBAEAlx29pPY5z0RLyIDUsjf9mtkSNTaeaQ6TIjDrFa+8XH8JEIFK5HwhSFTWkasH/j7LL9WH9dRfwfTwuMMj1/KGzjU/4KFIu4uKxDaevKpGS7sDx4F56mafCdGD8u4+ri6bJr/3mmuzIdyger0vJdRlTrnpX3ONXvR57p1JHgCljehE1ZB0RCzIk0vKhdt8+CDBQWfKbbKBTmzA7wR68raMQb2D7nQ9d0KXXbtr7Hag29yj92aUAZ/sFoe9RhDOcRUptdYyPKU1JHgJyc0Z7HwNjRSJ4lKJSKP+Px0/XxT3gV3LaDLtHuHa2IujLEAKcPzTr5DOV+xsgA3iSwTYI6H5aEe+ZRv/rA4sdjqRiVpo2d044aCUFUNQ3PiIHPAZR3KK5O64m6+BJMDXBvgSsMy4VgRaZ7clEggqhkjOPQMBBwIDBMfuMuE+PECbOoYjkD0Teno7TDbcgxJNgPV7Y2lQbNBnexMLOEY6/xJzRi1Xm/o9mOyZ+VIj8h4G5V/eWSntNkwDAQgHiQE8BBgBCAAmAhsMFiEE1WBuc8i0YnG+rZrfgUrkfCFIVNYFAmWoNBwFCQ8C4/cACgkQgUrkfCFIVNZs4AgAnIjU1QEPLdpotiy3X01sKUO+hvcT3/Cd6g55sJyKJ5/U0o3f8fdSn6MWPhi1m62zbAxcLJFiTZ3OWNCZAMEvwHrXFb684Ey6yImQ9gm2dG2nVuCzr1+9gIaMSBeZ+4kUJqhdWSJjrNLQG38GbnBuYOJUD+x6oJ2AT10/mQfBVZ3qWDQXr/je2TSf0OIXaWyG6meG5yTqOEv0eaTH22yBb1nbodoZkmlMMb56jzRGZuorhFE06
+	N0Eb0kiGz5cCIrHZoH10dHWoa7/Z+AzfL0caOKjcmsnUPcmcrqmWzJTEibLA81z15GBCrldfQVt+dF7Us2kc0hKUgaWeI8Gv4CzwLkCDQRUdhaZARAApeF9gbNSBBudW8xeMQIiB/CZwK4VOEP7nGHZn3UsWemsvE9lvjbFzbqcIkbUp2V6ExM5tyEgzio2BavLe1ZJGHVaKkL3cKLABoYi/yBLEnogPFzzYfK2fdipm2G+GhLaqfDxtAQ7cqXeo1TCsZLSvjD+kLVV1TvKlaHS8tUCh2oUyR7fTbv6WHi5H8DLyR0Pnbt9E9/Gcs1j11JX+MWJ7jset2FVDsB5U1LM70AjhXiDiQCtNJzKaqKdMei8zazWS50iMKKeo4m/adWBjG/8ld3fQ7/Hcj6Opkh8xPaCnmgDZovYGavw4Am2tjRqE6G6rPQpS0we5I6lSsKNBP/2FhLmI9fnsBnZC1l1NrASRSX1BK0xf4LYB2Ww3fYQmbbApAUBbWZ/1aQoc2ECKbSK9iW0gfZ8rDggfMw8nzpmEEExl0hU6wtJLymyDV+QGoPx5KwYK/6qAUNJQInUYz8z2ERM/HOI09Zu3jiauFBDtouSIraX/2DDvTf7Lfe1+ihARFSlp64kEMAsjKutNBK2u5oj4H7hQ7zD+BvWLHxMgysOtYYtwggweOrM/k3RndsZ/z3nsGqF0ggct1VLuH2eznDksI+KkZ3Bg0WihQyJ7Z9omgaQAyRDFct+jnJsv2Iza+xIvPei+fpbGNAyFvj0e+TsZoQGcC34/ipGwze651UAEQEAAYkBHwQoAQIACQUCVT6BaAIdAwAKCRCBSuR8IUhU1p5QCAC7pgjOM17Hxwqz9mlGELilYqjzNPUoZt5xslcTFGxj/QWNzu0K8gEQPePnc5dTfumzWL077nxhdKYtoqwm2C6fOmXiJBZx6khBfRqctUvN2DlOB6dFf5I+1QT9TRBvceGzw01E4Gi0xjWKAB6OII
+	MAdnPcDVFzaXJdlAAJdjfg/lyJtAyxifflG8NnXJ3elwGqoBso84XBNWWzbc5VKmatzhYLOvXtfzDhu4mNPv/z7S1HTtRguI0NlH5RVBzSvfzybin9hysE3/+r3C0HJ2xiOHzucNAmG03aztzZYDMTbKQW4bQqeD5MJxT68vBYu8MtzfIe41lSLpb/qlwq1qg0iQElBBgBAgAPBQJUdhaZAhsMBQkA7U4AAAoJEIFK5HwhSFTW3YgH/AyJL2rlCvGrkLcas94ND9Pmn0cUlVrPl7wVGcIV+6I4nrw6u49TyqNMmsYam2YpjervJGgbvIbMzoHFCREi6R9XyUsw5w7GCRoWegw2blZYi5A52xe500+/RruG//MKfOtVUotu3N+u7FcXaYAg9gbYeGNZCV70vI+cnFgq0AEJRdjidzfCWVKPjafTo7jHeFxX7Q22kUfWOkMzzhoDbFg0jPhVYNiEXpNyXCwirzvKA7bvFwZPlRkbfihaiXDE7QKIUtQ10i5kw4C9rqDKwx8F0PaWDRF9gGaKd7/IJGHJaac/OcSJ36zxgkNgLsVX5GUroJ2GaZcR7W9Vppj5H+C4UgRkuRyTEwgqhkjOPQMBBwIDBOySomnsW2SkApXv1zUBaD38dFEj0LQeDEMdSE7bm1fnrdjAYt0f/CtbUUiDaPodQk2qeHzOP6wA/2K6rrjwNIWJAT0EGAEIACcDGyAEFiEE1WBuc8i0YnG+rZrfgUrkfCFIVNYFAmWoM/gFCQSxfmUACgkQgUrkfCFIVNZhTgf/VQxtQ5rgu2aoXh2KOH6naGzPKDkYDJ/K7XCJAq3nJYEpYN8G+F8mL/ql0hrihAsHfjmoDOlt+INa3AcG3v0jDZIMEzmcjAlu7g5NcXS3kntcMHgw3dCgE9eYDaKGipUCubdXvBaZWU6AUlTldaB8FE6u7It7+UO+IW4/L+KpLYKs8V5POInu2rqahlm7vgxY5iv4Txz4EvCW2e4dAlG
+	8mT2Eh9SkH+YVOmaKsajgZgrBxA7fWmGoxXswEVxJIFj3vW7yNc0C5HaUdYa5iGOMs4kg2ht4s7yy7NRQuh7BifWjo6BQ6k4S1H+6axZucxhSV1L6zN9d+lr3Xo/vy1unzA==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: axp8tf5o8qzschpeddo69zibwc9er41z
-X-Rspamd-Server: rspamout04
-X-Rspamd-Queue-Id: 5FE0480014
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX19rfwLI8uaQI467DWLEXVO6z4HZ/iKYS2A=
-X-HE-Tag: 1767823070-627189
-X-HE-Meta: U2FsdGVkX1/DqoTanVxpacoQiJW+uM39c5DHlqVmWh+HXz4ULQ9jUR2XZ+nOzqhV58wpyibW1aBMQj4nmJpabGcIUAkOK9x6PgnatyqaUC8EfvxJebAsQbhbQwbgjW6jYO6SEDsuhbMbAyOCHfoJOZPWjAobwzudOjhletszLd1NJk/X5ddymW1q30pCOf96iVBSsabeZxJGQGyD/WD6Zdw3aFyaOpeAmHJcYqpLnFyjykGXPROotKHvdq3XERLs1JiZQzAwmOsWxdz/nUQKCo4y62YaWO5tQIgi8tEFGA9eEEPxQaIeI++hFvSXukux7QWN8krXvI3uPJgQ6P+MBmo7RXMwpbSk
 
-On Wed, 7 Jan 2026 21:15:17 +0000
-Lorenzo Stoakes <lorenzo.stoakes@oracle.com> wrote:
+On Wed, 2026-01-07 at 21:15 +0000, Lorenzo Stoakes wrote:
+> On Wed, Jan 07, 2026 at 11:18:52AM -0800, Dave Hansen wrote:
+> > On 1/7/26 10:12, Lorenzo Stoakes wrote:
+> > ...
+> > > I know Linus had the cute interpretation of it 'just being
+> > > another tool' but never before have people been able to do this.
+> >=20
+> > I respect your position here. But I'm not sure how to reconcile:
+> >=20
+> > 	LLMs are just another tool
+> > and
+> > 	LLMs are not just another tool
+> >=20
+> > :)
+>=20
+> Well I'm not asking you to reconcile that, I'm providing my point of
+> view which disagrees with the first position and makes a case for the
+> second. Isn't review about feedback both positive and negative?
+>=20
+> Obviously if this was intended to simply inform the community of the
+> committee's decision then apologies for misinterpreting it.
+>=20
+> I would simply argue that LLMs are not another tool on the basis of
+> the drastic negative impact its had in very many areas, for which you
+> need only take a cursory glance at the world to observe.
+>=20
+> Thinking LLMs are 'just another tool' is to say effectively that the
+> kernel is immune from this. Which seems to me a silly position.
 
+All tools are double edged and the better a tool is the more
+problematic its harmful uses become but people often use them anyway
+because of the beneficial uses.  You don't for instance classify
+chainsaws as not another tool because they can be used to deforest the
+Amazon.  All the document is saying is that we start from the place of
+treating AI like any other tool and, like any other tool, if it proves
+to cause way more problems than it solves, then we can then move on to
+other things.  There are other tools we've tried and abandoned (like
+compiling the kernel with c++), so this really isn't any different.
 
-> I would simply argue that LLMs are not another tool on the basis of the
-> drastic negative impact its had in very many areas, for which you need only
-> take a cursory glance at the world to observe.
-> 
-> Thinking LLMs are 'just another tool' is to say effectively that the kernel
-> is immune from this. Which seems to me a silly position.
+Regards,
 
-But has this started to become a real problem with the kernel today?
+James
 
-> 
-> >
-> > Let's look at it another way: What we all *want* for the kernel is
-> > simplicity. Simple rules, simple documentation, simple code. The
-> > simplest way to deal with the LLM onslaught is to pray that our existing
-> > rules will suffice.  
-> 
-> I'm not sure we really have rules quite as clearly as you say, as
-> subsystems differ greatly in what they do.
-> 
-> For one mm merges patches unless averse review is received. Which means a
-> sudden influx of LLM series is likely to lead to real problems. Not all
-> subsystems are alike like this.
-
-But has this happened yet?
-
-> 
-> One rule that seems consistent is that arbitrary dismissal of series is
-> seriously frowned upon.
-
-If it is AI slop coming in, you can say, "unless you can prove to me that
-you understand this series and there's nothing wrong with it, I'm rejecting
-it"
-
-If the series looks good then what's the issue. But if it's AI slop and
-it's obvious the person behind the code doesn't understand what they are
-submitting, that could even be rationale for sending that person to your
-/dev/null folder.
-
-> 
-> The document claims otherwise.
-> 
-> >
-> > For now, I think the existing rules are holding. We have the luxury of  
-> 
-> We're noticing a lot more LLM slop than we used to. It is becoming more and
-> more of an issue.
-
-Are you noticing this in submissions?
-
-> 
-> Secondly, as I said in my MS thread and maybe even in a previous version of
-> this one (can't remember) - I fear that once it becomes public that we are
-> open to LLM patches, the floodgates will open.
-
-This document is not about addressing anything that we fear will happen. It
-is only to state our current view of how things work today.
-
-If the floodgates do open and we get inundated with AI slop, then we can
-most definitely update his document to have a bit more teeth.
-
-But one thing I learned about my decade on the TAB, is don't worry about
-things you are afraid might happen, just make sure you address what is
-currently happening. Especially when it's easy to update the rules.
-
-
-> 
-> The kernel has a thorny reputation of people pushing back, which probably
-> plays some role in holding that off.
-> 
-> And it's not like I'm asking for much, I'm not asking you to rewrite the
-> document, or take an entirely different approach, I'm just saying that we
-> should highlight that :
-> 
-> 1. LLMs _allow you to send patches end-to-end without expertise_.
-
-Why does this need to be added to the document. I think we should only be
-addressing how we handle tool generated content.
-
-> 
-> 2. As a result, even though the community (rightly) strongly disapproves of
->    blanket dismissals of series, if we suspect AI slop [I think it's useful
->    to actually use that term], maintains can reject it out of hand.
-> 
-> Point 2 is absolutely a new thing in my view.
-
-I don't believe that is necessary. I reject patches outright all the time.
-Especially checkpatch "fixes" on code that is already in the tree. I just
-say: "checkpatch is for patches, not accepted content. If it's not a real
-bug, don't use checkpatch."
-
-If the AI code is decent, why reject it? If it's slop, then yeah, you have
-a lot of reasons to reject it.
-
-> 
-> > treating LLMs like any other tool. That could change any day because
-> > some new tool comes along that's better at spamming patches at us. I
-> > think that's the point you're trying to make is that the dam might break
-> > any day and we should be prepared for it.
-> >
-> > Is that what it boils down to?  
-> 
-> I feel I've answered that above.
-> 
-> >  
-> > >> +As with all contributions, individual maintainers have discretion to
-> > >> +choose how they handle the contribution. For example, they might:
-> > >> +
-> > >> + - Treat it just like any other contribution.
-> > >> + - Reject it outright.  
-> > >
-> > > This is really not correct, it's simply not acceptable in the community to
-> > > reject series outright without justification. Yes perhaps people do that,
-> > > but it's really not something that's accepted.  
-> >
-> > I'm not quite sure how this gives maintainers a new ability to reject
-> > things without justification, or encourages them to reject
-> > tool-generated code in a new way.
-> >
-> > Let's say something generated by "checkpatch.pl --fix" that's trying to
-> > patch arch/x86/foo.c lands in my inbox. I personally think it's OK for
-> > me as a maintainer to say: "No thanks, checkpatch has burned me too many
-> > times in foo.c and I don't trust its output there." To me, that's
-> > rejecting it outright.
-> >
-> > Could you explain a bit how this might encourage bad maintainer behavior?  
-> 
-> I really don't understand your question or why you're formulating this to
-> be about bad maintainer behaviour?
-> 
-> It's generally frowned upon in the kernel to outright reject series without
-> technical justification. I really don't see how you can say that is not the
-> case?
-
-If it's AI slop, then I'm sure you could easily find lots of technical
-justifications for rejecting it. Why do we need to explicitly state it
-here?.
-
-> 
-> LLM generated series won't be a trivial checkpatch.pl --fix change, you've
-> given a trivially identifiable case that you could absolutely justify.
-
-Is it trivial just because it's checkpatch? I gave another example above
-too. But if AI slop is coming in, I'm sure there's lots of reasons to
-reject it.
-
-Are you saying that if there's good AI code coming in (I wouldn't call it
-slop then) that you want to outright reject it too?
-
-> 
-> Again, I'm not really asking for much here. As a maintainer I am (very)
-> concerned about the asymmetry between what can be submitted vs. review
-> resource.
-> 
-> And to me being able to reference this document and to say 'sorry this
-> appears to be AI slop so we can't accept it' would be really useful.
-
-Then why not come up with a list of reasons AI slop is bad and make a
-boiler plate and send that every time. Basically states that if you submit
-AI code, the burden is on the submitter to prove that they understand the
-code. Or would you like that explicitly stated in this document? Something
-like:
-
-- If you submit any type of tool generated code, then it is the
-  responsibility of the submitter to prove to the maintainer that they
-  understand the code that they are submitting. Otherwise the maintainer
-  may simply reject the changes outright.
-
-?
-
-> 
-> Referencing a document that tries very hard to say 'NOP' isn't quite so
-> useful.
-
-I don't think this document's goal was to be a pointer to show people why
-you are rejecting AI submissions. This is just a guideline to how tool
-generated code should be submitted.
-
-It's about how things work today. It's not about how things will work going
-forward with AI submissions. That document is for another day.
-
--- Steve
