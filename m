@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85507306B37;
-	Wed,  7 Jan 2026 12:28:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7982E30F53A;
+	Wed,  7 Jan 2026 12:28:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767788890; cv=none; b=TbWaPiU4pbcaGiKbQGa+5WC4vr1rPEyhxbT80aVmvLhKGjYWwAeDHekn+U3NKaWuWVQR219EUSr3j/CZoFAt1fv6yXdtRYQGh2qe23ZXZuprbiKFvvMIduMc9wH/lpp1Sod/m2D3u+oreEJ2zrsnaYfwrFmAO0iST4hvB54xfiE=
+	t=1767788921; cv=none; b=Pps47OgSyLDe2y7DY9IokRhAR8kH6MqswYgNLeWwlg+mIl8FecD6S6oupNK02FvKpVHS2IeIcXRJht2vshr+ETrucV1FU/eVyzAaYwTvj4rmhenPjkhEgASN9lFotJdkO0mwgcA3BXUo+89l2jzMztJVdUCCRUkmDjWyNo9qkK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767788890; c=relaxed/simple;
-	bh=Wos876omvDXYSS1X2N3X8i6LgU9Acqvr3jolsUjt4t4=;
+	s=arc-20240116; t=1767788921; c=relaxed/simple;
+	bh=lfKOFuuWXD1YokDPX9u6QpsaP8MRUqoZyVJtLdigca8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eOX3tB60fHe+EgF2u36ke9hiTAN/jw9i2vnZ34cXcJhJak5wIMzXGfsRjtVIa43eEjgk73O7y4f0i3E9VxSD99z8oJ9jbcqP8gQIIwLR8gcvOE1GTQoF9QHB7HwjQEa1nrP7Hn3Ftw0JQPSgVZzGMpUxRRh7U5dZ7I8Ucn8rjds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LhxBx7AU; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=LWx9E1k3jY4TQFLWMUB6zwTZckHe05JcH2cjknAO6NyrkaQuz/bcazw9tz3fKHrUW0EvccnIE2Ovv9a8n0Y1T2lAeYlWkyTEZgZpaoRXIXIH6hbYzPL0+r+xPEcy2nFXn9nmbCBAcxE/cA75uVbdrky26rKMzu30WujDkK8Jk9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VDs3BmKj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LhxBx7AU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03E49C4CEF7;
-	Wed,  7 Jan 2026 12:28:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VDs3BmKj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0BF1C16AAE;
+	Wed,  7 Jan 2026 12:28:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767788890;
-	bh=Wos876omvDXYSS1X2N3X8i6LgU9Acqvr3jolsUjt4t4=;
+	s=k20201202; t=1767788921;
+	bh=lfKOFuuWXD1YokDPX9u6QpsaP8MRUqoZyVJtLdigca8=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=LhxBx7AUzQ81hO6okmZeUod9FqPRNGAPzkPOYD/Gy4WE5h7L19qf7YnRZal3BhdVu
-	 lUmg0gQcPBHbBbki5QpTnEKD48+IcUFLBxCqLkAqbxPUekuSrMjWqpS11B+XPxY6zL
-	 1JxzySkMWU25XNOXXihR44stx0BgFtZD9pJ/JK2ytWZvYITx8UjINDfUy7Oh95S5UF
-	 PIZqLNukTLBhyRTTuInjojU43iJkX0Twc6chM/R6rQzs7TIDeedybCq1EcCjwcW81z
-	 hGhHFC66THwkytYdZZ+PXWpFwN/otvNRr4luUtqTNFDS4ULPhVHrDP1OGv9+IVQD7Y
-	 B2ev2lqu1N1Og==
-Message-ID: <0acd182c-3b04-4337-b682-57ca791425d5@kernel.org>
-Date: Wed, 7 Jan 2026 13:28:07 +0100
+	b=VDs3BmKjIl//h9+wE2e6A+hf9hdTwYSAj9Nsv0Nolp4C4X9PzIUcRO5pjEudRTAll
+	 MOnf5vTNrBxAmhR591i1CqRE6wfMNRbaxfHtpiCYOrsEDAuyRRBcnLTN//hQuAn7jd
+	 umstya6W/Ia7bI9X53iFKVYw5c6kafQBzmSExEmVJ3/zF+UwRb9bXAWaKk1yGEC6de
+	 Vl/ggRx5cgLNMi/BOtdfYSyOJkKG6Y6YWW5G/ZLTNfKJLjSwAODKZ52M8Q2uouf2V8
+	 EbD7DrmLj29MWq6a7bqFcacrPMPxuq3SUS5bfP63nUzsVRjVZObUIgv1GMHsYe4xHC
+	 1eju/xIGhjSog==
+Message-ID: <b14bb569-7c5f-4833-822e-a46f3be80ba7@kernel.org>
+Date: Wed, 7 Jan 2026 13:28:38 +0100
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -35,11 +35,11 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/9] CodingStyle: recommend static_assert/_Static_assert
+Subject: Re: [PATCH 7/9] CodingStyle: new variable declaration placement rule
 To: Alexey Dobriyan <adobriyan@gmail.com>, corbet@lwn.net
 Cc: workflows@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20250509203430.3448-1-adobriyan@gmail.com>
- <20250509203430.3448-6-adobriyan@gmail.com>
+ <20250509203430.3448-7-adobriyan@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -85,21 +85,33 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250509203430.3448-6-adobriyan@gmail.com>
+In-Reply-To: <20250509203430.3448-7-adobriyan@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 09/05/2025 22:34, Alexey Dobriyan wrote:
-> Linux's BUG_ON is done backwards (condition is inverted).
-> But it is a long story.
-> 
-> However C11/C23 allow to partially transition to what all normal
-> programmers are used to, namely assert().
-> 
-> Deprecate BUILD_BUG_ON, recommend static_assert/_Static_assert.
-> And then some day BUG_ON will be flipped as well.
+>  
+> +Variable declarations
+> +---------------------
+> +
+> +Each variable is declared in the innermost scope possible
+> +where ``for`` initialization clause counts as a scope as well.
+> +
+> +Inside specific scope each variable is declared as late as possible as if
+> +declarations have "mass" and "fall down":
+> +
+> +.. code-block:: c
+> +
+> +	int f(void *priv)
+> +	{
+> +		struct xxx_obj *obj = to_xxx_obj(priv);
+> +
+> +		rcu_read_lock();
+> +		int s_xxx = 0;
 
 NAK, so silence won't be treated as agreement.
+
+
 
 Best regards,
 Krzysztof
