@@ -1,362 +1,307 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB6D64D77A6
-	for <workflows@vger.kernel.org>; Thu,  8 Jan 2026 14:06:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767881197; cv=none; b=q6pcMbbGIi9KdLxmM9ytWWiMQd2GI4VolHvR86sLd4s4zfBToekJG1/3gS+NByaxvPCOg1g4ON+dLcCJiq4W9LeHKur3N8dshsfhUijFpnjAzKFf9fn4ahy5ZltA8rm5jXrVM3Y/yPU+lnLH/6/i2GJmKNlIsv0w5eM/wLmxmms=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767881197; c=relaxed/simple;
-	bh=3FIkjO3NG+obkV87quC4g5/nDfuPMgijvg6hZGLxtLs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Xj461fdF7IKZ7ABRPZa2f5SkAhizCkqNobdeL1DDos/XzXYMfUmzsy94gkKMdOsz6vJPhbKkkYvnzoswCdtNc902BAPsWRrDGOinOxvPeyS8Q9YiB4i/7QiWUVuPde+auzhUPu/yGj9cpmK8SZL8qH8Acbk5RlLA6VoDCU6Qrpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=G0E35x40; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=PPQOD48M; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=s55YAOHo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=+uW1vKPV; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A98B39A81E;
+	Thu,  8 Jan 2026 14:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767881271; cv=fail; b=bQjc98m45ksvKoODBzHX0beswcYJLnVqeS6fZyMlwmEcY3jKQtMsROfjV+V1PygCrVZjm99dG43QDdcapAGz2a4xfTtDIN+lFIcNRtmaM3qt2k1FuPM+DjhQv/LI8Qx/OLzTaBLEm8sBT4Dk1qsYt4cANdQuD/KEnjx2ANkC2VI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767881271; c=relaxed/simple;
+	bh=O1UkaqMw8U/cfH7YBF8bk4xUPhD3lP8Tice6qE7VyjA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=A/lEW7g+lTzzebJX6sX+YZFMFCKMudgpS2a8+vyiQmFbEV2LS5WWl9GqqQYUwfokGbKsKuk8at4zegoybORSr3unAABziOKCofVdDv7u+T96tLHOYVojw8GTxlmn222iepjnC3Ip71nAWle6qPMnHPMYSC9PcDdiOMZJpmAlBSI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=SMSzEf+s; dkim=fail (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=pYY4qhrJ reason="signature verification failed"; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="G0E35x40";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="PPQOD48M";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="s55YAOHo";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="+uW1vKPV"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C4DBB5C26E;
-	Thu,  8 Jan 2026 14:06:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1767881193; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=wMbTKpF62EVlMIvP9rtTlI1EHLuFDiABCZ/3ZLwBSXU=;
-	b=G0E35x40ABgPN7d1+hSLMpkhOXy+wYSw3ZDtIcDPS+FQwF23mhrRPgH/9PGGa1RXE2Xxm3
-	ULah/KYOrmmc0c+fopDjYWIAxgQTMquQx9ENYoCnH5ykA/L5RtvGO5M/6pOxHlUD0JzyPB
-	zYO54zK5XD2B/wKfFeuDRhmP0hzo73k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1767881193;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=wMbTKpF62EVlMIvP9rtTlI1EHLuFDiABCZ/3ZLwBSXU=;
-	b=PPQOD48MICWsjSFTJkfF8VoEWSxtifm8GqhaJLS4wIvbOGwh5y2ObjbaPyRzV7lLabqDCA
-	2pK71hGmsaXZGWBw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1767881192; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=wMbTKpF62EVlMIvP9rtTlI1EHLuFDiABCZ/3ZLwBSXU=;
-	b=s55YAOHo9ZYPli6YQzIU1mejK2dZaw2pbIbEeExXeMOHQU+KOTJlAJaAhQm/loYLWq7w5Z
-	JJSEYe7gMWiFrZZCJzaSsi1a8kGEpW9q8RTCKYvfofMhUGjh6z5fM8QLJ8WqErmV2/jE/A
-	iPyFXCNIqiifXZlvcfJf6qg5LpGFM9w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1767881192;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=wMbTKpF62EVlMIvP9rtTlI1EHLuFDiABCZ/3ZLwBSXU=;
-	b=+uW1vKPVQAynozdn/ZUDUxZbcwDyfNzKQuHIXV7VEMzMa4hi8XlEAzdLnWwddCnWTC45MT
-	gSI5HgJUbbephDAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 59BBB3EA63;
-	Thu,  8 Jan 2026 14:06:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id fa07Fei5X2kpLgAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Thu, 08 Jan 2026 14:06:32 +0000
-Message-ID: <f1f06db9-a12c-4999-9723-1fca5e8383a4@suse.cz>
-Date: Thu, 8 Jan 2026 15:06:31 +0100
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="SMSzEf+s";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="pYY4qhrJ"
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 608DNHeX625731;
+	Thu, 8 Jan 2026 14:07:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=SlsBs+RrUxEaUWh3WOGNB4bquLvGgXnoSjh3URIqo/4=; b=
+	SMSzEf+saGJV/jSiXzsjO5wTBzghK6PNwexz1oVaY6qRrmToe1d4gHIwtsqExT9U
+	PMfrXh8cXH4VZcJjSo9h93Jh0m4wdZToxiqJd2ghwVlnNTnddQrG2jjwKUMcM5BX
+	Typns4rfDZzEfB83bJv8bDMifrGFL/+TVnzwyfK+G/mA4+F84Ybwc/vBZfQCSj6e
+	+bHrjO38X42Mh+YYvPXusfj6qjPL27Abz+jYW2ARZ5loyUNvxT0yDyd/xa9t7ULo
+	4pYnTQ56Ndqqe/QM4yERoq/4O27JsQje/7Ys6tPntJ4RXVCv1klg+HQWDY+00L2Z
+	FVH8VlJw9RpHo66nA3D/kg==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4bjddu01s4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 08 Jan 2026 14:07:26 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 608DrNWd020393;
+	Thu, 8 Jan 2026 13:56:20 GMT
+Received: from ph0pr06cu001.outbound.protection.outlook.com (mail-westus3azon11011019.outbound.protection.outlook.com [40.107.208.19])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4besjn4sm9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 08 Jan 2026 13:56:20 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FKpBDcaxlIlDHAs+mRC2P7PCvSg4PFRXOrd8EqOMMWBX/Hy00fUW/nC8aXxDw8PTUvCOkwseWr87IrTw7marH1q95B0clkOVHMfnt6jiQIB30xrs2ZEGN4qzpK0c4RRpdJcVxZQuIjxdkIh7S+67bh3fdkUx9gFLkWymtTY5MLMisCX0oFnJCxRsyRr5gjsrTT6e7IPQ6KE8ci6QnapCAFnKxTOv6lNA5HXt0VBd8Kf5tlNsnZWHv/xVEJNbAn0wIPgxlVUzxGqnFiP3EHg1+7WJjgoZRFkYj9jkWtrm54qhhDSUBSQgWBwsZ28Z/i0KkilsjZyCP3WVGDMhyaqicg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ncfwtywyyWdRGHdrhaCo+ucr0zWzr4z02udsMc8VSqY=;
+ b=SHMKPLU8pSgNFIVxA1Ypv83crUFycWkylTYgfYSLA2rUhk6+C2FUJABEz04Pfvz5M75vrKUrEcRiJXbsSqMfNQwIQBlM+o8DGeDEhiP5LWqPaZJ4c2T+vFpIU1kHaOwLISFUiB5CkRCMWEery6J4LBOvo2uuPcjrGqN7kFC09kjsKTliUbJ50UEVV1nMI9vkR7O0+74UYUXY33+3X2oMyMEe28Yp5bG+G8XSCAjZWFghEWPS/zkxERNmVgEBX52S2dwLyObmCNl0WnjMNjlFQOM+WT7hGzBuAWYq4MG1GO3Qj5NAgMcSTOym3Rlntqh+4/3c2CfU+XT0BCtJUYzSPQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ncfwtywyyWdRGHdrhaCo+ucr0zWzr4z02udsMc8VSqY=;
+ b=pYY4qhrJ0cok1A3KtpWQmTJyowCDYXP7flN9c5qxVNqT4QaNbldDML8rqa/UMrAbUlvouFRLL5Uwn7dOYiEU6zdRutoTvNe1x6n1hoL6MrPXtUym52UTrSM62sqXxtHjpZ5Btpyhxa65pd0MHBNmYDKGF/BxP8aTJ/veteKPhCI=
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
+ by LV3PR10MB7984.namprd10.prod.outlook.com (2603:10b6:408:20d::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.2; Thu, 8 Jan
+ 2026 13:56:17 +0000
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::f3ea:674e:7f2e:b711]) by DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::f3ea:674e:7f2e:b711%6]) with mapi id 15.20.9499.002; Thu, 8 Jan 2026
+ 13:56:17 +0000
+Date: Thu, 8 Jan 2026 13:56:19 +0000
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: James Bottomley <James.Bottomley@hansenpartnership.com>
+Cc: Dave Hansen <dave.hansen@intel.com>, Dave Hansen <dave@sr71.net>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        linux-kernel@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+        Kees Cook <kees@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Miguel Ojeda <ojeda@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
+        SeongJae Park <sj@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
+        Steven Rostedt <rostedt@goodmis.org>, NeilBrown <neilb@ownmail.net>,
+        Theodore Ts'o <tytso@mit.edu>, Sasha Levin <sashal@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Vlastimil Babka <vbabka@suse.cz>,
+        workflows@vger.kernel.org, ksummit@lists.linux.dev
+Subject: Re: [PATCH] [v3] Documentation: Provide guidelines for
+ tool-generated content
+Message-ID: <85614f7f-f217-47e5-a9f7-0a012f6e6ecd@lucifer.local>
+References: <20260106205105.4037716-1-dave.hansen@linux.intel.com>
+ <1e982055-47c2-43d1-a919-93b3e59f2ed0@lucifer.local>
+ <93aadf2b-0df4-49eb-91fd-b401b44ce3af@sr71.net>
+ <1c74353c-40de-4d0b-a517-92a94f8b4af8@lucifer.local>
+ <6c71554c-4fa1-4b99-9d46-2f1a2ecc1b7f@intel.com>
+ <611c4a95-cbf2-492c-a991-e54042cf226a@lucifer.local>
+ <a60e0e566edbcbd70176045ae077176444ca25a9.camel@HansenPartnership.com>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a60e0e566edbcbd70176045ae077176444ca25a9.camel@HansenPartnership.com>
+X-ClientProxiedBy: LO4P123CA0127.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:193::6) To DM4PR10MB8218.namprd10.prod.outlook.com
+ (2603:10b6:8:1cc::16)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 4/5] slab: Introduce kmalloc_flex() and family
-Content-Language: en-US
-To: Kees Cook <kees@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
- Andrew Morton <akpm@linux-foundation.org>, Christoph Lameter
- <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-mm@kvack.org,
- linux-hardening@vger.kernel.org,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Miguel Ojeda <ojeda@kernel.org>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- Matthew Wilcox <willy@infradead.org>, John Hubbard <jhubbard@nvidia.com>,
- Joe Perches <joe@perches.com>, Christoph Lameter <cl@linux.com>,
- Marco Elver <elver@google.com>, Vegard Nossum <vegard.nossum@oracle.com>,
- Pekka Enberg <penberg@kernel.org>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Jann Horn <jannh@google.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Sasha Levin <sashal@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, Peter Zijlstra
- <peterz@infradead.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Jakub Kicinski <kuba@kernel.org>, Yafang Shao <laoar.shao@gmail.com>,
- Tony Ambardar <tony.ambardar@gmail.com>,
- Alexander Lobakin <aleksander.lobakin@intel.com>,
- Jan Hendrik Farr <kernel@jfarr.cc>, Alexander Potapenko <glider@google.com>,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-References: <20251203233029.it.641-kees@kernel.org>
- <20251203233036.3212363-4-kees@kernel.org>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- m6M14QORSWTLRg==
-In-Reply-To: <20251203233036.3212363-4-kees@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[40];
-	TAGGED_RCPT(0.00)[lkml];
-	MID_RHS_MATCH_FROM(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLwn5r54y1cp81no5tmbbew5oc)];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[lwn.net,linux-foundation.org,gentwo.org,google.com,linux.dev,oracle.com,kernel.org,vger.kernel.org,kvack.org,infradead.org,intel.com,nvidia.com,perches.com,linux.com,lge.com,linuxfoundation.org,gmail.com,jfarr.cc,lists.linux.dev];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,linux.dev:email,suse.cz:mid,suse.cz:email]
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
-X-Spam-Level: 
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|LV3PR10MB7984:EE_
+X-MS-Office365-Filtering-Correlation-Id: b62ec260-8e77-463c-61a9-08de4ebdb19e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?iso-8859-1?Q?aG5BYupf8QIfQbUz8ftA8gf4lriJ8cvqINtkdbn0Flwx1zERUf5PONBOlx?=
+ =?iso-8859-1?Q?L2qNvzqcEnVN39nK76HdErV4aOpJjP435eiGLgVKlCBcB94PBDhjxgx/sY?=
+ =?iso-8859-1?Q?ewONQQyf3cWZl5wKUhfTkRAf++beN8Pr/ji953rifQ1TS/Eq6mzLqAf3O7?=
+ =?iso-8859-1?Q?RhYHas3yVtbZ5iU2mssWcalGedlqPVd4Bv4MLd+3rgWHTmJZp/7M9CYFvs?=
+ =?iso-8859-1?Q?6kz2CJzHnqx7xDTgIrreLFnNYA2XiY5ebCPLN6gU2SCxgRn+A0HgQHYxiD?=
+ =?iso-8859-1?Q?BZGN3lozSUHFNj4Gp1gZS7L2ANlU+IU/ledGYwyAxK3rF2yflex17MyAsv?=
+ =?iso-8859-1?Q?TYlzT5aWY9s1MCg0M2ERf/DsHWCIYVaY7CDrf/QiqWFggVj8YDG2Lsw1Be?=
+ =?iso-8859-1?Q?Mui1EK89c9MJFpXTBOg43rw8uZsZWPzZ7+nyQ7lf7lTT+KAcpoMlQa58zh?=
+ =?iso-8859-1?Q?g3mJ/7KJcl7GUYCstLZyzEDdKsb1ibdHRJqDBP+EiU0ZTkLTS2yhs7IT8D?=
+ =?iso-8859-1?Q?QQrvPXu8B3i/3F1mqKrswrt6e02Z9GKQiTqN5Wmt3P4PW/moSlBP7My7a/?=
+ =?iso-8859-1?Q?G49M0atSzqlm8y56Z2wp7/H2N0oJhgJtlIFc7tpwhQYDn0K4rC+MHH7Ye1?=
+ =?iso-8859-1?Q?8rAsesp8jKmvp8wY9z4qDvtoR9cw3TJ6FeqMvtp3c9JeOBaGd/K1Xa2c1y?=
+ =?iso-8859-1?Q?0r/XMdvB2/F4LIrP4qbp4Um+FwoK6upSCEah+wYFHVF1Cb4fdALLd91gfj?=
+ =?iso-8859-1?Q?MPUTUNZcb1zFsRin6kn+Pqu7lFN72RE/rcquYlKTa8wzjjJVL9kBL1omtS?=
+ =?iso-8859-1?Q?8gbtfOUCU3Lei0Nsa0KaLEgJF3/rJByQJ95mScTs/4fSI2yxZi/a88bLSL?=
+ =?iso-8859-1?Q?SgayNZJnP3L5hf5fzAPelY4E1jRLtqKadOpVI7Z4m9niWO8KVxo7Wgu+Hj?=
+ =?iso-8859-1?Q?XSZYWpgQaq7+lnojMkB7tfuyYtIECJiR5Q9IFTQelOB5gR6kIj6xT6OelN?=
+ =?iso-8859-1?Q?NV/OvzOi2am8skVR05aJumkgTaOjR7VUIZMvhGvjfJWmiw5036gNX7+xnV?=
+ =?iso-8859-1?Q?/aJNP0PXuZ9fy9G0Ovgw6E9JKE13kt0ttOekX6E8wjrK2ndRw8POF08nHD?=
+ =?iso-8859-1?Q?CV+wScrfurISYzfKK/ay77p8TKK7UMA1gklvCduTg/CCvHDQNhaCF66cOE?=
+ =?iso-8859-1?Q?T4OCTevTYzUubR9vtWI3YbkoLkc1hxEXvki/lV5fobO9gkbTfEZhiBmkQ2?=
+ =?iso-8859-1?Q?15wBMMGgvWnD7kpkbMoMvzr70Vp84CkH+mUfYxVPWdCMpZpYbNTnEydd9x?=
+ =?iso-8859-1?Q?50jwzPa//2sUPeQLIqHTFMNfUL6ZVrlVxAPHkaLrVOwUjIMQMdq+Cw0dnK?=
+ =?iso-8859-1?Q?ZVGJKtxLWItUax0MNDnx6YrPOT+2R6f8napYXP+7t59DeJhT5P5qqT8rRr?=
+ =?iso-8859-1?Q?b8NJukbgMS0Dg0RJ580F54dxLIRk35LiaTRM7EkyVwGl2F47mBpIhRiJpr?=
+ =?iso-8859-1?Q?PkRPlE8yG0k65fZN/03DiY?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB8218.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?iso-8859-1?Q?HHHKxTBD42qr+GC0VUojoJUxPuXloyp1dqfmfWvjlSgWk99nPgPQj/SZK8?=
+ =?iso-8859-1?Q?Ajbyk030e+PSRpoZguAS8sCuGxZ8K3UgBt0EEcD/w9yZtFzMfrWDPSCZsA?=
+ =?iso-8859-1?Q?tK6BxK+KzFjZ0sx2CPnEwU+zJK9gUfNCArSA4Yyyi0qkuLQ+y1Z5wAeCho?=
+ =?iso-8859-1?Q?JEeQuNW/OwPbf3cvWPDcGY34K9oQhN8nDXIcIGXL+cUy3MTzpMoPBJbcQ3?=
+ =?iso-8859-1?Q?oagfLCiz320gcLEUgLQuTLDNyCUYNc+nzVZ2W/veG7PSwKzVT4NKBDa/xC?=
+ =?iso-8859-1?Q?glHoXPtoT8Q8GVRwpk5drTFBVIgKwiRXWgZcbTMDcViR1DPodIWwEkMfAG?=
+ =?iso-8859-1?Q?YHBvzR8Wo6Z8/QLcFXGG34M6DcVHNhvzSfvPcA9MkhVIF4+e74WS2jaOsP?=
+ =?iso-8859-1?Q?47kyhTaKcdsQhxt3jRkTWVN2YqobFRs3Mb6YdVCkzUDVeEqKTVmKqDjoao?=
+ =?iso-8859-1?Q?pqrDs1bzd4NBS5anE067VZo1hn9eJaGzUMrGrrc5Pf+sj8+Y5es5iHHecD?=
+ =?iso-8859-1?Q?IllyMNbwCQoWWIe6Ih7nAXENJFu4geLPYzElo183wYR4vCLpwy4ezx/0Pa?=
+ =?iso-8859-1?Q?TjtB/rYw0e4My34LlY7xElZZHLb7Ef+V2e0oi11t/BpLfETwFcHjMOAiM6?=
+ =?iso-8859-1?Q?Du5g1uFT+i4Ulc7Cp5pSi+vhGj6vq0RvHTV4mHXKl1478vlFcZajg0lBJs?=
+ =?iso-8859-1?Q?tbviMwvzxWyQdBsWdgNOZI6DbqfkSVt2yTSdrIRHlh7nxKLqe7fXz6kSAc?=
+ =?iso-8859-1?Q?pbPkQ9USo+edN4Yk79wV8SQBABUGpN9dd9BvHDx9D+DH7rXJyB8jlRhSYX?=
+ =?iso-8859-1?Q?/yPzWBZ0h+kN6HbHzlpT7W1nOl2XqSgwjB9kbdOVbt1pZVC2KBUclDD77Z?=
+ =?iso-8859-1?Q?ilCsN4CualQj7VzA4e/PWy6evoLGJXXfXpfaghFkf7eLlDw+HYrT+/nlXu?=
+ =?iso-8859-1?Q?hvMBykSvsCZy/GjrlVJfR957R3JYZaYug38dgWJvE/Pj3F0eGlF2HPc/qx?=
+ =?iso-8859-1?Q?HXsILLlc54dG+vqKT2W6o+Gw0NWsUa4KVSdKhCL8b5wKlp4Sq/JvWf0KuB?=
+ =?iso-8859-1?Q?cKQrNdFP51kVwp84eGazcjmhnPNBwci/U5/csvwKqVzwHai2JwDHSMcx/K?=
+ =?iso-8859-1?Q?/vOlMTwt1Ub1Fjy3z+mOUTnUhLi3KXjES5SH8x7j2SMGWYaRvVjwUZyRvp?=
+ =?iso-8859-1?Q?diB0YZGwp0OcZQJ8EKV+OPGy4XaNQjsTQ3Al9N/FL60NfX9XiQHmjZDVOR?=
+ =?iso-8859-1?Q?1R+Jrqj1qqq8WdPea7riwQC2POqG3bBOzDKykG5MgeyDEd/68RSksdG7uf?=
+ =?iso-8859-1?Q?g+EtLMeJMj+5o9I+ndRrS7+r/X6JtEEF/DmOP5gyRUdNzfYiMSbThGNb7L?=
+ =?iso-8859-1?Q?Biy0G7XJAsJLP5R9pDH9DhnF1qWnN7A70un7xkVumHx6f5GCYCXdCDZ2RB?=
+ =?iso-8859-1?Q?fBLRYilIYqlt79dFuItY9R4pChJHl9G+bUx0gwBs2eTMpnzkbGRWC8L4sR?=
+ =?iso-8859-1?Q?RVn0uEfaFF9wmcI+IT7uEPZ0NmiZqJk3PihnYSihDvq4377SqotNlIZmNp?=
+ =?iso-8859-1?Q?4g3kXI64sNmYF0JXJ/4UBQL+f5+DQNh/RhEMx5KIvMlcjQHN9FK0DxmgRi?=
+ =?iso-8859-1?Q?dp+7ldxRi6zx0KTpi3YwptIWgM0YOcEuiYukaaw7nHec05ZW8aVXcHFtfA?=
+ =?iso-8859-1?Q?aYfUJfpXvaIT+lSo30sWgH/gMnDqKMVNDQSuyAFSpCA30KTWuIbElXeQFs?=
+ =?iso-8859-1?Q?sfDOONWMfkQOZ5Ah4XI8JVxhPwYM4fT1AfUa/Y+v4m6qV5Q4V9BeAhOu8O?=
+ =?iso-8859-1?Q?5iUQ8Uos0iPwQKcjY1FyJECAhsbW7F4=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	YPPTr+w0WptxTVkvOwpzCIhIBFjw4tKPkPDArqQ2IanSg4+J+ozABy19D4v/AqIoAjx90+uCkpldIRGv4m24mm8p9z9rK5Dpn9FwjfYFjvGUtapzRprOl9NveVapz1L7mDO7d7EmNJ1kbNQ7GEQplP/IAX1u4T33pb+cGEBPsuGzTPBhrHCULkCd3VRzpbYUZxLcaU+j2naxDwgHS5B2Zwj4DHGQmzkEZ/N7lZrxRRLS6TtaLGVzKH70MMm7lBKG3m9oynywyqkJp7B9SyAVAX34sbSmOMWC5kwfh6oH9ECFVjLrc7bdo4TBRcH+mWWxzuKKMPTAToQf3iWU604ibuoaHLerfRSxECh4UOfW5yBGuzNKSNMbPucUAJN7ftvR5yx/DL99eYpfe0UcgoXS2Yn5n6YHhBxAdaVeODFYpnWXazDrBEg7jnVMb2zQTkMhIivUmQwu2efYE5T0aK+8Dc+9NGDrebwAGhLcl45jai7uqYbo8cL0z18zV6y+cUXoiHIDAcmdgmAA4o9N4MYU326mQvzYY35z6AitaBGMjkDwRwvZyQ4XwcAWYvO1V7abWYxG24VDzJ4kXzRESN4HibXztty0eocEARe6mFJCvBk=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b62ec260-8e77-463c-61a9-08de4ebdb19e
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2026 13:56:17.0896
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MGMThtFGteHpVU+spxBlayDc9bWhcRF317oVtvEcIaLOvpi7fPvr/15q4QA8rEwN99eUeRbmPx8vgS+rO5TYsk6/9r2A0Tr2sov8t4MNas8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR10MB7984
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-08_03,2026-01-07_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 bulkscore=0
+ suspectscore=0 malwarescore=0 adultscore=0 mlxscore=0 phishscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2512120000 definitions=main-2601080099
+X-Proofpoint-GUID: jINXd-e9pMTADmogrnw8aOcL4jo6SBfj
+X-Authority-Analysis: v=2.4 cv=e7MLiKp/ c=1 sm=1 tr=0 ts=695fba1e b=1 cx=c_pps
+ a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
+ a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=yPCof4ZbAAAA:8 a=1tNSQpWdiwPHWDWhKRAA:9 a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10
+ cc=ntf awl=host:12109
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA4MDEwMSBTYWx0ZWRfX2faRXCS3zKtV
+ K60AkrCjGqmrS4PmJLeCFTtCrNUYi97uadTxfrnDvxafS30s9LkYA0uMPukFRxCeT3ETeB9zzsJ
+ MMfqUzR7G2iRSG/g2pGgouOzZ73g6TdUzWlKie/+XVN6DxYdnECo66TIe8HD7lCNN+WjK9mNE1E
+ N83mlM1zD3hB6AOX+ur1m1ueQw6oMsygXaWgRNGLYJvR17pB7aqLf4o4g45679HrgrnT/x1F0lD
+ vv8jRIbCM5pridORNfzeWp2li/muD18eY1NNhmf5EHu9CLao/bIiwe4IpvgUW1sI/9oQ5piDIh8
+ /xN0tKQmPwlUVjdIRFbjNBUoAUpgWksWr5TPqYvfOcyOIhTBFwVNGBFmtra0oAEn63SOPCmcIum
+ 4L76O9uQTctAc5yKb2i80dLv6f5Ow67049lkoA/e9TmZzOs7W6q2VO5yCRDIu1MEz9Oa2p6l9HR
+ I2DI+hPjPa2By76IHb/ABOKP2lkLaINMpnLWkkys=
+X-Proofpoint-ORIG-GUID: jINXd-e9pMTADmogrnw8aOcL4jo6SBfj
 
-On 12/4/25 00:30, Kees Cook wrote:
-> As done for kmalloc_obj*(), introduce a type-aware allocator for flexible
-> arrays, which may also have "counted_by" annotations:
-> 
-> 	ptr = kmalloc(struct_size(ptr, flex_member, count), gfp);
-> 
-> becomes:
-> 
-> 	ptr = kmalloc_flex(*ptr, flex_member, count, gfp);
-> 
-> The internal use of __flex_counter() allows for automatically setting
-> the counter member of a struct's flexible array member when it has
-> been annotated with __counted_by(), avoiding any missed early size
-> initializations while __counted_by() annotations are added to the
-> kernel. Additionally, this also checks for "too large" allocations based
-> on the type size of the counter variable. For example:
-> 
-> 	if (count > type_max(ptr->flex_counter))
-> 		fail...;
-> 	size = struct_size(ptr, flex_member, count);
-> 	ptr = kmalloc(size, gfp);
-> 	ptr->flex_counter = count;
-> 
-> becomes (n.b. unchanged from earlier example):
-> 
-> 	ptr = kmalloc_flex(*ptr, flex_member, count, gfp);
-> 	ptr->flex_count = count;
+On Thu, Jan 08, 2026 at 08:17:09AM -0500, James Bottomley wrote:
+> On Thu, 2026-01-08 at 11:56 +0000, Lorenzo Stoakes wrote:
+> > On Wed, Jan 07, 2026 at 04:20:04PM -0800, Dave Hansen wrote:
+> > > On 1/7/26 13:15, Lorenzo Stoakes wrote:
+> > > > Thinking LLMs are 'just another tool' is to say effectively that
+> > > > the kernel
+> > > > is immune from this. Which seems to me a silly position.
+> > >
+> > > I had a good chat with Lorenzo on IRC. I had it in my head that he
+> > > wanted a really different document than the one I posted. After
+> > > talking,
+> > > it sounds like he had some much more modest changes in mind. I
+> > > caught
+> > > him at the end of his day, but I think he's planning to send out a
+> > > small
+> > > diff on top of what I posted so I can get a better idea of what he
+> > > wants
+> > > to see tweaked.
+> >
+> > I enclose the suggested incremental change below.
+> >
+> > Cheers, Lorenzo
+> >
+> > ----8<----
+> > From ccefc4da6b929914c754c2f898b0eb17d7fb3ebd Mon Sep 17 00:00:00
+> > 2001
+> > From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> > Date: Thu, 8 Jan 2026 11:55:10 +0000
+> > Subject: [PATCH] suggestion
+> >
+> > Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> > ---
+> >  Documentation/process/generated-content.rst | 8 ++++++++
+> >  1 file changed, 8 insertions(+)
+> >
+> > diff --git a/Documentation/process/generated-content.rst
+> > b/Documentation/process/generated-content.rst
+> > index 917d6e93c66d..1423ed9d971d 100644
+> > --- a/Documentation/process/generated-content.rst
+> > +++ b/Documentation/process/generated-content.rst
+> > @@ -95,3 +95,11 @@ choose how they handle the contribution. For
+> > example, they might:
+> >   - Ask the submitter to explain in more detail about the
+> > contribution
+> >     so that the maintainer can feel comfortable that the submitter
+> > fully
+> >     understands how the code works.
+> > +
+> > +If tools permit you to generate series entirely automatically,
+> > expect
+> > +additional scrutiny.
+> > +
+> > +As with the output of any tooling,
+>
+>
+> >  maintainers will not tolerate 'slop' -
+>
+> Just delete this phrase (partly because it's very tied to a non-
+> standard and very recent use of the word slop, but mostly because it
+> doesn't add anything actionable to the reader).
 
-             ^ flex_counter ?
+I mean I'm not expecting this to land given Linus's position :)
 
-But if it was "too large", ptr is NULL so this will oops?
+But if removing this sentence allowed the below in sure.
 
-> Note that manual initialization of the flexible array counter is still
-> required (at some point) after allocation as not all compiler versions
-> support the __counted_by annotation yet. But doing it internally makes
-> sure they cannot be missed when __counted_by _is_ available, meaning
-> that the bounds checker will not trip due to the lack of "early enough"
-> initializations that used to work before enabling the stricter bounds
-> checking. For example:
-> 
-> 	ptr = kmalloc_flex(*ptr, flex_member, count, gfp);
-> 	fill(ptr->flex, count);
-> 	ptr->flex_count = count;
-> 
-> This works correctly before adding a __counted_by annotation (since
-> nothing is checking ptr->flex accesses against ptr->flex_count). After
-> adding the annotation, the bounds sanitizer would trip during fill()
-> because ptr->flex_count wasn't set yet. But with kmalloc_flex() setting
-> ptr->flex_count internally at allocation time, the existing code works
-> without needing to move the ptr->flex_count assignment before the call
-> to fill(). (This has been a stumbling block for __counted_by adoption.)
-> 
-> Signed-off-by: Kees Cook <kees@kernel.org>
-> ---
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Vlastimil Babka <vbabka@suse.cz>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Christoph Lameter <cl@gentwo.org>
-> Cc: David Rientjes <rientjes@google.com>
-> Cc: Roman Gushchin <roman.gushchin@linux.dev>
-> Cc: Harry Yoo <harry.yoo@oracle.com>
-> Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-> Cc: <workflows@vger.kernel.org>
-> Cc: <linux-doc@vger.kernel.org>
-> Cc: <linux-mm@kvack.org>
-> Cc: <linux-hardening@vger.kernel.org>
-> ---
->  Documentation/process/deprecated.rst |  7 ++++
->  include/linux/slab.h                 | 48 ++++++++++++++++++++++++++++
->  2 files changed, 55 insertions(+)
-> 
-> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-> index 91c628fa2d59..fed56864d036 100644
-> --- a/Documentation/process/deprecated.rst
-> +++ b/Documentation/process/deprecated.rst
-> @@ -387,6 +387,7 @@ allocations. For example, these open coded assignments::
->  	ptr = kzalloc(sizeof(*ptr), gfp);
->  	ptr = kmalloc_array(count, sizeof(*ptr), gfp);
->  	ptr = kcalloc(count, sizeof(*ptr), gfp);
-> +	ptr = kmalloc(struct_size(ptr, flex_member, count), gfp);
->  	ptr = kmalloc(sizeof(struct foo, gfp);
->  
->  become, respectively::
-> @@ -395,4 +396,10 @@ become, respectively::
->  	ptr = kzalloc_obj(*ptr, gfp);
->  	ptr = kmalloc_objs(*ptr, count, gfp);
->  	ptr = kzalloc_objs(*ptr, count, gfp);
-> +	ptr = kmalloc_flex(*ptr, flex_member, count, gfp);
->  	__auto_type ptr = kmalloc_obj(struct foo, gfp);
-> +
-> +If `ptr->flex_member` is annotated with __counted_by(), the allocation
-> +will automatically fail if `count` is larger than the maximum
-> +representable value that can be stored in the counter member associated
-> +with `flex_member`.
-> diff --git a/include/linux/slab.h b/include/linux/slab.h
-> index 726457daedbd..2656ea610b68 100644
-> --- a/include/linux/slab.h
-> +++ b/include/linux/slab.h
-> @@ -982,6 +982,33 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node);
->  	(TYPE *)KMALLOC(__obj_size, GFP);				\
->  })
->  
-> +/**
-> + * __alloc_flex - Allocate an object that has a trailing flexible array
-> + * @KMALLOC: kmalloc wrapper function to use for allocation.
-> + * @GFP: GFP flags for the allocation.
-> + * @TYPE: type of structure to allocate space for.
-> + * @FAM: The name of the flexible array member of @TYPE structure.
-> + * @COUNT: how many @FAM elements to allocate space for.
-> + *
-> + * Returns: Newly allocated pointer to @TYPE with @COUNT-many trailing
-> + * @FAM elements, or NULL on failure or if @COUNT cannot be represented
-> + * by the member of @TYPE that counts the @FAM elements (annotated via
-> + * __counted_by()).
-> + */
-> +#define __alloc_flex(KMALLOC, GFP, TYPE, FAM, COUNT)			\
-> +({									\
-> +	const size_t __count = (COUNT);					\
-> +	const size_t __obj_size = struct_size_t(TYPE, FAM, __count);	\
-> +	TYPE *__obj_ptr;						\
-> +	if (WARN_ON_ONCE(overflows_flex_counter_type(TYPE, FAM,	__count))) \
-> +		__obj_ptr = NULL;					\
-> +	else								\
-> +		__obj_ptr = KMALLOC(__obj_size, GFP);			\
-> +	if (__obj_ptr)							\
-> +		__set_flex_counter(__obj_ptr->FAM, __count);		\
-> +	__obj_ptr;							\
-> +})
-> +
->  /**
->   * kmalloc_obj - Allocate a single instance of the given type
->   * @VAR_OR_TYPE: Variable or type to allocate.
-> @@ -1005,23 +1032,44 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node);
->  #define kmalloc_objs(VAR_OR_TYPE, COUNT, GFP)		\
->  	__alloc_objs(kmalloc, GFP, typeof(VAR_OR_TYPE), COUNT)
->  
-> +/**
-> + * kmalloc_flex - Allocate a single instance of the given flexible structure
-> + * @VAR_OR_TYPE: Variable or type to allocate (with its flex array).
-> + * @FAM: The name of the flexible array member of the structure.
-> + * @COUNT: How many flexible array member elements are desired.
-> + * @GFP: GFP flags for the allocation.
-> + *
-> + * Returns: newly allocated pointer to @VAR_OR_TYPE on success, NULL on
-> + * failure. If @FAM has been annotated with __counted_by(), the allocation
-> + * will immediately fail if @COUNT is larger than what the type of the
-> + * struct's counter variable can represent.
-> + */
-> +#define kmalloc_flex(VAR_OR_TYPE, FAM, COUNT, GFP)	\
-> +	__alloc_flex(kmalloc, GFP, typeof(VAR_OR_TYPE),	FAM, COUNT)
-> +
->  /* All kzalloc aliases for kmalloc_(obj|objs|flex). */
->  #define kzalloc_obj(P, GFP)				\
->  	__alloc_objs(kzalloc, GFP, typeof(P), 1)
->  #define kzalloc_objs(P, COUNT, GFP)			\
->  	__alloc_objs(kzalloc, GFP, typeof(P), COUNT)
-> +#define kzalloc_flex(P, FAM, COUNT, GFP)		\
-> +	__alloc_flex(kzalloc, GFP, typeof(P), FAM, COUNT)
->  
->  /* All kvmalloc aliases for kmalloc_(obj|objs|flex). */
->  #define kvmalloc_obj(P, GFP)				\
->  	__alloc_objs(kvmalloc, GFP, typeof(P), 1)
->  #define kvmalloc_objs(P, COUNT, GFP)			\
->  	__alloc_objs(kvmalloc, GFP, typeof(P), COUNT)
-> +#define kvmalloc_flex(P, FAM, COUNT, GFP)		\
-> +	__alloc_flex(kvmalloc, GFP, typeof(P), FAM, COUNT)
->  
->  /* All kvzalloc aliases for kmalloc_(obj|objs|flex). */
->  #define kvzalloc_obj(P, GFP)				\
->  	__alloc_objs(kvzalloc, GFP, typeof(P), 1)
->  #define kvzalloc_objs(P, COUNT, GFP)			\
->  	__alloc_objs(kvzalloc, GFP, typeof(P), COUNT)
-> +#define kvzalloc_flex(P, FAM, COUNT, GFP)		\
-> +	__alloc_flex(kvzalloc, GFP, typeof(P), FAM, COUNT)
->  
->  #define kmem_buckets_alloc(_b, _size, _flags)	\
->  	alloc_hooks(__kmalloc_node_noprof(PASS_BUCKET_PARAMS(_size, _b), _flags, NUMA_NO_NODE))
+However personally I think it's very important to say 'slop' here. It's
+more so to make it abundantly clear that the kernel takes the position that
+we don't accept it.
 
+Nothing else here really does make that clear in my opinion it's all far
+too gently worded.
+
+This is with an eye to press reporting also (they've already reported,
+again, on the Linus's position that AI tools are just tools which I think
+only helps propagate the idea that the kernel is open-for-business for AI
+in general slop or otherwise).
+
+>
+> > +you are expected to understand and to be able to defend everything
+> > you
+> > +submit. If you are unable to do so, maintainers may choose to reject
+> > your
+> > +series outright.
+>
+> And I thing the addition would apply to any tool used to generate a
+> patch set whether AI or not.
+
+Right, yes agreed.
+
+>
+> Regards,
+>
+> James
+>
+
+Cheers, Lorenzo
