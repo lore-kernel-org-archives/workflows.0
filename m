@@ -1,71 +1,70 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF720241CB7
-	for <workflows@vger.kernel.org>; Fri,  9 Jan 2026 05:30:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C8F263C9F
+	for <workflows@vger.kernel.org>; Fri,  9 Jan 2026 05:43:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767936607; cv=none; b=tZAysYWkq+kJekr1Zou9cHDKfGXPf4xta2jClxRVU7AYVYIMw1xjGJ1Si7mAVjkwV2M1toq1MQKe6NOAR0m5DuYl7oKGYgehflMnKRWJ2m7xSYU807keaNQ0CiKHD0T0Wo5OfCXMTDn7RgJJx2lOVtBK9b9kQ616i8KzD74WSvM=
+	t=1767937383; cv=none; b=kmbBwc3rcigJZ/5VpG9flcg0KYOFGCjoguKvrFGEKhgDk6J8L8XntJHnmKOxRS/uAmEod/Mcgvjk4d05cTeuUpxxhWK1jWSspw5hSIH7834Q9/lFho5cO/dl0hf2jWhOlU/pC2ov+WYpos3QAypbIMaOfPlXDP6xujxeNE+ynPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767936607; c=relaxed/simple;
-	bh=Mj47l2IWaLTs3NXZwkFO1trSpIzaJNyUM0yVwg7oMdU=;
+	s=arc-20240116; t=1767937383; c=relaxed/simple;
+	bh=lyOk/1M5pzUzuzEJIZ+qNtV8QTN4iICp9NKhm4PSg5s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VeLigkbaVXbOVLFBMGVcgHHcVFvOHmvBFOfcVNbSAFLxGAiv2+MiKIlcQPFYr+NJ1VILNAdCowW5K0MWIxv21YdvwSpdc+O3PCesCDXvCTt1xuV9zWG/TXyBEJ5PoCMOrkmUOIGu/Voxrnj721IMnwqEZN01E+uC8KBzFQGodDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FTxSxBpH; arc=none smtp.client-ip=209.85.221.67
+	 Content-Type:Content-Disposition:In-Reply-To; b=l9Chhsub73DkPAhJ0ThxAFTEcSgCvS6d8ZMl0M0EjezAEuT5/j2NcWdQBCryuFpg+OmYibGb2DfuFr91G9oSoXCVU7TYn1whvvmutm+rxSw+fGfayyPW5avXOIvPZDIXS3dvT79kgqwPPnUBgJuTHLQX++jt8Djx0RvcyRuj1eQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hjs9GyPK; arc=none smtp.client-ip=209.85.128.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FTxSxBpH"
-Received: by mail-wr1-f67.google.com with SMTP id ffacd0b85a97d-42fb2314f52so2000066f8f.0
-        for <workflows@vger.kernel.org>; Thu, 08 Jan 2026 21:30:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hjs9GyPK"
+Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-4775ae77516so42959175e9.1
+        for <workflows@vger.kernel.org>; Thu, 08 Jan 2026 21:43:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1767936603; x=1768541403; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1767937381; x=1768542181; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PlX/wTrZuwZGU18danwT6gBtV0nfe5EttE7RqttuQsY=;
-        b=FTxSxBpHy86oemidf9HvMAMQgi8oMUdPlKmbwM65m74kSlzquMqNFsH1U3ZXxYRs1e
-         7vDC6kl/lzMFG7wlJePssGVJmCAmzxRvPLLS6cp90Qw0t4S8UPoHVLQ3Mrsrg6tJ+75/
-         0bIny6Y6cKHoMMxi84qj6/qABSiHr5mQhnc12EeHffk0p5tQ6/p3OytvOa0YQRJ9ilrZ
-         dYNk5Eaj8h0GA1CQXv4ehXqGodagmH7c57za23YR01T0U7KsUKEGbWIxwwuOQqyxiTY+
-         uIFXOEI5m8KjYmHp+uR3SOjeHW+1fzf5LO1nY2uJym11xwk1CmncNOLQeM9ydg8D8I45
-         0gWA==
+        bh=ZDsg1uOh4nHyxX9yWUni96h7XzFm6nGUN8LTejyh0mg=;
+        b=hjs9GyPKtrT/C6nXdSQ5+KWEw5oxH4lsMVsZGt1jtOQ4QTdb500H6g/zKwroox7weZ
+         k73YyRppnrQaT7z95oDsXu7arwPsZRUqw1vEsdwfzqFXZcyoPxwW0DaqAdPv/txLm19T
+         osj+Y8F1od65zLC9l5EVKk16AtyOu853b8m3kGbp61XtoNzPNG/vuL58x/kADdx4eKED
+         gx5BqESLekGYlkkCB3ErRcCpNpSwv5SM3ImpfMnzrZEXhOGhr8DhF8cGqG3yvCVsJ32A
+         xRZ9j6p3kZJ3EzECnpK7Ca/cZ2cOhe3aiJnH90kWd98fBPv8SlLKWIHVKZ7CNGOIn0+U
+         jSHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767936603; x=1768541403;
+        d=1e100.net; s=20230601; t=1767937381; x=1768542181;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PlX/wTrZuwZGU18danwT6gBtV0nfe5EttE7RqttuQsY=;
-        b=LTPnYdmyfGYkAMPkV8w0LL+CEu3ZrJVOr5dKL5Z8/rgoho/ITawDckUVRPdEZT1zmR
-         DPeH3vl4gmWFQ46Gi5bVl+b5Qpr48iqS1YJI6v4NP26j6mfen99ytUWu5f1n7+ec6Au3
-         iHE0cWhFBgMwMu5pB6JGqg2dvkjuEFtQ1kfYOL/dVlSiOoITyZKCYs7ZvlYBLTU/UugH
-         Y+66CcwOj0yPywwznmKxki2Fq/YjlqFhQvWdfdXdcq0KzTQtAAxoF4CkTbDznFRrz650
-         DnlsRGVE4dYBpFXuGV66kFMJc3F+rh1R5N5DWsil6Fr/W6jIujm1gMYBdOGzNBdYxXrL
-         iwGw==
-X-Forwarded-Encrypted: i=1; AJvYcCXmTbKyCkRBDOxcl9exWGcZndy8+FTGE17f0ug1AWyyhX7tvJJh8DquoGpNoXCXDukBFNaHWStLl3A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxfFJUz72ZQh6YinV6DjvfiuJ1TRexNR380DcvDg+rqTGa+Iath
-	Jd4+1G32SKKY2PUD7m43TkPWOWChoDUbIRxjz2298uKBdERNZt7LEUHyCYyObvxvAM4=
-X-Gm-Gg: AY/fxX6MtlSR50S1YhuvmRaLZdLMpNsE1Wk2tDQzfTzrPhpq2kvltrlFnWLUihED/nn
-	aQauZSq2xRDE8SB9YpHTgmtyE0oTsRzLlAtNLM/fu7AhkXFDZKeS1gmEywQG2S8aVabWDvg9HMQ
-	AKfTNOwSCEREcLrrUA8Lq298BkNTjLAcr1migUowrribaP7m3chQB+l3XtyI+Bd/j/GEs3RW/5K
-	PXuKzYSnTs/mWQFL/S/T3obYcw9XhRDlObcF7HjS8srddUNcZQbENQQguVKT7KNmbiXS+fh1r1Y
-	vCpz1Aqhsp1MBuOhQNflih6qGPlbcouw7ckh2tNBusT5W8OT549WoNOSi6Eifyg8C07w8fF2gAy
-	flg80gJK3QJpOWnOVHSRD484+PqxlX9RbvyX3A6csxEtC4b77DakW0/asVVrklVyDLBIJ5vf3Ys
-	35XG4TGEjUYQnf2+4o
-X-Google-Smtp-Source: AGHT+IHIW77tCUXow8tCSksG255U7b5IhL2YGp4Ww34P0AxeIqcK/+U1jAbAWDroMjoW0u39lfdU1g==
-X-Received: by 2002:a05:6000:3104:b0:430:fdb8:850c with SMTP id ffacd0b85a97d-432c37c380cmr9852754f8f.61.1767936602927;
-        Thu, 08 Jan 2026 21:30:02 -0800 (PST)
+        bh=ZDsg1uOh4nHyxX9yWUni96h7XzFm6nGUN8LTejyh0mg=;
+        b=ApBmMNoaOly73Qs68yyKzHWADLvmvBdCIrs8BBV8ayqQ6WsTTWou1220IptsPwu7cY
+         TT17DcFmY+1rpml4EcwS2gNAMVIFLai9t0iOgX4SFy/swKrcErFJYFvbkF4YGGshadBW
+         u/Q/zUgCBVNruHCTD/GkUMP0iOYltQVx7XZXoNR1ML8BEtUhBqT1DTZfeev4zQEMxUTS
+         mevaBcA7RICvBVC0DUPOKkL7hYNTR1z8JXGQjpX39sxs+7OJRpsQmjsvzExfLKmW3jL3
+         QvU1/KO/ARRa1uUUqf3pz9BocK6k1k/DKuzx+bJEcjWzGOSmTps1udpeunE5stEhD0Bx
+         nfbg==
+X-Forwarded-Encrypted: i=1; AJvYcCUdhjkelOTvRECM8K5hfVL/oG1omXwiXzH0diKL0XJwuq8I7W1CqLa0tBaJ26/tQvH7hpDI+taKAbU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzvs6XNMBXWvG6bwRZx8OojaJoRV5zs9gjH+R27tjkDCfLF2hlA
+	oTprndcEhRDheS++C/Ge0+vI/BjyCNU/K5DTVvQoTUad245TIXWfZhXVq+uAVjoT72s=
+X-Gm-Gg: AY/fxX42fHjbLU9ufm1hlV8q8L7r3yEBaRbroeYO+BgcvX+DW+VYrKAXEw968/91iRN
+	F88LCoC7F8rZrL9Ztq3Wg4keCNBtj5CA4JpdvY49w3znEz4YCDIfC1ddBMKENvw2cyQdlU3stYl
+	yfgYwzhYPnXW8y1JjUgi6NqEh7Stp/fAuk/ro//YXdrZ0ThDa61i6r6iwourjoE8bod3Ogejsge
+	wBYp2BcI4YzZbAjIEHK/KVhnJTxra29KY0/3P4FZTLkxxQTN8kyZq+l3oW81b2YJzKhLzkVT74c
+	a8nkPaqhfkzple4q7bAGeRex8IeChmzIoTcV6T7gO39OFHJ0BCbGLDfa3GWtEkSvfQ2SQzkmW+w
+	4DYMu1kY2yP8VGF5QgzNFtn/QUEurhHfHMHKMFrT/qPa1o6WkCMrSaIKSFiwimKQkFiPnSPGZ4O
+	85bYzvwCYTwL7H8fIm
+X-Google-Smtp-Source: AGHT+IFtRqdtvSZtFdYNMvAAEbXBJ9dvS7lUHvIH+DVKEKI5EhL27ZqtmfMN3VJprnKU2dkiBMjC9g==
+X-Received: by 2002:a5d:5d05:0:b0:430:8583:d19e with SMTP id ffacd0b85a97d-432c374f4f4mr7932200f8f.8.1767937380338;
+        Thu, 08 Jan 2026 21:43:00 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0e6784sm20339833f8f.19.2026.01.08.21.30.01
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd5ff319sm20503335f8f.43.2026.01.08.21.42.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jan 2026 21:30:02 -0800 (PST)
-Date: Fri, 9 Jan 2026 08:29:58 +0300
+        Thu, 08 Jan 2026 21:42:59 -0800 (PST)
+Date: Fri, 9 Jan 2026 08:42:56 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>
-Cc: Jens Axboe <axboe@kernel.dk>,
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Dave Hansen <dave@sr71.net>,
 	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
 	Dave Hansen <dave.hansen@intel.com>,
 	James Bottomley <James.Bottomley@hansenpartnership.com>,
-	Dave Hansen <dave@sr71.net>,
 	Dave Hansen <dave.hansen@linux.intel.com>,
 	linux-kernel@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
 	Kees Cook <kees@kernel.org>,
@@ -73,13 +72,13 @@ Cc: Jens Axboe <axboe@kernel.dk>,
 	Miguel Ojeda <ojeda@kernel.org>,
 	Luis Chamberlain <mcgrof@kernel.org>, SeongJae Park <sj@kernel.org>,
 	Dan Williams <dan.j.williams@intel.com>,
-	Steven Rostedt <rostedt@goodmis.org>, NeilBrown <neilb@ownmail.net>,
-	Theodore Ts'o <tytso@mit.edu>, Sasha Levin <sashal@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Vlastimil Babka <vbabka@suse.cz>,
-	workflows@vger.kernel.org, ksummit@lists.linux.dev
+	NeilBrown <neilb@ownmail.net>, Theodore Ts'o <tytso@mit.edu>,
+	Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Vlastimil Babka <vbabka@suse.cz>, workflows@vger.kernel.org,
+	ksummit@lists.linux.dev
 Subject: Re: [PATCH] [v3] Documentation: Provide guidelines for
  tool-generated content
-Message-ID: <aWCSVh6NocePMvp8@stanley.mountain>
+Message-ID: <aWCVYLuUFZrsbfd-@stanley.mountain>
 References: <6c71554c-4fa1-4b99-9d46-2f1a2ecc1b7f@intel.com>
  <611c4a95-cbf2-492c-a991-e54042cf226a@lucifer.local>
  <a60e0e566edbcbd70176045ae077176444ca25a9.camel@HansenPartnership.com>
@@ -88,8 +87,8 @@ References: <6c71554c-4fa1-4b99-9d46-2f1a2ecc1b7f@intel.com>
  <a70d3156-ad96-4ad7-90ff-624fab62fe7d@lucifer.local>
  <6e9cab54-7b66-45e9-af96-e52b3eba1034@intel.com>
  <f93a5311-4689-486b-aea8-261263f4d447@lucifer.local>
- <711d9e37-6fe7-4783-8ac4-5269279bb9fe@kernel.dk>
- <3xf3f4b3vegssexoid746y7isuswwsgmac5hy2hm4ipisdcxaf@nbi67byycwj5>
+ <5a301272-31ea-44b8-9518-8151edca6c06@sr71.net>
+ <20260108151437.3188cd53@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -98,62 +97,55 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3xf3f4b3vegssexoid746y7isuswwsgmac5hy2hm4ipisdcxaf@nbi67byycwj5>
+In-Reply-To: <20260108151437.3188cd53@gandalf.local.home>
 
-On Thu, Jan 08, 2026 at 04:04:39PM -0500, Liam R. Howlett wrote:
-> * Jens Axboe <axboe@kernel.dk> [260108 15:54]:
-> > On 1/8/26 12:23 PM, Lorenzo Stoakes wrote:
-> > >> @@ -95,3 +95,8 @@ choose how they handle the contribution. For example, they might:
-> > >>   - Ask the submitter to explain in more detail about the contribution
-> > >>     so that the maintainer can feel comfortable that the submitter fully
-> > >>     understands how the code works.
-> > >> +
-> > >> +Finally, always be prepared for tooling that produces incorrect or
-> > >> +inappropriate content. Make sure you understand and to be able to
-> > >> +defend everything you submit. If you are unable to do so, maintainers
-> > >> +may choose to reject your series outright.
-> > >>
-> > > 
-> > > I feel like this formulation waters it down so much as to lose the emphasis
-> > > which was the entire point of it.
-> > > 
+On Thu, Jan 08, 2026 at 03:14:37PM -0500, Steven Rostedt wrote:
+> On Thu, 8 Jan 2026 11:50:29 -0800
+> Dave Hansen <dave@sr71.net> wrote:
+> 
+> > On 1/8/26 11:23, Lorenzo Stoakes wrote:
 > > > I'm also not sure why we're losing the scrutiny part?
 > > > 
 > > > Something like:
 > > > 
 > > > +If tools permit you to generate series entirely automatically, expect
-> > > +additional scrutiny.
-> > > +
-> > > +As with the output of any tooling, the result maybe incorrect or
-> > > +inappropriate, so you are expected to understand and to be able to defend
-> > > +everything you submit. If you are unable to do so, maintainers may choose
-> > > +to reject your series outright.
+> > > +additional scrutiny.  
 > > 
-> > Eh, why not some variant of:
+> > The reason I resisted integrating this is it tries to draw too specific
+> > a line in the sand. Someone could rightfully read that and say they
+> > don't expect additional scrutiny because the entire series was not
+> > automatically generated.
 > > 
-> > "If you are unable to do so, then don't submit the resulting changes."
+> > What I want to say is: the more automation your tool provides, the more
+> > scrutiny you get. Maybe:
 > > 
-> > Talking only for myself, I have ZERO interest in receiving code from
-> > someone that doesn't even understand what it does. And it'd be better to
-> > NOT waste my or anyone elses time if that's the level of the submission.
+> > 	Expect increasing amounts of maintainer scrutiny on
+> > 	contributions that were increasingly generated by tooling.
 > 
-> Yes, agreed.
+> Honestly that just sounds "grumpy" to me ;-)
 > 
-
-Yeah.  Me too.
-
-> If I cannot understand it and the author is clueless about the patch,
-> then I'm going to be way more grumpy than the wording of that statement.
+> How about something like:
 > 
-> I'd assume the submitter would just get the ai to answer it anyways
-> since that's fitting with the level of the submission.
+> 	All tooling is prone to make mistakes that differ from mistakes
+> 	generated by humans. A maintainer may push back harder on
+> 	submissions that were entirely or partially generated by tooling
+> 	and expect the submitter to demonstrate that even the generated
+> 	code was verified to be accurate.
+> 
+> -- Steve
 
-Yes.  That has happened to me.  I asked the submitter how do you know
-this is true? And the v2 had a long AI generated explanation which quoted
-a spec from an AI hallucination.
+It's better to have a grumpy document, instead of grumpy emails.  We
+need it to sound grumpy and it needs to be the first paragraph.
 
-I like Dave's document but the first paragraph should be to not send AI
-slop.
+AI Slop:  AI can generate a ton of patches automatically which creates a
+burden on the upstream maintainers.  The maintainers need to review
+every line of every patch and they expect the submitters to demonstrate
+that even the generated code was verified to be accurate.  If you are
+unsure of whether a patch is appropriate then do not send it.  NO AI
+SLOP!
+
+Of course, sensible people don't need to be told this stuff, but there
+are well intentioned people who need it explained.
 
 regards,
 dan carpenter
