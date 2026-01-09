@@ -1,85 +1,119 @@
-Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB80033ADB8;
-	Fri,  9 Jan 2026 16:07:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DB1027A904
+	for <workflows@vger.kernel.org>; Fri,  9 Jan 2026 16:30:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767974857; cv=none; b=BBtHYTUzjcMK4VDZwi2rqa9X4qoTAfx88H8ZgWi2Z7eipfOB8UUgdBFyk+CSXJwo+mb3ib9inXYM51dURT2hNt/q+p21/+FONkU0265F21qT1jlTWaeG80IvgJrhd/2OMCLsQKHGSFrPH4xGq5/jTLjyaS59abONBUuxAfBp6Tk=
+	t=1767976232; cv=none; b=DCY5u+ovX4R9nVtmu84Ty1ca6VLJ0WnilryPJacKUeIrj+HYUA4NDRLx3XrwA9C6Tv0JAeVzwquhPawr7tij6tsTzRvPC20AG5nUeJesum3Luw+AtSw1uUZri0L8uMIJvEwjqhvDd2D88yLYOP6y03OIiTm4GmyYycE3eJd0Rnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767974857; c=relaxed/simple;
-	bh=pfnpiyHn27em+rvVc3b8E6XRaOyJ2DfcaVt+Ni9AwTY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=p+InJC/I70gZdW8Wy4eALpWwOw+kTZ1MGTpDWaSrCJ+2CcQjVa5jkjJVTwz5luG/oYDpGvAPPIH/vMej/qwOFbeCPa1IJfZGb8CiQ4KEtxqCSWf3DQNPNBr+fOTpT1nzqNDM7VPqxE0DslLmjglu9UBmFWr00CVT5aadA3Z8o/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf02.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay06.hostedemail.com (Postfix) with ESMTP id EA89E1AB13C;
-	Fri,  9 Jan 2026 16:07:32 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf02.hostedemail.com (Postfix) with ESMTPA id 259BA8000E;
-	Fri,  9 Jan 2026 16:07:28 +0000 (UTC)
-Date: Fri, 9 Jan 2026 11:07:59 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Dan Carpenter
- <dan.carpenter@linaro.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Jens Axboe <axboe@kernel.dk>, Dave Hansen <dave.hansen@intel.com>, James
- Bottomley <James.Bottomley@hansenpartnership.com>, Dave Hansen
- <dave@sr71.net>, Dave Hansen <dave.hansen@linux.intel.com>,
- linux-kernel@vger.kernel.org, Shuah Khan <shuah@kernel.org>, Kees Cook
- <kees@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Miguel
- Ojeda <ojeda@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, SeongJae
- Park <sj@kernel.org>, Dan Williams <dan.j.williams@intel.com>, NeilBrown
- <neilb@ownmail.net>, Theodore Ts'o <tytso@mit.edu>, Sasha Levin
- <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Vlastimil Babka
- <vbabka@suse.cz>, workflows@vger.kernel.org, ksummit@lists.linux.dev
-Subject: Re: [PATCH] [v3] Documentation: Provide guidelines for
- tool-generated content
-Message-ID: <20260109110759.036473ba@gandalf.local.home>
-In-Reply-To: <4a8256ae-04b4-4b4e-b638-5e4cbc2362c5@lucifer.local>
-References: <e7a2e69991943777f30743868bdc04332a52037b.camel@HansenPartnership.com>
-	<a70d3156-ad96-4ad7-90ff-624fab62fe7d@lucifer.local>
-	<6e9cab54-7b66-45e9-af96-e52b3eba1034@intel.com>
-	<f93a5311-4689-486b-aea8-261263f4d447@lucifer.local>
-	<711d9e37-6fe7-4783-8ac4-5269279bb9fe@kernel.dk>
-	<3xf3f4b3vegssexoid746y7isuswwsgmac5hy2hm4ipisdcxaf@nbi67byycwj5>
-	<aWCSVh6NocePMvp8@stanley.mountain>
-	<0b9a8f99-5cc4-40e8-a0e6-4887d1e1a796@lucifer.local>
-	<20260109085446.GA9782@pendragon.ideasonboard.com>
-	<20260109105104.57d308f7@gandalf.local.home>
-	<4a8256ae-04b4-4b4e-b638-5e4cbc2362c5@lucifer.local>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1767976232; c=relaxed/simple;
+	bh=tGnqbLmOhP9isHiPxWN/XPpA61Oj201z3O7nsWOI7Sc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=X5iTdX9XiSi44+iVEpHSD/l2M2e0PphIaC8J25vHjLH5b3SVr4W2LCMBzXnSJyf8oSOecLiPfrPQwyI9Nc5O5YRGC8/vHmuaq3R4/NWBDUC8XyqLuYFLEfJ61UpU9rNoHKqCkpTLShktbSbBgiu7Hj8SQD7tpvjM8Dzwn1/xLRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O64EHh2b; arc=none smtp.client-ip=74.125.82.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O64EHh2b"
+Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-11f42e9733fso189318c88.0
+        for <workflows@vger.kernel.org>; Fri, 09 Jan 2026 08:30:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767976230; x=1768581030; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KgVHrGpFOZu3o9W2smUjiAbx/IB6ia8N7DTDEB731Qg=;
+        b=O64EHh2bybXOqUIA/b9y3HYmPxtjh+MvrIYyqVrpTUfvIfr9V2/NdE40yrH1VSs/zA
+         mxEO8wr9lCCJbrdXDrRhbwEN34hZL/BVwMyWv4wrkri+8zAQvRL7o8zb5FokGUkiPiQv
+         zCUqpVURdnx5WVF5abUFmua0pIKnCCV8+Ob6g0t0PfPQnTDtqk0PYBo14LtTYaOSzoKf
+         sxSFvD7yhvGhEn7wDfJC8AnF7apPhy1dpKqJ5w5fOqZdnHS+ej8Mz9gHOyKu6g2iZPD5
+         sZ5eg62glhOVR5b4MyxwySXcVFSKsyC/DZMwDKLHG8umAsO5HsDg8NUR8vfyKfyrOVgL
+         baIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767976230; x=1768581030;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=KgVHrGpFOZu3o9W2smUjiAbx/IB6ia8N7DTDEB731Qg=;
+        b=ZNULmcFDpff4E4XKs+SM2Qbe3vli1wuwXqMJWCl7fdUJCWISITxxGuWnP4vvigj11V
+         a1gUZoK0dcv02vLf56PwC0iUFjIv0S7uCW+GBbKUGMlvHkXjN5oiSKYFpJHTlq2DL/s+
+         ZC8fP5YbJBvNfehu42ZZAaScG+aUwHE1kI9dPmzeDctFPoeJbrEsgFWUQCS7JNaWRTM9
+         w+zi4gcdXBAltH4XWW0++AUDbt1TlypHl/GP9MrHNE0ROiSF5T7qpDE4mavs3/xsR37y
+         LJ0GRGKC+aJjfh7O4m+Kes+JLG42xF+55eqWi8Yf+JQtrhljcP0y7wR+/rFsT5Qkgo5i
+         Xthg==
+X-Forwarded-Encrypted: i=1; AJvYcCUFw1mK/K6AL02qWuTnbKuwwaw9BItX+4h1o5PblFJ8zIQVw57Rg32rBAobuQ291W64dyMzLVH9si4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+vOgd5MG5LtvweeXYHTWVMXuM+uM/+38TITRZMg/tCfJEamnr
+	cnoCJPDfbxVjX1UigKQLHFIFPcV0ORPJlmWWEW64qB18KzXwC22/pJGG5ht3P+FtQfd102s851y
+	/o71OemeuZolga4YomtBjAUa2j914CsQ=
+X-Gm-Gg: AY/fxX4h38SfJ2tvfMIsgl1jnh6r60hzhp+ltCfTMZBW51SDLcN4smAzhnJzwtl9PgZ
+	ckIo8W6WYREBJWgn3+wtA+aAUT/UvMFJ34h1fv1vMzLePYZdfNQAbi/9U4lV9Ko4mVMepAOxvvB
+	GC9HcXEVBloypwF8PFHj76iswt+xAUL+/r3jvnJrTpmOaFrCxUe++ESH79W0gDQlAcRrfT6GRBv
+	kxfVEYIbnQ/vSVdcETzBfzyfGkcOiyQ+MhI2hIuJEiXrTwWsAy163yPCXzB0UBF4mRV67XuG/kp
+	ANtt+5ZRrDao4dpXr6iJyDL1YyV8zWel3IoyOfHZ9UjBP8LKakgs1AgSr7wakNLHZkrwadEdM/K
+	mXW2Ew11PL76f
+X-Google-Smtp-Source: AGHT+IFPnMs8tYXrKC6QRTGlKt5c3UHbQ20I+iMpQeJtUFKAL06cbpiGchT05O1IclG935flftNB9uOe0tl1k8An8q0=
+X-Received: by 2002:a05:693c:2a11:b0:2ab:ca55:89cb with SMTP id
+ 5a478bee46e88-2b17d336c9amr3307855eec.6.1767976229504; Fri, 09 Jan 2026
+ 08:30:29 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 259BA8000E
-X-Stat-Signature: xqdfc3n36b4aoqgahukggf3oaozeu1yi
-X-Rspamd-Server: rspamout05
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX18X6Ot+mhU3NXqMBgmI7jIM34Ha4me4H8U=
-X-HE-Tag: 1767974848-41460
-X-HE-Meta: U2FsdGVkX1/JcW6TqJePIxeAukzcrfKshoQimfd72E2HfI5ryg7SKB7i3S3UIDzocszh99uZzc89IGoa4KBdgbWLMnfLfMvQswIChgIobPDLLdZn2O75ZxVmYURtyOtlejwWa5z+tMsAKgs8hLGikI6MFQH3DG2vv0lUH00BvLhcuiheZBA4lUVYUKvVA/r4GFBBlfzCnoig6VC8eA/IKU/DQtih7bbExRaLT1jP2okFR+3b22WQFDwVXjA37sV8QCIYEvc69MWfSB0A3NLX+cyz8+ZAnGWFUt6SMMBJvOshh97dubkJMV1gQ7PV2B212q1L4eWloXzjw5zS4GyCur0ChB0T6FJo
+References: <20260106205105.4037716-1-dave.hansen@linux.intel.com>
+ <1e982055-47c2-43d1-a919-93b3e59f2ed0@lucifer.local> <93aadf2b-0df4-49eb-91fd-b401b44ce3af@sr71.net>
+ <1c74353c-40de-4d0b-a517-92a94f8b4af8@lucifer.local> <6c71554c-4fa1-4b99-9d46-2f1a2ecc1b7f@intel.com>
+ <611c4a95-cbf2-492c-a991-e54042cf226a@lucifer.local> <aV_eiRqUsK2KWkww@laps>
+ <CANiq72mw1bis7aE9b=Htx9=Sd9jZH1rJmew1xqhPiCWu=EyzPw@mail.gmail.com> <b7469e4e-d711-467f-839f-4a9688d25a23@lucifer.local>
+In-Reply-To: <b7469e4e-d711-467f-839f-4a9688d25a23@lucifer.local>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Fri, 9 Jan 2026 17:30:17 +0100
+X-Gm-Features: AZwV_Qi9VSP2AMrsmou5qnQmy5TBXFzhlEy2iJtX864Gee6M0-zqG561EpAZSLM
+Message-ID: <CANiq72=yOkv_GK=V5k-WTYE-Fv++K+OtVUdrLQcH+75qRMN-Aw@mail.gmail.com>
+Subject: Re: [PATCH] [v3] Documentation: Provide guidelines for tool-generated content
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Sasha Levin <sashal@kernel.org>, Dave Hansen <dave.hansen@intel.com>, 
+	Dave Hansen <dave@sr71.net>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	linux-kernel@vger.kernel.org, Shuah Khan <shuah@kernel.org>, 
+	Kees Cook <kees@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, SeongJae Park <sj@kernel.org>, 
+	Dan Williams <dan.j.williams@intel.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	NeilBrown <neilb@ownmail.net>, "Theodore Ts'o" <tytso@mit.edu>, Jonathan Corbet <corbet@lwn.net>, 
+	Vlastimil Babka <vbabka@suse.cz>, workflows@vger.kernel.org, ksummit@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 9 Jan 2026 15:55:01 +0000
-Lorenzo Stoakes <lorenzo.stoakes@oracle.com> wrote:
+On Thu, Jan 8, 2026 at 8:28=E2=80=AFPM Lorenzo Stoakes
+<lorenzo.stoakes@oracle.com> wrote:
+>
+> 'You _can_ be more transparent by adding information like this:...'
 
-> Sure to the above, but it seems (...?) you are ok with my addition to the
-> document which hopefully is tempered enough to provide the emphasis I'm
-> looking for (note I say - all tools - even if LLMs are the most obvious
-> exmaple) - without being so strident as to seem out of scope?
+I am not a native speaker, but my reading of that "can" was that it is
+suggesting ways to be more transparent that may or may not apply in
+particular cases, but the requirement of being transparent was already
+established by the previous sentence:
 
-Yes I liked the last example. As I stated, this discussion helped me
-understand the issues I had with what you wanted to add. I wanted this
-document to be just as applicable to checkpatch and sed scripts as it is to
-LLMs. My fear was it was becoming too focused on AI where those that are
-submitting checkpatch and coccinelle scripts will think this doesn't apply
-to them.
+    Second, when making a contribution, be transparent about
+    the origin of content in cover letters and changelogs.
 
--- Steve
+Which is reinforced by another imperative in the bullet point about prompts=
+:
 
+    If code was largely generated from a single or short set of
+    prompts, include those prompts.
+
+Similarly, I read those other "might"s you quote like a set of things
+that could happen or not (and is not exhaustive) in particular cases
+and/or depending on the maintainer etc.
+
+At least that is my reading, and as far as I understood the TAB
+discussions, the goal of this patch was to document that non-trivial
+tool usage needs to be disclosed, including LLM use, and to me the
+patch already did that, but perhaps the wording can be more direct.
+
+I hope that clarifies a bit...
+
+Cheers,
+Miguel
