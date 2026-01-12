@@ -1,138 +1,302 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com [209.85.208.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32BAB500952;
-	Sun, 11 Jan 2026 16:15:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A799319603
+	for <workflows@vger.kernel.org>; Mon, 12 Jan 2026 09:17:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768148152; cv=none; b=L9dJM4dt0Gdz6EeA8faFRsfElFYMuhpGhiTJ/5fwN79EkTNZ46njK1PU+R7c6t17LUO6OrLFGPfNmfQnmJKK7IiXY7fXU0AeZL1/OvBn2kw9+B94AwbkXgPbOkUb/fRfAORoGMHMGfDHq6+L7lP8MR/U5kCpi4Gccj8BYXpi36o=
+	t=1768209431; cv=none; b=NwfHIJZ2VcYBLwlvTjPp/AQLjFKmhoX6t6mJNZ3mv42RrNlM0mgiPr52oslyAwE6XaPNRrVCFAHWapNTm1xNjgRJgVWwJ1sVvkMBQ/tNhvuSto7vOhRj8WnwQh+ohYujdwWubTtXJ3Lcjwq2fgxGLE9+Vr26ekG3BnMzj5s2UZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768148152; c=relaxed/simple;
-	bh=kLhMisAa/rBUQQBL287Z1+puYPJeMaVUYKgaDJ1OfqU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KDEQ0SiU7HG+M3X8EjfRmgxUpECbTHKSF1UiuoBZBbk3ofWxX/6JyTDtDPPmvKDzYglLiyvVR14+ZxkMDyU/R9EwVRps/ixaWz2QbCDyu2j9jX7+mhYJAw2SFNP4Vf5XT5jPi1YdbZUFpEa3ZkEVACrWdHKUJfTpIUsxtHybS2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SHsEEalJ; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1768209431; c=relaxed/simple;
+	bh=7JQzKSeQVZx457uwRMkr4aCIBLk4y7oY3Lw/r19JkC4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YOCYV/gvF7EUIt7cToCIPDdAL57Iw8vdPSpwG0uVkZMblkqgDn/KR1noClt2SMrnFhzLmYAHq5gzsiOfPkwFvjOQUnaQeWtTIDXP2Yae/DyWh3bLYHDdBbU91oAiRgqHRDHa3EYSiRrg0Uw8azsepm7L/W3V1B0/Ri/7ePHaXPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=arAhRpIP; arc=none smtp.client-ip=209.85.208.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SHsEEalJ"
-Received: from pendragon.ideasonboard.com (81-175-209-152.bb.dnainternet.fi [81.175.209.152])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 414AD447;
-	Sun, 11 Jan 2026 17:15:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1768148123;
-	bh=kLhMisAa/rBUQQBL287Z1+puYPJeMaVUYKgaDJ1OfqU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SHsEEalJP2kuxnEMaspwjZ1Vm2KYFs8IpEwbjO4m2uOsrgf9FzQ6o+uIpi6wWgKzy
-	 ZOmdoiZ/1vRC/6t8QI13/G4Kw29mXiRy+wNRzDaQPZTWMUPt4pyMRr6rDP17wTZeH1
-	 InITH6hAfWySuJoRTiC5AvtgWrSYNyo3tlzk6nTM=
-Date: Sun, 11 Jan 2026 18:15:27 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
-	Dwaipayan Ray <dwaipayanray1@gmail.com>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>, linux-spdx@vger.kernel.org,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] LICENSES: Explicitly allow SPDX-FileCopyrightText
-Message-ID: <20260111161527.GA25101@pendragon.ideasonboard.com>
-References: <20260111160750.17569-2-krzysztof.kozlowski@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="arAhRpIP"
+Received: by mail-ed1-f67.google.com with SMTP id 4fb4d7f45d1cf-64bea6c5819so9284566a12.3
+        for <workflows@vger.kernel.org>; Mon, 12 Jan 2026 01:17:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768209428; x=1768814228; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zd0BPdweYbYZbQyn2qW1okTKg1KegiW0299KXASGYXY=;
+        b=arAhRpIPJOIZE4JPX3GVuwxOOJCYX5WoSOlFTrT2D8Vsv2LeID0RpiJsuZXZ12fvqJ
+         g70rNpszBFEP5Zqbf8Jkv3Y3ieMRcZV0ou0O/7wc6Mqv4fvas/YHSUALmcx+WqdESD6I
+         HnwyaCZB3sfigAKVNpmv/aoVlwnaIIrzpznCXRB2svRDUzocNHlKOdprCHb3au5gysuo
+         /J4J3sYaRt9YJFjvA2L4Azcju2XJvrlWBRVAOZBMpiJN8nVEmvm2l215OnsRqW9muD7S
+         2g8BSzW7YeVCnlYaISJkS8s1g5zg19o5aV9Ca7CoZqPiQxkpv/al4GMl5dGJUkYg1wNz
+         KiNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768209428; x=1768814228;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zd0BPdweYbYZbQyn2qW1okTKg1KegiW0299KXASGYXY=;
+        b=mhDeq5dp7aNyqTXuv8ZtghqPGSrAwnds56Axf9N1Q+gOh69tq0Gl6oEgAgICL6ibI/
+         ndJnMTi6vtb2RviMx5KLpDa7n5hGOqkL07tHrw7fzOI/FhSa4iLdbVFot3ylELX4LsAN
+         iJBVwCgiXcYFhh8hmAhIoSzm7dZVm/frxf0y1Wmaz8NxZfX4iur27FU1oVt29DNmnH6/
+         ZR8wImq8MQdUZl76bGNLBK3T9D+YjnfweAC0SzK15QD8e/wcEwDsPLIf6BPfd9LTt0fi
+         NQiyvpE0yR8hv8FdBfuLKLBdlzNjE6AUiKqZ+FQjpkQ1lY0pTaur9Y/kllXkySXVFksT
+         vkCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWW13zzjaL0f+WYvyziViR0kl3cxQ+UnRvJo/SfPZSs4FKE3FBE+wk8X1Jf8aw9exDnBwIJIr4cg4c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzIFW6sGMMjkc2K1LHLi8UwqWJlEkpr+Ni5rILve1yR21XeVZvd
+	8M6qqlurteXzCM3u6nE7Bh9/vfaI6R5n+yKTpa90VaSatuywNG95rWjd
+X-Gm-Gg: AY/fxX5aLBYwBvpguXYX/w+XLz2Ix7vJiFg00ERFV/CQkXq/ex0Rh+6P/M2CYEVOSfi
+	P9PHMXX1w6/zx7dyXNGUgFCLmwJEQMO8aDsIiALx4rEx+/aPreRVVbmqXI9b7r+0FYSea3gFYd+
+	Anxz56FoOA75ii8oiUipu8Byb9FVtaDVJhwgjZBG+ReU7kOCJxkpYW2Ttv2p/WjBd1DEo10bYZ/
+	WjHcnVRXJR3/PojEBFqiOUpeo3kKfF+GRIHXzHzbrvddf5TYugRz4dcwjeJOhisZXFxcJb9Vnra
+	/ilJu9a6oye0k5Tq9hVGX4eZADiIpeYmtOiChml7qm4ObCjwg8c6yTL04BOvi1HlR36l6ng2fvR
+	o7bMX9fnCMfwAixw4Rcy0BHtF1HY3v50syVGgJH3mWEQdDDr/govHsbSsEvwMBGn90wE8yAkLgQ
+	gH4WahI1+iCxovb7o2egIBUdOZkg100GYs/OEej4QwHlo=
+X-Google-Smtp-Source: AGHT+IEVkFHwWdARDiOC3T5oubH1b0HSoQYmd/NAnJNXQ0ysw0Xt1Fgn+FqRVmFL8guwSSYOYkTxEQ==
+X-Received: by 2002:a17:907:7202:b0:b87:efa:8786 with SMTP id a640c23a62f3a-b870efae612mr369083166b.55.1768209427070;
+        Mon, 12 Jan 2026 01:17:07 -0800 (PST)
+Received: from MacBookPro ([2a02:8071:2186:3703:6de9:eb98:99c8:7af2])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b870b0dba4esm411401466b.17.2026.01.12.01.17.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jan 2026 01:17:06 -0800 (PST)
+From: Nauman Sabir <officialnaumansabir@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Cc: Nauman Sabir <officialnaumansabir@gmail.com>,
+	Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Gao Xiang <xiang@kernel.org>,
+	Chao Yu <chao@kernel.org>,
+	Yue Hu <zbestahu@gmail.com>,
+	Jeffle Xu <jefflexu@linux.alibaba.com>,
+	Sandeep Dhavale <dhavale@google.com>,
+	Hongbo Li <lihongbo22@huawei.com>,
+	Chunhai Guo <guochunhai@vivo.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Jitao shi <jitao.shi@mediatek.com>,
+	linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-mediatek@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-erofs@lists.ozlabs.org,
+	linux-kbuild@vger.kernel.org,
+	workflows@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2] Documentation: Fix typos and grammatical errors
+Date: Mon, 12 Jan 2026 10:16:56 +0100
+Message-ID: <20260112091659.12316-1-officialnaumansabir@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260111160750.17569-2-krzysztof.kozlowski@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jan 11, 2026 at 05:07:51PM +0100, Krzysztof Kozlowski wrote:
-> Sources already have SPDX-FileCopyrightText (~40 instances) and more
-> appear on the mailing list, so document that it is allowed.  On the
-> other hand SPDX defines several other tags like SPDX-FileType, so add
-> checkpatch rule to narrow desired tags only to two of them - license and
-> copyright.  That way no new tags would sneak in to the kernel unnoticed.
-> 
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Joe Perches <joe@perches.com>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> 
-> ---
-> 
-> Other way would be to remove SPDX-FileCopyrightText from existing files
-> and disallow this, but one way or another we should be explicit about
-> it.  Otherwise people will be sending more of these and each maintainer
-> would need to make their own call.
+Fix various typos and grammatical errors across multiple documentation
+files to improve clarity and consistency.
 
-My only concern is that we're endorsing two different ways to express
-copyright information. That usually leads to different subsystem setting
-different rules, and worse, to people sending conversion patches.
+Changes include:
+- Fix missing preposition 'in' in process/changes.rst
+- Correct 'result by' to 'result from' in admin-guide/README.rst
+- Fix 'before hand' to 'beforehand' (3 instances) in cgroup-v1/hugetlb.rst
+- Correct 'allows to limit' to 'allows limiting' in cgroup-v1/hugetlb.rst,
+  cgroup-v2.rst, and kconfig-language.rst
+- Fix 'needs precisely know' to 'needs to precisely know' in
+  cgroup-v1/hugetlb.rst
+- Correct 'overcommited' to 'overcommitted' in cgroup-v1/hugetlb.rst
+- Fix subject-verb agreement: 'never causes' to 'never cause' (2 instances)
+  in cgroup-v1/hugetlb.rst
+- Fix subject-verb agreement: 'there is enough' to 'there are enough' in
+  cgroup-v1/hugetlb.rst
+- Remove incorrect plural from uncountable nouns: 'metadatas' to 'metadata'
+  in filesystems/erofs.rst, and 'hardwares' to 'hardware' in
+  devicetree/bindings/.../mediatek,dp.yaml, userspace-api/.../legacy_dvb_audio.rst,
+  and scsi/ChangeLog.sym53c8xx
 
-I don't mind how copyright information is expressed. The
-SPDX-FileCopyrightText tag has the advantage of being machine-parseable,
-even if the value of the extracted information is somehow dubious from a
-legal point of view. Other than than, both ways seem fine. I have a
-slight personal preference for standardizing things, but the SPDX
-specification doesn't mandate a particular formatting of the
-SPDX-FileCopyrightText value, so there will always be different styles
-anyway.
+Note: British spelling 'recognised' retained per maintainer feedback.
 
-> Changes in v2:
-> 1. Doc adjustments based on feedback from Greg and Laurent.
-> 2. "unused" -> "unsupported"
-> 3. Drop redundant blank line
-> ---
->  Documentation/process/license-rules.rst | 7 +++++--
->  scripts/checkpatch.pl                   | 8 ++++++++
->  2 files changed, 13 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/process/license-rules.rst b/Documentation/process/license-rules.rst
-> index 59a7832df7d0..5cc58168e3d9 100644
-> --- a/Documentation/process/license-rules.rst
-> +++ b/Documentation/process/license-rules.rst
-> @@ -63,8 +63,11 @@ License identifier syntax
->     The SPDX license identifier in kernel files shall be added at the first
->     possible line in a file which can contain a comment.  For the majority
->     of files this is the first line, except for scripts which require the
-> -   '#!PATH_TO_INTERPRETER' in the first line.  For those scripts the SPDX
-> -   identifier goes into the second line.
-> +   '#!PATH_TO_INTERPRETER' in the first line.  For those scripts, the SPDX
-> +   license identifier goes into the second line.
-> +
-> +   The license identifier line can then be followed by one of multiple
+These corrections improve the overall quality and readability of the
+kernel documentation.
 
-s/of multiple/or multiple/
+Signed-off-by: Nauman Sabir <officialnaumansabir@gmail.com>
+---
+ Documentation/admin-guide/README.rst           |  2 +-
+ .../admin-guide/cgroup-v1/hugetlb.rst          | 18 +++++++++---------
+ Documentation/admin-guide/cgroup-v2.rst        |  2 +-
+ .../bindings/display/mediatek/mediatek,dp.yaml |  2 +-
+ Documentation/filesystems/erofs.rst            |  2 +-
+ Documentation/kbuild/kconfig-language.rst      |  2 +-
+ Documentation/process/changes.rst              |  2 +-
+ Documentation/scsi/ChangeLog.sym53c8xx         |  2 +-
+ .../media/dvb/legacy_dvb_audio.rst             |  2 +-
+ 9 files changed, 17 insertions(+), 17 deletions(-)
 
-> +   SPDX-FileCopyrightText lines if desired.
->  
->  |
->  
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index 362a8d1cd327..cc2a5882fef8 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -3844,6 +3844,14 @@ sub process {
->  			     "Misplaced SPDX-License-Identifier tag - use line $checklicenseline instead\n" . $herecurr);
->  		}
->  
-> +# check for unsupported SPDX file tags
-> +		if ($rawline =~ /\bSPDX-.*:/ &&
-> +		    $rawline !~ /\bSPDX-License-Identifier:/ &&
-> +		    $rawline !~ /\bSPDX-FileCopyrightText:/) {
-> +			WARN("SPDX_LICENSE_TAG",
-> +			     "Unsupported SPDX tag\n" . $herecurr);
-> +		}
-> +
->  # line length limit (with some exclusions)
->  #
->  # There are a few types of lines that may extend beyond $max_line_length:
-
+diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
+index 05301f03b..77fec1de6 100644
+--- a/Documentation/admin-guide/README.rst
++++ b/Documentation/admin-guide/README.rst
+@@ -53,7 +53,7 @@ Documentation
+    these typically contain kernel-specific installation notes for some
+    drivers for example. Please read the
+    :ref:`Documentation/process/changes.rst <changes>` file, as it
+-   contains information about the problems, which may result by upgrading
++   contains information about the problems which may result from upgrading
+    your kernel.
+ 
+ Installing the kernel source
+diff --git a/Documentation/admin-guide/cgroup-v1/hugetlb.rst b/Documentation/admin-guide/cgroup-v1/hugetlb.rst
+index 493a8e386..b5f3873b7 100644
+--- a/Documentation/admin-guide/cgroup-v1/hugetlb.rst
++++ b/Documentation/admin-guide/cgroup-v1/hugetlb.rst
+@@ -77,7 +77,7 @@ control group and enforces the limit during page fault. Since HugeTLB
+ doesn't support page reclaim, enforcing the limit at page fault time implies
+ that, the application will get SIGBUS signal if it tries to fault in HugeTLB
+ pages beyond its limit. Therefore the application needs to know exactly how many
+-HugeTLB pages it uses before hand, and the sysadmin needs to make sure that
++HugeTLB pages it uses beforehand, and the sysadmin needs to make sure that
+ there are enough available on the machine for all the users to avoid processes
+ getting SIGBUS.
+ 
+@@ -91,23 +91,23 @@ getting SIGBUS.
+   hugetlb.<hugepagesize>.rsvd.usage_in_bytes
+   hugetlb.<hugepagesize>.rsvd.failcnt
+ 
+-The HugeTLB controller allows to limit the HugeTLB reservations per control
++The HugeTLB controller allows limiting the HugeTLB reservations per control
+ group and enforces the controller limit at reservation time and at the fault of
+ HugeTLB memory for which no reservation exists. Since reservation limits are
+-enforced at reservation time (on mmap or shget), reservation limits never causes
+-the application to get SIGBUS signal if the memory was reserved before hand. For
++enforced at reservation time (on mmap or shget), reservation limits never cause
++the application to get SIGBUS signal if the memory was reserved beforehand. For
+ MAP_NORESERVE allocations, the reservation limit behaves the same as the fault
+ limit, enforcing memory usage at fault time and causing the application to
+ receive a SIGBUS if it's crossing its limit.
+ 
+ Reservation limits are superior to page fault limits described above, since
+ reservation limits are enforced at reservation time (on mmap or shget), and
+-never causes the application to get SIGBUS signal if the memory was reserved
+-before hand. This allows for easier fallback to alternatives such as
++never cause the application to get SIGBUS signal if the memory was reserved
++beforehand. This allows for easier fallback to alternatives such as
+ non-HugeTLB memory for example. In the case of page fault accounting, it's very
+-hard to avoid processes getting SIGBUS since the sysadmin needs precisely know
+-the HugeTLB usage of all the tasks in the system and make sure there is enough
+-pages to satisfy all requests. Avoiding tasks getting SIGBUS on overcommited
++hard to avoid processes getting SIGBUS since the sysadmin needs to precisely know
++the HugeTLB usage of all the tasks in the system and make sure there are enough
++pages to satisfy all requests. Avoiding tasks getting SIGBUS on overcommitted
+ systems is practically impossible with page fault accounting.
+ 
+ 
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 7f5b59d95..098d6831b 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -2816,7 +2816,7 @@ DMEM Interface Files
+ HugeTLB
+ -------
+ 
+-The HugeTLB controller allows to limit the HugeTLB usage per control group and
++The HugeTLB controller allows limiting the HugeTLB usage per control group and
+ enforces the controller limit during page fault.
+ 
+ HugeTLB Interface Files
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+index 274f59080..8f4bd9fb5 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+@@ -11,7 +11,7 @@ maintainers:
+   - Jitao shi <jitao.shi@mediatek.com>
+ 
+ description: |
+-  MediaTek DP and eDP are different hardwares and there are some features
++  MediaTek DP and eDP are different hardware and there are some features
+   which are not supported for eDP. For example, audio is not supported for
+   eDP. Therefore, we need to use two different compatibles to describe them.
+   In addition, We just need to enable the power domain of DP, so the clock
+diff --git a/Documentation/filesystems/erofs.rst b/Documentation/filesystems/erofs.rst
+index 08194f194..e61db115e 100644
+--- a/Documentation/filesystems/erofs.rst
++++ b/Documentation/filesystems/erofs.rst
+@@ -154,7 +154,7 @@ to be as simple as possible::
+   0 +1K
+ 
+ All data areas should be aligned with the block size, but metadata areas
+-may not. All metadatas can be now observed in two different spaces (views):
++may not. All metadata can be now observed in two different spaces (views):
+ 
+  1. Inode metadata space
+ 
+diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+index abce88f15..7067ec3f0 100644
+--- a/Documentation/kbuild/kconfig-language.rst
++++ b/Documentation/kbuild/kconfig-language.rst
+@@ -216,7 +216,7 @@ applicable everywhere (see syntax).
+ 
+ - numerical ranges: "range" <symbol> <symbol> ["if" <expr>]
+ 
+-  This allows to limit the range of possible input values for int
++  This allows limiting the range of possible input values for int
+   and hex symbols. The user can only input a value which is larger than
+   or equal to the first symbol and smaller than or equal to the second
+   symbol.
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index 62951cdb1..0cf97dbab 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -218,7 +218,7 @@ DevFS has been obsoleted in favour of udev
+ Linux documentation for functions is transitioning to inline
+ documentation via specially-formatted comments near their
+ definitions in the source.  These comments can be combined with ReST
+-files the Documentation/ directory to make enriched documentation, which can
++files in the Documentation/ directory to make enriched documentation, which can
+ then be converted to PostScript, HTML, LaTex, ePUB and PDF files.
+ In order to convert from ReST format to a format of your choice, you'll need
+ Sphinx.
+diff --git a/Documentation/scsi/ChangeLog.sym53c8xx b/Documentation/scsi/ChangeLog.sym53c8xx
+index 3435227a2..6bca91e03 100644
+--- a/Documentation/scsi/ChangeLog.sym53c8xx
++++ b/Documentation/scsi/ChangeLog.sym53c8xx
+@@ -3,7 +3,7 @@ Sat May 12 12:00 2001 Gerard Roudier (groudier@club-internet.fr)
+ 	- Ensure LEDC bit in GPCNTL is cleared when reading the NVRAM.
+ 	  Fix sent by Stig Telfer <stig@api-networks.com>.
+ 	- Backport from SYM-2 the work-around that allows to support 
+-	  hardwares that fail PCI parity checking.
++	  hardware that fails PCI parity checking.
+ 	- Check that we received at least 8 bytes of INQUIRY response 
+ 	  for byte 7, that contains device capabilities, to be valid.
+ 	- Define scsi_set_pci_device() as nil for kernel < 2.4.4.
+diff --git a/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst b/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst
+index 81b762ef1..99ffda355 100644
+--- a/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst
++++ b/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst
+@@ -444,7 +444,7 @@ Description
+ ~~~~~~~~~~~
+ 
+ A call to `AUDIO_GET_CAPABILITIES`_ returns an unsigned integer with the
+-following bits set according to the hardwares capabilities.
++following bits set according to the hardware's capabilities.
+ 
+ 
+ -----
 -- 
-Regards,
+2.52.0
 
-Laurent Pinchart
