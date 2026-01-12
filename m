@@ -1,302 +1,150 @@
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com [209.85.208.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A799319603
-	for <workflows@vger.kernel.org>; Mon, 12 Jan 2026 09:17:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F276B2397AA;
+	Mon, 12 Jan 2026 15:06:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768209431; cv=none; b=NwfHIJZ2VcYBLwlvTjPp/AQLjFKmhoX6t6mJNZ3mv42RrNlM0mgiPr52oslyAwE6XaPNRrVCFAHWapNTm1xNjgRJgVWwJ1sVvkMBQ/tNhvuSto7vOhRj8WnwQh+ohYujdwWubTtXJ3Lcjwq2fgxGLE9+Vr26ekG3BnMzj5s2UZ8=
+	t=1768230400; cv=none; b=HTjnnPIBMubbxYTEwdpXdfK1xqgJJKyA9gmSeZOsmodPTHwrAsTJK200Sux/jzbOP8cP0FnItUeOKu+5x8IQPyYw2XTLTmE1IUEaJs4pQr9XO4BR2SjXni0EF6sd6JDO2LHz5M22fP/9Xb+PQX6SuJa5RNUTsNouIe5ildlnD7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768209431; c=relaxed/simple;
-	bh=7JQzKSeQVZx457uwRMkr4aCIBLk4y7oY3Lw/r19JkC4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YOCYV/gvF7EUIt7cToCIPDdAL57Iw8vdPSpwG0uVkZMblkqgDn/KR1noClt2SMrnFhzLmYAHq5gzsiOfPkwFvjOQUnaQeWtTIDXP2Yae/DyWh3bLYHDdBbU91oAiRgqHRDHa3EYSiRrg0Uw8azsepm7L/W3V1B0/Ri/7ePHaXPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=arAhRpIP; arc=none smtp.client-ip=209.85.208.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768230400; c=relaxed/simple;
+	bh=BdZJMnjhR9LFgo+EtL6UVB9GpWpvjwRSmECzCkjIBp8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=g7XPAdpNoavDbj8kSnj61vuE339rDV2SCubH+0r2IWkD5Txm/ho38EaPLArs5hYBuR/RzADJuSIxMBUaChcMteDLM2xRHmNdqFe1V0umvtwpk8W+wETdesXHYV8zTwRkegLW8UIXeka0DNeGF32ZARohft5u82eJkJaf+7aJUA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JOS2hLvw; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="arAhRpIP"
-Received: by mail-ed1-f67.google.com with SMTP id 4fb4d7f45d1cf-64bea6c5819so9284566a12.3
-        for <workflows@vger.kernel.org>; Mon, 12 Jan 2026 01:17:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768209428; x=1768814228; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zd0BPdweYbYZbQyn2qW1okTKg1KegiW0299KXASGYXY=;
-        b=arAhRpIPJOIZE4JPX3GVuwxOOJCYX5WoSOlFTrT2D8Vsv2LeID0RpiJsuZXZ12fvqJ
-         g70rNpszBFEP5Zqbf8Jkv3Y3ieMRcZV0ou0O/7wc6Mqv4fvas/YHSUALmcx+WqdESD6I
-         HnwyaCZB3sfigAKVNpmv/aoVlwnaIIrzpznCXRB2svRDUzocNHlKOdprCHb3au5gysuo
-         /J4J3sYaRt9YJFjvA2L4Azcju2XJvrlWBRVAOZBMpiJN8nVEmvm2l215OnsRqW9muD7S
-         2g8BSzW7YeVCnlYaISJkS8s1g5zg19o5aV9Ca7CoZqPiQxkpv/al4GMl5dGJUkYg1wNz
-         KiNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768209428; x=1768814228;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zd0BPdweYbYZbQyn2qW1okTKg1KegiW0299KXASGYXY=;
-        b=mhDeq5dp7aNyqTXuv8ZtghqPGSrAwnds56Axf9N1Q+gOh69tq0Gl6oEgAgICL6ibI/
-         ndJnMTi6vtb2RviMx5KLpDa7n5hGOqkL07tHrw7fzOI/FhSa4iLdbVFot3ylELX4LsAN
-         iJBVwCgiXcYFhh8hmAhIoSzm7dZVm/frxf0y1Wmaz8NxZfX4iur27FU1oVt29DNmnH6/
-         ZR8wImq8MQdUZl76bGNLBK3T9D+YjnfweAC0SzK15QD8e/wcEwDsPLIf6BPfd9LTt0fi
-         NQiyvpE0yR8hv8FdBfuLKLBdlzNjE6AUiKqZ+FQjpkQ1lY0pTaur9Y/kllXkySXVFksT
-         vkCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWW13zzjaL0f+WYvyziViR0kl3cxQ+UnRvJo/SfPZSs4FKE3FBE+wk8X1Jf8aw9exDnBwIJIr4cg4c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzIFW6sGMMjkc2K1LHLi8UwqWJlEkpr+Ni5rILve1yR21XeVZvd
-	8M6qqlurteXzCM3u6nE7Bh9/vfaI6R5n+yKTpa90VaSatuywNG95rWjd
-X-Gm-Gg: AY/fxX5aLBYwBvpguXYX/w+XLz2Ix7vJiFg00ERFV/CQkXq/ex0Rh+6P/M2CYEVOSfi
-	P9PHMXX1w6/zx7dyXNGUgFCLmwJEQMO8aDsIiALx4rEx+/aPreRVVbmqXI9b7r+0FYSea3gFYd+
-	Anxz56FoOA75ii8oiUipu8Byb9FVtaDVJhwgjZBG+ReU7kOCJxkpYW2Ttv2p/WjBd1DEo10bYZ/
-	WjHcnVRXJR3/PojEBFqiOUpeo3kKfF+GRIHXzHzbrvddf5TYugRz4dcwjeJOhisZXFxcJb9Vnra
-	/ilJu9a6oye0k5Tq9hVGX4eZADiIpeYmtOiChml7qm4ObCjwg8c6yTL04BOvi1HlR36l6ng2fvR
-	o7bMX9fnCMfwAixw4Rcy0BHtF1HY3v50syVGgJH3mWEQdDDr/govHsbSsEvwMBGn90wE8yAkLgQ
-	gH4WahI1+iCxovb7o2egIBUdOZkg100GYs/OEej4QwHlo=
-X-Google-Smtp-Source: AGHT+IEVkFHwWdARDiOC3T5oubH1b0HSoQYmd/NAnJNXQ0ysw0Xt1Fgn+FqRVmFL8guwSSYOYkTxEQ==
-X-Received: by 2002:a17:907:7202:b0:b87:efa:8786 with SMTP id a640c23a62f3a-b870efae612mr369083166b.55.1768209427070;
-        Mon, 12 Jan 2026 01:17:07 -0800 (PST)
-Received: from MacBookPro ([2a02:8071:2186:3703:6de9:eb98:99c8:7af2])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b870b0dba4esm411401466b.17.2026.01.12.01.17.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jan 2026 01:17:06 -0800 (PST)
-From: Nauman Sabir <officialnaumansabir@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Cc: Nauman Sabir <officialnaumansabir@gmail.com>,
-	Tejun Heo <tj@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Gao Xiang <xiang@kernel.org>,
-	Chao Yu <chao@kernel.org>,
-	Yue Hu <zbestahu@gmail.com>,
-	Jeffle Xu <jefflexu@linux.alibaba.com>,
-	Sandeep Dhavale <dhavale@google.com>,
-	Hongbo Li <lihongbo22@huawei.com>,
-	Chunhai Guo <guochunhai@vivo.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Jitao shi <jitao.shi@mediatek.com>,
-	linux-kernel@vger.kernel.org,
-	cgroups@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-mediatek@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-erofs@lists.ozlabs.org,
-	linux-kbuild@vger.kernel.org,
-	workflows@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2] Documentation: Fix typos and grammatical errors
-Date: Mon, 12 Jan 2026 10:16:56 +0100
-Message-ID: <20260112091659.12316-1-officialnaumansabir@gmail.com>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JOS2hLvw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768230399; x=1799766399;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=BdZJMnjhR9LFgo+EtL6UVB9GpWpvjwRSmECzCkjIBp8=;
+  b=JOS2hLvwvQCFRcT+FMP8z9Zk6a0tl/KTjW0DKtbEiozHgJ0iKrEUKrwM
+   wmMscfX8tBmlGWIpB0PKVXcQXJ3lJfQIVBBukpAQcSVLdugtvvEbDDamu
+   Fsa6abFmG4WUoP4VGau1v0G89LlM93SOBX1uS1fgfDCjwaGDOXt6CjWk+
+   J9MXB0sWOiUixu6bKy0kNIawD4wbfMS+W4gi+nu91vM1lidjttP7CG1de
+   z2cOAGtf5VpXTxHHcxY3M0vIK5CX1J/vbhfpJeWCzWE+QoZmSRieo+DNl
+   1Yoq7wf3ZtQ7TFMNb5HMv+qjLVG4/gb5WCDvvCynM9LfCzh68RcM2xWRl
+   A==;
+X-CSE-ConnectionGUID: kd3MZeagRSqxpuGGqupBxQ==
+X-CSE-MsgGUID: Be0bvlWCR/eTKmEudsBKRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="72082245"
+X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
+   d="scan'208";a="72082245"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 07:06:38 -0800
+X-CSE-ConnectionGUID: WIwB7raKTCOaIn6ykckllw==
+X-CSE-MsgGUID: JhDzYItwSEe4bVUVEQ72mA==
+X-ExtLoop1: 1
+Received: from vverma7-desk1.amr.corp.intel.com (HELO [10.125.110.123]) ([10.125.110.123])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 07:06:37 -0800
+Message-ID: <bd42821d-2761-42fa-b965-2681f1295ba0@intel.com>
+Date: Mon, 12 Jan 2026 07:06:36 -0800
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] [v3] Documentation: Provide guidelines for tool-generated
+ content
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Steven Rostedt <rostedt@goodmis.org>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, Dave Hansen <dave@sr71.net>,
+ James Bottomley <James.Bottomley@hansenpartnership.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, linux-kernel@vger.kernel.org,
+ Shuah Khan <shuah@kernel.org>, Kees Cook <kees@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Miguel Ojeda <ojeda@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
+ SeongJae Park <sj@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
+ NeilBrown <neilb@ownmail.net>, Theodore Ts'o <tytso@mit.edu>,
+ Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Vlastimil Babka <vbabka@suse.cz>, workflows@vger.kernel.org,
+ ksummit@lists.linux.dev, Jens Axboe <axboe@kernel.dk>
+References: <e7a2e69991943777f30743868bdc04332a52037b.camel@HansenPartnership.com>
+ <a70d3156-ad96-4ad7-90ff-624fab62fe7d@lucifer.local>
+ <6e9cab54-7b66-45e9-af96-e52b3eba1034@intel.com>
+ <f93a5311-4689-486b-aea8-261263f4d447@lucifer.local>
+ <5a301272-31ea-44b8-9518-8151edca6c06@sr71.net>
+ <20260108151437.3188cd53@gandalf.local.home>
+ <cfb8bb96-e798-474d-bc6f-9cf610fe720f@lucifer.local>
+ <aWDf1zlLTKmw9xnq@stanley.mountain>
+ <d6dc605e-2f33-4db2-99d9-4c3c83051ae3@lucifer.local>
+ <20260109103924.3de6fb4d@gandalf.local.home>
+ <3ef67380-bc8c-42c6-a5f8-416440e4c445@lucifer.local>
+From: Dave Hansen <dave.hansen@intel.com>
+Content-Language: en-US
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <3ef67380-bc8c-42c6-a5f8-416440e4c445@lucifer.local>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Fix various typos and grammatical errors across multiple documentation
-files to improve clarity and consistency.
+On 1/9/26 07:48, Lorenzo Stoakes wrote:
+>>>>> +If tools permit you to generate series automatically, expect
+>>>>> +additional scrutiny in proportion to how much of it was generated.
+>>>>> +
+>>>>> +As with the output of any tooling, the result maybe incorrect or
+>>>>> +inappropriate, so you are expected to understand and to be able to defend
+>>>>> +everything you submit. If you are unable to do so, then don't submit the
+>>>>> +resulting changes.
+>>>>> +
+>>>>> +If you do so anyway, maintainers are entitled to reject your series without
+>>>>> +detailed review.
+>> I like it.
+> Hmm, you like my version but then below argue against every point I make in
+> favour of it? I'm confused?
+> 
+> Did you mean to say you liked a suggested other revision or... really this
+> one? 🙂
+> 
+> If so and Dave likes it too then LGTM, pending any Linus/other veto.
 
-Changes include:
-- Fix missing preposition 'in' in process/changes.rst
-- Correct 'result by' to 'result from' in admin-guide/README.rst
-- Fix 'before hand' to 'beforehand' (3 instances) in cgroup-v1/hugetlb.rst
-- Correct 'allows to limit' to 'allows limiting' in cgroup-v1/hugetlb.rst,
-  cgroup-v2.rst, and kconfig-language.rst
-- Fix 'needs precisely know' to 'needs to precisely know' in
-  cgroup-v1/hugetlb.rst
-- Correct 'overcommited' to 'overcommitted' in cgroup-v1/hugetlb.rst
-- Fix subject-verb agreement: 'never causes' to 'never cause' (2 instances)
-  in cgroup-v1/hugetlb.rst
-- Fix subject-verb agreement: 'there is enough' to 'there are enough' in
-  cgroup-v1/hugetlb.rst
-- Remove incorrect plural from uncountable nouns: 'metadatas' to 'metadata'
-  in filesystems/erofs.rst, and 'hardwares' to 'hardware' in
-  devicetree/bindings/.../mediatek,dp.yaml, userspace-api/.../legacy_dvb_audio.rst,
-  and scsi/ChangeLog.sym53c8xx
+Look good to me too!
 
-Note: British spelling 'recognised' retained per maintainer feedback.
-
-These corrections improve the overall quality and readability of the
-kernel documentation.
-
-Signed-off-by: Nauman Sabir <officialnaumansabir@gmail.com>
----
- Documentation/admin-guide/README.rst           |  2 +-
- .../admin-guide/cgroup-v1/hugetlb.rst          | 18 +++++++++---------
- Documentation/admin-guide/cgroup-v2.rst        |  2 +-
- .../bindings/display/mediatek/mediatek,dp.yaml |  2 +-
- Documentation/filesystems/erofs.rst            |  2 +-
- Documentation/kbuild/kconfig-language.rst      |  2 +-
- Documentation/process/changes.rst              |  2 +-
- Documentation/scsi/ChangeLog.sym53c8xx         |  2 +-
- .../media/dvb/legacy_dvb_audio.rst             |  2 +-
- 9 files changed, 17 insertions(+), 17 deletions(-)
-
-diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
-index 05301f03b..77fec1de6 100644
---- a/Documentation/admin-guide/README.rst
-+++ b/Documentation/admin-guide/README.rst
-@@ -53,7 +53,7 @@ Documentation
-    these typically contain kernel-specific installation notes for some
-    drivers for example. Please read the
-    :ref:`Documentation/process/changes.rst <changes>` file, as it
--   contains information about the problems, which may result by upgrading
-+   contains information about the problems which may result from upgrading
-    your kernel.
- 
- Installing the kernel source
-diff --git a/Documentation/admin-guide/cgroup-v1/hugetlb.rst b/Documentation/admin-guide/cgroup-v1/hugetlb.rst
-index 493a8e386..b5f3873b7 100644
---- a/Documentation/admin-guide/cgroup-v1/hugetlb.rst
-+++ b/Documentation/admin-guide/cgroup-v1/hugetlb.rst
-@@ -77,7 +77,7 @@ control group and enforces the limit during page fault. Since HugeTLB
- doesn't support page reclaim, enforcing the limit at page fault time implies
- that, the application will get SIGBUS signal if it tries to fault in HugeTLB
- pages beyond its limit. Therefore the application needs to know exactly how many
--HugeTLB pages it uses before hand, and the sysadmin needs to make sure that
-+HugeTLB pages it uses beforehand, and the sysadmin needs to make sure that
- there are enough available on the machine for all the users to avoid processes
- getting SIGBUS.
- 
-@@ -91,23 +91,23 @@ getting SIGBUS.
-   hugetlb.<hugepagesize>.rsvd.usage_in_bytes
-   hugetlb.<hugepagesize>.rsvd.failcnt
- 
--The HugeTLB controller allows to limit the HugeTLB reservations per control
-+The HugeTLB controller allows limiting the HugeTLB reservations per control
- group and enforces the controller limit at reservation time and at the fault of
- HugeTLB memory for which no reservation exists. Since reservation limits are
--enforced at reservation time (on mmap or shget), reservation limits never causes
--the application to get SIGBUS signal if the memory was reserved before hand. For
-+enforced at reservation time (on mmap or shget), reservation limits never cause
-+the application to get SIGBUS signal if the memory was reserved beforehand. For
- MAP_NORESERVE allocations, the reservation limit behaves the same as the fault
- limit, enforcing memory usage at fault time and causing the application to
- receive a SIGBUS if it's crossing its limit.
- 
- Reservation limits are superior to page fault limits described above, since
- reservation limits are enforced at reservation time (on mmap or shget), and
--never causes the application to get SIGBUS signal if the memory was reserved
--before hand. This allows for easier fallback to alternatives such as
-+never cause the application to get SIGBUS signal if the memory was reserved
-+beforehand. This allows for easier fallback to alternatives such as
- non-HugeTLB memory for example. In the case of page fault accounting, it's very
--hard to avoid processes getting SIGBUS since the sysadmin needs precisely know
--the HugeTLB usage of all the tasks in the system and make sure there is enough
--pages to satisfy all requests. Avoiding tasks getting SIGBUS on overcommited
-+hard to avoid processes getting SIGBUS since the sysadmin needs to precisely know
-+the HugeTLB usage of all the tasks in the system and make sure there are enough
-+pages to satisfy all requests. Avoiding tasks getting SIGBUS on overcommitted
- systems is practically impossible with page fault accounting.
- 
- 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 7f5b59d95..098d6831b 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -2816,7 +2816,7 @@ DMEM Interface Files
- HugeTLB
- -------
- 
--The HugeTLB controller allows to limit the HugeTLB usage per control group and
-+The HugeTLB controller allows limiting the HugeTLB usage per control group and
- enforces the controller limit during page fault.
- 
- HugeTLB Interface Files
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
-index 274f59080..8f4bd9fb5 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
-@@ -11,7 +11,7 @@ maintainers:
-   - Jitao shi <jitao.shi@mediatek.com>
- 
- description: |
--  MediaTek DP and eDP are different hardwares and there are some features
-+  MediaTek DP and eDP are different hardware and there are some features
-   which are not supported for eDP. For example, audio is not supported for
-   eDP. Therefore, we need to use two different compatibles to describe them.
-   In addition, We just need to enable the power domain of DP, so the clock
-diff --git a/Documentation/filesystems/erofs.rst b/Documentation/filesystems/erofs.rst
-index 08194f194..e61db115e 100644
---- a/Documentation/filesystems/erofs.rst
-+++ b/Documentation/filesystems/erofs.rst
-@@ -154,7 +154,7 @@ to be as simple as possible::
-   0 +1K
- 
- All data areas should be aligned with the block size, but metadata areas
--may not. All metadatas can be now observed in two different spaces (views):
-+may not. All metadata can be now observed in two different spaces (views):
- 
-  1. Inode metadata space
- 
-diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-index abce88f15..7067ec3f0 100644
---- a/Documentation/kbuild/kconfig-language.rst
-+++ b/Documentation/kbuild/kconfig-language.rst
-@@ -216,7 +216,7 @@ applicable everywhere (see syntax).
- 
- - numerical ranges: "range" <symbol> <symbol> ["if" <expr>]
- 
--  This allows to limit the range of possible input values for int
-+  This allows limiting the range of possible input values for int
-   and hex symbols. The user can only input a value which is larger than
-   or equal to the first symbol and smaller than or equal to the second
-   symbol.
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 62951cdb1..0cf97dbab 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -218,7 +218,7 @@ DevFS has been obsoleted in favour of udev
- Linux documentation for functions is transitioning to inline
- documentation via specially-formatted comments near their
- definitions in the source.  These comments can be combined with ReST
--files the Documentation/ directory to make enriched documentation, which can
-+files in the Documentation/ directory to make enriched documentation, which can
- then be converted to PostScript, HTML, LaTex, ePUB and PDF files.
- In order to convert from ReST format to a format of your choice, you'll need
- Sphinx.
-diff --git a/Documentation/scsi/ChangeLog.sym53c8xx b/Documentation/scsi/ChangeLog.sym53c8xx
-index 3435227a2..6bca91e03 100644
---- a/Documentation/scsi/ChangeLog.sym53c8xx
-+++ b/Documentation/scsi/ChangeLog.sym53c8xx
-@@ -3,7 +3,7 @@ Sat May 12 12:00 2001 Gerard Roudier (groudier@club-internet.fr)
- 	- Ensure LEDC bit in GPCNTL is cleared when reading the NVRAM.
- 	  Fix sent by Stig Telfer <stig@api-networks.com>.
- 	- Backport from SYM-2 the work-around that allows to support 
--	  hardwares that fail PCI parity checking.
-+	  hardware that fails PCI parity checking.
- 	- Check that we received at least 8 bytes of INQUIRY response 
- 	  for byte 7, that contains device capabilities, to be valid.
- 	- Define scsi_set_pci_device() as nil for kernel < 2.4.4.
-diff --git a/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst b/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst
-index 81b762ef1..99ffda355 100644
---- a/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst
-+++ b/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst
-@@ -444,7 +444,7 @@ Description
- ~~~~~~~~~~~
- 
- A call to `AUDIO_GET_CAPABILITIES`_ returns an unsigned integer with the
--following bits set according to the hardwares capabilities.
-+following bits set according to the hardware's capabilities.
- 
- 
- -----
--- 
-2.52.0
-
+I'll try to get a v5 out with this later toady.
