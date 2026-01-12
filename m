@@ -1,150 +1,130 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F276B2397AA;
-	Mon, 12 Jan 2026 15:06:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25A61312829
+	for <workflows@vger.kernel.org>; Mon, 12 Jan 2026 19:02:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768230400; cv=none; b=HTjnnPIBMubbxYTEwdpXdfK1xqgJJKyA9gmSeZOsmodPTHwrAsTJK200Sux/jzbOP8cP0FnItUeOKu+5x8IQPyYw2XTLTmE1IUEaJs4pQr9XO4BR2SjXni0EF6sd6JDO2LHz5M22fP/9Xb+PQX6SuJa5RNUTsNouIe5ildlnD7o=
+	t=1768244536; cv=none; b=bv0aVhkP8CoOIhO2H7v6SLlItzXkf7SYoOwexs/FRsida5gmW/4dNm33ylm7kFgAPuO544iGYjvGG/slgkvIjaU+OAFbVJXsPdA4IBk9IyyXkYMozSHpQ4S2gk4+t6c30bSW9zQPK5eWt9pep3EY0kuKU43voPOTch2X9wO6xEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768230400; c=relaxed/simple;
-	bh=BdZJMnjhR9LFgo+EtL6UVB9GpWpvjwRSmECzCkjIBp8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g7XPAdpNoavDbj8kSnj61vuE339rDV2SCubH+0r2IWkD5Txm/ho38EaPLArs5hYBuR/RzADJuSIxMBUaChcMteDLM2xRHmNdqFe1V0umvtwpk8W+wETdesXHYV8zTwRkegLW8UIXeka0DNeGF32ZARohft5u82eJkJaf+7aJUA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JOS2hLvw; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1768244536; c=relaxed/simple;
+	bh=GpJ3wKU+LeNXnyIMJBhluREBdYPEkL8iKexGxHcEO2w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u+4yQ/9WofdZfuhKLWYEbV85ssAPSICGucglZGtwQhVntI9NU9sWGOnsuNgzxZSdKvlplWEC9dgf+exaTD3JJR5c/jqU/pSEq5hOAptFM9lXonaZCCPRlNu73gY9XRLiXpGa+g0QBPwD2PjqdAW7KHEztldqgZzFPoPlQTP42kg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=r5JqBMrA; arc=none smtp.client-ip=209.85.128.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JOS2hLvw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768230399; x=1799766399;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=BdZJMnjhR9LFgo+EtL6UVB9GpWpvjwRSmECzCkjIBp8=;
-  b=JOS2hLvwvQCFRcT+FMP8z9Zk6a0tl/KTjW0DKtbEiozHgJ0iKrEUKrwM
-   wmMscfX8tBmlGWIpB0PKVXcQXJ3lJfQIVBBukpAQcSVLdugtvvEbDDamu
-   Fsa6abFmG4WUoP4VGau1v0G89LlM93SOBX1uS1fgfDCjwaGDOXt6CjWk+
-   J9MXB0sWOiUixu6bKy0kNIawD4wbfMS+W4gi+nu91vM1lidjttP7CG1de
-   z2cOAGtf5VpXTxHHcxY3M0vIK5CX1J/vbhfpJeWCzWE+QoZmSRieo+DNl
-   1Yoq7wf3ZtQ7TFMNb5HMv+qjLVG4/gb5WCDvvCynM9LfCzh68RcM2xWRl
-   A==;
-X-CSE-ConnectionGUID: kd3MZeagRSqxpuGGqupBxQ==
-X-CSE-MsgGUID: Be0bvlWCR/eTKmEudsBKRQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="72082245"
-X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
-   d="scan'208";a="72082245"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 07:06:38 -0800
-X-CSE-ConnectionGUID: WIwB7raKTCOaIn6ykckllw==
-X-CSE-MsgGUID: JhDzYItwSEe4bVUVEQ72mA==
-X-ExtLoop1: 1
-Received: from vverma7-desk1.amr.corp.intel.com (HELO [10.125.110.123]) ([10.125.110.123])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 07:06:37 -0800
-Message-ID: <bd42821d-2761-42fa-b965-2681f1295ba0@intel.com>
-Date: Mon, 12 Jan 2026 07:06:36 -0800
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="r5JqBMrA"
+Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-47bdbc90dcaso48554325e9.1
+        for <workflows@vger.kernel.org>; Mon, 12 Jan 2026 11:02:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1768244528; x=1768849328; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4pwSmM1gT+NcRUqZym3XAVxxt9CfdNJcHOpVBLrqk4o=;
+        b=r5JqBMrAMj95ACq85jLQ44eMVw+dceYk/4Hn8XLqaTyZBy0OrMfQh5f8wsdeCSG/W0
+         QktSFoVq4H2Mnh/Q1T5H0RCL7it6uS6WIHlUOOAoEO0e2GeiuO5WIrMuEX3o20lGOTUw
+         gMfNb48lIzuwexA7Y/gqxzcHP6gjzRgyVZ6LWzqBWnbbxVEuF5feJGdfqlRcThFUcb1/
+         Mgnhhf7KG6ggHTXEsGGb3rivau3gGC0U0gUabgs1H1D35JbE0CtxINsBoU7TiV6MdqPc
+         MEBfC18mhtSnW/X12zc4w3nH/ioOifSpg5Wni1LXJSkkPvR+1hkLTCKNsf2fex9601KQ
+         Nb7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768244528; x=1768849328;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4pwSmM1gT+NcRUqZym3XAVxxt9CfdNJcHOpVBLrqk4o=;
+        b=xRi/sLxJVBsCOab+kF9UMqwBy7ZPT5x3JuA+5JMHJOKI0LHx9mV3wn6Q2ROI6B5I+C
+         QzSrM65mxiT5+vXG4/Yy6MTXLAkpxA5qREa3PBs7lBtw1FxMWing5Z0msokU2ApAZjzQ
+         RnfcYr8CTHts4j8mipxC+g29rFuamFOmuWo9PEj+23+hhx5uVs5Ed9+RoqC2Jv4kd3VK
+         dOcCt7UrXqGQ5jKYmzl6cNT2pzzE82nrNsjxkWj8ocXvUyuhMdc4rW4z+gRPeDqqzJKI
+         czUKxrcrElmVuytkTWCM4+Df9qxegqZBkoH3Utyqx4sqJw2IXI1yemCMpIV2XXZdzGCW
+         1RtA==
+X-Forwarded-Encrypted: i=1; AJvYcCXW59LJXOOtI3Hp+7Vn/wU65MJOisCsPHZLVWCHrCa651j8t3UUvNnD/pLAxXyZiRh3M8a9VsxB7z0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDdofh1KX2RNM5chaUoM3bCrBQP8BV+ONxY//nMxeyBvuxJg/P
+	MNGRJjc6I/zVIiaE7pNVwLlC2s0G3NJfwJsYPsAwjuxU5fZb3FtwzfSyc3fF+e4IitU=
+X-Gm-Gg: AY/fxX5Pun6MmDAplHZqOuw9AEERjIfxqCN7n+i0CoHl7WBvt7CfGDqKDYe6vqenayV
+	Kzg/ivverehvP3JjvSq/EpAA92WY/NOj/nfjVtfiM3tVrctUQcTor/8L8tJBpNDmEEkVMQo9iWM
+	wi+fxlWEJZjY+NmHAeh6b2Kox8WVWl0ygHcCTKwdjiITnywoa2vYU3brswJIT2QQTNNNp6873XP
+	9o6L+F5yZFCUH5AvT1e9SETzbbEMCWzQtUapjHwIXDbDBfUBi2t0Ab0lsOefOh7BKFFQb/uhKEq
+	YMs3pJs1TN10H9KrQ9YwHvZ2oU7JnBAEcolN5tD7KksXaX4nfFkm/N3USGI6WC0g9pAKkUIBFTQ
+	3ykj2C/9SiFlUY2W22IQTPEewBEmvOgjhEICI9M10Yn8PnpttBMhApkTzSmqiI4yBDZRxJiBLhG
+	75d5nDSwj1X19Lnrcl
+X-Google-Smtp-Source: AGHT+IHDDtSWfiRlGnF3a09bKQUbQh6KJSFhRFbtjUj5cC3oyQnHB16AsuI/tST8xry5sUSEgb1vCg==
+X-Received: by 2002:a05:600c:1d19:b0:47b:d914:98a7 with SMTP id 5b1f17b1804b1-47d84b3b65bmr221489695e9.29.1768244528451;
+        Mon, 12 Jan 2026 11:02:08 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47ed8aff4aesm1894695e9.5.2026.01.12.11.02.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jan 2026 11:02:07 -0800 (PST)
+Date: Mon, 12 Jan 2026 22:02:04 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: James Bottomley <James.Bottomley@hansenpartnership.com>
+Cc: Matthew Wilcox <willy@infradead.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Jens Axboe <axboe@kernel.dk>, Dave Hansen <dave.hansen@intel.com>,
+	Dave Hansen <dave@sr71.net>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	linux-kernel@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>, SeongJae Park <sj@kernel.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Steven Rostedt <rostedt@goodmis.org>, NeilBrown <neilb@ownmail.net>,
+	Theodore Ts'o <tytso@mit.edu>, Sasha Levin <sashal@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Vlastimil Babka <vbabka@suse.cz>,
+	workflows@vger.kernel.org, ksummit@lists.linux.dev
+Subject: Re: [PATCH] [v3] Documentation: Provide guidelines for
+ tool-generated content
+Message-ID: <aWVFLFdrs410YxU6@stanley.mountain>
+References: <a70d3156-ad96-4ad7-90ff-624fab62fe7d@lucifer.local>
+ <6e9cab54-7b66-45e9-af96-e52b3eba1034@intel.com>
+ <f93a5311-4689-486b-aea8-261263f4d447@lucifer.local>
+ <711d9e37-6fe7-4783-8ac4-5269279bb9fe@kernel.dk>
+ <3xf3f4b3vegssexoid746y7isuswwsgmac5hy2hm4ipisdcxaf@nbi67byycwj5>
+ <aWCSVh6NocePMvp8@stanley.mountain>
+ <0b9a8f99-5cc4-40e8-a0e6-4887d1e1a796@lucifer.local>
+ <aWJvcPeV5ziCt5Du@mail.hallyn.com>
+ <aWJ1ufun16-5EEkb@casper.infradead.org>
+ <39da84e891a8ccd4a17115ce6a399c2f6498e78f.camel@HansenPartnership.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] [v3] Documentation: Provide guidelines for tool-generated
- content
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Steven Rostedt <rostedt@goodmis.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, Dave Hansen <dave@sr71.net>,
- James Bottomley <James.Bottomley@hansenpartnership.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, linux-kernel@vger.kernel.org,
- Shuah Khan <shuah@kernel.org>, Kees Cook <kees@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Miguel Ojeda <ojeda@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
- SeongJae Park <sj@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
- NeilBrown <neilb@ownmail.net>, Theodore Ts'o <tytso@mit.edu>,
- Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Vlastimil Babka <vbabka@suse.cz>, workflows@vger.kernel.org,
- ksummit@lists.linux.dev, Jens Axboe <axboe@kernel.dk>
-References: <e7a2e69991943777f30743868bdc04332a52037b.camel@HansenPartnership.com>
- <a70d3156-ad96-4ad7-90ff-624fab62fe7d@lucifer.local>
- <6e9cab54-7b66-45e9-af96-e52b3eba1034@intel.com>
- <f93a5311-4689-486b-aea8-261263f4d447@lucifer.local>
- <5a301272-31ea-44b8-9518-8151edca6c06@sr71.net>
- <20260108151437.3188cd53@gandalf.local.home>
- <cfb8bb96-e798-474d-bc6f-9cf610fe720f@lucifer.local>
- <aWDf1zlLTKmw9xnq@stanley.mountain>
- <d6dc605e-2f33-4db2-99d9-4c3c83051ae3@lucifer.local>
- <20260109103924.3de6fb4d@gandalf.local.home>
- <3ef67380-bc8c-42c6-a5f8-416440e4c445@lucifer.local>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <3ef67380-bc8c-42c6-a5f8-416440e4c445@lucifer.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <39da84e891a8ccd4a17115ce6a399c2f6498e78f.camel@HansenPartnership.com>
 
-On 1/9/26 07:48, Lorenzo Stoakes wrote:
->>>>> +If tools permit you to generate series automatically, expect
->>>>> +additional scrutiny in proportion to how much of it was generated.
->>>>> +
->>>>> +As with the output of any tooling, the result maybe incorrect or
->>>>> +inappropriate, so you are expected to understand and to be able to defend
->>>>> +everything you submit. If you are unable to do so, then don't submit the
->>>>> +resulting changes.
->>>>> +
->>>>> +If you do so anyway, maintainers are entitled to reject your series without
->>>>> +detailed review.
->> I like it.
-> Hmm, you like my version but then below argue against every point I make in
-> favour of it? I'm confused?
+On Sat, Jan 10, 2026 at 11:02:19AM -0500, James Bottomley wrote:
+> On Sat, 2026-01-10 at 15:52 +0000, Matthew Wilcox wrote:
+> > On Sat, Jan 10, 2026 at 09:25:36AM -0600, Serge E. Hallyn wrote:
+> > > I just don't think the word "slop" should be used, because while it
+> > > may be very clear to you, and may be clearly defined in some
+> > > communities, me, I'm just guessing what you mean by it.
+> > 
+> > https://www.merriam-webster.com/wordplay/word-of-the-year
 > 
-> Did you mean to say you liked a suggested other revision or... really this
-> one? 🙂
-> 
-> If so and Dave likes it too then LGTM, pending any Linus/other veto.
+> Just because it's the word of the year this year doesn't mean people
+> will remember what it means even after a few years.  "Rawdog" was the
+> OED word of the year in 2024 ... that's losing its resonance and who of
+> the under 30 crowd knows what the 2000 word of the year "chad" means? 
+> The point of the formulation I proposed (without mentioning slop) was
+> to be generic and retain its meaning over time.
 
-Look good to me too!
+Slop means you produced the patches in such quantity that you don't have
+time to review the output before sending it.  This isn't a totally new
+thing, people have used clang-format to reformat a whole driver and it's
+clear they didn't look at the output.
 
-I'll try to get a v5 out with this later toady.
+Even for bug reports, the truth is that no one reads mass bug reports.
+I occasionally send mass bug reports if I create a new warning.  No one
+ever reads them.
+
+regards,
+dan carpenter
