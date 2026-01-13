@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0647E30CDB1;
-	Tue, 13 Jan 2026 18:05:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA49130F555;
+	Tue, 13 Jan 2026 18:20:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768327521; cv=none; b=jmrFHP7HerkkXwZUaBmBay+YK9GjFXLYEeAkC1VuTmrux1lcdufnCj3aq4kCWciE5EwuZCG2trDF3q/l87MZrvnro8JLBqBzai48fzkTpek+SyoFGkfd+yrQd7eBPOTrUugkckxn7dRK0NL5KXI7o6LWYKRYRZ5zufHUna+Fq1Q=
+	t=1768328439; cv=none; b=f3mljdw53QV/l1CnW2cOWu2e1q0L8SPm/V4Vg7w5XbPSlwlM3fHqmMZLIGeCdRkAEGpeWNj94cTV8koqP3wRZMz1xCtuNxAaI/RatFfwkF5Ly8bLnuKmjonM2iroBT/j1JnzFeeBOBn1Pz94/N3rwB9E6mwMna2rJoEFr7jyumY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768327521; c=relaxed/simple;
-	bh=ClYrpZWBbGq5iJVIXGRc49iKOj0sZJMbx6hlHRhL1cc=;
+	s=arc-20240116; t=1768328439; c=relaxed/simple;
+	bh=lRM8Y/xkLIw7bSctCujiCXsDVYIm8zBMmGUN2VgohaI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Weyospu4HyrvIX75S4NJMCP+ZV1pU7p9C/1heiCn8GVuxIqZzaploNRhTz2k8KW2NBTNDjv7/zf5z7riilIqTrM3Iryp2+f88KtATwHRUKe63kemRjO7A2eSlSehTd+FklN1/jwKJuXSns7crwdJlMwUE0Ga2YIo92EgH4pwYaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GtoyWb2o; arc=none smtp.client-ip=192.198.163.17
+	 In-Reply-To:Content-Type; b=s9gd3b5FVbEnXbVVD/GTwQz6D+sYKm2lBk5RG5PC36Il0wxeS8MwCx0a0azxnFelLikdB0AgI71qs6XIELEs9dFuZYYmJyDxYIjwnicZJT+41DJ4WWMMwiYStRO0P0XTKXi5X7RLpd8GmqsUcl9fNbnkA/RaWTT9TPTwGJl74CQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OeDz76AJ; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GtoyWb2o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OeDz76AJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768327519; x=1799863519;
+  t=1768328438; x=1799864438;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=ClYrpZWBbGq5iJVIXGRc49iKOj0sZJMbx6hlHRhL1cc=;
-  b=GtoyWb2oIJf4ilF0H/OsTgpruKWhqV8418YZInHY1JH0b/bcndcFwwMc
-   fzq6BRhsurUF/HFIjCJVQrARrpNCYF6gBSFmZAUTRVVfWVvpq0+sPqI43
-   F+tUFT7VVfBO4OiT35QUVvv0X4sGFj/T5vJT+XljkE41+klPXE363Sp3X
-   +Gcg5Tl9zcGvWEu44Qq90Xf9be11y7Y9MytbZmMwrV/XNlMeW6n+W/P8L
-   YuO2Zqt5rmN90yicgN6kgStNqN3DNKnHQt0RJ8B5BPLayYACbKSXClVty
-   AemajDCoHoB896yzmrOCw2ZWz4P44Js7j6C4zSn7n5HkJ0V83Qhu5B0qW
+  bh=lRM8Y/xkLIw7bSctCujiCXsDVYIm8zBMmGUN2VgohaI=;
+  b=OeDz76AJQeF43GOlqxTquR2zYvsy4LT02nh9HQX+ubKa1LT4FSogYb//
+   FyPg+OfETEQqn51rMNKY87p0tMXktKv2hHa6bDu70d0XsBR0WX/I0du9x
+   ZBTcm/gy9bxrncF8O0bDgqtksD22ZMs84j4Jc61fWiFirJyGYMDo0i5/k
+   3lH3VkLM7HZx/2NRqvM4cDWwJB2XLLQ467VxNrQjnLdviYhnd/ec7VB7U
+   IELZjfKanHcKTaz0dthrSdGafkLO/vuVZa6AHMauqsH/wUrf+o0lZxuO5
+   fy0Ql2ccBHkhNCr6tAWt1Z/96s4uqG4JgnZoCALQlfJwJ7UoT9pApD7Pe
    w==;
-X-CSE-ConnectionGUID: gFd7j9DGT6uS5kRek1Jq4Q==
-X-CSE-MsgGUID: q1l5EpsxSOmPuLlZlp1fIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="69530820"
+X-CSE-ConnectionGUID: swrQcdqITW2xj4rCv5Iwnw==
+X-CSE-MsgGUID: u7whbevJSQGVicrX6Be56Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="72205343"
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="69530820"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 10:05:18 -0800
-X-CSE-ConnectionGUID: sMXJTNsYRselwu4XrA2HRw==
-X-CSE-MsgGUID: xMK7CBQxTFGCdJCxmiH/6A==
+   d="scan'208";a="72205343"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 10:20:33 -0800
+X-CSE-ConnectionGUID: 3sqtq0WHRr6twCVVQWS18Q==
+X-CSE-MsgGUID: z5W615p5Q22izo7MzUsXtQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="208608030"
+   d="scan'208";a="204088946"
 Received: from aduenasd-mobl5.amr.corp.intel.com (HELO [10.125.110.187]) ([10.125.110.187])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 10:05:18 -0800
-Message-ID: <921e154d-7e54-40ff-ae85-97b6cee7f8b2@intel.com>
-Date: Tue, 13 Jan 2026 10:05:17 -0800
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 10:20:31 -0800
+Message-ID: <dc516453-9b14-45de-9fd0-a450c068ecb3@intel.com>
+Date: Tue, 13 Jan 2026 10:20:31 -0800
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -54,7 +54,8 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] [v5] Documentation: Provide guidelines for tool-generated
  content
-To: Lee Jones <lee@kernel.org>, Dave Hansen <dave.hansen@linux.intel.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>
 Cc: linux-kernel@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
  Kees Cook <kees@kernel.org>, Greg Kroah-Hartman
  <gregkh@linuxfoundation.org>, Miguel Ojeda <ojeda@kernel.org>,
@@ -67,7 +68,7 @@ Cc: linux-kernel@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
  Vlastimil Babka <vbabka@suse.cz>, workflows@vger.kernel.org,
  ksummit@lists.linux.dev
 References: <20260113000612.1133427-1-dave.hansen@linux.intel.com>
- <20260113103609.GA1902656@google.com>
+ <aWXYi35pu9IHf2eE@stanley.mountain>
 From: Dave Hansen <dave.hansen@intel.com>
 Content-Language: en-US
 Autocrypt: addr=dave.hansen@intel.com; keydata=
@@ -113,53 +114,60 @@ Autocrypt: addr=dave.hansen@intel.com; keydata=
  MTsCeQDdjpgHsj+P2ZDeEKCbma4m6Ez/YWs4+zDm1X8uZDkZcfQlD9NldbKDJEXLIjYWo1PH
  hYepSffIWPyvBMBTW2W5FRjJ4vLRrJSUoEfJuPQ3vW9Y73foyo/qFoURHO48AinGPZ7PC7TF
  vUaNOTjKedrqHkaOcqB185ahG2had0xnFsDPlx5y
-In-Reply-To: <20260113103609.GA1902656@google.com>
+In-Reply-To: <aWXYi35pu9IHf2eE@stanley.mountain>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 1/13/26 02:36, Lee Jones wrote:
-...
->> +Even if your tool use is out of scope, you should still always consider
->> +if it would help reviewing your contribution if the reviewer knows
->> +about the tool that you used.
+On 1/12/26 21:30, Dan Carpenter wrote:
+>> +If tools permit you to generate a contribution automatically, expect
+>> +additional scrutiny in proportion to how much of it was generated.
+>> +
+>> +As with the output of any tooling, the result may be incorrect or
+>> +inappropriate. You are expected to understand and to be able to defend
+>> +everything you submit. If you are unable to do so, then do not submit
+>> +the resulting changes.
+>> +
+>> +If you do so anyway, maintainers are entitled to reject your series
+>> +without detailed review.
+> Argh... Flip.  In context, that sounds even more sinister and
+> threatening than my over the top proposal.  We have to "defend"
+> everything?  "If you do so anyway" sounds like we're jumping to a
+> "per my last email" from the get go.  What about:
 > 
-> Parsing ... okay, that took a few goes.  How about:
+> If tools permit you to generate a contribution automatically, expect
+> additional scrutiny in proportion to how much of it was generated.
 > 
->   Even if disclosure of your tool isn't mandated, providing this context
->   often helps reviewers evaluate your contribution more effectively.
->   Clear documentation of your workflow ensures a faster review with less
->   contention.
-I agree that the sentence is hard to parse. But, I want to explicitly
-say "out of scope" to tie this in to the rest of the section. How about
-this?
-
-	Even if your tool use is out of scope, consider disclosing how
-	you used the tool. Clear documentation of your workflow often
-	helps reviewers do their jobs more efficiently.
-
-BTW, I do think we're well into diminishing returns territory. I'll roll
-this into a v6 if there's a v6. But, if it's pulled in as-is, I think
-the original can stay without causing too much harm.
-
-...>> +Some examples:
->> + - Any tool-suggested fix such as ``checkpatch.pl --fix``
->> + - Coccinelle scripts
->> + - A chatbot generated a new function in your patch to sort list entries.
->> + - A .c file in the patch was originally generated by a coding
->> +   assistant but cleaned up by hand.
->> + - The changelog was generated by handing the patch to a generative AI
->> +   tool and asking it to write the changelog.
->> + - The changelog was translated from another language.
+> Every kernel patch needs careful review from multiple people.  Please,
+> don't start the public review process until after you have carefully
+> reviewed the patches yourself.  If you don't have the necessary
+> expertise to review kernel code, consider asking for help first before
+> sending them to the main list.
 > 
-> Nit: Suggest removing the sporadic use of full-stops (periods) across all lists.
+> Ideally, patches would be tested but we understand that that's not
+> always possible.  Be transparent about how confident we can be that the
+> changes don't introduce new problems and how they have been tested.
 > 
-> Or add them everywhere - so long as it's consistent.
+> Bug reports especially are very welcome.  Bug reports are more likely
+> to be dealt with if they can be tied to the individual commit which
+> introduced them.  With new kinds of warnings, it is better to send
+> a few at a time at the start to see if they are a real issue or how
+> they can be improved.
 
-The rule that I read is that when the bullets are full, complete
-sentences, you should use periods. When they are just nouns or shards of
-sentences, leave off the periods.
+Hey Dan,
 
-I _think_ that's the consensus for how to punctuate bulleted list items.
+I agree with most of what you wrote here in general. My only issue with
+it is that it seems to be good, generic advice and isn't specific to
+tooling-generated contributions.
 
-But I don't remember where I read that, if it was in Documentation/
-somewhere or it was some random rule on the Internet I decided to apply.
+For instance, this suggests saying:
+
+	"Ideally, patches would be tested..."
+
+Testing is covered in Documentation/process/submit-checklist.rst and in
+a few other places. The thing that I do think belongs in this document
+(and is missing in v5) is a note that maintainers might expect *extra*
+testing from tool-generated content. I've added a blurb like that to my
+working v6 version.
+
+Are there other things that are missing and truly specific to
+tooling-generated contributions that aren't covered in other documentation?
