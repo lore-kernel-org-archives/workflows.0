@@ -1,222 +1,112 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from lamorak.hansenpartnership.com (lamorak.hansenpartnership.com [198.37.111.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B00C36C0A6;
-	Tue, 13 Jan 2026 19:22:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E589C72610;
+	Tue, 13 Jan 2026 19:33:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.37.111.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768332133; cv=none; b=j4Oq1u/MMyc308Lq+CfHGINh5MdCy/60Efm9oZTw8ETnqpzkNBfq4FWgs/fx4810qwcScEaZTNSQX4adzsK2MmFwOW/zorUHXzpdKfDbykbure3aKRJ94yxEfVhgTecruuLOJYSCuqR4uERBpqnd8bA2iy/bqCi6fgbLqTZQrh0=
+	t=1768332802; cv=none; b=aRmlQDdgNj/qrARJLH7IAhp/4p2/n7zdXvXtUJf/rZ8arDT04fDOy26C1+bsP1SGvdJzWts7eA/xN/W+RO0UeTbeRB7puTI7iYN0IHpYgcYsDfBXG3rJpg4uS6PTOe82B3pYO3MqrJmXI9zMW+6q0zzxg4GlTIjr21x2iVd3VFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768332133; c=relaxed/simple;
-	bh=fliP3u1AyBaQEW8zTrzwBptj8SvPrltHjbIqzwRwQo8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=bBAWE793qXjBosqoGIyUnQJNDdjgnsLUc8LhD/BK9BHe4088nteVl3uOiWQ/wQ/eBZ4L7wh7qh8N5/H85fUOj+leJAMvLv83LoZgKm9flHuDUHozpEIvRW+7M6KMBIHpFa1COOEwnKKB/LlPPOhp40cyetnwV0aX7MGjv2fJVFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Q9VH+1ob; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1768332802; c=relaxed/simple;
+	bh=NoBzRBVSLKpUNYezQC5l9e1NpxJYLiTq93COiwKdwPs=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=KjYnuMxmaqaRMS14aV9OAZHnVDaf51ZJm1cGVRG45bjr9mW3KwWEZljE8aS5qGb413/d02KmIH/hydTK7rGpE4GQKGxIclvxQ/HoyyjeCquiWLTTzXKJPPbwQ5bPFOWKLh0WuEVZHgn9/F1rVWPaZva66w1kzAYA04WdfEijiDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=E/JKZ5y2; arc=none smtp.client-ip=198.37.111.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Q9VH+1ob"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0235E40C7C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1768332124; bh=hkrY2AHtEhWHIFzb7ipRx+NbI+67cl2riZoulH8Zh4M=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Q9VH+1obGDExVRj9iX1SeIQmx3kLPJoUaGi6wooBhiaT5f+Bm8hZ1JRcTYI5yvcHx
-	 E3kLjSKdKafoxlH1u1E0DO8CUMp4twjGYjR1XlEXCIn9uS5K2zNpNTya13/PYlCtXv
-	 /YKAid7tOhRDYY/PbzkiXYLJKykI9xtVKxQ7ISKWA3jHHbGEjBvhYuonVvtZF59q7N
-	 Kt8/zDDsZV+YK4mOrXh2BURoaKacs6v2HaSdyVL3hBsJ6vAbWwKXJ6+9ROHz1TFtXM
-	 cYL8uWrbtEduANjz0YV8K1WYy8TAkBoqp/vU10xiu3nKJEeLoCNcyKHdXhd0ZhWl+b
-	 PKqHe1mNfmiZA==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="E/JKZ5y2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1768332798;
+	bh=NoBzRBVSLKpUNYezQC5l9e1NpxJYLiTq93COiwKdwPs=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=E/JKZ5y2qyw2SUUMwaJb8EotuXMyUwDzy1AAkLa1V/S90fX4dyL3sUbJiOCUNaGag
+	 sUMKDXkEx0Uvi0glpVK3EOQA9Abg/eqtcyCu/xHHchFEzhWOyQiKkGsVC+to7WV7cz
+	 5Pbct9kVwehMvHoxNFuJREEizYDYjLZjFOSZYEN8=
+Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4300:d341::a774])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 0235E40C7C;
-	Tue, 13 Jan 2026 19:22:03 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Dave Hansen <dave.hansen@linux.intel.com>, linux-kernel@vger.kernel.org
-Cc: Dave Hansen <dave.hansen@linux.intel.com>, Shuah Khan
- <shuah@kernel.org>, Kees Cook <kees@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Miguel Ojeda <ojeda@kernel.org>, Luis
- Chamberlain <mcgrof@kernel.org>, SeongJae Park <sj@kernel.org>, Dan
- Williams <dan.j.williams@intel.com>, Steven Rostedt <rostedt@goodmis.org>,
- "Paul E . McKenney" <paulmck@kernel.org>, Simon Glass
- <simon.glass@canonical.com>, NeilBrown <neilb@ownmail.net>, Lorenzo
- Stoakes <lorenzo.stoakes@oracle.com>, Theodore Ts'o <tytso@mit.edu>, Sasha
- Levin <sashal@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
- workflows@vger.kernel.org, ksummit@lists.linux.dev
+	by lamorak.hansenpartnership.com (Postfix) with ESMTPSA id 083581C0328;
+	Tue, 13 Jan 2026 14:33:18 -0500 (EST)
+Message-ID: <bccb32aa305a1bba9502348bafede6d145381605.camel@HansenPartnership.com>
 Subject: Re: [PATCH] [v5] Documentation: Provide guidelines for
  tool-generated content
-In-Reply-To: <20260113000612.1133427-1-dave.hansen@linux.intel.com>
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Sasha Levin <sashal@kernel.org>, dan.j.williams@intel.com
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, Dave Hansen
+ <dave.hansen@linux.intel.com>, linux-kernel@vger.kernel.org, Shuah Khan
+ <shuah@kernel.org>, Kees Cook <kees@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Miguel Ojeda <ojeda@kernel.org>, Luis
+ Chamberlain <mcgrof@kernel.org>, SeongJae Park <sj@kernel.org>, Steven
+ Rostedt <rostedt@goodmis.org>, "Paul E . McKenney" <paulmck@kernel.org>,
+ Simon Glass <simon.glass@canonical.com>, NeilBrown <neilb@ownmail.net>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Theodore Ts'o
+ <tytso@mit.edu>, Jonathan Corbet <corbet@lwn.net>, Vlastimil Babka
+ <vbabka@suse.cz>, workflows@vger.kernel.org,  ksummit@lists.linux.dev
+Date: Tue, 13 Jan 2026 14:33:17 -0500
+In-Reply-To: <aWaSQsl8h2wnBjzj@laps>
 References: <20260113000612.1133427-1-dave.hansen@linux.intel.com>
-Date: Tue, 13 Jan 2026 12:22:03 -0700
-Message-ID: <875x95xqqs.fsf@trenco.lwn.net>
+	 <aWXYi35pu9IHf2eE@stanley.mountain>
+	 <69668cfc63bb1_875d1004@dwillia2-mobl4.notmuch> <aWaSQsl8h2wnBjzj@laps>
+Autocrypt: addr=James.Bottomley@HansenPartnership.com;
+ prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
 
-Dave Hansen <dave.hansen@linux.intel.com> writes:
-
-> In the last few years, the capabilities of coding tools have exploded.
-> As those capabilities have expanded, contributors and maintainers have
-> more and more questions about how and when to apply those
-> capabilities.
->
-> Add new Documentation to guide contributors on how to best use kernel
-> development tools, new and old.
-
-So, in substance, this seems fine to me.
-
-Naturally I have some nits I'll point out below.  But if you're tired of
-this I'm happy to apply this version as well, let me know.
-
-For the record, going forward, I'm likely to treat proposed changes to
-this file the way I do coding-style.rst - I'll be highly reluctant to
-apply them without a strong sense of community consensus behind them.
-
+On Tue, 2026-01-13 at 13:43 -0500, Sasha Levin wrote:
+> On Tue, Jan 13, 2026 at 10:20:44AM -0800,
+> dan.j.williams@intel.com=C2=A0wrote:
 [...]
+> > So a simple rule of "generally you should be able to demonstrate
+> > the ability to substantively review a contribution of similar
+> > complexity before expecting the kernel community to engage in
+> > earnest" mitigates the asymmetric threat of AI contributions *and*
+> > contributors that have not built-up enough trust capital with their
+> > upstream maintainer.
+>=20
+> Looking at recent history (v6.12..v6.18) we had 1902 authors (a third
+> of overall contributors) who contributed a single commit. Out of
+> those 1902, only 177 have a Reviewed-by tag pointing to them.
+>=20
+> With a rule like the above, 1700+ contributors would have not been
+> able to send their patch in.
 
-> diff --git a/Documentation/process/generated-content.rst b/Documentation/process/generated-content.rst
-> new file mode 100644
-> index 000000000000..867bf8894289
-> --- /dev/null
-> +++ b/Documentation/process/generated-content.rst
-> @@ -0,0 +1,108 @@
-> +============================================
-> +Kernel Guidelines for Tool-Generated Content
-> +============================================
-> +
-> +Purpose
-> +=======
-> +
-> +Kernel contributors have been using tooling to generate contributions
-> +for a long time. These tools can increase the volume of contributions.
-> +At the same time, reviewer and maintainer bandwidth is a scarce
-> +resource. Understanding which portions of a contribution come from
-> +humans versus tools is helpful to maintain those resources and keep
-> +kernel development healthy.
-> +
-> +The goal here is to clarify community expectations around tools. This
-> +lets everyone become more productive while also maintaining high
-> +degrees of trust between submitters and reviewers.
-> +
-> +Out of Scope
-> +============
-> +
-> +These guidelines do not apply to tools that make trivial tweaks to
-> +preexisting content. Nor do they pertain to AI tooling that helps with
+It's not just that.  Even today Reviewed-by: doesn't always mean the
+subject of the tag actually understood it.  We do see a lot of patches
+(particularly drivers from companies) that come to the lists  with
+fully formed reviewed-by tags and no backing record.  Trying to
+institute a reviewed-by requirement would drastically exacerbate this
+and, even worse, produce a large uptick in pseudo reviews from people
+trying to get the tag to submit.
 
-It seems you have gone out of your way to avoid using "AI" and refer to
-"tooling" in general, so it's a bit strange to see that term here,
-especially at the head of a list of mostly non-AI tasks.
+Speaking as a drive by committer with quite a body of work, the worst
+projects to come to are those with artificial worthiness metrics (like
+n reviews or stars or github badges or whatever).  Even if you can be
+bothered to get over the hump, whatever you did is usually irrelevant
+to the patch you want to submit.
 
-> +menial tasks. Some examples:
-> +
-> + - Spelling and grammar fix ups, like rephrasing to imperative voice
-> + - Typing aids like identifier completion, common boilerplate or
-> +   trivial pattern completion
-> + - Purely mechanical transformations like variable renaming
-> + - Reformatting, like running Lindent, ``clang-format`` or
-> +   ``rust-fmt``
-> +
-> +Even if your tool use is out of scope, you should still always consider
-> +if it would help reviewing your contribution if the reviewer knows
+The best indication that a committer understood what they were touching
+should be in the change log.  If they understand the system under
+patch, they should be able to explain clearly why the patch is needed
+and what its effects are.
 
-s/if/whether/
+Regards,
 
-> +about the tool that you used.
-> +
-> +In Scope
-> +========
-> +
-> +These guidelines apply when a meaningful amount of content in a kernel
-> +contribution was not written by a person in the Signed-off-by chain,
-> +but was instead created by a tool.
-> +
-> +Detection of a problem and testing the fix for it is also part of the
-> +development process; if a tool was used to find a problem addressed by
-> +a change, that should be noted in the changelog. This not only gives
-> +credit where it is due, it also helps fellow developers find out about
-> +these tools.
-> +
-> +Some examples:
-> + - Any tool-suggested fix such as ``checkpatch.pl --fix``
-> + - Coccinelle scripts
-> + - A chatbot generated a new function in your patch to sort list entries.
-> + - A .c file in the patch was originally generated by a coding
-> +   assistant but cleaned up by hand.
-> + - The changelog was generated by handing the patch to a generative AI
-> +   tool and asking it to write the changelog.
-> + - The changelog was translated from another language.
-> +
-> +If in doubt, choose transparency and assume these guidelines apply to
-> +your contribution.
-> +
-> +Guidelines
-> +==========
-> +
-> +First, read the Developer's Certificate of Origin:
-> +Documentation/process/submitting-patches.rst. Its rules are simple
-> +and have been in place for a long time. They have covered many
-> +tool-generated contributions. Ensure that you understand your entire
-> +submission and are prepared to respond to review comments.
-> +
-> +Second, when making a contribution, be transparent about the origin of
-> +content in cover letters and changelogs. You can be more transparent
-> +by adding information like this:
-> +
-> + - What tools were used?
-> + - The input to the tools you used, like the Coccinelle source script.
-> + - If code was largely generated from a single or short set of
-> +   prompts, include those prompts. For longer sessions, include a
-> +   summary of the prompts and the nature of resulting assistance.
-> + - Which portions of the content were affected by that tool?
-> + - How is the submission tested and what tools were used to test the
-> +   fix?
-> +
-> +As with all contributions, individual maintainers have discretion to
-> +choose how they handle the contribution. For example, they might:
-> +
-> + - Treat it just like any other contribution.
-> + - Reject it outright.
-> + - Treat the contribution specially like reviewing with extra scrutiny,
+James
 
-s/ like/, for example,/
-
-> +   or at a lower priority than human-generated content.
-> + - Suggest a better prompt instead of suggesting specific code changes.
-> + - Ask for some other special steps, like asking the contributor to
-> +   elaborate on how the tool or model was trained.
-> + - Ask the submitter to explain in more detail about the contribution
-> +   so that the maintainer can be assured that the submitter fully
-> +   understands how the code works.
-> +
-> +If tools permit you to generate a contribution automatically, expect
-> +additional scrutiny in proportion to how much of it was generated.
-> +
-> +As with the output of any tooling, the result may be incorrect or
-> +inappropriate. You are expected to understand and to be able to defend
-> +everything you submit. If you are unable to do so, then do not submit
-> +the resulting changes.
-> +
-> +If you do so anyway, maintainers are entitled to reject your series
-> +without detailed review.
-> diff --git a/Documentation/process/index.rst b/Documentation/process/index.rst
-> index aa12f2660194..e1a8a31389f5 100644
-> --- a/Documentation/process/index.rst
-> +++ b/Documentation/process/index.rst
-> @@ -68,6 +68,7 @@ beyond).
->     stable-kernel-rules
->     management-style
->     researcher-guidelines
-> +   generated-content
-
-At some point, $SOMEBODY should probably add a brief reference to
-submitting-patches.rst as well.
-
-Thanks,
-
-jon
