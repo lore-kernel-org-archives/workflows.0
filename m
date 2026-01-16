@@ -1,73 +1,73 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19AF4359F89
-	for <workflows@vger.kernel.org>; Fri, 16 Jan 2026 16:59:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0498433C19C
+	for <workflows@vger.kernel.org>; Fri, 16 Jan 2026 17:16:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768582743; cv=none; b=to6gL3uzyneU3nJ0KTdAjk2MV1zR2OcYGAaJYiAUWA7hilHUYnCtM62KV07xzeKRilXkrPKPkh+AzNEnou7+2hH3BntuA+AC3OrcaoY2JOiQoQpT96ZM6MMqcKVLiGIIjoEad52mKSqfT+mjHfDnRx3vgB7DHPQzKEgIYrOfY5w=
+	t=1768583773; cv=none; b=VEJnQWPLcaFdYDvPfcT1HGl4e9+BzrnoPNFLVcU4HYcHRQRjxsZHnA7wYtNozr65U/qWnOVjSIfWZXlmXQsOfZX1jEfVsBZrkHhFWGV5JaI76LuHi4N0dtZrYSneI4AWPpv6jZGht0Zch5+dx/I2EzjpDDgT51H6kjpqAcu69zE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768582743; c=relaxed/simple;
-	bh=YOAJjjvJ0KI3T7moFNpFNWwLaSdhr+TLM+PpaKu/Aoo=;
+	s=arc-20240116; t=1768583773; c=relaxed/simple;
+	bh=0HukBWkzWF4xfMna97oVTMuTQacjQzaYvagieCOdmqA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pXkypCPKyV3kZNz0Wa5VVkprVwqIX2+vOx17AOBna8FF+/YlroiWjSGXoUGkKJJ3lgHD+zBy4YiZ2eJA4laFB6q/jplXi628w9X6lvBFZGzDr16D93EKjUEntvInyT31otRGMr95OwspP6fmBiAa8jCj7Pr6FTXzj3GnvTK+WDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B4G8frRO; arc=none smtp.client-ip=209.85.210.176
+	 Content-Type:Content-Disposition:In-Reply-To; b=KT7356HDRUd9AudsLC4S1xAgJkwJKZUdZZT7Al7WsNK8WBpjbXjJiOV4XqboiuvlLMPjKb32QDezPxqhiYeNyr26jp2RaDVGgoJq7B847zzxmVVdGjQ9ZKmqXISmOckSz3CjLoShQMI0oVl6MGeecowrhYWGdNmseZDUS+1ipfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IGnCjbUm; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B4G8frRO"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-81e98a1f55eso1204365b3a.3
-        for <workflows@vger.kernel.org>; Fri, 16 Jan 2026 08:59:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IGnCjbUm"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2a0c09bb78cso17129655ad.0
+        for <workflows@vger.kernel.org>; Fri, 16 Jan 2026 09:16:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768582741; x=1769187541; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1768583771; x=1769188571; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YOAJjjvJ0KI3T7moFNpFNWwLaSdhr+TLM+PpaKu/Aoo=;
-        b=B4G8frROqjrH8+t9zeH1nk9lYqMYkEAvU1PCoErOR4j8Th6W4NMKoBmDlGDN61L5Gf
-         /DU74iYNHB1uTE5fNy2uY60FdoX13YluDt575PmOQFBva36hSruLcMwebR6XeYGy7kIT
-         9pHl2pq0KPxYjwVL6L/oM0l0zhv+yj/rx6/aOxpn9SQPrb2iFMW929QK3CwPPRCWNJ/U
-         l9O00zZWi5rBhIrE8QxO4/8f+2T+E0sqLv24c8bOLCETGT5HAOgiknjee3TYGvbY3Q//
-         5Dk84QYZUoXw4THch+zwCfx1ZMvxdZ/+nZfLQdkYVg1cKunrHvMAGyjt5qbYjOSc/stm
-         PD7g==
+        bh=0HukBWkzWF4xfMna97oVTMuTQacjQzaYvagieCOdmqA=;
+        b=IGnCjbUmV5eQsLNtDqTDFEreU9QOfihBhTL+i5J0wM6pyNs082CrretcvjuKgZOs+6
+         TpcRGJzW0OgHSMnJmhC4xtGUuvfFa2IziCAunc6QisPZ3Jm3PR3SXQvMtkxW/ITgCNO+
+         3A7fYpJEjaeBTpL80to6Jl+0G1DqLhIyae6oq9GV3AYlg4ItyCRaE6LjNnN60h0NgvSw
+         o9cbVkNdpbJFpbdNwqiaMmJqpFuUNt1JWQ9wbd8BiVWsZhF1zTyg3PcEHHvZjtx74d7/
+         1qehiZIxDdEZ0Hzw4ACCHaRIhVw76WbSAeOkgkeMhro4vGtW7hYvjT47l/JoWZsb6agZ
+         ckGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768582741; x=1769187541;
+        d=1e100.net; s=20230601; t=1768583771; x=1769188571;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YOAJjjvJ0KI3T7moFNpFNWwLaSdhr+TLM+PpaKu/Aoo=;
-        b=p6ME2hT5ONOudYNiO+VgBblz/8kOXz+li1FSisK0CUQkWd1OVGNGfoaRDBrhKsCpsO
-         /YZkA5NryAcnEIvt3Thm8aG8NghrZS/cHnVv42Nq6qlXXtqZ6429t7SrFNdJJyZGmMvR
-         PsWKRByRIsh6iHD4pj7pYz+qOJaHw9FRNRRhxDC/QMwDfnK/aI6rHieIp22NaUMbX4/n
-         sF8Vgn5c0I5Wd9A0jYK3d4lbmVR35zZeOGBDv61LWQZVmxA6DhTB9Th6tM+lOXFjkENN
-         p/G/hrW4uIIDKVUzVFHOLckmDD/Ipk3KVwloypWX7bLIQ5r/jlvyxVzqJgNzbYMt3TQv
-         3Syg==
-X-Forwarded-Encrypted: i=1; AJvYcCW+6B32KG4oUpt5eBNl8/A2bWK/Vy1acl/WswYWhsCeFf6nU13Xi5uJIGC2lZm3oJYSu49BkfspxNk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZsHrEnTat6YunvKA1uht2kR3hLNFftGok1sSSW8drvz19Wjtg
-	fgzdlrkHp+ER1eKS8SNsHrGqhQiTnu0+8RvWrwsuGOEcn5Kh9nocT3vY
-X-Gm-Gg: AY/fxX41pQrEowKS2pJLUyal6gUDmsh1XVL/WW+XXe/Nt5D7T29PLf2L9mXbbSYptLY
-	iAD3ag7R/MNGRAixBLRG5F5Mbplm/Dp9RmCbJpDUiu+xT2ZEg+mOJpd6mRhiMmiK1GvNVB3HFJ0
-	ECiPa1u9el61zyXn/zm+qVoMT/ddZWvFFMMm8rp2W+gShb9shlFxUsi3ACujy9sbpX9x+A9P+bG
-	po/xphf17z5+Xbu1q0gy2Culo4hj5/gv97DSA76bimimqjgPT52+5m6uaqL86Jx4zBoGwXoqlNh
-	vQMvBlKqqYZn9pPDoi3+RqYTcmrYPGQDnlIrMt5ENvJcTfjwD4sdmnKmw7ElJZEAGXu504XgSEn
-	gdsamxIG+LUbFH4MLBWZUFOQmvDp9XLCzuH8S0OiIV7MROK+hrBLVSMmm40iS2hLoFRNJfUXFFQ
-	seVNHRu0M=
-X-Received: by 2002:a05:6a20:2586:b0:364:134a:2bc1 with SMTP id adf61e73a8af0-38e00c037f9mr3365273637.18.1768582741111;
-        Fri, 16 Jan 2026 08:59:01 -0800 (PST)
+        bh=0HukBWkzWF4xfMna97oVTMuTQacjQzaYvagieCOdmqA=;
+        b=IgF4DkZ5awXUc8d6ErjGkjPnsfk9Av7HuBDOieQQhWJeHwqMbWKavrEfS4EuSyGSEt
+         U7zhkBF4qX7STpB55eKK7W+CVWzlC87L9oZ9+h+JOrWGpGUboAjZfDW0vHX5N9Wfkpf6
+         YNe0p93sUN8VZ1aiiAhqKBArfJUfrkKrnkEnNCni27WQ9altXF9oYKOzr4WznQ+fNqR2
+         hWXtoWMjZsJXxg3ueQ8J6kJSM0vVz7F3WJu8yJfp1ZSlj+vmR9K9q1wZfyeDAVBEWqk8
+         kBeY9pfH6Il3MmYC4MAybXeEuFRCehITe4ybtIISzEPhLuTklqjrMcLrFIs1GWXZzn2k
+         zB4w==
+X-Forwarded-Encrypted: i=1; AJvYcCXEsklakY2wn15/VhLUx8mKnHMbY40fyKTFLav1ukNxTy2tGwNVkdzFKfgxvrlmq5w9YGn3PII2/3c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEv3GJPG94PJVMo8hCfQ62wverxCeMUbULtM2bEipFXzPFMuxT
+	WOWNHDXVF8K/3A+Rx1e2vLIUmA6S6E4UdkZoLccEqWDgvlrKAsonNnoXXIj9WKMf
+X-Gm-Gg: AY/fxX6Xf/2RrxEisTMl5OHZVRn6x6UUIjBS61Nnb64BErCz58cZ6FFo84ih2Zkmw5W
+	C1QeK3+/lJMgpWN26wr9uWYHAWna7jZhKY0ydT841X+BMZxKS4brQ66eY01LOH8eRZAtOG/v0EI
+	uiGJ7LKfD1BcducZ+JA38gQgOyo9V49mgrvuRpqMYeZBINUatfTYGMzOBVHw6zk09b7ZuzEGSzO
+	QwOdF2YMYru/ImgOOO4t12n/7D9Z5nr1gvj2XlyXGkslTDhnU7v81xq5ogALbvzTvueJlWJyNEy
+	Ch0waZMXDFZTBMkYyqK0nwo5iuSa4P54YlcJMsX0S3eoCPkOouFJNgZrGetrAg1EOj/n8E3NMir
+	vizYca/y4JW/DuhnTOdREPIHUGybjhkuUF9keS3Lb9ZVX9Yob1jkXmj51Jdg5WYJc4sKuxKMf53
+	/gZMKi7N4=
+X-Received: by 2002:a17:903:2407:b0:2a0:a05d:d4a2 with SMTP id d9443c01a7336-2a700a37c8bmr65178465ad.23.1768583771236;
+        Fri, 16 Jan 2026 09:16:11 -0800 (PST)
 Received: from fedora ([210.228.119.9])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c5edf249fcbsm2576872a12.12.2026.01.16.08.58.57
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a7193dc83dsm26270535ad.50.2026.01.16.09.16.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jan 2026 08:59:00 -0800 (PST)
-Date: Sat, 17 Jan 2026 01:58:53 +0900
+        Fri, 16 Jan 2026 09:16:10 -0800 (PST)
+Date: Sat, 17 Jan 2026 02:16:04 +0900
 From: Ryota Sakamoto <sakamo.ryota@gmail.com>
-To: David Gow <davidgow@google.com>
+To: Jani Nikula <jani.nikula@intel.com>
 Cc: Brendan Higgins <brendan.higgins@linux.dev>, 
-	Rae Moar <raemoar63@gmail.com>, Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org
+	David Gow <davidgow@google.com>, Rae Moar <raemoar63@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org
 Subject: Re: [PATCH] kunit: add bash completion
-Message-ID: <aWptnVymdfj3-t2l@fedora>
+Message-ID: <aWpuYs0Mw6fR4rLO@fedora>
 References: <20260115-kunit-completion-v1-1-4de6564962c4@gmail.com>
- <CABVgOS=Yn3K+Xzq_3tb0LCrX2eJjU5AG38uMwHaa21nXfxsjEQ@mail.gmail.com>
+ <44b770121202e9f41648da5abaf9a87d5b8811c6@intel.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -76,23 +76,34 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CABVgOS=Yn3K+Xzq_3tb0LCrX2eJjU5AG38uMwHaa21nXfxsjEQ@mail.gmail.com>
+In-Reply-To: <44b770121202e9f41648da5abaf9a87d5b8811c6@intel.com>
 
-Hi David,
-Thank you for the review.
+Hi Jani,
+Thank you for the suggestion regarding shtab.
 
-On Fri, Jan 16, 2026 at 05:30:22PM +0800, David Gow wrote:
-> Two small suggestions:
-> - Could we add './tools/testing/kunit/kunit.py' to the list of
-> commands? That's what's recommended in lots of documentation, emails,
-> etc.
+On Fri, Jan 16, 2026 at 12:10:27PM +0200, Jani Nikula wrote:
+> The alternative would be to make the tool more friendly to existing
+> completion tools such as shtab [1]. Since the kernel as a project is
+> really averse to adding external dependencies, you could take shtab's
+> CLI approach, and commit the completion script in the repo. Only
+> whoever's updating the completions would have to install and run shtab.
 
-Sure, I will add the relative path of the script explicitly.
+I understand your point about avoiding homebrew solutions, however, a main
+benefit of this approach is that the completion script does not need to be
+regenerated or updated manually.
 
-> - It'd be great to rebase this on top of kselftest/kunit -- there's a
-> conflict with your previous patch.
+Using shtab would introduce a new dependency and maintenance where the
+static completion script could easily get out of sync.
 
-I will rebase the patch on top of kselftest/kunit to resolve the conflict.
+So I would like to proceed with the current approach.
+
+> And the whole thing could be taken a step further, adding, say,
+> tools/completions/{bash,zsh,tcsh,...} directories for all the kernel
+> tool completions instead of spreading them around.
+
+I agree that centralizing completions is a good idea. So it would be better
+handled as a separate future effort because it is a tree-wide
+reorganization.
 
 Regards,
 Ryota Sakamoto
