@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B1E93596F9;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B5EB359712;
 	Mon, 19 Jan 2026 12:05:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768824317; cv=none; b=Qehp/dWomLy522eFHpFJGLz3YEawfjRt/3PmrmMF+CSJN99evaQqXwWAL5TFoDAajVDIM9y8cud6cXVhdLt82FSQfRhcohq8nnLjSywMq+gT1ZGAWZgeQNkM3S+OfpW8fI5CgLQqhs6H7zNQB8+YSCsmsygCc5ViJbIn14VyyGY=
+	t=1768824317; cv=none; b=es6deBDpEGVKJakFL2L1Hk9O03xeTR/wjSLbaupYNX9scJl+vclWD53Y+bXYLcEE+PeriGqojxG/jUieldSOuo7ATBsXptOV5EPVXZi04AadHrp9JSAyxSKR9MdLKaFGmhEBdt8FpziJvGsuZhUMVlE/ONXjUMjtP88QSEidVVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768824317; c=relaxed/simple;
-	bh=6HyC5gF4ScinHY1gGeYNGGYvsoRZQIoC1BWSJQdTkY4=;
+	bh=kGt9gNhMuRj9+jM9PcGfmUvM8H3qve1/pTvOonlpy+g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Lb6cwegxGrTTUKPQJUJjwMVcFGi1K/nJFVu5D/EmTURwql0q/M20voBKV1Ez331+rjiiKrF16KTwv0SRpgfXhGNCz5ppCs2cb7Ki4vTLGEleUwPstNN0iUFMHpUursofrQRvaYkxcUwXvH9IYnGs96GK1kqtd0iZMUS7Tld4bP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WvOuF7hD; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=DFU50qQ8fxq1RWwReUws71BEURVyjZZML3qrQMO60cHL2ASRzqwVOhzWHetSvvuLz2gO8sr1GEkgKhlCzKy+MXJJMmdtU3rUBa6+tABrJydeACM4hhlPzEzJtSYl3m32VH1WysyPZqptLmUNR/p4qX6VmMDnxDGDywtZfLGBrnA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pU0+yURc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WvOuF7hD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4FDFC2BC9E;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pU0+yURc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2953C2BCAF;
 	Mon, 19 Jan 2026 12:05:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1768824316;
-	bh=6HyC5gF4ScinHY1gGeYNGGYvsoRZQIoC1BWSJQdTkY4=;
+	bh=kGt9gNhMuRj9+jM9PcGfmUvM8H3qve1/pTvOonlpy+g=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WvOuF7hDdCBaQHihY9OW2YC1MzFJB74MOokdSvhwGI85VRZ6Ev5ixzSbIBVoGZb0/
-	 AmbHlcUNZ2uPeFv1VnM9Qa7+zTcxklTBwakBGzeGuORRTwf/v0c317Hhqo3pHRQvA8
-	 xN0ekp0C1rZw+mLt2vegSQ6so20BWtxxGtdy+loRJ5Q8MNLVrGGWAYazLjJon10GlF
-	 g9EbikW4yrmdSyIR3ntYNzXo9x6GcoTddi06ePHkoshuq6hlkf1qMgLFNTit1g9/Rc
-	 7z/wVoOni+N0u5k5pdd+YSlwDfNSmUkHEuPrq6WVsUrAwa34hFYy2oxu1hnL2sshDG
-	 vxQE1+IuvzqjQ==
+	b=pU0+yURc1Q45u8r1PvFHHPODmTRWMuC9YrkASEB967Elx3REu6QhasyY+7FBLquMj
+	 SGUO+N+BnEdM7QH4q7SzrZuijRYoPNaX3zw5p56FJQ2ylQXCTLJKvfHpm+zYSZu7gG
+	 /hpSC9wYb6vV6NfQ02yuPdVFxTKrFGqVqLMpnuXqODZA5xGm0u0GVVEzE08kdmPh8L
+	 6/ar92+aciGUNsWmT1d+qnov7ZCrkkbc8bdgC2pHe2Wq7pmGLfDJVCKm41jGZNzPEm
+	 iu60r+QYUlbLB34qzOZ5BJ6HIhw4s1HckZur1X8zUVZrrVXLR5/IGY/XiqXpM6xzIY
+	 I1F4kXhuFzG6Q==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vho0Q-00000001Zjj-48cY;
+	id 1vho0Q-00000001ZjY-3uFL;
 	Mon, 19 Jan 2026 13:05:14 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -41,9 +41,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	workflows@vger.kernel.org,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH 9/9] docs: conf.py: get rid of the now unused kerneldoc_bin env var
-Date: Mon, 19 Jan 2026 13:05:04 +0100
-Message-ID: <c0fa9f561c1dd4370f9096de4195a9214763c51c.1768823489.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 7/9] docs: kdoc: move the return values to the helper message
+Date: Mon, 19 Jan 2026 13:05:02 +0100
+Message-ID: <3bcfa48016770929fcd073376515e3ff0b777ea8.1768823489.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1768823489.git.mchehab+huawei@kernel.org>
 References: <cover.1768823489.git.mchehab+huawei@kernel.org>
@@ -57,66 +57,62 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-In the past, this contained the location of the binary file to parse
-kernel-doc. Nowadays, it is used only for debugging purposes, inside
-kerneldoc.py extension.
-
-Move it to sphinx/kerneldoc.py, to avoid needing to handle with it
-on several places.
+It makes sense to describe what kernel-doc is expected to return
+on its help message. Move such messages to argparse epilog.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/conf.py             | 4 ----
- Documentation/sphinx/kerneldoc.py | 7 +++++--
- 2 files changed, 5 insertions(+), 6 deletions(-)
+ tools/docs/kernel-doc | 27 +++++++++++++++------------
+ 1 file changed, 15 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 383d5e5b9d0a..65df81a9e414 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -579,10 +579,6 @@ pdf_documents = [
-     ("kernel-documentation", "Kernel", "Kernel", "J. Random Bozo"),
- ]
+diff --git a/tools/docs/kernel-doc b/tools/docs/kernel-doc
+index a19a92566780..902397804e80 100755
+--- a/tools/docs/kernel-doc
++++ b/tools/docs/kernel-doc
+@@ -166,6 +166,20 @@ This option is kept just for backward-compatibility, but it does nothing,
+ neither here nor at the original Perl script.
+ """
  
--# kernel-doc extension configuration for running Sphinx directly (e.g. by Read
--# the Docs). In a normal build, these are supplied from the Makefile via command
--# line arguments.
--kerneldoc_bin = "../tools/docs/kernel-doc"  # Not used now
- kerneldoc_srctree = ".."
- 
- def setup(app):
-diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
-index afbab458550a..c1cadb4eb099 100644
---- a/Documentation/sphinx/kerneldoc.py
-+++ b/Documentation/sphinx/kerneldoc.py
-@@ -47,6 +47,10 @@ sys.path.insert(0, os.path.join(srctree, "tools/lib/python"))
- from kdoc.kdoc_files import KernelFiles
- from kdoc.kdoc_output import RestFormat
- 
-+# Used when verbose is active to show how to reproduce kernel-doc
-+# issues via command line
-+kerneldoc_bin = "tools/docs/kernel-doc"
++EPILOG = """
++The return value is:
 +
- __version__  = '1.0'
- kfiles = None
- logger = logging.getLogger(__name__)
-@@ -95,7 +99,7 @@ class KernelDocDirective(Directive):
-     def handle_args(self):
++- 0: success or Python version is not compatible with
++kernel-doc.  If -Werror is not used, it will also
++return 0 if there are issues at kernel-doc markups;
++
++- 1: an abnormal condition happened;
++
++- 2: argparse issued an error;
++
++- 3: When -Werror is used, it means that one or more unfiltered parse
++     warnings happened.
++"""
  
-         env = self.state.document.settings.env
--        cmd = [env.config.kerneldoc_bin, '-rst', '-enable-lineno']
-+        cmd = [kerneldoc_bin, '-rst', '-enable-lineno']
+ class MsgFormatter(logging.Formatter):
+     """Helper class to format warnings in a similar way to kernel-doc.pl."""
+@@ -178,21 +192,10 @@ def main():
+     """
+     Main program.
  
-         filename = env.config.kerneldoc_srctree + '/' + self.arguments[0]
+-    By default, the return value is:
+-
+-    - 0: success or Python version is not compatible with
+-      kernel-doc.  If -Werror is not used, it will also
+-      return 0 if there are issues at kernel-doc markups;
+-
+-    - 1: an abnormal condition happened;
+-
+-    - 2: argparse issued an error;
+-
+-    - 3: -Werror is used, and one or more unfiltered parse warnings happened.
+     """
  
-@@ -257,7 +261,6 @@ def setup_kfiles(app):
+     parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter,
+-                                     description=DESC)
++                                     description=DESC, epilog=EPILOG)
  
- 
- def setup(app):
--    app.add_config_value('kerneldoc_bin', None, 'env')
-     app.add_config_value('kerneldoc_srctree', None, 'env')
-     app.add_config_value('kerneldoc_verbosity', 1, 'env')
- 
+     #
+     # Normal arguments
 -- 
 2.52.0
 
