@@ -1,93 +1,78 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAC173D1CAD;
-	Tue, 20 Jan 2026 09:56:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD1A3E9F8C;
+	Tue, 20 Jan 2026 12:33:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768903020; cv=none; b=bjdTKJc9GEJks+0GaZfzwjQVB8GWGAfhqE36wBOAg0fdDfE3PZnRT/y/p+STQgBCMpCe5l3e6jMYBBXYK/w+cYjMADC4nbkv8CNFHOVIsNxdvcawnxklFpqeI4LuS1rWCuJsmlvdR+O1bIJvVkZvFrNcjOIhnSugFF3r8452UAE=
+	t=1768912403; cv=none; b=IqYLl3to3uQJPMUheNf8smvc+4m95bdDj2lae7jzM8YzEUoeT9DHr2fhbDhumRjON1IC1QwUjb9x0fhq031y1EdrPHLxqATWIi/gvHxv3xc3B2WZrr01PrH2VFqBZk6j2Q9yX4fYDTW+723gYZuWZ4Icyqndr9iOh6jc4dCpxWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768903020; c=relaxed/simple;
-	bh=MLxN6shAm2Ln0HLCZSjNmRijlp5EjI4zLoHjLhV2/CY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fKHaLh4zTiWcMfEWipC6bpUL7xuxpUcvvNJh4bxQ7wgBECptlcIhduSF8ZZ0tTnaXkbFGjXbyRftjaTlJrPInPfWvKMk+viyCe/SBrwRyJrZA8zZvQJvBV+on7HvJLExlXFDvjDdUeNoOSwhz6t1MgVxkPqqgKTHmNS4fi2Edy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=Ueq7n6SM; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
+	s=arc-20240116; t=1768912403; c=relaxed/simple;
+	bh=vBeuKkhx08aIyCc74TwTeuXznJnOvHq1xarlmMfLtbg=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=dQImNDW0AjOJQAJicbAnueX2S3x1mdUzszf3I17XxLdTYcSg7Yh0XtUGg6XxA2gk88Pn9gf5l1Spem/uCL6YtvEshRB8UJJyqhwns+QLE41HSb8a3HXwipba7vKz5qDCf1xpcXCN5aqnGnwrhjhwL6QKWjoytqmtSCM+Nr79pBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=bMAruVCF; arc=none smtp.client-ip=192.134.164.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="Ueq7n6SM"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 290B141DF3;
-	Tue, 20 Jan 2026 09:56:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
-	t=1768903008;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hbegtlNTbPxVcnJRIa09PMJk6eYCLCQm0+QaiVvmwvk=;
-	b=Ueq7n6SMwzYlQtIn6/RjVEK4lTjLBdfui5Xh9vyN/OdF9xE69O7KOwJherTsO6mVx5rf4t
-	LW074bWAshM3ICX9pKD/xf2wWLdpS55g7wxBtJqelzWSddROloott0dxW6NLMVhNVB5Yej
-	g1h0blvApYKjj5kSuQffr//GBvrHJU5XtNUf9BOqR3QahYivPdP8+XJeW7J1srhFn6Jfon
-	r6aZAAwgL8z0aPHtXFa9EN9a6WWKJUJv1n6atpnTIGt6dVMQuqO+rHX33cRxHRGUb4s+9U
-	VJbhBGAh0eF5LxrhvYRfoV25vu0ZL2Xj95+EVBDs4fCVt1X7dnSKtawLJLuDnw==
-Message-ID: <1766d2ae-1224-4d3e-bc9f-786702989a79@gtucker.io>
-Date: Tue, 20 Jan 2026 10:56:46 +0100
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="bMAruVCF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=GSlYyMNPyo3nTygPcryodFS1sqXZdlseWzX9iuCJUy0=;
+  b=bMAruVCFNUKc6qCht4t2XhuloNnw6BwecFuJ1+qcDa9bEPOswyDQLusw
+   a3Q2JNAFEIRSNecBPUVPK0CYdVNXSKreNnu4RbSdybnNHAeFRE0K7rsKA
+   eIwL7U5+NCLQVUt0hQWdpJ+UKfhrGbtuEn52sR392SHgpJjCz+nE4esxz
+   Q=;
+X-CSE-ConnectionGUID: F+ym4SO7RgyYZhvhYKVWZA==
+X-CSE-MsgGUID: C4kPhhLYR06hOY4KseEzbA==
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.21,240,1763420400"; 
+   d="scan'208";a="136504220"
+Received: from unknown (HELO hadrien) ([4.26.64.170])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 13:32:07 +0100
+Date: Tue, 20 Jan 2026 07:32:06 -0500 (EST)
+From: Julia Lawall <julia.lawall@inria.fr>
+To: Benjamin Philip <benjamin.philip495@gmail.com>
+cc: Julia Lawall <Julia.Lawall@inria.fr>, 
+    Nicolas Palix <nicolas.palix@imag.fr>, Jonathan Corbet <corbet@lwn.net>, 
+    cocci@inria.fr, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+    linux-kernel@vger.kernel.org
+Subject: Re: [cocci] [PATCH RESEND 0/3] scripts: coccicheck: document debug
+ log handling
+In-Reply-To: <20260106190836.36630-1-benjamin.philip495@gmail.com>
+Message-ID: <699831d6-694b-5435-5afc-c86e5a815a61@inria.fr>
+References: <20260106190836.36630-1-benjamin.philip495@gmail.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/2] scripts: introduce containerized builds
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, David Gow <davidgow@google.com>,
- =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
- automated-testing@lists.yoctoproject.org, workflows@vger.kernel.org,
- llvm@lists.linux.dev, Nicolas Schier <nsc@kernel.org>
-References: <cover.1767199119.git.gtucker@gtucker.io>
- <20260119213516.GA1051134@ax162> <20260119214931.GA1058062@ax162>
-Content-Language: en-GB
-From: Guillaume Tucker <gtucker@gtucker.io>
-Organization: gtucker.io
-In-Reply-To: <20260119214931.GA1058062@ax162>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: gtucker@gtucker.io
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddugedtudduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhohgjtgfgsehtjeertddtvdejnecuhfhrohhmpefiuhhilhhlrghumhgvucfvuhgtkhgvrhcuoehgthhutghkvghrsehgthhutghkvghrrdhioheqnecuggftrfgrthhtvghrnhepfeegvdfgveethfffhedvfffgfeefveetkeegudduvdefleejgfdtveeuiedufeeknecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepvddttddumeekiedumeegrgegtdemkeeivddtmegrsggvrgemjegvsggsmegtrgekgeemudgstdgsnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvddttddumeekiedumeegrgegtdemkeeivddtmegrsggvrgemjegvsggsmegtrgekgeemudgstdgspdhhvghloheplgfkrfggieemvddttddumeekiedumeegrgegtdemkeeivddtmegrsggvrgemjegvsggsmegtrgekgeemudgstdgsngdpmhgrihhlfhhrohhmpehgthhutghkvghrsehgthhutghkvghrrdhiohdpqhhiugepvdeltdeuudegudffhfefpdhmohguvgepshhmthhpohhuthdpnhgspghrtghpthhtohepuddvpdhrtghpthhtohepnhgrthhhrghnsehkvghrnhgvlhdrohhrghdpr
- hgtphhtthhopehojhgvuggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegurghvihgughhofiesghhoohhglhgvrdgtohhmpdhrtghpthhtohepfihorhhksehonhhurhhoiihkrghnrdguvghvpdhrtghpthhtoheprghrnhgusegrrhhnuggsrdguvgdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-GND-State: clean
-X-GND-Score: -100
+Content-Type: text/plain; charset=US-ASCII
 
-On 19/01/2026 22:49, Nathan Chancellor wrote:
-> On Mon, Jan 19, 2026 at 02:35:16PM -0700, Nathan Chancellor wrote:
->> I will apply this to kbuild-next-unstable shortly to give folks a week
->> or so to voice any objections or give critical review comments.
-> 
-> During application, checkpatch.pl pointed out that this should have a
-> MAINTAINERS entry. Would you be opposed to the following?
 
-Not at all, on the contrary I have some dedicated time and long-term
-interest to keep maintaining this.  Please feel free to add me or I
-can send an extra patch if you'd rather I did it.
 
-> CONTAINER BUILD SCRIPT
-> M:	Guillaume Tucker <gtucker@gtucker.io>
-> S:	Maintained
-> F:	Documentation/dev-tools/container.rst
-> F:	scripts/container
-> 
-> I will also add scripts/container to the kbuild entry. Now that I am
-> looking, it looks like Nicolas has been left out of this whole thread,
-> cc'ing him now (even though I assume he should have seen this through
-> linux-kbuild but just in case not, the top of the thread is
-> https://lore.kernel.org/cover.1767199119.git.gtucker@gtucker.io/).
+On Wed, 7 Jan 2026, Benjamin Philip wrote:
 
-OK sounds good.  And sorry, get_maintainer.pl didn't mention Nicolas.
-I should have checked the KERNEL BUILD entry by hand in the file...
+> Currently coccicheck prints debug logs to stdout unless a debug file has been
+> set. This makes it hard to read coccinelle's suggested changes, especially for
+> someone new to coccicheck.
+>
+> This patchset documents this behaviour in both the coccicheck script as well as
+> in the dev-tools documentation. Additionally, it simplifies some of the logic
+> for handling debug files.
+>
+> Benjamin Philip (3):
+>   scripts: coccicheck: simplify debug file handling
+>   scripts: coccicheck: warn on unset debug file
+>   Documentation: Coccinelle: document debug log handling
+>
+>  Documentation/dev-tools/coccinelle.rst | 21 ++++++++++++++++-----
+>  scripts/coccicheck                     | 21 +++++++++++++--------
+>  2 files changed, 29 insertions(+), 13 deletions(-)
 
-Cheers,
-Guillaume
+Thanks for the update.  I will try to get this in for the next release.
 
+julia
