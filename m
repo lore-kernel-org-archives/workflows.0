@@ -1,72 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 232CA1DC9B3;
-	Mon, 19 Jan 2026 21:49:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD6863D331A;
+	Tue, 20 Jan 2026 09:46:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768859377; cv=none; b=jIUUmM0A8xESsZVMDR4WB3J6vv47OFk3hYXzcQz0OEBiBcCgfey6ZUswHZwHAX8Uko8fyXA17jHFrZIZQvGw8/3v3PZ1TR9rYzEn7WtaLe3BQ0yXKBHCcsOIqd3tvRVuMnafAZNbFJTDuHJZiNdt+C7ANbcOxjkBDKjRhBgCegE=
+	t=1768902383; cv=none; b=o4r8Av+GKFgxObdPhxh3eKTaIxAiege+F8ti/m++tA7n1mboMSYuUE2VXkR3Z5slFTI5yrnVIPyPIzsZwOC2oyFdMwWxSCTJ3W4pw+2oBSCcj4nHsI8pcHHaTI+vBbHbaGx3hxEfdh9BMYGuUKYmcK88Swq6UVh7cHaSk+Pgcwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768859377; c=relaxed/simple;
-	bh=pYFQ/9KIr4DC+6IM82aHx4ktfEImmRQJgadK+07XKCo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vFziZVW4NdBCFY4p4F1FsVo8+IAGskW3nSW6HHz4xkR56ovu1aQXttLh++11nFlh0O7xD6mfwF0aC+4PVmzPKoEToqmtG0UpMvYM216pkfBI3O1/pt5dmj7t3RCFQuqMtMTZGJE+8ytgkRWztsOE05tQ0cHokOEvOEf0ZdvUH6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EaOM+ISh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768902383; c=relaxed/simple;
+	bh=sqBdNVqugHD6YY6WnRSD5OVCeoVjd7Zp35fCfc+iE0U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tHJCsn7QWsHMGSa3n6RMr80u35UtFlAzAkUj7vKm05pxRnH4v7nW7YW3IcBvrjQfN+cshwoIkP+lmUqvTapYQy1aPVwWOWnnnz5+wpI052kVG9jZSNaSwloRcAI6D28kTHkdCUPTxOSVaEP683ZeEXT8dTY1CqlTQum2mAY//eo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=bYdIFzWJ; arc=none smtp.client-ip=217.70.183.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EaOM+ISh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55AEBC116C6;
-	Mon, 19 Jan 2026 21:49:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768859376;
-	bh=pYFQ/9KIr4DC+6IM82aHx4ktfEImmRQJgadK+07XKCo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EaOM+ISh3kdNYoEBzFXL3lvOjnDDU9nUhL4aCazncRkiHtRfKS7xZvmWIjksUUuKb
-	 jqFul3fCbM1BkI2T2L1K8MqvlvmttRnRsNscUuM5Br7M3FuI0ZvWWTe+Tsa2v47I5P
-	 SgVBUhWSrklqVC+4a4e4GoD/6RdF+dsPs8O+pRA3/UgRkAY5n/GhziDZiSHBouo9cK
-	 6oUw5W7fOh8qwtgiG0DPZFol79NM/TffhjJz5EbhW4sZ8N+e6NxTBBacbDcndI7UfP
-	 +WLZGd9tMEUFMMIt8XB79WUU1fSKDOhdszF5mpmpGoC/CnCUf3W9ZCBIJ5CD0a9Bur
-	 HHAAMx7HDX8aQ==
-Date: Mon, 19 Jan 2026 14:49:31 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Guillaume Tucker <gtucker@gtucker.io>
-Cc: Miguel Ojeda <ojeda@kernel.org>, David Gow <davidgow@google.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	automated-testing@lists.yoctoproject.org, workflows@vger.kernel.org,
-	llvm@lists.linux.dev, Nicolas Schier <nsc@kernel.org>
-Subject: Re: [PATCH v3 0/2] scripts: introduce containerized builds
-Message-ID: <20260119214931.GA1058062@ax162>
-References: <cover.1767199119.git.gtucker@gtucker.io>
- <20260119213516.GA1051134@ax162>
+	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="bYdIFzWJ"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 32AB641DDB;
+	Tue, 20 Jan 2026 09:46:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
+	t=1768902377;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XSzTlCavTkx6uaNC6I5C8OOKGogzKCivYUt/96O7C+w=;
+	b=bYdIFzWJawmVmAvUSyjRGm0yc2pp9qZCWZTf2uVYRJObxlHzZV3LHR4nRaO2otc9zVa3kv
+	IsiHT4FZDnarDRraw4j2ay6nIzfvf40Oz9Jim2yHpwgMEm5aIdQNLHLqnIIK9dHq2zom75
+	nI4U2lem/XIdHBTjjNYNn04ELpCqIjoO6BnfKj53v8QX24ZPEYBpbOWuObf3g7eXfJ4pSl
+	Ststqzw3rrEKaNkKnKUYC4+28PCUSHROkwQo90xR0pKdttgI+alaZk1hKGWXBYxu1shUNO
+	SedNwPRj2c2v4Svf77f2JOLofUmidqbXkZLzBIjdhinzu30DGCKZGUsptHCLiA==
+Message-ID: <4d4ec41f-1203-4cef-8f49-402440f3e983@gtucker.io>
+Date: Tue, 20 Jan 2026 10:46:15 +0100
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/2] scripts: introduce containerized builds
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>, David Gow <davidgow@google.com>,
+ =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ automated-testing@lists.yoctoproject.org, workflows@vger.kernel.org,
+ llvm@lists.linux.dev
+References: <cover.1767199119.git.gtucker@gtucker.io>
+ <20260119213516.GA1051134@ax162>
+Content-Language: en-GB
+From: Guillaume Tucker <gtucker@gtucker.io>
+Organization: gtucker.io
 In-Reply-To: <20260119213516.GA1051134@ax162>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: gtucker@gtucker.io
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddugedttdelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhohgjtgfgsehtjeertddtvdejnecuhfhrohhmpefiuhhilhhlrghumhgvucfvuhgtkhgvrhcuoehgthhutghkvghrsehgthhutghkvghrrdhioheqnecuggftrfgrthhtvghrnhepfeegvdfgveethfffhedvfffgfeefveetkeegudduvdefleejgfdtveeuiedufeeknecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepvddttddumeekiedumeegrgegtdemkeeivddtmegrsggvrgemjegvsggsmegtrgekgeemudgstdgsnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvddttddumeekiedumeegrgegtdemkeeivddtmegrsggvrgemjegvsggsmegtrgekgeemudgstdgspdhhvghloheplgfkrfggieemvddttddumeekiedumeegrgegtdemkeeivddtmegrsggvrgemjegvsggsmegtrgekgeemudgstdgsngdpmhgrihhlfhhrohhmpehgthhutghkvghrsehgthhutghkvghrrdhiohdpqhhiugepfedvteeuieegudffffeupdhmohguvgepshhmthhpohhuthdpnhgspghrtghpthhtohepuddupdhrtghpthhtohepnhgrthhhrghnsehkvghrnhgvlhdrohhrghdpr
+ hgtphhtthhopehojhgvuggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegurghvihgughhofiesghhoohhglhgvrdgtohhmpdhrtghpthhtohepfihorhhksehonhhurhhoiihkrghnrdguvghvpdhrtghpthhtoheprghrnhgusegrrhhnuggsrdguvgdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
 
-On Mon, Jan 19, 2026 at 02:35:16PM -0700, Nathan Chancellor wrote:
+Hi Nathan,
+
+On 19/01/2026 22:35, Nathan Chancellor wrote:
+> I went over the script and the documentation and it looks pretty good to
+> me at this point. My only comment would be potentially referencing the
+> TuxMake container images in the example section to give folks a
+> "prebuilt" container option while getting the kernel.org container
+> images sorted out but that can always be done in a follow-up change.
+
+Well the tuxmake LLVM image is mentioned in the first example:
+
+    scripts/container -i tuxmake/korg-clang -- make LLVM=1 defconfig
+    scripts/container -i tuxmake/korg-clang -- make LLVM=1 -j$(nproc)
+
+So that should just work out of the box.  Or did you mean to add
+something else to the docs?
+
+But yes, the topic of available container images will be something to
+expand upon once the tool starts getting used.  If things go well
+with this initial version then we can try and move forward with
+hosting first-party images as per the other discussion thread:
+
+    https://lore.kernel.org/all/cc737636-2a43-4a97-975e-4725733f7ee4@gtucker.io/
+
 > I will apply this to kbuild-next-unstable shortly to give folks a week
 > or so to voice any objections or give critical review comments.
 
-During application, checkpatch.pl pointed out that this should have a
-MAINTAINERS entry. Would you be opposed to the following?
-
-CONTAINER BUILD SCRIPT
-M:	Guillaume Tucker <gtucker@gtucker.io>
-S:	Maintained
-F:	Documentation/dev-tools/container.rst
-F:	scripts/container
-
-I will also add scripts/container to the kbuild entry. Now that I am
-looking, it looks like Nicolas has been left out of this whole thread,
-cc'ing him now (even though I assume he should have seen this through
-linux-kbuild but just in case not, the top of the thread is
-https://lore.kernel.org/cover.1767199119.git.gtucker@gtucker.io/).
+Sounds great, thanks!  I'll spread the word too once it's available
+in linux-next.
 
 Cheers,
-Nathan
+Guillaume
+
