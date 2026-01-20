@@ -1,52 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C51C42980D;
-	Tue, 20 Jan 2026 13:55:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D87449EA0;
+	Tue, 20 Jan 2026 17:55:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768917313; cv=none; b=t+M0t8dXuokLzYyOUteottsfLbxMB2eQaaBJZA5sYlZtnn83BkpbwWdBdNgG4v2PPzbZBoZ4ZhxA4Zjz4UqKCZ8Um0RkK1AJAflGF2FxFVYSehJC08iXkL6GfK0OKQh/D3NSeivhlbmrZl+T5vgUIU9/5bJJzysXeGNPgke9hHc=
+	t=1768931754; cv=none; b=HPsgU6Ppg8Uh46cWUuk7fomVL7LnSCIZKhQYRIIux9IxItSnk7VGNhvSpTRba7InLOrWm6o16+vYP6ve3V53WXPie1G8HEu2skB9Muqu0WM8+WnZCog+/4pyyxJNq1uGTi9wjDhNfKlehNtYk2ne/02m8VrxaYpzeAfHZeGG+XU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768917313; c=relaxed/simple;
-	bh=PjUrq5cWtFbXMjc2NQa42ZtqpF3yt0CzwHVTrsX+g20=;
+	s=arc-20240116; t=1768931754; c=relaxed/simple;
+	bh=YdlHdpPvefXlQJs8q/aV3FbVwI7IGilgSt53A6aDmkI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dtJeWDKqIyAl6gvy4925kiyX0KuTwDEDZYac93semCYYCNlWAZiMmMAU3QUsjBCWGfEk5eDl29dMM/wtX7y4Q/rhk8VaXoHgFQcWBXxaTY/N3HKRgrdU/1LhIDf809OT67ny2I8j0NAqHt1YZapPdBMAxqjsI2jZmuorc7RM9tA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cAruJHew; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=TYn9iPEyZP5Jr8K9DjukhFilYAsxUQhYIjLs4rKdikQMNNIIZKJHhebP/xaczollaFd0SfkB6YtdaC622f9YZSCSuFrNIsEJZHLRUNLkfs8Z88wzGIcr8Az51Xmd7dCPrKuQLK+5RcLqmyR30b3zt2AqPZhsW8+as7jWH/beWkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bIJUQCEB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cAruJHew"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63EB0C19422;
-	Tue, 20 Jan 2026 13:55:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bIJUQCEB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50556C16AAE;
+	Tue, 20 Jan 2026 17:55:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768917312;
-	bh=PjUrq5cWtFbXMjc2NQa42ZtqpF3yt0CzwHVTrsX+g20=;
+	s=k20201202; t=1768931753;
+	bh=YdlHdpPvefXlQJs8q/aV3FbVwI7IGilgSt53A6aDmkI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cAruJHew5WAvdT2fMAkD4tprZTxGpGVlg4fZ6VM6EfG6NgKAe+6w6dhKc5yYTDJMG
-	 AhRO+iY7shNn9Mnltsas2VT1z5/DS5p2wTpkcDef4hHBduNzcJCIDWdYXpS5VGU4sh
-	 Ofp/WzbN5v3cliWSW/VwZmN/WoS1RXiJciB1HrRgpz48jio9yHg2w8cWH15/YiK95y
-	 KFQ7MqOfZNcprjnTmGBjVWYGjRbNEh/YsazMuTHhmVEsN4UeZs4FXSNXEb7L7ghpJo
-	 PEJvgsu4hLU0PtGHlYCaKbDTM2XHdVHITS/tWVxr7fI1HGAe+PEZE1T08erKr82NCj
-	 HdDeiM7QSUdWg==
-Date: Tue, 20 Jan 2026 14:54:47 +0100
-From: Nicolas Schier <nsc@kernel.org>
+	b=bIJUQCEBJCzX0meiRg0BArNr0wQH/PkDIgcKRlqN5FVUgdbGXbScY/M2Kl6t7xJkI
+	 FM3SOHLxeuNjfGuWw/93uJPDyqOS2xHIx0sZ94KvnpWmzlF3GrECyt+KM3kpnG9Nym
+	 n454XfYhRhtcJ2YaFbDCfvmvdSws0NqUZjO3XsD1ap0vB9i27jGIyir4cY61vAho3Z
+	 oiN+n92s81id5kCK4C7qt3jj0eGgstHImWAKUnJPj6FovBZF9Tj/j2jw2i70aojtMK
+	 P1FIWPyBkjgWTzwDWkzHa3T1ZeIFNdYxtY+A3NzxcSMRqXQfYJkiknp57mI+GktcoX
+	 +aVmU9QohPv6A==
+Date: Tue, 20 Jan 2026 10:55:48 -0700
+From: Nathan Chancellor <nathan@kernel.org>
 To: Guillaume Tucker <gtucker@gtucker.io>
-Cc: Nathan Chancellor <nathan@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-	David Gow <davidgow@google.com>,
+Cc: Miguel Ojeda <ojeda@kernel.org>, David Gow <davidgow@google.com>,
 	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
 	Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
 	rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
 	automated-testing@lists.yoctoproject.org, workflows@vger.kernel.org,
 	llvm@lists.linux.dev
 Subject: Re: [PATCH v3 0/2] scripts: introduce containerized builds
-Message-ID: <aW-JJ5DT-LRSZkdF@derry.ads.avm.de>
-Mail-Followup-To: Guillaume Tucker <gtucker@gtucker.io>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>, David Gow <davidgow@google.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	automated-testing@lists.yoctoproject.org, workflows@vger.kernel.org,
-	llvm@lists.linux.dev
+Message-ID: <20260120175548.GA2749368@ax162>
 References: <cover.1767199119.git.gtucker@gtucker.io>
+ <20260119213516.GA1051134@ax162>
+ <4d4ec41f-1203-4cef-8f49-402440f3e983@gtucker.io>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -55,100 +48,31 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1767199119.git.gtucker@gtucker.io>
+In-Reply-To: <4d4ec41f-1203-4cef-8f49-402440f3e983@gtucker.io>
 
-On Wed, Dec 31, 2025 at 05:51:48PM +0100, Guillaume Tucker wrote:
-> This proposal emerged from discussions over email and after a talk at
-> Plumbers 2024:
+On Tue, Jan 20, 2026 at 10:46:15AM +0100, Guillaume Tucker wrote:
+> Well the tuxmake LLVM image is mentioned in the first example:
 > 
->     https://lore.kernel.org/all/affb7aff-dc9b-4263-bbd4-a7965c19ac4e@gtucker.io/
+>     scripts/container -i tuxmake/korg-clang -- make LLVM=1 defconfig
+>     scripts/container -i tuxmake/korg-clang -- make LLVM=1 -j$(nproc)
 > 
-> The aim is to facilitate reproducing builds for CI bots as well as
-> developers using containers.  Here's an illustrative example with a
-> kernel.org toolchain in a Docker image from tuxmake:
-> 
->     $ scripts/container -i tuxmake/korg-clang-21 make LLVM=1 defconfig
->       HOSTCC  scripts/basic/fixdep
->       HOSTCC  scripts/kconfig/conf.o
->     [...]
->       HOSTCC  scripts/kconfig/util.o
->       HOSTLD  scripts/kconfig/conf
->     *** Default configuration is based on 'x86_64_defconfig'
->     #
->     # configuration written to .config
->     #
-> 
-> This patch series also includes a documentation page with all the
-> relevant details and further examples about how to use the tool.
-> 
-> To go one step further, I'm in the process of preparing reference
-> container images with kernel.org toolchains and no third-party
-> dependencies other than the base Debian distro.  See this thread for
-> more details and options to host them in an upstream way:
+> So that should just work out of the box.  Or did you mean to add
+> something else to the docs?
+
+I was just envisioning a blurb like "Additionally, TuxMake has prebuilt
+containers for various architectures: https://hub.docker.com/u/tuxmake"
+or something like that at the end of the paragraph before "To build just
+``bzImage`` using Clang::" in the documentation.
+
+> But yes, the topic of available container images will be something to
+> expand upon once the tool starts getting used.  If things go well
+> with this initial version then we can try and move forward with
+> hosting first-party images as per the other discussion thread:
 > 
 >     https://lore.kernel.org/all/cc737636-2a43-4a97-975e-4725733f7ee4@gtucker.io/
-> 
-> Say, to run KUnit using the latest kernel.org GCC toolchain:
-> 
->     scripts/container --shell \
->         -i registry.gitlab.com/gtucker/korg-containers/gcc:kunit -- \
->         tools/testing/kunit/kunit.py \
->             run \
->             --arch=x86_64 \
->             --cross_compile=x86_64-linux-
-> 
-> ---
-> Changes in v3:
-> - Refactor common code for Docker and Podman
-> - Add docs.kernel.org URL in help message
-> - Use pathlib Python package
-> - Handle signals in parent process by default
-> - Add --shell option to use an interactive shell
-> - Tweak debug messages in verbose mode
-> - Specify Python 3.10 as minimum version in the docs
-> - Provide an example env file in the docs
-> - Update docs regarding interactive shell usage
-> 
-> Changes in v2:
-> - Drop default image but make -i option required
-> - Look for Docker and Podman if no runtime specified
-> - Catch SIGINT from user to abort container with Docker
-> - Explicitly name each container with a UUID
-> - Update documentation accordingly
-> 
-> ---
-> 
-> Guillaume Tucker (2):
->   scripts: add tool to run containerized builds
->   Documentation: dev-tools: add container.rst page
-> 
->  Documentation/dev-tools/container.rst | 201 ++++++++++++++++++++++++++
->  Documentation/dev-tools/index.rst     |   1 +
->  scripts/container                     | 199 +++++++++++++++++++++++++
->  3 files changed, 401 insertions(+)
->  create mode 100644 Documentation/dev-tools/container.rst
->  create mode 100755 scripts/container
-> 
-> -- 
-> 2.47.3
-> 
-> 
 
-Out-of-source builds do not work on my system with podman.  If this is
-expected, I think it would be great to mention that somewhere in the
-documentation.
+Yeah hopefully usage of this tool will spur some movement on that
+discussion thread.
 
-
-Nevertheless, thanks a lot!  I expect me to use that a lot in the
-future!
-
-For the whole patch set:
-Tested-by: Nicolas Schier <nsc@kernel.org>
-Acked-by: Nicolas Schier <nsc@kernel.org>
-
-Kind regards,
-Nicolas
-
-
--- 
-Nicolas
+Cheers,
+Nathan
