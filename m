@@ -1,55 +1,49 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B62703A4F24;
-	Tue, 20 Jan 2026 21:56:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B64D346FCF;
+	Tue, 20 Jan 2026 21:57:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768946208; cv=none; b=UobbfbhCttftwUOtPcOaI3Nznlyu1Q8sz0P0+YQeMbY2lzotnhjmLAh0Ulr+RKZre8E3l1AAx9UQ8EoIh0j3TqITnUVPaEeRADGqpiIktg888xoznc+CHB6CHHNVAJ37ZyauzCdgF4q7fgxxjuTeETrexSu3aA0c9Hkb273qpa0=
+	t=1768946253; cv=none; b=HMiKP7E6sZWfydDTomzERmr2HhCcRgFRTUmdVtxqBJmMLtzs1CtKXAWhMNZu77q/mb3rrFvoj/I3Wi+n3qfQQZTiUaTQJ2N6LDzNbWXUiQQXKCX98DGDYJHpBDcsigfYUDCk3u78CYIBVkuITFvSai1pLcalcDoPiwn1fYM/RM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768946208; c=relaxed/simple;
-	bh=FzMdzP56GstVKF3ZixDpDHYfJlLiP7DaiRtIzsPUWEo=;
+	s=arc-20240116; t=1768946253; c=relaxed/simple;
+	bh=GR/T74euQZ+vr4mwmrV5h6gP3Xs0x1K8urT5OcaMFQo=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=gFFRECVhkunc419eV28P24MsM3XEJQJWnLeTbTB7M5GFaAW6Y+KLf0ce3DZr0BpZeVrUymtE8X7ntuHQhxVOMCaRgSwxit/3jPxTZnodYH0lQ4z6VIEelZbjmS3oC+TCemsIM3yEWb0B9nyVQJNqmJxUWWEvBZm1DF9SLue/g14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ILXJTjV6; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=GoY72bBEWxotBjiQ7LJqtEgXOI78poaMDP8JQL2GwV69xCIF+qa2W6a+bZvh4OVYpX5a996fY1IqGqgo74H7Wawaf9PdAnxySU8+u5mSZuS1ex3+tvxNmUfNimP/x1n6fIEsDQjZJSRv3jqfW4RSr094EkmydVESDdLSXPXJRCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=sxVyrEkr; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ILXJTjV6"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AFDFB40C27
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="sxVyrEkr"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 14B2C40C27
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1768946205; bh=FzMdzP56GstVKF3ZixDpDHYfJlLiP7DaiRtIzsPUWEo=;
+	t=1768946250; bh=GR/T74euQZ+vr4mwmrV5h6gP3Xs0x1K8urT5OcaMFQo=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=ILXJTjV6WVHwCAaJbaVr5hmn9Ig2K/FElbm3cj3MR2ai1xd6MBPm1W2bEC4EEe/pL
-	 gLZSEajMQMvp0tAXbmrx+skTYKI+fYr/6PaHLbdh9maXaiLlGj5CG8x6WZRm8BSJ0T
-	 TpibuAa6Jxe1AiCeeiiMXgEBSdGK7yIRdo7WlfuP9l1NIM+xIlnVDwLLOSwEcLJ8ql
-	 ctsE09YIy2th0RPGQ83JFzh8lFtfJbmO4x8J8fp6CW0j2rEQzUXmlKXrJrXT9x7DOt
-	 1i+YWZ0TgcKPqqTsXpC+qe7cS9J/7sCeMrS6q/uiyco6ATiD7tU2JxfFdxOOInClWB
-	 FW7Jobfyx2neg==
+	b=sxVyrEkr6UQmVx20j5g0kauYrLHlnRB8CdcrZYnv0sOS/drDc5+35mNbXR0eDZ/oG
+	 43GtdIrSQZQhERJ8DVtdCtDLGVsUXR8QPVjjUVQyv3aS6+yuTBDPD/xyVBnK4FkZlS
+	 Hob+UFjKu8yjzH8RTqQ0xAHe2mteicqy5ne2EkYWwdbS8qhp2n8ONOcDHTbVP7oWL2
+	 uhGeBMZNZ9pPWsbOV3ObZ1l/oqySlOyd+lQwNgttsjI/yuk8+aXzBLYcNA6gh+/7Pd
+	 gfEb/c70kvV5RqoparsLIrkez2IutMM8dcAYtnbL7BVRMu6pMsGD05gXHeLGt38Lt4
+	 cgYFB1tUm5NRQ==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id AFDFB40C27;
-	Tue, 20 Jan 2026 21:56:45 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 14B2C40C27;
+	Tue, 20 Jan 2026 21:57:30 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Dave Hansen <dave.hansen@linux.intel.com>, linux-kernel@vger.kernel.org
-Cc: Dave Hansen <dave.hansen@linux.intel.com>, Shuah Khan
- <shuah@kernel.org>, Kees Cook <kees@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Miguel Ojeda <ojeda@kernel.org>, Luis
- Chamberlain <mcgrof@kernel.org>, SeongJae Park <sj@kernel.org>, Dan
- Williams <dan.j.williams@intel.com>, Steven Rostedt <rostedt@goodmis.org>,
- "Paul E . McKenney" <paulmck@kernel.org>, Simon Glass
- <simon.glass@canonical.com>, Lee Jones <lee@kernel.org>, Lorenzo Stoakes
- <lorenzo.stoakes@oracle.com>, NeilBrown <neilb@ownmail.net>, Theodore Ts'o
- <tytso@mit.edu>, Sasha Levin <sashal@kernel.org>, Vlastimil Babka
- <vbabka@suse.cz>, workflows@vger.kernel.org, ksummit@lists.linux.dev
-Subject: Re: [PATCH] [v6] Documentation: Provide guidelines for
- tool-generated content
-In-Reply-To: <20260119200418.89541-1-dave.hansen@linux.intel.com>
-References: <20260119200418.89541-1-dave.hansen@linux.intel.com>
-Date: Tue, 20 Jan 2026 14:56:44 -0700
-Message-ID: <87cy34hrs3.fsf@trenco.lwn.net>
+To: Daniel Thompson <danielt@kernel.org>, junan <junan76@163.com>
+Cc: jason.wessel@windriver.com, dianders@chromium.org,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH] doc: kgdb: Add description about rodata=off kernel
+ parameter
+In-Reply-To: <87tswhlkkz.fsf@trenco.lwn.net>
+References: <20260116050410.772340-2-junan76@163.com>
+ <aW5EhId-E6TzvR89@aspen.lan> <87tswhlkkz.fsf@trenco.lwn.net>
+Date: Tue, 20 Jan 2026 14:57:29 -0700
+Message-ID: <875x8whrqu.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -58,28 +52,27 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Dave Hansen <dave.hansen@linux.intel.com> writes:
+Jonathan Corbet <corbet@lwn.net> writes:
 
-> In the last few years, the capabilities of coding tools have exploded.
-> As those capabilities have expanded, contributors and maintainers have
-> more and more questions about how and when to apply those
-> capabilities.
+> Daniel Thompson <danielt@kernel.org> writes:
 >
-> Add new Documentation to guide contributors on how to best use kernel
-> development tools, new and old.
+>> On Fri, Jan 16, 2026 at 01:03:13PM +0800, junan wrote:
+>>> STRICT_KERNEL_RWX can not be turned off throught menuconfig on some
+>>> architectures, pass "rodata=off" to the kernel in this case.
+>>>
+>>> Tested with qemu on arm64.
+>>>
+>>> Signed-off-by: junan <junan76@163.com>
+>>> Suggested-by: Will Deacon <will@kernel.org>
+>>
+>> Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
+>>
+>> Jonathan: do you want to take this or should I take it via the kgdb
+>> tree?
 >
-> Note, though, there are fundamentally no new or unique rules in this
-> new document. It clarifies expectations that the kernel community has
-> had for many years. For example, researchers are already asked to
-> disclose the tools they use to find issues by
-> Documentation/process/researcher-guidelines.rst. This new document
-> just reiterates existing best practices for development tooling.
->
-> In short: Please show your work and make sure your contribution is
-> easy to review.
->
-> Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
+> I'm fine either way; I'll pick it up shortly unless you say you've
+> already done so.
 
-OK, it seems this is ready, so I've just applied it, thanks.
+...and I have just done that, thanks.
 
 jon
