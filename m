@@ -1,115 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4359744CAE6;
-	Tue, 20 Jan 2026 18:39:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B62703A4F24;
+	Tue, 20 Jan 2026 21:56:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768934348; cv=none; b=mLf77RgaGVOFwgTmWlN0C7zA98GhNY6Ca8V3YjA8PfaCnFWVTEwB4zsYvjQDHV8xYJurO8trQApfeCjzL8Rmkb6wlMQTiC5gO5GIEMrmsKwwSY4DzZVLnRn9991UyQFxQeNr6kiQ9BFILifVQiWrhDF4kzBV1JEE32i0d/z5Ljg=
+	t=1768946208; cv=none; b=UobbfbhCttftwUOtPcOaI3Nznlyu1Q8sz0P0+YQeMbY2lzotnhjmLAh0Ulr+RKZre8E3l1AAx9UQ8EoIh0j3TqITnUVPaEeRADGqpiIktg888xoznc+CHB6CHHNVAJ37ZyauzCdgF4q7fgxxjuTeETrexSu3aA0c9Hkb273qpa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768934348; c=relaxed/simple;
-	bh=rTYyl5X5O+XYzpIbFuw0zsstxXaXfzt7BUh3bAWVKvU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hj/FbqezCLAEEQASF/Zr/Qtv1bFJ0+iSEkTFN12VwDtzHkjtYviEg4samacHTxRvELvwuzy5+Dw/PmoxiB0lbvysZhmsAaDb8KMqwStU1TYKNp1q9U0xSHS7yqaKSzY5sPQFm+74fGtQMHr4kVJGoJbdwsFufLrKqNzq6sdATSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZWzalO5t; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768946208; c=relaxed/simple;
+	bh=FzMdzP56GstVKF3ZixDpDHYfJlLiP7DaiRtIzsPUWEo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=gFFRECVhkunc419eV28P24MsM3XEJQJWnLeTbTB7M5GFaAW6Y+KLf0ce3DZr0BpZeVrUymtE8X7ntuHQhxVOMCaRgSwxit/3jPxTZnodYH0lQ4z6VIEelZbjmS3oC+TCemsIM3yEWb0B9nyVQJNqmJxUWWEvBZm1DF9SLue/g14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ILXJTjV6; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZWzalO5t"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E974C16AAE;
-	Tue, 20 Jan 2026 18:39:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768934345;
-	bh=rTYyl5X5O+XYzpIbFuw0zsstxXaXfzt7BUh3bAWVKvU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZWzalO5tOPyEn+iDgdeFpMZ0biyzg9chnE+Lqw8cvh/MDQGqxxO5MT9xtyAumUPJk
-	 2YNykJDbz8eDLg9hXlyIX9X9Da/T0WTG7n5O5hRSnOr+IUbOnxOArcYFyqJgOxXV2Y
-	 DMkLLcmo4FP9hRCTl4aNFBkJ19peqTiPIGVH/mCP/CskPel8DgoVtG6AjgNBEsMPSM
-	 Zpv+llnKyV9+YvxayZBnibEofCoJlyi/FQIUCriaNK0CzpXqGPk4i7oYkVCqivAVhV
-	 CGMKcS4XJZrcPlTEaPtj/AfIrnsxJh5kt8Ail57GOqZc6A7vWi3KydiXt+miSkVnXK
-	 wX4yfx99oizrA==
-Date: Tue, 20 Jan 2026 11:39:00 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Nicolas Schier <nsc@kernel.org>
-Cc: Guillaume Tucker <gtucker@gtucker.io>, Miguel Ojeda <ojeda@kernel.org>,
-	David Gow <davidgow@google.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	automated-testing@lists.yoctoproject.org, workflows@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH v3 2/2] Documentation: dev-tools: add container.rst page
-Message-ID: <20260120183900.GE2749368@ax162>
-References: <cover.1767199119.git.gtucker@gtucker.io>
- <c859f9b6dd5313136f7a445497d6209405eafa7e.1767199119.git.gtucker@gtucker.io>
- <aW-I3fNqp_7X0oeg@derry.ads.avm.de>
- <20260120183550.GD2749368@ax162>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ILXJTjV6"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AFDFB40C27
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1768946205; bh=FzMdzP56GstVKF3ZixDpDHYfJlLiP7DaiRtIzsPUWEo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=ILXJTjV6WVHwCAaJbaVr5hmn9Ig2K/FElbm3cj3MR2ai1xd6MBPm1W2bEC4EEe/pL
+	 gLZSEajMQMvp0tAXbmrx+skTYKI+fYr/6PaHLbdh9maXaiLlGj5CG8x6WZRm8BSJ0T
+	 TpibuAa6Jxe1AiCeeiiMXgEBSdGK7yIRdo7WlfuP9l1NIM+xIlnVDwLLOSwEcLJ8ql
+	 ctsE09YIy2th0RPGQ83JFzh8lFtfJbmO4x8J8fp6CW0j2rEQzUXmlKXrJrXT9x7DOt
+	 1i+YWZ0TgcKPqqTsXpC+qe7cS9J/7sCeMrS6q/uiyco6ATiD7tU2JxfFdxOOInClWB
+	 FW7Jobfyx2neg==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id AFDFB40C27;
+	Tue, 20 Jan 2026 21:56:45 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Dave Hansen <dave.hansen@linux.intel.com>, linux-kernel@vger.kernel.org
+Cc: Dave Hansen <dave.hansen@linux.intel.com>, Shuah Khan
+ <shuah@kernel.org>, Kees Cook <kees@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Miguel Ojeda <ojeda@kernel.org>, Luis
+ Chamberlain <mcgrof@kernel.org>, SeongJae Park <sj@kernel.org>, Dan
+ Williams <dan.j.williams@intel.com>, Steven Rostedt <rostedt@goodmis.org>,
+ "Paul E . McKenney" <paulmck@kernel.org>, Simon Glass
+ <simon.glass@canonical.com>, Lee Jones <lee@kernel.org>, Lorenzo Stoakes
+ <lorenzo.stoakes@oracle.com>, NeilBrown <neilb@ownmail.net>, Theodore Ts'o
+ <tytso@mit.edu>, Sasha Levin <sashal@kernel.org>, Vlastimil Babka
+ <vbabka@suse.cz>, workflows@vger.kernel.org, ksummit@lists.linux.dev
+Subject: Re: [PATCH] [v6] Documentation: Provide guidelines for
+ tool-generated content
+In-Reply-To: <20260119200418.89541-1-dave.hansen@linux.intel.com>
+References: <20260119200418.89541-1-dave.hansen@linux.intel.com>
+Date: Tue, 20 Jan 2026 14:56:44 -0700
+Message-ID: <87cy34hrs3.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260120183550.GD2749368@ax162>
+Content-Type: text/plain
 
-Actually sending to Nicolas now :) sorry for the noise!
+Dave Hansen <dave.hansen@linux.intel.com> writes:
 
-https://lore.kernel.org/linux-kbuild/20260120183550.GD2749368@ax162/
+> In the last few years, the capabilities of coding tools have exploded.
+> As those capabilities have expanded, contributors and maintainers have
+> more and more questions about how and when to apply those
+> capabilities.
+>
+> Add new Documentation to guide contributors on how to best use kernel
+> development tools, new and old.
+>
+> Note, though, there are fundamentally no new or unique rules in this
+> new document. It clarifies expectations that the kernel community has
+> had for many years. For example, researchers are already asked to
+> disclose the tools they use to find issues by
+> Documentation/process/researcher-guidelines.rst. This new document
+> just reiterates existing best practices for development tooling.
+>
+> In short: Please show your work and make sure your contribution is
+> easy to review.
+>
+> Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
 
-On Tue, Jan 20, 2026 at 11:35:50AM -0700, Nathan Chancellor wrote:
-> On Tue, Jan 20, 2026 at 02:53:33PM +0100, Nicolas Schier wrote:
-> > I probably have just read it over: I have to prefix the
-> > 'tuxmake/korg-clang' by 'docker.io/'.  Is that a problem of my system
-> > configuration (Debian forky, no special podman config)?
-> 
-> Some distributions ship registries.conf [1] to allow unqualified image
-> names but I do not think Debian does. Personally, I use the full name
-> regardless but it should be easy to create it for commands such as these
-> to work. I use:
-> 
-> unqualified-search-registries = ['docker.io', 'ghcr.io', 'quay.io']
-> 
-> [1]: https://podman.io/docs/installation#registriesconf
-> 
-> > I tested a tiny bit with podman as runtime backend.  If I leave out the
-> > '-r podman' podman's docker emulation is in effect and fails with:
-> > 
-> >     $ scripts/container -i docker.io/tuxmake/korg-clang -- make LLVM=1 -j8 olddefconfig
-> >     Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
-> >     mkdir: cannot create directory '.tmp_15': Permission denied
-> >     mkdir: cannot create directory '.tmp_19': Permission denied
-> >     mkdir: cannot create directory '.tmp_22': Permission denied
-> >     mkdir: cannot create directory '.tmp_25': Permission denied
-> >     mkdir: cannot create directory '.tmp_28': Permission denied
-> >     mkdir: cannot create directory '.tmp_31': Permission denied
-> >       HOSTCC  scripts/basic/fixdep
-> >     error: error opening 'scripts/basic/.fixdep.d': Permission denied
-> >     1 error generated.
-> >     make[2]: *** [scripts/Makefile.host:114: scripts/basic/fixdep] Error 1
-> >     make[1]: *** [/src/Makefile:655: scripts_basic] Error 2
-> >     make: *** [Makefile:248: __sub-make] Error 2
-> >     [exit code 2]
-> > 
-> > But with '-r podman' it works like a charm.
-> > 
-> > Would it make sense to switch the default runtime to podman to
-> > prevent non-functional podman-docker emulation?  (Or is this just a
-> > problem on my machine?)
-> 
-> Yeah, I think it would be better to prefer podman over docker if both
-> existed on the system. Something like this should do that?
-> 
-> diff --git a/scripts/container b/scripts/container
-> index dbe92630f05b..50c4ae851001 100755
-> --- a/scripts/container
-> +++ b/scripts/container
-> @@ -105,7 +105,7 @@ class PodmanRuntime(CommonRuntime):
->  class Runtimes:
->      """List of all supported runtimes"""
->  
-> -    runtimes = [DockerRuntime, PodmanRuntime]
-> +    runtimes = [PodmanRuntime, DockerRuntime]
->  
->      @classmethod
->      def get_names(cls):
-> 
+OK, it seems this is ready, so I've just applied it, thanks.
+
+jon
