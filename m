@@ -1,152 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B17E33C1FEF;
-	Tue, 20 Jan 2026 23:01:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC9053D3486;
+	Wed, 21 Jan 2026 09:55:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768950064; cv=none; b=AmZPRAuAXgz6BOIsaK1aT2qrjm/ZrYEt9jlYj6oZ57rPwjFxFn5DoB486xVKXRSyUhTz89MmkS1t8kO1dXFhAlw56dJMY003gQwM1m0YzqsmgxPNHj/twqXi1Pm8j+Zw7OhiKDwXKG8qVX9l2OPtc/ue8E9VUXpLpoXokiyf6D4=
+	t=1768989362; cv=none; b=WIEm2dwUOKbkMEeoUFpse4y0+dtjE5tnPxKkur3xJZSZHw7gp79FmIrSNHPhqDKRbdZYJBwLroy4swVB+rgqAstfREef/64Sz3iW0SbvAp7E5Cs+++wxjmBXiufHpFyZEJ0kjVr8duFqrPDQ/dDm70giNuhS5fUm0zV2Ijgl9Dc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768950064; c=relaxed/simple;
-	bh=dClrHcKLkN3Omg1AAuVft+c2sQj8sX7paCLkftkiBBc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tGaoX3nyo54HwlujCC9Ml3DBhggRmZv9NblJxuqs49PNgyHLuWUWjy5gpDrJvWdEb9N2a2vQmC7ehJHVzkFv3jbTeJbFxu57bi21oIhUx5r4T75ep3z9LVzbJ5VimQnCo7PhoCNRFI2zQAvPdqPMRGIWVaAPnFcRJbmU1fdRxtg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=popOrSrT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768989362; c=relaxed/simple;
+	bh=vb33am2CXNzJTUFW8xjXCgEdnw5d36/6zQ548a5P7CE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=tXgUVz50Q4aaj1iRO820VJrW5mpExsFTmELSBzd5UBQGRHOlljPA1Rfop8IaSFDHk+xY+LanCrAXuHTtwtnTAEHNRZWrhgxwtkeVQsRUWPB99Xb/eodEheZxLVKsvuX+PcOeJ/C/4TEShvTuWG3AU13ZHLvlbqwGKf32T+pheIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=EQ1DCx84; arc=none smtp.client-ip=217.70.183.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="popOrSrT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1907BC16AAE;
-	Tue, 20 Jan 2026 23:00:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768950064;
-	bh=dClrHcKLkN3Omg1AAuVft+c2sQj8sX7paCLkftkiBBc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=popOrSrTL9zTWJldNDPUB2j/MRzDfzsPuDzrbGZEMz2xV40sXWFd2sKeg2EY4sjqR
-	 L0eryVBnxe5jnFEBcFxlvb5PVt1l7BrJxRnIGEPt80GYYVNsJcH639kCJy+hpbwKS8
-	 CEGdEWam6jmlu6Ig7XcnTwnroRUvpOEKqzUR9ZHmwRpcUtEKr3lw+DFcTl2X6Ly8hB
-	 YpQw6oZ3LmlQ698uP+J1c0w7g96Yt7qi/iEzBfbdCOGX9ZMmZ73NgtEa5HSVcPZATa
-	 W3U3abd+19StFhluNNTVpRntJ/48m7uV4OJyrpb29gzWdaPqNl1AecSeVWDo+Lu3pT
-	 Wrx/3WLNCpeAQ==
-Date: Wed, 21 Jan 2026 00:00:53 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Alex Shi <alexs@kernel.org>, Carlos Bilbao <carlos.bilbao@kernel.org>,
- David Airlie <airlied@gmail.com>, Federico Vaga <federico.vaga@vaga.pv.it>,
- Hu Haowen <2023002089@link.tyut.edu.cn>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier
- <nsc@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter
- <simona@ffwll.ch>, Tvrtko Ursulin <tursulin@ursulin.net>, Yanteng Si
- <si.yanteng@linux.dev>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org, Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?=
- <thomas.weissschuh@linutronix.de>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Avadhut Naik <avadhut.naik@amd.com>,
- Chenguang Zhao <zhaochenguang@kylinos.cn>, David Disseldorp
- <ddiss@suse.de>, Dongliang Mu <dzm91@hust.edu.cn>, Gang Yan
- <yangang@kylinos.cn>, Kees Cook <kees@kernel.org>, Masahiro Yamada
- <masahiroy@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Randy Dunlap
- <rdunlap@infradead.org>, Shuah Khan <skhan@linuxfoundation.org>, Steven
- Rostedt <rostedt@goodmis.org>, Tamir Duberstein <tamird@gmail.com>, Vincent
- Mailhol <mailhol@kernel.org>, WangYuli <wanyl5933@chinaunicom.cn>
-Subject: Re: [PATCH 0/9] docs: Fix kernel-doc -Werror and moves it to
- tools/docs
-Message-ID: <20260121000053.5e274248@foz.lan>
-In-Reply-To: <87wm1bhozz.fsf@trenco.lwn.net>
-References: <cover.1768823489.git.mchehab+huawei@kernel.org>
-	<87wm1bhozz.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="EQ1DCx84"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A38F9430CC;
+	Wed, 21 Jan 2026 09:55:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
+	t=1768989356;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GaqCvMBL8GtzVC6jIdKSwudL/1w67Gf2qPep5NgGXv4=;
+	b=EQ1DCx84h6BZdcoubAvXWSPdKNVxCvwdllgqX2gJTFTgVi2brHbRG9kfXR4iby7t6eVMV0
+	BizgUDW4ZXuVQymNB4OZoZ7faRLH/Wg5zt5AAT7puLMhUIBNC/VpskQFvnk+cBUwOkstVA
+	4SBQDx3Pl0XWJdZnbGTDQcIDj8f7/28ZILt3FEOX4qY+18vjAAWs7FNhftncYvorbRKPHM
+	4s3RZ25KbKn+EiQPBgsP2PPumyE3zw93wNGgEDdFnu5mULfsO5PGA1Qz54f7dHeyBr4jrG
+	2qioSwCL+IbnsRt1aCwSaDEN73Wd3V5V8O9jYs8Gp8ceYJWW8MMwhpq7/iEmeg==
+Message-ID: <e96a6e71-80b3-4556-a4eb-fd242e0f5713@gtucker.io>
+Date: Wed, 21 Jan 2026 10:55:53 +0100
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] Documentation: dev-tools: add container.rst page
+To: Nathan Chancellor <nathan@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ David Gow <davidgow@google.com>, =?UTF-8?Q?Onur_=C3=96zkan?=
+ <work@onurozkan.dev>, Arnd Bergmann <arnd@arndb.de>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, automated-testing@lists.yoctoproject.org,
+ workflows@vger.kernel.org, llvm@lists.linux.dev
+References: <cover.1767199119.git.gtucker@gtucker.io>
+ <c859f9b6dd5313136f7a445497d6209405eafa7e.1767199119.git.gtucker@gtucker.io>
+ <aW-I3fNqp_7X0oeg@derry.ads.avm.de> <20260120183550.GD2749368@ax162>
+Content-Language: en-US
+From: Guillaume Tucker <gtucker@gtucker.io>
+In-Reply-To: <20260120183550.GD2749368@ax162>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-GND-Sasl: gtucker@gtucker.io
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddugedvleejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpefiuhhilhhlrghumhgvucfvuhgtkhgvrhcuoehgthhutghkvghrsehgthhutghkvghrrdhioheqnecuggftrfgrthhtvghrnheptdejffefieefffegtefgueehgeehgfdviefhjeegleetgefhfeejfeeuuefhgeeinecuffhomhgrihhnpeguohgtkhgvrhdrihhopdhpohgumhgrnhdrihhonecukfhppedujeeirddukeekrddujeegrddugedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepudejiedrudekkedrudejgedrudeguddphhgvlhhopegludelvddrudeikedrudelkedrieegngdpmhgrihhlfhhrohhmpehgthhutghkvghrsehgthhutghkvghrrdhiohdpqhhiugepteefkefhleegfedtveevpdhmohguvgepshhmthhpohhuthdpnhgspghrtghpthhtohepuddupdhrtghpthhtohepnhgrthhhrghnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehojhgvuggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegurghvihgughhofiesghhoohhglhgvrdgtohhmpdhrtghpthhtohepfihorhhksehonhhurhhoi
+ ihkrghnrdguvghvpdhrtghpthhtoheprghrnhgusegrrhhnuggsrdguvgdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-GND-State: clean
+X-GND-Score: -100
 
-Hi Jon,
+On 20/01/2026 7:35 pm, Nathan Chancellor wrote:
+> On Tue, Jan 20, 2026 at 02:53:33PM +0100, Nicolas Schier wrote:
+>> I probably have just read it over: I have to prefix the
+>> 'tuxmake/korg-clang' by 'docker.io/'.  Is that a problem of my system
+>> configuration (Debian forky, no special podman config)?
+> 
+> Some distributions ship registries.conf [1] to allow unqualified image
+> names but I do not think Debian does. Personally, I use the full name
+> regardless but it should be easy to create it for commands such as these
+> to work. I use:
+> 
+> unqualified-search-registries = ['docker.io', 'ghcr.io', 'quay.io']
+> 
+> [1]: https://podman.io/docs/installation#registriesconf
 
-On Tue, 20 Jan 2026 15:56:48 -0700
-Jonathan Corbet <corbet@lwn.net> wrote:
+And this is not directly related to the scripts/container tool as it
+just passes the image name as-is.  Maybe the example in the docs
+should explicitly use docker.io/ though.
 
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+>> I tested a tiny bit with podman as runtime backend.  If I leave out the
+>> '-r podman' podman's docker emulation is in effect and fails with:
+>>
+>>      $ scripts/container -i docker.io/tuxmake/korg-clang -- make LLVM=1 -j8 olddefconfig
+>>      Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+>>      mkdir: cannot create directory '.tmp_15': Permission denied
+>>      mkdir: cannot create directory '.tmp_19': Permission denied
+>>      mkdir: cannot create directory '.tmp_22': Permission denied
+>>      mkdir: cannot create directory '.tmp_25': Permission denied
+>>      mkdir: cannot create directory '.tmp_28': Permission denied
+>>      mkdir: cannot create directory '.tmp_31': Permission denied
+>>        HOSTCC  scripts/basic/fixdep
+>>      error: error opening 'scripts/basic/.fixdep.d': Permission denied
+>>      1 error generated.
+>>      make[2]: *** [scripts/Makefile.host:114: scripts/basic/fixdep] Error 1
+>>      make[1]: *** [/src/Makefile:655: scripts_basic] Error 2
+>>      make: *** [Makefile:248: __sub-make] Error 2
+>>      [exit code 2]
+>>
+>> But with '-r podman' it works like a charm.
+>>
+>> Would it make sense to switch the default runtime to podman to
+>> prevent non-functional podman-docker emulation?  (Or is this just a
+>> problem on my machine?)
 > 
-> > Hi Jon,
-> >
-> > After a restful weekend and revisiting both yours and my series,
-> > I'm opting to send a patch series merging both into one:
-> >
-> > - The first 4 patches are from my series (no changes since v5):
-> >     https://lore.kernel.org/linux-doc/cover.1768642102.git.mchehab+huawei@kernel.org/T/#m81211c0ff38bbaa82b8b0b6606f242ccc0c2a9ac
-> >
-> > - It follows by the 2 patches from your renaming series:
-> >     https://lore.kernel.org/linux-doc/20260119111745.4694546b@foz.lan/T/#m51099c31a99dccccdb4d17cbaadc818e9e4df8c4
-> >
-> >   with the fix I proposed for kernel-doc to find its libraries
-> >
-> > I added 3 patches afterwards:
-> >
-> >   - patch 5: move possible return values from docstring to helper message;
-> >   - patch 6: improve MsgFormatter description;
-> >   - patch 7: moves kerneldoc_bin from conf.py to the sphinx/kerneldoc.py
-> >     (this is now just a debugging message - no need to pick it from env)
-> >
-> > IMO, this series is ready to be merged.  
+> Yeah, I think it would be better to prefer podman over docker if both
+> existed on the system. Something like this should do that?
 > 
-> Patch 7 adds a new warning:
-> 
->   WARNING: unknown config value 'kerneldoc_bin' in override, ignoring
-> 
-> It needs to be taken out of sphinx-build-wrapper; I've appended the
-> following patch to the series to deal with it. 
+> diff --git a/scripts/container b/scripts/container
+> index dbe92630f05b..50c4ae851001 100755
+> --- a/scripts/container
+> +++ b/scripts/container
+> @@ -105,7 +105,7 @@ class PodmanRuntime(CommonRuntime):
+>   class Runtimes:
+>       """List of all supported runtimes"""
+>   
+> -    runtimes = [DockerRuntime, PodmanRuntime]
+> +    runtimes = [PodmanRuntime, DockerRuntime]
+>   
+>       @classmethod
+>       def get_names(cls):
 
-True, thanks for checking it!
+Yes this should do the trick, although the help message and docs
+would need to be updated too.
 
-> I think I'll go ahead
-> and tack on a patch putting in the scripts/kernel-doc symlink, then I
-> guess it's ready to go.
+A better way still would be to make it able to distinguish between
+actual Docker and docker-compatible Podman (e.g. if it's just a
+symlink) so it's not just down to luck.  This may be added to the
+list of potential improvements.
 
-Go ahead. Yeah, I think that, with such changes, this series is
-ready to go.
-> 
-> Thanks,
-> 
-> jon
-> 
-> From 4a3efd128f7da996b677151790d043ec44a00561 Mon Sep 17 00:00:00 2001
-> From: Jonathan Corbet <corbet@lwn.net>
-> Date: Tue, 20 Jan 2026 15:50:38 -0700
-> Subject: [PATCH] docs: sphinx-build-wrapper: stop setting kerneldoc_bin for
->  Sphinx
-> 
-> Now that the Sphinx build does not use the kerneldoc_bin configuration
-> variable, we shouldn't try to set it in the build wrapper or we get a nifty
-> warning:
-> 
->   WARNING: unknown config value 'kerneldoc_bin' in override, ignoring
-> 
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+Feel free to make these tweaks now, or we might wait a bit to see if
+others have more feedback with further changes and I can send a v4.
 
-Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-> ---
->  tools/docs/sphinx-build-wrapper | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
-> index cb2a5005e633..9f1ae1485f84 100755
-> --- a/tools/docs/sphinx-build-wrapper
-> +++ b/tools/docs/sphinx-build-wrapper
-> @@ -750,7 +750,6 @@ class SphinxBuilder:
->  
->              build_args = args + [
->                  "-d", doctree_dir,
-> -                "-D", f"kerneldoc_bin={kerneldoc}",
->                  "-D", f"version={self.kernelversion}",
->                  "-D", f"release={self.kernelrelease}",
->                  "-D", f"kerneldoc_srctree={self.srctree}",
-
-Thanks,
-Mauro
+Cheers,
+Guillaume
