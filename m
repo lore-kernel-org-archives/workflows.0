@@ -1,84 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D48E38FF0F;
-	Thu, 22 Jan 2026 04:55:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4BA737FF5F;
+	Thu, 22 Jan 2026 10:13:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769057739; cv=none; b=ZRNQAIMTmikWaNLG9VoU1NgeeioQZFUuzzLwd6t0KYlgrAk1aU0GCWuYSk/o0sjXUt9/rSVrJkv9qlZrEYWa0ifgtPwVUGwpFt0G38ULQjPe57URXspXzPdLemmK94myUrgOz6pPNg8hUosgzAn+SMOfdDAltJIEm89xyfVkYJA=
+	t=1769076827; cv=none; b=ISIlj4pYnk2xAzo3OxNcFUaX5aBQLuFhNZTbZWHCjvHSItpzhgUrtovkvtmRCmBXhADH7zmVgfdYJsd8jvNnAQWyMMdkP+co9lR6tvo5YKspq7njlgByeV3auFVuF/FQ/+iQORwe+536x4Rld2JODJdpHfO23/klOcSxTo9EVZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769057739; c=relaxed/simple;
-	bh=etPNqlh5MLSoKDLwcVjRqAXYlotDUbS97RdxMKgymYU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PxrCP2ba1T5hdz1w1Qv8FyA+FQIegQPHH0aWA4YJSybGAnB0P/Djfpq6IUT4LaSGhuP/vNLjmkpd/OhwcJi+L1On9tlVdxpDoKtVaNB+QTsiJFmmYIJrLLPA3tGHt+ZjkOdnjaggJp5cIRVmWjmNarZhrZpSyVAHBY0NlqG+VtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DjxCu4pJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769076827; c=relaxed/simple;
+	bh=DIdgKvbsE+stQowC8PbWkHC7BKt42IMjS2ZVC6qoNWc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:Cc:
+	 In-Reply-To:Content-Type; b=hAIUtxogWti4AzHqTdby6lvE+M7b6J7a6xq7Ozz2pqg8A2P5We/gnQLFtmbh9Yj5zGcQvPY/5dvJbLGA36BIoKYtvvUGhjRAjBmO2WQ+/LGz/w7zZmtMzia7gniv7OiItYIrUPVFha6mZZ3bjxQy+oX2hGglrfGG7JraSo+HUUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=Zc53HrB4; arc=none smtp.client-ip=217.70.183.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DjxCu4pJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC6FCC116C6;
-	Thu, 22 Jan 2026 04:55:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769057739;
-	bh=etPNqlh5MLSoKDLwcVjRqAXYlotDUbS97RdxMKgymYU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DjxCu4pJINmMaqmaFFAzUETZoCqYFTIMVwdITg3Q/pl/Y2KSqGwob3K2LCfHzKB4n
-	 q738vSgP9Fxpbl4mJHwv3f3MilIJ5LovX5VWDF8lKsLkf62Wj6jAypmvD6LvpcdUoU
-	 qFJCXDAKiLLicOpxIAUzB9yoDy6WxwKzPsP/VbI743fgCppjsubTyeIFOHBTQmxUPv
-	 xNpdOjgL1N34kUlT74V90VmEdzNdaWLF2ohw55k63R+4Zun8vyGfYRDmz4cLMXPgl8
-	 VE25i653hu+7w9hyxIQwgrGNWm12DfmOyk13QB1Y6UZZz9HM2B5TsQoPT0fVafY3v3
-	 Zsclxs51p78NA==
-Date: Wed, 21 Jan 2026 21:55:34 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Guillaume Tucker <gtucker@gtucker.io>
-Cc: Miguel Ojeda <ojeda@kernel.org>, David Gow <davidgow@google.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	automated-testing@lists.yoctoproject.org, workflows@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH v3 2/2] Documentation: dev-tools: add container.rst page
-Message-ID: <20260122045534.GA3770486@ax162>
-References: <cover.1767199119.git.gtucker@gtucker.io>
- <c859f9b6dd5313136f7a445497d6209405eafa7e.1767199119.git.gtucker@gtucker.io>
- <aW-I3fNqp_7X0oeg@derry.ads.avm.de>
- <20260120183550.GD2749368@ax162>
- <e96a6e71-80b3-4556-a4eb-fd242e0f5713@gtucker.io>
+	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="Zc53HrB4"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 27FCE41DDC;
+	Thu, 22 Jan 2026 10:13:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
+	t=1769076823;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FQ1ccnpNqTzAnpIZMwC9x+2AHxI7DYmZi4jFycjHTtQ=;
+	b=Zc53HrB4ErkhxH6BDTLA7t2jNiAoXcZNexCBEzW08h+0JI8PGlqxiHyaALqIKbhLuApQKP
+	8Y1QO3t20/DY+3snt+9b3/vUSvaJq19+96JN3j3qH2LJ7JJh3+5ZQ0kO28zO2dYjSRZDCo
+	a//ZC24JGsbeTfQTWm7WKNb9+YdWuELHyM81n/vMoeeTS5XcOKM9vlLsjDlItd1p7Pl6r7
+	bRNgpbuinN5T6B/rCFD/ZFLIEH5AvMoMchBzrtS37N/zJhLq+kGbr1L77Y+rLBESvurAub
+	PS2Flcg1S+RSrabuBrjg5pTGUlNVQbFjSBqg2LQZ/n0Y469HcRvvPGqXYxnlYQ==
+Message-ID: <61379dc4-2031-4f94-9709-dd5608cdb780@gtucker.io>
+Date: Thu, 22 Jan 2026 11:13:39 +0100
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e96a6e71-80b3-4556-a4eb-fd242e0f5713@gtucker.io>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] Documentation: dev-tools: add container.rst page
+To: Nicolas Schier <nsc@kernel.org>
+References: <cover.1767199119.git.gtucker@gtucker.io>
+ <c859f9b6dd5313136f7a445497d6209405eafa7e.1767199119.git.gtucker@gtucker.io>
+ <aW-I3fNqp_7X0oeg@derry.ads.avm.de>
+Content-Language: en-US
+From: Guillaume Tucker <gtucker@gtucker.io>
+Cc: Nathan Chancellor <nathan@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ David Gow <davidgow@google.com>, =?UTF-8?Q?Onur_=C3=96zkan?=
+ <work@onurozkan.dev>, Arnd Bergmann <arnd@arndb.de>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, automated-testing@lists.yoctoproject.org,
+ workflows@vger.kernel.org, llvm@lists.linux.dev
+In-Reply-To: <aW-I3fNqp_7X0oeg@derry.ads.avm.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: gtucker@gtucker.io
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddugeehkeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfevjggtgfesthejredttddvjeenucfhrhhomhepifhuihhllhgruhhmvgcuvfhutghkvghruceoghhtuhgtkhgvrhesghhtuhgtkhgvrhdrihhoqeenucggtffrrghtthgvrhhnpeelgfehueeugfegudfgveehveegtddvgefggeevvdeutdeghffhfffhtdeklefhieenucffohhmrghinhepughotghkvghrrdhiohenucfkphepudejiedrudeikedrudeguddruddvudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedujeeirdduieekrddugedurdduvddupdhhvghloheplgduledvrdduieekrdduleekrdeigegnpdhmrghilhhfrhhomhepghhtuhgtkhgvrhesghhtuhgtkhgvrhdrihhopdhqihgupedvjefhvefggeduffffvedpmhhouggvpehsmhhtphhouhhtpdhnsggprhgtphhtthhopeduvddprhgtphhtthhopehnshgtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehnrghthhgrnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepohhjvggurgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggrvhhiughgohifsehgohhoghhlvgdrtghomhdprhgtphhtt
+ hhopeifohhrkhesohhnuhhrohiikhgrnhdruggvvhdprhgtphhtthhopegrrhhnugesrghrnhgusgdruggv
+X-GND-State: clean
 
-On Wed, Jan 21, 2026 at 10:55:53AM +0100, Guillaume Tucker wrote:
-> Feel free to make these tweaks now, or we might wait a bit to see if
-> others have more feedback with further changes and I can send a v4.
+Hi Nicolas,
 
-How about this? Send a v4 with:
+On 20/01/2026 2:53 pm, Nicolas Schier wrote:
+>> +User IDs
+>> +========
+>> +
+>> +This is an area where the behaviour will vary slightly depending on the
+>> +container runtime.  The goal is to run commands as the user invoking the tool.
+>> +With Podman, a namespace is created to map the current user id to a different
+>> +one in the container (1000 by default).  With Docker, while this is also
+>> +possible with recent versions it requires a special feature to be enabled in
+>> +the daemon so it's not used here for simplicity.  Instead, the container is run
+>> +with the current user id directly.  In both cases, this will provide the same
+>> +file permissions for the kernel source tree mounted as a volume.  The only
+>> +difference is that when using Docker without a namespace, the user id may not
+>> +be the same as the default one set in the image.
+>> +
+>> +Say, we're using an image which sets up a default user with id 1000 and the
+>> +current user calling the ``container`` tool has id 1234.  The kernel source
+>> +tree was checked out by this same user so the files belong to user 1234.  With
+>> +Podman, the container will be running as user id 1000 with a mapping to id 1234
+>> +so that the files from the mounted volume appear to belong to id 1000 inside
+>> +the container.  With Docker and no namespace, the container will be running
+>> +with user id 1234 which can access the files in the volume but not in the user
+>> +1000 home directory.  This shouldn't be an issue when running commands only in
+>> +the kernel tree but it is worth highlighting here as it might matter for
+>> +special corner cases.
+> I tested a tiny bit with podman as runtime backend.  If I leave out the
+> '-r podman' podman's docker emulation is in effect and fails with:
+> 
+>      $ scripts/container -i docker.io/tuxmake/korg-clang -- make LLVM=1 -j8 olddefconfig
+>      Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+>      mkdir: cannot create directory '.tmp_15': Permission denied
+>      mkdir: cannot create directory '.tmp_19': Permission denied
+>      mkdir: cannot create directory '.tmp_22': Permission denied
+>      mkdir: cannot create directory '.tmp_25': Permission denied
+>      mkdir: cannot create directory '.tmp_28': Permission denied
+>      mkdir: cannot create directory '.tmp_31': Permission denied
+>        HOSTCC  scripts/basic/fixdep
+>      error: error opening 'scripts/basic/.fixdep.d': Permission denied
+>      1 error generated.
+>      make[2]: *** [scripts/Makefile.host:114: scripts/basic/fixdep] Error 1
+>      make[1]: *** [/src/Makefile:655: scripts_basic] Error 2
+>      make: *** [Makefile:248: __sub-make] Error 2
+>      [exit code 2]
+> 
+> But with '-r podman' it works like a charm.
+> 
+> Would it make sense to switch the default runtime to podman to
+> prevent non-functional podman-docker emulation?  (Or is this just a
+> problem on my machine?)
 
-1. An initial MAINTAINERS entry addition in patch 1 for
-   scripts/container like I suggested earlier and scripts/container
-   explicitly added to the KERNEL BUILD section so that Nicolas and I
-   are included for handling patches.
+Yes, I just had a quick look as I'm not familiar with the setup to
+run Docker commands on top of the Podman backend.  So I'll swap the
+order like Nathan suggested so that Podman takes priority over Docker
+and add a note to the docs.  It's on the list of improvements and
+I'll work on a proper fix once the initial version of the tool has
+landed, assuming this is not a blocking issue.
 
-2. Add the Documentation to the aforementioned MAINTAINERS entry as part
-   of patch 2.
-
-3. Either encorporate my suggested change for preferring podman over
-   docker with the appropriate changes elsewhere inte the patch set like
-   you mentioned or explore checking for the docker alias explicitly.
-   Entirely up to you timewise, as long as it results in Nicolas's
-   environment working, since I don't think that will be too uncommon.
-
-4. Encorporate any other feedback that you feel is appropriate at this
-   stage (if there is any low hanging fruit).
-
-Then we can apply it so that folks can start using it in -next for
-testing and validation. After that, you can start thinking of things you
-would want to work on for future merge windows from the list you already
-started, as I know how that goes when working on a new tool :)
+Thanks for trying it out and reporting this use case.
 
 Cheers,
-Nathan
+Guillaume
+
