@@ -1,98 +1,84 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3509F3A7F46;
-	Wed, 21 Jan 2026 10:14:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D48E38FF0F;
+	Thu, 22 Jan 2026 04:55:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768990447; cv=none; b=j4kcb7eQj8VW2PYbqBL1OdFKrdFJuTBjzzzl11oc64+DX1urm09mROAu5pZxtomGZKLuIhNlBV7q0mtysHcnAKTf/H84BTQ08uj0l9FfTYFHCVxRXGC3dLK6IY096Pxv4Sx3X4ia7cqgL/Hq0hW0d6Zb/QvrLQIDzng1bYR3tzo=
+	t=1769057739; cv=none; b=ZRNQAIMTmikWaNLG9VoU1NgeeioQZFUuzzLwd6t0KYlgrAk1aU0GCWuYSk/o0sjXUt9/rSVrJkv9qlZrEYWa0ifgtPwVUGwpFt0G38ULQjPe57URXspXzPdLemmK94myUrgOz6pPNg8hUosgzAn+SMOfdDAltJIEm89xyfVkYJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768990447; c=relaxed/simple;
-	bh=pwh6f5VzaTK/a8Hxv/pzd+4XEZHCMvMiYB2JKPP4yXc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:Cc:
-	 In-Reply-To:Content-Type; b=ueWsUXw6pc0gDwi4jAnvzidKx36foy2Ck/NMJ/os19EH0PrD04tkiQotFFqSADE/9sHyq2gA72dqaAwk5cQ40cVffUPBZYExk6/+G4g576NbjuNSXaujX8V/fRhVVuJyex7JLAfe/LZwGL+XlUQZiS8E7Oieplbdy9LTsGbPR8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=jI/xZ/wz; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
+	s=arc-20240116; t=1769057739; c=relaxed/simple;
+	bh=etPNqlh5MLSoKDLwcVjRqAXYlotDUbS97RdxMKgymYU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PxrCP2ba1T5hdz1w1Qv8FyA+FQIegQPHH0aWA4YJSybGAnB0P/Djfpq6IUT4LaSGhuP/vNLjmkpd/OhwcJi+L1On9tlVdxpDoKtVaNB+QTsiJFmmYIJrLLPA3tGHt+ZjkOdnjaggJp5cIRVmWjmNarZhrZpSyVAHBY0NlqG+VtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DjxCu4pJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="jI/xZ/wz"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 10C09433D3;
-	Wed, 21 Jan 2026 10:13:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
-	t=1768990437;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XSdVek+3nur9iWZzpy6Ip/w5pyhwEVGS8pZ2EUOfZJk=;
-	b=jI/xZ/wzkd3D4gjdSbPX12TmGCEtrWikuLQ0bTDQhy5VWAYUlBL6wXTrwhpApdq6IS17hq
-	UfVnLkazYlCeNB6G0/yh9sVKu54HVlxP8zOzl7Tzp8MfTrpuLzl7F8OEU/SFZWZSPnQr17
-	6kxfZkFC2IXJdpNxSsgrv78aBWlhftU1hvim/PAMofKdTtFTSrOjwU9PTuB1+Go8hJKQDD
-	Z7cHpPKn1qHt9B0V8mADlFgrE1omJ8daq8z/+XTW+Ygj19dIZjlOJrNADIkL9NB8kO2yWq
-	ILAuFthHqtElzNuNibFLaw9wPMhc2fAU2JhsUb4aCKbKNEUUSlOIhYNeoUauUQ==
-Message-ID: <d4020305-fc95-446f-b73c-5f0be68529c9@gtucker.io>
-Date: Wed, 21 Jan 2026 11:13:54 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DjxCu4pJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC6FCC116C6;
+	Thu, 22 Jan 2026 04:55:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769057739;
+	bh=etPNqlh5MLSoKDLwcVjRqAXYlotDUbS97RdxMKgymYU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DjxCu4pJINmMaqmaFFAzUETZoCqYFTIMVwdITg3Q/pl/Y2KSqGwob3K2LCfHzKB4n
+	 q738vSgP9Fxpbl4mJHwv3f3MilIJ5LovX5VWDF8lKsLkf62Wj6jAypmvD6LvpcdUoU
+	 qFJCXDAKiLLicOpxIAUzB9yoDy6WxwKzPsP/VbI743fgCppjsubTyeIFOHBTQmxUPv
+	 xNpdOjgL1N34kUlT74V90VmEdzNdaWLF2ohw55k63R+4Zun8vyGfYRDmz4cLMXPgl8
+	 VE25i653hu+7w9hyxIQwgrGNWm12DfmOyk13QB1Y6UZZz9HM2B5TsQoPT0fVafY3v3
+	 Zsclxs51p78NA==
+Date: Wed, 21 Jan 2026 21:55:34 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Guillaume Tucker <gtucker@gtucker.io>
+Cc: Miguel Ojeda <ojeda@kernel.org>, David Gow <davidgow@google.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	automated-testing@lists.yoctoproject.org, workflows@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH v3 2/2] Documentation: dev-tools: add container.rst page
+Message-ID: <20260122045534.GA3770486@ax162>
+References: <cover.1767199119.git.gtucker@gtucker.io>
+ <c859f9b6dd5313136f7a445497d6209405eafa7e.1767199119.git.gtucker@gtucker.io>
+ <aW-I3fNqp_7X0oeg@derry.ads.avm.de>
+ <20260120183550.GD2749368@ax162>
+ <e96a6e71-80b3-4556-a4eb-fd242e0f5713@gtucker.io>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/2] scripts: introduce containerized builds
-To: Nathan Chancellor <nathan@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- David Gow <davidgow@google.com>, =?UTF-8?Q?Onur_=C3=96zkan?=
- <work@onurozkan.dev>, Nicolas Schier <nsc@kernel.org>
-References: <cover.1767199119.git.gtucker@gtucker.io>
- <aW-JJ5DT-LRSZkdF@derry.ads.avm.de>
-Content-Language: en-US
-From: Guillaume Tucker <gtucker@gtucker.io>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
- automated-testing@lists.yoctoproject.org, workflows@vger.kernel.org,
- llvm@lists.linux.dev
-In-Reply-To: <aW-JJ5DT-LRSZkdF@derry.ads.avm.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: gtucker@gtucker.io
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddugeeftdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfevjggtgfesthejredttddvjeenucfhrhhomhepifhuihhllhgruhhmvgcuvfhutghkvghruceoghhtuhgtkhgvrhesghhtuhgtkhgvrhdrihhoqeenucggtffrrghtthgvrhhnpefhleeiueelhedtveefheegiedvheevieetvddtgedvjeeljeegffehfeehveevleenucfkphepudejiedrudekkedrudejgedrudegudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedujeeirddukeekrddujeegrddugedupdhhvghloheplgduledvrdduieekrdduleekrdeigegnpdhmrghilhhfrhhomhepghhtuhgtkhgvrhesghhtuhgtkhgvrhdrihhopdhqihgupedutdevtdelgeeffefffedpmhhouggvpehsmhhtphhouhhtpdhnsggprhgtphhtthhopeduvddprhgtphhtthhopehnrghthhgrnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepohhjvggurgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggrvhhiughgohifsehgohhoghhlvgdrtghomhdprhgtphhtthhopeifohhrkhesohhnuhhrohiikhgrnhdruggvvhdprhgtphhtthhopehnshgtsehkvghrnhgvlhdro
- hhrghdprhgtphhtthhopegrrhhnugesrghrnhgusgdruggv
-X-GND-State: clean
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e96a6e71-80b3-4556-a4eb-fd242e0f5713@gtucker.io>
 
-Hi Nicolas,
+On Wed, Jan 21, 2026 at 10:55:53AM +0100, Guillaume Tucker wrote:
+> Feel free to make these tweaks now, or we might wait a bit to see if
+> others have more feedback with further changes and I can send a v4.
 
-On 20/01/2026 2:54 pm, Nicolas Schier wrote:
-> Out-of-source builds do not work on my system with podman.  If this is
-> expected, I think it would be great to mention that somewhere in the
-> documentation.
+How about this? Send a v4 with:
 
-Yes, as discussed with Nathan.  So here's the list of potential
-improvements gathered so far:
+1. An initial MAINTAINERS entry addition in patch 1 for
+   scripts/container like I suggested earlier and scripts/container
+   explicitly added to the KERNEL BUILD section so that Nicolas and I
+   are included for handling patches.
 
-* automatically pick Podman first, Docker second
-* explicitly mention docker.io registry in examples
-* mention TuxMake available images more explicitly in the docs
-* mention that out-of-tree builds aren't supported yet
-* distinguish true Docker from Docker-compatible Podman
-* add support for out-of-tree output build directory
-* add option for mounting source tree from arbitrary path
-   (needed for nested containers e.g. Docker-in-Docker)
-* detect when Docker has namespace support enabled and document
-* add user config file with default images and runtime etc.
+2. Add the Documentation to the aforementioned MAINTAINERS entry as part
+   of patch 2.
 
-Then beyond that we could consider other container runtimes such as
-containerd, lxc, runc or whatever works in practice.
+3. Either encorporate my suggested change for preferring podman over
+   docker with the appropriate changes elsewhere inte the patch set like
+   you mentioned or explore checking for the docker alias explicitly.
+   Entirely up to you timewise, as long as it results in Nicolas's
+   environment working, since I don't think that will be too uncommon.
 
-> Nevertheless, thanks a lot!  I expect me to use that a lot in the
-> future!
-> 
-> For the whole patch set:
-> Tested-by: Nicolas Schier<nsc@kernel.org>
-> Acked-by: Nicolas Schier<nsc@kernel.org>
+4. Encorporate any other feedback that you feel is appropriate at this
+   stage (if there is any low hanging fruit).
 
-Thank you!  Let's hope others will find it useful too.
+Then we can apply it so that folks can start using it in -next for
+testing and validation. After that, you can start thinking of things you
+would want to work on for future merge windows from the list you already
+started, as I know how that goes when working on a new tool :)
 
 Cheers,
-Guillaume
-
+Nathan
