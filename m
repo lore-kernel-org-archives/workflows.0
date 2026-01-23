@@ -1,90 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from forward201d.mail.yandex.net (forward201d.mail.yandex.net [178.154.239.220])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7833535CBCD;
-	Thu, 22 Jan 2026 19:59:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A8A361676;
+	Fri, 23 Jan 2026 07:15:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.220
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769111948; cv=none; b=N1TzjlBF3xPi14+S9YuVE4RCjwkq6Ij4On6udcIch2KY086Sh5r9SZVvF26xdVMT5p4kVnVOEI9SLe0QgiGRH0hASsv09iC7Xcf56S/Y1BthqyvRERDTX2utRVjTUYxqEYk4zYezS92lzwDHhumQoM3m66zDzU5ZO764dY0JnxI=
+	t=1769152558; cv=none; b=l5zVO2IsZXQxVWsnrO2lDrISYR9FgjYSOFpvUnNyl1Ql23t8KRgzf0JMTvpIXxpnMLuFrJBthoSvQn5b+ewRgjhsUX5r8xeC20BCj+f9TrAKfxOB59k17WO0qa5laGDxhYxx3uI8upjLpy+3y0nhVI62TMWQnhdfzLUr2uW2HYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769111948; c=relaxed/simple;
-	bh=L3yAFFCMEDFluDFnsvrLzuilg9f4Ft1ohPrL6t/krlM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hV65zlwns+WexmZsVpXuegD/Bhp9T8N4ItMKKCchCTfSmEFa7P9x7k8HpVMNmnFCBmSxPHmKAtEi2yIbgOQer5RIIoMizNHUMIfqsPc9ExhFrKQKmDhfOyFN3rmvbWzzSj7eeP+q/YcIPCi609ZSSl+mz5Uq1R4cZwSQzGcLzeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lbdS9FZ+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769152558; c=relaxed/simple;
+	bh=yruQGztw+Uk6JOJzabUK/CM+m6G/Vo7AI/dzJIww/4g=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=sA8/YNiCmmdSPrscnkW0Ti6lRWou+ZIdQWnb19DaZcvAi7xh9WzDNO1r7zk/tDYqbelCIPA5TaaO8A9V8wAKY17YaMrsei7VthT5mYAjQT9GAas9EpUY4mKMaGsIc1wI1XlfR4w/P/e/SskgBFDLmIb+Ao2Ai8AvNy242D7MLI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=nQEfy+PC; arc=none smtp.client-ip=178.154.239.220
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lbdS9FZ+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2E03C116D0;
-	Thu, 22 Jan 2026 19:59:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769111948;
-	bh=L3yAFFCMEDFluDFnsvrLzuilg9f4Ft1ohPrL6t/krlM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lbdS9FZ+JqtZCbzkj8qXV0rZCnDPslDRoWvAxauwv8RMES3Hv1cQJITpkMErUCP8a
-	 sp3mD9G0ION5+bWKJAqUALZeOUBDGFJa8H1KN9Ay4eKpEUYch9pi6r93aSdMlOMecP
-	 t9YKcMkenHU1WooMNHxnbQhPrg5cs3kM89aEzVFFNICp4cMTUjVph8cp/dCBZRfvbT
-	 QWHYJP32lGBHk/aMh2tUTXwr9jgTnnM6ZBQWNn8kRq6YXgSW2M2gIf/OvVaVrn+HlJ
-	 YdVYyqAZx9Id9dz1xChx7T7L+gYP+OWFkFowGZj+l4gi06WpotoFDNzM4bfuzKVSU3
-	 n+JMkThblqYBA==
-Date: Thu, 22 Jan 2026 20:57:39 +0100
-From: Nicolas Schier <nsc@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Guillaume Tucker <gtucker@gtucker.io>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Miguel Ojeda <ojeda@kernel.org>, David Gow <davidgow@google.com>,
-	Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	automated-testing@lists.yoctoproject.org, workflows@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH v4 1/2] scripts: add tool to run containerized builds
-Message-ID: <aXKBM9mmf3VPUgyO@levanger>
-Mail-Followup-To: Nathan Chancellor <nathan@kernel.org>,
-	Guillaume Tucker <gtucker@gtucker.io>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Miguel Ojeda <ojeda@kernel.org>, David Gow <davidgow@google.com>,
-	Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	automated-testing@lists.yoctoproject.org, workflows@vger.kernel.org,
-	llvm@lists.linux.dev
-References: <cover.1769090419.git.gtucker@gtucker.io>
- <9b8da20157e409e8fa3134d2101678779e157256.1769090419.git.gtucker@gtucker.io>
- <20260122172928.1d922490@nimda>
- <611ce02f-2b48-4338-b37f-1df39e02da03@gtucker.io>
- <20260122184939.GA3461196@ax162>
+	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="nQEfy+PC"
+Received: from forward103d.mail.yandex.net (forward103d.mail.yandex.net [IPv6:2a02:6b8:c41:1300:1:45:d181:d103])
+	by forward201d.mail.yandex.net (Yandex) with ESMTPS id B95C681A5B;
+	Fri, 23 Jan 2026 10:15:42 +0300 (MSK)
+Received: from mail-nwsmtp-smtp-production-main-59.iva.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-59.iva.yp-c.yandex.net [IPv6:2a02:6b8:c0c:489d:0:640:baa6:0])
+	by forward103d.mail.yandex.net (Yandex) with ESMTPS id DFBA8C46DF;
+	Fri, 23 Jan 2026 10:15:34 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-59.iva.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id XFXe9q6GKKo0-k9H1c3RR;
+	Fri, 23 Jan 2026 10:15:34 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
+	t=1769152534; bh=BYpLKvEhaHW+MgE8qDE7QPga6s3IKhwvOyWulm+8daw=;
+	h=Message-ID:Date:In-Reply-To:Cc:Subject:References:To:From;
+	b=nQEfy+PCfK13izzMIoECt5UAw8qkghhoWZ3+3g+hpb17IZYi/MAv9BmXL+KqEuieP
+	 V6T/oXJiykZOJyxbK66iOGhfFM1TjhRFJcG2k28zfcqn4bnZfNBrJ4GTbbLOeQ9OYd
+	 gFgZBFT5Ca2OVHEej/qYqVe9Env9xEncuACr4ldA=
+Authentication-Results: mail-nwsmtp-smtp-production-main-59.iva.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
+From: Dmitry Antipov <dmantipov@yandex.ru>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>
+Cc: workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Dmitry Antipov <dmantipov@yandex.ru>
+Subject: [PATCH v2] doc: development-process: add notice on testing
+Date: Fri, 23 Jan 2026 10:15:23 +0300
+Message-ID: <20260123071523.1392729-1-dmantipov@yandex.ru>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <658caf3b-aeb6-49c7-9e5a-1eab175dd1b3@infradead.org>
+References: <658caf3b-aeb6-49c7-9e5a-1eab175dd1b3@infradead.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260122184939.GA3461196@ax162>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 22, 2026 at 11:49:39AM -0700, Nathan Chancellor wrote:
-> On Thu, Jan 22, 2026 at 03:59:54PM +0100, Guillaume Tucker wrote:
-> > --- a/scripts/container
-> > +++ b/scripts/container
-> > @@ -120,7 +120,7 @@ class Runtimes:
-> >                  if not runtime.is_present():
-> >                      raise ValueError(f"runtime not found: {name}")
-> >                  return runtime
-> > -        raise ValueError(f"unknown runtime: {runtime}")
-> > +        raise ValueError(f"unknown runtime: {name}")
-> >  
-> >      @classmethod
-> >      def find(cls):
-> > 
-> > 
-> > Nathan, would you be OK with folding this in or should I send a v5?
-> 
-> I can fold that in, thanks.
-> 
-> I will carry forward Nicolas's ack and testing tags from v3, as this
-> revision is not substantially different from what he looked at and
-> tested.
+Add testing notice to "Before creating patches" section.
 
-thanks!
+Suggested-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+Signed-off-by: Dmitry Antipov <dmantipov@yandex.ru>
+---
+v2: adjust spelling and wording according to Randy
+---
+ Documentation/process/5.Posting.rst | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Kind regards,
-Nicolas
+diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
+index 9999bcbdccc9..07d7dbed13ec 100644
+--- a/Documentation/process/5.Posting.rst
++++ b/Documentation/process/5.Posting.rst
+@@ -40,7 +40,12 @@ sending patches to the development community.  These include:
+  - Test the code to the extent that you can.  Make use of the kernel's
+    debugging tools, ensure that the kernel will build with all reasonable
+    combinations of configuration options, use cross-compilers to build for
+-   different architectures, etc.
++   different architectures, etc. Add tests, likely using an existing
++   testing framework like KUnit, and include them as a separate member
++   of your series (see the next section for more about patch series).
++   Note that this may be mandatory when affecting some subsystems. For
++   example, library functions (resides under lib/) are extensively used
++   almost everywhere and expected to be tested appropriately.
+ 
+  - Make sure your code is compliant with the kernel coding style
+    guidelines.
+-- 
+2.52.0
+
