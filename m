@@ -1,68 +1,89 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mail108.out.titan.email (mail108.out.titan.email [44.210.203.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 927463816F3;
-	Mon,  2 Feb 2026 17:02:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3842E0926;
+	Mon,  2 Feb 2026 19:38:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.210.203.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770051755; cv=none; b=aqpv0rJOqYo7/vdbjj8H2a3kcCG09eWu2P+cBw8kRzqTgeOK1am652rTjbejZpIQuh+rEIqkFJGcuaUzjkOa4BiJzxiEfR3CChK9nVdn6bvVkyBLWsTsuITDFzD3EoJDOqF3UXK+kJ11hLuOC0dAG8CtmrM6nwNKBzhx2kQ0DRc=
+	t=1770061099; cv=none; b=mfNKdo518b0dJg9ulCuqDrZcyqJQpcffXBgEVRm+CRd/wMWJG5+3+OUQuX5eRY3SnH6TQsaVoAJRz5BOaQrmGSANuK4aIL2JmKGXHoGwg9qQkWK0YcWsdoSDxmHkAZLAehgGIcXSsy+CZvc2dD8HVHiVmYDFxhdP7JT/yJJc5nw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770051755; c=relaxed/simple;
-	bh=fvrOZFPZpzE9NAAYfdPujLd/dDEkMiGlpqY4FGmguAE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=djPNsgUNgf7pt8wtDafjyn+c64ZwqnGFTejJVUupaI5MjEIk3NLiKLrOQvgJRkrAtWGv043rGrmWfESYz1xvQ0IuIkEUfJ6ItgBCZ4qwNJOyLpYPaKx0WhNAktUqsF0lM11bDL98+SwWB5xp8GNFwYXUUkn6JNEyAUCU2m/Ft4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=oLsXofkh; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1770061099; c=relaxed/simple;
+	bh=Dv8btka5I2NI46HYkt/rxP/24ZP9VYV8r6TXGBRX/V0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LUfD5zk4uIeiArQ3MzaV9a3woVlkygUalGUciCSi2MkWInw2SNm6UM/Ic3+gUd3/32ItJgLrLsseJX6eehq3681MMzjgJRy9bl9M1I7fIe+QDuxm2gtqbS/8D2jyzKaI4JdSl4yO/8rajWjrYWT3nPd/6hJqTMEFt5j15RwfF1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amidevlab.com; spf=pass smtp.mailfrom=amidevlab.com; dkim=pass (1024-bit key) header.d=amidevlab.com header.i=@amidevlab.com header.b=U87qYSX2; arc=none smtp.client-ip=44.210.203.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amidevlab.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amidevlab.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="oLsXofkh"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BF33440422
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1770051753; bh=8Wkko+hun6kWZIGoHnOSvREA9wsbHpb0frmHhZqoyc8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=oLsXofkhF+2OT3wwi03Pyn171gRhnCFn3zSGd15jCGMWgiqqJiKVznxxXXKAo2eKI
-	 KXBBWK+mFKoz1mt8JemsNY7veISW7CWcCZCOV1W1islWb3c66uvIFhTDjS5xHFLN/a
-	 jT76YtKvP2Spq68iYxvBG0pm5wbio/1HiHi/pOouZTAUGWWrGAeiym2nLYMVIc7Ov4
-	 H9og3ZxIIN8ZLBvpPb/x/6o5bUgR5uEtajDfNgd49g77dhGp4EQ8jeOdQcrzDhXrr7
-	 AgIO+fhT5B76lh3Kzzw3Kek9sO1t4o/GVnJny30E/HJeQkcK9pnrVaEKQAmlLaHIhq
-	 24qNMCqs23VvQ==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass (1024-bit key) header.d=amidevlab.com header.i=@amidevlab.com header.b="U87qYSX2"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp-out.flockmail.com (Postfix) with ESMTP id 4f4cNH5fxMz9s10;
+	Mon,  2 Feb 2026 19:38:07 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; bh=lXyXj2SWwx7lfYwC8SQkxeEFfRbUsY+ead7bOx9CJRA=;
+	c=relaxed/relaxed; d=amidevlab.com;
+	h=subject:cc:mime-version:from:to:date:message-id:from:to:cc:subject:date:message-id:in-reply-to:reply-to:references;
+	q=dns/txt; s=titan1; t=1770061087; v=1;
+	b=U87qYSX2KyAJ8Q3FUv8k5RYxspYnl8V8EAK9ZXZfKtDPHdiMMxjF0zH094zajvpE1nEN7q5/
+	vF3zya2WpZMEmF32DoMECJ04xbyFlBYSeDy1L1A14T2ChLi4IGUJ72oBUzFaUAw6fSeYwL0UVKJ
+	cOM967A4GVXqxG+o0aDdQ0KI=
+Received: from ub26dev (unknown [122.172.85.244])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id BF33440422;
-	Mon,  2 Feb 2026 17:02:33 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Dmitry Antipov <dmantipov@yandex.ru>, Andy Shevchenko
- <andriy.shevchenko@intel.com>, Randy Dunlap <rdunlap@infradead.org>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, Dmitry Antipov
- <dmantipov@yandex.ru>
-Subject: Re: [PATCH v2] doc: development-process: add notice on testing
-In-Reply-To: <20260123071523.1392729-1-dmantipov@yandex.ru>
-References: <658caf3b-aeb6-49c7-9e5a-1eab175dd1b3@infradead.org>
- <20260123071523.1392729-1-dmantipov@yandex.ru>
-Date: Mon, 02 Feb 2026 10:02:33 -0700
-Message-ID: <877bsvrsd2.fsf@trenco.lwn.net>
+	by smtp-out.flockmail.com (Postfix) with ESMTPSA id 4f4cNF0Pmnz9rxX;
+	Mon,  2 Feb 2026 19:38:04 +0000 (UTC)
+Feedback-ID: :amitabh@amidevlab.com:amidevlab.com:flockmailId
+From: Amitabh Srivastava <amitabh@amidevlab.com>
+To: corbet@lwn.net
+Cc: workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Amitabh Srivastava <amitabh@amidevlab.com>
+Subject: [PATCH] docs: maintainer-pgp-guide.rst: updated a kernel.org link
+Date: Tue,  3 Feb 2026 01:07:27 +0530
+Message-ID: <20260202193755.41863-1-amitabh@amidevlab.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-F-Verdict: SPFVALID
+X-Titan-Src-Out: 1770061087643327572.13754.897954706142706125@prod-use1-smtp-out1003.
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.4 cv=PI31+eqC c=1 sm=1 tr=0 ts=6980fd1f
+	a=txo+5pS2dMFdB056rU3bsA==:117 a=txo+5pS2dMFdB056rU3bsA==:17
+	a=VwQbUJbxAAAA:8 a=CEWIc4RMnpUA:10 a=4yxl8aT0AAAA:8
+	a=4KLjzbiQD8Z_VC4WIWgA:9 a=4a-YG245BeQA:10 a=oCAeEeOuyiZLRzIZmmpZ:22
 
-Dmitry Antipov <dmantipov@yandex.ru> writes:
+Signed-off-by: Amitabh Srivastava <amitabh@amidevlab.com>
 
-> Add testing notice to "Before creating patches" section.
->
-> Suggested-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-> Signed-off-by: Dmitry Antipov <dmantipov@yandex.ru>
-> ---
-> v2: adjust spelling and wording according to Randy
-> ---
->  Documentation/process/5.Posting.rst | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+docs: process: maintainer-pgp-guide.rst: updated the http link for
+'add the kernel.org UID to your key'. Added SPDX-License-Identifier
+to fix checkpatch.pl warning.
+---
+ Documentation/process/maintainer-pgp-guide.rst | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Applied, thanks.
+diff --git a/Documentation/process/maintainer-pgp-guide.rst b/Documentation/process/maintainer-pgp-guide.rst
+index b6919bf606c3..1e4d885dc784 100644
+--- a/Documentation/process/maintainer-pgp-guide.rst
++++ b/Documentation/process/maintainer-pgp-guide.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ .. _pgpguide:
+ 
+ ===========================
+@@ -864,7 +866,7 @@ don't already have them)::
+ If you have a kernel.org account, then you should `add the kernel.org
+ UID to your key`_ to make WKD more useful to other kernel developers.
+ 
+-.. _`add the kernel.org UID to your key`: https://korg.wiki.kernel.org/userdoc/mail#adding_a_kernelorg_uid_to_your_pgp_key
++.. _`add the kernel.org UID to your key`: https://korg.docs.kernel.org/mail.html#adding-a-kernel-org-uid-to-your-pgp-key
+ 
+ Web of Trust (WOT) vs. Trust on First Use (TOFU)
+ ------------------------------------------------
+-- 
+2.51.0
 
-jon
