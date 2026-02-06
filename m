@@ -1,70 +1,97 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mail61.out.titan.email (mail61.out.titan.email [44.210.205.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C644A248886;
-	Fri,  6 Feb 2026 16:04:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D64E928469F
+	for <workflows@vger.kernel.org>; Fri,  6 Feb 2026 20:59:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.210.205.39
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770393892; cv=none; b=N9ETmBk9HD+ONoiaVjwbRKthgBKJIVSeRTmdCBlNZS2vMbEYyd1w7jsrI0vY+LmApPQGCKUHQkOEEPCPS3p1d7pClmThShlMf8bIr+eQ1NuyGM7t8PjC5VnS1aK1yj2K69XWN6zq3OCI/iew+n/56lZurdXhV8z9rSlpBwD4D14=
+	t=1770411582; cv=none; b=uaVXL6XqWRmcUq6tAbAltDeF0JBar1Xs8Od5TTJuPWBT71KaytM94POMEzNROriaePitF7oiCQ0uKkTvge4ChJ4M2gttfT9oDcpxqEUGI6mCCgHtVM5eS1edfGakD5UDIh11F7hfu+vjVGnTJWR4OIJy/hNfbQM98K7d11Xn79g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770393892; c=relaxed/simple;
-	bh=rMt+oEPOBNs647Je+2cn/FE8wCyAu05qf9k9pjw2eIw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=e55jtF489BrALJTyA3skx+sXlV6HTKbXl6QVRx+c8BV30tTsyCerFPrUw6BUJCXqZcuXo3IFRykSOFpbEb/KmWZqf+jeQMWRK9CmAkInl4YJSL6cqIzwPV3G3/ty+/HaRW4pN6DBo5Y8ZbIf0TtXAIfa1hfJdafldMbYQd2Gaqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=o8IHcpcK; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1770411582; c=relaxed/simple;
+	bh=bt+q4UN7M4UPWoztDj4BqQZjEi0pw9NEFJkZigzU/HU=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=OiSWA6WBi8zjcvkAd2tmpOsVVrKl0QpFJ7Js5Sxx5db5TRSNTj5H2c0/PdZKURicYJau0lwAiK+Z9ggs4u52xDDkGjOX8SGmLyEhlr/Vtaf/XN309uyscWyIQJrxC/jRPlZFbdDKnShB9zdF1e9BTnLxs7SQhvl5yL5OuhjLF78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amidevlab.com; spf=pass smtp.mailfrom=amidevlab.com; dkim=pass (1024-bit key) header.d=amidevlab.com header.i=@amidevlab.com header.b=kA/FcTRh; arc=none smtp.client-ip=44.210.205.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amidevlab.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amidevlab.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="o8IHcpcK"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D70E240B4E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1770393885; bh=rMt+oEPOBNs647Je+2cn/FE8wCyAu05qf9k9pjw2eIw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=o8IHcpcK0cGPosLoij0qn6dL6no4aSo6UVsBH1MwNtyrMVLgiWtX0Hg1ScFzvt7Wr
-	 +W0PMhncklXFRPv1gN1f63A3rx4CmzoW1uxTNPlQlr8LM4gKPCNfrJPxiYp8ynuUYg
-	 l+zY++5xUOpZtAJpYrYBoCwnpFXagQsegSWesgCcI3qOrxFK7ejsL+v291Y3w+/0z7
-	 VDJtgzjSh3mgBZpI9dJfcgOvgz9HK+ni5EZU/KdAipxNaeR2CxeXKnPBgV6Xo5OkeY
-	 ZocjinXr//COBrG9qI6r7MrjHnJdPnxvR92oGbp2NA16PzPpy98rqaCfxYZ1MbPalO
-	 MlLSHD2hNKyrA==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass (1024-bit key) header.d=amidevlab.com header.i=@amidevlab.com header.b="kA/FcTRh"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp-out.flockmail.com (Postfix) with ESMTP id 4f75f558LMz9rvX;
+	Fri,  6 Feb 2026 20:43:41 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; bh=bt+q4UN7M4UPWoztDj4BqQZjEi0pw9NEFJkZigzU/HU=;
+	c=relaxed/relaxed; d=amidevlab.com;
+	h=subject:from:references:in-reply-to:date:to:mime-version:cc:message-id:from:to:cc:subject:date:message-id:in-reply-to:references:reply-to;
+	q=dns/txt; s=titan1; t=1770410621; v=1;
+	b=kA/FcTRhQ8mJ1QouG62VRuhqmXwMT4mF8YD29+/DYExhzr3hRrqzgqryqQ9boaoOSGyAd7qq
+	WXVUM0rA/sPKKk/I8iKso6OfRVnL+VkRx+Ku3kQpcSvrYP2XZ26DDqSPmvNDZrE5j2xaVXc4cII
+	m1ZsdZFYQIulmlHyHvl/UoEU=
+Received: from smtpclient.apple (unknown [122.172.85.244])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id D70E240B4E;
-	Fri,  6 Feb 2026 16:04:44 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Konstantin Ryabitsev <mricon@kernel.org>, Amitabh Srivastava
- <amitabh@amidevlab.com>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] docs: process: maintainer-pgp-guide: update
- kernel.org docs link
-In-Reply-To: <95e18b9f-1426-44cd-a5f1-fca5bd122450@app.fastmail.com>
-References: <20260205115554.7795-1-amitabh@amidevlab.com>
- <95e18b9f-1426-44cd-a5f1-fca5bd122450@app.fastmail.com>
-Date: Fri, 06 Feb 2026 09:04:43 -0700
-Message-ID: <87fr7deu3o.fsf@trenco.lwn.net>
+	by smtp-out.flockmail.com (Postfix) with ESMTPSA id 4f75f34tsYz9rwv;
+	Fri,  6 Feb 2026 20:43:39 +0000 (UTC)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.300.41.1.7\))
+Subject: Re: [PATCH v3] docs: process: maintainer-pgp-guide: update kernel.org
+ docs link
+Feedback-ID: :amitabh@amidevlab.com:amidevlab.com:flockmailId
+From: Amitabh <amitabh@amidevlab.com>
+In-Reply-To: <87fr7deu3o.fsf@trenco.lwn.net>
+Date: Sat, 7 Feb 2026 02:13:23 +0530
+Cc: Konstantin Ryabitsev <mricon@kernel.org>,
+ workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <AAC60EB9-401A-4FC2-8328-6A8B9D152296@amidevlab.com>
+References: <20260205115554.7795-1-amitabh@amidevlab.com>
+ <95e18b9f-1426-44cd-a5f1-fca5bd122450@app.fastmail.com>
+ <87fr7deu3o.fsf@trenco.lwn.net>
+To: Jonathan Corbet <corbet@lwn.net>
+X-Mailer: Apple Mail (2.3864.300.41.1.7)
+X-F-Verdict: SPFVALID
+X-Titan-Src-Out: 1770410621542194099.13754.2441553880501970526@prod-use1-smtp-out1003.
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.4 cv=fsImZE4f c=1 sm=1 tr=0 ts=6986527d
+	a=txo+5pS2dMFdB056rU3bsA==:117 a=txo+5pS2dMFdB056rU3bsA==:17
+	a=VwQbUJbxAAAA:8 a=IkcTkHD0fZMA:10 a=CEWIc4RMnpUA:10 a=07d9gI8wAAAA:8
+	a=ag1SF4gXAAAA:8 a=a_CdG123no7xztqTXtwA:9 a=QEXdDO2ut3YA:10
+	a=e2CUPOnPG4QKp8I52DXD:22 a=Yupwre4RP9_Eg_Bd0iYG:22
 
-"Konstantin Ryabitsev" <mricon@kernel.org> writes:
+Hi Jon,
 
-> On Thu, Feb 5, 2026, at 06:55, Amitabh Srivastava wrote:
->> Update http link to the documentation about how to add a kernel.org UID to
->> the maintainer's key. Add missing SPDX-License-Identifier to fix a
->> checkpatch warning.
->
-> No objections from me, but please check with other reviewers if they want another revision.
->
-> Reviewed-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Hope my patch gets accepted for commit.
 
-I think we've probably done enough rounds on this one :)
 
-Thanks,
+> On 6 Feb 2026, at 9:34=E2=80=AFPM, Jonathan Corbet <corbet@lwn.net> =
+wrote:
+>=20
+> "Konstantin Ryabitsev" <mricon@kernel.org> writes:
+>=20
+>> On Thu, Feb 5, 2026, at 06:55, Amitabh Srivastava wrote:
+>>> Update http link to the documentation about how to add a kernel.org =
+UID to
+>>> the maintainer's key. Add missing SPDX-License-Identifier to fix a
+>>> checkpatch warning.
+>>=20
+>> No objections from me, but please check with other reviewers if they =
+want another revision.
+>>=20
+>> Reviewed-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+>=20
+> I think we've probably done enough rounds on this one :)
+>=20
+> Thanks,
+>=20
+> Jon
 
-jon
+Regards
+Amitabh
+
