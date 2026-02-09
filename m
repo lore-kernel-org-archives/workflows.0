@@ -1,97 +1,84 @@
-Received: from mail61.out.titan.email (mail61.out.titan.email [44.210.205.39])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D64E928469F
-	for <workflows@vger.kernel.org>; Fri,  6 Feb 2026 20:59:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.210.205.39
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D9913064A0;
+	Mon,  9 Feb 2026 19:51:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770411582; cv=none; b=uaVXL6XqWRmcUq6tAbAltDeF0JBar1Xs8Od5TTJuPWBT71KaytM94POMEzNROriaePitF7oiCQ0uKkTvge4ChJ4M2gttfT9oDcpxqEUGI6mCCgHtVM5eS1edfGakD5UDIh11F7hfu+vjVGnTJWR4OIJy/hNfbQM98K7d11Xn79g=
+	t=1770666700; cv=none; b=YaiyExcPP7OIZ1v1ktSqskwTnE8xbFXLf99YuuH0SYP+Xmbo6P1khoG9Ea8xn25erNRgiHEwRlVhoyD6z8YHflCPUaHF2bSj0wxUagI2cp9mBOWRLVtAVhgkCqERdaannXaYUBtdSecowAWW1AHkjstqUSAHBtU+ckNKBKrbh3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770411582; c=relaxed/simple;
-	bh=bt+q4UN7M4UPWoztDj4BqQZjEi0pw9NEFJkZigzU/HU=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=OiSWA6WBi8zjcvkAd2tmpOsVVrKl0QpFJ7Js5Sxx5db5TRSNTj5H2c0/PdZKURicYJau0lwAiK+Z9ggs4u52xDDkGjOX8SGmLyEhlr/Vtaf/XN309uyscWyIQJrxC/jRPlZFbdDKnShB9zdF1e9BTnLxs7SQhvl5yL5OuhjLF78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amidevlab.com; spf=pass smtp.mailfrom=amidevlab.com; dkim=pass (1024-bit key) header.d=amidevlab.com header.i=@amidevlab.com header.b=kA/FcTRh; arc=none smtp.client-ip=44.210.205.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amidevlab.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amidevlab.com
+	s=arc-20240116; t=1770666700; c=relaxed/simple;
+	bh=4tNBurZQW/jyricu4UwVEofpE1tfXKcBKMlW859+U88=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=kEDughi8Snbx2kTmr61CMUj9bEBPK4DMiXx+tWKHCfHSwTTJjjz/kLjz01x9RskSpyiCgjIVt96F3jXFdD6UPiRUFZWen7ZHz6rhIw7BpEkbsLcFnmtmHaW3ifwEHS7aHeADbfcasdauzf2WENF9qpwKsg+eSA3qxsBp9FfYU1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ERTHnGOw; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amidevlab.com header.i=@amidevlab.com header.b="kA/FcTRh"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp-out.flockmail.com (Postfix) with ESMTP id 4f75f558LMz9rvX;
-	Fri,  6 Feb 2026 20:43:41 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; bh=bt+q4UN7M4UPWoztDj4BqQZjEi0pw9NEFJkZigzU/HU=;
-	c=relaxed/relaxed; d=amidevlab.com;
-	h=subject:from:references:in-reply-to:date:to:mime-version:cc:message-id:from:to:cc:subject:date:message-id:in-reply-to:references:reply-to;
-	q=dns/txt; s=titan1; t=1770410621; v=1;
-	b=kA/FcTRhQ8mJ1QouG62VRuhqmXwMT4mF8YD29+/DYExhzr3hRrqzgqryqQ9boaoOSGyAd7qq
-	WXVUM0rA/sPKKk/I8iKso6OfRVnL+VkRx+Ku3kQpcSvrYP2XZ26DDqSPmvNDZrE5j2xaVXc4cII
-	m1ZsdZFYQIulmlHyHvl/UoEU=
-Received: from smtpclient.apple (unknown [122.172.85.244])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ERTHnGOw"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B919C40C3E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1770666699; bh=fsrUuNtDXLGPAET7xN+TZZTOW30hEn1ruwzNWrdIv6w=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=ERTHnGOwZ1mFakzHxAeOBV0NQYFRA+EhOFJJSHZ8XVGRmJtGXHdcc3h9a1cpCrlXq
+	 2yH4rZ2k20pSIKebed+ccqBPitXrsgmc5RDNV5B+DexbtR6LgY3XK4oomKLkE9LfpN
+	 l3CoFO41aoouHPqQPDvkbTNlm6H9FSR58xaYtksk2tWd3N/QBG0o8khbsbeIoQ8EWR
+	 Nh8Gcr93E+Jve6J6fbOUDK/KMQ0xPGfBnUFRm5FhNEGOq2oG1BI+qc6whU50NXkjSU
+	 7CvYn2IwEiO01wj5iE1VjmAd77cCfHKUic3YG0dv+DIedDSvrAP58QcpsaurgacJeX
+	 /iUdP7Bssc4pQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out.flockmail.com (Postfix) with ESMTPSA id 4f75f34tsYz9rwv;
-	Fri,  6 Feb 2026 20:43:39 +0000 (UTC)
-Content-Type: text/plain;
-	charset=utf-8
+	by ms.lwn.net (Postfix) with ESMTPSA id B919C40C3E;
+	Mon,  9 Feb 2026 19:51:39 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Amitabh Srivastava <amitabh@amidevlab.com>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Amitabh Srivastava <amitabh@amidevlab.com>
+Subject: Re: [PATCH v3] docs: process: maintainer-pgp-guide: update
+ kernel.org docs link
+In-Reply-To: <20260205115554.7795-1-amitabh@amidevlab.com>
+References: <20260205115554.7795-1-amitabh@amidevlab.com>
+Date: Mon, 09 Feb 2026 12:51:38 -0700
+Message-ID: <87a4xh8zlh.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.300.41.1.7\))
-Subject: Re: [PATCH v3] docs: process: maintainer-pgp-guide: update kernel.org
- docs link
-Feedback-ID: :amitabh@amidevlab.com:amidevlab.com:flockmailId
-From: Amitabh <amitabh@amidevlab.com>
-In-Reply-To: <87fr7deu3o.fsf@trenco.lwn.net>
-Date: Sat, 7 Feb 2026 02:13:23 +0530
-Cc: Konstantin Ryabitsev <mricon@kernel.org>,
- workflows@vger.kernel.org,
- linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <AAC60EB9-401A-4FC2-8328-6A8B9D152296@amidevlab.com>
-References: <20260205115554.7795-1-amitabh@amidevlab.com>
- <95e18b9f-1426-44cd-a5f1-fca5bd122450@app.fastmail.com>
- <87fr7deu3o.fsf@trenco.lwn.net>
-To: Jonathan Corbet <corbet@lwn.net>
-X-Mailer: Apple Mail (2.3864.300.41.1.7)
-X-F-Verdict: SPFVALID
-X-Titan-Src-Out: 1770410621542194099.13754.2441553880501970526@prod-use1-smtp-out1003.
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.4 cv=fsImZE4f c=1 sm=1 tr=0 ts=6986527d
-	a=txo+5pS2dMFdB056rU3bsA==:117 a=txo+5pS2dMFdB056rU3bsA==:17
-	a=VwQbUJbxAAAA:8 a=IkcTkHD0fZMA:10 a=CEWIc4RMnpUA:10 a=07d9gI8wAAAA:8
-	a=ag1SF4gXAAAA:8 a=a_CdG123no7xztqTXtwA:9 a=QEXdDO2ut3YA:10
-	a=e2CUPOnPG4QKp8I52DXD:22 a=Yupwre4RP9_Eg_Bd0iYG:22
+MIME-Version: 1.0
+Content-Type: text/plain
 
-Hi Jon,
+Amitabh Srivastava <amitabh@amidevlab.com> writes:
 
-Hope my patch gets accepted for commit.
+> Update http link to the documentation about how to add a kernel.org UID to
+> the maintainer's key. Add missing SPDX-License-Identifier to fix a
+> checkpatch warning.
+>
+> Signed-off-by: Amitabh Srivastava <amitabh@amidevlab.com>
+> ---
+>  Documentation/process/maintainer-pgp-guide.rst | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/process/maintainer-pgp-guide.rst b/Documentation/process/maintainer-pgp-guide.rst
+> index b6919bf606c3..1e4d885dc784 100644
+> --- a/Documentation/process/maintainer-pgp-guide.rst
+> +++ b/Documentation/process/maintainer-pgp-guide.rst
+> @@ -1,3 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+>  .. _pgpguide:
+>  
+>  ===========================
+> @@ -864,7 +866,7 @@ don't already have them)::
+>  If you have a kernel.org account, then you should `add the kernel.org
+>  UID to your key`_ to make WKD more useful to other kernel developers.
+>  
+> -.. _`add the kernel.org UID to your key`: https://korg.wiki.kernel.org/userdoc/mail#adding_a_kernelorg_uid_to_your_pgp_key
+> +.. _`add the kernel.org UID to your key`: https://korg.docs.kernel.org/mail.html#adding-a-kernel-org-uid-to-your-pgp-key
+>  
 
+Applied, thanks.
 
-> On 6 Feb 2026, at 9:34=E2=80=AFPM, Jonathan Corbet <corbet@lwn.net> =
-wrote:
->=20
-> "Konstantin Ryabitsev" <mricon@kernel.org> writes:
->=20
->> On Thu, Feb 5, 2026, at 06:55, Amitabh Srivastava wrote:
->>> Update http link to the documentation about how to add a kernel.org =
-UID to
->>> the maintainer's key. Add missing SPDX-License-Identifier to fix a
->>> checkpatch warning.
->>=20
->> No objections from me, but please check with other reviewers if they =
-want another revision.
->>=20
->> Reviewed-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
->=20
-> I think we've probably done enough rounds on this one :)
->=20
-> Thanks,
->=20
-> Jon
-
-Regards
-Amitabh
-
+jon
