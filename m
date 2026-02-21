@@ -1,138 +1,215 @@
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.cock.li (unknown [37.120.193.123])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 706AE31771B
-	for <workflows@vger.kernel.org>; Fri, 20 Feb 2026 17:14:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C43541FB1;
+	Sat, 21 Feb 2026 15:21:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.120.193.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771607687; cv=none; b=Fd/p3iB9CdQQtZC7QVjZoze8fSRRCpo2AJJjpqIhsnCnAm4XO5A/aJpfm1HaWHb9h0Jz0OciX8vyTcl07/7uxh1Z/puj6ZRcC+/PgRd36tXcK6SFuAa6ZpH++JBxt4Bs1du6f9PrT5V9oGaY7alAy6C4kAAqhJ0W18RlDseo2RI=
+	t=1771687316; cv=none; b=M613BKerxOF81q8oN45k7PYlAGXsOvbtMQ7TTLjrH7V77y+tza5uVaHpw8rWiyovrN90/0x/Lr6gBiE9HOGNfqdiaiqjA2jWo1vgGXPQTyrI5qUyPh8caHXn3z3RBUgXpstNle8rUiTehNd6MfKs3xZy3QvqkI2j6zyD2YGU2Fk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771607687; c=relaxed/simple;
-	bh=DvzLmmTmGIEXJipqMkyrOyMSJNYmtbbGvkQZzkrbQLc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ibUBcIPXNCJd2p7lK+2yQQgtkAT6wVIJP7dTAvuNLTp+c9lcETscg1uzp1+4ACr53MJ8YFO5cqwevl3j1DjfneLUMonut2bFxiZ2fpt/8znjk2R5/sZ0T1wDaK076B0iQoUnluXjWJlfMJ/ze31C2XvuIikPz0suTWz/Of6Kxc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=RwvMdCQz; arc=none smtp.client-ip=209.85.210.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1771687316; c=relaxed/simple;
+	bh=6tJjslt4k6dcumDC6VArJO1XrCBfl0Swoi1WQnvzvU4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qw8J/657vUV0L14CcS7nbrFNfIzEhFHhqJ9lr7qeYXaVPWQ4d3L5VNdkPF55CD3nM55a6YhYrDhA86jEKnBA0ZmkyXN+oSNDSiI5y90D4MQ+HdfjYOwfKGCBEC5iCDKfCRZWoFkH70DZstIAWon7SEVEJO/mHrV3HK2kqQ+DxBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=airmail.cc; spf=pass smtp.mailfrom=airmail.cc; dkim=fail (4096-bit key) header.d=airmail.cc header.i=@airmail.cc header.b=AYr3GlZz reason="signature verification failed"; arc=none smtp.client-ip=37.120.193.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=airmail.cc
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=airmail.cc
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="RwvMdCQz"
-Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-7d4bc6a8021so1741220a34.3
-        for <workflows@vger.kernel.org>; Fri, 20 Feb 2026 09:14:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1771607682; x=1772212482; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vsnV0KnS1YOp7VZb6auwm2tmyLKlmybBeSxb+5S1qS8=;
-        b=RwvMdCQzusXt9GMuIO8Ahz71wgOSyNvILu5gDnhzjO8Gk+5jpZhHmDi5MX5E5rYEvZ
-         /Uj9nnAkQPeL/Jarg7nQxReruWb4sop8znHko28FOvGoL680TfETdbliuobKXfQLWtFR
-         OP4l8YjzAyAoY+oAwFItmEdO/ceLK/iG1PBmM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771607682; x=1772212482;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vsnV0KnS1YOp7VZb6auwm2tmyLKlmybBeSxb+5S1qS8=;
-        b=Zl3tL6HEl4JU9CFX7w9btMk/V7mwEV7bAAKJqoyeuoI/zeiwWbZiYvP/PL9//O6X57
-         KYWzLGEWW0lwFSqdZAak41vikKur8M1QkTlyLeynjOaxPogde3DJwSnRJl0inOaTd/4x
-         nqMlWh0J4f7BBdQ5DdUrBA61Eeo559YSnqpys6Hm73HVVkcL5/4NqO/gh/eGw80BfrSz
-         lcF1flNuKehcBEbCsEkqOtq55LzPU8aOIyQDB2V9fR9TIZAZHKvECKTsAiLY9JNlsW+B
-         BpdfXvQ6RfBDok7Hvzr4vssBQAwjl4FD6SHCkApbuhNNZtSZsld9lOrl29N8hZditZW0
-         xMww==
-X-Forwarded-Encrypted: i=1; AJvYcCXflI5xZKMilfJp+r161tTZwiWqJo+RPKUkUepi35a8TUi4XOYK2PHG1j065MLxkOkqIjQnVkfyf54=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwaT+7EL9o4Q2DMDtYVASUgNgiHRbiuk1ARnS1Ev+7MWH5X0P3I
-	YrrFDGBB297bQX2ykhBiCgUi1lcPQpA1LagxdZmITi6erNUI8xLv+hYLEiObPflRpVOv1enqa1D
-	kWcU32hk=
-X-Gm-Gg: AZuq6aJafxx2a+6cFvjxmns595X6IL4XkyCZ7ujKGyYb0FQid9tmjHVEzL9/B5e1TTG
-	+/yMFWjTE+zFQcEgKfl4R15zG7Zki9rNf7Lk2CykD8M276oBVYyqNGEd94LEGZ+ZC/4ySkNWyER
-	J2q9HjDGA/KCZPQwQaaouXDSPE9bAL0jF8HGZsncgIdGTJmvwK1f1II88wTODGfHra3oWoaWP85
-	s/3ijf4WFHuSmdDiiY9ov8/FXBtg83e756VdyWjuf1y48jPFUY/Jo+dYmh6Fym9gWSXTbfsImTd
-	5k1mnIApdiQgcx6AyCSCTQxfoZqUI30QLID/nST2WOmuNgzqGNaVxWvsc7yLr/2/59TVkmhHgLY
-	AwqcP7Y2BNUnMdZw2zp4fuu/TQmqUrF2onCqI35GDbYvrPYr6KNCwPQWy1MpgFdT8eIrroaaN+C
-	+Ky91AGzXS/fzudcHYxxIzE3tLq/XHT96gMQnwkZpRR2gkVw==
-X-Received: by 2002:a05:6830:4407:b0:7d1:8e7c:c54 with SMTP id 46e09a7af769-7d52bf21ae0mr304350a34.21.1771607682225;
-        Fri, 20 Feb 2026 09:14:42 -0800 (PST)
-Received: from [192.168.1.14] ([38.175.187.108])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d52d0725dbsm23545a34.29.2026.02.20.09.14.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Feb 2026 09:14:41 -0800 (PST)
-Message-ID: <20f492c5-4857-4d4a-95dc-3c694cd332fb@linuxfoundation.org>
-Date: Fri, 20 Feb 2026 10:14:40 -0700
+	dkim=fail reason="signature verification failed" (4096-bit key) header.d=airmail.cc header.i=@airmail.cc header.b="AYr3GlZz"
+From: Hans Anda <hansa@airmail.cc>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=airmail.cc; s=mail;
+	t=1771687301; bh=6tJjslt4k6dcumDC6VArJO1XrCBfl0Swoi1WQnvzvU4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=AYr3GlZzYTt4XYEQWfzdgv68PWlHzltfUFDvmrl7cXtoYaWTUlOQe3Blu8GwZTc0e
+	 J+V2ZG1XTPbgmXwrAf4YoHxGrxUyz/scP10iZ3BFgP/NjUoljCUkxJudCbFwDdIiw1
+	 7z4a7vTun0BUE2jBKfvNVOIYUyKsQeEy456EWldwK5FVuOJ2uo/0F35jXPoLHvaGuX
+	 Yba07b6by4+/Lmv5u8mb3Th6t/Hfm//iOn1ELl92+ubSqfpo6P+9jyB81rc9a94RHM
+	 x3vFeKlCfkvQM04bh90U/N9mMq3ZZI5BhveA9C43XwAyvSbe7/PB6vWRXvmd8lJDik
+	 WYxYkmDVmcVmw==
+To: Jonathan Corbet <corbet@lwn.net>,
+	Collin Funk <collin.funk1@gmail.com>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Hans Anda <hansa@airmail.cc>
+Subject: [PATCH] scripts: sort ver_linux and list in changes.rst
+Date: Sat, 21 Feb 2026 16:21:14 +0100
+Message-ID: <20260221152113.28322-2-hansa@airmail.cc>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] linux-next: update maintainer info.
-To: Stephen Rothwell <sfr@canb.auug.org.au>,
- Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <20260216060739.2791462-1-rdunlap@infradead.org>
- <20260216091648.7a6a0e3a@canb.auug.org.au>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20260216091648.7a6a0e3a@canb.auug.org.au>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2/16/26 02:16, Stephen Rothwell wrote:
-> Hi Randy,
-> 
-> On Sun, 15 Feb 2026 22:07:39 -0800 Randy Dunlap <rdunlap@infradead.org> wrote:
->>
->> Update the MAINTAINERS file and Documentation/process/2.Process.rst
->> with the current linux-next maintainer information.
->>
->> Translations of 2.Process.rst should also be updated.
->>
->> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->> ---
->> Cc: Stephen Rothwell <sfr@canb.auug.org.au>
->> Cc: Mark Brown <broonie@kernel.org>
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Cc: Shuah Khan <skhan@linuxfoundation.org>
->> Cc: workflows@vger.kernel.org
->> Cc: linux-doc@vger.kernel.org
->>
->>   Documentation/process/2.Process.rst |    2 +-
->>   MAINTAINERS                         |    1 -
->>   2 files changed, 1 insertion(+), 2 deletions(-)
->>
->> --- linux-next-20260213.orig/Documentation/process/2.Process.rst
->> +++ linux-next-20260213/Documentation/process/2.Process.rst
->> @@ -291,7 +291,7 @@ Use of the MMOTM tree is likely to be a
->>   there is a definite chance that it will not even compile.
->>   
->>   The primary tree for next-cycle patch merging is linux-next, maintained by
->> -Stephen Rothwell.  The linux-next tree is, by design, a snapshot of what
->> +Mark Brown.  The linux-next tree is, by design, a snapshot of what
->>   the mainline is expected to look like after the next merge window closes.
->>   Linux-next trees are announced on the linux-kernel and linux-next mailing
->>   lists when they are assembled; they can be downloaded from:
->> --- linux-next-20260213.orig/MAINTAINERS
->> +++ linux-next-20260213/MAINTAINERS
->> @@ -14749,7 +14749,6 @@ F:	Documentation/memory-barriers.txt
->>   F:	tools/memory-model/
->>   
->>   LINUX-NEXT TREE
->> -M:	Stephen Rothwell <sfr@canb.auug.org.au>
->>   M:	Mark Brown <broonie@kernel.org>
->>   L:	linux-next@vger.kernel.org
->>   S:	Supported
-> 
-> Acked-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> 
-> Maybe update the CREDITS file?  ;-)
+It is a pain in the ass to compare the software versions on the running
+system (scripts/ver_linux) with the minimal required versions (changes.rst).
 
-Thank you Stephen for shepherding linux-next all these years and
-keeping us all sane. You will be missed. Good luck with your next
-adventure.
+Sort both lists alphabetically
+Add missing tools in ver_linux
+ (bash, bc, bindgen, bindutils, btrfs, clang, e2fsck, awk, tar, gtags,
+  iptables, kmod, mcelog, mkimage, openssl, pahole, python, Rust, sphinx,
+  squashfs-tools, udev)
+Fix minor issues (add grub2)
 
-thanks,
--- Shuah
+Signed-off-by: Hans Anda <hansa@airmail.cc>
+---
+ Documentation/process/changes.rst | 50 +++++++++++++--------------
+ scripts/ver_linux                 | 56 +++++++++++++++++++++----------
+ 2 files changed, 63 insertions(+), 43 deletions(-)
+
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index 6b373e193548..fb810c3710bb 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -29,40 +29,40 @@ you probably needn't concern yourself with pcmciautils.
+ ====================== ===============  ========================================
+         Program        Minimal version       Command to check the version
+ ====================== ===============  ========================================
+-GNU C                  8.1              gcc --version
+-Clang/LLVM (optional)  15.0.0           clang --version
+-Rust (optional)        1.78.0           rustc --version
+-bindgen (optional)     0.65.1           bindgen --version
+-GNU make               4.0              make --version
+ bash                   4.2              bash --version
++bc                     1.06.95          bc --version
++bindgen (optional)     0.65.1           bindgen --version
+ binutils               2.30             ld -v
+-flex                   2.5.35           flex --version
+ bison                  2.0              bison --version
+-pahole                 1.22             pahole --version
+-util-linux             2.10o            mount --version
+-kmod                   13               depmod -V
++btrfs-progs            0.18             btrfs --version
++Clang/LLVM (optional)  15.0.0           clang --version
+ e2fsprogs              1.41.4           e2fsck -V
++flex                   2.5.35           flex --version
++GNU AWK (optional)     5.1.0            gawk --version
++GNU C                  8.1              gcc --version
++GNU make               4.0              make --version
++GNU tar                1.28             tar --version
++grub                   0.93             grub --version || grub-install --version
++gtags (optional)       6.6.5            gtags --version
++iptables               1.4.2            iptables -V
+ jfsutils               1.1.3            fsck.jfs -V
+-xfsprogs               2.6.0            xfs_db -V
+-squashfs-tools         4.0              mksquashfs -version
+-btrfs-progs            0.18             btrfs --version
++kmod                   13               depmod -V
++mcelog                 0.6              mcelog --version
++mkimage (optional)     2017.01          mkimage --version
++nfs-utils              1.0.5            showmount --version
++openssl & libcrypto    1.0.0            openssl version
++pahole                 1.22             pahole --version
+ pcmciautils            004              pccardctl -V
+-quota-tools            3.09             quota -V
+ PPP                    2.4.0            pppd --version
+-nfs-utils              1.0.5            showmount --version
+ procps                 3.2.0            ps --version
+-udev                   081              udevd --version
+-grub                   0.93             grub --version || grub-install --version
+-mcelog                 0.6              mcelog --version
+-iptables               1.4.2            iptables -V
+-openssl & libcrypto    1.0.0            openssl version
+-bc                     1.06.95          bc --version
+-Sphinx\ [#f1]_         3.4.3            sphinx-build --version
+-GNU tar                1.28             tar --version
+-gtags (optional)       6.6.5            gtags --version
+-mkimage (optional)     2017.01          mkimage --version
+ Python                 3.9.x            python3 --version
+-GNU AWK (optional)     5.1.0            gawk --version
++quota-tools            3.09             quota -V
++Rust (optional)        1.78.0           rustc --version
++Sphinx\ [#f1]_         3.4.3            sphinx-build --version
++squashfs-tools         4.0              mksquashfs -version
++udev                   081              udevadm --version
++util-linux             2.10o            mount --version
++xfsprogs               2.6.0            xfs_db -V
+ ====================== ===============  ========================================
+ 
+ .. [#f1] Sphinx is needed only to build the Kernel documentation
+diff --git a/scripts/ver_linux b/scripts/ver_linux
+index d6f2362d3792..6c829448b4d4 100755
+--- a/scripts/ver_linux
++++ b/scripts/ver_linux
+@@ -17,37 +17,57 @@ BEGIN {
+ 	libc = "libc[.]so[.][0-9]+$"
+ 	libcpp = "(libg|stdc)[+]+[.]so([.][0-9]+)+$"
+ 
+-	printversion("GNU C", version("gcc -dumpversion"))
+-	printversion("GNU Make", version("make --version"))
++	printversion("bash", version("bash --version"))
++	printversion("bc", version("bc --version"))
++	printversion("bindgen", version("bindgen --version"))
+ 	printversion("Binutils", version("ld -v"))
+-	printversion("Util-linux", version("mount --version"))
+-	printversion("Mount", version("mount --version"))
+-	printversion("Module-init-tools", version("depmod -V"))
+-	printversion("E2fsprogs", version("tune2fs"))
+-	printversion("Jfsutils", version("fsck.jfs -V"))
+-	printversion("Xfsprogs", version("xfs_db -V"))
+-	printversion("Pcmciautils", version("pccardctl -V"))
+-	printversion("Pcmcia-cs", version("cardmgr -V"))
+-	printversion("Quota-tools", version("quota -V"))
+-	printversion("PPP", version("pppd --version"))
+-	printversion("Isdn4k-utils", version("isdnctrl"))
+-	printversion("Nfs-utils", version("showmount --version"))
+ 	printversion("Bison", version("bison --version"))
++	printversion("btrfs-progs", version("btrfs --version"))
++	printversion("Clang", version("clang --version"))
++	printversion("Console-tools", version("loadkeys -V"))
++	printversion("Dynamic linker (ldd)", version("ldd --version"))
++	printversion("E2fsprogs", version("e2fsck -V"))
+ 	printversion("Flex", version("flex --version"))
++	printversion("GNU AWK", version("gawk -version"))
++	printversion("GNU C", version("gcc -dumpversion"))
++	printversion("GNU make", version("make --version"))
++	printversion("GNU tar", version("tar --version"))
++	printversion("GRUB", version("grub-install --version"))
++	printversion("GRUB2", version("grub2-install --version"))
++	printversion("gtags", version("gtags --version"))
++	printversion("iptables", version("iptables -V"))
++	printversion("Isdn4k-utils", version("isdnctrl"))
++	printversion("Jfsutils", version("fsck.jfs -V"))
++	printversion("Kbd", version("loadkeys -V"))
++	printversion("kmod", version("kmod -V"))
+ 
+ 	while ("ldconfig -p 2>/dev/null" | getline > 0)
+ 		if ($NF ~ libc || $NF ~ libcpp)
+ 			if (!seen[ver = version("readlink " $NF)]++)
+ 				printversion("Linux C" ($NF ~ libcpp? "++" : "") " Library", ver)
+ 
+-	printversion("Dynamic linker (ldd)", version("ldd --version"))
+-	printversion("Procps", version("ps --version"))
++	printversion("mcelog", version("mcelog --version"))
++	printversion("mkimage", version("mkimage --version"))
++	printversion("Module-init-tools", version("depmod -V"))
++	printversion("Mount", version("mount --version"))
+ 	printversion("Net-tools", version("ifconfig --version"))
+-	printversion("Kbd", version("loadkeys -V"))
+-	printversion("Console-tools", version("loadkeys -V"))
++	printversion("Nfs-utils", version("showmount --version"))
++	printversion("openssl", version("openssl version"))
++	printversion("pahole", version("pahole --version"))
++	printversion("Pcmcia-cs", version("cardmgr -V"))
++	printversion("Pcmciautils", version("pccardctl -V"))
++	printversion("PPP", version("pppd --version"))
++	printversion("Procps", version("ps --version"))
++	printversion("Python", version("python3 -V"))
++	printversion("Quota-tools", version("quota -V"))
++	printversion("Rust", version("rustc --version"))
+ 	printversion("Sh-utils", version("expr --v"))
++	printversion("Sphinx", version("sphinx-build --version"))
++	printversion("squashfs-tools", version("mksquashfs -version"))
+ 	printversion("Udev", version("udevadm --version"))
++	printversion("Util-linux", version("mount --version"))
+ 	printversion("Wireless-tools", version("iwconfig --version"))
++	printversion("Xfsprogs", version("xfs_db -V"))
+ 
+ 	while ("sort /proc/modules" | getline > 0) {
+ 		mods = mods sep $1
+-- 
+2.53.0
 
