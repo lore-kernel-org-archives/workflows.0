@@ -1,330 +1,383 @@
-Received: from mail-43100.protonmail.ch (mail-43100.protonmail.ch [185.70.43.100])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2014B36654E
-	for <workflows@vger.kernel.org>; Tue, 24 Feb 2026 09:10:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.100
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771924234; cv=none; b=i593OFmkDQeAR3c9L8aboJta3Mmdda5KWHe6fsUrEfdOwyyerhASpDUisXB2E2Ba+dZGibpkT2nqwNuhnJKFiQtE+WamSuNpvmfBWHtZfAzHBWCrQQig5vBMmr15/e9lzWBsJy0G84md+IVnP9Hxrl/enHYdElIQyCh9laT0wTE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771924234; c=relaxed/simple;
-	bh=c6lTnbEsUhvqm5E0OTv3lhpmaUzOiFsoE3QUr8rmWWA=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Mpnjj6CAc8GMD+J85GWEB+O9b/GGxx9f767u9FpoaF95HlHZ9XLswZ+TQn2tE9aVpgn0Z5IYTUYbQhUKmIaSFI/UZFrkIm+ojX6eYHR9I33KTXycTFxBcQn6HOMUufFX4JQDAHl8Cmoz02CaUZfHeFu93+kf9UxHBFsPYHOWaGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=dWJ/DG0g; arc=none smtp.client-ip=185.70.43.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93C013783C1;
+	Tue, 24 Feb 2026 10:27:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771928849; cv=fail; b=Sl8P0/5tbH5A3d4eT7TyvmuFVlwt4tGaHD5+0LKLKFaTwYr/jRDCKF7m6sL4hqSPrHipcFFGI0ZGRX5NPHeaayvVro/MUZu7ycFA2XHBu+uGbnxHW8VLKw/UqgAf41iPU3zqX9WLgqfZFnjmy/6WWCxouJci8t9ObBSsnQCFwkk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771928849; c=relaxed/simple;
+	bh=iHUbqJ8AJaCtVPKyTQrknQZPhkhv+mVBIjopINLbXbA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=O2Kd6RaDkb2y0to2QVGF/6rcbCeoBVZuBxJ1WrB95hsU7FCE3eiv9FWGNj6P9mkojOlvkNv+9ut7XJv8+t9zML0O39Q0Xlv6TsNKqryC9rgCvNYTo/UQHbIEDO60paYXysPLQ4GfrydwjFtsx/c+0DQHZH7bX0w5igAC/FrGwHM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Ry0U/U1r; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=rfSlQjhI; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="dWJ/DG0g"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1771924224; x=1772183424;
-	bh=JTNnUecjMCgQWBRNlhXYFdQDFTHMCliRoDTga/EjldQ=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=dWJ/DG0ges2MMFucvXvKldpYQHiwd65GFh8Q6JRt5eF3NOOU2JD331ajDFkHdp88+
-	 hzR1BK+OWCqjd/baSJAa85olpO9ZsK2yejzT4bRbfeFFhkkkKpybSiDqoZ6qJ0JOjh
-	 sBCtHk9CwQW+kFn0C6YSy/BsVilAZcVjiH3FshE+nwZZvdZz2ZUYr3Ru34BWBkPHYN
-	 HTdmSAoBfY2j3sL7T1E7sSClNeueilHuF7LsPBHTpFaLFHyr27DUaw359kywacQHjM
-	 IlEeFxrgkE7B3iNtww37e/y9froeZNQoF9UOem/fQ2gI4KAnS5Kn5BP2dRfpiQdBRv
-	 3WqHEUOqbKa5A==
-Date: Tue, 24 Feb 2026 09:10:18 +0000
-To: Dave Hansen <dave.hansen@intel.com>
-From: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
-Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kasan-dev@googlegroups.com, workflows@vger.kernel.org
-Subject: Re: [PATCH v10 13/13] x86/kasan: Make software tag-based kasan available
-Message-ID: <aZ1qOpMc9PohArcL@wieczorr-mobl1.localdomain>
-In-Reply-To: <f25c328f-4ce7-4494-a200-af4ba928e724@intel.com>
-References: <cover.1770232424.git.m.wieczorretman@pm.me> <8fd6275f980b90c62ddcb58cfbc78796c9fa7740.1770232424.git.m.wieczorretman@pm.me> <f25c328f-4ce7-4494-a200-af4ba928e724@intel.com>
-Feedback-ID: 164464600:user:proton
-X-Pm-Message-ID: 263b095a4846ac376e793435bbda706f4f4065b0
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Ry0U/U1r";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="rfSlQjhI"
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61NMv4P32948644;
+	Tue, 24 Feb 2026 10:26:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=p8QFUtid2XGM4ZrrGw
+	Q4VFEkbPb6WXg3AEv7+VpXCfA=; b=Ry0U/U1rkiLtrF9ahH4bqh/tK4eptiAwwo
+	gXMdbjsdKtx143KkOuFYfZxtiYoxJ8eWglBip96bRNAY/Z1h1hSNQrCE7KIzZM37
+	kveYiphk0aDlVwHjJqc6XENwp+TB6Gp7RtyEIIIvUuBDAJzZaBDSjeNO1rxJnsle
+	kdzFxLfe0hLBO8hN7e7jyw9JLccxrznzgv7Vngi3MNMO4v4LJlkTuLQxXes+AcLg
+	ela6D8X45Wx+eUTb5L3npJqtQRjInP51RHhvXU9juaZ7uyJKZP+lXOwaAGR7EYHQ
+	mW6NVj0rkmMrm+2AA6mOkCc0W6WZh/4uKBOzsXyERDlCXlQXIwXQ==
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4cf34b40q8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 24 Feb 2026 10:26:47 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 61O9dXmF012751;
+	Tue, 24 Feb 2026 10:26:46 GMT
+Received: from byapr05cu005.outbound.protection.outlook.com (mail-westusazon11010023.outbound.protection.outlook.com [52.101.85.23])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4cf35dscju-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 24 Feb 2026 10:26:46 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=o8hDnnxdr6kyOYBB9PPA1ICWA9OFxh7dkJa4getJ0RJ88pOYYnWhjnlMyZu0M/GmJyom0W4szX7piTrhum+5l9MUGFh9HlXli1TXOyQdk8aZc9LtHhEQngqTeoSxa0WyRf1hcKKUqn93hSTHiUGjwXwMSJwdYTCNsW/y6t9aCpyM7JX0v8ahLCyANxn5D0tQvbNKkkPS7fRNmR/HEytGhjOqqgID6IU0aFVV+AVyblHAdjJiTt9/3/cgOM2JXYzVB4JMP2AI8XtvmZILBO2IWwdHRBYADvWe9orWop/jz2CicblhssOOn3tMHFH3L1hH/s3H9Xncj5Oq7LDOoGU8pg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p8QFUtid2XGM4ZrrGwQ4VFEkbPb6WXg3AEv7+VpXCfA=;
+ b=VeXKmA91/JRtBzmc67SrlVJ37kMlvR5gDg4fdqFxUjtLppQreh3xYv/y0I7Rlq91ezD7dO5z/BOdRRdJgNUh8fB4QldEa0Kv5SfeByaPCV6KVcXLg5xpN6Yh/B+zKDptNg7aiuMeRXM0soG93jE6Im2iRKmEEAngSlBpQSATwl2NnqM2gJ0hsEovFfyOpa0CZ5EPGsJHa2KQba1TTYHBliP4jtbdAp9smW4IAsuy4U2O79yVY8UtsyiI0FBJDoLWWtfoymkAUkr16qpg2ZcvjZ/9yxIPgZpf/b+2i5E9/qCzS1wob56bUaxNwycAdsWI57TYnPxXUyz3wq8yCcsw5g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p8QFUtid2XGM4ZrrGwQ4VFEkbPb6WXg3AEv7+VpXCfA=;
+ b=rfSlQjhIvzeeIiSnTHqZq132kQVVNkG166/4GbdobhWvWtGBYyCuAzJ8o0ZwvLiCjLTWgP0Nf7wVgYB8mbLYhhnNDI4s/NVgogSkgQOGF6o/hzZ6wMSTc111HfLox0rQ1LZ+KPNHLDaU3K7BXJu+EhmwVQm7uESywubNc5UetII=
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
+ by CH3PR10MB7415.namprd10.prod.outlook.com (2603:10b6:610:139::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.22; Tue, 24 Feb
+ 2026 10:26:41 +0000
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::f3ea:674e:7f2e:b711]) by DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::f3ea:674e:7f2e:b711%4]) with mapi id 15.20.9632.010; Tue, 24 Feb 2026
+ 10:26:41 +0000
+Date: Tue, 24 Feb 2026 10:26:36 +0000
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: Kees Cook <kees@kernel.org>
+Cc: Vlastimil Babka <vbabka@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Lameter <cl@gentwo.org>,
+        David Rientjes <rientjes@google.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Harry Yoo <harry.yoo@oracle.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-hardening@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>, Miguel Ojeda <ojeda@kernel.org>,
+        Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        John Hubbard <jhubbard@nvidia.com>, Joe Perches <joe@perches.com>,
+        Christoph Lameter <cl@linux.com>, Marco Elver <elver@google.com>,
+        Vegard Nossum <vegard.nossum@oracle.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>, Bill Wendling <morbo@google.com>,
+        Justin Stitt <justinstitt@google.com>, Jann Horn <jannh@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sasha Levin <sashal@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+        Jakub Kicinski <kuba@kernel.org>, Yafang Shao <laoar.shao@gmail.com>,
+        Tony Ambardar <tony.ambardar@gmail.com>,
+        Alexander Lobakin <aleksander.lobakin@intel.com>,
+        Jan Hendrik Farr <kernel@jfarr.cc>,
+        Alexander Potapenko <glider@google.com>, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev
+Subject: Re: [PATCH v6 4/5] slab: Introduce kmalloc_flex() and family
+Message-ID: <675ec547-dac8-465f-b3c9-a0f97c5bdef7@lucifer.local>
+References: <20251203233029.it.641-kees@kernel.org>
+ <20251203233036.3212363-4-kees@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251203233036.3212363-4-kees@kernel.org>
+X-ClientProxiedBy: AS9PR04CA0052.eurprd04.prod.outlook.com
+ (2603:10a6:20b:46a::21) To DM4PR10MB8218.namprd10.prod.outlook.com
+ (2603:10b6:8:1cc::16)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|CH3PR10MB7415:EE_
+X-MS-Office365-Filtering-Correlation-Id: 884ae578-4569-425d-eb91-08de738f3329
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?xLbSMXsCIzc2gH/f7sdg+7JzADoGA4rmKVHChxMnDpxLTfiClkuxgUkZN+gy?=
+ =?us-ascii?Q?zHHGLMtNIrERvlzP++brbz4LIxJzwnQYrgy0Gb/Xu3QICnCVsBf0iGi9hUUB?=
+ =?us-ascii?Q?zxjnluvDIZBye7Lx7EWSOKFH6qrpHEdoylDe7DIsqf5e5MtlAAqtB0UVxMfk?=
+ =?us-ascii?Q?vb7P/45Wj9XiOwxL3ALBC9GCVaRSizMnQ5Mtv3PD+xqw4gUYol9Ddda2ISOG?=
+ =?us-ascii?Q?fGpvTFmG63KYua6wsJ2ZLTWfFMVp/kn26ke2eYOX9yOKicWpq+v25xFPQNE+?=
+ =?us-ascii?Q?Gia2FnukhoZgHSwpodcsTUH6rMD4EZ6x5fFRRr++WB7umOj8sW+qX8w+KsrW?=
+ =?us-ascii?Q?HQVzEQ+e+GpyNT6j2WlYU81ekgMoW5u0QgUaR3wG2aAyhyddR5yrRDJycOyU?=
+ =?us-ascii?Q?C2LqZuti/Tbk1FxtzSP1p0yNz1pxongSpc8TTGtfPtbVy676Kt06Jj4QcZ2W?=
+ =?us-ascii?Q?EZ+YN8XeaU13DSmppYDbuSPOi66SNKlTS0oXnpXLsKeDIgyStVDcxBJYfCnq?=
+ =?us-ascii?Q?9L5a3pRabVslSzlgkScj+sUziloplwxu6RxM+SC3PH9ivWcttvkHsxTo2TpJ?=
+ =?us-ascii?Q?ozmYi3wvSFPnYFo/M63Q5HrpyGkFCj+uw3OJ/SG8hpBp4dS8aCOx/ltt2VUZ?=
+ =?us-ascii?Q?QHfXm7pXzybmj9nqbWhRK3F/WIxiM4X4cZ55rH7+YZtiOf3lmZjACPLbl6rC?=
+ =?us-ascii?Q?ieeBPDP08LL3SDvzGrfclP4gmH4ERylvfg6gC83fd2Z2GCjHQ6uEs1UPHie8?=
+ =?us-ascii?Q?p8QukonFPcBAKHYiIxBosH3E7TZNNLlQndKxzyfgEncNyn9JYO4cV+MfwxA0?=
+ =?us-ascii?Q?bZX6Rol+TD2hFtu2WMVBiigI1chekDcl3usR/wxwV8BhVYVVMWXnFQ/bGfzi?=
+ =?us-ascii?Q?e6yum0ZJXxiE3IhBaLkoXXeZ3HOD+B235MKfX8MdhZRC6mkBuHmFuXqdaDvb?=
+ =?us-ascii?Q?tt1tE3t32TA1daDfqeu9q77zvADk4bp8ZkfqcjoUS5aAaTG67QAe7DYLtrvX?=
+ =?us-ascii?Q?FDDo1QOXE3mbSHo8tfeJYGAdSkkDNYHNwyrcJjGg/jHXJ1Rmz66nrvd0VCcE?=
+ =?us-ascii?Q?iSMLSWKTxr2CLAT9au7agmz9lv1G7LTNf5QH0vNBvIqO8HOxmg37MfQ63M3u?=
+ =?us-ascii?Q?xrjz2xOMyBk0L4c/zCvDanQ8Ev4PFl8zvIEK5EDwcvEHO+ukTo1hkQctDj8d?=
+ =?us-ascii?Q?+vaFgIXQWVdwRVuyXJzG2o/wbe3/31HhjWBhm7g4Mr2dhU8RvwcVHo4E5wd3?=
+ =?us-ascii?Q?WiAW25trg9DfmlsBXNbvagzpq90IlFRRUfoK0Ru0oIC0DnQjKyHUR08R6W/J?=
+ =?us-ascii?Q?6S4NdbvpQX3EXfRAg5HwNrNhOEdTStpUw4TzhOKKAW3DgpfHcaaNpzMWP/a6?=
+ =?us-ascii?Q?29RQyTiP7JUAo74UjLVwRe7a/HQQdEYPkjBfM9ZnfQr9k/KKXFbZBaU5NcSW?=
+ =?us-ascii?Q?jbIa11xXGv1rF0oDOfKe67xaG47+oXDmgs0vYYOxd6uJPEGoan5n3V3A00vR?=
+ =?us-ascii?Q?q1ia4rQ/HadpbnlmbfVCFgmpT5Gouim3NSLLP5Na+xeYn8TFln4K87zDMRuZ?=
+ =?us-ascii?Q?eFO4E263eAUq9D4k3Ao=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB8218.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?zP+NWvkV7i79WjSseLtkhcxKrs7/wDB7ZgJC02F0fJGoO8NFrkssGPT+GPTD?=
+ =?us-ascii?Q?RxBq8PgzzAJbi35rlDcchTItGiy7t2ubolVpBXo61L7ETVl0AcT/D9Uq4VO8?=
+ =?us-ascii?Q?5E9PxTf03XgFWtUtwARWA+vT5rkdnmGfKaHidPND16gYnYS0OPKMHbjIeHNC?=
+ =?us-ascii?Q?EdYklwqtbGbsqB7lKaR0sxx3T9eCzKInQUcpmBdj+2f+FnQDOeDRK+aOhcX+?=
+ =?us-ascii?Q?J8loruejK7jiykiBAFdBguZ73suKDHrg4CsLJg0BT4T+/pbgUYuXrh5inEiJ?=
+ =?us-ascii?Q?QMeiAd/rHUWyJgzo7SavjnEFf+ao9msD5A7JR1pIxPgQ3uL7RUGPFtbDThGT?=
+ =?us-ascii?Q?iJ9XDZeA18hcA0KYt10CeP8LEWyiQd+raRtYDVc5VLUssZSL6yJeVzDvf8aL?=
+ =?us-ascii?Q?llMtYpT5TjAj8QYCZ+1LUIf6Efqw0YerL8n760YK/ytRUESisLkD6QM+IoE/?=
+ =?us-ascii?Q?6yjvJF00W7UZGJFgjQPZRqpyPTCzBFQb3MZbu/Hwf4EMr9Vg6stw78dhU1d9?=
+ =?us-ascii?Q?rTLZ1wm9WA0Y0az+SWc6exDhTd5Y/Qw25QHwQURen7+v6VBV/zAPxB1QAdx3?=
+ =?us-ascii?Q?B0/VHZg2Wb60rqfieeFrnkUdgEglxM3+/gzPN2NBkn7QuaDCE7wUpDDI04by?=
+ =?us-ascii?Q?fgzpSjpdRgLEGukH6AeLBwP8Eom9ErhjpK3WO7bDFcIKUZMNUxkHdoYU9+UN?=
+ =?us-ascii?Q?z0MXDsj+sw80+mO8KDZUzIBGRE8HflboeDgO5JP1+e1wgG4i18iPxIt5j7zL?=
+ =?us-ascii?Q?7pGmOonZA9VfIw678kymOBSH8iYOVzM1qVFYkFyWnDjXnE9TzoxRKZ2fckPi?=
+ =?us-ascii?Q?VNrIJ2USlcokecJan+V12Py5hnpgBDzjkorAOJo5bINMION1UzVYhymX3jmp?=
+ =?us-ascii?Q?ZbYFTx2Sezf8WAID3v7rw6XhZKtAjV+xds4t9t/e/MVm4D6JCzLHE9xlVYt8?=
+ =?us-ascii?Q?bjr8fz/be4xaT9Vr9YdQ+Lk4F1KCXEfVjiJrtuviteK2eo4LNMP094L/8gWG?=
+ =?us-ascii?Q?iI+6DomIIyBDisGMLx1hX/m92OUjo9VchPPLPz1tKDl9Z87lQxNP3kIxSnt1?=
+ =?us-ascii?Q?Ko6R2u60x3MrP989dFO88oLMLCfzGwfOhD8Ex6bdg4rfAKQzDbtj/ZP7Z6hO?=
+ =?us-ascii?Q?er0pB+IlTwBJ+bGUYG80aONy/HGWJ/d9Z5OOIIyuabmRoAG1LchCwL9nsx17?=
+ =?us-ascii?Q?REyU1UdhhQwe+PWR6Yc+FGUP+iIPV6Wv3fLbgtKfY2ZoRQau8Sic/c4UWdw7?=
+ =?us-ascii?Q?Fo7MtEQJwYmoNeXk6Lth/+dFdTeTAsMAvrAWQYX5Vp61XForWi7NaxKQShpY?=
+ =?us-ascii?Q?SqgZDpjh527BEJl0/TjWHK4Ge23AZCgZ8IGQqi/gijF5eWvPUKywZ5sEc3Nd?=
+ =?us-ascii?Q?1KezKbr2pHAUZvD7NN4bS6IPS9d693TU7kc25C8KN94UcIpn84K2bwVxhNzD?=
+ =?us-ascii?Q?nA2vwmW0JcE8hIyPxvCVI4C/VtaIRxSzCZfCsiJC+Aw53O201zCM7p0TK6sR?=
+ =?us-ascii?Q?F1R8/pvSGpzwRyEUiSAS7CbwAOCMFlLJ5MhMIzHYryHhA0IdAGdzF5RhKPO3?=
+ =?us-ascii?Q?dajhg2ROimE1iIxcR3VnvZ9hQPeZeYDbQL9yHxVtaxLHZjSnxl/LYiidrQ4l?=
+ =?us-ascii?Q?zZZU6baNoAaoEJbuSjRfUjVnawlPdhj16ZNDnqA1scC2DbSofMKKqPl12VaG?=
+ =?us-ascii?Q?jIAUgYrYO9C5gK0nNkd6yZAC5eBrnzxHal0ZNTZs1f9Io0SlwfWN11lrY2Lc?=
+ =?us-ascii?Q?BovAI1hnqewG2sWZ7StoKTlg8EXanto=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	/hEUYaH7rDa5tJtRKEN5tuRbWRv3dr9TcAwXRHHkcMpXJPFlDpCAY8Kodj9hVXPVKyW/XB/ywakU4DUOM0QcwWjUFy0graPzLXMH7Q7GudNxjAAkeVtVdXfPskq5gY/7In81YOCxVUcMsH/l/GOPy508Mb4/pD8zt9/QurVPERJXXSnAjxvWePQopLdE5NaXlV2ZT+39x52a6/HvcfhKiZ5oJ5I3TXVH16e9WJde9bjd3xFlUxQ2FS+wfimzYXQpFkl5TA7CPZkcYKPl5oqeeU/vaSEEi9ZEz+XQGsUgZskQV9sC1+UXsI+feJQKmcTZ1WiYhzAQqG6fM50q+VEmh/LrByT2B+Sq5W7+rwkbQQqToC85QRpD4tr+LiShc+/QY2SOopmOsPXZkjyEtxM7rJf6uQpW78wZ6cTTwq53EoU/8zRlojZHiKMNtChsI8v55EAeGtsQOPLwXRbX2ySMnLbEajSQXAQpokvrevieIjDZSbEBI/LPJWApnKAoPItaQS0s/QytS7FPw0uyHe+1mTyvdx0r4g5S6bkrvUK5571hbewBX1PsR9MQI+NhK4oepa69bL1CYtCBShDKEEVNMpPd+NIjeoDwfrEccWyJxe0=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 884ae578-4569-425d-eb91-08de738f3329
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2026 10:26:41.2601
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xa+4O16/q0PP7TPzpBtqWJwSW+GxHY2kLQ8dtulpcAZ7xvmIyeOZ69Qob28JuRhxCY9vARQTSWskfM4ok0LhtYC73lEMYU5QsMlznxB5Bx8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR10MB7415
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-24_01,2026-02-23_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
+ bulkscore=0 spamscore=0 phishscore=0 malwarescore=0 suspectscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2602130000 definitions=main-2602240085
+X-Authority-Analysis: v=2.4 cv=GrlPO01C c=1 sm=1 tr=0 ts=699d7ce7 b=1 cx=c_pps
+ a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=HzLeVaNsDn8A:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=VwQbUJbxAAAA:8
+ a=07d9gI8wAAAA:8 a=Z4Rwk6OoAAAA:8 a=PuvxfXWCAAAA:8 a=1XWaLZrsAAAA:8
+ a=yPCof4ZbAAAA:8 a=37rDS-QxAAAA:8 a=crXs_MzoAVXMaapXFGwA:9 a=CjuIK1q_8ugA:10
+ a=e2CUPOnPG4QKp8I52DXD:22 a=HkZW87K1Qel5hWWM3VKY:22 a=uAr15Ul7AJ1q7o2wzYQp:22
+ a=k1Nq6YrhK2t884LQW06G:22 cc=ntf awl=host:13810
+X-Proofpoint-ORIG-GUID: buc-QJMJfae7AUPal2NRVBOlW-HD7tqS
+X-Proofpoint-GUID: buc-QJMJfae7AUPal2NRVBOlW-HD7tqS
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI0MDA4NSBTYWx0ZWRfX6sR9qq72T5si
+ oSwOMRspNgqC7VVAOhnqZve3vB//BMqEsP7hsDTqZ/QIZuMmeBaZ7N94XALqUAOp0IFtLmSzaA0
+ OivFxyLzRCYVtH1NtfH5eKhyuSKKFwdV5ObXrkVaYv+cPZv332nuaQoxcZ7LaPEsr0Zf8oo4bt4
+ KYvTpJ5rd98HPylr3V8AKI+oQuC669LDiVwQ0K3Gg8oSnUVaQ+g+4BXpTWnkSkgQqksdus0ZScN
+ kQ/c3jPWcUf892mOLclEkVhZKc5w1H4azE3S2WKdNCYY3sHdyrYjCpPQaL6Wj+bFbj/jGrQAuND
+ WB4L8bKpz6lza8nNT9nyjgfNHCCVUa9zYyP98S75ulsTIYjavJMdx2CZJX/R96ibuqPVRsdh+su
+ WBPSaKkHFC4F5WOs/em4n5lgpSz5VmKrhTvGnLYDlhIpALK5WgQwFXGynwE/Pf0vf7ER5ZnsXNl
+ 1ZicKvXlv+bgfSrwe6EtOBVeesZB8J1NuROB52ho=
 
-On 2026-02-23 at 12:52:03 -0800, Dave Hansen wrote:
->...
->> diff --git a/Documentation/arch/x86/x86_64/mm.rst b/Documentation/arch/x=
-86/x86_64/mm.rst
->> index a6cf05d51bd8..7e2e4c5fa661 100644
->> --- a/Documentation/arch/x86/x86_64/mm.rst
->> +++ b/Documentation/arch/x86/x86_64/mm.rst
->> @@ -60,7 +60,8 @@ Complete virtual memory map with 4-level page tables
->>     ffffe90000000000 |  -23    TB | ffffe9ffffffffff |    1 TB | ... unu=
-sed hole
->>     ffffea0000000000 |  -22    TB | ffffeaffffffffff |    1 TB | virtual=
- memory map (vmemmap_base)
->>     ffffeb0000000000 |  -21    TB | ffffebffffffffff |    1 TB | ... unu=
-sed hole
->> -   ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN s=
-hadow memory
->> +   ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN s=
-hadow memory (generic mode)
->> +   fffff40000000000 |   -8    TB | fffffbffffffffff |    8 TB | KASAN s=
-hadow memory (software tag-based mode)
->>    __________________|____________|__________________|_________|________=
-____________________________________________________
->>                                                                |
->>                                                                | Identic=
-al layout to the 56-bit one from here on:
->> @@ -130,7 +131,8 @@ Complete virtual memory map with 5-level page tables
->>     ffd2000000000000 |  -11.5  PB | ffd3ffffffffffff |  0.5 PB | ... unu=
-sed hole
->>     ffd4000000000000 |  -11    PB | ffd5ffffffffffff |  0.5 PB | virtual=
- memory map (vmemmap_base)
->>     ffd6000000000000 |  -10.5  PB | ffdeffffffffffff | 2.25 PB | ... unu=
-sed hole
->> -   ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN s=
-hadow memory
->> +   ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN s=
-hadow memory (generic mode)
->> +   ffeffc0000000000 |   -6    PB | fffffbffffffffff |    4 PB | KASAN s=
-hadow memory (software tag-based mode)
->>    __________________|____________|__________________|_________|________=
-____________________________________________________
+On Wed, Dec 03, 2025 at 03:30:34PM -0800, Kees Cook wrote:
+> As done for kmalloc_obj*(), introduce a type-aware allocator for flexible
+> arrays, which may also have "counted_by" annotations:
 >
->I think the idea of these is that you can run through, find *one* range
->and know what a given address maps to. This adds overlapping ranges.
->Could you make it clear that part of the area is "generic mode" only and
->the other part is for generic mode and for "software tag-based mode"?
+> 	ptr = kmalloc(struct_size(ptr, flex_member, count), gfp);
+>
+> becomes:
+>
+> 	ptr = kmalloc_flex(*ptr, flex_member, count, gfp);
+>
+> The internal use of __flex_counter() allows for automatically setting
+> the counter member of a struct's flexible array member when it has
+> been annotated with __counted_by(), avoiding any missed early size
+> initializations while __counted_by() annotations are added to the
+> kernel. Additionally, this also checks for "too large" allocations based
+> on the type size of the counter variable. For example:
+>
+> 	if (count > type_max(ptr->flex_counter))
+> 		fail...;
+> 	size = struct_size(ptr, flex_member, count);
+> 	ptr = kmalloc(size, gfp);
+> 	ptr->flex_counter = count;
+>
+> becomes (n.b. unchanged from earlier example):
+>
+> 	ptr = kmalloc_flex(*ptr, flex_member, count, gfp);
+> 	ptr->flex_count = count;
+>
+> Note that manual initialization of the flexible array counter is still
+> required (at some point) after allocation as not all compiler versions
+> support the __counted_by annotation yet. But doing it internally makes
+> sure they cannot be missed when __counted_by _is_ available, meaning
+> that the bounds checker will not trip due to the lack of "early enough"
+> initializations that used to work before enabling the stricter bounds
+> checking. For example:
+>
+> 	ptr = kmalloc_flex(*ptr, flex_member, count, gfp);
+> 	fill(ptr->flex, count);
+> 	ptr->flex_count = count;
+>
+> This works correctly before adding a __counted_by annotation (since
+> nothing is checking ptr->flex accesses against ptr->flex_count). After
+> adding the annotation, the bounds sanitizer would trip during fill()
+> because ptr->flex_count wasn't set yet. But with kmalloc_flex() setting
+> ptr->flex_count internally at allocation time, the existing code works
+> without needing to move the ptr->flex_count assignment before the call
+> to fill(). (This has been a stumbling block for __counted_by adoption.)
+>
+> Signed-off-by: Kees Cook <kees@kernel.org>
+> ---
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Vlastimil Babka <vbabka@suse.cz>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Christoph Lameter <cl@gentwo.org>
+> Cc: David Rientjes <rientjes@google.com>
+> Cc: Roman Gushchin <roman.gushchin@linux.dev>
+> Cc: Harry Yoo <harry.yoo@oracle.com>
+> Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+> Cc: <workflows@vger.kernel.org>
+> Cc: <linux-doc@vger.kernel.org>
+> Cc: <linux-mm@kvack.org>
+> Cc: <linux-hardening@vger.kernel.org>
+> ---
+>  Documentation/process/deprecated.rst |  7 ++++
+>  include/linux/slab.h                 | 48 ++++++++++++++++++++++++++++
+>  2 files changed, 55 insertions(+)
+>
+> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+> index 91c628fa2d59..fed56864d036 100644
+> --- a/Documentation/process/deprecated.rst
+> +++ b/Documentation/process/deprecated.rst
+> @@ -387,6 +387,7 @@ allocations. For example, these open coded assignments::
+>  	ptr = kzalloc(sizeof(*ptr), gfp);
+>  	ptr = kmalloc_array(count, sizeof(*ptr), gfp);
+>  	ptr = kcalloc(count, sizeof(*ptr), gfp);
+> +	ptr = kmalloc(struct_size(ptr, flex_member, count), gfp);
+>  	ptr = kmalloc(sizeof(struct foo, gfp);
+>
+>  become, respectively::
+> @@ -395,4 +396,10 @@ become, respectively::
+>  	ptr = kzalloc_obj(*ptr, gfp);
+>  	ptr = kmalloc_objs(*ptr, count, gfp);
+>  	ptr = kzalloc_objs(*ptr, count, gfp);
+> +	ptr = kmalloc_flex(*ptr, flex_member, count, gfp);
+>  	__auto_type ptr = kmalloc_obj(struct foo, gfp);
+> +
+> +If `ptr->flex_member` is annotated with __counted_by(), the allocation
+> +will automatically fail if `count` is larger than the maximum
+> +representable value that can be stored in the counter member associated
+> +with `flex_member`.
+> diff --git a/include/linux/slab.h b/include/linux/slab.h
+> index 726457daedbd..2656ea610b68 100644
+> --- a/include/linux/slab.h
+> +++ b/include/linux/slab.h
+> @@ -982,6 +982,33 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node);
+>  	(TYPE *)KMALLOC(__obj_size, GFP);				\
+>  })
+>
+> +/**
+> + * __alloc_flex - Allocate an object that has a trailing flexible array
+> + * @KMALLOC: kmalloc wrapper function to use for allocation.
+> + * @GFP: GFP flags for the allocation.
+> + * @TYPE: type of structure to allocate space for.
+> + * @FAM: The name of the flexible array member of @TYPE structure.
+> + * @COUNT: how many @FAM elements to allocate space for.
+> + *
+> + * Returns: Newly allocated pointer to @TYPE with @COUNT-many trailing
+> + * @FAM elements, or NULL on failure or if @COUNT cannot be represented
+> + * by the member of @TYPE that counts the @FAM elements (annotated via
+> + * __counted_by()).
+> + */
+> +#define __alloc_flex(KMALLOC, GFP, TYPE, FAM, COUNT)			\
+> +({									\
+> +	const size_t __count = (COUNT);					\
+> +	const size_t __obj_size = struct_size_t(TYPE, FAM, __count);	\
+> +	TYPE *__obj_ptr;						\
+> +	if (WARN_ON_ONCE(overflows_flex_counter_type(TYPE, FAM,	__count))) \
+> +		__obj_ptr = NULL;					\
 
-Boris suggested adding a footnote to clarify these are alternative ranges [=
-1].
-Perhaps I can add a star '*' next to these two so it can notify someone to =
-look for
-the footnote?
+I wonder if this is correct? Because overflows_flex_counter_type() is:
 
-[1] https://lore.kernel.org/all/20260113161047.GNaWZuh21aoxqtTNXS@fat_crate=
-.local/
+#define overflows_flex_counter_type(TYPE, FAM, COUNT)		\
+	(!overflows_type(COUNT, typeof_flex_counter(((TYPE *)NULL)->FAM)))
 
->
->> @@ -176,5 +178,9 @@ Be very careful vs. KASLR when changing anything her=
-e. The KASLR address
->>  range must not overlap with anything except the KASAN shadow area, whic=
-h is
->>  correct as KASAN disables KASLR.
->>
->> +The 'KASAN shadow memory (generic mode)/(software tag-based mode)' rang=
-es are
->> +mutually exclusive and depend on which KASAN setting is chosen:
->> +CONFIG_KASAN_GENERIC or CONFIG_KASAN_SW_TAGS.
->> +
->>  For both 4- and 5-level layouts, the KSTACK_ERASE_POISON value in the l=
-ast 2MB
->>  hole: ffffffffffff4111
->> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools=
-/kasan.rst
->> index 64dbf8b308bd..03b508ebe673 100644
->> --- a/Documentation/dev-tools/kasan.rst
->> +++ b/Documentation/dev-tools/kasan.rst
->> @@ -22,8 +22,8 @@ architectures, but it has significant performance and =
-memory overheads.
->>
->>  Software Tag-Based KASAN or SW_TAGS KASAN, enabled with CONFIG_KASAN_SW=
-_TAGS,
->>  can be used for both debugging and dogfood testing, similar to userspac=
-e HWASan.
->> -This mode is only supported for arm64, but its moderate memory overhead=
- allows
->> -using it for testing on memory-restricted devices with real workloads.
->> +This mode is only supported for arm64 and x86, but its moderate memory =
-overhead
->> +allows using it for testing on memory-restricted devices with real work=
-loads.
->>
->>  Hardware Tag-Based KASAN or HW_TAGS KASAN, enabled with CONFIG_KASAN_HW=
-_TAGS,
->>  is the mode intended to be used as an in-field memory bug detector or a=
-s a
->> @@ -351,10 +351,12 @@ Software Tag-Based KASAN
->>  Software Tag-Based KASAN uses a software memory tagging approach to che=
-cking
->>  access validity. It is currently only implemented for the arm64 archite=
-cture.
->>
->> -Software Tag-Based KASAN uses the Top Byte Ignore (TBI) feature of arm6=
-4 CPUs
->> -to store a pointer tag in the top byte of kernel pointers. It uses shad=
-ow memory
->> -to store memory tags associated with each 16-byte memory cell (therefor=
-e, it
->> -dedicates 1/16th of the kernel memory for shadow memory).
->> +Software Tag-Based KASAN uses the Top Byte Ignore (TBI) feature of arm6=
-4 CPUs to
->> +store a pointer tag in the top byte of kernel pointers. Analogously to =
-TBI on
->> +x86 CPUs Linear Address Masking (LAM) feature is used and the pointer t=
-ag is
->> +stored in four bits of the kernel pointer's top byte. Software Tag-Base=
-d mode
->> +uses shadow memory to store memory tags associated with each 16-byte me=
-mory cell
->> +(therefore, it dedicates 1/16th of the kernel memory for shadow memory)=
-.
->
->This is going to get really cumbersome really fast if all the
->architectures doing this add their marketing terms in here.
->
->=09Software Tag-Based KASAN uses the hardware CPU features* to
->=09repurpose space inside kernel pointers to store pointer tags.
->=09...
->
->and then _elsewhere_ you can describe the two implementations.
+I.e. returns true if overflows_type() returns false, and whose comment states:
 
-Okay, I'll rewrite that.
+ * Returns: true if @COUNT can be represented in the @FAM's counter. When
+ * @FAM is not annotated with __counted_by(), always returns true.
 
->
->>  On each memory allocation, Software Tag-Based KASAN generates a random =
-tag, tags
->>  the allocated memory with this tag, and embeds the same tag into the re=
-turned
->> @@ -370,12 +372,14 @@ Software Tag-Based KASAN also has two instrumentat=
-ion modes (outline, which
->>  emits callbacks to check memory accesses; and inline, which performs th=
-e shadow
->>  memory checks inline). With outline instrumentation mode, a bug report =
-is
->>  printed from the function that performs the access check. With inline
->> -instrumentation, a ``brk`` instruction is emitted by the compiler, and =
-a
->> -dedicated ``brk`` handler is used to print bug reports.
->> -
->> -Software Tag-Based KASAN uses 0xFF as a match-all pointer tag (accesses=
- through
->> -pointers with the 0xFF pointer tag are not checked). The value 0xFE is =
-currently
->> -reserved to tag freed memory regions.
->> +instrumentation, arm64's implementation uses the ``brk`` instruction em=
-itted by
->> +the compiler, and a dedicated ``brk`` handler is used to print bug repo=
-rts. On
->> +x86 inline mode doesn't work yet due to missing compiler support.
->> +
->> +For arm64 Software Tag-Based KASAN uses 0xFF as a match-all pointer tag
->> +(accesses through pointers with the 0xFF pointer tag are not checked). =
-The value
->> +0xFE is currently reserved to tag freed memory regions. On x86 the same=
- tags
->> +take on 0xF and 0xE respectively.
->
->I think this would be more clear with a table or list of features and
->supported architectures.
+So we warn on when the @COUNT _can_ be represented in @FAM's counter?
 
-That is a good idea, I'll work on that
+I'm seeing the warning for the following:
 
->
->>  Hardware Tag-Based KASAN
->>  ~~~~~~~~~~~~~~~~~~~~~~~~
->> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
->> index 80527299f859..877668cd5deb 100644
->> --- a/arch/x86/Kconfig
->> +++ b/arch/x86/Kconfig
->> @@ -67,6 +67,7 @@ config X86
->>  =09select ARCH_CLOCKSOURCE_INIT
->>  =09select ARCH_CONFIGURES_CPU_MITIGATIONS
->>  =09select ARCH_CORRECT_STACKTRACE_ON_KRETPROBE
->> +=09select ARCH_DISABLE_KASAN_INLINE=09if X86_64 && KASAN_SW_TAGS
->>  =09select ARCH_ENABLE_HUGEPAGE_MIGRATION if X86_64 && HUGETLB_PAGE && M=
-IGRATION
->>  =09select ARCH_ENABLE_MEMORY_HOTPLUG if X86_64
->>  =09select ARCH_ENABLE_MEMORY_HOTREMOVE if MEMORY_HOTPLUG
->> @@ -196,6 +197,8 @@ config X86
->>  =09select HAVE_ARCH_JUMP_LABEL_RELATIVE
->>  =09select HAVE_ARCH_KASAN=09=09=09if X86_64
->>  =09select HAVE_ARCH_KASAN_VMALLOC=09=09if X86_64
->> +=09select HAVE_ARCH_KASAN_SW_TAGS=09=09if ADDRESS_MASKING && CC_IS_CLAN=
-G
->> +=09select ARCH_NEEDS_DEFER_KASAN=09=09if ADDRESS_MASKING
->>  =09select HAVE_ARCH_KFENCE
->>  =09select HAVE_ARCH_KMSAN=09=09=09if X86_64
->>  =09select HAVE_ARCH_KGDB
->> @@ -410,6 +413,7 @@ config AUDIT_ARCH
->>  config KASAN_SHADOW_OFFSET
->>  =09hex
->>  =09depends on KASAN
->> +=09default 0xeffffc0000000000 if KASAN_SW_TAGS
->>  =09default 0xdffffc0000000000
->
->Please separate this from the documentation.
+struct multi_remaps {
+	unsigned int nr, cap;
+	long offsets[] __counted_by(cap);
+};
+...
+unsigned int cap;
+...
+multi = kmalloc_flex(*multi, offsets, cap, gfp);
 
-Okay, I'll split the documentation part into a separate patch.
+Surely that ! should not be there?
 
->
->>  config HAVE_INTEL_TXT
->> diff --git a/arch/x86/boot/compressed/misc.h b/arch/x86/boot/compressed/=
-misc.h
->> index fd855e32c9b9..ba70036c2abd 100644
->> --- a/arch/x86/boot/compressed/misc.h
->> +++ b/arch/x86/boot/compressed/misc.h
->> @@ -13,6 +13,7 @@
->>  #undef CONFIG_PARAVIRT_SPINLOCKS
->>  #undef CONFIG_KASAN
->>  #undef CONFIG_KASAN_GENERIC
->> +#undef CONFIG_KASAN_SW_TAGS
->>
->>  #define __NO_FORTIFY
->>
->> diff --git a/arch/x86/include/asm/kasan.h b/arch/x86/include/asm/kasan.h
->> index 90c18e30848f..53ab7de16517 100644
->> --- a/arch/x86/include/asm/kasan.h
->> +++ b/arch/x86/include/asm/kasan.h
->> @@ -6,7 +6,12 @@
->>  #include <linux/kasan-tags.h>
->>  #include <linux/types.h>
->>  #define KASAN_SHADOW_OFFSET _AC(CONFIG_KASAN_SHADOW_OFFSET, UL)
->> +
->> +#ifdef CONFIG_KASAN_SW_TAGS
->> +#define KASAN_SHADOW_SCALE_SHIFT 4
->> +#else
->>  #define KASAN_SHADOW_SCALE_SHIFT 3
->> +#endif
->>
->>  /*
->>   * Compiler uses shadow offset assuming that addresses start
->> diff --git a/arch/x86/mm/kasan_init_64.c b/arch/x86/mm/kasan_init_64.c
->> index 7f5c11328ec1..8cbb8ec32061 100644
->> --- a/arch/x86/mm/kasan_init_64.c
->> +++ b/arch/x86/mm/kasan_init_64.c
->> @@ -465,4 +465,9 @@ void __init kasan_init(void)
->>
->>  =09init_task.kasan_depth =3D 0;
->>  =09kasan_init_generic();
->> +
->> +=09if (cpu_feature_enabled(X86_FEATURE_LAM))
->> +=09=09kasan_init_sw_tags();
->> +=09else
->> +=09=09pr_info("KernelAddressSanitizer not initialized (sw-tags): hardwa=
-re doesn't support LAM\n");
->>  }
->> diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
->> index a4bb610a7a6f..d13ea8da7bfd 100644
->> --- a/lib/Kconfig.kasan
->> +++ b/lib/Kconfig.kasan
->> @@ -112,7 +112,8 @@ config KASAN_SW_TAGS
->>
->>  =09  Requires GCC 11+ or Clang.
->>
->> -=09  Supported only on arm64 CPUs and relies on Top Byte Ignore.
->> +=09  Supported on arm64 CPUs that support Top Byte Ignore and on x86 CP=
-Us
->> +=09  that support Linear Address Masking.
->
->Can this read more like:
->
->=09Supported on:
->=09=09arm64: CPUs with Top Byte Ignore
->=09=09x86:   CPUs with Linear Address Masking.
->
->please?
+Annnd now I typed that I realise that Linus fixed this up in mainline and I was
+working with a stale version of this file :))
 
-Sure, I'll change it.
+Anyway, I see that the comment isn't fixed up, so I think that's something we
+should patch, like:
 
---=20
-Kind regards
-Maciej Wiecz=C3=B3r-Retman
+ * Returns: true if @COUNT can be represented in the @FAM's counter. When
+ * @FAM is not annotated with __counted_by(), always returns true.
 
+->
+
+ * Returns: true if @COUNT cannot be represented in the @FAM's counter. When
+ * @FAM is not annotated with __counted_by(), always returns false.
+
+Cheers, Lorenzo
