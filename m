@@ -1,77 +1,87 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mail.cock.li (unknown [37.120.193.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7FCF371056;
-	Mon, 23 Feb 2026 21:56:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03E9732AAD1;
+	Tue, 24 Feb 2026 07:13:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.120.193.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771883817; cv=none; b=IZMONa5NzSFM3UoIvjcNdjL0kWKCpBpPKOhvNZBm9E4P+Y48bMw7ds170Crou39eyLtDSpST7c56+HJ1TGUMv/cRfURGvKNlA8ZDW9l6m65oJ5lbZGlf74d5wHK4r7XxK9rulE0cm9L6BJwdTvdwT4bJKmnd52XxJclxshI34yg=
+	t=1771917198; cv=none; b=osy5K+n4Eo3V3ZtZ0qYthZa18J3E8Hz5wokzk6Eh01xBXH5HJ+vO95wa1QkIyLdkHCLsNAXZ/7s7QYM0Zi+wlgY1lR4Do82PcE1Uq8bXy9noaQE1tNF1/pUyj+kr16++FSXxQF8BHr++9dl+aFZyWRJdvZC3ywi0yarnhyoJDyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771883817; c=relaxed/simple;
-	bh=pXGC/cq1RIa+kosWyTBH56XxIsmLJCRt3EH2O+USob0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=qyvMnCxfSkH3EgRcW/r+fb741ctqYcKqPeOdo1valw5Ag9WFzCqfoq6qYgVactCsjWu/0ijLD6gH9PMQ0cdOuxqgD5DFL2+1mSbfUyNIIcvu2id09jxUzU5AOthOYexhPPddGaOVK1YfaywnEj6MUxEsjiLQJrgrI4pKoT2mS5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Hd9ophFE; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1771917198; c=relaxed/simple;
+	bh=hcAM6Ed0s7f8Sa/Rllr4+lGoxkewCaTbYnGNrVm0ejU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=RNXYzyLtOQtVoRFUDKRmMLOjTXeaHb5GkGYt/Ay7rBQuRN3M8iTztnBtHcpjTHFdT0KFu8tnrmG6hdUFUJtJimUUPaG7iAvS2ODbr7DRgCANPIqIeWULWoRewzCqoB70J9XWlZFun9+iVTfUNQ1myUpp2gU/4YN4WoReifDR3PQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=airmail.cc; spf=pass smtp.mailfrom=airmail.cc; dkim=pass (2048-bit key) header.d=airmail.cc header.i=@airmail.cc header.b=DVDCNTx+; arc=none smtp.client-ip=37.120.193.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=airmail.cc
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=airmail.cc
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Hd9ophFE"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 226C540423
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1771883815; bh=TegdeLCjhtE2h6einga2Hyq6/L556fumxXo0tIT3FJA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Hd9ophFEX8eF9jKSNUsZCWxUOq6x4/ZFkZOmuxRcMy40ALlUeCZSf+zRfVhW0o9gX
-	 vRo5HZKg2Hd5Pcy3PSuEEL/qKQsMoHc7YKRgbh4Y1X6RXDHwv1pazLpm+vgpPK7jhe
-	 OEdowmpJCe1nSE/Q1crVq6+2tM1abiy75TpN7gmiv0KPfr9s0ROr8EfOR8uFp5RpW3
-	 qnTOI9WQJ9EEuBbvnf1j/xdKVfTtwKAN0DO3wwWuLHV8vGodV3y/17dATmFSK36n86
-	 F/nrl9fkBT9HeUfrdEFvX+KYlHn7kuFbLL/P0j64AtjWQ82Jb83EsQhIvCBffqnN2J
-	 7StKAqdTcXs8A==
-Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 226C540423;
-	Mon, 23 Feb 2026 21:56:55 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Hans Anda <hansa@airmail.cc>, Collin Funk <collin.funk1@gmail.com>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Hans Anda <hansa@airmail.cc>
+	dkim=pass (2048-bit key) header.d=airmail.cc header.i=@airmail.cc header.b="DVDCNTx+"
+Message-ID: <38a8cc54e378eb11cd3e161ad3a90a7de40291d5.camel@airmail.cc>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=airmail.cc; s=mail;
+	t=1771917184; bh=hcAM6Ed0s7f8Sa/Rllr4+lGoxkewCaTbYnGNrVm0ejU=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=DVDCNTx+wQPHRc6bRvcVAXaOLoJQCC/3rIr0rfyKsJO7WerLEohLv4pAaCbkP1cvu
+	 /fM8f1TmdhefyudMRCqvo9dUzpwGX8J3KDjF8Ox/fpL4CeDaPakIjWNcsEsQyMd8JP
+	 3qornZPeS2ARKxLqW5JOLHkZcrVXYVaRhiRLHbcckkrsbuHRCAtmn9fmzC/VK2go28
+	 yjEtseT0TPM2zPqNLaxdKgslmCrgL91/uDl1TmtKg59jaCi1th3QVAD62c3lrogti5
+	 XDRenJ/3QoXY7mq943+xvyvjVGC7oDwk4I9NUtC3PySEHvYhAR/BWBaKKu8vcI0X4B
+	 I7FQZQ/cLVpFg==
 Subject: Re: [PATCH] scripts: sort ver_linux and list in changes.rst
-In-Reply-To: <20260221152113.28322-2-hansa@airmail.cc>
+From: Hans Anda <hansa@airmail.cc>
+To: Jonathan Corbet <corbet@lwn.net>, Collin Funk <collin.funk1@gmail.com>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Date: Tue, 24 Feb 2026 08:13:02 +0100
+In-Reply-To: <87wm032kex.fsf@trenco.lwn.net>
 References: <20260221152113.28322-2-hansa@airmail.cc>
-Date: Mon, 23 Feb 2026 14:56:54 -0700
-Message-ID: <87wm032kex.fsf@trenco.lwn.net>
+	 <87wm032kex.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
 
-Hans Anda <hansa@airmail.cc> writes:
+On Mon, 2026-02-23 at 14:56 -0700, Jonathan Corbet wrote:
+> Hans Anda <hansa@airmail.cc> writes:
+>=20
+> > It is a pain in the ass to compare the software versions on the running
+> > system (scripts/ver_linux) with the minimal required versions (changes.=
+rst).
+> >=20
+> > Sort both lists alphabetically
+>=20
+> So ... I suspect that the intent, in changes.rst anyway, was to list the
+> compilers first and group other stuff roughly by category.=C2=A0 But I ag=
+ree
+> it's kind of a mess; if it's really by category, they should be
+> explicit.
 
-> It is a pain in the ass to compare the software versions on the running
-> system (scripts/ver_linux) with the minimal required versions (changes.rst).
->
-> Sort both lists alphabetically
+Well, actually not. i considered categories but decided to sort alphabetica=
+lly.
+Because it is simpler and spared the decisions which tool fits in which cat=
+egory.
 
-So ... I suspect that the intent, in changes.rst anyway, was to list the
-compilers first and group other stuff roughly by category.  But I agree
-it's kind of a mess; if it's really by category, they should be
-explicit.
+> If nobody screams, I am inclined to apply this change.=C2=A0 But ...
+>=20
+> > Add missing tools in ver_linux
+> > =C2=A0(bash, bc, bindgen, bindutils, btrfs, clang, e2fsck, awk, tar, gt=
+ags,
+> > =C2=A0 iptables, kmod, mcelog, mkimage, openssl, pahole, python, Rust, =
+sphinx,
+> > =C2=A0 squashfs-tools, udev)
+> > Fix minor issues (add grub2)
+>=20
+> ...these are a separate change and should be in their own patch.
+>=20
 
-If nobody screams, I am inclined to apply this change.  But ...
+i will make a Patch series with the files split.
 
-> Add missing tools in ver_linux
->  (bash, bc, bindgen, bindutils, btrfs, clang, e2fsck, awk, tar, gtags,
->   iptables, kmod, mcelog, mkimage, openssl, pahole, python, Rust, sphinx,
->   squashfs-tools, udev)
-> Fix minor issues (add grub2)
 
-...these are a separate change and should be in their own patch.
+Thanks for the feedback
 
-Thanks,
-
-jon
+Hans
