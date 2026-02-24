@@ -1,140 +1,108 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 720CE37AA81
-	for <workflows@vger.kernel.org>; Tue, 24 Feb 2026 11:11:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BF4D1F09B3;
+	Tue, 24 Feb 2026 23:45:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771931516; cv=none; b=ju0HA2LjQhgCmADbRqa5saGzLf+ySjqXnPH3zS1B/aaSpn5RD2BhCEvxGIf+uX153L2fW8AXkI4xIbcdBDN9g5cW4dQAiECJF7WZuSm64JsGLvG+SJwABDJzU2JbsMaJ71j7tcvv6ykcveW03/9K2wUZ0dIY38iqaDOezQZu4Xs=
+	t=1771976714; cv=none; b=l03zfVI9n0IKldhy6DoTfKQfkHw2m+L9hfNNmyXtVnWQ/Vp4awHyRTKp2vHjXgDgFMGxZkYTOnSxuKl2WUE7owy5Oj7Imz7oRj+WhBrOdLhf3oP1gPYDaqfVECC1Nw053ZBmMb26nZBEa91pISUxjRiRo/fgqBCYG9054BW+QqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771931516; c=relaxed/simple;
-	bh=wTNPYvldKqT8E/99ZE7dTEJbH62XG1KG1J6bDFSPh+U=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uOFMv4bS1qpkrMk1hg1lhGXnU9nsIpnNoapSEwfHavcWI6ugkSlChacS5YqAs6LEE7HmtiXJrJCIGcZD5QOwmPBXOmqnCbTSu73kEd+Ogmz/eCyaIDGhJcba09as0NP02BTC/yroWB0NxuQHP5WMsTUL8fvEPsqY3iwm7yGqDOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dvwmLUcw; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1771976714; c=relaxed/simple;
+	bh=5uvJhF5LDkPTld+1CeJL8wog5w0F76/q9pZPlIbrTVo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KSy7xrsWcLaEJdL6JEGM3VpGq7xvnoZyisKCs6B3Nr9t49E1wpdWmq7Ba0P/KjnzSp8ENy8H77wGowcyCDZZDX21zXWjmjESUXLSfqaFca7rdso2b8+E6B/xZPG0SD9WO2lFSlPjoL0SLhJ1yXJvXtsRSIEcxwcjzhR3MvVYccQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i/UCxPaF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dvwmLUcw"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4837f27cf2dso45944185e9.2
-        for <workflows@vger.kernel.org>; Tue, 24 Feb 2026 03:11:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771931514; x=1772536314; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UwqR4mogOeV02cqzMt1+tF/fnlUYylAA5gPYZ8oxqZQ=;
-        b=dvwmLUcw2j8Ap3HLEe1aMS+zujYEbqVjuxoeX0lpOxOTrFieSdM6q2WvR+AqFF85JK
-         83E6jsHSgvul535Ipajrgn4CeMEorEHOtqBq/VXjoQRnlbSTuE12zr0spMK3VxvhA3tB
-         BPBqxH87/omtYoO8/4lR23Tt+TWJp6MwfvlD535ni0HBmYgy32+wV+Mp81lPVWrOQnKM
-         iSFbCl3zDwj8a9YxP1H0GyACAe8yc3+yZ7X53BFhWHMxh6EZt3YdL0lPkupKLnXUZmLj
-         0XtKl/lQKd8YPv4xQlibcRlh83mJhFlho97Dfg65kZnQfMAeXPgPzTsTI+PA79TLG6o5
-         ohvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771931514; x=1772536314;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=UwqR4mogOeV02cqzMt1+tF/fnlUYylAA5gPYZ8oxqZQ=;
-        b=JiJGcrjCtA0roxdaAhx1cPdp6Ka3qrw64SXh4ZW5EG9F9NI9UZ/HefxD/IZH3IMUgp
-         XW4cNRgeEANIoyUVbK6Q3PCkT9RxMSfoj0MzVgIbIWcanUIGj/aap7q4axApprnhKABd
-         oHKIM57MY+wjA9GU/UoWsIaSAQ84/eoO9pDs/pI4x0oE2KlvgQwfCBCBS+RXk7nlUG2R
-         Zy1KkXS8G5XwbcJ249a0QGEoX3n8Pd3uCnC/5HJlY8JXzB9U8d2mouU02vLFfwLE0wpd
-         Iekh73DFXyf7EU6VltdhmICwR/dJTGUe7pDuYo3IjG3y9wAVDkqevxn4o/e69bwKLx1/
-         thVg==
-X-Forwarded-Encrypted: i=1; AJvYcCXzCMpT0zmlMjJTyqF3s590moLcwDljrLnNOIeSFnrJ3sBZWmJoWTSdE6VksB+zsoN7a+hva50uwgw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxryqsadRSFZ6y5kxX3iji7BvHgeVDdjVyrLxfIvxychfqLYC82
-	VQ/ojDjSBweOvfwoZ5WwJ+aeybCz0YCqRf/ElP0Zx19NcPBl/lUiWpsZ
-X-Gm-Gg: AZuq6aJXxEuQ8TEHR2o6Ypn3DPChrsag9F5Y3YvSrnao++yt0RynfDWlvkiRzn0cQBn
-	QfkoQLrv181hi43x26hwNcSqUELdgV+uf9vu2boCEmgiVLZF1H3MWAiaSdeE3en8e/tb8nfDiuJ
-	gzwLAtdEaC/9Fw6lewgD9HOvgP0dC/UhnKWXF991F5qgt5v5egjg1cQNVQMMGWHL81R5ts1IA1z
-	BM+N0PWKxdIO/An4TTpO17tcAxjHrINQpGrN1FX698LpKrUet0HUInvIy6EvKaq1X7pk2L3RpYU
-	Kum/zIwLbg9uJAePm+gKFMJ42DyrD5qyZVxd70aTW+1YgWPrC02KDi0da44eE+IQH/CFBHyno8w
-	sZ0YzFQl3L9JtpqQ/rtyMzHoCLNDQt+e69RrzhFhQu+tlwXNqLhwxaJgGPGBomWApfuePExjm8C
-	K5cCFYzOWk38qjZv45tdS2yOUf9lQpFrTEWOEQd0ON+wHOx+mkC7k+XhzKW8tcVNbf
-X-Received: by 2002:a05:600c:8b16:b0:480:68ed:1e70 with SMTP id 5b1f17b1804b1-483a963de73mr263902315e9.35.1771931513686;
-        Tue, 24 Feb 2026 03:11:53 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483a9caadedsm216756765e9.10.2026.02.24.03.11.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Feb 2026 03:11:53 -0800 (PST)
-Date: Tue, 24 Feb 2026 11:11:51 +0000
-From: David Laight <david.laight.linux@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i/UCxPaF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2756C116D0;
+	Tue, 24 Feb 2026 23:45:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771976714;
+	bh=5uvJhF5LDkPTld+1CeJL8wog5w0F76/q9pZPlIbrTVo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=i/UCxPaFsPqa+xdPI+yB+vtq/dghbqe5ao7qw2QhsssZyTjiJFZoRDeDg0C+V+F6D
+	 btqHA6Ce0RsaFpsCG0phcfSDCWCGHEtDFifDJ/fGz9vUe9gQb85sktY/zDkOUPRBTy
+	 lbVlB+mAMllViQm2yDW0sYPLNKChX2FtIXxjXvIByDit8prF0wE8RrNrSPE9aDHfgE
+	 /YkMvY/DRKm4lF/LlPMBpgYCpc9dabq0AC3SjzEkhdpBRp5qYxa87cFPqpyTwx4z0d
+	 AL8uxuu9jRkVzCPb3IiX2g9AHxWa9hGVNE1d39cKrtH4CXqWb6u3ZcbXuDyWwQtmbo
+	 IitiGV/DnD/+A==
+Date: Tue, 24 Feb 2026 15:45:13 -0800
+From: Kees Cook <kees@kernel.org>
 To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Kees Cook <kees@kernel.org>, Vlastimil Babka <vbabka@suse.cz>, Jonathan
- Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo
- <harry.yoo@oracle.com>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org,
- linux-hardening@vger.kernel.org, Linus Torvalds
- <torvalds@linux-foundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- Miguel Ojeda <ojeda@kernel.org>, Przemek Kitszel
- <przemyslaw.kitszel@intel.com>, Matthew Wilcox <willy@infradead.org>, John
- Hubbard <jhubbard@nvidia.com>, Joe Perches <joe@perches.com>, Christoph
- Lameter <cl@linux.com>, Marco Elver <elver@google.com>, Vegard Nossum
- <vegard.nossum@oracle.com>, Pekka Enberg <penberg@kernel.org>, Joonsoo Kim
- <iamjoonsoo.kim@lge.com>, Bill Wendling <morbo@google.com>, Justin Stitt
- <justinstitt@google.com>, Jann Horn <jannh@google.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Sasha Levin <sashal@kernel.org>, Nathan
- Chancellor <nathan@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Nick
- Desaulniers <nick.desaulniers+lkml@gmail.com>, Jakub Kicinski
- <kuba@kernel.org>, Yafang Shao <laoar.shao@gmail.com>, Tony Ambardar
- <tony.ambardar@gmail.com>, Alexander Lobakin
- <aleksander.lobakin@intel.com>, Jan Hendrik Farr <kernel@jfarr.cc>,
- Alexander Potapenko <glider@google.com>, linux-kernel@vger.kernel.org,
- llvm@lists.linux.dev
+Cc: Vlastimil Babka <vbabka@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Lameter <cl@gentwo.org>,
+	David Rientjes <rientjes@google.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Harry Yoo <harry.yoo@oracle.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, linux-hardening@vger.kernel.org,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	John Hubbard <jhubbard@nvidia.com>, Joe Perches <joe@perches.com>,
+	Christoph Lameter <cl@linux.com>, Marco Elver <elver@google.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Pekka Enberg <penberg@kernel.org>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, Jann Horn <jannh@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Yafang Shao <laoar.shao@gmail.com>,
+	Tony Ambardar <tony.ambardar@gmail.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Jan Hendrik Farr <kernel@jfarr.cc>,
+	Alexander Potapenko <glider@google.com>,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
 Subject: Re: [PATCH v6 4/5] slab: Introduce kmalloc_flex() and family
-Message-ID: <20260224111151.6154ce59@pumpkin>
-In-Reply-To: <675ec547-dac8-465f-b3c9-a0f97c5bdef7@lucifer.local>
+Message-ID: <202602241541.65DBBD8CB@keescook>
 References: <20251203233029.it.641-kees@kernel.org>
-	<20251203233036.3212363-4-kees@kernel.org>
-	<675ec547-dac8-465f-b3c9-a0f97c5bdef7@lucifer.local>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+ <20251203233036.3212363-4-kees@kernel.org>
+ <675ec547-dac8-465f-b3c9-a0f97c5bdef7@lucifer.local>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <675ec547-dac8-465f-b3c9-a0f97c5bdef7@lucifer.local>
 
-On Tue, 24 Feb 2026 10:26:36 +0000
-Lorenzo Stoakes <lorenzo.stoakes@oracle.com> wrote:
-
-> On Wed, Dec 03, 2025 at 03:30:34PM -0800, Kees Cook wrote:
-...
-> > +/**
-> > + * __alloc_flex - Allocate an object that has a trailing flexible array
-> > + * @KMALLOC: kmalloc wrapper function to use for allocation.
-> > + * @GFP: GFP flags for the allocation.
-> > + * @TYPE: type of structure to allocate space for.
-> > + * @FAM: The name of the flexible array member of @TYPE structure.
-> > + * @COUNT: how many @FAM elements to allocate space for.
-> > + *
-> > + * Returns: Newly allocated pointer to @TYPE with @COUNT-many trailing
-> > + * @FAM elements, or NULL on failure or if @COUNT cannot be represented
-> > + * by the member of @TYPE that counts the @FAM elements (annotated via
-> > + * __counted_by()).
-> > + */
-> > +#define __alloc_flex(KMALLOC, GFP, TYPE, FAM, COUNT)			\
-> > +({									\
-> > +	const size_t __count = (COUNT);					\
-> > +	const size_t __obj_size = struct_size_t(TYPE, FAM, __count);	\
-> > +	TYPE *__obj_ptr;						\
-> > +	if (WARN_ON_ONCE(overflows_flex_counter_type(TYPE, FAM,	__count))) \
-> > +		__obj_ptr = NULL;					\  
-...
+On Tue, Feb 24, 2026 at 10:26:36AM +0000, Lorenzo Stoakes wrote:
 > Annnd now I typed that I realise that Linus fixed this up in mainline and I was
 > working with a stale version of this file :))
+> 
+> Anyway, I see that the comment isn't fixed up, so I think that's something we
+> should patch, like:
+> 
+>  * Returns: true if @COUNT can be represented in the @FAM's counter. When
+>  * @FAM is not annotated with __counted_by(), always returns true.
+> 
+> ->
+> 
+>  * Returns: true if @COUNT cannot be represented in the @FAM's counter. When
+>  * @FAM is not annotated with __counted_by(), always returns false.
 
-I think someone else mentioned it, but having a WARN_ON_ONCE() is there
-is really a bad idea.
-The code bloat must be stunning.
+Yeah, I'm working on fixing this up correctly. I think Linux is right
+that we need to put the overflow checking entirely within the counter
+setting. That way the checks will only happen for the cases where
+counted_by is actually in use.
 
-I won't ask why the #define parameters are all UPPER CASE.
+I am, however, still pondering that the size check (as I _intended_
+it, not as it actually manifested), would catch negative sizes (i.e.
+negative can't be represented in a size_t -- the default type when the
+counter type is unknown) and refuse to allocate, though honestly the
+allocator would probably also refuse to allocate them since they would
+be very very large when cast back to size_t for the allocation itself.
 
-	David
-
-
+-- 
+Kees Cook
