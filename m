@@ -1,158 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from shelob.surriel.com (shelob.surriel.com [96.67.55.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDAF819EED3;
-	Wed, 25 Feb 2026 21:45:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1582E2EACF9;
+	Wed, 25 Feb 2026 22:26:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.67.55.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772055955; cv=none; b=QSHN+tJPF6FuYnz1K0R5PzvqzYEQwqGKM0fe7x5sru1PjJLT8bsl9OTe8nWr7fup/AIrII/i86fdZNqdS7TlcLIkatlCMP0f/XfB6aPWVprRku3zztNMykIgnCrBl6hOmXX+hMo1c2TKaENYN/kuJKDrtdm+QlbmMS8mE4Xmb/Q=
+	t=1772058385; cv=none; b=SUEB+5K2YTAeXy6APgGLZQNsqiEBOr5qbfiUkRF4hUKjIpBxEzNibcTiOcndOKnXCH7Gh2nZuEHb4W+N4llJPLPEXJ8k87lFwIxpI4ewfDz6NQtmJdQmWv5/fEkP8BqNfDqqU3ody25XNAGhe/wrzKg+Ae/Ytdqori1p3M4syG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772055955; c=relaxed/simple;
-	bh=CruDCZjsjXrYCZyE3ojF++r9JYVqoPaMKqkQId1lEhY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gree1Elp/s3C2oqB8KXnbG9pF5Jsty6hEyfNax34T9YFCdTVqq3/5ijDj0/RC0BmINz1q8Gp0IUqANO9ar+X08fDYP8k//2LihIok5gT4wuxjhhMOxumly5cm/kKTvHlG/kHi6HopORELtDuBCtyGcTvjmN7g5zW2qM4dzi1aL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KuFbNoxW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772058385; c=relaxed/simple;
+	bh=myuqzZpfSnza4NILBUJDVnpMkwG5FlqWwZRrMXE/HPU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=soxluVRKCXbZd2K9Dpmlet3cQBt685wBYlEpUMrO82pxuOF+QL0BQH/IHr8iaHWPQTwkowZLbS+et62gY8obw95eA6n6+2emt6PspobKiVp92/CVank/8hRJb1CC9dDLTD/zJo+d9lfXdPqvir4t4fiycF3Vt+1hPGnraD1TCWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=surriel.com; spf=pass smtp.mailfrom=surriel.com; dkim=pass (2048-bit key) header.d=surriel.com header.i=@surriel.com header.b=mjCBY0xh; arc=none smtp.client-ip=96.67.55.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=surriel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=surriel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KuFbNoxW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C403C116D0;
-	Wed, 25 Feb 2026 21:45:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772055954;
-	bh=CruDCZjsjXrYCZyE3ojF++r9JYVqoPaMKqkQId1lEhY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KuFbNoxWlmIzblRI46l2M3shUNrdezCvyED+VFq17e9fiMSFe7vOwA9pO3/ecXm6W
-	 qHRxhZGfA2eNVRlifVs7X2HiopMu9salvAWaQHALwjM+pPyHf97/PwKuBHxIw5dbTL
-	 ZVIurHsuZIoIKVTRnK1msxW8xBIY/l6LfNkcCmnRv+P5eQV/ZwgR/9LG7PtsKvso8N
-	 C+bbVlaRlKcW/lSAx/rCpmFy0eunJRDni9U/5HeDsN2DUcw0CaLrJeNtf7jzq2iAGP
-	 2qnzJfgn4gPq4fyYMbkcXLoqI389pT9Jf9RRcV7JRIMwxCwKVOhaIm+kNnUd4yJdqx
-	 WV/tb2wPJradA==
-Date: Wed, 25 Feb 2026 22:45:48 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Mark Brown <broonie@kernel.org>, 
-	Sasha Levin <sashal@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Jacob Keller <jacob.e.keller@intel.com>, Yeking@red54.com, kuba@kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, Theodore Ts'o <tytso@mit.edu>, 
-	Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, 
-	Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, tech-board-discuss@lists.linux.dev, Andrew Lunn <andrew@lunn.ch>
-Subject: Re: [PATCH] Add short author date to Fixes tag
-Message-ID: <aZ9p2RMrJL1mQ10w@devuan>
-References: <aZ4_sBIy8rOUL59Q@devuan>
- <2026022531-tightness-rare-6a14@gregkh>
- <aZ87Z24f9HZsofGl@devuan>
- <2026022539-commotion-huskiness-8736@gregkh>
+	dkim=pass (2048-bit key) header.d=surriel.com header.i=@surriel.com header.b="mjCBY0xh"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=surriel.com
+	; s=mail; h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
+	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=Fy3cH2rzILpqMLlhVdZJPMYEJrn96kG/FRu7cB1YPhc=; b=mjCBY0xh1Nnoc77+L4ZqWWDucC
+	3RmbQIZj9JZxWebvCUqEjzH/E5pFYOAZ3MjDgs4Pq9IBbDK28l9AP5z/blC54d/Mno5zdloMEqRrg
+	2oGgJA+MDFLz2kkIe2yXOIPL9XFX0GN9Q9ksN+pJPmGINnBGXqKMlVOloh2PfAcIFlU10aKTqFVJJ
+	8EGBa2LBODEI2Ll2FZySxmdhhMnFH4XxKZoXhzyIW/jx24z95eOaFsDv5PMMqxJZoktS41M5YINDp
+	kIAE3D4juyMIjN0118BY4L4Izjbxewkej/1TEp3q7F9CUbe4aWVoXZULO0o8o4gwYDUO/869N4wtT
+	QtoIVwcg==;
+Received: from fangorn.home.surriel.com ([10.0.13.7])
+	by shelob.surriel.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.97.1)
+	(envelope-from <riel@surriel.com>)
+	id 1vvNKT-000000001pm-3AfW;
+	Wed, 25 Feb 2026 17:26:02 -0500
+Message-ID: <9476ab2ff783c77ff4f1d323fad3e356bb172fcd.camel@surriel.com>
+Subject: Re: [PATCH] kfence: add kfence.fault parameter
+From: Rik van Riel <riel@surriel.com>
+To: Marco Elver <elver@google.com>, Andrew Morton <akpm@linux-foundation.org>
+Cc: Alexander Potapenko <glider@google.com>, Dmitry Vyukov
+ <dvyukov@google.com>,  Jonathan Corbet	 <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, 	linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 	kasan-dev@googlegroups.com,
+ workflows@vger.kernel.org, linux-mm@kvack.org,  Ernesto Martinez Garcia
+ <ernesto.martinezgarcia@tugraz.at>, Kees Cook <kees@kernel.org>
+Date: Wed, 25 Feb 2026 17:26:02 -0500
+In-Reply-To: <20260225203639.3159463-1-elver@google.com>
+References: <20260225203639.3159463-1-elver@google.com>
+Autocrypt: addr=riel@surriel.com; prefer-encrypt=mutual;
+ keydata=mQENBFIt3aUBCADCK0LicyCYyMa0E1lodCDUBf6G+6C5UXKG1jEYwQu49cc/gUBTTk33A
+ eo2hjn4JinVaPF3zfZprnKMEGGv4dHvEOCPWiNhlz5RtqH3SKJllq2dpeMS9RqbMvDA36rlJIIo47
+ Z/nl6IA8MDhSqyqdnTY8z7LnQHqq16jAqwo7Ll9qALXz4yG1ZdSCmo80VPetBZZPw7WMjo+1hByv/
+ lvdFnLfiQ52tayuuC1r9x2qZ/SYWd2M4p/f5CLmvG9UcnkbYFsKWz8bwOBWKg1PQcaYHLx06sHGdY
+ dIDaeVvkIfMFwAprSo5EFU+aes2VB2ZjugOTbkkW2aPSWTRsBhPHhV6dABEBAAG0HlJpayB2YW4gU
+ mllbCA8cmllbEByZWRoYXQuY29tPokBHwQwAQIACQUCW5LcVgIdIAAKCRDOed6ShMTeg05SB/986o
+ gEgdq4byrtaBQKFg5LWfd8e+h+QzLOg/T8mSS3dJzFXe5JBOfvYg7Bj47xXi9I5sM+I9Lu9+1XVb/
+ r2rGJrU1DwA09TnmyFtK76bgMF0sBEh1ECILYNQTEIemzNFwOWLZZlEhZFRJsZyX+mtEp/WQIygHV
+ WjwuP69VJw+fPQvLOGn4j8W9QXuvhha7u1QJ7mYx4dLGHrZlHdwDsqpvWsW+3rsIqs1BBe5/Itz9o
+ 6y9gLNtQzwmSDioV8KhF85VmYInslhv5tUtMEppfdTLyX4SUKh8ftNIVmH9mXyRCZclSoa6IMd635
+ Jq1Pj2/Lp64tOzSvN5Y9zaiCc5FucXtB9SaWsgdmFuIFJpZWwgPHJpZWxAc3VycmllbC5jb20+iQE
+ +BBMBAgAoBQJSLd2lAhsjBQkSzAMABgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRDOed6ShMTe
+ g4PpB/0ZivKYFt0LaB22ssWUrBoeNWCP1NY/lkq2QbPhR3agLB7ZXI97PF2z/5QD9Fuy/FD/jddPx
+ KRTvFCtHcEzTOcFjBmf52uqgt3U40H9GM++0IM0yHusd9EzlaWsbp09vsAV2DwdqS69x9RPbvE/Ne
+ fO5subhocH76okcF/aQiQ+oj2j6LJZGBJBVigOHg+4zyzdDgKM+jp0bvDI51KQ4XfxV593OhvkS3z
+ 3FPx0CE7l62WhWrieHyBblqvkTYgJ6dq4bsYpqxxGJOkQ47WpEUx6onH+rImWmPJbSYGhwBzTo0Mm
+ G1Nb1qGPG+mTrSmJjDRxrwf1zjmYqQreWVSFEt26tBpSaWsgdmFuIFJpZWwgPHJpZWxAZmIuY29tP
+ okBPgQTAQIAKAUCW5LbiAIbIwUJEswDAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQznneko
+ TE3oOUEQgAsrGxjTC1bGtZyuvyQPcXclap11Ogib6rQywGYu6/Mnkbd6hbyY3wpdyQii/cas2S44N
+ cQj8HkGv91JLVE24/Wt0gITPCH3rLVJJDGQxprHTVDs1t1RAbsbp0XTksZPCNWDGYIBo2aHDwErhI
+ omYQ0Xluo1WBtH/UmHgirHvclsou1Ks9jyTxiPyUKRfae7GNOFiX99+ZlB27P3t8CjtSO831Ij0Ip
+ QrfooZ21YVlUKw0Wy6Ll8EyefyrEYSh8KTm8dQj4O7xxvdg865TLeLpho5PwDRF+/mR3qi8CdGbkE
+ c4pYZQO8UDXUN4S+pe0aTeTqlYw8rRHWF9TnvtpcNzZw==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="nth7q4avk33oteqe"
-Content-Disposition: inline
-In-Reply-To: <2026022539-commotion-huskiness-8736@gregkh>
 
-
---nth7q4avk33oteqe
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Mark Brown <broonie@kernel.org>, 
-	Sasha Levin <sashal@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Jacob Keller <jacob.e.keller@intel.com>, Yeking@red54.com, kuba@kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, Theodore Ts'o <tytso@mit.edu>, 
-	Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, 
-	Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, tech-board-discuss@lists.linux.dev, Andrew Lunn <andrew@lunn.ch>
-Subject: Re: [PATCH] Add short author date to Fixes tag
-Message-ID: <aZ9p2RMrJL1mQ10w@devuan>
-References: <aZ4_sBIy8rOUL59Q@devuan>
- <2026022531-tightness-rare-6a14@gregkh>
- <aZ87Z24f9HZsofGl@devuan>
- <2026022539-commotion-huskiness-8736@gregkh>
-MIME-Version: 1.0
-In-Reply-To: <2026022539-commotion-huskiness-8736@gregkh>
-
-Hi Greg,
-
-On 2026-02-25T13:23:24-0800, Greg Kroah-Hartman wrote:
-> > > Commit date also doesn't matter.  If I commit a fix to one of my
-> > > branches today, but Linus pulls it in in 2 years from now, what would
-> > > that date really show to anyone?
-> >=20
-> > I think this is a bit confused.
-> >=20
-> > If you commit a fix for a commit that is in Linus's tree, your Fixes tag
-> > will refer to the mainline commit, and the Fixes tag will remain valid
-> > if the fix is pulled by Linus in the future, because it will continue to
-> > refer to the same commit with the same hash and date.
+On Wed, 2026-02-25 at 21:36 +0100, Marco Elver wrote:
 >=20
-> But we do not need the date!  It provides no additional information that
-> we can't just look up if we really need it.
->=20
-> The HASH ("text") format does 2 things, it provides an id we can use to
-> look up more, and the text is there to give humans a hint if they don't
-> want or need to look it up.
+> +static int __init early_kfence_fault(char *arg)
+> +{
+> +	if (!arg)
+> +		return -EINVAL;
+> +
+> +	if (!strcmp(arg, "report"))
+> +		kfence_fault =3D KFENCE_FAULT_REPORT;
+> +	else if (!strcmp(arg, "oops"))
+> +		kfence_fault =3D KFENCE_FAULT_OOPS;
+> +	else if (!strcmp(arg, "panic"))
+> +		kfence_fault =3D KFENCE_FAULT_PANIC;
+> +	else
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +early_param("kfence.fault", early_kfence_fault);
 
-The date gives more information to humans to decide if the commit is
-important to look up.  Sometimes, a subject can be ambiguous to the
-human, even if it's not ambiguous to a machine.  The date can help give
-some context to a human.  For example, one could relate a commit to a
-series that was merged around that date.
+The other parameters in mm/kfence/ seem to be module_param,
+which make them tunable at run time through
+/sys/module/kfence/parameters/*
 
-The date uses few characters, so it's not too expensive in terms of
-space.  You may even take some space back by dropping a few characters
-=66rom the hash.  Also, by having a fixed-width, it doesn't distract much,
-as all subjects will still be aligned, so the eyes can jump it easily if
-not interesting (just like the hash).
+Why is this one different?
 
-I appreciate seeing the date in my Fixes tags elsewhere, as it avoids
-looking up some commits, which I would look up if I hadn't seen the
-date.
+And, does this one show up as /sys/module/kfence/parameters/fault?
 
-Secondarily, it helps with the ID, in case it becomes ambiguous.  But
-I started using it for the human part of it.
-
->  There is no need to include anything else,
-> let's keep it simple please.
-
-Okay; I won't insist.
-
-
-Have a lovely night!
-Alex
-
->=20
-> thanks,
->=20
-> greg k-h
+Having the ability to tweak this behavior at run time, without
+requiring a system reboot, could be really useful for people
+unexpectedly triggering kernel panics across a fleet of servers,
+and deciding they would rather not.
 
 --=20
-<https://www.alejandro-colomar.es>
-
---nth7q4avk33oteqe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmmfbYYACgkQ64mZXMKQ
-wqmFdQ//SBTPP019qmEHD3YV3t3mvASPh1zpQ/Yp+rQIWUQTLyeSW9ZvMkkeqllC
-nZL+eVO/fMOgePJtNZ8obcmnxDm508DHx4t0x6tekx8cFq20Arv5+SY1tR/5BOil
-IqIh6IH4GbnjBpz/hvQlifq1TonnxhX9e+rcm6VeGeQhzC+WMl0ojwgDQPezap7Y
-A1XzYnvXkEEgcJkMh3hg+6LOV8lliFbI3sgiIKp4cGwbmyjQBOeQ6B+JGTPN4Y3U
-vLEVaJHqo4Ndrxlh6B5bntBEuKHdDTwOnrHG+J4qaf5lEvBMJ/bsqnQO7xaveLrU
-cqBC2EwPiW/9Fi2RrHdcFHwMKHgSJe3g607IC4NZ3ZxI3EMfLr7PaQNF2Py+lfti
-MMa2c/Y/or5S1tNWg76O2NR7zo8UXTFPLy93jLZFJlHs7aR8iX8nN8gzAK3hyR6A
-xPhGsPrurXhqDdsdEpFDte5HIkIL7hhZxnx7QDYETTwa8TJIF3cbZBCkajaq9od1
-+jzS3Fd2HZ923z4HnyootB+0cAPSSAnoSjHLAM1gxOLvsxi3DHp59IaFiWCm3Qnh
-Rq54Eym4f9F1wOwoIx8DLuxnF+QcF93RdCHwQTzpnMX7/XG5/rRf7X/OnzuXjOSm
-B9l3ZJjZiEM7dNu1OauPLhTmh+zDVtx9IzAT0jtAZctNfL5hM/I=
-=9pXk
------END PGP SIGNATURE-----
-
---nth7q4avk33oteqe--
+All Rights Reversed.
