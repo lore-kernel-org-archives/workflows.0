@@ -1,294 +1,258 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mslow3.mail.gandi.net (mslow3.mail.gandi.net [217.70.178.249])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9935923EAA5;
-	Wed, 25 Feb 2026 00:57:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C7CD1E3DF2;
+	Wed, 25 Feb 2026 15:09:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.249
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771981034; cv=none; b=ClYpRXtwotXAC7xkJkdodMs5jj+/42aDSNjORinH3WKTb+QEbVPCgy+XHIljHu3/73YWs4c2RseAkP4wnBwMShZWcd9AtW0wFlTK9GhkyB3h+XoFsoT9hc2sfRcXhUcPUvzE/PtEY6TEOk7hw6srI3AYqrOWFB0flpt+ogv5nP0=
+	t=1772032180; cv=none; b=ou0GyAASidnluPEHDMYG0R//tv8h3K8oE7kPGKXE6AdmxPQAK0vdF+FantOpXtwD1IUyn8gmrwZ0NUg49LULh221jpwbDacGQavhwn66fXjGYTZnEDvOI9WyVNsZUto7p8QFsZAS4M5eYFzq9+u1R7V87KW72K9uILwDr+6PpBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771981034; c=relaxed/simple;
-	bh=g2WPkjZdelwWAPvdii6l/FmuqHYAH21n3dSr7zNle/o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NqqDoUSHDlkRppPQ1VsszSPPVvYdRR2tt01GMK1kCCFOh7otXZLVQ29fL6HdopD79lfnuVV5+cqMmey/V7BRfa3KpsDhsCXrZJBQ7/eDegrv5BHuybu6geAyVYKbHs1LO/LCFzFaldc5C126boBC3D7b4TDCLaoPi5+a9aZqrYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BMgvlxGF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772032180; c=relaxed/simple;
+	bh=cAZIyTOs6Iwv3H5nrlp6FRxc7fdW6YqVSKOoUYH2bL4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NVaUU43dghDkuQrcpR9Anfrm+6FvWtyW1T4g8pSBxPCKg/U2iPX3hfXp4Io9w7gWZju4bgZkCLVD6vNBTliK1l41J4WsJlDBjS3as54ToE1x5nl0gXhmNHt+SXsIIHwK5wqsUU+4jpA0o8j8GxV2FfFwHYRnZ72a+V4odUYdT9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=jig+VCuM; arc=none smtp.client-ip=217.70.178.249
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BMgvlxGF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E361C116D0;
-	Wed, 25 Feb 2026 00:57:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771981034;
-	bh=g2WPkjZdelwWAPvdii6l/FmuqHYAH21n3dSr7zNle/o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BMgvlxGFy3plHm0xMEBJh3I/vJ1MS4AhSg/1D375bOd5tjzCWLOy1fQDKiWqP1wjD
-	 Grw6K0fpcunq+qVJCH7UYbaiNdrsj6mrYStNJWT0gOd2B/94zxHU6PYcFSzUjt7Bye
-	 PqcjIil7q2QtO7XzGZ3lxozpVRZJkQM6XMZjNd9+eLnhg9PexcBC6B9gpyhdlytiD5
-	 VouUjfUQIn08J46FitGKGCftCUJ75fxDHfzdRvrWS9oJDpuxCd2rU83PuLiLs1vsH0
-	 2MRiDofsgX3fXA+/YCIkthNMkeh9elE3x75t5AO/9Nx4RDUcuZMuercS4iZbWeP8ej
-	 TGZ11Q9Yuilwg==
-Date: Wed, 25 Feb 2026 01:57:08 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Sasha Levin <sashal@kernel.org>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Jacob Keller <jacob.e.keller@intel.com>, Yeking@red54.com, 
-	kuba@kernel.org, Jonathan Corbet <corbet@lwn.net>, Theodore Ts'o <tytso@mit.edu>, 
-	Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, 
-	Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, tech-board-discuss@lists.linux.dev, Andrew Lunn <andrew@lunn.ch>
-Subject: Re: [PATCH] Add short author date to Fixes tag
-Message-ID: <aZ5Ir0eHPMjK7xyv@devuan>
-References: <aZ4_sBIy8rOUL59Q@devuan>
+	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="jig+VCuM"
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+	by mslow3.mail.gandi.net (Postfix) with ESMTP id 8562B581EA2;
+	Wed, 25 Feb 2026 14:44:23 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8DBAF41CC4;
+	Wed, 25 Feb 2026 14:44:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
+	t=1772030656;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UKHEq0UOUXcD+LTBdlIV94iOGhkbTLNDLMo+Ye60/AE=;
+	b=jig+VCuMHmxmx2qQtlMq7PROmJSyM++sNx3ZbKPppmmxGK1vZEJL9RyYLTx/++BUKKBNuf
+	wabJHk536hpV2qON9oG2y5927Os/j0kEOrvMyl2PGDzsSJ/yIaMAg9ktyfiHk2tlh4PagF
+	nWbsOVp8HUtBUdOax5ma1VITuyMvKMgvXQkdHmb5NuFMfYADtfIwfJbrUKjHHS6yU1pWvl
+	CkrO52zV9dM0CjyfGkGH0A0EkWKQRto4mmzFogpfzu/uyCD9CP7YB76XBPrfZ/CZA18jhU
+	7D65UypfGq8LauYOCRSnVEzmVhedKJlvYhnpatohC/Y3Hyg/xlFi6CmCSSLE8A==
+Message-ID: <78adef0e-81b0-47d4-be20-32f42ab8ec04@gtucker.io>
+Date: Wed, 25 Feb 2026 15:44:13 +0100
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xmkszrd4vfwcbleq"
-Content-Disposition: inline
-In-Reply-To: <aZ4_sBIy8rOUL59Q@devuan>
+User-Agent: Mozilla Thunderbird
+Subject: Re: Hosting first-party kernel.org container images
+To: Ben Copeland <ben.copeland@linaro.org>,
+ Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+ Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nsc@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ workflows@vger.kernel.org, automated-testing@lists.yoctoproject.org,
+ "kernelci@lists.linux.dev" <kernelci@lists.linux.dev>
+References: <cc737636-2a43-4a97-975e-4725733f7ee4@gtucker.io>
+ <CAL0q8a7mepGUdgrLsQhCUdLVP8VcxB9x_oBRCWAYNeoVAUb=7A@mail.gmail.com>
+Content-Language: en-GB
+From: Guillaume Tucker <gtucker@gtucker.io>
+Organization: gtucker.io
+In-Reply-To: <CAL0q8a7mepGUdgrLsQhCUdLVP8VcxB9x_oBRCWAYNeoVAUb=7A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: gtucker@gtucker.io
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvgeeffeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhohgjtgfgsehtjeertddtvdejnecuhfhrohhmpefiuhhilhhlrghumhgvucfvuhgtkhgvrhcuoehgthhutghkvghrsehgthhutghkvghrrdhioheqnecuggftrfgrthhtvghrnhephefhlefhkeeigfeijeevtdffkedvjeevvedvffekiefhvedthffgueefffehtddtnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpghhithhlrggsrdgtohhmpdguohgtkhgvrhdrtghomhdpghhithhhuhgsrdgtohhmpdhgthhutghkvghrrdhiohenucfkphepvddttddumeekiedumeegrgegtdemkeeivddtmeeivgehheemrggvrgehmeduuggsleemtghfvddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvddttddumeekiedumeegrgegtdemkeeivddtmeeivgehheemrggvrgehmeduuggsleemtghfvddtpdhhvghloheplgfkrfggieemvddttddumeekiedumeegrgegtdemkeeivddtmeeivgehheemrggvrgehmeduuggsleemtghfvddtngdpmhgrihhlfhhrohhmpehgthhutghkvghrsehgthhutghkvghrrdhiohdpqhhiugepkeffueethfegudevveegpdhmohguvgepshhmt
+ hhpohhuthdpnhgspghrtghpthhtohepuddupdhrtghpthhtohepsggvnhdrtghophgvlhgrnhgusehlihhnrghrohdrohhrghdprhgtphhtthhopehkohhnshhtrghnthhinheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehojhgvuggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehnrghthhgrnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhhstgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghrnhgusegrrhhnuggsrdguvg
+
++kernelci
+
+On 02/02/2026 13:07, Ben Copeland wrote:
+> Hello Guillaume,
+> 
+> On Fri, 19 Dec 2025 at 13:37, Guillaume Tucker <gtucker@gtucker.io> wrote:
+>>
+>> Hi Konstantin, Arnd et al,
+>>
+>> This is a follow-up from the series about adding a scripts/container
+>> tool [1] to run kernel builds in containers.  As per the discussion
+
+The scripts/container tool has now been merged so it's on its way to
+be part of v7.0:
+
+    https://docs.kernel.org/next/dev-tools/container.html
+
+As such, the topic of maintaining first-party container images is
+becoming even more relevant.
+
+>> at Plumbers last year and the summary I put in a blog post [2], it
+>> would be great to have container images with kernel.org toolchains
+>> hosted upstream.  This can mean several things, so let's break it
+>> down into a set of potential options to choose from:
+>>
+>>
+>> * Containerfiles Git repository
+>>
+>> There is currently a PoC repository on GitLab with a Makefile and a
+>> number of Containerfiles to build a set of images:
+>>
+>>      https://gitlab.com/gtucker/korg-containers
+> 
+> TuxMake already provides container images with kernel.org toolchains
+> (korg-gcc 8-15, korg-clang 11-22). The Dockerfiles are maintained at
+> [1]
+> 
+> Since TuxMake is now part of KernelCI and already referenced in the
+> kernel documentation you pushed [2], it seems like a natural home for
+> this rather than starting fresh, or having two places for images.
+
+Thanks Ben for the input here, these sound like very good points and
+the situation has improved since the idea of having upstream
+containers was first initiated.  The TuxMake images are mentioned in
+the documentation as they're already available so it made sense in
+practice.
+
+>> It can be improved in many ways since this is an early PoC.  The key
+>> decision to make here, if we do want to have container images
+>> supported upstream, is how to manage these files or a derived
+>> implementation.
+>>
+>> One option is to add it to the kernel tree itself under e.g.
+>> tools/container.
+>>
+>> Another option is to add a separate repository on git.kernel.org,
+>> which I believe would be a better approach as there aren't any direct
+>> dependencies on the kernel tree itself.
+>>
+>> A third option might be to keep it alongside any recipes used to
+>> produce the existing kernel.org toolchain tarballs although I'm not
+>> entirely sure how that's managed - something for Arnd to judge I
+>> guess.
+>>
+>> A last option would be to keep it on GitLab or move it to GitHub
+>> which would provide some CI/CD tools for building the images but I
+>> doubt this is something viable for the kernel community as it would
+>> create some vendor lock-in.
+>>
+>>
+>> * Container image registry
+>>
+>> This is where things get a bit more complicated.  As far as I'm
+>> aware, there aren't any container registries hosted in the kernel.org
+>> infrastructure at the moment.  A classic option would be to push the
+>> images to an established one e.g. Docker Hub (docker.io) or the
+>> Google Artifact Registry.  GitLab and GitHub also provide theirs of
+>> course.  I believe there is still a free plan for community projects
+>> to host images on docker.io and that would be the easiest from a user
+>> point of view e.g. "docker pull kernel.org/gcc".  It comes with some
+>> maintenance burden of course, and Docker Hub has a history of
+>> changing its policies quite unexpectedly so it's not entirely
+>> future-proof.
+> 
+> The images are hosted on Docker Hub (https://hub.docker.com/u/tuxmake)
+> with ECR Public as fallback:
+> 
+>       docker pull tuxmake/arm64_korg-gcc-14
+>       docker pull tuxmake/x86_64_korg-clang-22
+> 
+> Happy to discuss how we can align efforts here. But to me, it makes
+> sense for KernelCI to be the place for these images (or for us to have
+> a single place and a single set of images).
+
+Yes, I see the value in consolidating things rather than duplicating
+efforts.  However, I believe there are still a few good reasons worth
+considering for keeping a separate set of images:
+
+* images related to a tool e.g. TuxMake or KernelCI are less likely
+  to be adopted by developers
+
+CI bots and other services are a subset of the use cases for these
+container images, so if they're branded as being tool-specific then
+developers will see them as specialised images.
+
+An ideal approach, if there were no images already published
+anywhere, would be to have Containerfiles and images coming directly
+from kernel.org and then specialised use cases would base their own
+tooling on top.  I know the current TuxMake images with kernel.org
+toolchains don't have TuxMake-specific packages installed in
+principle, but they're still branded as TuxMake and it's hard to tell
+how they might evolve.
+
+* external projects can have their own agendas
+
+Projects such as TuxMake and KernelCI may decide to host images on
+docker.io and code on GitHub for now, which may not be the preferred
+choices for the kernel developers' community.  Then if the projects
+are forced to move hosting because of pricing or limitations, it's
+also likely to be for reasons beyond or against the community's best
+interests.
 
 
---xmkszrd4vfwcbleq
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Sasha Levin <sashal@kernel.org>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Jacob Keller <jacob.e.keller@intel.com>, Yeking@red54.com, 
-	kuba@kernel.org, Jonathan Corbet <corbet@lwn.net>, Theodore Ts'o <tytso@mit.edu>, 
-	Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, 
-	Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, tech-board-discuss@lists.linux.dev, Andrew Lunn <andrew@lunn.ch>
-Subject: Re: [PATCH] Add short author date to Fixes tag
-Message-ID: <aZ5Ir0eHPMjK7xyv@devuan>
-References: <aZ4_sBIy8rOUL59Q@devuan>
-MIME-Version: 1.0
-In-Reply-To: <aZ4_sBIy8rOUL59Q@devuan>
+Creating those container images isn't particularly challenging in
+itself, the main point is to align use cases with a standard set of
+images to facilitate reproducible builds across the board.  And the
+main part of the maintenance work is to keep them up to date,
+functional and available.  As such, any pre-existing implementation
+or hosting solution doesn't seem like a big factor for deciding what
+to host and where.  Rather, the interests and resources associated
+with them are critical.  In other words, it's much easier to create a
+new repository from scratch on git.kernel.org and implement a new way
+of building these images there than having to deal with the ongoing
+risks associated with third parties.
 
-D'oh!  I forgot to add the In-Reply-To tag.
+This boils things down to a few practical options:
 
-I meant to reply to
-<https://lore.kernel.org/all/52541f79-ba1c-49c9-a576-45c3472d1c79@intel.com=
-/T/#mf183db5f382b4a39cf52a4a1d2ca8f96697c312e>
+1. treating TuxMake images with kernel.org toolchains as the de facto
+   stardard,
 
+2. creating a repository from scratch on git.kernel.org with
+   independent hosting for base images,
 
-On 2026-02-25T01:56:08+0100, Alejandro Colomar wrote:
-> Hi Steven, Greg,
->=20
-> [I'll reply to several sub-threads at once.]
->=20
->=20
-> [Message-ID: <20250113095101.4e0fff91@gandalf.local.home>]
-> On Mon, Jan 13, 2025 at 09:51:01AM -0500, Steven Rostedt wrote:
-> > Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->=20
-> > > $ git help fixes
-> > > 'fixes' is aliased to 'show --format=3D'Fixes: %h ("%s")' -s'
-> >
-> > Hmm, I've just been manually adding the Fixes tags ;-) That's because w=
-hen
-> > I add a fixes tag, I also do a more in depth analysis to make sure the
-> > commit being tagged is really the cause of the problem. A lot of my fix=
-es
-> > tags are due to very subtle bugs, and a lot of times its a combination =
-of
-> > event that happened.
->=20
-> I also precede the generation of the fixes tag with an in-depth
-> analysis.  However, that doesn't conflict with using a git alias to
-> generate it, once I've reached a conclusion.  I use this alias to
-> generate them, and it's quite handy:
-> <https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/tree/CONTRIB=
-UTING.d/git#n46>
->=20
-> >
-> > That said, maybe one day I'll use a script or alias in the future.
->=20
->=20
-> [Message-ID: <20250111120935.769ab9a3@gandalf.local.home>]
-> On Sat, Jan 11, 2025 at 6:08=E2=80=AFPM Steven Rostedt <rostedt@goodmis.o=
-rg> wrote:
-> > On Fri, 10 Jan 2025 16:21:35 -0800
-> > Jacob Keller <jacob.e.keller@intel.com> wrote:
-> >
-> > > I personally find the date helpful as it can help place a commit with=
-out
-> > > needing to take the extra time to do a lookup.
-> >
-> > I've never found dates to be meaningful. I'm always more concerned about
-> > when a commit was added to mainline. Thus the version where the commit =
-was
-> > added is very important for me.
->=20
-> Indeed.  I agree with this, and it's a quite important difference.
-> The commit dates are strictly increasing, which means you can use the
-> date to perform a search of a commit, if there's a collision in the
-> hash (and possibly in the subject).
->=20
-> I documented this in the man-pages project, where I require the commit
-> date to appear in Fixes tags.
-> <https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/tree/CONTRIB=
-UTING.d/patches/trailer#n16>
->=20
-> > This is why I keep a bare clone of Linus's
-> > tree and commonly do:
-> >
-> >  $ git describe --contains fd3040b9394c
-> > v5.19-rc1~159^2~154^2
-> >  $ git describe --contains a76053707dbf
-> > v5.15-rc1~157^2~376^2~4
-> >
-> > I can easily see that a76053707dbf was added in 5.15 and fd3040b9394c w=
-as
-> > added in 5.19. The amount of work needed to add dates to Fixes tags wou=
-ld
-> > greatly exceed the amount of added work someone would need to do to do =
-the
-> > above operations if they wanted to know the order of commits.
->=20
->=20
-> [Message-ID: <2025011032-gargle-showing-7500@gregkh>]
-> Greg wrote (Fri, 10 Jan 2025 13:32:22 +0100):
-> > Please no, you will break all of our tooling and scripts that parse
-> > these types of fields.  The git commit id and commit header is all we
-> > need to properly determine this type of information, no need to add a
-> > date in here at all.
-> >=20
-> [...]
-> >=20
-> > So I don't think you need to add a date here.  Dates also really do not
-> > mean much with commits, what matters is what release a commit is in, not
-> > when it was originally made.  We have commits that take years to show up
-> > in a release, so if you only look at a date, you will be mistaken many
-> > times as it's not showing what came before what many times (i.e. we
-> > apply commits out-of-date-order all the time.)
->=20
-> As I said above, I agree that the commit date is the right choice.
-> Author dates can be out-of-date-order by years.  Commit dates are
-> necessarily in order, though.
->=20
->=20
-> [Message-ID: <20250110080331.04645768@gandalf.local.home>]
-> Steven wrote (Fri, 10 Jan 2025 08:03:31 -0500):
-> > How can it lead to misjudgment? If you have two or more hashes matching=
-, do
-> > you really think they'll have the same subjects?
->=20
-> The possibility isn't zero.  Statistically, it's quite low.  However,
-> it's non-zero.
->=20
-> $ git log --format=3Dtformat:'%s' | sort | uniq -c | sort | tail
->     248 Merge branch 'perf-urgent-for-linus' of git://git.kernel.org/pub/=
-scm/linux/kernel/git/tip/tip
->     263 Merge git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-2.6
->     275 Merge branch 'x86-urgent-for-linus' of git://git.kernel.org/pub/s=
-cm/linux/kernel/git/tip/tip
->     293 Merge tag 'arm64-fixes' of git://git.kernel.org/pub/scm/linux/ker=
-nel/git/arm64/linux
->     314 Merge branch 'akpm' (patches from Andrew)
->     315 Merge git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net
->     318 Merge tag 'scsi-fixes' of git://git.kernel.org/pub/scm/linux/kern=
-el/git/jejb/scsi
->     324 Merge branch 'for-linus' of git://git.kernel.org/pub/scm/linux/ke=
-rnel/git/dtor/input
->     369 Merge tag 'for-linus' of git://git.kernel.org/pub/scm/virt/kvm/kvm
->     670 Merge git://git.kernel.org/pub/scm/linux/kernel/git/davem/net
-> $ git log --format=3Dtformat:'%s' | grep -v ^Merge | sort | uniq -c | sor=
-t | tail
-> grep: (standard input): binary file matches
->      22 drm/amd/display: Clean up some inconsistent indenting
->      25 Auto-update from upstream
->      26 [ARM] Update mach-types
->      26 pmdomain: Merge branch fixes into next
->      30 s390: update defconfigs
->      32 tools arch x86: Sync the msr-index.h copy with the kernel sources
->      38 [SPARC64]: Update defconfig.
->      52 mmc: Merge branch fixes into next
->      59 drm/i915: Convert wait_for(I915_READ(reg)) to intel_wait_for_regi=
-ster()
->      62 batman-adv: Start new development cycle
->=20
-> Subjects repeat every now and then, and the entropy in some subjects is
-> actually quite low.
->=20
-> If you include the commit date in a Fixes tag, then you preclude the
-> entire possibility of a commit reference clash, because you won't have
-> two patches committed in the same date with the same subject and same
-> hash (unless you *really* try)
->=20
->=20
-> [Message-ID: <2025011115-energize-edge-c9c7@gregkh>]
-> Greg wrote (Sat, 11 Jan 2025 06:48:53 +0100):
-> > And if it isn't long enough, tools like:
-> >	https://lore.kernel.org/r/20241226220555.3540872-1-sashal@kernel.org
-> > can help figure it out as well.
->=20
-> That uses hash+subject.  This may be not enough in some cases (see how
-> much subjects repeat, in the logs above).  And importantly, a fixes tag
-> may become ambiguous *after* it has been written, so you can't predict
-> much.
->=20
-> By having a commit date in the Fixes tag, you could even simplify the
-> script to just do a binary search in case of ambiguity.  Let's say I
-> want to find the following commit (arbitrarily taken from the first
-> Fixes tag I've found in my copy of linux.git):
->=20
-> 	a2e459555c5f (2023-08-09; "shmem: stable directory offsets")
->=20
-> We could find it, with a trivial command line.  We only even need two
-> characters of the hash:
->=20
-> 	$ git log --oneline --after=3D'2023-08-08' --before=3D'2023-08-10' \
-> 	| grep ^a2;
-> 	a2e459555c5f shmem: stable directory offsets
->=20
-> No need for a huge script to disambiguate.  This is even typo-resistant,
-> as one could eventually find something that is similar enough, if one
-> had such a field with a typo (in any of the three fields).  You'd be
-> able to search by the other two fields, and two fields should be
-> _usually_ enough for disambiguating, and the third one could corroborate
-> the typo.
->=20
-> So, what would you think of having the commit date in commit references
-> such as Fixes tags?
->=20
->=20
-> Have a lovely night!
-> Alex
->=20
-> --=20
-> <https://www.alejandro-colomar.es>
+3. some middle ground to be defined which would remove the risks
+   associated with third parties without duplicating efforts.
 
+I feel it would be good to have more maintainers' feedback though.
 
+Nathan, Nicolas, Miguel - what are your thoughts on this?
 
---=20
-<https://www.alejandro-colomar.es>
+Thanks,
+Guillaume
 
---xmkszrd4vfwcbleq
-Content-Type: application/pgp-signature; name="signature.asc"
+> [1] https://github.com/kernelci/tuxmake/tree/master/support/docker
+> [2] https://www.kernel.org/doc/html/next/dev-tools/container.html
+> 
+> Regards,
+> 
+> Ben
+> 
+>>
+>> A classic alternative would be to host a dedicated service
+>> e.g. registry.kernel.org and have the images managed there.  This
+>> would obviously involve higher sysadmin efforts and add scalability
+>> issues but would decouple it from external providers.
+>>
+>> Then a third option would be to host the container images as OCI
+>> tarball dumps alongside the toolchain tarballs.  They can then be
+>> downloaded and imported with "docker image load" or any other
+>> container runtime.  The only infrastructure resources needed would be
+>> storage space.  This is of course suboptimal as all the layers get
+>> bundled together and users would have to manage these images
+>> themselves, but it's very effective from a kernel.org sysadmin point
+>> of view.
+>>
+>>
+>> There are undoubtedly other ways to look at this, I'm curious to know
+>> what people think.  The benefits of having readily-available
+>> container images upstream appear to be pretty clear, several
+>> maintainers have expressed their support already.  It's all down to
+>> how much these benefits can outweigh the upstream maintenance costs.
+>> Maybe this can be done in two steps, first with just the
+>> Containerfiles and later on a full solution to host the actual
+>> images.
+>>
+>> Best wishes,
+>> Guillaume
+>>
+>> [1] https://lore.kernel.org/all/cover.1766061692.git.gtucker@gtucker.io/
+>> [2] https://gtucker.io/posts/2024-09-30-korg-containers/
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmmeSOMACgkQ64mZXMKQ
-wqnIcQ//cQXTp1zq9+8k4pViOjXwd8GGsZ9MFbi5v4ij5mH6KDUdYgavEM/K6DCw
-0wMrHcnojawMSo71wOYoHDPsZj/UbJF5OhT4scdjeDKeQiNzs2AddWvsQtL4IMmW
-pfW8+ofVLLY2g97rDyjoi/dT8N8GwAREQposAPGSM+rdoyVjInchihEaOMxN8mx/
-v/vT27ttupoDYk6icvLhIM93BlaqwuSAwkNqnrtP1A/cJzNpCu2jsUHXW+/wU3tP
-HiJHL7/YgXBMC4gGZX332m+7rMElzsr/G2AwCI46pt+cIUuqlS9PxXK7f/I9ZO/J
-67LcGSbWKDFnwZZ6PKSpnwBgS5NjE+fgr5WfBMWBOXSu8s1GAqcSCS5xc53WCI9n
-LAEIEUaasyT2TtCip2xJFN+lcxEHgvfSKK3bhR8A6YBv0Tpj6zXEv2S97WRPMlSo
-QwX3FoKsvZpmCp92YuIdBNyEyzQQpuXC6bWvLiXeNKbnFp3lwMNNnwG1QR0MTDLl
-R1cqgH70BLI+ndPN9bpwvZVhrpqj7GIr4zP/s2y4207aDS//vT5IAU0GIDLPE7JB
-YuerhODHA88qhV8rkHJfgDP9ZOfAW65LcDwtU1iZtq9IyPahrFdDvjLSnLvWr/r3
-+53RmNbn2PdjTC60kk/HmPtBvOTkDjGfZcO3wpzK03SHlzZvOpE=
-=fMjW
------END PGP SIGNATURE-----
-
---xmkszrd4vfwcbleq--
