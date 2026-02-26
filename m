@@ -1,146 +1,100 @@
-Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31A62820A4
-	for <workflows@vger.kernel.org>; Thu, 26 Feb 2026 01:16:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772068607; cv=pass; b=TJ97CKjWKjKLcaHBZjwvGRdED49jqg9ac7KSeEryzaoF+27Op/qv028XJrMgpGAf/4nBVNzb6kdo+CSt827tLEHM4Cip0ZvzSxy4vH5G208fm6f947BRJ/ycqXQ03FN3oyxY8uzGXdiVoIJqq7Cvd3Ou77jqBg6zDwb8P8C7BiA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772068607; c=relaxed/simple;
-	bh=yNkI4YWmaAljUXNb/JaJlb6xE3bkHC16f5NuG+JMwV8=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53804279DB6
+	for <workflows@vger.kernel.org>; Thu, 26 Feb 2026 09:33:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772098392; cv=none; b=NoUMSygU41imY+CEnAEaZHm8Jvy+w8A8DzUQ34RPNs266+AswndGJTt5hygsJ2XX5ybv8OTzkgJF6n1oVNeY3+yYPOp5pzf4ZcUWP1UFe85VzaP8mMcxuMYQFHY3fUeHvrNBigOH3yXw3U71GNUzifQitfDXCF5OeA735YDc8pc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772098392; c=relaxed/simple;
+	bh=gKdDRJ4k87LaAx3+R8LuhxvDrJ8opW/pPfIrEoH1PWI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MoXYoJqbUvT1I+HN3FgmVz5Mhto21uSPcX5A6gqhVoPegg0BNZl83JJ7iZj+qzrkKRgVsqzD8GqLYQhHt/kD34gfn0WpGQGOVQlstzI5lAWTMnMbHsaLugzhzbq/C+KssOIBNkDhXw/cqZkXeXMQPHmdSMuIH9iGblset7rs9BQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KdpumB+C; arc=pass smtp.client-ip=74.125.82.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KdpumB+C"
-Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-1275750cf9cso257821c88.0
-        for <workflows@vger.kernel.org>; Wed, 25 Feb 2026 17:16:45 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772068605; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ZKGxG6qQev9EkRgMUtoLkqXEzUUzXeeqiHO3ZE79pDFsMk03xULS1c/9bmADtxik14
-         qR42/xJxRy1fnlphh2CdMrF6Ddf6281HQ9vDuiPk3WuLDQ5+/gj+viicooXWAVg1TEPz
-         d7RRRakhwqkm/St0U8Yp1ZYqCR7e0bYaG9V9is+hctn7i0mDXrE7cazr7dMjSsPafIRb
-         ky+tRzQ/JnOvDain/DFyFKTQ9EmXAEqg70lK7NDeU1Ek4auBT06hlllNSHbvnrHSnWRx
-         gDj6WBDTciOfdIgiJFczoPz1Ol9dG09y6qZOCumPMWZlnT/qxRVBSNBU3FV6kamBbBEI
-         KPYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=vRCpYCv9LhOitz1IfzI25VOPlvd9PoDqej+x+FrWu+Q=;
-        fh=hvVSwC17WJ/6SPbeT4Ek29vIFEjHyI5kTEPAqu9vGv0=;
-        b=b5kMAtlE3pj1BS+9Y6bbIDppQwkzVziKF1PM4Hi0EAZl9FHxjscD1Vf/2zWLKzUicL
-         zGm3Yl0IpWPZOOpXAgjk2j+yh0kmDzVZR5TNEXKUhzEtP86WSSnXJuoszT4bg8J0nPT9
-         2+c5HU32zfQAcsUDJKhH59UycuxRCmPadzE2OTh/PdxiKoEDzdmsSEfFfEPEMxF3aDy7
-         AVm72c30oGYl8L59kUQ+QskEdxXSNMc3BjxaECu2lcZtHRZSB6jH4GjQeKE6YZU8tEiH
-         ThokYyQIqi9kCqBQRpgSDcXHaHWfSK2yz8SLHBoVuKcwwZ9QsIkDiPp/rV9CSNkj9mdz
-         w2HQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772068605; x=1772673405; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vRCpYCv9LhOitz1IfzI25VOPlvd9PoDqej+x+FrWu+Q=;
-        b=KdpumB+C/BgZn8/iBWqtDE6WQga9ze3cQ00eb/x5wkKRiOlQtDA665nqae13H8Wopa
-         wv/FzIwB4sGLRa0Vi1LzgXVQOlSN3cVOLGZQVpKQWdtU2Tzgg1q2Fn9nLQSGAFVLCueN
-         LVBNPPfwq4+zuUGAA54h6xa2WnNZzgIaond0DwIntoiBeNZyQrsqH8yUKDaP0TBEhlIG
-         sCel2lbnDs/ieP4ybYfiOCFcxYsshTHB2JlBrjppOu6lFKMNucPw/FNmZttLBgFl4PPs
-         Kq9vQg8MbrNEB/rwpy9IJ+Y/FFute6qqs5uSkByDbb7BNus1QPzOqvJlojt60m1+salp
-         B8WQ==
+	 To:Cc:Content-Type; b=pXywEcbEVNW15ZvNZo4yaBuQCtJ//qdldVot1z4m3ld0GiYpupEW8j40MKcrLI+a89nfMFlQfbxaXlXXnBef/9xXZloc4fIdDgxwC0GD3U5vu7w38zpVCF7LfotmcK92cIOOFdAGKDgL9i9PJjfJ6M3FEtR9s+xrTp83U+Ahsb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.82.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-126ea4e9694so1066932c88.1
+        for <workflows@vger.kernel.org>; Thu, 26 Feb 2026 01:33:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772068605; x=1772673405;
+        d=1e100.net; s=20230601; t=1772098390; x=1772703190;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vRCpYCv9LhOitz1IfzI25VOPlvd9PoDqej+x+FrWu+Q=;
-        b=sCrwtQ7SVNUYlw76TE3DuW13dJSGyYGKfRe7270+whJHY56A1fb0jcRcyDitLtUazo
-         efAF7uCrW3kLQQpUtJ3LlkT+TgZZlZoZKslTtPon0isqULtg30bZQYKSlakl9QngAN8N
-         +ZJxD9i7yJchmNxfal/yTbh4bIpO9Ks+ABbTcwvSu7jv+5CPE/LAffLE3rDoLCR4eCEd
-         s6KxuB9Y/8tV3nLV5AfZ6HtJGWIv75YhMdAOgGleIc6RFd6ezOEF78zscVNqkyKizIXZ
-         XoJ4Lzk35MtABwFOhHK0TZsXHvnx4azVc3CcrUMacZ089V+MlMSjESr8dyp7zZxkxlIt
-         gtYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVwygt7P/SHDJz1IVSKt2MTwclQiAKXIMhmEXoeY40catPL4rKsKyfIiCPE+25wse0Kuq8Grkk+dbY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy5bwUErnEyVVjsHMQmcBOsIoU86QT0EpxVXQWTWjm+wnJEa4tP
-	oiZ3DsIOphxgHsZNG2J/aSzS8yTS8sWh9bq0Ikn0HEDa4nnAhCtajxXAHIAp+e4IrH+UH30Q+si
-	rmEnHY8OYN53k5lgy2lYeetGUUKmxYenxQWCCv9iQ
-X-Gm-Gg: ATEYQzy0ath0MBpJJJIwuigJryaEjdu4IVn7yda/gsiPTZwJy3xNJM6E/gzwaSEMKXI
-	1lHq9QxbeOfMpurYKg2fCSrWAbNYxqh3fq41zAus/icuWz4EtFGKML87v8iUAdhb973j99++KSq
-	9vybuJPbMbnKEfVEtMMSNj6zZqtTbPpt9kRE+1+hpHgnV6Mqw99sJE25+dxUyUeYov6OOSpnxQK
-	kluLSuWRP0XPrnKnE2pKXbItf50N8AWQ/xKWtpYEuvo+5FHWxGrARZK89498te7nfbqJlO1C0Fa
-	T1PNnimZwBzS+ImUPqlcC3LZJZBhtzXC5lJkZAY=
-X-Received: by 2002:a05:7022:48c:b0:124:9fd8:4b99 with SMTP id
- a92af1059eb24-1276acbdfbfmr8853747c88.14.1772068604514; Wed, 25 Feb 2026
- 17:16:44 -0800 (PST)
+        bh=wN7QFDReg+d0oErhjLdM9CGSLPE5PA9L2wZop8EojNM=;
+        b=tcTcl0V1Xe1CaB44tfZK/g/y0nvxoOFJsxHTVS7D6lynR8nhRXQexgdNBTwC30GO/v
+         OiDzKGfbCRYqRPM8Dn8hqno/rjCovBSdUQHYP19cZWYgpMHG5kFH3odgSceMciMxvCFH
+         asd5RZJnlvEJqnBiBI1j3HnhGHoyRA/86VKYnxO/QetPK/dKI/8GTjq/dJFMKWb1TkPW
+         rl+NO05JcbgPjHFEdSFL+mb0J0ZJzFkV2x5pB1gufmZPdJmtVAdvueAJXeUP+yBiNzg4
+         mXii+KnmlOPhA9aW26+51amb66qWquVf4vr5zr8EdxKHApZ3wYO2DMgI25H9qF4W/okS
+         tpVg==
+X-Forwarded-Encrypted: i=1; AJvYcCWkyyd90wGP5foG4kuFmzvQvCJqCYxGKoqt6rYRIehIvvilHbMZEIsbu+BRsZL0RQVXIJrPiGuWqn4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywcf+4jupJoYFkXn3M+qKHYM/TnE56/Xmbt+QMNFQ+15jvFmEih
+	OhpV2BaE2DGI3uiTxIlcexzuVJAn6frY8rHiP6+b7yHdfFBI3FBSFD6Mu2hSAPdS
+X-Gm-Gg: ATEYQzyd7S/NueGZWiBcSDFZsPb0dGadEgc6DVC2OXMZaZv5XCRe6jLhJkdTUP8UcRv
+	CshN9M1yc7+L1XlzUKZokxWUspCYFt7E9kJ964ljwLMjD5sgz1nZUU+ej/VLoorz/l4mw2nzp0U
+	XkTbJ8LmUY/gnyNawKJoJ4bY21f2991fhBoNWQWD9FdouXXKgr9O/D3xPpFLbwKvtjhiNbT7Thy
+	F7xLFcyKwQSpMCR9k4ZxbewPkivsewHSt30zYvKQYvvbhCLLpodWTMZEMjCa1zmBae5QIa7U6tA
+	5NxZftf8zPv0v9jTqozBICaVuvtHKr69Zf3Zb25yev3UZqRTMLg3at5xxvnk1/dLifs0VdmmABm
+	LIZay9M1gxilY0wz9TpHNpPnGzu/C5SN3NSB2PT/QE8P6oweFRCWHr4hXPYYRXjgcCMwyzLIsao
+	hGSUfIdGzLA4y2UMktnhDOg7YrqFAsrnNv1iE7vcJwCt0+XiUbQUF4DhmGvmBL
+X-Received: by 2002:a05:6122:88d:b0:566:3954:f74e with SMTP id 71dfb90a1353d-568e47928a5mr9860401e0c.5.1772092665514;
+        Wed, 25 Feb 2026 23:57:45 -0800 (PST)
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com. [209.85.217.43])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56a9228d776sm1614870e0c.18.2026.02.25.23.57.45
+        for <workflows@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Feb 2026 23:57:45 -0800 (PST)
+Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-5ff09bb668cso348501137.0
+        for <workflows@vger.kernel.org>; Wed, 25 Feb 2026 23:57:45 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWuill6Xf8WW7h/Vyp4fLamT1Ck6Zc4kmZr1Liqd28zjePtI2wmJ4FkcapwaU+ZlUw5g3q/D1yR3og=@vger.kernel.org
+X-Received: by 2002:a05:6102:510e:b0:5fd:fa9b:1a2 with SMTP id
+ ada2fe7eead31-5feb30d4af4mr10289856137.28.1772092222850; Wed, 25 Feb 2026
+ 23:50:22 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260225203639.3159463-1-elver@google.com> <9476ab2ff783c77ff4f1d323fad3e356bb172fcd.camel@surriel.com>
-In-Reply-To: <9476ab2ff783c77ff4f1d323fad3e356bb172fcd.camel@surriel.com>
-From: Marco Elver <elver@google.com>
-Date: Thu, 26 Feb 2026 02:16:08 +0100
-X-Gm-Features: AaiRm52Q6kRNA7CHrMLsOWSgdbnXUE5vCnkOPGyFzwQOTRVlJEfjChemViCldxw
-Message-ID: <CANpmjNM4kwRGU7mxZPtPnD2-Q2u2E5K9bLuHiZYkPkB4JETeJg@mail.gmail.com>
-Subject: Re: [PATCH] kfence: add kfence.fault parameter
-To: Rik van Riel <riel@surriel.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Alexander Potapenko <glider@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
-	workflows@vger.kernel.org, linux-mm@kvack.org, 
-	Ernesto Martinez Garcia <ernesto.martinezgarcia@tugraz.at>, Kees Cook <kees@kernel.org>
+References: <aZ4_sBIy8rOUL59Q@devuan> <2026022531-tightness-rare-6a14@gregkh> <aZ87Z24f9HZsofGl@devuan>
+In-Reply-To: <aZ87Z24f9HZsofGl@devuan>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 26 Feb 2026 08:50:11 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVDPPgkWTHPb3Mfhn2cGmv7YPquakEuF6z7zam7gGVW_g@mail.gmail.com>
+X-Gm-Features: AaiRm51mZ3TMr9-1T3RZtvPkGB-I32VB6CDd1n0kyHAM014BC7DctANFpncyC8Y
+Message-ID: <CAMuHMdVDPPgkWTHPb3Mfhn2cGmv7YPquakEuF6z7zam7gGVW_g@mail.gmail.com>
+Subject: Re: [PATCH] Add short author date to Fixes tag
+To: Alejandro Colomar <alx@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Mark Brown <broonie@kernel.org>, Sasha Levin <sashal@kernel.org>, 
+	Jacob Keller <jacob.e.keller@intel.com>, Yeking@red54.com, kuba@kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, "Theodore Ts'o" <tytso@mit.edu>, Andy Whitcroft <apw@canonical.com>, 
+	Joe Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>, 
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, tech-board-discuss@lists.linux.dev, 
+	Andrew Lunn <andrew@lunn.ch>
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 25 Feb 2026 at 23:26, Rik van Riel <riel@surriel.com> wrote:
->
-> On Wed, 2026-02-25 at 21:36 +0100, Marco Elver wrote:
-> >
-> > +static int __init early_kfence_fault(char *arg)
-> > +{
-> > +     if (!arg)
-> > +             return -EINVAL;
-> > +
-> > +     if (!strcmp(arg, "report"))
-> > +             kfence_fault = KFENCE_FAULT_REPORT;
-> > +     else if (!strcmp(arg, "oops"))
-> > +             kfence_fault = KFENCE_FAULT_OOPS;
-> > +     else if (!strcmp(arg, "panic"))
-> > +             kfence_fault = KFENCE_FAULT_PANIC;
-> > +     else
-> > +             return -EINVAL;
-> > +
-> > +     return 0;
-> > +}
-> > +early_param("kfence.fault", early_kfence_fault);
->
-> The other parameters in mm/kfence/ seem to be module_param,
-> which make them tunable at run time through
-> /sys/module/kfence/parameters/*
->
-> Why is this one different?
+Hi Alejandro,
 
-That was my first thought too, but after much thought we should not
-make this changeable after init, see below ...
+On Wed, 25 Feb 2026 at 19:20, Alejandro Colomar <alx@kernel.org> wrote:
+> The case where it would matter is if you commit a fix for a commit that
+> is only in your stable branch.  However, since the stable branches are
+> not real branches, but actually a set of patches, I expect you would
+> just drop the faulty patch, right?
 
-> And, does this one show up as /sys/module/kfence/parameters/fault?
->
-> Having the ability to tweak this behavior at run time, without
-> requiring a system reboot, could be really useful for people
-> unexpectedly triggering kernel panics across a fleet of servers,
-> and deciding they would rather not.
+Stable branches are real branches, cfr.
+https://web.git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/refs/heads.
 
-It's intentional - having the ability to switch it after init means
-we'd have to remove __ro_after_init from the kfence_fault setting. We
-risk having the system administrator's choice being overridden by
-accident in the exact situation where we do not want it to happen:
-either through memory corruption overwriting that global flag, or it
-might give an attacker the ability to circumvent the oops/panic
-setting, if they manage to reset it. KFENCE is not a mitigation, but
-this setting is meant to give a knob to reduce the risk that someone
-takes advantage of KFENCE's heap layout - until now, KFENCE only
-reports and continues - the actual buggy access happily proceeds.
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
