@@ -1,135 +1,169 @@
-Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D316F18C2C;
-	Thu, 26 Feb 2026 00:08:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1870B1EB5B;
+	Thu, 26 Feb 2026 00:20:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772064498; cv=none; b=l2SqrgohjxH9s5e704iGv7PokdhlWCWpV9R9/5SPOpXivSfkgFU5A8bp3thkKcYQDzgq8rHtND0pwUSthppNGiBSiEnflpP/1rBJzzhmHK1w6FdA0rpUdMnKBEcGdhSyVtvHtCIN0cDIU6DLPnhW2LsXL75W4gcT+mnqqxY+Jro=
+	t=1772065233; cv=none; b=JicTvkvj2sP41WKRMx95X6pYAomwowcB0BSmviT246xjfgZHI8s5dy8R0+isFVot7R9RQIMuOW0OxUWrs6ODme9H0HMTkLsX61CPkZwgsYlxLuL1xxe4xO5/nRCFUo7KlQv5U9GbyBjnCkZp8ImTVWVhO/wT0dFbt6/OU7qC8cM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772064498; c=relaxed/simple;
-	bh=LIVmqfqyJ9BRT857fdwIG5J2lDsqsZfpfHj2KMr68Ik=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eWwwzcyjRWwlIaebKx97ht5xGYeBQ0nFnV+PWfoc53PCANZVjIEZWzEm1NrN8/orhn6lMjuoXQ4Dfo8qQUQ+NqkVV0Tz4JLws1DYXP9EiAbvrxKjqwQBRHmxNho4Dx43Vg44I+9pl+Put5i3fj/w2QQglKhxG6MMsdOPumx4Fgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf20.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay08.hostedemail.com (Postfix) with ESMTP id 52BBF140134;
-	Thu, 26 Feb 2026 00:08:14 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf20.hostedemail.com (Postfix) with ESMTPA id 4EBD120025;
-	Thu, 26 Feb 2026 00:08:10 +0000 (UTC)
-Date: Wed, 25 Feb 2026 19:08:02 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mark Brown
- <broonie@kernel.org>, Sasha Levin <sashal@kernel.org>, Geert Uytterhoeven
- <geert@linux-m68k.org>, Jacob Keller <jacob.e.keller@intel.com>,
- Yeking@red54.com, kuba@kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Theodore Ts'o <tytso@mit.edu>, Andy Whitcroft <apw@canonical.com>, Joe
- Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas
- Bulwahn <lukas.bulwahn@gmail.com>, Andrew Morton
- <akpm@linux-foundation.org>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- tech-board-discuss@lists.linux.dev, Andrew Lunn <andrew@lunn.ch>
+	s=arc-20240116; t=1772065233; c=relaxed/simple;
+	bh=vQ9100hika6XOwYaftLaiYtlieJs6dQvC4bVW3nQWVk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pv/l6XLCYBGPtQ8uMV/4nbqoIGLdNb62UeGCVU4y/9kIpm5ZPvOq0cYbw0A+SzMWn0Qk85O6sC5jMbAgxUmh5VRyq3Du6S0I9z9ZDW431M4swg2KeDUtU9LyKV2Qpyzsf6rfql5LelkFvICYCB4hlMe5Q5tC/ePL1EDVYSYCPFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AmJqUl2A; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AmJqUl2A"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B16F2C116D0;
+	Thu, 26 Feb 2026 00:20:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772065232;
+	bh=vQ9100hika6XOwYaftLaiYtlieJs6dQvC4bVW3nQWVk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AmJqUl2ASn6bqmwLkn5vT/0ezdEM6YnqFKJMhujeX/RXesODN1ty+Uyx/4rHlchUu
+	 F5Z2na9dABbEze/R+1f53bkshkGjLQMZMWoRLq/tE64uV2S9jNDJPp85BOlSegGhZ6
+	 ILCZpJy8e+B0PNm8/UiQAJpvUeAcJrAR2qL4GZ9Jsm1PjvS+KHkiTHEjnxAUPgKWFp
+	 R41HCj8/penECWeYWcftGUhmIOQjsV3wszAGUyftzhuxJQVlSrYSIrHfu1GusSe1dm
+	 jtKE1qeErDwm1eWvIvt2bsl4OUBS/Hd993wXVb19xLZmBJmGnjFOegHEfctd/rTtt0
+	 g991JFu0HRlew==
+Date: Thu, 26 Feb 2026 01:20:26 +0100
+From: Alejandro Colomar <alx@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Mark Brown <broonie@kernel.org>, 
+	Sasha Levin <sashal@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Jacob Keller <jacob.e.keller@intel.com>, Yeking@red54.com, kuba@kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, Theodore Ts'o <tytso@mit.edu>, 
+	Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, 
+	Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, tech-board-discuss@lists.linux.dev, Andrew Lunn <andrew@lunn.ch>
 Subject: Re: [PATCH] Add short author date to Fixes tag
-Message-ID: <20260225190630.1834f850@fedora>
-In-Reply-To: <aZ4_sBIy8rOUL59Q@devuan>
+Message-ID: <aZ-NVcaidg58qXEu@devuan>
 References: <aZ4_sBIy8rOUL59Q@devuan>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+ <2026022531-tightness-rare-6a14@gregkh>
+ <aZ87Z24f9HZsofGl@devuan>
+ <2026022539-commotion-huskiness-8736@gregkh>
+ <aZ9p2RMrJL1mQ10w@devuan>
+ <2026022547-confirm-upturned-a736@gregkh>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: xonn7xurd1tu79dkak1hdxou93gtaest
-X-Rspamd-Server: rspamout02
-X-Rspamd-Queue-Id: 4EBD120025
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX19E4oro/lWGPUrYU6oREwALqxnaa76q3MQ=
-X-HE-Tag: 1772064490-639392
-X-HE-Meta: U2FsdGVkX1/j8QpzD8dnA7UrrMrQdfVkA8WnM1S4PClo/1xaEawjcTe40TS2J1hIN/IvTTl8So0WSsnv9xwEdf6uyn3VypUMwphFzl40YuCBQJwS4hggM0F7UVXrDxp4DAeD+vxMuvt9nEpWwyZFcuGxC7gS92eO3mZGYA1+uHwuCAlMYlrTIQZb2DuV0xPFhdfzjH0ANqQmpM5CkKiMEZ+NspB8j50YjCXmbNCx1ZrE3bgZXukk2y/KEiYvtWUmRFXzqD5ibYo/YZDS6lVpFdiG9fEuicgT2rukrfoFN/Gf+DbV5OnCbchcmVn32RbHzijKXvG9i+x7WWWB+kcqIcXPbY6dzK5M
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="zubq56rjnllg3g3p"
+Content-Disposition: inline
+In-Reply-To: <2026022547-confirm-upturned-a736@gregkh>
 
-On Wed, 25 Feb 2026 01:56:02 +0100
-Alejandro Colomar <alx@kernel.org> wrote:
 
-> That uses hash+subject.  This may be not enough in some cases (see how
-> much subjects repeat, in the logs above).  And importantly, a fixes tag
+--zubq56rjnllg3g3p
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Mark Brown <broonie@kernel.org>, 
+	Sasha Levin <sashal@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Jacob Keller <jacob.e.keller@intel.com>, Yeking@red54.com, kuba@kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, Theodore Ts'o <tytso@mit.edu>, 
+	Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, 
+	Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, tech-board-discuss@lists.linux.dev, Andrew Lunn <andrew@lunn.ch>
+Subject: Re: [PATCH] Add short author date to Fixes tag
+Message-ID: <aZ-NVcaidg58qXEu@devuan>
+References: <aZ4_sBIy8rOUL59Q@devuan>
+ <2026022531-tightness-rare-6a14@gregkh>
+ <aZ87Z24f9HZsofGl@devuan>
+ <2026022539-commotion-huskiness-8736@gregkh>
+ <aZ9p2RMrJL1mQ10w@devuan>
+ <2026022547-confirm-upturned-a736@gregkh>
+MIME-Version: 1.0
+In-Reply-To: <2026022547-confirm-upturned-a736@gregkh>
 
-Most of those repeats are merges. And people tend to use the same
-subject when they merge commits. The only time a Fixes is for a merge
-is if there was a merge conflict and it was done poorly.
+Hi Greg,
 
-> may become ambiguous *after* it has been written, so you can't predict
-> much.
-> 
-> By having a commit date in the Fixes tag, you could even simplify the
-> script to just do a binary search in case of ambiguity.  Let's say I
-> want to find the following commit (arbitrarily taken from the first
-> Fixes tag I've found in my copy of linux.git):
-> 
-> 	a2e459555c5f (2023-08-09; "shmem: stable directory offsets")
-> 
-> We could find it, with a trivial command line.  We only even need two
-> characters of the hash:
-> 
-> 	$ git log --oneline --after='2023-08-08' --before='2023-08-10' \
-> 	| grep ^a2;
-> 	a2e459555c5f shmem: stable directory offsets
+On 2026-02-25T15:46:28-0800, Greg Kroah-Hartman wrote:
+[...]
+> > Secondarily, it helps with the ID, in case it becomes ambiguous.  But
+> > I started using it for the human part of it.
+>=20
+> Our ids are not ambiguous.  Our "problem" is people putting git ids in
+> the logs that are not valid git ids.  Just happened again today as we
+> are "human".  Putting the date in there would not help with that very
+> real problem we have today at all.
 
-Why not just git show a2e459555c5f? You're just worried because of
-conflicts? That happens so seldom doing a bit more work to find the
-task is less work than every developer adding a useless date in the tag.
+It would help locate the commit it refers to.  If you have a commit
+date, you know that if it was rebased, the date can only increase.  So,
+instead of having to search exclusively by subject, you can limit your
+search to dates no older than the date from the Fixes tag.
 
-Even if there are conflicts, git show shows you all the commits that conflict:
+Let's say we want to locate
 
-  (random example)
+	bogus-hash (2025-11-21; "bug: Add BUG_FORMAT_ARGS infrastructure")
 
-$ git show cbced
-error: short object ID cbced is ambiguous
-hint: The candidates are:
-hint:   cbced93894d1 commit 2026-02-02 - drm/amd/display: Set CRTC source for DAC using registers
-hint:   cbced0de1ae7 tree
-hint:   cbced35df940 tree
-hint:   cbced38b00f6 tree
-hint:   cbced53122ce tree
-hint:   cbced7856638 tree
-hint:   cbced88f5140 tree
-hint:   cbceda69074d tree
-hint:   cbcedadcc0f9 tree
-hint:   cbced8ff29d4 blob
-hint:   cbcedd7a684b blob
+We can first of all check if maybe there's a typo in the hash (maybe
+the first character is missing, due to a cut/paste accident).
 
-The above only has one with a subject.
+	$ git log --oneline --before 2025-11-22 --after 2025-11-20 \
+	| grep BUG_FORMAT_ARGS;
+	5c47b7f3d1a9 bug: Add BUG_FORMAT_ARGS infrastructure
 
-> 
-> No need for a huge script to disambiguate.  This is even typo-resistant,
-> as one could eventually find something that is similar enough, if one
-> had such a field with a typo (in any of the three fields).  You'd be
-> able to search by the other two fields, and two fields should be
-> _usually_ enough for disambiguating, and the third one could corroborate
-> the typo.
-> 
-> So, what would you think of having the commit date in commit references
-> such as Fixes tags?
+But even if the date was wrong.  Let's say someone used a reference to
+a commit that got rebased a year later, as the case you stated.
 
-NAK. I really see no purpose for it, and just adds added noise to the
-Fixes tag. Seriously, your example above:
+	old-hash (2025-01-21; "bug: Add BUG_FORMAT_ARGS infrastructure")
 
- 	a2e459555c5f (2023-08-09; "shmem: stable directory offsets")
+We can search by date something that looks similar.  We know the date
+can't be older than that, if it wasrebased.
 
-Looks horrible compared to:
+	$ git log --oneline --after 2025-11-20 | grep infrastructure
+	cb2dc6d2869a can: Kconfig: select CAN driver infrastructure by default
+	93d7a7ed0734 netfilter: flowtable: move path discovery infrastructure to i=
+ts own file
+	23343b6b09ac sched/mmcid: Introduce per task/CPU ownership infrastructure
+	775465fd26a3 lib/test_hmm: add zone device private THP test infrastructure
+	99e4e1028337 RDMA/bng_re: Add basic debugfs infrastructure
+	4f830cd8d7fe RDMA/bng_re: Add infrastructure for enabling Firmware channel
+	5c47b7f3d1a9 bug: Add BUG_FORMAT_ARGS infrastructure
+	d292dbb5640c bug: Add BUG_FORMAT infrastructure
 
- 	a2e459555c5f ("shmem: stable directory offsets")
+So, we'd start looking at the tail of that list (assuming the rebase was
+close to the commit date), and depart from that as necessary.  In this
+case, we find it as the second commit.
 
-You are the first one to complain about needing a date here. Who else
-finds this useful in the kernel community? It really feels like it's a
-solution looking for a problem.
+On the other hand, if you have no date, you must look at the entire
+git-log(1), which is a lot more work.
 
-Sorry,
+> thanks,
+>=20
+> greg k-h
 
--- Steve
+Have a lovely night!
+Alex
 
+--=20
+<https://www.alejandro-colomar.es>
+
+--zubq56rjnllg3g3p
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmmfkb4ACgkQ64mZXMKQ
+wqkHcw//b0sPsO3GJVOzCienU9HT8eFzJL6b2B0uwuium6S0m5HcmtXYdQ2YIDIv
+b5c6ykDVOcbSzWN9aFraxFLu0oUKxr70jFb1W0YmMbJbXF0frzrmTAkjyr+kaFXh
+WBW+AUcPYbiywxBiT37p8bNut2giQGcx2N0rwwiFMqP+NTNAsxww/0rJDWVJVQim
+hOhTFGnHxHQJvgGJQOpnfFmB0HPRiYGR/Hze2n10fjjCEUh0k4fkzznhTeY1tsgN
+kTZVePf7ZERMAXeHE2WKMXqMgFEdxBNRTkYtmZxUHv7FcJtp9OIs2aDhOwwe+vAh
+NkXNuuNZzETsakhW5tswt5HPbt9DescVN7uU1VLAUQw268dRuuxeRBUPb0AJERYr
+SNGUH5QnWcXOE247iSXCdkBcyEO72txtb3iFmEK1ydgZFhaKGWH0eKP2GE7GGKAV
+O669xQsf6GXHJqoUlO3CH3sHjnKpMU9G0TdKRNrV3KYdZW5qG3v2ZK/xle8V6gjy
+woZDITVtsBZ7BGKWlGXlFJ720OnfnZ5dV54RPjPdCAE2PPovxznITko9Q00ih9b+
+K2a5eDJJLFqmFSXWL0WYfi2eyJCtmUkMKxIo2CRDcnZ/Gza8JuHoSwry4kh8D+5L
+9jQe7Pv5xuAVTWOITDVdmbK+5K5yatbB9pApo0nNi7OxhmltNrg=
+=qO8H
+-----END PGP SIGNATURE-----
+
+--zubq56rjnllg3g3p--
