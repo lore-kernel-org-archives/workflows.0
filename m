@@ -1,68 +1,95 @@
-Received: from mail-06.mail-europe.com (mail-06.mail-europe.com [85.9.210.45])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B03221726;
-	Thu,  5 Mar 2026 21:25:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.9.210.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D70434B404;
+	Fri,  6 Mar 2026 14:39:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772745949; cv=none; b=sLwmGGoXCqBvoG//iHntF5tg7YwiY/JcD8S6xPa71F6UT0QEI4WRpdrMATBpwy+Mp+K1ugv0XychcM7HL0/Iz6vDmWT4E52pSbTrWX/oAkDYl5Shfg7hNQDpCtBMBoY/NPGILGax6o2A4KurK1hB2uBxcXLZN9v7G0rXyaDYosw=
+	t=1772807948; cv=none; b=MNTisu/eylEZmsyx+TX8H2mSERMLOWEzx264oP7luYgC1Ar2237DksCuUFe3mtORBjERD0x/S+DliPQbiy3EOrVxtaH5ov1owU3IkB5kimPcgas+9EPWZttQGsJWWpk2mxtvkqCXkWmKGolSj7+wpNr7iWxXFGyi7lp5VR2P9Ws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772745949; c=relaxed/simple;
-	bh=TPF/Q7ncQZcbDUXuzcqWPm9P90x5P/esUaASP+y1v2o=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UGIIJuqzzuw4c+fOec+uicA3jzQyJauMCtmvbIr4diQUYXr9wlLOI+ym/9gPMWf8VF3vlkytr4RJPUQX/g9k+8ynjyArxR8VQxBlrnhPolwLUVrv0SCpxkL7RHVEkOOfIwBgHkZMPxLqvAz7E3UyHiEQWcdtZoGkZaib/eb/+1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=D/mneLLF; arc=none smtp.client-ip=85.9.210.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	s=arc-20240116; t=1772807948; c=relaxed/simple;
+	bh=vBBjxIFSGGAtX4SwrO8XPSLAXjsibg14UQFa1FhHB/A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eruwmis2Kz6fZaU2VEMVArWRUyLxyClbGkFNb4Veketc8NQadCfVZ0XjfAbRgFuA0I2PcZtsUPUOigM8rzufg2NM1pisgIGdj8hvCPppfhgVeZfsU/7VkQ0Rpfdc+TliDCSN7fimxrT4HZQtur+Flb/+YZIIwaGa7j/lB0GsnLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QEB4kfUN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="D/mneLLF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1772745931; x=1773005131;
-	bh=TPF/Q7ncQZcbDUXuzcqWPm9P90x5P/esUaASP+y1v2o=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=D/mneLLFVs6r0IvF+iCRfj60Ah/EZZuLEfnUlva1LdL5DC82Vz9Qw/VqefhhANJWp
-	 WDyIrKxz8tdw1gjxkMNCbBDQaV2m8g70kPhDvDgqzjq10LWdXthhW3sqaOhboAVimN
-	 fx+5VJ1BndeTf8PTDE7XZ5c1QF09c544w9woMA5NGpZE1sAIC1ejlnCTGEAy+GkzoO
-	 Np3S48Ku9tVqsimRsmAltXy1/WyBD31pdq4wHYtO5HTpRIAD/yUzeNKjaEYjiGM7A1
-	 xRIXcWjq7VefAOsjRln3WzSuL5V/BJC8LgLU2T1zJl/RE4F5LnsI4Q9CZOfSXLfeSb
-	 guSupu87mt2BA==
-Date: Thu, 05 Mar 2026 21:25:26 +0000
-To: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-From: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, Andrew Morton <akpm@linux-foundation.org>, Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, Samuel Holland <samuel.holland@sifive.com>, Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, workflows@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev
-Subject: Re: [PATCH v10 01/13] kasan: sw_tags: Use arithmetic shift for shadow computation
-Message-ID: <aan0qbP0iV48bih-@wieczorr-mobl1.localdomain>
-In-Reply-To: <CAPAsAGyiukChPLYO_tQci-7Bvmnnxh+w=bO6eUYLrO3RVuUThw@mail.gmail.com>
-References: <cover.1770232424.git.m.wieczorretman@pm.me> <bd935d83b2fe3ddfedff052323a2b84e85061042.1770232424.git.m.wieczorretman@pm.me> <CAPAsAGxpHBqzppoKCrqvH0mfhEn6p0aEHR30ZifB3uv81v68EA@mail.gmail.com> <aanievpHCv0Sz3Bf@wieczorr-mobl1.localdomain> <CAPAsAGyiukChPLYO_tQci-7Bvmnnxh+w=bO6eUYLrO3RVuUThw@mail.gmail.com>
-Feedback-ID: 164464600:user:proton
-X-Pm-Message-ID: 2a85cbea50d69490acd671149ee415089f8f199e
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QEB4kfUN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22A94C4CEF7;
+	Fri,  6 Mar 2026 14:39:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772807948;
+	bh=vBBjxIFSGGAtX4SwrO8XPSLAXjsibg14UQFa1FhHB/A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QEB4kfUN1UK2wnXoYdmW8Yi9zDEMNiu8bsrD2kfLZmmwhfU4Zv16ZfWsirl2wGraJ
+	 KezS2yhoUbGY/Ll64NAIioW25UfEnYwgDrMGRNJ4yxtlrdEzU7P61E7KtGWc5qbiBq
+	 4WwnbSZsKV7ITp93f2StYzf6uuW3Tfl2dSaDyE7fXLb2ROd0FrNAG4mxChLJ2yJKC8
+	 9j13kpXnN4Jt8t9arWax340amUnx/EEioouKJBWqsYjjcZAR282P1Kc+q10cPNdqnS
+	 xW7/uJ/dlDHkM1cECGiGtqsZuxACrCrdyUpN0H5dtoCzbXFyuujjoDgh1alQL/FGlp
+	 gpKNGkYiRwKpg==
+Date: Fri, 6 Mar 2026 14:39:03 +0000
+From: Simon Horman <horms@kernel.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+	pabeni@redhat.com, andrew+netdev@lunn.ch, corbet@lwn.net,
+	skhan@linuxfoundation.org, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next] docs: netdev: refine netdevsim testing guidance
+Message-ID: <20260306143903.GG461701@kernel.org>
+References: <20260304151647.2770466-1-kuba@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260304151647.2770466-1-kuba@kernel.org>
 
-On 2026-03-06 at 06:22:32 +0900, Andrey Ryabinin wrote:
->Maciej Wieczor-Retman <m.wieczorretman@pm.me> writes:
->
->> Thanks, that looks really neat! I should've thought of that instead of m=
-aking
->> separate arch versions :)
->>
->> Do you want me to attach the code you posted here to this patchset or do=
- you
->> intend to post it yourself?
->
->I think you can just squash my diff into the subject patch.
+On Wed, Mar 04, 2026 at 07:16:46AM -0800, Jakub Kicinski wrote:
+> The library to create tests for both NIC HW and netdevsim has existed
+> for almost a year. netdevsim-only tests we get increasingly feel like
+> a waste, we should try to write tests that work both on netdevsim and
+> real HW. Refine the guidance accordingly.
+> 
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> ---
+> CC: corbet@lwn.net
+> CC: skhan@linuxfoundation.org
+> CC: workflows@vger.kernel.org
+> CC: linux-doc@vger.kernel.org
 
-Cool, thanks, will do!
+Reviewed-by: Simon Horman <horms@kernel.org>
 
---=20
-Kind regards
-Maciej Wiecz=C3=B3r-Retman
+> ---
+>  Documentation/process/maintainer-netdev.rst | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
+> index 6bce4507d5d3..3aa13bc2405d 100644
+> --- a/Documentation/process/maintainer-netdev.rst
+> +++ b/Documentation/process/maintainer-netdev.rst
+> @@ -479,8 +479,14 @@ netdevsim
+>  
+>  ``netdevsim`` is a test driver which can be used to exercise driver
+>  configuration APIs without requiring capable hardware.
+> -Mock-ups and tests based on ``netdevsim`` are strongly encouraged when
+> -adding new APIs, but ``netdevsim`` in itself is **not** considered
+> +Mock-ups and tests based on ``netdevsim`` are encouraged when
+> +adding new APIs with complex logic in the stack. The tests should
+> +be written so that they can run both against ``netdevsim`` and a real
+> +device (see ``tools/testing/selftests/drivers/net/README.rst``).
+> +``netdevsim``-only tests should focus on testing corner cases
+> +and failure paths in the core which are hard to exercise with a real driver.
+> +
+> +``netdevsim`` in itself is **not** considered
+>  a use case/user. You must also implement the new APIs in a real driver.
 
+I don't know if it's desirable, but the line wrapping could
+also be updated.
+
+>  
+>  We give no guarantees that ``netdevsim`` won't change in the future
+> -- 
+> 2.53.0
+> 
