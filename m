@@ -1,65 +1,45 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from zm-mta-out-3.u-ga.fr (zm-mta-out-3.u-ga.fr [152.77.200.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F3C93BD629
-	for <workflows@vger.kernel.org>; Mon,  9 Mar 2026 16:28:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629A972618;
+	Tue, 10 Mar 2026 00:17:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=152.77.200.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773073711; cv=none; b=c81a5d2rKocxLRwCHO6XKDcfPYEpOJLQyq9n/6lNYvf2IxRDrM7RPj9lJ4JjFEK1QYudb/VhpQbwGzeuk5AqseyFKA+CTQfXPzmU4/BI9YYuOwBXmCgrh9UWGpzskGdTd5D4sBl4sAuxOjVNlNqngHgtnwle6+UJoN9VhhHCkUw=
+	t=1773101824; cv=none; b=UkL7xs5W9J5+cRzDXXfxUk83Bz3gI0EeiVkQLwcVP+4TmEq0G3+RGQm8go+BBIAk8cJ7CFVKr3IwxBgbcv7VqXPPSd+azVEtCFyRFrz7PH8aEM/rXmMao4D+6k0Ol1jkg7F35EklhyA+CVOg34Cgh5DiulUtwldx4Gw8dcYRuVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773073711; c=relaxed/simple;
-	bh=WIk5ijmLnNs2NTjHaGHzRzb4sCI0btF2mTmcjtwNl+I=;
+	s=arc-20240116; t=1773101824; c=relaxed/simple;
+	bh=K6KOjirwWu6hxLyRAT0WLc1dq0LGNWS7j6XYIxLCRp4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YOSI9CLEhzeO57CSNCUxEb3UWu7MRykhL7c68If7qEtUTjy2UmQ4vcfr/7Jnw98AVeZ1YznhavoGZZiIQUBs17fTy9q0bvxpdZQyYn84Ha9sbAri1On/6p79yajyFhX5l0aVrcr/Z3IleiRK7WhTAHUzEpkJrbM5yIIBQ+CmyhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Sa9q+1BT; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=K2EYQ8J5JLZi3sgojN4fdYpNmnpd4s28g46RVjCY+qW15JU5CJO4C+E5z1rf4KqWFFw1iTZ2jUJpjpSLPtGUjMo7W1m/h8EkLD+vhvprN7B1z6Gg/SCalQh2RaPLq/7kuXCFvZIIKShCSw3dSoMOOulZ9Sf8xu0+CJd1TQ6Fdvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=imag.fr; spf=pass smtp.mailfrom=imag.fr; dkim=pass (2048-bit key) header.d=imag.fr header.i=@imag.fr header.b=NIc6lULV; arc=none smtp.client-ip=152.77.200.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=imag.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=imag.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sa9q+1BT"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2a871daa98fso88723375ad.1
-        for <workflows@vger.kernel.org>; Mon, 09 Mar 2026 09:28:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773073707; x=1773678507; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rBQuohd/vt2LAF3I4JQSmNdjevqrT6nbat4LeA+5Cz4=;
-        b=Sa9q+1BTaR+crY/Ycy/WkFApc6lk6kV6XReseop1+RhGk/HAYrbGg3jzxK8+tXhb86
-         8PL2joid5wjGjmf/gMyOgB0lqEij6d84gMrRhbxap4BQ2GAdvCHYG2fhRfp5bXQPZdqd
-         Pm6v0l0SQd8lW1ycr55p/jRI/MluWdByWZOsduyBoD2QecdANVhDEBHFtG/WN2YBXyaD
-         BoL59xD+HoQFOeUxXm+4zjBXlhunHn+RpwpeVqyVK8gKOr7pW2nR2Xn2YCKklQK6dVhD
-         1+kUvXBvFYw6Qy0zENNLAQkihkbmmJ0pFM+iYRP1ufAGBWJcb89QsUxr4G0NGhpz2TrX
-         HvFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773073707; x=1773678507;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rBQuohd/vt2LAF3I4JQSmNdjevqrT6nbat4LeA+5Cz4=;
-        b=gRXX0YgNdmjErvdVgAk9pH526cSVrn/WKhs/jx3GlTHVs+I3J30oClGo2jebMh4vbP
-         AUwdJnPzzMA/fUBeC56GQN2L7REi2AdggCBBIANC+sQBLsnJ3+ivhsIjOgodHwTFiMRn
-         QNFooNIEZP44jJDrMecC/diBPpERaidPcSJnhZFRz3w+++FvhqKE9T1M+1kLVSZrn47m
-         GGlyVkB0TjBZUzROb0gQjhBn003pjPyJ7LS+neIApBhcHSPKhFqvndpc3K33oYKurwdH
-         CiYRWFpVyuHt583yppyjgVqPI8neEWfNukN8RdG4g8cjxw7lY/8xHn7fWh+QNy3q2QEv
-         Wqjg==
-X-Forwarded-Encrypted: i=1; AJvYcCWQa92nECgUzfmJJRtxytgMrM/sMCL4FjZHnZcUTUdVm50UZAOolMu+2zuSRGdAnJzJfdPD82Nx36c=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzmc06uFXhgCBdz2jDA6UXQ/6w9crRq1ndLJOnereKmsbsIRlvj
-	UhLdsO7qKIkmPY7Ge+/P6vkDGcJkWciYNsv6D5ZMtVvohEoBvadhkrh/
-X-Gm-Gg: ATEYQzx3zqrOrLG7DyjT6YgLnYmuOyediiavvnUEh6tJkzqMzix0c8K6RafmLHaVHNM
-	cB7Iz/mGjoSTU942PLESC5P3WwmzVPPumbOa0SkASZTQbVqVriZql4zualnHcmim5O0SW1Fueo+
-	vj2jJfQY0GPRl1VAVYwDDb6WNfOcSNExdlR3WFnlOlcLUfB7C6XSsFsaXcgTSJGhmyw7kHIxImK
-	LnESAeBBEDoLxE16UDIHc1KiPU6Y83XAzLv8POvHl5D4K3YI+c/s8q4+4sOD6i3Mu8Enva52mXU
-	Qx4ZGF+iKra54uQXaRrpGPiH7TRiLskAYrxsZvTaPIiGdnZB7IvET612MSMrdWw607c8fqGQVAV
-	G2Xn862/ClZykRWA5s9m51J8r3iKueyRM0wfE9jPwO7mVjDLxF5HYxrU9ilJ/AGDj0fKAE3JFeX
-	v/oMcWEOAAicKsDTCPcuIZNlgariUzUMef1Hm8/ZfQ0yb3ImtA/b749TcpmUyC74YJq2+s
-X-Received: by 2002:a17:903:2441:b0:2ae:4fdb:d596 with SMTP id d9443c01a7336-2ae82367db1mr122450805ad.11.1773073707067;
-        Mon, 09 Mar 2026 09:28:27 -0700 (PDT)
-Received: from [10.79.58.83] (wf121-083.ust.hk. [175.159.121.83])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae83e57cb1sm116837325ad.9.2026.03.09.09.28.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Mar 2026 09:28:25 -0700 (PDT)
-Message-ID: <ae8dda71-9e25-4f3b-ab95-1b00809ade37@gmail.com>
-Date: Tue, 10 Mar 2026 00:28:23 +0800
+	dkim=pass (2048-bit key) header.d=imag.fr header.i=@imag.fr header.b="NIc6lULV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=imag.fr; s=2022;
+	t=1773101453; bh=K6KOjirwWu6hxLyRAT0WLc1dq0LGNWS7j6XYIxLCRp4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=NIc6lULVwjAeqp6WE0ElnY6ST1AgwRGFDZN3mHE63R7YP1YqhLRUx0bLLRm46Limv
+	 zpB+Vivjr7sDT9k2lwjDVt8OqFXXyjTSQVwjMPm49GyQapxMYgYs+ZRN55yTswbPAc
+	 KkufhVOXj/EGmukFqwx+3duBr9LXWy5Vu002kli7aDgQD9iuriXE21sYy2QW/gmR+P
+	 sgAh1X8wAFswrU3bXR+ohxFn06z4pv26IKZXuS6xaidS/GP1Qd0NsUEpoZZKPBx8I9
+	 VqPyEBe0nawTfCRfHIAWuUh29cHvlhL4bL+G8FiJBXpyK7iweA4/nQEzLnWnk40ZSn
+	 2Vwg/3QOFoEjg==
+Received: from mailhub-2.u-ga.fr (mailhub-2.u-ga.fr [129.88.178.102])
+	by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id D5E6B40277;
+	Tue, 10 Mar 2026 01:10:53 +0100 (CET)
+Received: from smtps.univ-grenoble-alpes.fr (smtps3.u-ga.fr [195.83.24.62])
+	by mailhub-2.u-ga.fr (Postfix) with ESMTP id D20ACFF853;
+	Tue, 10 Mar 2026 01:10:53 +0100 (CET)
+Received: from [192.168.1.87] (unknown [87.89.124.250])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: palixn@univ-grenoble-alpes.fr)
+	by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 5CBD8400E6;
+	Tue, 10 Mar 2026 01:10:53 +0100 (CET)
+Message-ID: <1c546ad7-14f8-4695-9754-32a020f8a082@imag.fr>
+Date: Tue, 10 Mar 2026 01:10:52 +0100
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -69,56 +49,80 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] docs/dev-tools: fix a broken URL in
  dev-tools/coccinelle.rst
-To: Jonathan Corbet <corbet@lwn.net>, Julia Lawall <Julia.Lawall@inria.fr>,
- Nicolas Palix <nicolas.palix@imag.fr>, Shuah Khan <skhan@linuxfoundation.org>
+To: Haoyang Liu <tttturtleruss@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Julia Lawall <Julia.Lawall@inria.fr>, Shuah Khan <skhan@linuxfoundation.org>
 Cc: cocci@inria.fr, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20260308100851.341-1-tttturtleruss@gmail.com>
  <87v7f5vv9x.fsf@trenco.lwn.net>
-From: Haoyang Liu <tttturtleruss@gmail.com>
-In-Reply-To: <87v7f5vv9x.fsf@trenco.lwn.net>
+ <ae8dda71-9e25-4f3b-ab95-1b00809ade37@gmail.com>
+Content-Language: en-US, fr
+From: Nicolas Palix <nicolas.palix@imag.fr>
+Organization: LIG
+In-Reply-To: <ae8dda71-9e25-4f3b-ab95-1b00809ade37@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Greylist: Whitelist-UGA SMTP Authentifie (palixn@univ-grenoble-alpes.fr) via submission-587 ACL (41)
 
+Hi,
 
-On 3/10/2026 12:10 AM, Jonathan Corbet wrote:
-> LIU Haoyang <tttturtleruss@gmail.com> writes:
->
->> The original supplemental documentation for coccicheck is
->> https://bottest.wiki.kernel.org/coccicheck, which redirects to a not found page,
->> thus change it to https://bottest.wiki.kernel.org/coccicheck.html,
->> which adds a suffix to original URL to make it direct to the right page.
->>
->> Signed-off-by: LIU Haoyang <tttturtleruss@gmail.com>
->> ---
->>   Documentation/dev-tools/coccinelle.rst | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/Documentation/dev-tools/coccinelle.rst b/Documentation/dev-tools/coccinelle.rst
->> index 2b942e3c8049..f73ccf5397f3 100644
->> --- a/Documentation/dev-tools/coccinelle.rst
->> +++ b/Documentation/dev-tools/coccinelle.rst
->> @@ -61,7 +61,7 @@ Supplemental documentation
->>   
->>   For supplemental documentation refer to the wiki:
->>   
->> -https://bottest.wiki.kernel.org/coccicheck
->> +https://bottest.wiki.kernel.org/coccicheck.html
->>   
->>   The wiki documentation always refers to the linux-next version of the script.
-> I'll apply this - a working URL is better than a broken one.  But is
-> there really nothing better to link to than a page that warns "OBSOLETE
-> CONTENT" at the top?
+Maybe we can just throw away that section of "Supplemental 
+documentation" and its link ?
 
-Dear Jon,
+Nowadays, there is much more SmPL provided, and the rst file
+describes better and up-to-date information.
 
-Unfortunately, I do not find any other documents about this script, so I 
-have to use it even though it's obsolete.
+Would a link to
+https://www.kernel.org/doc/html/latest/dev-tools/coccinelle.html
+be useful to point to latest version ?
 
 Sincerely,
-Haoyang
 
->
-> Thanks,
->
-> jon
+Le 09/03/2026 à 17:28, Haoyang Liu a écrit :
+> 
+> On 3/10/2026 12:10 AM, Jonathan Corbet wrote:
+>> LIU Haoyang <tttturtleruss@gmail.com> writes:
+>>
+>>> The original supplemental documentation for coccicheck is
+>>> https://bottest.wiki.kernel.org/coccicheck, which redirects to a not 
+>>> found page,
+>>> thus change it to https://bottest.wiki.kernel.org/coccicheck.html,
+>>> which adds a suffix to original URL to make it direct to the right page.
+>>>
+>>> Signed-off-by: LIU Haoyang <tttturtleruss@gmail.com>
+>>> ---
+>>>   Documentation/dev-tools/coccinelle.rst | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/Documentation/dev-tools/coccinelle.rst b/Documentation/ 
+>>> dev-tools/coccinelle.rst
+>>> index 2b942e3c8049..f73ccf5397f3 100644
+>>> --- a/Documentation/dev-tools/coccinelle.rst
+>>> +++ b/Documentation/dev-tools/coccinelle.rst
+>>> @@ -61,7 +61,7 @@ Supplemental documentation
+>>>   For supplemental documentation refer to the wiki:
+>>> -https://bottest.wiki.kernel.org/coccicheck
+>>> +https://bottest.wiki.kernel.org/coccicheck.html
+>>>   The wiki documentation always refers to the linux-next version of 
+>>> the script.
+>> I'll apply this - a working URL is better than a broken one.  But is
+>> there really nothing better to link to than a page that warns "OBSOLETE
+>> CONTENT" at the top?
+> 
+> Dear Jon,
+> 
+> Unfortunately, I do not find any other documents about this script, so I 
+> have to use it even though it's obsolete.
+> 
+> Sincerely,
+> Haoyang
+> 
+>>
+>> Thanks,
+>>
+>> jon
+> 
+> 
+> 
+> 
+
