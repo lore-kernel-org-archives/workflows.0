@@ -1,128 +1,89 @@
-Received: from zm-mta-out-3.u-ga.fr (zm-mta-out-3.u-ga.fr [152.77.200.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629A972618;
-	Tue, 10 Mar 2026 00:17:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=152.77.200.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB1C62BD11;
+	Tue, 10 Mar 2026 00:48:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773101824; cv=none; b=UkL7xs5W9J5+cRzDXXfxUk83Bz3gI0EeiVkQLwcVP+4TmEq0G3+RGQm8go+BBIAk8cJ7CFVKr3IwxBgbcv7VqXPPSd+azVEtCFyRFrz7PH8aEM/rXmMao4D+6k0Ol1jkg7F35EklhyA+CVOg34Cgh5DiulUtwldx4Gw8dcYRuVI=
+	t=1773103700; cv=none; b=tZgCHlFG3cjHjKKpTRM226tOocSMTti9IB7i/BBEWra6kQu2E7PhdLnLPJOa8BqOpFnw3t0ELWEXr4q+3GPpaLyNUYQiD+HeFOcyDYRXWsycqVhUBOwW8CwaMHKLEgcsW2tUaD52iozIbfT4f2MhvocYuAJEKqROP0ZQlUCbITI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773101824; c=relaxed/simple;
-	bh=K6KOjirwWu6hxLyRAT0WLc1dq0LGNWS7j6XYIxLCRp4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K2EYQ8J5JLZi3sgojN4fdYpNmnpd4s28g46RVjCY+qW15JU5CJO4C+E5z1rf4KqWFFw1iTZ2jUJpjpSLPtGUjMo7W1m/h8EkLD+vhvprN7B1z6Gg/SCalQh2RaPLq/7kuXCFvZIIKShCSw3dSoMOOulZ9Sf8xu0+CJd1TQ6Fdvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=imag.fr; spf=pass smtp.mailfrom=imag.fr; dkim=pass (2048-bit key) header.d=imag.fr header.i=@imag.fr header.b=NIc6lULV; arc=none smtp.client-ip=152.77.200.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=imag.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=imag.fr
+	s=arc-20240116; t=1773103700; c=relaxed/simple;
+	bh=dPdpyLhsXPRjAJY7V8wT6OtM6easdvUdumvPwskxSjE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hlNBn49ORPiz6fIEsOyQvy+YvG+NQB17zfSN0beBvplf5XwSdRF4az40AOAgWrvK6dsPRrYQhO16mqZHu31s2o980K+IAzuSutZu/2nLTJ1wXgbXdwageiHLw4XOml0ofPyY1HNtFqpDsOetmrUP98Jq81I/0NErTkwP9QFVO3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OWMns5zi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=imag.fr header.i=@imag.fr header.b="NIc6lULV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=imag.fr; s=2022;
-	t=1773101453; bh=K6KOjirwWu6hxLyRAT0WLc1dq0LGNWS7j6XYIxLCRp4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=NIc6lULVwjAeqp6WE0ElnY6ST1AgwRGFDZN3mHE63R7YP1YqhLRUx0bLLRm46Limv
-	 zpB+Vivjr7sDT9k2lwjDVt8OqFXXyjTSQVwjMPm49GyQapxMYgYs+ZRN55yTswbPAc
-	 KkufhVOXj/EGmukFqwx+3duBr9LXWy5Vu002kli7aDgQD9iuriXE21sYy2QW/gmR+P
-	 sgAh1X8wAFswrU3bXR+ohxFn06z4pv26IKZXuS6xaidS/GP1Qd0NsUEpoZZKPBx8I9
-	 VqPyEBe0nawTfCRfHIAWuUh29cHvlhL4bL+G8FiJBXpyK7iweA4/nQEzLnWnk40ZSn
-	 2Vwg/3QOFoEjg==
-Received: from mailhub-2.u-ga.fr (mailhub-2.u-ga.fr [129.88.178.102])
-	by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id D5E6B40277;
-	Tue, 10 Mar 2026 01:10:53 +0100 (CET)
-Received: from smtps.univ-grenoble-alpes.fr (smtps3.u-ga.fr [195.83.24.62])
-	by mailhub-2.u-ga.fr (Postfix) with ESMTP id D20ACFF853;
-	Tue, 10 Mar 2026 01:10:53 +0100 (CET)
-Received: from [192.168.1.87] (unknown [87.89.124.250])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: palixn@univ-grenoble-alpes.fr)
-	by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 5CBD8400E6;
-	Tue, 10 Mar 2026 01:10:53 +0100 (CET)
-Message-ID: <1c546ad7-14f8-4695-9754-32a020f8a082@imag.fr>
-Date: Tue, 10 Mar 2026 01:10:52 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OWMns5zi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5259AC4CEF7;
+	Tue, 10 Mar 2026 00:48:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773103700;
+	bh=dPdpyLhsXPRjAJY7V8wT6OtM6easdvUdumvPwskxSjE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OWMns5zilMr8+kWUQQ5b2KlrArR5O6TFI8VDKUz9WnC31WqbwIWav/hwtMp/iRL7t
+	 M+FcxhE8WFIucasVxf2lOTwNU0nknHFko0jXcUa+t8IhWmVGec3Rvo4ejhlaFopSO0
+	 3ZsYFILZnSfI4DlZqoehWVqbhOqBHTA1VFkry3OX8wmh9sZK/rxm98jxsoJY1Z9Fic
+	 mTXtyMfaRLmkr+HM1gcQLWOk5AuKDm1VvhLoW8+k5g0bvooyDYabBECEsCVek6s3iy
+	 VMOvGZG9IpvedF340qGTWgSEaes5qC7XQHm81/1V7RsxAHPXUkc2uUu3Or5cT8IQpH
+	 Y8A/2fkL/oUsg==
+Date: Mon, 9 Mar 2026 17:48:15 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Guillaume Tucker <gtucker@gtucker.io>
+Cc: Ben Copeland <ben.copeland@linaro.org>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	Miguel Ojeda <ojeda@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	workflows@vger.kernel.org, automated-testing@lists.yoctoproject.org,
+	"kernelci@lists.linux.dev" <kernelci@lists.linux.dev>
+Subject: Re: Hosting first-party kernel.org container images
+Message-ID: <20260310004815.GA3293460@ax162>
+References: <cc737636-2a43-4a97-975e-4725733f7ee4@gtucker.io>
+ <CAL0q8a7mepGUdgrLsQhCUdLVP8VcxB9x_oBRCWAYNeoVAUb=7A@mail.gmail.com>
+ <78adef0e-81b0-47d4-be20-32f42ab8ec04@gtucker.io>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs/dev-tools: fix a broken URL in
- dev-tools/coccinelle.rst
-To: Haoyang Liu <tttturtleruss@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Julia Lawall <Julia.Lawall@inria.fr>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: cocci@inria.fr, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260308100851.341-1-tttturtleruss@gmail.com>
- <87v7f5vv9x.fsf@trenco.lwn.net>
- <ae8dda71-9e25-4f3b-ab95-1b00809ade37@gmail.com>
-Content-Language: en-US, fr
-From: Nicolas Palix <nicolas.palix@imag.fr>
-Organization: LIG
-In-Reply-To: <ae8dda71-9e25-4f3b-ab95-1b00809ade37@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Greylist: Whitelist-UGA SMTP Authentifie (palixn@univ-grenoble-alpes.fr) via submission-587 ACL (41)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <78adef0e-81b0-47d4-be20-32f42ab8ec04@gtucker.io>
 
-Hi,
+Hi Guillaume,
 
-Maybe we can just throw away that section of "Supplemental 
-documentation" and its link ?
+On Wed, Feb 25, 2026 at 03:44:13PM +0100, Guillaume Tucker wrote:
+> This boils things down to a few practical options:
+> 
+> 1. treating TuxMake images with kernel.org toolchains as the de facto
+>    stardard,
+> 
+> 2. creating a repository from scratch on git.kernel.org with
+>    independent hosting for base images,
+> 
+> 3. some middle ground to be defined which would remove the risks
+>    associated with third parties without duplicating efforts.
+> 
+> I feel it would be good to have more maintainers' feedback though.
+> 
+> Nathan, Nicolas, Miguel - what are your thoughts on this?
 
-Nowadays, there is much more SmPL provided, and the rst file
-describes better and up-to-date information.
+To be entirely honest, I do not really have a strong opinion here. I
+generally agree with your thoughts around branded container images,
+although I do think that TuxMake's images tend to be fairly lean, so
+those easily could become the recommended images without many downsides
+aside from maybe where they are hosted and how they are maintained.
+Having a clean set of Containerfiles on git.kernel.org does not sound
+like a bad idea, especially if they would be structured in such a way
+that other entities could customize them for their use case further. I
+guess its usefulness really depends on the other stakeholders like
+KernelCI. It seems like there has to be some sort of buy in from the
+kernel.org administrators around hosting built container images
+somewhere on kernel.org though, as I don't think the regular developer
+is going to want to build images locally. Not really sure what that
+looks like.
 
-Would a link to
-https://www.kernel.org/doc/html/latest/dev-tools/coccinelle.html
-be useful to point to latest version ?
-
-Sincerely,
-
-Le 09/03/2026 à 17:28, Haoyang Liu a écrit :
-> 
-> On 3/10/2026 12:10 AM, Jonathan Corbet wrote:
->> LIU Haoyang <tttturtleruss@gmail.com> writes:
->>
->>> The original supplemental documentation for coccicheck is
->>> https://bottest.wiki.kernel.org/coccicheck, which redirects to a not 
->>> found page,
->>> thus change it to https://bottest.wiki.kernel.org/coccicheck.html,
->>> which adds a suffix to original URL to make it direct to the right page.
->>>
->>> Signed-off-by: LIU Haoyang <tttturtleruss@gmail.com>
->>> ---
->>>   Documentation/dev-tools/coccinelle.rst | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/Documentation/dev-tools/coccinelle.rst b/Documentation/ 
->>> dev-tools/coccinelle.rst
->>> index 2b942e3c8049..f73ccf5397f3 100644
->>> --- a/Documentation/dev-tools/coccinelle.rst
->>> +++ b/Documentation/dev-tools/coccinelle.rst
->>> @@ -61,7 +61,7 @@ Supplemental documentation
->>>   For supplemental documentation refer to the wiki:
->>> -https://bottest.wiki.kernel.org/coccicheck
->>> +https://bottest.wiki.kernel.org/coccicheck.html
->>>   The wiki documentation always refers to the linux-next version of 
->>> the script.
->> I'll apply this - a working URL is better than a broken one.  But is
->> there really nothing better to link to than a page that warns "OBSOLETE
->> CONTENT" at the top?
-> 
-> Dear Jon,
-> 
-> Unfortunately, I do not find any other documents about this script, so I 
-> have to use it even though it's obsolete.
-> 
-> Sincerely,
-> Haoyang
-> 
->>
->> Thanks,
->>
->> jon
-> 
-> 
-> 
-> 
-
+Cheers,
+Nathan
