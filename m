@@ -1,136 +1,146 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B833E8C7C;
-	Tue, 10 Mar 2026 07:39:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C538C3E5EF6;
+	Tue, 10 Mar 2026 08:12:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773128359; cv=none; b=S6MSxu+YtzvUhHuXaEf9SxIyKOSj5KxyxydaGP0wEPsRqGyogYeVFhF4S9R8dRp74tQDN+uj8X+RAmZGM+MwR5X3Dn45M3fWt694fA1TQpUzZulm/hK1rLqWWrziwx0nujsut3ViPWtK1+OF91EN+Tblr7W8r+ZWZcjr94nL+ZM=
+	t=1773130349; cv=none; b=a9Kq2BMhUcUTe7PC8/WOzja/jIjM1ERULNguKbxiCnlnLYE6VhuQKB0Yk0szjwyTcYFPrJTdvoSdPR3Mc4j9Nid8nE1aoD/XWxEzlH2xmsBMtYvB1WkH9RFBhBYR87GjmjhFid+CzTq66rz4xFmgUE60xA3MH+Vs2TYG8PenrZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773128359; c=relaxed/simple;
-	bh=EG1SahnCbxi3XzK3bLDGK2sA5TJc1m500q7G0hL3bFA=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=fc97sLIqdnvZOOKmt0wZ7UJbQkomSiKEA7L6cxHOB9xPKcFXT+SSDp7t2gWnAqzu8stxRpOtZ3kL2rRNaucFr2wjN24WC3+huIkPoglwoPgH6bFcC9GVob9bwAOZh/zrzzNRzM3Din8C0Mo34jC7QTVInIy9dnQ40ZqcwcHvgTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=VkBuHLt5; arc=none smtp.client-ip=192.134.164.83
+	s=arc-20240116; t=1773130349; c=relaxed/simple;
+	bh=aSy8Em961NCZRux0VbAasFzfHnw9T/vspkvrLwI065U=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=pKbjgT4AxK+0xsqBBt9ImGqmcQZYOkS1q/b8JPioFc7uJQUh49SZ+39hOUGOflroMJ1Zb88pigYMV7DlKZZE/30rfZDpWWZYlZztw7KNGLBB4V/mYMTgEGCWLdHiwpzZBC4GMpx+fVZDibGyMP2jBRkyYFImSJtGLKMpScvOz0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=CzOhD+qz; arc=none smtp.client-ip=192.134.164.104
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="VkBuHLt5"
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="CzOhD+qz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=4mfDL0FzHrPi+ovP2EoBEIFIrlJiuL7mmRGIUBNqTUE=;
-  b=VkBuHLt5XWdWfc+4wiCOcJHVkC+zON+2D7w0ns+DrDlpUxwtkXtLurad
-   QDVfpbPRh9TOPmlvPUuZl7FlkCQBGrEjIRYSeYhzkMdSZ25q3hiGX5akJ
-   RpXCueLnvIFgxJjwpo5VZEgL7oHYZ/ABfvQaUcSBre9JS554879X5dIbz
-   g=;
-X-CSE-ConnectionGUID: B5Dhr2BaRGmtitjvQW+Vsw==
-X-CSE-MsgGUID: qw+9Q1VzToKCiY4/rmZcBg==
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=c6tfNjJqR+2ddnOI9tqldwvC2Q1KTWFoIHpWKWzAQ1g=;
+  b=CzOhD+qzqVRituE0LFvD3y6G8u/HnMYbvHb/cgc31kdVEU5sOGVrB2Kc
+   apPpTgLZ/yKpdTWZy1XFNzXoturn/g6GCPpL1R25yHB235zF4bsUnVDc3
+   o1rdNOMSzgLYNyL2954oQAoA8IKsLiyobyzSRaq/29MuoLvOR0seoDLs8
+   E=;
+X-CSE-ConnectionGUID: ix/7jfKyR/y3wxVvum7dPQ==
+X-CSE-MsgGUID: pugvvK/IRBGOB9Tbget9rQ==
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
 X-IronPort-AV: E=Sophos;i="6.23,111,1770591600"; 
-   d="scan'208";a="267009203"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 08:39:12 +0100
-Date: Tue, 10 Mar 2026 08:39:12 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Nicolas Palix <nicolas.palix@imag.fr>
-cc: Haoyang Liu <tttturtleruss@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-    Shuah Khan <skhan@linuxfoundation.org>, cocci@inria.fr, 
-    workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs/dev-tools: fix a broken URL in
- dev-tools/coccinelle.rst
-In-Reply-To: <1c546ad7-14f8-4695-9754-32a020f8a082@imag.fr>
-Message-ID: <4c157be7-7673-c513-65f0-f0222cf8d117@inria.fr>
-References: <20260308100851.341-1-tttturtleruss@gmail.com> <87v7f5vv9x.fsf@trenco.lwn.net> <ae8dda71-9e25-4f3b-ab95-1b00809ade37@gmail.com> <1c546ad7-14f8-4695-9754-32a020f8a082@imag.fr>
+   d="scan'208";a="140883526"
+Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.102.196])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 09:11:17 +0100
+From: Julia Lawall <Julia.Lawall@inria.fr>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	workflows@vger.kernel.org,
+	cocci@inria.fr,
+	Nicolas Palix <nicolas.palix@imag.fr>,
+	Hu Haowen <2023002089@link.tyut.edu.cn>,
+	Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Federico Vaga <federico.vaga@vaga.pv.it>,
+	Carlos Bilbao <carlos.bilbao@kernel.org>,
+	Avadhut Naik <avadhut.naik@amd.com>,
+	LIU Haoyang <tttturtleruss@gmail.com>
+Subject: [PATCH] coccinelle: update Coccinelle URL
+Date: Tue, 10 Mar 2026 09:11:12 +0100
+Message-Id: <20260310081112.354802-1-Julia.Lawall@inria.fr>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-918604625-1773128352=:23815"
+Content-Type: text/plain; charset=y
+Content-Transfer-Encoding: 8bit
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+The LIP6 URL no longer functions.
 
---8323329-918604625-1773128352=:23815
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
 
+---
 
+I used the UTF-8 encoding for the email.
+Let me know if this was not the right choice.
 
-On Tue, 10 Mar 2026, Nicolas Palix wrote:
+ Documentation/dev-tools/coccinelle.rst                |    2 +-
+ Documentation/translations/it_IT/process/4.Coding.rst |    3 ++-
+ Documentation/translations/sp_SP/process/4.Coding.rst |    3 ++-
+ Documentation/translations/zh_CN/process/4.Coding.rst |    2 +-
+ Documentation/translations/zh_TW/process/4.Coding.rst |    2 +-
+ 5 files changed, 7 insertions(+), 5 deletions(-)
 
-> Hi,
->
-> Maybe we can just throw away that section of "Supplemental documentation" and
-> its link ?
->
-> Nowadays, there is much more SmPL provided, and the rst file
-> describes better and up-to-date information.
->
-> Would a link to
-> https://www.kernel.org/doc/html/latest/dev-tools/coccinelle.html
-> be useful to point to latest version ?
+diff --git a/Documentation/translations/zh_CN/process/4.Coding.rst b/Documentation/translations/zh_CN/process/4.Coding.rst
+index 4cc35d410dbc..a00ad5d6b81e 100644
+--- a/Documentation/translations/zh_CN/process/4.Coding.rst
++++ b/Documentation/translations/zh_CN/process/4.Coding.rst
+@@ -216,7 +216,7 @@ Documentation/fault-injection/fault-injection.rst。
+ 可以在 https://sparse.wiki.kernel.org/index.php/Main_page 找到）,
+ 然后可以通过在make命令中添加“C=1”在代码上运行它。
+ 
+-“Coccinelle”工具 :ref:`http://coccinelle.lip6.fr/ <devtools_coccinelle>`
++“Coccinelle”工具 :ref:`https://coccinelle.gitlabpages.inria.fr/website/ <devtools_coccinelle>`
+ 能够发现各种潜在的编码问题；它还可以为这些问题提出修复方案。在
+ scripts/coccinelle目录下已经打包了相当多的内核“语义补丁”；运行
+ “make coccicheck”将运行这些语义补丁并报告发现的任何问题。有关详细信息，请参阅
+diff --git a/Documentation/translations/zh_TW/process/4.Coding.rst b/Documentation/translations/zh_TW/process/4.Coding.rst
+index e90a6b51fb98..233e8718ed41 100644
+--- a/Documentation/translations/zh_TW/process/4.Coding.rst
++++ b/Documentation/translations/zh_TW/process/4.Coding.rst
+@@ -219,7 +219,7 @@ Documentation/fault-injection/fault-injection.rst。
+ 可以在 https://sparse.wiki.kernel.org/index.php/Main_page 找到）,
+ 然後可以通過在make命令中添加“C=1”在代碼上運行它。
+ 
+-“Coccinelle”工具 :ref:`http://coccinelle.lip6.fr/ <devtools_coccinelle>`
++“Coccinelle”工具 :ref:`https://coccinelle.gitlabpages.inria.fr/website/ <devtools_coccinelle>`
+ 能夠發現各種潛在的編碼問題；它還可以爲這些問題提出修復方案。在
+ scripts/coccinelle目錄下已經打包了相當多的內核“語義補丁”；運行
+ “make coccicheck”將運行這些語義補丁並報告發現的任何問題。有關詳細信息，請參閱
+diff --git a/Documentation/translations/it_IT/process/4.Coding.rst b/Documentation/translations/it_IT/process/4.Coding.rst
+index 3126342c4b4a..a2ec35e016b7 100644
+--- a/Documentation/translations/it_IT/process/4.Coding.rst
++++ b/Documentation/translations/it_IT/process/4.Coding.rst
+@@ -329,7 +329,8 @@ Sparse deve essere installato separatamente (se il vostra distribuzione non
+ lo prevede, potete trovarlo su https://sparse.wiki.kernel.org/index.php/Main_Page);
+ può essere attivato sul codice aggiungendo "C=1" al comando make.
+ 
+-Lo strumento "Coccinelle" (http://coccinelle.lip6.fr/) è in grado di trovare
++Lo strumento "Coccinelle" (https://coccinelle.gitlabpages.inria.fr/website/)
++è in grado di trovare
+ una vasta varietà di potenziali problemi di codifica; e può inoltre proporre
+ soluzioni per risolverli.  Un buon numero di "patch semantiche" per il kernel
+ sono state preparate nella cartella scripts/coccinelle; utilizzando
+diff --git a/Documentation/dev-tools/coccinelle.rst b/Documentation/dev-tools/coccinelle.rst
+index c714780d458a..05614c469b47 100644
+--- a/Documentation/dev-tools/coccinelle.rst
++++ b/Documentation/dev-tools/coccinelle.rst
+@@ -34,7 +34,7 @@ of many distributions, e.g. :
+ 
+ Some distribution packages are obsolete and it is recommended
+ to use the latest version released from the Coccinelle homepage at
+-http://coccinelle.lip6.fr/
++https://coccinelle.gitlabpages.inria.fr/website
+ 
+ Or from Github at:
+ 
+diff --git a/Documentation/translations/sp_SP/process/4.Coding.rst b/Documentation/translations/sp_SP/process/4.Coding.rst
+index 7cc347c34354..6c3750ccdea2 100644
+--- a/Documentation/translations/sp_SP/process/4.Coding.rst
++++ b/Documentation/translations/sp_SP/process/4.Coding.rst
+@@ -336,7 +336,8 @@ https://sparse.wiki.kernel.org/index.php/Main_Page si su distribución no lo
+ empaqueta); luego, puede ejecutarse en el código agregando "C=1" a su
+ comando make.
+ 
+-La herramienta "Coccinelle" (http://coccinelle.lip6.fr/) puede encontrar
++La herramienta "Coccinelle" (https://coccinelle.gitlabpages.inria.fr/website/)
++puede encontrar
+ una amplia variedad de posibles problemas de codificación; también puede
+ proponer correcciones para esos problemas. Bastantes "parches semánticos"
+ para el kernel se han empaquetado en el directorio scripts/coccinelle;
 
-OK, thanks.
-
-There is also an out of date URL in that page.  I will send a patch.
-
-julia
-
->
-> Sincerely,
->
-> Le 09/03/2026 à 17:28, Haoyang Liu a écrit :
-> >
-> > On 3/10/2026 12:10 AM, Jonathan Corbet wrote:
-> > > LIU Haoyang <tttturtleruss@gmail.com> writes:
-> > >
-> > > > The original supplemental documentation for coccicheck is
-> > > > https://bottest.wiki.kernel.org/coccicheck, which redirects to a not
-> > > > found page,
-> > > > thus change it to https://bottest.wiki.kernel.org/coccicheck.html,
-> > > > which adds a suffix to original URL to make it direct to the right page.
-> > > >
-> > > > Signed-off-by: LIU Haoyang <tttturtleruss@gmail.com>
-> > > > ---
-> > > >   Documentation/dev-tools/coccinelle.rst | 2 +-
-> > > >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/Documentation/dev-tools/coccinelle.rst b/Documentation/
-> > > > dev-tools/coccinelle.rst
-> > > > index 2b942e3c8049..f73ccf5397f3 100644
-> > > > --- a/Documentation/dev-tools/coccinelle.rst
-> > > > +++ b/Documentation/dev-tools/coccinelle.rst
-> > > > @@ -61,7 +61,7 @@ Supplemental documentation
-> > > >   For supplemental documentation refer to the wiki:
-> > > > -https://bottest.wiki.kernel.org/coccicheck
-> > > > +https://bottest.wiki.kernel.org/coccicheck.html
-> > > >   The wiki documentation always refers to the linux-next version of the
-> > > > script.
-> > > I'll apply this - a working URL is better than a broken one.  But is
-> > > there really nothing better to link to than a page that warns "OBSOLETE
-> > > CONTENT" at the top?
-> >
-> > Dear Jon,
-> >
-> > Unfortunately, I do not find any other documents about this script, so I
-> > have to use it even though it's obsolete.
-> >
-> > Sincerely,
-> > Haoyang
-> >
-> > >
-> > > Thanks,
-> > >
-> > > jon
-> >
-> >
-> >
-> >
->
->
---8323329-918604625-1773128352=:23815--
