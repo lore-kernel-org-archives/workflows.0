@@ -1,333 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA234372EFE;
-	Wed, 11 Mar 2026 09:09:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA1E43D9DA1;
+	Wed, 11 Mar 2026 11:06:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773220162; cv=none; b=L9G/BVX7S9QHGoKsOVNqIY2PoSFqOWAuP4yq0eS7RIM0xD0yrNoCjy8OuYgIGP4l16IEF9DgCMwV300fboyWH4CuUOPjsfEmE4CIUHZfhiO/frOaDCiCK44oMpDIpUakRWZot9C+kpBnepaLETc7Y8Ce3uAlOx/RNEU/hTuSzCg=
+	t=1773227166; cv=none; b=dHQte4InPBnY3Sa2KFUGaGtkuI4UfXmy00w/bJEg5+JzMlC7BCMLWQgMGgeRZSKEDYkVBcF/Q3OqYigRINjcGDj4TJhFuD2k/f6uCkIw+NbW8ZSwlC2lk90qcmIJZ/Fa2x++PBlz7o+nAmmkGqmwvCpJBVfp0aIzlwO3gDsiFt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773220162; c=relaxed/simple;
-	bh=82aUC4VRpBGw7JMuttBYhm6dWXOcxLKrXkiWiKokSkc=;
+	s=arc-20240116; t=1773227166; c=relaxed/simple;
+	bh=kfpEWkH2XpzSfGzipu6OR2Z7FxO8Oow3FzZ0Lraka2o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jA86p5hNHRazNRIOu1r1qHyEYdUKyurQX1CcgrbCmfY+i1Mrfha/Is0uBqxHN8jTWAl66NrJId0jT1ldiRoBw5tIEL9leeSKyAUgJOh6062HuxRqzgjb+4fxhzNZ9Vdg9kqAaCk438hPp3/IIFMFgtDxiMGdLFS7E9iY9TRje/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hiav0/5S; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=tddFxjMInL7wGRe5ZjgNjo3nGEbfJ9NVnsMX8t1N0rbVJggcHK2FbAmGvyt9EvQhcmM0F6Gckcy/rUywqxfodLwjvVdbyyVmdueF7HPZfxW1iNqXyl0aXnOxw4fpAwEQazKTylHMOEXC6kY0wOyMwiYPFrhNbvHHB1tgowNabDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=TVq/mqgX; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hiav0/5S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97481C4CEF7;
-	Wed, 11 Mar 2026 09:09:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773220162;
-	bh=82aUC4VRpBGw7JMuttBYhm6dWXOcxLKrXkiWiKokSkc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Hiav0/5SDxMf9zR8suSIZHhKHiHBJdBn25HKmiP6Nvb/vZamKVkRaC+bkUU+MMoo3
-	 Ni0yaCeLrupAUaWRFNEnAuXIqphbhDlWgHLpNADqlynBDF7c35TM9zxQLOe8P0jKnC
-	 d1QXefq7ueIltcKqNd6w6N5kWro0EIIaImFy76V51md/QPFfq9cNwZLAKiY4+Iu9zH
-	 OAoeKfTgXg0iSyPWwQKKoQ/v1L08Sm6Dj3xv/KywOB97OeG83b4hfoG2GwyCSdg1IB
-	 zu45S0H/TgnahEqJdikaJQTJWaM9V9+zgqHuKySEF2INd3fBkw7cRzVCzwi155hFHW
-	 TDLU+bfophjrQ==
-Date: Wed, 11 Mar 2026 10:09:19 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Eugen Hristev <eugen.hristev@linaro.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, 
-	Christoph Lameter <cl@gentwo.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Anna-Maria Behnsen <anna-maria@linutronix.de>, Frederic Weisbecker <frederic@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
-	Valentin Schneider <vschneid@redhat.com>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>, 
-	Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, 
-	Barry Song <baohua@kernel.org>, Youngjun Park <youngjun.park@lge.com>, 
-	Petr Mladek <pmladek@suse.com>, John Ogness <john.ogness@linutronix.de>, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Mathieu Poirier <mathieu.poirier@linaro.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-mm@kvack.org, linux-arm-msm@vger.kernel.org, 
-	linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 25/25] meminspect: Add debug kinfo compatible driver
-Message-ID: <20260311-poetic-transparent-barracuda-b7a3ab@quoll>
-References: <20260311-minidump-v2-v2-0-f91cedc6f99e@oss.qualcomm.com>
- <20260311-minidump-v2-v2-25-f91cedc6f99e@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TVq/mqgX"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=8TahdgEn3gMu5VtPViQvPPRTFhQLJ1Z62fN7PBBs1bk=; b=TVq/mqgX8wM37fMpnv59UYrKlf
+	n60VzuvWBApR8D2t1mCfWJd89b34Bjedf/1KV0neNrwDL2/Ok4fQRMsH/ejppI+BM81eY3vQF94iE
+	ADbiCIlK8EgeD6nBo3cMAp9Ul13T2bJs5mYjjJIpUPbQvTsRQqYPhfrby7XuSKdMi+BQ9ZR1b70lm
+	5jh6X/S/StSkgUCb18nUWR2T+9NLrdUhIphDccVXevd53oUd47ien5izcVgfPEiKHsPyAt/2khEsl
+	MEd8l5q4J25yaU8nzxaFwQ8DVP8cFAhHe3GjjEz0mt+NSyW0HyxZg9LWulMd+M5esR0ZXMRQgnK86
+	FopvLgLA==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w0HNy-0000000GmSP-1xvV;
+	Wed, 11 Mar 2026 11:05:54 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 395B8300462; Wed, 11 Mar 2026 12:05:53 +0100 (CET)
+Date: Wed, 11 Mar 2026 12:05:53 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
+Cc: urezki@gmail.com, ryan.roberts@arm.com, kevin.brodsky@arm.com,
+	samuel.holland@sifive.com, dave.hansen@linux.intel.com,
+	jeremy.linton@arm.com, weixugc@google.com, ljs@kernel.org,
+	ryabinin.a.a@gmail.com, rppt@kernel.org, bp@alien8.de,
+	luto@kernel.org, jan.kiszka@siemens.com, mingo@redhat.com,
+	david@kernel.org, mhocko@suse.com, akpm@linux-foundation.org,
+	andreas@gaisler.com, kas@kernel.org, Liam.Howlett@oracle.com,
+	morbo@google.com, thuth@redhat.com, catalin.marinas@arm.com,
+	ankur.a.arora@oracle.com, kbingham@kernel.org,
+	nick.desaulniers+lkml@gmail.com, andreyknvl@gmail.com,
+	dvyukov@google.com, corbet@lwn.net, leitao@debian.org,
+	hpa@zytor.com, tglx@kernel.org, yuanchu@google.com, ardb@kernel.org,
+	vincenzo.frascino@arm.com, tabba@google.com, joey.gouly@arm.com,
+	nsc@kernel.org, will@kernel.org, yeoreum.yun@arm.com,
+	nathan@kernel.org, maciej.wieczor-retman@intel.com,
+	skhan@linuxfoundation.org, axelrasmussen@google.com, osandov@fb.com,
+	surenb@google.com, justinstitt@google.com, kees@kernel.org,
+	vbabka@kernel.org, hsj0512@snu.ac.kr, trintaeoitogc@gmail.com,
+	jackmanb@google.com, maz@kernel.org, glider@google.com,
+	linux-doc@vger.kernel.org, x86@kernel.org,
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+	workflows@vger.kernel.org, llvm@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: [PATCH v11 00/15] kasan: x86: arm64: KASAN tag-based mode for x86
+Message-ID: <20260311110553.GM606826@noisy.programming.kicks-ass.net>
+References: <cover.1773164688.git.m.wieczorretman@pm.me>
+ <20260310190022.GI606826@noisy.programming.kicks-ass.net>
+ <abBu-M5esEYWScDf@wieczorr-mobl1.localdomain>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260311-minidump-v2-v2-25-f91cedc6f99e@oss.qualcomm.com>
+In-Reply-To: <abBu-M5esEYWScDf@wieczorr-mobl1.localdomain>
 
-On Wed, Mar 11, 2026 at 01:46:09AM +0530, Mukesh Ojha wrote:
-> From: Eugen Hristev <eugen.hristev@linaro.org>
+On Tue, Mar 10, 2026 at 07:30:36PM +0000, Maciej Wieczor-Retman wrote:
+> On 2026-03-10 at 20:00:22 +0100, Peter Zijlstra wrote:
+> >On Tue, Mar 10, 2026 at 05:51:19PM +0000, Maciej Wieczor-Retman wrote:
+> >
+> >> ======= Compilation
+> >> Clang was used to compile the series (make LLVM=1) since gcc doesn't
+> >> seem to have support for KASAN tag-based compiler instrumentation on
+> >> x86. Patchset does seem to compile with gcc without an issue but doesn't
+> >> boot afterwards.
+> >
+> >Can you put all that under a specific CONFIG and make that depend on
+> >CC_IS_CLANG?
 > 
-> With this driver, the registered regions are copied to a shared memory
-> zone at register time. The shared memory zone is supplied via OF. This
-> driver will select only regions that are of interest, and keep only
-> addresses. The format of the list is Kinfo compatible, with devices like
-> Google Pixel phone. The firmware is only interested in some symbols'
-> addresses.
+> I made HAVE_ARCH_KASAN_SW_TAGS depend on CC_IS_CLANG, and that controls all the
+> software tags stuff, like ARCH_DISABLE_KASAN_INLINE through KASAN_SW_TAGS.
+> And ARCH_NEEDS_DEFER_KASAN is for if KASAN is compiled but LAM is not available,
+> so that it gets disabled in runtime.
 > 
-> Signed-off-by: Eugen Hristev <eugen.hristev@linaro.org>
-> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-> ---
->  MAINTAINERS                |   1 +
->  drivers/of/platform.c      |   1 +
->  kernel/meminspect/Kconfig  |  11 ++
->  kernel/meminspect/Makefile |   1 +
->  kernel/meminspect/kinfo.c  | 284 +++++++++++++++++++++++++++++++++++++++++++++
->  5 files changed, 298 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 2504b7df0e7d..48b5457fae98 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -16597,6 +16597,7 @@ M:	Eugen Hristev <eugen.hristev@linaro.org>
->  M:	Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/reserved-memory/google,kinfo.yaml
-> +F:	kernel/meminspect/kinfo.c
->  
->  MEMBLOCK AND MEMORY MANAGEMENT INITIALIZATION
->  M:	Mike Rapoport <rppt@kernel.org>
-> diff --git a/drivers/of/platform.c b/drivers/of/platform.c
-> index 2a7111e8354d..09047e021de4 100644
-> --- a/drivers/of/platform.c
-> +++ b/drivers/of/platform.c
-> @@ -495,6 +495,7 @@ static const struct of_device_id reserved_mem_matches[] = {
->  	{ .compatible = "ramoops" },
->  	{ .compatible = "nvmem-rmem" },
->  	{ .compatible = "google,open-dice" },
-> +	{ .compatible = "google,debug-kinfo" },
+> But sure, I suppose I can add a separate CONFIG with CC_IS_CLANG to these three
+> so the clang connection is more transparent.
 
-place it before open-dice
-
->  	{}
->  };
->  
-> diff --git a/kernel/meminspect/Kconfig b/kernel/meminspect/Kconfig
-> index fa2b5a84b251..396510908e47 100644
-> --- a/kernel/meminspect/Kconfig
-> +++ b/kernel/meminspect/Kconfig
-> @@ -17,3 +17,14 @@ config MEMINSPECT
->  
->  	  Note that modules using this feature must be rebuilt if option
->  	  changes.
-> +
-> +config MEMINSPECT_KINFO
-> +	tristate "Shared memory KInfo compatible driver"
-> +	depends on MEMINSPECT
-> +	help
-> +	  Say y here to enable the Shared memory KInfo compatible driver
-> +	  With this driver, the registered regions are copied to a shared
-> +	  memory zone at register time.
-> +	  The shared memory zone is supplied via OF.
-> +	  This driver will select only regions that are of interest,
-> +	  and keep only addresses. The format of the list is Kinfo compatible.
-> diff --git a/kernel/meminspect/Makefile b/kernel/meminspect/Makefile
-> index 09fd55e6d9cf..283604d892e5 100644
-> --- a/kernel/meminspect/Makefile
-> +++ b/kernel/meminspect/Makefile
-> @@ -1,3 +1,4 @@
->  # SPDX-License-Identifier: GPL-2.0
->  
->  obj-$(CONFIG_MEMINSPECT) += meminspect.o
-> +obj-$(CONFIG_MEMINSPECT_KINFO) += kinfo.o
-> diff --git a/kernel/meminspect/kinfo.c b/kernel/meminspect/kinfo.c
-> new file mode 100644
-> index 000000000000..79918908968d
-> --- /dev/null
-> +++ b/kernel/meminspect/kinfo.c
-> @@ -0,0 +1,284 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + *
-> + * Copyright 2002 Rusty Russell <rusty@rustcorp.com.au> IBM Corporation
-> + * Copyright 2021 Google LLC
-> + * Copyright 2025 Linaro Ltd. Eugen Hristev <eugen.hristev@linaro.org>
-> + */
-> +#include <linux/container_of.h>
-> +#include <linux/kallsyms.h>
-> +#include <linux/meminspect.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_reserved_mem.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/utsname.h>
-> +
-> +#define BUILD_INFO_LEN		256
-> +#define DEBUG_KINFO_MAGIC	0xcceeddff
-> +
-> +/*
-> + * Header structure must be byte-packed, since the table is provided to
-> + * bootloader.
-> + */
-> +struct kernel_info {
-> +	/* For kallsyms */
-> +	u8 enabled_all;
-> +	u8 enabled_base_relative;
-> +	u8 enabled_absolute_percpu;
-> +	u8 enabled_cfi_clang;
-> +	u32 num_syms;
-> +	u16 name_len;
-> +	u16 bit_per_long;
-> +	u16 module_name_len;
-> +	u16 symbol_len;
-> +	u64 _relative_pa;
-> +	u64 _text_pa;
-> +	u64 _stext_pa;
-> +	u64 _etext_pa;
-> +	u64 _sinittext_pa;
-> +	u64 _einittext_pa;
-> +	u64 _end_pa;
-> +	u64 _offsets_pa;
-> +	u64 _names_pa;
-> +	u64 _token_table_pa;
-> +	u64 _token_index_pa;
-> +	u64 _markers_pa;
-> +	u64 _seqs_of_names_pa;
-> +
-> +	/* For frame pointer */
-> +	u32 thread_size;
-> +
-> +	/* For virt_to_phys */
-> +	u64 swapper_pg_dir_pa;
-> +
-> +	/* For linux banner */
-> +	u8 last_uts_release[__NEW_UTS_LEN];
-> +
-> +	/* Info of running build */
-> +	u8 build_info[BUILD_INFO_LEN];
-> +
-> +	/* For module kallsyms */
-> +	u32 enabled_modules_tree_lookup;
-> +	u32 mod_mem_offset;
-> +	u32 mod_kallsyms_offset;
-> +} __packed;
-> +
-> +struct kernel_all_info {
-> +	u32 magic_number;
-> +	u32 combined_checksum;
-> +	struct kernel_info info;
-> +} __packed;
-> +
-> +struct debug_kinfo {
-> +	struct device *dev;
-> +	void *all_info_addr;
-> +	size_t all_info_size;
-> +	struct notifier_block nb;
-> +};
-> +
-> +static void update_kernel_all_info(struct kernel_all_info *all_info)
-> +{
-> +	struct kernel_info *info;
-> +	u32 *checksum_info;
-> +	int index;
-> +
-> +	all_info->magic_number = DEBUG_KINFO_MAGIC;
-> +	all_info->combined_checksum = 0;
-> +
-> +	info = &all_info->info;
-> +	checksum_info = (u32 *)info;
-> +	for (index = 0; index < sizeof(*info) / sizeof(u32); index++)
-> +		all_info->combined_checksum ^= checksum_info[index];
-> +}
-> +
-> +static u8 global_build_info[BUILD_INFO_LEN];
-
-Don't create singletons. That's a driver so you can have multiple
-instances of it.
-
-> +
-> +static int build_info_set(const char *str, const struct kernel_param *kp)
-> +{
-> +	size_t build_info_size = sizeof(global_build_info);
-> +
-> +	if (strlen(str) > build_info_size)
-> +		return -ENOMEM;
-> +	memcpy(global_build_info, str, min(build_info_size - 1, strlen(str)));
-> +	return 0;
-> +}
-> +
-> +static const struct kernel_param_ops build_info_op = {
-> +	.set = build_info_set,
-> +};
-> +
-> +module_param_cb(build_info, &build_info_op, NULL, 0200);
-> +MODULE_PARM_DESC(build_info, "Write build info to field 'build_info' of debug kinfo.");
-
-Drop. Build info is a static, fixed information, there is no need to write it
-from user-space.
-
-
-...
-
-> +	memset(all_info, 0, sizeof(struct kernel_all_info));
-> +	info = &all_info->info;
-> +	info->enabled_all = IS_ENABLED(CONFIG_KALLSYMS_ALL);
-> +	info->enabled_absolute_percpu = IS_ENABLED(CONFIG_KALLSYMS_ABSOLUTE_PERCPU);
-> +	info->enabled_base_relative = IS_ENABLED(CONFIG_KALLSYMS_BASE_RELATIVE);
-> +	info->enabled_cfi_clang = IS_ENABLED(CONFIG_CFI_CLANG);
-> +	info->name_len = KSYM_NAME_LEN;
-> +	info->bit_per_long = BITS_PER_LONG;
-> +	info->module_name_len = MODULE_NAME_LEN;
-> +	info->symbol_len = KSYM_SYMBOL_LEN;
-> +	info->thread_size = THREAD_SIZE;
-> +	info->enabled_modules_tree_lookup = IS_ENABLED(CONFIG_MODULES_TREE_LOOKUP);
-> +	info->mod_mem_offset = offsetof(struct module, mem);
-> +	info->mod_kallsyms_offset = offsetof(struct module, kallsyms);
-> +
-> +	memcpy(info->build_info, global_build_info, strlen(global_build_info));
-> +
-> +	kinfo->nb.notifier_call = kinfo_notifier_cb;
-> +
-> +	meminspect_notifier_register(&kinfo->nb);
-> +	meminspect_lock_traverse(kinfo, register_kinfo_region);
-> +
-> +	return 0;
-> +}
-> +
-> +static void debug_kinfo_remove(struct platform_device *pdev)
-> +{
-> +	struct debug_kinfo *kinfo = platform_get_drvdata(pdev);
-> +
-> +	meminspect_notifier_unregister(&kinfo->nb);
-> +}
-> +
-> +static const struct of_device_id debug_kinfo_of_match[] = {
-> +	{ .compatible	= "google,debug-kinfo" },
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(of, debug_kinfo_of_match);
-> +
-> +static struct platform_driver debug_kinfo_driver = {
-> +	.probe = debug_kinfo_probe,
-> +	.remove = debug_kinfo_remove,
-> +	.driver = {
-> +		.name = "debug-kinfo",
-> +		.of_match_table = of_match_ptr(debug_kinfo_of_match),
-
-Drop of_match_ptr, you have warning here.
-
-> +	},
-> +};
-> +module_platform_driver(debug_kinfo_driver);
-> +
-> +MODULE_AUTHOR("Eugen Hristev <eugen.hristev@linaro.org>");
-> +MODULE_AUTHOR("Jone Chou <jonechou@google.com>");
-> +MODULE_DESCRIPTION("meminspect Kinfo Driver");
-> +MODULE_LICENSE("GPL");
-> 
-> -- 
-> 2.50.1
-> 
+Right, because building but not booting is BAD :-) While compiler
+specific features are a dime a dozen.
