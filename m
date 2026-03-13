@@ -1,287 +1,211 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98E9258EC2;
-	Thu, 12 Mar 2026 04:47:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B6B2399009;
+	Fri, 13 Mar 2026 15:09:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773290845; cv=none; b=uFtaH0gaA2a2xasa16XkCaIg6d9ZHojCubSoGLy/Y84sTW4DHR+sw9Iw3wx+XcF4P0QzenCi19q6LIWX8wO1x047xWjC9SB/qYlZpArEufVwptzG/Od0WyXMyPMlVdx5Zm45v+byveiDJfSCdPWy1vLr/IUimhAqqVAlHSM4rS8=
+	t=1773414587; cv=none; b=gZenCXpa3qS4kK3xNdQwcBwZk8IygXunuhEJO2iXSKOSBCZ/i6ydjGWUTB9a5O5yRVMU2qyoDbUIUDCEIgEAgozUJHV2ck2LIFLU1TA+puh83RqfIGlZwyuFSwy81htZTRUxk62SiAIELMvoj25iny1BvlgUv0CMglqV1bINgvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773290845; c=relaxed/simple;
-	bh=Gp54JLvaaOIECrVsI9+uHuFT4IiNN9InE0F4T3empxQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NlZ1MvD82XOGl6+aJ0bHEgxUqygOpR0ZJO9jNM1DTjeCQujMEwtZT7FpXADXKO7d0waPzYueMby1WnhxWSnur+WgvzwKqaxu1h2LEBDcVRjv33qwcjmeQ0J3/zmakK1MWnfR5pzv0wY5/Qw1DXfLtsbdrb2jzd34tIgtQFjhPrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=VnyGzRoG; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1773414587; c=relaxed/simple;
+	bh=G8+4urbwl/kl8Syy8w8X2OZmP6dOqFG95NsWDRZd+Zg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cEhu/ho8Vj933aiz+nUhKGZbq2Yx+53YXvKKuJCHcxC/C2MuuSQ53HvALK1X0REEpo22f50Qg1nCUDoXRIBUOWaxB6LWB8+9m2tdfOoogNNrm6MuXSNlFj8FfK1SMTjskmVpHdbHDvPtaxHQUkCb45UNtYWNHfLiELbKdBcciYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ELk6eE1P; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VnyGzRoG"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=A2SvhJ+b53Uvh0SW06/h2KPYmtALDs9kOKOYcwwDLA0=; b=VnyGzRoGzkd8sAAvVV3Y/W6ZN0
-	tKjKqCKmOocvgGs2WMlfWDZKSsXB8ZVZckIdwVxx+isq7qvFLGieQAcdQINeeSI0U5lmzoeckjN1P
-	fpOlTWJ9/v6707emE9rHLMZBDNwcmeIh42L5g3RJRUZ5PluWGXtKUDSp+15rNVwAY6n28KPynzvip
-	8M+n2m480sEjG8LOTrXHMf9kL4AvUVoAinWEFH2hdIxCwt12t7vNVuvMadKGy49cneNMRZ86dUuvn
-	kKk0L70BiK14w69z6fOhbwVFm7woPVZnv9og0y56U9VuASYMSZf/o5lXdue2UIhgTKAlsYSpxvMcM
-	lBafm1tw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w0Xwo-0000000DI74-3YB5;
-	Thu, 12 Mar 2026 04:47:00 +0000
-Message-ID: <e398475e-4db2-40ed-baeb-89c2bbf6a0d5@infradead.org>
-Date: Wed, 11 Mar 2026 21:46:57 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ELk6eE1P"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49068C19421;
+	Fri, 13 Mar 2026 15:09:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773414587;
+	bh=G8+4urbwl/kl8Syy8w8X2OZmP6dOqFG95NsWDRZd+Zg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ELk6eE1PBmYWdy9eoLPDeApT2mrAgrUGPLIq4yDpcDkR6SZbwjuDub7i/gczjtq3Q
+	 hppNUMyp8D9z5XbNGowoqAfxLbZTKtUzCRiKL5PmmXRQaP0z2foRrpcuhgaTseg5ch
+	 oiSJU7vcTBgcDxAOfCVjHqJbdPy9NzlNH+WvajyPZ79n17pP05ouKOekZ9/iEOBHSh
+	 Vtijio3ng6Cr7zeD/InpBh55xaHLSO/EFk7R1YT2YB2nbOCIF/L1X8360iOPjAhl6V
+	 7Fr7VwC1YkJR3xgElJkg4ggviJ5rstKwgNEmQ+VpFTrSbIZPGJAL77Wz7xQT4DRQmH
+	 tdc62ySffmE0g==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	workflows@vger.kernel.org,
+	tools@kernel.org,
+	x86@kernel.org,
+	Thomas Gleixner <tglx@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Cyril Hrubis <chrubis@suse.cz>,
+	Kees Cook <kees@kernel.org>,
+	Jake Edge <jake@lwn.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Askar Safin <safinaskar@zohomail.com>,
+	Gabriele Paoloni <gpaoloni@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 0/9] Kernel API Specification Framework
+Date: Fri, 13 Mar 2026 11:09:10 -0400
+Message-ID: <20260313150928.2637368-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/25] kernel: Introduce meminspect
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Eugen Hristev <eugen.hristev@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
- Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
- Christoph Lameter <cl@gentwo.org>, Andrew Morton
- <akpm@linux-foundation.org>, Thomas Gleixner <tglx@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>,
- Frederic Weisbecker <frederic@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Kees Cook <kees@kernel.org>, Brendan Jackman <jackmanb@google.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
- Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>,
- Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>,
- Youngjun Park <youngjun.park@lge.com>, Petr Mladek <pmladek@suse.com>,
- John Ogness <john.ogness@linutronix.de>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Saravana Kannan <saravanak@kernel.org>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-mm@kvack.org, linux-arm-msm@vger.kernel.org,
- linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org
-References: <20260311-minidump-v2-v2-0-f91cedc6f99e@oss.qualcomm.com>
- <20260311-minidump-v2-v2-1-f91cedc6f99e@oss.qualcomm.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260311-minidump-v2-v2-1-f91cedc6f99e@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+This proposal introduces machinery for documenting kernel APIs, addressing the
+long-standing challenge of maintaining stable interfaces between the kernel and
+user-space programs. Despite the kernel's commitment to never breaking user
+space, the lack of machine-readable API specifications has led to breakages and
+across system calls and IOCTLs.
 
+Specifications can document parameter types, valid ranges, constraints, and
+alignment requirements. They capture return value semantics including success
+conditions and error codes with their meaning. Execution context requirements,
+capabilities, locking constraints, signal handling behavior, and side effects
+can all be formally specified.
 
-On 3/10/26 1:15 PM, Mukesh Ojha wrote:
-> diff --git a/Documentation/dev-tools/meminspect.rst b/Documentation/dev-tools/meminspect.rst
-> new file mode 100644
-> index 000000000000..d0c7222bdcd7
-> --- /dev/null
-> +++ b/Documentation/dev-tools/meminspect.rst
-> @@ -0,0 +1,144 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +==========
-> +meminspect
-> +==========
-> +
-> +This document provides information about the meminspect feature.
-> +
-> +Overview
-> +========
-> +
-> +meminspect is a mechanism that allows the kernel to register a chunk of
-> +memory into a table, to be used at a later time for a specific
-> +inspection purpose like debugging, memory dumping or statistics.
-> +
-> +meminspect allows drivers to traverse the inspection table on demand,
-> +or to register a notifier to be called whenever a new entry is being added
+These specifications live alongside the code they document and are both
+human-readable and machine-parseable. They can be validated at runtime when
+CONFIG_KAPI_RUNTIME_CHECKS is enabled, exported via debugfs for userspace
+tools, and extracted from either vmlinux or source code.
 
-  preferably...                                                is added
+This enables static analysis tools to verify userspace API usage at compile
+time, test generation based on formal specifications, consistent error handling
+validation, automated documentation generation, and formal verification of
+kernel interfaces.
 
-> +or removed.
-> +
-> +The reasoning for meminspect is also to minimize the required information
-> +in case of a kernel problem. For example a traditional debug method involves
-> +dumping the whole kernel memory and then inspecting it. Meminspect allows the
-> +users to select which memory is of interest, in order to help this specific
-> +use case in production, where memory and connectivity are limited.
-> +
-> +Although the kernel has multiple internal mechanisms, meminspect fits
-> +a particular model which is not covered by the others.
-> +
-> +meminspect Internals
-> +====================
-> +
-> +API
-> +---
-> +
-> +Static memory can be registered at compile time, by instructing the compiler
-> +to create a separate section with annotation info.
-> +For each such annotated memory (variables usually), a dedicated struct
-> +is being created with the required information.
+The implementation includes a core framework with ELF section storage,
+kerneldoc integration for inline specification, a debugfs interface for runtime
+querying, and a Rust-based extraction tool (tools/kapi) supporting JSON, RST,
+and plain text output formats. Example specifications are provided for the four
+fundamental file syscalls (sys_open, sys_close, sys_read, sys_write). The
+series also includes a KUnit test suite with 38 tests and a runtime
+verification selftest with 29+ TAP tests.
 
-   is created
+The series with runtime testing enabled (CONFIG_KAPI_RUNTIME_CHECKS=y)
+currently survives LTP tests in a KVM VM.
 
-> +To achieve this goal, some basic APIs are available:
-> +
-> +* MEMINSPECT_ENTRY(idx, sym, sz)
-> +  is the basic macro that takes an ID, the symbol, and a size.
-> +
-> +To make it easier, some wrappers are also defined
-> +
-> +* MEMINSPECT_SIMPLE_ENTRY(sym)
-> +  will use the dedicated MEMINSPECT_ID_##sym with a size equal to sizeof(sym)
+Changes since RFC v5:
 
-     uses the dedicated
+- Streamlined example specs: focus on open/close/read/write to start with.
 
-> +
-> +* MEMINSPECT_NAMED_ENTRY(name, sym)
-> +  will be a simple entry that has an id that cannot be derived from the sym,
+- Added KUnit test suite.
 
-     is a simple entry that
+- Added runtime verification selftest.
 
-> +  so a name has to be provided
-> +
-> +* MEMINSPECT_AREA_ENTRY(sym, sz)
-> +  this will register sym, but with the size given as sz, useful for e.g.
+- Fixed kernel test robot warnings from v5: fixed "document isn't included in
+  any toctree" (kernel-api-spec.rst now properly added to
+  Documentation/dev-tools/index.rst), fixed sparse "non size-preserving
+  integer to pointer cast" warnings in kernel_api_spec.c.
 
-     registers sym, but with
+- Rebased on v7.0-rc1.
 
-> +  arrays which do not have a fixed size at compile time.
-> +
-> +For dynamically allocated memory, or for other cases, the following APIs
-> +are being defined::
+References:
 
-   are defined::
+  RFC v5: https://lore.kernel.org/lkml/20251218204239.4159453-1-sashal@kernel.org/
+  RFC v4: https://lore.kernel.org/lkml/20250825181434.3340805-1-sashal@kernel.org/
+  RFC v3: https://lore.kernel.org/lkml/20250711114248.2288591-1-sashal@kernel.org/
+  RFC v2: https://lore.kernel.org/lkml/20250624180742.5795-1-sashal@kernel.org/
+  RFC v1: https://lore.kernel.org/lkml/20250614134858.790460-1-sashal@kernel.org/
 
-> +
-> +  meminspect_register_id_pa(enum meminspect_uid id, phys_addr_t zone,
-> +                            size_t size, unsigned int type);
-> +
-> +which takes the ID and the physical address.
-> +
-> +Similarly there are variations:
-> +
-> + * meminspect_register_pa() omits the ID
-> + * meminspect_register_id_va() requires the ID but takes a virtual address
-> + * meminspect_register_va() omits the ID and requires a virtual address
-> +
-> +If the ID is not given, the next avialable dynamic ID is allocated.
+Sasha Levin (9):
+  kernel/api: introduce kernel API specification framework
+  kernel/api: enable kerneldoc-based API specifications
+  kernel/api: add debugfs interface for kernel API specifications
+  tools/kapi: Add kernel API specification extraction tool
+  kernel/api: add API specification for sys_open
+  kernel/api: add API specification for sys_close
+  kernel/api: add API specification for sys_read
+  kernel/api: add API specification for sys_write
+  kernel/api: add runtime verification selftest
 
-                                    available
-
-> +
-> +To unregister a dynamic entry, some APIs are being defined:
-
-                                            are defined:
-
-> + * meminspect_unregister_pa(phys_addr_t zone, size_t size);
-> + * meminspect_unregister_id(enum meminspect_uid id);
-> + * meminspect_unregister_va(va, size);
-> +
-> +All of the above have a lock variant that ensures the lock on the table
-> +is taken.
-> +
-> +
-> +meminspect drivers
-> +------------------
-> +
-> +Drivers are free to traverse the table by using a dedicated function::
-> +
-> + meminspect_traverse(void *priv, MEMINSPECT_ITERATOR_CB cb)
-> +
-> +The callback will be called for each entry in the table.
-
-maybe           is called
-
-> +
-> +Drivers can also register a notifier with meminspect_notifier_register()
-> +and unregister with meminspect_notifier_unregister() to be called when a new
-> +entry is being added or removed.
-
-         is added or removed.
-
-> +
-> +Data structures
-> +---------------
-> +
-> +The regions are being stored in a simple fixed size array. It avoids
-
-               are stored
-
-> +memory allocation overhead. This is not performance critical nor does
-> +allocating a few hundred entries create a memory consumption problem.
-> +
-> +The static variables registered into meminspect are being annotated into
-
-                                                   are annotated into
-
-> +a dedicated .inspect_table memory section. This is then walked by meminspect> +at a later time and each variable is then copied to the whole inspect table.
-> +
-> +meminspect Initialization
-> +-------------------------
-> +
-> +At any time, meminspect will be ready to accept region registration
-
-                meminspect is ready
-
-> +from any part of the kernel. The table does not require any initialization.
-> +In case CONFIG_CRASH_DUMP is enabled, meminspect will create an ELF header
-
-                                         meminspect creates an ELF header
-
-> +corresponding to a core dump image, in which each region is added as a
-> +program header. In this scenario, the first region is this ELF header, and
-> +the second region is the vmcoreinfo ELF note.
-> +By using this mechanism, all the meminspect table, if dumped, can be
-> +concatenated to obtain a core image that is loadable with the `crash` tool.
-> +
-> +meminspect example
-> +==================
-> +
-> +A simple scenario for meminspect is the following:
-> +The kernel registers the linux_banner variable into meminspect with
-> +a simple annotation like::
-> +
-> +  MEMINSPECT_SIMPLE_ENTRY(linux_banner);
-> +
-> +The meminspect late initcall will parse the compilation time created table
-
-maybe...                                       compile-time
-
-> +and copy the entry information into the inspection table.
-> +At a later point, any interested driver can call the traverse function to
-> +find out all entries in the table.
-> +A specific driver will then note into a specific table the address of the
-> +banner and the size of it.
-> +The specific table is then written to a shared memory area that can be
-> +read by upper level firmware.
-> +When the kernel freezes (hypothetically), the kernel will no longer feed
-> +the watchdog. The watchdog will trigger a higher exception level interrupt
-> +which will be handled by the upper level firmware. This firmware will then
-> +read the shared memory table and find an entry with the start and size of
-> +the banner. It will then copy it for debugging purpose. The upper level
-> +firmware will then be able to provide useful debugging information,
-> +like in this example, the banner.
-> +
-> +As seen here, meminspect facilitates the interaction between the kernel
-> +and a specific firmware.
-
+ .gitignore                                    |    1 +
+ Documentation/dev-tools/index.rst             |    1 +
+ Documentation/dev-tools/kernel-api-spec.rst   |  629 +++++++
+ MAINTAINERS                                   |   12 +
+ arch/x86/include/asm/syscall_wrapper.h        |   40 +
+ fs/open.c                                     |  576 +++++-
+ fs/read_write.c                               |  687 +++++++
+ include/asm-generic/vmlinux.lds.h             |   28 +
+ include/linux/kernel_api_spec.h               | 1580 +++++++++++++++++
+ include/linux/syscall_api_spec.h              |  192 ++
+ include/linux/syscalls.h                      |   39 +
+ init/Kconfig                                  |    2 +
+ kernel/Makefile                               |    3 +
+ kernel/api/.gitignore                         |    2 +
+ kernel/api/Kconfig                            |   70 +
+ kernel/api/Makefile                           |   14 +
+ kernel/api/kapi_debugfs.c                     |  503 ++++++
+ kernel/api/kapi_kunit.c                       |  536 ++++++
+ kernel/api/kernel_api_spec.c                  | 1277 +++++++++++++
+ scripts/Makefile.build                        |   31 +
+ scripts/Makefile.clean                        |    3 +
+ tools/docs/kernel-doc                         |    5 +
+ tools/kapi/.gitignore                         |    4 +
+ tools/kapi/Cargo.toml                         |   19 +
+ tools/kapi/src/extractor/debugfs.rs           |  581 ++++++
+ tools/kapi/src/extractor/kerneldoc_parser.rs  | 1554 ++++++++++++++++
+ tools/kapi/src/extractor/mod.rs               |  463 +++++
+ tools/kapi/src/extractor/source_parser.rs     |  405 +++++
+ .../src/extractor/vmlinux/binary_utils.rs     |  505 ++++++
+ .../src/extractor/vmlinux/magic_finder.rs     |  112 ++
+ tools/kapi/src/extractor/vmlinux/mod.rs       |  842 +++++++++
+ tools/kapi/src/formatter/json.rs              |  727 ++++++++
+ tools/kapi/src/formatter/mod.rs               |  140 ++
+ tools/kapi/src/formatter/plain.rs             |  708 ++++++++
+ tools/kapi/src/formatter/rst.rs               |  852 +++++++++
+ tools/kapi/src/main.rs                        |  119 ++
+ tools/lib/python/kdoc/kdoc_apispec.py         |  887 +++++++++
+ tools/lib/python/kdoc/kdoc_output.py          |    9 +-
+ tools/lib/python/kdoc/kdoc_parser.py          |   86 +-
+ tools/testing/selftests/kapi/Makefile         |    7 +
+ tools/testing/selftests/kapi/kapi_test_util.h |   31 +
+ tools/testing/selftests/kapi/test_kapi.c      | 1021 +++++++++++
+ 42 files changed, 15294 insertions(+), 9 deletions(-)
+ create mode 100644 Documentation/dev-tools/kernel-api-spec.rst
+ create mode 100644 include/linux/kernel_api_spec.h
+ create mode 100644 include/linux/syscall_api_spec.h
+ create mode 100644 kernel/api/.gitignore
+ create mode 100644 kernel/api/Kconfig
+ create mode 100644 kernel/api/Makefile
+ create mode 100644 kernel/api/kapi_debugfs.c
+ create mode 100644 kernel/api/kapi_kunit.c
+ create mode 100644 kernel/api/kernel_api_spec.c
+ create mode 100644 tools/kapi/.gitignore
+ create mode 100644 tools/kapi/Cargo.toml
+ create mode 100644 tools/kapi/src/extractor/debugfs.rs
+ create mode 100644 tools/kapi/src/extractor/kerneldoc_parser.rs
+ create mode 100644 tools/kapi/src/extractor/mod.rs
+ create mode 100644 tools/kapi/src/extractor/source_parser.rs
+ create mode 100644 tools/kapi/src/extractor/vmlinux/binary_utils.rs
+ create mode 100644 tools/kapi/src/extractor/vmlinux/magic_finder.rs
+ create mode 100644 tools/kapi/src/extractor/vmlinux/mod.rs
+ create mode 100644 tools/kapi/src/formatter/json.rs
+ create mode 100644 tools/kapi/src/formatter/mod.rs
+ create mode 100644 tools/kapi/src/formatter/plain.rs
+ create mode 100644 tools/kapi/src/formatter/rst.rs
+ create mode 100644 tools/kapi/src/main.rs
+ create mode 100644 tools/lib/python/kdoc/kdoc_apispec.py
+ create mode 100644 tools/testing/selftests/kapi/Makefile
+ create mode 100644 tools/testing/selftests/kapi/kapi_test_util.h
+ create mode 100644 tools/testing/selftests/kapi/test_kapi.c
 
 -- 
-~Randy
+2.51.0
 
