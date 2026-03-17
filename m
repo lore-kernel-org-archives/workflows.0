@@ -1,67 +1,67 @@
-Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 139693E95B9
-	for <workflows@vger.kernel.org>; Tue, 17 Mar 2026 14:55:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F1533E928B
+	for <workflows@vger.kernel.org>; Tue, 17 Mar 2026 15:02:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773759346; cv=none; b=gBv9JBzVW7GKItrZNneMiBKWIAZBb1YCQC266eXNNtXDuS5dwBezP8kS3CI4wRQeQyjjnHgmcOIU7mufNt18UZKda4m/FicTCFQRWUQdkCYN76PPf45SV4u6qqDHFweQETU4e28+LswUfbR+AyKOGNERnlf2E/tJL4FIT9YdHVM=
+	t=1773759762; cv=none; b=ZD6TTys9fEjflzi5Eka9NHdGgEbqcT3NxzLygusPfvMYiVGoPOPHk2oZ37b4/er27gLzsBNspzQryjBeQt+6vu8xPn47bLCXCeBec+f6/RTg3GTGh/+kseWUwZlFL9OxV8yZius3l7n+BxiPMpp5Aw+nYBeni2v7tr9S5Hu+MRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773759346; c=relaxed/simple;
-	bh=mS7Y1jpdA/X1D7xZfkc/V0FkKTQRR4fZUT6ywTlM0TE=;
+	s=arc-20240116; t=1773759762; c=relaxed/simple;
+	bh=BzReSlLvo4KvF8uHbrb5ShuLMsGHQVOqlQzQP18eBzI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QyDpka+w0a4PsfznwgQFvQQeqQ6IRx/DKyFaCttkS6bCHFQIUdfAnnBeczIvb3nbNWhoPqtY6+5rRFY7FaZzT4MnaGdSAc0ptMUifqaFe1Tul8PNJVVMObKOATIA/D/xazeP4xQWkttnxMjhzvumGDTpI6vYkHiATBXu88nD5wo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y+KPHXSY; arc=none smtp.client-ip=74.125.82.182
+	 In-Reply-To:Content-Type; b=ePH7VDaON401axuva6y1sTV02Rtd7n594Xjbz1Q1kYj2nDTI1x8APZ6///dcFAGzoFS2Kkld1G+oiTRvqIPbmEUdZBhAqARrHGc2JvHyEAax8oxXVo/u++u3HPTI4v8NMgVXrPI/qp/V0UTKlfPv9UrdTv8/R1NLMTkdiBnWOos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QOPEMhDg; arc=none smtp.client-ip=209.85.210.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y+KPHXSY"
-Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-2c0c955a481so481808eec.1
-        for <workflows@vger.kernel.org>; Tue, 17 Mar 2026 07:55:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QOPEMhDg"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-829759ca646so3545569b3a.2
+        for <workflows@vger.kernel.org>; Tue, 17 Mar 2026 08:02:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773759343; x=1774364143; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1773759761; x=1774364561; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=0yNjjVCdiNMRDtTfhlm/yv6eYoMsY3Pqr7cf9Cuz7UA=;
-        b=Y+KPHXSYVZW3dJiKRoNYvdeBllAvmkJD7NZMnAUnUGTO/KnPklt3RaBsObeO2Ou5oA
-         ytqndF2lVGqm1F4PxWDVW57+U7P7RUdzZbdQ9oJT2bBCGT1QXLNPinAVvTBs/lMJwWTC
-         LXDOtQ2MACsRNxosiHoRz5yvWwbJTcPmVHDculS9fKuQ9iAdVbiVuewcyxlvyEpflM1U
-         olADvMUIN3CrdByyxsq3A/j3PL3kqdS4sXXF+Xyk3HhRWUo1R7ZCG51Vgn+zBUm5TbYP
-         qQrYuQVf+pO3xBe+Db66bYVFCXqnFFqQPLfQ0rQaEIOHkgFU8Y/l4IqchWgpWmEvDuZp
-         JV/g==
+        bh=8j8MmhnWMM0yJqxgTZztIrkl7u2FL2UIzyJZ82awCT4=;
+        b=QOPEMhDghL72Y9srHW15zBsG8Trwk4iRPUWqHYu0fOjUrcQqhyhyGI8qUHeDtUUjoM
+         oQTFidZkujcVD3g9GNf4GwYCy0DVrswXjL/KCyIxvwwjruJ6rgGhuPfeK8vx/Nyt5xU7
+         eyVmYaLTodoYCCC7AX+FZrywvRmSGIZ6I8tl3gW6LbPG1pWutf/64vz3kHZVlG+AbT5M
+         ZzmNXqpm2E95JU0UtwpwSkj/YXcTbPsxz6Zoyc2vfcL/rbNQpaltpNB2nO0QXm4Lq8Db
+         d9/6e2gSKnrkq6kmR11W72nSaFpMuum2XCncExcgURlM6ubXpCjcRLjgP5QgfP/vHdlw
+         J+dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773759343; x=1774364143;
+        d=1e100.net; s=20251104; t=1773759761; x=1774364561;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0yNjjVCdiNMRDtTfhlm/yv6eYoMsY3Pqr7cf9Cuz7UA=;
-        b=IHPjZQDoXhuK+e3r+rbCrnvTgrFb8ld/I1aqr7CSlWJNUkyuwZyH4dUApHmxCICaaF
-         BIwY8jSzsRR0mXe/gbXXiG0hKzMnskYyBPULGbb8J3lV6r6rTUfPuRyyJFWhsyENO7lu
-         IUToKp0enDesvaB+CGQpbaH9uvrKqg30OWzu3BuII81CvnLaVTU8KDZLLr9hJOtfLyoE
-         2bxfeTr+15G/vF91mlAINDfxW5gV948X2jD4qII39wcuPeJmRlO6fSbSwoCwOTIbjoSl
-         gq5aniCHelWHAJCiUK8I8kDS4nxuz6JJUO4V1nOWlQQopIOU+i0+gNCHdYImJ7cpYkvP
-         N6wQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX/eNIcPmHcipt1bK8GBl/u2mpTi4X3Y7TpPQI6EIqfDWwR8+NmvkmkTYKHHTRUV8dryHvRBQnXzt4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YynAJ/kgjNYr/F61qI2Evem7gbW2DHY/QxrOcO+l023VX1kG0Xn
-	HAbQ8DRX0OAeF/5cJWxcoyig/bJXp1FW88RZxAJDQz4d0+Z7xR2kVEQm
-X-Gm-Gg: ATEYQzxrMD6TwgSt9ixFpdresBVUA39uPIRLeum1ESrPd7rMZ7E3yFlCyEAfL5hEl8f
-	ah4X3mfGhezLUbczWwuz2i1k6E351LnX9z4acSwisF7X+gqZTS+SNTjzT2bDcMNzjyg0RZx+G0Y
-	wvYxnvnbJLwCMS0bTFmahhktB7GclYRhCGX34i+bN/5Ha6OCqUvz81s6pA6E9vjzmhBsL8EEBMc
-	CYwpTDfwsssUIawk2gN/jk1R6MbdaXI/yXUVH6Y4/+YxSUS/XucLGmsgO76rdBrNnoLnFg4M62m
-	cEiywt5KZ7LalQWqgqNKwf4bgjOOl3U2vjmkQDIJBC2lQ/gRhgZOY/5RuZRhPfD2YoIdVvaFu/t
-	9ngONSik2uqHkpjX4n6/uMokzAAEDuYJPX90lgRk1tbzzCkdHKskmMljC/MbT/vrHaKAfzCiUUq
-	Rpahs/1COavJTQQG/J18eV2hRn8OSa7y4XGHl8UNKQ15Wmtm+2WM3ZH2ZnomPoDDjuTT3nlmxY
-X-Received: by 2002:a05:693c:809a:b0:2be:b00c:d083 with SMTP id 5a478bee46e88-2beb00cd876mr5757968eec.35.1773759343057;
-        Tue, 17 Mar 2026 07:55:43 -0700 (PDT)
+        bh=8j8MmhnWMM0yJqxgTZztIrkl7u2FL2UIzyJZ82awCT4=;
+        b=gfRADLC9Qnp5Z5tVxaYSZeI3Erp1Fhu0rV45HPAlBqIL5/jVTRt5dHPACAJvMKqLwW
+         rHDAmmv2e7Gmkpc6tWLOvO4ngSIWg8yUXbpntDAh3Wz+5h/O1O7XGwGXcLuw3XGqK3/v
+         p0jzMn+kRPxkyED0T2vBvADXtp/Vzddo7oK5u77BCYJGLpbpoW56OiEPY/0oDuxzIvxH
+         Iq5F6b1QpU8OullwjyuXKTFkSu6QWeuhRpKRmPuECDaP+MD+vWrtRaVlNPunDZ32brGa
+         QaYPNWb3+JEMq9qiq3ArEC7kQZT6wyU6aQcKAO54D8gDGAda7EaiCSMXSV1PSWoyuZ3D
+         8m5g==
+X-Forwarded-Encrypted: i=1; AJvYcCXBrfXiyEKrMU0nRTJK7FIER3lgtdJIGnpI/+JvT0ujFq+1iQP0VJuGNQchuTJ+C6Ed/6gMy+7PZaI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxT+aKF815BXQjtngJC99S6FOCrguln/7NplY01jqgt3uyq6qFp
+	yFSjECCktmDGVgfz8Z4Cj3afv7NUEC/p80DkgJ/g58nsEd5vVf+dWpY3
+X-Gm-Gg: ATEYQzzwG0u+gcBhPMlr2JEI2qQhvWj7glYAWY2LsIllz4Ht7MxQ7DxeG6eB8dj24n0
+	67v4R/ohRZPZeMs0NE6iZhr9f2z83mVAkBsz7TUcRSIs/+WhfagU5oVtdyq41/3AgsmDBc9Db5t
+	T5o9ZxOwENrf0e2MMUIGRriyrEBumz9TgL/LMMPpwhWxD7Ub4mK2PFiVtqKp8rtCoz0rM1hDFu1
+	PNEvrVYMlfimaIkkiwU4r+7lzCjRXLQGbnLIkLugC1L9ZOUThGBdCMtfz3pXlGXP2cZQGbchBQT
+	S4Q6y+4pHnaVQhzR0tW3XqmhMaotOK7ROtCMhzNwsRL2GhGo6oyuNIiD+k/pQMcMHTZUH1keHKx
+	zS/kO6MlsR9UK7gI9F5O1UpB7WXGuNBbgmP8UduTKsE1pZqmMMdhue31STfVCwjdciSOAuRuNHk
+	CXRWQAbZ7Hj7jRYlRTLopP944g4vqAWWMVp+0i+JjUURP4dtUsF6A8ZV2VGLRbrk7BMZ/CS5yL
+X-Received: by 2002:a05:6a00:1988:b0:81e:d18a:489d with SMTP id d2e1a72fcca58-82a198b9f64mr13669770b3a.42.1773759760467;
+        Tue, 17 Mar 2026 08:02:40 -0700 (PDT)
 Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2beab3cd473sm18819411eec.8.2026.03.17.07.55.40
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a0734039asm20098450b3a.41.2026.03.17.08.02.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Mar 2026 07:55:42 -0700 (PDT)
+        Tue, 17 Mar 2026 08:02:39 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <beec0d34-74e8-49f5-b1eb-071a1f25e44a@roeck-us.net>
-Date: Tue, 17 Mar 2026 07:55:39 -0700
+Message-ID: <9cdb6e1b-3f9e-4a5f-b1ce-a88f7c6742b3@roeck-us.net>
+Date: Tue, 17 Mar 2026 08:02:35 -0700
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -71,10 +71,10 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v6 0/5] kunit: Add support for suppressing warning
  backtraces
-To: Dan Carpenter <dan.carpenter@linaro.org>,
- Albert Esteve <aesteve@redhat.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Brendan Higgins
- <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>,
+To: Peter Zijlstra <peterz@infradead.org>,
+ "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Cc: Albert Esteve <aesteve@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+ Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>,
  Rae Moar <raemoar63@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -86,10 +86,11 @@ Cc: Arnd Bergmann <arnd@arndb.de>, Brendan Higgins
  linux-doc@vger.kernel.org, Alessandro Carminati <acarmina@redhat.com>,
  Kees Cook <kees@kernel.org>,
  Linux Kernel Functional Testing <lkft@linaro.org>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Simona Vetter <simona.vetter@ffwll.ch>
+ Dan Carpenter <dan.carpenter@linaro.org>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mcanal@igalia.com>, Simona Vetter <simona.vetter@ffwll.ch>
 References: <20260317-kunit_add_support-v6-0-dd22aeb3fe5d@redhat.com>
- <abkm46TIIBBbuuC_@stanley.mountain>
+ <69f4eb09-efbd-4bd1-81b8-963b78e1a3a3@kernel.org>
+ <20260317113025.GG2872@noisy.programming.kicks-ass.net>
 Content-Language: en-US
 From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
@@ -135,32 +136,49 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
  FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
  np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <abkm46TIIBBbuuC_@stanley.mountain>
+In-Reply-To: <20260317113025.GG2872@noisy.programming.kicks-ass.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 3/17/26 03:03, Dan Carpenter wrote:
-> I think this is great to suppress some warnings, and I already ACKed
-> this patchset.  But we're still going to have some warnings where the
-> warning is the whole point of the test.
+On 3/17/26 04:30, Peter Zijlstra wrote:
+> On Tue, Mar 17, 2026 at 12:20:26PM +0100, Vlastimil Babka (SUSE) wrote:
+>>> For this iteration, the `__report_bug()` centralized approach was
+>>> revisited after the discussion in the previous version [1].
+>>
+>> Discussion with PeterZ, who is not CC'd here? (did it now for my reply).
+>>
+>>> However, again this approach did not work because:
+>>> - Some warning output is generated directly in the macros before calling
+>>>    the centralized functions (e.g., `__warn_printk()` in `__WARN_printf()`)
+>>> - Functions in the warning path like `warn_slowpath_fmt()` are marked
+>>>    `__always_inline`, making it difficult to intercept early enough
+>>> - So, by the time `__report_bug()` is called, output has already been written
+>>>    to the console, making suppression ineffective
+>>>
+>>> Current Proposal: Check Directly in the `WARN()` Macros.
+>>> This avoids the need for function symbol resolution or ELF section
+>>> modification.
+>>> Suppression is implemented directly in the `WARN*()` macros.
+>>
+>> So does that bloat every warn/bug site (as Peter objected to) or not?
+>> And is it compatible with x86? I see you modify include/asm-generic/bug.h
+>> but x86 has its own version of e.g. __WARN_printf ?
+> 
+> Yeah, they done it all wrong again :-(
+> 
+> This should be pushed inside __report_bug() through __WARN_printf with a
+> new BUGFLAG thing.
 > 
 
-Maybe my memory defeats me, but if I recall correctly the original patch
-set counted the skipped warnings. I don't see why a to-be-parsed message
-would be necessary or add value over that.
+That would require another set of WARN macros, and after (or if) accepted
+negotiations with each of the owners of the WARNing code to use the new
+macros. Trying to do this would just trigger another set of objections.
+
+Given that, but for other reasons,
+
+> So NAK from me on this -- again!
+
+I agree.
 
 Guenter
-
-> It would be great if marked these somehow:
-> 1) At minimum we should mark them so people seeing the warning know it's
-> intentional.  "Intentional Stack Trace".  I've sent at least one patch
-> to add that printk before the stack trace but it was ignored.  We could
-> do this piecemeal.
-> 
-> 2) It would be nice if the print was standardized enough so CI systems
-> could automatically filter it out.
-> 
-> regards,
-> dan carpenter
-> 
 
