@@ -1,132 +1,317 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B3736493A;
-	Wed, 18 Mar 2026 06:24:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773815060; cv=none; b=EogV22PWhGsGIAEjhgbe/+qEXbt9Q+Yx/4xDYtZDpWhEaTE2fF+OZ8wLDFk/4nrfcLn7MoghOzOKCq12b+coZYEc0uIZuhTDDFIu4UnXmGAb/8G54wIMIJU7Wjq4GARJjf7GhWpxH8F86T9qwBlojrcYIbD8WrQAyzbYGFTosqs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773815060; c=relaxed/simple;
-	bh=pAl3NCDU41bTQKWjQ1fx4v1ez6c5MZxvJDobpWAZWPI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IcFajiegPqMGYuvfzNeMvJDsTuKk7xG0zKJUGxiFKCCHAOFPMKmHE17TfftxRFB/JUUg6GLOHE+5SyniyP0PNdF0Ew8mpdUjNmyK7UlteEyIOy+G1MezqLmVqQuVGtjSUiQHpZ+FQuAQjIK0vNIcK0lWhBoAasTDjtsE7aXutxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f0T+Bes8; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7529F3A6F0D
+	for <workflows@vger.kernel.org>; Wed, 18 Mar 2026 09:25:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773825921; cv=pass; b=ALupB6NFTOLFQa1MtDAGr1dKqVHRPEV+jgHiyz5P+A0L1AgJbfjLVhm/HeNJKWVUuw7fez1SMSjGAvqX/B9MDtBy3Pjk+dS0H5gj0qH2y24+NODHQbClnqg+EuL54V7+oqECjukX9mKcL8b7jMrH/J59NcxrdWSW3sRdN8njolI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773825921; c=relaxed/simple;
+	bh=9JuiciVIz25KyqDHZ9CSCPab+sXTsNkxP0wOlTCdKgQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MPjuk7gsoJ2VGGsYuZuscqdgKZroPUCIUjGvGQe/5VOeVjWqMegVeomHBUJheiRdc/NgiEGaOxq8TgHABMneBtlhHeQl47UkhIFO7VUwRuxQk/8QVNMxGzPkT3UFEpnzLgtqpcGlyojJjSTcRibrxGsox29uHwn07P97QfZNHtU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Hsb6b0uw; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=ICZdwRgH; arc=pass smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f0T+Bes8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81047C19421;
-	Wed, 18 Mar 2026 06:24:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773815059;
-	bh=pAl3NCDU41bTQKWjQ1fx4v1ez6c5MZxvJDobpWAZWPI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=f0T+Bes8xiS9A0l45/c+XTCgLFlaLmSNEwXKeV0UhdIKVqg8XHB5fceBVlEv1L3h5
-	 ogM6c3g4wlNPBR+yvkgm8A8pKuNDRxfsS2DyHMjjVq5LlSKC0I/5/HCqbK3bidn1T2
-	 9kN4AAzceTso+wOIn0s85hNexDCCoBN0KlvIen9wZQ1+51wtohABua4OOn6LHwT2Xc
-	 aPKny+zxfBx0fH6wjrs11SE5x5RQFA+ASX+tQdHP/741NgtTU70qGvXGqH0ZFzkmsu
-	 YPRTJksgl+A8mQGhr3aoEl9BA3Om+TOl0Lt4ezhL6yE745IFf2VAzrWGAQEU6iFTqp
-	 TArGYEojn3Fjg==
-Date: Wed, 18 Mar 2026 07:24:10 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: Jakub Kicinski <kuba@kernel.org>, linux-api@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
- tools@kernel.org, x86@kernel.org, Thomas Gleixner <tglx@kernel.org>, "Paul
- E. McKenney" <paulmck@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, Dmitry
- Vyukov <dvyukov@google.com>, Randy Dunlap <rdunlap@infradead.org>, Cyril
- Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>, Jake Edge
- <jake@lwn.net>, David Laight <david.laight.linux@gmail.com>, Askar Safin
- <safinaskar@zohomail.com>, Gabriele Paoloni <gpaoloni@redhat.com>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, Christian Brauner
- <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, Andrew
- Morton <akpm@linux-foundation.org>, Masahiro Yamada <masahiroy@kernel.org>,
- Shuah Khan <skhan@linuxfoundation.org>, Ingo Molnar <mingo@redhat.com>,
- Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH 0/9] Kernel API Specification Framework
-Message-ID: <20260318072410.72618011@foz.lan>
-In-Reply-To: <abZTg9ZwnE5J4qXa@laps>
-References: <20260313150928.2637368-1-sashal@kernel.org>
-	<20260314111822.63a2ba4a@kernel.org>
-	<abZTg9ZwnE5J4qXa@laps>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Hsb6b0uw";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="ICZdwRgH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1773825915;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iK/ov8EJ/J0ZYfo49iWJBtZbkdFjmhliHBuy1k9tqk4=;
+	b=Hsb6b0uw0vjivjtBPbu0qYaZ0uW7SgpogTKWTlfckL/tqNhfw/Jkpw3FR2AEV9eLT+yo+A
+	7mmBKMxUIPdIt28r7Lolxd8ebMGU8WASdM5f5vYYZcmwddfoL8nuz1uPUshaAc0UxML8zl
+	tjUNE4GNecW6PyNibuysjYkkNrsezwA=
+Received: from mail-yx1-f71.google.com (mail-yx1-f71.google.com
+ [74.125.224.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-139-JWnhqJB8Omac-HXoCrO0LQ-1; Wed, 18 Mar 2026 05:25:13 -0400
+X-MC-Unique: JWnhqJB8Omac-HXoCrO0LQ-1
+X-Mimecast-MFC-AGG-ID: JWnhqJB8Omac-HXoCrO0LQ_1773825913
+Received: by mail-yx1-f71.google.com with SMTP id 956f58d0204a3-64ca9ec3eedso1176245d50.2
+        for <workflows@vger.kernel.org>; Wed, 18 Mar 2026 02:25:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773825913; cv=none;
+        d=google.com; s=arc-20240605;
+        b=jWEMLIVSFNFOVJHxWoS7d+FV5Itngfe7GQVnoclVcyBUs6l/Z1v56mMh6j4ifiZA6a
+         yW69UW62gqZrSWaeGRH1WglAd6/2LFdA1tfu3AH4l01kpUy7GSF4YW7Q+s9bytY5dYG7
+         Js1ICirEzpRO514bHzeQMbEij5VGfw0ZBrRNYvELz6Zg2RZ1LbFQwMt1bRGzq/ZY38xn
+         b3ooQzkzdcysnSblQaB2QeHmdpUH8Ls7YCOjoMsXgFZpmVvOwurjdtY261pgJ88Xf51E
+         T5479r39EdtwlzS/GWGc+V7BDgag50qPrklk27DNOdCRwjaShjBg+URDR2+HkdMAw4rA
+         /yIw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=iK/ov8EJ/J0ZYfo49iWJBtZbkdFjmhliHBuy1k9tqk4=;
+        fh=0vWz8xZioRBvdOi2m3g9H+XuQBntvRBGQTypwJ4MTxo=;
+        b=HxX2+EUWnh+/VBwXUTZf/kfwKnvz8I59LW6O5Rxcb/TbkqBTcfEgjl2jCEBGYpxLf6
+         tVD2y3K7LCwM3NLAJnlZI24uNwtbUl0j/VqgoqZ6o5SNF/nBslhdNdKMVHgst6XkbE/F
+         doQ/KRn/lVrRe/Sjt0kiKBmFKCJtyzqtnCTjJ1Zrf4Ki7ugk+/Bvq9jZItG4XSEhKOjz
+         q7IVXSCJ1UVUb8qB8z+GCIca010FOS7IVuHbhBqHrhLMCOssqTc5oy1G+WZWy8UTxGE0
+         cH7N7/7Uq9+mg8vAaKAsr0MDnBIl0PLMmjO5rB8duLpFcK5/8BY8JYhO0F/7Oo5DPQ90
+         uF1g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1773825913; x=1774430713; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iK/ov8EJ/J0ZYfo49iWJBtZbkdFjmhliHBuy1k9tqk4=;
+        b=ICZdwRgHxXS2c2A3/y/aDMi18NqfhDjB5tbWxiSZplUKZn51ds/UWK4ks2E19cMpoJ
+         z3KWprX/eZYN2Ww+lM4lFKCsdOAJbI1hLtXCjdWSG7bZ+wO7icvJSHQYmiGIcs6FWp7G
+         Dos1xd/8yvfbGrDdjCdlaLgTqinhXzL9TCyeS6jg5vsVbf8Bxy/6exMLm0L/9aILGREs
+         zzPZIufwxQPggvPhjMEp+wSIguOFtgZSu8jzhqM+bqtGtbrVWf03th/9beyEXSyi8loB
+         8SZYPXO1m/qOhXP9reUdTXWqKpI5Fb1kNfwjyUURAppRFVDl6mFo8mUAoG26+SHAgBgF
+         4PcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773825913; x=1774430713;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=iK/ov8EJ/J0ZYfo49iWJBtZbkdFjmhliHBuy1k9tqk4=;
+        b=PavyeSlGfVAmDZDri7zFgqJtes5e9vwT9OeW8v+Fzh2FkpXYiLsnO3zHYhP5HtXyoJ
+         iaP7mtX0m/6427v9jlE/3i0VoF3QcULMpkHvt4B+67RBBVRIg7kbn5rdv/WJ+BEibsC6
+         NDt0XrhJvZbIMWTL/ZtbGhm/okgOqs3UjfWUCo906oo4CcyxYjoeZTsHNtdw4+CXPWDN
+         pSVWgC0f0qCEo2Nz38yNNRWZ9HcPxQNGfLmd4QTNLH675Za3ZJlfU36GcUnicwu0N/Eq
+         w5DP5opOSJaONOd9yzrsf3n9oF0Btoiry5cWfZrypS0hixk40YR/FzE71OFwCjjaN3sQ
+         Z2Fw==
+X-Forwarded-Encrypted: i=1; AJvYcCWIOCubHYqgTmqQYYM6LffYVCgtkbk7ULjv8+X+n5n5py9h5mwB5bBDzGxj1TkTytjaNDMPUXfk3Dw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzy2PKg5L+xRDi6vRLg11DuAEi5OY7guAXr/RjC1VlY8pXYkdaI
+	wayyBsTlK+MS1aQ15GubCjGbsBUiablBMDGQjP3AxSs+R2nfSle0ChSwnaLMBuCWjVIM6towTnr
+	hV3ii5v0SpmnHqR+vyw4NrUkDnhNhfNM6NWy7F/7v9IfzcmLdHgeFGE7UBivzwDI4q1XNNoxK02
+	+9yv1bfXXScgJmlbegx9+kfnv9TuPc/XhTnsTl
+X-Gm-Gg: ATEYQzwsuJquL6EDKLEX0gJ06K3DXjDzftT9Mc1X9NMu7BmQ3ps1dlUHcp3dUaqLohu
+	NfkKD+AsqyS+JldlALOUQj+a7eJsOssjsXbTPoQeGZ4ESrBINpacMFQVSldv8F3xYVLB0ovouMl
+	mpz2cR33qU7an7dq2W6lgWQAbuXGGDFwt8P5Ehs1ICCR3u8LDSpQ0LYAD6OjpMhc1ife1jg/2hr
+	w==
+X-Received: by 2002:a53:c7cb:0:b0:649:e294:a380 with SMTP id 956f58d0204a3-64e915ced27mr2363084d50.37.1773825913078;
+        Wed, 18 Mar 2026 02:25:13 -0700 (PDT)
+X-Received: by 2002:a53:c7cb:0:b0:649:e294:a380 with SMTP id
+ 956f58d0204a3-64e915ced27mr2363055d50.37.1773825912496; Wed, 18 Mar 2026
+ 02:25:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20260317-kunit_add_support-v6-0-dd22aeb3fe5d@redhat.com>
+ <69f4eb09-efbd-4bd1-81b8-963b78e1a3a3@kernel.org> <20260317113025.GG2872@noisy.programming.kicks-ass.net>
+In-Reply-To: <20260317113025.GG2872@noisy.programming.kicks-ass.net>
+From: Albert Esteve <aesteve@redhat.com>
+Date: Wed, 18 Mar 2026 10:25:00 +0100
+X-Gm-Features: AaiRm53OPQc-5hULPIiQu9-AZhqy7-XEfz_gt4uMR3ixjOm0K2seVoOetSgKzgk
+Message-ID: <CADSE00Jy=G7HhRkb7vmFSuGFmvpGGt1TQ2NA+7XGLZ4b=g3rxQ@mail.gmail.com>
+Subject: Re: [PATCH v6 0/5] kunit: Add support for suppressing warning backtraces
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
+	Rae Moar <raemoar63@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	kunit-dev@googlegroups.com, dri-devel@lists.freedesktop.org, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Alessandro Carminati <acarmina@redhat.com>, Guenter Roeck <linux@roeck-us.net>, Kees Cook <kees@kernel.org>, 
+	Linux Kernel Functional Testing <lkft@linaro.org>, Dan Carpenter <dan.carpenter@linaro.org>, 
+	=?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
+	Simona Vetter <simona.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 15 Mar 2026 02:36:51 -0400
-Sasha Levin <sashal@kernel.org> wrote:
+Hi Peter,
 
-> On Sat, Mar 14, 2026 at 11:18:22AM -0700, Jakub Kicinski wrote:
-> >On Fri, 13 Mar 2026 11:09:10 -0400 Sasha Levin wrote:  
-> >> This enables static analysis tools to verify userspace API usage at compile
-> >> time, test generation based on formal specifications, consistent error handling
-> >> validation, automated documentation generation, and formal verification of
-> >> kernel interfaces.  
+On Tue, Mar 17, 2026 at 12:33=E2=80=AFPM Peter Zijlstra <peterz@infradead.o=
+rg> wrote:
+>
+> On Tue, Mar 17, 2026 at 12:20:26PM +0100, Vlastimil Babka (SUSE) wrote:
+> > > For this iteration, the `__report_bug()` centralized approach was
+> > > revisited after the discussion in the previous version [1].
 > >
-> >Could you give some examples? We have machine readable descriptions for
-> >Netlink interfaces, we approached syzbot folks and they did not really
-> >seem to care for those.  
-> 
-> Once the API is in a machine-readable format, we can write formatters to
-> output whatever downstream tools need. 
+> > Discussion with PeterZ, who is not CC'd here? (did it now for my reply)=
+.
 
-Kernel-doc already does that. The way it works is that it handles 
-kernel-doc markups on two steps:
+(Sorry not to put you on CC, I thought auto-cc would pick you up already)
 
-- first step: parse kernel-doc markups, function prototypes and data
-  types for variables, typedefs, structs, unions, enums.
+> >
+> > > However, again this approach did not work because:
+> > > - Some warning output is generated directly in the macros before call=
+ing
+> > >   the centralized functions (e.g., `__warn_printk()` in `__WARN_print=
+f()`)
+> > > - Functions in the warning path like `warn_slowpath_fmt()` are marked
+> > >   `__always_inline`, making it difficult to intercept early enough
+> > > - So, by the time `__report_bug()` is called, output has already been=
+ written
+> > >   to the console, making suppression ineffective
+> > >
+> > > Current Proposal: Check Directly in the `WARN()` Macros.
+> > > This avoids the need for function symbol resolution or ELF section
+> > > modification.
+> > > Suppression is implemented directly in the `WARN*()` macros.
+> >
+> > So does that bloat every warn/bug site (as Peter objected to) or not?
+> > And is it compatible with x86? I see you modify include/asm-generic/bug=
+.h
+> > but x86 has its own version of e.g. __WARN_printf ?
+>
+> Yeah, they done it all wrong again :-(
+>
+> This should be pushed inside __report_bug() through __WARN_printf with a
+> new BUGFLAG thing.
 
-  This is done inside tools/lib/python/kdoc/kdoc_parser.py.
+Thanks for the specific suggestion to use BUGFLAG, but I do not think
+this is what we need. These flags seem to be used statically, but the
+goal is to enable and disable these warning suppressions dynamically
+in the tests. Happy to be corrected if I missed something.
 
-  The documentation is stored in memory as a list of documentation
-  entries. Each element there belongs to class KdocItem.
+I want to highlight that I did not bluntly ignore your point in the
+last version. I thoroughly read the discussions there, and as I
+mentioned in the cover letter, I tried to move away from the per-macro
+approach. However, while doing that, I encountered the same issues
+Alessandro found in the last iteration. I=E2=80=99ll address that below, bu=
+t I
+decided to give this approach one more try and tackle the raised
+drawbacks.
 
-  It is trivial to output its content in JSON or YAML format. I
-  submitted a path series a while ago doing exactly that, aiming to help
-  writing unittests for first step:
+The main concern was the increased size of the code emitted by the
+WARN*() macros, which was a fair point. I tried to alleviate this with
+a static key and branching, and addressed other concerns by using RCU
+protection on the list for thread safety. I think it was worth a try,
+as all options seemed to have their own tradeoffs. However, if this
+option remains unacceptable even after trying to diminish its
+drawbacks, I am happy to focus on finding the best solution for the
+centralised approach, and keeping the discussion constructive.
 
-	https://lore.kernel.org/linux-doc/7648cb5f5a1b501d9ae9a57b4d8dbeb7273d9097.1770128540.git.mchehab+huawei@kernel.org/
+So back to my test on this. Alessandro detailed two strategies in the
+last version, one of them (storing the function name in `struct
+bug_entry`) was already used and discarded in older iterations of this
+series. So let's focus on the other strategy, using 'kallsyms`. Let's
+assume we still store the function name when registering a new symbol
+to suppress. Otherwise, we might need to check address ranges to
+ensure bugaddr is within the function's scope, which sounds trickier?
+With `kallsyms` we can infer the originating functionid. But this
+approach works unreliably with compiler-induced transformations (e.g.,
+inlining, cloning, code fragmentation). And we still cannot prevent
+all output. Additionally, we would need to prevent prints in
+`warn_slowpath_fmt()`. There may be other `printk`s embedded in the
+macros, but let's focus on suppressing all warnings as a best effort.
+It would already improve the quality of life for testers.
 
-  I'm planing to rebase such patch series on the top of my latest
-  kernel-doc patch series.
+Considering these remaining issues, I managed to create a centralised
+proposal. Please find the main changes at the bottom of this message.
 
-- second step: output generation. There is an abstract class named
-  OutputFormat which contains the following output methods:
+But again, even with these, the solution remains unreliable. We can
+mitigate this by registering the test name on the suppression list (at
+least, I can make the new test in this series pass with that). Not
+ideal, but we could mention it in the documentation. Something like
+"Suppression is matched by the function where the warning is reported.
+If the warning is triggered from a helper (or the compiler inlines it
+into the test), that function name may differ. In that case, register
+and start suppression for both the test and the helper so the test
+passes regardless of inlining."
 
-    def out_doc(self, fname, name, args):
-        """Outputs a DOC block."""
+Would that be a more acceptable solution? Is there a better option I
+am not seeing?
 
-    def out_function(self, fname, name, args):
-        """Outputs a function."""
+BR,
+Albert.
 
-    def out_enum(self, fname, name, args):
-        """Outputs an enum."""
+diff --git a/kernel/panic.c b/kernel/panic.c
+index c78600212b6c1..3cb004a7803f4 100644
+--- a/kernel/panic.c
++++ b/kernel/panic.c
+@@ -39,6 +39,7 @@
+ #include <linux/sys_info.h>
+ #include <trace/events/error_report.h>
+ #include <asm/sections.h>
++#include <kunit/bug.h>
 
-    def out_var(self, fname, name, args):
-        """Outputs a variable."""
+ #define PANIC_TIMER_STEP 100
+ #define PANIC_BLINK_SPD 18
+@@ -1080,9 +1081,14 @@ void __warn(const char *file, int line, void
+*caller, unsigned taint,
+ void warn_slowpath_fmt(const char *file, int line, unsigned taint,
+                       const char *fmt, ...)
+ {
+-       bool rcu =3D warn_rcu_enter();
++       bool rcu;
+        struct warn_args args;
 
-    def out_typedef(self, fname, name, args):
-        """Outputs a typedef."""
++       if (__kunit_is_suppressed_warning_at((unsigned
+long)__builtin_return_address(0)))
++               return;
++
++       rcu =3D warn_rcu_enter();
++
+        pr_warn(CUT_HERE);
 
-    def out_struct(self, fname, name, args):
-        """Outputs a struct."""
+        if (!fmt) {
 
-  Producing a different output is as easy as doing:
+diff --git a/lib/bug.c b/lib/bug.c
+index 623c467a8b76c..e90b038d9225e 100644
+--- a/lib/bug.c
++++ b/lib/bug.c
+@@ -48,6 +48,7 @@
+ #include <linux/rculist.h>
+ #include <linux/ftrace.h>
+ #include <linux/context_tracking.h>
++#include <kunit/bug.h>
 
-	class MyFormat(OutputFormat):
-	...
-	    def out_var(self, fname, name, args):
-        	self.data =+ f"whatever {name}"
-	...
+ extern struct bug_entry __start___bug_table[], __stop___bug_table[];
+
+@@ -223,6 +224,9 @@ static enum bug_trap_type __report_bug(struct
+bug_entry *bug, unsigned long buga
+        no_cut   =3D bug->flags & BUGFLAG_NO_CUT_HERE;
+        has_args =3D bug->flags & BUGFLAG_ARGS;
+
++       if (warning && __kunit_is_suppressed_warning_at(bugaddr))
++               return BUG_TRAP_TYPE_WARN;
++
+        if (warning && once) {
+                if (done)
+                        return BUG_TRAP_TYPE_WARN;
+
+diff --git a/lib/kunit/bug.c b/lib/kunit/bug.c
+index 9c2c4ee013d92..13ffddb044636 100644
+--- a/lib/kunit/bug.c
++++ b/lib/kunit/bug.c
+@@ -11,6 +11,7 @@
+ #include <linux/export.h>
+ #include <linux/instrumentation.h>
+ #include <linux/jump_label.h>
++#include <linux/kallsyms.h>
+ #include <linux/rculist.h>
+ #include <linux/string.h>
+
+@@ -68,4 +69,16 @@ noinstr bool __kunit_is_suppressed_warning(const
+char *function)
+ }
+ EXPORT_SYMBOL_GPL(__kunit_is_suppressed_warning);
+
++bool __kunit_is_suppressed_warning_at(unsigned long addr)
++{
++       char buf[KSYM_SYMBOL_LEN];
++
++       if (!static_branch_unlikely(&kunit_suppress_warnings_key))
++               return false;
++       if (sprint_symbol_no_offset(buf, addr) <=3D 0)
++               return false;
++       return __kunit_check_suppress(buf);
++}
++EXPORT_SYMBOL_GPL(__kunit_is_suppressed_warning_at);
++
+ #endif /* CONFIG_KUNIT_SUPPRESS_BACKTRACE */
 
 
-Thanks,
-Mauro
+
+>
+> So NAK from me on this -- again!
+>
+
