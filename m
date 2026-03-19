@@ -1,66 +1,37 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98363A0E86
-	for <workflows@vger.kernel.org>; Thu, 19 Mar 2026 07:33:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38B2E3B19A9;
+	Thu, 19 Mar 2026 10:37:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773905642; cv=none; b=YanM1p56KQvX50+woCuSth2sHR6eBg96dRxXEGKzh8IwiswuHnPUgipCBHcjtUGpaCKoCGy7cPDdDEn5jZ0MlIFggEv6awR8ChxeHRbPxu7TTXNFMEXecQGpU9e8fQFDAq7aPZeNYQlCy9XZcO+RkaJ+zBa5aqdw7ofcazaTcLU=
+	t=1773916639; cv=none; b=aWyXS7108ifobD/2Y+sj4GQIUaiSSWDTTu3JPuA66yJ/+rC9Lm7UEueTCY+i+AD53bh5B3dUjKAxVOK1lI1EHZSn730HaVogtEJGX0ADoziigTA01mza/SBpz/WQliE+s5tVm9kpP9Gtqw6GgKrxFyIYhBHW3w5LUBZyvWKjnhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773905642; c=relaxed/simple;
-	bh=AhNDDZecnmD2xFm+TNWATlQbxsUvN8KlFepA01COIwI=;
+	s=arc-20240116; t=1773916639; c=relaxed/simple;
+	bh=4RNjjiymWwbOr3wxhuyz7qkwTVm0dOg0QO4FOy3IBT8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j251cJEAbPnRRIdctZSplN8NkcEIplWdlxmDwL2qkg9yMrHWWFt5jqZgIw5pktRPoRO+kAT3NrkhsuEYC4eJeWcIpKR8dryFEnnBzKs/MNkihrd9N+GOcmB0me7GeXGcPycoWLADsvMSn1UmcGMvTFEeWCCNvKnuqQviPi6cK1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IvOkIInU; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 In-Reply-To:Content-Type; b=LT49qw7Ztn/IguQTZ0KrZZxNfA4rROiecNQDhrTGSKxZey8nMA93fuTX+dJZXr7NefwWExpkAoH/xlIwM4H9A0f3snS51Rn+OtJaelJ16OV6hdoFlLH5wA+bXmliAMzUrih0tYbShQS7+kmECiSjPG6k4XZiI0yxKTia9Jw0vD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=EtCumurJ; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IvOkIInU"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-439b94a19fdso486524f8f.0
-        for <workflows@vger.kernel.org>; Thu, 19 Mar 2026 00:33:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773905637; x=1774510437; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mfnoZII81lwHDQG+q8k3CqLmv9bwI5/ooG/r2BOJypo=;
-        b=IvOkIInU/YzZLqaHZgSxaRamre1CKdkvdI70PFUfeH49IfziLVMMlBx8JBwXExRU+I
-         gVRhh17h9JfspgTMMC/rrvpb6csmLx8UMmMITDH5bpFdSylsCAMhN1Lb8AzT8GzNRKmr
-         N+tZrhu9OWY5JmnPNsVUJjwjoIu07UIG/l/+kGr0XiojwstpSLa9eE3RBkwl3qeFJmxu
-         t0lzdAmp1R867dvF3FnUE6WLp2dQXwUnWLam6WCwjp8wJ6DKtsj1brcR/9puwlQMk37V
-         sffUCzBXmHbcM6FgB8e0rvmV9AhfAia6M6odtwKzHbGlQfiiTnQpney5fyj3ZKr3Mj/L
-         UTCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773905637; x=1774510437;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mfnoZII81lwHDQG+q8k3CqLmv9bwI5/ooG/r2BOJypo=;
-        b=lv3xaQxDeS1GiBgx3tT4PKAR8bzLyu3en8dhMd9Ycg3VcGzqzoPDUegGx7UzGI2Vot
-         m6y8m8y7K+jryJbH1khBB6cSVwCuS2QhaFXiKzo94jzvZHpjzQUU5vEaMk9bfiRngEhL
-         wafAVVXpMmtD0BhovcLoNxLZdLEwHJufLXcEPv1SFCsMlKU0tGRBc+8Qy8v6bIwgo1c8
-         Jld9g9jdQDvQcWVrz9yQIUccpVagDys0IRi4PlzKgSNbqBjTFxbgA4OfYcWibOzV9ENf
-         h1hBp1cIA5dtx52napjbOW5OOJUk3NNAmToub6mr+qkchDr1YQ9z23EFJWfiuje/P6X2
-         +UDA==
-X-Forwarded-Encrypted: i=1; AJvYcCVK5aeIidte6172FXtdxDwetWwwy4rul8hHoqt4kmx5AaPUfqCxtcYcAeVAnVHOwgqx4kPxe55jWXg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy+3d9X/nKBtVbXGyOhgJNhrvYHykWKSziiVCopfHLrATLSDuuN
-	5XYJDqIkhrHdkQMNu2RE36Wv/kHs0HLVHrOgb5n0pyIwwwsHI9N5/tQT1VCMAWV/hOI=
-X-Gm-Gg: ATEYQzznVmMGA59WDoSLPlI7q9FqqD79mRZi/mBOiatt6xjJexZsF5zMaMy+1vuS/dw
-	NoGyCt2ohH65mOCWOsJQWtC7cgCPuq//5Tt08z73DE16u4UTAWuYuLvdTeupvekAsWTPB7ou5Cy
-	9vy9l/346epzGggaTqFHlYicr0etoHeEnQCuIrxGWGQMI0K0wzgX5SLEsOKfel9xg+6zkWoO7+5
-	2KIA7qI69jvaeoL/vKZy+IVYo+sSRmLnAQeQGtYGhW02AZIuhqJe/6COCEGQscnYZzVkG4PdVmj
-	exUPmwQpvqXuQrkT362638qykcnexqQ/2geBz3a9DSjuxHK5DlrctgJxhxzb6c4jZ4+MbQmxmL4
-	oi127z5CHsp/rYWfsqbBIyn3x/qjDx1E5ttoHw0/YK6F/7eOdDvaWkXNmVu/6bOwGz1bSYPRzu2
-	yegXUsuzpR7x2dBkIdCsazgs7W+L4Q9Qg=
-X-Received: by 2002:a05:6000:25c6:b0:43b:4ae5:d7c8 with SMTP id ffacd0b85a97d-43b527a50cfmr10368836f8f.2.1773905636943;
-        Thu, 19 Mar 2026 00:33:56 -0700 (PDT)
-Received: from [192.168.0.34] ([82.76.24.202])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b51899622sm15875212f8f.28.2026.03.19.00.33.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Mar 2026 00:33:56 -0700 (PDT)
-Message-ID: <46c47101-2672-4970-a212-71e2c8555d80@linaro.org>
-Date: Thu, 19 Mar 2026 09:33:52 +0200
+	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="EtCumurJ"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 4439B3EBBA;
+	Thu, 19 Mar 2026 10:37:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
+	t=1773916628;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Vsy8MtHkIqSDCVwD8U9hBJLdViUy3psVdXn0LP3qlek=;
+	b=EtCumurJrQ1fncBc+fReJ9BE6S/F1Z3fgoxWUivaFeRICQe/jfvCZBA8HjswbUF26kpc57
+	0ecdON4OhXs5QptdbvSeiWsICV9+tQ06d55jEDKrTU067zcVzMs0kwYAB2sgxAJ7njWUPG
+	o1WAv4551xfsa9Cecfxs4UGePpzA3wgX3jH8dGQOMOLTOwRBXJzMJb5qKqGo3OG5O725Kw
+	ATBEDBjafDx6zFPpU1V1XxgzDVzLswabuT8AbuQWfZ4N+ptPT1JWe7OVBmlomcCaXQBafj
+	wvqr+5Gs9t3MpiWVJzeK9Jz85kfbor5bAWsAVsqDkujY2ZTQwLiCt6uGVcyvFw==
+Message-ID: <81522f93-6fe2-48e0-b95f-654a83f8b6ba@gtucker.io>
+Date: Thu, 19 Mar 2026 11:37:04 +0100
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -68,96 +39,102 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/25] Introduce meminspect
-To: Bjorn Andersson <andersson@kernel.org>,
- Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Arnd Bergmann <arnd@arndb.de>, Dennis Zhou <dennis@kernel.org>,
- Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>,
- Andrew Morton <akpm@linux-foundation.org>, Thomas Gleixner
- <tglx@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>,
- Frederic Weisbecker <frederic@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Kees Cook <kees@kernel.org>, Brendan Jackman <jackmanb@google.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
- Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>,
- Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>,
- Youngjun Park <youngjun.park@lge.com>, Petr Mladek <pmladek@suse.com>,
- John Ogness <john.ogness@linutronix.de>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Saravana Kannan <saravanak@kernel.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-mm@kvack.org, linux-arm-msm@vger.kernel.org,
- linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org
-References: <20260311-minidump-v2-v2-0-f91cedc6f99e@oss.qualcomm.com>
- <abdnp90cC5PI9wyz@baldur>
- <20260316181647.m7x4ncmwdjho6yvr@hu-mojha-hyd.qualcomm.com>
- <abtlUQqMOxj5PwGB@baldur>
+Subject: Re: Hosting first-party kernel.org container images
+To: Nathan Chancellor <nathan@kernel.org>,
+ Ben Copeland <ben.copeland@linaro.org>,
+ Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+ Miguel Ojeda <ojeda@kernel.org>, Nicolas Schier <nsc@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, =?UTF-8?Q?Onur_=C3=96zkan?=
+ <work@onurozkan.dev>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ workflows@vger.kernel.org, automated-testing@lists.yoctoproject.org,
+ "kernelci@lists.linux.dev" <kernelci@lists.linux.dev>
+References: <cc737636-2a43-4a97-975e-4725733f7ee4@gtucker.io>
+ <CAL0q8a7mepGUdgrLsQhCUdLVP8VcxB9x_oBRCWAYNeoVAUb=7A@mail.gmail.com>
+ <78adef0e-81b0-47d4-be20-32f42ab8ec04@gtucker.io>
+ <20260310004815.GA3293460@ax162>
 Content-Language: en-US
-From: Eugen Hristev <eugen.hristev@linaro.org>
-In-Reply-To: <abtlUQqMOxj5PwGB@baldur>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Guillaume Tucker <gtucker@gtucker.io>
+In-Reply-To: <20260310004815.GA3293460@ax162>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: gtucker@gtucker.io
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeftdeijeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomhepifhuihhllhgruhhmvgcuvfhutghkvghruceoghhtuhgtkhgvrhesghhtuhgtkhgvrhdrihhoqeenucggtffrrghtthgvrhhnpeetteduieffheeivedvkeejveefheeggedvuddtheetgfekffeivdeljefhveefhfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdguohgtkhgvrhdrtghomhenucfkphepudejiedrudehledrjedurdegleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedujeeirdduheelrdejuddrgeelpdhhvghloheplgduledvrdduieekrdduheejrdeigegnpdhmrghilhhfrhhomhepghhtuhgtkhgvrhesghhtuhgtkhgvrhdrihhopdhqihgupeeggeefleeufefgueeutedpmhhouggvpehsmhhtphhouhhtpdhnsggprhgtphhtthhopeduuddprhgtphhtthhopehnrghthhgrnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsggvnhdrtghophgvlhgrnhgusehlihhnrghrohdrohhrghdprhgtphhtthhopehkohhnshhtrghnthhinheslhhinhhugihfohhunhgurghtihhonhdrohhrghdpr
+ hgtphhtthhopehojhgvuggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehnshgtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrrhhnugesrghrnhgusgdruggv
 
+Hi Nathan et al,
 
-
-On 3/19/26 04:55, Bjorn Andersson wrote:
-> On Mon, Mar 16, 2026 at 11:46:47PM +0530, Mukesh Ojha wrote:
->> On Sun, Mar 15, 2026 at 09:24:39PM -0500, Bjorn Andersson wrote:
->>> On Wed, Mar 11, 2026 at 01:45:44AM +0530, Mukesh Ojha wrote:
-> [..]
->>>> , to get all the regions as
->>>> separate files.  The tool from the host computer will list the regions
->>>> in the order they were downloaded.
->>>>
->>>> Once you have all the files simply use `cat` to put them all together,
->>>> in the order of the indexes.  For my kernel config and setup, here is my
->>>> cat command : (you can use a script or something, I haven't done that so
->>>> far):
->>>
->>> So these need to be sorted in numerical order, by that number at the end
->>> of the file name?
->>>
->>> Do you manually punch these in? How do we make this user friendly?
->>
->> Yes, manually.. but I think we can do better. We could make
->> this more user‑friendly by using the section header and string table in
->> the md_KELF binary both of which existed in the earlier implementation.
->> Then, we can write an upstream‑friendly script that reads this KELF
->> metadata file, checks whether a binary with the registered name is
->> present, and stitches everything together to form a complete ELF that
->> the crash tool can consume.  Let me know if you have any suggestion..
->>
+On 10/03/2026 1:48 am, Nathan Chancellor wrote:
+> Hi Guillaume,
 > 
-> Can we somehow identify that these regions belong to the minidump and
-> teach QDL to build the ELF for us?
-
-We could integrate the feature that Mukesh suggests directly into QDL as
-a separate command
-e.g. qdl download-and-build-minidump
-
-The first region (the ELF header) is mandatory, because all the regions
-themselves contain only data. To be able to use any of the regions, one
-needs to know at least the physical and virtual address of that memory.
-And this information is saved in the ELF header.
-So QDL could join together all the regions into a single crashdump-like
-file.
-
+> On Wed, Feb 25, 2026 at 03:44:13PM +0100, Guillaume Tucker wrote:
+>> This boils things down to a few practical options:
+>>
+>> 1. treating TuxMake images with kernel.org toolchains as the de facto
+>>     stardard,
+>>
+>> 2. creating a repository from scratch on git.kernel.org with
+>>     independent hosting for base images,
+>>
+>> 3. some middle ground to be defined which would remove the risks
+>>     associated with third parties without duplicating efforts.
+>>
+>> I feel it would be good to have more maintainers' feedback though.
+>>
+>> Nathan, Nicolas, Miguel - what are your thoughts on this?
 > 
-> Regards,
-> Bjorn
+> To be entirely honest, I do not really have a strong opinion here. I
+> generally agree with your thoughts around branded container images,
+> although I do think that TuxMake's images tend to be fairly lean, so
+> those easily could become the recommended images without many downsides
+> aside from maybe where they are hosted and how they are maintained.
+> Having a clean set of Containerfiles on git.kernel.org does not sound
+> like a bad idea, especially if they would be structured in such a way
+> that other entities could customize them for their use case further. I
+> guess its usefulness really depends on the other stakeholders like
+> KernelCI. It seems like there has to be some sort of buy in from the
+> kernel.org administrators around hosting built container images
+> somewhere on kernel.org though, as I don't think the regular developer
+> is going to want to build images locally. Not really sure what that
+> looks like.
+
+Thank you for the feedback, it's very valuable even without a strong
+opinion regarding the 3 options in my previous email.  It also tends
+to confirm that the risks I mentioned aren't too critical to get
+started, having some developer adoption is more important for now.
+
+With all this in mind, I believe we can follow a step-by-step
+approach to start simple and deploy more tailored solutions as and
+when the need arises.  This can be seen as a bit of a Beta testing
+phase until there is enough momentum to look into the longer term.
+
+So here's what I would like to propose for the short term:
+
+1. review current TuxMake kernel.org toolchain images[1] and
+    determine what needs to be added or changed there (e.g. I don't
+    see any GCC ones right now)
+
+2. update the scripts/container tool to rely on tuxmake korg images
+    with default entries in a reference user settings file
+
+3. encourage kernel developers to go and try it out and provide
+    feedback, maybe even run a small community survey
+
+4. review the situation after a while e.g. once v7.1-rc2 is out and
+    decide what steps to take next based on community priorities
+
+I believe there aren't any blockers here so we can probably just give
+it a try as an experiment and see how it goes, unless someone has
+anything else to suggest.
+
+Things like moving the Containerfiles to git.kernel.org or hosting
+the images in a dedicated registry etc. should eventually emerge by
+themselves if there is a real need for them.
+
+Best wishes,
+Guillaume
+
+[1] https://hub.docker.com/u/tuxmake?search=korg
 
