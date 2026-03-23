@@ -1,76 +1,97 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D1927FD44;
-	Sun, 22 Mar 2026 20:53:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C58A3B2FEF;
+	Mon, 23 Mar 2026 15:18:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774212798; cv=none; b=L0K9Dgm+JHX6w98bubYOOA8TnrUPT+DhiDBjRklLQCKUlUAn1Ve9KMWp1Lo2O/R6vyrEu2bTu2irN/cI8YuAczt0SU+OyEyPPVCOZkBBUYrpjH25OIX19iNmbphUs7xw7KS+dLFXDRoFiY7+oKJbAuIze5q6UVz41uQIy09Fvgo=
+	t=1774279129; cv=none; b=rne/jwOse9HAPD/4Q7ZEzh/GIUdAN7Z9DmAfgpUcOEO2WmSyd90K4kW0vV+6rR3Y6yEstCzfySu3/AUQ8LvVnfcyWyKRRdenuh+tb+32Ak1SpoSvTFWQjlqg1TKqRstFRqlyS49cWDFOpPQJD9Mxbxy4oJ0Cs+rxATIov4vPiQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774212798; c=relaxed/simple;
-	bh=K0TseoDJfj27TeW0hgJksRfZnKDKiZEvDxfbBoR3eoc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=FoVrMDETzOUlkRllBrqh8NvKRONgBuT5/LAEOE5vRCx4NSf9ZDfO9/KaYlL7VntqE15owfNcUaeBtTZTggJTbl7a7QDym1sW+zksVmhlDm0ZVkf/luaec42g/mT3FK6ziQ95ZrazHpHEoOKZ4CpqZJ5uMww+/xhRzqr74uD+NMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=BCh0PH0I; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1774279129; c=relaxed/simple;
+	bh=pbXYxhzMz1CXELl5GAMQGqn3VS0cXr+c3mpboLxq4hA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VmSXXN8c2WtH3wQQynNMPQ/4OJ1Uiby0h0yibazGqP0nyC08VKPKrqEkc2mYo/CrLemmjYefUxJhEgk+j+9xtLRyyydgJDuY1dBsKpzwQVR5QpZnJ8ozea5zTzisYi+u0qHwyFw4HtTHUCBw2oZbBuStV0Gh2a7JNJHtZkfRpFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CJ5hRoCK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="BCh0PH0I"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7C584411E2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1774212796; bh=kVFwZCuR+IoKjLPlwhT5pETmVhvtzHuWlvUbqLlgWcE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=BCh0PH0IHbUg8eX75GyRTzUezQxD/l+Ls7aEQLTgoZ1mYOyEQZH7jfZ1Fqx+Ut+nF
-	 e33y36EksZ0s6Ykw0dOMhSRzne2dUpRbrHukkwVeLIfAbvEni+CwwADxaXFJ0nqY67
-	 SDnVzKEkgHbv7WT+Y+iCbHDbOKdT99a/JFZCK0WzDvpuCJtt2/ZVMJZ3GVsBi5w7Pe
-	 7MvynNEyemTOxzAdDm2pLihZft0N0w5H3ys2+p2M+PhaXEZrzziXHPH0hBo2RvsmoT
-	 ZykpwF4PwZ5DZl6YrMxvy2bbcH1cs90azjaCq14IpC/nm9g9euA12NXQrZkxomzDVl
-	 vJtq4uUVqy3aA==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 7C584411E2;
-	Sun, 22 Mar 2026 20:53:16 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Julia Lawall <Julia.Lawall@inria.fr>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, workflows@vger.kernel.org,
- cocci@inria.fr, Nicolas Palix <nicolas.palix@imag.fr>, Hu Haowen
- <2023002089@link.tyut.edu.cn>, Alex Shi <alexs@kernel.org>, Yanteng Si
- <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Federico Vaga
- <federico.vaga@vaga.pv.it>, Carlos Bilbao <carlos.bilbao@kernel.org>,
- Avadhut Naik <avadhut.naik@amd.com>, LIU Haoyang <tttturtleruss@gmail.com>
-Subject: Re: [PATCH v2] coccinelle: update Coccinelle URL
-In-Reply-To: <20260310121431.362091-1-Julia.Lawall@inria.fr>
-References: <20260310121431.362091-1-Julia.Lawall@inria.fr>
-Date: Sun, 22 Mar 2026 14:53:15 -0600
-Message-ID: <87ikand1s4.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CJ5hRoCK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72CCBC4CEF7;
+	Mon, 23 Mar 2026 15:18:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1774279129;
+	bh=pbXYxhzMz1CXELl5GAMQGqn3VS0cXr+c3mpboLxq4hA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CJ5hRoCKajUHc8KKiBAP2gYu1mVfUOfWRR6xc1nDC/KmFM8FTX4OS4y9Nfd8vhfAi
+	 J23Pc2XVcANhfXnjGTAo+urvXkyrzow5gFm2OspORm1S/DdOvkBQZXlQYlKUBUvn28
+	 tpGOuXncYvNz+HkAvROWP9p1b6eqV6ah8hy5xkd8=
+Date: Mon, 23 Mar 2026 14:52:58 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org,
+	Thomas Gleixner <tglx@kernel.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
+	Jake Edge <jake@lwn.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Askar Safin <safinaskar@zohomail.com>,
+	Gabriele Paoloni <gpaoloni@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH v2 3/9] kernel/api: add debugfs interface for kernel API
+ specifications
+Message-ID: <2026032309-jargon-stalling-28c2@gregkh>
+References: <20260322121026.869758-1-sashal@kernel.org>
+ <20260322121026.869758-4-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260322121026.869758-4-sashal@kernel.org>
 
-Julia Lawall <Julia.Lawall@inria.fr> writes:
+On Sun, Mar 22, 2026 at 08:10:17AM -0400, Sasha Levin wrote:
+> Add a debugfs interface to expose kernel API specifications at runtime.
+> This allows tools and users to query the complete API specifications
+> through the debugfs filesystem.
+> 
+> The interface provides:
+> - /sys/kernel/debug/kapi/list - lists all available API specifications
+> - /sys/kernel/debug/kapi/specs/<name> - detailed info for each API
+> 
+> Each specification file includes:
+> - Function name, version, and descriptions
+> - Execution context requirements and flags
+> - Parameter details with types, flags, and constraints
+> - Return value specifications and success conditions
+> - Error codes with descriptions and conditions
+> - Locking requirements and constraints
+> - Signal handling specifications
+> - Examples, notes, and deprecation status
+> 
+> This enables runtime introspection of kernel APIs for documentation
+> tools, static analyzers, and debugging purposes.
+> 
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
 
-> The LIP6 URL no longer functions.
->
-> Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
->
-> ---
->
-> v2: corrected the character encoding, no other changes
->
->  Documentation/dev-tools/coccinelle.rst                |    2 +-
->  Documentation/translations/it_IT/process/4.Coding.rst |    3 ++-
->  Documentation/translations/sp_SP/process/4.Coding.rst |    3 ++-
->  Documentation/translations/zh_CN/process/4.Coding.rst |    2 +-
->  Documentation/translations/zh_TW/process/4.Coding.rst |    2 +-
->  5 files changed, 7 insertions(+), 5 deletions(-)
+Debugfs logic looks sane, nice.
 
-Applied, thanks.
+But this only works if the kabi stuff is built into the kernel image,
+right?  This doesn't work if any of these abi sections are in a module
+or am I missing that logic here?
 
-jon
+thanks,
+
+greg k-h
