@@ -1,105 +1,109 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F653CEBBC;
-	Mon, 23 Mar 2026 18:28:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75BA3389DED;
+	Mon, 23 Mar 2026 23:58:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774290503; cv=none; b=mafnnl6H0xGOuYRaK+CMr3Bor14ubo3CBFBfZ4LqeQe4t6QQMD2ygC6qarNoXDoOeuFb3euIgbby6aZZJT4cuIGAeT4qmxI1qkDCxsQYl7I50WFiPGu4meMqFzMqIG+iPltEFZ9yn0023pkHXefZPMVuu73U9quvjUrI9V8BcxE=
+	t=1774310333; cv=none; b=UvlVG1xKCQAx5X7qSqkOW1+a+z7nFyFSwnZOaWAhLsg301cXu0KOq2K3PTt+zE20/mJ+AgTm/c7pO3WeIUbBSIBNbEPpL3uu8QVqBIHuPVgXWbon9SZ5ghd/seOunP2rujNPa5ZE1w0juI2jb+TbPXZskikBYlkfV22w/1769U0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774290503; c=relaxed/simple;
-	bh=MMPUviqud8a31n73i7qpGLdmIdv1bU9kYPKopS/FQg0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=RVIX44J/skeAzMKtB92rAi/IbgqpcDB2GNavMBwtZIVdsrBBr2JDJ7Kqb+JTG9l/kCvSFoqSne9lqNpge78LcLszim8lCCNnuxxNVWEh3X6W1XDWOkWFnwoxWvENI4O0jsSC/l3wubVQ+QiP7T9yYi4u9DGFEEgh+iyN2o9Xgxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=eisW0owj; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1774310333; c=relaxed/simple;
+	bh=09tSdPc4KE+Wrg/3IyzHyq6uHIuy+tsDuWBUHfhcgjg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qVvAaeK6PImMCYzCpn70eTuhyy+4LLqYHIFnIXXxz9M676Q1QTChxyGf4wQEHhKX7j5g+q7lM0puPh4iNeZBy1Gxx96jP8pdTtSV9vEL343NhE+7hOu9fjuP2Y6BXz0hrJMeNGoT52U1B6HWLUv1G0v7LJE0u05DjqPiWM5qG8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X09WVTvq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="eisW0owj"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 05E004121A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1774290495; bh=T3Ct6/F8GmUsi5m+MmETnDOR90NUeHSD5/sGbdvfVv4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=eisW0owjYlgRRjL1zOfrlzcFcKlADtxEuF3lk0nJvqwKktCpk12XRGmn6S2wWjhrX
-	 2ziw5JSeltNgcLZm7jibk0/7uUTF1PNKwq8H5kdl0rhEtVpzooiLCdORQlcwAVnfvj
-	 OvG8hM80rXmwXtX8tz1W1W1lcCe1kVmhLyn4YJK3t3EQLs/s/5b5sghnz5O9gaPn4s
-	 eEM+gJEWE/8KQSF5N0j22UgGN5HSzDwtZjOyy9qYeiq0U25JCKMTugJoJTP9CU9Pf1
-	 IuS/dwJDjpMWEt4PlUhorMoIaxDxuKFhcCPfCklkHQ5v0I6mjC0UUqgaHb/8IcFSnM
-	 wgCAx3ldy1lVA==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 05E004121A;
-	Mon, 23 Mar 2026 18:28:14 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Manuel Ebner <manuelebner@airmail.cc>, Collin Funk
- <collin.funk1@gmail.com>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/4] workflow: process/changes.rst: expand and
- cleanup list
-In-Reply-To: <21f66cb8aa8e3ede1666bec65540824784041aa3.camel@airmail.cc>
-References: <20260311164935.183495-3-manuelebner@airmail.cc>
- <20260311165612.184288-2-manuelebner@airmail.cc>
- <87fr5ycxao.fsf@trenco.lwn.net>
- <21f66cb8aa8e3ede1666bec65540824784041aa3.camel@airmail.cc>
-Date: Mon, 23 Mar 2026 12:28:14 -0600
-Message-ID: <87tsu69z9d.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X09WVTvq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F0ABC4AF0D;
+	Mon, 23 Mar 2026 23:58:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774310332;
+	bh=09tSdPc4KE+Wrg/3IyzHyq6uHIuy+tsDuWBUHfhcgjg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=X09WVTvqUzVe6286hdc2QsmRNSrbRb/vw8cWztfvWQ/PsFia8VsgYRjUvi7fytYj+
+	 g77WCldW1KRYfVbqbGvEI953LKcCNiEpqhig+r7z9IXJDtjpbYODlu/5zeqtRPqTGl
+	 WGFYbpUlPhvB4Y75BfaWj+EOwtbx6eoAbzTVsqSmc+la018UkNZJRWX2ZIKWR59p4/
+	 dEHJmDDGskDJimUR5GDykm4AHl27pHnJCuPITXKXDVOD1RFmz/XTClYe9AUIzQX61T
+	 LFm1pUBIv7zc90cEmkak7xQ5+RDcJVj8E2QhFGQqd9DX4R+o5OgtdCSZKMirZgEL8o
+	 3doxRZ3Z7A/XA==
+Date: Mon, 23 Mar 2026 19:58:50 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org,
+	Thomas Gleixner <tglx@kernel.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
+	Jake Edge <jake@lwn.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Askar Safin <safinaskar@zohomail.com>,
+	Gabriele Paoloni <gpaoloni@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH v2 3/9] kernel/api: add debugfs interface for kernel API
+ specifications
+Message-ID: <acHTupVGxJR3gmFT@laps>
+References: <20260322121026.869758-1-sashal@kernel.org>
+ <20260322121026.869758-4-sashal@kernel.org>
+ <2026032309-jargon-stalling-28c2@gregkh>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <2026032309-jargon-stalling-28c2@gregkh>
 
-Manuel Ebner <manuelebner@airmail.cc> writes:
-
-> On Tue, 2026-03-17 at 09:04 -0600, Jonathan Corbet wrote:
->> Manuel Ebner <manuelebner@airmail.cc> writes:
->> > remove footnote for sphinx
->> > =C2=A0in the paragraph before the list it says:
->> > =C2=A0"Also, not all tools are necessary on all systems;
->> > =C2=A0obviously, if you don't have any PC Card hardware, for example,
->> > =C2=A0you probably needn't concern yourself with pcmciautils."
+On Mon, Mar 23, 2026 at 02:52:58PM +0100, Greg Kroah-Hartman wrote:
+>On Sun, Mar 22, 2026 at 08:10:17AM -0400, Sasha Levin wrote:
+>> Add a debugfs interface to expose kernel API specifications at runtime.
+>> This allows tools and users to query the complete API specifications
+>> through the debugfs filesystem.
+>>
+>> The interface provides:
+>> - /sys/kernel/debug/kapi/list - lists all available API specifications
+>> - /sys/kernel/debug/kapi/specs/<name> - detailed info for each API
+>>
+>> Each specification file includes:
+>> - Function name, version, and descriptions
+>> - Execution context requirements and flags
+>> - Parameter details with types, flags, and constraints
+>> - Return value specifications and success conditions
+>> - Error codes with descriptions and conditions
+>> - Locking requirements and constraints
+>> - Signal handling specifications
+>> - Examples, notes, and deprecation status
+>>
+>> This enables runtime introspection of kernel APIs for documentation
+>> tools, static analyzers, and debugging purposes.
+>>
+>> Signed-off-by: Sasha Levin <sashal@kernel.org>
 >
-> i understand this paragraph like this:
-> most or all tools can be optional, depending on the specific use case.
-> e.g. quota-tools is optional for people compiling the kernel.
-> that's why i removed the optional markings.
->
-> and pcmciautils, the example in the the file, is not marked as optional i=
-n changes.rst:
->
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
->         Program        Minimal version       Command to check the version
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> [...]
-> pcmciautils            004              pccardctl -V
+>Debugfs logic looks sane, nice.
 
-The markings can certainly be done in a more thoughtful way; I don't see
-that as an argument for simply removing them, though.
+Thanks!
 
->> > remove "(optional)" for the same reason as above
->>=20
->> Here you have lost some information - now the document doesn't say
->> *which* tools are optional.=C2=A0 That is, I think, not ideal.
->
-> that's true.
-> my question is: what are the tools optional for?
-> or what is the criteria for "optional"?
+>But this only works if the kabi stuff is built into the kernel image,
+>right?  This doesn't work if any of these abi sections are in a module
+>or am I missing that logic here?
 
-Well, that would be an awfully nice addition to the documentation, but I
-wouldn't require that to get your current changes in :)
+That is correct, for now.
 
+I'm only trying to tackle syscalls to begin with, and since no syscalls live in
+modules, we have no need for module support.
+
+-- 
 Thanks,
-
-jon
+Sasha
