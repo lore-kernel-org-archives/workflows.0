@@ -1,102 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B82F53D567C;
-	Tue, 24 Mar 2026 11:45:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 385883FCB34;
+	Tue, 24 Mar 2026 13:43:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774352731; cv=none; b=sIp//d8Ljo7C1OKJdROSX+hxxnG75C6/h51/goHWi66/C6QEVKsc3ZGVx9l3SYMQKsAVhTpXfSUhCZ+38Mrk0utXda90kEFpOA88dgwto3k1JmtqbiJ/YxEadfPiGjkBRkj8sShS0BXmejDEyIXXw82AXo5ebkxBJs+sFKy7Jd8=
+	t=1774359788; cv=none; b=mmB4RPBh5vesFWAcZtnIB4FqmkVHts30HohtT0mq8JEUyMUzwpCl3FI2cUZVlW478I67xdiwq8O1HD/pJ969zL2L3WxfznRANuwTtMfRjX+G2KzBJ+7p6HEzIOF0xdojVudesPOXUTwSj4RcdHo8xu4IQFqvoQd7H3rHhbSx3Dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774352731; c=relaxed/simple;
-	bh=jX9K5Qlsw2+8JcKDr7ZdGFTMXbl3yHVN3G0kWBInI2s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tq07tjChDu0hCnmEMb0So9UpEoio5vs+Vxx1H6HXVKvC2ZA3zSpfb+hOtNXxcmzag1CiuHnn2LotnocTiAtYIi8BzKdKKegS6xPITzYSe0YHmha/Dj9twiLRdbc/TJ28wk+gWbalGsSc0bsQqKyeVTBfr4FsqptaQDLirsDwXXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YiRr9YK/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774359788; c=relaxed/simple;
+	bh=tQzP56JT8kO533jsrXHMynkypbhTkn3/hPD/iDlE2C0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=eFzXYMxqLdjcnykFi5RNwjPNDMdwA+ImKjdYRZvEFQHBOJAZrAUX5d9ezNBxr6eGg9taWLkbI2mpicurOtOeM6xdqQUFD3ZzotrFUY12v75BXqVPx78kpVSqc9Od20HGRQ+RdRpDnG/Xarp8zoh2ViwyN3WZCyFtusPeHx40inw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=RYS52nQe; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YiRr9YK/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05DD8C19424;
-	Tue, 24 Mar 2026 11:45:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1774352731;
-	bh=jX9K5Qlsw2+8JcKDr7ZdGFTMXbl3yHVN3G0kWBInI2s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YiRr9YK//eYw2iDlddt7wJge8uPj7jby/M6AT158a6asUFKu5bwzAK6uTvBZDhObx
-	 GatsYKcKCyJnqdxQ5I+pyRkqdsoBPOfBH8wBHawSbHuKgn4susDEjUmyugfyjnHhLJ
-	 isDywhM8qGYzM5yxvmrF+POFOCmJ26n6oqbgiqPs=
-Date: Tue, 24 Mar 2026 12:45:09 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org,
-	Thomas Gleixner <tglx@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
-	Jake Edge <jake@lwn.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Askar Safin <safinaskar@zohomail.com>,
-	Gabriele Paoloni <gpaoloni@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH v2 3/9] kernel/api: add debugfs interface for kernel API
- specifications
-Message-ID: <2026032442-step-blush-a0e5@gregkh>
-References: <20260322121026.869758-1-sashal@kernel.org>
- <20260322121026.869758-4-sashal@kernel.org>
- <2026032309-jargon-stalling-28c2@gregkh>
- <acHTupVGxJR3gmFT@laps>
- <2026032411-paramount-lapdog-41e6@gregkh>
- <acJ2gnnA9MP1wO_Z@laps>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="RYS52nQe"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 447B640423
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1774359786; bh=8j1lWJ701yzUSlEYE6uskF2ZtMcXdWTUqSiglq8TPjA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=RYS52nQevBGg/pPQsSNoovYWD/QCJ4Re0/bfQUMmZoczo/1ccMizkfOmhQ5zsZoAe
+	 PDmwUXpDPD8W3iv5nP3FoaOfK56iuuOQUgd9A7gR33ne7NSpQD+87zFMj58i9ZN8Vv
+	 IWgrJ7HNI6YICetie4bCO4hSy6feQx3pvQXtzRo5laTqK895OJtyGzCchUSRl0Bx0P
+	 kKcLWN1VSeNZapeT5MsTmPhdrn0QghjiJBgJ2JfNIifs9dM7OrfnSvfqDdV0sNQIBI
+	 aLYK7I9DrJjN95or0L3u9rYtqK7cAgfnTg9LgIQBz81ID5yDBEl+IRD2J2fmNb6s9B
+	 LP1qlvpGpKw/g==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 447B640423;
+	Tue, 24 Mar 2026 13:43:06 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: zhidao su <soolaugust@gmail.com>, workflows@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ bpf@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>, zhidao su
+ <suzhidao@xiaomi.com>
+Subject: Re: [PATCH] docs: Document pahole v1.26 requirement for
+ KF_IMPLICIT_ARGS kfuncs
+In-Reply-To: <20260324062028.2479059-1-suzhidao@xiaomi.com>
+References: <20260324062028.2479059-1-suzhidao@xiaomi.com>
+Date: Tue, 24 Mar 2026 07:43:05 -0600
+Message-ID: <877br18hsm.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <acJ2gnnA9MP1wO_Z@laps>
+Content-Type: text/plain
 
-On Tue, Mar 24, 2026 at 07:33:22AM -0400, Sasha Levin wrote:
-> On Tue, Mar 24, 2026 at 09:20:01AM +0100, Greg Kroah-Hartman wrote:
-> > On Mon, Mar 23, 2026 at 07:58:50PM -0400, Sasha Levin wrote:
-> > > > But this only works if the kabi stuff is built into the kernel image,
-> > > > right?  This doesn't work if any of these abi sections are in a module
-> > > > or am I missing that logic here?
-> > > 
-> > > That is correct, for now.
-> > > 
-> > > I'm only trying to tackle syscalls to begin with, and since no syscalls live in
-> > > modules, we have no need for module support.
-> > 
-> > We used to support syscalls in modules, but thankfully that is now gone.
-> > But, how will this work for stuff like usbfs ioctls?  That is a module,
-> > and our uapi is, by far, in drivers through ioctl "hell" and that would
-> > be great to be able to document through all of this.  Will that just not
-> > be in the debugfs api?
-> 
-> It will. I see it working just like how BTF or trace events do it now.
-> 
-> When a module loads, find_module_sections() extracts the .kapi_specs section
-> pointer and element count into new struct module fields. The COMING notifier
-> then iterates those specs, registers each via the existing kapi_register_spec()
-> dynamic registration path, and creates per-spec debugfs files under the
-> existing /sys/kernel/debug/kapi/specs/ directory. The kapi_list_show() function
-> is extended to also walk the dynamic_api_specs list (currently it only iterates
-> the static __start_kapi_specs..__stop_kapi_specs range). On GOING, all specs
-> owned by that module are removed from the list and their debugfs entries
-> cleaned up via debugfs_remove().
+zhidao su <soolaugust@gmail.com> writes:
 
-Sounds good, I was worried about that static range and how that would be
-"extended" or not.
+> Since Linux 7.0, kfuncs annotated with KF_IMPLICIT_ARGS require pahole
+> v1.26 or later. Without it, such kfuncs have incorrect BTF prototypes in
+> vmlinux, causing BPF programs to fail with 'func_proto incompatible with
+> vmlinux' error.
+>
+> This affects all sched_ext kfuncs (e.g. scx_bpf_create_dsq,
+> scx_bpf_dispatch) and other KF_IMPLICIT_ARGS kfuncs across the kernel.
+> Ubuntu 24.04 LTS ships pahole v1.25 by default, causing 23/30 sched_ext
+> selftests to fail on affected systems.
+>
+> Document this requirement in Documentation/process/changes.rst so users
+> understand the failure mode and can upgrade pahole appropriately.
+>
+> Signed-off-by: zhidao su <suzhidao@xiaomi.com>
+> ---
+>  Documentation/process/changes.rst | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+> index 6b373e193548..141a4576c24d 100644
+> --- a/Documentation/process/changes.rst
+> +++ b/Documentation/process/changes.rst
+> @@ -145,6 +145,11 @@ Since Linux 5.2, if CONFIG_DEBUG_INFO_BTF is selected, the build system
+>  generates BTF (BPF Type Format) from DWARF in vmlinux, a bit later from kernel
+>  modules as well.  This requires pahole v1.22 or later.
+>  
+> +Since Linux 7.0, kfuncs annotated with KF_IMPLICIT_ARGS require pahole v1.26
+> +or later.  Without it, such kfuncs will have incorrect BTF prototypes in
+> +vmlinux, causing BPF programs to fail to load with a "func_proto incompatible
+> +with vmlinux" error.  Many sched_ext kfuncs are affected.
 
-greg k-h
+This seems like reasonable information, but is there a reason to not
+just raise the minimum pahole version to 1.26 and be done with it?
+
+Thanks,
+
+jon
