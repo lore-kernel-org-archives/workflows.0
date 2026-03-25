@@ -1,56 +1,56 @@
 Received: from mout-y-209.mailbox.org (mout-y-209.mailbox.org [91.198.250.237])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A111833A00C;
-	Wed, 25 Mar 2026 19:47:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 807A7346A0D;
+	Wed, 25 Mar 2026 19:48:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.198.250.237
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774468071; cv=none; b=Ol5K7oFm7atCYBahzihfrKieM0sOw3Uldi/GFQnu2rgKgWG+HkdDc2sQjHYTUxOwO3kac+XKkzMVP5kW6xSFTxoXzV687Zh9+4+6IZlX2cq8NOBWFJHa7V46pOZy96IPi9TNzpOBu5ea/0etPCJxiBUjVBTY67NtOj+qv0zstn0=
+	t=1774468137; cv=none; b=AcEsbVpTPAXDHp8fqRHwgj25JrzQ2coTdeV7t9S5rSxQDkzqmr+qcrZq+MdbLO6CvZ7hrL6TfnRPGCLvreVs3LSlAm1yGAAE9Lk5BTeBWWAhZW1Y81tjZK81ZJJTtN/HulJBB8osiguK5pyRekH2VmDFhQoCdoTkNOuqYtHCSTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774468071; c=relaxed/simple;
-	bh=RF0CnEYnIZ4btEI/gTu5z5YRiDXfIoDh2zqZrjWIYqo=;
+	s=arc-20240116; t=1774468137; c=relaxed/simple;
+	bh=YiRp5hORkFx58+pTD1Uty4st8OKgPd7AyEupV4UQpz4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ftv6ikvHfWxqZDUaBUHHEZpG2IP3DL+d1dgUBV8+JPNAPf34EERXZRzFFW8ozKbNv5clZtJ/SsesNo3etnKHaVmmeGI5lFYva5ZB06AASGkd8YBlsP7tszvIE3Whb4aOj9XlJUyGbbm57HnEMVeVATr3LaOgMsU64PD+JbfSm8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=o3RotQ5q; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Zvy+CFyb; arc=none smtp.client-ip=91.198.250.237
+	 MIME-Version; b=BBmPLjjtlWMn+NTJqhHymg17135Xca7KyRvLmCr3/CR4e0HwD6+yo2P9QWp+p74UE1IDb/lOECti+GIp3mzu1eZCrS21frrhKlODkQCV+SMgIyYONTFcs/PZUQfEeQJ8qoud0j3LyjDHXezNbaskv5VTriNb7laUhrR4oBYpP10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=wpwJu42Q; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=X6hd1SRo; arc=none smtp.client-ip=91.198.250.237
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="o3RotQ5q";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Zvy+CFyb"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="wpwJu42Q";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="X6hd1SRo"
 Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-y-209.mailbox.org (Postfix) with ESMTPS id 4fgy9v48jwzB115;
-	Wed, 25 Mar 2026 20:47:47 +0100 (CET)
+	by mout-y-209.mailbox.org (Postfix) with ESMTPS id 4fgyC95QRBzB115;
+	Wed, 25 Mar 2026 20:48:53 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1774468067;
+	t=1774468133;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gZ0CsUOUrkvEVaQ4zcstJWXCS82MQpXISNdXEbCeJbI=;
-	b=o3RotQ5qLX5wfFb0ATyJZ4BhnkKMm5QVQb66pANljhaLL+bUZ5VMIkx7/2UxDwLJjc5ROM
-	6G2Zh3VP6TxOqZ9N06VSg4VWWf7yidAFIs3yb31jUA1KGbq3uuh4PMQpzMale03PURuT+J
-	fi+uSe86w2Mr6GfbtB5cqg66Nkp0+pnFxqWhW83lQ5KuJ3qvgyqNE9fiEu8MdLS1XzZ+Zq
-	gYDFIUtscixDKGzbHSvgEGKl+Nsr3tBC52n/8up70BCSj4qaN0CFckCmU1p00bkvENXqye
-	Cfnie1QSp7M5Uz0vme7s8afqHYrTW6KeDFDTLF21RKsFNS/a+GU0NEE633z7qQ==
+	bh=R3ztjrhg6iQ74avdDRyLJhlD8H9QW1fbnKgbJpR86Ls=;
+	b=wpwJu42QnvZ+RmOQ9DYxN2QH2l2D2VevXqo3SuQ7kX1jQZdn3WGq5ycLK/dgHKHG+XhEUo
+	vHjvOfh4rbTOvI3TwlV8G48KrCpmkpz4J8d9XacaZWYDIUAqqW18XgfrYn9xvbqepWKFnC
+	y8D7E12lqd+l0t3rJhC+Lsu7k8fH3jLbaJZTdPshj0MUE3WF54wR5uzHdpBqz64UP89CO5
+	oBsTZ44GmV6EcfGBVJztUZrmizg+BFzXBOvKx99sQNMjCBWwVE7rDFBgxiSZ3nLA8hAdu2
+	2CiSZ/jsou10RJCTmRKSMVrsGvCgHBFVBWdwLDmAVE9lBQdgscNqdOid22fukQ==
 Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=Zvy+CFyb;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=X6hd1SRo;
 	spf=pass (outgoing_mbo_mout: domain of manuelebner@mailbox.org designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=manuelebner@mailbox.org
 From: Manuel Ebner <manuelebner@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1774468066;
+	t=1774468132;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gZ0CsUOUrkvEVaQ4zcstJWXCS82MQpXISNdXEbCeJbI=;
-	b=Zvy+CFybwHyxurDbUTrEvuPd0gvF9f9ZKrzgPjU8GEMnm8EKfkvDtINTU4X6k0icRL8UuB
-	NWMoc+JZqKzqwcbYBjIZb9BMj7QG3uLmF++bS1/lhfd8wiboL7QEP2ChnVQXu0ihPk9ZKF
-	upE1YB2yDfTLvCwv0wwloiWPVWEtafA1s3xISivH2SpihPM+Ad4Um8IKwM9dERj/PYUmR8
-	RUbgWFW5mtPDHEo3gA6OiZ0/an5lNILOTJOpSyQ+CyXGzJap50VnFGmPkkDool5JV6v6SS
-	jQTWX25dv36Q+ZxZErATgPSIrxPmViBUjVYiS+0dtvB5zqD/0fwEtBYdosyGLA==
+	bh=R3ztjrhg6iQ74avdDRyLJhlD8H9QW1fbnKgbJpR86Ls=;
+	b=X6hd1SRosFFQIs3KDiUAUWzH81wJ4QoZSLRIJLAU7O+7i4xIWI5sG+aI5/B+gpNzVqBQ28
+	VbsT0XU9JMDA+rkId6r9G3n67VJ7d+/RWy9pEnil1uaXiIb5fK2+0zbGoU+U32/zIFREnx
+	S/02WFkH28RqzSkV2cZTJwqy15EcV9WZRWJG/IkgG6GnZWSexg99mOc9Vzrxts9LyXnHka
+	7voTGLn4LrIUSpgoNbUY6QfWmo0F2b4PqoW/yIeIftijxOVTFsYQqK5wR7K57TLL/pW5Zk
+	es6mEBaIJnexYCFnSzeqTrVexBheXC01ADcSUsLiUcHRpaLMQ1YZoTEIPrSeaA==
 To: Jonathan Corbet <corbet@lwn.net>,
 	Collin Funk <collin.funk1@gmail.com>,
 	Shuah Khan <skhan@linuxfoundation.org>
@@ -58,9 +58,9 @@ Cc: workflows@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Manuel Ebner <manuelebner@mailbox.org>
-Subject: [PATCH v5 1/2] workflows, scripts: harmonize and cleanup
-Date: Wed, 25 Mar 2026 20:46:17 +0100
-Message-ID: <20260325194616.78093-2-manuelebner@mailbox.org>
+Subject: [PATCH v5 2/2] workflows, scripts: sort ver_linux and changes.rst
+Date: Wed, 25 Mar 2026 20:48:12 +0100
+Message-ID: <20260325194811.78509-2-manuelebner@mailbox.org>
 In-Reply-To: <20260325194326.77923-2-manuelebner@mailbox.org>
 References: <20260325194326.77923-2-manuelebner@mailbox.org>
 Precedence: bulk
@@ -70,163 +70,183 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: babb8ae0f90d42ba421
-X-MBO-RS-META: w47qju4g9t5h9h8cawgur3bh1b7sdpj6
-X-Rspamd-Queue-Id: 4fgy9v48jwzB115
+X-MBO-RS-ID: bf910aa68fa9af2a123
+X-MBO-RS-META: fmdmwa9k1ib1r4413bci5sgebjw4w3hz
+X-Rspamd-Queue-Id: 4fgyC95QRBzB115
 
-cleanup and harmonize output of scripts/ver_linux and table in changes.rst
-
-ver_linux:
-fix path to changes.rst
-Add missing tools in ver_linux
- bash, bc, bindgen, btrfs-progs, Clang, gdb,  GNU awk, GNU tar,
- GRUB, GRUB2, gtags, iptables, kmod, mcelog, mkimage, openssl,
- pahole, Python, Rust, Sphinx, squashfs-tools
-
-changes.rst:
-add reference to ./scripts/ver_linux
-needn't -> do not need to
-add gdb version 7.2 as mentioned in:
- Documentation/process/debugging/gdb-kernel-debugging.rst
- scripts/gdb/vmlinux-gdb.py
+sort output of scripts/ver_linux alphabetically
+sort list in changes.rst alphabetically
 
 Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
 ---
- Documentation/process/changes.rst | 14 +++++----
- scripts/ver_linux                 | 49 ++++++++++++++++++++++---------
- 2 files changed, 43 insertions(+), 20 deletions(-)
+ Documentation/process/changes.rst | 52 ++++++++++++-------------
+ scripts/ver_linux                 | 64 +++++++++++++++----------------
+ 2 files changed, 58 insertions(+), 58 deletions(-)
 
 diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 6b373e193548..d94503341254 100644
+index d94503341254..6ba9ca928e49 100644
 --- a/Documentation/process/changes.rst
 +++ b/Documentation/process/changes.rst
-@@ -19,12 +19,13 @@ Current Minimal Requirements
- 
- Upgrade to at **least** these software revisions before thinking you've
- encountered a bug!  If you're unsure what version you're currently
--running, the suggested command should tell you.
-+running, the suggested command should tell you. For a list of the programs
-+on your system including their version execute ./scripts/ver_linux
- 
- Again, keep in mind that this list assumes you are already functionally
- running a Linux kernel.  Also, not all tools are necessary on all
- systems; obviously, if you don't have any PC Card hardware, for example,
--you probably needn't concern yourself with pcmciautils.
-+you probably do not need to concern yourself with pcmciautils.
- 
+@@ -30,41 +30,41 @@ you probably do not need to concern yourself with pcmciautils.
  ====================== ===============  ========================================
          Program        Minimal version       Command to check the version
-@@ -40,7 +41,7 @@ flex                   2.5.35           flex --version
+ ====================== ===============  ========================================
+-GNU C                  8.1              gcc --version
+-Clang/LLVM (optional)  15.0.0           clang --version
+-Rust (optional)        1.78.0           rustc --version
+-bindgen (optional)     0.65.1           bindgen --version
+-GNU make               4.0              make --version
+ bash                   4.2              bash --version
++bc                     1.06.95          bc --version
++bindgen (optional)     0.65.1           bindgen --version
+ binutils               2.30             ld -v
+-flex                   2.5.35           flex --version
  bison                  2.0              bison --version
- pahole                 1.22             pahole --version
- util-linux             2.10o            mount --version
--kmod                   13               depmod -V
-+kmod                   13               kmod -V
+-pahole                 1.22             pahole --version
+-util-linux             2.10o            mount --version
+-kmod                   13               kmod -V
++btrfs-progs            0.18             btrfs --version
++Clang/LLVM (optional)  15.0.0           clang --version
  e2fsprogs              1.41.4           e2fsck -V
- jfsutils               1.1.3            fsck.jfs -V
- xfsprogs               2.6.0            xfs_db -V
-@@ -51,8 +52,8 @@ quota-tools            3.09             quota -V
- PPP                    2.4.0            pppd --version
- nfs-utils              1.0.5            showmount --version
- procps                 3.2.0            ps --version
--udev                   081              udevd --version
--grub                   0.93             grub --version || grub-install --version
-+udev                   081              udevadm --version
-+GRUB                   0.93             grub --version || grub-install --version
- mcelog                 0.6              mcelog --version
- iptables               1.4.2            iptables -V
- openssl & libcrypto    1.0.0            openssl version
-@@ -62,7 +63,8 @@ GNU tar                1.28             tar --version
- gtags (optional)       6.6.5            gtags --version
- mkimage (optional)     2017.01          mkimage --version
- Python                 3.9.x            python3 --version
--GNU AWK (optional)     5.1.0            gawk --version
-+GNU awk (optional)     5.1.0            gawk --version
++flex                   2.5.35           flex --version
 +gdb                    7.2              gdb --version
++GNU awk (optional)     5.1.0            gawk --version
++GNU C                  8.1              gcc --version
++GNU make               4.0              make --version
++GNU tar                1.28             tar --version
++GRUB                   0.93             grub --version || grub-install --version
++gtags (optional)       6.6.5            gtags --version
++iptables               1.4.2            iptables -V
+ jfsutils               1.1.3            fsck.jfs -V
+-xfsprogs               2.6.0            xfs_db -V
+-squashfs-tools         4.0              mksquashfs -version
+-btrfs-progs            0.18             btrfs --version
++kmod                   13               kmod -V
++mcelog                 0.6              mcelog --version
++mkimage (optional)     2017.01          mkimage --version
++nfs-utils              1.0.5            showmount --version
++openssl & libcrypto    1.0.0            openssl version
++pahole                 1.22             pahole --version
+ pcmciautils            004              pccardctl -V
+-quota-tools            3.09             quota -V
+ PPP                    2.4.0            pppd --version
+-nfs-utils              1.0.5            showmount --version
+ procps                 3.2.0            ps --version
+-udev                   081              udevadm --version
+-GRUB                   0.93             grub --version || grub-install --version
+-mcelog                 0.6              mcelog --version
+-iptables               1.4.2            iptables -V
+-openssl & libcrypto    1.0.0            openssl version
+-bc                     1.06.95          bc --version
+-Sphinx\ [#f1]_         3.4.3            sphinx-build --version
+-GNU tar                1.28             tar --version
+-gtags (optional)       6.6.5            gtags --version
+-mkimage (optional)     2017.01          mkimage --version
+ Python                 3.9.x            python3 --version
+-GNU awk (optional)     5.1.0            gawk --version
+-gdb                    7.2              gdb --version
++quota-tools            3.09             quota -V
++Rust (optional)        1.78.0           rustc --version
++Sphinx\ [#f1]_         3.4.3            sphinx-build --version
++squashfs-tools         4.0              mksquashfs -version
++udev                   081              udevadm --version
++util-linux             2.10o            mount --version
++xfsprogs               2.6.0            xfs_db -V
  ====================== ===============  ========================================
  
  .. [#f1] Sphinx is needed only to build the Kernel documentation
 diff --git a/scripts/ver_linux b/scripts/ver_linux
-index d6f2362d3792..fab0c68a6c52 100755
+index fab0c68a6c52..00bdaf30d590 100755
 --- a/scripts/ver_linux
 +++ b/scripts/ver_linux
-@@ -7,7 +7,7 @@
- 
- BEGIN {
- 	usage = "If some fields are empty or look unusual you may have an old version.\n"
--	usage = usage "Compare to the current minimal requirements in Documentation/Changes.\n"
-+	usage = usage "Compare to the current minimal requirements in Documentation/process/changes.rst\n"
- 	print usage
- 
- 	system("uname -a")
-@@ -18,22 +18,22 @@ BEGIN {
+@@ -17,58 +17,58 @@ BEGIN {
+ 	libc = "libc[.]so[.][0-9]+$"
  	libcpp = "(libg|stdc)[+]+[.]so([.][0-9]+)+$"
  
- 	printversion("GNU C", version("gcc -dumpversion"))
--	printversion("GNU Make", version("make --version"))
--	printversion("Binutils", version("ld -v"))
--	printversion("Util-linux", version("mount --version"))
-+	printversion("GNU make", version("make --version"))
+-	printversion("GNU C", version("gcc -dumpversion"))
+-	printversion("GNU make", version("make --version"))
+-	printversion("binutils", version("ld -v"))
+-	printversion("util-linux", version("mount --version"))
+-	printversion("Mount", version("mount --version"))
+-	printversion("Module-init-tools", version("depmod -V"))
+-	printversion("e2fsprogs", version("e2fsck -V"))
+-	printversion("jfsutils", version("fsck.jfs -V"))
+-	printversion("xfsprogs", version("xfs_db -V"))
+-	printversion("pcmciautils", version("pccardctl -V"))
+-	printversion("Pcmcia-cs", version("cardmgr -V"))
+-	printversion("quota-tools", version("quota -V"))
+-	printversion("PPP", version("pppd --version"))
+-	printversion("Isdn4k-utils", version("isdnctrl"))
+-	printversion("nfs-utils", version("showmount --version"))
+-	printversion("bison", version("bison --version"))
+-	printversion("flex", version("flex --version"))
+-
+-	while ("ldconfig -p 2>/dev/null" | getline > 0)
+-		if ($NF ~ libc || $NF ~ libcpp)
+-			if (!seen[ver = version("readlink " $NF)]++)
+-				printversion("Linux C" ($NF ~ libcpp? "++" : "") " Library", ver)
+-
+-	printversion("Dynamic linker (ldd)", version("ldd --version"))
+-	printversion("procps", version("ps --version"))
+-	printversion("Net-tools", version("ifconfig --version"))
+-	printversion("Kbd", version("loadkeys -V"))
+-	printversion("Console-tools", version("loadkeys -V"))
+-	printversion("Sh-utils", version("expr --v"))
+-	printversion("udev", version("udevadm --version"))
+-	printversion("Wireless-tools", version("iwconfig --version"))
+ 	printversion("bash", version("bash --version"))
+ 	printversion("bc", version("bc --version"))
+ 	printversion("bindgen", version("bindgen --version"))
 +	printversion("binutils", version("ld -v"))
-+	printversion("util-linux", version("mount --version"))
- 	printversion("Mount", version("mount --version"))
- 	printversion("Module-init-tools", version("depmod -V"))
--	printversion("E2fsprogs", version("tune2fs"))
--	printversion("Jfsutils", version("fsck.jfs -V"))
--	printversion("Xfsprogs", version("xfs_db -V"))
--	printversion("Pcmciautils", version("pccardctl -V"))
-+	printversion("e2fsprogs", version("e2fsck -V"))
-+	printversion("jfsutils", version("fsck.jfs -V"))
-+	printversion("xfsprogs", version("xfs_db -V"))
-+	printversion("pcmciautils", version("pccardctl -V"))
- 	printversion("Pcmcia-cs", version("cardmgr -V"))
--	printversion("Quota-tools", version("quota -V"))
-+	printversion("quota-tools", version("quota -V"))
- 	printversion("PPP", version("pppd --version"))
- 	printversion("Isdn4k-utils", version("isdnctrl"))
--	printversion("Nfs-utils", version("showmount --version"))
--	printversion("Bison", version("bison --version"))
--	printversion("Flex", version("flex --version"))
-+	printversion("nfs-utils", version("showmount --version"))
 +	printversion("bison", version("bison --version"))
+ 	printversion("btrfs-progs", version("btrfs --version"))
+ 	printversion("Clang", version("clang --version"))
++	printversion("Console-tools", version("loadkeys -V"))
++	printversion("Dynamic linker (ldd)", version("ldd --version"))
++	printversion("e2fsprogs", version("e2fsck -V"))
 +	printversion("flex", version("flex --version"))
- 
- 	while ("ldconfig -p 2>/dev/null" | getline > 0)
- 		if ($NF ~ libc || $NF ~ libcpp)
-@@ -41,13 +41,34 @@ BEGIN {
- 				printversion("Linux C" ($NF ~ libcpp? "++" : "") " Library", ver)
- 
- 	printversion("Dynamic linker (ldd)", version("ldd --version"))
--	printversion("Procps", version("ps --version"))
-+	printversion("procps", version("ps --version"))
- 	printversion("Net-tools", version("ifconfig --version"))
- 	printversion("Kbd", version("loadkeys -V"))
- 	printversion("Console-tools", version("loadkeys -V"))
- 	printversion("Sh-utils", version("expr --v"))
--	printversion("Udev", version("udevadm --version"))
-+	printversion("udev", version("udevadm --version"))
- 	printversion("Wireless-tools", version("iwconfig --version"))
-+	printversion("bash", version("bash --version"))
-+	printversion("bc", version("bc --version"))
-+	printversion("bindgen", version("bindgen --version"))
-+	printversion("btrfs-progs", version("btrfs --version"))
-+	printversion("Clang", version("clang --version"))
-+	printversion("gdb", version("gdb -version"))
-+	printversion("GNU awk", version("gawk --version"))
-+	printversion("GNU tar", version("tar --version"))
+ 	printversion("gdb", version("gdb -version"))
+ 	printversion("GNU awk", version("gawk --version"))
++	printversion("GNU C", version("gcc -dumpversion"))
++	printversion("GNU make", version("make --version"))
+ 	printversion("GNU tar", version("tar --version"))
+-	printversion("GRUB", version("grub-install --version"))
+ 	printversion("GRUB2", version("grub2-install --version"))
 +	printversion("GRUB", version("grub-install --version"))
-+	printversion("GRUB2", version("grub2-install --version"))
-+	printversion("gtags", version("gtags --version"))
-+	printversion("iptables", version("iptables -V"))
-+	printversion("kmod", version("kmod -V"))
-+	printversion("mcelog", version("mcelog --version"))
-+	printversion("mkimage", version("mkimage --version"))
-+	printversion("openssl", version("openssl version"))
-+	printversion("pahole", version("pahole --version"))
-+	printversion("Python", version("python3 -V"))
-+	printversion("Rust", version("rustc --version"))
-+	printversion("Sphinx", version("sphinx-build --version"))
-+	printversion("squashfs-tools", version("mksquashfs -version"))
+ 	printversion("gtags", version("gtags --version"))
+ 	printversion("iptables", version("iptables -V"))
++	printversion("Isdn4k-utils", version("isdnctrl"))
++	printversion("jfsutils", version("fsck.jfs -V"))
++	printversion("Kbd", version("loadkeys -V"))
+ 	printversion("kmod", version("kmod -V"))
++
++	while ("ldconfig -p 2>/dev/null" | getline > 0)
++		if ($NF ~ libc || $NF ~ libcpp)
++			if (!seen[ver = version("readlink " $NF)]++)
++				printversion("Linux C" ($NF ~ libcpp? "++" : "") " Library", ver)
++
+ 	printversion("mcelog", version("mcelog --version"))
+ 	printversion("mkimage", version("mkimage --version"))
++	printversion("Module-init-tools", version("depmod -V"))
++	printversion("Mount", version("mount --version"))
++	printversion("Net-tools", version("ifconfig --version"))
++	printversion("nfs-utils", version("showmount --version"))
+ 	printversion("openssl", version("openssl version"))
+ 	printversion("pahole", version("pahole --version"))
++	printversion("Pcmcia-cs", version("cardmgr -V"))
++	printversion("pcmciautils", version("pccardctl -V"))
++	printversion("PPP", version("pppd --version"))
++	printversion("procps", version("ps --version"))
+ 	printversion("Python", version("python3 -V"))
++	printversion("quota-tools", version("quota -V"))
+ 	printversion("Rust", version("rustc --version"))
++	printversion("Sh-utils", version("expr --v"))
+ 	printversion("Sphinx", version("sphinx-build --version"))
+ 	printversion("squashfs-tools", version("mksquashfs -version"))
++	printversion("udev", version("udevadm --version"))
++	printversion("util-linux", version("mount --version"))
++	printversion("Wireless-tools", version("iwconfig --version"))
++	printversion("xfsprogs", version("xfs_db -V"))
  
  	while ("sort /proc/modules" | getline > 0) {
  		mods = mods sep $1
