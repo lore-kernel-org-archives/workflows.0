@@ -1,255 +1,168 @@
-Received: from mout-y-209.mailbox.org (mout-y-209.mailbox.org [91.198.250.237])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 807A7346A0D;
-	Wed, 25 Mar 2026 19:48:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.198.250.237
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E8BA3EA66
+	for <workflows@vger.kernel.org>; Thu, 26 Mar 2026 06:20:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774468137; cv=none; b=AcEsbVpTPAXDHp8fqRHwgj25JrzQ2coTdeV7t9S5rSxQDkzqmr+qcrZq+MdbLO6CvZ7hrL6TfnRPGCLvreVs3LSlAm1yGAAE9Lk5BTeBWWAhZW1Y81tjZK81ZJJTtN/HulJBB8osiguK5pyRekH2VmDFhQoCdoTkNOuqYtHCSTg=
+	t=1774506041; cv=none; b=F9PhDi0lnlaGFMgUr5PKplXwxtSp8tUzERYMmVIjfpcJqs4/CEeLCEcZkRJMm3zOf0/AymAldTPb9BDzlg8VQg5pt/HtrsNazBI8WiMmDXKdJ4OT+TzPcP41BD52u6odRgdJAQ69m/7M69AkNbQYjtjCgBz++Fa4GyxZbrmx0Vc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774468137; c=relaxed/simple;
-	bh=YiRp5hORkFx58+pTD1Uty4st8OKgPd7AyEupV4UQpz4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BBmPLjjtlWMn+NTJqhHymg17135Xca7KyRvLmCr3/CR4e0HwD6+yo2P9QWp+p74UE1IDb/lOECti+GIp3mzu1eZCrS21frrhKlODkQCV+SMgIyYONTFcs/PZUQfEeQJ8qoud0j3LyjDHXezNbaskv5VTriNb7laUhrR4oBYpP10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=wpwJu42Q; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=X6hd1SRo; arc=none smtp.client-ip=91.198.250.237
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1774506041; c=relaxed/simple;
+	bh=br/jwXyKsOgF8QpG+OEMmn/wjLJg+ymOyi2ueX2+2uA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jR+3MkFBNzgTvi2ONSO34cb0rtmFxz6lcG0YJWF4bklyxoA8ATIMsW1SLhlwKTVzFbVYdlmZCXy8+DLxy36KGkv4g2PZetyVp6TJAdrr8Oqgka/Ox7cyeSJa3jjWcPdupwyl4J5syU19Y0DR8zHCw1lTcPtswXT9cPQFq/K5Qrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Owp7F8af; arc=none smtp.client-ip=74.125.82.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="wpwJu42Q";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="X6hd1SRo"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-y-209.mailbox.org (Postfix) with ESMTPS id 4fgyC95QRBzB115;
-	Wed, 25 Mar 2026 20:48:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1774468133;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=R3ztjrhg6iQ74avdDRyLJhlD8H9QW1fbnKgbJpR86Ls=;
-	b=wpwJu42QnvZ+RmOQ9DYxN2QH2l2D2VevXqo3SuQ7kX1jQZdn3WGq5ycLK/dgHKHG+XhEUo
-	vHjvOfh4rbTOvI3TwlV8G48KrCpmkpz4J8d9XacaZWYDIUAqqW18XgfrYn9xvbqepWKFnC
-	y8D7E12lqd+l0t3rJhC+Lsu7k8fH3jLbaJZTdPshj0MUE3WF54wR5uzHdpBqz64UP89CO5
-	oBsTZ44GmV6EcfGBVJztUZrmizg+BFzXBOvKx99sQNMjCBWwVE7rDFBgxiSZ3nLA8hAdu2
-	2CiSZ/jsou10RJCTmRKSMVrsGvCgHBFVBWdwLDmAVE9lBQdgscNqdOid22fukQ==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=X6hd1SRo;
-	spf=pass (outgoing_mbo_mout: domain of manuelebner@mailbox.org designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=manuelebner@mailbox.org
-From: Manuel Ebner <manuelebner@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1774468132;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=R3ztjrhg6iQ74avdDRyLJhlD8H9QW1fbnKgbJpR86Ls=;
-	b=X6hd1SRosFFQIs3KDiUAUWzH81wJ4QoZSLRIJLAU7O+7i4xIWI5sG+aI5/B+gpNzVqBQ28
-	VbsT0XU9JMDA+rkId6r9G3n67VJ7d+/RWy9pEnil1uaXiIb5fK2+0zbGoU+U32/zIFREnx
-	S/02WFkH28RqzSkV2cZTJwqy15EcV9WZRWJG/IkgG6GnZWSexg99mOc9Vzrxts9LyXnHka
-	7voTGLn4LrIUSpgoNbUY6QfWmo0F2b4PqoW/yIeIftijxOVTFsYQqK5wR7K57TLL/pW5Zk
-	es6mEBaIJnexYCFnSzeqTrVexBheXC01ADcSUsLiUcHRpaLMQ1YZoTEIPrSeaA==
-To: Jonathan Corbet <corbet@lwn.net>,
-	Collin Funk <collin.funk1@gmail.com>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Manuel Ebner <manuelebner@mailbox.org>
-Subject: [PATCH v5 2/2] workflows, scripts: sort ver_linux and changes.rst
-Date: Wed, 25 Mar 2026 20:48:12 +0100
-Message-ID: <20260325194811.78509-2-manuelebner@mailbox.org>
-In-Reply-To: <20260325194326.77923-2-manuelebner@mailbox.org>
-References: <20260325194326.77923-2-manuelebner@mailbox.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Owp7F8af"
+Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-12732e6a123so1706524c88.1
+        for <workflows@vger.kernel.org>; Wed, 25 Mar 2026 23:20:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774506039; x=1775110839; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VofYlHZ2Eo1t9FKVicPQrSRmzPkyfNodwvF5CvNMdtk=;
+        b=Owp7F8afms/+Pn2vqioDtJJxj7hTFuRkb3f37mdZ/ThwYceMufrtLB8U3rtExIs3dF
+         81xzx0iF2NCMXx3ZOyRyA+8BktgwVGUkXdWP67CuN6eHcFvwjP2c1oVra+0tdxJAtg/b
+         +y5Ej1rrJljJN8yHP2fJnKrZTKZma8OVj/GcbgqNKRAoziuqVRIGzdg3lsHzZlb+U+oB
+         +xndyP31pIuUGuZqDij8Nxyzh2eGPwzOskjFIafyn2TnF0bGDLuDFSR+9W3knuMSDfMl
+         KBvrh2BqHfHmM6/bZ1A5NTfnVKNxlzx1jxPmUEPCj4IpHrYUw2JiOHSQjVlSEy2Nmc4G
+         S53w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774506039; x=1775110839;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VofYlHZ2Eo1t9FKVicPQrSRmzPkyfNodwvF5CvNMdtk=;
+        b=KizMBLfawGL8e4DBDLScKZPZb3U7Kjwgk/VBiTQwUoMxQrXMnCrR29oxCLKpOJ9VX4
+         0o6QeGQvlcTQMEL8433ZHtU7PMppz0feQlxgmqUzrVpSI99HzW0z91g3cmFchCH5v/Ry
+         mhD8fz2B/duVK7T/LTFBrYy9lrS/wReKQ4GQppJ+l3FwHgTopdVRcVBVl9FqqmuYKRSJ
+         tp+V6wf8i0ZIsGkyvPM8tpYSB06Qy1yGWCFwPNG2D57XmJzZ5n3LH029IMilC8jv/eYK
+         Dy2J7ALlu0DRBtp2Zhfpdb68c5Qs9sChfJ735CWaELOaSFeqZBLZMfkAU+HC4fYo/u5O
+         GcTg==
+X-Forwarded-Encrypted: i=1; AJvYcCX2G7Za/TTCxhMJT+mCMCnaYQsvJOjb/N9Ay7nbJBT/K3Qk1G36vuYat2sKpS8RRMaCBRQUwnxTNX0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxECjNq0E18nlNO7RLlwAlagcf8vqfROGiKLsky3xZTM1ar79Z4
+	P4R8T7nHsbLBAAxbSmftaGZ19wwpa2B7FnyqhXx7f59v2eRYiDCo5UXK
+X-Gm-Gg: ATEYQzxeMcrWUhTTRlqkOoSuI11rv8F0lf1gJ6xEZWZjmL/KDmP2Zn2izeCB4nZRZPH
+	nPxwvhFGv9AF0827/2Hu6m7klaFnAVfh84sPzteGdEhkcPIjHwOZdcsSWNYqI5BU4ibAahqqOc5
+	hhe8y1+hW9NBdJhgfWukQmhhPCESlC5lG0t/oyVo96tfYWH6bBhgED91pLdc7O2G6Hob8jSnJjT
+	udFFx0MIrzPSRibVEnq1nvJqj22q2NCQNeGOQRV1jxnTAmw2tXZfFqLciFoevLo1AZNrpE6XfHn
+	oSyrx8LJcWIybXD7ep/82FOweT1NSceI6xeFX09q8sxyUBqe/USvfGoXQR/N0cOo9hKqHxszKjf
+	QPN1D4gK9dKU7PubVjZXfZ7Gtbzsf7m9ChC7uRKuRYt955cKXD7+whz3Wpy0FlTLwnrBzgeCVrv
+	4x0rRmm0YWoX+gMpUgVHXQe99fWFEF6EIOGLc6jImevgwosZSxfzDeNYjx+sN6X22n
+X-Received: by 2002:a05:7022:670f:b0:11b:88a7:e1b0 with SMTP id a92af1059eb24-12a96ed3ea0mr4115540c88.26.1774506038953;
+        Wed, 25 Mar 2026 23:20:38 -0700 (PDT)
+Received: from google.com ([2a00:79e0:2ebe:8:b7b4:352d:eb23:66e5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12aa762430bsm3051833c88.10.2026.03.25.23.20.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Mar 2026 23:20:37 -0700 (PDT)
+Date: Wed, 25 Mar 2026 23:20:34 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>, 
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>, 
+	Andy Whitcroft <apw@canonical.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] checkpatch: allow correctly handle full files on stdin
+Message-ID: <acTPXMJfkHLeItrK@google.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: bf910aa68fa9af2a123
-X-MBO-RS-META: fmdmwa9k1ib1r4413bci5sgebjw4w3hz
-X-Rspamd-Queue-Id: 4fgyC95QRBzB115
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-sort output of scripts/ver_linux alphabetically
-sort list in changes.rst alphabetically
+checkpatch does not handle full files well when they are passed on
+stdin, because it does not know how to treat the text, and whether it is
+a C file, or a DTS file, or something else, and so it assumes that when
+it works with stdin it should be a unified diff. For full files it
+expects to have a file name as an argument and read the contents from
+disk. Unfortunately this does not well when trying to use checkpatch as
+an online linter and feed it contents of an editor buffer that have not
+made it to the disk yet.
 
-Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+To solve the above introduce a new optional argument --stdin-filename=FILE
+that allows tell checkpatch the kind of file it is dealing with and
+apply appropriate set of checks and rules to it.
+
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- Documentation/process/changes.rst | 52 ++++++++++++-------------
- scripts/ver_linux                 | 64 +++++++++++++++----------------
- 2 files changed, 58 insertions(+), 58 deletions(-)
+ Documentation/dev-tools/checkpatch.rst |  4 ++++
+ scripts/checkpatch.pl                  | 11 +++++++++++
+ 2 files changed, 15 insertions(+)
 
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index d94503341254..6ba9ca928e49 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -30,41 +30,41 @@ you probably do not need to concern yourself with pcmciautils.
- ====================== ===============  ========================================
-         Program        Minimal version       Command to check the version
- ====================== ===============  ========================================
--GNU C                  8.1              gcc --version
--Clang/LLVM (optional)  15.0.0           clang --version
--Rust (optional)        1.78.0           rustc --version
--bindgen (optional)     0.65.1           bindgen --version
--GNU make               4.0              make --version
- bash                   4.2              bash --version
-+bc                     1.06.95          bc --version
-+bindgen (optional)     0.65.1           bindgen --version
- binutils               2.30             ld -v
--flex                   2.5.35           flex --version
- bison                  2.0              bison --version
--pahole                 1.22             pahole --version
--util-linux             2.10o            mount --version
--kmod                   13               kmod -V
-+btrfs-progs            0.18             btrfs --version
-+Clang/LLVM (optional)  15.0.0           clang --version
- e2fsprogs              1.41.4           e2fsck -V
-+flex                   2.5.35           flex --version
-+gdb                    7.2              gdb --version
-+GNU awk (optional)     5.1.0            gawk --version
-+GNU C                  8.1              gcc --version
-+GNU make               4.0              make --version
-+GNU tar                1.28             tar --version
-+GRUB                   0.93             grub --version || grub-install --version
-+gtags (optional)       6.6.5            gtags --version
-+iptables               1.4.2            iptables -V
- jfsutils               1.1.3            fsck.jfs -V
--xfsprogs               2.6.0            xfs_db -V
--squashfs-tools         4.0              mksquashfs -version
--btrfs-progs            0.18             btrfs --version
-+kmod                   13               kmod -V
-+mcelog                 0.6              mcelog --version
-+mkimage (optional)     2017.01          mkimage --version
-+nfs-utils              1.0.5            showmount --version
-+openssl & libcrypto    1.0.0            openssl version
-+pahole                 1.22             pahole --version
- pcmciautils            004              pccardctl -V
--quota-tools            3.09             quota -V
- PPP                    2.4.0            pppd --version
--nfs-utils              1.0.5            showmount --version
- procps                 3.2.0            ps --version
--udev                   081              udevadm --version
--GRUB                   0.93             grub --version || grub-install --version
--mcelog                 0.6              mcelog --version
--iptables               1.4.2            iptables -V
--openssl & libcrypto    1.0.0            openssl version
--bc                     1.06.95          bc --version
--Sphinx\ [#f1]_         3.4.3            sphinx-build --version
--GNU tar                1.28             tar --version
--gtags (optional)       6.6.5            gtags --version
--mkimage (optional)     2017.01          mkimage --version
- Python                 3.9.x            python3 --version
--GNU awk (optional)     5.1.0            gawk --version
--gdb                    7.2              gdb --version
-+quota-tools            3.09             quota -V
-+Rust (optional)        1.78.0           rustc --version
-+Sphinx\ [#f1]_         3.4.3            sphinx-build --version
-+squashfs-tools         4.0              mksquashfs -version
-+udev                   081              udevadm --version
-+util-linux             2.10o            mount --version
-+xfsprogs               2.6.0            xfs_db -V
- ====================== ===============  ========================================
+diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+index dccede68698c..b521e3ca6ebf 100644
+--- a/Documentation/dev-tools/checkpatch.rst
++++ b/Documentation/dev-tools/checkpatch.rst
+@@ -68,6 +68,10 @@ Available options:
  
- .. [#f1] Sphinx is needed only to build the Kernel documentation
-diff --git a/scripts/ver_linux b/scripts/ver_linux
-index fab0c68a6c52..00bdaf30d590 100755
---- a/scripts/ver_linux
-+++ b/scripts/ver_linux
-@@ -17,58 +17,58 @@ BEGIN {
- 	libc = "libc[.]so[.][0-9]+$"
- 	libcpp = "(libg|stdc)[+]+[.]so([.][0-9]+)+$"
+    Show the diffed file position instead of the input file position.
  
--	printversion("GNU C", version("gcc -dumpversion"))
--	printversion("GNU make", version("make --version"))
--	printversion("binutils", version("ld -v"))
--	printversion("util-linux", version("mount --version"))
--	printversion("Mount", version("mount --version"))
--	printversion("Module-init-tools", version("depmod -V"))
--	printversion("e2fsprogs", version("e2fsck -V"))
--	printversion("jfsutils", version("fsck.jfs -V"))
--	printversion("xfsprogs", version("xfs_db -V"))
--	printversion("pcmciautils", version("pccardctl -V"))
--	printversion("Pcmcia-cs", version("cardmgr -V"))
--	printversion("quota-tools", version("quota -V"))
--	printversion("PPP", version("pppd --version"))
--	printversion("Isdn4k-utils", version("isdnctrl"))
--	printversion("nfs-utils", version("showmount --version"))
--	printversion("bison", version("bison --version"))
--	printversion("flex", version("flex --version"))
--
--	while ("ldconfig -p 2>/dev/null" | getline > 0)
--		if ($NF ~ libc || $NF ~ libcpp)
--			if (!seen[ver = version("readlink " $NF)]++)
--				printversion("Linux C" ($NF ~ libcpp? "++" : "") " Library", ver)
--
--	printversion("Dynamic linker (ldd)", version("ldd --version"))
--	printversion("procps", version("ps --version"))
--	printversion("Net-tools", version("ifconfig --version"))
--	printversion("Kbd", version("loadkeys -V"))
--	printversion("Console-tools", version("loadkeys -V"))
--	printversion("Sh-utils", version("expr --v"))
--	printversion("udev", version("udevadm --version"))
--	printversion("Wireless-tools", version("iwconfig --version"))
- 	printversion("bash", version("bash --version"))
- 	printversion("bc", version("bc --version"))
- 	printversion("bindgen", version("bindgen --version"))
-+	printversion("binutils", version("ld -v"))
-+	printversion("bison", version("bison --version"))
- 	printversion("btrfs-progs", version("btrfs --version"))
- 	printversion("Clang", version("clang --version"))
-+	printversion("Console-tools", version("loadkeys -V"))
-+	printversion("Dynamic linker (ldd)", version("ldd --version"))
-+	printversion("e2fsprogs", version("e2fsck -V"))
-+	printversion("flex", version("flex --version"))
- 	printversion("gdb", version("gdb -version"))
- 	printversion("GNU awk", version("gawk --version"))
-+	printversion("GNU C", version("gcc -dumpversion"))
-+	printversion("GNU make", version("make --version"))
- 	printversion("GNU tar", version("tar --version"))
--	printversion("GRUB", version("grub-install --version"))
- 	printversion("GRUB2", version("grub2-install --version"))
-+	printversion("GRUB", version("grub-install --version"))
- 	printversion("gtags", version("gtags --version"))
- 	printversion("iptables", version("iptables -V"))
-+	printversion("Isdn4k-utils", version("isdnctrl"))
-+	printversion("jfsutils", version("fsck.jfs -V"))
-+	printversion("Kbd", version("loadkeys -V"))
- 	printversion("kmod", version("kmod -V"))
++ - --stdin-filename
 +
-+	while ("ldconfig -p 2>/dev/null" | getline > 0)
-+		if ($NF ~ libc || $NF ~ libcpp)
-+			if (!seen[ver = version("readlink " $NF)]++)
-+				printversion("Linux C" ($NF ~ libcpp? "++" : "") " Library", ver)
++   When using stdin, identify the file as FILE.
 +
- 	printversion("mcelog", version("mcelog --version"))
- 	printversion("mkimage", version("mkimage --version"))
-+	printversion("Module-init-tools", version("depmod -V"))
-+	printversion("Mount", version("mount --version"))
-+	printversion("Net-tools", version("ifconfig --version"))
-+	printversion("nfs-utils", version("showmount --version"))
- 	printversion("openssl", version("openssl version"))
- 	printversion("pahole", version("pahole --version"))
-+	printversion("Pcmcia-cs", version("cardmgr -V"))
-+	printversion("pcmciautils", version("pccardctl -V"))
-+	printversion("PPP", version("pppd --version"))
-+	printversion("procps", version("ps --version"))
- 	printversion("Python", version("python3 -V"))
-+	printversion("quota-tools", version("quota -V"))
- 	printversion("Rust", version("rustc --version"))
-+	printversion("Sh-utils", version("expr --v"))
- 	printversion("Sphinx", version("sphinx-build --version"))
- 	printversion("squashfs-tools", version("mksquashfs -version"))
-+	printversion("udev", version("udevadm --version"))
-+	printversion("util-linux", version("mount --version"))
-+	printversion("Wireless-tools", version("iwconfig --version"))
-+	printversion("xfsprogs", version("xfs_db -V"))
+  - -g,  --git
  
- 	while ("sort /proc/modules" | getline > 0) {
- 		mods = mods sep $1
+    Treat FILE as a single commit or a git revision range.
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index e56374662ff7..e26951ceb36b 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -57,6 +57,7 @@ my %ignore_type = ();
+ my @ignore = ();
+ my $help = 0;
+ my $configuration_file = ".checkpatch.conf";
++my $stdin_filename;
+ my $max_line_length = 100;
+ my $ignore_perl_version = 0;
+ my $minimum_perl_version = 5.10.0;
+@@ -94,6 +95,7 @@ Options:
+   --emacs                    emacs compile window format
+   --terse                    one line per report
+   --showfile                 emit diffed file position, not input file position
++  --stdin-filename=FILE      when using stdin, identify the file as FILE
+   -g, --git                  treat FILE as a single commit or git revision range
+                              single git commit with:
+                                <rev>
+@@ -323,6 +325,7 @@ GetOptions(
+ 	'showfile!'	=> \$showfile,
+ 	'f|file!'	=> \$file,
+ 	'g|git!'	=> \$git,
++	'stdin-filename=s' => \$stdin_filename,
+ 	'subjective!'	=> \$check,
+ 	'strict!'	=> \$check,
+ 	'ignore=s'	=> \@ignore,
+@@ -2652,6 +2655,10 @@ sub is_userspace {
+ sub process {
+ 	my $filename = shift;
+ 
++	if ($filename eq '-' && defined($stdin_filename)) {
++		$filename = $stdin_filename;
++	}
++
+ 	my $linenr=0;
+ 	my $prevline="";
+ 	my $prevrawline="";
+@@ -2891,6 +2898,10 @@ sub process {
+ 			$realfile =~ s@^([^/]*)/@@ if (!$file);
+ 			$in_commit_log = 0;
+ 
++			if ($realfile eq "-" && defined($stdin_filename)) {
++				$realfile = $stdin_filename;
++			}
++
+ 			$p1_prefix = $1;
+ 			if (!$file && $tree && $p1_prefix ne '' &&
+ 			    -e "$root/$p1_prefix") {
 -- 
-2.53.0
+2.53.0.1018.g2bb0e51243-goog
 
+
+-- 
+Dmitry
