@@ -1,47 +1,48 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9697938AC72;
-	Mon, 30 Mar 2026 16:32:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EC0B199D8;
+	Mon, 30 Mar 2026 16:36:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774888370; cv=none; b=GWkHdWcVi2GkFp40YqhZbgf8eyUyjkpLmmaEVfADbmITvTj+WR3TfL0bnMz44ogMIwqKMxTsC7hjQk/iXrBMSLQcphS/BDmN0MKCQe6CmdTfy6z0pk+cweI7AeZ03lKRt2VZZ/rmKxSbZg1Eoyr9p5BHSna/dRtnt10ur7uQjrA=
+	t=1774888570; cv=none; b=e0xnNd9IzEMKXt47vOeG4HLrCTaHdTuhwtU+6tEyg9HpPmigBRz6ivXu8XH0+cTTr4Nm6aqMaSObw6Go06vi8XmiQs5IA3l7etBs8oXGxGrVStAYOXVdAhrhDpw+7+C1dNug2sA2aCA8usUS3aycuIWfhOLlPpQI8GBQOjaSf6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774888370; c=relaxed/simple;
-	bh=DowcYXHxw1UIQQz6dcPkMptzAoGH4rhEct4cPw+hFt4=;
+	s=arc-20240116; t=1774888570; c=relaxed/simple;
+	bh=3qetewScn/TQCYpBjuo9uD3rRuvaLSTRDn3UEeFHvfs=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=BSyLZ7sMxD1TTOi/h+iEZVtRUkIVhV6OuW8Tos8XUXigdMZaxPyh+N6SkSa1XDQfK9EXdaPTmB88BiXKmtXA/lxXGyoQ+vnrKAVrO8F+EW9sEFqIq11IDUi+8sd9SvL4fm5xEmNzNelMup+wFWSEXae3/5KaaiYOPeDhlRQSaNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=mo/6LVzl; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=KdH4c7lc2JSNcVu1NppTDkPIbDs/CwZJEPIFForGE2i3d5rQrVOCn7/2TPIuEK6qFq238l8OKipcu7oL1tob6Gqq3WN5KfaP5yZJsGn805vXMTByUk/rgDDsBE95K07jIORZF+Cp3AJpf+upR/NxUu4UUW9gnrW8GgRQ8l6l9+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=QulHzJsM; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="mo/6LVzl"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D44BF411C2
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="QulHzJsM"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C151A411C2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1774888369; bh=nHdBxnP2sDRdgVVbbxueF/m0R+DAYFtw31BMb0IpMbo=;
+	t=1774888568; bh=NCoj7HdnGdo5RhRTBvbSwlXWfM7DgnKeEjKlMQGRTG8=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=mo/6LVzlCAvSTvzvecZYIAx+a7F8+OFkn/D55z2a2oDZT3tdNIEppPTqaqpTvkI7l
-	 CqY0K35qyk2sy6HvmE4WWgCaWeVtptwtoJjlli8IjSjC42ZY7CZVBhjERiDcEMr7Ee
-	 kgm/1/+yoRRKAINb2rdYCW3OVMK0W9PgFYb3g/oPa5hsXEr14B1cpqAQIX4CI93k5P
-	 eobvbJ/TxBm15i3nfZO7yT++Bv/aQJoPD97wyCqQPDEzdAwek3gev+up/zaNOjvl/3
-	 nRToAcCixTbXUu7wuRPvIPYmrBMhAc11PZvniZwYnWWujqsAKy6GtYAZkM/40NkJ9L
-	 ukG/u8NrkYe2A==
+	b=QulHzJsMT7tWkQwTnS+GDq2iNm+WZqxSw7Vk3AvYsAgrcnYriLzMuLADj9dmoFUPI
+	 QK7TrS5NqDNmzcSUbQ10ANdHdi2boE/y6CgD2SSa1K4YQ06H2gwvmli4uX/x44gdZv
+	 WAOdjoMt4BUVPXNsDsjg4N2QlqOYhNPMz+nzYqzNu0RTK5E7Ad8CF7hp/tubFGCFhG
+	 9c4TYgJkQ3EL7f9PHA46tFSjjpQ7R2iweFBE1hFfTVrxho6gj4rT8jZ9LD7tYZsHaY
+	 eQW7Y4cKPuqyT0nH7loRfkrig1oT/1ZIVwQk97wWiPmzzw3amrqYbhjCalvKhRzFqY
+	 FosZsf67NhNsA==
 Received: from localhost (mdns.lwn.net [45.79.72.68])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id D44BF411C2;
-	Mon, 30 Mar 2026 16:32:48 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id C151A411C2;
+	Mon, 30 Mar 2026 16:36:08 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: Manuel Ebner <manuelebner@mailbox.org>, Collin Funk
  <collin.funk1@gmail.com>, Shuah Khan <skhan@linuxfoundation.org>
 Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, Manuel Ebner <manuelebner@mailbox.org>
-Subject: Re: [PATCH v5 0/2] workflow, scripts: sort changes.rst and ver_linux
-In-Reply-To: <20260325194326.77923-2-manuelebner@mailbox.org>
+Subject: Re: [PATCH v5 1/2] workflows, scripts: harmonize and cleanup
+In-Reply-To: <20260325194616.78093-2-manuelebner@mailbox.org>
 References: <20260325194326.77923-2-manuelebner@mailbox.org>
-Date: Mon, 30 Mar 2026 10:32:47 -0600
-Message-ID: <87fr5hnuq8.fsf@trenco.lwn.net>
+ <20260325194616.78093-2-manuelebner@mailbox.org>
+Date: Mon, 30 Mar 2026 10:36:07 -0600
+Message-ID: <87bjg5nuko.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -52,25 +53,40 @@ Content-Type: text/plain
 
 Manuel Ebner <manuelebner@mailbox.org> writes:
 
-> restructured the patch series into logical changes.
-> fixed changelogs, but i'm not super content.
+> cleanup and harmonize output of scripts/ver_linux and table in changes.rst
 >
->  [v4] -> [v5]:
-> undo "remove (optional)" from [v4]
-> merged patches with same concepts 
->  [PATCH v4 1/4], [PATCH v4 2/4] -> [PATCH v5 1/2]
->  [PATCH v4 3/4], [PATCH v4 4/4] -> [PATCH v5 2/2]
-> fix changelogs for the individual patches
+> ver_linux:
+> fix path to changes.rst
+> Add missing tools in ver_linux
+>  bash, bc, bindgen, btrfs-progs, Clang, gdb,  GNU awk, GNU tar,
+>  GRUB, GRUB2, gtags, iptables, kmod, mcelog, mkimage, openssl,
+>  pahole, Python, Rust, Sphinx, squashfs-tools
+>
+> changes.rst:
+> add reference to ./scripts/ver_linux
+> needn't -> do not need to
+> add gdb version 7.2 as mentioned in:
+>  Documentation/process/debugging/gdb-kernel-debugging.rst
+>  scripts/gdb/vmlinux-gdb.py
+>
+> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
 
-OK, I have applied this series.  For any future changes, though, I
-really need you to work on your changelogs.
+Applied, but the changelog now reads:
 
-The 0/N cover letter should describe what the series as a whole does,
-you didn't do that here.
+docs: changes/ver_linux: fix entries and add several tools
 
-For the individual patches, I have rewritten the changelogs; I'll reply
-to each with what I've done.
+Some of the entries in both Documentation/process/changes.rst and
+script/ver_linux were obsolete; update them to reflect the current way of
+getting version information.
 
-Thanks,
+Many were missing altogether; add the relevant information for:
+
+ bash, bc, bindgen, btrfs-progs, Clang, gdb,  GNU awk, GNU tar,
+ GRUB, GRUB2, gtags, iptables, kmod, mcelog, mkimage, openssl,
+ pahole, Python, Rust, Sphinx, squashfs-tools
+
+Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+[jc: rewrote changelog]
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 
 jon
