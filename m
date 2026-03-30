@@ -1,101 +1,104 @@
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C99626C3A2
-	for <workflows@vger.kernel.org>; Sat, 28 Mar 2026 07:48:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0EA93803EB
+	for <workflows@vger.kernel.org>; Mon, 30 Mar 2026 09:40:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774684119; cv=none; b=pkR65aQC9jjZmVsVkeHcBHMCwQRrphO3sy7IzC5koczrO4ooJ7GRsNN95k2duCs9BNcbvp2mrvikLEDA9lGfS09E3JjR03lDqinVKPRpOHLdjR8+2xwPwp5lzo4BYY6phPBLsxGPygJVAEqFXSM1+PqWgZmyTpsnBoLQNtJn+HI=
+	t=1774863608; cv=none; b=H8AM5qDTpN0sDxb0l/K+zooGgxajfj7T5+3qc0Xa7EWQHwN++RsHbx4BBwkobSPHzw+ycxZmz2uaug55/fP6/GPQnDulsF64FKh/IPys11xylt+d2RFOIOdfA4QpLf0kXhWJn3NfFrytmmBD0ZcHq/ciyGGyCRNUyXHYdScWFyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774684119; c=relaxed/simple;
-	bh=dAMuMyhtsRPnxRv4ojblqSNFrdw1vw9bcev0LsRTLCA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g7lg//j5siumJ+eVJCvQD0yrsKGWFPgSjXDRE1+/BLg4B3rO4HG39L0hD9z++du5FZWe5r2ZHFIrtyZ0Clgj+t9EJPEnXqyCNCopUgLJ2tK9suYU6qnwHPzzhiiEwjAXwjUO/i3TQnPkfJkgCHhjBT1j84dI6oanI1Cjg+Gc4Kc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DmvJ505Q; arc=none smtp.client-ip=74.125.224.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774863608; c=relaxed/simple;
+	bh=qql13zPiiqEd2+a2raSu6JfK6cJR0XNhUjqEei7E4jk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tTR6B5zGDuOJcEfX+jYDvFq1fWc+nQImVZzYKb4ebJjWyaF99oqXDNPH5RfTbJaN8MqDks6y4PGN9RO5cQUxRzEWQEP+c2iPpavqaNCWFrekrWl9rKp3vsmskdeSAnGRm+12r3t4cwJOmPk9EliVGeQELcAWnJBbpFAAYQOUGXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=CMg5soou; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DmvJ505Q"
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-64937edbc9eso2814938d50.2
-        for <workflows@vger.kernel.org>; Sat, 28 Mar 2026 00:48:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="CMg5soou"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-486fd5c4891so4763005e9.2
+        for <workflows@vger.kernel.org>; Mon, 30 Mar 2026 02:40:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774684117; x=1775288917; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RFoQZa2dmnnD+JGA9WJFHJi0YQNPX0KSTuaC/bKeOTE=;
-        b=DmvJ505QuxRvAnXclvLx1Ryb5/4kspiOIBmKE3FrUjaJfptWKTy23vGmHrFYocMEAF
-         Zyktupf2YuOofVVDPVVlPdJNWP8AYKUmfsVJ/NwnzuNtPecl4HNZQCiYB1TjHTIYtyoe
-         oD1Gx1hv85BboGqqP+kKLxWKTDWpP48NTKrzgOpyUp8OLCNOSFsIh8NRizKJnSINq0Tc
-         39mMExxB7i7p8W2G/wubEzB7uuc63QXLsJpq2Aij9VyYjHBVOKySpCRbGNtaum+21ggw
-         Y5BqwxrdiS0vm3feoSCaQ1i11ZFPHalosJHC3rwEfd2V1AwDxuReML7pdobgMFR0lwgT
-         d8AA==
+        d=suse.com; s=google; t=1774863605; x=1775468405; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3Pz5WjDNwODkGCTD7FY1PbGzbLHarF5Y8FutE1r5Is4=;
+        b=CMg5sooukPmqQOLoelhyhwkpI/0NhlOgimSIaOHXBzJJJ3xgdNjWOw76pCzuKh4Oh6
+         zRGM9q1oYd8o8DA7gOqzHRCgx/iXrKvMWMncxy/anLD6DJXdWyHGjGbtaqsXRZoflFG+
+         HtwyhTMXTYNQpq5IyepV9aQ+5/K+456kSrNJIP3GsypDY+86A6QII6MYI6v1NCjWsC//
+         ftcoEi+KZXZwbAgQML0w6EzF8mN2xchI2iwG7hR29Yh3dQuShAutF3IOJQWGMp2hh1r0
+         02UyEvAoinPITYFisl8zH0tfg342F52Dm9ezgHrShIBeflSOcSbs9BdLCSCE/EkXt9d/
+         TV5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774684117; x=1775288917;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RFoQZa2dmnnD+JGA9WJFHJi0YQNPX0KSTuaC/bKeOTE=;
-        b=rZI3JjFT0OqbWA55pSO1YRlRUiKu31NUNmfL1OrQ36X9TJzrCKjmTog4LZ28+TOLLC
-         boswlgLI3F3YkqldjeJfGVNqK9I8Uo9j25ftQpr5cnzpDiN9yHWNlrCp3fnqkvvnYtiN
-         tqEzgSi5DjV/DBnxRf3hf/AKtY39BMTZnpi+eUVWTX1s99s2SjgFdIlRjyYKOK92+hIL
-         mZ1tuKQzDrjiOdWjhpe2A9fjOimCM33VG6Iv91ODl04ftncxg7foFw3U5BY1Uu6Xo7Zd
-         4Haz/r8wOdOnB7qwBlptis0/ns/ZKzPSa1zewwifxIFYaQwGYBlcogymmXG15HGfWEeI
-         9akA==
-X-Forwarded-Encrypted: i=1; AJvYcCXVOuycTzV4oeuzPIPOliofijn+DYLMzXKXvCt/I4pTDmSXppmTHi9dXk40dRImCplW9uMjg1qNfPk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxauLzaAX3ZT+q0IwrQyJMgIVt7/uKElHWXfU1RCS/BmJB1a+gC
-	i19LsqcYAkGGgli6KfyCgG7xosSVWQHhxZIxMXQwkQR2FtF60lvam/6R
-X-Gm-Gg: ATEYQzwF2I6AHa2gAwNSuTO/qnln3ij54AbOPN+qZ/J7lKGmGd8WDeWZrcLz1bWNclA
-	MJn7UPMg6mTCsxZjDuLhPzvik37WSe/TvJusp8btq2aCn+sCK7NrMuxTsKGJJiluOBOZ7ZkGCpa
-	SNEUNN/cpcuIrAX0mIXG30AP7nW7pAHw8ppHzvdg+HAjds0izxAttlEsvJX+WMZW9DvRlCSDCKI
-	jB3rENHQWtE6dWGHk09iAebr5e1Nc1Hx38i1W4eBHPsYt10+1iql6YRBfAG1ja8ZB6zjgE8Qn6J
-	qDhFE8nxHCGU3qqEgVPaGYypwx5MTKR0tQ+vDXREkQnn3kKR+euHjYJAEkk02Jp8oGpQW5NDvHU
-	OjYL9c1ZvojUHOBs1ir6mhhvejPoWlXrz5Tq24EedEdwCzDPY4+KdaQZD8MBM+ETrjDCR3BDCJ2
-	7FzfxCsO0by6Y4KiXd8A==
-X-Received: by 2002:a05:690c:38b:b0:79b:dafd:d23 with SMTP id 00721157ae682-79bddcb8e60mr51218457b3.13.1774684117457;
-        Sat, 28 Mar 2026 00:48:37 -0700 (PDT)
-Received: from Gentoo ([158.173.25.82])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79cb9a8f2f3sm6554557b3.30.2026.03.28.00.48.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Mar 2026 00:48:36 -0700 (PDT)
-From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To: corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Subject: [PATCH] Doc: process: Added two important books for Linux Kernel programming and development
-Date: Sat, 28 Mar 2026 13:10:42 +0530
-Message-ID: <20260328074745.2309736-1-unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.52.0
+        d=1e100.net; s=20251104; t=1774863605; x=1775468405;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3Pz5WjDNwODkGCTD7FY1PbGzbLHarF5Y8FutE1r5Is4=;
+        b=RAo8Uim/jT0MHEsusGIf/mWqQBPpeJ7Vcm8LPrJBXft2drfiFYgmYDPuHPYZjl2H/P
+         nzdwuvw0OAPbM19JjXuqxgQzA0FTw9aewbGqtJ74yuJs1pVw4lgdYT782gM4L+EjNNtC
+         AOxmZeEzL1fUmuw6ziGT4pk83ZXqM6VlHgOdrcS9DlUAGhuMqboBTxPiybZPhKNY7VBy
+         XjMMXO1fFTT0K7/oTCgX/q8XUF/BtXHBmPijBM8mVWSmwmnqr2/CfevbnXecwZ7E4y2p
+         aeNUHRlcy7fRsCDSrDEu3aP747Lm6HQVzYmMOMq7W+0yNI4ewGP25okqWhKvhhiYFD45
+         Iumw==
+X-Forwarded-Encrypted: i=1; AJvYcCXy40rM9xOvUOkBtSuZ8JUZrVsMorVBk3Zflbfe5DKCMLCq5J5+QpkEecNKZesUWpPFMq5Sb0Btm0o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzHPIwENrMHdXNlOfqXK1q+IlLHcUvDiUXkZ0s4PiKb95gyGknZ
+	iw1nDkKFoY41k3BiU9Awuj7RnMZuDFSiMRP/YMERI4vNBzU+EV5ife6UovqBpALV4S8=
+X-Gm-Gg: ATEYQzzqmdP8dSpVrEgHHmXWbnVcKi6P2b4Xw9DiOqCV0/KkURlk9feS87G+YskgEIB
+	En1745iK4dsOa7fzl98T6UAcFSGgQKRclZ4b2ONjkioAdKM317CsoAvY7Qc4Z6l7mDAPiXmalDn
+	R6q/6+AgsLW7/qCKmlrhNKJ7xDPRZOWGUtRno90iTPvlB/tJgz/5OtG5Sw7Rw/qX2mNKN8iw+54
+	qZ5AnSJOxvI5MPC9uOHNz2o377kgsSJb2/m1mLF05LGv6jO9Kuqrz1oB0OD5LIESP6t06B8A6Xx
+	SdpVVt6iHtyFk1/5iU58VWZ78MMvaAMVdvApFvMwWeMrjZNUWvdbJG1w2tBcrnYbjV4NMNBkfjD
+	ww6QatNwSRqF6aptGYIZUxBCvJU7c+1JIzRMTjnOHZw+xuiumfbG4wHdrNNx8dbKFBOOcQEc5kS
+	QLMbVY/n0mkSMPAXq3l0g64dsPP8IOglVOb9Syn8QBGzqvorInn9cx2hZaFIJM0iRr8iHI
+X-Received: by 2002:a05:600c:3511:b0:487:575:5e3 with SMTP id 5b1f17b1804b1-48727f5a798mr109936905e9.5.1774863605305;
+        Mon, 30 Mar 2026 02:40:05 -0700 (PDT)
+Received: from ?IPV6:2001:1a48:8:903:1ed6:4f73:ce38:f9d4? ([2001:1a48:8:903:1ed6:4f73:ce38:f9d4])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487270f1943sm96676395e9.7.2026.03.30.02.40.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Mar 2026 02:40:04 -0700 (PDT)
+Message-ID: <942f53b9-d8a9-4730-a88f-464f54d5c868@suse.com>
+Date: Mon, 30 Mar 2026 11:40:03 +0200
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] checkpatch: allow correctly handle full files on stdin
+Content-Language: en-US
+To: Joe Perches <joe@perches.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>, Andy Whitcroft <apw@canonical.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <acTPXMJfkHLeItrK@google.com>
+ <bb47800754aa3279e88c9d88c380bcfe6263fb2d.camel@perches.com>
+ <acVIBseRrqJI8Uwb@google.com>
+ <117b6a4c164a9f0ce348044152d00ac22b31b81b.camel@perches.com>
+ <acWnbG3nGjfYeYXh@google.com>
+ <34318752a257b0f6b530eacf53d565de1ac84485.camel@perches.com>
+ <acW6Iar6XOzO9IfN@google.com>
+ <f4dcaecb682c4eaa271abfee27c7cc8f6fbf7d1d.camel@perches.com>
+From: Vlastimil Babka <vbabka@suse.com>
+In-Reply-To: <f4dcaecb682c4eaa271abfee27c7cc8f6fbf7d1d.camel@perches.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-These books are very well written and enhance the understanding of the process.
+On 3/27/26 00:19, Joe Perches wrote:
+> On Thu, 2026-03-26 at 16:04 -0700, Dmitry Torokhov wrote:
+>> In all seriousness, if you will not make use of this mode it's fine. But
+>> it allows keeping the source cleaner as one makes edits, so why not
+>> enable this?
+> 
+> Unnecessary complication.
 
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
----
- Documentation/process/howto.rst | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Are you maintaining a tool that you want to be useful to others, or to only
+do stricly what you personally think is necessary?
 
-diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
-index 9438e03d6f50..c5164a27fc1a 100644
---- a/Documentation/process/howto.rst
-+++ b/Documentation/process/howto.rst
-@@ -34,7 +34,8 @@ experience, the following books are good for, if anything, reference:
-  - "The C Programming Language" by Kernighan and Ritchie [Prentice Hall]
-  - "Practical C Programming" by Steve Oualline [O'Reilly]
-  - "C:  A Reference Manual" by Harbison and Steele [Prentice Hall]
--
-+ - "Linux System Programming" by Robert Love [O'Reilly]
-+ - "Linux Kernel Development" By Robert Love [Pearson]
- The kernel is written using GNU C and the GNU toolchain.  While it
- adheres to the ISO C11 standard, it uses a number of extensions that are
- not featured in the standard.  The kernel is a freestanding C
---
-2.52.0
-
+I don't understand your objections to this rather straightforward patch, it
+doesn't look like a maintenance burden to me?
