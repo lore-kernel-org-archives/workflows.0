@@ -1,271 +1,89 @@
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 582F52F7ADE
-	for <workflows@vger.kernel.org>; Mon, 30 Mar 2026 14:34:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B5F237700F;
+	Mon, 30 Mar 2026 16:15:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774881285; cv=none; b=GaVqMLpdZsFREg3KJpgE6tCFHysMZ6jHJunatbADRdjHh0wuiEfat/I4kF02yBPmA2xUyJFdrhMei+6D0S3KCyxrBXKLz/y1eYSdvJgXKIecTnbaj+P3YTwkeP5Qt0i9XRdcbXAysLNcSIwx67X1kSVVu7MyBk/cJPj0OXkpp6I=
+	t=1774887355; cv=none; b=oV4EdSzNNa7DBR5uMfw0aa7lMjc3aLdxl2NAlxIlyvOt/fc+rQgZoaPR91xAMNNZ2xb3VynggNr7YS9wdoH8C6WQEJsnS+CL5jheyXtIOHHJ6jWu2X4dXJuBuPw6gi6LsgFH9PgnEoevuRXIlVWfxGpDqk4FHvdLO3hAd9ey0eQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774881285; c=relaxed/simple;
-	bh=j3RO6GN6DceqVgbfJifPD7Mr4hXFOiKjw/TNqZPOPe0=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kU048OOof5BUkq/phMlWu2rXvWBIZtpVtKqweBIp+SyY4MG4M3OkeIjiganm+r373S5ugjtFzJmBLdSWv4nJctpB85QWBeXqkv2CYAgu9S/LHZ+mehU/Y0SWS3Cpby1fZIG2VcO8f+PT1+DDczyx9Srobyt80mQr0jql8sY8eq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=c7Tp3bYU; arc=none smtp.client-ip=185.70.43.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	s=arc-20240116; t=1774887355; c=relaxed/simple;
+	bh=BtXI0mQao2y5Gas//5IlwF4zRYP1UpwGL3ZM15UiWuk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=SB3GVfb2w91AF1L6mlOT5I7e5QALxNhcu04GV+CVsD5hqVZgxBKqeOc8eaAxUjDLPLMaBFF5umF+sbqvYq8BXGLa6K45J7ksfVUa16aBgW32UM6pDpJWeUBE94L1HEv7Xepy2Sxu9wbXNCrSymwUnrP0Jzm+Z3ChWWSQT9clHrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ltp9k8io; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="c7Tp3bYU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1774881281; x=1775140481;
-	bh=sI6qR0mJYdxFmMNIqBBXQAz3LXcRYa0zIgeJz3FHVi8=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=c7Tp3bYUuClM1sU2w9QzL2EoPaAcizdQb7LbZZMbNA2LGaXAC9Z7eKTNEJtRxFaJu
-	 Gn4NT2JjHES7LGElLAaBsZL7KIrbrOs6LDc62bVRvP4kPSAqTNfEEV6cRXq4R7MYhK
-	 2aAU4Vl5/ZiMYg8UaSBik/7HF4Ne4oxG4w5FYeqFZ9ys7tesY0O1v9/EagR8/52ZhB
-	 K4+EQIZ/aEWgFYJiZjGrA2oRz8R7CMkVte9dV1n4Ht4xRO0WQ+covM+NIuA3Yu3sE+
-	 Ft9hYMmrddYGsMe4V7br0rtvs3EDBn05zwuL8vf4Sl7kxblDprh8RANScRCeSxes+F
-	 Q5eBIT7vWrqZg==
-Date: Mon, 30 Mar 2026 14:34:37 +0000
-To: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>
-From: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
-Cc: m.wieczorretman@pm.me, Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kasan-dev@googlegroups.com, workflows@vger.kernel.org
-Subject: [PATCH v12 15/15] docs: Update KASAN and x86 memory map documentations
-Message-ID: <f30f39552da7651ec99a4c8c5b0a2822ca78ac37.1774872838.git.m.wieczorretman@pm.me>
-In-Reply-To: <cover.1774872838.git.m.wieczorretman@pm.me>
-References: <cover.1774872838.git.m.wieczorretman@pm.me>
-Feedback-ID: 164464600:user:proton
-X-Pm-Message-ID: b24a4a44216345a8c35f780b91587fa32f629bc6
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ltp9k8io"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 99343411C2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1774887353; bh=14wIG45328K8CYuQ29VhCJsnVScrNmHBwd15EFB7ZoQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=ltp9k8ioHtudZwy8CkXoWsoIv8I0SFvGJx/J01r4ZBiWpQQxFzKVI3gCFnBqhNstj
+	 aF97/pWSylZ+hNQkeC+Sx9JHB6HnlFOhHMAXDa5skIO5caMXR8sv2D3l3u0zjxuJGL
+	 rsBdSj+1N4Nnd/oaVrnG+Ip9kRrN8q2l4MrMmmzmHLxukHTAr0a1+Gq1xaxvovQ1xf
+	 DULF/gbBJHkpB2+YYF4J2PcAbi50bvAnrYUaJrc9/Oyv7fKIN4DwOhiYFEINU9QO2v
+	 Ee1Pnf/JAmjezi7wgyhkrMjctbiEVybc3xkghx1PXxRch2kgmoE9hqBMBNkC9p8zuA
+	 rU+SKmCquCWPg==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 99343411C2;
+	Mon, 30 Mar 2026 16:15:53 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Florian Fainelli <florian.fainelli@broadcom.com>,
+ linux-kernel@vger.kernel.org, akpm@linux-foundation.org
+Cc: tglx@kernel.org, radu@rendec.net, Florian Fainelli
+ <florian.fainelli@broadcom.com>, Shuah Khan <skhan@linuxfoundation.org>,
+ Illia Ostapyshyn <illia@yshyn.com>, "open list:DOCUMENTATION PROCESS"
+ <workflows@vger.kernel.org>, "open list:DOCUMENTATION"
+ <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH] Documentation: Provide hints on how to debug Python GDB
+ scripts
+In-Reply-To: <20260326233226.2248817-1-florian.fainelli@broadcom.com>
+References: <20260326233226.2248817-1-florian.fainelli@broadcom.com>
+Date: Mon, 30 Mar 2026 10:15:52 -0600
+Message-ID: <87mrzpnvif.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+Florian Fainelli <florian.fainelli@broadcom.com> writes:
 
-Update the documentation concerning changes to x86's memory address
-space and new architecture addition to KASAN's software tag-based mode.
+> By default GDB does not print a full stack of its integrated Python
+> interpreter, thus making the debugging of GDB scripts more painful than
+> it has to be.
+>
+> Suggested-by: Radu Rendec <radu@rendec.net>
+> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
+> ---
+>  Documentation/process/debugging/gdb-kernel-debugging.rst | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+>
+> diff --git a/Documentation/process/debugging/gdb-kernel-debugging.rst b/Documentation/process/debugging/gdb-kernel-debugging.rst
+> index 9475c759c722..53e225760a4d 100644
+> --- a/Documentation/process/debugging/gdb-kernel-debugging.rst
+> +++ b/Documentation/process/debugging/gdb-kernel-debugging.rst
+> @@ -173,3 +173,12 @@ this is just a snapshot of the initial version::
+>  
+>  Detailed help can be obtained via "help <command-name>" for commands and "help
+>  function <function-name>" for convenience functions.
+> +
+> +Debugging GDB scripts
+> +---------------------
+> +
+> +GDB does not enable a full Python backtrace which can make debugging GDB
+> +scripts more difficult than necessary. The following will allow for printing a
+> +full backtrace of the python environment::
+> +
+> + (gdb) set python print-stack full
 
-Redo paragraphs in KASAN's documentation on hardware and software
-implementation details to allow better extensibility.
+Applied, thanks.
 
-Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
----
-Changelog v11:
-- Split off the documentation portion of v10's patch 13.
-- Apply Dave's suggestions to reformat the footer explaining alternate
-  ranges for KASAN shadow memory, put arch hardware implementation in a
-  separate paragraph and make a table to hold various implementation
-  details.
-
- Documentation/arch/x86/x86_64/mm.rst | 21 +++++++++-
- Documentation/dev-tools/kasan.rst    | 61 ++++++++++++++++++++--------
- 2 files changed, 62 insertions(+), 20 deletions(-)
-
-diff --git a/Documentation/arch/x86/x86_64/mm.rst b/Documentation/arch/x86/=
-x86_64/mm.rst
-index a6cf05d51bd8..3c78ab1afd8d 100644
---- a/Documentation/arch/x86/x86_64/mm.rst
-+++ b/Documentation/arch/x86/x86_64/mm.rst
-@@ -60,7 +60,7 @@ Complete virtual memory map with 4-level page tables
-    ffffe90000000000 |  -23    TB | ffffe9ffffffffff |    1 TB | ... unused=
- hole
-    ffffea0000000000 |  -22    TB | ffffeaffffffffff |    1 TB | virtual me=
-mory map (vmemmap_base)
-    ffffeb0000000000 |  -21    TB | ffffebffffffffff |    1 TB | ... unused=
- hole
--   ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN shad=
-ow memory
-+   ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN shad=
-ow memory[1]
-   __________________|____________|__________________|_________|___________=
-_________________________________________________
-                                                               |
-                                                               | Identical =
-layout to the 56-bit one from here on:
-@@ -130,7 +130,7 @@ Complete virtual memory map with 5-level page tables
-    ffd2000000000000 |  -11.5  PB | ffd3ffffffffffff |  0.5 PB | ... unused=
- hole
-    ffd4000000000000 |  -11    PB | ffd5ffffffffffff |  0.5 PB | virtual me=
-mory map (vmemmap_base)
-    ffd6000000000000 |  -10.5  PB | ffdeffffffffffff | 2.25 PB | ... unused=
- hole
--   ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN shad=
-ow memory
-+   ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN shad=
-ow memory[1]
-   __________________|____________|__________________|_________|___________=
-_________________________________________________
-                                                               |
-                                                               | Identical =
-layout to the 47-bit one from here on:
-@@ -178,3 +178,20 @@ correct as KASAN disables KASLR.
-=20
- For both 4- and 5-level layouts, the KSTACK_ERASE_POISON value in the last=
- 2MB
- hole: ffffffffffff4111
-+
-+1. The range is different based on what KASAN mode is used and what paging=
- level
-+   is used:
-+
-+::
-+
-+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+      Start addr    |   Offset   |     End addr     |  Size   | VM area de=
-scription
-+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+                    |            |                  |         | 4-level pa=
-ging:
-+   ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN shad=
-ow memory (generic mode)
-+   fffff40000000000 |   -8    TB | fffffbffffffffff |    8 TB | KASAN shad=
-ow memory (software tag-based mode)
-+  __________________|____________|__________________|_________|___________=
-____________________________________
-+                    |            |                  |         | 5-level pa=
-ging:
-+   ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN shad=
-ow memory (generic mode)
-+   ffeffc0000000000 |   -6    PB | fffffbffffffffff |    4 PB | KASAN shad=
-ow memory (software tag-based mode)
-+  __________________|____________|__________________|_________|___________=
-____________________________________
-diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/ka=
-san.rst
-index b11c1be8dff4..d42d80e9fcf1 100644
---- a/Documentation/dev-tools/kasan.rst
-+++ b/Documentation/dev-tools/kasan.rst
-@@ -22,8 +22,8 @@ architectures, but it has significant performance and mem=
-ory overheads.
-=20
- Software Tag-Based KASAN or SW_TAGS KASAN, enabled with CONFIG_KASAN_SW_TA=
-GS,
- can be used for both debugging and dogfood testing, similar to userspace H=
-WASan.
--This mode is only supported for arm64, but its moderate memory overhead al=
-lows
--using it for testing on memory-restricted devices with real workloads.
-+This mode is only supported for arm64 and x86, but its moderate memory ove=
-rhead
-+allows using it for testing on memory-restricted devices with real workloa=
-ds.
-=20
- Hardware Tag-Based KASAN or HW_TAGS KASAN, enabled with CONFIG_KASAN_HW_TA=
-GS,
- is the mode intended to be used as an in-field memory bug detector or as a
-@@ -346,16 +346,21 @@ Software Tag-Based KASAN
- ~~~~~~~~~~~~~~~~~~~~~~~~
-=20
- Software Tag-Based KASAN uses a software memory tagging approach to checki=
-ng
--access validity. It is currently only implemented for the arm64 architectu=
-re.
--
--Software Tag-Based KASAN uses the Top Byte Ignore (TBI) feature of arm64 C=
-PUs
--to store a pointer tag in the top byte of kernel pointers. It uses shadow =
-memory
--to store memory tags associated with each 16-byte memory cell (therefore, =
-it
--dedicates 1/16th of the kernel memory for shadow memory).
--
--On each memory allocation, Software Tag-Based KASAN generates a random tag=
-, tags
--the allocated memory with this tag, and embeds the same tag into the retur=
-ned
--pointer.
-+access validity. It is currently only implemented for the arm64 and x86
-+architectures. To function, special hardware CPU features* are needed for
-+repurposing space inside the kernel pointers to store pointer tags.
-+
-+Software Tag-Based mode uses shadow memory to store memory tags associated=
- with
-+each 16-byte memory cell (therefore, it dedicates 1/16th of the kernel mem=
-ory
-+for shadow memory). On each memory allocation, Software Tag-Based KASAN
-+generates a random tag, tags the allocated memory with this tag, and embed=
-s the
-+same tag into the returned pointer.
-+
-+Two special tag values can be distinguished. A match-all pointer tag (othe=
-rwise
-+called the 'kernel tag' because it's supposed to be equal to the value nor=
-mally
-+present in the same bits of the linear address when KASAN is disabled) -
-+accesses through such pointers are not checked. Another value is also rese=
-rved
-+to tag freed memory regions.
-=20
- Software Tag-Based KASAN uses compile-time instrumentation to insert check=
-s
- before each memory access. These checks make sure that the tag of the memo=
-ry
-@@ -367,12 +372,32 @@ Software Tag-Based KASAN also has two instrumentation=
- modes (outline, which
- emits callbacks to check memory accesses; and inline, which performs the s=
-hadow
- memory checks inline). With outline instrumentation mode, a bug report is
- printed from the function that performs the access check. With inline
--instrumentation, a ``brk`` instruction is emitted by the compiler, and a
--dedicated ``brk`` handler is used to print bug reports.
--
--Software Tag-Based KASAN uses 0xFF as a match-all pointer tag (accesses th=
-rough
--pointers with the 0xFF pointer tag are not checked). The value 0xFE is cur=
-rently
--reserved to tag freed memory regions.
-+instrumentation, the compiler emits a specific arch-dependent instruction =
-with a
-+dedicated handler to print bug reports.
-+
-+Architecture specific details:
-+
-+::
-+
-+  +-----------------------+--------+---------------------+
-+  | detail \ architecture | arm64  | x86                 |
-+  +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=
-=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D+
-+  | Hardware feature      | TBI    | LAM                 |
-+  +-----------------------+--------+---------------------+
-+  | Kernel tag            | 0xFF   | 0x0F                |
-+  +-----------------------+--------+---------------------+
-+  | Freed memory tag      | 0xFE   | 0x0E                |
-+  +-----------------------+--------+---------------------+
-+  | Tag width             | 8 bits | 4 bits              |
-+  +-----------------------+--------+---------------------+
-+  | Inline instruction    | brk    | no compiler support |
-+  +-----------------------+--------+---------------------+
-+
-+* Different architectures implement different hardware features to mask an=
-d
-+  repurpose linear address bits. arm64 utilizes Top Byte Ignore (TBI) to m=
-ask
-+  out and allow storing tags in the top byte of the pointer. x86 uses Line=
-ar
-+  Address Masking (LAM) to store tags in the four bits of the kernel point=
-er's
-+  top byte.
-=20
- Hardware Tag-Based KASAN
- ~~~~~~~~~~~~~~~~~~~~~~~~
---=20
-2.53.0
-
-
+jon
