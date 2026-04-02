@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C5C12D1F1;
-	Thu,  2 Apr 2026 18:42:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D7C031C567;
+	Thu,  2 Apr 2026 18:50:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775155376; cv=none; b=G61abucDtDN7EgIHWwx3Lb9YYKyY0Mvg9ONzXDOrJ8RV8TNEjJBGr/Rj56EA+vk2PUb0HmYNYWijkrNOOP8k0+UYEwhfoh/mkDWrX/B1WcnEbTYMocDuqoA9d+8vzU7IS8P9b60nIdU7JZSuDpQf5/LC4tZ6fdQn5U91qEHNUkE=
+	t=1775155803; cv=none; b=tqo6yveSxP7u+HQrJvJ3ZHo7YZ9skagkpBt6ou0PDz+wDAr7UdEyp2y0f15f7tUGXze0lmQm7TiYpbDWTeb94bP9MoCiAAQWOv11NawrKxMGzbNj4ORBeYg+9DcL6jxt+9awCwkdH2qxJVorouwZ1OezESP6gGDdbvOfcCiUUVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775155376; c=relaxed/simple;
-	bh=Wn+bGi7YTfexnpFsAJ0DYaJ+cBex/PNg+0LdnSLKUjo=;
+	s=arc-20240116; t=1775155803; c=relaxed/simple;
+	bh=YtBxEL8dwS10uxYek8D3swCDFrHFldTYdfaUenMk2zk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Mtx4G1EHRC1S20cgoJH9Kc8IbF2sJwU/nAFr6u/kJHbr+d8D7EF57gG1PPqIclRm6eKVWOZFPf6MPxNT0jeVwHcsYeIRkP9x6U5rKdz6iMKhDrjvQ0PZBceqnzKh1l1xbWLkyCKyZfBX0dimJW+ebYWDrjVwDYqalhKoVSC4cu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=VHleWNH2; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=aK9SsoHekl6AncEHmQXKRG3zrC4+uqoC5sqfN86vaI35W2JiZwXAwaOESpFSqu2p1AU5ZjOgPAeQElPBRSg3fRJ4jndQ68Gj0sCqj30kAaFFt73GjYZsmxUaGcXOwP4/Uz5TVoApIxeKJhvgx7P05TUHG2gCl8KIPt/IzgylqWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=hcSLKwRT; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VHleWNH2"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hcSLKwRT"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=PR5Zmpij/gqKdonMotRWBkZ0VFF58Txh324HPa3o77U=; b=VHleWNH2FEYDhfWB91/ALXGSD2
-	tEaT0Gmj5vsWZSiuONCyOO4XuR47JRW0b679FhxYQ7akM7TtQD39fDjMeMF2g5vl/Ctu2kpeqe6Cc
-	cm+PSBihzUphwC2bYqydD9pKLpGbJWKvjLLb0lBIskzeUHwyYAQKTS2ngk26ejLP4K9LXpXNIYavv
-	v5m0qja6jkPdADx0S4ceWoHZzpBzHo8qr6nO8hiS4xOX8EE+VcIepuayOAPVtBrHAJ5eQlXqRnpKg
-	/RCZYgzehU5rLEg0czlZgHh7Zum+Q3lvDigaNjutopFqzEC2oPe3KRwrjWKbWvDJeBWEYbG8+TEIk
-	iiOne51Q==;
+	bh=mwjUc0oMges/3CiQWXoOzUMkgaDo51krxwPCOEFYX3g=; b=hcSLKwRT1nv4V6HflAeZeYM7Zw
+	N7RwBEhbZbDKE4F/OKq0qeFKwKQLKVJmVwS40MKfu447V+8thoJG90hVPVpc5u72/hjjQzUizL3Cz
+	U26Nu0Pvcd2L2VvxGLbTq84hYbgP0u9KYjrO/XNJiiiIzNH2TVmsUIUGErMwFNMAEUZC8PYZ0+uuE
+	Pd8vhsZztoSZCNCZnzDU2qD0Rxn7q1QyMNCNmLawvFdJrQdNXj3+cxLLxh+ucQdHSApOMbZYFa9Gh
+	pBWYfzgK/nR56IRozeCRpthOfLmp1RYRCS7LdxKACq90rpRmQcqEilgNxnzagB59qbcU9Ph7MrAID
+	92DW5s5A==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w8N0G-00000000gKL-1VBV;
-	Thu, 02 Apr 2026 18:42:52 +0000
-Message-ID: <e9f0bbe9-fbff-45c8-af99-4c66982bd2cd@infradead.org>
-Date: Thu, 2 Apr 2026 11:42:51 -0700
+	id 1w8N7A-00000000gpD-3H7E;
+	Thu, 02 Apr 2026 18:50:00 +0000
+Message-ID: <18127458-1951-4b44-bcbb-a5747a3b4b6b@infradead.org>
+Date: Thu, 2 Apr 2026 11:50:00 -0700
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -39,60 +39,106 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] Documentation: explain how to find maintainers
- addresses for security reports
+Subject: Re: [PATCH 3/3] Documentation: clarify the mandatory and desirable
+ info for security reports
 To: Willy Tarreau <w@1wt.eu>, greg@kroah.com
 Cc: edumazet@google.com, Jonathan Corbet <corbet@lwn.net>,
  skhan@linuxfoundation.org, workflows@vger.kernel.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260402182655.8636-1-w@1wt.eu> <20260402182655.8636-3-w@1wt.eu>
+References: <20260402182655.8636-1-w@1wt.eu> <20260402182655.8636-4-w@1wt.eu>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260402182655.8636-3-w@1wt.eu>
+In-Reply-To: <20260402182655.8636-4-w@1wt.eu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
 On 4/2/26 11:26 AM, Willy Tarreau wrote:
-> These days, 80% of the work done by the security team consists in
-> locating the affected subsystem in a report, running get_maintainers on
-> it, forwarding the report to these persons and responding to the reporter
-> with them in Cc. This is a huge and unneeded overhead that we must try to
-> lower for a better overall efficiency. This patch adds a complete section
-> explaining how to figure the list of recipients to send the report to.
+> A significant part of the effort of the security team consists in begging
+> reporters for patch proposals, or asking them to provide them in regular
+> format, and most of the time they're willing to provide this, they just
+> didn't know that it would help. So let's add a section detailing the
+> required and desirable contents in a security report to help reporters
+> write more actionable reports which do not require round trips.
 > 
 > Cc: Eric Dumazet <edumazet@google.com>
 > Cc: Greg KH <greg@kroah.com>
 > Signed-off-by: Willy Tarreau <w@1wt.eu>
 > ---
->  Documentation/process/security-bugs.rst | 76 ++++++++++++++++++++++++-
->  1 file changed, 73 insertions(+), 3 deletions(-)
+>  Documentation/process/security-bugs.rst | 66 ++++++++++++++++++++++---
+>  1 file changed, 59 insertions(+), 7 deletions(-)
 > 
 > diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
-> index da7937fd59df..6937fa9fba5a 100644
+> index 6937fa9fba5a..b243ac24eb12 100644
 > --- a/Documentation/process/security-bugs.rst
 > +++ b/Documentation/process/security-bugs.rst
-
-
->  Markdown, HTML and RST formatted reports are particularly frowned upon since
->  they're quite hard to read for humans and encourage to use dedicated viewers,
->  sometimes online, which by definition is not acceptable for a confidential
-> -security report.
-> +security report. Note that some mailers tend to mangle formatting of plain
-> +text by default, please consult :doc:`the email client howto
-> +<../process/email-clients>` for more info.
-
-Just use the file name and let automarkup do its job:
-
-   text by default; please consult Documentation/process/email-clients.rst
-   for more information.
-
-It's also more convenient for text readers that way.
-
+> @@ -7,6 +7,65 @@ Linux kernel developers take security very seriously.  As such, we'd
+>  like to know when a security bug is found so that it can be fixed and
+>  disclosed as quickly as possible.
 >  
->  Disclosure and embargoed information
->  ------------------------------------
+> +Preparing your report
+> +---------------------
+> +
+> +Like with any bug report, a security bug report requires a lot of analysis work
+> +from the developers, so the more information you can share about the issue, the
+> +better.  Please review the procedure outlined in
+> +'Documentation/admin-guide/reporting-issues.rst' if you are unclear about what
+
+Drop the single quote marks.
+
+> +information is helpful.  The following information are absolutely necessary in
+> +**any** security bug report:
+> +
+> +  * **affected kernel version range**: with no version indication, your report
+> +    will not be processed.  A significant part of reports are for bugs that
+> +    have already been fixed, so it is extremely important that vulnerabilities
+> +    are verified on recent versions (development tree or latest stable
+> +    version), at least by verifying that the code has not changed since the
+> +    version where it was detected.
+> +
+> +  * **description of the problem**: a detailed description of the problem, with
+> +    traces showing its manifestation, and why you consider that the observed
+> +    behavior as a problem in the kernel, is necessary.
+> +
+> +  * **reproducer**: developers will need to be able to reproduce the problem to
+> +    consider a fix as effective.  This includes both a way to trigger the issue
+> +    and a way to confirm it happens.  A reproducer with low complexity
+> +    dependencies will be needed (source code, shell script, sequence of
+> +    instructions, file-system image etc).  Binary-only executables are not
+> +    accepted.  Working exploits are extremely helpful and will not be released
+> +    without consent from the reporter, unless they are already public.  By
+> +    definition if an issue cannot be reproduced, it is not exploitable, thus it
+> +    is not a security bug.
+> +
+> +  * **conditions**: if the bug depends on certain configuration options,
+> +    sysctls, permissions, timing, code modifications etc, these should be
+> +    indicated.
+> +
+> +In addition, the following information are highly desirable:
+> +
+> +  * **suspected location of the bug**: the file names and functions where the
+> +    bug is suspected to be present are very important, at least to help forward
+> +    the report to the appropriate maintainers.  When not possible (for example,
+> +    "system freezes each time I run this command"), the security team will help
+> +    identify the source of the bug.
+> +
+> +  * **a proposed fix**: bug reporters who have analyzed the cause of a bug in
+> +    the source code almost always have an accurate idea on how to fix it,
+> +    because they spent a long time studying it and its implications.  Proposing
+> +    a tested fix will save maintainers a lot of time, even if the fix ends up
+> +    not being the right one, because it helps understand the bug.  When
+> +    proposing a tested fix, please always format it in a way that can be
+> +    immediately merged (see :doc:`regular patch submission
+> +    <../process/submitting-patches>`).  This will save some back-and-forth
+
+Hm, I don't see anything in submitting-patches.rst called "regular patch submission".
+Is it in some other patch?
+
+> +    exchanges if it is accepted, and you will be credited for finding and
+> +    fixing this issue.  Note that in this case only a ``Signed-off-by:`` tag is
+> +    needed, without ``Reported-by:` when the reporter and author are the same.
+
 
 -- 
 ~Randy
