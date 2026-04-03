@@ -1,41 +1,86 @@
-Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
+Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C864D374186;
-	Fri,  3 Apr 2026 06:20:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BACD81B6D1A;
+	Fri,  3 Apr 2026 11:11:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775197255; cv=none; b=hE9+RVrGPfD6z6J07yxXgTrXRUVmJeQquTTE5k/DF7GuTbisY0ibikfRf5AtWbgo2COQ4NQuc82H8nXdo4RKsiZ2DffnS/vVezis1LqCf5cB2rAYbfydC0eQ83OPxF6uU+zz56vz0Mrn44suJa+8ErIv22AtU1Lbg5oobr6E6+w=
+	t=1775214713; cv=none; b=EqMI2kSI03idvZCSxsWqu7jGu/fY56d7B8o5vzVD6tJRZ0Q2jYuj8xI7dsbZ4Er+6Gtg6BVyPwaJ/mnBrapBvPas+I43ZuQTy8wCX7XZmaqsxmFqq/lES00ST4355IKtOztYbWioLn7kaJ0c/bVPRvn2ue3dqQnzW63aS93vwBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775197255; c=relaxed/simple;
-	bh=n8LECQJ4x4kKLegzjCk6W2ZTgGIHzFc04My1vTX+7DQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UMSsdNw64LFf3woEXLOzWkxRy9SgF7GAuulN1KJv3dKXKIF8T9ZTZwDgT54HHeduAve50ZkrI8mvh6UOVM4FNzhY2sKSPKv9cvCr252KRIeWnyHYRzfxaxf/hHxwQcHY5Z/iC1dbQp1WcnD//Ab9n2NosPIeP7Qi5cKqjG7yH3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=sw+dmHnL; arc=none smtp.client-ip=51.159.59.229
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
+	s=arc-20240116; t=1775214713; c=relaxed/simple;
+	bh=doXqhd8dr/1LTFZ1jpumVKfG6zz20yN+icBTelXv3YM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cVVZZ7OLK9QW8W8rVg/YZiMqq0Vwt0p3W9u6X8TVDuM5EJPic/rBuTftiGU3RVQ0F2ix4uaa4z2wBnLBAFPDgzW9JCxMxGacHe0OgW4m+yp0pmsk9pqs/Xnqc6qo4aTMqtekfhcmgHS4gh/K56uc5ru7kwBa6W+IGVhiHc1WTuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=Rxqkvt+O; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=eSZiD4yf; arc=none smtp.client-ip=103.168.172.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="sw+dmHnL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1775197244; bh=6mMBFjBX7EcspuOEDXNCtlc+Rfv6QdGApiTNJWlPIec=;
-	h=From:Message-ID:From;
-	b=sw+dmHnLixyk6KSbg5AoMHrLV3AfL7HQAsqRXUqBY53dE0VHaeRTVo5xQH6Gwcaew
-	 8Wyh+pHqGj6PBljj/xHvzF40yIkgOq45BGqaANtNPD6QTiY39atltqZlsWSAkK3X7L
-	 gP0FnlPP2vUByoS8/7A+bYW3HDa9jo16mJAd+pwo=
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id F0A14C0AB0;
-	Fri, 03 Apr 2026 08:20:43 +0200 (CEST)
-From: Willy Tarreau <w@1wt.eu>
-To: greg@kroah.com
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="Rxqkvt+O";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="eSZiD4yf"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id C730614002DF;
+	Fri,  3 Apr 2026 07:11:50 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Fri, 03 Apr 2026 07:11:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1775214710; x=1775301110; bh=cG7tV/2w7j
+	tLpWh0FgPMz/4JYz/46AXMbgusfPJiYpE=; b=Rxqkvt+OXbRvLhxdEhFjuf6i5p
+	L5USS1WDhhImBKyHzHIo/ozFTcAMT+b9IMRql4qgh3ZvRu0jfmq1408dPNZfnxJZ
+	BvuKUX3lWH+gXd5QsE41AImRz0NKiSmymzeA+ulAnLzXLA5G67ixc6c8eBseTCUc
+	AK9/ug2SufnmTa00n0Seh1UUutkp6hSavZp0fYG92zXI/G3o/vMAiQ54uYaGsaU/
+	LKDAQAFw8RisivzAxG+QpLJjZwafKAZ2ymp6OTh82F2643k0u6l2FANh6u8rXCuO
+	saGztGsRRPwZNQYts2Sgu+E6uICd7htY6GajulPmyQcc0wok/QxePpEOrx5Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1775214710; x=1775301110; bh=cG7tV/2w7jtLpWh0FgPMz/4JYz/46AXMbgu
+	sfPJiYpE=; b=eSZiD4yfBMjDgYQ8rpjYY1wwpEtE9Y7r06zYCRV7gEYsGU+WxBy
+	0S4C5GrhNICBotFVWFS+ylIQ3RA5iP9XVzaEfQy/QLPExeRlWTjp+xL+zRbjASm+
+	YNe6lm80V3UphJYi1BF7VtRMDXWvK52qxEefnJoe+6/hZh16v1a+AHKQ34OwACoq
+	t3F8rYOWpZmfKiujKPQzhevIZOhpJXjLy1EUlL1lvXeq7ZCW7dy33uk4lIzoYzkY
+	MbFjvJ/Bv9veR7jkEufVsK7UGDL0pdJOuOC/ldrd6EvMNoOzcPKUE5teIlXoE4X1
+	NZKW5p0oMcZjyk2zB9safY3yfh/UIdxTImg==
+X-ME-Sender: <xms:daDPaTPkjozPMv-FGQYkBvAmA6Z6pkDK0Z3Hxl9SYLlbdGPtL6T_1g>
+    <xme:daDPae55GQ8_USYxJGrMY4lPBj3f8sxjYYj2AGmWGkWkrJd2PEtUPRA0OD9mgByl-
+    3uKpB3tIX5DrVaYlc6q4Q4aMgYJ-tRCeIoblEV7kZkeOK4Z>
+X-ME-Received: <xmr:daDPaSnEefuem65g3xYpBjzOuV24CXWhbPa_91bIhlbRiHOjgj-y6SbqOI6kQiUbx6OT-IEyP__VDqSHE20fbiQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekjeelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
+    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
+    epfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghgucfmjfcu
+    oehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepheegvdevvdelje
+    eugfdtudduhfekledtiefhveejkeejuefhtdeufefhgfehkeetnecuvehluhhsthgvrhfu
+    ihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghhrdgtoh
+    hmpdhnsggprhgtphhtthhopeduiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohep
+    fiesudifthdrvghupdhrtghpthhtohepvgguuhhmrgiivghtsehgohhoghhlvgdrtghomh
+    dprhgtphhtthhopehrughunhhlrghpsehinhhfrhgruggvrggurdhorhhgpdhrtghpthht
+    oheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtohepshhkhhgrnheslhhinhhugi
+    hfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopeifohhrkhhflhhofihssehvghgv
+    rhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrd
+    hkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghr
+    rdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:daDPaWIlY4osVjfXX5tmIdZrW5Z0KdJjTdxfaTJuDMntNJyh98JvEQ>
+    <xmx:daDPaSSZGiz8lhpuMo30KnpSGltX1PUqBU5o93SBVXucbriEePtV4A>
+    <xmx:daDPaTtLXlskvRoc2u97le8a4-l7Pnd0HQCpljMAqLatbDmdMC4bvg>
+    <xmx:daDPaV-mAubczm1CwqfHkTBfzcoGHUZRvvr501lMY4mJtSXw3aLj4Q>
+    <xmx:dqDPaTCktbz_5UVxlrm7ORTKMqvj0I9DIcdqJB_ur_8Go3GrARlofnLF>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 3 Apr 2026 07:11:49 -0400 (EDT)
+Date: Fri, 3 Apr 2026 13:11:47 +0200
+From: Greg KH <greg@kroah.com>
+To: Willy Tarreau <w@1wt.eu>
 Cc: edumazet@google.com, rdunlap@infradead.org,
-        Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Willy Tarreau <w@1wt.eu>
-Subject: [PATCH v2 3/3] Documentation: clarify the mandatory and desirable info for security reports
-Date: Fri,  3 Apr 2026 08:20:18 +0200
-Message-ID: <20260403062018.31080-4-w@1wt.eu>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260403062018.31080-1-w@1wt.eu>
+	Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] Documentation: clarify required info in security
+ reports
+Message-ID: <2026040324-coping-vacation-7d64@gregkh>
 References: <20260403062018.31080-1-w@1wt.eu>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
@@ -43,106 +88,30 @@ List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260403062018.31080-1-w@1wt.eu>
 
-A significant part of the effort of the security team consists in begging
-reporters for patch proposals, or asking them to provide them in regular
-format, and most of the time they're willing to provide this, they just
-didn't know that it would help. So let's add a section detailing the
-required and desirable contents in a security report to help reporters
-write more actionable reports which do not require round trips.
+On Fri, Apr 03, 2026 at 08:20:15AM +0200, Willy Tarreau wrote:
+> Hi Greg,
+> 
+> I'm sending you the doc clarifications we discussed for the process of
+> reporting security issues. It's cut into the 3 patches I shared this
+> morning on the security list (plus two typos fixed and a paragraph
+> asking for one single issue per report):
+> 
+>   - one patch that reminds our need for a valid e-mail address
+>   - one that explains to reporters how to proceed to find maintainers
+>     addresses, hoping we won't have to do it for 90% of reports anymore
+>   - one that enumerates basic requirements for every report
+> 
+> I think it covers the difficulties we've faced this week. As always,
+> we might possibly find tiny adjustments to add, but my goal would be
+> for such updates to be merged in time to update the public page ASAP
+> so that we can redirect incomplete reports in an attempt to lower the
+> team's current load.
 
-Cc: Eric Dumazet <edumazet@google.com>
-Cc: Greg KH <greg@kroah.com>
-Signed-off-by: Willy Tarreau <w@1wt.eu>
----
- Documentation/process/security-bugs.rst | 66 ++++++++++++++++++++++---
- 1 file changed, 59 insertions(+), 7 deletions(-)
+Looks great, thanks.  I've applied these to one of my trees and will get
+them to Linus in time for 7.0-final.
 
-diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
-index ac97fc78fecd..0b1f6d8e3cbe 100644
---- a/Documentation/process/security-bugs.rst
-+++ b/Documentation/process/security-bugs.rst
-@@ -7,6 +7,65 @@ Linux kernel developers take security very seriously.  As such, we'd
- like to know when a security bug is found so that it can be fixed and
- disclosed as quickly as possible.
- 
-+Preparing your report
-+---------------------
-+
-+Like with any bug report, a security bug report requires a lot of analysis work
-+from the developers, so the more information you can share about the issue, the
-+better.  Please review the procedure outlined in
-+Documentation/admin-guide/reporting-issues.rst if you are unclear about what
-+information is helpful.  The following information are absolutely necessary in
-+**any** security bug report:
-+
-+  * **affected kernel version range**: with no version indication, your report
-+    will not be processed.  A significant part of reports are for bugs that
-+    have already been fixed, so it is extremely important that vulnerabilities
-+    are verified on recent versions (development tree or latest stable
-+    version), at least by verifying that the code has not changed since the
-+    version where it was detected.
-+
-+  * **description of the problem**: a detailed description of the problem, with
-+    traces showing its manifestation, and why you consider that the observed
-+    behavior as a problem in the kernel, is necessary.
-+
-+  * **reproducer**: developers will need to be able to reproduce the problem to
-+    consider a fix as effective.  This includes both a way to trigger the issue
-+    and a way to confirm it happens.  A reproducer with low complexity
-+    dependencies will be needed (source code, shell script, sequence of
-+    instructions, file-system image etc).  Binary-only executables are not
-+    accepted.  Working exploits are extremely helpful and will not be released
-+    without consent from the reporter, unless they are already public.  By
-+    definition if an issue cannot be reproduced, it is not exploitable, thus it
-+    is not a security bug.
-+
-+  * **conditions**: if the bug depends on certain configuration options,
-+    sysctls, permissions, timing, code modifications etc, these should be
-+    indicated.
-+
-+In addition, the following information are highly desirable:
-+
-+  * **suspected location of the bug**: the file names and functions where the
-+    bug is suspected to be present are very important, at least to help forward
-+    the report to the appropriate maintainers.  When not possible (for example,
-+    "system freezes each time I run this command"), the security team will help
-+    identify the source of the bug.
-+
-+  * **a proposed fix**: bug reporters who have analyzed the cause of a bug in
-+    the source code almost always have an accurate idea on how to fix it,
-+    because they spent a long time studying it and its implications.  Proposing
-+    a tested fix will save maintainers a lot of time, even if the fix ends up
-+    not being the right one, because it helps understand the bug.  When
-+    proposing a tested fix, please always format it in a way that can be
-+    immediately merged (see Documentation/process/submitting-patches.rst).
-+    This will save some back-and-forth exchanges if it is accepted, and you
-+    will be credited for finding and fixing this issue.  Note that in this case
-+    only a ``Signed-off-by:`` tag is needed, without ``Reported-by:` when the
-+    reporter and author are the same.
-+
-+  * **mitigations**: very often during a bug analysis, some ways of mitigating
-+    the issue appear. It is useful to share them, as they can be helpful to
-+    keep end users protected during the time it takes them to apply the fix.
-+
- Identifying contacts
- --------------------
- 
-@@ -89,13 +148,6 @@ run additional tests.  Reports where the reporter does not respond promptly
- or cannot effectively discuss their findings may be abandoned if the
- communication does not quickly improve.
- 
--As it is with any bug, the more information provided the easier it
--will be to diagnose and fix.  Please review the procedure outlined in
--'Documentation/admin-guide/reporting-issues.rst' if you are unclear about what
--information is helpful.  Any exploit code is very helpful and will not
--be released without consent from the reporter unless it has already been
--made public.
--
- The report must be sent to maintainers, with the security team in ``Cc:``.
- The Linux kernel security team can be contacted by email at
- <security@kernel.org>.  This is a private list of security officers
--- 
-2.52.0
-
+greg k-h
