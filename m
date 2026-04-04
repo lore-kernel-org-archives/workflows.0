@@ -1,91 +1,84 @@
 Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DC003B7A8;
-	Fri,  3 Apr 2026 16:39:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0E2A28DB54;
+	Sat,  4 Apr 2026 08:20:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775234397; cv=none; b=LN/NgFFZm8VXDffv6uI8cYi5uQ4rA8yZIN085zM0xjQPXOjOpzlwChDfz9bedyLOWtIQBIapckASME/lXcIdJPU00JgfNM3PhmDdtaCNR5IHmy75A++v1MzV0GyzBVniq/bMgAD63b+KZadlfF4cWB+mYnSUb7Npwo0otPZN4gM=
+	t=1775290848; cv=none; b=bqQPOh37lQ0D/IiSvXD4iQJZFFbHHJrKGwVYUSq4uzmcT+lrIOim+a17f8d0fwBPyRJ1zfUGsfbXI3bxboGBswhxKmXRya9eHZEapQIgajcezwzgd9RpmOsreFREyaPDYdLlLp7a/abbd/9LLg02JDmzdhxrO8peGU/dSrIapEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775234397; c=relaxed/simple;
-	bh=09XO0caz1roHKrmwuKQTJlrqe3tlVKWKo0osQqfjP4A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p2DgynMnOhiaGP/KoRbEWeI81MQpYN6QuvSsWqaLZ6uW0SdOx0HyX8SEuDX+CuS4IeunCqOnfFdyEZc6BI3UI20n3dGB3bwBPmnszkAYmRIKNwhtoucsre4jm8PeDsgaKhPSmgg/DRubAT9yB8J72DqFF9XUSY8ABt4PLCXVcnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=nyzHgPEf; arc=none smtp.client-ip=51.159.59.229
+	s=arc-20240116; t=1775290848; c=relaxed/simple;
+	bh=P2MLsZcq6pEdGQ2NqDQTz6SKu3yE8RshMOrdgghmzCI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k0/geOEPh5M4n5ocfLSN/OO73a3vIrCv7hwM9IMVty8eihyz/1Ply2yBfe+TDDvUH/r4vbzRJGQCWIKmXwDSJi4ATX4eXJN5IicaSntPC37hFXgOLWD8iRq9iMMVSEtQXEuFWARLZuQHNhdGjJWF2XYulcO9rfoQ7zP5su8ySrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=CUN5Yq1z; arc=none smtp.client-ip=51.159.59.229
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="nyzHgPEf"
+	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="CUN5Yq1z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1775234391; bh=WXG/DwMgawvohdqdJv/bbExmHKwcGXCCBB+v5ddWPJg=;
+	t=1775290837; bh=QKiJny8okHVQOTZq9VvZChOmHdJQVSu4E7fMaDOkXj8=;
 	h=From:Message-ID:From;
-	b=nyzHgPEfqDU/48S1a92gvVBEvbvR+UwAWDKopgSw+g+rD4Vqc8+tEa278t+LqPqPw
-	 Zqz0TPCIHFSJiIExaPw/T1HYDQH10ysTIaP6raSm5dtr1R71RXBLX5tNKrCpzTwsjY
-	 weM8uT3sZv6QfgNnasvXqPDlL+TjHw8MO9dF38Zg=
+	b=CUN5Yq1zuPoReUkB3ydpXsONLPCGr4N+nNfUJD+hY0hSZAerYztRY0iXApaHZM6zl
+	 fxl4tzs0/TmH63D6t6sK3W0HkxhKFcUUkexS2+sI6EO34StMZYQo9WoownYF/AOAf7
+	 SNVbJR3dg4MY4a0GgUv7ot5liwdYHRIG03T72h0g=
 Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id E5249C0AC8;
-	Fri, 03 Apr 2026 18:39:51 +0200 (CEST)
-Date: Fri, 3 Apr 2026 18:39:51 +0200
+	by mta1.formilux.org (Postfix) with ESMTP id 8EB03C0EF2;
+	Sat, 04 Apr 2026 10:20:37 +0200 (CEST)
 From: Willy Tarreau <w@1wt.eu>
-To: Kees Cook <kees@kernel.org>
-Cc: greg@kroah.com, edumazet@google.com, rdunlap@infradead.org,
-        Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org,
+To: greg@kroah.com
+Cc: Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org,
         workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] Documentation: explain how to find maintainers
- addresses for security reports
-Message-ID: <ac_tV-M2exA2L8NH@1wt.eu>
-References: <20260403062018.31080-1-w@1wt.eu>
- <20260403062018.31080-3-w@1wt.eu>
- <202604030845.9DBD539AB@keescook>
+        linux-kernel@vger.kernel.org, Willy Tarreau <w@1wt.eu>
+Subject: Documentation: fix two typos in latest update to the security report howto
+Date: Sat,  4 Apr 2026 10:20:33 +0200
+Message-ID: <20260404082033.5160-1-w@1wt.eu>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202604030845.9DBD539AB@keescook>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 03, 2026 at 08:48:56AM -0700, Kees Cook wrote:
-> On Fri, Apr 03, 2026 at 08:20:17AM +0200, Willy Tarreau wrote:
-> > [...]
-> > +One difficulty for most first-time reporters is to figure the right list of
-> > +recipients to send a report to.  In the Linux kernel, all official maintainers
-> > +are trusted, so the consequences of accidentally including the wrong maintainer
-> > +are essentially a bit more noise for that person, i.e. nothing dramatic.  As
-> 
-> Yeah, this is the central point: we already trust maintainers; there is
-> nothing "special" about security@kernel.org.
+In previous patch "Documentation: clarify the mandatory and desirable
+info for security reports" I left two typos that I didn't detect in local
+checks. One is "get_maintainers.pl" (no 's' in the script name), and the
+other one is a missing closing quote after "Reported-by", which didn't
+have effect here but I don't know if it can break rendering elsewhere
+(e.g. on the public HTML page). Better fix it before it gets merged.
 
-Yep!
+Signed-off-by: Willy Tarreau <w@1wt.eu>
+---
 
-> > [...]
-> > +single line suitable for use in the To: field of a mailer like this::
-> > +
-> > +  $ ./scripts/get_maintainer.pl --no-tree --no-l --no-r --no-n --m \
-> > +    --no-git-fallback --no-substatus --no-rolestats --no-multiline \
-> > +    --pattern-depth 1 drivers/example.c
-> > +  dev1@example.com, dev2@example.org
-> 
-> To echo Greg, yeah, this is great, and has been an implicit action we've
-> done for years, so there's every reason to delegate it to the reporter
-> to avoid the round-trip.
+Greg, this is a fix for commit a72b832a482372 that is currently pending
+in your char-misc-linus branch.
+---
+ Documentation/process/security-bugs.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thanks!
+diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
+index 0b1f6d8e3cbe..27b028e85861 100644
+--- a/Documentation/process/security-bugs.rst
++++ b/Documentation/process/security-bugs.rst
+@@ -59,7 +59,7 @@ In addition, the following information are highly desirable:
+     immediately merged (see Documentation/process/submitting-patches.rst).
+     This will save some back-and-forth exchanges if it is accepted, and you
+     will be credited for finding and fixing this issue.  Note that in this case
+-    only a ``Signed-off-by:`` tag is needed, without ``Reported-by:` when the
++    only a ``Signed-off-by:`` tag is needed, without ``Reported-by:`` when the
+     reporter and author are the same.
+ 
+   * **mitigations**: very often during a bug analysis, some ways of mitigating
+@@ -88,7 +88,7 @@ recipients to send a report to.  In the Linux kernel, all official maintainers
+ are trusted, so the consequences of accidentally including the wrong maintainer
+ are essentially a bit more noise for that person, i.e. nothing dramatic.  As
+ such, a suitable method to figure the list of maintainers (which kernel
+-security officers use) is to rely on the get_maintainers.pl script, tuned to
++security officers use) is to rely on the get_maintainer.pl script, tuned to
+ only report maintainers.  This script, when passed a file name, will look for
+ its path in the MAINTAINERS file to figure a hierarchical list of relevant
+ maintainers.  Calling it a first time with the finest level of filtering will
+-- 
+2.52.0
 
-> Though I guess we'll see if these new instructions actually change
-> anything -- we still have people asking for CVE assignments. :P
-
-I think it will move a little bit, because AI bots read this, so the
-annoying ones who used to send us reports they didn't read will make
-better ones. We've seen improvements already over the last two months,
-with more plain text and less copy-pasted markdown. But maybe the MD
-wasn't emitted in the first place. It's also true that the reports
-quality has improved and now the tools are used by some experienced
-people (but not just them yet). Anyway, we'll see. Now we have just
-a link to copy-paste in return, we'll see how it evolves.
-
-Cheers,
-Willy
