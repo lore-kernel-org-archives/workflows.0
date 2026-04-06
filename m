@@ -1,146 +1,132 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.tipi-net.de (mail.tipi-net.de [194.13.80.246])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0682EA72A
-	for <workflows@vger.kernel.org>; Mon,  6 Apr 2026 19:58:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 115F22D1303;
+	Mon,  6 Apr 2026 20:24:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.13.80.246
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775505514; cv=none; b=s25XFEqx812oCHidZsa7kOUJV54GicLgNjQwYjOmjSWVHbGBDUPtMI60GKDWxDEof2CeFc3UlIB8njFvSUMvaWaulLUY2R9Vuw7pC8/6R42CtNIUrb7omSdnoOJLzyBLOWF2fSEWy4EyWWiYo+gMtlSC0na+o0AF7+nYsyKFDw8=
+	t=1775507063; cv=none; b=Bvxmsrbpocis+prz2xaj5GVM/cs8mQAbTKAIQwJd9FIm87VMrmEEZ7CxhDMJJsVH1cl97ypyPIrHIHce4Q343AzuBwn+j32K6M79hOshPyW8tUg0W4urc6H/qrJMNMUKnSb+3r+ogVnk4J5cTMBzbp5aSPjD9BdufZVjBuInnNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775505514; c=relaxed/simple;
-	bh=I78/UicW+3hCmr69SW5qwZkWf3Gw6hcPflvcdDFYlrE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=X2ODc7ten0Hnfqgj2PAavbrhGqiam/yRJNShA+NC4JgoltoFD59z8DV1ytALiU8hCIm7oKGebfmt41naxARa7Vb5R87FVZSdGFJrP5PwOd4Z/lOnzOqE+UFtGvkThKjm00hHm+l5jC/MEo17Cq3QZxtk7SR704GmsqfFLqjlYHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7C0DA4E082;
-	Mon,  6 Apr 2026 19:58:30 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C62B34A0B0;
-	Mon,  6 Apr 2026 19:58:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id pbLvLGUQ1GmcMwAAD6G6ig
-	(envelope-from <fmancera@suse.de>); Mon, 06 Apr 2026 19:58:29 +0000
-Message-ID: <345722f0-21b1-4970-8c45-ef85edf9d45b@suse.de>
-Date: Mon, 6 Apr 2026 21:58:19 +0200
+	s=arc-20240116; t=1775507063; c=relaxed/simple;
+	bh=kD3qMn/QwOra99S1JShD4jJdRKCWREFKFC0iP6yhfSY=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=Ytao9d/mRWbY31Y1vJ2P3dyV9fSY7hgw2bpRFkEysdxS3jwE/IPc1dmnw0Iu795G4iRJ13Yf+5h32Nfuo1iAefmfaWoyjF+0nxNhbM+JHM67A4Bbg0E6ZvQ4FaSoKPhH8VbjTkeXPLxbrsOcsP3kCjwQ4f3uCYa3jvNQiQ+XmPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de; spf=pass smtp.mailfrom=tipi-net.de; dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b=PuXdArmy; arc=none smtp.client-ip=194.13.80.246
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tipi-net.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b="PuXdArmy"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9FCBAA26FD;
+	Mon,  6 Apr 2026 22:24:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tipi-net.de; s=dkim;
+	t=1775507056; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=/Mg0y47EK3uAoeIaCfzd7gz2Sros7bHOlKo7jG+JGdM=;
+	b=PuXdArmynN1L+WpiPkX5NRT04lKuj2cPUJxDUHfkHq1zZLyAAGnHPAObjvJ55h7+EJzXvU
+	62TDxA0e5I8Dl4uj/G5ToZKUz1/uVS31hummP9QpiDKJGPARD0WHZMdd6P+fhfDcRJiDPY
+	GY4OsGVSPtf/WODEA6s+VzM86NyyTYbu23YoFA+0V2TZ8GFnQ4Q4uoa5URA6Ufi1yZpvhk
+	BXbbcxujidUD3TKjP4WPZ3flOtjYNvwl3EbaapU7y1mVbkUUn+fAL6XaFoBzvA8gQthEry
+	NLI1AXQl7VXillu6QSbTT2uyMyQFmFdW9MbdmgX8j4xgGog9NxW/XXe0lTweNA==
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+Date: Mon, 06 Apr 2026 22:24:14 +0200
+From: Nicolai Buchwitz <nb@tipi-net.de>
+To: Fernando Fernandez Mancera <fmancera@suse.de>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ netdev@vger.kernel.org, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, mbloch@nvidia.com
 Subject: Re: [PATCH net-next] docs: netdev: document AI-assisted review
  tooling
-To: Nicolai Buchwitz <nb@tipi-net.de>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: netdev@vger.kernel.org, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <345722f0-21b1-4970-8c45-ef85edf9d45b@suse.de>
 References: <20260406-nb-docs-ai-review-v1-1-b58943762ca9@tipi-net.de>
-Content-Language: en-US
-From: Fernando Fernandez Mancera <fmancera@suse.de>
-In-Reply-To: <20260406-nb-docs-ai-review-v1-1-b58943762ca9@tipi-net.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <345722f0-21b1-4970-8c45-ef85edf9d45b@suse.de>
+Message-ID: <56c5bdfe2e37738e47b3b4d22e21697c@tipi-net.de>
+X-Sender: nb@tipi-net.de
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
-X-Rspamd-Queue-Id: 7C0DA4E082
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -4.00
-X-Spam-Level: 
+X-Last-TLS-Session-Version: TLSv1.3
 
-On 4/6/26 9:40 PM, Nicolai Buchwitz wrote:
-> Add a section about Sashiko, the Linux Foundation's open-source
-> AI review system for kernel patches. Contributors can check review
-> feedback on the Sashiko website and address findings proactively,
-> reducing the need for maintainers to relay the same questions.
+On 6.4.2026 21:58, Fernando Fernandez Mancera wrote:
+> [...]
+
 > 
-> Also point to the local review tooling at netdev-ai.bots.linux.dev
-> for contributors who want to run AI reviews before submitting.
+> Hi Nicolai,
+> maybe I am missing something but [2] isn't from sashiko.dev but from 
+> netdev AI CI instead. See: 
+> https://netdev-ai.bots.linux.dev/ai-review.html?id=0b114a22-9aab-4265-8bfc-ea1b5bca5514
+
+You're right, I mixed up the two systems - the example I linked was
+from the netdev AI bot, not Sashiko. My mistake on the link.
+
+I stumbled over Sashiko when I noticed the name appearing more often
+in other reviews and then found Jonathan's LWN article about it [1].
+
+Both tools are actively reviewing patches on the list today. I think
+it makes sense to document both rather than just one:
+
+The netdev AI bot at netdev-ai.bots.linux.dev
+Sashiko at sashiko.dev, which posts reviews publicly on its website
+Both use the same review prompts by Chris Mason [2], so there is
+common ground - though results will vary between them due to the
+different AI models (Claude Opus for netdev-ai, Gemini for Sashiko)
+on top of the usual AI uncertainty.
+
+I think it would be useful to document that AI reviews are happening
+but mixing AI bots might confuse people.
+
+Agreed, I'll rework the patch to distinguish the two systems once
+the discussion has been settled.
+
 > 
-> Signed-off-by: Nicolai Buchwitz <nb@tipi-net.de>
-> ---
-> Sashiko [1] reviews are already being used on the list (e.g. [2])
-> but there's no mention of them in the netdev docs. Add a section
-> so contributors know they can check and respond to AI review
-> feedback directly.
+> The documentation mentioned for running the AI locally is correctly 
+> related to netdev AI bot.
 > 
-> Based on Jakub's reviewer guidance patch [3].
+> I think it would be useful to document that AI reviews are happening 
+> but mixing AI bots might confuse people.
 > 
-> [1] https://sashiko.dev/
-> [2] https://lore.kernel.org/all/20260324024235.929875-1-kuba@kernel.org/
-> [3] https://lore.kernel.org/all/20260406175334.3153451-1-kuba@kernel.org/
-> ---
->   Documentation/process/maintainer-netdev.rst | 13 +++++++++++++
->   1 file changed, 13 insertions(+)
+>> Check for findings on your submissions and address
+>> +valid ones before a maintainer has to relay the same questions.
+>> +
 > 
-> diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
-> index bda93b459a0533fa1adfd11b756a4f47d1dbaa22..27296afb05d3828a350b4ed5c16907672db9785d 100644
-> --- a/Documentation/process/maintainer-netdev.rst
-> +++ b/Documentation/process/maintainer-netdev.rst
-> @@ -559,6 +559,19 @@ Reviewers are highly encouraged to do more in-depth review of submissions
->   and not focus exclusively on process issues, trivial or subjective
->   matters like code formatting, tags etc.
->   
-> +AI-assisted review
-> +~~~~~~~~~~~~~~~~~~
-> +
-> +Patches posted to netdev are automatically reviewed by the Sashiko
-> +AI review system (https://sashiko.dev/). Results are posted publicly
-> +on the website. 
+> I wonder what would be the consequences for this. If less experienced 
+> submitters are expected to address issues pointed out by AI bots they 
+> might work on something that isn't valid. AFAIU, the AI output is only 
+> forwarded to the submitter after a maintainer reviewed it and believes 
+> it makes sense.
 
-Hi Nicolai,
+Fair point. The wording should make clear that the local tooling is
+an optional aid, not an obligation. I'll soften the language around
+addressing findings.
 
-maybe I am missing something but [2] isn't from sashiko.dev but from 
-netdev AI CI instead. See: 
-https://netdev-ai.bots.linux.dev/ai-review.html?id=0b114a22-9aab-4265-8bfc-ea1b5bca5514
+Would appreciate input on how much detail is appropriate here -
+should the doc just acknowledge that AI review exists and point to
+the tooling, or go into more detail about the workflow?
 
-The documentation mentioned for running the AI locally is correctly 
-related to netdev AI bot.
+[1] https://lwn.net/Articles/1063292/
+[2] 
+https://github.com/masoncl/review-prompts/blob/main/kernel/subsystem/networking.md
 
-I think it would be useful to document that AI reviews are happening but 
-mixing AI bots might confuse people.
+> 
+> Thanks,
+> Fernando.
+> 
+>> +You can also run AI reviews locally before submitting. Instructions
+>> +and tooling are available at:
+>> +
+>> +  https://netdev-ai.bots.linux.dev/ai-local.html
+>> +
+>>   Testimonials / feedback
+>>   -----------------------
+>> 
 
-> Check for findings on your submissions and address
-> +valid ones before a maintainer has to relay the same questions.
-> +
+Thanks for your input
 
-I wonder what would be the consequences for this. If less experienced 
-submitters are expected to address issues pointed out by AI bots they 
-might work on something that isn't valid. AFAIU, the AI output is only 
-forwarded to the submitter after a maintainer reviewed it and believes 
-it makes sense.
-
-Thanks,
-Fernando.
-
-> +You can also run AI reviews locally before submitting. Instructions
-> +and tooling are available at:
-> +
-> +  https://netdev-ai.bots.linux.dev/ai-local.html
-> +
->   Testimonials / feedback
->   -----------------------
->   
+Nicolai
