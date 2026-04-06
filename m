@@ -1,74 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.tipi-net.de (mail.tipi-net.de [194.13.80.246])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A8602D7BF;
-	Mon,  6 Apr 2026 19:22:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69AFB2C1595;
+	Mon,  6 Apr 2026 19:40:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.13.80.246
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775503352; cv=none; b=AtrOrB7FDSLFIN4BDVCSU5M4QZ7PX0ULnFqXJyzrFTUkZAZfEU7AOOWZWZrnv5XE1xVFlgefn0PLy6xbX/lDI3zavhIVj0CAC+BmWuHJ/YHs+KPFbwAR+QqPyg8w88pE53UEoJ7StvVT/ZxW6OVhcf/GiX3Y44vFdfmhwluKgzg=
+	t=1775504429; cv=none; b=paQQhmXotPdS6kK5xfLWJgY6X5ElOgctSZaQSvOfcE2i3qtEcDVFZme4tZ+1RV5au2cU6WLz1Z+8+m8ud+wgE1Vm4k1R/oYnbnCpCnMAOB7+RgV3ZcI0PoT0RaPjXZ627rh9UpyKTcN1547fmfAnphh7veA1699sWuJWvn2pHGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775503352; c=relaxed/simple;
-	bh=S6KONb2vrH9UsMs6qAXjrfZbIM+QSl5j8cMNagy0i44=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hhO0Pz1lfCqR5hTizAYxvSjJM+ffaGRjhhX3zvT5pPN7Zfn5f8jJ2L9VBEM2X6y0cr31iyPsOWj09kw94JDhvCxQNzZIa37yruqHe4jKbX8XPzdcP2lakHmyXlEvu2RyO3wkWzKQq6tbbOn48fj9Z85Fq3q7I/TyFSeKMgmxUFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kh1eA99M; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775504429; c=relaxed/simple;
+	bh=o6SVX02Cy49xwJaMaA0hSMfOCJpY7mCYLWuYVTyLwpI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=mw1KZIo/yrGnOJjbrPD0quDtbEw4U4S2U1G4qtpKm+G6N0s/JAMixOWOrbNlNg3FbWa+c6whvkqtAE4qFIb5HNmASmIoBBxMITVBaUvT7anyV951G5dcwS3tUhsJv9T3npU54tXGTHWgPoQnTAQloIoNg8nNpvRiW5RHW3t+MP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de; spf=pass smtp.mailfrom=tipi-net.de; dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b=POIf5Y0v; arc=none smtp.client-ip=194.13.80.246
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tipi-net.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kh1eA99M"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC9D7C4CEF7;
-	Mon,  6 Apr 2026 19:22:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775503352;
-	bh=S6KONb2vrH9UsMs6qAXjrfZbIM+QSl5j8cMNagy0i44=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Kh1eA99MAAySQAccv9XXC1W7Q8LaF940pecKWbhb20VjQqtI0CvWogYeD+EQp8LBD
-	 sPzwN4jX7p0T+l2yS07fHqNrpf4FxyX+lAszhE59JGJAB/ZmanaYiZ6gwA8Fj3Nqz2
-	 R60oGYHH3C9MPk2lMI4Ob8/m0fw6/jcSK03whFO3zUKW8BwUE1TWIgEET3FeLfvWmg
-	 ZpwbXmSTaWUZsLR3JgU+aeNqnEubt/NUS/3MYmrksvBpgdTBXoinbBslwC13e3Kjxq
-	 sM4Dp48PmjNQ1RPqhkUsSqDRbTOMB7rNrJ9SXQNqzeWiZykxHHzPqUAbr6w8tkJPK0
-	 7whsDeppY0JGQ==
-Date: Mon, 6 Apr 2026 15:22:30 -0400
-From: Konstantin Ryabitsev <mricon@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, joe@perches.com, 
-	corbet@lwn.net, skhan@linuxfoundation.org, apw@canonical.com, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] checkpatch: add --json output mode
-Message-ID: <20260406-futuristic-lilac-gerbil-6ef4a5@lemur>
-References: <20260406170039.4034716-1-sashal@kernel.org>
- <20260406-true-whippet-of-luck-d3c2ba@lemur>
- <adQF8LoUf4YH7F98@laps>
+	dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b="POIf5Y0v"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8D056A589E;
+	Mon,  6 Apr 2026 21:40:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tipi-net.de; s=dkim;
+	t=1775504424; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=vZusVusnCFkImcX+sjCySol13wfuarQezH6fJsCm24w=;
+	b=POIf5Y0v4k5qQbORPFTqDr3jo0Pdahsu+7wqouakIIX3ZW8VxmBkGXRUegDz7xK+sAuEE1
+	DyfrrkQ8A9d4sdyKGcC7XqqUuJmhaFCeM9X5NfRvASOePhfKa9v8hv6uuiO4XU0ONxQ8Gf
+	wkCeHxNMk5jPtE/7RiCODRHer0BFY/fNVee7ptxI85SYJKD+i+ui6uN8TkMNKZlPpvaA2w
+	gcmz0XJRIJ0wr8CNlil2Zvz63gCOcIZXQR0fte6VoP+uBdUmro69HN4FNt/W3UVdTQ3VN/
+	kBLsqeOln97N7Ln5bFqerB1E3D4ipcjZ1GMN2nj4NZ0cAjHNLWVsnPbDImsFDA==
+From: Nicolai Buchwitz <nb@tipi-net.de>
+Date: Mon, 06 Apr 2026 21:40:00 +0200
+Subject: [PATCH net-next] docs: netdev: document AI-assisted review tooling
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <adQF8LoUf4YH7F98@laps>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260406-nb-docs-ai-review-v1-1-b58943762ca9@tipi-net.de>
+X-B4-Tracking: v=1; b=H4sIAA8M1GkC/x2MwQ5AMBAFf0X2bJNqEPEr4kC9spclrSAR/64cJ
+ 5mZmyKCIFKb3RRwSJRVExR5Rm4ZdAbLlJissbUpTc068rS6yIPw5+Nk24yl97ZwvgKlbgvwcv3
+ PjhQ7K66d+ud5AWo64+NtAAAA
+X-Change-ID: 20260406-nb-docs-ai-review-28b4ff21cf5e
+To: "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: netdev@vger.kernel.org, workflows@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Nicolai Buchwitz <nb@tipi-net.de>
+X-Mailer: b4 0.14.2
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Mon, Apr 06, 2026 at 03:13:52PM -0400, Sasha Levin wrote:
-> > I see that it's writing json out manually, implementing its own escaping.
-> > While there are upsides to not requiring a perl json library, I think it's
-> > fair to expect that people who would want to get json output can probably make
-> > sure that JSON::XS is installed.
-> > 
-> > Not a strong object, but seems cleaner that way.
-> 
-> No objection here, but from what I saw the checkpatch code only uses core perl
-> packages so I wanted to keep it that way.
+Add a section about Sashiko, the Linux Foundation's open-source
+AI review system for kernel patches. Contributors can check review
+feedback on the Sashiko website and address findings proactively,
+reducing the need for maintainers to relay the same questions.
 
-I saw that, too, but I think that stems from the expectation that we need to
-make it easy to run checkpatch by any random person submitting patches, which
-is why, by default, we'll output human-readable results.
+Also point to the local review tooling at netdev-ai.bots.linux.dev
+for contributors who want to run AI reviews before submitting.
 
-JSON output, on the other hand, is mostly useful for specific setups that have
-a lot more control over their environment and we don't have to stick to the
-"pure perl only" guideline here.
+Signed-off-by: Nicolai Buchwitz <nb@tipi-net.de>
+---
+Sashiko [1] reviews are already being used on the list (e.g. [2])
+but there's no mention of them in the netdev docs. Add a section
+so contributors know they can check and respond to AI review
+feedback directly.
 
-Generating correct json is an exercise in corner cases, which is why I'd
-rather this is done with a library that has addressed most of them already.
+Based on Jakub's reviewer guidance patch [3].
 
-Regards,
+[1] https://sashiko.dev/
+[2] https://lore.kernel.org/all/20260324024235.929875-1-kuba@kernel.org/
+[3] https://lore.kernel.org/all/20260406175334.3153451-1-kuba@kernel.org/
+---
+ Documentation/process/maintainer-netdev.rst | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
+index bda93b459a0533fa1adfd11b756a4f47d1dbaa22..27296afb05d3828a350b4ed5c16907672db9785d 100644
+--- a/Documentation/process/maintainer-netdev.rst
++++ b/Documentation/process/maintainer-netdev.rst
+@@ -559,6 +559,19 @@ Reviewers are highly encouraged to do more in-depth review of submissions
+ and not focus exclusively on process issues, trivial or subjective
+ matters like code formatting, tags etc.
+ 
++AI-assisted review
++~~~~~~~~~~~~~~~~~~
++
++Patches posted to netdev are automatically reviewed by the Sashiko
++AI review system (https://sashiko.dev/). Results are posted publicly
++on the website. Check for findings on your submissions and address
++valid ones before a maintainer has to relay the same questions.
++
++You can also run AI reviews locally before submitting. Instructions
++and tooling are available at:
++
++  https://netdev-ai.bots.linux.dev/ai-local.html
++
+ Testimonials / feedback
+ -----------------------
+ 
+
+---
+base-commit: d00749db443cf420a882c020ce0e6bb5c43009de
+change-id: 20260406-nb-docs-ai-review-28b4ff21cf5e
+
+Best regards,
 -- 
-KR
+Nicolai Buchwitz <nb@tipi-net.de>
+
