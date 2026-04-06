@@ -1,132 +1,67 @@
-Received: from mail.tipi-net.de (mail.tipi-net.de [194.13.80.246])
+Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 115F22D1303;
-	Mon,  6 Apr 2026 20:24:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.13.80.246
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD8DF3019BA;
+	Mon,  6 Apr 2026 20:34:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775507063; cv=none; b=Bvxmsrbpocis+prz2xaj5GVM/cs8mQAbTKAIQwJd9FIm87VMrmEEZ7CxhDMJJsVH1cl97ypyPIrHIHce4Q343AzuBwn+j32K6M79hOshPyW8tUg0W4urc6H/qrJMNMUKnSb+3r+ogVnk4J5cTMBzbp5aSPjD9BdufZVjBuInnNA=
+	t=1775507693; cv=none; b=OMNjZaX5fABV5gxXxLVtgOzARqtyKcMn0G6+mHjR5Nf9k13UYxKT1ZIDIyffbnl/cO6TbSaM7tccTSXxo5rZoD3pBkht2YbhryODeRcq8KMFuNmL9PwKKHnjluV/+qCI0Ic4JqVaHqjiCiqwJAEk1dU6hOoSTO/Cxd49hCfo4/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775507063; c=relaxed/simple;
-	bh=kD3qMn/QwOra99S1JShD4jJdRKCWREFKFC0iP6yhfSY=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=Ytao9d/mRWbY31Y1vJ2P3dyV9fSY7hgw2bpRFkEysdxS3jwE/IPc1dmnw0Iu795G4iRJ13Yf+5h32Nfuo1iAefmfaWoyjF+0nxNhbM+JHM67A4Bbg0E6ZvQ4FaSoKPhH8VbjTkeXPLxbrsOcsP3kCjwQ4f3uCYa3jvNQiQ+XmPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de; spf=pass smtp.mailfrom=tipi-net.de; dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b=PuXdArmy; arc=none smtp.client-ip=194.13.80.246
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tipi-net.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b="PuXdArmy"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9FCBAA26FD;
-	Mon,  6 Apr 2026 22:24:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tipi-net.de; s=dkim;
-	t=1775507056; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=/Mg0y47EK3uAoeIaCfzd7gz2Sros7bHOlKo7jG+JGdM=;
-	b=PuXdArmynN1L+WpiPkX5NRT04lKuj2cPUJxDUHfkHq1zZLyAAGnHPAObjvJ55h7+EJzXvU
-	62TDxA0e5I8Dl4uj/G5ToZKUz1/uVS31hummP9QpiDKJGPARD0WHZMdd6P+fhfDcRJiDPY
-	GY4OsGVSPtf/WODEA6s+VzM86NyyTYbu23YoFA+0V2TZ8GFnQ4Q4uoa5URA6Ufi1yZpvhk
-	BXbbcxujidUD3TKjP4WPZ3flOtjYNvwl3EbaapU7y1mVbkUUn+fAL6XaFoBzvA8gQthEry
-	NLI1AXQl7VXillu6QSbTT2uyMyQFmFdW9MbdmgX8j4xgGog9NxW/XXe0lTweNA==
+	s=arc-20240116; t=1775507693; c=relaxed/simple;
+	bh=jCApDGrShRfwr3Znnb/yDkcIq8ZoRB0I0fZMlaUyMuA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=nTAPLc3gHGEZOBK17UdIAM5NFKpfPYabJmXMD9OYiqn3dQYlX0wY6XJHrzCixGkGnJUZ4Xyki5QsruoyYM7BX3TVR9phW4DlsDiNHePpnSAJ7kGKUSDanYzeC55jEkpuViIDOt3Smdwvm4mOhHi0IjNRhQEHSi/8GLu47zKDR+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
+Received: from omf16.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay01.hostedemail.com (Postfix) with ESMTP id 2E68FE197F;
+	Mon,  6 Apr 2026 20:34:44 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf16.hostedemail.com (Postfix) with ESMTPA id 9616220020;
+	Mon,  6 Apr 2026 20:34:41 +0000 (UTC)
+Message-ID: <18c7f51cebe2c15177564895322d0116c9ed9497.camel@perches.com>
+Subject: Re: [PATCH] checkpatch: add --json output mode
+From: Joe Perches <joe@perches.com>
+To: Konstantin Ryabitsev <mricon@kernel.org>, Sasha Levin <sashal@kernel.org>
+Cc: dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, corbet@lwn.net, 
+	skhan@linuxfoundation.org, apw@canonical.com, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Mon, 06 Apr 2026 13:34:40 -0700
+In-Reply-To: <20260406-futuristic-lilac-gerbil-6ef4a5@lemur>
+References: <20260406170039.4034716-1-sashal@kernel.org>
+	 <20260406-true-whippet-of-luck-d3c2ba@lemur> <adQF8LoUf4YH7F98@laps>
+	 <20260406-futuristic-lilac-gerbil-6ef4a5@lemur>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Mon, 06 Apr 2026 22:24:14 +0200
-From: Nicolai Buchwitz <nb@tipi-net.de>
-To: Fernando Fernandez Mancera <fmancera@suse.de>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- netdev@vger.kernel.org, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, mbloch@nvidia.com
-Subject: Re: [PATCH net-next] docs: netdev: document AI-assisted review
- tooling
-In-Reply-To: <345722f0-21b1-4970-8c45-ef85edf9d45b@suse.de>
-References: <20260406-nb-docs-ai-review-v1-1-b58943762ca9@tipi-net.de>
- <345722f0-21b1-4970-8c45-ef85edf9d45b@suse.de>
-Message-ID: <56c5bdfe2e37738e47b3b4d22e21697c@tipi-net.de>
-X-Sender: nb@tipi-net.de
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+X-Stat-Signature: epfsbzyx588g465zzmpuhq165ki6a3qx
+X-Rspamd-Server: rspamout01
+X-Rspamd-Queue-Id: 9616220020
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1/0JHZvPb0Km2xqo6zWPZSD0nLrqV6vjlM=
+X-HE-Tag: 1775507681-550611
+X-HE-Meta: U2FsdGVkX18fWGNMBKyxh960tpbHZuIJ/LP+AJ/81fixh/Ducb5/jqSPsHFwwm8sNv7pbF0BFaYyCKGtirMef050VlcyeKfy7Gb7/RIpmgqdmvBhWVjOYNClOa2eLpq32EqgCJCrAOJYPoAXdwe/cY9/MLgedZQjmMjArtcpGepKwhm5UVD0cwTmUL3sX9/CU6OTUZ5YZlb2ZSVRNZgTHAFi6vBrgiev6tqAMY8OZifoHPDuhc4I5oxmHMrw2lXDhB9P7yclCbyCR3S/20kA3WJbB91V6jDLzA68f0aIfWypRAJypqPp7sOK1w/WvAJ4zeN07sSPvXxyURCXArhNUdatuwAEawz9
 
-On 6.4.2026 21:58, Fernando Fernandez Mancera wrote:
-> [...]
+On Mon, 2026-04-06 at 15:22 -0400, Konstantin Ryabitsev wrote:
+> On Mon, Apr 06, 2026 at 03:13:52PM -0400, Sasha Levin wrote:
+> I see that it's writing json out manually, implementing its own escaping.
+> > > While there are upsides to not requiring a perl json library, I think=
+ it's
+> > > fair to expect that people who would want to get json output can prob=
+ably make
+> > > sure that JSON::XS is installed.
+> > >=20
+> > > Not a strong object, but seems cleaner that way.
 
-> 
-> Hi Nicolai,
-> maybe I am missing something but [2] isn't from sashiko.dev but from 
-> netdev AI CI instead. See: 
-> https://netdev-ai.bots.linux.dev/ai-review.html?id=0b114a22-9aab-4265-8bfc-ea1b5bca5514
+To me too.
 
-You're right, I mixed up the two systems - the example I linked was
-from the netdev AI bot, not Sashiko. My mistake on the link.
+JSON:PP is standard since 5.14, and that's 15 years old.
 
-I stumbled over Sashiko when I noticed the name appearing more often
-in other reviews and then found Jonathan's LWN article about it [1].
-
-Both tools are actively reviewing patches on the list today. I think
-it makes sense to document both rather than just one:
-
-The netdev AI bot at netdev-ai.bots.linux.dev
-Sashiko at sashiko.dev, which posts reviews publicly on its website
-Both use the same review prompts by Chris Mason [2], so there is
-common ground - though results will vary between them due to the
-different AI models (Claude Opus for netdev-ai, Gemini for Sashiko)
-on top of the usual AI uncertainty.
-
-I think it would be useful to document that AI reviews are happening
-but mixing AI bots might confuse people.
-
-Agreed, I'll rework the patch to distinguish the two systems once
-the discussion has been settled.
-
-> 
-> The documentation mentioned for running the AI locally is correctly 
-> related to netdev AI bot.
-> 
-> I think it would be useful to document that AI reviews are happening 
-> but mixing AI bots might confuse people.
-> 
->> Check for findings on your submissions and address
->> +valid ones before a maintainer has to relay the same questions.
->> +
-> 
-> I wonder what would be the consequences for this. If less experienced 
-> submitters are expected to address issues pointed out by AI bots they 
-> might work on something that isn't valid. AFAIU, the AI output is only 
-> forwarded to the submitter after a maintainer reviewed it and believes 
-> it makes sense.
-
-Fair point. The wording should make clear that the local tooling is
-an optional aid, not an obligation. I'll soften the language around
-addressing findings.
-
-Would appreciate input on how much detail is appropriate here -
-should the doc just acknowledge that AI review exists and point to
-the tooling, or go into more detail about the workflow?
-
-[1] https://lwn.net/Articles/1063292/
-[2] 
-https://github.com/masoncl/review-prompts/blob/main/kernel/subsystem/networking.md
-
-> 
-> Thanks,
-> Fernando.
-> 
->> +You can also run AI reviews locally before submitting. Instructions
->> +and tooling are available at:
->> +
->> +  https://netdev-ai.bots.linux.dev/ai-local.html
->> +
->>   Testimonials / feedback
->>   -----------------------
->> 
-
-Thanks for your input
-
-Nicolai
+I'd rather just require 5.14 as a minimum and remove
+a bunch of other checks too.
