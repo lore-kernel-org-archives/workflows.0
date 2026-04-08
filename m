@@ -1,205 +1,147 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7917034B40E
-	for <workflows@vger.kernel.org>; Mon,  6 Apr 2026 21:14:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 633583612F6
+	for <workflows@vger.kernel.org>; Wed,  8 Apr 2026 12:05:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775510060; cv=none; b=aGGsOv1KiLTzdxQADKd8YGMtFy7TBjP97313nHQFrXaqU2THgQ3v/W6ML82S0a8qpScpJuEi7+dhFNTQyhSqxdo9o6mK34LdlPTtUKMU6Wf6VjECREC/MWwL5m2mCt0Ij374YkvkU2jtbrPaDmmvG/VB3ODPHc4mjTYHX9cqb1Q=
+	t=1775649957; cv=none; b=kMdMjnsbaR14iymR6ihgZORA9EGCXHGXQNyNsUtWk3bsKlpzoqt3Dk+6ZD63GCyvypb9K2WbRsm51BsyaZlyyLDnf79OaBDJPFRpaqL/jOxZwsRWXejljLPnNNZqFFgbzZlllFdTyZr4Hzl0DO1pvVKRnfccw+4gea2sUPjEqsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775510060; c=relaxed/simple;
-	bh=yQI2hucAupVyRTWavsrdMoHVdq2ezUeT7+RpkygVu2M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=c6lbUoaH1Q90UrG8ZJTtUbBGtVPPcCmLdfn38npvSMRA/lIGPBxleNEF0//k9h/j/HCCh0i1Qk5UyJ9pa1Sb4farTvp4IpWQsUkEeLZ7FbpVjZo6twt4SAfVOl0EaBjp63BFiUpGhV3jdhdlGD4/mIAfyfV6HNJ1hcr7G5baOVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EAm+McgM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HYuA/k3/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EAm+McgM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HYuA/k3/; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EAm+McgM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HYuA/k3/";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EAm+McgM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HYuA/k3/"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 67A4E5BD48;
-	Mon,  6 Apr 2026 21:14:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775510056; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1AWo8CavFFDUlQFTl1sblytoQrwi8RwdUfstHMGxg+Y=;
-	b=EAm+McgMWvEAMWzObHTx5Axb3fmCwBU0rGxqEVoiZoOOvxyqcPUI8Nlrf50XsECTNtS5Zu
-	sKWHMdRNG30Wg0rYlRUpr4pPQU2rTdSJcp5kn6xf5lJ+jDpQakCwBaQ68R0lkaKp1h5y0H
-	4xQflKCvnaXGPdRDkI1Kt4WLkPwsU8g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775510056;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1AWo8CavFFDUlQFTl1sblytoQrwi8RwdUfstHMGxg+Y=;
-	b=HYuA/k3/GZPXBvbMfFl+BEq/hGp+lC9TNAEl3vG4WHvxayJBKVY2kV+4G6cmjj+CZisXcL
-	xblREPEQazCPAdCQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=EAm+McgM;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="HYuA/k3/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775510056; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1AWo8CavFFDUlQFTl1sblytoQrwi8RwdUfstHMGxg+Y=;
-	b=EAm+McgMWvEAMWzObHTx5Axb3fmCwBU0rGxqEVoiZoOOvxyqcPUI8Nlrf50XsECTNtS5Zu
-	sKWHMdRNG30Wg0rYlRUpr4pPQU2rTdSJcp5kn6xf5lJ+jDpQakCwBaQ68R0lkaKp1h5y0H
-	4xQflKCvnaXGPdRDkI1Kt4WLkPwsU8g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775510056;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1AWo8CavFFDUlQFTl1sblytoQrwi8RwdUfstHMGxg+Y=;
-	b=HYuA/k3/GZPXBvbMfFl+BEq/hGp+lC9TNAEl3vG4WHvxayJBKVY2kV+4G6cmjj+CZisXcL
-	xblREPEQazCPAdCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9F3BB4A0B0;
-	Mon,  6 Apr 2026 21:14:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id bNdzIyci1GnQewAAD6G6ig
-	(envelope-from <fmancera@suse.de>); Mon, 06 Apr 2026 21:14:15 +0000
-Message-ID: <7b3c4791-674a-4420-879a-98b243827b63@suse.de>
-Date: Mon, 6 Apr 2026 23:14:15 +0200
+	s=arc-20240116; t=1775649957; c=relaxed/simple;
+	bh=8scfsOfxjJCA7PsheVSzcMVVAN4HZJ5wygd7fo905BM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Vy6eYkElWwiI1XprWr868PMy9NhkOus+uivmRgsO+0KeyaXM9jz7yjZNmoNK4zvsarnSrXm6RD2GkBZlWzVb41swx/fS4XWL9+CEU4Bt1H8tKR6/eHm9USm3ccC46H8iQslHq9YAm7qzYXUweoQVl2+V6h7mOmsvf4xifLp9V4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-953b7d2c820so1915483241.3
+        for <workflows@vger.kernel.org>; Wed, 08 Apr 2026 05:05:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775649955; x=1776254755;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CGRbYznGbDw7bAVfW0akDmACi6u2DoC61pG2AP+p98k=;
+        b=RPvXrozyp36tMnKvuTjwyFaLfvebEiILeS1oQzx5+38Qm7E1f90YW5oU3LU+NRCQgP
+         +2feq3pr5at5AYq/zxtP9JfzORBISbowoEQLs2HfkJz6c4HfxG0qmZRUtLu7fAGVo9rD
+         e3qGpa8dSeCtybkObMepx43Z+3Q38tCTbhRVzo6cMLA8AFGYqG0QZxOA1DrC7Dil8Qqx
+         RpCeC+PKYKEC8ru6819IRh1uSLpyYwpZHsekBl3LWkaMzHJKhEXBtotCdLEyk6SVFVvR
+         sP+umN+em4hZw2r5vLTLNVbE2iLpT7Ar3Bgd8GdwEPbfvlYgAFzHPmcXzOotwvPgoyPQ
+         2jrw==
+X-Forwarded-Encrypted: i=1; AJvYcCU9IoY+CbamrhNUACdRec2v7C8bS2dnVSykuFHyavf3J+7vTehW/7gwQtwxGGqc9rDVOiWWMJuKn3E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwTzOOSOUHj1fTr8kXblqivfd+biEM5YAoo19mQa98wZNuAbpMo
+	QxuXqSD6FE/fZQy5nu/YAaGJHdlggphYwPTxW4q3CpfMt8k9Dq7xBjZXMV9EIvav
+X-Gm-Gg: AeBDievuOV/HcveJUWFds6TQUuwXrL861SLrPL/ymBDgmzNJhQMtKJnNjtFY6UvRVG6
+	TBxi8ntKx4PjQXEqDaeHVvzpKv0OgFMN6gdCTRTew5QgKl5vVdRzVwk2AOwauZiCmPx2dUnaSq0
+	PueN1T0rgeBPCMYQcKbJzaHDZqZRzizSkPjjyIbFXOeT4O1Rsl784r1sFlD0c4BhxytwWXbFlCZ
+	JoYUMKJDQQG05fYpiWK7A+62vo+EK+Z0novGtjGxLVihz7QfHStGTI8hffStfdZveEiiOAQwXcD
+	/8Wd8yemMBf4WnivsfWoEbif67qgZft/t1WiWoBWsXjgEhyOMzoaNVVDkBiEB2Yi/xUa5y2otdN
+	I2djWZPSpPDx7rNHNIXxzRti7rXhgEwpX5UaRnE4AYpyppQfsUfuEpHk3Rx6sZjJgTHaWRqhBo2
+	NI682WutxZOn9CDnOj8ZJN01zzYyeD+Hh147Q7mMPf7SZaLArh+P2qAENKrn72zudmgUjH0zVUP
+	zg=
+X-Received: by 2002:a05:6122:4b05:b0:56d:3b69:87d2 with SMTP id 71dfb90a1353d-56dab9df26emr8543855e0c.11.1775649954902;
+        Wed, 08 Apr 2026 05:05:54 -0700 (PDT)
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com. [209.85.221.173])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-953fb897b8dsm15657860241.7.2026.04.08.05.05.53
+        for <workflows@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Apr 2026 05:05:53 -0700 (PDT)
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-56d9ed609d2so1843874e0c.1
+        for <workflows@vger.kernel.org>; Wed, 08 Apr 2026 05:05:53 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUKIME1EuwZ+KXCwKEXRdtBunIxKgFvVMcDgbqxX/1Y5unZvXw3+rKnwrAnixQtl/80RoxmkcmhHKI=@vger.kernel.org
+X-Received: by 2002:a05:6122:3784:b0:56d:92dd:a0ad with SMTP id
+ 71dfb90a1353d-56daba970e8mr8020585e0c.15.1775649953503; Wed, 08 Apr 2026
+ 05:05:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next] docs: netdev: document AI-assisted review
- tooling
-To: Nicolai Buchwitz <nb@tipi-net.de>
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- netdev@vger.kernel.org, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, mbloch@nvidia.com
-References: <20260406-nb-docs-ai-review-v1-1-b58943762ca9@tipi-net.de>
- <345722f0-21b1-4970-8c45-ef85edf9d45b@suse.de>
- <56c5bdfe2e37738e47b3b4d22e21697c@tipi-net.de>
-Content-Language: en-US
-From: Fernando Fernandez Mancera <fmancera@suse.de>
-In-Reply-To: <56c5bdfe2e37738e47b3b4d22e21697c@tipi-net.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:url,suse.de:dkim,suse.de:mid,sashiko.dev:url,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,lwn.net:url];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Queue-Id: 67A4E5BD48
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Spam-Level: 
+References: <20260313150928.2637368-1-sashal@kernel.org> <20260314111822.63a2ba4a@kernel.org>
+ <abZTg9ZwnE5J4qXa@laps>
+In-Reply-To: <abZTg9ZwnE5J4qXa@laps>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 8 Apr 2026 14:05:42 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU5Ga9WCzD8ji8kgOMmosS+uzf_8mp_OkhFdcAg2=3KAg@mail.gmail.com>
+X-Gm-Features: AQROBzA3VNDAkN7JQ2RBFKXcNeNTnnQqU_cNeGRDhYiY7nC0FR4lVKTSqS90qsM
+Message-ID: <CAMuHMdU5Ga9WCzD8ji8kgOMmosS+uzf_8mp_OkhFdcAg2=3KAg@mail.gmail.com>
+Subject: Re: [PATCH 0/9] Kernel API Specification Framework
+To: Sasha Levin <sashal@kernel.org>
+Cc: Jakub Kicinski <kuba@kernel.org>, linux-api@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, workflows@vger.kernel.org, tools@kernel.org, 
+	x86@kernel.org, Thomas Gleixner <tglx@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Dmitry Vyukov <dvyukov@google.com>, Randy Dunlap <rdunlap@infradead.org>, 
+	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>, Jake Edge <jake@lwn.net>, 
+	David Laight <david.laight.linux@gmail.com>, Askar Safin <safinaskar@zohomail.com>, 
+	Gabriele Paoloni <gpaoloni@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Andrew Morton <akpm@linux-foundation.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Ingo Molnar <mingo@redhat.com>, 
+	Arnd Bergmann <arnd@arndb.de>
+Content-Type: text/plain; charset="UTF-8"
 
-On 4/6/26 10:24 PM, Nicolai Buchwitz wrote:
-> On 6.4.2026 21:58, Fernando Fernandez Mancera wrote:
->> [...]
-> 
->>
->> Hi Nicolai,
->> maybe I am missing something but [2] isn't from sashiko.dev but from 
->> netdev AI CI instead. See: https://netdev-ai.bots.linux.dev/ai- 
->> review.html?id=0b114a22-9aab-4265-8bfc-ea1b5bca5514
-> 
-> You're right, I mixed up the two systems - the example I linked was
-> from the netdev AI bot, not Sashiko. My mistake on the link.
-> 
-> I stumbled over Sashiko when I noticed the name appearing more often
-> in other reviews and then found Jonathan's LWN article about it [1].
-> 
-> Both tools are actively reviewing patches on the list today. I think
-> it makes sense to document both rather than just one:
-> 
-> The netdev AI bot at netdev-ai.bots.linux.dev
-> Sashiko at sashiko.dev, which posts reviews publicly on its website
-> Both use the same review prompts by Chris Mason [2], so there is
-> common ground - though results will vary between them due to the
-> different AI models (Claude Opus for netdev-ai, Gemini for Sashiko)
-> on top of the usual AI uncertainty.
-> 
-> I think it would be useful to document that AI reviews are happening
-> but mixing AI bots might confuse people.
-> 
-> Agreed, I'll rework the patch to distinguish the two systems once
-> the discussion has been settled.
-> 
->>
->> The documentation mentioned for running the AI locally is correctly 
->> related to netdev AI bot.
->>
->> I think it would be useful to document that AI reviews are happening 
->> but mixing AI bots might confuse people.
->>
->>> Check for findings on your submissions and address
->>> +valid ones before a maintainer has to relay the same questions.
->>> +
->>
->> I wonder what would be the consequences for this. If less experienced 
->> submitters are expected to address issues pointed out by AI bots they 
->> might work on something that isn't valid. AFAIU, the AI output is only 
->> forwarded to the submitter after a maintainer reviewed it and believes 
->> it makes sense.
-> 
-> Fair point. The wording should make clear that the local tooling is
-> an optional aid, not an obligation. I'll soften the language around
-> addressing findings.
-> 
+Hi Sasha,
 
-Thank you! Regarding this topic it seems people have been already 
-discussing this around other subsystems [1]. It might be useful to check 
-out similar discussions and outcomes.
+On Sun, 15 Mar 2026 at 07:36, Sasha Levin <sashal@kernel.org> wrote:
+> On Sat, Mar 14, 2026 at 11:18:22AM -0700, Jakub Kicinski wrote:
+> >On Fri, 13 Mar 2026 11:09:10 -0400 Sasha Levin wrote:
+> >> This enables static analysis tools to verify userspace API usage at compile
+> >> time, test generation based on formal specifications, consistent error handling
+> >> validation, automated documentation generation, and formal verification of
+> >> kernel interfaces.
+> >
+> >Could you give some examples? We have machine readable descriptions for
+> >Netlink interfaces, we approached syzbot folks and they did not really
+> >seem to care for those.
+>
+> Once the API is in a machine-readable format, we can write formatters to
+> output whatever downstream tools need. The kapi tool in the series
+> already ships with plain text, JSON, and RST formatters, and adding new
+> output formats is straightforward. We don't need to convince the
+> syzkaller folks to consume our specs, we can just output them in a
+> format that syzkaller already understands.
+>
+> For example, I have a syzlang formatter that produces the following
+> from the sys_read spec in this series:
+>
+>    # --- read ---
+>    # Read data from a file descriptor
+>    #
+>    # @context process, sleepable
+>    #
+>    # @capability CAP_DAC_OVERRIDE: Bypass discretionary access control on read permission
+>    # @capability CAP_DAC_READ_SEARCH: Bypass read permission checks on regular files
+>    #
+>    # @error EPERM (-1): Returned by fanotify permission events...
+>    # @error EINTR (-4): The call was interrupted by a signal before any data was read.
+>    # @error EIO (-5): A low-level I/O error occurred.
+>    # @error EBADF (-9): fd is not a valid file descriptor, or fd was not opened for reading.
+>    # @error EAGAIN (-11): O_NONBLOCK set and read would block.
+>    # @error EACCES (-13): LSM denied the read operation via security_file_permission().
+>    # @error EFAULT (-14): buf points outside the accessible address space.
+>    # @error EISDIR (-21): fd refers to a directory.
+>    # @error EINVAL (-22): fd not suitable for reading, O_DIRECT misaligned, count negative...
+>    # @error ENODATA (-61): Data not available in cache...
+>    # @error EOVERFLOW (-75): File position plus count would exceed LLONG_MAX.
+>    # @error EOPNOTSUPP (-95): Read not supported for this file type...
+>    # @error ENOBUFS (-105): Buffer too small for complete notification...
 
-[1] https://lwn.net/Articles/1064830/
+The actual E-values are positive, so I guess you want e.g. -EPERM?
 
-> Would appreciate input on how much detail is appropriate here -
-> should the doc just acknowledge that AI review exists and point to
-> the tooling, or go into more detail about the workflow?
-> 
+Note that the actual errno values are architecture-specific.
+E.g. EOPNOTSUPP can be 45, 95, 122, or 223.
 
-To be honest that is hard for me to tell, I am not a maintainer and not 
-the one doing the forwarding currently. I think there isn't an official 
-workflow regarding this. Maybe a good starter would be to just mention 
-that they exist. Or maybe this is a good opportunity to define an 
-official workflow!
+Gr{oetje,eeting}s,
 
-Thanks,
-Fernando.
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
