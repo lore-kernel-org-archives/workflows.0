@@ -1,67 +1,39 @@
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 290D93446CA
-	for <workflows@vger.kernel.org>; Fri, 10 Apr 2026 22:51:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB2D333E368;
+	Fri, 10 Apr 2026 23:38:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775861504; cv=none; b=HWIxtl+YNao+L0wVat6Bilbw36Yy6g9R+kUl8nSpI0bLgmNKrYfnFTq8ghUOCWO8VCevCXY1rZDt7xpnJq2EUBJItiqWqyHm9Nf034ijcI5cotuWefjAYc0XnFChvthtOy/uhRkCCPkgHbBIPlahAKDb63QmUH3tpMBuHboPLGo=
+	t=1775864320; cv=none; b=d7vrzc5r5b+GvPEKl7lWad0bECBdQHJaMWxdqAg3huYdBSfk8frjBflSi/EqZ7+kosoDdrn0/9MnHTaUTcZmPn1c3Jj7AMBu8BdkXSjduF7APHXcNu65cHvuJshjpDVPu2Z8GYcqLPiJltQHWhOmqY5dK5jZ6i2z7LlVkPPUMyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775861504; c=relaxed/simple;
-	bh=Di4tu/kMFuGh2vl/5dJ4nd1Q5pkVKTyy3dHQxra9kns=;
+	s=arc-20240116; t=1775864320; c=relaxed/simple;
+	bh=2lY2cPva3CKc/NxtQaKZ+pj/giFWfBa29trZfe13XjA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nHJVcliMqur+cJIs1tURqZdYdgvMUAMqlb/pon+DXW+CKppC7lTdwDzjzO9BJIOkyNjVoCMCcnrKyXnZcU4AJp3xywI5ybT9vRdoxnzDgah6zVaoHouJ0GprZ2oLNZyb1yW9gbfS3vLYK/ul/QEGcnLR6L5HMcQbMdk3vyyEXh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IM5ZA21M; arc=none smtp.client-ip=74.125.82.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=TZH9tizz/wLNhJIr2m+6FQ2rIrBYX9emMeE62UUrjOl0sF7Nr7PIXEoeGX+FeGdsHrPHSsPNB2ltSvX+vtqwQTIB2/f6sRHdwrhWZCAZ1oaD+XwahQ1dbtH+GUf3VvR0GJaKlUFXqGI2P2ROFaJDGq+qgD0ZclLblvJ9nZBEzkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blemings.org; spf=pass smtp.mailfrom=blemings.org; dkim=pass (2048-bit key) header.d=blemings.org header.i=@blemings.org header.b=QQ6LDQnW; arc=none smtp.client-ip=150.107.74.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blemings.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=blemings.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IM5ZA21M"
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-2c156c4a9efso3762956eec.1
-        for <workflows@vger.kernel.org>; Fri, 10 Apr 2026 15:51:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775861502; x=1776466302; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PrC7kkvkuprqe14U4AY2VBeTVieL7bWJ3KB9Z6fo1Gs=;
-        b=IM5ZA21MH6EFRXx9nO5hXyCzT8rSFEQQB65TbwpAftrKNQOhgBNyqRAKaFHFPqd/5k
-         plDQSs+0AlEyWub1MsAbQetS/kox6OeZikmDcrfDfEZW0ng4MCqn73hFt5BiTq5bozJD
-         V1bEuwC8Htpa3d19shB6usck99ShmiYZ+z/CQxwWOaYC4BnksZoVaMY3Nk/RO9HOQsX6
-         gJ078zF0xG9FZv/z4NQ4NQYqzQxu6wZJCUC6eAf9LN10gYCpRwz7+ENt91ovO1G+RUI5
-         0ijc8FN4HMGGyhsgVVxxu+/tpNSGzAMyPsMSiKS9mg6tHBB3PABCwvLbneG+88A5hFZR
-         GhOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775861502; x=1776466302;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PrC7kkvkuprqe14U4AY2VBeTVieL7bWJ3KB9Z6fo1Gs=;
-        b=odxTgeGKnF0Sqdv8H8Eqy+Uy2DJG48/eHcYD6A4wq7naZdmcK3dun+utMY5u153Bzk
-         VwyaF2B0R5y1amEYnADj9eAf/P4jJR3c92TGSlnxL8Q77QGbsJTojUk/UXy40QyM/Zmf
-         NsOv+ujJNhNpaejFIPs6uk2EuhRPG13fGlxhpY2RAnMFR5e1eGpZuRKgZKo0A4xdP07K
-         eWZLeU+VMKkPtewXUH4UjcFTMU63IbCOV/kB7e7GH8HjHkLZvvHzETwdCU4wgACYUUQu
-         xguE33fBREy9nZd63dsVGZ2EFgpTV28bw8lr9PMmKmhMVfL/W661Ozo9bZVifhDTP/LS
-         daZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWy9ZAnzdszyKXieN9CajPSN94QZRuh5XYP6HiCquRqaSUYHXcaKWjybJyraddQU9cZhUhfwMDRPfE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+MAkcnlsMvrsQiY3z2PgB6hxZLB0gE+hLLfHxOpkjNNAl8W9i
-	YvgFmr4CeMGXdQ7Ky36JN7eM6WfWYyT7MiSld0+0u1RqMImwJxN+v4vn
-X-Gm-Gg: AeBDiesga/jLuqhVmTCaIiX+7y14CuKRrCoY2rq1OzlzrWnlkEdgJQ1ZG65RnHHnuNp
-	+EaiiRtQaJy+tSyt1xviHTyfg9UjswEeyB8GeSiT7q8opcVNBOL2bIf7oNvbbL7POTsB70Y8mrt
-	XHRz04zGlLtnofQbNrikK1FVnV6aOzJ+oAE83D7JOa7pKDg4a2k/P17UVvaJiGa4P+8Jp4f4OuB
-	m/hKBH+OH1rwm09RJ1fql4uUktGnIv18TxPUfEVCZ1oLnyzUaPHErrtsoIOTuNadRTq7IV/4PYa
-	fmkpgnRBJ1+/WXdzW1dCORuIR+arYFwXJ8hHhLOyCl+FhIbjS7YUV/Imr1u2O8eqTxwqWB8uZmi
-	Tnr7coyryv4j9vl/lQsM0IUqoOtwCM9sgfMPTuTUqGkT6PAB3sfLF3++2W4GSv0zoy7yPIufC+I
-	I3Wk+5JpNTaW1IW7dM2w4a56wgKnABdG6Y3+i7ghDsoQ8pLMJ9stATNAESxTwCjynVQ679glsjB
-	0byIjo=
-X-Received: by 2002:a05:693c:2c85:b0:2d2:cf9b:ee6e with SMTP id 5a478bee46e88-2d5895690b4mr2925275eec.22.1775861502242;
-        Fri, 10 Apr 2026 15:51:42 -0700 (PDT)
-Received: from [192.168.1.113] (c-73-151-174-35.hsd1.ca.comcast.net. [73.151.174.35])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2d55f5c6b10sm6249959eec.5.2026.04.10.15.51.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Apr 2026 15:51:41 -0700 (PDT)
-Message-ID: <761f83cc-58eb-4b4a-ba91-d11412e7b2a6@gmail.com>
-Date: Fri, 10 Apr 2026 15:51:39 -0700
+	dkim=pass (2048-bit key) header.d=blemings.org header.i=@blemings.org header.b="QQ6LDQnW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=blemings.org;
+	s=202501; t=1775864314;
+	bh=0D/b94zewInA5OowtofcLef5XWAwRXC9yiMoOg2ndJI=;
+	h=Date:Reply-To:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=QQ6LDQnWk2WrijFDd+nhNxQ8VSF0rxfTa0vj4RpCGTa3CgrnjOC5v+HanSCe0P82I
+	 QjziEqNHepz8v1CKKPLO7TktBA6beERO32hxVshrFKLBIF8Ju+CVQuh6bBRrZ92AnT
+	 u761nD3zWXYDFJ3c/XBn4lpsvt0PnrudN6mZ1aCj0nqf7qMSv2WNIrWCtkwg3gBAnX
+	 BvyYXb9frbJy+04wTUj+QY5Ge4Yxi0LoKzMnaWqoXTje/CG6dp17WgU1hzpTMlJ9li
+	 fUQvifGvyOYNQai0hNkrGp7JL8IcjnorOisg1BKdxc3t0HR0cgeWq4QhHczUJubYXP
+	 qlRKMj0CVbqdQ==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4fstXm4rrsz4wTc;
+	Sat, 11 Apr 2026 09:38:32 +1000 (AEST)
+Message-ID: <91d50a72-a121-4b24-a559-892f8a3b3c3a@blemings.org>
+Date: Sat, 11 Apr 2026 09:38:32 +1000
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -69,10 +41,11 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
+Reply-To: hugh@blemings.id.au
 Subject: Re: [PATCH net] netrom: do some basic forms of validation on incoming
  frames
-To: hugh@blemings.id.au, Kuniyuki Iwashima <kuniyu@google.com>,
- kuba@kernel.org
+To: Craig <edfardos@gmail.com>, hugh@blemings.id.au,
+ Kuniyuki Iwashima <kuniyu@google.com>, kuba@kernel.org
 Cc: davem@davemloft.net, edumazet@google.com, gregkh@linuxfoundation.org,
  horms@kernel.org, linux-hams@vger.kernel.org, linux-kernel@vger.kernel.org,
  netdev@vger.kernel.org, pabeni@redhat.com, stable@kernel.org,
@@ -80,64 +53,109 @@ Cc: davem@davemloft.net, edumazet@google.com, gregkh@linuxfoundation.org,
 References: <20260410145448.38253e3c@kernel.org>
  <20260410221220.1708137-1-kuniyu@google.com>
  <4f5810a7-c792-4d6b-9f7c-6c6b289def19@blemings.org>
+ <761f83cc-58eb-4b4a-ba91-d11412e7b2a6@gmail.com>
 Content-Language: en-US
-From: Craig <edfardos@gmail.com>
-In-Reply-To: <4f5810a7-c792-4d6b-9f7c-6c6b289def19@blemings.org>
+From: Hugh Blemings <hugh@blemings.org>
+In-Reply-To: <761f83cc-58eb-4b4a-ba91-d11412e7b2a6@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-> If the main concern here is ongoing maintenance of these Ham Radio 
-> related protocols/drivers, can we pause for a moment on anything as 
-> dramatic as removing from the tree entirely ?
+
+On 11/4/2026 08:51, Craig wrote:
+>> If the main concern here is ongoing maintenance of these Ham Radio 
+>> related protocols/drivers, can we pause for a moment on anything as 
+>> dramatic as removing from the tree entirely ?
+>>
+>> There is a good cohort of capable kernel folks that either are or 
+>> were ham radio operators who I believe, upon realising that things 
+>> have got to this point, will be happy to redouble efforts to ensure 
+>> this code maintained and tested to a satisfactory standard.
+>>
+>> Or, alternatively, as a technical community it may be that the Ham 
+>> Radio interested folks conclude that out of tree or user space 
+>> solutions are a better way forward as others have proposed.
+>>
+>> Give us a few days, please, for the word to be put around that we 
+>> need to pull ourselves together a bit as a technical group :)
+>>
 >
-> There is a good cohort of capable kernel folks that either are or were 
-> ham radio operators who I believe, upon realising that things have got 
-> to this point, will be happy to redouble efforts to ensure this code 
-> maintained and tested to a satisfactory standard.
+> I, for one, really can't imagine pulling an entire network subsytem 
+> out of the kernel without any
+> knowledge of how/if/when it's used.  Like intercontinental radio 
+> networks, global email, ax.25
+> keyboard-to-keyboard, BBS and other emergency-communication systems 
+> throughout the
+> world.  If you're sure the Internet will never fail, I guess it makes 
+> sense removing all of this
+> since it's inconvenient to maintain.
 >
-> Or, alternatively, as a technical community it may be that the Ham 
-> Radio interested folks conclude that out of tree or user space 
-> solutions are a better way forward as others have proposed.
+> Global AX.25 keyboard-to-keyboard on 14.105Mhz
 >
-> Give us a few days, please, for the word to be put around that we need 
-> to pull ourselves together a bit as a technical group :)
+>    https://qsl.net/kb9pvh/105.html
 >
+> AX.25/netrom VHF routed networks spanning from Oregon to Los Angeles.
+>
+>  https://www.easymapmaker.com/map/80666c4898ec6e8fa0c35add5d03282d
+>
+> Global radio email using AX.25
+>
+>   https://winlink.org/RMSChannels (1,336 AX.25 email packet nodes on 
+> the Earth and Space)
+>
+> This is all in operation by Amateur Radio ARES emergency 
+> protocols/technologies.  This
+> will not pass the headline test when it comes to Linux detractors.
+>
+> Most of this is running on Raspberry Pi / Linux 24/7.
+>
+> If we want to kill all these apps and somehow force them into user space,
+> it's akin to just switching to Windows - and flounder with the 
+> Microsoft folks
+> trying to do the same thing.
 
-I, for one, really can't imagine pulling an entire network subsytem out 
-of the kernel without any
-knowledge of how/if/when it's used.  Like intercontinental radio 
-networks, global email, ax.25
-keyboard-to-keyboard, BBS and other emergency-communication systems 
-throughout the
-world.  If you're sure the Internet will never fail, I guess it makes 
-sense removing all of this
-since it's inconvenient to maintain.
+Your email Craig neatly encapsulates just some of the practical and 
+ongoing applications of the kernel code in question - I don't think this 
+is in dispute.
 
-Global AX.25 keyboard-to-keyboard on 14.105Mhz
+What's pertinent is if we as the ham/amatuer radio community can agree 
+on whether in tree, out of tree modules, or a userspace device driver 
+approach make the most sense.  If we are to keep code in the kernel in 
+any form, we as a community need to find someone(s) that have the skills 
+and bandwidth to keep the in tree code up to date.
 
-    https://qsl.net/kb9pvh/105.html
+I don't think this would be onerous and I have a couple of people in 
+mind to nudge who may be happy to do so if that proves the right way 
+forward.  At a pinch I could do it, but that'll mean a lot of catching 
+up. But I think it reasonable that the responsibility here falls to 
+folks that are closer to the code in question than the wider and 
+overworked kernel maintainer community.
 
-AX.25/netrom VHF routed networks spanning from Oregon to Los Angeles.
+That said, I think Dan Cross (KZ2X) earlier email makes a pretty strong 
+case for moving out of the kernel while still providing a way to have 
+backward compatibility, perhaps this might be the way forward?
 
-    https://www.easymapmaker.com/map/80666c4898ec6e8fa0c35add5d03282d
+In any case, done well, this approach would not kill the apps or force 
+anything like switching to Windows! :) Great projects like digipi would 
+be able to continue with minimal changes.
 
-Global radio email using AX.25
+I wonder if a separate thread in linux-hams makes sense to discuss the 
+various longer term approaches to maintaining these capabilities - I'll 
+try make time later today to kick one off - such deliberations will be 
+of less interest to the broader LKML and other lists.
 
-   https://winlink.org/RMSChannels (1,336 AX.25 email packet nodes on 
-the Earth and Space)
-
-This is all in operation by Amateur Radio ARES emergency 
-protocols/technologies.  This
-will not pass the headline test when it comes to Linux detractors.
-
-Most of this is running on Raspberry Pi / Linux 24/7.
-
-If we want to kill all these apps and somehow force them into user space,
-it's akin to just switching to Windows - and flounder with the Microsoft 
-folks
-trying to do the same thing.
+Cheers/73
+Hugh
 
 
--craig
-https://digipi.org/
+
+>
+>
+> -craig
+> https://digipi.org/
+>
+>
+-- 
+I am slowly moving to hugh@blemings.id.au as my main email address.
+If you're using hugh@blemings.org please update your address book accordingly.
+Thank you :)
 
