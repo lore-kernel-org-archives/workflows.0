@@ -1,117 +1,129 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA7F3E8C69;
-	Tue, 14 Apr 2026 14:29:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C11DD242D7F;
+	Tue, 14 Apr 2026 14:32:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776176960; cv=none; b=c/A03rU+dZ315l2cbnGJdoManBv2ELm1yXUzVysE4o4yWGze2Gv7Ft6oCPp6QLbnWeoCM/uCgbOi7pKqE1rW7qY48c4GPtRDxBZq4hlucgrra/rAiUCFdUMVcGq9s6+9Y9GdPikQhoKX49Bgn4wxU5qnSfj8MPfOi+fjKEJVitU=
+	t=1776177127; cv=none; b=WdddHxPdwLQbsA4AlA02lQb0/qSEd5qSQKlbPzOLlXqPex4uiqN++O26Nj2sa3sYiVnLqlgszycojRdljA9OcFbRo9XY6Q9Kl52lipgK0OWLnZmLUI7cbIhj3E5proDtA6rc6WddQb9ZwpdVvoXquxeODx0s6X0hIG57VEVzKqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776176960; c=relaxed/simple;
-	bh=Z8dBubfNQTKwauxpT0B6VmQJ1X/r3l3qLS1pZ26urKE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=D68PJjAUypekoVt7y1Th5S3SaN7dD1iYFQssP7WhvaAQ6hTjX16rKwjuOVOWrj6vbEp6oFkR0cPXhdGAFPgrZ5u/Lbg0UIj7CHJiw0YcpO22NvNfp4DtkldsppL9wxjdCiH3GhchrGUQxOldhjBusa3K3g0xIwHPilheDbh/y0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KUKTBJHK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776177127; c=relaxed/simple;
+	bh=CWiwP2oLTWZNL6Cb5yxV4OsPnRAOlljsQx6OoE4qiBQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Cy0I9gtbzTuKHGIn2j4owpVwitsvREc4V7XJg2DIG1YihNOkntJ4lKVbddTuOqHa+WlRGsFl7ZPMa7X+d6I75m/NOCaMCruhOe9gWTx7WecGgPbjtcJk08BYjzXlWhHODVwk1y48mYEgOz6ZYZ3Ol7LAjIaOhm8d2TpKbSATJHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ukCTjwbT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KUKTBJHK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD4F5C2BCF6;
-	Tue, 14 Apr 2026 14:29:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ukCTjwbT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5729FC2BCB9;
+	Tue, 14 Apr 2026 14:32:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776176959;
-	bh=Z8dBubfNQTKwauxpT0B6VmQJ1X/r3l3qLS1pZ26urKE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KUKTBJHKkWW28+VWVgifj6x2B5B6vGxTjXLsTW/Kj56TWARFKsThWcBxF77C8KC1M
-	 KyawJvB3faPLRYXbeaZC1747CBRk59rhhw2qsrHLD4rks028s89k2AYBUkCTZ3gjzN
-	 hxudgGXsgjVLtmboXSHY8e4kn27bW5RKvUK2nO4QsZPP3swfV1fxcdHAceKrsgrvl9
-	 NdjCM1A0eNiq6hVGsGjsoAadnSuGFAgBnJO8HTwlteMm/krqtScHgj+XrlY66nw9ip
-	 GhIG5a5mXOaNY4Jowa1ss3YHJwogrB4UTYsJMdb3GFUimRD6B0Tzesfisdu7We7TEj
-	 FSZeHjqINHZtg==
-Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
+	s=k20201202; t=1776177127;
+	bh=CWiwP2oLTWZNL6Cb5yxV4OsPnRAOlljsQx6OoE4qiBQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ukCTjwbTaWFhUisMbRu28tNXKa+yQoSrxyoDSEzpp0W9HqeAuF7HAYsbAFHQ90l7z
+	 /pS7Qz4rKcaty0TZeI1nP71ZHalPp6DKR5ogFCV1gx5CiGdU8gtOano5nkd0pJWmr/
+	 tAkOeuzRKuoo/HC4ZaK/ZwIEYUA5l2Ia6vCSBpx53QxocE/qH8CAuU3P1MSoEw3/99
+	 JuiCIN1K5X4CnBROHvjS1ShbIGyiTfYxdie4oxKqBZfQyjvD6hYW4u1Z4jxzjiH/4r
+	 MrYTM9Ilb8cohpHjAldcnL5+YDjFxfiWepBUCFG8jAuR0NSxw6GDXHn6CfnSQjYUPq
+	 RRYv3i4Q5mrMw==
+Received: from localhost ([::1])
+	by mail.kernel.org with esmtp (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1wCelS-00000007oQG-0mGQ;
-	Tue, 14 Apr 2026 16:29:18 +0200
+	id 1wCeo9-00000007omM-0Rz2;
+	Tue, 14 Apr 2026 16:32:05 +0200
+Date: Tue, 14 Apr 2026 16:32:04 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	workflows@vger.kernel.org,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Dan Williams <djbw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <pjw@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH RFC 4/4] docs: auto-generate maintainer entry profile links
-Date: Tue, 14 Apr 2026 16:29:07 +0200
-Message-ID: <9228f77b0339b8e5dea4a201ab6d4feb30cef5c2.1776176108.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <cover.1776176108.git.mchehab+huawei@kernel.org>
-References: <cover.1776176108.git.mchehab+huawei@kernel.org>
+To: Dan Williams <djbw@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Kernel Workflows
+ <workflows@vger.kernel.org>
+Subject: Re: maintainer profiles
+Message-ID: <20260414163204.08f94002@localhost>
+In-Reply-To: <20260414143733.6cbd6d62@localhost>
+References: <b7775383-da94-4098-8af9-2f672c4f1a71@infradead.org>
+	<87wlyawum7.fsf@trenco.lwn.net>
+	<69dd6299440be_147c801005b@djbw-dev.notmuch>
+	<20260414143733.6cbd6d62@localhost>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Instead of manually creating a TOC tree for them, use the new
-tag to auto-generate its TOC.
+On Tue, 14 Apr 2026 14:37:33 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- .../maintainer/maintainer-entry-profile.rst     | 17 ++---------------
- Documentation/process/maintainer-handbooks.rst  | 10 +---------
- 2 files changed, 3 insertions(+), 24 deletions(-)
+> On Mon, 13 Apr 2026 14:39:37 -0700
+> Dan Williams <djbw@kernel.org> wrote:
+> 
+> > Jonathan Corbet wrote:  
+> > > Randy Dunlap <rdunlap@infradead.org> writes:
+> > >     
+> > > > Hi,
+> > > >
+> > > > Is there supposed to be a difference (or distinction) in the contents of
+> > > >
+> > > > Documentation/process/maintainer-handbooks.rst
+> > > > and
+> > > > Documentation/maintainer/maintainer-entry-profile.rst
+> > > > ?
+> > > >
+> > > > Can they be combined into one location?    
+> > > 
+> > > Late to the party, sorry ... the original idea, I believe, was that
+> > > maintainer-handbooks.rst would be for developers looking for a guidebook
+> > > for a specific subsystem, while maintainer-entry-profile.rst was about
+> > > how maintainers themselves should write their subsystem guide.
+> > > Doubtless things have drifted since then...  But the intended audiences
+> > > were different, so it might be good to think about bringing them back
+> > > into focus.    
+> > 
+> > Right, I think something (roughly / hand-wavy) like the below is the
+> > intent. However, as I write that I notice that the combined list is a
+> > bit of a mess. I also notice that there are more "P:" entries in
+> > MAINTAINERS than there are entries in this maintainer-handbooks.rst
+> > list.
+> > 
+> > So this probably wants to be a script that can build Documentation links
+> > from MAINTAINERS, or otherwise provide a script for developers to query
+> > a kernel tree for additional submission guides. It is probably not as
+> > important for the built docs to link all guides as it is for developers
+> > (or their agents) to live query a tree they are developing against.  
+> 
+> There is already a Python script which parses MAINTAINERS file
+> (Documentation/sphinx/maintainers_include.py).
+> 
+> Currently, it expects a Sphinx meta-tag inside
+> Documentation/process/maintainers.rst:
+> 
+> 	.. maintainers-include::
+> 
+> I guess it shouldn't be hard to add support there for a
+> 
+> 	.. maintainers-profile::
+> 
+> Making it creating a set of cross-references is probably easy. Not
+> sure how easy/hard would be to create a TOC tree, though.
 
-diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
-index 6020d188e13d..48ecabd4ce13 100644
---- a/Documentation/maintainer/maintainer-entry-profile.rst
-+++ b/Documentation/maintainer/maintainer-entry-profile.rst
-@@ -98,18 +98,5 @@ Existing profiles
- For now, existing maintainer profiles are listed here; we will likely want
- to do something different in the near future.
- 
--.. toctree::
--   :maxdepth: 1
--
--   ../doc-guide/maintainer-profile
--   ../nvdimm/maintainer-entry-profile
--   ../arch/riscv/patch-acceptance
--   ../process/maintainer-soc
--   ../process/maintainer-soc-clean-dts
--   ../driver-api/media/maintainer-entry-profile
--   ../process/maintainer-netdev
--   ../driver-api/vfio-pci-device-specific-driver-acceptance
--   ../nvme/feature-and-quirk-policy
--   ../filesystems/nfs/nfsd-maintainer-entry-profile
--   ../filesystems/xfs/xfs-maintainer-entry-profile
--   ../mm/damon/maintainer-profile
-+See Documentation/process/maintainer-handbooks.rst for subsystem-specific
-+profiles.
-diff --git a/Documentation/process/maintainer-handbooks.rst b/Documentation/process/maintainer-handbooks.rst
-index 3d72ad25fc6a..d3d74c719018 100644
---- a/Documentation/process/maintainer-handbooks.rst
-+++ b/Documentation/process/maintainer-handbooks.rst
-@@ -9,12 +9,4 @@ which is supplementary to the general development process handbook
- 
- Contents:
- 
--.. toctree::
--   :numbered:
--   :maxdepth: 2
--
--   maintainer-netdev
--   maintainer-soc
--   maintainer-soc-clean-dts
--   maintainer-tip
--   maintainer-kvm-x86
-+.. maintainers-profile-toc::
+It was actually easier than what I would expect ;-)
+
+Just submitted a patch series doing that:
+
+https://lore.kernel.org/linux-doc/cover.1776176108.git.mchehab+huawei@kernel.org/T/#t
+
+> > diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
+> > index 6020d188e13d..58e2af333692 100644
+
+...
+
+If you transform this diff into a patch, it would make sense to
+add together with the next version of my RFC ;-)
+
 -- 
-2.52.0
-
+Thanks,
+Mauro
