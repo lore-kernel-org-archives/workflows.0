@@ -1,111 +1,198 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013037.outbound.protection.outlook.com [52.101.83.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31DF719DF6A;
-	Tue, 14 Apr 2026 11:18:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776165506; cv=none; b=iocrlInsEF4Zgenp7VNRCM62HgpnAz4qZeC3wCQJuhscJUgwhu8pbRN/pm8siScgUAbwdafM9YwH9DmDsidjcE1/a4AMSUhLb9KhkL9se5/3ERv6jiL66CtjuWIQUhGWim9dIXbfWkIzth7JSE7YsmWZ6xXHalQebEgD05hdFzM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776165506; c=relaxed/simple;
-	bh=iG7HI+5u4A8V60EX2I9b9IKmo5HXQbPzeBfJHB8npoc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nkY4ARAqND+Dog5omEGcR6aUPg+4rpaJjaXXi4W9LK7ATDKrgXNRCNQZqmqa8g4ZJKnGjoOJFPY4SoowEMmROisvEz51R69VEFnpAm1cpTLecfEC4+29ftDPAOXTylXjEf/PoWf5C0csIKaQn2n5Z5a4mb9VkApdcox2hceu3M8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LO8ERRJE; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 247863DDDD3;
+	Tue, 14 Apr 2026 11:40:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776166841; cv=fail; b=ZzFyXHCgWxcwXah2Geeh/toROD62bHHx2Tg4w97tJl5jzc6WJ8WGOk+eTBWr0e1yyz+Z2vFAs1+d4YJdDSKICdIXCx7c6eMav+CYt+0Lr2VCwybxH2ShP2Zkt1qzNcuP8b/S9H9zFp7zrdAzAWLHprNvmy3dLW19jSN0MObSn5I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776166841; c=relaxed/simple;
+	bh=Z+/b8QBxV/gqlFap3sEVX+0qRUVhs/KiVUs8UmBxgQo=;
+	h=Message-ID:Date:From:Subject:To:Cc:Content-Type:MIME-Version; b=ev+BMx0iJGg3bs9hs3b1uNJAZIt+NdnlFj7J3FNHL9HAmEJYWCffdSYskKkaiqznGiBFWsU2KmIUgPmrPstF+/Y0Wa0RkrXcfj/RFPhyxAn6NpNGgwtM08QF0bdJBcK48SZCdxqVOgOlSj7zd0OYvBfuT8iW/jEf4CisD3/I5+s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cherry.de; spf=pass smtp.mailfrom=cherry.de; dkim=pass (1024-bit key) header.d=cherry.de header.i=@cherry.de header.b=Ohkw8N0l; arc=fail smtp.client-ip=52.101.83.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cherry.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cherry.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LO8ERRJE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91CC8C19425;
-	Tue, 14 Apr 2026 11:18:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776165505;
-	bh=iG7HI+5u4A8V60EX2I9b9IKmo5HXQbPzeBfJHB8npoc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=LO8ERRJEA4LNRByWzZXFQThcmV9FJne3FgkpoJIgQucY6lINbIsvtA7+q5V3La8nl
-	 CNqikCruTsg8nHKWGsg5hpiNMUxyo39bhj0r/hYCEqftk5rTK4kmv071wHYe+g/AWu
-	 qkLpTt6j+XZSTYMm/i8e4gzPPGvj9SPfo0cs3swPEhqs+Jby7Cs1duIQkGDX5L6N4I
-	 uPxC8rm5yFOcek2W5EvVTGSoe3PnAOov/idjU4UWEOA/wtDgmZxGH0pusNWct5oIyx
-	 yle99HSHFLjvRg5T1Xq3a+HcCzN+zubVEJ8tO+L77G1yvXMQS/lFRh7NleYKvvasxE
-	 KYIQ1E8IeWBdg==
-Message-ID: <72a4accd-5f94-45f7-8392-bb659167f078@kernel.org>
-Date: Tue, 14 Apr 2026 13:18:22 +0200
+	dkim=pass (1024-bit key) header.d=cherry.de header.i=@cherry.de header.b="Ohkw8N0l"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rBRsC9Z9nRYbfXNZCBRLcQshjlDBdMW2JMz0rHcX3hM9eybtRblfk89kb6YWCiFvSfWdK9OF3CA3XVfaS48Qs1lBY4pd6+hkRHMnmS9ff1KtzKPQZQq67i2EE7uT5+TjTrvs+13vuv84yJ05QBsAr3ECXjktcaoL6Ue+JL4uUzOsTa/zy/P2wRzIsVP9WWHhJwTXV2nQUC3sk4QiWSiyTjSWn/ggrtpm3mF2j6PKz+4vNhUycUJ5XFgzjHXTVR/12OL/U+NA4UhXwxx4tzcfKHZrTWhGO7qj/idbj52/DCxKNck/9BAKtnDIEOyPn8AzHoYG7t0XSckG6eLtvx6WEQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BQLCmpXvYWJ+jy94ebRnU764cBhbHssKW8paHzKH9SY=;
+ b=kNbJ41CPxWAclq80lQhGyiWU5n+M4J4a1UXd7ZIoR8GWNs68oUb1Nl9w2iE3kuCi1CdpKi0dA/6CfqFT6n7Q428/VpS4EM2wywCwvp6jeFsIa2jpXdLuELwwqaTogajrBsT2R62e2by3iaTsr6TSjYzgLhHs9Az3NsDcOwyQZBSl4jVJgrs2d2/TCLHpkTTRhmD5zZu2jJpT8MVHq9NqDLmvJfi54bOFs9IeompuHPj5P95vzOkqwXrnxLBkxfCmH3E/BF4oLkt32CjjLWvEXykxnopYORi7FmFwMzE3P4J181XKfuJUQGGAwrSoNtvkMpFaXOV2gtEvjkJB1cVpLw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BQLCmpXvYWJ+jy94ebRnU764cBhbHssKW8paHzKH9SY=;
+ b=Ohkw8N0lZJdWmtYkog/CDeE0/F2LY9GM1HfbjhORRSSQGyxWTNsz24dVsNCbjXQEM0KjGYtMUPLfrrPN/ENBWKJ4xsvJ+0L0YLb6oX/fa+aBYmoVrPY3z7EaQbf+4ezrLSi/nHmGawfFa7fpJe9A8EekSbUwZ0P/slLum0dV4nk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from DBBPR04MB7737.eurprd04.prod.outlook.com (2603:10a6:10:1e5::22)
+ by DU2PR04MB8965.eurprd04.prod.outlook.com (2603:10a6:10:2e0::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.48; Tue, 14 Apr
+ 2026 11:40:35 +0000
+Received: from DBBPR04MB7737.eurprd04.prod.outlook.com
+ ([fe80::5960:fb4b:9313:2b00]) by DBBPR04MB7737.eurprd04.prod.outlook.com
+ ([fe80::5960:fb4b:9313:2b00%4]) with mapi id 15.20.9769.046; Tue, 14 Apr 2026
+ 11:40:35 +0000
+Message-ID: <ca758574-b32f-4614-88c7-266acf9044c3@cherry.de>
+Date: Tue, 14 Apr 2026 13:40:33 +0200
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+Subject: How to backport (with conflict resolution) CVE-fixing commits to
+ stable releases?
+To: Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sasha Levin <sashal@kernel.org>, CVE Assignment Team <cve@kernel.org>
+Cc: workflows@vger.kernel.org, stable@vger.kernel.org,
+ Heiko Stuebner <heiko@sntech.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR0P281CA0131.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:97::16) To DBBPR04MB7737.eurprd04.prod.outlook.com
+ (2603:10a6:10:1e5::22)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: maintainer profiles
-To: Randy Dunlap <rdunlap@infradead.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
- Linux Kernel Workflows <workflows@vger.kernel.org>
-References: <b7775383-da94-4098-8af9-2f672c4f1a71@infradead.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <b7775383-da94-4098-8af9-2f672c4f1a71@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DBBPR04MB7737:EE_|DU2PR04MB8965:EE_
+X-MS-Office365-Filtering-Correlation-Id: b7b26b4c-98d2-44d5-3113-08de9a1aa483
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|366016|10070799003|1800799024|13003099007|18002099003|56012099003|11006099003;
+X-Microsoft-Antispam-Message-Info:
+	Ys+4TdGHl/nQDYTqBcv4Y4dzefATyGrVOcjlQrsz5bR/AvyI7DvT6ByzfxTKYEUEMMxxQ0m8RGAUaVlSZiTBgvYRNWNR2yKe4bzButMGn84IaYBRdox/3FiwOt3M6W4hI37C2my4ovHP2oemjPupalvyaYRsZfGMTHcDEJWCHhh8+dUAZT2bYmtlF90mKQ6VKE8vIlHyksWNtKhsMvFYQ3uRddMChVWY4LPl2dfNKWhrmGBiPyeQ6TBQaMudkYS00/J1F5Qjuiee87Hg42SPKfbgEOGiLMxKwgZRBXfgDOViFCcG7OFpSjbuwPOjAUq7IABWnGu1QW/jpS6jhmNVZneAAumjfUmj4aiknRpogtKwfGx0+6dWklp+guWyKvxgtHoJfBB848u5NBzocX2hs+cGjSzROMt6ZY6yLBCGTrgdV1Nk8H9V3gkKp9Lr5xK+bp2Do8FWFy9u7O51UgnfkoMAVHtGkyvs6sdyXVRO6Lgh7Q9hlQQDHNKXb5aqo3ZQf+8TqOsUlZ32/ephhhsWuUvFl0CeW7+7M9S0rV84EeqWNjfwjtDyOvgxijiPisIBNSPnpLxANYqt1ff4zG4eE8TVvNOSH3KF0mVg87rlmp/hN9043BcWoPxf9rd2ir4FoVY5PzDrmLQ1QH+JVGtjVvdnLRoOqo5pXIksNYtYte2BZCkeCaYdWJCR16XOjgNs
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7737.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(10070799003)(1800799024)(13003099007)(18002099003)(56012099003)(11006099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?WHBvY0w5OHBhVTRzVHZXV3JiVjlxR3RsZXJ5Zk85SlduSzI5SkNJS1M5K28y?=
+ =?utf-8?B?TEtqcDVYVVhyVklxM3h2dFJWQjZESzNPMWltVzlxeEp6N1F5NTIvMVhSZlJ2?=
+ =?utf-8?B?ZFZhYUw5TEw3Y05DdDlhdlBWWVc4Y1FiYUkxdlN3aWlnb2IzQWxYTTlnL1ZQ?=
+ =?utf-8?B?eDNUaVdpUnpBMVVHNDhkcS9iUncwb3oxNllrOFF1SnNjRGtPcnpRTFg4S1Ax?=
+ =?utf-8?B?TSt0WHNQNzhiUGdMbkIyM3dBRGpoOGNYMmMwVWFJVllDbnVLdFVhTHExRUtr?=
+ =?utf-8?B?WnBJbVhXeDR1QjI2RzZBOWNEeFMwQWlPUE5mZ3dyNlE4bkgvY3c3V2lRc2Qy?=
+ =?utf-8?B?MWI4dGJHTFB4YnZUTGR2MldWSTNnZmlmVXhKazBaUzdxZkVhQ1d0WTFUczlV?=
+ =?utf-8?B?dXZDT1pRNGlEQ1czUGIxdDhnV1lSeVRoUEw2TGlDeWJ5L2JSMjJTTTZFc29P?=
+ =?utf-8?B?K3FkbXF5ZVArOWtaQ0d0MFNpSGM4Qk01Yys0M056TEZXdVJNb1lTZjlKSk9s?=
+ =?utf-8?B?bmswMU85a3hTc3c4N1ZZMHRKUkVjRlNBRC9Qa1I1RVFQZi95Q0IyeEdnL1Nn?=
+ =?utf-8?B?R1VkZWdwMEFzejRvQnoza05jbFEzZkIvLytGR0dEWjZFVHM5WTNKSWRUTGFk?=
+ =?utf-8?B?d2xhNlBPM2x3Q2NobmQ0Nk4ra3hRaXVIblJvL1hoNnhCMmdNQ250Y09EQTQ5?=
+ =?utf-8?B?cng1cWFZVjBjU3RjZlhPMDNnL3dscmF4MzJvTUU2anVOVG90alNtSW8xczZ4?=
+ =?utf-8?B?WUJwTEtPN1M1b2FZK3ltZ1lITXJXZko4NkxtSEVPR1pSREhYWXhTWDczVHAv?=
+ =?utf-8?B?SWdibnhvN3BiR1pMbGZzVk52L3RDaFhtTVhHNXNlK1RQZlF6bXMvaW1GNkFr?=
+ =?utf-8?B?VTFFVEJyMGtUVTBCOVhoTS9sQTc0T2JtS3BYejRDVFZSY1I0ckZzM2JRSGhS?=
+ =?utf-8?B?c2ZiSExoZm5zYmM4eEtXbWF2dnRwclI3V0VTMzM1YVEwUG1wR3NCNUEvVXBy?=
+ =?utf-8?B?c3pUUHNqWUhUWHdzb3dEUlBzMEl6YjRlVTRKdlFETmJ0dHJvc1RjZzc2T0dq?=
+ =?utf-8?B?by9GRXJVMjRhcEhnUWdTZ0dabUQ2NzY5d01FTktzQzdjTUZFM1VLOVJEbm5u?=
+ =?utf-8?B?aURUTmNGWUxaRlRPS1VBRDUwMzZrQS9Vb0t0cTh3ZXd2YUVKaC9tbmFoRjE3?=
+ =?utf-8?B?aGhQcXdHai8rbFp1bjArL0owbXhEdGVYZlBmV0JLeVpZc2xqSVE0UDROY1dX?=
+ =?utf-8?B?S0NLTHMzRG5PZ056M0tvaHNRZGpUdVlLWFprcHNBVHJFRDFVUm5qeHlXSnJM?=
+ =?utf-8?B?UmFvM1B5UnZCUThLMzhGNWV2ZmNMelRGdU5KeFJ2aHhRbkY5LytYalhjR3oy?=
+ =?utf-8?B?TTBkTC9adzl4TUk2L202VVFET1M0dnFiUC8yalpvd28vS044MXVDWG5PUHho?=
+ =?utf-8?B?WVE0dldJVUNsZHZsbGRDczZyOVZKMzhsNk43eXhLUklqaEorVjY1bHpYbTgx?=
+ =?utf-8?B?bUZXa01ydUtnMCtnVTh0VzFZRFNTRWRTYWtPK0ducFJCN096eUFJMlltOC93?=
+ =?utf-8?B?OXJCSXZpVm9qTXhEdEpSbTEwVlg4ZVlKdGVOUkE3N0EwRVRQOThBNVRtNC9E?=
+ =?utf-8?B?VVJYQm1Ia2xrdUVmVUdQY2M5U0g2V0tmWGFvdFlqelVMNmFiNTMraFpuSnpr?=
+ =?utf-8?B?ZW5MWE94L2xnandhbEVtNGJxSmFVRVp0bldUTVoxaCtIN3V3VGxGcUs0aWla?=
+ =?utf-8?B?M0VEL1d2ZlFrK1drUCtwM21Odk4zcWtNM3dVZUJZZmtsVGozR0hqUW1td041?=
+ =?utf-8?B?SFNDTTlsdEZKYmRKWnE2K1dDdWs2b2RWUHNSeHJrSlduYVZZWEdUeHVGK09o?=
+ =?utf-8?B?TTV1QnJJZ0d2ZzhXLzNhVVlmVFNoR0hUb2J0NkV3SEdqYzdWc0JEODczZHdm?=
+ =?utf-8?B?WW42WWcxc2pWUEJNeEhUd3pWNUJFb0dZdHRPYlIyYmtaNHVhZHl4QWo5QWZj?=
+ =?utf-8?B?SmFjUU9lcGE2V01PQ204NCtadzhLSk9TUVlRYlVsY1VTaUwwYlpCdjhhcnlY?=
+ =?utf-8?B?R2k0NzhYaW51S0tUS2M3dVh0K0lJdHJuV2x6VW94YSs0Mis1MzBhVy9Pa1Ja?=
+ =?utf-8?B?Z080RkZZTWtRMXRJK0NYRGcxMUc4L2ZjaWRYbUtUV2dRcHgvamlhRjJvU0lS?=
+ =?utf-8?B?UTJkSlNIQXNRNW1CNzBHMlllaWtsb1JmeHRFMU5PUlg5SmtYRjhWQXU5REow?=
+ =?utf-8?B?UzY4S0c1aE9GdFlualliWm4yekozQmJ2REFITVlKV3VFcTNzQmxaZG1oVUR1?=
+ =?utf-8?B?NXpRRXdzNEtFamFuWEdSN1pMQmtEeXhXK2RiTmNua1lsR1NacXZ0QjV4S3Fj?=
+ =?utf-8?Q?1dTo7u0gBITNS01ZFeJVttcSBbjxiEDSQyYNU?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: b7b26b4c-98d2-44d5-3113-08de9a1aa483
+X-MS-Exchange-CrossTenant-AuthSource: DBBPR04MB7737.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2026 11:40:35.4388
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mEpkhhaeLjlv7wVlWHqL6UKjOr1l8Mozyc2ZWvY116Bqu1y2aHCDiOKu18myNTzuUseCMy6i0BgSVvBLLjOG95MjZQj3ok+mooaumeX4cyo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8965
 
-On 10/04/2026 02:18, Randy Dunlap wrote:
-> Hi,
-> 
-> Is there supposed to be a difference (or distinction) in the contents of
-> 
-> Documentation/process/maintainer-handbooks.rst
-> and
-> Documentation/maintainer/maintainer-entry-profile.rst
-> ?
-> 
-> Can they be combined into one location?
+Hi all,
 
-Yes, please! Including also the location of actual profiles. I am mostly
-looking at them in the sources directly, not web docs, so confusing and
-annoying to find them distributed.
+I would like to backport 
+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=a7ac22d53d0990152b108c3f4fe30df45fcb0181 
+to linux-6.12.y. It is not a conflict-less cherry-pick as many commits 
+have been made to that file between 6.12 and 6.19 when it was fixed, 
+which makes git-cherry-pick conflict. I believe I have a patch that 
+implements the same logic (moving code around, just that that code is 
+different since it was modified after 6.12) in linux-6.12.y that does 
+the original commit in 6.19.
 
-Best regards,
-Krzysztof
+My understanding is that this means this patch fits Option 3: 
+https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3.
+
+1) It is not specified there what to do with git trailer tags, e.g. 
+Reviewed-by, Acked-by, Tested-by. I'm assuming 
+https://www.kernel.org/doc/html/latest/process/submitting-patches.html#using-reported-by-tested-by-reviewed-by-suggested-by-and-fixes
+
+"""
+However if the patch has changed substantially in following version, 
+these tags might not be applicable anymore and thus should be removed. 
+Usually removal of someone’s Acked-by, Tested-by or Reviewed-by tags 
+should be mentioned in the patch changelog with an explanation (after 
+the ‘---’ separator).
+"""
+
+applies here but I think it should be made explicit in 
+https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3. 
+Did I understand this correctly? Could we specify in 
+https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3 
+what to do with those tags? Also should the people whose tags are 
+removed be added in Cc of the backport patch (they won't be 
+automatically with git-send-email anymore since their tags are removed)?
+
+2) I'm also wondering if we should strip the Signed-off-by tags used in 
+the original patch's delivery path to Linus. After all, it'll go through 
+a different path: to stable "directly". For this specific commit, it 
+doesn't matter as the Signed-off-by are for all authors including the 
+maintainer as last, but the question remains, I don't believe it's 
+always the case the last author Signed-off-by is the same as the 
+maintainers' first and last Signed-off-by in the delivery path. What 
+should we do?
+
+3) Finally, the last question I have is whether it's 
+required/recommended, and if so, how, to tell maintainers of 
+https://git.kernel.org/pub/scm/linux/security/vulns.git that this patch 
+is for CVE X, in my case 
+https://git.kernel.org/pub/scm/linux/security/vulns.git/tree/cve/published/2026/CVE-2026-22986.dyad. 
+Maybe their tooling will automatically pick it up once merged, but I 
+couldn't find documentation either in 
+https://www.kernel.org/doc/html/latest/process or  nor in the vulns git 
+repo what to do. Did I miss or misread something? Is there anything we 
+could add to 
+https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html, 
+https://www.kernel.org/doc/html/latest/process/cve.html and/or 
+https://git.kernel.org/pub/scm/linux/security/vulns.git to make this 
+clearer? Greg seems to be saying "patches to vulns.git welcome" in 
+http://www.kroah.com/log/blog/2026/02/16/linux-cve-assignment-process/ 
+(Chapter "Changing a CVE"). But also "this is automated" in 
+http://www.kroah.com/log/blog/2025/12/15/tracking-kernel-commits-across-branches/. 
+However, those aren't on kernel.org :)
+
+I hope I got all the right mailing lists and maintainers in the mail 
+recipients, feel free to add more appropriate ones.
+
+Cheers,
+Quentin
