@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4A23E866C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F283A3E8C62;
 	Tue, 14 Apr 2026 14:29:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776176959; cv=none; b=ad05XJ7Em4lgfjXJKvC6NrMlWAvKWdMq1jkncPzg42c4VDMEZn2V28uy4+zfLkJLYj9DDC8UZlYylGgPJ9Q4E8ovGaE8tPhSsoJDfabcmZmNd5ICX0QeKmLDUK3EcEO3ZD/ATZOzIG+r9Fv9wsnxXE5zxT70UwLSXc/UWeRM/RE=
+	t=1776176960; cv=none; b=LY1q+6n/zjo2pXewBdoax9/Upc+wop5Mv0n+VXFROfqss1HqEMnPeken+9/YyRcBz9TKES3KxkxdpXkuM4rdd7s98NeX/0N3lZ86E5jqm77/AISUmA6QVqGpod6zUaCVaXaB6YpVhSNbQAx6bNqdFbGY6KScFZGRpJ4xT/HkZXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776176959; c=relaxed/simple;
-	bh=gth3jfowrfngu7tkNsJyoJ95YLlIYI/ANJFuh2PjIdU=;
+	s=arc-20240116; t=1776176960; c=relaxed/simple;
+	bh=CQbeQ8MaYMOm5iHoZvEQ/hMjNQ3Gji9XdVM+EDT+8Dw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QZOHRCIRUWYNqDraylQ+ge4aFFCW03nHzTRgvcSurhGGB4ox2OOVSv18ZoamQ9z7lWYv5AmJ7nZeaIxCXywOzCbcRsx/h8CE5DWdnsQGy2UvkHVSRfdjyTg+fzwIU+si7hC0RcQbspTzxH3srxVAnp5WgJU9lYQb6rSOj1SlXSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sa1DWQPK; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=HS0f1GMElfqvtS+nRjtu0k5qTE9+cjmnFbPcPBOnxna37JV3gtkuU9i3zUnxfTSogLQVlTkAmHGRx5npcORk0U3v53ehBKXQ+1XJh0giXuyuWKw/4xxQdYq4qKlASDXEXbTo064q4hq2vt0e4HhAq80qRyZ8BAzp3aB6Jk3lN8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OV8wuFXI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sa1DWQPK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9646AC2BCB9;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OV8wuFXI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFBD4C19425;
 	Tue, 14 Apr 2026 14:29:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1776176959;
-	bh=gth3jfowrfngu7tkNsJyoJ95YLlIYI/ANJFuh2PjIdU=;
+	bh=CQbeQ8MaYMOm5iHoZvEQ/hMjNQ3Gji9XdVM+EDT+8Dw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sa1DWQPKuEWeNrj1vBKpP+iAOSKkQHbfr1h/7FQryBkfBcFN/aIo3MarguP1t/S7m
-	 QjpyIeRl5PMd4DoNkdC619wj20+bdmpKw+/EviFDb43gu2QYYJ0fM0dkQ7E3kIQKkg
-	 OLnHF1YKSlf3AaztRb9PkeU0x9VYQZ33rLGomlH8EkfLTEVZeMgKas71NO39ZpFYXn
-	 j3yKFnz6kBBjtq81MesInPO0Qz1wSQW1nUl896OsulqqFlzmUJ8/esXkgg0lpxmzWX
-	 c7kbIAkKzOpM3XHXWrqbuaycnsdaAduT0GCuUXOI2E8BhMhVyu5wS40RwGFQtUQCb0
-	 Mqzs5PpqTBbkQ==
+	b=OV8wuFXIDoAUX1rTDJ5kBHIhztHvdbBaaKuuVMRaLzaXaCH+VosQa6g9r+ggREXMA
+	 n1d4eR+hlMXQyTyv93wDtk9S28wyfxb0X8+po4ZAP9PVk2OWN9eH0V9Am79RZBsxbi
+	 nf6/h0lmTKyfraRTNBOjCWpaBvxJvfAq0Q3dOcmjq/Y00FM/yg6tRGd/uKAmYqglCU
+	 BGYdvbycu3fZ9LlMl+AvQnEjftJdY1hC8QkNz51K+6vxfc3FilGgTintdNawNiS13m
+	 Ruxa4cV2jTLztVfd37E9FJGk5uvE9kov0bdoII+Ucf2zB9tI1i4Y+jVcOVlOQFsA+e
+	 yPsejlIvgMQKw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1wCelR-00000007oNq-3GKA;
+	id 1wCelR-00000007oP3-47RN;
 	Tue, 14 Apr 2026 16:29:17 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -39,9 +39,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	workflows@vger.kernel.org,
 	Dan Williams <djbw@kernel.org>,
 	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH RFC 2/4] MAINTAINERS: add an entry for media maintainers profile
-Date: Tue, 14 Apr 2026 16:29:05 +0200
-Message-ID: <5af4aa6a716228eea4d59dc26b97d642e1e7d419.1776176108.git.mchehab+huawei@kernel.org>
+Subject: [PATCH RFC 3/4] MAINTAINERS: add maintainer-tip.rst to X86
+Date: Tue, 14 Apr 2026 16:29:06 +0200
+Message-ID: <970434c647aa1e1e9a81c87b4d5fed934d4018a7.1776176108.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1776176108.git.mchehab+huawei@kernel.org>
 References: <cover.1776176108.git.mchehab+huawei@kernel.org>
@@ -55,8 +55,8 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-While media has a maintainers entry profile, its entry is
-missing at MAINTAINERS.
+While the maintainer's profile for tip is there, it is not
+at X86 maintainer's entry.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
@@ -64,17 +64,17 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index f0b106a4dd96..620219e48f98 100644
+index 620219e48f98..a85fcae5f56e 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -16115,6 +16115,7 @@ S:	Maintained
- W:	https://linuxtv.org
- Q:	http://patchwork.kernel.org/project/linux-media/list/
- T:	git git://linuxtv.org/media.git
-+P:	Documentation/driver-api/media/maintainer-entry-profile.rst
- F:	Documentation/admin-guide/media/
- F:	Documentation/devicetree/bindings/media/
- F:	Documentation/driver-api/media/
+@@ -28560,6 +28560,7 @@ M:	Ingo Molnar <mingo@redhat.com>
+ M:	Borislav Petkov <bp@alien8.de>
+ M:	Dave Hansen <dave.hansen@linux.intel.com>
+ M:	x86@kernel.org
++P:	Documentation/process/maintainer-tip.rst
+ R:	"H. Peter Anvin" <hpa@zytor.com>
+ L:	linux-kernel@vger.kernel.org
+ S:	Maintained
 -- 
 2.52.0
 
