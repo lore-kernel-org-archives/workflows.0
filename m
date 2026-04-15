@@ -1,155 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ED1334A3DB;
-	Wed, 15 Apr 2026 11:43:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA85A388E56;
+	Wed, 15 Apr 2026 20:42:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776253426; cv=none; b=GzNOaZUfdTH9ifQgwZbHlozQTSJkjtJu+PfnYtFdLOla1RCzuTm3u4xeaxCLGszKF9ySQPIYU7N4JtkiwCcIBhI3GiioBc6kmi64JcoORJeQ7BRLtj0F3cpKGSxakYrZiRMiG3ieAXRqarWI7qSq7eVWNVvFAyUBuP1Jxqbl9Vs=
+	t=1776285730; cv=none; b=jtjgeOOF9HQgkt1sxWHEAkvQ1XhZW59fb/sHdN8r0EodCOgBG1Gj9hhiaqark1FqwRyzohkpLw2cxdvZJ/7i0eB6g1eGs53Bcu98ddkQxLMvXFfeHbmvkjWugm5BVYyMtG4cYcD8V1XoZeZG4GF19NkmvD54q/Ph3kYzwNB0sOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776253426; c=relaxed/simple;
-	bh=tXfp6De6v1HqoOJvt/plPmKQ+uXgDMHWC7/2Mze9maI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Sqa6tL5Zn+0s4wlQkDZeh8+JXxK7HbWEEd1wqeTviGtvrJVM378WmYvCvlqbjHoK/epjpPIPhX3FMJ8EtF4P+pR18mBhga68QyBln+8CgqYfAnmt3QUjFZn36nWe8cjencSb3BPtIE9oreyW1mC5hUNX5Zbt6M13h/pnxtkpA9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VBSF2SGt; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776285730; c=relaxed/simple;
+	bh=Xzd2CUJJ8z3EoXKcsDKLmkr2vCR7Zi96So2JehYv0TI=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=hLKkj1epRXH+hcXxXpa0XN1uhoeVZ3QOgzLuVcBPVoh2G/raxECXCzdaMnTwLjUhq8DCMhNZy2Hx/CaBV+d4cK5cVfYKW3wf9DozSel1qlfJx6qYZ6arBeoJ+Tv1XGs+SIHAmVui4IAOCxNCYRUon1hqLTIc0Te+yWqeXi8dIRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=wzXlCkhD; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VBSF2SGt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F790C19424;
-	Wed, 15 Apr 2026 11:43:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776253425;
-	bh=tXfp6De6v1HqoOJvt/plPmKQ+uXgDMHWC7/2Mze9maI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=VBSF2SGtgYiM7uY/0Z+w5O/RqFH+t9b676zR/R2UHTK29EzET7sAXbWpN0i6CN9/r
-	 37FOmNx5nnhlc7J3C/1R4IaLWQJ5bXBMonblOIuqpCuSu2rCduVb5aYuRqYKXRY2i+
-	 3PQGNM2UyfrIRDWBVcFvdz6Au/NlefShArQgNyG1f5B4WeYbfdBEJtjA9VzgNpRqUm
-	 awVhvJRBFdgR909xhFmM/6zFdJAlRfe7t1QiBWNEd7jr6q7V4iGorNtGsXNikmsXlh
-	 jsDuSm/ekcpKbHWXgRz8toLPHyg8z2jU2n34z0GEzyejCcCl23Zz5/rWhs4dKAyD6U
-	 l2hbn2ZdrD+jw==
-Date: Wed, 15 Apr 2026 13:43:41 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Linux Documentation <linux-doc@vger.kernel.org>, Linux Kernel Mailing
- List <linux-kernel@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Linux Kernel Workflows <workflows@vger.kernel.org>
-Subject: Re: maintainer profiles
-Message-ID: <20260415134341.002745d2@foz.lan>
-In-Reply-To: <d8804a85-dd2b-481e-903f-c6fea5d24c97@infradead.org>
-References: <b7775383-da94-4098-8af9-2f672c4f1a71@infradead.org>
-	<20260410101239.04c87f26@foz.lan>
-	<d8804a85-dd2b-481e-903f-c6fea5d24c97@infradead.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="wzXlCkhD"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:References:Cc:To:Subject:From:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=1aI+Ng4erWXxFs8ZUX3dbkCgT4drnJQF8UdC69GC4XY=; b=wzXlCkhDyKgXfW98jVR6l3CFTK
+	yZYX2n2+J73Qf67dI6tTBkcSDeDqES+SjijBg373d/NQPeJ2u9XE2XH6SoofOeFxNtTyNoCh8V23W
+	7mXVIR8iK3ccKk33FPs97X6N6PU7JfA4R5Gsl7jjEBktMBMevLysOS1AZ+EOKnN2gBDfPiMEERuOU
+	8FimRqe0zj0bewfrfP3YNQ78I0z0qu1uJ1D2FxSXsxnRyken2wJb0zh+4+koPvvx0LDfEa532eDNd
+	grCb8rKbdFir1bOIJ8DQefISMbDd8LQDWMjNlmLLC7PtRScAXEsj7ZzLSZWj3RvfEdhD//8nDjcVT
+	2jpxYHlQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wD731-00000001az3-2X16;
+	Wed, 15 Apr 2026 20:41:30 +0000
+Message-ID: <88335220-3527-4b1f-9500-417f7ebb7a02@infradead.org>
+Date: Wed, 15 Apr 2026 13:41:16 -0700
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 0/8] Auto-generate maintainer profile entries
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-riscv@lists.infradead.org, workflows@vger.kernel.org,
+ Alexandre Ghiti <alex@ghiti.fr>, Shuah Khan <skhan@linuxfoundation.org>,
+ Dan Williams <djbw@kernel.org>
+References: <cover.1776242739.git.mchehab+huawei@kernel.org>
+Content-Language: en-US
+In-Reply-To: <cover.1776242739.git.mchehab+huawei@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Sat, 11 Apr 2026 16:54:00 -0700
-Randy Dunlap <rdunlap@infradead.org> wrote:
+Hi Mauro,
 
-> Also, does anyone know why some of these profiles are numbered and some
-> are not?  See
->   https://docs.kernel.org/maintainer/maintainer-entry-profile.html#existi=
-ng-profiles
-> for odd numbering.
+Thanks for tackling this issue.
 
-Patch 9/8 fixes it, while solving other issues:
+On 4/15/26 1:52 AM, Mauro Carvalho Chehab wrote:
+> Date: Tue, 14 Apr 2026 16:29:03 +0200
+> From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> To: Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>, Dan Williams <djbw@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>
+> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, workflows@vger.kernel.org, Alexandre Ghiti <alex@ghiti.fr>, Shuah Khan <skhan@linuxfoundation.org>
+> Message-ID: <cover.1776176108.git.mchehab+huawei@kernel.org>
+> 
+> Hi Dan/Jon,
+> 
+> This patch series change the way maintainer entry profile links
+> are added to the documentation. Instead of having an entry for
+> each of them at an ReST file, get them from MAINTAINERS content.
+> 
+> That should likely make easier to maintain, as there will be a single
+> point to place all such profiles.
+> 
+> On this version, I added Dan's text to patch 4.
+> 
+> I also added a couple of other patches to improve its output. While
+> I could have them merged at the first patch, I opted to make them
+> separate, as, in case of problems or needed changes, it would be
+> easier to revert or modify the corresponding logic. Also, it should
+> be better to review, in case one wants some changes there.
+> 
+> The main changes against RFC are:
+> 
+> - now, the TOC will be presented with 1 depth identation level,
+>   meaning that it would look like a list;
+> - for files outside Documentation/process, it will use the name of
+>   the subsystem with title capitalization for the name of the
+>   profile entry;
+> - the logic also parses and produces a list of profiles that are
+>   maintained elsewhere, picking its http/https link;
+> - entries are now better sorted: first by subsystem name, then
+>   by its name.
+> 
+> Suggested-by: Dan Williams <djbw@kernel.org>
+> Closes: https://lore.kernel.org/linux-doc/69dd6299440be_147c801005b@djbw-dev.notmuch/
+> 
+> Mauro Carvalho Chehab (8):
+>   docs: maintainers_include: auto-generate maintainer profile TOC
+>   MAINTAINERS: add an entry for media maintainers profile
+>   MAINTAINERS: add maintainer-tip.rst to X86
+>   docs: auto-generate maintainer entry profile links
+>   docs: maintainers_include: use a better title for profiles
+>   docs: maintainers_include: add external profile URLs
+>   docs: maintainers_include: preserve names for files under process/
+>   docs: maintainers_include: Only show main entry for profiles
+> 
+>  .../maintainer/maintainer-entry-profile.rst   |  24 +---
+>  .../process/maintainer-handbooks.rst          |  17 ++-
+>  Documentation/sphinx/maintainers_include.py   | 131 +++++++++++++++---
+>  MAINTAINERS                                   |   2 +
+>  4 files changed, 128 insertions(+), 46 deletions(-)
 
-- https://lore.kernel.org/linux-doc/cfff2b313d1f79a5919f400020a1b1a4064a714=
-3.1776252056.git.mchehab+huawei@kernel.org/T/#u
+When building htmldocs with O=DOCS, I get a bunch of warnings.
+I tested against today's linux-next tree.
 
-Basically, it creates a hidden TOC which is not displayed, creating
-this ReST output:
+The 'make O=DOCS htmldocs' warnings are (subset of all warnings):
 
-	- :doc:`Arm And Arm64 Soc Sub-Architectures (Common Parts) <maintainer-soc=
->`
-	- :doc:`Arm/Samsung S3C, S5P And Exynos Arm Architectures <maintainer-soc-=
-clean-dts>`
-	- :doc:`Arm/Tesla Fsd Soc Support <maintainer-soc-clean-dts>`
-	- `Audit Subsystem <https://github.com/linux-audit/audit-kernel/blob/main/=
-README.md>`_
-	- :doc:`Damon <../mm/damon/maintainer-profile>`
-	- :doc:`Documentation <../doc-guide/maintainer-profile>`
-	- :doc:`Google Tensor Soc Support <maintainer-soc-clean-dts>`
-	- :doc:`Kernel Nfsd, Sunrpc, And Lockd Servers <../filesystems/nfs/nfsd-ma=
-intainer-entry-profile>`
-	- :doc:`Kernel Virtual Machine For X86 (Kvm/X86) <maintainer-kvm-x86>`
-	- :doc:`Libnvdimm Btt: Block Translation Table <../nvdimm/maintainer-entry=
--profile>`
-	- :doc:`Libnvdimm Pmem: Persistent Memory Driver <../nvdimm/maintainer-ent=
-ry-profile>`
-	- :doc:`Libnvdimm: Non-Volatile Memory Device Subsystem <../nvdimm/maintai=
-ner-entry-profile>`
-	- :doc:`Media Input Infrastructure (V4L/Dvb) <../driver-api/media/maintain=
-er-entry-profile>`
-	- :doc:`Networking Drivers <maintainer-netdev>`
-	- :doc:`Networking [General] <maintainer-netdev>`
-	- :doc:`Risc-V Architecture <../arch/riscv/patch-acceptance>`
-	- `Rust <https://rust-for-linux.com/contributing>`_
-	- `Security Subsystem <https://github.com/LinuxSecurityModule/kernel/blob/=
-main/README.md>`_
-	- `Selinux Security Module <https://github.com/SELinuxProject/selinux-kern=
-el/blob/main/README.md>`_
-	- :doc:`Vfio Pci Device Specific Drivers <../driver-api/vfio-pci-device-sp=
-ecific-driver-acceptance>`
-	- :doc:`X86 Architecture (32-Bit And 64-Bit) <maintainer-tip>`
-	- :doc:`Xfs Filesystem <../filesystems/xfs/xfs-maintainer-entry-profile>`
+linux-next/MAINTAINERS:38: WARNING: toctree contains reference to nonexisting document 'DOCS/Documentation/process/maintainer-kvm-x86' [toc.not_readable]
+linux-next/MAINTAINERS:38: WARNING: toctree contains reference to nonexisting document 'DOCS/Documentation/filesystems/xfs/xfs-maintainer-entry-profile' [toc.not_readable]
+linux-next/MAINTAINERS:38: WARNING: toctree contains reference to nonexisting document 'DOCS/Documentation/process/maintainer-soc-clean-dts' [toc.not_readable]
+linux-next/MAINTAINERS:38: WARNING: toctree contains reference to nonexisting document 'DOCS/Documentation/process/maintainer-netdev' [toc.not_readable]
+linux-next/MAINTAINERS:38: WARNING: toctree contains reference to nonexisting document 'DOCS/Documentation/process/maintainer-tip' [toc.not_readable]
 
-	.. toctree::
-	   :hidden:
+linux-next/Documentation/filesystems/nfs/nfsd-maintainer-entry-profile.rst: WARNING: document isn't included in any toctree [toc.not_included]
+linux-next/Documentation/process/maintainer-kvm-x86.rst: WARNING: document isn't included in any toctree [toc.not_included]
+linux-next/Documentation/process/maintainer-netdev.rst: WARNING: document isn't included in any toctree [toc.not_included]
+linux-next/Documentation/process/maintainer-soc.rst: WARNING: document isn't included in any toctree [toc.not_included]
+linux-next/Documentation/process/maintainer-soc-clean-dts.rst: WARNING: document isn't included in any toctree [toc.not_included]
+linux-next/Documentation/process/maintainer-tip.rst: WARNING: document isn't included in any toctree [toc.not_included]
 
-	   ../filesystems/xfs/xfs-maintainer-entry-profile
-	   ../driver-api/vfio-pci-device-specific-driver-acceptance
-	   maintainer-netdev
-	   ../nvdimm/maintainer-entry-profile
-	   maintainer-soc
-	   maintainer-soc-clean-dts
-	   ../doc-guide/maintainer-profile
-	   maintainer-kvm-x86
-	   ../mm/damon/maintainer-profile
-	   ../driver-api/media/maintainer-entry-profile
-	   ../arch/riscv/patch-acceptance
-	   ../filesystems/nfs/nfsd-maintainer-entry-profile
-	   maintainer-tip
+linux-next/MAINTAINERS:1: WARNING: unknown document: '../../DOCS/Documentation/process/maintainer-soc' [ref.doc]
+linux-next/MAINTAINERS:2: WARNING: unknown document: '../../DOCS/Documentation/process/maintainer-soc-clean-dts' [ref.doc]
+linux-next/MAINTAINERS:3: WARNING: unknown document: '../../DOCS/Documentation/process/maintainer-soc-clean-dts' [ref.doc]
+linux-next/MAINTAINERS:5: WARNING: unknown document: '../../DOCS/Documentation/process/maintainer-tip' [ref.doc]
+linux-next/MAINTAINERS:6: WARNING: unknown document: '../../DOCS/Documentation/process/maintainer-tip' [ref.doc]
 
-E.g. instead of showing the contents of the TOC tree, it shows a
-per-subsystem sorted list of items. The TOC tree is used there just
-to avoid warnings that a .rst file is not placed on a TOC.
 
-The advantage of such approach is that there's now one item at
-the list for each "P:" tag at MAINTAINERS. All of them are
-displayed using the name of the subsystem as described there,
-e.g. it outputs:
+-- 
+~Randy
 
-     =E2=80=A2=C2=A0Arm And Arm64 Soc Sub-Architectures (Common Parts)
-     =E2=80=A2=C2=A0Arm/Samsung S3C, S5P And Exynos Arm Architectures
-     =E2=80=A2=C2=A0Arm/Tesla Fsd Soc Support
-     =E2=80=A2=C2=A0Audit Subsystem
-     =E2=80=A2=C2=A0Damon
-     =E2=80=A2=C2=A0Documentation
-     =E2=80=A2=C2=A0Google Tensor Soc Support
-     =E2=80=A2=C2=A0Kernel Nfsd, Sunrpc, And Lockd Servers
-     =E2=80=A2=C2=A0Kernel Virtual Machine For X86 (Kvm/X86)
-     =E2=80=A2=C2=A0Libnvdimm Btt: Block Translation Table
-     =E2=80=A2=C2=A0Libnvdimm Pmem: Persistent Memory Driver
-     =E2=80=A2=C2=A0Libnvdimm: Non-Volatile Memory Device Subsystem
-     =E2=80=A2=C2=A0Media Input Infrastructure (V4L/Dvb)
-     =E2=80=A2=C2=A0Networking Drivers
-     =E2=80=A2=C2=A0Networking [General]
-     =E2=80=A2=C2=A0Risc-V Architecture
-     =E2=80=A2=C2=A0Rust
-     =E2=80=A2=C2=A0Security Subsystem
-     =E2=80=A2=C2=A0Selinux Security Module
-     =E2=80=A2=C2=A0Vfio Pci Device Specific Drivers
-     =E2=80=A2=C2=A0X86 Architecture (32-Bit And 64-Bit)
-     =E2=80=A2=C2=A0Xfs Filesystem
-
-Each of entry there with either a cross-reference to a document or
-with a reference to an external site.
-
-Thanks,
-Mauro
