@@ -1,52 +1,52 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA433AE1A0;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1C083D5230;
 	Wed, 15 Apr 2026 08:52:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776243149; cv=none; b=uxPltNIirNPQN+P5gdsU0r3+qWwaISTvuEFzNE/RdSICBjsN6KDslCH3t7LSSKVFbOVqm5MktIRiEdDVEnQqVPFrNfDJqMcSsyU/muLtrR30O80mZA0MQ7E88rFCT1VmJl/TT2ZeipKNXmIyBaVsLA+mfSsbqDOChiW1GJNC4Wo=
+	t=1776243150; cv=none; b=sG1ikHh8W+9g5gS9PhIrpbcQiRkjIyEJkkUD2Fr528RDexa9BRvm7kzmz1GEUXvFF7oikpUEsUdBVtuX1oiGKizgxBXpDNOOTZVN28MFkvp2YuS+8fZd+4tcZ5ScJT8UiraaFGRtvGgkXP5joXP5ey/sflrs09xb+l8/3RN0B9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776243149; c=relaxed/simple;
-	bh=cM6i2dqdYB7bquqYDadO6rTomOEopoC5wEog5eeYeTU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Vj2eICMLPHBbz9S4PRlxeQTlwO8SfIgf1UcYOROVzpV8n9LngheuMbFVX2fsP5pYguuX2F1B8coKXBRCRLlLXr8VCJ1fEOIiu3qN15mdyB0LUFIkxZuw2UW2tJXKKYZOEZA5DvYYj7OiSAkG8mT0HKLRhf2YwJ/bMvqckZB7aLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YloOutj2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776243150; c=relaxed/simple;
+	bh=NuYk28Zg9NLnbQ4d/3en1YVQRZ/qBlcvUunSiLU9FFk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Px81GjIIoiy6i0hZMtWLHTBRKlYAoYTUVkpdVX8gaJx4fN9yj+i4ZDZjDoXN8LV153Mlrq2QqJ+aB/bYRnTU6AMYOdi9l9+uZIBun2GMwLkCNxqBtMk6kIZhchDAXJkl87qd2NySlimMXmtb9Bk9oVTtrYSyaRw/rZxFhW+8cCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iEWG5QFJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YloOutj2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 900D4C2BCB0;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iEWG5QFJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97CEBC2BCB9;
 	Wed, 15 Apr 2026 08:52:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1776243149;
-	bh=cM6i2dqdYB7bquqYDadO6rTomOEopoC5wEog5eeYeTU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=YloOutj2DFV4uhUrbByc7+kZKdXeSH2DTklHY2SeHSoFDQPLOPlFfZHaOZ6K4/hTT
-	 3FupzResoirzc1lZZor7r97Mh2NheYT7Fu5Sf6TXU5wUY3cMeku50MaRkZvcopgLXZ
-	 dqjzwqA5h5bcT1HXOcPpn3W6LyHxviUZ5mScNnSPS4lj3kiNLVLrAzpFzHy/EgaNnm
-	 +NEKSpCRfYunzsOGWOuU8/5w5Xpn52Z6rd0m7wqJ9DMCvqkJmVZaBI1rvv7Ki6NCbR
-	 7IhM1ec6++zdvsSUzGHy3rfIDY0Rosbhx+qGoiKR7hZiNaq3ac1SshBbKzGI55x9h0
-	 s7Dj1aM3d0rag==
+	bh=NuYk28Zg9NLnbQ4d/3en1YVQRZ/qBlcvUunSiLU9FFk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=iEWG5QFJonCagHxjCwWmq3nQmc1vL8iCOclwp3pq4z6nNPhE2NunyZ1SPkj6TENde
+	 356oWQ+8O5owQF7j67H6sTp49egpkmwgW0JfRDR//hYJ/LDbYx12SHtx5TnpuWFhCf
+	 pqiTJgYOjCEfARxc6EO0KE4cRMQU4Z31a0A17sMPhZUlVbnXjovQYL10UHGyJ7uSa+
+	 Dj1voZyznbNLT7RJ0veFvpMewM/7v1RcUQMicwo+7ExZ3WcaDjxH3J4pJWeJLkVXf6
+	 OwXc709QcWmzt7ICXFWHwJBKhaIse6HZIFAQRTlo+O/N4+RGWcg4Y42HPjjUeT2EO6
+	 VnYHf2b39YYxA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1wCvz1-0000000ELvT-29QE;
+	id 1wCvz1-0000000ELw5-2kUJ;
 	Wed, 15 Apr 2026 10:52:27 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Albert Ou <aou@eecs.berkeley.edu>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <pjw@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-riscv@lists.infradead.org,
 	workflows@vger.kernel.org,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Dan Williams <djbw@kernel.org>
-Subject: [PATCH 0/8] Auto-generate maintainer profile entries
-Date: Wed, 15 Apr 2026 10:52:16 +0200
-Message-ID: <cover.1776242739.git.mchehab+huawei@kernel.org>
+	Dan Williams <djbw@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: [PATCH 5/8] docs: maintainers_include: use a better title for profiles
+Date: Wed, 15 Apr 2026 10:52:21 +0200
+Message-ID: <c5b370f133b0fd90716b3f53ffaf396081fd58ec.1776242739.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <cover.1776242739.git.mchehab+huawei@kernel.org>
+References: <cover.1776242739.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -57,60 +57,71 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Date: Tue, 14 Apr 2026 16:29:03 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>, Dan Williams <djbw@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, workflows@vger.kernel.org, Alexandre Ghiti <alex@ghiti.fr>, Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <cover.1776176108.git.mchehab+huawei@kernel.org>
+As we're picking the name of the subsystem from MAINTAINERS,
+also use its subsystem name for the titles.
 
-Hi Dan/Jon,
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/sphinx/maintainers_include.py | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-This patch series change the way maintainer entry profile links
-are added to the documentation. Instead of having an entry for
-each of them at an ReST file, get them from MAINTAINERS content.
-
-That should likely make easier to maintain, as there will be a single
-point to place all such profiles.
-
-On this version, I added Dan's text to patch 4.
-
-I also added a couple of other patches to improve its output. While
-I could have them merged at the first patch, I opted to make them
-separate, as, in case of problems or needed changes, it would be
-easier to revert or modify the corresponding logic. Also, it should
-be better to review, in case one wants some changes there.
-
-The main changes against RFC are:
-
-- now, the TOC will be presented with 1 depth identation level,
-  meaning that it would look like a list;
-- for files outside Documentation/process, it will use the name of
-  the subsystem with title capitalization for the name of the
-  profile entry;
-- the logic also parses and produces a list of profiles that are
-  maintained elsewhere, picking its http/https link;
-- entries are now better sorted: first by subsystem name, then
-  by its name.
-
-Suggested-by: Dan Williams <djbw@kernel.org>
-Closes: https://lore.kernel.org/linux-doc/69dd6299440be_147c801005b@djbw-dev.notmuch/
-
-Mauro Carvalho Chehab (8):
-  docs: maintainers_include: auto-generate maintainer profile TOC
-  MAINTAINERS: add an entry for media maintainers profile
-  MAINTAINERS: add maintainer-tip.rst to X86
-  docs: auto-generate maintainer entry profile links
-  docs: maintainers_include: use a better title for profiles
-  docs: maintainers_include: add external profile URLs
-  docs: maintainers_include: preserve names for files under process/
-  docs: maintainers_include: Only show main entry for profiles
-
- .../maintainer/maintainer-entry-profile.rst   |  24 +---
- .../process/maintainer-handbooks.rst          |  17 ++-
- Documentation/sphinx/maintainers_include.py   | 131 +++++++++++++++---
- MAINTAINERS                                   |   2 +
- 4 files changed, 128 insertions(+), 46 deletions(-)
-
+diff --git a/Documentation/sphinx/maintainers_include.py b/Documentation/sphinx/maintainers_include.py
+index 1dac83bf1a65..cf428db7599c 100755
+--- a/Documentation/sphinx/maintainers_include.py
++++ b/Documentation/sphinx/maintainers_include.py
+@@ -36,7 +36,7 @@ class MaintainersParser:
+     """Parse MAINTAINERS file(s) content"""
+ 
+     def __init__(self, base_path, path):
+-        self.profiles = list()
++        self.profiles = {}
+ 
+         result = list()
+         result.append(".. _maintainers:")
+@@ -54,6 +54,7 @@ class MaintainersParser:
+         prev = None
+         field_prev = ""
+         field_content = ""
++        subsystem_name = None
+ 
+         for line in open(path):
+             # Have we reached the end of the preformatted Descriptions text?
+@@ -75,7 +76,10 @@ class MaintainersParser:
+             if match:
+                 fname = os.path.relpath(match.group(1), base_path)
+                 if fname not in self.profiles:
+-                    self.profiles.append(fname)
++                    if self.profiles.get(fname) is None:
++                        self.profiles[fname] = subsystem_name
++                    else:
++                        self.profiles[fname] += f", {subsystem_name}"
+ 
+             # Linkify all non-wildcard refs to ReST files in Documentation/.
+             pat = r'(Documentation/([^\s\?\*]*)\.rst)'
+@@ -112,6 +116,8 @@ class MaintainersParser:
+                     output = field_content + "\n\n"
+                     field_content = ""
+ 
++                    subsystem_name = line.title()
++
+                     # Collapse whitespace in subsystem name.
+                     heading = re.sub(r"\s+", " ", line)
+                     output = output + "%s\n%s" % (heading, "~" * len(heading))
+@@ -217,7 +223,13 @@ class MaintainersProfile(Include):
+ 
+         output  = ".. toctree::\n"
+         output += "   :maxdepth: 2\n\n"
+-        output += indent("\n".join(profiles), "   ")
++
++        items = sorted(profiles.items(), key=lambda kv: (kv[1] or "", kv[0]))
++        for fname, profile in items:
++            if profile:
++                output += f"   {profile} <{fname}>\n"
++            else:
++                output += f"   {fname}\n"
+ 
+         self.state_machine.insert_input(statemachine.string2lines(output), path)
+ 
 -- 
 2.53.0
 
