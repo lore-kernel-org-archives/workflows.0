@@ -1,144 +1,303 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA85A388E56;
-	Wed, 15 Apr 2026 20:42:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C7138F623;
+	Thu, 16 Apr 2026 08:00:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776285730; cv=none; b=jtjgeOOF9HQgkt1sxWHEAkvQ1XhZW59fb/sHdN8r0EodCOgBG1Gj9hhiaqark1FqwRyzohkpLw2cxdvZJ/7i0eB6g1eGs53Bcu98ddkQxLMvXFfeHbmvkjWugm5BVYyMtG4cYcD8V1XoZeZG4GF19NkmvD54q/Ph3kYzwNB0sOs=
+	t=1776326432; cv=none; b=FLir0n+M3jZZ4zoi3IbDQamPiSeLpuBk8sKNMWNrqE0wcwhWBMD09HNMYZJ90yYYnZ7jrlHOk0rnJ7ctxoKOCnjgMMFh/17YujxattCfxczO3y4Ii9zLzSC7tjrcbQt/ZNQz7dp38ZZkYtrodl38mDBJZtZWbn1TKOGac+uh4PA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776285730; c=relaxed/simple;
-	bh=Xzd2CUJJ8z3EoXKcsDKLmkr2vCR7Zi96So2JehYv0TI=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=hLKkj1epRXH+hcXxXpa0XN1uhoeVZ3QOgzLuVcBPVoh2G/raxECXCzdaMnTwLjUhq8DCMhNZy2Hx/CaBV+d4cK5cVfYKW3wf9DozSel1qlfJx6qYZ6arBeoJ+Tv1XGs+SIHAmVui4IAOCxNCYRUon1hqLTIc0Te+yWqeXi8dIRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=wzXlCkhD; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1776326432; c=relaxed/simple;
+	bh=kvc9nrU264xilxG84SXnJprEBV5fZrAuykyaNfGZiQ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=O7V9Z7TKb5TlS5C+ocUx9+qhJnHiRJxVGpc22sg0F3t1hU68HGx3Oz+8puo8cG0x9uXqyZ3oGfO4ZG9/vjJS08uUB7g7UnXOPhmEJqfF6enq64sE+nJjr7h5cyyNEawrNDWRAVhrJAt0DIqoRsjmY38y6bYF4ed6ik2J/SOlsCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rmQ6xH2n; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="wzXlCkhD"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:Subject:From:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=1aI+Ng4erWXxFs8ZUX3dbkCgT4drnJQF8UdC69GC4XY=; b=wzXlCkhDyKgXfW98jVR6l3CFTK
-	yZYX2n2+J73Qf67dI6tTBkcSDeDqES+SjijBg373d/NQPeJ2u9XE2XH6SoofOeFxNtTyNoCh8V23W
-	7mXVIR8iK3ccKk33FPs97X6N6PU7JfA4R5Gsl7jjEBktMBMevLysOS1AZ+EOKnN2gBDfPiMEERuOU
-	8FimRqe0zj0bewfrfP3YNQ78I0z0qu1uJ1D2FxSXsxnRyken2wJb0zh+4+koPvvx0LDfEa532eDNd
-	grCb8rKbdFir1bOIJ8DQefISMbDd8LQDWMjNlmLLC7PtRScAXEsj7ZzLSZWj3RvfEdhD//8nDjcVT
-	2jpxYHlQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wD731-00000001az3-2X16;
-	Wed, 15 Apr 2026 20:41:30 +0000
-Message-ID: <88335220-3527-4b1f-9500-417f7ebb7a02@infradead.org>
-Date: Wed, 15 Apr 2026 13:41:16 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rmQ6xH2n"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DDF2C2BCB5;
+	Thu, 16 Apr 2026 08:00:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776326432;
+	bh=kvc9nrU264xilxG84SXnJprEBV5fZrAuykyaNfGZiQ4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=rmQ6xH2nw4w0Kcm64wAK0QGByPSE7+a5rOXBZWoEGeaGWS8p7dFcWfQ056dyJ1V4e
+	 uEBo8QGDMmSKT+EdCupJJrtnZ4+wPf9Yq1x7wiWsueUCDmJ9CX5KWAtu8v5swsXWRa
+	 14WoGtPwcstWsxBoKu9RgbYG9UbRZokhKthSnvHYhiWIezFK74MrmZpIXqSIIAw/SK
+	 IDP6peGOj1PMJt+sCHIgHnCk3Pba1JnjuMvEN6YY/Jrt+noI/qBB9qhrHjsFidqXC/
+	 buneojfnxY8sM0/mJ96CaG21YQ/iiZ5XzNLWdppV2hmJfesZQYCS5WRma5SVVfxPZJ
+	 dMoMe8/ztXQnQ==
+Date: Thu, 16 Apr 2026 10:00:26 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-riscv@lists.infradead.org, workflows@vger.kernel.org, Alexandre Ghiti
+ <alex@ghiti.fr>, Shuah Khan <skhan@linuxfoundation.org>, Dan Williams
+ <djbw@kernel.org>
+Subject: Re: [PATCH 0/8] Auto-generate maintainer profile entries
+Message-ID: <20260416100026.3df67a72@foz.lan>
+In-Reply-To: <88335220-3527-4b1f-9500-417f7ebb7a02@infradead.org>
+References: <cover.1776242739.git.mchehab+huawei@kernel.org>
+	<88335220-3527-4b1f-9500-417f7ebb7a02@infradead.org>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH 0/8] Auto-generate maintainer profile entries
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org, workflows@vger.kernel.org,
- Alexandre Ghiti <alex@ghiti.fr>, Shuah Khan <skhan@linuxfoundation.org>,
- Dan Williams <djbw@kernel.org>
-References: <cover.1776242739.git.mchehab+huawei@kernel.org>
-Content-Language: en-US
-In-Reply-To: <cover.1776242739.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Hi Mauro,
+On Wed, 15 Apr 2026 13:41:16 -0700
+Randy Dunlap <rdunlap@infradead.org> wrote:
 
-Thanks for tackling this issue.
+> Hi Mauro,
+> 
+> Thanks for tackling this issue.
+> 
+> On 4/15/26 1:52 AM, Mauro Carvalho Chehab wrote:
+> > Date: Tue, 14 Apr 2026 16:29:03 +0200
+> > From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > To: Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>, Dan Williams <djbw@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>
+> > Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, workflows@vger.kernel.org, Alexandre Ghiti <alex@ghiti.fr>, Shuah Khan <skhan@linuxfoundation.org>
+> > Message-ID: <cover.1776176108.git.mchehab+huawei@kernel.org>
+> > 
+> > Hi Dan/Jon,
+> > 
+> > This patch series change the way maintainer entry profile links
+> > are added to the documentation. Instead of having an entry for
+> > each of them at an ReST file, get them from MAINTAINERS content.
+> > 
+> > That should likely make easier to maintain, as there will be a single
+> > point to place all such profiles.
+> > 
+> > On this version, I added Dan's text to patch 4.
+> > 
+> > I also added a couple of other patches to improve its output. While
+> > I could have them merged at the first patch, I opted to make them
+> > separate, as, in case of problems or needed changes, it would be
+> > easier to revert or modify the corresponding logic. Also, it should
+> > be better to review, in case one wants some changes there.
+> > 
+> > The main changes against RFC are:
+> > 
+> > - now, the TOC will be presented with 1 depth identation level,
+> >   meaning that it would look like a list;
+> > - for files outside Documentation/process, it will use the name of
+> >   the subsystem with title capitalization for the name of the
+> >   profile entry;
+> > - the logic also parses and produces a list of profiles that are
+> >   maintained elsewhere, picking its http/https link;
+> > - entries are now better sorted: first by subsystem name, then
+> >   by its name.
+> > 
+> > Suggested-by: Dan Williams <djbw@kernel.org>
+> > Closes: https://lore.kernel.org/linux-doc/69dd6299440be_147c801005b@djbw-dev.notmuch/
+> > 
+> > Mauro Carvalho Chehab (8):
+> >   docs: maintainers_include: auto-generate maintainer profile TOC
+> >   MAINTAINERS: add an entry for media maintainers profile
+> >   MAINTAINERS: add maintainer-tip.rst to X86
+> >   docs: auto-generate maintainer entry profile links
+> >   docs: maintainers_include: use a better title for profiles
+> >   docs: maintainers_include: add external profile URLs
+> >   docs: maintainers_include: preserve names for files under process/
+> >   docs: maintainers_include: Only show main entry for profiles
+> > 
+> >  .../maintainer/maintainer-entry-profile.rst   |  24 +---
+> >  .../process/maintainer-handbooks.rst          |  17 ++-
+> >  Documentation/sphinx/maintainers_include.py   | 131 +++++++++++++++---
+> >  MAINTAINERS                                   |   2 +
+> >  4 files changed, 128 insertions(+), 46 deletions(-)  
+> 
+> When building htmldocs with O=DOCS, I get a bunch of warnings.
+> I tested against today's linux-next tree.
+> 
+> The 'make O=DOCS htmldocs' warnings are (subset of all warnings):
+> 
+> linux-next/MAINTAINERS:38: WARNING: toctree contains reference to nonexisting document 'DOCS/Documentation/process/maintainer-kvm-x86' [toc.not_readable]
+> linux-next/MAINTAINERS:38: WARNING: toctree contains reference to nonexisting document 'DOCS/Documentation/filesystems/xfs/xfs-maintainer-entry-profile' [toc.not_readable]
+> linux-next/MAINTAINERS:38: WARNING: toctree contains reference to nonexisting document 'DOCS/Documentation/process/maintainer-soc-clean-dts' [toc.not_readable]
+> linux-next/MAINTAINERS:38: WARNING: toctree contains reference to nonexisting document 'DOCS/Documentation/process/maintainer-netdev' [toc.not_readable]
+> linux-next/MAINTAINERS:38: WARNING: toctree contains reference to nonexisting document 'DOCS/Documentation/process/maintainer-tip' [toc.not_readable]
+> 
+> linux-next/Documentation/filesystems/nfs/nfsd-maintainer-entry-profile.rst: WARNING: document isn't included in any toctree [toc.not_included]
+> linux-next/Documentation/process/maintainer-kvm-x86.rst: WARNING: document isn't included in any toctree [toc.not_included]
+> linux-next/Documentation/process/maintainer-netdev.rst: WARNING: document isn't included in any toctree [toc.not_included]
+> linux-next/Documentation/process/maintainer-soc.rst: WARNING: document isn't included in any toctree [toc.not_included]
+> linux-next/Documentation/process/maintainer-soc-clean-dts.rst: WARNING: document isn't included in any toctree [toc.not_included]
+> linux-next/Documentation/process/maintainer-tip.rst: WARNING: document isn't included in any toctree [toc.not_included]
+> 
+> linux-next/MAINTAINERS:1: WARNING: unknown document: '../../DOCS/Documentation/process/maintainer-soc' [ref.doc]
+> linux-next/MAINTAINERS:2: WARNING: unknown document: '../../DOCS/Documentation/process/maintainer-soc-clean-dts' [ref.doc]
+> linux-next/MAINTAINERS:3: WARNING: unknown document: '../../DOCS/Documentation/process/maintainer-soc-clean-dts' [ref.doc]
+> linux-next/MAINTAINERS:5: WARNING: unknown document: '../../DOCS/Documentation/process/maintainer-tip' [ref.doc]
+> linux-next/MAINTAINERS:6: WARNING: unknown document: '../../DOCS/Documentation/process/maintainer-tip' [ref.doc]
 
-On 4/15/26 1:52 AM, Mauro Carvalho Chehab wrote:
-> Date: Tue, 14 Apr 2026 16:29:03 +0200
-> From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> To: Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>, Dan Williams <djbw@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>
-> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, workflows@vger.kernel.org, Alexandre Ghiti <alex@ghiti.fr>, Shuah Khan <skhan@linuxfoundation.org>
-> Message-ID: <cover.1776176108.git.mchehab+huawei@kernel.org>
-> 
-> Hi Dan/Jon,
-> 
-> This patch series change the way maintainer entry profile links
-> are added to the documentation. Instead of having an entry for
-> each of them at an ReST file, get them from MAINTAINERS content.
-> 
-> That should likely make easier to maintain, as there will be a single
-> point to place all such profiles.
-> 
-> On this version, I added Dan's text to patch 4.
-> 
-> I also added a couple of other patches to improve its output. While
-> I could have them merged at the first patch, I opted to make them
-> separate, as, in case of problems or needed changes, it would be
-> easier to revert or modify the corresponding logic. Also, it should
-> be better to review, in case one wants some changes there.
-> 
-> The main changes against RFC are:
-> 
-> - now, the TOC will be presented with 1 depth identation level,
->   meaning that it would look like a list;
-> - for files outside Documentation/process, it will use the name of
->   the subsystem with title capitalization for the name of the
->   profile entry;
-> - the logic also parses and produces a list of profiles that are
->   maintained elsewhere, picking its http/https link;
-> - entries are now better sorted: first by subsystem name, then
->   by its name.
-> 
-> Suggested-by: Dan Williams <djbw@kernel.org>
-> Closes: https://lore.kernel.org/linux-doc/69dd6299440be_147c801005b@djbw-dev.notmuch/
-> 
-> Mauro Carvalho Chehab (8):
->   docs: maintainers_include: auto-generate maintainer profile TOC
->   MAINTAINERS: add an entry for media maintainers profile
->   MAINTAINERS: add maintainer-tip.rst to X86
->   docs: auto-generate maintainer entry profile links
->   docs: maintainers_include: use a better title for profiles
->   docs: maintainers_include: add external profile URLs
->   docs: maintainers_include: preserve names for files under process/
->   docs: maintainers_include: Only show main entry for profiles
-> 
->  .../maintainer/maintainer-entry-profile.rst   |  24 +---
->  .../process/maintainer-handbooks.rst          |  17 ++-
->  Documentation/sphinx/maintainers_include.py   | 131 +++++++++++++++---
->  MAINTAINERS                                   |   2 +
->  4 files changed, 128 insertions(+), 46 deletions(-)
+Heh, os.path.relpath() does the wrong thing here.
 
-When building htmldocs with O=DOCS, I get a bunch of warnings.
-I tested against today's linux-next tree.
+The enclosed patch should handle it better.
 
-The 'make O=DOCS htmldocs' warnings are (subset of all warnings):
+Thanks,
+Mauro
 
-linux-next/MAINTAINERS:38: WARNING: toctree contains reference to nonexisting document 'DOCS/Documentation/process/maintainer-kvm-x86' [toc.not_readable]
-linux-next/MAINTAINERS:38: WARNING: toctree contains reference to nonexisting document 'DOCS/Documentation/filesystems/xfs/xfs-maintainer-entry-profile' [toc.not_readable]
-linux-next/MAINTAINERS:38: WARNING: toctree contains reference to nonexisting document 'DOCS/Documentation/process/maintainer-soc-clean-dts' [toc.not_readable]
-linux-next/MAINTAINERS:38: WARNING: toctree contains reference to nonexisting document 'DOCS/Documentation/process/maintainer-netdev' [toc.not_readable]
-linux-next/MAINTAINERS:38: WARNING: toctree contains reference to nonexisting document 'DOCS/Documentation/process/maintainer-tip' [toc.not_readable]
+[PATCH] docs: maintainers_include: fix support for O=dir
 
-linux-next/Documentation/filesystems/nfs/nfsd-maintainer-entry-profile.rst: WARNING: document isn't included in any toctree [toc.not_included]
-linux-next/Documentation/process/maintainer-kvm-x86.rst: WARNING: document isn't included in any toctree [toc.not_included]
-linux-next/Documentation/process/maintainer-netdev.rst: WARNING: document isn't included in any toctree [toc.not_included]
-linux-next/Documentation/process/maintainer-soc.rst: WARNING: document isn't included in any toctree [toc.not_included]
-linux-next/Documentation/process/maintainer-soc-clean-dts.rst: WARNING: document isn't included in any toctree [toc.not_included]
-linux-next/Documentation/process/maintainer-tip.rst: WARNING: document isn't included in any toctree [toc.not_included]
+os.path.relpath() will do the wrong thing with O=dir, as the build
+system uses "cd <dir>" internally.
 
-linux-next/MAINTAINERS:1: WARNING: unknown document: '../../DOCS/Documentation/process/maintainer-soc' [ref.doc]
-linux-next/MAINTAINERS:2: WARNING: unknown document: '../../DOCS/Documentation/process/maintainer-soc-clean-dts' [ref.doc]
-linux-next/MAINTAINERS:3: WARNING: unknown document: '../../DOCS/Documentation/process/maintainer-soc-clean-dts' [ref.doc]
-linux-next/MAINTAINERS:5: WARNING: unknown document: '../../DOCS/Documentation/process/maintainer-tip' [ref.doc]
-linux-next/MAINTAINERS:6: WARNING: unknown document: '../../DOCS/Documentation/process/maintainer-tip' [ref.doc]
+Solve it by using app.srcdir, which, on normal cases, point to
+Documentation/, or, when SPHINXDIRS=process, it will be set with
+Documentation/process.
 
+While here, remove a dead code while writing maintainer profiles,
+as now all entries should have both profile and entry.
 
--- 
-~Randy
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
+Closes: https://lore.kernel.org/linux-doc/88335220-3527-4b1f-9500-417f7ebb7a02@infradead.org/T/#m6854cbd8d30e2c5d3e8c4173bae1c3d6922ff970
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+diff --git a/Documentation/sphinx/maintainers_include.py b/Documentation/sphinx/maintainers_include.py
+index 5413c1350bba..fff9bdd55a56 100755
+--- a/Documentation/sphinx/maintainers_include.py
++++ b/Documentation/sphinx/maintainers_include.py
+@@ -27,15 +27,24 @@ from docutils import statemachine
+ from docutils.parsers.rst import Directive
+ from docutils.parsers.rst.directives.misc import Include
+ 
++#
++# Base URL for intersphinx-like links to maintainer profiles
++#
++KERNELDOC_URL = "https://docs.kernel.org/"
++
+ def ErrorString(exc):  # Shamelessly stolen from docutils
+     return f'{exc.__class__.__name}: {exc}'
+ 
+ __version__  = '1.0'
+ 
++base_dir = "."
++
+ class MaintainersParser:
+     """Parse MAINTAINERS file(s) content"""
+ 
+-    def __init__(self, base_path, path):
++    def __init__(self, path):
++        global base_dir
++
+         self.profile_toc = set()
+         self.profile_entries = {}
+ 
+@@ -76,9 +85,18 @@ class MaintainersParser:
+             #
+             # Handle profile entries - either as files or as https refs
+             #
+-            match = re.match(r"P:\s*(Documentation/\S+)\.rst", line)
++            match = re.match(r"P:\s*Documentation(/\S+)\.rst", line)
+             if match:
+-                entry = os.path.relpath(match.group(1), base_path)
++                entry = os.path.relpath(match.group(1), base_dir)
++
++                #
++                # When SPHINXDIRS is used, it will try to reference files
++                # outside srctree, causing warnings. To avoid that, point
++                # to the latest official documentation
++                #
++                if entry.startswith("../"):
++                    entry = KERNELDOC_URL + match.group(1) + ".html"
++
+                 if "*" in entry:
+                     for e in glob(entry):
+                         self.profile_toc.add(e)
+@@ -189,10 +207,10 @@ class MaintainersInclude(Include):
+     """MaintainersInclude (``maintainers-include``) directive"""
+     required_arguments = 0
+ 
+-    def emit(self, base_path, path):
++    def emit(self, path):
+         """Parse all the MAINTAINERS lines into ReST for human-readability"""
+ 
+-        output = MaintainersParser(base_path, path).output
++        output = MaintainersParser(path).output
+ 
+         # For debugging the pre-rendered results...
+         #print(output, file=open("/tmp/MAINTAINERS.rst", "w"))
+@@ -213,11 +231,10 @@ class MaintainersInclude(Include):
+ 
+         # Append "MAINTAINERS"
+         path = os.path.join(path, "MAINTAINERS")
+-        base_path = os.path.dirname(self.state.document.document.current_source)
+ 
+         try:
+             self.state.document.settings.record_dependencies.add(path)
+-            lines = self.emit(base_path, path)
++            lines = self.emit(path)
+         except IOError as error:
+             raise self.severe('Problems with "%s" directive path:\n%s.' %
+                       (self.name, ErrorString(error)))
+@@ -227,27 +244,20 @@ class MaintainersInclude(Include):
+ class MaintainersProfile(Include):
+     required_arguments = 0
+ 
+-    def emit(self, base_path, path):
++    def emit(self, path):
+         """Parse all the MAINTAINERS lines looking for profile entries"""
+ 
+-        maint = MaintainersParser(base_path, path)
++        maint = MaintainersParser(path)
+ 
+         #
+         # Produce a list with all maintainer profiles, sorted by subsystem name
+         #
+         output = ""
+-
+-        for profile, entry in maint.profile_entries.items():
++        for profile, entry in sorted(maint.profile_entries.items()):
+             if entry.startswith("http"):
+-                if profile:
+-                    output += f"- `{profile} <{entry}>`_\n"
+-                else:
+-                    output += f"- `<{entry}>_`\n"
++                output += f"- `{profile} <{entry}>`_\n"
+             else:
+-                if profile:
+-                    output += f"- :doc:`{profile} <{entry}>`\n"
+-                else:
+-                    output += f"- :doc:`<{entry}>`\n"
++                output += f"- :doc:`{profile} <{entry}>`\n"
+ 
+         #
+         # Create a hidden TOC table with all profiles. That allows adding
+@@ -277,11 +287,10 @@ class MaintainersProfile(Include):
+ 
+         # Append "MAINTAINERS"
+         path = os.path.join(path, "MAINTAINERS")
+-        base_path = os.path.dirname(self.state.document.document.current_source)
+ 
+         try:
+             self.state.document.settings.record_dependencies.add(path)
+-            lines = self.emit(base_path, path)
++            lines = self.emit(path)
+         except IOError as error:
+             raise self.severe('Problems with "%s" directive path:\n%s.' %
+                       (self.name, ErrorString(error)))
+@@ -289,6 +298,15 @@ class MaintainersProfile(Include):
+         return []
+ 
+ def setup(app):
++    global base_dir
++
++    #
++    # partition will pick the path after Documentation.
++    # NOTE: we're using os.fspath() here because of a Sphinx warning:
++    #   RemovedInSphinx90Warning: Sphinx 9 will drop support for representing paths as strings. Use "pathlib.Path" or "os.fspath" instead.
++    #
++    _, _, base_dir = os.fspath(app.srcdir).partition("Documentation")
++
+     app.add_directive("maintainers-include", MaintainersInclude)
+     app.add_directive("maintainers-profile-toc", MaintainersProfile)
+     return dict(
+
 
