@@ -1,337 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E93F14D719;
-	Fri, 17 Apr 2026 06:19:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 595803932F0
+	for <workflows@vger.kernel.org>; Fri, 17 Apr 2026 17:36:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776406744; cv=none; b=qWrsDCKUjzUBfTFWwZEB0RzaLG/J9MQGCSs4L/em//oGolW1gkyOf5deSc7dQFFexsRhE4JBMKpXmDh6durmnDqFcEG+khw0+6e+Cey3wwjcVuO05rxoX4CGouG6FL8V6RnvJOj6huGpXWkHIge0tkZ64ZQZSxWzpI8WDW/2hu8=
+	t=1776447402; cv=none; b=nUyZ4/HepeTOwg529pGvVkLLeo3XpPxGWF25L5ahOR5I0j50M2RMLngZTUuuUglsQ3cfLVw9SHNjKn8JAlwDZp8sQGwa35e2/K0yEdcwvrCp1bFZGLkUbVeaymuXWNsCVk/JFXL7PnpQqQjccCPRyfbkp1LSIXbJxBDiG4daYp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776406744; c=relaxed/simple;
-	bh=qZ2bz2OQ279GuvlO7kL4hgsVOdD/TZdxTMgwIkDIHrY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LLdmERyvI4qeymZLO2WcNMpWEGhM7vZRpBDxIfC8lZTkkUHERhCqohyvxSt8wW5/9Y4HLN42fgCEsMH0fnbDokxd0lfQZ1WCuHHY0tL5y353H9zuALMXkiIa5cRdB0+ZewmUUC/mGQm21Ssiun0pQsZxfwE04+PChaE4OHoipro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ghGfUv1J; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776447402; c=relaxed/simple;
+	bh=jkTCGTx5N5kNDBuJiGd3cHBXCdOpLr+klCtenLR7CNE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Vep5KMnLGOfjE4Xtg3CmgP9uYaIIyXOV4iJYTiblFpvod1UdwgjiD+Dq67MgSA3CSmXHsCd1Ss4i70SKjcGPFyo6JWkeF1Mz1gq7esFQBt5yIZQpu2wXPRUPBrjl4s1Hk89UnKGrkjF+1fCuyyVs3t6dGDh8goJyFj84tG0kit4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=KcTGVCcd; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ghGfUv1J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34CA6C2BCB6;
-	Fri, 17 Apr 2026 06:19:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776406743;
-	bh=qZ2bz2OQ279GuvlO7kL4hgsVOdD/TZdxTMgwIkDIHrY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ghGfUv1JGYfPyQtA73cpB/MwjhFfw8Uz2VlefpOz1xk5706uEh4qRS8a9qjIaxBre
-	 cuf954FE3Sdohibew66VJ0YfZffxfdCCLPfgcoKt2HD+9ZZEHSCUCjEg6zuXz9BIVs
-	 a9Gxf6KLVgX1bZfLPoaK0JkbcD7lGQzjJtNf4PjIGeiylKdWWZqxADoK3g30lVV6Dj
-	 /uXGX73s5ARvPkOPi5Q4BVenx9flE1wF8xRQgHsZlJ6+dlItkKPhlTx5IqbiMTkxnB
-	 xxBK8DYDesCraQ1YT7dNZA+siyQ6dQ4ORwTPGqiws0DbtZvWqOOiv6q6pJraGiNmNX
-	 k/en9epJSrJ0g==
-Date: Fri, 17 Apr 2026 08:18:58 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Palmer Dabbelt
- <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org, workflows@vger.kernel.org, Alexandre Ghiti
- <alex@ghiti.fr>, Shuah Khan <skhan@linuxfoundation.org>, Dan Williams
- <djbw@kernel.org>
-Subject: Re: [PATCH 0/8] Auto-generate maintainer profile entries
-Message-ID: <20260417081858.1f9c72d3@foz.lan>
-In-Reply-To: <c325d85e-98d2-4e35-b7e7-7bb4d6ee77aa@infradead.org>
-References: <cover.1776242739.git.mchehab+huawei@kernel.org>
-	<88335220-3527-4b1f-9500-417f7ebb7a02@infradead.org>
-	<20260416100026.3df67a72@foz.lan>
-	<c325d85e-98d2-4e35-b7e7-7bb4d6ee77aa@infradead.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="KcTGVCcd"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-488af9fdaa7so6851835e9.1
+        for <workflows@vger.kernel.org>; Fri, 17 Apr 2026 10:36:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1776447395; x=1777052195; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+okOEmaZb2t8QpikbjQlDiBfQLIdyz/gfflHu8dorl0=;
+        b=KcTGVCcdtlg3nw8BAgXzEsc5FtsAAMV3C7qKTPbllVc50bZPgkchNGpistzh5gFoNi
+         k+fQBhoK1hETiEaGuqarRehzUU3T8k9Cu2b5725SE8rR+j2KlmMMbcqq+dE8kKANqNu2
+         RZWUjDwrMJi3CCU+4Y0WT1M2qNMQrixKQQFS7i2Y1xuNBjVgewOOg2faStB3xShBG05R
+         bu79LnwQQXGt7anMWRDn8MVXpedXkALUUEEzWPzSjQd4Yomhveih+/Wn1LBXIHVECf7J
+         XHtVPERW4BOLcKuJjFe/Mx3GQTlFDVC98BrCfZ+qqYmg84Yf9xQTkkroz+/q5ExUht63
+         MCrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776447395; x=1777052195;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+okOEmaZb2t8QpikbjQlDiBfQLIdyz/gfflHu8dorl0=;
+        b=labnjVwK543mdUPkYO8ED7Ugcw8UBHg8FHXvAoejSYf903TT+nUPlQJW/oCR1s6LV1
+         rw3jjti0EgwHgmuWqMgDcnblBeze0PUo+XPEOgfEcnUom6H73WLA9H7N4kx+MXCky4+b
+         zJ2z68bTovTYWg1DBtMJ6iY83lAevsaa3dIIEdnMeoJj9xCtm5SUUDp2sY9HPO8GJ8ad
+         yu/da8Q1uzjdOcF5zghcI2Taeru4cM+zhm7qw2TXhOqcqrF8szPFGNUrpiGod+9Z/VTi
+         zzc26dO/oqlY0cepaHTt4KdKZnpkT91P6GCy99ZFB1E4HCZPYGCtpc+94WUanrXRTrPX
+         CrMQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8ncWf8Xi6KnxSc2ALqsgsb9VsoAMzce3HJymYpdQZjnSauVwHb4EoukTXS/5StVdswX/xwauLQbYA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6ab2a9S/ufdUdPpmkVcMqNLeODm3H+9izaR7Nx3BlD5lFGtzh
+	IRdyaXgH3BTBoHQJd4vsMl6aUeu3pLgTACkhKj/V7kA8uhkbXnN0LY9f8ZZmk/epkGw=
+X-Gm-Gg: AeBDiesnUcFfWzvUUruo4OrBmZ7RqxLxC0Pd4MjT/H7nKgqeI81KRn3bS70vom2Om6k
+	NE1JPNpD9x7fkUD69TiWGYZdCWMP9sdlQQW0di68vIjRwO2le78N//snwgYE0TnNOsV8TiqfPVc
+	JFLLM4FPZGRghhkaRR7IDD7r+qKPzeFiOZfbab2ZSJiHmGV4+2yX7ngSreL66sJJvGYzVKeNANy
+	bau97rNMeVtN4eoddepDekVS0bL5mL+ZlFcKVfRvX/Ee4sJe3JvJ8LwLSn7bcOp4KcdgJKav3Bk
+	RduZmf+NHzEgpR3YMGEyk0zZB6jbYgfmhigKiAOHMA5XX73vfG5WpIk0Foh24eLiU1peiONgStK
+	0C69UEf0lqdNa3ZYCr06G7+gxiPSDcsdZTGfSg8I+fQUeRxIpe1b8a1jh2qt6Sq7TsjMbYbQlH0
+	l6kvBEJLWDo6BWgeCERaxhW7c=
+X-Received: by 2002:a05:600c:888b:b0:488:c40b:c8bf with SMTP id 5b1f17b1804b1-488fb73d234mr44822655e9.2.1776447395380;
+        Fri, 17 Apr 2026 10:36:35 -0700 (PDT)
+Received: from localhost ([2804:7f0:b765:dc8:ce28:aaff:fe86:149c])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2e53a4a8018sm3917884eec.8.2026.04.17.10.36.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Apr 2026 10:36:34 -0700 (PDT)
+From: =?utf-8?q?Ricardo_B=2E_Marli=C3=A8re?= <rbm@suse.com>
+Date: Fri, 17 Apr 2026 14:36:28 -0300
+Subject: [PATCH] docs: kselftest: Document the FORCE_TARGETS build variable
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260417-selftests-docs-v1-1-32e4a78214eb@suse.com>
+X-B4-Tracking: v=1; b=H4sIAJtv4mkC/yWMQQ7CIBREr9L8tURKGo1exbj4wCAYQw2fmiZN7
+ y7o8k3mvY0EJUHoOmxU8EmS5txgPAzkIucHVPKNyWhz0tN4VoJXqJAqys9OVPBhwsUY9kZTk94
+ FIa2/4O3+Z1nsE672Sn9YFihbOLvYJ4kLx2PGWmnfv4g8gcKPAAAA
+X-Change-ID: 20260417-selftests-docs-fdf4e922ad20
+To: Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-kselftest@vger.kernel.org, 
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Ricardo_B=2E_Marli=C3=A8re?= <rbm@suse.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openssh-sha256; t=1776447391; l=1836;
+ i=rbm@suse.com; h=from:subject:message-id;
+ bh=jkTCGTx5N5kNDBuJiGd3cHBXCdOpLr+klCtenLR7CNE=;
+ b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgguRCc5X8/UX9M40lkMnr//aFGOhce
+ x5ezt8MFNUFlqYAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
+ QGCdk+Dqytqm1mJBSK4cT3p4LBx+mdWpB8pQc8eyh2BrVstLyrEfAJ2T/V17tilHX0CXhRx/m1D
+ RzaCl4kQSDw8=
+X-Developer-Key: i=rbm@suse.com; a=openssh;
+ fpr=SHA256:pzhe0fJpYLz+3cZ33FFPhIfaUElk9CXPFFXmalIH+1g
 
-On Thu, 16 Apr 2026 14:32:04 -0700
-Randy Dunlap <rdunlap@infradead.org> wrote:
+FORCE_TARGETS has been part of the kselftest build system for
+some time but is absent from the developer documentation. Without
+an entry here, users relying on kselftest in CI pipelines would
+have to read the selftests Makefile directly to discover the
+option.
 
-> 
-> 
-> On 4/16/26 1:00 AM, Mauro Carvalho Chehab wrote:
-> > On Wed, 15 Apr 2026 13:41:16 -0700
-> > Randy Dunlap <rdunlap@infradead.org> wrote:
-> > 
-> >> Hi Mauro,
-> >>
-> >> Thanks for tackling this issue.
-> >>
-> >> On 4/15/26 1:52 AM, Mauro Carvalho Chehab wrote:
-> >>> Date: Tue, 14 Apr 2026 16:29:03 +0200
-> >>> From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> >>> To: Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>, Dan Williams <djbw@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>
-> >>> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, workflows@vger.kernel.org, Alexandre Ghiti <alex@ghiti.fr>, Shuah Khan <skhan@linuxfoundation.org>
-> >>> Message-ID: <cover.1776176108.git.mchehab+huawei@kernel.org>
-> >>>
-> >>> Hi Dan/Jon,
-> >>>
-> >>> This patch series change the way maintainer entry profile links
-> >>> are added to the documentation. Instead of having an entry for
-> >>> each of them at an ReST file, get them from MAINTAINERS content.
-> >>>
-> >>> That should likely make easier to maintain, as there will be a single
-> >>> point to place all such profiles.
-> >>>
-> >>> On this version, I added Dan's text to patch 4.
-> >>>
-> >>> I also added a couple of other patches to improve its output. While
-> >>> I could have them merged at the first patch, I opted to make them
-> >>> separate, as, in case of problems or needed changes, it would be
-> >>> easier to revert or modify the corresponding logic. Also, it should
-> >>> be better to review, in case one wants some changes there.
-> >>>
-> >>> The main changes against RFC are:
-> >>>
-> >>> - now, the TOC will be presented with 1 depth identation level,
-> >>>   meaning that it would look like a list;
-> >>> - for files outside Documentation/process, it will use the name of
-> >>>   the subsystem with title capitalization for the name of the
-> >>>   profile entry;
-> >>> - the logic also parses and produces a list of profiles that are
-> >>>   maintained elsewhere, picking its http/https link;
-> >>> - entries are now better sorted: first by subsystem name, then
-> >>>   by its name.
-> >>>
-> >>> Suggested-by: Dan Williams <djbw@kernel.org>
-> >>> Closes: https://lore.kernel.org/linux-doc/69dd6299440be_147c801005b@djbw-dev.notmuch/
-> >>>
-> >>> Mauro Carvalho Chehab (8):
-> >>>   docs: maintainers_include: auto-generate maintainer profile TOC
-> >>>   MAINTAINERS: add an entry for media maintainers profile
-> >>>   MAINTAINERS: add maintainer-tip.rst to X86
-> >>>   docs: auto-generate maintainer entry profile links
-> >>>   docs: maintainers_include: use a better title for profiles
-> >>>   docs: maintainers_include: add external profile URLs
-> >>>   docs: maintainers_include: preserve names for files under process/
-> >>>   docs: maintainers_include: Only show main entry for profiles
-> >>>
-> >>>  .../maintainer/maintainer-entry-profile.rst   |  24 +---
-> >>>  .../process/maintainer-handbooks.rst          |  17 ++-
-> >>>  Documentation/sphinx/maintainers_include.py   | 131 +++++++++++++++---
-> >>>  MAINTAINERS                                   |   2 +
-> >>>  4 files changed, 128 insertions(+), 46 deletions(-)  
-> >>
-> >> When building htmldocs with O=DOCS, I get a bunch of warnings.
-> >> I tested against today's linux-next tree.
-> >>
-> >> The 'make O=DOCS htmldocs' warnings are (subset of all warnings):
-> >>
-> >> linux-next/MAINTAINERS:38: WARNING: toctree contains reference to nonexisting document 'DOCS/Documentation/process/maintainer-kvm-x86' [toc.not_readable]
-> >> linux-next/MAINTAINERS:38: WARNING: toctree contains reference to nonexisting document 'DOCS/Documentation/filesystems/xfs/xfs-maintainer-entry-profile' [toc.not_readable]
-> >> linux-next/MAINTAINERS:38: WARNING: toctree contains reference to nonexisting document 'DOCS/Documentation/process/maintainer-soc-clean-dts' [toc.not_readable]
-> >> linux-next/MAINTAINERS:38: WARNING: toctree contains reference to nonexisting document 'DOCS/Documentation/process/maintainer-netdev' [toc.not_readable]
-> >> linux-next/MAINTAINERS:38: WARNING: toctree contains reference to nonexisting document 'DOCS/Documentation/process/maintainer-tip' [toc.not_readable]
-> >>
-> >> linux-next/Documentation/filesystems/nfs/nfsd-maintainer-entry-profile.rst: WARNING: document isn't included in any toctree [toc.not_included]
-> >> linux-next/Documentation/process/maintainer-kvm-x86.rst: WARNING: document isn't included in any toctree [toc.not_included]
-> >> linux-next/Documentation/process/maintainer-netdev.rst: WARNING: document isn't included in any toctree [toc.not_included]
-> >> linux-next/Documentation/process/maintainer-soc.rst: WARNING: document isn't included in any toctree [toc.not_included]
-> >> linux-next/Documentation/process/maintainer-soc-clean-dts.rst: WARNING: document isn't included in any toctree [toc.not_included]
-> >> linux-next/Documentation/process/maintainer-tip.rst: WARNING: document isn't included in any toctree [toc.not_included]
-> >>
-> >> linux-next/MAINTAINERS:1: WARNING: unknown document: '../../DOCS/Documentation/process/maintainer-soc' [ref.doc]
-> >> linux-next/MAINTAINERS:2: WARNING: unknown document: '../../DOCS/Documentation/process/maintainer-soc-clean-dts' [ref.doc]
-> >> linux-next/MAINTAINERS:3: WARNING: unknown document: '../../DOCS/Documentation/process/maintainer-soc-clean-dts' [ref.doc]
-> >> linux-next/MAINTAINERS:5: WARNING: unknown document: '../../DOCS/Documentation/process/maintainer-tip' [ref.doc]
-> >> linux-next/MAINTAINERS:6: WARNING: unknown document: '../../DOCS/Documentation/process/maintainer-tip' [ref.doc]
-> > 
-> > Heh, os.path.relpath() does the wrong thing here.
-> > 
-> > The enclosed patch should handle it better.
-> > 
-> > Thanks,
-> > Mauro
-> > 
-> > [PATCH] docs: maintainers_include: fix support for O=dir
-> > 
-> > os.path.relpath() will do the wrong thing with O=dir, as the build
-> > system uses "cd <dir>" internally.
-> > 
-> > Solve it by using app.srcdir, which, on normal cases, point to
-> > Documentation/, or, when SPHINXDIRS=process, it will be set with
-> > Documentation/process.
-> > 
-> > While here, remove a dead code while writing maintainer profiles,
-> > as now all entries should have both profile and entry.
-> > 
-> > Reported-by: Randy Dunlap <rdunlap@infradead.org>
-> > Closes: https://lore.kernel.org/linux-doc/88335220-3527-4b1f-9500-417f7ebb7a02@infradead.org/T/#m6854cbd8d30e2c5d3e8c4173bae1c3d6922ff970
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > 
-> > diff --git a/Documentation/sphinx/maintainers_include.py b/Documentation/sphinx/maintainers_include.py
-> > index 5413c1350bba..fff9bdd55a56 100755
-> > --- a/Documentation/sphinx/maintainers_include.py
-> > +++ b/Documentation/sphinx/maintainers_include.py
-> > @@ -27,15 +27,24 @@ from docutils import statemachine
-> >  from docutils.parsers.rst import Directive
-> >  from docutils.parsers.rst.directives.misc import Include
-> >  
-> > +#
-> > +# Base URL for intersphinx-like links to maintainer profiles
-> > +#
-> > +KERNELDOC_URL = "https://docs.kernel.org/"
-> > +
-> >  def ErrorString(exc):  # Shamelessly stolen from docutils
-> >      return f'{exc.__class__.__name}: {exc}'
-> >  
-> >  __version__  = '1.0'
-> >  
-> > +base_dir = "."
-> > +
-> >  class MaintainersParser:
-> >      """Parse MAINTAINERS file(s) content"""
-> >  
-> > -    def __init__(self, base_path, path):
-> > +    def __init__(self, path):
-> > +        global base_dir
-> > +
-> >          self.profile_toc = set()
-> >          self.profile_entries = {}
-> >  
-> > @@ -76,9 +85,18 @@ class MaintainersParser:
-> >              #
-> >              # Handle profile entries - either as files or as https refs
-> >              #
-> > -            match = re.match(r"P:\s*(Documentation/\S+)\.rst", line)
-> > +            match = re.match(r"P:\s*Documentation(/\S+)\.rst", line)
-> >              if match:
-> > -                entry = os.path.relpath(match.group(1), base_path)
-> > +                entry = os.path.relpath(match.group(1), base_dir)
-> > +
-> > +                #
-> > +                # When SPHINXDIRS is used, it will try to reference files
-> > +                # outside srctree, causing warnings. To avoid that, point
-> > +                # to the latest official documentation
-> > +                #
-> > +                if entry.startswith("../"):
-> > +                    entry = KERNELDOC_URL + match.group(1) + ".html"
-> > +
-> >                  if "*" in entry:
-> >                      for e in glob(entry):
-> >                          self.profile_toc.add(e)
-> > @@ -189,10 +207,10 @@ class MaintainersInclude(Include):
-> >      """MaintainersInclude (``maintainers-include``) directive"""
-> >      required_arguments = 0
-> >  
-> > -    def emit(self, base_path, path):
-> > +    def emit(self, path):
-> >          """Parse all the MAINTAINERS lines into ReST for human-readability"""
-> >  
-> > -        output = MaintainersParser(base_path, path).output
-> > +        output = MaintainersParser(path).output
-> >  
-> >          # For debugging the pre-rendered results...
-> >          #print(output, file=open("/tmp/MAINTAINERS.rst", "w"))
-> > @@ -213,11 +231,10 @@ class MaintainersInclude(Include):
-> >  
-> >          # Append "MAINTAINERS"
-> >          path = os.path.join(path, "MAINTAINERS")
-> > -        base_path = os.path.dirname(self.state.document.document.current_source)
-> >  
-> >          try:
-> >              self.state.document.settings.record_dependencies.add(path)
-> > -            lines = self.emit(base_path, path)
-> > +            lines = self.emit(path)
-> >          except IOError as error:
-> >              raise self.severe('Problems with "%s" directive path:\n%s.' %
-> >                        (self.name, ErrorString(error)))
-> > @@ -227,27 +244,20 @@ class MaintainersInclude(Include):
-> >  class MaintainersProfile(Include):
-> >      required_arguments = 0
-> >  
-> > -    def emit(self, base_path, path):
-> > +    def emit(self, path):
-> >          """Parse all the MAINTAINERS lines looking for profile entries"""
-> >  
-> > -        maint = MaintainersParser(base_path, path)
-> > +        maint = MaintainersParser(path)
-> >  
-> >          #
-> >          # Produce a list with all maintainer profiles, sorted by subsystem name
-> >          #
-> >          output = ""
-> > -
-> > -        for profile, entry in maint.profile_entries.items():
-> > +        for profile, entry in sorted(maint.profile_entries.items()):
-> >              if entry.startswith("http"):
-> > -                if profile:
-> > -                    output += f"- `{profile} <{entry}>`_\n"
-> > -                else:
-> > -                    output += f"- `<{entry}>_`\n"
-> > +                output += f"- `{profile} <{entry}>`_\n"
-> >              else:
-> > -                if profile:
-> > -                    output += f"- :doc:`{profile} <{entry}>`\n"
-> > -                else:
-> > -                    output += f"- :doc:`<{entry}>`\n"
-> > +                output += f"- :doc:`{profile} <{entry}>`\n"
-> >  
-> >          #
-> >          # Create a hidden TOC table with all profiles. That allows adding
-> > @@ -277,11 +287,10 @@ class MaintainersProfile(Include):
-> >  
-> >          # Append "MAINTAINERS"
-> >          path = os.path.join(path, "MAINTAINERS")
-> > -        base_path = os.path.dirname(self.state.document.document.current_source)
-> >  
-> >          try:
-> >              self.state.document.settings.record_dependencies.add(path)
-> > -            lines = self.emit(base_path, path)
-> > +            lines = self.emit(path)
-> >          except IOError as error:
-> >              raise self.severe('Problems with "%s" directive path:\n%s.' %
-> >                        (self.name, ErrorString(error)))
-> > @@ -289,6 +298,15 @@ class MaintainersProfile(Include):
-> >          return []
-> >  
-> >  def setup(app):
-> > +    global base_dir
-> > +
-> > +    #
-> > +    # partition will pick the path after Documentation.
-> > +    # NOTE: we're using os.fspath() here because of a Sphinx warning:
-> > +    #   RemovedInSphinx90Warning: Sphinx 9 will drop support for representing paths as strings. Use "pathlib.Path" or "os.fspath" instead.
-> > +    #
-> > +    _, _, base_dir = os.fspath(app.srcdir).partition("Documentation")
-> > +
-> >      app.add_directive("maintainers-include", MaintainersInclude)
-> >      app.add_directive("maintainers-profile-toc", MaintainersProfile)
-> >      return dict(
-> 
-> With that patch I still see 6 warnings:
-> 
-> linux-next/Documentation/filesystems/nfs/nfsd-maintainer-entry-profile.rst: WARNING: document isn't included in any toctree [toc.not_included]
-> linux-next/Documentation/process/maintainer-kvm-x86.rst: WARNING: document isn't included in any toctree [toc.not_included]
-> linux-next/Documentation/process/maintainer-netdev.rst: WARNING: document isn't included in any toctree [toc.not_included]
-> linux-next/Documentation/process/maintainer-soc.rst: WARNING: document isn't included in any toctree [toc.not_included]
-> linux-next/Documentation/process/maintainer-soc-clean-dts.rst: WARNING: document isn't included in any toctree [toc.not_included]
-> linux-next/Documentation/process/maintainer-tip.rst: WARNING: document isn't included in any toctree [toc.not_included]
+A build that exits zero despite some targets failing can mask
+real breakage and mislead automated systems into reporting
+success. Add a dedicated section so that CI authors can easily
+find and adopt FORCE_TARGETS=1 to turn such silent partial
+failures into hard errors.
 
-Heh, dealing with patches is tricky. At least on my tests, things seem
-to be working fine at v2 of this series:
+Signed-off-by: Ricardo B. Marlière <rbm@suse.com>
+---
+ Documentation/dev-tools/kselftest.rst | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-	https://lore.kernel.org/linux-doc/cover.1776405189.git.mchehab+huawei@kernel.org/T/#t
+diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
+index 18c2da67fae4..d7bfe320338c 100644
+--- a/Documentation/dev-tools/kselftest.rst
++++ b/Documentation/dev-tools/kselftest.rst
+@@ -126,6 +126,18 @@ dedicated skiplist::
+ See the top-level tools/testing/selftests/Makefile for the list of all
+ possible targets.
+ 
++Requiring all targets to build successfully
++===========================================
++
++By default, the build succeeds as long as at least one target builds
++without error. Set ``FORCE_TARGETS=1`` to instead require every target to
++build successfully; make will abort as soon as any target fails::
++
++  $ make -C tools/testing/selftests FORCE_TARGETS=1
++
++This applies to both the ``all`` and ``install`` targets and is useful in
++CI environments where a silent partial build would be misleading.
++
+ Running the full range hotplug selftests
+ ========================================
+ 
 
-here, I tested building docs with and without SPHINXDIRS=process and
-O=DOCS, but it is nice if you can re-test it.
+---
+base-commit: 83ef26f911432d9c98b6d8b6ed0709a8b79cd834
+change-id: 20260417-selftests-docs-fdf4e922ad20
 
-Basically, when SPHINXDIRS=process is used, instead of generating
-wakings for docs outside process/ directory, it converts them to
-hyperlinks to their corresponding name inside 
-https://docs.kernel.org/ (*).
+Best regards,
+--  
+Ricardo B. Marlière <rbm@suse.com>
 
-(*) The logic assumes that the file would exist there, but doesn't
-    check.
-
-Thanks,
-Mauro
