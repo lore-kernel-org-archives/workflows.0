@@ -1,46 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A4FC1E5724;
-	Sun, 19 Apr 2026 19:05:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0A10EED8;
+	Sun, 19 Apr 2026 19:07:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776625505; cv=none; b=tiJdRdhH77WmXjVDsy++meUcO7PU/uKhn0UNTb6Q/q5Uid1F6E795JdbY61vqQp4eXszpt++PRh3AE908zdWbu9tlqw9QAzfIfWbobdsPxOsqGkfMey5v+xF8GmAmKtAf8mwyBmJO3kxoD8iiXU2oZnpO07ygAmDKuWBvJPlxWk=
+	t=1776625658; cv=none; b=EsqKKHXsv9tbVlyqMescAuM+qjEuV0rg3c080el8xzDceZ5wVh94ZNSH0/9UPBWaLusquzJCEbEzlssn7N3krR7eJE2dvoEJf41Slmo/vPJscAr56bjNneOMp2AEpdiY7Wz7LuFj4B9HnaaY7CgRbG/aW2NYxo214tYzDkJhSbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776625505; c=relaxed/simple;
-	bh=0o6iXnNdqdajO9sJAzsWeXyZ6igvpK08RjfL8VZgRvc=;
+	s=arc-20240116; t=1776625658; c=relaxed/simple;
+	bh=CLN/WytTm5Iyitqeq5WgLKn12mSy9O29jgFf5PJ1nqQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pX2ARztFG0o9u+bW2RVgGpdd9QcaUBoQJyInZAmiv8nI2ycl16+4+if0rhYsrC3Qx383SC509gBoVI6NW4zirNJc3HIeoVvvYOjD9AHr/+5O003I9mKveRJ/plvhbeRE+iWLku7wdSGBgFh/meP2ZEmCfpT3xsCpQ1KTgDeEGOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DVChCz/D; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=q455sxFA5dgvSIghv5JZ5AmySQtOqOmMMl8AZYRJx5RTCMi2qDjTbydFTWRF3iWzjeCZMamwphOpWbJ18d3jU+CIrvVEDrxCOo7U2cMXPk4Y6zXDCSGf+3hQvnAOHB2Rpfqv+BaWPhqimY1C89odIDjEm09VVJJhrzT0yv2gSxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JvqeAI5Y; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DVChCz/D"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B7D3C2BCAF;
-	Sun, 19 Apr 2026 19:05:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JvqeAI5Y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C0C2C2BCAF;
+	Sun, 19 Apr 2026 19:07:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776625504;
-	bh=0o6iXnNdqdajO9sJAzsWeXyZ6igvpK08RjfL8VZgRvc=;
+	s=k20201202; t=1776625657;
+	bh=CLN/WytTm5Iyitqeq5WgLKn12mSy9O29jgFf5PJ1nqQ=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=DVChCz/DdGfBg9+KCUerv/hol4dJ8KH4nuQxdYFJA5hBJm/2t3v3xJz92Dwlpt+3J
-	 MZDAWfNYlyvPc4Q/7CpFyUYWZYJ1XI9VPu9l7W6hmIsPSIB4D5zsUvALa+CYeyDmNf
-	 KTULdMz1jgGTsejlNu2ULnMFCbeignRNcWbteuheL5FMKDpxlXFzSkRYmWj7TVsdI4
-	 6Jb+oqfSIuB2bWyKc+zSCUl+pZ1fh27qdEfe1t5/d6xb9CHEcn//fLCcfleSZN+X9o
-	 MAmIwoucwj0DRcqMq6C1gqji25KN8dSMYGkUaV69vYfuUxZXE8kCYKEKReydlJKaQr
-	 XzgCcV+GCSd+w==
-Date: Sun, 19 Apr 2026 21:04:56 +0200
+	b=JvqeAI5YOhaFnwRk0ai+Xp5cF9LJbDyfC6O/rff6/2HzqpzXUjMlXl5c+t/wXaYoT
+	 txV57DUNkdCZWThfVymtG5zNHw9m8GpDtb1qkSLpr76cVzmIBO/V4P+Lx1ZPN15452
+	 bLtug+6bRzvsAkRlGivmRzLYMxu8EJj+eERjsdL0z7l+y0dW3zmzDpFw5jOfWFMKUs
+	 pLxys6SlEh7xOOEnjxxxUX/0hR5G7a+0nFMRAHA+cGkDC5tSLIXKfcdExSKjAC1SwU
+	 Av72Rehz4czWTQSLHeO9dnskWe/Lkm19OW2P8X5JP6eisw1DLuFH4C5AoatBI3hhir
+	 ZVNnKQzLSBOiA==
+Date: Sun, 19 Apr 2026 21:07:30 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Palmer Dabbelt
- <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org, workflows@vger.kernel.org, Alexandre Ghiti
- <alex@ghiti.fr>, Shuah Khan <skhan@linuxfoundation.org>, Dan Williams
- <djbw@kernel.org>, Benno Lossin <lossin@kernel.org>
-Subject: Re: [PATCH v2 00/11] Auto-generate maintainer profile entries
-Message-ID: <20260419210456.1f3911a0@foz.lan>
-In-Reply-To: <9bcb8053-2eb6-4327-ae3f-2a23321c4c3e@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List
+ <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org,
+ linux-riscv@lists.infradead.org, workflows@vger.kernel.org, Dan Williams
+ <djbw@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v2 01/11] MAINTAINERS: add an entry for media
+ maintainers profile
+Message-ID: <20260419210730.3c9a84d1@foz.lan>
+In-Reply-To: <63c25cd9-2145-40c7-b1bc-463214d5df6c@infradead.org>
 References: <cover.1776405189.git.mchehab+huawei@kernel.org>
-	<9bcb8053-2eb6-4327-ae3f-2a23321c4c3e@infradead.org>
+	<361c00348573e45b4e06b674b2b45e47dc65c938.1776405189.git.mchehab+huawei@kernel.org>
+	<63c25cd9-2145-40c7-b1bc-463214d5df6c@infradead.org>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
@@ -51,108 +50,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Sat, 18 Apr 2026 17:05:56 -0700
+On Sat, 18 Apr 2026 17:02:55 -0700
 Randy Dunlap <rdunlap@infradead.org> wrote:
 
 > On 4/16/26 11:11 PM, Mauro Carvalho Chehab wrote:
-> > Hi Jon,
+> > The media subsystem has a maintainers entry profile, but its entry
+> > is missing at MAINTAINERS.
 > > 
-> > This patch series change the way maintainer entry profile links
-> > are added to the documentation. Instead of having an entry for
-> > each of them at an ReST file, get them from MAINTAINERS content.
+> > Add it.
 > > 
-> > That should likely make easier to maintain, as there will be a single
-> > point to place all such profiles.
-> > 
-> > The output is a per-subsystem sorted (*) series of links shown as a
-> > list like this:
-> > 
-> >     - Arm And Arm64 Soc Sub-Architectures (Common Parts)
-> >     - Arm/Samsung S3C, S5P And Exynos Arm Architectures
-> >     - Arm/Tesla Fsd Soc Support
-> >     ...
-> >     - Xfs Filesystem
-> > 
-> > Please notice that the series is doing one logical change per patch.
-> > I could have merged some changes altogether, but I opted doing it
-> > in small steps to help reviews. If you prefer, feel free to merge
-> > maintainers_include changes on merge.
-> > 
-> > There is one interesting side effect of this series: there is no
-> > need to add rst files containing profiles inside a TOC tree: Just
-> > creating the file anywhere inside Documentation and adding a P entry
-> > is enough. Adding them to a TOC won't hurt.
-> > 
-> > Reported-by: Randy Dunlap <rdunlap@infradead.org>
-> > Suggested-by: Dan Williams <djbw@kernel.org>
-> > Closes: https://lore.kernel.org/linux-doc/69dd6299440be_147c801005b@djbw-dev.notmuch/
-> > 
-> > (*) At the end, I opted to use sorted(), just to ensure it, even
-> >     knowing that MAINTAINER entries are supposed to be sorted, as
-> >     the cost of sorting ~20 already-sorted entries is negligible.
-> > 
+> > Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > Message-ID: <5af4aa6a716228eea4d59dc26b97d642e1e7d419.1776176108.git.mchehab+huawei@kernel.org>
 > > ---
+> >  MAINTAINERS | 1 +
+> >  1 file changed, 1 insertion(+)
 > > 
-> > v2:
-> >   - I placed the to MAINTAINERS changes at the beginning.
-> >   - fix a bug when O=DOCS is used;
-> >   - proper handle glob "P" entries (just in case, no profiles use it ATM);
-> >   - when SPHINXDIRS=process, instead of producing warnings, point to
-> >     entries at https://docs.kernel.org;
-> >   - MAINTAINERS parsing now happens just once;
-> >   - The output won't be numered for entries inside numered TOC trees;
-> >   - TOC tree is now hidden;
-> >   - instead of display a TOC tree, it shows a list of profiles,
-> >     ordered and named after file system name taken from MAINTAINERS file;
-> >   - At the output list, both https and file profiles are shown the same
-> >     way.
-> > 
-> > Mauro Carvalho Chehab (11):
-> >   MAINTAINERS: add an entry for media maintainers profile
-> >   MAINTAINERS: add maintainer-tip.rst to X86
-> >   docs: maintainers_include: auto-generate maintainer profile TOC
-> >   docs: auto-generate maintainer entry profile links
-> >   docs: maintainers_include: use a better title for profiles
-> >   docs: maintainers_include: add external profile URLs
-> >   docs: maintainers_include: preserve names for files under process/
-> >   docs: maintainers_include: Only show main entry for profiles
-> >   docs: maintainers_include: improve its output
-> >   docs: maintainers_include: fix support for O=dir
-> >   docs: maintainers_include: parse MAINTAINERS just once
-> > 
-> >  .../maintainer/maintainer-entry-profile.rst   |  24 +--
-> >  .../process/maintainer-handbooks.rst          |  17 +-
-> >  Documentation/sphinx/maintainers_include.py   | 161 +++++++++++++++---
-> >  MAINTAINERS                                   |   2 +
-> >  4 files changed, 150 insertions(+), 54 deletions(-)
-> >   
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index f0b106a4dd96..620219e48f98 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -16115,6 +16115,7 @@ S:	Maintained
+> >  W:	https://linuxtv.org
+> >  Q:	http://patchwork.kernel.org/project/linux-media/list/
+> >  T:	git git://linuxtv.org/media.git
+> > +P:	Documentation/driver-api/media/maintainer-entry-profile.rst
+> >  F:	Documentation/admin-guide/media/
+> >  F:	Documentation/devicetree/bindings/media/
+> >  F:	Documentation/driver-api/media/  
 > 
-> Just a note, not asking for a change or fix:
+> I now see 2 P: entries for MEDIA INPUT INFRASTRUCTURE
+> and 2 P: entries for X86 ARCHITECTURE.
+> (don't know how/why)
 > 
-> AFAICT, all P: entries are now listed nicely except for:
-> 
-> P:	rust/pin-init/CONTRIBUTING.md
+My patches (and my tests) are based on docs-next. Perhaps some other
+patch is adding them as well.
 
-That's because it doesn't follow what's expected for "P":
-either a file that Sphinx can read (rst files), placed inside
-Documentation/ and added to Sphinx toctree or an external html URL. 
+I'll rebase them on the top of -rc1 after it gets released.
 
-The way it is, the subsystem profile regex won't get it.
-
-While it is not hard to add an exception, IMO the best would be
-to do:
-
-	$ pandoc -fgfm -trst rust/pin-init/CONTRIBUTING.md > Documentation/process/pin-init.rst
-	$ sed -i s,rust/pin-init/CONTRIBUTING.md,Documentation/process/pin-init.rst, MAINTAINERS 
-	$ git rm rust/pin-init/CONTRIBUTING.md
-	$ git add Documentation/process/pin-init.rst
-	$ git commit -as
-
-> 
-> so for the series:
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks!
-
+Thanks,
 Mauro
