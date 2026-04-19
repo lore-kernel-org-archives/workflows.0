@@ -1,75 +1,158 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC9F430F533;
-	Sun, 19 Apr 2026 11:43:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A4FC1E5724;
+	Sun, 19 Apr 2026 19:05:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776599014; cv=none; b=owDEyd9y/F0SocoZm4sZsaEyeuLSSCtfP6R3OwK5FiHj6k3ZHUu3CG1auKyNIIDraNccOb2dpDq8ZtdbDxZ1gJflq8lGNsC9O99IlCKoFZMXsrCBix1Rg2Lw8EDbfps5bqbWXEKj1XsCaIF8HSd5Ixdb+q6Jyx/DiINe3r8RmmE=
+	t=1776625505; cv=none; b=tiJdRdhH77WmXjVDsy++meUcO7PU/uKhn0UNTb6Q/q5Uid1F6E795JdbY61vqQp4eXszpt++PRh3AE908zdWbu9tlqw9QAzfIfWbobdsPxOsqGkfMey5v+xF8GmAmKtAf8mwyBmJO3kxoD8iiXU2oZnpO07ygAmDKuWBvJPlxWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776599014; c=relaxed/simple;
-	bh=IMDxIvzyumDawQtoXNv/Xd38pSmE6XvbynP3ndCwjJQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=FzRFqETW9OPHKwKTX+GKH0vKK0mKa5y+lLloPsg2pTJo0RHeLHTCEaYrD+4zSkcwYo2OaQKr0dxYwTbM4AiysIKulq7aPjid2qaboYF2nFlHF9h+qxn0GdPu1RR78VBDxZMzvvrrPse67G7qpXYz1sIeRDkhKkuFrJ58V2Fc4+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=QVa3xvBZ; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1776625505; c=relaxed/simple;
+	bh=0o6iXnNdqdajO9sJAzsWeXyZ6igvpK08RjfL8VZgRvc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pX2ARztFG0o9u+bW2RVgGpdd9QcaUBoQJyInZAmiv8nI2ycl16+4+if0rhYsrC3Qx383SC509gBoVI6NW4zirNJc3HIeoVvvYOjD9AHr/+5O003I9mKveRJ/plvhbeRE+iWLku7wdSGBgFh/meP2ZEmCfpT3xsCpQ1KTgDeEGOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DVChCz/D; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="QVa3xvBZ"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A7D4B40B0C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1776599012; bh=IMDxIvzyumDawQtoXNv/Xd38pSmE6XvbynP3ndCwjJQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=QVa3xvBZScmeUvqxIn2pX6iESz0anZ5QgZnlLPQurU7HQciufu+fjinOgMLN4rxp9
-	 3JGLM3RK1zlnvJejJZ1zlNRn8AlcUleDOifNwK6nN8jQORT8e/jghXZTuB6GjKqlv4
-	 5CUbA5V3SYW1bKY9ArozMT8fAb+mTh0vhQnZZFe7iV+46d2uJE9W9d+l057jiXhSvx
-	 7U8F6fqu0WQFzCJ3//E5Q8RIbt4Crg70sX2jpjVu5xthB+XavZ/5+1lK9XNZd1hi2t
-	 pAbLYPoj4E1k6DpE0YrOgOsRteLR5KhwR4UleZ+t2SYqdI+hICdJyUMe98KZiHYZ4A
-	 xX21nGWLWd89w==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id A7D4B40B0C;
-	Sun, 19 Apr 2026 11:43:31 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Manuel Ebner <manuelebner@mailbox.org>, Shuah Khan
- <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
-Cc: lrcu@vger.kernel.org, linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org, linux-sound@vger.kernel.org,
- rcu@vger.kernel.org, linux-media@vger.kernel.org, Kees Cook
- <kees@kernel.org>
-Subject: Re: [PATCH] Documentation: adopt new coding style of type-aware
- kmalloc-family
-In-Reply-To: <295490d9bd8b9d519dda5c4551e7dbaf36492a8a.camel@mailbox.org>
-References: <20260419065824.165921-4-manuelebner@mailbox.org>
- <87se8rw8df.fsf@trenco.lwn.net>
- <295490d9bd8b9d519dda5c4551e7dbaf36492a8a.camel@mailbox.org>
-Date: Sun, 19 Apr 2026 05:43:27 -0600
-Message-ID: <87o6jfw4yo.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DVChCz/D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B7D3C2BCAF;
+	Sun, 19 Apr 2026 19:05:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776625504;
+	bh=0o6iXnNdqdajO9sJAzsWeXyZ6igvpK08RjfL8VZgRvc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=DVChCz/DdGfBg9+KCUerv/hol4dJ8KH4nuQxdYFJA5hBJm/2t3v3xJz92Dwlpt+3J
+	 MZDAWfNYlyvPc4Q/7CpFyUYWZYJ1XI9VPu9l7W6hmIsPSIB4D5zsUvALa+CYeyDmNf
+	 KTULdMz1jgGTsejlNu2ULnMFCbeignRNcWbteuheL5FMKDpxlXFzSkRYmWj7TVsdI4
+	 6Jb+oqfSIuB2bWyKc+zSCUl+pZ1fh27qdEfe1t5/d6xb9CHEcn//fLCcfleSZN+X9o
+	 MAmIwoucwj0DRcqMq6C1gqji25KN8dSMYGkUaV69vYfuUxZXE8kCYKEKReydlJKaQr
+	 XzgCcV+GCSd+w==
+Date: Sun, 19 Apr 2026 21:04:56 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-riscv@lists.infradead.org, workflows@vger.kernel.org, Alexandre Ghiti
+ <alex@ghiti.fr>, Shuah Khan <skhan@linuxfoundation.org>, Dan Williams
+ <djbw@kernel.org>, Benno Lossin <lossin@kernel.org>
+Subject: Re: [PATCH v2 00/11] Auto-generate maintainer profile entries
+Message-ID: <20260419210456.1f3911a0@foz.lan>
+In-Reply-To: <9bcb8053-2eb6-4327-ae3f-2a23321c4c3e@infradead.org>
+References: <cover.1776405189.git.mchehab+huawei@kernel.org>
+	<9bcb8053-2eb6-4327-ae3f-2a23321c4c3e@infradead.org>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Manuel Ebner <manuelebner@mailbox.org> writes:
+On Sat, 18 Apr 2026 17:05:56 -0700
+Randy Dunlap <rdunlap@infradead.org> wrote:
 
->> So you have not gone with the "implicit GFP_KERNEL" approach that Linus
->> added.=C2=A0 Given that, I assume, he wanted that to be the normal style=
-, we
->> should probably go with it.
->
-> I scanned those 8 replies by Linus, but i can't figure out what you mean =
-with
-> implicit GFP_Kernel approach, can you give me a hint?
->
-> https://lore.kernel.org/all/?q=3Dslab%3A+Introduce+kmalloc_obj%28%29+and+=
-family+f%3Atorvalds
+> On 4/16/26 11:11 PM, Mauro Carvalho Chehab wrote:
+> > Hi Jon,
+> > 
+> > This patch series change the way maintainer entry profile links
+> > are added to the documentation. Instead of having an entry for
+> > each of them at an ReST file, get them from MAINTAINERS content.
+> > 
+> > That should likely make easier to maintain, as there will be a single
+> > point to place all such profiles.
+> > 
+> > The output is a per-subsystem sorted (*) series of links shown as a
+> > list like this:
+> > 
+> >     - Arm And Arm64 Soc Sub-Architectures (Common Parts)
+> >     - Arm/Samsung S3C, S5P And Exynos Arm Architectures
+> >     - Arm/Tesla Fsd Soc Support
+> >     ...
+> >     - Xfs Filesystem
+> > 
+> > Please notice that the series is doing one logical change per patch.
+> > I could have merged some changes altogether, but I opted doing it
+> > in small steps to help reviews. If you prefer, feel free to merge
+> > maintainers_include changes on merge.
+> > 
+> > There is one interesting side effect of this series: there is no
+> > need to add rst files containing profiles inside a TOC tree: Just
+> > creating the file anywhere inside Documentation and adding a P entry
+> > is enough. Adding them to a TOC won't hurt.
+> > 
+> > Reported-by: Randy Dunlap <rdunlap@infradead.org>
+> > Suggested-by: Dan Williams <djbw@kernel.org>
+> > Closes: https://lore.kernel.org/linux-doc/69dd6299440be_147c801005b@djbw-dev.notmuch/
+> > 
+> > (*) At the end, I opted to use sorted(), just to ensure it, even
+> >     knowing that MAINTAINER entries are supposed to be sorted, as
+> >     the cost of sorting ~20 already-sorted entries is negligible.
+> > 
+> > ---
+> > 
+> > v2:
+> >   - I placed the to MAINTAINERS changes at the beginning.
+> >   - fix a bug when O=DOCS is used;
+> >   - proper handle glob "P" entries (just in case, no profiles use it ATM);
+> >   - when SPHINXDIRS=process, instead of producing warnings, point to
+> >     entries at https://docs.kernel.org;
+> >   - MAINTAINERS parsing now happens just once;
+> >   - The output won't be numered for entries inside numered TOC trees;
+> >   - TOC tree is now hidden;
+> >   - instead of display a TOC tree, it shows a list of profiles,
+> >     ordered and named after file system name taken from MAINTAINERS file;
+> >   - At the output list, both https and file profiles are shown the same
+> >     way.
+> > 
+> > Mauro Carvalho Chehab (11):
+> >   MAINTAINERS: add an entry for media maintainers profile
+> >   MAINTAINERS: add maintainer-tip.rst to X86
+> >   docs: maintainers_include: auto-generate maintainer profile TOC
+> >   docs: auto-generate maintainer entry profile links
+> >   docs: maintainers_include: use a better title for profiles
+> >   docs: maintainers_include: add external profile URLs
+> >   docs: maintainers_include: preserve names for files under process/
+> >   docs: maintainers_include: Only show main entry for profiles
+> >   docs: maintainers_include: improve its output
+> >   docs: maintainers_include: fix support for O=dir
+> >   docs: maintainers_include: parse MAINTAINERS just once
+> > 
+> >  .../maintainer/maintainer-entry-profile.rst   |  24 +--
+> >  .../process/maintainer-handbooks.rst          |  17 +-
+> >  Documentation/sphinx/maintainers_include.py   | 161 +++++++++++++++---
+> >  MAINTAINERS                                   |   2 +
+> >  4 files changed, 150 insertions(+), 54 deletions(-)
+> >   
+> 
+> Just a note, not asking for a change or fix:
+> 
+> AFAICT, all P: entries are now listed nicely except for:
+> 
+> P:	rust/pin-init/CONTRIBUTING.md
 
-See https://lwn.net/Articles/1062856/
+That's because it doesn't follow what's expected for "P":
+either a file that Sphinx can read (rst files), placed inside
+Documentation/ and added to Sphinx toctree or an external html URL. 
 
-jon
+The way it is, the subsystem profile regex won't get it.
+
+While it is not hard to add an exception, IMO the best would be
+to do:
+
+	$ pandoc -fgfm -trst rust/pin-init/CONTRIBUTING.md > Documentation/process/pin-init.rst
+	$ sed -i s,rust/pin-init/CONTRIBUTING.md,Documentation/process/pin-init.rst, MAINTAINERS 
+	$ git rm rust/pin-init/CONTRIBUTING.md
+	$ git add Documentation/process/pin-init.rst
+	$ git commit -as
+
+> 
+> so for the series:
+> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks!
+
+Mauro
