@@ -1,124 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 725432EA749;
-	Tue, 21 Apr 2026 17:25:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94BFF3469F5;
+	Tue, 21 Apr 2026 17:57:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776792318; cv=none; b=qNUFd5g1FymgE+B4ftzX3Ao8FE19DKrvQQoapl9xFuqJmD3rD0EQFfR2CDE3nJclS89bg4bLwnPtBQre8C41FxLO1cAoyU5oj2V+FoS7ueTxQc9E8bgCHq7FPGfmxqX74nDNI+4Mwv3fhbX2vsqCuVyjKCub05Vrbb0Tf+HMXWY=
+	t=1776794262; cv=none; b=Xj4LBdDfr5ZCRUK0+B00AAtiA5kt/J8F6R7KkDpTFsUIZM6vGegEDD5fp0FmdUAD6EOT2ArvmeCIcAhydjP77OHcwmLj+BB93npZOhx4JEpRSU/H1ORRqTMbH+twxoS4PcasJVw+WL9wHzr2f+/clwChDkwAb6q2uBuRWvporIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776792318; c=relaxed/simple;
-	bh=RuCIFZr/SEoQ0D3uTIrq4oqnPYR8TmflVF/o8S+Gruk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HwDAqiGKfFFTN9kzkH/S52ImNrfSk0kREUkZTvvuB8kMBgGVBfeYyP0dkb4PRjPDwxDnNA830YviFHYhwjP730Yd298gg3VNYJgt7iDkYVYvtAUze+AX5McJPsmfgcQLyYoHHDIh6F6rTSks111CmR0Rt7XQE5FX9YRyOSMmXqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sW4Jv+O0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776794262; c=relaxed/simple;
+	bh=P1cosrmngf7+WjRm9EyXXEt+hBtvjPWN22h4oPz+Gvc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LFnRGpkKjV7kzjOY0n14a/XC6EHqNbEeYVrBkaWaqtNQc6Hgt6/mJoq6J0DYYuVeWdCJFxDliZyvlefQvE9o9NhXUG4CU3YdkPm5Sv2UGlVe07HBHS5ZMCKpUhvQeGeCy43gKcBIhZCifpwEM+bfB7pe/zr2S7BhakMgw+NUX5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=njXWkc9j; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=NWQIm0vI; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sW4Jv+O0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15F09C2BCB0;
-	Tue, 21 Apr 2026 17:25:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776792318;
-	bh=RuCIFZr/SEoQ0D3uTIrq4oqnPYR8TmflVF/o8S+Gruk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sW4Jv+O0e8NbDdFfaeKpFSJFMq5rUF0KDz4WVOQcS7hcsbnr9mb4PolZ8FLuLCc7y
-	 +d/N/9NQLnr4SbDxumT7pS6SNMF2wzqIWO9jZyKm8PXraCfRDPsRcJZwd7fK1myJEY
-	 2o906CELNg1SSLnCofg3l/vlbvWHpS4Uy4yYBcnKb3X8ZK2+jT2UHkbDOOlZkyaJn9
-	 9OltzpP+iSmDiUCDuopbxdvR/+4oj/eJco1j+Lg7BjjmtGuOubmDnKTwWOYphtUChy
-	 hcShGK8TypX8ZEco4q2pbAp27yZRhCr5GGxfZYJpjDTAlv2DkrS9I2D8ooOLwMtpTw
-	 rwYMSlSuw2AvA==
-Date: Tue, 21 Apr 2026 10:25:17 -0700
-From: Kees Cook <kees@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Manuel Ebner <manuelebner@mailbox.org>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
-	lrcu@vger.kernel.org, linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org, linux-sound@vger.kernel.org,
-	rcu@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH] Documentation: adopt new coding style of type-aware
- kmalloc-family
-Message-ID: <202604211023.2D82CE0025@keescook>
-References: <20260419065824.165921-4-manuelebner@mailbox.org>
- <87se8rw8df.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="njXWkc9j";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="NWQIm0vI"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4g0VSD24hZz9spj;
+	Tue, 21 Apr 2026 19:57:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1776794252;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=P1cosrmngf7+WjRm9EyXXEt+hBtvjPWN22h4oPz+Gvc=;
+	b=njXWkc9jAkM5jZ59AUR4gQVLYOVjJagjMJ5Lrn5W56oWZcUCQ+3j88HqMhV4mt4KogUZxQ
+	VUF+jT2k+yPCzq4JFrSOuSQxRBkx9jOlII5wfcg68b7f2UdzfdO91yfq5aP8+PcNhZuxVB
+	l15RB5/ZYS94dVvPKL2020MbLiCV+F+ldtlV+olmazypFmP4FLHW5QZK+HvpakC+JtuMKw
+	fTEvE3yMxGZVn2XF2MsA/y9QAzKUY09dIaKgVVUhbnDCLe9EesQMguycQ79Yu4pkFshq3R
+	EbRA3xP4Z7mOW6P8G7KjS1Zeyer31kd/0t68IIx/pcGaphUjLSBtjTyKJ0yJIw==
+From: Manuel Ebner <manuelebner@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1776794250;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=P1cosrmngf7+WjRm9EyXXEt+hBtvjPWN22h4oPz+Gvc=;
+	b=NWQIm0vIqaoSev3jG2aolu1f5mBvsYdMnI5s3yM6bcbZ04i8BCAL1xrjc7V+46F9b4dYhf
+	VpN/ppOgCTIlLMGz7fEIDh/nWcPQTPbFXnYUTYvnNmZ9W4ZljJHgHv9iBLFpewivoYE6Tk
+	TrGyv+bib1cY7iqiuoyPaa0BrFchHoUDvdcWZAtytIhNSB2b6jEK/SprFpDjllMnm/vt/M
+	dVsiQWApqbeL4xCfZUJzKoatTGvoMWm1fwQk/1W0BhnVry+/BsEWctFHryV/3XIgUKrnZI
+	3mBOrbQupshp7zqLgP1888kg3GgeOXtkuHP8+30yApMWMTxsFOSB0Mk8PC8p+g==
+To: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org,
+	Kees Cook <kees@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	rcu@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	Manuel Ebner <manuelebner@mailbox.org>
+Subject: [PATCH v2 0/3] Documentation: adopt new coding style of type-aware kmalloc-family
+Date: Tue, 21 Apr 2026 19:55:17 +0200
+Message-ID: <20260421175516.224960-2-manuelebner@mailbox.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87se8rw8df.fsf@trenco.lwn.net>
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 1cc28d171c1f478f232
+X-MBO-RS-META: 1qp5s87d34fpqkjtcjrxj7si3uinr1if
 
-On Sun, Apr 19, 2026 at 04:29:48AM -0600, Jonathan Corbet wrote:
-> Manuel Ebner <manuelebner@mailbox.org> writes:
-> 
-> > Update the documentation to reflect new type-aware kmalloc-family as
-> > suggested in commit 2932ba8d9c99 ("slab: Introduce kmalloc_obj() and family")
-> >
-> > ptr = kmalloc(sizeof(*ptr), gfp);
-> >  -> ptr = kmalloc_obj(*ptr, gfp);
-> > ptr = kmalloc(sizeof(struct some_obj_name), gfp);
-> >  -> ptr = kmalloc_obj(*ptr, gfp);
-> > ptr = kzalloc(sizeof(*ptr), gfp);
-> >  -> ptr = kzalloc_obj(*ptr, gfp);
-> > ptr = kmalloc_array(count, sizeof(*ptr), gfp);
-> >  -> ptr = kmalloc_objs(*ptr, count, gfp);
-> > ptr = kcalloc(count, sizeof(*ptr), gfp);
-> >  -> ptr = kzalloc_objs(*ptr, count, gfp);
-> >
-> > Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
-> 
-> Just to be sure, did you write this patch yourself, or did you use some
-> sort of coding assistant?
-> 
-> Adding Kees, who did this work and might have something to add here.
-> 
-> > ---
-> >  .../RCU/Design/Requirements/Requirements.rst         |  6 +++---
-> >  Documentation/RCU/listRCU.rst                        |  2 +-
-> >  Documentation/RCU/whatisRCU.rst                      |  4 ++--
-> 
-> This patch will surely need to be split up; the RCU folks, for example,
-> will want to evaluate the change separately.
-> 
-> >  Documentation/core-api/kref.rst                      |  4 ++--
-> >  Documentation/core-api/list.rst                      |  4 ++--
-> >  Documentation/core-api/memory-allocation.rst         |  4 ++--
-> >  Documentation/driver-api/mailbox.rst                 |  4 ++--
-> >  Documentation/driver-api/media/v4l2-fh.rst           |  2 +-
-> >  Documentation/kernel-hacking/locking.rst             |  4 ++--
-> >  Documentation/locking/locktypes.rst                  |  4 ++--
-> >  Documentation/process/coding-style.rst               |  8 ++++----
-> >  .../sound/kernel-api/writing-an-alsa-driver.rst      | 12 ++++++------
-> >  Documentation/spi/spi-summary.rst                    |  4 ++--
-> >  .../translations/it_IT/kernel-hacking/locking.rst    |  4 ++--
-> >  .../translations/it_IT/locking/locktypes.rst         |  4 ++--
-> >  .../translations/it_IT/process/coding-style.rst      |  2 +-
-> >  .../translations/sp_SP/process/coding-style.rst      |  2 +-
-> >  Documentation/translations/zh_CN/core-api/kref.rst   |  4 ++--
-> >  .../translations/zh_CN/process/coding-style.rst      |  2 +-
-> >  .../zh_CN/video4linux/v4l2-framework.txt             |  2 +-
-> >  .../translations/zh_TW/process/coding-style.rst      |  2 +-
-> >  21 files changed, 42 insertions(+), 42 deletions(-)
-> >
-> > diff --git a/Documentation/RCU/Design/Requirements/Requirements.rst b/Documentation/RCU/Design/Requirements/Requirements.rst
-> > index b5cdbba3ec2e..faca5a9c8c12 100644
-> > --- a/Documentation/RCU/Design/Requirements/Requirements.rst
-> > +++ b/Documentation/RCU/Design/Requirements/Requirements.rst
-> > @@ -206,7 +206,7 @@ non-\ ``NULL``, locklessly accessing the ``->a`` and ``->b`` fields.
-> >  
-> >         1 bool add_gp_buggy(int a, int b)
-> >         2 {
-> > -       3   p = kmalloc(sizeof(*p), GFP_KERNEL);
-> > +       3   p = kmalloc_obj(*p, GFP_KERNEL);
-> 
-> So you have not gone with the "implicit GFP_KERNEL" approach that Linus
-> added.  Given that, I assume, he wanted that to be the normal style, we
-> should probably go with it.
+Update the documentation to reflect new type-aware kmalloc-family as
+suggested in commit 2932ba8d9c99 ("slab: Introduce kmalloc_obj() and family")
 
-Thank you for updating the documentation! Yes, please drop the "default"
-GFP_KERNEL args in all these places. (Keep the non-GFP_KERNEL args; I
-see at least GFP_ATOMIC in the docs.)
+I have also thought about adding a few cases to checkpatch.pl, but this
+will take me some time, and i don't know if i can do it.
 
--- 
-Kees Cook
+ [v1] -> [v2]:
+put RCU/* in a seperate patch [Patch 2/3]
+Omit optional argument (GFP_KERNEL) as suggested by https://lwn.net/Articles/1062856/
+deprecated.rst: change the argument gfp to optional [Patch 3/3]
+
+Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
