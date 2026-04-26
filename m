@@ -1,61 +1,86 @@
-Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2015133D4EC;
-	Sat, 25 Apr 2026 21:52:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8D9E219EB;
+	Sun, 26 Apr 2026 00:07:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777153966; cv=none; b=rPzq+bzej+M0zJMFK+4DIVkI/XKOife26dBdrzSjyINaXJ7CmBXSAss+PjJcmzoU1d65U8SyGIoXpgORsNNBm6ZTht3lNJQPwm0hA37XbHz7SeXqF1GCmUxLz8fmzspf0s9eyDYIEU3iGmMyVW/JJX+IoqWBwS4ghujAcd7tK2A=
+	t=1777162066; cv=none; b=hZds+GmIbGWMVcKH11Wgrsh2zQPhirbAKVAQf13yvisSOx3FS6hBK+Uvkg3NZswkU4zFfT/iFKRHZHBXFAE9KCVQFS1WdrX2tCEmraWbeavyaOW2Hoxu4hOzNcKH3wYr+lo8j418C7OiUm7HT1vH5On3/M31NhVxoeZ16ccN8bY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777153966; c=relaxed/simple;
-	bh=UhL41mXg8ziVEqtgu83cmbHSWGzlj4WOdVNq/8KGSgc=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=Khhbt6GJJ4YjLD55b3C1oQaTeT+1CnPNQf+DNG1e5zRn2ocleFzU2O6eDeGcvHwGozcMpoRAcGbV3ATs7ouD+kMJToNXn+BdfbF+py817jefNtUZD5EkC9EIT+kg9OLGcBG5uQCNvQPs8gSJyMq4VKC1La1alBLWidIJxfyAnt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Received: from omf07.hostedemail.com (lb01b-stub [10.200.18.250])
-	by unirelay09.hostedemail.com (Postfix) with ESMTP id ABB788B75D;
-	Sat, 25 Apr 2026 21:52:37 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf07.hostedemail.com (Postfix) with ESMTPA id EAF9020032;
-	Sat, 25 Apr 2026 21:52:35 +0000 (UTC)
+	s=arc-20240116; t=1777162066; c=relaxed/simple;
+	bh=mGKGi0avynS6oeeg0+mfhIl+9C94RvPgJeNuyd0+bwE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IXMAoRpwCUUpgceYvDP0Lj3eBahT+zohSymv4/7Hqg/Kb8usYGoJNTAbuv5QW3rQeNfHKfgJ6JP8cHlhTuAGrmcmSi2z/uDo55nipdrmhXZPqllW/2ZRR2rNK1CfibPPN8q7BDunlbcPV/loSXdzw7OFRNyZ4cY8niZa35ic5XU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E4lCChAg; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E4lCChAg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CA0BC2BCB0;
+	Sun, 26 Apr 2026 00:07:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777162066;
+	bh=mGKGi0avynS6oeeg0+mfhIl+9C94RvPgJeNuyd0+bwE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=E4lCChAg2MzKFxuWXYfxz9OCUQCpc0ELDp3enRzwKlfa8DrxgzeN4vzGRCmi6v3pq
+	 bx+U+FQSK/l85sssd+CPZUxCJZNAYfIlIsSytcvTP9Eb7/9mqbrBQZdlJfE4MMwroI
+	 06ZAuBPJWvj4hIgS+6wPF+oC4P+dvBY1yZqzUp1//KTMwBZdhSieY8drcON7ieqnt/
+	 ony9dDo+cCSDtzd48waRIHL3hsljsUywcJMiP6KoH6tGeRHEQUTABovm2RK4xiUqDg
+	 iqRGfelvSkWM19yp6S9+vg01EbXdoxg0Lm3ifirJLU23h26gsMz/dipGRGsR16RP3V
+	 2GyjQdoFk+IPw==
+Date: Sat, 25 Apr 2026 20:07:44 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Joe Perches <joe@perches.com>
+Cc: dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, mricon@kernel.org,
+	corbet@lwn.net, skhan@linuxfoundation.org, apw@canonical.com,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] checkpatch: add --json output mode
+Message-ID: <ae1XUFURKgdG6lGh@laps>
+References: <20260408172435.1268067-1-sashal@kernel.org>
+ <20260425200431.4088895-1-sashal@kernel.org>
+ <c8722587377c3bc4be03f7d04bd45912@perches.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Sat, 25 Apr 2026 14:52:35 -0700
-From: Joe Perches <joe@perches.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, mricon@kernel.org,
- corbet@lwn.net, skhan@linuxfoundation.org, apw@canonical.com,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] checkpatch: add --json output mode
-In-Reply-To: <20260425200431.4088895-1-sashal@kernel.org>
-References: <20260408172435.1268067-1-sashal@kernel.org>
- <20260425200431.4088895-1-sashal@kernel.org>
-Message-ID: <c8722587377c3bc4be03f7d04bd45912@perches.com>
-X-Sender: joe@perches.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: tiuciup4461hf6a7gb7191af384um5i9
-X-Rspamd-Server: rspamout01
-X-Rspamd-Queue-Id: EAF9020032
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/qOiV58/uLk+42lJQkNJieerRBMCYA82c=
-X-HE-Tag: 1777153955-898928
-X-HE-Meta: U2FsdGVkX1/rKdd50ZWp8CyvIs0bFe5epmzPoNvjz73JP0od6DBM81G+zDQ+i1G8UK6HJ6rNJQSicrAW0Tkvjr7l3sIqzuP+aDtN4vwPCSB4BIxzv+vMmwUxghggsL+wWCp8IjL1527twnG387FIFGRAuBIRevGhTo2St5a0Fh5t4x5U3j3TQeIc9pReDd5l2TrOLxQaYNEoRV6pS1RjmVMUHtB/i26ygVcHXVl3Ya3/i5FoCey4ezt8NrEtf6Naqf1+zwebmAUPOL8yQCxptg==
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <c8722587377c3bc4be03f7d04bd45912@perches.com>
 
-On 2026-04-25 13:04, Sasha Levin wrote:
-> Add a --json flag to checkpatch.pl that emits structured JSON output,
-> making results machine-parseable for CI systems, IDE integrations, and
-> AI-assisted code review tools.
-[]
-> A separate --json-pretty flag emits the same JSON in a pretty-printed
-> (indented, multi-line) form for human reading
+On Sat, Apr 25, 2026 at 02:52:35PM -0700, Joe Perches wrote:
+>On 2026-04-25 13:04, Sasha Levin wrote:
+>>Add a --json flag to checkpatch.pl that emits structured JSON output,
+>>making results machine-parseable for CI systems, IDE integrations, and
+>>AI-assisted code review tools.
+>[]
+>>A separate --json-pretty flag emits the same JSON in a pretty-printed
+>>(indented, multi-line) form for human reading
+>
+>Why not just always use pretty?
+>Would a script care?
 
-Why not just always use pretty?
-Would a script care?
+Who's the intended consumer for the --json-pretty?
+
+I my mind, --json is there to make it easier for tooling to process the output.
+
+A user can already achieve the same result by piping the json output through jq
+or other similar tools:
+
+$ ./scripts/checkpatch.pl --json 0001-checkpatch-add-json-output-mode.patch 
+{"filename":"0001-checkpatch-add-json-output-mode.patch","ignored_types":[],"issues":[],"total_checks":0,"total_errors":0,"total_lines":189,"total_warnings":0,"used_types":[]}
+$ ./scripts/checkpatch.pl --json 0001-checkpatch-add-json-output-mode.patch | jq
+{
+   "filename": "0001-checkpatch-add-json-output-mode.patch",
+   "ignored_types": [],
+   "issues": [],
+   "total_checks": 0,
+   "total_errors": 0,
+   "total_lines": 189,
+   "total_warnings": 0,
+   "used_types": []
+}
+
+-- 
+Thanks,
+Sasha
