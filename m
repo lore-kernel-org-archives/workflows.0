@@ -1,82 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6E840DFD5;
-	Sun, 26 Apr 2026 11:23:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74B3A15ECCC;
+	Sun, 26 Apr 2026 16:39:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777202622; cv=none; b=nBLQVOp7Hj2e97yDTlx8/hqBTJqtcNKMogpc+CwDtAO1QASHBaI8J0gaH6CFVAs9M9g4YKTCpowqeCii9JX2+QY+IarmMXsNjGADFluRYCLSZZfINkhpkH++49nbcegzLt52NKpwCVXJzl0u7CUtF0GWoOJWgBhNKzlYf+eYOcQ=
+	t=1777221599; cv=none; b=MiIIj26D7g58yMBS5WGT6gFFqB08skWUbdeIkafTUhxzKwNyt4lVGkWhJw5S7SNElQZXa8vTFhE8Y53IPr3pUM78HQ3K3Nicu+JvZGa5mOKMwDsbQlDUF7Wv4XzoAR9hcCjAO50AsgQCrpkkHg/tmXGgKQ1604xx21RRiTqdsOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777202622; c=relaxed/simple;
-	bh=DGvehEq54IMbZLtde2Rjsx6Hc9dnpi1SOR/oYcsq62s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ClvGrlDgu9xE7xVC1JVTvijq79O1Sy3l98rJBxmwqCGc4uhYWXSqvNuChwb46xtKcjvZXOYl+YJUUc5HCltQ+ce9elaFEVNkkzCODVXimsMMFU5u8OKaRwUjsxVu7PcsGQbw4Go4WzyX0OjJWntLx9iVp7sEc+jhFOYU1WpI4pk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i4F3TzZM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777221599; c=relaxed/simple;
+	bh=Zpm+q72om5yA8p4EnQwGqp0rxQ3IAcd9DhWAGW7hhRQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Mk3JBDFlIVM0JloNVZU7QuplPc4qpejqpJRejr4IG6bqkKgWas60rlq0wOsOW3TJo+8iXdqyapBVMsPgEetgUUhRzgi8TL3dOTkR8YPX08us27IOPIii5af4CWhshk3e9kq4zQJ3oJnikjGZGm1vbHqTfzxvwiwG3F3jGbpGyrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=IbPrCOGu; arc=none smtp.client-ip=51.159.59.229
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i4F3TzZM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E264CC2BCAF;
-	Sun, 26 Apr 2026 11:23:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777202622;
-	bh=DGvehEq54IMbZLtde2Rjsx6Hc9dnpi1SOR/oYcsq62s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=i4F3TzZM5j1Nzw4YQRcvKhC8mni8FU3aZ7h3UgAmY1C50RzTHNtzSp24kPKVHxizM
-	 V/U+k7pIR6LWhcPgOGesH6/hntk8DY/4q2xRK14HnsGBfCoWQikyPJlzchTZ8tB7Sh
-	 DE4MHbq2axnqGpdPBhTpIZq7lHk5re1hVFmrNkktr0zOHfpkr19z57StGERkXtNOso
-	 iyu5WDCystkZinb3HKo0B2uaobpH+MmiWWGGjGYixvP9fEy0pOrulAdr5Ce/1lzib/
-	 x8PUONfwtYR03cadSZJCU2kWc9tIkrtIYQPPPNZNw5srPywcdO2CMp7uOpgp01Dgp/
-	 R7vddL/7MyPdA==
-Date: Sun, 26 Apr 2026 07:23:40 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Joe Perches <joe@perches.com>
-Cc: dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, mricon@kernel.org,
-	corbet@lwn.net, skhan@linuxfoundation.org, apw@canonical.com,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] checkpatch: add --json output mode
-Message-ID: <ae31vGWp-t8GiAHs@laps>
-References: <20260408172435.1268067-1-sashal@kernel.org>
- <20260425200431.4088895-1-sashal@kernel.org>
- <c8722587377c3bc4be03f7d04bd45912@perches.com>
- <ae1XUFURKgdG6lGh@laps>
- <1f8e71e117fbe7ff43723a863fd598c0568c4938.camel@perches.com>
+	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="IbPrCOGu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
+	t=1777221592; bh=Ud0GtTrott0uPFZMSj7ou7b9Gz9IWwgrKBvjc4zUFoE=;
+	h=From:Message-ID:From;
+	b=IbPrCOGuUHmX+82zwGMIN9EKKrzHc3DAYNUQj94YS1s/5Xh9IOjMQDVstIujHunoO
+	 WyeEqWY/kKNqP2cSGLRIofT5xyLxrl0WEvF4uJ44WyBU1ay8e8i0BU1XwfcRJpkMg+
+	 p9MQ5ykDhVROZ0ZzWz2MU9HH3P0NPWQrbKXGVCJw=
+Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
+	by mta1.formilux.org (Postfix) with ESMTP id 7A609C0B22;
+	Sun, 26 Apr 2026 18:39:52 +0200 (CEST)
+From: Willy Tarreau <w@1wt.eu>
+To: greg@kroah.com
+Cc: leon@kernel.org, security@kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        skhan@linuxfoundation.org, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Willy Tarreau <w@1wt.eu>, Greg KH <gregkh@linuxfoundation.org>
+Subject: [PATCH 1/3] Documentation: security-bugs: do not systematically Cc the security team
+Date: Sun, 26 Apr 2026 18:39:12 +0200
+Message-ID: <20260426163914.19449-2-w@1wt.eu>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260426163914.19449-1-w@1wt.eu>
+References: <20260426163914.19449-1-w@1wt.eu>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <1f8e71e117fbe7ff43723a863fd598c0568c4938.camel@perches.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Apr 25, 2026 at 06:12:13PM -0700, Joe Perches wrote:
->On Sat, 2026-04-25 at 20:07 -0400, Sasha Levin wrote:
->> On Sat, Apr 25, 2026 at 02:52:35PM -0700, Joe Perches wrote:
->> On 2026-04-25 13:04, Sasha Levin wrote:
->> Add a --json flag to checkpatch.pl that emits structured JSON output,
->> > > making results machine-parseable for CI systems, IDE integrations, and
->> > > AI-assisted code review tools.
->> > []
->> > > A separate --json-pretty flag emits the same JSON in a pretty-printed
->> > > (indented, multi-line) form for human reading
->> > Why not just always use pretty?
->> > Would a script care?
->>
->> Who's the intended consumer for the --json-pretty?
->>
->> I my mind, --json is there to make it easier for tooling to process the output.
->
->Agree, but does the pretty output make it harder for tooling?
+With the increase of automated reports, the security team is dealing
+with way more messages than really needed. The reporting process works
+well with most teams so there is no need to systematically involve the
+security team in reports.
 
-For real JSON parsers, no - they handle either form fine.
-                                                                                                                                                                           
-The one issue is multi-file invocations: --json emits one compact document per
-file per line (NDJSON), which lets plain-shell consumers do `while read line;
-do ...` or pipe through grep/awk/head. Pretty mode loses that property because
-each document spans multiple lines, so consumers need a
-streaming JSON parser.
+Let's suggest to keep it for small lists of recipients, to cover the
+risk of lost messages (spam, vacation etc) but to avoid it for larger
+teams.
 
+Cc: Greg KH <gregkh@linuxfoundation.org>
+Cc: Leon Romanovsky <leon@kernel.org>
+Signed-off-by: Willy Tarreau <w@1wt.eu>
+---
+ Documentation/process/security-bugs.rst | 26 ++++++++++++++-----------
+ 1 file changed, 15 insertions(+), 11 deletions(-)
+
+diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
+index 27b028e858610..a8a8fc724e8c8 100644
+--- a/Documentation/process/security-bugs.rst
++++ b/Documentation/process/security-bugs.rst
+@@ -70,11 +70,10 @@ Identifying contacts
+ --------------------
+ 
+ The most effective way to report a security bug is to send it directly to the
+-affected subsystem's maintainers and Cc: the Linux kernel security team.  Do
+-not send it to a public list at this stage, unless you have good reasons to
+-consider the issue as being public or trivial to discover (e.g. result of a
+-widely available automated vulnerability scanning tool that can be repeated by
+-anyone).
++affected subsystem's maintainers.  Do not send it to a public list at this
++stage, unless you have good reasons to consider the issue as being public or
++trivial to discover (e.g. result of a widely available automated vulnerability
++scanning tool that can be repeated by anyone).
+ 
+ If you're sending a report for issues affecting multiple parts in the kernel,
+ even if they're fairly similar issues, please send individual messages (think
+@@ -148,12 +147,17 @@ run additional tests.  Reports where the reporter does not respond promptly
+ or cannot effectively discuss their findings may be abandoned if the
+ communication does not quickly improve.
+ 
+-The report must be sent to maintainers, with the security team in ``Cc:``.
+-The Linux kernel security team can be contacted by email at
+-<security@kernel.org>.  This is a private list of security officers
+-who will help verify the bug report and assist developers working on a fix.
+-It is possible that the security team will bring in extra help from area
+-maintainers to understand and fix the security vulnerability.
++The report must be sent to maintainers.  If there are two or fewer recipients
++in your message, and only in this case, you can also Cc: the Linux kernel
++security team who will ensure the message is delivered to the proper people,
++and will be able to assist small maintainers teams with a process they are not
++necessarily familiar with.  For larger teams, please do not Cc: the Linux
++kernel security team, unless you're seeking specific help (e.g. when resending
++a message which got no response within a week).  The Linux kernel security team
++can be contacted by email at <security@kernel.org>.  This is a private list of
++security officers who will help verify the bug report and assist developers
++working on a fix.  It is possible that the security team will bring in extra
++help from area maintainers to understand and fix the security vulnerability.
+ 
+ Please send **plain text** emails without attachments where possible.
+ It is much harder to have a context-quoted discussion about a complex
 -- 
-Thanks,
-Sasha
+2.52.0
+
