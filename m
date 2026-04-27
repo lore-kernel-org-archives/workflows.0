@@ -1,66 +1,131 @@
-Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CE67317715;
-	Mon, 27 Apr 2026 02:22:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E69A35E92B;
+	Mon, 27 Apr 2026 03:38:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777256555; cv=none; b=HKJMG/2cUdQFGNX80M3N1+MdR6b3KOZjeMz05otdRWAqgAIFPQ/vnkqoLpjt64U4tST4+g0vOkLM1EaGrhXOxfKbvD6g4t4Fc0HgIsEhSiRSKIeKfne/vs968iQAUdnFOZtzsOSqzRvzU7ZmKXBSoG8a0T5oICnHvWKUYGNWvyM=
+	t=1777261080; cv=none; b=f89MNaetJRwwFmN7SnJOmRFb+xGeheb77Qu7mk3lYmABCeGj+sIJhFeQgJ5KIDDdmOFBaWJyejX0yfZ3pyZHOYjwTOqqEaMC2AyjEw006IVhOCYk/u5aPWf58L1ugVQiWiHepdBYs18DOoxH00Lv7CcV+gYaG4ru1rySAbaA3Qw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777256555; c=relaxed/simple;
-	bh=11/XhBL0BQ/18bfiG44/OdJ0OAruPKuMueFCeeKXne4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FhLV2nkjoqRQNArWCtSsCaQU2XJHomtCIQ3KSfIL7rHfFMpcQMNXU5g95AIElXlQosrJdKqA97MthPfxKPHvjfHH2huPu82AO53JE56yA0AcViAxHY+PR39+Ul60Lavkm5kltKSJydG9qaw26EL/wMHZ/dJdWJHyMvuP5hFjwAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=CzVMRdGE; arc=none smtp.client-ip=51.159.59.229
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
+	s=arc-20240116; t=1777261080; c=relaxed/simple;
+	bh=3lD5uG9ZXrIgOwKv6Um8sK6s94l7Kup9XM0KiGIDbKk=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=JM9WRBd4lay/DMsA2S74RCLPaCyq+mGzAS9Jog94uuZjSLM0cxErLw2sgm3d7on6Cs0Ek0kLp3yU7L/VCIvqmSNM9bNSdjfuTPC/dP23a47kDvpxOHHx/wOKkllDTWlos1UG5notr/0DvWsrb0gyhOj30J8CxD4E45PB04ylEag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ueDIdW2Q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="CzVMRdGE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1777256550; bh=vz5x2IQ04Cd63QTBTasEJ7DRKJq62Z5gdynqSWJN26k=;
-	h=From:Message-ID:From;
-	b=CzVMRdGEkkSwss7ngwtlkT8qimRdpusSpsAcnv1RPkT4o954sOFwqnSkbGhnRNmoq
-	 jlFFzvO5exgHsKpHzsjXZoh/xefY9cyOnd5TziG7oFhE5PFEfqY9HtH47qKWXGvzia
-	 dEvJQKzm1Ch1L9yXCN6PneHPe12IMyTdfSBDQbwo=
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id 1AB29C0D47;
-	Mon, 27 Apr 2026 04:22:30 +0200 (CEST)
-Date: Mon, 27 Apr 2026 04:22:29 +0200
-From: Willy Tarreau <w@1wt.eu>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: greg@kroah.com, leon@kernel.org, security@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH 3/3] Documentation: security-bugs: clarify requirements
- for AI-assisted reports
-Message-ID: <ae7IZZUwV7j7_czA@1wt.eu>
-References: <20260426163914.19449-1-w@1wt.eu>
- <20260426163914.19449-4-w@1wt.eu>
- <133e96b7-251d-4af2-8084-2adca3e547e4@infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ueDIdW2Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A26B3C19425;
+	Mon, 27 Apr 2026 03:37:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777261080;
+	bh=3lD5uG9ZXrIgOwKv6Um8sK6s94l7Kup9XM0KiGIDbKk=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
+	b=ueDIdW2QNALDTJ/C2+Pao0DLtIk/kUmxy2nFeMoFOMQSyhS2o72k/23L9IoqrjhQ+
+	 eqhnZW+rv6AklFPQbXcCcP+Ra2rzb5EXUrhSUHOn7/4GzJ/n5EjPxiQCPFX4XmJIgl
+	 YxVt1FGwO9KkqD0oEOIyDwqi6ShV5ZPOupOyJ0wnZ3ALzdo2D+8n2rA8d8Kkcgy8Zf
+	 Ceu6H4sb3xZmrZGWLAEND5rlnksFEL/BNJOcHA7m+V8EpsGjqrRXR4/NrasNa7QIs3
+	 IgBVuUGTdkaOD93o8vk5UvMfD5xZ/nJVd7hlni3sZCBTECxNdEiRlPuFBnuin+Upvm
+	 QeVDF4WHotxzA==
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <133e96b7-251d-4af2-8084-2adca3e547e4@infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v3 1/9] kernel/api: introduce kernel API specification
+ framework
+From: Nathan Chancellor <nathan@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org, 
+ Thomas Gleixner <tglx@kernel.org>, "Paul E . McKenney" <paulmck@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Dmitry Vyukov <dvyukov@google.com>, 
+ Randy Dunlap <rdunlap@infradead.org>, Cyril Hrubis <chrubis@suse.cz>, 
+ Kees Cook <kees@kernel.org>, Jake Edge <jake@lwn.net>, 
+ David Laight <david.laight.linux@gmail.com>, 
+ Askar Safin <safinaskar@zohomail.com>, 
+ Gabriele Paoloni <gpaoloni@redhat.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Christian Brauner <brauner@kernel.org>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Masahiro Yamada <masahiroy@kernel.org>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Ingo Molnar <mingo@redhat.com>, 
+ Arnd Bergmann <arnd@arndb.de>
+In-Reply-To: <20260424165130.2306833-2-sashal@kernel.org>
+References: <20260424165130.2306833-1-sashal@kernel.org>
+ <20260424165130.2306833-2-sashal@kernel.org>
+Date: Sun, 26 Apr 2026 23:37:45 -0400
+Message-Id: <177726106581.2478607.12645653803520391071.b4-review@b4>
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1542; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=3lD5uG9ZXrIgOwKv6Um8sK6s94l7Kup9XM0KiGIDbKk=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDJnvbgm1r5pyv/K7x/Tv7+cZzqk2VsnvUDl6munyJTXvs
+ Koa+1qfjlIWBjEuBlkxRZbqx6rHDQ3nnGW8cWoSzBxWJpAhDFycAjCR/UYMf0U11lj1XX7AtCjO
+ fXF2kv/PvgNKjmblB63e8+xfICtkfImRYVLPkjsTOQI7GiX0LqTO2iJ2suHBWkY15dq1Ir8eHhY
+ 8wA4A
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 
-On Sun, Apr 26, 2026 at 12:36:28PM -0700, Randy Dunlap wrote:
-> 
-> 
-> On 4/26/26 9:39 AM, Willy Tarreau wrote:
-> > +Use common sense when evaluating the report. If the affected file has not been
-> > +touched for more than one year and is maintained by a single individual, it is
-> > +likely that usage has declined and exposed users are virtually non-existent
-> > +(e.g., drivers for very old hardware, obsolte filesystems). In such cases,
-> 
->                                          obsolete
-(...)
+On Fri, 24 Apr 2026 12:51:21 -0400, Sasha Levin <sashal@kernel.org> wrote:
+> diff --git a/kernel/Makefile b/kernel/Makefile
+> index 6785982013dc..564315153643 100644
+> --- a/kernel/Makefile
+> +++ b/kernel/Makefile
+> @@ -59,6 +59,9 @@ obj-y += dma/
+>  obj-y += entry/
+>  obj-y += unwind/
+>  obj-$(CONFIG_MODULES) += module/
+> +obj-$(CONFIG_KAPI_SPEC) += api/
+> +# Ensure api/ is always cleaned even when CONFIG_KAPI_SPEC is not set
+> +obj- += api/
 
-Thank you Randy for your reviews! I'll apply the fixes and resend in a
-few days if there are no more comments.
+If $(CONFIG_KAPI_SPEC) is not set, shouldn't
 
-Willy
+  obj-$(CONFIG_KAPI_SPEC) += api/
+
+evaluate to
+
+  obj- += api/
+
+anyways? Why the duplication? This is the only place in the kernel where
+this would be needed?
+
+>
+> diff --git a/kernel/api/.gitignore b/kernel/api/.gitignore
+> new file mode 100644
+> index 000000000000..ca2f632621cf
+> --- /dev/null
+> +++ b/kernel/api/.gitignore
+> @@ -0,0 +1,2 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +/generated_api_specs.c
+
+This appears unused?
+
+>
+> diff --git a/kernel/api/Kconfig b/kernel/api/Kconfig
+> new file mode 100644
+> index 000000000000..d1072728742a
+> --- /dev/null
+> +++ b/kernel/api/Kconfig
+> @@ -0,0 +1,77 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +#
+> +# Kernel API Specification Framework Configuration
+> +#
+> +
+> +config KAPI_SPEC
+> +	bool "Kernel API Specification Framework"
+> +	default n
+
+I think 'default n' is tautological since 'n' is the default for all
+bool symbols. Consider dropping it on all symbols throughtout this file.
+
+-- 
+Nathan Chancellor <nathan@kernel.org>
