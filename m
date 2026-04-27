@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66ACB3D47AA;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 837C63D47B5;
 	Mon, 27 Apr 2026 14:22:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777299756; cv=none; b=YhzVKgCKCjBixtIMEXIBVSD8iWr8SbszNP+fw4xsFgAE7TbQ9FCbL3iHDxf1Uvdax1/bGRjrxMyFlEN3nZU/LwXoKOl2r2XqjQ5w+AKdhDpEkjgJM+GsE9iWAELo43Rw9fVujXu9vuqP8KBXXkNLLiILXVOss8zGG1dy+/n1AuM=
+	t=1777299756; cv=none; b=BGuMtZe7ThU2bBnBF8+xSnizgddlK9Z7OuGa6Pl76EaxxrBIMxdlXy93dFSQa65GeILoFGoiWmYB+2iHPZ96al9+0ANHpf1E9Y0o14gvnCRYpsfA50BlZ9uBFMf/56E5mCxFa0Eb4Hi6Ele8eqf9dkKJoomB5R2dWxe/37qjB1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1777299756; c=relaxed/simple;
-	bh=0shH3sYNJw46ZXhUBb7ZZLmWnfDxlkyIXiYSyyLbk7s=;
+	bh=vIA3xtTJnuuolAuvS6pYp2PgkibgyICdVHSyrMYfBXw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tVd4dwIAW/k6YlPrZT2EB6C9apmNIDzaZ2ZLbesLJNRo4GOI6jrwf/jhrx5MkAZs4N9ve1Doak+QjoSCYCbxqedAyUSUYVE5zUftAch8pWmb9yNxEWr8ZKAOJ5yCO1UbssYiISUAJfnBRpgzDShyJQgO48R9SzEghBblc2fOQF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KSup6Xk2; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=nvfvA+0mkg9BGAsnqVRUlKsFXWF6b0oAFvelT/JMg/BhAkVGsL96wCMaWkQKAyVuBA3wLvKG4R+SRr3NHzoENFmUQNrgGGdHX1ntZ1PAqYv9TmakcLSx1ujtiB7ZeanJNECrYKu2Hh1budnIZRRN5BuB0JuIBHD36Z4zAOW2TfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qyplwXDG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KSup6Xk2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C2F7C2BCC4;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qyplwXDG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C3BDC2BCB5;
 	Mon, 27 Apr 2026 14:22:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1777299756;
-	bh=0shH3sYNJw46ZXhUBb7ZZLmWnfDxlkyIXiYSyyLbk7s=;
+	bh=vIA3xtTJnuuolAuvS6pYp2PgkibgyICdVHSyrMYfBXw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KSup6Xk26SVjls6PE/k9vVIVVI6u3N5Rk9SnIReyU1IeMSq1yASSm5JH8JzMfSlqO
-	 Bnb/HSoN7iSgsLAIK3eQZSzuIvlsKEE/dHQAd/nU5ie5u11L7PnT6RIWs6oShHWK4M
-	 q1s9Gyqyb4Yo9ID+9vf9tulnDQw1UzZHIMOzhwP4SNDUvdWF2hExZq/gDwdOF3igCv
-	 Qijz1icL5PinDyMeY/0Sz2eaA8I0Z1EaB7dwUgMvG9RE4Y9zJ4RKxfL19S9VPNuooG
-	 qX7SzXfh8uFw929UVLuiTvG5r0pDwxro5TKSt60bsHY7/oibd+WD6nq3h1gl+WLKzS
-	 5GC075n3amDSg==
+	b=qyplwXDG3ZO3dPSj7lrcyH0Uc/XnzeaOG28ON5TnK+07AvmDZfS2Af3Oqt6jLS/On
+	 sCMNUlpLg2U5Tc3wqda952zNLk2Nf/qjln7doh53LOyWRNuq/qCZk9a5EMfjBu+lJB
+	 /mE7iXLP1BuZE5P4raDIYmxC1+GoieEvp0lxGrwbIe+e6+4x18b5aGzbZphrP3neEd
+	 E/fYnKXVo4tHqERZAlG3eoOuopUL2EPk5vbuG69+rviBNBC9HbilPdg+q7zr7QXTYB
+	 m+VOy/U/0QIzu4o3TXQdpBh9jUSocnf21cmF187cyUm8n5IKwdUF4vWPc/dFgCP8GI
+	 w/i42V0eZtsJg==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1wHMr4-0000000C8Uv-1Ixw;
+	id 1wHMr4-0000000C8WB-239G;
 	Mon, 27 Apr 2026 16:22:34 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -40,9 +40,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	workflows@vger.kernel.org,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v4 05/10] docs: maintainers_include: add external profile URLs
-Date: Mon, 27 Apr 2026 16:22:23 +0200
-Message-ID: <b80639a38abdc934589e88bc9fc3029ad5c20bfe.1777295258.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v4 06/10] docs: maintainers_include: preserve names for files under process/
+Date: Mon, 27 Apr 2026 16:22:24 +0200
+Message-ID: <46961bc932be804cec19f06d202c23423d4aa12a.1777295258.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1777295258.git.mchehab+huawei@kernel.org>
 References: <cover.1777295258.git.mchehab+huawei@kernel.org>
@@ -56,79 +56,42 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Some subsystem profiles are maintained elsewhere. Add them to
-the output.
+When a maintainer's profile is stored outside process, they're
+already included on some other book and the name of the filesystem
+may not be there. That's why the logic picks the name from the
+subsystem's name.
+
+However, files directly placed together with maintainers-handbooks.rst
+(e.g. under Documentation/process/) is a different history: those
+aren't placed anywhere, so we can keep using their own names,
+letting Sphinx do his thing.
 
 Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 Tested-by: Randy Dunlap <rdunlap@infradead.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/sphinx/maintainers_include.py | 28 +++++++++++++++++++--
- 1 file changed, 26 insertions(+), 2 deletions(-)
+ Documentation/sphinx/maintainers_include.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/Documentation/sphinx/maintainers_include.py b/Documentation/sphinx/maintainers_include.py
-index cf428db7599c..f1b8d4b00c2a 100755
+index f1b8d4b00c2a..948746b998a3 100755
 --- a/Documentation/sphinx/maintainers_include.py
 +++ b/Documentation/sphinx/maintainers_include.py
-@@ -37,6 +37,7 @@ class MaintainersParser:
- 
-     def __init__(self, base_path, path):
-         self.profiles = {}
-+        self.profile_urls = {}
- 
-         result = list()
-         result.append(".. _maintainers:")
-@@ -81,6 +82,16 @@ class MaintainersParser:
+@@ -76,11 +76,13 @@ class MaintainersParser:
+             match = re.match(r"P:\s*(Documentation/\S+)\.rst", line)
+             if match:
+                 fname = os.path.relpath(match.group(1), base_path)
+-                if fname not in self.profiles:
++                if fname.startswith("../"):
+                     if self.profiles.get(fname) is None:
+                         self.profiles[fname] = subsystem_name
                      else:
                          self.profiles[fname] += f", {subsystem_name}"
++                else:
++                    self.profiles[fname] = None
  
-+            match = re.match(r"P:\s*(https?://.*)", line)
-+            if match:
-+                url = match.group(1).strip()
-+                if url not in self.profile_urls:
-+                    if self.profile_urls.get(url) is None:
-+                        self.profile_urls[url] = subsystem_name
-+                    else:
-+                        self.profile_urls[url] += f", {subsystem_name}"
-+
-+
-             # Linkify all non-wildcard refs to ReST files in Documentation/.
-             pat = r'(Documentation/([^\s\?\*]*)\.rst)'
-             m = re.search(pat, line)
-@@ -219,18 +230,31 @@ class MaintainersProfile(Include):
-     def emit(self, base_path, path):
-         """Parse all the MAINTAINERS lines looking for profile entries"""
- 
--        profiles = MaintainersParser(base_path, path).profiles
-+        maint = MaintainersParser(base_path, path)
- 
-         output  = ".. toctree::\n"
-         output += "   :maxdepth: 2\n\n"
- 
--        items = sorted(profiles.items(), key=lambda kv: (kv[1] or "", kv[0]))
-+        items = sorted(maint.profiles.items(),
-+                       key=lambda kv: (kv[1] or "", kv[0]))
-         for fname, profile in items:
-             if profile:
-                 output += f"   {profile} <{fname}>\n"
-             else:
-                 output += f"   {fname}\n"
- 
-+        output += "\n**External profiles**\n\n"
-+
-+        items = sorted(maint.profile_urls.items(),
-+                       key=lambda kv: (kv[1] or "", kv[0]))
-+        for url, profile in items:
-+            if profile:
-+                output += f"- {profile} <{url}>\n"
-+            else:
-+                output += f"- {url}\n"
-+
-+        output += "\n"
-+
-         self.state_machine.insert_input(statemachine.string2lines(output), path)
- 
-     def run(self):
+             match = re.match(r"P:\s*(https?://.*)", line)
+             if match:
 -- 
 2.53.0
 
