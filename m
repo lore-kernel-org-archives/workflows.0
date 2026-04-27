@@ -1,131 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E69A35E92B;
-	Mon, 27 Apr 2026 03:38:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C3AF2FFDE1;
+	Mon, 27 Apr 2026 09:51:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777261080; cv=none; b=f89MNaetJRwwFmN7SnJOmRFb+xGeheb77Qu7mk3lYmABCeGj+sIJhFeQgJ5KIDDdmOFBaWJyejX0yfZ3pyZHOYjwTOqqEaMC2AyjEw006IVhOCYk/u5aPWf58L1ugVQiWiHepdBYs18DOoxH00Lv7CcV+gYaG4ru1rySAbaA3Qw=
+	t=1777283501; cv=none; b=slrsSUX4oWYZ9k2b46HYIKRFF9VnQOuRZCCJC92awWu3j5z4N2QNaxyhhPEqE8g5Tpc7IiaM3eOesLCUu72CT+Bf7B0g7Bc6wp6kO2ZenI0qd8JTvqoyTrJzgs5tffzeu02HM6Ql1VsKKtqrBndwKDWUpuokZEo1JYWEdjDAdAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777261080; c=relaxed/simple;
-	bh=3lD5uG9ZXrIgOwKv6Um8sK6s94l7Kup9XM0KiGIDbKk=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=JM9WRBd4lay/DMsA2S74RCLPaCyq+mGzAS9Jog94uuZjSLM0cxErLw2sgm3d7on6Cs0Ek0kLp3yU7L/VCIvqmSNM9bNSdjfuTPC/dP23a47kDvpxOHHx/wOKkllDTWlos1UG5notr/0DvWsrb0gyhOj30J8CxD4E45PB04ylEag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ueDIdW2Q; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777283501; c=relaxed/simple;
+	bh=Kj6PQx4RerOpWgc0G4nt/I29ZZ1s0Mnhgll4A9+2ZFM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=cZsq+m6x/irLaf49jO2mn/Ou3jWGhEbuGnsx+uQZcphc9eHq9Pi/+Rmc+x0aE5TN5cxJ25XaU5JHXpG5tUwFmcdL9M+EjirRgtCkRXHqDOELZmUlMNG0u/AxxWH3dWjQaasEkkVFxS3KDqtBcI6dbkzA8IbpNahsrQCmchoMM3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=dJ5FQ6tW; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ueDIdW2Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A26B3C19425;
-	Mon, 27 Apr 2026 03:37:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777261080;
-	bh=3lD5uG9ZXrIgOwKv6Um8sK6s94l7Kup9XM0KiGIDbKk=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
-	b=ueDIdW2QNALDTJ/C2+Pao0DLtIk/kUmxy2nFeMoFOMQSyhS2o72k/23L9IoqrjhQ+
-	 eqhnZW+rv6AklFPQbXcCcP+Ra2rzb5EXUrhSUHOn7/4GzJ/n5EjPxiQCPFX4XmJIgl
-	 YxVt1FGwO9KkqD0oEOIyDwqi6ShV5ZPOupOyJ0wnZ3ALzdo2D+8n2rA8d8Kkcgy8Zf
-	 Ceu6H4sb3xZmrZGWLAEND5rlnksFEL/BNJOcHA7m+V8EpsGjqrRXR4/NrasNa7QIs3
-	 IgBVuUGTdkaOD93o8vk5UvMfD5xZ/nJVd7hlni3sZCBTECxNdEiRlPuFBnuin+Upvm
-	 QeVDF4WHotxzA==
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="dJ5FQ6tW"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D2FA542B3D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1777283499; bh=U24W61a/YNqgXNzTblTVizxNJMBlhwv2QrqYIkMe9VQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=dJ5FQ6tWKgyAF6jjFtQ4OOOm4xXHPG9W6DpztzKlFulKnALB/vCJHqDaL6vYOEa6v
+	 KoKEFzsJSm7fiDeXLA/0jqRZEEcgAKJyCz9IS1R0WDpTtWhOxYUWVq8oHMPHj9JgVw
+	 UY/kP8z82suf68ewf3WON44ZRJ9WhRXgLd/pkLo9kjZvCLpIPjujNSmyk4jPAAQSSR
+	 xUdmlsL8Z3tED1QPpjrTep5ax5O7hR77R+9QHlYUMBR7GTKUkd28hlevSrtwoxqRbz
+	 3ThM6Sn+HELH9tMzOURezCwLo5TXZts0lYuNWDdudpymU47qsa1WQlE1hl43GbOnfK
+	 EuxaekXVzq/cg==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id D2FA542B3D;
+	Mon, 27 Apr 2026 09:51:38 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Manuel Ebner <manuelebner@mailbox.org>, Shuah Khan
+ <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org, Kees Cook
+ <kees@kernel.org>, linux-kernel@vger.kernel.org
+Cc: workflows@vger.kernel.org, linux-mm@kvack.org, Geert Uytterhoeven
+ <geert@linux-m68k.org>, Manuel Ebner <manuelebner@mailbox.org>
+Subject: Re: [PATCH v3 3/3] Documentation: deprecated.rst: kmalloc-family:
+ mark argument as optional
+In-Reply-To: <20260424175740.258522-2-manuelebner@mailbox.org>
+References: <20260424174743.257951-2-manuelebner@mailbox.org>
+ <20260424175740.258522-2-manuelebner@mailbox.org>
+Date: Mon, 27 Apr 2026 03:51:35 -0600
+Message-ID: <871pg0ras8.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v3 1/9] kernel/api: introduce kernel API specification
- framework
-From: Nathan Chancellor <nathan@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org, 
- Thomas Gleixner <tglx@kernel.org>, "Paul E . McKenney" <paulmck@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jonathan Corbet <corbet@lwn.net>, Dmitry Vyukov <dvyukov@google.com>, 
- Randy Dunlap <rdunlap@infradead.org>, Cyril Hrubis <chrubis@suse.cz>, 
- Kees Cook <kees@kernel.org>, Jake Edge <jake@lwn.net>, 
- David Laight <david.laight.linux@gmail.com>, 
- Askar Safin <safinaskar@zohomail.com>, 
- Gabriele Paoloni <gpaoloni@redhat.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Christian Brauner <brauner@kernel.org>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Masahiro Yamada <masahiroy@kernel.org>, 
- Shuah Khan <skhan@linuxfoundation.org>, Ingo Molnar <mingo@redhat.com>, 
- Arnd Bergmann <arnd@arndb.de>
-In-Reply-To: <20260424165130.2306833-2-sashal@kernel.org>
-References: <20260424165130.2306833-1-sashal@kernel.org>
- <20260424165130.2306833-2-sashal@kernel.org>
-Date: Sun, 26 Apr 2026 23:37:45 -0400
-Message-Id: <177726106581.2478607.12645653803520391071.b4-review@b4>
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1542; i=nathan@kernel.org;
- h=from:subject:message-id; bh=3lD5uG9ZXrIgOwKv6Um8sK6s94l7Kup9XM0KiGIDbKk=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDJnvbgm1r5pyv/K7x/Tv7+cZzqk2VsnvUDl6munyJTXvs
- Koa+1qfjlIWBjEuBlkxRZbqx6rHDQ3nnGW8cWoSzBxWJpAhDFycAjCR/UYMf0U11lj1XX7AtCjO
- fXF2kv/PvgNKjmblB63e8+xfICtkfImRYVLPkjsTOQI7GiX0LqTO2iJ2suHBWkY15dq1Ir8eHhY
- 8wA4A
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+Content-Type: text/plain
 
-On Fri, 24 Apr 2026 12:51:21 -0400, Sasha Levin <sashal@kernel.org> wrote:
-> diff --git a/kernel/Makefile b/kernel/Makefile
-> index 6785982013dc..564315153643 100644
-> --- a/kernel/Makefile
-> +++ b/kernel/Makefile
-> @@ -59,6 +59,9 @@ obj-y += dma/
->  obj-y += entry/
->  obj-y += unwind/
->  obj-$(CONFIG_MODULES) += module/
-> +obj-$(CONFIG_KAPI_SPEC) += api/
-> +# Ensure api/ is always cleaned even when CONFIG_KAPI_SPEC is not set
-> +obj- += api/
+Manuel Ebner <manuelebner@mailbox.org> writes:
 
-If $(CONFIG_KAPI_SPEC) is not set, shouldn't
-
-  obj-$(CONFIG_KAPI_SPEC) += api/
-
-evaluate to
-
-  obj- += api/
-
-anyways? Why the duplication? This is the only place in the kernel where
-this would be needed?
-
+> put the optional argument (gfp) in square brackets
+> add whitespace for readability
 >
-> diff --git a/kernel/api/.gitignore b/kernel/api/.gitignore
-> new file mode 100644
-> index 000000000000..ca2f632621cf
-> --- /dev/null
-> +++ b/kernel/api/.gitignore
-> @@ -0,0 +1,2 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +/generated_api_specs.c
-
-This appears unused?
-
+> eg. ptr = kmalloc_obj(*ptr, gfp);
+>  -> ptr = kmalloc_obj(*ptr [, gfp] );
 >
-> diff --git a/kernel/api/Kconfig b/kernel/api/Kconfig
-> new file mode 100644
-> index 000000000000..d1072728742a
-> --- /dev/null
-> +++ b/kernel/api/Kconfig
-> @@ -0,0 +1,77 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +#
-> +# Kernel API Specification Framework Configuration
-> +#
-> +
-> +config KAPI_SPEC
-> +	bool "Kernel API Specification Framework"
-> +	default n
+> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+> ---
+>  Documentation/process/deprecated.rst | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+> index fed56864d036..b431993fd08e 100644
+> --- a/Documentation/process/deprecated.rst
+> +++ b/Documentation/process/deprecated.rst
+> @@ -392,12 +392,12 @@ allocations. For example, these open coded assignments::
+>  
+>  become, respectively::
+>  
+> -	ptr = kmalloc_obj(*ptr, gfp);
+> -	ptr = kzalloc_obj(*ptr, gfp);
+> -	ptr = kmalloc_objs(*ptr, count, gfp);
+> -	ptr = kzalloc_objs(*ptr, count, gfp);
+> -	ptr = kmalloc_flex(*ptr, flex_member, count, gfp);
+> -	__auto_type ptr = kmalloc_obj(struct foo, gfp);
+> +	ptr = kmalloc_obj(*ptr [, gfp] );
+> +	ptr = kzalloc_obj(*ptr [, gfp] );
+> +	ptr = kmalloc_objs(*ptr, count [, gfp] );
+> +	ptr = kzalloc_objs(*ptr, count [, gfp] );
+> +	ptr = kmalloc_flex(*ptr, flex_member, count [, gfp] );
+> +	__auto_type ptr = kmalloc_obj(struct foo [, gfp] );
+>  
 
-I think 'default n' is tautological since 'n' is the default for all
-bool symbols. Consider dropping it on all symbols throughtout this file.
+Marking the GFP argument as optional is fine, but the documentation
+should surely say what the default is.
 
--- 
-Nathan Chancellor <nathan@kernel.org>
+There are, of course, other kmalloc()-related entries in that file that
+could use an update, but that is a job for another time, I guess.
+
+Thanks,
+
+jon
