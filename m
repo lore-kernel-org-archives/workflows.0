@@ -1,114 +1,106 @@
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B09435AC1E;
-	Wed, 29 Apr 2026 07:27:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C9E438AC8A
+	for <workflows@vger.kernel.org>; Wed, 29 Apr 2026 08:00:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777447663; cv=none; b=ZZhiYsZ7EFZTr199u9y8F4N1UVI4lWSX3gQSaS5YQaj6UkWC75xHiKweD/ZGschx8tiZv8jQZcqLir/H0cKauVidpKuXnBsl4+SKAm50eViLFxuPhodR5NFwTACNnMyEUcRSylEs6W/4JnatWeBoj/KW4I1bsITPYBPCTflT/jg=
+	t=1777449646; cv=none; b=PqoySw5O5BMHBEnhm2BV70dhjtx0BGVsIZX5aHNqBkLHD8HyR/y0/0f/cYQ4VSkhHlU4FNdDMx6jBYs41TRjno1/IpGIofohS4uafwx4bGWHQYGHVxOUlK7H1AKr0sr5+akfByyn8wR3Vkja2jcvvy7B1F4jZthtDUzT9SCS3wQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777447663; c=relaxed/simple;
-	bh=yPa8CaBk+GyPiGDRWKU9KNKIpqM64UXXp09VWNC0sv8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FN7sETq1m/bIRX66FetRcV+ZIOQpDZCJ59SVRCXrhC0TokBXtrl4JdxYG0iNt7xAy4jtG1In0/r40nzZ5GOHX2f7bCez86N6KZLst/1Kqz75SWrqijWPm8vDOYmoECB5wXhIwDST9TWvke1BXqeyIQQBwxtPk89WpuhaPIKcz1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=KZJmf8mi; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Ph/AGL2V; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1777449646; c=relaxed/simple;
+	bh=jUfv7BY18i0hzz1iwaD/eeJ7LRQt53qdiERx2ReGrsE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=l6KoUHZNRMbo8hff9Ip2LbKSeRQAeRuRUIlRwsx2PCPBtptX6PbWpeNTSv0Ib58L19/L1Ad1ADeKA7otE+FrBopl2wNvBCehRveJXg2c+0ov2zp3WNiZf2+9Ehu0ApjZtOmJ7qlSMhQml8rKZTKKTwaYkzbyBVIPHcrw+J2OtI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=b/XmVtyY; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="KZJmf8mi";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Ph/AGL2V"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4g585l2TXQz9t4r;
-	Wed, 29 Apr 2026 09:27:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1777447659;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qyvqRSJSM73q2bj8SRnjn1jgWkm+YanSrvLR5MkSDLk=;
-	b=KZJmf8millWJRx0w9oer0vD9Ui6ca81VwWTXAA30WK1rGq/2dNY7LxlVrS05PJu4FXtTBM
-	aofBbgOsQ16jDPbmdsh5tQ3JO/2IgVdwO5ogNmf57b42XwcnU/7StnvM9wMQIHrPXZnDPm
-	dDfEToYsFIBnuAio0Cl8nFj3k4pHO5BJRJZGIcZJB1hfNQm6HhxXSFsgnu/2JevHys8Tsl
-	l7PS4k6l3ZvR2j7h26/TScHhfaLHu/B/q9gM3y6f2k8/4f+j8+VBenazkInH0mYGISyV1M
-	a89Gs0eEK//0l7YJE86TdiC8BlbagOkVXBT1FlQr++vIATtWP9G4J0hBf92TaQ==
-From: Manuel Ebner <manuelebner@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1777447657;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qyvqRSJSM73q2bj8SRnjn1jgWkm+YanSrvLR5MkSDLk=;
-	b=Ph/AGL2VBQ9Sqg8b37oLd04HHK3L0jfLdUIXiq76BjAN7Qiv7SeVYzxwWmW1XTk9uFGKEG
-	2j4N2RZB3LVajAxzxXL8GeWrpgxZI4Z/odt639rN8mtsN0M2NppScWeZ+tJ6I6rXNxnYV9
-	GozinWKyDqR5SSCU0EZ/L+Uvg/Am+ChGgNhCVfs0L6Vwfy1wODi+8FDUvmgTc9cV1pdJe/
-	n5NOAXTEoSZ2DJ/WImLAKl2iOu32MkcgVs8xbhG57v7OHiOu8ysnZnHR/bJu8AExnqoCNn
-	KoaSDSAzZuo6K+cWJQ+LrgJcEfKFfUtWDfteSnuCsqNIfR3dsedfI9c3Hcd+7w==
-To: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org,
-	Kees Cook <kees@kernel.org>,
-	linux-kernel@vger.kernel.org
-Cc: workflows@vger.kernel.org,
-	linux-mm@kvack.org,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Manuel Ebner <manuelebner@mailbox.org>
-Subject: [PATCH v4 3/3] Documentation: deprecated.rst: kmalloc-family: mark argument as optional
-Date: Wed, 29 Apr 2026 09:27:04 +0200
-Message-ID: <20260429072704.311603-2-manuelebner@mailbox.org>
-In-Reply-To: <20260429070759.309110-3-manuelebner@mailbox.org>
-References: <20260429070759.309110-3-manuelebner@mailbox.org>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="b/XmVtyY"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4836d9d54f6so18108335e9.1
+        for <workflows@vger.kernel.org>; Wed, 29 Apr 2026 01:00:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1777449643; x=1778054443; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sKt07qcPF1NidEM1dAs7s4kLamhrOjHwcNAU0l78/qI=;
+        b=b/XmVtyYu3BowK7ooHE72B93/oSX/3+/zXfTdJkaJ9EiLuj18eyKbhSQnW7wRatBvt
+         Eiz8XRXAW07QFxRpFSqrNka9nwARUAS4yWXMuhGfus/NQIESuElcdlHco5ZS3bQ/7fdO
+         Lfg3ceT1lkT2oFAW7WngeTld0tzm7XRCu3DBORxfCyxoNCdlzKDsiTIpWwGXATlaT7Vc
+         FfHAXewOGn6OR2WnVZkZw69DYTm6b92LeydfNQOcrBK9hilxrvRZqj2BbRXiIuDjKysG
+         LSZUmoK7gXrIVvBQb92pmzjij+/5nvMVTwsuWUu8h/gil89HnRYV+mQ0ULGwEE4r89qK
+         pNYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777449643; x=1778054443;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sKt07qcPF1NidEM1dAs7s4kLamhrOjHwcNAU0l78/qI=;
+        b=khMeUyyCs/rZ+BDQ5QXzaSfyCkMNLAHnoISZgWLSanC0RcGCxrDJBS9VbeqkxwXGJz
+         bnqwOirOALeyy2r62X89mcbe3+2FIggsholWsj8fSvWxqe2ivpKti5YwbcN39VFyOGco
+         HRu9T0SnK8yPdZKsfyFvRoQakkiv/4YQzJnYyNuBkic/BuURHB6bDoiG1JkfeScqA69H
+         Lf6Zp6PY/XUtNxkkAafbfXjKJM8oKB5h4ZTlv3nWmwvjBgCRAd5H1fWJVmwfIEkDw/NE
+         uUoif7pLExp2FknFOyjKQP6OYHlcYOEWhUdGBhVhdw5dysmrg2/moVZ7Q+/P9xSosFvL
+         m4NQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+155BYCALgDOjyGFQpx576WCSt5ogND1fhYJ7tGqTX1g7DmvsfwQcV7Esm/oz2VFCG1P+Ljse6AFE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyxi5/Js4K1ctrlOqZNMS4eeYMoQSwSBxRMIRuUNGR5ARvpN99W
+	JbXmrl3CEt66hzVJvF4HEG5ANHb+s4r41KD/6cYds/Ky6XlnvgIoJyA6ZeYrzCLm5kk=
+X-Gm-Gg: AeBDiet305aBCj0VIU/GG3m+weo9cWy7dKhuRAvcgijvqgNRpp3xLJu+Yv/4AB1tuVX
+	TELwi7y96yykc/hfSY8svYK18w0dZKJkK2DlrX7OrJByY6oaMDp8187SBQwVd8mSTeCwwD9BKV2
+	phF7uvFx4XuCkax6A+t+Lrlbyyp2YutDCFH3BPOm95s6tIl8C9BzbabAmXDNEUOPXJdW54/KHTH
+	UT/fqHzOUhKGdUGAOLcux2ssNHiL9IQy9YDYpALlrpCV8CCfsJp7KHxADfFbdlTa9leGg3ZB08s
+	Sbrpc5mPqWJfk7Ci4Hlxu6kzjATBjLvSXyMv2Pv5sYsmbgiDxzqYLd1qoX07ufLbs/Y4gcVHrSF
+	4M6AWFyk23gS43dQ1YdQ1AiuJNGg+VfFuMMEbqBvyEcQr+gd9E4C5Kr7QccMNRTHcFd+fkXIP1h
+	25n9Hsx78/BF8TOcPIxE/It4CgDwmvPNkxDTdIZU2b9hxLE/COdNSLV3KNe9USfWzpk4ql
+X-Received: by 2002:a05:600c:3acd:b0:489:e696:127d with SMTP id 5b1f17b1804b1-48a76f82973mr58572165e9.5.1777449641184;
+        Wed, 29 Apr 2026 01:00:41 -0700 (PDT)
+Received: from ?IPV6:2001:1a48:8:903:1ed6:4f73:ce38:f9d4? ([2001:1a48:8:903:1ed6:4f73:ce38:f9d4])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a7c303c3bsm18098475e9.7.2026.04.29.01.00.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Apr 2026 01:00:40 -0700 (PDT)
+Message-ID: <78978a11-8345-4b84-bef7-90d17f4c581c@suse.com>
+Date: Wed, 29 Apr 2026 10:00:38 +0200
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: b04ec1542f739eb7150
-X-MBO-RS-META: 89orio9eoe4yn574r1rzwrwkhunkhbee
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/3] Documentation: adopt new coding style of
+ type-aware kmalloc-family
+Content-Language: en-US
+To: Manuel Ebner <manuelebner@mailbox.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
+Cc: Kees Cook <kees@kernel.org>, linux-kernel@vger.kernel.org,
+ workflows@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mm@kvack.org
+References: <20260429070759.309110-3-manuelebner@mailbox.org>
+ <20260429071445.309733-2-manuelebner@mailbox.org>
+From: Vlastimil Babka <vbabka@suse.com>
+In-Reply-To: <20260429071445.309733-2-manuelebner@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-put the optional argument (gfp) in square brackets
-add default value = GFP_KERNEL
+On 4/29/26 09:14, Manuel Ebner wrote:
+> Update the documentation to reflect new type-aware kmalloc-family as
+> suggested in commit 2932ba8d9c99 ("slab: Introduce kmalloc_obj()
+> and family")
+> 
+> ptr = kmalloc(sizeof(*ptr), gfp);
+>  -> ptr = kmalloc_obj(*ptr);
+> ptr = kmalloc(sizeof(struct some_obj_name), gfp);
+>  -> ptr = kmalloc_obj(*ptr);
+> ptr = kzalloc(sizeof(*ptr), gfp);
+>  -> ptr = kzalloc_obj(*ptr);
+> ptr = kmalloc_array(count, sizeof(*ptr), gfp);
+>  -> ptr = kmalloc_objs(*ptr, count);
+> ptr = kcalloc(count, sizeof(*ptr), gfp);
+>  -> ptr = kzalloc_objs(*ptr, count);
+> 
+> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
 
-eg. ptr = kmalloc_obj(*ptr, gfp);
- -> ptr = kmalloc_obj(*ptr [, gfp] );
+Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
-Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
----
- Documentation/process/deprecated.rst | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
-
-diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-index fed56864d036..ac75b7ecac47 100644
---- a/Documentation/process/deprecated.rst
-+++ b/Documentation/process/deprecated.rst
-@@ -392,13 +392,14 @@ allocations. For example, these open coded assignments::
- 
- become, respectively::
- 
--	ptr = kmalloc_obj(*ptr, gfp);
--	ptr = kzalloc_obj(*ptr, gfp);
--	ptr = kmalloc_objs(*ptr, count, gfp);
--	ptr = kzalloc_objs(*ptr, count, gfp);
--	ptr = kmalloc_flex(*ptr, flex_member, count, gfp);
--	__auto_type ptr = kmalloc_obj(struct foo, gfp);
--
-+	ptr = kmalloc_obj(*ptr [, gfp] );
-+	ptr = kzalloc_obj(*ptr [, gfp] );
-+	ptr = kmalloc_objs(*ptr, count [, gfp] );
-+	ptr = kzalloc_objs(*ptr, count [, gfp] );
-+	ptr = kmalloc_flex(*ptr, flex_member, count [, gfp] );
-+	__auto_type ptr = kmalloc_obj(struct foo [, gfp] );
-+
-+The argument gfp is optional, the default value is GFP_KERNEL.
- If `ptr->flex_member` is annotated with __counted_by(), the allocation
- will automatically fail if `count` is larger than the maximum
- representable value that can be stored in the counter member associated
--- 
-2.53.0
 
