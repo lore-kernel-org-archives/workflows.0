@@ -1,234 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7B602641CA;
-	Thu, 30 Apr 2026 14:47:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BDB8325495;
+	Fri,  1 May 2026 09:12:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777560445; cv=none; b=eUwNi+HT4055Dro8+Vcbv91g7+hDhgmnWXgTgjSu0iXjQp7k+2xGI84XgVuPPcV8tFZfKNVdWbbViUF+lp3bo5tI4cvHiODjWi/gDY98xrB4+9J8OAWHUHNA6+TjV4bpHbz5irV3RWlUunmNBKzRDvUcwMxIxZC72MY6VFr7/00=
+	t=1777626758; cv=none; b=qLCu/hcNmdvFx0fyr+RZVJfVAcn9gt54B/p/IKYpE1lGOZ4JvWPLrNpvkPH/7a2UM13IKESNOGF/7iYxUAXs8ZCfAkCO+xvdYCpS9MC8gwR8peoggaNpuzr/5ZzgY5YEATPSke0AxwcXtFkg1M9uS/LnMUxcoO5X0O8TduOqWdQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777560445; c=relaxed/simple;
-	bh=264aTQoULBVWcUvPni2hxBum6EiIcWK0YAfHGvmCE2E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Es2bJycCbVUDzwaXbASocqzaiIkJUSHECsOa7mWfvQM6qI34knTNJeI/Zl012xiffAEsHbWi5FEa2PASqNneCpeMAskogGMd1nwQvEcYUXftyDiRgolmeVZ5MYrREydcivtRTICyRrM5qrSyKzcmmYyaUTJ9NufNUvNjjqdwjjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YiNgLKTI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777626758; c=relaxed/simple;
+	bh=nzcV1M+T8FfAi4DN2fJXrFtPXcwkXnprEF+h9z3CYic=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=NZxFtO3CmStDyxNShedVGSv/p2M8MP9RGAqu/OulKGn5K7nFPZ/dbwevkARUVFGxebjIfUpEJ89x2grL3+MERM+/YYYk4Qa0mwUohQI10jWhmPazrrr117leNDiqa5Moanl0g3KgzRuN+/U43G8QD5szXk6Lz0Mg17zPyKEEBwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=d6mfZaEz; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YiNgLKTI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 309DBC2BCB3;
-	Thu, 30 Apr 2026 14:47:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777560443;
-	bh=264aTQoULBVWcUvPni2hxBum6EiIcWK0YAfHGvmCE2E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YiNgLKTI0NC9lXL371WXRwAC3EKdkT/2mTAe3elDeEIcpos1O9ZYXg1ot3GHyxsIC
-	 1yFFlP2evF/7bdTL6EqkLDBecTePyowRBmZ7Hrf90yBaoN90bvLIyqVfB66wM1MvEf
-	 gjd6VeK79ytB2O4nxu5mUZ4g8FaO0wbVWP0DZasS60AU2avdPSBXA4fIWwlN27vzuT
-	 r6FXO4YRXHse8QNs4+MKzGldjLn/GSaOdCziJzeEujuibO4qwQne8mWoB1ohGn5SYM
-	 j1hYboR5eW/Nigs+HuJk6bOosot98kQl+0pOA53k9x9MYDad5vbEGCQxzIOgNdMsgu
-	 4zLQipgi6ol3g==
-Date: Thu, 30 Apr 2026 16:47:10 +0200
-From: Nicolas Schier <nsc@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org,
-	Thomas Gleixner <tglx@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
-	Jake Edge <jake@lwn.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Askar Safin <safinaskar@zohomail.com>,
-	Gabriele Paoloni <gpaoloni@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH v3 2/9] kernel/api: enable kerneldoc-based API
- specifications
-Message-ID: <afNrbm8URHlClZ-8@levanger>
-Mail-Followup-To: Nicolas Schier <nsc@kernel.org>,
-	Sasha Levin <sashal@kernel.org>, linux-api@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
-	tools@kernel.org, x86@kernel.org, Thomas Gleixner <tglx@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
-	Jake Edge <jake@lwn.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Askar Safin <safinaskar@zohomail.com>,
-	Gabriele Paoloni <gpaoloni@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
-References: <20260424165130.2306833-1-sashal@kernel.org>
- <20260424165130.2306833-3-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="d6mfZaEz"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4g6QKk5fV9z9tZv;
+	Fri,  1 May 2026 11:12:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1777626746;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nzcV1M+T8FfAi4DN2fJXrFtPXcwkXnprEF+h9z3CYic=;
+	b=d6mfZaEzzOCM3NS1kzxxqsUjUjR+v4/Hln7mczKvYRdqiHkeUBLQqikdnP51UodlkpYl02
+	Fjt+94cV97IR1snj76vWJ3VBrqUimKwe0r89jetTL3NmH9PjEskVCasfFsq9AX+VdW62qj
+	5/vn/eTrNj+3ocpIXzkJSVKHSlj1J32Ru6j2bwwUx2eBdZRfK+7FjnMePEqV+k4Cw2jukq
+	uviIKZlM3pLETwFsfkWqkTHTC6OiPzDg1081dax4Rxw2Z75pfVK127mJtXu2VoIZ+/9EXi
+	uSxnBlKrjHKZgTfc8nrkNZWhri76a7TeJ+TA/QH50fYPGAexBmsSBaSZ5g6Muw==
+Message-ID: <755c37fa985eb3112322ac77be661d6e3614ba44.camel@mailbox.org>
+Subject: Re: [PATCH v4 1/3] Documentation: adopt new coding style of
+ type-aware kmalloc-family
+From: Manuel Ebner <manuelebner@mailbox.org>
+To: SeongJae Park <sj@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>,  linux-doc@vger.kernel.org, Kees Cook
+ <kees@kernel.org>,  linux-kernel@vger.kernel.org,
+ workflows@vger.kernel.org,  linux-sound@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mm@kvack.org
+Date: Fri, 01 May 2026 11:12:22 +0200
+In-Reply-To: <20260430010013.113971-1-sj@kernel.org>
+References: <20260430010013.113971-1-sj@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260424165130.2306833-3-sashal@kernel.org>
+X-MBO-RS-META: ud4ynx1w8xxoao3kkt6yo7rw19de15cu
+X-MBO-RS-ID: 634a2d56e1f2b8232cd
 
-On Fri, Apr 24, 2026 at 12:51:22PM -0400, Sasha Levin wrote:
-> This patch adds support for extracting API specifications from
-> kernel-doc comments and generating C macro invocations for the
-> kernel API specification framework.
-> 
-> Changes include:
-> - New kdoc_apispec.py module for generating API spec macros
-> - Updates to kernel-doc.py to support -apispec output format
-> - Build system integration in Makefile.build
-> - Generator script for collecting all API specifications
-> - Support for API-specific sections in kernel-doc comments
-> 
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
->  Documentation/dev-tools/kernel-api-spec.rst |   11 +
->  scripts/Makefile.build                      |   31 +
->  scripts/Makefile.clean                      |    3 +
->  tools/docs/kernel-doc                       |    5 +
->  tools/lib/python/kdoc/kdoc_apispec.py       | 1249 +++++++++++++++++++
->  tools/lib/python/kdoc/kdoc_output.py        |    9 +-
->  tools/lib/python/kdoc/kdoc_parser.py        |   86 +-
->  7 files changed, 1389 insertions(+), 5 deletions(-)
->  create mode 100644 tools/lib/python/kdoc/kdoc_apispec.py
-> 
-> diff --git a/Documentation/dev-tools/kernel-api-spec.rst b/Documentation/dev-tools/kernel-api-spec.rst
-> index 395c2294d5209..479bc78797ba8 100644
-> --- a/Documentation/dev-tools/kernel-api-spec.rst
-> +++ b/Documentation/dev-tools/kernel-api-spec.rst
-> @@ -239,6 +239,17 @@ execution context, and return values. Parameter violations are reported via
->  ``pr_warn_ratelimited`` and return value violations via ``WARN_ONCE`` to avoid
->  flooding the kernel log.
->  
-> +.. warning::
-> +
-> +   Userspace errno is affected when this option is on. For syscalls that
-> +   violate their parameter specification, KAPI short-circuits the call and
-> +   returns ``-EINVAL`` from the validator **before** the real handler runs.
-> +   That errno can differ from what the real handler would have produced for
-> +   the same condition (for example, ``-ENOMEM`` from an allocation path or
-> +   ``-EFAULT`` from a deeper copy-in). ``CONFIG_KAPI_RUNTIME_CHECKS`` is a
-> +   debug-only option; do not enable it on production kernels or in
-> +   userspace-visible test environments where error-code fidelity matters.
-> +
->  Custom Validators
->  -----------------
->  
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 3652b85be5459..ef203e490c797 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -174,6 +174,37 @@ ifneq ($(KBUILD_EXTRA_WARN),)
->  endif
->  endif
->  
-> +# Generate API spec headers from kernel-doc comments
-> +ifeq ($(CONFIG_KAPI_SPEC),y)
-> +# Function to check if a file has API specifications
-> +has-apispec = $(shell grep -qE '^\s*\*\s*context-flags:' $(src)/$(1) 2>/dev/null && echo $(1))
-> +
-> +# Get base names without directory prefix
-> +c-objs-base := $(notdir $(real-obj-y) $(real-obj-m))
-> +# Filter to only .o files with corresponding .c source files
-> +c-files := $(foreach o,$(c-objs-base),$(if $(wildcard $(src)/$(o:.o=.c)),$(o:.o=.c)))
+On Wed, 2026-04-29 at 18:00 -0700, SeongJae Park wrote:
+> On Wed, 29 Apr 2026 17:53:36 -0700 SeongJae Park <sj@kernel.org> wrote:
+>=20
+> > On Wed, 29 Apr 2026 09:14:44 +0200 Manuel Ebner <manuelebner@mailbox.or=
+g>
+> > wrote:
+> >=20
+> > > Update the documentation to reflect new type-aware kmalloc-family as
+> > > suggested in commit 2932ba8d9c99 ("slab: Introduce kmalloc_obj()
+> > > and family")
+> > >=20
+> > > ptr =3D kmalloc(sizeof(*ptr), gfp);
+> > > =C2=A0-> ptr =3D kmalloc_obj(*ptr);
+> > > ptr =3D kmalloc(sizeof(struct some_obj_name), gfp);
+> > > =C2=A0-> ptr =3D kmalloc_obj(*ptr);
+> > > ptr =3D kzalloc(sizeof(*ptr), gfp);
+> > > =C2=A0-> ptr =3D kzalloc_obj(*ptr);
+> > > ptr =3D kmalloc_array(count, sizeof(*ptr), gfp);
+> > > =C2=A0-> ptr =3D kmalloc_objs(*ptr, count);
+> > > ptr =3D kcalloc(count, sizeof(*ptr), gfp);
+> > > =C2=A0-> ptr =3D kzalloc_objs(*ptr, count);
+>=20
+> Forgot asking this, sorry.=C2=A0 Shouldn't 'gfp' parameters be kept?
 
-Looks to me as if the two lines above are redundant, since 'find'
-(below) will find all files gathered in $(c-files).
+Yes, i should have kept it, like so:
 
+eg. ptr =3D kmalloc_obj(*ptr, gfp);
+ -> ptr =3D kmalloc_obj(*ptr [, gfp] );
 
-> +# Also check for any additional .c files that contain API specs but are included
-> +extra-c-files := $(shell find $(src) -maxdepth 1 -name "*.c" -exec grep -l '^\s*\*\s*\(long-desc\|context-flags\|state-trans\):' {} \; 2>/dev/null | xargs -r basename -a)
-> +# Combine both lists and remove duplicates
-> +all-c-files := $(sort $(c-files) $(extra-c-files))
-> +# Only include files that actually have API specifications
-> +apispec-files := $(foreach f,$(all-c-files),$(call has-apispec,$(f)))
-> +# Generate apispec targets with proper directory prefix
-> +apispec-y := $(addprefix $(obj)/,$(apispec-files:.c=.apispec.h))
+same in [Patch 2/3]
 
-To goal is to find any relevant C file in $(src)/ (but not deeper below)
-that holds KAPI documentation, right?
+> >=20
 
-I do not like the find call, as it picks up anything.  Might it make
-sense to evaluate $(obj-) along with $(obj-y) and $(obj-m) to pick up
-all C files that are references in kbuild?
+> > > Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+> >=20
+> > Acked-by: SeongJae Park <sj@kernel.org>
+>=20
+> My Acked-by: is still valid regardless of your answer to my trivial quest=
+ion.
 
+Thanks
+ Manuel
 
+>=20
+> Thanks,
+> SJ
+>=20
+> [...]
 
-# in top definition block -- before 'include $(kbuild-file)' et al.
-obj- :=
-
-# below the definitions of real-obj-{y,m}
-real-obj-any := $(call real-search, $(obj-y) $(obj-m) $(obj-), .o, -objs -y -m -)
-
-has-apispec = $(shell grep -lE '^\s*\*\s*context-flags:' $(1) 2>/dev/null)
-apispec-y := $(patsubst $(src)/%.c, $(obj)/%.apispec.h, $(call has-apispec,
-		    $(patsubst $(obj)/%.o, $(src)/%.c, $(real-obj-any))))
-
-#...
-
-# Source files that include their own apispec.h need to depend on it
-$(apispec-y:.apispec.h=.o): $(obj)/%.o: $(obj)/%.apispec.h
-
-(untested)
-
-> +always-y += $(apispec-y)
-> +targets += $(apispec-y)
-> +
-> +quiet_cmd_apispec = APISPEC $@
-> +      cmd_apispec = PYTHONDONTWRITEBYTECODE=1 $(KERNELDOC) -apispec \
-> +                    $(KDOCFLAGS) $< > $@ || rm -f $@
-> +
-> +$(obj)/%.apispec.h: $(src)/%.c $(KERNELDOC) FORCE
-> +	$(call if_changed,apispec)
-> +
-> +# Source files that include their own apispec.h need to depend on it
-> +$(foreach f,$(apispec-files),$(eval $(obj)/$(f:.c=.o): $(obj)/$(f:.c=.apispec.h)))
-> +endif
-> +
->  # Compile C sources (.c)
->  # ---------------------------------------------------------------------------
->  
-> diff --git a/scripts/Makefile.clean b/scripts/Makefile.clean
-> index 6ead00ec7313b..f78dbbe637f27 100644
-> --- a/scripts/Makefile.clean
-> +++ b/scripts/Makefile.clean
-> @@ -35,6 +35,9 @@ __clean-files   := $(filter-out $(no-clean-files), $(__clean-files))
->  
->  __clean-files   := $(wildcard $(addprefix $(obj)/, $(__clean-files)))
->  
-> +# Also clean generated apispec headers (computed dynamically in Makefile.build)
-> +__clean-files   += $(wildcard $(obj)/*.apispec.h)
-
-We have a list of wildcard clean patterns in top-level Makefile
-(line 2114 ff.); please add '*.apispec.h' there instead.
-
-
-
-When I apply the series on top of v7.1, compilation fails with
-
-../fs/open.c:2148:10: fatal error: open.apispec.h: No such file or directory
-../fs/read_write.c:2519:10: fatal error: read_write.apispec.h: No such file or directory
-
-Kind regards,
-Nicolas
