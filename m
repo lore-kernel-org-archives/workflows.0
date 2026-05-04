@@ -1,118 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992D83D9DBB;
-	Mon,  4 May 2026 14:39:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 447601DF27D
+	for <workflows@vger.kernel.org>; Mon,  4 May 2026 20:58:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777905573; cv=none; b=jSQt157USn7lQ+wAXT8WyP8P9rvlIMjA7vf2rhT0Nr3vBP2CCKJSIefg+KEFiybLG9dryK3a+UygL0DQaI48SFk1VjTBcMNww8J41REnq/ZXqlAVed8+2tGV6/QgBbqsLvmuToeFW+/QoVHE74nXRUSCqSZ4lflzBYAbWCJOhO0=
+	t=1777928312; cv=none; b=VOjoHhFf08cjT0xl+xnUa54wLbjpsKkq+x9SC+LtF3wEFiRWfSRIuyy7kLxNl/iZdke1LKhod8ssbJzvV7Fsc0ifaIKstNucTXR3GU5roWlt1Oaoun0jqK991bOPwEbmEv4CJNY55Nq/g0f+sRLh+UMyLEnbIdYf4+U0cnGttmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777905573; c=relaxed/simple;
-	bh=FxoWnitM8sq1qmvGum3hMvfTjjYC12V36P8W0yTzW30=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Xmh+odWdRAXIECz6q+iMMpfewusADvwXcCiSy5Kt966h7Vyb1dsUX080fLtEFYSc8v4gPcEYe7KqDkqEVg1QBaq6mf8mfekgjE32rMoucKg9Zqhz7y1d2NHOQA9rN/QIeInjYFjncrjEWtDtWyIGQ4DIy4yqbK8OZrPp79GpGKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I8JnDe6E; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777928312; c=relaxed/simple;
+	bh=AnHqmTk7h+qZbfpUtv/6QvkRxKkNv38kGyl2d1Y1klo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DUAWuImivCdnKsYd8t/i0NiJh9MGDCqgRtYvTRfXKCrqDhNX7kzjPivvawcq5H0G7tQjjcAibAxQMTuiaRBUGcOO92FU2820EGODcSfHL3Khgzrk5pyBGJ9ImA3N7k+wkWj7NFHEXOJABneunyPOEJmZCRnDKhSm3x9PY5+yBVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CIfgjEuW; arc=none smtp.client-ip=209.85.160.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I8JnDe6E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A9E5C2BCB8;
-	Mon,  4 May 2026 14:39:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777905573;
-	bh=FxoWnitM8sq1qmvGum3hMvfTjjYC12V36P8W0yTzW30=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=I8JnDe6EUtn6YHetNFJEcZa2PNfrak+g1eIYd5Np8ZtMa8mHvCfiqaUMRMwn672Zf
-	 qehRu31K4AO9YapQPUdJ5QOLjr4SqL0Pdov/OWdK1OZY/C+Sjl/svLmKRZuwHqt8mN
-	 uAXgq71OSFK3U9bpCUWXDuS5zQi4iAThTdNV63saKaI+yxgNkS7Vcs+5shg9VZ8nAN
-	 dGnOSCLFHMvsPVt1auoJjkVVGrEmNDNYBU2P7HNoVoOQbsvN3Pd0Mo9sZvkTo31XCX
-	 PnsE1dWihKOzNX9myapNngb2M3XyFo+tcNukl6zsBI2V9Q/5pScjwZbQJVEpQcrGxK
-	 EHtrRh3Ab/krQ==
-Received: from localhost ([::1])
-	by mail.kernel.org with esmtp (Exim 4.99.1)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1wJuSJ-0000000EoSy-02WM;
-	Mon, 04 May 2026 16:39:31 +0200
-Date: Mon, 4 May 2026 16:39:30 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Albert Ou <aou@eecs.berkeley.edu>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
- <pjw@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org, workflows@vger.kernel.org, Alexandre Ghiti
- <alex@ghiti.fr>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Dan Williams <djbw@kernel.org>
-Subject: Re: [PATCH v4 00/10] Auto-generate maintainer profile entries
-Message-ID: <20260504163930.6114320b@localhost>
-In-Reply-To: <20260504090041.243520a8@foz.lan>
-References: <cover.1777295258.git.mchehab+huawei@kernel.org>
-	<87lde0bii2.fsf@trenco.lwn.net>
-	<20260504090041.243520a8@foz.lan>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CIfgjEuW"
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-42c0b0ffac1so1804808fac.2
+        for <workflows@vger.kernel.org>; Mon, 04 May 2026 13:58:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1777928308; x=1778533108; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0amaTMBgDEgs3tF4RCm1e9Dle/WjpaIw0roTFTHbcEU=;
+        b=CIfgjEuWFXT2dSbfPdLSygsJ1jexgKi2KKMddjnqAn9oA6KqvICrx/50cpA6l8Cgbp
+         BvIQKVLfJgKfURSIkO9tlO6DZHBKsJ/iuMQ4cLFsh5bzIfLNRJdzrdA1FVNRyCZBPWYu
+         lzD+ex9/GsrtRnyjrgHIufY42K/K+Gp9ue+gI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777928308; x=1778533108;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0amaTMBgDEgs3tF4RCm1e9Dle/WjpaIw0roTFTHbcEU=;
+        b=IZuJ45GqT8yCEP8RvkzHx7LyBlGaYgmsmS1BCoN7X5q4yX5qOUD/QkqjR7oN/VMgen
+         fDfRFFAwNmJF3M2sul9p3czE5fwjBI1cak2BS2HinaEgni3QYKuEhmVjWNoNWU4pUnIH
+         FuWNwdcy+18lUiUCmdapg3H9dfo9xkAC2rAox0XYuR5ZhhXSy0u8ACJwWNA1EpMzy9mu
+         nWehwyHEXXAz83K14ZZBR66BfGe9aLsxO23rbrm3tez31TA3N286JdSdiABPt8rv57Za
+         CMrKVZXWJXT9APzpN3sEp14PwcMVsFXelYb3niAcgD+ZpSXcJyxRYzjnAGgVrj+ANoL5
+         pAmA==
+X-Forwarded-Encrypted: i=1; AFNElJ9z0dEuZzPoi0ukJZ9A1fBkxIHUPZl0dyn3yKR9jWGcycs/doUaOHW6rz/+HnH1CEfyiY+sUkjqDyk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YycFPlzsqLdXcy/1sIrygU9711Amjf21KYPV/2XaZbYdrwSgOQm
+	DPvWwO1OU5/kqO0DVo0+16vPQJw+Yq6JYW/6Yjw4vYvdtSAKhxL1QAZxKXAImwfrbn0=
+X-Gm-Gg: AeBDiet3SH68ApOLbUe4pu3pJh8nnw7ujyEQs8vnlqO7Lrorm0rFk4Ob6vFW2DojSMC
+	J17lOebqO1LXNnHlhgmNTMMW8sTGtrHq1F7sQU+8Gp9DjHUG7bkbx0SUSQHM8aWMiGMW23SbVAX
+	OwZIgk3TYapBU5TUNVodOBQEW8l1UY6U10XkkfFHr/77XDcEQJr400PRadWZU0xEh8DVuvIr0ZE
+	k/v8kKEKhYdbAonuYX2rFE+rKt5jOt+BRxwIJD1m7+nG1sekYb3lyC5L2GS+Gc7fEnmSjzEnb7i
+	OEmRKsFptdtZEUHOZG467FVX+PKMqIh63gipVEbjMQaLkGHSgRkZvXfpXa5R/a+vcXPIwbyMR0S
+	yeKCrLjdI1Jd884G8wnNmkG3TIlx4jYyDgiNn/E9TMzonQif4/5Mhn5DmFvIig6iiKbvRMNAG1q
+	oh3HXLEGEzn5wAHyFOUInUy70TKE06A9f3UVagYB+/Rg==
+X-Received: by 2002:a05:6870:1776:b0:42c:ecc9:58b3 with SMTP id 586e51a60fabf-434760613c0mr6278794fac.10.1777928308251;
+        Mon, 04 May 2026 13:58:28 -0700 (PDT)
+Received: from [192.168.1.14] ([38.15.57.99])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-43454cbbbd7sm10977170fac.10.2026.05.04.13.58.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 May 2026 13:58:27 -0700 (PDT)
+Message-ID: <444d823c-40d0-4c14-ac8e-4f810a5a2f04@linuxfoundation.org>
+Date: Mon, 4 May 2026 14:58:27 -0600
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: kselftest: Document the FORCE_TARGETS build
+ variable
+To: =?UTF-8?Q?Ricardo_B=2E_Marli=C3=A8re?= <rbm@suse.com>,
+ Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20260417-selftests-docs-v1-1-32e4a78214eb@suse.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20260417-selftests-docs-v1-1-32e4a78214eb@suse.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, 4 May 2026 09:00:41 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-
-> On Sun, 03 May 2026 09:49:41 -0600
-> Jonathan Corbet <corbet@lwn.net> wrote:
+On 4/17/26 11:36, Ricardo B. Marlière wrote:
+> FORCE_TARGETS has been part of the kselftest build system for
+> some time but is absent from the developer documentation. Without
+> an entry here, users relying on kselftest in CI pipelines would
+> have to read the selftests Makefile directly to discover the
+> option.
 > 
-> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> > 
-> > > Hi Jon,
-> > >
-> > > This is basically the same patch series I sent during the merge
-> > > window, rebased on the top of post 7.1-rc1 docs-next branch.
-> > > It is tested both with and without O=DOCS.
-> > >
-> > > It contains just one extra trivial patch adding a missing SPDX
-> > > header, and, on v4, I dropped two patches touching MAINTAINERS,
-> > > as those aren't needed anymore.
-> > >
-> > > This patch series change the way maintainer entry profile links
-> > > are added to the documentation. Instead of having an entry for
-> > > each of them at an ReST file, get them from MAINTAINERS content.
-> > >
-> > > That should likely make easier to maintain, as there will be a single
-> > > point to place all such profiles.
-> > >
-> > > The output is a per-subsystem sorted (*) series of links shown as a
-> > > list like this:
-> > >
-> > >     - Arm And Arm64 Soc Sub-Architectures (Common Parts)
-> > >     - Arm/Samsung S3C, S5P And Exynos Arm Architectures
-> > >     - Arm/Tesla Fsd Soc Support
-> > >     ...
-> > >     - Xfs Filesystem
-> > >
-> > > Please notice that the series is doing one logical change per patch.
-> > > I could have merged some changes altogether, but I opted doing it
-> > > in small steps to help reviews. If you prefer, feel free to merge
-> > > maintainers_include changes on merge.
-> > >
-> > > There is one interesting side effect of this series: there is no
-> > > need to add rst files containing profiles inside a TOC tree: Just
-> > > creating the file anywhere inside Documentation and adding a P entry
-> > > is enough. Adding them to a TOC won't hurt.  
-> > 
-> > One thing I kind of dislike about these magic mechanisms is that we end
-> > up with a single, essentially unsorted list of stuff that readers have
-> > to go digging their way through. 
+> A build that exits zero despite some targets failing can mask
+> real breakage and mislead automated systems into reporting
+> success. Add a dedicated section so that CI authors can easily
+> find and adopt FORCE_TARGETS=1 to turn such silent partial
+> failures into hard errors.
+> 
+> Signed-off-by: Ricardo B. Marlière <rbm@suse.com>
+> ---
+>
+Thanks Ricardo. I applied it to linux-kselftest next branch.
 
-Heh, perhaps you're referring to the TOC tree. You'll see it
-unsorted on diffs because the TOC tree there is hidden. As it is
-a set, currently it will output a different result on each run.
-
-Not a problem for users, but it makes harder to check differences
-after patches, so I'm planning to submit a patch to keep it sorted
-just for the sake of doing:
-
-	diff -u before/ after/
-
-Thanks,
-Mauro
+thanks,
+-- Shuah
