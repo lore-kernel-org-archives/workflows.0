@@ -1,187 +1,195 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11AD9222580;
-	Mon,  4 May 2026 06:23:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4315CA5A;
+	Mon,  4 May 2026 07:00:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777875830; cv=none; b=fqxT4lqzDMp5tr6DrxRUThiUBkhG8N9M7w/KfOd0TTZtb+KvWQOMpl48tDkC2w3wizbIzc4xGwTA2hQPm6Rz2+bl+1yErtPXMLGa9NQChO5hy4faY0HcQmUInqAsE0M0L2OA1+FtiJPjBssmZRYSxqxuyr1CfKehc3lPzE0dYZg=
+	t=1777878049; cv=none; b=LYlCVOw9OislOjq2zwtkRB5a3yVmMVM8DrB9UnYkYp8x1xNU+dR2bt600BF0PWoDvh86P1a5n0fsogiXcJ1Z/uZrzK4WZ3oXzI7tnlvCSIfOsC9yzmOS9us8wE4/ID+jkwoaW6C00/Y/m4aAMcadqcy9fW5cE5u4aqq1yrbLBs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777875830; c=relaxed/simple;
-	bh=TDTWbGjZHeBypK0OdfBWxU6ynsnJ8OcFJG2kDjwebzo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a+92Jo+jApSMVWTK/Uv1CVZEI5Z1ZTZU4E5j3XYMeI4x3sttywtRgy5Rjh+cpVKBVoSWyEszXgRHNmeGlasBaM0o+4RqAYNbRSP8Aia4aJnm1Dz5b+cKH+FEIsJA/TkD/RlJwUsQ68p4JT26lWc12CB+AiLMOLJTuEyjR23wlUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=b7o4WGPQ; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=bien55xk; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1777878049; c=relaxed/simple;
+	bh=O/IjjvqcY6T4mHKxT7aqn7RJ8sDV+fNCJ2tJTa/lzkQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GTicQh47uiiawOWqcONX3HbtrUlJOSAqEiZLFLezon1T8AM8gQMIx3TW3vuP5AEepQ2OB7JOFLEWvK0Sq4g62m4Lg8SJMMlczDlONjWK/AAAOYGcNd23sTrKjhQ8mBMalZ3E+pQ85t8HMe+JNuI2qz1UvtcdMOVLNUIVDPbsHmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VEq4HUcf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="b7o4WGPQ";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="bien55xk"
-Date: Mon, 4 May 2026 08:23:41 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1777875826;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4KOIYNhhxlhdcRK869KmnnV/MUk9D3C0X4K2x8J2muk=;
-	b=b7o4WGPQGm+EyxlTM1kIcrwvWS4R1DpY/pY7At2r1x4ZIM2BuD7rtwEOU7nv7uxGsTp3nC
-	GNvZrJI9IHlwPDy48rG0UIRr1sXYr6/aaURV4vKWeYbLvqi7jO4LOURJzrIn2xLCQVPdpV
-	16e1xqy6+CqzPrbTgt/i1X2ztD/G0+jUtnM4TS6VkdhMobda5hxXRlAE2x0940i0DdsNu7
-	ALgGm8gjn5vEvA7o+PeBdFkWwgrTnCufSNeHWlVy9mfHzMtHhGgVUOTrldS83aL9LCrs4f
-	J0HC8dCy3C2LjbVzttrykaf8epAiPYYXUA4EhEZQU8k8VEWy1uutovuA+IShew==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1777875826;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4KOIYNhhxlhdcRK869KmnnV/MUk9D3C0X4K2x8J2muk=;
-	b=bien55xkJb+vMrjvmzMpTHiDQV56FXmlfrczSnc0t7m1wC3w5CgJ4frXJoC3vld9WyKUUU
-	nuPFbmczUFz8RjAg==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: David Gow <david@davidgow.net>
-Cc: Brendan Higgins <brendan.higgins@linux.dev>, 
-	Rae Moar <raemoar63@gmail.com>, Shuah Khan <skhan@linuxfoundation.org>, 
-	kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org, workflows@vger.kernel.org
-Subject: Re: [PATCH v2] kunit: tool: Add (primitive) support for outputting
- JUnit XML
-Message-ID: <20260504081256-2f65d9ea-adf4-4949-a758-282f9e76a871@linutronix.de>
-References: <20260502024918.1056954-1-david@davidgow.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VEq4HUcf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB74FC2BCC9;
+	Mon,  4 May 2026 07:00:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777878049;
+	bh=O/IjjvqcY6T4mHKxT7aqn7RJ8sDV+fNCJ2tJTa/lzkQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=VEq4HUcf3QNgYsZ7GMLg83m0pOxdUX9O7Y8j03YlhQBitf91Vdnr63V2+j+0HE3S4
+	 feXCh8vjB9auwL9Bao0bll0iph31TaHrOxHWhs42nk9Ae3PFuy+MLSSZk0yACnA5n2
+	 408SIW5r8x74ZUmrxXu1zjFUWz0dJpiysSRzxeWFE0LtMdYlq9fZNb1kzuSJ+Bpuxw
+	 icKSJt1AdQaIxxfYwmj+YqF/eUc24tQFV+Czmb3SpNSisxXtVadc0ovb/TM6Eti26e
+	 BlTmOgKw8xwMhQS3qOQg7pLSA6pH3wqbK+OU1nPXxxv+YPnyj4wmVPYJNq6RU0Uqx5
+	 7vbxOzL115vMg==
+Date: Mon, 4 May 2026 09:00:41 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Albert Ou <aou@eecs.berkeley.edu>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
+ <pjw@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-riscv@lists.infradead.org, workflows@vger.kernel.org, Alexandre Ghiti
+ <alex@ghiti.fr>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Dan Williams <djbw@kernel.org>
+Subject: Re: [PATCH v4 00/10] Auto-generate maintainer profile entries
+Message-ID: <20260504090041.243520a8@foz.lan>
+In-Reply-To: <87lde0bii2.fsf@trenco.lwn.net>
+References: <cover.1777295258.git.mchehab+huawei@kernel.org>
+	<87lde0bii2.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260502024918.1056954-1-david@davidgow.net>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi David,
+On Sun, 03 May 2026 09:49:41 -0600
+Jonathan Corbet <corbet@lwn.net> wrote:
 
-On Sat, May 02, 2026 at 10:49:17AM +0800, David Gow wrote:
-> This is used by things like Jenkins and other CI systems, which can
-> pretty-print the test output and potentially provide test-level comparisons
-> between runs.
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 > 
-> The implementation here is pretty basic: it only provides the raw results,
-> split into tests and test suites, and doesn't provide any overall metadata.
-> However, CI systems like Jenkins can injest it and it is already useful.
-
-"ingest"?
-
-> Signed-off-by: David Gow <david@davidgow.net>
-> ---
+> > Hi Jon,
+> >
+> > This is basically the same patch series I sent during the merge
+> > window, rebased on the top of post 7.1-rc1 docs-next branch.
+> > It is tested both with and without O=DOCS.
+> >
+> > It contains just one extra trivial patch adding a missing SPDX
+> > header, and, on v4, I dropped two patches touching MAINTAINERS,
+> > as those aren't needed anymore.
+> >
+> > This patch series change the way maintainer entry profile links
+> > are added to the documentation. Instead of having an entry for
+> > each of them at an ReST file, get them from MAINTAINERS content.
+> >
+> > That should likely make easier to maintain, as there will be a single
+> > point to place all such profiles.
+> >
+> > The output is a per-subsystem sorted (*) series of links shown as a
+> > list like this:
+> >
+> >     - Arm And Arm64 Soc Sub-Architectures (Common Parts)
+> >     - Arm/Samsung S3C, S5P And Exynos Arm Architectures
+> >     - Arm/Tesla Fsd Soc Support
+> >     ...
+> >     - Xfs Filesystem
+> >
+> > Please notice that the series is doing one logical change per patch.
+> > I could have merged some changes altogether, but I opted doing it
+> > in small steps to help reviews. If you prefer, feel free to merge
+> > maintainers_include changes on merge.
+> >
+> > There is one interesting side effect of this series: there is no
+> > need to add rst files containing profiles inside a TOC tree: Just
+> > creating the file anywhere inside Documentation and adding a P entry
+> > is enough. Adding them to a TOC won't hurt.  
 > 
-> Finally got around to doing a new version of this. I'm running this
-> locally with Jenkins, and it's giving nice summaries of test results.
-> 
-> Changes since v1:
-> https://lore.kernel.org/all/20260119073426.1952867-1-davidgow@google.com/
-> - Use python's provided XML quote escaping, rather than coding our own (Thanks Thomas)
+> One thing I kind of dislike about these magic mechanisms is that we end
+> up with a single, essentially unsorted list of stuff that readers have
+> to go digging their way through.  It would be nice if we could somehow
+> apply a bit of structure; as the number of these handbooks grows, our
+> readers would appreciate it.
 
-What I tried to suggest was to do all of the XML generation through the Python
-module instead of manual string concatenation. The XML escaping would go away
-as a side effect.
+The output is sorted by subsystem's name:
 
-A pseudo-code example:
+	for profile, entry in sorted(maint.profile_entries.items()):
+	    if entry.startswith("http"):
+		output += f"- `{profile} <{entry}>`_\n"
+            else:
+		output += f"- :doc:`{profile} <{entry}>`\n"
 
-out = xml.sax.saxutils.XMLGenerator(f, encoding='utf-8')
-out.startDocument()
+But yeah, as this grows, We can apply some struct there later on.
 
-for subtest in test.subtests:
-    out.startElement('testcase', {'name': 'subtest.name' })
+I expect that this would be good enough for "P" entries: as such entries 
+are used only by the biggest subsystems, I won't expect that the profiles 
+list would be too big. 
 
-    if subtest.status == TestStatus.FAILURE:
-        out.startElement('failure', {})
-        out.characters('Test failed')
-        out.endElement('failure')
+If I'm wrong, though, changing its output is easy, as all the parsing
+were done in separate: all we have to do would be to change this part.
 
-    out.endElement('testcase')
+-
 
-How I used it recently:
-https://github.com/Linutronix/elbe/blob/master/website/ext/elbedocoverview.py#L133
+Now, for the full MAINTAINERS content, I agree with you. I have
+a patch series here which splits the parsing from the output,
+which allows placing its contents inside a table and with a
+filter javascript [1]. On my view, the output is a lot more
+interesting for readers this way [2].
+ 
+> Oh well, one can always hope.  Meanwhile, this seems useful, I've
+> applied it.
 
-> - Output proper <skipped> tags for skipped tests
-> - Report crashed tests as <error>
-> - Don't output <system-out> tags if there are no lines of log data
-> 
-> ---
->  Documentation/dev-tools/kunit/run_wrapper.rst |  3 ++
->  tools/testing/kunit/kunit.py                  | 25 ++++++++++-
->  tools/testing/kunit/kunit_junit.py            | 43 +++++++++++++++++++
->  tools/testing/kunit/kunit_tool_test.py        | 38 ++++++++++++++--
->  4 files changed, 105 insertions(+), 4 deletions(-)
->  create mode 100644 tools/testing/kunit/kunit_junit.py
-> 
-> diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/dev-tools/kunit/run_wrapper.rst
-> index 770bb09a475a..cecc110a3399 100644
-> --- a/Documentation/dev-tools/kunit/run_wrapper.rst
-> +++ b/Documentation/dev-tools/kunit/run_wrapper.rst
-> @@ -324,6 +324,9 @@ command line arguments:
->  - ``--json``: If set, stores the test results in a JSON format and prints to `stdout` or
->    saves to a file if a filename is specified.
->  
-> +- ``--junit``: If set, stores the test results in JUnit XML format and prints to `stdout` or
-> +  saves to a file if a filename is specified.
-> +
->  - ``--filter``: Specifies filters on test attributes, for example, ``speed!=slow``.
->    Multiple filters can be used by wrapping input in quotes and separating filters
->    by commas. Example: ``--filter "speed>slow, module=example"``.
-> diff --git a/tools/testing/kunit/kunit.py b/tools/testing/kunit/kunit.py
-> index 742f5c555666..1a7ff594b791 100755
-> --- a/tools/testing/kunit/kunit.py
-> +++ b/tools/testing/kunit/kunit.py
-> @@ -21,6 +21,7 @@ from enum import Enum, auto
->  from typing import Iterable, List, Optional, Sequence, Tuple
->  
->  import kunit_json
-> +import kunit_junit
->  import kunit_kernel
->  import kunit_parser
->  from kunit_printer import stdout, null_printer
-> @@ -49,6 +50,7 @@ class KunitBuildRequest(KunitConfigRequest):
->  class KunitParseRequest:
->  	raw_output: Optional[str]
->  	json: Optional[str]
-> +	junit: Optional[str]
->  	summary: bool
->  	failed: bool
->  
-> @@ -268,6 +270,17 @@ def parse_tests(request: KunitParseRequest, metadata: kunit_json.Metadata, input
->  			stdout.print_with_timestamp("Test results stored in %s" %
->  				os.path.abspath(request.json))
->  
-> +	if request.junit:
-> +		junit_str = kunit_junit.get_junit_result(
-> +					test=test)
+Thanks!
 
-Unnecessary linebreak?
+---
 
-> +		if request.junit == 'stdout':
-> +			print(junit_str)
-> +		else:
-> +			with open(request.junit, 'w') as f:
-> +				f.write(junit_str)
-> +			stdout.print_with_timestamp("Test results stored in %s" %
-> +				os.path.abspath(request.junit))
+[1] On such series, I'm creating a table with two rows:
 
-f-string?
+        output += ".. _maintainers_table:\n\n"
+        output += ".. flat-table::\n"
+        output += "  :header-rows: 1\n\n"
+        output += "  * - Subsystem\n"
+        output += "    - Properties\n\n"
 
-> +
->  	if test.status != kunit_parser.TestStatus.SUCCESS:
->  		return KunitResult(KunitStatus.TEST_FAILURE, parse_time), test
->  
-> @@ -309,6 +322,7 @@ def run_tests(linux: kunit_kernel.LinuxSourceTree,
->  # So we hackily automatically rewrite --json => --json=stdout
->  pseudo_bool_flag_defaults = {
->  		'--json': 'stdout',
-> +		'--junit': 'stdout',
->  		'--raw_output': 'kunit',
->  }
+        self.state.document['maintainers_included'] = True
 
-(...)
+        for name, fields in maint_parser.maint_entries.items():
+            output += f"  * - {name}\n"
 
-But all of it are just suggestions.
+            tag = "-"
+            for field, lines in fields.items():
+                field_name = maint_parser.fields.get(field, field)
 
+                output += f"    {tag} :{field_name}:\n        "
+                output += ",\n        ".join(lines) + "\n"
+                tag = " "
 
-Thomas
+            output += "\n"
+
+   Which is a lot easier to read than the current output, and adding
+   a small javascript that allows filtering entries, based at the
+   contents of either subsystem or properties. That should help
+   readers to seek for things they're interested.
+
+   I considered ordering it by subsystems, and did some tests with that,
+   but at the final version I ended removing.
+
+   The main issue is that MAINTAINERS entries aren't grouped by
+   subsystems. Also, we don't have any field to identify to what 
+   subsystem each entry belongs.
+
+   Using the mailing list field helps to have something close enough,
+   while being fast. Even so, some caveats are needed, as:
+
+   1) several entries contain multiple ML entries, which may include:
+      - subsystem ML;
+      - LKML;
+      - driver-specific ML;
+      - vendor-specific ML.
+
+   2) several entries have only LKML.
+
+   For the purpose of grouping such entries, even after filtering out LKML,
+   due to (1), hints are needed to try to pick subsystem ML. Perhaps the
+   best hint is to check if the entry is @kernel.org, which works reasonably
+   well. Yet, not all subsystems have its ML there.
+
+   I also considered sorting them by the number of files, using iglob 
+   to calculate it. That would help to place the subsystem first, followed
+   by subsystem drivers, and this is fast enough with my nvme disks but 
+   this could slow kernel builds on mechanical HDs.
+
+   So, I suspect that, if we want to have something more structured,
+   the first step would be to do some rework at the MAINTAINERS file.
+
+[2] I need some time to check if are there any regressions
+    on the patch that splits the logic.
+
+Regards,
+Mauro
