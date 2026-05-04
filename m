@@ -1,195 +1,271 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4315CA5A;
-	Mon,  4 May 2026 07:00:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80F2B3090D7
+	for <workflows@vger.kernel.org>; Mon,  4 May 2026 07:41:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777878049; cv=none; b=LYlCVOw9OislOjq2zwtkRB5a3yVmMVM8DrB9UnYkYp8x1xNU+dR2bt600BF0PWoDvh86P1a5n0fsogiXcJ1Z/uZrzK4WZ3oXzI7tnlvCSIfOsC9yzmOS9us8wE4/ID+jkwoaW6C00/Y/m4aAMcadqcy9fW5cE5u4aqq1yrbLBs8=
+	t=1777880512; cv=none; b=KDs5Pvth6hj7Rk6qI7YalZ2el/Q6TDHE9uMO3O+4zKZGF26NDv1TKpphTJKyX3AT8V1RrneM0+kUiDLYZDK+Gcm152eARaADZcfy7fdIKzF0yE5e4dUUpFUmRjc5CN44JIAPXkOzC7fcBsFeXyTs1tewi07jT/mFOsANwvAa83s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777878049; c=relaxed/simple;
-	bh=O/IjjvqcY6T4mHKxT7aqn7RJ8sDV+fNCJ2tJTa/lzkQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GTicQh47uiiawOWqcONX3HbtrUlJOSAqEiZLFLezon1T8AM8gQMIx3TW3vuP5AEepQ2OB7JOFLEWvK0Sq4g62m4Lg8SJMMlczDlONjWK/AAAOYGcNd23sTrKjhQ8mBMalZ3E+pQ85t8HMe+JNuI2qz1UvtcdMOVLNUIVDPbsHmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VEq4HUcf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777880512; c=relaxed/simple;
+	bh=erQ03JI6SrYNARYzJm/2YyqhpgwzdnxG5DBrDpElEWU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=lp0219m5Ol1cwaFo+s0O9Eh8L/IEmFyR2OZvdugFfIeAT4s3orOwIdS/VYydsNvkScGI7D7JneTw0shKiphM728YQmzBGsWjHtLsaRjM0TWG24E0K4MmcZ/DcsrJORxRz18crnV2CLOgmbm8tPmXNGEpIn5WLxRQaeuqSHE5XXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KyDp2KC8; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VEq4HUcf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB74FC2BCC9;
-	Mon,  4 May 2026 07:00:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777878049;
-	bh=O/IjjvqcY6T4mHKxT7aqn7RJ8sDV+fNCJ2tJTa/lzkQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=VEq4HUcf3QNgYsZ7GMLg83m0pOxdUX9O7Y8j03YlhQBitf91Vdnr63V2+j+0HE3S4
-	 feXCh8vjB9auwL9Bao0bll0iph31TaHrOxHWhs42nk9Ae3PFuy+MLSSZk0yACnA5n2
-	 408SIW5r8x74ZUmrxXu1zjFUWz0dJpiysSRzxeWFE0LtMdYlq9fZNb1kzuSJ+Bpuxw
-	 icKSJt1AdQaIxxfYwmj+YqF/eUc24tQFV+Czmb3SpNSisxXtVadc0ovb/TM6Eti26e
-	 BlTmOgKw8xwMhQS3qOQg7pLSA6pH3wqbK+OU1nPXxxv+YPnyj4wmVPYJNq6RU0Uqx5
-	 7vbxOzL115vMg==
-Date: Mon, 4 May 2026 09:00:41 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Albert Ou <aou@eecs.berkeley.edu>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
- <pjw@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org, workflows@vger.kernel.org, Alexandre Ghiti
- <alex@ghiti.fr>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Dan Williams <djbw@kernel.org>
-Subject: Re: [PATCH v4 00/10] Auto-generate maintainer profile entries
-Message-ID: <20260504090041.243520a8@foz.lan>
-In-Reply-To: <87lde0bii2.fsf@trenco.lwn.net>
-References: <cover.1777295258.git.mchehab+huawei@kernel.org>
-	<87lde0bii2.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KyDp2KC8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1777880508;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=vf+HSG6lzyoZZtZMHsZSQKiJNNXRlnzisj4czBT4HTQ=;
+	b=KyDp2KC8MbJdl31ZrFcqML8e5D2DNCylZha08QoB925mc3HxTgen7E7PU4Yos++Bz9kadp
+	+O8iNia6t7wVbdHK8MMs9yQmaZj0r9ZMkhrVML/Tt7AFiKoZuPmn/GUu0VXZGT7Y7zRaXk
+	nWopUNs+2O3RHSOgzsFLp+go20QxeTA=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-294-fWzwJPGLNlyG0PRMA6RgKQ-1; Mon,
+ 04 May 2026 03:41:45 -0400
+X-MC-Unique: fWzwJPGLNlyG0PRMA6RgKQ-1
+X-Mimecast-MFC-AGG-ID: fWzwJPGLNlyG0PRMA6RgKQ_1777880501
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3163019560A2;
+	Mon,  4 May 2026 07:41:40 +0000 (UTC)
+Received: from [192.168.1.153] (headnet01.pony-001.prod.iad2.dc.redhat.com [10.2.32.101])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4661F196B09E;
+	Mon,  4 May 2026 07:41:30 +0000 (UTC)
+From: Albert Esteve <aesteve@redhat.com>
+Subject: [PATCH v8 0/4] kunit: Add support for suppressing warning
+ backtraces
+Date: Mon, 04 May 2026 09:41:24 +0200
+Message-Id: <20260504-kunit_add_support-v8-0-3e5957cdd235@redhat.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/23OQWrDMBCF4asErasgjSvJzSr3CCXInlEtii0zU
+ kxL8N0jB0JayPIt3sd/FZk4UhaH3VUwLTHHNNXRvu1EP/jpi2TEugUosKrRIL8vUyxnj3jOl3l
+ OXCSExrTKdvoDUdTfzBTiz908fdYdOI2yDEz+IRllwOoGnDF7ba02Smrpe89jnPyRCQdf9n0aN
+ 22IuST+vQcudjMfLe5Fy2KlkogAnromkMG/2hazuCfxDuoV4SpBbddbUsEppH/Euq43F/Z98jQ
+ BAAA=
+X-Change-ID: 20260312-kunit_add_support-2f35806b19dd
+To: Arnd Bergmann <arnd@arndb.de>, 
+ Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
+ Rae Moar <raemoar63@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, Paul Walmsley <pjw@kernel.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Alexandre Ghiti <alex@ghiti.fr>
+Cc: linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+ dri-devel@lists.freedesktop.org, workflows@vger.kernel.org, 
+ linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org, 
+ peterz@infradead.org, Alessandro Carminati <acarmina@redhat.com>, 
+ Guenter Roeck <linux@roeck-us.net>, Kees Cook <kees@kernel.org>, 
+ Albert Esteve <aesteve@redhat.com>, 
+ Linux Kernel Functional Testing <lkft@linaro.org>, 
+ Dan Carpenter <dan.carpenter@linaro.org>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Kees Cook <kees@kernel.org>, Simona Vetter <simona.vetter@ffwll.ch>, 
+ David Gow <david@davidgow.net>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1777880489; l=8271;
+ i=aesteve@redhat.com; s=20260303; h=from:subject:message-id;
+ bh=erQ03JI6SrYNARYzJm/2YyqhpgwzdnxG5DBrDpElEWU=;
+ b=sRhx6zDxIpD2+MuE6WZxU4Js3eoJAjGupZqFb9sxdUwpsUl5/zr/vMWNqqMrR2uKILugzru4S
+ YgboAAiARnzBzA1KOoiHKSgz2t026tsMDNKbC89v/UVnVosPp8ozEtB
+X-Developer-Key: i=aesteve@redhat.com; a=ed25519;
+ pk=YSFz6sOHd2L45+Fr8DIvHTi6lSIjhLZ5T+rkxspJt1s=
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-On Sun, 03 May 2026 09:49:41 -0600
-Jonathan Corbet <corbet@lwn.net> wrote:
+Some unit tests intentionally trigger warning backtraces by passing bad
+parameters to kernel API functions. Such unit tests typically check the
+return value from such calls, not the existence of the warning backtrace.
 
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> 
-> > Hi Jon,
-> >
-> > This is basically the same patch series I sent during the merge
-> > window, rebased on the top of post 7.1-rc1 docs-next branch.
-> > It is tested both with and without O=DOCS.
-> >
-> > It contains just one extra trivial patch adding a missing SPDX
-> > header, and, on v4, I dropped two patches touching MAINTAINERS,
-> > as those aren't needed anymore.
-> >
-> > This patch series change the way maintainer entry profile links
-> > are added to the documentation. Instead of having an entry for
-> > each of them at an ReST file, get them from MAINTAINERS content.
-> >
-> > That should likely make easier to maintain, as there will be a single
-> > point to place all such profiles.
-> >
-> > The output is a per-subsystem sorted (*) series of links shown as a
-> > list like this:
-> >
-> >     - Arm And Arm64 Soc Sub-Architectures (Common Parts)
-> >     - Arm/Samsung S3C, S5P And Exynos Arm Architectures
-> >     - Arm/Tesla Fsd Soc Support
-> >     ...
-> >     - Xfs Filesystem
-> >
-> > Please notice that the series is doing one logical change per patch.
-> > I could have merged some changes altogether, but I opted doing it
-> > in small steps to help reviews. If you prefer, feel free to merge
-> > maintainers_include changes on merge.
-> >
-> > There is one interesting side effect of this series: there is no
-> > need to add rst files containing profiles inside a TOC tree: Just
-> > creating the file anywhere inside Documentation and adding a P entry
-> > is enough. Adding them to a TOC won't hurt.  
-> 
-> One thing I kind of dislike about these magic mechanisms is that we end
-> up with a single, essentially unsorted list of stuff that readers have
-> to go digging their way through.  It would be nice if we could somehow
-> apply a bit of structure; as the number of these handbooks grows, our
-> readers would appreciate it.
+Such intentionally generated warning backtraces are neither desirable
+nor useful for a number of reasons:
+- They can result in overlooked real problems.
+- A warning that suddenly starts to show up in unit tests needs to be
+  investigated and has to be marked to be ignored, for example by
+  adjusting filter scripts. Such filters are ad hoc because there is
+  no real standard format for warnings. On top of that, such filter
+  scripts would require constant maintenance.
 
-The output is sorted by subsystem's name:
+One option to address the problem would be to add messages such as
+"expected warning backtraces start/end here" to the kernel log.
+However, that would again require filter scripts, might result in
+missing real problematic warning backtraces triggered while the test
+is running, and the irrelevant backtrace(s) would still clog the
+kernel log.
 
-	for profile, entry in sorted(maint.profile_entries.items()):
-	    if entry.startswith("http"):
-		output += f"- `{profile} <{entry}>`_\n"
-            else:
-		output += f"- :doc:`{profile} <{entry}>`\n"
+Solve the problem by providing a means to suppress warning backtraces
+originating from the current kthread while executing test code.
+Since each KUnit test runs in its own kthread, this effectively scopes
+suppression to the test that enabled it, without requiring any
+architecture-specific code.
 
-But yeah, as this grows, We can apply some struct there later on.
+Overview:
+Patch#1 Introduces the suppression infrastructure integrated into
+        KUnit's hook mechanism.
+Patch#2 Adds selftests to validate the functionality.
+Patch#3 Demonstrates real-world usage in the DRM subsystem.
+Patch#4 Documents the new API and usage guidelines.
 
-I expect that this would be good enough for "P" entries: as such entries 
-are used only by the biggest subsystems, I won't expect that the profiles 
-list would be too big. 
+Design Notes:
+Suppression is integrated into the existing KUnit hooks infrastructure,
+reusing the kunit_running static branch for zero overhead
+when no tests are running. The implementation lives entirely in the
+kunit module; only a static-inline wrapper and a function pointer
+slot are added to built-in code.
 
-If I'm wrong, though, changing its output is easy, as all the parsing
-were done in separate: all we have to do would be to change this part.
+Suppression is checked at three points in the warning path:
+- In `warn_slowpath_fmt()` (kernel/panic.c), for architectures without
+  __WARN_FLAGS. The check runs before any output, fully suppressing
+  both message and backtrace.
+- In `__warn_printk()` (kernel/panic.c), for architectures that define
+  __WARN_FLAGS but not their own __WARN_printf (arm64, loongarch,
+  parisc, powerpc, riscv, sh). The check suppresses the warning message
+  text that is printed before the trap enters __report_bug().
+- In `__report_bug()` (lib/bug.c), for architectures that define
+  __WARN_FLAGS. The check runs before `__warn()` is called, suppressing
+  the backtrace and stack dump. 
 
--
+To avoid double-counting on architectures where both `__warn_printk()`
+and `__report_bug()` run for the same warning, the hook takes a bool
+parameter: true to increment the suppression counter, false to suppress
+without counting.
 
-Now, for the full MAINTAINERS content, I agree with you. I have
-a patch series here which splits the parsing from the output,
-which allows placing its contents inside a table and with a
-filter javascript [1]. On my view, the output is a lot more
-interesting for readers this way [2].
- 
-> Oh well, one can always hope.  Meanwhile, this seems useful, I've
-> applied it.
+The suppression state is dynamically allocated via kunit_kzalloc() and
+tied to the KUnit test lifecycle via `kunit_add_action()`, ensuring
+automatic cleanup at test exit. Writer-side access to the global
+suppression list is serialized with a spinlock; readers use RCU.
 
-Thanks!
+Three API forms are provided:
+- kunit_warning_suppress(test) { ... }: scoped blocks with automatic
+  cleanup. The suppression handle is not accessible outside the block,
+  so warning counts (if needed) must be checked inside. Multiple
+  suppression blocks are allowed.
+- KUNIT_START/END_SUPPRESSED_WARNING(test): manual macros for larger
+  blocks or post-suppression count checks. Limited to one pair per
+  scope.
+- kunit_start/end_suppress_warning(test): direct functions that return
+  an explicit handle. Use when the handle needs to be retained, or passed
+  across helpers. Multiple suppression blocks are allowed.
+
+This series is based on the RFC patch and subsequent discussion at
+https://patchwork.kernel.org/project/linux-kselftest/patch/02546e59-1afe-4b08-ba81-d94f3b691c9a@moroto.mountain/
+and offers a more comprehensive solution of the problem discussed there.
+
+Changes since RFC:
+- Introduced CONFIG_KUNIT_SUPPRESS_BACKTRACE
+- Minor cleanups and bug fixes
+- Added support for all affected architectures
+- Added support for counting suppressed warnings
+- Added unit tests using those counters
+- Added patch to suppress warning backtraces in dev_addr_lists tests
+
+Changes since v1:
+- Rebased to v6.9-rc1
+- Added Tested-by:, Acked-by:, and Reviewed-by: tags
+  [I retained those tags since there have been no functional changes]
+- Introduced KUNIT_SUPPRESS_BACKTRACE configuration option, enabled by
+  default.
+
+Changes since v2:
+- Rebased to v6.9-rc2
+- Added comments to drm warning suppression explaining why it is needed.
+- Added patch to move conditional code in arch/sh/include/asm/bug.h
+  to avoid kerneldoc warning
+- Added architecture maintainers to Cc: for architecture specific patches
+- No functional changes
+
+Changes since v3:
+- Rebased to v6.14-rc6
+- Dropped net: "kunit: Suppress lock warning noise at end of dev_addr_lists tests"
+  since 3db3b62955cd6d73afde05a17d7e8e106695c3b9
+- Added __kunit_ and KUNIT_ prefixes.
+- Tested on interessed architectures.
+
+Changes since v4:
+- Rebased to v6.15-rc7
+- Dropped all code in __report_bug()
+- Moved all checks in WARN*() macros.
+- Dropped all architecture specific code.
+- Made __kunit_is_suppressed_warning nice to noinstr functions.
+
+Changes since v5:
+- Rebased to v7.0-rc3
+- Added RCU protection for the suppressed warnings list.
+- Added static key and branching optimization.
+- Removed custom `strcmp` implementation and reworked
+  __kunit_is_suppressed_warning() entrypoint function.
+
+Changes since v6:
+- Moved suppression checks from WARN*() macros to warn_slowpath_fmt()
+  and __report_bug().
+- Replaced stack-allocated suppression struct with kunit_kzalloc() heap
+  allocation tied to the KUnit test lifecycle.
+- Changed suppression strategy from function-name matching to task-scoped:
+  all warnings on the current task are suppressed between START and END,
+  rather than only warnings originating from a specific named function.
+- Simplified macro API: removed KUNIT_DECLARE_SUPPRESSED_WARNING(),
+  the START macro now takes (test) and handles allocation internally.
+- Removed static key and branching optiomization, as by the time it
+  was executed, callers are already in warn slowpaths.
+- Link to v6: https://lore.kernel.org/r/20260317-kunit_add_support-v6-0-dd22aeb3fe5d@redhat.com
+
+Changes since v7:
+- Integrated suppression into existing KUnit hooks infrastructure
+- Removed CONFIG_KUNIT_SUPPRESS_BACKTRACE
+- Added suppression check in __warn_printk()
+- Added spinlock for writer-side RCU protection
+- Replaced explicit rcu_read_lock/unlock with guard(rcu)()
+- Added scoped API (kunit_warning_suppress) using __cleanup attribute
+- Updated DRM patch to use scoped API
+- Expanded self-tests: incremental counting, cross-kthread isolation
+- Rewrote documentation covering all three API forms with examples
+- Link to v7: https://lore.kernel.org/r/20260420-kunit_add_support-v7-0-e8bc6e0f70de@redhat.com
+
+--
+2.34.1
 
 ---
+Alessandro Carminati (1):
+      bug/kunit: Core support for suppressing warning backtraces
 
-[1] On such series, I'm creating a table with two rows:
+Guenter Roeck (3):
+      kunit: Add backtrace suppression self-tests
+      drm: Suppress intentional warning backtraces in scaling unit tests
+      kunit: Add documentation for warning backtrace suppression API
 
-        output += ".. _maintainers_table:\n\n"
-        output += ".. flat-table::\n"
-        output += "  :header-rows: 1\n\n"
-        output += "  * - Subsystem\n"
-        output += "    - Properties\n\n"
+ Documentation/dev-tools/kunit/usage.rst |  63 ++++++++++-
+ drivers/gpu/drm/tests/drm_rect_test.c   |  23 +++-
+ include/kunit/test-bug.h                |  25 +++++
+ include/kunit/test.h                    | 138 ++++++++++++++++++++++++
+ kernel/panic.c                          |  15 ++-
+ lib/bug.c                               |  10 ++
+ lib/kunit/Makefile                      |   4 +-
+ lib/kunit/backtrace-suppression-test.c  | 184 ++++++++++++++++++++++++++++++++
+ lib/kunit/bug.c                         | 115 ++++++++++++++++++++
+ lib/kunit/hooks-impl.h                  |   2 +
+ 10 files changed, 571 insertions(+), 8 deletions(-)
+---
+base-commit: 80234b5ab240f52fa45d201e899e207b9265ef91
+change-id: 20260312-kunit_add_support-2f35806b19dd
 
-        self.state.document['maintainers_included'] = True
+Best regards,
+-- 
+Albert Esteve <aesteve@redhat.com>
 
-        for name, fields in maint_parser.maint_entries.items():
-            output += f"  * - {name}\n"
-
-            tag = "-"
-            for field, lines in fields.items():
-                field_name = maint_parser.fields.get(field, field)
-
-                output += f"    {tag} :{field_name}:\n        "
-                output += ",\n        ".join(lines) + "\n"
-                tag = " "
-
-            output += "\n"
-
-   Which is a lot easier to read than the current output, and adding
-   a small javascript that allows filtering entries, based at the
-   contents of either subsystem or properties. That should help
-   readers to seek for things they're interested.
-
-   I considered ordering it by subsystems, and did some tests with that,
-   but at the final version I ended removing.
-
-   The main issue is that MAINTAINERS entries aren't grouped by
-   subsystems. Also, we don't have any field to identify to what 
-   subsystem each entry belongs.
-
-   Using the mailing list field helps to have something close enough,
-   while being fast. Even so, some caveats are needed, as:
-
-   1) several entries contain multiple ML entries, which may include:
-      - subsystem ML;
-      - LKML;
-      - driver-specific ML;
-      - vendor-specific ML.
-
-   2) several entries have only LKML.
-
-   For the purpose of grouping such entries, even after filtering out LKML,
-   due to (1), hints are needed to try to pick subsystem ML. Perhaps the
-   best hint is to check if the entry is @kernel.org, which works reasonably
-   well. Yet, not all subsystems have its ML there.
-
-   I also considered sorting them by the number of files, using iglob 
-   to calculate it. That would help to place the subsystem first, followed
-   by subsystem drivers, and this is fast enough with my nvme disks but 
-   this could slow kernel builds on mechanical HDs.
-
-   So, I suspect that, if we want to have something more structured,
-   the first step would be to do some rework at the MAINTAINERS file.
-
-[2] I need some time to check if are there any regressions
-    on the patch that splits the logic.
-
-Regards,
-Mauro
