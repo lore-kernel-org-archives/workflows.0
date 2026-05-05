@@ -1,101 +1,149 @@
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 447601DF27D
-	for <workflows@vger.kernel.org>; Mon,  4 May 2026 20:58:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DDDA3E8678;
+	Tue,  5 May 2026 07:46:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777928312; cv=none; b=VOjoHhFf08cjT0xl+xnUa54wLbjpsKkq+x9SC+LtF3wEFiRWfSRIuyy7kLxNl/iZdke1LKhod8ssbJzvV7Fsc0ifaIKstNucTXR3GU5roWlt1Oaoun0jqK991bOPwEbmEv4CJNY55Nq/g0f+sRLh+UMyLEnbIdYf4+U0cnGttmo=
+	t=1777967169; cv=none; b=eyyD6h4DMoqAMp8TVUgMh2jCVa/ESzgd+ukmszitnzxm0IZA8HdYDZ300vaAYP1FIfzItZCsIrrSYQ5yozT27Z+OiEiNTIy/iR4qmN0RBN1L712cBSlDVU5mODprNCCAzfbRZhCBQKkGkMYJQsO+ySQecuGMxP6gv5CilcMVNu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777928312; c=relaxed/simple;
-	bh=AnHqmTk7h+qZbfpUtv/6QvkRxKkNv38kGyl2d1Y1klo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DUAWuImivCdnKsYd8t/i0NiJh9MGDCqgRtYvTRfXKCrqDhNX7kzjPivvawcq5H0G7tQjjcAibAxQMTuiaRBUGcOO92FU2820EGODcSfHL3Khgzrk5pyBGJ9ImA3N7k+wkWj7NFHEXOJABneunyPOEJmZCRnDKhSm3x9PY5+yBVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CIfgjEuW; arc=none smtp.client-ip=209.85.160.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1777967169; c=relaxed/simple;
+	bh=JT5wMT1sCsg0RU/PTayQKO84i81hI2p6dfYOztR/VGk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Disposition; b=ppxdzTSkktrrTz6O8PzSDZPvdBngeWc4RIakhe7NzT5+dhbIaCuPrT1IPZWB+F4Phf8z6h31TeGdXzLgpvek7WJ5wzI9bwYiYso7QSGfCrMlw3heN7BNNKT1wWxNwT6bQTCL3BVxsAHrdav/nZFDanT2ZlivxTfrv2ELkEsqjnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g+GB989b; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CIfgjEuW"
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-42c0b0ffac1so1804808fac.2
-        for <workflows@vger.kernel.org>; Mon, 04 May 2026 13:58:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1777928308; x=1778533108; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0amaTMBgDEgs3tF4RCm1e9Dle/WjpaIw0roTFTHbcEU=;
-        b=CIfgjEuWFXT2dSbfPdLSygsJ1jexgKi2KKMddjnqAn9oA6KqvICrx/50cpA6l8Cgbp
-         BvIQKVLfJgKfURSIkO9tlO6DZHBKsJ/iuMQ4cLFsh5bzIfLNRJdzrdA1FVNRyCZBPWYu
-         lzD+ex9/GsrtRnyjrgHIufY42K/K+Gp9ue+gI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777928308; x=1778533108;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0amaTMBgDEgs3tF4RCm1e9Dle/WjpaIw0roTFTHbcEU=;
-        b=IZuJ45GqT8yCEP8RvkzHx7LyBlGaYgmsmS1BCoN7X5q4yX5qOUD/QkqjR7oN/VMgen
-         fDfRFFAwNmJF3M2sul9p3czE5fwjBI1cak2BS2HinaEgni3QYKuEhmVjWNoNWU4pUnIH
-         FuWNwdcy+18lUiUCmdapg3H9dfo9xkAC2rAox0XYuR5ZhhXSy0u8ACJwWNA1EpMzy9mu
-         nWehwyHEXXAz83K14ZZBR66BfGe9aLsxO23rbrm3tez31TA3N286JdSdiABPt8rv57Za
-         CMrKVZXWJXT9APzpN3sEp14PwcMVsFXelYb3niAcgD+ZpSXcJyxRYzjnAGgVrj+ANoL5
-         pAmA==
-X-Forwarded-Encrypted: i=1; AFNElJ9z0dEuZzPoi0ukJZ9A1fBkxIHUPZl0dyn3yKR9jWGcycs/doUaOHW6rz/+HnH1CEfyiY+sUkjqDyk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YycFPlzsqLdXcy/1sIrygU9711Amjf21KYPV/2XaZbYdrwSgOQm
-	DPvWwO1OU5/kqO0DVo0+16vPQJw+Yq6JYW/6Yjw4vYvdtSAKhxL1QAZxKXAImwfrbn0=
-X-Gm-Gg: AeBDiet3SH68ApOLbUe4pu3pJh8nnw7ujyEQs8vnlqO7Lrorm0rFk4Ob6vFW2DojSMC
-	J17lOebqO1LXNnHlhgmNTMMW8sTGtrHq1F7sQU+8Gp9DjHUG7bkbx0SUSQHM8aWMiGMW23SbVAX
-	OwZIgk3TYapBU5TUNVodOBQEW8l1UY6U10XkkfFHr/77XDcEQJr400PRadWZU0xEh8DVuvIr0ZE
-	k/v8kKEKhYdbAonuYX2rFE+rKt5jOt+BRxwIJD1m7+nG1sekYb3lyC5L2GS+Gc7fEnmSjzEnb7i
-	OEmRKsFptdtZEUHOZG467FVX+PKMqIh63gipVEbjMQaLkGHSgRkZvXfpXa5R/a+vcXPIwbyMR0S
-	yeKCrLjdI1Jd884G8wnNmkG3TIlx4jYyDgiNn/E9TMzonQif4/5Mhn5DmFvIig6iiKbvRMNAG1q
-	oh3HXLEGEzn5wAHyFOUInUy70TKE06A9f3UVagYB+/Rg==
-X-Received: by 2002:a05:6870:1776:b0:42c:ecc9:58b3 with SMTP id 586e51a60fabf-434760613c0mr6278794fac.10.1777928308251;
-        Mon, 04 May 2026 13:58:28 -0700 (PDT)
-Received: from [192.168.1.14] ([38.15.57.99])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-43454cbbbd7sm10977170fac.10.2026.05.04.13.58.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 May 2026 13:58:27 -0700 (PDT)
-Message-ID: <444d823c-40d0-4c14-ac8e-4f810a5a2f04@linuxfoundation.org>
-Date: Mon, 4 May 2026 14:58:27 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g+GB989b"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3116CC2BCB4;
+	Tue,  5 May 2026 07:45:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777967167;
+	bh=JT5wMT1sCsg0RU/PTayQKO84i81hI2p6dfYOztR/VGk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=g+GB989b1D6WCa0QN/ERbitOY7ZApGccfMd3uN+3EpYnDIfoQXsV/jhmUsDNjIpzx
+	 ymirHWum/1CD3WruoXTSUKcAg6tLryb69b2SMiLN59SpNlSfG2hmfc6JrIl+oqa+vU
+	 OC/yLYIE4+JmJoiymWsQZTnkfD9x7q8/EuZojKVf0+XQkttuc2MjS/clz35NXizRWW
+	 rEE8sO0pTdHGOoF0qsrCKCaWZOLEGHJorufkc8gWCTLBlBiVUgzc2fQW2h8BXGuMnk
+	 DAXrRABEIctXv69kQb/FnL5lNPO8xPZx0NPV/V+yQjX8p8A2E4a53Dm/r3ZLxzE4Wf
+	 dCCYR0zGPDdSA==
+From: Sasha Levin <sashal@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Sasha Levin <sashal@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	workflows@vger.kernel.org,
+	tools@kernel.org,
+	x86@kernel.org,
+	Thomas Gleixner <tglx@kernel.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Cyril Hrubis <chrubis@suse.cz>,
+	Kees Cook <kees@kernel.org>,
+	Jake Edge <jake@lwn.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Askar Safin <safinaskar@zohomail.com>,
+	Gabriele Paoloni <gpaoloni@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH v3 1/9] kernel/api: introduce kernel API specification framework
+Date: Tue,  5 May 2026 03:45:40 -0400
+Message-ID: <20260505074545.430334-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <177726106581.2478607.12645653803520391071.b4-review@b4>
+References: <20260424165130.2306833-1-sashal@kernel.org> <20260424165130.2306833-2-sashal@kernel.org> <177726106581.2478607.12645653803520391071.b4-review@b4>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: kselftest: Document the FORCE_TARGETS build
- variable
-To: =?UTF-8?Q?Ricardo_B=2E_Marli=C3=A8re?= <rbm@suse.com>,
- Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20260417-selftests-docs-v1-1-32e4a78214eb@suse.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20260417-selftests-docs-v1-1-32e4a78214eb@suse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-On 4/17/26 11:36, Ricardo B. Marlière wrote:
-> FORCE_TARGETS has been part of the kselftest build system for
-> some time but is absent from the developer documentation. Without
-> an entry here, users relying on kselftest in CI pipelines would
-> have to read the selftests Makefile directly to discover the
-> option.
-> 
-> A build that exits zero despite some targets failing can mask
-> real breakage and mislead automated systems into reporting
-> success. Add a dedicated section so that CI authors can easily
-> find and adopt FORCE_TARGETS=1 to turn such silent partial
-> failures into hard errors.
-> 
-> Signed-off-by: Ricardo B. Marlière <rbm@suse.com>
-> ---
+On Sun, Apr 26, 2026 at 11:37:45PM -0400, Nathan Chancellor wrote:
+> On Fri, 24 Apr 2026 12:51:21 -0400, Sasha Levin <sashal@kernel.org> wrote:
+> > diff --git a/kernel/Makefile b/kernel/Makefile
+> > index 6785982013dc..564315153643 100644
+> > --- a/kernel/Makefile
+> > +++ b/kernel/Makefile
+> > @@ -59,6 +59,9 @@ obj-y += dma/
+> >  obj-y += entry/
+> >  obj-y += unwind/
+> >  obj-$(CONFIG_MODULES) += module/
+> > +obj-$(CONFIG_KAPI_SPEC) += api/
+> > +# Ensure api/ is always cleaned even when CONFIG_KAPI_SPEC is not set
+> > +obj- += api/
 >
-Thanks Ricardo. I applied it to linux-kselftest next branch.
+> If $(CONFIG_KAPI_SPEC) is not set, shouldn't
+>
+>   obj-$(CONFIG_KAPI_SPEC) += api/
+>
+> evaluate to
+>
+>   obj- += api/
+>
+> anyways? Why the duplication? This is the only place in the kernel where
+> this would be needed?
 
-thanks,
--- Shuah
+You are right, the explicit "obj- += api/" is redundant. Nicolas pointed
+to scripts/Makefile.clean which already evaluates obj- during
+'make clean', so the conditional gate alone is sufficient. Dropped in
+v4.
+
+> > diff --git a/kernel/api/.gitignore b/kernel/api/.gitignore
+> > new file mode 100644
+> > index 000000000000..ca2f632621cf
+> > --- /dev/null
+> > +++ b/kernel/api/.gitignore
+> > @@ -0,0 +1,2 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only
+> > +/generated_api_specs.c
+>
+> This appears unused?
+
+Correct, leftover from an earlier prototype that generated a single
+combined .c file. Nothing in the current series produces
+generated_api_specs.c, so the .gitignore is removed entirely in v4.
+
+> > diff --git a/kernel/api/Kconfig b/kernel/api/Kconfig
+> > new file mode 100644
+> > index 000000000000..d1072728742a
+> > --- /dev/null
+> > +++ b/kernel/api/Kconfig
+> > @@ -0,0 +1,77 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only
+> > +#
+> > +# Kernel API Specification Framework Configuration
+> > +#
+> > +
+> > +config KAPI_SPEC
+> > +	bool "Kernel API Specification Framework"
+> > +	default n
+>
+> I think 'default n' is tautological since 'n' is the default for all
+> bool symbols. Consider dropping it on all symbols throughtout this file.
+
+Dropped from KAPI_SPEC, KAPI_RUNTIME_CHECKS, and KAPI_SPEC_DEBUGFS in
+v4. KAPI_KUNIT_TEST already uses "default KUNIT_ALL_TESTS" and is left
+unchanged.
+
+Thanks for the review!
+
+--
+Thanks,
+Sasha
