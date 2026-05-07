@@ -1,104 +1,106 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4CDF29ACCD;
-	Thu,  7 May 2026 07:14:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30DCC3EC2F5
+	for <workflows@vger.kernel.org>; Thu,  7 May 2026 15:37:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778138067; cv=none; b=URFha2OOgktcKrZR81DVgTpGK5viIdemkgAknalO8ra3PlDKbZiMUkHn35b4QxfgFrTKhmX5MQae58RJ4NMoKS59kyFotIYnNMQjOSk/o3QFrOjoUuSv/Zna+ROIlyI/PFm4YNl5Ct9RifIi63Q425RlWZp+5yHTidTzBXXOrBg=
+	t=1778168272; cv=none; b=RTtXpW8hOQX1dEX70aYOvl4YiTSsdM6fyAqufHurfvjAn6wrXyqmF3U47zWvOYnXIQPluGEZQ9stjyftgjAzk+9uRNa3ahYcD/baRQcd+TX66PuRR8jfv+fsjFJmgiFm9PruXwigIaruBRns2t0ajl0e0e7/mXe2O/DjzUS6FE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778138067; c=relaxed/simple;
-	bh=sfzUWyFFEcE2Y45OBZlR+P5Ex9YeL7EpMGzBNOcsJYA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gFZUSNMmcgzjScwl9egA4qGGB3VVpkIoM4ls+Ncs3imr9RWBvH6/bHP/K9O0V2JO0IBaw7SxUzpb7TIR+N873irEUUMcqcAZlBxwEz5RNs9qrzKT670aQW/xf08gExC3hkXECvBZ3RBbMpKK7iXfv47MGjVlrPFv/Q5+nPf4gLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=AgvroNTu; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1778168272; c=relaxed/simple;
+	bh=4z1LA7620U3bIFCQ0fVra8G03PXRuuNdedi4Umdt+x8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OvbtdoZ3ZYmxyGfym+M7p7LdTF3JXPSsRcN5g8EDfAS2VcRcU6EjBfMSRDh/DMkqBpvBu8OoCdfzz9somQwoTq7zEBoDKJzM8tjQAcDq5wFUM6k+/AOqiBG3rZdDFIrDbziovoJPX6oG7xzueFXsdUFTiVDYeYnXkj0BcqUMeD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=AWCD9LTe; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AgvroNTu"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=lCBUz6OTC9OMEfsbs0YD70bMJfL1qeVOQYEJQKKBxdc=; b=AgvroNTuaguGlHdaG+Mlh6sqRW
-	e3Yk+SyUT7f5yAEejQvLxnyE+ipORDMkkXENRZPXfQzhKuUPMAjhyfr1lDu+y2+YUMnD8ldebO01n
-	6cZ7+rmGtDjEp2N3cTt7DPOYXzhETLKop4U/1qFIg+Q8oVDpuzcc1XH73q6WD9CkcI01CL4AFxg8U
-	ygON2NZSsVDg3xJLQrStzt0NR7TIP+DhVVIowVPlB7k1EVQgybglV01j0owNQp1duGpsVtgL7t2wo
-	ja/vgCHVl7ozeeWJuF8vfNjnXmE1GmiMqlES6jkOj2m7G7S8aC1VyBJsykQhrICq3ALYli0bq+zwk
-	JJXuXf1A==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wKsw0-00000002mUx-3phW;
-	Thu, 07 May 2026 07:14:16 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 5A4783008D6; Thu, 07 May 2026 09:14:12 +0200 (CEST)
-Date: Thu, 7 May 2026 09:14:12 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Willy Tarreau <w@1wt.eu>
-Cc: Linus Torvalds <torvalds@linuxfoundation.org>, greg@kroah.com,
-	leon@kernel.org, security@kernel.org,
-	Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v2 2/3] Documentation: security-bugs: explain what is and
- is not a security bug
-Message-ID: <20260507071412.GH3126523@noisy.programming.kicks-ass.net>
-References: <20260503113506.5710-1-w@1wt.eu>
- <20260503113506.5710-3-w@1wt.eu>
- <CAHk-=wi6z5BGUUT2p+=qrJg+obom8VnCo3MqB=7xp3Gw+UMMkg@mail.gmail.com>
- <aftmB435XJ8FP3V_@1wt.eu>
- <afwSk3BC8mewPfPp@1wt.eu>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="AWCD9LTe"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-bb91b426e40so167010666b.0
+        for <workflows@vger.kernel.org>; Thu, 07 May 2026 08:37:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1778168268; x=1778773068; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=3SFbYQj7gvmgabkGYv4xpzYjp9xPOKffoC2RtE/vgGY=;
+        b=AWCD9LTe3lqVOcNfIo+3qfu9JFUhEI+5DJR7rbcT7WRiUOE5TIThQzbFJEXvbXnx4o
+         Yo/qCz/edBoZWfQQaDqiZkesDQTmbi/d/N1m1pDA4+Y3HcQUW/3N7Ev2U6l1f9myQPOb
+         2nbsmmmEv+/N7oglHUvGKGpSyk0/y2a1ttQ1w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778168268; x=1778773068;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3SFbYQj7gvmgabkGYv4xpzYjp9xPOKffoC2RtE/vgGY=;
+        b=YNCVzzNmrmE3uuCk/mCRsmRxvR0jD12lzKCqXjbYWoBVBWOMa5ott+hy2OI1MqsE8a
+         9O8peVB2QJqgPNMyDowMZocZPjikOOobxSB2kFJCMWfivAsfY8ghb/ivoskNmA0AMwSq
+         BKWnI+c5fqAfgvjB4xbl8y12nO4fCF+MT1gbtTdKsRP6ItTuGXIqy5RFfOF52VpXYVOi
+         ThTBMZvZ/Q5SUAMQg+sFTh7j7SEjfAJID0mrE3tcnAyBdleMA9gTIrQBUqWdeUyyH6NV
+         VebU3B5y3c21vWDjJYHp4/8fmK1lbfheYK0RFX35neuSSXSLsKweW/TBalRjNcPZojSF
+         g32w==
+X-Forwarded-Encrypted: i=1; AFNElJ/uPq/3L+HBR3JQ8N+LJSYp/+Su9Yaxsr/aayTjByLMV2uPdVPiB1x/xtdsgFA4p9YNtO6nq5F4z0Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxT/llASsNZ5mYCHbvpioGRtaWhcoptOCK9b0jKg0Uy6WU8lTi/
+	IalqmxLJlZYEiexs1DPTC3Ny4mKJc++3YQMN5Iquhp1jYpBwJQPQxfXBl8O6taOXtTGzlGRbp3L
+	EPUjgA6E=
+X-Gm-Gg: AeBDies/HPHiCn+wxhoms4OPUm8gV3QjeDolueQ6VrCO3qgXcwlJ9wJ1/LGbzJZ9lBt
+	v1PLUKEfKsC1L+W+E1qlRUqjY0ze5fslh7/6bs/xyA1Qdvfv/Cm5EbnwxmwbDwzjNWa+lYRrix0
+	o1j8Fla7oQZqcUfiYPIuvgrh80bGQ0qK9USepgRBu5f+8tsXHhmMUvdVEHsJws01Eet32cfbVCd
+	Hp1s5uInnMeBp0BqMq3MoUVsAhPOWfqIpn4N/wpsGNtyxqJilou/2+zVcF3KdInN7RbLgALtO+w
+	7u8jh5SlLti9QVdKHNqKJOcauxzB+T5/nslL1fESqiOAUyHTWXv4G8W0HOaytvbScrey8Ge+iCT
+	pclo/OvotmX4rt660gjM6qrnIEL1TIGgnAt3foXSrVxcdUVdr7bWJPke7kn/6LgtMuBy/ZYw2sj
+	DZn4hkLnCZW1WOab6/gvg20W5WelZ1lFGOKvOX+a+tPCj4+GlnkwnKp3We7Cx0IFBEsEx8OTp/Y
+	ktmdZU2fQ==
+X-Received: by 2002:a17:907:fdcb:b0:b9d:3e5e:fd32 with SMTP id a640c23a62f3a-bc56a6498c3mr504699066b.8.1778168268144;
+        Thu, 07 May 2026 08:37:48 -0700 (PDT)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com. [209.85.218.50])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bca53dd7034sm2468466b.3.2026.05.07.08.37.46
+        for <workflows@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 May 2026 08:37:46 -0700 (PDT)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-bb91b426e40so166999866b.0
+        for <workflows@vger.kernel.org>; Thu, 07 May 2026 08:37:46 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9D5Itcdmul0nXBZu+jbDUWp1lIzJrOMolsDBWGg1hY4nCl6a+5S9GeqCEYZna4IcD/PypM2dxjzzo=@vger.kernel.org
+X-Received: by 2002:a17:907:3e8c:b0:bc2:b202:eaf3 with SMTP id
+ a640c23a62f3a-bc56a6493c1mr490879266b.4.1778168265932; Thu, 07 May 2026
+ 08:37:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <afwSk3BC8mewPfPp@1wt.eu>
+References: <20260503113506.5710-1-w@1wt.eu> <20260503113506.5710-3-w@1wt.eu>
+ <CAHk-=wi6z5BGUUT2p+=qrJg+obom8VnCo3MqB=7xp3Gw+UMMkg@mail.gmail.com>
+ <aftmB435XJ8FP3V_@1wt.eu> <20260507070720.GG3126523@noisy.programming.kicks-ass.net>
+In-Reply-To: <20260507070720.GG3126523@noisy.programming.kicks-ass.net>
+From: Linus Torvalds <torvalds@linuxfoundation.org>
+Date: Thu, 7 May 2026 08:37:29 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whE=rLLbBRsFuQKVX49NgN2UUdUE=Druf3fiSZ9Ou8c3Q@mail.gmail.com>
+X-Gm-Features: AVHnY4It7F_ZiVU3gWouldUT6m56NTwQHgBU0JJIDr0fU-oIC_OgJy_afcjmuto
+Message-ID: <CAHk-=whE=rLLbBRsFuQKVX49NgN2UUdUE=Druf3fiSZ9Ou8c3Q@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] Documentation: security-bugs: explain what is and
+ is not a security bug
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Willy Tarreau <w@1wt.eu>, greg@kroah.com, leon@kernel.org, security@kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Greg KH <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, May 07, 2026 at 06:18:27AM +0200, Willy Tarreau wrote:
+On Thu, 7 May 2026 at 00:07, Peter Zijlstra <peterz@infradead.org> wrote:
+>
+> Perhaps also note that including a reproducer for a crash in public is
+> fine, including a full blown exploit is not.
+>
+> So perhaps that can serve as a guide
 
-> Another point is that for many vulns there are two types of adversaries:
->   - criminals
->   - script kiddies
-> 
-> The former must be assumed to also have discovered the same vuln, possibly
-> earlier, and to be actively exploiting it. The latter however, is just
-> going to use whatever published exploit to say "look mum, I'm root".
-> Public reports containing too many details will speed up usability for
-> this group and that's not good for users.
-> 
-> And we *know* that some reports contain working PoC that need very little
-> modification. Passing them through s@k.o for triaging feels safer than
-> directing them to public lists with no early validation.
-> 
-> So in short, I think that:
->   - AI reports should be considered public, but not necessarily well known
->     yet
->   - AI reports often contain repros that shouldn't be posted publicly
+That would be a good rule, I think - and I like how it has the
+advantage of being very explicit and black-and-white, rather than some
+"I think my bug is so important that it should be sent to the speshul
+super-sikret list".
 
-So, I think a targeted repro that exposes just the initial bug is in
-most cases useful and shouldn't be held back. Full blown exploits on the
-other hand should definitely be kept from the public list.
+Because we all think we are special. Our mothers told us so, and even
+the AI bots are typically explicitly told to act as experts. So they
+think they are special too.
 
-Most times, it still takes skill to get from the former to the latter,
-although I suppose with LLMs this gap is shrinking too.
-
->   - AI reports wording can be intimidating to developers not used to
->     receiving these things
-> 
->  -> the security team should remain the first filtering layer for this
->     for new reporters even if it means continuing to see some noise.
->     I think that instead it's the 3rd patch about the threat model that
->     should help us receive less noise by explaining what is not a
->     vulnerability.
-> 
-> I can rework that part a bit to reflect this.
-
-Yes, I think that covers my earlier point well. And yes AI babble should
-be sanitized, both for brevity and for explaining how to do the rest of
-the exploit :-)
-
-
+              Linus
