@@ -1,38 +1,38 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9846331A41;
-	Thu,  7 May 2026 07:07:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4CDF29ACCD;
+	Thu,  7 May 2026 07:14:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778137649; cv=none; b=ndVYexNKJG/D/fW4fHCClgRh8clAt6yy9kH2OoSGJ+Q4kckUH85tVMaimSuNfrsphylwqowRIo9whx/iC+VPcHf8DJL6DWZulSASwElov4MG7TxgjCLL2MaSoWv+AYXfbUmCr1JETTnN3O01IOllbyMojUlbCJL9LUwUwfib6Sw=
+	t=1778138067; cv=none; b=URFha2OOgktcKrZR81DVgTpGK5viIdemkgAknalO8ra3PlDKbZiMUkHn35b4QxfgFrTKhmX5MQae58RJ4NMoKS59kyFotIYnNMQjOSk/o3QFrOjoUuSv/Zna+ROIlyI/PFm4YNl5Ct9RifIi63Q425RlWZp+5yHTidTzBXXOrBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778137649; c=relaxed/simple;
-	bh=ESmE7eblFvNRQf0q2NVO+XAo76p6O/u7IC8Vm2QNK6g=;
+	s=arc-20240116; t=1778138067; c=relaxed/simple;
+	bh=sfzUWyFFEcE2Y45OBZlR+P5Ex9YeL7EpMGzBNOcsJYA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XL58zCN6cIiZG9GWubTg2GG4e1tJ4bl3hV6Ejy5tnN4OhnTwv/BY7s8UrjZQZva+l4o368EYKa4E6QBFLpwc86/Kjmltsv2ioWwMQl/rEH3F/TaByROJ9iIshnRfeYEIrTEAehUE4RaWgANk2lEU3GIjsdNfaf5YLDI7emCHNNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Bp3HV9gv; arc=none smtp.client-ip=90.155.50.34
+	 Content-Type:Content-Disposition:In-Reply-To; b=gFZUSNMmcgzjScwl9egA4qGGB3VVpkIoM4ls+Ncs3imr9RWBvH6/bHP/K9O0V2JO0IBaw7SxUzpb7TIR+N873irEUUMcqcAZlBxwEz5RNs9qrzKT670aQW/xf08gExC3hkXECvBZ3RBbMpKK7iXfv47MGjVlrPFv/Q5+nPf4gLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=AgvroNTu; arc=none smtp.client-ip=90.155.92.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Bp3HV9gv"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AgvroNTu"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=172uLBt7pvqX3Oeco3DVtUK+J1WNUb8fZqxlluFT69E=; b=Bp3HV9gvwOlTE/9uLwhslKJe9N
-	OuLkZ3g2YqHb4ahVikhdDH8a15mP1PDoJdb703sx9pIN+OATV+xBkEGNp2gBc/E/gRt1QqCSLb1M5
-	qRNj2Fm7aNpjxjXQJucxLqP7P+QeUUQWRq7QYu4MzMtEdW3WAcjvrmzxPImhTsnS7xeoa6LoKeGSz
-	LxBkyjl6JdoqufQlNZEhpctzYioOtJSe+flI/bCpSjCvl3dnv54vaOWmvalKZEL5LuS2D6Jtfpm4Y
-	ngjW340rY2/JyCAAujMxP8S+rXaefbzufw4or0Uv3EpZpD1RApGT23YfksflqHkT8cuRQZq7eXEZz
-	No3Pm3vA==;
+	bh=lCBUz6OTC9OMEfsbs0YD70bMJfL1qeVOQYEJQKKBxdc=; b=AgvroNTuaguGlHdaG+Mlh6sqRW
+	e3Yk+SyUT7f5yAEejQvLxnyE+ipORDMkkXENRZPXfQzhKuUPMAjhyfr1lDu+y2+YUMnD8ldebO01n
+	6cZ7+rmGtDjEp2N3cTt7DPOYXzhETLKop4U/1qFIg+Q8oVDpuzcc1XH73q6WD9CkcI01CL4AFxg8U
+	ygON2NZSsVDg3xJLQrStzt0NR7TIP+DhVVIowVPlB7k1EVQgybglV01j0owNQp1duGpsVtgL7t2wo
+	ja/vgCHVl7ozeeWJuF8vfNjnXmE1GmiMqlES6jkOj2m7G7S8aC1VyBJsykQhrICq3ALYli0bq+zwk
+	JJXuXf1A==;
 Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wKspN-00000002RFf-1xEg;
-	Thu, 07 May 2026 07:07:21 +0000
+	by desiato.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wKsw0-00000002mUx-3phW;
+	Thu, 07 May 2026 07:14:16 +0000
 Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id CFADB3008D6; Thu, 07 May 2026 09:07:20 +0200 (CEST)
-Date: Thu, 7 May 2026 09:07:20 +0200
+	id 5A4783008D6; Thu, 07 May 2026 09:14:12 +0200 (CEST)
+Date: Thu, 7 May 2026 09:14:12 +0200
 From: Peter Zijlstra <peterz@infradead.org>
 To: Willy Tarreau <w@1wt.eu>
 Cc: Linus Torvalds <torvalds@linuxfoundation.org>, greg@kroah.com,
@@ -42,11 +42,12 @@ Cc: Linus Torvalds <torvalds@linuxfoundation.org>, greg@kroah.com,
 	linux-kernel@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>
 Subject: Re: [PATCH v2 2/3] Documentation: security-bugs: explain what is and
  is not a security bug
-Message-ID: <20260507070720.GG3126523@noisy.programming.kicks-ass.net>
+Message-ID: <20260507071412.GH3126523@noisy.programming.kicks-ass.net>
 References: <20260503113506.5710-1-w@1wt.eu>
  <20260503113506.5710-3-w@1wt.eu>
  <CAHk-=wi6z5BGUUT2p+=qrJg+obom8VnCo3MqB=7xp3Gw+UMMkg@mail.gmail.com>
  <aftmB435XJ8FP3V_@1wt.eu>
+ <afwSk3BC8mewPfPp@1wt.eu>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -55,46 +56,49 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aftmB435XJ8FP3V_@1wt.eu>
+In-Reply-To: <afwSk3BC8mewPfPp@1wt.eu>
 
-On Wed, May 06, 2026 at 06:02:15PM +0200, Willy Tarreau wrote:
-> Hi Linus,
-> 
-> On Wed, May 06, 2026 at 08:46:07AM -0700, Linus Torvalds wrote:
-> > [ Coming back to this after a week of trying to clean up the disaster
-> > that is my inbox after the merge window ]
-> > 
-> > On Sun, 3 May 2026 at 04:35, Willy Tarreau <w@1wt.eu> wrote:
-> > >
-> > > The use of automated tools to find bugs in random locations of the kernel
-> > > induces a raise of security reports even if most of them should just be
-> > > reported as regular bugs. This patch is an attempt at drawing a line
-> > > between what qualifies as a security bug and what does not, hoping to
-> > > improve the situation and ease decision on the reporter's side.
-> > 
-> > I actually think we may want to go further than this.
-> > 
-> > I think we should simply make it a rule that "a 'security' bug that is
-> > found by AI is public".
-> 
-> This would definitely help us a lot on sec@k.o, but...
-> 
-> > Now, I may be influenced by that "my inbox is a disaster during the
-> > merge window" thing, but I do think this is pretty fundamental: if
-> > somebody finds a bug with more or less standard AI tools (ie we're not
-> > talking magical special hardware and nation-state level efforts), then
-> > that bug pretty much by definition IS NOT SECRET.
-> 
-> I think it's only 99.9% true. I mean, I've used such tools myself to
-> find bugs that were not found otherwise and I know that:
->   - interactions with the tools count a lot
->   - luck counts even more
+On Thu, May 07, 2026 at 06:18:27AM +0200, Willy Tarreau wrote:
 
-Perhaps also note that including a reproducer for a crash in public is
-fine, including a full blown exploit is not.
+> Another point is that for many vulns there are two types of adversaries:
+>   - criminals
+>   - script kiddies
+> 
+> The former must be assumed to also have discovered the same vuln, possibly
+> earlier, and to be actively exploiting it. The latter however, is just
+> going to use whatever published exploit to say "look mum, I'm root".
+> Public reports containing too many details will speed up usability for
+> this group and that's not good for users.
+> 
+> And we *know* that some reports contain working PoC that need very little
+> modification. Passing them through s@k.o for triaging feels safer than
+> directing them to public lists with no early validation.
+> 
+> So in short, I think that:
+>   - AI reports should be considered public, but not necessarily well known
+>     yet
+>   - AI reports often contain repros that shouldn't be posted publicly
 
-So perhaps that can serve as a guide; if they went and put in the effort
-of making a full exploit (with or without LLM aid), keep it on security,
-otherwise do the public thing.
+So, I think a targeted repro that exposes just the initial bug is in
+most cases useful and shouldn't be held back. Full blown exploits on the
+other hand should definitely be kept from the public list.
 
-And yes, I realize this too might be a very thin/short rope.
+Most times, it still takes skill to get from the former to the latter,
+although I suppose with LLMs this gap is shrinking too.
+
+>   - AI reports wording can be intimidating to developers not used to
+>     receiving these things
+> 
+>  -> the security team should remain the first filtering layer for this
+>     for new reporters even if it means continuing to see some noise.
+>     I think that instead it's the 3rd patch about the threat model that
+>     should help us receive less noise by explaining what is not a
+>     vulnerability.
+> 
+> I can rework that part a bit to reflect this.
+
+Yes, I think that covers my earlier point well. And yes AI babble should
+be sanitized, both for brevity and for explaining how to do the rest of
+the exploit :-)
+
+
