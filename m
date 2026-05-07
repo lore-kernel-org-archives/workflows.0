@@ -1,40 +1,48 @@
-Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 758761CFBA;
-	Thu,  7 May 2026 04:18:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9846331A41;
+	Thu,  7 May 2026 07:07:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778127513; cv=none; b=HFSdCvfA+zoFdRoCEXpI8Ia5A7yJuGc9TSeN71F69AVyuacBSNnQL/uuq2SuLGuKLVpLVwlcmavThf3vZiuEvIaMk1ts/Ca7kcCENSHYLzrpIGSjkvTRQWds1PM2n00ITlidR2dBYREcMYp7whTXylIVN78w4FhywUeIXBURJpY=
+	t=1778137649; cv=none; b=ndVYexNKJG/D/fW4fHCClgRh8clAt6yy9kH2OoSGJ+Q4kckUH85tVMaimSuNfrsphylwqowRIo9whx/iC+VPcHf8DJL6DWZulSASwElov4MG7TxgjCLL2MaSoWv+AYXfbUmCr1JETTnN3O01IOllbyMojUlbCJL9LUwUwfib6Sw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778127513; c=relaxed/simple;
-	bh=nE8pEYUjJ3MQ9dJLwmhhz1cUJNV6CC+sW+5G3m53hqQ=;
+	s=arc-20240116; t=1778137649; c=relaxed/simple;
+	bh=ESmE7eblFvNRQf0q2NVO+XAo76p6O/u7IC8Vm2QNK6g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ahei0k7ug+zudhXWk65RdMzF3L86VRDHrTxma1TVnMBvrdBp0LD1OFu68ci9w3in4jQ2c8hL0H8BA8cqGA37sHOEHmZcVE8GsbWUwO9KVvqxXNdpZi2qJcWNCrHaCWh/KFdm2q0G9xvx2D/Qek+9mGMgAd+NfHurc6PbOmRjzXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=exbUtlAm; arc=none smtp.client-ip=51.159.59.229
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
+	 Content-Type:Content-Disposition:In-Reply-To; b=XL58zCN6cIiZG9GWubTg2GG4e1tJ4bl3hV6Ejy5tnN4OhnTwv/BY7s8UrjZQZva+l4o368EYKa4E6QBFLpwc86/Kjmltsv2ioWwMQl/rEH3F/TaByROJ9iIshnRfeYEIrTEAehUE4RaWgANk2lEU3GIjsdNfaf5YLDI7emCHNNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Bp3HV9gv; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="exbUtlAm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1778127508; bh=HggbJKsWAbyTUqF9cCHSdSJKGC/niCg/w9Y43kUFCTA=;
-	h=From:Message-ID:From;
-	b=exbUtlAm0xj6IpLj5Pbz1LoUs+3hDOh/ypVcPtzQ0amUe44Nd53/hksDLrpgQbZrf
-	 QLHjPdwtGUD2yecBlSPqluEwFoVr5bNv1+USStWpbjgsvi//OdilkJ4EXlLF/JAaTN
-	 R+qDqnSZFxpFGXnsdb/wtODmRZWOvlKWlRYYW0+4=
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id 67473C0B2C;
-	Thu, 07 May 2026 06:18:28 +0200 (CEST)
-Date: Thu, 7 May 2026 06:18:27 +0200
-From: Willy Tarreau <w@1wt.eu>
-To: Linus Torvalds <torvalds@linuxfoundation.org>
-Cc: greg@kroah.com, leon@kernel.org, security@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Bp3HV9gv"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=172uLBt7pvqX3Oeco3DVtUK+J1WNUb8fZqxlluFT69E=; b=Bp3HV9gvwOlTE/9uLwhslKJe9N
+	OuLkZ3g2YqHb4ahVikhdDH8a15mP1PDoJdb703sx9pIN+OATV+xBkEGNp2gBc/E/gRt1QqCSLb1M5
+	qRNj2Fm7aNpjxjXQJucxLqP7P+QeUUQWRq7QYu4MzMtEdW3WAcjvrmzxPImhTsnS7xeoa6LoKeGSz
+	LxBkyjl6JdoqufQlNZEhpctzYioOtJSe+flI/bCpSjCvl3dnv54vaOWmvalKZEL5LuS2D6Jtfpm4Y
+	ngjW340rY2/JyCAAujMxP8S+rXaefbzufw4or0Uv3EpZpD1RApGT23YfksflqHkT8cuRQZq7eXEZz
+	No3Pm3vA==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wKspN-00000002RFf-1xEg;
+	Thu, 07 May 2026 07:07:21 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id CFADB3008D6; Thu, 07 May 2026 09:07:20 +0200 (CEST)
+Date: Thu, 7 May 2026 09:07:20 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Willy Tarreau <w@1wt.eu>
+Cc: Linus Torvalds <torvalds@linuxfoundation.org>, greg@kroah.com,
+	leon@kernel.org, security@kernel.org,
+	Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>
 Subject: Re: [PATCH v2 2/3] Documentation: security-bugs: explain what is and
  is not a security bug
-Message-ID: <afwSk3BC8mewPfPp@1wt.eu>
+Message-ID: <20260507070720.GG3126523@noisy.programming.kicks-ass.net>
 References: <20260503113506.5710-1-w@1wt.eu>
  <20260503113506.5710-3-w@1wt.eu>
  <CAHk-=wi6z5BGUUT2p+=qrJg+obom8VnCo3MqB=7xp3Gw+UMMkg@mail.gmail.com>
@@ -82,57 +90,11 @@ On Wed, May 06, 2026 at 06:02:15PM +0200, Willy Tarreau wrote:
 >   - interactions with the tools count a lot
 >   - luck counts even more
 
-Thinking more about it, there's still something that won't go round:
+Perhaps also note that including a reproducer for a crash in public is
+fine, including a full blown exploit is not.
 
-- people have always been looking for vulnerabilities, sometimes for
-  fun, and often to proudly show a CVE on their resume ; we've been
-  dealing with that for many years.
-- now they can do the same using AI and making much less effort, but
-  their approach still stems from actively searching a vulnerability
-- when they find something, they're certain it's a vulnerability
-  because it's what they asked for (hence the threat model addition).
-- if we tell them "don't report this to s@k.o" they will simply send
-  them directly to the maintainers, who are even less accustomed to
-  the process and will not benefit from the security team's experience
-  in triaging nor support in saying "no". And we all know how stressful
-  a vulnerability report can be for a developer who instantly has to
-  stop doing everything and start to look at it just in case it would
-  be valid.
+So perhaps that can serve as a guide; if they went and put in the effort
+of making a full exploit (with or without LLM aid), keep it on security,
+otherwise do the public thing.
 
-For these reasons I'd rather propose that we say something around these
-lines:
-
-    Note that the security team will generally consider AI-assisted
-    findings as public and will often ask you to repost your report
-    to public lists.
-
-Another point is that for many vulns there are two types of adversaries:
-  - criminals
-  - script kiddies
-
-The former must be assumed to also have discovered the same vuln, possibly
-earlier, and to be actively exploiting it. The latter however, is just
-going to use whatever published exploit to say "look mum, I'm root".
-Public reports containing too many details will speed up usability for
-this group and that's not good for users.
-
-And we *know* that some reports contain working PoC that need very little
-modification. Passing them through s@k.o for triaging feels safer than
-directing them to public lists with no early validation.
-
-So in short, I think that:
-  - AI reports should be considered public, but not necessarily well known
-    yet
-  - AI reports often contain repros that shouldn't be posted publicly
-  - AI reports wording can be intimidating to developers not used to
-    receiving these things
-
- -> the security team should remain the first filtering layer for this
-    for new reporters even if it means continuing to see some noise.
-    I think that instead it's the 3rd patch about the threat model that
-    should help us receive less noise by explaining what is not a
-    vulnerability.
-
-I can rework that part a bit to reflect this.
-
-Willy
+And yes, I realize this too might be a very thin/short rope.
