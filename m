@@ -1,63 +1,37 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFAEF332EBA
-	for <workflows@vger.kernel.org>; Fri,  8 May 2026 17:23:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6786E332EC1;
+	Fri,  8 May 2026 17:44:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778261028; cv=none; b=lATg7ey02PZnnR2uX3lC5/f0TKb5t52lrfJdgGv5tVp2Nq2a1QihGPoNrpM/0++ori2NjTtMy8fnSedd1WNEYUY6p/5TXISgYF8Aakc+WgD64okgo4zJN/ucCVQ6YeX/mJ6EMpgKiPKthbu8mJsIkcTIB41qTz0LJTyS2w04KfM=
+	t=1778262260; cv=none; b=Bcw66SKTn0QnheRpnhPH8c2RPWmkVD9TcHRt7Y5YtgDtwRYWsWzdo6jJKyJDKYK0KWqgYddiwbFT85pl/NBOCs1QilqEcM1VoWEolWgujEE731xVVPZPWSQvVx9TTj+JKjWwJvAUlqosOPbtvlnsOfr7Wp9LaPMRZZfAxD6IK+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778261028; c=relaxed/simple;
-	bh=WOyx8Z48htcxwyxmNQbyPqTjfn7K0keNSd9wlveroLI=;
+	s=arc-20240116; t=1778262260; c=relaxed/simple;
+	bh=vWBbf3JinArC7hIZtuRm76eG4Ogp1fNM34BXC2qJUoo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=qg6DNwtXNduGQjLnYngTJy0lHNVor5Uil6UDhjRp826O0rNs4+rWIO70Tt2LDG8dMyGej+SJx2M7w8V0/6tJgK5yufjnql6SFzGhZVwRLEZI2UMpT7Ovq5ugNepf9EDn7U8BNq1izV+QYgi3p2YLW58G3esNtYWS5F6d7kBDzyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=gvciuZH9; arc=none smtp.client-ip=209.85.210.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	 In-Reply-To:Content-Type; b=CZji/2PFG8jSmM3QVwhxIio/MQoaTW3xo/cP6XAbjwvwpsK919zjBThMrDRSuAebdo0dtr1xz8s5sqHkOs1yYVdcUq818tfKMiMxUcxsGbKvv3oj69jFL6/Py5pKqpd16Fu6N3TOXTJDBqoEOyBsOXHqCP4lC9AzMUWgzB7NfBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=zuYsXKrB; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="gvciuZH9"
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7de7dc85b74so1924066a34.2
-        for <workflows@vger.kernel.org>; Fri, 08 May 2026 10:23:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1778261026; x=1778865826; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=1DP+JuCnIiM0V9Dxy5rK6Ns6ZckVWIlwW+CDaFwu9r8=;
-        b=gvciuZH9/GpAabeNj7v0/yjRAaqzwh3FodU+bWFch5mONSfYvY2Je6Y+UVgivqN/0Q
-         wrc4bUh7DlcuPQUwjYpf+od8DT07F7xlRYQ7c+0IF1kYiFeeXtKUuddZtzQgEwWy2x7L
-         6+TJ/kQDyJsZjcy+uKhN5oltUqLo4Ylsa6ANo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778261026; x=1778865826;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1DP+JuCnIiM0V9Dxy5rK6Ns6ZckVWIlwW+CDaFwu9r8=;
-        b=gEz3bXx2g+Nxn2GIZkrr4F3PMQMFOrcXu1J0oOLDmWLR8vtdYpyVzURjLOF1DndFD5
-         LW7cn2obR/xY2FBnUoBKB3JOzGV79QbvuBUO+UCqx0xDQnFdjTgfKf93ggZzt/uy3QF9
-         h18eig0I+8pLwgRCtic1rVVvgshyZPCVnF8Pfoc21edfDYtFCjA4bd3OzPiwVNVnWUaw
-         /0ewNlSeyBx6YSWpek2n/2Hz6CDU0UeMyCNhSiv5fv/nrwey5E6rE0OpXH+9rVqABm0I
-         foYQU0a0B/d3XiPy7+PKxP7taYAim2R9J0B3lTwOJbPjLUehg3PepPo8P55Uy7RO0Ys5
-         RJGQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8v+k0tuhsQ9yP5SoG4zvgrLIBr6rf5fz2lFyGowt2fsFEL7jTb83Q+8hmHLak6vw7LHVJ3qMMt8/g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWwVT62RXitRtzZSV+Qlh45LSL2HH9Pku1c51/9MP7lkRr2VNC
-	abzbQOPKYVrFJeRvSau/+7qbxDIoIKomOhPEDt4eFbk6WkfyDYMX+mEZ1jrHUkf+v9w=
-X-Gm-Gg: AeBDieuy0n0Mv8TSWFCkghl9x8+tLVU/OGbdfXqQJiw7YWI6X5K4KPdmzwKtHpn3GLF
-	1cmlOs58MOZCXb+sHAPRD3pwnM0qf8LDKF2YCy6qWmfCIgqbpKWV+yPZUvcysd9lwtzMnbQCEYY
-	j5I6ASYkmdJ+XFgDHoafzV2GXKS1jl52V6irdx4wUPC2gD5ViM/BbbxnPAoRLykC2jMgrrcBux0
-	LSsPYZOGE/oqcNg4iq+qQb0WHKuMrcvkQc4gMrn7+3/lvBF7/9K2WQ/3LaUqKFNyqlJgnOOnJYD
-	gRDWU5RXnGS6N6paiq5O+CcmHisbBLtuvCkS3Yjk3fi5zLRdXLIWX9bHs0LPrdEwjVxDCQBjevn
-	w2p4BdGNuuL0p8FItNyvJj4IYUmdfC20yeVFw5Fjhjn5Zm6QoSHr6Er/dvDcFpVvqwGGkM2mzYu
-	nQryAPF10bF+yqdHSZG6U07Ef/8bQOQiE=
-X-Received: by 2002:a05:6820:178a:b0:696:982b:1c24 with SMTP id 006d021491bc7-69998d56a5cmr7340448eaf.57.1778261025735;
-        Fri, 08 May 2026 10:23:45 -0700 (PDT)
-Received: from [192.168.1.14] ([38.15.57.99])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-69b25c1a58asm1448361eaf.1.2026.05.08.10.23.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 May 2026 10:23:45 -0700 (PDT)
-Message-ID: <2b771350-0562-4cb1-b9b3-cc3ce59b1a63@linuxfoundation.org>
-Date: Fri, 8 May 2026 11:23:43 -0600
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="zuYsXKrB"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
+	bh=fa/e34xs+vWwC/zpkG0Qp4UvPM0UzqYtHRg0W2k7uTo=; b=zuYsXKrByCw7L0zVLyvYfMEkAH
+	i5TqP3X44ObLDxGPgXhQwzrFz/tQlroxqLvqdN1GWUsEAfXSF13OtI0GFy9QLKBvghXNMFfO/URHH
+	S7eUmCu75/clOgqVhlmlVRvzhGnS5dHHoDz9Qk+EZpzUGlIlBP4FdNunjvD4Fq7hxoafOBAvZLquF
+	v2G9ZuYwQAo6/FJazbEv5UToxyUzSE9p7M1LKvKiU0oRMBzfPOWuITDPV6TWASg2fdGjYIDTuElq8
+	p3/djUgKtSzwOeKL1FSY6acGPzao662sbYJorlLdXupPudIVHChJ++pPwkjDGkjUiPHBE7USh/G11
+	fBZz2Nkg==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wLPFD-00000007B7a-273Y;
+	Fri, 08 May 2026 17:44:11 +0000
+Message-ID: <7bb54e36-44cf-4816-b66d-a18534ea05c8@infradead.org>
+Date: Fri, 8 May 2026 10:44:10 -0700
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -66,7 +40,8 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 4/5] docs: fix repeated prepositions across documentation
-To: Adrien Reynard <reynard.adrien.08@gmail.com>,
+To: Shuah Khan <skhan@linuxfoundation.org>,
+ Adrien Reynard <reynard.adrien.08@gmail.com>,
  Andrey Ryabinin <ryabinin.a.a@gmail.com>,
  Alexander Potapenko <glider@google.com>,
  Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
@@ -82,81 +57,80 @@ To: Adrien Reynard <reynard.adrien.08@gmail.com>,
  "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
  open list <linux-kernel@vger.kernel.org>,
  "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>,
- "open list:USER-MODE LINUX (UML)" <linux-um@lists.infradead.org>,
- Shuah Khan <skhan@linuxfoundation.org>
+ "open list:USER-MODE LINUX (UML)" <linux-um@lists.infradead.org>
 References: <20260508163804.16267-1-reynard.adrien.08@gmail.com>
+ <2b771350-0562-4cb1-b9b3-cc3ce59b1a63@linuxfoundation.org>
 Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20260508163804.16267-1-reynard.adrien.08@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <2b771350-0562-4cb1-b9b3-cc3ce59b1a63@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 5/8/26 10:38, Adrien Reynard wrote:
 
-Missing commit log
 
-> Signed-off-by: Adrien Reynard <reynard.adrien.08@gmail.com>
-> ---
->   Documentation/dev-tools/kasan.rst                   | 2 +-
->   Documentation/networking/switchdev.rst              | 2 +-
->   Documentation/virt/uml/user_mode_linux_howto_v2.rst | 2 +-
->   3 files changed, 3 insertions(+), 3 deletions(-)
+On 5/8/26 10:23 AM, Shuah Khan wrote:
+> On 5/8/26 10:38, Adrien Reynard wrote:
 > 
-> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-> index 4968b2aa60c8..3a8bd40ad905 100644
-> --- a/Documentation/dev-tools/kasan.rst
-> +++ b/Documentation/dev-tools/kasan.rst
-> @@ -392,7 +392,7 @@ reserved to tag freed memory regions.
->   If the hardware does not support MTE (pre ARMv8.5), Hardware Tag-Based KASAN
->   will not be enabled. In this case, all KASAN boot parameters are ignored.
->   
-> -Note that enabling CONFIG_KASAN_HW_TAGS always results in in-kernel TBI being
-> +Note that enabling CONFIG_KASAN_HW_TAGS always results in-kernel TBI being
+> Missing commit log
+> 
+>> Signed-off-by: Adrien Reynard <reynard.adrien.08@gmail.com>
+>> ---
+>>   Documentation/dev-tools/kasan.rst                   | 2 +-
+>>   Documentation/networking/switchdev.rst              | 2 +-
+>>   Documentation/virt/uml/user_mode_linux_howto_v2.rst | 2 +-
+>>   3 files changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
+>> index 4968b2aa60c8..3a8bd40ad905 100644
+>> --- a/Documentation/dev-tools/kasan.rst
+>> +++ b/Documentation/dev-tools/kasan.rst
+>> @@ -392,7 +392,7 @@ reserved to tag freed memory regions.
+>>   If the hardware does not support MTE (pre ARMv8.5), Hardware Tag-Based KASAN
+>>   will not be enabled. In this case, all KASAN boot parameters are ignored.
+>>   -Note that enabling CONFIG_KASAN_HW_TAGS always results in in-kernel TBI being
+>> +Note that enabling CONFIG_KASAN_HW_TAGS always results in-kernel TBI being
+> 
+> This is correct the way it is - no need to change this. "results in in-kernel"
 
-This is correct the way it is - no need to change this. "results in in-kernel"
+ack.
 
->   enabled. Even when ``kasan.mode=off`` is provided or when the hardware does not
->   support MTE (but supports TBI).
->   
-> diff --git a/Documentation/networking/switchdev.rst b/Documentation/networking/switchdev.rst
-> index 2966b7122f05..948bce44ca9b 100644
-> --- a/Documentation/networking/switchdev.rst
-> +++ b/Documentation/networking/switchdev.rst
-> @@ -162,7 +162,7 @@ The switchdev driver can know a particular port's position in the topology by
->   monitoring NETDEV_CHANGEUPPER notifications.  For example, a port moved into a
->   bond will see its upper master change.  If that bond is moved into a bridge,
->   the bond's upper master will change.  And so on.  The driver will track such
-> -movements to know what position a port is in in the overall topology by
-> +movements to know what position a port is in the overall topology by
+>>   enabled. Even when ``kasan.mode=off`` is provided or when the hardware does not
+>>   support MTE (but supports TBI).
+>>   diff --git a/Documentation/networking/switchdev.rst b/Documentation/networking/switchdev.rst
+>> index 2966b7122f05..948bce44ca9b 100644
+>> --- a/Documentation/networking/switchdev.rst
+>> +++ b/Documentation/networking/switchdev.rst
+>> @@ -162,7 +162,7 @@ The switchdev driver can know a particular port's position in the topology by
+>>   monitoring NETDEV_CHANGEUPPER notifications.  For example, a port moved into a
+>>   bond will see its upper master change.  If that bond is moved into a bridge,
+>>   the bond's upper master will change.  And so on.  The driver will track such
+>> -movements to know what position a port is in in the overall topology by
+>> +movements to know what position a port is in the overall topology by
+> 
+> This looks fine.
 
-This looks fine.
+Change not needed.
 
->   registering for netdevice events and acting on NETDEV_CHANGEUPPER.
->   
->   L2 Forwarding Offload
-> diff --git a/Documentation/virt/uml/user_mode_linux_howto_v2.rst b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
-> index c37e8e594d12..7b08738c30aa 100644
-> --- a/Documentation/virt/uml/user_mode_linux_howto_v2.rst
-> +++ b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
-> @@ -1092,7 +1092,7 @@ be formatted as plain text.
->   
->   Developing always goes hand in hand with debugging. First of all,
->   you can always run UML under gdb and there will be a whole section
-> -later on on how to do that. That, however, is not the only way to
-> +later on how to do that. That, however, is not the only way to
+>>   registering for netdevice events and acting on NETDEV_CHANGEUPPER.
+>>     L2 Forwarding Offload
+>> diff --git a/Documentation/virt/uml/user_mode_linux_howto_v2.rst b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
+>> index c37e8e594d12..7b08738c30aa 100644
+>> --- a/Documentation/virt/uml/user_mode_linux_howto_v2.rst
+>> +++ b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
+>> @@ -1092,7 +1092,7 @@ be formatted as plain text.
+>>     Developing always goes hand in hand with debugging. First of all,
+>>   you can always run UML under gdb and there will be a whole section
+>> -later on on how to do that. That, however, is not the only way to
+>> +later on how to do that. That, however, is not the only way to
+> 
+> This change is not needed. If at all add a comma after "later" to make
+> a distinction between the use two back to back "on"s
+> 
+>  "later on,"
 
-This change is not needed. If at all add a comma after "later" to make
-a distinction between the use two back to back "on"s
+We disagree. :)
+This change LGTM.
 
-  "later on,"
+-- 
+~Randy
 
->   debug a Linux kernel. Quite often adding tracing statements and/or
->   using UML specific approaches such as ptracing the UML kernel process
->   are significantly more informative.
-
-With these changes:
-
-Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
-
-thanks,
--- Shuah
