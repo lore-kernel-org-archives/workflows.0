@@ -1,43 +1,93 @@
-Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
+Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4572628D;
-	Sat,  9 May 2026 04:48:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E6D325706;
+	Sat,  9 May 2026 06:40:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778302141; cv=none; b=cnikvzCJDMYzhx3BgqdFrp3ABFClIVGsAm1CNKNeqhCX6dxcYSlIYmGs303aNglU/44cKPpEIhaqZpQy+LzzgoOA2XMyIU++u6D6lGrRKsQMBfwmkeUTkEcbaqfTPJTG9Yp7SGGFne9DV1OAT0ymak4C60BTGU3rkAT7LwRKmoI=
+	t=1778308824; cv=none; b=jkVbvnyEV3ia6upwrnaIQcAQwJdKESYcG0rQzDUOWENxKfvt8S0KsLxCq9znhEaWuXMYS2KllwyN/vz2XB26yVkmHRBfBoPetna+sFCxxJRFjfOQ3OME+439al2I/+XHYVGoTebxVlJy9cHeAoVFRO3v5p7JprEPiXJo/d5KMxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778302141; c=relaxed/simple;
-	bh=ju+8TLjr2sNy9ozi8owYFHLh5EP6sl2aXApK7vy2V5c=;
+	s=arc-20240116; t=1778308824; c=relaxed/simple;
+	bh=HZE6cx6AgDJ4Gk3meylS1WJTRij4YRp1/5NZaN1Z0G4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sbQlcoe/HKm8pVmPgwg/LfauHbYo4/L6mFE8jFKWj3fOVfb9jSBdX0G/MG1pfsPssvZ7IcaobGWn+MekYz/zFNfPza2vS5lH+ZNEHixg7FAqRiBroxVlXOIjZcSgeY2ZX4DOB216XzlOV2N1tHLEUiFY2Gh1mvuBIS/2DhtqIyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=tQLIDzXI; arc=none smtp.client-ip=51.159.59.229
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
+	 Content-Type:Content-Disposition:In-Reply-To; b=sPIUGslkZ3G60WGN6z4Qq+qFbnDtQPz8He7ywSTRKQDTXzN0Xh1i9QNCuvJIFIUjTTBV797vU4R3cCHiUFnj4mwH2CtuxymVrmAVE1qj5voVom2f2lyY5+8nBXMtwAtva0sM6205QKgRr/+Fd6Lar/IeyFDHiU0qPGIOh3vpIPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=Vbk8qSOn; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=eYmz4fWZ; arc=none smtp.client-ip=202.12.124.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="tQLIDzXI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1778302136; bh=0ahvONzRblcMwglYNfCB9BDSVfL0waUZhsj+2lAkeMU=;
-	h=From:Message-ID:From;
-	b=tQLIDzXIu0qD8nFHKNv8heNfHpjYEG5PoejBFMV/HcJH5rjHXqojJmsXWIXYZhVjo
-	 GFWMV+9U594X+jW0b8KPuwGHVJN1zRWuh6Cc5rMvR25UvH6Mted2GLTBhCKGAkWqIf
-	 o6wfgQqzMfJfIAYfPF/RcmqYOiIJv9Juk9FhPPMg=
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id AEBAFC0BD2;
-	Sat, 09 May 2026 06:48:56 +0200 (CEST)
-Date: Sat, 9 May 2026 06:48:56 +0200
-From: Willy Tarreau <w@1wt.eu>
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: greg@kroah.com, leon@kernel.org, security@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Greg KH <gregkh@linuxfoundation.org>
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="Vbk8qSOn";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="eYmz4fWZ"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 73BA97A0104;
+	Sat,  9 May 2026 02:40:20 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Sat, 09 May 2026 02:40:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1778308820; x=1778395220; bh=0L1SGs3VCj
+	8ORkcUab/cUMzAb9hXGi6BN9SzuK3T37w=; b=Vbk8qSOnWq03w3Pn6kMlIOgpUM
+	Nxag4I+rs1GoNtU6JrKMdMT4ko9ClkBUUabtJ/1qeiCsTcgRWMFGSY9Kqk7GOMjZ
+	aczWfV0PVrFigrH9wJk+esetyUuQTDYQfiZjWiBseQTd0nVIyweBV3S/sQF4e3IU
+	wHFMeMNRO15o+oj8L0HC26v0CacPat/qBm1vXg+j61XAim7mqHDtdeL0XomV0QJQ
+	4LlMu6NeUQqxk9ujNEDjf6DGVpUOC+ZD6fn94ITjDZcY4u7Y5yGQYofYZ29i2LSQ
+	nLu7nBtfgHDtYiW55FHT7Gt3mKD6dmY50w7BFHk4MzzgzgM+5E76QIaI6B9g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1778308820; x=1778395220; bh=0L1SGs3VCj8ORkcUab/cUMzAb9hXGi6BN9S
+	zuK3T37w=; b=eYmz4fWZ8aey1oQM3Q4CL7aiDOgBQnarqmQ4FUNhbHYLIJMlm46
+	JZjDpML3ousLFqrEXUyLFjgTrjB0azql2IG4PZPZUuaCC8lM5wawYD5nGmVX0ZcM
+	TPh0l0IpE5IToyeDT/SUBK7V4ajQ+6HrNVVPHxZVV9MdvTr6+nhDCVuNVlnNG+VD
+	VyiGBfVWRZT3MIy6AlFGHc6lc+0WRNVVYgWt/Sxa89zgREFVsstD6TUvhevW/sYG
+	iQ0ehtRIAvLdiX1RTQVtkilD+2C/fu5fzayashrWTMt7s/nQE3kLMdFkIy1x7Zrm
+	RsHaXQAZV3NPJx9KKgj9HFWG32irQij1hRA==
+X-ME-Sender: <xms:09b-aZqzOSYouRpb6E-5c2FIxubRmUp-ZYxPcR0EC9QXAvOHD-SQkg>
+    <xme:09b-aTmL3D_wgnKdAZErdD8_GCd_HXRe5_lSV56lH_HFx_skG5WYlX9ZEMq52LzEw
+    y7sPxVz43nKajIbWikA-icONGh_us_zY0Q6HDXDyNNwruTh6w>
+X-ME-Received: <xmr:09b-adaGLjIhdMp7UHOSnyQQhz2iE69QpacON8V2djZwcyo8gJ6FfIRdaxEEn7a7jsxZqQvy4kmCO_zjY7JOG9wVfg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduuddvheefucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghgucfm
+    jfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepheegvdevvd
+    eljeeugfdtudduhfekledtiefhveejkeejuefhtdeufefhgfehkeetnecuvehluhhsthgv
+    rhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghhrd
+    gtohhmpdhnsggprhgtphhtthhopedukedpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
+    ohepfiesudifthdrvghupdhrtghpthhtohepthhorhhvrghlughssehlihhnuhigfhhouh
+    hnuggrthhiohhnrdhorhhgpdhrtghpthhtoheplhgvohhnsehkvghrnhgvlhdrohhrghdp
+    rhgtphhtthhopehsvggtuhhrihhthieskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptg
+    horhgsvghtsehlfihnrdhnvghtpdhrtghpthhtohepshhkhhgrnheslhhinhhugihfohhu
+    nhgurghtihhonhdrohhrghdprhgtphhtthhopeifohhrkhhflhhofihssehvghgvrhdrkh
+    gvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghr
+    nhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvg
+    hrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:09b-abUKHyHJELAyTJ6kG2H_-L9ps75z7mCL0aw_6tTVL0J9N7ciRA>
+    <xmx:09b-aVB_oYQ9KDt1PESj_2DooWbdAHsEoMH-se3NvfBi2XSVTZ1bCw>
+    <xmx:09b-aSxNm3O4IzslDkXobDJtD0R2O_g7byxnA_5eytQ_QkcoA84kWQ>
+    <xmx:09b-aTZYZCc-sfh96mmoLJiSXh_wSgx91pJ3CfbIDByW00q8LE7Cpg>
+    <xmx:1Nb-aTPKn4oJ9sSbZSUrjd9OuQBQtyrJW_EMX4xy4bVMqLfwrMLNHpC5>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 9 May 2026 02:40:19 -0400 (EDT)
+Date: Sat, 9 May 2026 08:39:37 +0200
+From: Greg KH <greg@kroah.com>
+To: Willy Tarreau <w@1wt.eu>
+Cc: Linus Torvalds <torvalds@linuxfoundation.org>, leon@kernel.org,
+	security@kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	skhan@linuxfoundation.org, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2 2/3] Documentation: security-bugs: explain what is and
  is not a security bug
-Message-ID: <af68uG2YIoYqnKbZ@1wt.eu>
+Message-ID: <2026050929-hatred-underfoot-a32a@gregkh>
 References: <20260503113506.5710-1-w@1wt.eu>
  <20260503113506.5710-3-w@1wt.eu>
- <a3ca798c-40ad-4afb-9c6b-35d53430b6d0@linuxfoundation.org>
+ <CAHk-=wi6z5BGUUT2p+=qrJg+obom8VnCo3MqB=7xp3Gw+UMMkg@mail.gmail.com>
+ <2026050801-semifinal-expulsion-9af6@gregkh>
+ <af4IW_ycR2RpAjhy@1wt.eu>
+ <af4RqzO_VHYAqcHf@1wt.eu>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -46,147 +96,42 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a3ca798c-40ad-4afb-9c6b-35d53430b6d0@linuxfoundation.org>
+In-Reply-To: <af4RqzO_VHYAqcHf@1wt.eu>
 
-Hi Shuah,
-
-On Fri, May 08, 2026 at 02:52:13PM -0600, Shuah Khan wrote:
-> > +What qualifies as a security bug
-> > +--------------------------------
-> > +
-> > +It is important that most bugs are handled publicly so as to involve the widest
-> > +possible audience and find the best solution.  By nature, bugs that are handled
-> > +in closed discussions between a small set of participants are less likely to
-> > +produce the best possible fix (e.g., risk of missing valid use cases, limited
-> > +testing abilities).
-> > +
-> > +It turns out that the majority of the bugs reported via the security team are
-> > +just regular bugs that have been improperly qualified as security bugs due to
-> > +ignorance or misunderstanding of the Linux kernel's threat model described in
+On Fri, May 08, 2026 at 06:39:07PM +0200, Willy Tarreau wrote:
+> Greg,
 > 
-> "lack of understanding" instead of ignorance?
-
-I already had "misunderstanding", here I wanted to express the idea that
-people could simply ignore that this file exists (since it's new). Do you
-think we shouldn't care about this and just keep "misunderstanding" ?
-
-(...)
-> > +The Linux Kernel threat model
-> > +=============================
-> > +
-> > +There are a lot of assumptions regarding what the kernel protects against and
-> > +what it does not protect against. These assumptions tend to cause confusion for
+> does this addition on top of the current patch address your concerns ?
 > 
-> Could simply say "what it does not" or "what the kernel does and does not protect
-> against"
-
-Ah OK good point, I'll rephrase it.
-
-> > +* **Configuration**:
-> > +
-> > +  * outdated kernels and particularly end-of-life branches are out of the scope
-> > +    of the kernel's threat model: administrators are responsible for keeping
-> > +    their system up to date. For a bug to qualify as a security bug, it must be
-> > +    demonstrated that it affects actively maintained versions.
-> > +
-> > +  * build-level: changes to the kernel configuration that are explicitly
-> > +    documented as lowering the security level (e.g. ``CONFIG_NOMMU``), or
-> > +    targeted at developers only.
-> > +
-> > +  * OS-level: changes to command line parameters, sysctls, filesystem
-> > +    permissions, user capabilities, exposure of privileged interfaces, that
-> > +    explicitly increase exposure by either offering non-default access to
-> > +    unprivileged users, or reduce the kernel's ability to enforce some
-> > +    protections or mitigations. Example: write access to procfs or debugfs.
-> > +
-> > +  * issues triggered only when using features intended for development or
-> > +    debugging (e.g., lockdep, KASAN, fault-injection): these features are known
-> > +    to introduce overhead and potential instability and are not intended for
-> > +    production use.
+> --- a/Documentation/process/security-bugs.rst
+> +++ b/Documentation/process/security-bugs.rst
+> @@ -88,6 +88,14 @@ can be easily exploited, representing an imminent threat to many users.  Before
+>  reporting, consider whether the issue actually crosses a trust boundary on such
+>  a system.
 > 
-> Can we call out features and tools (the ones in kernel repo)
-
-Sure!
-
-> sched_ext's Kconfig enables
-> a few debug options including LOCKDEP
+> +**If you resorted to AI assistance to identify a bug, you must treat it as
+> +public**. While you may have valid reasons to believe it is not, the security
+> +team's experience shows that bugs discovered this way systematically surface
+> +simultaneously across multiple researchers, often on the same day. In this
+> +case, do not publicly share a reproducer, as this could cause unintended harm;
+> +just mention that one is available and maintainers might ask for it privately
+> +if they need it.
+> +
+>  If you are unsure whether an issue qualifies, err on the side of reporting
+>  privately: the security team would rather triage a borderline report than miss
+>  a real vulnerability.  Reporting ordinary bugs to the security list, however,
+> @@ -102,7 +110,7 @@ affected subsystem's maintainers and Cc: the Linux kernel security team.  Do
+>  not send it to a public list at this stage, unless you have good reasons to
+>  consider the issue as being public or trivial to discover (e.g. result of a
+>  widely available automated vulnerability scanning tool that can be repeated by
+> -anyone).
+> +anyone, or use of AI-based tools).
 > 
-> tools/sched_ext/Kconfig:CONFIG_DEBUG_LOCKDEP=y
-
-It's still there but maybe not visible enough, I should probably write
-it in upper case:
-
-   debugging (e.g., lockdep, KASAN, fault-injection):
-
-> > +* **Excess of initial privileges**:
-> > +
-> > +  * actions performed by a user already possessing the privileges required to
-> > +    perform that action or modify that state (e.g. ``CAP_SYS_ADMIN``,
-> > +    ``CAP_NET_ADMIN``, ``CAP_SYS_RAWIO``, ``CAP_SYS_MODULE`` with no further
-> > +    boundary being crossed).
-> > +
-> > +  * actions performed in user namespace without permitting anything in the
-> > +    initial namespace that was not already permitted to the same user there.
+>  If you're sending a report for issues affecting multiple parts in the kernel,
+>  even if they're fairly similar issues, please send individual messages (think
 > 
-> This was a bit hard to parse - examples might help here
+> If so I can resend with it.
 
-Yeah when rereading it now, I fully agree. I think I should avoid the
-double negation here and use a form such as;
+Looks good to me, thanks!
 
-  * actions performed in user namespace that do not bypass the restrictions
-    imposed to the initial user.
-
-If examples are still needed, I could possibly add: "(e.g. ptrace, signals,
-FS or device access, system/network configuration, network binding)".
-
-> > +  * anything performed by the root user in the initial namespace (e.g. kernel
-> > +    oops when writing to a privileged device).
-> > +
-> > +* **Out of production use**:
-> > +
-> > +  This covers theoretical/probabilistic attacks that rely on laboratory
-> > +  conditions with zero system noise, or those requiring an unrealistic number
-> > +  of attempts (e.g., billions of trials) that would be detected by standard
-> > +  system monitoring long before success, such as:
-> > +
-> > +  * prediction of random numbers that only works in a totally silent
-> > +    environment (such as IP ID, TCP ports or sequence numbers that can only be
-> > +    guessed in a lab).
-> > +
-> > +  * activity observation and information leaks based on probabilistic
-> > +    approaches that are prone to measurement noise and not realistically
-> > +    reproducible on a production system.
-> > +
-> > +  * issues that can only be triggered by heavy attacks (e.g. brute force) whose
-> > +    impact on the system makes it unlikely or impossible to remain undetected
-> > +    before they succeed (e.g. consuming all memory before succeeding).
-> > +
-> > +  * problems seen only under development simulators, emulators, or combinations
-> > +    that do not exist on real systems at the time of reporting (issues
-> > +    involving tens of millions of threads, tens of thousands of CPUs,
-> > +    unrealistic CPU frequencies, RAM sizes or disk capacities, network speeds.
-> > +
-> > +  * issues whose reproduction requires hardware modification or emulation,
-> > +    including fake USB devices that pretend to be another one.
-> > +
-> > +  * as well as issues that can be triggered at a cost that is orders of
-> > +    magnitude higher than the expected benefits (e.g. fully functional keyboard
-> > +    emulator only to retrieve 7 uninitialized bytes in a structure, or
-> > +    brute-force method involving millions of connection attempts to guess a
-> > +    port number).
-> 
-> Can we add a section about problems found using experimental or tools
-> in development stage?
-
-You mean one more paragraph about CONFIG_EXPERIMENTAL ? Or what else do
-you have in mind ? Do not hesiate to propose a paragraph if you have
-anything in mind!
-
-(...)
-
-> Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
-> 
-> thanks,
-
-Thank you!
-Willy
+greg k-h
