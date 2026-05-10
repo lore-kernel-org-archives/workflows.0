@@ -1,53 +1,53 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD8A3368BA;
-	Sun, 10 May 2026 16:52:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93506370D7D;
+	Sun, 10 May 2026 16:56:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778431953; cv=none; b=BBRlAvvoRGY833txvhobwx4bQ/xkX8TlmlqSE44rtYZZOfW9j74FaukFC6MKaF306hUIxdk3zARbNIl4JN+zysJRcxanSwC1YAst9Pq5Qa3i9gu7gmpFo/zUATH3CPAtS5xS1s+7t8sQcdcKZxNBfhCL3IElL3ij5cc0YEchE9E=
+	t=1778432194; cv=none; b=GCeWNCcsBvK8UDd6kkzQchkYTGMj683cdJrDc8/sLar5ExHfASTyTsOq5ruCvcrzl6sVcjoVKm6pYNQk5yr3tN72GYdEnLDySTbcwDUTHgEnVWFbVG2+TdQ+y9WoEMd7uxxmkL2wlhYkPC4yEva1fe5GG7W+Q56qTrPhBpRRbDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778431953; c=relaxed/simple;
-	bh=wiIeIcOQqxdmtsDtrFD+oro9YJMPUlQ+qWVDhoQ/OVE=;
+	s=arc-20240116; t=1778432194; c=relaxed/simple;
+	bh=WLGJjL4gtWz4aeh599TmzMCBnQUHPosUXr1zLmflyWw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=anYKI9jPjp07a7qZra6Vtd6J+pnAsaEBH+A1gwDgAgZK8/4ZewznPe+HpJ3+wdj0PDsxYQjFyvIbh0cb6tc59jMEe4Pt7cMNGYuR29qXLseBTHTXyu+ZyLunXpE9xR6OiA3ZS7JXqAkfXYagpeNtcZU/FlggbvHqlG1vc13UAAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=wWi9LBL3; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=TUQAvQVy; arc=none smtp.client-ip=80.241.56.171
+	 MIME-Version; b=HpsxpCussAkzFREJGwQbWt4CEkAurWSe4Q+yiJOnAot1qS3OZ8BWgoPwQvg4kamuRROUC0DAqaO03pD7SauS6j+wiPX6AAYNI3epeGX7AH6yZRQdDco0VKeJxCUb8vVMAkSafjV/jVEAwcNWAFQkTxqsMa3SOvrp8nrEMQNqjNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=WtRsM16r; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=hBNRyXFw; arc=none smtp.client-ip=80.241.56.152
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="wWi9LBL3";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="TUQAvQVy"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="WtRsM16r";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="hBNRyXFw"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4gD86N6FPSz9thj;
-	Sun, 10 May 2026 18:52:28 +0200 (CEST)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4gD8C13dCFz9v4J;
+	Sun, 10 May 2026 18:56:29 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1778431948;
+	t=1778432189;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8GSSCXI5EnlIoJFugOYHFcXnSvKg0zMGeGDNehY3WJY=;
-	b=wWi9LBL3nSsiux9u9rpXbC0J+5K45rEr45Ibq7iv6GFEFkVR5MwaqEpbNxSE6BDYSzZKro
-	Brai2ddWqckv17lGiJX36I2eIgqNUhRDv/wqMc6SkRckLcvMfmmP1NQ4dn092zDIZiybHS
-	7lctiarCfHvoLzatANWpHoBs4bKsYXpDez1i7WUcqCzcZ3aNMilwmnsZvSrFeLdyrHbxDZ
-	7ktbey7mZ+tGAjwXNWMPuQikJhg3EzKHWEop9g11rEOs3g0I5PRY6fEU5AYm+mZ0y2+zvQ
-	sURXlAMVuUB7BEgmAKxB9cXLI9s9oNXNdg93WixpdxqouOQMmpqjaUpEGQKZRA==
+	bh=Z6U9H9It6s5PNBOTSM0ITXI4EJxod7/On7zf8/Flx0c=;
+	b=WtRsM16rPKMh2Hu5P2a2WmAzLBwyJ7kbee38wDzuLyfd0SOY4/2nZatKqefVvQbg9wB5zX
+	5uAo5SKf79CvYP5jPJMNl9kiYSKKHMfZiaHz3NA1MKftk3q7+y8qaoIjDYVgHbi5Dc8T4y
+	/CQzfCtXrO5XcnEGOMIsHuVmq1rgmSSkLUmZbK45Qcy3qqRwU+6ZLU60BeCBy/u5pbNUT4
+	Mn1LgNGbAgheic4JO8JRlQKlPH4N4A68Ds8ISa0U/KKdRLukuUh7VhHS/X5pdVBHNsluEH
+	7v+1eEbznRXaVkEUK1rfdXba9kxL9tS2XuYAUgV/MsUCb75WkF8q89h8JSArPw==
 From: Manuel Ebner <manuelebner@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1778431947;
+	t=1778432187;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8GSSCXI5EnlIoJFugOYHFcXnSvKg0zMGeGDNehY3WJY=;
-	b=TUQAvQVy/ns5b5rTtiODvuWno6JagPbluAmXhHgJra8bjGHvKH0gGxLKdZHfN7Se8T/zuT
-	r/JW4VbBEmWBpbAff3rT3FfU+pUN1NuBvNHn1yOUIIVrJRCi8SxiggqHCdZz0aLCU+KUwR
-	4Fc1sYWsmyQjuQJQh3ukD7/YKwD8XmyFFT6rupfOtzvC92YeWaCJnfCJcIxvKxuTmu7eqZ
-	ckfjULvpMMPsafrEJbb9I0XY/nO+yATINEgzF1cJobw6fa0rWBzlnfXj0+y7o42boobDmF
-	W9HqjJqDcMS/7mnxZQBfKoUW5kNKuonm34jmSQXgMdTf9+88hLudYgo3b/Gx7Q==
+	bh=Z6U9H9It6s5PNBOTSM0ITXI4EJxod7/On7zf8/Flx0c=;
+	b=hBNRyXFwUDPKz6a/oIvgwuoGqkAocUPw/3y4EqkXem+9QUOEoGkZTNdsMwJOwg7JboT/q6
+	8oHn83Hn85uRBpe56+uJ23qM0UKCfHlmcAX3yDXh0KyxIfyaAG8hhk1begTZZXfglH1h5W
+	9TyTHl4Jyd4A0SqWEzyJrjcXN0/yGrMOuWxNnpMTs3LvTbX1F3TTuoiSwQwTSvdcUL3MU3
+	Gb69DJVuCKBlEjWLh2a918csEaAtgE4YsoUv1W7vAvC7vYJh44/DFkOdozDvvaT42f3Rsy
+	XsgaNMkIRni0orHgi8BUAtS6t4A28quTCmliNPFajtXdNozulZ5mueLzj64TmQ==
 To: manuelebner@mailbox.org
 Cc: andy.shevchenko@gmail.com,
 	apw@canonical.com,
@@ -60,9 +60,9 @@ Cc: andy.shevchenko@gmail.com,
 	lukas.bulwahn@gmail.com,
 	skhan@linuxfoundation.org,
 	workflows@vger.kernel.org
-Subject: [PATCH 1/2] [PATCH 1/2] Doc: deprecated.rst: add strlcat()
-Date: Sun, 10 May 2026 18:52:00 +0200
-Message-ID: <20260510165159.57457-2-manuelebner@mailbox.org>
+Subject: [PATCH 1/2] Doc: deprecated.rst: add strlcat()
+Date: Sun, 10 May 2026 18:54:52 +0200
+Message-ID: <20260510165451.57674-2-manuelebner@mailbox.org>
 In-Reply-To: <20260510164907.57176-2-manuelebner@mailbox.org>
 References: <20260510164907.57176-2-manuelebner@mailbox.org>
 Precedence: bulk
@@ -72,10 +72,12 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: ag1gcwrr5b5a6d6gwbje759n8dhmx3mb
-X-MBO-RS-ID: a84c73c5381c265d592
+X-MBO-RS-META: yzudd5mbf75sfruuu9od7rgh474xcx4c
+X-MBO-RS-ID: 4c36ed6b1f9555b04d2
 
 add strlcat and alternatives
+
+Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
 ---
  Documentation/process/deprecated.rst | 6 ++++++
  1 file changed, 6 insertions(+)
