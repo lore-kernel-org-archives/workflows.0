@@ -1,109 +1,104 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB5D33672BA;
-	Tue, 12 May 2026 07:36:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4DCF3932D8;
+	Tue, 12 May 2026 08:52:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778571398; cv=none; b=CxznrlxIpgu9hxjaLApfS6EnIV3sW7HJtIdgNjGTEy4o0C1jIxZx1gZpFuv36lSxJapyg/wTvoE1496kKjfO3r9OkSZIKF6Xadz+4ibrXrFvV4ZsoAt19qa/OJisTYrw4iBXkxT6YILnSugfTsbpAai+zcH4veCYnXYi95kXaE8=
+	t=1778575944; cv=none; b=JpUsZ97FWlwyQAXhLlO2fq+bmTyP14jR0Dtt371yaCJ2lA8noKJZcoQTf0D0XRa7Yygw0lh4Z3+VV3P8aiLvsLdiAY690Vb/MHJQXnjAiCLfC7/LNL17qE8k7SeQEDLbKeq1hxRegg3RPYHihh1UT56CYpLNJWR89wFPkNyogrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778571398; c=relaxed/simple;
-	bh=CvYyLVRDtNWqapEuk5G/yUdRpl33QDrwEo55o2Fib94=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=IfsuCP3m2WbXSx4xSX7AwUxyyncLWJXiKBXJjwBbZPP3adX/LxFgY97DMSh65L3xqHm4y3flW4oPqnYmgpnPaUhxpUidQxoTSNifVZBmcb4NIuffZvx9qY6aN4yx5ZEuJBhQK/dymThXJUbSD7etKyhkSGhiJ/SXjS23CG76a1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=lKJzUJ8I; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1778575944; c=relaxed/simple;
+	bh=BCrJOeW+G/hzkswZS9tEKFKdYNeDtOku1udseLK8q/4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=QMHKo4+GbqWZE/AaoSJOke1qkx7azyAnSmtf63O/fB+7p0MegG+snQ3uI3aDmt55ZBjUXismANk3LnK4xrxkBtXWBgYgk7TzWlJGLdKq3u4efBy5hp4Qzz0gbbkf9tKkMiRSGGnmUM94sJNw6ZR7zB51l9uNM7f//9RX5nUv5wE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=boMrmV8N; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="lKJzUJ8I"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4gF7gy4SRHz9v1Y;
-	Tue, 12 May 2026 09:36:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1778571390;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ILtWzAVG0wzuJTcdC2P9wTQH/+3Lo5mb3OqQe2/M7n8=;
-	b=lKJzUJ8IMBEB/OCZZNW3eISCfwDUY9sgAmBaBnJ35Kw2hG1IPL0R+Zsb1Vs1BpQJXAtID/
-	CgOq2BjXdG97bXawJ0yioTBG8cJHg7yqzuuLbvgkRXVgg2IK2wFkvAC02jKTYm+WWLUO+L
-	moE5WBMWWLSxnIXXvPs6376+7A+ETbfxCrBXOTYPHPw1LQBC1LhhKr0An4pJQJPUemag/a
-	txxAbjMRpKva6do4jX5zLxgpFRoZg/oIk8YkHyeItgq+enRDjVVmx3Z7RURASTTx5AYrO0
-	68i2GUKYYKlHvi7qswnIL8BORbK/chvOT4FqUwRKJ0jmlqQ/h7l7fY7U0CMd3w==
-Message-ID: <9bb5070ee87059ee37e7f7fa8606052cc9c1156e.camel@mailbox.org>
-Subject: Re: [PATCH 2/2] scripts: checkpatch.pl: add warning for strlcat()
-From: Manuel Ebner <manuelebner@mailbox.org>
-To: David Laight <david.laight.linux@gmail.com>, Jonathan Corbet
-	 <corbet@lwn.net>
-Cc: andy.shevchenko@gmail.com, apw@canonical.com, dwaipayanray1@gmail.com, 
-	joe@perches.com, kees@kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, lukas.bulwahn@gmail.com,
- skhan@linuxfoundation.org, 	workflows@vger.kernel.org
-Date: Tue, 12 May 2026 09:36:11 +0200
-In-Reply-To: <20260511142745.7757b1b2@pumpkin>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="boMrmV8N"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778575937; x=1810111937;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=BCrJOeW+G/hzkswZS9tEKFKdYNeDtOku1udseLK8q/4=;
+  b=boMrmV8NU5BaKy5u3pf6YCYjIVoM/PSKKguNmBB3LDoSxjDDT3b83TmG
+   YU6/lR3ttGXNZ+ubJ6NT/0Pf59WxPpaUciX26lmBxUlwzWCmt38gX8sbO
+   3CH9Il/PMS53kBx94xXjXKkV9wtDDKjRzAuA8SqLrtsEKqyL0xgmb70Tf
+   P+ItC6keCnkLb1JbgNDyYYqojf2R93ejvEU98iTKjsU33Vv5g/V2gwnxf
+   JAl2TZ3DFlwv25Y/OiDNHtL5MCtJn+DzXRY2cqJkTq5KiKUWZ3ZbX1yYV
+   E2Xh24vknIDQB90nVIeUxNkutvkN6tmdiXVzHyOQow4KN/TELi5mLRMae
+   w==;
+X-CSE-ConnectionGUID: UaZbDyTtR8CkRmF0/3e2ow==
+X-CSE-MsgGUID: 0XMUP6FWQteANDrQD3ycDw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="90579647"
+X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
+   d="scan'208";a="90579647"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 01:52:11 -0700
+X-CSE-ConnectionGUID: 0eQ/XthhQ4+Io0O/lG9F1Q==
+X-CSE-MsgGUID: rmp/zjQ2Q8WNnbKtf6yRAw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
+   d="scan'208";a="239541384"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.158])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 01:52:07 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Manuel Ebner <manuelebner@mailbox.org>, manuelebner@mailbox.org
+Cc: andy.shevchenko@gmail.com, apw@canonical.com, corbet@lwn.net,
+ dwaipayanray1@gmail.com, joe@perches.com, kees@kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ lukas.bulwahn@gmail.com, skhan@linuxfoundation.org,
+ workflows@vger.kernel.org
+Subject: Re: [PATCH 1/2] Doc: deprecated.rst: add strlcat()
+In-Reply-To: <20260510165451.57674-2-manuelebner@mailbox.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
 References: <20260510164907.57176-2-manuelebner@mailbox.org>
-		<20260510165649.57880-2-manuelebner@mailbox.org>
-		<87a4u6w3ez.fsf@trenco.lwn.net> <20260511142745.7757b1b2@pumpkin>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <20260510165451.57674-2-manuelebner@mailbox.org>
+Date: Tue, 12 May 2026 11:52:05 +0300
+Message-ID: <748c2c3d549740918e14f29aa25dd475b99c1313@intel.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-META: 17mqq179bfmpkk6gfx5nxh6i4q3nx7q4
-X-MBO-RS-ID: 6cb893ba62096fba82b
+Content-Type: text/plain
 
-On Mon, 2026-05-11 at 14:27 +0100, David Laight wrote:
-> On Mon, 11 May 2026 06:12:36 -0600
-> Jonathan Corbet <corbet@lwn.net> wrote:
->=20
-> > Manuel Ebner <manuelebner@mailbox.org> writes:
-> >=20
-> > > add a warning for strlcat()
-> > >=20
-> > > Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
-> > > ---
-> > > =C2=A0scripts/checkpatch.pl | 6 ++++++
-> > > =C2=A01 file changed, 6 insertions(+)
-> > >=20
-> > > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> > > index 0492d6afc9a1..ca1a8e67d529 100755
-> > > --- a/scripts/checkpatch.pl
-> > > +++ b/scripts/checkpatch.pl
-> > > @@ -7085,6 +7085,12 @@ sub process {
-> > > =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0 "Prefer strscpy over strlcpy - see:
-> > > https://github.com/KSPP/linux/issues/89\n" . $herecurr);
+On Sun, 10 May 2026, Manuel Ebner <manuelebner@mailbox.org> wrote:
+> add strlcat and alternatives
 
-Here you can see the external urls already deployed. there are two more in=
-=C2=A0
-the code blocks above.
+You'd think it's the strlcat() definition that needs a comment above it
+saying it's deprecated. I don't think folks really look at
+deprecated.rst.
 
-> > > =C2=A0		}
-> > > =C2=A0
-> > > +# strlcat uses that should likely be
-> > > +		if ($line =3D~ /\bstrlcat\s*\(/ && !is_userspace($realfile)) {
-> > > +			WARN("STRLCAT",
-> > > +			=C2=A0=C2=A0=C2=A0=C2=A0 "Prefer seq_buf_printf() over strlcat - =
-see:
-> > > https://github.com/KSPP/linux/issues/370\n" . $herecurr);
-> > > +		}=C2=A0=20
-> >=20
-> > Using seq_buf_printf() requires switching over to the seq_buf API in
-> > general, it is not just a simple substitution, so this advice may prove
-> > unhelpful to many.
->=20
-> And I'm not sure the external url is a good idea.
+BR,
+Jani.
 
-It wasn't my idea originally. but I'm open to suggestions.
+>
+> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+> ---
+>  Documentation/process/deprecated.rst | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+> index fed56864d036..b8a65c19796c 100644
+> --- a/Documentation/process/deprecated.rst
+> +++ b/Documentation/process/deprecated.rst
+> @@ -162,6 +162,12 @@ if a source string is not NUL-terminated. The safe replacement is strscpy(),
+>  though care must be given to any cases where the return value of strlcpy()
+>  is used, since strscpy() will return negative errno values when it truncates.
+>  
+> +strlcat()
+> +---------
+> +strlcat() must re-scan the destination string from the beginning on each
+> +call (O(n^2) behavior). Alternatives are seq_buf_puts(), seq_buf_printf(),
+> +snprintf() and scnprintf()
+> +
+>  %p format specifier
+>  -------------------
+>  Traditionally, using "%p" in format strings would lead to regular address
 
-Manuel
-
-> >=20
-> > jon
-> >=20
+-- 
+Jani Nikula, Intel
