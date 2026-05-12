@@ -1,91 +1,119 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB41F1448D5;
-	Tue, 12 May 2026 00:41:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E7CB3D4127;
+	Tue, 12 May 2026 05:47:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778546512; cv=none; b=rjpYEV4r4K8zYCyKviPOjYyk361FBKP6oDOxSs1ItYeNkEWXukD6VkY8blc19G597EMLOQBOS35lfD3dpvqw3Pl496/napnNc93T1SnmXp50Z5McsH3a/t6YrrDhhTO1L9SmWMKIkkjb+6XQSJtwr7dwL3n7VYCW2R/J9FjucpE=
+	t=1778564857; cv=none; b=RK/dz2QAogvGNUG+vpOLnGJYjLEomK70axnn8fidLk6ueCKECrzjrrDcLJNkJuzEidZgnf1n0EtO0EzZqwdl1KJOmEgxWRKBfBSozlMR7q0M8v3tHm6Caf7qB9FOzfzOtfY3D8QGnTVOj1b0oi+fqDEtaBuFHILggGkkV2Zw408=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778546512; c=relaxed/simple;
-	bh=0hrtRatEghju+sqm+8Dm+/qxqz1yrj9zD2HDt7M5Q34=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gaiSdMqQucPuYAWOQTDf1v28bv2YI+w19lQQV4lsh9rnQezIagRlGMg4tPOy8N0Ry1aOfDUrrAbXwTTqb7w9epAV/o0g5FACN2T25Qj0sHHSGPhftqMhigG83FBJQ7r4KFNi7bjfUinZDEXhd36rrx1mr/oSuiFWzZCQMPgG3wQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=wCT2lK0q; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1778564857; c=relaxed/simple;
+	bh=mH6HamasgfNH5+Oun9m28ITvcUpH6vu5tQYINbd/daA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uRJGrStVGmU+pax9rT0hagT3alGSEtVjdAQEntGX9LUniLlahuh80QuM2vy0qOGIXYjLbP+gLt9WNqGT7memuzkcq9nq4ktG5PMW95VeEkwuV5OfsY2S72MHSssj28EDGx7BqdWuW+k8Rvel6jag5ZPhFu/SYC2ZZXsvtdaVw2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=JFM6h89j; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=uqeDpROm; arc=none smtp.client-ip=202.12.124.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="wCT2lK0q"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=rTjHniORfsxQ/3vdtbZ0N++LXk2AYxoCF4rHr4yn62E=; b=wCT2lK0qPXpmjHbW56ARFkJL85
-	BZnk7a/UYQ22dQ62OEZfG9dD8A3Kj+RbDDFUD7inymTjNUKre6jRI6EcF9V5Wri26qbnB3AFM0e3r
-	5XYF1Rke3YWm3uMDnh//vM7B8N7p+NdzGW/IJmNusRsxTFKG9dxb+z5FbYbUmP1FZMKfq5SpXAl8C
-	dIZkqAsclvYATPcz6a5u4RWdDALbLRmUrh7NlIByU5OpnbSGSx6sU2aSeOcxaVrvRV7cxfn8G1rmF
-	hTktg39GpY16iohJTdH2qV3cgoJwYW/dwTCDhUPOPAqmREa6BWC9ivcBJx2kdIf/Hwn8HaJ8bOR72
-	KGo9BDsQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMbBy-0000000F6Z2-1nAH;
-	Tue, 12 May 2026 00:41:46 +0000
-Message-ID: <7db90c80-aa91-4643-8cea-45b7f8284c7d@infradead.org>
-Date: Mon, 11 May 2026 17:41:44 -0700
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="JFM6h89j";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="uqeDpROm"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfout.stl.internal (Postfix) with ESMTP id 4CACE1D00098;
+	Tue, 12 May 2026 01:47:18 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Tue, 12 May 2026 01:47:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1778564838; x=1778651238; bh=k0CMgzAxgy
+	Ii/51D/cd/p6s4VOP0mBKlppFO00Y7Kn0=; b=JFM6h89jl9m1TF/F20Kt4WwHp1
+	JTqbapWtWlDGyxOT6P186QqlDXeHkRTpDqBKhBN4M6orLefDRKlKcQqtzrJhNdw4
+	+VhqHYUdrInvgVnIE/KxFULzX8K607UJ74KUB1ngn/0oZdcDgraldkEBlNpImVST
+	TOoYaMxKHjiyIo34SY4eldUpQC76w8T76iAlgNGQuB9y0/NM6IodWlesH0uULBdp
+	ZfCcoMZHwTPN7h3+2bPCOg4MT9bZ69VTaPfJk0xpS1eXbsAqKOBth/Q0vJ3xGw98
+	Qit1jnzLvS11Aw2Vl1eenmQ67Y7kNXTaF6hme5I6ZhwjfuNRexNxxuOa8y8g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1778564838; x=1778651238; bh=k0CMgzAxgyIi/51D/cd/p6s4VOP0mBKlppF
+	O00Y7Kn0=; b=uqeDpROmpK6+4lfQaxL3AQWhAEqiCLz2s3lHr19dQqLhB2FCFa/
+	8jCfguM1Hv7Gf5fp9ZStaN2zxqK3orIQusTR/srxM97J4uCSkgGDUdkWh+oh5KtN
+	aCB6fNxp8x/8d4kUFawwV14PgVDvc07MlcgkMdxpqbAi+g8yIF7ARWN+cSR5trGE
+	o+ecnP7APm8RnVy3T81C+q5KyoUUO5nayBCsWYeWmrjIQKzU+uu9yb8t0bvOJNxI
+	LlsIPtO5xJYvUIqXH+6THwaBKKiTSTUt/6tjmaBFN4nX4wuzjdRAdcKaQLF+zgPl
+	h5mxSdZYz4i+1pkxpE7AvxIFQ2fH+xoD/gw==
+X-ME-Sender: <xms:5b4CarD_PNMdSmCpoXCoU4zNw8ZMMfQh5-Cv8KJquwH67eOPvuWG7A>
+    <xme:5b4Caid8KVHKswEqXU3_YtvidkAJP6Q55G4rqDycR3YutnUXN4OTdwXrsSwtaBBLY
+    Az810YDxFKUbKfn9MagrRjw03r01LUC37nQSOnGNkiBMw0gpA>
+X-ME-Received: <xmr:5b4Cam7s1fjQlwv7HIIc2slljOBgosfjensoE92dWrR9EV1iEliC0YttMgfeGG1VhOvhWVNOXEVCEoJtd88OGSHiIw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduvddutdduucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghgucfm
+    jfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepheegvdevvd
+    eljeeugfdtudduhfekledtiefhveejkeejuefhtdeufefhgfehkeetnecuvehluhhsthgv
+    rhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghhrd
+    gtohhmpdhnsggprhgtphhtthhopeduiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
+    oheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtohepfiesudifthdrvghupdhrtg
+    hpthhtoheplhgvohhnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehskhhhrghnsehl
+    ihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepshgvtghurhhithihse
+    hkvghrnhgvlhdrohhrghdprhgtphhtthhopeifohhrkhhflhhofihssehvghgvrhdrkhgv
+    rhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnh
+    gvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghr
+    nhgvlhdrohhrgh
+X-ME-Proxy: <xmx:5b4CasNIaix0gafF84nhTsyYpTJAq--epJM4WA7V32YCXi6XQyWo-w>
+    <xmx:5b4CanHPWU64h1TeWBGjz2bD7qWcxzxpTAg78wi1YL7YS7CEW0yMEw>
+    <xmx:5b4CagSYDZALmie5qoTImXAbR-t2qTpHpfiOqFsrTovnxHKv9PCVCw>
+    <xmx:5b4CavTt7uoi2mM46H49eF2KoGRKscMabQEZsA9SxizJgnLVFceKqw>
+    <xmx:5r4CasUIVGK2vQjmT1uM7S2XNEgOfLM8mjHopGNlVUJRIazU6cHIydjd>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 12 May 2026 01:47:17 -0400 (EDT)
+Date: Tue, 12 May 2026 07:46:34 +0200
+From: Greg KH <greg@kroah.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Willy Tarreau <w@1wt.eu>, Leon Romanovsky <leon@kernel.org>,
+	skhan@linuxfoundation.org, security@kernel.org,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/3] Documentation: security-bugs: explain what is and
+ is not a security bug
+Message-ID: <2026051220-fetal-obituary-bb2b@gregkh>
+References: <20260509094755.2838-1-w@1wt.eu>
+ <20260509094755.2838-3-w@1wt.eu>
+ <2026051124-afar-renewal-795c@gregkh>
+ <agIZ8zeg3m0xE3yL@1wt.eu>
+ <878q9pvlif.fsf@trenco.lwn.net>
+ <agI7XogSmfN_Pm4t@1wt.eu>
+ <87a4u5u195.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: fix spelling of Shepherd in howto
-To: Chen-Shi-Hong <eric039eric@gmail.com>, corbet@lwn.net
-Cc: skhan@linuxfoundation.org, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260512000946.3234-1-eric039eric@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260512000946.3234-1-eric039eric@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87a4u5u195.fsf@trenco.lwn.net>
 
-Hi,
-
-On 5/11/26 5:09 PM, Chen-Shi-Hong wrote:
-> Correct the spelling of "Shepherd" in the acknowledgements section of
-> Documentation/process/howto.rst.
-
-How do you know that the last name is misspelled?
-
-I found email from "Alex Shepard" on lore.kernel.org/all/ but none from
-Alex Shepherd.
-
-https://lore.kernel.org/all/1137702713.3205.43.camel@athena.sea.amer.gettywan.com/
-
-Names can often be spelled many ways.
-
-> Signed-off-by: Chen-Shi-Hong <eric039eric@gmail.com>
-> ---
->  Documentation/process/howto.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, May 11, 2026 at 02:42:14PM -0600, Jonathan Corbet wrote:
+> Willy Tarreau <w@1wt.eu> writes:
 > 
-> diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
-> index 9438e03d6f50..edf4412de112 100644
-> --- a/Documentation/process/howto.rst
-> +++ b/Documentation/process/howto.rst
-> @@ -616,7 +616,7 @@ Huizenga for some of the list of things you should and should not say.
->  Also thanks to Pat Mochel, Hanna Linder, Randy Dunlap, Kay Sievers,
->  Vojtech Pavlik, Jan Kara, Josh Boyer, Kees Cook, Andrew Morton, Andi
->  Kleen, Vadim Lobanov, Jesper Juhl, Adrian Bunk, Keri Harris, Frans Pop,
-> -David A. Wheeler, Junio Hamano, Michael Kerrisk, and Alex Shepard for
-> +David A. Wheeler, Junio Hamano, Michael Kerrisk, and Alex Shepherd for
->  their review, comments, and contributions.  Without their help, this
->  document would not have been possible.
->  
+> >> I can ship stuff Linusward quickly too... :)  But it's fine if Greg
+> >> takes it, of course.
+> >
+> > Oh that's fine then. I thought you only delivered such updates into next
+> > releases. I'm fine with either way of course! Let's pick the path of
+> > least effort for each.
 > 
-> base-commit: 5d6919055dec134de3c40167a490f33c74c12581
+> That's my normal procedure, since there are few docs changes that have
+> greater urgency, but I do have a "fixes" branch.
+> 
+> Greg, what's your preference?  Unless I hear otherwise, I guess I'll
+> apply it shortly.
 
--- 
-~Randy
+Please apply it and take it through your tree, thanks!
 
+greg k-h
