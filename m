@@ -1,87 +1,81 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27F573D5C12;
-	Tue, 12 May 2026 17:21:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2C1E357D06;
+	Tue, 12 May 2026 19:13:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778606505; cv=none; b=aisTdg2/Iww/umQ98BWYdfMUgeGKcjK6xYUkXY6S+q6TyIkCc9OxzEPq/RWADX2zu6JTNicN9YCTYVRmV6WEofPMMG6mpzlvjxKzYMRkgLjs5D1OVn5eElW5RXpfRePv1DItI4JLJnnEIjRrJWlFP28w7GQedH4O1rUmZAXCiOc=
+	t=1778613193; cv=none; b=CMdZSgEeaMRSInrbKUrr3WGh+mMsAAofJzol8hfLAzV+cnFtE9y09q48dmiGQ5IryhhNxlmrefw6v2uDzYcDoaBpE/D0KzAekp1UIXXDQon6ISpeZ6I/+xlR7pYbUgLTmqtwNuD6f1+NnriYLg6uh7IG8tKo45Qtgqb5ShGzFPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778606505; c=relaxed/simple;
-	bh=NHoIVBHISkD+ML76V0We/tfWBlDFnnpS7vsuV0OwNVg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=JE6ZnLSj86c0y9b2SFQDw9qorr5Ni5XXygJOk/QcOprSe+sMU179R+EwcGWbwTPTpRAtmV7fmBVBzGTYvQTWtt6rQC6Bpao2sH+UwwcFS1xQAvjo5+0tmkJbafQViKLWosZdwtcCWAafE7TFMSABgRmY33c++/o9SjkMhNn04Ug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=UdCJLYjd; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1778613193; c=relaxed/simple;
+	bh=IxV5UJvufS94UUI6ki4WXGhhWmxfbnyc+yI53yhcT50=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sLzhOoBiMl1I5DqIen2Ar5cknR45t3c4ZJ2JUcz445GU9Antqv4dyfl8ZGIF+wavLrufF/VHB//+OVFOWLXCFrYvruoMGuw+X3hEXMcmBq8Wg0dVHjCkoC0fSMqBLyR16QVvtmL2rUngWdbFMJeg8YvgG0w42bmCkmVj9LRm+JU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=hKdT4zmq; arc=none smtp.client-ip=51.159.59.229
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="UdCJLYjd"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6B550410B5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1778606503; bh=EEK5OhCv+T+wi7tL3Y73Ck7vntq73OvRxQcZ0hh1AZY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=UdCJLYjdxT4w5FMKBekVja77elADQVRFhW3z9a0tJaMiNny+fwcoTZP3Q6jC76RqR
-	 xcyipuklznKkoaJNcABLpxkNbu2h/jA9YIk3apNkfQ8xEFSYfSESE/UjjToA0Ha/tt
-	 /DX+N9BR1LpDWPI6DmtVBj/o586oPdiVuWUXh1QJQRVsRHx5SkfOGMOSfoeTmiEawy
-	 FclrulUWZW0CBzWYxui18L6jSEhDo1j5v/eih4tZAk0lOdObsnJQ160PwnLR2dQsu6
-	 rNA11K+JeiDpBOF80sMs0NP8iUpiOjRimcvOxzxYBSOxtBGRUJQS/O+o0WNQnLxHJo
-	 /LLL8A38LYV+Q==
-Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 6B550410B5;
-	Tue, 12 May 2026 17:21:43 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Willy Tarreau <w@1wt.eu>, greg@kroah.com
-Cc: Leon Romanovsky <leon@kernel.org>, skhan@linuxfoundation.org,
- security@kernel.org, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Willy Tarreau <w@1wt.eu>, Greg KH
- <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v3 3/3] Documentation: security-bugs: clarify
- requirements for AI-assisted reports
-In-Reply-To: <20260509094755.2838-4-w@1wt.eu>
-References: <20260509094755.2838-1-w@1wt.eu> <20260509094755.2838-4-w@1wt.eu>
-Date: Tue, 12 May 2026 11:21:42 -0600
-Message-ID: <87se7wo861.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="hKdT4zmq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
+	t=1778613182; bh=4Y9g1AiYuERfDhIQV8zbFsBF9ETEEsbHBkYJ6TE7AwI=;
+	h=From:Message-ID:From;
+	b=hKdT4zmqtinVvvazdwOZKPLbIlabK7Er1S9W3k3WziC6T2CNf8DlehgLzcuGkt52M
+	 DCFMCWf7Z0Im6s7Sxov+HDmyCJO09g/MxpGDUFDNjgEAexf6Ue8OwIC+TzgfC6tFO9
+	 gCEduRbd+NWIKY+oU3mmHDy4FVCIPDnMztEo3Jkg=
+Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
+	by mta1.formilux.org (Postfix) with ESMTP id BDE03C09D3;
+	Tue, 12 May 2026 21:13:01 +0200 (CEST)
+Date: Tue, 12 May 2026 21:13:01 +0200
+From: Willy Tarreau <w@1wt.eu>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: greg@kroah.com, Leon Romanovsky <leon@kernel.org>,
+        skhan@linuxfoundation.org, security@kernel.org,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/3] Documentation: security-bugs: new updates
+ covering triage and AI
+Message-ID: <agN7vVSD4NDQlBLL@1wt.eu>
+References: <20260509094755.2838-1-w@1wt.eu>
+ <871pfgpn2a.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <871pfgpn2a.fsf@trenco.lwn.net>
 
-Willy Tarreau <w@1wt.eu> writes:
+On Tue, May 12, 2026 at 11:14:37AM -0600, Jonathan Corbet wrote:
+> Willy Tarreau <w@1wt.eu> writes:
+> 
+> > This series tries to translate recent discussions on the security list
+> > on how to better handle reports. It details:
+> >   - when not to Cc: the security list
+> >   - what classes of bugs do not need to be handled privately
+> >   - minimum requirements for AI-assisted reports
+> >
+> > As usual, this is probably perfectible but can already help in the short
+> > term as we can point it to reporters, so barring any strong disagreement,
+> > better continue to proceed in small incremental improvements and observe
+> > the effects.
+> 
+> OK, I've applied the series to docs-fixes; after a short exposure in
+> linux-next I'll ship it Linusward.
 
-> AI tools are increasingly used to assist in bug discovery. While these
-> tools can identify valid issues, reports that are submitted without
-> manual verification often lack context, contain speculative impact
-> assessments, or include unnecessary formatting. Such reports increase
-> triage effort, waste maintainers' time and may be ignored.
->
-> Reports where the reporter has verified the issue and the proposed fix
-> typically meet quality standards. This documentation outlines specific
-> requirements for length, formatting, and impact evaluation to reduce
-> the effort needed to deal with these reports.
->
-> Cc: Greg KH <gregkh@linuxfoundation.org>
-> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Reviewed-by: Leon Romanovsky <leon@kernel.org>
-> Signed-off-by: Willy Tarreau <w@1wt.eu>
-> ---
->  Documentation/process/security-bugs.rst | 57 +++++++++++++++++++++++++
->  1 file changed, 57 insertions(+)
+Thank you!
 
-One nit:
+> I have a couple of comments on the individual changes that might merit
+> an eventual add-on patch.
 
-> +  * **Impact Evaluation**: Many AI-generated reports lack an understanding of
-> +    the kernel's threat model and go to great lengths inventing theoretical
-> +    consequences.
+Yes, feel free to suggest. I'm not fond of how the pub/priv decision is
+stretched into multiple sections and I'd like to rework it to have a
+dedicate section "public or private" which describes how to take the
+decision then later we can explain whom to contact depending on this
+choice. It's not much different from what we have but it would clarify
+certain points. So in any case I think I'll propose an update later, so
+anything you can propose to improve the situation is more than welcome!
 
-If only we had a shiny new document describing that threat model that we
-could reference here... :)
-
-Thanks,
-
-jon
+Thanks!
+Willy
