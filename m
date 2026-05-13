@@ -1,168 +1,76 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D242357D17
-	for <workflows@vger.kernel.org>; Wed, 13 May 2026 07:31:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99F0A3E9C11;
+	Wed, 13 May 2026 10:35:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778657515; cv=none; b=eFDSkvYGLddr0aJeD1UxBA6Lwe8U9iHpK+tmIGwAma3WWnhi3vOwCxmK1ZOGPjtCqEqLHcZ/LEIYzu/F4LkWbbOuycxLuQPP8ofSpvwXrxdguKO6fm2jTUlXw5fi/qvbsc8uXJtfNBotnUXM2oAKy0w76xIyMsafs3y0yOMnvFc=
+	t=1778668528; cv=none; b=OcbXd4MGhS794ewhyE7peutDO7axh4vKaCmcZwGR73gVmVKFFaRjZagazWFWLyb4atoZS5+bElaoN+l9hrjPvidWhJcJqYH70F773G9ja/wvjbrcfI4UocsPsiIGGG73vD3/tlCg9LyHXelxU18hpORGgc1ESU22UwjEWdtqTWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778657515; c=relaxed/simple;
-	bh=95rnVbuPoEqYoOgOEmXgRRLmt/DgdbJJ5HiCjeQHGDU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=LLdHA1ptTub3t6uQsWcRK2EBY+wXNnJE/bM0bB8XR/PemATczVZLebOuEOEUp6eREDpK1sGof5f16ClrISpyDXBm0iJnvZkBlvanLQPGUnFey2rCrMSIVrs+aetDq5bKQX5/pPnninYdUjgLZ7D0qLoDOhc6J02+BsG1880XOmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=G2HqGlGz; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="G2HqGlGz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1778657513;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mmxOVGUrnxS/H09zubyapT22aA5Jy+w6JF95xU/Ftgg=;
-	b=G2HqGlGzWdnjulnRpb/zDjoUv7nrW5b1WhFgv6kyMWWdAg/3KWKV2l1cSVuIYEqHOm4kH2
-	wxvLOaWWq6faWenZSOD6ovITYTMJp6WBHzV/NfN2mnnvE/eULNNBMdqo/NiDYVDsVYe/gs
-	fr2I7fLxscbHwx7eXoBqmDOstLa2aCA=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-131-M8ob-ZXROPOZrHCLAy5ceQ-1; Wed,
- 13 May 2026 03:31:47 -0400
-X-MC-Unique: M8ob-ZXROPOZrHCLAy5ceQ-1
-X-Mimecast-MFC-AGG-ID: M8ob-ZXROPOZrHCLAy5ceQ_1778657504
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3E827180047F;
-	Wed, 13 May 2026 07:31:44 +0000 (UTC)
-Received: from [192.168.1.153] (headnet01.pony-001.prod.iad2.dc.redhat.com [10.2.32.101])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3FE1818004A3;
-	Wed, 13 May 2026 07:31:36 +0000 (UTC)
-From: Albert Esteve <aesteve@redhat.com>
-Date: Wed, 13 May 2026 09:30:54 +0200
-Subject: [PATCH v10 4/4] kunit: Add documentation for warning backtrace
- suppression API
+	s=arc-20240116; t=1778668528; c=relaxed/simple;
+	bh=vjfR2GWpqdcZMNr7DbEEMQk2je0+nSri3Yp4wcLb1vQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a4HEMQrnVD1byG40sz/W7bQYJFBbETLxJUovol3Vnp3tgytajMKSyX3WzZuqIIPJYPnDNPqPUaTBzDWPHpJxtJBqixRqUNJbYx9wPnSzfJNTmFjC1WL6eFSkcGLe135YbZmDRIOZXIY18KQTotis7DZrCcJvz1P0ZliQpPKVkZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11DDBC2BCB8;
+	Wed, 13 May 2026 10:35:27 +0000 (UTC)
+Date: Wed, 13 May 2026 12:30:10 +0200
+From: Greg KH <greg@kroah.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Willy Tarreau <w@1wt.eu>, Leon Romanovsky <leon@kernel.org>,
+	skhan@linuxfoundation.org, security@kernel.org,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 3/3] Documentation: security-bugs: clarify
+ requirements for AI-assisted reports
+Message-ID: <2026051353-apricot-kleenex-fa57@gregkh>
+References: <20260509094755.2838-1-w@1wt.eu>
+ <20260509094755.2838-4-w@1wt.eu>
+ <87se7wo861.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260513-kunit_add_support-v10-4-e379d206c8cd@redhat.com>
-References: <20260513-kunit_add_support-v10-0-e379d206c8cd@redhat.com>
-In-Reply-To: <20260513-kunit_add_support-v10-0-e379d206c8cd@redhat.com>
-To: Arnd Bergmann <arnd@arndb.de>, 
- Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
- Rae Moar <raemoar63@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Andrew Morton <akpm@linux-foundation.org>, Paul Walmsley <pjw@kernel.org>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
- Alexandre Ghiti <alex@ghiti.fr>
-Cc: linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
- dri-devel@lists.freedesktop.org, workflows@vger.kernel.org, 
- linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org, 
- peterz@infradead.org, Guenter Roeck <linux@roeck-us.net>, 
- Linux Kernel Functional Testing <lkft@linaro.org>, 
- Alessandro Carminati <acarmina@redhat.com>, 
- Albert Esteve <aesteve@redhat.com>, Dan Carpenter <error27@gmail.com>, 
- Kees Cook <kees@kernel.org>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1778657459; l=2728;
- i=aesteve@redhat.com; s=20260303; h=from:subject:message-id;
- bh=YX7AMC4Z3qCvd9o2GGoQ6LMsoUJS/dulVvDsXv5Qzg4=;
- b=Tn57dlpmAKPyg7EadtPF+8pvScnc6ZwMw7meNTlMqMCFlJZzy+pZI8DRncXP+P2iUjAiPDAsb
- jTdsNLlmNajD1NkYBoGSxviZ9mGmdnd11yBega+aY3NzzT34HItL/9a
-X-Developer-Key: i=aesteve@redhat.com; a=ed25519;
- pk=YSFz6sOHd2L45+Fr8DIvHTi6lSIjhLZ5T+rkxspJt1s=
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87se7wo861.fsf@trenco.lwn.net>
 
-From: Guenter Roeck <linux@roeck-us.net>
+On Tue, May 12, 2026 at 11:21:42AM -0600, Jonathan Corbet wrote:
+> Willy Tarreau <w@1wt.eu> writes:
+> 
+> > AI tools are increasingly used to assist in bug discovery. While these
+> > tools can identify valid issues, reports that are submitted without
+> > manual verification often lack context, contain speculative impact
+> > assessments, or include unnecessary formatting. Such reports increase
+> > triage effort, waste maintainers' time and may be ignored.
+> >
+> > Reports where the reporter has verified the issue and the proposed fix
+> > typically meet quality standards. This documentation outlines specific
+> > requirements for length, formatting, and impact evaluation to reduce
+> > the effort needed to deal with these reports.
+> >
+> > Cc: Greg KH <gregkh@linuxfoundation.org>
+> > Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Reviewed-by: Leon Romanovsky <leon@kernel.org>
+> > Signed-off-by: Willy Tarreau <w@1wt.eu>
+> > ---
+> >  Documentation/process/security-bugs.rst | 57 +++++++++++++++++++++++++
+> >  1 file changed, 57 insertions(+)
+> 
+> One nit:
+> 
+> > +  * **Impact Evaluation**: Many AI-generated reports lack an understanding of
+> > +    the kernel's threat model and go to great lengths inventing theoretical
+> > +    consequences.
+> 
+> If only we had a shiny new document describing that threat model that we
+> could reference here... :)
 
-Document API functions for suppressing warning backtraces.
+Ah yes, a link to that would make things better, but don't we have that
+elsewhere in this series?
 
-Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
-Acked-by: Dan Carpenter <dan.carpenter@linaro.org>
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-Signed-off-by: Alessandro Carminati <acarmina@redhat.com>
-Reviewed-by: David Gow <david@davidgow.net>
-Signed-off-by: Albert Esteve <aesteve@redhat.com>
----
- Documentation/dev-tools/kunit/usage.rst | 46 ++++++++++++++++++++++++++++++++-
- 1 file changed, 45 insertions(+), 1 deletion(-)
+thanks,
 
-diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
-index ebd06f5ea4550..1c78dfff94e8a 100644
---- a/Documentation/dev-tools/kunit/usage.rst
-+++ b/Documentation/dev-tools/kunit/usage.rst
-@@ -157,6 +157,50 @@ Alternatively, one can take full control over the error message by using
- 	if (some_setup_function())
- 		KUNIT_FAIL(test, "Failed to setup thing for testing");
- 
-+Suppressing warning backtraces
-+------------------------------
-+
-+Some unit tests trigger warning backtraces either intentionally or as a side
-+effect. Such backtraces are normally undesirable since they distract from
-+the actual test and may result in the impression that there is a problem.
-+
-+Backtraces can be suppressed with **task-scoped suppression**: while
-+suppression is active on the current task, the backtrace and stack dump from
-+``WARN*()``, ``WARN_ON*()``, and related macros on that task are suppressed.
-+Two API forms are available.
-+
-+- Scoped suppression is the simplest form. Wrap the code that triggers
-+  warnings in a ``kunit_warning_suppress()`` block:
-+
-+.. code-block:: c
-+
-+	static void some_test(struct kunit *test)
-+	{
-+		kunit_warning_suppress(test) {
-+			trigger_backtrace();
-+			KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT(test, 1);
-+		}
-+	}
-+
-+.. note::
-+   The warning count must be checked inside the block; the suppression handle
-+   is not accessible after the block exits.
-+
-+- Direct functions return an explicit handle pointer. Use them when the handle
-+  needs to be retained or passed across helper functions:
-+
-+.. code-block:: c
-+
-+	static void some_test(struct kunit *test)
-+	{
-+		struct kunit_suppressed_warning *w;
-+
-+		w = kunit_start_suppress_warning(test);
-+		trigger_backtrace();
-+		kunit_end_suppress_warning(test, w);
-+
-+		KUNIT_EXPECT_EQ(test, kunit_suppressed_warning_count(w), 1);
-+	}
- 
- Test Suites
- ~~~~~~~~~~~
-@@ -1211,4 +1255,4 @@ For example:
- 		dev_managed_string = devm_kstrdup(fake_device, "Hello, World!");
- 
- 		// Everything is cleaned up automatically when the test ends.
--	}
-\ No newline at end of file
-+	}
-
--- 
-2.53.0
-
+greg k-h
