@@ -1,81 +1,81 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40F463EB7FE
-	for <workflows@vger.kernel.org>; Fri, 15 May 2026 07:31:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFF553E557C
+	for <workflows@vger.kernel.org>; Fri, 15 May 2026 07:31:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.41
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778830266; cv=pass; b=WqgvZUGMcFKBl6O79/l7UI5tYRJJfq+9vpQYLuCbQdvbDeF+/HS2LYj88GDDOUz1SAM+VNtfKvsaConRms3vFpVMKrQZGNAyxmo63VpoxfayYFXpO9RBDMj6IOnVk6njbjjsY6RUzIDw8wCYlVaHthWaHS+dcgtjYL7JpfJARcQ=
+	t=1778830318; cv=pass; b=i1IiRgS7onmtz3YhfbHDQQtDGIdrIQwpMSVw98EN3+xhLlVm0JlCo4ggOysrvDxPQVUE2KAmqPJPKmCqZkj455AlqAUWX64qa4iVCIZRdby68cW975PoZugFgTphjp1jMWUwo7aWTv++B6cBhHIyQLUdbB4sV8ikhD8X6Kn/+OI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778830266; c=relaxed/simple;
-	bh=1kmfI0Y32fIt7EUV5XiknpKrtVDFFcSiZT7B1ZZ9IcU=;
+	s=arc-20240116; t=1778830318; c=relaxed/simple;
+	bh=A/SsPiVJtDZ72Sr+gRIQuTO1NvYWy3UPeoA4P6g0JsU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jHDvYBizfb128dZdziYfRcAMFJLYbyAjci32B3PjPBCntd1jgYlyQBY7WsrJVn0l4rX1IraN1rShqUImAzHXBfhTMCfJDjoGZu3K8Z5R/bC3bPuVwCjgzSYoJUehWzVvc7rYo3Mso4xANnCRwWgTaW9WCoMHtEGXZDhmM0X+WBA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I8D5Ru4B; arc=pass smtp.client-ip=209.85.208.43
+	 To:Cc:Content-Type; b=ktxSotFwuS7c1ELImzvcQWW3YlT9O7HNyEnIt9HOSIbwR+cIeMxAJuYakUIVceqqp4z2nHs4ogkJe1D0uw4jRDIfUK7b0V9tjlLB8J2PyHJxxwxqthy8sTEvzYJal0YQg07/mJ5XOtOXblUdMGM73IlD9zmlW9wpPCF/AOfaHAI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AXoYYfV0; arc=pass smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I8D5Ru4B"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-67b32c695efso1138473a12.1
-        for <workflows@vger.kernel.org>; Fri, 15 May 2026 00:31:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778830264; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AXoYYfV0"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-67bc6098640so14558856a12.0
+        for <workflows@vger.kernel.org>; Fri, 15 May 2026 00:31:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778830315; cv=none;
         d=google.com; s=arc-20240605;
-        b=fZ3Ug1t7+2UZp4MIqeytJdLY+2l29+GdbRyHg0tUFnH7jLEM9fBmrG4WTMBdKBoPtH
-         El10BRZ+LY2JxBPdcVLMLlkigYUCVZfpYipBuMxLronxkGznKHGvKl9XL/Wg0jjo3qlA
-         v3Qtkl18M7HSwKMKc2G6pPcnqjKaI7hSva5IGA/gQ9QiB8FyqS0N1nXOBml0Ju+39NMl
-         gUDia3i5tYY8B7HcET6/u77yGy88powlIi5ME8v6SITRj01ZYt9KHfOOL++5LfkSqfbF
-         LLesV02q7YONpX79Vci6r5VKR7GEwAbbXDUg7/aEGd5fNTKpYISL84VhkUl/cY3kS4Kq
-         HEdA==
+        b=BNTvOd2ARtNW0LV2/yCTSlxqjiqwTMiGdQLKVKoPy1kagYHEAbzTW1X/ZD8UYkAt9X
+         PjQE4yUNxmRQnnH+L8QKzXRKnFz8HijIXoGAJmMJAeunND3S6EBg4El75TmZ03bFumfW
+         RHVvcTdFR4FmRT3ahEK88Almt1qhsuYQFasj7z1rDAmpLyfRvyUItISMzRXDxU0Db5S1
+         CVPgDoiOiG1r8+p9b/VfJLWwKPq3Ba5by0jDAKENJcprhNzAlKolGBKUpc7js+H8TaGb
+         1lcbtw0bCV9vp/4/EZPQlgpI1PvsnCkQuigN+KFPoNPtfA7QGzfLjD/MlV55ogVDr2Jd
+         zaiQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=1kmfI0Y32fIt7EUV5XiknpKrtVDFFcSiZT7B1ZZ9IcU=;
-        fh=b6iU13ldO0jElkmPYTtF4wShFKhqsbSDeRKt2Enw5cs=;
-        b=lJRZAa6CWTRMIE+dS2ytFOQ6qgPUEXWu6ACoABOJ8RB/vaDyZVU3Xfp2dAW0RYf5s3
-         ZDSWAIud6G87ItJ58IZLX8vC43c8zxv0b3Jht0IdckFSLp5sB0bz7cb8oGduNt9NYjmf
-         qXE8ZwJnxlT2I7ia4tQWzk1RAFmmUONbLzGl6WhE/556Psc7n5zWNhFuRYCA150il/Wq
-         LbmBg6//deOtXfZqYndV435tyVSw6eSULVIeN53XloHIx7+kDxwZq0YEgWQUQ7NZEyxT
-         NEHcmui+7svNQY/gqpnDBsfE0ZgjizKBbPfhgzGyHOvmvUQhGBoYGBpbiXu3mlCKOxsG
-         1nJA==;
+        bh=A/SsPiVJtDZ72Sr+gRIQuTO1NvYWy3UPeoA4P6g0JsU=;
+        fh=2WUlAPXz8iChZYh1zU3F+uMXoM+gFO9tF0c87Zw+iXs=;
+        b=U8G1fi+tIPCg7rABwWTGBXD+kAGkCv4uRtBCPg2RShfnQwVNfV2ab61dMJtW6ftceS
+         vZNRKryaSyLyHSbqcrGsY6VdogmLVtu/hakQr1N0Zgq+h/mWCOrEJTJDfMRlhZ92zR0d
+         wVPnpECzPy6TU6rFyxPuHio43vvIdv95sNP6fN96e6AsN9p3jetX8df2gCU90xPjB8eD
+         /wmdzcz6u2mm7BaXznJl1UGf3RNqn2VxEVRPH1Vu+ukqFRhXCmO+aJIuybspqRskWgNf
+         lg9A862gIZM1AlLIoKUkFFJHqyDDIAUaYOafGtQ8E7nyzgG3cuA18bfEgMF5wb7+NWsu
+         4irQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778830264; x=1779435064; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778830315; x=1779435115; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1kmfI0Y32fIt7EUV5XiknpKrtVDFFcSiZT7B1ZZ9IcU=;
-        b=I8D5Ru4BK1xwz8BKP94RYoBE/rsVfRV9RfJ+P3uQcMN+8qCXEznxiTeAdMWRS7NXjw
-         FtDHUt6kHN90Zf0tYY8N5tx3ytta1lwIK18Vew+fQkXGiaGz8WOJqRXq00L4nQh49GTA
-         FXl/hG1N8FSsxOAxL3nfmWeTRJRH1QOZULKfzrT4YDiAgNkL9LWPeBmLnQU3US6MpcNB
-         i5UnNvEQm/ql9PK/o1xFc13DP6xgHcfnp+Ao/PV+EuVsyg4ZmUOvU6MGJl9/V2fUSQwJ
-         Ni9J0kJlQ7shuBtqSMsS7HO8xHmD8XMlZp4l2BvwoDMZ1GFWL7/SkxtCsWr4YtLeozhM
-         3rrw==
+        bh=A/SsPiVJtDZ72Sr+gRIQuTO1NvYWy3UPeoA4P6g0JsU=;
+        b=AXoYYfV0xdQL2EvM6lCogOlDWNQaeGF6nGq0rbBC2KD/F9/y+MTmaXgoA7LKsFuErm
+         SwZz2/xIRXO9eIjHlWf89zUzVPGmkE4Hq1ADw3VdwdQiPaurNRIE0YYW0Qi8wD3wMHn2
+         c2uk3rFQDKPDmEFbI/HYDC/W0nMtjsXFQLi3exTGjDV6hqgyCfcmDi9SUedm5zd2Z01T
+         86zYgQkwWPuiR9zX4w50fBsVdpA44lc2j4OeDbmNOmz8LRoS7bdhjM3mFoXMC2HedO/t
+         0uMk0ZJVnZZSwYP5WVmwqVoE3Wjxwzad8c2ftykQDvPkgDBNaAWaicoHDpok4ELi9JvW
+         OpyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778830264; x=1779435064;
+        d=1e100.net; s=20251104; t=1778830315; x=1779435115;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=1kmfI0Y32fIt7EUV5XiknpKrtVDFFcSiZT7B1ZZ9IcU=;
-        b=AUCfc0HgVJoI+oYkgLpGhD9PHwCOAfx2p2dLCfEHMppHaR3TuzLHjwm+JIxK5yJrKi
-         2b0rfBwbqeadyls2vAdjXRG9Hgmx40V+VYX9rbeNIEWU0pBSzWfHUAudTfZJ5wRv+L90
-         kmGBZS0TDxhWs+QJVyRssCnRmasUeXeentV8w1DBIjRdZqNHwCiWo4gyBeqm9MZGn+7L
-         1zcHkA0JYw79KdgW52BR/ef1RYefzGTA+2Zu77SLhMiewkUbvLdZJTjBm/GwT4qjciUJ
-         st9fjv+KPOPNTslM72klumgOUdJR7wtBxQhB9YDcuQHGOXlbVX/0JjbU6Rn/jocaga0T
-         O2pw==
-X-Forwarded-Encrypted: i=1; AFNElJ8F9u5uYhBRZuK9kq8WJ/pmwgwuFIDw0LLNerRuWixSmOVdbWUuZWLbW+doWUTjGVUcEi16L417fMM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx/v+DNVvikGJvrMDdk7NEkiVHhWLiUiHl4l3LGBhnUUNOaF41S
-	uaXwFWU0bus/fYqSZCJGP8Q1GHImQn+Zvo2byjBzIo10sx8ywAS+NjoMjmaHXCunyuZxahVkenL
-	Ysru+6+Xm4rv5wRMgfLvKQdRrXeOVIxA=
-X-Gm-Gg: Acq92OG7s2BqrJvGQqeC2OEhi+duUk0dJt9J4tGd7ZO0FbIypckpC1Ypcu9l3drfQSS
-	EJFGMbw7v6QCPFwizew1YkZCroIAhTg1BqyPUWMqZkfu66Wm2buxKSIjDjHcFPjoTf/UZks8dIp
-	kMgiQLd8a3Yy+ENWlWGWYTQKaNbKNe+UFhFV73iPSX6E0WbjXMoatJ0j/G3ZjG9EN0l2i0yWSK9
-	Xxb1zRD9Z+EWL6xj9nV+NEJfOTq3/LEgi7PQ34I6k5p/AOhWYOX9Pv3n1OxAdwx38pocksMIXpj
-	3Ltf+BKaOQa8zPkzeGBFRKUxmzdFLHS5PIkQP0fCk6KgKt/OdJpTw9OOkmWMJofX7R7rqZ5JR2V
-	hUcOh9MA=
-X-Received: by 2002:a17:906:fe08:b0:bd5:1605:e1c3 with SMTP id
- a640c23a62f3a-bd51605e354mr132586466b.1.1778830263318; Fri, 15 May 2026
- 00:31:03 -0700 (PDT)
+        bh=A/SsPiVJtDZ72Sr+gRIQuTO1NvYWy3UPeoA4P6g0JsU=;
+        b=bUr5tIqdaYAX6DrxxFI/JoA5qZ41V3bHx2A/hZZgAfk1qa4RfVaQDnme11dQNiHyw5
+         a6r0S4uC1FakFIyVlSUp1nCbiFrFhID1/DaxvwFeCZiK/bplSiVlT2UpZ3xqOcDhvvUu
+         rroY059dIHfFWoLWBHz50D7vKC8glKkmqXN4sO7l8VXqp7iN9dSuLDEovWjnQPlkvijc
+         q5SsgLEX6hwc8SKw4XHS4uomewlGrndbOYpyg1dEsm0wgm48Q/+m2sxZ3ZGvg3O/q4qc
+         bLOmI2lI23ajtrn7bd5Qu+r8djIxE9gBw0SCeszJxqaShIQ62PnYbeCdkIvlop0MLfZ5
+         Xmlw==
+X-Forwarded-Encrypted: i=1; AFNElJ8kXIA+LchgRJQf9hqFAHBv7tjPH3TaoOnzWFhFL9lRMHqRxorwNJPJt4ZiEjcoNVLlcCBfz9nNMxo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxzRhrCrg87sxdvrPhcp9tkS0mfSPPgKL3YmmPM8bFskBaIby0+
+	Uu6zMPMT+XbsCNEgSmQEZUHeJvvJ8lUe/PNuhFnuVXtAl26jqgfGZKtvneXOrAlQo/BfAgoE0DM
+	w8xxSnYyBEmppnYzdH8T8Y0OTFYCD64o=
+X-Gm-Gg: Acq92OGlotUAhOKb/n+ONg1aFM3eGNL4vDhBMnsShjqS8SK4Cj9/SdFH4k870GZhgMJ
+	CwnpPed5a2MDEqYS1JxwuQYq1/blN8kGQEMV8V/DDXgSbi3XOyf12SPItSFHEZYRy2GoUwd1rva
+	KdgNBQHZM0WXFAfnhdQ3XK7XXowFiab20YA9P9+XeYVGlvs7Jzu38f2o0PXZfZ3zJU4SO0K01D1
+	sJS4US6rZg+qWrvOpTs/o5iZoKDHqz29WvafbmsXPH1FSy+erpWzc80fRX2nfkZC2KkGvLhofVa
+	8icvradY0EDnzamr+/PQacqqGCKTX1AMDgjr56ycsDTOujKywbMZdsG9I2MSacw8vL6UlFNnRfG
+	0sPddmKQ=
+X-Received: by 2002:a17:907:9802:b0:bce:804f:f199 with SMTP id
+ a640c23a62f3a-bd517aaf35emr124360466b.40.1778830315236; Fri, 15 May 2026
+ 00:31:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -84,11 +84,12 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20260514160719.105084-3-manuelebner@mailbox.org>
  <20260514163033.108009-2-manuelebner@mailbox.org> <CAMuHMdXFBFbb+3CqaJGRLqUubRm0pt-yYSds0fitm_wv07kYxw@mail.gmail.com>
-In-Reply-To: <CAMuHMdXFBFbb+3CqaJGRLqUubRm0pt-yYSds0fitm_wv07kYxw@mail.gmail.com>
+ <CAHp75VfhHK9E+W83k+w3RWEMq3-HeXC31cJcKE7OiUY9U-wLcQ@mail.gmail.com>
+In-Reply-To: <CAHp75VfhHK9E+W83k+w3RWEMq3-HeXC31cJcKE7OiUY9U-wLcQ@mail.gmail.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 15 May 2026 10:30:26 +0300
-X-Gm-Features: AVHnY4KscB1lPxN-vg0nJTVo2JmsPHnXDbsJElyR3pT2lQxI1VGvrffknfgi6hg
-Message-ID: <CAHp75VfhHK9E+W83k+w3RWEMq3-HeXC31cJcKE7OiUY9U-wLcQ@mail.gmail.com>
+Date: Fri, 15 May 2026 10:31:19 +0300
+X-Gm-Features: AVHnY4K3RmWomzVU2dlVSzNVcpQvqzGa2-vhlNceUIfF6GpAdlsduEN_ocTMzyM
+Message-ID: <CAHp75Vdng_p2w4LLLd7midQWJ1FnMLBOT7p_gfOi2evjbSEUDw@mail.gmail.com>
 Subject: Re: [PATCH v2 3/3] drivers: add deprecated remarks to strlcat()
 To: Geert Uytterhoeven <geert@linux-m68k.org>
 Cc: Manuel Ebner <manuelebner@mailbox.org>, Kees Cook <kees@kernel.org>, 
@@ -102,32 +103,38 @@ Cc: Manuel Ebner <manuelebner@mailbox.org>, Kees Cook <kees@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 15, 2026 at 10:23=E2=80=AFAM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
-> On Thu, 14 May 2026 at 18:32, Manuel Ebner <manuelebner@mailbox.org> wrot=
-e:
-> > add kernel-doc comment to strlcat() function definitions
+On Fri, May 15, 2026 at 10:30=E2=80=AFAM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+> On Fri, May 15, 2026 at 10:23=E2=80=AFAM Geert Uytterhoeven
+> <geert@linux-m68k.org> wrote:
+> > On Thu, 14 May 2026 at 18:32, Manuel Ebner <manuelebner@mailbox.org> wr=
+ote:
+> > > add kernel-doc comment to strlcat() function definitions
 
 ...
 
-> > +/**
-> > + * strlcat - Append a string to an existing string
-> > + *
-> > + * @dest: pointer to %NUL-terminated string to append to
-> > + * @src: pointer to %NUL-terminated string to append from
-> > + * @count: Maximum bytes available in @dest
-> > + *
+> > > +/**
+> > > + * strlcat - Append a string to an existing string
+> > > + *
+> > > + * @dest: pointer to %NUL-terminated string to append to
+> > > + * @src: pointer to %NUL-terminated string to append from
+> > > + * @count: Maximum bytes available in @dest
+> > > + *
+> >
+> > Missing "Returns ...".
 >
-> Missing "Returns ...".
+> Documentation says "Return:" as
 
-Documentation says "Return:" as
-- the section (note important colon)
-- the singular (however plural is undocumented and supported)
+I mean the kernel-doc documentation. Here the section is missed and
+needs to be added, indeed.
 
-> > + * Do not use this function. Prefer building the string with
-> > + * formatting, via scnprintf(), seq_buf, or similar.
-> > + *
-> > + */
+> - the section (note important colon)
+> - the singular (however plural is undocumented and supported)
+>
+> > > + * Do not use this function. Prefer building the string with
+> > > + * formatting, via scnprintf(), seq_buf, or similar.
+> > > + *
+> > > + */
 
 --=20
 With Best Regards,
