@@ -1,93 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F3035FF58;
-	Sat, 16 May 2026 22:32:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1587F236453;
+	Sun, 17 May 2026 06:13:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778970742; cv=none; b=BK0MSIpVbLQwTNB84t5Nwb1yqK2xM8eVkn3hNI48zJPqbpcSgzeFScigYh9SHP52JVWxRZ1yrNcgzOB7OjP7egwet9qISul9hfI1DwFgUy0y9NNZXRQXiSAg4oVoTD31FXI2QcfUKmWaOOjIc9gdYwqqWsVke2UDhcoujAyIfWo=
+	t=1778998410; cv=none; b=BxAtQmBHQe34Vxtl1bxvSoHH3ffyePOJCyrSf77xxsNlc1bdjNmMZkQxkBXPcDEcPjaYQ8eRZ26TGz4A5RerMQHmlUxipkkCnXrgJluej6QN19XjJwfwK+0LkCRHYswFy/FOOHeZFpCu/dYmxxvsqQb7pwQ07B7UALxMoCw3SrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778970742; c=relaxed/simple;
-	bh=p8KBhYgvoGa7kcJxmErewC6qFW13N4QtBV+lzLokGMA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LKqlwgNRHMedtMpOGFaoR1UXbrFpS8m+bIDjTV1aRVieA/WmmJ84TiSXOupuLneDsuP9atMEXlBpkCYytzJn07oIovcd+yPHRGzsb5gk8BMQEj/MlMGo5Wa2LzyYNr26zl6sxNiblvipUqIcOPkXPWZAvO87V40tWIDISuCBh2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OS+CEalH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778998410; c=relaxed/simple;
+	bh=RqtsWVxjCmlUWBj5S7FO/i4j07nai2tv1fGyBa1ylnE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IDJNeb7/mQSy8BoDsgw2R9GvevRk1yuCyjdNwQiu+17jEBedEhzKqC4+qGVhSHLRd8sUBR8lWx+4TiLuN67PaHkhUzYVwP9lPiOFYfJLuePUtBkB7kz3pp2/BYQZwMClGuW7XAaNKrRpa/KHIT23Iw4MGfMs6wMeSnNa9VVbpmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=2BzbujSU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OS+CEalH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 568A7C19425;
-	Sat, 16 May 2026 22:32:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778970741;
-	bh=p8KBhYgvoGa7kcJxmErewC6qFW13N4QtBV+lzLokGMA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=OS+CEalHMChNgVfOj7EKTRJeoXYxJtzFIbDCSjFkd3w0T+E7Ju4ukVM49QlJ4Nzzk
-	 CVD2pexrWsWKVMnY+yXvEe4hz0VPTqVzkYs06NouhfItKPBKzSvMhd5FdewWraLMdn
-	 mCaEqqKZe2W9VwW1cCsKUNgTaYN2S1z+Pfu5W9vBN7rsbaXsy6PmoG3bIgf2WK2nPn
-	 w24h/TxGzN0GUYkWzx+Cu611+ahwD337jRk/II2gnFVhrOtCErShbYa9g0F2ETGW3g
-	 HFivempqUXKFKxYlfjtJUFnvTNhusgSEqti0iw7R/W/sdR+w2fe3RBVfGFh4+tr5G2
-	 SgdLUMVwsCcLQ==
-Date: Sun, 17 May 2026 00:32:16 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Roman Gushchin <roman.gushchin@linux.dev>, Konstantin Ryabitsev
- <mricon@kernel.org>, Guenter Roeck <linux@roeck-us.net>, Krzysztof
- Kozlowski <krzk@kernel.org>, sashiko-bot@kernel.org,
- sashiko-reviews@lists.linux.dev, sashiko@lists.linux.dev, Linux Kernel
- Workflows <workflows@vger.kernel.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, devicetree@vger.kernel.org,
- kfree@google.com
-Subject: Re: Stop false review statements
-Message-ID: <20260517003216.0c6a3b62@foz.lan>
-In-Reply-To: <2026051631-trolling-juggling-da1c@gregkh>
-References: <20260516-upbeat-tody-of-feminism-4ab00a@lemur>
-	<D659E814-069C-439A-B816-1BC383F38E1F@linux.dev>
-	<2026051631-trolling-juggling-da1c@gregkh>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="2BzbujSU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44B1DC2BCB0;
+	Sun, 17 May 2026 06:13:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1778998409;
+	bh=RqtsWVxjCmlUWBj5S7FO/i4j07nai2tv1fGyBa1ylnE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=2BzbujSUdh0XGbpoxRA7VicXKQizqugRgZW3GWVAmwQJKDoAeWs/y46w+f1vlv0KK
+	 d8sDoVGQrwVEE5ollOM7WJfzKQiLuFkWaFNZZIZcFsKBqKbyqLjutri9sUUYCSIGbu
+	 pcrdhT/38mblks6LApWLKv4w8FCZ4wlm/dVqb+gA=
+Date: Sun, 17 May 2026 08:13:33 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH] docs: submitting-patches: Clarify that in English
+ "reviewer" is a person
+Message-ID: <2026051725-spoiler-nursing-0be5@gregkh>
+References: <20260516123846.63413-2-krzysztof.kozlowski@oss.qualcomm.com>
+ <ce1e5e9b-83d0-4971-aee3-dc5a8f85ce22@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ce1e5e9b-83d0-4971-aee3-dc5a8f85ce22@kernel.org>
 
-On Sat, 16 May 2026 17:45:51 +0200
-Greg KH <gregkh@linuxfoundation.org> wrote:
+On Sat, May 16, 2026 at 04:39:45PM +0200, Vlastimil Babka (SUSE) wrote:
+> On 5/16/26 14:38, Krzysztof Kozlowski wrote:
+> > Common understanding of word "Reviewer" is: a person performing a review
+> > work [1]. Tools are not persons, thus cannot be reviewers in this term.
+> > Also tools cannot make statements ("A Reviewed-by tag is a statement of
+> > opinion"), since making a statement needs some sort of conscious mind.
+> > 
+> > Our docs already clearly mark that "Reviewed-by" must come from a
+> > person:
+> > 
+> >  - "By offering my Reviewed-by: tag, I state that:"
+> > 
+> >    Usage of first person "I" and word "state"
+> > 
+> >  - "A Reviewed-by tag is *a statement of opinion* that the patch is an
+> >     appropriate modification of the kernel without any remaining serious"
+> > 
+> >    Only a person can make a statement of opinion.
+> > 
+> >  - "Any interested reviewer (who has done the work) can offer a
+> >    Reviewed-by"
+> > 
+> >    A person can offer a tag thus above does not grant the tool
+> >    permission to offer a tag.
+> > 
+> > However this is not enough and apparently English is not that precise,
+> > so let's clarify that only a person can state the "Reviewer's statement
+> > of oversight".
+> > 
+> > Link: https://en.wiktionary.org/wiki/reviewer [1]
+> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Cc: Vlastimil Babka <vbabka@kernel.org>
+> > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > Cc: David Hildenbrand <david@kernel.org>
+> > Cc: Linus Torvalds <torvalds@linux-foundation.org>
+> > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> 
+> I agree with the intent that the tag is for people (whether they use a tool
+> or not to help them). We also don't put "Tested-by: kernel test robot" or
+> syzkaller on every commit that they test and find no bugs. Review is also
+> not just about absence of bugs, but agreeing with the larger design and
+> whether the change makes sense to do in the first place.
+> 
+> So whether that's achieved with this particular wording or differently,
+> 
+> Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
-> > I=E2=80=99m not attached to any specific form of it, I thought Reviewed=
--by is the most obvious form.=20
-> > And we use Reported-by: tags with various tooling for years. =20
->=20
-> Reported-by: shows the existance of a problem that some tool found, a
-> subtle difference here.
-
-I'd say that, if an issue was found after a patch is merged,
-I don't see why to distinguish. I mean:
-
-if tool or a bot XYZ found a real issue, and a patch fixes it,=20
-reported-by applies - being a LLM tool/bot or not.
-
-Now, if someone sends a patch series v1, get a bot report and send a
-v2  of the same patch series due to some CI/bot/LLM/... feedback, IMO=20
-the right approach is to mention it on patch 0, just like we do with
-any other feedback. Eventually, if such feedback is more relevant, it
-can be also be mentioned inside patch description(s).
-
-That's said, I would be fine with either a free text mention or with
-some tag.
-
-If one wants/needs to justify if/why some tool is relevant for kernel
-development, a simple grep would be enough:
-
-	$ git log|grep -i coverity|wc -l
-	4267
-	$ git log|grep -i smatch|wc -l
-	13140
-	$ git log|grep -i sashiko |wc -l
-	138
-
-IMO, there's no need for an special tag.
-
-Thanks,
-Mauro
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
