@@ -1,102 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91DD0359703;
-	Sun, 17 May 2026 10:12:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6700130F957;
+	Sun, 17 May 2026 15:21:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779012766; cv=none; b=mvolQ2U31M++OdlRhsVLnNYioHjiAlQR+LIl8L7d3nOlqzQUttFJkoc13IyIKNyYBH2dyYLkHky4h4hSPggmEgOY5TT+qkiZs+RUm23DL3OluBFeD15rtFil+HDiA5LpweW+E159arX4pwnMhUVGxe9rrhrehpwUYgbvl/TnTes=
+	t=1779031313; cv=none; b=U/bq9FV2pKSb4ENqi7//hrQT8uNP8G2iuMr8MY+7rYMEAg6yuSagEysn7WhU+ZxCC68zrOo5alTttJ9hsXkj/r+9TBtikX1uJcyr8bY+DOWNbyen0xgvfmgRJIYtGhvXw+ozUHfvRnsmYWEWy00QCze2PiwAOeOSaV1n3L1GJZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779012766; c=relaxed/simple;
-	bh=iUYLHQY3uWeVAxMEfj+NOh/d+kYdwRIWjApEH09TTBs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q4TehmOSv2N3alTyO/oSNTtlT8aoQJKulLtwHloXEpuCXqYOc8DXNWSaF5hkr64r3YftmnqqDYdyA+i6CSumMXzZ1Myqgcv3Ms2pb78QrfSagCrnQ5FGPYZ1jh64+xoKnnfjVAI6bXxbj5c/0V3cPgUCpzh5HdWGyXITsmddXWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=yLLHXpfr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779031313; c=relaxed/simple;
+	bh=t9y0GTdIMNxbDvtPXVJ2Wbg9KnL36rFZbM7XjzwMxiY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=RRHg+Lok95jRZ8iew6fXtNlXUao0N/ugZjv78rxaFzPUrnnT58Eh/4sQyw0TnMNFV2vdiPua0K6yLV6EJ6D8Xzqq9H/4U3YhNj1Cxzu/4sMXSslmPvwlxtBx2ghtAUZaKJeUFPa9gCOg9DSP1ufgTgSZlE4xY1IN962NjL0yWoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=XNFn06y8; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="yLLHXpfr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B003BC2BCB0;
-	Sun, 17 May 2026 10:12:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1779012766;
-	bh=iUYLHQY3uWeVAxMEfj+NOh/d+kYdwRIWjApEH09TTBs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=yLLHXpfr/OESwdoqabAlvrm93iSx2OpiPgiTB9Q+OONko5U5elVHx41X0ryIlkZZw
-	 1nzyrdexgXUrkYREIx0jr3SxuOslNh2uHGT9F/yqu5y5lbxLEnTnQ6Pdz1E3q2+LWe
-	 2qll5oWHQiqGqeUTdPi0qewHup7qdp/l6YH2/uaA=
-Date: Sun, 17 May 2026 12:12:00 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Roman Gushchin <roman.gushchin@linux.dev>,
-	Krzysztof Kozlowski <krzk@kernel.org>, debarbos@redhat.com,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Konstantin Ryabitsev <mricon@kernel.org>,
-	Guenter Roeck <linux@roeck-us.net>, sashiko-bot@kernel.org,
-	sashiko-reviews@lists.linux.dev, sashiko@lists.linux.dev,
-	Linux Kernel Workflows <workflows@vger.kernel.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	devicetree@vger.kernel.org, kfree@google.com
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="XNFn06y8"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6EF8140C79
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1779031306; bh=sr9iSe4M/xfVvPcj6Q8cSaRqEc29Xtd0DjCI8Frt+58=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=XNFn06y8oRe/pI9RuBJ//uKP8K79mY26JT63CbMuAdkFCViameJoyh1SToaKe0GrG
+	 3iO853p7n0xAPHzV5w8nu0wNTm5LsVQqzoiSzqz3waLOnRNWoytyav1GCcpw5RHOil
+	 bkt95/Uylr8sX6VgYyopqjw/ppbXIBugvdL0z4ZJV44vaD6I98kKzNWMNk/2MYNbwP
+	 ZdwYG3vFZpw7maDU1ryaXryFVeJB/hNA+/nPTz2RakVTUrC42tBAJ7ZFdYm686/6rh
+	 zmg7XBdxAI4lFZtDpf+q1vXjiYGcAolmr1xHzZHt0+Q5wuhHrRbohkaDh0/VQtf4yF
+	 /Ja++u4T7Pn1A==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b:67c:16ff:fe81:5f9b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 6EF8140C79;
+	Sun, 17 May 2026 15:21:46 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Guenter Roeck <linux@roeck-us.net>, Krzysztof Kozlowski <krzk@kernel.org>
+Cc: sashiko-bot@kernel.org, sashiko-reviews@lists.linux.dev,
+ sashiko@lists.linux.dev, Linux Kernel Workflows
+ <workflows@vger.kernel.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>, kfree@google.com
 Subject: Re: Stop false review statements
-Message-ID: <2026051758-superbowl-baritone-2705@gregkh>
-References: <4f3d7f48-5766-425b-91f6-0acdb5554584@kernel.org>
- <07602616-412B-4ED8-95D7-588C0D077EE3@linux.dev>
- <20260517120556.248852d8@foz.lan>
+In-Reply-To: <fd3b2ca7-4d64-4c4b-98a3-7d3285fa6826@roeck-us.net>
+References: <ad139e54-a7f0-4d09-832c-6b2bf2e93e03@kernel.org>
+ <fcc4b719-2696-4f31-bac4-6c07f8ddec47@roeck-us.net>
+ <221cc52e-9918-43ea-b196-622a8cc6db05@kernel.org>
+ <fd3b2ca7-4d64-4c4b-98a3-7d3285fa6826@roeck-us.net>
+Date: Sun, 17 May 2026 09:21:45 -0600
+Message-ID: <877bp2m586.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260517120556.248852d8@foz.lan>
+Content-Type: text/plain
 
-On Sun, May 17, 2026 at 12:05:56PM +0200, Mauro Carvalho Chehab wrote:
-> On Sat, 16 May 2026 14:59:44 -0700
-> Roman Gushchin <roman.gushchin@linux.dev> wrote:
-> 
-> > > On May 16, 2026, at 2:33 PM, Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> > > 
-> > > I find it opposite: clogging commits with useless information, because
-> > > some arbitrary and completely closed-source tool did analysis means
-> > > nothing to me one year later when I look at the commit in the Git history.  
-> > 
-> > This is simple not true: Sashiko is fully open-source, under Apache 2.0 license
-> > and the code belongs to LF. 
-> 
-> > Yes, the instance behind sashiko.dev is using
-> > Gemini 3.1 Pro LLM, which is not open-source, but it’s not a fundamental limitation - 
-> > Sashiko is supporting various LLMs, including open models - it’s just a practical
-> > choice: to my knowledge the quality of open models is not on par with frontier closed
-> > models 
-> 
-> I would very much prefer using an open source LLM, even if not in pair 
-> with latest paid models.
-> 
-> > and it would require a non-trivial amount of hardware and infrastructure to run
-> > an open model at the required scale.
-> 
-> IMHO the best would be to have them running on some infra that would accept
-> open source models (*). If there aren't enough resources to have our own
-> infra, there are offers out there which allows running open source models
-> like https://ollama.com/pricing (I never used myself).
-> 
-> (*) For instance, Qwen3.6 is brand new and licensed under apache-2.0.
->     Not bad on my tests running it locally.
+Guenter Roeck <linux@roeck-us.net> writes:
 
-You can run the tool locally, with whatever model you want, if you want
-to.
+> On 5/16/26 05:16, Krzysztof Kozlowski wrote:
+>> Quotes from the existing policy:
+>> 
+>> 1. "By offering my Reviewed-by: tag, I state that:"
+>> 
+>> Tool cannot use first person "I". Tool cannot "state that".
+>> 
+>> 2. "A Reviewed-by tag is *a statement of opinion* that the patch is an
+>>   appropriate modification of the kernel without any remaining serious"
+>> 
+>> Tool cannot make a statement of opinion.
+>> 
+>> 3. "Any interested reviewer (who has done the work) can offer a
+>> Reviewed-by".
+>> 
+>> Tool is not a reviewer as a person, thus above does not grant the tool
+>> permission to offer a tag.
+>
+> I'd like to see that explicitly spelled out. Until then it is your opinion.
 
-But for now, let's just take the free credits that Google is willing to
-throw at this thing and let it give us reviews IF the maintainer of the
-subsystem feels it is something they want to do.  No one is forcing
-maintainers to do this.
+So I'm the person who wrote that text.  Automated review tools weren't
+really on the radar at that time, so I can't argue that it expresses an
+opinion either way as to whether an LLM could make such assertions.
 
-The netdev, bpf, and drm developers have been doing much the same for a
-while now, with who-knows-what model behind the thing.  The model
-doesn't matter, we aren't advertising for them, we just want the results
-that they can provide us.
+That said, I was certainly considering *human* reviewers at the time,
+and all of the people who agreed with the suggested policy were too.
+Adding bots seems like a stretch to me.
 
-thanks,
+I can't speak for subsystems that require Reviewed-by tags on their
+commits, but I'm not sure that their maintainers would accept an
+automated review as satisfying that requirement.
 
-greg k-h
+If we want to record this sort of processing, perhaps a tag like
+"Scanned-by" would be appropriate?
+
+jon
