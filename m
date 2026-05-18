@@ -1,265 +1,241 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B0F31F9B8
-	for <workflows@vger.kernel.org>; Mon, 18 May 2026 10:13:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0005931F981
+	for <workflows@vger.kernel.org>; Mon, 18 May 2026 10:16:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779099192; cv=none; b=NizZTgqxh40owJqQhLoabtulYqC/mxkBOu78aNMkc8yM2yurI6ClH5YvO1oH2erEVIIM8Q7CoXALMFwilZ3BWvRWe8xxKflBhboFDCbSlv7+XDQrJTYOiRj8iNMgxvQa42ItQTpMU5BMzow0bC5/897KFbSYyrCuZcz2WubLAV4=
+	t=1779099400; cv=none; b=BRyeJfL5J46mz9vVlKS5Y8hJFlGh9C4heL2QOsZ40jynCkvQghwFUQDd8X1W+XDYxxYKNOI8oH4ex+lFl2lX6PgtoZcQyVYsmZtT5A7YcgBbrVEb/3okIeENYHvC3tt5QXuskpW+GTa1CCtxi4erC72+t7lfD5jQGupxCHUGIHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779099192; c=relaxed/simple;
-	bh=9E3qq5D4WZQHWgquf7eFFyaxjAiENCppqVM2VoCoy30=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GmJqQTFXE5FNWvI4GJRypBQ0PffdFOGdov3sxAhEcED6rZOCtDV1eunxiQPoxXoO9HD3KTwLMV4G0hEUEQPgpClbwSpzDxzmduvfmTncGMg8fdl/jJV44G1SLZ6eIV6iJ3/c9ZmUOm3fLn58MKQwUNsRk0x5egFRMCDDAp6QMEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hi3mAoa/; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Xnoc4EYW; arc=none smtp.client-ip=205.220.180.131
+	s=arc-20240116; t=1779099400; c=relaxed/simple;
+	bh=aC5z06FWk+pyXDTL9LfFjgrA0ok5zpMZ4Ub/i5Y7SA4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ejff7GttSEPVzD2rCEv/P837VmNQnkJ1+CQlnnrS1nHb0NDpHsux66OIk3Sc8j7PwFlhTSulj+dLCWtMRtI9qfG3ZZe72rIPYzPEkAvHCsnv//fp6cgQexkYQfF7xpP0xFkfE9hLk8WbN1fz43iH/8tzHTS4rY8QExUcuMdHHZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=NH0vkbzT; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=JMtCNRS6; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hi3mAoa/";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Xnoc4EYW"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64I7cKIh352983
-	for <workflows@vger.kernel.org>; Mon, 18 May 2026 10:13:09 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="NH0vkbzT";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="JMtCNRS6"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64I7t8nB1440822
+	for <workflows@vger.kernel.org>; Mon, 18 May 2026 10:16:38 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=AEl5MQcG4V9U6z1ZgKV9Wf
-	SwRgV+hZqvkiSWVAMoQeE=; b=hi3mAoa/6iQqs4Oh+KyqFGRwQ5W7kDyrObXxhY
-	tfIVGVIwm+GaF1h5gY9+PODtSGJu4EcnnuFFiWTOV/sc3XgpjgoLREWztwZWbOrm
-	eHeI/5+VzhNuKvziAG3HJexYFLaE+igishnrhUxsFYACut9p0LYXZEaVGYJ9DTJ1
-	g/6058w7/Cw2iQVvIDwWz403SNEW18f+G0+jfYYRa/BRo4ACW8LzURUJLBlQ6hcd
-	tM2QNCqR6N4hzw1v7Pxt9heDArG8dzP03DTxHRf6HW5K25Sma2FcmqSKtAgw0hR0
-	WJSdg7KU2iXaBOaNw5CorrsPESaprm701cyC53lIM9omD1MQ==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e7xjagn1b-1
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	ZIVWjciyt7GX3njw61ulzwpsLrA89pbtfyZ61onL89Q=; b=NH0vkbzTYC5Uuo2u
+	y5zzjCIlsElJyMtagkkfFWN57ReuRy/2LMP2+LKSUd3DLPTvaQiyj8BEbwB5SRsL
+	54AiScKCue6R8tViG2OthFafrMgsKlX6i/y61A+EH0dyofaz+nBd0SiZ3VC54qws
+	Efh5LHVnOdgByLBWPhTzON8c85RYH2AbDtwEH9rXw2nKLDB5PJ6Wvcahqln3m8ib
+	HmRFix17W/KUKuc6ZRDOJyUFLWfjzSqc0i6Dn9u0no9aNepYf1tGhOn60VFqZdlp
+	O7gbVoRuTwaTmHooBP4q1gYrFjxT5yNTWO7Ss8nG3iBtKluvc82ONSzOoxSKNzWB
+	sG1OUg==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e6hv7wuuu-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <workflows@vger.kernel.org>; Mon, 18 May 2026 10:13:09 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-514b673c8f1so27700461cf.3
-        for <workflows@vger.kernel.org>; Mon, 18 May 2026 03:13:09 -0700 (PDT)
+	for <workflows@vger.kernel.org>; Mon, 18 May 2026 10:16:37 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-5163ade1583so44375671cf.1
+        for <workflows@vger.kernel.org>; Mon, 18 May 2026 03:16:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1779099189; x=1779703989; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AEl5MQcG4V9U6z1ZgKV9WfSwRgV+hZqvkiSWVAMoQeE=;
-        b=Xnoc4EYWVWtzMvOYUfjw6s6l6pWPFD98cUMPAn7nR2HzxTNAP8zzl9vacwP8QkS2uw
-         /YQATAcR5TF5TJJ0xR7EQSEtZ+vibUEUoa25DSwU1vSBePG5FD4iKWxEYsREsiBGyN0S
-         Id+W45IyYLaal028c+uIDmeLMvIJ8p9uTCSskt98oMzA9+l4l8S/4Jl7WF+atcZuEC79
-         LOflxUYHl4QI7Tskh6sUwO0/JNkgZMnlIZgGYPoWkh15dZLd2VzgIBeVZO65K3N7y9rT
-         S3ehyJ5dtQ3Kf9LDCwcHm54MhmLY2s4yDoHdA9zkeZByduv2xcYGon9/BDXs9RzJKg+U
-         huSw==
+        d=oss.qualcomm.com; s=google; t=1779099397; x=1779704197; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZIVWjciyt7GX3njw61ulzwpsLrA89pbtfyZ61onL89Q=;
+        b=JMtCNRS69sZqHxGw9yizwYDxt+NArxJ5Wxf9xDW+wGVPCOFRNPT/P5S1g8yizgog8H
+         48yqboazTEvAx7Oj2ni0sB+zv+u7e9v2CIw4pmmzpxWH1Ys9M8iS+sfqI0iJaHrYBTci
+         IfBgnHC6TzVEwTyHvsQrkBJ08Ghw1ba9cSFb/yPgyXOKTmazwJ7Kj7m5uyOgBMe79NZ/
+         Jq4Sd36iMbn3NrHgfpzgMbFB/zp9OsDv2GTbOSHyQnbDG87OFGyaRKRlgn8n6/fS3v3E
+         HNVeY1EN8+93Vs3mzpiuN/cWdYmprlRDww+74oANTdthGMREATpEj+DgtkbD2PWPiYKC
+         EeDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779099189; x=1779703989;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1779099397; x=1779704197;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AEl5MQcG4V9U6z1ZgKV9WfSwRgV+hZqvkiSWVAMoQeE=;
-        b=JBd7JlAGeBpjRcwq2ZvpULI/en3me0iFixnoPBcK9fqCNjDxrTTTzGykjnMgf1AbWX
-         ZCvvHjcuGQCUXwu04VITXIQEEVQfA4CabLa3AiRLFVOc+Vdxo24mME/tA4bbVb7OPcto
-         Y6X1VsErs6sVGgrWfnQ7KR06igERLw1s0cNaGHu2AnCimH4aA0U6nvswimEV2giNKzo+
-         eKK7FfoxTrLBkGSf1NwjKUsCBzZXmXjl4RLxwTHNiDVN08WAH/Z0vnJvBQNeLq/OIpFJ
-         HCTfLnnzfIYTtxKEoKgXfFCwCzgvt9PYeKdcqSuWhrrQ35D8g8q6JJmwLbwX03nfZyBn
-         6kCw==
-X-Forwarded-Encrypted: i=1; AFNElJ+srcpsxlmTBHmtV2Iz5WSgCh0x8PfjzQ4k/G7feiIViQd+4ztYB982woQHM8YUvC9QOa4j2WIusYg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7bAkEAzieTXE/6/I65W5byQJq1kbdXVYQmogMDYZvxFBzZdeX
-	OSyClcIeuIlLAFSxmZYJYaYLuSt0gPKkINF3p6XJJgl7G1lV4gtuqgVIYCFMmoYpvrMgRKx3BNL
-	idaH7yUCkZPQwc9ABWNBwxuI9mZ3Zm2cUITO5ZWLDG1l5JVju0Jo6STPdzoXQk5A=
-X-Gm-Gg: Acq92OHZ7N4d7mWXMvSUq7e02RND61RForAOqL8DJpuaYKIsLhFOqRRc4RmibU0Z9Fi
-	+cE5XcegqqHDrHVZIbtKPvjD96NksopTVxQtHinbjQ1G2msrGlVru1Gj9sdEBKrUFxXVi2jiXpD
-	dk4H9P+9hf82sbELrTqaqK10+IzeKmDJMJ0y88y57m5C698g6Joi1G9QhlPIv3pnh3rfQg5wunQ
-	6hr9qZ6nBtAVOl5dJZlp04mQAlwzDc7Gy5OyCvkmGXfcLWBV3JINmwLxmoCKSnURfZFFcZrNaD0
-	X/nId8Fke2dC8RU+r17TGqFpcFFcgauJSLWXWYVWJNpSVRTOueTu4mi0ogTmnbgOVXmOR8Juhbp
-	VxMfMq2Nbx7CD42s8ZXeu5ziq16rL40yXwGQ8
-X-Received: by 2002:a05:622a:2516:b0:50d:2a98:2571 with SMTP id d75a77b69052e-5165a059c4cmr205872801cf.26.1779099188677;
-        Mon, 18 May 2026 03:13:08 -0700 (PDT)
-X-Received: by 2002:a05:622a:2516:b0:50d:2a98:2571 with SMTP id d75a77b69052e-5165a059c4cmr205872241cf.26.1779099188062;
-        Mon, 18 May 2026 03:13:08 -0700 (PDT)
-Received: from quoll ([178.197.219.94])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe4c88495sm240548175e9.4.2026.05.18.03.13.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2026 03:13:07 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-        Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-        Saravana Kannan <saravanak@kernel.org>, devicetree@vger.kernel.org
-Subject: [PATCH v2] docs: dt: maintainer: Add Devicetree and OF maintainer profile document
-Date: Mon, 18 May 2026 12:12:58 +0200
-Message-ID: <20260518101259.34948-2-krzysztof.kozlowski@oss.qualcomm.com>
-X-Mailer: git-send-email 2.51.0
+        bh=ZIVWjciyt7GX3njw61ulzwpsLrA89pbtfyZ61onL89Q=;
+        b=YSf1tdfAL/7mjOC6FhYtBAYA1dyulcXDCFlF1AytKodh/ezCJXXCZ3XFJBV67fX7vs
+         +d/P+WkKjaizCr1kRGN6Vm5qF9YkG0TBZM88Xpe/IYbfyiS0/UEzDlYc2d4EZnurUspt
+         0q+zSrCJxbQ3RnRYWRHZETYiQlRzskJOY95HkYzV7ay+KlNwwSAAV95/vpgDDGpyKNCu
+         H07EWyVczvSiDIFXmf3WjB37yDUzN26lCj5o1ZRrIsxiXE6ecnvAO3l5+nJQrSNXCjne
+         dVYFycGJONFgQf8m/qwqLv656z8MRcDI0YIAE1pR1luppqK7meip/b0Uw9O4Xtye6t6o
+         6fnA==
+X-Forwarded-Encrypted: i=1; AFNElJ/8bs0QzMRjrqf7AU0MQT7GT6GQTM5Dt8XdYrMMlxOo0gSD+7rKj145BWbd+HEPAoxF9HpIyRSi9LQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyQlKLLrSCLFRMaQnst3Ro54VZQOeMnVwqD7AqCS1ZhKsVvPjMG
+	QurXVyyF78Chl3+Eudfp3eEB4U/n7na8D3RIOmQaTkXOkl81t1O6Nfw/U0lVz/EnW6+s8HRYG7U
+	dqwJ73k2TM209ttBqipjZdahHzKOrLfGKZBm6sPU3XREGo07Wv6olrBuYF6eN6/AC+4/bqfw=
+X-Gm-Gg: Acq92OFw9Hy/SEGN+T7c7uXlTiEKkxFNkl7jhLZEFj88gkdGkqiwZL1gDVwqSUlBS29
+	zBqvPLd2j0rKVIGe4z1P6uQTBYxEi4y8R1Sb38BXOpk4fwJGDLP+7cGRP1Kf7M5G05EyO/UFyxz
+	jCOwKHREF14TtOMAhta1bXFk6DpBFPt/SUEgPt41Yaw59ItzwBXjebeesUJ6KucNndgPTvwyWFc
+	hGx4va5YhWRef2XxEwKxw9KBcQ9wlfGt5Sv3gqKsufIQaAZJ4yssTujiqg9rf+MCYDG5AFaG1tq
+	5TyRbbbGS+5feRaFgvHNpf7B37OAZt2Bm8CE0zZDz9GLkmJOO63mOjUKMWJMQwV5RwKlFWasBmD
+	3Ngw5JEtDns/GgdPQuGYeL5iXgD980HgISdmhTSwOzbh7sI/m
+X-Received: by 2002:a05:622a:144e:b0:509:f36:496d with SMTP id d75a77b69052e-5165a0d0932mr215104951cf.33.1779099396929;
+        Mon, 18 May 2026 03:16:36 -0700 (PDT)
+X-Received: by 2002:a05:622a:144e:b0:509:f36:496d with SMTP id d75a77b69052e-5165a0d0932mr215104671cf.33.1779099396492;
+        Mon, 18 May 2026 03:16:36 -0700 (PDT)
+Received: from [192.168.1.29] ([178.197.219.94])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48febe7dd22sm103474895e9.7.2026.05.18.03.16.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 May 2026 03:16:35 -0700 (PDT)
+Message-ID: <0363e0a9-e645-4fec-86a1-dc847bbf14c4@oss.qualcomm.com>
+Date: Mon, 18 May 2026 12:16:33 +0200
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5055; i=krzysztof.kozlowski@oss.qualcomm.com;
- h=from:subject; bh=9E3qq5D4WZQHWgquf7eFFyaxjAiENCppqVM2VoCoy30=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBqCuYrlVysAwtLXXMvpEbQvYDr+bq8SSxz/afMQ
- zlLbT4sz/WJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCagrmKwAKCRDBN2bmhouD
- 117uEACK/anmxHIQXXzJEmDqMdAuebkx2c3ITQYiYPVx/gXQnmSsY2lm/CPK1uU6VRVFngJLa10
- EsYD9D9Jh3g7qK8uvNqqf6BZIlJtXFJwfRK25wYRsW8Oc3uFNDj5z1OINWLiOxd4+zCExpY/gzB
- OzG049WyWEH/Oi5j8an7hDvvot+Dbj0GR9aPBZ/pSsePg/qqVAIcldySjgs85ODFCJGrk0ikNLb
- DwLTrdOhQOiMNXA2hp5ON2t+xQ1xPbrQbFnGb5UEMx4fV0wn86IrYChd9W0eBQTus3tYTXzqLCV
- awLgZv7W+Lc6D+kiB+n5d9FKdkPLd1fHCDQkYjsY32vrPni6f/vGJan0ml2T35BTdFOBapLrUmz
- yxQGwJAUtyOC/tXMO7gUjG5yWb7kxUShZ6ToPGcD1E/bsM4htr/LbCR5Nfeu4CiUYN+Ty645bDv
- 8Bks3V5hxYyf5e84JoK6l7uo5sbRrhj8J+WPEjt92rQB8kRm3R6En7y/QvNJHcTzt2tDo6MCgwY
- u7HxVSzMkI0UBW7e13WOGxHOtz9nVCquRLTAUey9UiA8EfiNhjvBAMpMBseRZqjc3k1Zt4u+BDl
- YU03l15h8BINUouIfSsYr1f/6EP8RJ/95X5lZ6YmL2tcvOAuMl9uX+lVtG6LGrfo9GcDjx8Vcq5 Em3ZDxBMKmGiigg==
-X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: submitting-patches: Clarify that in English
+ "reviewer" is a person
+To: "David Hildenbrand (Arm)" <david@kernel.org>,
+        "Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Guenter Roeck <linux@roeck-us.net>, Mark Brown <broonie@kernel.org>
+References: <20260516123846.63413-2-krzysztof.kozlowski@oss.qualcomm.com>
+ <ce1e5e9b-83d0-4971-aee3-dc5a8f85ce22@kernel.org>
+ <1d350564-0127-48c1-8988-54245fdb9b23@kernel.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@oss.qualcomm.com; keydata=
+ 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
+ cwzYbmi/Et7T2+47PN9NZAOyb771QoVr8A==
+In-Reply-To: <1d350564-0127-48c1-8988-54245fdb9b23@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE4MDA5OCBTYWx0ZWRfXwo6f245MQTdQ
- bGqe3VviLdyU6OLsjAKKt3kDsbgVP/ft22eRAhDTatU00hSDunsZQ95o13pYIlm9jJwE48v4HGu
- VqpTkU8zeEJQfIYM4K8kET4sZmlwld3lt+HcGyL3EMaij7W+NLClKbImYXc4JLpy7ScH5lLNdCN
- PoDlFvS13QEGsgnXwIg4lK6AjmJKskeEPAuBRy2+i1dNB3Z4o1anDP7Z6Sn7pFJAfL+u5xAh0/J
- dkubrK5ngKnVzspn/E4hxWinya+2yOWYFhCQY8Wr/uzFJmDYWyKdKJl0zoW+UXxLRiMGL7OlpQS
- rOKsEGInW6XsThdz0TqGLmYOxV1EvGIo0xDjMYlaDrBXw91sm9PTAy3NJB6MU9w2GzzezZzzOOr
- FR9u5xJOFAaOmdUAIGrExVogdizgaYaFInjGA2bbi4/IIJD5CpYsW/DdXXn0YR3lQrbaLc9/rJh
- F/zm3f7eIn8R1/tkBfw==
-X-Authority-Analysis: v=2.4 cv=BYHoFLt2 c=1 sm=1 tr=0 ts=6a0ae635 cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=gOEeR9iKwsj33Yj5oN/cWg==:17
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE4MDA5OSBTYWx0ZWRfX4riZk9b4Vziz
+ PjauOkptV/VZLWKbouDCI9GOzjUbDTGF/qspPbnCpD9wZi/PvdBA4Pqv/NtX77QaaG5hiYB6C51
+ 55VaSGO78KKwZmnLeJ8RzNH+mHPR6K08tCZtZ+ROWbroz8q3f2XdgTVJTPljn4i723ISE4EUKF9
+ I5LFj/PRMD3Vg1zUIssRrTwEInUhcc8tl0TaamoztA62Y42Bw+3mWnwHv+IXZYi5Cg7PgTKj0T0
+ yGu7ZNQ9VLgQyFKJAOf1MOAMJJjaznrD3r62V31bP6t5dNQm9dV2YlGZ1ZZIbic/Dg9TJmWGtTg
+ WXzPhjWz1MOr698rjFzQUZoBud1T5wyreniP3Vui8rAe6nFNzAHzo0COoBzGVPrY0wJK8LTnIqj
+ aXhTp0w5rVNEdH1wYW31uU56Vtu97ttTu5W0VDh7n+ZjJGpMvFfWmXm1wAMCWm/Tgm4+wXiMY8z
+ /7LESxJfSfeDexERMTg==
+X-Authority-Analysis: v=2.4 cv=a8oAM0SF c=1 sm=1 tr=0 ts=6a0ae705 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=gOEeR9iKwsj33Yj5oN/cWg==:17
  a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
- a=VwQbUJbxAAAA:8 a=gEfo2CItAAAA:8 a=EUspDBNiAAAA:8 a=7C85NsCI5bDNKhsY0GcA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=kacYvNCVWA4VmyqE58fU:22
- a=sptkURWiP4Gy88Gu7hUp:22
-X-Proofpoint-ORIG-GUID: KcPy2asQfks5uCgaTi-7avbCqURaVgAD
-X-Proofpoint-GUID: KcPy2asQfks5uCgaTi-7avbCqURaVgAD
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=1Qhj-OTkAAAA:8 a=ag1SF4gXAAAA:8 a=VwQbUJbxAAAA:8 a=Z4Rwk6OoAAAA:8
+ a=EUspDBNiAAAA:8 a=3Q_fXuLkU7711zDDGqUA:9 a=QEXdDO2ut3YA:10
+ a=dawVfQjAaf238kedN5IG:22 a=Yupwre4RP9_Eg_Bd0iYG:22 a=HkZW87K1Qel5hWWM3VKY:22
+X-Proofpoint-ORIG-GUID: RpNDfXpNilXNmsN5nfdVaf9Mj4ZqNiJH
+X-Proofpoint-GUID: RpNDfXpNilXNmsN5nfdVaf9Mj4ZqNiJH
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-05-18_02,2026-05-15_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 suspectscore=0 priorityscore=1501 bulkscore=0 spamscore=0
- phishscore=0 clxscore=1015 impostorscore=0 malwarescore=0 lowpriorityscore=0
+ spamscore=0 phishscore=0 suspectscore=0 priorityscore=1501 impostorscore=0
+ clxscore=1015 bulkscore=0 lowpriorityscore=0 adultscore=0 malwarescore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605180098
+ reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605180099
 
-Document how Devicetree and Open Firmware maintainers handle their
-subsystem, especially focusing on two caveats:
+On 18/05/2026 10:31, David Hildenbrand (Arm) wrote:
+> On 5/16/26 16:39, Vlastimil Babka (SUSE) wrote:
+>> On 5/16/26 14:38, Krzysztof Kozlowski wrote:
+>>> Common understanding of word "Reviewer" is: a person performing a review
+>>> work [1]. Tools are not persons, thus cannot be reviewers in this term.
+>>> Also tools cannot make statements ("A Reviewed-by tag is a statement of
+>>> opinion"), since making a statement needs some sort of conscious mind.
+>>>
+>>> Our docs already clearly mark that "Reviewed-by" must come from a
+>>> person:
+>>>
+>>>  - "By offering my Reviewed-by: tag, I state that:"
+>>>
+>>>    Usage of first person "I" and word "state"
+>>>
+>>>  - "A Reviewed-by tag is *a statement of opinion* that the patch is an
+>>>     appropriate modification of the kernel without any remaining serious"
+>>>
+>>>    Only a person can make a statement of opinion.
+>>>
+>>>  - "Any interested reviewer (who has done the work) can offer a
+>>>    Reviewed-by"
+>>>
+>>>    A person can offer a tag thus above does not grant the tool
+>>>    permission to offer a tag.
+>>>
+>>> However this is not enough and apparently English is not that precise,
+>>> so let's clarify that only a person can state the "Reviewer's statement
+>>> of oversight".
+>>>
+>>> Link: https://en.wiktionary.org/wiki/reviewer [1]
+>>> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>>> Cc: Vlastimil Babka <vbabka@kernel.org>
+>>> Cc: Andrew Morton <akpm@linux-foundation.org>
+>>> Cc: David Hildenbrand <david@kernel.org>
+>>> Cc: Linus Torvalds <torvalds@linux-foundation.org>
+>>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+>>
+>> I agree with the intent that the tag is for people (whether they use a tool
+>> or not to help them). We also don't put "Tested-by: kernel test robot" or
+>> syzkaller on every commit that they test and find no bugs. Review is also
+>> not just about absence of bugs, but agreeing with the larger design and
+>> whether the change makes sense to do in the first place.
+> 
+> I'd assume that SOB/RB/ACK would all be real persons, not tools.
+> 
+> For SOB we term it as "known identity". I'd assume that a tool is not an
+> identity ...
+> 
+> So maybe we should also talk about "know identity" here?
 
-Devicetree subsystem handles patches with a minor difference comparing
-to other subsystems: while DT maintainers pick up OF code, they only
-provide review of DT bindings without applying these.
+I think this - s/person/known identity/ - is a good idea. We should not
+have aliases and anonymous reviews because these are not accountable.
 
-All three DT bindings maintainers rely currently on Patchwork and due to
-enormous amount of emails per day, regardless how much DT maintainers
-try, they cannot read all the emails.
+I got few acks already and I plan to retain them in v2, so please let me
+know if you disagree with keeping Ack/Reviewed-by while replacing this
+to known identity.
 
-Cc: Rob Herring <robh@kernel.org>
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: Saravana Kannan <saravanak@kernel.org>
-Cc: devicetree@vger.kernel.org
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
----
 
-I expect patch to be picked up by Rob, after review.
-
-Changes in v2:
-1. Correct typos and trailing white spaces.
-2. Fix order of P: after C: in maintainers.
----
- .../process/maintainer-devicetree.rst         | 70 +++++++++++++++++++
- MAINTAINERS                                   |  2 +
- 2 files changed, 72 insertions(+)
- create mode 100644 Documentation/process/maintainer-devicetree.rst
-
-diff --git a/Documentation/process/maintainer-devicetree.rst b/Documentation/process/maintainer-devicetree.rst
-new file mode 100644
-index 000000000000..d8ffe752bf5d
---- /dev/null
-+++ b/Documentation/process/maintainer-devicetree.rst
-@@ -0,0 +1,70 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+======================================
-+Devicetree and Open Firmware Subsystem
-+======================================
-+
-+Other Process Documents
-+-----------------------
-+
-+Please see the documents in Documentation/devicetree/bindings/ for information
-+on how to write proper Devicetree bindings and how to submit patches.
-+
-+Patch Review and Handling
-+-------------------------
-+
-+Patches handled by Devicetree maintainers are processed differently depending
-+on the patch type:
-+
-+1. Core OF driver code, e.g. drivers/of/:
-+   patches are reviewed and applied by DT maintainers.
-+
-+2. Devicetree bindings:
-+   patches are reviewed by DT maintainers but, except in certain cases, should
-+   be applied by subsystem maintainers.  See also *For kernel maintainers* in
-+   Documentation/devicetree/bindings/submitting-patches.rst.
-+
-+3. DTS and drivers:
-+   DT maintainers might provide comments, but review is generally not expected.
-+
-+Patchwork
-+~~~~~~~~~
-+
-+Devicetree maintainers review patches using Patchwork, so the current status of
-+a patch can be checked there. For typical driver submissions, Patchwork
-+receives the entire patch set, but only a few patches are usually Devicetree
-+bindings that are reviewed by DT maintainers.
-+
-+Explanation of Patchwork statuses:
-+
-+ - **New**: Not yet processed by the automation toolset.
-+ - **Needs ACK**: Waiting for review by DT maintainers.
-+ - **Handled Elsewhere**: Non-DT patch; not being reviewed here.
-+ - **RFC**: Patch was likely ignored because it was an incomplete RFC.
-+ - **Changes Requested**: Patch was reviewed and DT maintainers expect changes.
-+ - **Accepted**: Patch was reviewed and applied by DT maintainers to their tree.
-+ - **Not Applicable**: Patch was reviewed and is likely in good shape, with a
-+   *Reviewed-by* or *Acked-by* tag provided, but DT maintainers expect someone
-+   else to apply it.
-+
-+Patch Re-review and Pinging
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Due to the high volume of email traffic, Devicetree maintainers do not read
-+every email they receive and instead rely on Patchwork during the review
-+process. They also often skip patches that have already been reviewed.
-+
-+As a result, maintainers might miss:
-+
-+1. Questions about already reviewed patches.
-+2. Pings, for example when a patch has been reviewed by DT maintainers but has
-+   not been picked up by subsystem maintainers.
-+
-+Such cases can be addressed by:
-+
-+1. Pinging DT maintainers on the IRC channel.
-+2. Dropping the DT maintainer’s *Acked-by* or *Reviewed-by* tag when sending a new
-+   version of the patch set, together with an explanation in the patch
-+   changelog describing why the tag was removed and what is expected from DT
-+   maintainers.
-+
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f877e5aaf2c7..843f1d124446 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -20050,6 +20050,7 @@ S:	Maintained
- Q:	http://patchwork.kernel.org/project/devicetree/list/
- W:	http://www.devicetree.org/
- C:	irc://irc.libera.chat/devicetree
-+P:	Documentation/process/maintainer-devicetree.rst
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
- F:	Documentation/ABI/testing/sysfs-firmware-ofw
- F:	drivers/of/
-@@ -20071,6 +20072,7 @@ L:	devicetree@vger.kernel.org
- S:	Maintained
- Q:	http://patchwork.kernel.org/project/devicetree/list/
- C:	irc://irc.libera.chat/devicetree
-+P:	Documentation/process/maintainer-devicetree.rst
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
- F:	Documentation/devicetree/
- F:	arch/*/boot/dts/
--- 
-2.51.0
-
+Best regards,
+Krzysztof
