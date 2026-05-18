@@ -1,262 +1,166 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from flow-b5-smtp.messagingengine.com (flow-b5-smtp.messagingengine.com [202.12.124.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BE1C3E3C71
-	for <workflows@vger.kernel.org>; Mon, 18 May 2026 09:20:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1514C3E3C59;
+	Mon, 18 May 2026 09:32:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779096004; cv=none; b=pTTIP78rQ+gORpnHyhL66IDC125Mnhb9QMz5Ir1hSM8V3X6OjgsdEkJidq2tsqvQV3XA7CWPoCu6xznoJ48M6PJsrUXbHuxIo4E3RkDEgC6+5KKXOSJzXzcdNLnA9fcVE0XnfkFVBdEODwhtCpYd9ZGLE0WiIIZwRf0/FSRpn60=
+	t=1779096739; cv=none; b=n5K7EiX+3imEzbBoYIomkyKXWQB9iI9mwA9/BVXmLpiRp0KarTwUlvQQnONr0alMtZwkqzXDTHfUkQZqBV8M9jXVm99U3yxsiNon9McOjumG/HGVX3l2Sicqi+5tYXcmjvq7QHkk4TuYcaf7IaGq421OEZtTSR4GwsLPIADNZvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779096004; c=relaxed/simple;
-	bh=MywEWsbnG8C6ngvsR4dw6Oxcahx3+ItSZfhu87dPrc0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ZCi4cQiSxudA3Ow5QumYeQ1CZLoBbK2f9e2ILlrrIfSawZeWPvSZ3CwJHwIffs8glilX665DUGuskZ+/q5MEXOfrM8nCic83vYrr1V8rOK4Dwr5wVsD2yYFk1Y+E6MMb1L3KL6JrEvk/IGaxwbvKiSNVxC+Hae7QLjU7LKCf4zE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=X7xPW22w; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Y7LG9aTO; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1779096739; c=relaxed/simple;
+	bh=ypzeTVt77Q2YbxNzeBXoLlB99i/DAfX/BMXiXdWvVGE=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=R8CjqA5q1PvxkAKfHKMWOoN1zXwm4hCiDyeNbCgWSlCaTEfAlBngES4jlmOwp7FUAjRyhxfrCwcMLSuo5GKWnaYec27h+FQ8/bfuE4bgvJwBeZ+V/uYaNLpkreranjZlOJ2UT6rXiGfSpBtyA26m/LXd02NZH2XIgHY+B+zz4K8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Vt0ThH1r; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=d7Zrs/v1; arc=none smtp.client-ip=202.12.124.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="X7xPW22w";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Y7LG9aTO"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64I4gg9x3595145
-	for <workflows@vger.kernel.org>; Mon, 18 May 2026 09:20:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=I18mqyGP+9h9hQQewvDHdR
-	JLfyFJ2fL/hYo7DB9EfNE=; b=X7xPW22wrdHv/qJT1WoxNBi9i4pPo4d7eCtG5f
-	OoQPAm8WqjeVdKdn8vlqG85IErxImGX9EnD4ve0fciTehhmp6mqWQg/0vgR7wDeV
-	PSioE22RIdZABUPeiZOe6i+OGe2whCPzV+iqrXZ7vRH9+VvX52QZWyx7cWt5WyGB
-	nfSd7PHQqbJKtn2ZnyHZ/LgiBHjuzcscXrgzMMWCWTWnKNXn3roBrTBzzHGYALAL
-	/0xkPVxrhxP+cxUAd9HjuV/WGdnWTavvKUUJ1bn3QpXm7P/trdc1j+EVxDwyoQgB
-	cQqBjffaAfZDPt2ed/ds3B2qBfQnobDazT/OeKjD5nY3BVHQ==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e6h0qdq4p-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <workflows@vger.kernel.org>; Mon, 18 May 2026 09:20:02 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-50d812c898cso57902021cf.1
-        for <workflows@vger.kernel.org>; Mon, 18 May 2026 02:20:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1779096002; x=1779700802; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=I18mqyGP+9h9hQQewvDHdRJLfyFJ2fL/hYo7DB9EfNE=;
-        b=Y7LG9aTOzH8eqwJa4O1GdvrpYDCaXWMqaEuyRA7WaGW8en8jbK9G46O16K35X1wjuk
-         JWBSsmyDyPvrsGlEzQwaDQoJvDPBvIp1Ey8A+yk/DSd1TQePBr5PkNfqGabEb0LHCdyp
-         NKJByLkkMP/Av3fRzI56+uZFG1IimaM/8QcpqhDpKdq6O404hmYYPaHY5f6RNHMg2mvo
-         ODoMdf1UNgGDIERZBEEAjOcD9dhcFj1QW9rTlbOTfqjCTX6K/p4R6lA9W9yJij95k2G9
-         TCOjon2vXohKfZpfe+uhJFjbxLxnfrZh3k7JZOfVNjRMx0OHMakyWMuisfu+3yYCk4Cv
-         uSxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779096002; x=1779700802;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I18mqyGP+9h9hQQewvDHdRJLfyFJ2fL/hYo7DB9EfNE=;
-        b=T6EiRCYJ21gBodujbeDG98+9/Z118aR6BHR/ahIWiujsOpKsrjrj9Yb+Unku2Bmg+X
-         2+7Q/67Hk5E3UAgAspyTXdhff8IxUMKofxI4NEtom8ga4VZXD/3PdQB4O41N0k3kUuFA
-         9spBbK/j7L9pe18XJE840qr5kw4BrVjoINlP0JFAiJ7Ax8sLlfR1MMlBhgS3UTza6Xp4
-         xbvY0NB3ZVfs4My0lg91oondZIZj2dshj5AY4K8x1Osxf5HmZiXRFjJ1JW9ja7YuSYiu
-         YVBqMOaM3kYYyX69bOe5jO+8Jedmt5MjyEDEELfQ3rGJ7fCcnKU9swx7b5SWy5LINL5E
-         kCDw==
-X-Forwarded-Encrypted: i=1; AFNElJ/rf+XnoNFdEvR4ScXCDu35pbO5dRqk9sdcAkyWXS5xHemNnNznvyqNiMnloH6VYWmw8rf8whmjYZ4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxv/8Rwgkx7Rg1JnPSJUrP+8FdqW6ZnHWXNvLK8SpueTBOMjvNY
-	+L/0Xz7WneNamiqCJXbWsPM599bMYJbzaZ1GpjCul96dQaah1EFGI9jWk0favM7Qw/QSer0Lsk/
-	fWuGjCujxY+KGFmsUlEw1HqpAab4jp+DVAVW867RmM9GIM9XgkiLQmWJpDmUQ1sA=
-X-Gm-Gg: Acq92OHIwhlNtJbLUJ9V5uZvXrbzLpZ39jnoLyItzGcgwHpeC/a2CW/T8Ta91KxKHbE
-	qMTMS3FBu8kX9BwiY7QKMIoqR0H9AbWNqTIbL2UUFxbuPEDnbYcFUX5fUO3F7INxu+XV/oGvih7
-	G95C5wGimnqXsAds4GLmFi6DEB+PE7h9uQP4rbc8/AGmiv5fYqPKs5DAX2KlpqquRRq6OFrSO1J
-	a6J3b1A50mAgV/OwrK2oqkB++erlpW113krrU5F3tvPPZU4UOx+vurAx2lwIgPZYieXG8mIZYaL
-	ekBKlN76WYYvjI1kcd/BsPodTLZoOjCv0WA3nuYgVvhFd0pX39AW0G7YqqGNL7qexkJRVFzE10g
-	iOg7Sc83SbqeAFbBbl3gTNshY6QUJpLJs9Ljv
-X-Received: by 2002:ac8:5d14:0:b0:50b:404a:746e with SMTP id d75a77b69052e-5165a22c052mr194216301cf.47.1779096001458;
-        Mon, 18 May 2026 02:20:01 -0700 (PDT)
-X-Received: by 2002:ac8:5d14:0:b0:50b:404a:746e with SMTP id d75a77b69052e-5165a22c052mr194216131cf.47.1779096001043;
-        Mon, 18 May 2026 02:20:01 -0700 (PDT)
-Received: from quoll ([178.197.219.94])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48ff43f8799sm126595765e9.2.2026.05.18.02.19.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2026 02:20:00 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-        Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-        Saravana Kannan <saravanak@kernel.org>, devicetree@vger.kernel.org
-Subject: [PATCH] docs: dt: maintainer: Add Devicetree and OF maintainer profile document
-Date: Mon, 18 May 2026 11:19:41 +0200
-Message-ID: <20260518091942.29822-2-krzysztof.kozlowski@oss.qualcomm.com>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Vt0ThH1r";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="d7Zrs/v1"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailflow.stl.internal (Postfix) with ESMTP id 91C52130011D;
+	Mon, 18 May 2026 05:32:14 -0400 (EDT)
+Received: from phl-imap-05 ([10.202.2.95])
+  by phl-compute-04.internal (MEProxy); Mon, 18 May 2026 05:32:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1779096734;
+	 x=1779103934; bh=Q1EsgrhmOtBlhH6lTl5Uo51ZkO0kpI0RkBVnwq5QUz4=; b=
+	Vt0ThH1rLYcI1Ix28b0JP5KyKVSNK7tWRDDAnyloBA5/OwJqvN0ri23ATRKH/uyF
+	y8piX8XfSOJ2Bufr6N0+eUn5rg446FLnMUuwx7hDbKGF/j7vqGhTISTNEbVMBtD3
+	Er3HNGz+7bqwmkQZXphusyxP6gZ5RoN5+grgyIc2fAVd5zF9uz9rWHF2yR2iKE6c
+	j5CWOhjqbuvDbRqe9DRYBaSya//gp1ZPuFln02tSYpandTwCO8xeGVrBKM1uBGsV
+	9p2JckdJcHMQXLay3F89Y+/C/8zpBN5u1/pireYxLZJvV/0ez2Hvrz9lErx9PSRW
+	EsZ3YkVJzigHewFB4l4G1A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1779096734; x=
+	1779103934; bh=Q1EsgrhmOtBlhH6lTl5Uo51ZkO0kpI0RkBVnwq5QUz4=; b=d
+	7Zrs/v1i2pD7/PQEYdz7BPzqLdbR898qrLSWf/HozUAsyPe+XrqlKiGdfOVHUinw
+	6Q0TqsEx4aDRD2knrLMZmE8pGW7wNnAsh4iVY1NGQyME8dm34CKZoUYySoSwGt3m
+	WO5a6SL/c0VjK4nrTWAgl+UOgREv8GocunpjwMzoH2o93J9K6JzFGz0Nv/ew5u7v
+	otDT3CesstoEPlNlDbtFawhwJUvW/W1HcemrhTjADJgyRVPcEmoEpY9owJYiw0so
+	hKSiM+D0KAtC7+FYC/VwBnzCVieL8gHr9uBPe1fZUpAoCDiIEatJShmPKAswwKNf
+	PdCn7RLUd8Xkv45idAYWQ==
+X-ME-Sender: <xms:m9wKaiS1nRXcm5q7ZK6FjXk-vPvsJCwaGlPICQR9d8H9UXzQ4G_8uA>
+    <xme:m9wKailMo_Vsg2pUTHY2LO2mRgZMiiYsetrfaJAgSSwVAluO1sPqyU7-v1LlFoahd
+    gD4YhMSwmAQLKH7qOY_UXwDIOVaw4Ju_GOiNEeGM_TfF_ltikUCbgY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddufeekhedvucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
+    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
+    hrnhepgfetleektedtheehheegffdtgfejvddvveeigfehjedvkefguefffedvhfehkeeu
+    necuffhomhgrihhnpehsohhurhgtvgifrghrvgdrohhrghenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhn
+    sggprhgtphhtthhopeehtddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepnhhunh
+    hordhsrgesrghnrghlohhgrdgtohhmpdhrtghpthhtohepughlvggthhhnvghrsegsrgih
+    lhhisghrvgdrtghomhdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtrdhnvg
+    htpdhrtghpthhtohepughpvghnkhhlvghrsehgmhgrihhlrdgtohhmpdhrtghpthhtohep
+    vghnvghlshhonhhmohhorhgvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepnhhpihhggh
+    hinhesghhmrghilhdrtghomhdprhgtphhtthhopegvughumhgriigvthesghhoohhglhgv
+    rdgtohhmpdhrtghpthhtohepugiimheludeshhhushhtrdgvughurdgtnhdprhgtphhtth
+    hopehpvghtvghriiesihhnfhhrrgguvggrugdrohhrgh
+X-ME-Proxy: <xmx:m9wKaoXO8csU_OfH3IC96vXBm6hf3_s4i74Aa2ze3_cRkDErTRhnQA>
+    <xmx:m9wKavCYpT9XIqZZ3KxcyxUwagyNayqYTaDfbOM66aYrE-DDmC3CvQ>
+    <xmx:m9wKaqGfXgsGxAHGFR9PVXMFX8vv_m3SQ0OhOrBlqJJ6MAENfFzlyA>
+    <xmx:m9wKameOBxifjWiOCFYmJ24tKTUi0NpUiwxhzkeayVo8Iddh1ByhbA>
+    <xmx:ntwKarDXvcCscqze7RatHo9_OeoAzcLLCvtlqj7thJsDiA792-MymQA7>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 5AE44182007E; Mon, 18 May 2026 05:32:11 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4966; i=krzysztof.kozlowski@oss.qualcomm.com;
- h=from:subject; bh=MywEWsbnG8C6ngvsR4dw6Oxcahx3+ItSZfhu87dPrc0=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBqCtmumnqtz2DrrUYmcqtjtL+zj9KSzXza91qhN
- 4vD8nd0ScKJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCagrZrgAKCRDBN2bmhouD
- 144JD/92rFjLhf/92xycJGocLdfGFaVBF38rs2t3jyw2nINyTbk3bmFcdJ+qQ15Phpu0nwrjkBS
- kN5TL5zBtS1lWzgth7hPSasnXYt9l2++lAZF4NFrYlCDyJOAidiEUERDRe17D1bubQGN3OoF19R
- 1Cyf1d8dmSs/CbTjlcmKrapsiIoOtev6BFfq0QKF7BFcU8IKcTu2Icblo/NjucSLeJqf8cDU4nc
- heI90GMHoADwGCP/r52UdVRXvGFCOAvrJ7ztUJXa9Ob8vqJ8GqTEmIqJh9RZDQfWay3S3Nrnv1f
- yuqkW2/sQFjKfqJGikHL/nMusKn0mNdLcRZwncZLiOXIKOgIcEv5NFSovy5DU2ZRfDmX7Ape2uA
- Bxyw+yfOT5a4GLGMaWKLfQ+4J28x/xnZl0VRhVq1fHvfxw6H1yF9GI7sEOTtK1HA8T0ypoyUCSx
- N9wj6s5lElz1nMJxwsreTkEcxRWzoFY+NZaGOKIJoOcfeNio3tqG3H0Uo2/BPYnKTZNWQbHf0dj
- 7rHJctO29PtNxpEf3/L62THABh6WQSpETSgdEipvyonvgXiscVL39z1OlEYN1KS+CvAq3voq1p4
- hG29sIF89P7RxKCuFJEbOl3oJHmrOeV+4/EE4ue5yGsxkDZMy3o2HxyCtIAZm41UPKA37HepIxS WlUVXarRsr8FZOA==
-X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: LJlXpcnecXW9m3TLHt4HdtZSk7yDYnkn
-X-Proofpoint-GUID: LJlXpcnecXW9m3TLHt4HdtZSk7yDYnkn
-X-Authority-Analysis: v=2.4 cv=fIMJG5ae c=1 sm=1 tr=0 ts=6a0ad9c2 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=gOEeR9iKwsj33Yj5oN/cWg==:17
- a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
- a=VwQbUJbxAAAA:8 a=gEfo2CItAAAA:8 a=EUspDBNiAAAA:8 a=7C85NsCI5bDNKhsY0GcA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22
- a=sptkURWiP4Gy88Gu7hUp:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE4MDA4OSBTYWx0ZWRfX78Oguk9mGMJI
- OmM8e2y1kagoYutxG4P8GsGtPoW8SBcNKX7R/si7OQwEQTWGi7IZ9sjlF98nbb6WSTUXeAw7tlw
- yaMQmYyiv+HP0HUz7liAsbCVRQNazBa1Z0C6lL6d6DpyvueoPvyKVWAVGKCjpCGsWqIxA5y2dJ2
- zVGaWJtYnATO5+3TlOmhZHxQv4txmNRxtpTCwx26Zeklm6pXSBWZMghq85d8ROjxyqLbCMVbBMY
- LyYWQy0x6mOD8ah5Dd7N+7w2Iz+L9sl5aaGRY7eXOYK8IG9oCnCedF87YWR0xLZsg/cIvJ7gH/T
- HYiSdq77z6zMW+reaZLQcVPjO0piB22gCOCe4yd4pznM5oQqqFpd7bc/9bFoq8+sWzQSDVpw/aV
- ouRVH5H27k+TM9mvjYtRopqx/DhxOQZS9DlHzNpwV5ix8qo8+jMeBj7T7Ofu4iPg8Ayd1yboACz
- PxO7jHdNsRByIadXPcA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-18_02,2026-05-15_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0 spamscore=0 bulkscore=0 phishscore=0
- priorityscore=1501 adultscore=0 suspectscore=0 lowpriorityscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605130000
- definitions=main-2605180089
+X-ThreadId: AoFiOxpvQUXV
+Date: Mon, 18 May 2026 11:29:48 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Ethan Nelson-Moore" <enelsonmoore@gmail.com>, linux-doc@vger.kernel.org,
+ devicetree@vger.kernel.org, workflows@vger.kernel.org,
+ Linux-Arch <linux-arch@vger.kernel.org>, dmaengine@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org,
+ Netdev <netdev@vger.kernel.org>, linux-pci@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-hardening@vger.kernel.org,
+ linux-kbuild@vger.kernel.org,
+ "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>
+Cc: "Jonathan Corbet" <corbet@lwn.net>,
+ "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>,
+ "Daniel Lezcano" <daniel.lezcano@kernel.org>,
+ "Thomas Gleixner" <tglx@kernel.org>, "Alex Shi" <alexs@kernel.org>,
+ "Yanteng Si" <si.yanteng@linux.dev>, "Dongliang Mu" <dzm91@hust.edu.cn>,
+ "Hu Haowen" <2023002089@link.tyut.edu.cn>,
+ "Dinh Nguyen" <dinguyen@kernel.org>, "Kees Cook" <kees@kernel.org>,
+ "Oleg Nesterov" <oleg@redhat.com>, "Will Deacon" <will@kernel.org>,
+ "Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Nicholas Piggin" <npiggin@gmail.com>,
+ "Peter Zijlstra" <peterz@infradead.org>, "Vinod Koul" <vkoul@kernel.org>,
+ "Frank Li" <Frank.Li@kernel.org>, "Dave Penkler" <dpenkler@gmail.com>,
+ "Andi Shyti" <andi.shyti@kernel.org>,
+ "Jonathan Cameron" <jic23@kernel.org>,
+ "David Lechner" <dlechner@baylibre.com>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ "Andy Shevchenko" <andy@kernel.org>,
+ "Andrew Lunn" <andrew+netdev@lunn.ch>,
+ "David S . Miller" <davem@davemloft.net>,
+ "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
+ "Paolo Abeni" <pabeni@redhat.com>,
+ "Lorenzo Pieralisi" <lpieralisi@kernel.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ "Simon Schuster" <schuster.simon@siemens-energy.com>,
+ "Andreas Oetken" <andreas.oetken@siemens-energy.com>
+Message-Id: <d40b1e80-37fc-4c88-9d7f-dae6458efe6c@app.fastmail.com>
+In-Reply-To: <20260518042833.272221-1-enelsonmoore@gmail.com>
+References: <20260518042833.272221-1-enelsonmoore@gmail.com>
+Subject: Re: [PATCH] nios2: remove the architecture
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Document how Devicetree and Open Firmware maintainers handle their
-subsystem, especially focusing on two caveats:
+On Mon, May 18, 2026, at 06:28, Ethan Nelson-Moore wrote:
+> The Nios II architecture is a soft-core architecture developed by
+> Altera (since acquired by Intel) and intended to run on their FPGAs.
+>
+> Licenses for the architecture have not been available for purchase
+> since 2024 [1], and support for it has been removed from GCC 15 [2],
+> Buildroot [3], and QEMU [4].
+>
+> Given all of these factors, it is time to remove Nios II support from
+> the kernel. The maintainer stated in 2024 that they were planning to do
+> so soon [5], but this did not come to pass.
+>
+> Remove Nios II support from the kernel and move the former maintainer
+> to CREDITS. Thank you, Dinh Nguyen, for maintaining Nios II support!
 
-Devicetree subsystem handles patches with a minor difference comparing
-to other subsystems: while DT maintainers pick up OF code, they only
-provide review of DT bindings without applying these.
+Hi Ethan,
 
-All three DT bindings maintainers rely currently on Patchwork and due to
-enormous amount of emails per day, regardless how much DT maintainers
-try, they cannot read all the emails.
+We last discussed this a year ago when Simon Schuster mentioned[1]
+that Siemens Energy is still using NIOS-2 in production and would
+prefer to have this still included in Linux for at least another
+few years until the obligation for kernel updates ends.
 
-Cc: Rob Herring <robh@kernel.org>
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: Saravana Kannan <saravanak@kernel.org>
-Cc: devicetree@vger.kernel.org
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+My feeling is that the maintenance burden of keeping nios2 is
+relatively low. On the other hand, maintaining it out of tree
+as a patch set is also something that should not be all that
+hard if it does get removed.
 
----
+Simon mentioned that he expected others to also use nios2 with
+new kernels, but I have not heard from anyone else actually
+doing it.
 
-I expect patch to be picked up by Rob, after review.
----
- .../process/maintainer-devicetree.rst         | 70 +++++++++++++++++++
- MAINTAINERS                                   |  2 +
- 2 files changed, 72 insertions(+)
- create mode 100644 Documentation/process/maintainer-devicetree.rst
+I've added Simon and Andreas to Cc here to let them comment
+more here.
 
-diff --git a/Documentation/process/maintainer-devicetree.rst b/Documentation/process/maintainer-devicetree.rst
-new file mode 100644
-index 000000000000..331701bb2282
---- /dev/null
-+++ b/Documentation/process/maintainer-devicetree.rst
-@@ -0,0 +1,70 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+======================================
-+Devicetree and Open Firmware Subsystem
-+======================================
-+
-+Other Process Documents
-+-----------------------
-+
-+Please see the documents in Documentation/devicetree/bindings/ for information
-+on how to write proper Devicetree bindings and how to submit patches.
-+
-+Patch Review and Handling
-+-------------------------
-+
-+Patches handled by Devicetree maintainers are processed differently depending
-+on the patch type:
-+
-+1. Core OF driver code, e.g. drivers/of/:
-+   patches are reviewed and applied by DT maintainers.
-+
-+2. Devicetree bindings:
-+   patches are reviewed by DT maintainers but, except in certain cases, should
-+   be applied by subsystem maintainers.  See also *For kernel maintainers* in
-+   Documentation/devicetree/bindings/submitting-patches.rst.
-+   
-+3. DTS and drivers:
-+   DT maintainers might provide comments, but review is generally not expected.
-+
-+Pachwork
-+~~~~~~~~
-+
-+Devicetree maintainers review patches using Patchwork, so the current status of
-+a patch can be checked there. For typical driver submissions, Patchwork
-+receives the entire patch set, but only a few patches are usually Devicetree
-+bindings that are reviewed by DT maintainers.
-+
-+Explanation of Patchwork statutes:
-+
-+ - **New**: Not yet processed by the automation toolset.
-+ - **Needs ACK**: Waiting for review by DT maintainers.
-+ - **Handled Elsewhere**: Non-DT patch; not being reviewed here.
-+ - **RFC**: Patch was likely ignored because it was an incomplete RFC.
-+ - **Changes Requested**: Patch was reviewed and DT maintainers expect changes.
-+ - **Accepted**: Patch was reviewed and applied by DT maintainers to their tree.
-+ - **Not Applicable**: Patch was reviewed and is likely in good shape, with a
-+   *Reviewed-by* or *Acked-by* tag provided, but DT maintainers expect someone
-+   else to apply it.
-+
-+Patch Re-review and Pinging
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Due to the high volume of email traffic, Devicetree maintainers do not read
-+every email they receive and instead rely on Patchwork during the review
-+process. They also often skip patches that have already been reviewed.
-+
-+As a result, maintainers might miss:
-+
-+1. Questions about already reviewed patches.
-+2. Pings, for example when a patch has been reviewed by DT maintainers but has
-+   not been picked up by subsystem maintainers.
-+
-+Such cases can be addressed by:
-+
-+1. Pinging DT maintainers on the IRC channel.
-+2. Dropping the DT maintainer’s *Acked-by* or *Reviewed-by* tag when sending a new
-+   version of the patch set, together with an explanation in the patch
-+   changelog describing why the tag was removed and what is expected from DT
-+   maintainers.
-+
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f877e5aaf2c7..c4929de50ab7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -20050,6 +20050,7 @@ S:	Maintained
- Q:	http://patchwork.kernel.org/project/devicetree/list/
- W:	http://www.devicetree.org/
- C:	irc://irc.libera.chat/devicetree
-+P:	Documentation/process/maintainer-devicetree.rst
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
- F:	Documentation/ABI/testing/sysfs-firmware-ofw
- F:	drivers/of/
-@@ -20070,6 +20071,7 @@ M:	Conor Dooley <conor+dt@kernel.org>
- L:	devicetree@vger.kernel.org
- S:	Maintained
- Q:	http://patchwork.kernel.org/project/devicetree/list/
-+P:	Documentation/process/maintainer-devicetree.rst
- C:	irc://irc.libera.chat/devicetree
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
- F:	Documentation/devicetree/
--- 
-2.51.0
+     Arnd
 
+[1] https://sourceware.org/pipermail/binutils/2025-March/140140.html
