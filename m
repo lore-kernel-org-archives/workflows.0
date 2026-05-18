@@ -1,136 +1,146 @@
-Received: from mta-65-132.flowmailer.net (mta-65-132.flowmailer.net [185.136.65.132])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A15938E8B7
-	for <workflows@vger.kernel.org>; Mon, 18 May 2026 19:05:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.136.65.132
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C2038E124;
+	Mon, 18 May 2026 19:40:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779131116; cv=none; b=LBHX3h2ADint5mwJOuzVawYxx563NvwCCzfDIfT7JZwwnbb/17nJsD8q2luUpIje4PzfSkrarjj9iYSGzfrw5oK89QhnHzRtXIFhInWdmVonZOXFA7ezOxhoehIAVPJ77zOUidhjd+HsjPTTISp1yZhIftCDHG5ap5mKnVLi5hk=
+	t=1779133229; cv=none; b=IWhy6HUXgiMaBENGlXRY6rXg9VPGoStvR1YfiB+t8n0Do5o9JXL5fz8Fk4Jc+8MOlKDqSCkxD2ttEMrYH/jJRGYxJKTbhnAEENQtvoPg9mNAKl43eUa6DYZ4k2XCeDmIqCcFoBK/kYSazouGY8Fi+6gbMSq1t4dvhoBMk/P+0Aw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779131116; c=relaxed/simple;
-	bh=+rYo9RwlleK8Myvw5KVXSvl5djJdJZXOJbD7irbefyc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aukGGrnsH0vianVnx6xEXXVbh/53TJEGAvb4AOuKUcWw6jnzTg309IG1+aWjZ7n6wd9jg3LUHJR+jNA8w4Rw7IP8We2hHtHjSRiAy1jhaLX1GFKXt3Vwoe+XCvu7Bl0F87mBozT8Qvj2b/v+qNUV9APsLREThrOOrvXF48Yt430=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens-energy.com; spf=pass smtp.mailfrom=errorhandling.siemens-energy.com; dkim=pass (1024-bit key) header.d=flowmailer.net header.i=@flowmailer.net header.b=oOv4FfQQ; dkim=pass (2048-bit key) header.d=siemens-energy.com header.i=schuster.simon@siemens-energy.com header.b=dI1aE97G; arc=none smtp.client-ip=185.136.65.132
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens-energy.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=errorhandling.siemens-energy.com
+	s=arc-20240116; t=1779133229; c=relaxed/simple;
+	bh=Lj2y6Z/5yB8RGF1dZj4AOFVgzx3lRYityrUd9Yu85wY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cXlvikDSbJl9TE+oHWPpUa0xeFFeBqUAtknl7z1CftX2/T5PGFK7c0tnrNmk2P/PHpVB4v+9MDIvToVL7puy/wybb04jJ6hAfYuEvP2c1KyaThvW5mwHWT/musB+Rv7DjdADMiqPVWOfHEA4eC19Vh/OSZ4PSV2HLpo6bo02D70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JKnDeAtu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=flowmailer.net header.i=@flowmailer.net header.b="oOv4FfQQ";
-	dkim=pass (2048-bit key) header.d=siemens-energy.com header.i=schuster.simon@siemens-energy.com header.b="dI1aE97G"
-Received: by mta-65-132.flowmailer.net with ESMTPSA id 202605181724465802e56d140019fd1f
-        for <workflows@vger.kernel.org>;
-        Mon, 18 May 2026 19:24:47 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=s1;
- d=flowmailer.net;
- h=from:from:sender:to:to:cc:cc:subject:subject:content-type:content-type:content-transfer-encoding:References:In-Reply-To:Date:Message-ID:MIME-Version;
- bh=/xBoFD2ZNsbMOTky3B3enP8bn+W9UZXo1Hl2aVCLXos=;
- b=oOv4FfQQlHtS5BCboX78gqtA1vOdIzc2Bde3Q6JtaXyf67I3yyl6ut16FqBNN9+Yj9rq9Z
- nyDRk4mSBg/XXlSyTrgBcXgDhCrmwyDzEj+K3hddaJfeuwolNJkOXXJ8o46GUX+ljc6wR96d
- SFujsYOnihqEglQ5vlocmhDkHNiKg=;
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm3;
- d=siemens-energy.com; i=schuster.simon@siemens-energy.com;
- h=from:from:sender:to:to:cc:cc:subject:subject:content-type:content-type:content-transfer-encoding:References:In-Reply-To:Date:Message-ID:MIME-Version;
- bh=/xBoFD2ZNsbMOTky3B3enP8bn+W9UZXo1Hl2aVCLXos=;
- b=dI1aE97GXW4w7iNDnE322TQwRLqhXPJ7u7OOtHXqPwbH7I8b7QZPUcsZ5dpM3aKOX+wuYT
- LPsjcYlVTxPExZ5kMJNCcDWODnTNTrGp6pV8qtNcwDcVLy69NW0vpvbVMGwrINlSJJ+x3xuE
- 8IjsHXj0AnDwTdczWEYMyN3ZXAMnYVljNLinrYheZqc9sCRB5uWpiqfkBE0KYz9ZVSj4gXWO
- W3XtjKRwxfg4DG16B+5mpyk1TGNVwWG+Fbcs2a0kj3mxu3xIuWEGyaVHCYP7ptwU5BzA0nrO
- 6VN6z+VVxxOzsIQ5H6Xp7Kj7GVjsxvKu6BvSATf/LyzOGeeNKmSh+lOw==;
-Date: Mon, 18 May 2026 19:24:44 +0200
-From: Simon Schuster <schuster.simon@siemens-energy.com>
-To: Peter Zijlstra <peterz@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	Dinh Nguyen <dinguyen@kernel.org>
-Cc: linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
- workflows@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
- dmaengine@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-iio@vger.kernel.org, Netdev <netdev@vger.kernel.org>,
- linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org,
- linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
- "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Daniel Lezcano <daniel.lezcano@kernel.org>, Thomas
- Gleixner <tglx@kernel.org>, Alex Shi <alexs@kernel.org>, Yanteng Si
- <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, Hu Haowen
- <2023002089@link.tyut.edu.cn>, Kees Cook <kees@kernel.org>, Oleg Nesterov
- <oleg@redhat.com>, Will Deacon <will@kernel.org>, "Aneesh Kumar K.V (Arm)"
- <aneesh.kumar@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- Nicholas Piggin <npiggin@gmail.com>, Vinod Koul <vkoul@kernel.org>, Frank
- Li <Frank.Li@kernel.org>, Dave Penkler <dpenkler@gmail.com>, Andi Shyti
- <andi.shyti@kernel.org>, Jonathan Cameron <jic23@kernel.org>, David Lechner
- <dlechner@baylibre.com>, =?ISO-8859-1?Q?Nuno_S=E1?= <nuno.sa@analog.com>,
- Andy Shevchenko <andy@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S . Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof
- WilczyDski <kwilczynski@kernel.org>, Andreas Oetken
- <andreas.oetken@siemens-energy.com>
-Subject: Re: [PATCH] nios2: remove the architecture
-Message-ID: <20260518172444.zyd47mcagrcwu7wt@dev-vm-schuster>
-References: <20260518042833.272221-1-enelsonmoore@gmail.com>
- <d40b1e80-37fc-4c88-9d7f-dae6458efe6c@app.fastmail.com>
- <20260518105735.GW3126523@noisy.programming.kicks-ass.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JKnDeAtu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68AD2C2BCB7;
+	Mon, 18 May 2026 19:40:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779133228;
+	bh=Lj2y6Z/5yB8RGF1dZj4AOFVgzx3lRYityrUd9Yu85wY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=JKnDeAtu/QV8Ha15MCZOZm/ucdQ/st7/AJB6NHDPW4+2YAIGegtsUIIttkbKhWg8w
+	 iXCh99HSSN7QsxV5QcE7XIQEFGLpjAHfh/5jG5Zyy3sFK+0ORwTQsahxWbNlds+aXs
+	 PlVcVj/BD9CPnqdfZlVW4Mbx0ODreKQLuOsh70CVr2JJ2rTvOhTJmdptdh2lJ2UFWz
+	 gb5VByelsFgfYSTgvVOWubD5Owf5Ftxo7agFcGAJ4D8y/V3VIhmtY5B5SdbNoo8cy9
+	 uzIUJTDwTmhtW9HF7y2VpE6vvfLTph8u9k5jddf4k+3apv64gYD9uLUPu1O1BDSPiX
+	 KgJL4SuTZw21A==
+Date: Mon, 18 May 2026 21:40:22 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: "Theodore Tso" <tytso@mit.edu>
+Cc: Jani Nikula <jani.nikula@intel.com>, Roman Gushchin
+ <roman.gushchin@linux.dev>, Krzysztof Kozlowski <krzk@kernel.org>,
+ debarbos@redhat.com, Arnaldo Carvalho de Melo <acme@kernel.org>, Greg KH
+ <gregkh@linuxfoundation.org>, Konstantin Ryabitsev <mricon@kernel.org>,
+ Guenter Roeck <linux@roeck-us.net>, sashiko-bot@kernel.org,
+ sashiko-reviews@lists.linux.dev, sashiko@lists.linux.dev, Linux Kernel
+ Workflows <workflows@vger.kernel.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, devicetree@vger.kernel.org,
+ kfree@google.com
+Subject: Re: Stop false review statements
+Message-ID: <20260518214022.5f94f917@foz.lan>
+In-Reply-To: <20260518121601.GA87957@macsyma-wired.lan>
+References: <4f3d7f48-5766-425b-91f6-0acdb5554584@kernel.org>
+	<07602616-412B-4ED8-95D7-588C0D077EE3@linux.dev>
+	<2e20badf27b6910d619329841e37d2961556056f@intel.com>
+	<20260518121601.GA87957@macsyma-wired.lan>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260518105735.GW3126523@noisy.programming.kicks-ass.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Ethan, Arnd, Peter and Dinh,
+On Mon, 18 May 2026 08:16:01 -0400
+"Theodore Tso" <tytso@mit.edu> wrote:
 
-On Mon, May 18, 2026 at 11:29:48AM +0200, Arnd Bergmann wrote:
-> We last discussed this a year ago when Simon Schuster mentioned[1]
-> that Siemens Energy is still using NIOS-2 in production and would
-> prefer to have this still included in Linux for at least another
-> few years until the obligation for kernel updates ends.
+> On Mon, May 18, 2026 at 11:04:29AM +0300, Jani Nikula wrote:
+> > > Sashiko is supporting various LLMs, including open models - it=E2=80=
+=99s just a practical
+> > > choice: to my knowledge the quality of open models is not on par with=
+ frontier closed
+> > > models and it would require a non-trivial amount of hardware and infr=
+astructure to run
+> > > an open model at the required scale. =20
+> >=20
+> > In the context of the "Reviewed-by: Sashiko" discussion, this actually
+> > makes it really hard to assess the quality of those reviews. =20
+>=20
+> Agreed.  There's a reason why the coding-assistants.rst specifies the
+> model which is used:
+>=20
+>   Assisted-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]
+>=20
+> The problem is that (as Jon has pointed out) coding-assistants.rst was
+> intended for use when the tool was beging used to help create the code
+> --- that is, "Coding Assistants".  What we're doing here is more of a
+> reviewer assistance.  Something like:
+>=20
+>   Scanned-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]
+>=20
+> Would be more interesting, but it doesn't actually tell us anything
+> about what the results were of the scan.
 
-First off, thank you, Arnd, for remembering us as this patch series came
-up and also to Dinh for his maintenance of the architecture!
+I don't like scanned-by, even for a tool that would always get the
+same results like checkpatch. For LLM, this is even worse, as two runs
+may give different results for the same code.
 
-Regarding our status in relation to nios2, Arnd's response already gives
-you the gist:
+IMO what makes much more sense is to add information there when
+a change was done due avoid a problem detected by sashiko, and what
+was the fixed issue, e.g. a textual description like:
 
-We are well aware that the architecture was deprecated by Intel and are
-therefore phasing it out in favour of more contemporary hardware.
-I'm also fully aware of the uncertain future of 32-bit architectures as
-a whole [0] and that this fate will come to nios2 sooner or later.
-But as of now, the mainline support is still in very good shape.
+	Changed locking schema after Sashiko's report report about
+	XXX race condition.
 
-On Mon, May 18, 2026 at 12:57:35PM +0200, Peter Zijlstra wrote:
-> Isn't that what we have LTS branches for?
+Also, except if 100% of the=20
 
-Unfortunately, as we are an infrastructure provider for civil energy
-infrastructure, the refurbishment cycle is a bit slower than for
-traditional consumer systems. This implies that the traditional LTS
-support duration (max. Dec 2028 as of writing [1]) is rather short, and
-we would be glad if we could keep the architecture in mainline for at
-least 5 years and only then "decay" to LTS.
+> One of the problems here is that there is a distinction between the
+> infrastructure and review prompts in the Sashiko github repository,
+> and the reviews that are being published by Sashiko the web service
+> being run by Google that is being lost by some folks.  So I wonder if
+> for now, we should just do something like:
+>=20
+> Link: https://sashiko.dev/#/patchset/20260515091829.194810-1-me%40linux.b=
+eauty
 
-On Mon, May 18, 2026 at 11:29:48AM +0200, Arnd Bergmann wrote:
-> My feeling is that the maintenance burden of keeping nios2 is
-> relatively low. On the other hand, maintaining it out of tree
-> as a patch set is also something that should not be all that
-> hard if it does get removed.
+Adding a link makes sense to me. It doesn't need to be to the
+sashiko's email though: it can be to the entire thread.
 
-Judging from the architecture's git history, it seems that it's
-currently mainly touched by treewide refactors, which are extremely
-helpful as we therefore do not have to piece these changes together 
-downstream. In other respects, we try to be good citizens and contribute
-bugfixes as well as required cleanups (such as implementing clone3 [2]
-and fixing its flag behaviour on 32-bit architectures) as they come up.
+> Or just have a link to lore where the review has responded to the
+> Sashiko review stating where the Sashiko review reported a
+> pre-existing condition (perhaps one that we don't care about because
+> races in readahead logic is really Not A Big Deal, etc.)  We go for
+> this strategy, it would actually be better for the Shashiko.dev review
+> to get cc'ed to the mailing list.
+>=20
+> Personally, I think that's probably be best way to go.  We already
+> don't insert into the git commit an explanation of why some bullsh*t
+> review by some wannabe human reviewer should be ignored, or why a
+> discussion of some problem discovered by a human review in the source
+> of the review would be handled in a future patch set.  That's what the
+> discussion on lore.kernel.org is for.  And we shouldn't treat AI
+> reviews any different from how we deal with human reviews.  So if we
+> want to give credit to an AI review, then let's go with the
+> Scanned-by.=20
 
-If desired, we also would be happy to intensify our support regarding
-reviews or testing to share the maintnance burden if it helps to keep
-nios2 in mainline a bit longer.
+If the entire content of a Sashiko review is ignored, I don't think
+it is worth adding anything. Just like we do with humans, IMO the
+best is to just mention what changed due to some feedback received
+by a human or by a bot, mentioning who/what bot helped to identify
+the issue.
 
-Best regards,
-Simon
- 
-0: https://lwn.net/Articles/1035727/
-1: https://www.kernel.org/category/releases.html
-2: https://lore.kernel.org/lkml/20250821-nios2-implement-clone3-v1-0-1bb24017376a@siemens-energy.com/
+> Or we can just let people look at the mailing list, and
+> if people want to have statistics, we can ask people to use a script
+> running against public inbox to figure things out.
+>=20
+> 						- Ted
+>=20
+
+
+
+Thanks,
+Mauro
