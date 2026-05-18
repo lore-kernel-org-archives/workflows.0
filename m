@@ -1,74 +1,45 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DAD7389441
-	for <workflows@vger.kernel.org>; Mon, 18 May 2026 05:16:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 821B03A962B;
+	Mon, 18 May 2026 05:31:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779081404; cv=none; b=BVz2/oaOxISLN26X3V7RJcANVSGB2B8JI9EYNqleID6eDP64kvVPIzxF8v4/ACzRrdwte8yV4xZLaQJ6EEL/7QKg3OF4ttCVCMS+abOJbDJKgdtj8bX6qwNl/L2ME4zg+Un2GldR5DwMJmv+/TGjwhgB8iSrGo8C4OQPB0Q4fhM=
+	t=1779082315; cv=none; b=i8oHUn2QFFWCSMgae0fqRRFVtAz0BsC4PBoE3Q7gOgA/UFtmCNHe59b3ZiTwiVhVaw3LWWPDXV94J8zkbPu2vF/2eE4+5Qfpt5UJJu9MfI5vqSNCaG0L9mCkX61HO852Bjblq71KzpM3HqJL600HyqlujWGyBFOOPea9hxdOupY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779081404; c=relaxed/simple;
-	bh=hOCKadUSTf3cQEUxxUGF55QCfpFY88BMmKN6ZyP3iYw=;
+	s=arc-20240116; t=1779082315; c=relaxed/simple;
+	bh=wSBv1BFWMwVdgkBPMo0C+dZxMuMebWrU53NFLkUEhAI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IvYD1Wagqddy2gCgfj6/wIwprepaLHc+V0+8cM003rxkjUYJEnxpZQffwusx36Cyf6Eyf5BqfEzm4/AjoGNmpP6UFatkmhiXPdVjiSmYkcr55mgFGCT21dhShLcxdI9jcwmQN9IQrwFG+cnTXSw3jSHnj2ilLLz4CXwPtqkc9M8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=LkhpJKV/; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=GKGyfpbDJha64PQsny1fNVgHSTB6L0js8CtdvhxDe5KicqTpFcPEdCa9vYXUgeacdWUEkCBfeB24wu+xw25j5LlHLvqP64fTmPKQL6TGqOV6ffwdTuZsR5N4u3SvPLCmVL72ywBIpvyIhlIc/Yz9H7xEkcHwGPi5fKF99pvvM1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=e8bF5Tut; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="LkhpJKV/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=cmB9
-	EF7ivBtKGUG96g1Savi2M0luLEIRM5gfPbIQyiA=; b=LkhpJKV/Wfuy6DaJ9+ka
-	qurX96LoHx9xnrs64dm3h4h1ChxQtKZNoOk1dNSBZAFqo5fhxFDQTTcrdBDXVvHZ
-	Z3T66UGyA270vWeM4+o4Ipw5EeX4xU33tlt7+BB9zulum4DKCGQ/wCSgP+xqJWqN
-	iz+vr99tSYZNzpCK6NtDmMGqe4boElRzaeFvQojwYjAaHd4OnZHtGO7GTWBZWwyi
-	KvCgAMQ7FmP4+47jAnWFa9BqcHAMh4KwfGaq3a0X/I63utx4Oibnmxl26ZWLcUlS
-	nyOopuxl2H+WO+W/YxJKcuoKy/kJr+pM0QH4NdnDTSo5LSIjYn6j9fXthjiNbIwP
-	zg==
-Received: (qmail 869130 invoked from network); 18 May 2026 07:16:30 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 May 2026 07:16:30 +0200
-X-UD-Smtp-Session: l3s3148p1@Hz5LqhBSRqQujnuR
-Date: Mon, 18 May 2026 07:16:29 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-Cc: linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
-	workflows@vger.kernel.org, linux-arch@vger.kernel.org,
-	dmaengine@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-iio@vger.kernel.org, netdev@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-csky@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
-	Hu Haowen <2023002089@link.tyut.edu.cn>,
-	Dinh Nguyen <dinguyen@kernel.org>, Kees Cook <kees@kernel.org>,
-	Oleg Nesterov <oleg@redhat.com>, Will Deacon <will@kernel.org>,
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Nick Piggin <npiggin@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>,
-	Dave Penkler <dpenkler@gmail.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
-Subject: Re: [PATCH] nios2: remove the architecture
-Message-ID: <agqgrTBkVGBt_f28@ninjato>
-References: <20260518042833.272221-1-enelsonmoore@gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="e8bF5Tut"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF570C2BCB7;
+	Mon, 18 May 2026 05:31:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1779082314;
+	bh=wSBv1BFWMwVdgkBPMo0C+dZxMuMebWrU53NFLkUEhAI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=e8bF5TutASJW27gnqlPRKI6n1cKJYvtFzAKKc42Rvd5Q3X/H5PWctsr8RrqCp4LUP
+	 d47HMNFsLLh1Enhz6a11pUfIcsld1lR0ufVh8XfVm9iBejUHSwh8Vz2ol3ouAAIelL
+	 e6+nequ4fPqhMMQ9dg99DihuaUobZH63WYM28/Ak=
+Date: Mon, 18 May 2026 07:31:58 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Roman Gushchin <roman.gushchin@linux.dev>,
+	Krzysztof Kozlowski <krzk@kernel.org>, debarbos@redhat.com,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Konstantin Ryabitsev <mricon@kernel.org>,
+	Guenter Roeck <linux@roeck-us.net>, sashiko-bot@kernel.org,
+	sashiko-reviews@lists.linux.dev, sashiko@lists.linux.dev,
+	Linux Kernel Workflows <workflows@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	devicetree@vger.kernel.org, kfree@google.com
+Subject: Re: Stop false review statements
+Message-ID: <2026051808-coil-blaspheme-8910@gregkh>
+References: <20260517183959.37441984@foz.lan>
+ <F2FBD939-179D-467B-9FA8-BAA44F6C7524@linux.dev>
+ <20260517205606.3b035316@foz.lan>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -77,31 +48,20 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260518042833.272221-1-enelsonmoore@gmail.com>
+In-Reply-To: <20260517205606.3b035316@foz.lan>
 
-On Sun, May 17, 2026 at 09:28:33PM -0700, Ethan Nelson-Moore wrote:
-> The Nios II architecture is a soft-core architecture developed by
-> Altera (since acquired by Intel) and intended to run on their FPGAs.
+On Sun, May 17, 2026 at 08:56:06PM +0200, Mauro Carvalho Chehab wrote:
+> By "reproduce locally", I didn't mean in strict sense. Sure, LLM answers
+> won't be identical, but I suspect that at least most of the major issues 
+> on a patch series would be reported by any decent model.
 > 
-> Licenses for the architecture have not been available for purchase
-> since 2024 [1], and support for it has been removed from GCC 15 [2],
-> Buildroot [3], and QEMU [4].
-> 
-> Given all of these factors, it is time to remove Nios II support from
-> the kernel. The maintainer stated in 2024 that they were planning to do
-> so soon [5], but this did not come to pass.
-> 
-> Remove Nios II support from the kernel and move the former maintainer
-> to CREDITS. Thank you, Dinh Nguyen, for maintaining Nios II support!
-> 
-> References:
-> [1] https://docs.altera.com/v/u/docs/781327/is-discontinuing-ip-ordering-codes-listed-in-pdn2312-for-nios-ii-ip
-> [2] https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=e876acab6cdd84bb2b32c98fc69fb0ba29c81153
-> [3] https://github.com/buildroot/buildroot/commit/6775ccc5a199d574ad70b5f79ec58cce97a07c6f
-> [4] https://github.com/qemu/qemu/commit/6c3014858c4c0024dd0560f08a6eda0f92f658d6
-> [5] https://sourceware.org/pipermail/newlib/2024/021083.html
-> 
-> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+> So, if we have something that one can locally run using its GPU, being
+> able to get an answer in the range of a couple of minutes per patch
+> should be enough to catch most of the issues.
 
-Acked-by: Wolfram Sang <wsa+renesas@sang-engineering.com> # for I2C
+That should be possible now, you can submit a patch locally to the
+system.  I have a "cheat-sheet" around here somewhere that explains how
+to do that, no idea why it's not part of the documentation.  I can dig
+it up after breakfast...
 
+greg k-h
