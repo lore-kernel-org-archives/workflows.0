@@ -1,67 +1,116 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 821B03A962B;
-	Mon, 18 May 2026 05:31:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136D93C5540;
+	Mon, 18 May 2026 06:56:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779082315; cv=none; b=i8oHUn2QFFWCSMgae0fqRRFVtAz0BsC4PBoE3Q7gOgA/UFtmCNHe59b3ZiTwiVhVaw3LWWPDXV94J8zkbPu2vF/2eE4+5Qfpt5UJJu9MfI5vqSNCaG0L9mCkX61HO852Bjblq71KzpM3HqJL600HyqlujWGyBFOOPea9hxdOupY=
+	t=1779087361; cv=none; b=ERjy8wBKImCuCGxshEPyi259aQUHjCGuGXsjSHOScrg4qwwhrgZ1Hd7UeaKbu+aaJZZwia1xuS//hCT653LVCFroaJ7htaguXxV2vcuVXO2U+uwxu7BlA+v86ywuFg1zcd22V46DPD2C61geR4Kw8TqEEtHCj5XmXXqE0vmbXoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779082315; c=relaxed/simple;
-	bh=wSBv1BFWMwVdgkBPMo0C+dZxMuMebWrU53NFLkUEhAI=;
+	s=arc-20240116; t=1779087361; c=relaxed/simple;
+	bh=o7dvWOoDxJoqk2pHywtA9JSXlbLLMaNNcTzFjnfj+Jk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GKGyfpbDJha64PQsny1fNVgHSTB6L0js8CtdvhxDe5KicqTpFcPEdCa9vYXUgeacdWUEkCBfeB24wu+xw25j5LlHLvqP64fTmPKQL6TGqOV6ffwdTuZsR5N4u3SvPLCmVL72ywBIpvyIhlIc/Yz9H7xEkcHwGPi5fKF99pvvM1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=e8bF5Tut; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=nzyr2yXrYaogmwid2AOD2OqYSFLcQEOiSc2YPcUkdSBYycIp6RgNJTva6uMujVnhV76pHkQ0S4Lv8i5G3HKhuVcBWC7MOPCm+q4KFk8wzIWTwp+ZRxJJJ1/YHBxuqx8CP2eGrVoZanWYpdVQ7LJGRCRlEbQx/rHyNGis6XWAsJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nBEAy425; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="e8bF5Tut"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF570C2BCB7;
-	Mon, 18 May 2026 05:31:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1779082314;
-	bh=wSBv1BFWMwVdgkBPMo0C+dZxMuMebWrU53NFLkUEhAI=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nBEAy425"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E94F3C2BCB7;
+	Mon, 18 May 2026 06:55:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779087360;
+	bh=o7dvWOoDxJoqk2pHywtA9JSXlbLLMaNNcTzFjnfj+Jk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e8bF5TutASJW27gnqlPRKI6n1cKJYvtFzAKKc42Rvd5Q3X/H5PWctsr8RrqCp4LUP
-	 d47HMNFsLLh1Enhz6a11pUfIcsld1lR0ufVh8XfVm9iBejUHSwh8Vz2ol3ouAAIelL
-	 e6+nequ4fPqhMMQ9dg99DihuaUobZH63WYM28/Ak=
-Date: Mon, 18 May 2026 07:31:58 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Roman Gushchin <roman.gushchin@linux.dev>,
-	Krzysztof Kozlowski <krzk@kernel.org>, debarbos@redhat.com,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Konstantin Ryabitsev <mricon@kernel.org>,
-	Guenter Roeck <linux@roeck-us.net>, sashiko-bot@kernel.org,
-	sashiko-reviews@lists.linux.dev, sashiko@lists.linux.dev,
-	Linux Kernel Workflows <workflows@vger.kernel.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	devicetree@vger.kernel.org, kfree@google.com
-Subject: Re: Stop false review statements
-Message-ID: <2026051808-coil-blaspheme-8910@gregkh>
-References: <20260517183959.37441984@foz.lan>
- <F2FBD939-179D-467B-9FA8-BAA44F6C7524@linux.dev>
- <20260517205606.3b035316@foz.lan>
+	b=nBEAy425sh60FdXG3PK9Hl5HHmR4JhLGLkssLELCmAl6bLVf2uoZT9DlFjrBdwUOr
+	 iPfrb/zNRGIbEw5MvkdWEHn8q9hpCzXM89p5Eh0zCbZWYKLA5OQFQDbLaGF4DiqNsx
+	 zJKMRlYVC5OMdTqQz0LhOSYUJpWk1ykdqIsnUjH9EeY5aVmMnsIak3HhyAh2Zwj230
+	 XNquFayYEnkmYsxqti+gH/xiwDlCZHDReM+yHYJXq7nqnJbiS2qeiIQytSvEmXNEAw
+	 41STb/iOBY3qwPcjq8FwSnfB1RrgHS3q3+J3DY9cymgBqa5YCBmuBqY6sLXjcMgzsR
+	 3JaQQwY6GZZ2A==
+Date: Mon, 18 May 2026 08:55:58 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+Cc: linux-doc@vger.kernel.org, devicetree@vger.kernel.org, 
+	workflows@vger.kernel.org, linux-arch@vger.kernel.org, dmaengine@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org, linux-hardening@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-csky@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Daniel Lezcano <daniel.lezcano@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Alex Shi <alexs@kernel.org>, 
+	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, 
+	Hu Haowen <2023002089@link.tyut.edu.cn>, Dinh Nguyen <dinguyen@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Oleg Nesterov <oleg@redhat.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
+	Dave Penkler <dpenkler@gmail.com>, Andi Shyti <andi.shyti@kernel.org>, 
+	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+Subject: Re: [PATCH] nios2: remove the architecture
+Message-ID: <agq3nMVq5x4SyBAV@monoceros>
+References: <20260518042833.272221-1-enelsonmoore@gmail.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="v3mrrmanqdjd4jn4"
 Content-Disposition: inline
-In-Reply-To: <20260517205606.3b035316@foz.lan>
+In-Reply-To: <20260518042833.272221-1-enelsonmoore@gmail.com>
 
-On Sun, May 17, 2026 at 08:56:06PM +0200, Mauro Carvalho Chehab wrote:
-> By "reproduce locally", I didn't mean in strict sense. Sure, LLM answers
-> won't be identical, but I suspect that at least most of the major issues 
-> on a patch series would be reported by any decent model.
-> 
-> So, if we have something that one can locally run using its GPU, being
-> able to get an answer in the range of a couple of minutes per patch
-> should be enough to catch most of the issues.
 
-That should be possible now, you can submit a patch locally to the
-system.  I have a "cheat-sheet" around here somewhere that explains how
-to do that, no idea why it's not part of the documentation.  I can dig
-it up after breakfast...
+--v3mrrmanqdjd4jn4
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] nios2: remove the architecture
+MIME-Version: 1.0
 
-greg k-h
+Hello,
+
+On Sun, May 17, 2026 at 09:28:33PM -0700, Ethan Nelson-Moore wrote:
+> diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
+> index 6f3147518376..d8145f369ec3 100644
+> --- a/drivers/pwm/Kconfig
+> +++ b/drivers/pwm/Kconfig
+> @@ -131,7 +131,7 @@ config PWM_ATMEL_TCB
+> =20
+>  config PWM_AXI_PWMGEN
+>  	tristate "Analog Devices AXI PWM generator"
+> -	depends on MICROBLAZE || NIOS2 || ARCH_ZYNQ || ARCH_ZYNQMP || ARCH_INTE=
+L_SOCFPGA || COMPILE_TEST
+> +	depends on MICROBLAZE || ARCH_ZYNQ || ARCH_ZYNQMP || ARCH_INTEL_SOCFPGA=
+ || COMPILE_TEST
+>  	select REGMAP_MMIO
+>  	help
+>  	  This enables support for the Analog Devices AXI PWM generator.
+> diff --git a/include/linux/seqlock.h b/include/linux/seqlock.h
+> index 5a40252b8334..edc8c96d91b6 100644
+
+Acked-by: Uwe Kleine-K=F6nig <ukleinek@kernel.org> # for pwm
+
+Best regards
+Uwe
+
+--v3mrrmanqdjd4jn4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmoKt+8ACgkQj4D7WH0S
+/k6D+wf/c3PPUzT+ilOfvLDq6xQ9mwqwWCSp0mpgj+sKStF3zLW22/Jxh8uQfgJz
+ZxNzeVpp3RcvofNMMm9NFY7fAJ1PB+bqLcKvHzxUCFe5c6VAocZOm+H+6jrnvcGM
+tKehUuFKbRlgdS1XjOXmRn9CuXP4HU7Jm0kFysqDtNt0Zl8gGYQgubZ2Z34XrBIu
+msmr1l3QT1BMbE7uRR5crgqH4HHvMpZqR0RehrX2/c1VY8HWEujhEkufhcMZMrvx
+Vmuf0f4bdeu4oIwwFMXmijr6ySoxRBKluXwjFOMUa8ZqhyhLFSr6lOhX8pXD+rOr
++brUNxnEjv3MpJArRnZswn7AfSGXWw==
+=83W7
+-----END PGP SIGNATURE-----
+
+--v3mrrmanqdjd4jn4--
