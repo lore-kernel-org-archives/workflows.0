@@ -1,109 +1,138 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B6F6370AF4;
-	Tue, 19 May 2026 11:40:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0499330D29;
+	Tue, 19 May 2026 12:23:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779190823; cv=none; b=hpzt8W4g3Umztv9oh+yY9I6e357wlAD13z8vDkIEDmEC6PeGA1h9DH//bijePeNOnsR1FhuMIO3lvzgDtnOIoEv4ve0zJhDAN2WPuJJAm9GjPTLlkUPFKlNY3mlfgjDiiA8W3PJTQyZPLmKKPeBDSxDgSxYuJoICEzTyF3NQsYM=
+	t=1779193399; cv=none; b=UvMdVQtZIdhkNTYr5RokmNwl5LSFv3lah0+rIvfqrckuDo7AUkSvA2X6VC8D316vrzv43tNV9d/vQlZSVaX0kcN0NFcM87n9s1M/vQKmnqUtoy1rw3++3Y0Wf7EP4775P6pdozfwTEslsKPYFxm6Z0d+z6DVekIH54jFT673K74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779190823; c=relaxed/simple;
-	bh=QQaaGxQ5MASOA16eW1u17RV/meEJnJskrvGMHhJ6QeQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hfRFjpS077LvXhtU0z3kzy8nB8R8VeqWVdTNxyhVSdIWx78/Fe8DWuXg4Y9sUqP6SDwWLDwCU2DxvkA9I/dSGq3JNpl30hnAhdf4ewmc3ZWe0dsGFh9IY/wxu46j7L25XhxUR8D0VBkaf0a0Z4PrKG9oq6c+vVAz5+xxlUE7L1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G0TPOmjb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779193399; c=relaxed/simple;
+	bh=Y3WpbjUWGiEnR7/mFPX4dVUgHp+sMiZO0AZi+Y6FSJM=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=uTxNC56nPP2BCXeb698OePZJLr+iXKndMTxBUxmPkNxbIfYM3nXaFQD0q/qmG/d5PHHayYAyF97reLCpgzTYoxRPmblsnlDASOc81zkGwl8krTBBTYina9JYKabQrKBEaxlFX0AGq6XsogwjTrmfzD1ZkWwPg2NFq8Flu2+z7Eo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MWnFPdoG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G0TPOmjb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3FFCC2BCB3;
-	Tue, 19 May 2026 11:40:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MWnFPdoG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD25CC2BCB3;
+	Tue, 19 May 2026 12:23:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779190823;
-	bh=QQaaGxQ5MASOA16eW1u17RV/meEJnJskrvGMHhJ6QeQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=G0TPOmjbmcvJIsyGp9Lt9WWuGrK3bSidLM55V8j1toGC08ccXy34OW+azx4MDkSV7
-	 a/BjSolTL36yxsLoocb5XUNbmpvdpDCm+P1wzQ6KWLN2vZA6JE6WOXE6NoTfzmfUey
-	 ef352MxE0yvpE8Idden2ACG12L3FEAoE2VydQ6X7abTwmp4W+J7UEPOHhQC0QxrCUv
-	 A5SHqdGiPEPP28otiuD5aBL0d9JDnfKn5p70KSV2wgC/lhciRK56CwFnAc4hkqZKLg
-	 mvQf2SluEbysYMgQBbiDmzhVt7XjUOIOl9GPWQDyB05H0C+RTfaFU1sGH/cIjAHr4+
-	 Jh0UTs5zoTCUA==
-Message-ID: <6b5378ed-270a-4ade-a944-654941ee9f8c@kernel.org>
-Date: Tue, 19 May 2026 06:40:18 -0500
+	s=k20201202; t=1779193399;
+	bh=Y3WpbjUWGiEnR7/mFPX4dVUgHp+sMiZO0AZi+Y6FSJM=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=MWnFPdoGVQcWDb0jUZu1nelxpRgXI6CR8Rah3yBMIth/g4ZUN8TJeEJDcq7KeQCj+
+	 2YGaXleO1KJH/oO9J30DALxDWCYS7Xx/X8+h0esA27QwWmlq2BmgoUv6mMgWs2DSa1
+	 y9bbflngm29GbMQiNI5hg0o95S+GLaeLeKpJxxZlDHOlnlOwc5JeKb1q7+Eae+00QX
+	 GhEUC8Rv9JWxGkRQopFaW9ZuExeVcU1eItD0FEvvYWrDPqLcY+qbUBWXctYRAoHwbE
+	 JdAheXZtUyZfPH4a2kKSSVTmke94PNfj4Yfw4oNkHrPmoyu9bV8w7ndPP8OdcnAUUR
+	 rg5FlxVTSAgxw==
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nios2: remove the architecture
-Content-Language: en-US
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Simon Schuster <schuster.simon@siemens-energy.com>
-Cc: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
- Peter Zijlstra <peterz@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
- linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
- workflows@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
- dmaengine@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-iio@vger.kernel.org, Netdev <netdev@vger.kernel.org>,
- linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org,
- linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
- "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Daniel Lezcano <daniel.lezcano@kernel.org>, Thomas Gleixner
- <tglx@kernel.org>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
- Hu Haowen <2023002089@link.tyut.edu.cn>, Kees Cook <kees@kernel.org>,
- Oleg Nesterov <oleg@redhat.com>, Will Deacon <will@kernel.org>,
- "Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Nicholas Piggin <npiggin@gmail.com>, Vinod Koul <vkoul@kernel.org>,
- Frank Li <Frank.Li@kernel.org>, Dave Penkler <dpenkler@gmail.com>,
- Andi Shyti <andi.shyti@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
- David Lechner <dlechner@baylibre.com>, =?UTF-8?Q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Krzysztof WilczyDski <kwilczynski@kernel.org>,
- Andreas Oetken <andreas.oetken@siemens-energy.com>
-References: <20260518042833.272221-1-enelsonmoore@gmail.com>
- <d40b1e80-37fc-4c88-9d7f-dae6458efe6c@app.fastmail.com>
- <20260518105735.GW3126523@noisy.programming.kicks-ass.net>
- <20260518172444.zyd47mcagrcwu7wt@dev-vm-schuster>
- <CADkSEUjhq6HSdg4ignzbuJiN5uXATsTdxFbRJ3BMxs5=WUWLDg@mail.gmail.com>
- <20260519103012.blot4bssgiqfer6p@dev-vm-schuster> <agxBqd-ubOL2_i-j@shikoro>
-From: Dinh Nguyen <dinguyen@kernel.org>
-In-Reply-To: <agxBqd-ubOL2_i-j@shikoro>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 19 May 2026 14:23:15 +0200
+Message-Id: <DIMNF65K9U66.1Q89HNYSQ0ZXB@kernel.org>
+Subject: Re: Stop false review statements
+Cc: "Krzysztof Kozlowski" <krzk@kernel.org>, "Greg KH"
+ <gregkh@linuxfoundation.org>, "Konstantin Ryabitsev" <mricon@kernel.org>,
+ "Guenter Roeck" <linux@roeck-us.net>, "Miguel Ojeda" <ojeda@kernel.org>,
+ <sashiko-bot@kernel.org>, <sashiko-reviews@lists.linux.dev>,
+ <sashiko@lists.linux.dev>, "Linux Kernel Workflows"
+ <workflows@vger.kernel.org>, "Linux Kernel Mailing List"
+ <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <kfree@google.com>
+To: "Roman Gushchin" <roman.gushchin@linux.dev>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <DIL2P8CHKVZD.2WVQQRN0FM28N@kernel.org>
+ <C16C14F1-4D2F-4701-88CC-114F5233980D@linux.dev>
+In-Reply-To: <C16C14F1-4D2F-4701-88CC-114F5233980D@linux.dev>
 
-Hi Simon,
+On Mon May 18, 2026 at 7:19 PM CEST, Roman Gushchin wrote:
+>
+>> On May 17, 2026, at 8:56=E2=80=AFAM, Danilo Krummrich <dakr@kernel.org> =
+wrote:
+>> That said, I personally don't mind too much, I really like sashiko, whic=
+h is
+>> also why I asked for adding the driver-core list. My experience has been=
+ that it
+>> does a very decent job in providing feedback for C code; my feeling is t=
+hat
+>> feedback for Rust code is not quite on par yet, but of course it also hi=
+ghly
+>> depends on the complexity and scope of the corresponding changes.
+>
+> This is super interesting. An obvious idea is that the training set is
+> relatively limited, if we=E2=80=99re talking rust for kernel code. Did yo=
+u notice any
+> common topics or patterns?
 
-On 5/19/26 05:55, Wolfram Sang wrote:
-> Hi Simon,
-> 
->>> ... but given this, you might want to get added in MAINTAINERS as
->>> reviewer (or even maintainer) for nios2? Besides that your efforts are
->>> already worth it in my book, it would also ensure you get CCed on
->>> patches like this. Then, you are not depending on people like Arnd
->>> putting you in the loop manually.
->>
->> Sure, I'd be glad to do so, but so far I refrained from it as I was a bit
->> unsure about the netiquette (can I simply do so by self-proclamation? At
->> least the git history seems to suggest so...).
-> 
-> In your case, you can do so, I'd say. You explained your very reasonable
-> interest in the architecture and have already shown efforts to keep it,
-> as we can see from the git history. The final call will be done by Dinh
-> Nguyen obviously with whom you probably need to sort out details. But I
-> can't imagine your offer for help will be rejected, quite the contrary.
-> 
+My experience is - and that's probably not surprising as it may tie back to=
+ the
+relatively limited training set you mention above - that it sometimes loses
+context at the FFI boundary, where it has to consider the semantics of the =
+C and
+the Rust APIs.
 
-I 100% support adding you as a maintainer. Please send a patch.
+I think the difficult part is not necessarily that there is a language boun=
+dary
+by itself, but rather that it can be difficult for LLMs to capture the sema=
+ntic
+layer that a Rust API puts on top of a C API in order to derive a safe API.
+
+This also has been my experience in other LLM contexts; the most significan=
+t
+improvements I saw in output quality have been by providing more semantic
+context for the abstraction design.
+
+Probably easy to look up, but does Sashiko consider cover letters already?
+
+> Does it produce more false positives or worse in finding actual bugs in
+> comparison to the c code?
+
+I'd say both, and I think the reason is probably the same for both. But to =
+be
+fair, this is probably also biased by the class of changes I deal with on t=
+he C
+and on the Rust side too.
+
+It is also fair to say that in Rust we (almost) don't have whole classes of=
+ bugs
+that we have on the C side; and the class of memory safety issues makes a h=
+uge
+proportion of bugs on the C side.
+
+If the model is particularly good at finding memory safety issues (and I th=
+ink
+it is), it of course also messes with the statistics of false positives
+comparing C with Rust.
+
+> I personally think that it=E2=80=99s always better to cc some mailing lis=
+t and/or
+> maintainers, so there is a second pair of eyes. I totally agree that repl=
+ying
+> just to the author is less effective.  Of course, we can add the text you=
+=E2=80=99re
+> proposing, but why not simply configure sashiko to cc the mailing list?
+
+I'm not sure it addresses much of this concern, as I prefer to keep everyon=
+e the
+patch (series) has been sent to explicitly in the loop.
+
+Of course everyone has a different workflow, but I think it is fair to assu=
+me
+that most people who are addressed directly follow along through their inbo=
+x and
+not through the mailing list.
+
+So, I think the real alternative is "reply all", which for multiple reasons=
+ I'm
+not convinced is the right general call to make yet.
+
+(I do consider it for one of the components I maintain though.)
 
 Thanks,
-Dinh
-
+Danilo
