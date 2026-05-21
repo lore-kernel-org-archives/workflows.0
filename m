@@ -1,277 +1,132 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mta-65-141.flowmailer.net (mta-65-141.flowmailer.net [185.136.65.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90E8D3D25B6
-	for <workflows@vger.kernel.org>; Thu, 21 May 2026 12:20:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B22E360EFA
+	for <workflows@vger.kernel.org>; Thu, 21 May 2026 15:37:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.136.65.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779366025; cv=none; b=AJwLqwTPfMLCUCPn5h8Cy93Q5OG1zTnTBD09BV07o9oc7Inm6CRlDtjA80fI3ob6+I6FR0B9N7A9vzb5AaKuyEK/Dx5Oql3H9HAaP11++iNsjIc+5qTiTrCVEWjMJn+hjsimAwmr9pXz0BJ9cLNj2TRAl/iKfQOLzNdCVfxQJd4=
+	t=1779377864; cv=none; b=Y9DlKLZOAdzsDK0LitKVWL6F85autVr6pbNKqHWgaYK1CyfcQINn6nKLOBxY34QemmPW1anJ9uSmifpEsI6gnNskA/MZx6IkHmumQbeBhhMNHLFRmZMLxIn6q0HnQkw/mg76od8ed6X5E18FsPSd3lG8zl3GIwp2kyFrNKTar0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779366025; c=relaxed/simple;
-	bh=m5vq5lzBfI3cQdgIp7nM79N6LDabjGabpgW/KV4LQy8=;
+	s=arc-20240116; t=1779377864; c=relaxed/simple;
+	bh=ueEF+bxWvWqR586sT6h/9OE/noXhk1FsLD5ozFIo48g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kJKT1375N6E0/c4Io9eUsEd/a+1lAFgRL/f7A/n8F30vZCf6fFL2CssUUN2Wn0KlQEMrkRYCQwJh1hJbs26Qq5FmSTKnCVaoWW8gHt44xZJE019v36rLYpPvx7FHI6R7e7CiTRjTBtkulrwYJWz9HQVmeZETKAhSZtMDZPgTJ9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ImEv4Ai5; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=cLMrNeV9; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=p2d7GBznICDEK8/WTcUKiWn2TWHRV/N4+WImkuPujJhcCzEb6cem6l8VqthZtXNLqebYVnOhH0fvKVRCRuAaglmGLmHQ7cqHu/+MswSF3vZlm60ZofUO64aPK1yrQVk461LroOUobMGolKPDxhnfD0z4MHcsRe/EJl3XQ63xmSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens-energy.com; spf=pass smtp.mailfrom=errorhandling.siemens-energy.com; dkim=pass (1024-bit key) header.d=flowmailer.net header.i=@flowmailer.net header.b=MMFq36yT; dkim=pass (2048-bit key) header.d=siemens-energy.com header.i=schuster.simon@siemens-energy.com header.b=Zq3CXr0l; arc=none smtp.client-ip=185.136.65.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens-energy.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=errorhandling.siemens-energy.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ImEv4Ai5";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="cLMrNeV9"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64L9AL2A3555946
-	for <workflows@vger.kernel.org>; Thu, 21 May 2026 12:20:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	TwK02OO4K1epQED36FGkSoJT4inoRnIOR99uClBefzI=; b=ImEv4Ai599CkKWct
-	28BA/t+9vRGd5MBP7ry2a53XDrFhmSAHGsRtyliCdQ5YKRfW1Bh1Gxns0N4G6ssK
-	HQET9yhe8qDT6Jy2C/JFNNPd/qE2aWrX3PEyGEQTTy8vHmvk76zfeWM7feJ3k5ga
-	RGKcE1FLRVm9bx55awCHNyRoLTicBQBYgsRo/1etey2TNkPVJX243Z6+PVqx5brP
-	qKocHiZtcdEL3XAQOUeWmmkrh8DCY2g2e844j7AFlirWv67+T15Vb3eu1Sc1fg/0
-	zZ9MMzUelSnBhh/QDqO992G3e4SyivLJq4ojL6/eu2cafltwEvyb+EILUw2EmW1J
-	zYPTCw==
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e9fb6meu5-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <workflows@vger.kernel.org>; Thu, 21 May 2026 12:20:21 +0000 (GMT)
-Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-c827bda2e60so3553575a12.3
-        for <workflows@vger.kernel.org>; Thu, 21 May 2026 05:20:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1779366021; x=1779970821; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=TwK02OO4K1epQED36FGkSoJT4inoRnIOR99uClBefzI=;
-        b=cLMrNeV9Uh0cbmZtjrwnUReHA1vLzJ+Q+kSi8B6WTLxXsDUze+X+vbv627UMa0YCss
-         e63Bh1xM4L6X9ufiH7Ktpk1e5q0H93NJ9mbL3UaVzmj9aVdDvLxRdtz05jw1duM1sSYt
-         wOtsPLmJjrBolRQ6HwF6SNiaX8bniMgSfxwgvf85ZVgKPQPnhdlIREWcTrADlFUKYrUo
-         YZX/so/HsB/nUjm7guDF9Kzthvl9oerzKPJpx9BM64rPSij7AHapFKzUu1K8SH73FnBp
-         TkAKzVS/ad116VHg4oQx2gs1A5WxdjO9wXspQV1d5EaQFHHmvxWrSFMo8FuC9ko46/cb
-         LpLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779366021; x=1779970821;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TwK02OO4K1epQED36FGkSoJT4inoRnIOR99uClBefzI=;
-        b=McHoTBHqL2d3daxxoL+BmHjDkoKbLEQBPsuPzYwKAGcOAwIibP7fDjpL7A3IRWdP6j
-         EwAU/AHp1dWP6B/811XxFt1Cn3k+MzFkXDfDgjnBSZXj1GTGDpx/C0GR6PKzDORQXPUu
-         o9xQwcKUVzPaMTKaMl7Hh1G7Wu40Of9AFoi3VqVteTKkaY+f9x0P/EE/mfqa0ynYBhFS
-         FQ2SC3akp7GObfVgp3cMEACVhx1ywxj0TJZM/GwyTx9RUV4HED5cRgHKOddLHtApChCo
-         a5zKznqAVkFmMlEl3tsXT708jH0TWBeqIXPm7AIN2kh6wmubKr1q4ljQUR82bExCTltH
-         j8bg==
-X-Forwarded-Encrypted: i=1; AFNElJ/eAGqWDoSowegh3YCXWdm2rdlN4Taw8Chmgk0rO1l+4kB5Mg26ta2aGZi1o4GF+FIRz4LOS7vRt/Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwnVHs6Q2yzRQQTJnIrqUPYw1qa706UtQn1tCCYlI0EJe/AFMP0
-	YzxA4Rry/vMtiluRGe11RugB2B9kwZenYOLeeE4AMqvKE2VBSneHWjQ2xVB6CInprzkCm8yJdgR
-	SLUQ8IfANpi1i2P2NQRdE1gixZpvhadlakw6bhDN7R7hPv1/qzAh+qPUozaiJ9FI=
-X-Gm-Gg: Acq92OGzn6kIXq1N8oG7Kiz198X4VCSzAOMOQdhr1+tCO5SbV9v3EiBBdRoVUKFs2/9
-	xdCxEB62EAsqYUH7BUF90u4CwmGMcLUiJ50G/1p2Y8GvOQL7WbqR62M5Zn/47Vpfw0YQQyVg38T
-	a8pav2hGpwInroBc6N96DujwLtH/Fpq7dGljZ1vCqOOoaE35McqN79GWFDANozu2F3wnsqfwo28
-	utOR1UD+FNeQbCDpLCYX+uwItCz7Nl/hxgA5lchOkIqLDTrYCq5EW9JgMClIjGS95amsIzZI39R
-	OPgF4VzUK7O5OS8wXuwQdvb3EmsghgghoIJJ/nsVm/Lsat7p02uk1L0x0q/5OZZK/yz5elKDPH4
-	wqEQkuRSIV0HQNC0Xzw9zRShUQbRsA9W1b5vg2sHGoi28m91inu/E35asRvc=
-X-Received: by 2002:a05:6a20:9183:b0:398:6bb5:54c4 with SMTP id adf61e73a8af0-3b30854e9c4mr3264411637.5.1779366020821;
-        Thu, 21 May 2026 05:20:20 -0700 (PDT)
-X-Received: by 2002:a05:6a20:9183:b0:398:6bb5:54c4 with SMTP id adf61e73a8af0-3b30854e9c4mr3264348637.5.1779366020198;
-        Thu, 21 May 2026 05:20:20 -0700 (PDT)
-Received: from hu-mojha-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c851980bcdcsm240706a12.14.2026.05.21.05.20.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2026 05:20:19 -0700 (PDT)
-Date: Thu, 21 May 2026 17:50:02 +0530
-From: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-To: Bjorn Andersson <andersson@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-        Eugen Hristev <eugen.hristev@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>, Dennis Zhou <dennis@kernel.org>,
-        Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Anna-Maria Behnsen <anna-maria@linutronix.de>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
-        Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
-        David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
-        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-        Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
-        Kees Cook <kees@kernel.org>, Brendan Jackman <jackmanb@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
-        Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
-        Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>,
-        Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>,
-        Youngjun Park <youngjun.park@lge.com>, Petr Mladek <pmladek@suse.com>,
-        John Ogness <john.ogness@linutronix.de>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Saravana Kannan <saravanak@kernel.org>, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-mm@kvack.org,
-        linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 00/25] Introduce meminspect
-Message-ID: <20260521122002.etqupwnjv67didat@hu-mojha-hyd.qualcomm.com>
-References: <20260311-minidump-v2-v2-0-f91cedc6f99e@oss.qualcomm.com>
- <abdnp90cC5PI9wyz@baldur>
- <20260316181647.m7x4ncmwdjho6yvr@hu-mojha-hyd.qualcomm.com>
- <abtlUQqMOxj5PwGB@baldur>
+	dkim=pass (1024-bit key) header.d=flowmailer.net header.i=@flowmailer.net header.b="MMFq36yT";
+	dkim=pass (2048-bit key) header.d=siemens-energy.com header.i=schuster.simon@siemens-energy.com header.b="Zq3CXr0l"
+Received: by mta-65-141.flowmailer.net with ESMTPSA id 202605211537325682a2bcd90019fdc5
+        for <workflows@vger.kernel.org>;
+        Thu, 21 May 2026 17:37:32 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=s1;
+ d=flowmailer.net;
+ h=from:from:sender:to:to:cc:cc:subject:subject:content-type:content-type:content-transfer-encoding:References:In-Reply-To:Date:Message-ID:MIME-Version;
+ bh=KcRzYfxPkdiV7UzaW+6lIfDEOBCRNUcUcG27X2U1VSs=;
+ b=MMFq36yTf/DJOdkiWD8dxyVJTeBb2CpUxQWl6ikCBdoeyzPO1YF1TlVatLLSDsvGHWcQd5
+ VDsmO4GbpHypEfkjO53Qz6kghqkYW63SBOu0Z3QcrtuSqWyhCWSOJvxnT/UwU+hUbYuuGM0J
+ HuZSr59c5et2+K6wbsqMmvXOzxMIc=;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm3;
+ d=siemens-energy.com; i=schuster.simon@siemens-energy.com;
+ h=from:from:sender:to:to:cc:cc:subject:subject:content-type:content-type:content-transfer-encoding:References:In-Reply-To:Date:Message-ID:MIME-Version;
+ bh=KcRzYfxPkdiV7UzaW+6lIfDEOBCRNUcUcG27X2U1VSs=;
+ b=Zq3CXr0liSNgT0BCELoEs6XA0YM8cHIjZYr0stylqb6wFZbahGV2hbEmOBF/1TqoTWIGML
+ pQmKEA14s3UI+M6MccDXkCrApiCPspbcb8X1z4i0qqkc0XKsEuZWyaX++RCNyx2Oho4OkebH
+ CljyjSOBruD/mCsSnEVDpu/bRn9huDA1sfKAPLG4TnjoGEs76ifH2dvqbyplGH4LM/bN//MJ
+ TbAfvH9UHgJigDJ9qujRe7uPZe7uulWgnP1HXFpgW6KlqYd6iasg0kXPD7frFGW+6jdQlaQd
+ pc5Ftr3JZPBE4ZdvXY4aK24gQwmJHg5mcdt41zeDIsJIor2N0FKdzstA==;
+Date: Thu, 21 May 2026 17:37:29 +0200
+From: Simon Schuster <schuster.simon@siemens-energy.com>
+To: Arnd Bergmann <arnd@arndb.de>, Dinh Nguyen <dinguyen@kernel.org>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Ethan Nelson-Moore <enelsonmoore@gmail.com>, Peter Zijlstra
+ <peterz@infradead.org>, linux-doc@vger.kernel.org,
+ devicetree@vger.kernel.org, workflows@vger.kernel.org, Linux-Arch
+ <linux-arch@vger.kernel.org>, dmaengine@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, Netdev
+ <netdev@vger.kernel.org>, linux-pci@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-hardening@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, "linux-csky@vger.kernel.org"
+ <linux-csky@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Daniel
+ Lezcano <daniel.lezcano@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+ Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, Dongliang
+ Mu <dzm91@hust.edu.cn>, Hu Haowen <2023002089@link.tyut.edu.cn>, Kees Cook
+ <kees@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Will Deacon
+ <will@kernel.org>, "Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Nicholas Piggin
+ <npiggin@gmail.com>, Vinod Koul <vkoul@kernel.org>, Frank Li
+ <Frank.Li@kernel.org>, Dave Penkler <dpenkler@gmail.com>, Andi Shyti
+ <andi.shyti@kernel.org>, Jonathan Cameron <jic23@kernel.org>, David Lechner
+ <dlechner@baylibre.com>, =?ISO-8859-1?Q?Nuno_S=E1?= <nuno.sa@analog.com>,
+ Andy Shevchenko <andy@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S . Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof
+ WilczyDski <kwilczynski@kernel.org>, Andreas Oetken
+ <andreas.oetken@siemens-energy.com>
+Subject: Re: [PATCH] nios2: remove the architecture
+Message-ID: <20260521153729.ig2xgvskkbg3nx47@dev-vm-schuster>
+References: <20260518042833.272221-1-enelsonmoore@gmail.com>
+ <d40b1e80-37fc-4c88-9d7f-dae6458efe6c@app.fastmail.com>
+ <20260518105735.GW3126523@noisy.programming.kicks-ass.net>
+ <20260518172444.zyd47mcagrcwu7wt@dev-vm-schuster>
+ <CADkSEUjhq6HSdg4ignzbuJiN5uXATsTdxFbRJ3BMxs5=WUWLDg@mail.gmail.com>
+ <20260519103012.blot4bssgiqfer6p@dev-vm-schuster>
+ <76af64fa-7820-4d92-8aa9-826c3bd812a1@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <abtlUQqMOxj5PwGB@baldur>
-X-Authority-Analysis: v=2.4 cv=do/rzVg4 c=1 sm=1 tr=0 ts=6a0ef885 cx=c_pps
- a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
- a=NEAV23lmAAAA:8 a=mDV3o1hIAAAA:8 a=0QWIX89dG7aUu2ROjmkA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=_Vgx9l1VpLgwpw_dHYaR:22
-X-Proofpoint-ORIG-GUID: y47IxoGyyClVOJzC5wXjvnR8DZHXm9qn
-X-Proofpoint-GUID: y47IxoGyyClVOJzC5wXjvnR8DZHXm9qn
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIxMDEyMyBTYWx0ZWRfX9yLA8IXjb9OJ
- ugtXlsnvdGYglPqm43dP/OKe52+cpzI/zwnuzosQhHogSrgzpx84iV2dPmauHEfvoFSmaSjQ9zA
- IHrmWS66Tz9svWHbE61XujdVZZp2H7MCESg8viReIXyoZXEEFgFSUgrSNc9WAy1rysLksce3Kvk
- 6yQpQ8pmPpkRyG6GFv+dH9D/UZ07uU7k+AD8CvJ8sPHaL5WwD9AiUy1ugApfsajUNd6FNpOqUYL
- 9+YcCxYBAqABQv5cJxOHY1EZYTUPshM+sUrkDffL0i4XDa3vPFTanuTu38k9IodSLNVgyYyC1n9
- NQJxCvASfO7wPLSffJUmWxpBFZMA7qSkIK3ZdUHwcLFxSNiuj5YUswYdoKPBxFtnpCkdqMByvT+
- 94/pl2ET2OSHU+8C2EwmlRgbEylzKWKyIxespXFc2V1FfIZBA0LxydXlX/3CWcvh/hqq+f+Hf09
- WLGhsq+KPA1qHNPL7Hg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-21_02,2026-05-18_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 lowpriorityscore=0 bulkscore=0 suspectscore=0 clxscore=1015
- spamscore=0 malwarescore=0 phishscore=0 priorityscore=1501 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605210123
+In-Reply-To: <76af64fa-7820-4d92-8aa9-826c3bd812a1@app.fastmail.com>
 
-On Wed, Mar 18, 2026 at 09:55:29PM -0500, Bjorn Andersson wrote:
-> On Mon, Mar 16, 2026 at 11:46:47PM +0530, Mukesh Ojha wrote:
-> > On Sun, Mar 15, 2026 at 09:24:39PM -0500, Bjorn Andersson wrote:
-> > > On Wed, Mar 11, 2026 at 01:45:44AM +0530, Mukesh Ojha wrote:
-> [..]
-> > > >, to get all the regions as
-> > > > separate files.  The tool from the host computer will list the regions
-> > > > in the order they were downloaded.
-> > > > 
-> > > > Once you have all the files simply use `cat` to put them all together,
-> > > > in the order of the indexes.  For my kernel config and setup, here is my
-> > > > cat command : (you can use a script or something, I haven't done that so
-> > > > far):
-> > > 
-> > > So these need to be sorted in numerical order, by that number at the end
-> > > of the file name?
-> > > 
-> > > Do you manually punch these in? How do we make this user friendly?
-> > 
-> > Yes, manually.. but I think we can do better. We could make
-> > this more user‑friendly by using the section header and string table in
-> > the md_KELF binary both of which existed in the earlier implementation.
-> > Then, we can write an upstream‑friendly script that reads this KELF
-> > metadata file, checks whether a binary with the registered name is
-> > present, and stitches everything together to form a complete ELF that
-> > the crash tool can consume.  Let me know if you have any suggestion..
-> > 
+Hi Arnd, Dinh, Wolfram, and Miguel,
+
+thank you for your explanations and encouragement; I've now sent my
+application for co-maintainership for arch/nios2 to you, Dinh.
+
+On Wed, May 20, 2026 at 09:06:33AM +0200, Arnd Bergmann wrote:
+> I think that is a reasonable target. We have a bunch of embedded
+> architectures that have a similarly small user base and I expect
+> that we will want to remove most of them at some point, as we did
+> for seven architectures in linux-4.17.
 > 
-> Can we somehow identify that these regions belong to the minidump and
-> teach QDL to build the ELF for us?
+> As long as there is a maintainer for nios2 and it's not actively
+> getting in the way of a specific treewide change, I don't see any
+> reason to remove this any earlier than the other ones.
+> 
+> Obviously at some point nios2 will have to get removed because
+> of the limit to gcc-14 or older, but that should not be a problem
+> for the next few LTS releases.
 
-Raised PR for the QDL https://github.com/linux-msm/qdl/pull/243 which
-does not use numerating order and we can completely drop.
+This all sounds quite reasonable, including the toolchain
+considerations. Thank you for the offer to keep it around a bit.
+If any issues arise with tree-wide changes I'd be happy to look into
+what can be done on the arch/nios2 side; now that the issues should
+reliably reach me via mail.
 
-With that PR, QDL will be generating minidump.elf .
+> > Sure, I'd be glad to do so, but so far I refrained from it as I was a bit
+> > unsure about the netiquette (can I simply do so by self-proclamation? At
+> > least the git history seems to suggest so...).
+> 
+> Dinh already replied that he welcomes the help, and I also suggested
+> the same thing a year ago. As the only known user that has contributed
+> patches in a long time, you are obviously qualified.
+> 
+> Sending a patch for the MAINTAINERS file to Dinh is the first step,
+> once he has sent that upstream, you can (optionally) apply for
+> kernel.org account that would let you host a git tree on kernel.org
+> or have a tree that you both have access to.
 
-And I checked the latest crash tool with no extra patching and just the
---minimal option (as we do not have everything in the minidump) and just
-dmesg.
+I've sent the patch, I'm sure we can work everything else out from
+there.
 
-
-$ ./crash  --minimal minidump/vmlinux ./minidump/minidump.elf
-
-crash 9.0.2++
-Copyright (C) 2002-2026  Red Hat, Inc.
-Copyright (C) 2004, 2005, 2006, 2010  IBM Corporation
-Copyright (C) 1999-2006  Hewlett-Packard Co
-Copyright (C) 2005, 2006, 2011, 2012  Fujitsu Limited
-Copyright (C) 2006, 2007  VA Linux Systems Japan K.K.
-Copyright (C) 2005, 2011, 2020-2024  NEC Corporation
-Copyright (C) 1999, 2002, 2007  Silicon Graphics, Inc.
-Copyright (C) 1999, 2000, 2001, 2002  Mission Critical Linux, Inc.
-Copyright (C) 2015, 2021  VMware, Inc.
-This program is free software, covered by the GNU General Public License,
-and you are welcome to change it and/or distribute copies of it under
-certain conditions.  Enter "help copying" to see the conditions.
-This program has absolutely no warranty.  Enter "help warranty" for details.
-
-GNU gdb (GDB) 16.2
-Copyright (C) 2024 Free Software Foundation, Inc.
-License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.
-Type "show copying" and "show warranty" for details.
-This GDB was configured as "--host=x86_64-pc-linux-gnu --target=aarch64-elf-linux".
-Type "show configuration" for configuration details.
-Find the GDB manual and other documentation resources online at:
-    <http://www.gnu.org/software/gdb/documentation/>.
-
-For help, type "help".
-Type "apropos word" to search for commands related to "word"...
-
-NOTE: minimal mode commands: log, dis, rd, sym, eval, set, extend and exit
-
-crash> log
-[    0.000000] Booting Linux on physical CPU 0x0000000000 [0x512f0030]
-[    0.000000] Linux version 7.1.0-rc2-next-20260504-00228-g2595b97d6061 (@f134cd6ce783) (aarch64-linux-gnu-gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, GNU ld (GNU Binutils for Ubuntu) 2.42) #11 SMP PREEMPT Fri May 15 09:34:41 UTC 2026
-[    0.000000] KASLR disabled on command line
-[    0.000000] random: crng init done
-[    0.000000] Machine model: Qualcomm Technologies, Inc. XXXX
-[    0.000000] earlycon: qcom_geni0 at MMIO 0x0000000000a9c000 (options '')
-[    0.000000] printk: legacy bootconsole [qcom_geni0] enabled
-[    0.000000] efi: UEFI not found.
-...
-..
-
-
-[   48.488296] sysrq: Trigger a crash
-[   48.492004] Kernel panic - not syncing: sysrq triggered crash
-[   48.497944] CPU: 3 UID: 0 PID: 363 Comm: sh Tainted: G        W           7.1.0-rc2-next-20260504-00228-g2595b97d6061 #11 PREEMPT
-[   48.510055] Tainted: [W]=WARN
-[   48.513140] Hardware name: Qualcomm Technologies, Inc. XXXX
-[   48.519699] Call trace:
-[   48.522276]  show_stack+0x18/0x24 (C)
-[   48.526089]  dump_stack_lvl+0x34/0x8c
-[   48.529903]  dump_stack+0x18/0x24
-[   48.533366]  vpanic+0x47c/0x4dc
-[   48.536646]  do_panic_on_target_cpu+0x0/0x1c
-[   48.541078]  sysrq_reset_seq_param_set+0x0/0x94
-[   48.545788]  __handle_sysrq+0xd4/0x1b8
-[   48.549679]  write_sysrq_trigger+0xc0/0xd0
-[   48.553930]  proc_reg_write+0x9c/0xf0
-[   48.557737]  vfs_write+0xd4/0x358
-[   48.561187]  ksys_write+0x6c/0x104
-[   48.564724]  __arm64_sys_write+0x1c/0x28
-[   48.568809]  invoke_syscall+0x54/0x10c
-[   48.572704]  el0_svc_common.constprop.0+0xc0/0xe0
-[   48.577578]  do_el0_svc+0x1c/0x28
-[   48.581025]  el0_svc+0x38/0x138
-[   48.584317]  el0t_64_sync_handler+0xa0/0xe4
-[   48.588660]  el0t_64_sync+0x198/0x19c
-[   48.592474] SMP: stopping secondary CPUs
-[   48.796761] Kernel Offset: disabled
-[   48.806510] Memory Limit: none
-crash>
-
--- 
--Mukesh Ojha
+Best regards,
+Simon
