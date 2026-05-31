@@ -1,69 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DAFB3C5546;
-	Fri, 29 May 2026 23:33:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69871E520A
+	for <workflows@vger.kernel.org>; Sun, 31 May 2026 14:02:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780097631; cv=none; b=ijWzPrKXhMXYHzqa4HeasaWvZegSbDvsAhVOYEhKhXDfbBe+kPkIPV//NoJesjQNXlNtdjiRRMHfVYBx/EuDzFp1JyP1ApoMFxFlHrXvWtlmlpSynRO4540mpb7t2f2ij59j/nMmjrkmsgzbNRWh8KlUhucAhh9Y2HQlgO+Y00I=
+	t=1780236139; cv=none; b=rOrTXwipZoIAmW9wQj1qZ4Q/QZLLbQOAXRJFPinTAyL6UL07g8fr3crg2PJioUO3Qv4F7yLCXraYKX71svowjp1aEuQ50bOQO8cA3TP3Me352P0m0yHCO3TVmyq3zWAwiJ2fHaPFEzDgS31u6EQFORsZ2f6+Ap+hqyHbbuOWFl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780097631; c=relaxed/simple;
-	bh=hXTACtBIV6hiJQgdeXIpXE8oX0VfwYXpGLrdPdwrSB0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TTMqRFntTERLYZjBiPP8P5NhyRP+8BEhx2p3+5HDfm3A/iZ7r0pS7zER5QGgDuUlULS/kKC3fiDSQDNl84jbvOs7Q0GueLH4Ax6ulAulhM0ZuMh91oXAgorVkp5MtMiFmzWr9hglVe+u4DSEELxKlx7F7hHqkP5GT4+zJmwq1bw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qxe1bqFi; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780236139; c=relaxed/simple;
+	bh=1Mx9+JPAFFCXGppo/c4PNUomb6raQh6wwAYCvpR1FJw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OdG1NCluDlnNOGRyCN+GUp0Gc0Qc/kfXpeAdBXTEa+6ucqvtI/KNMHag6Jb+AVpmqDeoiT9nOhUQgCHQudUx9itVlR7ujErrl2LGLR9EfEJt5QPslpWUudZp5CxXfe9cuEhm5D4sFXCmrQ9TOWJJcm89+jdutxMaPvpY+/Nh9Ek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LcPgiMao; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=dAyoI7fP; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qxe1bqFi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 673CE1F00899;
-	Fri, 29 May 2026 23:33:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780097629;
-	bh=i5xoYOu+H/E2Qmd6vKoz6csEWSVaDrwB5J3ezvyhCxg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Qxe1bqFiXTODd2f4grnOICVXbhq2ocNkz+jxYbVEHDomrL78/pKUYx6CwgTDPf2vH
-	 yYmEnf7cSymZUlV7TX73zpm92q33c6jgFedQoR+P139razqoNlh+Vqu2FbcDUi/1ei
-	 aY5LEkRZvBGSGTExyqarQKrQAtrDiYkxXRa7Waa3cnrOC3qBH8L4aNhqW7VJWC1jAl
-	 1s+e748Q14/FPA6VAOCaaexu3U1xzaXCgjTHrL1mjdt3aXzWqO+/TidI2GkfNCHHFJ
-	 +lnMI48vCXplKCo+YH3PTS4B8U3HK6FmSkgl5VuEkIH2VPTy38q5sjCJA4KH8dNTWa
-	 ZxJTWsYDgAo1g==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-api@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	workflows@vger.kernel.org,
-	tools@kernel.org,
-	x86@kernel.org,
-	Thomas Gleixner <tglx@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LcPgiMao";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="dAyoI7fP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1780236137;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ysQ7pxIb9uu9MOTslWvzE+QCFksmJ15vilUFpcNr1vE=;
+	b=LcPgiMaoFOP4arGKbUmV+gbsCa4aqwXJXEc3M15R6tLae5OJusP8+wgpsjuQMNDh9Wn5rm
+	5hEJS6+cYeQ1MLt58ygw40n/sgQOAQXB6lsWfWggk0X7Z9PRjy5GImTMkPQl5TOVAZkNLR
+	b9sUeY22ChuWiRi4HTg72U5omo+jY28=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-686-JJFE33ZJPWO2eK8KeJxaQA-1; Sun, 31 May 2026 10:02:16 -0400
+X-MC-Unique: JJFE33ZJPWO2eK8KeJxaQA-1
+X-Mimecast-MFC-AGG-ID: JJFE33ZJPWO2eK8KeJxaQA_1780236136
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-914f037b7dfso1090419185a.3
+        for <workflows@vger.kernel.org>; Sun, 31 May 2026 07:02:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1780236136; x=1780840936; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ysQ7pxIb9uu9MOTslWvzE+QCFksmJ15vilUFpcNr1vE=;
+        b=dAyoI7fPVentOlf9E062RSp1LexTLnlI9F01a4osB+BTpXPn2EVNuIWMAZuxTNfDV6
+         e9cnH7X/w3OCZcOMItVckgD+VC8Uvv72cYz4NGV/WxmsYjLXhymIdbLpmAFRzj9fOuBr
+         DilWQfGhRy9eUsAy9ppmYmzr+fDoeaH2at/d7j1b5knsoeP+9WwErfFEVeExrK3wOUQP
+         cJQiowpkmy7MD3VO7ThwjzfgSlYsLQ6skhy358ki3XUspY79Mg55wv7zRTbkjBlR8D9t
+         onqYtDq1QJ7OeLwaXzwlU7wB7y1bbMfaA0DUhqvt/7/kJbwThQCiwra/UWpI06yCeVkr
+         bVCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780236136; x=1780840936;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ysQ7pxIb9uu9MOTslWvzE+QCFksmJ15vilUFpcNr1vE=;
+        b=fM4bRwF2KfTRd3DFBPO+zAMd5sRHY+68xSfKxV1pIxCE8B0iJ003Dq3e4l+G0DvnoE
+         CmKkQAX69vJIWynO6WG7prmDoPsxws7pp7k2pSOmDI1cpseYKpKiBAWdMU5hrWDgKCXX
+         SKTlNEat81LUEcbQU619AwjnoTIq3isCGx0I5sPkLjm3f8iv/Q8LTs6YxZTQuyYSW2xO
+         PyCBIrIhmGGKmHYNXnX5lZaFXNHWlTsMlowAmZeADNXAqH3rcQkM4GhniZcGJAXf35ZM
+         B1vBg8h7bNWbfLLuSbmxKxkzbgMK8O28vKnerV1mNN54dcoaMtGBu1Q7PCYsTvBn7EQo
+         WjaQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+oQrm9ytXYXIy3HPN9ZJDKG1a+n/vWeTdgf/gbr8pHkHjmq4Z5k4y2C3iLoRCyVl0wltvZBcBlNlE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxovdAbFzOhYj5RW7oyq7A2cTOSseOvCpyaSiXN7BQvgNucaMMQ
+	9O+3/2BDKDm62PjBug1/lUZ83PvkkyGc6ODxBqWYsM8vSsbH73N03RuaIBpaBOTaX6Mph0tnVVs
+	Li1prJvYHS4kYdjjqmNjPFPYCtQWkEaoPZ2GGgupbLqoTWW3YnQZ7fTowI9Ckjg==
+X-Gm-Gg: Acq92OGRtDmo2cTdMVIMwiLcTRWSR+59mEVUOB9G6NyCriYIRUYMJygVLHr01MBt6wy
+	rgEl/7cQCLW4qEd5zD31LBBgqZNmTSCAEwmPk8v+STsDRu1qwCdA8/fgcsb55KM32qEHKbKynzK
+	u35zi59ObvXltyZiQ3jjvv8PC78/0VrguoXWCEBsm4vEWH3tM5DUKUNEaErAPj+pGKajUUzi0mz
+	dmSf18pqF2Qz9o1pXaQRt5oFA1STw9Z1X86k0H1NZddRVgQFvymo0IV7oZX0TdK0JaAtLilI/g2
+	ob1dzhY2sJrQmW57vu8S7a8KCAg6u6yGoGEq9A6A8ac/lI9FaAnL++q6HKwMpLeX2L+hCltITyZ
+	U1NbTYG40YGbYCA7CT3KuJ7ZLCbN7uHzJS8g5nOdSChZjTA==
+X-Received: by 2002:a05:620a:6ccc:b0:8ca:123e:819b with SMTP id af79cd13be357-9153d93ac41mr1169310585a.13.1780236135592;
+        Sun, 31 May 2026 07:02:15 -0700 (PDT)
+X-Received: by 2002:a05:620a:6ccc:b0:8ca:123e:819b with SMTP id af79cd13be357-9153d93ac41mr1169305985a.13.1780236135124;
+        Sun, 31 May 2026 07:02:15 -0700 (PDT)
+Received: from costa-tp.bos2.lab ([2a00:a041:e223:1b00:fe51:8bb:7986:c897])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9153244e114sm780182585a.5.2026.05.31.07.02.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 31 May 2026 07:02:14 -0700 (PDT)
+From: Costa Shulyupin <costa.shul@redhat.com>
+To: Jason Wessel <jason.wessel@windriver.com>,
+	Daniel Thompson <danielt@kernel.org>,
+	Douglas Anderson <dianders@chromium.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Cyril Hrubis <chrubis@suse.cz>,
-	Kees Cook <kees@kernel.org>,
-	Jake Edge <jake@lwn.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Gabriele Paoloni <gpaoloni@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Subject: [PATCH v4 11/11] kernel/api: add syscall enter/exit tracepoints
-Date: Fri, 29 May 2026 19:33:10 -0400
-Message-ID: <20260529233311.1901670-12-sashal@kernel.org>
+	Randy Dunlap <rdunlap@infradead.org>,
+	kgdb-bugreport@lists.sourceforge.net,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Costa Shulyupin <costa.shul@redhat.com>
+Subject: [PATCH v1] docs: kgdb: Fix stale source file paths
+Date: Sun, 31 May 2026 17:02:07 +0300
+Message-ID: <20260531140207.4114764-1-costa.shul@redhat.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260529233311.1901670-1-sashal@kernel.org>
-References: <20260529233311.1901670-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -72,294 +98,39 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add two tracepoints to the CONFIG_KAPI_RUNTIME_CHECKS syscall validation
-path so the framework's behavior can be observed without the noise and
-loss of pr_warn_ratelimited():
+Update two file paths that became stale when kgdb/kdb sources
+were reorganized:
+- kernel/debugger/debug_core.c -> kernel/debug/debug_core.c
+- drivers/char/kdb_keyboard.c -> kernel/debug/kdb/kdb_keyboard.c
 
-  kapi_syscall_enter - the spec name, the raw argument values, and a
-                       rendered "name=value" list of the specified
-                       parameters (pointer-like values in hex, integers
-                       and file descriptors in decimal)
-  kapi_syscall_exit  - the spec name, the return value, and whether it
-                       matched the specification (spec_match)
-
-Both fire only for syscalls that have a KAPI specification and live
-inside the existing CONFIG_KAPI_RUNTIME_CHECKS region, so they exist
-exactly when the runtime checks do; they compile to no-ops without
-CONFIG_TRACEPOINTS and stay dormant until enabled. The parameter list
-is rendered only when the enter tracepoint is enabled.
-
-kapi_syscall_exit is also emitted on the parameter-validation rejection
-path -- where the validator returns -EINVAL and the real handler is
-skipped -- with spec_match=0, so every kapi_syscall_enter has a matching
-exit.
-
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Assisted-by: Claude:claude-opus-4-6
+Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
 ---
- Documentation/dev-tools/kernel-api-spec.rst | 29 ++++++++
- MAINTAINERS                                 |  1 +
- include/trace/events/kapi.h                 | 74 ++++++++++++++++++++
- kernel/api/kernel_api_spec.c                | 77 ++++++++++++++++++---
- 4 files changed, 173 insertions(+), 8 deletions(-)
- create mode 100644 include/trace/events/kapi.h
+ Documentation/process/debugging/kgdb.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/dev-tools/kernel-api-spec.rst b/Documentation/dev-tools/kernel-api-spec.rst
-index 26598a98c0f69..561e7bff58379 100644
---- a/Documentation/dev-tools/kernel-api-spec.rst
-+++ b/Documentation/dev-tools/kernel-api-spec.rst
-@@ -285,6 +285,35 @@ custom validation functions via the ``validate`` field in the constraint spec:
-     .type = KAPI_CONSTRAINT_CUSTOM,
-     .validate = validate_buffer_size,
+diff --git a/Documentation/process/debugging/kgdb.rst b/Documentation/process/debugging/kgdb.rst
+index dd6a103073fa..c4d0a9121d52 100644
+--- a/Documentation/process/debugging/kgdb.rst
++++ b/Documentation/process/debugging/kgdb.rst
+@@ -696,7 +696,7 @@ The kernel debugger is organized into a number of components:
  
-+Tracepoints
-+-----------
-+
-+When ``CONFIG_KAPI_RUNTIME_CHECKS`` is enabled, the syscall validation path emits
-+two ftrace tracepoints (in the ``kapi`` trace system) for every syscall that has a
-+specification:
-+
-+- ``kapi_syscall_enter`` -- fired before parameter validation, recording the spec
-+  name, the raw syscall argument values, and -- when the spec provides parameter
-+  metadata -- a rendered ``name=value`` list: pointer-like values are shown in hex,
-+  integers and file descriptors in decimal, and an unnamed parameter as ``arg``.
-+- ``kapi_syscall_exit`` -- fired after the handler returns, or in place of the
-+  handler when parameter validation rejects the call (the handler is skipped and
-+  ``-EINVAL`` is returned). Records the spec name, the return value, and
-+  ``spec_match``: 0 when the call did not conform to the spec -- the parameters were
-+  rejected, or the return value was not one the spec allows -- and 1 otherwise.
-+
-+Unlike the ``pr_warn_ratelimited`` violation reports, the tracepoints capture every
-+spec'd call rather than only violations, are lossless under load, and can be filtered
-+with the usual ftrace facilities. They require ``CONFIG_TRACEPOINTS`` and stay dormant
-+until enabled::
-+
-+    # echo 1 > /sys/kernel/tracing/events/kapi/enable
-+    # cat /sys/kernel/tracing/trace
-+     ...  kapi_syscall_enter: sys_read(fd=3, buf=0x7ffd46780b58, count=0x340)
-+     ...  kapi_syscall_exit: sys_read = 832 spec_match=1
-+     ...  kapi_syscall_enter: sys_open(filename=0x480300, flags=268435456, mode=0x0)
-+     ...  kapi_syscall_exit: sys_open = -22 spec_match=0
-+
- DebugFS Interface
- =================
+ 1. The debug core
  
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ddfd9cad98916..48def631ad823 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13823,6 +13823,7 @@ L:	linux-api@vger.kernel.org
- S:	Maintained
- F:	Documentation/dev-tools/kernel-api-spec.rst
- F:	include/linux/kernel_api_spec.h
-+F:	include/trace/events/kapi.h
- F:	kernel/api/
- F:	tools/kapi/
- F:	tools/lib/python/kdoc/kdoc_apispec.py
-diff --git a/include/trace/events/kapi.h b/include/trace/events/kapi.h
-new file mode 100644
-index 0000000000000..47828f3338828
---- /dev/null
-+++ b/include/trace/events/kapi.h
-@@ -0,0 +1,74 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM kapi
-+
-+#if !defined(_TRACE_KAPI_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_KAPI_H
-+
-+#include <linux/tracepoint.h>
-+
-+/* Max length of the rendered "name=value, ..." parameter list. */
-+#define KAPI_TP_PARAMS_LEN 256
-+
-+/*
-+ * Emitted from the CONFIG_KAPI_RUNTIME_CHECKS syscall validation path for
-+ * syscalls that have a KAPI specification: kapi_syscall_enter fires before
-+ * parameter validation, kapi_syscall_exit after the handler returns.
-+ * @name is the spec name, e.g. "sys_open".
-+ *
-+ * kapi_syscall_enter carries both the raw argument values (args[]) and, when
-+ * the spec provides parameter metadata, a rendered "name=value" list (params,
-+ * built by the caller): pointer-like values in hex, integers and fds in decimal.
-+ */
-+TRACE_EVENT(kapi_syscall_enter,
-+
-+	TP_PROTO(const char *name, int nargs, const s64 *args, const char *params),
-+
-+	TP_ARGS(name, nargs, args, params),
-+
-+	TP_STRUCT__entry(
-+		__string(	name,	name	)
-+		__field(	int,	nargs	)
-+		__array(	u64,	args,	6	)
-+		__string(	params,	params	)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(name);
-+		__entry->nargs = nargs;
-+		memset(__entry->args, 0, sizeof(__entry->args));
-+		if (args && nargs > 0)
-+			memcpy(__entry->args, args,
-+			       min_t(int, nargs, 6) * sizeof(__entry->args[0]));
-+		__assign_str(params);
-+	),
-+
-+	TP_printk("%s(%s)", __get_str(name), __get_str(params))
-+);
-+
-+TRACE_EVENT(kapi_syscall_exit,
-+
-+	TP_PROTO(const char *name, long ret, bool spec_match),
-+
-+	TP_ARGS(name, ret, spec_match),
-+
-+	TP_STRUCT__entry(
-+		__string(	name,		name		)
-+		__field(	long,		ret		)
-+		__field(	bool,		spec_match	)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(name);
-+		__entry->ret = ret;
-+		__entry->spec_match = spec_match;
-+	),
-+
-+	TP_printk("%s = %ld spec_match=%d",
-+		  __get_str(name), __entry->ret, __entry->spec_match)
-+);
-+
-+#endif /* _TRACE_KAPI_H */
-+
-+/* This part must be outside protection */
-+#include <trace/define_trace.h>
-diff --git a/kernel/api/kernel_api_spec.c b/kernel/api/kernel_api_spec.c
-index 1a9041a7f21a4..2aa8c04a5851e 100644
---- a/kernel/api/kernel_api_spec.c
-+++ b/kernel/api/kernel_api_spec.c
-@@ -659,6 +659,45 @@ EXPORT_SYMBOL_GPL(kapi_print_spec);
+-   The debug core is found in ``kernel/debugger/debug_core.c``. It
++   The debug core is found in ``kernel/debug/debug_core.c``. It
+    contains:
  
- #ifdef CONFIG_KAPI_RUNTIME_CHECKS
+    -  A generic OS exception handler which includes sync'ing the
+@@ -877,7 +877,7 @@ attached keyboard. The keyboard infrastructure is only compiled into the
+ kernel when ``CONFIG_KDB_KEYBOARD=y`` is set in the kernel configuration.
  
-+#define CREATE_TRACE_POINTS
-+#include <trace/events/kapi.h>
-+
-+/*
-+ * Render a syscall's parameters as a "name=value, ..." string for the
-+ * kapi_syscall_enter tracepoint.  Names come from the spec; pointer-like
-+ * values are shown in hex, integers and file descriptors in decimal.
-+ */
-+static void kapi_trace_format_params(const struct kernel_api_spec *spec,
-+				     const s64 *args, int nargs,
-+				     char *buf, size_t size)
-+{
-+	int i, used = 0;
-+
-+	buf[0] = '\0';
-+	/* Bound by the caller-supplied arg count; the spec arity may differ. */
-+	for (i = 0; args && i < nargs && i < 6; i++) {
-+		const char *name = "arg";
-+		bool dec = false;
-+
-+		if (i < spec->param_count) {
-+			const struct kapi_param_spec *ps = &spec->params[i];
-+
-+			if (ps->name)
-+				name = ps->name;
-+			dec = ps->type == KAPI_TYPE_INT || ps->type == KAPI_TYPE_FD;
-+		}
-+
-+		used += scnprintf(buf + used, size - used, "%s%s=",
-+				  i ? ", " : "", name);
-+		if (dec)
-+			used += scnprintf(buf + used, size - used, "%lld",
-+					  (long long)args[i]);
-+		else
-+			used += scnprintf(buf + used, size - used, "0x%llx",
-+					  (unsigned long long)args[i]);
-+	}
-+}
-+
- /**
-  * kapi_validate_fd - Validate that a file descriptor value is in valid range
-  * @fd: File descriptor to validate
-@@ -1154,16 +1193,24 @@ EXPORT_SYMBOL_GPL(kapi_validate_syscall_param);
- int kapi_validate_syscall_params(const struct kernel_api_spec *spec,
- 				 const s64 *params, int param_count)
- {
--	int i;
-+	int i, ret = 0;
- 
- 	if (!spec || !params)
- 		return 0;
- 
-+	if (trace_kapi_syscall_enter_enabled()) {
-+		char pbuf[KAPI_TP_PARAMS_LEN];
-+
-+		kapi_trace_format_params(spec, params, param_count, pbuf, sizeof(pbuf));
-+		trace_kapi_syscall_enter(spec->name, param_count, params, pbuf);
-+	}
-+
- 	/* Validate that we have the expected number of parameters */
- 	if (param_count != spec->param_count) {
- 		pr_warn_ratelimited("API %s: parameter count mismatch (expected %u, got %d)\n",
- 			spec->name, spec->param_count, param_count);
--		return -EINVAL;
-+		ret = -EINVAL;
-+		goto out;
- 	}
- 
- 	/* Validate each parameter with context */
-@@ -1173,12 +1220,22 @@ int kapi_validate_syscall_params(const struct kernel_api_spec *spec,
- 		if (!kapi_validate_param_with_context(param_spec, params[i], params, param_count)) {
- 			if (strncmp(spec->name, "sys_", 4) == 0) {
- 				/* For syscalls, we can return EINVAL to userspace */
--				return -EINVAL;
-+				ret = -EINVAL;
-+				goto out;
- 			}
- 		}
- 	}
- 
--	return 0;
-+out:
-+	/*
-+	 * Emit the exit event on the rejection path too (the wrapper
-+	 * short-circuits the handler on a non-zero return), so every
-+	 * kapi_syscall_enter has a matching kapi_syscall_exit.
-+	 */
-+	if (ret)
-+		trace_kapi_syscall_exit(spec->name, ret, false);
-+
-+	return ret;
- }
- EXPORT_SYMBOL_GPL(kapi_validate_syscall_params);
- 
-@@ -1301,14 +1358,18 @@ EXPORT_SYMBOL_GPL(kapi_validate_return_value);
-  */
- int kapi_validate_syscall_return(const struct kernel_api_spec *spec, s64 retval)
- {
-+	bool valid = true;
-+
- 	if (!spec)
- 		return 0;
- 
--	/* Skip return validation if return spec was not defined */
--	if (spec->return_magic != KAPI_MAGIC_RETURN)
--		return 0;
-+	/* Validate against the return spec when one was defined */
-+	if (spec->return_magic == KAPI_MAGIC_RETURN)
-+		valid = kapi_validate_return_value(spec, retval);
-+
-+	trace_kapi_syscall_exit(spec->name, retval, valid);
- 
--	if (!kapi_validate_return_value(spec, retval)) {
-+	if (!valid) {
- 		/* Log the violation but don't change the return value */
- 		pr_warn_ratelimited("KAPI: Syscall %s returned unspecified value %lld\n",
- 				    spec->name, retval);
+ The core polled keyboard driver for PS/2 type keyboards is in
+-``drivers/char/kdb_keyboard.c``. This driver is hooked into the debug core
++``kernel/debug/kdb/kdb_keyboard.c``. This driver is hooked into the debug core
+ when kgdboc populates the callback in the array called
+ :c:expr:`kdb_poll_funcs[]`. The kdb_get_kbd_char() is the top-level
+ function which polls hardware for single character input.
 -- 
 2.53.0
 
