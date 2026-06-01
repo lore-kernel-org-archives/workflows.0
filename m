@@ -1,139 +1,130 @@
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 961F538AC61
-	for <workflows@vger.kernel.org>; Mon,  1 Jun 2026 08:27:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80540356754;
+	Mon,  1 Jun 2026 18:45:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780302464; cv=none; b=hqUUlZiG0AFbWnBqsRzwumw4kV82pIMwb22Hhkunpt04eCwVPXOBL8XrZ9cttm9I/VoHNGU7LmI58t6ZNMGlu9/a3GTT2M3DommsjClwn+K2raVnQGzhpIcaTVs3MzknnfXPtlLzY2DxbcGxGWVDE8OGWPec+sGynKuvW7WULzc=
+	t=1780339531; cv=none; b=RIFGfqVXlNROo8OFU0q9slsXnaciC9PwzhEtmmNpukp9v1q4SaTDkdCQ3qP0nIlRLWnaNC3MHat0MMbX5pzd0TWVZP9icLXp8/UnDWmXn12KEldNeuTvxn7TPgd6QyvlD6E9iqD4yfCv//lLmGEphkHYGP0gDlar8/0kQaBbswQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780302464; c=relaxed/simple;
-	bh=DQWOvDV3r5aTyVufBu369E0XwAKET9OrDYm0JbKMgys=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=G3qqNdSHMbSeSvLkxu9H7CTYCi1ZoaWho93rDOs9uTCiv2dW2njQYXSW/fuHvFtkYqgisC3ZaZpvLS9gUhpOr9f+IoihyTQt0Bx4QSmHxuoCNQay7SScsXxr4j59Lvpm2bs96wcNNS0yR0/Xshzs4xdCYynzv/vOL4gEsUsDn88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-6c25b040555so1956749137.1
-        for <workflows@vger.kernel.org>; Mon, 01 Jun 2026 01:27:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780302462; x=1780907262;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=BBVqrpkzCm+Tf1FFUXfAmEkqU6ZtJx3YbVdoRHIIa9Q=;
-        b=JhJ+bb3vieZEqxlrTDHXvR5UPS8DVSN1scXJAkTA4ZE73UV+qNRr47TpUctXmsAW8g
-         GbYDcSK+C2+8M9U+gSa/F5lZU4r7sZuvgHVccVuTjTSvo2pcVBJAPZcSCaUoMIMx4US8
-         UytOrzhaDCVeULclrcGvebT7KczbL+QsXwJ3MhThHHGJWBJZruU3NolG+xGdIU14kSeq
-         h1SZENvxQ5VliQ7PVIOsnIAIlUafK2ugFMgiYCtZfNd0VYS823+treTHHlaXHffpqjMD
-         g5RchPICCdfo59BY3JhJzT+NEWvar1KT7PfmoDkr+7zSroEp3skzoaTcCN1mkM/dtF2l
-         7oxQ==
-X-Gm-Message-State: AOJu0YwsabTkJK0gFfdkJ+6qvio9M2l9PaZGGnAZPpmHPQ93me3/jOPG
-	ypQxVHVJGi1Eq0nRZoNMik22syJfpQgaxfvXr5qsXj4NCLUP1Vcqt5ya9G8RhPUr
-X-Gm-Gg: Acq92OGcz4IaRaSCO+69CtGA0hmbm+QnP+LIDh40DHqTFuLzDCvI3QDm0acrpaDhLxB
-	eMBLGIKsLWTXprUtXJQy0lAHqv17TQtbMhpr9SW0jANqMTJFAwJmqO7s+KkHph+77OulMTLxOwI
-	ORTweheZ+byu07d0EY5yTV+Xqb9vxlN+sbsnEgEyoPIMRXilec8gnwQCCSpCZ8E3Yb+DkjlPHpl
-	T2YWg/epMFiiZNJpLjKGZNo5MBTOcy8NF4RnHRxhAasChWq6BYm+jAWBf7EBUkF8ISqSzVKg+x9
-	J39YHvcfVCPn1p/uf6gVN8WMp6R2Ry8Qw8G9hAsyrgopSK1bYiR+MWPXv3joxeF6CN60bUTujan
-	FTOazsGsGI7uHsudCFeB1jgzwl5rkP8DWNGRxVbkDms1MLT/LDKxRUiVP3dUx5pY2y0nq61H78+
-	0PG8tZG0doD/6u3mCa92vZ7fUXX+HAvb3spDL+P7sn/ZV179TGsb/6Pdu9+S0qR8r1DtZzLbf/n
-	0I=
-X-Received: by 2002:a05:6102:2d07:b0:631:8665:3510 with SMTP id ada2fe7eead31-6c68cd84c2dmr3781394137.31.1780302462570;
-        Mon, 01 Jun 2026 01:27:42 -0700 (PDT)
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com. [209.85.221.172])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-963abac87ffsm5624518241.7.2026.06.01.01.27.41
-        for <workflows@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Jun 2026 01:27:42 -0700 (PDT)
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-59c2a81ca92so1282471e0c.0
-        for <workflows@vger.kernel.org>; Mon, 01 Jun 2026 01:27:41 -0700 (PDT)
-X-Received: by 2002:a05:6123:108:b0:56d:8ded:796c with SMTP id
- 71dfb90a1353d-59bf21173a3mr4240604e0c.4.1780302461698; Mon, 01 Jun 2026
- 01:27:41 -0700 (PDT)
+	s=arc-20240116; t=1780339531; c=relaxed/simple;
+	bh=BmmM3CBFTQZCQU+w4853+LDZeg7z0nEO7q87wn69SUM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MpU73Hdz5m9aHWsXTYhXAjdIa9mViXpFefMf7gvNy4Xavsxr7BXT3SVZTTFoB74ERrbXjehkaiC5Lq5yQ0gDAQ0IhpgI7w1hu7yOBBlpTMQT+FijLQXVmIPeQsmcN0R5MeeFoXX0N3HVosOXlRZpnXPCa5DWpP3CK1SwPTpYYHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X5ptUMw1; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X5ptUMw1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780339528; x=1811875528;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=BmmM3CBFTQZCQU+w4853+LDZeg7z0nEO7q87wn69SUM=;
+  b=X5ptUMw1c+ivlxAAdBiyOSsa/go2f07/k46GZMNZ5Ehi6KsPLvv//cwf
+   uPP2VukrxotiXnX9FIZHZ5ZJDLBPX0unPXRyr8jMuqoWKJ0twzZaTHuFd
+   NB84a9iKmG1htNuUv0AF5bNTJE1oyWspXnnYWGZOeuCZHqP3B4bvwQKxO
+   qFnxlzwqOU7HPJDLwmvd1rl1Xx9HTwT6+v/uFujunCyRlmTVAGzSuc/p6
+   szsHcFQyWKMCqiGCOw5sktJbd3y1UsqAdmFzf//jiMTJBI3ulFV5ycfRB
+   vai3gfQnKClfMeMvsaJDuUKOHz9AT9JesRVnrWpsDXYXKsWsw5oe7KY98
+   A==;
+X-CSE-ConnectionGUID: YO8rKSvcSmiO0wBMTofpAg==
+X-CSE-MsgGUID: bPcf+nYoSpO74l9U5kA8tg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="81291917"
+X-IronPort-AV: E=Sophos;i="6.24,181,1774335600"; 
+   d="scan'208";a="81291917"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 11:45:26 -0700
+X-CSE-ConnectionGUID: NmWlB6JjTFi2MkYO7+qV0g==
+X-CSE-MsgGUID: Wq1Y0qG8Ssmkmo/xuEvNew==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,181,1774335600"; 
+   d="scan'208";a="273937250"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.111])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 11:45:14 -0700
+Date: Mon, 1 Jun 2026 21:45:11 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Simon Schuster <schuster.simon@siemens-energy.com>,
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Arnd Bergmann <arnd@arndb.de>, Dinh Nguyen <dinguyen@kernel.org>,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	workflows@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
+	dmaengine@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-iio@vger.kernel.org, Netdev <netdev@vger.kernel.org>,
+	linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org,
+	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	"linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
+	Hu Haowen <2023002089@link.tyut.edu.cn>,
+	Kees Cook <kees@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
+	Will Deacon <will@kernel.org>,
+	"Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Nicholas Piggin <npiggin@gmail.com>, Vinod Koul <vkoul@kernel.org>,
+	Frank Li <Frank.Li@kernel.org>, Dave Penkler <dpenkler@gmail.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof WilczyDski <kwilczynski@kernel.org>,
+	Andreas Oetken <andreas.oetken@siemens-energy.com>
+Subject: Re: [PATCH] nios2: remove the architecture
+Message-ID: <ah3TN93e7lRpVihW@ashevche-desk.local>
+References: <20260518042833.272221-1-enelsonmoore@gmail.com>
+ <d40b1e80-37fc-4c88-9d7f-dae6458efe6c@app.fastmail.com>
+ <20260518105735.GW3126523@noisy.programming.kicks-ass.net>
+ <20260518172444.zyd47mcagrcwu7wt@dev-vm-schuster>
+ <CADkSEUjhq6HSdg4ignzbuJiN5uXATsTdxFbRJ3BMxs5=WUWLDg@mail.gmail.com>
+ <20260519103012.blot4bssgiqfer6p@dev-vm-schuster>
+ <CANiq72=6oYtHf0Q1NaLXZ+25uQyYbej2xnvUhtgpHyvozhP7_Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAJLQH1vPmWd0gL2MqfsTPF74_cSKqb7H8LL8nwjK2gYv6mB55Q@mail.gmail.com>
-In-Reply-To: <CAJLQH1vPmWd0gL2MqfsTPF74_cSKqb7H8LL8nwjK2gYv6mB55Q@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 1 Jun 2026 10:27:28 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXmDj8iiYnMryWifEDqiP1XXQvxJq9U6EaJEP+j9RTeww@mail.gmail.com>
-X-Gm-Features: AVHnY4LdVVIjtgHtauMGTC371n218yiPgRGaFRRrq4WWmB96jBMEqkSYjUBNdD8
-Message-ID: <CAMuHMdXmDj8iiYnMryWifEDqiP1XXQvxJq9U6EaJEP+j9RTeww@mail.gmail.com>
-Subject: Re: Proposal: preflight checklist/lint for AI-assisted Linux kernel
- bug reports
-To: mo to <pitar21@gmail.com>
-Cc: workflows@vger.kernel.org, tools@linux.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANiq72=6oYtHf0Q1NaLXZ+25uQyYbej2xnvUhtgpHyvozhP7_Q@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, 29 May 2026 at 15:09, mo to <pitar21@gmail.com> wrote:
-> I understand that AI-assisted vulnerability and bug reports have
-> recently become a burden for kernel maintainers, especially when
-> reports are duplicated, unverified, or lack enough technical detail to
-> be actionable.
->
-> I would like to suggest a lightweight =E2=80=9Cpreflight=E2=80=9D process=
- for
-> AI-assisted bug reports.
->
-> The goal is not to replace the existing Linux kernel email workflow,
-> nor to move kernel development into a web-based ticket system.
-> Instead, the idea is to add a simple validation layer before a report
-> reaches maintainers.
->
-> For AI-assisted reports, the submitter could be required to include a
-> structured checklist such as:
->
-> AI-assisted bug report checklist:
+On Tue, May 19, 2026 at 01:07:46PM +0200, Miguel Ojeda wrote:
+> On Tue, May 19, 2026 at 12:41 PM Simon Schuster
+> <schuster.simon@siemens-energy.com> wrote:
+> >
+> > Sure, I'd be glad to do so, but so far I refrained from it as I was a bit
+> > unsure about the netiquette (can I simply do so by self-proclamation? At
+> > least the git history seems to suggest so...).
+> 
+> Up to the existing maintainer, in general.
+> 
+> I would also suggest changing the support level to "Supported",
+> instead of "Maintained" -- that would help justify keeping it in
+> mainline.
 
-Which of the below are not suitable for a non-AI-assisted bug report?
+Supported implies that one gets real money for the job. Is this the case here?
 
-> - Kernel version:
-> - Commit hash:
-> - Architecture:
-> - Kernel config:
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Do you always need the full .config?
 
-> - Affected subsystem / file / function:
-> - Reproducer:
-> - Reproduction rate:
-> - Full dmesg / KASAN / UBSAN / lockdep / syzkaller log:
-
-Ouch.
-
-Fortunately I didn't do that when reporting 'thousands of "sync_state()
-pending due to" and hundreds of "deferred probe pending" messages'...
-
-> - Checked latest mainline: yes/no
-> - Checked stable trees: yes/no
-> - Checked lore.kernel.org for duplicates: yes/no
-
-Definitely! Also for mere humans.
-(Hi nvram mutex fixes ;-)
-
-> - Existing patch found: yes/no
-> - Why this is considered a security issue:
-> - Impact assessment:
-> - Suggested fix or mitigation:
-> - Human verification performed: yes/no
-
-Perhaps only yes should be permitted?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
