@@ -1,136 +1,139 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69871E520A
-	for <workflows@vger.kernel.org>; Sun, 31 May 2026 14:02:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 961F538AC61
+	for <workflows@vger.kernel.org>; Mon,  1 Jun 2026 08:27:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780236139; cv=none; b=rOrTXwipZoIAmW9wQj1qZ4Q/QZLLbQOAXRJFPinTAyL6UL07g8fr3crg2PJioUO3Qv4F7yLCXraYKX71svowjp1aEuQ50bOQO8cA3TP3Me352P0m0yHCO3TVmyq3zWAwiJ2fHaPFEzDgS31u6EQFORsZ2f6+Ap+hqyHbbuOWFl4=
+	t=1780302464; cv=none; b=hqUUlZiG0AFbWnBqsRzwumw4kV82pIMwb22Hhkunpt04eCwVPXOBL8XrZ9cttm9I/VoHNGU7LmI58t6ZNMGlu9/a3GTT2M3DommsjClwn+K2raVnQGzhpIcaTVs3MzknnfXPtlLzY2DxbcGxGWVDE8OGWPec+sGynKuvW7WULzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780236139; c=relaxed/simple;
-	bh=1Mx9+JPAFFCXGppo/c4PNUomb6raQh6wwAYCvpR1FJw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OdG1NCluDlnNOGRyCN+GUp0Gc0Qc/kfXpeAdBXTEa+6ucqvtI/KNMHag6Jb+AVpmqDeoiT9nOhUQgCHQudUx9itVlR7ujErrl2LGLR9EfEJt5QPslpWUudZp5CxXfe9cuEhm5D4sFXCmrQ9TOWJJcm89+jdutxMaPvpY+/Nh9Ek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LcPgiMao; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=dAyoI7fP; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LcPgiMao";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="dAyoI7fP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780236137;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ysQ7pxIb9uu9MOTslWvzE+QCFksmJ15vilUFpcNr1vE=;
-	b=LcPgiMaoFOP4arGKbUmV+gbsCa4aqwXJXEc3M15R6tLae5OJusP8+wgpsjuQMNDh9Wn5rm
-	5hEJS6+cYeQ1MLt58ygw40n/sgQOAQXB6lsWfWggk0X7Z9PRjy5GImTMkPQl5TOVAZkNLR
-	b9sUeY22ChuWiRi4HTg72U5omo+jY28=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-686-JJFE33ZJPWO2eK8KeJxaQA-1; Sun, 31 May 2026 10:02:16 -0400
-X-MC-Unique: JJFE33ZJPWO2eK8KeJxaQA-1
-X-Mimecast-MFC-AGG-ID: JJFE33ZJPWO2eK8KeJxaQA_1780236136
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-914f037b7dfso1090419185a.3
-        for <workflows@vger.kernel.org>; Sun, 31 May 2026 07:02:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1780236136; x=1780840936; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ysQ7pxIb9uu9MOTslWvzE+QCFksmJ15vilUFpcNr1vE=;
-        b=dAyoI7fPVentOlf9E062RSp1LexTLnlI9F01a4osB+BTpXPn2EVNuIWMAZuxTNfDV6
-         e9cnH7X/w3OCZcOMItVckgD+VC8Uvv72cYz4NGV/WxmsYjLXhymIdbLpmAFRzj9fOuBr
-         DilWQfGhRy9eUsAy9ppmYmzr+fDoeaH2at/d7j1b5knsoeP+9WwErfFEVeExrK3wOUQP
-         cJQiowpkmy7MD3VO7ThwjzfgSlYsLQ6skhy358ki3XUspY79Mg55wv7zRTbkjBlR8D9t
-         onqYtDq1QJ7OeLwaXzwlU7wB7y1bbMfaA0DUhqvt/7/kJbwThQCiwra/UWpI06yCeVkr
-         bVCQ==
+	s=arc-20240116; t=1780302464; c=relaxed/simple;
+	bh=DQWOvDV3r5aTyVufBu369E0XwAKET9OrDYm0JbKMgys=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=G3qqNdSHMbSeSvLkxu9H7CTYCi1ZoaWho93rDOs9uTCiv2dW2njQYXSW/fuHvFtkYqgisC3ZaZpvLS9gUhpOr9f+IoihyTQt0Bx4QSmHxuoCNQay7SScsXxr4j59Lvpm2bs96wcNNS0yR0/Xshzs4xdCYynzv/vOL4gEsUsDn88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-6c25b040555so1956749137.1
+        for <workflows@vger.kernel.org>; Mon, 01 Jun 2026 01:27:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780236136; x=1780840936;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ysQ7pxIb9uu9MOTslWvzE+QCFksmJ15vilUFpcNr1vE=;
-        b=fM4bRwF2KfTRd3DFBPO+zAMd5sRHY+68xSfKxV1pIxCE8B0iJ003Dq3e4l+G0DvnoE
-         CmKkQAX69vJIWynO6WG7prmDoPsxws7pp7k2pSOmDI1cpseYKpKiBAWdMU5hrWDgKCXX
-         SKTlNEat81LUEcbQU619AwjnoTIq3isCGx0I5sPkLjm3f8iv/Q8LTs6YxZTQuyYSW2xO
-         PyCBIrIhmGGKmHYNXnX5lZaFXNHWlTsMlowAmZeADNXAqH3rcQkM4GhniZcGJAXf35ZM
-         B1vBg8h7bNWbfLLuSbmxKxkzbgMK8O28vKnerV1mNN54dcoaMtGBu1Q7PCYsTvBn7EQo
-         WjaQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+oQrm9ytXYXIy3HPN9ZJDKG1a+n/vWeTdgf/gbr8pHkHjmq4Z5k4y2C3iLoRCyVl0wltvZBcBlNlE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxovdAbFzOhYj5RW7oyq7A2cTOSseOvCpyaSiXN7BQvgNucaMMQ
-	9O+3/2BDKDm62PjBug1/lUZ83PvkkyGc6ODxBqWYsM8vSsbH73N03RuaIBpaBOTaX6Mph0tnVVs
-	Li1prJvYHS4kYdjjqmNjPFPYCtQWkEaoPZ2GGgupbLqoTWW3YnQZ7fTowI9Ckjg==
-X-Gm-Gg: Acq92OGRtDmo2cTdMVIMwiLcTRWSR+59mEVUOB9G6NyCriYIRUYMJygVLHr01MBt6wy
-	rgEl/7cQCLW4qEd5zD31LBBgqZNmTSCAEwmPk8v+STsDRu1qwCdA8/fgcsb55KM32qEHKbKynzK
-	u35zi59ObvXltyZiQ3jjvv8PC78/0VrguoXWCEBsm4vEWH3tM5DUKUNEaErAPj+pGKajUUzi0mz
-	dmSf18pqF2Qz9o1pXaQRt5oFA1STw9Z1X86k0H1NZddRVgQFvymo0IV7oZX0TdK0JaAtLilI/g2
-	ob1dzhY2sJrQmW57vu8S7a8KCAg6u6yGoGEq9A6A8ac/lI9FaAnL++q6HKwMpLeX2L+hCltITyZ
-	U1NbTYG40YGbYCA7CT3KuJ7ZLCbN7uHzJS8g5nOdSChZjTA==
-X-Received: by 2002:a05:620a:6ccc:b0:8ca:123e:819b with SMTP id af79cd13be357-9153d93ac41mr1169310585a.13.1780236135592;
-        Sun, 31 May 2026 07:02:15 -0700 (PDT)
-X-Received: by 2002:a05:620a:6ccc:b0:8ca:123e:819b with SMTP id af79cd13be357-9153d93ac41mr1169305985a.13.1780236135124;
-        Sun, 31 May 2026 07:02:15 -0700 (PDT)
-Received: from costa-tp.bos2.lab ([2a00:a041:e223:1b00:fe51:8bb:7986:c897])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9153244e114sm780182585a.5.2026.05.31.07.02.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 May 2026 07:02:14 -0700 (PDT)
-From: Costa Shulyupin <costa.shul@redhat.com>
-To: Jason Wessel <jason.wessel@windriver.com>,
-	Daniel Thompson <danielt@kernel.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	kgdb-bugreport@lists.sourceforge.net,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Costa Shulyupin <costa.shul@redhat.com>
-Subject: [PATCH v1] docs: kgdb: Fix stale source file paths
-Date: Sun, 31 May 2026 17:02:07 +0300
-Message-ID: <20260531140207.4114764-1-costa.shul@redhat.com>
-X-Mailer: git-send-email 2.53.0
+        d=1e100.net; s=20251104; t=1780302462; x=1780907262;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=BBVqrpkzCm+Tf1FFUXfAmEkqU6ZtJx3YbVdoRHIIa9Q=;
+        b=JhJ+bb3vieZEqxlrTDHXvR5UPS8DVSN1scXJAkTA4ZE73UV+qNRr47TpUctXmsAW8g
+         GbYDcSK+C2+8M9U+gSa/F5lZU4r7sZuvgHVccVuTjTSvo2pcVBJAPZcSCaUoMIMx4US8
+         UytOrzhaDCVeULclrcGvebT7KczbL+QsXwJ3MhThHHGJWBJZruU3NolG+xGdIU14kSeq
+         h1SZENvxQ5VliQ7PVIOsnIAIlUafK2ugFMgiYCtZfNd0VYS823+treTHHlaXHffpqjMD
+         g5RchPICCdfo59BY3JhJzT+NEWvar1KT7PfmoDkr+7zSroEp3skzoaTcCN1mkM/dtF2l
+         7oxQ==
+X-Gm-Message-State: AOJu0YwsabTkJK0gFfdkJ+6qvio9M2l9PaZGGnAZPpmHPQ93me3/jOPG
+	ypQxVHVJGi1Eq0nRZoNMik22syJfpQgaxfvXr5qsXj4NCLUP1Vcqt5ya9G8RhPUr
+X-Gm-Gg: Acq92OGcz4IaRaSCO+69CtGA0hmbm+QnP+LIDh40DHqTFuLzDCvI3QDm0acrpaDhLxB
+	eMBLGIKsLWTXprUtXJQy0lAHqv17TQtbMhpr9SW0jANqMTJFAwJmqO7s+KkHph+77OulMTLxOwI
+	ORTweheZ+byu07d0EY5yTV+Xqb9vxlN+sbsnEgEyoPIMRXilec8gnwQCCSpCZ8E3Yb+DkjlPHpl
+	T2YWg/epMFiiZNJpLjKGZNo5MBTOcy8NF4RnHRxhAasChWq6BYm+jAWBf7EBUkF8ISqSzVKg+x9
+	J39YHvcfVCPn1p/uf6gVN8WMp6R2Ry8Qw8G9hAsyrgopSK1bYiR+MWPXv3joxeF6CN60bUTujan
+	FTOazsGsGI7uHsudCFeB1jgzwl5rkP8DWNGRxVbkDms1MLT/LDKxRUiVP3dUx5pY2y0nq61H78+
+	0PG8tZG0doD/6u3mCa92vZ7fUXX+HAvb3spDL+P7sn/ZV179TGsb/6Pdu9+S0qR8r1DtZzLbf/n
+	0I=
+X-Received: by 2002:a05:6102:2d07:b0:631:8665:3510 with SMTP id ada2fe7eead31-6c68cd84c2dmr3781394137.31.1780302462570;
+        Mon, 01 Jun 2026 01:27:42 -0700 (PDT)
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com. [209.85.221.172])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-963abac87ffsm5624518241.7.2026.06.01.01.27.41
+        for <workflows@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 01 Jun 2026 01:27:42 -0700 (PDT)
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-59c2a81ca92so1282471e0c.0
+        for <workflows@vger.kernel.org>; Mon, 01 Jun 2026 01:27:41 -0700 (PDT)
+X-Received: by 2002:a05:6123:108:b0:56d:8ded:796c with SMTP id
+ 71dfb90a1353d-59bf21173a3mr4240604e0c.4.1780302461698; Mon, 01 Jun 2026
+ 01:27:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAJLQH1vPmWd0gL2MqfsTPF74_cSKqb7H8LL8nwjK2gYv6mB55Q@mail.gmail.com>
+In-Reply-To: <CAJLQH1vPmWd0gL2MqfsTPF74_cSKqb7H8LL8nwjK2gYv6mB55Q@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 1 Jun 2026 10:27:28 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXmDj8iiYnMryWifEDqiP1XXQvxJq9U6EaJEP+j9RTeww@mail.gmail.com>
+X-Gm-Features: AVHnY4LdVVIjtgHtauMGTC371n218yiPgRGaFRRrq4WWmB96jBMEqkSYjUBNdD8
+Message-ID: <CAMuHMdXmDj8iiYnMryWifEDqiP1XXQvxJq9U6EaJEP+j9RTeww@mail.gmail.com>
+Subject: Re: Proposal: preflight checklist/lint for AI-assisted Linux kernel
+ bug reports
+To: mo to <pitar21@gmail.com>
+Cc: workflows@vger.kernel.org, tools@linux.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Update two file paths that became stale when kgdb/kdb sources
-were reorganized:
-- kernel/debugger/debug_core.c -> kernel/debug/debug_core.c
-- drivers/char/kdb_keyboard.c -> kernel/debug/kdb/kdb_keyboard.c
+On Fri, 29 May 2026 at 15:09, mo to <pitar21@gmail.com> wrote:
+> I understand that AI-assisted vulnerability and bug reports have
+> recently become a burden for kernel maintainers, especially when
+> reports are duplicated, unverified, or lack enough technical detail to
+> be actionable.
+>
+> I would like to suggest a lightweight =E2=80=9Cpreflight=E2=80=9D process=
+ for
+> AI-assisted bug reports.
+>
+> The goal is not to replace the existing Linux kernel email workflow,
+> nor to move kernel development into a web-based ticket system.
+> Instead, the idea is to add a simple validation layer before a report
+> reaches maintainers.
+>
+> For AI-assisted reports, the submitter could be required to include a
+> structured checklist such as:
+>
+> AI-assisted bug report checklist:
 
-Assisted-by: Claude:claude-opus-4-6
-Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
----
- Documentation/process/debugging/kgdb.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Which of the below are not suitable for a non-AI-assisted bug report?
 
-diff --git a/Documentation/process/debugging/kgdb.rst b/Documentation/process/debugging/kgdb.rst
-index dd6a103073fa..c4d0a9121d52 100644
---- a/Documentation/process/debugging/kgdb.rst
-+++ b/Documentation/process/debugging/kgdb.rst
-@@ -696,7 +696,7 @@ The kernel debugger is organized into a number of components:
- 
- 1. The debug core
- 
--   The debug core is found in ``kernel/debugger/debug_core.c``. It
-+   The debug core is found in ``kernel/debug/debug_core.c``. It
-    contains:
- 
-    -  A generic OS exception handler which includes sync'ing the
-@@ -877,7 +877,7 @@ attached keyboard. The keyboard infrastructure is only compiled into the
- kernel when ``CONFIG_KDB_KEYBOARD=y`` is set in the kernel configuration.
- 
- The core polled keyboard driver for PS/2 type keyboards is in
--``drivers/char/kdb_keyboard.c``. This driver is hooked into the debug core
-+``kernel/debug/kdb/kdb_keyboard.c``. This driver is hooked into the debug core
- when kgdboc populates the callback in the array called
- :c:expr:`kdb_poll_funcs[]`. The kdb_get_kbd_char() is the top-level
- function which polls hardware for single character input.
--- 
-2.53.0
+> - Kernel version:
+> - Commit hash:
+> - Architecture:
+> - Kernel config:
 
+Do you always need the full .config?
+
+> - Affected subsystem / file / function:
+> - Reproducer:
+> - Reproduction rate:
+> - Full dmesg / KASAN / UBSAN / lockdep / syzkaller log:
+
+Ouch.
+
+Fortunately I didn't do that when reporting 'thousands of "sync_state()
+pending due to" and hundreds of "deferred probe pending" messages'...
+
+> - Checked latest mainline: yes/no
+> - Checked stable trees: yes/no
+> - Checked lore.kernel.org for duplicates: yes/no
+
+Definitely! Also for mere humans.
+(Hi nvram mutex fixes ;-)
+
+> - Existing patch found: yes/no
+> - Why this is considered a security issue:
+> - Impact assessment:
+> - Suggested fix or mitigation:
+> - Human verification performed: yes/no
+
+Perhaps only yes should be permitted?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
