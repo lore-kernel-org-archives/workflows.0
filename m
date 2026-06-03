@@ -1,136 +1,505 @@
-Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com [74.125.224.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0607A3CB8EB
-	for <workflows@vger.kernel.org>; Fri,  5 Jun 2026 16:21:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780676488; cv=pass; b=iUTr1u60MS8OSIuoPCofjN65S/JaxT5r5jmg9tAYCsy15sczmTT5n7aTHJyYmA76iXgNsnFyPlOgRoGtyl8kWl1WuSHGrS1CybUrAxO8SvWVHgBdY4l/kbkAiBpnPzTBi0pXyZj1HbmcN8bK/OYppj1LuBOzi0I0rdPRFdjBN70=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780676488; c=relaxed/simple;
-	bh=mWB1QjoCqaUp7xOYtL0VXwUOlRHPZS3Zm5pVWOTzZow=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XgTr9Ht8oJOraASsWeAXeaqWoeQbUGB1xqq8eRc7JRxxPNCmT8TTBSQGcK2h5A6+wTF11j/EWWungcfy+NA44ZPL2MCzjdOTRkphrnqjoTFgpno4WIQ5HeS3P7jt+CrBgzPxBGnQ7k3VV6xCa8+OndBvLmMBJb4AVprRciAjbVc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ui8wUur8; arc=pass smtp.client-ip=74.125.224.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C247416D01;
+	Fri,  5 Jun 2026 17:23:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780680188; cv=none; b=aifjWHEC6ejWJLrK8mhH98OjLQTqvwFeAGK8BKduJg+IvwXG/5uMj32qhxj7sdkLcs5nFxSpAof/Q8hc/NWONM1dVqZ2jF7hCKw6af6pCB6WOHktpf27zAC4HLjamBLQzL65jnx+VLzjiInHg/T37WW4hSvMS//sKtu5ReGwIa4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780680188; c=relaxed/simple;
+	bh=lizWom7kQpSapScdlQtqP0GPMCXLJkaPKaDj2lnf8e4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=opQ8C7CD74C7YOF3pvLfigFNRrGsdOLMwyd7daMzBoPwr9X8f4cE9XKFFJ3sfYnl6333gsFQB3sxpc1ZADEs3t8FpCfCZTpI/pE9xbgcUv0V59GF5M00F1hdRvFUgfCIFGP3eB4qHIFau0yf+N6MVVChLMLGWKu5Cj9A5IFIv0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VXe3tUct; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ui8wUur8"
-Received: by mail-yx1-f46.google.com with SMTP id 956f58d0204a3-6611689dc10so118923d50.1
-        for <workflows@vger.kernel.org>; Fri, 05 Jun 2026 09:21:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780676486; cv=none;
-        d=google.com; s=arc-20240605;
-        b=TkPAAW0VG4adMakRs6CnltbJYEQtOaVvBtxAxowNnN5i5K6NgPqNKJMgICM8t63xMH
-         6KSLDeVz/w4j4TPxI4LKnbEv7PfjpRt1z0DTeZAxOFnZl8KORBuHxLbHZ7VTkyT1hzAo
-         Jbbyl5imlaWKNNiCD9n1hW14Ef4QGFvxxa8j/ALTobYg/j7CZFhiCvdiT2gtpKh1T++l
-         3f9WlCHrBpqTkSCOl7Q/BPqUtozIIdrjmJTrLovulOrc9Weu23QGtESeJjAHg5CvFuxW
-         jNc0xSuU2K8yMAQfY/+9At9P8QCTsKZBUFNFcxBzDV79mrx2hhS9VyG3bYM1v+tUmk35
-         xMVQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=mWB1QjoCqaUp7xOYtL0VXwUOlRHPZS3Zm5pVWOTzZow=;
-        fh=mPo/8mzDXrl0bZdQqS3X4c5/e/4uZ1Hf4fHOVJS/Hgo=;
-        b=KSAOucHTsr09U0wPNO88WPr5Co4IEeuzYboxOhbenir29xJKpxYQbYg6Hlb/rj44yx
-         SwhTnKUBRfxXz+G9E019an90s2JjaNiWo+h95bOZ8SdCr4mWyke2Hgw1W1mez7gQ+FW1
-         atX5NuqH61EsMGRGWd7EDUQ+ZrFwgSB8cf1gdj7W4ykFrxXA5/l7F7ndXIiYZ1/Xe9ip
-         9MChk0YNhrhJ13AXNYEAi+/oraTQiC0aCFQJmnY2agGgMDq+CGOdOd5IZQC/j7H3IpAH
-         ijuTtOSdnR9zBWl+3BXKJwhhn5RAsnk6Hjwf4eOrkePVMYtRc0gQb4Ky8ZgnMbdZYQu2
-         aL+w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1780676486; x=1781281286; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mWB1QjoCqaUp7xOYtL0VXwUOlRHPZS3Zm5pVWOTzZow=;
-        b=Ui8wUur8KSyN0pvynRn3skezHBd3sfh1W5TIjT4eVt8Ktiz8vrwisyKkScL5uRWs83
-         GBDkw6QrKOQy7eVUQZoCJWF5kgJ9MUu2mbMLhq6GgQOCJWyTwgqUwp3kwBc1JF6hg0cY
-         AVaO6PI9zVJGkoVY23ra2X+Pshx9zPmheAZP3Vgy5eNnT59Is8pWFvrufHHr7ADCbIan
-         N1LnZ2808X83NOKNBnd2eL5qBX97ba92cAY2Qh3rEEM5SzBPlKMWOzrojBQau6ULIAiL
-         fq+cXcJbuJiw+OekQSmQwaeYvzjLb5tD7/ywY9GJ8ni0M44MdhHBiNzPnzL2umckP+rC
-         RWig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780676486; x=1781281286;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=mWB1QjoCqaUp7xOYtL0VXwUOlRHPZS3Zm5pVWOTzZow=;
-        b=rNXGJvptqsJ1sxoCe8XPOIiF1czYb7iUFC8cr7e9SeOUq9/UyNgImY742gey6H867D
-         5Xcd/IaezS6Gq8R3ukzUVNJUXU+5ocraptFxbImqMJFqp6+I7oS/FNNhMkJNEaaTxvNB
-         XylXGxS6yvrVU5ZuYPfDYdbT5PoTlmM7csWhQw8u4LbYy75cDLgy6ziFQ+Q3StWrk93X
-         V0vlTWvEYy5T0QJOuR9I5q39NP3zkNf/h9grvMKteobIFqg7Mx6xbCxNPdr4+oDk+jtT
-         m8IH0SkT6zffDmIk1fMILOa7KP7Vbr5VC0BUIP3rO+G9yHS8c4lqmzx3iboqXRMXGz6z
-         bQSQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8b7aNGR7UnC3PCjElfB8y3Bh6dMbpy9eWMMJV8C1wA35f7HpAp6I1zpbiJMgBxmlFJ5J0sDsBd1KA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxfNdYujAN5ZFf+CCxH9GwFmXbhVVKlEQCrGWHk8MYMWNPU2Ezd
-	88pxMCVdZEVcj7+V8UpIgDovt+DtmsWwioq2DnFt54P61SunV6NEDQl2tGQkztJ7uTObVJqDamK
-	vtiG2GHulaue0mi7bbaZLNraii44/xgntE4aHmqcC
-X-Gm-Gg: Acq92OG9xwq3ORrvUQi7iM+Zc7uQ3OIEcchfTsuu65pM5LSlFb4TaXjAv22MCFk4Pk0
-	ckit0PL+46SgFeIgWsidkQ0LX3vSmDMNmmR1TWsgeZahZKzl2/PVSyFzjv6pWrCBbYimopeBrs6
-	TvPMSyaK9fpOYFNXzMvj5be9BvYw/Df7jqVSkldzseBqEAe3fTNaAZwHOkiWUGaNWn9Zk3NMl1E
-	lQPN3xoD+tg/V88UO1YeailbSek9OQsaMD5LMYUx1zk+Z1MNoZKH5mmxVjhr4dKcFaEsEtI9wkc
-	asJVQ3DU91RTS1YrJwJS7GFHxXQG0GzuZFIkGlFNQuYiPwDovTc=
-X-Received: by 2002:a05:690e:1388:b0:660:877f:a5f5 with SMTP id
- 956f58d0204a3-6610704f8f0mr3897550d50.43.1780676485426; Fri, 05 Jun 2026
- 09:21:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VXe3tUct"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 4B2F01F00893;
+	Fri,  5 Jun 2026 17:23:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780680187;
+	bh=JmeMxbXw2ZDUnGPQV9xGUwkBAbxAXeB57R4NlHLmCCU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=VXe3tUctdvoapIkLQpt0U552wqCeFZZczgH/BeLyYfz2UZIyHmXxIl0RYwXXrGJvL
+	 gHsvtEpCDksKnSboMaNJBdo9inyJ/j94jrwLAjL8FzefmOSfASXZV7ytifDjhFXBev
+	 X8PqhCwReJ9U90h1qMZ7CSVVuIc+N8iSZCqZGCNA89YlR0rtV/rBWiahOyKx/OweWe
+	 /aI0xYUd2+ZDUCOs+weHiYTHRyw7Hz5FwI5g1z0vylbDC+nZmf3VJAMFkS4qwnFn3A
+	 lejISQ+OvG3E0sd0UHj8lTGFWtUloqyiXmEomfXGstcueTGENDUSJ4mAe8zyIyJC2A
+	 Zc+dA8Ow1wgtA==
+Date: Wed, 3 Jun 2026 21:25:19 +0200
+From: Nicolas Schier <nsc@kernel.org>
+To: Yunseong Kim <yunseong.kim@est.tech>
+Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+	llvm@lists.linux.dev, linux-kbuild@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, Yunseong Kim <ysk@kzalloc.com>
+Subject: Re: [RFC PATCH v2 1/6] kcov: add per-task dataflow tracking for
+ function arguments/return values
+Message-ID: <aiB_nycHL-MLN-3g@levanger>
+Mail-Followup-To: Yunseong Kim <yunseong.kim@est.tech>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+	llvm@lists.linux.dev, linux-kbuild@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, Yunseong Kim <ysk@kzalloc.com>
+References: <20260603-kcov-dataflow-next-20260603-v2-0-fee0939de2c4@est.tech>
+ <20260603-kcov-dataflow-next-20260603-v2-1-fee0939de2c4@est.tech>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260603-kcov-dataflow-next-20260603-v2-0-fee0939de2c4@est.tech>
-In-Reply-To: <20260603-kcov-dataflow-next-20260603-v2-0-fee0939de2c4@est.tech>
-From: Alexander Potapenko <glider@google.com>
-Date: Fri, 5 Jun 2026 18:20:43 +0200
-X-Gm-Features: AVVi8Cev4P7AiBmPodWfwaPtX8_k3m47tFa_rHl6t21z7L5L4Qmm-6Ly0xXbR54
-Message-ID: <CAG_fn=W1++qPJWQk1+4MtRfe6n1iUKF2O5pddnqKGwSq85CuqA@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 0/6] kcov: per-task dataflow extraction at kernel
- function boundaries
-To: Yunseong Kim <yunseong.kim@est.tech>
-Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
-	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
-	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
-	llvm@lists.linux.dev, linux-kbuild@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Yunseong Kim <ysk@kzalloc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260603-kcov-dataflow-next-20260603-v2-1-fee0939de2c4@est.tech>
 
-On Wed, Jun 3, 2026 at 7:43=E2=80=AFPM Yunseong Kim <yunseong.kim@est.tech>=
- wrote:
->
-> Introduces a new KCOV exetened feature that captures function arguments a=
-nd
-> return values at kernel function boundaries, enabling per-process visibil=
-ity
-> into runtime dataflow.
+On Wed, Jun 03, 2026 at 07:43:28PM +0200, Yunseong Kim wrote:
+> Add a new KCOV subsystem that captures function arguments at entry and
+> return values at exit, with automatic struct field expansion using
+> compiler-generated DebugInfo metadata.
+> 
+> Key components:
+> - CONFIG_KCOV_DATAFLOW_ARGS: enables argument capture
+> - CONFIG_KCOV_DATAFLOW_RET: enables return value capture
+> - /sys/kernel/debug/kcov_dataflow: separate device from legacy kcov
+> - Ioctl namespace 'd' (KCOV_DF_INIT_TRACE, KCOV_DF_ENABLE, KCOV_DF_DISABLE)
+> - Per-task buffer: task->kcov_df_area with atomic xadd reservation
+> - Fault-tolerant: all reads via copy_from_kernel_nofault()
+> - Recursion-safe: notrace __no_sanitize_coverage noinline
+> - ERR_PTR aware: skips struct expansion for error pointers
+> 
+> The callbacks (__sanitizer_cov_trace_args/ret) are inserted by the
+> compiler when -fsanitize-coverage=dataflow-args,dataflow-ret is used.
+> The Kconfig options depend on cc-option to verify compiler support.
+> 
+> Buffer format (TLV records, all u64):
+>   area[0]: atomic word count
+>   [pos+0]: type_and_seq (0xE=entry, 0xF=return in upper 4 bits)
+>   [pos+1]: PC
+>   [pos+2]: meta (arg_idx | arg_size | ptr)
+>   [pos+3..N]: field values read via copy_from_kernel_nofault()
+> 
+> This is completely independent from legacy /sys/kernel/debug/kcov.
+> Existing users (syzkaller, oss-fuzz) are unaffected.
+> 
+> Signed-off-by: Yunseong Kim <yunseong.kim@est.tech>
+> ---
+>  include/linux/sched.h |   8 ++
+>  kernel/kcov.c         | 291 ++++++++++++++++++++++++++++++++++++++++++++++++++
+>  lib/Kconfig.debug     |  22 ++++
+>  3 files changed, 321 insertions(+)
+> 
+> diff --git a/include/linux/sched.h b/include/linux/sched.h
+> index c4433c185ad8..03be4b495f70 100644
+> --- a/include/linux/sched.h
+> +++ b/include/linux/sched.h
+> @@ -1533,6 +1533,14 @@ struct task_struct {
+>  	/* KCOV sequence number: */
+>  	int				kcov_sequence;
+>  
+> +	/* KCOV dataflow per-task sequence counter for TLV records: */
+> +	u32				kcov_dataflow_seq;
+> +
+> +	/* KCOV dataflow: separate buffer for trace-args/trace-ret */
+> +	unsigned int			kcov_df_size;
+> +	void				*kcov_df_area;
+> +	bool				kcov_df_enabled;
+> +
+>  	/* Collect coverage from softirq context: */
+>  	unsigned int			kcov_softirq;
+>  #endif
+> diff --git a/kernel/kcov.c b/kernel/kcov.c
+> index 1df373fb562b..d3c9c0efe961 100644
+> --- a/kernel/kcov.c
+> +++ b/kernel/kcov.c
+> @@ -353,6 +353,288 @@ void notrace __sanitizer_cov_trace_switch(kcov_u64 val, void *arg)
+>  EXPORT_SYMBOL(__sanitizer_cov_trace_switch);
+>  #endif /* ifdef CONFIG_KCOV_ENABLE_COMPARISONS */
+>  
+> +#if defined(CONFIG_KCOV_DATAFLOW_ARGS) || defined(CONFIG_KCOV_DATAFLOW_RET)
+> +/*
+> + * KCOV Dataflow: /sys/kernel/debug/kcov_dataflow
+> + *
+> + * Completely separate from legacy /sys/kernel/debug/kcov.
+> + * Own buffer, own ioctl, own mmap. No printk — buffer only.
+> + *
+> + * TLV record layout (all u64):
+> + *   area[0]: total u64 words written (atomic counter)
+> + *   [pos+0]: type_and_seq (0xE=entry|0xF=return in upper 4 bits, seq in lower 24)
+> + *   [pos+1]: PC
+> + *   [pos+2]: raw pointer | (arg_idx << 56) | (arg_size << 48) for entry
+> + *   [pos+3..N]: field values (or scalar value if num_fields=0)
+> + */
+> +#define KCOV_DF_TYPE_ENTRY	0xE0000000ULL
+> +#define KCOV_DF_TYPE_RET	0xF0000000ULL
+> +#define KCOV_DF_MAGIC_BAD	0xBADADD85ULL
+> +#define KCOV_DF_IS_ERR(p)	((unsigned long)(p) >= (unsigned long)-4095UL)
+> +
+> +/* Ioctl commands for /sys/kernel/debug/kcov_dataflow */
+> +#define KCOV_DF_INIT_TRACE	_IOR('d', 1, unsigned long)
+> +#define KCOV_DF_ENABLE		_IO('d', 100)
+> +#define KCOV_DF_DISABLE		_IO('d', 101)
+> +
+> +struct kcov_dataflow {
+> +	refcount_t	refcount;
+> +	spinlock_t	lock;
+> +	unsigned int	size;	/* in u64 words */
+> +	void		*area;
+> +	struct task_struct *t;
+> +};
+> +
+> +static void kcov_df_put(struct kcov_dataflow *df)
+> +{
+> +	if (refcount_dec_and_test(&df->refcount)) {
+> +		vfree(df->area);
+> +		kfree(df);
+> +	}
+> +}
+> +
+> +/*
+> + * Core write function — no printk, no locks, just atomic buffer write.
+> + * Called from __sanitizer_cov_trace_args/ret in instrumented code.
+> + */
+> +static noinline notrace __no_sanitize_coverage void
+> +kcov_df_write(u64 type_marker, u64 pc, u64 meta, void *ptr,
+> +	      u64 *offsets, u32 num_fields)
+> +{
+> +	struct task_struct *t = current;
+> +	u64 *area;
+> +	unsigned long pos, max_pos;
+> +	u32 record_len, seq, i;
+> +
+> +	if (!t->kcov_df_enabled)
+> +		return;
+> +
+> +	area = (u64 *)t->kcov_df_area;
+> +	if (!area)
+> +		return;
+> +
+> +	max_pos = t->kcov_df_size;
+> +
+> +	/* Record: header(1) + pc(1) + meta(1) + fields or scalar(max 1) */
+> +	record_len = 3 + (num_fields > 0 ? num_fields : 1);
+> +
+> +	/* Atomic reservation */
+> +	pos = 1 + xadd((unsigned long *)&area[0], record_len);
+> +	if (unlikely(pos + record_len > max_pos)) {
+> +		xadd((unsigned long *)&area[0], -(long)record_len);
+> +		return;
+> +	}
+> +
+> +	seq = ++t->kcov_dataflow_seq;
+> +	area[pos] = type_marker | (seq & 0x00FFFFFFULL);
+> +	area[pos + 1] = pc;
+> +	area[pos + 2] = meta;
+> +
+> +	if (num_fields == 0) {
+> +		/* Scalar: read value from ptr using size from meta */
+> +		u64 val = 0;
+> +		u32 sz = (meta >> 48) & 0xFF;
+> +
+> +		if (sz > sizeof(val))
+> +			sz = sizeof(val);
+> +		if (ptr && !KCOV_DF_IS_ERR(ptr))
+> +			copy_from_kernel_nofault(&val, ptr, sz);
+> +		area[pos + 3] = val;
+> +	} else {
+> +		/* Struct fields */
+> +		if (KCOV_DF_IS_ERR(ptr)) {
+> +			for (i = 0; i < num_fields; i++)
+> +				area[pos + 3 + i] = KCOV_DF_MAGIC_BAD;
+> +			return;
+> +		}
+> +		for (i = 0; i < num_fields; i++) {
+> +			u64 off, sz, val = KCOV_DF_MAGIC_BAD;
+> +			void *fa;
+> +
+> +			if (copy_from_kernel_nofault(&off, &offsets[i * 2], sizeof(off)) ||
+> +			    copy_from_kernel_nofault(&sz, &offsets[i * 2 + 1], sizeof(sz))) {
+> +				area[pos + 3 + i] = KCOV_DF_MAGIC_BAD;
+> +				continue;
+> +			}
+> +			fa = (void *)((unsigned long)ptr + off);
+> +			val = 0;
+> +			if (sz <= sizeof(val))
+> +				copy_from_kernel_nofault(&val, fa, sz);
+> +			else
+> +				copy_from_kernel_nofault(&val, fa, sizeof(val));
+> +			area[pos + 3 + i] = val;
+> +		}
+> +	}
+> +}
+> +
+> +#ifdef CONFIG_KCOV_DATAFLOW_ARGS
+> +noinline void notrace __no_sanitize_coverage
+> +__sanitizer_cov_trace_args(u64 pc, u32 arg_idx, u32 arg_size, void *arg_ptr,
+> +			   u64 *offsets, u32 num_fields);
+> +
+> +noinline void notrace __no_sanitize_coverage
+> +__sanitizer_cov_trace_args(u64 pc, u32 arg_idx, u32 arg_size, void *arg_ptr,
+> +			   u64 *offsets, u32 num_fields)
+> +{
+> +	/* meta: [arg_idx(8) | arg_size(8) | ptr(48)] */
+> +	u64 meta = ((u64)arg_idx << 56) | ((u64)arg_size << 48) |
+> +		   ((u64)(unsigned long)arg_ptr & 0xFFFFFFFFFFFFULL);
+> +	kcov_df_write(KCOV_DF_TYPE_ENTRY, pc, meta, arg_ptr,
+> +		      offsets, num_fields);
+> +}
+> +EXPORT_SYMBOL(__sanitizer_cov_trace_args);
+> +#endif
+> +
+> +#ifdef CONFIG_KCOV_DATAFLOW_RET
+> +noinline void notrace __no_sanitize_coverage
+> +__sanitizer_cov_trace_ret(u64 pc, u32 ret_size, void *ret_val,
+> +			  u64 *offsets, u32 num_fields);
+> +
+> +noinline void notrace __no_sanitize_coverage
+> +__sanitizer_cov_trace_ret(u64 pc, u32 ret_size, void *ret_val,
+> +			  u64 *offsets, u32 num_fields)
+> +{
+> +	u64 meta = ((u64)ret_size << 48) |
+> +		   ((u64)(unsigned long)ret_val & 0xFFFFFFFFFFFFULL);
+> +	kcov_df_write(KCOV_DF_TYPE_RET, pc, meta, ret_val,
+> +		      offsets, num_fields);
+> +}
+> +EXPORT_SYMBOL(__sanitizer_cov_trace_ret);
+> +#endif
+> +
+> +/* --- /sys/kernel/debug/kcov_dataflow file operations --- */
+> +
+> +static int kcov_df_open(struct inode *inode, struct file *filep)
+> +{
+> +	struct kcov_dataflow *df;
+> +
+> +	df = kzalloc(sizeof(*df), GFP_KERNEL);
+> +	if (!df)
+> +		return -ENOMEM;
+> +	spin_lock_init(&df->lock);
+> +	refcount_set(&df->refcount, 1);
+> +	filep->private_data = df;
+> +	return nonseekable_open(inode, filep);
+> +}
+> +
+> +static int kcov_df_close(struct inode *inode, struct file *filep)
+> +{
+> +	struct kcov_dataflow *df = filep->private_data;
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&df->lock, flags);
+> +	if (df->t == current) {
+> +		current->kcov_df_enabled = false;
+> +		current->kcov_df_area = NULL;
+> +		current->kcov_df_size = 0;
+> +		df->t = NULL;
+> +	}
+> +	spin_unlock_irqrestore(&df->lock, flags);
+> +	kcov_df_put(df);
+> +	return 0;
+> +}
+> +
+> +static int kcov_df_mmap(struct file *filep, struct vm_area_struct *vma)
+> +{
+> +	struct kcov_dataflow *df = filep->private_data;
+> +	unsigned long size, off;
+> +	struct page *page;
+> +	unsigned long flags;
+> +	void *area;
+> +	int res = 0;
+> +
+> +	spin_lock_irqsave(&df->lock, flags);
+> +	size = df->size * sizeof(u64);
+> +	if (!df->area || vma->vm_pgoff != 0 ||
+> +	    vma->vm_end - vma->vm_start != size) {
+> +		res = -EINVAL;
+> +		goto out;
+> +	}
+> +	area = df->area;
+> +	spin_unlock_irqrestore(&df->lock, flags);
+> +
+> +	vm_flags_set(vma, VM_DONTEXPAND);
+> +	for (off = 0; off < size; off += PAGE_SIZE) {
+> +		page = vmalloc_to_page(area + off);
+> +		res = vm_insert_page(vma, vma->vm_start + off, page);
+> +		if (res)
+> +			return res;
+> +	}
+> +	return 0;
+> +out:
+> +	spin_unlock_irqrestore(&df->lock, flags);
+> +	return res;
+> +}
+> +
+> +static long kcov_df_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
+> +{
+> +	struct kcov_dataflow *df = filep->private_data;
+> +	unsigned long flags;
+> +	unsigned long size;
+> +	int res = 0;
+> +
+> +	spin_lock_irqsave(&df->lock, flags);
+> +	switch (cmd) {
+> +	case KCOV_DF_INIT_TRACE:
+> +		if (df->area) {
+> +			res = -EBUSY;
+> +			break;
+> +		}
+> +		size = arg;
+> +		if (size < 2 || size > (128 << 20) / sizeof(u64)) {
+> +			res = -EINVAL;
+> +			break;
+> +		}
+> +		spin_unlock_irqrestore(&df->lock, flags);
+> +		df->area = vmalloc_user(size * sizeof(u64));
+> +		if (!df->area)
+> +			return -ENOMEM;
+> +		spin_lock_irqsave(&df->lock, flags);
+> +		df->size = size;
+> +		break;
+> +
+> +	case KCOV_DF_ENABLE:
+> +		if (!df->area || df->t) {
+> +			res = -EINVAL;
+> +			break;
+> +		}
+> +		df->t = current;
+> +		current->kcov_df_area = df->area;
+> +		current->kcov_df_size = df->size;
+> +		current->kcov_dataflow_seq = 0;
+> +		/* Barrier before enabling */
+> +		barrier();
+> +		current->kcov_df_enabled = true;
+> +		break;
+> +
+> +	case KCOV_DF_DISABLE:
+> +		if (df->t != current) {
+> +			res = -EINVAL;
+> +			break;
+> +		}
+> +		current->kcov_df_enabled = false;
+> +		barrier();
+> +		current->kcov_df_area = NULL;
+> +		current->kcov_df_size = 0;
+> +		df->t = NULL;
+> +		break;
+> +
+> +	default:
+> +		res = -ENOTTY;
+> +	}
+> +	spin_unlock_irqrestore(&df->lock, flags);
+> +	return res;
+> +}
+> +
+> +static const struct file_operations kcov_df_fops = {
+> +	.open		= kcov_df_open,
+> +	.unlocked_ioctl	= kcov_df_ioctl,
+> +	.compat_ioctl	= kcov_df_ioctl,
+> +	.mmap		= kcov_df_mmap,
+> +	.release	= kcov_df_close,
+> +};
+> +#endif /* CONFIG_KCOV_DATAFLOW_ARGS || CONFIG_KCOV_DATAFLOW_RET */
+> +
+>  static void kcov_start(struct task_struct *t, struct kcov *kcov,
+>  			unsigned int size, void *area, enum kcov_mode mode,
+>  			int sequence)
+> @@ -1146,6 +1428,15 @@ static int __init kcov_init(void)
+>  	 */
+>  	debugfs_create_file_unsafe("kcov", 0600, NULL, NULL, &kcov_fops);
+>  
+> +#if defined(CONFIG_KCOV_DATAFLOW_ARGS) || defined(CONFIG_KCOV_DATAFLOW_RET)
+> +	/*
+> +	 * Toggle verbose printk: echo 1 > /sys/kernel/debug/kcov_dataflow_verbose
+> +	 * Default off — zero overhead when not debugging.
+> +	 */
+> +	debugfs_create_file_unsafe("kcov_dataflow", 0600, NULL, NULL,
+> +				   &kcov_df_fops);
+> +#endif
+> +
+>  #ifdef CONFIG_KCOV_SELFTEST
+>  	selftest();
+>  #endif
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index e2f976c3301b..abd1a94589aa 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -2261,6 +2261,28 @@ config KCOV_SELFTEST
+>  	  On test failure, causes the kernel to panic. Recommended to be
+>  	  enabled, ensuring critical functionality works as intended.
+>  
+> +
+> +config KCOV_DATAFLOW_ARGS
+> +	bool "Enable KCOV dataflow: function argument capture"
+> +	depends on KCOV
+> +	depends on $(cc-option,-fsanitize-coverage=dataflow-args)
+> +	help
+> +	  Captures function arguments at entry via /sys/kernel/debug/kcov_dataflow.
+> +	  Struct pointer arguments are auto-expanded using compiler DebugInfo
+> +	  metadata, recording individual field values at runtime.
+> +	  Enable per-module with: KCOV_DATAFLOW_file.o := y in the Makefile.
+> +	  Requires clang with -fsanitize-coverage=dataflow-args support.
+> +
+> +config KCOV_DATAFLOW_RET
+> +	bool "Enable KCOV dataflow: return value capture"
+> +	depends on KCOV
+> +	depends on $(cc-option,-fsanitize-coverage=dataflow-ret)
+> +	help
+> +	  Captures function return values via /sys/kernel/debug/kcov_dataflow.
+> +	  Struct pointer returns are auto-expanded using compiler DebugInfo
+> +	  metadata, recording individual field values at runtime.
+> +	  Enable per-module with: KCOV_DATAFLOW_file.o := y in the Makefile.
+> +	  Requires clang with -fsanitize-coverage=dataflow-ret support.
 
-Some high-level comments:
-- Make sure your code can run on every platform supported by kcov (namely A=
-RM64)
-- Check out Sashiko findings:
-https://sashiko.dev/#/patchset/20260603-kcov-dataflow-next-20260603-v2-0-fe=
-e0939de2c4%40est.tech,
-at least some of them seem to make sense
-- Please consolidate changes to the same file into a single patch
-- There seem to be two tools (one in C and one in Python) with
-overlapping functionality, can you keep only one?
-- The test modules seem to be used only in manual testing. Can you
-convert them to kselftests or remove them?
-- At this point, long dashes in the kernel codebase are quite rare,
-and I don't see a reason to add more.
+You might want to add an empty line here.
+
+
+-- 
+Nicolas
