@@ -1,100 +1,109 @@
-Received: from mta-64-140.flowmailer.net (mta-64-140.flowmailer.net [185.136.64.140])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE3033D6471
-	for <workflows@vger.kernel.org>; Tue,  2 Jun 2026 12:53:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.136.64.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53EEE2EF653;
+	Wed,  3 Jun 2026 16:29:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780404833; cv=none; b=gov9XEc949sjdGiIgvsDpFq+S33IzbZvQE9tsqTvFPfWb6NelxnKZXyHZ2WH6dlZbcaL9KZxsFhXTDr1p9bo2Ek5BGxNucPIds+SnVOJqNWwF9o0hUdQriVFpsOTYvqflbOEEqE1PUimkphkzHDU7C0+98aXnFKHZUEaAPdMKq0=
+	t=1780504195; cv=none; b=of0Tz6oSvTEkVAyYebV//RyJi0W4dTmbLh2pwfxXuTTg5bZc8yaqoSW4lf1xxyArIpFV56wNWRZxeL2oiQjXJewKt/THkqmHv4Y2j5sBjYUkP7HLH+DD4D/RBUB7iNOX6PmHiHOaa5VmOoQMT/gO3HBNYVhxJwKkN31UJ3qIbPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780404833; c=relaxed/simple;
-	bh=rTMmvdqLn8XGVIbwx6QxILaPnIKuu93HhNdO2BLhr54=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cp8J43ETo/7uJCvgJzMjjz9GyFAjYsfvlOqR9RZeVIoGORDb5iAsadctAP30l3grZ8cE2Zb3WeY86nJ8PRpD/Nz8QiEdmbazu3k2zVImaZpaKKDc5A53ksnA3mzqDjtu8z0f497r52ipElj0lw+/WDnpzODzdmp8JZp19e+xXmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens-energy.com; spf=pass smtp.mailfrom=errorhandling.siemens-energy.com; dkim=pass (1024-bit key) header.d=flowmailer.net header.i=@flowmailer.net header.b=Toge8bLz; dkim=pass (2048-bit key) header.d=siemens-energy.com header.i=schuster.simon@siemens-energy.com header.b=ec+PfJIe; arc=none smtp.client-ip=185.136.64.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens-energy.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=errorhandling.siemens-energy.com
+	s=arc-20240116; t=1780504195; c=relaxed/simple;
+	bh=6uKG0pM6J8L5AeSbQ1InCVY0q5DwTjDEIszIKL4VgQ0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=J0VGbaBKQXq4rvhHePngcqJTr2T6I0061Ku/MGxBIrNfrXEz1B/VxmVDjXUOQZsm0aovjAlPLbMoi6pP1zXlVcYBX81sPZT+Nc6y/hEbNnw+iSxIi/BMFQjIrjeRMqCDbNVJFOdRh4DVAIcYg56hHX6R8KVx8FoVv5F6ukNeuIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cex9yb8L; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=flowmailer.net header.i=@flowmailer.net header.b="Toge8bLz";
-	dkim=pass (2048-bit key) header.d=siemens-energy.com header.i=schuster.simon@siemens-energy.com header.b="ec+PfJIe"
-Received: by mta-64-140.flowmailer.net with ESMTPSA id 202606020713142e1db8e9fc0019fdc6
-        for <workflows@vger.kernel.org>;
-        Tue, 02 Jun 2026 09:13:14 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=s1;
- d=flowmailer.net;
- h=from:from:sender:to:to:cc:cc:subject:subject:content-type:content-type:content-transfer-encoding:References:In-Reply-To:Date:Message-ID:MIME-Version;
- bh=rTMmvdqLn8XGVIbwx6QxILaPnIKuu93HhNdO2BLhr54=;
- b=Toge8bLz2dyLab0qL8rkthmm38M0DIbWMwxIZTkHCglUndNKtXlsEFzupMzU1i/vzCdijc
- miocQZzlL9bzz0ZuwDfASqzdjU/d6NY+xy09C5rIOtPgu1bTsWHtrNYMYexJC33Ow7Pw9BIh
- 4PggmgbDjvYm9EN9UTfgesMkNvRAg=;
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm3;
- d=siemens-energy.com; i=schuster.simon@siemens-energy.com;
- h=from:from:sender:to:to:cc:cc:subject:subject:content-type:content-type:content-transfer-encoding:References:In-Reply-To:Date:Message-ID:MIME-Version;
- bh=rTMmvdqLn8XGVIbwx6QxILaPnIKuu93HhNdO2BLhr54=;
- b=ec+PfJIeqY0XmjF70C+uM3vKHeUzZAh1oTg2/qKJ7kPp6hfzDsi97fQ48IoGRskdwuz7Cu
- BGbuFZJ1Q9hHZckYImkEVD3l7jGDitagbUlrsjtMZGp7BQq6QWHs2rCwJGEOP6xEi685QNoj
- Dhxnc4HYfsbAg8Fm/fRfi0hYIxCejI2QpzVxqaXoytvcWrW15vVIQ9nYgGgotDILZbmKgedc
- b8LJKCIxu/nklS6gM/yKotmExl+J8oVb93bKKA61U9r3GprrFfQDONQGoXo5/evBr8Iz8wW4
- xRQAllgjoeOQIpdd6p46Xuo84qL1JvVLvPqgCUmzpiwzXycLeLiQhrYQ==;
-Date: Tue, 2 Jun 2026 09:13:11 +0200
-From: Simon Schuster <schuster.simon@siemens-energy.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Ethan Nelson-Moore
- <enelsonmoore@gmail.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Peter Zijlstra <peterz@infradead.org>, Arnd Bergmann <arnd@arndb.de>, Dinh
- Nguyen <dinguyen@kernel.org>, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org, workflows@vger.kernel.org, Linux-Arch
- <linux-arch@vger.kernel.org>, dmaengine@vger.kernel.org,
- linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, Netdev
- <netdev@vger.kernel.org>, linux-pci@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-hardening@vger.kernel.org,
- linux-kbuild@vger.kernel.org, "linux-csky@vger.kernel.org"
- <linux-csky@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Daniel
- Lezcano <daniel.lezcano@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
- Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, Dongliang
- Mu <dzm91@hust.edu.cn>, Hu Haowen <2023002089@link.tyut.edu.cn>, Kees Cook
- <kees@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Will Deacon
- <will@kernel.org>, "Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Nicholas Piggin
- <npiggin@gmail.com>, Vinod Koul <vkoul@kernel.org>, Frank Li
- <Frank.Li@kernel.org>, Dave Penkler <dpenkler@gmail.com>, Andi Shyti
- <andi.shyti@kernel.org>, Jonathan Cameron <jic23@kernel.org>, David Lechner
- <dlechner@baylibre.com>, =?ISO-8859-1?Q?Nuno_S=E1?= <nuno.sa@analog.com>,
- Andy Shevchenko <andy@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S . Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof
- WilczyDski <kwilczynski@kernel.org>, Andreas Oetken
- <andreas.oetken@siemens-energy.com>
-Subject: Re: [PATCH] nios2: remove the architecture
-Message-ID: <20260602071311.gtvif43wcjyulphh@dev-vm-schuster>
-References: <20260518042833.272221-1-enelsonmoore@gmail.com>
- <d40b1e80-37fc-4c88-9d7f-dae6458efe6c@app.fastmail.com>
- <20260518105735.GW3126523@noisy.programming.kicks-ass.net>
- <20260518172444.zyd47mcagrcwu7wt@dev-vm-schuster>
- <CADkSEUjhq6HSdg4ignzbuJiN5uXATsTdxFbRJ3BMxs5=WUWLDg@mail.gmail.com>
- <20260519103012.blot4bssgiqfer6p@dev-vm-schuster>
- <CANiq72=6oYtHf0Q1NaLXZ+25uQyYbej2xnvUhtgpHyvozhP7_Q@mail.gmail.com>
- <ah3TN93e7lRpVihW@ashevche-desk.local>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cex9yb8L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7ADE11F00893;
+	Wed,  3 Jun 2026 16:29:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780504194;
+	bh=qWc4Pg9S5Yrbzz6mVTDrVjWosTqWIsAjK4BlyMO77W0=;
+	h=From:To:Cc:Subject:Date;
+	b=cex9yb8LHXPviBXRPHWsU96LYwqt0JeCU3Mh4GxR0LogNLs7p7ViLv6ngz1E5fiMF
+	 HbXo5CBlJy+gEvtNcespaUEYW77W3dcF3xVwWG3r5kbFgsl/p6NDfMhtrmg1PKZ3mO
+	 cQHcmcdgjqsJUJnJ7h1beM/ea21D3DW7/bd9zffU2W9+gxB6qYqXK57/IScyDUDH2S
+	 AKGU61pgESQe4xA2y9D0AhXECsxR8GXfaO02J6KdfOmlfDbwPr/SjIx53+0yEVb3lF
+	 y1lUEw8c9FdJ54mvO6hN0IOfYEkRDTf+Db/lNN7hD9ZEJaZAYFj09KgF3RAL2FaTYK
+	 s61XvwVIrDw4Q==
+From: Jakub Kicinski <kuba@kernel.org>
+To: davem@davemloft.net
+Cc: netdev@vger.kernel.org,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	andrew+netdev@lunn.ch,
+	horms@kernel.org,
+	johannes@sipsolutions.net,
+	Jakub Kicinski <kuba@kernel.org>,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH net-next] docs: exclude driver and netdevsim bugs
+Date: Wed,  3 Jun 2026 09:29:43 -0700
+Message-ID: <20260603162943.2406080-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ah3TN93e7lRpVihW@ashevche-desk.local>
+Content-Transfer-Encoding: 8bit
 
-Hello Andy,
+Initial wave of AI-generated fixes was mostly for core and protocols
+we care about. But the number of irrelevant driver fixes is slowly
+increasing. Add a section of explicit exclusions to our maintainer
+profile.
 
-On Mon, Jun 01, 2026 at 09:45:11PM +0300, Andy Shevchenko wrote:
-> Supported implies that one gets real money for the job. Is this the case here?
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+CC: corbet@lwn.net
+CC: skhan@linuxfoundation.org
+CC: workflows@vger.kernel.org
+CC: linux-doc@vger.kernel.org
+---
+ Documentation/process/maintainer-netdev.rst | 28 +++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-Thank you for caring about NIOSII. I'm doing so as part of my
-employment at Siemens Energy; if this is real enough then yes :)
+diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
+index ec7b9aa2877f..cc4b5fa3b5c1 100644
+--- a/Documentation/process/maintainer-netdev.rst
++++ b/Documentation/process/maintainer-netdev.rst
+@@ -272,6 +272,34 @@ the case today. Please follow the standard stable rules in
+ :ref:`Documentation/process/stable-kernel-rules.rst <stable_kernel_rules>`,
+ and make sure you include appropriate Fixes tags!
+ 
++Bug fixes
++~~~~~~~~~
++
++Unless explicitly excluded all bug fixes should be targeting the ``net``
++tree and contain an appropriate Fixes tag.
++
++Obvious exclusions:
++
++ - fixes for bugs which only exist in ``net-next`` should target ``net-next``
++   (please still include the Fixes tag in the commit message)
++ - bugs which cannot be reached, e.g. in code paths not executed given
++   current in-tree callers
++ - fixes for compiler warnings and typos
++
++Fixes for selftests and selftest-related infrastructure (most notably
++including the ``netdevsim`` driver) are only considered ``net``-worthy
++if they substantially reduce the flakiness of the test.
++
++Additionally, netdev does not consider bugs to be ``net``-worthy
++if they fulfill **all** of the following criteria:
++ - bug is in a hardware device driver;
++ - bug is either a missing error handling or is part of the error handling flow;
++ - bug was discovered by a static analysis / AI tool;
++ - bug was triggered/observed only with kernel changes or fault injection.
++Fixes for such bugs should default to ``net-next`` and should **not** contain
++a Fixes tag. Networking or driver maintainers may redirect such fixes to ``net``
++at their discretion if they consider the condition to be relevant enough.
++
+ Security fixes
+ ~~~~~~~~~~~~~~
+ 
+-- 
+2.54.0
 
-Best regards
-Simon
