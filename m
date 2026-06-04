@@ -1,243 +1,162 @@
-Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011065.outbound.protection.outlook.com [52.101.65.65])
+Received: from sphereful.davidgow.net (sphereful.davidgow.net [203.29.242.92])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00EED372058;
-	Thu,  4 Jun 2026 09:29:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.65
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780565402; cv=fail; b=tipezgmzEFdY2pDEjm5+9d1Ql5+QpZewLpmuaZRsq2Kvxl688AaQub1dwVAF1lDVnPE2L+5DqLcowZd0kLy7FgTcVYVM0Pe10x+P92suU7pTXTpwUzglM4YW/m1ZvtvzhkZHhVNozRD8UcecJC/GcosigO+ido2sBysuRyLEYq4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780565402; c=relaxed/simple;
-	bh=womoXms92eqe2X6R9DHJQRO5KzUJIFoMqwF9IIaqAqM=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Q0zpmBCFHyswMAcawSVM+jnD7WT4ySz5U6v+Cz/jokgQnTE1MA0wvcbC6VWPGuBCdxiilqfcF9q9x8j0B5NjiZL0vtm5excrBvHLsZf8167WZCGPffr0OKriRhDh/pTRk6Mq34CHYxKV6aaYZs/VRa0EkKxmQDXcA/aOWSP/uC0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech; spf=pass smtp.mailfrom=est.tech; dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b=QSY2z47I; arc=fail smtp.client-ip=52.101.65.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=est.tech
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60144472798;
+	Thu,  4 Jun 2026 12:37:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.242.92
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780576657; cv=none; b=QzO06R6ePhA3QB2Q1aDPADzoRiKfznP+MQYL9nfuMeryb5XNhDXWQkAGVdzqf0MqbGS5LSXmoqPdUO5NSJSPillS3Kn2rHaUm9HpMn4dwJQOMhILHe53rtReL6hfVlsSWqYjQ32dtxrLFuE+Ph2TfV9p6G3maqGUUjp6pIZe5GI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780576657; c=relaxed/simple;
+	bh=dqIDEslQCzd6fKJ5g2l3UD1jEDxQ3jg0RqPV3z5hhOg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lNTKRCxS8QnHsXKgSIz5pTV+TyWe//2UhTP5VNxj4YEy6emNlrpEDtnMwNYWvXu5VNR5WskZcBShC6TH03xyrUb2f/jtu4Uq4WMbM33u5rtSt2OTHtEl9QJIM0pvpsRAnPm3F9Oee4cGaXRfwINX2DC/zmmjL9arHHjEuPS/D2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net; spf=pass smtp.mailfrom=davidgow.net; dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b=UJAsmfBt; dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b=fJBgxfd9; arc=none smtp.client-ip=203.29.242.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=davidgow.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b="QSY2z47I"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=d+47VhkoR3SfklUOswBWi+vpWWO0E/WzI2ZM5duVBLDggZjZiEtX8lZkpIdvW7qw9bPdORONWR+PRUhBShVMtFkx5hCbpsHaLaOokXODU7Qr0cBIJroj3Fz5EPtCmmONo2TIyqbERjdFjLGx9aI0MTaw62fgD9r441u3aZSc5R+Vc9MrCN+f0hu5kkg8qc8RCSQvkfrCpuea4oG0VU8gcHFGlDox4SQ8wGcK+bF0WVj3P4Fvh0lAhUZvlTP2KBmTikM608uZZQ5yGkMdX0KSqZen5AM7WvtGHwEmm18gYI7TV9S6HvtSzy4GFEpsRxnnjhWltV9n7MKk8ChFLfNRlw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ar8Kdao8qCVWSK0PY2QBUpKU3mC0cM+YwlyQToan/nE=;
- b=rRH1n4rAch8gjNVjINz5deRI29AiQYvSlOb1CRezFIM3d3R3tWJawb/ic50MpTr7t2Age7f9rr7jehrwBjC5g4c7DlUYOPIzp9wDl4++lPHVX3b/2ardUr8B+acE4Euoq6Pm8EJk5Fk3QDjg9hrZoI2yM01/s6wLefh0X6u9dVp0mI9rf5mdEE1ScMR7kR/YfJfgNYGI2fWHJCV7o+JS2UqPutFMG0tCUmMCB+D39WLq7LXp/op2jOtPj78WnVSLuavRHh6fI78V3n1hL745YsK3FzmNwxr6ha3qkWcBE5yLxDraEwATidZZSc79tXxfFEFq7PGapak8Hv7oQ346QA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ar8Kdao8qCVWSK0PY2QBUpKU3mC0cM+YwlyQToan/nE=;
- b=QSY2z47I/HvGpgDsfsQFQ89nqZo+6CkqKhhVFXCUVrUM+R++U+/aaKChxt4JVFxz7RhXmFfu0av6IgXJ7Jbl1KuLZ1ww24WUIfNG7F8NZxGiAh/XVsJDuBKD2TQE8ex5LQOxMEj/GSsFDySoB+Caz3Ah7K0VumUbIG9YkW1uNUlz9QoR6HKfCzEqzFquUDyCgE8R7nzpia+Oey4uXxgD8UANOOXwhl1kcwkOI+Flseew1rVbdRUpr3x/21Pby/Hzz/J+F8QO4KowX6zonGasOfWMHq1KbuPorTOJs2uY35Wza6aNrb660IcUC+2VOqb/VMVDBFcJ4Jy8ytwfnmE1gA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AS8P189MB1752.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:39b::19)
- by DB9P189MB1834.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:330::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Thu, 4 Jun 2026
- 09:29:55 +0000
-Received: from AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
- ([fe80::69fc:c4d4:200b:e4b4]) by AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
- ([fe80::69fc:c4d4:200b:e4b4%7]) with mapi id 15.21.0092.006; Thu, 4 Jun 2026
- 09:29:55 +0000
-Message-ID: <5bbc98a8-fb7f-4909-ab5a-5229e9ef74f2@est.tech>
-Date: Thu, 4 Jun 2026 11:29:52 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 0/6] kcov: per-task dataflow extraction at kernel
- function boundaries
-To: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
- K Prateek Nayak <kprateek.nayak@amd.com>, Dmitry Vyukov
- <dvyukov@google.com>, Andrey Konovalov <andreyknvl@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
- llvm@lists.linux.dev, linux-kbuild@vger.kernel.org,
- rust-for-linux@vger.kernel.org, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, Yunseong Kim <ysk@kzalloc.com>
-References: <20260603-kcov-dataflow-next-20260603-v2-0-fee0939de2c4@est.tech>
-Content-Language: en-US
-From: Yunseong Kim <yunseong.kim@est.tech>
-In-Reply-To: <20260603-kcov-dataflow-next-20260603-v2-0-fee0939de2c4@est.tech>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: GV2PEPF000239A4.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:158:400::225) To AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:39b::19)
+	dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b="UJAsmfBt";
+	dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b="fJBgxfd9"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
+	s=201606; t=1780576343;
+	bh=dqIDEslQCzd6fKJ5g2l3UD1jEDxQ3jg0RqPV3z5hhOg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=UJAsmfBtILK9VUY8wTRTnibw6vcemj+25LaiTSA9eeLlqSeFJGflqXqXsdcTJXq8i
+	 kpY9n/HkkKyo1oI6sYVKl1NH5jO4XNpF6yB+n48aNgC7hnYYayncW6+pkPfvKyU5Yw
+	 y8KAAtz5dGdVrZYNLvK2E4c6iVPEq9ymEX2b+x+m7X63zgxn2xNz/EMkCl3IocrV30
+	 K/DCsSlj4SgymYOLxRILDFxbWJCzPdh2W3WJ5hjWkeqcVvkZqZ+j2Uhl7+weIdC/nK
+	 RVYdbJUYcAnKriU0BJMP1OXFzxQjwfM0DsqtDdEvLFa15bPlfAhc2t6YtmY5Gt92vc
+	 LXwEYh+FWJAr9vjHanNcwbLnHIH4B5ShHBmVdGMUAxW3y9KVmD56olAe8R0z4XYlxY
+	 J6eWEdxGHx4SGQCnWnv5G/mlg+bf8gi0N/QXmjUZ27ZJRQAxzyDGlRtrwDZbLl5VXt
+	 pvNTa0vIP/ypitTBnaMg3V/22PSFuaxEU2z5xQbpc9nxEWuwm0BGqq9ViWYyy7hDLU
+	 4IlbD6ViW3gemafDrkbVWNjxxe4JtD6CHtiODEgpDHun6rLQ0hB7YrU6U3IW9/zcSA
+	 kI1VTcK+V7T76mDm+CzKGb1M+FMEKDCAYc/Q7iZjvkBQ36A4kwEoPLQa7Ib0Ac0Bpz
+	 38E/lkaBY7C2t1Vv/0JTg/+E=
+Received: by sphereful.davidgow.net (Postfix, from userid 119)
+	id EE6801E9180; Thu,  4 Jun 2026 20:32:23 +0800 (AWST)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
+	s=201606; t=1780576341;
+	bh=dqIDEslQCzd6fKJ5g2l3UD1jEDxQ3jg0RqPV3z5hhOg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=fJBgxfd9EdyzhOuq1vdMd+PEkdHuJBmVRaHD8jfoP0GeXjuETaZJ19vq4EjINUHif
+	 lDhG2g3Ve3y2qpgtwr7IpDFMK7FCE2wZ3FmKQbxZzQPa33Eh+M6/Yam8I5cf4/cieC
+	 12bOn44xlToGq9TXSWXQCSc+RT1vb9aF9Spzs2TZduAmR90XtHnUro7omN3ef6SGEG
+	 kOvP0RHvpSQZ5I7xSIpVIo/NbhTzYCe8PPPyZx9GGIo37iYIJA0ebg2OMucA2ZoBRv
+	 7ttIuYf2Qwc0Nqa57e92SzygXnJP+SUPOF4Imsi5VpkOJdsZ/Gt1wYh2uM/rfHCwrf
+	 TH875QB8AzPXS5vwDcNnebc5oZd96MdU6qAPdFFy9DfZQKyVvwR5l0GceUv+sRNNkl
+	 /PT7vJ5Lwb7NFv6xX2BR1SxlpOAJkA2PH5haFOaRTaUt4wEmYWH9NH9PsGaxnGEGI+
+	 PLF7n5onLBPvpb3X8HjPmEAmlgWG53BokWU0IwWTqcOoB/BO9STBF8ZAeQi0SHng4V
+	 KjKtwfg7LBC4bkFAQRxpq/n7zwDGMbGlsgGudloXtgMW1OT1imN1UGCkTeuKQ71WH0
+	 PvLwhQMpbx5qKLcoJnhQydWbsL8dMdna74+YU5Rn1vhw7tc34u9UIU1c7MbS35e7ju
+	 u8lT7gLvc7DnexPPYphfDYHg=
+Received: from sparky.lan (unknown [IPv6:2001:8003:8810:ea00:ed87:ca88:5326:e11d])
+	by sphereful.davidgow.net (Postfix) with ESMTPSA id 9D8151E9177;
+	Thu,  4 Jun 2026 20:32:21 +0800 (AWST)
+From: David Gow <david@davidgow.net>
+To: Brendan Higgins <brendan.higgins@linux.dev>,
+	Rae Moar <raemoar63@gmail.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+Cc: David Gow <david@davidgow.net>,
+	kunit-dev@googlegroups.com,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	workflows@vger.kernel.org
+Subject: [PATCH v3 1/2] kunit: tool: Parse and print the reason tests are skipped
+Date: Thu,  4 Jun 2026 20:32:04 +0800
+Message-ID: <20260604123207.2615485-1-david@davidgow.net>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8P189MB1752:EE_|DB9P189MB1834:EE_
-X-MS-Office365-Filtering-Correlation-Id: f8a71689-356b-400e-7a73-08dec21bd66c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|366016|376014|921020|11063799006|6133799003|56012099006|3023799007|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	7p65TcjUvLFoEr6TnmOnk//ZT8X/rrsG03NVZtMvq+tHxwcdstA6m9MWcrx6AcKLAw4c42TkyGQwT2zqEfHA/PWFniHrSczFZ7fUx5Z4E1ReTvY4azIn/4Ilplq+m+vUvFIVbgzPqOAblMYQkArDCmgNAcsVwpkSdK9mhjo58FZVkpGWP+9dTo9W/7f9SZInOnRW+yXZxvCvwmQbQypjPorCIHBMu9nG5SYXHyF2v1/OUpYFKoxVE/WmWtshdJJL3KFag/Abf7F/35ykKuSBDiIZhnH6hYsfO6qoS8v4BlxIN94/z0rvYSM60m6VbTocKENpb1XdgouHoHXEDEQkTlLk87CfLCnMl+5d70wtItf35cSQrUcPtDF3IJday/BOLY2N5ST3QOPg4oKnLLZfdq9lF18pq4Ki2/o+YDozeKgxDMNCSXHyR/kX4MYlJMQqWKWoTAO+1amCcZauD5RzlbFdONLZ6/M/95BNBkh6Hj3zCC1E1z9Ei4irDRKfrBNWjk7t3CwF8q/D1BqvYP2zbkiRKXMi7hNbzsSh7F7XcGNIqh9eViY+n75EQSOS2zg0u3p2COz0XqVh40uO7tPqZK0EFQd8GwJtLqnIgOIceRwpHUyvfPxUxdu4Ssb2C+sCxr+Suk+DvcZ/YlygFxbFcFEQ575C5xID0Jznf2ZS4DhgutiESVLw/x6IRmpQ+nr7mJ7GSfgfLtMBxKEdDnpj0CpUApegLCLVLKRsWgrLy+YP9NNnjjWhnASrbZ8usU5C
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P189MB1752.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(366016)(376014)(921020)(11063799006)(6133799003)(56012099006)(3023799007)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WDhkVDZDK1pJK2Q3bjhMMFRLOVVSeXBWbVR1V3Npd0l0Y1dWL3JoTTdUNlNP?=
- =?utf-8?B?TGJBR3pxcHNEL0dtZGw5MTNlZDBIamplN0o0SzVSODZmbXdwV3pKTHRPeGN5?=
- =?utf-8?B?cXJRTjJJdm1oMlA1SUFBQUlYd3g2UWphb1dyN2R5c3pWQ25Dc1Q1QmVXNDg5?=
- =?utf-8?B?a05NMVlFQ1FHQUpmYkl1cTA5Z1ljQ2VYOUlFMWduVFpLcFVOTDB2RjJvWHhm?=
- =?utf-8?B?UGR0aE5tS0wweGRmODFtV0QxZ2xHY081NUNWVGljZW8yejdUSkZDREFWUGxa?=
- =?utf-8?B?Q1Rib21CWVVVbDh5M0l3S1N4SmlpOFdkYU02ZHE4SnYyM2ZEYUJ5RnN2TUg3?=
- =?utf-8?B?M1B4OE5BeldyRkRVU0VzVkhMRXRQdGRCdGQvaGIxM0hDR3Izdis1SzNYeXZn?=
- =?utf-8?B?ekF1VnhlOXdGdzl5ck0xWjNrd1FOWlFGSzlsT1FsZlJieUVZR2t5cVNPUWhr?=
- =?utf-8?B?T2ZGckVnd0ptc3p3TURTb0VZTzhGVFV5WHJ3bzVZaFl4UUtIVkFjVzhRbHYr?=
- =?utf-8?B?Q0VCSVpZRGkvcUNkWUxwTW9mYkJaQ3R1dkFEOXRjbmxLc3lvU2c2MUJteEwy?=
- =?utf-8?B?Y0h3QWo4QkpCN211eHRWK2JxaGdwWlJxT09YdjBNOXd4WmlNcC9ZVS9qbzM0?=
- =?utf-8?B?UENHVFJBcGJmZFB4b1I3NlVrc1BQY01QQmhYVUkxMnRTTnNKRDNmYVo1dVh5?=
- =?utf-8?B?Z1IzM3JWajNZT1p5MkNaeDZtR2gxVVFJdklwdjNPbGxSUndWT3RvM2E4Y2dD?=
- =?utf-8?B?dlB2dk9xcWgrNWtvQ0crRTUwUmRCbS80YzhaOHo0b29LWmRUdGVNVCtqekRB?=
- =?utf-8?B?NGI4bE5PS21DN1YvSE9TK1dsMGVsMGJMUHY3aG4rRVVtbXdlYXpseU9WVmlQ?=
- =?utf-8?B?emo1MFJwcHVwRjFGdm9KKy9SU3pEYk5NMmdJbmNnTlM4eHpiakdGclM0bGdB?=
- =?utf-8?B?c05FdkdLVGh6cHpIY09rQllkdFpYeUgvQ3hjbWxBL3FLaXhvckhQNGRqTUU0?=
- =?utf-8?B?R2FRNEhyYjRISU1yRTFuM2NxUmdkZWpqbEI3QVdxSDZhamZZOXhLMWNqS1N0?=
- =?utf-8?B?dVNNeXZKeXd5OW9leTVqOVRaQnIwN3U5VlFxcTJ5UXRRQkpEQm5pTUJUUHNs?=
- =?utf-8?B?RWRJa2FBc2QwbXdPQ1EvS1haRTNBN3ZQS21ISFAydnB0RGFkTy9TckNBRnJJ?=
- =?utf-8?B?V0FGSkFwT0dYV3JUd0d5RHZhTWRTZFJMUEZYdlkxekVpQmtnVHViWkNObzBN?=
- =?utf-8?B?RjhTWmM5L0N4MnNNSUhZSjgwUkowMHlVR0gwVFhWUHpibkVhWlYzN2VYTDd5?=
- =?utf-8?B?V3Z4dHA3S2o3cHYzUHBYbjFpZ20yb3JVMWRqQ3FjOWYyMXQ5QkhDQWpGd0Mx?=
- =?utf-8?B?T0dqSXd3TFNJZ3VQTWg2WGY3Ym14NEZCV3ZlNVpZeEVjTkdSZ3dmdU5uMitm?=
- =?utf-8?B?dlRZRVRtWW1YamQxNFdYZE0vVWV0RXJudytxeGN1LzUxWDBRTTE2SjZhTTJn?=
- =?utf-8?B?UUE1SG95ck9hVWRmY2JHNnNRdEJZWXlHWUJFZG9kWVA0SWlDNGZjTHZEMWhG?=
- =?utf-8?B?MmxGN3ZUOEc3VDBuSWs3QzV3QnBuTGdUTkIvYW1pYWYvYisrSUpJamlDOW5i?=
- =?utf-8?B?K2RNOTc1SmYrVjh1dEpaSFRYa3FQUEtKR1p6aHRVVDV5bXNZSDQvNnloL2Zh?=
- =?utf-8?B?cVc5WjhZdEh1OFd2WUdzT2J4THk4VVlZY0FmdjI3UkM5Y0puN0dQSlErYTlh?=
- =?utf-8?B?Q1BnNlFTSVZDV2N3bm9YK01HRVZ5TGFFZFFCV0VLU252STI5YkwzRVpneGhP?=
- =?utf-8?B?L01BZ0d5c0xrOUJPdW5QWVJsVS9USG5rRTBCWmxMMG9qZkI3MGtnRzNzTE9W?=
- =?utf-8?B?MDd5T3BtMEV5L1VBaVRzdXBkSVVCMkNOaUkzSUFQeTUxRlloMTFvUE1OMWln?=
- =?utf-8?B?T2o0WVAwcEtuWktHZ2tSRTUxc3JwVC93WVFLY2ZIVFFFOVZ0NHBMdlBtbEp6?=
- =?utf-8?B?WCtmL0ZzNFphQ3o5RWlaSkVKRFp6cE9xUWtTbTNUZTZlNllqSDZ6RUpZQi9G?=
- =?utf-8?B?MzlocFRZMjFWbU5uQ0RPQmppTTQreUpRbWZ1MW1kY0hwTW5RQnBuV2ttM0Yr?=
- =?utf-8?B?cEptUm1DRWtOUkE4dk9PV1F3VnZiRThEK3psOEJCU2NRRnB5RTNzZlhWNkt3?=
- =?utf-8?B?WkFhVDFHYkRtWGhNU2NKRHJUVjhFY2k1NkZ6d2ZMVXNUL1dMcWNRZmhkaEdx?=
- =?utf-8?B?aGRieHNNQTNTS25RalpzK0toMS9qcTZVaGxMNG1iTkRLenlXajR1VTV2bnZL?=
- =?utf-8?B?YkExQWhMQUc3M2dxZVRhS3BWU09EMU5jTStodVdNNDR5ekZMZFpVdz09?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: f8a71689-356b-400e-7a73-08dec21bd66c
-X-MS-Exchange-CrossTenant-AuthSource: AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2026 09:29:55.1846
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: o5cDXuaiGsYECkrmb+JAnJHUlACYANOPhe21H+Gvj/4hnYjMFoz4CDktl4mm3OksrACypTUi9dbeAWV6o6Kauw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9P189MB1834
+Content-Transfer-Encoding: 8bit
 
-Hi,
+When a KUnit test (or other KTAP test) is skipped, a "skip reason" can be
+provided. kunit.py has never done anything with this, ignoring anything
+included in the KTAP output after the 'SKIP' directive.
 
-I would like to make a correction to my cover letter.
+Since we have it, and it's used, print it in a nice friendly yellow in
+parentheses after a skipped test's name.
 
-Note: v1 was sent as "RFC v2" due to my b4 misconfiguration.
+(And, by parsing it, it can be included in the JUnit results as well.)
 
-On 6/3/26 19:43, Yunseong Kim wrote:
-> Introduces a new KCOV exetened feature that captures function arguments and
-> return values at kernel function boundaries, enabling per-process visibility
-> into runtime dataflow.
-> 
-> [snip...]
+Signed-off-by: David Gow <david@davidgow.net>
+---
 
-kcov-dataflow are not in conflict with "KASAN_GENERIC + KCOV_DATAFLOW_INSTRUMENT_ALL"
+There are a few bits of KTAP that kunit.py has never actually parsed, and
+this is one of them. It's also nice to have a good way of quickly seeing
+why a test has been skipped, given most tests do provide good reason
+strings.
 
-> Prerequisites / Toolchain
-> =========================
-> 
-> This kernel patch relies on a custom LLVM SanitizerCoverage pass that
-> emits __sanitizer_cov_trace_args() and __sanitizer_cov_trace_ret()
-> callbacks at function boundaries, extracting struct field layouts from
-> DWARF debug metadata at compile time.
-> 
-> To build and test this patchset, compile the kernel using the modified
-> toolchain:
-> 
-> 1. LLVM/Clang (adds -fsanitize-coverage=dataflow-args,dataflow-ret):
->    https://github.com/llvm/llvm-project/pull/201410
-> 
-> 2. Rust (rustc 1.98 built against the above LLVM 23, for Rust module support):
->    https://github.com/yskzalloc/rust
-> 
-> Build instructions:
-> 
->   # Build the modified clang
->   cd llvm-project && cmake -G Ninja -S llvm -B build \
->     -DLLVM_ENABLE_PROJECTS="clang;lld" -DCMAKE_BUILD_TYPE=Release
->   ninja -C build clang
-> 
->   # Build the kernel with dataflow support
->   export PATH=$HOME/llvm-project/build/bin:$PATH
->   export RUSTC=$HOME/rust/build/x86_64-unknown-linux-gnu/stage1/bin/rustc
->   export RUST_LIB_SRC=$HOME/rust/library
-> 
->   make LLVM=1 defconfig
->   scripts/config --enable KCOV \
->                  --enable KCOV_DATAFLOW_ARGS \
->                  --enable KCOV_DATAFLOW_RET
->   make LLVM=1 olddefconfig
->   make LLVM=1 -j$(nproc)
-> 
-> Note: CONFIG_KCOV_DATAFLOW_ARGS and CONFIG_KCOV_DATAFLOW_RET depend on
-> CONFIG_KCOV and use $(cc-option) to verify the compiler supports the
-> new flags. With standard (unpatched) clang, these options will not
-> appear in menuconfig and silently remain disabled.
-> 
-> Optional configs:
->   --enable KCOV_DATAFLOW_INSTRUMENT_ALL  (instrument entire kernel)
->   --enable KCOV_DATAFLOW_NO_INLINE       (enabled by default)
+Happy to hear comments about the style: yellow in parentheses looks pretty
+good here, but could be a bit confusing if KUnit do
 
-I checked, and it’s better to use CONFIG_FRAME_WARN=0 when using KASAN
-together regarding flood of -Wframe-larger-than warnings.
+This is the first version of this patch, as it's a new dependency of v3 of
+patch 2, the JUnit support, which also includes the skip reason.
 
->   --set-val FRAME_WARN 4096             (needed for INSTRUMENT_ALL)
->   --disable KASAN                        (conflicts with INSTRUMENT_ALL)   --enable KASAN (no conflicts; works well, but slower, a lot of dataflow)
+--
+ tools/testing/kunit/kunit_parser.py | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-What I meant by that conflicts is that I was using it for kernel-space
-behavior only for the "offensive kernel vulnerability auditing",
-and in that case, sometime it’s better to disable KASAN.
+diff --git a/tools/testing/kunit/kunit_parser.py b/tools/testing/kunit/kunit_parser.py
+index 0e1d2f4985eb..22b8464c6383 100644
+--- a/tools/testing/kunit/kunit_parser.py
++++ b/tools/testing/kunit/kunit_parser.py
+@@ -44,11 +44,12 @@ class Test:
+ 		self.subtests = []  # type: List[Test]
+ 		self.log = []  # type: List[str]
+ 		self.counts = TestCounts()
++		self.skip_reason = ''
+ 
+ 	def __str__(self) -> str:
+ 		"""Returns string representation of a Test class object."""
+ 		return (f'Test({self.status}, {self.name}, {self.expected_count}, '
+-			f'{self.subtests}, {self.log}, {self.counts})')
++			f'{self.subtests}, {self.log}, {self.counts}, {self.skip_reason})')
+ 
+ 	def __repr__(self) -> str:
+ 		"""Returns string representation of a Test class object."""
+@@ -352,9 +353,9 @@ def parse_test_plan(lines: LineStream, test: Test) -> bool:
+ 	lines.pop()
+ 	return True
+ 
+-TEST_RESULT = re.compile(r'^\s*(ok|not ok) ([0-9]+) ?(- )?([^#]*)( # .*)?$')
++TEST_RESULT = re.compile(r'^\s*(ok|not ok) ([0-9]+) ?(:?- )?([^#]*)( # .*)?$')
+ 
+-TEST_RESULT_SKIP = re.compile(r'^\s*(ok|not ok) ([0-9]+) ?(- )?(.*) # SKIP ?(.*)$')
++TEST_RESULT_SKIP = re.compile(r'^\s*(ok|not ok) ([0-9]+) ?(:?- )?(.*) # SKIP ?(.*)$')
+ 
+ def peek_test_name_match(lines: LineStream, test: Test) -> bool:
+ 	"""
+@@ -418,7 +419,7 @@ def parse_test_result(lines: LineStream, test: Test,
+ 
+ 	# Set name of test object
+ 	if skip_match:
+-		test.name = skip_match.group(4) or skip_match.group(5)
++		test.name = skip_match.group(4)
+ 	else:
+ 		test.name = match.group(4)
+ 
+@@ -431,6 +432,7 @@ def parse_test_result(lines: LineStream, test: Test,
+ 	status = match.group(1)
+ 	if skip_match:
+ 		test.status = TestStatus.SKIPPED
++		test.skip_reason = skip_match.group(5) or ''
+ 	elif status == 'ok':
+ 		test.status = TestStatus.SUCCESS
+ 	else:
+@@ -539,7 +541,7 @@ def format_test_result(test: Test, printer: Printer) -> str:
+ 	if test.status == TestStatus.SUCCESS:
+ 		return printer.green('[PASSED] ') + test.name
+ 	if test.status == TestStatus.SKIPPED:
+-		return printer.yellow('[SKIPPED] ') + test.name
++		return printer.yellow('[SKIPPED] ') + test.name + ' (' +  printer.yellow(test.skip_reason) + ')'
+ 	if test.status == TestStatus.NO_TESTS:
+ 		return printer.yellow('[NO TESTS RUN] ') + test.name
+ 	if test.status == TestStatus.TEST_CRASHED:
+-- 
+2.54.0
 
-Tested CONFIG_KASAN=y + CONFIG_KCOV_DATAFLOW_INSTRUMENT_ALL=y together
-(FRAME_WARN=4096, virtme-ng 1 vCPU 1GB on my Intel CPU Dell Pro 14
-Premium PA14250):
-
-  - Builds clean, no frame size warnings
-  - Boots and runs without KASAN errors
-  - kcov-dataflow captures correctly under KASAN:
-
-        getpid():    6,682 records
-        open+close: 16,382 records (filled 64K buffer)
-
-Time to "Freeing unused kernel image (initmem)":
-
-  KCOV_DATAFLOW_INSTRUMENT_ALL only:          ~0.95s (+40%)
-  KASAN + KCOV_DATAFLOW_INSTRUMENT_ALL:       ~2.02s (+197%)
-
-
-Sorry for any confusion the earlier wording may have caused.
-
-Thank you!
-
-Kind regards,
-Yunseong
