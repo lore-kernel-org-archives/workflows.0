@@ -1,67 +1,52 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E483A329E6C;
-	Thu,  4 Jun 2026 21:48:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2BA3402B96;
+	Fri,  5 Jun 2026 06:58:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780609731; cv=none; b=Stzr4rNzyKtVbicycBzadsGwUY9h+Bj3dHsVR75V7lmSXuGySIVGhLcnXHG6x1fTIepaD9umtxUZtZ7hEbI6pCDoVw2P8lYXnpRwoFTDtTABOOdaJsncihePKcvLtD8Ea9/GaxSTjAU4v5As77OZh7rwGKyNM4sqlKDYoq4LzXs=
+	t=1780642731; cv=none; b=UUiQLeAP/gwLlfGHaXIuBiraz/vpiAAGYD49cjvYdjzYnIGOCyiq+u9EwgDS1QBjCUvEvKLtapjmrJxXg63JMYRIHzvM+46/JvgNxFOw6IZgMTBJ4UFY7mUGI+s9k9Tn+a+9aed2crbj4tf5w7cLBxvhf0PEEff2Mr3jUCBYKN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780609731; c=relaxed/simple;
-	bh=iK7nDkaVl+kbc7PjAEoaEgaDEKAIkheFFI1yWCxh/uA=;
+	s=arc-20240116; t=1780642731; c=relaxed/simple;
+	bh=WQaWwkDX9YbrW3OgalS/+vNXcVeQrsyG4JZN4PIbFnE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bLvbVHmrIlsDwkcItFk/QJBBJkwwBsFhSMXbBuLWAKGbxZ53qY67wfHTlehJu480XBjC80idK6siy3tEDgF/lWkrLkuwMk/VA9MvJ5eUd9ELhulo9WXw1VkVApyd6N0Wo9XXm+vtYqX+0B/dBCZipmcXzhJC2LtLgDv1OpPimSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oOJtH3Ws; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=DXQwVfYxgyaFO9/HbSeLyGbtWL22y0oKTuHGyg0gCV/RpfSSg7A7dL+ms9ZJFv5DPHglsUbYA2aZhbCejKaUbMuURRcXLT8pbLQja8ECInqcvWZCS6rOfTHCZ+RIT26IpVkxICcXo5NKIKGDHfb9n87SWNL3AphxiF+nrJprw3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=wg3zHL/g; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=X2UE6cZp; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oOJtH3Ws"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45EC31F00893;
-	Thu,  4 Jun 2026 21:48:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780609730;
-	bh=hccU/NDSuAvcNj2qshs5G5T8N2B5+zR4AKzNjS5QKDY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=oOJtH3WswuxaSXCBwtdBZdGgqvPxMl2AxmgsBn1Q7sv9bv+2fIQpUu8P6psX9SraE
-	 lSBE1kDOlOcCkxwq1Te5aY2Bf5gUb74/snkw1zcC7CzFdqpd4Avhfe2fsm750odqgS
-	 O59dMX2g/aDU3jKvEKl8txbOdj8B+U3/SsyEk2xAP8EUrnd4KHHvI+btOw06/4rK2Q
-	 taz///r7YoJ8dRaGduBLFDxVhYonPuOrFN7EFKzndPcRwg/FSeYlsjY8zFKlhD4Wob
-	 HX+achzSxwGdodU9S7+z5XB058pkm5Q/iau8rvefFGQqQMoYtL2OOWHLyI0pZM4xE6
-	 OCPIVEZUZh7Aw==
-Date: Thu, 4 Jun 2026 14:48:40 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Yunseong Kim <yunseong.kim@est.tech>, Ingo Molnar <mingo@redhat.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-	llvm@lists.linux.dev, linux-kbuild@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, Yunseong Kim <ysk@kzalloc.com>
-Subject: Re: [RFC PATCH v2 2/6] kcov: add build system support for dataflow
- instrumentation
-Message-ID: <20260604214840.GA3915915@ax162>
-References: <20260603-kcov-dataflow-next-20260603-v2-0-fee0939de2c4@est.tech>
- <20260603-kcov-dataflow-next-20260603-v2-2-fee0939de2c4@est.tech>
- <20260604084519.GA3126523@noisy.programming.kicks-ass.net>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="wg3zHL/g";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="X2UE6cZp"
+Date: Fri, 5 Jun 2026 08:58:42 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1780642727;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=M3EmMILu+ye1yiJ+olGsUWVQFGrk57Nj8f/4vKU+M4w=;
+	b=wg3zHL/g4yWowoJH1VUHWMtZJbLez/0b4n4JH7lMcptiJS49P3DiW7hSDBpdFE/dsyn1vd
+	53jkAUcMcAQ1eqexAVgY7ymgWX1junkDdD7eKRnn8miYLEzdpevdKkRWhk6mUiVkepm/Ti
+	HJJ1s48rsnuQcWU39NbQz36inKcZwowhBZV4xDDHeLrKZewCHh5BC2f3HR8SVxujJ2mHUD
+	e8P8bkeCM784412F8N9KUIKtGvK/yyBcFiVkSQrw2wGYqRVGXUWiA8bHI8/Qc4j7UKtMcl
+	ZuhATnPNd7jJQof7ao859y6GvidAX4vpd11CycaknsJCHGEQQieQ9pIL+VS6XQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1780642727;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=M3EmMILu+ye1yiJ+olGsUWVQFGrk57Nj8f/4vKU+M4w=;
+	b=X2UE6cZp5F8b8OrD1jFCi8eg8vHjG39PcrdgBxPrpbRXWRmDdj1dW7Rn42IH07cwVqHkiZ
+	2WInfx1zZRIruZCg==
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+To: David Gow <david@davidgow.net>
+Cc: Brendan Higgins <brendan.higgins@linux.dev>, 
+	Rae Moar <raemoar63@gmail.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	workflows@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] kunit: tool: Parse and print the reason tests are
+ skipped
+Message-ID: <20260605085615-8c7c7024-3af8-4016-8d9f-7c7af30734e4@linutronix.de>
+References: <20260604123207.2615485-1-david@davidgow.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -70,53 +55,40 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260604084519.GA3126523@noisy.programming.kicks-ass.net>
+In-Reply-To: <20260604123207.2615485-1-david@davidgow.net>
 
-On Thu, Jun 04, 2026 at 10:45:19AM +0200, Peter Zijlstra wrote:
-> On Wed, Jun 03, 2026 at 07:43:29PM +0200, Yunseong Kim wrote:
-> > Add CFLAGS_KCOV_DATAFLOW and RUSTFLAGS_KCOV_DATAFLOW exports to
-> > scripts/Makefile.kcov, containing:
-> >   -fsanitize-coverage=dataflow-args,dataflow-ret -g
-> >   (with optional -fno-inline via CONFIG_KCOV_DATAFLOW_NO_INLINE)
-> > 
-> > scripts/Makefile.lib applies these flags when a module's Makefile sets:
-> >   KCOV_DATAFLOW_file.o := y   (per-file)
-> >   KCOV_DATAFLOW := y          (per-directory)
-> > 
-> > Also supports CONFIG_KCOV_DATAFLOW_INSTRUMENT_ALL for global enablement.
-> > The flags are only applied to kernel objects (same guard as basic KCOV).
-> > 
-> > Signed-off-by: Yunseong Kim <yunseong.kim@est.tech>
-> > ---
-> >  scripts/Makefile.kcov | 6 ++++++
-> >  scripts/Makefile.lib  | 7 +++++++
-> >  2 files changed, 13 insertions(+)
-> > 
-> > diff --git a/scripts/Makefile.kcov b/scripts/Makefile.kcov
-> > index 78305a84ba9d..101173fe194b 100644
-> > --- a/scripts/Makefile.kcov
-> > +++ b/scripts/Makefile.kcov
-> > @@ -2,10 +2,16 @@
-> >  kcov-flags-y					+= -fsanitize-coverage=trace-pc
-> >  kcov-flags-$(CONFIG_KCOV_ENABLE_COMPARISONS)	+= -fsanitize-coverage=trace-cmp
-> >  
-> > +# KCOV dataflow: trace function args and return values
-> > +kcov-dataflow-flags-y := -fsanitize-coverage=dataflow-args,dataflow-ret -g
-> > +kcov-dataflow-flags-$(CONFIG_KCOV_DATAFLOW_NO_INLINE) += -fno-inline
+On Thu, Jun 04, 2026 at 08:32:04PM +0800, David Gow wrote:
+> When a KUnit test (or other KTAP test) is skipped, a "skip reason" can be
+> provided. kunit.py has never done anything with this, ignoring anything
+> included in the KTAP output after the 'SKIP' directive.
 > 
-> https://clang.llvm.org/docs/ClangCommandLineReference.html
+> Since we have it, and it's used, print it in a nice friendly yellow in
+> parentheses after a skipped test's name.
 > 
-> Has no mention of -fno-inline, furthermore, what are the exact
-> semantics? Does it inhibit __always_inline?
+> (And, by parsing it, it can be included in the JUnit results as well.)
+
+Some tests would be nice.
+
+> Signed-off-by: David Gow <david@davidgow.net>
+> ---
 > 
+> There are a few bits of KTAP that kunit.py has never actually parsed, and
+> this is one of them. It's also nice to have a good way of quickly seeing
+> why a test has been skipped, given most tests do provide good reason
+> strings.
+> 
+> Happy to hear comments about the style: yellow in parentheses looks pretty
+> good here, but could be a bit confusing if KUnit do
 
-Based on clang/test/CodeGen/always-inline.c [1], I believe the semantics
-are the same as GCC's '-fno-inline' [2], which avoids inlining except
-for always_inline functions.
+Something is missing here?
 
-[1]: https://github.com/llvm/llvm-project/blob/1d13b74cf086629d5cdae5f44ef4a62cebcaf3ff/clang/test/CodeGen/always-inline.c
-[2]: https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#index-fno-inline
+For [SKIPPED] the brackets are colored, too.
 
--- 
-Cheers,
-Nathan
+> This is the first version of this patch, as it's a new dependency of v3 of
+> patch 2, the JUnit support, which also includes the skip reason.
+> 
+> --
+>  tools/testing/kunit/kunit_parser.py | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
+
+(...)
