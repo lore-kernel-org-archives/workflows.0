@@ -1,260 +1,139 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FCE83905F9;
-	Fri, 12 Jun 2026 04:45:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781239509; cv=none; b=eDU2b7+G5gnCmcGOz1RwNn89s2lnOkuP8xZMjjA8evjZqPtaAFDCPBFea6RgzhnLr8HGUKPG2ezmallvCiXgrY1BIKgZGUXZPgk+KIyqjktO0v03TLJEUpDXZ6icEuh866wVgviL1h0jiytvDDxcvQBHbIg2fezqLKpNBHLEGGY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781239509; c=relaxed/simple;
-	bh=adMGJ7PXZloqurqObpZQmC4xZiFQ3So5xjocDZ6UB6w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=F22r+A92IwsC4PN2/N9egGQVzLvsDhsPWIaoSDpnuEb1RfbqWeLfLdAvQBaGqkVkL3fBh9uOx7gRVOfLo0SBUPfghU4pgGSbyK7qvLuvaXBrsoWPRIQLwARo79mdTEo8OHxkCJUWmSVbTFwtyGOvlKBosPqoo1CeYJ/PGLiGU6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=dyprqNRX; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 500A93AA1B8
+	for <workflows@vger.kernel.org>; Fri, 12 Jun 2026 06:56:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781247395; cv=pass; b=MaXqBnItHkZcmS5PeGq16GWvvxxI1PS4yDOJbmCEjYKWvgjT1B5eXOelSyQoa6lPFSl8DIcgURwRipQAw0x1fHBItKmQS+YvXocP0bP6gReIqCHLvrbm3IZR0cHTqWvHni0aMDJaO6oX6+3AprJdqYaIQOz7UZeNT7ySfJd69zk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781247395; c=relaxed/simple;
+	bh=3lBHS9HDKEcHXBILsrP2x1PQFt4q9srNsFjMrwfX9Vs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=X+rjp/pYUHRr3VwJEESOhSMg7A1qq3mm/wLrNCaomJhTv6JqQd6LmQUt+cqdhyKUK8M5xO5hnoM6Q3GhJhv6hKINT8hAkvMa3WOY3iQKU0s0eAjdwp4Qp2HcbUg1EttmuzkibiLh4ZvkxnO9rh1HnKMm60WZM3oPmOZDnZUsShs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EqDjjaIn; arc=pass smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="dyprqNRX"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5263B2E91;
-	Thu, 11 Jun 2026 21:45:01 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-01.blr.arm.com (cesw-amp-gbt-1s-m12830-01.blr.arm.com [10.164.195.31])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 6A98E3FAF5;
-	Thu, 11 Jun 2026 21:45:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1781239506; bh=adMGJ7PXZloqurqObpZQmC4xZiFQ3So5xjocDZ6UB6w=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dyprqNRXfh9wVKf2O2t0oY3N9NZr2vJGqiN+CzR4ogevyLghQcFeqWH+CH6APm3GX
-	 ZX6ZCMglBYa+Nsi28vNnVLgYd7ZSS3Yymcm7FvevGna/IiGmKmLZKE1D/XZ92HG1ZO
-	 R4nwE7x14jL8zdcxhGbU84hVARQ1ZI5lZut0W+Qw=
-From: Dev Jain <dev.jain@arm.com>
-To: ryabinin.a.a@gmail.com,
-	akpm@linux-foundation.org,
-	corbet@lwn.net
-Cc: Dev Jain <dev.jain@arm.com>,
-	glider@google.com,
-	andreyknvl@gmail.com,
-	dvyukov@google.com,
-	vincenzo.frascino@arm.com,
-	kasan-dev@googlegroups.com,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	ryan.roberts@arm.com,
-	anshuman.khandual@arm.com,
-	kaleshsingh@google.com,
-	21cnbao@gmail.com,
-	david@kernel.org,
-	will@kernel.org,
-	catalin.marinas@arm.com
-Subject: [RFC PATCH 2/2] kasan: hw_tags: Add boot option to elide free time poisoning
-Date: Fri, 12 Jun 2026 04:44:24 +0000
-Message-ID: <20260612044425.763060-3-dev.jain@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260612044425.763060-1-dev.jain@arm.com>
-References: <20260612044425.763060-1-dev.jain@arm.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EqDjjaIn"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6924a68e3f3so1109828a12.1
+        for <workflows@vger.kernel.org>; Thu, 11 Jun 2026 23:56:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781247393; cv=none;
+        d=google.com; s=arc-20240605;
+        b=QGoS7t7aXIxdjxaGuNeEtxlAB1QCBMyUL9cJAqSMNr2aJqwRawo2kv51Wv3cNiqevc
+         gxHY1bKYbK7eAJM1+MvSfaFBkGwlklS66OzTfUz2OwEBaoxOGOYgeqRxw0J64WWhE3jY
+         oVA1H1Z+YfeamG8Konj+4+KB6HqzoBGuxIdBKmVKKZSdK5340s3EOH8rS+wfWaiJUgPw
+         YpXdcK+elyp0chBMWdHtPcxyNVZEeBIMTwx6L0FoYp5ktgDs3OVhcH6/9vgYW62QHgbc
+         OawHyCdNGlboemHqvZPvGkawx9rp0t778DcJ6wz8zo4Iz4q8tdwP81tAf3qFZNrhV4XL
+         Uz2A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=3lBHS9HDKEcHXBILsrP2x1PQFt4q9srNsFjMrwfX9Vs=;
+        fh=j4AY4LVCnH0scBI+dInUDqUbbHAA0F27cT3MBflYckw=;
+        b=SHdlFPhJ8T05yr93JhB96zIXUNsbuFrFObX3De1O1+8k1oS3rUvo83yJK4NBywhyjk
+         xd7oWkaL9M9me3hyDJudtGqk/vC6HQNrcpx7MfuLKcYCgEYUYn6hpptoPyVvi1O0geaD
+         JQ9hghy7Llh+Uxqvx2UiL3xdAtqxYJdZXvaz+68KbRlqr0iXiTA6UB3VJlGuZY/XDjLm
+         d57s5SeYz7s4pyJ8hXZ50PvHvhrTY817Y7M+DEr8Z3SBOH8mw/n1kVkyp0Jig6ViNr/y
+         cHsEqI1iVMzH2ZCTJB5I8QeMKrsju2XeYCPMb/jyiEUoj+xxhwEWbP6LPn9BYnRHB6Tz
+         LqnA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1781247393; x=1781852193; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3lBHS9HDKEcHXBILsrP2x1PQFt4q9srNsFjMrwfX9Vs=;
+        b=EqDjjaInov0ka4alN+yEFWBFuaxhdbrfTeM99dBjBHVH1TGqPNOwMXvp3aBAtkNwGy
+         wuUszsiCnccC+mXgVgklYrmJpM4ITNLR+1Pdq81iYB9iH8fIQ4Bj7siJSio/GUKufXNx
+         uXLplkNvuYKJ356p1ai5tl+9d3qggFzGRiMQ0Y85CiE+L3Q12ToW+x1COpZlQo+fpOZE
+         Apr3vb1VXwL/9IHBFx3WjOH6ceWGtdi2t3QdLCyf1j21yuQZfrSPzo1HjsEevZyy96Wl
+         FDOKchXplfC1MTsnyxN7ZPsFme7ZJTfu3QPEZC/sMXV7SCV1Jl+fh+kNG5QUGdXfpb45
+         NfYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781247393; x=1781852193;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=3lBHS9HDKEcHXBILsrP2x1PQFt4q9srNsFjMrwfX9Vs=;
+        b=TfuF4sBUOx3DTE+JS1F3EwPIVao/pzgXUapxJiU32eU01ut94MKhdTidNjXRGuajto
+         4KsRvC2t/6CrYLriTdN+5zDCHUZrtSf3W9FMEZZ9ejODkVRlBPwepFugcKezjt92clRz
+         DTm9uK9WWTbDHslqAB1TshWF8loHRseFABjN8UBccPLmgwTDq2c+oMW+Ofz3CRsWdSmI
+         wmEk+fUtdaZiAETew64jVTwZ4wDnwulVpBbZ+T1DHvV3DVIhGLGRizK28KLO71mdpDEu
+         wFBasbF0PXA5cJwCx72/yVp5rvwnEL3XQuKakbW4AmhFTpj1xhM2O/V954+vXF4e4Vbq
+         3RCw==
+X-Forwarded-Encrypted: i=1; AFNElJ9ncygG64KCbfPAQzl8M2760Wyf7Quxy5iLFSTm+M7xTb6m2XdOVHjEWk+PkpajIHB6Tr8NcQasabo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxM+/63RIHBqhpAIZUyX1Qlkd3RSegEgrfuAM/AZgytI2Jo/gTy
+	qbcGeqY85FV1a+EUvd5z68keTpV/cSVN0mTIJJGaHHW/Yst4d+Ir1iEsrHxmdzvn6PW+9Xa+EwI
+	IZpb/UXefV3gWAZugfP2rccFkA8Jd0yTTPDh5K035
+X-Gm-Gg: Acq92OGGLg5y8zTUWuqHo6U0W+c1CXFcyi1q7OotLf9gN2vAtqGWQpn92WeAn+cmyQj
+	oxWJeeLrG4qElj3bFSYqNwK/QSiRmRxAi9X+JgvSPNRkE2rQtSPjsKfq1JUutD/GsGpVAGHTVj0
+	VnM9rCpP/hLorvFMZ5G6d2AMxShv4a+2yA14WxwENtpstuJUE6FdQn4GW3ToiCa0oESkO2Cmrvn
+	K7AMpIlbMjbVUPfY3X6ADqsYKEw+s3zbMEIEEEGUai2oVJG3wzPEhFUjOiUR73tVbkNrkUD2Fnj
+	OiccSzZ8bTz+TrDhn5ZLnMS7cLXZzVte7k0hHg==
+X-Received: by 2002:a05:6402:434b:b0:68b:d10a:a48a with SMTP id
+ 4fb4d7f45d1cf-693784fb02dmr602313a12.11.1781247392123; Thu, 11 Jun 2026
+ 23:56:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260611-b4-kcov-dataflow-v2-v2-0-0a261da3987c@est.tech> <20260611-b4-kcov-dataflow-v2-v2-2-0a261da3987c@est.tech>
+In-Reply-To: <20260611-b4-kcov-dataflow-v2-v2-2-0a261da3987c@est.tech>
+From: Alexander Potapenko <glider@google.com>
+Date: Fri, 12 Jun 2026 08:55:54 +0200
+X-Gm-Features: AVVi8CdLRn3HUIKr4oSFNxeMmeQ95IhSWpzIU1V25ylhb68DqGsVy-9EpMVuQUY
+Message-ID: <CAG_fn=V1+_xLgCZgdLnT7Y-muRO0CXkrNKkC8AzrqzWoL4eR8w@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 02/14] kcov: fix INIT_TRACK race in kcov_dataflow
+To: Yunseong Kim <yunseong.kim@est.tech>
+Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org, 
+	kasan-dev@googlegroups.com, rust-for-linux@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev, linux-mm@kvack.org, 
+	linux-kselftest@vger.kernel.org, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Yeoreum Yun <yeoreum.yun@arm.com>, 
+	sashiko-bot <sashiko-bot@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Introduce a boot option to tag only at allocation time of the objects. This
-reduces KASAN MTE overhead, the tradeoff being reduced ability
-of catching bugs.
+On Thu, Jun 11, 2026 at 6:21=E2=80=AFPM Yunseong Kim <yunseong.kim@est.tech=
+> wrote:
+>
+> Two threads calling KCOV_DF_INIT_TRACK concurrently could both observe
+> df->area =3D=3D NULL, drop the lock to allocate, and then both assign the=
+ir
+> allocation to df->area, leaking one buffer.
+>
+> Fix by rechecking df->area after re-acquiring the lock. If another
+> thread won the race, free the allocation and return -EBUSY. This
+> matches the pattern used by KCOV_INIT_TRACE in kernel/kcov.c.
+>
+> Reported-by: sashiko-bot <sashiko-bot@kernel.org>
+> Closes: https://sashiko.dev/#/patchset/20260603-kcov-dataflow-next-202606=
+03-v2-0-fee0939de2c4%40est.tech
+> Signed-off-by: Yunseong Kim <yunseong.kim@est.tech>
 
-Now, when a memory object will be freed, it will retain the random tag it
-had at allocation time. This compromises on catching UAF bugs, till the
-time the object is not reallocated.
-
-Hence, not catching "use-after-free-before-reallocation" and not catching
-"double-free" will be the compromise for reduced KASAN overhead.
-
-Keep this as a boot time feature to prevent building two kernel images.
-
-To implement the feature, we need to effectively render kasan_poison()
-redundant for hw tags case, but keep it working in the case where it is
-used not in an object-freeing code path, but the redzoning path (which
-means, poisoning the tail end of a vmalloc or kmalloc allocation).
-
-We achieve this by overloading the poison values for the hw tags case: we
-define the four poison values as 0x0E, 0x1E, 0x2E, 0x3E. In kasan_poison(),
-if we arrive with KASAN_SLAB_REDZONE or KASAN_PAGE_REDZONE, do a bitwise
-OR on the value of the tag to make it equal to KASAN_TAG_INVALID.
-
-If not, then, if init is true, zero out the memory and bail out.
-
-Signed-off-by: Dev Jain <dev.jain@arm.com>
----
- Documentation/dev-tools/kasan.rst |  4 +++
- mm/kasan/hw_tags.c                | 43 ++++++++++++++++++++++++++++++-
- mm/kasan/kasan.h                  | 23 ++++++++++++++++-
- 3 files changed, 68 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-index 4968b2aa60c80..b0c30584b5062 100644
---- a/Documentation/dev-tools/kasan.rst
-+++ b/Documentation/dev-tools/kasan.rst
-@@ -146,6 +146,10 @@ disabling KASAN altogether or controlling its features:
- - ``kasan.vmalloc=off`` or ``=on`` disables or enables tagging of vmalloc
-   allocations (default: ``on``).
- 
-+- ``kasan.tag_only_on_alloc=off`` or ``=on`` disables or enables skipping
-+  free-time tagging (poisoning) while keeping allocation-time tagging enabled
-+  (default: ``off``).
-+
- - ``kasan.page_alloc.sample=<sampling interval>`` makes KASAN tag only every
-   Nth page_alloc allocation with the order equal or greater than
-   ``kasan.page_alloc.sample.order``, where N is the value of the ``sample``
-diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
-index c1a2b48808ed7..a392e34d11e3a 100644
---- a/mm/kasan/hw_tags.c
-+++ b/mm/kasan/hw_tags.c
-@@ -41,9 +41,16 @@ enum kasan_arg_vmalloc {
- 	KASAN_ARG_VMALLOC_ON,
- };
- 
-+enum kasan_arg_tag_only_on_alloc {
-+	KASAN_ARG_TAG_ONLY_ON_ALLOC_DEFAULT,
-+	KASAN_ARG_TAG_ONLY_ON_ALLOC_OFF,
-+	KASAN_ARG_TAG_ONLY_ON_ALLOC_ON,
-+};
-+
- static enum kasan_arg kasan_arg __ro_after_init;
- static enum kasan_arg_mode kasan_arg_mode __ro_after_init;
- static enum kasan_arg_vmalloc kasan_arg_vmalloc __initdata;
-+static enum kasan_arg_tag_only_on_alloc kasan_arg_tag_only_on_alloc __initdata;
- 
- /*
-  * Whether the selected mode is synchronous, asynchronous, or asymmetric.
-@@ -63,6 +70,10 @@ EXPORT_SYMBOL_GPL(kasan_flag_vmalloc);
- /* Whether to check write accesses only. */
- static bool kasan_flag_write_only = false;
- 
-+/* Whether to skip free-time tagging. */
-+DEFINE_STATIC_KEY_FALSE(kasan_flag_tag_only_on_alloc);
-+EXPORT_SYMBOL_GPL(kasan_flag_tag_only_on_alloc);
-+
- #define PAGE_ALLOC_SAMPLE_DEFAULT	1
- #define PAGE_ALLOC_SAMPLE_ORDER_DEFAULT	3
- 
-@@ -154,6 +165,23 @@ static int __init early_kasan_flag_write_only(char *arg)
- }
- early_param("kasan.write_only", early_kasan_flag_write_only);
- 
-+/* kasan.tag_only_on_alloc=off/on */
-+static int __init early_kasan_flag_tag_only_on_alloc(char *arg)
-+{
-+	if (!arg)
-+		return -EINVAL;
-+
-+	if (!strcmp(arg, "off"))
-+		kasan_arg_tag_only_on_alloc = KASAN_ARG_TAG_ONLY_ON_ALLOC_OFF;
-+	else if (!strcmp(arg, "on"))
-+		kasan_arg_tag_only_on_alloc = KASAN_ARG_TAG_ONLY_ON_ALLOC_ON;
-+	else
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+early_param("kasan.tag_only_on_alloc", early_kasan_flag_tag_only_on_alloc);
-+
- static inline const char *kasan_mode_info(void)
- {
- 	if (kasan_mode == KASAN_MODE_ASYNC)
-@@ -270,14 +298,27 @@ void __init kasan_init_hw_tags(void)
- 		break;
- 	}
- 
-+	switch (kasan_arg_tag_only_on_alloc) {
-+	case KASAN_ARG_TAG_ONLY_ON_ALLOC_DEFAULT:
-+		/* Default is specified by kasan_flag_tag_only_on_alloc. */
-+		break;
-+	case KASAN_ARG_TAG_ONLY_ON_ALLOC_OFF:
-+		static_branch_disable(&kasan_flag_tag_only_on_alloc);
-+		break;
-+	case KASAN_ARG_TAG_ONLY_ON_ALLOC_ON:
-+		static_branch_enable(&kasan_flag_tag_only_on_alloc);
-+		break;
-+	}
-+
- 	kasan_init_tags();
- 
- 	/* KASAN is now initialized, enable it. */
- 	kasan_enable();
- 
--	pr_info("KernelAddressSanitizer initialized (hw-tags, mode=%s, vmalloc=%s, stacktrace=%s, write_only=%s)\n",
-+	pr_info("KernelAddressSanitizer initialized (hw-tags, mode=%s, vmalloc=%s, tag_only_on_alloc=%s, stacktrace=%s, write_only=%s)\n",
- 		kasan_mode_info(),
- 		str_on_off(kasan_vmalloc_enabled()),
-+		str_on_off(kasan_tag_only_on_alloc_enabled()),
- 		str_on_off(kasan_stack_collection_enabled()),
- 		str_on_off(kasan_flag_write_only));
- }
-diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-index fc9169a547662..4fa8abb312faa 100644
---- a/mm/kasan/kasan.h
-+++ b/mm/kasan/kasan.h
-@@ -33,6 +33,7 @@ static inline bool kasan_stack_collection_enabled(void)
- #include "../slab.h"
- 
- DECLARE_STATIC_KEY_TRUE(kasan_flag_vmalloc);
-+DECLARE_STATIC_KEY_FALSE(kasan_flag_tag_only_on_alloc);
- 
- enum kasan_mode {
- 	KASAN_MODE_SYNC,
-@@ -52,6 +53,11 @@ static inline bool kasan_vmalloc_enabled(void)
- 	return static_branch_likely(&kasan_flag_vmalloc);
- }
- 
-+static inline bool kasan_tag_only_on_alloc_enabled(void)
-+{
-+	return static_branch_unlikely(&kasan_flag_tag_only_on_alloc);
-+}
-+
- static inline bool kasan_async_fault_possible(void)
- {
- 	return kasan_mode == KASAN_MODE_ASYNC || kasan_mode == KASAN_MODE_ASYMM;
-@@ -145,12 +151,17 @@ static inline bool kasan_requires_meta(void)
- #define KASAN_SLAB_REDZONE	0xFC  /* redzone for slab object */
- #define KASAN_SLAB_FREE		0xFB  /* freed slab object */
- #define KASAN_VMALLOC_INVALID	0xF8  /* inaccessible space in vmap area */
-+#elif defined(CONFIG_KASAN_HW_TAGS)
-+#define KASAN_PAGE_FREE		0x0E
-+#define KASAN_PAGE_REDZONE	0x1E
-+#define KASAN_SLAB_REDZONE	0x2E
-+#define KASAN_SLAB_FREE		0x3E
- #else
- #define KASAN_PAGE_FREE		KASAN_TAG_INVALID
- #define KASAN_PAGE_REDZONE	KASAN_TAG_INVALID
- #define KASAN_SLAB_REDZONE	KASAN_TAG_INVALID
- #define KASAN_SLAB_FREE		KASAN_TAG_INVALID
--#define KASAN_VMALLOC_INVALID	KASAN_TAG_INVALID /* only used for SW_TAGS */
-+#define KASAN_VMALLOC_INVALID	KASAN_TAG_INVALID
- #endif
- 
- #ifdef CONFIG_KASAN_GENERIC
-@@ -478,6 +489,16 @@ static inline u8 kasan_random_tag(void) { return 0; }
- 
- static inline void kasan_poison(const void *addr, size_t size, u8 value, bool init)
- {
-+	if (kasan_tag_only_on_alloc_enabled()) {
-+		if ((value != KASAN_SLAB_REDZONE) && (value != KASAN_PAGE_REDZONE)) {
-+			if (init)
-+				memset((void *)kasan_reset_tag(addr), 0, size);
-+			return;
-+		}
-+	}
-+
-+	value |= 0xF0;
-+
- 	if (WARN_ON((unsigned long)addr & KASAN_GRANULE_MASK))
- 		return;
- 	if (WARN_ON(size & KASAN_GRANULE_MASK))
--- 
-2.43.0
-
+Can we please avoid this?
+kcov_dataflow.c is being introduced in the same series, there is no
+need to send a buggy commit and a follow-up fix - just squash the two
+together and note the changes after Signed-off-by: separated by a
+triple dash.
