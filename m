@@ -1,64 +1,63 @@
-Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
+Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD7361A9FB7
-	for <workflows@vger.kernel.org>; Sat, 13 Jun 2026 00:16:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD971DDC1B
+	for <workflows@vger.kernel.org>; Sat, 13 Jun 2026 00:23:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781309816; cv=none; b=m/E1CNGU3iLTzHUNi3sEut8YugpIK0Q7gwSw49EuBt5rA9iFWaSRdnYBgGZJmY1w4tBgmzvn3egW5VYOlWls3xL0iHrZheDuLVGgYoCscXq5klbCZObsEkJqallqG7aaqvAMD9NH4C8PHnMB9EClbZf7iPESorHuLx4dS0EjvnM=
+	t=1781310190; cv=none; b=qFlSH4HC7sxxA6HZ6QfpbRXNAE0eSz0Pm+RvhrAsjOmFAl+2+mQuVOvRr/BdV+p+1lDSn6VyMuuUJqQzRvzHe4MpY1dNik5FMo97/i1XniGPNqA+V/YvBR6HpKEoOTL+s9gQLTuTflhaOjlYfF7vUy/K+Cab3YvMuRgzZTz4jRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781309816; c=relaxed/simple;
-	bh=RBSN0UlsBfrCs3ZKta21X4Qy6ml77QBdos/zlQ3V+Ps=;
+	s=arc-20240116; t=1781310190; c=relaxed/simple;
+	bh=gGURmQ38JebTziLuKXD+s+29dgdWcr/VmctNb2MC550=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GZAgY977OV4oPE8gpV7YBzlZMvQqVSriI9B2hZaODE+6NPZHT/ejxv2+UZDuT6mn0i9Ci21TnK4V4I7i7iqZrfNVLctaZa/ODRqpnQLSHA8LkRZre2aTI8r3dVL4Z+IA9l/Fe73dCye1WL+wgNypBA7Ev7xgYxIy6o4lrKGdCNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PF7e5rND; arc=none smtp.client-ip=74.125.82.51
+	 Content-Type:Content-Disposition:In-Reply-To; b=nZW8QUYgvzS3/ZpzmXO5YIfIjoK67SNhjUNev/U3NRPYqz0d30wuhWbQ+c9NQ4Ah+/jo2ESz+K/ymVmnH3G5JR04chmXU2XYYwo43bPwRX/Ya/SeVbODbdrQksGS2zN+TowcpyHs61Wr16O3YxuC6OrTHsi6ONHY7cjg+UkkThc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=q0Jq5piY; arc=none smtp.client-ip=74.125.82.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PF7e5rND"
-Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-1380104f31eso3247c88.0
-        for <workflows@vger.kernel.org>; Fri, 12 Jun 2026 17:16:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="q0Jq5piY"
+Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-1380104f31eso3267c88.0
+        for <workflows@vger.kernel.org>; Fri, 12 Jun 2026 17:23:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781309815; x=1781914615; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1781310188; x=1781914988; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=AWwT9TpVhYF/K0z+rdL3pthvZP+Xb5uL2Tmv/pNJ18E=;
-        b=PF7e5rND9Y8uEDk9zB5Z8l6Fk8A0Ne/PrczwYRF149k7wbK3jG64t/4xQQAxb+5pJ8
-         IC6yX7lJzZ6HUl5n2m1misAaWzWLaCz+AD0IYrOIlmybv/gWmTGQXJUA/9ou3GJxb9xx
-         s+1RXSqsp/3LMRemKPZo3p7hE/qHfCXHu2ykhSoTri+Atc/msBqqnNfxcGIm9TDL6cEB
-         nyfiWT5eME0FXMGlZNO9KFf5UuvSzW2Y5rECGrkURbK5EgYtezs/a4F0AEmvUForamm2
-         dKKiu9BH5x/dl3mnYRhn6CjTOYb99hP/Tew0doKNSKjJc6UwlU7y2yOSqDlGdmQMp/Um
-         Yiuw==
+        bh=gQuTjrXkDdFV2QV/Z7GUPJ6mtkFqvtbAqj6efLfB6Xc=;
+        b=q0Jq5piYMOKhsf8b0w1EVhI4lkvSrVRdsdEK2dVgjfqWEl0GW3cOeHOsj78/qtgDOd
+         p0oIBqkGGYSIYAby2L7FU3ZympeYqsGtrMACIDItDVD/S2Lg6tfbWf7INkiAPKUWTnvY
+         sNBI5lou9LSzUHb0Mt1WWGXsojokh9k0bucJceNGGAV9qd0fJ/SA1Nor+GUSq3ZNWU7K
+         BNFufwmdKrIqAA1f4N+/GLsR7g2Av/SpaCEa0dYI/qptl+TmpAuIvFBilPhZVQbRDfsl
+         Z7RkcFryJh6laBxZUeggmb6dEX/YO5wUwF1pvxfse+k8zkZnt4CXfw7rW629XGhHB2BN
+         j2aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781309815; x=1781914615;
+        d=1e100.net; s=20251104; t=1781310188; x=1781914988;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=AWwT9TpVhYF/K0z+rdL3pthvZP+Xb5uL2Tmv/pNJ18E=;
-        b=fjPvuUQNGj+LvRP69esM8AjEarmclSwgXprqNSSOaDtdvYTvn2HrSKhNI1C3wH1rGm
-         cwwEyjQQ6u+1WzedGHsu8YIrbqv1elxtACqGMvNAXgi1G1zakV5PRxoonNioCqd03qG7
-         g9Jgk+RJpxq5YFeAwVY1iFCDV08lww2e4omPqG5vtjO7Tm2A1uF5+fvWJWAGTmraeWFu
-         /WLShj+3bmhTPWGbw/Cb9q3WkwEFNRw7aP9vHBl7bX+rigLZAtaPvA4Tbn8VRyYhCbBW
-         h+y9RrjHoqHSBOm9P7ap5GN9IOWRiFxr5m9couGudKyhyttdx/VVdsA9sgPEZNpqZLqI
-         mEDw==
-X-Forwarded-Encrypted: i=1; AFNElJ/7YXZdApOL3RBJZ8j92/oK6T7d/GVWTMJZ3eRigwsad/VDJqVpRqSNcm3UXE3vLF3Nnq1gTGENfZo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywnumu6OIQKM0Q2kRwj+QLjuE/r9T2s6EhGpTZkLZ/D5msbEr0U
-	4+s7tDVI9G1XGSVsoNArvYMakJn/CZRAehnWBTQncvWBiARjzr6DW7pUjWXaoHLiwA==
-X-Gm-Gg: Acq92OH1eRgF5mMjOJPCDqerBmrcUigBCh1w8Cv8fjiRK+w/+vVpHx3XCJRuGEae5fN
-	np6f9Xd059Am//oY8GTN5C9sOYoWyFMgirp33rbx/2EM5i7NiVpLtTCdcBxzyukYmohl2JMargr
-	/zgylkvF5JpZdqhUKT66HgHahDoUEXUgtcZ1SBDHFijQdkRkYfbyj4hws0f88tqp+03Zasu4i8l
-	Wgw7lgPJlLndkmmAIE3fxuCjOhzuPoLyXKTBQ6BczW8qDLijV1XMVLmU01paf8xiMDQ9zaR8jHY
-	GWTtkoJDseNLQ4l6ET3pxvqfAJTw2+/P1CsJEl1dPBIPYwswSJ4U2J++pE4vJOF+Em8bZffkpuq
-	1nSCGe5mWnl1rSOrwVbVDDxZHCFHYZ8qERAMIFhUC+ekZ2JCGjkS813Y03LRxcIJThOlzL9MDOJ
-	sDqrn0G2augP1LIv+f0shHuwcjZQTjETrfkuFbwLqqWMNvgd0QqsJjzrg9XFQ3bBg7GUbLOpvGn
-	a0=
-X-Received: by 2002:a05:7022:f8c:b0:138:888:32db with SMTP id a92af1059eb24-138fe5a1d90mr28525c88.27.1781309813946;
-        Fri, 12 Jun 2026 17:16:53 -0700 (PDT)
+        bh=gQuTjrXkDdFV2QV/Z7GUPJ6mtkFqvtbAqj6efLfB6Xc=;
+        b=YCkFQwGops49xotR8h8GK3x9gX8ygtsx38S7GX/nuuszd89fM1AQ8JxFjt2mItEZLV
+         NEKt09i/vAdF3btqu2IOelGC6Qia2xCzz2hRC354/jftUzgeGep0KB8/x0uVRVZmRy33
+         uFv0+re6cQtSX+RVMHTjITjdNgmjaw3Ykmf8Yy7K11KGobLFqG9y5mo0VHovRLhLgfqd
+         MeJAWLGvgxzhYXvfWkgfoOLrD9aB80z6nJ8T21iNaWV8KfkbZn7DdwaFM7ASpi+ICxgW
+         UZ0Mnrc9yBx1SzOCo/cML+DmItWfax8NYE9NplOfao3yuSFVhD2AYXAKOtR5acveY7h1
+         0xLA==
+X-Forwarded-Encrypted: i=1; AFNElJ9u2LxDdPyc2HxWKsV7Jg1iv6Swxo7IwE3T6vn6DgnGwYEIYNWp1dxZZfCB033j0nZ6AVJgGNSx11M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YytL/7OF6/psP2WXTncnlzSQfp/nLuGR7UCAs+6eqjJ/yMF4oAh
+	wXc3DefdCXz6ti7WRjHFjhjFWDLQwKF8A0FEUozxQqgEiz9uLA/ocYLC/4Q4w0V0Vw==
+X-Gm-Gg: Acq92OHOJy7liJMKWSJKY7jWpCIm1TWEkgJCGLqtiwGnOt2ZbhDxqHnufWluGn5IRGB
+	hhCPpbizI21suRDCxG5mGIxBsbdYvgN6L85IZPAwresM13FxTjnmNGQ6J9bLhqP0oLT7nqd0kNe
+	iRMqurqe4jodM/lO8XLLMbOvsAtD45M5Rzsv/M2QtxDaJLCO+SEmndWFqTwEJZnd70wfuNgfyQF
+	Dz5dKggysfJf9Ff8Xbj228Ear2D0NX/Fi0KBLavFE4q/4gO9t8cUoIJDfMEKPUWvPKnHNwaYf75
+	nf5NVii8W1x1DAVQKmj0FPMwe2PwfOUhSuYK6Qrqqrj1hFeqXjtFXo/vsJiTH1iunXHCcT/OUHX
+	bfwLzUR3Iyk64208qx4SOhPuMtN49Cj84Pqh9X2XURNeIr7JrmyVytELWHgrJUqEwVc45XdUiI+
+	UDVMOhTDF86HaqTcNsw6j/n7aKNdpK+Q44RE/texTBHmOxRqruZ2MS0UxawIgUljKo
+X-Received: by 2002:a05:7022:98f:b0:136:fcda:bd43 with SMTP id a92af1059eb24-138f3b6d806mr40653c88.5.1781310187835;
+        Fri, 12 Jun 2026 17:23:07 -0700 (PDT)
 Received: from google.com ([2a00:79e0:2e51:8:e362:1a25:b90f:e3ee])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081ea43b80sm5190375eec.21.2026.06.12.17.16.52
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e489621sm5610188eec.6.2026.06.12.17.23.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2026 17:16:53 -0700 (PDT)
-Date: Fri, 12 Jun 2026 17:16:47 -0700
+        Fri, 12 Jun 2026 17:23:07 -0700 (PDT)
+Date: Fri, 12 Jun 2026 17:23:01 -0700
 From: Isaac Manjarres <isaacmanjarres@google.com>
 To: Dev Jain <dev.jain@arm.com>
 Cc: ryabinin.a.a@gmail.com, akpm@linux-foundation.org, corbet@lwn.net,
@@ -70,10 +69,11 @@ Cc: ryabinin.a.a@gmail.com, akpm@linux-foundation.org, corbet@lwn.net,
 	ryan.roberts@arm.com, anshuman.khandual@arm.com,
 	kaleshsingh@google.com, 21cnbao@gmail.com, david@kernel.org,
 	will@kernel.org, catalin.marinas@arm.com
-Subject: Re: [RFC PATCH 0/2] kasan: hw_tags: Add option to tag only at
- allocation time
-Message-ID: <aiyhb2XwMMJE3st7@google.com>
+Subject: Re: [RFC PATCH 2/2] kasan: hw_tags: Add boot option to elide free
+ time poisoning
+Message-ID: <aiyi5flNkNNm0pSR@google.com>
 References: <20260612044425.763060-1-dev.jain@arm.com>
+ <20260612044425.763060-3-dev.jain@arm.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -82,46 +82,41 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260612044425.763060-1-dev.jain@arm.com>
+In-Reply-To: <20260612044425.763060-3-dev.jain@arm.com>
 
-On Fri, Jun 12, 2026 at 04:44:22AM +0000, Dev Jain wrote:
-> Introduce a boot option to tag only at allocation time of the objects. This
-> reduces KASAN MTE overhead, the tradeoff being reduced ability of
-> catching bugs.
-> 
-> Now, when a memory object will be freed, it will retain the random tag it
-> had at allocation time. This compromises on catching UAF bugs, till the
-> time the object is not reallocated, at which point it will have a new
-> random tag.
-> 
-> Hence, not catching "use-after-free-before-reallocation" and not catching
-> "double-free" will be the compromise for reduced KASAN overhead.
-> 
-> This is an RFC because we are not clear about the performance benefit.
-> 
-> Android folks, please help with testing!
-> 
-> ---
-> Applies on Linus master (9716c086c8e8).
-> 
-> Dev Jain (2):
->   kasan: hw_tags: Use KASAN_PAGE_REDZONE for vmalloc redzoning
->   kasan: hw_tags: Add boot option to elide free time poisoning
-> 
->  Documentation/dev-tools/kasan.rst |  4 +++
->  mm/kasan/hw_tags.c                | 45 +++++++++++++++++++++++++++++--
->  mm/kasan/kasan.h                  | 23 +++++++++++++++-
->  3 files changed, 69 insertions(+), 3 deletions(-)
-> 
-> -- 
-> 2.43.0
+On Fri, Jun 12, 2026 at 04:44:24AM +0000, Dev Jain wrote:
+> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+> index fc9169a547662..4fa8abb312faa 100644
+> --- a/mm/kasan/kasan.h
+> +++ b/mm/kasan/kasan.h
+>  #ifdef CONFIG_KASAN_GENERIC
+> @@ -478,6 +489,16 @@ static inline u8 kasan_random_tag(void) { return 0; }
+>  
+>  static inline void kasan_poison(const void *addr, size_t size, u8 value, bool init)
+>  {
+> +	if (kasan_tag_only_on_alloc_enabled()) {
+> +		if ((value != KASAN_SLAB_REDZONE) && (value != KASAN_PAGE_REDZONE)) {
+> +			if (init)
+> +				memset((void *)kasan_reset_tag(addr), 0, size);
+> +			return;
+> +		}
+> +	}
+> +
+> +	value |= 0xF0;
+> +
 
-I tested out this series on one of our devices that has MTE support,
-and didn't see any functional issues.
+I wonder if it would make more sense to have this as:
 
-One thing I did notice though, and it's independent of this patch, is
-that the vmalloc_oob is failing, but that happens even if these patches
-aren't present.
+if (kasan_tag_only_on_alloc_enabled() && (value == KASAN_SLAB_FREE ||
+    value == KASAN_PAGE_FREE)) {
+	if (init)
+		memset((void *)kasan_reset_tag(addr), 0, size);
+	return;
+}
+
+That seems a bit clearer to me as to what it is that you're doing, and
+also makes it so that you don't have to do any bit manipulation
+on the value when you're filling in the redzones.
 
 Thanks,
 Isaac
