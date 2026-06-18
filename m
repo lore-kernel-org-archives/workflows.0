@@ -1,101 +1,149 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 014383C198D;
-	Thu, 18 Jun 2026 09:19:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E2BE280A5A;
+	Thu, 18 Jun 2026 13:35:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781774397; cv=none; b=T/dTIvScbE0QB2QNXm1kIX2N6ca+Ija0yOLbTqTOOKq4mq5nWAUVqCGQ49hxKXn+3C7AEW3IxuZxVI0chgtEBY50rxbrJNX3oswZ4nVZPefoltOCgHupZsCVAWFSVnofOQAgkL430n0QX/HYfL5dGr+e0vpl8q8JOomB0Lwah7g=
+	t=1781789732; cv=none; b=ooyl01CjMJ/GuSbBaHKJ9gF4hYgUGHuSpKdcfdjhqkTJGRiLQKWGFrjsdWPMFLGf8+VwUkgBT44ASy1d5bOOVQQttF0WGeUU6E8NAZPxXXuDRe8NtUEuKQTND6O0NcyzGuyZkqPDeOnWw+oSjYd+NJh/mi/dRTSefh3/i9RKpNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781774397; c=relaxed/simple;
-	bh=PzlHY59gDu8zPA95kF4nhv8Z9MThzz7VlvawtsFr9vs=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=cdvko1Exft7IVcs0UobJq3MakOaBGK1n3fu9gerqrlQO/DYQnHYeHqFz+NGDLKpBy9/Bbn4t5EpJHwKAkRgp9F9DlrHEE22PqB1Uq19b+kzFmutzHrgfWlOZADVBBmo4ZzUkGUSnn2mDWnIFrcNDCJoee7V7bu7QhoLFP7/144c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=YZto/hBN; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1781789732; c=relaxed/simple;
+	bh=9RXFf2anX6QtDPr4e4nEY2mr6aMgIgsi2g2c8QfoVYo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=e+350ra56ZQkLVkqd7Wz9Oa/bEmEB7CWRc3gm6omc5pn3bWpLYnPhKbSMwkFGZVBH8VahbPpJAV4/KCBCnUr4y1FpmJX96F8u03uSrV5pSDe1MjhyF7TlLrZfRPSjFBdIFaiH8HTZQtYndnCVg8+phcfINj7U1D6ITHSKbg7krY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BLS8wM+7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="YZto/hBN"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4ggwD80g1Sz9tRh;
-	Thu, 18 Jun 2026 11:19:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1781774392;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2aCEFE7lNq2ds/sOD1Qs84pRe6YLOpYbNpJqBmvJ6i8=;
-	b=YZto/hBNfzU45FEr5+3PobxNafoL8DywDJIOkwdIgDhYldzj9uhQ4b647jacZMfdLnP6Xt
-	hLn/O7GM4mwaw3vgDY1mpMKu6sgQGLh4lzuoiLp/Rr3LxftvBHehrOMCQLRGkXuGF6bOy5
-	PENPOfcSsA43WOPB3XxsGFmRGcBvbC5cmFPEI/fv7HXJ+7OWOIfA2efDe5WECTs2D9Lrk8
-	PkWUQG1Z1Kh/bkgk1rz4g2kkiH8JJi8xG9hkz7f9f24BQBLlMOC3N/AayU4Yt40YqOVG5v
-	2HVzCfKUlGu0K8cNcMQ5+krD1OSTKWn+gFnzB3PCJfyxil3QPMt7RmfVW7pIvw==
-Message-ID: <adefff2087cb6fa78229bf7e12123a2b21066ede.camel@mailbox.org>
-Subject: Re: [PATCH] Documentation: Fix syntax of kmalloc_objs example in
- coding style doc
-From: Manuel Ebner <manuelebner@mailbox.org>
-To: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>, Jonathan
- Corbet <corbet@lwn.net>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
- SeongJae Park	 <sj@kernel.org>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Thu, 18 Jun 2026 11:19:47 +0200
-In-Reply-To: <20260529081006.2019687-2-ukleinek@kernel.org>
-References: <20260529081006.2019687-2-ukleinek@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BLS8wM+7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F1D81F000E9;
+	Thu, 18 Jun 2026 13:35:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781789731;
+	bh=Rk6LmjIbCHsYPNdyORQTlWLED3QFUIZxJF66Poqak0U=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=BLS8wM+7lNGipicaKQI08fr6BvpoZb8eQFBGEtcAz6VB81AbZ8KRuoXZm/Aq6wj6g
+	 xYRyXinasz+XrelPwmme8HY0hJ0ltYqS7UnTdHA7izE6XGuxihVc1nWVx+fKC1kmql
+	 GXJK3FKZnkS6zs2PST4qZc8YbPG8DmkHqC3xOi6R3Wz3pH9kxCBrsegUncuDz7o5ck
+	 StCGUVzgPGABGUhAiUQlubgvBqSbcV7T1IBtE9Mb+0+1jKP2o33viI4bIXnP2NWDEX
+	 qOD5DMWfmOGGGmSnmwPlRl8aptuhu4ojY5/eMHNHNAs7LYYDoADnvEBTngkwFmCdZ3
+	 Qx/OQO3CyEb6Q==
+Message-ID: <b1502a60-09a1-4699-886b-93d041de7023@kernel.org>
+Date: Thu, 18 Jun 2026 22:35:15 +0900
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-ID: d4c4b37ead3479051bd
-X-MBO-RS-META: 7jtikodabp7s715e1rg6ntimutgqzbz1
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 0/2] kasan: hw_tags: Add option to tag only at
+ allocation time
+To: Dev Jain <dev.jain@arm.com>, ryabinin.a.a@gmail.com,
+ akpm@linux-foundation.org, corbet@lwn.net
+Cc: glider@google.com, andreyknvl@gmail.com, dvyukov@google.com,
+ vincenzo.frascino@arm.com, kasan-dev@googlegroups.com, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, ryan.roberts@arm.com,
+ anshuman.khandual@arm.com, kaleshsingh@google.com, 21cnbao@gmail.com,
+ david@kernel.org, will@kernel.org, catalin.marinas@arm.com
+References: <20260612044425.763060-1-dev.jain@arm.com>
+Content-Language: en-US
+From: Harry Yoo <harry@kernel.org>
+In-Reply-To: <20260612044425.763060-1-dev.jain@arm.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------RrLQl9DO89jp5rWKR4YTMpyy"
 
-Thanks, I realized just now that I introduced this.
- Manuel
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------RrLQl9DO89jp5rWKR4YTMpyy
+Content-Type: multipart/mixed; boundary="------------y0w8N2KinVP4PMHfeQRfXe6b";
+ protected-headers="v1"
+From: Harry Yoo <harry@kernel.org>
+To: Dev Jain <dev.jain@arm.com>, ryabinin.a.a@gmail.com,
+ akpm@linux-foundation.org, corbet@lwn.net
+Cc: glider@google.com, andreyknvl@gmail.com, dvyukov@google.com,
+ vincenzo.frascino@arm.com, kasan-dev@googlegroups.com, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, ryan.roberts@arm.com,
+ anshuman.khandual@arm.com, kaleshsingh@google.com, 21cnbao@gmail.com,
+ david@kernel.org, will@kernel.org, catalin.marinas@arm.com
+Message-ID: <b1502a60-09a1-4699-886b-93d041de7023@kernel.org>
+Subject: Re: [RFC PATCH 0/2] kasan: hw_tags: Add option to tag only at
+ allocation time
+References: <20260612044425.763060-1-dev.jain@arm.com>
+In-Reply-To: <20260612044425.763060-1-dev.jain@arm.com>
 
-On Fri, 2026-05-29 at 10:10 +0200, Uwe Kleine-K=C3=B6nig wrote:
-> The first parameter should match the variable that the allocated memory
-> is assigned to. Fix the example accordingly, the one for kmalloc_obj got
-> it right already.
+--------------y0w8N2KinVP4PMHfeQRfXe6b
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+
+Hi Dev,
+
+On 6/12/26 1:44 PM, Dev Jain wrote:
+> Introduce a boot option to tag only at allocation time of the objects. =
+This
+> reduces KASAN MTE overhead, the tradeoff being reduced ability of
+> catching bugs.
+
+I think most of overhead when enabling MTE comes from loading and
+validing tags for every memory access (either in SYNC or ASYNC mode),
+rather than from storing tags.
+
+> Now, when a memory object will be freed, it will retain the random tag =
+it
+> had at allocation time. This compromises on catching UAF bugs, till the=
+
+> time the object is not reallocated, at which point it will have a new
+> random tag.
 >=20
-> Fixes: 7c6d969d5349 ("Documentation: adopt new coding style of type-aware=
- kmalloc-
-> family")
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <ukleinek@kernel.org>
+> Hence, not catching "use-after-free-before-reallocation" and not catchi=
+ng
+> "double-free" will be the compromise for reduced KASAN overhead.
+
+I doubt users who care about security enough to enable HW_TAGS KASAN
+are willing to compromise on security just to save a few instructions
+to store tags in the free path.
+
+To me, it looks like too much of a compromise on security for little
+performance gain.
+
+> This is an RFC because we are not clear about the performance benefit.
+>
+> Android folks, please help with testing!
+>=20
 > ---
-> =C2=A0Documentation/process/coding-style.rst | 4 ++--
-> =C2=A01 file changed, 2 insertions(+), 2 deletions(-)
+> Applies on Linus master (9716c086c8e8).
 >=20
-> diff --git a/Documentation/process/coding-style.rst b/Documentation/proce=
-ss/coding-
-> style.rst
-> index a3bf75dc7c88..a8336582f60b 100644
-> --- a/Documentation/process/coding-style.rst
-> +++ b/Documentation/process/coding-style.rst
-> @@ -959,13 +959,13 @@ The preferred form for allocating an array is the f=
-ollowing:
-> =C2=A0
-> =C2=A0.. code-block:: c
-> =C2=A0
-> -	p =3D kmalloc_objs(*ptr, n, ...);
-> +	p =3D kmalloc_objs(*p, n, ...);
-> =C2=A0
-> =C2=A0The preferred form for allocating a zeroed array is the following:
-> =C2=A0
-> =C2=A0.. code-block:: c
-> =C2=A0
-> -	p =3D kzalloc_objs(*ptr, n, ...);
-> +	p =3D kzalloc_objs(*p, n, ...);
-> =C2=A0
-> =C2=A0Both forms check for overflow on the allocation size n * sizeof(...=
-),
-> =C2=A0and return NULL if that occurred.
+> Dev Jain (2):
+>   kasan: hw_tags: Use KASAN_PAGE_REDZONE for vmalloc redzoning
+>   kasan: hw_tags: Add boot option to elide free time poisoning
 >=20
-> base-commit: f7af91adc230aa99e23330ecf85bc9badd9780ad
+>  Documentation/dev-tools/kasan.rst |  4 +++
+>  mm/kasan/hw_tags.c                | 45 +++++++++++++++++++++++++++++--=
+
+>  mm/kasan/kasan.h                  | 23 +++++++++++++++-
+>  3 files changed, 69 insertions(+), 3 deletions(-)
+>=20
+
+--=20
+Cheers,
+Harry / Hyeonggon
+
+--------------y0w8N2KinVP4PMHfeQRfXe6b--
+
+--------------RrLQl9DO89jp5rWKR4YTMpyy
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQQQ1ub6gR5ogjaKRmOGXBN6rc5S1gUCajP0EwAKCRCGXBN6rc5S
+1jNWAQDzVUDBUPeyt5upXL1mOoO9vGDvDLtilfxpmlxg7GO2qAD/YQLyoBRsQlGb
+zVC6FeFHHk+biv6lxpZCj6qBEzmyqwY=
+=XQEH
+-----END PGP SIGNATURE-----
+
+--------------RrLQl9DO89jp5rWKR4YTMpyy--
