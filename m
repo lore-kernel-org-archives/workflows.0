@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C72C3AC0FC;
-	Mon, 22 Jun 2026 12:42:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F4B53AD522;
+	Mon, 22 Jun 2026 12:56:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782132154; cv=none; b=aE8xiFNmt+4Lv/0lw59W1CahazL893Nf3F8M2fYjYr3ZYfWwP7avdMa1bfox92Bp30kXOt36W8qVScC5B99Xqc/D8mL07VxCiEt0nQc692ERkFePSAxoMl0ozIM+tuMzNBLDVHmnwWacO7PIPWxO4hEQsqFZDLAtt4952KVWpTc=
+	t=1782132997; cv=none; b=WSuP01vCGnrojUiQ5RA2C6WhkkWVMRplRJnS/QQrsOKthl/l3twkVmlbu2KTuMJQE3lrZ1MmjfFm3KfwSpohZmfMhLcz7lh2i/rJrV31pmaXvDs1PvLskEGoTgGpN685tFp3+vP6pyTn0D3D4QuXZ2UmWhBc9T90PwUVNX24Yl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782132154; c=relaxed/simple;
-	bh=sBB9HIOJyh0+Q0tdVfj5BPTOtaz69ZBxp/hs1U8uyTg=;
+	s=arc-20240116; t=1782132997; c=relaxed/simple;
+	bh=l2iDIuaF1VKCPijPKmXFMyUN8rIqLYAfStTAg8/YV8I=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PuIQVd81QjSU96DbbCSz0k+LH5pubJi5w3MDnu4cG0NRMVI6hIH1/P4i9X17Y+0bnbGz5AwumXVK4H8qm0dCQ5s/kONuOD1Bx9+/qtWjGT8oUaJXRU85xfgJJQpQaDuQUZD7KI6DO16d30mHJIPSLhCee5ebH4cI33VLxHpoAYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KiUQC1bI; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=ZHKrw3Nhn52bdfoNiJNHUDNMR7jbr5WQF6PpZihzob4vIQgiKjGUIvhes5zikUAt9rfAAtMBxu4TYMQBmd7XVMrRTagGXTaM/i4YDuWx7ltxGromykrC4LF8qdbAaHY3itDG9xt9g2h6RWqXRTJcpxXiDivLuXS5eNqtgyJGbKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dhTXUQv3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KiUQC1bI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FA621F00A3A;
-	Mon, 22 Jun 2026 12:42:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dhTXUQv3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77C321F000E9;
+	Mon, 22 Jun 2026 12:56:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782132153;
-	bh=sBB9HIOJyh0+Q0tdVfj5BPTOtaz69ZBxp/hs1U8uyTg=;
+	s=k20260515; t=1782132995;
+	bh=l2iDIuaF1VKCPijPKmXFMyUN8rIqLYAfStTAg8/YV8I=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=KiUQC1bI/NhfyctJLPMotIQzxW83XndStg/PtDhr/qg5jbTQLrqw2JqVnJBpjLAYh
-	 Eela41QyhwlZebJRBHeTf1rc0/F76YSzr2jWcDtiK2vpuUZqJyOh9d1kh1cuN6xBR+
-	 dc/6MlJL9RYmhezFY20KznZRo/RqADe2wR+wxCdoqA3w76THZZXJBlYHRBj5eNwEL8
-	 rjyLcShGMbmu3AjyHYavIQA2rk7oFcwlbwrahiS6dDeSr5/eT2VqC4vrbcOqinm5FE
-	 +Yu2Llh8Tm6gfVg/3xoRPl4lWkTKrzlUKYw3REicBtT/iT5QaiRNXHqePtqljF92q3
-	 NsFFXorFVrqvw==
-Message-ID: <2208123f-8a51-483b-aa93-c35d8d053d25@kernel.org>
-Date: Mon, 22 Jun 2026 21:42:10 +0900
+	b=dhTXUQv3s+G3948VNEUzwG8LXH8B99YNS4TcI8bDdEjy3NoNMQW8qC1bUUBSBq0Gl
+	 9CS1dv+dU1cEQKaafkSSnUFEbNMHMoE6bXWDLVN7hboEaUaa0dWkHmM3ceKJRehheI
+	 62XYgsevyO2fp8MahzfXuYboKooKO40EB5EXQNxnRy3bIhPev9AIkS9Bp6dEnSFUlM
+	 AjZ2wghBrD6limeBOmkB7AGjF4ZSY0kPfNw6svzcq0JIoX8gZWxztnmnWbaGHMOIDY
+	 oHJqQ4QcmtGnNGHxzYYAGiy5TkFXhUSIZiiK6+1TAFqEmqIuNPWL3IkLCH3FgkliFd
+	 sxlx9gq6SF69w==
+Message-ID: <4ab3bf02-70b9-4748-a12e-2bd564fec53d@kernel.org>
+Date: Mon, 22 Jun 2026 21:56:24 +0900
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -48,17 +48,18 @@ Cc: Dev Jain <dev.jain@arm.com>, ryabinin.a.a@gmail.com,
  anshuman.khandual@arm.com, kaleshsingh@google.com, 21cnbao@gmail.com,
  david@kernel.org, will@kernel.org
 References: <20260612044425.763060-1-dev.jain@arm.com>
- <b1502a60-09a1-4699-886b-93d041de7023@kernel.org> <ajVByfkLbetzA8bB@arm.com>
+ <b1502a60-09a1-4699-886b-93d041de7023@kernel.org>
+ <2a7d21fa-28c1-446c-97f5-2513f29157d3@kernel.org> <ajU-b32dmwS7XOg4@arm.com>
 Content-Language: en-US
 From: Harry Yoo <harry@kernel.org>
-In-Reply-To: <ajVByfkLbetzA8bB@arm.com>
+In-Reply-To: <ajU-b32dmwS7XOg4@arm.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------PC6AVe6DTCIpK9DJB7Cd0h9E"
+ boundary="------------upsrUBOQYnFEnSXIs0AYK6aO"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------PC6AVe6DTCIpK9DJB7Cd0h9E
-Content-Type: multipart/mixed; boundary="------------DucNVyWowjWn2Qipbe0sleBO";
+--------------upsrUBOQYnFEnSXIs0AYK6aO
+Content-Type: multipart/mixed; boundary="------------Ps3zmfE9YngvIs8RaS9wbP7c";
  protected-headers="v1"
 From: Harry Yoo <harry@kernel.org>
 To: Catalin Marinas <catalin.marinas@arm.com>
@@ -71,102 +72,66 @@ Cc: Dev Jain <dev.jain@arm.com>, ryabinin.a.a@gmail.com,
  linux-arm-kernel@lists.infradead.org, ryan.roberts@arm.com,
  anshuman.khandual@arm.com, kaleshsingh@google.com, 21cnbao@gmail.com,
  david@kernel.org, will@kernel.org
-Message-ID: <2208123f-8a51-483b-aa93-c35d8d053d25@kernel.org>
+Message-ID: <4ab3bf02-70b9-4748-a12e-2bd564fec53d@kernel.org>
 Subject: Re: [RFC PATCH 0/2] kasan: hw_tags: Add option to tag only at
  allocation time
 References: <20260612044425.763060-1-dev.jain@arm.com>
- <b1502a60-09a1-4699-886b-93d041de7023@kernel.org> <ajVByfkLbetzA8bB@arm.com>
-In-Reply-To: <ajVByfkLbetzA8bB@arm.com>
+ <b1502a60-09a1-4699-886b-93d041de7023@kernel.org>
+ <2a7d21fa-28c1-446c-97f5-2513f29157d3@kernel.org> <ajU-b32dmwS7XOg4@arm.com>
+In-Reply-To: <ajU-b32dmwS7XOg4@arm.com>
 
---------------DucNVyWowjWn2Qipbe0sleBO
+--------------Ps3zmfE9YngvIs8RaS9wbP7c
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi Catalin,
 
-On 6/19/26 10:19 PM, Catalin Marinas wrote:
-> On Thu, Jun 18, 2026 at 10:35:15PM +0900, Harry Yoo wrote:
->> On 6/12/26 1:44 PM, Dev Jain wrote:
->>> Introduce a boot option to tag only at allocation time of the objects=
-=2E This
->>> reduces KASAN MTE overhead, the tradeoff being reduced ability of
->>> catching bugs.
->>
->> I think most of overhead when enabling MTE comes from loading and
->> validing tags for every memory access (either in SYNC or ASYNC mode),
->> rather than from storing tags.
->=20
-> I guess it depends on the workload. Lots of allocations for short-lived=
 
-> buffers (e.g. network traffic) may notice the additional tagging more
-> than the actual tag checking.
-
-Agreed. Likely depends on lifetime and size of objects.
-
-> Of course, it would be nice to get some numbers from those who have
-> access to MTE capable hardware.
-
-Agreed! (I don't have one, unfortunately. It's pretty new hardware
-feature)
-
->>> Now, when a memory object will be freed, it will retain the random ta=
-g it
->>> had at allocation time. This compromises on catching UAF bugs, till t=
-he
->>> time the object is not reallocated, at which point it will have a new=
-
->>> random tag.
+On 6/19/26 10:04 PM, Catalin Marinas wrote:
+> On Thu, Jun 18, 2026 at 11:05:43PM +0900, Harry Yoo wrote:
+>> On 6/18/26 10:35 PM, Harry Yoo wrote:
+>>> On 6/12/26 1:44 PM, Dev Jain wrote:
+>>>> Introduce a boot option to tag only at allocation time of the object=
+s. This
+>>>> reduces KASAN MTE overhead, the tradeoff being reduced ability of
+>>>> catching bugs.
 >>>
->>> Hence, not catching "use-after-free-before-reallocation" and not catc=
-hing
->>> "double-free" will be the compromise for reduced KASAN overhead.
+>>> I think most of overhead when enabling MTE comes from loading and
+>>> validing tags for every memory access (either in SYNC or ASYNC mode),=
+
+>>> rather than from storing tags.
 >>
->> I doubt users who care about security enough to enable HW_TAGS KASAN
->> are willing to compromise on security just to save a few instructions
->> to store tags in the free path.
->>
->> To me, it looks like too much of a compromise on security for little
->> performance gain.
+>> Is there any reason not to use STGM instead of STG + DC GVA when
+>> setting/clearing tags for large sizes when we know they are properly
+>> aligned?
 >=20
-> I don't think there's much compromise on security for use-after-free.
+> STGM is intended for copying tags when paired with LDGM. Have you seen
+> hardware where STGM is faster than STG or DC GVA?
 
-I think it depends... OH, WAIT! I see what you mean.
+No, I haven't. It was a question I had after learning that there are
+multiple ways to store tags ;)
 
-You mean use-after-free before reallocation does not lead to much
-compromise on security because objects are initialized after allocation?
+> For properly aligned
+> buffers, I'd expect DC GVA to behave at least on par with STGM.
 
-You're probably right.
-
-Hmm, but stores to e.g.) free pointer, fields initialized by
-constructor or accessed by SLAB_TYPESAFE_BY_RCU semantics after free
-will be undiscovered if they happen before reallocation.
-
-Not sure what are security implications of that,
-but sounds worth discussing.
-
-> The buffer will be re-tagged later so use-after-realloc should be
-> caught, especially if we ensure that a different tag will be used (I
-> don't think Dev's patches do this).
-
-Agreed that it'll be nice to ensure that.
+Thanks for answering!
 
 --=20
 Cheers,
 Harry / Hyeonggon
 
---------------DucNVyWowjWn2Qipbe0sleBO--
+--------------Ps3zmfE9YngvIs8RaS9wbP7c--
 
---------------PC6AVe6DTCIpK9DJB7Cd0h9E
+--------------upsrUBOQYnFEnSXIs0AYK6aO
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEARYKAB0WIQQQ1ub6gR5ogjaKRmOGXBN6rc5S1gUCajktogAKCRCGXBN6rc5S
-1mwdAQCV/v9TESQBXaNvWWnvoxqvNG1qbVtP+p+94ya719IJXQD/fT2zvm7NaU5r
-ozgxj903g6vHgfHpqx9u07IM7QQCrwQ=
-=GrWq
+iHUEARYKAB0WIQQQ1ub6gR5ogjaKRmOGXBN6rc5S1gUCajkw+AAKCRCGXBN6rc5S
+1qvyAPsF0DurImeEtMtFke9YXQWImsgXI+xfZ4SEz1mY+wbGswEA158qtw/Yf70R
+7SKOnegedFGVqJzsq5p+vAkSpPMfJQw=
+=RsAK
 -----END PGP SIGNATURE-----
 
---------------PC6AVe6DTCIpK9DJB7Cd0h9E--
+--------------upsrUBOQYnFEnSXIs0AYK6aO--
