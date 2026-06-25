@@ -1,103 +1,135 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F16C33E557B;
-	Wed, 24 Jun 2026 21:02:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 577C83CE481
+	for <workflows@vger.kernel.org>; Thu, 25 Jun 2026 10:05:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782334981; cv=none; b=LdaX4W7GpZL+btW9I2fqFb90O/IIITXlOE+RO1n/8T7mItoUc3J6F8R1vJ4wSa93V1ndTwSNY9XFnjHYcCH143mt0x9F+KhgopJnVZ7xFP7ir5oY7EOanl55fdZLBhXr1uHPI7NKr/mDH86E0L+AYQ7LsFDA81H3bAAlU3yXdw4=
+	t=1782381956; cv=none; b=ge47nhADRwvNglBoWL8lxV7fvFrnMAjjDFAvkR5zQmjk8t550bvG/bVR0I8liEsnNCajZYmgHglvJvHiaSx2xZF9iBbmdal5yOLft8Mx7emrXPI+G7Ert5GVQs8cz3HC8/RhX0JLjr9KUe0oQEyXtC2/NmCTujRZn1Myn31GzUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782334981; c=relaxed/simple;
-	bh=QQBQguuYR/Q2JPyUXGyuWUXz7aKN5n7MLt+DiBdQ/YU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CEod9NWHOwalqqF7LkvPK51kLoQtq7GF7eJh7pBVkKoRsl3WDPA5Wjh3iYZytVsqB1naJUJvrxJNt2PTX1vW1+d+PegFlEjoLIcSEoWySrMPLuEr3DlAroCbD0JAuX8becLlced5XsJcm30y3Jzk4BCvbW9Szqbqtni1RNd2v5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=E6xPGYiX; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
+	s=arc-20240116; t=1782381956; c=relaxed/simple;
+	bh=bCzLf4a12m0+P4xvPF6Kf7T8wGTy2t8U1zmJTmo1qUs=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rvfJs7WS7y/3UyFMFRcNEHXWQyZNHP08kDTQiV2BBX2wOLVZ9g3OG68WYMYK1/DnGBDyHz+ahQnN0lbmxZdlO8Mkmkm6/xgSiVRKr53BPe6++QP3Yeq2FoHvFprBSKcPiU/ByYOR2Ex97d8VYnoUe3C+sptPeR2EBhBb+4SgzX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KnnEqXIL; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="E6xPGYiX"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A588C3EE48;
-	Wed, 24 Jun 2026 21:02:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
-	t=1782334971;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZOPpr/D+Sa0loBCHI9C6UJD0C0O8jNp2wfm1JEgQ+uQ=;
-	b=E6xPGYiXoFWLGqRcPCa9+36EY/oNmoBo6yR9Ew3bpnkv5s18nQlP+8Vz6PtUiZJqd2ak4Y
-	48ut/jcuswRgVyBxVfbQC5RSQw/TX1Iq2FRD1OxZYYsyq/iBdx23Zjwt1PjYjFR5senPGM
-	acmptYzA4a7OU1UqFsPklmKYHJlZjd3nRCPiBPobsMxVnQhZDT0ZGsSPqUtqaDCFOar3nj
-	wpq43Ap5tFUFLoS7t/CNBw8YbgL9KhWgEyi2+23f3e+YBqd8bxIkfa66yjCAxpRLOhrHUe
-	l6eNkO9rqFK8xTsewUfr0XkS9xcM3NdHEhYnEcHGGbysd3VBsDmibyGMb5I4xg==
-Message-ID: <df2fd6ae-69bd-42e6-bf28-ad8103b4189f@gtucker.io>
-Date: Wed, 24 Jun 2026 23:02:49 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KnnEqXIL"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2c7f385883cso4946865ad.2
+        for <workflows@vger.kernel.org>; Thu, 25 Jun 2026 03:05:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782381954; x=1782986754; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yuqp0KNKTBgh4MzJ+duwi9A+WSjJ1uqkPtcQvGtxNIc=;
+        b=KnnEqXILtRRtgTtODm/1rhV2Rnv+tttPQM6kZFVseUopZJ/Zr3kgAtVtJrfrS5sHJ7
+         rg2Bl1qEP2VXSDqYyPiCvS+RkREkSg3JEkhUjmpkRcjMD5eNOutWW1fAJyeBYtIM/FTq
+         tnErvisUyiRlUhcKoDMpRZamx/OFsPeIf6ZonS2ASOXJdVa/qCCo1JvJkG4LimyeHh7f
+         KOkIEYZMhf/r4GGbG1jhU45dGdlVouQodaxFVIwRswLEtTZlQBIs33eoouFV+tlZc4WW
+         zqpWCa1PqX5ag8o69Me7VQgV+WgPZAFDcGW9f12JQHu5rTw6HS5sLWnZL1bjzA0dXy0D
+         DRmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782381954; x=1782986754;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yuqp0KNKTBgh4MzJ+duwi9A+WSjJ1uqkPtcQvGtxNIc=;
+        b=cIk9fTMHKxcUOPBmcxWogBazKUg6CLFvCOLp8VZ6qvjpibNSspvfb9XXh2oOXVRmBs
+         69ZhQOnmvXtfUR/f3A+3UkrL5gtg5qKpE0pHQoq5MesdCveqbXZu2Di7wk85TJPA5mMw
+         uiJY8rlAawwi9S+BiaLBc113maoaAXepAXo66EacMOzPZ26bCnjPQ9ApsGmzxVhGS/PA
+         aOy7Ljuui5dIqESeerzV9jEWXnXeF5H9sDQQZUpjuAdFYiakTFbR2KBcy9vMFFuyBDHA
+         hP8bfyViygNCtW5ZT+B3Kfs4ojUrm1Yzvi8x9a7jWOOiYRn1qR6xrFKwwzfhKK+W+JFt
+         umLQ==
+X-Forwarded-Encrypted: i=1; AHgh+Ro+hjW11VoqDNf9AvJI0x0rU6Ir/zkAGotCuPg4LUkrf2uLhKQO5ekJ3FLfMb3dXbzA0mBUSTZXfgM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZR5CDbdQGWt9v+fawOi0rj7VQrtEHU+ysdMJCCvKf4rn/5zOG
+	Zv6h6jo70ujqKAhQc71NYykj4/l47NbvduGIZ297Vy2kPMQNKcfZAOqS
+X-Gm-Gg: AfdE7clMTH0qXlOqpfjluHcPFeyOI8fRDD9ae9S6690Z61Hdb65TY1xnbGyCtLhZN9B
+	+7UtOiLkxQeVF12yZDjqb9Q6vAw8+lSii8OHet9KoWUJ8UdOIW++XO8Z+owUquKXvwxvUqLayfK
+	spn7smtvAQdXUo1LEzQ59TmsCfu21z9PzQsQ90q7ru+Olc8oYdYMrdIZZrlsmpi0q2tkGONM/9c
+	eUK49ps6C+U9d5TbOm3KPqYZWVL+kXpIT8A0NYvfRtEFRZ8uGSfcnxxq5UTQMmV7O4YlSmpufty
+	UaFF7K1KxLqOCl0EvSUwYP7A0M5oXx7ToyaKZN79/21x/NFlHcoa/6SD61IaDQjC6DkWco6wDaw
+	7ILOvybseAxLUogk1PxoQB0eSNx5lql7b0Ku1xg9DBORLxedUjrxIUfWQrHsTRZ8goxh2/g==
+X-Received: by 2002:a17:902:ce87:b0:2ae:450c:951e with SMTP id d9443c01a7336-2c7fc73bb04mr20774235ad.17.1782381954493;
+        Thu, 25 Jun 2026 03:05:54 -0700 (PDT)
+Received: from localhost ([2a09:bac5:55fe:30c8::4dc:c])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7f63b2e18sm16974275ad.41.2026.06.25.03.05.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jun 2026 03:05:53 -0700 (PDT)
+From: Coiby Xu <coiby.xu@gmail.com>
+X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
+Date: Thu, 25 Jun 2026 18:05:32 +0800
+To: Guillaume Tucker <gtucker@gtucker.io>
+Cc: linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, "open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>, 
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] Documentation: dev-tools: scripts/container prefers
+ Podman
+Message-ID: <ajz8qtGkafGZnCPv@Rk>
+References: <20260624013850.1853171-1-coiby.xu@gmail.com>
+ <df2fd6ae-69bd-42e6-bf28-ad8103b4189f@gtucker.io>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: dev-tools: scripts/container prefers
- Podman
-To: Coiby Xu <coiby.xu@gmail.com>, linux-doc@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- "open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>
-References: <20260624013850.1853171-1-coiby.xu@gmail.com>
-Content-Language: en-GB
-From: Guillaume Tucker <gtucker@gtucker.io>
-Organization: gtucker.io
-In-Reply-To: <20260624013850.1853171-1-coiby.xu@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: gtucker@gtucker.io
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: dmFkZTGGKQUwX71CCeTp80C05egm36UumYswRM8grSpuLlzQXLgOD30EJysK6ew9uLG6HYvOFPfwfLXnkBsGjNQe4CXNoi9KSDkm5onS/G7RYTbF7+bVGpDIpr/RmCHqhkXXhtX8P1H6cJK2W1RanOTuPNmia1RUTMSsD/iptcUKqO1a2Zhgy29fXamYIMVrb8117ZGA7Ie7vueawtqrDxGqR64sCjvXbCq3Lc0e9Dq/Om5wtAyelAe98md4AQBFSZkGPFHnv8Il75svYWZhNPEOMF7OK1k76pC0s/dFmy3xZCrqCgf+xjYdGGTUrj+Z9EHtSsWFnCSmflh++lTZT9MR0rRqlQ+3+5uPHQqzqaR011HZPw7qULtOAK004NYsKJo0WC6jmVlGwT5LpefHzdV9Jqioh4DSOv3h0Oe1E6o4nhOzCctn+AMZYnFJXcmdVbSQOLKlGp2q8rK26ysdKPiaBV4MW6uuElv7adaciiKm0hdOxlRXLuvqWqbmdfVz0jh4eGtQT8pHPguYjSCRarVMjCFQaZUzR8mfQ6uD1fzTdSU9NyBwbjRErj9p7/ohOmRUBvDdM7IDH2h+WVrKaJdL78aX42aYGl4axrjItrpwEB8T2erNZJz0Bq/1KdVV5DLGtL2Xrr0Ia0i2+XpkagcoetI7YVb/dHZPLoWUR1Eq+XecFg
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <df2fd6ae-69bd-42e6-bf28-ad8103b4189f@gtucker.io>
 
-Hi Coiby,
+On Wed, Jun 24, 2026 at 11:02:49PM +0200, Guillaume Tucker wrote:
+>Hi Coiby,
 
-On 24/06/2026 03:38, Coiby Xu wrote:
-> Obviously scripts/container prefers Podman over Docker. Putting podman
-> before docker also makes it consistent with following parts of the doc
-> and the help text of the tool.
-> 
-> Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
-> ---
->  Documentation/dev-tools/container.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/dev-tools/container.rst b/Documentation/dev-tools/container.rst
-> index 452415b64662..9e23f79d5ae1 100644
-> --- a/Documentation/dev-tools/container.rst
-> +++ b/Documentation/dev-tools/container.rst
-> @@ -40,7 +40,7 @@ Available options:
->  
->  ``-r, --runtime RUNTIME``
->  
-> -    Container runtime name.  Supported runtimes: ``docker``, ``podman``.
-> +    Container runtime name.  Supported runtimes: ``podman``, ``docker``.
->  
->      If not specified, the first one found on the system will be used
->      i.e. Podman if present, otherwise Docker.
-> @@ -75,8 +75,8 @@ working directory and adjust the user and group id as needed.
->  
->  The container image which would typically include a compiler toolchain is
->  provided by the user and selected via the ``-i`` option.  The container runtime
-> -can be selected with the ``-r`` option, which can be either ``docker`` or
-> -``podman``.  If none is specified, the first one found on the system will be
-> +can be selected with the ``-r`` option, which can be either ``podman`` or
-> +``docker``.  If none is specified, the first one found on the system will be
->  used while giving priority to Podman.  Support for other runtimes may be added
->  later depending on their popularity among users.
->  
+Hi Guillaume,
 
-It's a very subtle tweak but it does help avoid some confusion.
+>
+>On 24/06/2026 03:38, Coiby Xu wrote:
+>> Obviously scripts/container prefers Podman over Docker. Putting podman
+>> before docker also makes it consistent with following parts of the doc
+>> and the help text of the tool.
+>>
+>> Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
+>> ---
+>>  Documentation/dev-tools/container.rst | 6 +++---
+>>  1 file changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/Documentation/dev-tools/container.rst b/Documentation/dev-tools/container.rst
+>> index 452415b64662..9e23f79d5ae1 100644
+>> --- a/Documentation/dev-tools/container.rst
+>> +++ b/Documentation/dev-tools/container.rst
+>> @@ -40,7 +40,7 @@ Available options:
+>>
+>>  ``-r, --runtime RUNTIME``
+>>
+>> -    Container runtime name.  Supported runtimes: ``docker``, ``podman``.
+>> +    Container runtime name.  Supported runtimes: ``podman``, ``docker``.
+>>
+>>      If not specified, the first one found on the system will be used
+>>      i.e. Podman if present, otherwise Docker.
+>> @@ -75,8 +75,8 @@ working directory and adjust the user and group id as needed.
+>>
+>>  The container image which would typically include a compiler toolchain is
+>>  provided by the user and selected via the ``-i`` option.  The container runtime
+>> -can be selected with the ``-r`` option, which can be either ``docker`` or
+>> -``podman``.  If none is specified, the first one found on the system will be
+>> +can be selected with the ``-r`` option, which can be either ``podman`` or
+>> +``docker``.  If none is specified, the first one found on the system will be
+>>  used while giving priority to Podman.  Support for other runtimes may be added
+>>  later depending on their popularity among users.
+>>
+>
+>It's a very subtle tweak but it does help avoid some confusion.
+>
+>Reviewed-by: Guillaume Tucker <gtucker@gtucker.io>
 
-Reviewed-by: Guillaume Tucker <gtucker@gtucker.io>
+Thanks for taking time to reviewing the patch!
 
-Thanks,
-Guillaume
+>
+>Thanks,
+>Guillaume
+>
 
+-- 
+Best regards,
+Coiby
