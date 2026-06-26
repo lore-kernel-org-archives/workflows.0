@@ -1,124 +1,97 @@
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAFF23E171C;
-	Thu, 25 Jun 2026 12:31:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A00D3EC2DB;
+	Fri, 26 Jun 2026 08:21:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782390675; cv=none; b=bhstXb5NoEWU55eT33o4Nf6D3yA1a9cipgo2oQGyFJMvvZU7hQ/BOQ0A5evzCxx+Zr785+1kyrJSt9AmP9R4h8lwz1wWuyMItCf3nHizLgreuHUJwaACcSOKEWtqEqH+W7Q5e0d4oNiDPFz79NRTUbq17nlbsuJveWJ+pY3bqHM=
+	t=1782462101; cv=none; b=rzkhuhFA4acair4ECU4BQjZ9WntqOJSncJ7+0UH1u/W/OxsxxCCCUtwiwUVTyXOAB54H+cswFJ0fNVWHFvsvTy5pB2VrSqRD98uqV6v9NQ4JASb0MOqjh3YDEoR8XLr7lSW05KDxI3uGbtjGcb0e0ShLY9qkdiEnKeQu045IYSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782390675; c=relaxed/simple;
-	bh=5xy8h636tmtCopoxuXzUZkd3JJK5P0fFfNE178+TpLg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RXyrm7z116j//sx0Dz424wZD1/Tn+ADmWQS4WenUTCmM8N25dC78X+rHpu2sqIbZ+sfC+nUAzc0jEV5tFjAvaJdWbo6LInT8gDNX/EaBsEjuwIpsMpf0Czkg91qN1LgjIhwN0BeQ1gzOf+ywYKGvFgVHd4m+3H2qAJWAsYElYRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=YE4w6uHD; arc=none smtp.client-ip=217.70.183.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
+	s=arc-20240116; t=1782462101; c=relaxed/simple;
+	bh=BZw4zLEIJKsrA2KEmFfZmq7q81BcD9V9sPPB2fDUK/A=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=Cln19Td2jKhOXDJnxQzwd6Fu4N22U0NIuQ2GeAKqURIuOV3ESujWBEERjD1JI2asKxOFPg2FdFOby2XHCfZ1izNY9uQQWCbq5lEzW2BSlFZqSMoQ3eKiVHeTM7W6YGcYNZlAG/l4YxdpPDiiFd63RdhffAZcEohN7CHbLTmonGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dZ6wUmHl; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="YE4w6uHD"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4AF8D3ED96;
-	Thu, 25 Jun 2026 12:31:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
-	t=1782390663;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0/JVB+W7sCf7Gi/CyFGpUxCh0l8gAFhKDGHEk2hQoJc=;
-	b=YE4w6uHDsRSzpd5ImGoFCmdhvfJjeFAkDaY45U7yqYkJrCzELZUpAyEQX/2KRgtT0s6Qpk
-	HCIG2GoHK9QG3aJQvIEHNT0TJQwfBYaimZJCGcg6GlfTcuV3+9ctm1kvJf0srhqBT0lvRP
-	4fnLRwm/yUNLnFt/WEhg9cZq891pgfFd1GQfNWDGOPkFRN/34TjhFzD9pn61clA/8Ozrdu
-	/QTnBInVgbnou+/IG/AlW3FETRjz/60U8rQ5OQtfuJSZsDieOzOkZ/Ep+PApHvTbIiPpNA
-	ubR1653fdIrE80t0pq88v9LtT8iMVzXO+0VfE0CCUFfNGi7R/4S57V23jCHeww==
-Message-ID: <00735150-06ec-4274-a66a-c1d1052482a5@gtucker.io>
-Date: Thu, 25 Jun 2026 14:31:01 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dZ6wUmHl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3A601F000E9;
+	Fri, 26 Jun 2026 08:21:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782462099;
+	bh=/URyDSaM1Mp00hYDxzcu1PlaeGQCy7y9ufaCKG+1pYk=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=dZ6wUmHlou3J6WeaopCIhZOzl5LxPzE65VLGwts7XKUdv71sYAo7u0DcmzHudoAeC
+	 dUUU3ZBCDSL1NXw420mqK9HQKDWL+3Mf932mHOQbY5haEiBgbzgz+TvikEdOG8odvD
+	 b1xMWbiwWliWZPzhGeLA+1YDYFPXwVtjUHD231hpuDUDCdBWWpz8fTMT2aNKlNClA0
+	 auSTv8t3dvuaYganHC6zeXelxXxD1hJBswndcayL5cTEfGWd7sDNN5UuosA5B5UhWE
+	 0iB4C44h6WSBaWEu/jEws2dH0VFYZi9QvILF/Ez8Hd6jBU8RVZlmVkL2yPhIEpb/tG
+	 Z7rdZkOnXcovw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 19B8839389E8;
+	Fri, 26 Jun 2026 08:21:28 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Hosting first-party kernel.org container images
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Ben Copeland <ben.copeland@linaro.org>,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nsc@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- workflows@vger.kernel.org, automated-testing@lists.yoctoproject.org,
- "kernelci@lists.linux.dev" <kernelci@lists.linux.dev>
-References: <cc737636-2a43-4a97-975e-4725733f7ee4@gtucker.io>
- <CAL0q8a7mepGUdgrLsQhCUdLVP8VcxB9x_oBRCWAYNeoVAUb=7A@mail.gmail.com>
- <78adef0e-81b0-47d4-be20-32f42ab8ec04@gtucker.io>
- <CANiq72=t=q4__vwTFjg+gQyjKLUEJrZBngr3cAnnKiTNM5uteg@mail.gmail.com>
-Content-Language: en-GB
-From: Guillaume Tucker <gtucker@gtucker.io>
-Organization: gtucker.io
-In-Reply-To: <CANiq72=t=q4__vwTFjg+gQyjKLUEJrZBngr3cAnnKiTNM5uteg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-GND-Sasl: gtucker@gtucker.io
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: dmFkZTFo3v66VJpNjhW3/jKHwEKcUvhtc2Ace844iZNYuGRBUCPHz2RWlFpYtFfI/Jjq6uDs8AwIw4DAPKsj3d/5p3J2wJAAvjs6HVsIf8voEr+47OCdR0wBkzlhly++wxPFzAW3iO1QHkxpSi2ma1uJUXC+4901uzyOoQYVkPp24ZxVEvW6S0OcVSP6AMES85erL7wQIzSpsswbrLITbJajBu76TcYfRcyChGGPGehwc3RUwGbYcc2cZSFg2vsuuRZbJaGNq8s5js+1LotiICPMd6gtGDi1IwDzSK4K8hUBeDIVj9eKDCJLD5TqvFHRSGMg6AndXCRDj12sS5ZmRqtXebD0izxXyu6EFdmfSps1Ih6UZD4DoJod9mkHh2JzEnt51y6c5QtPI0XPBlkWwDGee+/T6s+DaRlFRCc98BGRFQglsNgPtO3SovC1b0mHDcR2xblofyox2wMSmIO8ifGVB1ONWCknUZW7gyLpTjbkzXd9cI/1Aa2d0rG4fgfjwKxeIql8CEH+W7qMytPM9xey4DqQLmCYID7e/mG+5+sYgE7OPJLEFoMXzyR7sKbpi1JmIwVp3xJNyRGeCimOjxojnIZirDVjRFCSpMhOK+kHx2BDSdIcBjiQD0gfjs0X7QA9mdaP+gP190POjb0khVZhtJnUbYWmSgbbJlWXDLzGodWiYA
+Subject: Re: [PATCH v13 0/4] kunit: Add support for suppressing warning
+ backtraces
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <178246208674.3816447.9584369939582811196.git-patchwork-notify@kernel.org>
+Date: Fri, 26 Jun 2026 08:21:26 +0000
+References: <20260515-kunit_add_support-v13-0-18ee42f96e7b@redhat.com>
+In-Reply-To: <20260515-kunit_add_support-v13-0-18ee42f96e7b@redhat.com>
+To: Albert Esteve <aesteve@redhat.com>
+Cc: linux-riscv@lists.infradead.org, arnd@arndb.de, brendan.higgins@linux.dev,
+ david@davidgow.net, raemoar63@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ corbet@lwn.net, skhan@linuxfoundation.org, akpm@linux-foundation.org,
+ pjw@kernel.org, palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr,
+ linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+ dri-devel@lists.freedesktop.org, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, peterz@infradead.org, acarmina@redhat.com,
+ linux@roeck-us.net, kees@kernel.org, lkft@linaro.org, mcanal@igalia.com,
+ error27@gmail.com, simona.vetter@ffwll.ch
 
-Hi Miguel,
+Hello:
 
-(sorry, picking this up again after a long pause)
+This series was applied to riscv/linux.git (fixes)
+by Shuah Khan <skhan@linuxfoundation.org>:
 
-On 19/03/2026 12:10, Miguel Ojeda wrote:
-> On Wed, Feb 25, 2026 at 3:44 PM Guillaume Tucker <gtucker@gtucker.io> wrote:
->>
->> Nathan, Nicolas, Miguel - what are your thoughts on this?
+On Fri, 15 May 2026 14:29:31 +0200 you wrote:
+> Some unit tests intentionally trigger warning backtraces by passing bad
+> parameters to kernel API functions. Such unit tests typically check the
+> return value from such calls, not the existence of the warning backtrace.
 > 
-> I agree with Nathan that `Containerfile`s on git.kernel.org sounds good.
-
-Thanks for your feedback.  My understanding of Nathan's reply is that
-it's more about looking for what users need in practice to drive
-decisions rather than any strong opinion regarding this approach, but
-I think we all agree at some level.
-
-> While many kernel developers may not use them (mostly because everyone
-> has their own setup already), if we had a set of "base" images that
-> are maintained by someone trusted (including publishing them in the
-> usual registries for easy use), then I think a bunch of us would
-> actually use them for CI and possibly other tasks; just like some of
-> us already use the kernel.org toolchains "manually" anyway etc.
+> Such intentionally generated warning backtraces are neither desirable
+> nor useful for a number of reasons:
+> - They can result in overlooked real problems.
+> - A warning that suddenly starts to show up in unit tests needs to be
+>   investigated and has to be marked to be ignored, for example by
+>   adjusting filter scripts. Such filters are ad hoc because there is
+>   no real standard format for warnings. On top of that, such filter
+>   scripts would require constant maintenance.
 > 
-> It could serve as an entry point to discover the different toolchains
-> and software offered by kernel.org, i.e. not just the GCC and LLVM and
-> LLVM+Rust toolchains, but also perhaps `b4` pre-installed and so on.
-> Even things like `tc-build` or the latest and greatest set of AI
-> context text files could be considered too.
-> 
-> It could also perhaps simplify a tiny bit giving quick reproducers
-> compared to giving the instructions for a distro base image + extra
-> things to install. It could also be a good thing to give newcomers
-> (i.e. how to set up all the development environment is a common
-> question) and LLMs.
-> 
-> I mean, all this is nothing new of course, but sometimes trust and
-> convenience go a long way.
+> [...]
 
-Yes I believe there's a solid list of reasons why this would be a
-good thing to have, and also no compelling reason to do it right now.
-As I happen to have some R&D time available to spend on this again,
-we can resume progress and aim for a first goal.
+Here is the summary with links:
+  - [v13,1/4] bug/kunit: Core support for suppressing warning backtraces
+    (no matching commit)
+  - [v13,2/4] kunit: Add backtrace suppression self-tests
+    (no matching commit)
+  - [v13,3/4] drm: Suppress intentional warning backtraces in scaling unit tests
+    (no matching commit)
+  - [v13,4/4] kunit: Add documentation for warning backtrace suppression API
+    https://git.kernel.org/riscv/c/5c1553dd5db3
 
-What I'm proposing next is to make it trivial for developers to use
-scripts/container with the TuxMake images that include the kernel.org
-toolchains via either built-in defaults in the tool or a standard
-user config file.  I'm under the impression that at least a few
-people have started using the tool so I think there's a real growing
-interest there.  The TuxMake images can further facilitate adoption.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Then as a separate initiative, we can consider keeping Containerfiles
-on git.kernel.org if developers feel it would make sense and maybe
-even images in a dedicated registry.  These things aren't on the
-critical path for using the tool, they're more like potential
-consequences of people using it.  So we'll see how this goes.
 
-Best wishes,
-Guillaume
