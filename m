@@ -1,231 +1,66 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC34323D291;
-	Fri, 26 Jun 2026 15:53:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0CBE3C4154;
+	Tue, 30 Jun 2026 19:52:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782489199; cv=none; b=GsCyPUFc2TETJCl0QWjw9iCTlnAU057v/JWhMSst23VmN51lqn1ZqBMDrIJN1YuxIYffgtY9DE1qfAO96242pgJlSEFIletVIdeQHlhwGSdaIWugksxlavQo0FHGjQWktV/FCZ56NJ79LwLEzcSNAPSAQMOonbKYURsuwX23zr4=
+	t=1782849158; cv=none; b=eGXtUoy4HuYEr3X9Y/0c1FkyjkKiov+Inj08ree8FIj3AmQ0GfqZ2ncy4KM7CqtXylsYR5BZjzLEfZvQ0U9BQIXY0T3wPCcUIOYc/e6JiAlEhBUd4Qlm8XJVOGNcw8z4docMZWToMSgcMFQ//AOi0JrXJzivAUPOKThYFcJ5pZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782489199; c=relaxed/simple;
-	bh=LqdNaV8FU9i/YpyPfFZxEtMeY1Tns1Ka3tzd2Zq8Mxk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=nrE7mRi5bMwlHTgJ9VGZ+SDuNRfpk4E6GJLhHmYvuRFzc5Zg6zHU3NoB2uu6NCkjHFCrfVffLSftLFjmI10WT+zhy7UObhJwBcy6EawEfiq5Lzdy2HQ0sObK4bWlwy88pwhZd1Gy4P7qAA74FCznyadrJjmwB1XvqWbwUJDkjR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=bIJANbQ6; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1782849158; c=relaxed/simple;
+	bh=wnVBEttC5F7Qj63t4+Um9QjeuRxxDK0Ghtz8TLXHbaE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ehmXRV0tR7JEufHgCSOWw78F8/ykamkB6mk2Y/Tc+qGFyS51xVdI1cShitSJ4zBzBp61A1IRtk1eIl2XXPNn+xDYRAyEaTfVVDeOKYmOFy3jU/KPQQYeYEh43wFMdBDzK5pkdH0gpoWX5uI7rcy8HCX7jqz3697c1Z+7LZ2yFrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=GR4mBt/y; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="bIJANbQ6"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:In-Reply-To:References:
-	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description;
-	bh=7pnehLe8Fc9BTRnNjqfHxijlMhSDnOv3l1cLSbLfm8Q=; b=bIJANbQ6h7BDrfCuAHKDf+qwg2
-	nr6VhgsBwLb4IuR4sWUX3QJnAcNcNJiR5/8FnOAPWNQNlLDDRhilZEzyivJaTSfJOxDxumio3gdy/
-	fRO1aZ5l3kzgS6SZmkbVeo/RgKaRRqB+UCOSQDf/f9pe0oiOd3Z5trntlAaF3gGtA7IkkPgDG8NSA
-	QwJdCL+xFexgVE9XlHfTVCzwdNJHECRWh9rP611QZDo/lQb7uI5hm5nX++lyOtjkK+Fri7deOYqgL
-	bvaI52+oxujY9C1fwvuGVs0vVFSqFa4Zs7UsZ6vKgUy+Ij87jha/1Krt4pt2wWkmtPR3ZJ0DcD7OD
-	JEjLLohQ==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wd8rh-0044nh-1Y;
-	Fri, 26 Jun 2026 15:53:13 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Fri, 26 Jun 2026 08:52:03 -0700
-Subject: [PATCH 2/2] selftests/mm: test kmemleak's N-consecutive-scan leak
- confirmation
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="GR4mBt/y"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2903740E27
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1782849157; bh=xbAhagwIJNmVctUIt9es8CqoFvgyOAsV4i4sFH5SqU4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=GR4mBt/yE0TjEDbCsyw11G/tWI32lpILWe6zN5Qj5PulreOX7XxjXm3Wgum5uLoGF
+	 /Bkx8PIiREHG1x/8r6e0pmyR8UubsG6yKmkhWteOX4OzX3i+zsekTohKoHMFBdGwLN
+	 hbSiE35dWFTuCPJEOzfEGL5FuAdWxV+A8AQivyBvZX+PxPi51p06H1Nd8TnC9rKPbW
+	 9g6vYRQGcQsgZW68ejMKUzQy7bEgmu0mUA9PnpRPpWBedhwBBAfGq5sVlZDvAqNo7A
+	 BJ6ofTmI0EOglRXXGSK9aQopT+eurGDaIWMy6brfPRX1UAKYfdQJA5q37fJBoSBevs
+	 FTujblyscOk6Q==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 2903740E27;
+	Tue, 30 Jun 2026 19:52:37 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Coiby Xu <coiby.xu@gmail.com>, linux-doc@vger.kernel.org
+Cc: Guillaume Tucker <gtucker@gtucker.io>, Shuah Khan
+ <skhan@linuxfoundation.org>, "open list:DOCUMENTATION PROCESS"
+ <workflows@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] Documentation: dev-tools: scripts/container prefers Podman
+In-Reply-To: <20260624013850.1853171-1-coiby.xu@gmail.com>
+References: <20260624013850.1853171-1-coiby.xu@gmail.com>
+Date: Tue, 30 Jun 2026 13:52:36 -0600
+Message-ID: <87jyrfrekb.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260626-kmemleak_twice-v1-2-ab28f7cc0971@debian.org>
-References: <20260626-kmemleak_twice-v1-0-ab28f7cc0971@debian.org>
-In-Reply-To: <20260626-kmemleak_twice-v1-0-ab28f7cc0971@debian.org>
-To: Catalin Marinas <catalin.marinas@arm.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
- Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-kselftest@vger.kernel.org, Breno Leitao <leitao@debian.org>, 
- kernel-team@meta.com
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6640; i=leitao@debian.org;
- h=from:subject:message-id; bh=LqdNaV8FU9i/YpyPfFZxEtMeY1Tns1Ka3tzd2Zq8Mxk=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqPqBbM92BUw/lNCj2SdE0hZbvKJoJe+UkFPKK0
- FIcuV5s83yJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaj6gWwAKCRA1o5Of/Hh3
- bVl0D/9SADG1iLDMbNSjOEAH3bm4GJVko36UaxJ+14htHLB3ZEp9xAkWp0WCiBj13Q7tqv8kgPf
- sSnNksaHEY/HvUbc2qmgjyhUnGmNWPLmI/KiLZaXhThzFcZHaGLfKBdEdoPFNfxcj2PQdqpY9Py
- XI0KtxannHHwZFAJhztC3MMo/b/W6prFezHSoxfSJc/vAMGLddZv/XCHzdl3dUMyOfOW2OswaIu
- zUS+MLE+CXX5+wVUNxzrLbFbIe+cabKzxuwbQuzHLapHaT2ZhvkUBewYVoQC/uLEkFc9tUHlJx8
- QsMzgIB9HaDypt51TxmV3PqUFjJ7kXqznE4yDdTfFrf0rOJVMTwUIN8VkXaVDq4I3wouID8DFgc
- BWApe8BKuqV8xZ0jYfRvvr2tYLL9613VsCwhTxBds67B/pGsbvOmUrLtzkTIJfLtV+NZquEjqgt
- zAQ1zuVtY4lF+BG9wWIyDJd4EmzzB5pOJlliZoKKj/QBhWLdVf/X4PqkCxhJtgRl9+byfaIHCWk
- 2EcE3JfJjJA/hEb0ORTjU/Ey85O2Wjbi4ek/AxVVuMZDcZkD44g/VbCMlKzI75O4ngq2xrjuXg2
- B30NAA2IudA9emNL/4HaH4R+pkl9tjJJP9ksQdJzUMDZwxpYHpszWt40Z2Q9nY0oaRUQkW0oILU
- VcJpMVijAxCrNWg==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
+Content-Type: text/plain
 
-Add a functional test for the min_unref_scans kmemleak module parameter.
-Using samples/kmemleak's helper module it checks that min_unref_scans=1
-reports an orphan on the first scan, min_unref_scans=2 reports nothing on
-the first scan but does on the second, and that the parameter reads back
-what was written.
+Coiby Xu <coiby.xu@gmail.com> writes:
 
-It counts only the helper module's own orphans (matched by their
-[kmemleak_test] backtrace, with the module kept loaded so the symbols
-resolve) so unrelated leaks already present on the system do not perturb
-the result. The test skips when run as non-root, without
-CONFIG_DEBUG_KMEMLEAK / CONFIG_SAMPLE_KMEMLEAK, on a kernel without the
-parameter, or when the helper yields no detectable orphan.
+> Obviously scripts/container prefers Podman over Docker. Putting podman
+> before docker also makes it consistent with following parts of the doc
+> and the help text of the tool.
+>
+> Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
+> ---
+>  Documentation/dev-tools/container.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
- tools/testing/selftests/mm/Makefile                |   1 +
- .../testing/selftests/mm/ksft_kmemleak_confirm.sh  | 111 +++++++++++++++++++++
- 2 files changed, 112 insertions(+)
+Applied, thanks.
 
-diff --git a/tools/testing/selftests/mm/Makefile b/tools/testing/selftests/mm/Makefile
-index e6df968f0971c..84026b62a1ae5 100644
---- a/tools/testing/selftests/mm/Makefile
-+++ b/tools/testing/selftests/mm/Makefile
-@@ -150,6 +150,7 @@ TEST_PROGS += ksft_gup_test.sh
- TEST_PROGS += ksft_hmm.sh
- TEST_PROGS += ksft_hugetlb.sh
- TEST_PROGS += ksft_hugevm.sh
-+TEST_PROGS += ksft_kmemleak_confirm.sh
- TEST_PROGS += ksft_kmemleak_dedup.sh
- TEST_PROGS += ksft_ksm.sh
- TEST_PROGS += ksft_ksm_numa.sh
-diff --git a/tools/testing/selftests/mm/ksft_kmemleak_confirm.sh b/tools/testing/selftests/mm/ksft_kmemleak_confirm.sh
-new file mode 100755
-index 0000000000000..34ab64bc6948f
---- /dev/null
-+++ b/tools/testing/selftests/mm/ksft_kmemleak_confirm.sh
-@@ -0,0 +1,111 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Functional test for kmemleak's N-consecutive-scan leak confirmation
-+# (the min_unref_scans module parameter).
-+#
-+# kmemleak only reports an object once it has stayed unreferenced for
-+# min_unref_scans consecutive scans. The default of 1 reports on the first
-+# scan (historical behaviour); higher values filter transient false
-+# positives where a live object's only reference is briefly invisible to a
-+# single scan (e.g. an RCU tree update in flight while the scan runs). The
-+# test loads samples/kmemleak's helper module to create orphan allocations
-+# and, counting only those orphans (matched by their [kmemleak_test]
-+# backtrace so unrelated leaks already present on the system are ignored),
-+# checks that:
-+#   - min_unref_scans=1 reports them on the first scan,
-+#   - min_unref_scans=2 reports nothing on the first scan but does on the
-+#     second,
-+#   - the parameter reads back what was written.
-+#
-+# The "nothing on the first scan" check is the core regression test: with
-+# min_unref_scans=2 no object can be reported in fewer than two scans. Like
-+# ksft_kmemleak_dedup.sh, if the module yields no detectable orphan at all
-+# in the running environment the test skips rather than failing.
-+#
-+# Author: Breno Leitao <leitao@debian.org>
-+
-+ksft_skip=4
-+KMEMLEAK=/sys/kernel/debug/kmemleak
-+PARAM=/sys/module/kmemleak/parameters/min_unref_scans
-+MODULE=kmemleak-test
-+AGE=6		# seconds; must exceed kmemleak's 5s minimum object age
-+
-+skip() { echo "SKIP: $*"; exit $ksft_skip; }
-+fail() { echo "FAIL: $*"; exit 1; }
-+pass() { echo "PASS: $*"; exit 0; }
-+
-+[ "$(id -u)" -eq 0 ] || skip "must run as root"
-+[ -r "$KMEMLEAK" ] || skip "no kmemleak debugfs (CONFIG_DEBUG_KMEMLEAK)"
-+[ -w "$PARAM" ] || skip "min_unref_scans module parameter not present"
-+modinfo "$MODULE" >/dev/null 2>&1 ||
-+	skip "$MODULE not built (CONFIG_SAMPLE_KMEMLEAK)"
-+
-+# kmemleak can be present but disabled at runtime (kmemleak=off boot arg,
-+# or it self-disabled after an internal error); a "scan" then returns
-+# EPERM. Probe once and skip if so.
-+echo scan > "$KMEMLEAK" 2>/dev/null ||
-+	skip "kmemleak is disabled (check dmesg or kmemleak= boot arg)"
-+
-+prev=$(cat "$PARAM")
-+# shellcheck disable=SC2317  # invoked indirectly via trap
-+cleanup() {
-+	echo "$prev" > "$PARAM" 2>/dev/null		# restore the parameter
-+	echo scan=on > "$KMEMLEAK" 2>/dev/null		# re-enable auto scan
-+	rmmod "$MODULE" 2>/dev/null
-+	echo clear > "$KMEMLEAK" 2>/dev/null
-+}
-+trap cleanup EXIT
-+
-+# Stop the automatic scan thread: only our manual scans should advance an
-+# object's consecutive-unreferenced run. An auto scan landing between two
-+# manual scans would change the result and make the test flaky.
-+echo scan=off > "$KMEMLEAK" 2>/dev/null
-+
-+# Create a fresh, aged set of orphan objects from the helper module's init
-+# path (its kmalloc/vmalloc/percpu allocations are dropped right away).
-+# Pre-existing reported leaks are greyed first ("clear") so only our
-+# orphans are counted. The module is left loaded on purpose: once it is
-+# unloaded its symbols are gone, so the orphan backtraces no longer resolve
-+# to [kmemleak_test] and could not be matched below.
-+gen_orphans() {
-+	rmmod "$MODULE" 2>/dev/null
-+	echo clear > "$KMEMLEAK"
-+	modprobe "$MODULE" || skip "failed to load $MODULE"
-+	sleep "$AGE"
-+}
-+
-+scan() { echo scan > "$KMEMLEAK"; }
-+
-+# Number of helper-module orphans currently reported by kmemleak. Matching
-+# the module's own backtrace ([kmemleak_test]) keeps the count immune to
-+# unrelated leaks on the running system. kmemleak only lists an object here
-+# once it has been reported, so this reflects the confirmation gating.
-+count_orphans() {
-+	c=$(grep -c '\[kmemleak_test\]' "$KMEMLEAK" 2>/dev/null)
-+	echo "${c:-0}"
-+}
-+
-+# 0) the parameter reads back what was written.
-+echo 3 > "$PARAM"
-+[ "$(cat "$PARAM")" = "3" ] || fail "min_unref_scans did not read back as 3"
-+
-+# 1) min_unref_scans=1 (default): orphans reported on the first scan. This
-+#    also establishes that the helper produces detectable orphans here.
-+echo 1 > "$PARAM"
-+gen_orphans
-+scan
-+first=$(count_orphans)
-+[ "$first" -gt 0 ] ||
-+	skip "$MODULE produced no detectable orphans (cannot test min_unref_scans)"
-+
-+# 2) min_unref_scans=2: nothing reported after the first scan, reported
-+#    after the second. The first-scan-zero check is the core regression.
-+echo 2 > "$PARAM"
-+gen_orphans
-+scan; s1=$(count_orphans)
-+scan; s2=$(count_orphans)
-+[ "$s1" -eq 0 ] || fail "min_unref_scans=2: $s1 orphan(s) reported after the 1st scan (must be 0)"
-+[ "$s2" -gt 0 ] || fail "min_unref_scans=2: no report on the 2nd scan (false negative)"
-+
-+pass "min_unref_scans=1 immediate; =2 gated to 2nd scan (counts $first/$s1/$s2); param read-back ok"
-
--- 
-2.53.0-Meta
-
+jon
