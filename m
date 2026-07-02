@@ -1,41 +1,51 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 755663F23CF;
-	Thu,  2 Jul 2026 13:57:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E5F64C0437;
+	Thu,  2 Jul 2026 14:09:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783000636; cv=none; b=CDT+2Du7loZiGgkPw3cyQkeHA637X4Ixkhtql6QuVk/JMWuGHRB2xdbMU9FxzCue0AsQK/eSxZdjhCOzDs1WnkDtvX07OZ7zCSUaAp3XM87XjAoAgz5n2ppGjX4AyMTSwu2KEXpoEEL6jhWLISEvqH9lY4cG4HH0jFiohXqlpvc=
+	t=1783001361; cv=none; b=mCf/actJcLWWLApnFWcbPNFU8H9IjaZjQHNesDQxQKl1QmzRfBCUcd/9V+bUNsUjVWUD6UHQ6loUrbMvANmtlJ3F3Xen2/vRCSp9kuoUbi3nr7VgFXu+x36LO5WDpIqh6q4R6t5CqoMXvF5f3P6FMnLW0ajW5kB/WOJwRP7GPYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783000636; c=relaxed/simple;
-	bh=L3QtOlq/gwmwSei/jObls2ik9aVi7P89FA668h7o5Tc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N8GcuZX9IVCOG5Z2fKfksmintNcHOrG11QsXkK/AUJU0t+ot5VR99S9ujLIGbEziB23RBKN5J8aUr4h7CKlp1fFos8dqyNAlGmjq8NMx+ttVGQNjL5TQhk+QnwwPWCwhfEWG3BZHIsoFjPN1OJITJZhs9bRusKu+ZKsggh34f0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ASInKw60; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783001361; c=relaxed/simple;
+	bh=IvE61PuLXfGbmO1k4qX+HKiiz0LQPH6/nktPJ0/RztU=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=LvGvM+66Z/OBmqDhpRMp2+H483/lJmnEeEBh/61+oRRfXeKBqOAhM6zFrL6MYzXExqapAm4kBzVMQXB5OEw/KFsrObR7YfnYVVjXkynU0XwKN/rS2UWAXuM9cfGvsSdDlI8WZv8u8PHItKtrhMy8lyva5T972g09sURNd/07654=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ld6AbBrl; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ASInKw60"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C0E01F000E9;
-	Thu,  2 Jul 2026 13:57:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ld6AbBrl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FFCF1F000E9;
+	Thu,  2 Jul 2026 14:09:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783000635;
-	bh=L3QtOlq/gwmwSei/jObls2ik9aVi7P89FA668h7o5Tc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ASInKw60ypiAebpMdsowx/9bur1LFUELoUstVxYbb9rCiZ6/MJsoW8p500L88sxsQ
-	 VAq7sseIvrCWA4gaxB306KB5YunDOrG3iWaALmFdVkntSB9WDebmdxo43OekfxaNUj
-	 kHm3cUdtf21lGaly0COvXjFr8TS55dnona3+kwa9Hz48SdbM6D8YaDg/TOvCqS3voo
-	 Xw4etPGeEbXno728ei7rENmlNQQBUFlF0jXvS8iUjuDn64dWTACukBshf+CLfosmoO
-	 aDUHC1lzzWI+0UJRPHMnA0lumzf4jrGgaLrv4jgcHJLRZ24iDn+YzvtbzYB5gkzs0O
-	 /Ac8gNrgJrENg==
-Date: Thu, 2 Jul 2026 14:57:05 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
-	Jeff Layton <jlayton@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>
+	s=k20260515; t=1783001360;
+	bh=QGJysTifjaBTc1Wq80zUMCvLFgDxEVRXcP5jQBdhyJs=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=ld6AbBrlLz1TcvA2W3xDbz5JsKoPOy7UCMhGsAaK7GZ2yD5xBnWK0oL0aLU/FEuRp
+	 4Q+Btl9SKe+zSWuH5/f0Z7sPQ9kmiOHN5WiRmvRuiO1BW2cTwVqTcEa9bqYbJbEjyg
+	 22seUeOTn/68Wze4DL9Kl1lYskO9jxKGRnzSYKDQRaq0iD9dFhHFBpZgywNV6c2277
+	 1WgXCKN8p32jlrfyiiqHMXNH1J+dMpHl1PqMNBZnVtNhnHdOkiyP2RWAriFCu52tEz
+	 ivepOsad91r+Ml5JzCxZRkevBfYhFp0uF+zeVXt89f/mJCQE502aCxlnO9n+8c9se+
+	 SYDXosylp6nuQ==
+Precedence: bulk
+X-Mailing-List: workflows@vger.kernel.org
+List-Id: <workflows.vger.kernel.org>
+List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
+List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-Message-ID: <akZqigap0GTOSkyx@lucifer>
+From: Christian Brauner <brauner@kernel.org>
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, 
+ "David Hildenbrand (Arm)" <david@kernel.org>, 
+ Linus Torvalds <torvalds@linux-foundation.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
+ Jeff Layton <jlayton@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>
+In-Reply-To: <akZqigap0GTOSkyx@lucifer>
 References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
  <5e7b9d23-4291-48fb-bdc6-47db82d33c80@kernel.org>
  <20260702-seekrank-stilrichtung-mitentscheiden-69a64ee097ec@brauner>
@@ -43,58 +53,33 @@ References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
  <akYz2aMIco1fbD-t@lucifer>
  <54d3a698-a275-488e-ad36-ef423db30f70@kernel.org>
  <20260702-weitreichend-aufgearbeitet-flausen-fd92f38bbba0@brauner>
-Precedence: bulk
-X-Mailing-List: workflows@vger.kernel.org
-List-Id: <workflows.vger.kernel.org>
-List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
-List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260702-weitreichend-aufgearbeitet-flausen-fd92f38bbba0@brauner>
+ <akZqigap0GTOSkyx@lucifer>
+Date: Thu, 02 Jul 2026 16:09:14 +0200
+Message-Id: <20260702-angewachsen-glatze-kassen-61b7761f6564@brauner>
+X-Mailer: b4 0.16-dev-4217c
+X-Developer-Signature: v=1; a=openpgp-sha256; l=721; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=IvE61PuLXfGbmO1k4qX+HKiiz0LQPH6/nktPJ0/RztU=;
+ b=kA0DAAoWkcYbwGV43KIByyZiAGpGcQyjse6Yhb47wGViqQKBUm75KFTygsV2NQaT0cfHFnR/6
+ oh1BAAWCgAdFiEEQIc0Vx6nDHizMmkokcYbwGV43KIFAmpGcQwACgkQkcYbwGV43KI+agD/b9vq
+ b7cFSi6de/+W9UrfVCLO8yOQR2bsE7mMoP+RRQ4A+wTVUKAugUGkvYlUY2uImqCEdGyf0ewMfiR
+ 2QvAQOZMM
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Thu, Jul 02, 2026 at 03:26:58PM +0200, Christian Brauner wrote:
-> On Thu, Jul 02, 2026 at 01:51:10PM +0200, David Hildenbrand (Arm) wrote:
-> > On 7/2/26 12:04, Lorenzo Stoakes wrote:
-> > > (thanks for the cc-!)
-> > >
-> > > On Thu, Jul 02, 2026 at 09:46:37AM +0200, David Hildenbrand (Arm) wrote:
-> > >> On 7/2/26 09:27, Christian Brauner wrote:
-> > >>>
-> > >>> I think we should just drop any attribution as a general kernel-wide
-> > >>> rule and let subsystems require them as needed. Then you can have all
-> > >>> the complexity in mm for this that you think is needed for your
-> > >>> workflow to function. This is precisely what the subsystem profiles are
-> > >>> for. So maybe just add:
-> > >
-> > > A single comment is complexity?
-> >
-> > I think Christian meant more elaborate rules. More than just "If you used LLMs,
-> > disclose how you used them."
->
-> Yes.
->
-> I'm going to follow netdev and start dropping those tags from the
-> changelog completely too. After speaking to some bpf maintainers they
-> also don't use the tag. So I can safely assume that 3 large subsystems
-> don't bother with it.
->
-> So seems to me that such requirements should just move into the
-> subsystem profiles.
->
-> I think as a global policy this has ran its course.
+> > I think as a global policy this has ran its course.
+> 
+> I'm honestly not sure why you sent this patch in the first place if you're
+> simply going to ignore it (+ people's opinions) anyway :)
 
-I'm honestly not sure why you sent this patch in the first place if you're
-simply going to ignore it (+ people's opinions) anyway :)
+I sent an RFC patch for the minimal acceptable change in my opinion. It
+turns out that the majority of people on here seem to prefer the removal
+that I mentioned as an alternative in the commit message instead and it
+already happens in practice.
 
-Maybe we need a way of figuring out which patches mean something and which don't
-(I guess whatever Linus enforces is the real truth of that).
+> I'll still send a patch to link the apparently redundant AI doc to the generated
+> tooling doc because for those who do pay attention it's silly that they're not
+> connected.
 
-Anyway I guess I'll get back to work, and we can figure out what we'll do in mm
-separately I guess.
+This on the other hand seems a bit strange given the direction of this
+discussion.
 
-I'll still send a patch to link the apparently redundant AI doc to the generated
-tooling doc because for those who do pay attention it's silly that they're not
-connected.
-
-Thanks, Lorenzo
