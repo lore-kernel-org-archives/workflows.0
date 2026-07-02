@@ -1,109 +1,77 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98A97081A;
-	Thu,  2 Jul 2026 16:15:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689B62C21C7;
+	Thu,  2 Jul 2026 16:18:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783008903; cv=none; b=Cf5zXf6EZ0S+pOiz01eySSHgeym+gzKIyrLiuLgEjOGYj/LbFTjG6FzrLVtXla7jcsR8pNGbxHWdMktLhyQS4sTuHQH7OgarGgHEK3xbCcuQKjhgHiMKetVjx0eYUtuZ71N8UoDcqR+38b/7CPK9xG82b+azIvPi/VvB1fqp3fI=
+	t=1783009132; cv=none; b=NBnJpcutE0WXLCZCw/FFcbwSSTgdkfEo0rNPQUuVJg45nTPiR+tYzIVhT/U/QpXY0LfL1h4GTseqT/2oAnuYdD8AgdJ5jv3KN4fLejCycqG3cLiwblO370wv/WN0QoCPnsGCa3wqnBKudtTXBdsccWbvFYep3PMrhT7KgzJBSZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783008903; c=relaxed/simple;
-	bh=/BDPM0tAszUnqEP6pnUm7lcXYYLlaXAWZZba63wasvQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i9g7Uv4T0YoZBtKkoJr9P2UM8f4Hnfl/hLx0OBM8UCYuZDjOkXqSApbmiF+HwOLUhVnyHZeRgnjghyZzRovHNQOv3OvkwHBIhInOZpi755PLFPjCSV31p7QkUZAwb6Qlf6lmslUZcQhuWi73SMcqYC5MZ04Yx6Djt/RH1y1p3CM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QtLopmpo; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783009132; c=relaxed/simple;
+	bh=7htcDs/00c25hrTxhtL6vvRMJZp3El53VXx2WaqiFJY=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=ewuz9WiQhefiReFHzkjDcVroCi/yHWsGD7+t5yFfYlrjh0y/fH0Zu5q5oZOJ7KeIJ5ff/y3zaLh/QfILvxJKc6RWtCNYKTJKuvzGQYmmrdPs1oteIk6e1AqEYC+6e3FICqzeYd/+ofTblvKslAldWZJDDuHWlIYOByWtQcFOPS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DyRFsJ0q; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QtLopmpo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91E031F000E9;
-	Thu,  2 Jul 2026 16:14:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DyRFsJ0q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 630E71F000E9;
+	Thu,  2 Jul 2026 16:18:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783008902;
-	bh=/BDPM0tAszUnqEP6pnUm7lcXYYLlaXAWZZba63wasvQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=QtLopmpoTz1M5j2roqDdyyTxCOWzul0Z6Ubpf29X6w1KPaDU4hY7CQ0ddMRKsV0zc
-	 5T6Khl8O27tBbSPEGKe8SRu0lRW2bOJMU5JDjfrRgmmlREDyA02Q8jbdiKMyu3b3xE
-	 BkdRWe1CpXvIDxJwkVCup4jxZOrZJB3azyDTjbio851VRxK5g0pfGs9zjlvcG+SarW
-	 IL835UEEOG3YmuPkRGbpE+92CvnlMCQ2JYPHOX+aqOS89qTRPCwZFQhD2RGZvyIxd0
-	 bUhxfMxhxP5Qss1BnIAUerqXfMEzg5zY0QMcHI5WWbOV0s74hV+EsA12HqGA3XIIT3
-	 QXGI+yFv8eTJg==
-Date: Thu, 2 Jul 2026 17:14:50 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Chuck Lever <cel@kernel.org>
-Cc: Jeff Layton <jlayton@kernel.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Justin Stitt <justinstitt@google.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
-	Jori Koolstra <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>, 
-	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>, 
-	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>, 
-	David Hildenbrand <david@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
-Message-ID: <akaODv19EonZ2Wal@lucifer>
-References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
- <98e8d828-bcbd-4075-9b4c-dc1949647784@app.fastmail.com>
+	s=k20260515; t=1783009131;
+	bh=7htcDs/00c25hrTxhtL6vvRMJZp3El53VXx2WaqiFJY=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=DyRFsJ0qPwfI55AIV2ZDqEkfnyZVBzGiYoKD3IZOhZ1Cj0oQnY9Nuhr+y0h3b5UI5
+	 2mdTM5hyA5pBOp1CFLLrJmgcmxFmHe5b4eTGMnM0lp7XUJe4Xq80p9htog7nR5NYZ6
+	 5gLyavR4Cx3NKu6wfEtrHhqPGIWyVJwf/ukOepmrPcRGNHe4KwqzADHr01BUQrHq5G
+	 ovcVugYhwzPgotFM7Gmy9YTBpe1F1bk73jtm+tuw9ExdMyXtM/yOMDfiBwrsSUgs6m
+	 soXZNVsM1M1KMQ3Z8TDeNdPkePG8NZLbX03WNjs/bwM00vpLvRyM6pdhtSTJnPI6fG
+	 DbUjhZeyI909Q==
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <98e8d828-bcbd-4075-9b4c-dc1949647784@app.fastmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
+From: Christian Brauner <brauner@kernel.org>
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, 
+ "David Hildenbrand (Arm)" <david@kernel.org>, 
+ Linus Torvalds <torvalds@linux-foundation.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
+ Jeff Layton <jlayton@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>
+In-Reply-To: <akZzDfK-yr5ErVJT@lucifer>
+References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+ <5e7b9d23-4291-48fb-bdc6-47db82d33c80@kernel.org>
+ <20260702-seekrank-stilrichtung-mitentscheiden-69a64ee097ec@brauner>
+ <1f29f48d-b9ff-4de2-a392-dc05781728be@kernel.org>
+ <akYz2aMIco1fbD-t@lucifer>
+ <54d3a698-a275-488e-ad36-ef423db30f70@kernel.org>
+ <20260702-weitreichend-aufgearbeitet-flausen-fd92f38bbba0@brauner>
+ <akZqigap0GTOSkyx@lucifer>
+ <20260702-angewachsen-glatze-kassen-61b7761f6564@brauner>
+ <akZzDfK-yr5ErVJT@lucifer>
+Date: Thu, 02 Jul 2026 18:18:45 +0200
+Message-Id: <20260702-jagdrevier-halfen-paragraf-442896b3a5a0@brauner>
+X-Mailer: b4 0.16-dev-4217c
+X-Developer-Signature: v=1; a=openpgp-sha256; l=289; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=7htcDs/00c25hrTxhtL6vvRMJZp3El53VXx2WaqiFJY=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS59WeUW4pOVuV1sC9zub3ozckjz8VWPDXdq6ZpfU1z7
+ 1K/wwrXOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACby2Y+R4d/cd4YtZp8un9fe
+ peUU9zRDfp/e+cv/pX28cza+VN1itoHhf6rD3E2dj9TfX/j1s8inlDukYG+VucMyS/mtkraz5uz
+ JYAIA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Thu, Jul 02, 2026 at 12:11:20PM -0400, Chuck Lever wrote:
->
->
-> On Thu, Jul 2, 2026, at 10:32 AM, Jeff Layton wrote:
-> > We've had this requirement in place in the Documentation for several
-> > months, but it's becoming clear that the signal to noise ratio from this
-> > is quite low.
-> >
-> > 1/ It's not universally followed. While many people do try to attribute
-> > the LLMs in good faith, not everyone does for various reasons.
-> >
-> > 2/ It basically serves as free advertising for proprietary LLM companies.
-> >
-> > 3/ It's not clear why we want to collect this info in the first place.
-> >
-> > Given that the data this provides is flawed at best and is being
-> > collected for a purpose that isn't clear, let's just kill the
-> > requirement for these tags from the kernel at large.
-> >
-> > Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> > ---
-> > Christian had proposed watering down the LLM attribution, but I think
-> > it's not productive to try and track this until we have a clearer sense
-> > of what we want to do with this information and how to make it more
-> > reliable.
->
-> I agree that the current tagging system is flawed and almost useless
-> for real analysis -- self-reporting and a nebulous definition of what
-> "LLM was used" actually means are red flags for any data scientist.
->
-> I don't have a stand on whether the tagging should be removed or fixed.
-> But today I ignore it (my 2-cents US) for these reasons.
+> I don't understand that at all. The coding assistants document is not being
+> deleted, and if you read https://docs.kernel.org/process/generated-content.html
+> you can see it doesn't enforce tags.
 
-Oh no doubt they have highly dubious value as _data_.
+I think that was a misunderstanding. I just wasn't clear on what you
+wanted to do.
 
-But they are useful for practical purposes :) i.e. 'ok I can talk about the
-LLM-ness here without it being quite so aggressive to do so because it's
-admitted'.
-
-And also political value in that 'here is how you are supposed to do it'
-vs. <how you did it>.
-
-I think there's definite practical human stuff that they provide sufficient for
-there to be value here, and I've found that in practice also :)
-
-(Though of course it's far far from resolving how we deal with the unattributed
-stuff, which remains an ongoing issue!)
-
->
-> --
-> Chuck Lever
-
-Cheers, Lorenzo
