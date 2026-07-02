@@ -1,31 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E5F64C0437;
-	Thu,  2 Jul 2026 14:09:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D19FB4949FF;
+	Thu,  2 Jul 2026 14:33:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783001361; cv=none; b=mCf/actJcLWWLApnFWcbPNFU8H9IjaZjQHNesDQxQKl1QmzRfBCUcd/9V+bUNsUjVWUD6UHQ6loUrbMvANmtlJ3F3Xen2/vRCSp9kuoUbi3nr7VgFXu+x36LO5WDpIqh6q4R6t5CqoMXvF5f3P6FMnLW0ajW5kB/WOJwRP7GPYA=
+	t=1783002798; cv=none; b=Me3/X7KKqNWKAsrp96N23iIdzMx4wW72GR7QeE9qLGlrfBhl4A0XDrPuibJe66iALamywBx02v3PhrH3b533YjeR+U0YbhsO0VIIw9SKaYVzfxUPE66OteLUwJCg9y6cHVyEbZoF2DWQLsPDM9eBUoH4I/nL0DXGs9YYg4g5UWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783001361; c=relaxed/simple;
-	bh=IvE61PuLXfGbmO1k4qX+HKiiz0LQPH6/nktPJ0/RztU=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=LvGvM+66Z/OBmqDhpRMp2+H483/lJmnEeEBh/61+oRRfXeKBqOAhM6zFrL6MYzXExqapAm4kBzVMQXB5OEw/KFsrObR7YfnYVVjXkynU0XwKN/rS2UWAXuM9cfGvsSdDlI8WZv8u8PHItKtrhMy8lyva5T972g09sURNd/07654=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ld6AbBrl; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783002798; c=relaxed/simple;
+	bh=VwALL1CLa3MHOZPyhYCPHFevCXfXeLWPcPMyfYsJl/8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ifnQwCeBBc5SzKKwVo+3bSfKsv9sgPRAtt5sCmonhM+wFndc9iCVJZVkvJ2DuS26Zm5SNAwY+jG0KUaaN9x2ud55GoyFvQzPV3IKT1TpX3zjJ1nJRkxyDz2X9dzeiI0JDj7mt+LtZ2o5haE1XLQM8HVOnzPJfzXR/b3cyGvjLYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EsgETONb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ld6AbBrl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FFCF1F000E9;
-	Thu,  2 Jul 2026 14:09:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EsgETONb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9BAF1F000E9;
+	Thu,  2 Jul 2026 14:33:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783001360;
-	bh=QGJysTifjaBTc1Wq80zUMCvLFgDxEVRXcP5jQBdhyJs=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=ld6AbBrlLz1TcvA2W3xDbz5JsKoPOy7UCMhGsAaK7GZ2yD5xBnWK0oL0aLU/FEuRp
-	 4Q+Btl9SKe+zSWuH5/f0Z7sPQ9kmiOHN5WiRmvRuiO1BW2cTwVqTcEa9bqYbJbEjyg
-	 22seUeOTn/68Wze4DL9Kl1lYskO9jxKGRnzSYKDQRaq0iD9dFhHFBpZgywNV6c2277
-	 1WgXCKN8p32jlrfyiiqHMXNH1J+dMpHl1PqMNBZnVtNhnHdOkiyP2RWAriFCu52tEz
-	 ivepOsad91r+Ml5JzCxZRkevBfYhFp0uF+zeVXt89f/mJCQE502aCxlnO9n+8c9se+
-	 SYDXosylp6nuQ==
+	s=k20260515; t=1783002793;
+	bh=WrG0OcwOEgURZ4WYdMBRYNJ5EzkU3zUGs20P0YcxiIM=;
+	h=From:Date:Subject:To:Cc;
+	b=EsgETONbu4Lf13kgKceGuPUwlW5Jop5gl7AkievMhu/qFGpHR3L9zpPvqzaWHJrPl
+	 WCWqXv0HEDxDIpSfhVE0e/6XiC/24YH7fBA2TnrArkajO5v+pEqNkESWw0vqqz0BZv
+	 E40rRn/ID4qgmmt3rrAoyuIDip2vNgYxEAGbquhWMbLk1J5IE9EBL4Il8ZN0aUKFYu
+	 J7i3S1Vx5Ie5Yb5ljauF4C1UR9cs0LS9wCMMWSv/c7CNnx/wsHMPYV3UxMZuaVXbOc
+	 PZK6V2Qa4UMHp52H7RuyJLkkWvGMJx65XkWPZ6RsDU14TDplp6r+JQlNkzJEb6EfRh
+	 7TuNzx4jmfn7w==
+From: Jeff Layton <jlayton@kernel.org>
+Date: Thu, 02 Jul 2026 10:32:48 -0400
+Subject: [PATCH] Documentation: remove the requirement for LLM attribution
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -34,52 +36,126 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-From: Christian Brauner <brauner@kernel.org>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>, 
- "David Hildenbrand (Arm)" <david@kernel.org>, 
- Linus Torvalds <torvalds@linux-foundation.org>, 
- Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
- Jeff Layton <jlayton@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+Message-Id: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDcwMj3cTMlPxkXfNUQ4s0IyPDFDPjRCWg2oKi1LTMCrA50bG1tQA60Uk
+ AVwAAAA==
+X-Change-ID: 20260702-aidoc-7e18f221d63a
+To: Linus Torvalds <torvalds@linux-foundation.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Justin Stitt <justinstitt@google.com>
+Cc: Lorenzo Stoakes <ljs@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+ Jori Koolstra <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>, 
+ Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>, 
+ David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>, 
+ Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>, 
+ David Hildenbrand <david@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>, 
  workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>
-In-Reply-To: <akZqigap0GTOSkyx@lucifer>
-References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
- <5e7b9d23-4291-48fb-bdc6-47db82d33c80@kernel.org>
- <20260702-seekrank-stilrichtung-mitentscheiden-69a64ee097ec@brauner>
- <1f29f48d-b9ff-4de2-a392-dc05781728be@kernel.org>
- <akYz2aMIco1fbD-t@lucifer>
- <54d3a698-a275-488e-ad36-ef423db30f70@kernel.org>
- <20260702-weitreichend-aufgearbeitet-flausen-fd92f38bbba0@brauner>
- <akZqigap0GTOSkyx@lucifer>
-Date: Thu, 02 Jul 2026 16:09:14 +0200
-Message-Id: <20260702-angewachsen-glatze-kassen-61b7761f6564@brauner>
-X-Mailer: b4 0.16-dev-4217c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=721; i=brauner@kernel.org;
- h=from:subject:message-id; bh=IvE61PuLXfGbmO1k4qX+HKiiz0LQPH6/nktPJ0/RztU=;
- b=kA0DAAoWkcYbwGV43KIByyZiAGpGcQyjse6Yhb47wGViqQKBUm75KFTygsV2NQaT0cfHFnR/6
- oh1BAAWCgAdFiEEQIc0Vx6nDHizMmkokcYbwGV43KIFAmpGcQwACgkQkcYbwGV43KI+agD/b9vq
- b7cFSi6de/+W9UrfVCLO8yOQR2bsE7mMoP+RRQ4A+wTVUKAugUGkvYlUY2uImqCEdGyf0ewMfiR
- 2QvAQOZMM
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+ Jeff Layton <jlayton@kernel.org>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3314; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=VwALL1CLa3MHOZPyhYCPHFevCXfXeLWPcPMyfYsJl/8=;
+ b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBqRnai/gKXOrwEHaJip75IM/d38JKS5kmCb/eoy
+ NT66RC0KhKJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCakZ2ogAKCRAADmhBGVaC
+ FXJDEACeLv7UX7B+3MkvQeF7XtMmdwNJANt7yElsGT0Hq2pQLLrHjN6IiUg4aphBS2wSbKp3Evv
+ FQyzZqj/OJBE1ZzoLhqNyCWqqWu7yFZ2n2eLwJO6Y4jgOL0sBZDL9BBvhkFlOeLjE0GPopFgP5z
+ VrG41+oHi51Gn/8GdoypLNKoBzBSm0IIs0+uz/dXJpxT270KnpK6mwXGtKyt7no1N0lcyOPIPJm
+ KXqZ2qnViDQPxqNx00sT9m45qVjsh+UludTVuHqvcBFNLYSMg9AhakAc3gTxpWsXCBhT1uEp683
+ lLG0AE/xNOGUa7QF6BYYtWuRtJsvzj/tj8s+9i4pMqhyACNJoDStE6OfgoeivTgiVGs/JfcXtvi
+ XruNCq9whl9ziCYa1nnnSCFJShLzxYEezF97z9cCb3zK7dOCt6LPl6c0vU665i1WLisOwuxKYr2
+ 56mH2oPSwI1tXbdbwM8pQNRQVb9LdoArZL7/AYjsVL1uzCMwtulHC+Xgs7iXK6fVQg9BPwfTzFv
+ HiRyq+f5nX+fTGg48T6SElmcTRzcKfkxq6dy+NZhQl3mBJhxPLJwHOx1pShgvrIZNF1sK4u1yZm
+ z01e5JBCmxCRBE/dq2vbfMngJReVnTBIe9BN3bunKeFXy4WUSgpGgw0bccG+bkvhmreDDmmRGFc
+ ZVXBV3x5Pu5xcnA==
+X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
+ fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 
-> > I think as a global policy this has ran its course.
-> 
-> I'm honestly not sure why you sent this patch in the first place if you're
-> simply going to ignore it (+ people's opinions) anyway :)
+We've had this requirement in place in the Documentation for several
+months, but it's becoming clear that the signal to noise ratio from this
+is quite low.
 
-I sent an RFC patch for the minimal acceptable change in my opinion. It
-turns out that the majority of people on here seem to prefer the removal
-that I mentioned as an alternative in the commit message instead and it
-already happens in practice.
+1/ It's not universally followed. While many people do try to attribute
+the LLMs in good faith, not everyone does for various reasons.
 
-> I'll still send a patch to link the apparently redundant AI doc to the generated
-> tooling doc because for those who do pay attention it's silly that they're not
-> connected.
+2/ It basically serves as free advertising for proprietary LLM companies.
 
-This on the other hand seems a bit strange given the direction of this
-discussion.
+3/ It's not clear why we want to collect this info in the first place.
+
+Given that the data this provides is flawed at best and is being
+collected for a purpose that isn't clear, let's just kill the
+requirement for these tags from the kernel at large.
+
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+---
+Christian had proposed watering down the LLM attribution, but I think
+it's not productive to try and track this until we have a clearer sense
+of what we want to do with this information and how to make it more
+reliable.
+---
+ Documentation/process/coding-assistants.rst  | 22 ----------------------
+ Documentation/process/submitting-patches.rst | 10 ----------
+ 2 files changed, 32 deletions(-)
+
+diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
+index 899f4459c52d..c4cc0917fc92 100644
+--- a/Documentation/process/coding-assistants.rst
++++ b/Documentation/process/coding-assistants.rst
+@@ -35,25 +35,3 @@ is responsible for:
+ * Ensuring compliance with licensing requirements
+ * Adding their own Signed-off-by tag to certify the DCO
+ * Taking full responsibility for the contribution
+-
+-Attribution
+-===========
+-
+-When AI tools contribute to kernel development, proper attribution
+-helps track the evolving role of AI in the development process.
+-Contributions should include an Assisted-by tag in the following format::
+-
+-  Assisted-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]
+-
+-Where:
+-
+-* ``AGENT_NAME`` is the name of the AI tool or framework
+-* ``MODEL_VERSION`` is the specific model version used
+-* ``[TOOL1] [TOOL2]`` are optional specialized analysis tools used
+-  (e.g., coccinelle, sparse, smatch, clang-tidy)
+-
+-Basic development tools (git, gcc, make, editors) should not be listed.
+-
+-Example::
+-
+-  Assisted-by: Claude:claude-3-opus coccinelle sparse
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index cc6a1f73d7f2..b74c38aa9770 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -634,16 +634,6 @@ bugzilla.kernel.org is a public place in this sense, but email addresses
+ used there are private; so do not expose them in tags, unless the person
+ used them in earlier contributions.
+ 
+-Using Assisted-by:
+-------------------
+-
+-If you used any sort of advanced coding tool in the creation of your patch,
+-you need to acknowledge that use by adding an Assisted-by tag.  Failure to
+-do so may impede the acceptance of your work.  Please see
+-Documentation/process/coding-assistants.rst for details regarding the
+-acknowledgment of coding assistants.
+-
+-
+ .. _the_canonical_patch_format:
+ 
+ The canonical patch format
+
+---
+base-commit: 665159e246749578d4e4bfe106ee3b74edcdab18
+change-id: 20260702-aidoc-7e18f221d63a
+
+Best regards,
+-- 
+Jeff Layton <jlayton@kernel.org>
 
