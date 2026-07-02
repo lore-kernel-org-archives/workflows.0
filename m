@@ -1,142 +1,188 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77BE12C0268;
-	Thu,  2 Jul 2026 08:28:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A60539023D;
+	Thu,  2 Jul 2026 08:41:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782980899; cv=none; b=NN9iFe9mrNmY4UpfOOaMfKDX9xc19T3VzfsMqGyD/cZ5vFxeaoURAEIhDUPGm5dt4noA5Hun9nrrpq625DVNs6XiWZFopScPfQQdr+5vWnuLRapbQYwgLG5ZymF6gkFV10qrrL41+oCzduPS8i8qYmG4QBx9zaicATsD1ClkHYk=
+	t=1782981685; cv=none; b=sP2eRMYNIFG0WHHQYsqlsRI2cTVuxO/NRW/BGxT0U/NbVbvKau5XD72asDxg5VdPY/xmJxeiPrpRaSRzR2QJpjWXrjUmGEV7ARIpYqG2QEMq6YungxmhRWCYjMxUngy6X5hGR9gwOJGX45lpXf1kVTvkQwXhUe8ZQ/nWjKVJGOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782980899; c=relaxed/simple;
-	bh=8Jjaypqu8RekBvlZLg0vu2Up4Spfh5YTOzvefkq9TLU=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=KA1YOmCm4qrmJCDJcH4MMPXYwx2qCDvmn8gVTg9HxiXxr8H40w1KMwMNUsPU943qlO3ESl23O8i4Fx8eQMeNATmW2aNvl1muWLmnZLa4fRiVdM/iAonW4zqcAohttEqjAI7NDnKJwiuh17mTJ6TTnDoEAQjLZwPxmJRux8v6TSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MeSiIH2V; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782981685; c=relaxed/simple;
+	bh=uS6H1vybufcMrBzGVlLAS12K/WELMyHonKhkW+GOS80=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RTMhkiHciDyOqdB+F/PwqKkHc0s9f4EXFX94Kqxena6c1lzZIu5t1De63LbuhzyoxMs1z8c4tDSQE7lw58XNK5Ia6TgBeA35hOWwDDAzZFqs9Nl4wvUr1TdZVm/mlJDLTB9M/+FwM1qAcoQWHDhazs3z3hICVTKg+UzRv+pMLPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=kB2kuRdJ; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MeSiIH2V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCF1F1F000E9;
-	Thu,  2 Jul 2026 08:28:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782980898;
-	bh=pu9emM89wjPdv27sahxV6Zf17AZnAmlt4GJ1gMEvS/s=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=MeSiIH2VVjHvwBCqMnsrf3K2MXDbgVlRe089tkfJTHTJ2z8Sih0NTNMTkkekmp2W+
-	 zdR1ykJPi5UaWChsGWci2iyp6RWZE7Xy8O5ylpUqxod4eo4Z0DjGJGM33aFQ9ZrSqI
-	 GFGWcPEHEN/guhU/wVbeUWfDe75PmrCaLpALVpZuHQrqug3Rba3+m/YUD1r7/FUVik
-	 r0oR0V1cbKm4qGCVjGIBqmGchVwWBJNjYg5+4Ikb2/D8NLeIa8UbyNTcBJmXJJcstn
-	 Z54qmXZFQ/1y0+3x5ktg6ZBx2tRBwygwCLx3e3YbDeC+ydgY/0vAZyeQ+eZLlc5oj5
-	 FLdEcDbINSopg==
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="kB2kuRdJ"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F1B34288E;
+	Thu,  2 Jul 2026 01:41:18 -0700 (PDT)
+Received: from arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A6CE73F905;
+	Thu,  2 Jul 2026 01:41:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1782981683; bh=uS6H1vybufcMrBzGVlLAS12K/WELMyHonKhkW+GOS80=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kB2kuRdJqhIAttHXCAg7EFBcrsfkbhYc53SncoZGkDjDWwWp9hilj9K9DtXj1wgNN
+	 hx3HFk9kGusTD0jJM90czwcBLOJRxHISYIKMl2cDB9PWJeX902Sbkj0prh7chT/6rN
+	 Lrv5y/e3hB+HkWtbNxay5a5Q4kNkRoyHC7ZdIJuU=
+Date: Thu, 2 Jul 2026 09:41:14 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Breno Leitao <leitao@debian.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH 2/2] selftests/mm: test kmemleak's N-consecutive-scan
+ leak confirmation
+Message-ID: <akYkKgWOsYnw6ETE@arm.com>
+References: <20260626-kmemleak_twice-v1-0-ab28f7cc0971@debian.org>
+ <20260626-kmemleak_twice-v1-2-ab28f7cc0971@debian.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-From: Christian Brauner <brauner@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Christian Brauner <brauner@kernel.org>, 
- "David Hildenbrand (Arm)" <david@kernel.org>, 
- Linus Torvalds <torvalds@linux-foundation.org>, 
- Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
- Jeff Layton <jlayton@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
- workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-In-Reply-To: <20260702080840.GG3433808@killaraus.ideasonboard.com>
-References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
- <5e7b9d23-4291-48fb-bdc6-47db82d33c80@kernel.org>
- <20260702-seekrank-stilrichtung-mitentscheiden-69a64ee097ec@brauner>
- <20260702080840.GG3433808@killaraus.ideasonboard.com>
-Date: Thu, 02 Jul 2026 10:28:13 +0200
-Message-Id: <20260702-bahnen-ertappen-verspannungen-0eaaf1e3f5af@brauner>
-X-Mailer: b4 0.16-dev-4217c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3844; i=brauner@kernel.org;
- h=from:subject:message-id; bh=8Jjaypqu8RekBvlZLg0vu2Up4Spfh5YTOzvefkq9TLU=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS5KcpH3/rPE/Ha7OLCVAW/q5sWy5gvUGf48Kv23yKFb
- Nu7Dy996ShlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZhI+21Ghj3W6ZPUz/96lPvy
- 58yzqto61qtu1Kc/dP+6Kd/1m96VlkKGfzqrnmy5V6SjIiQbH7JePjByaWt5KvMjiQoOl+2THpc
- bcQAA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260626-kmemleak_twice-v1-2-ab28f7cc0971@debian.org>
 
-On 2026-07-02 11:08 +0300, Laurent Pinchart wrote:
-> On Thu, Jul 02, 2026 at 09:27:37AM +0200, Christian Brauner wrote:
-> > > What would be much more relevant to know is to which degree LLMs were used.
-> > > 
-> > > Assisted-by: LLM # translate commit message
-> > > Assisted-by: LLM # generate some test cases
-> > > Assisted-by: LLM # cleanup logic
-> > > Assisted-by: LLM # everything and I have no clue what any in here does
-> > 
-> > I think we should just drop any attribution as a general kernel-wide
-> > rule and let subsystems require them as needed. Then you can have all
-> > the complexity in mm for this that you think is needed for your
-> > workflow to function. This is precisely what the subsystem profiles are
-> > for. So maybe just add:
-> > 
-> > Documentation/process/maintainer-mm.rst
-> > 
-> > alongside
-> > 
-> > Documentation/process/maintainer-{tip,netdev,x86}.rst
-> > 
-> > and lay down the rules that you require for LLM based submissions in
-> > whatever detail you need.
-> > 
-> > I don't see how this additional commentary you want would ever be
-> > enforced consistently across the kernel or who would even enforce it. I
-> > don't need more beaurocracy to chase after people in my subsystems tbh.
-> > 
-> > The other thing is that I think this Assisted-by annotation is just
-> > noise in the changelog. If you want to know in detail what an LLM was
-> > used for when generating the patch it's mostly a signal for how
-> > "intense" of a review this will get afaict (already questionable imho
-> > but sure that's just something to disagree on).
-> > 
-> > If the information is mostly useful during review then I still would
-> > question why it has to end up in our git logs. It's completely
-> > irrelevant information imho.
-> 
-> Food for thought, the Kubernetes project has published a disclosure
-> policy ([1], reported by LWN.net at [2], with a blog post explaininig it
-> at [3]). Quoting LWN.net,
-> 
-> "Of note, the project requires disclosure when AI tools have been used
-> to assist in the creation of a contribution but forbids the use of
-> listing AI as a co-author or including "assisted-by" or "co-developed"
-> trailers to attribute work to an LLM tool."
-> 
-> I personally don't see a lot of value in the Assisted-by trailer, but I
-> would like the submitter to include the information in a place that
-> doesn't end up in the git commit history (cover letter or below the ---
-> line).
+On Fri, Jun 26, 2026 at 08:52:03AM -0700, Breno Leitao wrote:
+> --- /dev/null
+> +++ b/tools/testing/selftests/mm/ksft_kmemleak_confirm.sh
+> @@ -0,0 +1,111 @@
+> +#!/bin/bash
+> +# SPDX-License-Identifier: GPL-2.0
+> +#
+> +# Functional test for kmemleak's N-consecutive-scan leak confirmation
+> +# (the min_unref_scans module parameter).
+> +#
+> +# kmemleak only reports an object once it has stayed unreferenced for
+> +# min_unref_scans consecutive scans. The default of 1 reports on the first
+> +# scan (historical behaviour); higher values filter transient false
+> +# positives where a live object's only reference is briefly invisible to a
+> +# single scan (e.g. an RCU tree update in flight while the scan runs). The
+> +# test loads samples/kmemleak's helper module to create orphan allocations
+> +# and, counting only those orphans (matched by their [kmemleak_test]
+> +# backtrace so unrelated leaks already present on the system are ignored),
+> +# checks that:
+> +#   - min_unref_scans=1 reports them on the first scan,
+> +#   - min_unref_scans=2 reports nothing on the first scan but does on the
+> +#     second,
+> +#   - the parameter reads back what was written.
+> +#
+> +# The "nothing on the first scan" check is the core regression test: with
+> +# min_unref_scans=2 no object can be reported in fewer than two scans. Like
+> +# ksft_kmemleak_dedup.sh, if the module yields no detectable orphan at all
+> +# in the running environment the test skips rather than failing.
+> +#
+> +# Author: Breno Leitao <leitao@debian.org>
+> +
+> +ksft_skip=4
+> +KMEMLEAK=/sys/kernel/debug/kmemleak
+> +PARAM=/sys/module/kmemleak/parameters/min_unref_scans
+> +MODULE=kmemleak-test
+> +AGE=6		# seconds; must exceed kmemleak's 5s minimum object age
+> +
+> +skip() { echo "SKIP: $*"; exit $ksft_skip; }
+> +fail() { echo "FAIL: $*"; exit 1; }
+> +pass() { echo "PASS: $*"; exit 0; }
+> +
+> +[ "$(id -u)" -eq 0 ] || skip "must run as root"
+> +[ -r "$KMEMLEAK" ] || skip "no kmemleak debugfs (CONFIG_DEBUG_KMEMLEAK)"
+> +[ -w "$PARAM" ] || skip "min_unref_scans module parameter not present"
+> +modinfo "$MODULE" >/dev/null 2>&1 ||
+> +	skip "$MODULE not built (CONFIG_SAMPLE_KMEMLEAK)"
+> +
+> +# kmemleak can be present but disabled at runtime (kmemleak=off boot arg,
+> +# or it self-disabled after an internal error); a "scan" then returns
+> +# EPERM. Probe once and skip if so.
+> +echo scan > "$KMEMLEAK" 2>/dev/null ||
+> +	skip "kmemleak is disabled (check dmesg or kmemleak= boot arg)"
+> +
+> +prev=$(cat "$PARAM")
+> +# shellcheck disable=SC2317  # invoked indirectly via trap
+> +cleanup() {
+> +	echo "$prev" > "$PARAM" 2>/dev/null		# restore the parameter
+> +	echo scan=on > "$KMEMLEAK" 2>/dev/null		# re-enable auto scan
+> +	rmmod "$MODULE" 2>/dev/null
+> +	echo clear > "$KMEMLEAK" 2>/dev/null
+> +}
+> +trap cleanup EXIT
+> +
+> +# Stop the automatic scan thread: only our manual scans should advance an
+> +# object's consecutive-unreferenced run. An auto scan landing between two
+> +# manual scans would change the result and make the test flaky.
+> +echo scan=off > "$KMEMLEAK" 2>/dev/null
+> +
+> +# Create a fresh, aged set of orphan objects from the helper module's init
+> +# path (its kmalloc/vmalloc/percpu allocations are dropped right away).
+> +# Pre-existing reported leaks are greyed first ("clear") so only our
+> +# orphans are counted. The module is left loaded on purpose: once it is
+> +# unloaded its symbols are gone, so the orphan backtraces no longer resolve
+> +# to [kmemleak_test] and could not be matched below.
+> +gen_orphans() {
+> +	rmmod "$MODULE" 2>/dev/null
+> +	echo clear > "$KMEMLEAK"
+> +	modprobe "$MODULE" || skip "failed to load $MODULE"
+> +	sleep "$AGE"
+> +}
+> +
+> +scan() { echo scan > "$KMEMLEAK"; }
+> +
+> +# Number of helper-module orphans currently reported by kmemleak. Matching
+> +# the module's own backtrace ([kmemleak_test]) keeps the count immune to
+> +# unrelated leaks on the running system. kmemleak only lists an object here
+> +# once it has been reported, so this reflects the confirmation gating.
+> +count_orphans() {
+> +	c=$(grep -c '\[kmemleak_test\]' "$KMEMLEAK" 2>/dev/null)
+> +	echo "${c:-0}"
+> +}
+> +
+> +# 0) the parameter reads back what was written.
+> +echo 3 > "$PARAM"
+> +[ "$(cat "$PARAM")" = "3" ] || fail "min_unref_scans did not read back as 3"
+> +
+> +# 1) min_unref_scans=1 (default): orphans reported on the first scan. This
+> +#    also establishes that the helper produces detectable orphans here.
+> +echo 1 > "$PARAM"
+> +gen_orphans
+> +scan
+> +first=$(count_orphans)
+> +[ "$first" -gt 0 ] ||
+> +	skip "$MODULE produced no detectable orphans (cannot test min_unref_scans)"
+> +
+> +# 2) min_unref_scans=2: nothing reported after the first scan, reported
+> +#    after the second. The first-scan-zero check is the core regression.
+> +echo 2 > "$PARAM"
+> +gen_orphans
+> +scan; s1=$(count_orphans)
+> +scan; s2=$(count_orphans)
+> +[ "$s1" -eq 0 ] || fail "min_unref_scans=2: $s1 orphan(s) reported after the 1st scan (must be 0)"
+> +[ "$s2" -gt 0 ] || fail "min_unref_scans=2: no report on the 2nd scan (false negative)"
+> +
+> +pass "min_unref_scans=1 immediate; =2 gated to 2nd scan (counts $first/$s1/$s2); param read-back ok"
 
-Fwiw, way before k8s I had systemd adopt the following policy:
+Are these off by one? Kmemleak has a mechanism to detect live objects
+via the checksum. A side effect is that on allocation, the checksum is 0
+and only after the first scan the checksum is changed. On checksum
+mismatch (i.e. the first scan), we mark the object gray temporarily and
+won't increment unref_scans. So we already have an implicit two scans
+required to report an object as unreferenced during its early life.
 
-https://github.com/systemd/systemd/blob/main/docs/CONTRIBUTING.md#policy-on-the-use-of-large-language-models-llms-and-ai-tooling
+I think this test needs a priming scan to update the checksums followed
+by the actual check for min_unref_scans (with scan=off, otherwise random
+scanning will skew the results).
 
-    We expect everyone contributing to systemd to fully own their
-    contribution, be able to reason about it, be able to explain why things
-    were done a particular way and act as the full owner of that code. AI
-    tools are treated the same as traditional tooling like sed, awk or
-    coccinelle.
-
-    For the purpose of this project, AI tools CANNOT be treated as author,
-    co-author or be credited in any way that would suggest any ownership
-    over the contribution.
-
-    The contributor should have done all the thinking, planning and
-    understanding of the changes needed to resolve an issue or implement a
-    new feature prior to using automated tooling to perform the grunt work.
-
-    Unguided use of those tools or the inability to prove understanding of
-    the code contributed will result in a loss of trust in that contributor
-    by project maintainers which can then lead to exclusion from any further
-    contribution to the project.
-
-    As with any other submissions, authors are responsible for doing due
-    diligence and ensuring their submissions are compatible with the
-    project's license as documented in LICENSES/README.md.
-
+-- 
+Catalin
