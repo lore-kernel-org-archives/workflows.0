@@ -1,36 +1,33 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 248783CB2EF;
-	Thu,  2 Jul 2026 11:27:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 113EC2DFA2F;
+	Thu,  2 Jul 2026 11:35:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782991678; cv=none; b=k1nTH8IJeRLr6ReYn+MBQs6Ru366FN+6B6qcLC+MboQ7TSZiuOL3Yrc74S6HNCr8/lU8fw1mH1fsOa+QtMberYZ2gUdpKha/e5zHYWbslb8Lj9f+jxawMmVGo5CV7KKvcG65xVqbU8Wh0Gv1xUn+OLNVmhsMh10FuHLwrCnJqe0=
+	t=1782992128; cv=none; b=gjJmR/84NhqIsk2H+nqb/qe/W66pmElFXHenHYqHsMWDd4x93sl0aHO/jckkOu400Xx8LfAGKbiKqWksgukC+ict32RXBhZRCc4yqQh9FIALACEeFXl3aIcUQTh/RnsKxnxHNVe78GcfVH0AMrls4wmTQwieMzel6cgf8YCUjDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782991678; c=relaxed/simple;
-	bh=fM1g4x2BNT0I+p2uEA6GyQp5uAqaZy5LUt3RSXD/WvA=;
+	s=arc-20240116; t=1782992128; c=relaxed/simple;
+	bh=BjcbYXCdqTJh939WrQc12HPWeFxIa/Kkv7EJRbyw4io=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uNpEyx/GDJt+gF0D8JzDwfiIl4jtJm9aT2Uk9Cf9QY6HGmIfh6CCRLjLgkCf1NlKcIwyjl6SiBpelALK7TE4URWeCsbnwrCyA7ziouf2i9kGiWzvOt8Gd1L3fel8rrT/i5MKX88SgPwPbGrdbxUX1HpHV0uIa91g/tqc9V93tIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MrufhUSr; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=qemALQUsnujNe5SdlpI6J3Qc7O4bgBZ2U7Ii7lgX/EPK5F57PRxGVYoBTSkWgKdAhwg+mE3IBAy1rYk1wSEXsfdJfc3rX96iZXti7m9sxc2GQxudtPIyjHMPv9yepbbdOojnRyybMSRa7hmlenvMZWipAoOpPmm8zL+gtrXVhyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JZ9sQXtl; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MrufhUSr"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=xZVlJRZf0uavPI96jC0PFQV0YrUSBkAByWeLeb7ZK8I=; b=MrufhUSrMzj4v8PiyeZwfWD2hs
-	JWNM0PN+UZIKM+as+lGeV5dSDXsxWXYqnDug0ttQVDLtWFB1Vwa8GQ4NEx8VUvnJZ6VVrd7AkwKTF
-	7j32uGIz6jQSJcsXGH6Jli4wCre2P29E2IHDCLFxd0Qi/XBXmyaKBGDVo8y4ZvwF5LC30TIzrizfD
-	A4IA4P+qZ0wVutOHjiBQp5hp7ZLfWBAFLMrIDzVRCyPPrzuqLlQPHa+TpFepXrGQSjbTgBXcJAv30
-	orQPb6u6rVidkRBtfS7WddlYmUQGijhEHc7YWvTv6hiz781DBpmDFQjVeUUOxqTGxg2mbf+FLY8ms
-	AwRGYfkg==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wfFaF-00000004Jhy-3Bjo;
-	Thu, 02 Jul 2026 11:27:55 +0000
-Date: Thu, 2 Jul 2026 04:27:55 -0700
-From: Christoph Hellwig <hch@infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JZ9sQXtl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 796751F000E9;
+	Thu,  2 Jul 2026 11:35:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782992126;
+	bh=1pwM7n/u2kSrUcdJ3ZFWmOq97lL6l2O1hk/UECX/G3E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=JZ9sQXtl0aUwgKc+Fyi2RMXNroekDcgK/ccnd6JmVRI0ZoTIk/uZd2LDbl8KC8nKR
+	 1X6Er47uoqiCfDq5hPRaYHEQ2Ch4XoMcyvAVaaoiryX0BgTcIEeO/oDc1YsOngTyPB
+	 O0peHKxUNOu3bKJR/nFdGrRVvTRoqgTjqqdEdDrvlgk1EETnuojhg6TEXJjeu0qYnG
+	 HNvN1NhWR9SmfgncJ00giCdh8aaFnTRD9ybG40aOIthYTTWP6Yk25Wk4lZPIji5FXW
+	 EqKImlv5U5TTA536o1IIbDWjkntd3IdJ/Waj7yvTVtC9GqZDKNr+7BPi8NgJbonxjs
+	 +CBQXDtKQKHeA==
+Date: Thu, 2 Jul 2026 12:35:21 +0100
+From: Mark Brown <broonie@kernel.org>
 To: Christian Brauner <brauner@kernel.org>
 Cc: Linus Torvalds <torvalds@linux-foundation.org>,
 	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
@@ -40,32 +37,58 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org
 Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-Message-ID: <akZLO6KcGRW4BCW_@infradead.org>
+Message-ID: <5272cc4b-262a-4efb-9b99-50ea61695c93@sirena.org.uk>
 References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+ <70c1d2eb-a1ae-441c-91d4-1c5113b131aa@sirena.org.uk>
+ <20260702-ehebruch-dromedar-anbiedern-1116154f96dc@brauner>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ZVvYCLokbOAFQKm9"
+Content-Disposition: inline
+In-Reply-To: <20260702-ehebruch-dromedar-anbiedern-1116154f96dc@brauner>
+X-Cookie: Reactor error - core dumped!
+
+
+--ZVvYCLokbOAFQKm9
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Wed, Jul 01, 2026 at 05:54:48PM +0200, Christian Brauner wrote:
-> Assisted-by: LLM
-> 
-> or
-> 
-> Assisted-by: Coding Assistant
+On Thu, Jul 02, 2026 at 09:10:16AM +0200, Christian Brauner wrote:
+> On 2026-07-01 17:08 +0100, Mark Brown wrote:
+> > On Wed, Jul 01, 2026 at 05:54:48PM +0200, Christian Brauner wrote:
 
-I think what is more relevant is what assistance there was.  If the
-code was generated by an LLM we should plain out reject it out of
-copyright grounds.  If it was used for validation or ideas: who
-care?
+> > > And it reamins unclear to me what exactly we do get out of this detailed
+> > > information: Do we want to run statistical analysis on what agent and
+> > > model is used the most and publish that on LWN at some point?
 
-I.e. do we need this at all except as a guard against vibe code junk
-that pull in other copyrighted material?  And do we really rely on
-a tag instead of detecting it by the usual signs?
+> > IIRC it was literally this, have people mention which tools they used so
+> > we can use that to inform our assessment of the patches.  I'm not sure
 
+> Forgive my candor but I think that is just useless for us. It's
+> certainly useful for AI company statistics. If we want to provide that
+> service I would recommend we start charging. ;)
+
+Yeah, that was more an observation of fact than a comment on value.
+Certainly now we're able to see what things look like in practice.
+
+--ZVvYCLokbOAFQKm9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpGTPgACgkQJNaLcl1U
+h9BE+gf+JMNLfzqoTw7wcTvxlFAC5AO9SVbqT1cv2BzgFdmmhKjGTONSe+maIxvZ
+YdEqzg7mrtYPvAoMFtKIP4loTDmrs318k90OI4MZJ7YI1kqNbubn0HYBapp9fBt/
+EqWzjxnu8RjHDcQlh5352PhoDHXd4k/zTPNJD8A45WuFZ85+LB7e/h+7b87/YiqG
+wyWU55zkUhBQ8cs81+boDRefZiv3OZbG7nu++gU8J8NnrobQ1MpPo/mGtKGsoDEm
+L47pSlCPDj1+YeJg7J83U2M8Wfc3qvYbnN1ZH/nPFdZ49cYsKJXoXK1JCmel4KOL
+g1suEVOs5xFlxCE7BzSItiSZz6Xe9A==
+=qEt3
+-----END PGP SIGNATURE-----
+
+--ZVvYCLokbOAFQKm9--
