@@ -1,178 +1,220 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EAFC2E8DEA;
-	Thu,  2 Jul 2026 12:40:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D58DE480951;
+	Thu,  2 Jul 2026 12:49:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782996002; cv=none; b=b343JbCO5QvsoaLihcjUagGKNamt9pH7stPiEONHC5DAuwwlUol6/fksnEsjOtUITRnDyAxElqlRQA0jcoc+/HDorZHtqErXFx251WJXzEfos9HQyEeSVzR2VCd4HHICS2nkNfQPa9jzjVtYOIxNe9m4rg/o32lUq/Hzgj0Sc74=
+	t=1782996558; cv=none; b=iGMBOa4oFDoKxfRsThZf04CXPEgJSXIMSW3zruFHlH6e8TJscUZLNF9OUbZo0n3xcZviDAFFiabcaCoPwmxyeg5Z2xSJ1Prbqbceu1c6VxJpMl9HhnJjGYtePqZN5dhFeQHyAKG47V7ops/rMhhaMGPaYKSSZLJy8oed1/8cQ0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782996002; c=relaxed/simple;
-	bh=3axNtMZZ6hvzc94Ke4W+1ty9JZ3i1hGJEWsAAGEua0o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F5B/hHuo3o4kUtCJT3mQWjl/vkEMiuJhXFYr2QcJm3z4md32nfcwGVOb0Vy7Wboyv7l3kwYBajbc0+C42hEWMj88WSjeKbjbPGgqQ5DrOsZKVWUUOmJCb/cp7PF1B/g4/wYhazwisg0Xff9kf/mnrZ8J0ubNHIvcxRoxEWsS1tI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CZWeFBgG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782996558; c=relaxed/simple;
+	bh=2ehsPQFCG7dqB0gfauORyOk54MRv9xXLvMVwyvFcdfM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MXf/4J9hcYI68hohmOHniueMQ4QZbRBFYtnwux+Md+tA6hf2p3jSE3qAZHNFfNFZDFacOFSXe2vPea8VM2aMeHQHe6G/UHAtlWx8b9RcqO2ksiyyJJIVTaT+CxgAmnpV2wzIUia8YCC3m/btxcpJYA3+FHgGEC27OqSMc5xD9/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WIGdnMMp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CZWeFBgG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2E381F000E9;
-	Thu,  2 Jul 2026 12:39:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WIGdnMMp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 022611F000E9;
+	Thu,  2 Jul 2026 12:49:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782996001;
-	bh=LzlB2TISOANdddexIz6jlk85wGYRGJOEKANaM3zy/p0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=CZWeFBgGPLQXMyJJ/PESA1qwRFh4t4fMPo63pBqk+wvmm9Zi/WshKYTdHJ8ZB6Tmx
-	 1vcOiJ9n1F18TZNIOMeDv8pkM7PrLV031LuNhKG8hNl33ijGkxtQjevEii/Z445vvO
-	 8zbUICU8PRRk0zgsIfyUu/xUOnjnIPy0fU9SAO3WP8vB7nqvFt6cJGgPUGcSXeaQh5
-	 9YjUk9JJ271XtQGxR3oxBfIXsmLUGLy3p8fybTQmB456UiccDF3xHE6MqdD7YtHndV
-	 1TU0j/wejrJzbu+al/4dpR8IHAXjL+N5kXWgbkWeUh/IsQDNURstwRa+ukndWLMpx2
-	 SAi9qW2Ej8f7g==
-Message-ID: <a4406124-2d0c-4703-9ee6-174af94d6fd9@kernel.org>
-Date: Thu, 2 Jul 2026 14:39:53 +0200
+	s=k20260515; t=1782996556;
+	bh=2ehsPQFCG7dqB0gfauORyOk54MRv9xXLvMVwyvFcdfM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=WIGdnMMpMr5mDzh8n4Euq3pAWpsGUjs+ClPp5mhTGgc1rAwXAPP8S/3tYhlthOXl/
+	 MI1D/E44ZksaYNlbz+wIHDF/CBr9W1M3LyWd7srX+X3usGfM9szkJMaA1SoajNoCmY
+	 lBUKB2s1cngqlx1dXsQzAvMDkXjyp/+H5vu/gGzU7SbDouAUlnCFnOnk49pw8UraMd
+	 Tsjkc7SFqw357isJuMNsUhibOn1dpMn8BsDuU1P+ztpRUT/jllQIjk7xMmny+YYuEz
+	 eNCo6txhZxxaeY8vBv3ZCinvzrMbkEa9aF2lSK/YKssBS9N6Md9JEcXM0YI6nePftw
+	 k771xBbSEQBGg==
+Date: Thu, 2 Jul 2026 13:49:07 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
+	Jeff Layton <jlayton@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
+Message-ID: <akZYSGoysWSb0K1J@lucifer>
+References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+ <5e7b9d23-4291-48fb-bdc6-47db82d33c80@kernel.org>
+ <20260702-seekrank-stilrichtung-mitentscheiden-69a64ee097ec@brauner>
+ <1f29f48d-b9ff-4de2-a392-dc05781728be@kernel.org>
+ <akYz2aMIco1fbD-t@lucifer>
+ <54d3a698-a275-488e-ad36-ef423db30f70@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
- Jori Koolstra <jkoolstra@xs4all.nl>, Christian Brauner <brauner@kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
- David Hildenbrand <david@kernel.org>, Jeff Layton <jlayton@kernel.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
- <akYasD1ckWcH1C0g@lt-jori.localdomain>
- <a17b9a17-0ca7-4912-836d-4637cd0110f7@kernel.org>
- <afd0635c-1903-4c7b-8023-cbcd1823e081@kernel.org> <akZXGJSy0FA3kQ3-@lucifer>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <akZXGJSy0FA3kQ3-@lucifer>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <54d3a698-a275-488e-ad36-ef423db30f70@kernel.org>
 
-On 02/07/2026 14:23, Lorenzo Stoakes wrote:
-> On Thu, Jul 02, 2026 at 12:34:34PM +0200, Krzysztof Kozlowski wrote:
->> On 02/07/2026 10:44, Vlastimil Babka (SUSE) wrote:
->>> On 7/2/26 10:12, Jori Koolstra wrote:
->>>> Ah, I still reigniting this discussion again :)
->>>>
->>>> What about a combination of what David and Jeff say? The whole point
->>>> seems to me that the salient information is not that an LLM was used (or
->>>> are we going to tag Sashiko as well or any other LLM-based code review
->>>> tool?), but what is was used to do. This information may be relevant for
->>>> how the review is approached. The latter should perhaps only be in the
->>>> cover letter and then we can drop the assisted-by tags altogether.
->>>>
->>>> The question about enforcement remains.
->>>
->>> It's not possible to enforce it. People can deny it if the tag is missing
->>> and you confront them and even though the submission has many signs of being
->>> obviously LLM, there is no definite proof. We've seen (likely, as there's no
->>> proof!) that happen in mm.
->>>
->>> Such situation then penalizes those who disclose so obviously they won't. We
->>> should drop the tag and instead think how we can empower maintainers to be
->>> able to use their own judgment and deprioritize dealing with what they
->>> perceive as LLM slop, without fearing consequences of not being properly
->>> responsible etc, and not rely on any non-enforceable tags for that.
->>
->> +1
->>
->> I see no benefits of enforcing the tag for these exact reasons. Every
->> LLM slop will miss the tag. OTOH, seeing reasonable contribution with
->> the tag makes my spider-senses tingling and causing unnecessary
->> prejudice. If the contribution is reasonable, how does the tag
->> information helps me? I trust (or not) the person, regardless what tool
->> they use.
->>
->> And if we think about any future possible copyright issues with LLM
->> contributions (like if there is ever a ruling that model trained on BSD
->> data creates BSD-derivative work etc), does that tag anyhow solve it?
->> Like if that ruling appear we will go through the history and revert the
->> commits?
-> 
-> Why would you take information _away_ from maintainers?
-> 
-> You're making every LLM 'accusation' a risk for a maintainer because you might
-> get the 'how dare you accuse me of using an LLM rah rah rah' response.
-> 
-> Why not eliminate that in at least some cases?
+On Thu, Jul 02, 2026 at 01:51:10PM +0200, David Hildenbrand (Arm) wrote:
+> On 7/2/26 12:04, Lorenzo Stoakes wrote:
+> > (thanks for the cc-!)
+> >
+> > On Thu, Jul 02, 2026 at 09:46:37AM +0200, David Hildenbrand (Arm) wrote:
+> >> On 7/2/26 09:27, Christian Brauner wrote:
+> >>>
+> >>> I think we should just drop any attribution as a general kernel-wide
+> >>> rule and let subsystems require them as needed. Then you can have all
+> >>> the complexity in mm for this that you think is needed for your
+> >>> workflow to function. This is precisely what the subsystem profiles are
+> >>> for. So maybe just add:
+> >
+> > A single comment is complexity?
+>
+> I think Christian meant more elaborate rules. More than just "If you used LLMs,
+> disclose how you used them."
 
-Because I don't think we will be able to enforce that information,
-therefore it is close to pointless.
+What's elaborate?
 
-And if you ask about future copyright issues, I simply do not believe
-the tags will matter based on argument (repeating): what are you going
-to do with that information that commit was involving LLM tool which now
-received some copyright-related verdict?
+"Say how much of your patch is LLM written, here are some examples".
 
-> 
-> I continue to be baffled at people's opposition adding a single line to emails,
-> or a single little comment on the end of it.
-> 
-> I do agree with Vlasta that we need to have a clearer way to just say no (TM) if
-> we strongly suspect an LLM.
+Surely?
 
-This part is not being discussed by me and I think the thread itself is
-not about it.
+>
+> >>
+> >> I'm not really sure if having (more?) subsystem-specific tags is the way to go.
+> >> (below)
+> >>
+> >> So either we find a very simple, kernel-wide rule for such tags, or we drop them
+> >> entirely.
+> >
+> > Yup I couldn't disagree more with Christian here, the whole thing feels like
+> > trying to 'wish away' the AI issue, and now punting off to subsystem
+> > maintainers...
+> >
+> > Subsystems impact each other. Right now I'm writing a series that changes driver
+> > code so we can enforce some sanity in mm APIs.
+> >
+> > I've had to interact with fs code quite a bit that uses mm logic.
+> >
+> > It's all interconnected, and one subsystem let's say going with 'let it all in'
+> > say, impacts another.
+> >
+> > Yes some people lie about it, but having the guidelines only STRENGTHENS our
+> > position on that, and I've seen that in practice.
+> >
+> > So yeah, sorry, I think it's beyond silly to push back on requesting somebody
+> > disclose how much of a patch/series was AI generated.
+> >
+> > And [0] already essentially says people NEED to do this now. But that doc has
+> > been rather downplayed unfortunately I think.
+>
+> [...]
+>
+> >> I agree on the "enforce" aspect. It's impossible, but it's still easy to catch
+> >> people using AI irresponsibly today ... and that's what we care about. Not
+> >> people that know what they are doing using AI responsibly.
+> >
+> > For me it's about empowering maintainers to push back.
+>
+> Right, but I suspect maintainers do have this power already, it's just not
+> exercised that often on obvious AI slop yet.
 
-> 
-> I had a very unpleasant experience dealing with blowback for doing that in a
-> _very_ blatant case and I'd rather not repeat it if it's at all possible.
+Well I certainly don't feel I do :)
 
-Well, I made here the point already - that blatant blowback and any
-future similar slop will not use any tags, thus the tags do not solve
-that problem.
+I tried pushing back on obvious AI slop and got a huge amount of blow back for
+it because the guy wasn't honest about it.
 
-Basically having the tag solves no problems we experience. The tags are
-worthless in problem solving...
+A key reason for me pushing back on the tooling documentation was precisely
+because I felt we needed a clear means of doing this.
 
-Best regards,
-Krzysztof
+This being the part:
+
+"As with the output of any tooling, the result may be incorrect or
+inappropriate. You are expected to understand and to be able to defend
+everything you submit. If you are unable to do so, then do not submit the
+resulting changes.
+
+If you do so anyway, maintainers are entitled to reject your series without
+detailed review."
+
+But if somebody denies it, no matter how strong the evidence, you can never
+really 'prove' it.
+
+I think honestly if there's a newcomer who suddenly out of nowhere does a huge
+involved series in an area they've not touched before and LLMs assess it as 90%
+likely to be LLM generated,and they reply making mistakes that only an LLM would
+make (misinterpreting a field's symbol and then acting as if really exists) -
+it's not unreasonable to cite these things as a reason to 'not really trust'
+that it's their work.
+
+Perhaps worded nicely to say 'sorry if I'm mistaken'?
+
+All I'm really asking is for the ability to say something like "I reasonably
+believe that this is generated, so we need to build more trust here, apologies
+if I'm mistaken, but can we see some smaller patches in this area first" or
+something like this.
+
+>
+> >
+> >>
+> >>>
+> >>> If the information is mostly useful during review then I still would
+> >>> question why it has to end up in our git logs. It's completely
+> >>> irrelevant information imho.
+> >>
+> >> Fully agreed. In the tree it's irrelevant.
+> >
+> > Not sure about that, if it turns out AI-generated patches are causing 95% more
+> > bugs say that's pretty useful information no?
+>
+> Well
+>
+> a) You don't know how much AI was used. In particular, it could just slip in as
+
+Hence 'tell us how much was used' :)
+
+> the submitter tries to untangle some of the mess the AI created (so not AI's
+> fault). Or the submitter just used it to write+translate the patch description.
+> Really, the tag itself doesn't tell you much as it stands, which is the biggest
+> problem I am having with it.
+>
+> b) You don't catch all the cases where people didn't use the tag.
+
+Is this arguing 'we don't have complete information so let's have no
+information'? Because I would say something > nothing?
+
+>
+> >
+> > Or if you find that a patch somebody sent from another subsystem that has a
+> > lassez faire approach to AI slop completely breaks you in some subtle way, isn't
+> > it easier to push for a revert if you see it's LLM-generated?
+>
+> The information would have to be had from the linked mailing list posting.
+
+That's creating a lot more work for maintainers?
+
+You could even figure out bug rate from Fixes: tags alone using metadata.
+
+And yes it will be imperfect but something > nothing.
+
+>
+> Given that some subsystems already started suppressing the tags when applying
+> patches, that doesn't really help ... :/
+
+Well that's unfortunate. But something > nothing, again.
+
+>
+> >
+> > And is it really that egregious to include a tag? You can ignore it if you don't
+> > care.
+>
+> I hate the current tags as they are. The question I am asking myself: assume we
+> stop using the Assisted-by for LLM stuff. What to do with the other tools? Why
+> are LLMs suddenly no longer a tool to mention there.
+
+Because it turns out it's useful to have this information and more information >
+less information?
+
+>
+> --
+> Cheers,
+>
+> David
+
+Thanks, Lorenzo
