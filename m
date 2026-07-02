@@ -1,188 +1,115 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A60539023D;
-	Thu,  2 Jul 2026 08:41:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA69E3C343B;
+	Thu,  2 Jul 2026 08:44:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782981685; cv=none; b=sP2eRMYNIFG0WHHQYsqlsRI2cTVuxO/NRW/BGxT0U/NbVbvKau5XD72asDxg5VdPY/xmJxeiPrpRaSRzR2QJpjWXrjUmGEV7ARIpYqG2QEMq6YungxmhRWCYjMxUngy6X5hGR9gwOJGX45lpXf1kVTvkQwXhUe8ZQ/nWjKVJGOk=
+	t=1782981881; cv=none; b=oe35wZrOpxg8EOoiQwDYT3dn23uM5Z+AgtcD+/UNR1V7UavnPLRPdLGcPO9kvX82WSCLsRjk6UNzRMCQQnrhsnDXDG6V3WncaFIP6F5GxiTEtDjvcs7uhV0ULijptLxCJupBylgmFM1XWxkRhx1wONbObOIe3RZ5sIEX7EoCR/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782981685; c=relaxed/simple;
-	bh=uS6H1vybufcMrBzGVlLAS12K/WELMyHonKhkW+GOS80=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RTMhkiHciDyOqdB+F/PwqKkHc0s9f4EXFX94Kqxena6c1lzZIu5t1De63LbuhzyoxMs1z8c4tDSQE7lw58XNK5Ia6TgBeA35hOWwDDAzZFqs9Nl4wvUr1TdZVm/mlJDLTB9M/+FwM1qAcoQWHDhazs3z3hICVTKg+UzRv+pMLPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=kB2kuRdJ; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1782981881; c=relaxed/simple;
+	bh=wqVkVEQbZx/Lr8vf1DeVCYTt/gRn9RvBYZXSwMbcIK0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=HZZPEtvSA1HB7uRj+v9jvMxnOKsAwAjeUq1sYB7LIQLimBjfP6Nq4S6+AZS4bKOGetZZLpN2KOmcjh6y+jOvXEzvrGCo3xduLGPxuAazrHpgZr+xdJq381fM6uptsvNr2oXRqffRP9CIZR20pGCP8NFgDmhHJ/4U6Iua7L2JeYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f9ncpSCS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="kB2kuRdJ"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F1B34288E;
-	Thu,  2 Jul 2026 01:41:18 -0700 (PDT)
-Received: from arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A6CE73F905;
-	Thu,  2 Jul 2026 01:41:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1782981683; bh=uS6H1vybufcMrBzGVlLAS12K/WELMyHonKhkW+GOS80=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kB2kuRdJqhIAttHXCAg7EFBcrsfkbhYc53SncoZGkDjDWwWp9hilj9K9DtXj1wgNN
-	 hx3HFk9kGusTD0jJM90czwcBLOJRxHISYIKMl2cDB9PWJeX902Sbkj0prh7chT/6rN
-	 Lrv5y/e3hB+HkWtbNxay5a5Q4kNkRoyHC7ZdIJuU=
-Date: Thu, 2 Jul 2026 09:41:14 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Breno Leitao <leitao@debian.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH 2/2] selftests/mm: test kmemleak's N-consecutive-scan
- leak confirmation
-Message-ID: <akYkKgWOsYnw6ETE@arm.com>
-References: <20260626-kmemleak_twice-v1-0-ab28f7cc0971@debian.org>
- <20260626-kmemleak_twice-v1-2-ab28f7cc0971@debian.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f9ncpSCS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 404921F000E9;
+	Thu,  2 Jul 2026 08:44:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782981880;
+	bh=E4Nesj045JaK7TwaEOfUk2rjKqB1fcfilatvsOM6jto=;
+	h=Date:Subject:To:References:From:In-Reply-To;
+	b=f9ncpSCSDrkEcpXgRcllIwdvX/xXcC5b2LvSiHJYItS4g/8IjCTlxxsN41biZILA/
+	 IKs8UOBavgui2m+TLoD/zj++wjBYGyRFlml+3KXu3pB05XagZYNeYIWmTb4dDwfNBX
+	 O19WLtHWiRjJnS36zKpqzMx50vk4YpiNwKE+WKILl2OQX0p9bCxfLvlb5Rob2fixYD
+	 zAmUcExPRS+wK1ZV7iwG6SGFuYZy1bvunIqt6ewiRN7qCmD2GbJMIb3WIsl3JTpoOA
+	 ENimZPExtLO81/CNhSu0U8kiAlxpBhWUpOt1xybJgMWlIGoi6MwVriN+dfWVYDCXdW
+	 EayzkuIncQBIg==
+Message-ID: <a17b9a17-0ca7-4912-836d-4637cd0110f7@kernel.org>
+Date: Thu, 2 Jul 2026 10:44:34 +0200
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260626-kmemleak_twice-v1-2-ab28f7cc0971@debian.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
+Content-Language: en-US
+To: Jori Koolstra <jkoolstra@xs4all.nl>,
+ Christian Brauner <brauner@kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+ David Hildenbrand <david@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ Lorenzo Stoakes <ljs@kernel.org>
+References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+ <akYasD1ckWcH1C0g@lt-jori.localdomain>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
+ KxRWDHX0R2tgpFDXHnzZcQywawu8eSq0LxzxFNYMvtB7sV1pxYwej2qx9B75qW2plBs+7+YB
+ 87tMFA+u+L4Z5xAzIimfLD5EKC56kJ1CsXlM8S/LHcmdD9Ctkn3trYDNnat0eoAcfPIP2OZ+
+ 9oe9IF/R28zmh0ifLXyJQQz5ofdj4bPf8ecEW0rhcqHfTD8k4yK0xxt3xW+6Exqp9n9bydiy
+ tcSAw/TahjW6yrA+6JhSBv1v2tIm+itQc073zjSX8OFL51qQVzRFr7H2UQG33lw2QrvHRXqD
+ Ot7ViKam7v0Ho9wEWiQOOZlHItOOXFphWb2yq3nzrKe45oWoSgkxKb97MVsQ+q2SYjJRBBH4
+ 8qKhphADYxkIP6yut/eaj9ImvRUZZRi0DTc8xfnvHGTjKbJzC2xpFcY0DQbZzuwsIZ8OPJCc
+ LM4S7mT25NE5kUTG/TKQCk922vRdGVMoLA7dIQrgXnRXtyT61sg8PG4wcfOnuWf8577aXP1x
+ 6mzw3/jh3F+oSBHb/GcLC7mvWreJifUL2gEdssGfXhGWBo6zLS3qhgtwjay0Jl+kza1lo+Cv
+ BB2T79D4WGdDuVa4eOrQ02TxqGN7G0Biz5ZLRSFzQSQwLn8fbwARAQABzSNWbGFzdGltaWwg
+ QmFia2EgPHZiYWJrYUBrZXJuZWwub3JnPsLBsAQTAQoAWhYhBKlA1DSZLC6OmRA9UCJPp+fM
+ gqZkBQJqFFy6GxSAAAAAAAQADm1hbnUyLDIuNSsxLjEyLDIsMgIbAwUJGtCBUAULCQgHAwUV
+ CgkICwUWAgMBAAIeBQIXgAAKCRAiT6fnzIKmZJIUEADFx/tREzUImHrEwVHeSvDFmA7tJysI
+ UVrlvrM09E7GIuzphzv7jYmo8n3ANpCczLEVr4G0syYQdTigaZgv3+FQDIIzhKih1IHhu1Ei
+ XHlywNWKnQxxQEUNi5Mwx43wQz5XVw9F1A7gtKBKNtfogO511hAbrzagrYajyQacEJ/+sfhZ
+ 9Da8ltHIXD8pcYaHUfQgEusCgmEd9+KrUwrTbckFKmYq5chuE6yJ4J0EmWknL096jIE6CnzF
+ FRslQ3B1UKDjxVsm1ZHfir5NeWszLkTvGFsddFaWTgh8UycESG6VQzKXjjewXu2pG7YQYRpj
+ QKm1W5X2TkwWkXRBZTmfmbhxIUMh3+zf5wQ463rSmDN/8v81tdqBtAW6rH/kzg1GvkaTHXn0
+ 507yEHFzBksk2viAuIxxr7km8+/KARYLIdGtx30EG8cKzAUZOK6WqxtNCsXUJNrVE8CWrCaD
+ icoNu7Fs1c5hmPHdSTnU48ce67449DdnO4neLSNhRiGlMHJgfJUmgrxu/hcYeOZ3haWmEQ2w
+ uW1Mh01OHi8QZHCEyAbABrPs9GUgccc/4eYXX9hIgxfSkYzn8f+8NuIFPWl/0uTvjgqU29FQ
+ SbzOLxHq9439Ox40G5mS5eZXRGxITYR+6TXvRGI6P/264jvflnr/pDGUttaikU+0W+1uxgKH
+ cmYbEc7ATQRbGTU1AQgAn0H6UrFiWcovkh6EXVcl+SeqyO6JHOPm+e9Wu0Vw+VIUvXZVUVVQ
+ La1PQDUi6j00ChlcR66g9/V0sPIcSutacPKfdKYOBvzd4rlhL8rfrdEsQw5ApZxrA8kYZVMh
+ FmBRKAa6wos25moTlMKpCWzTH84+WO5+ziCTsTUZASAToz3RdunTD+vQcHj0GqNTPAHK63sf
+ bAB2I0BslZkXkY1RLb/YhuA6E7JyEd2pilZOrIuBGl/5q2qSakgnAVFWFBR/DO27JuAksYnq
+ +aH8vI0xGvwn75KqSk4UzAkDzWSmO4ZHuahKtQgZNsMYV+PGayRBX9b9zbldzopoLBdqHc4n
+ jQARAQABwsF8BBgBCgAmAhsMFiEEqUDUNJksLo6ZED1QIk+n58yCpmQFAmfIHFQFCRYU6J8A
+ CgkQIk+n58yCpmS2PA//bqN1LfcotmArgElsa+0EGZSQlYgK48pm8WAeTXTngudP9IJ4SuKY
+ HR5RNjHcBeqN+Me0zxRqYzRb8nGanHEkDyf4Im8DQM8d6vbyU+FcPmG4skud4kgS1zMHnlVd
+ SXfSIwKC/hKgdHG8aBV7545Lz9X6Iohea+94wneD0aw/hqF+QWewGZhWJriWAZtvEkzNjQOi
+ 4U9F/trLten/x7bpphDSnDMKJtITbtzATT1Dq7o7VpIUK1nCTQALMuMjKCdi8OdU/+V+R3O4
+ 0PXWvX8qrvqYapVbZ+9KqT74FsuB0Ya9uXwgBF2Q6cRuETZk5vqaqKxzqoQZCO8AOz/58j6O
+ 2RHNy/mZEN+7tJ5Tsq42zVJ4jxsT8b9YplavCMsnBgDeRWhcbYhCyttoL7nYISyWg4kQYZ/P
+ wIV3OuNv2f8iKYsxNsRuClOAF82+gvqOy1/1pprFjy8uo2pkoOrb63aOP3vO5VHnRKgra6dq
+ NcaZ+c6J4H+nEJGi2SkHAUJz5oBzuThvPudLvPA/SK8sKoM01IRxSihev/S/5WLazXB1PGem
+ OCbvzC1IjWJJraxiDJ5IygokapUa2RP7+WBR22skQ3SSl6G107QgWKSyTOGWEaRmV53vxQLV
+ jXuCmzSSasTL60zq5yGrT4/DYQVSNEUiUbG4pYekxJujNeEDkUlky0Y=
+In-Reply-To: <akYasD1ckWcH1C0g@lt-jori.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jun 26, 2026 at 08:52:03AM -0700, Breno Leitao wrote:
-> --- /dev/null
-> +++ b/tools/testing/selftests/mm/ksft_kmemleak_confirm.sh
-> @@ -0,0 +1,111 @@
-> +#!/bin/bash
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# Functional test for kmemleak's N-consecutive-scan leak confirmation
-> +# (the min_unref_scans module parameter).
-> +#
-> +# kmemleak only reports an object once it has stayed unreferenced for
-> +# min_unref_scans consecutive scans. The default of 1 reports on the first
-> +# scan (historical behaviour); higher values filter transient false
-> +# positives where a live object's only reference is briefly invisible to a
-> +# single scan (e.g. an RCU tree update in flight while the scan runs). The
-> +# test loads samples/kmemleak's helper module to create orphan allocations
-> +# and, counting only those orphans (matched by their [kmemleak_test]
-> +# backtrace so unrelated leaks already present on the system are ignored),
-> +# checks that:
-> +#   - min_unref_scans=1 reports them on the first scan,
-> +#   - min_unref_scans=2 reports nothing on the first scan but does on the
-> +#     second,
-> +#   - the parameter reads back what was written.
-> +#
-> +# The "nothing on the first scan" check is the core regression test: with
-> +# min_unref_scans=2 no object can be reported in fewer than two scans. Like
-> +# ksft_kmemleak_dedup.sh, if the module yields no detectable orphan at all
-> +# in the running environment the test skips rather than failing.
-> +#
-> +# Author: Breno Leitao <leitao@debian.org>
-> +
-> +ksft_skip=4
-> +KMEMLEAK=/sys/kernel/debug/kmemleak
-> +PARAM=/sys/module/kmemleak/parameters/min_unref_scans
-> +MODULE=kmemleak-test
-> +AGE=6		# seconds; must exceed kmemleak's 5s minimum object age
-> +
-> +skip() { echo "SKIP: $*"; exit $ksft_skip; }
-> +fail() { echo "FAIL: $*"; exit 1; }
-> +pass() { echo "PASS: $*"; exit 0; }
-> +
-> +[ "$(id -u)" -eq 0 ] || skip "must run as root"
-> +[ -r "$KMEMLEAK" ] || skip "no kmemleak debugfs (CONFIG_DEBUG_KMEMLEAK)"
-> +[ -w "$PARAM" ] || skip "min_unref_scans module parameter not present"
-> +modinfo "$MODULE" >/dev/null 2>&1 ||
-> +	skip "$MODULE not built (CONFIG_SAMPLE_KMEMLEAK)"
-> +
-> +# kmemleak can be present but disabled at runtime (kmemleak=off boot arg,
-> +# or it self-disabled after an internal error); a "scan" then returns
-> +# EPERM. Probe once and skip if so.
-> +echo scan > "$KMEMLEAK" 2>/dev/null ||
-> +	skip "kmemleak is disabled (check dmesg or kmemleak= boot arg)"
-> +
-> +prev=$(cat "$PARAM")
-> +# shellcheck disable=SC2317  # invoked indirectly via trap
-> +cleanup() {
-> +	echo "$prev" > "$PARAM" 2>/dev/null		# restore the parameter
-> +	echo scan=on > "$KMEMLEAK" 2>/dev/null		# re-enable auto scan
-> +	rmmod "$MODULE" 2>/dev/null
-> +	echo clear > "$KMEMLEAK" 2>/dev/null
-> +}
-> +trap cleanup EXIT
-> +
-> +# Stop the automatic scan thread: only our manual scans should advance an
-> +# object's consecutive-unreferenced run. An auto scan landing between two
-> +# manual scans would change the result and make the test flaky.
-> +echo scan=off > "$KMEMLEAK" 2>/dev/null
-> +
-> +# Create a fresh, aged set of orphan objects from the helper module's init
-> +# path (its kmalloc/vmalloc/percpu allocations are dropped right away).
-> +# Pre-existing reported leaks are greyed first ("clear") so only our
-> +# orphans are counted. The module is left loaded on purpose: once it is
-> +# unloaded its symbols are gone, so the orphan backtraces no longer resolve
-> +# to [kmemleak_test] and could not be matched below.
-> +gen_orphans() {
-> +	rmmod "$MODULE" 2>/dev/null
-> +	echo clear > "$KMEMLEAK"
-> +	modprobe "$MODULE" || skip "failed to load $MODULE"
-> +	sleep "$AGE"
-> +}
-> +
-> +scan() { echo scan > "$KMEMLEAK"; }
-> +
-> +# Number of helper-module orphans currently reported by kmemleak. Matching
-> +# the module's own backtrace ([kmemleak_test]) keeps the count immune to
-> +# unrelated leaks on the running system. kmemleak only lists an object here
-> +# once it has been reported, so this reflects the confirmation gating.
-> +count_orphans() {
-> +	c=$(grep -c '\[kmemleak_test\]' "$KMEMLEAK" 2>/dev/null)
-> +	echo "${c:-0}"
-> +}
-> +
-> +# 0) the parameter reads back what was written.
-> +echo 3 > "$PARAM"
-> +[ "$(cat "$PARAM")" = "3" ] || fail "min_unref_scans did not read back as 3"
-> +
-> +# 1) min_unref_scans=1 (default): orphans reported on the first scan. This
-> +#    also establishes that the helper produces detectable orphans here.
-> +echo 1 > "$PARAM"
-> +gen_orphans
-> +scan
-> +first=$(count_orphans)
-> +[ "$first" -gt 0 ] ||
-> +	skip "$MODULE produced no detectable orphans (cannot test min_unref_scans)"
-> +
-> +# 2) min_unref_scans=2: nothing reported after the first scan, reported
-> +#    after the second. The first-scan-zero check is the core regression.
-> +echo 2 > "$PARAM"
-> +gen_orphans
-> +scan; s1=$(count_orphans)
-> +scan; s2=$(count_orphans)
-> +[ "$s1" -eq 0 ] || fail "min_unref_scans=2: $s1 orphan(s) reported after the 1st scan (must be 0)"
-> +[ "$s2" -gt 0 ] || fail "min_unref_scans=2: no report on the 2nd scan (false negative)"
-> +
-> +pass "min_unref_scans=1 immediate; =2 gated to 2nd scan (counts $first/$s1/$s2); param read-back ok"
+On 7/2/26 10:12, Jori Koolstra wrote:
+> Ah, I still reigniting this discussion again :)
+> 
+> What about a combination of what David and Jeff say? The whole point
+> seems to me that the salient information is not that an LLM was used (or
+> are we going to tag Sashiko as well or any other LLM-based code review
+> tool?), but what is was used to do. This information may be relevant for
+> how the review is approached. The latter should perhaps only be in the
+> cover letter and then we can drop the assisted-by tags altogether.
+> 
+> The question about enforcement remains.
 
-Are these off by one? Kmemleak has a mechanism to detect live objects
-via the checksum. A side effect is that on allocation, the checksum is 0
-and only after the first scan the checksum is changed. On checksum
-mismatch (i.e. the first scan), we mark the object gray temporarily and
-won't increment unref_scans. So we already have an implicit two scans
-required to report an object as unreferenced during its early life.
+It's not possible to enforce it. People can deny it if the tag is missing
+and you confront them and even though the submission has many signs of being
+obviously LLM, there is no definite proof. We've seen (likely, as there's no
+proof!) that happen in mm.
 
-I think this test needs a priming scan to update the checksums followed
-by the actual check for min_unref_scans (with scan=off, otherwise random
-scanning will skew the results).
-
--- 
-Catalin
+Such situation then penalizes those who disclose so obviously they won't. We
+should drop the tag and instead think how we can empower maintainers to be
+able to use their own judgment and deprioritize dealing with what they
+perceive as LLM slop, without fearing consequences of not being properly
+responsible etc, and not rely on any non-enforceable tags for that.
