@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CAC23C7DE1;
-	Thu,  2 Jul 2026 10:27:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3C963164BA;
+	Thu,  2 Jul 2026 10:34:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782988046; cv=none; b=P6XtIgAhbTZWuIueKxznd11ZBxPUp1j7ITyVWtyrREHVlEVzwXWaaFj5BnNSToWy0pWAXOpUGGbUyIVaOs4QMT6PZJc88ydaBWTjO/Un3IK/MAhZblvhij6YIvRGTkbaVhRYUqQYhUxixexHrkdu3kQ533ufnudbcwYRHoUuODs=
+	t=1782988483; cv=none; b=aqWsduOi2VJ2rucRD9Ye7uJgbQin34NS0pElNSgm1Z4cVgavnmI5vElboge+8L8jqi6ZFUf13i37xJ+yhCcix1jJ/a5DKMqfsvGgSmA4WVH2XAjDr9TFwSYeJaDhVfTcjYLuxlnDfxIYHqIPJZEaQtLrSX/5eO4HZcszHTQh0II=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782988046; c=relaxed/simple;
-	bh=YvEOBLItkrqvAbCfU/vVsQkLk5Y7FT8BXnXQDbsF9EM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cLOOeKb1fiemComVLRk8PNKVOdgTWgDw11IJHq5VuGBTlR8HUsmcdDC3lymH32sow3FlpmOyvRE17YoqcFeBNOiakaOS7cl2jXHshjVq2yB8t02L1Hx5PY7pC6LljTogVOCvJh64mckx0l6+frdIt7rvpW1lP50KHQZGJDBTnmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oX9rZXvU; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782988483; c=relaxed/simple;
+	bh=XWYzdk9hiyQlBB2g50taHCbyjP4wQob4Z2CB9KXp01k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=JYaXfSRiFUAgKH2Pf1TX1+nZz0weMEkbNbGTOIwobLeoT2oxG8dJWDzK+uUAfPOAQypak7XmafuGGD9ebsMRGLMhkhIyD5uKxRtvFxIggLx8hDbdvyXj51HtB8lXzBZew5are6UwZpvI/BV+/7HcmtIzPLLOBDQpwQJ36Gwtp1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VGzSpga1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oX9rZXvU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4C731F000E9;
-	Thu,  2 Jul 2026 10:27:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VGzSpga1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8CAA1F000E9;
+	Thu,  2 Jul 2026 10:34:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782988045;
-	bh=t5DySkcPpG4n3I/KnPOM5e5iyA34NMFERIywYZbfhLQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=oX9rZXvUdGzGPlvLRGdF4+qalNgkcw4N+5930je5DTtsBnUxL1RDuFTrz1aIYLdzw
-	 cHbgubUCWtBkefvOx3mvzS558YSs2+DzDdLXZywGYGtvSQgTJ6WzLuut6sBT+3/VuE
-	 /080GgovCJqrVFbu1GQYdDaqLe4sD4tMzpnXoPlX4Sf2qalLx1JMm0uZN7wllyuWol
-	 AiMBLJ36LN5E1Z7Sp4hq3lSTSKdCtj8UkquuKtPwSUikoW3+W88+Z8CKEB2m8FVGVK
-	 Jidv/Amdkm6eyHQcWjkUfeHT+vOXNVPA2qqSTOaUAyrhfMZtwhW9DP01PjceEAMTrk
-	 W8J/Vrgil4BUw==
-Message-ID: <7d2ba1b4-6199-406e-88ae-fb5c9fad4689@kernel.org>
-Date: Thu, 2 Jul 2026 12:27:17 +0200
+	s=k20260515; t=1782988482;
+	bh=QO/ShcRFiuZ7uRN9u76tK9gF4d4SRTQ+F58FBJM4TNs=;
+	h=Date:Subject:To:References:From:In-Reply-To;
+	b=VGzSpga1jmhunbTZXCNrsQsG24+CnjSp5Ioaqke/+bycq9/6gXec+yNI5t/JPZrAm
+	 PsxlBsCaugoOmq+VzfEsf2GhbLUZoBiNaYxdmrhMeGMVz9d9uf/YQDidUosAhy90Hh
+	 0YiYPcSgqMW7dHzrkw0UGeBbmhjWJ8E82cWJ3ifZmVZokrnFiuRr806L26vVLCMnGk
+	 l+/UkCtjbOGuBp+BL1elT5q62LwFgvqY2FvTqhDTBU7SmPM/Mgph2x6QhwYi8pn8lI
+	 pm2JPItKg+vrfQfPFOgoMIHs63A2e5UPzyeUb0vhxzPz87Hh/ccklQ7fuNuE7adAfi
+	 JpklE87OMJ+7w==
+Message-ID: <afd0635c-1903-4c7b-8023-cbcd1823e081@kernel.org>
+Date: Thu, 2 Jul 2026 12:34:34 +0200
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -36,14 +36,17 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-To: Christian Brauner <brauner@kernel.org>,
+To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
+ Jori Koolstra <jkoolstra@xs4all.nl>, Christian Brauner <brauner@kernel.org>,
  Linus Torvalds <torvalds@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Jens Axboe <axboe@kernel.dk>, David Hildenbrand <david@kernel.org>,
- Jeff Layton <jlayton@kernel.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+ David Hildenbrand <david@kernel.org>, Jeff Layton <jlayton@kernel.org>,
  workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ Lorenzo Stoakes <ljs@kernel.org>
 References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+ <akYasD1ckWcH1C0g@lt-jori.localdomain>
+ <a17b9a17-0ca7-4912-836d-4637cd0110f7@kernel.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -89,47 +92,48 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+In-Reply-To: <a17b9a17-0ca7-4912-836d-4637cd0110f7@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 01/07/2026 17:54, Christian Brauner wrote:
-> I remain very confused by our coding assistant contribution guidelines.
-> I'm going to be a bit polemic now but this seriously in good faith.
+On 02/07/2026 10:44, Vlastimil Babka (SUSE) wrote:
+> On 7/2/26 10:12, Jori Koolstra wrote:
+>> Ah, I still reigniting this discussion again :)
+>>
+>> What about a combination of what David and Jeff say? The whole point
+>> seems to me that the salient information is not that an LLM was used (or
+>> are we going to tag Sashiko as well or any other LLM-based code review
+>> tool?), but what is was used to do. This information may be relevant for
+>> how the review is approached. The latter should perhaps only be in the
+>> cover letter and then we can drop the assisted-by tags altogether.
+>>
+>> The question about enforcement remains.
 > 
-> Why precisely do we require all this detailed information about what
-> specific coding assistant was used?
+> It's not possible to enforce it. People can deny it if the tag is missing
+> and you confront them and even though the submission has many signs of being
+> obviously LLM, there is no definite proof. We've seen (likely, as there's no
+> proof!) that happen in mm.
 > 
-> I find it very irritating that our git history has effectively started
-> to function a bit like a free advertising platform for a bunch of AI
-> companies and their proprietary agents and models.
-> 
-> And it reamins unclear to me what exactly we do get out of this detailed
-> information: Do we want to run statistical analysis on what agent and
-> model is used the most and publish that on LWN at some point?
-> 
-> I acknowledge that my stance is even more radical: imho we would just
-> stop it with any disclosure requirements completely. It's useless imho.
-> We already see that other than core contributors most people don't care
-> and will just not disclose their usage of AI. I think this is entirely
-> pointless and worse it brings in undefined legal status as well. It's
-> not like recent events of pulling certain models from the face of the
-> earth have made this any less concerning.
-> 
-> But fine, if we want to do this can we please just dumb it down to
-> 
-> Assisted-by: LLM
-> 
+> Such situation then penalizes those who disclose so obviously they won't. We
+> should drop the tag and instead think how we can empower maintainers to be
+> able to use their own judgment and deprioritize dealing with what they
+> perceive as LLM slop, without fearing consequences of not being properly
+> responsible etc, and not rely on any non-enforceable tags for that.
 
-Yes, I agree. Useful information would be the model or trained data,
-e.g. to judge for any copyright issues, but I doubt anyone will ever
-provide such details.
++1
 
-I also see little value to keep even the Assisted-by tag in the first
-place. I am interested in seeing named respectable tools in commit msg
-as reasons for doing this commit, e.g. I am fixing warning from Smatch
-so I mention Smatch. Sashiko fits this purpose as well. I have no
-interests to see "Claude" as reason of doing something.
+I see no benefits of enforcing the tag for these exact reasons. Every
+LLM slop will miss the tag. OTOH, seeing reasonable contribution with
+the tag makes my spider-senses tingling and causing unnecessary
+prejudice. If the contribution is reasonable, how does the tag
+information helps me? I trust (or not) the person, regardless what tool
+they use.
+
+And if we think about any future possible copyright issues with LLM
+contributions (like if there is ever a ruling that model trained on BSD
+data creates BSD-derivative work etc), does that tag anyhow solve it?
+Like if that ruling appear we will go through the history and revert the
+commits?
 
 Best regards,
 Krzysztof
