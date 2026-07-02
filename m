@@ -1,169 +1,135 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E13EE3CAA5F;
-	Thu,  2 Jul 2026 10:04:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CAC23C7DE1;
+	Thu,  2 Jul 2026 10:27:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782986686; cv=none; b=ugDWMWMgRE0eDorZzjpID8v+WxDSc0IWxgIEg7RhL+QegVq55Fc43uq+SXVD3X/UJ76uLMJIMHlAcztGsN3jc9rc/471mqpmakwVQYDNdpSOoZs4nELX27Pc7qum19ELrjzqUQwYsPxyM3DtdNQ55g7CioPd1oZYVTj3+zVYA5Y=
+	t=1782988046; cv=none; b=P6XtIgAhbTZWuIueKxznd11ZBxPUp1j7ITyVWtyrREHVlEVzwXWaaFj5BnNSToWy0pWAXOpUGGbUyIVaOs4QMT6PZJc88ydaBWTjO/Un3IK/MAhZblvhij6YIvRGTkbaVhRYUqQYhUxixexHrkdu3kQ533ufnudbcwYRHoUuODs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782986686; c=relaxed/simple;
-	bh=FLS8wqt9YcnWtQJAIXCot5XuAdPCMwYooUjU3boREzU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tbuuxShsKljvUOkCXqZ43Pyrs9qzUM+4p7S0q8y1QOWWxoEfz/MptnTCvxcQUdvggwAaKJSY2mOQketlEL7SOSXkbKtArLrmu9yVkWFYJ7Xny3eoS5vdQiKxQS3PcfboC/h3z4at9PSnvUP9FfIuXqGO4jB68HeIAUhAGM6rPOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mJi3aTz0; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782988046; c=relaxed/simple;
+	bh=YvEOBLItkrqvAbCfU/vVsQkLk5Y7FT8BXnXQDbsF9EM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cLOOeKb1fiemComVLRk8PNKVOdgTWgDw11IJHq5VuGBTlR8HUsmcdDC3lymH32sow3FlpmOyvRE17YoqcFeBNOiakaOS7cl2jXHshjVq2yB8t02L1Hx5PY7pC6LljTogVOCvJh64mckx0l6+frdIt7rvpW1lP50KHQZGJDBTnmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oX9rZXvU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mJi3aTz0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 000821F000E9;
-	Thu,  2 Jul 2026 10:04:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oX9rZXvU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4C731F000E9;
+	Thu,  2 Jul 2026 10:27:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782986684;
-	bh=FLS8wqt9YcnWtQJAIXCot5XuAdPCMwYooUjU3boREzU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mJi3aTz036V9TI4faopvlYouaxsLK4CRlT+PnGdTMRwIwh32sNrVsdBQdqu7farzj
-	 UczRnXgeZcs7cUMlO202X+YByva/pv9LDETjiUjrY4IAHJyUXOeE88FjZm43s5FWv0
-	 VIOfaq7wVdhImcy5vB11H2E4czO9KuvF5MUXJ3nFTIrt5LhmhuAEuEEPN4DZOHBmbG
-	 tcCoCWPAxqF0ZB5bhvfeI0nU0YGXwNATAPw3zGYffpJEPjOLpIUA7sp9WB5Rt66P18
-	 1sLgRKz+Br0Xpv+V4hJz+ivvEtGpllw55B1qf89cHRiCqjehhVJYlgEgsEmqC5tIWa
-	 fpzW+NAUDqDIg==
-Date: Thu, 2 Jul 2026 11:04:35 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
-	Jeff Layton <jlayton@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-Message-ID: <akYz2aMIco1fbD-t@lucifer>
-References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
- <5e7b9d23-4291-48fb-bdc6-47db82d33c80@kernel.org>
- <20260702-seekrank-stilrichtung-mitentscheiden-69a64ee097ec@brauner>
- <1f29f48d-b9ff-4de2-a392-dc05781728be@kernel.org>
+	s=k20260515; t=1782988045;
+	bh=t5DySkcPpG4n3I/KnPOM5e5iyA34NMFERIywYZbfhLQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=oX9rZXvUdGzGPlvLRGdF4+qalNgkcw4N+5930je5DTtsBnUxL1RDuFTrz1aIYLdzw
+	 cHbgubUCWtBkefvOx3mvzS558YSs2+DzDdLXZywGYGtvSQgTJ6WzLuut6sBT+3/VuE
+	 /080GgovCJqrVFbu1GQYdDaqLe4sD4tMzpnXoPlX4Sf2qalLx1JMm0uZN7wllyuWol
+	 AiMBLJ36LN5E1Z7Sp4hq3lSTSKdCtj8UkquuKtPwSUikoW3+W88+Z8CKEB2m8FVGVK
+	 Jidv/Amdkm6eyHQcWjkUfeHT+vOXNVPA2qqSTOaUAyrhfMZtwhW9DP01PjceEAMTrk
+	 W8J/Vrgil4BUw==
+Message-ID: <7d2ba1b4-6199-406e-88ae-fb5c9fad4689@kernel.org>
+Date: Thu, 2 Jul 2026 12:27:17 +0200
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1f29f48d-b9ff-4de2-a392-dc05781728be@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
+To: Christian Brauner <brauner@kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Jens Axboe <axboe@kernel.dk>, David Hildenbrand <david@kernel.org>,
+ Jeff Layton <jlayton@kernel.org>, Vlastimil Babka <vbabka@kernel.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-(thanks for the cc-!)
+On 01/07/2026 17:54, Christian Brauner wrote:
+> I remain very confused by our coding assistant contribution guidelines.
+> I'm going to be a bit polemic now but this seriously in good faith.
+> 
+> Why precisely do we require all this detailed information about what
+> specific coding assistant was used?
+> 
+> I find it very irritating that our git history has effectively started
+> to function a bit like a free advertising platform for a bunch of AI
+> companies and their proprietary agents and models.
+> 
+> And it reamins unclear to me what exactly we do get out of this detailed
+> information: Do we want to run statistical analysis on what agent and
+> model is used the most and publish that on LWN at some point?
+> 
+> I acknowledge that my stance is even more radical: imho we would just
+> stop it with any disclosure requirements completely. It's useless imho.
+> We already see that other than core contributors most people don't care
+> and will just not disclose their usage of AI. I think this is entirely
+> pointless and worse it brings in undefined legal status as well. It's
+> not like recent events of pulling certain models from the face of the
+> earth have made this any less concerning.
+> 
+> But fine, if we want to do this can we please just dumb it down to
+> 
+> Assisted-by: LLM
+> 
 
-On Thu, Jul 02, 2026 at 09:46:37AM +0200, David Hildenbrand (Arm) wrote:
-> On 7/2/26 09:27, Christian Brauner wrote:
-> >> What would be much more relevant to know is to which degree LLMs were used.
-> >>
-> >> Assisted-by: LLM # translate commit message
-> >> Assisted-by: LLM # generate some test cases
-> >> Assisted-by: LLM # cleanup logic
-> >> Assisted-by: LLM # everything and I have no clue what any in here does
-> >
-> > I think we should just drop any attribution as a general kernel-wide
-> > rule and let subsystems require them as needed. Then you can have all
-> > the complexity in mm for this that you think is needed for your
-> > workflow to function. This is precisely what the subsystem profiles are
-> > for. So maybe just add:
+Yes, I agree. Useful information would be the model or trained data,
+e.g. to judge for any copyright issues, but I doubt anyone will ever
+provide such details.
 
-A single comment is complexity?
+I also see little value to keep even the Assisted-by tag in the first
+place. I am interested in seeing named respectable tools in commit msg
+as reasons for doing this commit, e.g. I am fixing warning from Smatch
+so I mention Smatch. Sashiko fits this purpose as well. I have no
+interests to see "Claude" as reason of doing something.
 
-> >
-> > Documentation/process/maintainer-mm.rst
-> >
-> > alongside
-> >
-> > Documentation/process/maintainer-{tip,netdev,x86}.rst
-> >
-> > and lay down the rules that you require for LLM based submissions in
-> > whatever detail you need.
->
-> I'm not really sure if having (more?) subsystem-specific tags is the way to go.
-> (below)
->
-> So either we find a very simple, kernel-wide rule for such tags, or we drop them
-> entirely.
-
-Yup I couldn't disagree more with Christian here, the whole thing feels like
-trying to 'wish away' the AI issue, and now punting off to subsystem
-maintainers...
-
-Subsystems impact each other. Right now I'm writing a series that changes driver
-code so we can enforce some sanity in mm APIs.
-
-I've had to interact with fs code quite a bit that uses mm logic.
-
-It's all interconnected, and one subsystem let's say going with 'let it all in'
-say, impacts another.
-
-Yes some people lie about it, but having the guidelines only STRENGTHENS our
-position on that, and I've seen that in practice.
-
-So yeah, sorry, I think it's beyond silly to push back on requesting somebody
-disclose how much of a patch/series was AI generated.
-
-And [0] already essentially says people NEED to do this now. But that doc has
-been rather downplayed unfortunately I think.
-
->
-> >
-> > I don't see how this additional commentary you want would ever be
-> > enforced consistently across the kernel or who would even enforce it. I
-> > don't need more beaurocracy to chase after people in my subsystems tbh.
-
-Again, asking LLM submitters to write a single comment is 'beaurocracy'?
-
->
-> That's certainly a good thing to discuss. (below)
->
-> >
-> > The other thing is that I think this Assisted-by annotation is just
-> > noise in the changelog. If you want to know in detail what an LLM was
-> > used for when generating the patch it's mostly a signal for how
-> > "intense" of a review this will get afaict (already questionable imho
-> > but sure that's just something to disagree on).
->
-> I'd be happy to just have such information in the cover letter. Without any
-> tags. Having subsystem-specific rules on the disclosure on that might be more
-> reasonable.
-
-I disagree, I think it's important to have it standardised and simple.
-
-If we make things vague, people won't do it. And reading through a cover letter
-in its AI slop entirety (and boy does it generate a LOT of text) to find the
-mention or not (and hey what if it's not clear?) is just objectively worse.
-
->
-> I agree on the "enforce" aspect. It's impossible, but it's still easy to catch
-> people using AI irresponsibly today ... and that's what we care about. Not
-> people that know what they are doing using AI responsibly.
-
-For me it's about empowering maintainers to push back.
-
->
-> >
-> > If the information is mostly useful during review then I still would
-> > question why it has to end up in our git logs. It's completely
-> > irrelevant information imho.
->
-> Fully agreed. In the tree it's irrelevant.
-
-Not sure about that, if it turns out AI-generated patches are causing 95% more
-bugs say that's pretty useful information no?
-
-Or if you find that a patch somebody sent from another subsystem that has a
-lassez faire approach to AI slop completely breaks you in some subtle way, isn't
-it easier to push for a revert if you see it's LLM-generated?
-
-And is it really that egregious to include a tag? You can ignore it if you don't
-care.
-
->
-> --
-> Cheers,
->
-> David
-
-Thanks, Lorenzo
-
-[0]:https://docs.kernel.org/process/generated-content.html
+Best regards,
+Krzysztof
