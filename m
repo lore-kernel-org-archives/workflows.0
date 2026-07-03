@@ -1,178 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB7927081A;
-	Thu,  2 Jul 2026 23:17:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1A0A262FD0
+	for <workflows@vger.kernel.org>; Fri,  3 Jul 2026 02:58:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783034256; cv=none; b=prIydl6ykZ8JeLrss9/gs8/6/NVI75lpHkZbGB1Y0Z0Fm275MaCTF1ZXQLsXp7w1UpoPVBu65t0sqQRRran5wXBJ+EFQYIVgyvjDb4S2D4IXALUkcH0vAjmlTTOs00yfGddhQmVdNK6PgduFJbTmOYiwHXOfc9FUw+C5uF29RcY=
+	t=1783047524; cv=none; b=A5p+xr1UgWqzpYHpVAcMClJzRBo3W73I2RW1A0cxL8iSrvDhDBUH6DkVWGbB5y98g+uptGZZaxXvc+NuQLMLTSBPAMmt+MJI4zSaYusbSJ71x0qhRJ0V7Oqx9g0BmqtRHDHH7n3wLSD9E3T0N3cYatfSBakktGvGqC3bhwYOEvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783034256; c=relaxed/simple;
-	bh=cT8AyhY7JWuaZs69LTvoJKmftuQNwK7BMww8UDz+/Qg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CkiTTvvdOcMQMEKUT0gwqm4fwgHCl7fctcmyKYBRZ0iy7joBWT38lSiCTMUtQghsgqD7CunumDWTkg9aviUCOzUHDhITaCCRxhqyM4/AvrGjFupqL9/0ujMUweg4jETMmcuFbIrxbS195sesOIbTddcE342oqHoyPQMimuQsoEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=evTCO1hL; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="evTCO1hL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D6811F000E9;
-	Thu,  2 Jul 2026 23:17:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783034254;
-	bh=hDwam3fmQOD0OndXrrxBHKZfoVPeKMR23BCOLG8w6hs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=evTCO1hLX2aRSpHCDVxeEu3lPRsE788HbHOAj0nNRze/m7XIir9gM5oMnQCjdB8Yd
-	 Twwdy5EdK1K76OEHXdgaWuMnd88mNT3beuzRmgpwraVKgfDOsrwn1HMCOqUpxE8aqB
-	 aqwnS1QbR26VwI4aY7+ueVc3wtm3bi9sOJ5bPt31T/gYXC29PWPS1zUwN26mLHYb+8
-	 eNABArTSEWMMS1GRLCwFxe5dLVFlHtSnIjL8zbE2CDfg7VcZCK0EAkFb7sjs9e171t
-	 pPQgxn2oMpLMeK4VtSTV+DDUeaLmzrOPvEG4SbvG/55q8sNr0U0mw1Vjz3oZzfy0aY
-	 GupgEWKS6OGvg==
-From: SJ Park <sj@kernel.org>
-To: Boris Burkov <boris@bur.io>
-Cc: SJ Park <sj@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Justin Stitt <justinstitt@google.com>,
-	Carlos Maiolino <cem@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Jori Koolstra <jkoolstra@xs4all.nl>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Brian Foster <bfoster@redhat.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	David Disseldorp <ddiss@suse.de>,
-	Mark Brown <broonie@kernel.org>,
-	Jani Nikula <jani.nikula@intel.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	David Hildenbrand <david@kernel.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
+	s=arc-20240116; t=1783047524; c=relaxed/simple;
+	bh=NeqCj5wMW66AGlGCvKSpFk6GVc1xgE71/ar2/fdtHN8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nrdqqqBTIMeXFl2taNC4I9H9awiVByg3TFE9sBlpFN3tWSmYgjTPIviMxBO6Q5hgKqdQ77wKO0YsVOJWYKRK9uq2S4WHy9QGyyw+Z02DCKLek7blr9ndebj7ZdUVOIM4crorzuvz5I8zIHeD9yN+AeSN8umHJU8fQgfz6yYp8/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+Received: from macsyma.thunk.org (syn-072-043-125-131.biz.spectrum.com [72.43.125.131])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 6632vgIH012892
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 2 Jul 2026 22:57:43 -0400
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id 6412189308C; Thu,  2 Jul 2026 22:57:42 -0400 (EDT)
+Date: Thu, 2 Jul 2026 22:57:42 -0400
+From: "Theodore Tso" <tytso@mit.edu>
+To: Andreas Dilger <adilger@dilger.ca>
+Cc: Jonathan Corbet <corbet@lwn.net>, Greg KH <gregkh@linuxfoundation.org>,
+        Jeff Layton <jlayton@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Justin Stitt <justinstitt@google.com>,
+        Lorenzo Stoakes <ljs@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+        Jori Koolstra <jkoolstra@xs4all.nl>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Brian Foster <bfoster@redhat.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
+        Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
+        David Hildenbrand <david@kernel.org>,
+        Vlastimil Babka <vbabka@kernel.org>,
+        "Christian Brauner (Amutable)" <brauner@kernel.org>,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
 Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
-Date: Thu,  2 Jul 2026 16:17:29 -0700
-Message-ID: <20260702231729.98319-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260702211740.GA639365@zen.localdomain>
-References: 
+Message-ID: <akcji3OuxXz3FqSD@mit.edu>
+References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
+ <2026070224-unholy-commode-cf45@gregkh>
+ <87cxx5l900.fsf@trenco.lwn.net>
+ <7C39A5C8-EA03-4C8D-9BE5-5097101B71D6@dilger.ca>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7C39A5C8-EA03-4C8D-9BE5-5097101B71D6@dilger.ca>
 
-On Thu, 2 Jul 2026 14:17:40 -0700 Boris Burkov <boris@bur.io> wrote:
-
-> On Thu, Jul 02, 2026 at 05:50:15PM +0100, Lorenzo Stoakes wrote:
-> > On Thu, Jul 02, 2026 at 12:48:22PM -0400, Jeff Layton wrote:
-> > > On Thu, 2026-07-02 at 18:19 +0200, Greg KH wrote:
-> > > > On Thu, Jul 02, 2026 at 07:13:30PM +0300, Laurent Pinchart wrote:
-> > > > > On Thu, Jul 02, 2026 at 11:57:46AM -0400, Jeff Layton wrote:
-> > > > > > On Thu, 2026-07-02 at 17:07 +0200, Greg KH wrote:
-> > > > > > > On Thu, Jul 02, 2026 at 10:32:48AM -0400, Jeff Layton wrote:
-> > > > > > > > We've had this requirement in place in the Documentation for several
-> > > > > > > > months, but it's becoming clear that the signal to noise ratio from this
-> > > > > > > > is quite low.
-> > > > > > > >
-> > > > > > > > 1/ It's not universally followed. While many people do try to attribute
-> > > > > > > > the LLMs in good faith, not everyone does for various reasons.
-> > > > > > >
-> > > > > > > Then let's move to get people to follow it.
-> > > > > > >
-> > > > > > > > 2/ It basically serves as free advertising for proprietary LLM companies.
-> > > > > > >
-> > > > > > > Who cares, make up a name, all I want is the "signal" that someone is
-> > > > > > > using a LLM so that I can review it as-such.  And if I think someone is
-> > > > > > > not reporting that, I can ask for them to properly attribute it and if
-> > > > > > > they lie, well, that's on them.
-> > > > > > >
-> > > > > > > > 3/ It's not clear why we want to collect this info in the first place.
-> > > > > > >
-> > > > > > > We want to know if a LLM is being used.
-> > > > > >
-> > > > > > But why? What do you intend to do with this information?
-> > > > > >
-> > > > > > Do you mean to use it as an indicator that the patch should receive
-> > > > > > "extra" review (or maybe that it should be ignored)? Do you mean to use
-> > > > > > it to generate some sort of statistics at a later time?
-> > > > >
-> > > > > I use the information to decide how to review the patch, and what level
-> > > > > of priority to give it. For that usage I don't need a tag, but I need
-> > > > > the information in some human-readable form at patch submission time.
-> > > >
-> > > > Same here.  I don't care about stats, I care about "how do I review this
-> > > > patch" and this gives me that signal that I need if faced with a
-> > > > llm-helped patch.
-> > > >
-> > > >
-> > >
-> > > Do we need a tag for this though?
-> > >
-> > > This seems like the kind of information that we would always require in
-> > > the cover letter of a series (or the little place in an individual
-> > > patch for comments that don't get merged). That would also allow you to
-> > > convey a lot more nuance about how it was used.
-> > >
-> > > ISTM asking people to disclose LLM usage in a cover letter would give
-> > > everyone what they want: Information about whether and possibly how an
-> > > LLM was used, and it also wouldn't clutter up the changelogs with these
-> > > tags.
-> > 
-> > It's much much clearer and easier to just have a standardised tag for that.
-> > 
-> > You can see that (and grep for that) immediately, vague paragraphs not so much.
-> > 
+On Thu, Jul 02, 2026 at 12:46:19PM -0500, Andreas Dilger wrote:
+> It would make sense IMHO to address the ignorance in the most expedient manner,
+> namely by telling the *LLM itself* to add this tag when it generates the commit
+> message and/or reviews the code.
 > 
-> At the risk of being pedantic on a point where I think the document is
-> kind of lacking:
-> 
-> What level of assistance crosses the bar for an "Assisted-by: LLM" tag?
-> 
-> Some sample levels of assistance to illustrate the point:
-> 
-> 1. I used an llm to one-shot vibe-code a patch
-> 2. I used an llm to write a patch but carefully reviewed every line
-> 3. I used an llm to explore the design space for a patch but wrote it
-> manually
-> 4. I used an llm to debug or reproduce a kernel issue but then wrote the
-> fix manually after fully understanding the defect
-> 5. I used an llm to review a patch I wrote
-> 6. I used an llm to research some chunk of code while writing a patch
-> 7. I used Google while writing a patch and learned something valuable
-> from the AI overview at the top
-> 
-> I personally would 100% use the tag for 1 or 2, and have already done
-> so. I have not been doing it for 3-5, as I think that will basically
-> make every patch llm-assisted to the point of the distinction being
-> meaningless. If we should be doing it for 3-5 (or some subset thereof)
-> then my mistake and I will certainly start doing so. I would hope most
-> people agree 6-7 and similar need no tag.
+> This could be achieved by adding a statement in "AGENTS.md" in the root of the
+> source tree to this effect, or telling the agent to reference and follow rules
+> in Documentation/process/coding-assistants.rst regarding the Assisted-by: tag.
 
-I think 3-7 don't need the tag.
+This presupposes a particular workflow where the developer allows the
+LLM to generate git commits.  I don't do that.  I'll ask the LLM to
+modify the code, but then I'll generally fix it up --- very often by
+hand because I can edit the sources than entering a prompt and waiting
+for the LLM to figure out how to make the change.  I'll often run the
+test cases myself, since if it takes 24 hours of VM time, and 2 hours
+of wall clock time, I'm going to kick off the regression tests myself,
+and verify the test results.
 
-> 
-> Similar questions abound if you use an llm to help with writing the
-> English text in the patch or emails.
+And I almost always write the commit description myself.  So when I
+say, "Assisted-by" it literally is "Assisted by".  It is not "vibe
+coded where the LLM generates thousands of lines of code that the
+human being doesn't understand before sending ta pull request."  And
+that's probably why you'll see people asserting that LLM generated
+code can't possibly be accepted due to copyright reasons.  There's a
+big difference between asking an LLM to modify already existing code
+to add a feature, or to fix a bug, and to vibe code a new OS from
+scratch.  One is far less likely to be a copyright violation than the
+other.
 
-I think this doesn't need the tag, too.  Like patches, the user should
-completely reviewed and understand the text, though.  Without the complete
-review, it should not be submmitted at all, regardless of the tag.
-
-> 
-> I have a feeling that this ambiguity is part of the reason we aren't all
-> agreeing on the value of the tag?
-
-I'm not very sure...  I don't really feel the question is that difficult and
-ambiguous to answer.  I may be biased.
-
-
-Thanks,
-SJ
-
-[...]
+						- Ted
