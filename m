@@ -1,55 +1,57 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 097743C4B9A;
-	Fri,  3 Jul 2026 11:24:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34BEE3C9890
+	for <workflows@vger.kernel.org>; Fri,  3 Jul 2026 11:43:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783077881; cv=none; b=rnOLDNMA5zlDb9kynR+Y6WuEfaOhpvk8kfpRZPZB/uK1Y4usmz63djW/e0FFJzWzbAa8DoKnuUgov9Twdq04bota9ODkZWr15vPJWYtK0ylmMLkFqb3pizNqOAtt/0vmIM1SyyFGFTeJngUlGB79LZ5iEMXgKSGUOIDiQ9KDEdE=
+	t=1783078996; cv=none; b=soNED7TORxngFWgRGbKlFrPMHTzv6jpQDYGdPMlh41fP/ITjjdNVpRFo/piklyjtPGAz9rH5dlksCywYswnZCYo89gc86gaTLKNMjju590HJ+BzsXe/9/5zKeixVp/WMO8F5rjVTtEyUuecLdP8YcS0eeUFLeeRq7i+v0TPGT0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783077881; c=relaxed/simple;
-	bh=4oxmWufTRFAQuiOe0V0OOrsBSYMDsdXdFlzpM5/7AQo=;
+	s=arc-20240116; t=1783078996; c=relaxed/simple;
+	bh=MbTATmy8I9xcBWQF5hOY0p0TNMj7Drl4a0Js/q64axE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qs8vzI9h9jUF2JdX7pz/o7w0DlaXvyYRUgZJRoWZjHnu21dowZWbaVf+Qx3e9Brhtf5hSzgLMsQ0Y2TR9Sk74sf/UsEzqnNDXQxtm0wlDxNumwtgF5ndUoRAwzpD/w0rZKBOHISitgSZ16BTJ0lPeWh8GjL5+HzZthqQkGxkEBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=btkxHrkz; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="btkxHrkz"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=n17w8bkbdYcKF+4kwASzBBp0Rz/4YcqSgLJnMesWzKg=; b=btkxHrkzCM4wV6isED0eBgRsyL
-	wwGgzJ6GKqoqppe6E8Q4D9rTHXf2Hph6UVag5NZvod4BsLIxt3cg3PcoclVxTWVafHPVaQahr89Np
-	4lMCW/r/KGYOGO+vU8LA2jtXK9HkXrztzoQv9OquY52DCx98NFS43gnp0W1hO7tNzJyJnP3lf/LE7
-	baPDHMoSz46F6TsffR+YQt4pcHYPhQbIE/xcM682GDzhTomftlk8Y/eN8LGeRxI8RX3MN303TPN/Y
-	SFcPFDDAoGL0OPlmfg+Bk9jYQ3qg1MfzozX157BNyy/8pe9f0ab7AvXojHCXCDbBe/y7w70KGCn2j
-	DWQoluyA==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wfc0F-009Miy-36;
-	Fri, 03 Jul 2026 11:24:16 +0000
-Date: Fri, 3 Jul 2026 04:24:09 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kselftest@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH 2/2] selftests/mm: test kmemleak's N-consecutive-scan
- leak confirmation
-Message-ID: <akeX8mFiizd65pDw@gmail.com>
-References: <20260626-kmemleak_twice-v1-0-ab28f7cc0971@debian.org>
- <20260626-kmemleak_twice-v1-2-ab28f7cc0971@debian.org>
- <akYkKgWOsYnw6ETE@arm.com>
- <akZ4tzQw70x3RR2D@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=AD53OJMruiU6u2WYvn9k5t/W/inxHsFkQSliQAWb5Pxce51imxTK9QTTyyQjigbyUF4Z0qcMhEv0mgwyW9MkdJYlJVKw2VfIZt81JtvdElhSjLCIztXzl2zU3C39cGIGLRzNg+Of/+WUHJKor3dTzSX99OKFOP1ZvK7d9w1kAfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+Received: from macsyma.thunk.org (syn-072-043-125-131.biz.spectrum.com [72.43.125.131])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 663BgZYu001670
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 3 Jul 2026 07:42:36 -0400
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id 3437289CB1E; Fri,  3 Jul 2026 07:42:35 -0400 (EDT)
+Date: Fri, 3 Jul 2026 07:42:35 -0400
+From: "Theodore Tso" <tytso@mit.edu>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jeff Layton <jlayton@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Justin Stitt <justinstitt@google.com>,
+        Lorenzo Stoakes <ljs@kernel.org>, Carlos Maiolino <cem@kernel.org>,
+        Jakub Kicinski <kuba@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Brian Foster <bfoster@redhat.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
+        Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
+        Vlastimil Babka <vbabka@kernel.org>,
+        "Christian Brauner (Amutable)" <brauner@kernel.org>,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
+Message-ID: <akeaouJETPWpE838@mit.edu>
+References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
+ <2026070224-unholy-commode-cf45@gregkh>
+ <2114bb79bb5b6e5584a8236de3590e2f4bf0899f.camel@kernel.org>
+ <20260702161330.GH3534761@killaraus.ideasonboard.com>
+ <2026070227-payroll-eradicate-8f66@gregkh>
+ <20260702163215.GC3559965@killaraus.ideasonboard.com>
+ <2026070350-drown-untreated-5835@gregkh>
+ <a095d9b4-f774-47d9-affd-d519d8acfb34@kernel.org>
+ <2026070343-copied-quarters-1e2a@gregkh>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -58,76 +60,68 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <akZ4tzQw70x3RR2D@gmail.com>
-X-Debian-User: leitao
+In-Reply-To: <2026070343-copied-quarters-1e2a@gregkh>
 
-On Thu, Jul 02, 2026 at 07:55:42AM -0700, Breno Leitao wrote:
-> On Thu, Jul 02, 2026 at 09:41:14AM +0100, Catalin Marinas wrote:
-> > On Fri, Jun 26, 2026 at 08:52:03AM -0700, Breno Leitao wrote:
-> > > +pass "min_unref_scans=1 immediate; =2 gated to 2nd scan (counts $first/$s1/$s2); param read-back ok"
-> > 
-> > Are these off by one?
+On Fri, Jul 03, 2026 at 09:30:28AM -0500, Greg KH wrote:
+> > So clarifying there that a "Assisted-by: LLM" is also good enough would make
+> > sense if we agree on that.
 > 
-> They seem to be OK, and I've tested it multiple times.
+> If we all agree on that, I'm saying that _I_ don't care, but others
+> might.
+
+I agree that requiring the model name is not a good idea, because some
+developers might be using unreleased products where the name itself
+might not be public.  So allowing the version number of the LLM to be
+elided would be a good change.
+
+I'll also note that it's starting to be the case where tool is
+actually quite relevant.  So it's not just about the LLM Model, but
+whether you're using Codex, Claude Code, OpenCode, or Shahiko.  You
+can use the tool or the harness with different models.
+
+So whether the tag is:
+
+Assisted-By: OpenCode:Gemini 3.5 Pro
+Assisted-By: Claude Code
+Assisted-By: LLM
+
+I'd be fine with reviewing patches with any of the above.  However, to
+me that's actually not the most interesting part.  See below....
+
+> For me, the info after "Assisted-by:" doesn't matter, it's the first
+> part.
+
+For me, what I care most about is *how* the LLM was used.  For
+example, if someone just used the output of Sashiko to fix a problem
+in their commit, that's one kind of "Assisted-by".  If Sahsiko
+identifies a pre-existing bug, and the developer addes a patch to the
+patch series, or creates a new patch series, that's a different kind
+of "Assisted-by".  A third kind of "Assisted-by" might include asking
+the LLM to create a Coccinelle semantic patches (because I'm not smart
+enough to create semantic patches).
+
+And of course, all of this is quite different from the stereotypical
+"vibe coding" where the LLM generates thousands of lines of code which
+the human doesn't understand before sending the pull request.  :-)
+
+So for me, adding something after a #-sign comment explaning how the
+LLM was used would be very useful.
+
+> > My kids should clean up their room; doesn't work.
 > 
-> > Kmemleak has a mechanism to detect live objects
-> > via the checksum. A side effect is that on allocation, the checksum is 0
-> > and only after the first scan the checksum is changed.
-> 
-> I got the impression that checksum continues to be zero for these
-> objects during the whole life time? (weird). 
+> But, if you notice that your kids didn't clean up their room, and you
+> had told them to, you can then talk to them about doing it properly
+> based on what they are supposed to be doing.
 
-I've investigated this a bit more and I found something interesting, in
-our per_pcu checksum. The code in update_checksum() is:
+Another metaphor might be that people shouldn't try to evade paying
+their taxes; merely passing a law saying they have to file correct tax
+returns doesn't guarantee this.  But it was specifically the law
+against tax evasion is how US Law Enforcement arrested the Chicago mob
+boss Al Capone.
 
-	for_each_possible_cpu(cpu) {
-		void *ptr = per_cpu_ptr((void __percpu *)object->pointer, cpu);
+Just because some people might lie doesn't mean that we shouldn't
+bother to ask everyone to fill out tax returns.
 
-		object->checksum ^= crc32(0, kasan_reset_tag((void *)ptr), object->size);
-	}
+Cheers,
 
-From my naive view, this has two concerns:
-
-1) In the kernel, crc32(0, <64 zero bytes>, 64) is zero, and the samples' test
-I am using (kmemleak-test.c) has:
-
-	pr_info("__alloc_percpu(64, 4) = 0x%px\n", __alloc_percpu(64, 4)); 
-
-alloc_percpu returns ZEROed memory, so, we are checkingsuming zero content.
-Because we are using 0 as seed, that is returning zero.
-
-object->checksum is a bunch of 0 XOR 0 XOR 0 and so forth.
-
-2) that XOR above seems very weird. Basically we want to detect if some of
-those per-cpu areas changed, here, but, if checksum goes to zero if two object content is similar.
-
-Let me give you a simple example. We have SMP=2, and both objects have crc32 =
-0x42. At the end of that function, object->checksum will be zero, given 0x42
-XOR 0x42 is zero.
-
-If both object changes their content at the same time, object->checksum will
-continue to be zero (although the content (and checksum) HAS changed).
-
-I understand we want to detect any change in any of these per cpu field and
-catch it independent of the CPU. I am inclined toward that.
-
-	--- a/mm/kmemleak.c
-	+++ b/mm/kmemleak.c
-	@@ -1409,8 +1409,9 @@ static bool update_checksum(struct kmemleak_object *object)
-			object->checksum = 0;
-			for_each_possible_cpu(cpu) {
-				void *ptr = per_cpu_ptr((void __percpu *)object->pointer, cpu);
-	+                       u32 seed = object->checksum + cpu;
-
-	-                       object->checksum ^= crc32(0, kasan_reset_tag((void *)ptr), object->size);
-	+                       object->checksum ^= crc32(seed, kasan_reset_tag((void *)ptr), object->size);
-			}
-		} else {
-			object->checksum = crc32(0, kasan_reset_tag((void *)object->pointer), object->size);
-
-
-
-Once this is fixed, then I priming would make sense.
-
-Please let me know if my flaky logic is worse than usual this Friday.
- --breno
+						- Ted
