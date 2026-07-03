@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7236635E948;
-	Fri,  3 Jul 2026 07:06:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC7633F5A2;
+	Fri,  3 Jul 2026 07:23:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783062368; cv=none; b=VcwZFIMZKX+/jMzXnrINtACb4ABpn4Q2hP2WCQeWKgtV67HbMvv2tp1VVVonDoV6NlFoFT9cUBTNRGbnSs0rJ3qPm5SSTH99GL0GQYvOyWyJHTt3A8f6oQ1fca4K1sShF7pjDEfjOjRZ9AR9x2ZQPjSE9cTD/Rxp4t9bH4dMStQ=
+	t=1783063400; cv=none; b=qudOeNjGnKkipzIojeFtpnO4USbYcJB7gu0I+o6YwBtFD6mgbqSztJNQ4pop0G33wvN+QPf2k5FezjU8bLZbSPoHq9Z6Vftr2J+igKnsszX2NNWCWVL697FXlwWRO9O4O5AeSB3TJCrCefYvItGo5reDH8UGIPtG90xWvFF2vhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783062368; c=relaxed/simple;
-	bh=bh4y9lDGi6TgXFrenpnlfKtxsha9HOYb8KvB+l6k08Y=;
+	s=arc-20240116; t=1783063400; c=relaxed/simple;
+	bh=2K9qBFTZyRYnE+aedHgS3FDq6AsQ0tloL8EyCWk3mIo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=k7W85pJDzCE/zQ3UnL6ntdU1HT6GoQIUqQri/u/UTxuFeGkq1nJW6dQCnOx7AbtJRd1oSDCccl0mAChGVwF4CEkblydgURz2YWUC4jrUcADDMr9MvfRgv3L5zBZGDAzKRSgGYRn7XgPW0e6h1vOq1cCXDJp/cZZt31suisz2HGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y9ef+DLv; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=DeUDVm39/CO93kMgLTIJkRfoq/a3vZHwVPpx1QXLzsCfmezvZLo8M5xqW6qNUdffZvLrpHO6FGREtnqeJFAzWCHN0d44Ksd8QXJpicZs+cLtxBBVWMfRe7RKVswB5e3Gb8NNxYCV0DI5TRh3/D+YrpMH10mL7eM/YXYGLJk92mw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gebn+LLn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y9ef+DLv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74D3B1F000E9;
-	Fri,  3 Jul 2026 07:06:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gebn+LLn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF3261F000E9;
+	Fri,  3 Jul 2026 07:23:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783062367;
-	bh=Hg7IJj4ATWwgnTdZiQm5Sopne/isxX9eomdh02JspH4=;
+	s=k20260515; t=1783063399;
+	bh=DHkwkSKfLpeJIx/I7a3vF9DlmThbpWK6ZTafT0FCfCE=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Y9ef+DLvPAWqsV+B66oZ0j6jG9zDQBFRzsqyOY/G0D521ktuR6rR7iExHQSfgoWDu
-	 0pTvXQCXs8QvLZnWN9Mm9zt7bMtSrsWSKzXnd4WGO2uEa/V8T30cwoBrSKhaYduY5k
-	 btZM8x1dJY8s3Svzp2NMlPpjubqTtdnIHMDv02aP2BMQciKM0KhwT/jfNRXWyXIHvk
-	 ibRyap318N8fVQGfUhoBDepV7U50+7sYllNvfqhZm/RSMu2tJXlPWrjA/tn9liqPjK
-	 NiYJW48KU4FOjVvQDoYfWU8AtLNQYC+YSStQqa2YBgD4gcSVPxQy5di3DArWVuGMi4
-	 WoN11RWjbXt6A==
-Message-ID: <3f447113-4407-471f-878f-e6d6edafee71@kernel.org>
-Date: Fri, 3 Jul 2026 09:05:58 +0200
+	b=gebn+LLncyXYcCM6n68WSt0zzA44YzokaWuVPbJH0vshEfRzszHpP0IOGrHVNxX7i
+	 3ytFJFIDf8CepLA6DJZcWwEIcXX3IaF+Cho7SeL97NvI1dToNqKqXxlBf6irauVs5V
+	 5sk+uFam4Bd8F/Ci2ALfYUVd1glHhxD3PE2HlFafKfHCz/eMIxSoyYpaQnn4PhD74b
+	 LspR47YASFaUjgYlOCDFhVo2RVjFmohc/5eWMcjxtPJj19ie0LDVgWPgvVT33fV+DT
+	 jarRNjyY53x7Vtsm9sEtklNvU+7jwvdu3+ucZzMdhGVTKNyPXRvnWkP2HTgsebCVXE
+	 PMFrR2YfYa/aQ==
+Message-ID: <a095d9b4-f774-47d9-affd-d519d8acfb34@kernel.org>
+Date: Fri, 3 Jul 2026 09:23:11 +0200
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -36,11 +36,11 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
-To: Boris Burkov <boris@bur.io>, Lorenzo Stoakes <ljs@kernel.org>
-Cc: Jeff Layton <jlayton@kernel.org>, Greg KH <gregkh@linuxfoundation.org>,
+To: Greg KH <gregkh@linuxfoundation.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Justin Stitt <justinstitt@google.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Jeff Layton <jlayton@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Justin Stitt <justinstitt@google.com>, Lorenzo Stoakes <ljs@kernel.org>,
  Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
  Jori Koolstra <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>,
  Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>,
@@ -55,8 +55,8 @@ References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
  <2114bb79bb5b6e5584a8236de3590e2f4bf0899f.camel@kernel.org>
  <20260702161330.GH3534761@killaraus.ideasonboard.com>
  <2026070227-payroll-eradicate-8f66@gregkh>
- <16c507cea8f2873766e1de586d9a0d73234a3038.camel@kernel.org>
- <akaWnQ5Pkg_676B-@lucifer> <20260702211740.GA639365@zen.localdomain>
+ <20260702163215.GC3559965@killaraus.ideasonboard.com>
+ <2026070350-drown-untreated-5835@gregkh>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -103,78 +103,55 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260702211740.GA639365@zen.localdomain>
+In-Reply-To: <2026070350-drown-untreated-5835@gregkh>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 7/2/26 23:17, Boris Burkov wrote:
-> On Thu, Jul 02, 2026 at 05:50:15PM +0100, Lorenzo Stoakes wrote:
->> On Thu, Jul 02, 2026 at 12:48:22PM -0400, Jeff Layton wrote:
+On 7/3/26 08:37, Greg KH wrote:
+> On Thu, Jul 02, 2026 at 07:32:15PM +0300, Laurent Pinchart wrote:
+>> On Thu, Jul 02, 2026 at 06:19:15PM +0200, Greg KH wrote:
 >>>
->>> Do we need a tag for this though?
+>>> Same here.  I don't care about stats, I care about "how do I review this
+>>> patch" and this gives me that signal that I need if faced with a
+>>> llm-helped patch.
 >>>
->>> This seems like the kind of information that we would always require in
->>> the cover letter of a series (or the little place in an individual
->>> patch for comments that don't get merged). That would also allow you to
->>> convey a lot more nuance about how it was used.
->>>
->>> ISTM asking people to disclose LLM usage in a cover letter would give
->>> everyone what they want: Information about whether and possibly how an
->>> LLM was used, and it also wouldn't clutter up the changelogs with these
->>> tags.
+>>> So it needs to stay please.
 >>
->> It's much much clearer and easier to just have a standardised tag for that.
->>
->> You can see that (and grep for that) immediately, vague paragraphs not so much.
->>
+>> There's the free advertising issue we still need to address. Would the
+>> proposed "Assisted-by: LLM" tag to replace product names be an
+>> acceptable option for you ?
 > 
-> At the risk of being pedantic on a point where I think the document is
-> kind of lacking:
-> 
-> What level of assistance crosses the bar for an "Assisted-by: LLM" tag?
-> 
-> Some sample levels of assistance to illustrate the point:
-> 
-> 1. I used an llm to one-shot vibe-code a patch
-> 2. I used an llm to write a patch but carefully reviewed every line
-> 3. I used an llm to explore the design space for a patch but wrote it
-> manually
-> 4. I used an llm to debug or reproduce a kernel issue but then wrote the
-> fix manually after fully understanding the defect
-> 5. I used an llm to review a patch I wrote
-> 6. I used an llm to research some chunk of code while writing a patch
-> 7. I used Google while writing a patch and learned something valuable
-> from the AI overview at the top
-> 
-> I personally would 100% use the tag for 1 or 2, and have already done
-> so. I have not been doing it for 3-5, as I think that will basically
-> make every patch llm-assisted to the point of the distinction being
-> meaningless. If we should be doing it for 3-5 (or some subset thereof)
-> then my mistake and I will certainly start doing so. I would hope most
-> people agree 6-7 and similar need no tag.
-> 
-> Similar questions abound if you use an llm to help with writing the
-> English text in the patch or emails.
-> 
-> I have a feeling that this ambiguity is part of the reason we aren't all
-> agreeing on the value of the tag?
+> I really don't care what the tag says,
 
-Yes, I raised something similar as reply to Christian's RFC [1], where I said
-that for me the information *how* it was used is much more important:
+Well, while you don't care, the current policy implies that:
 
 "
-Assisted-by: LLM # translate commit message
-Assisted-by: LLM # generate some test cases
-Assisted-by: LLM # cleanup logic
-Assisted-by: LLM # everything and I have no clue what any in here does
+Assisted-by: AGENT_NAME:MODEL_VERSION
+...
+``MODEL_VERSION`` is the specific model version used
 "
 
-That tag is it stands is pretty useless, really.
+So clarifying there that a "Assisted-by: LLM" is also good enough would make
+sense if we agree on that.
 
-I assume most people only really use it for something in-between 1 and 2, but
-*who knows*.
 
-[1] https://lore.kernel.org/r/5e7b9d23-4291-48fb-bdc6-47db82d33c80@kernel.org
+I'll also note, that the "*should* include an Assisted-by tag" is pretty weak,
+as someone who worked on specs before.
+
+My kids should clean up their room; doesn't work.
+
+
+Really, if we want this to be useful in practice I only see the following way:
+
+1) Document that it's a *must*, an document which scenarios we care about.
+
+2) Encourage people to specify *how* AI was used.
+
+Assisted-by: LLM # improve the patch description
+
+
+Now, it will be hard for all susbsytems to agree on that, so I would hope that
+Linus would just tell us what we should do :)
 
 -- 
 Cheers,
