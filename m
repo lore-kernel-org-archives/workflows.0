@@ -1,125 +1,164 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877BA1A6834;
-	Fri,  3 Jul 2026 15:43:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 842572F5487
+	for <workflows@vger.kernel.org>; Fri,  3 Jul 2026 16:12:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783093425; cv=none; b=G4+e6tRn5wTcgEt7yHL7TSN0TLdrHrjhjzsBj9a0Cvwe/gufnFIHKq/GEQttogv3rLMWNCZ/egWWb7s5TLgVcWPajMD1QsqJcwAHUxfNL5oKM7GS7P84V8/fqSUFWz4jO7i2yf11UenZZSM6u0R2kMLn5nUfKAWaN3wc0VQGJxQ=
+	t=1783095169; cv=none; b=ozyiMtbuLW9aQ84EfxIktEzhZRKY8V7Nhw00EZju3pVIvpIvXMtsD7faTgF8VJ+pot5HpKjxAhT2lk57Xsq+O+vjoJuyiFzGi8kj1FtLHDt8cGPi5CjamKUmAZ/ovvtbtN3GXhcqWaRy5YiRIk9myYb4limmwgLfiuaQ0N4bmYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783093425; c=relaxed/simple;
-	bh=o6CUkChr105p1EtkJhmeQnN44oM2JayfRcY5WxDmCe4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fPelWal8zqfklcaIWJTi6fyE8WxXTCgcJk778zxVwSnb3gvJ5IZ6X5WUaKbJsEIc2OOh4MLOcgEoTFt+DqyKhRoKrnH6fVAwuBu93FAIHHrvA4uXhuJi1dfDhz0GD1bb6z2G0uqGV4Ia6jA/AZpCKxl3+YXmFQG5Uo4q09o/Mxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=uX3WhUE3; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1783095169; c=relaxed/simple;
+	bh=DDlppR72ZofS0gwf7T++swSGldaFduoIiD3WPtJRbEY=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=n134BcoHj4TmAcWAvT3+QyJur8B5ikkHxyhqGF8lDbjyVrRXfYfnIelkD/SGJ3bh1l0g41mjBOlN6Lzfn8Ug0VhgSApVM2meZog4QHU5s/Zi+WeoHkYbLbM3Pirnf3o8YKxD8kkh/wmqPQEO4rpPl3zuwpH6ri0bXs6+X7TwDV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dilger.ca; spf=pass smtp.mailfrom=dilger.ca; dkim=pass (2048-bit key) header.d=dilger-ca.20251104.gappssmtp.com header.i=@dilger-ca.20251104.gappssmtp.com header.b=S+Oes1Aj; arc=none smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dilger.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dilger.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="uX3WhUE3"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=HFC1s3Y4qDS3AnYkAd3JDVm/WCjlowQM1/RdwiUDxyc=; b=uX3WhUE3Ow3FP9kFIOR87QiQff
-	NgSGTJGyKb6WcuGZdLvTztT1+H1PsH/lJPYlBJ5yslnw55mk7gxdszLOJzj/oSEUssjrDDnl0TMYF
-	l0QQqLbH+dNq2ZDZ1UElkTx1NHEOwUY7uH8Olx5fi7li90Ai2dtJnHllS/Kq9G+rbyeblQMnYTygu
-	hj9a2JzEGWRlbV5cqv5XrLTrmKaL1AzSxyA3n5lOO4Dw1LSGUaqzksXc+X15d8I5KofsYj9NBqpyC
-	6I/X8yhw50sIyX+zshY5mtluaaEytht6GhdkueAJk6sqFRc7C16rpEaMZENnEJvd1ILMIfokt3v2d
-	dsVNAv6w==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wfg3A-009VB6-1X;
-	Fri, 03 Jul 2026 15:43:32 +0000
-Date: Fri, 3 Jul 2026 08:43:27 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kselftest@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH 2/2] selftests/mm: test kmemleak's N-consecutive-scan
- leak confirmation
-Message-ID: <akfYImSNDh3OjIfR@gmail.com>
-References: <20260626-kmemleak_twice-v1-0-ab28f7cc0971@debian.org>
- <20260626-kmemleak_twice-v1-2-ab28f7cc0971@debian.org>
- <akYkKgWOsYnw6ETE@arm.com>
- <akZ4tzQw70x3RR2D@gmail.com>
- <akeX8mFiizd65pDw@gmail.com>
- <akfNeK7OOpvoZE9z@arm.com>
+	dkim=pass (2048-bit key) header.d=dilger-ca.20251104.gappssmtp.com header.i=@dilger-ca.20251104.gappssmtp.com header.b="S+Oes1Aj"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-38005a36edbso550060a91.1
+        for <workflows@vger.kernel.org>; Fri, 03 Jul 2026 09:12:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dilger-ca.20251104.gappssmtp.com; s=20251104; t=1783095167; x=1783699967; darn=vger.kernel.org;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LuYdqZO6P8sYYUQnX9Vmulsb3aoIphpVLP6QakGqXqA=;
+        b=S+Oes1Ajap0efry0Bu0qQXu9w1jj2g7qfPWJBpzSsuKaT/q/2ke5vxfs9dt9wfLFS8
+         CPt/5W4b4k7wU8qqpDRwQkTZH1EAS1ZROM1f69lKWKazWdOwajOixfQq+lWL4Cmf53Ko
+         qZ9fRuG2tsDXbKtDXyRvjZK6mx7fyc/xLVfexT9c+TS1Cn+Pqc6fenniyzFiHzHz7rTK
+         TaRvgEGKOhVDEVDD+Rl9In7gVcfFYRaFeeyUydLXmmxLnWR+/eFPyOVqtlFx6um/mpaE
+         c7zbDfepqqOXVijMJBXhsBVKaoYJaa5uCXi7yBNNFwMWw/Z1JUgez52KxtkZ6LYzWE6C
+         moLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783095167; x=1783699967;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=LuYdqZO6P8sYYUQnX9Vmulsb3aoIphpVLP6QakGqXqA=;
+        b=NBOwmGbrQZhpg+6cWk1ISGZBkDqGUOdK4iQabNO/N0rknPW1dT+y4aUrzpgUZ6c+hP
+         e55mfWv932AhPc+NuOHmkZOQOs3LLGBIzF5b7UPFUWo+7FECyQlFxUJIzziXEGEAhCXV
+         Xrr1NyTuUdeK0NUMtpiEsfuN8AANrHs9Oyq4FMVM3FyTU9qcKBOdO2MBY40MoBefD2Pz
+         uWA6e3exFVEtNBzQdN8su7KFKGGMD+G3hb4WSB5XmGC7F22vCyCchMtuZ4ceepvsZ4RW
+         J4rOV0UifuIWO4tbsoTLJ2HZlutvrMDmYlvT8G2uVkS2iJ9FCvTqlPza0SKWxDNlN8di
+         mKgg==
+X-Forwarded-Encrypted: i=1; AHgh+RpF491FTgMs5HGsPphXKg6MEzvUQxuoOpqEkPn8V0Tf+Ig33OCdzox1evJggqNUKTu5mEWnroU4cgE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyMMcoDXGBtlY18omno2HURrTbhC9cYrodMgf1XuIQxiC3dzC3j
+	SgMsdYV+5hboEJYNxkyupRhnUD2EQSNC3SB6jXfXbjjZ/IvbcvMSMmAf5so3dyH+O+Y=
+X-Gm-Gg: AfdE7cllxPbnajERzV7mEWSzoJUsscpqP8RwGnp4dZshoyy8wjMsyfhdmug+ashhHNf
+	b9wt+UqDZ5B/vTn6k98S9zAbqqgc6oBdp4pN1l8j1Uyzcylm7luRJ78Hf5uLTfI+cnAAGtRrMqk
+	aDD/1J9qGw7wKdNkmrHjkCEzj8JHKQBurAxeF4ul90xO+alP3GSNdF6/fVDdS+LEirGo0ywzn3k
+	7sBrfpy94C7CDN/ZIcbYge1aXSZxmqCOiGqtgRMiXaOZDNww0ulLoEJnINuhTZ1gVjaVcWPF0nY
+	7BsNZvbcauCBd3dXl941DiRySdBPvfNdHg941rXkR9yKRfnIWTbznt3gbty5IGgf6GLYVUFXtFZ
+	45h6ewE0EyhC9252xl8vhcRnUx9nihd6If3XIjmjkf/P803SztXFiz2bU5z9cowLnQ1QQdHVoGJ
+	etTlsG73sW6BSoayCuUk76AnrRfNsOVCi6/CWoCgKDknssKd5TOff3D4qzChSt1z21VQ==
+X-Received: by 2002:a17:90b:50:b0:37f:9ce2:348d with SMTP id 98e67ed59e1d1-3829fddab93mr148112a91.30.1783095166730;
+        Fri, 03 Jul 2026 09:12:46 -0700 (PDT)
+Received: from smtpclient.apple (S0106a0ff70715ac6.ek.shawcable.net. [174.0.84.146])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38097d81bd9sm3194250a91.1.2026.07.03.09.12.44
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 03 Jul 2026 09:12:46 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <akfNeK7OOpvoZE9z@arm.com>
-X-Debian-User: leitao
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.100.1.1.5\))
+Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
+From: Andreas Dilger <adilger@dilger.ca>
+In-Reply-To: <akcji3OuxXz3FqSD@mit.edu>
+Date: Fri, 3 Jul 2026 10:12:34 -0600
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Greg KH <gregkh@linuxfoundation.org>,
+ Jeff Layton <jlayton@kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Justin Stitt <justinstitt@google.com>,
+ Lorenzo Stoakes <ljs@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Carlos Maiolino <cem@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>,
+ Jori Koolstra <jkoolstra@xs4all.nl>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Brian Foster <bfoster@redhat.com>,
+ Christoph Hellwig <hch@infradead.org>,
+ David Disseldorp <ddiss@suse.de>,
+ Mark Brown <broonie@kernel.org>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Jens Axboe <axboe@kernel.dk>,
+ David Hildenbrand <david@kernel.org>,
+ Vlastimil Babka <vbabka@kernel.org>,
+ "Christian Brauner (Amutable)" <brauner@kernel.org>,
+ workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <19942440-EB87-4D3E-B37F-3146500BED8C@dilger.ca>
+References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
+ <2026070224-unholy-commode-cf45@gregkh> <87cxx5l900.fsf@trenco.lwn.net>
+ <7C39A5C8-EA03-4C8D-9BE5-5097101B71D6@dilger.ca> <akcji3OuxXz3FqSD@mit.edu>
+To: Theodore Tso <tytso@mit.edu>
+X-Mailer: Apple Mail (2.3864.100.1.1.5)
 
-On Fri, Jul 03, 2026 at 03:55:52PM +0100, Catalin Marinas wrote:
-> > I understand we want to detect any change in any of these per cpu field and
-> > catch it independent of the CPU. I am inclined toward that.
-> > 
-> > 	--- a/mm/kmemleak.c
-> > 	+++ b/mm/kmemleak.c
-> > 	@@ -1409,8 +1409,9 @@ static bool update_checksum(struct kmemleak_object *object)
-> > 			object->checksum = 0;
-> > 			for_each_possible_cpu(cpu) {
-> > 				void *ptr = per_cpu_ptr((void __percpu *)object->pointer, cpu);
-> > 	+                       u32 seed = object->checksum + cpu;
-> > 
-> > 	-                       object->checksum ^= crc32(0, kasan_reset_tag((void *)ptr), object->size);
-> > 	+                       object->checksum ^= crc32(seed, kasan_reset_tag((void *)ptr), object->size);
-> 
-> Yeah, the xor wasn't a great idea. What about initialising the checksum
-> value on object allocation to ~0 (for the two-scans idea) and for
-> per-cpu, just build the crc on top of the previous crc, something like:
-> 
-> diff --git a/mm/kmemleak.c b/mm/kmemleak.c
-> index 7c7ba17ce7af..e196f53f9b46 100644
-> --- a/mm/kmemleak.c
-> +++ b/mm/kmemleak.c
-> @@ -687,7 +687,7 @@ static struct kmemleak_object *__alloc_object(gfp_t gfp)
->  	atomic_set(&object->use_count, 1);
->  	object->excess_ref = 0;
->  	object->count = 0;			/* white color initially */
-> -	object->checksum = 0;
-> +	object->checksum = ~0;
->  	object->del_state = 0;
->  
->  	/* task information */
-> @@ -981,7 +981,7 @@ static void reset_checksum(unsigned long ptr)
->  	}
->  
->  	raw_spin_lock_irqsave(&object->lock, flags);
-> -	object->checksum = 0;
-> +	object->checksum = ~0;
->  	raw_spin_unlock_irqrestore(&object->lock, flags);
->  	put_object(object);
->  }
-> @@ -1410,7 +1410,8 @@ static bool update_checksum(struct kmemleak_object *object)
->  		for_each_possible_cpu(cpu) {
->  			void *ptr = per_cpu_ptr((void __percpu *)object->pointer, cpu);
->  
-> -			object->checksum ^= crc32(0, kasan_reset_tag((void *)ptr), object->size);
-> +			object->checksum = crc32(object->checksum,
-> +						 kasan_reset_tag((void *)ptr), object->size);
->  		}
->  	} else {
->  		object->checksum = crc32(0, kasan_reset_tag((void *)object->pointer), object->size);
+On Jul 2, 2026, at 20:57, Theodore Tso <tytso@mit.edu> wrote:
+>=20
+> On Thu, Jul 02, 2026 at 12:46:19PM -0500, Andreas Dilger wrote:
+>> It would make sense IMHO to address the ignorance in the most =
+expedient manner,
+>> namely by telling the *LLM itself* to add this tag when it generates =
+the commit
+>> message and/or reviews the code.
+>>=20
+>> This could be achieved by adding a statement in "AGENTS.md" in the =
+root of the
+>> source tree to this effect, or telling the agent to reference and =
+follow rules
+>> in Documentation/process/coding-assistants.rst regarding the =
+Assisted-by: tag.
+>=20
+> This presupposes a particular workflow where the developer allows the
+> LLM to generate git commits.  I don't do that.  I'll ask the LLM to
+> modify the code, but then I'll generally fix it up --- very often by
+> hand because I can edit the sources than entering a prompt and waiting
+> for the LLM to figure out how to make the change.  I'll often run the
+> test cases myself, since if it takes 24 hours of VM time, and 2 hours
+> of wall clock time, I'm going to kick off the regression tests myself,
+> and verify the test results.
 
-Ack, this seems more robust and easier to follow than my approach,
-thanks for your insight here.
+Sure, and that holds true for many kernel developers, myself included.
+I don't think you or any of the senior maintainers are the audience.
 
-I will spin this "fix" separated (CCing stable), and send a v2 for this
-selftest with priming enabled.
+The point of my comment is that this is more likely to help contributors
+who do *not* know/follow standard development practices and are more
+likely to contribute AI-coded patches, which is AFAICS the main issue
+in this discussion.
 
-Thanks for your suggestion,
---breno
+Also, the effort of doing so is very minimal and has no real downside.
+Having the AI contribution policy clearly spelled out where an AI agent
+can find it can only have a positive effect, even if not always =
+followed.
+
+Cheers, Andreas
+
+> And I almost always write the commit description myself.  So when I
+> say, "Assisted-by" it literally is "Assisted by".  It is not "vibe
+> coded where the LLM generates thousands of lines of code that the
+> human being doesn't understand before sending ta pull request."  And
+> that's probably why you'll see people asserting that LLM generated
+> code can't possibly be accepted due to copyright reasons.  There's a
+> big difference between asking an LLM to modify already existing code
+> to add a feature, or to fix a bug, and to vibe code a new OS from
+> scratch.  One is far less likely to be a copyright violation than the
+> other.
+>=20
+> - Ted
+
+
+Cheers, Andreas
+
+
+
+
+
