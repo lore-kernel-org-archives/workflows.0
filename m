@@ -1,145 +1,139 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00CC4406820;
-	Mon,  6 Jul 2026 08:44:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9B933DE45A;
+	Mon,  6 Jul 2026 20:16:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783327482; cv=none; b=BvR8gJaxhs7xi1pl1SXoQoTJ5vLhV2w1LA15S9Zt50AJSuelb5UAtfpNIzurTNkE/UdD/8bek6ZHtjA3oEyKc9gSWVL1tj1fYBFW+dLrbkKXNfPskVxMx6QF+aGLLf3hNEgbAmr6Muv/X4t/N4mBoDehWwipufWK0XYZhNtZ3PM=
+	t=1783369006; cv=none; b=Gv1y2bE3RXPSLMG34mWbMjvl9oPRty6R/REAUJZLT2/ROlvnUdv5yGOvMn68BOJhTGWP/NZSLzhmS9GjfoeFyzM/hAyiWYmKqjN6w9RwyY6YzTuhfI6a5lCJfNQNfBDEVcVqfYGTmXAiEhS3+1Nd6MUlPmJze9BwOPF4C2mseoQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783327482; c=relaxed/simple;
-	bh=rth18z6YaOz5QBWEWwHDUQ0tPO1BwJ6C7TuIlFhrhws=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IMNePCA1tc3bEVCo2I3MnW1yt3hrYZcpP6p5Aa4TPLoly9FoSh8eWXM5QhIKFK7C521zcrVJTMAFQ957/OYaREFrDN63ZL/TQ+chCcYXAI6ryxis9rbPCxQBja01ny1Uo2CWvyOlswPV/xMcIoxsZMsO8xsleh7n1psaz8o0kYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Iu29N5iR; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783369006; c=relaxed/simple;
+	bh=nZMrtP0DC8iBaqKYgMmMrO1jrvXDkETi7hReXQsahmM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SEryYPW4V24+T7cosHQbkeDopO42zLTCDQXeTAdHuewNABHSej/xHTF71EGFbzOJBa4HnGev5D2o5Uf1sb/+4sYJE/6XkJ3O7g+nYQsQZwJHMa3pA96m6VVLhBxrfhcsHZZ+XZZcKzpl08IO7bKjsT44McrokcJ++FLZxwQplQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RDNtmue2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Iu29N5iR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADA521F00A3D;
-	Mon,  6 Jul 2026 08:44:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RDNtmue2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8E681F00A3A;
+	Mon,  6 Jul 2026 20:16:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783327460;
-	bh=Q68xeEYlRpvZZ3fJWppuzDYXgw2sArSGKp7zyhZSU+s=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=Iu29N5iR7ntPSqbTbtXU7u9y3w6oVk1s/Tz9jj7UtZps2hQUhhq98i5vEwppxu6EB
-	 VXluEesnbbyMWBitf/QjJPBqqgCgRdZJZi3IBEnXoTup9nHOeasVETgB1Mx1dGHMuk
-	 uINFp67z5uv/eA1AE90sxUC4O5/OhMabdcV09llf4aYxt+BY2pQBAVKNlfmguBjHb1
-	 arsbaUBH5Bapz1fx2eEIIxzgkhjZPnxf1Pa1Js05tel94A6bKkCVe6JUOqUye/UudK
-	 7kBlSo8rTpHZR4qb+OlasPLUevd7G5jnGgiMTWUtBGBnPwMCxEAfwcoy+vOOXN+MZk
-	 iEngu7WUe0HPg==
-Received: from localhost ([::1])
-	by mail.kernel.org with esmtp (Exim 4.99.4)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1wgew6-0000000Dh4e-27NY;
-	Mon, 06 Jul 2026 10:44:18 +0200
-Date: Mon, 6 Jul 2026 10:44:17 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: "Theodore Tso" <tytso@mit.edu>
-Cc: Greg KH <gregkh@linuxfoundation.org>, "David Hildenbrand (Arm)"
- <david@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Linus Torvalds <torvalds@linux-foundation.org>, Jeff Layton
- <jlayton@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Justin Stitt
- <justinstitt@google.com>, Lorenzo Stoakes <ljs@kernel.org>, Carlos Maiolino
- <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Jori Koolstra
- <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>, Brian Foster
- <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>, David
- Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>, Jani Nikula
- <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>, Vlastimil Babka
- <vbabka@kernel.org>, "Christian Brauner (Amutable)" <brauner@kernel.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: remove the requirement for LLM
- attribution
-Message-ID: <20260706104417.0cc72156@localhost>
-In-Reply-To: <akeaouJETPWpE838@mit.edu>
-References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
-	<2026070224-unholy-commode-cf45@gregkh>
-	<2114bb79bb5b6e5584a8236de3590e2f4bf0899f.camel@kernel.org>
-	<20260702161330.GH3534761@killaraus.ideasonboard.com>
-	<2026070227-payroll-eradicate-8f66@gregkh>
-	<20260702163215.GC3559965@killaraus.ideasonboard.com>
-	<2026070350-drown-untreated-5835@gregkh>
-	<a095d9b4-f774-47d9-affd-d519d8acfb34@kernel.org>
-	<2026070343-copied-quarters-1e2a@gregkh>
-	<akeaouJETPWpE838@mit.edu>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	s=k20260515; t=1783369004;
+	bh=PGuV6jeesFdKzccH9KIxy2qzDvsa3jcfI3T0fBRPPQo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RDNtmue2li5VZvEYGKotXJPXHSlBWfcQdpFSwGQhKRndG6sIMx6xtdT3SGHLglLIn
+	 7d7pVsDtpp/NR/Qb/vQ70fvGTO92UjdvvodOS2DqtU/neEX+qFXxfr4xl+a2+0qOCN
+	 XF/z9cjeSxjZSHgdbxR327IhIqCP2kz35gmKus/F+vKIeGqmgA9l/YHSt9jPG6EyRw
+	 Z1YDFHpGBrT36dWHzvFNy6dKLwamAI+T6h+SJ77QZO9FiZ6Tmt7aXY6J9q+YlDsRWL
+	 1KF1jDns+DKbW78dnBHq1OEmE3Fx5HLJ70kIUj8mu6liUx72QU7aK+Qj5Ta28Ba/xl
+	 Tm2sLOyRmH1rQ==
+Date: Mon, 6 Jul 2026 13:16:38 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Nick Desaulniers <ndesaulniers@google.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+	Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Carlos Bilbao <carlos.bilbao@kernel.org>,
+	Avadhut Naik <avadhut.naik@amd.com>, linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	llvm@lists.linux.dev, gosst-kernel <gosst-kernel@google.com>,
+	android-kernel-team <android-kernel-team@google.com>,
+	kernel-dynamic-tools <kernel-dynamic-tools@google.com>
+Subject: Re: [PATCH] MAINTAINERS: update ndesaulniers
+Message-ID: <20260706201638.GA2661146@ax162>
+References: <20260528-im_back_baby-v1-1-25d355efdbae@google.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260528-im_back_baby-v1-1-25d355efdbae@google.com>
 
-On Fri, 3 Jul 2026 07:42:35 -0400
-"Theodore Tso" <tytso@mit.edu> wrote:
+On Thu, May 28, 2026 at 02:38:41PM -0700, Nick Desaulniers wrote:
+> I'm coming back.  I will return.  I will possess your body, and I'll
+> make LKML burn.
+> 
+> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
 
-> On Fri, Jul 03, 2026 at 09:30:28AM -0500, Greg KH wrote:
-> > > So clarifying there that a "Assisted-by: LLM" is also good enough wou=
-ld make
-> > > sense if we agree on that. =20
-> >=20
-> > If we all agree on that, I'm saying that _I_ don't care, but others
-> > might. =20
->=20
-> I agree that requiring the model name is not a good idea, because some
-> developers might be using unreleased products where the name itself
-> might not be public.  So allowing the version number of the LLM to be
-> elided would be a good change.
->=20
-> I'll also note that it's starting to be the case where tool is
-> actually quite relevant.  So it's not just about the LLM Model, but
-> whether you're using Codex, Claude Code, OpenCode, or Shahiko.  You
-> can use the tool or the harness with different models.
->=20
-> So whether the tag is:
->=20
-> Assisted-By: OpenCode:Gemini 3.5 Pro
-> Assisted-By: Claude Code
-> Assisted-By: LLM
+Acked-by: Nathan Chancellor <nathan@kernel.org>
 
-I don't think an assisted-by for LLM actually helps.
+Linus, could you apply this directly? It fell off my radar and I think
+it is worth getting in sooner rather than later. I am not sure when my
+next fixes pull will be. Thanks a lot!
 
-I can't see any difference on adding it or doing something like:
+> ---
+>  .mailmap                                                               | 1 -
+>  Documentation/process/embargoed-hardware-issues.rst                    | 2 +-
+>  Documentation/translations/sp_SP/process/embargoed-hardware-issues.rst | 2 +-
+>  MAINTAINERS                                                            | 2 +-
+>  4 files changed, 3 insertions(+), 4 deletions(-)
+> 
+> diff --git a/.mailmap b/.mailmap
+> index a009f73d7ea5..f863781b0102 100644
+> --- a/.mailmap
+> +++ b/.mailmap
+> @@ -634,7 +634,6 @@ Nicholas Piggin <npiggin@gmail.com> <npiggin@kernel.dk>
+>  Nicholas Piggin <npiggin@gmail.com> <npiggin@suse.de>
+>  Nicholas Piggin <npiggin@gmail.com> <nickpiggin@yahoo.com.au>
+>  Nicholas Piggin <npiggin@gmail.com> <piggin@cyberone.com.au>
+> -Nick Desaulniers <nick.desaulniers+lkml@gmail.com> <ndesaulniers@google.com>
+>  Nicolas Ferre <nicolas.ferre@microchip.com> <nicolas.ferre@atmel.com>
+>  Nicolas Pitre <nico@fluxnic.net> <nicolas.pitre@linaro.org>
+>  Nicolas Pitre <nico@fluxnic.net> <nico@linaro.org>
+> diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
+> index 34e00848e0da..d07f16c3c7b8 100644
+> --- a/Documentation/process/embargoed-hardware-issues.rst
+> +++ b/Documentation/process/embargoed-hardware-issues.rst
+> @@ -308,7 +308,7 @@ an involved disclosed party. The current ambassadors list:
+>  
+>    Google	Kees Cook <keescook@chromium.org>
+>  
+> -  LLVM		Nick Desaulniers <nick.desaulniers+lkml@gmail.com>
+> +  LLVM		Nick Desaulniers <ndesaulniers@google.com>
+>    ============= ========================================================
+>  
+>  If you want your organization to be added to the ambassadors list, please
+> diff --git a/Documentation/translations/sp_SP/process/embargoed-hardware-issues.rst b/Documentation/translations/sp_SP/process/embargoed-hardware-issues.rst
+> index 9d444b9c46d3..7d4d694967c7 100644
+> --- a/Documentation/translations/sp_SP/process/embargoed-hardware-issues.rst
+> +++ b/Documentation/translations/sp_SP/process/embargoed-hardware-issues.rst
+> @@ -287,7 +287,7 @@ revelada involucrada. La lista de embajadores actuales:
+>  
+>    Google	Kees Cook <keescook@chromium.org>
+>  
+> -  LLVM		Nick Desaulniers <nick.desaulniers+lkml@gmail.com>
+> +  LLVM		Nick Desaulniers <ndesaulniers@google.com>
+>    ============= ========================================================
+>  
+>  Si quiere que su organización se añada a la lista de embajadores, por
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 461a3eed6129..2f06cc2e463c 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -6259,7 +6259,7 @@ F:	.clang-format
+>  
+>  CLANG/LLVM BUILD SUPPORT
+>  M:	Nathan Chancellor <nathan@kernel.org>
+> -R:	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>
+> +R:	Nick Desaulniers <ndesaulniers@google.com>
+>  R:	Bill Wendling <morbo@google.com>
+>  R:	Justin Stitt <justinstitt@google.com>
+>  L:	llvm@lists.linux.dev
+> 
+> ---
+> base-commit: 8fde5d1d47f69db6082dfa34500c27f8485389a5
+> change-id: 20260528-im_back_baby-1ade32dc049e
+> 
+> Best regards,
+> --  
+> Nick Desaulniers <ndesaulniers@google.com>
+> 
 
-	Assisted-By: smath
-	Assisted-By: sparse
-	Assisted-By: coverity
-	Assisted-By: gcc
-	...
-	Assisted-By: my-favorite-web-search-engine
-
-=46rom my side, I don't care about whatever tool/process a developer has
-to produce a patch. All I want is a proper patch that passes my review
-criteria.
-
-Also, identifying bad vibe-coding patches is usually easy: their=20
-descriptions look like written by a former literature professor that just=20
-took his first job as junior programmer: they come with useless comments,
-random variable renames, unneeded code rewrites, etc.
-
-Btw, if one wants them to be tagged as AI-produced, perhaps we can teach=20
-Sashiko to identify it and add a big warning on its review. This will
-probably be more reliable than asking people to add a LLM tag.
-
-What I think we should do, instead, is to let it clear that vibe coding
-is forbidden - e.g. just asking AI to do something and sending it as-is
-(*).
-So, I would add something like this at
-Documentation/process/coding-assistants.rst:
-
-	"All patches shall be written or reviewed and modified by a human.
-	 You should be able to understand exactly what the patch is doing,
-	 why it is taking such approach and how. Pure non-trivial
-	 machine-generated patches will be rejected."
-
-(*) There are of course exceptions for it: typo fix patches for instance
-    can be pure machine-generated. Even before AI, we have patches like
-    that where people used some spell checker to fix typos. Again, they
-    need human review before submission, as sometimes, spell checker fails
-    when, for instance, it tries to replace an acronym with resembles
-    a word.
-
---=20
-Thanks,
-Mauro
+-- 
+Cheers,
+Nathan
