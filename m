@@ -1,133 +1,145 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6804530D41B;
-	Fri,  3 Jul 2026 18:26:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00CC4406820;
+	Mon,  6 Jul 2026 08:44:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783103186; cv=none; b=K2ry5cRAUfJQ6O1RhFOBF8sGe3zhlmUZVeCOOfEEZ9/Uybpnag01hQ+JDxEqbrebTIs+YfZtvmLrfzPxpWnrHpyoxiKNLsug7iKSUb7Kuvsog/3h40UWv4ktPp5V7oTRwf7HU01g0iblvGC/N7WwiACwmfKThSSPQuaKHj5kvf8=
+	t=1783327482; cv=none; b=BvR8gJaxhs7xi1pl1SXoQoTJ5vLhV2w1LA15S9Zt50AJSuelb5UAtfpNIzurTNkE/UdD/8bek6ZHtjA3oEyKc9gSWVL1tj1fYBFW+dLrbkKXNfPskVxMx6QF+aGLLf3hNEgbAmr6Muv/X4t/N4mBoDehWwipufWK0XYZhNtZ3PM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783103186; c=relaxed/simple;
-	bh=3sG+6pM28FcEmThoROo3anbCHNtoBGLXKQK5HQKLP6c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KFVQDSjVpNZ0nI8SSkfOieVMT+5hp78Ki/AfCMBeXYcyI7qc45qV7FI3Keb5JMRj7hnAF8FQZevX9RQxSbhd+dhXQU0jVr3HNz/IVWsgKJ+R2l6uXl3cabbJo/8gQRiu5TwE6nJeUZtBUCdSf0ZjjIXIbYVvpeZsX/A1koAo4Is=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XObThWRV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783327482; c=relaxed/simple;
+	bh=rth18z6YaOz5QBWEWwHDUQ0tPO1BwJ6C7TuIlFhrhws=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IMNePCA1tc3bEVCo2I3MnW1yt3hrYZcpP6p5Aa4TPLoly9FoSh8eWXM5QhIKFK7C521zcrVJTMAFQ957/OYaREFrDN63ZL/TQ+chCcYXAI6ryxis9rbPCxQBja01ny1Uo2CWvyOlswPV/xMcIoxsZMsO8xsleh7n1psaz8o0kYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Iu29N5iR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XObThWRV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FE2F1F000E9;
-	Fri,  3 Jul 2026 18:26:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Iu29N5iR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADA521F00A3D;
+	Mon,  6 Jul 2026 08:44:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783103185;
-	bh=iTuTT+001P56g6YbIPoGv9mFzhbzhhXuwGrfVvqwFtk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=XObThWRVqp3jIVoAJp5uj/hTedJ+GdsRuj6V/s+/6avmFeflDeBY5fpAtMnpyz951
-	 m9dyEIIefIgPjqSFtpBO5HIQ0351WLdVwSI7UwnCbovhSmxKlJzYmqBdvVtXnp+9gs
-	 tyQzDsS1Y6yUqMiUDJkqBuKNxT4n15shchTID2bRwBFeLq742Jq+tLDXl7Zzthkm7T
-	 8ho4NkiVjyC9eiSCeQyBa1mVBOZMGp2glj2m//wIChQ6UsrPT2rk6tIcR6lRww9z5G
-	 vA5kkX+UvFo51q9TzP4vErvoip3b9pKjeApdTXKCmHEMCwylASoUx7bFyGMAf50RKY
-	 pT3iL+yxOatUA==
-Message-ID: <62c621fb-01b1-473a-9482-34ec4bc9da74@kernel.org>
-Date: Fri, 3 Jul 2026 20:26:17 +0200
+	s=k20260515; t=1783327460;
+	bh=Q68xeEYlRpvZZ3fJWppuzDYXgw2sArSGKp7zyhZSU+s=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=Iu29N5iR7ntPSqbTbtXU7u9y3w6oVk1s/Tz9jj7UtZps2hQUhhq98i5vEwppxu6EB
+	 VXluEesnbbyMWBitf/QjJPBqqgCgRdZJZi3IBEnXoTup9nHOeasVETgB1Mx1dGHMuk
+	 uINFp67z5uv/eA1AE90sxUC4O5/OhMabdcV09llf4aYxt+BY2pQBAVKNlfmguBjHb1
+	 arsbaUBH5Bapz1fx2eEIIxzgkhjZPnxf1Pa1Js05tel94A6bKkCVe6JUOqUye/UudK
+	 7kBlSo8rTpHZR4qb+OlasPLUevd7G5jnGgiMTWUtBGBnPwMCxEAfwcoy+vOOXN+MZk
+	 iEngu7WUe0HPg==
+Received: from localhost ([::1])
+	by mail.kernel.org with esmtp (Exim 4.99.4)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1wgew6-0000000Dh4e-27NY;
+	Mon, 06 Jul 2026 10:44:18 +0200
+Date: Mon, 6 Jul 2026 10:44:17 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: "Theodore Tso" <tytso@mit.edu>
+Cc: Greg KH <gregkh@linuxfoundation.org>, "David Hildenbrand (Arm)"
+ <david@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>, Jeff Layton
+ <jlayton@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Justin Stitt
+ <justinstitt@google.com>, Lorenzo Stoakes <ljs@kernel.org>, Carlos Maiolino
+ <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Jori Koolstra
+ <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>, Brian Foster
+ <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>, David
+ Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>, Jani Nikula
+ <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>, Vlastimil Babka
+ <vbabka@kernel.org>, "Christian Brauner (Amutable)" <brauner@kernel.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: remove the requirement for LLM
+ attribution
+Message-ID: <20260706104417.0cc72156@localhost>
+In-Reply-To: <akeaouJETPWpE838@mit.edu>
+References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
+	<2026070224-unholy-commode-cf45@gregkh>
+	<2114bb79bb5b6e5584a8236de3590e2f4bf0899f.camel@kernel.org>
+	<20260702161330.GH3534761@killaraus.ideasonboard.com>
+	<2026070227-payroll-eradicate-8f66@gregkh>
+	<20260702163215.GC3559965@killaraus.ideasonboard.com>
+	<2026070350-drown-untreated-5835@gregkh>
+	<a095d9b4-f774-47d9-affd-d519d8acfb34@kernel.org>
+	<2026070343-copied-quarters-1e2a@gregkh>
+	<akeaouJETPWpE838@mit.edu>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Boris Burkov <boris@bur.io>, Jeff Layton <jlayton@kernel.org>,
- Greg KH <gregkh@linuxfoundation.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Justin Stitt <justinstitt@google.com>,
- Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Jori Koolstra <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>,
- Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>,
- David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
- Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
- Vlastimil Babka <vbabka@kernel.org>,
- "Christian Brauner (Amutable)" <brauner@kernel.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
- <2026070224-unholy-commode-cf45@gregkh>
- <2114bb79bb5b6e5584a8236de3590e2f4bf0899f.camel@kernel.org>
- <20260702161330.GH3534761@killaraus.ideasonboard.com>
- <2026070227-payroll-eradicate-8f66@gregkh>
- <16c507cea8f2873766e1de586d9a0d73234a3038.camel@kernel.org>
- <akaWnQ5Pkg_676B-@lucifer> <20260702211740.GA639365@zen.localdomain>
- <3f447113-4407-471f-878f-e6d6edafee71@kernel.org> <akez23ZhLRSGMFQ1@lucifer>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
- dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
- QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
- XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
- Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
- PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
- WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
- UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
- jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
- B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzS5EYXZpZCBIaWxk
- ZW5icmFuZCAoQ3VycmVudCkgPGRhdmlkQGtlcm5lbC5vcmc+wsGQBBMBCAA6AhsDBQkmWAik
- AgsJBBUKCQgCFgICHgUCF4AWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaYJt/AIZAQAKCRBN
- 3hD3AP+DWriiD/9BLGEKG+N8L2AXhikJg6YmXom9ytRwPqDgpHpVg2xdhopoWdMRXjzOrIKD
- g4LSnFaKneQD0hZhoArEeamG5tyo32xoRsPwkbpIzL0OKSZ8G6mVbFGpjmyDLQCAxteXCLXz
- ZI0VbsuJKelYnKcXWOIndOrNRvE5eoOfTt2XfBnAapxMYY2IsV+qaUXlO63GgfIOg8RBaj7x
- 3NxkI3rV0SHhI4GU9K6jCvGghxeS1QX6L/XI9mfAYaIwGy5B68kF26piAVYv/QZDEVIpo3t7
- /fjSpxKT8plJH6rhhR0epy8dWRHk3qT5tk2P85twasdloWtkMZ7FsCJRKWscm1BLpsDn6EQ4
- jeMHECiY9kGKKi8dQpv3FRyo2QApZ49NNDbwcR0ZndK0XFo15iH708H5Qja/8TuXCwnPWAcJ
- DQoNIDFyaxe26Rx3ZwUkRALa3iPcVjE0//TrQ4KnFf+lMBSrS33xDDBfevW9+Dk6IISmDH1R
- HFq2jpkN+FX/PE8eVhV68B2DsAPZ5rUwyCKUXPTJ/irrCCmAAb5Jpv11S7hUSpqtM/6oVESC
- 3z/7CzrVtRODzLtNgV4r5EI+wAv/3PgJLlMwgJM90Fb3CB2IgbxhjvmB1WNdvXACVydx55V7
- LPPKodSTF29rlnQAf9HLgCphuuSrrPn5VQDaYZl4N/7zc2wcWM7BTQRVy5+RARAA59fefSDR
- 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
- VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
- /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
- iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
- 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
- zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
- azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
- FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
- sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
- 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
- EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
- IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
- 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
- Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
- sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
- yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
- 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
- r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
- 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
- CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
- qIws/H2t
-In-Reply-To: <akez23ZhLRSGMFQ1@lucifer>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
->>
->> That tag is it stands is pretty useless, really.
-> 
-> Not to go over it all again but I disagree, even as it stands, it allows us to
-> engage in conversation about the LLM usage if admitted, and to point those who
-> are misbehaving at the rules if not.
+On Fri, 3 Jul 2026 07:42:35 -0400
+"Theodore Tso" <tytso@mit.edu> wrote:
 
-Just to comment on that
+> On Fri, Jul 03, 2026 at 09:30:28AM -0500, Greg KH wrote:
+> > > So clarifying there that a "Assisted-by: LLM" is also good enough wou=
+ld make
+> > > sense if we agree on that. =20
+> >=20
+> > If we all agree on that, I'm saying that _I_ don't care, but others
+> > might. =20
+>=20
+> I agree that requiring the model name is not a good idea, because some
+> developers might be using unreleased products where the name itself
+> might not be public.  So allowing the version number of the LLM to be
+> elided would be a good change.
+>=20
+> I'll also note that it's starting to be the case where tool is
+> actually quite relevant.  So it's not just about the LLM Model, but
+> whether you're using Codex, Claude Code, OpenCode, or Shahiko.  You
+> can use the tool or the harness with different models.
+>=20
+> So whether the tag is:
+>=20
+> Assisted-By: OpenCode:Gemini 3.5 Pro
+> Assisted-By: Claude Code
+> Assisted-By: LLM
 
-When I don't see the tag I am clueless *if and how* LLMs were used, in
-particular as some subsystems seem to encourage not using them and we even
-document it as a "rather nice to have" -- "should".
+I don't think an assisted-by for LLM actually helps.
 
-And if I see the tag, I am clueless *how* LLMs were used.
+I can't see any difference on adding it or doing something like:
 
-So I see your point that the tag as it stands helps a little bit, for my
-day-to-day work, however, not much, as I really care about the "how". :(
+	Assisted-By: smath
+	Assisted-By: sparse
+	Assisted-By: coverity
+	Assisted-By: gcc
+	...
+	Assisted-By: my-favorite-web-search-engine
 
--- 
-Cheers,
+=46rom my side, I don't care about whatever tool/process a developer has
+to produce a patch. All I want is a proper patch that passes my review
+criteria.
 
-David
+Also, identifying bad vibe-coding patches is usually easy: their=20
+descriptions look like written by a former literature professor that just=20
+took his first job as junior programmer: they come with useless comments,
+random variable renames, unneeded code rewrites, etc.
+
+Btw, if one wants them to be tagged as AI-produced, perhaps we can teach=20
+Sashiko to identify it and add a big warning on its review. This will
+probably be more reliable than asking people to add a LLM tag.
+
+What I think we should do, instead, is to let it clear that vibe coding
+is forbidden - e.g. just asking AI to do something and sending it as-is
+(*).
+So, I would add something like this at
+Documentation/process/coding-assistants.rst:
+
+	"All patches shall be written or reviewed and modified by a human.
+	 You should be able to understand exactly what the patch is doing,
+	 why it is taking such approach and how. Pure non-trivial
+	 machine-generated patches will be rejected."
+
+(*) There are of course exceptions for it: typo fix patches for instance
+    can be pure machine-generated. Even before AI, we have patches like
+    that where people used some spell checker to fix typos. Again, they
+    need human review before submission, as sometimes, spell checker fails
+    when, for instance, it tries to replace an acronym with resembles
+    a word.
+
+--=20
+Thanks,
+Mauro
