@@ -1,139 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9B933DE45A;
-	Mon,  6 Jul 2026 20:16:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD06D30BF6D
+	for <workflows@vger.kernel.org>; Tue,  7 Jul 2026 08:21:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783369006; cv=none; b=Gv1y2bE3RXPSLMG34mWbMjvl9oPRty6R/REAUJZLT2/ROlvnUdv5yGOvMn68BOJhTGWP/NZSLzhmS9GjfoeFyzM/hAyiWYmKqjN6w9RwyY6YzTuhfI6a5lCJfNQNfBDEVcVqfYGTmXAiEhS3+1Nd6MUlPmJze9BwOPF4C2mseoQ=
+	t=1783412474; cv=none; b=T3+imC9MapOZsU9uaQzYHPNgCWvKgAw5qXSrVW9qkNS3okvx/63jPvCywICOra0jRj/iGx6x9MW8/J4QCfTKwdQ//+6hvTp2/uf7+eeGjGDNXs5LjPSy8RetWgLkB0t8wr3NvOrltCCu8GCfGp4XiAHRPbrt56e/oAY0RC6iWg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783369006; c=relaxed/simple;
-	bh=nZMrtP0DC8iBaqKYgMmMrO1jrvXDkETi7hReXQsahmM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SEryYPW4V24+T7cosHQbkeDopO42zLTCDQXeTAdHuewNABHSej/xHTF71EGFbzOJBa4HnGev5D2o5Uf1sb/+4sYJE/6XkJ3O7g+nYQsQZwJHMa3pA96m6VVLhBxrfhcsHZZ+XZZcKzpl08IO7bKjsT44McrokcJ++FLZxwQplQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RDNtmue2; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783412474; c=relaxed/simple;
+	bh=yxyDXZcLno5sE381KVa7TTA1EbuqjfV/GZXgaDAdujk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Sbm11h79MJPBPeZKUXiL5LqYOcfF1csTq/P9wLAsvIvO0qU37c3LZoY02W0GBTpQkv1T/a6EfQ3keCGpRqFrKT3NSfSH8TnaF1lMibCHZY/+Dqw7vDYLkjv2ZTpt5ESMOm9YaTDLdU1+Ym2QyhJXz4X4FlU/+k8c7KNYpTxZa9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aeUL3IUM; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RDNtmue2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8E681F00A3A;
-	Mon,  6 Jul 2026 20:16:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783369004;
-	bh=PGuV6jeesFdKzccH9KIxy2qzDvsa3jcfI3T0fBRPPQo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RDNtmue2li5VZvEYGKotXJPXHSlBWfcQdpFSwGQhKRndG6sIMx6xtdT3SGHLglLIn
-	 7d7pVsDtpp/NR/Qb/vQ70fvGTO92UjdvvodOS2DqtU/neEX+qFXxfr4xl+a2+0qOCN
-	 XF/z9cjeSxjZSHgdbxR327IhIqCP2kz35gmKus/F+vKIeGqmgA9l/YHSt9jPG6EyRw
-	 Z1YDFHpGBrT36dWHzvFNy6dKLwamAI+T6h+SJ77QZO9FiZ6Tmt7aXY6J9q+YlDsRWL
-	 1KF1jDns+DKbW78dnBHq1OEmE3Fx5HLJ70kIUj8mu6liUx72QU7aK+Qj5Ta28Ba/xl
-	 Tm2sLOyRmH1rQ==
-Date: Mon, 6 Jul 2026 13:16:38 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Nick Desaulniers <ndesaulniers@google.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
-	Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aeUL3IUM"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-384930ca5e2so2631555a91.3
+        for <workflows@vger.kernel.org>; Tue, 07 Jul 2026 01:21:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783412472; x=1784017272; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6Fb4S8tu1I2dFGb/une/tIzUUASJq3fORw7QtUUZ71s=;
+        b=aeUL3IUMUipvzSBukstYdzKR4Jp0BhFjhXgYI/dnq2NlVOSkcuPDh1n8msDLuwK2xO
+         /i/u/aQAXcLUY49/hgxnFV6FESHmC1ernGdPRBY0/u0IFj8uJaPuiuXktv+n7YsUdK3Z
+         mND5Iw/sVpOtItPuKaPPKGNs7o8Rmetmi6hS5sBbZXtgQp7ag4Bc6oOpby9AhjIr7Bc6
+         60rC3cJ9KF2NY/SkeVsw1ZAGqEbDRNn8p2HCKynsb8oA+dyL2h5IsU8PzXXHDDCb5tpB
+         BlI7C7wamCelwhar36hcMinmxL7OnYFoEmBV7StR6bLZLUN1xHvpDULdFk0qownj94UN
+         C7iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783412472; x=1784017272;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6Fb4S8tu1I2dFGb/une/tIzUUASJq3fORw7QtUUZ71s=;
+        b=dI0gbuIujA1GuIfgpreDb6WL1q45ii5HNjpAe/Pku3glg9TpfzEC4W4f3FLawvdVDf
+         oi9+o6hUUxrUPate4wixn1pxV0pvLB7VTvMiSFy0qUQ17ei9e9CgVvjH8nX6dn47K6sq
+         klt/Ivn99jUR4+twURNEvIbtqGQFIVi1xX83boSOd/0GLUSVj7ity20eXIGuWMCzJq4t
+         mfHpvb8Kum7HeSwzGQRYDX9hDuQ2epDI+Z0cejmjCzB+mqEitHJh96P0IZab+FOb8vvP
+         iuvsEh4WMKxO9BrKzJG1dFxsDZxji0OR4Vr438YW5szgRgHLKyx+FlufcEcpCuGXhJMA
+         yIwA==
+X-Forwarded-Encrypted: i=1; AHgh+Rou9qr0yfTIrFxwAH64Bc4C9wdcnTm7rJkgapnhC+r69J9A59ybB83osrHkdfYOxBCss4ivw+nUxA8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwIO0ymBLKzg91++09u5X55NuYvXOYBNSnh4sc4bNBH5Q8VHGWz
+	Wc7e1bQwXwXANEK8vknp/5FibQB7xdvnbx42DQ9F9DaRELbHrNIRfUM=
+X-Gm-Gg: AfdE7cl0PC4UmM6rBypcyH+pIEXi4HRf8Fa9lrZ+WC/BjLZSy1G72fuOzDOCcS1h69A
+	tq7R2jd6T04CPm11sXB8PIYj6zh3OiX+wOlbY/fFN+p1W7LOzC4H7UkKehYLqPAdUdH4HIS5LwL
+	LzUtsX8NnnVjSiFvexQae+8FIZYhm9Ka3ZmzZhdnQHPaZzR+iNvw9wvET4Ql0DBGEMMLQn5QRfS
+	NY8qvk0Cy7LUiKt7aOl+OpvZNioc0cW5RqNOJ+LARI5cAOHkM/i+ZwYhpwdAmXFiguxEJ8zhhdk
+	lmEWxXZ4UW2uL5XTO6RWXoiHRgAUZwdo1iVDMaRCWLyb2piaZig2fz/wZ1BbEA4PY8J5kU8CbXT
+	0jpdar8K832h1JMZJ2AtUejzkJ0t2MCPmAx1GhXs+cDDNrsKNkxH4M2LLpgn29v//gIjdpi15lS
+	yXQh/GQ0CH342SgsFQGvzDFhHTyZI6F79XMUkOO5t17Lg0HLY/ML+dfTEGIQ==
+X-Received: by 2002:a17:90b:53c3:b0:387:e0db:3d87 with SMTP id 98e67ed59e1d1-387e0db4364mr1903194a91.34.1783412472075;
+        Tue, 07 Jul 2026 01:21:12 -0700 (PDT)
+Received: from HARICS-M-4G70.cisco.com ([2001:420:5448:1302:7815:d910:e12a:f166])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31174a8f521sm5696125eec.22.2026.07.07.01.21.07
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 07 Jul 2026 01:21:11 -0700 (PDT)
+From: Harish-CS <harish.cs.ss24@gmail.com>
+To: Andy Whitcroft <apw@canonical.com>,
+	Joe Perches <joe@perches.com>
+Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Carlos Bilbao <carlos.bilbao@kernel.org>,
-	Avadhut Naik <avadhut.naik@amd.com>, linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	llvm@lists.linux.dev, gosst-kernel <gosst-kernel@google.com>,
-	android-kernel-team <android-kernel-team@google.com>,
-	kernel-dynamic-tools <kernel-dynamic-tools@google.com>
-Subject: Re: [PATCH] MAINTAINERS: update ndesaulniers
-Message-ID: <20260706201638.GA2661146@ax162>
-References: <20260528-im_back_baby-v1-1-25d355efdbae@google.com>
+	Miguel Ojeda <ojeda@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	Harish-CS <harish.cs.ss24@gmail.com>
+Subject: [PATCH] checkpatch: warn on Rust unwrap and expect calls
+Date: Tue,  7 Jul 2026 13:51:04 +0530
+Message-ID: <20260707082104.90951-1-harish.cs.ss24@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260528-im_back_baby-v1-1-25d355efdbae@google.com>
 
-On Thu, May 28, 2026 at 02:38:41PM -0700, Nick Desaulniers wrote:
-> I'm coming back.  I will return.  I will possess your body, and I'll
-> make LKML burn.
-> 
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+Rust panic paths are discouraged in kernel code because panics currently
+lead to BUG-like behavior. Add a checkpatch warning for newly added Rust
+uses of unwrap(), unwrap_err(), expect() and expect_err() so contributors
+notice them during patch review.
 
-Acked-by: Nathan Chancellor <nathan@kernel.org>
+Suggested-by: Miguel Ojeda <ojeda@kernel.org>
+Link: https://github.com/Rust-for-Linux/linux/issues/1191
+Signed-off-by: Harish-CS <harish.cs.ss24@gmail.com>
+---
+ Documentation/dev-tools/checkpatch.rst | 4 ++++
+ scripts/checkpatch.pl                  | 9 +++++++++
+ 2 files changed, 13 insertions(+)
 
-Linus, could you apply this directly? It fell off my radar and I think
-it is worth getting in sooner rather than later. I am not sure when my
-next fixes pull will be. Thanks a lot!
-
-> ---
->  .mailmap                                                               | 1 -
->  Documentation/process/embargoed-hardware-issues.rst                    | 2 +-
->  Documentation/translations/sp_SP/process/embargoed-hardware-issues.rst | 2 +-
->  MAINTAINERS                                                            | 2 +-
->  4 files changed, 3 insertions(+), 4 deletions(-)
-> 
-> diff --git a/.mailmap b/.mailmap
-> index a009f73d7ea5..f863781b0102 100644
-> --- a/.mailmap
-> +++ b/.mailmap
-> @@ -634,7 +634,6 @@ Nicholas Piggin <npiggin@gmail.com> <npiggin@kernel.dk>
->  Nicholas Piggin <npiggin@gmail.com> <npiggin@suse.de>
->  Nicholas Piggin <npiggin@gmail.com> <nickpiggin@yahoo.com.au>
->  Nicholas Piggin <npiggin@gmail.com> <piggin@cyberone.com.au>
-> -Nick Desaulniers <nick.desaulniers+lkml@gmail.com> <ndesaulniers@google.com>
->  Nicolas Ferre <nicolas.ferre@microchip.com> <nicolas.ferre@atmel.com>
->  Nicolas Pitre <nico@fluxnic.net> <nicolas.pitre@linaro.org>
->  Nicolas Pitre <nico@fluxnic.net> <nico@linaro.org>
-> diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
-> index 34e00848e0da..d07f16c3c7b8 100644
-> --- a/Documentation/process/embargoed-hardware-issues.rst
-> +++ b/Documentation/process/embargoed-hardware-issues.rst
-> @@ -308,7 +308,7 @@ an involved disclosed party. The current ambassadors list:
->  
->    Google	Kees Cook <keescook@chromium.org>
->  
-> -  LLVM		Nick Desaulniers <nick.desaulniers+lkml@gmail.com>
-> +  LLVM		Nick Desaulniers <ndesaulniers@google.com>
->    ============= ========================================================
->  
->  If you want your organization to be added to the ambassadors list, please
-> diff --git a/Documentation/translations/sp_SP/process/embargoed-hardware-issues.rst b/Documentation/translations/sp_SP/process/embargoed-hardware-issues.rst
-> index 9d444b9c46d3..7d4d694967c7 100644
-> --- a/Documentation/translations/sp_SP/process/embargoed-hardware-issues.rst
-> +++ b/Documentation/translations/sp_SP/process/embargoed-hardware-issues.rst
-> @@ -287,7 +287,7 @@ revelada involucrada. La lista de embajadores actuales:
->  
->    Google	Kees Cook <keescook@chromium.org>
->  
-> -  LLVM		Nick Desaulniers <nick.desaulniers+lkml@gmail.com>
-> +  LLVM		Nick Desaulniers <ndesaulniers@google.com>
->    ============= ========================================================
->  
->  Si quiere que su organización se añada a la lista de embajadores, por
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 461a3eed6129..2f06cc2e463c 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6259,7 +6259,7 @@ F:	.clang-format
->  
->  CLANG/LLVM BUILD SUPPORT
->  M:	Nathan Chancellor <nathan@kernel.org>
-> -R:	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>
-> +R:	Nick Desaulniers <ndesaulniers@google.com>
->  R:	Bill Wendling <morbo@google.com>
->  R:	Justin Stitt <justinstitt@google.com>
->  L:	llvm@lists.linux.dev
-> 
-> ---
-> base-commit: 8fde5d1d47f69db6082dfa34500c27f8485389a5
-> change-id: 20260528-im_back_baby-1ade32dc049e
-> 
-> Best regards,
-> --  
-> Nick Desaulniers <ndesaulniers@google.com>
-> 
-
+diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+index 6139a08c34cd..afa9787c1b9f 100644
+--- a/Documentation/dev-tools/checkpatch.rst
++++ b/Documentation/dev-tools/checkpatch.rst
+@@ -303,6 +303,10 @@ API usage
+ 
+     See: https://www.kernel.org/doc/html/latest/process/deprecated.html#bug-and-bug-on
+ 
++  **RUST_PANIC_METHODS**
++    Rust methods that panic, such as unwrap() and expect(), should be
++    avoided.  Handle the error explicitly instead.
++
+   **CONSIDER_KSTRTO**
+     The simple_strtol(), simple_strtoll(), simple_strtoul(), and
+     simple_strtoull() functions explicitly ignore overflows, which
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 2b7a42bbdd94..5bdb065370ea 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -3972,6 +3972,15 @@ sub process {
+ 			}
+ 		}
+ 
++# avoid Rust panicking methods
++		if ($realfile =~ /\.rs$/ &&
++		    $line =~ /^\+.*\.(?:unwrap(?:_err)?|expect(?:_err)?)\s*\(/) {
++			my $msg_level = \&WARN;
++			$msg_level = \&CHK if ($file);
++			&{$msg_level}("RUST_PANIC_METHODS",
++				      "Avoid Rust panicking methods such as unwrap() and expect(); handle the error instead\n" . $herecurr);
++		}
++
+ # check for .L prefix local symbols in .S files
+ 		if ($realfile =~ /\.S$/ &&
+ 		    $line =~ /^\+\s*(?:[A-Z]+_)?SYM_[A-Z]+_(?:START|END)(?:_[A-Z_]+)?\s*\(\s*\.L/) {
 -- 
-Cheers,
-Nathan
+2.50.1 (Apple Git-155)
+
