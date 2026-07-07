@@ -1,92 +1,79 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 377A8345757;
-	Tue,  7 Jul 2026 15:05:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCEE63783C7;
+	Tue,  7 Jul 2026 15:10:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783436720; cv=none; b=gRa8zEhzZ1syJ9nbozOY1L9dydbynpFJlSOq7F6tkyZ10MiOjIe5BFyH7CZC383i8G2fZLi+QEfde5udXc44s+3NRg+CV+s4knP0FrutQSMRCnJY52DNPLUPJxi3yvT/HrEkc/iNIvIwt9+awyLRt8FH5r3fiyYqflHEpsDJnb8=
+	t=1783437021; cv=none; b=XoMA9xmhBi9t+DnTLPi/xKSJbsKJ6Ze8gVMl2Y14+NF0PurK8YG2QqqE2yVHVat7BzucVR/f2me4vF0aj6GZ4bAVBp7J4tVwo5HBSrTxzqo4nXfufalJThUFf8SFdj5ulocr6cEceQCz/oPHHJVO2wHY9L6toKhwLKjFdgNA4kg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783436720; c=relaxed/simple;
-	bh=V2izBQ5ocu19EBM8LWCHNqThTRdZz0FHDwzAwqwu1lI=;
+	s=arc-20240116; t=1783437021; c=relaxed/simple;
+	bh=a5T9qpkUzRc3UNfYbx2QShdibt3Pd9YHNy+BR99Um4s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m6zlT5n7DzKUF8J6Sq+oaTSQlC5qD84mGSHm8vvMG46m1/6XShVK6cdG/lOtCP2RtcQ0IbeAEmLHr21RY3xneb3vRYInvccx1FmMcYnVL3NnWdV/a4omNBB3qQ24A4fvZYKHGW+BDo9mhCPbAY5NIQMEyPPHhPJTaDZKyS1rXuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=g38ixdE/; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=R1TgsF3CZ5OxXGEoVSguPE+DzpF/318X7oEsu7cgfEfiZeQtWjWKMu5d01Q9HFitkos2lDb7GRgQtvE+8JR313kN72gawqhO0oygYMikv4qYY4hg6ym4ToEJnPVBHUx5p4J5AKjLLEtTZHEUXarI6JCe4fGE3krL4LUKhNF3IGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RTlaB7un; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="g38ixdE/"
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C11ACBAE;
-	Tue,  7 Jul 2026 17:04:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1783436664;
-	bh=V2izBQ5ocu19EBM8LWCHNqThTRdZz0FHDwzAwqwu1lI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=g38ixdE/e5n+AFvp0Y1waO7j9Ey6zh42gm8UwpI9m2Fqvq1pHCXCi3XNjS+hyFPxC
-	 Cjtcz5mmn47QZ54GljMfIS7Isrg5AaGs/ETTqbbqUn2OnmzlcJgnW8C4g+9JMxX7iE
-	 jTH8ZqjHmK8IvLnHE1QMwHo47AMvqOibxiREoNj8=
-Date: Tue, 7 Jul 2026 18:05:11 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
-	Boris Burkov <boris@bur.io>, Jeff Layton <jlayton@kernel.org>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Justin Stitt <justinstitt@google.com>,
-	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-	Jori Koolstra <jkoolstra@xs4all.nl>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Brian Foster <bfoster@redhat.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
-	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RTlaB7un"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B29281F000E9;
+	Tue,  7 Jul 2026 15:10:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783437020;
+	bh=a5T9qpkUzRc3UNfYbx2QShdibt3Pd9YHNy+BR99Um4s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RTlaB7unlIc7lCSZGDt/1AsbEvD4EMJGllcAmt1hsAHcByPdEJUFwz1EelX9gbVWt
+	 V+MvvoXRucD6hs0djixaMg0ankEl9rmn/7vPADTchv2IClhXnwiQWZqqAyEsNQCBwt
+	 z2m5Q91gKFHInzD01KyUIeYtqh+osNQOH21HC+XA97h3i3whr/D+NYHOhmuRj31Ka1
+	 QA2u5a0+aH1HgpXy6ua4e5ACtJevYNyXccJeCwU+hIhbvNRUnVw/S/Nk7+bA4Ggza3
+	 8w/DZ5ow+Es8+W7RYghNJm82T+1u1nYRDhg9JaH0Q/LtC4ZJp/cQjVDBzV1HG/ghCs
+	 QTV0K+oBMg1KA==
+Date: Tue, 7 Jul 2026 16:10:07 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Boris Burkov <boris@bur.io>, Jeff Layton <jlayton@kernel.org>, 
+	Greg KH <gregkh@linuxfoundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Justin Stitt <justinstitt@google.com>, 
+	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+	Jori Koolstra <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>, 
+	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>, 
+	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>, 
+	Vlastimil Babka <vbabka@kernel.org>, "Christian Brauner (Amutable)" <brauner@kernel.org>, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
 Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
-Message-ID: <20260707150511.GB254690@killaraus.ideasonboard.com>
-References: <3f447113-4407-471f-878f-e6d6edafee71@kernel.org>
+Message-ID: <ak0UjMSqm_6vCDIu@lucifer>
+References: <akaWnQ5Pkg_676B-@lucifer>
+ <20260702211740.GA639365@zen.localdomain>
+ <3f447113-4407-471f-878f-e6d6edafee71@kernel.org>
  <akez23ZhLRSGMFQ1@lucifer>
  <20260703163251.GB3734786@killaraus.ideasonboard.com>
  <e93d28e4-750c-4a4f-8bfd-7a0b404cd05c@kernel.org>
  <akzETpsps4TMfqpC@lucifer>
  <0ba6bf66-e48f-40df-a953-503d317b3dbe@kernel.org>
- <20260707124031.GC211515@killaraus.ideasonboard.com>
- <ebc1f034-7297-459e-975d-5c143567392f@kernel.org>
- <20260707141803.GA254690@killaraus.ideasonboard.com>
- <ak0UK51HkMKHyte2@lucifer>
+ <akzMh-ySQ2fN0d8R@lucifer>
+ <5ccbb28a-171e-40c1-9a6b-9ac7b6b7777d@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ak0UK51HkMKHyte2@lucifer>
+In-Reply-To: <5ccbb28a-171e-40c1-9a6b-9ac7b6b7777d@kernel.org>
 
-On Tue, Jul 07, 2026 at 03:59:48PM +0100, Lorenzo Stoakes wrote:
-> On Tue, Jul 07, 2026 at 05:18:03PM +0300, Laurent Pinchart wrote:
-> > I haven't heard anyone involved in this mail thread objecting to the
-> > concepts you translated into sentences below, so I think it's worth a
-> > try. Of course there may be objections from people who are not aware of
-> > this very conversation.
-> 
-> To risk repeating myself - why does it all have to be in one?
-> 
-> Send the non-controversial bit, get that merged so it's there, then follow it up
-> with this. Simple no? :)
+On Tue, Jul 07, 2026 at 03:29:44PM +0200, David Hildenbrand (Arm) wrote:
+> On 7/7/26 11:55, Lorenzo Stoakes wrote:
+> > LGTM! Do you want to send that then? People can comment on the actual path then
+> > (probably worth cc'ing everybody here on that also).
+>
+> Let's first gather some more thoughts on the rough direction before spinning of
+> yet another discussion. :)
 
-Sure, but I don't know what part would be the most controversial :-) I
-haven't heard any objection in this mail thread.
+I'm suggesting sending a simple, uncontroversial, change to get movement rather
+than continue this never-ending talking shop :)
 
-> Sending this, getting it rejected, then having people's backs up because they'll
-> tie the two things together seems the less politically astute move.
+Anyway I'll leave it up to you!
 
--- 
-Regards,
-
-Laurent Pinchart
+Thanks, Lorenzo
