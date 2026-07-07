@@ -1,134 +1,143 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD06D30BF6D
-	for <workflows@vger.kernel.org>; Tue,  7 Jul 2026 08:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0D6632860B;
+	Tue,  7 Jul 2026 09:20:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783412474; cv=none; b=T3+imC9MapOZsU9uaQzYHPNgCWvKgAw5qXSrVW9qkNS3okvx/63jPvCywICOra0jRj/iGx6x9MW8/J4QCfTKwdQ//+6hvTp2/uf7+eeGjGDNXs5LjPSy8RetWgLkB0t8wr3NvOrltCCu8GCfGp4XiAHRPbrt56e/oAY0RC6iWg4=
+	t=1783416018; cv=none; b=DlvsU/4fzg4o75rmyevGNjLy/O8JTq1Ekisex8fbr3mP1vHzZn5y/0UQXJ6fYJecT3M+Sy99682l/FZk9edSjQvh/vWyGZ4TRs1fxGzJTMwzxfE8RawADLydJIbwo5r9lPnkYm3Z7h0I9nZWkbfpS0z6dhF8oZ/LIBTkH1Iy0u8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783412474; c=relaxed/simple;
-	bh=yxyDXZcLno5sE381KVa7TTA1EbuqjfV/GZXgaDAdujk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Sbm11h79MJPBPeZKUXiL5LqYOcfF1csTq/P9wLAsvIvO0qU37c3LZoY02W0GBTpQkv1T/a6EfQ3keCGpRqFrKT3NSfSH8TnaF1lMibCHZY/+Dqw7vDYLkjv2ZTpt5ESMOm9YaTDLdU1+Ym2QyhJXz4X4FlU/+k8c7KNYpTxZa9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aeUL3IUM; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783416018; c=relaxed/simple;
+	bh=XfW5DENqOA3L5d9hgUctKtHR0rM0RosCcOlLerb+5rI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U3KTMBbYKG+DyF9dgR9XYk5ij3qx4p5XVzDDFz3T84bx4EOqHlYJFExWQ3iNrpiecn3gYFVNAwHm+lu75t4NAJ8/iSlT2SAqdbTGISOTkTeYyF/f73Mg3REc3g5y1FRwe38sL3b3Hvt/CTZ6oDTj3wiF5CNe/sCzt3P7xuNgfkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ubv1xlhp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aeUL3IUM"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-384930ca5e2so2631555a91.3
-        for <workflows@vger.kernel.org>; Tue, 07 Jul 2026 01:21:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783412472; x=1784017272; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6Fb4S8tu1I2dFGb/une/tIzUUASJq3fORw7QtUUZ71s=;
-        b=aeUL3IUMUipvzSBukstYdzKR4Jp0BhFjhXgYI/dnq2NlVOSkcuPDh1n8msDLuwK2xO
-         /i/u/aQAXcLUY49/hgxnFV6FESHmC1ernGdPRBY0/u0IFj8uJaPuiuXktv+n7YsUdK3Z
-         mND5Iw/sVpOtItPuKaPPKGNs7o8Rmetmi6hS5sBbZXtgQp7ag4Bc6oOpby9AhjIr7Bc6
-         60rC3cJ9KF2NY/SkeVsw1ZAGqEbDRNn8p2HCKynsb8oA+dyL2h5IsU8PzXXHDDCb5tpB
-         BlI7C7wamCelwhar36hcMinmxL7OnYFoEmBV7StR6bLZLUN1xHvpDULdFk0qownj94UN
-         C7iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783412472; x=1784017272;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6Fb4S8tu1I2dFGb/une/tIzUUASJq3fORw7QtUUZ71s=;
-        b=dI0gbuIujA1GuIfgpreDb6WL1q45ii5HNjpAe/Pku3glg9TpfzEC4W4f3FLawvdVDf
-         oi9+o6hUUxrUPate4wixn1pxV0pvLB7VTvMiSFy0qUQ17ei9e9CgVvjH8nX6dn47K6sq
-         klt/Ivn99jUR4+twURNEvIbtqGQFIVi1xX83boSOd/0GLUSVj7ity20eXIGuWMCzJq4t
-         mfHpvb8Kum7HeSwzGQRYDX9hDuQ2epDI+Z0cejmjCzB+mqEitHJh96P0IZab+FOb8vvP
-         iuvsEh4WMKxO9BrKzJG1dFxsDZxji0OR4Vr438YW5szgRgHLKyx+FlufcEcpCuGXhJMA
-         yIwA==
-X-Forwarded-Encrypted: i=1; AHgh+Rou9qr0yfTIrFxwAH64Bc4C9wdcnTm7rJkgapnhC+r69J9A59ybB83osrHkdfYOxBCss4ivw+nUxA8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwIO0ymBLKzg91++09u5X55NuYvXOYBNSnh4sc4bNBH5Q8VHGWz
-	Wc7e1bQwXwXANEK8vknp/5FibQB7xdvnbx42DQ9F9DaRELbHrNIRfUM=
-X-Gm-Gg: AfdE7cl0PC4UmM6rBypcyH+pIEXi4HRf8Fa9lrZ+WC/BjLZSy1G72fuOzDOCcS1h69A
-	tq7R2jd6T04CPm11sXB8PIYj6zh3OiX+wOlbY/fFN+p1W7LOzC4H7UkKehYLqPAdUdH4HIS5LwL
-	LzUtsX8NnnVjSiFvexQae+8FIZYhm9Ka3ZmzZhdnQHPaZzR+iNvw9wvET4Ql0DBGEMMLQn5QRfS
-	NY8qvk0Cy7LUiKt7aOl+OpvZNioc0cW5RqNOJ+LARI5cAOHkM/i+ZwYhpwdAmXFiguxEJ8zhhdk
-	lmEWxXZ4UW2uL5XTO6RWXoiHRgAUZwdo1iVDMaRCWLyb2piaZig2fz/wZ1BbEA4PY8J5kU8CbXT
-	0jpdar8K832h1JMZJ2AtUejzkJ0t2MCPmAx1GhXs+cDDNrsKNkxH4M2LLpgn29v//gIjdpi15lS
-	yXQh/GQ0CH342SgsFQGvzDFhHTyZI6F79XMUkOO5t17Lg0HLY/ML+dfTEGIQ==
-X-Received: by 2002:a17:90b:53c3:b0:387:e0db:3d87 with SMTP id 98e67ed59e1d1-387e0db4364mr1903194a91.34.1783412472075;
-        Tue, 07 Jul 2026 01:21:12 -0700 (PDT)
-Received: from HARICS-M-4G70.cisco.com ([2001:420:5448:1302:7815:d910:e12a:f166])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31174a8f521sm5696125eec.22.2026.07.07.01.21.07
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 07 Jul 2026 01:21:11 -0700 (PDT)
-From: Harish-CS <harish.cs.ss24@gmail.com>
-To: Andy Whitcroft <apw@canonical.com>,
-	Joe Perches <joe@perches.com>
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	Harish-CS <harish.cs.ss24@gmail.com>
-Subject: [PATCH] checkpatch: warn on Rust unwrap and expect calls
-Date: Tue,  7 Jul 2026 13:51:04 +0530
-Message-ID: <20260707082104.90951-1-harish.cs.ss24@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ubv1xlhp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 456D91F000E9;
+	Tue,  7 Jul 2026 09:20:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783416017;
+	bh=XfW5DENqOA3L5d9hgUctKtHR0rM0RosCcOlLerb+5rI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Ubv1xlhpcHWZLUuL6aG2ncV9JwQM74D/Key5E7JIQ4AiUqr7MaQSx4WMIv+7ilKWU
+	 /lACjXOA6DuS87yBG6c9VI4Tfvx9CB5N/BXTUSGlN8Qbe5GNhcwBgOosScD3Yllaqz
+	 LViD5QICoOwOa+CFRX0Xyq18HEyjoeD6uQi7qNUfk50gwGOh0uMzDAjIPHz58AgmY/
+	 SlIF0ZaPMfEyd9jQxbg7HI98TjfywUpMOQiKS2PCeeWmn0LPIYsjM9eOHBvHXZil95
+	 UmMPQuvMoimGh8eAhNsVgMrwp5fzisUstmUYs+D4lnDYnnXM76NE7vf+a0wQ/izBVm
+	 9lL2gxhxr/06Q==
+Date: Tue, 7 Jul 2026 10:20:04 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Boris Burkov <boris@bur.io>, Jeff Layton <jlayton@kernel.org>, 
+	Greg KH <gregkh@linuxfoundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Justin Stitt <justinstitt@google.com>, 
+	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+	Jori Koolstra <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>, 
+	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>, 
+	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>, 
+	Vlastimil Babka <vbabka@kernel.org>, "Christian Brauner (Amutable)" <brauner@kernel.org>, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
+Message-ID: <akzETpsps4TMfqpC@lucifer>
+References: <2114bb79bb5b6e5584a8236de3590e2f4bf0899f.camel@kernel.org>
+ <20260702161330.GH3534761@killaraus.ideasonboard.com>
+ <2026070227-payroll-eradicate-8f66@gregkh>
+ <16c507cea8f2873766e1de586d9a0d73234a3038.camel@kernel.org>
+ <akaWnQ5Pkg_676B-@lucifer>
+ <20260702211740.GA639365@zen.localdomain>
+ <3f447113-4407-471f-878f-e6d6edafee71@kernel.org>
+ <akez23ZhLRSGMFQ1@lucifer>
+ <20260703163251.GB3734786@killaraus.ideasonboard.com>
+ <e93d28e4-750c-4a4f-8bfd-7a0b404cd05c@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e93d28e4-750c-4a4f-8bfd-7a0b404cd05c@kernel.org>
 
-Rust panic paths are discouraged in kernel code because panics currently
-lead to BUG-like behavior. Add a checkpatch warning for newly added Rust
-uses of unwrap(), unwrap_err(), expect() and expect_err() so contributors
-notice them during patch review.
+On Fri, Jul 03, 2026 at 08:22:20PM +0200, David Hildenbrand (Arm) wrote:
+> On 7/3/26 18:32, Laurent Pinchart wrote:
+> > On Fri, Jul 03, 2026 at 02:12:40PM +0100, Lorenzo Stoakes wrote:
+> >> On Fri, Jul 03, 2026 at 09:05:58AM +0200, David Hildenbrand (Arm) wrote:
+> >>
+> >> I personally think 1-2 are the only relevant cases.
+> >>
+> >>>
+> >>> Yes, I raised something similar as reply to Christian's RFC [1], where I said
+> >>> that for me the information *how* it was used is much more important:
+> >>>
+> >>> "
+> >>> Assisted-by: LLM # translate commit message
+> >>> Assisted-by: LLM # generate some test cases
+> >>> Assisted-by: LLM # cleanup logic
+> >>> Assisted-by: LLM # everything and I have no clue what any in here does
+> >>> "
+> >>
+> >> Yup, and we don't need complicated rules for that just 'document what you used
+> >> it for and give a sense of how much'.
+> >>
+> >> It's fuzzy but useful.
+> >>
+> >>>
+> >>> That tag is it stands is pretty useless, really.
+> >>
+> >> Not to go over it all again but I disagree, even as it stands, it allows us to
+> >> engage in conversation about the LLM usage if admitted, and to point those who
+> >> are misbehaving at the rules if not.
+> >>
+> >> And it is a clear way to get the boolean 'is this person saying they used an
+> >> LLM'.
+> >>
+> >> But I agree with you it'd be MUCH more useful if we did the above.
+> >>
+> >> I wonder if we could get consensus on adding a section to the doc saying that
+> >> it'd be _useful_ to add a comment explaining _what_ you did, and explaining the
+> >> concept with some examples?
+> >
+> > I'd support a patch that replaces
+> >
+> > Assisted-by: Claude:claude-3-opus coccinelle sparse
+> >
+> > with
+> >
+> > Assisted-by: LLM # generate some test cases
+> >
+> > and rewrites the Attribution section of
+> > Documentation/process/coding-assistants.rst accordingly.
+> >
+> > I think most people in this mail thread have expressed that how
+> > generative AI was used is the most important information, and several
+> > people (including myself) have expressed a desire to stop the free
+> > advertising. Unless I missed something, I don't think anyone has
+> > expressed an interest in keeping the agent name and model.
+>
+> Yes, that's something I would enjoy seeing. Who reading along has a problem with
+> that? (assuming that the tag must stay)
 
-Suggested-by: Miguel Ojeda <ojeda@kernel.org>
-Link: https://github.com/Rust-for-Linux/linux/issues/1191
-Signed-off-by: Harish-CS <harish.cs.ss24@gmail.com>
----
- Documentation/dev-tools/checkpatch.rst | 4 ++++
- scripts/checkpatch.pl                  | 9 +++++++++
- 2 files changed, 13 insertions(+)
+I think the silence suggests nobody :)
 
-diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index 6139a08c34cd..afa9787c1b9f 100644
---- a/Documentation/dev-tools/checkpatch.rst
-+++ b/Documentation/dev-tools/checkpatch.rst
-@@ -303,6 +303,10 @@ API usage
- 
-     See: https://www.kernel.org/doc/html/latest/process/deprecated.html#bug-and-bug-on
- 
-+  **RUST_PANIC_METHODS**
-+    Rust methods that panic, such as unwrap() and expect(), should be
-+    avoided.  Handle the error explicitly instead.
-+
-   **CONSIDER_KSTRTO**
-     The simple_strtol(), simple_strtoll(), simple_strtoul(), and
-     simple_strtoull() functions explicitly ignore overflows, which
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 2b7a42bbdd94..5bdb065370ea 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -3972,6 +3972,15 @@ sub process {
- 			}
- 		}
- 
-+# avoid Rust panicking methods
-+		if ($realfile =~ /\.rs$/ &&
-+		    $line =~ /^\+.*\.(?:unwrap(?:_err)?|expect(?:_err)?)\s*\(/) {
-+			my $msg_level = \&WARN;
-+			$msg_level = \&CHK if ($file);
-+			&{$msg_level}("RUST_PANIC_METHODS",
-+				      "Avoid Rust panicking methods such as unwrap() and expect(); handle the error instead\n" . $herecurr);
-+		}
-+
- # check for .L prefix local symbols in .S files
- 		if ($realfile =~ /\.S$/ &&
- 		    $line =~ /^\+\s*(?:[A-Z]+_)?SYM_[A-Z]+_(?:START|END)(?:_[A-Z_]+)?\s*\(\s*\.L/) {
--- 
-2.50.1 (Apple Git-155)
+What we could do is send a patch to simply add a section on adding a comment
+explaining _what_ used an LLM and strongly suggesting it would be helpful to do
+so.
 
+That should hopefully be uncontroversial, then later (or alongside that?) we
+could submit an RFC for making the language move to 'you MUST do this', as that
+will probably be the more controversial bit.
+
+I don't see any reason why we can't just send the softer version right away.
+
+>
+> --
+> Cheers,
+>
+> David
+
+Cheers, Lorenzo
