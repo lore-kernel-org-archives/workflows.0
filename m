@@ -1,50 +1,55 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCEE63783C7;
-	Tue,  7 Jul 2026 15:10:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1834941D4E7;
+	Tue,  7 Jul 2026 17:10:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783437021; cv=none; b=XoMA9xmhBi9t+DnTLPi/xKSJbsKJ6Ze8gVMl2Y14+NF0PurK8YG2QqqE2yVHVat7BzucVR/f2me4vF0aj6GZ4bAVBp7J4tVwo5HBSrTxzqo4nXfufalJThUFf8SFdj5ulocr6cEceQCz/oPHHJVO2wHY9L6toKhwLKjFdgNA4kg=
+	t=1783444241; cv=none; b=Ewi/Z/T6JwJZWkMgnFVslfOejq+UYCb8rS6c/5TwyWb4NlAwv/2zVEQY4I3WyweU2QxP7NHmgxKrONzknF4D0wgwAdPmwJhr9rJViL3j3EbOcRmbqQVgx9FDcKbrX2Jmef/e5gj16EkWvqgybIlYPHB2iS04+KUEEES3WghmDFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783437021; c=relaxed/simple;
-	bh=a5T9qpkUzRc3UNfYbx2QShdibt3Pd9YHNy+BR99Um4s=;
+	s=arc-20240116; t=1783444241; c=relaxed/simple;
+	bh=MsZPCRJyB0JsnW/BuVNvePyfU/ylFqdqIDzIYQfd0UY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R1TgsF3CZ5OxXGEoVSguPE+DzpF/318X7oEsu7cgfEfiZeQtWjWKMu5d01Q9HFitkos2lDb7GRgQtvE+8JR313kN72gawqhO0oygYMikv4qYY4hg6ym4ToEJnPVBHUx5p4J5AKjLLEtTZHEUXarI6JCe4fGE3krL4LUKhNF3IGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RTlaB7un; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=TrqQI7Je9qD8EvVSCZwiCjh4IVD38+PJEYGzb1E+vMTutIcFsR/Y3l+y/x3AMSqND/C3DZiRNiijcwKp5qyp5CBn4n6gsSA4AuJtuNztmzh4RfxOTYzonj/2pC0dJbvxKyqVfln+fElphZYWV+MSC2NItY+fnb3G7fAGSBbKsF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HaMkQw2D; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RTlaB7un"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B29281F000E9;
-	Tue,  7 Jul 2026 15:10:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HaMkQw2D"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 9A9341F000E9;
+	Tue,  7 Jul 2026 17:10:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783437020;
-	bh=a5T9qpkUzRc3UNfYbx2QShdibt3Pd9YHNy+BR99Um4s=;
+	s=k20260515; t=1783444239;
+	bh=HK8uVml06w+bKqyoUyeZfRVnCoDLnntwZGc5/bUtpWI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RTlaB7unlIc7lCSZGDt/1AsbEvD4EMJGllcAmt1hsAHcByPdEJUFwz1EelX9gbVWt
-	 V+MvvoXRucD6hs0djixaMg0ankEl9rmn/7vPADTchv2IClhXnwiQWZqqAyEsNQCBwt
-	 z2m5Q91gKFHInzD01KyUIeYtqh+osNQOH21HC+XA97h3i3whr/D+NYHOhmuRj31Ka1
-	 QA2u5a0+aH1HgpXy6ua4e5ACtJevYNyXccJeCwU+hIhbvNRUnVw/S/Nk7+bA4Ggza3
-	 8w/DZ5ow+Es8+W7RYghNJm82T+1u1nYRDhg9JaH0Q/LtC4ZJp/cQjVDBzV1HG/ghCs
-	 QTV0K+oBMg1KA==
-Date: Tue, 7 Jul 2026 16:10:07 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Boris Burkov <boris@bur.io>, Jeff Layton <jlayton@kernel.org>, 
-	Greg KH <gregkh@linuxfoundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Justin Stitt <justinstitt@google.com>, 
-	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
-	Jori Koolstra <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>, 
-	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>, 
-	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>, 
-	Vlastimil Babka <vbabka@kernel.org>, "Christian Brauner (Amutable)" <brauner@kernel.org>, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
+	b=HaMkQw2DkD0kV1mnERz9lq7oIX+of4QlpbKaKeDh+ZUxNHob2OnzUxEgoTW6bc1NW
+	 Q+uCTzbBnPZmpEfUAPAUVCHQtY0G184u5NLDns2PczjTA3C4WIMU7ETPcQOlxzgyfQ
+	 BJhD/hIqOHIBJCkKXGD8UfBoUNo1SQRu8U8lwLHt5CHIqBjT5VHiJVM7Cy6n/aDNKu
+	 R1ofaFmEfBp6ZO10ZZiLidelsEWU22CRsTgsCpzqL7Z6Fivjtq44UpQ5AJj5h75CZS
+	 DukMGZDgsK19lFVuQbKzBVOIAfNuA3PiXKyLjVK7XxlkW7lBWPAYuspZ6nS7XuM8AM
+	 3PXPInXLkj0Uw==
+Date: Tue, 7 Jul 2026 10:10:39 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Boris Burkov <boris@bur.io>, Jeff Layton <jlayton@kernel.org>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Justin Stitt <justinstitt@google.com>,
+	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+	Jori Koolstra <jkoolstra@xs4all.nl>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Brian Foster <bfoster@redhat.com>,
+	Christoph Hellwig <hch@infradead.org>,
+	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
+	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	"Christian Brauner (Amutable)" <brauner@kernel.org>,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
 Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
-Message-ID: <ak0UjMSqm_6vCDIu@lucifer>
-References: <akaWnQ5Pkg_676B-@lucifer>
- <20260702211740.GA639365@zen.localdomain>
+Message-ID: <20260707171039.GD9368@frogsfrogsfrogs>
+References: <20260702211740.GA639365@zen.localdomain>
  <3f447113-4407-471f-878f-e6d6edafee71@kernel.org>
  <akez23ZhLRSGMFQ1@lucifer>
  <20260703163251.GB3734786@killaraus.ideasonboard.com>
@@ -53,6 +58,7 @@ References: <akaWnQ5Pkg_676B-@lucifer>
  <0ba6bf66-e48f-40df-a953-503d317b3dbe@kernel.org>
  <akzMh-ySQ2fN0d8R@lucifer>
  <5ccbb28a-171e-40c1-9a6b-9ac7b6b7777d@kernel.org>
+ <ak0UjMSqm_6vCDIu@lucifer>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -61,19 +67,68 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5ccbb28a-171e-40c1-9a6b-9ac7b6b7777d@kernel.org>
+In-Reply-To: <ak0UjMSqm_6vCDIu@lucifer>
 
-On Tue, Jul 07, 2026 at 03:29:44PM +0200, David Hildenbrand (Arm) wrote:
-> On 7/7/26 11:55, Lorenzo Stoakes wrote:
-> > LGTM! Do you want to send that then? People can comment on the actual path then
-> > (probably worth cc'ing everybody here on that also).
->
-> Let's first gather some more thoughts on the rough direction before spinning of
-> yet another discussion. :)
+On Tue, Jul 07, 2026 at 04:10:07PM +0100, Lorenzo Stoakes wrote:
+> On Tue, Jul 07, 2026 at 03:29:44PM +0200, David Hildenbrand (Arm) wrote:
+> > On 7/7/26 11:55, Lorenzo Stoakes wrote:
+> > > LGTM! Do you want to send that then? People can comment on the actual path then
+> > > (probably worth cc'ing everybody here on that also).
+> >
+> > Let's first gather some more thoughts on the rough direction before spinning of
+> > yet another discussion. :)
+> 
+> I'm suggesting sending a simple, uncontroversial, change to get movement rather
+> than continue this never-ending talking shop :)
 
-I'm suggesting sending a simple, uncontroversial, change to get movement rather
-than continue this never-ending talking shop :)
+Oh but I love shop talk! :P
 
-Anyway I'll leave it up to you!
+My opinions (having been on vacation for most of this thread) are
+roughly:
 
-Thanks, Lorenzo
+1. For patches generated by deterministic tools (e.g. sed/cocinelle),
+please include the source code so that anyone reading the patch can
+check the reproducibility of that patch.  But that can be free-form
+in the commit message:
+
+https://lore.kernel.org/linux-xfs/157343508488.1945685.9867882880040545380.stgit@magnolia/
+
+2. For nondeterministic machine assistance, I like the idea of asking
+patch submitters to note which part(s) of the patch had machine
+assistance applied.  I don't care all that much about the technology
+used (e.g. LLM, or Eliza, or whatever).  Something like:
+
+Assisted-by: LLM # commit message
+Assisted-by: LLM # finding bugs in the original commit
+
+I don't care to give free advertising to any specific LLM-pusher, nor
+do I care to give the whole *industry* any free publicity.  They can
+spend their own leveraged money on advertising.
+
+Mecha-assistance-done-by: finding bugs in the original commit
+
+or maybe just
+
+MAD: finding bugs in the original commit
+
+:P
+
+3. I grade *all* the trailers that submitters attach to patches!  And
+how well they engage me on my weird followup questions!  Both help me to
+construct a conscientiousness vibe, which is how I decide how much
+effort to put into making a response.  Do you allege that your patch
+fixes a bug but fail to cc stable?  Do you post obviously LLM generated
+content but leave out an Assisted-by tag?  Do you habitually drop off
+the list for long periods of time?  Decline to run /any/ QA on your
+patches at all?  Not gonna waste my time.
+
+OTOH, I also look for *good* behavior: cc'ing stable, responding to
+questions with a day or two, kvetching on fstests@ about the horridness
+of bash scripts?  I find that endearing. ;)
+
+--D
+
+> Anyway I'll leave it up to you!
+> 
+> Thanks, Lorenzo
+> 
