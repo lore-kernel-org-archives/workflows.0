@@ -1,84 +1,84 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27A0D3C1084
-	for <workflows@vger.kernel.org>; Wed,  8 Jul 2026 18:53:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 337883C3453
+	for <workflows@vger.kernel.org>; Wed,  8 Jul 2026 19:05:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783536816; cv=none; b=tY5GtGBD91n827EFaGPIkvTA/VPGsqkdQJbpMZSkDLsjGZA5oYLK3qtHXcUXXAPN+FZCMGSmpPSTOk7Nx9E7JU9i4hKJgiL+CRgdRmmyaQZDWdvF7wsbsmbTX+yL2hPQdZqjUpkROGmz7/tew30Ef3OlZZ41gf+uBlxxWshYXLY=
+	t=1783537560; cv=none; b=Hhz9TSo6/Aq6Ivsk+irH0VIChJwiPhmNAlquL+jjqyaUFoyscARt+ZkUuz8eyNKtufV4qLaWLtNqk/IS9V12QMl3YUShEf5Bq5bt8Uz88QcRDlZOPxIM7Y9FNSsgfkouqFpASgfnTAiOsSdVeSDV592BrGNByEKI3PwhwT1b45E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783536816; c=relaxed/simple;
-	bh=auKhlcHAZaqly05VI9TXDKV4vskrttOa3zEQbwSam5k=;
+	s=arc-20240116; t=1783537560; c=relaxed/simple;
+	bh=YItqT8T7it2rqu0Ag40WP8xbh00oL0oNgmOzd217gSY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JQ8nzmp+cn4nscPS2+/CXWluiTpyHthbk2M1ReKpAaVWmWpgo2+nAFtnLluS0WHNAsSaPcLEK4kgBd28/4zF2H+RLIXnlZzVYDBBgFyWp+4OvB67e/6xnd1bWb4eEImTTwTBWgpFAhKNl+/8TfrOcIwRAwMQu/e8zlUM3CgN2ts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Pzn6zAx3; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=P4zAhSZB; arc=none smtp.client-ip=205.220.180.131
+	 Content-Type:Content-Disposition:In-Reply-To; b=pDJUmkq0eqnKhDrD9Bm17wgv1K6WhxS/wweBldDsP4ZYAsy8GmrNAdLkYjyllz3WoYWMnXE406ER78ARtTAUDlSKpd7PXcH/R0waU0NQ8yusEQYCd7z+XxGxqwx/1OvBpELIwt4wfZMi7ThhlYe+q0ginCkK/XKZiA40jHBdP+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=C/Z3O8TS; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=TaVdRaOB; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Pzn6zAx3";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="P4zAhSZB"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 668GL4vn3304264
-	for <workflows@vger.kernel.org>; Wed, 8 Jul 2026 18:53:34 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="C/Z3O8TS";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="TaVdRaOB"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 668IlER03524841
+	for <workflows@vger.kernel.org>; Wed, 8 Jul 2026 19:05:56 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=MDd5hUGl91pvH2nEiZvHsBpB
-	wd3Dg/kjAQn4WJRYcLM=; b=Pzn6zAx32z/ioGd9q+dGf95FcLUV361Rgr8snpUZ
-	AXUDDl8H4xBi27nUisuSsrKlBbAi3yVvVDWUqWk/4g8P33d5Y8cMcEHjM4mV3Ysj
-	6wT45Y93lvgq3qtKD7QyBK6mnKSrURK5EpCYWmg7wYzzObkS8AKf9OXxS0zj3BMw
-	0ymhVUdZYzWMpUnvTk8zUTLEUswZYyWtrStGD5jBqwV+fLXiWhr2xcdYbkhJAH4J
-	DxVCwO50bJCFx8Gt2O39TOlXL2U5msYKt9ljvHRk8e/FB8RC3p25oKuOT4+39SUW
-	fB8X6I6jfIVK9oswSOlBE7R+j/w2Gcgnb94+Au3SymeIhw==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f9rq311ng-1
+	:references:subject:to; s=qcppdkim1; bh=CeHf8ZnOmdDt8+90mSP4wYI2
+	u2NYKjn3Be4iJ272f5Q=; b=C/Z3O8TSU/K6ST7I/5NLvaXUbyaBPKdv0+DgP40l
+	nQUMyIiRO9eb0HkYDoQACetPWHg33l4B4SndJBK78czyFY2O72YHuNe0IwlvvEDO
+	e3Y5cvI4c3FPt59an/wepDFFpz+Z03T8w+4iB0iNKikofEJk+NSkHJqWjAuBGuDu
+	AtCF25xZE9fajt5L8vuDM1kN1dXUr3yeqChMyf4fl6dNiYLugaM5q29YztM8AH9s
+	XpjSoOZW0vNUVP2e+nShpv9KxBXbZv+Ku+p0c6/+UfEDrWTF5ZEDyfUzfYbgBzid
+	ORzfs/9zn+9EvdTrpupSEOicov9omFUig51PTAzYEyTiVA==
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f9v4u025y-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <workflows@vger.kernel.org>; Wed, 08 Jul 2026 18:53:33 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2cca3673560so1657735ad.1
-        for <workflows@vger.kernel.org>; Wed, 08 Jul 2026 11:53:33 -0700 (PDT)
+	for <workflows@vger.kernel.org>; Wed, 08 Jul 2026 19:05:56 +0000 (GMT)
+Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-c8895156101so1501256a12.1
+        for <workflows@vger.kernel.org>; Wed, 08 Jul 2026 12:05:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1783536813; x=1784141613; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1783537555; x=1784142355; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=MDd5hUGl91pvH2nEiZvHsBpBwd3Dg/kjAQn4WJRYcLM=;
-        b=P4zAhSZB+sHipdnir3JIcmLCuopEWORC8HhmymYrfu/zhhZaZo1dVXbtC8EP6aj22A
-         V6f/+5Xynn7jqmakC+BIsORLM8BwFLC9vKf09gU2aviRDTooOj39f+qMQA9h4nljilN0
-         k3Q18ao5cgsNUiOZ63rwmPlQmhWgyLKxTw2JNajOByJ8xFjEghdu5wt+n5a7FlzFft+x
-         No8ep3t0fqRP6yXtRsX4PzGUzfGhn/7pin6ouPr4aTxeiVMXIeWF1sDLkd0gUclDTs+r
-         0RGJ+UhgS5DChtxpnLDZDGIuhtLA/+yQ9X/+xa/c492g8+19KGLZqF2/M/NtU8CMPA1u
-         CBKg==
+        bh=CeHf8ZnOmdDt8+90mSP4wYI2u2NYKjn3Be4iJ272f5Q=;
+        b=TaVdRaOBpzvB3sQFBAEcWmcDx/oLzP0IrwweH/DQly4YNfb7bLluGOkH4f1e0ugFbx
+         7D8Oz5PvtAfizYXfXJReHdylvgLKwS/72bPb/+nKhmOxA0rw4RZh8GpHfG1QsyhhAfs0
+         LRY4AnHCrtUfwi1tOOk1XN6vt0c7XFjJud2Yn31KcQojtpTOqfewVFEvDjfKdwgm2ln/
+         uxUP0AozutmPGMBpF7a/oIcbPJunJuML5IgueBPTHDv566YUWrCCBWQr38wQslEe43Er
+         pEoLSczQAXe1n8ZDDpdUD6RSR/djvXl8LL/KFsGpbGm12Wrimwt5mzMxT9L9KzzxQ/cf
+         Kxcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783536813; x=1784141613;
+        d=1e100.net; s=20251104; t=1783537555; x=1784142355;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=MDd5hUGl91pvH2nEiZvHsBpBwd3Dg/kjAQn4WJRYcLM=;
-        b=BaAwaLlYUiVU8fmgFMAwsp3jA00fiUZcYDD+p9w7Ty4gm5UelxX4UdDA+b9SbMKgj+
-         wcLeWMGvOVNjjH8tysAJXnjxBqNVRFKu3lvNfVn+ApeE5rJtmbQr0OOD0wKXi+LhsXJy
-         9iY88qG7dqlOHXx/fPTe4WudMS40xskepONbG5NHBWpW00Yq1wgO2SXXmA4HYy+FpbIy
-         W+Y7z4g2Pnwi+ncMWrF0LtyLh39pyK1qudhY1s5FrHepmRApbuMTPinD4xYHfv8d4uwf
-         ehrlsgVd5WMRKdD2H0gemPEnVF88Q/1ENTxS2bpREKdDPLWBtDm6YK6Ih2HmsiCBEqJq
-         oZiA==
-X-Forwarded-Encrypted: i=1; AHgh+Ro/SyHwNGaIcixgN9U5xwmP315LG+hUVv4DKav+rMaQlSLPedkkSho0kzHewDNo1m43d793sTxmrVI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzEvEvob23x5vA2pu8nb7Brwn4knj7eAWdmT27r3sU+aVaRFlyT
-	dv+G5wAI7C5UcpW+DGpye2zCSrSsrlt0kGmEvnoyEGDx2lOJAue3FufnZAliXVliEMHLFyf+8gg
-	/hFufaegPRINWtYFbD/2jqnSeUyN5CzVoPiYfsvQIACQsHICupmWi/UmJb+YEGGg=
-X-Gm-Gg: AfdE7cniiEqbIpuxwXNovgAEYIyCy3NukTlMpSNh1O2fSvATS7GMWEa1Ljd4e2/97kK
-	IgcLacVkeMond5imGQZCTHN6dY/TxInwV8zaigeyvJ/qsMPa5j3ZP1MEj/hdiIkLdtLUlm7GCKW
-	LhIjF98kTNIxhh/eBRWJ6GatZOadIU510G1u/Ez4TbP3dsQz7O1bAQaUmem8D/98o5EZNTodyAl
-	L3E0vZev9u7DPApyFkU0KcKgM2vFgR3IPjgnLyJdoXKU3ssbqDZ5B+yPA+Wv1Py8BObKOlOvV1s
-	BMFqnRxMmv2znT+0yrz3GxFlMfGuHOtZVSJcCjiQ0SThaK+XWwDioqnixrtAbOFCELc+/LLu0sg
-	9W84yxqsh3sRXCU7PaJU4sDObzR5bq1vOsBhQPg==
-X-Received: by 2002:a17:90b:17d0:b0:382:1aaf:4bab with SMTP id 98e67ed59e1d1-389416e7dbdmr3591611a91.27.1783536812876;
-        Wed, 08 Jul 2026 11:53:32 -0700 (PDT)
-X-Received: by 2002:a17:90b:17d0:b0:382:1aaf:4bab with SMTP id 98e67ed59e1d1-389416e7dbdmr3591525a91.27.1783536812170;
-        Wed, 08 Jul 2026 11:53:32 -0700 (PDT)
+        bh=CeHf8ZnOmdDt8+90mSP4wYI2u2NYKjn3Be4iJ272f5Q=;
+        b=q10kSUofYXoBqRbIVyxDvYeoE+lAY4TtIE55UGPqsK+byUVDHSJ+0McGp7jNDRNRp3
+         1lwNUAudsYYEhu8OPKCUpyt36vSyJ4Clopw/rrvdFTcWb086RZfTomsyLFula6vjMKgk
+         egeL0J04ksamXRVcq4FsLPZteyNRN/GeRJFed9fNNVaXDYuC6LjDc+SiAtQ8kn4FTUiD
+         BEihrEZLoCSsSh62vQcjxzmDuWCLuP11rKxcPPrKzjBMQ63skdQhaDffhCP2LiSx7K3y
+         9aWfsoFeCPpwWEz9U4mS6/CFGSQCTtzbcEtFIyIVaiZEF5cdiAEKSplfD1muWa2TfdIZ
+         h/0A==
+X-Forwarded-Encrypted: i=1; AHgh+Rpbfd9T5p+Nf4kQ76s4DS+0elfLeNEelvxvsM/1gZUxRXwuH1VBlSj1umeHmL3Bwc4byZ+yuQs/rRQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzVXo7FPrAQ7ZFr4W+UXrXh5ip3O2LpcHcxso2GfoMQKqRdYVbe
+	DMp1z8jwwNvrZd7nneJIpY7Q5Cjm0gcckNWXe0sLNEmpvHo2W8oducg8xVzO8kNwBaTffuZZjRa
+	xanL3EXQGtApoMPI0al+l43oDOZhnoEQ6alZalpmncDa4JZdp7ZfcjjxXiCUibFE=
+X-Gm-Gg: AfdE7cnevEe1iVWhXIwi9fwuWYbgE47wuLErlp040kQ60gNoIoK6hcI2imW+vkcgd8A
+	2WRbi7eDy4fCuhS830HsVf7d93vs+qL02tbnm7c+TkACARKYUOuN9NfHhT8WKbR0vLt3RZvBJRe
+	8UmezdNW9OEz+VDOsH3sJ4aopNbfRay4hRX6zGT++T9tuUf9oY7Ek9dbEuulWB+X03Ti2/Q/29p
+	L2iU3fWtS30lYodZHy53R5jqlq+CS5R4IjLmyA8YWZpRQS09jSqof0y2K2oPQ2IVKdmDbobEXY2
+	BCcwXErbCNDaf6FYU+ygAANfevJqkN5NEVYtmzxaOTvLloujpyBg8yqbgFOVJiYLRDHzBXjX14E
+	xYLh9y6xnU8NoVvHkfkvZbo285DTBfMYK7i1qaw==
+X-Received: by 2002:a17:90b:4d8d:b0:37f:db06:229c with SMTP id 98e67ed59e1d1-38942f7105cmr3621953a91.22.1783537555366;
+        Wed, 08 Jul 2026 12:05:55 -0700 (PDT)
+X-Received: by 2002:a17:90b:4d8d:b0:37f:db06:229c with SMTP id 98e67ed59e1d1-38942f7105cmr3621916a91.22.1783537554731;
+        Wed, 08 Jul 2026 12:05:54 -0700 (PDT)
 Received: from hu-mojha-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3117483941csm23706217eec.7.2026.07.08.11.53.17
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31174ae6cd9sm24772373eec.31.2026.07.08.12.05.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 11:53:31 -0700 (PDT)
-Date: Thu, 9 Jul 2026 00:23:13 +0530
+        Wed, 08 Jul 2026 12:05:54 -0700 (PDT)
+Date: Thu, 9 Jul 2026 00:35:35 +0530
 From: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
 To: Lorenzo Stoakes <ljs@kernel.org>
 Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
@@ -120,11 +120,12 @@ Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
         linux-arch@vger.kernel.org, linux-mm@kvack.org,
         linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
         devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 21/26] printk: Register information into meminspect
-Message-ID: <20260708185313.2fj7vltdoevflu7i@hu-mojha-hyd.qualcomm.com>
+Subject: Re: [PATCH v3 11/26] mm/swapfile: Annotate static information into
+ meminspect
+Message-ID: <20260708190535.fhqaddicljho44eq@hu-mojha-hyd.qualcomm.com>
 References: <20260708-meminspect-v3-v3-0-7aa5a0a74d5c@oss.qualcomm.com>
- <20260708-meminspect-v3-v3-21-7aa5a0a74d5c@oss.qualcomm.com>
- <ak4Cr5GEMdo8xWqu@lucifer>
+ <20260708-meminspect-v3-v3-11-7aa5a0a74d5c@oss.qualcomm.com>
+ <ak4AgXqMnkn8rVGE@lucifer>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -133,135 +134,87 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ak4Cr5GEMdo8xWqu@lucifer>
-X-Proofpoint-ORIG-GUID: vk8rBkqWHlTkHotgGByY2p-Aq0ieZdpM
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA4MDE4NSBTYWx0ZWRfX4pWA9D20nSnj
- 360fEPhc3Zoy4TrAu/+7Gy6hxrVL5lIKgpvzZKKCJqgb4zKEmFVSJuhqco+vTXu3aT//sJML46W
- Gs0+IYZNhoYSeQjCdACdlNNblESuhOCG05DDMF/KKC2m6wR67g+BnEF7OBj5bhvLvAVjwjKVkW7
- BzhdqmcBiABaTP771YBAIMVKsRVaDDjjPmuAvSH7svwjWjD+D9jYfWc98n2npRiOnSWlgT7tNSE
- nS6W2R5l+9akUbaxq0q0+fScvMd8tzZGt4QOGhZ+/3nRvvsqs311jQep8NJAnv9fQRnsEaK6F+v
- V1GZBHtKpmqDK9ODujoV6AQe3EfRzQvkaRGLiR0ePkyD38kcVaqWuu8SV9GvR9h5XiuykHD7het
- Eufq7UOo3xf9CcrtQ+/QhYxL+sqDapZHh7jIb6oh7Qq/6yVFW5sxgqOlsO9iPEgHGyJUU+Qh0nU
- wdxneYeSHXLGYGfBl8Q==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA4MDE4NSBTYWx0ZWRfX4DD759wbYlI1
- KrnYsTtnWDvXfRIf7Wk+m1fe2aQUeT7ytqnWYZiiAFWIL2a4iAByWf8pD6c5MFa/ZXJtbyql1Yg
- /vLiMVdrc+wN845YwO8E14YG1+FpogE=
-X-Authority-Analysis: v=2.4 cv=PYPPQChd c=1 sm=1 tr=0 ts=6a4e9cad cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+In-Reply-To: <ak4AgXqMnkn8rVGE@lucifer>
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA4MDE4NyBTYWx0ZWRfX/t1UlO9BHHmL
+ kAVIVdNnFiIhkos21hGZeUz2xIh8rW6uvm9uubIQuDxTuC7AFeq46sethZgizgFJrUiiLebYryu
+ 3uSYCLCBEZAIAhIzT0ayIZd57yuAkrY=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA4MDE4NyBTYWx0ZWRfX5Pf834+FftIj
+ f7nDR/zHxl5jgUhrhVl7CcZAqMyzOfiP8pU8HGcenacs3AYKEN/jZ7zMLKbJ+8v2OK7/GY1Vx7O
+ /E+Q5c8bqnSrObfH3Pz+LUxkC1oXqoEaHaMN4k2rB64RlACh/TAz3UYWJP68WtQEuZfDAo2d1Zq
+ q1gIabxdNil4Nu0YiGpAHf8/aXux0tf/RTWYyqR5XET9es6dQwhBZMCECbN13/t4+beC58oPPWX
+ IWtgMasRbAGGmLsU7q4gjopp0M4Xj57eDjM1j/EuI6xlSu/vE1p2hwGYk8E7UFX1Mad24dUqcXB
+ 4fzA1m0HpCRAXscM+jkMW+f8lQF1X1t/bZlItXLo2pLssWRekTcRRT5ZrKwJVoWPglpLGYuxW/z
+ m9auXAjA/nPUdHkJMSVBbt44qOw5wTpSB43qxnLGh9ZhzQVuXE9aKbpMyYc5LvKeVHvCeUTk1/t
+ vQFDFLdyKLDvX5oj2gA==
+X-Proofpoint-GUID: YlUaB7Uk5dsPgUpfyV3KsKxm3HmWIqkh
+X-Proofpoint-ORIG-GUID: YlUaB7Uk5dsPgUpfyV3KsKxm3HmWIqkh
+X-Authority-Analysis: v=2.4 cv=QoVuG1yd c=1 sm=1 tr=0 ts=6a4e9f94 cx=c_pps
+ a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
  a=kj9zAlcOel0A:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
- a=iox4zFpeAAAA:8 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=Oescfv6KCf7l1tfy-NUA:9
- a=CjuIK1q_8ugA:10 a=GvdueXVYPmCkWapjIL-Q:22 a=WzC6qhA0u3u7Ye7llzcV:22
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: vk8rBkqWHlTkHotgGByY2p-Aq0ieZdpM
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=cq8IU3OeMPPiwu34qS0A:9
+ a=CjuIK1q_8ugA:10 a=3WC7DwWrALyhR5TkjVHa:22 a=cvBusfyB2V15izCimMoJ:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-07-08_03,2026-07-08_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 phishscore=0 lowpriorityscore=0 impostorscore=0
- malwarescore=0 adultscore=0 clxscore=1015 bulkscore=0 spamscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2607080185
+ spamscore=0 priorityscore=1501 adultscore=0 suspectscore=0 lowpriorityscore=0
+ clxscore=1015 bulkscore=0 phishscore=0 malwarescore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607080187
 
-On Wed, Jul 08, 2026 at 08:59:26AM +0100, Lorenzo Stoakes wrote:
-> On Wed, Jul 08, 2026 at 11:02:00AM +0530, Mukesh Ojha wrote:
-> > Annotate vital static, dynamic information into meminspect for debugging
+On Wed, Jul 08, 2026 at 08:47:51AM +0100, Lorenzo Stoakes wrote:
+> On Wed, Jul 08, 2026 at 11:01:50AM +0530, Mukesh Ojha wrote:
+> > From: Eugen Hristev <ehristev@kernel.org>
 > >
-> > Static:
-> >  - prb_descs
-> >  - prb_infos
-> >  - prb
-> >  - prb_data
-> >  - clear_seq
-> >  - printk_rb_static
-> >  - printk_rb_dynamic
+> > Annotate vital static information into inspection table:
+> >  - nr_swapfiles
 > >
-> > Dynamic:
-> >  - new_descs
-> >  - new_infos
-> >  - new_log_buf
+> > Information on these variables is stored in a dedicated meminspect
+> > section.
 > >
-> > meminspect uses a different API to annotate variables for inspection,
-> > and information about these variables is stored in the inspection table.
-> 
-> This commit message is a mess again. You're writing what the code does, not why,
-> you mention separate API but not which or why.
-> 
-> It's useless basically, and it's weird to list arbitrary fields like this.
-> 
-> Always think 'what would be useful to reviewers and people coming back to this
-> patch in debug/development'.
-> 
-> If it just says what the code says it's useless. Put what's NOT there.
-
-Ack., will reword this.
-
-> 
-> >
-> > Reviewed-by: Petr Mladek <pmladek@suse.com>
-> > Co-developed-by: Eugen Hristev <eugen.hristev@linaro.org>
 > > Signed-off-by: Eugen Hristev <eugen.hristev@linaro.org>
-> > Reviewed-by: John Ogness <john.ogness@linutronix.de>
 > > Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
 > > ---
-> >  kernel/printk/printk.c | 12 ++++++++++++
-> >  1 file changed, 12 insertions(+)
+> >  mm/swapfile.c | 2 ++
+> >  1 file changed, 2 insertions(+)
 > >
-> > diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
-> > index 2fe9a963c823..f7f32c09b9b8 100644
-> > --- a/kernel/printk/printk.c
-> > +++ b/kernel/printk/printk.c
-> > @@ -49,6 +49,7 @@
-> >  #include <linux/sched/debug.h>
-> >  #include <linux/sched/task_stack.h>
-> >  #include <linux/panic.h>
+> > diff --git a/mm/swapfile.c b/mm/swapfile.c
+> > index a602e5820513..d480727e4987 100644
+> > --- a/mm/swapfile.c
+> > +++ b/mm/swapfile.c
+> > @@ -42,6 +42,7 @@
+> >  #include <linux/suspend.h>
+> >  #include <linux/zswap.h>
+> >  #include <linux/plist.h>
 > > +#include <linux/meminspect.h>
 > >
-> >  #include <linux/uaccess.h>
-> >  #include <asm/sections.h>
-> > @@ -518,10 +519,17 @@ static u32 log_buf_len = __LOG_BUF_LEN;
-> >  #endif
-> >  _DEFINE_PRINTKRB(printk_rb_static, CONFIG_LOG_BUF_SHIFT - PRB_AVGBITS,
-> >  		 PRB_AVGBITS, &__log_buf[0]);
-> > +MEMINSPECT_NAMED_ENTRY(prb_descs, _printk_rb_static_descs);
-> > +MEMINSPECT_NAMED_ENTRY(prb_infos, _printk_rb_static_infos);
-> > +MEMINSPECT_NAMED_ENTRY(prb_data, __log_buf);
-> > +MEMINSPECT_SIMPLE_ENTRY(printk_rb_static);
-> >
-> >  static struct printk_ringbuffer printk_rb_dynamic;
-> > +MEMINSPECT_SIMPLE_ENTRY(printk_rb_dynamic);
-> >
-> >  struct printk_ringbuffer *prb = &printk_rb_static;
-> > +MEMINSPECT_SIMPLE_ENTRY(prb);
-> > +MEMINSPECT_SIMPLE_ENTRY(clear_seq);
-> >
+> >  #include <asm/tlbflush.h>
+> >  #include <linux/leafops.h>
+> > @@ -65,6 +66,7 @@ static void move_cluster(struct swap_info_struct *si,
+> >   */
+> >  static DEFINE_SPINLOCK(swap_lock);
+> >  static unsigned int nr_swapfiles;
+> > +MEMINSPECT_SIMPLE_ENTRY(nr_swapfiles);
+> 
+> Now the EXPORT_SYMBOL_GPL() is an EXPORT_SYMBOL() in effect no?
+
+The whole reason we had to tag most of the MM symbols is that
+the crash tool looks for this information while launching itself.
+
+e.g.,
+
+./crash --no_modules --no_panic --no_kmem_cache --zero_excluded ./vmlinux  ./minidump.elf
+
+
+> 
+> >  atomic_long_t nr_swap_pages;
 > >  /*
-> >   * We cannot access per-CPU data (e.g. per-CPU flush irq_work) before
-> > @@ -1238,6 +1246,10 @@ void __init setup_log_buf(int early)
-> >
-> >  	local_irq_restore(flags);
-> >
-> > +	meminspect_lock_register_va(new_log_buf, new_log_buf_len);
-> > +	meminspect_lock_register_va(new_descs, new_descs_size);
-> > +	meminspect_lock_register_va(new_infos, new_infos_size);
-> > +
-> >  	/*
-> >  	 * Copy any remaining messages that might have appeared from
-> >  	 * NMI context after copying but before switching to the
+> >   * Some modules use swappable objects and may try to swap them out under
 > >
 > > --
 > > 2.53.0
 > >
-> 
-> Overall exposing live dynamic printk information to drivers seems unwise, but
-> not quite as insane as some of the other stuff thus exposed...
-
-Thanks, this is minimal information needed to collect dmesg from
-crash-utility in --minimal mode.
-
-> 
-> Thanks, Lorenzo
 
 -- 
 -Mukesh Ojha
