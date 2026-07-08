@@ -1,37 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CD73390228;
-	Wed,  8 Jul 2026 14:55:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE25B3C1405
+	for <workflows@vger.kernel.org>; Wed,  8 Jul 2026 18:47:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783522525; cv=none; b=lECXL9R5ViXOWkYZtHH/c6Yqy7yV4VozRShKqNm5hBhBNGk/mIethq+zhmN8ktuOwjPf1UAm98tQgwuRgzUGAbHf/6zQcV6HZgxIId8gvt3JGPtW0PK9xnGNC0+Aj1/CTqYD44cxBzjcNKRx8aDV4oh3+d2CVti0iJ8aWQH/OH4=
+	t=1783536444; cv=none; b=CdbnsEekXQypwoobzefV+gkL9+NoR0oLPiWl+Vn3TPeDZiIcB2ZNp3iAw7gDrS1ZSO5+wvo4DwcN6c3Y9se0pMJ8XZktVMAVxMsR3pJ3d2bY5l1Xfhkzb/lJqzhhfD9kr7QUz+sqCGl5vjCfG5J58wPVUQffWhV1WFr5lJm02js=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783522525; c=relaxed/simple;
-	bh=8FhydZ5T6HRYZO1CUeYB4dyiCSrzViAcpUgRLUr8FGE=;
+	s=arc-20240116; t=1783536444; c=relaxed/simple;
+	bh=mACmuHlZX20bUZH9GBr/hdZ+rwWW1JFJPM3em3vuYQI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lDqECGGqAv/K8iNiHQgOYUbpAzz6KaspXfStnSid8Nsf05jpJ7X0LhAPlfWcG/6wZC3Wk5A6tgzq5mp5wceh+fMJGL7nNW9bs2yukhARnpVquKjwvMqKeBSlHPVaX21hUp0GjQA25VGEO0noaX1JgDcOnzHxdhDoRblOzJ/62Lw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=xW4i8IH0; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=kSWXfYvBQwnyi6XrZHGtuMZLiiGnlYp00FRsdj+PJ0xu+noLHmD+j2EXoeiaYCC6dnCnD+yCJSEqjC7nQKSHZQPijBFMMlLq6L98hgr9nILdePCR40/tH2FVt/w5WwEoJ7i7EXUctXJEMGOkFH1KRWTfCww0mpd8vzW0Bhs2ZhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=SMaNwRkG; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=EYrnNONW; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xW4i8IH0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AE281F000E9;
-	Wed,  8 Jul 2026 14:55:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1783522523;
-	bh=N4tk33+gGzEvWhx3TAYATpFb6wxOHUQmG8/nMmeWOk0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=xW4i8IH00Xp6ZAjNrt4/A3qUb/gBuHTe/GlvTkuACu4a9Pz0zHAJa6o5Zjifg3gJ7
-	 RZjLOgySpbzaGfHe1VBkUx6uoZ7r9my1/m1uZVWhbuNgeO+eZ7cckcAXUw1lPNde4o
-	 QVN2IHGaRvCryL30/1DVjQWiXXoyUMZ7O05dyy0E=
-Date: Wed, 8 Jul 2026 16:55:20 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Yuan Tan <yuantan098@gmail.com>
-Cc: linux-kernel@vger.kernel.org, workflows@vger.kernel.org,
-	jhs@mojatatu.com, sven@narfation.org, netdev@vger.kernel.org,
-	netfilter-devel@vger.kernel.org, linux-crypto@vger.kernel.org
-Subject: Re: [RFC] VEGA: a syzbot-like workflow for LLM-found kernel bugs
-Message-ID: <2026070828-carried-extortion-789e@gregkh>
-References: <20260708092247.4188498-1-yuantan098@gmail.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="SMaNwRkG";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="EYrnNONW"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 668GLTg53208904
+	for <workflows@vger.kernel.org>; Wed, 8 Jul 2026 18:47:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=aigJJJhGHgfhaydfVTP5L418
+	kGbReJJsoG+/PNyDn6Y=; b=SMaNwRkGGiXFqk3zH2CodUO4ECSjUVFVC/X4FqB1
+	j5mLgVbPxoKgorsdxTeZrKaZzGO+m1dKDRYMrOlFTHiEzsHwchmsU7KJFV/je2gk
+	Ty9GtRcXbiFk4cowSfqau0ulYADsAZEowTGMSVH4Dw8FbeVrXwezYRlFFkjDDWMi
+	tE8d1zFF5BDOEkWaiYDc/L30ikNG3OkTEpcNcZf4TTGMAfTQqioDnhoDfWa7Wb2z
+	zev2S/gX7OCu8y67llRcm4+TfgFMAHCO6CGwRJZspTQF2kZWaGUaxJFuW8TTuE9d
+	kaxk4wubm7eRKIZvdZ3a0FwF1fuHlHUdPTujqnh/RUzJgQ==
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f9gqwb6jc-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <workflows@vger.kernel.org>; Wed, 08 Jul 2026 18:47:20 +0000 (GMT)
+Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-c9fe2607511so1393543a12.3
+        for <workflows@vger.kernel.org>; Wed, 08 Jul 2026 11:47:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1783536440; x=1784141240; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=aigJJJhGHgfhaydfVTP5L418kGbReJJsoG+/PNyDn6Y=;
+        b=EYrnNONWGjctW2ydPq5YUXQLZePfCmuEEUkBWhISE5NZLkFLnzJr2J11MsBVUHejwC
+         Xv9XzGJeWLpxugWeIrrFmsyeXVav26lOPx+Pp8XpIvh6b1tBBNCy8hFXBoy/mMPFvDIH
+         kQQ85TMbAILj/S+ztAP5fJFeVILx8sRkMHP0EIFra3CD0YAMbnD6GTPPYL0KV67hSW/0
+         ahzJogci0FF5gV3jc95h2zrQU5W7nV6D5sE4pWaxAsz32+BpIgSAOw56VEZV69QkUd8Y
+         hcuaoMjDigvPn3xNtl87d59hWF8MotH30ZqjfPZ4bZRfTtZEf2km4cYzu2Z++mml/oA/
+         ZvKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783536440; x=1784141240;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=aigJJJhGHgfhaydfVTP5L418kGbReJJsoG+/PNyDn6Y=;
+        b=SgjUi2bHEGUIQrDLLEHqIgF8vUgiGSsekCo4uMwAomjhVgi3qBtxTPMzdUbnla9lPT
+         fIMbMNj767T74NW85/AamWzUKc/FG8OKOrArIHVcoAyAKnPlJNdQj7hXeDvW/DlTrbEV
+         v0bz7Mqs6Mfk8ugzPBbyEzG+xeIBeHU9PZgzn6OdubsCxUGEQb6bNeZQsYBGsu4USoMt
+         8yH9R5ggvq2Qe5/MSHenqdH4wmCyiyoXGAxV0L1qxLltQxILYICFXTxvQ9BfGq9fb4CN
+         WSkscnpPRgq9rjoRxDGRER6xUjSMO6Be+v0s2tnfdgTp5AsvdJw5RIgBTk2nqwJoC8un
+         lNZw==
+X-Forwarded-Encrypted: i=1; AHgh+RpxX+EcNSbay+XSJ+hKyV14tp1BqJK+vBTRx90w7Z7xe7spQDx0U4kjmUO7QelOTHcGDbBPCEVWxHc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDT2bTbEdvOC0/bXbw9sYZ/rGpOhteQYjlU3Ywy2kP1tYI8+NG
+	ANAaDPI47BjZXsa5LUtFHXoULv8reUUGOEMP7CMVIAFztdC9VRxcr0bjKvGTw8+wVimtyLhWwNA
+	2CWucGo//5G41q2Olj2IXmTmt6uyawn7grgqVtpibSO9emtciPLGWo0sHgrqoTkk=
+X-Gm-Gg: AfdE7clqmSIU42LajUwoYmzaBKkR14JwbocjU4uF1GRbyUbOnBqPafD0uCSl6PV2vAe
+	/qqYFy3jtMoFZzHO54lYwLqlN947he0BCbAcwgC+R6JpnU541iq1LsbeP5gNrZlrTINDdshICi7
+	ZYmH7UkP7ehhB4S0wKoVLYgwWjFaWQ9tH89SuP7Kz0MCr8SzV+he6N4cnWMdj3jg65qEgIIB3kx
+	OpxogEi96pYyPXSuVTBMPxix5ni3l3EnkxihYBu2cfR6aLs0b4Z4rAAX/TtwA8H6EtYCdPPErM6
+	+URuWUNrIFUVLtZpS8qgqV1Ww0HaJ22QEuJs9x84vRt7HofVzX02zATi9E+BnvW7FwPKP9Y7dt7
+	UM6P1QKEDie1Hc8fDpj601QIlLw1ezc3ldIgcEg==
+X-Received: by 2002:a05:6a21:7a9b:b0:3bf:9e25:1a17 with SMTP id adf61e73a8af0-3c0bc8c2038mr4677411637.12.1783536440177;
+        Wed, 08 Jul 2026 11:47:20 -0700 (PDT)
+X-Received: by 2002:a05:6a21:7a9b:b0:3bf:9e25:1a17 with SMTP id adf61e73a8af0-3c0bc8c2038mr4677313637.12.1783536439597;
+        Wed, 08 Jul 2026 11:47:19 -0700 (PDT)
+Received: from hu-mojha-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b6594f9a0sm23425858c88.4.2026.07.08.11.46.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jul 2026 11:47:19 -0700 (PDT)
+Date: Thu, 9 Jul 2026 00:16:52 +0530
+From: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: akpm@linux-foundation.org, anna-maria@linutronix.de, arnd@arndb.de,
+        andersson@kernel.org, chrisl@kernel.org, cl@gentwo.org,
+        conor+dt@kernel.org, david@kernel.org, dennis@kernel.org,
+        devicetree@vger.kernel.org, ehristev@kernel.org, frederic@kernel.org,
+        mingo@redhat.com, jstultz@google.com, corbet@lwn.net,
+        juri.lelli@redhat.com, kasong@tencent.com, kees@kernel.org,
+        konradybcio@kernel.org, krzk+dt@kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-remoteproc@vger.kernel.org, mathieu.poirier@linaro.org,
+        peterz@infradead.org, pmladek@suse.com, robh@kernel.org,
+        saravanak@kernel.org, tj@kernel.org, tglx@kernel.org,
+        vincent.guittot@linaro.org, workflows@vger.kernel.org,
+        atomlin@atomlin.com, ast@kernel.org, aliceryhl@google.com,
+        linux.amoon@gmail.com, ardb@kernel.org, baoquan.he@linux.dev,
+        baohua@kernel.org, bsegall@google.com, jackmanb@google.com,
+        leitao@debian.org, brauner@kernel.org, coxu@redhat.com,
+        dietmar.eggemann@arm.com, dianders@chromium.org, ebiggers@kernel.org,
+        feng.tang@linux.alibaba.com, yangfeng@kylinos.cn, gary@garyguo.net,
+        guohanjun@huawei.com, jack@suse.cz, wangjinchao600@gmail.com,
+        joel.granados@kernel.org, hannes@cmpxchg.org,
+        john.ogness@linutronix.de, jpoimboe@kernel.org,
+        shikemeng@huaweicloud.com, kas@kernel.org, kprateek.nayak@amd.com,
+        liam@infradead.org, elver@google.com, mgorman@suse.de, mhocko@suse.com,
+        ojeda@kernel.org, rppt@kernel.org, namcao@linutronix.de,
+        nathan@kernel.org, nphamcs@gmail.com, n.schier@fritz.com,
+        pasha.tatashin@soleen.com, petr.pavlu@suse.com,
+        pnina.feder@mobileye.com, rdunlap@infradead.org,
+        rioo.tsukatsukii@gmail.com, senozhatsky@chromium.org,
+        skhan@linuxfoundation.org, sboyd@kernel.org, rostedt@goodmis.org,
+        surenb@google.com, thomas.weissschuh@linutronix.de,
+        vschneid@redhat.com, vbabka@kernel.org, youngjun.park@lge.com,
+        zhengyejian@huaweicloud.com, ziy@nvidia.com,
+        Eugen Hristev <eugen.hristev@linaro.org>
+Subject: Re: [PATCH v3 26/26] meminspect: Add debug kinfo compatible driver
+Message-ID: <20260708184652.tjbqhvmoqrou3ncc@hu-mojha-hyd.qualcomm.com>
+References: <20260708-meminspect-v3-v3-0-7aa5a0a74d5c@oss.qualcomm.com>
+ <20260708070809.2660886-1-mukesh.ojha@oss.qualcomm.com>
+ <ak4DqBta0boElPak@lucifer>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -40,79 +128,397 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260708092247.4188498-1-yuantan098@gmail.com>
+In-Reply-To: <ak4DqBta0boElPak@lucifer>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA4MDE4MyBTYWx0ZWRfX3O3jim/ADFlD
+ YbAh35I4/KbUUa6OSa287XeN6Zd1akVvP2++BsITzfSLAHGhVum1Pa/zmpaYYk4rwVteQTP5SsC
+ zrgYBKuD+o/Vv/toYKuXnnq0Rg9hC+NvS/l5vAGB/6wLtHpoeYoQ3yq04eZxWiZYlTZwDyJOdC2
+ rRIb8UTeVmnSDh/iobW4h4OkGvjgmQF+5H8Z3ki1V+z3cMIkT5FcJvDyOwrFvZrfODm0YH/Qk+3
+ kPvzQNZP5LOKyvNoCdGsUF+KCZwNzRkJoFmGQCpuzJ9GLm3xaK0lG4r7f+7xPb7lEz1mGfJ2wCd
+ NfTNsoXnm6VkaFuaUsXELXININYA3mKr+7KH1iZbqvH742swaz3gstpq8Xctqf3FxvTju7oEFfa
+ 5ud5FgZz7Uc3Y4LIQW0GlCrl0LPqaFnzg04xAnWlYfvKrVFCHMX8bSl1Or9qEmSpsLD7dw+zQRV
+ k4J0wmzuic2zYpWcNLg==
+X-Proofpoint-GUID: _RtC-6wJtdAOwUTP6v6fKekkLRu43TsE
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA4MDE4MyBTYWx0ZWRfX0L3TGTvUnvh2
+ BhuBQK4NWPrHUudHRCEjzA4PN8i7RxCLhlpyVPtw4HQxUIZq5CPpCGntKbbPJpUVuHQ5iy2TMxZ
+ 7u7CVsEjPMSWRW1sXz98QpssgwK7tLw=
+X-Proofpoint-ORIG-GUID: _RtC-6wJtdAOwUTP6v6fKekkLRu43TsE
+X-Authority-Analysis: v=2.4 cv=Wf88rUhX c=1 sm=1 tr=0 ts=6a4e9b39 cx=c_pps
+ a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=kj9zAlcOel0A:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
+ a=Oh2cFVv5AAAA:8 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8
+ a=Tty9oNO6AAAA:8 a=1XWaLZrsAAAA:8 a=908p1EQr1GbHt3uppzYA:9 a=CjuIK1q_8ugA:10
+ a=x9snwWr2DeNwDh03kgHS:22 a=7KeoIwV6GZqOttXkcoxL:22 a=cvBusfyB2V15izCimMoJ:22
+ a=Bts-Es6F1CBXvF7u4C_G:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-08_03,2026-07-08_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015 bulkscore=0 impostorscore=0 malwarescore=0
+ spamscore=0 priorityscore=1501 adultscore=0 lowpriorityscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607080183
 
-On Wed, Jul 08, 2026 at 02:22:47AM -0700, Yuan Tan wrote:
-> Hi all,
+On Wed, Jul 08, 2026 at 09:06:52AM +0100, Lorenzo Stoakes wrote:
+> On Wed, Jul 08, 2026 at 12:38:09PM +0530, Mukesh Ojha wrote:
+> > From: Eugen Hristev <eugen.hristev@linaro.org>
+> >
+> > With this driver, the registered regions are copied to a shared memory
+> > zone at register time. The shared memory zone is supplied via OF. This
+> > driver will select only regions that are of interest, and keep only
+> > addresses. The format of the list is Kinfo compatible, with devices like
+> > Google Pixel phone. The firmware is only interested in some symbols'
+> > addresses.
+> >
+> > Signed-off-by: Eugen Hristev <eugen.hristev@linaro.org>
+> > Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
 > 
-> We would like to ask for feedback on a proposed workflow for reporting Linux
-> kernel bugs found by an LLM-assisted code auditing tool that we have
-> been developing since earlier this year.
+> Hang on, this is a driver that exposes internal kernel symbol information in a
+> shared memory region for anybody who wants to access it?
+>
+
+Yes, this was one of the others we could find in the Android
+kernel, which could be another use case of the meminspect
+backend.
+
+https://android.googlesource.com/kernel/common/+/refs/heads/android-mainline/drivers/android/debug_kinfo.c
+
+-Mukesh
+
+> This doesn't really seem sane?
 > 
-> Since February, we have been developing an LLM-driven kernel code auditing
-> tool called VEGA. It started as a side project, but the results became much
-> substantial than we expected: VEGA has found hundreds of valid bugs in Linux
-> kernel.
+> Looking through the code it seems you are only exposing things that are already
+> otherwise exposed, so maybe it's not so bad, but it seems as if a registered
+> meminfo driver could in any case get access to things they shouldn't?
+
 > 
-> That immediately created a practical problem: we do not want to dump a large
-> pile of bug reports onto mail lists and annoy the maintainers.
+> > ---
+> >  MAINTAINERS                |   1 +
+> >  drivers/of/platform.c      |   1 +
+> >  kernel/meminspect/Kconfig  |  11 ++
+> >  kernel/meminspect/Makefile |   1 +
+> >  kernel/meminspect/kinfo.c  | 257 +++++++++++++++++++++++++++++++++++++
+> >  5 files changed, 271 insertions(+)
+> >  create mode 100644 kernel/meminspect/kinfo.c
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 2d816d783024..d805ff9fedac 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -16906,6 +16906,7 @@ M:	Eugen Hristev <eugen.hristev@linaro.org>
+> >  M:	Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+> >  S:	Maintained
+> >  F:	Documentation/devicetree/bindings/reserved-memory/google,debug-kinfo.yaml
+> > +F:	kernel/meminspect/kinfo.c
+> >
+> >  MEMBLOCK AND MEMORY MANAGEMENT INITIALIZATION
+> >  M:	Mike Rapoport <rppt@kernel.org>
+> > diff --git a/drivers/of/platform.c b/drivers/of/platform.c
+> > index 53bca8c6f781..f80bd25fc481 100644
+> > --- a/drivers/of/platform.c
+> > +++ b/drivers/of/platform.c
+> > @@ -494,6 +494,7 @@ static const struct of_device_id reserved_mem_matches[] = {
+> >  	{ .compatible = "qcom,smem" },
+> >  	{ .compatible = "ramoops" },
+> >  	{ .compatible = "nvmem-rmem" },
+> > +	{ .compatible = "google,debug-kinfo" },
+> >  	{ .compatible = "google,open-dice" },
+> >  	{}
+> >  };
+> > diff --git a/kernel/meminspect/Kconfig b/kernel/meminspect/Kconfig
+> > index 18ff511ad4cf..7f6436c3344b 100644
+> > --- a/kernel/meminspect/Kconfig
+> > +++ b/kernel/meminspect/Kconfig
+> > @@ -16,3 +16,14 @@ config MEMINSPECT
+> >
+> >  	  Note that modules using this feature must be rebuilt if this
+> >  	  option changes.
+> > +
+> > +config MEMINSPECT_KINFO
+> > +	tristate "Shared memory KInfo compatible driver"
+> > +	depends on MEMINSPECT
+> > +	help
+> > +	  Say y here to enable the Shared memory KInfo compatible driver.
+> > +	  With this driver, the registered regions are copied to a shared
+> > +	  memory zone at register time.
+> > +	  The shared memory zone is supplied via OF.
+> > +	  This driver will select only regions that are of interest,
+> > +	  and keep only addresses. The format of the list is Kinfo compatible.
+> > diff --git a/kernel/meminspect/Makefile b/kernel/meminspect/Makefile
+> > index 09fd55e6d9cf..283604d892e5 100644
+> > --- a/kernel/meminspect/Makefile
+> > +++ b/kernel/meminspect/Makefile
+> > @@ -1,3 +1,4 @@
+> >  # SPDX-License-Identifier: GPL-2.0
+> >
+> >  obj-$(CONFIG_MEMINSPECT) += meminspect.o
+> > +obj-$(CONFIG_MEMINSPECT_KINFO) += kinfo.o
+> > diff --git a/kernel/meminspect/kinfo.c b/kernel/meminspect/kinfo.c
+> > new file mode 100644
+> > index 000000000000..7451c13bc316
+> > --- /dev/null
+> > +++ b/kernel/meminspect/kinfo.c
+> > @@ -0,0 +1,257 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + *
+> > + * Copyright 2002 Rusty Russell <rusty@rustcorp.com.au> IBM Corporation
+> > + * Copyright 2021 Google LLC
+> > + * Copyright 2025 Linaro Ltd. Eugen Hristev <eugen.hristev@linaro.org>
+> > + */
+> > +#include <linux/container_of.h>
+> > +#include <linux/kallsyms.h>
+> > +#include <linux/meminspect.h>
+> > +#include <linux/module.h>
+> > +#include <linux/of.h>
+> > +#include <linux/of_reserved_mem.h>
+> > +#include <linux/platform_device.h>
+> > +#include <linux/utsname.h>
+> > +
+> > +#define BUILD_INFO_LEN		256
+> > +#define DEBUG_KINFO_MAGIC	0xcceeddff
+> > +
+> > +/*
+> > + * Header structure must be byte-packed, since the table is provided to
+> > + * bootloader.
+> > + */
+> > +struct kernel_info {
+> > +	/* For kallsyms */
+> > +	u8 enabled_all;
+> > +	u8 enabled_base_relative;
+> > +	u8 enabled_absolute_percpu;
+> > +	u8 enabled_cfi_clang;
+> > +	u32 num_syms;
+> > +	u16 name_len;
+> > +	u16 bit_per_long;
+> > +	u16 module_name_len;
+> > +	u16 symbol_len;
+> > +	u64 _relative_pa;
+> > +	u64 _text_pa;
+> > +	u64 _stext_pa;
+> > +	u64 _etext_pa;
+> > +	u64 _sinittext_pa;
+> > +	u64 _einittext_pa;
+> > +	u64 _end_pa;
+> > +	u64 _offsets_pa;
+> > +	u64 _names_pa;
+> > +	u64 _token_table_pa;
+> > +	u64 _token_index_pa;
+> > +	u64 _markers_pa;
+> > +	u64 _seqs_of_names_pa;
+> > +
+> > +	/* For frame pointer */
+> > +	u32 thread_size;
+> > +
+> > +	/* For virt_to_phys */
+> > +	u64 swapper_pg_dir_pa;
+> > +
+> > +	/* For linux banner */
+> > +	u8 last_uts_release[__NEW_UTS_LEN];
+> > +
+> > +	/* For module kallsyms */
+> > +	u32 enabled_modules_tree_lookup;
+> > +	u32 mod_mem_offset;
+> > +	u32 mod_kallsyms_offset;
+> > +} __packed;
+> > +
+> > +struct kernel_all_info {
+> > +	u32 magic_number;
+> > +	u32 combined_checksum;
+> > +	struct kernel_info info;
+> > +} __packed;
+> > +
+> > +struct debug_kinfo {
+> > +	struct device *dev;
+> > +	void *all_info_addr;
+> > +	size_t all_info_size;
+> > +	struct notifier_block nb;
+> > +};
+> > +
+> > +static void update_kernel_all_info(struct kernel_all_info *all_info)
+> > +{
+> > +	struct kernel_info *info;
+> > +	u32 *checksum_info;
+> > +	int index;
+> > +
+> > +	all_info->magic_number = DEBUG_KINFO_MAGIC;
+> > +	all_info->combined_checksum = 0;
+> > +
+> > +	info = &all_info->info;
+> > +	checksum_info = (u32 *)info;
+> > +	for (index = 0; index < sizeof(*info) / sizeof(u32); index++)
+> > +		all_info->combined_checksum ^= checksum_info[index];
+> > +}
+> > +
+> > +static void __maybe_unused register_kinfo_region(void *priv,
+> > +						 const struct inspect_entry *e)
+> > +{
+> > +	struct debug_kinfo *kinfo = priv;
+> > +	struct kernel_all_info *all_info = kinfo->all_info_addr;
+> > +	struct kernel_info *info = &all_info->info;
+> > +	struct uts_namespace *uts;
+> > +	u64 paddr;
+> > +
+> > +	if (e->pa)
+> > +		paddr = e->pa;
+> > +	else
+> > +		paddr = __pa(e->va);
+> > +
+> > +	switch (e->id) {
+> > +	case MEMINSPECT_ID__sinittext:
+> > +		info->_sinittext_pa = paddr;
+> > +		break;
+> > +	case MEMINSPECT_ID__einittext:
+> > +		info->_einittext_pa = paddr;
+> > +		break;
+> > +	case MEMINSPECT_ID__end:
+> > +		info->_end_pa = paddr;
+> > +		break;
+> > +	case MEMINSPECT_ID__text:
+> > +		info->_text_pa = paddr;
+> > +		break;
+> > +	case MEMINSPECT_ID__stext:
+> > +		info->_stext_pa = paddr;
+> > +		break;
+> > +	case MEMINSPECT_ID__etext:
+> > +		info->_etext_pa = paddr;
+> > +		break;
+> > +	case MEMINSPECT_ID_kallsyms_num_syms:
+> > +		info->num_syms = *(__u32 *)e->va;
+> > +		break;
+> > +	case MEMINSPECT_ID_kallsyms_offsets:
+> > +		info->_offsets_pa = paddr;
+> > +		break;
+> > +	case MEMINSPECT_ID_kallsyms_names:
+> > +		info->_names_pa = paddr;
+> > +		break;
+> > +	case MEMINSPECT_ID_kallsyms_token_table:
+> > +		info->_token_table_pa = paddr;
+> > +		break;
+> > +	case MEMINSPECT_ID_kallsyms_token_index:
+> > +		info->_token_index_pa = paddr;
+> > +		break;
+> > +	case MEMINSPECT_ID_kallsyms_markers:
+> > +		info->_markers_pa = paddr;
+> > +		break;
+> > +	case MEMINSPECT_ID_kallsyms_seqs_of_names:
+> > +		info->_seqs_of_names_pa = paddr;
+> > +		break;
+> > +	case MEMINSPECT_ID_swapper_pg_dir:
+> > +		info->swapper_pg_dir_pa = paddr;
+> > +		break;
+> > +	case MEMINSPECT_ID_init_uts_ns:
+> > +		if (!e->va)
+> > +			return;
+> > +		uts = e->va;
+> > +		strscpy(info->last_uts_release, uts->name.release, __NEW_UTS_LEN);
+> > +		break;
+> > +	default:
+> > +		break;
+> > +	};
+> > +
+> > +	update_kernel_all_info(all_info);
+> > +}
+> > +
+> > +static int kinfo_notifier_cb(struct notifier_block *nb,
+> > +			     unsigned long code, void *entry)
+> > +{
+> > +	struct debug_kinfo *kinfo = container_of(nb, struct debug_kinfo, nb);
+> > +
+> > +	if (code == MEMINSPECT_NOTIFIER_ADD)
+> > +		register_kinfo_region(kinfo, entry);
+> > +
+> > +	return NOTIFY_DONE;
+> > +}
+> > +
+> > +static int debug_kinfo_probe(struct platform_device *pdev)
+> > +{
+> > +	struct kernel_all_info *all_info;
+> > +	struct device *dev = &pdev->dev;
+> > +	struct reserved_mem *rmem;
+> > +	struct debug_kinfo *kinfo;
+> > +	struct kernel_info *info;
+> > +
+> > +	rmem = of_reserved_mem_lookup(dev->of_node);
+> > +	if (!rmem)
+> > +		return dev_err_probe(dev, -ENODEV, "no such reserved mem of node name %s\n",
+> > +			      dev->of_node->name);
+> > +
+> > +	/* Need to wait for reserved memory to be mapped */
+> > +	if (!rmem->priv)
+> > +		return -EPROBE_DEFER;
+> > +
+> > +	if (!rmem->base || !rmem->size)
+> > +		dev_err_probe(dev, -EINVAL, "unexpected reserved memory\n");
+> > +
+> > +	if (rmem->size < sizeof(struct kernel_all_info))
+> > +		dev_err_probe(dev, -EINVAL, "reserved memory size too small\n");
+> > +
+> > +	kinfo = devm_kzalloc(dev, sizeof(*kinfo), GFP_KERNEL);
+> > +	if (!kinfo)
+> > +		return -ENOMEM;
+> > +
+> > +	platform_set_drvdata(pdev, kinfo);
+> > +
+> > +	kinfo->dev = dev;
+> > +	kinfo->all_info_addr = rmem->priv;
+> > +	kinfo->all_info_size = rmem->size;
+> > +
+> > +	all_info = kinfo->all_info_addr;
+> > +
+> > +	memset(all_info, 0, sizeof(struct kernel_all_info));
+> > +	info = &all_info->info;
+> > +	info->enabled_all = IS_ENABLED(CONFIG_KALLSYMS_ALL);
+> > +	info->enabled_absolute_percpu = IS_ENABLED(CONFIG_KALLSYMS_ABSOLUTE_PERCPU);
+> > +	info->enabled_base_relative = IS_ENABLED(CONFIG_KALLSYMS_BASE_RELATIVE);
+> > +	info->enabled_cfi_clang = IS_ENABLED(CONFIG_CFI_CLANG);
+> > +	info->name_len = KSYM_NAME_LEN;
+> > +	info->bit_per_long = BITS_PER_LONG;
+> > +	info->module_name_len = MODULE_NAME_LEN;
+> > +	info->symbol_len = KSYM_SYMBOL_LEN;
+> > +	info->thread_size = THREAD_SIZE;
+> > +	info->enabled_modules_tree_lookup = IS_ENABLED(CONFIG_MODULES_TREE_LOOKUP);
+> > +	info->mod_mem_offset = offsetof(struct module, mem);
+> > +	info->mod_kallsyms_offset = offsetof(struct module, kallsyms);
+> > +
+> > +	kinfo->nb.notifier_call = kinfo_notifier_cb;
+> > +
+> > +	meminspect_notifier_register(&kinfo->nb);
+> > +	meminspect_lock_traverse(kinfo, register_kinfo_region);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static void debug_kinfo_remove(struct platform_device *pdev)
+> > +{
+> > +	struct debug_kinfo *kinfo = platform_get_drvdata(pdev);
+> > +
+> > +	meminspect_notifier_unregister(&kinfo->nb);
+> > +}
+> > +
+> > +static const struct of_device_id debug_kinfo_of_match[] = {
+> > +	{ .compatible	= "google,debug-kinfo" },
+> > +	{},
+> > +};
+> > +MODULE_DEVICE_TABLE(of, debug_kinfo_of_match);
+> > +
+> > +static struct platform_driver debug_kinfo_driver = {
+> > +	.probe = debug_kinfo_probe,
+> > +	.remove = debug_kinfo_remove,
+> > +	.driver = {
+> > +		.name = "debug-kinfo",
+> > +		.of_match_table = debug_kinfo_of_match,
+> > +	},
+> > +};
+> > +module_platform_driver(debug_kinfo_driver);
+> > +
+> > +MODULE_AUTHOR("Eugen Hristev <eugen.hristev@linaro.org>");
+> > +MODULE_AUTHOR("Jone Chou <jonechou@google.com>");
+> > +MODULE_DESCRIPTION("meminspect Kinfo Driver");
+> > +MODULE_LICENSE("GPL");
+> > --
+> > 2.53.0
+> >
 
-True, which is why we all end up with long lists of issues/patches at
-the moment.  The initial reaction is "we need a dashboard for everyone
-to collab around!" like you did here, but I'd like to say this is not
-the best thing to do at all.
-
-syzbot can get away with a dashboard because someone is tending to it,
-triaging the "serious" bugs before they become public, and only letting
-the "would be nice to fix one day" type issues remain.  That's a huge
-resource commitment that Google has made here, and that's great, but I
-doubt that anyone else will have those resources to do this type of
-thing.
-
-Instead, let's just work to get these things fixed.  We all have
-hundreds of patches/reports in our internal systems right now,
-attempting to triage/rank/coordinate would just waste time.  In other
-words, just grind through them, send patches out, and get these fixed.
-
-I'm doing this now, and I know many others are as well.  We are all
-running "different" tools, and so we find different issues, so we can
-all just keep sending patches as we get them done.  It's going to take a
-lot of effort (I've somehow convinced 8 interns to help me out with this
-this summer), but once we get it done, we'll be much better off.
-
-> The first thing we tried was to fix as many as we could ourselves. We
-> started working with a group of student volunteers. Most of them are
-> college students, so we have been training them, reviewing their patches,
-> and trying to build an internal review process before anything is sent to
-> the mailing list. The goal is to turn these findings into useful fixes, and
-> also to help new contributors grow into people who can reduce maintainer
-> workload instead of adding to it.
-> 
-> The process was not perfect. Some patches were not good enough, and we also
-> made some mistakes early on when deciding what should be called a security
-> issue.  Our internal review process has been improving with the help of the
-> community.
-
-That's great, keep it up!
-
-> But the remaining queue is still too large for us to handle.
-> 
-> Recently Jamal pointed out problems around our tags. That made me realize
-> that we should probably stop treating this as an ad-hoc patch effort and
-> build something closer to syzbot: public, reproducible, trackable,
-> deduplicated, and useful to maintainers.
-
-Again, I think that effort is going to be larger than just getting the
-patches fixed and pushed out.  It also turns into a central
-point-of-failure, which is what we do not want to have at all for the
-kernel.
-
-But hey, I could be totally wrong.  Maybe some generous company that is
-involved in unleashing this hell on us would be so kind as to pony up to
-do the work to create this and help fix the issues that their tools are
-finding.  Just like Google did in the past, there is precedent, but for
-some reason people don't like learning from history...
-
-It's going to be a long 18 months...
-
-greg k-h
+-- 
+-Mukesh Ojha
