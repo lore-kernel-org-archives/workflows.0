@@ -1,106 +1,81 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9D7E1925BC;
-	Sun, 12 Jul 2026 10:46:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7EB4149C6F;
+	Sun, 12 Jul 2026 11:56:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783853164; cv=none; b=XPYOIninxYBaY++d5w1QO7n0OZV1GUNhHiIclF3w+17nBab9QOUTENJLfzFYStk5vMTqh4nT1eWL7wUladE0Q1jGzh0fsG3ADz9i2//jUZNNMXOwC0tBac3jQ8F9sMBzGTtAVtInNtrSEhdVrr4U+35lNSvuNiBpjJk8+/4VjEg=
+	t=1783857416; cv=none; b=HvFzQF0Liwz+xu2/BS+jdFX2X8C0Avtqyb7BN3QNV0PqP2/MiUroLspt638z0y79b5tZDbskl+/ywpOx0UnbIudAdSLl+NtLyqVqvEhM3qKLq9gNNvnj3+dJeYKgv9sSNuaTl5u/UVRI2kS25Y3paJTjMNVFFu+lbJwCDE+5fuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783853164; c=relaxed/simple;
-	bh=HaWCVERoRq2AA5EvK5SjC4HIhI5tbIzi0oOykG/xBMw=;
-	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:MIME-Version; b=RKroXurxC2KvfUfM8TtO9SX0cZRhD6Ne34TRkDhGD5uetrRIyjec3wjrC2fJRYhSyrcJ8Ni5v2t2Inr+Uw3Jg6jWfEb9Z982kr906g16fyDSkcKG3SHw5qNk2kXmx0/gJF5cxTEjycNvX+vxsOmxQUGYmSetiJ8BxqaqHFij5zs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=OuWrgPEM; arc=none smtp.client-ip=80.241.56.171
+	s=arc-20240116; t=1783857416; c=relaxed/simple;
+	bh=5whW4ebTAMtdcD0xnANVI4vJXYikg9p3TwCT2n3c8SI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=s1NNR6mCIh948G8rp+/+s2f9sErURyLmDIqwwrDkNY17ZoStGucYz1fS+Nws2VoF2rdsa2N/JTmI9teu4ORpDNn4VaGzFKfW0BhUBcgVspuUHlyGG9XHldiXP3PO5wBwrWcxwIEwfZjNF2l0Jh1OWY5WK8nM+pBy2B01Euot0UU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=TivjPfZO; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=NfV4K+ZZ; arc=none smtp.client-ip=80.241.56.152
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="OuWrgPEM"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="TivjPfZO";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="NfV4K+ZZ"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
 	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4gyj0P45qQzMlGQ;
-	Sun, 12 Jul 2026 12:45:57 +0200 (CEST)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4gykZC4nBRzKv7G;
+	Sun, 12 Jul 2026 13:56:51 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1783853157;
+	t=1783857411;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=GcPKYfGjX+0DSaOR/OjGNIz04gXSzzPUKL3t2tQNdEg=;
-	b=OuWrgPEMWC0Z/ooU10kXLcW0cJGxdFqzqLjJEsAOBxjP2V0lbeGqQ9gbYv9ZY4nmv1yCb5
-	dv5OkDMjLElMCp9lzxyUGzYXBwljBYIXHP6Md1Yu1owzAMT+v7JET4ZlCHizI7+E+X7qPf
-	I2He0iWVtw1a/5CEdtORVPmRd/T1+YjZNA1ez2smKxNRUyL1uOMa24kuNxWBT1LF/6Gdoz
-	QxU+jKo+e6ZYcIuCiiO4pQKI6IxpFbr+o3I6GgNZ6FrooVNlx8xiwP3ej1Mtp+e/x1kY9N
-	ayqFUxMKkClRkmFM8ofEKluoZ4Hre+xqPylCcfWRiUMLYtwNlM+Ugl1Z8GXvVA==
-Message-ID: <98a558a87a07ab641f47c66c372ee7ed0735f4f5.camel@mailbox.org>
-Subject: [Issue] maintainer-handbooks: html: list has duplicates
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5whW4ebTAMtdcD0xnANVI4vJXYikg9p3TwCT2n3c8SI=;
+	b=TivjPfZO7VYqE74cd4+acWxWWREAKJwT4e1cQBU68vfFWmEEmOXIBPUWolDMMb5kfqbXy5
+	DbF3vp2UaZIQCTdM+lYO7Jwz8jacEIIYqRgmwX1tUbO6IMSwFe+xM+WxFXZOeGkMx8M0A4
+	zXHoTzg3vYujzVevz5C/k4ujWVtomst8GkaXEpr3nS2MoVY915JVU7AZyZmQbNn45pXSuH
+	h3JbHhkfQCcRyRyRt9IhZUReyy/QuB6UHhRFuqi7186F4PzF/J6sncxoLuxPRgEwrLY7oa
+	cYoyjWD+6X/pGw6VtEqN/+xv0vWop2MfioyYu+6s+H80zbxiFLn4X/83WQERTg==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=NfV4K+ZZ;
+	spf=pass (outgoing_mbo_mout: domain of manuelebner@mailbox.org designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=manuelebner@mailbox.org
 From: Manuel Ebner <manuelebner@mailbox.org>
-To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1783857410;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5whW4ebTAMtdcD0xnANVI4vJXYikg9p3TwCT2n3c8SI=;
+	b=NfV4K+ZZS6hASl1CANc1zZ/RJrbohDpRRZwfqEcZeIVbKCP81mB+1R+eUgvfUdiSwwysjr
+	Nyvosv471KKdFgek+2pYiEOJ/GvuvrRjwwcUg3qaQTlg+DscUaXpC95iaxtOLexOC2hvoQ
+	t5xY9XQqKQbWmdnV3AwuhYMPlBD93+ydZKgsGVDcJuXhXXS6wL6VKo5F0X1SznM/VL02re
+	ot9tc5PbIX5NaOCzQtvgojRCJ1U8IV7r5KPKQQPUyuesx/zsdG4434Mk3reHxTsvCdcU3G
+	BBUb2OZXdVAnOdOC0HC8UeRfhl8tT3Q0MpRToGPP8NXbwjcKv4c9A33Cm/cX3A==
+To: manuelebner@mailbox.org
+Cc: corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
 	workflows@vger.kernel.org
-Date: Sun, 12 Jul 2026 12:45:53 +0200
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [Issue] maintainer-handbooks: html: list has duplicates
+Date: Sun, 12 Jul 2026 13:56:41 +0200
+Message-ID: <20260712115642.481583-1-manuelebner@mailbox.org>
+In-Reply-To: <98a558a87a07ab641f47c66c372ee7ed0735f4f5.camel@mailbox.org>
+References: <98a558a87a07ab641f47c66c372ee7ed0735f4f5.camel@mailbox.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-ID: 0daaf726eff926e7231
-X-MBO-RS-META: g5jufyd1o8f1apdb7in4efwbxc5fcf9t
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: i535ua5r6fu3k343q5caotkoqzwhexz1
+X-MBO-RS-ID: 9911b0fcf20cfbe3313
+X-Rspamd-Queue-Id: 4gykZC4nBRzKv7G
 
-Hi,
+There are only two patches which can cause that:
 
-I was reading documentation when I stumbled across this. There's a lot of
-repetition in the list at: https://docs.kernel.org/process/maintainer-handb=
-ooks.html
+commit 8eae6da5f56c ("docs: auto-generate maintainer entry profile links")
+commit bda185c30593 ("docs: maintainers_include: Only show main entry for profiles")
 
-See below.
-
-Thanks
- Manuel
-
-> [...]
-> For maintainers, consider documenting additional requirements and expecta=
-tions if submissions
-> routinely overlook specific submission criteria. See Maintainer Entry Pro=
-file.
->=20
->     process/maintainer-soc
->     process/maintainer-soc-clean-dts
->     process/maintainer-soc-clean-dts
->     Audit Subsystem
->     process/maintainer-tip
->     process/maintainer-tip
->     mm/damon/maintainer-profile
->     process/maintainer-tip
->     doc-guide/maintainer-profile
->     process/maintainer-tip
->     process/maintainer-tip
->     process/maintainer-soc-clean-dts
->     process/maintainer-tip
->     process/maintainer-tip
->     process/maintainer-tip
->     filesystems/nfs/nfsd-maintainer-entry-profile
->     process/maintainer-kvm-x86
->     nvdimm/maintainer-entry-profile
->     nvdimm/maintainer-entry-profile
->     nvdimm/maintainer-entry-profile
->     process/maintainer-tip
->     driver-api/media/maintainer-entry-profile
->     process/maintainer-netdev
->     process/maintainer-netdev
->     process/maintainer-tip
->     process/maintainer-tip
->     process/maintainer-tip
->     process/maintainer-tip
->     arch/riscv/patch-acceptance
->     Rust
->     Rust [Pin-Init]
->     process/maintainer-tip
->     Security Subsystem
->     Selinux Security Module
->     driver-api/vfio-pci-device-specific-driver-acceptance
->     process/maintainer-tip
->     filesystems/xfs/xfs-maintainer-entry-profile
+Therefore adding Mauro to recipients.
