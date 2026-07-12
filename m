@@ -1,100 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA1D31ED83;
-	Sat, 11 Jul 2026 15:44:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9D7E1925BC;
+	Sun, 12 Jul 2026 10:46:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783784641; cv=none; b=jOzUzj/co6awXfddL5QCPA2iVaK1tPJxx03hPfTQjniDEr7L+2VVoOVptwMeb1GRFegfHAhvVb2ePNuJsb4jnNaldEt0O7ehu90s55nBhnMpx+qJP4Gd2oZdRZszWhcLFL7v9sTBU3Tc2nDaSYlHfHxxQbs3KaJiGvYufLuFWGY=
+	t=1783853164; cv=none; b=XPYOIninxYBaY++d5w1QO7n0OZV1GUNhHiIclF3w+17nBab9QOUTENJLfzFYStk5vMTqh4nT1eWL7wUladE0Q1jGzh0fsG3ADz9i2//jUZNNMXOwC0tBac3jQ8F9sMBzGTtAVtInNtrSEhdVrr4U+35lNSvuNiBpjJk8+/4VjEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783784641; c=relaxed/simple;
-	bh=mhFa22vO3qS0/hStH0WuAGzS0XraLdV3PN7ZfZVHf/Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KLhHf9fuoDse9xNYxIKvWOP1814OGiy3mJwpevelF8fkP3+S7YZKXWG2J63cuelCPikYXezm2h3M1SuTXLYbyCE5L1Sk0bVePmQBT1sTonkegD3wlX4gpqFgja+WbQzIP3cSI6ubjSnAPqgOEAzG4kRMIF+lXcj/VnU3aoBXdM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZIAqARcK; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783853164; c=relaxed/simple;
+	bh=HaWCVERoRq2AA5EvK5SjC4HIhI5tbIzi0oOykG/xBMw=;
+	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:MIME-Version; b=RKroXurxC2KvfUfM8TtO9SX0cZRhD6Ne34TRkDhGD5uetrRIyjec3wjrC2fJRYhSyrcJ8Ni5v2t2Inr+Uw3Jg6jWfEb9Z982kr906g16fyDSkcKG3SHw5qNk2kXmx0/gJF5cxTEjycNvX+vxsOmxQUGYmSetiJ8BxqaqHFij5zs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=OuWrgPEM; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZIAqARcK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7C6E1F000E9;
-	Sat, 11 Jul 2026 15:43:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783784639;
-	bh=+Hx51w8dFEncFI58huRfM4bO4YcYrbYiW5us+lxhCn0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZIAqARcKP8hujblE64oSTCkc0UZEMo26D7eVRtr0xDhcXILGxalvRvFmMtdghf/bI
-	 q7qQctgHJCL6WCDEnzfZDVOe0Aectw75OQfsY1G5tto5Q0WSLIy0Frl6snpWxroSwy
-	 Swdl/NBz6s0ZYnNMaB8U5aDNYLrOouKqs+25wP14l7jNzBb3xWc/37FYla9s3u4MAZ
-	 g7PRUdo+J80jx0RVD8zD8zo44CNIR3crgyrCUDjCQsEMxzt/PBhDbBoNShaK1xBH/9
-	 DWdmt+dD+oobnlbRjWzj0rOnAtXSOlOmDsBsDGjFIetPZEjlaem3yegxLO9pjx4qXk
-	 5e/HWkVwggiMg==
-Date: Sat, 11 Jul 2026 17:43:56 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Eugen Hristev <ehristev@kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, 
-	Christoph Lameter <cl@gentwo.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Anna-Maria Behnsen <anna-maria@linutronix.de>, Frederic Weisbecker <frederic@kernel.org>, 
-	John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
-	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Brendan Jackman <jackmanb@google.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Barry Song <baohua@kernel.org>, Youngjun Park <youngjun.park@lge.com>, 
-	Petr Mladek <pmladek@suse.com>, John Ogness <john.ogness@linutronix.de>, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Mathieu Poirier <mathieu.poirier@linaro.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-mm@kvack.org, linux-arm-msm@vger.kernel.org, 
-	linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 25/26] dt-bindings: reserved-memory: Add Google Kinfo
- Pixel reserved memory
-Message-ID: <20260711-tested-elite-dingo-93efc8@quoll>
-References: <20260708-meminspect-v3-v3-0-7aa5a0a74d5c@oss.qualcomm.com>
- <20260708-meminspect-v3-v3-25-7aa5a0a74d5c@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="OuWrgPEM"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4gyj0P45qQzMlGQ;
+	Sun, 12 Jul 2026 12:45:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1783853157;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=GcPKYfGjX+0DSaOR/OjGNIz04gXSzzPUKL3t2tQNdEg=;
+	b=OuWrgPEMWC0Z/ooU10kXLcW0cJGxdFqzqLjJEsAOBxjP2V0lbeGqQ9gbYv9ZY4nmv1yCb5
+	dv5OkDMjLElMCp9lzxyUGzYXBwljBYIXHP6Md1Yu1owzAMT+v7JET4ZlCHizI7+E+X7qPf
+	I2He0iWVtw1a/5CEdtORVPmRd/T1+YjZNA1ez2smKxNRUyL1uOMa24kuNxWBT1LF/6Gdoz
+	QxU+jKo+e6ZYcIuCiiO4pQKI6IxpFbr+o3I6GgNZ6FrooVNlx8xiwP3ej1Mtp+e/x1kY9N
+	ayqFUxMKkClRkmFM8ofEKluoZ4Hre+xqPylCcfWRiUMLYtwNlM+Ugl1Z8GXvVA==
+Message-ID: <98a558a87a07ab641f47c66c372ee7ed0735f4f5.camel@mailbox.org>
+Subject: [Issue] maintainer-handbooks: html: list has duplicates
+From: Manuel Ebner <manuelebner@mailbox.org>
+To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	workflows@vger.kernel.org
+Date: Sun, 12 Jul 2026 12:45:53 +0200
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260708-meminspect-v3-v3-25-7aa5a0a74d5c@oss.qualcomm.com>
+X-MBO-RS-ID: 0daaf726eff926e7231
+X-MBO-RS-META: g5jufyd1o8f1apdb7in4efwbxc5fcf9t
 
-On Wed, Jul 08, 2026 at 11:02:04AM +0530, Mukesh Ojha wrote:
-> +maintainers:
-> +  - Eugen Hristev <eugen.hristev@linaro.org>
-> +  - Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-> +
-> +description:
-> +  Reserved memory region for storing kernel debugging information that
-> +  can be read by firmware and bootloader on Google Pixel platforms.
-> +
-> +allOf:
-> +  - $ref: reserved-memory.yaml
-> +
-> +properties:
-> +  compatible:
-> +    const: google,debug-kinfo
+Hi,
 
-I guess: google,pixel-debug-kinfo
+I was reading documentation when I stumbled across this. There's a lot of
+repetition in the list at: https://docs.kernel.org/process/maintainer-handb=
+ooks.html
 
-Or maybe even specific SoC. Both title and description suggest this does
-not apply to other Google devices (makes sense), so compatible should be
-somehow more specific, unless debug-kinfo is already enough to identify
-possible users and there is no conflict with debug-kinfo in Chromebooks,
-for example?
+See below.
 
-Best regards,
-Krzysztof
+Thanks
+ Manuel
 
+> [...]
+> For maintainers, consider documenting additional requirements and expecta=
+tions if submissions
+> routinely overlook specific submission criteria. See Maintainer Entry Pro=
+file.
+>=20
+>     process/maintainer-soc
+>     process/maintainer-soc-clean-dts
+>     process/maintainer-soc-clean-dts
+>     Audit Subsystem
+>     process/maintainer-tip
+>     process/maintainer-tip
+>     mm/damon/maintainer-profile
+>     process/maintainer-tip
+>     doc-guide/maintainer-profile
+>     process/maintainer-tip
+>     process/maintainer-tip
+>     process/maintainer-soc-clean-dts
+>     process/maintainer-tip
+>     process/maintainer-tip
+>     process/maintainer-tip
+>     filesystems/nfs/nfsd-maintainer-entry-profile
+>     process/maintainer-kvm-x86
+>     nvdimm/maintainer-entry-profile
+>     nvdimm/maintainer-entry-profile
+>     nvdimm/maintainer-entry-profile
+>     process/maintainer-tip
+>     driver-api/media/maintainer-entry-profile
+>     process/maintainer-netdev
+>     process/maintainer-netdev
+>     process/maintainer-tip
+>     process/maintainer-tip
+>     process/maintainer-tip
+>     process/maintainer-tip
+>     arch/riscv/patch-acceptance
+>     Rust
+>     Rust [Pin-Init]
+>     process/maintainer-tip
+>     Security Subsystem
+>     Selinux Security Module
+>     driver-api/vfio-pci-device-specific-driver-acceptance
+>     process/maintainer-tip
+>     filesystems/xfs/xfs-maintainer-entry-profile
