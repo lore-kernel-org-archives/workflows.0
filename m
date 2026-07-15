@@ -1,135 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.ekdawn.com (mail.ekdawn.com [46.225.164.110])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3CAA3CCFB2;
-	Tue, 14 Jul 2026 12:18:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2859438474;
+	Wed, 15 Jul 2026 12:21:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.225.164.110
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784031486; cv=none; b=iO5YR5wukufWnaQpxm1+K9ZtUZjKeuwoYv5qyJxZgbduskdbayhNAOYAgJbwn4LuJllEMBK4yfXhiHPNltlgPHPf+ESEbG7k6xSlJbOpdqQL8FFvgaLWHGZceJ8wFcbC91hVdGjnmEVO6GjQA0N4xZ/FWRbWo+eSdGpP3i9bU+0=
+	t=1784118115; cv=none; b=EOXb09aS8OqznYiiJTCgtpr/MdFdAog7YuFadvNMs3Ebmj5OWefdEbBvkeNjZZPfUuUAPYxjaACpuYmU7+s1/Gzz+lkvGshiEbpdjJG9NsTH0exlOdejDZZcMW/+PW5yWulaSwyxid0GUsoX6uy+sLw4U0jgRPJperhozz8t8tA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784031486; c=relaxed/simple;
-	bh=DWbsCOq4gIgWWNhkiKHns/cZmQiiGdhtiM8bhetUWpE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W4mooP9sMegpPgY6/2wgfMQ8uf7tlKKDZuEwwYd7Pcv0ot5FAZSShzibJdurBzVvs+hclRLPr4ML65DKCzVrY2NBufBbHPmbFN55WAswY6pUPRpST6nVDBJASZhpSjR03OrutawsV+4W5P29IMbk3LJVaRDRLDeyYr0axvVE7SY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=k+U8mivN; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784118115; c=relaxed/simple;
+	bh=frnFpfxg0py7n3r68A6LBhJ7ml3UYK76x5RXqSZ8rUE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QSi8nLS8EYkNd1bRJ0WRORY7NNSTHv40e7iYgHqe8dhmbwVJ2h5zZuPWP3RD46Ozq5W1LqbyF0+enS9EDR7CvhnWBvjIwK/aIXX9h4cQbA+edX9NDsgmnULBzEtQHbW1f64vbjyAYwJDdO9c+AiBIxYH5BxWdTqm+4y0o+gDKcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=horse64.org; spf=pass smtp.mailfrom=horse64.org; dkim=pass (4096-bit key) header.d=horse64.org header.i=@horse64.org header.b=ozGPntWf; arc=none smtp.client-ip=46.225.164.110
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=horse64.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=horse64.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="k+U8mivN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D32F81F000E9;
-	Tue, 14 Jul 2026 12:18:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1784031484;
-	bh=uMxTAnWITw0diNJLzXMtM8AWFtJu9rIvHeYasldDwbE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=k+U8mivNU5XrRUhd97edQErsK5sMARl5XijdHgoT8dLQu+vkzXj+9hXZ5AIoBYsYJ
-	 eLoZo16jDZF1bni/d/wXZ0QYTkeOWVVAoXDIr6Wj0I0uvkfeuQ5FcdVJZ+fWfbml8M
-	 1OzEMwH/Zkr8dP4lpi0AnqzmfWWlu2XdtnGRx1lE=
-Date: Tue, 14 Jul 2026 14:17:58 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Spuntik <spuntik1205@gmail.com>
-Cc: linux-kernel@vger.kernel.org, workflows@vger.kernel.org
-Subject: Re: [PATCH] Add SECURITY.md to redirect GitHub users to official
- security channels
-Message-ID: <2026071415-washboard-seventeen-c7bf@gregkh>
-References: <CAA7kybvhDafxcsOv-JTeB5NfqBgiTivp671yMsnHeS8T8MOO6Q@mail.gmail.com>
+	dkim=pass (4096-bit key) header.d=horse64.org header.i=@horse64.org header.b="ozGPntWf"
+Received: by mail.ekdawn.com (Postfix) id 9C2721E017C;
+	Wed, 15 Jul 2026 12:11:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=horse64.org; s=dkim1;
+	t=1784117503; bh=frnFpfxg0py7n3r68A6LBhJ7ml3UYK76x5RXqSZ8rUE=;
+	h=Message-ID:Date:Subject:To:Cc:From:From:Sender:To:CC:Subject:
+	 Message-Id:Date;
+	b=ozGPntWfNc+prPlor9O4RxXZ/2AgbH4VHrBuOdXdW6qa5V3KNjDj3R9eNnxiUSRyP
+	 TRzrOau6cs3nKzHw+VjUvllL8hnwgJou6rBUo4QPzQq7FS3XEsrK9NvG3PxmGPDrFV
+	 VC4hNg6WnckA0hEtAJrtWUNSc9EGt5FRfEOe6GqVhaZjkBaBtKVMi7+FamSv3tTGTe
+	 2LNfSMGt2jzzVkHXi6cgvVGLqRHy3iFp9jUNB2tIsO00YMNDp5elED0rbTSMExPM93
+	 kRW9JO5edyxK6sVTstkZ9b4DVaRnppah170uxFQWTYa8bV+J6+/krJSKfQ4cJ8sZsX
+	 dK3ubexa8G7u6iFJV9zp/m53pqcLywLp8MgKMaQ1fHIxNkCiCFj0RD6V1RAThVA7A/
+	 JNV2iM5U6lH8NWvh2gdwdRlVLErF/veC9g8jaabLWa2GO+fFqz86pQCfWoSt5tRCvg
+	 viJFXWLG3NFtR6fdx13tTVVflWNygW0xGbHPn98upX3RlTKC3tdTNdHIIv6p53WzJ5
+	 Y97yJAsIi5xGZsfo4mM6e6Ce5VmZ2FDkXJzYen8pwix/i3YabqOlDQcV8BWZYSFwrM
+	 kP+qOYRcNRrLI3g4mCUICwGXoz2V49J/KO8Uv7l+3xUoWmuBRXnJpsm03wgWCSXTnX
+	 QIqft9MH8joxOz0OlgA0zMv0=
+Message-ID: <fd7dcb35-037c-4e0a-9dfb-5e3d444749d6@horse64.org>
+Date: Wed, 15 Jul 2026 14:11:40 +0200
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAA7kybvhDafxcsOv-JTeB5NfqBgiTivp671yMsnHeS8T8MOO6Q@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC] coding-assistants: simplify attribution - WIPO
+ recommendations also seem kind of worrying
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+ David Hildenbrand <david@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+ Vlastimil Babka <vbabka@kernel.org>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+ <53942438-a44d-4578-b1c6-d45c2af1767d@horse64.org>
+ <20260703115852.GC3659451@killaraus.ideasonboard.com>
+Content-Language: en-US
+From: Ellie <el@horse64.org>
+In-Reply-To: <20260703115852.GC3659451@killaraus.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 14, 2026 at 12:46:41PM +0200, Spuntik wrote:
-> >From 9b140a7e28c8480ab51bc5441c4d40fa5e5a4e90 Mon Sep 17 00:00:00 2001
-> From: spuntik1205 <spuntik1205@gmail.com>
-> Date: Tue, 14 Jul 2026 12:22:32 +0200
-> Subject: [PATCH] Add SECURITY.md to redirect GitHub users to official
-> security channels
-> 
-> GitHub natively supports a `SECURITY.md` file in the root of the
-> repository. When this file is present, GitHub automatically
-> creates a "Security" tab for the repo and displays a prominent link to
-> this policy whenever a user attempts to open a new issue.
-> 
-> Since the Linux kernel mirror on GitHub receives a lot of traffic from
-> users who may not be familiar with the kernel's
-> mailing-list workflow, they might incorrectly attempt to report
-> security vulnerabilities through public GitHub channels.
-> 
-> This PR adds a standard `SECURITY.md` file that:
-> 1. Explicitly asks users not to report vulnerabilities on GitHub.
+On 7/3/26 1:58 PM, Laurent Pinchart wrote:
+> Your messages got completely ignored for a month and a half. Most
+> developers (including myself) don't read LKML due to the high traffic,
+> but I'm still surprised by the complete lack of reply. Maybe CC'ing the
+> workflows@vger.kernel.org mailing list would have helped ?
 
-Do people actually do this?  If so, that should be disabled as no one
-looks at it.
+Given the ongoing discussion I'm kind of wondering if it has been 
+noticed by now, I apologize if it has and I just missed it.
 
-> 2. Directs them to the official `security@kernel.org` mailing list.
+Sadly, my concerning finds keep piling up, e.g. here's the WIPO, World 
+Intellectual Property Organization, on what they recommend for AI:
 
-No, you need to read the security documentation which tells you how to
-do this.
+https://www.wipo.int/publications/en/details.jsp?id=4713
 
-> 3. Links directly to the official `security-bugs.rst` documentation on
-> kernel.org for proper reporting procedures.
+Quote: "Consider using generative AI tools that have trained solely on 
+licensed, public domain, or a user's own training data. [...] Thoroughly 
+vet datasets when training or fine-tuning generative AI. Verify IP 
+ownership, license coverage for AI training, [...]"
 
-That's better, but really, step 2 is not correct.
+I'm not a lawyer, so I could be wrong and this isn't legal advice:
 
-> While I understand the kernel does not use GitHub for development,
-> adding this file will help intercept confused GitHub users
-> and redirect them to the proper kernel security workflows.
-> ---
+But it seems to me like neither do the Linux Foundations guidelines seem 
+to be aware of this or adhere to this, nor does there seem to be a 
+single coding LLM available anywhere that fulfills these.
 
-No signed-off-by or real authorship information?
+(Since wouldn't that require training data that is both GPL-relicensing 
+compatible and also doesn't require attribution? The latter I've never 
+seen with any coding LLM out there.)
 
-And no, we don't add files for github only, sorry.
+I wonder if the Linux Foundation would find it interesting what the WIPO 
+says here, given how important the kernel is?
 
->  SECURITY.md | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
->  create mode 100644 SECURITY.md
-> 
-> diff --git a/SECURITY.md b/SECURITY.md
-> new file mode 100644
-> index 000000000000..80b0b46279f6
-> --- /dev/null
-> +++ b/SECURITY.md
-> @@ -0,0 +1,19 @@
-> +# Security Policy
-> +
-> +## Supported Versions
-> +
-> +The Linux kernel maintains several active branches. The mainline
-> kernel, stable kernels, and longterm maintenance (LTS) kernels are
-> currently supported with security updates.
-> +
-> +Please refer to the [active kernel
-> releases](https://www.kernel.org/category/releases.html) on kernel.org
-> to see which versions are currently receiving security updates.
-> +
-> +## Reporting a Vulnerability
-> +
-> +**Please do not report security vulnerabilities through public GitHub issues.**
-> +
-> +If you believe you have found a security vulnerability in the Linux
-> kernel, please report it to the Linux kernel security team.
-> +
-> +1. **Email the Security Team:** Send an email to `security@kernel.org`.
-> +2. **Read the Documentation:** For detailed instructions on what to
-> include in your report, acceptable disclosure timelines, and how the
-> kernel team handles security bugs, please read the official [Security
-> Bugs Documentation](https://www.kernel.org/doc/html/latest/admin-guide/security-bugs.html).
-> +3. **Hardware Vulnerabilities:** If you are reporting a hardware
-> vulnerability that affects the kernel, please refer to the specific
-> guidelines for [Hardware
-> vulnerabilities](https://www.kernel.org/doc/html/latest/process/embargoed-hardware-issues.html)
-> and contact the hardware security team at
-> `hardware-security@kernel.org` if appropriate.
-> +
-> +The security team will review your report and work with you and the
-> relevant subsystem maintainers to develop and release a fix. You can
-> typically expect an initial response within a few days.
+The angle of it just being a tool doesn't fully seem aware of such 
+concerns. At least when actual LLM code is added into the kernel.
 
-Really?  We don't provide any QoS guarantees :)
+(And at the same time, it's probably possible to make such a vetted LLM 
+if anybody wanted to. But that might require policies that enforce it.)
 
-thanks,
+Regards,
 
-greg k-h
+Ellie
