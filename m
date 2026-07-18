@@ -1,119 +1,107 @@
-Received: from mailer241.gate86.rs.smtp.com (mailer241.gate86.rs.smtp.com [74.91.86.241])
+Received: from tbjjbihbhdcb.turbo-smtp.net (tbjjbihbhdcb.turbo-smtp.net [199.187.173.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D55A41F37C
-	for <workflows@vger.kernel.org>; Thu, 16 Jul 2026 13:04:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.91.86.241
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8D2B3CE4B2
+	for <workflows@vger.kernel.org>; Sat, 18 Jul 2026 14:40:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.187.173.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784207070; cv=none; b=ZmPntxFVufXLBseEsk8Os4fmLjVx5E4Mz4WdrEu37AG/pwZQNWN84HFdnfpqPtlKT8bdprAiuiQjJGa83W/NN394xSsEM0rEhbvT4LCgK0lWwZlPNJHhAdwYGDgcd/RdGoK3M5wDjEdhMx9vyJZ+GAmVqet4QhskDtzXZpSIfkg=
+	t=1784385631; cv=none; b=aE/yRfTMN0RvYrqmjkUKvwMWmq7wHok0C42nxULHSZgEpdr1b5bBroPjEmn+QQkqd3iji4MvtXKI/j61WSSfx9e3Q50ndvOhvk5NRtZ2k44m2xH6c2LCFPtrml5DzNNB1VHn3OB+zT0qom/c5PBCa4Pl0xZ2PqDM3infbPjZ944=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784207070; c=relaxed/simple;
-	bh=Rn89dfL6FWPUehEVjmWIx5moDiRsrqTA+wfW2mcNVN0=;
-	h=From:Subject:To:Content-Type:Date:Message-Id; b=OdJR7covzjoBoyAjfqftwV5SwatfaNfnS0yiqmLoknmDT51ArbksQIoKQ66P4K0k+AMZIyRs8SsbUOS1/i4+YLb9E7VkA7eJVbfytgN+ZYbMlxG7MXdA6g+KUQm+pa+g7AwMrDIxkjqBrtCjKSCr/vdGrXg2g/zP5QvAVGbKD3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=computergamingpc.com; spf=pass smtp.mailfrom=computergamingpc.com; dkim=pass (2048-bit key) header.d=computergamingpc.com header.i=@computergamingpc.com header.b=fVkci1n7; dkim=pass (2048-bit key) header.d=smtpmessage.com header.i=@smtpmessage.com header.b=jF6zqHDX; arc=none smtp.client-ip=74.91.86.241
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=computergamingpc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=computergamingpc.com
+	s=arc-20240116; t=1784385631; c=relaxed/simple;
+	bh=TqP0TFJQUlLEnc53mcEJzxksDYYarkOPW6cMJpOwh2Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FOTcq70H3tNR0NeHN+Caxk8RrX+8dr7G8J8x2nIb3C+uhJPRNIGdaAqHEjOQ+xXz+0jLN94TUCcVtp701E+0Z0ruIrg4KHUYcy0OAYbDtvWhXHTj5xkOyHFPU3ZhanF8OsWIVdB3b1zameBo1kAm/8WUG3KYnsK1UoxSxK0L600=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahyatoubali.me; spf=pass smtp.mailfrom=yahyatoubali.me; dkim=pass (1024-bit key) header.d=yahyatoubali.me header.i=@yahyatoubali.me header.b=uEec2Mxj; arc=none smtp.client-ip=199.187.173.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahyatoubali.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahyatoubali.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=computergamingpc.com header.i=@computergamingpc.com header.b="fVkci1n7";
-	dkim=pass (2048-bit key) header.d=smtpmessage.com header.i=@smtpmessage.com header.b="jF6zqHDX"
-X-Report-Abuse: SMTP.com is an email service provider. Our abuse team cares
- about your feedback. Please contact abuse@smtp.com for further investigation.
-Received: from [10.0.16.30] (unknown [10.138.12.210])
-	by mtl-mta02-out1 (Halon) with ESMTP
-	id b479d81c-4a02-413f-bfbd-ef9612d78a2c;
-	Thu, 16 Jul 2026 13:04:27 +0000 (UTC)
-Received: Received from 10.138.12.169 by Caffeine
- (s0-aws-app2-swarm-manager-5) with SMTP id
- 67c6ca4f-dbe6-4d0e-920e-3887a77c5838  for workflows@vger.kernel.org;
-  Thu, 16 Jul 2026 13:04:06 +0000 (UTC)
-Feedback-ID: 9194450:SMTPCOM
-Received: from ObaTech (unknown [191.177.193.228])
-	by s0-aws-app2-mta-in-2 (Halon) with ESMTPSA
-	id 67c6ca4f-dbe6-4d0e-920e-3887a77c5838;
-	Thu, 16 Jul 2026 13:04:05 +0000 (UTC)
-From: "Computer Gaming pc" <sales@computergamingpc.com>
-Subject: Current Inventory Update: GPUs & Enterprise SSDs Available
-To: <workflows@vger.kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Reply-To: <sales@computergamingpc.com>
-Date: Thu, 16 Jul 2026 14:04:06 +0100
-Priority: urgent
-X-Priority: 1
-Importance: high
-Message-Id: <16052026070414917047A089$7C3C9C43C1@computergamingpc.com>
-X-SMTPCOM-Sender-ID: 9194450
-X-SMTPCOM-Tracking-Number: 67c6ca4f-dbe6-4d0e-920e-3887a77c5838
-X-SMTPCOM-Message-ID: 1e771023-33c2-40cc-834b-e0cf0f36f1d6
-X-SMTPCOM-Payload: 
- URD1vV4NPHYH9q0oT5NR-R07wKHvfshnzpnONfnejqMwLMlwyowN2tct-L1CZaUri3Hcj49eUE1PdynvQtxrW9NVeCRi5jIFrZOmlMXk-dkcGLWCOpxrLGFVuVmWOPXBGua5vq2LLHHqPMmJgZZdEqzjCsGejmIz780kPTraxxLrlbIV2C1X1vicW104rvmD
-List-Unsubscribe-Post: List-Unsubscribe=One-Click
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=computergamingpc.com; i=@computergamingpc.com; q=dns/txt; s=smtpkey;
- t=1784207052; h=feedback-id : from : subject : to : content-type :
- content-transfer-encoding : reply-to : date : message-id :
- list-unsubscribe : list-unsubscribe-post : from : subject : to : date;
- bh=Rn89dfL6FWPUehEVjmWIx5moDiRsrqTA+wfW2mcNVN0=;
- b=fVkci1n7gx32IUzG4M007om9iBiQAjGmhabdSe9q7Qhr6b5a7Wts9UzW9yWB7TWIxbcHH
- qnl9xcEozteb3KNac6bR5ShHomO3hB7O0ZDnrQLzV+eymP61C1AxPhhPnIxbSgu11pwxWh2
- 82QFfJdQiauIr5lyuKHN+cyk/e9gwsafuEGigaySr3z8sT2s2GoGf9Z8yxpyu5riIjytmmD
- aO68oa8zcpgVcGzUp8MWgXajpq3Awaq/xvCAdhuoGowZQt+9BfMZxL5Ip+liYs8EHy7+fm3
- Y10SgzAhSM7TblcDe9PILZqxKC3n7h1/h6TSE/e0ZRXkreP99Pwsdpn2Zzkg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=smtpmessage.com;
- i=@smtpmessage.com; q=dns/txt; s=smtpcustomer; t=1784207052;
- h=feedback-id : from : subject : to : content-type :
- content-transfer-encoding : reply-to : date : message-id :
- list-unsubscribe : list-unsubscribe-post : from : subject : to : date;
- bh=Rn89dfL6FWPUehEVjmWIx5moDiRsrqTA+wfW2mcNVN0=;
- b=jF6zqHDXncUrEYYaBEi8cuKh/m98m2Bz47e5VyFAEev3ozL+e/5eDSZw3saImvuv9Qjyf
- N1+2DC+ekmrWTlWPrbzuzDWuOpwrhK5vZ0K+AkKu0baaZagQmakqeb5Y2rZMCZZCKqV7ddE
- yWKOo52vTHvkO/2jZwqoZ2Ceqt8fk/rzezzU4tCE0Q9NjLCg/9pssXkO18NtaRt3qRrZbIB
- Y2DtWSySYkgstKve6lauoG3kXJQI+DD6PuS4qS9YYdqt0Z/LswqdUM7wS2CFrvlS2hQv5k1
- Q55wZpZxjrkCFfUZQvOlgqqRZ2bexAIj0EBriaG3n70WP8AiyAzCI5s3a/AA==
+	dkim=pass (1024-bit key) header.d=yahyatoubali.me header.i=@yahyatoubali.me header.b="uEec2Mxj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=yahyatoubali.me; s=turbo-smtp; x=1784990426; h=Received:
+	Received:From:To:Cc:Subject:Date:Message-ID:MIME-Version:
+	Content-Transfer-Encoding:Feedback-Id; bh=y5RolVEjohR8iEYsN2yIrD
+	zUxPhtuWkOz+4WmCgUedM=; b=uEec2Mxjo/MwVgA9v3iaVyF3WKnCOYLkZdKABn
+	kzYfpBGiu/G/62YwvBJ0katoizr9rFHZYjtLOCZXK+GrpLPPyWo309ph7D3OCJZ6
+	N0ecdO3ImYIJk8Hog9jqM4HA84DVA+B+qJIYEkk25mxcQTccz/n/51vyISw474kt
+	ePqqE=
+Received: (qmail 1927146 invoked from network); 18 Jul 2026 14:40:24 -0000
+Received: from 105.76.9.106  by turbo-smtp.com with SMTP; 18 Jul 2026 14:40:23 -0000
+X-TurboSMTP-Tracking: 64-018cfb16-00001e639f575f42e006-006-4288be2f
+From: Yahya Toubali <yahya@yahyatoubali.me>
+To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-doc@vger.kernel.org (open list:DOCUMENTATION), linux-kernel@vger.kernel.org (open list), workflows@vger.kernel.org (open list:DOCUMENTATION PROCESS), linux-sound@vger.kernel.org (open list:SOUND)
+Cc: Yahya Toubali <yahya@yahyatoubali.me>
+Subject: [PATCH 5/5] Documentation: add SPDX license identifiers to RST files
+Date: Sat, 18 Jul 2026 15:40:04 +0100
+Message-ID: <20260718144005.1880568-1-yahya@yahyatoubali.me>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Feedback-Id: 26016534
 
-Hi
-Quick update — these units are in stock and can ship today:
+Add SPDX-License-Identifier: GPL-2.0 to documentation files that were missing it.
+---
+ Documentation/core-api/memory-allocation.rst | 1 +
+ Documentation/doc-guide/sphinx.rst           | 1 +
+ Documentation/process/5.Posting.rst          | 1 +
+ Documentation/process/howto.rst              | 1 +
+ Documentation/sound/designs/index.rst        | 2 ++
+ 5 files changed, 6 insertions(+)
 
-Memory Modules
-* 128GB 4DRx4 DDR4 PC4-2933Y REG ECC LRDIMM (Qty: 980) – $140.00
-* 32GB Dual Rank x4 DDR4-2933 CAS-21 (Qty: 1,500) – $140.00
-* 64GB Dual Rank x4 DDR4-2933 CAS-21 (Qty: 1,200) – $450.00
-* 32GB Dual Rank x4 DDR4-3200 CAS-22 (Qty: 1,500) – $150.00
-* 64GB Dual Rank x4 DDR4-3200 CAS-22 (Qty: 1,100) – $450.00
-* 32GB 2Rx4 PC4-2400T (Qty: 1,500) – $45.00
-* 32GB 2Rx4 PC4-3200AA (Qty: 1,500) – $45.00
-* 16GB 2Rx8 PC4-3200AA (Qty: 1,500) – $20.00
+diff --git a/Documentation/core-api/memory-allocation.rst b/Documentation/core-api/memory-allocation.rst
+index 0f19dd524323..370f5a0c4238 100644
+--- a/Documentation/core-api/memory-allocation.rst
++++ b/Documentation/core-api/memory-allocation.rst
+@@ -1,4 +1,5 @@
+ .. _memory_allocation:
++.. SPDX-License-Identifier: GPL-2.0
+ 
+ =======================
+ Memory Allocation Guide
+diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
+index 51c370260f3b..74a3425e81c9 100644
+--- a/Documentation/doc-guide/sphinx.rst
++++ b/Documentation/doc-guide/sphinx.rst
+@@ -1,4 +1,5 @@
+ .. _sphinxdoc:
++.. SPDX-License-Identifier: GPL-2.0
+ 
+ =====================================
+ Using Sphinx for kernel documentation
+diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
+index 07d7dbed13ec..510abeea8977 100644
+--- a/Documentation/process/5.Posting.rst
++++ b/Documentation/process/5.Posting.rst
+@@ -1,4 +1,5 @@
+ .. _development_posting:
++.. SPDX-License-Identifier: GPL-2.0
+ 
+ Posting patches
+ ===============
+diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
+index 9438e03d6f50..9001024e44cf 100644
+--- a/Documentation/process/howto.rst
++++ b/Documentation/process/howto.rst
+@@ -1,4 +1,5 @@
+ .. _process_howto:
++.. SPDX-License-Identifier: GPL-2.0
+ 
+ HOWTO do Linux kernel development
+ =================================
+diff --git a/Documentation/sound/designs/index.rst b/Documentation/sound/designs/index.rst
+index 6b825c5617fc..4ba4038187b5 100644
+--- a/Documentation/sound/designs/index.rst
++++ b/Documentation/sound/designs/index.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ Designs and Implementations
+ ===========================
+ 
+-- 
+2.55.0
 
-Solid State Drives
-- SSD SATA 6G 3.84TB SFF (Qty: 450) – $120.00
-- SSD SAS 12G 960GB SFF (Qty: 470) – $300.00
-- SSD SAS 12G 1.92TB SFF (Qty: 560) – $350.00
-- SSD SAS 12G 3.84TB SFF (Qty: 560) – $150.00
-- SSD SATA 6G 1.92TB SFF (Qty: 450) – $100.00
-- Samsung 990 PRO 1TB NVME SSD QTY:410 - $150
 
-- HP (HPE) P43331-B21 64GB DDR5-4800 RDIMM QTY: 390 - $750
-- DDR5 64GB 4800Mhz ECC RDimm 2Rx4 P43331-B21 (Qty: 500) – $750.00
-- DDR5 64GB 5600Mhz ECC RDimm 2Rx4 P64707-B21 (Qty: 500) – $750.00
-- DDR4 64GB 3200Mhz ECC RDimm 2Rx4 SK Hynix (Qty: 500) – $450.00
-- DDR5 64GB 4800Mhz ECC RDimm 2Rx4 Samsung (Qty: 500) – $450.00
-- DDR5 64GB 5600Mhz ECC RDimm 2Rx4 SK Hynix (Qty: 500) – $550.00
-- Intel Xeon Silver 4214R - QTY: 420 $350.00
-- Intel Xeon Gold 5220R - QTY: 410 - $450.00
-- Intel Xeon Platinum 8380: $450.00 QTY: 410
-- AMD EPYC 7542 - QTY: 490-- $380.00
-
-For quotes, availability, or inspection scheduling, please reach out 
-directly:
-sales@computergamingpc.com Call or WhatsApp: +1(774) 559-1248 | +1 (641)232-
-4364
-Thank you for your continued partnership.
-Ann Kamila
-Computer Gaming PC Trading
-2500 US-6, Iowa City, IA 52240, USA.
-To opt out of future updates, reply with “REMOVE” in the subject line.
