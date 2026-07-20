@@ -1,150 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AA9A3B6354
-	for <workflows@vger.kernel.org>; Mon, 20 Jul 2026 20:12:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 550A930498E;
+	Mon, 20 Jul 2026 20:20:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784578357; cv=none; b=JLpXogDmwSx18bdXuQejXLGq5voGwj0aQRdYKi++jRgl/HfInjBlvuBb/Y3d+afeWun7+MFUYCgeTn/L/ATKVeoTvrEIhZy6kJKRwbQObMy8NNP43PqCoWckHaXSX2i8arMRsJqHHDppEX3XkGy0CXzT7nmkgvp+Ky2rYdbpnyA=
+	t=1784578810; cv=none; b=affHulNxVcR3vN0sSgkhhaYeMGUE/i19iTj28iIRdbUyWw0cP6VJegOCEd2P0cfP7/Ld8eY3tcs+QoVCxanRq6LykFgrZQVxEvlr1Kj0MnHiMrSXw8+om8IsGuDyYtwa565KfX/Db5nl1YNg0/UwlUMgWAANHhYfkVQGsPvutJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784578357; c=relaxed/simple;
-	bh=oT+qyKGguvYTXbU2o3MxwZ9h8G7lSXD9PAN6Vz3yPhw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pZNWtDmjYXsPLr4n4vagtO46Q13uG+xsvuow/Mb6WCni1NKSx4TykztKkm25fsZL97CTD836dZGzizNXaN+x7CKBiCIJgA3S3BGCDu6Zy+lZDVyD+TgycaVUEMcyeIIvf9DUFr7eHIh6uGv/x8NOG111ibFkjyYFf5LIHvkzAF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eKA9WwNl; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784578810; c=relaxed/simple;
+	bh=0oK9WSP8VpzhyvNFOcrN2KLbIUxcWYpxvyvgAjRAfLE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=sFcOG14N9VTTaMQ5Ln8ycNaiu1/8uzACB4jeT41kIZqp5j0u2Z8Ez9XUl1UF2xWgEIVKMG36NCO3DU3DkvHA0C2CMi6vfumtA23jkftXunkRQzJCyAWR8nV8C35iT+24FrEBLVtBMyLfoCZ/rCnQcNYdIQxLqgsMHXtfy1HK8Fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=P6x7YaAy; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eKA9WwNl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA39F1F000E9
-	for <workflows@vger.kernel.org>; Mon, 20 Jul 2026 20:12:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784578349;
-	bh=W/4OZVYAEidoIzb/vZk4OlyR1a69x3STJrX0+eOpz+g=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=eKA9WwNlW4m+Gv2UcDWr/TMbyTurF4f48Abv8y7PIAeYTerUJuY1xMYPCUhu1jB5l
-	 xoqgCXN0yIQs28Y12ex5C36eQrDig6gmfeog2lnsE6jJ6uW5LNu3eQbi49dcvsCqcv
-	 JWR5zYxxTxvXp3yq+FaiBZ1m2dCKQjLoQjxrD8EapCc9wNExrKK3pwt34e74cmcaIs
-	 tf1SXNznixfX+DR8LK0a5CISwBc/keVRaG9iPiwlja1nfQiwVZG2MbN7xDAAFNzIEM
-	 eQ1nq5R/6rHIkPCL2S6OgudRRkwTvgTpE3DVIc0aw7s6yZ+Hf2nWF25I5ZHFzsV0LM
-	 5aCzZJZfx7eZQ==
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c165a41a52bso916951266b.3
-        for <workflows@vger.kernel.org>; Mon, 20 Jul 2026 13:12:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RryIvnKCoYKkfzhHMsUqkh9rCI0PE889HkwxDJSDKsmPXoe648QFX+RC0Vyr6Q4OliAjBUAlcpkd+M=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9gNs6wVDKdyOWq6acuJkdUalAMJziyI++jVe4E8TjxURZVslk
-	LQ6kZBBpMZrX+rpUkiltalYATaOdKqEHwSk6qTxCTULigKUtxMknlGOC2r60RU/3UxV/Yzo0mJW
-	WKQjwfS7kKnBgdZM3Q6CvfaISPsCB6A==
-X-Received: by 2002:a17:907:9623:b0:c15:f65a:43a8 with SMTP id
- a640c23a62f3a-c16b4571a28mr675113466b.12.1784578348579; Mon, 20 Jul 2026
- 13:12:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="P6x7YaAy"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 82ED7408B2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1784578808; bh=c2p6uzDyt6XL+dkZim20UJrR1zm9YfSlJJ9fh0IeMFw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=P6x7YaAykVx7V9jtTueuqzAaJXuK6tDQen+C6ZuxaNIaXlwO8fYSHoFAMgzoA2EUW
+	 uhbSp9bYryv97Yx1dg6Ik1TBI+o1s+wIBKCi51TAEjDsFpL3fIKPXkxVtRavaJ9ryG
+	 X8QAn77ubu9fJH06poK9rIUtPN1W7lNBLvMYSip8+Gahh4K4YuywL8nU5CkiSp1NZ4
+	 ceBYGS0RcJQDPRYJLUyn+HB1oO9pt5oeLHer3zBqlXE/9VBVevJePRskOgb0ebX0rm
+	 4RTsSojjsGUSE0RVgEp5bWwAohEggJwcZ3YjChk4ZFVtXCGcOvN8+qt2yl6AONx3ps
+	 lsraepklBDkUg==
+Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 82ED7408B2;
+	Mon, 20 Jul 2026 20:20:08 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>,
+ devicetree@vger.kernel.org, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Saravana Kannan <saravanak@kernel.org>
+Subject: Re: [PATCH v3] docs: dt: maintainer: Add Devicetree and OF
+ maintainer profile document
+In-Reply-To: <3e797ffc-8cf6-437c-81f2-9f82d946d042@oss.qualcomm.com>
+References: <20260720184040.9870-2-krzysztof.kozlowski@oss.qualcomm.com>
+ <87y0f531uz.fsf@trenco.lwn.net>
+ <3e797ffc-8cf6-437c-81f2-9f82d946d042@oss.qualcomm.com>
+Date: Mon, 20 Jul 2026 14:20:07 -0600
+Message-ID: <874iht2z2g.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260720184040.9870-2-krzysztof.kozlowski@oss.qualcomm.com>
-In-Reply-To: <20260720184040.9870-2-krzysztof.kozlowski@oss.qualcomm.com>
-From: Rob Herring <robh@kernel.org>
-Date: Mon, 20 Jul 2026 15:12:17 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKkxVTVE=o-uar=JEVvqw9NhBAQcBrJ0ukf+RBXCwFZJA@mail.gmail.com>
-X-Gm-Features: AUfX_mwgZbPYorhmNWUblQ-rJjYQoMokZ0OMEFyO8O_QkQHXpRAwW7QY0ciSWZE
-Message-ID: <CAL_JsqKkxVTVE=o-uar=JEVvqw9NhBAQcBrJ0ukf+RBXCwFZJA@mail.gmail.com>
-Subject: Re: [PATCH v3] docs: dt: maintainer: Add Devicetree and OF maintainer
- profile document
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, devicetree@vger.kernel.org, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Saravana Kannan <saravanak@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Mon, Jul 20, 2026 at 1:40=E2=80=AFPM Krzysztof Kozlowski
-<krzysztof.kozlowski@oss.qualcomm.com> wrote:
->
-> Document how Devicetree and Open Firmware maintainers handle their
-> subsystem, especially focusing on two caveats:
->
-> Devicetree subsystem handles patches with a minor difference comparing
-> to other subsystems: while DT maintainers pick up OF code, they only
-> provide review of DT bindings without applying these.
->
-> All three DT bindings maintainers rely currently on Patchwork and due to
-> enormous amount of emails per day, regardless how much DT maintainers
-> try, they cannot read all the emails.
->
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Saravana Kannan <saravanak@kernel.org>
-> Cc: devicetree@vger.kernel.org
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
->
-> ---
->
-> I expect patch to be picked up by Rob, after review.
->
-> Changes in v3:
-> 1. Add also F: entry
->
-> Changes in v2:
-> 1. Correct typos and trailing white spaces.
-> 2. Fix order of P: after C: in maintainers.
-> ---
->  .../process/maintainer-devicetree.rst         | 70 +++++++++++++++++++
->  MAINTAINERS                                   |  3 +
->  2 files changed, 73 insertions(+)
->  create mode 100644 Documentation/process/maintainer-devicetree.rst
->
-> diff --git a/Documentation/process/maintainer-devicetree.rst b/Documentat=
-ion/process/maintainer-devicetree.rst
-> new file mode 100644
-> index 000000000000..d8ffe752bf5d
-> --- /dev/null
-> +++ b/Documentation/process/maintainer-devicetree.rst
-> @@ -0,0 +1,70 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +Devicetree and Open Firmware Subsystem
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Other Process Documents
-> +-----------------------
-> +
-> +Please see the documents in Documentation/devicetree/bindings/ for infor=
-mation
-> +on how to write proper Devicetree bindings and how to submit patches.
-> +
-> +Patch Review and Handling
-> +-------------------------
-> +
-> +Patches handled by Devicetree maintainers are processed differently depe=
-nding
-> +on the patch type:
-> +
-> +1. Core OF driver code, e.g. drivers/of/:
-> +   patches are reviewed and applied by DT maintainers.
-> +
-> +2. Devicetree bindings:
-> +   patches are reviewed by DT maintainers but, except in certain cases, =
-should
-> +   be applied by subsystem maintainers.  See also *For kernel maintainer=
-s* in
-> +   Documentation/devicetree/bindings/submitting-patches.rst.
+Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com> writes:
 
-I would reword:
+> On 20/07/2026 21:19, Jonathan Corbet wrote:
+>>> I expect patch to be picked up by Rob, after review.
+>>>
+>>> Changes in v3:
+>>> 1. Add also F: entry
+>>>
+>>> Changes in v2:
+>>> 1. Correct typos and trailing white spaces.
+>>> 2. Fix order of P: after C: in maintainers.
+>>> ---
+>>>  .../process/maintainer-devicetree.rst         | 70 +++++++++++++++++++
+>>>  MAINTAINERS                                   |  3 +
+>>>  2 files changed, 73 insertions(+)
+>>>  create mode 100644 Documentation/process/maintainer-devicetree.rst
+>> 
+>> You'll need to add this new file to index.rst as well.
+>
+> Hm, where? In docs/process/index.rst? None of the other maintainer
+> profiles are mentioned there.
 
-patches are reviewed by DT maintainers, but should be applied by
-subsystem maintainers except in certain cases.
+Sigh...I stand corrected.  I'd forgotten that we merged the
+maintainers-profile-toc Sphinx magic that picks them all up from the
+MAINTAINERS file entries.
 
-> +
-> +3. DTS and drivers:
-> +   DT maintainers might provide comments, but review is generally not ex=
-pected.
+Sorry for the noise,
 
-For DTS, we expect to pass schema checks or at least not add new warnings.
-
-I can address these 2 when applying.
-
-Rob
+jon
