@@ -1,138 +1,114 @@
-Received: from flow-a2-smtp.messagingengine.com (flow-a2-smtp.messagingengine.com [103.168.172.137])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBBB61ADFE4;
-	Sun, 19 Jul 2026 05:26:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E15163CBE66;
+	Mon, 20 Jul 2026 08:38:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784438796; cv=none; b=IUFgWgHIeSDzn85amJT27RgBRqN33DgB9Jfx4xAyfAXoce1HED1IMtjr01f9fTu1LIL4PAriKth6JvrM9vY98DulJSEQKhypwHvQ8kK9RzgIAzMNGEcnue/GJ5lCl7aMjgljf6A+Nl6q7qhjI/MsFI6WltVxba/2KbogC3jelwY=
+	t=1784536738; cv=none; b=Pf2lpQuV/26kJf73zspUeCt42WWSYDAN93K5x3asHiXji6AHOdNU9R+6hf5UDf6vvJUBYHtgEn6ELwDT6y0V8L4KxdTPrnxeYcpru48FRSFb9/cmXTnymRu2lQC4WedINJbdVVPmjdHO42toZRjQSMwPqzh5lU/wLdbNqrWCeIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784438796; c=relaxed/simple;
-	bh=Hi0xnivGNtOREXt/UYVZ9Q6LdSO1ZOzCw7BzXniVlWQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qBbCqLmbVg5+IwXvfpjhZNZF3CQV9J7zq8ib4tKWDp7/oi0MeiZ4WbmkeMSV0XzGdZgWoFGILgjOIr46i+aLNytm+ap47wyLU+fsaRLgC0qBxQoI3y48cH3GlDQETYSMIsRr03RJaEp0n9LQQjgdyHDLArzjQxn65xI62qyvnXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=wF3Z0gGe; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=AKArMgXA; arc=none smtp.client-ip=103.168.172.137
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+	s=arc-20240116; t=1784536738; c=relaxed/simple;
+	bh=FeyCKybCKNi26Ap67LUgL8QuPeogms6U4BAgYafTBio=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=bVVEd0rYlY9U46ZLNQ7M4ExGRSgDL/q1INA8R2UIlCgfKtiQ1o8gksWFJKGJK7ILTeCjugtO4fHGSE94JvMdnWqFhSA6ori7kxHdjs5XYxGJsfns0cbRmfmaVUvzpw36+NVqWdOVckGKCl64t3f0z4w1gDa1BvArR3VA817NXMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=T17qGW7h; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="wF3Z0gGe";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="AKArMgXA"
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailflow.phl.internal (Postfix) with ESMTP id CE29B1380039;
-	Sun, 19 Jul 2026 01:26:32 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-10.internal (MEProxy); Sun, 19 Jul 2026 01:26:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1784438792; x=1784445992; bh=eecg0lJ7GM
-	VPKq2dqzJPtaANo6Zq9o9SX4g1WVGOqPE=; b=wF3Z0gGeJCJaKfT2Xzm96MtuXe
-	6i9JuofDLJjag12vbKOQXxWUwCIDLG5qLYIs3jssGixw1ydxbSLbcUhEk3RYJ32q
-	p6jfDXze08QvqdxVdwl8rKjDASgJSXvLRwZ62jiWu9f4H2yYQmbl4WiOV2SWP1Vx
-	Ik8k2RBZOD3tdyhzUwg54aK8Sz9RMx2s127/iyv+7czqc/6+tcichKZSP1OZcPhP
-	0JZTTAWjf2TJn4ZrSgA0w0oQ6PCyE2omuPGsJPi0Z9Qmbb7Skdxhf/UNxqgyiXfw
-	jOJV6HVK+yhxgvIB2f3TKVK5WDLsMybEliLYF/TVypMNiOA5ZcrVFyk3eaHg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1784438792; x=1784445992; bh=eecg0lJ7GMVPKq2dqzJPtaANo6Zq9o9SX4g
-	1WVGOqPE=; b=AKArMgXA3oyEOmb2gYEzdRDbrk3jjIXGftrclIsUb78ZrPV9v5Y
-	2wcdLr1a/HOaopYJT2+xCMrXY7TMhrWHKmmp9/O1JVFCGtf1rdGVnOcpBVr8GQ28
-	hZ2Alpm2IEd7aSqo9PYD8mB3rh+G06RNMuoMG37xZqndPFspDxPTk0pnLQjHwtWt
-	klhTddiY9LhSZQbwBKTNyJOoCMv5EZcSfRjnfZXML/fGUGUEl0ZKu3UEGvyRoCNY
-	zHzI1uHYDh5yM7Nuh7ZCUZZCXs3+Qpynt4yP0+ToCTobJs94R1DSgA+HPqzaQhq9
-	jfE9BXC3zH145AcWFjp4PbGuSoepK6See2w==
-X-ME-Sender: <xms:CGBcam68ZHdmeOZ6tIQlFEKIdnwi1LM-SnuyPCsXOD78ThhloUfBTg>
-    <xme:CGBcanZmjiiooxYRu3pPUxpTWWn2AC0VxmPy-z3w490VEBZa84t5T_4cbahE8lezm
-    2I_TG77RStcZ3L79G_YeSCAxCvZpMD7_0HT7JDWxAt5SSfi-jE>
-X-ME-Received: <xmr:CGBcari6G4fr-bl4jC8-Td5rz8WjiZeWAmxbr3eJ--9PxS8mf55FfOnhyl6TFiEDiGhsjY4lioPkyNPLOTd233x_mA>
-X-ME-Proxy-Cause: dmFkZTFQyx31AWctr4aPvIzgtsidowCfviJ8Nq9RswvKEgWVIwvPHJ7EsYxWWMbjEFho7t
-    eR6zYIF+VcSNrTn/hg7VWB4uXEoAtwAzRf6c4Ux22xnFlnsswmCcO4dlsWLwit5cClU4lN
-    ECYl22j0epkDLpuABXzsKZmVYFeVuGQNlUPZPQmox1CQczKo6hSKFRmzaGpYxfNbs4BuAz
-    sv02VwwRup0SOCrcdLWmNwYGQIYSLiyJK5d7ilLs1rnPYKAnUdKHQ94+NCoqajlgyQ4XaD
-    aSvdTZeqskrLNrMmTmB9V80ytqPmuABDEHqWwfBGM3fYPxDplDwLNr3zg0bhul+bQOQjas
-    qV1G65lemm+JDmE4s94CT9c6EqdzXXwbftihLrVEI48kR5H1ahDB5w1sda33uxSKTkgNb/
-    8hb9jkSCAcAvLcLjQ+JEimezd3xBXPeZ/DHhmaGni/WJwJxHWI7cek23NEfyYp3RfrM872
-    Rmu+1pGFAFqcRsei+p+coRVDg4BPsUIOYEjsy7H/7kooso6XSi8eI6RwI9mrMc4VypYbO2
-    0R1JKagCw784hviQbYjNQ1kWTn/Njvg9X4JKynXiZsg8ypnlAjElr8koDDlcjoL+FrlePi
-    GObYuv5KGYMs65AWOwyjfBrvY6WPigO+wScHTOGsS6llmAhvm0vWbft3EWDA
-X-ME-Proxy: <xmx:CGBcahPa4HHXOK2-dWQGSAHgyS0kySTOlNx-M6lUq9lILtWlkbt97w>
-    <xmx:CGBcalPN2wFfvbIMC7-ekhGkcvvqpK73TSwuTd8mEJniJ8LG7doEwA>
-    <xmx:CGBcapJRtsQE8OHwhupEvfihfRzgTlb5TGQeXj_-3oqgVpadbrSpJw>
-    <xmx:CGBcakvRPEJGOgtk4HVpP1ynJCb7FxkI5EvuzJsllO7IgPXVJy02WA>
-    <xmx:CGBcapoJ6eTL5egjSNblq9BuInL0vu4lryGfgmHfPvOx7uAJrI_RmC1w>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 19 Jul 2026 01:26:31 -0400 (EDT)
-Date: Sun, 19 Jul 2026 07:26:24 +0200
-From: Greg KH <greg@kroah.com>
-To: Yahya Toubali <yahya@yahyatoubali.me>
-Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	"open list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>,
-	"open list:SOUND" <linux-sound@vger.kernel.org>
-Subject: Re: [PATCH v3] Documentation: add SPDX license identifiers to RST
- files
-Message-ID: <2026071910-repressed-elsewhere-e2f8@gregkh>
-References: <20260718165618.1923627-1-yahya@yahyatoubali.me>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="T17qGW7h"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4h3Yp20yWNz8tWm;
+	Mon, 20 Jul 2026 10:38:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1784536730;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wnD+41BeIxwW5o6SrXr7fbssSBi01iDhewk5InRfPfg=;
+	b=T17qGW7hxfL9g8xYwtqNZHLJMoyio4CXsAGd0/i9NA0ab8ZBUfCivdDvqt+VD7ndJ8nOoj
+	7v26RWMJJOecOAuibowY2PLp3nT3Y7i26klnBP0ELh9UQ6iN81xNI8R2MZC8byj9goEqdR
+	sosQgrLXbf0XZMM5XkqpBD0A7ARun5DBH/Psw8irhWPFgLcNSQQJcsep1n+XavuJzYOakq
+	8PFusdPCpzbLEPaREswz3UIS+8UkR4XeGJFMyY5f1t+R9sir+QTgvh9JmWxEAv684Z8wM4
+	adcqSP89VdAMfA7TGAjU9g6OoNf/uDYYlngOZDODuICTURCsFRmKwVf0dZzg5A==
+Message-ID: <0ef30a524e15530c6fc0842066367b1f86e679f2.camel@mailbox.org>
+Subject: Re: [PATCH v3 3/3] Documentation: deprecated.rst: kmalloc-family:
+ mark argument as optional
+From: Manuel Ebner <manuelebner@mailbox.org>
+To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, 	linux-doc@vger.kernel.org, Kees Cook
+ <kees@kernel.org>, 	linux-kernel@vger.kernel.org
+Cc: workflows@vger.kernel.org, linux-mm@kvack.org, Geert Uytterhoeven
+	 <geert@linux-m68k.org>, Janitors <kernel-janitors@vger.kernel.org>
+Date: Mon, 20 Jul 2026 10:38:45 +0200
+In-Reply-To: <871pg0ras8.fsf@trenco.lwn.net>
+References: <20260424174743.257951-2-manuelebner@mailbox.org>
+	 <20260424175740.258522-2-manuelebner@mailbox.org>
+	 <871pg0ras8.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260718165618.1923627-1-yahya@yahyatoubali.me>
+X-MBO-RS-ID: b7ec4e02521ad7167bb
+X-MBO-RS-META: y6rid3cwbcupdui55iwp64d4x5gtorkb
 
-On Sat, Jul 18, 2026 at 05:56:16PM +0100, Yahya Toubali wrote:
-> Add SPDX-License-Identifier: GPL-2.0 to RST documentation files
-> that were missing it. This aligns with kernel documentation
-> conventions.
-> 
-> Signed-off-by: Yahya Toubali <yahya@yahyatoubali.me>
-> ---
->  Documentation/admin-guide/cgroup-v2.rst      | 1 +
->  Documentation/core-api/housekeeping.rst      | 2 ++
->  Documentation/core-api/memory-allocation.rst | 1 +
->  Documentation/doc-guide/sphinx.rst           | 1 +
->  Documentation/process/5.Posting.rst          | 1 +
->  Documentation/process/howto.rst              | 1 +
->  Documentation/sound/designs/index.rst        | 2 ++
->  7 files changed, 9 insertions(+)
+On Mon, 2026-04-27 at 03:51 -0600, Jonathan Corbet wrote:
+> Manuel Ebner <manuelebner@mailbox.org> writes:
+>=20
+> > put the optional argument (gfp) in square brackets
+> > add whitespace for readability
+> >=20
+> > eg. ptr =3D kmalloc_obj(*ptr, gfp);
+> > =C2=A0-> ptr =3D kmalloc_obj(*ptr [, gfp] );
+> >=20
+> > Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+> > ---
+> > =C2=A0Documentation/process/deprecated.rst | 12 ++++++------
+> > =C2=A01 file changed, 6 insertions(+), 6 deletions(-)
+> >=20
+> > diff --git a/Documentation/process/deprecated.rst
+> > b/Documentation/process/deprecated.rst
+> > index fed56864d036..b431993fd08e 100644
+> > --- a/Documentation/process/deprecated.rst
+> > +++ b/Documentation/process/deprecated.rst
+> > @@ -392,12 +392,12 @@ allocations. For example, these open coded assign=
+ments::
+> > =C2=A0
+> > =C2=A0become, respectively::
+> > =C2=A0
+> > -	ptr =3D kmalloc_obj(*ptr, gfp);
+> > -	ptr =3D kzalloc_obj(*ptr, gfp);
+> > -	ptr =3D kmalloc_objs(*ptr, count, gfp);
+> > -	ptr =3D kzalloc_objs(*ptr, count, gfp);
+> > -	ptr =3D kmalloc_flex(*ptr, flex_member, count, gfp);
+> > -	__auto_type ptr =3D kmalloc_obj(struct foo, gfp);
+> > +	ptr =3D kmalloc_obj(*ptr [, gfp] );
+> > +	ptr =3D kzalloc_obj(*ptr [, gfp] );
+> > +	ptr =3D kmalloc_objs(*ptr, count [, gfp] );
+> > +	ptr =3D kzalloc_objs(*ptr, count [, gfp] );
+> > +	ptr =3D kmalloc_flex(*ptr, flex_member, count [, gfp] );
+> > +	__auto_type ptr =3D kmalloc_obj(struct foo [, gfp] );
+> > =C2=A0
+>=20
+> Marking the GFP argument as optional is fine, but the documentation
+> should surely say what the default is.
+>=20
+> There are, of course, other kmalloc()-related entries in that file that
+> could use an update, but that is a job for another time, I guess.
 
-Hi,
+KTODO: Update the sections suggesting to use th deprecated
+kamlloc(_array)() functions.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Thanks
+ Manuel
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+> Thanks,
+>=20
+> jon
