@@ -1,227 +1,220 @@
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011052.outbound.protection.outlook.com [52.101.70.52])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9903E38B7B4;
-	Mon, 20 Jul 2026 20:35:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784579716; cv=fail; b=lEnTRxKeIdFM+x9Y6ioQkLhB0WShELRo6BGTgTsBvqWVXo4Lre3DU+lyyQ9oXuSe0vcycUPiFYCNS6SGXeNHUj3AihZDLsVuBl5OL49smrBe5eplpm8ZYxmoJTmhDSuq8Z3d4LZU5KJPBpunMOBk0704WPBWcDLqYKMBsIihJGE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784579716; c=relaxed/simple;
-	bh=o9TfIuDS64pYJGYnYXotDenwsMFeZzihvrURWcWt1jM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=JWXYlnJePOHM5o3skijF+GtptZBauc/00b0hCcQ9w2kyQVD7qVJJH8fyLfhse6+pPf3TyxwKe8ltZuFhV4IrDuQLFEbLSt4zcHo9zn3WNi4tHVYnTh7Z73NYkrhe9qON8bLDk7xxdYQ4Ij+pgg0j5sEf6XppsVbFystSoNHmbrg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=XemNNSuP; arc=fail smtp.client-ip=52.101.70.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BF3730F94D
+	for <workflows@vger.kernel.org>; Tue, 21 Jul 2026 06:05:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784613907; cv=none; b=uCkJoTkaKQwv9n/vCk1cVnlDwjdOPUNm/+uXhBlFF0HKluZDfu6dRcdMGrWreodoKZAfE2cU2ujzg8VN52OFJkaFibG2KcdftLPzAYVBvk8Km8ec4osUUkAiw8rAj9uuPTn3GoVKUbGSThXRObV/LcTqUgrSpMX/4uXvPSy/Rb0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784613907; c=relaxed/simple;
+	bh=rJCJHYF5qksfCFU8hXrYHh66ad33rs1xje6QIf+t5vE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aKfoKMU6C9AyvSDBvRtS9paBHrcaqR5sSpkLQvcs05/q0oy2awrWX+GropCHXJIsmRio+CRHbo6bS+eIaB4nbDF8L73lyD06YUkiCN5JdSJYiRdtYGOmndKzVA7Obuh5rl04GPmWJCWJ4LQtpY1UAV4/fAzjyaauLW12Ulopz54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hacbZj/7; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Cvg3+pkd; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="XemNNSuP"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wMjLIcpJEq1Nomt5h0UgjbYQB9io6Hn3SPXzBLpNOYQfOzUkkokI6uhDZBMAgBvPwIyy21tThLlPxyhOmjVTjqfsx28X+OEHH6Z3GzUSxyCqEgQanz0uOfkfMmJ9UUqJ7hZwpXvlNhGvMLBKp9XPFJ4pZH74Kz79fJK5V+3oKwcHgqtq9w3O7u49rIDrTsFISl1Jd3n2sn01FAk7cLWP5HHcNBHxljbclUiTeWoW0U0Rb1JDJ7Ucj5FUcdqvfQHzHoFJtcK4qxNGBheVXNP1KKP5LbXNnkRT0YoAiBZcMjldEA5R5YCuKWoksho12k+iNpT1+GmJd8LNE/PcAaDDPA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6qGgdFchJwTMApCE6hZLTrzpSFCNvEhZRXX736of/Zk=;
- b=MwD9AOQ7KMuKTVRnsDSTnZWxPrwzH6Kqm39PtCqftAGzFFX/lif8Yl74dAiOmQOtUn11k3zeEsM/ek59wIU17ofaqy/RfTKRDPJ3CLgT0W8QABlgVaevCLgMIiUCov1g1lWaT0fGIQK9M0A9VS8zlpXObWCmL+sFdbpB2kV31pI6/qNIjWa5BDCQjNn83g7fUyKP8JbP59sbhzowYaKnEUpYy66x6tUkBFjInlmwV+cEdH7ri2R/Tfho8Xv6JlUYjt/056VQTowS0PoUM8JiHqB8o1KBezVU1qu0HTwWLJC5q3iZlodTnv0UhinryB4QAnTVTWFPCiEjxm/smSbJFQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6qGgdFchJwTMApCE6hZLTrzpSFCNvEhZRXX736of/Zk=;
- b=XemNNSuPuCfcUUO40OFyKKvrze97+VCnE0rmiNhT+TNWuQDg6xxlSoSXmuz7yuDrlIo5S7rRUuye146PxBZdanA6/KDKX6aumwlG6WkCtm79m3RikzxK4uFyUVOKoJwcxZBmD4sllreILWwQHlTgoqGd9Gr/RJ1uAgnjxzxUG3UhNayha6BLS8w6vOGZfSa87hrr8gJ3GKJ8TLVStiFzd3PdIcj0HHU/bj8ssb/eMEO1x0XReCgPk/xdT3CT/1jtnie7qS+hLf68x+yvc68CmLBvgpRYGIp3NSUcyogpOYI68UgJiuX+2i0tamjw48IX48SSqef8oDcjgDaunGAfKA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
- by GV1PR04MB10153.eurprd04.prod.outlook.com (2603:10a6:150:1a4::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.18; Mon, 20 Jul
- 2026 20:35:08 +0000
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c%6]) with mapi id 15.21.0223.017; Mon, 20 Jul 2026
- 20:35:08 +0000
-Date: Mon, 20 Jul 2026 16:34:59 -0400
-From: Frank Li <Frank.li@oss.nxp.com>
-To: Rob Herring <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, devicetree@vger.kernel.org,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Saravana Kannan <saravanak@kernel.org>
-Subject: Re: [PATCH v3] docs: dt: maintainer: Add Devicetree and OF
- maintainer profile document
-Message-ID: <al6Gc8b2j-I6g3sP@lizhi-Precision-Tower-5810>
-References: <20260720184040.9870-2-krzysztof.kozlowski@oss.qualcomm.com>
- <CAL_JsqKkxVTVE=o-uar=JEVvqw9NhBAQcBrJ0ukf+RBXCwFZJA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAL_JsqKkxVTVE=o-uar=JEVvqw9NhBAQcBrJ0ukf+RBXCwFZJA@mail.gmail.com>
-X-ClientProxiedBy: PH7PR17CA0053.namprd17.prod.outlook.com
- (2603:10b6:510:325::8) To GV2PR04MB11799.eurprd04.prod.outlook.com
- (2603:10a6:150:2cf::9)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hacbZj/7";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Cvg3+pkd"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66L460A0037541
+	for <workflows@vger.kernel.org>; Tue, 21 Jul 2026 06:05:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	SWd1oTmkq5zMhFDmPKRzG6HslTzweIEq0sjoAwJFuIc=; b=hacbZj/7A3DZPG75
+	eJhIAAMbcSocbse+DwrjWiwhbvG5Gm7PYig15eLHdy2RvZypY+1GjF3rcFpKqZo5
+	pM6FN1RJs9LNpzRrPDjWLFdkPWiVBHWVBp5MUvQWJtWnoDmPrNdCb51ZaNnmarrM
+	nJOZdDZ0DxJXxne/n1XOszhI3ygdxw4BksJgdcl939aSfEoO6sUMZvwabM8SKrdI
+	M/kq/TtEJKbsxHVWYWWQEWRMlFt6MuBvClKdT3YkmSypSAMXpthfWJLsjzaJ56Tx
+	0eoGd3+uPJbXYyBQ75aypEiLxQKLc8yE/375sAT+ptES9fk97PpQmtRfQGwSmqD+
+	FY0cQA==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fj1es0dr1-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <workflows@vger.kernel.org>; Tue, 21 Jul 2026 06:05:05 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-92e4f946461so1957581585a.2
+        for <workflows@vger.kernel.org>; Mon, 20 Jul 2026 23:05:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1784613904; x=1785218704; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=SWd1oTmkq5zMhFDmPKRzG6HslTzweIEq0sjoAwJFuIc=;
+        b=Cvg3+pkdBA38ebJbGirm3AEXopDxIKowsq8pmv6h9L1JiiIKPO6r5UlrRUoNcZ/zKv
+         ib39la8U+KI+UnEzuO6Hxz0wbbEB/R8w5sMvX1xZ+FbbX8PCJyQfgVg5Vp/H4bApyQY6
+         Moz1wkF7tX2OxKO9t1UjFtJhc351QrpscSjhqv2fKY/TCyuJICVaLJogc7GYdFB9lyNr
+         Or710Tqtd2BTh4eGQLpPQyVmoS9iUM8q2729pjFMLYJKaP/miguVYubUTOjNUjgbDiJU
+         OKmYl6voub1+ROZ2zjumHIndmJ2d6g8XUUhvpqRcFndAp/wPkoOLTzvjZw9lzRTqfP9f
+         hzdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784613904; x=1785218704;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=SWd1oTmkq5zMhFDmPKRzG6HslTzweIEq0sjoAwJFuIc=;
+        b=F8fu/S/HdZU15SJLApRJuKohpvYpt4V2e+Do41Cnzy7UL3pDR4AZJpyM/QFXf/fq9k
+         vHKqttMTVX7UUsN6sGNHBgIuwHDTe9of3GEsQPIbe8J4+ZRJqwfDk+Bfz7iWBN00+R+O
+         xJHOUMkMzNXlm4ny+cR9lwCrWlQSMNsqYYYqNMiROXWjh9cmM/lCUT7FQanGMoAR+SNR
+         ioDRtEBbd3botQkpofxultDXZXXiXYMLjocxLUBUoXiaowWsHkLZElVGOD0KG5hXtnRl
+         A4WQOXioQYqOwdj/nfnG24WzuhgeWW0xIPyJTlSNSNStB4iEvZckEGmRzapUT6cL2gFn
+         vH/A==
+X-Forwarded-Encrypted: i=1; AHgh+RoNY1ARYZ51qCzIOg1Xz0WI7OBzEfjGGVrapqp5m9o2ctU4Rj3/CfdCIegs6jqL+aAa/Wsm58vAO0U=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywspxl0iVwoYaHyQp5bNpk2vkF6h4Hj03DDdaJN68RiDRb+iVh2
+	nWrnsNZjubNgxCYLrVHvDNDzznUOyTcW1CpUMqcxn79TpRRX5E2g8NlQD1FscgBcOGBgraEsQaI
+	7DwSQlXXVscd20hJefn5AQdr+xiDeRXWOHQmGOkOPQLlBM7xpW5YsCREaPS9XYWs=
+X-Gm-Gg: AfdE7cmC3+T1bc2itt5jvuvsDotdKDVe0fv9XSRltjutQbJ2TcdBUWh1s3ZQlWBLZm8
+	nKfZOs0jMPpx+dqkDkDsCfEBwFCrreqL1Zi78219M1mUm7VxRQ5yCp+XVCyMciQcvZ4sIJk01JF
+	JDw7Eo3I01W23uQdNZPmSix9QWyJ/9JlT0/3jT1oXP866YRS3Pz7PC6dmI9kesewiqHDl74kJFN
+	/BHD1CqD2SqBR6ACQVSA+dJiOGjRAySxsONNjpS2Il24+d0DoB5q7mQC076sFPMk6OUfsLNlE0c
+	Y/GuG0gzV0yjuWQkRwwAK7hWqhUBIc3MtnwGAHROD9V/KCI4+f9P1iF3pf3Ag7iRFP0Ko3B00eL
+	5gk6c5z8nyQ3ZlEa+ocA/ejecGqPhDQ==
+X-Received: by 2002:a05:622a:c85:b0:519:e020:6087 with SMTP id d75a77b69052e-5213c013438mr166392671cf.11.1784613904397;
+        Mon, 20 Jul 2026 23:05:04 -0700 (PDT)
+X-Received: by 2002:a05:622a:c85:b0:519:e020:6087 with SMTP id d75a77b69052e-5213c013438mr166392401cf.11.1784613903854;
+        Mon, 20 Jul 2026 23:05:03 -0700 (PDT)
+Received: from [192.168.1.110] ([178.197.223.174])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49548e0fcdbsm288078675e9.2.2026.07.20.23.05.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Jul 2026 23:05:03 -0700 (PDT)
+Message-ID: <bd1971cb-1c32-4b89-8678-6828214b12a7@oss.qualcomm.com>
+Date: Tue, 21 Jul 2026 08:05:01 +0200
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|GV1PR04MB10153:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2bb27e21-44d2-4dd9-5bff-08dee69e636b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|19092799006|1800799024|23010399003|376014|7416014|366016|22082099003|18002099003|3023799007|56012099006|11063799006|4143699003|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	xdjv9j+tRIsP92izJuiYZvinGXzbbITI+RirmSbdv/GfMwhJ4VppI5vi9WZFzrdfKcbJ3hReL9m+BIKsqsKpQVCYZnT9/kG/QsNYMOqxzCpNBsMDG1wazP78oEMAANoS6RPP0rsVPXf/htweYqQ0HJsB8UvMcLY2UBrPnBy4hkpvZF0g4d9OgLDEQ744AceTfLJmGbn2qN5JpDcnRTXeLvxbtMDgrVlukEM+XGHdjT01dnH6wamGirHBIPDIjKzau3RsoQ6QrN4MZ8pDnQYLYF6+9OoG9bU2wsZiDyHZgIUw8+D/jkfoSjlDd7ktc98AaJPwUDa5V+u4CcNvDelZdaMdlYH1ApdOIwQ8EgnnPUTeAw9BlsSwFFz6wbnpIyHlWkkWB9F6T3xBFtplU0DH3ODewTCgVgz7GaoLsE+5Un4PS7xN37E5wdTgy8LuBiEgPEy+hYNM+t6+H24ZxjyTUYB3qJ2X6sCu1eeMR6rws4hFR8ATU1rJ/iJeKe/0w310Ytaw873PxS8r5KSbJlwwUoTDBkCjeIJxhG9UyFkquWtjG9c6k9UnmdW1WnRrjfDUeczkMfP+TKaVWQefgiPIAB6BBaMay3U8SFexoso11wLgxnx+T/Vya0M6BuKlfRviCOfMFCWYZb7na2ug6FiHwgisl27bTyBo6J3oegL03Ds=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(1800799024)(23010399003)(376014)(7416014)(366016)(22082099003)(18002099003)(3023799007)(56012099006)(11063799006)(4143699003)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cGxPSUlld0pCL01mZFJiaFJnK0lFVjVpTnlEa3ZranRSUGpMMEtTWkgwTDdT?=
- =?utf-8?B?YnVFelFrNmlDTFNTYzN1QXB6ZGlQcWczY1d3dUdCQ09IMUcwMUQrN25WOWFs?=
- =?utf-8?B?OTd2UkVsYXFwOVNVbHFiWUk5Yk9RRHQ0VnZXWGNGQm1OVUNkRUdCN00rZmRz?=
- =?utf-8?B?RjRRK2JYTjdMQjJtQzZLTUwxZ3hmNVJOa2pIVWVUbHRpRDc2OGZzN3JZeVhI?=
- =?utf-8?B?T2hiQnNZb29Zalp1YkRMMjZQUFM4VDZNSEJkbnhMbTYrdzYrTjhTN041WGhq?=
- =?utf-8?B?N2ZCdWNlOGoraldUeWJkb1pqczl4VEdGTHB1VEkxSDViUllPK3FBOXlacFNX?=
- =?utf-8?B?SnhWbUo2bld1SFVMbWhScHk5dllnZGxlRDRYVnZxU21nNXAyMVk0VG5BTHd2?=
- =?utf-8?B?MVIxSTBrclBJSTRybVBnM0tvQ3d2bEt5bk4yZHprWHVXNU1nL0pHMTJWN25s?=
- =?utf-8?B?cnp0RFYwYUFneE55dGdDVFhKWlY2SnZ4MjhYUkRSLzZGMlh5aFo1cUUxeFp1?=
- =?utf-8?B?bXhkR1VtUW5TRDRsZWxLZ1BqRlAyVHNDaWFrVkhETHNvOUUvRVB1VStSSGVX?=
- =?utf-8?B?TEhkUHBVUERVbXdwUkFBSGdDR0FXWjU4L3JtRjJrYWVnR1h6UXFhNjZYSitE?=
- =?utf-8?B?TmJXbFdsMi9TV3BuVWl1SGlxcVBHWXBRbTQ1QjU3K0VzZ1FmMGFPUzIrTVln?=
- =?utf-8?B?Mm8zQUovemsvYktzMDZGSDhyR1M2amd5L0c5T3lPcGtqQnpWQ3BDZGdpSkJV?=
- =?utf-8?B?TzRtRnVENml2aFI0YkR5SXFYVFFyTUM3RStiRGQyMTMxN2hLSFV1T014a3l4?=
- =?utf-8?B?YUtYd0poakFIYXZxNDBiU0o0NzR6Ui9XU3Z6WGFVWHVpdFhNb21RZkFoZW4y?=
- =?utf-8?B?bFArc0Naa3VCd1Z0K0N3K2JDYjZ0Wm1vMG90Q0VvYURONU5XZ2lNRnlqV3M2?=
- =?utf-8?B?NmluOGNOYnZUdkRzOFJiNjJiRXQvYStFMVRubmpLQ2gyNy9mYmhBZkhIRkI2?=
- =?utf-8?B?d25VN0Z3VkdwYUlQZm5OblV2ZWt2R3R4NllsNmwwdTBpN1JFUW5SdjYveVRI?=
- =?utf-8?B?UFNjdUM2WTRjcW5qMzJEd1grWHZPeWtYa21nV2ZjKzZvQ2h0ZWZaK2lIZVpZ?=
- =?utf-8?B?Q0xXMTg5VzFHdGsvZUVxZDRwN2pZaTA0dy8yY04zRmxLVXpWd3hmb0l6YXBO?=
- =?utf-8?B?R2s2TGdDcjR1THpyWHowR0RYNHZRZnNDdUM4UHJOVGVPOW5UcmhFR0c0VThK?=
- =?utf-8?B?VmQ3Q3FEcUh5QUNuOGhvaXVvQXVrcGNYbXl0QnFXcGhnaUQvSG5RQTU2dVRX?=
- =?utf-8?B?bURPQk1OWmQvMzNkUXBWSTlCZ3JVSmxXNlU1VHhCZlVHbGtra2l4ZDFzZ1Bo?=
- =?utf-8?B?M0xoZFNMUEgxVWJrdG1Ha1JqNHBtbmx1Wnhta01TUEZmRGcyTkgrMWdqV3Fh?=
- =?utf-8?B?S3h1WCtSeGdWZXNJZlRBbVY3cnJYRDhISlEwcEZieGtTZHh0WFk0WmxYNzVu?=
- =?utf-8?B?V3ByL29ZVDRqWk1sMHZuOFZySEpZeEdQazJPeERUZk9MSXhzSStNdzdCQUht?=
- =?utf-8?B?cENqWjZjMDI4ZjY2R2xOMUFnKzdQU3VKWXpGOXlsQlRHMmgwZnA5S2U3MW40?=
- =?utf-8?B?eno1WnB4REYxKzgzVm1CMEI5NkRRbFdrU05na1FXTDBrY0ZvMVA0WmNXTXFl?=
- =?utf-8?B?QkN4ZW5zQm51Q1FRSjl4QTRVU3EwT0s2dUh2V0sxTHFERTBtY1J1QkFGT3FN?=
- =?utf-8?B?MG5VQldMYUtsV3BIZlRRdGgvdTJndWV0NVpLR3FRcFpIQ1lzQjJSZG5sQzFj?=
- =?utf-8?B?ZlpVdXl0TTk5dys4MVQ1MmpYZWdjWTRIcWN1ZmwxY1lyMnpUNDJXdk1WcVA3?=
- =?utf-8?B?ZEE3aDQ0bENLdG9jbjE1U09ReDRTWlJzWllzZUFCeWJYdWEwdFVWdlJVc3dR?=
- =?utf-8?B?NmtaY09McVJQWFNxbjU2TTBQelBFUUNZTXBpN0V2cDNnWVZIVzJMYUh2UlhT?=
- =?utf-8?B?dXlsQ0ZtTGxtb05JN0RUb01ySS91ZXp2a2YzQVVMcEJYcnZkQmZMbi9LaDFS?=
- =?utf-8?B?NjdWdFh1cmEzTkc3SVYzbTVDNlp3M3p1a2hyNmtKREJWaFRvY0ltb2lvdC9j?=
- =?utf-8?B?eWNQYkJXb210cVVER3lFUFNSa0g3YXJQM0IwbGt1OEtIb0FrdWZUcFViWFBU?=
- =?utf-8?B?U1lMenp3Y2lKd2M0YlVqeGxlREhQTVR2amNqM2w1c2NyYVBkTndodGhZVXRK?=
- =?utf-8?B?b0wzb0UyUzRUQU1BazRPemVybklvK1NKQUxLcGR6U2VYU21kRGRGYWR4OHp0?=
- =?utf-8?B?a1pSR2hnNzJhQVVacGhOOGIzTnBPZCtnK1RSdEE1SWQycFhpdW1vR2RzWGpr?=
- =?utf-8?Q?7MoTy9XSCcjKuQLijDU3gFFLql8byRelfFD84?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2bb27e21-44d2-4dd9-5bff-08dee69e636b
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2026 20:35:08.3093
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ksavMhpnZKowQkeDKFRGo3LRncvuZ/4idsUtrh49fgcs6tRQHQwd7kWr4FEqgcUMJJaPaVmrxWGZBSvnsEbOZgQLfeJkfc38ol4iAznLXSqqGA02Od2fpfE92SDqB0Jp
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB10153
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] docs: dt: maintainer: Add Devicetree and OF maintainer
+ profile document
+To: Rob Herring <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, devicetree@vger.kernel.org,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Saravana Kannan <saravanak@kernel.org>
+References: <20260720184040.9870-2-krzysztof.kozlowski@oss.qualcomm.com>
+ <CAL_JsqKkxVTVE=o-uar=JEVvqw9NhBAQcBrJ0ukf+RBXCwFZJA@mail.gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <CAL_JsqKkxVTVE=o-uar=JEVvqw9NhBAQcBrJ0ukf+RBXCwFZJA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=SPZykuvH c=1 sm=1 tr=0 ts=6a5f0c11 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=N6niishs+lR9UBL1FN3Qrw==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
+ a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=bwanYSbnS09AELdfzVIA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-GUID: DKkd51S1uPFwI2OpdpmL3bUSwvTM0g6C
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIxMDA2MSBTYWx0ZWRfXzd91F76gv3Oc
+ g4s4ZBOt2HH7BjCaVtthtX3E4aBlhHYEInaD5OANPsZjM7tCGqx6sN+SGsttWQ+gl044nUgpxki
+ i7xYfbDmFuFqaqJ2ZWmIrFasL1VcrstKF2CYAG3oB35fOhfeEt4fpAblO9/dtN8eFxRvmcmsNQd
+ TKlwKuSk70bKr1V9HZ45cZyEoqtjvfRWkvUjmODwuvG/VXKLCHfaQQxHT7FUhAPWdPNMIJxpJJN
+ zyRzxAuT+DE47hVmZt0kSPPs4MEHawjwiy9cSo3r7HXNTum+G4MLzFcp9APy7UMyvZg5FiPy4rm
+ uw2WrA5gehkr5gpGxhXhJqOvRSaBAS5A4EsjccFhm0fx8TtNfO+kKLUra5P0zWTUrycdbiwz6Oz
+ s3WNVAbwMlkOUQcwVP5ca61oktjplqbZUasu4O0Q66P/hkWxLgKuwclJJqhyd3anu+R4t2hzBjI
+ gfXherIn0PsBdhkm9EQ==
+X-Proofpoint-ORIG-GUID: DKkd51S1uPFwI2OpdpmL3bUSwvTM0g6C
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIxMDA2MSBTYWx0ZWRfX/H1OGDJBqE06
+ yOq6v+LZM+BY9fL018MnNuipBu2FW5RCAlOjryEFKkpKHv7ex3A1FIyzsHrzDYDZaXMXmtsvhi5
+ ys3ycl0ZnETjPRUhIwpdrsUU7UtHv1Y=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-20_06,2026-07-20_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 priorityscore=1501 bulkscore=0 phishscore=0 lowpriorityscore=0
+ spamscore=0 clxscore=1015 suspectscore=0 malwarescore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607210061
 
-On Mon, Jul 20, 2026 at 03:12:17PM -0500, Rob Herring wrote:
+On 20/07/2026 22:12, Rob Herring wrote:
 > On Mon, Jul 20, 2026 at 1:40 PM Krzysztof Kozlowski
 > <krzysztof.kozlowski@oss.qualcomm.com> wrote:
-> >
-> > Document how Devicetree and Open Firmware maintainers handle their
-> > subsystem, especially focusing on two caveats:
-> >
-> > Devicetree subsystem handles patches with a minor difference comparing
-> > to other subsystems: while DT maintainers pick up OF code, they only
-> > provide review of DT bindings without applying these.
-> >
-> > All three DT bindings maintainers rely currently on Patchwork and due to
-> > enormous amount of emails per day, regardless how much DT maintainers
-> > try, they cannot read all the emails.
-> >
-> > Cc: Rob Herring <robh@kernel.org>
-> > Cc: Conor Dooley <conor+dt@kernel.org>
-> > Cc: Saravana Kannan <saravanak@kernel.org>
-> > Cc: devicetree@vger.kernel.org
-> > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> >
-> > ---
-> >
-> > I expect patch to be picked up by Rob, after review.
-> >
-> > Changes in v3:
-> > 1. Add also F: entry
-> >
-> > Changes in v2:
-> > 1. Correct typos and trailing white spaces.
-> > 2. Fix order of P: after C: in maintainers.
-> > ---
-> >  .../process/maintainer-devicetree.rst         | 70 +++++++++++++++++++
-> >  MAINTAINERS                                   |  3 +
-> >  2 files changed, 73 insertions(+)
-> >  create mode 100644 Documentation/process/maintainer-devicetree.rst
-> >
-> > diff --git a/Documentation/process/maintainer-devicetree.rst b/Documentation/process/maintainer-devicetree.rst
-> > new file mode 100644
-> > index 000000000000..d8ffe752bf5d
-> > --- /dev/null
-> > +++ b/Documentation/process/maintainer-devicetree.rst
-> > @@ -0,0 +1,70 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +======================================
-> > +Devicetree and Open Firmware Subsystem
-> > +======================================
-> > +
-> > +Other Process Documents
-> > +-----------------------
-> > +
-> > +Please see the documents in Documentation/devicetree/bindings/ for information
-> > +on how to write proper Devicetree bindings and how to submit patches.
-> > +
-> > +Patch Review and Handling
-> > +-------------------------
-> > +
-> > +Patches handled by Devicetree maintainers are processed differently depending
-> > +on the patch type:
-> > +
-> > +1. Core OF driver code, e.g. drivers/of/:
-> > +   patches are reviewed and applied by DT maintainers.
-> > +
-> > +2. Devicetree bindings:
-> > +   patches are reviewed by DT maintainers but, except in certain cases, should
-> > +   be applied by subsystem maintainers.  See also *For kernel maintainers* in
-> > +   Documentation/devicetree/bindings/submitting-patches.rst.
->
+>>
+>> Document how Devicetree and Open Firmware maintainers handle their
+>> subsystem, especially focusing on two caveats:
+>>
+>> Devicetree subsystem handles patches with a minor difference comparing
+>> to other subsystems: while DT maintainers pick up OF code, they only
+>> provide review of DT bindings without applying these.
+>>
+>> All three DT bindings maintainers rely currently on Patchwork and due to
+>> enormous amount of emails per day, regardless how much DT maintainers
+>> try, they cannot read all the emails.
+>>
+>> Cc: Rob Herring <robh@kernel.org>
+>> Cc: Conor Dooley <conor+dt@kernel.org>
+>> Cc: Saravana Kannan <saravanak@kernel.org>
+>> Cc: devicetree@vger.kernel.org
+>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+>>
+>> ---
+>>
+>> I expect patch to be picked up by Rob, after review.
+>>
+>> Changes in v3:
+>> 1. Add also F: entry
+>>
+>> Changes in v2:
+>> 1. Correct typos and trailing white spaces.
+>> 2. Fix order of P: after C: in maintainers.
+>> ---
+>>  .../process/maintainer-devicetree.rst         | 70 +++++++++++++++++++
+>>  MAINTAINERS                                   |  3 +
+>>  2 files changed, 73 insertions(+)
+>>  create mode 100644 Documentation/process/maintainer-devicetree.rst
+>>
+>> diff --git a/Documentation/process/maintainer-devicetree.rst b/Documentation/process/maintainer-devicetree.rst
+>> new file mode 100644
+>> index 000000000000..d8ffe752bf5d
+>> --- /dev/null
+>> +++ b/Documentation/process/maintainer-devicetree.rst
+>> @@ -0,0 +1,70 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>> +======================================
+>> +Devicetree and Open Firmware Subsystem
+>> +======================================
+>> +
+>> +Other Process Documents
+>> +-----------------------
+>> +
+>> +Please see the documents in Documentation/devicetree/bindings/ for information
+>> +on how to write proper Devicetree bindings and how to submit patches.
+>> +
+>> +Patch Review and Handling
+>> +-------------------------
+>> +
+>> +Patches handled by Devicetree maintainers are processed differently depending
+>> +on the patch type:
+>> +
+>> +1. Core OF driver code, e.g. drivers/of/:
+>> +   patches are reviewed and applied by DT maintainers.
+>> +
+>> +2. Devicetree bindings:
+>> +   patches are reviewed by DT maintainers but, except in certain cases, should
+>> +   be applied by subsystem maintainers.  See also *For kernel maintainers* in
+>> +   Documentation/devicetree/bindings/submitting-patches.rst.
+> 
 > I would reword:
->
+> 
 > patches are reviewed by DT maintainers, but should be applied by
 > subsystem maintainers except in certain cases.
-
-It would be wonderful if provide a few sample *certain* cases.
-
-Anyways, nice document.
-
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
->
-> > +
-> > +3. DTS and drivers:
-> > +   DT maintainers might provide comments, but review is generally not expected.
->
+> 
+>> +
+>> +3. DTS and drivers:
+>> +   DT maintainers might provide comments, but review is generally not expected.
+> 
 > For DTS, we expect to pass schema checks or at least not add new warnings.
->
+> 
 > I can address these 2 when applying.
->
-> Rob
+> 
+
+I'll make a v4, no problem.
+
+Best regards,
+Krzysztof
