@@ -1,88 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from lamorak.hansenpartnership.com (lamorak.hansenpartnership.com [198.37.111.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E6022FF144;
-	Wed, 22 Jul 2026 12:38:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5203E282F01;
+	Wed, 22 Jul 2026 12:42:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.37.111.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784723889; cv=none; b=uIghThWicYEmRsIawA9RmaFmV7tGb8jpb52HnIsOIYmnXwF2w0oXlBtLosHwLFCknVk+X7n/wAlze5kOL+qNX/jZlYRCykQdJWI61h4uGhl8Zvf5/JEv7mJ+XIANylvpBqS+a4mMlD+7XCx5m4Inw39bQe67WWeLX9sl7c4cOLU=
+	t=1784724178; cv=none; b=jm8YR+TDo/+W5/E+CA3klqE9+0ZmWCZDATp+RtgkMa1XN0CRgfLRtwkWp/kUFoT+ki4UIlL9+Z1aov/QZxOxz2Gp/hOz6d2YLJPFDyRcN7mokNyx/8h2zir3dqhqIvOPy7hVEdQMzBrz4r9zGXZ3tP6j9oWtEoCpySuhpobCLlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784723889; c=relaxed/simple;
-	bh=ZvLlYsoMdMFZaqIS1I423rwWee8uS4YkCkdFSnj5whk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TLdfkv4Di09pFe6QbPvYayLiwjFJR6veipXLtCddLVOyC4wiMJzj+nWeZvWhuDhD2Mkjs6mGQDYRSxGjByTdx0SIu5kL1HAfDa4W1tnXwCLRan9+Wog/7HMJ8tuIAeY0Y8YeIeJ28rinqtiA3WZ/TyHiR7SZeDVrxc0xiqh6lUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zmy6ZDQa; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784724178; c=relaxed/simple;
+	bh=el10Bh8SZ/30LoF9AzTvO3XQJvujiOL+8AwnWkMK2fs=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=nP0F6fPWbieWWEF3Y7ND9J6B304Q6k84GElWUwDDnB8F1Ywmu+lGiwgvP4/zcOV5PpcUEj6ObxKsOVGQftdohYPInlE/SVyUguTFSVhrQr/tJERkikCNxde2cg07xjhkNZy5Fra23eP/OojBUeSiW61IDLwwxi0xDVSXwPdXVHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=oLBF29XK; arc=none smtp.client-ip=198.37.111.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zmy6ZDQa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 478CA1F000E9;
-	Wed, 22 Jul 2026 12:38:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784723886;
-	bh=iBj9zW2gPJekmQDZp/gsMdlmXiGZjbKWwdD8GbmT/jo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Zmy6ZDQaUNljEgDrw7+tFeP8sTCaoA88FR41Ijgn+DGEZyRVzmIHS4CHhPUFIx7ey
-	 mJKjtO29dBI5J9qxHHS6ZDBdMqaUGX+6F/cleSlys7NYIarVtDumAdge1Sh2vj5s5l
-	 KKv8B/SGPzIXSCSehfZRGHPNPqZKUN8VHt4FrYrpuc7+XR6Mwcw0Vk0014ihJH845D
-	 7rcKyh9WCJWYyBFv+imDw8gjAr84BECV3JH9Fhkvo9r0uBP5f8m4EhN8TkGE1NuNvS
-	 olTK0ckJxs2aOtHHA0CeBScHUMaB6OTpOotuigkUSKFFUanXID2RDl8QaIxLj4RHsa
-	 YpIcherlIjzCw==
-Date: Wed, 22 Jul 2026 13:37:47 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, "David Hildenbrand (Arm)" <david@kernel.org>, 
-	Boris Burkov <boris@bur.io>, Jeff Layton <jlayton@kernel.org>, 
-	Greg KH <gregkh@linuxfoundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Justin Stitt <justinstitt@google.com>, Carlos Maiolino <cem@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Brian Foster <bfoster@redhat.com>, 
-	Christoph Hellwig <hch@infradead.org>, David Disseldorp <ddiss@suse.de>, 
-	Mark Brown <broonie@kernel.org>, Jani Nikula <jani.nikula@intel.com>, 
-	Jens Axboe <axboe@kernel.dk>, Vlastimil Babka <vbabka@kernel.org>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
-Message-ID: <amC5iJPzGAUXKc3D@lucifer>
-References: <e93d28e4-750c-4a4f-8bfd-7a0b404cd05c@kernel.org>
- <akzETpsps4TMfqpC@lucifer>
- <0ba6bf66-e48f-40df-a953-503d317b3dbe@kernel.org>
- <20260707124031.GC211515@killaraus.ideasonboard.com>
- <ebc1f034-7297-459e-975d-5c143567392f@kernel.org>
- <20260707141803.GA254690@killaraus.ideasonboard.com>
- <20260707-siebzehn-geleast-gastmahl-4889a8f6b474@brauner>
- <20260707-impfschutz-lerngruppen-klubhaus-7aabcc82f3b4@brauner>
- <878q7mr59k.fsf@trenco.lwn.net>
- <20260722-haarausfall-giftschlange-klotz-820f0391533e@brauner>
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="oLBF29XK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1784724176;
+	bh=el10Bh8SZ/30LoF9AzTvO3XQJvujiOL+8AwnWkMK2fs=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=oLBF29XK5dRRhjdxmKQeXMtHDhi1fR3FbVvhJkyik7HiuCna0TJWL31WkBlhn3jlC
+	 idi8nClP4KAkHDJbHt9BNC/YhCk+w0cHiwV0kZCwcFEJJ+2qS8B5mXzhmLGxpSSRI6
+	 7V6ZyrL7dxqsvDH2rjPNNFKsepbAMe1Np+HTI7/Y=
+Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4300:d341::8c71])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519MLKEM768 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by lamorak.hansenpartnership.com (Postfix) with ESMTPSA id 2DB001C00F9;
+	Wed, 22 Jul 2026 08:42:56 -0400 (EDT)
+Message-ID: <560cc442f7ff3dc1958da472f6a6ff2b357e2da2.camel@HansenPartnership.com>
+Subject: Re: How to fix problems with the sashiko review model
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: sashiko-reviews@lists.linux.dev, Chris Mason <clm@fb.com>, Roman
+ Gushchin	 <roman.gushchin@linux.dev>, linux-scsi@vger.kernel.org,
+ ksummit@lists.linux.dev, 	workflows@vger.kernel.org
+Date: Wed, 22 Jul 2026 08:42:55 -0400
+In-Reply-To: <20260722121135.GB629472@killaraus.ideasonboard.com>
+References: <20260722041257.1557-1-pengpeng@iscas.ac.cn>
+	 <20260722042744.5C1B01F000E9@smtp.kernel.org>
+	 <dcadf40a07a616de931c484bbe68f4b3f1f83b80.camel@HansenPartnership.com>
+	 <20260722121135.GB629472@killaraus.ideasonboard.com>
+Autocrypt: addr=James.Bottomley@HansenPartnership.com;
+ keydata=mQENBE58FlABCADPM714lRLxGmba4JFjkocqpj1/6/Cx+IXezcS22azZetzCXDpm2MfNE
+ lecY3qkFjfnoffQiw5rrOO0/oRSATOh8+2fmJ6el7naRbDuh+i8lVESfdlkoqX57H5R8h/UTIp6gn
+ 1mpNlxjQv6QSZbl551zQ1nmkSVRbA5TbEp4br5GZeJ58esmYDCBwxuFTsSsdzbOBNthLcudWpJZHU
+ RfMc0ew24By1nldL9F37AktNcCipKpC2U0NtGlJjYPNSVXrCd1izxKmO7te7BLP+7B4DNj1VRnaf8
+ X9+VIApCi/l4Kdx+ZR3aLTqSuNsIMmXUJ3T8JRl+ag7kby/KBp+0OpotABEBAAG0N0phbWVzIEJvd
+ HRvbWxleSA8SmFtZXMuQm90dG9tbGV5QEhhbnNlblBhcnRuZXJzaGlwLmNvbT6JAVgEEwEIAEICGw
+ MGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAhkBFiEE1WBuc8i0YnG+rZrfgUrkfCFIVNYFAml2ZBI
+ FCS3GUMIACgkQgUrkfCFIVNZKjQf/deRzlXZClKxTC/Ee2yEPqqS7mm/INUA49KdQQ5oIhSxkUBy0
+ 9J4qjMIo5F8ZFkFTqikBqeL35LKu7O7rn8WETfX8Bxvos3HUsl3jHo34DES4MUFIpoQPgtiLRGwLb
+ K0cVCAArR2u2qj4ABmTRrs1I1kvdjEw6gatOuXtEe/j5O2fvfzTq9GBr0Q3n2IAsFXi4hLlx6VPE8
+ tyWUZ8BWJKtih3JAeUiXFvASL3McV0rV9RnU0VbjEQEhSE7PMYhWpnDC9AyBb0lXJllQRvC3NSkUB
+ 8KVQgNNxRPss0WE/nBoZ4dFA42jTyzTz8lNylxZoAWV7WJb3QxVg4oCodRVrxxrQhSmFtZXMgQm90
+ dG9tbGV5IDxqZWpiQGtlcm5lbC5vcmc+iQFVBBMBCAA/AhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeA
+ QIXgBYhBNVgbnPItGJxvq2a34FK5HwhSFTWBQJgS5mYBQkbNYS9AAoJEIFK5HwhSFTWBpwIAL5Bk3
+ 5FB34U6iHmDzzgdCbxLTs43T/YQyJpcGIvopBvnI/fDY8oSG6Df64/O6B+1R+A8TDp6ZG5ysUWnCC
+ 6GuIaEHemBYkitMPglR6+sGCMQY7O0mlsPvdssvKK1KI9Bno4VU6ogaF2qVzefSqg1Djmf/DcsxWP
+ rI/jdJ8FB5AYR2rjIdDFc+zRdAJuavo1/anyY2wgpFh/3R8IOYAEfWV9nGgYkf9+tA4EIn1sxE0I3
+ L5oW2N3mbyRrkzuBwO8ztMCwqEPk7moWzhokcZqMXiAIahaZdkashJC+s2X2RZSGCy+g+pvY5NN4B
+ BVG5XwLgVBqbHMTcxE0fbmPqz+q6O0LEphbWVzIEJvdHRvbWxleSA8amVqYkBoYW5zZW5wYXJ0bmV
+ yc2hpcC5jb20+iQFXBBMBCABBFiEE1WBuc8i0YnG+rZrfgUrkfCFIVNYFAmODZ5ACGwMFCRs1hL0F
+ CwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQgUrkfCFIVNZu0Af/TzvL2/NdgAcw9uN3x60H8
+ jc4QUq14VpxcFEFEMpcj1morkX/G93V+56HBBaXZj+yK8PhxIA/SIz+sU7C/0YvKuvzakP8ZX/7WJ
+ e32SOUtjfr/VTaqjIBzNj6OxLvZpmNbBw7s6DwhhNpHOWqJ/1ml+PtDRDV71IB58yVqQjp1xlNKVl
+ ZppcJ5908EJzsFnRIVjiQiDSKoppqB2BCibBbrWcln7CiWMyOC/cco6SIn6twH+f7+aivJ3xGcOE2
+ a9gBKF5rNi9TBoX9oyPmshv/TDmnohsVrH7AYXlGYfZTk15SWEiROh1QX8/uD9wl/gcIv5EDUpT/F
+ L2jzOsA5663bw==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260722-haarausfall-giftschlange-klotz-820f0391533e@brauner>
 
-On Wed, Jul 22, 2026 at 02:08:51PM +0200, Christian Brauner wrote:
-> On 2026-07-07 13:03 -0600, Jonathan Corbet wrote:
-> > Christian Brauner <brauner@kernel.org> writes:
-> >
-> > >> Then someone can basically just merge the original patch I sent since
-> > >> everyone seems to agree on that front. And then the extension to include
-> > >> how the LLM was used can be discussed in a separate patch.
-> > >
-> > > https://patch.msgid.link/20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org
-> >
-> > I still have it around :)  I can apply it if that's truly the
-> > consensus... I'll confess to having not entirely kept up with the
-> > conversation over the holiday weekend, though, and needing to review
-> > things.
->
-> I read the article. :) Feel free to massage the commit message to
-> whatever seems right and resubmit.
->
+On Wed, 2026-07-22 at 15:11 +0300, Laurent Pinchart wrote:
+> On Wed, Jul 22, 2026 at 07:58:48AM -0400, James Bottomley wrote:
+> > There doesn't seem to be a Sashiko list, so I added ksummit as the
+> > most likely one to catch attention.=C2=A0 We got this review in SCSI on
+> > this thread:
+>=20
+> workflows@vger.kernel.org=C2=A0seems a good candidate for discussions
+> about tooling. The mailing list was created to share workflows and
+> tools between maintainers as far as I understand.
 
-It probably got lost at this point so also please add my R-b to it:
+Happy to keep this list cc'd, but I note I'm not on it so I'm not sure
+how many other maintainers would be and the object is to engage driver
+maintainer feedback on the proposal.
 
-Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+Regards,
 
-Cheers, Lorenzo
+James
