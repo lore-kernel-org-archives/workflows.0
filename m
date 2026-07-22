@@ -1,80 +1,73 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7BFF31AA8F;
-	Wed, 22 Jul 2026 20:38:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1FEF470EAB;
+	Wed, 22 Jul 2026 20:48:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784752722; cv=none; b=n9P3Gtu/92e4TZSZsTiFBFgxQNimUiFhxdaxEkMDHWdWblOHF4xqkmmew0tsYUwwcTHaEm9dN6Rc1hf3+6SVJRLM0X7wqud2/kUxlnMtI3bcfA/+i/8BOoRVL+NvOrGSHLwt8KkOOJE8ddB2eDgXKA2HeidA7e/aTPb36xEBPZ8=
+	t=1784753286; cv=none; b=XLJN23Yrb6kGdEnhtghBwA7aAWru1FsSCTVeYFUev6sUM14DR3SgPdkHvWC5m/7QMR8Y1pCqLq+kq9hWYHjsc6Rj5vsqoxJiTgyQFSc2S3ot154PIntUPeYosqm9Gfl+icCxWWm+hOtGlYyWkWEIfgOPo3ulobzze5YhHAcahJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784752722; c=relaxed/simple;
-	bh=+nThf52Avm3/Tb3sglbmL8K+cZPpJ5Pq2kgJKX028Lg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=mXlEpLsRISjT0Gply2MQH/fV2YI8u5HNV5tK2XCglRLJuIz7jbhfvaSg9m/Q3DYviMDrJ+8Sy5qL71qMRsNoTlblfEHeV7loVSNcBrx457hOy+6UPbzIijV3jFV6vUITaLeBe3jX5XSYnpHFkdR7pNMbmqJjHfQrH1eP8Bya42E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=CmkpMHqQ; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1784753286; c=relaxed/simple;
+	bh=vymP08tnWdguA9w/xP1V3kmmbRRD3nck1LbblyHe5dE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hPdjAXjbyEIqtzi+AXV6XLkQg3yzYC2ZoSKO7FyoKhvoullGP0PQtFBmtY5fOij7+b/dXDHQSwZnfIjYdRB52rmrdG77xsQ7iaG/ls/npZHS2L3ZWIaoXzvHsf9JNbKGRQQs1GsGGdtnR5G8aGWeOgTka3wZGQjzttQFY6w1yB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fO6KoKXe; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="CmkpMHqQ"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BB9EB408BB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1784752719; bh=d+uzLJLSXew5J0Iu7JkEniDE/a3cAS9EOkP6LgOz9nU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=CmkpMHqQKNH3FJHRLSFFXnrHg4FFQC5mkVz8qG129bXnFSzmkUYW7k/CpnJBundMu
-	 wMhKi3doIW2pZkxHQ/BYvm1HYALU//dor5FFP8AW9GKefAeUrVFn++EUo1h0k0XUTu
-	 cMnUwRPgc3qhbdKqr+4ugBlOPpjQOGr3aAX6UxgDueaMDcKMXd9dX+lFoCn7RRtRVM
-	 XLHScrGGlfmp47ywCRwroonBEVucwM6hILjRbLyO1HvO0K4zzf+RdhlIvLKlY/Z9N+
-	 tfiF6xunFq0C6hF1+/ZRPfxJ/A0Aw9LC2WvSaxzR6lrjf0oJPt2D0ZuAOALqbMdR7U
-	 3h26XS8VzBiDQ==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id BB9EB408BB;
-	Wed, 22 Jul 2026 20:38:39 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Justin Stitt
- <justinstitt@google.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Carlos Maiolino <cem@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>,
- Krzysztof Kozlowski <krzk@kernel.org>, Brian Foster <bfoster@redhat.com>,
- Christoph Hellwig <hch@infradead.org>, David Disseldorp <ddiss@suse.de>,
- Mark Brown <broonie@kernel.org>, Jani Nikula <jani.nikula@intel.com>, Jens
- Axboe <axboe@kernel.dk>, David Hildenbrand <david@kernel.org>, Vlastimil
- Babka <vbabka@kernel.org>, Christian Brauner <brauner@kernel.org>, Jeff
- Layton <jlayton@kernel.org>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] docs: link AI coding assistants and tool-generated
- content pages
-In-Reply-To: <20260702164901.121128-1-ljs@kernel.org>
-References: <20260702164901.121128-1-ljs@kernel.org>
-Date: Wed, 22 Jul 2026 14:38:38 -0600
-Message-ID: <87mrviahf5.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fO6KoKXe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C55A1F000E9;
+	Wed, 22 Jul 2026 20:48:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784753284;
+	bh=c1PqhOqWr6GbkXk9zRaLgb7IwFJffrElrtvK4H0eR9Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=fO6KoKXedYr9f3N20p7zxH/PzLWm8mZwqamy5KyN9WLOZSUUWCCaFfV7AuYHuqyOP
+	 D6RQ2L0RGYkJCSR3xwX7XmwACsh+u80emGmKHQwQJ5d3GMdDQaS7emvxqWixZ0gh9G
+	 2zwz3mzwrMMmGpkZd6KUe941mFkxBXE3qze/8Jthoq8CLx51X4HwCIeq3ovfYrttQl
+	 SYNZXng2ljWO+ExEXXhboV4j5wFqwjDIei+3HSBhUGEHF+W91iWlsuPEXNeOzL9nNK
+	 6aVPRqfgNnxosI8jCOU75ZLMRgF47+hPITSXSi7H3K8n5Rm3VrAbUDtHAMkQxVkfFR
+	 nd0JXXmYwGzNw==
+Date: Wed, 22 Jul 2026 16:48:03 -0400
+From: Konstantin Ryabitsev <mricon@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kernel@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
+	Jori Koolstra <jkoolstra@xs4all.nl>, Sasha Levin <sashal@kernel.org>, 
+	tech-board@groups.linuxfoundation.org, Jakub Kicinski <kuba@kernel.org>, workflows@vger.kernel.org
+Subject: Re: [PATCH] coding-assistants: simplify attribution
+Message-ID: <20260722-accurate-defiant-puma-a7e23b@meerkat>
+References: <87qzkuahlr.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87qzkuahlr.fsf@trenco.lwn.net>
 
-Lorenzo Stoakes <ljs@kernel.org> writes:
+On Wed, Jul 22, 2026 at 02:34:40PM -0600, Jonathan Corbet wrote:
+> -  Assisted-by: Claude:claude-3-opus coccinelle sparse
+> +  Assisted-by: LLM coccinelle sparse
 
-> Both of these guidelines are complimentary to one another - one specifying
-> guidelines on AI coding assistants, and the other specifying those for
-> tool-generated content.
->
-> Since they are complimentary to one another, provide a link to each in the
-> other.
->
-> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
-> ---
->  Documentation/process/coding-assistants.rst | 4 ++++
->  Documentation/process/generated-content.rst | 7 +++++++
->  2 files changed, 11 insertions(+)
+I've been playing with this a bit, and it's pretty easy to teach the agent to
+add a few tag-like notes as to how exactly it was used, e.g.:
 
-Applied (finally), thanks.
+    https://git.kernel.org/pub/scm/utils/b4/b4.git/commit/?id=018b87444d32eb2ffee7cb25f0785e54aa35f7bf
 
-jon
+This has:
+
+| Assisted-by: LLM [design, codegen, tests]
+
+It tells us a bit more about *how* the LLM was used, without introducing the
+advertisement or pinning exact models.
+
+This format should allow for multiple tool usage:
+
+| Assisted-by: LLM [triage, tests], coccinelle
+
+I don't suggest this is included in this version, but it *is* fairly
+straightforward to add to AGENTS.md and tells reviewers just how exactly the
+LLM was used.
+
+-K
