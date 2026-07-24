@@ -1,96 +1,84 @@
-Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC04E4582C5
-	for <workflows@vger.kernel.org>; Wed, 22 Jul 2026 23:03:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.202.193.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC232439F6E;
+	Fri, 24 Jul 2026 18:17:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784761440; cv=none; b=cbaUuDj4tp/wWnvRS15Nqr8mcGmz1FyQTLU+ApAB536hP7kOT2O5oMr9VgMWHt8V/35yXP4fkxtmO6jB9ghQeh9/zAjgvV8YXrid64pHqgDLHdzkHXjufz37J+T6tz+bUsueEO1bPjQnuspyJQIHhCyk7KbwAMP/tTs4WaxfRyM=
+	t=1784917034; cv=none; b=AWGjDp1bi+gFJrHR04/Ab1WPgDiyXklQnYwU9BCmNWYeyR/kS/syyYReUcqLz5v6/k3IlAH+IcwOIg7YNZRseqIbLF+rXq1KQZecq8gqF48pvhM9HOM+90NiYrY87qOmTybO3McT2h1NviYWvCKwiboCFN2UUVn8cxCaW7eUJAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784761440; c=relaxed/simple;
-	bh=ajtinq1Uog/5cndEpsSn3vzcIj6rnnxTWDxodTDwDOw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=F/iG343T46xYW9ELBW0Wmm99mT0xGVoCyCNOPbYYzKO+ETkD/gxaAd6dXcKo84eKg3TP8gXrmgj325h6owHIIhRkJpMdCXA5eCB2YEWBk0XnHQaxSQV08BrG4SUOyVirAX0GCRr6sEBoPU9Dwjq3bfa6rhqmqySUgQ+lU/5FgDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nikableh.moe; spf=pass smtp.mailfrom=nikableh.moe; dkim=pass (2048-bit key) header.d=nikableh.moe header.i=@nikableh.moe header.b=bNfYTrEF; dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b=fEEFuEuc; arc=none smtp.client-ip=34.202.193.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nikableh.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nikableh.moe
+	s=arc-20240116; t=1784917034; c=relaxed/simple;
+	bh=DWR+d2TlYMH3PmMtQTIbXTYT3NT/AwWXWCAyv6SiudA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Z3nRgTU9fub2cjU0hq8Wr8oEyo3s6UYmFAY+Ess9PJxIdC/lroboeaKjDmaEhjeowfczp+ib+/+8gyLkEdNHgUofPpxDQbHXLS6CcYBzmi9AzMbRkPFMrwFxhOGc+4qCk+VvN0ybZS/wfj6CtRo/mpFYJH2WS7wTZm2edFik9EA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fotqM9yK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nikableh.moe header.i=@nikableh.moe header.b="bNfYTrEF";
-	dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b="fEEFuEuc"
-DKIM-Signature: a=rsa-sha256; b=bNfYTrEFN7AnDQeTIn8kpovu733hN8Pi/6WJATfSbu6g4ZXj2KpA+knHAHi2/eJ0hO4QRGrNY40C2zz1W1aOVqDp7Jurtk1uwH/TbMl76+xzwly7p5AYE144kv475AQJWeUAyUkbnUcS/1XWLbZQtljGovpKm7NjJnMuRyL4TTRapLUNmDn8vLyBAoYo6JjlP8vO6/a8ZK1DVp26nhmB3uis16MGDgKpjFiCLNdh0qM7Bx38OUGXoKgz5tkQrSeaABDgcC6HfL/eCze+u7qT2WbZE94uTv43jE0iJqb3qtoHhnzbz6KuzNQhNnx7eMn2mpx/szRvmMcU6rEcwB8PUQ==; s=purelymail3; d=nikableh.moe; v=1; bh=ajtinq1Uog/5cndEpsSn3vzcIj6rnnxTWDxodTDwDOw=; h=Received:From:To:Subject:Date;
-DKIM-Signature: a=rsa-sha256; b=fEEFuEucT7sCu8jwnuQLS1G+u0qH93uTlh5iOhoimYUfGGejGFZEOL1bVMwLYSJN4OCDYMmU0OM0ZS6FR1HjP+9ZBkVYYZ8RthPWhcd0gzPvkIXHDQHJIz4L6RfIlkyXy2gbSmcBs16GMeTSlGIgA0uSsfkHPQvWgvrqygouohj2/rcaL/z9hXhN8Xv9gabTq16oNOVSqPXXfgG7Kd/4lBuu+j8Heq6JsDAF6CAqC2UCdZlSIC84Bg0x0d808PXMjdKRp5Uf6G11u2nMMZVtcJ783aNWQiAg5/oCzfAZuxzOWiNuqpFwoZIwNExW68TMiZPp/iiCyGGM3gREqlhihw==; s=purelymail3; d=purelymail.com; v=1; bh=ajtinq1Uog/5cndEpsSn3vzcIj6rnnxTWDxodTDwDOw=; h=Feedback-ID:Received:From:To:Subject:Date;
-Feedback-ID: 209604:18551:null:purelymail
-X-Pm-Original-To: workflows@vger.kernel.org
-Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id 1734799623;
-          (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-          Wed, 22 Jul 2026 23:03:47 +0000 (UTC)
-From: Nika Krasnova <nika@nikableh.moe>
-To: tools@linux.kernel.org
-Cc: workflows@vger.kernel.org
-Subject: [ANNOUNCE] koshi: a GTK4 client for reading and replying to lore.kernel.org lists
-Date: Thu, 23 Jul 2026 01:03:15 +0200
-Message-ID: <20260722230315.57499-1-nika@nikableh.moe>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fotqM9yK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4E271F000E9;
+	Fri, 24 Jul 2026 18:17:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784917032;
+	bh=KedyfgiW+oWj2aCOTXnOip1Bi081qgvKxlB2v/C4lEI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=fotqM9yKFArJVi4zx1Nlz3ITwVjRazXmY5PI7F3ivPDJH1eDdbBzQ+OTYApVy4y9z
+	 Dcvl2aIgwptRiN1y8Qri5qlpJtv/UxC/Q9xNZLaLsbh2mO7EhElhamMff72eErcl1W
+	 JtetGgzIH212QOhLQLmIFPcI8b7ZWaDymkphQxIrNPhfMDtc6AqksvoUS5poNRLPj+
+	 ECcdGN36yYpv0Fm/yWTY3GmrXagcPDuYHMaeUBR5XrDWYnmlx2cqEwbjyOo+cHHWvD
+	 7bTYytAI1RRNHvDqPTpw5JRm4qRfRQfOV/czccZzS2i5Gzw1GW5Oq/wCVT3CdrU+8O
+	 egE7w32rTmWUQ==
+Date: Fri, 24 Jul 2026 20:17:07 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Konstantin Ryabitsev <mricon@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+ Christian Brauner <brauner@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Jeff Layton <jlayton@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>,
+ Sasha Levin <sashal@kernel.org>, tech-board@groups.linuxfoundation.org,
+ Jakub Kicinski <kuba@kernel.org>, workflows@vger.kernel.org
+Subject: Re: [PATCH] coding-assistants: simplify attribution
+Message-ID: <20260724201707.54ea4778@foz.lan>
+In-Reply-To: <20260722-accurate-defiant-puma-a7e23b@meerkat>
+References: <87qzkuahlr.fsf@trenco.lwn.net>
+	<20260722-accurate-defiant-puma-a7e23b@meerkat>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: koshi/0.3.0
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by Purelymail
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi all,
+On Wed, 22 Jul 2026 16:48:03 -0400
+Konstantin Ryabitsev <mricon@kernel.org> wrote:
 
-I'd like to announce koshi, a native GTK4 + libadwaita application for
-browsing, searching, and replying to the mailing lists archived on
-lore.kernel.org.
+> On Wed, Jul 22, 2026 at 02:34:40PM -0600, Jonathan Corbet wrote:
+> > -  Assisted-by: Claude:claude-3-opus coccinelle sparse
+> > +  Assisted-by: LLM coccinelle sparse  
+> 
+> I've been playing with this a bit, and it's pretty easy to teach the agent to
+> add a few tag-like notes as to how exactly it was used, e.g.:
+> 
+>     https://git.kernel.org/pub/scm/utils/b4/b4.git/commit/?id=018b87444d32eb2ffee7cb25f0785e54aa35f7bf
+> 
+> This has:
+> 
+> | Assisted-by: LLM [design, codegen, tests]
+> 
+> It tells us a bit more about *how* the LLM was used, without introducing the
+> advertisement or pinning exact models.
+> 
+> This format should allow for multiple tool usage:
+> 
+> | Assisted-by: LLM [triage, tests], coccinelle
+> 
+> I don't suggest this is included in this version, but it *is* fairly
+> straightforward to add to AGENTS.md and tells reviewers just how exactly the
+> LLM was used.
 
-  https://github.com/nikableh/koshi
+I'm fine with either way.
 
-lore has excellent archives and git send-email is great for sending, but
-I couldn't find a graphical client built around the lore/public-inbox
-model that brings the two together. Koshi reads lore directly and,
-instead of fighting your email client over formatting, simply invokes
-git send-email.
+Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Features
-=3D=3D=3D=3D=3D=3D=3D=3D
-
-- Follow a thread and receive notifications without subscribing to the
-  whole list.
-
-- Replying and sending goes through git send-email. Your git config and
-  credential helpers work unchanged. Koshi has no SMTP path of its own
-  and never rewrites message bodies.
-
-- Composition is plain text only. There is no HTML mode.
-
-- Color highlighting for diffs and quotes.
-
-- Rust, GPL-3.0-only. Distributed as a GPG-signed Flatpak; you can
-  verify build provenance with gh attestation. Plain cargo and nix
-  builds are also available.
-
-Current status
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-v0.3.0. All of the fundamental features are working, with many quality
-of life things already planned:
-
-  https://github.com/users/nikableh/projects/11
-
-Installation
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-  flatpak remote-add --if-not-exists koshi https://dl.nikableh.moe/koshi.fl=
-atpakrepo
-  flatpak install koshi moe.nikableh.Koshi
-
-I'm sending this message from koshi itself. If anything about the
-headers or formatting looks off, that's a bug; please tell me.
-
-Feedback and questions are welcome.
-
---=20
-Nika Krasnova
+Regards,
+Mauro
