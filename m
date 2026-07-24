@@ -1,362 +1,172 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2951441DDFD
-	for <workflows@vger.kernel.org>; Fri, 24 Jul 2026 18:56:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17DAA2F8E9F;
+	Fri, 24 Jul 2026 19:15:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784919372; cv=none; b=Yy/nnvUeunks0mSeqpdOEu4mzLd+SDcAX1lI08+e00lyWtGX0RoX+0e1hbyhsaXLWKhxr8T2rP0tRBmSikvY+Qt3x0JHjqssRD3e+NJXUAinevqcEa9ozyvus7Fz/gBN4YA0bF23w8Umw2FdISvW75VbYfNA4lVsDC9GNfa9HuA=
+	t=1784920551; cv=none; b=Rcyh7QkhUFC5FmB2BBySBHanLjajEF5zxQx9tCkohvtK+JuQsNCNWbA8Bm1TmdmRVmWO6IblacV2jsf3mXN9WdgQUT2zcNUOrq3CgCnydT53hSVyBwGIJ1MaUDD0YAudQ2/wb4lGDMLqIbHSGfV13Ue4gCoF0cO2fyAc6WFKzQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784919372; c=relaxed/simple;
-	bh=c9V0sfqfFxdMg9bjVLruyv8TQk5h66sNRxq7jaYnBb8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=QLkmX+zeU5TsjyUC0h+tbTQNYOxDCrNz3hBe1IogPFIQqPYl5dL6gFVycfSW5AKsEIvYJ67n7pJEqPUI9/USrGDXmdI1eqkqBmXanctyDBTNk+bkVFEolXaGEIVCnI0tcCA1A1c/iB4zJ9MrV1PY1J6H0N3+W36LW+JFmV0CH10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=NyISXkki; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=B4lG925L; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1784920551; c=relaxed/simple;
+	bh=nFId9gyA7KIrs+CTIMBlOj8PeGZ2P8avR7/NRdOC14s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sN2YVou8Nhd3QMoyPgocNEQdyPV8yzcXbEcTTBdAVSzGbGuFza+BaLhQWEWaAfNSf/tvA6HRqkZotScrtsmKLYyYrikfJ4sYUmQmPBGOKwZwXBcohBlmwQQLBu5tvO0HvGa1qgFVeC6ehZP2XporZ7VpC/Is67MgO127KWG+Uro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hbN58gWJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="NyISXkki";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="B4lG925L"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66OGqW0N3779941
-	for <workflows@vger.kernel.org>; Fri, 24 Jul 2026 18:56:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=uhVhlXkCOsR0F6ccRTyc8u
-	L2BKxnxpaMtXK7jOWCioU=; b=NyISXkkiFYUpI3Vc+ZGSDJ4IU/UK47CbiGZcHk
-	/UxoBESD8ZvMyqE3wvMjQ3R5z5/KebJG9PaeDfdk4e4KC5/nbFWRVpM6ybvdGoO8
-	arpHUm4OG3FHHn5IWVZoV3eWMgainaRnHSCkybytzJBF6xXqWel5A6rd6XITTqaG
-	2D/gBReYEJBahh4N+qsvyB+rSCDeVajHNu5lkFdkMc9wtxtAiSugUAHIhHCPSekU
-	o8Er4f8iD3zsS8ria4NgFmB+Az5BBzbRHYX4aTWbSW/fmv+XjDL2qtZPTn+SkYeW
-	MQLlGXPUwbfxjxqm/67vkG6VmdXYVfISHaMomPH2Mmhw4XjQ==
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com [209.85.210.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fm5byt348-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <workflows@vger.kernel.org>; Fri, 24 Jul 2026 18:56:08 +0000 (GMT)
-Received: by mail-ot1-f70.google.com with SMTP id 46e09a7af769-7e99ff505c2so356837a34.1
-        for <workflows@vger.kernel.org>; Fri, 24 Jul 2026 11:56:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1784919368; x=1785524168; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=uhVhlXkCOsR0F6ccRTyc8uL2BKxnxpaMtXK7jOWCioU=;
-        b=B4lG925LbGjP1ZuqQMrH0BTJ6Kihlj2R0+0MffRvxd6hD90HWdm8Eroy8Pi8T9iDvN
-         +AZ3rB39PkNcH6yEXF165GkAKka5syIET9r7WeQWCI4hqh8Z4fcafKh7GVPS+mWArb5s
-         FJ7FA/TWqUMau101rl57ijvf2MwRBgGMFqoI3DGDacW/gIt2Yt/6cBPe0Rr7wdNKJRCv
-         rhLKwrZWPHhPqJPSNzMdHySoi74PwS+3ZmdtH+8ZvB5FLY7Nfqwp0HOevrGI4lUPcpRN
-         EYbMXkkMoXkWD2NlJsQb//BHSMollx7AbnvdnMhwMuZayjQzyFicAGxe8SUMoEyvHTxE
-         A0Qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784919368; x=1785524168;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=uhVhlXkCOsR0F6ccRTyc8uL2BKxnxpaMtXK7jOWCioU=;
-        b=GSUtu1v7JZ0H8aFoMZfhKXyaCQYvYM19rOiqncSHsCwZ+kgn/ty4TPlS0i8kD20615
-         Clk9335a9YtToBs4GkCM+Yibvr2HFmYfhhJMZizZCMCXZFT4LqmV78WVOAK4olVENwzP
-         5xty8QNi3qVIlHmO4K1kG87h/PkRDJgeEV0lsTAve+PiHKL0e7/eLnJRUy3MR4zDmPII
-         G4/GQh8DvI1B6ZHv5uFrE9dGX0tFyHXVPPlvY6QqE+mOURS7X8l4vjxVC/r5PEo1IDqY
-         5Q3uVPc+m0hWlZ5Ae++YnjcLrSoMgjnZyEgPbU5VDRIN+z8ptN+ZJ9FzN0vmTJpkjOL+
-         XwnA==
-X-Forwarded-Encrypted: i=1; AHgh+RoJWyVn6wbUiU4XUi8nw/xzQFs8/C9aOPitS99VRk2k7/Hs7VZj3y3p4xvlrJ7vQ1dBzP1NNF8l3/Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwYTKE/Vds9P4AdPwvPDgba+7QiwSAoNx53NZx5sxDKm/q3jcgP
-	eXFCjgUVUs/GPXsAFTKOsfMpg30iW1+QVHA6LMXXgGrW/z6VJUzMI6LDNI8ARevRUCeaqfJzESZ
-	UigfVAOPcz3V5/jEETt45Z3mraawa9r8EEKVgMBP8yqflWRmO9XluiIfzCbGqySU=
-X-Gm-Gg: AR+sD10WlYG1i37m40bKogtXic+GppJ7eopH6OTdGTx0O5877XnoxDbKaNQ9/sVnc4G
-	ZIwudBlDI4b2pyaJBA8DRH90+uJAJr82ya+1g8W2DqHJKsDthXAOy3OQvkoy5pSyIwcQ24JQK2p
-	uk7t3ndjAhptR/iJBceMZfeeF5UghX8ONLXmSIHVuwoLQdqg2qZd7u02U7WhrNrrkk9CvpPytkJ
-	PCTHNk2gQX7Pi+luKmD01NPiHGoWMtJT0SBK0SI+FSH+uzrPJ0q0ya/AWGNa6eFLUyhvP/7VaYr
-	X3Nm/pdKEsOb3TEYe5Y2yo2ACFvIVUTJWnLynFVmNsmIYeE7tU61IUGlplANyPouP+GsxI4bfhK
-	8QdBievA6Y60O9K0pPoc=
-X-Received: by 2002:a05:6820:208a:b0:6a1:4040:97c1 with SMTP id 006d021491bc7-6aad4161879mr5027162eaf.56.1784919367665;
-        Fri, 24 Jul 2026 11:56:07 -0700 (PDT)
-X-Received: by 2002:a05:6820:208a:b0:6a1:4040:97c1 with SMTP id 006d021491bc7-6aad4161879mr5027143eaf.56.1784919367204;
-        Fri, 24 Jul 2026 11:56:07 -0700 (PDT)
-Received: from [172.17.0.2] ([104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6aaf8e99ff5sm559583eaf.0.2026.07.24.11.56.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jul 2026 11:56:06 -0700 (PDT)
-From: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
-Date: Fri, 24 Jul 2026 18:56:00 +0000
-Subject: [PATCH] checkpatch: Validate committer sign-off
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hbN58gWJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A38B71F000E9;
+	Fri, 24 Jul 2026 19:15:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784920549;
+	bh=MfZSY3Q/zzKMDvoG0g5OHtLy83DFVZlVLX7VdBW6WS0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=hbN58gWJbj2XK624Im4l4Mio0RLjZ0ErhlodWh8t8zeciTah6yPkj/D2zcpwdfZnA
+	 3D/nJH0rgOJM1VQBZhptZepk3kmToSjfRn7miumHg1p/x+j47m9AKDGR6W8SSyS++e
+	 UhuNfCB9ykjbX18InrlzX5VLDEnuAyLCT22QCptxEd8fASF7utFV17FbvMxOfQf18M
+	 geIXIgbeFfZsopGWfvn0MeKJgRcvZ2hhsTKgnsiiy9zDlJ3Tn17Kp94fwtYc4tbFBB
+	 FKVIAL6ABJbK3J2fRr2XVGVi07fs8yfzXdOdl7y5f2c9JD8MZ+jeayWosFGu1zTFki
+	 BvnhFuCGUiqkA==
+Message-ID: <dd18d622-115e-4887-8526-8c6fa766810a@kernel.org>
+Date: Fri, 24 Jul 2026 21:15:43 +0200
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [tech-board] [PATCH] coding-assistants: simplify attribution
+To: corbet@lwn.net, linux-kernel@vger.kernel.org,
+ Christian Brauner <brauner@kernel.org>
+Cc: Lorenzo Stoakes <ljs@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+ Jori Koolstra <jkoolstra@xs4all.nl>, Sasha Levin <sashal@kernel.org>,
+ tech-board@groups.linuxfoundation.org, Jakub Kicinski <kuba@kernel.org>,
+ workflows@vger.kernel.org
+References: <87qzkuahlr.fsf@trenco.lwn.net>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <87qzkuahlr.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260724-checkpatch-committer-sob-v1-1-68550513106b@oss.qualcomm.com>
-X-B4-Tracking: v=1; b=H4sIAD+1Y2oC/yXMQQrCMBBA0auUWTuQJiWCVxEXzWRqRmlTMlGE0
- rsb6/It/t9AuQgrXLoNCr9FJS8N/akDSuNyZ5TYDNZYb87WISWm5zpWSkh5nqVWLqg5YG8mCtE
- 7HwcHLV8LT/I51tfb3/oKD6b6+8G+fwHD3giofAAAAA==
-X-Change-ID: 20260723-checkpatch-committer-sob-10fcbd636d43
-To: Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Andy Whitcroft <apw@canonical.com>
-Cc: linux-arm-msm@vger.kernel.org, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7213;
- i=bjorn.andersson@oss.qualcomm.com; h=from:subject:message-id;
- bh=c9V0sfqfFxdMg9bjVLruyv8TQk5h66sNRxq7jaYnBb8=;
- b=owEBfAKD/ZANAwAKAQsfOT8Nma3FAcsmYgBqY7VFceFBjfIxK8PPdsO40gVQtS5n8/i/s19Or
- dGpgShB69WJAkIEAAEKACwWIQQF3gPMXzXqTwlm1SULHzk/DZmtxQUCamO1RQ4cYmpvcm5Aa3J5
- by5zZQAKCRALHzk/DZmtxVcmEACEmQv4L9lQ0G4F7wheIs5mP7TeG3QjQZ9JrnVuBz47sIxPAiB
- OaFnjIz/ET16IZ6KDlV7CFixi1QZmVI4aRtl3pl8pTPc5k3DSECh9IGi7qTpaJpNj07/k9tZmCP
- ofOtIcg/N5k4RUEV7tZYcEr9PeKSO3KfRZstCadYJ5YeBxcRBJMCa1Sfazd1wExGK2THmQb9ksS
- nT7i5C33WXWoHpYdL1k1oRvCpzg+MJLntmNoh78lFgOyJHQD26Ji3jBUAwylFSok9vvC81ozpqV
- ZlwD4/IJloKkExirgOJGzfUNeaefjOI6kc5xb2F03UbU/cB6mDsfaDj3SXckUj84yUojuzOyWCP
- qtefbSLEEhJEFe6OYgLdxE2b5G+IWBDDLd/yBUlydnkuNp00lq7X3tbySaL5DESLdz690tekv8U
- ksqXqbZVhqw6yNpDVQcHi2hJTqzgmTydksWBUl9vJOyg94C+lZnHkR4tRqxucEYIF4SroGscUIE
- YP08UGnZi7lZ5hTLH2QdQi5xBZ2TTnzI7BWjud/w2E4itRO7Q/mUqlw6UaGIvfhlTdRiUy5sQS+
- 6G0sAOKC1tySnhU2Whah78Rd3wHnQ18ZuBE5HUirAU/dji8S0UrG34ybz8g6LYt8Np4lI5VMyXw
- 18i58OcSubA++ZK3EV+MKin7BUUbIPZm48w==
-X-Developer-Key: i=bjorn.andersson@oss.qualcomm.com; a=openpgp;
- fpr=05DE03CC5F35EA4F0966D5250B1F393F0D99ADC5
-X-Proofpoint-ORIG-GUID: PwOqRAXglseCikUBQgUA7mZE1N8A8MyX
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI0MDE3MCBTYWx0ZWRfX75aQTT1ozTVW
- QiR02ZWXe4Yuh0O/tV3ILxvA3kSS8bOS/140j8lAAtxLphx3u5QC818rRmKZyNDzi9jcR6rvrsz
- yVWJBkRZKg9XZyQ+tcJj/ELNF0U7Mfo=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI0MDE3MCBTYWx0ZWRfXzKcjI8VJanlK
- M/t1bUilZPmIK7/AK/Og4U2D4N7njH5jzTdsYivXHz3fr8rfPgK6F4Tu1HpZWfZe2sFAfO4SMRl
- flWcDVy31YuRbFbGX04ED2b+PfbAoQTI8kEZVjEQo49TLehiECr1x2v/KWKNGnyN00SJ+abn6CH
- RO/M6OP4TxXJa8OrSxZVHrlWkG4HmPf01ywjXVHgj3CB/32/O+QhGWCqKNlAA62/4I5uwAFEvqj
- t4tKHpwEO9SegBDLcjuaUGHOxF3LlgzCptH8kokFAtY29GrfDKfbzSAvYPS57kl1IAxq2fnjgdr
- 7oWTX1F5jCUzwM0dksDSGzkgpi0LAJknbi/gW7Y8qmTSr7qCBgmyiAxPLenlgcNvZGbgQPf0lAc
- FxzCZciDqCqCfWTX9F6lGXxOwOYHFGp6G1zMzscG09iua5ylRZWJ3NY7AluqveeKlgqEqKC5qnX
- VRHK8u5D8uadJ8skKsQ==
-X-Proofpoint-GUID: PwOqRAXglseCikUBQgUA7mZE1N8A8MyX
-X-Authority-Analysis: v=2.4 cv=GMA41ONK c=1 sm=1 tr=0 ts=6a63b548 cx=c_pps
- a=7uPEO8VhqeOX8vTJ3z8K6Q==:117 a=DaeiM5VmU20ml6RIjrOvYw==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
- a=EUspDBNiAAAA:8 a=CCtDUpZfQFSzZZKND2oA:9 a=QEXdDO2ut3YA:10
- a=EXS-LbY8YePsIyqnH6vw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-24_04,2026-07-24_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 impostorscore=0 phishscore=0 lowpriorityscore=0
- priorityscore=1501 suspectscore=0 bulkscore=0 adultscore=0 malwarescore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2607240170
 
-checkpatch validates the Signed-off-by trailers against the patch's
-author, but misses the opportunity to also validate the committer when
-run with --git. Maintainers therefor need third-party scripts for the
-final Signed-off-by check.
+On 7/22/26 22:34, Jonathan Corbet via groups.linuxfoundation.org wrote:
+> As suggested by Christian, I have applied his patch to a branch and
+> simplified the changelog, see below.
+> 
+> I'm nervous about applying it still because I don't think it's my role
+> to set this sort of policy; I really want to feel that there is a
+> consensus behind it.  So there's some additional CCs here because I
+> would like to hear from some folks:
+> 
+> - This policy document originally came out of the TAB; is the TAB (on
+>   CC) OK with this change?
+> 
+> - At least one maintainer (on CC) have said that they currently strip
+>   Assisted-by tags out of patches before applying them, a practice that
+>   would seem to undermine the whole policy.  Would this change be
+>   sufficient to end that practice?
+> 
+> Thanks,
+> 
+> jon
+> 
+> From c31aa376a355e3b84b9e87ae1dbe19b394d4c82c Mon Sep 17 00:00:00 2001
+> From: Christian Brauner <brauner@kernel.org>
+> Date: Wed, 1 Jul 2026 17:54:48 +0200
+> Subject: [PATCH] coding-assistants: simplify attribution
+> 
+> The requirement to identify specific models used in the Assisted-by tag
+> provides free advertising to proprietary software companies while adding
+> little or no useful information.  Change the requirement to simply:
+> 
+>   Assisted-by: LLM
+> 
+> to capture the fact that an LLM was used without tracking which one.
+> 
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> Reviewed-by: Jeff Layton <jlayton@kernel.org>
+> Reviewed-by: Jori Koolstra <jkoolstra@xs4all.nl>
+> Message-ID: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> ---
+>  Documentation/process/coding-assistants.rst | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
+> index 899f4459c52d..fe34f3e7e828 100644
+> --- a/Documentation/process/coding-assistants.rst
+> +++ b/Documentation/process/coding-assistants.rst
+> @@ -43,12 +43,8 @@ When AI tools contribute to kernel development, proper attribution
+>  helps track the evolving role of AI in the development process.
+>  Contributions should include an Assisted-by tag in the following format::
+>  
+> -  Assisted-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]
+> +  Assisted-by: LLM [TOOL1] [TOOL2]
+>  
+> -Where:
+> -
+> -* ``AGENT_NAME`` is the name of the AI tool or framework
+> -* ``MODEL_VERSION`` is the specific model version used
+>  * ``[TOOL1] [TOOL2]`` are optional specialized analysis tools used
+>    (e.g., coccinelle, sparse, smatch, clang-tidy)
+>  
+> @@ -56,4 +52,4 @@ Basic development tools (git, gcc, make, editors) should not be listed.
+>  
+>  Example::
+>  
+> -  Assisted-by: Claude:claude-3-opus coccinelle sparse
+> +  Assisted-by: LLM coccinelle sparse
 
-git format-patch provides the author and patch content, but not the
-committer. Extend the existing git log extraction to record the
-committer identity.
+LGTM
 
-Extract the author sign-off comparison logic into a shared helper, and
-use it to apply the same heuristics to the final Signed-off-by trailer
-and committer.
+Reviewed-by: David Hildenbrand (arm) <david@kernel.org>
 
-Emit COMMITTER_SIGN_OFF_MISMATCH when the final trailer does not match
-the committer.
+-- 
+Cheers,
 
-Assisted-by: OpenCode:GPT-5.5
-Signed-off-by: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
----
- Documentation/dev-tools/checkpatch.rst |   5 ++
- scripts/checkpatch.pl                  | 112 ++++++++++++++++++++++-----------
- 2 files changed, 82 insertions(+), 35 deletions(-)
-
-diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index 6139a08c34cd..7726c3863bcc 100644
---- a/Documentation/dev-tools/checkpatch.rst
-+++ b/Documentation/dev-tools/checkpatch.rst
-@@ -562,6 +562,11 @@ Commit message
-       - The email subaddresses do not match.
-       - The email comments do not match.
- 
-+  **COMMITTER_SIGN_OFF_MISMATCH**
-+    When checking a Git commit, the final Signed-off-by: line does not match
-+    the commit's committer.  The person committing a patch should add their
-+    own Signed-off-by: line last.
-+
-   **MISSING_SIGN_OFF**
-     The patch is missing a Signed-off-by line.  A signed-off-by
-     line should be added according to Developer's certificate of
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 7a846a3ea127..0e1bff241597 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -37,6 +37,7 @@ my $showfile = 0;
- my $file = 0;
- my $git = 0;
- my %git_commits = ();
-+my %git_committers = ();
- my $check = 0;
- my $check_orig = 0;
- my $summary = 1;
-@@ -1317,14 +1318,16 @@ if ($git) {
- 		} else {
- 			$git_range = "-1 $commit_expr";
- 		}
--		my $lines = `${git_command} log --no-color --no-merges --pretty=format:'%H %s' $git_range`;
-+		my $lines = `${git_command} log --no-color --no-merges --pretty=format:'%cn <%ce> %H %s' $git_range`;
- 		foreach my $line (split(/\n/, $lines)) {
--			$line =~ /^([0-9a-fA-F]{40,40}) (.*)$/;
--			next if (!defined($1) || !defined($2));
--			my $sha1 = $1;
--			my $subject = $2;
-+			$line =~ /^(.* <[^>]+>) ([0-9a-fA-F]{40,40}) (.*)$/;
-+			next if (!defined($1) || !defined($2) || !defined($3));
-+			my $committer = $1;
-+			my $sha1 = $2;
-+			my $subject = $3;
- 			unshift(@commits, $sha1);
- 			$git_commits{$sha1} = $subject;
-+			$git_committers{$sha1} = $committer;
- 		}
- 	}
- 	die "$P: no git commits after extraction!\n" if (@commits == 0);
-@@ -1530,6 +1533,43 @@ sub same_email_addresses {
- 	       $comment1 eq $comment2;
- }
- 
-+sub signoff_match_status {
-+	my ($signoff, $identity) = @_;
-+	my $authorsignoff = 0;
-+
-+	if (same_email_addresses($signoff, $identity)) {
-+		$authorsignoff = 1;
-+	} else {
-+		my ($signoff_name, $signoff_comment, $signoff_address, $comment1) = parse_email($signoff);
-+		my ($identity_name, $identity_comment, $identity_address, $comment2) = parse_email($identity);
-+
-+		if (lc $signoff_address eq lc $identity_address &&
-+		    $signoff_name eq $identity_name) {
-+			$authorsignoff = 2;
-+		} elsif (lc $signoff_address eq lc $identity_address) {
-+			$authorsignoff = 3;
-+		} elsif ($signoff_name eq $identity_name) {
-+			$authorsignoff = 4;
-+
-+			my $address1 = $signoff_address;
-+			my $address2 = $identity_address;
-+
-+			if ($address1 =~ /(\S+)\+\S+(\@.*)/) {
-+				$address1 = "$1$2";
-+			}
-+			if ($address2 =~ /(\S+)\+\S+(\@.*)/) {
-+				$address2 = "$1$2";
-+			}
-+
-+			if ($address1 eq $address2) {
-+				$authorsignoff = 5;
-+			}
-+		}
-+	}
-+
-+	return $authorsignoff;
-+}
-+
- sub which {
- 	my ($bin) = @_;
- 
-@@ -2690,6 +2730,9 @@ sub process {
- 	my $author = '';
- 	my $authorsignoff = 0;
- 	my $author_sob = '';
-+	my $last_signoff = '';
-+	my $committer = $git_committers{$filename} // '';
-+	my $committersignoff = 0;
- 	my $is_patch = 0;
- 	my $is_binding_patch = -1;
- 	my $in_header_lines = $file ? 0 : 1;
-@@ -3018,40 +3061,16 @@ sub process {
- # Check the patch for a signoff:
- 		if ($line =~ /^\s*signed-off-by:\s*(.*)/i) {
- 			$signoff++;
-+			$last_signoff = $1;
- 			$in_commit_log = 0;
- 			if ($author ne ''  && $authorsignoff != 1) {
--				if (same_email_addresses($1, $author)) {
--					$authorsignoff = 1;
--				} else {
--					my $ctx = $1;
--					my ($email_name, $email_comment, $email_address, $comment1) = parse_email($ctx);
--					my ($author_name, $author_comment, $author_address, $comment2) = parse_email($author);
--
--					if (lc $email_address eq lc $author_address && $email_name eq $author_name) {
--						$author_sob = $ctx;
--						$authorsignoff = 2;
--					} elsif (lc $email_address eq lc $author_address) {
--						$author_sob = $ctx;
--						$authorsignoff = 3;
--					} elsif ($email_name eq $author_name) {
--						$author_sob = $ctx;
--						$authorsignoff = 4;
--
--						my $address1 = $email_address;
--						my $address2 = $author_address;
--
--						if ($address1 =~ /(\S+)\+\S+(\@.*)/) {
--							$address1 = "$1$2";
--						}
--						if ($address2 =~ /(\S+)\+\S+(\@.*)/) {
--							$address2 = "$1$2";
--						}
--						if ($address1 eq $address2) {
--							$authorsignoff = 5;
--						}
--					}
-+				my $signoff_status = signoff_match_status($1, $author);
-+				if ($signoff_status != 0) {
-+					$authorsignoff = $signoff_status;
-+					$author_sob = $1 if ($signoff_status != 1);
- 				}
- 			}
-+			$committersignoff = signoff_match_status($1, $committer) if ($committer ne '');
- 		}
- 
- # Check for invalid patch separator
-@@ -7901,6 +7920,29 @@ sub process {
- 			}
- 		}
- 	}
-+	if ($is_patch && $has_commit_log && $chk_signoff &&
-+	    $committer ne '' &&
-+	    $last_signoff ne '' &&
-+	    $committersignoff != 1) {
-+		my $sob_msg = "'Committer: $committer' != 'Signed-off-by: $last_signoff'";
-+
-+		if ($committersignoff == 2) {
-+			CHK("COMMITTER_SIGN_OFF_MISMATCH",
-+			    "Committer:/Signed-off-by: email comments mismatch: $sob_msg\n");
-+		} elsif ($committersignoff == 3) {
-+			WARN("COMMITTER_SIGN_OFF_MISMATCH",
-+			     "Committer:/Signed-off-by: email name mismatch: $sob_msg\n");
-+		} elsif ($committersignoff == 4) {
-+			WARN("COMMITTER_SIGN_OFF_MISMATCH",
-+			     "Committer:/Signed-off-by: email address mismatch: $sob_msg\n");
-+		} elsif ($committersignoff == 5) {
-+			WARN("COMMITTER_SIGN_OFF_MISMATCH",
-+			     "Committer:/Signed-off-by: email subaddress mismatch: $sob_msg\n");
-+		} else {
-+			WARN("COMMITTER_SIGN_OFF_MISMATCH",
-+			     "Last Signed-off-by: '$last_signoff' != commit committer '$committer'\n");
-+		}
-+	}
- 
- 	print report_dump();
- 	if ($summary && !($clean == 1 && $quiet == 1)) {
-
----
-base-commit: 290aaf24a551d5a0dce037e3fab30820f9113a10
-change-id: 20260723-checkpatch-committer-sob-10fcbd636d43
-
-Best regards,
---  
-Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
-
+David
