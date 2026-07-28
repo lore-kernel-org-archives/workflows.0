@@ -1,101 +1,73 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BEB1456E07
-	for <workflows@vger.kernel.org>; Tue, 28 Jul 2026 14:44:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 122FD44839C;
+	Tue, 28 Jul 2026 16:10:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785249854; cv=none; b=I26Qg+xjO+983pAb4ir272KrXSE9G5dtLrjfFZtxVGfyR14/K8jpBbVxZlD5RYFkeA7awec9Z021Rf1rkqTuAeJldIRkOgXK5nW65ceaQHgmMByteAs0XlDnCupasqvX6Wqd72bdOdkciJRTcyFpsZ7MJmfSouMytnnr573yoJQ=
+	t=1785255003; cv=none; b=EwTl7Fo0Cug5TR1vB445HVfxZOtnXttC7E+kPradCJ2JBem46c1vHWR9b9hwxYK0WZrAP8NyeK/pmzTi/Kl9KNhqr/CYjf0S8QbFCxamj580O/BnbKV5PLQTB3N3qN+v79561dLBOtbikuVfwe/lZNJiXAsv806YK1u0vPZ+z9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785249854; c=relaxed/simple;
-	bh=ru2wMwxdrtiChBLKMJ+O9R/ZEREGN2zzSs7sfjFpgls=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tk3ib4Up7WrpblaZjaL1uZBacEmcl3fZyKKcm8IO32NkalH97G9jBaY0rc24IULedfocjbnKd1m66SYXD7A5M9kNQoEz5d8xvzlnRnoCdt7dP/FBaDxOnMbsBc2jjHElLDSx6aIzPPmT0ZmyTvquN3A7VmMqLvt/FTKV1Pe/NpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=fail smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=a9H+i8t8; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=mit.edu
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="a9H+i8t8"
-Received: from macsyma.thunk.org (pool-108-20-43-42.bstnma.fios.verizon.net [108.20.43.42])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 66SEhWMv003318
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 28 Jul 2026 10:43:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1785249815; bh=hF8jTJ2Y6RKeXf+Xo1YCrExaUVI4ZVsSpHkXg62O3IY=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=a9H+i8t809nmwk51y99ma52DOO+NQpDGEtA6TC3zZxO2gyhw8sYtU75dQGSo8uoEd
-	 8BO4uHCOKSAMSPFqKK1Zjwmcunvy/Mge8vqAC1bzhOALhZCXALqRIGE0+UiXDObSDH
-	 VSLqKQi2766tV68ZUv/wCuXYneAfKcSbeEv+JV6dr5p8IDSwiC9NulBg8P5nolNQT7
-	 6znIzWJ3NwEXe+VB+JSA8ib78MXL0uOlyabJH9j5Av8BDv1b+PY58mjdwTg+9pRdYP
-	 nC8EHdXghSPvdpZ8GuCafp0vIwaBcG4wwLLKCyhew4ML+kmZYHDWqh5/6aOuIWkfAO
-	 AmzyYBc6EzGEw==
-Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id 4F648C7423D; Tue, 28 Jul 2026 10:42:32 -0400 (EDT)
-Date: Tue, 28 Jul 2026 10:42:32 -0400
-From: "Theodore Tso" <tytso@mit.edu>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Carlos Maiolino <cem@kernel.org>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Joanne Koong <joannelkoong@gmail.com>, changfengnan@bytedance.com,
-        Christian Brauner <brauner@kernel.org>, linux-ext4@vger.kernel.org,
-        linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        workflows@vger.kernel.org
-Subject: Re: selective Sashiko replies, was: Re: [PATCH 2/3] iomap: decouple
- simple direct I/O reads from iomap_dio_rw
-Message-ID: <ami9NUgcJvr0zHuk@mit.edu>
-References: <20260722124931.3159664-1-hch@lst.de>
- <20260722124931.3159664-3-hch@lst.de>
- <CAJnrk1a_cc55HcpRAi+H-mqOn7XUt_BxKJTre=Mw=xaE-5A5Rg@mail.gmail.com>
- <20260723045347.GA6641@lst.de>
- <20260723151021.GC7380@frogsfrogsfrogs>
- <amI3Kf3lFz4FMqXh@mit.edu>
- <amNerp4LwjSkHS5t@andromeda.toxiclabs.cc>
- <20260728040120.GA19400@lst.de>
- <20260728072756.7ddc9fdd@kernel.org>
+	s=arc-20240116; t=1785255003; c=relaxed/simple;
+	bh=bpztgt9P8tRPPFa5RkW2VtLWXK3gMhD8crEcuc4zIRM=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Uun1qDCXC9d6NiqPrq0FMb6Hui8vwLGmwWkveacEhhD0M2Bj0za8NdBIFLaHRzdhptZ8Icn6A9zOn+M9gtLmYeT3caSb32B5BWUKi+kBZajYls+2s6u8Z68f409PSOsWWFuuJUyifZ3qhSp/ZkvJ7QWML6YSfjOWjf/KX3/bDz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
+Received: from omf09.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay06.hostedemail.com (Postfix) with ESMTP id 39B92A1412;
+	Tue, 28 Jul 2026 16:09:54 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf09.hostedemail.com (Postfix) with ESMTPA id 9A21320025;
+	Tue, 28 Jul 2026 16:09:51 +0000 (UTC)
+Message-ID: <e099826edfb82a4c3a0719d54261e7d070ffae04.camel@perches.com>
+Subject: Re: [PATCH] checkpatch: Validate committer sign-off
+From: Joe Perches <joe@perches.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>, Bjorn Andersson
+	 <bjorn.andersson@oss.qualcomm.com>
+Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn
+	 <lukas.bulwahn@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+	 <skhan@linuxfoundation.org>, Andy Whitcroft <apw@canonical.com>, 
+	linux-arm-msm@vger.kernel.org, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Tue, 28 Jul 2026 09:09:50 -0700
+In-Reply-To: <86ef62b5-9896-49cd-9beb-4e7435a6324e@kernel.org>
+References: 
+	<20260724-checkpatch-committer-sob-v1-1-68550513106b@oss.qualcomm.com>
+	 <933506f1f210d3498d515d55266951e1914cbc9b.camel@perches.com>
+	 <ameceGEbXlQNGOEt@058f6326d650>
+	 <86ef62b5-9896-49cd-9beb-4e7435a6324e@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260728072756.7ddc9fdd@kernel.org>
+X-Rspamd-Queue-Id: 9A21320025
+X-Stat-Signature: aj1itiu6xkkc7qkohcueq9ji9h9pn1s7
+X-Rspamd-Server: rspamout03
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX19MHfTlLStweo4nHWOK0YKIrG5OHRSqYak=
+X-HE-Tag: 1785254991-438316
+X-HE-Meta: U2FsdGVkX190G+E9bwzyzMxSaxHHfkI3plpDSeyQ980TNv6kBR8KnZsPnXABK77WDQAb5eJi5Yxqv9/adrz2RHZSnZziXOlo2uIyRMgHby5xfC7fPyTcss0ZxQRiLuTQxn/mVk1UkWwbUghm+hHfTJqln8Ap2/vcXFQ5oVdwOasdO3XnP07FIxN0u3T+tbkP5Z72HlweUNy8+yP1XO9+CmNboRHgTueKVs6vvBm1hauU3PCLySKfEU1RXrsGJ+SVV8UjGQNEilXn2Gpk3kHx49WQ04QgaCNLm7F8LC4w23jXYiuPFSGvnaeQgZrum8+L
 
-On Tue, Jul 28, 2026 at 07:27:56AM -0500, Jakub Kicinski wrote:
-> 
-> +1, maybe perhaps someone wants the off-list option, dunno. 
-> But trimming the CC list of the on-list reply is a really weird idea.
-> Submissions often CC multiple vger lists, and the bot only replies to one.
+On Mon, 2026-07-27 at 20:24 +0200, Krzysztof Kozlowski wrote:
+> On 27/07/2026 19:59, Bjorn Andersson wrote:
+[]
+> > > > checkpatch validates the Signed-off-by trailers against the patch's
+> > > > author, but misses the opportunity to also validate the committer w=
+hen
+> > > > run with --git. Maintainers therefor need third-party scripts for t=
+he
+> > > > final Signed-off-by check.
+[]
+> The issue Bjorn is trying to solve is real and as he pointed out - every
+> second day maintainers fail to commit properly (srsly... still!). Some
+> of us implemented git commit hooks [1][2], but many still don't care
+> enough, even though installing such commit hook is basically 30 seconds.
+[]
+> Maybe checkpatch would help people to get it right...
 
-It's not (necessarily) "just one" mailing list.
-
-For better or for worse, there are people who have claimed that being
-exposed to LLM reviews would "deman their humanity".  So the Sashiko
-maintainers have made it completely up to each subsystem whether (a)
-Sashiko should review the patch aat all or (b) whether the review
-should be sent via e-mail, or just left on sashiko.dev web site.
-
-If it is sent via e-mail, then who it should be sent to can be
-configured to send it to the patch author (or not), or what e-mail
-addresses should be sent if the patch is qualified as relevant for a
-particular subsystem.  This could just be the maintainer(s), or to the
-subsystem mailing list, etc.  If a patch is relevant to (say) both the
-SCSI subsystem and the s390 subsystem, then it will be sent to both
-subsystem mailing lists.  So it's not that the bot only replies to one
-list, but only to those lists that the subsystem maintainers have
-authorized.
-
-At some level, the Sashiko developers effectively have tossed the hot
-potato policy decision to the subsystem maintainers.  Given the
-megathead on the ksummit mailing lsit, I can't really blame Roman for
-choosing to do this ---- although I'll note the Intel zero-day bot
-folks chose differently; I guess automated benchmarks aren't perceived
-to demean the humanity of developers as much as LLM reviews, and so
-aren't as controversial.
-
-Cheers,
-
-						- Ted
+Alright, I'll look at this proposal more thoroughly.
