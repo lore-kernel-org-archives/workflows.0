@@ -1,70 +1,93 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C91435535;
-	Tue, 28 Jul 2026 14:27:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 854C9448CEE
+	for <workflows@vger.kernel.org>; Tue, 28 Jul 2026 14:28:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785248879; cv=none; b=axFl5JwiKOgpHuWemn6kMpuHOhUXAky+t3peQ/PBQ/RO1+75Zqnjbk3wZVSFdPsLopc7pq9oU+naunl1UbrVpKUVvajgavoJ0rBsoKRIxKScHfpGB372EeaDVg4fDARij08pcl2Qu6MShabRhMDRMJpjt2xtkSp7kK/lAQ+GNng=
+	t=1785248922; cv=none; b=EaqKRHCYqaR1hwdijoBqof4TF4rPECrBLFL+buVgoO4CcW767D6MTpzuFYg44gCcX9SUU5NfI7Lh0TLct3gtLIwoWpEUrLCLk/mSLdlHub6YwIQ2ZVqSphCKjhPwWEFHHICaYrlwxtKtrwso3ncETpomOsrwWTFwGEayyCKWiHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785248879; c=relaxed/simple;
-	bh=rBvNqNavzbrrcbT2nZJt/thsxq3mPh0j+0mjEtTQk2I=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Oj1LvOgoqlKglPiwmXa4XJEpmhDcY4ZV7VQiiYz41iIwFk5zHvfCXhihfsOQdV2hLrjoskbzZ6B0OD+XzGhRJjkxuRxiDDyuncynDDjauQeThAfbs3Di3hI4oWE97p7I7SZ/FI4UpIzJfamV2VLj7vzSVUv3WgEYcJVnMVIIwRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jl21fUpQ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785248922; c=relaxed/simple;
+	bh=2OPHohF7Jx1CUiT2WZtrD3EMChRIaLKF018CoLW/EZ4=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SufPtWDsmkunjaiAt/1jM+9n+KIejwrjyh+RFt0nsxgNwXlm5K7Q23IbnjEJpYFWUwNsDlRb2NfsPkGZLGZgXB3JRNIRUS9EmFdUKaVeOchChplcn5zOjKIx3k51JPukZG0Jp8zaaU/UunBAxlUzO6auhIi5634JjzcGOnH/ke8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kf+Y5Exf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jl21fUpQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 404761F000E9;
-	Tue, 28 Jul 2026 14:27:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kf+Y5Exf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 508F71F00A3D
+	for <workflows@vger.kernel.org>; Tue, 28 Jul 2026 14:28:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785248877;
-	bh=ipPVpKqDsUNPrwwl0/LqgIlIDX4NZ+f3Dn1SHjvbxLU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=jl21fUpQ9TLOIa90lgXJhTcM9ZnGL6RLSJFDOOnggmhSieefvX4ru1EerT+kIcsfW
-	 Jg8xIie9e8BA9f72djNqWrkWjrtU/futoXGB7lurzYiHySGoplgN4kV4c7EDoAHzTa
-	 RLRlyCGgcjFlkaqFG7mv8iFqAIR9+m2XxaINcT3TPONLCNLXK2yTqLOijLx7A8OXhx
-	 Mv2UhFkaJdHdCMgnJOKt6YM24HtkwlZjzxdyFWw62as3Llm3vAwFPTYdXFgl3xtbKZ
-	 fJ3fT/pvfIqh3Dz9+SaR9ZfcNtpUA/ARTatxh4zCtFrr+5x0ADDOmS31Y8my1tzGwE
-	 QdG3dBgIT6JsQ==
-Date: Tue, 28 Jul 2026 07:27:56 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Carlos Maiolino <cem@kernel.org>, Theodore Tso <tytso@mit.edu>, "Darrick
- J. Wong" <djwong@kernel.org>, Joanne Koong <joannelkoong@gmail.com>,
- changfengnan@bytedance.com, Christian Brauner <brauner@kernel.org>,
- linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, workflows@vger.kernel.org
-Subject: Re: selective Sashiko replies, was: Re: [PATCH 2/3] iomap: decouple
- simple direct I/O reads from iomap_dio_rw
-Message-ID: <20260728072756.7ddc9fdd@kernel.org>
-In-Reply-To: <20260728040120.GA19400@lst.de>
-References: <20260722124931.3159664-1-hch@lst.de>
-	<20260722124931.3159664-3-hch@lst.de>
-	<CAJnrk1a_cc55HcpRAi+H-mqOn7XUt_BxKJTre=Mw=xaE-5A5Rg@mail.gmail.com>
-	<20260723045347.GA6641@lst.de>
-	<20260723151021.GC7380@frogsfrogsfrogs>
-	<amI3Kf3lFz4FMqXh@mit.edu>
-	<amNerp4LwjSkHS5t@andromeda.toxiclabs.cc>
-	<20260728040120.GA19400@lst.de>
+	s=k20260515; t=1785248920;
+	bh=2OPHohF7Jx1CUiT2WZtrD3EMChRIaLKF018CoLW/EZ4=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=Kf+Y5ExfZ0o5T6d2UOWTHhr6rWZgcvLO9EvvU5lhH8Kb0bc8ioT+fr8sE1ejrM5XQ
+	 P0fVRQR0izP5EXwuT5A3OXHYg6ui9UuFL4kXkIuG8zQrwpDlEjRY0uf5k9SJfs7u9K
+	 iM+NtBjv0Velu8S8t7I+ulBLGQBzWYrvHTxdgFdPsuGp1fe8JkezIr3HhV06S+vc4X
+	 3dWbRdX0v5eO1y1L0lU4lf1qnPleP9y88gRYaWffL0qMUUa6m+S2zrbtTzG2Zlay+0
+	 z0XvzBhqfajOFTqipn12bgkZyTC1SV7pFSjddNMyGG/jMXrYV1yEpuDOJ/AtZEF0Ri
+	 EmoiNH93VPpSQ==
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5b013084dc2so3083756e87.0
+        for <workflows@vger.kernel.org>; Tue, 28 Jul 2026 07:28:40 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RqtrwQws5DpNMkS1qkpLujoM7IN1XOj1XNITgqiByH0qfu9Hz1pHCLwbdfdVsx90C8qjQzQ90n+EN8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyQ2A7Fk/2k5lMJzazgPei83f3vBdoEgLbuakyRDRZj90Ds498a
+	Bz2Me80qiZWX7GCPeoJrHgghEQ5fi/w8UcAhRfP0gs1lirNm/DRgYSmoXyt7e2bA3LPV9d4x6Cv
+	rMY57VkitoBylUtFZgP4qNzBUVoczsYXJfIPgTdPvRA==
+X-Received: by 2002:a05:6512:1381:b0:5b1:5e9f:db79 with SMTP id
+ 2adb3069b0e04-5b2d023b53fmr547302e87.49.1785248919071; Tue, 28 Jul 2026
+ 07:28:39 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 28 Jul 2026 07:28:37 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 28 Jul 2026 07:28:37 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260724-checkpatch-committer-sob-v1-1-68550513106b@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20260724-checkpatch-committer-sob-v1-1-68550513106b@oss.qualcomm.com>
+Date: Tue, 28 Jul 2026 07:28:37 -0700
+X-Gmail-Original-Message-ID: <CAMRc=McFJaotv-Y=_hzHR5-1UL6d3Ggka0Nm3dSOkvn1UUijaw@mail.gmail.com>
+X-Gm-Features: AUfX_mziiQo7xcBaU68v4yfqE9p8ftW2Y7Fbdaowu4-NkPE5CNlke2OiK0Gaz6E
+Message-ID: <CAMRc=McFJaotv-Y=_hzHR5-1UL6d3Ggka0Nm3dSOkvn1UUijaw@mail.gmail.com>
+Subject: Re: [PATCH] checkpatch: Validate committer sign-off
+To: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
+Cc: linux-arm-msm@vger.kernel.org, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
+	Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Andy Whitcroft <apw@canonical.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 28 Jul 2026 06:01:20 +0200 Christoph Hellwig wrote:
-> > IIRC the discussion we had a while back was to keep the reviews emailed
-> > to authors only...
-> > 
-> > Now I wonder how feasible would be to have a "linux-xfs-review" list to
-> > send sashiko reviews to, then people opt-in to it? Would it be overkill?  
-> 
-> The main problem is that reducing the recipient list for replies is
-> incredibly stupid.
+On Fri, 24 Jul 2026 20:56:00 +0200, Bjorn Andersson
+<bjorn.andersson@oss.qualcomm.com> said:
+> checkpatch validates the Signed-off-by trailers against the patch's
+> author, but misses the opportunity to also validate the committer when
+> run with --git. Maintainers therefor need third-party scripts for the
+> final Signed-off-by check.
+>
+> git format-patch provides the author and patch content, but not the
+> committer. Extend the existing git log extraction to record the
+> committer identity.
+>
+> Extract the author sign-off comparison logic into a shared helper, and
+> use it to apply the same heuristics to the final Signed-off-by trailer
+> and committer.
+>
+> Emit COMMITTER_SIGN_OFF_MISMATCH when the final trailer does not match
+> the committer.
+>
+> Assisted-by: OpenCode:GPT-5.5
+> Signed-off-by: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
+> ---
 
-+1, maybe perhaps someone wants the off-list option, dunno. 
-But trimming the CC list of the on-list reply is a really weird idea.
-Submissions often CC multiple vger lists, and the bot only replies to one.
+I too would like to see this applied. The alternative is to get emails from
+linux-next maintainers after a bad commit is already published, which requires
+rebasing of maintainers' trees.
+
+Acked-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+
+Thanks,
+Bartosz
