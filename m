@@ -1,73 +1,92 @@
-Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 122FD44839C;
-	Tue, 28 Jul 2026 16:10:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A41A3793CE;
+	Tue, 28 Jul 2026 16:32:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785255003; cv=none; b=EwTl7Fo0Cug5TR1vB445HVfxZOtnXttC7E+kPradCJ2JBem46c1vHWR9b9hwxYK0WZrAP8NyeK/pmzTi/Kl9KNhqr/CYjf0S8QbFCxamj580O/BnbKV5PLQTB3N3qN+v79561dLBOtbikuVfwe/lZNJiXAsv806YK1u0vPZ+z9c=
+	t=1785256336; cv=none; b=g0WMfn6OVTVI02cYbkPtf3u5rrp7GD92lG5bH/BdvIgSDOHcM6P87a8VQaHR3kjC8nIvZJjAwWfXOW/62gW64OPYwsScIN8R+nD66FNMKw1SUnMzdQ7yjcxTCGMPd5f5gJThrgDztSUJFpQvNhOnCNy0q3gWNodAK/Ui2JTE0Sg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785255003; c=relaxed/simple;
-	bh=bpztgt9P8tRPPFa5RkW2VtLWXK3gMhD8crEcuc4zIRM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Uun1qDCXC9d6NiqPrq0FMb6Hui8vwLGmwWkveacEhhD0M2Bj0za8NdBIFLaHRzdhptZ8Icn6A9zOn+M9gtLmYeT3caSb32B5BWUKi+kBZajYls+2s6u8Z68f409PSOsWWFuuJUyifZ3qhSp/ZkvJ7QWML6YSfjOWjf/KX3/bDz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Received: from omf09.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay06.hostedemail.com (Postfix) with ESMTP id 39B92A1412;
-	Tue, 28 Jul 2026 16:09:54 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf09.hostedemail.com (Postfix) with ESMTPA id 9A21320025;
-	Tue, 28 Jul 2026 16:09:51 +0000 (UTC)
-Message-ID: <e099826edfb82a4c3a0719d54261e7d070ffae04.camel@perches.com>
+	s=arc-20240116; t=1785256336; c=relaxed/simple;
+	bh=TOdnNwmjtl+GzqYWXxsUKT9OFUWDwi2yCZ20vMq2gwU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iLk/OgJEOTQ3mzfzbsWoDjrRvimzbVdy5y4SsFTn8HjCMQ3lJ4a/yP1YQsM31fa4T4tB6fCwNm80bxLTb9X7NbnUr/wdArLG4X3HzUOvxn05WGWVn9WGtGP9VJYOVScBjO4u7WglrWTfQNF44bSfHfBykOMk6IegbN+L5MrM58k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TecgJ7En; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TecgJ7En"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C5DC1F000E9;
+	Tue, 28 Jul 2026 16:32:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785256334;
+	bh=TOdnNwmjtl+GzqYWXxsUKT9OFUWDwi2yCZ20vMq2gwU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=TecgJ7EnIO3kymOmt5AVERErerNqcAc/MKKWq9S+eq9mArfBIu89w2Y3ajbemUSKl
+	 ybWBpVEKi1SmvPJq4VgqfdTzfwT+oe/RPfFympBBUzvhTevEJ06kvuU7V4B+U12+V9
+	 CUDsoFbpXvOSXX3FIw+VrhAgVrp6JrpARprHBXwcwsdHXh/AqrsEm5CNrzOgxc1koh
+	 X3hiBHBaC1GBtnZEX/061dIDnCzdEGQLF4c/KGeGYtM7rhfAJ1JUguWCfT+YqzliCr
+	 CBfrLxMpO74AEzRnWxrbKBG4Uot9IvE+EF4WtDDAPjT+uJr8B18CvJ6xfqY7V6hlEV
+	 Go7tF2H83HzSg==
+Date: Tue, 28 Jul 2026 17:32:09 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>,
+	linux-arm-msm@vger.kernel.org, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Andy Whitcroft <apw@canonical.com>
 Subject: Re: [PATCH] checkpatch: Validate committer sign-off
-From: Joe Perches <joe@perches.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Bjorn Andersson
-	 <bjorn.andersson@oss.qualcomm.com>
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn
-	 <lukas.bulwahn@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	 <skhan@linuxfoundation.org>, Andy Whitcroft <apw@canonical.com>, 
-	linux-arm-msm@vger.kernel.org, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Tue, 28 Jul 2026 09:09:50 -0700
-In-Reply-To: <86ef62b5-9896-49cd-9beb-4e7435a6324e@kernel.org>
-References: 
-	<20260724-checkpatch-committer-sob-v1-1-68550513106b@oss.qualcomm.com>
-	 <933506f1f210d3498d515d55266951e1914cbc9b.camel@perches.com>
-	 <ameceGEbXlQNGOEt@058f6326d650>
-	 <86ef62b5-9896-49cd-9beb-4e7435a6324e@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+Message-ID: <760fc27c-5270-4fa1-8f93-0d05dc94d09c@sirena.org.uk>
+References: <20260724-checkpatch-committer-sob-v1-1-68550513106b@oss.qualcomm.com>
+ <CAMRc=McFJaotv-Y=_hzHR5-1UL6d3Ggka0Nm3dSOkvn1UUijaw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: 9A21320025
-X-Stat-Signature: aj1itiu6xkkc7qkohcueq9ji9h9pn1s7
-X-Rspamd-Server: rspamout03
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19MHfTlLStweo4nHWOK0YKIrG5OHRSqYak=
-X-HE-Tag: 1785254991-438316
-X-HE-Meta: U2FsdGVkX190G+E9bwzyzMxSaxHHfkI3plpDSeyQ980TNv6kBR8KnZsPnXABK77WDQAb5eJi5Yxqv9/adrz2RHZSnZziXOlo2uIyRMgHby5xfC7fPyTcss0ZxQRiLuTQxn/mVk1UkWwbUghm+hHfTJqln8Ap2/vcXFQ5oVdwOasdO3XnP07FIxN0u3T+tbkP5Z72HlweUNy8+yP1XO9+CmNboRHgTueKVs6vvBm1hauU3PCLySKfEU1RXrsGJ+SVV8UjGQNEilXn2Gpk3kHx49WQ04QgaCNLm7F8LC4w23jXYiuPFSGvnaeQgZrum8+L
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="oyNKOjGA8zXjy7AM"
+Content-Disposition: inline
+In-Reply-To: <CAMRc=McFJaotv-Y=_hzHR5-1UL6d3Ggka0Nm3dSOkvn1UUijaw@mail.gmail.com>
+X-Cookie: Your code should be more efficient!
 
-On Mon, 2026-07-27 at 20:24 +0200, Krzysztof Kozlowski wrote:
-> On 27/07/2026 19:59, Bjorn Andersson wrote:
-[]
-> > > > checkpatch validates the Signed-off-by trailers against the patch's
-> > > > author, but misses the opportunity to also validate the committer w=
-hen
-> > > > run with --git. Maintainers therefor need third-party scripts for t=
-he
-> > > > final Signed-off-by check.
-[]
-> The issue Bjorn is trying to solve is real and as he pointed out - every
-> second day maintainers fail to commit properly (srsly... still!). Some
-> of us implemented git commit hooks [1][2], but many still don't care
-> enough, even though installing such commit hook is basically 30 seconds.
-[]
-> Maybe checkpatch would help people to get it right...
 
-Alright, I'll look at this proposal more thoroughly.
+--oyNKOjGA8zXjy7AM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Tue, Jul 28, 2026 at 07:28:37AM -0700, Bartosz Golaszewski wrote:
+> On Fri, 24 Jul 2026 20:56:00 +0200, Bjorn Andersson
+
+> > checkpatch validates the Signed-off-by trailers against the patch's
+> > author, but misses the opportunity to also validate the committer when
+> > run with --git. Maintainers therefor need third-party scripts for the
+> > final Signed-off-by check.
+
+> I too would like to see this applied. The alternative is to get emails from
+> linux-next maintainers after a bad commit is already published, which requires
+> rebasing of maintainers' trees.
+
+FWIW the substantial majority of signoff problems I see are due to
+rebases in multi-maintainer trees, that's partly due to a few frequent
+fliers.
+
+--oyNKOjGA8zXjy7AM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpo2YkACgkQJNaLcl1U
+h9DVawf6A21kGS86nd+hlR/8AujPl+Xv1IlMZPwi8zecROyZ5X0vks/ezTBoqiav
+UxrnB/FaGYgK2KKdSRpNp7ENLJT1aVZT9O0nRukoamBzdluENa+fLGvbhLxxii5A
+MdhpyKiPg9B2rg8JWa/lf/k4g+R5vpxjN73gHRImu16Ymhz/4pPzkbP01VpeLSvG
+1ewQfWv6fs1WGd2OPXHAVY/1tVCM6D+buDGIg3C1AJW5lNkVpyuUjRKyggIrVvMr
+MwoSZn4C70B7rk9vQ/ioYm25Kv0cBGuOsuIRVLqc5CqYiDXlRok5LNw53cg1xee7
+8pt9TVg1cRKDF8PGBpxncu2d/0bgJg==
+=USVB
+-----END PGP SIGNATURE-----
+
+--oyNKOjGA8zXjy7AM--
