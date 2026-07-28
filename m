@@ -1,71 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A5E244AB6F;
-	Tue, 28 Jul 2026 14:31:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BEB1456E07
+	for <workflows@vger.kernel.org>; Tue, 28 Jul 2026 14:44:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785249106; cv=none; b=felYMJr+f5HSUkEOE/PF9qBXBl2ilz3l84wZW1RA+O8R8xMbqgY8x1eAaXJkyZtxi5SlwNIKSfgFR12+M4CS49BBPFWeGoak+Y8aDWCRSUpBjZMyj6umN7xQWAdO5M22+Oo5/29SEtXzAoDd9vUwjW6ax55odD8mXFXM2nuqrkw=
+	t=1785249854; cv=none; b=I26Qg+xjO+983pAb4ir272KrXSE9G5dtLrjfFZtxVGfyR14/K8jpBbVxZlD5RYFkeA7awec9Z021Rf1rkqTuAeJldIRkOgXK5nW65ceaQHgmMByteAs0XlDnCupasqvX6Wqd72bdOdkciJRTcyFpsZ7MJmfSouMytnnr573yoJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785249106; c=relaxed/simple;
-	bh=89up8mUdYvTK+igARs8aRUFnAJj4Z0KW1RwJaKArAGs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=g6OOp0lMA7SS50mE8aYeETVl0qvwGF6vQT4I1Si5R10brk6cau5+Wz328ehAAAS1NcNieWSbu/AQCTGiNVh1Vc+9+tUJtm+/bNBAcjc10K6JIapqWjgVQXwqnlup0/7qytw8DZxB2Eke8zSEEZQrGqiWDqjAuMZwDl4oxuC+F6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EWoOdEnG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785249854; c=relaxed/simple;
+	bh=ru2wMwxdrtiChBLKMJ+O9R/ZEREGN2zzSs7sfjFpgls=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tk3ib4Up7WrpblaZjaL1uZBacEmcl3fZyKKcm8IO32NkalH97G9jBaY0rc24IULedfocjbnKd1m66SYXD7A5M9kNQoEz5d8xvzlnRnoCdt7dP/FBaDxOnMbsBc2jjHElLDSx6aIzPPmT0ZmyTvquN3A7VmMqLvt/FTKV1Pe/NpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=fail smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=a9H+i8t8; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EWoOdEnG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F29E1F000E9;
-	Tue, 28 Jul 2026 14:31:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785249104;
-	bh=1I0A0KHMT3p94wcrQyYD7I2apFHj3Ffh0hBwQTCY6NU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=EWoOdEnGLjWpztvc0slF/CM9qNmGJZmWPNQ7WqhHO9Ezz+EvqmRKmhrCB4v6zQN9X
-	 JeZeS4jmsdKtWbr1Pk+gT503WfiysYXC8AYQGi/LwGQ8Ryzaj0anZtjuwunOJ/XLtm
-	 MJ4ehzRYM/MFDis3fYGC6TDNOEJMAhnCmUpjeHLxmXFD1U0hWHQLe19EJf4VvaH3Hr
-	 CedSwTba9Ljofw5kmsX902e/fg4pRXdcbW1acMQ4kiWYKNqV17cfYycIWJiwTP4bLa
-	 LH3HMPPiZUyWlKpcB8SZCpruHM7vJtgd8yMkIki/ZYqnI8fs9JUu15oIFAgPz5d+9j
-	 IwA9LenJ+Tx1Q==
-Date: Tue, 28 Jul 2026 07:31:43 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Cihan Karadag <cihan.cihan@gmail.com>
-Cc: Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
- Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn
- <lukas.bulwahn@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] checkpatch: warn about possible missing gitignore
- coverage in selftests
-Message-ID: <20260728073143.0e665e36@kernel.org>
-In-Reply-To: <20260728052442.626076-1-cihan.cihan@gmail.com>
-References: <20260728052442.626076-1-cihan.cihan@gmail.com>
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="a9H+i8t8"
+Received: from macsyma.thunk.org (pool-108-20-43-42.bstnma.fios.verizon.net [108.20.43.42])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 66SEhWMv003318
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 28 Jul 2026 10:43:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1785249815; bh=hF8jTJ2Y6RKeXf+Xo1YCrExaUVI4ZVsSpHkXg62O3IY=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=a9H+i8t809nmwk51y99ma52DOO+NQpDGEtA6TC3zZxO2gyhw8sYtU75dQGSo8uoEd
+	 8BO4uHCOKSAMSPFqKK1Zjwmcunvy/Mge8vqAC1bzhOALhZCXALqRIGE0+UiXDObSDH
+	 VSLqKQi2766tV68ZUv/wCuXYneAfKcSbeEv+JV6dr5p8IDSwiC9NulBg8P5nolNQT7
+	 6znIzWJ3NwEXe+VB+JSA8ib78MXL0uOlyabJH9j5Av8BDv1b+PY58mjdwTg+9pRdYP
+	 nC8EHdXghSPvdpZ8GuCafp0vIwaBcG4wwLLKCyhew4ML+kmZYHDWqh5/6aOuIWkfAO
+	 AmzyYBc6EzGEw==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id 4F648C7423D; Tue, 28 Jul 2026 10:42:32 -0400 (EDT)
+Date: Tue, 28 Jul 2026 10:42:32 -0400
+From: "Theodore Tso" <tytso@mit.edu>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Carlos Maiolino <cem@kernel.org>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Joanne Koong <joannelkoong@gmail.com>, changfengnan@bytedance.com,
+        Christian Brauner <brauner@kernel.org>, linux-ext4@vger.kernel.org,
+        linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        workflows@vger.kernel.org
+Subject: Re: selective Sashiko replies, was: Re: [PATCH 2/3] iomap: decouple
+ simple direct I/O reads from iomap_dio_rw
+Message-ID: <ami9NUgcJvr0zHuk@mit.edu>
+References: <20260722124931.3159664-1-hch@lst.de>
+ <20260722124931.3159664-3-hch@lst.de>
+ <CAJnrk1a_cc55HcpRAi+H-mqOn7XUt_BxKJTre=Mw=xaE-5A5Rg@mail.gmail.com>
+ <20260723045347.GA6641@lst.de>
+ <20260723151021.GC7380@frogsfrogsfrogs>
+ <amI3Kf3lFz4FMqXh@mit.edu>
+ <amNerp4LwjSkHS5t@andromeda.toxiclabs.cc>
+ <20260728040120.GA19400@lst.de>
+ <20260728072756.7ddc9fdd@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260728072756.7ddc9fdd@kernel.org>
 
-On Mon, 27 Jul 2026 23:24:41 -0600 Cihan Karadag wrote:
-> Per selftests documentation [1], every generated test binary must be
-> added to gitignore to prevent leaving untracked files in the kernel
-> tree.
+On Tue, Jul 28, 2026 at 07:27:56AM -0500, Jakub Kicinski wrote:
 > 
-> This is an easy mistake to make when adding a new test. In fact, a
-> search of selftests history turns up dozens of standalone follow-up
-> patches with titles like "add missing gitignore for <binary>", each
-> needed only because the original patch adding a new test
-> didn't also update gitignore.
-> 
-> Add a SELFTESTS_GITIGNORE check that warns about gitignore coverage
-> whenever a patch adds a new file under tools/testing/selftests/, the
-> same way FILE_PATH_CHANGES warns about MAINTAINERS on any added,
-> moved, or deleted file.
+> +1, maybe perhaps someone wants the off-list option, dunno. 
+> But trimming the CC list of the on-list reply is a really weird idea.
+> Submissions often CC multiple vger lists, and the bot only replies to one.
 
-What percentage of changes to selftests from last 2 releases will
-false-positive trigger this? Would be good to know, checkpatch has
-a tendency of generating false positives which is quite counter
-productive. In netdev CI at least we build the selftests and check
-if there are any untracked files after.
+It's not (necessarily) "just one" mailing list.
+
+For better or for worse, there are people who have claimed that being
+exposed to LLM reviews would "deman their humanity".  So the Sashiko
+maintainers have made it completely up to each subsystem whether (a)
+Sashiko should review the patch aat all or (b) whether the review
+should be sent via e-mail, or just left on sashiko.dev web site.
+
+If it is sent via e-mail, then who it should be sent to can be
+configured to send it to the patch author (or not), or what e-mail
+addresses should be sent if the patch is qualified as relevant for a
+particular subsystem.  This could just be the maintainer(s), or to the
+subsystem mailing list, etc.  If a patch is relevant to (say) both the
+SCSI subsystem and the s390 subsystem, then it will be sent to both
+subsystem mailing lists.  So it's not that the bot only replies to one
+list, but only to those lists that the subsystem maintainers have
+authorized.
+
+At some level, the Sashiko developers effectively have tossed the hot
+potato policy decision to the subsystem maintainers.  Given the
+megathead on the ksummit mailing lsit, I can't really blame Roman for
+choosing to do this ---- although I'll note the Intel zero-day bot
+folks chose differently; I guess automated benchmarks aren't perceived
+to demean the humanity of developers as much as LLM reviews, and so
+aren't as controversial.
+
+Cheers,
+
+						- Ted
