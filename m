@@ -1,148 +1,120 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 411E22571B8;
-	Thu, 30 Jul 2026 05:56:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E24893793A9;
+	Thu, 30 Jul 2026 14:52:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785390972; cv=none; b=onl0tSgpoFHt3LBvR4y05dJYCydTo1/zoK9LcAmmiAw3PWNkyMlal8Ui6VYHqOJFXQBnK7iH+gWjKtRVot4zwgADvjjrn4PRjvVjF9t7LdAbYvk6mCftdUyoyFyxQIIf0qhygYR3m4pac5QPIuZoZ2cGu8r/q7akMbuWG+K6ED4=
+	t=1785423136; cv=none; b=NTVs+VGp0337OfCFi48YGFdTqCLR7nEVlkMzzF5NyTyK3rBVXBPSQLBgOTMPdRxKv1lfdvkXsXHId4e1esMZ9TU9pmcprwzdadeNgO/U7td5etXVaMB7ZeIk1CeHXx2remPyx/w1qDBk6MDm8/kCaRPUH0NyzkncMQL5vOXsH30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785390972; c=relaxed/simple;
-	bh=rrDDJpuTyf8xr1DSh0puVYD2N2i8RkgNvZ2iUqLMwcg=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=EeWhCizUz9xpCO7MMjc5+c1V2Wt2r1mx9pd7bjZPoG4AQtQmOqRn7YgLe+XArtTzS8nZR0QHC4+WhM8ETrRcjKGiApbrYQb0S2reSrPPKa9u78wzz5+fVjMFHzbTqDt9ShRSff7MBBPN6nGQYCgbn7NQnXHRFoyz4yijRYNJ6UE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=WF7mHLLp; arc=none smtp.client-ip=192.134.164.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1785423136; c=relaxed/simple;
+	bh=09H7qVAjqco1yWKS7tSSyS36x/TyJRNJoar0RmF7piY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AY1ryjWJO4VJlce+UMvZsKLV0hdQHAnmmlK0w7j2mLadu6cE1jfsSBQSmNEiBgSBRv5kKIB1KW5I+EdzSUlLcEy5JAKmvNPjq9ZfIaLWrzKStzKMExvSj4pmgkPG3xTKno4cArLm6kl7SSVKo7lA34H7/+pGR9r2R/4+/UaAo4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=egBQrzGZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="WF7mHLLp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=oA/yM7993V3G7vZ25VVtzm+hcAHQdUmIt636sa9kV+g=;
-  b=WF7mHLLph/zwR1UxpHFnq8Z8PHkuD80MbaybtErzb4du2zHw1Itbh0iY
-   2SjtHZrQ+hyugs4UWwXX5dnGjLe+BLNYKXJa6WIhzE8S6787JV8tcAVVc
-   m5B3jA7zRv2mLVAipJZeimfkMmbWNOrWJfpbAB387gcQ4ZqBGXeX8wvM8
-   w=;
-X-CSE-ConnectionGUID: oGv6UshCQKGaq6Xq9SGLsw==
-X-CSE-MsgGUID: HSZPTjlaRPOP7BjY7HtaYA==
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.25,193,1779141600"; 
-   d="scan'208";a="153251658"
-Received: from 88-188-149-159.subs.proxad.net (HELO hadrien.home) ([88.188.149.159])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 07:56:00 +0200
-Date: Thu, 30 Jul 2026 07:55:58 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: =?ISO-2022-JP?Q?=1B$BAj1=3A=3E4=1B=28J_=2F_AIURA=1B$B!$=1B=28JAKIRA?= <akira.aiura.bj@hitachi.com>
-cc: "corbet@lwn.net" <corbet@lwn.net>, 
-    "Julia.Lawall@inria.fr" <Julia.Lawall@inria.fr>, 
-    "maennich@google.com" <maennich@google.com>, 
-    "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, 
-    "workflows@vger.kernel.org" <workflows@vger.kernel.org>, 
-    "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-    "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-    "cocci@inria.fr" <cocci@inria.fr>, 
-    =?ISO-2022-JP?Q?=1B$BE{0fM&2p=1B=28J_=2F_TSUTSUI=1B$B!$=1B=28JYUSUKE?= <yusuke.tsutsui.gt@hitachi.com>, 
-    "=?ISO-2022-JP?Q?=1B$B0$8}=40=3F=3BJ=1B=28J_=2F_AGUCHI=1B$B!$=1B=28JSE?=
- =?ISO-2022-JP?Q?IJI?=" <seiji.aguchi.tr@hitachi.com>, 
-    "=?ISO-2022-JP?Q?=1B$BLZB=3C=3E-4u=1B=28J_=2F_KIMURA=1B$B!$=1B=28JMASA?=
- =?ISO-2022-JP?Q?KI?=" <masaki.kimura.kz@hitachi.com>, 
-    "=?ISO-2022-JP?Q?=1B$B=40FF#2mOB=1B=28J_=2F_SAITOU=1B$B!$=1B=28JMASAKA?=
- =?ISO-2022-JP?Q?ZU?=" <masakazu.saito.jn@hitachi.com>, 
-    "=?ISO-2022-JP?Q?=1B$B=3B3FbBgOB=1B=28J_=2F_YAMAUCHI=1B$B!$=1B=28JHIRO?=
- =?ISO-2022-JP?Q?KAZU?=" <hirokazu.yamauchi.hk@hitachi.com>
-Subject: Re: [PATCH] coccinelle: update Coccinelle website URL
-In-Reply-To: <TYTPR01MB1104567F06F7DA6B366C264A9D5C92@TYTPR01MB11045.jpnprd01.prod.outlook.com>
-Message-ID: <c511e35e-ded-839c-c2e9-6774e2e5ac0@inria.fr>
-References: <TYTPR01MB1104567F06F7DA6B366C264A9D5C92@TYTPR01MB11045.jpnprd01.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="egBQrzGZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 738751F00A3D;
+	Thu, 30 Jul 2026 14:52:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785423134;
+	bh=09H7qVAjqco1yWKS7tSSyS36x/TyJRNJoar0RmF7piY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=egBQrzGZhOQC5iC9LBMT9WELk1TGJHYRLpTcZ1T2MN2NWYnc1roBUxW6skGyIU3wk
+	 faEbB14W8UhPKdKjcNJfo6vQ5LaKV7o+jXcyF7COedgGPcSB30LokI8q0xgtx6RHNC
+	 hQUOxVOf+1IGqsdw9w8WUGl/biy3UjJhDEtAK2JXQez/kSNnbiIlh1ZmB6R+cij782
+	 hspIEurkWPdZBlTMbzr67LZlCze1DfoNz0xc/RlYyjbd4lvNvEnTY3CkdKW410Ehfo
+	 Zb8bPZ6PdKXwV9J4ssPmhnJG2jzGtypUOUrDuBd+NMn39YGmek7OYoG6YvOrYEeN+5
+	 HEmfQGFE0++Fg==
+Date: Thu, 30 Jul 2026 07:52:13 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Cihan Karadag <cihan.cihan@gmail.com>
+Cc: Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
+ Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn
+ <lukas.bulwahn@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] checkpatch: warn about possible missing gitignore
+ coverage in selftests
+Message-ID: <20260730075213.09bb0f87@kernel.org>
+In-Reply-To: <CA+JfJhbda3VbLcAO9KEPgJVH-3WwVvJjdgh0MQUH=Fhnsp28iw@mail.gmail.com>
+References: <20260728052442.626076-1-cihan.cihan@gmail.com>
+	<20260728073143.0e665e36@kernel.org>
+	<CA+JfJhbda3VbLcAO9KEPgJVH-3WwVvJjdgh0MQUH=Fhnsp28iw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-512528533-1785390959=:3901"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Wed, 29 Jul 2026 02:01:48 -0600 Cihan Karadag wrote:
+> On Tue, Jul 28, 2026 at 8:31=E2=80=AFAM Jakub Kicinski <kuba@kernel.org> =
+wrote:
+> > On Mon, 27 Jul 2026 23:24:41 -0600 Cihan Karadag wrote: =20
+> > > Per selftests documentation [1], every generated test binary must be
+> > > added to gitignore to prevent leaving untracked files in the kernel
+> > > tree.
+> > >
+> > > This is an easy mistake to make when adding a new test. In fact, a
+> > > search of selftests history turns up dozens of standalone follow-up
+> > > patches with titles like "add missing gitignore for <binary>", each
+> > > needed only because the original patch adding a new test
+> > > didn't also update gitignore.
+> > >
+> > > Add a SELFTESTS_GITIGNORE check that warns about gitignore coverage
+> > > whenever a patch adds a new file under tools/testing/selftests/, the
+> > > same way FILE_PATH_CHANGES warns about MAINTAINERS on any added,
+> > > moved, or deleted file. =20
+> >
+> > What percentage of changes to selftests from last 2 releases will
+> > false-positive trigger this? Would be good to know, checkpatch has
+> > a tendency of generating false positives which is quite counter
+> > productive. =20
+>=20
+> It will trigger whenever a new file is added to selftests, which has
+> a chance of introducing a test artifact into the tree. I checked the
+> last 20 commits touching selftests and only 6 of them were new file
+> additions, so this warning would have fired 6 times. Actually, one of
+> those 6 had a missing gitignore entry that this check is supposed to
+> warn about (fuse_acl_cache_test, 9acb102522b9).
+>=20
+> Comparing to other WARNINGs that checkpatch generates, such as
+> FILE_PATH_CHANGES which has existed since 2014, this seems like a
+> reasonable and already accepted way for checkpatch to operate.
+>=20
+> For comparison, I checked the last 20 commits that triggered
+> FILE_PATH_CHANGES in the tree, and none of them actually needed a
+> MAINTAINERS update.
 
---8323329-512528533-1785390959=:3901
-Content-Type: text/plain; charset=iso-2022-jp
+Exactly, we have some experience with these useless checks.
+Let's not add more low effort stuff.
 
+> > In netdev CI at least we build the selftests and check
+> > if there are any untracked files after. =20
+>=20
+> That is a good practice. But as evidenced by commits already in the
+> tree, this type of coverage does not exist in all places.
 
+Could you explain your involvement in kernel development?
+It would help us understand where you're coming from.
 
-On Thu, 30 Jul 2026, 相浦彰 / AIURA，AKIRA wrote:
+> Since this is a mistake that is frequently made, I think it deserves
+> a warning on its own. In the end I think it is acceptable that this
+> warning fires more than necessary, the same way FILE_PATH_CHANGES
+> does, because the cost of an extra check is low and the mistakes it
+> warns about are easy to miss.
 
->
-> The old Coccinelle project URL is no longer available. Replace it with
-> the current Coccinelle homepage already referenced by
-> Documentation/dev-tools/coccinelle.rst.
->
-> Signed-off-by: Akira Aiura <akira.aiura.bj@hitachi.com>
+You assume people who don't bother testing the code they merge=20
+(or write) will bother to run checkpatch. Not sure that's true.
 
-Applied.  Thanks for the update.
+The problems I see are that - (1) adding false positives makes
+people accustomed to ignoring checkpatch warnings in general.
 
-julia
-
-
-> ---
->  Documentation/process/4.Coding.rst | 3 ++-
->  scripts/coccicheck                 | 4 ++--
->  scripts/nsdeps                     | 2 +-
->  3 files changed, 5 insertions(+), 4 deletions(-)
->
-> diff --git a/Documentation/process/4.Coding.rst b/Documentation/process/4.Coding.rst
-> index c0f57d0c4f73..c23b9e48ce49 100644
-> --- a/Documentation/process/4.Coding.rst
-> +++ b/Documentation/process/4.Coding.rst
-> @@ -312,7 +312,8 @@ be found at https://sparse.wiki.kernel.org/index.php/Main_Page if your
->  distributor does not package it); it can then be run on the code by adding
->  "C=1" to your make command.
->
-> -The "Coccinelle" tool (http://coccinelle.lip6.fr/) is able to find a wide
-> +The "Coccinelle" tool
-> +(https://coccinelle.gitlabpages.inria.fr/website) is able to find a wide
->  variety of potential coding problems; it can also propose fixes for those
->  problems.  Quite a few "semantic patches" for the kernel have been packaged
->  under the scripts/coccinelle directory; running "make coccicheck" will run
-> diff --git a/scripts/coccicheck b/scripts/coccicheck
-> index 8dd766009de1..a0a0e0f72bc7 100755
-> --- a/scripts/coccicheck
-> +++ b/scripts/coccicheck
-> @@ -11,7 +11,7 @@ DIR="$(dirname $(readlink -f $0))/.."
->  SPATCH="`which ${SPATCH:=spatch}`"
->
->  if [ ! -x "$SPATCH" ]; then
-> -    echo 'spatch is part of the Coccinelle project and is available at http://coccinelle.lip6.fr/'
-> +    echo 'spatch is part of the Coccinelle project and is available at https://coccinelle.gitlabpages.inria.fr/website'
->      exit 1
->  fi
->
-> @@ -229,7 +229,7 @@ coccinelle () {
->  	echo " in $FILE."
->  	echo ''
->  	echo ' More information about semantic patching is available at'
-> -	echo ' http://coccinelle.lip6.fr/'
-> +	echo ' https://coccinelle.gitlabpages.inria.fr/website'
->  	echo ''
->
->  	if [ "`sed -ne 's|^//#||p' $COCCI`" ] ; then
-> diff --git a/scripts/nsdeps b/scripts/nsdeps
-> index a3372166ac01..d4b5ebcc2016 100644
-> --- a/scripts/nsdeps
-> +++ b/scripts/nsdeps
-> @@ -8,7 +8,7 @@ SPATCH_REQ_VERSION="1.0.4"
->  DIR="$(dirname $(readlink -f $0))/.."
->  SPATCH="`which ${SPATCH:=spatch}`"
->  if [ ! -x "$SPATCH" ]; then
-> -	echo 'spatch is part of the Coccinelle project and is available at http://coccinelle.lip6.fr/'
-> +	echo 'spatch is part of the Coccinelle project and is available at https://coccinelle.gitlabpages.inria.fr/website'
->  	exit 1
->  fi
->
-> --
-> 2.53.0
->
->
---8323329-512528533-1785390959=:3901--
+(2) We'd make life harder for people who do automated code
+validation (by adding false positives they have to track /=20
+add exceptions for). We should be moving more towards automation
+as a community. Time for questionable pattern matching with
+Perl has passed.
