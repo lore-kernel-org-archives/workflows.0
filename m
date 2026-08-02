@@ -1,38 +1,41 @@
 Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38426321F5E;
-	Sun,  2 Aug 2026 20:36:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C046E2F1FED;
+	Sun,  2 Aug 2026 20:36:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785702966; cv=none; b=b5j3fr193awNfsLgDEK38Y5KSTEvhdWg9v9/B8kZiq045NwVBLdZVEqO5c8GNSG3YqB80JAF+KazWJR9Wa42hLB1o1awfqB7U70FyutCVFDTK4hMDHPg1ctKtNWFbIJBOHNIZTNbABY4s7NJ2SjSIBJS9pnsYnzqeA2b/HzFZ0U=
+	t=1785702973; cv=none; b=O2sMbgL8DsZPazqHp8fpbI843V27KidApngzXneAOyiHt+ypT1dhaJ3iRAbmYtGaWsHh2C5SqPIDN8U2jmqlG83ehlyBUTXpkNJnJrRj5TdzvkLdsi0I5tmSn7m/Me8dgr7bAH9NhXo77JMn8ir2wqH/YCmkw7SmDbMyL6WkMMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785702966; c=relaxed/simple;
-	bh=7o4Tsjc0g4U6rhMTj0UJMETLgSS2vguT/LLIkhIQvzA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=evf9dRbiMXa7fpkOFfgyc4dQT9jLDxsNYJEc22odBN82/WNEWeObdPD4h2/G3q6/+nGrTk13oqd5KIylSuayVU6fUrRlws8ab//3ylstie2UDo9W1feV2nIVC1Pn2JjlRWvJpRPIV+9iv2AfRpdXiat3Xbm1sYoVHyjDQeCueeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=dFnLnqJT; arc=none smtp.client-ip=51.159.59.229
+	s=arc-20240116; t=1785702973; c=relaxed/simple;
+	bh=RZmSeyhINOhhNMmUfcRtVvWUHP4Gdyb71lWg3sMFaxM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Iuenq5BjuJ5NKyPAXY0eg3v7gWgYry/y4wu1C3GaT1dbN+VIxqMfHAzOqvvppbRGWKUvjsr/Hmthz1T8vKSwe0g1p5U//jRVB2ets6/rRpdhZAzJwiJAoR7Vxqx7WzcPc23UZ9uEIt3TsV3lEEHsbFAtOuBQRFe/30sNGZVoKCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=n7bFtj1s; arc=none smtp.client-ip=51.159.59.229
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="dFnLnqJT"
+	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="n7bFtj1s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1785702962; bh=YnK6SOH9shTrIhJ3Plg+XbyPCvxUjk9N3i/HOTYQF1g=;
+	t=1785702970; bh=F3T2dBngo+BI+KTE+Nrfru/ocuzRAXRpjgzzSULYQpU=;
 	h=From:Message-ID:From;
-	b=dFnLnqJTd26GZuNtQN5vgfHBLFv7zr52x5k/ELEUHGRALq/QOQI2i+CIfjZFGRNq9
-	 /7YYxba1uVQSKrKNRe2F+40odbwyWRNJFvf2keT9TTd4aEOfpuWPOyEOA7KjL2nrNr
-	 kgtOaNjc0zwavG6hdHFN9vQ4ANsuBs6N819h0mL8=
+	b=n7bFtj1s66aJTdQpIqChJPQNHR5Ybkt04XIvMlBFd0WFeqdLPAWtFqPkC0YeJPPq5
+	 ZZ1JZ+KIJ2odCuekf92vELZRqIO+zHhwfNX27ZiffDa5N2rcEOw4iCnvKfjImMfgl0
+	 QedAWWg89Wkz5taHGcjR4ZWsxwuoZ+kVBOUA7UUk=
 Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id 26C45C0A7E;
-	Sun, 02 Aug 2026 22:36:02 +0200 (CEST)
+	by mta1.formilux.org (Postfix) with ESMTP id 1A8BEC0A7D;
+	Sun, 02 Aug 2026 22:36:10 +0200 (CEST)
 From: Willy Tarreau <w@1wt.eu>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: greg@kroah.com, security@kernel.org, skhan@linuxfoundation.org,
         workflows@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, Willy Tarreau <w@1wt.eu>
-Subject: [PATCH 0/5] docs: improve guidance for AI-assisted bug reports
-Date: Sun,  2 Aug 2026 22:35:35 +0200
-Message-ID: <20260802203540.3453-1-w@1wt.eu>
+Subject: [PATCH 1/5] docs: threat-model: clarify "security bug" vs "vulnerability"
+Date: Sun,  2 Aug 2026 22:35:36 +0200
+Message-ID: <20260802203540.3453-2-w@1wt.eu>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260802203540.3453-1-w@1wt.eu>
+References: <20260802203540.3453-1-w@1wt.eu>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -41,35 +44,92 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-While vulnerability reporters have now started CCing maintainers,
-showing they read the docs, the security team still spends a lot of
-time repeating the same comments about tested version, incomplete
-fixes, poor email client setup causing formatting issues making
-patches unusable, unverified reports and missing Assisted-By tags,
-each time for AI-assisted reports.
+Throwing an LLM (Opus 5) at a file looking for random bugs after having
+read the threat model made it ignore certain bugs it found because "the
+threat model said they must be ignored". When asked why, the LLM
+rightfully reported the ambiguous wording used at a few places:
+"is not a security bug", which can also be read as "is not a bug",
+despite the rest of the document. That is particularly true when the
+LLM decides to look for info using grep.
 
-This series adds small updates to security-bugs.rst, threat-model.rst
-and coding-assistant.rst to better deal with this and provide minimal
-instructions helping the LLM follow our expectations.
+This change replaces "security bug" with "vulnerability" at a few places
+in order to remove this identified ambiguity, and uses "bugs" instead of
+issues in two such sentences to insist that what is described remains a
+bug.
 
-The updates were iteratively and carefully tested with 3 models,
-Opus-5, Qwen3.6-27B-Architect-Polaris2-Fable-B-F451, and Gemini,
-until all of them strictly followed the rules.
+Cc: Greg KH <greg@kroah.com>
+Signed-off-by: Willy Tarreau <w@1wt.eu>
+---
+ Documentation/process/threat-model.rst | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-It is expected to further improve the situation.
-
-Willy Tarreau (5):
-  docs: threat-model: clarify "security bug" vs "vulnerability"
-  docs: threat-model: move fake devices out of "non production use"
-  docs: security-bugs: clarify what counts as a valid version
-  docs: coding-assistant: explain important steps when looking for bugs
-  docs: security-bugs: clarify some mandatory steps for AI reports
-
- Documentation/process/coding-assistants.rst | 37 +++++++++++++++++++
- Documentation/process/security-bugs.rst     | 26 ++++++++++++++
- Documentation/process/threat-model.rst      | 39 ++++++++++++---------
- 3 files changed, 85 insertions(+), 17 deletions(-)
-
+diff --git a/Documentation/process/threat-model.rst b/Documentation/process/threat-model.rst
+index 9dd8011dde828..7990673072c4d 100644
+--- a/Documentation/process/threat-model.rst
++++ b/Documentation/process/threat-model.rst
+@@ -98,11 +98,11 @@ measures whose purpose is to avoid crossing a security boundary when certain
+ classes of bugs are found, but a failure of these extra protections do not
+ constitute a vulnerability alone.
+ 
+-What does not constitute a security bug
+----------------------------------------
++What classes of problems are not considered vulnerabilities
++-----------------------------------------------------------
+ 
+ In the Linux kernel's threat model, the following classes of problems are
+-**NOT** considered as Linux Kernel security bugs. However, when it is believed
++**NOT** considered Linux Kernel vulnerabilities. However, when it is believed
+ that the kernel could do better, they should be reported, so that they can be
+ reviewed and fixed where reasonably possible, but they will be handled as any
+ regular bug:
+@@ -111,8 +111,8 @@ regular bug:
+ 
+   * outdated kernels and particularly end-of-life branches are out of the scope
+     of the kernel's threat model: administrators are responsible for keeping
+-    their system up to date. For a bug to qualify as a security bug, it must be
+-    demonstrated that it affects actively maintained versions.
++    their system up to date. For a bug to qualify as a vulnerability, it must
++    be demonstrated that it affects actively maintained versions.
+ 
+   * build-level: changes to the kernel configuration that are explicitly
+     documented as lowering the security level (e.g. ``CONFIG_NOMMU``), or
+@@ -178,7 +178,7 @@ regular bug:
+     involving tens of millions of threads, tens of thousands of CPUs,
+     unrealistic CPU frequencies, RAM sizes or disk capacities, network speeds).
+ 
+-  * issues whose reproduction requires hardware modification or emulation,
++  * bugs whose reproduction requires hardware modification or emulation,
+     including fake USB devices that pretend to be another one.
+ 
+   * as well as issues that can be triggered at a cost that is orders of
+@@ -208,17 +208,17 @@ regular bug:
+     messages.
+ 
+   * Leaks of kernel memory addresses/pointers do not constitute an immediately
+-    exploitable vector and are not security bugs, though they must be reported
+-    and fixed.
++    exploitable vector and are not vulnerabilities, though they must be
++    reported and fixed.
+ 
+ * **Crafted file system images**:
+ 
+   * bugs triggered by mounting a corrupted or maliciously crafted file system
+-    image are generally not security bugs, as the kernel assumes the underlying
++    image are generally not vulnerabilities, as the kernel assumes the underlying
+     storage media is under the administrator's control, unless the filesystem
+     driver is specifically documented as being hardened against untrusted media.
+ 
+-  * issues that are resolved, mitigated, or detected by running a filesystem
++  * bugs that are resolved, mitigated, or detected by running a filesystem
+     consistency check (fsck) on the image prior to mounting.
+ 
+ * **Physical access**:
+@@ -232,4 +232,4 @@ regular bug:
+ * **Functional and performance regressions**:
+ 
+   Any issue that can be mitigated by setting proper permissions and limits
+-  doesn't qualify as a security bug.
++  doesn't qualify as a vulnerability.
 -- 
 2.52.0
 
