@@ -1,109 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD7D445A2A0;
-	Tue,  4 Aug 2026 16:13:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A40D4746A3;
+	Tue,  4 Aug 2026 16:23:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785860040; cv=none; b=bURin3+2r+J8Hpxj5nxEYzPPOvN7p9N7lRQt9Ipl3MKLCsUBH3oRh3F2eXatnpSBznnIOvUMbwxrr8X1C2y04PhfrVLbWxWig/ejyVcjnuKDgVqeIhF/9pcUjizK4UXm8GzWxtD6DNywdhXZPy+Tv5vc6uqgEN3wgvx3DdbIXdU=
+	t=1785860622; cv=none; b=L3DyIq+Mla7Sj9LfEeHs6aiqiWwbMqhQ9OIvJEYN2ImNdj4CNQus1saq23rUQBDmBLICB7NWkyts20FPLmE7wEJ+jGDpDDbu5WBqtBmACLbnvcx+9Ix1NO4DULP+09AtMK7jHSMb7Nww/FAooNMxiCj0G7jOv7NpOkQ7i788sqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785860040; c=relaxed/simple;
-	bh=hhzgOBTCcw+7WG5YvDnKtyBFtbtsSZHLyB4TgJ8XZgA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=fvKR7oupNltG3oW4qNfB9JuM7yThk2OHwm4xlSLuj3GvOt2zjvo1jpku3x6k9cBhqu2iZ3uRZX1UNEI/a4hA857g8gd130XF0cFi6YEOmZ25wzEIE5R5A/MhPTiK45VtW+lyyKGxVX7lCrE+UU4Y+wQ+tcHFf0o1gWPCSHc4c9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UEjXQwxT; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UEjXQwxT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D73F81F000E9;
-	Tue,  4 Aug 2026 16:13:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785860039;
-	bh=bbKY2cgVfrjmhlN9vCRzkvOgiOAO+ba86zGhGAsfpgw=;
-	h=From:Date:Subject:To:Cc;
-	b=UEjXQwxT5vknIgN2AbvFWPHGFWi+LN/n+WP35D75PRjx1aOEJlLpj/XHEbiXPMroN
-	 Ef5jwH9P7gLFcPdoMZtb6FvMg3VAUmLzDnj2LQKD94M1jf1ylPZa+/K+Pf39KXd1GQ
-	 JpDDpVfzXaXqHUPVhrKUOaUdsEkoNWUDCnK5K1IazaTa83NMacFKIqsCTBFt+4WJKN
-	 /NFYdxcjdyUySiumzKIaENtE+6TTL4wocycLNBDEdS+FZMiQ6Ohc2AQ06LkW8T3GQq
-	 D4uDRO4I/eiO1hyXQXqdaUCWzzr4+IbcItgLd7OTCUh73qjOAqSzRjArd+5gUyGrCm
-	 xPxNSaLvWmsVA==
-From: Jeff Layton <jlayton@kernel.org>
-Date: Tue, 04 Aug 2026 12:13:44 -0400
-Subject: [PATCH] checkpatch.pl: adapt to new Assisted-by: format
+	s=arc-20240116; t=1785860622; c=relaxed/simple;
+	bh=x0lrLjMO049daWH6ZFZUlJJEwxDoyvW5RpOEG2v1ot0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=sktJcAth1T3tzTAEg5Xk5SUeg9DyVbGkXMBFmk1fslLDY3zn8+XO2EF2OoH9uvoFSdcCZMWN5Rysz1SnzVNoyxQ1oaa3SMiYT6skNX0R4CpfvoJn3M6NqTdW+UEdBFPaTl4yAG/0AyNRpIlubsJFoylECALmmtWifA3tu8MFOYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
+Received: from omf19.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay09.hostedemail.com (Postfix) with ESMTP id 143808023B;
+	Tue,  4 Aug 2026 16:23:33 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf19.hostedemail.com (Postfix) with ESMTPA id D765920028;
+	Tue,  4 Aug 2026 16:23:30 +0000 (UTC)
+Message-ID: <8b5e0ec009487b8e28210ce490e7182207466298.camel@perches.com>
+Subject: Re: [PATCH] checkpatch.pl: adapt to new Assisted-by: format
+From: Joe Perches <joe@perches.com>
+To: Jeff Layton <jlayton@kernel.org>, Andy Whitcroft <apw@canonical.com>, 
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Christian Brauner
+ <brauner@kernel.org>, 	linux-kernel@vger.kernel.org,
+ workflows@vger.kernel.org
+Date: Tue, 04 Aug 2026 09:23:29 -0700
+In-Reply-To: <20260804-checkpatch-v1-1-27f29c79a46f@kernel.org>
+References: <20260804-checkpatch-v1-1-27f29c79a46f@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260804-checkpatch-v1-1-27f29c79a46f@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDCwMT3eSM1OTsgsSS5AxdC3MTA6MUMxNLA0tTJaCGgqLUtMwKsGHRsbW
- 1AKpakmRcAAAA
-X-Change-ID: 20260804-checkpatch-87402d649095
-To: Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
- Christian Brauner <brauner@kernel.org>, linux-kernel@vger.kernel.org, 
- workflows@vger.kernel.org, Jeff Layton <jlayton@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1365; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=hhzgOBTCcw+7WG5YvDnKtyBFtbtsSZHLyB4TgJ8XZgA=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBqcg/B4Wtnz4rVVcI34mE57gK9312RW07wCrKqL
- 2g7kUpOllWJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCanIPwQAKCRAADmhBGVaC
- FXyuD/98HZz/eWjXAQx/FKiwQphQ2p9Y4cQOAg00Ak5i8ksp7XmXOzAkSZ55NtsC+oqc8KCYpaB
- ec/x2eQPv2clc3BR8YRRItXQGPIDIqOjkCZOQ49WUJtNXTWfFj+YZnlirncvWRt7H3zu4X7fN8e
- yDWk5HL1pn3zwHz8NzrPi8UvVMZBMd44CJmWWeJVdqpBLgcC41t+ftqg2waXDAJ97LSsh1Di1Hr
- ENBzRhwqyvZxnzFbw/x84Kvvu4saPTPYT0KcbO8I9XZCjN/7sd/TgY9nQUiYyLwdVjzbLCeCPoU
- h2EWhZSICe0Pxkk+4b3/OspD7DhdbbiLhDZBBX+veOIjrCUfDti2ZK/Q4J7rDQ0uu+EwgjRTAbR
- xCqD+Z/msXvpYMXXyn4F5ZKvX46oSEKtOPtpV1g0VvG5ZgqiJlJbe/uGxdyYI48xT+l4sbXOBI3
- eyb2Lw3PvAtJ6Z/UdVemJLDzrZ7H5WL8hyuO1H7FspUn//ugK3Jf/75xQa7HH5TvLtKODMhh/ZJ
- 2ha2sIz3niGTqdCsqacHsy3/AVrV8DUzFlVsxeZyiUP21N0d+5J06H766GP6Ip6wqvtTnDdxqGs
- k+Hp/XOjEOIHHdpRyBCqfHXhA+rndMQ6pYGw0fiQuZd9SSUxNYlKweJwj04NtCIrQkuIyYAevGt
- fQViwyerceLujOg==
-X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
- fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
+X-Stat-Signature: 1t86wuecbq6xh6rgrkfqqj6ginxh5k6p
+X-Rspamd-Server: rspamout08
+X-Rspamd-Queue-Id: D765920028
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1+mA9Fwl168gbOXkHCix8pms5FP4ebcMug=
+X-HE-Tag: 1785860610-387806
+X-HE-Meta: U2FsdGVkX1+WvqdKo+/If5mMveRNCs4MsxOAQdZjczHfo/MaL/pjgDH1UyFmCeRjBWrIECTkiYGFBhoAnAFQCWMr5M32K/uNEfSa9nKEMEBYmH6KfQSGQBUQ91F7ZjB/lDcpfd5LJT3GrdISrEbxOkQc1N0T+VhqmukDtkJ3tPdbAEoibNDKuEQCQQBNu4CIuLc9RsXx43kFjPhdmvNEyVb51FX43qIURsqQ0Dq7JIbI4dC5FrOHKm+7x0AuUFsszAIqpjv93UB66zGTFmOJQtxo6gapfvzJWuvDxC1IMNZfQgqteXoSJ8s4Uy5wWOKSIaRRXftKUhc3iactzO53E5b01kvNX8KXZ1Q/d8Ocstp6ClEfxp1gO5LpL2GGkEZ1Y41KB168f1YRsabxAcoCIw==
 
-There is a new format for the 'Assisted-by:' tag. Change checkpatch.pl
-to just check that it has a value rather than testing for a specific
-format.
+On Tue, 2026-08-04 at 12:13 -0400, Jeff Layton wrote:
+> There is a new format for the 'Assisted-by:' tag. Change checkpatch.pl
+> to just check that it has a value rather than testing for a specific
+> format.
+>=20
+> Assisted-by: LLM
 
-Assisted-by: LLM
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
----
-This is a companion patch to the one to change the format in
-Documentation/. See:
+Did an LLM really help produce this?  Why?
 
-    https://lore.kernel.org/workflows/87qzkuahlr.fsf@trenco.lwn.net/
----
- scripts/checkpatch.pl | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+> Signed-off-by: Jeff Layton <[jlayton@kernel.org](mailto:jlayton@kernel.or=
+g)>
+> ---
+> This is a companion patch to the one to change the format in
+> Documentation/. See:
+>=20
+>     [https://lore.kernel.org/workflows/87qzkuahlr.fsf@trenco.lwn.net/](ht=
+tps://lore.kernel.org/workflows/87qzkuahlr.fsf@trenco.lwn.net/)
+[]
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+[]
+> @@ -3124,11 +3124,12 @@ sub process {
+>  				}
+>  			}
+> =20
+> -			# Assisted-by uses AGENT_NAME:MODEL_VERSION format, not email
+> +			# Assisted-by uses a free-form value (e.g. "LLM"), not an
+> +			# email address, so skip the email format checks below.
+>  			if ($sign_off =3D~ /^Assisted-by:/i) {And
+> -				if ($email !~ /^\S+:\S+/) {
+> +				if ($email =3D~ /^\s*$/) {
+>  					WARN("BAD_SIGN_OFF",
+> -					     "Assisted-by expects 'AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]=
+' format\n" . $herecurr);
+> +					     "Assisted-by requires a value\n" . $herecurr);
+>  				}
+>  				next;
+>  			}
+>=20
+[]
+> Best regards,
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 2b7a42bbdd94..7961d9584bc5 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -3124,11 +3124,12 @@ sub process {
- 				}
- 			}
- 
--			# Assisted-by uses AGENT_NAME:MODEL_VERSION format, not email
-+			# Assisted-by uses a free-form value (e.g. "LLM"), not an
-+			# email address, so skip the email format checks below.
- 			if ($sign_off =~ /^Assisted-by:/i) {
--				if ($email !~ /^\S+:\S+/) {
-+				if ($email =~ /^\s*$/) {
- 					WARN("BAD_SIGN_OFF",
--					     "Assisted-by expects 'AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]' format\n" . $herecurr);
-+					     "Assisted-by requires a value\n" . $herecurr);
- 				}
- 				next;
- 			}
+Sure, whatever.
 
----
-base-commit: 848acc8ffe1b7cd5f1bf427b93069becfebc2c9d
-change-id: 20260804-checkpatch-87402d649095
-
-Best regards,
--- 
-Jeff Layton <jlayton@kernel.org>
-
+cheers
