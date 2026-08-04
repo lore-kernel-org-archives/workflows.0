@@ -1,75 +1,109 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAC5D40E8E6;
-	Tue,  4 Aug 2026 15:35:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD7D445A2A0;
+	Tue,  4 Aug 2026 16:13:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785857723; cv=none; b=AX4UVQ3Joaiz2ah4WnoRcwp/V6kb5cA3bg8QoNKeF5tLC2icHl2Zgr4NEj1hO8bR3/RwPgC0TEi7bKgw88lsWHgvNgr6hrU6a8vp1+6IGoeX2Dx0q8dFEB6KBXI4WSLiRgEGC8T0++0AhysjnY8SbbmqX3lxCUkfeq8Or6kyLXM=
+	t=1785860040; cv=none; b=bURin3+2r+J8Hpxj5nxEYzPPOvN7p9N7lRQt9Ipl3MKLCsUBH3oRh3F2eXatnpSBznnIOvUMbwxrr8X1C2y04PhfrVLbWxWig/ejyVcjnuKDgVqeIhF/9pcUjizK4UXm8GzWxtD6DNywdhXZPy+Tv5vc6uqgEN3wgvx3DdbIXdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785857723; c=relaxed/simple;
-	bh=2QjdwwT+U7TV5vBagKEKQHGDQSHasp6xQROb5+bbnl0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=gyj+Fegmca6F9OQijdYBUVmeZ29RUCsaOpWzD2jciZSVkWaRxPRYn6RTYI5BPWQxmH6wiIcpzY6BmMcCsoP1v6H/BpeXiSSHp7fjJnD2dfjycyLBfOQ5u33+6yDSKihFhnAhVtObaFd1wD6rPZsY0BGOTuWqM5lkB1AcmTxZIo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=fLM7BHK5; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1785860040; c=relaxed/simple;
+	bh=hhzgOBTCcw+7WG5YvDnKtyBFtbtsSZHLyB4TgJ8XZgA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=fvKR7oupNltG3oW4qNfB9JuM7yThk2OHwm4xlSLuj3GvOt2zjvo1jpku3x6k9cBhqu2iZ3uRZX1UNEI/a4hA857g8gd130XF0cFi6YEOmZ25wzEIE5R5A/MhPTiK45VtW+lyyKGxVX7lCrE+UU4Y+wQ+tcHFf0o1gWPCSHc4c9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UEjXQwxT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="fLM7BHK5"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C10C9408B2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1785857720; bh=/ZyFDrPg7FY7jyYlSgTlOrSNcgUPXvp/acBGEv1g4Rk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=fLM7BHK5p3j7Jsfx5r/QjA7TxoJK1/dCZ/gpEk6zajrM0w7EH2pHpYSpls78SzzXW
-	 LZs9TiJrle13DsRZZN96/sj2jbwd3SWlyIm2mN3z33rw9Y/7ofTMAJE8Vcz+Y+WFCf
-	 jq92OoYz0VxjpxDR3Y/UJ1Zu0sISPNgrnMk7GFph54wUUpkZ6Nh0KY52XvC+Y/bmCr
-	 N9tIk/pgmAsmGFEtsV3zw6+G/RS3NH0gwLNiIcxPNrrWpGSBifSFHUIlrA+DpoPgp6
-	 l408QqnVOaatvorF4UJ0QZN08IjDtRRQd+PmbtCLeWlWZXJEeUOLWFgw6NDHpFVzg+
-	 4d4w/YButcpmA==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id C10C9408B2;
-	Tue,  4 Aug 2026 15:35:20 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
- Christian Brauner <brauner@kernel.org>
-Cc: Lorenzo Stoakes <ljs@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>,
- Sasha Levin <sashal@kernel.org>, tech-board@groups.linuxfoundation.org,
- Jakub Kicinski <kuba@kernel.org>, workflows@vger.kernel.org
-Subject: Re: [PATCH] coding-assistants: simplify attribution
-In-Reply-To: <ced405b4c1f2459df4885dc8ed1cd122f7c88fb8.camel@kernel.org>
-References: <87qzkuahlr.fsf@trenco.lwn.net>
- <ced405b4c1f2459df4885dc8ed1cd122f7c88fb8.camel@kernel.org>
-Date: Tue, 04 Aug 2026 09:35:19 -0600
-Message-ID: <87wlu5uceg.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UEjXQwxT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D73F81F000E9;
+	Tue,  4 Aug 2026 16:13:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785860039;
+	bh=bbKY2cgVfrjmhlN9vCRzkvOgiOAO+ba86zGhGAsfpgw=;
+	h=From:Date:Subject:To:Cc;
+	b=UEjXQwxT5vknIgN2AbvFWPHGFWi+LN/n+WP35D75PRjx1aOEJlLpj/XHEbiXPMroN
+	 Ef5jwH9P7gLFcPdoMZtb6FvMg3VAUmLzDnj2LQKD94M1jf1ylPZa+/K+Pf39KXd1GQ
+	 JpDDpVfzXaXqHUPVhrKUOaUdsEkoNWUDCnK5K1IazaTa83NMacFKIqsCTBFt+4WJKN
+	 /NFYdxcjdyUySiumzKIaENtE+6TTL4wocycLNBDEdS+FZMiQ6Ohc2AQ06LkW8T3GQq
+	 D4uDRO4I/eiO1hyXQXqdaUCWzzr4+IbcItgLd7OTCUh73qjOAqSzRjArd+5gUyGrCm
+	 xPxNSaLvWmsVA==
+From: Jeff Layton <jlayton@kernel.org>
+Date: Tue, 04 Aug 2026 12:13:44 -0400
+Subject: [PATCH] checkpatch.pl: adapt to new Assisted-by: format
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260804-checkpatch-v1-1-27f29c79a46f@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDCwMT3eSM1OTsgsSS5AxdC3MTA6MUMxNLA0tTJaCGgqLUtMwKsGHRsbW
+ 1AKpakmRcAAAA
+X-Change-ID: 20260804-checkpatch-87402d649095
+To: Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+ Christian Brauner <brauner@kernel.org>, linux-kernel@vger.kernel.org, 
+ workflows@vger.kernel.org, Jeff Layton <jlayton@kernel.org>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1365; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=hhzgOBTCcw+7WG5YvDnKtyBFtbtsSZHLyB4TgJ8XZgA=;
+ b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBqcg/B4Wtnz4rVVcI34mE57gK9312RW07wCrKqL
+ 2g7kUpOllWJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCanIPwQAKCRAADmhBGVaC
+ FXyuD/98HZz/eWjXAQx/FKiwQphQ2p9Y4cQOAg00Ak5i8ksp7XmXOzAkSZ55NtsC+oqc8KCYpaB
+ ec/x2eQPv2clc3BR8YRRItXQGPIDIqOjkCZOQ49WUJtNXTWfFj+YZnlirncvWRt7H3zu4X7fN8e
+ yDWk5HL1pn3zwHz8NzrPi8UvVMZBMd44CJmWWeJVdqpBLgcC41t+ftqg2waXDAJ97LSsh1Di1Hr
+ ENBzRhwqyvZxnzFbw/x84Kvvu4saPTPYT0KcbO8I9XZCjN/7sd/TgY9nQUiYyLwdVjzbLCeCPoU
+ h2EWhZSICe0Pxkk+4b3/OspD7DhdbbiLhDZBBX+veOIjrCUfDti2ZK/Q4J7rDQ0uu+EwgjRTAbR
+ xCqD+Z/msXvpYMXXyn4F5ZKvX46oSEKtOPtpV1g0VvG5ZgqiJlJbe/uGxdyYI48xT+l4sbXOBI3
+ eyb2Lw3PvAtJ6Z/UdVemJLDzrZ7H5WL8hyuO1H7FspUn//ugK3Jf/75xQa7HH5TvLtKODMhh/ZJ
+ 2ha2sIz3niGTqdCsqacHsy3/AVrV8DUzFlVsxeZyiUP21N0d+5J06H766GP6Ip6wqvtTnDdxqGs
+ k+Hp/XOjEOIHHdpRyBCqfHXhA+rndMQ6pYGw0fiQuZd9SSUxNYlKweJwj04NtCIrQkuIyYAevGt
+ fQViwyerceLujOg==
+X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
+ fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 
-Jeff Layton <jlayton@kernel.org> writes:
+There is a new format for the 'Assisted-by:' tag. Change checkpatch.pl
+to just check that it has a value rather than testing for a specific
+format.
 
-> One thing that needs to be changed in conjunction with this is
-> checkpatch.pl. When I try to use the new format, I get:
->
-> =E2=97=8F a9b9b7e55379: btrfs: pre-allocate delayed dir index for non-ove=
-rwrite rename
->   =E2=97=8F checkpatch.pl: :2036: WARNING: Assisted-by expects 'AGENT_NAM=
-E:MODEL_VERSION [TOOL1] [TOOL2]' format
->
-> This patch fixes it for me, but I'm not sure it's restrictive enough.
-> Jon, feel free to fold this into the Documentation patch, or I can send
-> it separately if this seems right.
+Assisted-by: LLM
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+---
+This is a companion patch to the one to change the format in
+Documentation/. See:
 
-I'd say send it separately, probably with a copy to Joe Perches...
+    https://lore.kernel.org/workflows/87qzkuahlr.fsf@trenco.lwn.net/
+---
+ scripts/checkpatch.pl | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-Thanks,
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 2b7a42bbdd94..7961d9584bc5 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -3124,11 +3124,12 @@ sub process {
+ 				}
+ 			}
+ 
+-			# Assisted-by uses AGENT_NAME:MODEL_VERSION format, not email
++			# Assisted-by uses a free-form value (e.g. "LLM"), not an
++			# email address, so skip the email format checks below.
+ 			if ($sign_off =~ /^Assisted-by:/i) {
+-				if ($email !~ /^\S+:\S+/) {
++				if ($email =~ /^\s*$/) {
+ 					WARN("BAD_SIGN_OFF",
+-					     "Assisted-by expects 'AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]' format\n" . $herecurr);
++					     "Assisted-by requires a value\n" . $herecurr);
+ 				}
+ 				next;
+ 			}
 
-jon
+---
+base-commit: 848acc8ffe1b7cd5f1bf427b93069becfebc2c9d
+change-id: 20260804-checkpatch-87402d649095
+
+Best regards,
+-- 
+Jeff Layton <jlayton@kernel.org>
 
