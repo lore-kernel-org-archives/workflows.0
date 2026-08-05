@@ -1,176 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1064C380FFB;
-	Tue,  4 Aug 2026 16:26:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A2143D5661;
+	Wed,  5 Aug 2026 18:54:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785860787; cv=none; b=DdTJTnq6JI2UWLTwLNyPoxW4zoxomPh4lqKadSJMOBJW1Hw+EOBlmW7MGWp5/sRIjYr3az/V0ysnqz6jltrjreyoR8mYb5KexUZXeL1XorUu5SOg37kUQtcQ9BCZjFsLFDQsYvzDPL1huf7Oi5YbHYU0e6JEIPG8tO5eEoKV/A8=
+	t=1785956063; cv=none; b=sgx0akyZmTGw4nI6uLgqBxWDxp/GUjzzMNECseA9pJDTR+k/2U7dFvx1fnMZBM3HsVRDwpvyJ2q3PofC3EGOwxnYz1tHHKbfvWYZjIeI+NAgWtqZIjyh6iZtsI0intq+h9ukQGBwytNFj3x0O2DL2Awx1fm03WTHfLcs75DgxlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785860787; c=relaxed/simple;
-	bh=EYirTd1QTQILMPvUsautanulDJYUAevJ4tBwK1gvt/0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Cid/THUrwF1Helh0KoepjuFwNaFupXA/U91kG70qfgxpxU5lmQTP+A0J3PNwPJ71FK/SPldA3RPhjDu19PdtbRICZzWNhLu5G7csLAbogow/0DG81vrJg+QTqsZtaq73hxHYQTZNyu/oV14izvcyQbgIrVW0XFxu5orAjfJdzXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Afejs6Bi; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785956063; c=relaxed/simple;
+	bh=ZB2nBcZCB5z69uI3v7iIP9H5v3s0m44qc6Z71XUE3N8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=EJ9gFf/9iDSdPBT6JX6SRHwuXLUTvSfN9+SRHnIqJJp/nHbS/BK3+e2xj+fgYsqnZdMmhSsAQz8hG2uAXnnmPHdw9JLAr9iMnnBH36eFYgSQcBxhvYIRGpG5MdivHa7gVSvgi/vwgewCkQ3x0HmRB6LRtQSqwZ4v4s30POLM3C4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=bGu5IZ4x; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Afejs6Bi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41C751F000E9;
-	Tue,  4 Aug 2026 16:26:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785860785;
-	bh=UxI07d0QkRJWvJC+qUSxKZAqh/bdBP4ZvKCYNNwrQwU=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=Afejs6Bi9gxcR4ivzJzFWW5VjdfXFjU+HcWUC1MlHscLgSHUA9o/7HauUtggQSZig
-	 Rj3cNHwHHZsD83rM5lsoVWJwQL2tjzdAB+Nu5Fg9Z5+vfuewkx9fgmijiO+/9l6+dv
-	 gN9dUtLeS2H3UGB6+Ad82yHSZ/lWnF8n344Km7Avg5ypYCk9FUClkaffZl0tI+I3zk
-	 jrLYYX3PnWBpHidjyB+VbGwvNSig2O9PS/qKuJGvdjYr+M+q0kv+DimcUJS0tQ6ACV
-	 fTAd2rP4/qnN65Vt20lF2f+cD59mX2eH5WTLLXusdhnJLC7YtWNz8r6m9TZpN+4yRJ
-	 cUMuqGtx8z09A==
-Message-ID: <b3f4ed51cf4924521cce8513d9cfa10ab674ea3c.camel@kernel.org>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="bGu5IZ4x"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9B948408B2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1785956057; bh=rCuSwOkGjR2qZv/wgZ7snftyF+l2uKbjbrggzkTDoE0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=bGu5IZ4x9ylUeFCl1iCgg6AZXb8yvh3xr/gLOjBTkM8tbKJg0Sr+Zd5Y4WwnnyXp1
+	 UbgWuE3OlxTxtVc2+aL9czxImYDNxFJRi15dXEnC3U4v6/AzJe8QsWnTm2Uv7cQUPC
+	 1kjumJtLCqPxA8EHjNQEJ8YUXF/YelzdoIq29NPO91NSoeiRppwFpJ9IE268jtkTuq
+	 3SO3wc7mMMO/zufKh6rgXz0/OTIiZe7RxeD+7sp/tkYHn71vB4mrB9ZqKYNJHT2IL+
+	 pCY7dNeu6XF8QOwkImW0yAbgTWYXfK+TAZq8CDyfqiOrVdR2Hnj9TJIcH+osnK+VlZ
+	 lcR9vsoxBa2OQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 9B948408B2;
+	Wed,  5 Aug 2026 18:54:17 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Jeff Layton <jlayton@kernel.org>, Andy Whitcroft <apw@canonical.com>,
+ Joe Perches <joe@perches.com>
+Cc: Christian Brauner <brauner@kernel.org>, linux-kernel@vger.kernel.org,
+ workflows@vger.kernel.org, Jeff Layton <jlayton@kernel.org>
 Subject: Re: [PATCH] checkpatch.pl: adapt to new Assisted-by: format
-From: Jeff Layton <jlayton@kernel.org>
-To: Joe Perches <joe@perches.com>, Andy Whitcroft <apw@canonical.com>, 
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Christian Brauner
- <brauner@kernel.org>, 	linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org
-Date: Tue, 04 Aug 2026 12:26:23 -0400
-In-Reply-To: <8b5e0ec009487b8e28210ce490e7182207466298.camel@perches.com>
+In-Reply-To: <20260804-checkpatch-v1-1-27f29c79a46f@kernel.org>
 References: <20260804-checkpatch-v1-1-27f29c79a46f@kernel.org>
-	 <8b5e0ec009487b8e28210ce490e7182207466298.camel@perches.com>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=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
- QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+Date: Wed, 05 Aug 2026 12:54:16 -0600
+Message-ID: <87y0eko0tj.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain
 
-On Tue, 2026-08-04 at 09:23 -0700, Joe Perches wrote:
-> On Tue, 2026-08-04 at 12:13 -0400, Jeff Layton wrote:
-> > There is a new format for the 'Assisted-by:' tag. Change checkpatch.pl
-> > to just check that it has a value rather than testing for a specific
-> > format.
-> >=20
-> > Assisted-by: LLM
->=20
-> Did an LLM really help produce this?  Why?
->=20
+Jeff Layton <jlayton@kernel.org> writes:
 
-Why not? It was simple to have it do it, and my perl skills are a bit
-rusty. I don't love typing, fwiw...
+> There is a new format for the 'Assisted-by:' tag. Change checkpatch.pl
+> to just check that it has a value rather than testing for a specific
+> format.
+>
+> Assisted-by: LLM
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> ---
+> This is a companion patch to the one to change the format in
+> Documentation/. See:
+>
+>     https://lore.kernel.org/workflows/87qzkuahlr.fsf@trenco.lwn.net/
+> ---
+>  scripts/checkpatch.pl | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 
-> > Signed-off-by: Jeff Layton <[jlayton@kernel.org](mailto:jlayton@kernel.=
-org)>
-> > ---
-> > This is a companion patch to the one to change the format in
-> > Documentation/. See:
-> >=20
-> >     [https://lore.kernel.org/workflows/87qzkuahlr.fsf@trenco.lwn.net/](=
-https://lore.kernel.org/workflows/87qzkuahlr.fsf@trenco.lwn.net/)
-> []
-> > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> []
-> > @@ -3124,11 +3124,12 @@ sub process {
-> >  				}
-> >  			}
-> > =20
-> > -			# Assisted-by uses AGENT_NAME:MODEL_VERSION format, not email
-> > +			# Assisted-by uses a free-form value (e.g. "LLM"), not an
-> > +			# email address, so skip the email format checks below.
-> >  			if ($sign_off =3D~ /^Assisted-by:/i) {And
-> > -				if ($email !~ /^\S+:\S+/) {
-> > +				if ($email =3D~ /^\s*$/) {
-> >  					WARN("BAD_SIGN_OFF",
-> > -					     "Assisted-by expects 'AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL=
-2]' format\n" . $herecurr);
-> > +					     "Assisted-by requires a value\n" . $herecurr);
-> >  				}
-> >  				next;
-> >  			}
-> >=20
-> []
-> > Best regards,
->=20
-> Sure, whatever.
->=20
-> cheers
+Applied... we don't have a Sure-whatever-by tag, so I didn't add
+Joe's...
 
---=20
-Jeff Layton <jlayton@kernel.org>
+Thanks,
+
+jon
