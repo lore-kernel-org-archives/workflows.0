@@ -1,76 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C623542BC25
-	for <workflows@vger.kernel.org>; Thu,  6 Aug 2026 22:08:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB5FA38655D;
+	Wed, 12 Aug 2026 09:09:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786054090; cv=none; b=pjtKCZG+gn7gQiHOHzUHS++DPMKkJemvNj/ZAB3M719DHtaj6OIhUM2cxh7qs2Hz9JynUWmg0A1jyKdliBIPpWSiX7ZAH0uQvTGtXUtGrsExQbZcQ1IRN3l3q6cgzgMCTq3p6JROpOG0l/brLYhJFTvFF3eYdZTcHkOp7b/rpkY=
+	t=1786525798; cv=none; b=n6R4kKKFQoro+o+pWAECdDlceNSDhrZbzVYoofvASW6z0YiSpT4rPk23+FlgM3UN8geW3nCKDS2Niqphm2oHE5Yb2hoq95R3ZoMazqpVPovYxmz7BdTrtvBtdUIQ1wfhYsN3NnuKzA+QGuPwC00i3f/VdJIKw2EC7xyKQ6Ti8ak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786054090; c=relaxed/simple;
-	bh=Q7N4xLlBIWxo81ItawG5CepKXwZzHPZ98raJQApwEes=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Rkpe94cyIlP1qsf5bKK4UYu+cFa9AL/VaZpfavlUDFsmf8f0KY52Y+8emwzNjfYrweU4dUf80CifcQKSp7sMa4xqNRLnR0wm0Rl/p1ri1J5IvqVGZgWFziMw0DgRpiiZLvQFJkD2AMG+Bnpy9mXtrB7i4wu611lHZP7qjRG4eu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KcKv+8od; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786525798; c=relaxed/simple;
+	bh=LX8Nh4wdVXX5g3het+SjjqM7M/nDJ5ubrty1R5Hixk4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YtoeclxHB/1wDrznF2HYXf+3WSgyOUD3bx71TKNLvEXn9iLCNpM+M5dpW3eDyAMw43OxvRgk2VyJf6ElrmXKfhSx5kQs1TapFdzduzPJYE3f75VYF6AC8Lk063jJarirJtw9SuSe7bMO9YmGeXD7RT/nD/aiSsxWuX9gOF/gc7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=jxqYMvlB; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KcKv+8od"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B42E1F00ACF
-	for <workflows@vger.kernel.org>; Thu,  6 Aug 2026 22:08:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786054088;
-	bh=Q7N4xLlBIWxo81ItawG5CepKXwZzHPZ98raJQApwEes=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=KcKv+8odgHShJ6+IAS80kIFlyDUrtN9j0njxElbmeCbO9xzZ6eaElKjXhoMz/fu9p
-	 pF1eHN4DVmoTeJ+ypwjPIrQqJvrPWvcKTz9E3tyZINV6GqNslh0DhqEPKdXsHDHYgR
-	 uPrWi845D2nnNFIyfy1LLVXOJb24HMRNEvI1Qt9oxugEF62wz6kQBRECcTJ9+Nd+gu
-	 RucfsEV+usXt/FPndR6yHDheq0/G4l8HSY7rGYnl+WNp4LekBncPVsI/9e4d9EgOnd
-	 UtNibRIPgm/wwoF5n9Pwu8MImaVLBMHztrFAZF8PfDLEwkTkmW0p7t1gTzHtjn5i5D
-	 tkKuMuTjyPhUA==
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5b01cb18515so2640388e87.2
-        for <workflows@vger.kernel.org>; Thu, 06 Aug 2026 15:08:08 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RrJu9x69obvvyO/5KfxLmRls895HQO1o4rxPbh+L8hjFGB4TSjHc6fC2rBJWJWriIymAOxAnV9zr7o=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+4ig1l6jT/vRw66po6vVYhlC2Sn/+0QZgg9z1PYGbmApao8Dg
-	MjXUmsW5OZKkFKIUAKRpIL9xTq+2Ve8m0tc+4Z3E6EtcptnxWTLCgaVBev+nR4Sf9KlbBwi3zYv
-	b+/e2DyWcddeCn6DmA/VeQpIBNBYhgkw=
-X-Received: by 2002:a05:6512:3e1f:b0:5ae:c5f0:ef1a with SMTP id
- 2adb3069b0e04-5b2f4cdc18dmr2664985e87.50.1786054087347; Thu, 06 Aug 2026
- 15:08:07 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="jxqYMvlB"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 584BC1596;
+	Wed, 12 Aug 2026 02:09:52 -0700 (PDT)
+Received: from arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 24BBF3F673;
+	Wed, 12 Aug 2026 02:09:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1786525796; bh=LX8Nh4wdVXX5g3het+SjjqM7M/nDJ5ubrty1R5Hixk4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jxqYMvlBkL3ncKNzC5/Wt3s+N1Vc7pWerEEOg8PZJaipFROgrZRoMpbWvDpofPFLR
+	 s0vjhD4OwtyjE/rLqRP4hXsO8POma4XhGEff6gnzOby5sUW28kyUEgw/5h0WazM7Vw
+	 bJLPpIq8eAfXlMyZoOK1JErGVSa4CgFUY/ujiZ2w=
+Date: Wed, 12 Aug 2026 10:09:51 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Breno Leitao <leitao@debian.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH 3/4] mm: kmemleak: factor leak confirmation into a helper
+Message-ID: <anw4X4mkepgo2-p3@arm.com>
+References: <20260713-catalin_pto-v1-0-5b93b1131089@debian.org>
+ <20260713-catalin_pto-v1-3-5b93b1131089@debian.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260803091740.232536-2-krzysztof.kozlowski@oss.qualcomm.com>
-In-Reply-To: <20260803091740.232536-2-krzysztof.kozlowski@oss.qualcomm.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Fri, 7 Aug 2026 00:07:55 +0200
-X-Gmail-Original-Message-ID: <CAD++jL=i5LW-EcbWYqAN65KEKZQsCi6NgcKwiLGm04trfXL9zw@mail.gmail.com>
-X-Gm-Features: AUfX_mw8VVtdH_lZi-qOKtX4NutJWCkxj4cbQuE8TCFpBmYysjfroCHFXaMc5U4
-Message-ID: <CAD++jL=i5LW-EcbWYqAN65KEKZQsCi6NgcKwiLGm04trfXL9zw@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/process: maintainer-soc: Mention
- expectation about dt-check-style
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Drew Fustini <fustini@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	linux-arm-kernel@lists.infradead.org, soc@lists.linux.dev, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260713-catalin_pto-v1-3-5b93b1131089@debian.org>
 
-On Mon, Aug 3, 2026 at 11:17=E2=80=AFAM Krzysztof Kozlowski
-<krzysztof.kozlowski@oss.qualcomm.com> wrote:
+On Mon, Jul 13, 2026 at 04:48:06AM -0700, Breno Leitao wrote:
+> The reporting loop in kmemleak_scan() decided whether to tag an object as
+> a reported leak with a four-term compound condition whose last operand
+> also had a side effect (++object->unref_scans). Mixing the candidate
+> tests with the counter update made the check hard to read.
+> 
+> Move the state transition into confirm_leak(): it returns true when a
+> still-unreferenced suspect crosses min_unref_scans consecutive scans and
+> is newly flagged OBJECT_REPORTED, leaving only the reporting bookkeeping
+> in the caller. No functional change.
+> 
+> Signed-off-by: Breno Leitao <leitao@debian.org>
 
-> Any new DTS code should pass dt-check-style 'relaxed' mode without
-> warnings and should have addressed most of applicable 'strict' mode
-> ones.
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-
-Makes sense!
-Reviewed-by: Linus Walleij <linusw@kernel.org>
-
-Yours,
-Linus Walleij
+Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
