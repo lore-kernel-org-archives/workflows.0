@@ -1,87 +1,89 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65BC6377ABD;
-	Thu, 13 Aug 2026 07:47:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 745C43B9922;
+	Thu, 13 Aug 2026 13:16:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786607239; cv=none; b=ouJfQFk6A71hdiVszi0gjRYxQ0URs4lEKs88LpM1xHERcimSruUAnQTjRZWJuAYsqhv7m+Gac7fnN67NE8Yt+RShD971K6humJ5YQPvot/GhwuC0/wqGCzxQErq4uFZYjG+Znv12HuVlcV1qn8PvmZCm8D1Y6qffc4rcpql9K90=
+	t=1786626962; cv=none; b=rFDEWUeFXIGFZ6WHRMfubB0bJxztEJ8l7AeRlB911gRyYGfKVgYiv1kUgI9o6M7L1S1IpArm09HnsQBqYOluxd7inpOlBmSX4ev1TS/qaZ8F626Ytw3mfvEP3Z4CsmU48K/plGGfDmJAxHQzABBwrDhzVfD7hiCYLa75Vd7ZcDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786607239; c=relaxed/simple;
-	bh=GqZguSNl6cSFVhdIhgJxOzIrWtYZHdP7ToNBuuUv+7U=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=eaplW00RUweJI7PMDSKJKYFh06Kod40FZ3fvTM2mdGxHaQBeX5C3sJYE3oN43iX4WKOQKB3ohR3h5p3wkUBVtS5P11348mgOXsTMX1rprugI1jUjvBZEUD9xXpwkCOXNI0XYrpD172U7aHpEmyrf1Mchuxij2+M8CgESiAK2WlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=lQjRpHw8; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1786626962; c=relaxed/simple;
+	bh=JuVUoKayiiL7qIdW39da2OcshqPAHX5dg6xMBzLZVqs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=OxhuGenI1vme0Fr787/27SDPnpUqBjgpty3e9y8XJj5fzEqVyFr00jwMbEaBjsd5tTKZfwWrXVGjoVeCxVyCf92Qi4ev2b3sGKkMTl++ye4MCETwlER4hxF0LCUjWEgw4y1Vu4yViEjCRzfbcJRJfwcbqa1PZHlHllifVlJ/KBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=gz59xaAc; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="lQjRpHw8"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="gz59xaAc"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CE883408EE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1786626955; bh=CJOUmOrM8iHXXIY7dV6uC8aAvdcDOoC5XB9mKJMan54=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=gz59xaAcRdVhw6JA+IdG6B1Lu1eFLylxKVmFbhY8bh12+/zIO/+/J7nFYCXWNYUWI
+	 dOOeQA+plFt5cSuCVQW+kR4Yk+JUlDV9xw4/jrRPpZ0C620V/sR5MnTKy7+t+jIaN/
+	 buZu01a03a0B7vV01EbqvmdoE2JA2kyWl2qjrQhc4WuUh/PEmHGrwIkLDG9Yepy7Ae
+	 C5csBRmGb3GU0OpWXdvP721Uo5xZU4v7D2E2m88DApUBMSwu8vQB/QMfR8AUv1iUYl
+	 udqrWewaJsnXGuJsmNum6qdSJ5kWrRzHXmu2M+aVHJ76bEnTXhro+fxmR/ylHZ7oa5
+	 RM5Vn8ZNxov4w==
+Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4hLHWP4KqczMlQH;
-	Thu, 13 Aug 2026 09:47:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1786607233;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GqZguSNl6cSFVhdIhgJxOzIrWtYZHdP7ToNBuuUv+7U=;
-	b=lQjRpHw8P/f1ipfBVpGjvImrW0ECByiMwYhbt9n6WOHKNxrck33ClyStLjJoxEQbmly3HX
-	vA1f0XAT86RMIq0Pob6Vo86fS1ALJC7ip+PhfeYzn1oFZajnHlqDBdi0lFoOrWH/0qm0xG
-	mv8QM4RVgCscDJEYUGGRw9DJa1DNxvJ1/cTeejUxWwPBiU0w/ShV9vocNTfee62iCYNc8+
-	uCX5RPqvyVjcdkTG/S6FLgNw9qdYzMR8uNg5pXV0nYI3vhfcbkwz0wVm0keTapa56KoGou
-	UDFihoIqiNa2P2tS/SXxCauYI6bGRDXSwZ1kxjvjTm/tlBLNW49xgliUF3f9pw==
-Message-ID: <760d33b80873a2d62c72c54cd7abbdb77505cfb6.camel@mailbox.org>
-Subject: Re: [PATCH 3/5] Docs: software-requirements.rst: add lzop, lzma and
- ip-route2
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Thu, 13 Aug 2026 09:47:10 +0200
-In-Reply-To: <20260812122149.1635408-2-manuelebnerli@mailbox.org>
+	by ms.lwn.net (Postfix) with ESMTPSA id CE883408EE;
+	Thu, 13 Aug 2026 13:15:54 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Manuel Ebner <manuelebnerli@mailbox.org>, Shuah Khan
+ <skhan@linuxfoundation.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng
+ <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn?= Roy
+ Baron
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Andreas
+ Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
+ Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein
+ <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, Onur
+ =?utf-8?Q?=C3=96zkan?=
+ <work@onurozkan.dev>, Nathan Chancellor <nathan@kernel.org>, Nick
+ Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+Cc: Manuel Ebner <manuelebnerli@mailbox.org>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH 5/5] Docs: software-requirements.rst replace optional
+ tag with footnotes
+In-Reply-To: <20260812122426.1636227-2-manuelebnerli@mailbox.org>
 References: <20260812120805.1631430-3-manuelebnerli@mailbox.org>
-	 <20260812122149.1635408-2-manuelebnerli@mailbox.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+ <20260812122426.1636227-2-manuelebnerli@mailbox.org>
+Date: Thu, 13 Aug 2026 07:15:54 -0600
+Message-ID: <87tsoyi2k5.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-META: tf6jh1y3qqq4fhpwbgnacfpr3hi3yy1g
-X-MBO-RS-ID: e490ab897ac08de545c
+Content-Type: text/plain
 
-T24gV2VkLCAyMDI2LTA4LTEyIGF0IDE0OjIxICswMjAwLCBNYW51ZWwgRWJuZXIgd3JvdGU6Cj4g
-bHptYSBpcyByZXF1aXJlZCB3aXRoIEhBVkVfS0VSTkVMX0xaTUEgc2V0IHRvIHkKPiBsem9wIGlz
-IHJlcXVpcmVkIHdpdGggQ1JZUFRPX0xaTyBzZXQgdG8geQo+IGlwLXJvdXRlMiBpcyBtZW50aW9u
-ZWQgaW4gc29mdHdhcmUtcmVxdWlyZW1lbnRzIGJlbG93Lgo+IAo+IGFkZCB0b29scyB0bwo+IMKg
-c29mdHdhcmUtcmVxdWlyZW1lbnRzLnJzdAo+IMKgdmVyX2xpbnV4Cj4gCj4gU2lnbmVkLW9mZi1i
-eTogTWFudWVsIEVibmVyIDxtYW51ZWxlYm5lcmxpQG1haWxib3gub3JnPgo+IC0tLQo+IMKgRG9j
-dW1lbnRhdGlvbi9wcm9jZXNzL3NvZnR3YXJlLXJlcXVpcmVtZW50cy5yc3QgfCA0ICsrKysKPiDC
-oHNjcmlwdHMvdmVyX2xpbnV4wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwgNCArKysrCj4gwqAyIGZpbGVzIGNoYW5nZWQsIDggaW5z
-ZXJ0aW9ucygrKQo+IAo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3Byb2Nlc3Mvc29mdHdh
-cmUtcmVxdWlyZW1lbnRzLnJzdCBiL0RvY3VtZW50YXRpb24vcHJvY2Vzcy9zb2Z0d2FyZS1yZXF1
-aXJlbWVudHMucnN0Cj4gaW5kZXggNjlkMzFhM2I1YmUzLi41ZmRmY2Y2YTBjMDEgMTAwNjQ0Cj4g
-LS0tIGEvRG9jdW1lbnRhdGlvbi9wcm9jZXNzL3NvZnR3YXJlLXJlcXVpcmVtZW50cy5yc3QKPiAr
-KysgYi9Eb2N1bWVudGF0aW9uL3Byb2Nlc3Mvc29mdHdhcmUtcmVxdWlyZW1lbnRzLnJzdAo+IEBA
-IC00Nyw5ICs0NywxMiBAQCBHTlUgbWFrZcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgNC4w
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgbWFrZSAtLXZlcnNpb24KPiDCoFsuLi5dCj4gK2lw
-LXJvdXRlMsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDYuMTQuMMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIGlwIC1WCj4gwqBbLi4uXQo+ICtsaWJsem1hwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIDUuOC4xwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBsem1hIC1WCj4gK2x6b3DCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgMS4wNMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBs
-em9wIC1WCj4gwqBbLi4uXQo+ICt4esKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgNS44LjHCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHh6IC1WCgpJcyB0aGlzIG9rIGluIG9u
-ZSBwYXRjaCBvciBzaG91bGQgaXQgYmUgc3BsaXQgdXAgaW4gb25lIHRvb2woc2V0KSBwZXIgcGF0
-Y2g/Ckkgd2lsbCBwcm9iYWJseSBhZGQgdG9vbHMgZm9yIFt2Ml0uCnN5c2xpbnV4ICg2LjA0KSBh
-bmQgZ2VuaXNvaW1hZ2UgKDEuMS4xMSkgc28gZmFyLgoKSSBqdXN0IHRvb2sgdGhlIHZlcnNpb24g
-bnVtYmVyIG9mIG15IHN5c3RlbSwgYnV0IGl0J3Mgbm90IHRoZSB3YXkgdG8gZG8gdGhpcy4KSSdt
-IG9wZW4gdG8gc3VnZ2VzdGlvbnMgZm9yIHRoZSB2ZXJzaW9uIG51bWJlcnMgaXRzZWxmIG9yIGZv
-ciBhIGFwcHJvYWNoIGluIGdlbmVyYWwuCgpUaGFua3MKIE1hbnVlbAoKPiDCoFsuLi5dCg==
+Manuel Ebner <manuelebnerli@mailbox.org> writes:
 
+> The optional tag isn't obvious nor defined. Therefore replace with footnotes
+> like the one of Sphinx.
+>
+> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+> ---
+>  .../process/software-requirements.rst         | 22 ++++++++++++-------
+>  1 file changed, 14 insertions(+), 8 deletions(-)
+
+Explaining the optionals seems like a fine idea.  I'm a bit less
+convinced about the mess of footnotes.
+
+Especially since many of the entries that are *not* marked as optional
+really are.  You only need e2fsprogs if you're using ext4.  gdb only if
+you're wanting to run a debugger.  jfsutils seems truly optional, etc.
+Even GCC is optional if you're using Clang.
+
+I'm not sure what would be best...perhaps replace the --version field
+(which people can figure out) with an explanation of when each
+dependency would be needed?
+
+jon
