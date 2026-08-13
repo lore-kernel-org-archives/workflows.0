@@ -1,132 +1,157 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6ED244CADF;
-	Wed, 12 Aug 2026 13:15:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B5F171B1;
+	Thu, 13 Aug 2026 00:03:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786540531; cv=none; b=LLe6vJSzP2dD/2EA2mIVpaFDluxMkZF3YkEqFSljOyJV4FE3hYsdYuLcTGv8vaRK1D4ixFuW/4tQdFYM0AUsz8ZivFMbewOt+5pBvrRxO7sn/q26/BmtcIAlk0uz18ResJUhuEsPpLkAFYj+vEEV7mGqmWvYvL2qL6kqbdNBdSM=
+	t=1786579394; cv=none; b=YxR9Xi6a5fLIpaI7uHcZHMUiciXbCnvGs1M/3EqswboKBHV5Svt0N2snbEy/W7QwTJt6DFk/Jfdo4RwL0xjd5hsmzvcHTzVlFYO1FuHa7ACOOIAKdjqFsgJMabeEilbuvTZ0XS/51vf3B9pMufv/2QeDjvFwWfy2h0FJUU6gz50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786540531; c=relaxed/simple;
-	bh=nmHxmY7iTPhC2SO4r0Cu7D2E52TxGJ2ANn9r911bmEc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=WO1kPiml1TjCrlY8ynWGFUQF1JoMA0LNaksuc1ncHbZaqmow5N7Q64UAcu1zFDdrP3TuRqo8FtXE6nKxWPpMTAVYgJvZIxG+cl3ZmA4HcT8f+i2QENi92LPjY89BsBiWcMSF6rqcGksWDNmHlcvOtES8NcznGAreHSXj1KkA4Iw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=YjuSXfVF; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1786579394; c=relaxed/simple;
+	bh=Nw4IP/ihXtEetVmgAgrZNRKY/RwVNKbR3nM5JlJYolI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NQXJn50u2hZw1iRykUZ2tQIny+YwhCR59xoNC8MToAJpGoQFlGP1XN9xIZHrl7vx6sAORa7oRdz2JSR+0OYuNmu4FBkGT+qcRZaCkUTm+x+eR0taEP3c68Wj/63DQ7teVco7skFRKUON86OswLWcN0jN7F21tM4TD/71XmSJwt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=e9rphySl; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="YjuSXfVF"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CE493408CC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1786540528; bh=JAXHudu46Eg+mqqdpRoOfueFzUFbPVJGGm+AfV0sLmA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=YjuSXfVFdNZsDUovgWNOnXrDWs1wY3mzRO64lCEOdBzQ4UsRfQncNKg6MQeD84dbH
-	 bLkHsiYHrxg688yhBdaz2B2Q68XFUbt6CEC++v0IkcHtNVTga+yEe8MqsyaF4Doazg
-	 AN6p2zh75ODIyTnguYSzN3Gphf2DObIsT6Eic8uYtSAfC0aPl0+O7aJrbUa9e6uYsW
-	 dcILL/QzRmjIQwFrG1O3taxFeWv03VqKb3B/DUAOVCvasWelTiEfbB4qdrPoAAkdv9
-	 rKaxWgR9X9gvKFI3he7IpfLgwKRk3QMn9Vw8YH9rQ3/9MCHkQLGxQ0KwrW5ieAi53E
-	 ir/C+ZzHhlVQQ==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id CE493408CC;
-	Wed, 12 Aug 2026 13:15:27 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Manuel Ebner <manuelebnerli@mailbox.org>, Shuah Khan
- <skhan@linuxfoundation.org>, Federico Vaga <federico.vaga@vaga.pv.it>,
- Akira Yokosawa <akiyks@gmail.com>, Daniel Pereira
- <danielmaraboo@gmail.com>, Carlos Bilbao <carlos.bilbao@kernel.org>,
- Avadhut Naik <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>, Yanteng
- Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, Hu Haowen
- <2023002089@link.tyut.edu.cn>, Alexei Starovoitov <ast@kernel.org>, Daniel
- Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi
- <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song Liu
- <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa
- <jolsa@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>, Miguel Ojeda
- <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo
- <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
- <bjorn3_gh@protonmail.com>, Benno
- Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>, Daniel Almeida
- <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>,
- Alexandre Courbot <acourbot@nvidia.com>, Onur =?utf-8?Q?=C3=96zkan?=
- <work@onurozkan.dev>,
- Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers
- <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>,
- Justin Stitt <justinstitt@google.com>
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, workflows@vger.kernel.org,
- bpf@vger.kernel.org, rust-for-linux@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH 1/5] Docs: changes.rst: rename file and references and
-  add links
-In-Reply-To: <20260812121603.1633270-2-manuelebnerli@mailbox.org>
-References: <20260812120805.1631430-3-manuelebnerli@mailbox.org>
- <20260812121603.1633270-2-manuelebnerli@mailbox.org>
-Date: Wed, 12 Aug 2026 07:15:26 -0600
-Message-ID: <87o6f7jx8x.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="e9rphySl"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=N3MHtg8IYqPOe/jtnOOj2nPC3S2Ixh8R0wm+at1M4gg=; b=e9rphySlQlTSngYZg9iCPbe7tz
+	5g9heth7UUZaHKP+ym3GXPwsnh6gYyfozfHzNEUGHPt+4UU6InJEXxhogbROqkBzUpqbjJKGCb7Uh
+	yBMMSJ/Lh497M5QfhzOhqKnKVs91vr/8Norjm6gOUoiOMoKup9tOOS2gcD97kFCr5rnXZd0TU5P+/
+	FmwByYh1dV503sgAIK51Zw6bNU+ZDONB5LcfZa30VHNELCtTIiV3aArgR+EkrktNhzMmM/TYir9c9
+	I1d/o3uNkawK6wu1TIGmeA4l0wVf/XUVX/hNYWseoKapRCZJP7Wuc9PkjjCAI5gqd3FMT9j7qA3zk
+	CFBY5wrw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wuIuP-0000000HBMq-09QO;
+	Thu, 13 Aug 2026 00:02:57 +0000
+Message-ID: <da510a49-d570-452a-9fda-84e4915573f4@infradead.org>
+Date: Wed, 12 Aug 2026 17:02:55 -0700
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/5] Docs: software-requirements.rst replace optional tag
+ with footnotes
+To: Manuel Ebner <manuelebnerli@mailbox.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+ Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot
+ <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ llvm@lists.linux.dev
+References: <20260812120805.1631430-3-manuelebnerli@mailbox.org>
+ <20260812122426.1636227-2-manuelebnerli@mailbox.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260812122426.1636227-2-manuelebnerli@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Manuel Ebner <manuelebnerli@mailbox.org> writes:
 
-> The current name does not reflect the content of the file, the new name
-> does so. With the links legacy references should continue to work.
->
-> Change name to software-requirements.rst
-> Change names in Doc/translations/*
-> Add link Doc/process/changes.rst to software-version.rst.
-> Add link Doc/Changes to software-version.rst.
-> Add links in Doc/translations/*
-> Change changes.rst to software-version.rst inChange changes.rst to software-version.rst in
->  Documentation/*
->  README
->  samples/bpf/README.rst
->  scripts/min-tool-version.sh
->  scripts/ver_linux
->
+
+On 8/12/26 5:24 AM, Manuel Ebner wrote:
+> The optional tag isn't obvious nor defined. Therefore replace with footnotes
+> like the one of Sphinx.
+> 
 > Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
 > ---
->  Documentation/Changes                         |   2 +-
->  Documentation/admin-guide/README.rst          |   6 +-
->  Documentation/doc-guide/sphinx.rst            |   2 +-
->  Documentation/filesystems/locks.rst           |   2 +-
->  Documentation/process/changes.rst             | 576 +----------------
->  Documentation/process/howto.rst               |   2 +-
->  .../process/software-requirements.rst         | 575 +++++++++++++++++
->  .../translations/it_IT/process/changes.rst    | 554 +----------------
->  .../translations/it_IT/process/howto.rst      |   2 +-
->  .../it_IT/process/software-requirements.rst   | 553 +++++++++++++++++
->  .../translations/ja_JP/process/howto.rst      |   2 +-
->  .../translations/ko_KR/process/howto.rst      |   2 +-
->  .../translations/pt_BR/process/changes.rst    | 577 +-----------------
->  .../pt_BR/process/software-requirements.rst   | 576 +++++++++++++++++
->  .../translations/sp_SP/process/howto.rst      |   2 +-
->  .../translations/zh_CN/admin-guide/README.rst |   6 +-
->  .../translations/zh_CN/process/howto.rst      |   2 +-
->  .../translations/zh_TW/admin-guide/README.rst |   6 +-
->  .../translations/zh_TW/process/howto.rst      |   2 +-
->  README                                        |   2 +-
->  samples/bpf/README.rst                        |   2 +-
->  scripts/min-tool-version.sh                   |   2 +-
->  scripts/ver_linux                             |   2 +-
->  23 files changed, 1730 insertions(+), 1727 deletions(-)
->  mode change 100644 => 120000 Documentation/process/changes.rst
->  create mode 100644 Documentation/process/software-requirements.rst
->  mode change 100644 => 120000 Documentation/translations/it_IT/process/changes.rst
->  create mode 100644 Documentation/translations/it_IT/process/software-requirements.rst
->  mode change 100644 => 120000 Documentation/translations/pt_BR/process/changes.rst
->  create mode 100644 Documentation/translations/pt_BR/process/software-requirements.rst
+>  .../process/software-requirements.rst         | 22 ++++++++++++-------
+>  1 file changed, 14 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/process/software-requirements.rst b/Documentation/process/software-requirements.rst
+> index 5fdfcf6a0c01..a31e0ae20498 100644
+> --- a/Documentation/process/software-requirements.rst
+> +++ b/Documentation/process/software-requirements.rst
+> @@ -33,20 +33,20 @@ you probably do not need to concern yourself with pcmciautils.
+>  ====================== ===============  ========================================
+>  bash                   4.2              bash --version
+>  bc                     1.06.95          bc --version
+> -bindgen (optional)     0.71.1           bindgen --version
+> +bindgen [#f1]_         0.71.1           bindgen --version
+>  binutils               2.30             ld -v
+>  bison                  2.0              bison --version
+>  btrfs-progs            0.18             btrfs --version
+> -Clang/LLVM (optional)  17.0.1           clang --version
+> +Clang/LLVM [#f2]_      17.0.1           clang --version
+>  e2fsprogs              1.41.4           e2fsck -V
+>  flex                   2.5.35           flex --version
+>  gdb                    7.2              gdb --version
+> -GNU awk (optional)     5.1.0            gawk --version
+> +GNU awk [#f3]_         5.1.0            gawk --version
+>  GNU C                  8.1              gcc --version
+>  GNU make               4.0              make --version
+>  GNU tar                1.28             tar --version
+>  GRUB                   0.93             grub --version || grub-install --version
+> -gtags (optional)       6.6.5            gtags --version
+> +gtags [#f4]_           6.6.5            gtags --version
+>  ip-route2              6.14.0           ip -V
+>  iptables               1.4.2            iptables -V
+>  jfsutils               1.1.3            fsck.jfs -V
+> @@ -54,7 +54,7 @@ kmod                   13               kmod -V
+>  liblzma                5.8.1            lzma -V
+>  lzop                   1.04             lzop -V
+>  mcelog                 0.6              mcelog --version
+> -mkimage (optional)     2017.01          mkimage --version
+> +mkimage [#f5]_         2017.01          mkimage --version
+>  nfs-utils              1.0.5            showmount --version
+>  openssl & libcrypto    1.0.0            openssl version
+>  pahole                 1.26             pahole --version
+> @@ -63,8 +63,8 @@ PPP                    2.4.0            pppd --version
+>  procps                 3.2.0            ps --version
+>  Python                 3.9.x            python3 --version
+>  quota-tools            3.09             quota -V
+> -Rust (optional)        1.85.0           rustc --version
+> -Sphinx\ [#f1]_         3.4.3            sphinx-build --version
+> +Rust [#f6]_            1.85.0           rustc --version
+> +Sphinx\ [#f7]_         3.4.3            sphinx-build --version
+>  squashfs-tools         4.0              mksquashfs -version
+>  udev                   081              udevadm --version
+>  util-linux             2.10o            mount --version
+> @@ -72,7 +72,13 @@ xfsprogs               2.6.0            xfs_db -V
+>  xz                     5.8.1            xz -V
+>  ====================== ===============  ========================================
+>  
+> -.. [#f1] Sphinx is needed only to build the Kernel documentation
+> +.. [#f1] bindgen is needed to generate Rust bindings
+> +.. [#f2] Clang/LLVM is an alternative to GNU C (gcc)
+> +.. [#f3] awk is needed with CONFIG_BUILTIN_MODULE_RANGES set
 
-That is a *lot* of churn just because you don't like the name of the
-file.  The naming is not perfect - it is the result of decades of
-history - but I think we're better to live with it.
+or if CONFIG_SYSTEM_BLACKLIST_HASH_LIST is set.
+or if objtool is being used with ARCH=x86.
 
-jon
+> +.. [#f4] gtags is there to generate tag files through ``make gtags``
+> +.. [#f5] mkimage is used when building a Flat Image Tree (FIT)
+
+or to create a U-Boot image (ARCH=arc, ARCH=arm, or ARCH=powerpc).
+
+> +.. [#f6] Rust is only required when enabled
+> +.. [#f7] Sphinx is needed only to build the Kernel documentation
+>  
+>  Kernel compilation
+>  ******************
+
+I probably missed a few since I didn't spend lots of time on this.
+
+But I do like this approach instead of just saying (optional).
+
+-- 
+~Randy
+
