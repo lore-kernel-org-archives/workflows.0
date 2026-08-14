@@ -1,229 +1,123 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4092312803;
-	Fri, 14 Aug 2026 13:54:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F0E335A925
+	for <workflows@vger.kernel.org>; Fri, 14 Aug 2026 14:00:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786715649; cv=none; b=aZYGRJE6Rj0BY063lUTvu6DnBBBk+msewXTtzw++hlLB3pwr/+9f6l9Uq30HwgWrRtl25wXv45VbJsJ0RZYYF6AiazW5wpjRDmNMCJdEa+/2vdLCkOjqyi85wNvohvGh6Fbt3bt1y6N5wr1tZrRD5LsvamDHemnAudJt8m4RIB8=
+	t=1786716024; cv=none; b=WksAhQqM2cSRYxZeMaMtYaGJLx8VUFokAdTNG3V31NSY2grHfEawmwj9cjGKdQ7O9q2x5ny1ZM18wSY2Ru2BDzQBgjiVL3tIv+7gEiamjqLd6f7wMnbh6d40z3MgEJzhta9mEk94Fx2VOR2BQQ10PI7CrYvgENJS908g8euqOEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786715649; c=relaxed/simple;
-	bh=2UfRgnUys45ssCBDarzTn1NApgxMqZNCY6B2W38N1r8=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=f/EMzDGQckLXRCOPAVkIKCC1N76ThT6kEqk+hOPqhWowZWIcRC9ZY+sff+yfzPrPXIIoJ+jcsKgywseBkgCJ8Wdg2lqsEyrBq+KP6DB8hcJRrO4vE2bq3GNBigprk3JTR5+W4ROVb2VntBPiHyF+37SzWhoXMD/a3rSmsi5Ihzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=wuysomPN; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=P0mkU9gS; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="wuysomPN";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="P0mkU9gS"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4hM3c44w0fz8txR;
-	Fri, 14 Aug 2026 15:53:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1786715636;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=EpnZWE96eoKdXLQOXgkfZ9OL3A8iyZ9sWSPxu4P0Ymk=;
-	b=wuysomPNg9SngRH7yQ+9EN0jb+mD57KZ5TTRtgoE5EOVfOlWl2xXE+fZ1iG92oXGTJQ39b
-	UZjNVp3pwTyQWTp9SFmrimmI+N62SfLwXd7wRKqfS4ynT+WHix5IU+SQ3zWoV2uGpi027N
-	hEa+amaCDZtlb8FcM1US5N0uTklSvX8oZ9+Oic5MTTvHaibT32ud2JRM00p1KYcxXOXW7T
-	Lky3Q+ZBKp+Ad+OMrfve2Ixnm6ny2S0ZqFGLIlcOFBuXbDJ4/bKpmiRqxb22Ce80uzq71w
-	1sAUEu5UliWXSH1gRefR4Vh/WIb2HiPFbx8khRLaw3Q4U4FVFKOdhUfunPbgtQ==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=P0mkU9gS;
-	spf=pass (outgoing_mbo_mout: domain of manuelebnerli@mailbox.org designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=manuelebnerli@mailbox.org
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1786715635;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=EpnZWE96eoKdXLQOXgkfZ9OL3A8iyZ9sWSPxu4P0Ymk=;
-	b=P0mkU9gSZQjDBzqemC1rMkdLG8eRbi0fsMOd38B6XkbqTOkWU9elPVreguZfPCzMx6Kldg
-	jJApxszppAW6LKPcD/SkTerI34hsNyMlijvhi4IL6WwdeFO2ZUZpi7+Drv6QED76MEdDf6
-	xa+z8NVN60nVIzu+0oK0ZVowypmTYxMgV5SEUAJ6pHNVcQZ0sakHrnp53kPw7+D0MD0SOt
-	mFAe9KmNc60LJRFMEgdfkOe21O4iDj9FMWwhQ0czixDyfyHX3f9yj1c6jI6RxnbkXCYHVA
-	OHZF/PP9pPTeD2i6ZgisD+/RN6sSMjiRpGVunZzSf9rbIE5Un3EucWPSLowrVQ==
-To: Manuel Ebner <manuelebnerli@mailbox.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	workflows@vger.kernel.org,
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] ver_linux: add comparison with required version and colour to output
-Date: Fri, 14 Aug 2026 15:49:32 +0200
-Message-ID: <20260814134931.2281085-2-manuelebnerli@mailbox.org>
+	s=arc-20240116; t=1786716024; c=relaxed/simple;
+	bh=jnE+zrjdRPIAG/V+osLYILlYKK1uGEGBACBgUDiHPsk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NFK5eMMq2OvMZbLLPFrJXuj4T9RKO7jkf4VUft4CoOOWnL9cERRyBuAWVx/QcqGZBgVF5FOgXQnlUyvrpoF60Eb90j4ftxRwpN0osr5sIGQeyIG5qCUNEoDpgZ1GY8lFum9MGJQbvQjNavrGQAKtUCwVeWsvjmer0r0Dk/4j3kw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-5c2c46a428eso666225e0c.2
+        for <workflows@vger.kernel.org>; Fri, 14 Aug 2026 07:00:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786716022; x=1787320822;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=KBeE4Jbhv9pyM12HVw9v14dd7K0sZrphzuP4RnOH+Ow=;
+        b=VRGAj/9dpJytjK82sXcN4Cb6h9Foj1RXVd0AR7gEW0NlbbOwsenI7juyLYvmKBu077
+         BbbicYUJ5VyuqNz8ZDo/4+pV6hKaXElPwjS/qYUP7LGeU0xbVrR5nAPt71vqgbVEpQ9F
+         wf8H/VJfhesTuaxjJ8X5c4OsekJxT86AWQ6K/IkgeYLhL+JohEK1OxuILLgc/V3KAzRP
+         wRcBS3XlNX0RM0fys9+kDGtIrSx/ro5haTYD69EQ4pyRyz7q0uOQIRLVUFYlf0nPV3kB
+         SgwR2E4+7Goqqd10ozeUmUVG+x8XP8v4UF1Xya8CINbLe9l4Drls03wVoKE7OtwrTtzd
+         wB1A==
+X-Forwarded-Encrypted: i=1; AHgh+Rp9Sdh8zfH5S44be/96vHs/Br6PnAo7I478uDi1+pnFulwLqi1AGXYGwxDCQtz+tK2DKHpvIgVvtuc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDmicfY+S33ZlSuLKDKMl4Y9hbp3QgMADAsijCf1WX3/ygKGje
+	xYSd7/joue5ncJO2Hc+ogDE9fXLFPue7TOnRn3iphL6cXq8K9W7MeqQVU+1/9cmV71k=
+X-Gm-Gg: AR+sD12NCsSqTwc068z1jawYNm1GaiHLZM9Lp2sVenaX8vWhKtd5DXhdzupH5k0yao/
+	mRLraV38vAp82MVC2Q5YB1HLL3wo6dkeev4r3UL5OZMhrEVrYBPnIUm3BZkt85sLp5sPytu6Gh3
+	+iPaaUshj7yUTBd0PoLOeSkmQLT3rRyO3DONZC37+pTlaXiEOEjOLdYTASVu/8bn/k4xeAlAJN3
+	jQuKLlKjsulT9qSqBH5SdOK7FpPfQivo/gMi3MNFGBEtcPj+eJrUiN5iFZAmJ0a8uuRViJmw+/A
+	tl3lb3k/ViD1GTnYA3hi8rExgUiOVMtt7pasgdWbyhx+Op7geq1cKOMr97ATiUep7SO2SyyT/Ot
+	7o3yS+g9avLWtjAGo6jF8Bap6FyAy9oCEsWpJJxnGAXVvYJ7T9fAVOXg6tUjaFEzdhS7ZlhuOx8
+	1euocvELJ1YdewsmP3vsl3SU+jxKBUFXRHRQqLqUKBDsHVDm4b6fyOTYQ03dZ/yJl2X9h277eln
+	1R36RxM2wsp+70tIe7IorWRiQ==
+X-Received: by 2002:a05:6122:3308:b0:55b:d85:5073 with SMTP id 71dfb90a1353d-5c591c9901amr1602931e0c.4.1786716022219;
+        Fri, 14 Aug 2026 07:00:22 -0700 (PDT)
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-97bfbdae5e9sm786057241.11.2026.08.14.07.00.19
+        for <workflows@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Aug 2026 07:00:20 -0700 (PDT)
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-966e7380109so600122241.3
+        for <workflows@vger.kernel.org>; Fri, 14 Aug 2026 07:00:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RpkaHNSYFMACPg7pyYaZEFfz4j3c4cueWpOxUNLOGzRFRSgwQXFQNHU+DVPtAanqkAsfvpUmRL/p40=@vger.kernel.org
+X-Received: by 2002:a05:6122:488f:b0:5c4:1a0a:b52e with SMTP id
+ 71dfb90a1353d-5c591ec9771mr1475551e0c.9.1786716019318; Fri, 14 Aug 2026
+ 07:00:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 33ed4a77f3b5323a42b
-X-MBO-RS-META: ae6y4g41kbmuakentnpgd3dp4pgsi7z8
-X-Rspamd-Queue-Id: 4hM3c44w0fz8txR
+References: <20260814134931.2281085-2-manuelebnerli@mailbox.org>
+In-Reply-To: <20260814134931.2281085-2-manuelebnerli@mailbox.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 14 Aug 2026 16:00:07 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV461YV5jThYgoGAxnZhB3Vf5tAmcm-eML1o-jVRrerBA@mail.gmail.com>
+X-Gm-Features: AcwNN1Xs2dRzpNCH6XKGLdEjSAU8N4IlXfCduMH-dczukYBUWMKvueNqo7GJal4
+Message-ID: <CAMuHMdV461YV5jThYgoGAxnZhB3Vf5tAmcm-eML1o-jVRrerBA@mail.gmail.com>
+Subject: Re: [PATCH] ver_linux: add comparison with required version and
+ colour to output
+To: Manuel Ebner <manuelebnerli@mailbox.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, workflows@vger.kernel.org, 
+	open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Add the required version from changes.rst.
-Add code for comparison and print in colour (blue, green, red) depending
-on the result of the comparison.
+Hi Manuel,
 
-Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
----
-I had this patch on my mind for more than half a year. I was convinced I
-couldn't do it because awk is such a special language. Took me less than
-an hour without AI - WTF
+On Fri, 14 Aug 2026 at 15:55, Manuel Ebner <manuelebnerli@mailbox.org> wrote:
+> Add the required version from changes.rst.
+> Add code for comparison and print in colour (blue, green, red) depending
+> on the result of the comparison.
+>
+> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
 
-Somehow I messed up the formating of the output. I guess it's this lines
-+		ofmt = "%-20s\t%s\n"
-but I couldn't figure it out :(
----
- scripts/ver_linux | 109 +++++++++++++++++++++++++---------------------
- 1 file changed, 60 insertions(+), 49 deletions(-)
+Thanks for your patch!
 
-diff --git a/scripts/ver_linux b/scripts/ver_linux
-index 00bdaf30d590..27fef46f8763 100755
---- a/scripts/ver_linux
-+++ b/scripts/ver_linux
-@@ -8,6 +8,9 @@
- BEGIN {
- 	usage = "If some fields are empty or look unusual you may have an old version.\n"
- 	usage = usage "Compare to the current minimal requirements in Documentation/process/changes.rst\n"
-+	usage = usage "\033[34m BLUE means there is no required version available,\n"
-+	usage = usage "\033[32m GREEN means the version on your machine is above the requirement,\n"
-+	usage = usage "\033[31m RED means the version on your machine is below the requirement, please update and run again.\n\033[37m"
- 	print usage
- 
- 	system("uname -a")
-@@ -17,58 +20,58 @@ BEGIN {
- 	libc = "libc[.]so[.][0-9]+$"
- 	libcpp = "(libg|stdc)[+]+[.]so([.][0-9]+)+$"
- 
--	printversion("bash", version("bash --version"))
--	printversion("bc", version("bc --version"))
--	printversion("bindgen", version("bindgen --version"))
--	printversion("binutils", version("ld -v"))
--	printversion("bison", version("bison --version"))
--	printversion("btrfs-progs", version("btrfs --version"))
--	printversion("Clang", version("clang --version"))
--	printversion("Console-tools", version("loadkeys -V"))
--	printversion("Dynamic linker (ldd)", version("ldd --version"))
--	printversion("e2fsprogs", version("e2fsck -V"))
--	printversion("flex", version("flex --version"))
--	printversion("gdb", version("gdb -version"))
--	printversion("GNU awk", version("gawk --version"))
--	printversion("GNU C", version("gcc -dumpversion"))
--	printversion("GNU make", version("make --version"))
--	printversion("GNU tar", version("tar --version"))
--	printversion("GRUB2", version("grub2-install --version"))
--	printversion("GRUB", version("grub-install --version"))
--	printversion("gtags", version("gtags --version"))
--	printversion("iptables", version("iptables -V"))
--	printversion("Isdn4k-utils", version("isdnctrl"))
--	printversion("jfsutils", version("fsck.jfs -V"))
--	printversion("Kbd", version("loadkeys -V"))
--	printversion("kmod", version("kmod -V"))
-+	printversion("bash", version("bash --version"), "4.2")
-+	printversion("bc", version("bc --version"), "1.06.95")
-+	printversion("bindgen", version("bindgen --version"), "0.71.1")
-+	printversion("binutils", version("ld -v"), "2.30")
-+	printversion("bison", version("bison --version"), "2.0")
-+	printversion("btrfs-progs", version("btrfs --version"), "0.18")
-+	printversion("Clang", version("clang --version"), "17.0.1")
-+	printversion("Console-tools", version("loadkeys -V"), "")
-+	printversion("Dynamic linker (ldd)", version("ldd --version"), "")
-+	printversion("e2fsprogs", version("e2fsck -V"), "1.41.4")
-+	printversion("flex", version("flex --version"), "2.5.35")
-+	printversion("gdb", version("gdb -version"), "7.2")
-+	printversion("GNU awk", version("gawk --version"), "5.1.0")
-+	printversion("GNU C", version("gcc -dumpversion"), "8.1")
-+	printversion("GNU make", version("make --version"), "4.0")
-+	printversion("GNU tar", version("tar --version"), "1.28")
-+	printversion("GRUB2", version("grub2-install --version"), "0.93")
-+	printversion("GRUB", version("grub-install --version"), "0.93")
-+	printversion("gtags", version("gtags --version"), "6.6.5")
-+	printversion("iptables", version("iptables -V"), "1.4.2")
-+	printversion("Isdn4k-utils", version("isdnctrl"), "")
-+	printversion("jfsutils", version("fsck.jfs -V"), "1.1.3")
-+	printversion("Kbd", version("loadkeys -V"), "")
-+	printversion("kmod", version("kmod -V"), "13")
- 
- 	while ("ldconfig -p 2>/dev/null" | getline > 0)
- 		if ($NF ~ libc || $NF ~ libcpp)
- 			if (!seen[ver = version("readlink " $NF)]++)
- 				printversion("Linux C" ($NF ~ libcpp? "++" : "") " Library", ver)
- 
--	printversion("mcelog", version("mcelog --version"))
--	printversion("mkimage", version("mkimage --version"))
--	printversion("Module-init-tools", version("depmod -V"))
--	printversion("Mount", version("mount --version"))
--	printversion("Net-tools", version("ifconfig --version"))
--	printversion("nfs-utils", version("showmount --version"))
--	printversion("openssl", version("openssl version"))
--	printversion("pahole", version("pahole --version"))
--	printversion("Pcmcia-cs", version("cardmgr -V"))
--	printversion("pcmciautils", version("pccardctl -V"))
--	printversion("PPP", version("pppd --version"))
--	printversion("procps", version("ps --version"))
--	printversion("Python", version("python3 -V"))
--	printversion("quota-tools", version("quota -V"))
--	printversion("Rust", version("rustc --version"))
--	printversion("Sh-utils", version("expr --v"))
--	printversion("Sphinx", version("sphinx-build --version"))
--	printversion("squashfs-tools", version("mksquashfs -version"))
--	printversion("udev", version("udevadm --version"))
--	printversion("util-linux", version("mount --version"))
--	printversion("Wireless-tools", version("iwconfig --version"))
--	printversion("xfsprogs", version("xfs_db -V"))
-+	printversion("mcelog", version("mcelog --version"), "0.6 ")
-+	printversion("mkimage", version("mkimage --version"), "2017.01")
-+	printversion("Module-init-tools", version("depmod -V"), "")
-+	printversion("Mount", version("mount --version"), "")
-+	printversion("Net-tools", version("ifconfig --version"), "")
-+	printversion("nfs-utils", version("showmount --version"), "1.0.5")
-+	printversion("openssl", version("openssl version"), "1.0.0")
-+	printversion("pahole", version("pahole --version"), "1.26")
-+	printversion("Pcmcia-cs", version("cardmgr -V"), "")
-+	printversion("pcmciautils", version("pccardctl -V"), "004")
-+	printversion("PPP", version("pppd --version"), "2.4.0")
-+	printversion("procps", version("ps --version"), "3.2.0")
-+	printversion("Python", version("python3 -V"), "3.9.0")
-+	printversion("quota-tools", version("quota -V"), "3.09")
-+	printversion("Rust", version("rustc --version"), "1.85.0")
-+	printversion("Sh-utils", version("expr --v"), "")
-+	printversion("Sphinx", version("sphinx-build --version"), "3.4.3")
-+	printversion("squashfs-tools", version("mksquashfs -version"), "4.0")
-+	printversion("udev", version("udevadm --version"), "081")
-+	printversion("util-linux", version("mount --version"), "2.10o")
-+	printversion("Wireless-tools", version("iwconfig --version"), "")
-+	printversion("xfsprogs", version("xfs_db -V"), "2.6.0")
- 
- 	while ("sort /proc/modules" | getline > 0) {
- 		mods = mods sep $1
-@@ -89,9 +92,17 @@ function version(cmd,    ver) {
- 	return ver
- }
- 
--function printversion(name, value,  ofmt) {
--	if (value != "") {
-+function printversion(name, cur_version, req_version,  ofmt) {
-+	if (req_version == "") {
- 		ofmt = "%-20s\t%s\n"
--		printf(ofmt, name, value)
-+		printf(ofmt, "\033[34m"name,  cur_version)
-+	}
-+	else if (cur_version >= req_version) {
-+		ofmt = "%-20s\t%s\n"
-+		printf(ofmt, "\033[32m"name,  cur_version)
-+	}
-+	else {
-+		ofmt = "%-20s\t%s\n"
-+		printf(ofmt, "\033[31m"name,  cur_version)
- 	}
- }
+> --- a/scripts/ver_linux
+> +++ b/scripts/ver_linux
+
+> @@ -89,9 +92,17 @@ function version(cmd,    ver) {
+>         return ver
+>  }
+>
+> -function printversion(name, value,  ofmt) {
+> -       if (value != "") {
+> +function printversion(name, cur_version, req_version,  ofmt) {
+> +       if (req_version == "") {
+>                 ofmt = "%-20s\t%s\n"
+> -               printf(ofmt, name, value)
+> +               printf(ofmt, "\033[34m"name,  cur_version)
+> +       }
+> +       else if (cur_version >= req_version) {
+> +               ofmt = "%-20s\t%s\n"
+> +               printf(ofmt, "\033[32m"name,  cur_version)
+> +       }
+> +       else {
+> +               ofmt = "%-20s\t%s\n"
+> +               printf(ofmt, "\033[31m"name,  cur_version)
+>         }
+>  }
+
+None of the above reset the color (using "\033[37m", or the shorter
+"\033[0m").
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.54.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
