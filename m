@@ -1,86 +1,229 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1DA93502A7;
-	Fri, 14 Aug 2026 14:01:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C84B4749EE;
+	Fri, 14 Aug 2026 14:35:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786716110; cv=none; b=aTq80Aziy8cHywEIiur2BsIdnmn1f3Adadh/wyKebEbEHz3mBxOqzR/gwfQTUByCnwhCw+/UK+2aeKTnBZJ8qimuLRknK/8UhpK7g2v4EUxMj0ku/vICbOd33JFymF47eZQ9WKWV0L+uIWrjhyUNPVhmaUM0+CkdmUCblOAQlhA=
+	t=1786718110; cv=none; b=sFQo87JhnW6Cd2NIkw8edF5WKqemo46D+XMxinIISD3O/m7diGe9dsutbYoXU2iPpmMWxnk8X3G9bV91wSDdzmo6ELllSSDS65xVRmqx7pFDYWlabD4916bIIEPZhSnWQ4mnrkQmIzBU7V7Hx8CFEW1KkT16SreJvRIZIKMH63I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786716110; c=relaxed/simple;
-	bh=aD+lU3KqkIvxkzqfh3CtFvlRx9GYjQUJxwJWU93TxbA=;
-	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=KIRTPHlMj+F9bPH3/7Fpx+vZCcTK8kQSy16/IPB6L5+sGgb8bm2L0uhdZEN4L4gCtFztcliGtnmWSWFpuquLUjnJrtqKdtGpMkJzWk0nmKDlPsQsAGb+w4ue6knORvSmVyGouzqE2E3NhEp5ax9YhDGv4Rs+DCJMhBAw9y5atCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=puGA7RUF; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1786718110; c=relaxed/simple;
+	bh=Z83q3XkKSTgAZcDEOrbNxnhjGXV38OlQmyKxFrru2ts=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=dErEHddQf/68bU9ck1c+QqQW6PXDOEBXuicc3tuFzuo55NrBwRP/vPtpxBhOpsS2Q6s05BFYclme5VtEIIjJlM4EgGrsl0JRVGHKbQEP9TKAAaOS4VRl3jMlWEniORU6N8AotadJ/J2r5F5AzEIGhEcUmzHLgjTEWAoHZ5qIH0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=PLOWa4jF; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=m5rZ28Ot; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="puGA7RUF"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0CB87408E1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1786716102; bh=0pQggVtbjFRCFaQGmg9pai0ViZG7UH99fC0jP43fc38=;
-	h=From:To:Subject:In-Reply-To:References:Date:From;
-	b=puGA7RUFjm9Qu2NZqOGvl2uFLTj07UAg50LengEx+0J1qqxilJ+eLVAgSYvCeCaHd
-	 Qo02xaAmOYDqa7k94D4qtPifuSKc81tLMKGRG5YpU/kFgexdT5XYBOhGpZtT53+SpC
-	 XdMYB3/pMbmfH4xgrYqHKQ8LsKN+S43Tat7qiwHjKbkGD8TxwDA1DcgD02qOHN43Jx
-	 YpKhp2JobFS4ETvwnAC13sLnNrkwcPredgfUcvEpjAcYiybmTZQ4eS6DRnFLzDJz85
-	 pYRK4Prn1uEqKOhfA4JIMW17zjo+mxLpQeTPO1d70So5jmwr7ARTbAe29ZHFAGjKWK
-	 KSJL06nZiWuzw==
-Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="PLOWa4jF";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="m5rZ28Ot"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 0CB87408E1;
-	Fri, 14 Aug 2026 14:01:41 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Manuel Ebner <manuelebnerli@mailbox.org>, Manuel Ebner
- <manuelebnerli@mailbox.org>, Shuah Khan <skhan@linuxfoundation.org>,
- workflows@vger.kernel.org, open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] ver_linux: add comparison with required version and
- colour to output
-In-Reply-To: <20260814134931.2281085-2-manuelebnerli@mailbox.org>
-References: <20260814134931.2281085-2-manuelebnerli@mailbox.org>
-Date: Fri, 14 Aug 2026 08:01:41 -0600
-Message-ID: <871pc0g5ru.fsf@trenco.lwn.net>
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4hM4WP4gqXzMlD5;
+	Fri, 14 Aug 2026 16:34:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1786718097;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=BwZKbNT4VhMtHNxOa3Rl8Ef2UbXi4EY4rnCMNfExzKc=;
+	b=PLOWa4jFrjjPgp+8o91sY6ADed7lMXzRw3nAV+9HvfaiFXhT9N3vWftLT60Fw4nl/RNq16
+	aRF9LHcEKQr6+YgC8iXVnV671w/cdlHnDqI0vOPfYHhSmns3xSRISMq3iXvFD3wkoSWfq9
+	y5lzwSRQh81QXuBP9V+UKyY5Hg/xogyW5OvyhIqQ5TQS4POm4JAIvZuH9JZAHO1AzCRyZC
+	3KrMoEZjWVN6XkjdTYxJ6MrvazZ3GssITSSeB5spgcYpwFX9fru651xPCMgiCPk4UBX3TS
+	DMM5/gmojKW1TpFvDY4gT0cGfWO292ci/9kOTzzOC7tSozc0BwoaEPJSdIa+sQ==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=m5rZ28Ot;
+	spf=pass (outgoing_mbo_mout: domain of manuelebnerli@mailbox.org designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=manuelebnerli@mailbox.org
+From: Manuel Ebner <manuelebnerli@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1786718096;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=BwZKbNT4VhMtHNxOa3Rl8Ef2UbXi4EY4rnCMNfExzKc=;
+	b=m5rZ28OtdDZjg4KnLQhw2YT/Wa214mB0hpquTj9r9zAowzyf4k5uxXhnq43GaKOS5woF3T
+	j7melMOHAC0/uZeYWNn2bleLqdtwEs/3jsELibkyapY900VL40FFQGi2FgjSvCzbaVHNL9
+	RjqXaiXstVdbzdpmqO+/8ROSGn4JkRfgbG3K0GXCCTaHaSm9si8dmptkWBsoglFMl0AqLa
+	GydvpOqEioxV6KtKpMUjHuPg10ffryKz5DFwF+0k0txUom7n88Pxoeudt1avx/LxZ1fVRE
+	nBynhTdiXVN4iBZ0qza2hCwL1vhTrNP89qdqL+n/tEGSLLwMkq1GqNdyqaBTZA==
+To: Manuel Ebner <manuelebnerli@mailbox.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	workflows@vger.kernel.org,
+	linux-kernel@vger.kernel.org (open list),
+	Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: [PATCH v2] ver_linux: add comparison with required version and add rows and colour to output
+Date: Fri, 14 Aug 2026 16:32:13 +0200
+Message-ID: <20260814143212.2288631-2-manuelebnerli@mailbox.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: 33iroxeczcti3yg38dec1s7arq18r3ij
+X-MBO-RS-ID: 01cd7eb93dd8d1d4a11
+X-Rspamd-Queue-Id: 4hM4WP4gqXzMlD5
 
-Manuel Ebner <manuelebnerli@mailbox.org> writes:
+Add the required version from changes.rst.
+Add code for comparison and print '###' in the respective row (good, bad) and in
+the respective colour (blue, green, red) depending on the result of the comparison.
 
-> Add the required version from changes.rst.
-> Add code for comparison and print in colour (blue, green, red) depending
-> on the result of the comparison.
->
-> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-> ---
-> I had this patch on my mind for more than half a year. I was convinced I
-> couldn't do it because awk is such a special language. Took me less than
-> an hour without AI - WTF
->
-> Somehow I messed up the formating of the output. I guess it's this lines
-> +		ofmt = "%-20s\t%s\n"
-> but I couldn't figure it out :(
-> ---
->  scripts/ver_linux | 109 +++++++++++++++++++++++++---------------------
->  1 file changed, 60 insertions(+), 49 deletions(-)
+Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+---
+[v2]
+add colour reset as Geert suggested
+change output to take colourblindness into account
+---
+ scripts/ver_linux | 112 ++++++++++++++++++++++++++--------------------
+ 1 file changed, 63 insertions(+), 49 deletions(-)
 
-Honestly, I don't think this is going to go very far.
+diff --git a/scripts/ver_linux b/scripts/ver_linux
+index 00bdaf30d590..5488e3d83a4f 100755
+--- a/scripts/ver_linux
++++ b/scripts/ver_linux
+@@ -8,6 +8,9 @@
+ BEGIN {
+ 	usage = "If some fields are empty or look unusual you may have an old version.\n"
+ 	usage = usage "Compare to the current minimal requirements in Documentation/process/changes.rst\n"
++	usage = usage "\033[34m BLUE \033[0mmeans there is no required version available,\n"
++	usage = usage "\033[32m GREEN \033[0mmeans the version on your machine is above the requirement,\n"
++	usage = usage "\033[31m RED \033[0mmeans the version on your machine is below the requirement, please update and run again.\n\033[0m"
+ 	print usage
+ 
+ 	system("uname -a")
+@@ -17,58 +20,61 @@ BEGIN {
+ 	libc = "libc[.]so[.][0-9]+$"
+ 	libcpp = "(libg|stdc)[+]+[.]so([.][0-9]+)+$"
+ 
+-	printversion("bash", version("bash --version"))
+-	printversion("bc", version("bc --version"))
+-	printversion("bindgen", version("bindgen --version"))
+-	printversion("binutils", version("ld -v"))
+-	printversion("bison", version("bison --version"))
+-	printversion("btrfs-progs", version("btrfs --version"))
+-	printversion("Clang", version("clang --version"))
+-	printversion("Console-tools", version("loadkeys -V"))
+-	printversion("Dynamic linker (ldd)", version("ldd --version"))
+-	printversion("e2fsprogs", version("e2fsck -V"))
+-	printversion("flex", version("flex --version"))
+-	printversion("gdb", version("gdb -version"))
+-	printversion("GNU awk", version("gawk --version"))
+-	printversion("GNU C", version("gcc -dumpversion"))
+-	printversion("GNU make", version("make --version"))
+-	printversion("GNU tar", version("tar --version"))
+-	printversion("GRUB2", version("grub2-install --version"))
+-	printversion("GRUB", version("grub-install --version"))
+-	printversion("gtags", version("gtags --version"))
+-	printversion("iptables", version("iptables -V"))
+-	printversion("Isdn4k-utils", version("isdnctrl"))
+-	printversion("jfsutils", version("fsck.jfs -V"))
+-	printversion("Kbd", version("loadkeys -V"))
+-	printversion("kmod", version("kmod -V"))
++	printf("toolname\t\tcurrent\trequired\tstatus \n")
++	printf("\t\t\tversion\tversion\t\tgood    bad\n")
++
++	printversion("bash", version("bash --version"), "4.2")
++	printversion("bc", version("bc --version"), "1.06.95")
++	printversion("bindgen", version("bindgen --version"), "0.71.1")
++	printversion("binutils", version("ld -v"), "2.30")
++	printversion("bison", version("bison --version"), "2.0")
++	printversion("btrfs-progs", version("btrfs --version"), "0.18")
++	printversion("Clang", version("clang --version"), "17.0.1")
++	printversion("Console-tools", version("loadkeys -V"), "")
++	printversion("Dynamic linker (ldd)", version("ldd --version"), "")
++	printversion("e2fsprogs", version("e2fsck -V"), "1.41.4")
++	printversion("flex", version("flex --version"), "2.5.35")
++	printversion("gdb", version("gdb -version"), "7.2")
++	printversion("GNU awk", version("gawk --version"), "5.1.0")
++	printversion("GNU C", version("gcc -dumpversion"), "8.1")
++	printversion("GNU make", version("make --version"), "4.0")
++	printversion("GNU tar", version("tar --version"), "1.28")
++	printversion("GRUB2", version("grub2-install --version"), "0.93")
++	printversion("GRUB", version("grub-install --version"), "0.93")
++	printversion("gtags", version("gtags --version"), "6.6.5")
++	printversion("iptables", version("iptables -V"), "1.4.2")
++	printversion("Isdn4k-utils", version("isdnctrl"), "")
++	printversion("jfsutils", version("fsck.jfs -V"), "1.1.3")
++	printversion("Kbd", version("loadkeys -V"), "")
++	printversion("kmod", version("kmod -V"), "13")
+ 
+ 	while ("ldconfig -p 2>/dev/null" | getline > 0)
+ 		if ($NF ~ libc || $NF ~ libcpp)
+ 			if (!seen[ver = version("readlink " $NF)]++)
+ 				printversion("Linux C" ($NF ~ libcpp? "++" : "") " Library", ver)
+ 
+-	printversion("mcelog", version("mcelog --version"))
+-	printversion("mkimage", version("mkimage --version"))
+-	printversion("Module-init-tools", version("depmod -V"))
+-	printversion("Mount", version("mount --version"))
+-	printversion("Net-tools", version("ifconfig --version"))
+-	printversion("nfs-utils", version("showmount --version"))
+-	printversion("openssl", version("openssl version"))
+-	printversion("pahole", version("pahole --version"))
+-	printversion("Pcmcia-cs", version("cardmgr -V"))
+-	printversion("pcmciautils", version("pccardctl -V"))
+-	printversion("PPP", version("pppd --version"))
+-	printversion("procps", version("ps --version"))
+-	printversion("Python", version("python3 -V"))
+-	printversion("quota-tools", version("quota -V"))
+-	printversion("Rust", version("rustc --version"))
+-	printversion("Sh-utils", version("expr --v"))
+-	printversion("Sphinx", version("sphinx-build --version"))
+-	printversion("squashfs-tools", version("mksquashfs -version"))
+-	printversion("udev", version("udevadm --version"))
+-	printversion("util-linux", version("mount --version"))
+-	printversion("Wireless-tools", version("iwconfig --version"))
+-	printversion("xfsprogs", version("xfs_db -V"))
++	printversion("mcelog", version("mcelog --version"), "0.6 ")
++	printversion("mkimage", version("mkimage --version"), "2017.01")
++	printversion("Module-init-tools", version("depmod -V"), "")
++	printversion("Mount", version("mount --version"), "")
++	printversion("Net-tools", version("ifconfig --version"), "")
++	printversion("nfs-utils", version("showmount --version"), "1.0.5")
++	printversion("openssl", version("openssl version"), "1.0.0")
++	printversion("pahole", version("pahole --version"), "1.26")
++	printversion("Pcmcia-cs", version("cardmgr -V"), "")
++	printversion("pcmciautils", version("pccardctl -V"), "004")
++	printversion("PPP", version("pppd --version"), "2.4.0")
++	printversion("procps", version("ps --version"), "3.2.0")
++	printversion("Python", version("python3 -V"), "3.9.0")
++	printversion("quota-tools", version("quota -V"), "3.09")
++	printversion("Rust", version("rustc --version"), "1.85.0")
++	printversion("Sh-utils", version("expr --v"), "")
++	printversion("Sphinx", version("sphinx-build --version"), "3.4.3")
++	printversion("squashfs-tools", version("mksquashfs -version"), "4.0")
++	printversion("udev", version("udevadm --version"), "081")
++	printversion("util-linux", version("mount --version"), "2.10o")
++	printversion("Wireless-tools", version("iwconfig --version"), "")
++	printversion("xfsprogs", version("xfs_db -V"), "2.6.0")
+ 
+ 	while ("sort /proc/modules" | getline > 0) {
+ 		mods = mods sep $1
+@@ -89,9 +95,17 @@ function version(cmd,    ver) {
+ 	return ver
+ }
+ 
+-function printversion(name, value,  ofmt) {
+-	if (value != "") {
++function printversion(name, cur_version, req_version,  ofmt) {
++	if (req_version == "") {
++		ofmt = "%-20s\t%s\n"
++		printf(ofmt, name,  cur_version"\t"req_version"\t\t\033[34m###\033[0m")
++	}
++	else if (cur_version >= req_version) {
++		ofmt = "%-20s\t%s\n"
++		printf(ofmt, name,  cur_version"\t"req_version"\t\t\033[32m###\033[0m")
++	}
++	else {
+ 		ofmt = "%-20s\t%s\n"
+-		printf(ofmt, name, value)
++		printf(ofmt, name,  cur_version"\t"req_version"\t\t\t\033[31m###\033[0m")
+ 	}
+ }
+-- 
+2.54.0
 
-- You don't know that the output of the script is a terminal accepting
-  ANSI escapes.
-
-- You don't know if the user is running in light or dark mode
-
-- Color blindness must be taken into account
-
-If you really want to add this feature, you need to make it selectable
-and configurable.  I honestly don't see that it would be worth it.
-
-Thanks,
-
-jon
