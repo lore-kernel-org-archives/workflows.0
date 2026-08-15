@@ -1,88 +1,104 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BC1748C8DC;
-	Fri, 14 Aug 2026 18:46:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F94F32B135
+	for <workflows@vger.kernel.org>; Sat, 15 Aug 2026 22:01:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786733189; cv=none; b=ZRTi36g/NL/NwCXmz+fNMGqLjbkQkrywhGWS6wSzZltjZFn8pknhT4aTfuDxJDkDKRl6i37i8pM/jp8L/+MLucXOto+/35cJ1RS/CIvwKYrSWMixkKSv0PCd7aZ4pcOjcIy5hx/lynV04Zs3EF53LNke7+MssBi/V7KDmbCqMI8=
+	t=1786831266; cv=none; b=GbMJqdMppTp7O3VQA/kYOLEJCxQ6zcLvy9d8tF8KrgvW8xs5BkrWNf/jiuCplMNlTd4pmvqTHuJ7NrwW118B8juj8IeZT66mErhrOsgZKJlZdhrtX1yklCLc1Nat1u/Bf+r0Fz0o46HNsByl79jeME235MVw3H2O7LBo255nuX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786733189; c=relaxed/simple;
-	bh=xUtLjTTrCAXEQsdA+pDs4Y+a6pRoNMTeoC+mabb5u6s=;
-	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=B+W7BNCpTrGokzm0l84M2hHbtE+YCImUg4AHxGrNBPMXkAVkbBqRVglezZTLD78vymMY/iRYOP/HYCuoccn4Cf+qPpSK5+ei5ZXewlfMxC3KtwN8R9i9xPCpIFbAekxjSGnMzJ8O39UEcYTkT3kXlDFCl/lRJPJEWQxgy3dGQDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=CDOUEsSQ; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1786831266; c=relaxed/simple;
+	bh=PG4MIE2W12sOR4QIFtwBGIizXLfGQeSxCLRQu27ohHQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b+C1Be4ZwP2vK+QQ6qdI8sp+DnpKYRI/e4dmkTZP11FF3+LKCYj+0DbixRlCv2DhtK7DLWh8xMmW6f4L5LAFIsQh4C/hw/8s03LyTCR4hyISjx3//D47SNQOvcQas0XPHfREfeJXs5LtNBPjLzhsPGh9lfEb9vrSQ1prdLchps4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OhkeX786; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="CDOUEsSQ"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6FA62408BB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1786733187; bh=xRUY8DahbixUkZpWMkvoO7p6w8QgrNGFT67ILUadYC0=;
-	h=From:To:Subject:In-Reply-To:References:Date:From;
-	b=CDOUEsSQWtvFi9SYSfIaYLk6mw91kfYQkDYFq0hM8/BJJinNpFBH8tBYOy6s550sX
-	 Wahshrs5AjZPuhdermr2uyuDJVgay56msnHRWOY9etdciLEhM51a26IIiHZ/ryKhou
-	 e2Rg406yCZI1fm6mEPnSC4EWynDoHtuAQXsGuLOrUSR3cEKVwjJKzF07I0cGic5SnU
-	 7faD1kQTvfGYUYUxiRJrXVpmdHyJWS5++K1b5yn1Vgq/mwBKNaHtzKaDbDQ7YGm69+
-	 AsqJ7/2WVidpWgiN3ukDMTFB7Q+RB+4ydIM0L8MuG18TMFbpx309NdLUUOLt4eoTvz
-	 lviDzEJjNo4oA==
-Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 6FA62408BB;
-	Fri, 14 Aug 2026 18:46:27 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Manuel Ebner <manuelebnerli@mailbox.org>, Manuel Ebner
- <manuelebnerli@mailbox.org>, Shuah Khan <skhan@linuxfoundation.org>,
- workflows@vger.kernel.org, open list <linux-kernel@vger.kernel.org>, Geert
- Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v2] ver_linux: add comparison with required version and
- add rows and colour to output
-In-Reply-To: <20260814143212.2288631-2-manuelebnerli@mailbox.org>
-References: <20260814143212.2288631-2-manuelebnerli@mailbox.org>
-Date: Fri, 14 Aug 2026 12:46:26 -0600
-Message-ID: <87o6f4ee0t.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OhkeX786"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-49954b88fffso25165095e9.0
+        for <workflows@vger.kernel.org>; Sat, 15 Aug 2026 15:01:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786831263; x=1787436063; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=PG4MIE2W12sOR4QIFtwBGIizXLfGQeSxCLRQu27ohHQ=;
+        b=OhkeX786chHO3sGgDfGPEhOD0Eq0r54lWiYWLCnJlPmOGHTf+zRUpIhyJ2DQL92nwv
+         TjoW7M0IP1Ed96i26IWG2+3XwT9knTpyf7ASjTYwfKyHMrxooAiWSRxL/n4GjJ6IiUjm
+         pNFBDp0DAMExtFJrplWTIzpuOqLr5nyS+g28A8vHMQt6m7TXXu91OIqEfUfFqMlABg9w
+         3g7Jl4w08cBk5ryV31wDguRzY+lHUQa/SGYO5wdPDerkIf6aFpyMKPOqNm3hux9J4Eio
+         t79IbUa+jzLPkjK1QLfwh8hl/XU3230ZLZ8sGClIEQ8S7VA323hGb2bZOgnH+osTVR9a
+         ZDsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786831263; x=1787436063;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=PG4MIE2W12sOR4QIFtwBGIizXLfGQeSxCLRQu27ohHQ=;
+        b=MAcZyUw8dT5kh256jdRB1c0ZvLQrcaxzlOt6AovNlt5+8pLi1zM6gDPdE893EdTSMP
+         dlLU9QIu4XJvTvW6QiNyp82HeooaDAoHO9WNB/m/pOf955WEg0eC1ABBJkZhjrFceyqZ
+         GXjPhdmVFgUAUTLBiueAEgpnAusvVuGDy/sxC0isqiRti1a3eRUl2cYcAujm5wxhmPKx
+         zQko/Q0OhQ2GWXzMUah4MOaOVCL6J7lzwP42kwi5epwoGScb2hJXzADqLdijzDXAZR+w
+         YrWXQbeb2FQirNTDKHVRKr6S6CbxE7MkIj729G1D52oamUntLpKVdodQeYsGmYOzKH1N
+         J2nA==
+X-Forwarded-Encrypted: i=1; AHgh+Rqy528EGLmZJ2pVjqLN1taPD4NbzMvqRPBPbMQE4fmM/JtiI6Uj9zRXO5GwmOpY8vanDFBXT7I3SOI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxdkbDHXmpYTqcz/yTEhGFOEiuSv3GuE4d9PnXKDOV2DvkSEDNn
+	Ih78gnyLJlK9FTPylzgDMT59F1gBC2lNcJFjp28BTv7mz52DlTkzZfCI7U6OHamNp7k=
+X-Gm-Gg: AR+sD12piu6DCIKxWTcrRxFEEptxNba0yiu1J/GdgbD0RSBrxdjmka3RCLtoah2099k
+	VPUxr3XhiLQReinyUpHrcd6cGMJg8wBjBYKiHRn0X1QXuh508wGU3cahJu5Fd9w/SsizZRqOyJE
+	ymlEK3h/lTs1hgz27iPlEW067gAvCYBryM8xU0M9fDkbn0/h3A8on1jv81AAriIgJPkBqrtsTrB
+	rCrk/UuU5s63u7Ht/qOIfTlu41k33BIxekrjhvFO2l1S8BLGbYOq70ADtrf+xto9rK9jXjIIaIw
+	7qOiug6Dpm/KCUX/NqtZlTQTxBUtwfF4M5Z3wZyCYb2pj2DzIezDcPzxWwq4SmqJNZFtO2xFz6s
+	aDbpCNvR3gfFcIc3UAPL9zXLqmk1cTtKJ6t3YJan+tWlXYcX7Lel9UMTm3DieN7QxF/ziUk3dm/
+	qBd/m5mxyrTXJFn/SNWQaJY6AuqyeU6rm6CyF0pVLcAM//ABvhwDvIljI=
+X-Received: by 2002:a05:6000:4910:b0:482:9dc6:16c4 with SMTP id ffacd0b85a97d-4829dc6172amr3577280f8f.1.1786831263297;
+        Sat, 15 Aug 2026 15:01:03 -0700 (PDT)
+Received: from Gentoo ([191.96.150.83])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4815f2c1307sm20384790f8f.27.2026.08.15.15.00.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Aug 2026 15:01:02 -0700 (PDT)
+From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To: corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Subject: [PATCH] Doc: process: Getting rid of OProfile url enlisting
+Date: Sun, 16 Aug 2026 03:23:17 +0530
+Message-ID: <20260815220029.3711742-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Manuel Ebner <manuelebnerli@mailbox.org> writes:
+Aren't we done with this damn tool from a kernel perspective?? Thought,the link
+could be removed.
 
-> Add the required version from changes.rst.
-> Add code for comparison and print '###' in the respective row (good, bad) and in
-> the respective colour (blue, green, red) depending on the result of the comparison.
->
-> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-> ---
-> [v2]
-> add colour reset as Geert suggested
-> change output to take colourblindness into account
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+---
+ Documentation/process/changes.rst | 4 ----
+ 1 file changed, 4 deletions(-)
 
-So that suggests you read my previous comments, but didn't see fit to
-look at all of them or respond.
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index 0aa232b117b5..336c07190c9b 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -556,10 +556,6 @@ Ip-route2
 
-*How* are you taking colorblindness into account?  Which type of
-colorblindness have you tried to address.  Certainly not red/green
-which, I believe, is the most common form.
+ - <https://www.kernel.org/pub/linux/utils/net/iproute2/>
 
-But, more to the point:
+-OProfile
+---------
+-
+-- <https://oprofile.sf.net/download/>
 
-- You do not know that your output is going to a terminal at all, much
-  less one that understands these escape sequences.
+ Kernel documentation
+ ********************
+--
+2.54.0
 
-- You do not know whether that terminal, if it exists, is in dark mode
-  or not.
-
-- You don't check NO_COLOR to see whether the user has explicitly asked
-  to not have colorized output.
-
-This is a simple script meant to check dependencies, it really does not
-need this kind of silliness.  Surely there is something more useful you
-could work on?
-
-jon
