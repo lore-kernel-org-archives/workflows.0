@@ -1,84 +1,90 @@
-Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C2D456DFB;
-	Wed, 19 Aug 2026 13:52:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECC8B1A6824;
+	Sun, 23 Aug 2026 15:14:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787147582; cv=none; b=eY95WVaA00t5THb4EhxNcV8mWbFCnbjyhOWuvPhRdKrw+SLdGkBZdtmA/1YWVRG1V/a6Mars48TXedx7ZLUM6TH+1H5XqpjfNVaYCg0PztI62oKHZcdUOkpWdSpOYhBU+U+e2lSEKOwF+J7MyZIgpKMtn04Bo6rphrheAHmxQIc=
+	t=1787498076; cv=none; b=DFoRAKR1a2Gcz+7EIdazvudNekZRYehnnBpUIFXY3760lSKZKQYG1TngvpZPcqLQX1WOgfh2g2HFWz7VxYZhSrpvFzyDZN37im7qJeuBNakRLLi1uZQCCJRqfQYbV8r5Qbj/ztj43yYwKVg0z12lHxOB51v0RdFMSRHAiMltHhY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787147582; c=relaxed/simple;
-	bh=A8JkJES0R4mw2oq/qx2f6LfMoaTL/x66k1KaWgkyNhA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oZkUzNU4EDPd2G/MrOurD8vwLiZLwt7Xf26koTGHbL3HRthldjWYCj3gWP7jYlx9wjqLzPo78oHTeM5UOlqg9ikV2eB+bFHntSHgnLp2iDJqRA7UfqVmbk/cgC9z0gMUYfjxUGbLRL9XYscOOr7srXcl5+qgvjWvkZCGvHclC/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=nQJJDsvn; arc=none smtp.client-ip=51.159.59.229
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
+	s=arc-20240116; t=1787498076; c=relaxed/simple;
+	bh=4mNrueOgZzG9MVaUFakS6QjvzaSW7O+rZuxc987IM68=;
+	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:MIME-Version; b=gl+FAUJh+CF4Sfp7vdnPoPnpttsHlnELjNNB7OUz11HzJx7bxRaZm+/PepwmvCTSqfTD1MlYcyEay9j2rX+kBSZv+K3peULaY0jRjKwSEJdtWLAOd9sHgiFlL27Ffa+a9LZS4Cr+RGsrPP1zkdXSVZCqLGYskFvdl+A/q0O77iY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=oRpwdSnJ; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=O7CTEgIs; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="nQJJDsvn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1787147574; bh=FfyQB+HSOvKsWsQVvF7DaB91JFIljJtprMU7MHJjIaw=;
-	h=From:Message-ID:From;
-	b=nQJJDsvn0h+Asg9BdR0vp6bSqW42rRvhsZyQrnGGRFhsmgZNzzR6eyjGl+VBS0yvF
-	 NIQdcVKCQ2kEzSk1Ka48qW7bn+nUxjr7X7x/pP9fnVENSzIDppP5lDUCMw+pQh8phV
-	 0qbRKXhk9gcUHuP/ka3WJOQzi33rPH+z/fE2mPvA=
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id 9BEC5C0954;
-	Wed, 19 Aug 2026 15:52:54 +0200 (CEST)
-Date: Wed, 19 Aug 2026 15:52:54 +0200
-From: Willy Tarreau <w@1wt.eu>
-To: Johan Hovold <johan@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: threat-model: fix /dev/kmsg reference
-Message-ID: <aoW1NiglZavo68pc@1wt.eu>
-References: <20260819134039.286793-1-johan@kernel.org>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="oRpwdSnJ";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="O7CTEgIs"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4hScyp2sSlzKm7R;
+	Sun, 23 Aug 2026 17:14:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1787498066;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=4mNrueOgZzG9MVaUFakS6QjvzaSW7O+rZuxc987IM68=;
+	b=oRpwdSnJsjnh3ouwKV6EWuYEXEwIlsZYi1NRdJh0X+bLnhlw2/3THLMzIr541Dfre5tC/p
+	qhroop0EElM8BSKNsVkOL6dsIfr2d/gFWtwViNaOVlHgjmcZVFAgFhKHZjwu4u622VKqVM
+	F5V0+SJznRlm3dL1KcyQ5SQsGCFFQYA3Vo1Cx6jaamtDAkRvEWwg4lm9fhh5AaTRVMfBtP
+	XW6O9IMFaU9eJVXFw7miabsek+UvTII1uOLVvviN+W09gy0VV4qOWw4EX51vsPAZlPZWkl
+	H9ygsd9PdAqBW5H2N5IKxrwouT2q6Ap5Sw94ym1LMHL1hNQTSQQYzJD4Tk2Zmg==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=O7CTEgIs;
+	spf=pass (outgoing_mbo_mout: domain of manuelebnerli@mailbox.org designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=manuelebnerli@mailbox.org
+Message-ID: <bba57d51c72d9387ccef2b5979fa618e980c3ebf.camel@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1787498064;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=4mNrueOgZzG9MVaUFakS6QjvzaSW7O+rZuxc987IM68=;
+	b=O7CTEgIsoFCNLIcqim3/Rxtt8zqFsN/01TgsHe1YJpCg5mERmXRPgedWRDsUbwPGRcse4w
+	f3oaeZupxXlRsgs6JaWAyVxfw7M1njsrpVEt+QAzOvLhvPK6OfznlkFCcPMi9zmhf4d+9Z
+	F2iHvDAgtKP9Kq1/sh9x7HxxSE+ushgsRI2zoMEqLN2M8nwSr8pVxArlOrXetGJC5tU1ay
+	YTggO+K1liFFusVdGI8QGY43pQg/z3jVHUT/mq2TRDOnKIsoX5f3VRbuh1EDm7+vbhCWO0
+	BVxwQ7aiiQ4Tjj/Rveqj8YfWiejpVPErJ2MICg+8sLJz7zmxZhxXq9sgM+UbXw==
+Subject: [Issue] sphinx: incorrect high-lighting
+From: Manuel Ebner <manuelebnerli@mailbox.org>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>,  Shuah Khan <skhan@linuxfoundation.org>, "open
+ list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>,  "open
+ list:DOCUMENTATION"	 <linux-doc@vger.kernel.org>, open list
+ <linux-kernel@vger.kernel.org>
+Cc: Manuel Ebner <manuelebnerli@mailbox.org>
+Date: Sun, 23 Aug 2026 17:14:20 +0200
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260819134039.286793-1-johan@kernel.org>
+X-MBO-RS-ID: 557d0fd042a4f61c627
+X-MBO-RS-META: jsb55q4u7oxc5ksycbpqbfyuautpi6h6
+X-Rspamd-Queue-Id: 4hScyp2sSlzKm7R
 
-Hi Johan,
+I think in the documentation is some incorrect auto high-lighting.
 
-On Wed, Aug 19, 2026 at 03:40:39PM +0200, Johan Hovold wrote:
-> Fix a '/dev/kmsg' reference which got replaced with '/proc/kmsg' (which
-> is not accessible to regular users).
+https://docs.kernel.org/process/deprecated.html
 
-Actually it wasn't "replaced", it's because I didn't know about /dev/kmsg,
-for having been used to /proc/kmsg for decades long before its /dev cousin
-was born :-)
+Line 272:
+> when such a struct was in unions, structs of structs, etc).
+with 'struct was' bold.
 
-> Fixes: a03ef333fbd6 ("Documentation: security-bugs: explain what is and is not a security bug")
-> Signed-off-by: Johan Hovold <johan@kernel.org>
+Line 358:
+> alone in a struct or is part of a union. These are disallowed by the C99
+with 'struct or' bold as well.
 
-Acked-by: Willy Tarreau <w@1wt.eu>
+Other files have the same issue:
+E.g.: https://docs.kernel.org/process/adding-syscalls.html
 
-Thanks,
-Willy
+Unfortunately I don't know how to fix this.
 
-> ---
->  Documentation/process/threat-model.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/process/threat-model.rst b/Documentation/process/threat-model.rst
-> index a68be888ce8e..04e5df6a6f78 100644
-> --- a/Documentation/process/threat-model.rst
-> +++ b/Documentation/process/threat-model.rst
-> @@ -84,7 +84,7 @@ possibilities of user namespaces are not covered in this document.
->  The kernel also offers a lot of troubleshooting and debugging facilities, which
->  can constitute attack vectors when placed in wrong hands. While some of them
->  are designed to be accessible to regular local users with a low risk (e.g.
-> -kernel logs via ``/proc/kmsg``), some would expose enough information to
-> +kernel logs via ``/dev/kmsg``), some would expose enough information to
->  represent a risk in most places and the decision to expose them is under the
->  administrator's responsibility (perf events, traces), and others are not
->  designed to be accessed by non-privileged users (e.g. debugfs). Access to these
-> -- 
-> 2.54.0
+Thanks
+ Manuel
