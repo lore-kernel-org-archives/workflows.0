@@ -1,92 +1,79 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4F7DF76;
-	Mon, 24 Aug 2026 16:46:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3AA834A76F;
+	Mon, 24 Aug 2026 17:02:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787589995; cv=none; b=pkFYWGMCVpAAHd86n9fHfMNIzL4amogBG3b2VLLrBAC4O8MHe0+rRaX9akldNA90DjG4BsGdrPu5F3ZuF5E1YdJc9ac3ptG1Yntb//w0BoMCBwSYbp3NdkMEHtDXrDGheKsRjbYx02Sms3fxMV47keKjN73Sm+7nb9vXxCEVDmc=
+	t=1787590940; cv=none; b=AQZHBfqNpuTHCpZ5EPRFFbsMdduwbheUMb7dVVHH2ML7+z6DsM7xOlqmN4USzylzkazYKD8ArjKGGyfhCvLcfY6v/I2FdJ9SEBBQfgzPMDsE+cPp5SPOJkqjJ2DpwRQYZv0NkJOAmg3rOz6EWSxzGjPU33mFfAX3kD0dM0UAJzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787589995; c=relaxed/simple;
-	bh=0j6enbSa/iOYzZVaFS991N/5wFduNv2P7B+4iTZDi54=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Gh2ANohPBCt9jFPQuuv51mtlQsJQKS7HWiHNPbyEnR+TS9OPharp5/3Cn9ZsCE2qWPEy2U/IDTwuWnP0B1PejkSnoi4/Z/oJsgTm6nfLw3vRI07Ri3RTaB5EBHxN/RHSYCAV2stP8kWZzazX8h2kMq0KSdHTIalb69DaTHtQrhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=D9QpKNG9; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1787590940; c=relaxed/simple;
+	bh=bzVB9F2ZuoUq4pX1rwU4Jq5Ddjr2AnmJmQpxlvTdPCw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=LHuDrSH28OBD0/Q8lGn6abTfWd279TQPapPrl3iU3WhZt/cgb+T1GPfQmgrMLrH9fRosuX8F4/hXJJeghxSJnBe/BaxFgGKsr4MpIkPHlyHd239eItBTew5+Clr5KnPvoc1UBd1trMbHjNYHgBp4XE6fqP1VwLoBamuRkr+z8R4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=JxIcWQ+J; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="D9QpKNG9"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=LbSUqeyoNlKdvh0/9E/r5iDG/b05kEEhXVw9S4DWR20=; b=D9QpKNG97LkrqhsBQ+HjdOzlCO
-	SctfWmdpRBfWXPin0DJvxGc8YT1BR9sOfJA5U1bT0O9TPWfDwTPCkYAawDhe3XU2cBEMdVJuo6mEg
-	OZ38bYPrOHOihrGXVAZB5Ee2NfIhZrUpllTGJl330on7MAVI8Hfnk+QW6oEbNldZkMuee6Xr1Kzn5
-	VE8lN/iwvaIr01pelkT4Vr+wTFQHScJq/nXz0tR2bNfPT958+Oas9Qp+Qx0zheBzpsVivO0UY9Q7Q
-	SNQCRyCo/QxcOh7qKmkOHgSqa771j+9k6rqsWUki6VC/q+sqJdBwixXkp2/7dkokWgkO6QBp0U8fD
-	wX5mjp/w==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wyXoY-0000000H4dt-31TY;
-	Mon, 24 Aug 2026 16:46:26 +0000
-Message-ID: <98f56a3d-ad14-4ee3-9c36-3eb4b758e6f9@infradead.org>
-Date: Mon, 24 Aug 2026 09:46:25 -0700
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="JxIcWQ+J"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7B1A8408F8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1787590937; bh=H0ssycFUMOpRKtMOFOI3ylSiakYkGHuMJ52hynUKfrU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=JxIcWQ+JgxxZ7rnzAy4i4Lz5T8WlbDJ3GFCQRNh2YcXLCgSZjmjSY6dgM/ozMvYlG
+	 H9PCwrSVhFkFThBUL1amZq1JPEgUvbh0Ab56cMelIz2yUhbqd5RtsQBB4k5e1DEUM0
+	 c73A5A+lQM7uNIeYKCaUw+jtMk06+WPCvW0VbXXp99ETfpwbLrJPdGC3oot9J6pTxN
+	 9gYzxH1l/5YnZPueLdYYi89VTP8W65zaIaJiMYFTdtbj5VdQDtvNiLn2PdQf/UInv8
+	 oJ8MVRviwi6lYvue7nSkYONtRn3TW5i5NZqPK1D9F85I7UGvCbdNV33j62oFxYk8RO
+	 QQDXJGeizzDUw==
+Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 7B1A8408F8;
+	Mon, 24 Aug 2026 17:02:17 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Johan Hovold <johan@kernel.org>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Willy Tarreau <w@1wt.eu>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
+Subject: Re: [PATCH] docs: threat-model: fix /dev/kmsg reference
+In-Reply-To: <20260819134039.286793-1-johan@kernel.org>
+References: <20260819134039.286793-1-johan@kernel.org>
+Date: Mon, 24 Aug 2026 11:02:16 -0600
+Message-ID: <8733w3zc2v.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] Documentation: process: Capitalize Git, Quilt, and
- Mercurial consistently
-To: Nguyen Duc Thinh <ducthinh100812@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Weijie Yuan <wy@wyuan.org>, Shuah Khan <skhan@linuxfoundation.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260824133826.13934-1-ducthinh100812@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260824133826.13934-1-ducthinh100812@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
+Johan Hovold <johan@kernel.org> writes:
 
-
-On 8/24/26 6:38 AM, Nguyen Duc Thinh wrote:
-> Update various process documentation files to properly capitalize "Git",
-> "Quilt", and "Mercurial" as proper nouns when referring to the source
-> management tools themselves.
-> 
-> Instances explicitly referring to literal command-line invocations
-> (such as "git log" or "git bisect") have been left lowercase.
-> 
-> Signed-off-by: Nguyen Duc Thinh <ducthinh100812@gmail.com>
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
+> Fix a '/dev/kmsg' reference which got replaced with '/proc/kmsg' (which
+> is not accessible to regular users).
+>
+> Fixes: a03ef333fbd6 ("Documentation: security-bugs: explain what is and is not a security bug")
+> Signed-off-by: Johan Hovold <johan@kernel.org>
 > ---
-> v3:
->   - Fixed the un-staged git commit state; the 'git switch' changes are now officially gone from the diff.
->   - Disclosure regarding tools: I DID NOT USE ANY KIND OF AI AS AN ASSISTANT IN THIS CONTRIBUTION, the mistake occured because I don't frequently use Git to send patches, I use it to open pull requests so sometimes it feels unfamiliar to migrate.
+>  Documentation/process/threat-model.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/process/threat-model.rst b/Documentation/process/threat-model.rst
+> index a68be888ce8e..04e5df6a6f78 100644
+> --- a/Documentation/process/threat-model.rst
+> +++ b/Documentation/process/threat-model.rst
+> @@ -84,7 +84,7 @@ possibilities of user namespaces are not covered in this document.
+>  The kernel also offers a lot of troubleshooting and debugging facilities, which
+>  can constitute attack vectors when placed in wrong hands. While some of them
+>  are designed to be accessible to regular local users with a low risk (e.g.
+> -kernel logs via ``/proc/kmsg``), some would expose enough information to
+> +kernel logs via ``/dev/kmsg``), some would expose enough information to
+>  represent a risk in most places and the decision to expose them is under the
 
-"occurred", but it's not part of the commit message, so don't
-bother correcting it.
+Applied, thanks.
 
->   - Is there any mistakes that I'm still having in this patch because everyone make mistakes.
-> 
->  Documentation/process/1.Intro.rst             |  2 +-
->  Documentation/process/2.Process.rst           | 18 ++++-----
->  Documentation/process/3.Early-stage.rst       |  2 +-
->  Documentation/process/5.Posting.rst           | 10 ++---
->  Documentation/process/7.AdvancedTopics.rst    | 36 +++++++++---------
->  Documentation/process/backporting.rst         | 18 ++++-----
->  .../process/embargoed-hardware-issues.rst     |  2 +-
->  .../process/maintainer-pgp-guide.rst          | 38 +++++++++----------
->  8 files changed, 63 insertions(+), 63 deletions(-)
-
-thanks.
--- 
-~Randy
+jon
