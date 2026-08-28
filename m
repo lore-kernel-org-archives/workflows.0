@@ -1,178 +1,243 @@
-Received: from esa.hc514-86.ap.iphmx.com (esa.hc514-86.ap.iphmx.com [207.54.83.18])
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4BD43D6662;
-	Tue, 25 Aug 2026 09:58:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=207.54.83.18
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787651894; cv=fail; b=XRFEJgIatg9dFyo458HAC6CqFIyKXT+g7G0Erl8hes/QWk0VikMrRuM2IjsjokGFENDo6kg+4ZfcMevMUjXB+FR2UYW0aFdOTcfPlhK6HQPGd3WslQzz8AHSM3OgaOr2aB4pbb8ruuFzMKdbyxTDpiSr3/8TS3RAWE0G+dRUMzc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787651894; c=relaxed/simple;
-	bh=Es6YdiCcuV05io5fZ0rSMt4fxC+kpfJdnTNRWnCdaEs=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=WjrnQ8cTJ8iEtunefcZYRu2Q0ZhprM87xuMGEnk/Y4O1RhuaDmPrSTcNOVK1YmWPeo3C+BHtRVGIOsjGFiDiq+2IdlKpCRarQZUubqGRbGDAdJegOoDpwChUkBwhlOSk0ddGhajyezugyZ1c7t5eIyZl90Nk1QFSVKc3ElvInRw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hitachi.com; spf=pass smtp.mailfrom=hitachi.com; dkim=pass (1024-bit key) header.d=hitachi.com header.i=@hitachi.com header.b=udRQbPyf; arc=fail smtp.client-ip=207.54.83.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hitachi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hitachi.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02DBB3CB8E5;
+	Fri, 28 Aug 2026 06:33:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787898823; cv=none; b=AWj1vJ32L/1q/DJlWZzEruuHRdWU6I/4IVR22/bI6v3Kv5kna1VsLOjgWYd8HbW+N0Hn04He7kIbN6nbEYftMcGBEZ4/RJFJ8JUNdK/C2ln07csH770Crco85iJYt8nO00YaFc9am3YJKdQmmjR3ZOFWUg+en/BCAt5FX5rMrlE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787898823; c=relaxed/simple;
+	bh=gTg4XQjVmVz4Kh134B0Ijy3ozjc1X5GFNXKD4AwZ27k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eAQ47gZzjuf1kj+ckWWV2PADHcl73t2oZ6LpnJzRdeFxDz1hSaKc2XCjPw94y8x3fDNVvFXLn0//OWcD5Kz1fedFON4imLxXAO34toKLQhLOHiQebtqVVki65shE/Ogt0vLhL6U5GXICOt5ZQ7z1Acrlrq2xoBJNWAoYKXv1NME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=hQncp8aS; arc=none smtp.client-ip=217.70.183.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hitachi.com header.i=@hitachi.com header.b="udRQbPyf"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=hitachi.com; i=@hitachi.com; q=dns/txt;
-  s=hitachi-com-20240118; t=1787651892;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=Es6YdiCcuV05io5fZ0rSMt4fxC+kpfJdnTNRWnCdaEs=;
-  b=udRQbPyf2qaPxBJ2u++T8HlYPbJr6JONgzwfgq33PKsfFfiVbgyVly4j
-   ETTtU7hN8+m+MilUBQ7DwWVUpWatImITB4uIHzhKi0ACXJu9/NuN7dt9W
-   5b7KEbIBYzMLhAlcINGI1GnDKEamQzxqaTNrfElOJv+SdFhs8+WHp6do4
-   4=;
-X-CSE-ConnectionGUID: fblKrMO9R16aiLJ3jH3sVA==
-X-CSE-MsgGUID: suWY0jzhSW6+G/jxaH8jTQ==
-X-IronPort-AV: E=Sophos;i="6.25,242,1779148800"; 
-   d="scan'208";a="509724162"
-Received: from unknown (HELO mlsv3.hitachi.co.jp) ([20.18.96.98])
-  by ob1.hc514-86.ap.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2026 09:56:58 +0000
-Received: from mfgw13.hitachi.co.jp (unknown [10.178.97.250])
-	by mlsv3.hitachi.co.jp (Postfix) with ESMTP id 76D11405F61;
-	Tue, 25 Aug 2026 18:56:57 +0900 (JST)
-Received: from mrelays03.hybrid.go365.ext.hitachi.co.jp ([133.144.234.40])
-	by mfgw13.hitachi.co.jp with ESMTP
-	id yntpwF7vcCSkFyntpwY73F; Tue, 25 Aug 2026 18:56:57 +0900
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011029.outbound.protection.outlook.com [40.107.74.29])
-	by mrelays03.hybrid.go365.ext.hitachi.co.jp (Postfix) with ESMTPS id 65C96113F3D0;
-	Tue, 25 Aug 2026 18:56:57 +0900 (JST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gizSZvxfv7GrVwsCMYg0hEjC1ri9dVWfJOwc8TdpAs64/KUEenIO+K2dL+UON1EjK5hKQLSBThZ9G5Xx/bnGDA8X8IdFUlxkMszHU3kQCugRzDwnYRwcA7X5qKLP3aqZ+H8jH1M6yXIiKQSEuDT+5AR8cIiuI6rZc/qcx3jZXz31ji+inbiVczHaEEz/zX3mDg7MjcO9ValwSsLgxN4tote6PuJYzegiHK8hINsNK1Jqt4IdATSo9MslQACeju2KyHpoBCtY+1hw8WcDjFWhLcOa4EzFgPAvpAcPAxGeM78ageRFkOFJKhFvpKPwAWuPHxybRLC8tAAt+VrQl/m3Fw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Es6YdiCcuV05io5fZ0rSMt4fxC+kpfJdnTNRWnCdaEs=;
- b=qYYoetzH4IosJiyKecqZaO4Mjf1fuUokoxhpERWgXrqDOvSQsvsVJODaRTmM+0wwL4fJdW1ZuTPBSz1mWH/0iAUuenPTnyxy7AH0TKYgy5iDA85xq1NU3CIMHsRZzWtrXGuR7bL+l0aWsPeJlS957FUR+MWjyk4CzqWRBRDwigqKl8jfGEZPTswfyFwckPFXCmlmkFCKbjS0wkfiSzAh+COR+LZSI9uE2F4Pbl3iHMPPO+efh2syfuLW82A8PXE1pUJHU8CXx+ZALm5HtYhJ1B2eEkPLat0DKxaaQOjltidL4c+jg0b+smWCmkLqPFSZU6VaDRjlF9miv4VzbxKPZA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=hitachi.com; dmarc=pass action=none header.from=hitachi.com;
- dkim=pass header.d=hitachi.com; arc=none
-Received: from TYTPR01MB11045.jpnprd01.prod.outlook.com
- (2603:1096:400:39e::11) by TY4PR01MB17459.jpnprd01.prod.outlook.com
- (2603:1096:405:350::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.12; Tue, 25 Aug
- 2026 09:56:56 +0000
-Received: from TYTPR01MB11045.jpnprd01.prod.outlook.com
- ([fe80::b94b:9fae:6de6:d9d2]) by TYTPR01MB11045.jpnprd01.prod.outlook.com
- ([fe80::b94b:9fae:6de6:d9d2%4]) with mapi id 15.21.0339.012; Tue, 25 Aug 2026
- 09:56:55 +0000
-From: =?iso-2022-jp?B?GyRCQWoxOj40GyhCIC8gQUlVUkEbJEIhJBsoQkFLSVJB?=
-	<akira.aiura.bj@hitachi.com>
-To: Julia Lawall <julia.lawall@inria.fr>
-CC: "corbet@lwn.net" <corbet@lwn.net>, "maennich@google.com"
-	<maennich@google.com>, "skhan@linuxfoundation.org"
-	<skhan@linuxfoundation.org>, "workflows@vger.kernel.org"
-	<workflows@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "cocci@inria.fr" <cocci@inria.fr>,
-	=?iso-2022-jp?B?GyRCRXswZk0mMnAbKEIgLyBUU1VUU1VJGyRCISQbKEJZVVNVS0U=?=
-	<yusuke.tsutsui.gt@hitachi.com>,
-	=?iso-2022-jp?B?GyRCMCQ4fUA/O0obKEIgLyBBR1VDSEkbJEIhJBsoQlNFSUpJ?=
-	<seiji.aguchi.tr@hitachi.com>,
-	=?iso-2022-jp?B?GyRCTFpCPD4tNHUbKEIgLyBLSU1VUkEbJEIhJBsoQk1BU0FLSQ==?=
-	<masaki.kimura.kz@hitachi.com>,
-	=?iso-2022-jp?B?GyRCQEZGIzJtT0IbKEIgLyBTQUlUT1UbJEIhJBsoQk1BU0FLQVpV?=
-	<masakazu.saito.jn@hitachi.com>,
-	=?iso-2022-jp?B?GyRCOzNGYkJnT0IbKEIgLyBZQU1BVUNISRskQiEkGyhCSElST0tBWlU=?=
-	<hirokazu.yamauchi.hk@hitachi.com>
-Subject: RE: Re: [PATCH] coccinelle: update Coccinelle website URL
-Thread-Topic: [!]Re: [PATCH] coccinelle: update Coccinelle website URL
-Thread-Index: Ad0fy7BG9rkZXOC8T/as5IN/IogPpgAHGdUABR4WFHA=
-Date: Tue, 25 Aug 2026 09:56:55 +0000
-Message-ID:
- <TYTPR01MB11045DA2A325E2C3C7A27F1E4D5AF2@TYTPR01MB11045.jpnprd01.prod.outlook.com>
-References:
- <TYTPR01MB1104567F06F7DA6B366C264A9D5C92@TYTPR01MB11045.jpnprd01.prod.outlook.com>
- <c511e35e-ded-839c-c2e9-6774e2e5ac0@inria.fr>
-In-Reply-To: <c511e35e-ded-839c-c2e9-6774e2e5ac0@inria.fr>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=hitachi.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYTPR01MB11045:EE_|TY4PR01MB17459:EE_
-x-ms-office365-filtering-correlation-id: 3ac5aa64-69ca-4cdc-6a6e-08df028f320e
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|23010399003|366016|1800799024|38070700021|10067099003|4143699003|56012099006|11063799006|18002099003|22082099003;
-x-microsoft-antispam-message-info:
- 7XF7GvmTUiv7n4qFqzGRtFJZ4zKbu1ha0FFSHL65DFzbzQnEVZa6KBxC9bNyc4QuImYQGPkC0ARdEwAVG8VKw9l5aL5Br0UthiQuxhkVzO08ag04Fe5wWRxP0tDGBvCi2A8ktLgt71Cjg1FOViGzYUVAoIazlgZ5+Qy/DoS3WLw4hHXXbz3+gIBmeL9754nKjr1PcPqjCotm6acLKh8Zz+YtPzmoGs/iOUyZGt/M2v5KhLaxtAT4Fg8HGvUAsGUvW1IeJVH0zDbrWxNJ9ZbAZQgMUD2jpplvkZHeniX9Vpds22UA3ZWy9y/nRDwgxY2IfmnU1PIM5Vr+IPH6Y6jbP1SXnliMYjYoLx5nE/coIR1k1LYgGplnHs+60RaRcT4ajDk/8L3yas7b3DEO0PgRF+7mMBqxatAaZA47IkG+O43881wLAXbvui3Rc7XWbQdx6RtEjbix2lPEGmhu//TIdQmaldmph/H7CMS7jbhAOIKP7Orkt3rdjalWlmbTtqlbylAADkuUCPdmBrdYjZeIktDy8zo/z5ahZ9a0mJEIi6vETOHfCTsO+GhjqHi1nATAIWu0p8jB59ypE4gwuwxvv0BXsLFrkUzQmsqSVj099x+ZwhCpyeAOu+BeCoPuJdDKTuqsMhApf96yXRhWJdDMNq2kvaskglDy5Dwh0wQptKQwyiU41aGqsWR3R+pcVGyoriV7Nkuc5QwZv1Y+FnEB/kMeArWvUo45RTcUVfuwKok=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:ja;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYTPR01MB11045.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(1800799024)(38070700021)(10067099003)(4143699003)(56012099006)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-2022-jp?B?dVhERlBkK1RhTXVJMmRMKzh2UGR2U1k5MjZvcnI4TkVKUW5icENWWFNE?=
- =?iso-2022-jp?B?QWphRE81c1lJSUZnSlB6bUIyRmlDRjMwN1JRTzlqY3QzSWxXNXBPYndP?=
- =?iso-2022-jp?B?Q3B3WjFEa001enVWdi9vQ1hjbDJRUEpoL05kWDVnK1lwQS9NeWVtUURl?=
- =?iso-2022-jp?B?bVVyZC9yYzV2NWhFeTlIbEtoU3VkQ3dyeVpMd0Q5N2c3Q2lDaEhxak1n?=
- =?iso-2022-jp?B?Qk0wbVBtU1FjUExxMnE2SVVHMHB5aWRUUTMyTjVTNjVaNEZtaHh5cXlv?=
- =?iso-2022-jp?B?WVNUYkd2M1ZCSk9BTnh5WGF0Mk5OVmt4OW53NGxBWTROdTRhV3NnMnQx?=
- =?iso-2022-jp?B?Yk80R3p6bEtzbmc5VmNHZTVhTURSNStabTZWUUhrMkdna3VPQk9mMDlM?=
- =?iso-2022-jp?B?ZVRSL2FKcE1XTkVzTnNnL2k1bkYyME55aDRJZFd5djZEelBvUkIzcURy?=
- =?iso-2022-jp?B?cXJpcU00enZiSzNpVUJVRlBKZkJMVjIxMlYrVEtLYkJ0V1MzVCtROHp4?=
- =?iso-2022-jp?B?QkdzRm9YZUREaHRvUXdJUW5lcXY5VWs5bTBNaVAxLzlvOUdxbEE0a2ZU?=
- =?iso-2022-jp?B?MGdidHUva1o4WFRlL1FNQ0tLL3hOYUx4cFFndmhlSHhpR0dONy9YMDZX?=
- =?iso-2022-jp?B?d2FGMC9RYmJ5bVFURUhxV0M2WTF2cUcvTFlMSmhQUXY0SlRzTXV3L3ll?=
- =?iso-2022-jp?B?UGN1eTEzSi9QWTNtWGZWTTIvdUNkNWordFRYWC9zWnJmc1hHa0xxUDJV?=
- =?iso-2022-jp?B?QXJyNndEWHRWWEc1eHlpM1hkYlhJRWdpSy91NzJGcU1IalRlZStkOFRV?=
- =?iso-2022-jp?B?UWpFYmhlRVJIaFBsWGphU0c1Mk9vSGNLNDd0a2hMeDJ0UWFNcUhLTjhB?=
- =?iso-2022-jp?B?d3VBWjR2VlQxZzRpQzVVOTlCWit6cXRIRHorcW5Ma3AxMGFXWHJ2MW9X?=
- =?iso-2022-jp?B?bFFySDNsQUw5SWtYdjFjbVJ6VnpEbWV1My9WdS9vOG5NT2xTZ3MxYSsx?=
- =?iso-2022-jp?B?N3Fuc0VqWUx4aitZNU1VSmNOeVF5cFNtRGhBMmlBYktXRXVLMElIekNE?=
- =?iso-2022-jp?B?azZIaXgvZlhLSzQwUi9vYjdjcWZFbWpQTFA2dWZrK3UwN0hMNWNYOVAr?=
- =?iso-2022-jp?B?d05Zd2dGY1lqeUkyb0llSnh4ZTQyVkZLZFBnT3FJbGRaK09mUXFiQzRP?=
- =?iso-2022-jp?B?eUFJd1NpTXY1VnAyN0praURjRk9TNEp4M0hHSXc3ZS82VVpCbFZFRDFO?=
- =?iso-2022-jp?B?SVVVQWV4MjVhK0xzSjdSQU8zOVc0aHB0a2pLWVVwKzBnWUVOeFR3Qkoz?=
- =?iso-2022-jp?B?WGdaY2RpWlpCbUtFb2FIZHY1MWdVRXkvT2lBbXZCdVNtL1dEQW1IcENh?=
- =?iso-2022-jp?B?ditnOTdDUVBOMkhnclRpWUV0c2ZmdWtaWnQ4SzgvTVBHNCt6YzlmNS9G?=
- =?iso-2022-jp?B?UExuSWsybEF2Tkdkd0xzWWkxQnl2cFN3NTJpdGtsRlJ5Tm1oZ2orb0hr?=
- =?iso-2022-jp?B?ZmwvSWZ2djVzamZOcEZlQjg0Z1QxSXVwWnFDRGNRRDU4ZE5YWXl2bmtH?=
- =?iso-2022-jp?B?L3lzWUlKdFJQNmVMeW9UNDEyQjRLdTlOWjQwaHZvdVV4NGxsNDNmc3RH?=
- =?iso-2022-jp?B?eDdqNkZ5WmNtMUdvL1NUQ0d1RkV6MUdpZU45V2hubjEyNzFOTTIxR0Yy?=
- =?iso-2022-jp?B?d1EyN1pTVXJublpvWWRuVTdYbWx3R3ZRWkRJdWtmSHhsWGJ6ZkcxNTFo?=
- =?iso-2022-jp?B?QmcweTh3VmgrOEJKai9DaU1lcVNrYVVqUGEySnF5Z09OTlNEN1UrZlY4?=
- =?iso-2022-jp?B?eDQxSnZvdnYzcWNlNU1NaWNPT3Rxc3M0c2lHcG91RXk4M0I2bytzQlhj?=
- =?iso-2022-jp?B?QmNYb04yL0dKV3UvajVNVjhNVkNJNDV5SHRLQWFLYjZBUWlaQllNUGY0?=
- =?iso-2022-jp?B?TVdOYVlVZkFVa3MzN29CbHRrcXV0dFdOQmNLR0c2VFd5L2pjT2djaTV4?=
- =?iso-2022-jp?B?Q210WVdJR2o5Qkt2dVFTeENmRGU3R05qWWJiejVpYUdBbEdOVmhZdDBP?=
- =?iso-2022-jp?B?SWQ2Y3FJenhYNXk2SkgrMjI4NGZLaVduTGxwek95bXVMWjBtYUFWMksx?=
- =?iso-2022-jp?B?TU14bGpiZ1ZEMVcxdXkvTW5sSFptZktDNDZIbGVnMUpZa2pab25GNGc5?=
- =?iso-2022-jp?B?TmNTMW54QlN4eUM1MkR5dVV6bnJtd1c0dlorQ1ErZDFnQ2pLdy83N2w3?=
- =?iso-2022-jp?B?K1cxVGcxbGdiZmN1S1ZxOUlHR3pEOVB6RkZjNlBKejdpQndhazJ5SWg1?=
- =?iso-2022-jp?B?dG53TVpqTkdFOS9raDg2eVphZ3dPRzlnbkxXUFFZcFVGYzlXRFRhNmhV?=
- =?iso-2022-jp?B?YWpWQWV3bEJ0MDFKS1o1K3pOcE95MVd2S1BZNXlXTWdmSFAxQXVsLzNZ?=
- =?iso-2022-jp?B?SEdXRjdCRGVoVjJJQ1FCMEtjYVkvRE01b2Y4MkpTNWlQSDF6WmNGWUFq?=
- =?iso-2022-jp?B?WitndzIvL0dubmFlNlhxV0l6WGdlUzRyN3VzQT09?=
-Content-Type: text/plain; charset="iso-2022-jp"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="hQncp8aS"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7725E1F47F;
+	Fri, 28 Aug 2026 06:33:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
+	t=1787898812;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ASnAMRDladV1l8gyKbKFY6Vd/6r7kYJr6tUpS2r2NUc=;
+	b=hQncp8aSqlWBmrDfy/xXtj6xjUlLaVDqFZbGkkNw0VByDEdY3WAiXHBnxodXFoZYYIzBuz
+	A6JfzduhVqMokkxOM77ZqCMWJxRTl7e9C5GZ0uKtIrawfzp5o4/Tr36mO5K2vtKLM68ACb
+	VCC9o+eR/RXnjd+j7uF2PjeNXB7M5AaxM8l4rhFwSHDoD2z67yAR2E+4A0OGS6MgvjhkWO
+	YQ9inI5xYekxZyLzS054PZVII6w7rYOtofk7vQHULwCylY1UAOYCqOxIDg8NJJgium/1Ve
+	H5ng4Ld9HNd0LIwRGp5tNmWRhCWPVuhQeZ4/ZRWknj4VKIvpBiepTW8jb+/Uxw==
+From: Guillaume Tucker <gtucker@gtucker.io>
+To: Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Guillaume Tucker <gtucker@gtucker.io>,
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	linux-doc@vger.kernel.org,
+	workflows@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	automated-testing@lists.yoctoproject.org
+Subject: [PATCH v2 1/2] scripts: add TOML config to container tool
+Date: Fri, 28 Aug 2026 08:33:18 +0200
+Message-ID: <15e16f175f59ae666036764eb03c40cdf19809c7.1787896890.git.gtucker@gtucker.io>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked:
-	fgtGgog6fFD0r0qfCxrp9YF9ky9lOhflQMJLyHRB/FjhV3if0HoWsmSAynIBTWpdYxnnBbkzBMsuweb+4UueK0OtV2WTyFNZ6a5RzCapob0btk2TajlwTP/2f/V1Q67UNoZhUfOaRQT6B6P9oOuknI1FWUGxze/QEUQBfl7YNPCo6W8lKUPyV/OVj07dGG6WHp574tyTdF8MqEJeJBRESR4QLpFa/waezXXuRmTPnLATrqnrPlVkatrc/RvRTVHXPGDsErJm0ZoOyONRX8bh+J3EyQ+Fz3aPUFMVKW8vWSwgKiSGKRyfl23P2PIgjW8UqV/zl9iBx3UVpM4ZyIj+4w==
-X-OriginatorOrg: hitachi.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYTPR01MB11045.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3ac5aa64-69ca-4cdc-6a6e-08df028f320e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Aug 2026 09:56:55.2697
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: f54277c9-dafe-44aa-85a4-73d5c7c52450
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /JuCiG/ltvjM7SKWmxI1B+7MdIy207PnmXw6i12FFxap15zS9ULtuE1hEsC1oCJSq1ztA9oBIEYVYnPUrDYVXKZzy2+iwL/Q4uXrUQ/c2A0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY4PR01MB17459
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: gtucker@gtucker.io
+X-GND-Score: -100
+X-GND-Cause: dmFkZTEniHm/Ptz4XVhRvXZtZIZExTzjiW4dk2mombHGE2jgJ14uj9LBVapMnLnfjdXlv9eAgXryC7GokgiYa4o4gabUHYRQt3V7HMvbak6jmzR9E+d8KeDq8gr38g1CcsAcCmHWbnKIrwofD/absQ/O2nm4vSr2n5ojbm2JePFUzHt4m3zokTBNylOAV22sbCofbrceqDese9xX2RZrH+NwV77DmE1ah6JRta2tdCgzf90By9zWg4RCGAjOu2FQfcMqqi7EdWtHpELmau3uDjSeEK721jaA5kfwRK10jxJcDvWAHjGWE0HbE4qCYQ+LnQIn74ZNeGLYZR997dS6o9tlAROESj81WOe6fF7dC7o7k/y7DxwktKcZ6NEQHDnSg2k54omTuNHpP+VegH6BJIG+/MNTFHO6fe1kjGzTmyzf8NBkEteQeQ/tXXKeJeNNN/2n8NGboCZaUgGV8SXOb9cpXqGinm56l/E73FROxnxa29CIFa4lMxsMtpZt8LVa6rHTnSCbCriznsz7PJnMQxl5ppNyMOpaVKczb+weqefPgY4LPBnzBBgwjJZyzlO/RfGRDar8z/mUUTvDIzNceJOHPekYJs3y9wlAqSa/ckyJp/o6K6bnFjtynUwF12MHPwJuoE246y188Lads+pD8L7wvChesSxNGPoxXoz+l2++rls9Tw
+X-GND-State: clean
 
-Thank you for confirming.
+Add support for a TOML configuration file to the scripts/container
+tool.  This improves user experience by not having to keep passing the
+same command line options all the time or overly relying on built-in
+default values.  Include the concept of 'profiles' with different
+named sections in the file to cover various use cases.
 
-I will close this case.
+Command line options take precedence over the config file, and values
+defined in profile sections take precedence over the default one.
+
+Add a -c option to override the location of the .container.toml config
+file which should otherwise be located in the current working
+directory.  If not found, the file is silently ignored as it is not
+strictly required unless the -c option is used.
+
+Add a -p option to choose a particular profile section in the config
+file rather than the default.
+
+Signed-off-by: Guillaume Tucker <gtucker@gtucker.io>
+---
+
+Notes:
+    Changes in v2:
+    - fix uid / gid handling when set to 0 (root)
+
+ scripts/container | 84 ++++++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 73 insertions(+), 11 deletions(-)
+
+diff --git a/scripts/container b/scripts/container
+index b05333d8530b..72f89f9d17c5 100755
+--- a/scripts/container
++++ b/scripts/container
+@@ -1,17 +1,19 @@
+ #!/usr/bin/env python3
+ # SPDX-License-Identifier: GPL-2.0-only
+-# Copyright (C) 2025 Guillaume Tucker
++# Copyright (C) 2025-2026 Guillaume Tucker
+ 
+ """Containerized builds"""
+ 
+ import abc
+ import argparse
++import dataclasses
+ import logging
+ import os
+ import pathlib
+ import shutil
+ import subprocess
+ import sys
++import tomllib
+ import uuid
+ 
+ 
+@@ -20,10 +22,17 @@ class ContainerRuntime(abc.ABC):
+ 
+     name = None  # Property defined in each implementation class
+ 
+-    def __init__(self, args, logger):
+-        self._uid = args.uid or os.getuid()
+-        self._gid = args.gid or args.uid or os.getgid()
+-        self._env_file = args.env_file
++    def __init__(self, args, config, logger):
++        def _first_not_none(*args):
++            return next((item for item in args if item is not None))
++
++        self._uid = _first_not_none(
++            args.uid, config.uid, os.getuid()
++        )
++        self._gid = _first_not_none(
++            args.gid, config.gid, args.uid, config.uid, os.getgid()
++        )
++        self._env_file = args.env_file or config.env_file
+         self._shell = args.shell
+         self._logger = logger
+ 
+@@ -131,6 +140,41 @@ class Runtimes:
+         raise ValueError("no runtime found")
+ 
+ 
++@dataclasses.dataclass
++class Config:
++    """Container configuration"""
++    image: str = None
++    runtime: str = None
++    registry: str = None
++    env_file: str = None
++    uid: int = None
++    gid: int = None
++
++    @classmethod
++    def from_toml(cls, config_file_path, profile_name):
++        """Create a config object from a TOML file"""
++        if not config_file_path:
++            config_file_path = '.container.toml'
++            if not os.path.exists(config_file_path):
++                return cls()
++        elif not os.path.exists(config_file_path):
++            raise ValueError(f"config file not found: {config_file_path}")
++        with open(config_file_path, 'rb') as config_file:
++            config = tomllib.load(config_file)
++        default = config.get('DEFAULT', {})
++        if not profile_name:
++            profile = {}
++        else:
++            profile = config.get(profile_name)
++            if profile is None:
++                raise ValueError(f"unknown profile: {profile_name}")
++        fields = (field.name for field in dataclasses.fields(cls))
++        kwargs = {
++            opt: profile.get(opt) or default.get(opt) for opt in fields
++        }
++        return cls(**kwargs)
++
++
+ def _get_logger(verbose):
+     """Set up a logger with the appropriate level"""
+     logger = logging.getLogger('container')
+@@ -147,13 +191,21 @@ def main(args):
+     """Main entry point for the container tool"""
+     logger = _get_logger(args.verbose)
+     try:
+-        cls = Runtimes.get(args.runtime) if args.runtime else Runtimes.find()
++        config = Config.from_toml(args.config_file, args.config_profile)
++        runtime = args.runtime or config.runtime
++        cls = Runtimes.get(runtime) if runtime else Runtimes.find()
+     except ValueError as ex:
+         logger.error(ex)
+         return 1
+     logger.debug("runtime: %s", cls.name)
+-    logger.debug("image: %s", args.image)
+-    return cls(args, logger).run(args.image, args.cmd)
++    image = args.image or config.image
++    if not image:
++        logger.error("no image specified")
++        return 1
++    if config.registry:
++        image = '/'.join((config.registry, image))
++    logger.debug("image: %s", image)
++    return cls(args, config, logger).run(image, args.cmd)
+ 
+ 
+ if __name__ == '__main__':
+@@ -162,18 +214,28 @@ if __name__ == '__main__':
+         description="See the documentation for more details: "
+         "https://docs.kernel.org/dev-tools/container.html"
+     )
++    parser.add_argument(
++        '-c', '--config-file',
++        help="Path to the config file.  If not specified, the default is to "
++        "look for .container.toml in the current working directory."
++    )
+     parser.add_argument(
+         '-e', '--env-file',
+         help="Path to an environment file to load in the container."
+     )
+     parser.add_argument(
+-        '-g', '--gid',
++        '-g', '--gid', type=int,
+         help="Group ID to use inside the container."
+     )
+     parser.add_argument(
+-        '-i', '--image', required=True,
++        '-i', '--image',
+         help="Container image name."
+     )
++    parser.add_argument(
++        '-p', '--config-profile',
++        help="Profile section to use in the config file.  This will override"
++        "any values defined in the DEFAULT section."
++    )
+     parser.add_argument(
+         '-r', '--runtime', choices=Runtimes.get_names(),
+         help="Container runtime name.  If not specified, the first one found "
+@@ -184,7 +246,7 @@ if __name__ == '__main__':
+         help="Run the container in an interactive shell."
+     )
+     parser.add_argument(
+-        '-u', '--uid',
++        '-u', '--uid', type=int,
+         help="User ID to use inside the container.  If the -g option is not "
+         "specified, the user ID will also be set as the group ID."
+     )
+-- 
+2.47.3
 
